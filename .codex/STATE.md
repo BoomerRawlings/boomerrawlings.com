@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: maintain a restrained, factual public archive with concrete project evidence
-- Status: Writing is structured by academic/personal category and venue; one onsite academic piece and a Netlify credit guard are locally verified for one batched release
+- Status: Release `a56c778` is live and verified; Writing is structured by category and venue, one academic piece is onsite, and the Netlify credit guard is active
 
 ## Completed
 
@@ -28,6 +28,7 @@
 - Grouped Writing by Academic and Personal category while retaining a venue label on every record; Substack remains an external venue.
 - Added a Netlify ignore rule for documentation/state-only commits and a release rule to batch production changes instead of pushing incrementally.
 - Verified the current build: 11 HTML pages, 9 writing records, metadata/local links, and 390 px and desktop layouts; no horizontal overflow.
+- Deployed release `a56c778` through the Git-connected production path; Netlify reported ready and both new live routes returned 200 with the expected groups, dates, and study disclosures.
 
 ## Decisions
 
