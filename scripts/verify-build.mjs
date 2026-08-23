@@ -16,6 +16,7 @@ walk(output);
 
 const htmlFiles = files.filter((file) => extname(file) === '.html');
 if (htmlFiles.length === 0) throw new Error('build produced no HTML');
+if (htmlFiles.length !== 14) throw new Error(`expected 14 HTML pages, found ${htmlFiles.length}`);
 
 const failures = [];
 for (const file of htmlFiles) {
@@ -80,6 +81,7 @@ if (!academicHtml.includes('Editorial limitations note')) {
 }
 
 const homeHtml = readFileSync(join(output, 'index.html'), 'utf8');
+const workHtml = readFileSync(join(output, 'work', 'index.html'), 'utf8');
 const mediaArchiveHtml = readFileSync(
   join(output, 'work', 'icloud-media-archive', 'index.html'),
   'utf8',
@@ -92,6 +94,49 @@ if (!mediaArchiveHtml.includes('31,550 photos and videos out of iCloud')) {
 }
 if (homeHtml.includes('Personal Archive') || mediaArchiveHtml.includes('Personal Archive')) {
   failures.push('media archive project: obsolete project name remains');
+}
+
+const featuredProjects = [
+  'horizon',
+  'paperfield',
+  'workline',
+  'research-publishing-systems',
+  'icloud-media-archive',
+];
+for (const slug of featuredProjects) {
+  if (!homeHtml.includes(`href="/work/${slug}/"`)) {
+    failures.push(`index.html: missing featured project ${slug}`);
+  }
+}
+if (homeHtml.includes('href="/work/interactive-systems/"')) {
+  failures.push('index.html: interactive experiments should remain off the homepage');
+}
+if (!workHtml.includes('href="/work/interactive-systems/"')) {
+  failures.push('work/index.html: consolidated interactive project is missing');
+}
+if (homeHtml.includes('ledger-status') || homeHtml.includes('(public)')) {
+  failures.push('index.html: redundant project-status language remains');
+}
+
+const workPagePaths = [
+  'horizon',
+  'paperfield',
+  'workline',
+  'research-publishing-systems',
+  'icloud-media-archive',
+  'interactive-systems',
+];
+const workPages = workPagePaths.map((slug) =>
+  readFileSync(join(output, 'work', slug, 'index.html'), 'utf8')
+);
+const discouragedProgressCopy = /Further documentation|intentionally provisional|incomplete|in progress|pending approval/i;
+for (const [index, html] of workPages.entries()) {
+  if (discouragedProgressCopy.test(html)) {
+    failures.push(`work/${workPagePaths[index]}/: progress-report language remains`);
+  }
+}
+if (workPages.some((html) => html.includes('HorizonOS'))) {
+  failures.push('work pages: obsolete HorizonOS name remains');
 }
 
 if (failures.length) throw new Error(failures.join('\n'));

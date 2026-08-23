@@ -209,7 +209,7 @@ main {
 .ledger-list a {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: minmax(7rem, 0.7fr) minmax(12rem, 1fr) minmax(22rem, 2.25fr) minmax(7rem, 0.55fr);
+  grid-template-columns: minmax(7rem, 0.7fr) minmax(12rem, 1fr) minmax(22rem, 2.8fr);
 }
 
 .ledger-columns {
@@ -231,8 +231,7 @@ main {
 }
 
 .ledger-type,
-.ledger-description,
-.ledger-status {
+.ledger-description {
   font-size: 0.95rem;
   line-height: 1.45;
 }
@@ -526,8 +525,8 @@ main {
   }
 
   .ledger-list a {
-    gap: 0.5rem 1.25rem;
-    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.5rem;
+    grid-template-columns: minmax(0, 1fr);
     padding-block: 1.4rem;
   }
 
@@ -538,15 +537,6 @@ main {
   .ledger-list strong {
     grid-column: 1;
     grid-row: 1;
-  }
-
-  .ledger-status {
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 0.74rem;
-    grid-column: 2;
-    grid-row: 1;
-    text-transform: uppercase;
   }
 
   .ledger-description {

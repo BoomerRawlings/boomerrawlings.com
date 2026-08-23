@@ -12,6 +12,12 @@
   command = "npm run build"
 
 [[redirects]]
+  from = "/work/horizonos/*"
+  to = "/work/horizon/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/work/personal-archive/*"
   to = "/work/icloud-media-archive/:splat"
   status = 301

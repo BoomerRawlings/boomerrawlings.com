@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: maintain a restrained, factual public archive with concrete project evidence
-- Status: Writing and the 31,550-item iCloud media-archiving project are accurately structured; the Netlify credit guard is active
+- Status: Writing headings and six consolidated project records are live; the 14-page production release is verified
 
 ## Completed
 
@@ -29,6 +29,9 @@
 - Added a Netlify ignore rule for documentation/state-only commits and a release rule to batch production changes instead of pushing incrementally.
 - Verified the current build: 11 HTML pages, 9 writing records, metadata/local links, and 390 px and desktop layouts; no horizontal overflow.
 - Deployed release `a56c778` through the Git-connected production path; Netlify reported ready and both new live routes returned 200 with the expected groups, dates, and study disclosures.
+- Replaced provisional project copy with six consolidated records: Horizon, Paperfield, Workline, Research and Publishing Systems, the iCloud media archive, and Interactive Systems.
+- Removed redundant project status labels from the homepage; five primary projects are featured while Interactive Systems remains in the full Projects index.
+- Released and verified the 14-page consolidated build: internal links, project-copy regressions, desktop/390 px layouts, and live routes pass with no horizontal overflow.
 
 ## Decisions
 
@@ -47,6 +50,8 @@
 - Publish the ABM proposal only as student work whose study was not conducted; preserve its methodological gaps in an explicit editorial note.
 - Hold the financial-literacy and death-penalty essays until their factual and analytical errors are rebuilt; do not silently polish them into publication.
 - A production deploy costs credits; batch releases, test locally or in free previews, and skip builds when only project notes change.
+- Consolidate related artifacts into durable project records rather than publishing every prototype or task as a separate project.
+- Public project pages describe observable behavior and outputs; they omit internal progress reporting without claiming capabilities that were not built.
 
 ## Verified production state
 
@@ -63,7 +68,6 @@
 1. Rebuild the financial-literacy essay's history, citations, and causal claims before reconsidering publication.
 2. Reframe the death-penalty essay around its actual sources before reconsidering publication.
 3. Review autobiographical personal-writing candidates with Boomer before publishing sensitive disclosure.
-4. Replace remaining provisional project copy with verified measurements and documentation.
 
 ## Risks
 
@@ -72,3 +76,4 @@
 - Raw journals and course files contain sensitive disclosures, identifiable third parties, or instructor comments; none are safe to publish verbatim.
 - Original production dates are not available for the current Substack records; none should be inferred from publication dates.
 - Free-plan credits can pause the site until the billing cycle resets; production pushes must remain deliberately batched.
+- Exact metrics from private/offline artifacts remain excluded until their manifests or QA reports can be re-opened and checked.

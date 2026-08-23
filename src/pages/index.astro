@@ -6,7 +6,13 @@ const publishedEntries = await getCollection('archive', ({ data }) => data.statu
 const selectedWork = publishedEntries
   .filter(({ data }) => data.type === 'work' && data.featured)
   .sort((a, b) => {
-    const order = ['paperfield', 'horizonos', 'icloud-media-archive'];
+    const order = [
+      'horizon',
+      'paperfield',
+      'workline',
+      'research-publishing-systems',
+      'icloud-media-archive',
+    ];
     return order.indexOf(a.data.slug) - order.indexOf(b.data.slug);
   });
 
@@ -47,12 +53,11 @@ const contents = [
   </section>
 
   <section class="project-ledger" aria-labelledby="projects-heading">
-    <h2 id="projects-heading">Projects <span>(public)</span></h2>
+    <h2 id="projects-heading">Projects</h2>
     <div class="ledger-columns" aria-hidden="true">
       <span>Type</span>
       <span>Record</span>
       <span>Description</span>
-      <span>Status</span>
     </div>
     <ul class="ledger-list">
       {selectedWork.map((entry) => (
@@ -61,7 +66,6 @@ const contents = [
             <span class="ledger-type">Project</span>
             <strong>{entry.data.title}</strong>
             <span class="ledger-description">{entry.data.description}</span>
-            <span class="ledger-status">Published</span>
           </a>
         </li>
       ))}

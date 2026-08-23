@@ -2,14 +2,17 @@
 title: Paperfield
 slug: paperfield
 type: work
-description: A spatial environment for working with academic literature.
+description: A local desktop research workspace where papers behave like objects on a spatial desk.
 tags:
   - academic literature
-  - experimental software
+  - research tools
+  - desktop applications
 status: published
 featured: true
 ---
 
-Paperfield is a spatial environment for working with academic literature.
+Paperfield is a desktop research workspace where papers can be arranged, grouped, connected, and opened from a spatial desk.
 
-Further documentation will be added as the project is prepared for public presentation.
+The application runs locally and remains usable offline. DOI import can retrieve bibliographic metadata from Crossref and an available open copy from Unpaywall; an optional read-only Zotero import keeps its credentials and imported data on the desktop.
+
+Verified PDFs can display a cached first-page preview on the desk and open in a full-paper reader. A short product-vision film and poster were produced alongside the application to communicate its interaction model.
