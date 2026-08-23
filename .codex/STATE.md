@@ -1,8 +1,8 @@
 # Project state
 
 - Mode: continuation
-- Objective: maintain boomerrawlings.com as a restrained public archive deployed from GitHub main through Netlify
-- Status: selected archive-ledger redesign complete; verified publishing pipeline and domain remain in place
+- Objective: maintain a restrained, factual public archive with concrete project evidence
+- Status: homepage Personal Archive record now includes the user-verified 30,000+ iCloud-file scale; change built and visually verified locally, not deployed
 
 ## Completed
 
@@ -19,6 +19,8 @@
 - Removed the “The Finding Aid” framing, oversized manifesto, BR mark, faux-external arrows, and private-archive/curation slogan.
 - Added both public email contact links to the site footer.
 - Indexed all eight public Substack posts under Writing as external records.
+- Screened the prior portfolio and original Drive manuscripts; separated viable Boomer-authored candidates from other authors' work, raw/private material, course scaffolding, and AI-generated research notes.
+- Replaced the generic Personal Archive summary with a quantified description of its 30,000+ iCloud-file source library; the shared content record updates the homepage, Projects index, project page, and metadata.
 
 ## Decisions
 
@@ -29,6 +31,9 @@
 - Roll back releases through Git history, not lasting manual Netlify uploads.
 - Keep the interface flat, typographic, and artifact-led; derive homepage counts from published content rather than hard-code them.
 - Keep Substack as the canonical publisher; store only curated metadata and direct links on this site.
+- Gate every local manuscript on authorship, standalone readability, source accuracy, third-party privacy, and deliberate consent for sensitive disclosure before publishing.
+- Treat the prior portfolio as a source index only; its promotional claims and chronology are not reliable publication copy.
+- Put verified project facts in archive content so they propagate across the site; avoid a generic homepage statistics dashboard until several independent metrics are available.
 
 ## Verified production state
 
@@ -42,11 +47,13 @@
 
 ## Next
 
-1. Replace provisional project copy with real artifacts and concrete documentation.
-2. Curate and add public entries under src/content/archive.
-3. Re-inventory DNS before any future domain or mail change.
+1. Select the first small editing batch from the Drive shortlist.
+2. Fact-check academic sources and sanitize personal identifiers before creating site entries.
+3. Replace remaining provisional project copy with verified measurements and documentation.
+4. Re-inventory DNS before any future domain or mail change.
 
 ## Risks
 
 - Some ISP resolvers may briefly retain the pre-migration records until their cached TTL expires.
 - Nameserver replacement or casual email-record edits risk mail disruption and remain out of scope.
+- Raw journals and course files contain sensitive disclosures, identifiable third parties, or instructor comments; none are safe to publish verbatim.
