@@ -542,8 +542,14 @@ main {
   }
 
   .site-footer {
+    display: block;
     font-size: 0.76rem;
+    line-height: 1.6;
     padding-inline: 0.25rem;
+  }
+
+  .site-footer p + p {
+    margin-top: 0.5rem;
   }
 }
 
@@ -567,14 +573,5 @@ main {
 
   nav a {
     font-size: 0.74rem;
-  }
-
-  .site-footer {
-    display: block;
-    line-height: 1.6;
-  }
-
-  .site-footer p + p {
-    margin-top: 0.5rem;
   }
 }
