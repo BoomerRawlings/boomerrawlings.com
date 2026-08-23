@@ -1,6 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatFullDate, formatPartialDate, isoDate } from '../../lib/dates';
 
 export async function getStaticPaths() {
   const entries = await getCollection('archive', ({ data }) =>
@@ -18,17 +19,37 @@ interface Props {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const isWriting = entry.data.type === 'writing';
+const eyebrow = isWriting && entry.data.writingKind
+  ? `${entry.data.writingKind} writing`
+  : entry.data.type;
 ---
 
 <BaseLayout title={entry.data.title} description={entry.data.description}>
   <header class="entry-header">
-    <p class="eyebrow">{entry.data.type}</p>
+    <p class="eyebrow">{eyebrow}</p>
     <div>
       <h1>{entry.data.title}</h1>
       <p class="entry-description">{entry.data.description}</p>
+      {isWriting && (
+        <div class="entry-meta">
+          {entry.data.writingForm && <span>{entry.data.writingForm}</span>}
+          {entry.data.venue && <span>{entry.data.venue}</span>}
+          {entry.data.publishedDate && (
+            <time datetime={isoDate(entry.data.publishedDate)}>
+              Published {formatFullDate(entry.data.publishedDate)}
+            </time>
+          )}
+          {entry.data.producedDate && (
+            <time datetime={entry.data.producedDate}>
+              Produced {formatPartialDate(entry.data.producedDate)}
+            </time>
+          )}
+        </div>
+      )}
     </div>
   </header>
-  <article class="entry-body">
+  <article class:list={['entry-body', { 'academic-entry': entry.data.writingKind === 'academic' }]}>
     <Content />
   </article>
 </BaseLayout>

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatFullDate, formatPartialDate, isoDate } from '../../lib/dates';
 
 const entries = (await getCollection('archive', ({ data }) =>
   data.type === 'writing' && data.status === 'published'
@@ -15,21 +16,11 @@ const entries = (await getCollection('archive', ({ data }) =>
 });
 
 const groupedEntries = Object.entries(
-  Object.groupBy(entries, (entry) => entry.data.venue ?? 'Undesignated')
-).sort(([firstVenue], [secondVenue]) => {
-  if (firstVenue === 'This site') return -1;
-  if (secondVenue === 'This site') return 1;
-  return firstVenue.localeCompare(secondVenue);
+  Object.groupBy(entries, (entry) => entry.data.writingKind ?? 'undesignated')
+).sort(([firstKind], [secondKind]) => {
+  const order = ['academic', 'personal', 'undesignated'];
+  return order.indexOf(firstKind) - order.indexOf(secondKind);
 });
-
-const formatDate = (date: Date) => new Intl.DateTimeFormat('en-US', {
-  month: 'long',
-  day: 'numeric',
-  year: 'numeric',
-  timeZone: 'UTC',
-}).format(date);
-
-const isoDate = (date: Date) => date.toISOString().slice(0, 10);
 ---
 
 <BaseLayout title="Writing" description="Personal and academic writing by Boomer Rawlings, indexed by publication venue.">
@@ -37,35 +28,38 @@ const isoDate = (date: Date) => date.toISOString().slice(0, 10);
     <p class="eyebrow">Index</p>
     <h1>Writing</h1>
     <div class="page-deck">
-      <p>Personal and academic writing, organized by where it appears. The Substack records below are one part of the archive; publication and original production dates are shown separately when known.</p>
+      <p>Personal and academic writing published here and elsewhere. Every record identifies its venue; publication and original production dates are shown separately when known.</p>
       <a href="https://boomerrawlings.substack.com/archive">Substack archive</a>
     </div>
   </section>
 
   <div class="listing writing-listing">
-    {groupedEntries.map(([venue, venueEntries]) => (
-      <section class="writing-group" aria-labelledby={`venue-${venue.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-')}`}>
+    {groupedEntries.map(([kind, kindEntries]) => (
+      <section class="writing-group" aria-labelledby={`writing-${kind}`}>
         <header class="writing-group-header">
-          <p>Publication</p>
-          <h2 id={`venue-${venue.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-')}`}>{venue}</h2>
+          <p>Category</p>
+          <h2 id={`writing-${kind}`}>
+            {kind === 'undesignated' ? 'Other' : kind[0].toUpperCase() + kind.slice(1)}
+          </h2>
         </header>
         <ol>
-          {venueEntries?.map((entry) => (
+          {kindEntries?.map((entry) => (
             <li>
               <a href={entry.data.externalUrl ?? '/' + entry.data.type + '/' + entry.data.slug + '/'}>
                 <strong>{entry.data.title}</strong>
                 <span class="listing-detail">
                   <small>{entry.data.description}</small>
                   <span class="listing-meta">
-                    {entry.data.writingKind && <span>{entry.data.writingKind}</span>}
+                    {entry.data.writingForm && <span>{entry.data.writingForm}</span>}
+                    {entry.data.venue && <span>{entry.data.venue}</span>}
                     {entry.data.publishedDate && (
                       <time datetime={isoDate(entry.data.publishedDate)}>
-                        Published {formatDate(entry.data.publishedDate)}
+                        Published {formatFullDate(entry.data.publishedDate)}
                       </time>
                     )}
                     {entry.data.producedDate && (
-                      <time datetime={isoDate(entry.data.producedDate)}>
-                        Produced {formatDate(entry.data.producedDate)}
+                      <time datetime={entry.data.producedDate}>
+                        Produced {formatPartialDate(entry.data.producedDate)}
                       </time>
                     )}
                   </span>

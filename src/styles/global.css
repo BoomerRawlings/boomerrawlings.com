@@ -418,6 +418,23 @@ main {
   margin-bottom: 1.5rem;
 }
 
+.entry-meta {
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  gap: 0.45rem 0.8rem;
+  letter-spacing: 0.055em;
+  margin-top: 1.15rem;
+  text-transform: uppercase;
+}
+
+.entry-meta > * + * {
+  border-left: 1px solid var(--rule-strong);
+  padding-left: 0.8rem;
+}
+
 .entry-body {
   font-size: 1.05rem;
   line-height: 1.72;
@@ -428,6 +445,50 @@ main {
 
 .entry-body p:first-child {
   font-size: 1.12em;
+}
+
+.entry-body.academic-entry p:first-child {
+  font-size: inherit;
+}
+
+.entry-body h2 {
+  font-size: 1.55rem;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 3.5rem 0 1rem;
+}
+
+.entry-body h3 {
+  font-size: 1.1rem;
+  font-weight: 650;
+  line-height: 1.35;
+  margin: 2.25rem 0 0.8rem;
+}
+
+.entry-body blockquote {
+  border-left: 2px solid var(--accent);
+  color: var(--muted);
+  margin: 0 0 2.5rem;
+  padding-left: 1.25rem;
+}
+
+.entry-body blockquote p {
+  margin: 0;
+}
+
+.entry-body li + li {
+  margin-top: 0.45rem;
+}
+
+.entry-body a {
+  overflow-wrap: anywhere;
+}
+
+.entry-body hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 3rem 0;
 }
 
 .archive-table {
@@ -559,9 +620,12 @@ main {
     margin-bottom: 1.5rem;
   }
 
-  .page-intro h1,
-  .entry-header h1 {
+  .page-intro h1 {
     font-size: clamp(2.4rem, 14vw, 4rem);
+  }
+
+  .entry-header h1 {
+    font-size: clamp(2.4rem, 11vw, 4rem);
   }
 
   .page-deck {
@@ -584,6 +648,12 @@ main {
 
   .listing small {
     margin-top: 0.65rem;
+  }
+
+  .listing-meta > * + *,
+  .entry-meta > * + * {
+    border-left: 0;
+    padding-left: 0;
   }
 
   .entry-body {

@@ -17,9 +17,12 @@ const archive = defineCollection({
       related: z.array(z.string()).default([]),
       externalUrl: z.string().url().optional(),
       writingKind: z.enum(['academic', 'personal']).optional(),
+      writingForm: z.string().min(1).optional(),
       venue: z.string().min(1).optional(),
       publishedDate: z.coerce.date().optional(),
-      producedDate: z.coerce.date().optional(),
+      producedDate: z.string()
+        .regex(/^\d{4}(?:-(?:0[1-9]|1[0-2])(?:-(?:0[1-9]|[12]\d|3[01]))?)?$/)
+        .optional(),
     })
     .superRefine((entry, context) => {
       if (entry.type !== 'writing' || entry.status !== 'published') return;

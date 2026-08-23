@@ -10,6 +10,7 @@ BoomerRawlings.com is a durable public archive of selected software, research, w
 - main is the production branch.
 - Netlify builds main with npm run build and publishes dist.
 - Do not deploy an untracked local copy as the lasting production source.
+- Batch production changes into one verified push. Use local tests or a deploy preview while iterating; do not spend production-build credits on incremental or state-only commits.
 
 ## Structure
 

@@ -34,17 +34,43 @@ for (const file of htmlFiles) {
 
 const writingHtml = readFileSync(join(output, 'writing', 'index.html'), 'utf8');
 const publishedDateCount = (writingHtml.match(/<time datetime="[^"]+">Published /g) ?? []).length;
-if (publishedDateCount !== 8) {
-  failures.push('writing/index.html: expected 8 labeled publication dates, found ' + publishedDateCount);
+if (publishedDateCount !== 9) {
+  failures.push('writing/index.html: expected 9 labeled publication dates, found ' + publishedDateCount);
 }
-if (!writingHtml.includes('aria-labelledby="venue-substack"')) {
-  failures.push('writing/index.html: missing Substack publication grouping');
+if (!writingHtml.includes('aria-labelledby="writing-academic"')) {
+  failures.push('writing/index.html: missing academic writing grouping');
 }
-if (!writingHtml.includes('The Substack records below are one part of the archive')) {
+if (!writingHtml.includes('aria-labelledby="writing-personal"')) {
+  failures.push('writing/index.html: missing personal writing grouping');
+}
+if (!writingHtml.includes('Personal and academic writing published here and elsewhere')) {
   failures.push('writing/index.html: writing scope is not explicit');
+}
+if (!writingHtml.includes('href="/writing/attention-bias-modification-aggression/"')) {
+  failures.push('writing/index.html: missing onsite academic writing link');
+}
+if (!writingHtml.includes('>This site<') || !writingHtml.includes('>Substack<')) {
+  failures.push('writing/index.html: publication venues are not both labeled');
+}
+if (!writingHtml.includes('datetime="2026-05">Produced May 2026')) {
+  failures.push('writing/index.html: partial production date is not preserved');
 }
 if (writingHtml.includes('All writing on Substack')) {
   failures.push('writing/index.html: incorrectly claims all writing is on Substack');
+}
+
+const academicHtml = readFileSync(
+  join(output, 'writing', 'attention-bias-modification-aggression', 'index.html'),
+  'utf8',
+);
+if (!academicHtml.includes('Student research proposal produced at Southwestern College')) {
+  failures.push('academic writing page: missing provenance and study-status disclosure');
+}
+if (!academicHtml.includes('The study was not conducted')) {
+  failures.push('academic writing page: missing unexecuted-study disclosure');
+}
+if (!academicHtml.includes('Editorial limitations note')) {
+  failures.push('academic writing page: missing methodological limitations');
 }
 
 if (failures.length) throw new Error(failures.join('\n'));
