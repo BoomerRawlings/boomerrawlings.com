@@ -37,9 +37,8 @@ const groupedEntries = Object.entries(
     {groupedEntries.map(([kind, kindEntries]) => (
       <section class="writing-group" aria-labelledby={`writing-${kind}`}>
         <header class="writing-group-header">
-          <p>Category</p>
           <h2 id={`writing-${kind}`}>
-            {kind === 'undesignated' ? 'Other' : kind[0].toUpperCase() + kind.slice(1)}
+            {kind === 'undesignated' ? 'Other writing' : kind[0].toUpperCase() + kind.slice(1) + ' writing'}
           </h2>
         </header>
         <ol>

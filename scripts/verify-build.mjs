@@ -43,6 +43,12 @@ if (!writingHtml.includes('aria-labelledby="writing-academic"')) {
 if (!writingHtml.includes('aria-labelledby="writing-personal"')) {
   failures.push('writing/index.html: missing personal writing grouping');
 }
+if (writingHtml.includes('>Category<')) {
+  failures.push('writing/index.html: obsolete category label remains');
+}
+if (!writingHtml.includes('Academic writing') || !writingHtml.includes('Personal writing')) {
+  failures.push('writing/index.html: writing section headings are unclear');
+}
 if (!writingHtml.includes('Personal and academic writing published here and elsewhere')) {
   failures.push('writing/index.html: writing scope is not explicit');
 }
