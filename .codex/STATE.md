@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: maintain a restrained, factual public archive with concrete project evidence
-- Status: Writing now treats Substack as one venue within a broader archive; metadata, rendering, and chronology are locally verified; production deployment pending
+- Status: Writing now treats Substack as one venue within a broader archive; metadata, rendering, chronology, and production output are verified
 
 ## Completed
 
@@ -21,6 +21,7 @@
 - Indexed all eight public Substack posts under Writing as external records.
 - Reframed Writing as the umbrella for personal and academic work; grouped records by publication venue and exposed labeled publication dates.
 - Added validated writing metadata for kind, venue, publication date, and optional original production date.
+- Deployed the writing model from Git commit `ff19ca3`; Netlify reported a ready, non-manual production deploy and the live pages returned the expected venue and dates.
 - Screened the prior portfolio and original Drive manuscripts; separated viable Boomer-authored candidates from other authors' work, raw/private material, course scaffolding, and AI-generated research notes.
 - Replaced the generic Personal Archive summary with a quantified description of its 30,000+ iCloud-file source library; the shared content record updates the homepage, Projects index, project page, and metadata.
 
