@@ -14,6 +14,7 @@ const archive = defineCollection({
     status: z.enum(['draft', 'published', 'archived']).default('draft'),
     featured: z.boolean().default(false),
     related: z.array(z.string()).default([]),
+    externalUrl: z.string().url().optional(),
   }),
 });
 

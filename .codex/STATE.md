@@ -18,6 +18,7 @@
 - Replaced the portfolio-style homepage with a compact archive ledger: factual introduction, live published-project counts, and three verified records.
 - Removed the “The Finding Aid” framing, oversized manifesto, BR mark, faux-external arrows, and private-archive/curation slogan.
 - Added both public email contact links to the site footer.
+- Indexed all eight public Substack posts under Writing as external records.
 
 ## Decisions
 
@@ -27,6 +28,7 @@
 - Keep GoDaddy nameservers; only @ A and www CNAME point web traffic to Netlify.
 - Roll back releases through Git history, not lasting manual Netlify uploads.
 - Keep the interface flat, typographic, and artifact-led; derive homepage counts from published content rather than hard-code them.
+- Keep Substack as the canonical publisher; store only curated metadata and direct links on this site.
 
 ## Verified production state
 

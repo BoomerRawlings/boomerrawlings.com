@@ -5,23 +5,34 @@ interface Props {
   type: 'work' | 'research' | 'writing' | 'photography';
   title: string;
   introduction: string;
+  source?: {
+    href: string;
+    label: string;
+  };
 }
 
-const { type, title, introduction } = Astro.props;
+const { type, title, introduction, source } = Astro.props;
 const entries = (await getCollection('archive', ({ data }) =>
   data.type === type && data.status === 'published'
 )).sort((a, b) => {
   if (!a.data.date && !b.data.date) return a.data.title.localeCompare(b.data.title);
   if (!a.data.date) return 1;
   if (!b.data.date) return -1;
-  return b.data.date.valueOf() - a.data.date.valueOf();
+  return b.data.date.valueOf() - a.data.date.valueOf() || a.data.title.localeCompare(b.data.title);
 });
 ---
 
 <section class="page-intro">
   <p class="eyebrow">Index</p>
   <h1>{title}</h1>
-  <p class="page-deck">{introduction}</p>
+  {source ? (
+    <div class="page-deck">
+      <p>{introduction}</p>
+      <a href={source.href}>{source.label}</a>
+    </div>
+  ) : (
+    <p class="page-deck">{introduction}</p>
+  )}
 </section>
 
 <section class="listing" aria-label={title + ' entries'}>
@@ -29,7 +40,7 @@ const entries = (await getCollection('archive', ({ data }) =>
     <ol>
       {entries.map((entry) => (
         <li>
-          <a href={'/' + entry.data.type + '/' + entry.data.slug + '/'}>
+          <a href={entry.data.externalUrl ?? '/' + entry.data.type + '/' + entry.data.slug + '/'}>
             <strong>{entry.data.title}</strong>
             <small>{entry.data.description}</small>
           </a>

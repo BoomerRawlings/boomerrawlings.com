@@ -7,7 +7,7 @@ const entries = (await getCollection('archive', ({ data }) => data.status === 'p
     if (!a.data.date && !b.data.date) return a.data.title.localeCompare(b.data.title);
     if (!a.data.date) return 1;
     if (!b.data.date) return -1;
-    return b.data.date.valueOf() - a.data.date.valueOf();
+    return b.data.date.valueOf() - a.data.date.valueOf() || a.data.title.localeCompare(b.data.title);
   });
 ---
 
@@ -19,7 +19,7 @@ const entries = (await getCollection('archive', ({ data }) => data.status === 'p
   </section>
   <section class="archive-table" aria-label="Archive entries">
     {entries.map((entry) => (
-      <a class="archive-row" href={'/' + entry.data.type + '/' + entry.data.slug + '/'}>
+      <a class="archive-row" href={entry.data.externalUrl ?? '/' + entry.data.type + '/' + entry.data.slug + '/'}>
         <span>{entry.data.date ? entry.data.date.getUTCFullYear() : 'Undated'}</span>
         <span>{entry.data.type}</span>
         <span>{entry.data.title}</span>

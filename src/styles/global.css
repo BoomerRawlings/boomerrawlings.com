@@ -287,6 +287,10 @@ main {
   max-width: 43rem;
 }
 
+.page-deck p {
+  margin: 0 0 0.8rem;
+}
+
 .listing {
   padding: 0 1rem 7rem;
 }

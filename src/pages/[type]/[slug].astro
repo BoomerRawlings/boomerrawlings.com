@@ -3,7 +3,9 @@ import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('archive', ({ data }) => data.status === 'published');
+  const entries = await getCollection('archive', ({ data }) =>
+    data.status === 'published' && !data.externalUrl
+  );
   return entries.map((entry) => ({
     params: { type: entry.data.type, slug: entry.data.slug },
     props: { entry },
