@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const entries = (await getCollection('archive', ({ data }) => data.status === 'published'))
+  .sort((a, b) => {
+    if (!a.data.date && !b.data.date) return a.data.title.localeCompare(b.data.title);
+    if (!a.data.date) return 1;
+    if (!b.data.date) return -1;
+    return b.data.date.valueOf() - a.data.date.valueOf();
+  });
+---
+
+<BaseLayout title="Archive" description="A chronological index of public work by Boomer Rawlings.">
+  <section class="page-intro">
+    <p class="eyebrow">Chronology</p>
+    <h1>Archive</h1>
+    <p class="page-deck">A cross-disciplinary index. Undated entries remain separate until their chronology is documented.</p>
+  </section>
+  <section class="archive-table" aria-label="Archive entries">
+    {entries.map((entry) => (
+      <a class="archive-row" href={'/' + entry.data.type + '/' + entry.data.slug + '/'}>
+        <span>{entry.data.date ? entry.data.date.getUTCFullYear() : 'Undated'}</span>
+        <span>{entry.data.type}</span>
+        <span>{entry.data.title}</span>
+      </a>
+    ))}
+  </section>
+</BaseLayout>

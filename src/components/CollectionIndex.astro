@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+  type: 'work' | 'research' | 'writing' | 'photography';
+  title: string;
+  introduction: string;
+}
+
+const { type, title, introduction } = Astro.props;
+const entries = (await getCollection('archive', ({ data }) =>
+  data.type === type && data.status === 'published'
+)).sort((a, b) => {
+  if (!a.data.date && !b.data.date) return a.data.title.localeCompare(b.data.title);
+  if (!a.data.date) return 1;
+  if (!b.data.date) return -1;
+  return b.data.date.valueOf() - a.data.date.valueOf();
+});
+---
+
+<section class="page-intro">
+  <p class="eyebrow">Index</p>
+  <h1>{title}</h1>
+  <p class="page-deck">{introduction}</p>
+</section>
+
+<section class="listing" aria-label={title + ' entries'}>
+  {entries.length > 0 ? (
+    <ol>
+      {entries.map((entry) => (
+        <li>
+          <a href={'/' + entry.data.type + '/' + entry.data.slug + '/'}>
+            <span>
+              <strong>{entry.data.title}</strong>
+              <small>{entry.data.description}</small>
+            </span>
+            <span class="listing-arrow" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  ) : (
+    <p class="empty-state">No public entries yet. Material will appear here after deliberate review and curation.</p>
+  )}
+</section>

@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const selectedWork = (await getCollection('archive', ({ data }) =>
+  data.type === 'work' && data.status === 'published' && data.featured
+)).sort((a, b) => {
+  const order = ['paperfield', 'horizonos', 'personal-archive'];
+  return order.indexOf(a.data.slug) - order.indexOf(b.data.slug);
+});
+---
+
+<BaseLayout>
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Psychology · Research · Experimental Software</p>
+      <h1>I study people and build things.</h1>
+    </div>
+    <p class="hero-note">
+      A developing public archive of projects, research, writing, and photography by Boomer Rawlings.
+    </p>
+  </section>
+
+  <section class="selected-work">
+    <div class="section-heading">
+      <h2>Selected Work</h2>
+      <a href="/work/">View all work</a>
+    </div>
+    <ol class="work-list">
+      {selectedWork.map((entry, index) => (
+        <li>
+          <a href={'/work/' + entry.data.slug + '/'}>
+            <span class="work-number">{String(index + 1).padStart(2, '0')}</span>
+            <h3>{entry.data.title}</h3>
+            <p>{entry.data.description}</p>
+            <span class="work-arrow" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="archive-statement">
+    <h2>This archive</h2>
+    <p>
+      Work made public slowly: selected, documented, and placed in context. Private archive → deliberate human curation → public website.
+    </p>
+  </section>
+</BaseLayout>
