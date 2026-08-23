@@ -39,7 +39,23 @@ Netlify reads netlify.toml:
 
 Pushes and merges to main trigger production builds through the GitHub-connected Netlify project. Pull requests receive deploy previews when enabled in Netlify.
 
+- Source: https://github.com/BoomerRawlings/boomerrawlings.com
+- Netlify project: https://app.netlify.com/projects/boomerrawlings-com
+- Netlify fallback: https://boomerrawlings-com.netlify.app
+- Production: https://boomerrawlings.com
+
 No secrets are required to build the public site. Account credentials and private source material must never enter this repository.
+
+To roll back a release, revert the responsible commit on `main` and push. Keep GitHub—not a manual Netlify upload—as the lasting source of production.
+
+## DNS
+
+GoDaddy remains the authoritative DNS provider. Only web records point to Netlify:
+
+- `@ A 75.2.60.5`
+- `www CNAME boomerrawlings-com.netlify.app`
+
+Do not replace the GoDaddy nameservers or remove existing MX, SPF, DMARC, Microsoft verification, autodiscover, email, or SIP records. Inventory DNS before any future change.
 
 ## Content
 
