@@ -12,6 +12,12 @@
   command = "npm run build"
 
 [[redirects]]
+  from = "/work/personal-archive/*"
+  to = "/work/icloud-media-archive/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "https://www.boomerrawlings.com/*"
   to = "https://boomerrawlings.com/:splat"
   status = 301

@@ -73,5 +73,20 @@ if (!academicHtml.includes('Editorial limitations note')) {
   failures.push('academic writing page: missing methodological limitations');
 }
 
+const homeHtml = readFileSync(join(output, 'index.html'), 'utf8');
+const mediaArchiveHtml = readFileSync(
+  join(output, 'work', 'icloud-media-archive', 'index.html'),
+  'utf8',
+);
+if (!homeHtml.includes('Archiving 31,550 Photos and Videos')) {
+  failures.push('index.html: missing exact media-archive project title');
+}
+if (!mediaArchiveHtml.includes('31,550 photos and videos out of iCloud')) {
+  failures.push('media archive page: missing verified project scope');
+}
+if (homeHtml.includes('Personal Archive') || mediaArchiveHtml.includes('Personal Archive')) {
+  failures.push('media archive project: obsolete project name remains');
+}
+
 if (failures.length) throw new Error(failures.join('\n'));
 console.log('Verified ' + htmlFiles.length + ' HTML pages: metadata and local links pass.');

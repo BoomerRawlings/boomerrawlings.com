@@ -6,7 +6,7 @@ const publishedEntries = await getCollection('archive', ({ data }) => data.statu
 const selectedWork = publishedEntries
   .filter(({ data }) => data.type === 'work' && data.featured)
   .sort((a, b) => {
-    const order = ['paperfield', 'horizonos', 'personal-archive'];
+    const order = ['paperfield', 'horizonos', 'icloud-media-archive'];
     return order.indexOf(a.data.slug) - order.indexOf(b.data.slug);
   });
 

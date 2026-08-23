@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: maintain a restrained, factual public archive with concrete project evidence
-- Status: Release `a56c778` is live and verified; Writing is structured by category and venue, one academic piece is onsite, and the Netlify credit guard is active
+- Status: Writing and the 31,550-item iCloud media-archiving project are accurately structured; the Netlify credit guard is active
 
 ## Completed
 
@@ -23,7 +23,7 @@
 - Added validated writing metadata for kind, venue, publication date, and optional original production date.
 - Deployed the writing model from Git commit `ff19ca3`; Netlify reported a ready, non-manual production deploy and the live pages returned the expected venue and dates.
 - Screened the prior portfolio and original Drive manuscripts; separated viable Boomer-authored candidates from other authors' work, raw/private material, course scaffolding, and AI-generated research notes.
-- Replaced the generic Personal Archive summary with a quantified description of its 30,000+ iCloud-file source library; the shared content record updates the homepage, Projects index, project page, and metadata.
+- Reframed the former Personal Archive record as “Archiving 31,550 Photos and Videos,” describing the actual iCloud collection, local download, sorting, parsing, and structuring work.
 - Added the ABM/aggression student research proposal as the first onsite academic-writing entry, with produced/published dates, source links, study-status disclosure, and an editorial limitations note.
 - Grouped Writing by Academic and Personal category while retaining a venue label on every record; Substack remains an external venue.
 - Added a Netlify ignore rule for documentation/state-only commits and a release rule to batch production changes instead of pushing incrementally.
