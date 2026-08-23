@@ -1,16 +1,80 @@
 ---
-import CollectionIndex from '../../components/CollectionIndex.astro';
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const entries = (await getCollection('archive', ({ data }) =>
+  data.type === 'writing' && data.status === 'published'
+)).sort((a, b) => {
+  if (!a.data.publishedDate && !b.data.publishedDate) {
+    return a.data.title.localeCompare(b.data.title);
+  }
+  if (!a.data.publishedDate) return 1;
+  if (!b.data.publishedDate) return -1;
+  return b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf()
+    || a.data.title.localeCompare(b.data.title);
+});
+
+const groupedEntries = Object.entries(
+  Object.groupBy(entries, (entry) => entry.data.venue ?? 'Undesignated')
+).sort(([firstVenue], [secondVenue]) => {
+  if (firstVenue === 'This site') return -1;
+  if (secondVenue === 'This site') return 1;
+  return firstVenue.localeCompare(secondVenue);
+});
+
+const formatDate = (date: Date) => new Intl.DateTimeFormat('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'UTC',
+}).format(date);
+
+const isoDate = (date: Date) => date.toISOString().slice(0, 10);
 ---
 
-<BaseLayout title="Writing" description="Writing by Boomer Rawlings.">
-  <CollectionIndex
-    type="writing"
-    title="Writing"
-    introduction="Essays and other writing published on Substack."
-    source={{
-      href: 'https://boomerrawlings.substack.com/archive',
-      label: 'All writing on Substack',
-    }}
-  />
+<BaseLayout title="Writing" description="Personal and academic writing by Boomer Rawlings, indexed by publication venue.">
+  <section class="page-intro">
+    <p class="eyebrow">Index</p>
+    <h1>Writing</h1>
+    <div class="page-deck">
+      <p>Personal and academic writing, organized by where it appears. The Substack records below are one part of the archive; publication and original production dates are shown separately when known.</p>
+      <a href="https://boomerrawlings.substack.com/archive">Substack archive</a>
+    </div>
+  </section>
+
+  <div class="listing writing-listing">
+    {groupedEntries.map(([venue, venueEntries]) => (
+      <section class="writing-group" aria-labelledby={`venue-${venue.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-')}`}>
+        <header class="writing-group-header">
+          <p>Publication</p>
+          <h2 id={`venue-${venue.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-')}`}>{venue}</h2>
+        </header>
+        <ol>
+          {venueEntries?.map((entry) => (
+            <li>
+              <a href={entry.data.externalUrl ?? '/' + entry.data.type + '/' + entry.data.slug + '/'}>
+                <strong>{entry.data.title}</strong>
+                <span class="listing-detail">
+                  <small>{entry.data.description}</small>
+                  <span class="listing-meta">
+                    {entry.data.writingKind && <span>{entry.data.writingKind}</span>}
+                    {entry.data.publishedDate && (
+                      <time datetime={isoDate(entry.data.publishedDate)}>
+                        Published {formatDate(entry.data.publishedDate)}
+                      </time>
+                    )}
+                    {entry.data.producedDate && (
+                      <time datetime={isoDate(entry.data.producedDate)}>
+                        Produced {formatDate(entry.data.producedDate)}
+                      </time>
+                    )}
+                  </span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+  </div>
 </BaseLayout>

@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: maintain a restrained, factual public archive with concrete project evidence
-- Status: homepage Personal Archive record now includes the user-verified 30,000+ iCloud-file scale; change built and visually verified locally, not deployed
+- Status: Writing now treats Substack as one venue within a broader archive; metadata, rendering, and chronology are locally verified; production deployment pending
 
 ## Completed
 
@@ -19,6 +19,8 @@
 - Removed the “The Finding Aid” framing, oversized manifesto, BR mark, faux-external arrows, and private-archive/curation slogan.
 - Added both public email contact links to the site footer.
 - Indexed all eight public Substack posts under Writing as external records.
+- Reframed Writing as the umbrella for personal and academic work; grouped records by publication venue and exposed labeled publication dates.
+- Added validated writing metadata for kind, venue, publication date, and optional original production date.
 - Screened the prior portfolio and original Drive manuscripts; separated viable Boomer-authored candidates from other authors' work, raw/private material, course scaffolding, and AI-generated research notes.
 - Replaced the generic Personal Archive summary with a quantified description of its 30,000+ iCloud-file source library; the shared content record updates the homepage, Projects index, project page, and metadata.
 
@@ -30,7 +32,8 @@
 - Keep GoDaddy nameservers; only @ A and www CNAME point web traffic to Netlify.
 - Roll back releases through Git history, not lasting manual Netlify uploads.
 - Keep the interface flat, typographic, and artifact-led; derive homepage counts from published content rather than hard-code them.
-- Keep Substack as the canonical publisher; store only curated metadata and direct links on this site.
+- Treat Substack as one external publication venue, not the complete writing archive; keep its posts as metadata records with direct links.
+- Require every public writing record to identify personal/academic kind, venue, and verified publication date; add a production date only when evidenced.
 - Gate every local manuscript on authorship, standalone readability, source accuracy, third-party privacy, and deliberate consent for sensitive disclosure before publishing.
 - Treat the prior portfolio as a source index only; its promotional claims and chronology are not reliable publication copy.
 - Put verified project facts in archive content so they propagate across the site; avoid a generic homepage statistics dashboard until several independent metrics are available.
@@ -47,8 +50,8 @@
 
 ## Next
 
-1. Select the first small editing batch from the Drive shortlist.
-2. Fact-check academic sources and sanitize personal identifiers before creating site entries.
+1. Select the first small editing batch from the Drive shortlist and classify each item as academic or personal writing.
+2. Fact-check academic sources, sanitize personal identifiers, and verify produced/published dates before creating site entries.
 3. Replace remaining provisional project copy with verified measurements and documentation.
 4. Re-inventory DNS before any future domain or mail change.
 
@@ -57,3 +60,4 @@
 - Some ISP resolvers may briefly retain the pre-migration records until their cached TTL expires.
 - Nameserver replacement or casual email-record edits risk mail disruption and remain out of scope.
 - Raw journals and course files contain sensitive disclosures, identifiable third parties, or instructor comments; none are safe to publish verbatim.
+- Original production dates are not available for the current Substack records; none should be inferred from publication dates.

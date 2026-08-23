@@ -32,5 +32,20 @@ for (const file of htmlFiles) {
   }
 }
 
+const writingHtml = readFileSync(join(output, 'writing', 'index.html'), 'utf8');
+const publishedDateCount = (writingHtml.match(/<time datetime="[^"]+">Published /g) ?? []).length;
+if (publishedDateCount !== 8) {
+  failures.push('writing/index.html: expected 8 labeled publication dates, found ' + publishedDateCount);
+}
+if (!writingHtml.includes('aria-labelledby="venue-substack"')) {
+  failures.push('writing/index.html: missing Substack publication grouping');
+}
+if (!writingHtml.includes('The Substack records below are one part of the archive')) {
+  failures.push('writing/index.html: writing scope is not explicit');
+}
+if (writingHtml.includes('All writing on Substack')) {
+  failures.push('writing/index.html: incorrectly claims all writing is on Substack');
+}
+
 if (failures.length) throw new Error(failures.join('\n'));
 console.log('Verified ' + htmlFiles.length + ' HTML pages: metadata and local links pass.');
