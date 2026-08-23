@@ -14,12 +14,15 @@ const {
 const pageTitle = title === 'Boomer Rawlings' ? title : title + ' — Boomer Rawlings';
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const navItems = [
-  ['Work', '/work/'],
-  ['Research', '/research/'],
-  ['Writing', '/writing/'],
-  ['Photography', '/photography/'],
+  ['Projects', '/work/'],
+  ['Archive', '/archive/'],
   ['About', '/about/'],
 ];
+
+const isCurrent = (href: string) =>
+  href === '/work/'
+    ? Astro.url.pathname === '/' || Astro.url.pathname.startsWith('/work/')
+    : Astro.url.pathname.startsWith(href);
 ---
 
 <!doctype html>
@@ -29,27 +32,26 @@ const navItems = [
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f4f0e6" />
+    <meta name="theme-color" content="#f8f9f6" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary" />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>{pageTitle}</title>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
       <a class="wordmark" href="/" aria-label="Boomer Rawlings, home">
-        <span class="wordmark-mark" aria-hidden="true">BR</span>
-        <span>Boomer Rawlings</span>
+        <span class="wordmark-name">Boomer Rawlings</span>
+        <span class="wordmark-description">Public Archive</span>
       </a>
       <nav aria-label="Primary navigation">
         <ul>
           {navItems.map(([label, href]) => (
-            <li><a href={href} aria-current={Astro.url.pathname.startsWith(href) ? 'page' : undefined}>{label}</a></li>
+            <li><a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a></li>
           ))}
         </ul>
       </nav>
@@ -58,8 +60,8 @@ const navItems = [
       <slot />
     </main>
     <footer class="site-footer">
-      <p>Psychology · Research · Experimental Software</p>
-      <p><a href="/archive/">Archive</a> <span aria-hidden="true">/</span> © {new Date().getFullYear()} Boomer Rawlings</p>
+      <p>© {new Date().getFullYear()} Boomer Rawlings</p>
+      <p><a href="/">boomerrawlings.com</a></p>
     </footer>
   </body>
 </html>

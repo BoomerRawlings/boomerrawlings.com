@@ -1,8 +1,8 @@
 # Project state
 
-- Mode: new project
-- Objective: make GitHub main the source for an automatically deployed Netlify site at boomerrawlings.com
-- Status: complete; production live with verified GitHub → Netlify automation, DNS, HTTPS, and redirects
+- Mode: continuation
+- Objective: maintain boomerrawlings.com as a restrained public archive deployed from GitHub main through Netlify
+- Status: selected archive-ledger redesign complete; verified publishing pipeline and domain remain in place
 
 ## Completed
 
@@ -15,6 +15,8 @@
 - Replaced only the GoDaddy web records; GoDaddy nameservers and all mail/service records remain unchanged.
 - Disabled Netlify's default public badge injection; production HTML contains no script tags.
 - Verified all 10 HTML routes, sitemap, robots, redirects, security headers, desktop semantics, and mobile layout.
+- Replaced the portfolio-style homepage with a compact archive ledger: factual introduction, live published-project counts, and three verified records.
+- Removed the “The Finding Aid” framing, oversized manifesto, BR mark, faux-external arrows, and private-archive/curation slogan.
 
 ## Decisions
 
@@ -23,6 +25,7 @@
 - Apex boomerrawlings.com is canonical; www will redirect to apex.
 - Keep GoDaddy nameservers; only @ A and www CNAME point web traffic to Netlify.
 - Roll back releases through Git history, not lasting manual Netlify uploads.
+- Keep the interface flat, typographic, and artifact-led; derive homepage counts from published content rather than hard-code them.
 
 ## Verified production state
 
@@ -36,8 +39,8 @@
 
 ## Next
 
-1. Curate and add public entries under src/content/archive.
-2. Use pull requests for substantive changes; merge to main to publish.
+1. Replace provisional project copy with real artifacts and concrete documentation.
+2. Curate and add public entries under src/content/archive.
 3. Re-inventory DNS before any future domain or mail change.
 
 ## Risks

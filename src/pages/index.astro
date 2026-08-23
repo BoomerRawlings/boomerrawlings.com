@@ -2,48 +2,69 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const selectedWork = (await getCollection('archive', ({ data }) =>
-  data.type === 'work' && data.status === 'published' && data.featured
-)).sort((a, b) => {
-  const order = ['paperfield', 'horizonos', 'personal-archive'];
-  return order.indexOf(a.data.slug) - order.indexOf(b.data.slug);
-});
+const publishedEntries = await getCollection('archive', ({ data }) => data.status === 'published');
+const selectedWork = publishedEntries
+  .filter(({ data }) => data.type === 'work' && data.featured)
+  .sort((a, b) => {
+    const order = ['paperfield', 'horizonos', 'personal-archive'];
+    return order.indexOf(a.data.slug) - order.indexOf(b.data.slug);
+  });
+
+const counts = {
+  work: publishedEntries.filter(({ data }) => data.type === 'work').length,
+  research: publishedEntries.filter(({ data }) => data.type === 'research').length,
+  writing: publishedEntries.filter(({ data }) => data.type === 'writing').length,
+  photography: publishedEntries.filter(({ data }) => data.type === 'photography').length,
+};
+
+const contents = [
+  ['Projects', '/work/', counts.work],
+  ['Archive', '/archive/', publishedEntries.length],
+  ['Research', '/research/', counts.research],
+  ['Writing', '/writing/', counts.writing],
+  ['Photography', '/photography/', counts.photography],
+] as const;
 ---
 
 <BaseLayout>
-  <section class="hero">
-    <div>
-      <p class="eyebrow">Psychology · Research · Experimental Software</p>
-      <h1>I study people and build things.</h1>
-    </div>
-    <p class="hero-note">
-      A developing public archive of projects, research, writing, and photography by Boomer Rawlings.
-    </p>
+  <section class="home-intro">
+    <h1>Projects, research, writing, and photography by Boomer Rawlings.</h1>
+
+    <section class="contents" aria-labelledby="contents-heading">
+      <div class="contents-heading">
+        <h2 id="contents-heading">Contents</h2>
+        <span>Published</span>
+      </div>
+      <ul>
+        {contents.map(([label, href, count]) => (
+          <li>
+            <a href={href}>{label}</a>
+            <span aria-label={`${count} published`}>{count}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
   </section>
 
-  <section class="selected-work">
-    <div class="section-heading">
-      <h2>Selected Work</h2>
-      <a href="/work/">View all work</a>
+  <section class="project-ledger" aria-labelledby="projects-heading">
+    <h2 id="projects-heading">Projects <span>(public)</span></h2>
+    <div class="ledger-columns" aria-hidden="true">
+      <span>Type</span>
+      <span>Record</span>
+      <span>Description</span>
+      <span>Status</span>
     </div>
-    <ol class="work-list">
-      {selectedWork.map((entry, index) => (
+    <ul class="ledger-list">
+      {selectedWork.map((entry) => (
         <li>
           <a href={'/work/' + entry.data.slug + '/'}>
-            <span class="work-number">{String(index + 1).padStart(2, '0')}</span>
-            <h3>{entry.data.title}</h3>
-            <p>{entry.data.description}</p>
-            <span class="work-arrow" aria-hidden="true">↗</span>
+            <span class="ledger-type">Project</span>
+            <strong>{entry.data.title}</strong>
+            <span class="ledger-description">{entry.data.description}</span>
+            <span class="ledger-status">Published</span>
           </a>
         </li>
       ))}
-    </ol>
-  </section>
-
-  <section class="archive-statement">
-    <h2>This archive</h2>
-    <p>
-      Work made public slowly: selected, documented, and placed in context. Private archive → deliberate human curation → public website.
-    </p>
+    </ul>
   </section>
 </BaseLayout>
