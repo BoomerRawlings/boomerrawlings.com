@@ -17,6 +17,7 @@
 - Verified all 10 HTML routes, sitemap, robots, redirects, security headers, desktop semantics, and mobile layout.
 - Replaced the portfolio-style homepage with a compact archive ledger: factual introduction, live published-project counts, and three verified records.
 - Removed the “The Finding Aid” framing, oversized manifesto, BR mark, faux-external arrows, and private-archive/curation slogan.
+- Added a public email contact link to the site footer.
 
 ## Decisions
 
