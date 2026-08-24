@@ -3,6 +3,7 @@ title: Workline
 slug: workline
 type: work
 description: A handwriting-to-feedback workflow for linear equations that separates visual transcription from deterministic checking.
+curatorNote: Watch the handoff between AI and deterministic checking—the user confirms the transcription before any math judgment is made.
 tags:
   - learning tools
   - computer vision

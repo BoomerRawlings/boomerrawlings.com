@@ -1,0 +1,38 @@
+---
+interface GuideLink {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  heading?: string;
+  headingId?: string;
+  links?: GuideLink[];
+  message: string;
+  variant?: 'home' | 'compact';
+}
+
+const {
+  heading = 'Your curator',
+  headingId = 'curator-heading',
+  links = [],
+  message,
+  variant = 'compact',
+} = Astro.props;
+---
+
+<aside
+  class:list={['curator-guide', `curator-guide--${variant}`]}
+  aria-labelledby={headingId}
+>
+  <span class="portfolio-curator" aria-hidden="true"></span>
+  <div class="curator-copy">
+    <h2 id={headingId}>{heading}</h2>
+    <p>{message}</p>
+    {links.length > 0 && (
+      <p class="curator-links">
+        {links.map((link) => <a href={link.href}>{link.label}</a>)}
+      </p>
+    )}
+  </div>
+</aside>

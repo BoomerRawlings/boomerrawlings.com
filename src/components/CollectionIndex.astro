@@ -1,17 +1,26 @@
 ---
 import { getCollection } from 'astro:content';
+import CuratorGuide from './CuratorGuide.astro';
 
 interface Props {
   type: 'work' | 'research' | 'writing' | 'photography';
   title: string;
   introduction: string;
+  eyebrow: string;
+  guide?: {
+    message: string;
+    links?: {
+      href: string;
+      label: string;
+    }[];
+  };
   source?: {
     href: string;
     label: string;
   };
 }
 
-const { type, title, introduction, source } = Astro.props;
+const { type, title, introduction, eyebrow, guide, source } = Astro.props;
 const entries = (await getCollection('archive', ({ data }) =>
   data.type === type && data.status === 'published'
 )).sort((a, b) => {
@@ -22,8 +31,8 @@ const entries = (await getCollection('archive', ({ data }) =>
 });
 ---
 
-<section class="page-intro">
-  <p class="eyebrow">Index</p>
+<section class:list={['page-intro', { 'page-intro--guided': guide }]}>
+  <p class="eyebrow">{eyebrow}</p>
   <h1>{title}</h1>
   {source ? (
     <div class="page-deck">
@@ -33,10 +42,17 @@ const entries = (await getCollection('archive', ({ data }) =>
   ) : (
     <p class="page-deck">{introduction}</p>
   )}
+  {guide && (
+    <CuratorGuide
+      headingId={`curator-${type}`}
+      message={guide.message}
+      links={guide.links ?? []}
+    />
+  )}
 </section>
 
-<section class="listing" aria-label={title + ' entries'}>
-  {entries.length > 0 ? (
+{entries.length > 0 && (
+  <section class="listing" aria-label={title}>
     <ol>
       {entries.map((entry) => (
         <li>
@@ -47,7 +63,5 @@ const entries = (await getCollection('archive', ({ data }) =>
         </li>
       ))}
     </ol>
-  ) : (
-    <p class="empty-state">No public entries.</p>
-  )}
-</section>
+  </section>
+)}

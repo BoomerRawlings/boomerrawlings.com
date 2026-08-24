@@ -14,11 +14,10 @@
   --sans: 'Source Sans 3', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --display: 'Teko', 'Arial Narrow', sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
-  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-ui: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --motion-fast: 150ms;
-  --motion-ui: 240ms;
-  --motion-enter: 520ms;
+  --motion-fast: 120ms;
+  --motion-ui: 160ms;
+  --motion-nav: 180ms;
 }
 
 @view-transition {
@@ -71,7 +70,7 @@ a:focus-visible {
   position: fixed;
   top: 1rem;
   transform: translateY(-200%);
-  transition: transform var(--motion-ui) var(--ease-enter);
+  transition: transform var(--motion-fast) var(--ease-ui);
   z-index: 20;
 }
 
@@ -106,7 +105,6 @@ a:focus-visible {
 }
 
 .site-header--home .wordmark::after {
-  animation: rule-in 420ms var(--ease-enter) 160ms both;
   background: var(--yellow);
   bottom: -2.35rem;
   content: '';
@@ -182,7 +180,7 @@ nav a::after {
   right: 0;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 220ms var(--ease-enter);
+  transition: transform var(--motion-ui) var(--ease-ui);
 }
 
 nav a:hover,
@@ -190,9 +188,18 @@ nav a[aria-current='page'] {
   color: var(--turquoise);
 }
 
-nav a:hover::after,
-nav a[aria-current='page']::after {
+nav a:hover::after {
   transform: scaleX(1);
+}
+
+.nav-indicator {
+  background: var(--yellow);
+  bottom: 0;
+  height: 3px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  view-transition-name: active-nav-indicator;
 }
 
 .site-header a:focus-visible,
@@ -233,6 +240,137 @@ main {
   max-width: 32rem;
 }
 
+.home-overview {
+  align-self: center;
+  min-width: 0;
+}
+
+.home-overview > h1 {
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.curator-guide {
+  border-top: 1px solid rgb(255 205 0 / 45%);
+  display: grid;
+  gap: clamp(0.9rem, 2vw, 1.35rem);
+  grid-template-columns: auto minmax(0, 1fr);
+  max-width: 37rem;
+  padding-top: 1.25rem;
+}
+
+.curator-guide .portfolio-curator {
+  align-self: start;
+  filter: brightness(1.18) saturate(1.18) drop-shadow(0 0 0.7rem rgb(24 205 213 / 28%));
+  width: clamp(7.5rem, 10vw, 9rem);
+}
+
+.curator-guide .portfolio-curator::after {
+  animation: curator-arrive 720ms steps(1, end) 180ms 1 both;
+  background-image: url('/images/portfolio-curator.webp');
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: 300% 200%;
+  content: '';
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.curator-copy {
+  background: linear-gradient(135deg, rgb(24 205 213 / 7%), rgb(255 205 0 / 2%));
+  border: 1px solid rgb(24 205 213 / 38%);
+  box-shadow: inset 0 0 1.5rem rgb(24 205 213 / 4%);
+  min-width: 0;
+  padding: 1rem 1.1rem 1.05rem;
+  position: relative;
+}
+
+.curator-copy::before {
+  background: rgb(24 205 213 / 58%);
+  content: '';
+  height: 1px;
+  left: calc(-1 * clamp(0.9rem, 2vw, 1.35rem));
+  position: absolute;
+  top: 2.8rem;
+  width: clamp(0.9rem, 2vw, 1.35rem);
+}
+
+.curator-copy h2 {
+  color: var(--yellow);
+  font-family: var(--display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  line-height: 1;
+  margin: 0 0 0.65rem;
+  text-transform: uppercase;
+}
+
+.curator-copy p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.curator-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.15rem;
+  margin-top: 0.8rem !important;
+}
+
+.curator-links a {
+  color: var(--turquoise);
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  text-transform: uppercase;
+}
+
+.curator-links a:hover {
+  color: var(--yellow);
+}
+
+.page-intro--guided .eyebrow,
+.entry-header--guided .eyebrow {
+  grid-row: 1 / span 3;
+}
+
+.page-intro--guided > .curator-guide,
+.entry-header--guided > .curator-guide {
+  grid-column: 2;
+}
+
+.curator-guide--compact {
+  max-width: 46rem;
+  padding-top: 1rem;
+}
+
+.curator-guide--compact .portfolio-curator {
+  width: clamp(4.75rem, 6vw, 5.75rem);
+}
+
+.curator-guide--compact .curator-copy {
+  padding: 0.85rem 1rem 0.9rem;
+}
+
+.curator-guide--compact .curator-copy::before {
+  top: 2.25rem;
+}
+
+.curator-guide--compact .curator-copy h2 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.curator-guide--compact .curator-copy p {
+  font-size: 0.95rem;
+}
+
 .contents {
   align-self: start;
   margin-top: -4.5rem;
@@ -254,13 +392,29 @@ main {
 }
 
 .contents-heading h2,
-.contents-heading span {
+.contents-heading > span:last-child {
   font: inherit;
   margin: 0;
 }
 
-.contents-heading span {
+.contents-heading > span:last-child {
   font-size: 0.95rem;
+}
+
+.portfolio-curator {
+  aspect-ratio: 1;
+  background-image: url('/images/portfolio-curator.webp');
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: 300% 200%;
+  display: block;
+  position: relative;
+  width: clamp(3.75rem, 5vw, 5.25rem);
+}
+
+.curator-guide:hover .portfolio-curator,
+.curator-guide:focus-within .portfolio-curator {
+  animation: curator-talk 720ms steps(1, end) 1;
 }
 
 .contents ul,
@@ -305,7 +459,7 @@ main {
   font-family: var(--mono);
   font-size: 0.95rem;
   text-align: right;
-  transition: transform var(--motion-ui) var(--ease-enter);
+  transition: transform var(--motion-ui) var(--ease-ui);
 }
 
 .project-ledger {
@@ -401,7 +555,7 @@ main {
   text-transform: uppercase;
   transition:
     color var(--motion-fast) var(--ease-ui),
-    transform var(--motion-ui) var(--ease-enter);
+    transform var(--motion-ui) var(--ease-ui);
 }
 
 .page-intro,
@@ -486,7 +640,7 @@ main {
   text-transform: uppercase;
   transition:
     color var(--motion-fast) var(--ease-ui),
-    transform var(--motion-ui) var(--ease-enter);
+    transform var(--motion-ui) var(--ease-ui);
 }
 
 .listing small {
@@ -535,39 +689,6 @@ main {
 .listing-meta > * + * {
   border-left: 1px solid var(--rule);
   padding-left: 0.75rem;
-}
-
-.empty-state {
-  color: var(--muted);
-  font-size: 1rem;
-  margin: 0;
-  padding-block: 2rem;
-}
-
-.archive-statement {
-  background: var(--sand);
-  display: grid;
-  gap: 2rem 4rem;
-  grid-template-columns: minmax(9rem, 0.32fr) minmax(20rem, 1fr);
-  padding: 3.5rem 5vw 7rem;
-}
-
-.archive-statement h2 {
-  color: var(--blue);
-  font-family: var(--display);
-  font-size: 1.2rem;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  line-height: 1;
-  margin: 0;
-  text-transform: uppercase;
-}
-
-.archive-statement p {
-  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
-  line-height: 1.4;
-  margin: 0;
-  max-width: 44rem;
 }
 
 .entry-header h1 {
@@ -684,7 +805,7 @@ main {
   text-transform: uppercase;
   transition:
     color var(--motion-fast) var(--ease-ui),
-    transform var(--motion-ui) var(--ease-enter);
+    transform var(--motion-ui) var(--ease-ui);
 }
 
 .site-footer {
@@ -704,7 +825,7 @@ main {
 
 @media (hover: hover) and (pointer: fine) {
   .contents li a:hover .contents-count {
-    transform: translateX(3px);
+    transform: translateX(2px);
   }
 
   .ledger-list a:hover,
@@ -717,117 +838,92 @@ main {
   .listing li a:hover strong,
   .archive-row:hover span:last-child {
     color: var(--blue);
-    transform: translateX(3px);
+    transform: translateX(2px);
   }
 }
 
-@keyframes reveal-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+.ledger-list a:focus-visible,
+.listing li a:focus-visible,
+.archive-row:focus-visible {
+  background: rgb(0 98 155 / 6%);
+}
+
+.ledger-list a:focus-visible strong,
+.listing li a:focus-visible strong,
+.archive-row:focus-visible span:last-child {
+  color: var(--blue);
+  transform: translateX(2px);
+}
+
+@keyframes curator-talk {
+  0%,
+  100% {
+    background-position: 0 0;
   }
 
-  to {
+  16% {
+    background-position: 50% 0;
+  }
+
+  32% {
+    background-position: 100% 0;
+  }
+
+  48% {
+    background-position: 0 100%;
+  }
+
+  64% {
+    background-position: 50% 100%;
+  }
+
+  80%,
+  99% {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes curator-arrive {
+  0% {
+    background-position: 0 0;
     opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes rule-in {
-  from {
-    transform: scaleX(0);
   }
 
-  to {
-    transform: scaleX(1);
-  }
-}
-
-@keyframes page-out {
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes page-in {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-
-  to {
+  25% {
+    background-position: 50% 0;
     opacity: 1;
-    transform: translateY(0);
   }
-}
 
-.wordmark,
-.site-header nav,
-.home-intro > *,
-.page-intro > *,
-.entry-header > *,
-.project-ledger-title,
-.archive-statement > *,
-.entry-body {
-  animation: reveal-in var(--motion-enter) var(--ease-enter) both;
-}
+  50% {
+    background-position: 100% 100%;
+    opacity: 1;
+  }
 
-.site-header nav,
-.home-intro > :nth-child(1),
-.page-intro > :nth-child(2),
-.entry-header > :nth-child(2) {
-  animation-delay: 70ms;
-}
+  75%,
+  99% {
+    background-position: 0 100%;
+    opacity: 1;
+  }
 
-.home-intro > :nth-child(2),
-.page-intro > :nth-child(3),
-.entry-header > :nth-child(3),
-.archive-statement > :nth-child(2) {
-  animation-delay: 130ms;
-}
-
-.ledger-list li,
-.listing li,
-.archive-row {
-  animation: reveal-in var(--motion-enter) var(--ease-enter) both;
-}
-
-.ledger-list li:nth-child(2),
-.listing li:nth-child(2),
-.archive-row:nth-child(2) {
-  animation-delay: 36ms;
-}
-
-.ledger-list li:nth-child(3),
-.listing li:nth-child(3),
-.archive-row:nth-child(3) {
-  animation-delay: 72ms;
-}
-
-.ledger-list li:nth-child(4),
-.listing li:nth-child(4),
-.archive-row:nth-child(4) {
-  animation-delay: 108ms;
-}
-
-.ledger-list li:nth-child(5),
-.listing li:nth-child(5),
-.archive-row:nth-child(5) {
-  animation-delay: 144ms;
-}
-
-.ledger-list li:nth-child(n + 6),
-.listing li:nth-child(n + 6),
-.archive-row:nth-child(n + 6) {
-  animation-delay: 180ms;
+  100% {
+    background-position: 0 0;
+    opacity: 0;
+  }
 }
 
 ::view-transition-old(root) {
-  animation: page-out 120ms var(--ease-ui) both;
+  animation: none;
+  opacity: 0;
 }
 
 ::view-transition-new(root) {
-  animation: page-in 300ms var(--ease-enter) both;
+  animation: none;
+  opacity: 1;
+}
+
+::view-transition-group(active-nav-indicator) {
+  animation-duration: var(--motion-nav);
+  animation-timing-function: var(--ease-ui);
 }
 
 @media (max-width: 70rem) {
@@ -843,6 +939,29 @@ main {
   .ledger-columns,
   .ledger-list a {
     grid-template-columns: 3rem 5.25rem minmax(9rem, 0.65fr) minmax(18rem, 1.7fr);
+  }
+}
+
+@media (max-width: 54rem) {
+  .home-intro {
+    display: block;
+    min-height: auto;
+    padding: 2.5rem 5vw 3.5rem;
+  }
+
+  .home-overview {
+    margin-bottom: 3rem;
+  }
+
+  .home-overview > h1 {
+    margin-bottom: 1.75rem;
+    max-width: 32rem;
+  }
+
+  .contents {
+    margin-top: 0;
+    max-width: 32rem;
+    right: 0;
   }
 }
 
@@ -916,9 +1035,21 @@ main {
     padding: 2.25rem 1.25rem 3.25rem;
   }
 
-  .home-intro h1 {
+  .home-overview {
     margin-bottom: 3rem;
+  }
+
+  .home-overview > h1 {
+    margin-bottom: 1.75rem;
     max-width: 28rem;
+  }
+
+  .curator-guide {
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+  }
+
+  .curator-guide .portfolio-curator {
+    width: 5.5rem;
   }
 
   .contents {
@@ -952,14 +1083,17 @@ main {
   }
 
   .page-intro,
-  .archive-statement,
   .entry-header {
     display: block;
     padding: 3.5rem 1.25rem 3rem;
   }
 
-  .eyebrow,
-  .archive-statement h2 {
+  .page-intro--guided > .curator-guide,
+  .entry-header--guided > .curator-guide {
+    margin-top: 2rem;
+  }
+
+  .eyebrow {
     margin-bottom: 1.5rem;
   }
 
@@ -1035,11 +1169,27 @@ main {
     font-size: 0.98rem;
   }
 
+  .curator-guide {
+    gap: 0.75rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .curator-guide .portfolio-curator {
+    margin-left: 0.75rem;
+    width: 6rem;
+  }
+
+  .curator-copy::before {
+    height: 0.75rem;
+    left: 3.75rem;
+    top: -0.75rem;
+    width: 1px;
+  }
+
   .home-intro,
   .project-ledger,
   .page-intro,
   .entry-header,
-  .archive-statement,
   .listing,
   .archive-table,
   .entry-body,
@@ -1053,15 +1203,26 @@ main {
   *,
   *::before,
   *::after {
-    animation-delay: 0ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
+    animation: none !important;
     scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
+    transition: none !important;
+  }
+
+  ::view-transition-group(active-nav-indicator),
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-old(active-nav-indicator),
+  ::view-transition-new(active-nav-indicator) {
+    animation: none !important;
   }
 
   ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation: none !important;
+  ::view-transition-old(active-nav-indicator) {
+    opacity: 0;
+  }
+
+  ::view-transition-new(root),
+  ::view-transition-new(active-nav-indicator) {
+    opacity: 1;
   }
 }

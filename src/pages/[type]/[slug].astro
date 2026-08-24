@@ -1,5 +1,6 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
+import CuratorGuide from '../../components/CuratorGuide.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { formatFullDate, formatPartialDate, isoDate } from '../../lib/dates';
 
@@ -23,10 +24,16 @@ const isWriting = entry.data.type === 'writing';
 const eyebrow = isWriting && entry.data.writingKind
   ? `${entry.data.writingKind} writing`
   : entry.data.type;
+const section = {
+  work: { href: '/work/', label: 'Back to Projects' },
+  research: { href: '/research/', label: 'Back to Research' },
+  writing: { href: '/writing/', label: 'Back to Writing' },
+  photography: { href: '/photography/', label: 'Back to Photography' },
+}[entry.data.type];
 ---
 
 <BaseLayout title={entry.data.title} description={entry.data.description}>
-  <header class="entry-header">
+  <header class:list={['entry-header', { 'entry-header--guided': entry.data.curatorNote }]}>
     <p class="eyebrow">{eyebrow}</p>
     <div>
       <h1>{entry.data.title}</h1>
@@ -48,6 +55,13 @@ const eyebrow = isWriting && entry.data.writingKind
         </div>
       )}
     </div>
+    {entry.data.curatorNote && (
+      <CuratorGuide
+        headingId="curator-entry"
+        message={entry.data.curatorNote}
+        links={isWriting ? [section] : []}
+      />
+    )}
   </header>
   <article class:list={['entry-body', { 'academic-entry': entry.data.writingKind === 'academic' }]}>
     <Content />

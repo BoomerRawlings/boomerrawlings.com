@@ -21,13 +21,13 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 const isHome = Astro.url.pathname === '/';
 const navItems = [
   ['Projects', '/work/'],
-  ['Archive', '/archive/'],
+  ['All Work', '/all/'],
   ['About', '/about/'],
 ];
 
 const isCurrent = (href: string) =>
   href === '/work/'
-    ? Astro.url.pathname === '/' || Astro.url.pathname.startsWith('/work/')
+    ? Astro.url.pathname.startsWith('/work/')
     : Astro.url.pathname.startsWith(href);
 ---
 
@@ -52,12 +52,17 @@ const isCurrent = (href: string) =>
     <header class:list={['site-header', { 'site-header--home': isHome }]}>
       <a class="wordmark" href="/" aria-label="Boomer Rawlings, home">
         <span class="wordmark-name">Boomer Rawlings</span>
-        <span class="wordmark-description">Public Archive</span>
+        <span class="wordmark-description">Portfolio</span>
       </a>
       <nav aria-label="Primary navigation">
         <ul>
           {navItems.map(([label, href]) => (
-            <li><a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a></li>
+            <li>
+              <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>
+                {label}
+                {isCurrent(href) && <span class="nav-indicator" aria-hidden="true"></span>}
+              </a>
+            </li>
           ))}
         </ul>
       </nav>

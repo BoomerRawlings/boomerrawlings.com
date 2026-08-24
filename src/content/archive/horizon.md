@@ -3,6 +3,7 @@ title: Horizon
 slug: horizon
 type: work
 description: A local-first desktop workspace for calendar, projects, research, files, capture, and focused work.
+curatorNote: Notice how this is less a collection of separate productivity tools than one local workspace, with plain files as the throughline.
 tags:
   - local-first software
   - research tools

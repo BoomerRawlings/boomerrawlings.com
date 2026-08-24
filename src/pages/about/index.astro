@@ -1,19 +1,21 @@
 ---
+import CuratorGuide from '../../components/CuratorGuide.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="About" description="About Boomer Rawlings and this public archive.">
-  <section class="page-intro">
+<BaseLayout title="About" description="About Boomer Rawlings and this portfolio.">
+  <section class="page-intro page-intro--guided">
     <p class="eyebrow">About</p>
     <h1>Boomer Rawlings</h1>
     <p class="page-deck">
-      Psychology, research, and experimental software. This site is a developing public record of selected projects, ideas, writing, and images.
+      Psychology, research, and experimental software. This site is a developing public portfolio of selected projects, ideas, writing, and images.
     </p>
-  </section>
-  <section class="archive-statement">
-    <h2>Editorial principle</h2>
-    <p>
-      The existence of material in a private archive never implies permission to publish it.
-    </p>
+    <CuratorGuide
+      headingId="curator-about"
+      message="Here’s the quick orientation: a little context, then the work itself. Projects show the systems; Writing shows the voice. Follow whichever side makes you curious."
+      links={[
+        { href: '/writing/', label: 'Read Writing' },
+      ]}
+    />
   </section>
 </BaseLayout>

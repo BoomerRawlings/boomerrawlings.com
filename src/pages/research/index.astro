@@ -7,6 +7,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   <CollectionIndex
     type="research"
     title="Research"
-    introduction="Research notes and projects will appear here as they are prepared for public presentation."
+    eyebrow="Ideas + studies"
+    introduction="Research-related work across projects and writing."
+    guide={{
+      message: 'Two current routes into the research work: Research and Publishing Systems focuses on source-to-document workflows; the attention-bias piece is a student study proposal.',
+      links: [
+        { href: '/work/research-publishing-systems/', label: 'See the workflow' },
+        { href: '/writing/attention-bias-modification-aggression/', label: 'Read the proposal' },
+      ],
+    }}
   />
 </BaseLayout>

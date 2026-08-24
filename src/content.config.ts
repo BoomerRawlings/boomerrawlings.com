@@ -11,6 +11,7 @@ const archive = defineCollection({
       date: z.coerce.date().optional(),
       type: z.enum(['work', 'research', 'writing', 'photography']),
       description: z.string(),
+      curatorNote: z.string().min(1).optional(),
       tags: z.array(z.string()).default([]),
       status: z.enum(['draft', 'published', 'archived']).default('draft'),
       featured: z.boolean().default(false),

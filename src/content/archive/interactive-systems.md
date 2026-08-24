@@ -3,6 +3,7 @@ title: Interactive Systems
 slug: interactive-systems
 type: work
 description: Puzzle and world-building experiments using cryptography, procedural generation, and player-driven discovery.
+curatorNote: The common thread is trust. The worlds may feel uncertain, but progression and generation remain measurable and reproducible.
 tags:
   - games
   - cryptography

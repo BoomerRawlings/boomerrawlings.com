@@ -79,21 +79,62 @@ if (!academicHtml.includes('The study was not conducted')) {
 if (!academicHtml.includes('Editorial limitations note')) {
   failures.push('academic writing page: missing methodological limitations');
 }
+if (!academicHtml.includes('curator-guide--compact') || !academicHtml.includes('Read this as a proposal, not a completed study')) {
+  failures.push('academic writing page: missing authored curator context');
+}
 
 const homeHtml = readFileSync(join(output, 'index.html'), 'utf8');
+const allWorkHtml = readFileSync(join(output, 'all', 'index.html'), 'utf8');
 const workHtml = readFileSync(join(output, 'work', 'index.html'), 'utf8');
-const mediaArchiveHtml = readFileSync(
-  join(output, 'work', 'icloud-media-archive', 'index.html'),
+const mediaLibraryHtml = readFileSync(
+  join(output, 'work', 'organizing-icloud-media', 'index.html'),
   'utf8',
 );
-if (!homeHtml.includes('Archiving 31,550 Photos and Videos')) {
-  failures.push('index.html: missing exact media-archive project title');
+if (!homeHtml.includes('Organizing 31,550 Photos and Videos')) {
+  failures.push('index.html: missing exact media-library project title');
 }
-if (!mediaArchiveHtml.includes('31,550 photos and videos out of iCloud')) {
-  failures.push('media archive page: missing verified project scope');
+if (!mediaLibraryHtml.includes('31,550 photos and videos out of iCloud')) {
+  failures.push('media library page: missing verified project scope');
 }
-if (homeHtml.includes('Personal Archive') || mediaArchiveHtml.includes('Personal Archive')) {
-  failures.push('media archive project: obsolete project name remains');
+if (homeHtml.includes('Personal Archive') || mediaLibraryHtml.includes('Personal Archive')) {
+  failures.push('media library project: obsolete project name remains');
+}
+if (!existsSync(join(output, 'images', 'portfolio-curator.webp'))) {
+  failures.push('index.html: missing portfolio curator image asset');
+}
+if (!homeHtml.includes('class="portfolio-curator"')) {
+  failures.push('index.html: missing portfolio curator interface');
+}
+if (!homeHtml.includes('Welcome—I’ll be your curator') || !homeHtml.includes('There are 6 projects and 9 pieces of writing here')) {
+  failures.push('index.html: portfolio curator is not providing orientation');
+}
+const guidedSections = ['about', 'all', 'photography', 'research', 'work', 'writing'];
+for (const section of guidedSections) {
+  const html = readFileSync(join(output, section, 'index.html'), 'utf8');
+  if (!html.includes('curator-guide--compact') || !html.includes('Your curator')) {
+    failures.push(`${section}/index.html: missing contextual curator guidance`);
+  }
+}
+if (homeHtml.includes('aria-current="page"')) {
+  failures.push('index.html: homepage must not mark Projects as the current page');
+}
+if (allWorkHtml.includes('Undated') || allWorkHtml.includes('Work without a known date')) {
+  failures.push('all/index.html: missing-date language is foregrounded');
+}
+
+const publicHtml = htmlFiles.map((file) => readFileSync(file, 'utf8')).join('\n');
+const obsoletePortfolioFraming = [
+  'Public Archive',
+  'private archive',
+  'this public archive',
+  'Substack archive',
+  'Selected public records',
+  '<h1>Archive</h1>',
+];
+for (const phrase of obsoletePortfolioFraming) {
+  if (publicHtml.includes(phrase)) {
+    failures.push(`public pages: obsolete portfolio framing remains: ${phrase}`);
+  }
 }
 
 const featuredProjects = [
@@ -101,7 +142,7 @@ const featuredProjects = [
   'paperfield',
   'workline',
   'research-publishing-systems',
-  'icloud-media-archive',
+  'organizing-icloud-media',
 ];
 for (const slug of featuredProjects) {
   if (!homeHtml.includes(`href="/work/${slug}/"`)) {
@@ -123,7 +164,7 @@ const workPagePaths = [
   'paperfield',
   'workline',
   'research-publishing-systems',
-  'icloud-media-archive',
+  'organizing-icloud-media',
   'interactive-systems',
 ];
 const workPages = workPagePaths.map((slug) =>
@@ -137,6 +178,9 @@ for (const [index, html] of workPages.entries()) {
 }
 if (workPages.some((html) => html.includes('HorizonOS'))) {
   failures.push('work pages: obsolete HorizonOS name remains');
+}
+if (workPages.some((html) => !html.includes('curator-guide--compact'))) {
+  failures.push('work pages: one or more entries are missing authored curator context');
 }
 
 if (failures.length) throw new Error(failures.join('\n'));

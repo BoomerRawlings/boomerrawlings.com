@@ -7,6 +7,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   <CollectionIndex
     type="photography"
     title="Photography"
-    introduction="A deliberately curated photographic archive will be assembled here."
+    eyebrow="Images"
+    introduction="Image-related projects and visual work."
+    guide={{
+      message: 'The current image-related project follows 31,550 iCloud photos and videos: getting them local, checking them, and giving the collection structure.',
+      links: [
+        { href: '/work/organizing-icloud-media/', label: 'See the media project' },
+      ],
+    }}
   />
 </BaseLayout>

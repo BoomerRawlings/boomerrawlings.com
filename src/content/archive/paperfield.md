@@ -3,6 +3,7 @@ title: Paperfield
 slug: paperfield
 type: work
 description: A local desktop research workspace where papers behave like objects on a spatial desk.
+curatorNote: The central idea is spatial. Papers become objects to arrange, group, and connect instead of rows in a list.
 tags:
   - academic literature
   - research tools

@@ -3,10 +3,14 @@ import CollectionIndex from '../../components/CollectionIndex.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Projects" description="Published project records by Boomer Rawlings.">
+<BaseLayout title="Projects" description="Software projects and experiments by Boomer Rawlings.">
   <CollectionIndex
     type="work"
     title="Projects"
-    introduction="Software, tools, archives, and experiments."
+    eyebrow="Selected work"
+    introduction="Software, research tools, learning systems, and experiments."
+    guide={{
+      message: 'Horizon is the broadest workspace; Paperfield makes research spatial; Workline turns handwritten algebra into feedback. The others move through publishing, media organization, and interactive discovery.',
+    }}
   />
 </BaseLayout>

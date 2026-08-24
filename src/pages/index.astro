@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import CuratorGuide from '../components/CuratorGuide.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const publishedEntries = await getCollection('archive', ({ data }) => data.status === 'published');
@@ -11,7 +12,7 @@ const selectedWork = publishedEntries
       'paperfield',
       'workline',
       'research-publishing-systems',
-      'icloud-media-archive',
+      'organizing-icloud-media',
     ];
     return order.indexOf(a.data.slug) - order.indexOf(b.data.slug);
   });
@@ -25,7 +26,7 @@ const counts = {
 
 const contents = [
   ['Projects', '/work/', counts.work],
-  ['Archive', '/archive/', publishedEntries.length],
+  ['All Work', '/all/', publishedEntries.length],
   ['Research', '/research/', counts.research],
   ['Writing', '/writing/', counts.writing],
   ['Photography', '/photography/', counts.photography],
@@ -34,7 +35,17 @@ const contents = [
 
 <BaseLayout>
   <section class="home-intro">
-    <h1>Projects, research, writing, and photography by Boomer Rawlings.</h1>
+    <div class="home-overview">
+      <h1>Projects, research, writing, and photography by Boomer Rawlings.</h1>
+      <CuratorGuide
+        variant="home"
+        heading="Welcome—I’ll be your curator"
+        message={`There are ${counts.work} projects and ${counts.writing} pieces of writing here. They move through work, papers, handwriting, publishing, personal media, discovery, personal essays, and an academic proposal. Begin with Horizon for the broadest view, or wander through everything by date.`}
+        links={[
+          { href: '/work/horizon/', label: 'Begin with Horizon' },
+        ]}
+      />
+    </div>
 
     <section class="contents" aria-labelledby="contents-heading">
       <div class="contents-heading">
@@ -58,13 +69,13 @@ const contents = [
   <section class="project-ledger" aria-labelledby="projects-heading">
     <div class="project-ledger-title">
       <h2 id="projects-heading">Projects</h2>
-      <p>Selected<br />public<br />records</p>
+      <p>Selected<br />projects</p>
     </div>
     <div class="project-register">
       <div class="ledger-columns" aria-hidden="true">
-        <span>Index</span>
+        <span>No.</span>
         <span>Type</span>
-        <span>Record</span>
+        <span>Project</span>
         <span>Description</span>
       </div>
       <ul class="ledger-list">

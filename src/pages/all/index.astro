@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import CuratorGuide from '../../components/CuratorGuide.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const displayDate = (entry: Awaited<ReturnType<typeof getCollection<'archive'>>>[number]) =>
+  entry.data.publishedDate ?? entry.data.date ?? entry.data.producedDate;
+
+const entries = (await getCollection('archive', ({ data }) => data.status === 'published'))
+  .sort((a, b) => {
+    const firstDate = displayDate(a);
+    const secondDate = displayDate(b);
+    if (!firstDate && !secondDate) return a.data.title.localeCompare(b.data.title);
+    if (!firstDate) return 1;
+    if (!secondDate) return -1;
+    return secondDate.valueOf() - firstDate.valueOf() || a.data.title.localeCompare(b.data.title);
+  });
+---
+
+<BaseLayout title="All Work" description="Projects, research, writing, and photography by Boomer Rawlings, ordered by date.">
+  <section class="page-intro page-intro--guided">
+    <p class="eyebrow">Across disciplines</p>
+    <h1>All Work</h1>
+    <p class="page-deck">Projects, research, writing, and photography in one view.</p>
+    <CuratorGuide
+      headingId="curator-all-work"
+      message={`All ${entries.length} published pieces are gathered in one place. Use this view when breadth matters more than category, then follow any title to its portfolio entry or published source.`}
+    />
+  </section>
+  <section class="archive-table" aria-label="All work">
+    {entries.map((entry) => (
+      <a class="archive-row" href={entry.data.externalUrl ?? '/' + entry.data.type + '/' + entry.data.slug + '/'}>
+        <span>{displayDate(entry)?.getUTCFullYear() ?? '—'}</span>
+        <span>{entry.data.type}</span>
+        <span>{entry.data.title}</span>
+      </a>
+    ))}
+  </section>
+</BaseLayout>

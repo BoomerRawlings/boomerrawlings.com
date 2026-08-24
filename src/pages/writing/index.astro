@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import CuratorGuide from '../../components/CuratorGuide.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { formatFullDate, formatPartialDate, isoDate } from '../../lib/dates';
 
@@ -23,14 +24,18 @@ const groupedEntries = Object.entries(
 });
 ---
 
-<BaseLayout title="Writing" description="Personal and academic writing by Boomer Rawlings, indexed by publication venue.">
-  <section class="page-intro">
-    <p class="eyebrow">Index</p>
+<BaseLayout title="Writing" description="Personal and academic writing by Boomer Rawlings, published here and elsewhere.">
+  <section class="page-intro page-intro--guided">
+    <p class="eyebrow">Personal + academic</p>
     <h1>Writing</h1>
     <div class="page-deck">
-      <p>Personal and academic writing published here and elsewhere. Every record identifies its venue; publication and original production dates are shown separately when known.</p>
-      <a href="https://boomerrawlings.substack.com/archive">Substack archive</a>
+      <p>Personal and academic writing published here and elsewhere. Each piece includes its venue; publication and original production dates are shown separately when known.</p>
+      <a href="https://substack.com/@boomerrawlings/posts">More writing on Substack</a>
     </div>
+    <CuratorGuide
+      headingId="curator-writing"
+      message="Personal pieces and an academic proposal sit together here. Each item names its venue and shows known publication and production dates; Substack is one source, not the whole section."
+    />
   </section>
 
   <div class="listing writing-listing">

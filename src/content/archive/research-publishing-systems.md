@@ -3,6 +3,7 @@ title: Research and Publishing Systems
 slug: research-publishing-systems
 type: work
 description: Research, document-building, and print workflows for turning dense source material into usable handbooks, schedules, and briefings.
+curatorNote: The interesting part is the repeatable sequence—verify sources, structure the material, render the pages, then inspect the actual output.
 tags:
   - research
   - publishing

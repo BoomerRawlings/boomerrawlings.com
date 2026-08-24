@@ -19,7 +19,19 @@
 
 [[redirects]]
   from = "/work/personal-archive/*"
-  to = "/work/icloud-media-archive/:splat"
+  to = "/work/organizing-icloud-media/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/work/icloud-media-archive/*"
+  to = "/work/organizing-icloud-media/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/archive/*"
+  to = "/all/:splat"
   status = 301
   force = true
 
