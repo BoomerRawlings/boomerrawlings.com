@@ -1,4 +1,9 @@
 ---
+import '@fontsource/source-sans-3/latin-400.css';
+import '@fontsource/source-sans-3/latin-400-italic.css';
+import '@fontsource/source-sans-3/latin-600.css';
+import '@fontsource/teko/latin-500.css';
+import '@fontsource/teko/latin-600.css';
 import '../styles/global.css';
 
 interface Props {
@@ -13,6 +18,7 @@ const {
 
 const pageTitle = title === 'Boomer Rawlings' ? title : title + ' — Boomer Rawlings';
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const isHome = Astro.url.pathname === '/';
 const navItems = [
   ['Projects', '/work/'],
   ['Archive', '/archive/'],
@@ -32,7 +38,7 @@ const isCurrent = (href: string) =>
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f8f9f6" />
+    <meta name="theme-color" content="#182b49" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -41,9 +47,9 @@ const isCurrent = (href: string) =>
     <link rel="canonical" href={canonical} />
     <title>{pageTitle}</title>
   </head>
-  <body>
+  <body class:list={{ 'home-page': isHome }}>
     <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header">
+    <header class:list={['site-header', { 'site-header--home': isHome }]}>
       <a class="wordmark" href="/" aria-label="Boomer Rawlings, home">
         <span class="wordmark-name">Boomer Rawlings</span>
         <span class="wordmark-description">Public Archive</span>

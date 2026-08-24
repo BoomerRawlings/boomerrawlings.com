@@ -1,8 +1,8 @@
 # Project state
 
 - Mode: continuation
-- Objective: maintain a restrained, factual public archive with concrete project evidence
-- Status: Writing headings and six consolidated project records are live; the 14-page production release is verified
+- Objective: maintain a restrained, factual public archive with concrete project evidence and a UCSD-inspired visual system
+- Status: Rebrand and motion system pass local desktop/mobile QA; one Git-connected production release is pending
 
 ## Completed
 
@@ -32,6 +32,9 @@
 - Replaced provisional project copy with six consolidated records: Horizon, Paperfield, Workline, Research and Publishing Systems, the iCloud media archive, and Interactive Systems.
 - Removed redundant project status labels from the homepage; five primary projects are featured while Interactive Systems remains in the full Projects index.
 - Released and verified the 14-page consolidated build: internal links, project-copy regressions, desktop/390 px layouts, and live routes pass with no horizontal overflow.
+- Implemented the selected UCSD-inspired homepage direction across the shared shell, indexes, and entries using Teko, Source Sans 3, official-inspired navy/gold/blue/turquoise/paper colors, and a compact archive register.
+- Added CSS-only entrance, hover, focus, underline, and route transitions with a complete reduced-motion fallback; avoided continuous motion, parallax, blur, and client JavaScript.
+- Compared the homepage directly with its selected reference at 1487 × 1058, fixed the split/spacing/footer mismatches, and verified 390 px and 300 px layouts, long writing titles, navigation, focus visibility, and console output.
 
 ## Decisions
 
@@ -52,6 +55,8 @@
 - A production deploy costs credits; batch releases, test locally or in free previews, and skip builds when only project notes change.
 - Consolidate related artifacts into durable project records rather than publishing every prototype or task as a separate project.
 - Public project pages describe observable behavior and outputs; they omit internal progress reporting without claiming capabilities that were not built.
+- Use restrained CSS-only motion: short opacity/transform/color transitions, capped row stagger, stable layout, and full `prefers-reduced-motion` opt-out.
+- Keep the UCSD connection inspirational rather than institutional: no university marks, invented affiliation, or synthetic branding claims.
 
 ## Verified production state
 
@@ -65,9 +70,10 @@
 
 ## Next
 
-1. Rebuild the financial-literacy essay's history, citations, and causal claims before reconsidering publication.
-2. Reframe the death-penalty essay around its actual sources before reconsidering publication.
-3. Review autobiographical personal-writing candidates with Boomer before publishing sensitive disclosure.
+1. Commit and push the verified rebrand once; confirm the Git-triggered Netlify deploy matches the commit.
+2. Rebuild the financial-literacy essay's history, citations, and causal claims before reconsidering publication.
+3. Reframe the death-penalty essay around its actual sources before reconsidering publication.
+4. Review autobiographical personal-writing candidates with Boomer before publishing sensitive disclosure.
 
 ## Risks
 

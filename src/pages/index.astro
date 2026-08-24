@@ -44,8 +44,11 @@ const contents = [
       <ul>
         {contents.map(([label, href, count]) => (
           <li>
-            <a href={href}>{label}</a>
-            <span aria-label={`${count} published`}>{count}</span>
+            <a href={href}>
+              <span>{label}</span>
+              <span class="contents-leader" aria-hidden="true"></span>
+              <span class="contents-count" aria-label={`${count} published`}>{count}</span>
+            </a>
           </li>
         ))}
       </ul>
@@ -53,22 +56,29 @@ const contents = [
   </section>
 
   <section class="project-ledger" aria-labelledby="projects-heading">
-    <h2 id="projects-heading">Projects</h2>
-    <div class="ledger-columns" aria-hidden="true">
-      <span>Type</span>
-      <span>Record</span>
-      <span>Description</span>
+    <div class="project-ledger-title">
+      <h2 id="projects-heading">Projects</h2>
+      <p>Selected<br />public<br />records</p>
     </div>
-    <ul class="ledger-list">
-      {selectedWork.map((entry) => (
-        <li>
-          <a href={'/work/' + entry.data.slug + '/'}>
-            <span class="ledger-type">Project</span>
-            <strong>{entry.data.title}</strong>
-            <span class="ledger-description">{entry.data.description}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
+    <div class="project-register">
+      <div class="ledger-columns" aria-hidden="true">
+        <span>Index</span>
+        <span>Type</span>
+        <span>Record</span>
+        <span>Description</span>
+      </div>
+      <ul class="ledger-list">
+        {selectedWork.map((entry, index) => (
+          <li>
+            <a href={'/work/' + entry.data.slug + '/'}>
+              <span class="ledger-index">{String(index * 10).padStart(2, '0')}</span>
+              <span class="ledger-type">Project</span>
+              <strong>{entry.data.title}</strong>
+              <span class="ledger-description">{entry.data.description}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
   </section>
 </BaseLayout>
