@@ -2,10 +2,11 @@
 title: The Benefit of (the) Doubt
 slug: the-benefit-of-the-doubt
 type: writing
-description: doubt yourself more than you doubt others.
+description: "On the cost of assuming the worst, the inevitability of hurt, and the choice to remain vulnerable anyway."
 status: published
 externalUrl: https://boomerrawlings.substack.com/p/the-benefit-of-the-doubt
 writingKind: personal
+writingForm: Personal essay
 venue: Substack
 publishedDate: 2025-11-01
 ---

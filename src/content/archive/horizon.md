@@ -2,11 +2,11 @@
 title: Horizon
 slug: horizon
 type: work
-description: A local-first desktop workspace for calendar, projects, research, files, capture, and focused work.
+description: A local-first Windows workspace that unifies calendar, projects, research, files, capture, and focus without taking ownership of the underlying Markdown.
 curatorNotes:
-  - "The key choice is plain Markdown: the same workspace can also open as an Obsidian vault."
-  - "Calendar, projects, research, files, capture, and focus share one interface."
-  - "Notice the privacy boundary: it listens only locally and includes no analytics or telemetry service."
+  - "Here’s the unusual part: Horizon adds a full desktop environment without locking the work inside it."
+  - "The workspace stays in plain Markdown and can open in Obsidian, while Horizon adds calendar, projects, research, files, capture, and focus."
+  - "Even the research canvas—with PDFs, search, connections, and spatial arrangement—stays inside a user-selected local workspace with no analytics or telemetry."
 nextExhibit:
   href: /work/paperfield/
   label: Paperfield
@@ -18,10 +18,10 @@ status: published
 featured: true
 ---
 
-Horizon is a Windows desktop workspace whose data stays in plain Markdown and can also be opened as an Obsidian vault.
+Horizon is a Windows desktop workspace built around a user-selected folder of plain Markdown. The same material can open as an Obsidian vault, so the interface adds structure without taking ownership of the work.
 
-It brings calendar, projects, research, files, capture, and focus sessions into one interface. Its research space supports spatial arrangement, search, connections, reading, and local or Zotero-linked PDFs.
+Calendar, project planning, research, file navigation, rapid capture, and focus sessions live in one environment. The research space adds spatial arrangement, search, connections, reading, and local or Zotero-linked PDFs.
 
-The app runs against a user-selected local workspace, listens only on the local computer, and includes no analytics or telemetry service.
+The boundary is intentionally local: Horizon runs against the selected workspace, listens only on the local computer, and includes no analytics or telemetry service.
 
 [Source and Windows release](https://github.com/BoomerRawlings/horizon-os)

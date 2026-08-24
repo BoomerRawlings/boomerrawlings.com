@@ -17,19 +17,19 @@ const entries = (await getCollection('archive', ({ data }) => data.status === 'p
   });
 ---
 
-<BaseLayout title="All Work" description="Projects, research, writing, and photography by Boomer Rawlings, ordered by date.">
+<BaseLayout title="All Work" description="Projects and writing by Boomer Rawlings in one view, with only verified dates shown.">
   <section class="page-intro page-intro--guided">
     <p class="eyebrow">Across disciplines</p>
     <h1>All Work</h1>
-    <p class="page-deck">Projects, research, writing, and photography in one view.</p>
+    <p class="page-deck">All published work in one view. Where a date appears, it is verified.</p>
     <CuratorGuide
       headingId="curator-all-work"
       messages={[
-        `This is the cross-disciplinary route: all ${entries.length} published items share one list.`,
-        'Use the type label to change direction. Only evidenced dates are shown.',
-        'Open a dated piece to see its venue and verified dates.',
+        `I like this view because it puts ${entries.filter(({ data }) => data.type === 'work').length} projects beside ${entries.filter(({ data }) => data.type === 'writing').length} pieces of writing without separating them into different rooms.`,
+        'Look for recurring concerns: attention, evidence, privacy, and the work required to make complex material usable.',
+        'The ABM proposal is a useful bridge between the psychological questions and the systems thinking.',
       ]}
-      nextExhibit={{ href: '/writing/attention-bias-modification-aggression/', label: 'ABM proposal' }}
+      nextExhibit={{ href: '/writing/attention-bias-modification-aggression/', label: 'ABM research proposal' }}
     />
   </section>
   <section class="archive-table" aria-label="All work">

@@ -40,7 +40,7 @@ const archive = defineCollection({
 
       if (entry.type !== 'writing' || entry.status !== 'published') return;
 
-      for (const field of ['writingKind', 'venue', 'publishedDate'] as const) {
+      for (const field of ['writingKind', 'writingForm', 'venue', 'publishedDate'] as const) {
         if (!entry[field]) {
           context.addIssue({
             code: 'custom',

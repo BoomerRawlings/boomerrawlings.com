@@ -4,6 +4,11 @@ import CuratorGuide from '../components/CuratorGuide.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const publishedEntries = await getCollection('archive', ({ data }) => data.status === 'published');
+const researchSlugs = new Set([
+  'research-publishing-systems',
+  'attention-bias-modification-aggression',
+]);
+const photographySlugs = new Set(['organizing-icloud-media']);
 const selectedWork = publishedEntries
   .filter(({ data }) => data.type === 'work' && data.featured)
   .sort((a, b) => {
@@ -19,9 +24,9 @@ const selectedWork = publishedEntries
 
 const counts = {
   work: publishedEntries.filter(({ data }) => data.type === 'work').length,
-  research: publishedEntries.filter(({ data }) => data.type === 'research').length,
+  research: publishedEntries.filter(({ data }) => researchSlugs.has(data.slug)).length,
   writing: publishedEntries.filter(({ data }) => data.type === 'writing').length,
-  photography: publishedEntries.filter(({ data }) => data.type === 'photography').length,
+  photography: publishedEntries.filter(({ data }) => photographySlugs.has(data.slug)).length,
 };
 
 const contents = [
@@ -41,9 +46,9 @@ const contents = [
         variant="home"
         heading="Pip says"
         messages={[
-          `Hi, I’m Pip. I’ll point out useful connections among ${counts.work} projects and ${counts.writing} pieces of writing without getting in your way.`,
-          'Use Contents when you know the medium; use All Work when you want everything mixed together.',
-          'Horizon is the broadest first stop because it connects files, projects, research, and focused work.',
+          `Hi, I’m Pip. I’ll guide you through ${counts.work} projects and ${counts.writing} pieces of writing—from local-first research tools to a supervised migration of 31,550 photos and videos.`,
+          'The thread connecting them is careful handoffs: what software may infer, what a person must confirm, and what a system must prove.',
+          'Horizon is the broadest first stop. It brings those ideas together in one local Markdown workspace.',
         ]}
         nextExhibit={{ href: '/work/horizon/', label: 'Horizon' }}
       />

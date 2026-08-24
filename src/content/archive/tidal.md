@@ -2,10 +2,11 @@
 title: tidal
 slug: tidal
 type: writing
-description: how all things move.
+description: "A lyrical meditation on the ocean’s rhythms, gravitational pull, pressure, and belonging to forces larger than oneself."
 status: published
 externalUrl: https://boomerrawlings.substack.com/p/tidal
 writingKind: personal
+writingForm: Prose poem
 venue: Substack
 publishedDate: 2025-11-03
 ---

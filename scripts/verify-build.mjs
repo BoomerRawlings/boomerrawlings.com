@@ -55,7 +55,7 @@ if (writingHtml.includes('>Category<')) {
 if (!writingHtml.includes('Academic writing') || !writingHtml.includes('Personal writing')) {
   failures.push('writing/index.html: writing section headings are unclear');
 }
-if (!writingHtml.includes('Personal and academic writing published here and elsewhere')) {
+if (!writingHtml.includes('Personal essays and academic work published here and elsewhere')) {
   failures.push('writing/index.html: writing scope is not explicit');
 }
 if (!writingHtml.includes('href="/writing/attention-bias-modification-aggression/"')) {
@@ -84,7 +84,7 @@ if (!academicHtml.includes('The study was not conducted')) {
 if (!academicHtml.includes('Editorial limitations note')) {
   failures.push('academic writing page: missing methodological limitations');
 }
-if (!academicHtml.includes('curator-guide--compact') || !academicHtml.includes('Start with the note at the top')) {
+if (!academicHtml.includes('curator-guide--compact') || !academicHtml.includes('The rigor is in the boundary')) {
   failures.push('academic writing page: missing Pip’s proposal context');
 }
 if (!academicHtml.includes('action="/about/"') || !academicHtml.includes('data-pip-destination="About this portfolio"')) {
@@ -98,11 +98,14 @@ const mediaLibraryHtml = readFileSync(
   join(output, 'work', 'organizing-icloud-media', 'index.html'),
   'utf8',
 );
-if (!homeHtml.includes('Organizing 31,550 Photos and Videos')) {
+if (!homeHtml.includes('Migrating and Indexing 31,550 Photos and Videos')) {
   failures.push('index.html: missing exact media-library project title');
 }
-if (!mediaLibraryHtml.includes('31,550 photos and videos out of iCloud')) {
+if (!mediaLibraryHtml.includes('31,550-item iCloud collection')) {
   failures.push('media library page: missing verified project scope');
+}
+if (!mediaLibraryHtml.includes('No single available tool handled') || !mediaLibraryHtml.includes('every frame of every video')) {
+  failures.push('media library page: export difficulty or frame-level indexing is missing');
 }
 if (homeHtml.includes('Personal Archive') || mediaLibraryHtml.includes('Personal Archive')) {
   failures.push('media library project: obsolete project name remains');
@@ -122,6 +125,15 @@ for (const section of guidedSections) {
   if (!html.includes('curator-guide--compact') || !html.includes('Pip says') || !html.includes('data-pip-steps=')) {
     failures.push(`${section}/index.html: missing Pip’s multi-step guidance`);
   }
+}
+const researchHtml = readFileSync(join(output, 'research', 'index.html'), 'utf8');
+const photographyHtml = readFileSync(join(output, 'photography', 'index.html'), 'utf8');
+if (!researchHtml.includes('href="/work/research-publishing-systems/"')
+  || !researchHtml.includes('href="/writing/attention-bias-modification-aggression/"')) {
+  failures.push('research/index.html: curated research exhibits are missing');
+}
+if (!photographyHtml.includes('href="/work/organizing-icloud-media/"')) {
+  failures.push('photography/index.html: media-library exhibit is missing');
 }
 if (homeHtml.includes('aria-current="page"')) {
   failures.push('index.html: homepage must not mark Projects as the current page');

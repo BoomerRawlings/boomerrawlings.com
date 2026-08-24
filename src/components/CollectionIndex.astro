@@ -7,6 +7,7 @@ interface Props {
   title: string;
   introduction: string;
   eyebrow: string;
+  includeSlugs?: string[];
   guide?: {
     messages: string[];
     nextExhibit: {
@@ -20,10 +21,11 @@ interface Props {
   };
 }
 
-const { type, title, introduction, eyebrow, guide, source } = Astro.props;
+const { type, title, introduction, eyebrow, includeSlugs, guide, source } = Astro.props;
 const entries = (await getCollection('archive', ({ data }) =>
-  data.type === type && data.status === 'published'
+  data.status === 'published' && (includeSlugs ? includeSlugs.includes(data.slug) : data.type === type)
 )).sort((a, b) => {
+  if (includeSlugs) return includeSlugs.indexOf(a.data.slug) - includeSlugs.indexOf(b.data.slug);
   if (!a.data.date && !b.data.date) return a.data.title.localeCompare(b.data.title);
   if (!a.data.date) return 1;
   if (!b.data.date) return -1;

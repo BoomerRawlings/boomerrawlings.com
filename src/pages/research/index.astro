@@ -3,17 +3,18 @@ import CollectionIndex from '../../components/CollectionIndex.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Research" description="Research by Boomer Rawlings.">
+<BaseLayout title="Research" description="Research systems and academic work by Boomer Rawlings, from behavioral-study design to evidence-based publishing.">
   <CollectionIndex
     type="research"
+    includeSlugs={['research-publishing-systems', 'attention-bias-modification-aggression']}
     title="Research"
     eyebrow="Ideas + studies"
-    introduction="Research-related work across projects and writing."
+    introduction="Research appears here as both subject matter and infrastructure: a behavioral-study proposal and systems for turning checked sources into usable documents."
     guide={{
       messages: [
-        'Research appears here in two forms: a source-to-document system and a proposed study.',
-        'In one, evidence is checked before output; in the other, assumptions and limitations remain visible.',
-        'Start with the workflow, then compare it with the proposal.',
+        'Two exhibits approach rigor from opposite directions: one designs a randomized study; the other builds the machinery behind dependable documents.',
+        'What connects them is a standard—sources, assumptions, and limitations remain inspectable.',
+        'Start with the publishing systems to see that standard become a repeatable practice.',
       ],
       nextExhibit: { href: '/work/research-publishing-systems/', label: 'Research and Publishing Systems' },
     }}

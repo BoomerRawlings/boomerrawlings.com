@@ -2,14 +2,14 @@
 title: Research and Publishing Systems
 slug: research-publishing-systems
 type: work
-description: Research, document-building, and print workflows for turning dense source material into usable handbooks, schedules, and briefings.
+description: A repeatable source-to-print practice for turning dense evidence into usable handbooks, schedules, briefings, and document tools.
 curatorNotes:
-  - "The product here is a repeatable sequence, not one document."
-  - "Sources are verified, material is structured, pages are rendered, and the actual output is inspected."
-  - "The examples range from a transfer handbook and conference schedule to reusable print tools."
+  - "Don’t mistake these for a stack of PDFs. The project is the repeatable production system behind them."
+  - "Each selected output moves through source checking, information structure, rendering, and page-level inspection."
+  - "That discipline has produced a UCSD transfer handbook, a reconciled conference schedule, and reusable print tools."
 nextExhibit:
   href: /work/organizing-icloud-media/
-  label: Organizing 31,550 Photos and Videos
+  label: Migrating and Indexing 31,550 Photos and Videos
 tags:
   - research
   - publishing
@@ -18,13 +18,13 @@ status: published
 featured: true
 ---
 
-These systems turn source-heavy material into usable documents: sources are checked, content is structured, layouts and diagrams are built, and every page is reviewed after rendering.
+A polished document can still be wrong. These systems treat source checking, content structure, layout, rendering, and page-level inspection as one production chain.
 
 ## Selected applications
 
 - A binder-ready UCSD Psychology transfer handbook assembled from official program, course, and policy sources.
 - A compact, duplex-ready FLUX conference schedule reconciled against the source program.
-- The reusable `printable` and `bw-printable` Codex skills, which preserve document content while adding navigation, outside-edge folios, and grayscale-resilient cues.
+- The reusable `printable` and `bw-printable` Codex skills, designed to preserve document content while adding navigation, outside-edge folios, and cues that remain legible in grayscale.
 
 ## Public tools
 

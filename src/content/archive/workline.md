@@ -2,11 +2,11 @@
 title: Workline
 slug: workline
 type: work
-description: A handwriting-to-feedback workflow for linear equations that separates visual transcription from deterministic checking.
+description: A handwriting-to-feedback system that uses vision for transcription, then reserves mathematical judgment for a deterministic checker.
 curatorNotes:
-  - "The vision model has a narrow job: transcribe ordered steps and expose uncertainty."
-  - "The user confirms that text before the deterministic math engine judges anything."
-  - "Feedback returns to the first invalid transformation, creating a precise place to retry."
+  - "The important split is architectural: the vision model may be uncertain, but it never grades its own transcription."
+  - "The learner resolves ambiguous handwriting first. Only confirmed text reaches the deterministic math engine."
+  - "The checker returns to the first transformation it cannot validate, creating a precise place to repair and continue."
 nextExhibit:
   href: /work/research-publishing-systems/
   label: Research and Publishing Systems
@@ -18,8 +18,8 @@ status: published
 featured: true
 ---
 
-Workline begins with a photograph of handwritten linear-equation work. A vision model converts the image into ordered steps and marks uncertain text for review.
+Workline turns a photograph of handwritten linear-equation work into targeted feedback without asking one probabilistic model to both read and judge the page.
 
-The user confirms or edits that transcription before it reaches the math engine. Only confirmed text is checked, and feedback returns to the earliest invalid transformation so the problem can be retried from that point.
+A vision model transcribes the work into ordered steps and marks uncertain text. The learner confirms or edits that transcription before it enters the deterministic math engine. Only confirmed text is evaluated.
 
-The focused workflow grew from a broader paper-first practice system built around diagnosis, repair sets, and later review.
+The checker returns to the first transformation it cannot validate, giving the learner an exact point from which to revise and retry. This focused pipeline grew from a broader paper-first practice system built around diagnosis, repair sets, and later review.
