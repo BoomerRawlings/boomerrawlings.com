@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: make Pip a persistent, factual guide through the public portfolio without turning the site into a chat interface
-- Status: Pip’s guided tour is implemented and locally verified; production remains on commit `d0c943e`
+- Status: Pip’s guided tour is live in production from commit `4f4be35`
 
 ## Completed
 
@@ -22,6 +22,7 @@
 - Compared the current production homepage and local build at the same browser viewport, fixed destination, tour-loop, audio-failure, and Back/Forward mute-state issues, checked the longest destination label, and verified the final trail with no browser errors.
 - Verified the local 14-page build, metadata, local links, writing dates/groups, project regressions, sitemap route, page copy, desktop visuals, navigation arrival state, and the revised project route.
 - Verified Netlify’s ready Git deploy matches `d0c943e`; the live homepage, About, All Work, Writing, Horizon, renamed media project, curator asset, and three legacy redirects pass.
+- Verified Netlify’s ready production deploy matches `4f4be35`; the live homepage and Pip script return 200, the guide and sound/persistence code are present, CSP permits only self-hosted scripts, and the ABM tour continues to About.
 
 ## Decisions
 
@@ -46,9 +47,8 @@
 
 ## Next
 
-1. Gather feedback on Pip’s voice and sound in the open local preview.
-2. If approved, commit and push this source batch once so Netlify performs one production build.
-3. Add future portfolio material only after source, privacy, and factual review.
+1. Gather feedback on Pip’s live voice, sound, and route sequence.
+2. Add future portfolio material only after source, privacy, and factual review.
 
 ## Risks
 
