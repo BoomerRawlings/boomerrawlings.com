@@ -31,6 +31,11 @@ for (const file of htmlFiles) {
     const target = href.endsWith('/') ? join(output, href, 'index.html') : join(output, href);
     if (!existsSync(target)) failures.push(label + ': broken local link ' + href);
   }
+
+  for (const [, action] of html.matchAll(/action="(\/[^"#?]*)"/g)) {
+    const target = action.endsWith('/') ? join(output, action, 'index.html') : join(output, action);
+    if (!existsSync(target)) failures.push(label + ': broken local form action ' + action);
+  }
 }
 
 const writingHtml = readFileSync(join(output, 'writing', 'index.html'), 'utf8');
@@ -79,8 +84,11 @@ if (!academicHtml.includes('The study was not conducted')) {
 if (!academicHtml.includes('Editorial limitations note')) {
   failures.push('academic writing page: missing methodological limitations');
 }
-if (!academicHtml.includes('curator-guide--compact') || !academicHtml.includes('Read this as a proposal, not a completed study')) {
-  failures.push('academic writing page: missing authored curator context');
+if (!academicHtml.includes('curator-guide--compact') || !academicHtml.includes('Start with the note at the top')) {
+  failures.push('academic writing page: missing Pip’s proposal context');
+}
+if (!academicHtml.includes('action="/about/"') || !academicHtml.includes('data-pip-destination="About this portfolio"')) {
+  failures.push('academic writing page: Pip’s trail does not continue beyond the Writing/ABM pair');
 }
 
 const homeHtml = readFileSync(join(output, 'index.html'), 'utf8');
@@ -105,14 +113,14 @@ if (!existsSync(join(output, 'images', 'portfolio-curator.webp'))) {
 if (!homeHtml.includes('class="portfolio-curator"')) {
   failures.push('index.html: missing portfolio curator interface');
 }
-if (!homeHtml.includes('Welcome—I’ll be your curator') || !homeHtml.includes('There are 6 projects and 9 pieces of writing here')) {
-  failures.push('index.html: portfolio curator is not providing orientation');
+if (!homeHtml.includes('Pip says') || !homeHtml.includes('Hi, I’m Pip') || !homeHtml.includes('6 projects and 9 pieces of writing')) {
+  failures.push('index.html: Pip is not providing named orientation');
 }
 const guidedSections = ['about', 'all', 'photography', 'research', 'work', 'writing'];
 for (const section of guidedSections) {
   const html = readFileSync(join(output, section, 'index.html'), 'utf8');
-  if (!html.includes('curator-guide--compact') || !html.includes('Your curator')) {
-    failures.push(`${section}/index.html: missing contextual curator guidance`);
+  if (!html.includes('curator-guide--compact') || !html.includes('Pip says') || !html.includes('data-pip-steps=')) {
+    failures.push(`${section}/index.html: missing Pip’s multi-step guidance`);
   }
 }
 if (homeHtml.includes('aria-current="page"')) {
@@ -179,8 +187,47 @@ for (const [index, html] of workPages.entries()) {
 if (workPages.some((html) => html.includes('HorizonOS'))) {
   failures.push('work pages: obsolete HorizonOS name remains');
 }
-if (workPages.some((html) => !html.includes('curator-guide--compact'))) {
-  failures.push('work pages: one or more entries are missing authored curator context');
+if (workPages.some((html) => !html.includes('curator-guide--compact') || !html.includes('Pip says'))) {
+  failures.push('work pages: one or more entries are missing Pip’s authored context');
+}
+
+for (const file of htmlFiles) {
+  const html = readFileSync(file, 'utf8');
+  const label = relative(output, file);
+  if (!html.includes('data-pip-guide')) failures.push(`${label}: missing Pip guide`);
+  if (!html.includes('data-pip-progress') || !html.includes('data-pip-sound')) {
+    failures.push(`${label}: missing Pip progress or sound control`);
+  }
+  if (!html.includes('data-pip-destination=')) failures.push(`${label}: missing Pip destination`);
+  if (!html.includes('<script type="module" src="/scripts/pip.js"></script>')) {
+    failures.push(`${label}: Pip interaction script is not same-origin and external`);
+  }
+}
+
+const pipScriptPath = join(output, 'scripts', 'pip.js');
+if (!existsSync(pipScriptPath)) {
+  failures.push('Pip interaction script is missing from the build');
+} else {
+  const pipScript = readFileSync(pipScriptPath, 'utf8');
+  for (const behavior of ['AudioContext', 'sessionStorage', 'localStorage', 'pageshow', 'is-speaking', 'window.location.assign']) {
+    if (!pipScript.includes(behavior)) failures.push(`Pip interaction script: missing ${behavior}`);
+  }
+}
+
+const builtCss = files
+  .filter((file) => extname(file) === '.css')
+  .map((file) => readFileSync(file, 'utf8'))
+  .join('\n');
+if (!builtCss.includes('view-transition-name:pip-curator')) {
+  failures.push('Pip does not persist visually between guided pages');
+}
+if (!builtCss.includes('@media (prefers-reduced-motion:reduce)') && !builtCss.includes('@media(prefers-reduced-motion:reduce)')) {
+  failures.push('Pip motion does not respect reduced-motion preferences');
+}
+
+const netlifyConfig = readFileSync('netlify.toml', 'utf8');
+if (!netlifyConfig.includes("script-src 'self'")) {
+  failures.push('Netlify CSP does not allow the same-origin Pip script');
 }
 
 if (failures.length) throw new Error(failures.join('\n'));

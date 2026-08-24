@@ -3,7 +3,13 @@ title: Paperfield
 slug: paperfield
 type: work
 description: A local desktop research workspace where papers behave like objects on a spatial desk.
-curatorNote: The central idea is spatial. Papers become objects to arrange, group, and connect instead of rows in a list.
+curatorNotes:
+  - "The desk is the central idea: papers have position and connections instead of behaving only like list rows."
+  - "DOI import can retrieve Crossref metadata and an available open copy from Unpaywall."
+  - "The workspace remains local and offline-capable; optional Zotero access is read-only."
+nextExhibit:
+  href: /work/workline/
+  label: Workline
 tags:
   - academic literature
   - research tools

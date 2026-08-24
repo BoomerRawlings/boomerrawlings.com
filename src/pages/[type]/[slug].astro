@@ -24,16 +24,10 @@ const isWriting = entry.data.type === 'writing';
 const eyebrow = isWriting && entry.data.writingKind
   ? `${entry.data.writingKind} writing`
   : entry.data.type;
-const section = {
-  work: { href: '/work/', label: 'Back to Projects' },
-  research: { href: '/research/', label: 'Back to Research' },
-  writing: { href: '/writing/', label: 'Back to Writing' },
-  photography: { href: '/photography/', label: 'Back to Photography' },
-}[entry.data.type];
 ---
 
 <BaseLayout title={entry.data.title} description={entry.data.description}>
-  <header class:list={['entry-header', { 'entry-header--guided': entry.data.curatorNote }]}>
+  <header class:list={['entry-header', { 'entry-header--guided': entry.data.curatorNotes }]}>
     <p class="eyebrow">{eyebrow}</p>
     <div>
       <h1>{entry.data.title}</h1>
@@ -55,11 +49,11 @@ const section = {
         </div>
       )}
     </div>
-    {entry.data.curatorNote && (
+    {entry.data.curatorNotes && entry.data.nextExhibit && (
       <CuratorGuide
         headingId="curator-entry"
-        message={entry.data.curatorNote}
-        links={isWriting ? [section] : []}
+        messages={entry.data.curatorNotes}
+        nextExhibit={entry.data.nextExhibit}
       />
     )}
   </header>

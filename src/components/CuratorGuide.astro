@@ -7,32 +7,74 @@ interface GuideLink {
 interface Props {
   heading?: string;
   headingId?: string;
-  links?: GuideLink[];
-  message: string;
+  messages: string[];
+  nextExhibit: GuideLink;
   variant?: 'home' | 'compact';
 }
 
 const {
-  heading = 'Your curator',
-  headingId = 'curator-heading',
-  links = [],
-  message,
+  heading = 'Pip says',
+  headingId = 'pip-heading',
+  messages,
+  nextExhibit,
   variant = 'compact',
 } = Astro.props;
+
+if (messages.length === 0) {
+  throw new Error('CuratorGuide requires at least one message.');
+}
+
+const messageId = `${headingId}-message`;
 ---
 
 <aside
   class:list={['curator-guide', `curator-guide--${variant}`]}
   aria-labelledby={headingId}
+  data-pip-guide
+  data-pip-key={Astro.url.pathname}
+  data-pip-steps={JSON.stringify(messages)}
 >
   <span class="portfolio-curator" aria-hidden="true"></span>
   <div class="curator-copy">
-    <h2 id={headingId}>{heading}</h2>
-    <p>{message}</p>
-    {links.length > 0 && (
-      <p class="curator-links">
-        {links.map((link) => <a href={link.href}>{link.label}</a>)}
+    <div class="curator-heading-row">
+      <h2 id={headingId}>{heading}</h2>
+      <button
+        class="pip-sound-toggle"
+        type="button"
+        aria-label="Turn Pip’s sound off"
+        aria-pressed="true"
+        data-pip-sound
+        hidden
+      >
+        Sound on
+      </button>
+    </div>
+    <p id={messageId} class="curator-message" role="status" aria-live="polite" aria-atomic="true">
+      <span class="sr-only">Pip says: </span>
+      <span data-pip-message>{messages[0]}</span>
+    </p>
+    <form
+      class="curator-controls"
+      action={nextExhibit.href}
+      method="get"
+      data-pip-form
+      data-pip-destination={nextExhibit.label}
+    >
+      <p class="curator-progress" data-pip-progress hidden>
+        <span aria-hidden="true"><span data-pip-current>01</span> / {String(messages.length).padStart(2, '0')}</span>
+        <span class="sr-only" data-pip-progress-label>Step 1 of {messages.length}</span>
       </p>
-    )}
+      <button
+        class="curator-next"
+        type="submit"
+        aria-controls={messageId}
+        aria-label={`Continue to ${nextExhibit.label}`}
+      >
+        <span data-pip-next-label>Next</span>
+        <span aria-hidden="true">→</span>
+      </button>
+    </form>
   </div>
 </aside>
+
+<script is:inline type="module" src="/scripts/pip.js"></script>

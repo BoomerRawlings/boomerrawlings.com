@@ -39,11 +39,13 @@ const contents = [
       <h1>Projects, research, writing, and photography by Boomer Rawlings.</h1>
       <CuratorGuide
         variant="home"
-        heading="Welcome—I’ll be your curator"
-        message={`There are ${counts.work} projects and ${counts.writing} pieces of writing here. They move through work, papers, handwriting, publishing, personal media, discovery, personal essays, and an academic proposal. Begin with Horizon for the broadest view, or wander through everything by date.`}
-        links={[
-          { href: '/work/horizon/', label: 'Begin with Horizon' },
+        heading="Pip says"
+        messages={[
+          `Hi, I’m Pip. I’ll point out useful connections among ${counts.work} projects and ${counts.writing} pieces of writing without getting in your way.`,
+          'Use Contents when you know the medium; use All Work when you want everything mixed together.',
+          'Horizon is the broadest first stop because it connects files, projects, research, and focused work.',
         ]}
+        nextExhibit={{ href: '/work/horizon/', label: 'Horizon' }}
       />
     </div>
 

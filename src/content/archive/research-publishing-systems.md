@@ -3,7 +3,13 @@ title: Research and Publishing Systems
 slug: research-publishing-systems
 type: work
 description: Research, document-building, and print workflows for turning dense source material into usable handbooks, schedules, and briefings.
-curatorNote: The interesting part is the repeatable sequence—verify sources, structure the material, render the pages, then inspect the actual output.
+curatorNotes:
+  - "The product here is a repeatable sequence, not one document."
+  - "Sources are verified, material is structured, pages are rendered, and the actual output is inspected."
+  - "The examples range from a transfer handbook and conference schedule to reusable print tools."
+nextExhibit:
+  href: /work/organizing-icloud-media/
+  label: Organizing 31,550 Photos and Videos
 tags:
   - research
   - publishing

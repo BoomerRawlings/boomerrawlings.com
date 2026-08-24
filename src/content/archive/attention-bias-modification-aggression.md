@@ -3,7 +3,13 @@ title: "The Effects of Attention Bias Modification on Aggression in Justice-Impa
 slug: attention-bias-modification-aggression
 type: writing
 description: "A student research proposal for testing whether attention-bias modification could reduce hostile attention and aggression among justice-impacted young adults."
-curatorNote: "Read this as a proposal, not a completed study: its value is in the question, planned design, and visible limitations."
+curatorNotes:
+  - "Start with the note at the top: this is a student proposal produced in May 2026, not a conducted study."
+  - "It asks whether attention-bias modification might reduce hostile attention bias and aggression in justice-impacted young adults."
+  - "The limitations note identifies what would require further specification before implementation."
+nextExhibit:
+  href: /about/
+  label: About this portfolio
 tags:
   - psychology
   - justice-impacted populations

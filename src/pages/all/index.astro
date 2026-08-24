@@ -24,7 +24,12 @@ const entries = (await getCollection('archive', ({ data }) => data.status === 'p
     <p class="page-deck">Projects, research, writing, and photography in one view.</p>
     <CuratorGuide
       headingId="curator-all-work"
-      message={`All ${entries.length} published pieces are gathered in one place. Use this view when breadth matters more than category, then follow any title to its portfolio entry or published source.`}
+      messages={[
+        `This is the cross-disciplinary route: all ${entries.length} published items share one list.`,
+        'Use the type label to change direction. Only evidenced dates are shown.',
+        'Open a dated piece to see its venue and verified dates.',
+      ]}
+      nextExhibit={{ href: '/writing/attention-bias-modification-aggression/', label: 'ABM proposal' }}
     />
   </section>
   <section class="archive-table" aria-label="All work">

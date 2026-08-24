@@ -3,7 +3,13 @@ title: Workline
 slug: workline
 type: work
 description: A handwriting-to-feedback workflow for linear equations that separates visual transcription from deterministic checking.
-curatorNote: Watch the handoff between AI and deterministic checking—the user confirms the transcription before any math judgment is made.
+curatorNotes:
+  - "The vision model has a narrow job: transcribe ordered steps and expose uncertainty."
+  - "The user confirms that text before the deterministic math engine judges anything."
+  - "Feedback returns to the first invalid transformation, creating a precise place to retry."
+nextExhibit:
+  href: /work/research-publishing-systems/
+  label: Research and Publishing Systems
 tags:
   - learning tools
   - computer vision

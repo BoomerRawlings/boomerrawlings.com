@@ -10,7 +10,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     eyebrow="Selected work"
     introduction="Software, research tools, learning systems, and experiments."
     guide={{
-      message: 'Horizon is the broadest workspace; Paperfield makes research spatial; Workline turns handwritten algebra into feedback. The others move through publishing, media organization, and interactive discovery.',
+      messages: [
+        'A recurring concern here is control: local data, visible handoffs, checked sources, and reproducible state.',
+        'Horizon, Paperfield, and Workline focus on interfaces; the others extend that care to documents, media, and generated worlds.',
+        'Horizon is the widest view, so I’d begin there.',
+      ],
+      nextExhibit: { href: '/work/horizon/', label: 'Horizon' },
     }}
   />
 </BaseLayout>

@@ -3,7 +3,13 @@ title: Organizing 31,550 Photos and Videos
 slug: organizing-icloud-media
 type: work
 description: A local workflow for downloading, checking, sorting, and structuring 31,550 iCloud photos and videos.
-curatorNote: This is controlled movement rather than a folder dump—staged batches, checks, logs, and a clear separation between originals and derived observations.
+curatorNotes:
+  - "The scale matters—31,550 photos and videos—but the control system is the real subject."
+  - "Staged batches, checks, and promotion logs move the library without changing the cloud source or originals."
+  - "Searchable observations remain separate, with references leading back to source media."
+nextExhibit:
+  href: /work/interactive-systems/
+  label: Interactive Systems
 tags:
   - media organization
   - media preservation

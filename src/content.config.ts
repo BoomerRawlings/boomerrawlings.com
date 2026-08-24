@@ -11,7 +11,11 @@ const archive = defineCollection({
       date: z.coerce.date().optional(),
       type: z.enum(['work', 'research', 'writing', 'photography']),
       description: z.string(),
-      curatorNote: z.string().min(1).optional(),
+      curatorNotes: z.array(z.string().min(1)).min(2).max(4).optional(),
+      nextExhibit: z.object({
+        href: z.string().regex(/^\/(?!\/)/),
+        label: z.string().min(1),
+      }).optional(),
       tags: z.array(z.string()).default([]),
       status: z.enum(['draft', 'published', 'archived']).default('draft'),
       featured: z.boolean().default(false),
@@ -26,6 +30,14 @@ const archive = defineCollection({
         .optional(),
     })
     .superRefine((entry, context) => {
+      if (Boolean(entry.curatorNotes) !== Boolean(entry.nextExhibit)) {
+        context.addIssue({
+          code: 'custom',
+          path: ['curatorNotes'],
+          message: 'Curator notes and their next exhibit must be defined together.',
+        });
+      }
+
       if (entry.type !== 'writing' || entry.status !== 'published') return;
 
       for (const field of ['writingKind', 'venue', 'publishedDate'] as const) {

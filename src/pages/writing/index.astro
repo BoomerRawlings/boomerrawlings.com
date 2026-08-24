@@ -34,7 +34,12 @@ const groupedEntries = Object.entries(
     </div>
     <CuratorGuide
       headingId="curator-writing"
-      message="Personal pieces and an academic proposal sit together here. Each item names its venue and shows known publication and production dates; Substack is one source, not the whole section."
+      messages={[
+        'Read the group heading first: academic and personal pieces use different forms.',
+        'Venue and separate dates explain where a piece lives and when it was produced or published.',
+        'The proposal is the fullest text hosted here; the personal pieces continue to their published venues.',
+      ]}
+      nextExhibit={{ href: '/writing/attention-bias-modification-aggression/', label: 'ABM proposal' }}
     />
   </section>
 

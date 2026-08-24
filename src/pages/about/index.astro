@@ -12,10 +12,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </p>
     <CuratorGuide
       headingId="curator-about"
-      message="Here’s the quick orientation: a little context, then the work itself. Projects show the systems; Writing shows the voice. Follow whichever side makes you curious."
-      links={[
-        { href: '/writing/', label: 'Read Writing' },
+      messages={[
+        'This is the shortest route to context: psychology, research, and experimental software.',
+        'Projects show how those interests become systems; Writing shows the questions and voice behind them.',
+        'Horizon offers the broadest first look at the systems side.',
       ]}
+      nextExhibit={{ href: '/work/horizon/', label: 'Horizon' }}
     />
   </section>
 </BaseLayout>

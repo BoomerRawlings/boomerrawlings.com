@@ -3,7 +3,13 @@ title: Horizon
 slug: horizon
 type: work
 description: A local-first desktop workspace for calendar, projects, research, files, capture, and focused work.
-curatorNote: Notice how this is less a collection of separate productivity tools than one local workspace, with plain files as the throughline.
+curatorNotes:
+  - "The key choice is plain Markdown: the same workspace can also open as an Obsidian vault."
+  - "Calendar, projects, research, files, capture, and focus share one interface."
+  - "Notice the privacy boundary: it listens only locally and includes no analytics or telemetry service."
+nextExhibit:
+  href: /work/paperfield/
+  label: Paperfield
 tags:
   - local-first software
   - research tools

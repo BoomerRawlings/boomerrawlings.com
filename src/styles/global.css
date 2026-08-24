@@ -28,6 +28,16 @@
   box-sizing: border-box;
 }
 
+.sr-only {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
 html {
   background: var(--navy);
   color: var(--ink);
@@ -284,6 +294,9 @@ main {
   min-width: 0;
   padding: 1rem 1.1rem 1.05rem;
   position: relative;
+  transition:
+    border-color var(--motion-ui) var(--ease-ui),
+    box-shadow var(--motion-ui) var(--ease-ui);
 }
 
 .curator-copy::before {
@@ -296,6 +309,14 @@ main {
   width: clamp(0.9rem, 2vw, 1.35rem);
 }
 
+.curator-heading-row {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+}
+
 .curator-copy h2 {
   color: var(--yellow);
   font-family: var(--display);
@@ -303,7 +324,7 @@ main {
   font-weight: 600;
   letter-spacing: 0.09em;
   line-height: 1;
-  margin: 0 0 0.65rem;
+  margin: 0;
   text-transform: uppercase;
 }
 
@@ -313,26 +334,131 @@ main {
   margin: 0;
 }
 
-.curator-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 1.15rem;
-  margin-top: 0.8rem !important;
+.curator-message {
+  min-block-size: 4.5em;
 }
 
-.curator-links a {
+.pip-sound-toggle {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 0;
   color: var(--turquoise);
-  font-family: var(--display);
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.22em;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  gap: 0.4rem;
+  letter-spacing: 0.055em;
+  min-height: 2rem;
+  padding: 0.25rem 0;
   text-transform: uppercase;
 }
 
-.curator-links a:hover {
+.pip-sound-toggle::before {
+  background: currentColor;
+  border-radius: 50%;
+  box-shadow: 0 0 0.45rem currentColor;
+  content: '';
+  height: 0.38rem;
+  opacity: 0.9;
+  width: 0.38rem;
+}
+
+.pip-sound-toggle[aria-pressed='false'] {
+  color: rgb(255 253 248 / 58%);
+}
+
+.pip-sound-toggle[aria-pressed='false']::before {
+  box-shadow: none;
+  opacity: 0.55;
+}
+
+.pip-sound-toggle[hidden],
+.curator-progress[hidden] {
+  display: none;
+}
+
+.pip-sound-toggle:focus-visible,
+.curator-next:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 3px;
+}
+
+.curator-controls {
+  align-items: center;
+  border-top: 1px solid rgb(24 205 213 / 24%);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+}
+
+.curator-progress {
+  color: rgb(255 253 248 / 62%);
+  font-family: var(--mono);
+  font-size: 0.68rem !important;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.curator-next {
+  align-items: center;
+  appearance: none;
+  background: rgb(0 198 215 / 9%);
+  border: 1px solid rgb(0 198 215 / 52%);
   color: var(--yellow);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 600;
+  gap: 0.75rem;
+  justify-content: space-between;
+  letter-spacing: 0.055em;
+  line-height: 1;
+  min-height: 2.45rem;
+  padding: 0.5rem 0.7rem 0.42rem;
+  text-align: left;
+  text-transform: uppercase;
+  transition:
+    background-color var(--motion-fast) var(--ease-ui),
+    border-color var(--motion-fast) var(--ease-ui),
+    color var(--motion-fast) var(--ease-ui),
+    transform var(--motion-fast) var(--ease-ui);
+}
+
+.curator-next:hover {
+  background: var(--turquoise);
+  border-color: var(--turquoise);
+  color: var(--navy);
+}
+
+.curator-next:active {
+  transform: translateY(1px);
+}
+
+.curator-guide.is-speaking .curator-copy {
+  animation: pip-panel-response 720ms var(--ease-ui) 1;
+}
+
+.curator-guide.is-speaking .curator-message {
+  animation: pip-message-in 260ms var(--ease-ui) 1;
+}
+
+.curator-guide.is-speaking .portfolio-curator {
+  animation: curator-talk 720ms steps(1, end) 1;
+}
+
+.curator-next span[aria-hidden='true'] {
+  color: var(--turquoise);
+  transition: color var(--motion-fast) var(--ease-ui);
+}
+
+.curator-next:hover span[aria-hidden='true'] {
+  color: var(--navy);
 }
 
 .page-intro--guided .eyebrow,
@@ -364,7 +490,7 @@ main {
 
 .curator-guide--compact .curator-copy h2 {
   font-size: 1rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
 }
 
 .curator-guide--compact .curator-copy p {
@@ -409,12 +535,8 @@ main {
   background-size: 300% 200%;
   display: block;
   position: relative;
+  view-transition-name: pip-curator;
   width: clamp(3.75rem, 5vw, 5.25rem);
-}
-
-.curator-guide:hover .portfolio-curator,
-.curator-guide:focus-within .portfolio-curator {
-  animation: curator-talk 720ms steps(1, end) 1;
 }
 
 .contents ul,
@@ -911,6 +1033,33 @@ main {
   }
 }
 
+@keyframes pip-panel-response {
+  0%,
+  100% {
+    border-color: rgb(24 205 213 / 38%);
+    box-shadow: inset 0 0 1.5rem rgb(24 205 213 / 4%);
+  }
+
+  32% {
+    border-color: rgb(24 205 213 / 82%);
+    box-shadow:
+      inset 0 0 2rem rgb(24 205 213 / 11%),
+      0 0 1rem rgb(24 205 213 / 8%);
+  }
+}
+
+@keyframes pip-message-in {
+  from {
+    opacity: 0.55;
+    transform: translateY(2px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 ::view-transition-old(root) {
   animation: none;
   opacity: 0;
@@ -924,6 +1073,12 @@ main {
 ::view-transition-group(active-nav-indicator) {
   animation-duration: var(--motion-nav);
   animation-timing-function: var(--ease-ui);
+}
+
+::view-transition-group(pip-curator) {
+  animation-duration: 320ms;
+  animation-timing-function: var(--ease-ui);
+  z-index: 3;
 }
 
 @media (max-width: 70rem) {
@@ -1179,6 +1334,15 @@ main {
     width: 6rem;
   }
 
+  .curator-controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .curator-next {
+    width: 100%;
+  }
+
   .curator-copy::before {
     height: 0.75rem;
     left: 3.75rem;
@@ -1209,20 +1373,25 @@ main {
   }
 
   ::view-transition-group(active-nav-indicator),
+  ::view-transition-group(pip-curator),
   ::view-transition-old(root),
   ::view-transition-new(root),
   ::view-transition-old(active-nav-indicator),
-  ::view-transition-new(active-nav-indicator) {
+  ::view-transition-new(active-nav-indicator),
+  ::view-transition-old(pip-curator),
+  ::view-transition-new(pip-curator) {
     animation: none !important;
   }
 
   ::view-transition-old(root),
-  ::view-transition-old(active-nav-indicator) {
+  ::view-transition-old(active-nav-indicator),
+  ::view-transition-old(pip-curator) {
     opacity: 0;
   }
 
   ::view-transition-new(root),
-  ::view-transition-new(active-nav-indicator) {
+  ::view-transition-new(active-nav-indicator),
+  ::view-transition-new(pip-curator) {
     opacity: 1;
   }
 }

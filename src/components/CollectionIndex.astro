@@ -8,11 +8,11 @@ interface Props {
   introduction: string;
   eyebrow: string;
   guide?: {
-    message: string;
-    links?: {
+    messages: string[];
+    nextExhibit: {
       href: string;
       label: string;
-    }[];
+    };
   };
   source?: {
     href: string;
@@ -45,8 +45,8 @@ const entries = (await getCollection('archive', ({ data }) =>
   {guide && (
     <CuratorGuide
       headingId={`curator-${type}`}
-      message={guide.message}
-      links={guide.links ?? []}
+      messages={guide.messages}
+      nextExhibit={guide.nextExhibit}
     />
   )}
 </section>
