@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: maintain a restrained, factual public portfolio of selected projects, ideas, writing, and images
-- Status: portfolio-language, motion, and homepage curator release validated locally; visual approval and one production push pending
+- Status: portfolio-language, motion, and curator release live in production from commit `d0c943e`
 
 ## Completed
 
@@ -17,6 +17,7 @@
 - Replaced delayed page and row reveals with a single 180 ms navigation fade-through, a moving active-navigation indicator, and short hover/focus feedback; reduced-motion disables all animation.
 - Added an original six-frame holographic curator as a reusable dialogue interface: a prominent factual welcome on the homepage, compact orientation on the six section pages, and one authored “what to notice” note on every internal project/writing page. Distinct arrival and interaction animations make the face speak reliably without client JavaScript.
 - Verified the local 14-page build, metadata, local links, writing dates/groups, project regressions, sitemap route, page copy, desktop visuals, navigation arrival state, and the revised project route.
+- Verified Netlify’s ready Git deploy matches `d0c943e`; the live homepage, About, All Work, Writing, Horizon, renamed media project, curator asset, and three legacy redirects pass.
 
 ## Decisions
 
@@ -25,7 +26,7 @@
 - Empty Research and Photography pages keep concise scope copy without progress or incomplete-state messages.
 - Substack is one external writing venue, not the complete writing corpus; every writing item names its venue and evidenced dates.
 - Keep the interface flat, typographic, and information-dense. Motion must explain navigation, focus, or clickability and must never delay readable content.
-- The curator is a floating digital interface, not a physical mascot or fixed chat widget. Keep the homepage guide prominent and use compact contextual guidance only on orientation pages where it adds real navigation or interpretation.
+- The curator is a floating digital interface, not a physical mascot or fixed chat widget. Keep the homepage guide prominent; elsewhere use compact orientation or a single authored observation only when it adds real interpretation.
 - Astro static generation and boring platform features remain preferable to a CMS or client runtime.
 - Production builds cost credits: batch source changes into one verified release and let state-only commits skip the build.
 - Keep the financial-literacy and death-penalty essays unpublished until their factual and analytical problems are rebuilt.
@@ -39,10 +40,9 @@
 
 ## Next
 
-1. Obtain visual approval for the curator dialogue treatment.
-2. Commit and push the validated portfolio release once.
-3. Verify Netlify reports a ready Git deploy matching that commit and check the key live routes and legacy redirects.
-4. Reconsider held writing only after source and privacy review.
+1. Gather visual feedback on the live curator dialogue treatment.
+2. Add future portfolio material only after source, privacy, and factual review.
+3. Reconsider held writing only after its identified analytical problems are rebuilt.
 
 ## Risks
 
