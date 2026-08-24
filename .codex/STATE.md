@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: maintain a restrained, factual public archive with concrete project evidence and a UCSD-inspired visual system
-- Status: Rebrand and motion system pass local desktop/mobile QA; one Git-connected production release is pending
+- Status: UCSD-inspired rebrand and restrained motion system are live; production release is verified
 
 ## Completed
 
@@ -35,6 +35,7 @@
 - Implemented the selected UCSD-inspired homepage direction across the shared shell, indexes, and entries using Teko, Source Sans 3, official-inspired navy/gold/blue/turquoise/paper colors, and a compact archive register.
 - Added CSS-only entrance, hover, focus, underline, and route transitions with a complete reduced-motion fallback; avoided continuous motion, parallax, blur, and client JavaScript.
 - Compared the homepage directly with its selected reference at 1487 × 1058, fixed the split/spacing/footer mismatches, and verified 390 px and 300 px layouts, long writing titles, navigation, focus visibility, and console output.
+- Released Git commit `0ca5cb2`; Netlify reported a ready, non-manual deploy matching the commit, and the live homepage returned 200 with the expected fonts, motion, active navigation, and no console or horizontal-overflow errors.
 
 ## Decisions
 
@@ -70,10 +71,9 @@
 
 ## Next
 
-1. Commit and push the verified rebrand once; confirm the Git-triggered Netlify deploy matches the commit.
-2. Rebuild the financial-literacy essay's history, citations, and causal claims before reconsidering publication.
-3. Reframe the death-penalty essay around its actual sources before reconsidering publication.
-4. Review autobiographical personal-writing candidates with Boomer before publishing sensitive disclosure.
+1. Rebuild the financial-literacy essay's history, citations, and causal claims before reconsidering publication.
+2. Reframe the death-penalty essay around its actual sources before reconsidering publication.
+3. Review autobiographical personal-writing candidates with Boomer before publishing sensitive disclosure.
 
 ## Risks
 
