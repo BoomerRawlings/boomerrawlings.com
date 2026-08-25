@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: release the verified portfolio expansion, visual evidence, pocketLLM page, and revised Pip tour through the canonical GitHub-to-Netlify path.
-- Status: source and media are locally verified; release staging and production push remain.
+- Status: production release `f6a67ea` is published and verified.
 
 ## Current implementation
 
@@ -30,14 +30,12 @@
 - `git diff --check` passes.
 - Release audit found no credentials, private paths, EXIF, unintended PII, or unreviewed personal data.
 - All four MP4 assets are H.264, yuv420p, silent, fast-start, and 60 fps.
-- Netlify is authenticated and linked to `boomerrawlings-com`; production currently follows GitHub `main`.
+- Netlify published GitHub `main` commit `f6a67ea` in production. The checked live routes and MP4 assets return 200, and browser QA confirms the revised Pip copy, Academics, About photograph, and centered pocketLLM demo.
 
 ## Next
 
-1. Explicitly stage the intended release files and inspect the staged diff.
-2. Commit once and push `main` once.
-3. Monitor the Git-triggered Netlify deploy and verify the live routes and assets.
-4. Remove disposable pocketLLM capture workspaces from system temp when recursive cleanup is permitted.
+1. Continue editorial and visual refinement from the verified production baseline.
+2. Remove disposable pocketLLM capture workspaces from system temp when recursive cleanup is permitted.
 
 ## Risks
 
