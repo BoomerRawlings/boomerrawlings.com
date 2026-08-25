@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: replace overlapping process graphics with Mermaid, repair Horizon's 1080p single-screen presentation, correct the Academics date span, hide Workline, and add Continuity Desk plus the SWC technology packet.
-- Status: implementation and local QA complete; ready for one production push.
+- Status: implementation is pushed and locally verified; production publication is blocked by Netlify account credits.
 
 ## Current implementation
 
@@ -35,11 +35,13 @@
 - Horizon's startup asset is H.264, yuv420p, silent, fast-start, exactly 1920 by 1080 at 60 fps, with 360 frames across six seconds.
 - Browser QA confirms the Horizon video is centered without upscaling, the media Mermaid chart has no label overlap, the Academics range is `SPRING 2025 - SPRING 2026`, the publishing additions render, and Workline returns 404 locally.
 - The captured Horizon workspace is synthetic and contains no private user workspace data.
+- GitHub `main` contains release commit `c091018`. Netlify skipped its production deploy before building because the account credit allowance is exhausted, so the live site remains on `f6a67ea`.
 
 ## Next
 
-1. Commit and push the verified release to GitHub `main`.
-2. Monitor the single Netlify production build and verify the changed live routes and assets.
+1. Choose whether to wait for the Netlify allowance reset or migrate the static site to another host.
+2. If migrating, prefer a route that preserves GoDaddy MX and email-related TXT records; inventory all DNS records before changing any web records.
+3. Publish `c091018`, then verify the changed live routes and assets.
 
 ## Risks
 
