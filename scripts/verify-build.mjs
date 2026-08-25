@@ -16,9 +16,37 @@ walk(output);
 
 const htmlFiles = files.filter((file) => extname(file) === '.html');
 if (htmlFiles.length === 0) throw new Error('build produced no HTML');
-if (htmlFiles.length !== 15) throw new Error(`expected 15 HTML pages, found ${htmlFiles.length}`);
+
+const redirectTargets = new Map([
+  [join('archive', 'index.html'), '/all/'],
+  [join('work', 'horizonos', 'index.html'), '/work/horizon/'],
+  [join('work', 'icloud-media-archive', 'index.html'), '/work/organizing-icloud-media/'],
+  [join('work', 'personal-archive', 'index.html'), '/work/organizing-icloud-media/'],
+]);
+const contentHtmlFiles = htmlFiles.filter(
+  (file) => !redirectTargets.has(relative(output, file)),
+);
+if (contentHtmlFiles.length !== 15 || htmlFiles.length !== 19) {
+  throw new Error(
+    `expected 15 content pages and 4 redirects, found ${contentHtmlFiles.length} and ${htmlFiles.length - contentHtmlFiles.length}`,
+  );
+}
 
 const failures = [];
+
+for (const [path, target] of redirectTargets) {
+  const file = join(output, path);
+  if (!existsSync(file)) {
+    failures.push(`${path}: missing legacy redirect`);
+    continue;
+  }
+  const html = readFileSync(file, 'utf8');
+  if (!html.includes(`http-equiv="refresh" content="0;url=${target}"`)
+    || !html.includes(`href="${target}"`)
+    || !html.includes(`href="https://boomerrawlings.com${target}"`)) {
+    failures.push(`${path}: does not redirect and canonicalize to ${target}`);
+  }
+}
 
 const diagrams = [
   {
@@ -45,12 +73,16 @@ for (const diagram of diagrams) {
   }
 }
 
-for (const file of htmlFiles) {
+for (const file of contentHtmlFiles) {
   const html = readFileSync(file, 'utf8');
   const label = relative(output, file);
   if (!/<title>[^<]+<\/title>/.test(html)) failures.push(label + ': missing title');
   if (!/<meta name="description" content="[^"]+">/.test(html)) failures.push(label + ': missing description');
   if (!/<link rel="canonical" href="https:\/\/boomerrawlings\.com\//.test(html)) failures.push(label + ': missing canonical');
+  if (!html.includes('http-equiv="Content-Security-Policy"')
+    || !html.includes('name="referrer" content="strict-origin-when-cross-origin"')) {
+    failures.push(label + ': missing portable security metadata');
+  }
 
   for (const [, href] of html.matchAll(/href="(\/[^"#?]*)"/g)) {
     if (href.startsWith('/_astro/') || href === '/favicon.svg') continue;
@@ -289,7 +321,7 @@ if (!workHtml.includes('Small Projects')
   failures.push('project pages: Interactive Systems was not consistently renamed Small Projects');
 }
 
-const publicHtml = htmlFiles.map((file) => readFileSync(file, 'utf8')).join('\n');
+const publicHtml = contentHtmlFiles.map((file) => readFileSync(file, 'utf8')).join('\n');
 if (publicHtml.includes('/work/workline/') || publicHtml.includes('>Workline<')) {
   failures.push('public pages: hidden Workline project is still linked or named');
 }
@@ -411,7 +443,7 @@ if (workPages.some((html) => !html.includes('curator-guide--compact') || !html.i
   failures.push('work pages: one or more entries are missing Pip’s authored context');
 }
 
-for (const file of htmlFiles) {
+for (const file of contentHtmlFiles) {
   const html = readFileSync(file, 'utf8');
   const label = relative(output, file);
   if (!html.includes('data-pip-guide')) failures.push(`${label}: missing Pip guide`);
@@ -468,10 +500,15 @@ if (!builtCss.includes('@media (prefers-reduced-motion:reduce)') && !builtCss.in
   failures.push('Pip motion does not respect reduced-motion preferences');
 }
 
-const netlifyConfig = readFileSync('netlify.toml', 'utf8');
-if (!netlifyConfig.includes("script-src 'self'")) {
-  failures.push('Netlify CSP does not allow the same-origin Pip script');
+const cnamePath = join(output, 'CNAME');
+if (!existsSync(cnamePath) || readFileSync(cnamePath, 'utf8').trim() !== 'boomerrawlings.com') {
+  failures.push('GitHub Pages custom-domain marker is missing or incorrect');
+}
+
+const pagesWorkflow = readFileSync(join('.github', 'workflows', 'deploy-pages.yml'), 'utf8');
+for (const required of ['withastro/action@e84f40bd8d2caa9e768ec82ad30dd81f0b280853', 'actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128', 'pages: write', 'id-token: write']) {
+  if (!pagesWorkflow.includes(required)) failures.push(`GitHub Pages workflow: missing ${required}`);
 }
 
 if (failures.length) throw new Error(failures.join('\n'));
-console.log('Verified ' + htmlFiles.length + ' HTML pages: metadata and local links pass.');
+console.log(`Verified ${contentHtmlFiles.length} content pages and ${redirectTargets.size} redirects: metadata and local links pass.`);
