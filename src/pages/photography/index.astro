@@ -3,20 +3,19 @@ import CollectionIndex from '../../components/CollectionIndex.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Photography" description="Visual systems and photography-related work by Boomer Rawlings, beginning with a 31,550-item local media library.">
+<BaseLayout title="Photography" description="Photography and image-led work by Boomer Rawlings.">
   <CollectionIndex
     type="photography"
-    includeSlugs={['organizing-icloud-media']}
     title="Photography"
     eyebrow="Images"
-    introduction="Visual work begins with its infrastructure: a supervised local library of 31,550 photos and videos and a frame-level indexing system."
+    introduction="Photography is the image-led side of the portfolio: selected photographs and visual series."
     guide={{
       messages: [
-        'Photography starts one layer earlier here: with the system required to keep a 31,550-item library usable.',
-        'No single tool handled the full export, so transfer fidelity comes from staged batches, checks, logs, and human supervision.',
-        'The indexing layer goes further than filenames: it tags each photo and every video frame while preserving a route back to the source.',
+        'Welcome to the visual side of the portfolio!',
+        'This room stays quieter than the others, giving images more space and keeping the explanation brief.',
+        'All Work is next if you would like to return to the full portfolio.',
       ],
-      nextExhibit: { href: '/work/organizing-icloud-media/', label: 'Migrating and Indexing 31,550 Photos and Videos' },
+      nextExhibit: { href: '/all/', label: 'All Work' },
     }}
   />
 </BaseLayout>

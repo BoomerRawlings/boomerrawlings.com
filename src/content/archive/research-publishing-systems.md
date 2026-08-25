@@ -4,12 +4,12 @@ slug: research-publishing-systems
 type: work
 description: A repeatable source-to-print practice for turning dense evidence into usable handbooks, schedules, briefings, and document tools.
 curatorNotes:
-  - "Don’t mistake these for a stack of PDFs. The project is the repeatable production system behind them."
-  - "Each selected output moves through source checking, information structure, rendering, and page-level inspection."
-  - "That discipline has produced a UCSD transfer handbook, a reconciled conference schedule, and reusable print tools."
+  - "A finished handbook or schedule can look simple, but the hard work starts long before the page is designed."
+  - "Boomer checks the sources, structures the information, renders the document, and inspects every page before calling it finished."
+  - "That practice has produced a UCSD transfer handbook, a reconciled conference schedule, and reusable print tools. Next, I'll show you the media pipeline."
 nextExhibit:
   href: /work/organizing-icloud-media/
-  label: Migrating and Indexing 31,550 Photos and Videos
+  label: Media Archiving and Cataloging Pipeline
 tags:
   - research
   - publishing

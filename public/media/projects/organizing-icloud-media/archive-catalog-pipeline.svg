@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="archive-title archive-desc">
+  <title id="archive-title">Supervised media archiving and cataloging pipeline</title>
+  <desc id="archive-desc">A read-only iCloud collection of 31,550 photos and videos moves through supervised batches, file checks, failure reconciliation, and promotion logs before entering an organized local library of preserved originals. A separate parser generates searchable text and tags for every photo and every video frame. Those derived records remain separate and connect back to the original files through source references and processing provenance.</desc>
+  <defs>
+    <marker id="archive-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M1 1l10 5-10 5z" fill="#00629b"/>
+    </marker>
+    <marker id="archive-arrow-turquoise" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M1 1l10 5-10 5z" fill="#00a6b7"/>
+    </marker>
+    <marker id="archive-arrow-gold" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M1 1l10 5-10 5z" fill="#c69214"/>
+    </marker>
+    <style>
+      .display { font-family: 'Teko', 'Arial Narrow', sans-serif; font-weight: 600; letter-spacing: .02em; }
+      .sans { font-family: 'Source Sans 3', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace; letter-spacing: .06em; }
+      .main-flow { fill: none; stroke: #00629b; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#archive-arrow); }
+      .index-flow { fill: none; stroke: #00a6b7; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#archive-arrow-turquoise); }
+      .trace-flow { fill: none; stroke: #c69214; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 10 11; marker-end: url(#archive-arrow-gold); }
+      .node-title { fill: #182b49; font: 600 25px 'Source Sans 3', 'Segoe UI', Arial, sans-serif; }
+      .node-copy { fill: #5c6877; font: 400 19px 'Source Sans 3', system-ui, sans-serif; }
+      .flow-label { fill: #00629b; font: 700 14px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .05em; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="#fffdf8"/>
+  <path d="M0 0h1600v14H0z" fill="#182b49"/>
+  <path d="M0 14h1600v6H0z" fill="#ffcd00"/>
+
+  <text x="60" y="76" class="mono" font-size="18" font-weight="700" fill="#00629b">MEDIA PROJECT / SUPERVISED PIPELINE</text>
+  <text x="60" y="132" class="display" font-size="50" fill="#182b49">FROM CLOUD COLLECTION TO SEARCHABLE LOCAL LIBRARY</text>
+
+  <text x="60" y="184" class="mono" font-size="16" font-weight="700" fill="#9a6f0b">PRESERVATION FLOW</text>
+  <line x1="230" y1="179" x2="1540" y2="179" stroke="#c69214" stroke-width="2" opacity=".55"/>
+
+  <g aria-label="Read-only iCloud collection of 31,550 photos and videos">
+    <rect x="60" y="205" width="220" height="180" rx="14" fill="#f2f5f8" stroke="#182b49" stroke-width="3"/>
+    <rect x="82" y="225" width="134" height="28" rx="14" fill="#182b49"/>
+    <text x="149" y="245" class="mono" font-size="12" font-weight="700" text-anchor="middle" fill="#fffdf8">READ-ONLY SOURCE</text>
+    <text x="82" y="294" class="node-title">iCloud</text>
+    <text x="82" y="325" class="node-title">collection</text>
+    <text x="82" y="352" class="node-copy">31,550 photos</text>
+    <text x="82" y="376" class="node-copy">and videos</text>
+  </g>
+
+  <g aria-label="Staged batches">
+    <rect x="320" y="218" width="190" height="154" rx="14" fill="#fffdf8" stroke="#00629b" stroke-width="3"/>
+    <text x="342" y="293" class="node-title">Staged</text>
+    <text x="342" y="327" class="node-title">batches</text>
+  </g>
+
+  <g aria-label="File checks">
+    <rect x="550" y="218" width="180" height="154" rx="14" fill="#fffdf8" stroke="#00629b" stroke-width="3"/>
+    <text x="572" y="293" class="node-title">File</text>
+    <text x="572" y="327" class="node-title">checks</text>
+  </g>
+
+  <g aria-label="Failure reconciliation">
+    <rect x="770" y="218" width="210" height="154" rx="14" fill="#fffdf8" stroke="#00629b" stroke-width="3"/>
+    <text x="792" y="293" class="node-title">Failure</text>
+    <text x="792" y="327" class="node-title" style="font-size:23px">reconciliation</text>
+  </g>
+
+  <g aria-label="Promotion logs">
+    <rect x="1020" y="218" width="180" height="154" rx="14" fill="#fffdf8" stroke="#00629b" stroke-width="3"/>
+    <text x="1042" y="293" class="node-title">Promotion</text>
+    <text x="1042" y="327" class="node-title">logs</text>
+  </g>
+
+  <g aria-label="Organized local library of preserved read-only originals">
+    <rect x="1240" y="205" width="300" height="180" rx="14" fill="#182b49"/>
+    <rect x="1264" y="227" width="122" height="28" rx="14" fill="#ffcd00"/>
+    <text x="1325" y="247" class="mono" font-size="12" font-weight="700" text-anchor="middle" fill="#182b49">READ-ONLY FILES</text>
+    <text x="1264" y="299" class="sans" font-size="29" font-weight="700" fill="#fffdf8">Organized local</text>
+    <text x="1264" y="335" class="sans" font-size="29" font-weight="700" fill="#fffdf8">library</text>
+    <text x="1264" y="366" class="sans" font-size="20" fill="#00c6d7">Preserved originals</text>
+  </g>
+
+  <path d="M280 295H320" class="main-flow"/>
+  <path d="M510 295H550" class="main-flow"/>
+  <path d="M730 295H770" class="main-flow"/>
+  <path d="M980 295H1020" class="main-flow"/>
+  <path d="M1200 295H1240" class="main-flow"/>
+
+  <text x="300" y="404" class="flow-label" text-anchor="middle">SUPERVISED TRANSFER</text>
+  <text x="530" y="404" class="flow-label" text-anchor="middle">CHECK</text>
+  <text x="750" y="404" class="flow-label" text-anchor="middle">RESOLVE FAILURES</text>
+  <text x="1000" y="404" class="flow-label" text-anchor="middle">RECORD</text>
+  <text x="1220" y="404" class="flow-label" text-anchor="middle">PROMOTE</text>
+
+  <rect x="498" y="428" width="604" height="42" rx="21" fill="#f5f0e6" stroke="#c69214" stroke-width="2"/>
+  <text x="800" y="456" class="sans" font-size="20" font-weight="600" text-anchor="middle" fill="#182b49">Continued monitoring and repair maintain fidelity.</text>
+
+  <text x="60" y="516" class="mono" font-size="16" font-weight="700" fill="#008c9a">SEPARATE INDEXING LAYER</text>
+  <line x1="290" y1="511" x2="1540" y2="511" stroke="#00c6d7" stroke-width="2" opacity=".6"/>
+
+  <path d="M1390 385V486Q1390 511 1365 511H230Q205 511 205 536V557" class="index-flow"/>
+  <text x="800" y="500" class="mono" font-size="14" font-weight="700" text-anchor="middle" fill="#008c9a">INDEX SEPARATELY</text>
+
+  <g aria-label="Separate parsing layer">
+    <rect x="70" y="557" width="270" height="148" rx="14" fill="#eef8fa" stroke="#00a6b7" stroke-width="3"/>
+    <text x="96" y="625" class="node-title">Separate</text>
+    <text x="96" y="660" class="node-title">parsing layer</text>
+  </g>
+
+  <g aria-label="Photos and every video frame">
+    <rect x="400" y="557" width="270" height="148" rx="14" fill="#fffdf8" stroke="#00a6b7" stroke-width="3"/>
+    <text x="426" y="611" class="node-title">Photos + every</text>
+    <text x="426" y="646" class="node-title">video frame</text>
+    <text x="426" y="681" class="node-copy">Parsed separately</text>
+  </g>
+
+  <g aria-label="Searchable text and tags stored as derived records">
+    <rect x="730" y="557" width="270" height="148" rx="14" fill="#fffdf8" stroke="#00a6b7" stroke-width="3"/>
+    <rect x="754" y="579" width="132" height="27" rx="14" fill="#00c6d7"/>
+    <text x="820" y="598" class="mono" font-size="12" font-weight="700" text-anchor="middle" fill="#182b49">DERIVED RECORDS</text>
+    <text x="754" y="642" class="node-title">Searchable text</text>
+    <text x="754" y="677" class="node-title">and tags</text>
+  </g>
+
+  <g aria-label="Source references and processing provenance">
+    <rect x="1060" y="557" width="390" height="148" rx="14" fill="#fffdf8" stroke="#c69214" stroke-width="3"/>
+    <text x="1086" y="614" class="node-title">Source references +</text>
+    <text x="1086" y="649" class="node-title">processing provenance</text>
+    <text x="1086" y="681" class="node-copy">Connects observations to originals</text>
+  </g>
+
+  <path d="M340 631H400" class="index-flow"/>
+  <path d="M670 631H730" class="index-flow"/>
+  <path d="M1000 631H1060" class="index-flow"/>
+
+  <text x="370" y="744" class="flow-label" text-anchor="middle" fill="#008c9a">PARSE</text>
+  <text x="700" y="744" class="flow-label" text-anchor="middle" fill="#008c9a">GENERATE</text>
+  <text x="1030" y="744" class="flow-label" text-anchor="middle" fill="#008c9a">RECORD PROVENANCE</text>
+
+  <path d="M1450 631H1514Q1540 631 1540 605V432Q1540 407 1515 407H1410Q1390 407 1390 385" class="trace-flow"/>
+  <text x="1516" y="536" class="mono" font-size="13" font-weight="700" text-anchor="end" fill="#9a6f0b" transform="rotate(-90 1516 536)">TRACE TO ORIGINAL</text>
+
+  <line x1="60" y1="787" x2="1540" y2="787" stroke="#c69214" stroke-width="2" opacity=".7"/>
+  <text x="60" y="827" class="sans" font-size="22" fill="#182b49">A supervised pipeline moves media through staged checks into a preserved local library, then creates</text>
+  <text x="60" y="856" class="sans" font-size="22" fill="#182b49">searchable derivative records that remain separate from and traceable to the originals.</text>
+</svg>

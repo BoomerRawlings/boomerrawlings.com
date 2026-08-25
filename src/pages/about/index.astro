@@ -3,21 +3,37 @@ import CuratorGuide from '../../components/CuratorGuide.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="About" description="Boomer Rawlings works across psychology, research, software, and personal writing.">
-  <section class="page-intro page-intro--guided">
+<BaseLayout
+  title="About"
+  description="Boomer Rawlings is a 2026 Southwestern College Student of Distinction working across psychology, research, software, and personal writing."
+>
+  <section class="page-intro page-intro--guided about-intro">
     <p class="eyebrow">About</p>
     <h1>Boomer Rawlings</h1>
-    <p class="page-deck">
-      Boomer Rawlings works across psychology, research, software, and personal writing. This site is a developing public portfolio of selected projects, ideas, writing, and images.
-    </p>
+    <figure class="about-portrait">
+      <img
+        src="/images/boomer-rawlings-headshot.webp"
+        alt="Boomer Rawlings smiling outdoors."
+        width="900"
+        height="1350"
+        decoding="async"
+        fetchpriority="high"
+      />
+    </figure>
+    <div class="page-deck">
+      <p>
+        Boomer Rawlings works across psychology, research, software, and personal writing. He completed Southwestern College’s Psychology for Transfer (AA-T) degree with honors in Spring 2026, received the 2026 Student of Distinction Award, and was named to the President’s List four times. This site is a developing public portfolio of selected projects, ideas, writing, and images.
+      </p>
+      <p><a href="/cv/">View academics →</a></p>
+    </div>
     <CuratorGuide
       headingId="curator-about"
       messages={[
-        'Here is the through-line: ambitious systems that still leave control with the person using them.',
-        'You can see it in local-first software, human confirmation before automated judgment, and publishing workflows that keep evidence visible.',
-        'Horizon gives the broadest view; Writing shows the personal and academic questions behind it.',
+        "That's Boomer in the photograph! He studies psychology, builds research software, writes personal essays, and makes strange little worlds.",
+        "He completed his Psychology for Transfer degree with honors in one year. That same year, he received Southwestern College's highest student award.",
+        "Academics is next. I'll show you the focused coursework and four President's List honors from his time at Southwestern College.",
       ]}
-      nextExhibit={{ href: '/work/horizon/', label: 'Horizon' }}
+      nextExhibit={{ href: '/cv/', label: 'Academics' }}
     />
   </section>
 </BaseLayout>

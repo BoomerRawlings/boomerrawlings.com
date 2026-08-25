@@ -8,13 +8,13 @@ const researchSlugs = new Set([
   'research-publishing-systems',
   'attention-bias-modification-aggression',
 ]);
-const photographySlugs = new Set(['organizing-icloud-media']);
 const selectedWork = publishedEntries
   .filter(({ data }) => data.type === 'work' && data.featured)
   .sort((a, b) => {
     const order = [
       'horizon',
       'paperfield',
+      'pocketllm',
       'workline',
       'research-publishing-systems',
       'organizing-icloud-media',
@@ -26,7 +26,6 @@ const counts = {
   work: publishedEntries.filter(({ data }) => data.type === 'work').length,
   research: publishedEntries.filter(({ data }) => researchSlugs.has(data.slug)).length,
   writing: publishedEntries.filter(({ data }) => data.type === 'writing').length,
-  photography: publishedEntries.filter(({ data }) => photographySlugs.has(data.slug)).length,
 };
 
 const contents = [
@@ -34,23 +33,22 @@ const contents = [
   ['All Work', '/all/', publishedEntries.length],
   ['Research', '/research/', counts.research],
   ['Writing', '/writing/', counts.writing],
-  ['Photography', '/photography/', counts.photography],
 ] as const;
 ---
 
 <BaseLayout>
   <section class="home-intro">
     <div class="home-overview">
-      <h1>Projects, research, writing, and photography by Boomer Rawlings.</h1>
+      <h1>Projects, research, and writing by Boomer Rawlings.</h1>
       <CuratorGuide
         variant="home"
         heading="Pip says"
         messages={[
-          `Hi, I’m Pip. I’ll guide you through ${counts.work} projects and ${counts.writing} pieces of writing—from local-first research tools to a supervised migration of 31,550 photos and videos.`,
-          'The thread connecting them is careful handoffs: what software may infer, what a person must confirm, and what a system must prove.',
-          'Horizon is the broadest first stop. It brings those ideas together in one local Markdown workspace.',
+          "Hi! I'm Pip! I'll guide you through Boomer's portfolio.",
+          'This portfolio has very broad coverage, from highly academic papers to creative writing and photography.',
+          'About will be our first stop, giving you some background information about Boomer.',
         ]}
-        nextExhibit={{ href: '/work/horizon/', label: 'Horizon' }}
+        nextExhibit={{ href: '/about/', label: 'About' }}
       />
     </div>
 
@@ -80,16 +78,14 @@ const contents = [
     </div>
     <div class="project-register">
       <div class="ledger-columns" aria-hidden="true">
-        <span>No.</span>
         <span>Type</span>
         <span>Project</span>
         <span>Description</span>
       </div>
       <ul class="ledger-list">
-        {selectedWork.map((entry, index) => (
+        {selectedWork.map((entry) => (
           <li>
             <a href={'/work/' + entry.data.slug + '/'}>
-              <span class="ledger-index">{String(index * 10).padStart(2, '0')}</span>
               <span class="ledger-type">Project</span>
               <strong>{entry.data.title}</strong>
               <span class="ledger-description">{entry.data.description}</span>

@@ -31,7 +31,6 @@ const messageId = `${headingId}-message`;
   class:list={['curator-guide', `curator-guide--${variant}`]}
   aria-labelledby={headingId}
   data-pip-guide
-  data-pip-key={Astro.url.pathname}
   data-pip-steps={JSON.stringify(messages)}
 >
   <span class="portfolio-curator" aria-hidden="true"></span>
@@ -50,7 +49,6 @@ const messageId = `${headingId}-message`;
       </button>
     </div>
     <p id={messageId} class="curator-message" role="status" aria-live="polite" aria-atomic="true">
-      <span class="sr-only">Pip says: </span>
       <span data-pip-message>{messages[0]}</span>
     </p>
     <form

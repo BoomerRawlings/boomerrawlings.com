@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="workline-title workline-desc">
+  <title id="workline-title">How Workline turns handwritten math into targeted feedback</title>
+  <desc id="workline-desc">A photo of handwritten linear-equation work is transcribed by a vision model, which orders the steps and marks uncertain text. The learner confirms or edits the transcription. Only confirmed text reaches a deterministic math checker, which identifies the first transformation it cannot validate and gives the learner a place to revise and retry.</desc>
+  <defs>
+    <marker id="workline-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M1 1l10 5-10 5z" fill="#00629b"/>
+    </marker>
+    <marker id="workline-arrow-gold" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M1 1l10 5-10 5z" fill="#c69214"/>
+    </marker>
+    <style>
+      .display { font-family: 'Teko', 'Arial Narrow', sans-serif; font-weight: 600; letter-spacing: .02em; }
+      .sans { font-family: 'Source Sans 3', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace; letter-spacing: .08em; }
+      .flow { fill: none; stroke: #00629b; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#workline-arrow); }
+      .return { fill: none; stroke: #c69214; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 10 11; marker-end: url(#workline-arrow-gold); }
+      .node-title { fill: #182b49; font: 600 27px 'Source Sans 3', 'Segoe UI', Arial, sans-serif; }
+      .node-copy { fill: #5c6877; font: 400 22px 'Source Sans 3', system-ui, sans-serif; }
+      .flow-label { fill: #00629b; font: 700 16px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .06em; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="#fffdf8"/>
+  <path d="M0 0h1600v14H0z" fill="#182b49"/>
+  <path d="M0 14h1600v6H0z" fill="#ffcd00"/>
+
+  <text x="70" y="82" class="mono" font-size="18" font-weight="700" fill="#00629b">WORKLINE / SYSTEM FLOW</text>
+  <text x="70" y="146" class="display" font-size="66" fill="#182b49">FROM HANDWRITING TO TARGETED FEEDBACK</text>
+
+  <rect x="60" y="188" width="585" height="398" rx="18" fill="#eef8fa" stroke="#00c6d7" stroke-width="2"/>
+  <rect x="668" y="188" width="320" height="560" rx="18" fill="#f5f0e6" stroke="#c69214" stroke-width="2"/>
+  <rect x="1012" y="188" width="528" height="560" rx="18" fill="#f2f5f8" stroke="#182b49" stroke-width="2"/>
+
+  <text x="86" y="230" class="mono" font-size="17" font-weight="700" fill="#00629b">01 / AI READS</text>
+  <text x="694" y="230" class="mono" font-size="17" font-weight="700" fill="#9a6f0b">02 / LEARNER CONFIRMS</text>
+  <text x="1038" y="230" class="mono" font-size="17" font-weight="700" fill="#182b49">03 / MATH ENGINE CHECKS</text>
+
+  <g aria-label="Photo of handwritten math">
+    <rect x="88" y="318" width="218" height="178" rx="14" fill="#fffdf8" stroke="#00629b" stroke-width="3"/>
+    <path d="M118 352h52m-52 22h78m-78 22h62" stroke="#00c6d7" stroke-width="5" stroke-linecap="round" opacity=".76"/>
+    <text x="118" y="433" class="node-title">Photo of</text>
+    <text x="118" y="463" class="node-title">handwritten</text>
+    <text x="118" y="493" class="node-title">math</text>
+  </g>
+
+  <g aria-label="Vision transcription: ordered steps and uncertain text">
+    <rect x="370" y="288" width="248" height="238" rx="14" fill="#fffdf8" stroke="#00629b" stroke-width="3"/>
+    <rect x="394" y="315" width="78" height="30" rx="15" fill="#00c6d7"/>
+    <text x="433" y="336" class="mono" font-size="14" font-weight="700" text-anchor="middle" fill="#182b49">VISION</text>
+    <text x="394" y="390" class="node-title">Vision</text>
+    <text x="394" y="425" class="node-title">transcription</text>
+    <line x1="394" y1="449" x2="594" y2="449" stroke="#182b49" stroke-opacity=".18"/>
+    <text x="394" y="480" class="node-copy">Ordered steps +</text>
+    <text x="394" y="508" class="node-copy">uncertain text</text>
+  </g>
+
+  <g aria-label="Learner confirms or edits">
+    <rect x="704" y="318" width="248" height="178" rx="14" fill="#fffdf8" stroke="#c69214" stroke-width="3"/>
+    <circle cx="744" cy="360" r="15" fill="#ffcd00"/>
+    <path d="M736 360l6 7 13-16" fill="none" stroke="#182b49" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="734" y="397" class="node-title">Learner</text>
+    <text x="734" y="431" class="node-title">confirms</text>
+    <text x="734" y="465" class="node-title">or edits</text>
+  </g>
+
+  <g aria-label="Deterministic math checker">
+    <rect x="1056" y="288" width="250" height="238" rx="14" fill="#fffdf8" stroke="#182b49" stroke-width="3"/>
+    <rect x="1080" y="315" width="142" height="30" rx="15" fill="#182b49"/>
+    <text x="1151" y="336" class="mono" font-size="14" font-weight="700" text-anchor="middle" fill="#fffdf8">DETERMINISTIC</text>
+    <text x="1080" y="390" class="node-title">Math</text>
+    <text x="1080" y="425" class="node-title">checker</text>
+    <line x1="1080" y1="449" x2="1282" y2="449" stroke="#182b49" stroke-opacity=".18"/>
+    <text x="1080" y="480" class="node-copy">Checks confirmed</text>
+    <text x="1080" y="508" class="node-copy">text only</text>
+  </g>
+
+  <g aria-label="First unvalidated transformation">
+    <rect x="1122" y="600" width="374" height="118" rx="14" fill="#182b49"/>
+    <text x="1150" y="647" class="sans" font-size="27" font-weight="700" fill="#fffdf8">First unvalidated</text>
+    <text x="1150" y="682" class="sans" font-size="27" font-weight="700" fill="#fffdf8">transformation</text>
+    <circle cx="1455" cy="659" r="17" fill="#ffcd00"/>
+    <text x="1455" y="667" class="sans" font-size="24" font-weight="800" text-anchor="middle" fill="#182b49">!</text>
+  </g>
+
+  <g aria-label="Revise and retry">
+    <rect x="704" y="600" width="248" height="118" rx="14" fill="#fffdf8" stroke="#c69214" stroke-width="3"/>
+    <text x="734" y="654" class="node-title">Revise</text>
+    <text x="734" y="690" class="node-title">and retry</text>
+  </g>
+
+  <path d="M306 407H370" class="flow"/>
+  <text x="338" y="386" class="flow-label" text-anchor="middle">READ</text>
+
+  <path d="M618 407H704" class="flow"/>
+  <text x="661" y="260" class="flow-label" text-anchor="middle">REVIEW</text>
+  <text x="661" y="281" class="flow-label" text-anchor="middle">UNCERTAINTY</text>
+
+  <path d="M952 407H1056" class="flow"/>
+  <text x="1004" y="260" class="flow-label" text-anchor="middle">CONFIRMED</text>
+  <text x="1004" y="281" class="flow-label" text-anchor="middle">TEXT ONLY</text>
+
+  <path d="M1181 526V565Q1181 580 1196 580H1309Q1309 580 1309 600" class="flow"/>
+  <text x="1330" y="552" class="flow-label">VALIDATE EACH</text>
+  <text x="1330" y="574" class="flow-label">TRANSFORMATION</text>
+
+  <path d="M1122 659H952" class="flow"/>
+  <text x="1037" y="584" class="flow-label" text-anchor="middle">TARGETED FEEDBACK</text>
+
+  <path d="M828 600V496" class="return"/>
+  <text x="847" y="557" class="mono" font-size="16" font-weight="700" fill="#9a6f0b">TRY AGAIN</text>
+
+  <line x1="70" y1="796" x2="1530" y2="796" stroke="#c69214" stroke-width="2" opacity=".7"/>
+  <text x="70" y="836" class="sans" font-size="23" fill="#182b49">Workline separates reading from judgment. AI transcribes the page, the learner confirms the text,</text>
+  <text x="70" y="866" class="sans" font-size="23" fill="#182b49">and a deterministic checker identifies the first step that needs revision.</text>
+</svg>

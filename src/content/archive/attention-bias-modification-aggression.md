@@ -4,12 +4,12 @@ slug: attention-bias-modification-aggression
 type: writing
 description: "A May 2026 student proposal for testing whether attention-bias modification could reduce hostile attention bias and aggression among justice-impacted young adults."
 curatorNotes:
-  - "The rigor is in the boundary: evidence from three specialized, all-male offender samples is treated as a reason to test the question, not proof that it will generalize."
-  - "The proposed experiment uses randomized neutral training and pretest-posttest measurement while keeping the decision-making outcome explicitly exploratory."
-  - "The ethics shape the method: recruitment avoids authority figures, participation cannot affect supervision or services, and the missing protocol details are named rather than hidden."
+  - "This is Boomer's proposal for testing whether attention bias training might reduce hostile attention bias and aggression among justice-impacted young adults."
+  - "He designed a randomized comparison with neutral training, before-and-after measures, and protections built into recruitment. The study was not conducted."
+  - "I like the restraint here. The proposal says where the evidence is narrow and what would still be required before testing. About brings us back to Boomer."
 nextExhibit:
   href: /about/
-  label: About this portfolio
+  label: About
 tags:
   - psychology
   - justice-impacted populations

@@ -1,6 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import CuratorGuide from '../../components/CuratorGuide.astro';
+import EvidenceFigure from '../../components/EvidenceFigure.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { formatFullDate, formatPartialDate, isoDate } from '../../lib/dates';
 
@@ -20,6 +21,11 @@ interface Props {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const visualEvidence = entry.data.visualEvidence ?? [];
+const heroEvidence = visualEvidence.find(({ role }) => role === 'hero');
+const supportingEvidence = visualEvidence
+  .filter(({ role }) => role !== 'hero')
+  .sort((a, b) => (a.role === 'process' ? -1 : 1) - (b.role === 'process' ? -1 : 1));
 const isWriting = entry.data.type === 'writing';
 const eyebrow = isWriting && entry.data.writingKind
   ? `${entry.data.writingKind} writing`
@@ -59,7 +65,32 @@ const eyebrow = isWriting && entry.data.writingKind
       />
     )}
   </header>
-  <article class:list={['entry-body', { 'academic-entry': entry.data.writingKind === 'academic' }]}>
+  {heroEvidence && (
+    <div class="entry-evidence entry-evidence--hero">
+      <div class="entry-evidence-inner">
+        <EvidenceFigure entrySlug={entry.data.slug} {...heroEvidence} />
+      </div>
+    </div>
+  )}
+  <article class:list={[
+    'entry-body',
+    {
+      'academic-entry': entry.data.writingKind === 'academic',
+      'entry-body--with-evidence': supportingEvidence.length > 0,
+    },
+  ]}>
     <Content />
   </article>
+  {supportingEvidence.length > 0 && (
+    <section class="entry-evidence entry-evidence--supporting" aria-labelledby={`${entry.data.slug}-visual-evidence`}>
+      <div class="entry-evidence-inner">
+        <h2 id={`${entry.data.slug}-visual-evidence`} class="entry-evidence-heading">Inside the project</h2>
+        <div class="entry-evidence-grid">
+          {supportingEvidence.map((visual) => (
+            <EvidenceFigure entrySlug={entry.data.slug} {...visual} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 </BaseLayout>

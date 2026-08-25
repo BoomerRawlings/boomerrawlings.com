@@ -16,7 +16,7 @@ walk(output);
 
 const htmlFiles = files.filter((file) => extname(file) === '.html');
 if (htmlFiles.length === 0) throw new Error('build produced no HTML');
-if (htmlFiles.length !== 14) throw new Error(`expected 14 HTML pages, found ${htmlFiles.length}`);
+if (htmlFiles.length !== 16) throw new Error(`expected 16 HTML pages, found ${htmlFiles.length}`);
 
 const failures = [];
 for (const file of htmlFiles) {
@@ -35,6 +35,26 @@ for (const file of htmlFiles) {
   for (const [, action] of html.matchAll(/action="(\/[^"#?]*)"/g)) {
     const target = action.endsWith('/') ? join(output, action, 'index.html') : join(output, action);
     if (!existsSync(target)) failures.push(label + ': broken local form action ' + action);
+  }
+
+  const pipSteps = html.match(/data-pip-steps="([^"]*)"/)?.[1];
+  if (pipSteps && /[–—]/.test(pipSteps)) {
+    failures.push(label + ': Pip dialogue contains an en or em dash');
+  }
+
+  for (const [, assetPath] of html.matchAll(/(?:src|poster)="(\/media\/[^"?#]+)"/g)) {
+    if (!existsSync(join(output, assetPath))) {
+      failures.push(`${label}: missing visual evidence asset ${assetPath}`);
+    }
+  }
+
+  for (const video of html.match(/<video\b[^>]*>/g) ?? []) {
+    if (!video.includes('controls') || !video.includes('playsinline')) {
+      failures.push(label + ': evidence video must expose native controls and play inline');
+    }
+    if (/\s(?:autoplay|loop)(?=\s|=|>)/i.test(video)) {
+      failures.push(label + ': evidence video must not autoplay or loop');
+    }
   }
 }
 
@@ -84,28 +104,77 @@ if (!academicHtml.includes('The study was not conducted')) {
 if (!academicHtml.includes('Editorial limitations note')) {
   failures.push('academic writing page: missing methodological limitations');
 }
-if (!academicHtml.includes('curator-guide--compact') || !academicHtml.includes('The rigor is in the boundary')) {
+if (!academicHtml.includes('curator-guide--compact') || !academicHtml.includes('I like the restraint here')) {
   failures.push('academic writing page: missing Pip’s proposal context');
 }
-if (!academicHtml.includes('action="/about/"') || !academicHtml.includes('data-pip-destination="About this portfolio"')) {
+if (!academicHtml.includes('action="/about/"') || !academicHtml.includes('data-pip-destination="About"')) {
   failures.push('academic writing page: Pip’s trail does not continue beyond the Writing/ABM pair');
 }
 
 const homeHtml = readFileSync(join(output, 'index.html'), 'utf8');
+const aboutHtml = readFileSync(join(output, 'about', 'index.html'), 'utf8');
+const cvHtml = readFileSync(join(output, 'cv', 'index.html'), 'utf8');
 const allWorkHtml = readFileSync(join(output, 'all', 'index.html'), 'utf8');
 const workHtml = readFileSync(join(output, 'work', 'index.html'), 'utf8');
 const mediaLibraryHtml = readFileSync(
   join(output, 'work', 'organizing-icloud-media', 'index.html'),
   'utf8',
 );
-if (!homeHtml.includes('Migrating and Indexing 31,550 Photos and Videos')) {
-  failures.push('index.html: missing exact media-library project title');
+const horizonHtml = readFileSync(join(output, 'work', 'horizon', 'index.html'), 'utf8');
+const paperfieldHtml = readFileSync(join(output, 'work', 'paperfield', 'index.html'), 'utf8');
+const pocketllmHtml = readFileSync(join(output, 'work', 'pocketllm', 'index.html'), 'utf8');
+const worklineHtml = readFileSync(join(output, 'work', 'workline', 'index.html'), 'utf8');
+const smallProjectsHtml = readFileSync(
+  join(output, 'work', 'interactive-systems', 'index.html'),
+  'utf8',
+);
+if (!homeHtml.includes('Media Archiving and Cataloging Pipeline')) {
+  failures.push('index.html: missing media-pipeline project title');
 }
 if (!mediaLibraryHtml.includes('31,550-item iCloud collection')) {
   failures.push('media library page: missing verified project scope');
 }
 if (!mediaLibraryHtml.includes('No single available tool handled') || !mediaLibraryHtml.includes('every frame of every video')) {
   failures.push('media library page: export difficulty or frame-level indexing is missing');
+}
+if (!mediaLibraryHtml.includes('supervised pipeline designed to reliably archive and catalog tens of thousands')
+  || !mediaLibraryHtml.includes('/media/projects/organizing-icloud-media/archive-catalog-pipeline.svg')) {
+  failures.push('media library page: high-level pipeline framing or process diagram is missing');
+}
+if (!horizonHtml.includes('/media/projects/horizon/startup-sequence.mp4')
+  || !horizonHtml.includes('/media/projects/horizon/startup-poster.webp')
+  || !horizonHtml.includes('/media/projects/horizon/interface-tour.mp4')
+  || !horizonHtml.includes('/media/projects/horizon/interface-tour-poster.webp')) {
+  failures.push('Horizon page: clean startup sequence or guided interface tour is missing');
+}
+if (!paperfieldHtml.includes('/media/projects/paperfield/research-workflow.mp4')
+  || !paperfieldHtml.includes('/media/projects/paperfield/research-workflow-poster.webp')) {
+  failures.push('Paperfield page: DOI, library, search, connection, or PDF workflow is missing');
+}
+if (!pocketllmHtml.includes('/media/projects/pocketllm/interface-tour.mp4')
+  || !pocketllmHtml.includes('/media/projects/pocketllm/interface-tour-poster.webp')
+  || !pocketllmHtml.includes('TXT, MD, CSV, TSV, and JSONL')
+  || !pocketllmHtml.includes('.pocketkey')
+  || !pocketllmHtml.includes('not a compliance certification')) {
+  failures.push('pocketLLM page: demo evidence, supported files, restoration key, or limits are missing');
+}
+if (!paperfieldHtml.includes('action="/work/pocketllm/"')
+  || !pocketllmHtml.includes('action="/work/workline/"')) {
+  failures.push('project trail: Paperfield must continue to pocketLLM, then Workline');
+}
+if (!worklineHtml.includes('/media/projects/workline/handwriting-feedback-pipeline.svg')) {
+  failures.push('Workline page: transcription and checking process diagram is missing');
+}
+if (!smallProjectsHtml.includes('/media/projects/small-projects/the-unrendered-world.webp')) {
+  failures.push('Small Projects page: The Unrendered World visual is missing');
+}
+if (!horizonHtml.includes('first video shows its startup sequence')
+  || !paperfieldHtml.includes('The video shows papers being grouped')
+  || !pocketllmHtml.includes('the little face objects when the cursor clicks it')
+  || !worklineHtml.includes('The diagram starts with a photograph')
+  || !mediaLibraryHtml.includes('The diagram shows why this job needs a pipeline')
+  || !smallProjectsHtml.includes('The image comes from The Unrendered World')) {
+  failures.push('project pages: Pip is not interpreting the new visual evidence');
 }
 if (homeHtml.includes('Personal Archive') || mediaLibraryHtml.includes('Personal Archive')) {
   failures.push('media library project: obsolete project name remains');
@@ -116,10 +185,16 @@ if (!existsSync(join(output, 'images', 'portfolio-curator.webp'))) {
 if (!homeHtml.includes('class="portfolio-curator"')) {
   failures.push('index.html: missing portfolio curator interface');
 }
-if (!homeHtml.includes('Pip says') || !homeHtml.includes('Hi, I’m Pip') || !homeHtml.includes('6 projects and 9 pieces of writing')) {
+if (!homeHtml.includes('Pip says')
+  || !homeHtml.includes("Hi! I'm Pip!")
+  || !homeHtml.includes('About will be our first stop')
+  || !homeHtml.includes('action="/about/"')) {
   failures.push('index.html: Pip is not providing named orientation');
 }
-const guidedSections = ['about', 'all', 'photography', 'research', 'work', 'writing'];
+if (homeHtml.includes('6 projects and 9 pieces of writing')) {
+  failures.push('index.html: Pip is still reciting inventory counts');
+}
+const guidedSections = ['about', 'all', 'cv', 'photography', 'research', 'work', 'writing'];
 for (const section of guidedSections) {
   const html = readFileSync(join(output, section, 'index.html'), 'utf8');
   if (!html.includes('curator-guide--compact') || !html.includes('Pip says') || !html.includes('data-pip-steps=')) {
@@ -132,8 +207,17 @@ if (!researchHtml.includes('href="/work/research-publishing-systems/"')
   || !researchHtml.includes('href="/writing/attention-bias-modification-aggression/"')) {
   failures.push('research/index.html: curated research exhibits are missing');
 }
-if (!photographyHtml.includes('href="/work/organizing-icloud-media/"')) {
-  failures.push('photography/index.html: media-library exhibit is missing');
+if (photographyHtml.includes('organizing-icloud-media')
+  || photographyHtml.includes('31,550')
+  || !photographyHtml.includes('image-led side of the portfolio')
+  || !photographyHtml.includes('data-pip-destination="All Work"')) {
+  failures.push('photography/index.html: project/photography boundary is unclear');
+}
+if (homeHtml.includes('ledger-index') || homeHtml.includes('<span>No.</span>')) {
+  failures.push('index.html: arbitrary project numbering remains');
+}
+if (homeHtml.includes('href="/photography/"')) {
+  failures.push('index.html: empty photography section is still advertised');
 }
 if (homeHtml.includes('aria-current="page"')) {
   failures.push('index.html: homepage must not mark Projects as the current page');
@@ -141,8 +225,37 @@ if (homeHtml.includes('aria-current="page"')) {
 if (allWorkHtml.includes('Undated') || allWorkHtml.includes('Work without a known date')) {
   failures.push('all/index.html: missing-date language is foregrounded');
 }
+const allWorkRow = (href) => {
+  const start = allWorkHtml.indexOf(`href="${href}"`);
+  const end = start === -1 ? -1 : allWorkHtml.indexOf('</a>', start);
+  return start === -1 || end === -1 ? '' : allWorkHtml.slice(start, end);
+};
+const datedProjects = [
+  ['/work/horizon/', '2026-03', 'March 2026'],
+  ['/work/paperfield/', '2026-05', 'May 2026'],
+  ['/work/workline/', '2026-08', 'August 2026'],
+  ['/work/organizing-icloud-media/', '2026-08', 'August 2026'],
+];
+for (const [href, datetime, label] of datedProjects) {
+  if (!allWorkRow(href).includes(`datetime="${datetime}">${label}</time>`)) {
+    failures.push(`all/index.html: ${href} is missing its verified month and year`);
+  }
+}
+const personalWritingCount = (allWorkHtml.match(/>Personal writing</g) ?? []).length;
+const academicWritingCount = (allWorkHtml.match(/>Academic writing</g) ?? []).length;
+if (personalWritingCount !== 8 || academicWritingCount !== 1) {
+  failures.push(`all/index.html: expected 8 personal and 1 academic writing labels, found ${personalWritingCount} and ${academicWritingCount}`);
+}
+if (!workHtml.includes('Small Projects')
+  || !allWorkHtml.includes('Small Projects')
+  || !mediaLibraryHtml.includes('Small Projects')) {
+  failures.push('project pages: Interactive Systems was not consistently renamed Small Projects');
+}
 
 const publicHtml = htmlFiles.map((file) => readFileSync(file, 'utf8')).join('\n');
+if (publicHtml.includes('<span class="sr-only">Pip says: </span>')) {
+  failures.push('public pages: Pip’s accessible label is duplicated inside each live message');
+}
 const obsoletePortfolioFraming = [
   'Public Archive',
   'private archive',
@@ -156,10 +269,14 @@ for (const phrase of obsoletePortfolioFraming) {
     failures.push(`public pages: obsolete portfolio framing remains: ${phrase}`);
   }
 }
+if (publicHtml.includes('Interactive Systems')) {
+  failures.push('public pages: obsolete Interactive Systems title remains');
+}
 
 const featuredProjects = [
   'horizon',
   'paperfield',
+  'pocketllm',
   'workline',
   'research-publishing-systems',
   'organizing-icloud-media',
@@ -168,6 +285,12 @@ for (const slug of featuredProjects) {
   if (!homeHtml.includes(`href="/work/${slug}/"`)) {
     failures.push(`index.html: missing featured project ${slug}`);
   }
+}
+const featuredProjectOffsets = featuredProjects.map((slug) =>
+  homeHtml.indexOf(`href="/work/${slug}/"`)
+);
+if (featuredProjectOffsets.some((offset, index) => index > 0 && offset <= featuredProjectOffsets[index - 1])) {
+  failures.push('index.html: featured projects are not in the intended guided order');
 }
 if (homeHtml.includes('href="/work/interactive-systems/"')) {
   failures.push('index.html: interactive experiments should remain off the homepage');
@@ -178,10 +301,57 @@ if (!workHtml.includes('href="/work/interactive-systems/"')) {
 if (homeHtml.includes('ledger-status') || homeHtml.includes('(public)')) {
   failures.push('index.html: redundant project-status language remains');
 }
+if (!aboutHtml.includes('2026 Student of Distinction Award')
+  || !aboutHtml.includes('President’s List four times')) {
+  failures.push('about/index.html: missing 2026 Student of Distinction recognition');
+}
+if (!aboutHtml.includes('href="/cv/"') || !aboutHtml.includes('View academics')) {
+  failures.push('about/index.html: Academics page is not linked');
+}
+if (!aboutHtml.includes('src="/images/boomer-rawlings-headshot.webp"')
+  || !aboutHtml.includes('alt="Boomer Rawlings smiling outdoors."')) {
+  failures.push('about/index.html: approved headshot is missing or lacks useful alternative text');
+}
+if (!existsSync(join(output, 'images', 'boomer-rawlings-headshot.webp'))
+  || statSync(join(output, 'images', 'boomer-rawlings-headshot.webp')).size > 150_000) {
+  failures.push('about/index.html: optimized headshot asset is missing or too large');
+}
+if (photographyHtml.includes('boomer-rawlings-headshot')) {
+  failures.push('photography/index.html: biographical headshot was incorrectly treated as photography work');
+}
+if (!aboutHtml.includes('completed Southwestern College’s Psychology for Transfer (AA-T) degree with honors in Spring 2026')) {
+  failures.push('about/index.html: completed degree and honors status are unclear');
+}
+if (!cvHtml.includes('Four-time honoree for 4.0 semester academic performance')) {
+  failures.push('cv/index.html: missing four-time President’s List recognition');
+}
+if (!cvHtml.includes('Psychology for Transfer (AA-T)')
+  || !cvHtml.includes('Degree completed with honors in one year')
+  || !cvHtml.includes('Spring 2026')
+  || !cvHtml.includes('Introduction to Psychological Research')
+  || !cvHtml.includes('Data Analysis in Psychology and Sociology')
+  || !cvHtml.includes('Introduction to Programming Logic and Design Using Python')) {
+  failures.push('cv/index.html: selected academic experience is incomplete');
+}
+if (!cvHtml.includes('Selected completed coursework · Spring 2025–Summer 2026')
+  || !cvHtml.includes('institution-southwestern-college')) {
+  failures.push('cv/index.html: coursework is not clearly grouped under Southwestern College');
+}
+if (cvHtml.includes('2025–present') || cvHtml.includes('Academic CV')) {
+  failures.push('cv/index.html: obsolete enrollment status or CV label remains');
+}
+if (!cvHtml.includes('The study was not conducted')
+  || !cvHtml.includes('Research and Publishing Systems')) {
+  failures.push('cv/index.html: selected academic work is incomplete or overstates the research proposal');
+}
+if (cvHtml.includes('TOTAL 16.00') || cvHtml.includes('SPRING 2025')) {
+  failures.push('cv/index.html: transcript detail was published instead of a selected academic profile');
+}
 
 const workPagePaths = [
   'horizon',
   'paperfield',
+  'pocketllm',
   'workline',
   'research-publishing-systems',
   'organizing-icloud-media',
@@ -221,8 +391,14 @@ if (!existsSync(pipScriptPath)) {
   failures.push('Pip interaction script is missing from the build');
 } else {
   const pipScript = readFileSync(pipScriptPath, 'utf8');
-  for (const behavior of ['AudioContext', 'sessionStorage', 'localStorage', 'pageshow', 'is-speaking', 'window.location.assign']) {
+  for (const behavior of ['AudioContext', 'sessionStorage', 'localStorage', 'pageshow', 'is-speaking', 'is-departing', 'is-arriving', 'prefers-reduced-motion', 'window.location.assign']) {
     if (!pipScript.includes(behavior)) failures.push(`Pip interaction script: missing ${behavior}`);
+  }
+  if (!pipScript.includes('step = 0') || pipScript.includes('writeStorage(window.sessionStorage, stepKey')) {
+    failures.push('Pip interaction script: completed dialogue state can remain stuck across visits');
+  }
+  if (!pipScript.includes('pointerenter') || !pipScript.includes('is-smiling') || !pipScript.includes('is-smile-leaving')) {
+    failures.push('Pip interaction script: hover expression does not animate in and out');
   }
 }
 
@@ -232,6 +408,23 @@ const builtCss = files
   .join('\n');
 if (!builtCss.includes('view-transition-name:pip-curator')) {
   failures.push('Pip does not persist visually between guided pages');
+}
+if (!builtCss.includes('pip-transfer-squish') || !builtCss.includes('view-transition-image-pair(pip-curator)')) {
+  failures.push('Pip is missing the cross-page squish/glitch transition');
+}
+if (!builtCss.includes('page-transfer-scan-out')
+  || !builtCss.includes('page-transfer-scan-in')
+  || !builtCss.includes('clip-path:inset(100% 0 0)')) {
+  failures.push('Pages are missing the fast directional scan transition');
+}
+if (!builtCss.includes('pip-fallback-depart') || !builtCss.includes('pip-feature-arrive')) {
+  failures.push('Pip is missing the fallback departure or feature-level arrival motion');
+}
+if (!builtCss.includes('pip-hover-smile-in')
+  || !builtCss.includes('pip-hover-smile-out')
+  || !builtCss.includes('pip-hover-feature-glitch')
+  || !builtCss.includes('background-position:97% 0')) {
+  failures.push('Pip is missing the fine-pointer hover smile');
 }
 if (!builtCss.includes('@media (prefers-reduced-motion:reduce)') && !builtCss.includes('@media(prefers-reduced-motion:reduce)')) {
   failures.push('Pip motion does not respect reduced-motion preferences');

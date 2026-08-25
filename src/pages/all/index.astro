@@ -2,9 +2,28 @@
 import { getCollection } from 'astro:content';
 import CuratorGuide from '../../components/CuratorGuide.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatMonthYear, isoMonth } from '../../lib/dates';
 
-const displayDate = (entry: Awaited<ReturnType<typeof getCollection<'archive'>>>[number]) =>
-  entry.data.publishedDate ?? entry.data.date ?? entry.data.producedDate;
+type ArchiveEntry = Awaited<ReturnType<typeof getCollection<'archive'>>>[number];
+
+const displayDate = (entry: ArchiveEntry) => {
+  const value = entry.data.publishedDate ?? entry.data.date ?? entry.data.producedDate;
+  if (!value) return undefined;
+  if (value instanceof Date) return value;
+
+  const [year, month = 1, day = 1] = value.split('-').map(Number);
+  return new Date(Date.UTC(year, month - 1, day));
+};
+
+const displayKind = (entry: ArchiveEntry) => {
+  if (entry.data.type === 'writing') {
+    return entry.data.writingKind === 'academic' ? 'Academic writing' : 'Personal writing';
+  }
+
+  return entry.data.type === 'work'
+    ? 'Project'
+    : entry.data.type.charAt(0).toUpperCase() + entry.data.type.slice(1);
+};
 
 const entries = (await getCollection('archive', ({ data }) => data.status === 'published'))
   .sort((a, b) => {
@@ -25,9 +44,9 @@ const entries = (await getCollection('archive', ({ data }) => data.status === 'p
     <CuratorGuide
       headingId="curator-all-work"
       messages={[
-        `I like this view because it puts ${entries.filter(({ data }) => data.type === 'work').length} projects beside ${entries.filter(({ data }) => data.type === 'writing').length} pieces of writing without separating them into different rooms.`,
-        'Look for recurring concerns: attention, evidence, privacy, and the work required to make complex material usable.',
-        'The ABM proposal is a useful bridge between the psychological questions and the systems thinking.',
+        'This is the easiest place to wander. Software, academic writing, and personal essays all share the same room.',
+        "Boomer keeps returning to hard questions in different forms. How can evidence be checked, files stay under their owner's control, and difficult information become easier to use?",
+        "Let's begin with his student proposal on attention bias and aggression.",
       ]}
       nextExhibit={{ href: '/writing/attention-bias-modification-aggression/', label: 'ABM research proposal' }}
     />
@@ -35,9 +54,15 @@ const entries = (await getCollection('archive', ({ data }) => data.status === 'p
   <section class="archive-table" aria-label="All work">
     {entries.map((entry) => (
       <a class="archive-row" href={entry.data.externalUrl ?? '/' + entry.data.type + '/' + entry.data.slug + '/'}>
-        <span>{displayDate(entry)?.getUTCFullYear() ?? '—'}</span>
-        <span>{entry.data.type}</span>
-        <span>{entry.data.title}</span>
+        {displayDate(entry) ? (
+          <time class="archive-date" datetime={isoMonth(displayDate(entry)!)}>
+            {formatMonthYear(displayDate(entry)!)}
+          </time>
+        ) : (
+          <span class="archive-date">—</span>
+        )}
+        <span class="archive-kind">{displayKind(entry)}</span>
+        <span class="archive-title">{entry.data.title}</span>
       </a>
     ))}
   </section>

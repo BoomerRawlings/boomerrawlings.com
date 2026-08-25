@@ -13,7 +13,11 @@ const monthFormatter = new Intl.DateTimeFormat('en-US', {
 
 export const formatFullDate = (date: Date) => fullDateFormatter.format(date);
 
+export const formatMonthYear = (date: Date) => monthFormatter.format(date);
+
 export const isoDate = (date: Date) => date.toISOString().slice(0, 10);
+
+export const isoMonth = (date: Date) => date.toISOString().slice(0, 7);
 
 export function formatPartialDate(value: string) {
   const [year, month, day] = value.split('-').map(Number);

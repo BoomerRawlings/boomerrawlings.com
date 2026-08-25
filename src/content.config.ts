@@ -2,6 +2,27 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
+const localAssetPath = z.string().regex(/^\/(?!\/)/);
+const visualEvidenceBase = {
+  role: z.enum(['hero', 'process', 'proof']),
+  src: localAssetPath,
+  alt: z.string().min(1),
+  caption: z.string().min(1),
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+};
+const visualEvidenceItem = z.discriminatedUnion('kind', [
+  z.object({
+    ...visualEvidenceBase,
+    kind: z.literal('image'),
+  }),
+  z.object({
+    ...visualEvidenceBase,
+    kind: z.literal('video'),
+    poster: localAssetPath,
+  }),
+]);
+
 const archive = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/archive' }),
   schema: z
@@ -11,6 +32,7 @@ const archive = defineCollection({
       date: z.coerce.date().optional(),
       type: z.enum(['work', 'research', 'writing', 'photography']),
       description: z.string(),
+      visualEvidence: z.array(visualEvidenceItem).max(3).optional(),
       curatorNotes: z.array(z.string().min(1)).min(2).max(4).optional(),
       nextExhibit: z.object({
         href: z.string().regex(/^\/(?!\/)/),
@@ -37,6 +59,18 @@ const archive = defineCollection({
           message: 'Curator notes and their next exhibit must be defined together.',
         });
       }
+
+      const visualRoles = new Set<string>();
+      entry.visualEvidence?.forEach((visual, index) => {
+        if (visualRoles.has(visual.role)) {
+          context.addIssue({
+            code: 'custom',
+            path: ['visualEvidence', index, 'role'],
+            message: `Visual evidence role ${visual.role} may appear only once.`,
+          });
+        }
+        visualRoles.add(visual.role);
+      });
 
       if (entry.type !== 'writing' || entry.status !== 'published') return;
 

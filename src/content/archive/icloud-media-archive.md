@@ -1,15 +1,24 @@
 ---
-title: Migrating and Indexing 31,550 Photos and Videos
+title: Media Archiving and Cataloging Pipeline
 slug: organizing-icloud-media
 type: work
-description: An actively supervised migration and frame-level indexing system for 31,550 iCloud photos and videos.
+description: A supervised pipeline designed to reliably archive and catalog tens of thousands of photos and videos.
+date: "2026-08"
+visualEvidence:
+  - role: process
+    kind: image
+    src: /media/projects/organizing-icloud-media/archive-catalog-pipeline.svg
+    alt: Supervised media pipeline from staged iCloud transfer through validation into preserved originals and traceable search records.
+    caption: A supervised pipeline moves media through staged checks into a preserved local library, then creates searchable derivative records that remain separate from and traceable to the originals.
+    width: 1600
+    height: 900
 curatorNotes:
-  - "31,550 items is only the visible scale. No single available tool handled this library’s full export workflow, so fidelity depends on a supervised migration—not a bulk-download button."
-  - "Media moves through staged batches, checks, reconciliation, and logs; active supervision exposes failures before files enter the local library."
-  - "Then the scale multiplies: a separate parser tags each photo and every video frame while keeping derived records apart from—and traceable to—the source media."
+  - "The diagram shows why this job needs a pipeline. It is designed to archive and catalog tens of thousands of photos and videos without trusting a one-click cloud export."
+  - "Boomer supervises batches, checks files, reconciles failures, and keeps a traceable record before anything reaches the preserved library."
+  - "A separate parsing layer is designed to tag each photo and every video frame without changing the originals. Small Projects is next."
 nextExhibit:
   href: /work/interactive-systems/
-  label: Interactive Systems
+  label: Small Projects
 tags:
   - media organization
   - media preservation

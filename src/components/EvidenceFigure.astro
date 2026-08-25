@@ -1,0 +1,77 @@
+---
+type EvidenceRole = 'hero' | 'process' | 'proof';
+
+interface Props {
+  entrySlug: string;
+  role: EvidenceRole;
+  kind: 'image' | 'video';
+  src: string;
+  poster?: string;
+  alt: string;
+  caption: string;
+  width: number;
+  height: number;
+}
+
+const {
+  entrySlug,
+  role,
+  kind,
+  src,
+  poster,
+  alt,
+  caption,
+  width,
+  height,
+} = Astro.props;
+const roleLabels: Record<EvidenceRole, string> = {
+  hero: 'Overview',
+  process: 'Process',
+  proof: 'Interface',
+};
+const captionId = `evidence-${entrySlug}-${role}`.replace(/[^a-z0-9_-]/gi, '-');
+const isFullSizeDiagram = kind === 'image' && src.endsWith('.svg');
+const videoType = src.endsWith('.webm')
+  ? 'video/webm'
+  : src.endsWith('.mp4')
+    ? 'video/mp4'
+    : undefined;
+---
+
+<figure class:list={['evidence-figure', `evidence-figure--${role}`]}>
+  <div class="evidence-media">
+    {kind === 'image' ? (
+      <img
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        loading={role === 'hero' ? 'eager' : 'lazy'}
+        decoding="async"
+      />
+    ) : (
+      <video
+        controls
+        playsinline
+        preload="metadata"
+        poster={poster}
+        width={width}
+        height={height}
+        aria-label={alt}
+        aria-describedby={captionId}
+      >
+        <source src={src} type={videoType} />
+        <a href={src}>Open the {roleLabels[role].toLowerCase()} video</a>.
+      </video>
+    )}
+  </div>
+  <figcaption id={captionId} class="evidence-caption">
+    <span class="evidence-caption-label">{roleLabels[role]}</span>
+    <span>{caption}</span>
+  </figcaption>
+  {isFullSizeDiagram && (
+    <p class="evidence-fullsize">
+      <a href={src}>Open full-size diagram <span aria-hidden="true">↗</span></a>
+    </p>
+  )}
+</figure>

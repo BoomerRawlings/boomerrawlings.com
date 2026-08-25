@@ -1,0 +1,117 @@
+---
+import CuratorGuide from '../../components/CuratorGuide.astro';
+import { academicHonors, courseworkByInstitution, selectedAcademicWork } from '../../data/academic';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const courseworkId = (title: string) =>
+  `coursework-${title.toLowerCase().replaceAll(' ', '-').replace('+', 'and')}`;
+---
+
+<BaseLayout
+  title="Academics"
+  description="Boomer Rawlings completed Southwestern College’s Psychology for Transfer (AA-T) degree with honors in Spring 2026. Explore academic recognition, selected coursework, and research."
+>
+  <section class="page-intro page-intro--guided">
+    <p class="eyebrow">Academics</p>
+    <h1>Psychology, research, and data</h1>
+    <p class="page-deck">
+      A selected public academic record: education, recognition, relevant completed coursework, and work connecting psychological research with software and publishing systems.
+    </p>
+    <CuratorGuide
+      headingId="curator-cv"
+      messages={[
+        'Boomer completed his Psychology for Transfer (AA-T) degree with honors at Southwestern College in one year.',
+        "That same year, he received SWC's highest student award. He earned a 4.0 GPA in four separate terms and made the President's List each time.",
+        'His course selection was deep and focused, covering research design, behavioral statistics, data analysis, cognition, critical writing, communication, and Python. Horizon is next.',
+      ]}
+      nextExhibit={{ href: '/work/horizon/', label: 'Horizon' }}
+    />
+  </section>
+
+  <section class="academic-profile" aria-labelledby="education-heading">
+    <header class="academic-profile-header">
+      <p class="academic-kicker">Education</p>
+      <div class="academic-profile-copy">
+        <h2 id="education-heading">Southwestern College</h2>
+        <p class="cv-program">
+          <a href="https://catalog.swccd.edu/associate-degree-certificate-programs/psychology/psychology-transfer-aa/">
+            Psychology for Transfer (AA-T)
+          </a>
+        </p>
+        <p class="degree-completion">
+          <strong>Degree completed with honors in one year</strong>
+          <span>Spring 2026</span>
+        </p>
+        <p>
+          Completed at Southwestern College. The program work combines psychological theory with research design, behavioral statistics, data analysis, critical writing, communication, and programming.
+        </p>
+      </div>
+    </header>
+
+    <section class="recognition" aria-labelledby="recognition-heading">
+      <header class="coursework-header">
+        <h3 id="recognition-heading">Recognition</h3>
+        <p>Linked to Southwestern College’s official award and academic-recognition criteria.</p>
+      </header>
+      <div class="academic-honors">
+        {academicHonors.map((honor) => (
+          <article class="academic-honor">
+            <p class="academic-value" aria-hidden="true">{honor.value}</p>
+            <div>
+              <h4><a href={honor.href}>{honor.title}</a></h4>
+              <p>{honor.summary}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="coursework" aria-labelledby="coursework-heading">
+      <header class="coursework-header">
+        <h3 id="coursework-heading">Coursework</h3>
+        <p>Selected completed courses, organized by institution.</p>
+      </header>
+      <div class="coursework-institutions">
+        {courseworkByInstitution.map((record) => (
+          <section class="institution-coursework" aria-labelledby={`institution-${record.id}`}>
+            <header class="institution-coursework-header">
+              <h4 id={`institution-${record.id}`}>{record.institution}</h4>
+              <p>Selected completed coursework · {record.period}</p>
+            </header>
+            <div class="coursework-groups">
+              {record.groups.map((group) => (
+                <section class="coursework-group" aria-labelledby={`${record.id}-${courseworkId(group.title)}`}>
+                  <h5 id={`${record.id}-${courseworkId(group.title)}`}>{group.title}</h5>
+                  <ul class="coursework-list">
+                    {group.courses.map(([code, title]) => (
+                      <li>
+                        <span class="course-code">{code}</span>
+                        <span class="course-title">{title}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </section>
+
+    <section class="academic-work" aria-labelledby="academic-work-heading">
+      <header class="coursework-header">
+        <h3 id="academic-work-heading">Selected academic work</h3>
+        <p>Public work with academic research, source, or documentation foundations.</p>
+      </header>
+      <div class="academic-work-grid">
+        {selectedAcademicWork.map((work) => (
+          <article class="academic-work-card">
+            <p class="academic-work-meta">{work.meta}</p>
+            <h4><a href={work.href}>{work.title}</a></h4>
+            <p>{work.summary}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  </section>
+</BaseLayout>

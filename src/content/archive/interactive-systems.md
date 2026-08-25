@@ -1,15 +1,23 @@
 ---
-title: Interactive Systems
+title: Small Projects
 slug: interactive-systems
 type: work
-description: Cryptographic puzzles, shifting mazes, and procedural worlds whose mystery remains governed by measurable rules.
+description: A collection of small cryptographic puzzles, shifting mazes, and procedural worlds whose mystery remains governed by measurable rules.
+visualEvidence:
+  - role: hero
+    kind: image
+    src: /media/projects/small-projects/the-unrendered-world.webp
+    alt: A pale, glass-like procedural city of suspended stairways and platforms in The Unrendered World.
+    caption: The Unrendered World uses a fixed seed to regenerate the same shifting architecture for inspection and comparison.
+    width: 1536
+    height: 1024
 curatorNotes:
-  - "These worlds feel uncertain, but their underlying rules are exact."
-  - "In The Silent Index, future stages remain encrypted until the current proof is authenticated."
-  - "The maze and procedural worlds use deterministic generation, measurable state, and reversible iteration—precision underneath player-driven discovery."
+  - "Welcome to the experimental corner! The image comes from The Unrendered World, a procedural city that can be regenerated from the same fixed seed."
+  - "In The Silent Index, each new stage stays encrypted until the current proof is solved and authenticated. The Axiom Maze shifts distant geometry as you move."
+  - "These worlds can surprise you while their hidden rules stay measurable and reproducible. Now let's switch from systems to a psychology research proposal."
 nextExhibit:
   href: /writing/attention-bias-modification-aggression/
-  label: ABM proposal
+  label: ABM research proposal
 tags:
   - games
   - cryptography
