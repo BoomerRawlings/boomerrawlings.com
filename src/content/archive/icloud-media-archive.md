@@ -10,8 +10,8 @@ visualEvidence:
     src: /media/projects/organizing-icloud-media/archive-catalog-pipeline.svg
     alt: Supervised media pipeline from staged iCloud transfer through validation into preserved originals and traceable search records.
     caption: A supervised pipeline moves media through staged checks into a preserved local library, then creates searchable derivative records that remain separate from and traceable to the originals.
-    width: 1600
-    height: 900
+    width: 1613
+    height: 505
 curatorNotes:
   - "The diagram shows why this job needs a pipeline. It is designed to archive and catalog tens of thousands of photos and videos without trusting a one-click cloud export."
   - "Boomer supervises batches, checks files, reconciles failures, and keeps a traceable record before anything reaches the preserved library."

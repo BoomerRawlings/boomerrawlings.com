@@ -10,8 +10,8 @@ visualEvidence:
     src: /media/projects/workline/handwriting-feedback-pipeline.svg
     alt: Workline flow from a handwritten math photo through learner-confirmed transcription to deterministic checking and revision.
     caption: Workline separates reading from judgment. AI transcribes the page, the learner confirms the text, and a deterministic checker identifies the first step that needs revision.
-    width: 1600
-    height: 900
+    width: 1064
+    height: 481
 curatorNotes:
   - "The diagram starts with a photograph of handwritten math and ends with feedback a learner can actually use."
   - "The vision model reads the page and marks uncertain text. The learner confirms it before a separate, deterministic checker evaluates the math."
@@ -23,7 +23,7 @@ tags:
   - learning tools
   - computer vision
   - deterministic systems
-status: published
+status: draft
 featured: true
 ---
 

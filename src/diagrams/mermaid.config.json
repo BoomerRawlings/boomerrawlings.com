@@ -1,0 +1,29 @@
+{
+  "theme": "base",
+  "securityLevel": "strict",
+  "deterministicIds": true,
+  "deterministicIDSeed": "boomerrawlings-static-diagrams",
+  "htmlLabels": false,
+  "fontFamily": "Arial, sans-serif",
+  "themeVariables": {
+    "fontFamily": "Arial, sans-serif",
+    "fontSize": "18px",
+    "primaryColor": "#ffffff",
+    "primaryTextColor": "#182b49",
+    "primaryBorderColor": "#00629b",
+    "lineColor": "#00629b",
+    "secondaryColor": "#f4f0e6",
+    "tertiaryColor": "#eef6f9",
+    "clusterBkg": "#f7fafc",
+    "clusterBorder": "#7a99ac",
+    "edgeLabelBackground": "#ffffff"
+  },
+  "flowchart": {
+    "htmlLabels": false,
+    "curve": "basis",
+    "nodeSpacing": 55,
+    "rankSpacing": 75,
+    "padding": 18,
+    "useMaxWidth": false
+  }
+}

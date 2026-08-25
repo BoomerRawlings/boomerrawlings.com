@@ -1,0 +1,32 @@
+---
+title: Supervised media archiving and cataloging pipeline
+---
+flowchart TB
+  accTitle: Supervised media archiving and cataloging pipeline
+  accDescr: A read-only iCloud collection moves through supervised preservation checks before a separate indexing layer creates traceable search records.
+
+  subgraph preservation["1 · Preserve the originals"]
+    direction LR
+    source["Read-only iCloud collection<br/>31,550 photos and videos"] --> batches["Supervised batches"]
+    batches --> checks["File checks"]
+    checks --> reconcile["Reconcile failures<br/>Log each promotion"]
+    reconcile --> library["Organized local library<br/>Preserved originals"]
+  end
+
+  subgraph indexing["2 · Build a separate search layer"]
+    direction LR
+    parser["Media parser"] --> frames["Photos and video frames"]
+    frames --> records["Searchable text and tags"]
+    records --> provenance["Source references<br/>Processing provenance"]
+  end
+
+  preservation -->|Index separately| indexing
+
+  classDef source fill:#f4f0e6,stroke:#c69214,color:#182b49,stroke-width:2px
+  classDef process fill:#eef6f9,stroke:#00629b,color:#182b49,stroke-width:2px
+  classDef preserved fill:#f0f7ec,stroke:#3f6d3a,color:#182b49,stroke-width:2px
+  classDef derived fill:#ffffff,stroke:#00c6d7,color:#182b49,stroke-width:2px
+  class source source
+  class batches,checks,reconcile,parser process
+  class library preserved
+  class frames,records,provenance derived

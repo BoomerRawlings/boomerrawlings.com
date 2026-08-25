@@ -1,0 +1,29 @@
+---
+title: How Workline turns handwritten math into targeted feedback
+---
+flowchart TB
+  accTitle: Workline handwriting-feedback pipeline
+  accDescr: A handwritten math photo is transcribed, confirmed by the learner, checked deterministically, and returned with a precise place to revise.
+
+  subgraph reading["1 · Read the work"]
+    direction LR
+    photo["Handwritten math photo"] --> vision["Vision transcription<br/>Order steps and flag uncertain text"]
+    vision --> review["Learner review<br/>Confirm or edit the transcription"]
+  end
+
+  subgraph response["2 · Check and respond"]
+    direction LR
+    checker["Deterministic checker<br/>Validate each transformation"] --> feedback["Targeted feedback<br/>Locate the first break"]
+    feedback --> revise["Revise and retry<br/>Return with a confirmed attempt"]
+  end
+
+  reading --> response
+
+  classDef input fill:#f4f0e6,stroke:#c69214,color:#182b49,stroke-width:2px
+  classDef human fill:#ffffff,stroke:#00c6d7,color:#182b49,stroke-width:2px
+  classDef system fill:#eef6f9,stroke:#00629b,color:#182b49,stroke-width:2px
+  classDef outcome fill:#f0f7ec,stroke:#3f6d3a,color:#182b49,stroke-width:2px
+  class photo input
+  class review human
+  class vision,checker system
+  class feedback,revise outcome

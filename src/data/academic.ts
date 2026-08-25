@@ -18,7 +18,7 @@ export const courseworkByInstitution = [
   {
     id: 'southwestern-college',
     institution: 'Southwestern College',
-    period: 'Spring 2025–Summer 2026',
+    period: 'SPRING 2025 - SPRING 2026',
     groups: [
       {
         title: 'Research + data',

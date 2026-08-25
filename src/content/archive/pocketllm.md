@@ -15,10 +15,10 @@ visualEvidence:
 curatorNotes:
   - "pocketLLM creates pseudonymized working copies while leaving the original text files unchanged."
   - "The video uses synthetic files, and yes, the little face objects when the cursor clicks it! Behind that moment, likely identifiers are replaced locally and recorded in matching key files."
-  - "Those keys make restoration possible, but detection can miss things, so every copy still needs human review. Workline is next."
+  - "Those keys make restoration possible, but detection can miss things, so every copy still needs human review. Next, I'll show you how Boomer turns source checking into finished documents."
 nextExhibit:
-  href: /work/workline/
-  label: Workline
+  href: /work/research-publishing-systems/
+  label: Research and Publishing Systems
 tags:
   - privacy tools
   - local software

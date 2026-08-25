@@ -1215,7 +1215,8 @@ main {
 }
 
 .evidence-figure {
-  margin: 0;
+  inline-size: min(100%, var(--evidence-width));
+  margin: 0 auto;
   min-width: 0;
 }
 

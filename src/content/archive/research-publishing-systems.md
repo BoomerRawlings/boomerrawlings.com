@@ -2,11 +2,11 @@
 title: Research and Publishing Systems
 slug: research-publishing-systems
 type: work
-description: A repeatable source-to-print practice for turning dense evidence into usable handbooks, schedules, briefings, and document tools.
+description: Reader-centered systems for turning researched material into useful publications, from personalized briefings to beginner technology guides.
 curatorNotes:
-  - "A finished handbook or schedule can look simple, but the hard work starts long before the page is designed."
-  - "Boomer checks the sources, structures the information, renders the document, and inspects every page before calling it finished."
-  - "That practice has produced a UCSD transfer handbook, a reconciled conference schedule, and reusable print tools. Next, I'll show you the media pipeline."
+  - "Continuity Desk builds a publication around one reader. It keeps each source claim traceable and carries useful context from one issue to the next."
+  - "Boomer's Southwestern College technology packet solves a different problem. Its two guides give beginners a 95-page path from connecting to Wi-Fi and opening mySWC to saving a Word file, submitting work in Canvas, messaging an instructor, and reading feedback."
+  - "These publications are very different, but they share a goal: helping a particular reader find the right information and use it. Next, I'll show you the media pipeline."
 nextExhibit:
   href: /work/organizing-icloud-media/
   label: Media Archiving and Cataloging Pipeline
@@ -18,9 +18,20 @@ status: published
 featured: true
 ---
 
-A polished document can still be wrong. These systems treat source checking, content structure, layout, rendering, and page-level inspection as one production chain.
+A useful publication starts with a specific reader. The sources, structure, wording, page design, testing, and delivery all follow from what that reader needs to understand or do next.
 
-## Selected applications
+## Continuity Desk
+
+Continuity Desk is a personalized editorial publishing system built around one reader. Each issue moves through a review-first process that includes intake, retained context, source collection, a claim ledger, page planning, preflight, rendering, full-page visual review, human approval, and a delivery record. This keeps claims traceable while allowing useful context to carry forward from one issue to the next.
+
+## Southwestern College technology packet
+
+Completed in July 2026, this two-guide, 95-page packet was written for new Southwestern College students, especially those learning modern school technology while beginning college.
+
+- *Getting Connected at Southwestern College* is a 59-page guide to internet access, Wi-Fi, mobile hotspots, Windows and Android basics, mySWC, Outlook, Canvas, Student Self-Service, account safety, and troubleshooting.
+- *Use Canvas, Word, Files, and Teacher Messages* is a 36-page companion covering Word, files and folders, Canvas submissions and submission proof, discussions, Inbox messages, grades, feedback, screenshots, troubleshooting, and guided practice.
+
+## Other selected applications
 
 - A binder-ready UCSD Psychology transfer handbook assembled from official program, course, and policy sources.
 - A compact, duplex-ready FLUX conference schedule reconciled against the source program.

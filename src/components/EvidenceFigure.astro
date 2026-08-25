@@ -38,7 +38,10 @@ const videoType = src.endsWith('.webm')
     : undefined;
 ---
 
-<figure class:list={['evidence-figure', `evidence-figure--${role}`]}>
+<figure
+  class:list={['evidence-figure', `evidence-figure--${role}`]}
+  style={`--evidence-width: ${width}px`}
+>
   <div class="evidence-media">
     {kind === 'image' ? (
       <img

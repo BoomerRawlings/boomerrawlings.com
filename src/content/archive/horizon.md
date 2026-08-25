@@ -11,8 +11,8 @@ visualEvidence:
     poster: /media/projects/horizon/startup-poster.webp
     alt: Horizon's startup animation opening into a clean local desktop workspace.
     caption: Launching Horizon moves through its startup sequence before the local desktop workspace appears.
-    width: 960
-    height: 540
+    width: 1920
+    height: 1080
   - role: proof
     kind: video
     src: /media/projects/horizon/interface-tour.mp4

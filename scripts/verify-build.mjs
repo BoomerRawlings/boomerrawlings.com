@@ -16,9 +16,35 @@ walk(output);
 
 const htmlFiles = files.filter((file) => extname(file) === '.html');
 if (htmlFiles.length === 0) throw new Error('build produced no HTML');
-if (htmlFiles.length !== 16) throw new Error(`expected 16 HTML pages, found ${htmlFiles.length}`);
+if (htmlFiles.length !== 15) throw new Error(`expected 15 HTML pages, found ${htmlFiles.length}`);
 
 const failures = [];
+
+const diagrams = [
+  {
+    source: join('src', 'diagrams', 'workline.mmd'),
+    svg: join('public', 'media', 'projects', 'workline', 'handwriting-feedback-pipeline.svg'),
+  },
+  {
+    source: join('src', 'diagrams', 'media-archive.mmd'),
+    svg: join('public', 'media', 'projects', 'organizing-icloud-media', 'archive-catalog-pipeline.svg'),
+  },
+];
+for (const diagram of diagrams) {
+  if (!existsSync(diagram.source)) {
+    failures.push(`${diagram.source}: missing Mermaid source`);
+    continue;
+  }
+  if (!existsSync(diagram.svg)) {
+    failures.push(`${diagram.svg}: missing rendered SVG`);
+    continue;
+  }
+  const svg = readFileSync(diagram.svg, 'utf8');
+  if (/<(?:script|foreignObject)\b/i.test(svg)) {
+    failures.push(`${diagram.svg}: generated diagram contains executable or HTML content`);
+  }
+}
+
 for (const file of htmlFiles) {
   const html = readFileSync(file, 'utf8');
   const label = relative(output, file);
@@ -123,7 +149,10 @@ const mediaLibraryHtml = readFileSync(
 const horizonHtml = readFileSync(join(output, 'work', 'horizon', 'index.html'), 'utf8');
 const paperfieldHtml = readFileSync(join(output, 'work', 'paperfield', 'index.html'), 'utf8');
 const pocketllmHtml = readFileSync(join(output, 'work', 'pocketllm', 'index.html'), 'utf8');
-const worklineHtml = readFileSync(join(output, 'work', 'workline', 'index.html'), 'utf8');
+const worklinePath = join(output, 'work', 'workline', 'index.html');
+if (existsSync(worklinePath)) {
+  failures.push('Workline page: hidden project still has a generated detail route');
+}
 const smallProjectsHtml = readFileSync(
   join(output, 'work', 'interactive-systems', 'index.html'),
   'utf8',
@@ -147,6 +176,19 @@ if (!horizonHtml.includes('/media/projects/horizon/startup-sequence.mp4')
   || !horizonHtml.includes('/media/projects/horizon/interface-tour-poster.webp')) {
   failures.push('Horizon page: clean startup sequence or guided interface tour is missing');
 }
+if (!horizonHtml.includes('width="1920" height="1080"')) {
+  failures.push('Horizon page: startup sequence is not published at 1920×1080');
+}
+const publishingSystemsHtml = readFileSync(
+  join(output, 'work', 'research-publishing-systems', 'index.html'),
+  'utf8',
+);
+if (!publishingSystemsHtml.includes('Continuity Desk')
+  || !publishingSystemsHtml.includes('95-page packet')
+  || !publishingSystemsHtml.includes('Getting Connected at Southwestern College')
+  || !publishingSystemsHtml.includes('Use Canvas, Word, Files, and Teacher Messages')) {
+  failures.push('Research and Publishing Systems page: Continuity Desk or the SWC technology packet is incomplete');
+}
 if (!paperfieldHtml.includes('/media/projects/paperfield/research-workflow.mp4')
   || !paperfieldHtml.includes('/media/projects/paperfield/research-workflow-poster.webp')) {
   failures.push('Paperfield page: DOI, library, search, connection, or PDF workflow is missing');
@@ -159,11 +201,8 @@ if (!pocketllmHtml.includes('/media/projects/pocketllm/interface-tour.mp4')
   failures.push('pocketLLM page: demo evidence, supported files, restoration key, or limits are missing');
 }
 if (!paperfieldHtml.includes('action="/work/pocketllm/"')
-  || !pocketllmHtml.includes('action="/work/workline/"')) {
-  failures.push('project trail: Paperfield must continue to pocketLLM, then Workline');
-}
-if (!worklineHtml.includes('/media/projects/workline/handwriting-feedback-pipeline.svg')) {
-  failures.push('Workline page: transcription and checking process diagram is missing');
+  || !pocketllmHtml.includes('action="/work/research-publishing-systems/"')) {
+  failures.push('project trail: Paperfield must continue to pocketLLM, then Research and Publishing Systems');
 }
 if (!smallProjectsHtml.includes('/media/projects/small-projects/the-unrendered-world.webp')) {
   failures.push('Small Projects page: The Unrendered World visual is missing');
@@ -171,7 +210,6 @@ if (!smallProjectsHtml.includes('/media/projects/small-projects/the-unrendered-w
 if (!horizonHtml.includes('first video shows its startup sequence')
   || !paperfieldHtml.includes('The video shows papers being grouped')
   || !pocketllmHtml.includes('the little face objects when the cursor clicks it')
-  || !worklineHtml.includes('The diagram starts with a photograph')
   || !mediaLibraryHtml.includes('The diagram shows why this job needs a pipeline')
   || !smallProjectsHtml.includes('The image comes from The Unrendered World')) {
   failures.push('project pages: Pip is not interpreting the new visual evidence');
@@ -233,7 +271,6 @@ const allWorkRow = (href) => {
 const datedProjects = [
   ['/work/horizon/', '2026-03', 'March 2026'],
   ['/work/paperfield/', '2026-05', 'May 2026'],
-  ['/work/workline/', '2026-08', 'August 2026'],
   ['/work/organizing-icloud-media/', '2026-08', 'August 2026'],
 ];
 for (const [href, datetime, label] of datedProjects) {
@@ -253,6 +290,9 @@ if (!workHtml.includes('Small Projects')
 }
 
 const publicHtml = htmlFiles.map((file) => readFileSync(file, 'utf8')).join('\n');
+if (publicHtml.includes('/work/workline/') || publicHtml.includes('>Workline<')) {
+  failures.push('public pages: hidden Workline project is still linked or named');
+}
 if (publicHtml.includes('<span class="sr-only">Pip says: </span>')) {
   failures.push('public pages: Pip’s accessible label is duplicated inside each live message');
 }
@@ -277,7 +317,6 @@ const featuredProjects = [
   'horizon',
   'paperfield',
   'pocketllm',
-  'workline',
   'research-publishing-systems',
   'organizing-icloud-media',
 ];
@@ -333,7 +372,7 @@ if (!cvHtml.includes('Psychology for Transfer (AA-T)')
   || !cvHtml.includes('Introduction to Programming Logic and Design Using Python')) {
   failures.push('cv/index.html: selected academic experience is incomplete');
 }
-if (!cvHtml.includes('Selected completed coursework · Spring 2025–Summer 2026')
+if (!cvHtml.includes('Selected completed coursework · SPRING 2025 - SPRING 2026')
   || !cvHtml.includes('institution-southwestern-college')) {
   failures.push('cv/index.html: coursework is not clearly grouped under Southwestern College');
 }
@@ -344,7 +383,7 @@ if (!cvHtml.includes('The study was not conducted')
   || !cvHtml.includes('Research and Publishing Systems')) {
   failures.push('cv/index.html: selected academic work is incomplete or overstates the research proposal');
 }
-if (cvHtml.includes('TOTAL 16.00') || cvHtml.includes('SPRING 2025')) {
+if (cvHtml.includes('TOTAL 16.00')) {
   failures.push('cv/index.html: transcript detail was published instead of a selected academic profile');
 }
 
@@ -352,7 +391,6 @@ const workPagePaths = [
   'horizon',
   'paperfield',
   'pocketllm',
-  'workline',
   'research-publishing-systems',
   'organizing-icloud-media',
   'interactive-systems',
