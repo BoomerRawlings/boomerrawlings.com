@@ -2,12 +2,13 @@
 
 - Mode: continuation
 - Objective: migrate the verified static portfolio from credit-limited Netlify to GitHub Pages without disrupting GoDaddy-hosted email.
-- Status: Pages implementation passes locally; GitHub enablement, deployment, DNS cutover, HTTPS, and Netlify build shutdown remain.
+- Status: GitHub Pages is deployed and verified at its origin; GoDaddy requires a fresh SMS identity check before the web-only DNS cutover can be saved.
 
 ## Completed
 
 - GitHub `main` contains the complete portfolio release at `c091018`; Netlify skipped it because the account credit allowance is exhausted.
 - Added a pinned GitHub Pages Actions workflow, apex-domain marker, four static legacy redirects, and portable CSP/referrer metadata.
+- Enabled Pages in workflow mode, registered `boomerrawlings.com`, and deployed commit `0e0c7bb`; the GitHub origin returns the new homepage and Continuity Desk page with HTTP 200.
 - Inventoried all 20 GoDaddy DNS records across both dashboard pages and confirmed the public authoritative zone.
 - `npm test` verifies 15 content pages and four redirects, including metadata, links, assets, Pip behavior, and project-specific evidence.
 - `git diff --check` passes.
@@ -23,10 +24,9 @@
 
 ## Next
 
-1. Commit and push the Pages implementation without triggering a Netlify build.
-2. Enable Pages in workflow mode, set `boomerrawlings.com`, and verify the Actions deployment.
-3. Cut over the two GoDaddy web record sets only; verify authoritative/public DNS and email records.
-4. Enforce HTTPS, test live routes/assets/redirects, and disable Netlify automatic builds.
+1. Enter the fresh GoDaddy SMS code; the first apex value is staged but not saved.
+2. Cut over the two GoDaddy web record sets only; verify authoritative/public DNS and email records.
+3. Enforce HTTPS, test live routes/assets/redirects, and disable Netlify automatic builds.
 
 ## Risks
 
