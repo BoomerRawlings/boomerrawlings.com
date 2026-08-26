@@ -2,15 +2,15 @@
 
 ## Purpose
 
-BoomerRawlings.com is a durable public archive of selected software, research, writing, photography, and biographical material. It is not only a software portfolio.
+BoomerRawlings.com is a developing public portfolio of selected software, research, writing, photography, and biographical material. It is not only a software portfolio.
 
 ## Source of truth and deployment
 
 - GitHub is canonical.
 - main is the production branch.
-- Netlify builds main with npm run build and publishes dist.
+- GitHub Actions runs npm test and publishes dist to GitHub Pages.
 - Do not deploy an untracked local copy as the lasting production source.
-- Batch production changes into one verified push. Use local tests or a deploy preview while iterating; do not spend production-build credits on incremental or state-only commits.
+- Batch production changes into one verified push. Use local tests while iterating.
 
 ## Structure
 
@@ -21,9 +21,10 @@ BoomerRawlings.com is a durable public archive of selected software, research, w
 - src/layouts: document shell and metadata
 - src/styles: global presentation
 - public: static public assets only
-- netlify.toml: build, redirect, and response-header policy
+- .github/workflows/deploy-pages.yml: verified production build and deployment
+- public/CNAME: custom-domain marker; GitHub Pages settings remain authoritative
 
-Keep content out of UI components. Use the unified archive collection and its type field for work, research, writing, and photography. Preserve support for chronological cross-type access at /archive/.
+Keep content out of UI components. Use the unified archive collection and its type field for work, research, writing, and photography. Preserve chronological cross-type access at /all/ and the exact legacy /archive/ redirect.
 
 ## Commands
 

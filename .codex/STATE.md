@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: migrate the verified static portfolio from credit-limited Netlify to GitHub Pages without disrupting GoDaddy-hosted email.
-- Status: GitHub Pages is deployed and verified at its origin; GoDaddy requires a fresh SMS identity check before the web-only DNS cutover can be saved.
+- Status: DNS and content cutover are verified; Netlify builds are stopped, and GitHub is provisioning the TLS certificate before HTTPS enforcement.
 
 ## Completed
 
@@ -10,6 +10,11 @@
 - Added a pinned GitHub Pages Actions workflow, apex-domain marker, four static legacy redirects, and portable CSP/referrer metadata.
 - Enabled Pages in workflow mode, registered `boomerrawlings.com`, and deployed commit `0e0c7bb`; the GitHub origin returns the new homepage and Continuity Desk page with HTTP 200.
 - Inventoried all 20 GoDaddy DNS records across both dashboard pages and confirmed the public authoritative zone.
+- Replaced the sole Netlify apex address with GitHub's four apex addresses and changed `www` to `BoomerRawlings.github.io`; authoritative GoDaddy, Cloudflare, and Google DNS all return the new values.
+- Re-verified unchanged nameservers, three MX records, SPF, DMARC, Microsoft verification, seven service CNAMEs, and two SIP SRV records.
+- Verified every key route and the Horizon video returns 200, Workline remains 404, all four legacy pages redirect correctly, and `www` returns GitHub's apex redirect.
+- GitHub's Pages health check marks apex and `www` valid, served by Pages, HTTPS-eligible, and free of CAA errors.
+- Stopped Netlify automatic builds while preserving published deploy `6a8e1e59c380b700083ffa1d` at `boomerrawlings-com.netlify.app` as a rollback.
 - `npm test` verifies 15 content pages and four redirects, including metadata, links, assets, Pip behavior, and project-specific evidence.
 - `git diff --check` passes.
 
@@ -24,9 +29,8 @@
 
 ## Next
 
-1. Enter the fresh GoDaddy SMS code; the first apex value is staged but not saved.
-2. Cut over the two GoDaddy web record sets only; verify authoritative/public DNS and email records.
-3. Enforce HTTPS, test live routes/assets/redirects, and disable Netlify automatic builds.
+1. Wait for GitHub's certificate, then enforce HTTPS and repeat live verification without bypassing certificate checks.
+2. Push the final Pages-only repository checkpoint.
 
 ## Risks
 
