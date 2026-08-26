@@ -9,10 +9,10 @@ visualEvidence:
     kind: video
     src: /media/projects/paperfield/research-workflow.mp4
     poster: /media/projects/paperfield/research-workflow-poster.webp
-    alt: Paperfield importing a paper by DOI, moving a group of papers from its library onto a spatial desk, searching, connecting papers, and opening an open-access PDF.
-    caption: One session imports a paper by DOI, pulls three related papers from the Library as a stack, filters the desk with search, draws a relationship, and opens an available source PDF.
-    width: 960
-    height: 720
+    alt: Paperfield searching a research library, smoothly arranging and fanning a three-paper bundle on a spatial desk, connecting papers, inspecting a PDF, and importing a paper by DOI.
+    caption: One session searches across a 24-paper Library organized into six categories, moves and fans a three-paper bundle, draws a relationship, inspects a source PDF, and adds a paper from its DOI.
+    width: 1920
+    height: 1080
 curatorNotes:
   - "Paperfield gives research papers a desk instead of another list. The video shows papers being grouped, searched, connected, and read in place."
   - "Importing by DOI brings in citation details and checks for a reported open-access copy. Optional Zotero access stays read-only, and local papers remain available offline."

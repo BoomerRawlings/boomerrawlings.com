@@ -377,11 +377,13 @@ main {
 }
 
 .pip-sound-toggle[hidden],
-.curator-progress[hidden] {
+.curator-progress[hidden],
+.curator-back[hidden] {
   display: none;
 }
 
 .pip-sound-toggle:focus-visible,
+.curator-back:focus-visible,
 .curator-next:focus-visible {
   outline: 3px solid var(--yellow);
   outline-offset: 3px;
@@ -403,6 +405,33 @@ main {
   font-size: 0.68rem !important;
   letter-spacing: 0.08em;
   white-space: nowrap;
+}
+
+.curator-progress-stack {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.curator-back {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--turquoise);
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.055em;
+  line-height: 1.2;
+  padding: 0;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.curator-back:hover {
+  color: var(--yellow);
 }
 
 .curator-next {
@@ -439,6 +468,13 @@ main {
 
 .curator-next:active {
   transform: translateY(1px);
+}
+
+.curator-next:disabled {
+  background: rgb(255 253 248 / 4%);
+  border-color: rgb(255 253 248 / 24%);
+  color: rgb(255 253 248 / 52%);
+  cursor: default;
 }
 
 .curator-guide.is-speaking .curator-copy {
@@ -810,6 +846,13 @@ main {
   text-transform: uppercase;
 }
 
+.academic-profile-copy {
+  align-items: start;
+  display: grid;
+  gap: clamp(2rem, 4vw, 4rem);
+  grid-template-columns: minmax(0, 1fr) minmax(12rem, 19rem);
+}
+
 .academic-profile-copy h2 {
   font-size: clamp(2.8rem, 5vw, 4.75rem);
 }
@@ -827,6 +870,46 @@ main {
   font-size: 0.82rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.academic-portrait {
+  aspect-ratio: 2 / 3;
+  border: 1px solid rgb(0 98 155 / 38%);
+  box-shadow: 0.6rem 0.6rem 0 rgb(24 205 213 / 16%);
+  margin: 0;
+  max-width: 19rem;
+  overflow: hidden;
+  width: 100%;
+}
+
+.academic-portrait img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.ucsd-study {
+  border-top: 1px solid var(--rule-gold);
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding-top: clamp(1.5rem, 3vw, 2rem);
+}
+
+.ucsd-study h3 {
+  color: var(--navy);
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 3vw, 2.7rem);
+  font-weight: 500;
+  letter-spacing: 0.035em;
+  line-height: 1;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.academic-profile-copy .academic-contact {
+  font-family: var(--mono);
+  font-size: 0.84rem;
+  letter-spacing: 0.025em;
 }
 
 .degree-completion {
@@ -1186,6 +1269,10 @@ main {
   padding: clamp(1.5rem, 3vw, 2.75rem) 5vw 0;
 }
 
+.entry-evidence--process {
+  padding: clamp(2.5rem, 5vw, 4.5rem) 5vw 0;
+}
+
 .entry-evidence--supporting {
   padding: 0 5vw 7rem;
 }
@@ -1284,6 +1371,10 @@ main {
   padding-bottom: 3.75rem;
 }
 
+.entry-body--with-document {
+  padding-bottom: 2.75rem;
+}
+
 .entry-body p:first-child {
   font-size: 1.12em;
 }
@@ -1334,6 +1425,98 @@ main {
   border: 0;
   border-top: 1px solid var(--rule-gold);
   margin: 3rem 0;
+}
+
+.document-viewer {
+  background: var(--sand);
+  padding: 0 5vw 7rem;
+}
+
+.document-viewer-header {
+  align-items: end;
+  border-top: 1px solid var(--rule-gold);
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  margin-inline: auto;
+  max-width: 82rem;
+  padding: 2rem 0 1.5rem;
+}
+
+.document-kicker {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  margin: 0 0 0.45rem;
+  text-transform: uppercase;
+}
+
+.document-viewer-header h2 {
+  color: var(--blue);
+  font-family: var(--display);
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  line-height: 1;
+  margin: 0 0 0.55rem;
+  text-transform: uppercase;
+}
+
+.document-viewer-header p:last-child,
+.document-fallback {
+  color: var(--muted);
+  margin: 0;
+}
+
+.document-actions {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.document-actions a {
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.55rem 0.8rem 0.45rem;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.document-actions a:hover {
+  background: var(--blue);
+  color: white;
+}
+
+.document-frame {
+  background: white;
+  border: 1px solid var(--rule-gold);
+  height: min(78vh, 62rem);
+  margin-inline: auto;
+  max-width: 82rem;
+  min-height: 38rem;
+}
+
+.document-frame iframe {
+  border: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.document-fallback {
+  font-size: 0.9rem;
+  margin: 0.75rem auto 0;
+  max-width: 82rem;
+}
+
+.document-fallback a {
+  color: var(--blue);
 }
 
 .archive-table {
@@ -1998,6 +2181,15 @@ main {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  .academic-profile-copy {
+    display: block;
+  }
+
+  .academic-portrait {
+    margin-top: 2.25rem;
+    max-width: 18rem;
+  }
+
   .academic-honor + .academic-honor,
   .coursework-group + .coursework-group,
   .academic-work-card + .academic-work-card {
@@ -2195,8 +2387,16 @@ main {
     padding-bottom: 3.25rem;
   }
 
+  .entry-body--with-document {
+    padding-bottom: 2.5rem;
+  }
+
   .entry-evidence--hero {
     padding: 1.25rem 1.25rem 0;
+  }
+
+  .entry-evidence--process {
+    padding: 3rem 1.25rem 0;
   }
 
   .entry-evidence--supporting {
@@ -2210,6 +2410,24 @@ main {
   .evidence-caption {
     gap: 0.2rem;
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .document-viewer {
+    padding: 0 1.25rem 6rem;
+  }
+
+  .document-viewer-header {
+    align-items: start;
+    display: block;
+  }
+
+  .document-actions {
+    margin-top: 1.25rem;
+  }
+
+  .document-frame {
+    height: 72vh;
+    min-height: 30rem;
   }
 
   .archive-row {
@@ -2298,7 +2516,9 @@ main {
   .archive-table,
   .entry-body,
   .entry-evidence--hero,
+  .entry-evidence--process,
   .entry-evidence--supporting,
+  .document-viewer,
   .site-footer {
     padding-left: 1rem;
     padding-right: 1rem;

@@ -8,14 +8,14 @@ visualEvidence:
     kind: video
     src: /media/projects/pocketllm/interface-tour.mp4
     poster: /media/projects/pocketllm/interface-tour-poster.webp
-    alt: pocketLLM processing two synthetic text files while its on-screen face reacts, then displaying the completed working-copy and key-file results.
-    caption: A synthetic two-file demonstration moves from input selection and local processing to reversible working copies and matching key files.
-    width: 960
-    height: 1278
+    alt: pocketLLM starts empty, receives two synthetic files by drag and drop, encodes them locally, reacts when its face is clicked, then recognizes the coded files and matching keys and restores new copies.
+    caption: "A fresh-launch demonstration: drag in two synthetic files, create reversible coded copies locally, click the face, restart, then drag the coded files back to match their keys and restore them."
+    width: 1080
+    height: 1440
 curatorNotes:
-  - "pocketLLM creates pseudonymized working copies while leaving the original text files unchanged."
-  - "The video uses synthetic files, and yes, the little face objects when the cursor clicks it! Behind that moment, likely identifiers are replaced locally and recorded in matching key files."
-  - "Those keys make restoration possible, but detection can miss things, so every copy still needs human review. Next, I'll show you how Boomer turns source checking into finished documents."
+  - "pocketLLM makes reversible, pseudonymized working copies locally while leaving the original files untouched."
+  - "This starts from a fresh launch. Boomer drags in two synthetic files, encodes them, and clicks the face while the work finishes. It answers, 'Oh! I'm not a touch screen!'"
+  - "After restarting, he drags the coded files back in. pocketLLM finds their matching keys and creates restored copies. Every result still needs human review because automated detection can miss identifiers. Next, we'll look at tools for working with sources."
 nextExhibit:
   href: /work/research-publishing-systems/
   label: Research and Publishing Systems

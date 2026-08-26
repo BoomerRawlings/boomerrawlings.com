@@ -6,7 +6,7 @@ description: Reader-centered systems for turning researched material into useful
 curatorNotes:
   - "Continuity Desk builds a publication around one reader. It keeps each source claim traceable and carries useful context from one issue to the next."
   - "Boomer's Southwestern College technology packet solves a different problem. Its two guides give beginners a 95-page path from connecting to Wi-Fi and opening mySWC to saving a Word file, submitting work in Canvas, messaging an instructor, and reading feedback."
-  - "These publications are very different, but they share a goal: helping a particular reader find the right information and use it. Next, I'll show you the media pipeline."
+  - "These systems are designed to make complex information useful at very different levels, from someone learning basic computer tasks to a doctoral candidate working through dense research. Next, I'll show you the media pipeline."
 nextExhibit:
   href: /work/organizing-icloud-media/
   label: Media Archiving and Cataloging Pipeline

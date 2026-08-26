@@ -98,12 +98,15 @@ document.querySelectorAll('[data-pip-guide]').forEach((guide) => {
   const progress = guide.querySelector('[data-pip-progress]');
   const current = guide.querySelector('[data-pip-current]');
   const progressLabel = guide.querySelector('[data-pip-progress-label]');
+  const backButton = guide.querySelector('[data-pip-back]');
   const nextLabel = guide.querySelector('[data-pip-next-label]');
+  const nextArrow = guide.querySelector('[data-pip-arrow]');
   const soundToggle = guide.querySelector('[data-pip-sound]');
   const curator = guide.querySelector('.portfolio-curator');
   const submitButton = form?.querySelector('button[type="submit"]');
   const destination = form?.action;
   const destinationLabel = form?.dataset.pipDestination;
+  const isTerminal = form?.dataset.pipTerminal === 'true';
 
   let steps = [];
   try {
@@ -113,7 +116,7 @@ document.querySelectorAll('[data-pip-guide]').forEach((guide) => {
     steps = [];
   }
 
-  if (!message || !form || !progress || !current || !progressLabel || !nextLabel || !soundToggle || !submitButton || !destination || !destinationLabel || steps.length === 0) return;
+  if (!message || !form || !progress || !current || !progressLabel || !backButton || !nextLabel || !nextArrow || !soundToggle || !submitButton || !destination || (!isTerminal && !destinationLabel) || steps.length === 0) return;
 
   removeStorage(window.sessionStorage, `pip-step:${window.location.pathname}`);
   let step = 0;
@@ -131,14 +134,24 @@ document.querySelectorAll('[data-pip-guide]').forEach((guide) => {
   };
 
   const updateStep = () => {
+    const atLastStep = step === steps.length - 1;
     message.textContent = steps[step];
     current.textContent = String(step + 1).padStart(2, '0');
     progressLabel.textContent = `Step ${step + 1} of ${steps.length}`;
-    nextLabel.textContent = step === steps.length - 1 ? `Next: ${destinationLabel}` : 'Next';
-    submitButton.setAttribute(
-      'aria-label',
-      step === steps.length - 1 ? `Continue to ${destinationLabel}` : `Show Pip’s next note, step ${step + 2} of ${steps.length}`,
-    );
+    backButton.hidden = step === 0;
+    submitButton.disabled = isTerminal && atLastStep;
+    nextArrow.hidden = isTerminal && atLastStep;
+
+    if (isTerminal && atLastStep) {
+      nextLabel.textContent = 'Tour complete';
+      submitButton.setAttribute('aria-label', 'Pip’s guided tour is complete');
+    } else if (atLastStep) {
+      nextLabel.textContent = `Next: ${destinationLabel}`;
+      submitButton.setAttribute('aria-label', `Continue to ${destinationLabel}`);
+    } else {
+      nextLabel.textContent = 'Next';
+      submitButton.setAttribute('aria-label', `Show Pip’s next note, step ${step + 2} of ${steps.length}`);
+    }
   };
 
   progress.hidden = false;
@@ -170,6 +183,14 @@ document.querySelectorAll('[data-pip-guide]').forEach((guide) => {
     }
   });
 
+  backButton.addEventListener('click', () => {
+    if (step === 0) return;
+    step -= 1;
+    updateStep();
+    animatePip(guide);
+    if (soundEnabled) playPipSound();
+  });
+
   if (curator) {
     let expressionTimer;
 
@@ -198,6 +219,11 @@ document.querySelectorAll('[data-pip-guide]').forEach((guide) => {
       updateStep();
       animatePip(guide);
       if (soundEnabled) playPipSound();
+      return;
+    }
+
+    if (isTerminal) {
+      event.preventDefault();
       return;
     }
 

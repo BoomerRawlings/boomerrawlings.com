@@ -1,0 +1,30 @@
+---
+interface Props {
+  src: string;
+  title: string;
+  pages: number;
+}
+
+const { src, title, pages } = Astro.props;
+const headingId = `document-${title}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+---
+
+<section class="document-viewer" aria-labelledby={headingId}>
+  <header class="document-viewer-header">
+    <div>
+      <p class="document-kicker">Original paper · {pages} pages</p>
+      <h2 id={headingId}>Read the paper</h2>
+      <p>The complete PDF is embedded here and available as a direct download.</p>
+    </div>
+    <div class="document-actions">
+      <a href={src} target="_blank" rel="noopener">Open PDF <span aria-hidden="true">↗</span></a>
+      <a href={src} download>Download PDF <span aria-hidden="true">↓</span></a>
+    </div>
+  </header>
+  <div class="document-frame">
+    <iframe src={`${src}#view=FitH`} title={`${title}, PDF document`} loading="lazy"></iframe>
+  </div>
+  <p class="document-fallback">
+    If the embedded viewer is unavailable, <a href={src}>open the PDF directly</a>.
+  </p>
+</section>

@@ -9,3 +9,4 @@ dist/
 Thumbs.db
 *.log
 .codex/qa/
+tmp/

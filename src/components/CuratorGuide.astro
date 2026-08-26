@@ -8,7 +8,7 @@ interface Props {
   heading?: string;
   headingId?: string;
   messages: string[];
-  nextExhibit: GuideLink;
+  nextExhibit?: GuideLink;
   variant?: 'home' | 'compact';
 }
 
@@ -25,6 +25,7 @@ if (messages.length === 0) {
 }
 
 const messageId = `${headingId}-message`;
+const formAction = nextExhibit?.href ?? Astro.url.pathname;
 ---
 
 <aside
@@ -53,23 +54,27 @@ const messageId = `${headingId}-message`;
     </p>
     <form
       class="curator-controls"
-      action={nextExhibit.href}
+      action={formAction}
       method="get"
       data-pip-form
-      data-pip-destination={nextExhibit.label}
+      data-pip-destination={nextExhibit?.label}
+      data-pip-terminal={nextExhibit ? undefined : 'true'}
     >
-      <p class="curator-progress" data-pip-progress hidden>
-        <span aria-hidden="true"><span data-pip-current>01</span> / {String(messages.length).padStart(2, '0')}</span>
-        <span class="sr-only" data-pip-progress-label>Step 1 of {messages.length}</span>
-      </p>
+      <div class="curator-progress-stack">
+        <p class="curator-progress" data-pip-progress hidden>
+          <span aria-hidden="true"><span data-pip-current>01</span> / {String(messages.length).padStart(2, '0')}</span>
+          <span class="sr-only" data-pip-progress-label>Step 1 of {messages.length}</span>
+        </p>
+        <button class="curator-back" type="button" data-pip-back hidden>Back</button>
+      </div>
       <button
         class="curator-next"
         type="submit"
         aria-controls={messageId}
-        aria-label={`Continue to ${nextExhibit.label}`}
+        aria-label={nextExhibit ? `Continue to ${nextExhibit.label}` : 'Show Pip’s next note'}
       >
         <span data-pip-next-label>Next</span>
-        <span aria-hidden="true">→</span>
+        <span data-pip-arrow aria-hidden="true">→</span>
       </button>
     </form>
   </div>

@@ -26,9 +26,9 @@ const redirectTargets = new Map([
 const contentHtmlFiles = htmlFiles.filter(
   (file) => !redirectTargets.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 15 || htmlFiles.length !== 19) {
+if (contentHtmlFiles.length !== 17 || htmlFiles.length !== 21) {
   throw new Error(
-    `expected 15 content pages and 4 redirects, found ${contentHtmlFiles.length} and ${htmlFiles.length - contentHtmlFiles.length}`,
+    `expected 17 content pages and 4 redirects, found ${contentHtmlFiles.length} and ${htmlFiles.length - contentHtmlFiles.length}`,
   );
 }
 
@@ -73,6 +73,19 @@ for (const diagram of diagrams) {
   }
 }
 
+const mediaDiagramSource = readFileSync(join('src', 'diagrams', 'media-archive.mmd'), 'utf8');
+for (const stage of ['subgraph transfer', 'subgraph validation', 'subgraph preservation', 'subgraph indexing']) {
+  if (!mediaDiagramSource.includes(stage)) {
+    failures.push(`media archive diagram: missing ${stage}`);
+  }
+}
+if (!mediaDiagramSource.includes('decision{"Complete, readable,')
+  || !mediaDiagramSource.includes('exceptions --> retry')
+  || !mediaDiagramSource.includes('videos --> frames')
+  || !mediaDiagramSource.includes('records --> provenance')) {
+  failures.push('media archive diagram: validation loop, frame expansion, or provenance depth is missing');
+}
+
 for (const file of contentHtmlFiles) {
   const html = readFileSync(file, 'utf8');
   const label = relative(output, file);
@@ -99,6 +112,9 @@ for (const file of contentHtmlFiles) {
   if (pipSteps && /[–—]/.test(pipSteps)) {
     failures.push(label + ': Pip dialogue contains an en or em dash');
   }
+  if (pipSteps && /\bI like\b/i.test(pipSteps)) {
+    failures.push(label + ': Pip dialogue contains self-referential “I like” commentary');
+  }
 
   for (const [, assetPath] of html.matchAll(/(?:src|poster)="(\/media\/[^"?#]+)"/g)) {
     if (!existsSync(join(output, assetPath))) {
@@ -118,8 +134,8 @@ for (const file of contentHtmlFiles) {
 
 const writingHtml = readFileSync(join(output, 'writing', 'index.html'), 'utf8');
 const publishedDateCount = (writingHtml.match(/<time datetime="[^"]+">Published /g) ?? []).length;
-if (publishedDateCount !== 9) {
-  failures.push('writing/index.html: expected 9 labeled publication dates, found ' + publishedDateCount);
+if (publishedDateCount !== 11) {
+  failures.push('writing/index.html: expected 11 labeled publication dates, found ' + publishedDateCount);
 }
 if (!writingHtml.includes('aria-labelledby="writing-academic"')) {
   failures.push('writing/index.html: missing academic writing grouping');
@@ -136,10 +152,16 @@ if (!writingHtml.includes('Academic writing') || !writingHtml.includes('Personal
 if (!writingHtml.includes('Personal essays and academic work published here and elsewhere')) {
   failures.push('writing/index.html: writing scope is not explicit');
 }
-if (!writingHtml.includes('href="/writing/attention-bias-modification-aggression/"')) {
-  failures.push('writing/index.html: missing onsite academic writing link');
+for (const route of [
+  '/writing/social-justice-through-financial-literacy/',
+  '/writing/rhetorical-analysis-death-penalty/',
+  '/writing/attention-bias-modification-aggression/',
+]) {
+  if (!writingHtml.includes(`href="${route}"`)) {
+    failures.push(`writing/index.html: missing onsite academic writing link ${route}`);
+  }
 }
-if (!writingHtml.includes('>This site<') || !writingHtml.includes('>Substack<')) {
+if (!writingHtml.includes('>BoomerRawlings.com<') || !writingHtml.includes('>Substack<')) {
   failures.push('writing/index.html: publication venues are not both labeled');
 }
 if (!writingHtml.includes('datetime="2026-05">Produced May 2026')) {
@@ -149,24 +171,97 @@ if (writingHtml.includes('All writing on Substack')) {
   failures.push('writing/index.html: incorrectly claims all writing is on Substack');
 }
 
+const financialLiteracyHtml = readFileSync(
+  join(output, 'writing', 'social-justice-through-financial-literacy', 'index.html'),
+  'utf8',
+);
+const deathPenaltyHtml = readFileSync(
+  join(output, 'writing', 'rhetorical-analysis-death-penalty', 'index.html'),
+  'utf8',
+);
 const academicHtml = readFileSync(
   join(output, 'writing', 'attention-bias-modification-aggression', 'index.html'),
   'utf8',
 );
-if (!academicHtml.includes('Student research proposal produced at Southwestern College')) {
-  failures.push('academic writing page: missing provenance and study-status disclosure');
+
+const academicDocuments = [
+  {
+    html: financialLiteracyHtml,
+    label: 'financial literacy page',
+    src: '/documents/social-justice-through-financial-literacy.pdf',
+    pages: 11,
+    provenance: 'Research essay produced for ENGL 115 at Southwestern College on May 26, 2025.',
+  },
+  {
+    html: deathPenaltyHtml,
+    label: 'death penalty page',
+    src: '/documents/rhetorical-analysis-death-penalty.pdf',
+    pages: 6,
+    provenance: 'Rhetorical analysis produced for ENGL C1001 at Southwestern College on December 8, 2025.',
+  },
+  {
+    html: academicHtml,
+    label: 'attention-bias proposal page',
+    src: '/documents/attention-bias-modification-aggression.pdf',
+    pages: 10,
+    provenance: 'Original student research proposal produced at Southwestern College in May 2026.',
+  },
+];
+
+for (const { html, label, src, pages, provenance } of academicDocuments) {
+  const publicPdf = join(output, src);
+  if (!existsSync(publicPdf)) {
+    failures.push(`${label}: missing public PDF asset ${src}`);
+  } else if (readFileSync(publicPdf).subarray(0, 5).toString() !== '%PDF-') {
+    failures.push(`${label}: ${src} is not a valid PDF asset`);
+  }
+  if (!html.includes(provenance) || !html.includes(`Original paper · ${pages} pages`)) {
+    failures.push(`${label}: paper provenance or page count is missing`);
+  }
+  if (!html.includes(`<iframe src="${src}#view=FitH"`)
+    || !html.includes(`href="${src}" target="_blank" rel="noopener"`)
+    || !html.includes(`href="${src}" download`)
+    || !html.includes('>Open PDF ')
+    || !html.includes('>Download PDF ')) {
+    failures.push(`${label}: embedded reader, open control, or download control is missing`);
+  }
 }
-if (!academicHtml.includes('The study was not conducted')) {
-  failures.push('academic writing page: missing unexecuted-study disclosure');
+
+for (const officialSource of [
+  'https://www.irs.gov/newsroom/working-families-tax-cuts-tax-deductions-for-working-americans-and-seniors',
+  'https://www.irs.gov/newsroom/treasury-irs-issue-guidance-on-trump-accounts-established-under-the-working-families-tax-cuts-notice-announces-upcoming-regulations',
+  'https://home.treasury.gov/news/press-releases/sb0554',
+]) {
+  if (!financialLiteracyHtml.includes(`href="${officialSource}"`)) {
+    failures.push(`financial literacy page: missing official timeline source ${officialSource}`);
+  }
 }
-if (!academicHtml.includes('Editorial limitations note')) {
-  failures.push('academic writing page: missing methodological limitations');
+if (!financialLiteracyHtml.includes('The classroom paper did not predict the statute')
+  || !financialLiteracyHtml.includes('not a forecast or source for the law')
+  || /policy prophet|predicted Trump Accounts/i.test(financialLiteracyHtml)) {
+  failures.push('financial literacy page: timeline comparison overstates prediction or influence');
 }
-if (!academicHtml.includes('curator-guide--compact') || !academicHtml.includes('I like the restraint here')) {
-  failures.push('academic writing page: missing Pip’s proposal context');
+if (!academicHtml.includes('The study was designed but not conducted')
+  || !academicHtml.includes('The evidence base is narrow, and the paper says so')) {
+  failures.push('attention-bias proposal page: provenance and study-status disclosure are missing');
 }
-if (!academicHtml.includes('action="/about/"') || !academicHtml.includes('data-pip-destination="About"')) {
-  failures.push('academic writing page: Pip’s trail does not continue beyond the Writing/ABM pair');
+for (const obsoleteSection of [
+  'Editorial limitations note',
+  'Research question and rationale',
+  'Proposed method',
+  'Planned analysis and limitations',
+]) {
+  if (academicHtml.includes(obsoleteSection)) {
+    failures.push(`attention-bias proposal page: obsolete full web edition remains: ${obsoleteSection}`);
+  }
+}
+if (!academicHtml.includes('data-pip-terminal="true"')
+  || !academicHtml.includes("This is the final stop in Pip's guided tour.")) {
+  failures.push('attention-bias proposal page: Pip’s terminal proposal context is missing');
+}
+if (academicHtml.includes('action="/about/"')
+  || academicHtml.includes('data-pip-destination="About"')) {
+  failures.push('attention-bias proposal page: Pip’s terminal stop still loops to About');
 }
 
 const homeHtml = readFileSync(join(output, 'index.html'), 'utf8');
@@ -202,6 +297,23 @@ if (!mediaLibraryHtml.includes('supervised pipeline designed to reliably archive
   || !mediaLibraryHtml.includes('/media/projects/organizing-icloud-media/archive-catalog-pipeline.svg')) {
   failures.push('media library page: high-level pipeline framing or process diagram is missing');
 }
+const mediaProcessOffset = mediaLibraryHtml.indexOf('id="organizing-icloud-media-process-evidence"');
+const mediaArticleOffset = mediaLibraryHtml.indexOf('<article');
+if (mediaProcessOffset === -1
+  || mediaArticleOffset === -1
+  || mediaProcessOffset > mediaArticleOffset
+  || !mediaLibraryHtml.includes('>How it works</h2>')
+  || !mediaLibraryHtml.includes('Failed items loop back through reconciliation')
+  || !mediaLibraryHtml.includes('every derived photo or video-frame record remains traceable')) {
+  failures.push('media library page: detailed process evidence is missing or too distant from Pip’s introduction');
+}
+if (!mediaLibraryHtml.includes('Moving 31,550 photos and videos safely required a supervised pipeline, not a single export')
+  || !mediaLibraryHtml.includes('The full workflow is directly below us')
+  || !mediaLibraryHtml.includes('Failed transfers return to reconciliation')
+  || !mediaLibraryHtml.includes('tag every photo and every video frame without touching the originals')
+  || mediaLibraryHtml.includes('The diagram shows why this job needs a pipeline')) {
+  failures.push('media library page: Pip does not clearly connect the visitor to the deeper workflow');
+}
 if (!horizonHtml.includes('/media/projects/horizon/startup-sequence.mp4')
   || !horizonHtml.includes('/media/projects/horizon/startup-poster.webp')
   || !horizonHtml.includes('/media/projects/horizon/interface-tour.mp4')
@@ -218,7 +330,8 @@ const publishingSystemsHtml = readFileSync(
 if (!publishingSystemsHtml.includes('Continuity Desk')
   || !publishingSystemsHtml.includes('95-page packet')
   || !publishingSystemsHtml.includes('Getting Connected at Southwestern College')
-  || !publishingSystemsHtml.includes('Use Canvas, Word, Files, and Teacher Messages')) {
+  || !publishingSystemsHtml.includes('Use Canvas, Word, Files, and Teacher Messages')
+  || !publishingSystemsHtml.includes('from someone learning basic computer tasks to a doctoral candidate working through dense research')) {
   failures.push('Research and Publishing Systems page: Continuity Desk or the SWC technology packet is incomplete');
 }
 if (!paperfieldHtml.includes('/media/projects/paperfield/research-workflow.mp4')
@@ -227,6 +340,7 @@ if (!paperfieldHtml.includes('/media/projects/paperfield/research-workflow.mp4')
 }
 if (!pocketllmHtml.includes('/media/projects/pocketllm/interface-tour.mp4')
   || !pocketllmHtml.includes('/media/projects/pocketllm/interface-tour-poster.webp')
+  || !pocketllmHtml.includes('width="1080" height="1440"')
   || !pocketllmHtml.includes('TXT, MD, CSV, TSV, and JSONL')
   || !pocketllmHtml.includes('.pocketkey')
   || !pocketllmHtml.includes('not a compliance certification')) {
@@ -239,12 +353,23 @@ if (!paperfieldHtml.includes('action="/work/pocketllm/"')
 if (!smallProjectsHtml.includes('/media/projects/small-projects/the-unrendered-world.webp')) {
   failures.push('Small Projects page: The Unrendered World visual is missing');
 }
+if (!smallProjectsHtml.includes('Cicada 3301-inspired sealed puzzle generated by AI and built to be AI-proof')
+  || !smallProjectsHtml.includes('future stages remain encrypted until current proofs are solved and authenticated')) {
+  failures.push('Small Projects page: The Silent Index is not explicitly described');
+}
 if (!horizonHtml.includes('first video shows its startup sequence')
   || !paperfieldHtml.includes('The video shows papers being grouped')
-  || !pocketllmHtml.includes('the little face objects when the cursor clicks it')
-  || !mediaLibraryHtml.includes('The diagram shows why this job needs a pipeline')
+  || !pocketllmHtml.includes('This starts from a fresh launch')
+  || !pocketllmHtml.includes("Oh! I'm not a touch screen!")
+  || !pocketllmHtml.includes('finds their matching keys and creates restored copies')
+  || !mediaLibraryHtml.includes('The full workflow is directly below us')
   || !smallProjectsHtml.includes('The image comes from The Unrendered World')) {
   failures.push('project pages: Pip is not interpreting the new visual evidence');
+}
+if (!smallProjectsHtml.includes('action="/writing/social-justice-through-financial-literacy/"')
+  || !financialLiteracyHtml.includes('action="/writing/rhetorical-analysis-death-penalty/"')
+  || !deathPenaltyHtml.includes('action="/writing/attention-bias-modification-aggression/"')) {
+  failures.push('guided trail: Small Projects and the three academic papers are not connected in order');
 }
 if (homeHtml.includes('Personal Archive') || mediaLibraryHtml.includes('Personal Archive')) {
   failures.push('media library project: obsolete project name remains');
@@ -300,20 +425,23 @@ const allWorkRow = (href) => {
   const end = start === -1 ? -1 : allWorkHtml.indexOf('</a>', start);
   return start === -1 || end === -1 ? '' : allWorkHtml.slice(start, end);
 };
-const datedProjects = [
+const datedEntries = [
   ['/work/horizon/', '2026-03', 'March 2026'],
   ['/work/paperfield/', '2026-05', 'May 2026'],
   ['/work/organizing-icloud-media/', '2026-08', 'August 2026'],
+  ['/writing/social-justice-through-financial-literacy/', '2025-05', 'May 2025'],
+  ['/writing/rhetorical-analysis-death-penalty/', '2025-12', 'December 2025'],
+  ['/writing/attention-bias-modification-aggression/', '2026-05', 'May 2026'],
 ];
-for (const [href, datetime, label] of datedProjects) {
+for (const [href, datetime, label] of datedEntries) {
   if (!allWorkRow(href).includes(`datetime="${datetime}">${label}</time>`)) {
     failures.push(`all/index.html: ${href} is missing its verified month and year`);
   }
 }
 const personalWritingCount = (allWorkHtml.match(/>Personal writing</g) ?? []).length;
 const academicWritingCount = (allWorkHtml.match(/>Academic writing</g) ?? []).length;
-if (personalWritingCount !== 8 || academicWritingCount !== 1) {
-  failures.push(`all/index.html: expected 8 personal and 1 academic writing labels, found ${personalWritingCount} and ${academicWritingCount}`);
+if (personalWritingCount !== 8 || academicWritingCount !== 3) {
+  failures.push(`all/index.html: expected 8 personal and 3 academic writing labels, found ${personalWritingCount} and ${academicWritingCount}`);
 }
 if (!workHtml.includes('Small Projects')
   || !allWorkHtml.includes('Small Projects')
@@ -379,16 +507,17 @@ if (!aboutHtml.includes('2026 Student of Distinction Award')
 if (!aboutHtml.includes('href="/cv/"') || !aboutHtml.includes('View academics')) {
   failures.push('about/index.html: Academics page is not linked');
 }
-if (!aboutHtml.includes('src="/images/boomer-rawlings-headshot.webp"')
-  || !aboutHtml.includes('alt="Boomer Rawlings smiling outdoors."')) {
-  failures.push('about/index.html: approved headshot is missing or lacks useful alternative text');
+if (!aboutHtml.includes('src="/images/boomer-rawlings-about.webp"')
+  || !aboutHtml.includes('alt="Boomer Rawlings standing outdoors beneath a covered walkway."')) {
+  failures.push('about/index.html: approved full-length portrait is missing or lacks useful alternative text');
 }
-if (!existsSync(join(output, 'images', 'boomer-rawlings-headshot.webp'))
-  || statSync(join(output, 'images', 'boomer-rawlings-headshot.webp')).size > 150_000) {
-  failures.push('about/index.html: optimized headshot asset is missing or too large');
+if (!existsSync(join(output, 'images', 'boomer-rawlings-about.webp'))
+  || statSync(join(output, 'images', 'boomer-rawlings-about.webp')).size > 150_000) {
+  failures.push('about/index.html: optimized full-length portrait asset is missing or too large');
 }
-if (photographyHtml.includes('boomer-rawlings-headshot')) {
-  failures.push('photography/index.html: biographical headshot was incorrectly treated as photography work');
+if (photographyHtml.includes('boomer-rawlings-headshot')
+  || photographyHtml.includes('boomer-rawlings-about')) {
+  failures.push('photography/index.html: biographical portraits were incorrectly treated as photography work');
 }
 if (!aboutHtml.includes('completed Southwestern College’s Psychology for Transfer (AA-T) degree with honors in Spring 2026')) {
   failures.push('about/index.html: completed degree and honors status are unclear');
@@ -399,6 +528,10 @@ if (!cvHtml.includes('Four-time honoree for 4.0 semester academic performance'))
 if (!cvHtml.includes('Psychology for Transfer (AA-T)')
   || !cvHtml.includes('Degree completed with honors in one year')
   || !cvHtml.includes('Spring 2026')
+  || !cvHtml.includes('University of California, San Diego')
+  || !cvHtml.includes('Incoming psychology transfer with an intended focus on cognition and behavioral research')
+  || !cvHtml.includes('href="mailto:llrawlings@ucsd.edu"')
+  || !cvHtml.includes('src="/images/boomer-rawlings-headshot.webp"')
   || !cvHtml.includes('Introduction to Psychological Research')
   || !cvHtml.includes('Data Analysis in Psychology and Sociology')
   || !cvHtml.includes('Introduction to Programming Logic and Design Using Python')) {
@@ -417,6 +550,10 @@ if (!cvHtml.includes('The study was not conducted')
 }
 if (cvHtml.includes('TOTAL 16.00')) {
   failures.push('cv/index.html: transcript detail was published instead of a selected academic profile');
+}
+if (!publicHtml.includes('href="mailto:boomerrawlings@gmail.com"')
+  || publicHtml.includes('boomer@boomerrawlings.com')) {
+  failures.push('public pages: contact details are stale or incomplete');
 }
 
 const workPagePaths = [
@@ -443,17 +580,34 @@ if (workPages.some((html) => !html.includes('curator-guide--compact') || !html.i
   failures.push('work pages: one or more entries are missing Pip’s authored context');
 }
 
+let terminalGuideCount = 0;
 for (const file of contentHtmlFiles) {
   const html = readFileSync(file, 'utf8');
   const label = relative(output, file);
+  const isTerminalGuide = html.includes('data-pip-terminal="true"');
   if (!html.includes('data-pip-guide')) failures.push(`${label}: missing Pip guide`);
-  if (!html.includes('data-pip-progress') || !html.includes('data-pip-sound')) {
-    failures.push(`${label}: missing Pip progress or sound control`);
+  if (!html.includes('data-pip-progress')
+    || !html.includes('data-pip-sound')
+    || !html.includes('data-pip-back')) {
+    failures.push(`${label}: missing Pip progress, sound, or Back control`);
   }
-  if (!html.includes('data-pip-destination=')) failures.push(`${label}: missing Pip destination`);
+  if (html.indexOf('data-pip-back') < html.indexOf('data-pip-progress')) {
+    failures.push(`${label}: Pip Back control is not presented beneath progress`);
+  }
+  if (isTerminalGuide) {
+    terminalGuideCount += 1;
+    if (html.includes('data-pip-destination=')) {
+      failures.push(`${label}: terminal Pip guide still exposes a next destination`);
+    }
+  } else if (!html.includes('data-pip-destination=')) {
+    failures.push(`${label}: nonterminal Pip guide is missing its destination`);
+  }
   if (!html.includes('<script type="module" src="/scripts/pip.js"></script>')) {
     failures.push(`${label}: Pip interaction script is not same-origin and external`);
   }
+}
+if (terminalGuideCount !== 1) {
+  failures.push(`Pip guide: expected one terminal page, found ${terminalGuideCount}`);
 }
 
 const pipScriptPath = join(output, 'scripts', 'pip.js');
@@ -469,6 +623,17 @@ if (!existsSync(pipScriptPath)) {
   }
   if (!pipScript.includes('pointerenter') || !pipScript.includes('is-smiling') || !pipScript.includes('is-smile-leaving')) {
     failures.push('Pip interaction script: hover expression does not animate in and out');
+  }
+  if (!pipScript.includes("backButton.addEventListener('click'")
+    || !pipScript.includes('step -= 1')
+    || !pipScript.includes('backButton.hidden = step === 0')) {
+    failures.push('Pip interaction script: Back does not restore the preceding note and speech state');
+  }
+  if (!pipScript.includes('submitButton.disabled = isTerminal && atLastStep')
+    || !pipScript.includes("nextLabel.textContent = 'Tour complete'")
+    || !pipScript.includes('nextArrow.hidden = isTerminal && atLastStep')
+    || !pipScript.includes('if (isTerminal) {')) {
+    failures.push('Pip interaction script: terminal tour state is not visibly complete and disabled');
   }
 }
 

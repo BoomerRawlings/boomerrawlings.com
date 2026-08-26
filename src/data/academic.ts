@@ -52,11 +52,25 @@ export const courseworkByInstitution = [
 
 export const selectedAcademicWork = [
   {
+    meta: 'May 2025 · Research essay',
+    title: 'Social Justice through Financial Literacy',
+    href: '/writing/social-justice-through-financial-literacy/',
+    summary:
+      'An argument for teaching financial capability through real accounts and guided experience, written before the federal Trump Accounts program became law.',
+  },
+  {
+    meta: 'December 2025 · Rhetorical analysis',
+    title: 'Comparing Opposing Texts on the Death Penalty',
+    href: '/writing/rhetorical-analysis-death-penalty/',
+    summary:
+      'A comparison of authority, evidence, emotion, tone, and accessibility in opposing Federalist Society and Amnesty International texts.',
+  },
+  {
     meta: 'May 2026 · Student research proposal',
     title: 'Attention Bias Modification and Aggression',
     href: '/writing/attention-bias-modification-aggression/',
     summary:
-      'A course research proposal examining whether dot-probe attention-bias modification could reduce aggression in college-aged participants. The study was not conducted.',
+      'A course research proposal asking whether attention-bias modification could reduce hostile attention bias and aggression among justice-impacted young adults. The study was not conducted.',
   },
   {
     meta: 'Research + document systems',

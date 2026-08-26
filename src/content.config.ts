@@ -33,6 +33,10 @@ const archive = defineCollection({
       type: z.enum(['work', 'research', 'writing', 'photography']),
       description: z.string(),
       visualEvidence: z.array(visualEvidenceItem).max(3).optional(),
+      document: z.object({
+        src: localAssetPath.refine((path) => path.endsWith('.pdf'), 'Document source must be a PDF.'),
+        pages: z.number().int().positive(),
+      }).optional(),
       curatorNotes: z.array(z.string().min(1)).min(2).max(4).optional(),
       nextExhibit: z.object({
         href: z.string().regex(/^\/(?!\/)/),
@@ -52,11 +56,11 @@ const archive = defineCollection({
         .optional(),
     })
     .superRefine((entry, context) => {
-      if (Boolean(entry.curatorNotes) !== Boolean(entry.nextExhibit)) {
+      if (entry.nextExhibit && !entry.curatorNotes) {
         context.addIssue({
           code: 'custom',
           path: ['curatorNotes'],
-          message: 'Curator notes and their next exhibit must be defined together.',
+          message: 'A next exhibit requires curator notes.',
         });
       }
 

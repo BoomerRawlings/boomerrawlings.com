@@ -7,7 +7,9 @@ import { formatMonthYear, isoMonth } from '../../lib/dates';
 type ArchiveEntry = Awaited<ReturnType<typeof getCollection<'archive'>>>[number];
 
 const displayDate = (entry: ArchiveEntry) => {
-  const value = entry.data.publishedDate ?? entry.data.date ?? entry.data.producedDate;
+  const value = entry.data.type === 'writing'
+    ? entry.data.producedDate ?? entry.data.publishedDate
+    : entry.data.date ?? entry.data.publishedDate ?? entry.data.producedDate;
   if (!value) return undefined;
   if (value instanceof Date) return value;
 
@@ -46,9 +48,9 @@ const entries = (await getCollection('archive', ({ data }) => data.status === 'p
       messages={[
         'This is the easiest place to wander. Software, academic writing, and personal essays all share the same room.',
         "Boomer keeps returning to hard questions in different forms. How can evidence be checked, files stay under their owner's control, and difficult information become easier to use?",
-        "Let's begin with his student proposal on attention bias and aggression.",
+        "Let's begin with his May 2025 essay on financial education and real savings accounts.",
       ]}
-      nextExhibit={{ href: '/writing/attention-bias-modification-aggression/', label: 'ABM research proposal' }}
+      nextExhibit={{ href: '/writing/social-justice-through-financial-literacy/', label: 'Financial literacy essay' }}
     />
   </section>
   <section class="archive-table" aria-label="All work">

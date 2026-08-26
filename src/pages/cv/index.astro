@@ -9,20 +9,20 @@ const courseworkId = (title: string) =>
 
 <BaseLayout
   title="Academics"
-  description="Boomer Rawlings completed Southwestern College’s Psychology for Transfer (AA-T) degree with honors in Spring 2026. Explore academic recognition, selected coursework, and research."
+  description="Boomer Rawlings completed Southwestern College’s Psychology for Transfer (AA-T) degree with honors in one year in Spring 2026 and will enter UC San Diego in Fall 2026."
 >
   <section class="page-intro page-intro--guided">
     <p class="eyebrow">Academics</p>
     <h1>Psychology, research, and data</h1>
     <p class="page-deck">
-      A selected public academic record: education, recognition, relevant completed coursework, and work connecting psychological research with software and publishing systems.
+      A selected public academic record focused on psychology, research methods, statistics, data analysis, and work that turns evidence into useful systems.
     </p>
     <CuratorGuide
       headingId="curator-cv"
       messages={[
         'Boomer completed his Psychology for Transfer (AA-T) degree with honors at Southwestern College in one year.',
         "That same year, he received SWC's highest student award. He earned a 4.0 GPA in four separate terms and made the President's List each time.",
-        'His course selection was deep and focused, covering research design, behavioral statistics, data analysis, cognition, critical writing, communication, and Python. Horizon is next.',
+        "His coursework focused on cognition, research design, behavioral statistics, data analysis, and critical writing. He enters UC San Diego's Sixth College in Fall 2026 and plans to keep that focus on cognition. Horizon is next.",
       ]}
       nextExhibit={{ href: '/work/horizon/', label: 'Horizon' }}
     />
@@ -32,19 +32,40 @@ const courseworkId = (title: string) =>
     <header class="academic-profile-header">
       <p class="academic-kicker">Education</p>
       <div class="academic-profile-copy">
-        <h2 id="education-heading">Southwestern College</h2>
-        <p class="cv-program">
-          <a href="https://catalog.swccd.edu/associate-degree-certificate-programs/psychology/psychology-transfer-aa/">
-            Psychology for Transfer (AA-T)
-          </a>
-        </p>
-        <p class="degree-completion">
-          <strong>Degree completed with honors in one year</strong>
-          <span>Spring 2026</span>
-        </p>
-        <p>
-          Completed at Southwestern College. The program work combines psychological theory with research design, behavioral statistics, data analysis, critical writing, communication, and programming.
-        </p>
+        <div class="academic-profile-text">
+          <h2 id="education-heading">Southwestern College</h2>
+          <p class="cv-program">
+            <a href="https://catalog.swccd.edu/associate-degree-certificate-programs/psychology/psychology-transfer-aa/">
+              Psychology for Transfer (AA-T)
+            </a>
+          </p>
+          <p class="degree-completion">
+            <strong>Degree completed with honors in one year</strong>
+            <span>Spring 2026</span>
+          </p>
+          <p>
+            His coursework built a foundation in psychological research design, behavioral statistics, data analysis, cognition, critical writing, communication, and programming.
+          </p>
+
+          <section class="ucsd-study" aria-labelledby="ucsd-heading">
+            <p class="cv-program">Incoming Fall 2026 · Sixth College</p>
+            <h3 id="ucsd-heading">University of California, San Diego</h3>
+            <p>Incoming psychology transfer with an intended focus on cognition and behavioral research.</p>
+            <p class="academic-contact">
+              Academic contact: <a href="mailto:llrawlings@ucsd.edu">llrawlings@ucsd.edu</a>
+            </p>
+          </section>
+        </div>
+
+        <figure class="academic-portrait">
+          <img
+            src="/images/boomer-rawlings-headshot.webp"
+            alt="Boomer Rawlings smiling outdoors."
+            width="900"
+            height="1350"
+            decoding="async"
+          />
+        </figure>
       </div>
     </header>
 
