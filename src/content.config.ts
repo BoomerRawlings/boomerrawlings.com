@@ -10,6 +10,7 @@ const visualEvidenceBase = {
   caption: z.string().min(1),
   width: z.number().int().positive(),
   height: z.number().int().positive(),
+  fullSizeLink: z.boolean().optional(),
 };
 const visualEvidenceItem = z.discriminatedUnion('kind', [
   z.object({

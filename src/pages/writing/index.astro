@@ -5,7 +5,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { formatFullDate, formatPartialDate, isoDate } from '../../lib/dates';
 
 const entries = (await getCollection('archive', ({ data }) =>
-  data.type === 'writing' && data.status === 'published'
+  data.type === 'writing' && data.status === 'published' && data.writingKind === 'academic'
 )).sort((a, b) => {
   if (!a.data.publishedDate && !b.data.publishedDate) {
     return a.data.title.localeCompare(b.data.title);
@@ -16,27 +16,20 @@ const entries = (await getCollection('archive', ({ data }) =>
     || a.data.title.localeCompare(b.data.title);
 });
 
-const groupedEntries = Object.entries(
-  Object.groupBy(entries, (entry) => entry.data.writingKind ?? 'undesignated')
-).sort(([firstKind], [secondKind]) => {
-  const order = ['academic', 'personal', 'undesignated'];
-  return order.indexOf(firstKind) - order.indexOf(secondKind);
-});
 ---
 
-<BaseLayout title="Writing" description="Personal and academic writing by Boomer Rawlings, published here and elsewhere.">
+<BaseLayout title="Writing" description="Selected academic writing by Boomer Rawlings.">
   <section class="page-intro page-intro--guided">
-    <p class="eyebrow">Personal + academic</p>
+    <p class="eyebrow">Academic writing</p>
     <h1>Writing</h1>
-    <div class="page-deck">
-      <p>Personal essays and academic work published here and elsewhere. Venue, publication date, and original production date remain distinct when known.</p>
-      <a href="https://substack.com/@boomerrawlings/posts">Read the Substack</a>
-    </div>
+    <p class="page-deck">
+      Selected academic work, with publication and original production dates kept distinct. Personal essays continue on <a href="https://boomerrawlings.substack.com/">Substack</a>.
+    </p>
     <CuratorGuide
       headingId="curator-writing"
       messages={[
-        "Boomer's writing lives here and on Substack, with academic work kept separate from personal essays.",
-        'The personal pieces stay close to everyday experience, including attention, loneliness, home, doubt, and wonder.',
+        "This page brings together Boomer's academic writing on financial education, persuasion, and a proposed psychology study.",
+        'Each paper keeps its original context, including when it was produced, what the assignment asked for, and a downloadable PDF.',
         "Let's begin with a May 2025 essay that pairs financial education with real accounts and practical experience.",
       ]}
       nextExhibit={{ href: '/writing/social-justice-through-financial-literacy/', label: 'Financial literacy essay' }}
@@ -44,40 +37,36 @@ const groupedEntries = Object.entries(
   </section>
 
   <div class="listing writing-listing">
-    {groupedEntries.map(([kind, kindEntries]) => (
-      <section class="writing-group" aria-labelledby={`writing-${kind}`}>
-        <header class="writing-group-header">
-          <h2 id={`writing-${kind}`}>
-            {kind === 'undesignated' ? 'Other writing' : kind[0].toUpperCase() + kind.slice(1) + ' writing'}
-          </h2>
-        </header>
-        <ol>
-          {kindEntries?.map((entry) => (
-            <li>
-              <a href={entry.data.externalUrl ?? '/' + entry.data.type + '/' + entry.data.slug + '/'}>
-                <strong>{entry.data.title}</strong>
-                <span class="listing-detail">
-                  <small>{entry.data.description}</small>
-                  <span class="listing-meta">
-                    {entry.data.writingForm && <span>{entry.data.writingForm}</span>}
-                    {entry.data.venue && <span>{entry.data.venue}</span>}
-                    {entry.data.publishedDate && (
-                      <time datetime={isoDate(entry.data.publishedDate)}>
-                        Published {formatFullDate(entry.data.publishedDate)}
-                      </time>
-                    )}
-                    {entry.data.producedDate && (
-                      <time datetime={entry.data.producedDate}>
-                        Produced {formatPartialDate(entry.data.producedDate)}
-                      </time>
-                    )}
-                  </span>
+    <section class="writing-group" aria-labelledby="writing-academic">
+      <header class="writing-group-header">
+        <h2 id="writing-academic">Academic writing</h2>
+      </header>
+      <ol>
+        {entries.map((entry) => (
+          <li>
+            <a href={'/' + entry.data.type + '/' + entry.data.slug + '/'}>
+              <strong>{entry.data.title}</strong>
+              <span class="listing-detail">
+                <small>{entry.data.description}</small>
+                <span class="listing-meta">
+                  {entry.data.writingForm && <span>{entry.data.writingForm}</span>}
+                  {entry.data.venue && <span>{entry.data.venue}</span>}
+                  {entry.data.publishedDate && (
+                    <time datetime={isoDate(entry.data.publishedDate)}>
+                      Published {formatFullDate(entry.data.publishedDate)}
+                    </time>
+                  )}
+                  {entry.data.producedDate && (
+                    <time datetime={entry.data.producedDate}>
+                      Produced {formatPartialDate(entry.data.producedDate)}
+                    </time>
+                  )}
                 </span>
-              </a>
-            </li>
-          ))}
-        </ol>
-      </section>
-    ))}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </section>
   </div>
 </BaseLayout>

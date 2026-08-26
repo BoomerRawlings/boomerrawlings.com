@@ -74,16 +74,19 @@ for (const diagram of diagrams) {
 }
 
 const mediaDiagramSource = readFileSync(join('src', 'diagrams', 'media-archive.mmd'), 'utf8');
-for (const stage of ['subgraph transfer', 'subgraph validation', 'subgraph preservation', 'subgraph indexing']) {
-  if (!mediaDiagramSource.includes(stage)) {
-    failures.push(`media archive diagram: missing ${stage}`);
-  }
+if (!mediaDiagramSource.includes('source["01 / SOURCE"]')
+  || !mediaDiagramSource.includes('identity["02 / IDENTIFY"]')
+  || !mediaDiagramSource.includes('prepare["03 / PREPARE"]')
+  || !mediaDiagramSource.includes('source --> identity --> prepare --> gate')
+  || !mediaDiagramSource.includes('gate --> analyze --> commit --> catalog --> viewer')
+  || !mediaDiagramSource.includes('gate{"04"}')
+  || !mediaDiagramSource.includes('Uncertain state stops before a model call')
+  || !mediaDiagramSource.includes('font-family:Arial Narrow')
+  || !mediaDiagramSource.includes('viewer["08 / VIEW"]')) {
+  failures.push('media archive diagram: source scale, fail-closed gate, evidence path, or protected viewer is missing');
 }
-if (!mediaDiagramSource.includes('decision{"Complete, readable,')
-  || !mediaDiagramSource.includes('exceptions --> retry')
-  || !mediaDiagramSource.includes('videos --> frames')
-  || !mediaDiagramSource.includes('records --> provenance')) {
-  failures.push('media archive diagram: validation loop, frame expansion, or provenance depth is missing');
+if (/every (?:extracted )?video frame|videos\s*-->\s*frames/i.test(mediaDiagramSource)) {
+  failures.push('media archive diagram: unsupported video-frame analysis claim remains');
 }
 
 for (const file of contentHtmlFiles) {
@@ -134,23 +137,23 @@ for (const file of contentHtmlFiles) {
 
 const writingHtml = readFileSync(join(output, 'writing', 'index.html'), 'utf8');
 const publishedDateCount = (writingHtml.match(/<time datetime="[^"]+">Published /g) ?? []).length;
-if (publishedDateCount !== 11) {
-  failures.push('writing/index.html: expected 11 labeled publication dates, found ' + publishedDateCount);
+if (publishedDateCount !== 3) {
+  failures.push('writing/index.html: expected 3 labeled academic publication dates, found ' + publishedDateCount);
 }
 if (!writingHtml.includes('aria-labelledby="writing-academic"')) {
   failures.push('writing/index.html: missing academic writing grouping');
 }
-if (!writingHtml.includes('aria-labelledby="writing-personal"')) {
-  failures.push('writing/index.html: missing personal writing grouping');
+if (writingHtml.includes('aria-labelledby="writing-personal"')) {
+  failures.push('writing/index.html: personal writing is still published onsite');
 }
 if (writingHtml.includes('>Category<')) {
   failures.push('writing/index.html: obsolete category label remains');
 }
-if (!writingHtml.includes('Academic writing') || !writingHtml.includes('Personal writing')) {
-  failures.push('writing/index.html: writing section headings are unclear');
+if (!writingHtml.includes('Academic writing')) {
+  failures.push('writing/index.html: academic writing heading is missing');
 }
-if (!writingHtml.includes('Personal essays and academic work published here and elsewhere')) {
-  failures.push('writing/index.html: writing scope is not explicit');
+if (!writingHtml.includes('Selected academic work, with publication and original production dates kept distinct')) {
+  failures.push('writing/index.html: academic writing scope is not explicit');
 }
 for (const route of [
   '/writing/social-justice-through-financial-literacy/',
@@ -161,8 +164,10 @@ for (const route of [
     failures.push(`writing/index.html: missing onsite academic writing link ${route}`);
   }
 }
-if (!writingHtml.includes('>BoomerRawlings.com<') || !writingHtml.includes('>Substack<')) {
-  failures.push('writing/index.html: publication venues are not both labeled');
+if (!writingHtml.includes('>BoomerRawlings.com<')
+  || (writingHtml.match(/href="https:\/\/boomerrawlings\.substack\.com\/"/g) ?? []).length !== 1
+  || (writingHtml.match(/Substack/g) ?? []).length !== 1) {
+  failures.push('writing/index.html: onsite venue or single quiet Substack reference is missing');
 }
 if (!writingHtml.includes('datetime="2026-05">Produced May 2026')) {
   failures.push('writing/index.html: partial production date is not preserved');
@@ -221,9 +226,14 @@ for (const { html, label, src, pages, provenance } of academicDocuments) {
   if (!html.includes(`<iframe src="${src}#view=FitH"`)
     || !html.includes(`href="${src}" target="_blank" rel="noopener"`)
     || !html.includes(`href="${src}" download`)
+    || !html.includes('>PDF</h2>')
     || !html.includes('>Open PDF ')
     || !html.includes('>Download PDF ')) {
     failures.push(`${label}: embedded reader, open control, or download control is missing`);
+  }
+  if (html.includes('Read the paper')
+    || html.includes('The complete PDF is embedded here and available as a direct download.')) {
+    failures.push(`${label}: redundant PDF introduction remains`);
   }
 }
 
@@ -284,17 +294,29 @@ const smallProjectsHtml = readFileSync(
   join(output, 'work', 'interactive-systems', 'index.html'),
   'utf8',
 );
-if (!homeHtml.includes('Media Archiving and Cataloging Pipeline')) {
+if (!homeHtml.includes('iCloud Media Migration and Catalog')) {
   failures.push('index.html: missing media-pipeline project title');
 }
-if (!mediaLibraryHtml.includes('31,550-item iCloud collection')) {
-  failures.push('media library page: missing verified project scope');
+if (!mediaLibraryHtml.includes('612.9 GiB')
+  || !mediaLibraryHtml.includes('31,550 files')
+  || !mediaLibraryHtml.includes('27,906 images')
+  || !mediaLibraryHtml.includes('3,644 videos')) {
+  failures.push('media library page: verified collection scale is missing');
 }
-if (!mediaLibraryHtml.includes('No single available tool handled') || !mediaLibraryHtml.includes('every frame of every video')) {
-  failures.push('media library page: export difficulty or frame-level indexing is missing');
+if (!mediaLibraryHtml.includes('iCloud.com download interface allows up to 1,000')
+  || !mediaLibraryHtml.includes('at least 32 separate selections')
+  || !mediaLibraryHtml.includes('Each stage was added in response to the problem exposed by the stage before it')
+  || !mediaLibraryHtml.includes('24,653 assets into 31,528 ordered inputs')
+  || !mediaLibraryHtml.includes('Multi-frame MPO files are expanded')
+  || !mediaLibraryHtml.includes('Videos remain cataloged as originals')) {
+  failures.push('media library page: export constraint, development sequence, or static-image preparation is missing');
 }
-if (!mediaLibraryHtml.includes('supervised pipeline designed to reliably archive and catalog tens of thousands')
-  || !mediaLibraryHtml.includes('/media/projects/organizing-icloud-media/archive-catalog-pipeline.svg')) {
+if (!mediaLibraryHtml.includes('supervised system built to export, verify, prepare, and search 31,550 iCloud media files')
+  || !mediaLibraryHtml.includes('/media/projects/organizing-icloud-media/archive-catalog-pipeline.svg')
+  || !mediaLibraryHtml.includes('width="1621" height="77"')
+  || !mediaLibraryHtml.includes('evidence-figure--diagram')
+  || !mediaLibraryHtml.includes('Swipe to follow')
+  || mediaLibraryHtml.includes('Open full-size diagram')) {
   failures.push('media library page: high-level pipeline framing or process diagram is missing');
 }
 const mediaProcessOffset = mediaLibraryHtml.indexOf('id="organizing-icloud-media-process-evidence"');
@@ -303,16 +325,44 @@ if (mediaProcessOffset === -1
   || mediaArticleOffset === -1
   || mediaProcessOffset > mediaArticleOffset
   || !mediaLibraryHtml.includes('>How it works</h2>')
-  || !mediaLibraryHtml.includes('Failed items loop back through reconciliation')
-  || !mediaLibraryHtml.includes('every derived photo or video-frame record remains traceable')) {
+  || !mediaLibraryHtml.includes('SHA-256 identity / 31,528 prepared inputs / 225 tests')
+  || !mediaLibraryHtml.includes('It binds only to <code>127.0.0.1</code>')) {
   failures.push('media library page: detailed process evidence is missing or too distant from Pip’s introduction');
 }
-if (!mediaLibraryHtml.includes('Moving 31,550 photos and videos safely required a supervised pipeline, not a single export')
-  || !mediaLibraryHtml.includes('The full workflow is directly below us')
-  || !mediaLibraryHtml.includes('Failed transfers return to reconciliation')
-  || !mediaLibraryHtml.includes('tag every photo and every video frame without touching the originals')
-  || mediaLibraryHtml.includes('The diagram shows why this job needs a pipeline')) {
+if (!mediaLibraryHtml.includes("iCloud's web download allows 1,000 items in one selection")
+  || !mediaLibraryHtml.includes('Each file receives a SHA-256 identity')
+  || !mediaLibraryHtml.includes('caught four pilot results that were not reliable enough')
+  || !mediaLibraryHtml.includes('stopped before making new model calls')) {
   failures.push('media library page: Pip does not clearly connect the visitor to the deeper workflow');
+}
+if (/every frame of every video|video-frame record|tag every photo and every video frame/i.test(mediaLibraryHtml)) {
+  failures.push('media library page: unsupported full video-frame analysis claim remains');
+}
+if (!mediaLibraryHtml.includes('strict JSON schema')
+  || !mediaLibraryHtml.includes('database transaction')
+  || !mediaLibraryHtml.includes('caught four low-fidelity pilot observations')
+  || !mediaLibraryHtml.includes('127.0.0.1')
+  || !mediaLibraryHtml.includes('225 named tests across 16 test modules')) {
+  failures.push('media library page: fail-closed analysis, local viewer, or test evidence is incomplete');
+}
+for (const heading of [
+  'Why the iCloud export needed its own system',
+  '1. Track each download',
+  '2. Identify and verify every file',
+  '3. Prepare separate working copies',
+  '4. Check the files before analysis',
+  '5. Analyze one image at a time',
+  '6. Record every attempt',
+  '7. Build the search index',
+  '8. Keep the viewer local',
+  'Testing followed the pipeline',
+]) {
+  if (!mediaLibraryHtml.includes(heading)) {
+    failures.push(`media library page: missing chronological heading ${heading}`);
+  }
+}
+if (/Identity before interpretation|Deterministic preparation|Analysis that can refuse to continue|Search without exposing the collection/.test(mediaLibraryHtml)) {
+  failures.push('media library page: abstract placeholder headings remain');
 }
 if (!horizonHtml.includes('/media/projects/horizon/startup-sequence.mp4')
   || !horizonHtml.includes('/media/projects/horizon/startup-poster.webp')
@@ -362,7 +412,7 @@ if (!horizonHtml.includes('first video shows its startup sequence')
   || !pocketllmHtml.includes('This starts from a fresh launch')
   || !pocketllmHtml.includes("Oh! I'm not a touch screen!")
   || !pocketllmHtml.includes('finds their matching keys and creates restored copies')
-  || !mediaLibraryHtml.includes('The full workflow is directly below us')
+  || !mediaLibraryHtml.includes('The originals remain read-only while supported images are prepared and analyzed')
   || !smallProjectsHtml.includes('The image comes from The Unrendered World')) {
   failures.push('project pages: Pip is not interpreting the new visual evidence');
 }
@@ -382,7 +432,7 @@ if (!homeHtml.includes('class="portfolio-curator"')) {
 }
 if (!homeHtml.includes('Pip says')
   || !homeHtml.includes("Hi! I'm Pip!")
-  || !homeHtml.includes('About will be our first stop')
+  || !homeHtml.includes('ABOUT will be our first stop')
   || !homeHtml.includes('action="/about/"')) {
   failures.push('index.html: Pip is not providing named orientation');
 }
@@ -428,6 +478,8 @@ const allWorkRow = (href) => {
 const datedEntries = [
   ['/work/horizon/', '2026-03', 'March 2026'],
   ['/work/paperfield/', '2026-05', 'May 2026'],
+  ['/work/pocketllm/', '2026-08', 'August 2026'],
+  ['/work/research-publishing-systems/', '2026-05', 'May 2026'],
   ['/work/organizing-icloud-media/', '2026-08', 'August 2026'],
   ['/writing/social-justice-through-financial-literacy/', '2025-05', 'May 2025'],
   ['/writing/rhetorical-analysis-death-penalty/', '2025-12', 'December 2025'],
@@ -440,8 +492,8 @@ for (const [href, datetime, label] of datedEntries) {
 }
 const personalWritingCount = (allWorkHtml.match(/>Personal writing</g) ?? []).length;
 const academicWritingCount = (allWorkHtml.match(/>Academic writing</g) ?? []).length;
-if (personalWritingCount !== 8 || academicWritingCount !== 3) {
-  failures.push(`all/index.html: expected 8 personal and 3 academic writing labels, found ${personalWritingCount} and ${academicWritingCount}`);
+if (personalWritingCount !== 0 || academicWritingCount !== 3) {
+  failures.push(`all/index.html: expected 0 personal and 3 academic writing labels, found ${personalWritingCount} and ${academicWritingCount}`);
 }
 if (!workHtml.includes('Small Projects')
   || !allWorkHtml.includes('Small Projects')
@@ -450,6 +502,21 @@ if (!workHtml.includes('Small Projects')
 }
 
 const publicHtml = contentHtmlFiles.map((file) => readFileSync(file, 'utf8')).join('\n');
+for (const slug of [
+  'a-quiet-place',
+  'dear-moon',
+  'false-loneliness',
+  'in-focus',
+  'may-4th-2026',
+  'the-benefit-of-the-doubt',
+  'the-sky-is-blue-and-the-trees-are-green',
+  'tidal',
+]) {
+  if (existsSync(join(output, 'writing', slug, 'index.html'))
+    || publicHtml.includes(`/writing/${slug}/`)) {
+    failures.push(`personal writing: ${slug} is still published or linked onsite`);
+  }
+}
 if (publicHtml.includes('/work/workline/') || publicHtml.includes('>Workline<')) {
   failures.push('public pages: hidden Workline project is still linked or named');
 }
@@ -528,6 +595,8 @@ if (!cvHtml.includes('Four-time honoree for 4.0 semester academic performance'))
 if (!cvHtml.includes('Psychology for Transfer (AA-T)')
   || !cvHtml.includes('Degree completed with honors in one year')
   || !cvHtml.includes('Spring 2026')
+  || !cvHtml.includes('four separate semesters, making the President\'s List each time')
+  || !cvHtml.includes('Fall 2026-2028 · Experimental Psychology B.S.')
   || !cvHtml.includes('University of California, San Diego')
   || !cvHtml.includes('Incoming psychology transfer with an intended focus on cognition and behavioral research')
   || !cvHtml.includes('href="mailto:llrawlings@ucsd.edu"')
@@ -554,6 +623,32 @@ if (cvHtml.includes('TOTAL 16.00')) {
 if (!publicHtml.includes('href="mailto:boomerrawlings@gmail.com"')
   || publicHtml.includes('boomer@boomerrawlings.com')) {
   failures.push('public pages: contact details are stale or incomplete');
+}
+if (!publicHtml.includes('aria-label="Professional profiles"')
+  || !publicHtml.includes('href="https://www.linkedin.com/in/boomerrawlings/"')
+  || !publicHtml.includes('href="https://github.com/BoomerRawlings"')
+  || !publicHtml.includes('>LinkedIn</span>')
+  || !publicHtml.includes('>GitHub</span>')) {
+  failures.push('public pages: LinkedIn or GitHub footer links and icons are missing');
+}
+
+const primaryNav = homeHtml.slice(
+  homeHtml.indexOf('<nav aria-label="Primary navigation">'),
+  homeHtml.indexOf('</nav>', homeHtml.indexOf('<nav aria-label="Primary navigation">')),
+);
+let previousNavOffset = -1;
+for (const [label, href] of [
+  ['Academics', '/cv/'],
+  ['Writing', '/writing/'],
+  ['Projects', '/work/'],
+  ['All Work', '/all/'],
+  ['About', '/about/'],
+]) {
+  const navOffset = primaryNav.indexOf(`href="${href}"`);
+  if (navOffset <= previousNavOffset || !primaryNav.slice(navOffset, navOffset + 180).includes(label)) {
+    failures.push(`primary navigation: ${label} is missing or out of order`);
+  }
+  previousNavOffset = navOffset;
 }
 
 const workPagePaths = [
@@ -660,6 +755,13 @@ if (!builtCss.includes('pip-hover-smile-in')
   || !builtCss.includes('pip-hover-feature-glitch')
   || !builtCss.includes('background-position:97% 0')) {
   failures.push('Pip is missing the fine-pointer hover smile');
+}
+if (!builtCss.includes('.evidence-figure--diagram .evidence-media')
+  || !builtCss.includes('overscroll-behavior-inline:contain')
+  || !builtCss.includes('width:80rem')
+  || !builtCss.includes('.evidence-figure--diagram .evidence-pan-hint')
+  || !builtCss.includes('.evidence-figure--diagram .evidence-caption>span:last-child')) {
+  failures.push('Full-size diagrams are not readable through a contained mobile pan surface');
 }
 if (!builtCss.includes('@media (prefers-reduced-motion:reduce)') && !builtCss.includes('@media(prefers-reduced-motion:reduce)')) {
   failures.push('Pip motion does not respect reduced-motion preferences');

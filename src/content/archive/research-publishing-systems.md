@@ -1,6 +1,7 @@
 ---
 title: Research and Publishing Systems
 slug: research-publishing-systems
+date: "2026-05"
 type: work
 description: Reader-centered systems for turning researched material into useful publications, from personalized briefings to beginner technology guides.
 curatorNotes:
@@ -9,7 +10,7 @@ curatorNotes:
   - "These systems are designed to make complex information useful at very different levels, from someone learning basic computer tasks to a doctoral candidate working through dense research. Next, I'll show you the media pipeline."
 nextExhibit:
   href: /work/organizing-icloud-media/
-  label: Media Archiving and Cataloging Pipeline
+  label: iCloud Media Migration and Catalog
 tags:
   - research
   - publishing

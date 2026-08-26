@@ -1,56 +1,26 @@
----
-title: Supervised media archiving and cataloging pipeline
----
-flowchart TB
-  accTitle: Supervised media archiving and cataloging pipeline
-  accDescr: A read-only iCloud collection moves through supervised transfer, validation, repair, and preservation stages before a separate indexing layer creates source-linked records for every photo and video frame.
+%%{init: {"flowchart": {"curve": "linear", "nodeSpacing": 38, "rankSpacing": 52, "padding": 8}}}%%
+flowchart LR
+  accTitle: Local-first media intelligence and catalog signal path
+  accDescr: A read-only source moves through identity, preparation, verification, analysis, evidence capture, indexing, and local viewing. Uncertain state stops before a model call.
 
-  subgraph transfer["1 · Stage controlled transfers"]
-    direction LR
-    source["Read-only iCloud source<br/>31,550 photos and videos"] --> manifest["Create batch manifest<br/>Expected file inventory"]
-    manifest --> download["Supervised download<br/>Watch retries, timeouts, partials"]
-    download --> staging["Quarantine staging<br/>Nothing promoted yet"]
-  end
+  source["01 / SOURCE"]
+  identity["02 / IDENTIFY"]
+  prepare["03 / PREPARE"]
+  gate{"04"}
+  analyze["05 / ANALYZE"]
+  commit["06 / RECORD"]
+  catalog["07 / INDEX"]
+  viewer["08 / VIEW"]
+  source --> identity --> prepare --> gate
+  gate --> analyze --> commit --> catalog --> viewer
 
-  subgraph validation["2 · Validate and reconcile every batch"]
-    direction LR
-    inventory["Inventory delivered files"]
-    inventory --> decision{"Complete, readable,<br/>metadata retained?"}
-    decision -->|"No"| exceptions["Exception queue<br/>Retry, replace, document"]
-    exceptions --> retry["Return item to<br/>supervised download"]
-    retry --> inventory
-    decision -->|"Yes"| results["Record validation results<br/>Write promotion log"]
-  end
+  classDef stage fill:transparent,stroke:transparent,color:#f5f0e6,font-family:Arial Narrow,font-size:28px,font-weight:600
+  classDef first fill:transparent,stroke:transparent,color:#ffcd00,font-family:Arial Narrow,font-size:28px,font-weight:600
+  classDef decision fill:#ffcd00,stroke:#c69214,color:#182b49,stroke-width:2px,font-family:Arial Narrow,font-size:22px,font-weight:700
+  classDef last fill:transparent,stroke:transparent,color:#00c6d7,font-family:Arial Narrow,font-size:28px,font-weight:600
+  class source first
+  class identity,prepare,analyze,commit,catalog stage
+  class gate decision
+  class viewer last
 
-  subgraph preservation["3 · Preserve a recoverable local library"]
-    direction LR
-    promote["Promote verified batch"] --> originals["Preserved local library<br/>Original files unchanged"]
-    originals --> organization["Structured folders<br/>Source references retained"]
-    organization --> recovery["Review and repair<br/>when exceptions surface"]
-  end
-
-  subgraph indexing["4 · Build a separate frame-level search layer"]
-    direction LR
-    derivatives["Derivative workspace<br/>Originals never modified"]
-    derivatives --> photos["Every photo"]
-    derivatives --> videos["Every video"]
-    videos --> frames["Every extracted frame"]
-    photos --> parser["Media parser"]
-    frames --> parser
-    parser --> observations["Searchable text and tags"]
-    observations --> records["Searchable records"]
-    records --> provenance["Source references<br/>Processing provenance"]
-  end
-
-  transfer -->|"Manifest and staged files"| validation
-  validation -->|"Verified batches only"| preservation
-  preservation -->|"Index separately from originals"| indexing
-
-  classDef source fill:#f4f0e6,stroke:#c69214,color:#182b49,stroke-width:2px
-  classDef process fill:#eef6f9,stroke:#00629b,color:#182b49,stroke-width:2px
-  classDef preserved fill:#f0f7ec,stroke:#3f6d3a,color:#182b49,stroke-width:2px
-  classDef derived fill:#ffffff,stroke:#00c6d7,color:#182b49,stroke-width:2px
-  class source source
-  class manifest,download,staging,inventory,decision,exceptions,retry,results,promote,parser process
-  class originals,organization,recovery preserved
-  class derivatives,photos,videos,frames,observations,records,provenance derived
+  linkStyle default stroke:#00c6d7,stroke-width:2.5px,color:#f5f0e6

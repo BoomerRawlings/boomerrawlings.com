@@ -13,16 +13,17 @@ interface Props {
 
 const {
   title = 'Boomer Rawlings',
-  description = 'Local-first software, research systems, personal writing, and visual work by Boomer Rawlings.',
+  description = 'Local-first software, research systems, academic writing, and visual work by Boomer Rawlings.',
 } = Astro.props;
 
 const pageTitle = title === 'Boomer Rawlings' ? title : title + ' — Boomer Rawlings';
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const isHome = Astro.url.pathname === '/';
 const navItems = [
+  ['Academics', '/cv/'],
+  ['Writing', '/writing/'],
   ['Projects', '/work/'],
   ['All Work', '/all/'],
-  ['Academics', '/cv/'],
   ['About', '/about/'],
 ];
 
@@ -78,9 +79,27 @@ const isCurrent = (href: string) =>
     </main>
     <footer class="site-footer">
       <p>© {new Date().getFullYear()} Boomer Rawlings</p>
-      <p>
-        <a href="mailto:boomerrawlings@gmail.com">boomerrawlings@gmail.com</a>
-      </p>
+      <div class="footer-contact">
+        <p><a href="mailto:boomerrawlings@gmail.com">boomerrawlings@gmail.com</a></p>
+        <ul class="footer-social" aria-label="Professional profiles">
+          <li>
+            <a href="https://www.linkedin.com/in/boomerrawlings/" target="_blank" rel="me noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12Zm1.78 13.02H3.56V9h3.56v11.45Z" />
+              </svg>
+              <span>LinkedIn</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/BoomerRawlings" target="_blank" rel="me noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 .3a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58v-2.24c-3.34.73-4.04-1.42-4.04-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23A11.5 11.5 0 0 1 12 6.09c1.02 0 2.04.14 3 .4 2.29-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.31c0 .32.22.7.83.58A12 12 0 0 0 12 .3Z" />
+              </svg>
+              <span>GitHub</span>
+            </a>
+          </li>
+        </ul>
+      </div>
       <p><a href="/">boomerrawlings.com</a></p>
     </footer>
   </body>

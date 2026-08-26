@@ -73,7 +73,7 @@ export const selectedAcademicWork = [
       'A course research proposal asking whether attention-bias modification could reduce hostile attention bias and aggression among justice-impacted young adults. The study was not conducted.',
   },
   {
-    meta: 'Research + document systems',
+    meta: 'May 2026 · Research + document systems',
     title: 'Research and Publishing Systems',
     href: '/work/research-publishing-systems/',
     summary:

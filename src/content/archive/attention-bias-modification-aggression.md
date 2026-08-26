@@ -26,4 +26,4 @@ producedDate: "2026-05"
 
 This proposal asks whether attention-bias modification could reduce hostile attention bias and aggression among justice-impacted young adults. It outlines a randomized comparison with neutral training, before-and-after measures, and recruitment safeguards for a potentially vulnerable participant population.
 
-The evidence base is narrow, and the paper says so. Before implementation, the design would still require formal ethics review, a justified sample size, a named and validated aggression measure, and a complete analysis plan. The original course paper is preserved below.
+The evidence base is narrow, and the paper says so. Before implementation, the design would still require formal ethics review, a justified sample size, a named and validated aggression measure, and a complete analysis plan.

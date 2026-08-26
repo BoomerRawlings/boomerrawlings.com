@@ -3,7 +3,7 @@ title: tidal
 slug: tidal
 type: writing
 description: "A lyrical meditation on the ocean’s rhythms, gravitational pull, pressure, and belonging to forces larger than oneself."
-status: published
+status: archived
 externalUrl: https://boomerrawlings.substack.com/p/tidal
 writingKind: personal
 writingForm: Prose poem

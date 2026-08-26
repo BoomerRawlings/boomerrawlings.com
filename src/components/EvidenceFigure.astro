@@ -11,6 +11,7 @@ interface Props {
   caption: string;
   width: number;
   height: number;
+  fullSizeLink?: boolean;
 }
 
 const {
@@ -23,6 +24,7 @@ const {
   caption,
   width,
   height,
+  fullSizeLink = true,
 } = Astro.props;
 const roleLabels: Record<EvidenceRole, string> = {
   hero: 'Overview',
@@ -31,6 +33,7 @@ const roleLabels: Record<EvidenceRole, string> = {
 };
 const captionId = `evidence-${entrySlug}-${role}`.replace(/[^a-z0-9_-]/gi, '-');
 const isFullSizeDiagram = kind === 'image' && src.endsWith('.svg');
+const showFullSizeLink = isFullSizeDiagram && fullSizeLink;
 const videoType = src.endsWith('.webm')
   ? 'video/webm'
   : src.endsWith('.mp4')
@@ -39,7 +42,7 @@ const videoType = src.endsWith('.webm')
 ---
 
 <figure
-  class:list={['evidence-figure', `evidence-figure--${role}`]}
+  class:list={['evidence-figure', `evidence-figure--${role}`, isFullSizeDiagram && 'evidence-figure--diagram']}
   style={`--evidence-width: ${width}px`}
 >
   <div class="evidence-media">
@@ -72,7 +75,8 @@ const videoType = src.endsWith('.webm')
     <span class="evidence-caption-label">{roleLabels[role]}</span>
     <span>{caption}</span>
   </figcaption>
-  {isFullSizeDiagram && (
+  {isFullSizeDiagram && <p class="evidence-pan-hint">Swipe to follow <span aria-hidden="true">→</span></p>}
+  {showFullSizeLink && (
     <p class="evidence-fullsize">
       <a href={src}>Open full-size diagram <span aria-hidden="true">↗</span></a>
     </p>
