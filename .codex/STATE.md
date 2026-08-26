@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: strengthen branded search visibility and make boomerrawlings.com the clearest canonical result for Boomer Rawlings.
-- Status: SEO implementation is complete and verified; production push authorized and pending.
+- Status: SEO release `ca6beeb` is live through GitHub Pages; production metadata and sitemap behavior are verified.
 
 ## Completed
 
@@ -19,6 +19,7 @@
 - Corrected all three public PDFs' embedded title, author, subject, keywords, and `en-US` language metadata. Every page retained an exact rendered/text/link/annotation match; first pages were visually reviewed.
 - Expanded build verification to enforce unique metadata, complete social cards, real image dimensions/MIME types, valid structured-data relationships, PDF metadata, and exact parity between indexable canonicals and the sitemap.
 - `npm test` and `git diff --check` pass.
+- Published release `ca6beeb`; GitHub Pages run `32996743468` passed. Live checks confirm the exact homepage title, `WebSite` and `Person` graphs, branded social card, About `ProfilePage`, academic `Article` data and byline, Photography `noindex`, and a 16-URL sitemap without Photography.
 
 ## Decisions
 
@@ -30,10 +31,9 @@
 
 ## Next
 
-1. Commit, push, and verify the authorized production release.
-2. Verify Google Search Console and Bing Webmaster Tools, submit `https://boomerrawlings.com/sitemap-index.xml`, and request indexing for `/` and `/about/`.
-3. Add reciprocal portfolio links to the GitHub profile, ORCID record, Substack profile, and LinkedIn profile; correct the public GitHub repository homepage/description.
-4. Re-enable Photography indexing when the page contains published image work.
+1. Verify Google Search Console and Bing Webmaster Tools, submit `https://boomerrawlings.com/sitemap-index.xml`, and request indexing for `/` and `/about/`.
+2. Add reciprocal portfolio links to the GitHub profile, ORCID record, Substack profile, and LinkedIn profile; correct the public GitHub repository homepage/description.
+3. Re-enable Photography indexing when the page contains published image work.
 
 ## Risks
 
