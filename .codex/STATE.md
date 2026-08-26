@@ -1,8 +1,8 @@
 # Project state
 
 - Mode: continuation
-- Objective: finish the pending footer revision and repair the Horizon and Paperfield demo media.
-- Status: release `94e69cc` is live through GitHub Pages; source, deployment, public routes, and replacement media are verified.
+- Objective: fix Pip's browser-history restoration and retire the Axiom Maze name in favor of The Unrendered World.
+- Status: release `744f4a1` is live through GitHub Pages; build, public content, and Pip's production Back → replay → ABOUT route are verified.
 
 ## Completed
 
@@ -33,6 +33,9 @@
 - Replaced the visible Gmail address in the footer with an accessible envelope icon and `Email` label while preserving the Gmail mailto target.
 - Added the supplied ORCID profile beside LinkedIn and GitHub with a compact identifier icon.
 - Published the footer and media repair in `94e69cc`. GitHub Pages run `32986289740` passed; the live Horizon file reports 570 frames at 60 fps with an audible AAC track, and the live Paperfield file reports 3,959 frames at 60 fps with the shortened opening.
+- Fixed Pip's browser back/forward-cache restoration: `pageshow` now clears both navigation locks, removes the completed departure state, resets the note sequence, and replays arrival motion only for a cached restoration. Added a build contract for the cleanup path and verified that Pip can reach ABOUT again after browser Back.
+- Removed the public Axiom Maze reference. The small procedural environment is consistently named The Unrendered World, including a regression check against the retired name.
+- Published both changes in `744f4a1`. GitHub Pages run `32989366231` passed; the live script clears both cached navigation locks and restores Pip's face, and the live Small Projects page contains The Unrendered World with no Axiom Maze reference.
 
 ## Decisions
 
