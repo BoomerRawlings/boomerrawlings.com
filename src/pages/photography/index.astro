@@ -3,7 +3,11 @@ import CollectionIndex from '../../components/CollectionIndex.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Photography" description="Photography and image-led work by Boomer Rawlings.">
+<BaseLayout
+  title="Photography"
+  description="Photography and image-led work by Boomer Rawlings."
+  noindex={true}
+>
   <CollectionIndex
     type="photography"
     title="Photography"

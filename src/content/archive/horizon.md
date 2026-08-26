@@ -9,6 +9,8 @@ visualEvidence:
     kind: video
     src: /media/projects/horizon/startup-sequence-v2.mp4
     poster: /media/projects/horizon/startup-poster.webp
+    posterWidth: 1600
+    posterHeight: 900
     alt: Horizon's startup animation opening into a clean local desktop workspace.
     caption: Launching Horizon moves through its startup sequence before the local desktop workspace appears.
     width: 1920
@@ -17,6 +19,8 @@ visualEvidence:
     kind: video
     src: /media/projects/horizon/interface-tour.mp4
     poster: /media/projects/horizon/interface-tour-poster.webp
+    posterWidth: 960
+    posterHeight: 720
     alt: Horizon's Getting Started guide moving through The loop, Home, Capture, Projects, and Focus.
     caption: The in-app guide moves through Horizon's core workflow, showing how Home, Capture, Projects, and Focus fit together while the underlying record stays in a local vault.
     width: 960

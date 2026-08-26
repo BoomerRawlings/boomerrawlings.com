@@ -1,6 +1,6 @@
-# BoomerRawlings.com
+# [BoomerRawlings.com](https://boomerrawlings.com/)
 
-Public portfolio for Boomer Rawlings: software and systems work, research, writing, photography, and biographical material.
+Official portfolio for Boomer Rawlings: psychology, local-first software, research systems, academic writing, visual work, and biographical material.
 
 ## Architecture
 

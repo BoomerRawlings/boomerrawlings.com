@@ -21,6 +21,8 @@ const visualEvidenceItem = z.discriminatedUnion('kind', [
     ...visualEvidenceBase,
     kind: z.literal('video'),
     poster: localAssetPath,
+    posterWidth: z.number().int().positive(),
+    posterHeight: z.number().int().positive(),
   }),
 ]);
 

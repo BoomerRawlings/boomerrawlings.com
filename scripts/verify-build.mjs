@@ -89,15 +89,160 @@ if (/every (?:extracted )?video frame|videos\s*-->\s*frames/i.test(mediaDiagramS
   failures.push('media archive diagram: unsupported video-frame analysis claim remains');
 }
 
+const metadataValues = {
+  title: new Map(),
+  description: new Map(),
+  canonical: new Map(),
+};
+const schemaByPage = new Map();
+const expectedSitemapUrls = new Set();
+
+function readImageMetadata(path) {
+  const source = readFileSync(path);
+  if (source.subarray(0, 3).toString('hex') === 'ffd8ff') {
+    let offset = 2;
+    const startOfFrame = new Set([0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf]);
+    while (offset + 8 < source.length) {
+      if (source[offset] !== 0xff) {
+        offset += 1;
+        continue;
+      }
+      while (source[offset] === 0xff) offset += 1;
+      const marker = source[offset];
+      offset += 1;
+      if (marker === 0xd8 || marker === 0xd9) continue;
+      if (marker === 0xda) break;
+      const length = source.readUInt16BE(offset);
+      if (startOfFrame.has(marker)) {
+        return {
+          width: source.readUInt16BE(offset + 5),
+          height: source.readUInt16BE(offset + 3),
+          type: 'image/jpeg',
+        };
+      }
+      offset += length;
+    }
+  }
+  if (source.subarray(0, 8).toString('hex') === '89504e470d0a1a0a') {
+    return {
+      width: source.readUInt32BE(16),
+      height: source.readUInt32BE(20),
+      type: 'image/png',
+    };
+  }
+  if (source.subarray(0, 4).toString('ascii') === 'RIFF'
+    && source.subarray(8, 12).toString('ascii') === 'WEBP') {
+    const format = source.subarray(12, 16).toString('ascii');
+    if (format === 'VP8X') {
+      return {
+        width: source.readUIntLE(24, 3) + 1,
+        height: source.readUIntLE(27, 3) + 1,
+        type: 'image/webp',
+      };
+    }
+    if (format === 'VP8 ') {
+      return {
+        width: source.readUInt16LE(26) & 0x3fff,
+        height: source.readUInt16LE(28) & 0x3fff,
+        type: 'image/webp',
+      };
+    }
+    if (format === 'VP8L') {
+      const dimensions = source.readUInt32LE(21);
+      return {
+        width: (dimensions & 0x3fff) + 1,
+        height: ((dimensions >>> 14) & 0x3fff) + 1,
+        type: 'image/webp',
+      };
+    }
+  }
+  return undefined;
+}
+
 for (const file of contentHtmlFiles) {
   const html = readFileSync(file, 'utf8');
   const label = relative(output, file);
-  if (!/<title>[^<]+<\/title>/.test(html)) failures.push(label + ': missing title');
-  if (!/<meta name="description" content="[^"]+">/.test(html)) failures.push(label + ': missing description');
-  if (!/<link rel="canonical" href="https:\/\/boomerrawlings\.com\//.test(html)) failures.push(label + ': missing canonical');
+  const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
+  const description = html.match(/<meta name="description" content="([^"]+)">/)?.[1];
+  const canonical = html.match(/<link rel="canonical" href="([^"]+)">/)?.[1];
+  if (!title) failures.push(label + ': missing title');
+  if (!description) failures.push(label + ': missing description');
+  if (!canonical?.startsWith('https://boomerrawlings.com/')) failures.push(label + ': missing canonical');
+  for (const [field, value] of Object.entries({ title, description, canonical })) {
+    if (!value) continue;
+    if (metadataValues[field].has(value)) {
+      failures.push(`${label}: duplicate ${field} also used by ${metadataValues[field].get(value)}`);
+    } else {
+      metadataValues[field].set(value, label);
+    }
+  }
   if (!html.includes('http-equiv="Content-Security-Policy"')
     || !html.includes('name="referrer" content="strict-origin-when-cross-origin"')) {
     failures.push(label + ': missing portable security metadata');
+  }
+  if (!html.includes('<meta name="author" content="Boomer Rawlings">')
+    || !html.includes('<link rel="author" href="/about/">')
+    || !html.includes('<link rel="icon" type="image/svg+xml" href="/favicon.svg">')) {
+    failures.push(label + ': missing author or favicon identity metadata');
+  }
+  const expectedRobots = label === join('photography', 'index.html')
+    ? 'noindex,follow'
+    : 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1';
+  if (!html.includes(`<meta name="robots" content="${expectedRobots}">`)) {
+    failures.push(`${label}: incorrect robots directive`);
+  }
+  if (canonical && !expectedRobots.startsWith('noindex')) expectedSitemapUrls.add(canonical);
+  for (const required of [
+    '<meta property="og:site_name" content="Boomer Rawlings">',
+    '<meta property="og:locale" content="en_US">',
+    '<meta property="og:image" content="https://boomerrawlings.com/',
+    '<meta property="og:image:secure_url" content="https://boomerrawlings.com/',
+    '<meta property="og:image:type" content="image/',
+    '<meta property="og:image:width" content="',
+    '<meta property="og:image:height" content="',
+    '<meta property="og:image:alt" content="',
+    '<meta name="twitter:card" content="summary_large_image">',
+    '<meta name="twitter:title" content="',
+    '<meta name="twitter:description" content="',
+    '<meta name="twitter:image" content="https://boomerrawlings.com/',
+    '<meta name="twitter:image:alt" content="',
+  ]) {
+    if (!html.includes(required)) failures.push(`${label}: missing social metadata ${required}`);
+  }
+  const socialImage = html.match(/<meta property="og:image" content="([^"]+)">/)?.[1];
+  if (socialImage) {
+    const imagePath = new URL(socialImage).pathname.slice(1);
+    const builtImagePath = join(output, imagePath);
+    if (!existsSync(builtImagePath)) {
+      failures.push(`${label}: social preview asset is missing: ${imagePath}`);
+    } else {
+      const actualImage = readImageMetadata(builtImagePath);
+      const declaredImage = {
+        type: html.match(/<meta property="og:image:type" content="([^"]+)">/)?.[1],
+        width: Number(html.match(/<meta property="og:image:width" content="([^"]+)">/)?.[1]),
+        height: Number(html.match(/<meta property="og:image:height" content="([^"]+)">/)?.[1]),
+      };
+      if (!actualImage
+        || actualImage.type !== declaredImage.type
+        || actualImage.width !== declaredImage.width
+        || actualImage.height !== declaredImage.height) {
+        failures.push(`${label}: declared social image metadata does not match ${imagePath}`);
+      }
+    }
+  }
+  const jsonLdMatches = [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)];
+  if (jsonLdMatches.length !== 1) {
+    failures.push(`${label}: expected one JSON-LD graph, found ${jsonLdMatches.length}`);
+  } else {
+    try {
+      const schema = JSON.parse(jsonLdMatches[0][1]);
+      schemaByPage.set(label, schema);
+      if (schema['@context'] !== 'https://schema.org' || !Array.isArray(schema['@graph'])) {
+        failures.push(`${label}: JSON-LD is not a Schema.org graph`);
+      }
+    } catch {
+      failures.push(`${label}: JSON-LD is not valid JSON`);
+    }
   }
 
   for (const [, href] of html.matchAll(/href="(\/[^"#?]*)"/g)) {
@@ -132,6 +277,29 @@ for (const file of contentHtmlFiles) {
     if (/\s(?:autoplay|loop)(?=\s|=|>)/i.test(video)) {
       failures.push(label + ': evidence video must not autoplay or loop');
     }
+  }
+}
+
+const socialCardPath = join(output, 'images', 'boomer-rawlings-social.jpg');
+const socialCardMetadata = existsSync(socialCardPath) ? readImageMetadata(socialCardPath) : undefined;
+if (!socialCardMetadata
+  || socialCardMetadata.width !== 1200
+  || socialCardMetadata.height !== 630
+  || socialCardMetadata.type !== 'image/jpeg'
+  || statSync(socialCardPath).size > 200_000) {
+  failures.push('social preview: 1200x630 JPEG is missing, invalid, or too large');
+}
+
+const sitemapPath = join(output, 'sitemap-0.xml');
+if (!existsSync(sitemapPath)) {
+  failures.push('sitemap: sitemap-0.xml is missing');
+} else {
+  const sitemapXml = readFileSync(sitemapPath, 'utf8');
+  const sitemapUrls = new Set([...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]));
+  const missingUrls = [...expectedSitemapUrls].filter((url) => !sitemapUrls.has(url));
+  const extraUrls = [...sitemapUrls].filter((url) => !expectedSitemapUrls.has(url));
+  if (missingUrls.length || extraUrls.length) {
+    failures.push(`sitemap: canonical set mismatch; missing [${missingUrls.join(', ')}], extra [${extraUrls.join(', ')}]`);
   }
 }
 
@@ -196,6 +364,9 @@ const academicDocuments = [
     src: '/documents/social-justice-through-financial-literacy.pdf',
     pages: 11,
     provenance: 'Research essay produced for ENGL 115 at Southwestern College on May 26, 2025.',
+    title: 'Social Justice through Financial Literacy',
+    subject: 'A May 2025 research essay arguing that financial education should include real accounts, practical experience, and an honest discussion of unequal access.',
+    keywords: 'financial literacy, education, social justice',
   },
   {
     html: deathPenaltyHtml,
@@ -203,6 +374,9 @@ const academicDocuments = [
     src: '/documents/rhetorical-analysis-death-penalty.pdf',
     pages: 6,
     provenance: 'Rhetorical analysis produced for ENGL C1001 at Southwestern College on December 8, 2025.',
+    title: 'Rhetorical Analysis: Comparing Opposing Texts',
+    subject: 'A December 2025 analysis comparing how the Federalist Society and Amnesty International argue opposing positions on the death penalty.',
+    keywords: 'rhetoric, death penalty, critical writing',
   },
   {
     html: academicHtml,
@@ -210,15 +384,31 @@ const academicDocuments = [
     src: '/documents/attention-bias-modification-aggression.pdf',
     pages: 10,
     provenance: 'Original student research proposal produced at Southwestern College in May 2026.',
+    title: 'The Effects of Attention Bias Modification on Aggression in Justice-Impacted Young Adults',
+    subject: 'A May 2026 student proposal for testing whether attention-bias modification could reduce hostile attention bias and aggression among justice-impacted young adults.',
+    keywords: 'psychology, justice-impacted populations, research methods',
   },
 ];
 
-for (const { html, label, src, pages, provenance } of academicDocuments) {
+for (const { html, label, src, pages, provenance, title, subject, keywords } of academicDocuments) {
   const publicPdf = join(output, src);
   if (!existsSync(publicPdf)) {
     failures.push(`${label}: missing public PDF asset ${src}`);
   } else if (readFileSync(publicPdf).subarray(0, 5).toString() !== '%PDF-') {
     failures.push(`${label}: ${src} is not a valid PDF asset`);
+  } else {
+    const pdfSource = readFileSync(publicPdf).toString('latin1');
+    for (const metadata of [
+      `/Title(${title})`,
+      '/Author(Boomer Rawlings)',
+      `/Subject(${subject})`,
+      `/Keywords(${keywords})`,
+      '/Lang(en-US)',
+    ]) {
+      if (!pdfSource.includes(metadata)) {
+        failures.push(`${label}: PDF discovery metadata is incomplete: ${metadata}`);
+      }
+    }
   }
   if (!html.includes(provenance) || !html.includes(`Original paper · ${pages} pages`)) {
     failures.push(`${label}: paper provenance or page count is missing`);
@@ -294,6 +484,70 @@ const smallProjectsHtml = readFileSync(
   join(output, 'work', 'interactive-systems', 'index.html'),
   'utf8',
 );
+const schemaTypesFor = (path) => new Set(
+  (schemaByPage.get(path)?.['@graph'] ?? []).flatMap((node) => node['@type'] ?? []),
+);
+const schemaNodeFor = (path, type) => (
+  schemaByPage.get(path)?.['@graph'] ?? []
+).find((node) => (Array.isArray(node['@type']) ? node['@type'] : [node['@type']]).includes(type));
+const homeSchema = schemaByPage.get('index.html');
+const homeSchemaText = JSON.stringify(homeSchema);
+const websiteNode = schemaNodeFor('index.html', 'WebSite');
+const personNode = schemaNodeFor('index.html', 'Person');
+if (websiteNode?.name !== 'Boomer Rawlings'
+  || websiteNode?.url !== 'https://boomerrawlings.com/'
+  || websiteNode?.alternateName !== 'boomerrawlings.com'
+  || personNode?.name !== 'Boomer Rawlings'
+  || personNode?.['@id'] !== 'https://boomerrawlings.com/#person'
+  || !homeSchemaText.includes('https://boomerrawlings.com/#person')
+  || !homeSchemaText.includes('https://www.linkedin.com/in/boomerrawlings/')
+  || !homeSchemaText.includes('https://github.com/BoomerRawlings')
+  || !homeSchemaText.includes('https://orcid.org/0009-0000-5843-5750')
+  || !homeSchemaText.includes('https://boomerrawlings.substack.com/')) {
+  failures.push('index.html: canonical WebSite and Person identity graph is incomplete');
+}
+const aboutLabel = join('about', 'index.html');
+const profileNode = schemaNodeFor(aboutLabel, 'ProfilePage');
+const aboutPersonNode = schemaNodeFor(aboutLabel, 'Person');
+if (profileNode?.mainEntity?.['@id'] !== 'https://boomerrawlings.com/#person'
+  || aboutPersonNode?.name !== 'Boomer Rawlings') {
+  failures.push('about/index.html: ProfilePage structured data is missing');
+}
+for (const slug of [
+  'social-justice-through-financial-literacy',
+  'rhetorical-analysis-death-penalty',
+  'attention-bias-modification-aggression',
+]) {
+  const label = join('writing', slug, 'index.html');
+  const types = schemaTypesFor(label);
+  const articleNode = schemaNodeFor(label, 'Article');
+  const html = readFileSync(join(output, label), 'utf8');
+  if (!types.has('Article')
+    || !types.has('ScholarlyArticle')
+    || !types.has('BreadcrumbList')
+    || !articleNode?.headline
+    || articleNode?.author?.['@id'] !== 'https://boomerrawlings.com/#person'
+    || !/^\d{4}-\d{2}-\d{2}$/.test(articleNode?.datePublished ?? '')
+    || articleNode?.image
+    || !html.includes('<span>By <a href="/about/" rel="author">Boomer Rawlings</a></span>')
+    || !html.includes('<meta property="og:type" content="article">')) {
+    failures.push(`${label}: article identity, breadcrumb, byline, or Open Graph type is missing`);
+  }
+}
+for (const slug of [
+  'horizon',
+  'paperfield',
+  'pocketllm',
+  'research-publishing-systems',
+  'organizing-icloud-media',
+  'interactive-systems',
+]) {
+  const label = join('work', slug, 'index.html');
+  const types = schemaTypesFor(label);
+  if (!types.has('CreativeWork') || !types.has('BreadcrumbList')) {
+    failures.push(`${label}: CreativeWork or breadcrumb structured data is missing`);
+  }
+}
 if (!homeHtml.includes('iCloud Media Migration and Catalog')) {
   failures.push('index.html: missing media-pipeline project title');
 }
@@ -585,8 +839,12 @@ if (!existsSync(join(output, 'images', 'boomer-rawlings-about.webp'))
   || statSync(join(output, 'images', 'boomer-rawlings-about.webp')).size > 150_000) {
   failures.push('about/index.html: optimized full-length portrait asset is missing or too large');
 }
-if (photographyHtml.includes('boomer-rawlings-headshot')
-  || photographyHtml.includes('boomer-rawlings-about')) {
+const photographyMain = photographyHtml.slice(
+  photographyHtml.indexOf('<main'),
+  photographyHtml.indexOf('</main>'),
+);
+if (photographyMain.includes('boomer-rawlings-headshot')
+  || photographyMain.includes('boomer-rawlings-about')) {
   failures.push('photography/index.html: biographical portraits were incorrectly treated as photography work');
 }
 if (!aboutHtml.includes('completed Southwestern College’s Psychology for Transfer (AA-T) degree with honors in Spring 2026')) {

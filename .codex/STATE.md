@@ -1,59 +1,43 @@
 # Project state
 
 - Mode: continuation
-- Objective: fix Pip's browser-history restoration and retire the Axiom Maze name in favor of The Unrendered World.
-- Status: release `744f4a1` is live through GitHub Pages; build, public content, and Pip's production Back → replay → ABOUT route are verified.
+- Objective: strengthen branded search visibility and make boomerrawlings.com the clearest canonical result for Boomer Rawlings.
+- Status: SEO implementation is complete and verified; production push authorized and pending.
 
 ## Completed
 
-- GitHub Pages remains canonical; `main` deploys through `.github/workflows/deploy-pages.yml`.
-- Removed the obsolete domain email; Gmail remains site-wide and the UCSD address appears only on Academics.
-- Placed the full-length portrait on About and the headshot on Academics.
-- Updated Academics with the one-year honors AA-T, recognition, selected SWC coursework, incoming UCSD section, and selected academic work.
-- Added embedded and downloadable PDFs for financial literacy, death-penalty rhetoric, and the unrun ABM proposal.
-- Added Pip Back controls, a non-looping terminal state, refined exhibit copy, and a terminal arrow that disappears.
-- Rebuilt the media-pipeline Mermaid diagram with deeper supervised transfer, validation, preservation, and frame-level indexing stages while avoiding unsupported implementation claims.
-- Rebuilt the Horizon startup as a genuine 1920×1080 60 fps capture: 570 frames over 9.5 seconds, no cursor or desktop edges, the complete intro and settled interface, and an audible normalized startup track. Versioned the public URL to bypass stale caches.
-- Removed Paperfield's first 8.33 seconds of dead time while retaining about half a second of visual context before the first paper moves. The replacement remains 1920×1080 at 60 fps and uses a versioned URL.
-- Replaced pocketLLM media with a clean 1080×1440, 60 fps fresh-launch capture showing synthetic file drag-in, local encoding, the face interaction, restart, matching-key recognition, and restoration.
-- Updated README deployment documentation for GitHub Pages and ignored local `tmp/` capture material.
-- `npm test` and `git diff --check` pass; the replacement Horizon and Paperfield videos fully decode. Desktop and mobile browser audits show no horizontal overflow. Pip Next, Back, and terminal behavior were exercised locally.
-- The prior cohesive release was deployed from commit `2c5c760` and verified live through GitHub Pages.
-- Reframed the media project around verified engineering evidence: 612.9 GiB, 31,550 cataloged files, immutable originals, streamed SHA-256 identity, deterministic static-image preparation, strict schema gates, transactional provenance, crash recovery, SQLite full-text search, and a read-only localhost viewer.
-- Corrected the unsupported claim that the implemented system analyzes every video frame. The source snapshot supports static images and ordered MPO image frames; videos retain catalog coverage.
-- Rebuilt the Mermaid chart as a numbered signal rail with one-word stages, a gold integrity checkpoint, a readable mobile pan surface, and a compact evidence strip.
-- Renamed the case study to `iCloud Media Migration and Catalog`, removed its full-size-diagram link, and added a compact evidence line beneath the rail.
-- Rewrote the case study as the chronological development of eight concrete stages, beginning with iCloud's 1,000-item web-selection limit and ending with a local read-only viewer.
-- Archived eight personal-writing entries without deleting their source; Writing now publishes only the three academic papers and links to Substack once.
-- Updated Academics with the four-semester President's List wording, Fall 2026-2028 UCSD dates, and Experimental Psychology B.S. program label.
-- Added August 2026 to pocketLLM and May 2026 to Research and Publishing Systems.
-- Changed the academic document heading to `PDF` and removed redundant embedded-reader instructions.
-- Reordered the header to Academics, Writing, Projects, All Work, About; added accessible LinkedIn and GitHub icon links beneath Gmail.
-- Deployed release `d74179a` successfully through GitHub Pages and verified the changed live routes.
-- Replaced the visible Gmail address in the footer with an accessible envelope icon and `Email` label while preserving the Gmail mailto target.
-- Added the supplied ORCID profile beside LinkedIn and GitHub with a compact identifier icon.
-- Published the footer and media repair in `94e69cc`. GitHub Pages run `32986289740` passed; the live Horizon file reports 570 frames at 60 fps with an audible AAC track, and the live Paperfield file reports 3,959 frames at 60 fps with the shortened opening.
-- Fixed Pip's browser back/forward-cache restoration: `pageshow` now clears both navigation locks, removes the completed departure state, resets the note sequence, and replays arrival motion only for a cached restoration. Added a build contract for the cleanup path and verified that Pip can reach ABOUT again after browser Back.
-- Removed the public Axiom Maze reference. The small procedural environment is consistently named The Unrendered World, including a regression check against the retired name.
-- Published both changes in `744f4a1`. GitHub Pages run `32989366231` passed; the live script clears both cached navigation locks and restores Pip's face, and the live Small Projects page contains The Unrendered World with no Axiom Maze reference.
+- Audited the live crawl surface: robots, sitemap, canonicals, redirects, unique titles/descriptions, and 17 public routes are healthy.
+- Confirmed current search backends do not yet surface boomerrawlings.com for exact-name or domain searches; the primary gap is discovery and identity consolidation.
+- Added site-wide author, robots preview, favicon, canonical, Open Graph, and large-card social metadata.
+- Added a reviewed 1200x630 branded social preview using the approved headshot.
+- Added stable Schema.org `WebSite`, `Person`, `WebPage`, and `ProfilePage` identity graphs with LinkedIn, GitHub, ORCID, and Substack references.
+- Added descriptive search titles plus `Article`/`ScholarlyArticle`, `CreativeWork`, and `BreadcrumbList` data to published detail pages.
+- Added a visible linked author byline to each academic paper.
+- Improved homepage, Academics, Writing, and All Work descriptions without keyword stuffing.
+- Marked the empty Photography page `noindex,follow` and excluded it from the sitemap until it contains published work.
+- Added a prominent canonical-site link to the repository README.
+- Corrected all three public PDFs' embedded title, author, subject, keywords, and `en-US` language metadata. Every page retained an exact rendered/text/link/annotation match; first pages were visually reviewed.
+- Expanded build verification to enforce unique metadata, complete social cards, real image dimensions/MIME types, valid structured-data relationships, PDF metadata, and exact parity between indexable canonicals and the sitemap.
+- `npm test` and `git diff --check` pass.
 
 ## Decisions
 
-- Academic writing uses production dates in All Work; detail pages retain both production and publication dates.
-- The UCSD program and date labels follow the user's supplied academic plan; the explanatory sentence remains conservative about intended cognition and behavioral-research focus.
-- Demo captures use clean client-only framing and actual 60 fps capture. Raw capture material stays outside version control.
-- Production changes will be delivered in one verified push.
-- The supplied ZIP is evidence only and must not be published. Its redaction leaves Codex thread UUIDs, run/attempt IDs, derived-media fingerprints, event hashes, timing, usage, and runtime details.
-- Public copy must distinguish completed catalog/preparation work from the full inference run that stopped at a pre-model integrity gate.
+- No implementation can guarantee first place for every query. Optimize exact-name/entity searches first, then build authority through verified external profiles.
+- Keep the homepage title exactly `Boomer Rawlings`; use concise descriptive titles on deeper pages.
+- Do not add `meta keywords`, fabricated affiliations, unsupported dates, ratings, or keyword-heavy copy.
+- Use representative project imagery when available; keep article schema images unset until paper-specific imagery exists. The branded card remains the social fallback.
+- Production changes remain batched into one verified push.
 
 ## Next
 
-1. No remaining action for the current release.
+1. Commit, push, and verify the authorized production release.
+2. Verify Google Search Console and Bing Webmaster Tools, submit `https://boomerrawlings.com/sitemap-index.xml`, and request indexing for `/` and `/about/`.
+3. Add reciprocal portfolio links to the GitHub profile, ORCID record, Substack profile, and LinkedIn profile; correct the public GitHub repository homepage/description.
+4. Re-enable Photography indexing when the page contains published image work.
 
 ## Risks
 
-- Do not stage `tmp/` or isolated application profiles.
-- Keep raw and failed capture material under ignored `tmp/`; only the reviewed production media belongs in Git.
-- Keep the supplied redacted ZIP and both ignored inspection directories out of Git and off the public site.
-- Scale/checkpoint numbers are reported by the redacted overview and user-supplied context; the snapshot does not include raw media, Phase 1 implementation, databases, logs, or receipts for independent operational verification.
-- 2026 award, degree, honors, one-year completion, and four-time recognition remain user-supplied facts.
+- Search indexing and ranking are controlled externally, can take days or weeks, and are never guaranteed.
+- Search engines currently have weak reciprocal identity evidence because major external profiles do not link back to the portfolio.
+- Search Console/Bing ownership tokens must come from the user's accounts; do not invent verification files or alter DNS casually.
+- Preserve GitHub Pages as canonical hosting and keep raw/private media outside the repository.

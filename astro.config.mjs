@@ -10,5 +10,9 @@ export default defineConfig({
     '/work/icloud-media-archive': '/work/organizing-icloud-media/',
     '/work/personal-archive': '/work/organizing-icloud-media/',
   },
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      filter: (page) => page !== 'https://boomerrawlings.com/photography/',
+    }),
+  ],
 });

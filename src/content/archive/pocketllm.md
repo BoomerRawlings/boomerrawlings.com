@@ -9,6 +9,8 @@ visualEvidence:
     kind: video
     src: /media/projects/pocketllm/interface-tour.mp4
     poster: /media/projects/pocketllm/interface-tour-poster.webp
+    posterWidth: 1080
+    posterHeight: 1440
     alt: pocketLLM starts empty, receives two synthetic files by drag and drop, encodes them locally, reacts when its face is clicked, then recognizes the coded files and matching keys and restores new copies.
     caption: "A fresh-launch demonstration: drag in two synthetic files, create reversible coded copies locally, click the face, restart, then drag the coded files back to match their keys and restore them."
     width: 1080

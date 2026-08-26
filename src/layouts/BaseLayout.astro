@@ -6,19 +6,112 @@ import '@fontsource/teko/latin-500.css';
 import '@fontsource/teko/latin-600.css';
 import '../styles/global.css';
 
-interface Props {
-  title?: string;
-  description?: string;
+interface SeoImage {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  type?: string;
 }
 
+interface Props {
+  title?: string;
+  metaTitle?: string;
+  description?: string;
+  image?: SeoImage;
+  pageType?: 'website' | 'profile' | 'article';
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+  publishedTime?: string;
+}
+
+const siteName = 'Boomer Rawlings';
+const siteDescription = 'Portfolio of Boomer Rawlings: psychology, local-first software, research systems, academic writing, and visual work.';
+const siteUrl = new URL('/', Astro.site).toString();
+const personId = new URL('/#person', Astro.site).toString();
+const websiteId = new URL('/#website', Astro.site).toString();
+const profileId = new URL('/about/#profile', Astro.site).toString();
+const defaultImage: SeoImage = {
+  src: '/images/boomer-rawlings-social.jpg',
+  alt: 'Boomer Rawlings, psychology, research, and software portfolio.',
+  width: 1200,
+  height: 630,
+  type: 'image/jpeg',
+};
+
 const {
-  title = 'Boomer Rawlings',
-  description = 'Local-first software, research systems, academic writing, and visual work by Boomer Rawlings.',
+  title = siteName,
+  metaTitle,
+  description = siteDescription,
+  image = defaultImage,
+  pageType = 'website',
+  structuredData = [],
+  noindex = false,
+  publishedTime,
 } = Astro.props;
 
-const pageTitle = title === 'Boomer Rawlings' ? title : title + ' — Boomer Rawlings';
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const titleBase = metaTitle ?? title;
+const pageTitle = titleBase === siteName ? titleBase : `${titleBase} | ${siteName}`;
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const socialImage = new URL(image.src, Astro.site).toString();
 const isHome = Astro.url.pathname === '/';
+const isAbout = Astro.url.pathname === '/about/';
+const pageId = `${canonical}#webpage`;
+const personSchema = {
+  '@type': 'Person',
+  '@id': personId,
+  name: siteName,
+  url: siteUrl,
+  mainEntityOfPage: { '@id': profileId },
+  image: {
+    '@type': 'ImageObject',
+    url: new URL('/images/boomer-rawlings-headshot.webp', Astro.site).toString(),
+    width: 900,
+    height: 1350,
+    caption: 'Boomer Rawlings',
+  },
+  alumniOf: {
+    '@type': 'CollegeOrUniversity',
+    name: 'Southwestern College',
+    url: 'https://www.swccd.edu/',
+  },
+  knowsAbout: [
+    'Psychology',
+    'Research methods',
+    'Local-first software',
+    'Academic writing',
+  ],
+  sameAs: [
+    'https://www.linkedin.com/in/boomerrawlings/',
+    'https://github.com/BoomerRawlings',
+    'https://orcid.org/0009-0000-5843-5750',
+    'https://boomerrawlings.substack.com/',
+  ],
+};
+const websiteSchema = {
+  '@type': 'WebSite',
+  '@id': websiteId,
+  name: siteName,
+  alternateName: 'boomerrawlings.com',
+  url: siteUrl,
+  description: siteDescription,
+  inLanguage: 'en-US',
+  author: { '@id': personId },
+};
+const pageSchema = {
+  '@type': isAbout || pageType === 'profile' ? 'ProfilePage' : 'WebPage',
+  '@id': isAbout ? profileId : pageId,
+  url: canonical,
+  name: pageTitle,
+  description,
+  inLanguage: 'en-US',
+  isPartOf: { '@id': websiteId },
+  ...(isAbout || pageType === 'profile'
+    ? { mainEntity: { '@id': personId } }
+    : { author: { '@id': personId } }),
+};
+const additionalSchema = Array.isArray(structuredData) ? structuredData : [structuredData];
+const schemaGraph = [websiteSchema, personSchema, pageSchema, ...additionalSchema];
 const navItems = [
   ['Academics', '/cv/'],
   ['Writing', '/writing/'],
@@ -45,13 +138,40 @@ const isCurrent = (href: string) =>
     />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="description" content={description} />
+    <meta name="author" content={siteName} />
+    <meta
+      name="robots"
+      content={noindex
+        ? 'noindex,follow'
+        : 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1'}
+    />
+    <meta name="application-name" content={siteName} />
     <meta name="theme-color" content="#182b49" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={pageType === 'article' ? 'article' : pageType} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:secure_url" content={socialImage} />
+    <meta property="og:image:type" content={image.type ?? 'image/jpeg'} />
+    <meta property="og:image:width" content={String(image.width)} />
+    <meta property="og:image:height" content={String(image.height)} />
+    <meta property="og:image:alt" content={image.alt} />
+    {pageType === 'article' && publishedTime && (
+      <meta property="article:published_time" content={publishedTime} />
+    )}
+    {pageType === 'article' && <meta property="article:author" content={new URL('/about/', Astro.site)} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={image.alt} />
     <link rel="canonical" href={canonical} />
+    <link rel="author" href="/about/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': schemaGraph })}></script>
     <title>{pageTitle}</title>
   </head>
   <body class:list={{ 'home-page': isHome }}>
