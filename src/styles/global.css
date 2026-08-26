@@ -1616,6 +1616,7 @@ main {
   padding: 0;
 }
 
+.footer-email a,
 .footer-social a {
   align-items: center;
   display: inline-flex;
@@ -1625,11 +1626,20 @@ main {
   text-underline-offset: 0.18em;
 }
 
+.footer-email svg,
 .footer-social svg {
   fill: currentColor;
   flex: none;
   height: 1rem;
   width: 1rem;
+}
+
+.footer-social .footer-orcid-icon {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
 }
 
 @media (min-width: 761px) and (max-width: 1100px) {

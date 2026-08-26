@@ -7,7 +7,7 @@ date: "2026-03"
 visualEvidence:
   - role: hero
     kind: video
-    src: /media/projects/horizon/startup-sequence.mp4
+    src: /media/projects/horizon/startup-sequence-v2.mp4
     poster: /media/projects/horizon/startup-poster.webp
     alt: Horizon's startup animation opening into a clean local desktop workspace.
     caption: Launching Horizon moves through its startup sequence before the local desktop workspace appears.

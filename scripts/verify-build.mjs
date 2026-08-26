@@ -364,7 +364,7 @@ for (const heading of [
 if (/Identity before interpretation|Deterministic preparation|Analysis that can refuse to continue|Search without exposing the collection/.test(mediaLibraryHtml)) {
   failures.push('media library page: abstract placeholder headings remain');
 }
-if (!horizonHtml.includes('/media/projects/horizon/startup-sequence.mp4')
+if (!horizonHtml.includes('/media/projects/horizon/startup-sequence-v2.mp4')
   || !horizonHtml.includes('/media/projects/horizon/startup-poster.webp')
   || !horizonHtml.includes('/media/projects/horizon/interface-tour.mp4')
   || !horizonHtml.includes('/media/projects/horizon/interface-tour-poster.webp')) {
@@ -384,7 +384,7 @@ if (!publishingSystemsHtml.includes('Continuity Desk')
   || !publishingSystemsHtml.includes('from someone learning basic computer tasks to a doctoral candidate working through dense research')) {
   failures.push('Research and Publishing Systems page: Continuity Desk or the SWC technology packet is incomplete');
 }
-if (!paperfieldHtml.includes('/media/projects/paperfield/research-workflow.mp4')
+if (!paperfieldHtml.includes('/media/projects/paperfield/research-workflow-v2.mp4')
   || !paperfieldHtml.includes('/media/projects/paperfield/research-workflow-poster.webp')) {
   failures.push('Paperfield page: DOI, library, search, connection, or PDF workflow is missing');
 }
@@ -621,15 +621,21 @@ if (cvHtml.includes('TOTAL 16.00')) {
   failures.push('cv/index.html: transcript detail was published instead of a selected academic profile');
 }
 if (!publicHtml.includes('href="mailto:boomerrawlings@gmail.com"')
+  || !publicHtml.includes('aria-label="Email Boomer Rawlings"')
+  || !publicHtml.includes('class="footer-email"')
+  || !publicHtml.includes('>Email</span>')
+  || publicHtml.includes('>boomerrawlings@gmail.com</a>')
   || publicHtml.includes('boomer@boomerrawlings.com')) {
   failures.push('public pages: contact details are stale or incomplete');
 }
 if (!publicHtml.includes('aria-label="Professional profiles"')
   || !publicHtml.includes('href="https://www.linkedin.com/in/boomerrawlings/"')
   || !publicHtml.includes('href="https://github.com/BoomerRawlings"')
+  || !publicHtml.includes('href="https://orcid.org/0009-0000-5843-5750"')
   || !publicHtml.includes('>LinkedIn</span>')
-  || !publicHtml.includes('>GitHub</span>')) {
-  failures.push('public pages: LinkedIn or GitHub footer links and icons are missing');
+  || !publicHtml.includes('>GitHub</span>')
+  || !publicHtml.includes('>ORCID</span>')) {
+  failures.push('public pages: LinkedIn, GitHub, or ORCID footer links and icons are missing');
 }
 
 const primaryNav = homeHtml.slice(
