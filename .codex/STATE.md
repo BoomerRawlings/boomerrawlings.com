@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: migrate the verified static portfolio from credit-limited Netlify to GitHub Pages without disrupting GoDaddy-hosted email.
-- Status: DNS and content cutover are verified; Netlify builds are stopped, and GitHub is provisioning the TLS certificate before HTTPS enforcement.
+- Status: migration complete; GitHub Pages serves the custom domain with enforced HTTPS, and Netlify builds are stopped.
 
 ## Completed
 
@@ -15,6 +15,8 @@
 - Verified every key route and the Horizon video returns 200, Workline remains 404, all four legacy pages redirect correctly, and `www` returns GitHub's apex redirect.
 - GitHub's Pages health check marks apex and `www` valid, served by Pages, HTTPS-eligible, and free of CAA errors.
 - Stopped Netlify automatic builds while preserving published deploy `6a8e1e59c380b700083ffa1d` at `boomerrawlings-com.netlify.app` as a rollback.
+- Restarted GitHub's stalled custom-domain certificate job, obtained an approved certificate for apex and `www`, and enabled HTTPS enforcement.
+- Verified normal certificate validation on all four GitHub edge addresses; apex, `www`, HTTP-to-HTTPS routing, key pages, and the Horizon video pass without bypasses.
 - `npm test` verifies 15 content pages and four redirects, including metadata, links, assets, Pip behavior, and project-specific evidence.
 - `git diff --check` passes.
 
@@ -24,16 +26,15 @@
 - Configure the Pages custom domain before changing DNS.
 - Change only web routing: replace apex `A @ -> 75.2.60.5` with GitHub's four apex addresses, and change `www` from Netlify to `BoomerRawlings.github.io`.
 - Keep GoDaddy nameservers, all MX records, SPF, DMARC, Microsoft verification, autodiscover, SIP, and every other service record unchanged.
-- Keep the existing Netlify site as a rollback until apex, `www`, HTTPS, key routes, and email DNS are verified; then disable Netlify continuous deployment.
+- Keep the published Netlify deployment at `boomerrawlings-com.netlify.app` as an inactive rollback; automatic builds remain disabled.
 - GitHub Pages cannot reproduce Netlify's response headers or true server-side 301s. Meta CSP/referrer and static redirect pages provide portable partial equivalents.
 
 ## Next
 
-1. Wait for GitHub's certificate, then enforce HTTPS and repeat live verification without bypassing certificate checks.
-2. Push the final Pages-only repository checkpoint.
+1. Resume normal portfolio work; verified pushes to `main` publish through GitHub Pages.
 
 ## Risks
 
 - GitHub Pages has soft service limits, but the roughly 4 MB static portfolio is far below practical thresholds.
-- DNS and certificate propagation may be asynchronous; do not remove the Netlify rollback before verification.
+- GitHub Pages does not provide Netlify's arbitrary response headers or true server-side redirect rules; the repository contains the accepted static equivalents.
 - 2026 award, degree, honors, one-year, and four-time recognition remain user-supplied facts.
