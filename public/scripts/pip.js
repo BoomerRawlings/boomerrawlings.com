@@ -164,10 +164,18 @@ document.querySelectorAll('[data-pip-guide]').forEach((guide) => {
     animatePipArrival(guide);
   }
 
-  window.addEventListener('pageshow', () => {
+  window.addEventListener('pageshow', (event) => {
     syncSoundPreference();
+    delete form.dataset.pipNavigating;
+    delete guide.dataset.pipNavigating;
+    guide.classList.remove('is-departing');
     step = 0;
     updateStep();
+
+    if (event.persisted) {
+      removeStorage(window.sessionStorage, TRANSITION_KEY);
+      if (!reducedMotionQuery.matches) animatePipArrival(guide);
+    }
   });
   window.addEventListener('storage', (event) => {
     if (event.key === SOUND_KEY) syncSoundPreference();
