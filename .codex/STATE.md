@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: refine project-video captions and feature Research Briefing Assistant as a clearly labeled work in progress.
-- Status: implementation complete and locally verified; production push pending.
+- Status: release `45256cd` is live and verified through GitHub Pages.
 
 ## Completed
 
@@ -13,6 +13,7 @@
 - Connected Research and Publishing Systems to the new project in Pip's guided sequence.
 - Added CreativeWork status metadata and regression checks for page count, project ordering, labels, captions, verified claims, source link, and navigation.
 - `npm test` and `git diff --check` pass. Production-build pages were visually reviewed at desktop width; the WIP label and homepage feature render cleanly.
+- GitHub Pages run `33028190155` passed. Live checks confirm the new page, homepage/Projects/Research/All Work placement, all four revised captions, and sitemap entry.
 
 ## Decisions
 
@@ -23,8 +24,8 @@
 
 ## Next
 
-1. Commit and push the verified release to `main`.
-2. Confirm the GitHub Pages workflow passes and verify the live project page, indexes, homepage feature, captions, and sitemap.
+1. Add project media only after a privacy-reviewed demonstration or sample package exists.
+2. Revisit the WIP label when the repository gains a documented end-to-end sample and substantive-review evidence.
 
 ## Risks
 
