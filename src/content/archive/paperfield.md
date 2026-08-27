@@ -12,7 +12,7 @@ visualEvidence:
     posterWidth: 1920
     posterHeight: 1080
     alt: Paperfield searching a research library, smoothly arranging and fanning a three-paper bundle on a spatial desk, connecting papers, inspecting a PDF, and importing a paper by DOI.
-    caption: One session searches across a 24-paper Library organized into six categories, moves and fans a three-paper bundle, draws a relationship, inspects a source PDF, and adds a paper from its DOI.
+    caption: A research library becomes a desk for arranging ideas and following connections.
     width: 1920
     height: 1080
 curatorNotes:

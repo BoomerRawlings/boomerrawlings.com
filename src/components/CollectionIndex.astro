@@ -59,7 +59,10 @@ const entries = (await getCollection('archive', ({ data }) =>
       {entries.map((entry) => (
         <li>
           <a href={entry.data.externalUrl ?? '/' + entry.data.type + '/' + entry.data.slug + '/'}>
-            <strong>{entry.data.title}</strong>
+            <strong>
+              {entry.data.title}
+              {entry.data.projectStage && <> <span class="project-stage">{entry.data.projectStage}</span></>}
+            </strong>
             <small>{entry.data.description}</small>
           </a>
         </li>

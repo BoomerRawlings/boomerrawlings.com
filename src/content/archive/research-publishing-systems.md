@@ -7,10 +7,10 @@ description: Reader-centered systems for turning researched material into useful
 curatorNotes:
   - "Continuity Desk builds a publication around one reader. It keeps each source claim traceable and carries useful context from one issue to the next."
   - "Boomer's Southwestern College technology packet solves a different problem. Its two guides give beginners a 95-page path from connecting to Wi-Fi and opening mySWC to saving a Word file, submitting work in Canvas, messaging an instructor, and reading feedback."
-  - "These systems are designed to make complex information useful at very different levels, from someone learning basic computer tasks to a doctoral candidate working through dense research. Next, I'll show you the media pipeline."
+  - "These systems are designed to make complex information useful at very different levels, from someone learning basic computer tasks to a doctoral candidate working through dense research. Next, I'll show you the Research Briefing Assistant."
 nextExhibit:
-  href: /work/organizing-icloud-media/
-  label: iCloud Media Migration and Catalog
+  href: /work/research-briefing-assistant/
+  label: Research Briefing Assistant
 tags:
   - research
   - publishing
@@ -41,5 +41,5 @@ Completed in July 2026, this two-guide, 95-page packet was written for new South
 ## Public tools
 
 - [Printable and black-and-white printable skills](https://github.com/BoomerRawlings/Skills)
-- [Research Briefing Assistant](https://github.com/BoomerRawlings/research-briefing-assistant)
+- [Research Briefing Assistant](/work/research-briefing-assistant/)
 - [Personal Search Router](https://github.com/BoomerRawlings/personal-search-router)

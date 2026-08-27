@@ -1,45 +1,32 @@
 # Project state
 
 - Mode: continuation
-- Objective: strengthen branded search visibility and make boomerrawlings.com the clearest canonical result for Boomer Rawlings.
-- Status: SEO release `ca6beeb` and About headshot fix `acb81d0` are live and verified through GitHub Pages.
+- Objective: refine project-video captions and feature Research Briefing Assistant as a clearly labeled work in progress.
+- Status: implementation complete and locally verified; production push pending.
 
 ## Completed
 
-- Audited the live crawl surface: robots, sitemap, canonicals, redirects, unique titles/descriptions, and 17 public routes are healthy.
-- Confirmed current search backends do not yet surface boomerrawlings.com for exact-name or domain searches; the primary gap is discovery and identity consolidation.
-- Added site-wide author, robots preview, favicon, canonical, Open Graph, and large-card social metadata.
-- Added a reviewed 1200x630 branded social preview using the approved headshot.
-- Added stable Schema.org `WebSite`, `Person`, `WebPage`, and `ProfilePage` identity graphs with LinkedIn, GitHub, ORCID, and Substack references.
-- Added descriptive search titles plus `Article`/`ScholarlyArticle`, `CreativeWork`, and `BreadcrumbList` data to published detail pages.
-- Added a visible linked author byline to each academic paper.
-- Improved homepage, Academics, Writing, and All Work descriptions without keyword stuffing.
-- Marked the empty Photography page `noindex,follow` and excluded it from the sitemap until it contains published work.
-- Added a prominent canonical-site link to the repository README.
-- Corrected all three public PDFs' embedded title, author, subject, keywords, and `en-US` language metadata. Every page retained an exact rendered/text/link/annotation match; first pages were visually reviewed.
-- Expanded build verification to enforce unique metadata, complete social cards, real image dimensions/MIME types, valid structured-data relationships, PDF metadata, and exact parity between indexable canonicals and the sitemap.
-- `npm test` and `git diff --check` pass.
-- Published release `ca6beeb`; GitHub Pages run `32996743468` passed. Live checks confirm the exact homepage title, `WebSite` and `Person` graphs, branded social card, About `ProfilePage`, academic `Article` data and byline, Photography `noindex`, and a 16-URL sitemap without Photography.
-- Restored the approved smiling headshot to the About page and updated its regression contract.
-- Published the headshot fix in `acb81d0`; GitHub Pages run `33027104881` passed and the live About page exposes the correct image and alt text.
+- Replaced four literal video summaries on Horizon, Paperfield, and pocketLLM with shorter editorial captions; detailed alt text remains unchanged.
+- Verified the public Research Briefing Assistant repository before writing portfolio copy.
+- Added a dedicated August 2026 project page describing the independent ChatGPT/Gemini passes, claim-level reconciliation, Python package validator, and human-review limits.
+- Added an explicit `Work in progress` content field and surfaced it on the detail page, Projects and Research indexes, homepage, and All Work.
+- Connected Research and Publishing Systems to the new project in Pip's guided sequence.
+- Added CreativeWork status metadata and regression checks for page count, project ordering, labels, captions, verified claims, source link, and navigation.
+- `npm test` and `git diff --check` pass. Production-build pages were visually reviewed at desktop width; the WIP label and homepage feature render cleanly.
 
 ## Decisions
 
-- No implementation can guarantee first place for every query. Optimize exact-name/entity searches first, then build authority through verified external profiles.
-- Keep the homepage title exactly `Boomer Rawlings`; use concise descriptive titles on deeper pages.
-- Do not add `meta keywords`, fabricated affiliations, unsupported dates, ratings, or keyword-heavy copy.
-- Use representative project imagery when available; keep article schema images unset until paper-specific imagery exists. The branded card remains the social fallback.
-- Production changes remain batched into one verified push.
+- Treat the project as a real public WIP, not a finished application: the repository contains substantial workflow specifications and a working standard-library validator, but no demo, sample run, tests, CI, or release.
+- Describe only implemented validation checks. Research execution and substantive evidence judgment remain human-review responsibilities.
+- Keep captions interpretive; preserve literal workflow detail in video alternative text.
+- GitHub Pages remains the canonical deployment target.
 
 ## Next
 
-1. Verify Google Search Console and Bing Webmaster Tools, submit `https://boomerrawlings.com/sitemap-index.xml`, and request indexing for `/` and `/about/`.
-2. Add reciprocal portfolio links to the GitHub profile, ORCID record, Substack profile, and LinkedIn profile; correct the public GitHub repository homepage/description.
-3. Re-enable Photography indexing when the page contains published image work.
+1. Commit and push the verified release to `main`.
+2. Confirm the GitHub Pages workflow passes and verify the live project page, indexes, homepage feature, captions, and sitemap.
 
 ## Risks
 
-- Search indexing and ranking are controlled externally, can take days or weeks, and are never guaranteed.
-- Search engines currently have weak reciprocal identity evidence because major external profiles do not link back to the portfolio.
-- Search Console/Bing ownership tokens must come from the user's accounts; do not invent verification files or alter DNS casually.
-- Preserve GitHub Pages as canonical hosting and keep raw/private media outside the repository.
+- Do not imply that the documented multi-model workflow is fully automated by the validator.
+- Keep private research material and unreviewed briefing outputs outside the public repository.

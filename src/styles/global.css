@@ -1192,6 +1192,19 @@ main {
     transform var(--motion-ui) var(--ease-ui);
 }
 
+.project-stage {
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.63rem;
+  letter-spacing: 0.055em;
+  line-height: 1;
+  margin-left: 0.65rem;
+  padding: 0.28rem 0.38rem 0.22rem;
+  vertical-align: 0.18em;
+}
+
 .listing small {
   color: var(--ink);
   font-size: 1rem;

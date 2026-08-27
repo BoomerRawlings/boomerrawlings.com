@@ -48,6 +48,7 @@ const archive = defineCollection({
       tags: z.array(z.string()).default([]),
       status: z.enum(['draft', 'published', 'archived']).default('draft'),
       featured: z.boolean().default(false),
+      projectStage: z.enum(['Work in progress']).optional(),
       related: z.array(z.string()).default([]),
       externalUrl: z.string().url().optional(),
       writingKind: z.enum(['academic', 'personal']).optional(),
@@ -64,6 +65,14 @@ const archive = defineCollection({
           code: 'custom',
           path: ['curatorNotes'],
           message: 'A next exhibit requires curator notes.',
+        });
+      }
+
+      if (entry.projectStage && entry.type !== 'work') {
+        context.addIssue({
+          code: 'custom',
+          path: ['projectStage'],
+          message: 'Only project entries may declare a project stage.',
         });
       }
 

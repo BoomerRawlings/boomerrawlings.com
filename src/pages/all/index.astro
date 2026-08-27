@@ -23,7 +23,7 @@ const displayKind = (entry: ArchiveEntry) => {
   }
 
   return entry.data.type === 'work'
-    ? 'Project'
+    ? (entry.data.projectStage ? 'WIP project' : 'Project')
     : entry.data.type.charAt(0).toUpperCase() + entry.data.type.slice(1);
 };
 

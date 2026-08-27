@@ -5,6 +5,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const publishedEntries = await getCollection('archive', ({ data }) => data.status === 'published');
 const researchSlugs = new Set([
+  'research-briefing-assistant',
   'research-publishing-systems',
   'attention-bias-modification-aggression',
 ]);
@@ -14,6 +15,7 @@ const selectedWork = publishedEntries
     const order = [
       'horizon',
       'paperfield',
+      'research-briefing-assistant',
       'pocketllm',
       'workline',
       'research-publishing-systems',
@@ -86,7 +88,7 @@ const contents = [
         {selectedWork.map((entry) => (
           <li>
             <a href={'/work/' + entry.data.slug + '/'}>
-              <span class="ledger-type">Project</span>
+              <span class="ledger-type">{entry.data.projectStage ? 'WIP project' : 'Project'}</span>
               <strong>{entry.data.title}</strong>
               <span class="ledger-description">{entry.data.description}</span>
             </a>

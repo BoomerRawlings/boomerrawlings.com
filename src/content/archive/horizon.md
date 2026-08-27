@@ -12,7 +12,7 @@ visualEvidence:
     posterWidth: 1600
     posterHeight: 900
     alt: Horizon's startup animation opening into a clean local desktop workspace.
-    caption: Launching Horizon moves through its startup sequence before the local desktop workspace appears.
+    caption: A moment of quiet before the work begins.
     width: 1920
     height: 1080
   - role: proof
@@ -22,7 +22,7 @@ visualEvidence:
     posterWidth: 960
     posterHeight: 720
     alt: Horizon's Getting Started guide moving through The loop, Home, Capture, Projects, and Focus.
-    caption: The in-app guide moves through Horizon's core workflow, showing how Home, Capture, Projects, and Focus fit together while the underlying record stays in a local vault.
+    caption: Capture, projects, and focus share one local workspace.
     width: 960
     height: 720
 curatorNotes:

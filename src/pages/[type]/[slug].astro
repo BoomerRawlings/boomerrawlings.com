@@ -37,6 +37,7 @@ const metaTitles = new Map([
   ['paperfield', 'Paperfield Spatial Research Desk'],
   ['pocketllm', 'pocketLLM Local Pseudonymization Tool'],
   ['research-publishing-systems', 'Research and Publishing Systems'],
+  ['research-briefing-assistant', 'Research Briefing Assistant WIP'],
   ['organizing-icloud-media', 'iCloud Media Migration and Catalog'],
   ['interactive-systems', 'The Unrendered World and Small Projects'],
   ['social-justice-through-financial-literacy', 'Financial Literacy and Social Justice'],
@@ -118,6 +119,7 @@ const contentSchema = isWriting
       url: canonical,
       mainEntityOfPage: { '@id': pageId },
       creator: { '@id': personId },
+      creativeWorkStatus: entry.data.projectStage,
       inLanguage: 'en-US',
       dateCreated,
       image: representativeImage,
@@ -174,17 +176,18 @@ const eyebrow = isWriting && entry.data.writingKind
     <div>
       <h1>{entry.data.title}</h1>
       <p class="entry-description">{entry.data.description}</p>
-      {isWriting && (
+      {(isWriting || entry.data.projectStage) && (
         <div class="entry-meta">
-          <span>By <a href="/about/" rel="author">Boomer Rawlings</a></span>
-          {entry.data.writingForm && <span>{entry.data.writingForm}</span>}
-          {entry.data.venue && <span>{entry.data.venue}</span>}
-          {entry.data.publishedDate && (
+          {entry.data.projectStage && <span>{entry.data.projectStage}</span>}
+          {isWriting && <span>By <a href="/about/" rel="author">Boomer Rawlings</a></span>}
+          {isWriting && entry.data.writingForm && <span>{entry.data.writingForm}</span>}
+          {isWriting && entry.data.venue && <span>{entry.data.venue}</span>}
+          {isWriting && entry.data.publishedDate && (
             <time datetime={isoDate(entry.data.publishedDate)}>
               Published {formatFullDate(entry.data.publishedDate)}
             </time>
           )}
-          {entry.data.producedDate && (
+          {isWriting && entry.data.producedDate && (
             <time datetime={entry.data.producedDate}>
               Produced {formatPartialDate(entry.data.producedDate)}
             </time>

@@ -26,9 +26,9 @@ const redirectTargets = new Map([
 const contentHtmlFiles = htmlFiles.filter(
   (file) => !redirectTargets.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 17 || htmlFiles.length !== 21) {
+if (contentHtmlFiles.length !== 18 || htmlFiles.length !== 22) {
   throw new Error(
-    `expected 17 content pages and 4 redirects, found ${contentHtmlFiles.length} and ${htmlFiles.length - contentHtmlFiles.length}`,
+    `expected 18 content pages and 4 redirects, found ${contentHtmlFiles.length} and ${htmlFiles.length - contentHtmlFiles.length}`,
   );
 }
 
@@ -538,6 +538,7 @@ for (const slug of [
   'horizon',
   'paperfield',
   'pocketllm',
+  'research-briefing-assistant',
   'research-publishing-systems',
   'organizing-icloud-media',
   'interactive-systems',
@@ -621,7 +622,9 @@ if (/Identity before interpretation|Deterministic preparation|Analysis that can 
 if (!horizonHtml.includes('/media/projects/horizon/startup-sequence-v2.mp4')
   || !horizonHtml.includes('/media/projects/horizon/startup-poster.webp')
   || !horizonHtml.includes('/media/projects/horizon/interface-tour.mp4')
-  || !horizonHtml.includes('/media/projects/horizon/interface-tour-poster.webp')) {
+  || !horizonHtml.includes('/media/projects/horizon/interface-tour-poster.webp')
+  || !horizonHtml.includes('A moment of quiet before the work begins.')
+  || !horizonHtml.includes('Capture, projects, and focus share one local workspace.')) {
   failures.push('Horizon page: clean startup sequence or guided interface tour is missing');
 }
 if (!horizonHtml.includes('width="1920" height="1080"')) {
@@ -631,6 +634,10 @@ const publishingSystemsHtml = readFileSync(
   join(output, 'work', 'research-publishing-systems', 'index.html'),
   'utf8',
 );
+const briefingAssistantHtml = readFileSync(
+  join(output, 'work', 'research-briefing-assistant', 'index.html'),
+  'utf8',
+);
 if (!publishingSystemsHtml.includes('Continuity Desk')
   || !publishingSystemsHtml.includes('95-page packet')
   || !publishingSystemsHtml.includes('Getting Connected at Southwestern College')
@@ -638,8 +645,17 @@ if (!publishingSystemsHtml.includes('Continuity Desk')
   || !publishingSystemsHtml.includes('from someone learning basic computer tasks to a doctoral candidate working through dense research')) {
   failures.push('Research and Publishing Systems page: Continuity Desk or the SWC technology packet is incomplete');
 }
+if (!briefingAssistantHtml.includes('Work in progress')
+  || !briefingAssistantHtml.includes('keeps ChatGPT and Gemini research passes separate until both are saved and hashed')
+  || !briefingAssistantHtml.includes('standard-library Python validator')
+  || !briefingAssistantHtml.includes('cannot decide whether a paper was interpreted correctly')
+  || !briefingAssistantHtml.includes('href="https://github.com/BoomerRawlings/research-briefing-assistant"')
+  || !briefingAssistantHtml.includes('creativeWorkStatus":"Work in progress"')) {
+  failures.push('Research Briefing Assistant page: WIP scope, verified implementation, limits, source, or schema is missing');
+}
 if (!paperfieldHtml.includes('/media/projects/paperfield/research-workflow-v2.mp4')
-  || !paperfieldHtml.includes('/media/projects/paperfield/research-workflow-poster.webp')) {
+  || !paperfieldHtml.includes('/media/projects/paperfield/research-workflow-poster.webp')
+  || !paperfieldHtml.includes('A research library becomes a desk for arranging ideas and following connections.')) {
   failures.push('Paperfield page: DOI, library, search, connection, or PDF workflow is missing');
 }
 if (!pocketllmHtml.includes('/media/projects/pocketllm/interface-tour.mp4')
@@ -647,12 +663,15 @@ if (!pocketllmHtml.includes('/media/projects/pocketllm/interface-tour.mp4')
   || !pocketllmHtml.includes('width="1080" height="1440"')
   || !pocketllmHtml.includes('TXT, MD, CSV, TSV, and JSONL')
   || !pocketllmHtml.includes('.pocketkey')
+  || !pocketllmHtml.includes('The originals stay put; working copies can be pseudonymized and restored locally.')
   || !pocketllmHtml.includes('not a compliance certification')) {
   failures.push('pocketLLM page: demo evidence, supported files, restoration key, or limits are missing');
 }
 if (!paperfieldHtml.includes('action="/work/pocketllm/"')
-  || !pocketllmHtml.includes('action="/work/research-publishing-systems/"')) {
-  failures.push('project trail: Paperfield must continue to pocketLLM, then Research and Publishing Systems');
+  || !pocketllmHtml.includes('action="/work/research-publishing-systems/"')
+  || !publishingSystemsHtml.includes('action="/work/research-briefing-assistant/"')
+  || !briefingAssistantHtml.includes('action="/work/organizing-icloud-media/"')) {
+  failures.push('project trail: Paperfield, pocketLLM, publishing systems, Briefing Assistant, and media pipeline are not connected');
 }
 if (!smallProjectsHtml.includes('/media/projects/small-projects/the-unrendered-world.webp')) {
   failures.push('Small Projects page: The Unrendered World visual is missing');
@@ -705,7 +724,9 @@ for (const section of guidedSections) {
 }
 const researchHtml = readFileSync(join(output, 'research', 'index.html'), 'utf8');
 const photographyHtml = readFileSync(join(output, 'photography', 'index.html'), 'utf8');
-if (!researchHtml.includes('href="/work/research-publishing-systems/"')
+if (!researchHtml.includes('href="/work/research-briefing-assistant/"')
+  || !researchHtml.includes('href="/work/research-publishing-systems/"')
+  || !researchHtml.includes('<span class="project-stage">Work in progress</span>')
   || !researchHtml.includes('href="/writing/attention-bias-modification-aggression/"')) {
   failures.push('research/index.html: curated research exhibits are missing');
 }
@@ -736,6 +757,7 @@ const datedEntries = [
   ['/work/horizon/', '2026-03', 'March 2026'],
   ['/work/paperfield/', '2026-05', 'May 2026'],
   ['/work/pocketllm/', '2026-08', 'August 2026'],
+  ['/work/research-briefing-assistant/', '2026-08', 'August 2026'],
   ['/work/research-publishing-systems/', '2026-05', 'May 2026'],
   ['/work/organizing-icloud-media/', '2026-08', 'August 2026'],
   ['/writing/social-justice-through-financial-literacy/', '2025-05', 'May 2025'],
@@ -759,6 +781,16 @@ if (!workHtml.includes('Small Projects')
 }
 
 const publicHtml = contentHtmlFiles.map((file) => readFileSync(file, 'utf8')).join('\n');
+for (const oldCaption of [
+  'Launching Horizon moves through its startup sequence before the local desktop workspace appears.',
+  "The in-app guide moves through Horizon's core workflow",
+  'One session searches across a 24-paper Library organized into six categories',
+  'A fresh-launch demonstration: drag in two synthetic files',
+]) {
+  if (publicHtml.includes(oldCaption)) {
+    failures.push(`project videos: literal old caption remains: ${oldCaption}`);
+  }
+}
 for (const slug of [
   'a-quiet-place',
   'dear-moon',
@@ -800,6 +832,7 @@ if (publicHtml.includes('Interactive Systems')) {
 const featuredProjects = [
   'horizon',
   'paperfield',
+  'research-briefing-assistant',
   'pocketllm',
   'research-publishing-systems',
   'organizing-icloud-media',
@@ -823,6 +856,13 @@ if (!workHtml.includes('href="/work/interactive-systems/"')) {
 }
 if (homeHtml.includes('ledger-status') || homeHtml.includes('(public)')) {
   failures.push('index.html: redundant project-status language remains');
+}
+if (!homeHtml.includes('>WIP project</span>')
+  || !workHtml.includes('href="/work/research-briefing-assistant/"')
+  || !workHtml.includes('<span class="project-stage">Work in progress</span>')
+  || !allWorkHtml.includes('href="/work/research-briefing-assistant/"')
+  || !allWorkRow('/work/research-briefing-assistant/').includes('>WIP project</span>')) {
+  failures.push('Research Briefing Assistant: WIP project is not prominent across project indexes');
 }
 if (!aboutHtml.includes('2026 Student of Distinction Award')
   || !aboutHtml.includes('President’s List four times')) {
@@ -922,6 +962,7 @@ const workPagePaths = [
   'horizon',
   'paperfield',
   'pocketllm',
+  'research-briefing-assistant',
   'research-publishing-systems',
   'organizing-icloud-media',
   'interactive-systems',
@@ -931,7 +972,7 @@ const workPages = workPagePaths.map((slug) =>
 );
 const discouragedProgressCopy = /Further documentation|intentionally provisional|incomplete|in progress|pending approval/i;
 for (const [index, html] of workPages.entries()) {
-  if (discouragedProgressCopy.test(html)) {
+  if (workPagePaths[index] !== 'research-briefing-assistant' && discouragedProgressCopy.test(html)) {
     failures.push(`work/${workPagePaths[index]}/: progress-report language remains`);
   }
 }
