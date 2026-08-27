@@ -1,11 +1,13 @@
 # Project state
 
 - Mode: continuation
-- Objective: refine project-video captions and feature Research Briefing Assistant as a clearly labeled work in progress.
-- Status: release `45256cd` is live and verified through GitHub Pages.
+- Objective: restore the full-body portrait to About while retaining the headshot on Academics and in identity metadata.
+- Status: portrait swap is locally verified; production push pending.
 
 ## Completed
 
+- Restored the approved 1080×1440 full-body covered-walkway portrait on About with accurate alternative text; Academics remains on the smiling headshot.
+- Updated portrait regression checks; `npm test` and `git diff --check` pass.
 - Replaced four literal video summaries on Horizon, Paperfield, and pocketLLM with shorter editorial captions; detailed alt text remains unchanged.
 - Verified the public Research Briefing Assistant repository before writing portfolio copy.
 - Added a dedicated August 2026 project page describing the independent ChatGPT/Gemini passes, claim-level reconciliation, Python package validator, and human-review limits.
@@ -24,8 +26,8 @@
 
 ## Next
 
-1. Add project media only after a privacy-reviewed demonstration or sample package exists.
-2. Revisit the WIP label when the repository gains a documented end-to-end sample and substantive-review evidence.
+1. Commit and push the portrait swap to `main`.
+2. Confirm the GitHub Pages workflow and live About image.
 
 ## Risks
 
