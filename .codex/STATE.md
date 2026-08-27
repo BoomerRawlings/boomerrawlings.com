@@ -2,12 +2,13 @@
 
 - Mode: continuation
 - Objective: restore the full-body portrait to About while retaining the headshot on Academics and in identity metadata.
-- Status: portrait swap is locally verified; production push pending.
+- Status: portrait release `86ddb7e` is live and verified through GitHub Pages.
 
 ## Completed
 
 - Restored the approved 1080×1440 full-body covered-walkway portrait on About with accurate alternative text; Academics remains on the smiling headshot.
 - Updated portrait regression checks; `npm test` and `git diff --check` pass.
+- GitHub Pages run `33093536898` passed. Live About uses the full-body portrait; Academics still uses the headshot.
 - Replaced four literal video summaries on Horizon, Paperfield, and pocketLLM with shorter editorial captions; detailed alt text remains unchanged.
 - Verified the public Research Briefing Assistant repository before writing portfolio copy.
 - Added a dedicated August 2026 project page describing the independent ChatGPT/Gemini passes, claim-level reconciliation, Python package validator, and human-review limits.
@@ -26,8 +27,8 @@
 
 ## Next
 
-1. Commit and push the portrait swap to `main`.
-2. Confirm the GitHub Pages workflow and live About image.
+1. Add project media only after a privacy-reviewed demonstration or sample package exists.
+2. Revisit the Research Briefing Assistant WIP label when an end-to-end sample exists.
 
 ## Risks
 
