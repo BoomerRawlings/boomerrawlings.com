@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: strengthen branded search visibility and make boomerrawlings.com the clearest canonical result for Boomer Rawlings.
-- Status: SEO release `ca6beeb` is live through GitHub Pages; production metadata and sitemap behavior are verified.
+- Status: SEO release `ca6beeb` is live; the requested About-page headshot restoration is verified and pending deployment.
 
 ## Completed
 
@@ -20,6 +20,7 @@
 - Expanded build verification to enforce unique metadata, complete social cards, real image dimensions/MIME types, valid structured-data relationships, PDF metadata, and exact parity between indexable canonicals and the sitemap.
 - `npm test` and `git diff --check` pass.
 - Published release `ca6beeb`; GitHub Pages run `32996743468` passed. Live checks confirm the exact homepage title, `WebSite` and `Person` graphs, branded social card, About `ProfilePage`, academic `Article` data and byline, Photography `noindex`, and a 16-URL sitemap without Photography.
+- Restored the approved smiling headshot to the About page and updated its regression contract.
 
 ## Decisions
 

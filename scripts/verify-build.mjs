@@ -831,13 +831,13 @@ if (!aboutHtml.includes('2026 Student of Distinction Award')
 if (!aboutHtml.includes('href="/cv/"') || !aboutHtml.includes('View academics')) {
   failures.push('about/index.html: Academics page is not linked');
 }
-if (!aboutHtml.includes('src="/images/boomer-rawlings-about.webp"')
-  || !aboutHtml.includes('alt="Boomer Rawlings standing outdoors beneath a covered walkway."')) {
-  failures.push('about/index.html: approved full-length portrait is missing or lacks useful alternative text');
+if (!aboutHtml.includes('src="/images/boomer-rawlings-headshot.webp"')
+  || !aboutHtml.includes('alt="Boomer Rawlings smiling outdoors."')) {
+  failures.push('about/index.html: approved headshot is missing or lacks useful alternative text');
 }
-if (!existsSync(join(output, 'images', 'boomer-rawlings-about.webp'))
-  || statSync(join(output, 'images', 'boomer-rawlings-about.webp')).size > 150_000) {
-  failures.push('about/index.html: optimized full-length portrait asset is missing or too large');
+if (!existsSync(join(output, 'images', 'boomer-rawlings-headshot.webp'))
+  || statSync(join(output, 'images', 'boomer-rawlings-headshot.webp')).size > 150_000) {
+  failures.push('about/index.html: optimized headshot asset is missing or too large');
 }
 const photographyMain = photographyHtml.slice(
   photographyHtml.indexOf('<main'),
