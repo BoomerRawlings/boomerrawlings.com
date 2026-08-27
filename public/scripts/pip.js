@@ -100,7 +100,7 @@ document.querySelectorAll('[data-pip-guide]').forEach((guide) => {
   const progressLabel = guide.querySelector('[data-pip-progress-label]');
   const backButton = guide.querySelector('[data-pip-back]');
   const nextLabel = guide.querySelector('[data-pip-next-label]');
-  const nextArrow = guide.querySelector('[data-pip-arrow]');
+  const nextSignal = guide.querySelector('[data-pip-signal="next"]');
   const soundToggle = guide.querySelector('[data-pip-sound]');
   const curator = guide.querySelector('.portfolio-curator');
   const submitButton = form?.querySelector('button[type="submit"]');
@@ -116,7 +116,7 @@ document.querySelectorAll('[data-pip-guide]').forEach((guide) => {
     steps = [];
   }
 
-  if (!message || !form || !progress || !current || !progressLabel || !backButton || !nextLabel || !nextArrow || !soundToggle || !submitButton || !destination || (!isTerminal && !destinationLabel) || steps.length === 0) return;
+  if (!message || !form || !progress || !current || !progressLabel || !backButton || !nextLabel || !nextSignal || !soundToggle || !submitButton || !destination || (!isTerminal && !destinationLabel) || steps.length === 0) return;
 
   removeStorage(window.sessionStorage, `pip-step:${window.location.pathname}`);
   let step = 0;
@@ -140,7 +140,7 @@ document.querySelectorAll('[data-pip-guide]').forEach((guide) => {
     progressLabel.textContent = `Step ${step + 1} of ${steps.length}`;
     backButton.hidden = step === 0;
     submitButton.disabled = isTerminal && atLastStep;
-    nextArrow.hidden = isTerminal && atLastStep;
+    nextSignal.hidden = isTerminal && atLastStep;
 
     if (isTerminal && atLastStep) {
       nextLabel.textContent = 'Tour complete';

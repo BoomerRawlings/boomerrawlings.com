@@ -4,11 +4,6 @@ import CuratorGuide from '../components/CuratorGuide.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const publishedEntries = await getCollection('archive', ({ data }) => data.status === 'published');
-const researchSlugs = new Set([
-  'research-briefing-assistant',
-  'research-publishing-systems',
-  'attention-bias-modification-aggression',
-]);
 const selectedWork = publishedEntries
   .filter(({ data }) => data.type === 'work' && data.featured)
   .sort((a, b) => {
@@ -26,15 +21,34 @@ const selectedWork = publishedEntries
 
 const counts = {
   work: publishedEntries.filter(({ data }) => data.type === 'work').length,
-  research: publishedEntries.filter(({ data }) => researchSlugs.has(data.slug)).length,
   writing: publishedEntries.filter(({ data }) => data.type === 'writing').length,
 };
 
 const contents = [
-  ['Projects', '/work/', counts.work],
-  ['All Work', '/all/', publishedEntries.length],
-  ['Research', '/research/', counts.research],
-  ['Writing', '/writing/', counts.writing],
+  {
+    label: 'Academics',
+    href: '/cv/',
+    detail: '2025–26',
+    detailLabel: 'Academic profile, Spring 2025 to Spring 2026',
+  },
+  {
+    label: 'Writing',
+    href: '/writing/',
+    detail: `${counts.writing} pieces`,
+    detailLabel: `${counts.writing} published writing pieces`,
+  },
+  {
+    label: 'Projects',
+    href: '/work/',
+    detail: `${counts.work} projects`,
+    detailLabel: `${counts.work} published projects`,
+  },
+  {
+    label: 'All Work',
+    href: '/all/',
+    detail: `${publishedEntries.length} entries`,
+    detailLabel: `${publishedEntries.length} published entries`,
+  },
 ] as const;
 ---
 
@@ -57,15 +71,15 @@ const contents = [
     <section class="contents" aria-labelledby="contents-heading">
       <div class="contents-heading">
         <h2 id="contents-heading">Contents</h2>
-        <span>Published</span>
+        <span>Overview</span>
       </div>
       <ul>
-        {contents.map(([label, href, count]) => (
+        {contents.map(({ label, href, detail, detailLabel }) => (
           <li>
             <a href={href}>
               <span>{label}</span>
               <span class="contents-leader" aria-hidden="true"></span>
-              <span class="contents-count" aria-label={`${count} published`}>{count}</span>
+              <span class="contents-count" aria-label={detailLabel}>{detail}</span>
             </a>
           </li>
         ))}

@@ -116,14 +116,15 @@ const navItems = [
   ['Academics', '/cv/'],
   ['Writing', '/writing/'],
   ['Projects', '/work/'],
-  ['All Work', '/all/'],
   ['About', '/about/'],
+  ['All Work', '/all/'],
 ];
 
 const isCurrent = (href: string) =>
   href === '/work/'
     ? Astro.url.pathname.startsWith('/work/')
     : Astro.url.pathname.startsWith(href);
+
 ---
 
 <!doctype html>
@@ -178,15 +179,15 @@ const isCurrent = (href: string) =>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class:list={['site-header', { 'site-header--home': isHome }]}>
       <a class="wordmark" href="/" aria-label="Boomer Rawlings, home">
-        <span class="wordmark-name">Boomer Rawlings</span>
+        <span class="wordmark-name" data-wordmark="Boomer Rawlings" aria-hidden="true">Boomer Rawlings</span>
         <span class="wordmark-description">Portfolio</span>
       </a>
       <nav aria-label="Primary navigation">
         <ul>
           {navItems.map(([label, href]) => (
             <li>
-              <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>
-                {label}
+              <a href={href} aria-label={label} aria-current={isCurrent(href) ? 'page' : undefined}>
+                <span class="nav-label" data-nav-label={label} aria-hidden="true">{label}</span>
                 {isCurrent(href) && <span class="nav-indicator" aria-hidden="true"></span>}
               </a>
             </li>
@@ -236,7 +237,6 @@ const isCurrent = (href: string) =>
           </li>
         </ul>
       </div>
-      <p><a href="/">boomerrawlings.com</a></p>
     </footer>
   </body>
 </html>

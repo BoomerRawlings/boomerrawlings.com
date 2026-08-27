@@ -3,16 +3,17 @@ interface Props {
   src: string;
   title: string;
   pages: number;
+  label?: string;
 }
 
-const { src, title, pages } = Astro.props;
+const { src, title, pages, label = 'Original paper' } = Astro.props;
 const headingId = `document-${title}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 ---
 
 <section class="document-viewer" aria-labelledby={headingId}>
   <header class="document-viewer-header">
     <div>
-      <p class="document-kicker">Original paper · {pages} pages</p>
+      <p class="document-kicker">{label} · {pages} pages</p>
       <h2 id={headingId}>PDF</h2>
     </div>
     <div class="document-actions">

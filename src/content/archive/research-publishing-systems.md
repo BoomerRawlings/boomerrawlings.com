@@ -3,14 +3,14 @@ title: Research and Publishing Systems
 slug: research-publishing-systems
 date: "2026-05"
 type: work
-description: Reader-centered systems for turning researched material into useful publications, from personalized briefings to beginner technology guides.
+description: Reader-centered systems for turning researched material into clear, usable documents, including student technology guides, academic handbooks, schedules, and reusable print tools.
 curatorNotes:
-  - "Continuity Desk builds a publication around one reader. It keeps each source claim traceable and carries useful context from one issue to the next."
-  - "Boomer's Southwestern College technology packet solves a different problem. Its two guides give beginners a 95-page path from connecting to Wi-Fi and opening mySWC to saving a Word file, submitting work in Canvas, messaging an instructor, and reading feedback."
-  - "These systems are designed to make complex information useful at very different levels, from someone learning basic computer tasks to a doctoral candidate working through dense research. Next, I'll show you the Research Briefing Assistant."
+  - "This room collects document systems built for different readers, from someone opening Canvas for the first time to a researcher managing dense source material."
+  - "Boomer's Southwestern College technology packet gives beginners a 95-page path through Wi-Fi, mySWC, Word, Canvas, instructor messages, submissions, and feedback."
+  - "The common thread is making information easier to verify, navigate, and use. Next, I'll show you Continuity Desk, where those decisions carry from one monthly volume into the next."
 nextExhibit:
-  href: /work/research-briefing-assistant/
-  label: Research Briefing Assistant
+  href: /work/continuity-desk/
+  label: Continuity Desk
 tags:
   - research
   - publishing
@@ -20,10 +20,6 @@ featured: true
 ---
 
 A useful publication starts with a specific reader. The sources, structure, wording, page design, testing, and delivery all follow from what that reader needs to understand or do next.
-
-## Continuity Desk
-
-Continuity Desk is a personalized editorial publishing system built around one reader. Each issue moves through a review-first process that includes intake, retained context, source collection, a claim ledger, page planning, preflight, rendering, full-page visual review, human approval, and a delivery record. This keeps claims traceable while allowing useful context to carry forward from one issue to the next.
 
 ## Southwestern College technology packet
 
@@ -40,6 +36,7 @@ Completed in July 2026, this two-guide, 95-page packet was written for new South
 
 ## Public tools
 
+- [Continuity Desk](/work/continuity-desk/)
 - [Printable and black-and-white printable skills](https://github.com/BoomerRawlings/Skills)
 - [Research Briefing Assistant](/work/research-briefing-assistant/)
 - [Personal Search Router](https://github.com/BoomerRawlings/personal-search-router)

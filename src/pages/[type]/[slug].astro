@@ -36,6 +36,7 @@ const metaTitles = new Map([
   ['horizon', 'Horizon Local-First Research Workspace'],
   ['paperfield', 'Paperfield Spatial Research Desk'],
   ['pocketllm', 'pocketLLM Local Pseudonymization Tool'],
+  ['continuity-desk', 'Continuity Desk Editorial System'],
   ['research-publishing-systems', 'Research and Publishing Systems'],
   ['research-briefing-assistant', 'Research Briefing Assistant WIP'],
   ['organizing-icloud-media', 'iCloud Media Migration and Catalog'],
@@ -43,6 +44,7 @@ const metaTitles = new Map([
   ['social-justice-through-financial-literacy', 'Financial Literacy and Social Justice'],
   ['rhetorical-analysis-death-penalty', 'Death Penalty Rhetorical Analysis'],
   ['attention-bias-modification-aggression', 'Attention Bias Modification Study'],
+  ['the-age-of-curation', 'The Age of Curation Essay'],
 ]);
 const representativeEvidence = visualEvidence.find((visual) => (
   visual.kind === 'video' || !visual.src.endsWith('.svg')
@@ -88,7 +90,9 @@ const dateCreated = isWriting
   : entry.data.date?.toISOString().slice(0, 7);
 const contentSchema = isWriting
   ? {
-      '@type': ['Article', 'ScholarlyArticle'],
+      '@type': entry.data.writingKind === 'academic'
+        ? ['Article', 'ScholarlyArticle']
+        : 'Article',
       '@id': `${canonical}#article`,
       headline: entry.data.title,
       name: entry.data.title,
@@ -124,6 +128,14 @@ const contentSchema = isWriting
       dateCreated,
       image: representativeImage,
       keywords: entry.data.tags,
+      encoding: entry.data.document
+        ? {
+            '@type': 'MediaObject',
+            name: `${entry.data.title} sample PDF`,
+            contentUrl: new URL(entry.data.document.src, Astro.site).toString(),
+            encodingFormat: 'application/pdf',
+          }
+        : undefined,
       isPartOf: { '@id': websiteId },
     };
 const sectionName = entry.data.type === 'work'
@@ -160,6 +172,8 @@ const eyebrow = isWriting && entry.data.writingKind
   : entry.data.type === 'work'
     ? 'Project'
     : entry.data.type;
+const isExternalVenue = (venue?: string) =>
+  Boolean(venue && venue.toLowerCase() !== 'boomerrawlings.com');
 ---
 
 <BaseLayout
@@ -181,7 +195,7 @@ const eyebrow = isWriting && entry.data.writingKind
           {entry.data.projectStage && <span>{entry.data.projectStage}</span>}
           {isWriting && <span>By <a href="/about/" rel="author">Boomer Rawlings</a></span>}
           {isWriting && entry.data.writingForm && <span>{entry.data.writingForm}</span>}
-          {isWriting && entry.data.venue && <span>{entry.data.venue}</span>}
+          {isWriting && isExternalVenue(entry.data.venue) && <span>{entry.data.venue}</span>}
           {isWriting && entry.data.publishedDate && (
             <time datetime={isoDate(entry.data.publishedDate)}>
               Published {formatFullDate(entry.data.publishedDate)}
@@ -237,6 +251,7 @@ const eyebrow = isWriting && entry.data.writingKind
       src={entry.data.document.src}
       title={entry.data.title}
       pages={entry.data.document.pages}
+      label={entry.data.document.label}
     />
   )}
   {proofEvidence.length > 0 && (

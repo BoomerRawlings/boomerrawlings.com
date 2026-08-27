@@ -26,6 +26,9 @@ if (messages.length === 0) {
 
 const messageId = `${headingId}-message`;
 const formAction = nextExhibit?.href ?? Astro.url.pathname;
+const messageSignal = ['[', '<', '·', '>', ']'];
+const signalStyle = (index: number, phase = 0) =>
+  `--pip-signal-delay: -${((index * 0.43) + phase).toFixed(2)}s; --pip-signal-speak-delay: ${index * 28}ms`;
 ---
 
 <aside
@@ -74,7 +77,11 @@ const formAction = nextExhibit?.href ?? Astro.url.pathname;
         aria-label={nextExhibit ? `Continue to ${nextExhibit.label}` : 'Show Pip’s next note'}
       >
         <span data-pip-next-label>Next</span>
-        <span data-pip-arrow aria-hidden="true">→</span>
+        <span class="pip-signal pip-signal--next" data-pip-signal="next" aria-hidden="true">
+          {messageSignal.map((glyph, glyphIndex) => (
+            <span class="pip-signal-glyph" style={signalStyle(glyphIndex, 1.1)}>{glyph}</span>
+          ))}
+        </span>
       </button>
     </form>
   </div>

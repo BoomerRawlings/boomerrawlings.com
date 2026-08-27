@@ -5,7 +5,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { formatFullDate, formatPartialDate, isoDate } from '../../lib/dates';
 
 const entries = (await getCollection('archive', ({ data }) =>
-  data.type === 'writing' && data.status === 'published' && data.writingKind === 'academic'
+  data.type === 'writing' && data.status === 'published'
 )).sort((a, b) => {
   if (!a.data.publishedDate && !b.data.publishedDate) {
     return a.data.title.localeCompare(b.data.title);
@@ -15,61 +15,77 @@ const entries = (await getCollection('archive', ({ data }) =>
   return b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf()
     || a.data.title.localeCompare(b.data.title);
 });
+const groups = [
+  {
+    id: 'writing-academic',
+    title: 'Academic writing',
+    entries: entries.filter(({ data }) => data.writingKind === 'academic'),
+  },
+  {
+    id: 'writing-personal',
+    title: 'Personal essay',
+    entries: entries.filter(({ data }) => data.writingKind === 'personal'),
+  },
+].filter((group) => group.entries.length > 0);
+const isExternalVenue = (venue?: string) =>
+  Boolean(venue && venue.toLowerCase() !== 'boomerrawlings.com');
 
 ---
 
 <BaseLayout
   title="Writing"
-  description="Academic writing by Boomer Rawlings on financial literacy, rhetoric, psychology, attention bias, aggression, and research design."
+  description="Essays and academic writing by Boomer Rawlings on curation, financial literacy, rhetoric, psychology, attention bias, aggression, and research design."
 >
   <section class="page-intro page-intro--guided">
-    <p class="eyebrow">Academic writing</p>
+    <p class="eyebrow">Essays + academic work</p>
     <h1>Writing</h1>
     <p class="page-deck">
-      Selected academic work, with publication and original production dates kept distinct. Personal essays continue on <a href="https://boomerrawlings.substack.com/" rel="me">Substack</a>.
+      Selected academic work and one short personal essay, with publication and original production dates kept distinct. Additional personal writing continues on <a href="https://boomerrawlings.substack.com/" rel="me">Substack</a>.
     </p>
     <CuratorGuide
       headingId="curator-writing"
       messages={[
-        "This page brings together Boomer's academic writing on financial education, persuasion, and a proposed psychology study.",
-        'Each paper keeps its original context, including when it was produced, what the assignment asked for, and a downloadable PDF.',
-        "Let's begin with a May 2025 essay that pairs financial education with real accounts and practical experience.",
+        "This page brings together Boomer's academic writing and a short personal essay about curation.",
+        'The academic papers keep their original context, including when they were produced, what the assignment asked for, and a downloadable PDF.',
+        "Let's begin with The Age of Curation, a short argument for judgment and subtraction when information is abundant.",
       ]}
-      nextExhibit={{ href: '/writing/social-justice-through-financial-literacy/', label: 'Financial literacy essay' }}
+      nextExhibit={{ href: '/writing/the-age-of-curation/', label: 'The Age of Curation' }}
     />
   </section>
 
   <div class="listing writing-listing">
-    <section class="writing-group" aria-labelledby="writing-academic">
-      <header class="writing-group-header">
-        <h2 id="writing-academic">Academic writing</h2>
-      </header>
-      <ol>
-        {entries.map((entry) => (
-          <li>
-            <a href={'/' + entry.data.type + '/' + entry.data.slug + '/'}>
-              <strong>{entry.data.title}</strong>
-              <span class="listing-detail">
-                <small>{entry.data.description}</small>
-                <span class="listing-meta">
-                  {entry.data.writingForm && <span>{entry.data.writingForm}</span>}
-                  {entry.data.venue && <span>{entry.data.venue}</span>}
-                  {entry.data.publishedDate && (
-                    <time datetime={isoDate(entry.data.publishedDate)}>
-                      Published {formatFullDate(entry.data.publishedDate)}
-                    </time>
-                  )}
-                  {entry.data.producedDate && (
-                    <time datetime={entry.data.producedDate}>
-                      Produced {formatPartialDate(entry.data.producedDate)}
-                    </time>
-                  )}
+    {groups.map((group) => (
+      <section class="writing-group" aria-labelledby={group.id}>
+        <header class="writing-group-header">
+          <h2 id={group.id}>{group.title}</h2>
+        </header>
+        <ol>
+          {group.entries.map((entry) => (
+            <li>
+              <a href={'/' + entry.data.type + '/' + entry.data.slug + '/'}>
+                <strong>{entry.data.title}</strong>
+                <span class="listing-detail">
+                  <small>{entry.data.description}</small>
+                  <span class="listing-meta">
+                    {entry.data.writingForm && <span>{entry.data.writingForm}</span>}
+                    {isExternalVenue(entry.data.venue) && <span>{entry.data.venue}</span>}
+                    {entry.data.publishedDate && (
+                      <time datetime={isoDate(entry.data.publishedDate)}>
+                        Published {formatFullDate(entry.data.publishedDate)}
+                      </time>
+                    )}
+                    {entry.data.producedDate && (
+                      <time datetime={entry.data.producedDate}>
+                        Produced {formatPartialDate(entry.data.producedDate)}
+                      </time>
+                    )}
+                  </span>
                 </span>
-              </span>
-            </a>
-          </li>
-        ))}
-      </ol>
-    </section>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
   </div>
 </BaseLayout>

@@ -39,6 +39,7 @@ const archive = defineCollection({
       document: z.object({
         src: localAssetPath.refine((path) => path.endsWith('.pdf'), 'Document source must be a PDF.'),
         pages: z.number().int().positive(),
+        label: z.string().min(1).optional(),
       }).optional(),
       curatorNotes: z.array(z.string().min(1)).min(2).max(4).optional(),
       nextExhibit: z.object({

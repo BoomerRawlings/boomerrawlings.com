@@ -26,9 +26,9 @@ const redirectTargets = new Map([
 const contentHtmlFiles = htmlFiles.filter(
   (file) => !redirectTargets.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 18 || htmlFiles.length !== 22) {
+if (contentHtmlFiles.length !== 20 || htmlFiles.length !== 24) {
   throw new Error(
-    `expected 18 content pages and 4 redirects, found ${contentHtmlFiles.length} and ${htmlFiles.length - contentHtmlFiles.length}`,
+    `expected 20 content pages and 4 redirects, found ${contentHtmlFiles.length} and ${htmlFiles.length - contentHtmlFiles.length}`,
   );
 }
 
@@ -305,14 +305,15 @@ if (!existsSync(sitemapPath)) {
 
 const writingHtml = readFileSync(join(output, 'writing', 'index.html'), 'utf8');
 const publishedDateCount = (writingHtml.match(/<time datetime="[^"]+">Published /g) ?? []).length;
-if (publishedDateCount !== 3) {
-  failures.push('writing/index.html: expected 3 labeled academic publication dates, found ' + publishedDateCount);
+if (publishedDateCount !== 4) {
+  failures.push('writing/index.html: expected 4 labeled publication dates, found ' + publishedDateCount);
 }
 if (!writingHtml.includes('aria-labelledby="writing-academic"')) {
   failures.push('writing/index.html: missing academic writing grouping');
 }
-if (writingHtml.includes('aria-labelledby="writing-personal"')) {
-  failures.push('writing/index.html: personal writing is still published onsite');
+if (!writingHtml.includes('aria-labelledby="writing-personal"')
+  || !writingHtml.includes('>Personal essay</h2>')) {
+  failures.push('writing/index.html: selected personal essay grouping is missing');
 }
 if (writingHtml.includes('>Category<')) {
   failures.push('writing/index.html: obsolete category label remains');
@@ -320,22 +321,22 @@ if (writingHtml.includes('>Category<')) {
 if (!writingHtml.includes('Academic writing')) {
   failures.push('writing/index.html: academic writing heading is missing');
 }
-if (!writingHtml.includes('Selected academic work, with publication and original production dates kept distinct')) {
-  failures.push('writing/index.html: academic writing scope is not explicit');
+if (!writingHtml.includes('Selected academic work and one short personal essay, with publication and original production dates kept distinct')) {
+  failures.push('writing/index.html: selected writing scope is not explicit');
 }
 for (const route of [
+  '/writing/the-age-of-curation/',
   '/writing/social-justice-through-financial-literacy/',
   '/writing/rhetorical-analysis-death-penalty/',
   '/writing/attention-bias-modification-aggression/',
 ]) {
   if (!writingHtml.includes(`href="${route}"`)) {
-    failures.push(`writing/index.html: missing onsite academic writing link ${route}`);
+    failures.push(`writing/index.html: missing onsite writing link ${route}`);
   }
 }
-if (!writingHtml.includes('>BoomerRawlings.com<')
-  || (writingHtml.match(/href="https:\/\/boomerrawlings\.substack\.com\/"/g) ?? []).length !== 1
+if ((writingHtml.match(/href="https:\/\/boomerrawlings\.substack\.com\/"/g) ?? []).length !== 1
   || (writingHtml.match(/Substack/g) ?? []).length !== 1) {
-  failures.push('writing/index.html: onsite venue or single quiet Substack reference is missing');
+  failures.push('writing/index.html: single quiet Substack reference is missing');
 }
 if (!writingHtml.includes('datetime="2026-05">Produced May 2026')) {
   failures.push('writing/index.html: partial production date is not preserved');
@@ -356,6 +357,28 @@ const academicHtml = readFileSync(
   join(output, 'writing', 'attention-bias-modification-aggression', 'index.html'),
   'utf8',
 );
+const ageOfCurationHtml = readFileSync(
+  join(output, 'writing', 'the-age-of-curation', 'index.html'),
+  'utf8',
+);
+
+for (const phrase of [
+  'Information used to be scarce.',
+  'The challenge is no longer simply finding information. It is deciding what deserves attention.',
+  'subtraction becomes more important than addition',
+  'What can I add?',
+  'What is worth keeping?',
+]) {
+  if (!ageOfCurationHtml.includes(phrase)) {
+    failures.push(`The Age of Curation: missing essay language: ${phrase}`);
+  }
+}
+if (!writingHtml.includes('action="/writing/the-age-of-curation/"')
+  || !ageOfCurationHtml.includes('action="/writing/social-justice-through-financial-literacy/"')
+  || !ageOfCurationHtml.includes('Published August 27, 2026')
+  || !ageOfCurationHtml.includes('Produced August 27, 2026')) {
+  failures.push('The Age of Curation: index placement, guide trail, or dates are missing');
+}
 
 const academicDocuments = [
   {
@@ -513,17 +536,19 @@ if (profileNode?.mainEntity?.['@id'] !== 'https://boomerrawlings.com/#person'
   || aboutPersonNode?.name !== 'Boomer Rawlings') {
   failures.push('about/index.html: ProfilePage structured data is missing');
 }
-for (const slug of [
-  'social-justice-through-financial-literacy',
-  'rhetorical-analysis-death-penalty',
-  'attention-bias-modification-aggression',
+for (const [slug, academic] of [
+  ['the-age-of-curation', false],
+  ['social-justice-through-financial-literacy', true],
+  ['rhetorical-analysis-death-penalty', true],
+  ['attention-bias-modification-aggression', true],
 ]) {
   const label = join('writing', slug, 'index.html');
   const types = schemaTypesFor(label);
   const articleNode = schemaNodeFor(label, 'Article');
   const html = readFileSync(join(output, label), 'utf8');
   if (!types.has('Article')
-    || !types.has('ScholarlyArticle')
+    || (academic && !types.has('ScholarlyArticle'))
+    || (!academic && types.has('ScholarlyArticle'))
     || !types.has('BreadcrumbList')
     || !articleNode?.headline
     || articleNode?.author?.['@id'] !== 'https://boomerrawlings.com/#person'
@@ -538,6 +563,7 @@ for (const slug of [
   'horizon',
   'paperfield',
   'pocketllm',
+  'continuity-desk',
   'research-briefing-assistant',
   'research-publishing-systems',
   'organizing-icloud-media',
@@ -634,16 +660,35 @@ const publishingSystemsHtml = readFileSync(
   join(output, 'work', 'research-publishing-systems', 'index.html'),
   'utf8',
 );
+const continuityDeskHtml = readFileSync(
+  join(output, 'work', 'continuity-desk', 'index.html'),
+  'utf8',
+);
 const briefingAssistantHtml = readFileSync(
   join(output, 'work', 'research-briefing-assistant', 'index.html'),
   'utf8',
 );
-if (!publishingSystemsHtml.includes('Continuity Desk')
+if (!publishingSystemsHtml.includes('href="/work/continuity-desk/"')
   || !publishingSystemsHtml.includes('95-page packet')
   || !publishingSystemsHtml.includes('Getting Connected at Southwestern College')
   || !publishingSystemsHtml.includes('Use Canvas, Word, Files, and Teacher Messages')
-  || !publishingSystemsHtml.includes('from someone learning basic computer tasks to a doctoral candidate working through dense research')) {
-  failures.push('Research and Publishing Systems page: Continuity Desk or the SWC technology packet is incomplete');
+  || !publishingSystemsHtml.includes('from someone opening Canvas for the first time to a researcher managing dense source material')) {
+  failures.push('Research and Publishing Systems page: Continuity Desk link or the SWC technology packet is incomplete');
+}
+const continuityPdf = join(output, 'documents', 'continuity-desk-sample-research-project-continuity.pdf');
+if (!existsSync(continuityPdf)
+  || readFileSync(continuityPdf).subarray(0, 5).toString() !== '%PDF-'
+  || statSync(continuityPdf).size < 20_000) {
+  failures.push('Continuity Desk page: public sample PDF is missing or invalid');
+}
+if (!continuityDeskHtml.includes('href="https://continuitydesk.io/"')
+  || !continuityDeskHtml.includes('href="https://continuitydesk.io/sample"')
+  || !continuityDeskHtml.includes('fictional and composite')
+  || !continuityDeskHtml.includes('built by Boomer Rawlings through Rawlings Consulting LLC')
+  || !continuityDeskHtml.includes('Public sample dossier · 8 pages')
+  || !continuityDeskHtml.includes('<iframe src="/documents/continuity-desk-sample-research-project-continuity.pdf#view=FitH"')
+  || !continuityDeskHtml.includes('contentUrl":"https://boomerrawlings.com/documents/continuity-desk-sample-research-project-continuity.pdf"')) {
+  failures.push('Continuity Desk page: verified framing, source links, embedded sample, or PDF schema is missing');
 }
 if (!briefingAssistantHtml.includes('Work in progress')
   || !briefingAssistantHtml.includes('keeps ChatGPT and Gemini research passes separate until both are saved and hashed')
@@ -669,9 +714,10 @@ if (!pocketllmHtml.includes('/media/projects/pocketllm/interface-tour.mp4')
 }
 if (!paperfieldHtml.includes('action="/work/pocketllm/"')
   || !pocketllmHtml.includes('action="/work/research-publishing-systems/"')
-  || !publishingSystemsHtml.includes('action="/work/research-briefing-assistant/"')
+  || !publishingSystemsHtml.includes('action="/work/continuity-desk/"')
+  || !continuityDeskHtml.includes('action="/work/research-briefing-assistant/"')
   || !briefingAssistantHtml.includes('action="/work/organizing-icloud-media/"')) {
-  failures.push('project trail: Paperfield, pocketLLM, publishing systems, Briefing Assistant, and media pipeline are not connected');
+  failures.push('project trail: Paperfield, pocketLLM, Continuity Desk, publishing systems, Briefing Assistant, and media pipeline are not connected');
 }
 if (!smallProjectsHtml.includes('/media/projects/small-projects/the-unrendered-world.webp')) {
   failures.push('Small Projects page: The Unrendered World visual is missing');
@@ -763,6 +809,7 @@ const datedEntries = [
   ['/writing/social-justice-through-financial-literacy/', '2025-05', 'May 2025'],
   ['/writing/rhetorical-analysis-death-penalty/', '2025-12', 'December 2025'],
   ['/writing/attention-bias-modification-aggression/', '2026-05', 'May 2026'],
+  ['/writing/the-age-of-curation/', '2026-08', 'August 2026'],
 ];
 for (const [href, datetime, label] of datedEntries) {
   if (!allWorkRow(href).includes(`datetime="${datetime}">${label}</time>`)) {
@@ -771,16 +818,23 @@ for (const [href, datetime, label] of datedEntries) {
 }
 const personalWritingCount = (allWorkHtml.match(/>Personal writing</g) ?? []).length;
 const academicWritingCount = (allWorkHtml.match(/>Academic writing</g) ?? []).length;
-if (personalWritingCount !== 0 || academicWritingCount !== 3) {
-  failures.push(`all/index.html: expected 0 personal and 3 academic writing labels, found ${personalWritingCount} and ${academicWritingCount}`);
+if (personalWritingCount !== 1 || academicWritingCount !== 3) {
+  failures.push(`all/index.html: expected 1 personal and 3 academic writing labels, found ${personalWritingCount} and ${academicWritingCount}`);
 }
 if (!workHtml.includes('Small Projects')
   || !allWorkHtml.includes('Small Projects')
   || !mediaLibraryHtml.includes('Small Projects')) {
   failures.push('project pages: Interactive Systems was not consistently renamed Small Projects');
 }
+if (!workHtml.includes('href="/work/continuity-desk/"')
+  || !allWorkHtml.includes('href="/work/continuity-desk/"')) {
+  failures.push('Continuity Desk: dedicated project is missing from Projects or All Work');
+}
 
 const publicHtml = contentHtmlFiles.map((file) => readFileSync(file, 'utf8')).join('\n');
+if (/>\s*boomerrawlings\.com\s*</i.test(publicHtml)) {
+  failures.push('public pages: redundant visible domain label remains');
+}
 for (const oldCaption of [
   'Launching Horizon moves through its startup sequence before the local desktop workspace appears.',
   "The in-app guide moves through Horizon's core workflow",
@@ -871,13 +925,10 @@ if (!aboutHtml.includes('2026 Student of Distinction Award')
 if (!aboutHtml.includes('href="/cv/"') || !aboutHtml.includes('View academics')) {
   failures.push('about/index.html: Academics page is not linked');
 }
-if (!aboutHtml.includes('src="/images/boomer-rawlings-about.webp"')
-  || !aboutHtml.includes('alt="Boomer Rawlings standing outdoors beneath a covered walkway."')) {
-  failures.push('about/index.html: approved full-body portrait is missing or lacks useful alternative text');
-}
-if (!existsSync(join(output, 'images', 'boomer-rawlings-about.webp'))
-  || statSync(join(output, 'images', 'boomer-rawlings-about.webp')).size > 100_000) {
-  failures.push('about/index.html: optimized full-body portrait asset is missing or too large');
+if (!aboutHtml.includes('src="/images/boomer-rawlings-headshot.webp"')
+  || !aboutHtml.includes('alt="Boomer Rawlings smiling outdoors."')
+  || aboutHtml.includes('src="/images/boomer-rawlings-about.webp"')) {
+  failures.push('about/index.html: approved headshot is missing, mislabeled, or replaced by the full-body portrait');
 }
 const photographyMain = photographyHtml.slice(
   photographyHtml.indexOf('<main'),
@@ -948,8 +999,8 @@ for (const [label, href] of [
   ['Academics', '/cv/'],
   ['Writing', '/writing/'],
   ['Projects', '/work/'],
-  ['All Work', '/all/'],
   ['About', '/about/'],
+  ['All Work', '/all/'],
 ]) {
   const navOffset = primaryNav.indexOf(`href="${href}"`);
   if (navOffset <= previousNavOffset || !primaryNav.slice(navOffset, navOffset + 180).includes(label)) {
@@ -957,11 +1008,40 @@ for (const [label, href] of [
   }
   previousNavOffset = navOffset;
 }
+if ((primaryNav.match(/class="nav-label" data-nav-label=/g) ?? []).length !== 5) {
+  failures.push('primary navigation: signal-ready labels are incomplete');
+}
+
+const homeContents = homeHtml.slice(
+  homeHtml.indexOf('<section class="contents"'),
+  homeHtml.indexOf('</section>', homeHtml.indexOf('<section class="contents"')),
+);
+let previousContentsOffset = -1;
+for (const [label, href] of [
+  ['Academics', '/cv/'],
+  ['Writing', '/writing/'],
+  ['Projects', '/work/'],
+  ['All Work', '/all/'],
+]) {
+  const contentsOffset = homeContents.indexOf(`href="${href}"`);
+  if (contentsOffset <= previousContentsOffset
+    || !homeContents.slice(contentsOffset, contentsOffset + 220).includes(label)) {
+    failures.push(`home contents: ${label} is missing or out of order`);
+  }
+  previousContentsOffset = contentsOffset;
+}
+if (homeContents.includes('href="/research/"')
+  || homeContents.includes('href="/about/"')
+  || !homeContents.includes('>Overview</span>')
+  || !homeContents.includes('aria-label="8 published projects"')) {
+  failures.push('home contents: section overview is stale or project count is missing');
+}
 
 const workPagePaths = [
   'horizon',
   'paperfield',
   'pocketllm',
+  'continuity-desk',
   'research-briefing-assistant',
   'research-publishing-systems',
   'organizing-icloud-media',
@@ -1041,7 +1121,7 @@ if (!existsSync(pipScriptPath)) {
   }
   if (!pipScript.includes('submitButton.disabled = isTerminal && atLastStep')
     || !pipScript.includes("nextLabel.textContent = 'Tour complete'")
-    || !pipScript.includes('nextArrow.hidden = isTerminal && atLastStep')
+    || !pipScript.includes('nextSignal.hidden = isTerminal && atLastStep')
     || !pipScript.includes('if (isTerminal) {')) {
     failures.push('Pip interaction script: terminal tour state is not visibly complete and disabled');
   }
@@ -1080,6 +1160,53 @@ if (!builtCss.includes('.evidence-figure--diagram .evidence-media')
 }
 if (!builtCss.includes('@media (prefers-reduced-motion:reduce)') && !builtCss.includes('@media(prefers-reduced-motion:reduce)')) {
   failures.push('Pip motion does not respect reduced-motion preferences');
+}
+if (builtCss.includes('.signal-rail') || publicHtml.includes('data-signal-rail')) {
+  failures.push('Signal rail: obsolete full-width signal treatment remains');
+}
+if (!builtCss.includes('pip-signal-breathe')
+  || !builtCss.includes('pip-signal-speak')
+  || !builtCss.includes('.pip-signal--next')) {
+  failures.push('Pip signal: localized ambient and speaking treatments are missing');
+}
+for (const file of contentHtmlFiles) {
+  const html = readFileSync(file, 'utf8');
+  const label = relative(output, file);
+  const pipSignalCount = (html.match(/data-pip-signal=/g) ?? []).length;
+  if (pipSignalCount !== 1
+    || !html.includes('data-pip-signal="next" aria-hidden="true"')
+    || html.includes('data-pip-arrow')) {
+    failures.push(`${label}: expected one hidden Pip signal inside Next, found ${pipSignalCount}`);
+  }
+  if (!html.includes('data-wordmark="Boomer Rawlings" aria-hidden="true"')) {
+    failures.push(`${label}: shared glitch wordmark is missing or exposed to assistive technology`);
+  }
+  for (const [navLabel, href] of [
+    ['Academics', '/cv/'],
+    ['Writing', '/writing/'],
+    ['Projects', '/work/'],
+    ['About', '/about/'],
+    ['All Work', '/all/'],
+  ]) {
+    if (!html.includes(`href="${href}" aria-label="${navLabel}"`)
+      || !html.includes(`data-nav-label="${navLabel}" aria-hidden="true"`)) {
+      failures.push(`${label}: ${navLabel} glitch label is missing or not accessibly named`);
+    }
+  }
+}
+if (!homeHtml.includes('data-wordmark="Boomer Rawlings"')
+  || !builtCss.includes('wordmark-glitch-body')
+  || !builtCss.includes('wordmark-glitch-upper')
+  || !builtCss.includes('wordmark-glitch-lower')
+  || !builtCss.includes('portfolio-wordmark')
+  || !builtCss.includes('nav-glitch-body')
+  || !builtCss.includes('nav-glitch-upper')
+  || !builtCss.includes('nav-glitch-lower')
+  || !builtCss.includes('content:attr(data-wordmark)')) {
+  failures.push('Header signal: wordmark continuity or left-to-right navigation glitch is missing');
+}
+if (!builtCss.includes('pip-curator-breathe') || !builtCss.includes('pip-panel-breathe')) {
+  failures.push('Pip and the guide panel are missing their shared low-motion breathing treatment');
 }
 
 const cnamePath = join(output, 'CNAME');
