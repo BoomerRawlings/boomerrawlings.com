@@ -1,4 +1,6 @@
 ---
+import PortfolioMap from './PortfolioMap.astro';
+
 interface GuideLink {
   href: string;
   label: string;
@@ -37,7 +39,9 @@ const signalStyle = (index: number, phase = 0) =>
   data-pip-guide
   data-pip-steps={JSON.stringify(messages)}
 >
-  <span class="portfolio-curator" aria-hidden="true"></span>
+  {variant === 'home'
+    ? <PortfolioMap />
+    : <span class="portfolio-curator" aria-hidden="true"></span>}
   <div class="curator-copy">
     <div class="curator-heading-row">
       <h2 id={headingId}>{heading}</h2>

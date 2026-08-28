@@ -26,9 +26,9 @@ const redirectTargets = new Map([
 const contentHtmlFiles = htmlFiles.filter(
   (file) => !redirectTargets.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 20 || htmlFiles.length !== 24) {
+if (contentHtmlFiles.length !== 21 || htmlFiles.length !== 25) {
   throw new Error(
-    `expected 20 content pages and 4 redirects, found ${contentHtmlFiles.length} and ${htmlFiles.length - contentHtmlFiles.length}`,
+    `expected 21 content pages and 4 redirects, found ${contentHtmlFiles.length} and ${htmlFiles.length - contentHtmlFiles.length}`,
   );
 }
 
@@ -305,8 +305,8 @@ if (!existsSync(sitemapPath)) {
 
 const writingHtml = readFileSync(join(output, 'writing', 'index.html'), 'utf8');
 const publishedDateCount = (writingHtml.match(/<time datetime="[^"]+">Published /g) ?? []).length;
-if (publishedDateCount !== 4) {
-  failures.push('writing/index.html: expected 4 labeled publication dates, found ' + publishedDateCount);
+if (publishedDateCount !== 5) {
+  failures.push('writing/index.html: expected 5 labeled publication dates, found ' + publishedDateCount);
 }
 if (!writingHtml.includes('aria-labelledby="writing-academic"')) {
   failures.push('writing/index.html: missing academic writing grouping');
@@ -329,6 +329,7 @@ for (const route of [
   '/writing/social-justice-through-financial-literacy/',
   '/writing/rhetorical-analysis-death-penalty/',
   '/writing/attention-bias-modification-aggression/',
+  '/writing/self-inflicted-pain-error-correction/',
 ]) {
   if (!writingHtml.includes(`href="${route}"`)) {
     failures.push(`writing/index.html: missing onsite writing link ${route}`);
@@ -355,6 +356,10 @@ const deathPenaltyHtml = readFileSync(
 );
 const academicHtml = readFileSync(
   join(output, 'writing', 'attention-bias-modification-aggression', 'index.html'),
+  'utf8',
+);
+const selfInflictedPainHtml = readFileSync(
+  join(output, 'writing', 'self-inflicted-pain-error-correction', 'index.html'),
   'utf8',
 );
 const ageOfCurationHtml = readFileSync(
@@ -411,9 +416,32 @@ const academicDocuments = [
     subject: 'A May 2026 student proposal for testing whether attention-bias modification could reduce hostile attention bias and aggression among justice-impacted young adults.',
     keywords: 'psychology, justice-impacted populations, research methods',
   },
+  {
+    html: selfInflictedPainHtml,
+    label: 'self-inflicted pain proposal page',
+    src: '/documents/self-inflicted-pain-error-correction-research-proposal.pdf',
+    pages: 53,
+    provenance: 'Independent research proposal prepared August 27, 2026.',
+    title: 'Self-Inflicted Pain as Error Correction in Childhood and Adolescence',
+    subject: 'Independent research proposal',
+    keywords: 'self-punishment, head banging, self-injury, adolescence, error correction, intervention research',
+    language: 'en',
+    viewerLabel: 'Independent research proposal',
+  },
 ];
 
-for (const { html, label, src, pages, provenance, title, subject, keywords } of academicDocuments) {
+for (const {
+  html,
+  label,
+  src,
+  pages,
+  provenance,
+  title,
+  subject,
+  keywords,
+  language = 'en-US',
+  viewerLabel = 'Original paper',
+} of academicDocuments) {
   const publicPdf = join(output, src);
   if (!existsSync(publicPdf)) {
     failures.push(`${label}: missing public PDF asset ${src}`);
@@ -426,14 +454,14 @@ for (const { html, label, src, pages, provenance, title, subject, keywords } of 
       '/Author(Boomer Rawlings)',
       `/Subject(${subject})`,
       `/Keywords(${keywords})`,
-      '/Lang(en-US)',
+      `/Lang(${language})`,
     ]) {
       if (!pdfSource.includes(metadata)) {
         failures.push(`${label}: PDF discovery metadata is incomplete: ${metadata}`);
       }
     }
   }
-  if (!html.includes(provenance) || !html.includes(`Original paper · ${pages} pages`)) {
+  if (!html.includes(provenance) || !html.includes(`${viewerLabel} · ${pages} pages`)) {
     failures.push(`${label}: paper provenance or page count is missing`);
   }
   if (!html.includes(`<iframe src="${src}#view=FitH"`)
@@ -478,13 +506,14 @@ for (const obsoleteSection of [
     failures.push(`attention-bias proposal page: obsolete full web edition remains: ${obsoleteSection}`);
   }
 }
-if (!academicHtml.includes('data-pip-terminal="true"')
-  || !academicHtml.includes("This is the final stop in Pip's guided tour.")) {
-  failures.push('attention-bias proposal page: Pip’s terminal proposal context is missing');
+if (!academicHtml.includes('action="/writing/self-inflicted-pain-error-correction/"')
+  || academicHtml.includes('data-pip-terminal="true"')) {
+  failures.push('attention-bias proposal page: next research proposal is not connected');
 }
-if (academicHtml.includes('action="/about/"')
-  || academicHtml.includes('data-pip-destination="About"')) {
-  failures.push('attention-bias proposal page: Pip’s terminal stop still loops to About');
+if (!selfInflictedPainHtml.includes('data-pip-terminal="true"')
+  || !selfInflictedPainHtml.includes('The document presents a research plan, not completed findings.')
+  || selfInflictedPainHtml.includes('data-pip-destination=')) {
+  failures.push('self-inflicted pain proposal page: terminal research-plan context is missing');
 }
 
 const homeHtml = readFileSync(join(output, 'index.html'), 'utf8');
@@ -499,6 +528,31 @@ const mediaLibraryHtml = readFileSync(
 const horizonHtml = readFileSync(join(output, 'work', 'horizon', 'index.html'), 'utf8');
 const paperfieldHtml = readFileSync(join(output, 'work', 'paperfield', 'index.html'), 'utf8');
 const pocketllmHtml = readFileSync(join(output, 'work', 'pocketllm', 'index.html'), 'utf8');
+const aiSkillsStart = workHtml.indexOf('<section class="ai-skills"');
+const aiSkillsHtml = aiSkillsStart >= 0
+  ? workHtml.slice(aiSkillsStart, workHtml.indexOf('</section>', aiSkillsStart))
+  : '';
+let previousAiSkillOffset = -1;
+for (const [name, href] of [
+  ['Research Briefing Assistant', 'https://github.com/BoomerRawlings/research-briefing-assistant'],
+  ['Printable', 'https://github.com/BoomerRawlings/Skills/tree/main/skills/printable'],
+  ['BW Printable', 'https://github.com/BoomerRawlings/Skills/tree/main/skills/bw-printable'],
+]) {
+  const skillOffset = aiSkillsHtml.indexOf(`href="${href}"`);
+  if (skillOffset <= previousAiSkillOffset
+    || !aiSkillsHtml.includes(`aria-label="View ${name} on GitHub"`)) {
+    failures.push(`work/index.html: AI skill ${name} is missing, misordered, or not directly linked`);
+  }
+  previousAiSkillOffset = skillOffset;
+}
+if (!aiSkillsHtml.includes('id="ai-skills-heading">AI Skills</h2>')
+  || !aiSkillsHtml.includes('Reusable Codex workflows.')
+  || !aiSkillsHtml.includes('claim-level reconciliation and auditable quality gates')
+  || !aiSkillsHtml.includes('verified table of contents')
+  || !aiSkillsHtml.includes('understandable in grayscale')
+  || allWorkHtml.includes('github.com/BoomerRawlings/Skills/tree/main/skills/')) {
+  failures.push('work/index.html: compact AI Skills section is incomplete or leaking into All Work');
+}
 const worklinePath = join(output, 'work', 'workline', 'index.html');
 if (existsSync(worklinePath)) {
   failures.push('Workline page: hidden project still has a generated detail route');
@@ -541,6 +595,7 @@ for (const [slug, academic] of [
   ['social-justice-through-financial-literacy', true],
   ['rhetorical-analysis-death-penalty', true],
   ['attention-bias-modification-aggression', true],
+  ['self-inflicted-pain-error-correction', true],
 ]) {
   const label = join('writing', slug, 'index.html');
   const types = schemaTypesFor(label);
@@ -740,8 +795,9 @@ if (!horizonHtml.includes('first video shows its startup sequence')
 }
 if (!smallProjectsHtml.includes('action="/writing/social-justice-through-financial-literacy/"')
   || !financialLiteracyHtml.includes('action="/writing/rhetorical-analysis-death-penalty/"')
-  || !deathPenaltyHtml.includes('action="/writing/attention-bias-modification-aggression/"')) {
-  failures.push('guided trail: Small Projects and the three academic papers are not connected in order');
+  || !deathPenaltyHtml.includes('action="/writing/attention-bias-modification-aggression/"')
+  || !academicHtml.includes('action="/writing/self-inflicted-pain-error-correction/"')) {
+  failures.push('guided trail: Small Projects and the academic papers are not connected in order');
 }
 if (homeHtml.includes('Personal Archive') || mediaLibraryHtml.includes('Personal Archive')) {
   failures.push('media library project: obsolete project name remains');
@@ -773,7 +829,8 @@ const photographyHtml = readFileSync(join(output, 'photography', 'index.html'), 
 if (!researchHtml.includes('href="/work/research-briefing-assistant/"')
   || !researchHtml.includes('href="/work/research-publishing-systems/"')
   || !researchHtml.includes('<span class="project-stage">Work in progress</span>')
-  || !researchHtml.includes('href="/writing/attention-bias-modification-aggression/"')) {
+  || !researchHtml.includes('href="/writing/attention-bias-modification-aggression/"')
+  || !researchHtml.includes('href="/writing/self-inflicted-pain-error-correction/"')) {
   failures.push('research/index.html: curated research exhibits are missing');
 }
 if (photographyHtml.includes('organizing-icloud-media')
@@ -809,6 +866,7 @@ const datedEntries = [
   ['/writing/social-justice-through-financial-literacy/', '2025-05', 'May 2025'],
   ['/writing/rhetorical-analysis-death-penalty/', '2025-12', 'December 2025'],
   ['/writing/attention-bias-modification-aggression/', '2026-05', 'May 2026'],
+  ['/writing/self-inflicted-pain-error-correction/', '2026-08', 'August 2026'],
   ['/writing/the-age-of-curation/', '2026-08', 'August 2026'],
 ];
 for (const [href, datetime, label] of datedEntries) {
@@ -818,8 +876,8 @@ for (const [href, datetime, label] of datedEntries) {
 }
 const personalWritingCount = (allWorkHtml.match(/>Personal writing</g) ?? []).length;
 const academicWritingCount = (allWorkHtml.match(/>Academic writing</g) ?? []).length;
-if (personalWritingCount !== 1 || academicWritingCount !== 3) {
-  failures.push(`all/index.html: expected 1 personal and 3 academic writing labels, found ${personalWritingCount} and ${academicWritingCount}`);
+if (personalWritingCount !== 1 || academicWritingCount !== 4) {
+  failures.push(`all/index.html: expected 1 personal and 4 academic writing labels, found ${personalWritingCount} and ${academicWritingCount}`);
 }
 if (!workHtml.includes('Small Projects')
   || !allWorkHtml.includes('Small Projects')
@@ -955,7 +1013,9 @@ if (!cvHtml.includes('Psychology for Transfer (AA-T)')
   || !cvHtml.includes('src="/images/boomer-rawlings-headshot.webp"')
   || !cvHtml.includes('Introduction to Psychological Research')
   || !cvHtml.includes('Data Analysis in Psychology and Sociology')
-  || !cvHtml.includes('Introduction to Programming Logic and Design Using Python')) {
+  || !cvHtml.includes('Introduction to Programming Logic and Design Using Python')
+  || !cvHtml.includes('href="/writing/self-inflicted-pain-error-correction/"')
+  || !cvHtml.includes('August 2026 · Independent research proposal')) {
   failures.push('cv/index.html: selected academic experience is incomplete');
 }
 if (!cvHtml.includes('Selected completed coursework · SPRING 2025 - SPRING 2026')
@@ -1035,6 +1095,31 @@ if (homeContents.includes('href="/research/"')
   || !homeContents.includes('>Overview</span>')
   || !homeContents.includes('aria-label="8 published projects"')) {
   failures.push('home contents: section overview is stale or project count is missing');
+}
+const homeGuideOffset = homeHtml.indexOf('data-pip-guide');
+const homeContentsOffset = homeHtml.indexOf('<section class="contents"');
+if (homeGuideOffset === -1 || homeContentsOffset === -1 || homeGuideOffset > homeContentsOffset) {
+  failures.push('home contents: Pip is not positioned above the Contents overview line');
+}
+const portfolioMapStart = homeHtml.indexOf('<div class="portfolio-map" data-portfolio-map aria-hidden="true">');
+const portfolioMapEnd = homeHtml.indexOf('</div>', portfolioMapStart);
+const portfolioMapHtml = portfolioMapStart === -1 || portfolioMapEnd === -1
+  ? ''
+  : homeHtml.slice(portfolioMapStart, portfolioMapEnd);
+if (!homeHtml.includes('<h1 class="sr-only">Projects, research, and writing by Boomer Rawlings.</h1>')
+  || !portfolioMapHtml.includes('class="portfolio-map__graphic"')
+  || !portfolioMapHtml.includes('aria-hidden="true" focusable="false"')
+  || !portfolioMapHtml.includes('class="portfolio-map__pip"')
+  || !portfolioMapHtml.includes('class="portfolio-curator"')
+  || (homeHtml.match(/class="portfolio-curator"/g) ?? []).length !== 1) {
+  failures.push('home map: Pip is not the single hidden visual center of the portfolio map');
+}
+for (const mapKey of ['academics', 'writing', 'projects', 'all-work']) {
+  if ((homeContents.match(new RegExp(`data-map-target="${mapKey}"`, 'g')) ?? []).length !== 1
+    || (portfolioMapHtml.match(new RegExp(`data-map-node="${mapKey}"`, 'g')) ?? []).length !== 1
+    || (portfolioMapHtml.match(new RegExp(`data-map-branch="${mapKey}"`, 'g')) ?? []).length !== 2) {
+    failures.push(`home map: ${mapKey} target, node, or branch is missing`);
+  }
 }
 
 const workPagePaths = [
@@ -1168,6 +1253,20 @@ if (!builtCss.includes('pip-signal-breathe')
   || !builtCss.includes('pip-signal-speak')
   || !builtCss.includes('.pip-signal--next')) {
   failures.push('Pip signal: localized ambient and speaking treatments are missing');
+}
+if (!builtCss.includes('portfolio-map-flow')
+  || !builtCss.includes('portfolio-map-pip-ring')
+  || !builtCss.includes('.portfolio-map__pip')
+  || !builtCss.includes('.portfolio-map__node[data-map-node=academics]')) {
+  failures.push('Home map: Pip-centered ambient or Contents highlight behavior is missing');
+}
+if (!builtCss.includes('pip-map-signal-split')) {
+  failures.push('Home map: Pip signal split is missing');
+}
+for (const reaction of ['academics', 'writing', 'projects', 'all-work']) {
+  if (!builtCss.includes(`pip-map-react-${reaction}`)) {
+    failures.push(`Home map: Pip's ${reaction} facial reaction is missing`);
+  }
 }
 for (const file of contentHtmlFiles) {
   const html = readFileSync(file, 'utf8');

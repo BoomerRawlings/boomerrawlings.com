@@ -1,11 +1,29 @@
 # Project state
 
 - Mode: continuation
-- Objective: preview the approved sitewide wordmark-to-navigation glitch sequence, Pip-integrated signal treatment, Continuity Desk project, restored About headshot, and selected personal essay in Writing.
-- Status: verified and approved for production; this release is recorded on main.
+- Objective: refine the homepage with a Pip-centered living portfolio map while preserving the pending research-proposal and AI Skills preview batch.
+- Status: homepage map, proposal integration, and AI Skills shelf implemented, verified, and approved for production release.
 
 ## Completed
 
+- Added “Self-Inflicted Pain as Error Correction in Childhood and Adolescence” as a 53-page independent academic research proposal with an embedded and downloadable PDF.
+- Replaced 26 formulaic or overconfident passages without changing the proposed-study status or removing safety boundaries.
+- Verified all 46 original DOI references and two government sources; added three directly relevant sources and qualified the novelty claim to dated PubMed and ClinicalTrials.gov searches.
+- Re-exported through Microsoft Word with correct author/title/subject/keyword metadata, no comments, and no tracked revisions; rendered and visually reviewed all 53 pages.
+- Cross-listed the proposal in Research and Academics, connected it as the terminal stop in Pip's writing trail, and updated build assertions for the new page, PDF, dates, metadata, schema, and counts.
+- Verified desktop and 390 px layouts, the embedded PDF, Open/Download controls, Pip's three-step terminal state, and proposal links across Writing, Research, Academics, and All Work with no horizontal overflow.
+- Moved homepage Pip into the Contents column directly above the Contents/Overview heading; verified normal desktop and 390 px layouts with no horizontal overflow.
+- Tightened the homepage intro into a smaller supporting column, widened Pip's desktop area so his greeting stays on one line, and centered the complete Next label-and-signal group on desktop and mobile.
+- Replaced the visible homepage tagline with a living map centered on Pip's existing avatar. Academics, Writing, Projects, and All Work nodes highlight from the real Contents links using CSS only.
+- Registered Pip's neutral sprite artwork to the visual center of its fixed wrapper; the approved desktop map/panel layout remains unchanged.
+- Centered the short connector on Pip and the guide panel's shared horizontal axis. The narrow layout keeps its vertical connector.
+- Kept Pip optically centered for every Contents state. Academics, Writing, Projects, and All Work now animate one complete face rather than stacking a feature layer over the neutral face; each sprite frame has a percentage-based registration correction so the head does not jump when expressions change. His base breathing continues at a slightly quicker 6.2-second rhythm.
+- Matched the wordmark's signal language with a brief clipped yellow duplicate that separates into horizontal slices and reassembles when a Contents option is first hovered or focused. The face itself never shifts, and speaking/departing/arriving states take priority.
+- Kept one Pip element and the existing interaction script; verified Next, Back, speaking state, compact-page rendering, 1160/900/390/320 px layouts, and no horizontal overflow.
+- `npm test` and `git diff --check` pass; temporary proposal-review and render artifacts were removed.
+- Added a compact AI Skills shelf beneath the Projects list with three verified public Codex skills: Research Briefing Assistant, Printable, and BW Printable.
+- Each skill has a short, repository-backed summary and links directly to its public GitHub repository or skill folder.
+- Kept skills outside the archive collection so they do not inflate Project or All Work counts and do not generate redundant detail pages.
 - Removed the standalone full-width signal rail and its component, responsive CSS, and build assertions.
 - Moved the short hidden glyph trace into Pip's Next button as the sole right-side affordance, replacing the arrow. It breathes quietly while idle and responds in sequence when Pip advances to a new note.
 - Removed the first avatar-side glyph treatment after review because it crowded Pip horizontally.
@@ -25,6 +43,8 @@
 
 ## Decisions
 
+- AI Skills are lightweight GitHub-linked resources within Projects, not full portfolio entries.
+- The homepage map is a visual reflection of Contents, not a second navigation surface. Pip's existing avatar remains the single guide and view-transition element.
 - Continuity Desk has no portfolio date until a launch month is verified.
 - The horizontal-slice wordmark treatment is approved. The standalone signal rail is permanently removed.
 - Signal glyphs belong only to Pip's text interface, never to the live-region message itself; they are decorative and hidden from assistive technology.
@@ -37,10 +57,10 @@
 
 ## Next
 
-1. Confirm the GitHub Pages workflow completes and the live site serves the release.
-2. Treat subsequent design or content requests as a new preview batch.
+1. Confirm the GitHub Pages workflow completes for the pushed `main` release.
 
 ## Risks
 
+- The proposal is a research concept, not completed research, clinical guidance, or an approved human-subjects protocol; keep that boundary visible.
 - Do not publish real Continuity Desk client materials.
 - Do not invent a Continuity Desk launch month, client count, or measured outcomes.

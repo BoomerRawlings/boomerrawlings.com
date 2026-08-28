@@ -504,28 +504,220 @@ main {
   border-bottom: 3px solid var(--gold);
   color: var(--paper);
   display: grid;
-  gap: clamp(4rem, 10vw, 11rem);
-  grid-template-columns: minmax(0, 1fr) minmax(22rem, 0.75fr);
+  gap: clamp(2.25rem, 4vw, 4rem);
+  grid-template-columns: minmax(13rem, 0.38fr) minmax(34rem, 1fr);
   min-height: 21rem;
-  padding: clamp(2rem, 4vw, 3.75rem) 5vw clamp(3.5rem, 6vw, 5.5rem);
+  padding: clamp(1.75rem, 3vw, 2.75rem) 5vw clamp(2.75rem, 4vw, 4rem);
 }
 
-.home-intro h1 {
+.portfolio-map {
   align-self: center;
-  font-size: clamp(1.35rem, 2.25vw, 2rem);
-  font-weight: 400;
-  line-height: 1.35;
-  margin: 0;
-  max-width: 32rem;
-}
-
-.home-overview {
-  align-self: center;
+  display: grid;
+  isolation: isolate;
   min-width: 0;
+  place-items: center;
+  position: relative;
+  width: min(100%, 18rem);
 }
 
-.home-overview > h1 {
-  margin-bottom: clamp(2rem, 4vw, 3rem);
+.portfolio-map::before {
+  background: radial-gradient(circle, rgb(0 198 215 / 13%) 0, rgb(0 198 215 / 0%) 70%);
+  content: '';
+  filter: blur(1rem);
+  inset: 15% 10%;
+  opacity: 0.72;
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+.portfolio-map__graphic {
+  display: block;
+  overflow: visible;
+  width: 100%;
+}
+
+.portfolio-map__field,
+.portfolio-map__branch,
+.portfolio-map__trace,
+.portfolio-map__node-ring,
+.portfolio-map__node-glyph {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.portfolio-map__field {
+  stroke: rgb(255 253 248 / 12%);
+  stroke-width: 0.75;
+}
+
+.portfolio-map__field > path:first-child {
+  stroke: rgb(255 205 0 / 42%);
+  stroke-dasharray: 1 7;
+  stroke-linecap: round;
+}
+
+.portfolio-map__field > circle {
+  stroke-dasharray: 1 9;
+  stroke-linecap: round;
+}
+
+.portfolio-map__branch,
+.portfolio-map__trace {
+  stroke-linecap: round;
+  stroke-width: 1;
+}
+
+.portfolio-map__branch {
+  stroke: rgb(255 253 248 / 26%);
+  transition:
+    opacity var(--motion-ui) var(--ease-ui),
+    stroke var(--motion-ui) var(--ease-ui),
+    stroke-width var(--motion-ui) var(--ease-ui);
+}
+
+.portfolio-map__trace {
+  animation: portfolio-map-flow 8.6s linear infinite;
+  stroke: rgb(0 198 215 / 74%);
+  stroke-dasharray: 1 17;
+  stroke-width: 1.5;
+  transition:
+    opacity var(--motion-ui) var(--ease-ui),
+    stroke var(--motion-ui) var(--ease-ui),
+    stroke-width var(--motion-ui) var(--ease-ui);
+}
+
+.portfolio-map__trace[data-map-branch='writing'] {
+  animation-delay: -2.1s;
+}
+
+.portfolio-map__trace[data-map-branch='projects'] {
+  animation-delay: -4.2s;
+}
+
+.portfolio-map__trace[data-map-branch='all-work'] {
+  animation-delay: -6.3s;
+}
+
+.portfolio-map__pip {
+  align-items: center;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, var(--navy) 43%, rgb(24 43 73 / 88%) 59%, rgb(24 43 73 / 0%) 72%);
+  display: flex;
+  justify-content: center;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(6.75rem, 8vw, 7.5rem);
+  z-index: 2;
+}
+
+.portfolio-map__pip::before {
+  animation: portfolio-map-pip-ring 8.6s var(--ease-ui) infinite;
+  border: 1px dashed rgb(0 198 215 / 30%);
+  border-radius: 50%;
+  box-shadow: 0 0 1rem rgb(0 198 215 / 7%);
+  content: '';
+  inset: 0.3rem;
+  pointer-events: none;
+  position: absolute;
+}
+
+.curator-guide--home .portfolio-map__pip .portfolio-curator {
+  align-self: center;
+  animation-duration: 6.2s;
+  left: -0.375rem;
+  margin: 0;
+  top: -0.55rem;
+  width: clamp(5.75rem, 7vw, 6.5rem);
+}
+
+.portfolio-map__pip .portfolio-curator::before {
+  background: var(--yellow);
+  clip-path: inset(0);
+  content: '';
+  image-rendering: pixelated;
+  inset: 0;
+  -webkit-mask-image: url('/images/portfolio-curator.webp');
+  -webkit-mask-position: 0 0;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 300% 200%;
+  mask-image: url('/images/portfolio-curator.webp');
+  mask-position: 0 0;
+  mask-repeat: no-repeat;
+  mask-size: 300% 200%;
+  mix-blend-mode: screen;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+}
+
+.portfolio-map__node {
+  opacity: 0.58;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    filter var(--motion-ui) var(--ease-ui),
+    opacity var(--motion-ui) var(--ease-ui),
+    transform var(--motion-ui) var(--ease-ui);
+}
+
+.portfolio-map__node-ring {
+  fill: rgb(0 198 215 / 3%);
+  stroke: rgb(255 253 248 / 58%);
+  stroke-width: 1;
+  transition:
+    fill var(--motion-ui) var(--ease-ui),
+    stroke var(--motion-ui) var(--ease-ui),
+    stroke-width var(--motion-ui) var(--ease-ui);
+}
+
+.portfolio-map__node-glyph {
+  stroke: rgb(0 198 215 / 86%);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.25;
+}
+
+.portfolio-map__node-pulse {
+  fill: var(--yellow);
+  opacity: 0;
+  transform: scale(0.25);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity var(--motion-ui) var(--ease-ui),
+    transform var(--motion-ui) var(--ease-ui);
+}
+
+@keyframes portfolio-map-flow {
+  to {
+    stroke-dashoffset: -36;
+  }
+}
+
+@keyframes portfolio-map-pip-ring {
+  0%,
+  42%,
+  100% {
+    border-color: rgb(0 198 215 / 24%);
+    opacity: 0.62;
+    transform: scale(1);
+  }
+
+  48% {
+    border-color: rgb(255 205 0 / 48%);
+    opacity: 1;
+    transform: scale(1.025);
+  }
+
+  54% {
+    border-color: rgb(0 198 215 / 32%);
+    opacity: 0.74;
+    transform: scale(0.99);
+  }
 }
 
 .curator-guide {
@@ -559,7 +751,7 @@ main {
 
 .pip-signal--next {
   align-items: center;
-  margin-left: auto;
+  margin-left: 0;
 }
 
 .pip-signal--next .pip-signal-glyph:nth-child(4n + 1) {
@@ -815,12 +1007,12 @@ main {
   font-size: 1rem;
   font-weight: 600;
   gap: 0.75rem;
-  justify-content: space-between;
+  justify-content: center;
   letter-spacing: 0.055em;
   line-height: 1;
   min-height: 2.45rem;
   padding: 0.5rem 0.7rem 0.42rem;
-  text-align: left;
+  text-align: center;
   text-transform: uppercase;
   transition:
     background-color var(--motion-fast) var(--ease-ui),
@@ -922,9 +1114,34 @@ main {
 
 .contents {
   align-self: start;
+  grid-column: 2;
   margin-top: 0;
-  position: relative;
-  right: 2.5vw;
+}
+
+.home-intro > .curator-guide--home {
+  align-items: center;
+  border-top: 0;
+  gap: clamp(2.25rem, 4vw, 4rem);
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(13rem, 0.38fr) minmax(34rem, 1fr);
+  max-width: none;
+  padding-top: 0;
+}
+
+.home-intro > .curator-guide--home .curator-copy::before {
+  left: calc(-1 * clamp(2.25rem, 4vw, 4rem));
+  top: 50%;
+  width: clamp(2.25rem, 4vw, 4rem);
+}
+
+@media (min-width: 54.0625rem) {
+  .home-intro > .curator-guide--home .curator-copy p {
+    font-size: 0.95rem;
+  }
+
+  .home-intro > .curator-guide--home .curator-message {
+    min-block-size: 3em;
+  }
 }
 
 .contents-heading {
@@ -985,7 +1202,7 @@ main {
   text-transform: uppercase;
 }
 
-.contents li a:hover {
+.contents li a:is(:hover, :focus-visible) {
   color: var(--turquoise);
 }
 
@@ -995,8 +1212,238 @@ main {
   transition: border-color var(--motion-fast) var(--ease-ui);
 }
 
-.contents li a:hover .contents-leader {
+.contents li a:is(:hover, :focus-visible) .contents-leader {
   border-color: var(--turquoise);
+}
+
+.home-intro:has(.contents a[data-map-target]:is(:hover, :focus-visible, :active)) .portfolio-map__node {
+  opacity: 0.16;
+}
+
+.home-intro:has(.contents a[data-map-target]:is(:hover, :focus-visible, :active)) .portfolio-map__branch {
+  opacity: 0.12;
+}
+
+.home-intro:has(.contents a[data-map-target]:is(:hover, :focus-visible, :active)) .portfolio-map__trace {
+  opacity: 0.08;
+}
+
+.home-intro:has(.contents a[data-map-target='academics']:is(:hover, :focus-visible, :active))
+  .portfolio-map__node[data-map-node='academics'],
+.home-intro:has(.contents a[data-map-target='writing']:is(:hover, :focus-visible, :active))
+  .portfolio-map__node[data-map-node='writing'],
+.home-intro:has(.contents a[data-map-target='projects']:is(:hover, :focus-visible, :active))
+  .portfolio-map__node[data-map-node='projects'],
+.home-intro:has(.contents a[data-map-target='all-work']:is(:hover, :focus-visible, :active))
+  .portfolio-map__node[data-map-node='all-work'] {
+  filter: drop-shadow(0 0 0.45rem rgb(0 198 215 / 45%));
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+.home-intro:has(.contents a[data-map-target='academics']:is(:hover, :focus-visible, :active))
+  :is(.portfolio-map__branch, .portfolio-map__trace)[data-map-branch='academics'],
+.home-intro:has(.contents a[data-map-target='writing']:is(:hover, :focus-visible, :active))
+  :is(.portfolio-map__branch, .portfolio-map__trace)[data-map-branch='writing'],
+.home-intro:has(.contents a[data-map-target='projects']:is(:hover, :focus-visible, :active))
+  :is(.portfolio-map__branch, .portfolio-map__trace)[data-map-branch='projects'],
+.home-intro:has(.contents a[data-map-target='all-work']:is(:hover, :focus-visible, :active))
+  :is(.portfolio-map__branch, .portfolio-map__trace)[data-map-branch='all-work'] {
+  animation-duration: 1.4s;
+  opacity: 1;
+  stroke: var(--yellow);
+  stroke-width: 2;
+}
+
+.home-intro:has(.contents a[data-map-target='academics']:is(:hover, :focus-visible, :active))
+  .portfolio-map__node[data-map-node='academics'] .portfolio-map__node-ring,
+.home-intro:has(.contents a[data-map-target='writing']:is(:hover, :focus-visible, :active))
+  .portfolio-map__node[data-map-node='writing'] .portfolio-map__node-ring,
+.home-intro:has(.contents a[data-map-target='projects']:is(:hover, :focus-visible, :active))
+  .portfolio-map__node[data-map-node='projects'] .portfolio-map__node-ring,
+.home-intro:has(.contents a[data-map-target='all-work']:is(:hover, :focus-visible, :active))
+  .portfolio-map__node[data-map-node='all-work'] .portfolio-map__node-ring {
+  fill: rgb(0 198 215 / 12%);
+  stroke: var(--yellow);
+  stroke-width: 1.75;
+}
+
+.home-intro:has(.contents a[data-map-target='academics']:is(:hover, :focus-visible, :active))
+  .portfolio-map__node[data-map-node='academics'] .portfolio-map__node-pulse,
+.home-intro:has(.contents a[data-map-target='writing']:is(:hover, :focus-visible, :active))
+  .portfolio-map__node[data-map-node='writing'] .portfolio-map__node-pulse,
+.home-intro:has(.contents a[data-map-target='projects']:is(:hover, :focus-visible, :active))
+  .portfolio-map__node[data-map-node='projects'] .portfolio-map__node-pulse,
+.home-intro:has(.contents a[data-map-target='all-work']:is(:hover, :focus-visible, :active))
+  .portfolio-map__node[data-map-node='all-work'] .portfolio-map__node-pulse {
+  opacity: 0.88;
+  transform: scale(1);
+}
+
+.home-intro:not(:has(.curator-guide:is(.is-speaking, .is-departing, .is-arriving))):has(
+    .contents a[data-map-target]:is(:hover, :focus-visible)
+  )
+  .portfolio-map__pip .portfolio-curator:not(.is-smiling, .is-smile-leaving)::before {
+  animation: pip-map-signal-split 360ms steps(1, end) 1 both;
+}
+
+.home-intro:not(:has(.curator-guide:is(.is-speaking, .is-departing, .is-arriving))):has(
+    .contents a[data-map-target]:is(:hover, :focus-visible)
+  )
+  .portfolio-map__pip .portfolio-curator:not(.is-smiling, .is-smile-leaving)::after {
+  animation: none;
+  opacity: 0;
+}
+
+.home-intro:not(:has(.curator-guide:is(.is-speaking, .is-departing, .is-arriving))):has(
+    .contents a[data-map-target='academics']:is(:hover, :focus-visible)
+  )
+  .portfolio-map__pip .portfolio-curator:not(.is-smiling, .is-smile-leaving) {
+  animation:
+    pip-curator-breathe 6.2s ease-in-out infinite,
+    pip-map-react-academics 720ms steps(1, end) infinite;
+}
+
+.home-intro:not(:has(.curator-guide:is(.is-speaking, .is-departing, .is-arriving))):has(
+    .contents a[data-map-target='writing']:is(:hover, :focus-visible)
+  )
+  .portfolio-map__pip .portfolio-curator:not(.is-smiling, .is-smile-leaving) {
+  animation:
+    pip-curator-breathe 6.2s ease-in-out infinite,
+    pip-map-react-writing 600ms steps(1, end) infinite;
+}
+
+.home-intro:not(:has(.curator-guide:is(.is-speaking, .is-departing, .is-arriving))):has(
+    .contents a[data-map-target='projects']:is(:hover, :focus-visible)
+  )
+  .portfolio-map__pip .portfolio-curator:not(.is-smiling, .is-smile-leaving) {
+  animation:
+    pip-curator-breathe 6.2s ease-in-out infinite,
+    pip-map-react-projects 680ms steps(1, end) infinite;
+}
+
+.home-intro:not(:has(.curator-guide:is(.is-speaking, .is-departing, .is-arriving))):has(
+    .contents a[data-map-target='all-work']:is(:hover, :focus-visible)
+  )
+  .portfolio-map__pip .portfolio-curator:not(.is-smiling, .is-smile-leaving) {
+  animation:
+    pip-curator-breathe 6.2s ease-in-out infinite,
+    pip-map-react-all-work 760ms steps(1, end) infinite;
+}
+
+@keyframes pip-map-signal-split {
+  0%,
+  18%,
+  78%,
+  100% {
+    clip-path: inset(0);
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+
+  26% {
+    clip-path: inset(10% 0 64% 0);
+    opacity: 0.62;
+    transform: translate3d(0.22rem, -0.04rem, 0);
+  }
+
+  38% {
+    clip-path: inset(48% 0 34% 0);
+    opacity: 0.38;
+    transform: translate3d(-0.16rem, 0.03rem, 0);
+  }
+
+  50% {
+    clip-path: inset(67% 0 18% 0);
+    opacity: 0.46;
+    transform: translate3d(0.12rem, 0, 0);
+  }
+
+  62% {
+    clip-path: inset(31% 0 50% 0);
+    opacity: 0.22;
+    transform: translate3d(-0.06rem, 0, 0);
+  }
+}
+
+@keyframes pip-map-react-academics {
+  0%,
+  24%,
+  66%,
+  100% {
+    background-position: 0 0;
+  }
+
+  25%,
+  48% {
+    background-position: 46.67% 86.27%;
+  }
+
+  49%,
+  65% {
+    background-position: 92.25% 85.76%;
+  }
+}
+
+@keyframes pip-map-react-writing {
+  0%,
+  100% {
+    background-position: 46.77% 0.54%;
+  }
+
+  34% {
+    background-position: 92.37% 2.44%;
+  }
+
+  67% {
+    background-position: 46.67% 86.27%;
+  }
+}
+
+@keyframes pip-map-react-projects {
+  0%,
+  18%,
+  82%,
+  100% {
+    background-position: 0 0;
+  }
+
+  19%,
+  50% {
+    background-position: 92.37% 2.44%;
+  }
+
+  51%,
+  81% {
+    background-position: -0.48% 88.5%;
+  }
+}
+
+@keyframes pip-map-react-all-work {
+  0%,
+  20%,
+  100% {
+    background-position: 0 0;
+  }
+
+  21%,
+  44% {
+    background-position: 46.77% 0.54%;
+  }
+
+  45%,
+  68% {
+    background-position: 92.25% 85.76%;
+  }
+
+  69%,
+  92% {
+    background-position: 92.37% 2.44%;
+  }
+
+  93% {
+    background-position: 0 0;
+  }
 }
 
 .contents-count {
@@ -1629,6 +2076,58 @@ main {
 .listing-meta > * + * {
   border-left: 1px solid var(--rule);
   padding-left: 0.75rem;
+}
+
+.ai-skills {
+  border-top: 2px solid var(--blue);
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  grid-template-columns: clamp(9rem, 15vw, 12rem) minmax(0, 1fr);
+  margin-top: 4.5rem;
+  padding-top: 1.5rem;
+}
+
+.ai-skills-heading h2 {
+  color: var(--blue);
+  font-family: var(--display);
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  margin: 0 0 0.7rem;
+  text-transform: uppercase;
+}
+
+.ai-skills-heading p {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  line-height: 1.45;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.ai-skills-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.listing .ai-skills-list li a {
+  align-items: baseline;
+  gap: 1.25rem;
+  grid-template-columns: minmax(11rem, 0.45fr) minmax(18rem, 1fr) auto;
+}
+
+.ai-skill-destination {
+  color: var(--blue);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .entry-header h1 {
@@ -2586,8 +3085,18 @@ main {
 
 @media (max-width: 70rem) {
   .home-intro {
-    gap: 4rem;
-    grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.85fr);
+    gap: 2.5rem;
+    grid-template-columns: minmax(14rem, 0.42fr) minmax(30rem, 1fr);
+  }
+
+  .home-intro > .curator-guide--home {
+    gap: 2.5rem;
+    grid-template-columns: minmax(14rem, 0.42fr) minmax(30rem, 1fr);
+  }
+
+  .home-intro > .curator-guide--home .curator-copy::before {
+    left: -2.5rem;
+    width: 2.5rem;
   }
 
   .project-ledger {
@@ -2607,19 +3116,25 @@ main {
     padding: 2.5rem 5vw 3.5rem;
   }
 
-  .home-overview {
-    margin-bottom: 3rem;
+  .portfolio-map {
+    margin: 0 auto 2.5rem;
+    width: min(72vw, 15.5rem);
   }
 
-  .home-overview > h1 {
-    margin-bottom: 1.75rem;
-    max-width: 32rem;
+  .home-intro > .curator-guide--home {
+    display: block;
+  }
+
+  .home-intro > .curator-guide--home .curator-copy::before {
+    height: 2.5rem;
+    left: 50%;
+    top: -2.5rem;
+    width: 1px;
   }
 
   .contents {
-    margin-top: 0;
+    margin-top: 2.5rem;
     max-width: 32rem;
-    right: 0;
   }
 }
 
@@ -2711,13 +3226,9 @@ main {
     padding: 2.25rem 1.25rem 3.25rem;
   }
 
-  .home-overview {
-    margin-bottom: 3rem;
-  }
-
-  .home-overview > h1 {
+  .portfolio-map {
     margin-bottom: 1.75rem;
-    max-width: 28rem;
+    width: min(48vw, 11.5rem);
   }
 
   .curator-guide {
@@ -2729,9 +3240,8 @@ main {
   }
 
   .contents {
-    margin-top: 0;
+    margin-top: 2.25rem;
     max-width: 32rem;
-    right: 0;
   }
 
   .project-ledger {
@@ -2844,6 +3354,28 @@ main {
 
   .listing small {
     margin-top: 0.55rem;
+  }
+
+  .ai-skills {
+    gap: 1rem;
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 3.5rem;
+  }
+
+  .listing .ai-skills-list li a {
+    display: grid;
+    gap: 0.5rem 1rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .listing .ai-skills-list small {
+    grid-column: 1 / -1;
+    margin-top: 0;
+  }
+
+  .ai-skill-destination {
+    grid-column: 2;
+    grid-row: 1;
   }
 
   .listing-meta > * + *,
@@ -3021,6 +3553,17 @@ main {
     animation: none !important;
     scroll-behavior: auto !important;
     transition: none !important;
+  }
+
+  .portfolio-map__node {
+    filter: none !important;
+    transform: none !important;
+  }
+
+  .portfolio-map__pip .portfolio-curator::before,
+  .portfolio-map__pip .portfolio-curator::after {
+    opacity: 0 !important;
+    transform: none !important;
   }
 
   ::view-transition-group(active-nav-indicator),

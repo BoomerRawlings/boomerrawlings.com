@@ -9,7 +9,10 @@ document:
 curatorNotes:
   - "This is Boomer's proposal for testing whether attention bias training might reduce hostile attention bias and aggression among justice-impacted young adults."
   - "He designed a randomized comparison with neutral training, before-and-after measures, and protections built into recruitment. The study was not conducted."
-  - "The proposal states where the evidence is narrow and what would still be required before testing. This is the final stop in Pip's guided tour."
+  - "The proposal states where the evidence is narrow and what would still be required before testing. Next is a later independent proposal with a much larger staged research plan."
+nextExhibit:
+  href: /writing/self-inflicted-pain-error-correction/
+  label: Self-Inflicted Pain and Error Correction
 tags:
   - psychology
   - justice-impacted populations

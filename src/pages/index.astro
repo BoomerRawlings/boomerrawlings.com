@@ -26,24 +26,28 @@ const counts = {
 
 const contents = [
   {
+    key: 'academics',
     label: 'Academics',
     href: '/cv/',
     detail: '2025–26',
     detailLabel: 'Academic profile, Spring 2025 to Spring 2026',
   },
   {
+    key: 'writing',
     label: 'Writing',
     href: '/writing/',
     detail: `${counts.writing} pieces`,
     detailLabel: `${counts.writing} published writing pieces`,
   },
   {
+    key: 'projects',
     label: 'Projects',
     href: '/work/',
     detail: `${counts.work} projects`,
     detailLabel: `${counts.work} published projects`,
   },
   {
+    key: 'all-work',
     label: 'All Work',
     href: '/all/',
     detail: `${publishedEntries.length} entries`,
@@ -54,19 +58,17 @@ const contents = [
 
 <BaseLayout description="Portfolio of Boomer Rawlings: psychology, local-first software, research systems, academic writing, and visual work.">
   <section class="home-intro">
-    <div class="home-overview">
-      <h1>Projects, research, and writing by Boomer Rawlings.</h1>
-      <CuratorGuide
-        variant="home"
-        heading="Pip says"
-        messages={[
-          "Hi! I'm Pip! I'll guide you through Boomer's portfolio.",
-          'This portfolio has broad coverage, from academic papers and research software to experimental interfaces and photography.',
-          'ABOUT will be our first stop, giving you some background information about Boomer.',
-        ]}
-        nextExhibit={{ href: '/about/', label: 'About' }}
-      />
-    </div>
+    <h1 class="sr-only">Projects, research, and writing by Boomer Rawlings.</h1>
+    <CuratorGuide
+      variant="home"
+      heading="Pip says"
+      messages={[
+        "Hi! I'm Pip! I'll guide you through Boomer's portfolio.",
+        'This portfolio has broad coverage, from academic papers and research software to experimental interfaces and photography.',
+        'ABOUT will be our first stop, giving you some background information about Boomer.',
+      ]}
+      nextExhibit={{ href: '/about/', label: 'About' }}
+    />
 
     <section class="contents" aria-labelledby="contents-heading">
       <div class="contents-heading">
@@ -74,9 +76,9 @@ const contents = [
         <span>Overview</span>
       </div>
       <ul>
-        {contents.map(({ label, href, detail, detailLabel }) => (
+        {contents.map(({ key, label, href, detail, detailLabel }) => (
           <li>
-            <a href={href}>
+            <a href={href} data-map-target={key}>
               <span>{label}</span>
               <span class="contents-leader" aria-hidden="true"></span>
               <span class="contents-count" aria-label={detailLabel}>{detail}</span>

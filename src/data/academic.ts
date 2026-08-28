@@ -79,4 +79,11 @@ export const selectedAcademicWork = [
     summary:
       'Source-checking, information-structure, and page-verification workflows, including a UCSD Psychology transfer handbook assembled from official program and policy sources.',
   },
+  {
+    meta: 'August 2026 · Independent research proposal',
+    title: 'Self-Inflicted Pain as Error Correction',
+    href: '/writing/self-inflicted-pain-error-correction/',
+    summary:
+      'A five-study research program defining a possible error-correction function of self-injury and testing whether nonpunitive correction can preserve learning and accountability.',
+  },
 ] as const;

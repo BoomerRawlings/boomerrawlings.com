@@ -68,5 +68,6 @@ const entries = (await getCollection('archive', ({ data }) =>
         </li>
       ))}
     </ol>
+    <slot name="after-listing" />
   </section>
 )}
