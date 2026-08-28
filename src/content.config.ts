@@ -50,6 +50,7 @@ const archive = defineCollection({
       status: z.enum(['draft', 'published', 'archived']).default('draft'),
       featured: z.boolean().default(false),
       projectStage: z.enum(['Work in progress']).optional(),
+      affiliationNotice: z.string().min(1).optional(),
       related: z.array(z.string()).default([]),
       externalUrl: z.string().url().optional(),
       writingKind: z.enum(['academic', 'personal']).optional(),

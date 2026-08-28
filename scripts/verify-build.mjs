@@ -26,9 +26,9 @@ const redirectTargets = new Map([
 const contentHtmlFiles = htmlFiles.filter(
   (file) => !redirectTargets.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 21 || htmlFiles.length !== 25) {
+if (contentHtmlFiles.length !== 22 || htmlFiles.length !== 26) {
   throw new Error(
-    `expected 21 content pages and 4 redirects, found ${contentHtmlFiles.length} and ${htmlFiles.length - contentHtmlFiles.length}`,
+    `expected 22 content pages and 4 redirects, found ${contentHtmlFiles.length} and ${htmlFiles.length - contentHtmlFiles.length}`,
   );
 }
 
@@ -527,6 +527,7 @@ const mediaLibraryHtml = readFileSync(
 );
 const horizonHtml = readFileSync(join(output, 'work', 'horizon', 'index.html'), 'utf8');
 const paperfieldHtml = readFileSync(join(output, 'work', 'paperfield', 'index.html'), 'utf8');
+const tritonTidepoolHtml = readFileSync(join(output, 'work', 'triton-tidepool', 'index.html'), 'utf8');
 const pocketllmHtml = readFileSync(join(output, 'work', 'pocketllm', 'index.html'), 'utf8');
 const aiSkillsStart = workHtml.indexOf('<section class="ai-skills"');
 const aiSkillsHtml = aiSkillsStart >= 0
@@ -617,6 +618,7 @@ for (const [slug, academic] of [
 for (const slug of [
   'horizon',
   'paperfield',
+  'triton-tidepool',
   'pocketllm',
   'continuity-desk',
   'research-briefing-assistant',
@@ -758,6 +760,23 @@ if (!paperfieldHtml.includes('/media/projects/paperfield/research-workflow-v2.mp
   || !paperfieldHtml.includes('A research library becomes a desk for arranging ideas and following connections.')) {
   failures.push('Paperfield page: DOI, library, search, connection, or PDF workflow is missing');
 }
+if (!tritonTidepoolHtml.includes('89 registered sources')
+  || !tritonTidepoolHtml.includes('71 completed research records')
+  || !tritonTidepoolHtml.includes('611 verified active-run artifacts')
+  || !tritonTidepoolHtml.includes('A summary is not evidence')
+  || !tritonTidepoolHtml.includes('page, paragraph, line, or timestamp')
+  || !tritonTidepoolHtml.includes('These checks cannot prove that an interpretation is complete or correct')) {
+  failures.push('Triton Tidepool page: dated scale, evidence verification, or limits are missing');
+}
+const tidepoolNoticeOffset = tritonTidepoolHtml.indexOf('class="entry-affiliation-notice"');
+const tidepoolArticleOffset = tritonTidepoolHtml.indexOf('<article');
+if (tidepoolNoticeOffset < tritonTidepoolHtml.indexOf('data-pip-guide')
+  || tidepoolNoticeOffset > tidepoolArticleOffset
+  || !tritonTidepoolHtml.includes('aria-label="Independence notice"')
+  || !tritonTidepoolHtml.includes('Triton Tidepool is an independent project by Boomer Rawlings')
+  || !tritonTidepoolHtml.includes('not affiliated with, endorsed by, sponsored by, or supported by UC San Diego, UC San Diego Athletics, or The Regents of the University of California')) {
+  failures.push('Triton Tidepool page: the independence notice is missing or misplaced');
+}
 if (!pocketllmHtml.includes('/media/projects/pocketllm/interface-tour.mp4')
   || !pocketllmHtml.includes('/media/projects/pocketllm/interface-tour-poster.webp')
   || !pocketllmHtml.includes('width="1080" height="1440"')
@@ -767,12 +786,13 @@ if (!pocketllmHtml.includes('/media/projects/pocketllm/interface-tour.mp4')
   || !pocketllmHtml.includes('not a compliance certification')) {
   failures.push('pocketLLM page: demo evidence, supported files, restoration key, or limits are missing');
 }
-if (!paperfieldHtml.includes('action="/work/pocketllm/"')
+if (!paperfieldHtml.includes('action="/work/triton-tidepool/"')
+  || !tritonTidepoolHtml.includes('action="/work/pocketllm/"')
   || !pocketllmHtml.includes('action="/work/research-publishing-systems/"')
   || !publishingSystemsHtml.includes('action="/work/continuity-desk/"')
   || !continuityDeskHtml.includes('action="/work/research-briefing-assistant/"')
   || !briefingAssistantHtml.includes('action="/work/organizing-icloud-media/"')) {
-  failures.push('project trail: Paperfield, pocketLLM, Continuity Desk, publishing systems, Briefing Assistant, and media pipeline are not connected');
+  failures.push('project trail: Paperfield, Triton Tidepool, pocketLLM, publishing systems, Continuity Desk, Briefing Assistant, and media pipeline are not connected');
 }
 if (!smallProjectsHtml.includes('/media/projects/small-projects/the-unrendered-world.webp')) {
   failures.push('Small Projects page: The Unrendered World visual is missing');
@@ -827,6 +847,7 @@ for (const section of guidedSections) {
 const researchHtml = readFileSync(join(output, 'research', 'index.html'), 'utf8');
 const photographyHtml = readFileSync(join(output, 'photography', 'index.html'), 'utf8');
 if (!researchHtml.includes('href="/work/research-briefing-assistant/"')
+  || !researchHtml.includes('href="/work/triton-tidepool/"')
   || !researchHtml.includes('href="/work/research-publishing-systems/"')
   || !researchHtml.includes('<span class="project-stage">Work in progress</span>')
   || !researchHtml.includes('href="/writing/attention-bias-modification-aggression/"')
@@ -859,6 +880,7 @@ const allWorkRow = (href) => {
 const datedEntries = [
   ['/work/horizon/', '2026-03', 'March 2026'],
   ['/work/paperfield/', '2026-05', 'May 2026'],
+  ['/work/triton-tidepool/', '2026-08', 'August 2026'],
   ['/work/pocketllm/', '2026-08', 'August 2026'],
   ['/work/research-briefing-assistant/', '2026-08', 'August 2026'],
   ['/work/research-publishing-systems/', '2026-05', 'May 2026'],
@@ -944,6 +966,7 @@ if (publicHtml.includes('Interactive Systems')) {
 const featuredProjects = [
   'horizon',
   'paperfield',
+  'triton-tidepool',
   'research-briefing-assistant',
   'pocketllm',
   'research-publishing-systems',
@@ -1093,7 +1116,7 @@ for (const [label, href] of [
 if (homeContents.includes('href="/research/"')
   || homeContents.includes('href="/about/"')
   || !homeContents.includes('>Overview</span>')
-  || !homeContents.includes('aria-label="8 published projects"')) {
+  || !homeContents.includes('aria-label="9 published projects"')) {
   failures.push('home contents: section overview is stale or project count is missing');
 }
 const homeGuideOffset = homeHtml.indexOf('data-pip-guide');
@@ -1125,6 +1148,7 @@ for (const mapKey of ['academics', 'writing', 'projects', 'all-work']) {
 const workPagePaths = [
   'horizon',
   'paperfield',
+  'triton-tidepool',
   'pocketllm',
   'continuity-desk',
   'research-briefing-assistant',

@@ -18,10 +18,10 @@ visualEvidence:
 curatorNotes:
   - "Paperfield gives research papers a desk instead of another list. The video shows papers being grouped, searched, connected, and read in place."
   - "Importing by DOI brings in citation details and checks for a reported open-access copy. Optional Zotero access stays read-only, and local papers remain available offline."
-  - "pocketLLM is next. It also works locally, but its job is protecting identifying details inside text files."
+  - "Triton Tidepool is next. Paperfield helps arrange research; Tidepool follows the source through preservation, analysis, evidence checks, and publication."
 nextExhibit:
-  href: /work/pocketllm/
-  label: pocketLLM
+  href: /work/triton-tidepool/
+  label: Triton Tidepool
 tags:
   - academic literature
   - research tools

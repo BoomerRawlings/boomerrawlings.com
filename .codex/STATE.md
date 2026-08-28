@@ -1,11 +1,18 @@
 # Project state
 
 - Mode: continuation
-- Objective: refine the homepage with a Pip-centered living portfolio map while preserving the pending research-proposal and AI Skills preview batch.
-- Status: homepage map, proposal integration, and AI Skills shelf implemented, verified, and approved for production release.
+- Objective: add Triton Tidepool as a documented research-systems project and integrate it into the portfolio.
+- Status: page and cross-site integration verified and approved for production release on `main`.
 
 ## Completed
 
+- Added a dedicated Triton Tidepool project page from the user-supplied August 2026 overview, with a conservative description of source preservation, format-aware anchors, separate AI review, programmatic evidence checks, recovery behavior, and explicit limits.
+- Framed exact scale and test counts as a dated August 20, 2026 checkpoint rather than permanent product claims.
+- Connected the guided project trail as Paperfield → Triton Tidepool → pocketLLM; added Tidepool to the homepage, Projects, Research, and All Work.
+- Added Tidepool metadata, CreativeWork/build coverage, date/count assertions, focused claim tests, and project-route checks.
+- Verified the production build, desktop and 390 px layouts, Pip’s three steps and pocketLLM destination, and no horizontal overflow. Left the local Tidepool preview open.
+- Added a muted independence notice directly below Pip on Tidepool, stating that the project is not affiliated with, endorsed by, sponsored by, or supported by UC San Diego, UC San Diego Athletics, or The Regents of the University of California. Verified its desktop and 390 px placement.
+- Removed boundary/bounded wording from the Tidepool page and recast the affected passages around original structure, risk controls, pagination, correction attempts, and deliberately limited integrations.
 - Added “Self-Inflicted Pain as Error Correction in Childhood and Adolescence” as a 53-page independent academic research proposal with an embedded and downloadable PDF.
 - Replaced 26 formulaic or overconfident passages without changing the proposed-study status or removing safety boundaries.
 - Verified all 46 original DOI references and two government sources; added three directly relevant sources and qualified the novelty claim to dated PubMed and ClinicalTrials.gov searches.
@@ -43,6 +50,10 @@
 
 ## Decisions
 
+- Use “research system,” not “research operating system.” Describe separate AI review and exact-anchor verification without implying that automation proves an interpretation correct.
+- Keep the UC San Diego independence notice visible but subordinate to Pip: small, regular-weight, partially muted text inside the project header rather than a warning box.
+- Keep Tidepool text-only until a deliberately selected, privacy-safe interface image or demonstration is supplied. Do not publish corpus titles, local paths, or private research material.
+- Place Tidepool after Paperfield in Pip’s project route because it extends literature arrangement into preservation, evidence checking, and publication; cross-list it under Research.
 - AI Skills are lightweight GitHub-linked resources within Projects, not full portfolio entries.
 - The homepage map is a visual reflection of Contents, not a second navigation surface. Pip's existing avatar remains the single guide and view-transition element.
 - Continuity Desk has no portfolio date until a launch month is verified.
@@ -57,10 +68,11 @@
 
 ## Next
 
-1. Confirm the GitHub Pages workflow completes for the pushed `main` release.
+1. Confirm the GitHub Pages workflow completes for this `main` release.
 
 ## Risks
 
+- Tidepool’s corpus and test metrics come from the user-supplied August 2026 overview. They are clearly dated but could not be independently checked because the local project drive was unavailable and no public repository was found.
 - The proposal is a research concept, not completed research, clinical guidance, or an approved human-subjects protocol; keep that boundary visible.
 - Do not publish real Continuity Desk client materials.
 - Do not invent a Continuity Desk launch month, client count, or measured outcomes.

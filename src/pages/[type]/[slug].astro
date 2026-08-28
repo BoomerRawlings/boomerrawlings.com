@@ -35,6 +35,7 @@ const pageId = `${canonical}#webpage`;
 const metaTitles = new Map([
   ['horizon', 'Horizon Local-First Research Workspace'],
   ['paperfield', 'Paperfield Spatial Research Desk'],
+  ['triton-tidepool', 'Triton Tidepool Local-First Research System'],
   ['pocketllm', 'pocketLLM Local Pseudonymization Tool'],
   ['continuity-desk', 'Continuity Desk Editorial System'],
   ['research-publishing-systems', 'Research and Publishing Systems'],
@@ -216,6 +217,11 @@ const isExternalVenue = (venue?: string) =>
         messages={entry.data.curatorNotes}
         nextExhibit={entry.data.nextExhibit}
       />
+    )}
+    {entry.data.affiliationNotice && (
+      <aside class="entry-affiliation-notice" aria-label="Independence notice">
+        {entry.data.affiliationNotice}
+      </aside>
     )}
   </header>
   {heroEvidence && (

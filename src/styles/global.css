@@ -2151,6 +2151,17 @@ main {
   padding-left: 0.8rem;
 }
 
+.entry-affiliation-notice {
+  color: rgb(255 253 248 / 58%);
+  font-size: 0.74rem;
+  font-weight: 400;
+  grid-column: 2;
+  line-height: 1.5;
+  margin: -0.35rem 0 0;
+  max-width: 46rem;
+  padding-left: clamp(5.65rem, 8.5vw, 7rem);
+}
+
 .entry-evidence {
   background: var(--sand);
 }
@@ -3277,6 +3288,11 @@ main {
   .page-intro--guided > .curator-guide,
   .entry-header--guided > .curator-guide {
     margin-top: 2rem;
+  }
+
+  .entry-affiliation-notice {
+    margin-top: 0.85rem;
+    padding-left: 0;
   }
 
   .eyebrow {
