@@ -12,7 +12,9 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      filter: (page) => page !== 'https://boomerrawlings.com/photography/',
+      filter: (page) =>
+        page !== 'https://boomerrawlings.com/photography/' &&
+        page !== 'https://boomerrawlings.com/aristotter/',
     }),
   ],
 });

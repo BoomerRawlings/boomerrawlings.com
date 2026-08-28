@@ -23,16 +23,42 @@ const redirectTargets = new Map([
   [join('work', 'icloud-media-archive', 'index.html'), '/work/organizing-icloud-media/'],
   [join('work', 'personal-archive', 'index.html'), '/work/organizing-icloud-media/'],
 ]);
+const unlistedContentPaths = new Set([
+  join('aristotter', 'index.html'),
+]);
 const contentHtmlFiles = htmlFiles.filter(
-  (file) => !redirectTargets.has(relative(output, file)),
+  (file) => {
+    const path = relative(output, file);
+    return !redirectTargets.has(path) && !unlistedContentPaths.has(path);
+  },
 );
-if (contentHtmlFiles.length !== 22 || htmlFiles.length !== 26) {
+const unlistedHtmlFiles = htmlFiles.filter(
+  (file) => unlistedContentPaths.has(relative(output, file)),
+);
+if (contentHtmlFiles.length !== 22 || unlistedHtmlFiles.length !== 1 || htmlFiles.length !== 27) {
   throw new Error(
-    `expected 22 content pages and 4 redirects, found ${contentHtmlFiles.length} and ${htmlFiles.length - contentHtmlFiles.length}`,
+    `expected 22 public pages, 1 unlisted page, and 4 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
 const failures = [];
+
+const aristotterPath = join(output, 'aristotter', 'index.html');
+if (!existsSync(aristotterPath)) {
+  failures.push('aristotter/index.html: unlisted page is missing');
+} else {
+  const aristotterHtml = readFileSync(aristotterPath, 'utf8');
+  if (!aristotterHtml.includes('<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">')
+    || !aristotterHtml.includes('<meta name="referrer" content="no-referrer">')) {
+    failures.push('aristotter/index.html: private-link metadata is incomplete');
+  }
+}
+for (const file of contentHtmlFiles) {
+  const html = readFileSync(file, 'utf8');
+  if (/href=["'][^"']*\/aristotter\/?(?:[?#][^"']*)?["']/i.test(html)) {
+    failures.push(`${relative(output, file)}: public page links to the unlisted Aristotter route`);
+  }
+}
 
 for (const [path, target] of redirectTargets) {
   const file = join(output, path);
@@ -1343,4 +1369,4 @@ for (const required of ['withastro/action@e84f40bd8d2caa9e768ec82ad30dd81f0b2808
 }
 
 if (failures.length) throw new Error(failures.join('\n'));
-console.log(`Verified ${contentHtmlFiles.length} content pages and ${redirectTargets.size} redirects: metadata and local links pass.`);
+console.log(`Verified ${contentHtmlFiles.length} public pages, ${unlistedHtmlFiles.length} unlisted page, and ${redirectTargets.size} redirects: metadata and local links pass.`);

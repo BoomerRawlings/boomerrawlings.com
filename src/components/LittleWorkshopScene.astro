@@ -1,0 +1,2806 @@
+---
+import pyotterImage from '../assets/companions/scene/pyotter-front-transparent-v1.png';
+import mikwhaleImage from '../assets/mikwhale/reference/mikwhale-master-transparent.png';
+import PyotterPuppet from './PyotterPuppet.astro';
+import MikwhalePuppet from './MikwhalePuppet.astro';
+import appleImage from '../assets/companions/objects/apple-v1.png';
+import ballImage from '../assets/companions/objects/ball-v1.png';
+import batteryImage from '../assets/companions/objects/battery-v1.png';
+import bellImage from '../assets/companions/objects/bell-v1.png';
+import blockImage from '../assets/companions/objects/block-v1.png';
+import bookImage from '../assets/companions/objects/book-v1.png';
+import boxImage from '../assets/companions/objects/box-v1.png';
+import coinImage from '../assets/companions/objects/coin-v1.png';
+import cookieImage from '../assets/companions/objects/cookie-v1.png';
+import cupImage from '../assets/companions/objects/cup-v1.png';
+import flowerImage from '../assets/companions/objects/flower-v1.png';
+import hammerImage from '../assets/companions/objects/hammer-v1.png';
+import keyImage from '../assets/companions/objects/key-v1.png';
+import lampImage from '../assets/companions/objects/lamp-v1.png';
+import magnetImage from '../assets/companions/objects/magnet-v1.png';
+import paperImage from '../assets/companions/objects/paper-v1.png';
+import pencilImage from '../assets/companions/objects/pencil-v1.png';
+import seedImage from '../assets/companions/objects/seed-v1.png';
+import strawberryImage from '../assets/companions/objects/strawberry-v1.png';
+import stringImage from '../assets/companions/objects/string-v1.png';
+
+const objectSprites = [
+  { id: 'apple', label: 'Apple', image: appleImage },
+  { id: 'ball', label: 'Ball', image: ballImage },
+  { id: 'flower', label: 'Flower', image: flowerImage },
+  { id: 'cup', label: 'Cup', image: cupImage },
+  { id: 'book', label: 'Book', image: bookImage },
+  { id: 'cookie', label: 'Cookie', image: cookieImage },
+  { id: 'pencil', label: 'Pencil', image: pencilImage },
+  { id: 'paper', label: 'Paper', image: paperImage },
+  { id: 'block', label: 'Block', image: blockImage },
+  { id: 'string', label: 'String', image: stringImage },
+  { id: 'key', label: 'Key', image: keyImage },
+  { id: 'coin', label: 'Coin', image: coinImage },
+  { id: 'seed', label: 'Seed', image: seedImage },
+  { id: 'box', label: 'Box', image: boxImage },
+  { id: 'hammer', label: 'Hammer', image: hammerImage },
+  { id: 'battery', label: 'Battery', image: batteryImage },
+  { id: 'lamp', label: 'Lamp', image: lampImage },
+  { id: 'magnet', label: 'Magnet', image: magnetImage },
+  { id: 'bell', label: 'Bell', image: bellImage },
+  { id: 'strawberry', label: 'Strawberry', image: strawberryImage },
+] as const;
+---
+
+<section class="prologue" data-prologue aria-labelledby="prologue-title">
+  <div class="prologue__stage" data-prologue-stage>
+    <header class="workshop-welcome">
+      <div class="workshop-welcome__float">
+        <div class="workshop-welcome__plaque">
+          <span class="workshop-welcome__leaf" aria-hidden="true">
+            <span></span>
+          </span>
+
+          <div class="workshop-welcome__copy">
+            <p class="workshop-welcome__kicker">Welcome to</p>
+            <h1 id="prologue-title">
+              <span>The Little</span>{' '}<span>Workshop</span>
+            </h1>
+            <p class="workshop-welcome__tagline">Tiny friends. Big ideas. Plenty to share.</p>
+          </div>
+
+          <span class="workshop-welcome__ripples" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <article class="character character--pyotter" data-character="pyotter">
+      <aside class="dialogue" data-dialogue="pyotter" hidden>
+        <strong>Otter</strong>
+        <p data-dialogue-text></p>
+      </aside>
+      <figure>
+        <div class="character__art">
+          <div class="character__performance" data-performance="pyotter">
+            <PyotterPuppet />
+            <div class="character__legacy-puppet" hidden aria-hidden="true">
+              <svg
+                class="character__sprite character__puppet"
+                viewBox={`0 0 ${pyotterImage.width} ${pyotterImage.height}`}
+                role="img"
+                aria-labelledby="pyotter-portrait-title pyotter-portrait-description"
+                preserveAspectRatio="xMidYMid meet"
+                shape-rendering="geometricPrecision"
+              >
+                <title id="pyotter-portrait-title">Pyotter Kropotkin, a tiny brown otter with round gold glasses and an enormous cream-colored ruff</title>
+                <desc id="pyotter-portrait-description">An articulated portrait whose face, ruff, paws, body, feet, and tucked tail can move independently.</desc>
+                <defs>
+                  <image
+                    id="pyotter-rig-paint"
+                    href={pyotterImage.src}
+                    width={pyotterImage.width}
+                    height={pyotterImage.height}
+                    preserveAspectRatio="none"
+                  />
+                  <clipPath id="pyotter-clip-tail" clipPathUnits="userSpaceOnUse">
+                    <path d="M 244 347 C 277 350 298 376 301 409 C 303 431 293 450 271 461 L 238 458 Z" />
+                  </clipPath>
+                  <clipPath id="pyotter-clip-torso" clipPathUnits="userSpaceOnUse">
+                    <path d="M 92 317 C 77 345 69 380 71 414 C 73 448 91 469 126 474 L 244 474 C 278 469 296 448 298 414 C 300 380 292 345 277 317 L 256 302 L 112 302 Z" />
+                  </clipPath>
+                  <clipPath id="pyotter-clip-chest" clipPathUnits="userSpaceOnUse">
+                    <path d="M 78 242 C 102 230 267 230 291 242 L 288 336 C 258 354 111 354 81 336 Z" />
+                  </clipPath>
+                  <clipPath id="pyotter-clip-paw-left" clipPathUnits="userSpaceOnUse">
+                    <path d="M 77 270 C 96 260 128 269 143 292 C 159 317 159 352 143 373 C 132 388 107 387 91 371 C 73 353 66 291 77 270 Z" />
+                  </clipPath>
+                  <clipPath id="pyotter-clip-paw-right" clipPathUnits="userSpaceOnUse">
+                    <path d="M 292 270 C 273 260 241 269 226 292 C 210 317 210 352 226 373 C 237 388 262 387 278 371 C 296 353 303 291 292 270 Z" />
+                  </clipPath>
+                  <clipPath id="pyotter-clip-foot-left" clipPathUnits="userSpaceOnUse">
+                    <path d="M 72 444 C 91 435 137 436 155 450 C 166 459 158 481 144 486 L 93 486 C 75 482 68 457 72 444 Z" />
+                  </clipPath>
+                  <clipPath id="pyotter-clip-foot-right" clipPathUnits="userSpaceOnUse">
+                    <path d="M 297 444 C 278 435 232 436 214 450 C 203 459 211 481 225 486 L 276 486 C 294 482 301 457 297 444 Z" />
+                  </clipPath>
+                  <clipPath id="pyotter-clip-ear-left" clipPathUnits="userSpaceOnUse">
+                    <path d="M 45 70 H 108 V 145 H 45 Z" />
+                  </clipPath>
+                  <clipPath id="pyotter-clip-ear-right" clipPathUnits="userSpaceOnUse">
+                    <path d="M 261 70 H 324 V 145 H 261 Z" />
+                  </clipPath>
+                  <clipPath id="pyotter-clip-head" clipPathUnits="userSpaceOnUse">
+                    <path
+                      clip-rule="evenodd"
+                      d="M 184.5 27 C 121 23 76 65 73 122 C 71 152 82 180 102 198 L 267 198 C 287 180 298 152 296 122 C 293 65 248 23 184.5 27 Z M 124 135 A 23 32 0 1 0 124 199 A 23 32 0 1 0 124 135 Z M 245 135 A 23 32 0 1 0 245 199 A 23 32 0 1 0 245 135 Z M 184.5 163 A 32 29 0 1 0 184.5 221 A 32 29 0 1 0 184.5 163 Z"
+                    />
+                  </clipPath>
+                  <clipPath id="pyotter-clip-eye-left" clipPathUnits="userSpaceOnUse">
+                    <ellipse cx="124" cy="167" rx="26" ry="35" />
+                  </clipPath>
+                  <clipPath id="pyotter-clip-eye-right" clipPathUnits="userSpaceOnUse">
+                    <ellipse cx="245" cy="167" rx="26" ry="35" />
+                  </clipPath>
+                  <clipPath id="pyotter-clip-fur" clipPathUnits="userSpaceOnUse">
+                    <path
+                      clip-rule="evenodd"
+                      d="M 45 166 C 55 151 79 152 99 166 C 122 181 247 181 270 166 C 290 152 314 151 324 166 C 337 187 324 227 306 250 C 283 279 235 289 184.5 302 C 134 289 86 279 63 250 C 45 227 32 187 45 166 Z M 184.5 157 A 49 46 0 1 0 184.5 249 A 49 46 0 1 0 184.5 157 Z"
+                    />
+                  </clipPath>
+                  <clipPath id="pyotter-clip-nose" clipPathUnits="userSpaceOnUse">
+                    <path d="M 136 157 H 233 V 249 H 136 Z" />
+                  </clipPath>
+                </defs>
+
+                <g class="puppet" data-puppet="pyotter" aria-hidden="true">
+                  <g class="puppet__part puppet__part--tail" data-part="tail" data-idle-part="tail" data-pivot="254 389" data-idle-origin="254px 389px" style="--part-pivot: 254px 389px">
+                    <g class="puppet__voice-layer" data-voice-part="tail" data-voice-origin="254px 389px">
+                      <g class="puppet__paint" clip-path="url(#pyotter-clip-tail)"><use href="#pyotter-rig-paint" /></g>
+                    </g>
+                  </g>
+
+                  <g class="puppet__part puppet__part--torso" data-part="torso" data-idle-part="torso" data-pivot="184.5 459" data-idle-origin="184.5px 459px" style="--part-pivot: 184.5px 459px">
+                    <g class="puppet__voice-layer" data-voice-part="torso" data-voice-origin="184.5px 459px">
+                      <g class="puppet__paint" clip-path="url(#pyotter-clip-torso)"><use href="#pyotter-rig-paint" /></g>
+
+                      <g class="puppet__part puppet__part--chest" data-part="chest" data-idle-part="chest" data-pivot="184.5 316" data-idle-origin="184.5px 316px" style="--part-pivot: 184.5px 316px">
+                        <g class="puppet__voice-layer" data-voice-part="chest" data-voice-origin="184.5px 316px">
+                          <g class="puppet__paint" clip-path="url(#pyotter-clip-chest)"><use href="#pyotter-rig-paint" /></g>
+                        </g>
+                      </g>
+                      <g class="puppet__part puppet__part--paw" data-part="paw-left" data-idle-part="paw-left" data-pivot="105 292" data-idle-origin="105px 292px" style="--part-pivot: 105px 292px">
+                        <g class="puppet__voice-layer" data-voice-part="paw-left" data-voice-origin="105px 292px">
+                          <g class="puppet__paint" clip-path="url(#pyotter-clip-paw-left)"><use href="#pyotter-rig-paint" /></g>
+                        </g>
+                      </g>
+                      <g class="puppet__part puppet__part--paw" data-part="paw-right" data-idle-part="paw-right" data-pivot="264 292" data-idle-origin="264px 292px" style="--part-pivot: 264px 292px">
+                        <g class="puppet__voice-layer" data-voice-part="paw-right" data-voice-origin="264px 292px">
+                          <g class="puppet__paint" clip-path="url(#pyotter-clip-paw-right)"><use href="#pyotter-rig-paint" /></g>
+                        </g>
+                      </g>
+
+                      <g class="puppet__part puppet__part--head" data-part="head" data-idle-part="head" data-pivot="184.5 244" data-idle-origin="184.5px 244px" style="--part-pivot: 184.5px 244px">
+                        <g class="puppet__voice-layer" data-voice-part="head" data-voice-origin="184.5px 244px">
+                          <g class="puppet__part puppet__part--ear" data-part="ear-left" data-idle-part="ear-left" data-pivot="91 118" data-idle-origin="91px 118px" style="--part-pivot: 91px 118px">
+                            <g class="puppet__voice-layer" data-voice-part="ear-left" data-voice-origin="91px 118px">
+                              <g class="puppet__paint" clip-path="url(#pyotter-clip-ear-left)"><use href="#pyotter-rig-paint" /></g>
+                            </g>
+                          </g>
+                          <g class="puppet__part puppet__part--ear" data-part="ear-right" data-idle-part="ear-right" data-pivot="278 118" data-idle-origin="278px 118px" style="--part-pivot: 278px 118px">
+                            <g class="puppet__voice-layer" data-voice-part="ear-right" data-voice-origin="278px 118px">
+                              <g class="puppet__paint" clip-path="url(#pyotter-clip-ear-right)"><use href="#pyotter-rig-paint" /></g>
+                            </g>
+                          </g>
+                          <g class="puppet__underpaint" aria-hidden="true">
+                            <ellipse cx="124" cy="167" rx="23" ry="32" fill="#f7f0e5" />
+                            <ellipse cx="245" cy="167" rx="23" ry="32" fill="#f7f0e5" />
+                            <ellipse cx="184.5" cy="192" rx="32" ry="29" fill="#efe2d1" />
+                          </g>
+                          <g class="puppet__paint" clip-path="url(#pyotter-clip-head)"><use href="#pyotter-rig-paint" /></g>
+                          <g class="puppet__part puppet__part--eye" data-part="eye-left" data-idle-part="eye-left" data-pivot="124 167" data-idle-origin="124px 167px" style="--part-pivot: 124px 167px">
+                            <g class="puppet__voice-layer" data-voice-part="eye-left" data-voice-origin="124px 167px">
+                              <g class="puppet__paint" clip-path="url(#pyotter-clip-eye-left)"><use href="#pyotter-rig-paint" /></g>
+                            </g>
+                          </g>
+                          <g class="puppet__part puppet__part--eye" data-part="eye-right" data-idle-part="eye-right" data-pivot="245 167" data-idle-origin="245px 167px" style="--part-pivot: 245px 167px">
+                            <g class="puppet__voice-layer" data-voice-part="eye-right" data-voice-origin="245px 167px">
+                              <g class="puppet__paint" clip-path="url(#pyotter-clip-eye-right)"><use href="#pyotter-rig-paint" /></g>
+                            </g>
+                          </g>
+                          <g class="puppet__part puppet__part--fur" data-part="fur" data-idle-part="fur" data-pivot="184.5 218" data-idle-origin="184.5px 218px" style="--part-pivot: 184.5px 218px">
+                            <g class="puppet__voice-layer" data-voice-part="fur" data-voice-origin="184.5px 218px">
+                              <g class="puppet__paint" clip-path="url(#pyotter-clip-fur)"><use href="#pyotter-rig-paint" /></g>
+                            </g>
+                          </g>
+                          <g class="puppet__part puppet__part--nose" data-part="nose" data-idle-part="nose" data-pivot="184.5 190" data-idle-origin="184.5px 190px" style="--part-pivot: 184.5px 190px">
+                            <g class="puppet__voice-layer" data-voice-part="nose" data-voice-origin="184.5px 190px">
+                              <g class="puppet__paint" clip-path="url(#pyotter-clip-nose)"><use href="#pyotter-rig-paint" /></g>
+                            </g>
+                          </g>
+                          <g class="puppet__part puppet__part--mouth" data-part="mouth" data-pivot="184.5 216.5" style="--part-pivot: 184.5px 216.5px">
+                            <g class="puppet__voice-layer" data-voice-part="mouth" data-voice-origin="184.5px 216.5px">
+                              <g transform="translate(184.5 216.5)">
+                                <g class="character__mouth" data-mouth="pyotter">
+                                  <ellipse class="character__mouth-cavity" rx="20.5" ry="9.5" vector-effect="non-scaling-stroke"></ellipse>
+                                  <path class="character__mouth-tongue" d="M -12 4 Q 0 12 12 4 Q 9 13 0 14 Q -9 13 -12 4 Z"></path>
+                                </g>
+                              </g>
+                            </g>
+                          </g>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+
+                  <g class="puppet__part puppet__part--foot" data-part="foot-left" data-idle-part="foot-left" data-pivot="119 461" data-idle-origin="119px 461px" style="--part-pivot: 119px 461px">
+                    <g class="puppet__voice-layer" data-voice-part="foot-left" data-voice-origin="119px 461px">
+                      <g class="puppet__paint" clip-path="url(#pyotter-clip-foot-left)"><use href="#pyotter-rig-paint" /></g>
+                    </g>
+                  </g>
+                  <g class="puppet__part puppet__part--foot" data-part="foot-right" data-idle-part="foot-right" data-pivot="250 461" data-idle-origin="250px 461px" style="--part-pivot: 250px 461px">
+                    <g class="puppet__voice-layer" data-voice-part="foot-right" data-voice-origin="250px 461px">
+                      <g class="puppet__paint" clip-path="url(#pyotter-clip-foot-right)"><use href="#pyotter-rig-paint" /></g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <figcaption>Pyotter Kropotkin</figcaption>
+      </figure>
+    </article>
+
+    <div class="current-object">
+      <div
+        class="current-object__anchor"
+        data-object-anchor
+        role="img"
+        aria-label="Current object"
+        hidden
+      >
+        <div class="current-object__art">
+          {
+            objectSprites.map(({ id, image }) => (
+              <img
+                src={image.src}
+                width={image.width}
+                height={image.height}
+                alt=""
+                aria-hidden="true"
+                data-object-sprite={id}
+                decoding="async"
+                hidden
+              />
+            ))
+          }
+        </div>
+      </div>
+      <p data-object-label></p>
+    </div>
+
+    <article class="character character--mikwhale" data-character="mikwhale">
+      <aside class="dialogue" data-dialogue="mikwhale" hidden>
+        <strong>Whale</strong>
+        <p data-dialogue-text></p>
+      </aside>
+      <figure>
+        <div class="character__art">
+          <div class="character__performance" data-performance="mikwhale">
+            <MikwhalePuppet />
+            <div class="character__legacy-puppet" hidden aria-hidden="true">
+              <svg
+                class="character__sprite character__puppet"
+                viewBox={`0 0 ${mikwhaleImage.width} ${mikwhaleImage.height}`}
+                role="img"
+                aria-labelledby="mikwhale-portrait-title mikwhale-portrait-description"
+                preserveAspectRatio="xMidYMid meet"
+                shape-rendering="geometricPrecision"
+              >
+                <title id="mikwhale-portrait-title">Mikwhale Bakunin, a small blue whale with wild brown side curls, a huge beard, and a dark cravat</title>
+                <desc id="mikwhale-portrait-description">An articulated portrait whose eyes, blowhole, head, curls, beard, flippers, belly, body, flukes, and tail base can move independently.</desc>
+                <defs>
+                  <image
+                    id="mikwhale-rig-paint"
+                    href={mikwhaleImage.src}
+                    width={mikwhaleImage.width}
+                    height={mikwhaleImage.height}
+                    preserveAspectRatio="none"
+                  />
+                  <clipPath id="mikwhale-clip-tail" clipPathUnits="userSpaceOnUse">
+                    <path d="M 438 959 C 488 1018 543 1082 618.5 1155 C 694 1082 749 1018 799 959 L 789 1128 L 448 1128 Z" />
+                  </clipPath>
+                  <clipPath id="mikwhale-clip-torso" clipPathUnits="userSpaceOnUse">
+                    <path d="M 303 553 C 252 626 239 754 267 864 C 296 974 366 1057 473 1101 L 531 1027 C 472 937 441 827 445 684 L 398 575 Z" />
+                    <path d="M 934 553 C 985 626 998 754 970 864 C 941 974 871 1057 764 1101 L 706 1027 C 765 937 796 827 792 684 L 839 575 Z" />
+                  </clipPath>
+                  <clipPath id="mikwhale-clip-chest" clipPathUnits="userSpaceOnUse">
+                    <path d="M 352 610 C 414 590 823 590 885 610 C 883 739 860 895 802 1009 C 754 1039 696 1051 618.5 1054 C 541 1051 483 1039 435 1009 C 377 895 354 739 352 610 Z" />
+                  </clipPath>
+                  <clipPath id="mikwhale-clip-paw-left" clipPathUnits="userSpaceOnUse">
+                    <path d="M 207 558 C 246 537 321 553 357 612 C 398 679 399 827 342 909 C 313 952 259 951 224 916 C 177 869 179 618 207 558 Z" />
+                  </clipPath>
+                  <clipPath id="mikwhale-clip-paw-right" clipPathUnits="userSpaceOnUse">
+                    <path d="M 1030 558 C 991 537 916 553 880 612 C 839 679 838 827 895 909 C 924 952 978 951 1013 916 C 1060 869 1058 618 1030 558 Z" />
+                  </clipPath>
+                  <clipPath id="mikwhale-clip-foot-left" clipPathUnits="userSpaceOnUse">
+                    <path d="M 302 1061 C 372 1028 529 1053 618.5 1138 C 565 1216 458 1231 349 1210 C 304 1201 282 1092 302 1061 Z" />
+                  </clipPath>
+                  <clipPath id="mikwhale-clip-foot-right" clipPathUnits="userSpaceOnUse">
+                    <path d="M 935 1061 C 865 1028 708 1053 618.5 1138 C 672 1216 779 1231 888 1210 C 933 1201 955 1092 935 1061 Z" />
+                  </clipPath>
+                  <clipPath id="mikwhale-clip-ear-left" clipPathUnits="userSpaceOnUse">
+                    <path d="M 170 58 C 229 47 354 48 414 72 C 398 133 374 211 353 300 C 333 386 354 453 420 484 C 360 527 219 509 174 443 Z" />
+                  </clipPath>
+                  <clipPath id="mikwhale-clip-ear-right" clipPathUnits="userSpaceOnUse">
+                    <path d="M 1067 58 C 1008 47 883 48 823 72 C 839 133 863 211 884 300 C 904 386 883 453 817 484 C 877 527 1018 509 1063 443 Z" />
+                  </clipPath>
+                  <clipPath id="mikwhale-clip-head" clipPathUnits="userSpaceOnUse">
+                    <path
+                      clip-rule="evenodd"
+                      d="M 618.5 11 C 456 7 347 100 339 263 C 335 346 361 415 416 475 C 482 517 755 517 821 475 C 876 415 902 346 898 263 C 890 100 781 7 618.5 11 Z M 472 312 A 48 57 0 1 0 472 426 A 48 57 0 1 0 472 312 Z M 765 312 A 48 57 0 1 0 765 426 A 48 57 0 1 0 765 312 Z M 618.5 20 A 56 27 0 1 0 618.5 74 A 56 27 0 1 0 618.5 20 Z"
+                    />
+                  </clipPath>
+                  <clipPath id="mikwhale-clip-eye-left" clipPathUnits="userSpaceOnUse">
+                    <ellipse cx="472" cy="369" rx="53" ry="62" />
+                  </clipPath>
+                  <clipPath id="mikwhale-clip-eye-right" clipPathUnits="userSpaceOnUse">
+                    <ellipse cx="765" cy="369" rx="53" ry="62" />
+                  </clipPath>
+                  <clipPath id="mikwhale-clip-fur" clipPathUnits="userSpaceOnUse">
+                    <path d="M 257 393 C 319 375 379 407 423 437 C 472 409 535 407 618.5 430 C 702 407 765 409 814 437 C 858 407 918 375 980 393 C 995 471 973 601 911 674 C 844 753 735 769 618.5 771 C 502 769 393 753 326 674 C 264 601 242 471 257 393 Z" />
+                  </clipPath>
+                  <clipPath id="mikwhale-clip-nose" clipPathUnits="userSpaceOnUse">
+                    <ellipse cx="618.5" cy="47" rx="61" ry="31" />
+                  </clipPath>
+                </defs>
+
+                <g class="puppet" data-puppet="mikwhale" aria-hidden="true">
+                  <g class="puppet__part puppet__part--torso" data-part="torso" data-idle-part="torso" data-pivot="618.5 1035" data-idle-origin="618.5px 1035px" style="--part-pivot: 618.5px 1035px">
+                    <g class="puppet__voice-layer" data-voice-part="torso" data-voice-origin="618.5px 1035px">
+                      <g class="puppet__paint" clip-path="url(#mikwhale-clip-torso)"><use href="#mikwhale-rig-paint" /></g>
+
+                      <g class="puppet__part puppet__part--chest" data-part="chest" data-idle-part="chest" data-pivot="618.5 985" data-idle-origin="618.5px 985px" style="--part-pivot: 618.5px 985px">
+                        <g class="puppet__voice-layer" data-voice-part="chest" data-voice-origin="618.5px 985px">
+                          <g class="puppet__paint" clip-path="url(#mikwhale-clip-chest)"><use href="#mikwhale-rig-paint" /></g>
+                        </g>
+                      </g>
+                      <g class="puppet__part puppet__part--paw" data-part="paw-left" data-idle-part="paw-left" data-pivot="348 634" data-idle-origin="348px 634px" style="--part-pivot: 348px 634px">
+                        <g class="puppet__voice-layer" data-voice-part="paw-left" data-voice-origin="348px 634px">
+                          <g class="puppet__paint" clip-path="url(#mikwhale-clip-paw-left)"><use href="#mikwhale-rig-paint" /></g>
+                        </g>
+                      </g>
+                      <g class="puppet__part puppet__part--paw" data-part="paw-right" data-idle-part="paw-right" data-pivot="889 634" data-idle-origin="889px 634px" style="--part-pivot: 889px 634px">
+                        <g class="puppet__voice-layer" data-voice-part="paw-right" data-voice-origin="889px 634px">
+                          <g class="puppet__paint" clip-path="url(#mikwhale-clip-paw-right)"><use href="#mikwhale-rig-paint" /></g>
+                        </g>
+                      </g>
+
+                      <g class="puppet__part puppet__part--head" data-part="head" data-idle-part="head" data-pivot="618.5 496" data-idle-origin="618.5px 496px" style="--part-pivot: 618.5px 496px">
+                        <g class="puppet__voice-layer" data-voice-part="head" data-voice-origin="618.5px 496px">
+                          <g class="puppet__part puppet__part--ear" data-part="ear-left" data-idle-part="ear-left" data-pivot="382 176" data-idle-origin="382px 176px" style="--part-pivot: 382px 176px">
+                            <g class="puppet__voice-layer" data-voice-part="ear-left" data-voice-origin="382px 176px">
+                              <g class="puppet__paint" clip-path="url(#mikwhale-clip-ear-left)"><use href="#mikwhale-rig-paint" /></g>
+                            </g>
+                          </g>
+                          <g class="puppet__part puppet__part--ear" data-part="ear-right" data-idle-part="ear-right" data-pivot="855 176" data-idle-origin="855px 176px" style="--part-pivot: 855px 176px">
+                            <g class="puppet__voice-layer" data-voice-part="ear-right" data-voice-origin="855px 176px">
+                              <g class="puppet__paint" clip-path="url(#mikwhale-clip-ear-right)"><use href="#mikwhale-rig-paint" /></g>
+                            </g>
+                          </g>
+                          <g class="puppet__underpaint" aria-hidden="true">
+                            <ellipse cx="472" cy="369" rx="48" ry="57" fill="#f6f1df" />
+                            <ellipse cx="765" cy="369" rx="48" ry="57" fill="#f6f1df" />
+                            <ellipse cx="618.5" cy="47" rx="56" ry="27" fill="#5d8b9a" />
+                          </g>
+                          <g class="puppet__paint" clip-path="url(#mikwhale-clip-head)"><use href="#mikwhale-rig-paint" /></g>
+                          <g class="puppet__part puppet__part--eye" data-part="eye-left" data-idle-part="eye-left" data-pivot="472 369" data-idle-origin="472px 369px" style="--part-pivot: 472px 369px">
+                            <g class="puppet__voice-layer" data-voice-part="eye-left" data-voice-origin="472px 369px">
+                              <g class="puppet__paint" clip-path="url(#mikwhale-clip-eye-left)"><use href="#mikwhale-rig-paint" /></g>
+                            </g>
+                          </g>
+                          <g class="puppet__part puppet__part--eye" data-part="eye-right" data-idle-part="eye-right" data-pivot="765 369" data-idle-origin="765px 369px" style="--part-pivot: 765px 369px">
+                            <g class="puppet__voice-layer" data-voice-part="eye-right" data-voice-origin="765px 369px">
+                              <g class="puppet__paint" clip-path="url(#mikwhale-clip-eye-right)"><use href="#mikwhale-rig-paint" /></g>
+                            </g>
+                          </g>
+                          <g class="puppet__part puppet__part--fur" data-part="fur" data-idle-part="fur" data-pivot="618.5 502" data-idle-origin="618.5px 502px" style="--part-pivot: 618.5px 502px">
+                            <g class="puppet__voice-layer" data-voice-part="fur" data-voice-origin="618.5px 502px">
+                              <g class="puppet__paint" clip-path="url(#mikwhale-clip-fur)"><use href="#mikwhale-rig-paint" /></g>
+                            </g>
+                          </g>
+                          <g class="puppet__part puppet__part--nose" data-part="nose" data-idle-part="nose" data-pivot="618.5 47" data-idle-origin="618.5px 47px" style="--part-pivot: 618.5px 47px">
+                            <g class="puppet__voice-layer" data-voice-part="nose" data-voice-origin="618.5px 47px">
+                              <g class="puppet__paint" clip-path="url(#mikwhale-clip-nose)"><use href="#mikwhale-rig-paint" /></g>
+                            </g>
+                          </g>
+                          <g class="puppet__part puppet__part--mouth" data-part="mouth" data-pivot="618.5 538" style="--part-pivot: 618.5px 538px">
+                            <g class="puppet__voice-layer" data-voice-part="mouth" data-voice-origin="618.5px 538px">
+                              <g transform="translate(618.5 538)">
+                                <g class="character__mouth" data-mouth="mikwhale">
+                                  <ellipse class="character__mouth-cavity" rx="38.5" ry="16" vector-effect="non-scaling-stroke"></ellipse>
+                                  <path class="character__mouth-tongue" d="M -23 7 Q 0 22 23 7 Q 18 25 0 27 Q -18 25 -23 7 Z"></path>
+                                </g>
+                              </g>
+                            </g>
+                          </g>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+
+                  <g class="puppet__part puppet__part--tail" data-part="tail" data-idle-part="tail" data-pivot="618.5 1030" data-idle-origin="618.5px 1030px" style="--part-pivot: 618.5px 1030px">
+                    <g class="puppet__voice-layer" data-voice-part="tail" data-voice-origin="618.5px 1030px">
+                      <g class="puppet__paint" clip-path="url(#mikwhale-clip-tail)"><use href="#mikwhale-rig-paint" /></g>
+                      <g class="puppet__part puppet__part--foot" data-part="foot-left" data-idle-part="foot-left" data-pivot="565 1137" data-idle-origin="565px 1137px" style="--part-pivot: 565px 1137px">
+                        <g class="puppet__voice-layer" data-voice-part="foot-left" data-voice-origin="565px 1137px">
+                          <g class="puppet__paint" clip-path="url(#mikwhale-clip-foot-left)"><use href="#mikwhale-rig-paint" /></g>
+                        </g>
+                      </g>
+                      <g class="puppet__part puppet__part--foot" data-part="foot-right" data-idle-part="foot-right" data-pivot="672 1137" data-idle-origin="672px 1137px" style="--part-pivot: 672px 1137px">
+                        <g class="puppet__voice-layer" data-voice-part="foot-right" data-voice-origin="672px 1137px">
+                          <g class="puppet__paint" clip-path="url(#mikwhale-clip-foot-right)"><use href="#mikwhale-rig-paint" /></g>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <figcaption>Mikwhale Bakunin</figcaption>
+      </figure>
+    </article>
+
+    <fieldset class="object-drawer" data-object-drawer hidden>
+      <legend class="visually-hidden">Choose an object</legend>
+      <div class="object-drawer__heading">
+        <strong>Objects</strong>
+        <span data-object-drawer-status aria-live="polite">Choose one</span>
+      </div>
+      <ul class="object-drawer__rail" data-object-drawer-rail>
+        {
+          objectSprites.map(({ id, label, image }) => (
+            <li data-object-drawer-slot={id} hidden>
+              <input
+                class="object-drawer__choice"
+                type="radio"
+                id={`workshop-object-${id}`}
+                name="workshop-object"
+                value={id}
+                data-object-choice={id}
+                data-object-name={label}
+              />
+              <label for={`workshop-object-${id}`}>
+                <img
+                  src={image.src}
+                  width={image.width}
+                  height={image.height}
+                  alt=""
+                  aria-hidden="true"
+                  decoding="async"
+                  draggable="false"
+                />
+                <span>{label}</span>
+              </label>
+            </li>
+          ))
+        }
+      </ul>
+    </fieldset>
+
+    <div class="placement-controls" data-placement-controls hidden>
+      <button type="button" data-placement="otter">Give to Otter</button>
+      <button type="button" data-placement="middle">Set Between Them</button>
+      <button type="button" data-placement="whale">Give to Whale</button>
+    </div>
+
+    <fieldset class="answer-choices" data-strawberry-choices hidden>
+      <legend>Do you like strawberries?</legend>
+      <div>
+        <button type="button" data-strawberry-answer="yes">Yes.</button>
+        <button type="button" data-strawberry-answer="never-tried">Never tried one.</button>
+        <button type="button" data-strawberry-answer="no">No.</button>
+      </div>
+    </fieldset>
+
+    <form class="name-form" data-name-form hidden novalidate>
+      <label for="workshop-name">Name</label>
+      <div>
+        <input
+          id="workshop-name"
+          name="name"
+          type="text"
+          autocomplete="name"
+          enterkeyhint="done"
+          dir="auto"
+          aria-describedby="workshop-name-error"
+        />
+        <button type="submit">Tell them</button>
+      </div>
+      <p id="workshop-name-error" data-name-error aria-live="polite"></p>
+    </form>
+
+    <button
+      class="voice-toggle"
+      type="button"
+      data-voice-toggle
+      aria-pressed="false"
+      aria-label="Turn character voices on"
+    >
+      <span class="voice-toggle__mark" aria-hidden="true"></span>
+      <span data-voice-toggle-label>Hear voices</span>
+    </button>
+
+    <output class="visually-hidden" data-prologue-live aria-live="polite"></output>
+  </div>
+</section>
+
+<script>
+  import {
+    littleWorkshopPrologue,
+    objectReuseDialogue,
+    type PrologueActionCue,
+    type PrologueBeat,
+    type PrologueBranch,
+    type PrologueInteraction,
+    type ProloguePlacement,
+  } from '../data/little-workshop-prologue';
+  import {
+    communicationLevelForInteractionCount,
+    createInitialState,
+    loadState,
+    normalizePlayerName,
+    recordName,
+    recordObjectReuse,
+    recordPlacement,
+    recordStrawberry,
+    resetState,
+    saveState,
+    type ChoiceKind,
+    type LittleWorkshopState,
+  } from '../scripts/little-workshop-state';
+  import {
+    createLittleWorkshopVoiceEngine,
+    type VoiceEngineState,
+    type VoicePlaybackResult,
+    type VoiceSpeaker,
+    type VoiceViseme,
+  } from '../scripts/little-workshop-voice';
+  import { createLittleWorkshopIdleEngine } from '../scripts/little-workshop-idle';
+  import { createLittleWorkshopPerformanceEngine } from '../scripts/little-workshop-performance';
+
+  type RuntimePhase =
+    | 'booting'
+    | 'introduction'
+    | 'awaiting-object'
+    | 'awaiting-placement'
+    | 'acting'
+    | 'dialogue'
+    | 'awaiting-strawberry'
+    | 'awaiting-name'
+    | 'complete';
+
+  type WorkshopElement = HTMLElement & {
+    __disposePrologue?: () => void;
+  };
+
+  type SelectedObject = {
+    id: string;
+    label: string;
+    isCurrent: boolean;
+  };
+
+  const workshop = document.querySelector<WorkshopElement>('[data-prologue]');
+  if (!workshop) throw new Error('Little Workshop prologue failed to initialize');
+  workshop.__disposePrologue?.();
+
+  const must = <ElementType extends Element>(selector: string): ElementType => {
+    const element = workshop.querySelector<ElementType>(selector);
+    if (!element) throw new Error('Missing Little Workshop element: ' + selector);
+    return element;
+  };
+
+  const stage = must<HTMLElement>('[data-prologue-stage]');
+  const objectAnchor = must<HTMLElement>('[data-object-anchor]');
+  const objectLabel = must<HTMLElement>('[data-object-label]');
+  const objectDrawer = must<HTMLFieldSetElement>('[data-object-drawer]');
+  const objectDrawerRail = must<HTMLElement>('[data-object-drawer-rail]');
+  const objectDrawerStatus = must<HTMLElement>('[data-object-drawer-status]');
+  const objectChoices = Array.from(
+    objectDrawer.querySelectorAll<HTMLInputElement>('[data-object-choice]'),
+  );
+  const placementControls = must<HTMLElement>('[data-placement-controls]');
+  const placementButtons = Array.from(
+    placementControls.querySelectorAll<HTMLButtonElement>('[data-placement]'),
+  );
+  const strawberryChoices = must<HTMLFieldSetElement>('[data-strawberry-choices]');
+  const strawberryButtons = Array.from(
+    strawberryChoices.querySelectorAll<HTMLButtonElement>('[data-strawberry-answer]'),
+  );
+  const nameForm = must<HTMLFormElement>('[data-name-form]');
+  const nameInput = must<HTMLInputElement>('#workshop-name');
+  const nameError = must<HTMLElement>('[data-name-error]');
+  const voiceToggle = must<HTMLButtonElement>('[data-voice-toggle]');
+  const voiceToggleLabel = must<HTMLElement>('[data-voice-toggle-label]');
+  const live = must<HTMLOutputElement>('[data-prologue-live]');
+  const pyotter = must<HTMLElement>('[data-character="pyotter"]');
+  const mikwhale = must<HTMLElement>('[data-character="mikwhale"]');
+  const characterElements = { pyotter, mikwhale };
+  const dialogueElements = {
+    pyotter: must<HTMLElement>('[data-dialogue="pyotter"]'),
+    mikwhale: must<HTMLElement>('[data-dialogue="mikwhale"]'),
+  };
+  const dialogueTextElements = {
+    pyotter: must<HTMLElement>('[data-dialogue="pyotter"] [data-dialogue-text]'),
+    mikwhale: must<HTMLElement>('[data-dialogue="mikwhale"] [data-dialogue-text]'),
+  };
+  const objectSpriteElements = Array.from(
+    workshop.querySelectorAll<HTMLImageElement>('[data-object-sprite]'),
+  );
+
+  const abortController = new AbortController();
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const query = new URLSearchParams(window.location.search);
+  const debugEnabled =
+    query.has('debug') ||
+    window.location.hostname === '127.0.0.1' ||
+    window.location.hostname === 'localhost';
+  const requestedDebugSpeed = Number(query.get('speed'));
+  workshop.dataset.debugEnabled = String(debugEnabled);
+  const placementValues = new Set<ProloguePlacement>(['otter', 'middle', 'whale']);
+  const testTargets: Partial<Record<number, ProloguePlacement>> = {
+    44: 'otter',
+    45: 'middle',
+    46: 'whale',
+  };
+  const experimentObjects = new Set([
+    'ball',
+    'block',
+    'string',
+    'hammer',
+    'battery',
+    'lamp',
+    'magnet',
+    'pencil',
+  ]);
+  const technologyObjects = new Set(['battery', 'lamp', 'magnet']);
+  const canonicalObjectId = (objectId: string) =>
+    objectId === 'book-copy' ? 'book' : objectId;
+  const objectChoiceById = new Map(
+    objectChoices.map((choice) => [choice.value, choice] as const),
+  );
+
+  let currentInteraction: PrologueInteraction | null = null;
+  let runtimePhase: RuntimePhase = 'booting';
+  let runToken = 0;
+  let timeScale =
+    debugEnabled && Number.isFinite(requestedDebugSpeed)
+      ? Math.max(0, Math.min(4, requestedDebugSpeed))
+      : 1;
+  let activeWait: (() => void) | null = null;
+  let restoreFocus = false;
+  let restoreObjectFocus = false;
+  let objectFocusId: string | null = null;
+  let selectedObject: SelectedObject | null = null;
+  let currentSetupPlayed = false;
+  let debugObserver: MutationObserver | null = null;
+
+  const setCharacterViseme = (speaker: VoiceSpeaker, viseme: VoiceViseme) => {
+    characterElements[speaker].dataset.viseme = viseme;
+  };
+
+  const restAllMouths = () => {
+    setCharacterViseme('pyotter', 'rest');
+    setCharacterViseme('mikwhale', 'rest');
+  };
+
+  const updateVoiceControl = (status?: VoiceEngineState) => {
+    const preferences = voiceEngine.getPreferences();
+    const supported = voiceEngine.isSupported();
+    const currentStatus = status ?? voiceEngine.getStatus();
+    const enabled = preferences.enabled && supported;
+    voiceToggle.setAttribute('aria-pressed', String(enabled));
+    voiceToggle.disabled = currentStatus === 'disposed';
+    voiceToggleLabel.textContent = !supported
+      ? 'Voices unavailable'
+      : enabled
+        ? 'Voices on'
+        : 'Hear voices';
+    voiceToggle.setAttribute(
+      'aria-label',
+      !supported
+        ? 'Character voices are unavailable in this browser'
+        : enabled
+          ? 'Turn character voices off'
+          : 'Turn character voices on',
+    );
+    workshop.dataset.voiceState = currentStatus;
+  };
+
+  const performanceEngine = createLittleWorkshopPerformanceEngine({
+    root: workshop,
+    reducedMotionQuery: reducedMotion,
+  });
+  const voiceEngine = createLittleWorkshopVoiceEngine();
+  voiceEngine.setHooks({
+    onStatus: ({ state }) => updateVoiceControl(state),
+    onUtteranceStart: (event) => {
+      const { speaker } = event;
+      performanceEngine.start(event);
+      restAllMouths();
+      if (reducedMotion.matches) setCharacterViseme(speaker, 'small');
+    },
+    onViseme: (event) => {
+      const { speaker, viseme } = event;
+      performanceEngine.viseme(event);
+      if (reducedMotion.matches) return;
+      setCharacterViseme(speaker, viseme);
+    },
+    onUtteranceEnd: (event) => {
+      performanceEngine.end(event);
+      setCharacterViseme(event.speaker, 'rest');
+    },
+  });
+  restAllMouths();
+  updateVoiceControl();
+
+  const idleEngine = createLittleWorkshopIdleEngine({
+    root: workshop,
+    reducedMotionQuery: reducedMotion,
+    seed: 0x50594f54,
+    onStateChange: (state) => {
+      workshop.dataset.idleState = state;
+    },
+    onVariantStart: ({ character, variant }) => {
+      characterElements[character].dataset.idleVariant = variant.id;
+    },
+  });
+  workshop.dataset.idleState = idleEngine.start();
+
+  if (debugEnabled) {
+    workshop.dataset.debugSpeed = String(timeScale);
+    debugObserver = new MutationObserver(() => {
+      const requestedScale = Number(workshop.dataset.debugSpeed ?? '1');
+      timeScale = Number.isFinite(requestedScale)
+        ? Math.max(0, Math.min(4, requestedScale))
+        : 1;
+      if (timeScale === 0) activeWait?.();
+    });
+    debugObserver.observe(workshop, {
+      attributes: true,
+      attributeFilter: ['data-debug-speed'],
+    });
+  }
+
+  const setPhase = (phase: RuntimePhase) => {
+    runtimePhase = phase;
+    workshop.dataset.phase = phase;
+    workshop.setAttribute(
+      'aria-busy',
+      String(
+        phase === 'acting',
+      ),
+    );
+  };
+
+  const beginRun = () => {
+    runToken += 1;
+    activeWait?.();
+    activeWait = null;
+    voiceEngine.cancel('cancelled');
+    performanceEngine.cancel();
+    restAllMouths();
+    return runToken;
+  };
+
+  const wait = (milliseconds: number) =>
+    new Promise<void>((resolve) => {
+      const scaled = Math.max(0, milliseconds * timeScale);
+      if (scaled === 0) {
+        window.requestAnimationFrame(() => resolve());
+        return;
+      }
+      let settled = false;
+      const finish = () => {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(timer);
+        if (activeWait === finish) activeWait = null;
+        resolve();
+      };
+      const timer = window.setTimeout(finish, scaled);
+      activeWait = finish;
+    });
+
+  const setDrawerEnabled = (enabled: boolean) => {
+    objectDrawer.disabled = !enabled;
+    for (const choice of objectChoices) choice.disabled = !enabled;
+  };
+
+  const hideActionInputs = () => {
+    placementControls.hidden = true;
+    strawberryChoices.hidden = true;
+    nameForm.hidden = true;
+    for (const button of placementButtons) button.disabled = true;
+    for (const button of strawberryButtons) button.disabled = true;
+  };
+
+  const hideInputs = () => {
+    hideActionInputs();
+    objectDrawer.hidden = true;
+    setDrawerEnabled(false);
+  };
+
+  const clearDialogue = () => {
+    for (const id of ['pyotter', 'mikwhale'] as const) {
+      dialogueElements[id].hidden = true;
+      dialogueTextElements[id].textContent = '';
+      characterElements[id].classList.remove('is-speaking');
+    }
+  };
+
+  const clearObject = () => {
+    for (const sprite of objectSpriteElements) sprite.hidden = true;
+    objectAnchor.hidden = true;
+    objectAnchor.removeAttribute('data-placement');
+    objectAnchor.classList.remove('is-arriving', 'is-handled');
+    objectAnchor.setAttribute('aria-label', 'No object selected');
+    objectLabel.textContent = '';
+  };
+
+  const setObject = (objectId: string, label: string) => {
+    const spriteId = canonicalObjectId(objectId);
+    for (const sprite of objectSpriteElements) {
+      sprite.hidden = sprite.dataset.objectSprite !== spriteId;
+    }
+    objectAnchor.hidden = false;
+    objectAnchor.removeAttribute('data-placement');
+    objectAnchor.setAttribute('aria-label', label);
+    objectLabel.textContent = label;
+    objectAnchor.classList.remove('is-arriving');
+    void objectAnchor.offsetWidth;
+    objectAnchor.classList.add('is-arriving');
+  };
+
+  const announceBeat = (beat: PrologueBeat): VoicePlaybackResult => {
+    const id = beat.speaker;
+    dialogueTextElements[id].textContent = beat.text;
+    dialogueElements[id].hidden = false;
+    characterElements[id].classList.add('is-speaking');
+    live.textContent = beat.label + ': ' + beat.text;
+    return voiceEngine.speak(id, beat.text);
+  };
+
+  const beatDuration = (beat: PrologueBeat) =>
+    Math.max(1800, Math.min(4200, 900 + beat.text.length * 27));
+
+  const playBeats = async (
+    beats: readonly PrologueBeat[],
+    token: number,
+  ): Promise<boolean> => {
+    for (const beat of beats) {
+      if (token !== runToken) return false;
+      const speech = announceBeat(beat);
+      const speechDuration = speech.started ? speech.plan.totalDurationMs + 80 : 0;
+      await wait(Math.max(beatDuration(beat), speechDuration));
+      characterElements[beat.speaker].classList.remove('is-speaking');
+    }
+    return token === runToken;
+  };
+
+  const stateValue = (state: LittleWorkshopState, key: string | undefined): unknown => {
+    if (!key) return undefined;
+    for (const section of [
+      state.PLAYER_STATE,
+      state.PREFERENCES,
+      state.RELATIONSHIP,
+      state.HISTORY,
+      state.WORLD,
+    ]) {
+      if (key in section) return (section as unknown as Record<string, unknown>)[key];
+    }
+    return undefined;
+  };
+
+  const stateBranchMatches = (
+    branch: PrologueBranch,
+    state: LittleWorkshopState,
+  ) => {
+    if (branch.when.source !== 'state') return false;
+    const actual = stateValue(state, branch.when.key);
+    if (branch.when.operator === 'equals') return Object.is(actual, branch.when.value);
+    return false;
+  };
+
+  const matchingStateBranch = (
+    interaction: PrologueInteraction,
+    state: LittleWorkshopState,
+  ) => interaction.branches?.find((branch) => stateBranchMatches(branch, state));
+
+  const unlockedObjectIds = (interactionCount: number) =>
+    Array.from(
+      new Set(
+        littleWorkshopPrologue
+          .slice(0, Math.min(interactionCount + 1, 48))
+          .map((interaction) => canonicalObjectId(interaction.object.id)),
+      ),
+    );
+
+  const updateDrawerSelection = (objectId: string | null, label?: string) => {
+    for (const choice of objectChoices) choice.checked = choice.value === objectId;
+    objectDrawerStatus.textContent = objectId && label ? `Selected: ${label}` : 'Choose one';
+  };
+
+  const showObjectDrawer = (
+    interaction: PrologueInteraction,
+    state: LittleWorkshopState,
+  ) => {
+    const currentId = canonicalObjectId(interaction.object.id);
+    const unlocked = new Set(unlockedObjectIds(state.PLAYER_STATE.interaction_count));
+    for (const choice of objectChoices) {
+      const slot = choice.closest<HTMLElement>('[data-object-drawer-slot]');
+      if (slot) slot.hidden = !unlocked.has(choice.value);
+      const isCurrent = choice.value === currentId;
+      if (isCurrent) choice.dataset.current = 'true';
+      else delete choice.dataset.current;
+      const label = choice.dataset.objectName ?? choice.value;
+      choice.setAttribute(
+        'aria-label',
+        isCurrent ? `${label}. Next object.` : label,
+      );
+    }
+
+    selectedObject = null;
+    updateDrawerSelection(null);
+    clearObject();
+    objectDrawer.hidden = false;
+    setDrawerEnabled(true);
+    setPhase('awaiting-object');
+
+    const focusId = objectFocusId ?? currentId;
+    const choice = objectChoiceById.get(focusId);
+    const tile = choice?.nextElementSibling as HTMLElement | null;
+    window.requestAnimationFrame(() => {
+      if (tile) {
+        const railRect = objectDrawerRail.getBoundingClientRect();
+        const tileRect = tile.getBoundingClientRect();
+        const centeredLeft =
+          objectDrawerRail.scrollLeft +
+          tileRect.left +
+          tileRect.width / 2 -
+          railRect.left -
+          railRect.width / 2;
+        objectDrawerRail.scrollTo({
+          behavior: reducedMotion.matches ? 'auto' : 'smooth',
+          left: Math.max(0, centeredLeft),
+        });
+      }
+      if (restoreObjectFocus) choice?.focus({ preventScroll: true });
+      restoreObjectFocus = false;
+      objectFocusId = null;
+    });
+  };
+
+  const showPlacementControls = () => {
+    placementControls.hidden = false;
+    for (const button of placementButtons) {
+      button.disabled = false;
+      const placement = button.dataset.placement;
+      const label = selectedObject?.label ?? 'object';
+      const action =
+        placement === 'otter'
+          ? `Give ${label} to Otter`
+          : placement === 'whale'
+            ? `Give ${label} to Whale`
+            : `Set ${label} between them`;
+      button.setAttribute('aria-label', action);
+    }
+    setDrawerEnabled(true);
+    setPhase('awaiting-placement');
+  };
+
+  const showInteractionInput = (interaction: PrologueInteraction) => {
+    if (interaction.input?.kind === 'placement-choice') {
+      strawberryChoices.hidden = false;
+      for (const button of strawberryButtons) button.disabled = false;
+      setPhase('awaiting-strawberry');
+      if (restoreFocus) strawberryButtons[0]?.focus();
+      restoreFocus = false;
+      return;
+    }
+    if (interaction.input?.kind === 'free-text') {
+      nameForm.hidden = false;
+      nameError.textContent = '';
+      setPhase('awaiting-name');
+      nameInput.focus();
+      return;
+    }
+    showPlacementControls();
+  };
+
+  const clearMotionClasses = () => {
+    for (const character of [pyotter, mikwhale]) {
+      character.classList.remove(
+        'is-acting',
+        'is-thinking',
+        'is-bright',
+        'is-paused',
+      );
+    }
+    objectAnchor.classList.remove('is-handled');
+  };
+
+  const cueMotionClass = (action: string) => {
+    const normalized = action.toLowerCase();
+    if (/freeze|wait|still|rest|pause/.test(normalized)) return 'is-paused';
+    if (/inspect|audit|think|consider|measure|mark|record|compare/.test(normalized)) {
+      return 'is-thinking';
+    }
+    if (/ring|start|bounce|offer|share|smile|laugh|excited|nod|catch/.test(normalized)) {
+      return 'is-bright';
+    }
+    return 'is-acting';
+  };
+
+  const playActionCues = async (
+    cues: readonly PrologueActionCue[],
+    token: number,
+  ) => {
+    clearMotionClasses();
+    for (const cue of cues) {
+      const targets =
+        cue.actor === 'both'
+          ? [pyotter, mikwhale]
+          : cue.actor === 'environment'
+            ? []
+            : [characterElements[cue.actor]];
+      for (const target of targets) target.classList.add(cueMotionClass(cue.action));
+    }
+    objectAnchor.classList.add('is-handled');
+    await wait(reducedMotion.matches ? 40 : 2200);
+    if (token === runToken) clearMotionClasses();
+  };
+
+  const deriveChoiceKinds = (
+    interaction: PrologueInteraction,
+    placement: ProloguePlacement,
+  ): ChoiceKind[] => {
+    const choices = new Set<ChoiceKind>();
+    const objectId = interaction.object.id.replace('-copy', '');
+    if (placement === 'middle') choices.add('sharing');
+    if (placement === 'whale') {
+      choices.add('autonomy');
+      choices.add('distributed_solution');
+    }
+    if (
+      placement === 'otter' &&
+      ['apple', 'book', 'seed', 'cookie', 'flower'].includes(objectId)
+    ) {
+      choices.add('sharing');
+    }
+    if (experimentObjects.has(objectId)) choices.add('experimentation');
+    if (technologyObjects.has(objectId)) choices.add('automation');
+    if (technologyObjects.has(objectId) && placement === 'otter') {
+      choices.add('centralized_solution');
+    }
+    if (technologyObjects.has(objectId) && placement !== 'otter') {
+      choices.add('distributed_solution');
+    }
+    return Array.from(choices);
+  };
+
+  const interpolateObject = (beats: readonly PrologueBeat[], label: string) =>
+    beats.map((beat) => ({
+      ...beat,
+      text: beat.text.replaceAll('{{object}}', label.toLocaleLowerCase()),
+    }));
+
+  const selectObject = async (objectId: string) => {
+    if (
+      (runtimePhase !== 'awaiting-object' && runtimePhase !== 'awaiting-placement') ||
+      !currentInteraction ||
+      currentInteraction.sequence > 48
+    ) {
+      return;
+    }
+    const choice = objectChoiceById.get(canonicalObjectId(objectId));
+    const slot = choice?.closest<HTMLElement>('[data-object-drawer-slot]');
+    if (!choice || choice.disabled || slot?.hidden) return;
+
+    const interaction = currentInteraction;
+    const selectedId = canonicalObjectId(choice.value);
+    const isCurrent = selectedId === canonicalObjectId(interaction.object.id);
+    const label = isCurrent
+      ? interaction.object.label
+      : (choice.dataset.objectName ?? choice.value);
+    const token = beginRun();
+    selectedObject = { id: selectedId, label, isCurrent };
+    hideActionInputs();
+    setDrawerEnabled(false);
+    clearDialogue();
+    updateDrawerSelection(selectedId, label);
+    setObject(selectedId, label);
+    setPhase('introduction');
+
+    if (isCurrent && !currentSetupPlayed) {
+      const state = loadState();
+      const branch = matchingStateBranch(interaction, state);
+      const setupBeats = branch
+        ? [...interaction.setup, ...branch.beats]
+        : interaction.setup;
+      if (!(await playBeats(setupBeats, token))) return;
+      currentSetupPlayed = true;
+    } else if (!isCurrent) {
+      const awareness = loadState().PLAYER_STATE.communication_level >= 3 ? 'aware' : 'unaware';
+      const beats = interpolateObject(objectReuseDialogue.setup[awareness], label);
+      if (!(await playBeats(beats, token))) return;
+    }
+
+    if (token !== runToken) return;
+    showPlacementControls();
+    live.textContent = `${label} selected. Choose where to place it.`;
+  };
+
+  const renderCompleteState = (state: LittleWorkshopState) => {
+    const name = state.PLAYER_STATE.name ?? 'you';
+    workshop.dataset.sequence = '50';
+    workshop.dataset.interactionId = 'name-exchange';
+    hideInputs();
+    clearDialogue();
+    setObject('paper', 'Name Paper');
+    dialogueTextElements.pyotter.textContent = name + '.';
+    dialogueTextElements.mikwhale.textContent = 'Fair.';
+    dialogueElements.pyotter.hidden = false;
+    dialogueElements.mikwhale.hidden = false;
+    pyotter.classList.add('is-looking-outward');
+    mikwhale.classList.add('is-looking-outward');
+    live.textContent = 'Pyotter and Mikwhale know your name. The prologue is complete.';
+    setPhase('complete');
+  };
+
+  const renderCurrentInteraction = async () => {
+    const token = beginRun();
+    hideInputs();
+    clearObject();
+    clearMotionClasses();
+    pyotter.classList.remove('is-looking-outward');
+    mikwhale.classList.remove('is-looking-outward');
+    clearDialogue();
+    const state = loadState();
+    if (state.PLAYER_STATE.interaction_count >= littleWorkshopPrologue.length) {
+      renderCompleteState(state);
+      return;
+    }
+
+    const interaction = littleWorkshopPrologue[state.PLAYER_STATE.interaction_count];
+    currentInteraction = interaction;
+    selectedObject = null;
+    currentSetupPlayed = false;
+    workshop.dataset.sequence = String(interaction.sequence);
+    workshop.dataset.interactionId = interaction.id;
+
+    if (interaction.sequence <= 48 && !interaction.input) {
+      showObjectDrawer(interaction, state);
+      return;
+    }
+
+    setObject(interaction.object.id, interaction.object.label);
+    setPhase('introduction');
+    const branch = matchingStateBranch(interaction, state);
+    const setupBeats = branch
+      ? [...interaction.setup, ...branch.beats]
+      : interaction.setup;
+    if (!(await playBeats(setupBeats, token))) return;
+    if (token !== runToken) return;
+    showInteractionInput(interaction);
+  };
+
+  const choosePlacement = async (placement: ProloguePlacement) => {
+    if (runtimePhase !== 'awaiting-placement' || !currentInteraction || !selectedObject) return;
+    const interaction = currentInteraction;
+    const object = selectedObject;
+    const token = beginRun();
+    hideActionInputs();
+    setDrawerEnabled(false);
+    setPhase('acting');
+    objectAnchor.dataset.placement = placement;
+    const outcome = object.isCurrent
+      ? interaction.placements[placement]
+      : objectReuseDialogue.placements[placement];
+    await playActionCues(outcome.actionCues, token);
+    if (token !== runToken) return;
+    setPhase('dialogue');
+    if (!(await playBeats(outcome.beats, token))) return;
+    if (token !== runToken) return;
+
+    if (object.isCurrent) {
+      const expectedTarget = testTargets[interaction.sequence];
+      const authoredOutcome = interaction.placements[placement];
+      recordPlacement({
+        target: placement,
+        object_id: interaction.object.id,
+        choices: deriveChoiceKinds(interaction, placement),
+        state_effects: authoredOutcome.stateEffects,
+        test_response: expectedTarget
+          ? expectedTarget === placement
+            ? 'complied'
+            : 'resisted'
+          : undefined,
+      });
+      restoreObjectFocus = interaction.sequence < 48;
+      restoreFocus = interaction.sequence === 48;
+      objectFocusId = null;
+    } else {
+      recordObjectReuse({ target: placement, object_id: object.id });
+      restoreObjectFocus = true;
+      objectFocusId = object.id;
+    }
+    await wait(350);
+    if (token === runToken) void renderCurrentInteraction();
+  };
+
+  const answerStrawberry = async (answer: string) => {
+    if (
+      runtimePhase !== 'awaiting-strawberry' ||
+      !currentInteraction ||
+      currentInteraction.input?.kind !== 'placement-choice'
+    ) {
+      return;
+    }
+    const option = currentInteraction.input.options.find((item) => item.value === answer);
+    if (!option) return;
+    const interaction = currentInteraction;
+    const token = beginRun();
+    restoreFocus = true;
+    hideInputs();
+    setPhase('acting');
+    objectAnchor.dataset.placement = option.placement;
+    const outcome = interaction.placements[option.placement];
+    await playActionCues(outcome.actionCues, token);
+    if (token !== runToken) return;
+    setPhase('dialogue');
+    if (!(await playBeats(outcome.beats, token))) return;
+    if (token !== runToken) return;
+    recordStrawberry(option.value, undefined, outcome.stateEffects);
+    await wait(350);
+    if (token === runToken) void renderCurrentInteraction();
+  };
+
+  const interpolateName = (text: string, name: string) =>
+    text.replaceAll('{{observerName}}', name);
+
+  const nameBranch = (
+    interaction: PrologueInteraction,
+    name: string,
+  ): PrologueBranch | undefined => {
+    const branches = interaction.branches ?? [];
+    const lowerName = name.toLocaleLowerCase();
+    const matching = branches.find((branch) => {
+      if (branch.when.source !== 'input' || branch.when.operator !== 'matches') return false;
+      if (!Array.isArray(branch.when.value)) return false;
+      return branch.when.value.some(
+        (value) => typeof value === 'string' && value.toLocaleLowerCase() === lowerName,
+      );
+    });
+    return (
+      matching ??
+      branches.find(
+        (branch) =>
+          branch.when.source === 'input' && branch.when.operator === 'default',
+      )
+    );
+  };
+
+  const submitName = async () => {
+    if (
+      runtimePhase !== 'awaiting-name' ||
+      !currentInteraction ||
+      currentInteraction.input?.kind !== 'free-text'
+    ) {
+      return;
+    }
+    const normalized = normalizePlayerName(nameInput.value);
+    if (!normalized) {
+      nameError.textContent = 'A name needs at least one visible character.';
+      nameInput.focus();
+      return;
+    }
+
+    const interaction = currentInteraction;
+    const branch = nameBranch(interaction, normalized);
+    const token = beginRun();
+    hideInputs();
+    setPhase('dialogue');
+    if (branch?.actionCues) await playActionCues(branch.actionCues, token);
+    if (token !== runToken) return;
+    const beats = (branch?.beats ?? []).map((beat) => ({
+      ...beat,
+      text: interpolateName(beat.text, normalized),
+    }));
+    if (!(await playBeats(beats, token))) return;
+    if (token !== runToken) return;
+    recordName(normalized, undefined, branch?.stateEffects);
+    pyotter.classList.add('is-looking-outward');
+    mikwhale.classList.add('is-looking-outward');
+    live.textContent = 'Pyotter and Mikwhale know your name. The prologue is complete.';
+    setPhase('complete');
+  };
+
+  const unlockVoiceFromGesture = () =>
+    voiceEngine.getPreferences().enabled
+      ? voiceEngine.unlockFromGesture()
+      : Promise.resolve(voiceEngine.getStatus());
+
+  voiceToggle.addEventListener(
+    'click',
+    async () => {
+      const enable = !voiceEngine.getPreferences().enabled;
+      voiceEngine.setEnabled(enable);
+      if (enable) await voiceEngine.unlockFromGesture();
+      else restAllMouths();
+      updateVoiceControl();
+    },
+    { signal: abortController.signal },
+  );
+
+  for (const button of placementButtons) {
+    button.addEventListener(
+      'click',
+      async () => {
+        await unlockVoiceFromGesture();
+        const placement = button.dataset.placement;
+        if (placementValues.has(placement as ProloguePlacement)) {
+          void choosePlacement(placement as ProloguePlacement);
+        }
+      },
+      { signal: abortController.signal },
+    );
+  }
+
+  for (const choice of objectChoices) {
+    choice.addEventListener(
+      'change',
+      async () => {
+        await unlockVoiceFromGesture();
+        if (choice.checked) void selectObject(choice.value);
+      },
+      { signal: abortController.signal },
+    );
+  }
+
+  for (const button of strawberryButtons) {
+    button.addEventListener(
+      'click',
+      async () => {
+        await unlockVoiceFromGesture();
+        void answerStrawberry(button.dataset.strawberryAnswer ?? '');
+      },
+      { signal: abortController.signal },
+    );
+  }
+
+  nameForm.addEventListener(
+    'submit',
+    async (event) => {
+      event.preventDefault();
+      await unlockVoiceFromGesture();
+      void submitName();
+    },
+    { signal: abortController.signal },
+  );
+
+  reducedMotion.addEventListener('change', restAllMouths, {
+    signal: abortController.signal,
+  });
+
+  const dispose = () => {
+    beginRun();
+    abortController.abort();
+    debugObserver?.disconnect();
+    clearMotionClasses();
+    idleEngine.dispose();
+    performanceEngine.dispose();
+    void voiceEngine.dispose();
+    delete workshop.__disposePrologue;
+  };
+  workshop.__disposePrologue = dispose;
+  document.addEventListener('astro:before-swap', dispose, {
+    once: true,
+    signal: abortController.signal,
+  });
+
+  if (debugEnabled) {
+    const debugWindow = window as typeof window & {
+      __littleWorkshopPrologue?: {
+        snapshot: () => unknown;
+        setSpeed: (scale: number) => void;
+        reset: () => void;
+        jumpTo: (sequence: number) => void;
+        selectObject: (objectId: string) => void;
+        choose: (placement: ProloguePlacement) => void;
+        answerStrawberry: (answer: string) => void;
+        submitName: (name: string) => void;
+      };
+    };
+    const debugApi = {
+      snapshot: () => ({
+        phase: runtimePhase,
+        sequence: currentInteraction?.sequence ?? null,
+        interactionId: currentInteraction?.id ?? null,
+        selectedObject,
+        voice: {
+          status: voiceEngine.getStatus(),
+          preferences: voiceEngine.getPreferences(),
+          pyotterViseme: pyotter.dataset.viseme ?? 'rest',
+          mikwhaleViseme: mikwhale.dataset.viseme ?? 'rest',
+        },
+        idle: {
+          status: idleEngine.getState(),
+          pyotter: idleEngine.getCurrentVariant('pyotter')?.id ?? null,
+          mikwhale: idleEngine.getCurrentVariant('mikwhale')?.id ?? null,
+        },
+        state: loadState(),
+      }),
+      setSpeed: (scale) => {
+        timeScale = Number.isFinite(scale) ? Math.max(0, Math.min(4, scale)) : 1;
+        if (timeScale === 0) activeWait?.();
+      },
+      reset: () => {
+        resetState();
+        void renderCurrentInteraction();
+      },
+      jumpTo: (sequence) => {
+        const nextSequence = Math.max(1, Math.min(50, Math.floor(sequence)));
+        const state = createInitialState();
+        state.PLAYER_STATE.interaction_count = nextSequence - 1;
+        state.PLAYER_STATE.communication_level =
+          communicationLevelForInteractionCount(nextSequence - 1);
+        state.WORLD.communication_protocol.current_level =
+          state.PLAYER_STATE.communication_level;
+        saveState(state);
+        void renderCurrentInteraction();
+      },
+      selectObject: (objectId) => void selectObject(objectId),
+      choose: (placement) => void choosePlacement(placement),
+      answerStrawberry: (answer) => void answerStrawberry(answer),
+      submitName: (name) => {
+        nameInput.value = name;
+        void submitName();
+      },
+    };
+    Object.defineProperty(debugWindow, '__littleWorkshopPrologue', {
+      configurable: true,
+      value: debugApi,
+      writable: true,
+    });
+  }
+
+  if (debugEnabled && query.get('reset') === '1') resetState();
+  const requestedDebugStep = Number(query.get('step'));
+  if (
+    debugEnabled &&
+    Number.isInteger(requestedDebugStep) &&
+    requestedDebugStep >= 1 &&
+    requestedDebugStep <= 50
+  ) {
+    const state = createInitialState();
+    state.PLAYER_STATE.interaction_count = requestedDebugStep - 1;
+    state.PLAYER_STATE.communication_level =
+      communicationLevelForInteractionCount(requestedDebugStep - 1);
+    state.WORLD.communication_protocol.current_level =
+      state.PLAYER_STATE.communication_level;
+    saveState(state);
+  }
+
+  void renderCurrentInteraction();
+</script>
+
+<style>
+  .visually-hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .prologue {
+    --ink: #2f2017;
+    --muted: #765b47;
+    --paper: #fffaf0;
+    --stage: #f4ead6;
+    color: var(--ink);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 100svh;
+    padding: clamp(0.75rem, 2.2vw, 2rem);
+    place-items: center;
+    width: 100%;
+  }
+
+  .workshop-welcome {
+    isolation: isolate;
+    left: 50%;
+    max-width: 24rem;
+    position: absolute;
+    pointer-events: none;
+    top: clamp(0.25rem, 1.4vh, 0.9rem);
+    transform: translateX(-50%);
+    width: min(36vw, 24rem);
+    z-index: 20;
+  }
+
+  .workshop-welcome__float {
+    animation: welcome-drift 8s ease-in-out infinite;
+    filter: drop-shadow(0 0.7rem 0.75rem rgb(75 46 28 / 10%));
+    transform-origin: 50% 100%;
+  }
+
+  @media (min-width: 48.01rem) {
+    .workshop-welcome__float {
+      transition: opacity 220ms ease;
+    }
+
+    .prologue__stage:has(.dialogue:not([hidden])) .workshop-welcome__float {
+      opacity: 0;
+    }
+  }
+
+  .workshop-welcome__plaque {
+    align-items: center;
+    background:
+      radial-gradient(circle at 18% 22%, rgb(255 255 255 / 28%) 0 0.12rem, transparent 0.14rem),
+      radial-gradient(circle at 81% 68%, rgb(135 79 42 / 9%) 0 0.1rem, transparent 0.12rem),
+      linear-gradient(155deg, #ffe7a9 0%, #f7cf82 52%, #efbd70 100%);
+    background-size: 2.3rem 2.3rem, 2.8rem 2.8rem, auto;
+    border: 0.2rem solid #76503a;
+    border-radius: 2.2rem 2.05rem 1.8rem 1.95rem / 1.55rem 1.65rem 1.4rem 1.5rem;
+    box-shadow:
+      0 0 0 0.22rem #fff4d0,
+      0 0.34rem 0 #a66e45,
+      inset 0 0.12rem 0 rgb(255 255 255 / 55%),
+      inset 0 -0.16rem 0 rgb(121 72 39 / 11%);
+    display: grid;
+    gap: clamp(0.3rem, 1vw, 0.6rem);
+    grid-template-columns: clamp(2.3rem, 4vw, 3rem) minmax(0, 1fr) clamp(2.3rem, 4vw, 3rem);
+    min-height: clamp(4.7rem, 7vw, 5.6rem);
+    overflow: hidden;
+    padding: clamp(0.48rem, 0.9vw, 0.68rem) clamp(0.58rem, 1.3vw, 0.85rem) clamp(0.54rem, 1vw, 0.74rem);
+    position: relative;
+    transition: transform 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .workshop-welcome__plaque::after {
+    border: 1px dashed rgb(106 66 39 / 24%);
+    border-radius: inherit;
+    content: '';
+    inset: 0.36rem;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  .workshop-welcome__copy {
+    min-width: 0;
+    position: relative;
+    text-align: center;
+    z-index: 2;
+  }
+
+  .workshop-welcome__kicker {
+    background: #55785d;
+    border: 2px solid #34543e;
+    border-radius: 999px;
+    box-shadow: 0 0.14rem 0 #294a35;
+    color: #fff8df;
+    display: inline-block;
+    font-size: clamp(0.54rem, 0.9vw, 0.64rem);
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    line-height: 1;
+    margin: 0 0 0.2rem;
+    padding: 0.27rem 0.58rem 0.24rem;
+    text-transform: uppercase;
+    transform: rotate(-1deg);
+  }
+
+  .workshop-welcome h1 {
+    color: #4f3426;
+    display: flex;
+    flex-wrap: wrap;
+    font-family: ui-rounded, 'Arial Rounded MT Bold', var(--workshop-sans);
+    font-size: clamp(1.45rem, 2.7vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 0.92;
+    margin: 0;
+    column-gap: 0.16em;
+    justify-content: center;
+    text-shadow:
+      0 0.09em 0 #fff6db,
+      0.055em 0.12em 0 rgb(145 88 48 / 22%);
+    text-wrap: balance;
+  }
+
+  .workshop-welcome h1 span {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .workshop-welcome h1 span:last-child {
+    color: #9d5b3e;
+  }
+
+  .workshop-welcome__tagline {
+    color: #6b4b37;
+    font-size: clamp(0.64rem, 1vw, 0.74rem);
+    font-weight: 650;
+    letter-spacing: 0.015em;
+    line-height: 1.2;
+    margin: 0.24rem 0 0;
+  }
+
+  .workshop-welcome__leaf,
+  .workshop-welcome__ripples {
+    display: grid;
+    place-items: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .workshop-welcome__leaf {
+    height: clamp(2.3rem, 4vw, 3rem);
+    transform-origin: 62% 82%;
+    width: clamp(2.3rem, 4vw, 3rem);
+  }
+
+  .workshop-welcome__leaf::before,
+  .workshop-welcome__leaf::after,
+  .workshop-welcome__leaf > span {
+    background: #78a873;
+    border: 0.13rem solid #42664d;
+    border-radius: 82% 18% 78% 22%;
+    content: '';
+    height: 1.38rem;
+    position: absolute;
+    width: 1.72rem;
+  }
+
+  .workshop-welcome__leaf::before {
+    left: 0.28rem;
+    top: 0.62rem;
+    transform: rotate(30deg);
+  }
+
+  .workshop-welcome__leaf::after {
+    background: #8dbb77;
+    right: 0.24rem;
+    top: 0.46rem;
+    transform: rotate(64deg) scale(0.88);
+  }
+
+  .workshop-welcome__leaf > span {
+    background: #aacb7f;
+    bottom: 0.22rem;
+    left: 50%;
+    transform: translateX(-50%) rotate(47deg) scale(0.82);
+  }
+
+  .workshop-welcome__ripples {
+    height: clamp(2.3rem, 4vw, 3rem);
+    width: clamp(2.3rem, 4vw, 3rem);
+  }
+
+  .workshop-welcome__ripples::before,
+  .workshop-welcome__ripples::after {
+    border: 0.14rem solid #4f7f8a;
+    border-radius: 50%;
+    content: '';
+    height: 0.58rem;
+    position: absolute;
+    width: 2.65rem;
+  }
+
+  .workshop-welcome__ripples::before {
+    bottom: 0.63rem;
+  }
+
+  .workshop-welcome__ripples::after {
+    bottom: 0.19rem;
+    opacity: 0.58;
+    transform: scaleX(0.72);
+  }
+
+  .workshop-welcome__ripples > span {
+    background: #9dcbd0;
+    border: 0.12rem solid #4f7f8a;
+    border-radius: 50%;
+    height: 0.72rem;
+    position: absolute;
+    width: 0.72rem;
+  }
+
+  .workshop-welcome__ripples > span:nth-child(1) {
+    left: 0.56rem;
+    top: 0.62rem;
+  }
+
+  .workshop-welcome__ripples > span:nth-child(2) {
+    animation-delay: -1.3s;
+    height: 0.48rem;
+    right: 0.62rem;
+    top: 0.25rem;
+    width: 0.48rem;
+  }
+
+  .workshop-welcome__ripples > span:nth-child(3) {
+    animation-delay: -2.4s;
+    height: 0.36rem;
+    right: 0.34rem;
+    top: 1.22rem;
+    width: 0.36rem;
+  }
+
+  .prologue__stage {
+    align-content: center;
+    align-items: end;
+    display: grid;
+    gap: clamp(0.35rem, 1.8vw, 1.5rem);
+    grid-template-columns: minmax(0, 1fr) clamp(5.5rem, 13vw, 10rem) minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto;
+    max-width: 86rem;
+    min-height: min(48rem, calc(100svh - 3rem));
+    min-width: 0;
+    overflow: visible;
+    position: relative;
+    width: 100%;
+  }
+
+  .character--pyotter {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .current-object {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .character--mikwhale {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .character {
+    align-self: end;
+    display: grid;
+    justify-items: center;
+    min-width: 0;
+    overflow: visible;
+  }
+
+  .character figure {
+    display: grid;
+    justify-items: center;
+    margin: 0;
+    min-width: 0;
+    overflow: visible;
+    width: 100%;
+  }
+
+  .character__art {
+    align-items: end;
+    display: flex;
+    height: clamp(15rem, 50vh, 31rem);
+    justify-content: center;
+    min-width: 0;
+    overflow: visible;
+    transform-origin: 50% 94%;
+    width: min(100%, 28rem);
+  }
+
+  .character__performance,
+  .character__idle {
+    align-items: end;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    max-width: 100%;
+    min-width: 0;
+    transform-origin: 50% 94%;
+    width: 100%;
+  }
+
+  .character__performance {
+    transform: none;
+  }
+
+  .character__sprite {
+    display: block;
+    height: 100%;
+    max-width: 100%;
+    overflow: visible;
+    width: auto;
+  }
+
+  .character__puppet,
+  .character__puppet .puppet {
+    overflow: visible;
+  }
+
+  .character__puppet .puppet__part,
+  .character__puppet .puppet__voice-layer {
+    pointer-events: none;
+    transform-box: view-box;
+    transform-origin: var(--part-pivot, center);
+  }
+
+  .character__puppet .puppet__part {
+    transform:
+      translate(var(--part-x, 0), var(--part-y, 0))
+      rotate(var(--part-rotate, 0deg))
+      scale(var(--part-scale-x, 1), var(--part-scale-y, 1));
+  }
+
+  .character__puppet .puppet__voice-layer {
+    transition: transform 360ms cubic-bezier(0.22, 0.72, 0.2, 1);
+  }
+
+  .character__puppet .puppet__underpaint {
+    pointer-events: none;
+  }
+
+  .character__mouth {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.62, 0.08);
+    transform-box: fill-box;
+    transform-origin: center;
+    transition:
+      opacity 28ms linear,
+      transform 54ms cubic-bezier(0.2, 0.78, 0.2, 1);
+    will-change: opacity, transform;
+  }
+
+  .character__mouth-cavity {
+    fill: #301b15;
+    paint-order: stroke fill;
+    stroke: #4a2b1d;
+    stroke-width: 1.25;
+  }
+
+  .character--mikwhale .character__mouth-cavity {
+    fill: #271611;
+    stroke: #4a3024;
+  }
+
+  .character__mouth-tongue {
+    fill: #d57e78;
+    opacity: 0;
+    transition: opacity 28ms linear;
+  }
+
+  .character--mikwhale .character__mouth-tongue {
+    fill: #aa6461;
+  }
+
+  .character[data-viseme='small'] .character__mouth {
+    opacity: 1;
+    transform: scale(0.58, 0.38);
+  }
+
+  .character[data-viseme='open'] .character__mouth {
+    opacity: 1;
+    transform: scale(0.82, 1.05);
+  }
+
+  .character[data-viseme='wide'] .character__mouth {
+    opacity: 1;
+    transform: scale(1.18, 0.56);
+  }
+
+  .character[data-viseme='round'] .character__mouth {
+    opacity: 1;
+    transform: scale(0.56, 1.08);
+  }
+
+  .character[data-viseme='smile'] .character__mouth {
+    opacity: 1;
+    transform: scale(1.08, 0.72);
+  }
+
+  .character[data-viseme='open'] .character__mouth-tongue,
+  .character[data-viseme='wide'] .character__mouth-tongue,
+  .character[data-viseme='smile'] .character__mouth-tongue {
+    opacity: 0.9;
+  }
+
+  .character--mikwhale .character__art {
+    height: clamp(15.6rem, 52vh, 32.2rem);
+  }
+
+  .character figcaption {
+    color: var(--muted);
+    font-size: clamp(0.72rem, 1.2vw, 0.92rem);
+    font-weight: 600;
+    margin-top: 0.25rem;
+    text-align: center;
+  }
+
+  .dialogue {
+    align-self: end;
+    background: rgb(255 250 240 / 96%);
+    border: 1px solid rgb(75 46 28 / 23%);
+    border-radius: 1rem;
+    box-shadow: 0 0.65rem 1.8rem rgb(57 31 16 / 8%);
+    margin-bottom: clamp(0.5rem, 1.5vh, 1rem);
+    max-width: 22rem;
+    min-height: 5.35rem;
+    padding: 0.75rem 0.9rem 0.8rem;
+    position: relative;
+    width: min(100%, 22rem);
+  }
+
+  .dialogue::after {
+    background: var(--paper);
+    border-bottom: 1px solid rgb(75 46 28 / 23%);
+    border-right: 1px solid rgb(75 46 28 / 23%);
+    bottom: -0.38rem;
+    content: '';
+    height: 0.75rem;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%) rotate(45deg);
+    width: 0.75rem;
+  }
+
+  .dialogue strong {
+    color: #9a6432;
+    display: block;
+    font-size: 0.66rem;
+    letter-spacing: 0.11em;
+    margin-bottom: 0.22rem;
+    text-transform: uppercase;
+  }
+
+  .dialogue p {
+    font-size: clamp(0.86rem, 1.2vw, 1.02rem);
+    line-height: 1.35;
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  .current-object {
+    align-self: end;
+    display: grid;
+    justify-items: center;
+    margin-bottom: clamp(2.3rem, 7vh, 5.3rem);
+    min-width: 0;
+    position: relative;
+    z-index: 4;
+  }
+
+  .current-object__anchor {
+    height: clamp(4.8rem, 10vw, 7.8rem);
+    transform-origin: 50% 78%;
+    width: clamp(4.8rem, 10vw, 7.8rem);
+  }
+
+  .current-object__art,
+  .current-object__art img {
+    height: 100%;
+    width: 100%;
+  }
+
+  .current-object__art {
+    position: relative;
+  }
+
+  .current-object__art img {
+    display: block;
+    object-fit: contain;
+    position: absolute;
+  }
+
+  .current-object p {
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.035em;
+    margin: 0.28rem 0 0;
+    min-height: 1rem;
+    text-align: center;
+  }
+
+  .current-object__anchor[data-placement='otter'] {
+    transform: translate3d(clamp(-8rem, -12vw, -4rem), 0.8rem, 0) rotate(-4deg);
+  }
+
+  .current-object__anchor[data-placement='middle'] {
+    transform: translate3d(0, 0.75rem, 0) scale(0.96);
+  }
+
+  .current-object__anchor[data-placement='whale'] {
+    transform: translate3d(clamp(4rem, 12vw, 8rem), 0.8rem, 0) rotate(4deg);
+  }
+
+  .object-drawer {
+    align-self: start;
+    background: rgb(255 250 240 / 58%);
+    border: 1px solid rgb(75 46 28 / 20%);
+    border-radius: 1rem;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin: 0 auto;
+    max-width: 58rem;
+    min-inline-size: 0;
+    padding: 0.45rem 0.55rem 0.5rem;
+    width: 100%;
+  }
+
+  .object-drawer__heading {
+    align-items: baseline;
+    display: flex;
+    gap: 0.75rem;
+    justify-content: space-between;
+    padding: 0.05rem 0.25rem 0.22rem;
+  }
+
+  .object-drawer__heading strong {
+    color: #6e4629;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .object-drawer__heading span {
+    color: var(--muted);
+    font-size: 0.68rem;
+  }
+
+  .object-drawer__rail {
+    display: grid;
+    gap: 0.45rem;
+    grid-auto-columns: clamp(4.75rem, 7vw, 5.6rem);
+    grid-auto-flow: column;
+    list-style: none;
+    margin: 0;
+    min-width: 0;
+    overscroll-behavior-inline: contain;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.32rem 0.25rem 0.58rem;
+    scroll-padding-inline: 0.4rem;
+    scroll-snap-type: inline proximity;
+    scrollbar-color: rgb(112 73 43 / 54%) rgb(112 73 43 / 10%);
+    scrollbar-width: thin;
+  }
+
+  .object-drawer__rail::-webkit-scrollbar {
+    height: 0.55rem;
+  }
+
+  .object-drawer__rail::-webkit-scrollbar-thumb {
+    background: rgb(112 73 43 / 48%);
+    border: 2px solid transparent;
+    border-radius: 999px;
+    background-clip: padding-box;
+  }
+
+  .object-drawer__rail::-webkit-scrollbar-track {
+    background: rgb(112 73 43 / 9%);
+    border-radius: 999px;
+  }
+
+  .object-drawer__rail li {
+    min-width: 0;
+    position: relative;
+    scroll-snap-align: center;
+  }
+
+  .object-drawer__choice {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .object-drawer__choice + label {
+    align-items: center;
+    background: rgb(255 250 240 / 78%);
+    border: 1px solid rgb(75 46 28 / 22%);
+    border-radius: 0.8rem;
+    color: #63442f;
+    cursor: pointer;
+    display: grid;
+    font-size: 0.66rem;
+    font-weight: 650;
+    gap: 0.12rem;
+    grid-template-rows: minmax(0, 1fr) auto;
+    height: 5.4rem;
+    justify-items: center;
+    padding: 0.38rem 0.32rem 0.34rem;
+    position: relative;
+    transition:
+      background 150ms ease,
+      border-color 150ms ease,
+      box-shadow 150ms ease,
+      transform 150ms ease;
+    user-select: none;
+  }
+
+  .object-drawer__choice + label img {
+    display: block;
+    height: 3.3rem;
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    width: 3.3rem;
+  }
+
+  .object-drawer__choice + label span {
+    line-height: 1;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .object-drawer__choice[data-current='true'] + label::after {
+    background: #8b552a;
+    border-radius: 999px;
+    color: #fffaf0;
+    content: 'Next';
+    font-size: 0.46rem;
+    font-weight: 750;
+    letter-spacing: 0.035em;
+    line-height: 1;
+    padding: 0.18rem 0.28rem;
+    position: absolute;
+    right: 0.26rem;
+    text-transform: uppercase;
+    top: 0.26rem;
+  }
+
+  .object-drawer__choice:checked + label {
+    background: #fff4d9;
+    border-color: #9c642e;
+    box-shadow: 0 0 0 2px rgb(208 139 54 / 22%) inset;
+    transform: translateY(-1px);
+  }
+
+  .object-drawer__choice:focus-visible + label {
+    outline: 3px solid #d08b36;
+    outline-offset: 2px;
+  }
+
+  .object-drawer:not(:disabled) .object-drawer__choice + label:hover {
+    background: #fff7e8;
+    border-color: rgb(75 46 28 / 42%);
+    transform: translateY(-1px);
+  }
+
+  .object-drawer:disabled .object-drawer__choice + label {
+    cursor: wait;
+    opacity: 0.72;
+  }
+
+  .placement-controls,
+  .answer-choices,
+  .name-form {
+    align-self: start;
+    grid-column: 1 / -1;
+    margin: 0 auto;
+    max-width: 58rem;
+    width: 100%;
+  }
+
+  .placement-controls {
+    grid-row: 3;
+  }
+
+  .answer-choices,
+  .name-form {
+    grid-row: 2;
+  }
+
+  .voice-toggle {
+    align-items: center;
+    align-self: start;
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+    color: var(--muted);
+    cursor: pointer;
+    display: inline-flex;
+    font: 650 0.72rem/1 var(--workshop-sans);
+    gap: 0.48rem;
+    grid-column: 1 / -1;
+    grid-row: 4;
+    justify-self: end;
+    min-height: 2.35rem;
+    padding: 0.55rem 0.72rem;
+    transition:
+      background 160ms ease,
+      color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .voice-toggle:hover {
+    background: rgb(255 250 240 / 72%);
+    color: #513421;
+    transform: translateY(-1px);
+  }
+
+  .voice-toggle:focus-visible {
+    outline: 3px solid #d08b36;
+    outline-offset: 2px;
+  }
+
+  .voice-toggle:disabled {
+    cursor: default;
+    opacity: 0.56;
+    transform: none;
+  }
+
+  .voice-toggle__mark {
+    background: currentColor;
+    clip-path: polygon(0 34%, 36% 34%, 78% 0, 78% 100%, 36% 66%, 0 66%);
+    display: block;
+    height: 0.74rem;
+    position: relative;
+    width: 0.78rem;
+  }
+
+  .voice-toggle__mark::after {
+    border: 1.5px solid currentColor;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-radius: 50%;
+    border-top-color: transparent;
+    content: '';
+    height: 0.7rem;
+    left: 0.48rem;
+    opacity: 0;
+    position: absolute;
+    top: 0.02rem;
+    transform: rotate(0deg);
+    width: 0.42rem;
+  }
+
+  .voice-toggle[aria-pressed='true'] {
+    color: #8b552a;
+  }
+
+  .voice-toggle[aria-pressed='true'] .voice-toggle__mark::after {
+    opacity: 1;
+  }
+
+  .placement-controls,
+  .answer-choices > div {
+    display: grid;
+    gap: clamp(0.35rem, 1vw, 0.7rem);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .placement-controls button,
+  .answer-choices button,
+  .name-form button {
+    background: rgb(255 250 240 / 76%);
+    border: 1px solid rgb(75 46 28 / 30%);
+    border-radius: 999px;
+    color: #513421;
+    cursor: pointer;
+    font: 600 clamp(0.74rem, 1.2vw, 0.92rem)/1.2 var(--workshop-sans);
+    min-height: 3rem;
+    padding: 0.75rem 0.9rem;
+    transition:
+      background 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease,
+      transform 150ms ease;
+  }
+
+  .placement-controls button:hover,
+  .answer-choices button:hover,
+  .name-form button:hover {
+    background: #4a2d1b;
+    border-color: #4a2d1b;
+    color: #fff7e7;
+    transform: translateY(-1px);
+  }
+
+  .placement-controls button:focus-visible,
+  .answer-choices button:focus-visible,
+  .name-form button:focus-visible,
+  .name-form input:focus-visible {
+    outline: 3px solid #d08b36;
+    outline-offset: 3px;
+  }
+
+  .answer-choices {
+    border: 0;
+    padding: 0;
+  }
+
+  .answer-choices legend {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin: 0 auto 0.55rem;
+    text-align: center;
+  }
+
+  .name-form {
+    max-width: 28rem;
+  }
+
+  .name-form > label {
+    color: var(--muted);
+    display: block;
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    margin: 0 0 0.35rem 0.85rem;
+    text-transform: uppercase;
+  }
+
+  .name-form > div {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .name-form input {
+    background: rgb(255 250 240 / 92%);
+    border: 1px solid rgb(75 46 28 / 32%);
+    border-radius: 999px;
+    color: var(--ink);
+    font: 600 1rem/1 var(--workshop-sans);
+    min-height: 3rem;
+    min-width: 0;
+    padding: 0.75rem 1rem;
+  }
+
+  .name-form button {
+    padding-inline: 1.15rem;
+  }
+
+  .name-form > p {
+    color: #9a3c2f;
+    font-size: 0.76rem;
+    margin: 0.4rem 0 0 0.85rem;
+    min-height: 1rem;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  .current-object__anchor.is-arriving {
+    animation: object-arrive 620ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .current-object__anchor.is-handled .current-object__art {
+    animation: object-handle 2.2s ease-in-out;
+  }
+
+  .character.is-speaking [data-voice-part='head'],
+  .character.is-speaking [data-voice-part='fur'],
+  .character.is-speaking [data-voice-part='nose'] {
+    transform: translate(0, -0.12%);
+  }
+
+  .character.is-acting [data-voice-part='head'] {
+    transform: rotate(-0.7deg);
+  }
+
+  .character.is-acting [data-voice-part='paw-left'] {
+    transform: rotate(-1.8deg);
+  }
+
+  .character.is-acting [data-voice-part='paw-right'] {
+    transform: rotate(1.8deg);
+  }
+
+  .character.is-thinking [data-voice-part='head'] {
+    transform: rotate(-0.85deg);
+  }
+
+  .character.is-thinking [data-voice-part='eye-left'],
+  .character.is-thinking [data-voice-part='eye-right'] {
+    transform: translate(-0.18%, 0.08%);
+  }
+
+  .character.is-bright [data-voice-part='head'] {
+    transform: translate(0, -0.28%) scale(1.004);
+  }
+
+  .character.is-bright [data-voice-part='ear-left'] {
+    transform: rotate(-1.2deg);
+  }
+
+  .character.is-bright [data-voice-part='ear-right'] {
+    transform: rotate(1.2deg);
+  }
+
+  .character.is-paused [data-voice-part='chest'] {
+    transform: scale(1.001, 0.999);
+  }
+
+  .character.is-looking-outward [data-voice-part='eye-left'],
+  .character.is-looking-outward [data-voice-part='eye-right'] {
+    transform: translate(0.24%, -0.04%);
+  }
+
+  @keyframes object-arrive {
+    0% { opacity: 0; transform: translate3d(0, -0.9rem, 0) scale(0.82); }
+    68% { opacity: 1; transform: translate3d(0, 0.12rem, 0) scale(1.04); }
+    100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+  }
+
+  @keyframes welcome-drift {
+    0%, 100% { transform: translate3d(0, 0, 0) rotate(-0.22deg); }
+    50% { transform: translate3d(0, -0.16rem, 0) rotate(0.18deg); }
+  }
+
+  @keyframes object-handle {
+    0%, 100% { transform: translate3d(0, 0, 0) rotate(0); }
+    42% { transform: translate3d(0, -0.18rem, 0) rotate(-1.2deg); }
+    68% { transform: translate3d(0, -0.06rem, 0) rotate(0.7deg); }
+  }
+
+  @media (max-width: 48rem) {
+    .prologue {
+      padding: 0.65rem;
+    }
+
+    .prologue__stage {
+      gap: 0.3rem;
+      grid-template-columns: minmax(0, 1fr) clamp(3.8rem, 17vw, 5.2rem) minmax(0, 1fr);
+      grid-template-rows: auto auto auto auto auto;
+      min-height: calc(100svh - 1.3rem);
+    }
+
+    .workshop-welcome {
+      align-self: start;
+      grid-column: 1 / -1;
+      grid-row: 1;
+      justify-self: center;
+      left: auto;
+      max-width: 36rem;
+      position: relative;
+      top: auto;
+      transform: none;
+      width: min(100%, 36rem);
+    }
+
+    .workshop-welcome__float {
+      filter: drop-shadow(0 0.45rem 0.5rem rgb(75 46 28 / 9%));
+    }
+
+    .workshop-welcome__plaque {
+      border-width: 0.15rem;
+      border-radius: 1.7rem 1.6rem 1.45rem 1.55rem / 1.35rem 1.45rem 1.2rem 1.3rem;
+      gap: 0.35rem;
+      grid-template-columns: 2.55rem minmax(0, 1fr) 2.55rem;
+      min-height: 5.1rem;
+      padding: 0.48rem 0.55rem 0.55rem;
+    }
+
+    .workshop-welcome__plaque::after {
+      inset: 0.34rem;
+    }
+
+    .workshop-welcome__kicker {
+      border-width: 1px;
+      font-size: 0.68rem;
+      margin-bottom: 0.18rem;
+      padding: 0.25rem 0.55rem 0.22rem;
+    }
+
+    .workshop-welcome h1 {
+      font-size: clamp(1.42rem, 6.8vw, 2.15rem);
+      line-height: 0.92;
+    }
+
+    .workshop-welcome__tagline {
+      font-size: clamp(0.72rem, 2.4vw, 0.8rem);
+      margin-top: 0.24rem;
+    }
+
+    .workshop-welcome__leaf,
+    .workshop-welcome__ripples {
+      height: 2.5rem;
+      width: 2.5rem;
+    }
+
+    .character--pyotter,
+    .current-object,
+    .character--mikwhale {
+      grid-row: 2;
+    }
+
+    .object-drawer,
+    .answer-choices,
+    .name-form {
+      grid-row: 3;
+    }
+
+    .placement-controls {
+      grid-row: 4;
+    }
+
+    .voice-toggle {
+      grid-row: 5;
+    }
+
+    .character__art {
+      height: clamp(10.5rem, 45vw, 14rem);
+    }
+
+    .character--mikwhale .character__art {
+      height: clamp(11rem, 47vw, 14.7rem);
+    }
+
+    .character figcaption {
+      font-size: 0.66rem;
+      line-height: 1.05;
+      min-height: 1.4rem;
+    }
+
+    .dialogue {
+      border-radius: 0.8rem;
+      min-height: 6.4rem;
+      padding: 0.58rem 0.65rem 0.65rem;
+    }
+
+    .dialogue p {
+      font-size: clamp(0.76rem, 3vw, 0.88rem);
+      line-height: 1.28;
+    }
+
+    .current-object {
+      margin-bottom: 2.4rem;
+    }
+
+    .current-object__anchor {
+      height: clamp(3.8rem, 17vw, 5rem);
+      width: clamp(3.8rem, 17vw, 5rem);
+    }
+
+    .current-object p {
+      font-size: 0.64rem;
+      line-height: 1.05;
+    }
+
+    .object-drawer {
+      border-radius: 0.82rem;
+      padding: 0.38rem 0.35rem 0.42rem;
+    }
+
+    .object-drawer__rail {
+      gap: 0.35rem;
+      grid-auto-columns: 4.35rem;
+      padding-inline: 0.22rem;
+    }
+
+    .object-drawer__choice + label {
+      border-radius: 0.68rem;
+      font-size: 0.61rem;
+      height: 4.8rem;
+      padding: 0.3rem 0.25rem;
+    }
+
+    .object-drawer__choice + label img {
+      height: 2.9rem;
+      width: 2.9rem;
+    }
+
+    .placement-controls,
+    .answer-choices > div {
+      gap: 0.28rem;
+    }
+
+    .placement-controls button,
+    .answer-choices button {
+      border-radius: 0.72rem;
+      font-size: 0.69rem;
+      min-height: 3.15rem;
+      padding: 0.55rem 0.35rem;
+    }
+
+    .name-form {
+      max-width: 24rem;
+    }
+  }
+
+  @media (min-width: 48.01rem) and (max-height: 52rem) {
+    .prologue {
+      padding: clamp(0.5rem, 1.4vh, 0.8rem);
+    }
+
+    .prologue__stage {
+      gap: clamp(0.3rem, 1vh, 0.65rem);
+      min-height: calc(100svh - 2rem);
+    }
+
+    .workshop-welcome {
+      max-width: 24rem;
+      top: 0.25rem;
+      width: min(36vw, 24rem);
+    }
+
+    .workshop-welcome__plaque {
+      border-width: 0.15rem;
+      grid-template-columns: 2.15rem minmax(0, 1fr) 2.15rem;
+      min-height: 4.3rem;
+      padding: 0.38rem 0.5rem 0.43rem;
+    }
+
+    .workshop-welcome__plaque::after {
+      inset: 0.28rem;
+    }
+
+    .workshop-welcome__kicker {
+      border-width: 1px;
+      font-size: 0.5rem;
+      margin-bottom: 0.12rem;
+      padding: 0.2rem 0.45rem 0.18rem;
+    }
+
+    .workshop-welcome h1 {
+      font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+    }
+
+    .workshop-welcome__tagline {
+      font-size: 0.62rem;
+      margin-top: 0.14rem;
+    }
+
+    .workshop-welcome__leaf,
+    .workshop-welcome__ripples {
+      height: 2.15rem;
+      width: 2.15rem;
+    }
+
+    .character__art {
+      height: clamp(14rem, 46vh, 21rem);
+    }
+
+    .character--mikwhale .character__art {
+      height: clamp(14.6rem, 47.5vh, 21.8rem);
+    }
+
+    .dialogue {
+      margin-bottom: 0.35rem;
+      min-height: 4.8rem;
+      padding: 0.58rem 0.72rem 0.62rem;
+    }
+
+    .object-drawer__choice + label {
+      height: 4.75rem;
+    }
+
+    .object-drawer__choice + label img {
+      height: 2.8rem;
+      width: 2.8rem;
+    }
+  }
+
+  @media (min-width: 48.01rem) and (max-height: 32rem) {
+    .prologue {
+      padding: 0.35rem;
+    }
+
+    .prologue__stage {
+      gap: 0.2rem;
+      min-height: calc(100svh - 0.7rem);
+    }
+
+    .character__art {
+      height: clamp(9rem, 37svh, 12rem);
+    }
+
+    .character--mikwhale .character__art {
+      height: clamp(9.4rem, 38.5svh, 12.5rem);
+    }
+
+    .character figcaption {
+      font-size: 0.62rem;
+      margin-top: 0.1rem;
+      min-height: 1.1rem;
+    }
+
+    .object-drawer {
+      padding-block: 0.3rem 0.34rem;
+    }
+
+    .object-drawer__rail {
+      padding-block: 0.2rem 0.38rem;
+    }
+
+    .object-drawer__choice + label {
+      height: 4.25rem;
+    }
+
+    .object-drawer__choice + label img {
+      height: 2.45rem;
+      width: 2.45rem;
+    }
+
+    .voice-toggle {
+      min-height: 2rem;
+      padding-block: 0.4rem;
+    }
+  }
+
+  @media (max-width: 23rem) {
+    .workshop-welcome__plaque {
+      grid-template-columns: minmax(0, 1fr);
+      min-height: 4.75rem;
+      padding-inline: 0.65rem;
+    }
+
+    .workshop-welcome h1 {
+      font-size: 1.5rem;
+    }
+
+    .workshop-welcome__tagline {
+      font-size: 0.72rem;
+    }
+
+    .workshop-welcome__leaf,
+    .workshop-welcome__ripples {
+      display: none;
+    }
+
+    .dialogue {
+      min-height: 7rem;
+    }
+
+    .character__art {
+      height: 9.8rem;
+    }
+
+    .character--mikwhale .character__art {
+      height: 10.2rem;
+    }
+
+    .placement-controls button,
+    .answer-choices button {
+      font-size: 0.63rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .workshop-welcome__float,
+    .current-object__anchor,
+    .current-object__art,
+    .character__performance,
+    .character__idle,
+    .puppet__part,
+    .puppet__voice-layer {
+      animation: none !important;
+      transition: none !important;
+      transform: none !important;
+    }
+
+    .workshop-welcome__plaque {
+      transition: none !important;
+    }
+
+    .character__mouth,
+    .character__mouth-tongue {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+</style>
