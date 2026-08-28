@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: add Triton Tidepool as a documented research-systems project and integrate it into the portfolio.
-- Status: page and cross-site integration verified and approved for production release on `main`.
+- Status: published to `main` and verified in production.
 
 ## Completed
 
@@ -13,6 +13,7 @@
 - Verified the production build, desktop and 390 px layouts, Pip’s three steps and pocketLLM destination, and no horizontal overflow. Left the local Tidepool preview open.
 - Added a muted independence notice directly below Pip on Tidepool, stating that the project is not affiliated with, endorsed by, sponsored by, or supported by UC San Diego, UC San Diego Athletics, or The Regents of the University of California. Verified its desktop and 390 px placement.
 - Removed boundary/bounded wording from the Tidepool page and recast the affected passages around original structure, risk controls, pagination, correction attempts, and deliberately limited integrations.
+- Released the complete Tidepool batch in commit `2eebad6`; GitHub Pages completed successfully and the live URL returned HTTP 200 with the title, independence notice, and revised language present.
 - Added “Self-Inflicted Pain as Error Correction in Childhood and Adolescence” as a 53-page independent academic research proposal with an embedded and downloadable PDF.
 - Replaced 26 formulaic or overconfident passages without changing the proposed-study status or removing safety boundaries.
 - Verified all 46 original DOI references and two government sources; added three directly relevant sources and qualified the novelty claim to dated PubMed and ClinicalTrials.gov searches.
@@ -68,7 +69,7 @@
 
 ## Next
 
-1. Confirm the GitHub Pages workflow completes for this `main` release.
+1. Await review or a deliberately selected, privacy-safe Tidepool visual.
 
 ## Risks
 
