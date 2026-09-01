@@ -67,13 +67,8 @@ if (!existsSync(swcPath)) {
     if (!swcHtml.includes(`href="${anchor}"`)) failures.push(`swc/index.html: missing section tab ${anchor}`);
   }
   for (const download of [
-    '/documents/swc/yard-roster-template.xlsx',
-    '/documents/swc/yard-class-sign-in-sheet.xlsx',
-    '/documents/swc/swc-loaner-laptop-agreement.docx',
-    '/documents/swc/swc-office-sign-in-sheet.xlsx',
-    '/documents/swc/swc-event-sign-in-sheet.xlsx',
-    '/documents/swc/swc-onboarding.docx',
-    '/documents/swc/swc-resources.docx',
+    '/documents/swc/yard-roster-template-pack.zip',
+    '/documents/swc/yard-class-sign-in-template-pack.zip',
     '/documents/swc/pdf/swc-rising-scholar-resource-list.pdf',
     '/documents/swc/pdf/swc-chula-vista-campus-map-and-books-supplies.pdf',
     '/documents/swc/pdf/swc-rising-scholar-launch-checklist.pdf',
@@ -84,6 +79,20 @@ if (!existsSync(swcPath)) {
     if (!swcHtml.includes(`href="${download}" download`) || !existsSync(join(output, download))) {
       failures.push(`swc/index.html: missing download ${download}`);
     }
+    if (swcHtml.split(`href="${download}"`).length - 1 !== 1) {
+      failures.push(`swc/index.html: download must appear exactly once ${download}`);
+    }
+  }
+  for (const retiredDownload of [
+    '/documents/swc/yard-roster-template.xlsx',
+    '/documents/swc/yard-class-sign-in-sheet.xlsx',
+    '/documents/swc/swc-loaner-laptop-agreement.docx',
+    '/documents/swc/swc-office-sign-in-sheet.xlsx',
+    '/documents/swc/swc-event-sign-in-sheet.xlsx',
+    '/documents/swc/swc-onboarding.docx',
+    '/documents/swc/swc-resources.docx',
+  ]) {
+    if (swcHtml.includes(retiredDownload)) failures.push(`swc/index.html: retired substitute remains linked ${retiredDownload}`);
   }
   for (const [resourceTitle, href] of [
     ['SWC Letterhead', 'https://docs.google.com/document/d/1pS-xkTVeqI3PnUSKG9ZBryxfJSb4rD32/edit?usp=drivesdk&ouid=115571851172085175998&rtpof=true&sd=true'],
@@ -129,11 +138,13 @@ if (!existsSync(swcPath)) {
     || !swcHtml.includes('Unofficial resource.')
     || !swcHtml.includes('Ctrl</kbd> + <kbd>F</kbd> searches everything')
     || !swcHtml.includes('Drive access may require your SWC account.')
-    || !swcHtml.includes('Never enter passwords.')
-    || !swcHtml.includes('security-updated to remove password fields')
+    || !swcHtml.includes('Source-faithful files.')
+    || !swcHtml.includes('Original source needed. No substitute form is being provided.')
+    || !swcHtml.includes('Original wording preserved.')
+    || !swcHtml.includes('never store passwords in shared or public copies')
     || !swcHtml.includes('Never upload completed copies here.')
-    || swcHtml.includes('contains password fields')) {
-    failures.push('swc/index.html: public-safety, unofficial, access, or whole-page search guidance is missing');
+    || swcHtml.includes('security-updated to remove password fields')) {
+    failures.push('swc/index.html: source-fidelity, safety, access, or whole-page search guidance is missing');
   }
 }
 for (const file of contentHtmlFiles) {
