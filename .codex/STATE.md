@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: publish a compact, public-safe `/swc/` student-worker handoff hub
-- Status: source-fidelity correction verified locally; publication pending
+- Status: source-fidelity correction complete and live at `https://boomerrawlings.com/swc/`
 
 ## Completed
 
@@ -30,12 +30,12 @@
 - Six corrected PDFs match the source pages at content-stream, embedded-image, and render levels; launch checklist original wording is restored.
 - All 58 sheets across seven YARD workbooks match source headers, layout, print areas, page setup, margins, and view state; no student data or hidden residual strings remain.
 - `npm test` and `git diff --check` pass with the corrected assets and source-fidelity assertions.
-- Existing production remains at commit `6d3c303` until the correction build is verified and published.
+- Commit `d7e99a0` passed the GitHub Pages workflow on 2026-09-01.
+- Live `/swc/` has the corrected labels and source-fidelity notice; all eight current local downloads return HTTP 200 and match local SHA-256 hashes. Seven retired substitute URLs return 404.
 
 ## Next
 
-1. Commit, push, monitor Pages, and verify corrected live downloads.
-2. Obtain the original Event Sign-In file; Canva must be reconnected or the file attached.
+1. Obtain the original Event Sign-In file; Canva must be reconnected or the file attached.
 
 ## Risks
 
