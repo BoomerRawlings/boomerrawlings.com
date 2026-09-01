@@ -14,7 +14,8 @@ export default defineConfig({
     sitemap({
       filter: (page) =>
         page !== 'https://boomerrawlings.com/photography/' &&
-        page !== 'https://boomerrawlings.com/aristotter/',
+        page !== 'https://boomerrawlings.com/aristotter/' &&
+        page !== 'https://boomerrawlings.com/swc/',
     }),
   ],
 });

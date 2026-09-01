@@ -1,0 +1,232 @@
+---
+import '@fontsource/source-sans-3/latin-400.css';
+import '@fontsource/source-sans-3/latin-600.css';
+import '@fontsource/source-sans-3/latin-700.css';
+
+const title = 'SWC Student Worker Hub';
+const description = 'A compact, unofficial handoff page for Southwestern College student-worker workflows, templates, and end-of-shift notes.';
+const canonical = 'https://boomerrawlings.com/swc/';
+const socialImage = 'https://boomerrawlings.com/images/swc-student-worker-hub-social.png';
+const tabs = [
+  ['Start here', '#start'],
+  ['Workflows', '#workflows'],
+  ['Downloads', '#downloads'],
+  ['Handoff', '#handoff'],
+  ['Official links', '#official-links'],
+] as const;
+const workflows = [
+  {
+    number: '01',
+    title: 'Start a request',
+    summary: 'Clarify the outcome before touching the files.',
+    steps: [
+      'Read the whole request. Identify the expected result, deadline, and person who approves it.',
+      'Locate the current source in the approved SWC system. Do not copy protected material to personal storage.',
+      'If the request is incomplete, contradictory, or urgent, pause and ask the supervisor before proceeding.',
+      'Create a clearly named working copy and keep the original intact.',
+    ],
+    finish: 'Ready to begin when the owner, due date, source, and next action are clear.',
+  },
+  {
+    number: '02',
+    title: 'Produce and review',
+    summary: 'Make the change, then check it like someone else will inherit it.',
+    steps: [
+      'Follow the request and save work in small, understandable revisions.',
+      'Check names, dates, spelling, links, permissions, and accessibility before delivery.',
+      'Keep editable source files with the final export when both are useful.',
+      'Ask for review when a change is public-facing, ambiguous, or difficult to reverse.',
+    ],
+    finish: 'Ready to deliver when the result matches the request and another worker can understand the files.',
+  },
+  {
+    number: '03',
+    title: 'Deliver and close',
+    summary: 'Leave a clear result instead of a trail of mystery files.',
+    steps: [
+      'Put the final file or link in the approved destination and confirm its permissions.',
+      'Send a short completion note: what changed, where it lives, and anything still pending.',
+      'Archive or label superseded drafts so the current version is obvious.',
+      'Record any follow-up, owner, and due date before marking the task complete.',
+    ],
+    finish: 'Closed when the recipient can open the result and the next action is documented.',
+  },
+  {
+    number: '04',
+    title: 'End the shift or week',
+    summary: 'Write the note your future self will wish existed.',
+    steps: [
+      'List completed work, active work, blockers, and the first next step for each open item.',
+      'Link to folders or records—never paste credentials or protected student information into the note.',
+      'Clean up downloads and local copies that should not remain on the device.',
+      'Send the status note through the agreed SWC channel before leaving.',
+    ],
+    finish: 'Done when someone else could continue the work without guessing.',
+  },
+] as const;
+const downloads = [
+  ['Weekly status template', 'Completed work, active work, blockers, and next actions.', '/documents/swc/weekly-status-template.md'],
+  ['Project handoff notes', 'Context, locations, decisions, and loose ends.', '/documents/swc/project-handoff-template.md'],
+  ['Accessibility preflight', 'Headings, links, images, documents, and media.', '/documents/swc/accessibility-preflight.md'],
+] as const;
+const officialLinks = [
+  ['Southwestern College', 'Official college website and current institutional information.', 'https://www.swccd.edu/'],
+  ['ACE guidelines and resources', 'Official writing, visual identity, event, and website resources.', 'https://www.swccd.edu/administration/advancement-and-community-engagement/ace-guidelines-and-resources.aspx'],
+  ['Visual identity guidelines', 'Approved rules for college colors, typography, and logo use.', 'https://www.swccd.edu/administration/advancement-and-community-engagement/_files/marketing_branding/visual_identity_guidelines.pdf'],
+  ['Website Rules of the Road', 'SWC guidance for useful, audience-first web content.', 'https://www.swccd.edu/administration/advancement-and-community-engagement/_files/resources/rules_of_road_start_here.pdf'],
+] as const;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="robots" content="noindex,nofollow,noarchive,noimageindex" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Boomer Rawlings" />
+    <meta name="theme-color" content="#9b2743" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:secure_url" content={socialImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="SWC Student Worker Hub — workflows, templates, and handoff." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content="SWC Student Worker Hub — workflows, templates, and handoff." />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to the handoff guide</a>
+    <header class="utility-header">
+      <a href="/" aria-label="Boomer Rawlings home">BoomerRawlings.com</a>
+      <span>Student worker handoff</span>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="page-title">
+        <div class="wrap hero-inner">
+          <p class="kicker">Southwestern College · student worker hub</p>
+          <h1 id="page-title">Pick up the work.<br />Know what happens next.</h1>
+          <p class="hero-copy">One practical page for starting a task, following a repeatable workflow, downloading a clean template, and leaving useful notes for whoever comes next.</p>
+          <p class="unofficial-note"><strong>Unofficial resource.</strong> Maintained on a personal website; Southwestern College policies and official systems take precedence.</p>
+        </div>
+      </section>
+
+      <nav class="section-tabs" aria-label="Page sections">
+        <div class="wrap tab-row">
+          {tabs.map(([label, href]) => <a href={href}>{label}</a>)}
+          <span class="find-hint"><kbd>Ctrl</kbd> + <kbd>F</kbd> searches everything</span>
+        </div>
+      </nav>
+
+      <section id="start" class="wrap content-section" aria-labelledby="start-heading">
+        <header class="section-heading"><span>01</span><div><p>Start here</p><h2 id="start-heading">Your first five minutes</h2></div></header>
+        <div class="start-grid">
+          <ol class="numbered-list">
+            <li><span>1</span><p>Read the latest handoff note and identify the highest-priority open item.</p></li>
+            <li><span>2</span><p>Confirm the expected result and deadline with the supervisor or request owner.</p></li>
+            <li><span>3</span><p>Open the source only in the approved SWC system and use your own account.</p></li>
+            <li><span>4</span><p>Choose the workflow below, then record your first next action.</p></li>
+          </ol>
+          <aside class="privacy-card" aria-labelledby="privacy-heading">
+            <p class="card-label">Public website</p>
+            <h3 id="privacy-heading">Keep private work private</h3>
+            <p>This page is public. Never place student records, grades, IDs, passwords, payroll details, private contact information, personnel documents, or unreleased materials here. Protected work belongs in an approved SWC system.</p>
+          </aside>
+        </div>
+        <aside class="local-details" aria-labelledby="details-heading">
+          <div><p class="card-label">Add before the final handoff</p><h3 id="details-heading">Three department-specific details</h3></div>
+          <ul><li>The official task-intake location</li><li>The approved working-file location</li><li>The supervisor or escalation channel</li></ul>
+        </aside>
+      </section>
+
+      <section id="workflows" class="wrap content-section" aria-labelledby="workflows-heading">
+        <header class="section-heading"><span>02</span><div><p>Workflows</p><h2 id="workflows-heading">A simple loop for most work</h2></div></header>
+        <div class="workflow-list">
+          {workflows.map((workflow, index) => (
+            <details open={index === 0}>
+              <summary>
+                <span class="workflow-number">{workflow.number}</span>
+                <span class="workflow-title"><strong>{workflow.title}</strong><small>{workflow.summary}</small></span>
+                <span class="disclosure" aria-hidden="true">+</span>
+              </summary>
+              <div class="workflow-body">
+                <ol>{workflow.steps.map((step) => <li>{step}</li>)}</ol>
+                <p><strong>Finish line:</strong> {workflow.finish}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section id="downloads" class="wrap content-section" aria-labelledby="downloads-heading">
+        <header class="section-heading"><span>03</span><div><p>Downloads</p><h2 id="downloads-heading">Clean starter templates</h2></div></header>
+        <div class="download-grid">
+          {downloads.map(([title, text, href]) => (
+            <a class="download-card" href={href} download>
+              <span class="file-type">MD</span><span><strong>{title}</strong><small>{text}</small></span><span class="arrow" aria-hidden="true">↓</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section id="handoff" class="wrap content-section" aria-labelledby="handoff-heading">
+        <header class="section-heading"><span>04</span><div><p>Final handoff</p><h2 id="handoff-heading">Leave the work ready to continue</h2></div></header>
+        <ul class="checklist">
+          <li><span aria-hidden="true"></span>Every active task has a status, owner, and first next action.</li>
+          <li><span aria-hidden="true"></span>Files are in the approved location with clear names and one obvious current version.</li>
+          <li><span aria-hidden="true"></span>Links and permissions were tested from the recipient’s point of view.</li>
+          <li><span aria-hidden="true"></span>Unfinished work, blockers, and deadlines are stated plainly.</li>
+          <li><span aria-hidden="true"></span>Private information and credentials are absent from notes, downloads, and personal devices.</li>
+          <li><span aria-hidden="true"></span>The supervisor or request owner received the final status note.</li>
+        </ul>
+      </section>
+
+      <section id="official-links" class="wrap content-section" aria-labelledby="official-heading">
+        <header class="section-heading"><span>05</span><div><p>Official links</p><h2 id="official-heading">When this page and SWC disagree, use SWC</h2></div></header>
+        <div class="official-grid">
+          {officialLinks.map(([title, text, href]) => (
+            <a href={href} target="_blank" rel="noopener noreferrer"><span><strong>{title}</strong><small>{text}</small></span><span aria-hidden="true">↗</span></a>
+          ))}
+        </div>
+      </section>
+    </main>
+
+    <footer class="page-footer"><p><strong>SWC Student Worker Hub</strong> · Unofficial handoff resource</p><p>Last reviewed September 1, 2026 · No official college logo is used on this page.</p></footer>
+  </body>
+</html>
+
+<style is:global>
+  :root{color-scheme:light;--burgundy:#9b2743;--burgundy-dark:#5c1427;--gold:#eaaa00;--gold-soft:#fff5cf;--paper:#fbfaf7;--ink:#2c2527;--muted:#6f6265;--rule:#ded5d2;--sans:'Source Sans 3',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--paper);font-family:var(--sans);scroll-behavior:smooth}
+  *{box-sizing:border-box}html{background:var(--paper);min-width:20rem}body{background:var(--paper);color:var(--ink);margin:0;min-height:100vh}a{color:inherit}p,h1,h2,h3{margin-top:0}.wrap{margin-inline:auto;max-width:72rem;padding-inline:1.5rem}
+  .skip-link{background:var(--burgundy-dark);color:#fff;left:0;padding:.75rem 1rem;position:fixed;top:0;transform:translateY(-120%);transition:transform 120ms ease;z-index:100}.skip-link:focus{transform:translateY(0)}
+  .utility-header{align-items:center;background:var(--burgundy-dark);border-top:.45rem solid var(--gold);color:#fff;display:flex;font-size:.82rem;justify-content:space-between;letter-spacing:.04em;padding:.85rem max(1.25rem,calc((100vw - 72rem)/2));text-transform:uppercase}.utility-header a{font-weight:700;text-underline-offset:.2em}.utility-header a:focus-visible{outline-color:var(--gold)}
+  .hero{background:radial-gradient(circle at 83% 22%,rgb(234 170 0/.22),transparent 23rem),linear-gradient(180deg,#fff,#fffdf7);border-bottom:1px solid var(--rule)}.hero-inner{padding-block:clamp(3.5rem,8vw,7rem) clamp(3rem,7vw,6rem)}
+  .kicker,.section-heading p,.card-label{color:var(--burgundy);font-size:.77rem;font-weight:700;letter-spacing:.14em;margin:0;text-transform:uppercase}h1{color:var(--burgundy-dark);font-size:clamp(3.15rem,8.8vw,6.8rem);font-weight:700;letter-spacing:-.055em;line-height:.91;margin:1.35rem 0 1.75rem;max-width:14ch}.hero-copy{color:#504548;font-size:clamp(1.13rem,2.2vw,1.42rem);line-height:1.55;max-width:42rem}.unofficial-note{border-left:.24rem solid var(--gold);color:var(--muted);line-height:1.5;margin:2rem 0 0;max-width:43rem;padding-left:1rem}
+  .section-tabs{background:rgb(251 250 247/.95);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:20}.tab-row{align-items:center;display:flex;gap:.55rem;overflow-x:auto;padding-block:.75rem;scrollbar-width:thin}.section-tabs a{background:#fff;border:1px solid var(--rule);border-radius:999px;flex:0 0 auto;font-size:.88rem;font-weight:600;padding:.55rem .9rem;text-decoration:none}.section-tabs a:hover,.section-tabs a:focus-visible{background:var(--gold-soft);border-color:var(--gold);color:var(--burgundy-dark)}.find-hint{align-items:center;color:var(--muted);display:flex;flex:0 0 auto;font-size:.78rem;gap:.3rem;margin-left:auto;padding-left:1rem}kbd{background:#fff;border:1px solid var(--rule);border-bottom-width:2px;border-radius:.28rem;font-family:var(--sans);font-size:.7rem;padding:.05rem .3rem}
+  .content-section{padding-block:clamp(3.75rem,8vw,6.5rem);scroll-margin-top:5rem}.content-section+.content-section{border-top:1px solid var(--rule)}.section-heading{align-items:start;display:grid;gap:1.1rem;grid-template-columns:2.4rem minmax(0,1fr);margin-bottom:2.4rem}.section-heading>span{color:var(--burgundy);font-size:.86rem;font-weight:700;letter-spacing:.1em;margin-top:.32rem}h2{color:var(--burgundy-dark);font-size:clamp(2rem,4.6vw,3.65rem);letter-spacing:-.035em;line-height:1;margin:.4rem 0 0}h3{color:var(--burgundy-dark);font-size:1.35rem;line-height:1.15}
+  .start-grid{display:grid;gap:1.5rem;grid-template-columns:minmax(0,1.25fr) minmax(18rem,.75fr)}.numbered-list{background:#fff;border:1px solid var(--rule);border-radius:1.2rem;list-style:none;margin:0;padding:.35rem 1.5rem}.numbered-list li{align-items:start;display:grid;gap:1rem;grid-template-columns:2rem minmax(0,1fr);padding:1.25rem 0}.numbered-list li+li{border-top:1px solid var(--rule)}.numbered-list span{align-items:center;background:var(--burgundy);border-radius:50%;color:#fff;display:flex;font-size:.83rem;font-weight:700;height:2rem;justify-content:center;width:2rem}.numbered-list p{line-height:1.55;margin:.2rem 0 0}.privacy-card{background:var(--gold-soft);border:1px solid rgb(234 170 0/.45);border-radius:1.2rem;padding:1.75rem}.privacy-card h3{margin:.65rem 0 .8rem}.privacy-card>p:last-child{color:#5f513b;line-height:1.62;margin-bottom:0}
+  .local-details{align-items:start;background:var(--burgundy-dark);border-radius:1.2rem;color:#fff;display:grid;gap:1.5rem 3rem;grid-template-columns:minmax(13rem,.7fr) minmax(0,1.3fr);margin-top:1.5rem;padding:1.75rem}.local-details .card-label{color:#f8d56a}.local-details h3{color:#fff;margin:.55rem 0 0}.local-details ul{display:grid;gap:.5rem;list-style:none;margin:0;padding:0}.local-details li:before{color:var(--gold);content:'→';margin-right:.65rem}
+  .workflow-list{border-top:1px solid var(--rule)}.workflow-list details{border-bottom:1px solid var(--rule)}summary{align-items:center;cursor:pointer;display:grid;gap:1rem;grid-template-columns:2.5rem minmax(0,1fr) 2rem;list-style:none;padding:1.35rem .2rem}summary::-webkit-details-marker{display:none}.workflow-number{color:var(--burgundy);font-size:.85rem;font-weight:700}.workflow-title strong,.workflow-title small{display:block}.workflow-title strong{color:var(--burgundy-dark);font-size:1.18rem}.workflow-title small{color:var(--muted);font-size:.92rem;margin-top:.2rem}.disclosure{color:var(--burgundy);font-size:1.55rem;justify-self:end;transition:transform 140ms ease}details[open] .disclosure{transform:rotate(45deg)}.workflow-body{margin:-.2rem 0 0 3.5rem;max-width:52rem;padding:0 0 1.7rem}.workflow-body ol{line-height:1.6;margin:0;padding-left:1.25rem}.workflow-body li+li{margin-top:.55rem}.workflow-body p{background:var(--gold-soft);border-left:.22rem solid var(--gold);line-height:1.5;margin:1.25rem 0 0;padding:.75rem .9rem}
+  .download-grid,.official-grid{display:grid;gap:.9rem;grid-template-columns:repeat(3,minmax(0,1fr))}.download-card{align-items:start;background:#fff;border:1px solid var(--rule);border-radius:1rem;display:grid;gap:.9rem;grid-template-columns:2.4rem minmax(0,1fr) auto;min-height:9.5rem;padding:1.3rem;text-decoration:none;transition:transform 140ms ease,box-shadow 140ms ease}.download-card:hover,.download-card:focus-visible{box-shadow:0 .7rem 2rem rgb(92 20 39/.08);transform:translateY(-2px)}.file-type{align-items:center;background:var(--burgundy);border-radius:.45rem;color:#fff;display:flex;font-size:.7rem;font-weight:700;height:2.4rem;justify-content:center;letter-spacing:.06em;width:2.4rem}.download-card strong,.download-card small,.official-grid strong,.official-grid small{display:block}.download-card strong,.official-grid strong{color:var(--burgundy-dark);font-size:1.03rem;line-height:1.2}.download-card small,.official-grid small{color:var(--muted);font-size:.86rem;line-height:1.45;margin-top:.45rem}.arrow{color:var(--burgundy);font-size:1.2rem;font-weight:700}
+  .checklist{columns:2;gap:3rem;list-style:none;margin:0;padding:0}.checklist li{break-inside:avoid;display:grid;gap:.8rem;grid-template-columns:1.25rem minmax(0,1fr);line-height:1.55;padding:.8rem 0}.checklist span{border:2px solid var(--burgundy);border-radius:.22rem;height:1rem;margin-top:.2rem;width:1rem}
+  .official-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.official-grid a{align-items:start;border-top:1px solid var(--rule);display:grid;gap:1rem;grid-template-columns:minmax(0,1fr) auto;padding:1.15rem 0;text-decoration:none}.official-grid a:hover strong,.official-grid a:focus-visible strong{color:var(--burgundy);text-decoration:underline;text-underline-offset:.2em}.official-grid a>span:last-child{color:var(--burgundy);font-size:1.1rem;font-weight:700}
+  .page-footer{align-items:end;background:var(--burgundy-dark);border-bottom:.45rem solid var(--gold);color:#fff;display:flex;font-size:.82rem;justify-content:space-between;padding:2rem max(1.5rem,calc((100vw - 69rem)/2))}.page-footer p{margin:0}.page-footer p:last-child{color:rgb(255 255 255/.72);text-align:right}:focus-visible{outline:3px solid var(--burgundy);outline-offset:3px}
+  @media(max-width:52rem){.find-hint{display:none}.start-grid,.local-details,.download-grid,.official-grid{grid-template-columns:minmax(0,1fr)}.download-card{min-height:0}.checklist{columns:1}.page-footer{align-items:start;display:grid;gap:.55rem}.page-footer p:last-child{text-align:left}}
+  @media(max-width:34rem){.utility-header{align-items:start;display:grid;gap:.25rem;padding-inline:1rem}.wrap{padding-inline:1rem}h1{font-size:clamp(2.75rem,16vw,4.25rem)}.section-heading{gap:.6rem;grid-template-columns:1.9rem minmax(0,1fr)}summary{gap:.65rem;grid-template-columns:2rem minmax(0,1fr) 1.4rem}.workflow-body{margin-left:0}.numbered-list,.privacy-card,.local-details{padding-inline:1.15rem}}
+  @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+  @media print{.utility-header,.section-tabs,.skip-link{display:none}.content-section{break-inside:avoid;padding-block:2rem}.workflow-list details:not([open])>*:not(summary){display:block}}
+</style>

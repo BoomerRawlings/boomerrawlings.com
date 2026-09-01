@@ -25,6 +25,7 @@ const redirectTargets = new Map([
 ]);
 const unlistedContentPaths = new Set([
   join('aristotter', 'index.html'),
+  join('swc', 'index.html'),
 ]);
 const contentHtmlFiles = htmlFiles.filter(
   (file) => {
@@ -35,9 +36,9 @@ const contentHtmlFiles = htmlFiles.filter(
 const unlistedHtmlFiles = htmlFiles.filter(
   (file) => unlistedContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 22 || unlistedHtmlFiles.length !== 1 || htmlFiles.length !== 27) {
+if (contentHtmlFiles.length !== 22 || unlistedHtmlFiles.length !== 2 || htmlFiles.length !== 28) {
   throw new Error(
-    `expected 22 public pages, 1 unlisted page, and 4 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 22 public pages, 2 unlisted pages, and 4 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
@@ -53,10 +54,40 @@ if (!existsSync(aristotterPath)) {
     failures.push('aristotter/index.html: private-link metadata is incomplete');
   }
 }
+const swcPath = join(output, 'swc', 'index.html');
+if (!existsSync(swcPath)) {
+  failures.push('swc/index.html: unlisted handoff page is missing');
+} else {
+  const swcHtml = readFileSync(swcPath, 'utf8');
+  if (!swcHtml.includes('<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">')
+    || !swcHtml.includes('<meta name="referrer" content="no-referrer">')) {
+    failures.push('swc/index.html: private-link metadata is incomplete');
+  }
+  for (const anchor of ['#start', '#workflows', '#downloads', '#handoff', '#official-links']) {
+    if (!swcHtml.includes(`href="${anchor}"`)) failures.push(`swc/index.html: missing section tab ${anchor}`);
+  }
+  for (const download of [
+    '/documents/swc/weekly-status-template.md',
+    '/documents/swc/project-handoff-template.md',
+    '/documents/swc/accessibility-preflight.md',
+  ]) {
+    if (!swcHtml.includes(`href="${download}" download`) || !existsSync(join(output, download))) {
+      failures.push(`swc/index.html: missing download ${download}`);
+    }
+  }
+  if (!swcHtml.includes('This page is public.')
+    || !swcHtml.includes('Unofficial resource.')
+    || !swcHtml.includes('Ctrl</kbd> + <kbd>F</kbd> searches everything')) {
+    failures.push('swc/index.html: public-safety, unofficial, or whole-page search guidance is missing');
+  }
+}
 for (const file of contentHtmlFiles) {
   const html = readFileSync(file, 'utf8');
   if (/href=["'][^"']*\/aristotter\/?(?:[?#][^"']*)?["']/i.test(html)) {
     failures.push(`${relative(output, file)}: public page links to the unlisted Aristotter route`);
+  }
+  if (/href=["'][^"']*\/swc\/?(?:[?#][^"']*)?["']/i.test(html)) {
+    failures.push(`${relative(output, file)}: public page links to the unlisted SWC route`);
   }
 }
 
@@ -1369,4 +1400,4 @@ for (const required of ['withastro/action@e84f40bd8d2caa9e768ec82ad30dd81f0b2808
 }
 
 if (failures.length) throw new Error(failures.join('\n'));
-console.log(`Verified ${contentHtmlFiles.length} public pages, ${unlistedHtmlFiles.length} unlisted page, and ${redirectTargets.size} redirects: metadata and local links pass.`);
+console.log(`Verified ${contentHtmlFiles.length} public pages, ${unlistedHtmlFiles.length} unlisted pages, and ${redirectTargets.size} redirects: metadata and local links pass.`);
