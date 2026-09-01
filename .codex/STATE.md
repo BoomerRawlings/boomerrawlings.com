@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: publish a compact, public-safe `/swc/` student-worker handoff hub
-- Status: expanded release complete locally; production deployment pending
+- Status: complete and live at `https://boomerrawlings.com/swc/`
 
 ## Completed
 
@@ -30,11 +30,13 @@
 - Final DOCX files render cleanly; accessibility audit has zero high-severity findings.
 - Six workbooks were visually reviewed; formula scans returned no errors.
 - Final resources guide is seven pages with a complete standalone handoff page.
+- Commit `6d3c303` passed the GitHub Pages workflow on 2026-09-01.
+- Live `/swc/` contains all contacts/resources/security guidance; all 13 local downloads return HTTP 200 with expected byte lengths.
 
 ## Next
 
-1. Commit and push the release.
-2. Verify GitHub Pages deployment, `/swc/`, and every local download.
+1. Grant access to the restricted Laptop/RJ Backpack Sheets only when approved.
+2. Recheck contacts, policies, and Drive permissions each term.
 
 ## Risks
 
