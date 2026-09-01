@@ -1,41 +1,43 @@
 # Project state
 
-- Mode: new task in existing project
-- Objective: publish a compact, by-link `/swc/` student-worker handoff page on boomerrawlings.com
-- Status: complete and live at `https://boomerrawlings.com/swc/`
-- Preserved paused work: Aristotter is present on `main`; prior local-only Pip/global-style changes mentioned by the old state were not present in this clean clone and were not touched
+- Mode: continuation
+- Objective: publish a compact, public-safe `/swc/` student-worker handoff hub
+- Status: expanded release complete locally; production deployment pending
 
 ## Completed
 
-- Added a standalone, no-JavaScript `/swc/` page with anchor-style section tabs so page content remains available to Ctrl+F.
-- Added concise start, workflow, download, final-handoff, and official-resource sections.
-- Added Markdown templates for weekly status, project handoff, and accessibility preflight.
-- Used official SWC burgundy/gold and a clear unofficial-resource label; no college logo was copied or recreated.
-- Kept the route unlisted/noindex and excluded it from the sitemap; this is obscurity, not access control.
-- Added a page-specific 1200×630 social preview with no official logo.
+- Kept one-page navigation with tabs and Ctrl+F-friendly headings.
+- Added seven local working files: YARD roster/class sign-in, office/event sign-in, loaner agreement, onboarding, and resources.
+- Split the supplied 10-page scan into six titled PDFs, dropping two blank pages and correcting page orientation.
+- Security-updated and flattened the launch checklist so it no longer asks students to record passwords.
+- Linked SWC letterhead plus Bookstore, Laptop, and RJ Backpack Drive lists; existing Drive permissions were preserved.
+- Populated verified contacts for Bookstore credit, SWC Cares, HECNC Student Services, Student Employment/Federal Work-Study, and HECNC IT.
+- Added Restorative Justice, service-desk, AODS, CADTP SUDRC, Work Experience, and Personal Wellness references. Amber is not listed.
 
 ## Decisions
 
-- Keep the page public-safe: never publish credentials, student/personnel records, payroll data, private contact information, or unreleased materials.
-- Keep department-specific task intake, storage, and escalation details as explicit follow-up items until verified values are supplied.
-- Preserve Astro/GitHub Pages architecture and the single verified production push flow.
-
-## Next
-
-1. Replace the three department-specific follow-up items when verified task-intake, storage, and escalation details are supplied.
-2. Add an official SWC logo only if an approved asset and permission are provided.
+- Manuel Burciaga Tarin is labeled Student Services, not current SWC Cares.
+- Karen Sanchez Jimenez is labeled Student Employment/Federal Work-Study, not Payroll.
+- Elizabeth uses SWC directory spelling “Sisco Parada.”
+- SWC Alcohol and Other Drug Studies is separated from CADTP’s external Registered SUD Counselor resources.
+- Public templates contain only blank/fictitious starter content; completed student records belong in approved restricted systems.
 
 ## Verified
 
-- `npm test` passes on 2026-09-01: Astro build, 22 public pages, 2 unlisted pages, 4 redirects, sitemap exclusions, local links, downloads, privacy metadata, and Little Workshop contracts.
+- `npm test` passes: Astro build, resource/contact/security assertions, sitemap exclusions, and project contracts.
 - `git diff --check` passes.
-- Local `/swc/` responds HTTP 200 and contains the page title and download links.
-- Social preview visually checked; required text is correct and the image is 1200×630.
-- Focus and text contrast reviewed; gold remains decorative or on dark burgundy, while light-surface text/focus indicators use accessible burgundy.
-- Commit `0ef43b7` passed the GitHub Pages workflow and deployed successfully on 2026-09-01.
-- Live `/swc/`, all three template downloads, and the social preview respond HTTP 200; `/swc` redirects to `/swc/` and renders the expected title, workflow navigation, and unofficial label.
+- Six PDFs open with expected page counts/orientation; output/public copies match.
+- Final DOCX files render cleanly; accessibility audit has zero high-severity findings.
+- Six workbooks were visually reviewed; formula scans returned no errors.
+- Final resources guide is seven pages with a complete standalone handoff page.
+
+## Next
+
+1. Commit and push the release.
+2. Verify GitHub Pages deployment, `/swc/`, and every local download.
 
 ## Risks
 
-- By-link plus `noindex` is not authentication.
-- SWC logo/brand assets require institutional authorization; use only approved source files if added later.
+- By-link plus `noindex` is not authentication; restricted Drive content depends on Drive permissions.
+- Laptop and RJ Backpack Sheets remain owner-restricted and may require deliberate access grants.
+- Working templates should be rechecked against current SWC policy each term.

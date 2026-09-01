@@ -63,22 +63,77 @@ if (!existsSync(swcPath)) {
     || !swcHtml.includes('<meta name="referrer" content="no-referrer">')) {
     failures.push('swc/index.html: private-link metadata is incomplete');
   }
-  for (const anchor of ['#start', '#workflows', '#downloads', '#handoff', '#official-links']) {
+  for (const anchor of ['#start', '#workflows', '#downloads', '#contacts', '#handoff', '#official-links']) {
     if (!swcHtml.includes(`href="${anchor}"`)) failures.push(`swc/index.html: missing section tab ${anchor}`);
   }
   for (const download of [
-    '/documents/swc/weekly-status-template.md',
-    '/documents/swc/project-handoff-template.md',
-    '/documents/swc/accessibility-preflight.md',
+    '/documents/swc/yard-roster-template.xlsx',
+    '/documents/swc/yard-class-sign-in-sheet.xlsx',
+    '/documents/swc/swc-loaner-laptop-agreement.docx',
+    '/documents/swc/swc-office-sign-in-sheet.xlsx',
+    '/documents/swc/swc-event-sign-in-sheet.xlsx',
+    '/documents/swc/swc-onboarding.docx',
+    '/documents/swc/swc-resources.docx',
+    '/documents/swc/pdf/swc-rising-scholar-resource-list.pdf',
+    '/documents/swc/pdf/swc-chula-vista-campus-map-and-books-supplies.pdf',
+    '/documents/swc/pdf/swc-rising-scholar-launch-checklist.pdf',
+    '/documents/swc/pdf/swc-laptop-loaner-checkout-process.pdf',
+    '/documents/swc/pdf/swc-rising-scholars-center-log.pdf',
+    '/documents/swc/pdf/swc-laptop-loaner-program-student-agreement.pdf',
   ]) {
     if (!swcHtml.includes(`href="${download}" download`) || !existsSync(join(output, download))) {
       failures.push(`swc/index.html: missing download ${download}`);
     }
   }
+  for (const [resourceTitle, href] of [
+    ['SWC Letterhead', 'https://docs.google.com/document/d/1pS-xkTVeqI3PnUSKG9ZBryxfJSb4rD32/edit?usp=drivesdk&ouid=115571851172085175998&rtpof=true&sd=true'],
+    ['SWC Bookstore List', 'https://docs.google.com/spreadsheets/d/1bUlSu97rNrwFdthF1Sju8ZKRKjnL_M5IFGzfhKzXjqw/edit?usp=drivesdk'],
+    ['SWC Laptop List', 'https://docs.google.com/spreadsheets/d/17-M83tEj2t8McKN-9G3HXS-pZD_aqZ8igxpy1xQIkRQ/edit?usp=drivesdk'],
+    ['SWC RJ Backpack List', 'https://docs.google.com/spreadsheets/d/1DE_i4nM10_J8s5GuFD-s-QLY2dz73QspT1R4fQzYJQE/edit?usp=drivesdk'],
+  ]) {
+    const escapedHref = href.replaceAll('&', '&amp;');
+    if (!swcHtml.includes(resourceTitle)
+      || !swcHtml.includes(`href="${escapedHref}" target="_blank" rel="noopener noreferrer"`)) {
+      failures.push(`swc/index.html: missing Drive link ${resourceTitle}`);
+    }
+  }
+  for (const contactName of [
+    'Jeanne Kaufman',
+    'Trina Eros',
+    'Paola Duarte Vargas',
+    'Manuel Burciaga Tarin',
+    'Sandra Salazar',
+    'Sarah Valdivia',
+    'Elizabeth Sisco Parada',
+    'Karen Sanchez Jimenez',
+    'Enrique Velez',
+    'Yessica Diaz Roman, DrPH',
+  ]) {
+    if (!swcHtml.includes(contactName)) failures.push(`swc/index.html: missing contact ${contactName}`);
+  }
+  for (const contactDetail of [
+    'Basic Needs Project Technician',
+    'HECNC Student Services',
+    'Student Employment Services',
+    'Instructional Lab Technician—Microcomputer',
+    'SWC Cares office',
+    'IT Help Desk',
+    'WorkAbility III · Jenny Nominni',
+    'CADTP registrant resources',
+    'Registered SUD Counselor',
+    'tel:+16194216700;ext=5334',
+  ]) {
+    if (!swcHtml.includes(contactDetail)) failures.push(`swc/index.html: missing verified contact detail ${contactDetail}`);
+  }
   if (!swcHtml.includes('This page is public.')
     || !swcHtml.includes('Unofficial resource.')
-    || !swcHtml.includes('Ctrl</kbd> + <kbd>F</kbd> searches everything')) {
-    failures.push('swc/index.html: public-safety, unofficial, or whole-page search guidance is missing');
+    || !swcHtml.includes('Ctrl</kbd> + <kbd>F</kbd> searches everything')
+    || !swcHtml.includes('Drive access may require your SWC account.')
+    || !swcHtml.includes('Never enter passwords.')
+    || !swcHtml.includes('security-updated to remove password fields')
+    || !swcHtml.includes('Never upload completed copies here.')
+    || swcHtml.includes('contains password fields')) {
+    failures.push('swc/index.html: public-safety, unofficial, access, or whole-page search guidance is missing');
   }
 }
 for (const file of contentHtmlFiles) {
