@@ -2,7 +2,7 @@
 
 - Mode: new task in existing project
 - Objective: publish a compact, by-link `/swc/` student-worker handoff page on boomerrawlings.com
-- Status: implementation and local verification complete; production push and live verification remain
+- Status: complete and live at `https://boomerrawlings.com/swc/`
 - Preserved paused work: Aristotter is present on `main`; prior local-only Pip/global-style changes mentioned by the old state were not present in this clean clone and were not touched
 
 ## Completed
@@ -22,8 +22,8 @@
 
 ## Next
 
-1. Commit one verified change and push `main`.
-2. Wait for GitHub Pages and verify `https://boomerrawlings.com/swc/` plus the three downloads.
+1. Replace the three department-specific follow-up items when verified task-intake, storage, and escalation details are supplied.
+2. Add an official SWC logo only if an approved asset and permission are provided.
 
 ## Verified
 
@@ -32,6 +32,8 @@
 - Local `/swc/` responds HTTP 200 and contains the page title and download links.
 - Social preview visually checked; required text is correct and the image is 1200×630.
 - Focus and text contrast reviewed; gold remains decorative or on dark burgundy, while light-surface text/focus indicators use accessible burgundy.
+- Commit `0ef43b7` passed the GitHub Pages workflow and deployed successfully on 2026-09-01.
+- Live `/swc/`, all three template downloads, and the social preview respond HTTP 200; `/swc` redirects to `/swc/` and renders the expected title, workflow navigation, and unofficial label.
 
 ## Risks
 
