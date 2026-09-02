@@ -2,7 +2,7 @@
 
 - Mode: continuation
 - Objective: maintain the public portfolio and unlisted SWC handoff hub while shipping the approved portfolio and Little Workshop updates.
-- Status: SWC source-fidelity corrections are live; the latest remote changes are integrated and the approved portfolio and workshop batch is verified for production.
+- Status: SWC source-fidelity corrections and the approved portfolio/workshop batch are live from commit `a160957`.
 - Preserve: source-faithful SWC documents, no student data, no credentials or machine-specific runtime state, and the existing `noindex` treatment for link-only material.
 
 ## Completed
@@ -31,11 +31,11 @@
 - Desktop and 390 × 844 checks found no horizontal overflow, covered footer controls, or Personal Search Router layout issues.
 - Mozilla Add-ons API verified Personal Search Router 1.0.1 as public.
 - Post-rebase `npm test` and `git diff --check` pass with both the SWC hub and portfolio/workshop updates on 2026-09-01.
+- GitHub Pages run `33592406313` completed successfully; live About and Projects returned HTTP 200 with the support widget, invitation, Personal Search Router blurb, and both public links.
 
 ## Next
 
-1. Push the verified main-branch batch and confirm GitHub Pages completes.
-2. Run the remaining physical-iPhone audio check when convenient.
+1. Run the remaining physical-iPhone audio check when convenient.
 
 ## Risks
 
