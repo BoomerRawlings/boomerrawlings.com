@@ -1,0 +1,528 @@
+{
+  "id": "little-workshop",
+  "version": 3,
+  "stage": "authored-prologue-alpha",
+  "workingTitle": "Little Workshop",
+  "doctrine": "LITTLE-WORKSHOP.md",
+  "worldviewContract": "worldview-spec.json",
+  "relationship": "PYOTTER-MIKWHALE.md",
+  "sources": [
+    {
+      "path": "little-workshop-concept-source.txt",
+      "sha256": "664FB83D9C67C5AD468A9C3A9B4A351C5FDED0570BE1ABD98174ACC752EA8177",
+      "status": "archived-future-concept",
+      "runtimeAuthority": false
+    },
+    {
+      "path": "little-workshop-room-source.txt",
+      "sha256": "F39635AA441F9AC4F95F3C434F9E7E1B8DA85B65A1C40BDF7B8923EFA338C879",
+      "status": "archived-future-concept",
+      "runtimeAuthority": false
+    }
+  ],
+  "implementation": {
+    "data": "../../data/little-workshop-prologue.ts",
+    "state": "../../scripts/little-workshop-state.ts",
+    "voice": "../../scripts/little-workshop-voice.ts",
+    "idle": "../../scripts/little-workshop-idle.ts",
+    "performance": "../../scripts/little-workshop-performance.ts",
+    "component": "../../components/LittleWorkshopScene.astro",
+    "puppets": {
+      "pyotter": "../../components/PyotterPuppet.astro",
+      "mikwhale": "../../components/MikwhalePuppet.astro"
+    },
+    "route": "../../pages/aristotter/index.astro",
+    "objectSprites": "objects"
+  },
+  "access": {
+    "linkPossessionOnly": true,
+    "authenticationImplemented": false,
+    "listedInNavigation": false,
+    "listedInSitemap": false,
+    "robots": [
+      "noindex",
+      "nofollow",
+      "noarchive",
+      "noimageindex"
+    ]
+  },
+  "surface": {
+    "projection": "flat-2d",
+    "characters": [
+      "pyotter",
+      "mikwhale"
+    ],
+    "layoutOrder": [
+      "pyotter",
+      "selected-object",
+      "mikwhale"
+    ],
+    "maximumVisibleSelectedObjectCount": 1,
+    "centerEmptyUntilObjectSelection": true,
+    "standardPlacementInteractions": [
+      1,
+      48
+    ],
+    "placementActions": [
+      {
+        "id": "otter",
+        "label": "Give to Otter"
+      },
+      {
+        "id": "middle",
+        "label": "Set Between Them"
+      },
+      {
+        "id": "whale",
+        "label": "Give to Whale"
+      }
+    ],
+    "objectDrawer": {
+      "interactions": [
+        1,
+        48
+      ],
+      "unlockMode": "progressive-through-current-interaction",
+      "duplicateObjectIds": "single-entry",
+      "selectionControl": "native-radio-group",
+      "visibleLabels": true,
+      "orientation": "horizontal",
+      "overflow": "scroll",
+      "visibleScrollbar": true,
+      "selectionRequiredBeforePlacement": true,
+      "currentAuthoredObjectAdvances": true,
+      "priorObjectReuseAdvances": false,
+      "hiddenAtInteractions": [
+        49,
+        50
+      ]
+    },
+    "physicalActionDurationMs": {
+      "minimum": 2000,
+      "maximum": 8000,
+      "currentBase": 2200,
+      "reducedMotion": 40
+    },
+    "puppetRendering": {
+      "mode": "untouched-base-art-with-transparent-articulated-overlays",
+      "baseArt": {
+        "singleWholeImagePerCharacter": true,
+        "alwaysVisible": true,
+        "animated": false,
+        "croppedIntoMovingPieces": false,
+        "purpose": "seam-safe-authoritative-character-render"
+      },
+      "overlayHierarchy": true,
+      "roleCount": 14,
+      "roles": [
+        "head",
+        "eye-left",
+        "eye-right",
+        "nose",
+        "fur",
+        "ear-left",
+        "ear-right",
+        "paw-left",
+        "paw-right",
+        "chest",
+        "torso",
+        "foot-left",
+        "foot-right",
+        "tail"
+      ],
+      "anatomicalMeaning": {
+        "pyotter": {
+          "nose": "nose",
+          "fur": "ruff",
+          "ears": "ears",
+          "paws": "paws",
+          "feet": "feet"
+        },
+        "mikwhale": {
+          "nose": "blowhole",
+          "fur": "beard",
+          "ears": "side-curls",
+          "paws": "flippers",
+          "feet": "flukes"
+        }
+      },
+      "animationLayers": {
+        "idleHook": "data-idle-part",
+        "speechHook": "data-voice-part",
+        "speechNestedInsideIdle": true,
+        "wholeCharacterPrimaryMotion": false
+      },
+      "eyelids": {
+        "kind": "dedicated-closed-eye-overlays",
+        "countPerCharacter": 2,
+        "defaultOpacity": 0,
+        "blinkProperty": "opacity",
+        "binocularSynchronization": true,
+        "baseEyesRemainUntouched": true
+      },
+      "mouth": "separate-svg-viseme-overlay"
+    },
+    "voice": {
+      "mode": "procedural-web-audio-animalese-style",
+      "defaultEnabled": false,
+      "explicitOptInRequired": true,
+      "trustedGestureUnlockRequired": true,
+      "preferencePersistence": "browser-device-local",
+      "preferenceStorageKey": "little-workshop-voice-preferences-v1",
+      "externalAudioAssets": false,
+      "networkRequests": false,
+      "speechService": false,
+      "maximumPlanDurationMs": 4000,
+      "deterministicInputs": [
+        "speaker",
+        "text",
+        "seed"
+      ],
+      "profiles": {
+        "pyotter": [
+          "high",
+          "bright",
+          "quick"
+        ],
+        "mikwhale": [
+          "low",
+          "warm",
+          "slower"
+        ]
+      },
+      "visemes": [
+        "rest",
+        "small",
+        "open",
+        "wide",
+        "round",
+        "smile"
+      ],
+      "visemeSynchronization": "shared-speech-plan-events",
+      "restoredOn": [
+        "finished",
+        "cancelled",
+        "interrupted",
+        "disabled",
+        "disposed"
+      ],
+      "reducedMotionMouth": "restrained-small-hold"
+    },
+    "idleAnimation": {
+      "engine": "web-animations-api",
+      "variantCountPerCharacter": 50,
+      "variantDurationMs": 20000,
+      "deterministic": true,
+      "uniquePerCharacter": true,
+      "canonicalPartTracksPerVariant": 14,
+      "partTransformsOnlyExceptEyelidOpacity": true,
+      "baseArtMotion": "none",
+      "wholeRigCompatibilityClock": "identity-only",
+      "identityStart": true,
+      "identityEnd": true,
+      "chaining": "independent-shuffled-full-library-passes",
+      "immediateCycleRepeatPrevented": true,
+      "coordination": {
+        "alwaysCoupled": [
+          "eye-left-and-eye-right",
+          "chest-and-torso"
+        ],
+        "semanticAccentGroups": [
+          "head-and-ears",
+          "paws-or-flippers",
+          "tail-and-feet-or-flukes",
+          "nose-or-blowhole-and-fur-or-beard"
+        ],
+        "inactiveRoles": "identity-only-tracks"
+      },
+      "eyelidBlink": "paired-opacity-overlays",
+      "visibilityLifecycle": {
+        "hidden": "pause",
+        "visible": "resume"
+      },
+      "reducedMotionLifecycle": {
+        "reduce": "cancel-to-identity",
+        "noPreference": "resume-independent-chaining"
+      },
+      "dispose": "cancel-and-remove-listeners"
+    },
+    "speechPerformance": {
+      "engine": "web-animations-api",
+      "source": "deterministic-speech-plan-seed-events-and-intensity",
+      "perFrameJavaScript": false,
+      "wholeCharacterMotion": false,
+      "maximumActivePartTracksPerUtterance": 9,
+      "identityStart": true,
+      "identityEnd": true,
+      "coordination": [
+        "shared-head-and-chest-phrase-rhythm",
+        "exactly-synchronized-binocular-eye-track",
+        "at-most-one-paw-or-flipper-gesture",
+        "ear-pair-or-tail-emphasis-never-both",
+        "sparse-nose-or-blowhole-and-fur-or-beard-secondary-motion",
+        "torso-and-feet-or-flukes-inherit-parent-motion"
+      ],
+      "speakerProfiles": {
+        "pyotter": "quick-bright-small-accents",
+        "mikwhale": "deep-measured-small-accents"
+      },
+      "visemeInput": "planned-motion-with-bounded-stronger-intensity-correction",
+      "cancelRecoveryMs": {
+        "pyotter": 130,
+        "mikwhale": 210
+      },
+      "reducedMotion": "cancel-to-identity",
+      "mouthOwnership": "voice-viseme-system-only"
+    },
+    "actionVocabulary": [
+      "excited",
+      "hand-over",
+      "inspect",
+      "look-at-object",
+      "look-forward",
+      "pause",
+      "pick-up",
+      "put-down",
+      "share",
+      "suspicious",
+      "toss"
+    ],
+    "dialogue": {
+      "position": "near-speaker",
+      "sentencesPerDisplayedUtterance": {
+        "minimum": 1,
+        "maximum": 3
+      },
+      "politeLiveAnnouncement": true
+    },
+    "excludedSystems": [
+      "room-simulation",
+      "camera",
+      "map",
+      "pathfinding",
+      "direct-character-movement",
+      "keyboard-movement",
+      "hud",
+      "inventory-management",
+      "crafting",
+      "resource-loop",
+      "openai-runtime",
+      "free-text-before-interaction-50"
+    ]
+  },
+  "prologue": {
+    "interactionCount": 50,
+    "authoredOrderedSequence": true,
+    "choiceModel": "state-based-linear-progression",
+    "choiceTreeExpansionAllowed": false,
+    "currentAuthoredObjectPlacementAdvancesOneInteraction": true,
+    "priorObjectReuseAdvancesInteraction": false,
+    "awareness": [
+      {
+        "range": [
+          1,
+          14
+        ],
+        "communicationLevelAfterCompletion": 0,
+        "mode": "unaware"
+      },
+      {
+        "range": [
+          15,
+          20
+        ],
+        "communicationLevelAfterCompletion": 0,
+        "mode": "unaware",
+        "vagueRepeatNoticeOnlyAt": 15
+      },
+      {
+        "range": [
+          21,
+          30
+        ],
+        "communicationLevelAfterCompletion": 1,
+        "mode": "placement-pattern"
+      },
+      {
+        "range": [
+          31,
+          38
+        ],
+        "communicationLevelAfterCompletion": 2,
+        "mode": "intentionality"
+      },
+      {
+        "range": [
+          39,
+          43
+        ],
+        "communicationLevelAfterCompletion": 3,
+        "mode": "restrained-outward-address"
+      },
+      {
+        "range": [
+          44,
+          46
+        ],
+        "communicationLevelAfterCompletion": 4,
+        "mode": "three-placement-communication-tests"
+      },
+      {
+        "range": [
+          47,
+          48
+        ],
+        "communicationLevelAfterCompletion": 5,
+        "mode": "answer-mapping"
+      },
+      {
+        "range": [
+          49,
+          49
+        ],
+        "communicationLevelAfterCompletion": 6,
+        "mode": "explicit-strawberry-choice"
+      },
+      {
+        "range": [
+          50,
+          50
+        ],
+        "communicationLevelAfterCompletion": 7,
+        "mode": "unicode-name-and-stop"
+      }
+    ],
+    "communicationTests": {
+      "range": [
+        44,
+        46
+      ],
+      "expectedTargets": {
+        "44": "otter",
+        "45": "middle",
+        "46": "whale"
+      },
+      "allPlacementsValid": true,
+      "complianceRequired": false,
+      "refusalEndsExchange": false
+    },
+    "answerMapping": {
+      "range": [
+        47,
+        48
+      ],
+      "otter": "yes",
+      "middle": "unsure",
+      "whale": "no"
+    },
+    "strawberry": {
+      "interaction": 49,
+      "inputKind": "placement-choice",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes.",
+          "placement": "otter"
+        },
+        {
+          "value": "never-tried",
+          "label": "Never tried one.",
+          "placement": "middle"
+        },
+        {
+          "value": "no",
+          "label": "No.",
+          "placement": "whale"
+        }
+      ]
+    },
+    "name": {
+      "interaction": 50,
+      "inputKind": "free-text",
+      "onlyFreeTextInput": true,
+      "unicodeNormalization": "NFC",
+      "maximumGraphemes": 40,
+      "blankAdvances": false,
+      "stopAfterValidName": true
+    }
+  },
+  "persistence": {
+    "implemented": true,
+    "scope": "browser-device-local",
+    "format": "versioned-json-envelope",
+    "version": 1,
+    "storageKey": "little-workshop-state",
+    "commitBoundary": "completed-semantic-interaction",
+    "objectReuseCommitBoundary": "completed-repeat-reaction",
+    "objectReusePreservesInteractionCount": true,
+    "restoreMidAnimation": "last-committed-interaction",
+    "crossDeviceSync": false,
+    "serverBackup": false,
+    "rawPointerTrailsStored": false,
+    "animationFramesStored": false,
+    "requiredCounters": [
+      "interaction_count",
+      "communication_level",
+      "otter_gifts",
+      "middle_placements",
+      "whale_gifts",
+      "sharing_choices",
+      "autonomy_choices",
+      "experimentation_choices",
+      "automation_choices",
+      "centralized_solution_choices",
+      "distributed_solution_choices",
+      "player_complied_with_tests",
+      "player_resisted_tests"
+    ],
+    "requiredFlags": [
+      "known_to_characters",
+      "gave_otter_first_apple",
+      "gave_whale_key",
+      "repeatedly_favors_otter",
+      "repeatedly_favors_whale",
+      "frequently_uses_middle",
+      "communication_test_success",
+      "communication_test_refused"
+    ],
+    "requiredValues": [
+      "name",
+      "player_name",
+      "strawberry_answer",
+      "current_object",
+      "previous_objects",
+      "important_choices",
+      "important_events",
+      "notable_event_flags"
+    ]
+  },
+  "runtime": {
+    "prologueImplemented": true,
+    "persistenceImplemented": true,
+    "objectSelectionDrawerImplemented": true,
+    "proceduralVoiceImplemented": true,
+    "synchronizedVisemesImplemented": true,
+    "continuousIdleImplemented": true,
+    "roomImplemented": false,
+    "movementImplemented": false,
+    "inventoryImplemented": false,
+    "craftingImplemented": false,
+    "openAiImplemented": false,
+    "implementedClaims": [
+      "flat-two-character-stage",
+      "one-current-object",
+      "progressively-unlocked-object-drawer",
+      "older-object-repeat-reactions",
+      "fifty-authored-interactions",
+      "three-placement-actions",
+      "state-based-dialogue-variation",
+      "versioned-browser-local-state",
+      "strawberry-multiple-choice",
+      "unicode-name-terminal-state",
+      "opt-in-procedural-character-voices",
+      "voice-synchronized-six-state-mouths",
+      "fifty-independent-idles-per-character",
+      "layered-idle-and-performance-transforms"
+    ]
+  }
+}

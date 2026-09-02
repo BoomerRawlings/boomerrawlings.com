@@ -1,116 +1,68 @@
 ---
-import pyotterImage from '../assets/companions/scene/pyotter-front-transparent-v1.png';
+import pyotterAtlas from '../assets/aristotter/characters/pyotter/character-motion-v3.webp';
 ---
 
-<div class="character__idle puppet-shell" data-idle-target="pyotter">
+<div class="character-frame-shell">
   <div
-    class="puppet-canvas"
+    class="character-frame"
+    data-frame-character="pyotter"
+    data-frame="neutral"
     role="img"
     aria-label="Pyotter Kropotkin, a tiny brown otter with round gold glasses and an enormous cream-colored ruff"
-  >
-    <div class="puppet-layer tail-layer" data-part="tail" data-idle-part="tail">
-      <div class="puppet-layer" data-voice-part="tail">
-        <svg viewBox="0 0 369 510" aria-hidden="true">
-          <defs>
-            <linearGradient id="py-tail" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#8f674f" />
-              <stop offset="0.58" stop-color="#684a3b" />
-              <stop offset="1" stop-color="#4b342b" />
-            </linearGradient>
-          </defs>
-          <path d="M261 354C302 339 337 357 341 386C346 419 318 445 280 439C264 437 251 429 241 418C266 421 285 405 286 384C287 370 277 359 261 354Z" fill="url(#py-tail)" stroke="#35261f" stroke-width="3.2" stroke-linejoin="round" />
-        </svg>
-      </div>
-    </div>
-
-    <img class="puppet-base" src={pyotterImage.src} width={pyotterImage.width} height={pyotterImage.height} alt="" aria-hidden="true" />
-
-    <div class="puppet-layer" data-part="torso" data-idle-part="torso">
-      <div class="puppet-layer" data-voice-part="torso">
-        <svg viewBox="0 0 369 510" aria-hidden="true">
-          <defs><radialGradient id="py-torso" cx="42%" cy="28%" r="72%"><stop offset="0" stop-color="#fff5e9" stop-opacity=".13" /><stop offset="1" stop-color="#fff5e9" stop-opacity="0" /></radialGradient></defs>
-          <ellipse cx="184.5" cy="372" rx="104" ry="112" fill="url(#py-torso)" />
-        </svg>
-
-        <div class="puppet-layer" data-part="chest" data-idle-part="chest">
-          <div class="puppet-layer" data-voice-part="chest">
-            <svg viewBox="0 0 369 510" aria-hidden="true"><ellipse cx="184.5" cy="319" rx="83" ry="58" fill="#fff8ee" opacity=".045" /></svg>
-          </div>
-        </div>
-
-        <div class="puppet-layer" data-part="paw-left" data-idle-part="paw-left">
-          <div class="puppet-layer" data-voice-part="paw-left"><svg viewBox="0 0 369 510" aria-hidden="true"><ellipse cx="112" cy="337" rx="19" ry="35" fill="#f2d4bd" opacity=".045" /></svg></div>
-        </div>
-        <div class="puppet-layer" data-part="paw-right" data-idle-part="paw-right">
-          <div class="puppet-layer" data-voice-part="paw-right"><svg viewBox="0 0 369 510" aria-hidden="true"><ellipse cx="257" cy="337" rx="19" ry="35" fill="#f2d4bd" opacity=".045" /></svg></div>
-        </div>
-
-        <div class="puppet-layer" data-part="head" data-idle-part="head">
-          <div class="puppet-layer" data-voice-part="head">
-            <svg viewBox="0 0 369 510" aria-hidden="true">
-              <defs><radialGradient id="py-head" cx="42%" cy="28%" r="72%"><stop offset="0" stop-color="#fff5e9" stop-opacity=".12" /><stop offset="1" stop-color="#fff5e9" stop-opacity="0" /></radialGradient></defs>
-              <ellipse cx="184.5" cy="132" rx="101" ry="101" fill="url(#py-head)" />
-            </svg>
-
-            <div class="puppet-layer" data-part="ear-left" data-idle-part="ear-left">
-              <div class="puppet-layer" data-voice-part="ear-left"><svg viewBox="0 0 369 510" aria-hidden="true"><ellipse cx="77" cy="109" rx="11" ry="16" fill="#3f2b24" opacity=".3" /></svg></div>
-            </div>
-            <div class="puppet-layer" data-part="ear-right" data-idle-part="ear-right">
-              <div class="puppet-layer" data-voice-part="ear-right"><svg viewBox="0 0 369 510" aria-hidden="true"><ellipse cx="292" cy="109" rx="11" ry="16" fill="#3f2b24" opacity=".3" /></svg></div>
-            </div>
-
-            <div class="puppet-layer puppet__eyelid" data-part="eye-left" data-idle-part="eye-left">
-              <div class="puppet-layer" data-voice-part="eye-left"><svg viewBox="0 0 369 510" aria-hidden="true"><ellipse cx="124" cy="167" rx="25" ry="31" fill="#a77d61" /><path d="M104 170Q124 181 144 170" fill="none" stroke="#3b2923" stroke-width="3.2" stroke-linecap="round" /></svg></div>
-            </div>
-            <div class="puppet-layer puppet__eyelid" data-part="eye-right" data-idle-part="eye-right">
-              <div class="puppet-layer" data-voice-part="eye-right"><svg viewBox="0 0 369 510" aria-hidden="true"><ellipse cx="245" cy="167" rx="25" ry="31" fill="#a77d61" /><path d="M225 170Q245 181 265 170" fill="none" stroke="#3b2923" stroke-width="3.2" stroke-linecap="round" /></svg></div>
-            </div>
-
-            <div class="puppet-layer" data-part="fur" data-idle-part="fur">
-              <div class="puppet-layer" data-voice-part="fur"><svg viewBox="0 0 369 510" aria-hidden="true"><ellipse cx="184.5" cy="239" rx="118" ry="55" fill="#fff8ee" opacity=".035" /></svg></div>
-            </div>
-            <div class="puppet-layer" data-part="nose" data-idle-part="nose">
-              <div class="puppet-layer" data-voice-part="nose"><svg viewBox="0 0 369 510" aria-hidden="true"><ellipse cx="176" cy="183" rx="5.8" ry="3.2" fill="#fff7ec" opacity=".24" /></svg></div>
-            </div>
-
-            <div class="puppet-layer mouth-layer" data-part="mouth">
-              <div class="puppet-layer" data-voice-part="mouth">
-                <svg viewBox="0 0 369 510" aria-hidden="true"><g transform="translate(184.5 216.5)"><g class="character__mouth" data-mouth="pyotter"><ellipse class="character__mouth-cavity" rx="20.5" ry="9.5" /><path class="character__mouth-tongue" d="M-12 4Q0 12 12 4Q9 13 0 14Q-9 13-12 4Z" /></g></g></svg>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="puppet-layer" data-part="foot-left" data-idle-part="foot-left">
-      <div class="puppet-layer" data-voice-part="foot-left"><svg viewBox="0 0 369 510" aria-hidden="true"><ellipse cx="116" cy="472" rx="31" ry="10" fill="#f2d4bd" opacity=".04" /></svg></div>
-    </div>
-    <div class="puppet-layer" data-part="foot-right" data-idle-part="foot-right">
-      <div class="puppet-layer" data-voice-part="foot-right"><svg viewBox="0 0 369 510" aria-hidden="true"><ellipse cx="253" cy="472" rx="31" ry="10" fill="#f2d4bd" opacity=".04" /></svg></div>
-    </div>
-  </div>
+    style={`background-image: url("${pyotterAtlas.src}")`}
+  ></div>
 </div>
 
 <style>
-  .puppet-shell { align-items: end; display: flex; height: 100%; justify-content: center; max-width: 100%; width: 100%; }
-  .puppet-canvas { aspect-ratio: 369 / 510; height: 100%; max-width: 100%; position: relative; }
-  .puppet-base, .puppet-layer { height: 100%; inset: 0; position: absolute; width: 100%; }
-  .puppet-base { display: block; object-fit: contain; z-index: 1; }
-  .puppet-layer { pointer-events: none; transform-origin: center; }
-  .puppet-layer svg { display: block; height: 100%; overflow: visible; width: 100%; }
-  .tail-layer { z-index: 0; }
-  [data-part='torso'], [data-part='foot-left'], [data-part='foot-right'] { z-index: 2; }
-  .puppet__eyelid { opacity: 0; }
-  .mouth-layer { z-index: 3; }
-  .character__mouth { opacity: 0; transform: scale(.62,.08); transform-box: fill-box; transform-origin: center; transition: opacity 28ms linear, transform 54ms cubic-bezier(.2,.78,.2,1); }
-  .character__mouth-cavity { fill: #301b15; stroke: #4a2b1d; stroke-width: 1.25; }
-  .character__mouth-tongue { fill: #d57e78; opacity: 0; transition: opacity 28ms linear; }
-  :global(.character[data-viseme='small']) .character__mouth { opacity: 1; transform: scale(.58,.38); }
-  :global(.character[data-viseme='open']) .character__mouth { opacity: 1; transform: scale(.82,1.05); }
-  :global(.character[data-viseme='wide']) .character__mouth { opacity: 1; transform: scale(1.18,.56); }
-  :global(.character[data-viseme='round']) .character__mouth { opacity: 1; transform: scale(.56,1.08); }
-  :global(.character[data-viseme='smile']) .character__mouth { opacity: 1; transform: scale(1.08,.72); }
-  :global(.character[data-viseme='open']) .character__mouth-tongue, :global(.character[data-viseme='wide']) .character__mouth-tongue, :global(.character[data-viseme='smile']) .character__mouth-tongue { opacity: .9; }
-  @media (prefers-reduced-motion: reduce) { .puppet-layer, .character__mouth, .character__mouth-tongue { animation: none !important; transition: none !important; transform: none !important; } }
+  .character-frame-shell {
+    align-items: end;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .character-frame {
+    aspect-ratio: 3 / 4;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: 800% 400%;
+    height: 100%;
+    max-width: 100%;
+    pointer-events: none;
+  }
+
+  .character-frame[data-frame='neutral'] { background-position: 0 0; }
+  .character-frame[data-frame='inhale-mid'] { background-position: 14.285714% 0; }
+  .character-frame[data-frame='inhale'] { background-position: 28.571429% 0; }
+  .character-frame[data-frame='blink-quarter'] { background-position: 42.857143% 0; }
+  .character-frame[data-frame='blink-half'] { background-position: 57.142857% 0; }
+  .character-frame[data-frame='blink-three-quarter'] { background-position: 71.428571% 0; }
+  .character-frame[data-frame='blink-closed'] { background-position: 85.714286% 0; }
+  .character-frame[data-frame='wide-mid'] { background-position: 100% 0; }
+  .character-frame[data-frame='small-mid'] { background-position: 0 33.333333%; }
+  .character-frame[data-frame='small'] { background-position: 14.285714% 33.333333%; }
+  .character-frame[data-frame='open-mid'] { background-position: 28.571429% 33.333333%; }
+  .character-frame[data-frame='open'] { background-position: 42.857143% 33.333333%; }
+  .character-frame[data-frame='round-mid'] { background-position: 57.142857% 33.333333%; }
+  .character-frame[data-frame='round'] { background-position: 71.428571% 33.333333%; }
+  .character-frame[data-frame='smile-mid'] { background-position: 85.714286% 33.333333%; }
+  .character-frame[data-frame='smile'] { background-position: 100% 33.333333%; }
+  .character-frame[data-frame='gesture-00'] { background-position: 0 66.666667%; }
+  .character-frame[data-frame='gesture-01'] { background-position: 14.285714% 66.666667%; }
+  .character-frame[data-frame='gesture-02'] { background-position: 28.571429% 66.666667%; }
+  .character-frame[data-frame='gesture-03'] { background-position: 42.857143% 66.666667%; }
+  .character-frame[data-frame='gesture-04'] { background-position: 57.142857% 66.666667%; }
+  .character-frame[data-frame='gesture-05'] { background-position: 71.428571% 66.666667%; }
+  .character-frame[data-frame='gesture-06'] { background-position: 85.714286% 66.666667%; }
+  .character-frame[data-frame='gesture-07'] { background-position: 100% 66.666667%; }
+  .character-frame[data-frame='gesture-08'] { background-position: 0 100%; }
+  .character-frame[data-frame='gesture-09'] { background-position: 14.285714% 100%; }
+  .character-frame[data-frame='gesture-10'] { background-position: 28.571429% 100%; }
+  .character-frame[data-frame='gesture-11'] { background-position: 42.857143% 100%; }
+  .character-frame[data-frame='gesture-12'] { background-position: 57.142857% 100%; }
+  .character-frame[data-frame='gesture-13'] { background-position: 71.428571% 100%; }
+  .character-frame[data-frame='gesture-14'] { background-position: 85.714286% 100%; }
+  .character-frame[data-frame='gesture-15'] { background-position: 100% 100%; }
 </style>

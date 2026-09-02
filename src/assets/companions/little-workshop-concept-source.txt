@@ -1,0 +1,438 @@
+Then I would strip almost everything away.
+
+Do not make a civilization simulator. Do not make a strategy game. Do not build a tech tree.
+
+Make a tiny single-room toy.
+
+The game is basically: two extremely cute little ideological creatures live on the user's desktop/in a small workshop. The player gives them objects, asks them questions, combines things, and watches what they do. Their philosophies emerge through behavior and dialogue. The persuasive element comes from making their worldview internally coherent and repeatedly useful, not from secretly manipulating the player.
+
+Call the concept something like Little Workshop.
+
+The entire game can be:
+
+Two characters.
+One room.
+A handful of objects.
+Drag-and-drop.
+Short conversations.
+Persistent memory.
+Tiny changes to the room.
+
+That's it.
+
+The core loop is:
+
+Find or receive object → give it to either character → character reacts → character changes/uses/builds something → short dialogue → room permanently changes.
+
+For example, the player gets a little windmill.
+
+Give it to the Kropotkin-derived character.
+
+He studies it, duplicates parts, and connects it to the communal battery.
+
+He says something like:
+
+“Why should only my lamp have power?”
+
+Now everyone's stuff gets power.
+
+Give the same windmill to the Bakunin-derived character.
+
+He creates three tiny independent batteries.
+
+He says:
+
+“I'd rather have three things that can fail separately than one thing everyone must obey.”
+
+Same underlying direction:
+
+more technology,
+more capability,
+more decentralization,
+more abundance.
+
+But neither says anything remotely like “AI accelerationism.”
+
+That should be the whole game.
+
+The characters themselves should be very small and expressive. Think little round-bodied guys with oversized heads/hands, simple facial animation, and distinct physical behavior.
+
+Kropotkin-character: affectionate, nurturing, delighted when things cooperate. If you give him two machines, he instinctively connects them.
+
+Bakunin-character: mischievous, suspicious, hates locks and centralized objects. If you give him one machine, he instinctively takes it apart so everyone can make one.
+
+They argue, but adorably.
+
+Kropotkin:
+“I connected our kettles.”
+
+Bakunin:
+“You created a centralized tea authority.”
+
+Kropotkin:
+“It makes tea.”
+
+Bakunin:
+“That is how it begins.”
+
+Then five minutes later Bakunin has built everyone individual automated kettles.
+
+That tone is probably much more effective than essays.
+
+The player's verbs should be brutally limited.
+
+I would start with exactly four:
+
+1. Give
+2. Combine
+3. Ask
+4. Observe
+
+No inventory management beyond maybe 8–12 visible objects.
+
+No resource economy.
+
+No hunger.
+
+No health.
+
+No combat.
+
+No procedural world.
+
+No complex simulation.
+
+The complexity comes from character reactions.
+
+Objects can be conceptually loaded while remaining visually cute:
+
+Seed
+Book
+Hammer
+Battery
+Lock
+Coin
+Robot
+Computer
+Solar panel
+Radio
+Key
+Printer
+Little AI core
+
+Each object gives you opportunities for philosophical characterization.
+
+Give them a lock.
+
+Kropotkin might ask:
+
+“What are we protecting?”
+
+Bakunin immediately asks:
+
+“Who has the key?”
+
+Give them a robot.
+
+Kropotkin:
+
+“Oh! It can carry the water.”
+
+Bakunin:
+
+“Can it refuse instructions?”
+
+Give them a printer.
+
+Kropotkin:
+
+“We can make enough for everyone.”
+
+Bakunin:
+
+“Then publish the plans.”
+
+Give them an AI.
+
+Do not have either one freak out or preach.
+
+Kropotkin:
+
+“Does it learn?”
+
+Player: Yes.
+
+“Then let it teach.”
+
+Bakunin:
+
+“Who controls it?”
+
+Player: Us.
+
+“For now.”
+
+Those are tiny sentences carrying the entire ideology.
+
+The most important design rule should be:
+
+Their beliefs are demonstrated before they are explained.
+
+Do not have them say:
+
+“Decentralized technology improves individual autonomy.”
+
+Have Bakunin's little character unplug the single central lamp, build three small lamps, hand one to Kropotkin, and look pleased with himself.
+
+Do not have Kropotkin explain abundance theory.
+
+Have the player give him one strawberry, and later discover that he planted the seeds and there are twelve strawberry plants.
+
+That is the persuasion mechanism I would use. The player repeatedly experiences:
+
+sharing → abundance
+
+autonomy → resilience
+
+experimentation → discovery
+
+automation → less drudgery
+
+open knowledge → more creation
+
+technology → increased capability
+
+without getting a lecture.
+
+The AI/accelerationist layer should be even quieter.
+
+At the beginning, the room is mostly manual.
+
+There is:
+
+a lamp,
+a bookshelf,
+a workbench,
+plants,
+maybe a stove.
+
+Over time the characters build little improvements.
+
+The plant waters itself.
+
+The lamp adjusts itself.
+
+The bookshelf starts finding books.
+
+The workbench starts organizing tools.
+
+Then the little AI begins helping.
+
+Nothing dramatic happens.
+
+The room simply becomes better.
+
+That is important.
+
+The emotional experience becomes:
+
+“Ohhh, look what they made.”
+
+Rather than:
+
+“THE TECHNOLOGICAL SINGULARITY HAS ARRIVED.”
+
+Eventually the player realizes almost everything in the room has become intelligent.
+
+But it happened through fifty tiny improvements.
+
+That is your accelerationist arc.
+
+And because this is a single-user game, persistence becomes powerful for almost no engineering complexity.
+
+Day 1:
+
+Bare room.
+
+Day 10:
+
+Books everywhere. Two plants. Weird little machine.
+
+Day 30:
+
+Automated lights. Little robots. Personalized corners for each character.
+
+Day 100:
+
+The original room is barely recognizable.
+
+You don't need a procedural world.
+
+The room itself is the world.
+
+I would also make the two characters remember extremely small things.
+
+If the player frequently gives Kropotkin plants, his side becomes covered in plants.
+
+If the player gives Bakunin tools, his area becomes a chaotic little workshop.
+
+If the player repeatedly asks about machines, they start bringing machine-related objects to the player.
+
+If the player rejects automation, they notice.
+
+Not judgmentally.
+
+Kropotkin might later ask:
+
+“You didn't like the automatic garden last time. Should we leave this one alone?”
+
+That creates the curated single-user feeling you were talking about earlier.
+
+The system remembers me.
+
+The characters know me.
+
+The room reflects me.
+
+Now the experience becomes sticky without requiring a game loop stuffed with mechanics.
+
+I would make conversations similarly constrained.
+
+Don't build a giant RPG dialogue tree.
+
+Give the user maybe three responses:
+
+“Why?”
+“Do it.”
+“No.”
+
+That's almost enough.
+
+Example:
+
+Bakunin finds that the AI can control every light.
+
+He says:
+
+“It can operate all twelve.”
+
+Player:
+
+Why?
+Do it.
+No.
+
+If Why:
+
+“Convenient. But twelve lamps depending on one mind makes me itch.”
+
+Then:
+
+“I can give each lamp a tiny mind instead.”
+
+Again:
+
+Why?
+Do it.
+No.
+
+That's the philosophy turned into play.
+
+And occasionally let Kropotkin and Bakunin independently solve the same problem differently.
+
+The garden needs watering.
+
+Kropotkin creates:
+
+one large automatic irrigation network.
+
+Bakunin creates:
+
+six independent moisture-controlled planters.
+
+Both work.
+
+The player gets to observe tradeoffs.
+
+Then you can have the cute argument:
+
+Kropotkin:
+“Mine uses 18% less water.”
+
+Bakunin:
+“Mine survives when yours breaks.”
+
+Kropotkin:
+“It hasn't broken.”
+
+Bakunin:
+“An argument cherished by every centralized irrigation system immediately before breaking.”
+
+That's the game.
+
+There is one further mechanic I think you absolutely should add because it costs almost nothing:
+
+A little table in the center.
+
+Every so often, a mystery object appears on it.
+
+That's the return hook.
+
+Not a daily streak.
+
+Not a punishment.
+
+Just:
+
+“Oh shit, what's on the table today?”
+
+It could be:
+
+a magnet,
+a strange seed,
+a microchip,
+a gear,
+a telescope,
+a broken robot,
+a piece of glass,
+a locked box.
+
+You give it to one of them.
+
+That creates today's interaction.
+
+You could produce enormous content breadth with very little mechanical breadth.
+
+50 objects × 2 characters = 100 primary reactions.
+
+Add a handful of combination reactions and you've got a substantial-feeling game.
+
+You could even make the minimum viable version almost absurdly small:
+
+One room.
+Two characters.
+10 objects.
+20 object-character interactions.
+5 room upgrades.
+Simple dialogue bubbles.
+Persistent save.
+
+That's enough to determine whether the concept is charming.
+
+The design bible could essentially be seven rules:
+
+1. Everything occurs in one room.
+2. The player interacts mainly by giving objects to characters.
+3. Every object reveals character rather than providing stats.
+4. Kropotkin solves problems by sharing, connecting, and multiplying abundance.
+5. Bakunin solves problems by distributing, opening, and eliminating dependency.
+6. Both instinctively use technology to increase human capability, but neither advocates “technology” abstractly.
+7. Every meaningful interaction leaves a small permanent trace in the room.
+
+That is the game I would build first.
+
+Not “Factorio with anarchist philosophers.”
+
+Two cute little weirdos in a room who keep accidentally reasoning their way toward an extremely technologically advanced future.
+
+And because they're lovable before they're ideological, the philosophy arrives through attachment to the characters rather than exposition.

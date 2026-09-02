@@ -1,0 +1,62 @@
+{
+  "id": "pyotter-mikwhale-worldview",
+  "version": 1,
+  "stage": "editorial-contract",
+  "purpose": "performative-philosophical-artifact",
+  "productDoctrine": "../pyotter/PHILOSOPHY.md",
+  "doctrine": "WORLDVIEW.md",
+  "source": "worldview-source.txt",
+  "sourceSha256": "9B094E284B816D51E27C1594B3E58F799C580D1BC7F97182CACEDFB71BC29369",
+  "relationship": "PYOTTER-MIKWHALE.md",
+  "surface": {
+    "mode": "enacted-not-explained",
+    "deliveryOrder": ["world-affordance", "character-instinct-and-action", "bailey-observation", "optional-bailey-intervention", "character-response-if-needed", "persistent-consequence", "optional-short-line"],
+    "explicitOverlayLabelsAllowed": false,
+    "manifestoAllowed": false,
+    "sameConclusionRequired": false
+  },
+  "participant": {
+    "roleId": "bailey",
+    "schemaRole": "friend",
+    "displayName": "Bailey",
+    "perspectives": ["observer", "narrator", "actor"],
+    "primaryRole": "observer",
+    "defaultParticipation": "watch-without-required-input",
+    "narrationSource": "encountered-scenes-actions-and-bailey-authored-notes",
+    "gameAuthoredInteriorConclusionsAllowed": false,
+    "gameAuthoredFirstPersonLanguageAllowed": false,
+    "actionRequiredPerScene": false,
+    "observationCompleteWithoutIntervention": true,
+    "chosenInterventionMustBeConsequential": true,
+    "revisionRefusalAndUndoRequired": true
+  },
+  "authorialGrammar": "distributed-capability-with-real-exit",
+  "characterExpressions": {
+    "pyotter": {
+      "lens": "abundance-through-mutual-aid",
+      "primaryQuestion": "Can this make knowledge, care, rest, or useful capability more abundant—and can everyone share the gain?",
+      "motifs": ["copy", "teach", "share", "automate-drudgery", "repair", "common-tools"]
+    },
+    "mikwhale": {
+      "lens": "capability-through-refusal",
+      "primaryQuestion": "Who controls it, who depends upon it, and can everyone turn it off, leave, or build an alternative?",
+      "motifs": ["off-switch", "second-route", "local-copy", "manual-fallback", "interoperate", "exit"]
+    }
+  },
+  "worldRules": [
+    "capability-diffusion",
+    "abundance-with-distribution",
+    "human-worth-beyond-labor",
+    "bounded-reversible-experimentation",
+    "parallel-learning",
+    "anti-monoculture-resilience",
+    "personal-tool-control",
+    "technological-pluralism",
+    "specific-risk-analysis",
+    "future-optionality"
+  ],
+  "runtimeAi": {
+    "implemented": false,
+    "claimsAllowed": false
+  }
+}

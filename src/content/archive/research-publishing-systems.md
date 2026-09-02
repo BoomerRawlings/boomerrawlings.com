@@ -39,4 +39,4 @@ Completed in July 2026, this two-guide, 95-page packet was written for new South
 - [Continuity Desk](/work/continuity-desk/)
 - [Printable and black-and-white printable skills](https://github.com/BoomerRawlings/Skills)
 - [Research Briefing Assistant](/work/research-briefing-assistant/)
-- [Personal Search Router](https://github.com/BoomerRawlings/personal-search-router)
+- [Personal Search Router for Firefox](https://addons.mozilla.org/en-US/firefox/addon/personal-search-router/) ([source on GitHub](https://github.com/BoomerRawlings/personal-search-router))

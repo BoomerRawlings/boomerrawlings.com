@@ -1,0 +1,107 @@
+{
+  "id": "pyotter-mikwhale-interactions",
+  "version": 1,
+  "stage": "pre-animation-contract",
+  "phaseUnit": "normalized",
+  "markerOrder": ["approach", "ready", "contact", "accent", "release", "complete"],
+  "markerTimes": {
+    "approach": 0,
+    "ready": 0.2,
+    "contact": 0.4,
+    "accent": 0.52,
+    "release": 0.78,
+    "complete": 1
+  },
+  "contactToleranceDesignPx": 4,
+  "rootMotion": "external",
+  "sharedStage": {
+    "unit": "designPx",
+    "width": 1024,
+    "height": 1024,
+    "scaleSource": "rig.sharedStageScale"
+  },
+  "actorOrder": ["pyotter", "mikwhale"],
+  "pairOcclusionDefault": {
+    "mode": "auto-by-y",
+    "tieBreak": "stable-character-id",
+    "backToFrontOrder": ["mikwhale", "pyotter"]
+  },
+  "interruptPolicy": {
+    "stopLatencyMs": 0,
+    "beforeContact": "return-to-cancel-pose",
+    "afterContact": "safe-separation-transition",
+    "safeSeparationDurationMs": 200,
+    "affectionPenalty": false
+  },
+  "capabilities": {
+    "greet": {
+      "durationMs": 900,
+      "loop": false,
+      "selfRole": "face",
+      "partnerRole": "face",
+      "headingRule": "face-partner",
+      "offset": { "unit": "designPx", "basis": "shared-stage", "axis": "contact-normal", "pyotter": 0, "mikwhale": 0 },
+      "occlusion": "inherit",
+      "interruptibleAtAnyPhase": true,
+      "gracefulReleaseMarker": "release",
+      "reducedMotionPose": "static-contact"
+    },
+    "limbTap": {
+      "durationMs": 800,
+      "loop": false,
+      "selfRole": "limbNear",
+      "partnerRole": "limbNear",
+      "headingRule": "face-partner",
+      "offset": { "unit": "designPx", "basis": "shared-stage", "axis": "contact-normal", "pyotter": 0, "mikwhale": 0 },
+      "occlusion": "inherit",
+      "interruptibleAtAnyPhase": true,
+      "gracefulReleaseMarker": "release",
+      "reducedMotionPose": "static-contact"
+    },
+    "nuzzle": {
+      "durationMs": 1200,
+      "loop": false,
+      "selfRole": "face",
+      "partnerRole": "face",
+      "headingRule": "face-partner",
+      "offset": { "unit": "designPx", "basis": "shared-stage", "axis": "contact-normal", "pyotter": 0, "mikwhale": 0 },
+      "occlusion": "inherit",
+      "interruptibleAtAnyPhase": true,
+      "gracefulReleaseMarker": "release",
+      "reducedMotionPose": "static-contact"
+    },
+    "hug": {
+      "durationMs": 1600,
+      "loop": false,
+      "selfRole": "center",
+      "partnerRole": "center",
+      "headingRule": "face-partner",
+      "offset": { "unit": "designPx", "basis": "shared-stage", "axis": "contact-normal", "pyotter": -48, "mikwhale": 48 },
+      "occlusion": "inherit",
+      "interruptibleAtAnyPhase": true,
+      "gracefulReleaseMarker": "release",
+      "reducedMotionPose": "static-contact"
+    },
+    "travelTogether": {
+      "durationMs": 1000,
+      "loop": true,
+      "selfRole": "center",
+      "partnerRole": "center",
+      "headingRule": "parallel",
+      "offset": { "unit": "designPx", "basis": "shared-stage", "axis": "perpendicular-to-heading", "pyotter": -96, "mikwhale": 96 },
+      "occlusion": "inherit",
+      "interruptibleAtAnyPhase": true,
+      "gracefulReleaseMarker": "release",
+      "reducedMotionPose": "static-parallel"
+    }
+  },
+  "productionGate": {
+    "requiresRuntimeLayers": true,
+    "requiresPerViewPivotCoordinates": true,
+    "requiresPerViewAttachmentCoordinates": true,
+    "requiresHitPolygons": true,
+    "requiresAuthoredKeyframes": true,
+    "requiresPairedClipIds": true,
+    "requiresContactDistanceVerification": true
+  }
+}

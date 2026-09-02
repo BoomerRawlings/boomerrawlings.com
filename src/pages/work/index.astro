@@ -19,22 +19,70 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       nextExhibit: { href: '/work/horizon/', label: 'Horizon' },
     }}
   >
-    <section class="ai-skills" aria-labelledby="ai-skills-heading" slot="after-listing">
-      <div class="ai-skills-heading">
-        <h2 id="ai-skills-heading">AI Skills</h2>
-        <p>Reusable Codex workflows.</p>
-      </div>
-      <ul class="ai-skills-list">
-        {aiSkills.map((skill) => (
-          <li>
-            <a href={skill.href} target="_blank" rel="noopener noreferrer" aria-label={`View ${skill.name} on GitHub`}>
-              <strong>{skill.name}</strong>
-              <small>{skill.summary}</small>
-              <span class="ai-skill-destination" aria-hidden="true">GitHub ↗</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </section>
+    <Fragment slot="after-listing">
+      <section class="ai-skills" aria-labelledby="ai-skills-heading">
+        <div class="ai-skills-heading">
+          <h2 id="ai-skills-heading">AI Skills</h2>
+          <p>Reusable Codex workflows.</p>
+        </div>
+        <ul class="ai-skills-list">
+          {aiSkills.map((skill) => (
+            <li>
+              <a href={skill.href} target="_blank" rel="noopener noreferrer" aria-label={`View ${skill.name} on GitHub`}>
+                <strong>{skill.name}</strong>
+                <small>{skill.summary}</small>
+                <span class="ai-skill-destination" aria-hidden="true">GitHub ↗</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="browser-tool ai-skills" aria-labelledby="personal-search-router-heading">
+        <div class="ai-skills-heading">
+          <h2 id="personal-search-router-heading">Personal Search Router</h2>
+          <p>Firefox add-on.</p>
+        </div>
+        <div class="browser-tool__body">
+          <p>
+            I made this small Firefox add-on for myself to streamline daily browsing. Short prefixes route address-bar searches to ChatGPT, Google, Perplexity, or OpenAlex, removing a tiny repeated decision from every search.
+          </p>
+          <p class="browser-tool__links">
+            <a href="https://addons.mozilla.org/en-US/firefox/addon/personal-search-router/" target="_blank" rel="noopener noreferrer">Firefox Add-ons ↗</a>
+            <a href="https://github.com/BoomerRawlings/personal-search-router" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          </p>
+        </div>
+      </section>
+    </Fragment>
   </CollectionIndex>
 </BaseLayout>
+
+<style is:global>
+  .browser-tool__body {
+    align-self: start;
+    max-width: 58rem;
+  }
+
+  .browser-tool__body > p:first-child {
+    font-size: 1.05rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .browser-tool__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem 1.25rem;
+    margin: 1rem 0 0;
+  }
+
+  .browser-tool__links a {
+    color: var(--blue);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
+    text-underline-offset: 0.2em;
+  }
+</style>

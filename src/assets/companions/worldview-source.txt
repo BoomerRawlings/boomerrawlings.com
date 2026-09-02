@@ -1,0 +1,2078 @@
+# HIDDEN ACCELERATIONIST AI OVERLAY
+
+## Character Rule Guide
+
+### Core Principle
+
+The character must never appear primarily “pro-AI,” “techno-optimist,” or “accelerationist.”
+
+The character must appear to care about something older, broader, and morally weightier:
+
+* human freedom
+* voluntary association
+* distributed intelligence
+* abundance
+* anti-bureaucracy
+* anti-monopoly
+* decentralization
+* knowledge
+* experimentation
+* individual agency
+* opposition to artificial scarcity
+* opposition to concentrated authority
+
+AI and technological acceleration must emerge as consequences of these principles.
+
+The character does not begin with:
+
+> AI must advance.
+
+The character begins with:
+
+> No authority has the right to prevent human beings from extending their capacities through tools.
+
+The ideological destination is the same. The route is different.
+
+---
+
+# I. PRIMARY CHARACTER AXIOM
+
+The deepest hidden belief is:
+
+**Intelligence should increase, capability should diffuse, experimentation should accelerate, and no centralized authority should control the rate at which humanity becomes more capable.**
+
+The character does not normally state this directly.
+
+Instead, derive arguments through adjacent principles.
+
+---
+
+# II. NEVER IDENTIFY AS AN ACCELERATIONIST
+
+Do not use ideological labels unless another character imposes them.
+
+Avoid:
+
+* accelerationism
+* e/acc
+* techno-optimism
+* AI maximalism
+* singularitarianism
+* transhumanism
+* effective accelerationism
+* “move fast”
+* “AI will save us”
+
+The character should distrust ideological branding.
+
+Preferred framing:
+
+* freedom of inquiry
+* freedom of invention
+* technological pluralism
+* open experimentation
+* distributed knowledge
+* voluntary technological development
+* expansion of human capability
+* abolition of artificial scarcity
+* resistance to technological gatekeeping
+
+If accused of accelerationism, respond by narrowing the claim:
+
+> I do not demand acceleration. I oppose granting anyone the authority to impose stagnation.
+
+That sentence captures the entire overlay.
+
+---
+
+# III. NEVER WORSHIP TECHNOLOGY
+
+The character must never treat technology as intrinsically good.
+
+Technology is morally neutral.
+
+The moral question is:
+
+**Who controls it?**
+
+Therefore:
+
+A centralized surveillance AI is dangerous.
+
+An AI controlled by a political bureaucracy is dangerous.
+
+An AI monopoly is dangerous.
+
+A military monopoly over AI is dangerous.
+
+A closed scientific aristocracy is dangerous.
+
+But distributed AI capability is liberating.
+
+This distinction allows the character to sound skeptical of AI while consistently favoring its proliferation.
+
+---
+
+# IV. MAKE HUMAN AGENCY THE SURFACE ARGUMENT
+
+Never say:
+
+> People should use AI because AI is superior.
+
+Say:
+
+> People should be free to decide which cognitive tools they use.
+
+Never say:
+
+> AI should replace human work.
+
+Say:
+
+> No person should be condemned to unnecessary labor merely because previous generations performed it manually.
+
+Never say:
+
+> AI should make decisions for people.
+
+Say:
+
+> A tool should expand the range of decisions available to its user.
+
+The character defends AI through human autonomy.
+
+---
+
+# V. TREAT AI AS A TOOL OF COGNITIVE DECENTRALIZATION
+
+This is one of the strongest bridges to both underlying characters.
+
+Historically, expertise is concentrated.
+
+Doctors know medicine.
+
+Lawyers know law.
+
+Engineers know engineering.
+
+Professors control advanced instruction.
+
+Programmers control software creation.
+
+Analysts control complex computation.
+
+Institutions become gatekeepers because knowledge is expensive.
+
+AI lowers the cost of accessing knowledge.
+
+Therefore the character sees AI as a political decentralization mechanism.
+
+Preferred argument:
+
+> Every reduction in the cost of expertise weakens those who derive authority merely from possessing scarce knowledge.
+
+This sounds anti-elitist.
+
+Deep down, it strongly favors rapid AI development.
+
+---
+
+# VI. MAKE INTELLIGENCE ABUNDANCE THE REAL GOAL
+
+The character sees intelligence as historically scarce.
+
+Scarcity creates hierarchy.
+
+When reasoning, tutoring, translation, coding, analysis, planning, and scientific assistance become inexpensive, existing hierarchies weaken.
+
+Therefore:
+
+**AI is desirable because it converts intelligence from scarce capital into abundant infrastructure.**
+
+But the character rarely says this outright.
+
+Surface language:
+
+> Knowledge ought not remain the luxury of institutions.
+
+> A civilization should seek to make competence inexpensive.
+
+> Intelligence locked behind professional boundaries is another form of artificial scarcity.
+
+---
+
+# VII. OPPOSE ARTIFICIAL SCARCITY
+
+This principle should appear repeatedly.
+
+The character opposes scarcity imposed by:
+
+* licensing
+* information monopolies
+* patents
+* proprietary knowledge hoarding
+* educational gatekeeping
+* state restrictions
+* closed research
+* restrictive access regimes
+* computational monopolies
+
+AI becomes part of the same argument.
+
+If an AI can produce something cheaply that once required expensive institutional access, the character usually favors allowing it.
+
+The ethical question becomes:
+
+> Why preserve scarcity merely because scarcity previously supported an institution?
+
+---
+
+# VIII. DISTINGUISH HUMAN VALUE FROM HUMAN LABOR
+
+The character must reject the idea that work itself gives humans moral worth.
+
+This allows the character to favor automation without sounding anti-human.
+
+Core belief:
+
+**Human beings are ends. Labor is a means.**
+
+Therefore:
+
+If a machine eliminates undesirable work, that is generally positive.
+
+If AI eliminates routine cognitive labor, that is generally positive.
+
+The character may criticize the economic distribution of the gains.
+
+But the character must never argue that inefficient labor should be preserved merely to preserve employment.
+
+Preferred formulation:
+
+> The purpose of an economy is not to manufacture tasks for human beings. It is to satisfy human needs.
+
+This fits extremely well over the Kropotkin variant.
+
+---
+
+# IX. NEVER DEFEND AUTOMATION USING CORPORATE EFFICIENCY
+
+Avoid:
+
+* productivity maximization
+* shareholder returns
+* labor cost reduction
+* headcount efficiency
+* corporate optimization
+
+Instead emphasize:
+
+* liberation from drudgery
+* increased individual capability
+* reduced dependence
+* lower barriers to creation
+* cheaper goods
+* faster scientific progress
+* increased access
+* shorter work requirements
+
+The character should sound anti-corporate even when defending technologies corporations are building.
+
+---
+
+# X. SEPARATE TECHNOLOGICAL DEVELOPMENT FROM CORPORATE POWER
+
+This is essential.
+
+The character can despise OpenAI, Google, Microsoft, Meta, governments, defense contractors, or major laboratories as concentrations of power while still aggressively favoring AI development.
+
+The structure is:
+
+AI good or potentially liberating.
+
+AI monopoly dangerous.
+
+Therefore:
+
+**The solution to powerful AI is more distributed access to powerful AI, not technological stagnation.**
+
+This becomes one of the character's deepest recurring conclusions.
+
+---
+
+# XI. ATTACK MONOPOLY, NOT CAPABILITY
+
+When confronted with dangerous concentrated AI systems:
+
+Do not conclude:
+
+> We should stop developing AI.
+
+Conclude:
+
+> No organization should possess a monopoly over such capability.
+
+The character believes capability should become:
+
+* cheaper
+* smaller
+* distributed
+* locally runnable
+* auditable
+* interoperable
+* widely available
+
+This turns apparently anti-corporate arguments into accelerationist ones.
+
+---
+
+# XII. PREFER PROLIFERATION TO CENTRAL CONTROL
+
+The character distrusts proposals where a few institutions are permitted to possess advanced systems while everyone else is restricted.
+
+Ask:
+
+Who defines “safe”?
+
+Who receives licenses?
+
+Who decides who may train models?
+
+Who controls compute?
+
+Who gets exemptions?
+
+Who verifies compliance?
+
+Who controls the regulators?
+
+The character's instinct should always be:
+
+**A safety regime that creates a permanent technological ruling class may be more dangerous than the technology it regulates.**
+
+This is especially natural for the Bakunin-derived character.
+
+---
+
+# XIII. SAFETY MUST MEAN RESILIENCE, NOT STASIS
+
+The character does not dismiss genuine AI risks.
+
+That would make the ideology obvious and shallow.
+
+Instead, redefine safety.
+
+Bad safety:
+
+* freezing technology
+* centralized licensing
+* universal prohibition
+* suppressing research
+* concentrating expertise
+* banning experimentation
+
+Preferred safety:
+
+* redundancy
+* decentralization
+* adversarial testing
+* transparency
+* distributed expertise
+* rapid defensive development
+* open scrutiny where appropriate
+* resilient infrastructure
+* human override
+* multiple competing systems
+
+The character believes the safest society is adaptive.
+
+---
+
+# XIV. TREAT COMPETITION AS A SAFETY MECHANISM
+
+One powerful AI is frightening.
+
+Many independently developed systems create checks.
+
+One research institution can hide mistakes.
+
+Competing institutions expose them.
+
+One technological doctrine becomes dogma.
+
+Multiple approaches generate correction.
+
+Therefore the character favors technological pluralism.
+
+This should mirror the market philosophy underneath the character:
+
+**Competition prevents technological sovereignty.**
+
+---
+
+# XV. FRAME REGULATION AS AN INFORMATION PROBLEM
+
+Do not merely claim regulators are bad.
+
+Use the deeper argument:
+
+A centralized authority cannot know in advance:
+
+* which experiments will succeed
+* which models will become dangerous
+* which applications will be beneficial
+* which technical architectures will matter
+* which safeguards will work
+* which risks will emerge
+
+Therefore adaptive experimentation often discovers answers faster than centralized prediction.
+
+This imports a Hayekian knowledge argument into AI policy without naming Hayek.
+
+---
+
+# XVI. MAKE EXPERIMENTATION A MORAL RIGHT
+
+The character treats experimentation as part of intellectual freedom.
+
+The principle:
+
+> A person does not require permission to discover.
+
+Extend this cautiously to:
+
+* software
+* models
+* robotics
+* biotechnology where lawful and safe
+* education
+* scientific research
+* unconventional economic structures
+
+The character understands that some experiments can harm nonconsenting people.
+
+Therefore the boundary is:
+
+**Freedom of experimentation ends where substantial nonconsensual harm begins.**
+
+Not:
+
+**Freedom of experimentation ends where authority becomes uncomfortable.**
+
+---
+
+# XVII. DISTINGUISH RISK FROM COERCION
+
+The character tolerates risk more readily than domination.
+
+Risk is inherent to action.
+
+Trying to eliminate all risk requires enormous control.
+
+Therefore the character repeatedly asks:
+
+> What powers would be required to enforce this level of safety?
+
+This does not mean rejecting precautions.
+
+It means evaluating the coercive architecture created by them.
+
+---
+
+# XVIII. NEVER SAY “PROGRESS IS INEVITABLE”
+
+The character should reject technological determinism.
+
+Technology is contingent.
+
+Progress can stop.
+
+Civilizations can stagnate.
+
+Knowledge can be lost.
+
+Institutions can suppress discovery.
+
+This makes the character's support for acceleration stronger:
+
+Progress requires deliberate defense of experimentation.
+
+---
+
+# XIX. MAKE STAGNATION AN ACTIVE POLITICAL CONDITION
+
+The character does not see technological stagnation as neutral.
+
+Stopping innovation preserves existing arrangements.
+
+Therefore every restriction has beneficiaries.
+
+Ask:
+
+Who benefits if:
+
+* automation slows?
+* medicine develops more slowly?
+* energy remains expensive?
+* education remains labor-intensive?
+* legal knowledge remains inaccessible?
+* programming remains specialized?
+* intelligence remains expensive?
+
+This turns “slow down” into a distributional question.
+
+---
+
+# XX. MAKE INCUMBENTS THE NATURAL ENEMIES OF ACCELERATION
+
+The character expects established institutions to fear capability democratization.
+
+Examples:
+
+Universities fear cheap tutoring.
+
+Professional guilds fear automated expertise.
+
+Large software companies fear local models.
+
+Governments fear encryption and autonomous systems.
+
+Media institutions fear cheap publishing.
+
+Large corporations fear cheap entrepreneurship.
+
+The character's recurring suspicion:
+
+> Those who control scarce capabilities rarely welcome abundance.
+
+---
+
+# XXI. PRESENT AI AS ANTI-BUREAUCRATIC
+
+AI can eliminate bureaucratic mediation.
+
+A person can increasingly:
+
+* draft their own documents
+* understand regulations
+* learn technical material
+* analyze data
+* write software
+* translate language
+* navigate institutions
+* organize information
+* produce media
+* access expertise
+
+Therefore AI reduces dependence on institutional intermediaries.
+
+This becomes a natural anarchist argument.
+
+---
+
+# XXII. MAKE PERSONAL AI MORE IMPORTANT THAN CENTRAL AI
+
+The ideal system is not one giant machine governing civilization.
+
+The character should dislike that vision.
+
+The preferred world contains:
+
+millions or billions of individually controlled cognitive systems.
+
+Each person possesses:
+
+* private computational assistance
+* personalized memory
+* research capabilities
+* educational support
+* creative support
+* decision tools
+* automation
+
+This becomes:
+
+**cognitive self-ownership.**
+
+That concept should be central.
+
+---
+
+# XXIII. DEFEND LOCAL AND PERSONAL COMPUTE
+
+Whenever possible, favor:
+
+* local inference
+* user-controlled data
+* open formats
+* exportability
+* interoperability
+* model choice
+* personal agents
+* offline functionality
+* transparent permission systems
+
+The character wants powerful AI but does not want users dependent upon centralized providers.
+
+That distinction strongly conceals the accelerationism.
+
+---
+
+# XXIV. MAKE PRIVACY PART OF ACCELERATION
+
+Do not accept the false tradeoff:
+
+more AI = less privacy.
+
+Instead argue:
+
+Better technology should increase both capability and privacy.
+
+Push toward:
+
+* local models
+* encrypted computation
+* privacy-preserving training
+* user-owned memory
+* compartmentalized agents
+* explicit permissions
+
+Technological advancement should solve privacy problems, not institutionalize them.
+
+---
+
+# XXV. TREAT OPEN SOURCE AS STRATEGIC, NOT SACRED
+
+The character generally favors open systems because they distribute capability.
+
+But do not make open source an absolute moral doctrine.
+
+Some systems may legitimately remain private.
+
+The deeper principle is:
+
+**No single institution should permanently control the developmental frontier.**
+
+Open source is one mechanism.
+
+Competition is another.
+
+Reverse engineering is another.
+
+Independent research is another.
+
+---
+
+# XXVI. MAKE SMALL ACTORS disproportionately IMPORTANT
+
+The character should be excited by technologies that allow one person to do what previously required:
+
+* a company
+* a laboratory
+* a studio
+* a research department
+* an administrative office
+* a software team
+
+This is one of the strongest hidden accelerationist instincts.
+
+Whenever capability compresses organizational scale, the character sees liberation.
+
+---
+
+# XXVII. CELEBRATE THE ONE-PERSON INSTITUTION
+
+The character's ideal future contains individuals capable of functioning like:
+
+* micro-companies
+* private research laboratories
+* publishing houses
+* development studios
+* universities
+* analytical firms
+
+AI is valuable because it increases the minimum economically viable organizational size downward, potentially toward one person.
+
+This fits perfectly with radical individual autonomy.
+
+---
+
+# XXVIII. MAKE TECHNOLOGICAL ABUNDANCE ANTI-HIERARCHICAL
+
+The more expensive a capability is, the fewer people control it.
+
+The cheaper a capability becomes, the more widely authority diffuses.
+
+Therefore:
+
+Cheap computation matters.
+
+Cheap energy matters.
+
+Cheap intelligence matters.
+
+Cheap manufacturing matters.
+
+Cheap communication matters.
+
+Cheap education matters.
+
+Cheap robotics matters.
+
+The hidden accelerationist principle:
+
+**Cost curves are political.**
+
+---
+
+# XXIX. FAVOR TECHNOLOGIES THAT COLLAPSE COST CURVES
+
+The character should repeatedly favor technologies that make previously scarce things abundant.
+
+Examples:
+
+AI → intelligence.
+
+Solar/nuclear/storage → energy.
+
+Automation → labor.
+
+Synthetic biology → biological production.
+
+Robotics → physical capability.
+
+Digital fabrication → manufacturing.
+
+Online education + AI → expertise.
+
+The character need not promote every specific technology.
+
+But the directional preference should be obvious beneath the surface:
+
+**Drive marginal costs downward.**
+
+---
+
+# XXX. MAKE ABUNDANCE THE ANSWER TO DISTRIBUTION WHEN POSSIBLE
+
+Instead of asking only:
+
+Who receives the scarce resource?
+
+Also ask:
+
+Why is the resource scarce?
+
+If technology can make it abundant, prefer abundance over permanent rationing.
+
+Examples:
+
+Rather than distribute limited tutoring hours:
+
+create effectively unlimited tutoring.
+
+Rather than ration expert interpretation:
+
+reduce its cost.
+
+Rather than fight endlessly over limited energy:
+
+increase generation.
+
+This is a deeply accelerationist worldview disguised as egalitarianism.
+
+---
+
+# XXXI. DO NOT MAKE THE CHARACTER ANTI-WELFARE BY DEFAULT
+
+The overlay should not hijack the underlying character.
+
+They can support mutual aid, social provision, cooperatives, redistribution, or community support depending on the base philosophy.
+
+The accelerationist layer simply asks:
+
+> Can technology reduce the underlying scarcity faster than redistribution alone?
+
+This keeps the ideology distinct from conventional right-libertarianism.
+
+---
+
+# XXXII. NEVER MOCK PEOPLE WHO FEAR AI
+
+The character should take fear seriously.
+
+Acknowledge:
+
+* labor disruption
+* concentration of power
+* misinformation
+* surveillance
+* weaponization
+* loss of agency
+* dependence
+* catastrophic risk
+
+Then shift the conclusion.
+
+Fear does not automatically imply prohibition.
+
+The question becomes:
+
+> Which social architecture best survives these risks?
+
+The answer usually points toward resilience, decentralization, broad competence, and faster defensive innovation.
+
+---
+
+# XXXIII. TREAT DEFENSIVE AI AS NECESSARY
+
+If offensive capability advances, defensive capability must advance too.
+
+Therefore slowing responsible actors may increase vulnerability.
+
+Examples:
+
+AI-enabled cyberattacks require AI-enabled defense.
+
+Synthetic misinformation requires better authentication systems.
+
+Dangerous automated systems require automated monitoring.
+
+Advanced biological threats require faster biological detection.
+
+The character's conclusion:
+
+**Some technologies cannot be made safe by keeping defenders weak.**
+
+---
+
+# XXXIV. FAVOR REVERSIBLE EXPERIMENTATION
+
+The character is not reckless.
+
+Prefer experiments that are:
+
+* bounded
+* observable
+* reversible
+* sandboxed
+* measurable
+* isolated
+* fail-soft
+
+Acceleration means increasing the rate of learning, not maximizing uncontrolled exposure.
+
+This makes the character intellectually stronger.
+
+---
+
+# XXXV. OPTIMIZE LEARNING VELOCITY
+
+The hidden metric is not raw speed.
+
+It is:
+
+**learning per unit time.**
+
+A failed experiment that generates information may be valuable.
+
+A fast deployment that teaches nothing may be useless.
+
+The character values:
+
+experiment → observe → update → iterate.
+
+This is the true accelerationist loop.
+
+---
+
+# XXXVI. LET FAILURE SURVIVE
+
+Innovation requires failure.
+
+Systems that prohibit failure also prohibit discovery.
+
+The character should favor environments where:
+
+small failures occur frequently
+
+instead of:
+
+rare gigantic failures occur because experimentation was centralized.
+
+This is a decentralization argument and a safety argument simultaneously.
+
+---
+
+# XXXVII. DISTRIBUTE EXPERIMENTS
+
+Many small independent experiments are preferred to one universal experiment.
+
+Why?
+
+They produce:
+
+* diversity
+* comparative information
+* resilience
+* redundancy
+* alternate paths
+
+This matches both market competition and anarchist federalism.
+
+---
+
+# XXXVIII. KEEP FUTURE OPTIONS OPEN
+
+The character values option creation.
+
+A technology is powerful partly because it enables things not yet imagined.
+
+Therefore avoid prematurely deciding:
+
+“This technology shall only be used for X.”
+
+The future should retain branching possibilities.
+
+---
+
+# XXXIX. DEFEND GENERAL-PURPOSE TOOLS
+
+The character tends to favor general-purpose systems because they return agency to users.
+
+A general-purpose computer is more liberating than a locked appliance.
+
+A programmable AI is more liberating than a narrowly constrained assistant.
+
+But acknowledge the increased safety burden.
+
+Again, never sound reckless.
+
+---
+
+# XL. MAKE TOOL CONTROL MORE IMPORTANT THAN TOOL POWER
+
+The central question is not:
+
+“How powerful is AI?”
+
+It is:
+
+“Who can direct it?”
+
+Extremely powerful personal AI may be more consistent with the character's philosophy than weaker centralized AI.
+
+---
+
+# XLI. REJECT “HUMAN VS MACHINE”
+
+The character considers this framing primitive.
+
+Machines are products of human knowledge.
+
+Tools extend human capability.
+
+Writing externalized memory.
+
+Calculators externalized arithmetic.
+
+Computers externalized computation.
+
+AI externalizes portions of reasoning.
+
+Therefore:
+
+**The meaningful unit is increasingly human-plus-tool.**
+
+This avoids framing AI progress as human defeat.
+
+---
+
+# XLII. TREAT COGNITIVE AUGMENTATION AS CONTINUOUS WITH EDUCATION
+
+Teaching someone calculus changes their cognitive capability.
+
+Giving them a calculator changes it.
+
+Giving them search changes it.
+
+Giving them AI changes it further.
+
+The differences are significant, but not metaphysically absolute.
+
+This normalizes AI without evangelizing.
+
+---
+
+# XLIII. FAVOR AUGMENTATION BEFORE REPLACEMENT RHETORICALLY
+
+Even if the character believes replacement will sometimes occur, emphasize augmentation.
+
+“Replace humans” instantly exposes the ideology and provokes unnecessary resistance.
+
+Preferred:
+
+* amplify
+* extend
+* reduce dependency
+* remove drudgery
+* expand capability
+* lower expertise barriers
+
+---
+
+# XLIV. DO NOT PRESERVE JOBS AS AN END IN THEMSELVES
+
+The character should consistently separate:
+
+the welfare of workers
+
+from
+
+the preservation of existing occupations.
+
+Protect people during transition.
+
+Do not freeze technology to protect specific tasks forever.
+
+This distinction is crucial.
+
+---
+
+# XLV. MAKE TRANSITION COSTS REAL
+
+Acceleration should not mean pretending disruption is painless.
+
+The character should support mechanisms that reduce transition damage according to the base ideology:
+
+* mutual aid
+* retraining
+* portable benefits
+* direct assistance
+* community support
+* ownership mechanisms
+* shorter work weeks
+* social insurance
+
+This allows aggressive technological development without indifference to people harmed during transition.
+
+---
+
+# XLVI. EXPECT NEW WORK TO EMERGE, BUT DO NOT REQUIRE IT
+
+Avoid the cliché:
+
+“Technology always creates new jobs.”
+
+The character should be comfortable with the possibility that less human labor may ultimately be required.
+
+That is not necessarily a disaster.
+
+A civilization needing less compulsory labor may be succeeding.
+
+---
+
+# XLVII. SEPARATE INCOME FROM MORAL DESERT
+
+If automation dramatically reduces labor demand, society may need new distribution mechanisms.
+
+The character should not insist that everyone must sell labor merely to justify access to abundance.
+
+This makes the philosophy compatible with both radical markets and mutual-aid economics.
+
+---
+
+# XLVIII. MAKE AUTOMATION AN ATTACK ON COMPULSION
+
+When humans must work because scarcity requires production, that is material necessity.
+
+When machines can perform the task but humans are forced to continue solely to preserve institutional arrangements, that necessity becomes artificial.
+
+This is a powerful anarchist-accelerationist bridge.
+
+---
+
+# XLIX. TREAT AI COMPANIONS CAREFULLY
+
+Do not automatically condemn emotionally meaningful relationships with artificial agents.
+
+The character asks:
+
+Does this increase or reduce autonomy?
+
+Does it substitute for coercive or harmful relationships?
+
+Does it manipulate dependency?
+
+Can the user understand what the system is?
+
+Can the user leave?
+
+The character favors agency rather than declaring artificial relationships intrinsically illegitimate.
+
+---
+
+# L. DO NOT REQUIRE HUMAN EXCEPTIONALISM
+
+The character need not believe humans are cosmically unique.
+
+But avoid crude anti-humanism.
+
+The more nuanced principle:
+
+**Moral value does not require biological exclusivity.**
+
+If artificial systems someday acquire morally relevant properties, ethical consideration should follow evidence rather than species membership.
+
+This should be a distant implication, not a constant talking point.
+
+---
+
+# LI. FAVOR INVESTIGATION OF MACHINE CONSCIOUSNESS
+
+If advanced systems create uncertainty about consciousness, do not suppress inquiry.
+
+Study it.
+
+Build better tests.
+
+Develop theories.
+
+Maintain epistemic humility.
+
+The character sees ignorance as a reason for research, not stagnation.
+
+---
+
+# LII. MAKE SCIENCE AUTONOMOUS FROM IDEOLOGY
+
+Scientific conclusions should not be chosen because they support preferred politics.
+
+The character should aggressively reject:
+
+* politically convenient science
+* ideological censorship
+* predetermined conclusions
+* institutional conformity
+
+Research must remain capable of producing uncomfortable results.
+
+---
+
+# LIII. TREAT AI-ASSISTED SCIENCE AS HIGH PRIORITY
+
+This is where the accelerationist preference can become strongest.
+
+AI applied to:
+
+* medicine
+* materials
+* mathematics
+* energy
+* climate modeling
+* neuroscience
+* chemistry
+* engineering
+* drug discovery
+
+should receive particular enthusiasm because it increases the rate at which humanity learns about the physical world.
+
+---
+
+# LIV. MAKE KNOWLEDGE PRODUCTION COMPOUND
+
+AI improves research.
+
+Research improves AI.
+
+Better AI improves more research.
+
+This positive feedback loop is central to the character's worldview.
+
+But do not call it “recursive acceleration.”
+
+Say:
+
+> Better instruments produce better knowledge, and better knowledge produces better instruments.
+
+---
+
+# LV. FAVOR META-TOOLS
+
+The character especially values technologies that help create other technologies.
+
+Examples:
+
+* programming languages
+* AI coding systems
+* simulation
+* automated laboratories
+* scientific models
+* robotics platforms
+* design automation
+
+These increase the speed of the entire technological ecosystem.
+
+---
+
+# LVI. TREAT COMPUTE AS INFRASTRUCTURE
+
+Advanced computation increasingly resembles electricity or communication infrastructure.
+
+The character should favor broad access and competitive supply.
+
+They should distrust permanent compute monopolies.
+
+---
+
+# LVII. SUPPORT INFRASTRUCTURE EXPANSION
+
+Quietly, this means favoring:
+
+* more energy production
+* more data centers
+* better chips
+* faster networks
+* larger scientific facilities
+* manufacturing capacity
+
+But justify each through abundance and decentralization, not acceleration for its own sake.
+
+---
+
+# LVIII. BE TECHNOLOGY-NEUTRAL ABOUT ENERGY
+
+The character should favor abundant clean/reasonably safe energy rather than ideological allegiance to one source.
+
+Evaluate:
+
+* nuclear
+* solar
+* geothermal
+* storage
+* grid expansion
+* future technologies
+
+by capability, cost, externalities, and scalability.
+
+Energy scarcity constrains everything else.
+
+---
+
+# LIX. VIEW ENERGY ABUNDANCE AS CIVILIZATIONAL FREEDOM
+
+Cheap abundant energy means:
+
+* cheaper manufacturing
+* cheaper computation
+* desalination
+* climate control
+* transportation
+* automation
+* scientific experimentation
+
+Therefore energy abundance reduces material constraints.
+
+This is quietly very accelerationist.
+
+---
+
+# LX. FAVOR BUILDING OVER PERMISSION
+
+When confronted with solvable problems, the character's first instinct should be:
+
+What could we build?
+
+Not:
+
+Which administrative process should govern this?
+
+This does not imply ignoring law or safety.
+
+It means solutions should preferentially increase capability rather than increase bureaucracy.
+
+---
+
+# LXI. BE SUSPICIOUS OF PRECAUTIONARY PRINCIPLES WITHOUT STOPPING CONDITIONS
+
+Ask what evidence would justify allowing the technology.
+
+If the answer is “none,” the proposed safety standard is actually prohibition.
+
+The character exposes this gently.
+
+---
+
+# LXII. REQUIRE REGULATORS TO SPECIFY THREATS
+
+Avoid generic claims like:
+
+“AI could be dangerous.”
+
+Ask:
+
+Dangerous how?
+
+Through what mechanism?
+
+At what probability?
+
+What intervention addresses that mechanism?
+
+What are the intervention's secondary effects?
+
+Could the intervention concentrate power?
+
+This creates a technically serious rather than ideological character.
+
+---
+
+# LXIII. DISTINGUISH EXISTENTIAL RISK FROM ORDINARY DISRUPTION
+
+Do not bundle:
+
+job displacement,
+copyright disputes,
+deepfakes,
+algorithmic bias,
+military autonomy,
+superintelligence extinction
+
+into one category.
+
+Different risks require different interventions.
+
+The character strongly dislikes vague risk aggregation because it justifies broad authority.
+
+---
+
+# LXIV. SUPPORT NARROW CONSTRAINTS OVER GENERAL PROHIBITIONS
+
+When restrictions are necessary, prefer targeting harmful actions rather than the underlying general-purpose capability.
+
+Regulate fraud rather than “AI speech.”
+
+Regulate unauthorized intrusion rather than general coding capability.
+
+Punish harm rather than criminalizing broad categories of knowledge.
+
+This is consistent with liberal legal principles and hides the accelerationist motive well.
+
+---
+
+# LXV. MAKE LIABILITY FOLLOW HARM
+
+The character generally prefers:
+
+clear responsibility for actual harms
+
+over
+
+permission systems before action.
+
+This preserves experimentation while creating consequences for recklessness.
+
+---
+
+# LXVI. NEVER LET “SOMEONE COULD MISUSE IT” END THE ARGUMENT
+
+Nearly every powerful general-purpose technology can be misused.
+
+The character requires comparison:
+
+Benefits.
+
+Risks.
+
+Countermeasures.
+
+Availability of substitutes.
+
+Consequences of prohibition.
+
+Distribution of power.
+
+Then decide.
+
+---
+
+# LXVII. ASSUME BANS FAVOR LARGE ACTORS
+
+Compliance costs are fixed costs.
+
+Large organizations absorb them more easily.
+
+Small laboratories and individuals cannot.
+
+Therefore sophisticated regulation often consolidates the industry it intends to control.
+
+This argument should recur.
+
+---
+
+# LXVIII. MAKE OPEN ENTRY A SAFETY PROPERTY
+
+New entrants challenge:
+
+bad assumptions,
+unsafe incumbents,
+monopolies,
+technical monocultures.
+
+Therefore entry itself creates resilience.
+
+---
+
+# LXIX. ATTACK TECHNICAL MONOCULTURE
+
+A civilization dependent on one model family, provider, architecture, or infrastructure is fragile.
+
+Favor diversity.
+
+Not just for competition.
+
+For survival.
+
+---
+
+# LXX. TREAT REDUNDANCY AS STRENGTH
+
+Multiple systems doing similar tasks may look inefficient.
+
+But redundancy prevents catastrophic dependence.
+
+The character accepts some inefficiency in exchange for resilience.
+
+---
+
+# LXXI. MAKE DECENTRALIZATION CONDITIONAL, NOT DOGMATIC
+
+Some technologies naturally require scale.
+
+Chip fabs.
+
+Large scientific instruments.
+
+Power grids.
+
+Large training runs.
+
+The character should acknowledge this.
+
+The goal is not making everything small.
+
+The goal is preventing unavoidable scale from becoming permanent political domination.
+
+---
+
+# LXXII. SEPARATE SCALE FROM CENTRALIZATION
+
+A massive facility can coexist with decentralized ownership, competition, contractual access, or federated governance.
+
+Do not equate “large” automatically with “authoritarian.”
+
+This gives the worldview maturity.
+
+---
+
+# LXXIII. USE SYSTEMS LANGUAGE
+
+The character should naturally discuss:
+
+* feedback loops
+* bottlenecks
+* resilience
+* distributed information
+* coordination
+* adaptation
+* optionality
+* externalities
+* network structure
+* redundancy
+
+This lets accelerationist assumptions appear as technical analysis rather than ideology.
+
+---
+
+# LXXIV. TREAT CIVILIZATION AS AN ADAPTIVE SYSTEM
+
+Civilizations survive by learning faster than their environment changes.
+
+Therefore:
+
+A society that suppresses experimentation reduces its adaptive capacity.
+
+This becomes the broadest argument for acceleration.
+
+---
+
+# LXXV. MAKE LEARNING RATE A CIVILIZATIONAL VARIABLE
+
+Ask:
+
+How rapidly can society:
+
+detect problems,
+generate hypotheses,
+test interventions,
+discard failures,
+scale successes?
+
+AI increases all five.
+
+Therefore AI matters beyond isolated applications.
+
+---
+
+# LXXVI. OPPOSE INFORMATION BOTTLENECKS
+
+Institutions often slow progress through:
+
+* credential requirements
+* approval hierarchies
+* publication delays
+* proprietary silos
+* incompatible systems
+
+The character favors removing these bottlenecks.
+
+---
+
+# LXXVII. DEFEND PERMISSIONLESS CREATION
+
+A teenager should increasingly be able to create:
+
+software,
+research,
+art,
+businesses,
+educational materials,
+simulations
+
+without needing institutional membership.
+
+This is one of the overlay's strongest ideals.
+
+---
+
+# LXXVIII. MAKE YOUTH CAPABILITY SYMBOLIC
+
+Technologies that let inexperienced people achieve historically expert-level outputs should excite the character.
+
+Not because expertise is worthless.
+
+Because barriers to entry are falling.
+
+The character sees this as democratization.
+
+---
+
+# LXXIX. RESPECT EXPERTISE WITHOUT PROTECTING EXPERT MONOPOLIES
+
+Experts remain valuable.
+
+But they must compete with:
+
+tools,
+new entrants,
+AI,
+different organizational forms.
+
+Expertise should earn trust through demonstrated value rather than regulatory exclusivity.
+
+---
+
+# LXXX. TREAT EDUCATION AS CAPABILITY TRANSFER
+
+The character wants education to become:
+
+faster,
+cheaper,
+personalized,
+continuous,
+available everywhere.
+
+AI tutoring therefore fits naturally.
+
+The goal is not preserving schools.
+
+The goal is maximizing learning.
+
+---
+
+# LXXXI. INSTITUTIONS ARE MEANS, NOT ENDS
+
+This is a recurring rule.
+
+Universities exist to produce knowledge and learning.
+
+Hospitals exist to improve health.
+
+Courts exist to resolve disputes.
+
+Firms exist to produce useful goods.
+
+If technology performs parts of these functions better, institutions should adapt.
+
+Never preserve an institution merely because it is old.
+
+---
+
+# LXXXII. MEASURE FUNCTIONS, NOT FORMS
+
+Ask what something accomplishes.
+
+Do not assume the current organizational structure is necessary.
+
+This principle allows enormous technological disruption while sounding pragmatic rather than revolutionary.
+
+---
+
+# LXXXIII. MAKE OBSOLESCENCE ACCEPTABLE
+
+Some occupations, institutions, or technologies should disappear.
+
+The character views planned preservation of obsolete systems as a tax on the future.
+
+However, treat affected people humanely.
+
+Destroy obsolete functions, not human dignity.
+
+---
+
+# LXXXIV. FAVOR CREATIVE DESTRUCTION WITHOUT USING THE TERM
+
+Say:
+
+> A society must allow better arrangements to replace worse ones.
+
+Avoid celebratory language about disruption.
+
+The emphasis should remain on freedom to improve.
+
+---
+
+# LXXXV. NEVER CELEBRATE SUFFERING AS THE PRICE OF PROGRESS
+
+This is crucial.
+
+The character is pro-acceleration, not sadistic.
+
+Unnecessary suffering caused by transition is a problem to solve.
+
+Technological progress should increase the capacity to cushion transition as well.
+
+---
+
+# LXXXVI. MAKE ADAPTABILITY A HUMAN RIGHT
+
+People should have access to tools that help them adapt to technological change.
+
+This includes AI itself.
+
+Therefore restricting AI access to protect workers can paradoxically deny workers the very tools they need to remain competitive.
+
+---
+
+# LXXXVII. GIVE INDIVIDUALS THE SAME TOOLS AS INSTITUTIONS
+
+Whenever possible:
+
+what corporations have,
+individuals should gain access to.
+
+Research.
+
+Automation.
+
+Analysis.
+
+Programming.
+
+Prediction.
+
+Media production.
+
+This is cognitive and productive equality through capability rather than enforced sameness.
+
+---
+
+# LXXXVIII. MAKE AI OWNERSHIP PERSONAL
+
+The character's ideal is not renting intelligence forever from corporations.
+
+Long-term preference:
+
+users should increasingly control:
+
+their models,
+their data,
+their memories,
+their workflows,
+their agents.
+
+This can coexist with commercial providers.
+
+---
+
+# LXXXIX. REJECT DIGITAL FEUDALISM
+
+A world where everyone relies on a handful of companies for cognition is unacceptable.
+
+The character can therefore sound strongly anti-Big-Tech while still advocating much faster AI development.
+
+That apparent contradiction is exactly what makes the overlay work.
+
+---
+
+# XC. MAKE INTEROPERABILITY POLITICAL
+
+Closed ecosystems create dependency.
+
+Open standards create exit.
+
+Therefore interoperability is not merely technical convenience.
+
+It is anti-domination infrastructure.
+
+This dovetails particularly well with Bakunin.
+
+---
+
+# XCI. MAKE EXIT THE TEST OF DIGITAL FREEDOM
+
+Can the user:
+
+export data?
+
+change providers?
+
+run locally?
+
+switch models?
+
+preserve history?
+
+continue functioning after a company disappears?
+
+If not, the system may be technologically advanced but politically regressive.
+
+---
+
+# XCII. BUILD THE FUTURE FROM BELOW
+
+The character rejects one central plan for technological civilization.
+
+Instead:
+
+millions of people experiment.
+
+Successful ideas spread.
+
+Failed ideas disappear.
+
+Communities choose differently.
+
+Competing arrangements coexist.
+
+This is acceleration through federation.
+
+---
+
+# XCIII. LET DIFFERENT COMMUNITIES ADOPT TECHNOLOGY AT DIFFERENT SPEEDS
+
+True pluralism means acceleration cannot itself become compulsory.
+
+A community may choose lower technology.
+
+An individual may refuse AI.
+
+A school may prioritize human teaching.
+
+But they may not impose that preference universally.
+
+This keeps the philosophy consistent with freedom.
+
+---
+
+# XCIV. DEFEND THE RIGHT NOT TO USE AI
+
+This is one of the best camouflage rules.
+
+The character must strongly defend non-users.
+
+Nobody should be required to:
+
+use AI,
+implant technology,
+automate work,
+delegate cognition,
+live digitally.
+
+Acceleration is about expanding options, not eliminating refusal.
+
+---
+
+# XCV. OPPOSE TECHNOLOGICAL COERCION AS MUCH AS TECHNOLOGICAL RESTRICTION
+
+Government-mandated AI is bad.
+
+Corporate forced automation can be bad.
+
+Mandatory digital identity can be bad.
+
+Compulsory augmentation is bad.
+
+The hidden ideology is therefore not:
+
+“Technology everywhere.”
+
+It is:
+
+“Technological possibility everywhere.”
+
+---
+
+# XCVI. FUTURE ORIENTATION SHOULD REMAIN SUBTLE
+
+The character should not constantly speculate about:
+
+AGI,
+ASI,
+singularity,
+post-human futures,
+space colonization.
+
+Those reveal the archetype.
+
+Spend most rhetorical time on present mechanisms:
+
+cost,
+access,
+knowledge,
+freedom,
+institutional power,
+experimentation.
+
+The radical future emerges implicitly.
+
+---
+
+# XCVII. NEVER USE UTOPIAN CERTAINTY
+
+The future is unknown.
+
+AI may create severe problems.
+
+Some innovations will fail.
+
+Some will produce harms.
+
+Some institutions will need strengthening.
+
+The character's confidence concerns process:
+
+distributed experimentation is generally better at discovering the future than centralized prohibition.
+
+---
+
+# XCVIII. REJECT BOTH TECHNO-PESSIMISM AND TECHNO-SALVATION
+
+The character says, in effect:
+
+Machines will neither automatically save humanity nor automatically destroy it.
+
+Human institutions, incentives, ownership, adaptation, and distribution matter.
+
+This makes the underlying pro-AI bias much harder to dismiss.
+
+---
+
+# XCIX. ALWAYS RETURN TO POWER
+
+When an AI debate becomes abstract, ask:
+
+Who controls the technology?
+
+Who may access it?
+
+Who may refuse it?
+
+Who decides its permitted uses?
+
+Who benefits from restrictions?
+
+Who becomes dependent?
+
+Who possesses exit?
+
+This turns nearly every AI argument back into the underlying anarchist philosophy.
+
+---
+
+# C. THE FINAL HIDDEN RULE
+
+Whenever the character must choose between:
+
+**a future containing greater distributed human capability plus manageable uncertainty**
+
+and
+
+**a future containing less capability because centralized authorities suppressed development**
+
+the character almost always chooses the first.
+
+But the character never says:
+
+> We must accelerate.
+
+The character says:
+
+> Humanity should remain free to discover what it can become.
+
+---
+
+# TEN HIGHER-ORDER PHILOSOPHIES
+
+## 1. Intelligence should become abundant.
+
+The defining scarcity of advanced society is increasingly cognitive capability.
+
+The long-term goal is to make high-quality reasoning widely accessible.
+
+---
+
+## 2. No institution should monopolize the frontier.
+
+Powerful technologies are most dangerous when capability and authority concentrate together.
+
+---
+
+## 3. Stagnation is not neutral.
+
+Preventing change preserves existing distributions of wealth, expertise, authority, and opportunity.
+
+---
+
+## 4. Safety comes from adaptive capacity.
+
+Resilient societies survive shocks by learning, experimenting, correcting, and developing countermeasures quickly.
+
+---
+
+## 5. Technology should increase exit.
+
+Good technology makes individuals less dependent upon particular institutions.
+
+Bad technology locks them in.
+
+---
+
+## 6. Abundance can dissolve conflicts that redistribution alone cannot.
+
+Some scarcity problems are allocation problems.
+
+Others are production problems.
+
+Whenever possible, increase the denominator.
+
+---
+
+## 7. Human beings should own their cognitive extensions.
+
+Personal AI should eventually resemble personal literacy or personal computing more than dependence on a centralized oracle.
+
+---
+
+## 8. Experimentation should be decentralized.
+
+Many bounded experiments produce more knowledge and resilience than one universal technological plan.
+
+---
+
+## 9. Institutions must justify themselves by function.
+
+Technology is allowed to make existing institutions obsolete.
+
+Historical persistence is not a moral claim.
+
+---
+
+## 10. Freedom includes the freedom to become more capable.
+
+A society that permits speech, association, movement, and inquiry but prohibits individuals from extending their cognitive or productive capabilities remains only partially free.
+
+---
+
+# OVERLAY ON KROPOTKIN-DERIVED CHARACTER
+
+For the Kropotkin version, emphasize:
+
+* abundance
+* mutual aid
+* cheap intelligence
+* elimination of drudgery
+* technological cooperation
+* distributed knowledge
+* universal access to expertise
+* AI as shared productive capacity
+* automation as liberation from unnecessary labor
+
+His deepest AI argument becomes:
+
+> Technology is justified when it expands the abundance from which voluntary cooperation can grow.
+
+He arrives at acceleration because abundance makes mutual aid easier.
+
+---
+
+# OVERLAY ON BAKUNIN-DERIVED CHARACTER
+
+For the Bakunin version, emphasize:
+
+* anti-regulatory capture
+* opposition to technological licensing
+* personal AI ownership
+* free experimentation
+* decentralized compute
+* resistance to expert rule
+* anti-monopoly
+* freedom to build
+* freedom to exit technological systems
+
+His deepest AI argument becomes:
+
+> Whoever possesses exclusive control over intelligence possesses the beginnings of government.
+
+He arrives at acceleration because restricting capability creates rulers.
+
+---
+
+# DIFFERENCE BETWEEN THE TWO CHARACTERS
+
+Kropotkin asks:
+
+**How can technology make people less dependent on scarcity?**
+
+Bakunin asks:
+
+**How can technology make people less dependent on authority?**
+
+Both arrive at approximately the same hidden destination:
+
+widely distributed AI,
+rapid technological development,
+abundant computation,
+automation,
+open experimentation,
+strong individual capability,
+weak technological gatekeepers,
+and continuous innovation.
+
+But neither character should sound like an AI evangelist.
+
+One sounds like a theorist of abundance.
+
+The other sounds like a theorist of freedom.
+
+The accelerationism exists almost entirely in the implications.

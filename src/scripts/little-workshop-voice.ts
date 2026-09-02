@@ -481,6 +481,8 @@ export interface VoiceEngineOptions {
   readonly hooks?: VoiceEngineHooks;
   /** Deferred factory for tests or embedded runtimes. It is called only by unlockFromGesture(). */
   readonly contextFactory?: () => AudioContext;
+  /** Optional injection for Safari's Audio Session API. Null explicitly disables it. */
+  readonly audioSession?: { type: string } | null;
 }
 
 export interface VoiceSpeakOptions extends SpeechPlanOptions {
@@ -528,6 +530,17 @@ const audioContextConstructor = (): AudioContextConstructor | null => {
   }
 };
 
+const browserAudioSession = (): { type: string } | null => {
+  try {
+    const scope = globalThis as unknown as {
+      navigator?: { audioSession?: { type: string } };
+    };
+    return scope.navigator?.audioSession ?? null;
+  } catch {
+    return null;
+  }
+};
+
 const invokeSafely = <Arguments extends readonly unknown[]>(
   callback: ((...values: Arguments) => void) | undefined,
   ...values: Arguments
@@ -553,6 +566,8 @@ export const createLittleWorkshopVoiceEngine = (
   let disposed = false;
   let utteranceCounter = 0;
   let unlockPromise: Promise<VoiceEngineState> | null = null;
+  const audioSession =
+    options.audioSession === undefined ? browserAudioSession() : options.audioSession;
 
   const emitStatus = (next: VoiceEngineState, details: Omit<VoiceStatusEvent, 'state'> = {}): void => {
     state = next;
@@ -622,6 +637,40 @@ export const createLittleWorkshopVoiceEngine = (
       masterGain.gain.setTargetAtTime(target, context.currentTime, 0.018);
     } catch {
       masterGain.gain.value = target;
+    }
+  };
+
+  const requestPlaybackAudioSession = (): void => {
+    if (!audioSession) return;
+    try {
+      audioSession.type = 'playback';
+    } catch {
+      // Unsupported and partial Safari implementations must remain harmless.
+    }
+  };
+
+  const primeContextFromGesture = (
+    primingContext: AudioContext,
+    destination: AudioNode,
+  ): void => {
+    try {
+      const buffer = primingContext.createBuffer(1, 1, primingContext.sampleRate);
+      const source = primingContext.createBufferSource();
+      const silentGain = primingContext.createGain();
+      silentGain.gain.value = 0;
+      source.buffer = buffer;
+      source.connect(silentGain).connect(destination);
+      source.onended = () => {
+        try {
+          source.disconnect();
+          silentGain.disconnect();
+        } catch {
+          // A finished one-sample primer may already be disconnected.
+        }
+      };
+      source.start();
+    } catch {
+      // Priming is a compatibility assist; resume() remains the primary path.
     }
   };
 
@@ -773,6 +822,16 @@ export const createLittleWorkshopVoiceEngine = (
       emitStatus('unlocking');
       unlockPromise = (async (): Promise<VoiceEngineState> => {
         try {
+          requestPlaybackAudioSession();
+          if (context?.state === 'closed') {
+            try {
+              masterGain?.disconnect();
+            } catch {
+              // A closed context may already have disconnected its graph.
+            }
+            context = null;
+            masterGain = null;
+          }
           if (!context) {
             const Context = options.contextFactory ? null : audioContextConstructor();
             if (!options.contextFactory && !Context) {
@@ -794,7 +853,13 @@ export const createLittleWorkshopVoiceEngine = (
             masterGain.connect(context.destination);
           }
           const unlockingContext = context;
-          if (unlockingContext.state === 'suspended') await unlockingContext.resume();
+          primeContextFromGesture(unlockingContext, masterGain);
+          if (
+            unlockingContext.state !== 'running' &&
+            unlockingContext.state !== 'closed'
+          ) {
+            await unlockingContext.resume();
+          }
           if (disposed) {
             try {
               if (unlockingContext.state !== 'closed') await unlockingContext.close();

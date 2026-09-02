@@ -1,103 +1,68 @@
 ---
-import mikwhaleImage from '../assets/mikwhale/reference/mikwhale-master-transparent.png';
+import mikwhaleAtlas from '../assets/aristotter/characters/mikwhale/character-motion-v3.webp';
 ---
 
-<div class="character__idle puppet-shell" data-idle-target="mikwhale">
+<div class="character-frame-shell">
   <div
-    class="puppet-canvas"
+    class="character-frame"
+    data-frame-character="mikwhale"
+    data-frame="neutral"
     role="img"
     aria-label="Mikwhale Bakunin, a small blue whale with wild brown side curls, a huge beard, and a dark cravat"
-  >
-    <img class="puppet-base" src={mikwhaleImage.src} width={mikwhaleImage.width} height={mikwhaleImage.height} alt="" aria-hidden="true" />
-
-    <div class="puppet-layer" data-part="torso" data-idle-part="torso">
-      <div class="puppet-layer" data-voice-part="torso">
-        <svg viewBox="0 0 1237 1271" aria-hidden="true">
-          <defs><radialGradient id="mik-torso" cx="43%" cy="24%" r="74%"><stop offset="0" stop-color="#dcf7ff" stop-opacity=".12" /><stop offset="1" stop-color="#dcf7ff" stop-opacity="0" /></radialGradient></defs>
-          <ellipse cx="618.5" cy="806" rx="315" ry="332" fill="url(#mik-torso)" />
-        </svg>
-
-        <div class="puppet-layer" data-part="chest" data-idle-part="chest">
-          <div class="puppet-layer" data-voice-part="chest"><svg viewBox="0 0 1237 1271" aria-hidden="true"><ellipse cx="618.5" cy="825" rx="224" ry="268" fill="#fff8df" opacity=".045" /></svg></div>
-        </div>
-
-        <div class="puppet-layer" data-part="paw-left" data-idle-part="paw-left">
-          <div class="puppet-layer" data-voice-part="paw-left"><svg viewBox="0 0 1237 1271" aria-hidden="true"><ellipse cx="291" cy="764" rx="46" ry="111" fill="#ccecf3" opacity=".045" transform="rotate(8 291 764)" /></svg></div>
-        </div>
-        <div class="puppet-layer" data-part="paw-right" data-idle-part="paw-right">
-          <div class="puppet-layer" data-voice-part="paw-right"><svg viewBox="0 0 1237 1271" aria-hidden="true"><ellipse cx="946" cy="764" rx="46" ry="111" fill="#ccecf3" opacity=".045" transform="rotate(-8 946 764)" /></svg></div>
-        </div>
-
-        <div class="puppet-layer" data-part="head" data-idle-part="head">
-          <div class="puppet-layer" data-voice-part="head">
-            <svg viewBox="0 0 1237 1271" aria-hidden="true">
-              <defs><radialGradient id="mik-head" cx="43%" cy="24%" r="74%"><stop offset="0" stop-color="#dcf7ff" stop-opacity=".13" /><stop offset="1" stop-color="#dcf7ff" stop-opacity="0" /></radialGradient></defs>
-              <ellipse cx="618.5" cy="263" rx="270" ry="248" fill="url(#mik-head)" />
-            </svg>
-
-            <div class="puppet-layer" data-part="ear-left" data-idle-part="ear-left">
-              <div class="puppet-layer" data-voice-part="ear-left"><svg viewBox="0 0 1237 1271" aria-hidden="true"><ellipse cx="287" cy="250" rx="55" ry="122" fill="#e2b995" opacity=".03" transform="rotate(16 287 250)" /></svg></div>
-            </div>
-            <div class="puppet-layer" data-part="ear-right" data-idle-part="ear-right">
-              <div class="puppet-layer" data-voice-part="ear-right"><svg viewBox="0 0 1237 1271" aria-hidden="true"><ellipse cx="950" cy="250" rx="55" ry="122" fill="#e2b995" opacity=".03" transform="rotate(-16 950 250)" /></svg></div>
-            </div>
-
-            <div class="puppet-layer puppet__eyelid" data-part="eye-left" data-idle-part="eye-left">
-              <div class="puppet-layer" data-voice-part="eye-left"><svg viewBox="0 0 1237 1271" aria-hidden="true"><ellipse cx="472" cy="369" rx="62" ry="67" fill="#6797a6" /><path d="M422 375Q472 401 522 375" fill="none" stroke="#203f49" stroke-width="7" stroke-linecap="round" /></svg></div>
-            </div>
-            <div class="puppet-layer puppet__eyelid" data-part="eye-right" data-idle-part="eye-right">
-              <div class="puppet-layer" data-voice-part="eye-right"><svg viewBox="0 0 1237 1271" aria-hidden="true"><ellipse cx="765" cy="369" rx="62" ry="67" fill="#6797a6" /><path d="M715 375Q765 401 815 375" fill="none" stroke="#203f49" stroke-width="7" stroke-linecap="round" /></svg></div>
-            </div>
-
-            <div class="puppet-layer" data-part="fur" data-idle-part="fur">
-              <div class="puppet-layer" data-voice-part="fur"><svg viewBox="0 0 1237 1271" aria-hidden="true"><ellipse cx="618.5" cy="589" rx="292" ry="166" fill="#fff1da" opacity=".03" /></svg></div>
-            </div>
-            <div class="puppet-layer" data-part="nose" data-idle-part="nose">
-              <div class="puppet-layer" data-voice-part="nose"><svg viewBox="0 0 1237 1271" aria-hidden="true"><ellipse cx="603" cy="38" rx="17" ry="6.5" fill="#d8f4fa" opacity=".22" /></svg></div>
-            </div>
-
-            <div class="puppet-layer mouth-layer" data-part="mouth">
-              <div class="puppet-layer" data-voice-part="mouth">
-                <svg viewBox="0 0 1237 1271" aria-hidden="true"><g transform="translate(618.5 538)"><g class="character__mouth" data-mouth="mikwhale"><ellipse class="character__mouth-cavity" rx="38.5" ry="16" /><path class="character__mouth-tongue" d="M-23 7Q0 22 23 7Q18 25 0 27Q-18 25-23 7Z" /></g></g></svg>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="puppet-layer" data-part="tail" data-idle-part="tail">
-      <div class="puppet-layer" data-voice-part="tail">
-        <svg viewBox="0 0 1237 1271" aria-hidden="true"><path d="M366 1074Q618.5 1198 871 1074Q805 1223 618.5 1232Q432 1223 366 1074Z" fill="#bde5eb" opacity=".04" /></svg>
-        <div class="puppet-layer" data-part="foot-left" data-idle-part="foot-left">
-          <div class="puppet-layer" data-voice-part="foot-left"><svg viewBox="0 0 1237 1271" aria-hidden="true"><ellipse cx="476" cy="1172" rx="105" ry="28" fill="#d6f1f5" opacity=".03" transform="rotate(-4 476 1172)" /></svg></div>
-        </div>
-        <div class="puppet-layer" data-part="foot-right" data-idle-part="foot-right">
-          <div class="puppet-layer" data-voice-part="foot-right"><svg viewBox="0 0 1237 1271" aria-hidden="true"><ellipse cx="761" cy="1172" rx="105" ry="28" fill="#d6f1f5" opacity=".03" transform="rotate(4 761 1172)" /></svg></div>
-        </div>
-      </div>
-    </div>
-  </div>
+    style={`background-image: url("${mikwhaleAtlas.src}")`}
+  ></div>
 </div>
 
 <style>
-  .puppet-shell { align-items: end; display: flex; height: 100%; justify-content: center; max-width: 100%; width: 100%; }
-  .puppet-canvas { aspect-ratio: 1237 / 1271; height: 100%; max-width: 100%; position: relative; }
-  .puppet-base, .puppet-layer { height: 100%; inset: 0; position: absolute; width: 100%; }
-  .puppet-base { display: block; object-fit: contain; z-index: 1; }
-  .puppet-layer { pointer-events: none; transform-origin: center; }
-  .puppet-layer svg { display: block; height: 100%; overflow: visible; width: 100%; }
-  [data-part='torso'], [data-part='tail'] { z-index: 2; }
-  .puppet__eyelid { opacity: 0; }
-  .mouth-layer { z-index: 3; }
-  .character__mouth { opacity: 0; transform: scale(.62,.08); transform-box: fill-box; transform-origin: center; transition: opacity 28ms linear, transform 54ms cubic-bezier(.2,.78,.2,1); }
-  .character__mouth-cavity { fill: #271611; stroke: #4a3024; stroke-width: 1.25; }
-  .character__mouth-tongue { fill: #aa6461; opacity: 0; transition: opacity 28ms linear; }
-  :global(.character[data-viseme='small']) .character__mouth { opacity: 1; transform: scale(.58,.38); }
-  :global(.character[data-viseme='open']) .character__mouth { opacity: 1; transform: scale(.82,1.05); }
-  :global(.character[data-viseme='wide']) .character__mouth { opacity: 1; transform: scale(1.18,.56); }
-  :global(.character[data-viseme='round']) .character__mouth { opacity: 1; transform: scale(.56,1.08); }
-  :global(.character[data-viseme='smile']) .character__mouth { opacity: 1; transform: scale(1.08,.72); }
-  :global(.character[data-viseme='open']) .character__mouth-tongue, :global(.character[data-viseme='wide']) .character__mouth-tongue, :global(.character[data-viseme='smile']) .character__mouth-tongue { opacity: .9; }
-  @media (prefers-reduced-motion: reduce) { .puppet-layer, .character__mouth, .character__mouth-tongue { animation: none !important; transition: none !important; transform: none !important; } }
+  .character-frame-shell {
+    align-items: end;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .character-frame {
+    aspect-ratio: 3 / 4;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: 800% 400%;
+    height: 100%;
+    max-width: 100%;
+    pointer-events: none;
+  }
+
+  .character-frame[data-frame='neutral'] { background-position: 0 0; }
+  .character-frame[data-frame='inhale-mid'] { background-position: 14.285714% 0; }
+  .character-frame[data-frame='inhale'] { background-position: 28.571429% 0; }
+  .character-frame[data-frame='blink-quarter'] { background-position: 42.857143% 0; }
+  .character-frame[data-frame='blink-half'] { background-position: 57.142857% 0; }
+  .character-frame[data-frame='blink-three-quarter'] { background-position: 71.428571% 0; }
+  .character-frame[data-frame='blink-closed'] { background-position: 85.714286% 0; }
+  .character-frame[data-frame='wide-mid'] { background-position: 100% 0; }
+  .character-frame[data-frame='small-mid'] { background-position: 0 33.333333%; }
+  .character-frame[data-frame='small'] { background-position: 14.285714% 33.333333%; }
+  .character-frame[data-frame='open-mid'] { background-position: 28.571429% 33.333333%; }
+  .character-frame[data-frame='open'] { background-position: 42.857143% 33.333333%; }
+  .character-frame[data-frame='round-mid'] { background-position: 57.142857% 33.333333%; }
+  .character-frame[data-frame='round'] { background-position: 71.428571% 33.333333%; }
+  .character-frame[data-frame='smile-mid'] { background-position: 85.714286% 33.333333%; }
+  .character-frame[data-frame='smile'] { background-position: 100% 33.333333%; }
+  .character-frame[data-frame='gesture-00'] { background-position: 0 66.666667%; }
+  .character-frame[data-frame='gesture-01'] { background-position: 14.285714% 66.666667%; }
+  .character-frame[data-frame='gesture-02'] { background-position: 28.571429% 66.666667%; }
+  .character-frame[data-frame='gesture-03'] { background-position: 42.857143% 66.666667%; }
+  .character-frame[data-frame='gesture-04'] { background-position: 57.142857% 66.666667%; }
+  .character-frame[data-frame='gesture-05'] { background-position: 71.428571% 66.666667%; }
+  .character-frame[data-frame='gesture-06'] { background-position: 85.714286% 66.666667%; }
+  .character-frame[data-frame='gesture-07'] { background-position: 100% 66.666667%; }
+  .character-frame[data-frame='gesture-08'] { background-position: 0 100%; }
+  .character-frame[data-frame='gesture-09'] { background-position: 14.285714% 100%; }
+  .character-frame[data-frame='gesture-10'] { background-position: 28.571429% 100%; }
+  .character-frame[data-frame='gesture-11'] { background-position: 42.857143% 100%; }
+  .character-frame[data-frame='gesture-12'] { background-position: 57.142857% 100%; }
+  .character-frame[data-frame='gesture-13'] { background-position: 71.428571% 100%; }
+  .character-frame[data-frame='gesture-14'] { background-position: 85.714286% 100%; }
+  .character-frame[data-frame='gesture-15'] { background-position: 100% 100%; }
 </style>

@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "coordinateSpace": {
+    "width": 1536,
+    "height": 1024,
+    "unit": "designPixel"
+  },
+  "movement": {
+    "rendererTargetFps": 60,
+    "maximumFrameBudgetMs": 16.67,
+    "directInputInterruptsAutonomy": true,
+    "noInputProgression": true,
+    "eightDirectionFacing": true
+  },
+  "characters": {
+    "pyotter": {
+      "speed": 116,
+      "startNode": "py-left-home",
+      "mediums": ["dry", "water"],
+      "nodes": [
+        { "id": "py-left-home", "x": 255, "y": 712, "medium": "dry" },
+        { "id": "py-left-high", "x": 275, "y": 520, "medium": "dry" },
+        { "id": "py-left-low", "x": 340, "y": 812, "medium": "dry" },
+        { "id": "py-west-entry-dry", "x": 375, "y": 555, "medium": "dry" },
+        { "id": "py-west-entry-water", "x": 455, "y": 565, "medium": "water" },
+        { "id": "py-water-northwest", "x": 535, "y": 375, "medium": "water" },
+        { "id": "py-water-north", "x": 790, "y": 310, "medium": "water" },
+        { "id": "py-water-northeast", "x": 1045, "y": 380, "medium": "water" },
+        { "id": "py-water-east-high", "x": 1245, "y": 455, "medium": "water" },
+        { "id": "py-water-east", "x": 1215, "y": 650, "medium": "water" },
+        { "id": "py-water-southeast", "x": 1040, "y": 800, "medium": "water" },
+        { "id": "py-water-south", "x": 780, "y": 875, "medium": "water" },
+        { "id": "py-water-southwest", "x": 515, "y": 835, "medium": "water" },
+        { "id": "py-water-west-low", "x": 455, "y": 720, "medium": "water" },
+        { "id": "py-bottom-entry-water", "x": 705, "y": 892, "medium": "water" },
+        { "id": "py-bottom-entry-dry", "x": 700, "y": 950, "medium": "dry" },
+        { "id": "py-bottom-home", "x": 940, "y": 930, "medium": "dry" },
+        { "id": "py-kitchen", "x": 1260, "y": 805, "medium": "dry" },
+        { "id": "py-kitchen-entry-water", "x": 1180, "y": 735, "medium": "water" },
+        { "id": "py-kitchen-entry-dry", "x": 1225, "y": 755, "medium": "dry" },
+        { "id": "py-books", "x": 420, "y": 340, "medium": "dry" },
+        { "id": "py-computer", "x": 650, "y": 345, "medium": "dry" },
+        { "id": "py-computer-entry-water", "x": 665, "y": 380, "medium": "water" },
+        { "id": "py-workbench", "x": 1030, "y": 375, "medium": "dry" },
+        { "id": "py-workbench-entry-water", "x": 1045, "y": 410, "medium": "water" }
+      ],
+      "edges": [
+        ["py-left-home", "py-left-high"],
+        ["py-left-home", "py-left-low"],
+        ["py-left-high", "py-west-entry-dry"],
+        ["py-left-low", "py-west-entry-dry"],
+        ["py-west-entry-dry", "py-west-entry-water"],
+        ["py-west-entry-water", "py-water-northwest"],
+        ["py-west-entry-water", "py-water-west-low"],
+        ["py-water-northwest", "py-water-north"],
+        ["py-water-north", "py-water-northeast"],
+        ["py-water-northeast", "py-water-east-high"],
+        ["py-water-east-high", "py-water-east"],
+        ["py-water-east", "py-water-southeast"],
+        ["py-water-southeast", "py-water-south"],
+        ["py-water-south", "py-water-southwest"],
+        ["py-water-southwest", "py-water-west-low"],
+        ["py-water-south", "py-bottom-entry-water"],
+        ["py-bottom-entry-water", "py-bottom-entry-dry"],
+        ["py-bottom-entry-dry", "py-bottom-home"],
+        ["py-bottom-home", "py-kitchen"],
+        ["py-water-east", "py-kitchen-entry-water"],
+        ["py-kitchen-entry-water", "py-kitchen-entry-dry"],
+        ["py-kitchen-entry-dry", "py-kitchen"],
+        ["py-books", "py-computer"],
+        ["py-computer", "py-computer-entry-water"],
+        ["py-computer-entry-water", "py-water-north"],
+        ["py-workbench", "py-workbench-entry-water"],
+        ["py-workbench-entry-water", "py-water-northeast"]
+      ]
+    },
+    "mikwhale": {
+      "speed": 102,
+      "startNode": "mik-east-home",
+      "mediums": ["water"],
+      "nodes": [
+        { "id": "mik-northwest", "x": 535, "y": 390, "medium": "water" },
+        { "id": "mik-north", "x": 790, "y": 320, "medium": "water" },
+        { "id": "mik-northeast", "x": 1055, "y": 400, "medium": "water" },
+        { "id": "mik-east-home", "x": 1160, "y": 500, "medium": "water" },
+        { "id": "mik-east", "x": 1130, "y": 655, "medium": "water" },
+        { "id": "mik-southeast", "x": 1045, "y": 805, "medium": "water" },
+        { "id": "mik-south", "x": 790, "y": 885, "medium": "water" },
+        { "id": "mik-southwest", "x": 520, "y": 840, "medium": "water" },
+        { "id": "mik-west-low", "x": 475, "y": 715, "medium": "water" },
+        { "id": "mik-west", "x": 475, "y": 555, "medium": "water" }
+      ],
+      "edges": [
+        ["mik-northwest", "mik-north"],
+        ["mik-north", "mik-northeast"],
+        ["mik-northeast", "mik-east-home"],
+        ["mik-east-home", "mik-east"],
+        ["mik-east", "mik-southeast"],
+        ["mik-southeast", "mik-south"],
+        ["mik-south", "mik-southwest"],
+        ["mik-southwest", "mik-west-low"],
+        ["mik-west-low", "mik-west"],
+        ["mik-west", "mik-northwest"]
+      ]
+    }
+  }
+}

@@ -1,6 +1,4 @@
 ---
-import pyotterImage from '../assets/companions/scene/pyotter-front-transparent-v1.png';
-import mikwhaleImage from '../assets/mikwhale/reference/mikwhale-master-transparent.png';
 import PyotterPuppet from './PyotterPuppet.astro';
 import MikwhalePuppet from './MikwhalePuppet.astro';
 import appleImage from '../assets/companions/objects/apple-v1.png';
@@ -49,31 +47,31 @@ const objectSprites = [
 ---
 
 <section class="prologue" data-prologue aria-labelledby="prologue-title">
-  <div class="prologue__stage" data-prologue-stage>
-    <header class="workshop-welcome">
-      <div class="workshop-welcome__float">
-        <div class="workshop-welcome__plaque">
-          <span class="workshop-welcome__leaf" aria-hidden="true">
-            <span></span>
-          </span>
+  <header class="workshop-welcome">
+    <div class="workshop-welcome__float">
+      <div class="workshop-welcome__plaque">
+        <span class="workshop-welcome__leaf" aria-hidden="true">
+          <span></span>
+        </span>
 
-          <div class="workshop-welcome__copy">
-            <p class="workshop-welcome__kicker">Welcome to</p>
-            <h1 id="prologue-title">
-              <span>The Little</span>{' '}<span>Workshop</span>
-            </h1>
-            <p class="workshop-welcome__tagline">Tiny friends. Big ideas. Plenty to share.</p>
-          </div>
-
-          <span class="workshop-welcome__ripples" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
+        <div class="workshop-welcome__copy">
+          <p class="workshop-welcome__kicker">Welcome to</p>
+          <h1 id="prologue-title">
+            <span>The Little</span>{' '}<span>Workshop</span>
+          </h1>
+          <p class="workshop-welcome__tagline">Tiny friends. Big ideas. Plenty to share.</p>
         </div>
-      </div>
-    </header>
 
+        <span class="workshop-welcome__ripples" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <div class="prologue__stage" data-prologue-stage>
     <article class="character character--pyotter" data-character="pyotter">
       <aside class="dialogue" data-dialogue="pyotter" hidden>
         <strong>Otter</strong>
@@ -83,168 +81,6 @@ const objectSprites = [
         <div class="character__art">
           <div class="character__performance" data-performance="pyotter">
             <PyotterPuppet />
-            <div class="character__legacy-puppet" hidden aria-hidden="true">
-              <svg
-                class="character__sprite character__puppet"
-                viewBox={`0 0 ${pyotterImage.width} ${pyotterImage.height}`}
-                role="img"
-                aria-labelledby="pyotter-portrait-title pyotter-portrait-description"
-                preserveAspectRatio="xMidYMid meet"
-                shape-rendering="geometricPrecision"
-              >
-                <title id="pyotter-portrait-title">Pyotter Kropotkin, a tiny brown otter with round gold glasses and an enormous cream-colored ruff</title>
-                <desc id="pyotter-portrait-description">An articulated portrait whose face, ruff, paws, body, feet, and tucked tail can move independently.</desc>
-                <defs>
-                  <image
-                    id="pyotter-rig-paint"
-                    href={pyotterImage.src}
-                    width={pyotterImage.width}
-                    height={pyotterImage.height}
-                    preserveAspectRatio="none"
-                  />
-                  <clipPath id="pyotter-clip-tail" clipPathUnits="userSpaceOnUse">
-                    <path d="M 244 347 C 277 350 298 376 301 409 C 303 431 293 450 271 461 L 238 458 Z" />
-                  </clipPath>
-                  <clipPath id="pyotter-clip-torso" clipPathUnits="userSpaceOnUse">
-                    <path d="M 92 317 C 77 345 69 380 71 414 C 73 448 91 469 126 474 L 244 474 C 278 469 296 448 298 414 C 300 380 292 345 277 317 L 256 302 L 112 302 Z" />
-                  </clipPath>
-                  <clipPath id="pyotter-clip-chest" clipPathUnits="userSpaceOnUse">
-                    <path d="M 78 242 C 102 230 267 230 291 242 L 288 336 C 258 354 111 354 81 336 Z" />
-                  </clipPath>
-                  <clipPath id="pyotter-clip-paw-left" clipPathUnits="userSpaceOnUse">
-                    <path d="M 77 270 C 96 260 128 269 143 292 C 159 317 159 352 143 373 C 132 388 107 387 91 371 C 73 353 66 291 77 270 Z" />
-                  </clipPath>
-                  <clipPath id="pyotter-clip-paw-right" clipPathUnits="userSpaceOnUse">
-                    <path d="M 292 270 C 273 260 241 269 226 292 C 210 317 210 352 226 373 C 237 388 262 387 278 371 C 296 353 303 291 292 270 Z" />
-                  </clipPath>
-                  <clipPath id="pyotter-clip-foot-left" clipPathUnits="userSpaceOnUse">
-                    <path d="M 72 444 C 91 435 137 436 155 450 C 166 459 158 481 144 486 L 93 486 C 75 482 68 457 72 444 Z" />
-                  </clipPath>
-                  <clipPath id="pyotter-clip-foot-right" clipPathUnits="userSpaceOnUse">
-                    <path d="M 297 444 C 278 435 232 436 214 450 C 203 459 211 481 225 486 L 276 486 C 294 482 301 457 297 444 Z" />
-                  </clipPath>
-                  <clipPath id="pyotter-clip-ear-left" clipPathUnits="userSpaceOnUse">
-                    <path d="M 45 70 H 108 V 145 H 45 Z" />
-                  </clipPath>
-                  <clipPath id="pyotter-clip-ear-right" clipPathUnits="userSpaceOnUse">
-                    <path d="M 261 70 H 324 V 145 H 261 Z" />
-                  </clipPath>
-                  <clipPath id="pyotter-clip-head" clipPathUnits="userSpaceOnUse">
-                    <path
-                      clip-rule="evenodd"
-                      d="M 184.5 27 C 121 23 76 65 73 122 C 71 152 82 180 102 198 L 267 198 C 287 180 298 152 296 122 C 293 65 248 23 184.5 27 Z M 124 135 A 23 32 0 1 0 124 199 A 23 32 0 1 0 124 135 Z M 245 135 A 23 32 0 1 0 245 199 A 23 32 0 1 0 245 135 Z M 184.5 163 A 32 29 0 1 0 184.5 221 A 32 29 0 1 0 184.5 163 Z"
-                    />
-                  </clipPath>
-                  <clipPath id="pyotter-clip-eye-left" clipPathUnits="userSpaceOnUse">
-                    <ellipse cx="124" cy="167" rx="26" ry="35" />
-                  </clipPath>
-                  <clipPath id="pyotter-clip-eye-right" clipPathUnits="userSpaceOnUse">
-                    <ellipse cx="245" cy="167" rx="26" ry="35" />
-                  </clipPath>
-                  <clipPath id="pyotter-clip-fur" clipPathUnits="userSpaceOnUse">
-                    <path
-                      clip-rule="evenodd"
-                      d="M 45 166 C 55 151 79 152 99 166 C 122 181 247 181 270 166 C 290 152 314 151 324 166 C 337 187 324 227 306 250 C 283 279 235 289 184.5 302 C 134 289 86 279 63 250 C 45 227 32 187 45 166 Z M 184.5 157 A 49 46 0 1 0 184.5 249 A 49 46 0 1 0 184.5 157 Z"
-                    />
-                  </clipPath>
-                  <clipPath id="pyotter-clip-nose" clipPathUnits="userSpaceOnUse">
-                    <path d="M 136 157 H 233 V 249 H 136 Z" />
-                  </clipPath>
-                </defs>
-
-                <g class="puppet" data-puppet="pyotter" aria-hidden="true">
-                  <g class="puppet__part puppet__part--tail" data-part="tail" data-idle-part="tail" data-pivot="254 389" data-idle-origin="254px 389px" style="--part-pivot: 254px 389px">
-                    <g class="puppet__voice-layer" data-voice-part="tail" data-voice-origin="254px 389px">
-                      <g class="puppet__paint" clip-path="url(#pyotter-clip-tail)"><use href="#pyotter-rig-paint" /></g>
-                    </g>
-                  </g>
-
-                  <g class="puppet__part puppet__part--torso" data-part="torso" data-idle-part="torso" data-pivot="184.5 459" data-idle-origin="184.5px 459px" style="--part-pivot: 184.5px 459px">
-                    <g class="puppet__voice-layer" data-voice-part="torso" data-voice-origin="184.5px 459px">
-                      <g class="puppet__paint" clip-path="url(#pyotter-clip-torso)"><use href="#pyotter-rig-paint" /></g>
-
-                      <g class="puppet__part puppet__part--chest" data-part="chest" data-idle-part="chest" data-pivot="184.5 316" data-idle-origin="184.5px 316px" style="--part-pivot: 184.5px 316px">
-                        <g class="puppet__voice-layer" data-voice-part="chest" data-voice-origin="184.5px 316px">
-                          <g class="puppet__paint" clip-path="url(#pyotter-clip-chest)"><use href="#pyotter-rig-paint" /></g>
-                        </g>
-                      </g>
-                      <g class="puppet__part puppet__part--paw" data-part="paw-left" data-idle-part="paw-left" data-pivot="105 292" data-idle-origin="105px 292px" style="--part-pivot: 105px 292px">
-                        <g class="puppet__voice-layer" data-voice-part="paw-left" data-voice-origin="105px 292px">
-                          <g class="puppet__paint" clip-path="url(#pyotter-clip-paw-left)"><use href="#pyotter-rig-paint" /></g>
-                        </g>
-                      </g>
-                      <g class="puppet__part puppet__part--paw" data-part="paw-right" data-idle-part="paw-right" data-pivot="264 292" data-idle-origin="264px 292px" style="--part-pivot: 264px 292px">
-                        <g class="puppet__voice-layer" data-voice-part="paw-right" data-voice-origin="264px 292px">
-                          <g class="puppet__paint" clip-path="url(#pyotter-clip-paw-right)"><use href="#pyotter-rig-paint" /></g>
-                        </g>
-                      </g>
-
-                      <g class="puppet__part puppet__part--head" data-part="head" data-idle-part="head" data-pivot="184.5 244" data-idle-origin="184.5px 244px" style="--part-pivot: 184.5px 244px">
-                        <g class="puppet__voice-layer" data-voice-part="head" data-voice-origin="184.5px 244px">
-                          <g class="puppet__part puppet__part--ear" data-part="ear-left" data-idle-part="ear-left" data-pivot="91 118" data-idle-origin="91px 118px" style="--part-pivot: 91px 118px">
-                            <g class="puppet__voice-layer" data-voice-part="ear-left" data-voice-origin="91px 118px">
-                              <g class="puppet__paint" clip-path="url(#pyotter-clip-ear-left)"><use href="#pyotter-rig-paint" /></g>
-                            </g>
-                          </g>
-                          <g class="puppet__part puppet__part--ear" data-part="ear-right" data-idle-part="ear-right" data-pivot="278 118" data-idle-origin="278px 118px" style="--part-pivot: 278px 118px">
-                            <g class="puppet__voice-layer" data-voice-part="ear-right" data-voice-origin="278px 118px">
-                              <g class="puppet__paint" clip-path="url(#pyotter-clip-ear-right)"><use href="#pyotter-rig-paint" /></g>
-                            </g>
-                          </g>
-                          <g class="puppet__underpaint" aria-hidden="true">
-                            <ellipse cx="124" cy="167" rx="23" ry="32" fill="#f7f0e5" />
-                            <ellipse cx="245" cy="167" rx="23" ry="32" fill="#f7f0e5" />
-                            <ellipse cx="184.5" cy="192" rx="32" ry="29" fill="#efe2d1" />
-                          </g>
-                          <g class="puppet__paint" clip-path="url(#pyotter-clip-head)"><use href="#pyotter-rig-paint" /></g>
-                          <g class="puppet__part puppet__part--eye" data-part="eye-left" data-idle-part="eye-left" data-pivot="124 167" data-idle-origin="124px 167px" style="--part-pivot: 124px 167px">
-                            <g class="puppet__voice-layer" data-voice-part="eye-left" data-voice-origin="124px 167px">
-                              <g class="puppet__paint" clip-path="url(#pyotter-clip-eye-left)"><use href="#pyotter-rig-paint" /></g>
-                            </g>
-                          </g>
-                          <g class="puppet__part puppet__part--eye" data-part="eye-right" data-idle-part="eye-right" data-pivot="245 167" data-idle-origin="245px 167px" style="--part-pivot: 245px 167px">
-                            <g class="puppet__voice-layer" data-voice-part="eye-right" data-voice-origin="245px 167px">
-                              <g class="puppet__paint" clip-path="url(#pyotter-clip-eye-right)"><use href="#pyotter-rig-paint" /></g>
-                            </g>
-                          </g>
-                          <g class="puppet__part puppet__part--fur" data-part="fur" data-idle-part="fur" data-pivot="184.5 218" data-idle-origin="184.5px 218px" style="--part-pivot: 184.5px 218px">
-                            <g class="puppet__voice-layer" data-voice-part="fur" data-voice-origin="184.5px 218px">
-                              <g class="puppet__paint" clip-path="url(#pyotter-clip-fur)"><use href="#pyotter-rig-paint" /></g>
-                            </g>
-                          </g>
-                          <g class="puppet__part puppet__part--nose" data-part="nose" data-idle-part="nose" data-pivot="184.5 190" data-idle-origin="184.5px 190px" style="--part-pivot: 184.5px 190px">
-                            <g class="puppet__voice-layer" data-voice-part="nose" data-voice-origin="184.5px 190px">
-                              <g class="puppet__paint" clip-path="url(#pyotter-clip-nose)"><use href="#pyotter-rig-paint" /></g>
-                            </g>
-                          </g>
-                          <g class="puppet__part puppet__part--mouth" data-part="mouth" data-pivot="184.5 216.5" style="--part-pivot: 184.5px 216.5px">
-                            <g class="puppet__voice-layer" data-voice-part="mouth" data-voice-origin="184.5px 216.5px">
-                              <g transform="translate(184.5 216.5)">
-                                <g class="character__mouth" data-mouth="pyotter">
-                                  <ellipse class="character__mouth-cavity" rx="20.5" ry="9.5" vector-effect="non-scaling-stroke"></ellipse>
-                                  <path class="character__mouth-tongue" d="M -12 4 Q 0 12 12 4 Q 9 13 0 14 Q -9 13 -12 4 Z"></path>
-                                </g>
-                              </g>
-                            </g>
-                          </g>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-
-                  <g class="puppet__part puppet__part--foot" data-part="foot-left" data-idle-part="foot-left" data-pivot="119 461" data-idle-origin="119px 461px" style="--part-pivot: 119px 461px">
-                    <g class="puppet__voice-layer" data-voice-part="foot-left" data-voice-origin="119px 461px">
-                      <g class="puppet__paint" clip-path="url(#pyotter-clip-foot-left)"><use href="#pyotter-rig-paint" /></g>
-                    </g>
-                  </g>
-                  <g class="puppet__part puppet__part--foot" data-part="foot-right" data-idle-part="foot-right" data-pivot="250 461" data-idle-origin="250px 461px" style="--part-pivot: 250px 461px">
-                    <g class="puppet__voice-layer" data-voice-part="foot-right" data-voice-origin="250px 461px">
-                      <g class="puppet__paint" clip-path="url(#pyotter-clip-foot-right)"><use href="#pyotter-rig-paint" /></g>
-                    </g>
-                  </g>
-                </g>
-              </svg>
-            </div>
           </div>
         </div>
         <figcaption>Pyotter Kropotkin</figcaption>
@@ -288,165 +124,6 @@ const objectSprites = [
         <div class="character__art">
           <div class="character__performance" data-performance="mikwhale">
             <MikwhalePuppet />
-            <div class="character__legacy-puppet" hidden aria-hidden="true">
-              <svg
-                class="character__sprite character__puppet"
-                viewBox={`0 0 ${mikwhaleImage.width} ${mikwhaleImage.height}`}
-                role="img"
-                aria-labelledby="mikwhale-portrait-title mikwhale-portrait-description"
-                preserveAspectRatio="xMidYMid meet"
-                shape-rendering="geometricPrecision"
-              >
-                <title id="mikwhale-portrait-title">Mikwhale Bakunin, a small blue whale with wild brown side curls, a huge beard, and a dark cravat</title>
-                <desc id="mikwhale-portrait-description">An articulated portrait whose eyes, blowhole, head, curls, beard, flippers, belly, body, flukes, and tail base can move independently.</desc>
-                <defs>
-                  <image
-                    id="mikwhale-rig-paint"
-                    href={mikwhaleImage.src}
-                    width={mikwhaleImage.width}
-                    height={mikwhaleImage.height}
-                    preserveAspectRatio="none"
-                  />
-                  <clipPath id="mikwhale-clip-tail" clipPathUnits="userSpaceOnUse">
-                    <path d="M 438 959 C 488 1018 543 1082 618.5 1155 C 694 1082 749 1018 799 959 L 789 1128 L 448 1128 Z" />
-                  </clipPath>
-                  <clipPath id="mikwhale-clip-torso" clipPathUnits="userSpaceOnUse">
-                    <path d="M 303 553 C 252 626 239 754 267 864 C 296 974 366 1057 473 1101 L 531 1027 C 472 937 441 827 445 684 L 398 575 Z" />
-                    <path d="M 934 553 C 985 626 998 754 970 864 C 941 974 871 1057 764 1101 L 706 1027 C 765 937 796 827 792 684 L 839 575 Z" />
-                  </clipPath>
-                  <clipPath id="mikwhale-clip-chest" clipPathUnits="userSpaceOnUse">
-                    <path d="M 352 610 C 414 590 823 590 885 610 C 883 739 860 895 802 1009 C 754 1039 696 1051 618.5 1054 C 541 1051 483 1039 435 1009 C 377 895 354 739 352 610 Z" />
-                  </clipPath>
-                  <clipPath id="mikwhale-clip-paw-left" clipPathUnits="userSpaceOnUse">
-                    <path d="M 207 558 C 246 537 321 553 357 612 C 398 679 399 827 342 909 C 313 952 259 951 224 916 C 177 869 179 618 207 558 Z" />
-                  </clipPath>
-                  <clipPath id="mikwhale-clip-paw-right" clipPathUnits="userSpaceOnUse">
-                    <path d="M 1030 558 C 991 537 916 553 880 612 C 839 679 838 827 895 909 C 924 952 978 951 1013 916 C 1060 869 1058 618 1030 558 Z" />
-                  </clipPath>
-                  <clipPath id="mikwhale-clip-foot-left" clipPathUnits="userSpaceOnUse">
-                    <path d="M 302 1061 C 372 1028 529 1053 618.5 1138 C 565 1216 458 1231 349 1210 C 304 1201 282 1092 302 1061 Z" />
-                  </clipPath>
-                  <clipPath id="mikwhale-clip-foot-right" clipPathUnits="userSpaceOnUse">
-                    <path d="M 935 1061 C 865 1028 708 1053 618.5 1138 C 672 1216 779 1231 888 1210 C 933 1201 955 1092 935 1061 Z" />
-                  </clipPath>
-                  <clipPath id="mikwhale-clip-ear-left" clipPathUnits="userSpaceOnUse">
-                    <path d="M 170 58 C 229 47 354 48 414 72 C 398 133 374 211 353 300 C 333 386 354 453 420 484 C 360 527 219 509 174 443 Z" />
-                  </clipPath>
-                  <clipPath id="mikwhale-clip-ear-right" clipPathUnits="userSpaceOnUse">
-                    <path d="M 1067 58 C 1008 47 883 48 823 72 C 839 133 863 211 884 300 C 904 386 883 453 817 484 C 877 527 1018 509 1063 443 Z" />
-                  </clipPath>
-                  <clipPath id="mikwhale-clip-head" clipPathUnits="userSpaceOnUse">
-                    <path
-                      clip-rule="evenodd"
-                      d="M 618.5 11 C 456 7 347 100 339 263 C 335 346 361 415 416 475 C 482 517 755 517 821 475 C 876 415 902 346 898 263 C 890 100 781 7 618.5 11 Z M 472 312 A 48 57 0 1 0 472 426 A 48 57 0 1 0 472 312 Z M 765 312 A 48 57 0 1 0 765 426 A 48 57 0 1 0 765 312 Z M 618.5 20 A 56 27 0 1 0 618.5 74 A 56 27 0 1 0 618.5 20 Z"
-                    />
-                  </clipPath>
-                  <clipPath id="mikwhale-clip-eye-left" clipPathUnits="userSpaceOnUse">
-                    <ellipse cx="472" cy="369" rx="53" ry="62" />
-                  </clipPath>
-                  <clipPath id="mikwhale-clip-eye-right" clipPathUnits="userSpaceOnUse">
-                    <ellipse cx="765" cy="369" rx="53" ry="62" />
-                  </clipPath>
-                  <clipPath id="mikwhale-clip-fur" clipPathUnits="userSpaceOnUse">
-                    <path d="M 257 393 C 319 375 379 407 423 437 C 472 409 535 407 618.5 430 C 702 407 765 409 814 437 C 858 407 918 375 980 393 C 995 471 973 601 911 674 C 844 753 735 769 618.5 771 C 502 769 393 753 326 674 C 264 601 242 471 257 393 Z" />
-                  </clipPath>
-                  <clipPath id="mikwhale-clip-nose" clipPathUnits="userSpaceOnUse">
-                    <ellipse cx="618.5" cy="47" rx="61" ry="31" />
-                  </clipPath>
-                </defs>
-
-                <g class="puppet" data-puppet="mikwhale" aria-hidden="true">
-                  <g class="puppet__part puppet__part--torso" data-part="torso" data-idle-part="torso" data-pivot="618.5 1035" data-idle-origin="618.5px 1035px" style="--part-pivot: 618.5px 1035px">
-                    <g class="puppet__voice-layer" data-voice-part="torso" data-voice-origin="618.5px 1035px">
-                      <g class="puppet__paint" clip-path="url(#mikwhale-clip-torso)"><use href="#mikwhale-rig-paint" /></g>
-
-                      <g class="puppet__part puppet__part--chest" data-part="chest" data-idle-part="chest" data-pivot="618.5 985" data-idle-origin="618.5px 985px" style="--part-pivot: 618.5px 985px">
-                        <g class="puppet__voice-layer" data-voice-part="chest" data-voice-origin="618.5px 985px">
-                          <g class="puppet__paint" clip-path="url(#mikwhale-clip-chest)"><use href="#mikwhale-rig-paint" /></g>
-                        </g>
-                      </g>
-                      <g class="puppet__part puppet__part--paw" data-part="paw-left" data-idle-part="paw-left" data-pivot="348 634" data-idle-origin="348px 634px" style="--part-pivot: 348px 634px">
-                        <g class="puppet__voice-layer" data-voice-part="paw-left" data-voice-origin="348px 634px">
-                          <g class="puppet__paint" clip-path="url(#mikwhale-clip-paw-left)"><use href="#mikwhale-rig-paint" /></g>
-                        </g>
-                      </g>
-                      <g class="puppet__part puppet__part--paw" data-part="paw-right" data-idle-part="paw-right" data-pivot="889 634" data-idle-origin="889px 634px" style="--part-pivot: 889px 634px">
-                        <g class="puppet__voice-layer" data-voice-part="paw-right" data-voice-origin="889px 634px">
-                          <g class="puppet__paint" clip-path="url(#mikwhale-clip-paw-right)"><use href="#mikwhale-rig-paint" /></g>
-                        </g>
-                      </g>
-
-                      <g class="puppet__part puppet__part--head" data-part="head" data-idle-part="head" data-pivot="618.5 496" data-idle-origin="618.5px 496px" style="--part-pivot: 618.5px 496px">
-                        <g class="puppet__voice-layer" data-voice-part="head" data-voice-origin="618.5px 496px">
-                          <g class="puppet__part puppet__part--ear" data-part="ear-left" data-idle-part="ear-left" data-pivot="382 176" data-idle-origin="382px 176px" style="--part-pivot: 382px 176px">
-                            <g class="puppet__voice-layer" data-voice-part="ear-left" data-voice-origin="382px 176px">
-                              <g class="puppet__paint" clip-path="url(#mikwhale-clip-ear-left)"><use href="#mikwhale-rig-paint" /></g>
-                            </g>
-                          </g>
-                          <g class="puppet__part puppet__part--ear" data-part="ear-right" data-idle-part="ear-right" data-pivot="855 176" data-idle-origin="855px 176px" style="--part-pivot: 855px 176px">
-                            <g class="puppet__voice-layer" data-voice-part="ear-right" data-voice-origin="855px 176px">
-                              <g class="puppet__paint" clip-path="url(#mikwhale-clip-ear-right)"><use href="#mikwhale-rig-paint" /></g>
-                            </g>
-                          </g>
-                          <g class="puppet__underpaint" aria-hidden="true">
-                            <ellipse cx="472" cy="369" rx="48" ry="57" fill="#f6f1df" />
-                            <ellipse cx="765" cy="369" rx="48" ry="57" fill="#f6f1df" />
-                            <ellipse cx="618.5" cy="47" rx="56" ry="27" fill="#5d8b9a" />
-                          </g>
-                          <g class="puppet__paint" clip-path="url(#mikwhale-clip-head)"><use href="#mikwhale-rig-paint" /></g>
-                          <g class="puppet__part puppet__part--eye" data-part="eye-left" data-idle-part="eye-left" data-pivot="472 369" data-idle-origin="472px 369px" style="--part-pivot: 472px 369px">
-                            <g class="puppet__voice-layer" data-voice-part="eye-left" data-voice-origin="472px 369px">
-                              <g class="puppet__paint" clip-path="url(#mikwhale-clip-eye-left)"><use href="#mikwhale-rig-paint" /></g>
-                            </g>
-                          </g>
-                          <g class="puppet__part puppet__part--eye" data-part="eye-right" data-idle-part="eye-right" data-pivot="765 369" data-idle-origin="765px 369px" style="--part-pivot: 765px 369px">
-                            <g class="puppet__voice-layer" data-voice-part="eye-right" data-voice-origin="765px 369px">
-                              <g class="puppet__paint" clip-path="url(#mikwhale-clip-eye-right)"><use href="#mikwhale-rig-paint" /></g>
-                            </g>
-                          </g>
-                          <g class="puppet__part puppet__part--fur" data-part="fur" data-idle-part="fur" data-pivot="618.5 502" data-idle-origin="618.5px 502px" style="--part-pivot: 618.5px 502px">
-                            <g class="puppet__voice-layer" data-voice-part="fur" data-voice-origin="618.5px 502px">
-                              <g class="puppet__paint" clip-path="url(#mikwhale-clip-fur)"><use href="#mikwhale-rig-paint" /></g>
-                            </g>
-                          </g>
-                          <g class="puppet__part puppet__part--nose" data-part="nose" data-idle-part="nose" data-pivot="618.5 47" data-idle-origin="618.5px 47px" style="--part-pivot: 618.5px 47px">
-                            <g class="puppet__voice-layer" data-voice-part="nose" data-voice-origin="618.5px 47px">
-                              <g class="puppet__paint" clip-path="url(#mikwhale-clip-nose)"><use href="#mikwhale-rig-paint" /></g>
-                            </g>
-                          </g>
-                          <g class="puppet__part puppet__part--mouth" data-part="mouth" data-pivot="618.5 538" style="--part-pivot: 618.5px 538px">
-                            <g class="puppet__voice-layer" data-voice-part="mouth" data-voice-origin="618.5px 538px">
-                              <g transform="translate(618.5 538)">
-                                <g class="character__mouth" data-mouth="mikwhale">
-                                  <ellipse class="character__mouth-cavity" rx="38.5" ry="16" vector-effect="non-scaling-stroke"></ellipse>
-                                  <path class="character__mouth-tongue" d="M -23 7 Q 0 22 23 7 Q 18 25 0 27 Q -18 25 -23 7 Z"></path>
-                                </g>
-                              </g>
-                            </g>
-                          </g>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-
-                  <g class="puppet__part puppet__part--tail" data-part="tail" data-idle-part="tail" data-pivot="618.5 1030" data-idle-origin="618.5px 1030px" style="--part-pivot: 618.5px 1030px">
-                    <g class="puppet__voice-layer" data-voice-part="tail" data-voice-origin="618.5px 1030px">
-                      <g class="puppet__paint" clip-path="url(#mikwhale-clip-tail)"><use href="#mikwhale-rig-paint" /></g>
-                      <g class="puppet__part puppet__part--foot" data-part="foot-left" data-idle-part="foot-left" data-pivot="565 1137" data-idle-origin="565px 1137px" style="--part-pivot: 565px 1137px">
-                        <g class="puppet__voice-layer" data-voice-part="foot-left" data-voice-origin="565px 1137px">
-                          <g class="puppet__paint" clip-path="url(#mikwhale-clip-foot-left)"><use href="#mikwhale-rig-paint" /></g>
-                        </g>
-                      </g>
-                      <g class="puppet__part puppet__part--foot" data-part="foot-right" data-idle-part="foot-right" data-pivot="672 1137" data-idle-origin="672px 1137px" style="--part-pivot: 672px 1137px">
-                        <g class="puppet__voice-layer" data-voice-part="foot-right" data-voice-origin="672px 1137px">
-                          <g class="puppet__paint" clip-path="url(#mikwhale-clip-foot-right)"><use href="#mikwhale-rig-paint" /></g>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </g>
-              </svg>
-            </div>
           </div>
         </div>
         <figcaption>Mikwhale Bakunin</figcaption>
@@ -566,10 +243,8 @@ const objectSprites = [
     type VoiceEngineState,
     type VoicePlaybackResult,
     type VoiceSpeaker,
-    type VoiceViseme,
   } from '../scripts/little-workshop-voice';
-  import { createLittleWorkshopIdleEngine } from '../scripts/little-workshop-idle';
-  import { createLittleWorkshopPerformanceEngine } from '../scripts/little-workshop-performance';
+  import { createLittleWorkshopFrameAnimationEngine } from '../scripts/little-workshop-frame-animation';
 
   type RuntimePhase =
     | 'booting'
@@ -687,15 +362,6 @@ const objectSprites = [
   let currentSetupPlayed = false;
   let debugObserver: MutationObserver | null = null;
 
-  const setCharacterViseme = (speaker: VoiceSpeaker, viseme: VoiceViseme) => {
-    characterElements[speaker].dataset.viseme = viseme;
-  };
-
-  const restAllMouths = () => {
-    setCharacterViseme('pyotter', 'rest');
-    setCharacterViseme('mikwhale', 'rest');
-  };
-
   const updateVoiceControl = (status?: VoiceEngineState) => {
     const preferences = voiceEngine.getPreferences();
     const supported = voiceEngine.isSupported();
@@ -719,45 +385,32 @@ const objectSprites = [
     workshop.dataset.voiceState = currentStatus;
   };
 
-  const performanceEngine = createLittleWorkshopPerformanceEngine({
-    root: workshop,
-    reducedMotionQuery: reducedMotion,
-  });
-  const voiceEngine = createLittleWorkshopVoiceEngine();
-  voiceEngine.setHooks({
-    onStatus: ({ state }) => updateVoiceControl(state),
-    onUtteranceStart: (event) => {
-      const { speaker } = event;
-      performanceEngine.start(event);
-      restAllMouths();
-      if (reducedMotion.matches) setCharacterViseme(speaker, 'small');
-    },
-    onViseme: (event) => {
-      const { speaker, viseme } = event;
-      performanceEngine.viseme(event);
-      if (reducedMotion.matches) return;
-      setCharacterViseme(speaker, viseme);
-    },
-    onUtteranceEnd: (event) => {
-      performanceEngine.end(event);
-      setCharacterViseme(event.speaker, 'rest');
-    },
-  });
-  restAllMouths();
-  updateVoiceControl();
-
-  const idleEngine = createLittleWorkshopIdleEngine({
+  const frameAnimationEngine = createLittleWorkshopFrameAnimationEngine({
     root: workshop,
     reducedMotionQuery: reducedMotion,
     seed: 0x50594f54,
     onStateChange: (state) => {
-      workshop.dataset.idleState = state;
+      workshop.dataset.animationState = state;
     },
     onVariantStart: ({ character, variant }) => {
       characterElements[character].dataset.idleVariant = variant.id;
     },
   });
-  workshop.dataset.idleState = idleEngine.start();
+  const voiceEngine = createLittleWorkshopVoiceEngine();
+  voiceEngine.setHooks({
+    onStatus: ({ state }) => updateVoiceControl(state),
+    onUtteranceStart: (event) => {
+      frameAnimationEngine.startSpeech(event);
+    },
+    onViseme: (event) => {
+      frameAnimationEngine.viseme(event);
+    },
+    onUtteranceEnd: (event) => {
+      frameAnimationEngine.endSpeech(event);
+    },
+  });
+  updateVoiceControl();
+  workshop.dataset.animationState = frameAnimationEngine.start();
 
   if (debugEnabled) {
     workshop.dataset.debugSpeed = String(timeScale);
@@ -790,8 +443,7 @@ const objectSprites = [
     activeWait?.();
     activeWait = null;
     voiceEngine.cancel('cancelled');
-    performanceEngine.cancel();
-    restAllMouths();
+    frameAnimationEngine.cancelSpeech();
     return runToken;
   };
 
@@ -1328,18 +980,18 @@ const objectSprites = [
     setPhase('complete');
   };
 
-  const unlockVoiceFromGesture = () =>
-    voiceEngine.getPreferences().enabled
-      ? voiceEngine.unlockFromGesture()
-      : Promise.resolve(voiceEngine.getStatus());
+  const unlockVoiceFromGesture = () => {
+    if (!voiceEngine.getPreferences().enabled) return;
+    void voiceEngine.unlockFromGesture();
+  };
 
   voiceToggle.addEventListener(
     'click',
-    async () => {
+    () => {
       const enable = !voiceEngine.getPreferences().enabled;
       voiceEngine.setEnabled(enable);
-      if (enable) await voiceEngine.unlockFromGesture();
-      else restAllMouths();
+      if (enable) unlockVoiceFromGesture();
+      else frameAnimationEngine.cancelSpeech();
       updateVoiceControl();
     },
     { signal: abortController.signal },
@@ -1348,8 +1000,8 @@ const objectSprites = [
   for (const button of placementButtons) {
     button.addEventListener(
       'click',
-      async () => {
-        await unlockVoiceFromGesture();
+      () => {
+        unlockVoiceFromGesture();
         const placement = button.dataset.placement;
         if (placementValues.has(placement as ProloguePlacement)) {
           void choosePlacement(placement as ProloguePlacement);
@@ -1362,8 +1014,8 @@ const objectSprites = [
   for (const choice of objectChoices) {
     choice.addEventListener(
       'change',
-      async () => {
-        await unlockVoiceFromGesture();
+      () => {
+        unlockVoiceFromGesture();
         if (choice.checked) void selectObject(choice.value);
       },
       { signal: abortController.signal },
@@ -1373,8 +1025,8 @@ const objectSprites = [
   for (const button of strawberryButtons) {
     button.addEventListener(
       'click',
-      async () => {
-        await unlockVoiceFromGesture();
+      () => {
+        unlockVoiceFromGesture();
         void answerStrawberry(button.dataset.strawberryAnswer ?? '');
       },
       { signal: abortController.signal },
@@ -1383,25 +1035,20 @@ const objectSprites = [
 
   nameForm.addEventListener(
     'submit',
-    async (event) => {
+    (event) => {
       event.preventDefault();
-      await unlockVoiceFromGesture();
+      unlockVoiceFromGesture();
       void submitName();
     },
     { signal: abortController.signal },
   );
-
-  reducedMotion.addEventListener('change', restAllMouths, {
-    signal: abortController.signal,
-  });
 
   const dispose = () => {
     beginRun();
     abortController.abort();
     debugObserver?.disconnect();
     clearMotionClasses();
-    idleEngine.dispose();
-    performanceEngine.dispose();
+    frameAnimationEngine.dispose();
     void voiceEngine.dispose();
     delete workshop.__disposePrologue;
   };
@@ -1433,13 +1080,17 @@ const objectSprites = [
         voice: {
           status: voiceEngine.getStatus(),
           preferences: voiceEngine.getPreferences(),
-          pyotterViseme: pyotter.dataset.viseme ?? 'rest',
-          mikwhaleViseme: mikwhale.dataset.viseme ?? 'rest',
+          pyotterFrame:
+            workshop.querySelector<HTMLElement>('[data-frame-character="pyotter"]')?.dataset.frame ??
+            'neutral',
+          mikwhaleFrame:
+            workshop.querySelector<HTMLElement>('[data-frame-character="mikwhale"]')?.dataset.frame ??
+            'neutral',
         },
         idle: {
-          status: idleEngine.getState(),
-          pyotter: idleEngine.getCurrentVariant('pyotter')?.id ?? null,
-          mikwhale: idleEngine.getCurrentVariant('mikwhale')?.id ?? null,
+          status: frameAnimationEngine.getState(),
+          pyotter: frameAnimationEngine.getCurrentVariant('pyotter')?.id ?? null,
+          mikwhale: frameAnimationEngine.getCurrentVariant('mikwhale')?.id ?? null,
         },
         state: loadState(),
       }),
@@ -1519,6 +1170,7 @@ const objectSprites = [
     min-height: 100svh;
     padding: clamp(0.75rem, 2.2vw, 2rem);
     place-items: center;
+    position: relative;
     width: 100%;
   }
 
@@ -1528,7 +1180,7 @@ const objectSprites = [
     max-width: 24rem;
     position: absolute;
     pointer-events: none;
-    top: clamp(0.25rem, 1.4vh, 0.9rem);
+    top: max(0.25rem, env(safe-area-inset-top, 0px));
     transform: translateX(-50%);
     width: min(36vw, 24rem);
     z-index: 20;
@@ -1545,7 +1197,7 @@ const objectSprites = [
       transition: opacity 220ms ease;
     }
 
-    .prologue__stage:has(.dialogue:not([hidden])) .workshop-welcome__float {
+    .prologue:has(.dialogue:not([hidden])) .workshop-welcome__float {
       opacity: 0;
     }
   }
@@ -1816,106 +1468,6 @@ const objectSprites = [
 
   .character__performance {
     transform: none;
-  }
-
-  .character__sprite {
-    display: block;
-    height: 100%;
-    max-width: 100%;
-    overflow: visible;
-    width: auto;
-  }
-
-  .character__puppet,
-  .character__puppet .puppet {
-    overflow: visible;
-  }
-
-  .character__puppet .puppet__part,
-  .character__puppet .puppet__voice-layer {
-    pointer-events: none;
-    transform-box: view-box;
-    transform-origin: var(--part-pivot, center);
-  }
-
-  .character__puppet .puppet__part {
-    transform:
-      translate(var(--part-x, 0), var(--part-y, 0))
-      rotate(var(--part-rotate, 0deg))
-      scale(var(--part-scale-x, 1), var(--part-scale-y, 1));
-  }
-
-  .character__puppet .puppet__voice-layer {
-    transition: transform 360ms cubic-bezier(0.22, 0.72, 0.2, 1);
-  }
-
-  .character__puppet .puppet__underpaint {
-    pointer-events: none;
-  }
-
-  .character__mouth {
-    opacity: 0;
-    pointer-events: none;
-    transform: scale(0.62, 0.08);
-    transform-box: fill-box;
-    transform-origin: center;
-    transition:
-      opacity 28ms linear,
-      transform 54ms cubic-bezier(0.2, 0.78, 0.2, 1);
-    will-change: opacity, transform;
-  }
-
-  .character__mouth-cavity {
-    fill: #301b15;
-    paint-order: stroke fill;
-    stroke: #4a2b1d;
-    stroke-width: 1.25;
-  }
-
-  .character--mikwhale .character__mouth-cavity {
-    fill: #271611;
-    stroke: #4a3024;
-  }
-
-  .character__mouth-tongue {
-    fill: #d57e78;
-    opacity: 0;
-    transition: opacity 28ms linear;
-  }
-
-  .character--mikwhale .character__mouth-tongue {
-    fill: #aa6461;
-  }
-
-  .character[data-viseme='small'] .character__mouth {
-    opacity: 1;
-    transform: scale(0.58, 0.38);
-  }
-
-  .character[data-viseme='open'] .character__mouth {
-    opacity: 1;
-    transform: scale(0.82, 1.05);
-  }
-
-  .character[data-viseme='wide'] .character__mouth {
-    opacity: 1;
-    transform: scale(1.18, 0.56);
-  }
-
-  .character[data-viseme='round'] .character__mouth {
-    opacity: 1;
-    transform: scale(0.56, 1.08);
-  }
-
-  .character[data-viseme='smile'] .character__mouth {
-    opacity: 1;
-    transform: scale(1.08, 0.72);
-  }
-
-  .character[data-viseme='open'] .character__mouth-tongue,
-  .character[data-viseme='wide'] .character__mouth-tongue,
-  .character[data-viseme='smile'] .character__mouth-tongue {
-    opacity: 0.9;
   }
 
   .character--mikwhale .character__art {
@@ -2392,54 +1944,6 @@ const objectSprites = [
     animation: object-handle 2.2s ease-in-out;
   }
 
-  .character.is-speaking [data-voice-part='head'],
-  .character.is-speaking [data-voice-part='fur'],
-  .character.is-speaking [data-voice-part='nose'] {
-    transform: translate(0, -0.12%);
-  }
-
-  .character.is-acting [data-voice-part='head'] {
-    transform: rotate(-0.7deg);
-  }
-
-  .character.is-acting [data-voice-part='paw-left'] {
-    transform: rotate(-1.8deg);
-  }
-
-  .character.is-acting [data-voice-part='paw-right'] {
-    transform: rotate(1.8deg);
-  }
-
-  .character.is-thinking [data-voice-part='head'] {
-    transform: rotate(-0.85deg);
-  }
-
-  .character.is-thinking [data-voice-part='eye-left'],
-  .character.is-thinking [data-voice-part='eye-right'] {
-    transform: translate(-0.18%, 0.08%);
-  }
-
-  .character.is-bright [data-voice-part='head'] {
-    transform: translate(0, -0.28%) scale(1.004);
-  }
-
-  .character.is-bright [data-voice-part='ear-left'] {
-    transform: rotate(-1.2deg);
-  }
-
-  .character.is-bright [data-voice-part='ear-right'] {
-    transform: rotate(1.2deg);
-  }
-
-  .character.is-paused [data-voice-part='chest'] {
-    transform: scale(1.001, 0.999);
-  }
-
-  .character.is-looking-outward [data-voice-part='eye-left'],
-  .character.is-looking-outward [data-voice-part='eye-right'] {
-    transform: translate(0.24%, -0.04%);
-  }
-
   @keyframes object-arrive {
     0% { opacity: 0; transform: translate3d(0, -0.9rem, 0) scale(0.82); }
     68% { opacity: 1; transform: translate3d(0, 0.12rem, 0) scale(1.04); }
@@ -2470,16 +1974,12 @@ const objectSprites = [
     }
 
     .workshop-welcome {
-      align-self: start;
-      grid-column: 1 / -1;
-      grid-row: 1;
-      justify-self: center;
-      left: auto;
+      left: 50%;
       max-width: 36rem;
-      position: relative;
-      top: auto;
-      transform: none;
-      width: min(100%, 36rem);
+      position: absolute;
+      top: max(0.25rem, env(safe-area-inset-top, 0px));
+      transform: translateX(-50%);
+      width: min(calc(100% - 1.3rem), 36rem);
     }
 
     .workshop-welcome__float {
@@ -2784,10 +2284,7 @@ const objectSprites = [
     .workshop-welcome__float,
     .current-object__anchor,
     .current-object__art,
-    .character__performance,
-    .character__idle,
-    .puppet__part,
-    .puppet__voice-layer {
+    .character__performance {
       animation: none !important;
       transition: none !important;
       transform: none !important;
@@ -2797,10 +2294,5 @@ const objectSprites = [
       transition: none !important;
     }
 
-    .character__mouth,
-    .character__mouth-tongue {
-      animation: none !important;
-      transition: none !important;
-    }
   }
 </style>

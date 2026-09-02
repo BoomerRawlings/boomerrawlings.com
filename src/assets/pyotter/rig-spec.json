@@ -1,0 +1,149 @@
+{
+  "id": "pyotter",
+  "version": 4,
+  "stage": "pre-rig",
+  "productDoctrine": "PHILOSOPHY.md",
+  "philosophy": "PHILOSOPHY.md",
+  "philosophySource": "philosophy-source.txt",
+  "philosophySourceSha256": "F608971CDD1A3F66BBEFB6BFFE5514560C6FF486123D76D1412637DA5E0A8EDD",
+  "persona": "PERSONA.md",
+  "personaSource": "persona-source.txt",
+  "personaSourceSha256": "3DCF029E4AA8733177713FF55245E0198819ABA05F3B1D8099B2FEA84DD456FA",
+  "worldviewContract": "../companions/worldview-spec.json",
+  "workshopContract": "../companions/workshop-spec.json",
+  "relationship": "../companions/PYOTTER-MIKWHALE.md",
+  "characterContract": {
+    "name": "Pyotter Kropotkin",
+    "fictionalCounterfactual": true,
+    "historicalAttributionAllowed": false,
+    "covertPersuasionAllowed": false,
+    "gameEconomyAllowed": false,
+    "politicalViolenceAllowed": false
+  },
+  "expressionVocabulary": ["warm", "curious", "thoughtful", "skeptical", "concerned", "resolute", "delighted"],
+  "space": {
+    "width": 1024,
+    "height": 1024,
+    "origin": [512, 768],
+    "padding": 32
+  },
+  "sharedStageScale": {
+    "unit": "designPx",
+    "nominalWidth": 400,
+    "nominalHeight": 560,
+    "bodyLengthPx": 560
+  },
+  "canonicalViews": ["n", "nw", "w", "sw", "s"],
+  "directions": {
+    "n": { "view": "n", "flipX": false },
+    "ne": { "view": "nw", "flipX": true },
+    "e": { "view": "w", "flipX": true },
+    "se": { "view": "sw", "flipX": true },
+    "s": { "view": "s", "flipX": false },
+    "sw": { "view": "sw", "flipX": false },
+    "w": { "view": "w", "flipX": false },
+    "nw": { "view": "nw", "flipX": false }
+  },
+  "bones": [
+    { "id": "root", "parent": null },
+    { "id": "pelvis", "parent": "root" },
+    { "id": "tail", "parent": "pelvis" },
+    { "id": "hindFar", "parent": "pelvis" },
+    { "id": "hindNear", "parent": "pelvis" },
+    { "id": "torso", "parent": "pelvis" },
+    { "id": "foreFar", "parent": "torso" },
+    { "id": "foreNear", "parent": "torso" },
+    { "id": "head", "parent": "torso" },
+    { "id": "earFar", "parent": "head" },
+    { "id": "earNear", "parent": "head" }
+  ],
+  "slots": [
+    { "id": "fxBack", "bone": "root" },
+    { "id": "shadow", "bone": "root" },
+    { "id": "tail", "bone": "tail", "variants": ["neutral", "curl", "up", "down", "stream"] },
+    { "id": "hindFar", "bone": "hindFar", "variants": ["relaxed", "contact", "lifted", "tucked", "paddle"] },
+    { "id": "hindNear", "bone": "hindNear", "variants": ["relaxed", "contact", "lifted", "tucked", "paddle"] },
+    { "id": "torso", "bone": "torso", "variants": ["standing", "seated", "prone", "streamlined"] },
+    { "id": "foreFar", "bone": "foreFar", "variants": ["relaxed", "contact", "lifted", "tucked", "paddle"] },
+    { "id": "foreNear", "bone": "foreNear", "variants": ["relaxed", "contact", "lifted", "tucked", "paddle"] },
+    { "id": "headBase", "bone": "head" },
+    { "id": "earFar", "bone": "earFar" },
+    { "id": "earNear", "bone": "earNear" },
+    { "id": "faceMask", "bone": "head" },
+    { "id": "beard", "bone": "head" },
+    { "id": "eyes", "bone": "head" },
+    { "id": "brows", "bone": "head" },
+    { "id": "eyelids", "bone": "head" },
+    { "id": "muzzle", "bone": "head" },
+    { "id": "mouth", "bone": "head", "variants": ["closed", "smile", "open", "surprised"] },
+    { "id": "glasses", "bone": "head" },
+    { "id": "whiskers", "bone": "head" },
+    { "id": "fxFront", "bone": "root" }
+  ],
+  "channels": ["locomotion", "gesture", "expression", "fx"],
+  "actions": {
+    "sit": { "posture": "seated", "loop": true, "durationMs": 2000, "fps": 12, "speedBodyLengthsPerSecond": 0 },
+    "walk": { "posture": "standing", "loop": true, "durationMs": 667, "fps": 12, "speedBodyLengthsPerSecond": 0.8 },
+    "crawl": { "posture": "prone", "loop": true, "durationMs": 1000, "fps": 12, "speedBodyLengthsPerSecond": 0.35 },
+    "run": { "posture": "standing", "loop": true, "durationMs": 500, "fps": 16, "speedBodyLengthsPerSecond": 2 },
+    "swim": { "posture": "streamlined", "loop": true, "durationMs": 1000, "fps": 12, "speedBodyLengthsPerSecond": 1.1 }
+  },
+  "authoringCoverage": {
+    "sit": ["n", "nw", "w", "sw", "s"],
+    "walk": ["n", "nw", "w", "sw", "s"],
+    "crawl": ["n", "nw", "w", "sw", "s"],
+    "run": ["n", "nw", "w", "sw", "s"],
+    "swim": ["n", "nw", "w", "sw", "s"]
+  },
+  "viewProfiles": {
+    "n": { "faceMode": "hidden", "hiddenSlots": ["faceMask", "eyes", "brows", "eyelids", "muzzle", "mouth", "whiskers"], "farLimb": "foreFar", "nearLimb": "foreNear" },
+    "nw": { "faceMode": "back-three-quarter", "hiddenSlots": ["eyes", "brows", "eyelids", "muzzle", "mouth", "whiskers"], "farLimb": "foreFar", "nearLimb": "foreNear" },
+    "w": { "faceMode": "profile", "hiddenSlots": [], "farLimb": "foreFar", "nearLimb": "foreNear" },
+    "sw": { "faceMode": "front-three-quarter", "hiddenSlots": [], "farLimb": "foreFar", "nearLimb": "foreNear" },
+    "s": { "faceMode": "front", "hiddenSlots": [], "farLimb": "foreFar", "nearLimb": "foreNear" }
+  },
+  "attachments": ["ground", "stageAnchor", "bodyCenter", "headTop", "nose", "mouth", "belly", "gripL", "gripR", "foreFarTip", "foreNearTip", "pawL", "pawR", "tailTip", "wakeOrigin"],
+  "hitAreas": ["head", "muzzle", "belly", "pawL", "pawR", "tail"],
+  "interactionProtocol": {
+    "version": 1,
+    "contract": "../companions/interaction-spec.json",
+    "phaseUnit": "normalized",
+    "rootMotion": "external",
+    "markerOrder": ["approach", "ready", "contact", "accent", "release", "complete"],
+    "roles": {
+      "stageAnchor": "stageAnchor",
+      "center": "bodyCenter",
+      "face": "nose",
+      "mouth": "mouth",
+      "belly": "belly",
+      "limbFar": "foreFarTip",
+      "limbNear": "foreNearTip",
+      "tail": "tailTip",
+      "wake": "wakeOrigin"
+    },
+    "capabilities": {
+      "greet": { "self": "face", "partner": "face" },
+      "limbTap": { "self": "limbNear", "partner": "limbNear" },
+      "nuzzle": { "self": "face", "partner": "face" },
+      "hug": { "self": "center", "partner": "center" },
+      "travelTogether": { "self": "center", "partner": "center" }
+    },
+    "cancelPose": { "action": "sit", "direction": "s" },
+    "reducedMotionFallback": "static-contact",
+    "attachmentCoordinatesStatus": "required-with-production-layers"
+  },
+  "constraints": {
+    "defaultProp": null,
+    "forbiddenSlotNames": ["rock"],
+    "mirrorAtRootOnly": true,
+    "normalizeDiagonalVelocity": true,
+    "preservePhaseOnDirectionChange": true,
+    "rootMotionInClipAllowed": false,
+    "reducedMotionFallback": { "action": "sit", "direction": "s" }
+  },
+  "references": [
+    "reference/pyotter-master-rock-free.png",
+    "reference/pyotter-directions-canonical.png",
+    "reference/pyotter-layer-breakdown.png"
+  ]
+}

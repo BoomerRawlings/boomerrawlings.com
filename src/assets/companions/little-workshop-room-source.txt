@@ -1,0 +1,472 @@
+Use one square room that functions as a workshop, study, kitchen, and living space at the same time.
+
+Not four rooms. One room with four soft zones.
+
+I would make it roughly 12×12 character-widths, with enough open floor space that their 8-way movement matters but they never feel lost.
+
+The room:
+
+Top-left: shared workbench.
+Top-right: bookshelf / computer / little machine station.
+Bottom-left: plants / window / small garden shelf.
+Bottom-right: stove / kettle / table / food storage.
+Center: large open rug with one small communal table.
+
+That is enough.
+
+The key is that the room should not be architecturally complicated. Its depth should come from what happens to it.
+
+A rough layout:
+
+```text
+┌─────────────────────────────────────┐
+│                                     │
+│  BOOKS / AI          WORKBENCH      │
+│  ┌───────┐          ┌─────────┐     │
+│  │       │          │         │     │
+│  └───────┘          └─────────┘     │
+│                                     │
+│                                     │
+│           ┌───────────┐             │
+│           │   TABLE   │             │
+│           └───────────┘             │
+│                                     │
+│                                     │
+│  PLANTS / WINDOW        KITCHEN     │
+│  ♧ ♧ ♧                  ▤  ◯        │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+The center should remain mostly empty.
+
+That matters because the characters need somewhere to:
+
+walk around each other,
+carry objects,
+meet,
+argue,
+sit,
+build temporary things,
+drag furniture,
+inspect new objects,
+wander aimlessly.
+
+The room should feel like a stage.
+
+The furniture around the edges creates destinations. The open middle creates behavior.
+
+I would actually give the room only seven permanent anchors at first:
+
+1. Workbench
+2. Bookshelf
+3. Computer
+4. Window
+5. Plant shelf
+6. Stove
+7. Central table
+
+Everything else enters through play.
+
+That gives you enormous development depth without expanding the map.
+
+For example, the workbench begins as:
+
+wooden table + hammer.
+
+Later it might contain:
+
+vise,
+soldering iron,
+tools,
+printer,
+robot arm,
+fabricator,
+AI-assisted design terminal.
+
+Same physical location.
+
+The player watches it evolve.
+
+The bookshelf starts with maybe three books.
+
+Later:
+
+books,
+notes,
+papers,
+filing system,
+terminal,
+AI index,
+automated retrieval mechanism.
+
+Eventually the “bookshelf” might essentially become a knowledge machine.
+
+The plants start as two pots.
+
+Later:
+
+herbs,
+food,
+irrigation,
+grow lights,
+sensors,
+automated gardening,
+seed storage,
+weird experimental plants.
+
+The kitchen starts as:
+
+stove + kettle.
+
+Later:
+
+automatic kettle,
+food storage,
+preserving equipment,
+little cooking robot,
+shared food production.
+
+You get technological progression without adding territory.
+
+That is exactly what you want.
+
+The room can also physically reveal the two philosophies.
+
+Do not permanently divide it into “his side” and “his side.”
+
+Instead, let their behavior gradually create spatial tendencies.
+
+Your Kropotkin character gravitates toward:
+
+the central table,
+plants,
+food,
+shared storage,
+connected systems.
+
+Objects he modifies tend to migrate inward.
+
+Your Bakunin character gravitates toward:
+
+the workbench,
+window,
+tools,
+independent devices,
+small personal systems.
+
+Objects he modifies tend to spread outward.
+
+That gives you a beautiful visual consequence:
+
+Kropotkin causes networks.
+
+Bakunin causes nodes.
+
+One character slowly connects the room.
+
+The other slowly distributes it.
+
+You can literally communicate ideology through cables.
+
+Kropotkin might eventually connect:
+
+computer → plants → lights → kitchen → battery.
+
+A visible little network begins appearing around the room.
+
+Bakunin sees it and starts creating:
+
+plant controller,
+independent lamp battery,
+separate kettle controller,
+local computer.
+
+Now the room itself becomes an argument.
+
+That is much better than dialogue saying:
+
+“Centralization versus decentralization.”
+
+The furniture is debating.
+
+For 8-way movement specifically, I would use a three-quarter top-down perspective rather than pure side view.
+
+Something like classic Pokémon, old Zelda interiors, or a tiny RPG room.
+
+This gives you:
+
+north,
+south,
+east,
+west,
+four diagonals,
+
+without needing complicated navigation.
+
+Characters can:
+
+walk behind the table,
+stand beside one another,
+approach furniture from different angles,
+carry things diagonally,
+circle an object,
+pace during conversations.
+
+That alone will make them feel much more alive.
+
+I would also resist chairs initially.
+
+Give them floor cushions or stools that characters can move themselves.
+
+Movable small objects will make 8-way movement much more interesting than static décor.
+
+The characters should constantly interact physically with the room.
+
+Examples:
+
+Kropotkin carries a book to the table.
+
+Bakunin takes it back to the shelf.
+
+Kropotkin waters plants.
+
+Bakunin examines the watering mechanism.
+
+Bakunin leaves a wrench on the floor.
+
+Kropotkin puts it away.
+
+Bakunin gets annoyed and retrieves it.
+
+Kropotkin makes tea.
+
+Bakunin walks over when he smells it.
+
+Neither one needs player input for every movement.
+
+Tiny autonomous behaviors make the room feel inhabited.
+
+The central table should probably be the most important object in the game.
+
+It has several functions:
+
+new objects appear there,
+the player places objects there,
+the characters inspect things together,
+arguments happen there,
+experiments happen there,
+meals happen there,
+objects can remain unfinished there.
+
+It is essentially the game's altar.
+
+Every interesting object enters through the table.
+
+That gives the player an immediate visual question whenever they open the game:
+
+“What is on the table?”
+
+I would make the window the second most important location.
+
+Not because the player goes outside.
+
+They never do.
+
+The outside world exists almost entirely through the window.
+
+Weather changes.
+
+Light changes.
+
+Occasionally something passes outside.
+
+Technology changes what can be seen.
+
+Maybe eventually:
+
+antenna,
+telescope,
+weather sensor,
+solar panel,
+receiver.
+
+The window gives you the feeling that the room belongs to a larger world without having to build that world.
+
+You can get absurd mileage out of it.
+
+Early:
+
+rain.
+
+Later:
+
+a bird.
+
+Later:
+
+a strange drone.
+
+Later:
+
+distant construction.
+
+Later:
+
+satellite streak.
+
+The world develops outside without becoming playable.
+
+That maintains your scope.
+
+I would also make the walls useful.
+
+Do not just decorate them.
+
+The characters gradually put things on them:
+
+drawings,
+plans,
+charts,
+photographs,
+notes,
+maps,
+failed experiments,
+little ideological jokes.
+
+After twenty hours, the walls become a history of the relationship.
+
+That creates the persistence effect cheaply.
+
+You could have a tiny rule:
+
+Nothing important disappears.
+
+If an object becomes obsolete, somebody:
+
+stores it,
+hangs it,
+repurposes it,
+takes it apart,
+leaves part of it somewhere.
+
+The original kettle might still exist fifty hours later.
+
+It has just become:
+
+old kettle → automatic kettle → disconnected antique → flower pot.
+
+Now you have history.
+
+Another strong mechanic:
+
+Give each character exactly one tiny personal space.
+
+Not a bedroom.
+
+Maybe just:
+
+Kropotkin gets a chair/cushion near the plants.
+
+Bakunin gets a stool/crate near the workbench.
+
+These become emotional anchors.
+
+If upset, they go there.
+
+If tired, they go there.
+
+If thinking, they return there.
+
+If the player gives them something sentimental, they may place it nearby.
+
+That creates attachment without building private rooms.
+
+And because they're cute, you can push tiny behaviors very far:
+
+sleeping at the table,
+falling asleep reading,
+carrying an object that's slightly too large,
+struggling to open a jar,
+sitting on the floor,
+following each other,
+getting distracted,
+watching rain,
+making tea,
+stealing each other's tools,
+watering a plant twice,
+turning lights off behind one another.
+
+These behaviors will sell the game much more than another map.
+
+The room can evolve through five broad visual eras without changing shape:
+
+Era 1: Bare room
+
+Workbench.
+Few books.
+One plant.
+Kettle.
+Table.
+
+Era 2: Lived-in
+
+More books.
+Food.
+Tools.
+Notes.
+Small inventions.
+
+Era 3: Mechanized
+
+Wires.
+Sensors.
+Automation.
+Computer.
+Small robots.
+
+Era 4: Intelligent
+
+Objects communicate.
+AI terminal.
+Adaptive lighting.
+Automated plants.
+Fabrication.
+
+Era 5: Almost magical
+
+The room barely looks futuristic in a conventional sci-fi sense.
+
+Instead, everything just quietly works.
+
+Books find themselves.
+
+Lights follow activity.
+
+Plants maintain themselves.
+
+Machines fabricate parts.
+
+The room responds.
+
+That subtlety matters.
+
+Do not make it look like:
+
+CYBERPUNK AI ROOM.
+
+Make it look like the same cozy room that has been continuously improved by two obsessive little people.
+
+That is much more charming and much more aligned with the ideology.
+
+My strongest recommendation would be:
+
+Make the entire playable world one 14×10-ish tile room with a window, central table, workbench, bookshelf/computer corner, plant corner, and kitchen corner.
+
+Then commit to a brutal production constraint:
+
+You are not allowed to add another room until you have created at least 100 meaningful interactions inside this one.
+
+That constraint would probably improve the game enormously.
+
+The room should become deep enough that the player eventually knows every floorboard.

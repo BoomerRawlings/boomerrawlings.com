@@ -1,0 +1,101 @@
+Here is the refined version.
+1.  Make the system open directly into the user’s current context. Do not start at a dashboard unless the dashboard is itself useful.
+2.  Restore the exact previous state. Scroll position, active object, zoom, filters, open panels, and unfinished work should survive sessions.
+3.  Give the user one dominant action per screen.
+4.  Make the first useful action possible within three seconds.
+5.  Remove confirmation prompts for reversible actions.
+6.  Make destructive actions reversible instead of difficult.
+7.  Reduce repeated navigation. Frequently used destinations should become one gesture away.
+8.  Remember user choices permanently unless the user changes them.
+9.  Predict the next likely action and place it nearby.
+10.  Prefer continuation over navigation. “Continue” should usually beat “browse.”
+11.  Design a recognizable entry ritual. The system should have a consistent opening state, motion, sound, or visual transition.
+12.  Design a recognizable exit ritual. Save, summarize, close, or transition cleanly.
+13.  Preserve session continuity. The user should never feel that they are starting from zero.
+14.  Create a visual sense of “my place.” Layout should become spatially familiar.
+15.  Let the interface develop small user-specific characteristics over time.
+16.  Avoid arbitrary redesigns. Familiarity itself becomes rewarding.
+17.  Maintain stable spatial relationships between major controls.
+18.  Make high-frequency actions physically effortless.
+19.  Let keyboard shortcuts or gestures emerge naturally for advanced use.
+20.  Reward expertise with speed.
+21.  Make every action produce immediate visible feedback.
+22.  Animate causal relationships. When something moves, transforms, connects, or changes, show the transition.
+23.  Use small tactile effects where the platform supports them.
+24.  Use sound sparingly but consistently for meaningful events.
+25.  Differentiate ordinary actions from important actions through feedback strength.
+26.  Make completion visually satisfying.
+27.  Make progress visually accumulate.
+28.  Show the user what changed because of their action.
+29.  Minimize dead clicks and ambiguous states.
+30.  Make the software feel responsive even during longer operations through progressive feedback.
+31.  Give the user short-term progress every session.
+32.  Give the user medium-term progress across several sessions.
+33.  Give the user long-term progress across months or years.
+34.  Show all three timescales somewhere.
+35.  Make progress concrete rather than abstract whenever possible.
+36.  Prefer “you created 18 useful artifacts” over “1,400 XP.”
+37.  Preserve historical progress.
+38.  Make old work rediscoverable.
+39.  Show before/after comparisons when meaningful.
+40.  Occasionally surface how much the user has accumulated.
+41.  Let the system become more useful as the user invests in it.
+42.  Store preferences.
+43.  Store organizational structure.
+44.  Store history.
+45.  Store meaningful relationships between objects.
+46.  Preserve metadata automatically.
+47.  Let the user annotate or personalize objects.
+48.  Learn which objects, tools, or views the user favors.
+49.  Make that learning visible through improved defaults.
+50.  Never force the user to repeatedly teach the system something it already learned.
+51.  Build genuine personalization rather than cosmetic personalization.
+52.  Adjust defaults based on observed behavior.
+53.  Learn preferred working times when relevant.
+54.  Learn preferred information density.
+55.  Learn preferred ordering.
+56.  Learn which features the user ignores and deemphasize them.
+57.  Learn which features the user repeatedly seeks and surface them.
+58.  Let the user override inferred preferences easily.
+59.  Explain unusual personalization when necessary.
+60.  Never make personalization unpredictable enough that the interface feels unstable.
+61.  Create an internal world with persistent objects.
+62.  Let objects acquire history.
+63.  Let objects change based on use.
+64.  Allow objects to become visually distinct through interaction.
+65.  Give the user places to “put” things.
+66.  Preserve those locations.
+67.  Use spatial memory where appropriate.
+68.  Let abandoned projects remain visible rather than silently disappearing.
+69.  Give unfinished work visual character.
+70.  Make returning to old work feel like rediscovery rather than file management.
+71.  Create curiosity without requiring social content.
+72.  Reveal system depth gradually.
+73.  Introduce advanced functionality only after relevant behavior appears.
+74.  Hide optional complexity until the user demonstrates need.
+75.  Occasionally surface an overlooked capability at a relevant moment.
+76.  Create rare events or states based on genuine milestones.
+77.  Make rare events subtle enough that they feel discovered.
+78.  Avoid explaining every hidden behavior immediately.
+79.  Let the user develop private knowledge about how the system behaves.
+80.  Reward exploration with useful discoveries rather than random decoration.
+81.  Leave meaningful work slightly open-ended.
+82.  Show unfinished threads.
+83.  Preserve incomplete ideas prominently enough to remain cognitively alive.
+84.  Surface the most promising unfinished item at return.
+85.  Let the user explicitly defer something without losing it.
+86.  Create “next time” states naturally.
+87.  End sessions with a clear sense of what remains possible.
+88.  Avoid artificial cliffhangers.
+89.  Use legitimate anticipation: processing finishing, projects evolving, knowledge accumulating, recommendations improving.
+90.  Let long-running systems visibly mature.
+91.  Create mastery.
+92.  Give novices simple controls.
+93.  Give experts more expressive controls rather than merely more settings.
+94.  Let repeated actions become faster through learned shortcuts.
+95.  Reveal underlying structure as competence increases.
+96.  Let the user build reusable patterns, templates, macros, presets, or workflows.
+97.  Make advanced behavior more powerful without making basic behavior obsolete.
+98.  Preserve evidence of learned competence.
+99.  Occasionally show the user what they can now do that they could not do earlier.
+100.  Make the system increasingly difficult to replace because it contains the user’s accumulated understanding, structure, history, and workflow—not because leaving is artificially difficult.

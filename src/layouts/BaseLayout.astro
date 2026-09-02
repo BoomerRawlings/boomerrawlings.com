@@ -173,6 +173,20 @@ const isCurrent = (href: string) =>
     <link rel="author" href="/about/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': schemaGraph })}></script>
+    <script
+      is:inline
+      data-name="BMC-Widget"
+      data-cfasync="false"
+      src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
+      defer
+      data-id="BoomerRawlings"
+      data-description="Support me on Buy me a coffee!"
+      data-message="I release most of what I build freely. If something I’ve made has been useful to you, you can help cover hosting, APIs, testing, and continued development."
+      data-color="#5F7FFF"
+      data-position="Right"
+      data-x_margin="18"
+      data-y_margin="18"
+    ></script>
     <title>{pageTitle}</title>
   </head>
   <body class:list={{ 'home-page': isHome }}>
@@ -238,5 +252,72 @@ const isCurrent = (href: string) =>
         </ul>
       </div>
     </footer>
+    <a
+      class="bmc-widget-fallback"
+      href="https://www.buymeacoffee.com/BoomerRawlings"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Buy Boomer a coffee"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M5 8h12v6.5A4.5 4.5 0 0 1 12.5 19h-3A4.5 4.5 0 0 1 5 14.5V8Z" />
+        <path d="M17 10h1.25a2.75 2.75 0 0 1 0 5.5H17M8 5.5c0-1 1-1 1-2M12 5.5c0-1 1-1 1-2" />
+      </svg>
+    </a>
   </body>
 </html>
+
+<style is:global>
+  .bmc-widget-fallback {
+    align-items: center;
+    background: #5f7fff;
+    border-radius: 50%;
+    bottom: 18px;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 15%);
+    color: #fff;
+    display: flex;
+    height: 64px;
+    justify-content: center;
+    position: fixed;
+    right: 18px;
+    transition: transform 180ms ease, box-shadow 180ms ease;
+    width: 64px;
+    z-index: 9998;
+  }
+
+  .bmc-widget-fallback svg {
+    fill: none;
+    height: 34px;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+    width: 34px;
+  }
+
+  .bmc-widget-fallback:hover {
+    box-shadow: 0 6px 14px rgb(0 0 0 / 22%);
+    transform: translateY(-2px);
+  }
+
+  .bmc-widget-fallback:focus-visible {
+    outline: 3px solid var(--yellow);
+    outline-offset: 4px;
+  }
+
+  body:has(#bmc-wbtn) .bmc-widget-fallback {
+    display: none;
+  }
+
+  @media (min-width: 761px) {
+    .site-footer {
+      padding-inline-end: max(5vw, 6.25rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bmc-widget-fallback {
+      transition: none;
+    }
+  }
+</style>

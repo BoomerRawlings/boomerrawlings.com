@@ -1,45 +1,45 @@
 # Project state
 
 - Mode: continuation
-- Objective: publish a compact, public-safe `/swc/` student-worker handoff hub
-- Status: source-fidelity correction complete and live at `https://boomerrawlings.com/swc/`
+- Objective: maintain the public portfolio and unlisted SWC handoff hub while shipping the approved portfolio and Little Workshop updates.
+- Status: SWC source-fidelity corrections are live; the latest remote changes are integrated and the approved portfolio and workshop batch is verified for production.
+- Preserve: source-faithful SWC documents, no student data, no credentials or machine-specific runtime state, and the existing `noindex` treatment for link-only material.
 
 ## Completed
 
-- Kept one-page navigation with tabs and Ctrl+F-friendly headings.
-- Identified seven prior local working files as invented substitutes rather than faithful source copies; retired them from the site.
-- Rebuilt five YARD roster and two class sign-in workbooks from the original operational layouts, removing student rows only.
-- Re-split the supplied 10-page scan into six source-faithful PDFs, dropping two blank pages and correcting orientation without rewriting or flattening.
-- Mapped the supplied agreement, Center Log, Launch Checklist, and Resource List PDFs to the requested form labels.
-- Marked Event Sign-In as source needed because no verified original is available.
-- Linked SWC letterhead plus Bookstore, Laptop, and RJ Backpack Drive lists; existing Drive permissions were preserved.
-- Populated verified contacts for Bookstore credit, SWC Cares, HECNC Student Services, Student Employment/Federal Work-Study, and HECNC IT.
-- Added Restorative Justice, service-desk, AODS, CADTP SUDRC, Work Experience, and Personal Wellness references. Amber is not listed.
+- Published the compact `/swc/` student-worker handoff hub with tabs, searchable headings, verified contacts, and source-needed labeling where originals are unavailable.
+- Rebuilt seven YARD workbooks and six PDFs from supplied originals while removing student rows and blank scan pages without rewriting the forms.
+- Replaced Little Workshop’s layered puppets with complete 32-frame character atlases, one 60 Hz scheduler, exclusive speech/idle ownership, and mobile-safe audio recovery.
+- Added full-sheet character extraction, normalized alpha/material palettes, deterministic 20-second motion timelines, and frame-level verification.
+- Added the Buy Me a Coffee widget across public pages, a native fallback, footer clearance, and a short first-person invitation on About.
+- Added a compact Personal Search Router entry with its public Firefox Add-ons listing and GitHub source link; it remains outside the full-project count.
 
 ## Decisions
 
-- Manuel Burciaga Tarin is labeled Student Services, not current SWC Cares.
-- Karen Sanchez Jimenez is labeled Student Employment/Federal Work-Study, not Payroll.
-- Elizabeth uses SWC directory spelling “Sisco Parada.”
-- SWC Alcohol and Other Drug Studies is separated from CADTP’s external Registered SUD Counselor resources.
-- Source fidelity wins over redesign: preserve supplied PDFs; blank student rows only when publishing operational spreadsheets.
-- Do not invent a replacement when an original is missing; show a source-needed status instead.
+- SWC source fidelity wins over redesign; never invent a replacement when a verified original is missing.
+- Keep external SWC resources labeled by their current verified role and preserve existing Drive permissions.
+- Character states must be complete fixed-canvas drawings; never simulate articulation with cropped layers, translucent anatomy, crossfades, or independent transforms.
+- The current 50 idles are unique authored timelines over the approved 32-frame vocabulary, not 50 wholly separate illustration sets.
+- The user approved the complete verified workspace for one production push on 2026-09-01.
 
 ## Verified
 
-- Six corrected PDFs match the source pages at content-stream, embedded-image, and render levels; launch checklist original wording is restored.
-- All 58 sheets across seven YARD workbooks match source headers, layout, print areas, page setup, margins, and view state; no student data or hidden residual strings remain.
-- `npm test` and `git diff --check` pass with the corrected assets and source-fidelity assertions.
-- Commit `d7e99a0` passed the GitHub Pages workflow on 2026-09-01.
-- Live `/swc/` has the corrected labels and source-fidelity notice; all eight current local downloads return HTTP 200 and match local SHA-256 hashes. Seven retired substitute URLs return 404.
+- Six SWC PDFs match supplied source content and renders; 58 workbook sheets match source structure and contain no student data or hidden residual strings.
+- The corrected SWC release passed GitHub Pages and its current downloads returned HTTP 200 with matching local hashes.
+- Before remote integration, `npm test`, `git diff --check`, and the staged credential/path scan passed on 2026-09-01.
+- Workshop verification covers two 3072 × 2048 atlases, exact frame order and bounds, 50 × 20-second timelines per character, 448 dialogue beats, and mobile audio recovery.
+- Desktop and 390 × 844 checks found no horizontal overflow, covered footer controls, or Personal Search Router layout issues.
+- Mozilla Add-ons API verified Personal Search Router 1.0.1 as public.
+- Post-rebase `npm test` and `git diff --check` pass with both the SWC hub and portfolio/workshop updates on 2026-09-01.
 
 ## Next
 
-1. Obtain the original Event Sign-In file; Canva must be reconnected or the file attached.
+1. Push the verified main-branch batch and confirm GitHub Pages completes.
+2. Run the remaining physical-iPhone audio check when convenient.
 
 ## Risks
 
-- By-link plus `noindex` is not authentication; restricted Drive content depends on Drive permissions.
-- Laptop and RJ Backpack Sheets remain owner-restricted and may require deliberate access grants.
-- Working templates should be rechecked against current SWC policy each term.
+- Link-only plus `noindex` is obscurity, not authentication; restricted Drive content still depends on Drive permissions.
 - The Event Sign-In download remains unavailable until a verified original is supplied.
+- Real iPhone silent-switch and background audio behavior still needs a physical-device check.
+- More distinct physical loops require more approved drawings than the current 32-frame vocabulary.

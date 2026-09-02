@@ -1,0 +1,1153 @@
+{
+  "version": 3,
+  "frameNames": [
+    "neutral",
+    "inhale-mid",
+    "inhale",
+    "blink-quarter",
+    "blink-half",
+    "blink-three-quarter",
+    "blink-closed",
+    "wide-mid",
+    "small-mid",
+    "small",
+    "open-mid",
+    "open",
+    "round-mid",
+    "round",
+    "smile-mid",
+    "smile",
+    "gesture-00",
+    "gesture-01",
+    "gesture-02",
+    "gesture-03",
+    "gesture-04",
+    "gesture-05",
+    "gesture-06",
+    "gesture-07",
+    "gesture-08",
+    "gesture-09",
+    "gesture-10",
+    "gesture-11",
+    "gesture-12",
+    "gesture-13",
+    "gesture-14",
+    "gesture-15"
+  ],
+  "characters": {
+    "pyotter": {
+      "path": "src/assets/aristotter/characters/pyotter/character-motion-v3.webp",
+      "width": 3072,
+      "height": 2048,
+      "columns": 8,
+      "rows": 4,
+      "cellWidth": 384,
+      "cellHeight": 512,
+      "bytes": 801322,
+      "sha256": "3349c10fc8a1cf42ec4262833b286c7bce172cc4dbb42b2b8e20dc247f110698",
+      "frames": [
+        {
+          "name": "neutral",
+          "column": 0,
+          "row": 0,
+          "bbox": [
+            54,
+            31,
+            330,
+            487
+          ],
+          "partialAlphaPixels": 5115,
+          "meanRgb": [
+            135.85,
+            112.76,
+            94.98
+          ]
+        },
+        {
+          "name": "inhale-mid",
+          "column": 1,
+          "row": 0,
+          "bbox": [
+            55,
+            31,
+            330,
+            487
+          ],
+          "partialAlphaPixels": 5153,
+          "meanRgb": [
+            143.85,
+            121.9,
+            102.57
+          ]
+        },
+        {
+          "name": "inhale",
+          "column": 2,
+          "row": 0,
+          "bbox": [
+            54,
+            29,
+            330,
+            487
+          ],
+          "partialAlphaPixels": 5152,
+          "meanRgb": [
+            134.43,
+            111.47,
+            93.63
+          ]
+        },
+        {
+          "name": "blink-quarter",
+          "column": 3,
+          "row": 0,
+          "bbox": [
+            53,
+            30,
+            330,
+            487
+          ],
+          "partialAlphaPixels": 5178,
+          "meanRgb": [
+            144.42,
+            121.29,
+            102.22
+          ]
+        },
+        {
+          "name": "blink-half",
+          "column": 4,
+          "row": 0,
+          "bbox": [
+            52,
+            28,
+            332,
+            487
+          ],
+          "partialAlphaPixels": 5185,
+          "meanRgb": [
+            136.45,
+            112.67,
+            94.24
+          ]
+        },
+        {
+          "name": "blink-three-quarter",
+          "column": 5,
+          "row": 0,
+          "bbox": [
+            53,
+            29,
+            331,
+            487
+          ],
+          "partialAlphaPixels": 5164,
+          "meanRgb": [
+            146.0,
+            121.88,
+            103.03
+          ]
+        },
+        {
+          "name": "blink-closed",
+          "column": 6,
+          "row": 0,
+          "bbox": [
+            52,
+            28,
+            332,
+            487
+          ],
+          "partialAlphaPixels": 5180,
+          "meanRgb": [
+            138.03,
+            113.74,
+            94.82
+          ]
+        },
+        {
+          "name": "wide-mid",
+          "column": 7,
+          "row": 0,
+          "bbox": [
+            55,
+            30,
+            329,
+            487
+          ],
+          "partialAlphaPixels": 5149,
+          "meanRgb": [
+            142.01,
+            118.35,
+            100.22
+          ]
+        },
+        {
+          "name": "small-mid",
+          "column": 0,
+          "row": 1,
+          "bbox": [
+            55,
+            30,
+            329,
+            487
+          ],
+          "partialAlphaPixels": 5134,
+          "meanRgb": [
+            144.52,
+            121.29,
+            103.12
+          ]
+        },
+        {
+          "name": "small",
+          "column": 1,
+          "row": 1,
+          "bbox": [
+            55,
+            30,
+            330,
+            486
+          ],
+          "partialAlphaPixels": 5127,
+          "meanRgb": [
+            135.07,
+            111.59,
+            93.73
+          ]
+        },
+        {
+          "name": "open-mid",
+          "column": 2,
+          "row": 1,
+          "bbox": [
+            56,
+            31,
+            329,
+            487
+          ],
+          "partialAlphaPixels": 5151,
+          "meanRgb": [
+            143.52,
+            120.08,
+            101.91
+          ]
+        },
+        {
+          "name": "open",
+          "column": 3,
+          "row": 1,
+          "bbox": [
+            55,
+            29,
+            330,
+            487
+          ],
+          "partialAlphaPixels": 5141,
+          "meanRgb": [
+            134.05,
+            110.28,
+            92.46
+          ]
+        },
+        {
+          "name": "round-mid",
+          "column": 4,
+          "row": 1,
+          "bbox": [
+            53,
+            31,
+            331,
+            486
+          ],
+          "partialAlphaPixels": 5170,
+          "meanRgb": [
+            144.84,
+            121.44,
+            103.66
+          ]
+        },
+        {
+          "name": "round",
+          "column": 5,
+          "row": 1,
+          "bbox": [
+            53,
+            29,
+            331,
+            487
+          ],
+          "partialAlphaPixels": 5155,
+          "meanRgb": [
+            135.52,
+            112.26,
+            94.31
+          ]
+        },
+        {
+          "name": "smile-mid",
+          "column": 6,
+          "row": 1,
+          "bbox": [
+            54,
+            32,
+            331,
+            486
+          ],
+          "partialAlphaPixels": 5148,
+          "meanRgb": [
+            144.46,
+            121.6,
+            103.38
+          ]
+        },
+        {
+          "name": "smile",
+          "column": 7,
+          "row": 1,
+          "bbox": [
+            53,
+            30,
+            330,
+            487
+          ],
+          "partialAlphaPixels": 5145,
+          "meanRgb": [
+            135.95,
+            112.98,
+            95.08
+          ]
+        },
+        {
+          "name": "gesture-00",
+          "column": 0,
+          "row": 2,
+          "bbox": [
+            56,
+            30,
+            331,
+            485
+          ],
+          "partialAlphaPixels": 5133,
+          "meanRgb": [
+            144.63,
+            121.09,
+            102.16
+          ]
+        },
+        {
+          "name": "gesture-01",
+          "column": 1,
+          "row": 2,
+          "bbox": [
+            55,
+            28,
+            331,
+            485
+          ],
+          "partialAlphaPixels": 5220,
+          "meanRgb": [
+            142.16,
+            117.96,
+            99.48
+          ]
+        },
+        {
+          "name": "gesture-02",
+          "column": 2,
+          "row": 2,
+          "bbox": [
+            60,
+            35,
+            336,
+            485
+          ],
+          "partialAlphaPixels": 5119,
+          "meanRgb": [
+            137.79,
+            114.22,
+            96.52
+          ]
+        },
+        {
+          "name": "gesture-03",
+          "column": 3,
+          "row": 2,
+          "bbox": [
+            63,
+            40,
+            342,
+            485
+          ],
+          "partialAlphaPixels": 5199,
+          "meanRgb": [
+            141.18,
+            116.55,
+            97.28
+          ]
+        },
+        {
+          "name": "gesture-04",
+          "column": 4,
+          "row": 2,
+          "bbox": [
+            59,
+            44,
+            331,
+            485
+          ],
+          "partialAlphaPixels": 5005,
+          "meanRgb": [
+            135.12,
+            111.67,
+            93.36
+          ]
+        },
+        {
+          "name": "gesture-05",
+          "column": 5,
+          "row": 2,
+          "bbox": [
+            55,
+            45,
+            319,
+            485
+          ],
+          "partialAlphaPixels": 5074,
+          "meanRgb": [
+            139.15,
+            115.11,
+            96.29
+          ]
+        },
+        {
+          "name": "gesture-06",
+          "column": 6,
+          "row": 2,
+          "bbox": [
+            45,
+            49,
+            317,
+            485
+          ],
+          "partialAlphaPixels": 5026,
+          "meanRgb": [
+            139.03,
+            115.39,
+            97.77
+          ]
+        },
+        {
+          "name": "gesture-07",
+          "column": 7,
+          "row": 2,
+          "bbox": [
+            34,
+            53,
+            314,
+            485
+          ],
+          "partialAlphaPixels": 5103,
+          "meanRgb": [
+            141.57,
+            116.96,
+            98.04
+          ]
+        },
+        {
+          "name": "gesture-08",
+          "column": 0,
+          "row": 3,
+          "bbox": [
+            46,
+            50,
+            317,
+            484
+          ],
+          "partialAlphaPixels": 5026,
+          "meanRgb": [
+            135.58,
+            111.53,
+            93.87
+          ]
+        },
+        {
+          "name": "gesture-09",
+          "column": 1,
+          "row": 3,
+          "bbox": [
+            55,
+            45,
+            319,
+            485
+          ],
+          "partialAlphaPixels": 5074,
+          "meanRgb": [
+            139.15,
+            115.11,
+            96.29
+          ]
+        },
+        {
+          "name": "gesture-10",
+          "column": 2,
+          "row": 3,
+          "bbox": [
+            59,
+            44,
+            330,
+            485
+          ],
+          "partialAlphaPixels": 4969,
+          "meanRgb": [
+            135.4,
+            112.13,
+            94.39
+          ]
+        },
+        {
+          "name": "gesture-11",
+          "column": 3,
+          "row": 3,
+          "bbox": [
+            63,
+            40,
+            342,
+            485
+          ],
+          "partialAlphaPixels": 5199,
+          "meanRgb": [
+            141.18,
+            116.55,
+            97.28
+          ]
+        },
+        {
+          "name": "gesture-12",
+          "column": 4,
+          "row": 3,
+          "bbox": [
+            60,
+            34,
+            337,
+            485
+          ],
+          "partialAlphaPixels": 5175,
+          "meanRgb": [
+            138.0,
+            115.09,
+            97.62
+          ]
+        },
+        {
+          "name": "gesture-13",
+          "column": 5,
+          "row": 3,
+          "bbox": [
+            55,
+            28,
+            331,
+            485
+          ],
+          "partialAlphaPixels": 5220,
+          "meanRgb": [
+            142.16,
+            117.96,
+            99.48
+          ]
+        },
+        {
+          "name": "gesture-14",
+          "column": 6,
+          "row": 3,
+          "bbox": [
+            55,
+            30,
+            331,
+            486
+          ],
+          "partialAlphaPixels": 5163,
+          "meanRgb": [
+            144.2,
+            120.55,
+            102.26
+          ]
+        },
+        {
+          "name": "gesture-15",
+          "column": 7,
+          "row": 3,
+          "bbox": [
+            54,
+            31,
+            330,
+            487
+          ],
+          "partialAlphaPixels": 5115,
+          "meanRgb": [
+            135.85,
+            112.76,
+            94.98
+          ]
+        }
+      ]
+    },
+    "mikwhale": {
+      "path": "src/assets/aristotter/characters/mikwhale/character-motion-v3.webp",
+      "width": 3072,
+      "height": 2048,
+      "columns": 8,
+      "rows": 4,
+      "cellWidth": 384,
+      "cellHeight": 512,
+      "bytes": 1236432,
+      "sha256": "6f712808a868947c154e145c113e994b5011162fcf2c70990a983509a47dad03",
+      "frames": [
+        {
+          "name": "neutral",
+          "column": 0,
+          "row": 0,
+          "bbox": [
+            35,
+            39,
+            350,
+            486
+          ],
+          "partialAlphaPixels": 6686,
+          "meanRgb": [
+            98.35,
+            103.55,
+            100.3
+          ]
+        },
+        {
+          "name": "inhale-mid",
+          "column": 1,
+          "row": 0,
+          "bbox": [
+            35,
+            40,
+            350,
+            487
+          ],
+          "partialAlphaPixels": 6213,
+          "meanRgb": [
+            102.9,
+            109.52,
+            107.15
+          ]
+        },
+        {
+          "name": "inhale",
+          "column": 2,
+          "row": 0,
+          "bbox": [
+            36,
+            39,
+            350,
+            487
+          ],
+          "partialAlphaPixels": 6666,
+          "meanRgb": [
+            99.55,
+            104.55,
+            101.1
+          ]
+        },
+        {
+          "name": "blink-quarter",
+          "column": 3,
+          "row": 0,
+          "bbox": [
+            35,
+            40,
+            349,
+            487
+          ],
+          "partialAlphaPixels": 6328,
+          "meanRgb": [
+            102.77,
+            110.43,
+            109.0
+          ]
+        },
+        {
+          "name": "blink-half",
+          "column": 4,
+          "row": 0,
+          "bbox": [
+            35,
+            40,
+            349,
+            487
+          ],
+          "partialAlphaPixels": 6684,
+          "meanRgb": [
+            99.28,
+            105.38,
+            102.66
+          ]
+        },
+        {
+          "name": "blink-three-quarter",
+          "column": 5,
+          "row": 0,
+          "bbox": [
+            35,
+            41,
+            349,
+            487
+          ],
+          "partialAlphaPixels": 6292,
+          "meanRgb": [
+            102.26,
+            110.11,
+            109.06
+          ]
+        },
+        {
+          "name": "blink-closed",
+          "column": 6,
+          "row": 0,
+          "bbox": [
+            36,
+            40,
+            349,
+            487
+          ],
+          "partialAlphaPixels": 6674,
+          "meanRgb": [
+            98.84,
+            105.81,
+            103.4
+          ]
+        },
+        {
+          "name": "wide-mid",
+          "column": 7,
+          "row": 0,
+          "bbox": [
+            36,
+            39,
+            349,
+            487
+          ],
+          "partialAlphaPixels": 6277,
+          "meanRgb": [
+            102.9,
+            108.87,
+            106.15
+          ]
+        },
+        {
+          "name": "small-mid",
+          "column": 0,
+          "row": 1,
+          "bbox": [
+            36,
+            40,
+            349,
+            487
+          ],
+          "partialAlphaPixels": 6273,
+          "meanRgb": [
+            103.84,
+            110.76,
+            107.73
+          ]
+        },
+        {
+          "name": "small",
+          "column": 1,
+          "row": 1,
+          "bbox": [
+            35,
+            39,
+            349,
+            487
+          ],
+          "partialAlphaPixels": 6692,
+          "meanRgb": [
+            97.98,
+            103.19,
+            100.01
+          ]
+        },
+        {
+          "name": "open-mid",
+          "column": 2,
+          "row": 1,
+          "bbox": [
+            36,
+            39,
+            349,
+            487
+          ],
+          "partialAlphaPixels": 6277,
+          "meanRgb": [
+            102.9,
+            108.87,
+            106.15
+          ]
+        },
+        {
+          "name": "open",
+          "column": 3,
+          "row": 1,
+          "bbox": [
+            35,
+            39,
+            349,
+            487
+          ],
+          "partialAlphaPixels": 6690,
+          "meanRgb": [
+            98.4,
+            103.25,
+            100.09
+          ]
+        },
+        {
+          "name": "round-mid",
+          "column": 4,
+          "row": 1,
+          "bbox": [
+            35,
+            39,
+            349,
+            487
+          ],
+          "partialAlphaPixels": 6244,
+          "meanRgb": [
+            102.86,
+            109.45,
+            106.94
+          ]
+        },
+        {
+          "name": "round",
+          "column": 5,
+          "row": 1,
+          "bbox": [
+            35,
+            39,
+            349,
+            487
+          ],
+          "partialAlphaPixels": 6674,
+          "meanRgb": [
+            98.5,
+            103.69,
+            100.52
+          ]
+        },
+        {
+          "name": "smile-mid",
+          "column": 6,
+          "row": 1,
+          "bbox": [
+            36,
+            39,
+            349,
+            487
+          ],
+          "partialAlphaPixels": 6264,
+          "meanRgb": [
+            102.66,
+            109.73,
+            107.17
+          ]
+        },
+        {
+          "name": "smile",
+          "column": 7,
+          "row": 1,
+          "bbox": [
+            36,
+            40,
+            349,
+            487
+          ],
+          "partialAlphaPixels": 6681,
+          "meanRgb": [
+            98.62,
+            104.07,
+            100.91
+          ]
+        },
+        {
+          "name": "gesture-00",
+          "column": 0,
+          "row": 2,
+          "bbox": [
+            38,
+            36,
+            351,
+            485
+          ],
+          "partialAlphaPixels": 6348,
+          "meanRgb": [
+            103.31,
+            110.42,
+            108.2
+          ]
+        },
+        {
+          "name": "gesture-01",
+          "column": 1,
+          "row": 2,
+          "bbox": [
+            40,
+            31,
+            352,
+            484
+          ],
+          "partialAlphaPixels": 6775,
+          "meanRgb": [
+            106.18,
+            112.06,
+            109.27
+          ]
+        },
+        {
+          "name": "gesture-02",
+          "column": 2,
+          "row": 2,
+          "bbox": [
+            38,
+            33,
+            350,
+            484
+          ],
+          "partialAlphaPixels": 6210,
+          "meanRgb": [
+            105.66,
+            111.74,
+            109.29
+          ]
+        },
+        {
+          "name": "gesture-03",
+          "column": 3,
+          "row": 2,
+          "bbox": [
+            35,
+            34,
+            347,
+            484
+          ],
+          "partialAlphaPixels": 6808,
+          "meanRgb": [
+            107.3,
+            113.35,
+            110.39
+          ]
+        },
+        {
+          "name": "gesture-04",
+          "column": 4,
+          "row": 2,
+          "bbox": [
+            21,
+            36,
+            351,
+            484
+          ],
+          "partialAlphaPixels": 6181,
+          "meanRgb": [
+            105.9,
+            112.32,
+            108.86
+          ]
+        },
+        {
+          "name": "gesture-05",
+          "column": 5,
+          "row": 2,
+          "bbox": [
+            7,
+            37,
+            353,
+            484
+          ],
+          "partialAlphaPixels": 6872,
+          "meanRgb": [
+            107.64,
+            113.67,
+            110.85
+          ]
+        },
+        {
+          "name": "gesture-06",
+          "column": 6,
+          "row": 2,
+          "bbox": [
+            5,
+            38,
+            337,
+            484
+          ],
+          "partialAlphaPixels": 6223,
+          "meanRgb": [
+            105.46,
+            112.19,
+            110.33
+          ]
+        },
+        {
+          "name": "gesture-07",
+          "column": 7,
+          "row": 2,
+          "bbox": [
+            3,
+            38,
+            322,
+            484
+          ],
+          "partialAlphaPixels": 6580,
+          "meanRgb": [
+            108.55,
+            115.42,
+            112.52
+          ]
+        },
+        {
+          "name": "gesture-08",
+          "column": 0,
+          "row": 3,
+          "bbox": [
+            20,
+            41,
+            343,
+            484
+          ],
+          "partialAlphaPixels": 6020,
+          "meanRgb": [
+            104.88,
+            113.08,
+            110.59
+          ]
+        },
+        {
+          "name": "gesture-09",
+          "column": 1,
+          "row": 3,
+          "bbox": [
+            35,
+            44,
+            361,
+            484
+          ],
+          "partialAlphaPixels": 6692,
+          "meanRgb": [
+            107.74,
+            114.74,
+            112.11
+          ]
+        },
+        {
+          "name": "gesture-10",
+          "column": 2,
+          "row": 3,
+          "bbox": [
+            38,
+            41,
+            365,
+            484
+          ],
+          "partialAlphaPixels": 6591,
+          "meanRgb": [
+            107.9,
+            114.63,
+            112.12
+          ]
+        },
+        {
+          "name": "gesture-11",
+          "column": 3,
+          "row": 3,
+          "bbox": [
+            38,
+            42,
+            344,
+            484
+          ],
+          "partialAlphaPixels": 5992,
+          "meanRgb": [
+            105.57,
+            112.69,
+            110.07
+          ]
+        },
+        {
+          "name": "gesture-12",
+          "column": 4,
+          "row": 3,
+          "bbox": [
+            36,
+            41,
+            322,
+            484
+          ],
+          "partialAlphaPixels": 6428,
+          "meanRgb": [
+            107.27,
+            113.58,
+            111.11
+          ]
+        },
+        {
+          "name": "gesture-13",
+          "column": 5,
+          "row": 3,
+          "bbox": [
+            23,
+            41,
+            310,
+            484
+          ],
+          "partialAlphaPixels": 5734,
+          "meanRgb": [
+            106.0,
+            113.64,
+            110.81
+          ]
+        },
+        {
+          "name": "gesture-14",
+          "column": 6,
+          "row": 3,
+          "bbox": [
+            10,
+            41,
+            299,
+            484
+          ],
+          "partialAlphaPixels": 6448,
+          "meanRgb": [
+            106.34,
+            112.78,
+            110.42
+          ]
+        },
+        {
+          "name": "gesture-15",
+          "column": 7,
+          "row": 3,
+          "bbox": [
+            24,
+            41,
+            325,
+            485
+          ],
+          "partialAlphaPixels": 6082,
+          "meanRgb": [
+            105.93,
+            112.22,
+            110.04
+          ]
+        }
+      ]
+    }
+  }
+}

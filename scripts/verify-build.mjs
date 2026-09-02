@@ -149,8 +149,21 @@ if (!existsSync(swcPath)) {
 }
 for (const file of contentHtmlFiles) {
   const html = readFileSync(file, 'utf8');
+  const label = relative(output, file);
   if (/href=["'][^"']*\/aristotter\/?(?:[?#][^"']*)?["']/i.test(html)) {
-    failures.push(`${relative(output, file)}: public page links to the unlisted Aristotter route`);
+    failures.push(`${label}: public page links to the unlisted Aristotter route`);
+  }
+  const supportWidgetCount = (html.match(/data-name="BMC-Widget"/g) ?? []).length;
+  const supportFallbackCount = (html.match(/class="bmc-widget-fallback"/g) ?? []).length;
+  if (supportWidgetCount !== 1
+    || supportFallbackCount !== 1
+    || !html.includes('src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"')
+    || !html.includes('defer')
+    || !html.includes('data-id="BoomerRawlings"')
+    || !html.includes('data-position="Right"')
+    || !html.includes('data-y_margin="18"')
+    || !html.includes('aria-label="Buy Boomer a coffee"')) {
+    failures.push(`${label}: Buy Me a Coffee widget is missing, duplicated, or misplaced`);
   }
   if (/href=["'][^"']*\/swc\/?(?:[?#][^"']*)?["']/i.test(html)) {
     failures.push(`${relative(output, file)}: public page links to the unlisted SWC route`);
@@ -677,6 +690,12 @@ if (!aiSkillsHtml.includes('id="ai-skills-heading">AI Skills</h2>')
   || allWorkHtml.includes('github.com/BoomerRawlings/Skills/tree/main/skills/')) {
   failures.push('work/index.html: compact AI Skills section is incomplete or leaking into All Work');
 }
+if (!workHtml.includes('id="personal-search-router-heading">Personal Search Router</h2>')
+  || !workHtml.includes('I made this small Firefox add-on for myself to streamline daily browsing.')
+  || !workHtml.includes('href="https://addons.mozilla.org/en-US/firefox/addon/personal-search-router/"')
+  || !workHtml.includes('href="https://github.com/BoomerRawlings/personal-search-router"')) {
+  failures.push('work/index.html: Personal Search Router blurb or public links are missing');
+}
 const worklinePath = join(output, 'work', 'workline', 'index.html');
 if (existsSync(worklinePath)) {
   failures.push('Workline page: hidden project still has a generated detail route');
@@ -1129,6 +1148,11 @@ if (!aboutHtml.includes('2026 Student of Distinction Award')
 if (!aboutHtml.includes('href="/cv/"') || !aboutHtml.includes('View academics')) {
   failures.push('about/index.html: Academics page is not linked');
 }
+if (!aboutHtml.includes('Coffee &amp; conversation')
+  || !aboutHtml.includes('href="https://www.buymeacoffee.com/BoomerRawlings"')
+  || !aboutHtml.includes('href="mailto:boomerrawlings@gmail.com"')) {
+  failures.push('about/index.html: warm support and contact invitation is missing');
+}
 if (!aboutHtml.includes('src="/images/boomer-rawlings-headshot.webp"')
   || !aboutHtml.includes('alt="Boomer Rawlings smiling outdoors."')
   || aboutHtml.includes('src="/images/boomer-rawlings-about.webp"')) {
@@ -1300,7 +1324,17 @@ for (const file of contentHtmlFiles) {
   const html = readFileSync(file, 'utf8');
   const label = relative(output, file);
   const isTerminalGuide = html.includes('data-pip-terminal="true"');
+  const pipCount = (
+    html.match(/class="[^"]*\bportfolio-curator\b[^"]*"/g) ?? []
+  ).length;
   if (!html.includes('data-pip-guide')) failures.push(`${label}: missing Pip guide`);
+  if (pipCount !== 1) failures.push(`${label}: expected exactly one Pip, found ${pipCount}`);
+  if (label === 'index.html' && !html.includes('curator-guide--home')) {
+    failures.push('index.html: missing home Pip');
+  }
+  if (label !== 'index.html' && !html.includes('curator-guide--compact')) {
+    failures.push(`${label}: missing compact Pip`);
+  }
   if (!html.includes('data-pip-progress')
     || !html.includes('data-pip-sound')
     || !html.includes('data-pip-back')) {
@@ -1341,8 +1375,13 @@ if (!existsSync(pipScriptPath)) {
   }
   if (!pipScript.includes("backButton.addEventListener('click'")
     || !pipScript.includes('step -= 1')
+    || !pipScript.includes('step -= 1;\n    updateStep();\n    animatePip(guide)')
     || !pipScript.includes('backButton.hidden = step === 0')) {
     failures.push('Pip interaction script: Back does not restore the preceding note and speech state');
+  }
+  if (!pipScript.includes("form.addEventListener('submit'")
+    || !pipScript.includes('step += 1;\n      updateStep();\n      animatePip(guide)')) {
+    failures.push('Pip interaction script: Next does not advance the note with a speaking response');
   }
   if (!pipScript.includes("window.addEventListener('pageshow', (event) =>")
     || !pipScript.includes('delete form.dataset.pipNavigating')
@@ -1366,7 +1405,11 @@ const builtCss = files
 if (!builtCss.includes('view-transition-name:pip-curator')) {
   failures.push('Pip does not persist visually between guided pages');
 }
-if (!builtCss.includes('pip-transfer-squish') || !builtCss.includes('view-transition-image-pair(pip-curator)')) {
+if (!builtCss.includes('pip-transfer-squish')
+  || !builtCss.includes('view-transition-group(pip-curator)')
+  || !builtCss.includes('view-transition-image-pair(pip-curator)')
+  || !builtCss.includes('view-transition-old(pip-curator)')
+  || !builtCss.includes('view-transition-new(pip-curator)')) {
   failures.push('Pip is missing the cross-page squish/glitch transition');
 }
 if (!builtCss.includes('page-transfer-scan-out')
@@ -1377,10 +1420,16 @@ if (!builtCss.includes('page-transfer-scan-out')
 if (!builtCss.includes('pip-fallback-depart') || !builtCss.includes('pip-feature-arrive')) {
   failures.push('Pip is missing the fallback departure or feature-level arrival motion');
 }
+if (!builtCss.includes('pip-feature-idle')
+  || !builtCss.includes('pip-feature-talk')
+  || !builtCss.includes('pip-ambient-slice')
+  || !builtCss.includes('pip-cheer-response-slice')
+  || !builtCss.includes('.curator-guide .portfolio-curator:before')) {
+  failures.push('Pip is missing the shared cheerful cyan/yellow feature response');
+}
 if (!builtCss.includes('pip-hover-smile-in')
   || !builtCss.includes('pip-hover-smile-out')
-  || !builtCss.includes('pip-hover-feature-glitch')
-  || !builtCss.includes('background-position:97% 0')) {
+  || !builtCss.includes('pip-hover-feature-glitch')) {
   failures.push('Pip is missing the fine-pointer hover smile');
 }
 if (!builtCss.includes('.evidence-figure--diagram .evidence-media')
@@ -1393,6 +1442,9 @@ if (!builtCss.includes('.evidence-figure--diagram .evidence-media')
 if (!builtCss.includes('@media (prefers-reduced-motion:reduce)') && !builtCss.includes('@media(prefers-reduced-motion:reduce)')) {
   failures.push('Pip motion does not respect reduced-motion preferences');
 }
+if (!builtCss.includes('.curator-guide .portfolio-curator:before,.curator-guide .portfolio-curator:after{opacity:0!important;transform:none!important}')) {
+  failures.push('Pip feature layers remain visible when reduced motion is requested');
+}
 if (builtCss.includes('.signal-rail') || publicHtml.includes('data-signal-rail')) {
   failures.push('Signal rail: obsolete full-width signal treatment remains');
 }
@@ -1400,6 +1452,10 @@ if (!builtCss.includes('pip-signal-breathe')
   || !builtCss.includes('pip-signal-speak')
   || !builtCss.includes('.pip-signal--next')) {
   failures.push('Pip signal: localized ambient and speaking treatments are missing');
+}
+if (!builtCss.includes('grid-template-columns:1.875rem auto 1.875rem')
+  || !builtCss.includes('.curator-next [data-pip-next-label]')) {
+  failures.push('Pip Next: label is not centered independently of its decorative signal');
 }
 if (!builtCss.includes('portfolio-map-flow')
   || !builtCss.includes('portfolio-map-pip-ring')
