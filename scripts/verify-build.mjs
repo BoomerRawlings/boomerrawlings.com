@@ -25,6 +25,7 @@ const redirectTargets = new Map([
 ]);
 const unlistedContentPaths = new Set([
   join('aristotter', 'index.html'),
+  join('deckle', 'index.html'),
   join('swc', 'index.html'),
 ]);
 const contentHtmlFiles = htmlFiles.filter(
@@ -36,9 +37,9 @@ const contentHtmlFiles = htmlFiles.filter(
 const unlistedHtmlFiles = htmlFiles.filter(
   (file) => unlistedContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 22 || unlistedHtmlFiles.length !== 2 || htmlFiles.length !== 28) {
+if (contentHtmlFiles.length !== 22 || unlistedHtmlFiles.length !== 3 || htmlFiles.length !== 29) {
   throw new Error(
-    `expected 22 public pages, 2 unlisted pages, and 4 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 22 public pages, 3 unlisted pages, and 4 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
@@ -147,6 +148,23 @@ if (!existsSync(swcPath)) {
     failures.push('swc/index.html: source-fidelity, safety, access, or whole-page search guidance is missing');
   }
 }
+const decklePath = join(output, 'deckle', 'index.html');
+if (!existsSync(decklePath)) {
+  failures.push('deckle/index.html: unlisted page is missing');
+} else {
+  const deckleHtml = readFileSync(decklePath, 'utf8');
+  const deckleUrl = 'https://deckle.boomerrawlings.chatgpt.site/';
+  if (!deckleHtml.includes('<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">')
+    || !deckleHtml.includes('<meta name="referrer" content="no-referrer">')) {
+    failures.push('deckle/index.html: private-link metadata is incomplete');
+  }
+  if (!deckleHtml.includes(`src="${deckleUrl}"`)
+    || !deckleHtml.includes(`href="${deckleUrl}" target="_blank" rel="noopener noreferrer"`)
+    || !deckleHtml.includes('title="Deckle reading-diary prototype"')
+    || !deckleHtml.includes('sandbox="allow-downloads allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"')) {
+    failures.push('deckle/index.html: Sites embed or direct fallback is incomplete');
+  }
+}
 for (const file of contentHtmlFiles) {
   const html = readFileSync(file, 'utf8');
   const label = relative(output, file);
@@ -167,6 +185,9 @@ for (const file of contentHtmlFiles) {
   }
   if (/href=["'][^"']*\/swc\/?(?:[?#][^"']*)?["']/i.test(html)) {
     failures.push(`${relative(output, file)}: public page links to the unlisted SWC route`);
+  }
+  if (/href=["'][^"']*\/deckle\/?(?:[?#][^"']*)?["']/i.test(html)) {
+    failures.push(`${relative(output, file)}: public page links to the unlisted Deckle route`);
   }
 }
 
