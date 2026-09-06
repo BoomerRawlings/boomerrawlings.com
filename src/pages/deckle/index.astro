@@ -32,9 +32,6 @@ const description = 'An unlisted reading-diary prototype for tracking books, rev
         sandbox="allow-downloads allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
         allow="clipboard-write"
       ></iframe>
-      <a class="direct-link" href={deckleUrl} target="_blank" rel="noopener noreferrer">
-        Open Deckle directly ↗
-      </a>
     </main>
   </body>
 </html>
@@ -81,7 +78,6 @@ const description = 'An unlisted reading-diary prototype for tracking books, rev
     transform: translate(-50%, -50%);
   }
 
-  .direct-link,
   .skip-link {
     background: rgba(24, 22, 18, 0.88);
     color: #fff;
@@ -92,18 +88,6 @@ const description = 'An unlisted reading-diary prototype for tracking books, rev
     text-decoration: none;
     transition: opacity 160ms ease, transform 160ms ease;
     z-index: 3;
-  }
-
-  .direct-link {
-    bottom: 0.75rem;
-    opacity: 0.82;
-    right: 0.75rem;
-  }
-
-  .direct-link:hover,
-  .direct-link:focus-visible {
-    opacity: 1;
-    transform: translateY(-0.1rem);
   }
 
   .skip-link {
@@ -118,14 +102,12 @@ const description = 'An unlisted reading-diary prototype for tracking books, rev
     transform: translateY(0);
   }
 
-  .direct-link:focus-visible,
   .skip-link:focus-visible {
     outline: 3px solid #fff;
     outline-offset: 2px;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .direct-link,
     .skip-link {
       transition: none;
     }
