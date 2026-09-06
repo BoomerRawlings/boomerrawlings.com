@@ -159,11 +159,11 @@ if (!existsSync(decklePath)) {
     failures.push('deckle/index.html: private-link metadata is incomplete');
   }
   if (!deckleHtml.includes(`src="${deckleUrl}"`)
-    || !deckleHtml.includes(`href="${deckleUrl}" target="_blank" rel="noopener noreferrer"`)
     || !deckleHtml.includes('title="Deckle reading-diary prototype"')
     || !deckleHtml.includes('sandbox="allow-downloads allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"')) {
-    failures.push('deckle/index.html: Sites embed or direct fallback is incomplete');
+    failures.push('deckle/index.html: Sites embed is incomplete');
   }
+  if (deckleHtml.includes('Open Deckle directly')) failures.push('deckle/index.html: confusing direct-link overlay must remain absent');
 }
 for (const file of contentHtmlFiles) {
   const html = readFileSync(file, 'utf8');
