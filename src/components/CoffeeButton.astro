@@ -1,0 +1,47 @@
+<a
+  class="support-coffee"
+  href="https://www.buymeacoffee.com/BoomerRawlings"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Buy Boomer a coffee (opens in a new tab)"
+  title="Buy me a coffee"
+>
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M5 8h12v6.5A4.5 4.5 0 0 1 12.5 19h-3A4.5 4.5 0 0 1 5 14.5V8Z" />
+    <path d="M17 10h1.25a2.75 2.75 0 0 1 0 5.5H17M8 5.5c0-1 1-1 1-2M12 5.5c0-1 1-1 1-2" />
+  </svg>
+</a>
+
+<style>
+  .support-coffee {
+    align-items: center;
+    background: #5f7fff;
+    border: 1px solid rgb(255 255 255 / 30%);
+    border-radius: 50%;
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    box-shadow: 0 4px 14px rgb(0 0 0 / 20%);
+    color: #fff;
+    display: flex;
+    height: 56px;
+    justify-content: center;
+    position: fixed;
+    right: max(18px, env(safe-area-inset-right, 0px));
+    text-decoration: none;
+    transition: transform 180ms ease, box-shadow 180ms ease;
+    width: 56px;
+    z-index: 40;
+  }
+  .support-coffee svg {
+    fill: none;
+    height: 30px;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+    width: 30px;
+  }
+  .support-coffee:hover { box-shadow: 0 6px 18px rgb(0 0 0 / 28%); transform: translateY(-2px); }
+  .support-coffee:focus-visible { outline: 3px solid #ffd200; outline-offset: 4px; }
+  @media (prefers-reduced-motion: reduce) { .support-coffee { transition: none; } }
+  @media print { .support-coffee { display: none; } }
+</style>

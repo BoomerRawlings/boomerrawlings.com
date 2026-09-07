@@ -165,23 +165,22 @@ if (!existsSync(decklePath)) {
   }
   if (deckleHtml.includes('Open Deckle directly')) failures.push('deckle/index.html: confusing direct-link overlay must remain absent');
 }
+// Deckle owns its button inside the proxied app, not the legacy iframe wrapper.
+for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => file !== decklePath)) {
+  const html = readFileSync(file, 'utf8');
+  const count = (html.match(/class="support-coffee"/g) ?? []).length;
+  if (count !== 1
+    || !html.includes('aria-label="Buy Boomer a coffee (opens in a new tab)"')
+    || !html.includes('href="https://www.buymeacoffee.com/BoomerRawlings"')
+    || html.includes('widget.prod.min.js')) {
+    failures.push(`${relative(output, file)}: shared coffee link is missing, duplicated, or depends on an external script`);
+  }
+}
 for (const file of contentHtmlFiles) {
   const html = readFileSync(file, 'utf8');
   const label = relative(output, file);
   if (/href=["'][^"']*\/aristotter\/?(?:[?#][^"']*)?["']/i.test(html)) {
     failures.push(`${label}: public page links to the unlisted Aristotter route`);
-  }
-  const supportWidgetCount = (html.match(/data-name="BMC-Widget"/g) ?? []).length;
-  const supportFallbackCount = (html.match(/class="bmc-widget-fallback"/g) ?? []).length;
-  if (supportWidgetCount !== 1
-    || supportFallbackCount !== 1
-    || !html.includes('src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"')
-    || !html.includes('defer')
-    || !html.includes('data-id="BoomerRawlings"')
-    || !html.includes('data-position="Right"')
-    || !html.includes('data-y_margin="18"')
-    || !html.includes('aria-label="Buy Boomer a coffee"')) {
-    failures.push(`${label}: Buy Me a Coffee widget is missing, duplicated, or misplaced`);
   }
   if (/href=["'][^"']*\/swc\/?(?:[?#][^"']*)?["']/i.test(html)) {
     failures.push(`${relative(output, file)}: public page links to the unlisted SWC route`);
