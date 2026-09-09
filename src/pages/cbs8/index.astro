@@ -18,8 +18,10 @@ const source = 'https://sandiego.nextrequest.com/requests?department_ids=223&sea
 <main>
   <h1 class="sr-only">Public audio attachments</h1>
   <header>
-    <div class="progress-label"><span id="progress-label" role="status">{initial.processed.toLocaleString('en-US')} / {initial.total.toLocaleString('en-US')} processed</span><span id="connection" aria-live="polite"></span></div>
+    <div class="progress-label"><span id="progress-label" role="status">Requests: {initial.processed.toLocaleString('en-US')} / {initial.total.toLocaleString('en-US')}</span><span id="connection" aria-live="polite"></span></div>
     <progress id="progress" value={initial.processed} max={initial.total} aria-label="Requests processed"></progress>
+    <div class="progress-label"><span id="transcript-label" role="status">Transcripts: {initial.transcriptsProcessed} / {initial.transcriptsTotal}</span></div>
+    <progress id="transcript-progress" value={initial.transcriptsProcessed} max={initial.transcriptsTotal || 1} aria-label="Audio files transcribed"></progress>
     <nav aria-label="Data links"><a href={source} target="_blank" rel="noopener noreferrer">Source</a><a id="csv" href="/cbs8/audio.csv" download="cbs8-audio.csv">Download CSV</a></nav>
   </header>
   <div class="table-wrap" tabindex="0" aria-label="Audio files; scroll horizontally to view dates">
@@ -40,5 +42,6 @@ const source = 'https://sandiego.nextrequest.com/requests?department_ids=223&sea
 </body>
 </html>
 <style is:global>
+#transcript-progress{accent-color:#27835c}#transcript-progress::-webkit-progress-value{background:#27835c}#transcript-progress::-moz-progress-bar{background:#27835c}
 *{box-sizing:border-box} body{margin:0;background:#fff;color:#19232e;font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:1200px;margin:auto;padding:28px 24px 60px}header{margin-bottom:12px}.progress-label{display:flex;justify-content:space-between;gap:16px;font-size:14px;font-variant-numeric:tabular-nums}#connection{color:#9a4711}progress{display:block;width:100%;height:8px;margin:9px 0 20px;border:0;border-radius:0;background:#e6eaf0;accent-color:#1764b2}progress::-webkit-progress-bar{background:#e6eaf0}progress::-webkit-progress-value{background:#1764b2}progress::-moz-progress-bar{background:#1764b2}nav{display:flex;gap:24px}a{color:#125b9e;text-underline-offset:3px}a:hover{color:#083b69}.table-wrap{overflow-x:auto}table{min-width:760px;width:100%;border-collapse:collapse;text-align:left;table-layout:fixed}th,td{padding:13px 12px;border-bottom:1px solid #e0e5eb;vertical-align:top}th:first-child,td:first-child{width:130px;padding-left:0}th:nth-child(3),td:nth-child(3){width:75px}th:nth-child(4),td:nth-child(4),th:nth-child(5),td:nth-child(5){width:150px;white-space:nowrap}th:last-child,td:last-child{padding-right:0}td:nth-child(2){overflow-wrap:anywhere}th{background:#fff;position:sticky;top:0;z-index:1}th button{font:inherit;font-weight:600;background:none;border:0;padding:0;color:inherit;text-align:left;cursor:pointer;min-height:32px}button:focus-visible,a:focus-visible{outline:2px solid #1764b2;outline-offset:4px}.arrow{display:inline-block;width:20px;margin-left:5px}tbody tr:hover{background:#f5f8fb}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:600px){main{padding:18px 14px 40px}th,td{padding:12px 6px}th:first-child,td:first-child{width:91px}th:nth-child(4),td:nth-child(4),th:nth-child(5),td:nth-child(5){width:140px}.arrow{width:12px;margin-left:2px}}
 </style>

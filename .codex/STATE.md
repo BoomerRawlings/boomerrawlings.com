@@ -52,3 +52,5 @@
 - The Event Sign-In download remains unavailable until a verified original is supplied.
 - Real iPhone silent-switch and background audio behavior still needs a physical-device check.
 - More distinct physical loops require more approved drawings than the current 32-frame vocabulary.
+
+- CBS8 transcript follow-up: separate transcript count/bar added; updates independently from request audit through existing live feed. Runtime publisher remains active until both jobs complete. Only progress counts added publicly. Build checks passed.

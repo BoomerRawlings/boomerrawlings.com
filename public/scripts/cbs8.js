@@ -4,6 +4,8 @@ let rows = [], sortKey = 'request', direction = -1, csvUrl, lastStamp, timer;
 const body = document.querySelector('#rows');
 const progress = document.querySelector('#progress');
 const label = document.querySelector('#progress-label');
+const transcriptProgress = document.querySelector('#transcript-progress');
+const transcriptLabel = document.querySelector('#transcript-label');
 const connection = document.querySelector('#connection');
 function ordered() { return [...rows].sort((a,b) => direction * collator.compare(a[sortKey]||'', b[sortKey]||'') || collator.compare(a.filename,b.filename)); }
 function safeLink(value) { const u = new URL(value); if (u.origin !== 'https://sandiego.nextrequest.com' || !/^\/(requests|documents)\//.test(u.pathname)) throw Error('Invalid link'); return u.href; }
@@ -30,9 +32,14 @@ function apply(data) {
   for(const r of data.rows) { for(const k of ['request','filename','type']) if(typeof r[k]!=='string') throw Error('Invalid row');safeLink(r.requestUrl);safeLink(r.fileUrl); }
   if(data.processed<Number(progress.value)) return;
   progress.max=data.total;progress.value=data.processed;
-  label.textContent=`${data.processed.toLocaleString('en-US')} / ${data.total.toLocaleString('en-US')} processed`;
+  label.textContent=`Requests: ${data.processed.toLocaleString('en-US')} / ${data.total.toLocaleString('en-US')}`;
   label.title=`Updated ${new Date(data.updatedAt).toLocaleString()}`;
-  connection.textContent=data.complete?'Complete':(Date.now()-Date.parse(data.updatedAt)>120000?'Waiting for updates':'');
+  if(Number.isInteger(data.transcriptsProcessed)&&Number.isInteger(data.transcriptsTotal)&&data.transcriptsProcessed>=0&&data.transcriptsProcessed<=data.transcriptsTotal&&data.transcriptsProcessed>=transcriptProgress.value) {
+    transcriptProgress.max=data.transcriptsTotal||1;transcriptProgress.value=data.transcriptsProcessed;
+    transcriptLabel.textContent=`Transcripts: ${data.transcriptsProcessed} / ${data.transcriptsTotal}`;
+    transcriptLabel.title=label.title;
+  }
+  connection.textContent=data.complete&&data.transcriptsComplete?'Complete':(Date.now()-Date.parse(data.updatedAt)>120000?'Waiting for updates':'');
   if(data.updatedAt!==lastStamp) {rows=data.rows;lastStamp=data.updatedAt;render();}
 }
 async function refresh() {
