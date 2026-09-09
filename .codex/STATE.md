@@ -6,7 +6,8 @@
 - Implemented isolated from mixed local changes. Existing GitHub Pages workflow retained. Route unlisted/noindex, no shared chrome per explicit minimal brief.
 - Live public metadata feed on cbs8-data branch under public/cbs8. Immutable timestamped snapshots avoid mutable raw-file CDN caching; client polls every10s and falls back to final progress.json. No credentials shipped. Runtime scanner and publisher run locally in the originating task.
 - Browser verified sorting, CSV contents, mobile overflow and real progress advance without reload (452 to457); no page errors. npm test passed22 public/4 unlisted/4 redirects.
-- Status: ready for production push. Full scan continues; 35 confirmed WAV files currently, not a final total until1418 processed.
+- Status: initial page published in e0d813f; Pages run34410855660 succeeded; production browser verified progress512→517, sorting and CSV. Full scan continues.
+- Date update: Request date and Uploaded columns added to live feed, table and CSV; ISO calendar dates preserve portal dates. All35 rows populated. These are not asserted as incident/call dates. Local browser verified both date sorts, CSV values and dates retained after a live update; npm test passed. Date update ready to publish.
 
 - Mode: continuation
 - Objective: maintain the public portfolio and unlisted SWC handoff hub while shipping the approved portfolio and Little Workshop updates.

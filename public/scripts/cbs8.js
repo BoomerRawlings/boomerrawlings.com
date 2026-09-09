@@ -5,23 +5,23 @@ const body = document.querySelector('#rows');
 const progress = document.querySelector('#progress');
 const label = document.querySelector('#progress-label');
 const connection = document.querySelector('#connection');
-function ordered() { return [...rows].sort((a,b) => direction * collator.compare(a[sortKey], b[sortKey]) || collator.compare(a.filename,b.filename)); }
+function ordered() { return [...rows].sort((a,b) => direction * collator.compare(a[sortKey]||'', b[sortKey]||'') || collator.compare(a.filename,b.filename)); }
 function safeLink(value) { const u = new URL(value); if (u.origin !== 'https://sandiego.nextrequest.com' || !/^\/(requests|documents)\//.test(u.pathname)) throw Error('Invalid link'); return u.href; }
 function csvCell(value) { let s=String(value); if (/^[=+\-@\t\r]/.test(s)) s="'"+s; return '"'+s.replaceAll('"','""')+'"'; }
 function render() {
   const sorted=ordered(), fragment=document.createDocumentFragment();
   for (const row of sorted) {
     const tr=document.createElement('tr');
-    for (const [key,url] of [['request',row.requestUrl],['filename',row.fileUrl],['type',null]]) {
+    for (const [key,url] of [['request',row.requestUrl],['filename',row.fileUrl],['type',null],['requestDate',null],['uploadDate',null]]) {
       const td=document.createElement('td');
-      if(url) {const a=document.createElement('a');a.textContent=row[key];a.href=safeLink(url);a.target='_blank';a.rel='noopener noreferrer';td.append(a);} else td.textContent=row[key];
+      if(url) {const a=document.createElement('a');a.textContent=row[key];a.href=safeLink(url);a.target='_blank';a.rel='noopener noreferrer';td.append(a);} else td.textContent=row[key]||'—';
       tr.append(td);
     }
     fragment.append(tr);
   }
   body.replaceChildren(fragment);
   for(const button of document.querySelectorAll('[data-sort]')) {const active=button.dataset.sort===sortKey;button.parentElement.setAttribute('aria-sort',active?(direction===1?'ascending':'descending'):'none');button.querySelector('.arrow').textContent=active?(direction===1?'↑':'↓'):'';}
-  const csv=[['Request','Audio file','Type','Request URL','File URL'],...sorted.map(r=>[r.request,r.filename,r.type,r.requestUrl,r.fileUrl])].map(r=>r.map(csvCell).join(',')).join('\r\n');
+  const csv=[['Request','Audio file','Type','Request date','Uploaded','Request URL','File URL'],...sorted.map(r=>[r.request,r.filename,r.type,r.requestDate||'',r.uploadDate||'',r.requestUrl,r.fileUrl])].map(r=>r.map(csvCell).join(',')).join('\r\n');
   if(csvUrl) URL.revokeObjectURL(csvUrl);
   csvUrl=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));document.querySelector('#csv').href=csvUrl;
 }
@@ -48,6 +48,6 @@ async function refresh() {
 }
 for(const button of document.querySelectorAll('[data-sort]'))button.addEventListener('click',()=>{if(sortKey===button.dataset.sort)direction*=-1;else{sortKey=button.dataset.sort;direction=1;}render();});
 // Sorting and CSV work immediately, even if the live feed is temporarily unavailable.
-rows=[...body.querySelectorAll('tr')].map(tr=>({request:tr.cells[0].textContent,requestUrl:tr.cells[0].querySelector('a').href,filename:tr.cells[1].textContent,fileUrl:tr.cells[1].querySelector('a').href,type:tr.cells[2].textContent}));render();refresh();
+rows=[...body.querySelectorAll('tr')].map(tr=>({request:tr.cells[0].textContent,requestUrl:tr.cells[0].querySelector('a').href,filename:tr.cells[1].textContent,fileUrl:tr.cells[1].querySelector('a').href,type:tr.cells[2].textContent,requestDate:tr.cells[3].dataset.date||'',uploadDate:tr.cells[4].dataset.date||''}));render();refresh();
 window.addEventListener('pagehide',()=>{clearTimeout(timer);if(csvUrl)URL.revokeObjectURL(csvUrl);});
 window.addEventListener('pageshow',event=>{if(event.persisted){render();refresh();}});
