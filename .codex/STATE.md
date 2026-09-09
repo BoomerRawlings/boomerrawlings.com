@@ -1,5 +1,13 @@
 # Project state
 
+## CBS8 attachment table
+
+- Mode: new task. Objective: publish /cbs8/ with sortable public audio table, source link, CSV download and live scan progress; preserve paused unrelated work.
+- Implemented isolated from mixed local changes. Existing GitHub Pages workflow retained. Route unlisted/noindex, no shared chrome per explicit minimal brief.
+- Live public metadata feed on cbs8-data branch under public/cbs8. Immutable timestamped snapshots avoid mutable raw-file CDN caching; client polls every10s and falls back to final progress.json. No credentials shipped. Runtime scanner and publisher run locally in the originating task.
+- Browser verified sorting, CSV contents, mobile overflow and real progress advance without reload (452 to457); no page errors. npm test passed22 public/4 unlisted/4 redirects.
+- Status: ready for production push. Full scan continues; 35 confirmed WAV files currently, not a final total until1418 processed.
+
 - Mode: continuation
 - Objective: maintain the public portfolio and unlisted SWC handoff hub while shipping the approved portfolio and Little Workshop updates.
 - Status: SWC source-fidelity corrections and the approved portfolio/workshop batch are live from commit `a160957`.

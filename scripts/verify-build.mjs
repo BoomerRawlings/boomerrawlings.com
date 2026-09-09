@@ -27,6 +27,7 @@ const unlistedContentPaths = new Set([
   join('aristotter', 'index.html'),
   join('deckle', 'index.html'),
   join('swc', 'index.html'),
+  join('cbs8', 'index.html'),
 ]);
 const contentHtmlFiles = htmlFiles.filter(
   (file) => {
@@ -37,9 +38,9 @@ const contentHtmlFiles = htmlFiles.filter(
 const unlistedHtmlFiles = htmlFiles.filter(
   (file) => unlistedContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 22 || unlistedHtmlFiles.length !== 3 || htmlFiles.length !== 29) {
+if (contentHtmlFiles.length !== 22 || unlistedHtmlFiles.length !== 4 || htmlFiles.length !== 30) {
   throw new Error(
-    `expected 22 public pages, 3 unlisted pages, and 4 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 22 public pages, 4 unlisted pages, and 4 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
@@ -228,7 +229,7 @@ if (!existsSync(decklePath)) {
   if (deckleHtml.includes('Open Deckle directly')) failures.push('deckle/index.html: confusing direct-link overlay must remain absent');
 }
 // Deckle owns its button inside the proxied app, not the legacy iframe wrapper.
-for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => file !== decklePath)) {
+for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => file !== decklePath && file !== join(output, 'cbs8', 'index.html'))) {
   const html = readFileSync(file, 'utf8');
   const count = (html.match(/class="support-coffee"/g) ?? []).length;
   if (count !== 1
