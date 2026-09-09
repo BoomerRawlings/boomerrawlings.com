@@ -60,16 +60,58 @@ if (!existsSync(swcPath)) {
   failures.push('swc/index.html: unlisted handoff page is missing');
 } else {
   const swcHtml = readFileSync(swcPath, 'utf8');
+  if (!/<title>SWC Restorative Justice<\/title>/.test(swcHtml)
+    || !/<h1\b[^>]*>\s*SWC Restorative Justice\s*<\/h1>/.test(swcHtml)) {
+    failures.push('swc/index.html: page title and heading must be SWC Restorative Justice');
+  }
+  const swcText = swcHtml.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
+  for (const retiredCopy of [
+    'student worker hub',
+    'student worker handoff',
+    'A handoff for the next student worker.',
+    'Preview or download the documents below, then find workflows and contacts.',
+    'Ctrl + F searches everything',
+    'Your first five minutes',
+    'A simple loop for most work',
+    'Leave the work ready to continue',
+  ]) {
+    if (swcText.toLowerCase().includes(retiredCopy.toLowerCase())) {
+      failures.push(`swc/index.html: retired introductory or search copy remains: ${retiredCopy}`);
+    }
+  }
   if (!swcHtml.includes('<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">')
     || !swcHtml.includes('<meta name="referrer" content="no-referrer">')) {
     failures.push('swc/index.html: private-link metadata is incomplete');
   }
-  for (const anchor of ['#start', '#workflows', '#downloads', '#contacts', '#handoff', '#official-links']) {
+  for (const anchor of ['#downloads', '#contacts', '#official-links']) {
     if (!swcHtml.includes(`href="${anchor}"`)) failures.push(`swc/index.html: missing section tab ${anchor}`);
   }
-  if (!(swcHtml.indexOf('id="downloads"') < swcHtml.indexOf('id="start"'))
-    || !(swcHtml.indexOf('href="#downloads"') < swcHtml.indexOf('href="#start"'))) {
+  for (const section of ['start', 'workflows', 'handoff']) {
+    if (swcHtml.includes(`id="${section}"`) || swcHtml.includes(`href="#${section}"`)) {
+      failures.push(`swc/index.html: removed ${section} section or navigation tab remains`);
+    }
+  }
+  if (!(swcHtml.indexOf('id="downloads"') < swcHtml.indexOf('id="contacts"'))
+    || !(swcHtml.indexOf('href="#downloads"') < swcHtml.indexOf('href="#contacts"'))) {
     failures.push('swc/index.html: documents must be the first content section and navigation tab');
+  }
+  const officialSection = swcHtml.match(/<section\b[^>]*\bid="official-links"[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? '';
+  const requiredOfficialLinks = [
+    'https://www.swccd.edu/admissions-and-financial-aid/apply-and-register-for-credit-courses/index.aspx',
+    'https://collselfserv.swccd.edu/Student/Courses',
+    'https://www.swccd.edu/classes-and-registration/catalog/',
+    'https://www.swccd.edu/admissions-and-financial-aid/financial-aid/index.aspx',
+    'https://studentaid.gov/h/apply-for-aid/fafsa',
+    'https://csac.ca.gov/cal-grant',
+    'https://mygrantinfo.csac.ca.gov/',
+    'https://www.swccd.edu/programs-and-academics/specialty-programs/restorative-justice/index.aspx',
+    'https://www.swccd.edu/student-support/swc-cares/index.aspx',
+    'https://www.swccd.edu/student-support/index.aspx',
+  ];
+  for (const href of requiredOfficialLinks) {
+    if (!officialSection.includes(`href="${href}" target="_blank" rel="noopener noreferrer"`)) {
+      failures.push(`swc/index.html: missing safe official resource link ${href}`);
+    }
   }
   const swcDocuments = [
     ['swc-new-hire-packet', 21],
@@ -163,11 +205,9 @@ if (!existsSync(swcPath)) {
   ]) {
     if (!swcHtml.includes(contactDetail)) failures.push(`swc/index.html: missing verified contact detail ${contactDetail}`);
   }
-  if (!swcHtml.includes('This page is public.')
-    || !swcHtml.includes('Unofficial resource.')
-    || !swcHtml.includes('Ctrl</kbd> + <kbd>F</kbd> searches everything')
+  if (!swcHtml.includes('Unofficial resource.')
     || !/never upload completed copies here\./i.test(swcHtml)) {
-    failures.push('swc/index.html: privacy or whole-page search guidance is missing');
+    failures.push('swc/index.html: privacy guidance is missing');
   }
 }
 const decklePath = join(output, 'deckle', 'index.html');
