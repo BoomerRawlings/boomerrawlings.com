@@ -67,45 +67,73 @@ if (!existsSync(swcPath)) {
   for (const anchor of ['#start', '#workflows', '#downloads', '#contacts', '#handoff', '#official-links']) {
     if (!swcHtml.includes(`href="${anchor}"`)) failures.push(`swc/index.html: missing section tab ${anchor}`);
   }
-  for (const download of [
-    '/documents/swc/yard-roster-template-pack.zip',
-    '/documents/swc/yard-class-sign-in-template-pack.zip',
-    '/documents/swc/pdf/swc-rising-scholar-resource-list.pdf',
-    '/documents/swc/pdf/swc-chula-vista-campus-map-and-books-supplies.pdf',
-    '/documents/swc/pdf/swc-rising-scholar-launch-checklist.pdf',
-    '/documents/swc/pdf/swc-laptop-loaner-checkout-process.pdf',
-    '/documents/swc/pdf/swc-rising-scholars-center-log.pdf',
-    '/documents/swc/pdf/swc-laptop-loaner-program-student-agreement.pdf',
-  ]) {
-    if (!swcHtml.includes(`href="${download}" download`) || !existsSync(join(output, download))) {
-      failures.push(`swc/index.html: missing download ${download}`);
+  if (!(swcHtml.indexOf('id="downloads"') < swcHtml.indexOf('id="start"'))
+    || !(swcHtml.indexOf('href="#downloads"') < swcHtml.indexOf('href="#start"'))) {
+    failures.push('swc/index.html: documents must be the first content section and navigation tab');
+  }
+  const swcDocuments = [
+    ['swc-new-hire-packet', 21],
+    ['swc-california-aods-options', 1],
+    ['swc-generic-rj-sign-in-sheet', 1],
+    ['swc-rising-scholar-launch-check', 2],
+    ['swc-rising-scholar-resources', 2],
+    ['swc-rising-scholar-combo', 4],
+    ['swc-loaner-laptop-student-agreement', 2],
+  ];
+  if ((swcHtml.match(/data-pdf-preview(?:\s|>)/g) || []).length !== swcDocuments.length
+    || !swcHtml.includes('data-pdf-dialog') || !swcHtml.includes('data-pdf-close')
+    || !swcHtml.includes('Open the PDF in a new tab')) {
+    failures.push('swc/index.html: seven PDF previews and accessible reader fallback are required');
+  }
+  if (!swcHtml.includes('src="/scripts/swc-pdf-preview.js"')
+    || /<script\b(?![^>]*\bsrc=)[^>]*>/i.test(swcHtml)) {
+    failures.push('swc/index.html: PDF viewer must use an external script compatible with the page CSP');
+  }
+  const canvaHref = 'https://canva.link/7zeu5d8ronzqd2x';
+  const canvaLinks = [...swcHtml.matchAll(/<a\b[^>]*>.*?<\/a>/gs)]
+    .map(([anchor]) => anchor)
+    .filter((anchor) => anchor.includes(`href="${canvaHref}"`));
+  if (canvaLinks.length !== 1
+    || !canvaLinks[0].includes('Restorative Justice Student Technology Packet')
+    || !canvaLinks[0].includes('open in Canva')
+    || !canvaLinks[0].includes('target="_blank"')
+    || !canvaLinks[0].includes('rel="noopener noreferrer"')
+    || /\bdownload(?:[=\s>])|data-pdf-preview/.test(canvaLinks[0])) {
+    failures.push('swc/index.html: expected one separate Canva link for the technology packet');
+  }
+  const swcResources = new Set();
+  if ((swcHtml.match(/<a\b[^>]*\bdownload(?:[=\s>])/g) || []).length !== swcDocuments.length) {
+    failures.push('swc/index.html: expected exactly seven direct PDF downloads');
+  }
+  for (const [basename, pages] of swcDocuments) {
+    const download = `/documents/swc/pdf/${basename}.pdf`;
+    swcResources.add(download);
+    if (!swcHtml.includes(`href="${download}" download`) || !existsSync(join(output, download))
+      || swcHtml.split(`href="${download}"`).length - 1 !== 1) {
+      failures.push(`swc/index.html: expected one direct download for ${basename}`);
     }
-    if (swcHtml.split(`href="${download}"`).length - 1 !== 1) {
-      failures.push(`swc/index.html: download must appear exactly once ${download}`);
+    if (!swcHtml.includes(`href="${download}#view=FitH"`)) {
+      failures.push(`swc/index.html: PDF preview link missing for ${basename}`);
+    }
+    for (let page = 1; page <= pages; page += 1) {
+      const preview = `/documents/swc/previews/${basename}${page === 1 ? '' : `-page-${page}`}.jpg`;
+      swcResources.add(preview);
+      if (!swcHtml.includes(`src="${preview}"`) || !existsSync(join(output, preview))) {
+        failures.push(`swc/index.html: page ${page} preview missing for ${basename}`);
+      }
     }
   }
-  for (const retiredDownload of [
-    '/documents/swc/yard-roster-template.xlsx',
-    '/documents/swc/yard-class-sign-in-sheet.xlsx',
-    '/documents/swc/swc-loaner-laptop-agreement.docx',
-    '/documents/swc/swc-office-sign-in-sheet.xlsx',
-    '/documents/swc/swc-event-sign-in-sheet.xlsx',
-    '/documents/swc/swc-onboarding.docx',
-    '/documents/swc/swc-resources.docx',
-  ]) {
-    if (swcHtml.includes(retiredDownload)) failures.push(`swc/index.html: retired substitute remains linked ${retiredDownload}`);
-  }
-  for (const [resourceTitle, href] of [
-    ['SWC Letterhead', 'https://docs.google.com/document/d/1pS-xkTVeqI3PnUSKG9ZBryxfJSb4rD32/edit?usp=drivesdk&ouid=115571851172085175998&rtpof=true&sd=true'],
-    ['SWC Bookstore List', 'https://docs.google.com/spreadsheets/d/1bUlSu97rNrwFdthF1Sju8ZKRKjnL_M5IFGzfhKzXjqw/edit?usp=drivesdk'],
-    ['SWC Laptop List', 'https://docs.google.com/spreadsheets/d/17-M83tEj2t8McKN-9G3HXS-pZD_aqZ8igxpy1xQIkRQ/edit?usp=drivesdk'],
-    ['SWC RJ Backpack List', 'https://docs.google.com/spreadsheets/d/1DE_i4nM10_J8s5GuFD-s-QLY2dz73QspT1R4fQzYJQE/edit?usp=drivesdk'],
-  ]) {
-    const escapedHref = href.replaceAll('&', '&amp;');
-    if (!swcHtml.includes(resourceTitle)
-      || !swcHtml.includes(`href="${escapedHref}" target="_blank" rel="noopener noreferrer"`)) {
-      failures.push(`swc/index.html: missing Drive link ${resourceTitle}`);
+  for (const [, resource] of swcHtml.matchAll(/\b(?:href|src)="([^"]+)"/g)) {
+    const path = resource.split(/[?#]/)[0];
+    if (swcResources.has(path)) continue;
+    if (path.startsWith('/documents/swc/')
+      || /\.(?:pdf|zip|xlsx?|docx?|csv)$/i.test(path)
+      || /^https?:\/\/(?:docs|drive)\.google\.com\//i.test(path)) {
+      failures.push(`swc/index.html: removed document or Drive resource remains linked ${resource}`);
     }
+  }
+  if (swcHtml.includes('id="templates-heading"') || swcHtml.includes('id="live-lists-heading"')) {
+    failures.push('swc/index.html: retired template or Drive-list section remains');
   }
   for (const contactName of [
     'Jeanne Kaufman',
@@ -138,14 +166,8 @@ if (!existsSync(swcPath)) {
   if (!swcHtml.includes('This page is public.')
     || !swcHtml.includes('Unofficial resource.')
     || !swcHtml.includes('Ctrl</kbd> + <kbd>F</kbd> searches everything')
-    || !swcHtml.includes('Drive access may require your SWC account.')
-    || !swcHtml.includes('Source-faithful files.')
-    || !swcHtml.includes('Original source needed. No substitute form is being provided.')
-    || !swcHtml.includes('Original wording preserved.')
-    || !swcHtml.includes('never store passwords in shared or public copies')
-    || !swcHtml.includes('Never upload completed copies here.')
-    || swcHtml.includes('security-updated to remove password fields')) {
-    failures.push('swc/index.html: source-fidelity, safety, access, or whole-page search guidance is missing');
+    || !/never upload completed copies here\./i.test(swcHtml)) {
+    failures.push('swc/index.html: privacy or whole-page search guidance is missing');
   }
 }
 const decklePath = join(output, 'deckle', 'index.html');

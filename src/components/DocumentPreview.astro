@@ -1,0 +1,50 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  preview: string;
+  width: number;
+  height: number;
+  pages: number;
+}
+const { title, description, href, preview, width, height, pages } = Astro.props;
+const readerHref = `${href}#view=FitH`;
+---
+
+<article class="document-card">
+  <a class="document-preview" href={readerHref} target="_blank" rel="noopener noreferrer" data-pdf-preview data-pdf-title={title} aria-label={`Preview ${title}`}>
+    <img src={preview} alt={`First page of ${title}`} width={width} height={height} loading="lazy" decoding="async" />
+    <span class="preview-label">Preview PDF <span aria-hidden="true">↗</span></span>
+  </a>
+  <template data-pdf-pages>
+    {Array.from({ length: pages }, (_, index) => (
+      <figure>
+        <img src={index === 0 ? preview : preview.replace('.jpg', `-page-${index + 1}.jpg`)} alt={`${title}, page ${index + 1} of ${pages}`} width={width} height={height} loading="lazy" decoding="async" />
+        <figcaption>Page {index + 1} of {pages}</figcaption>
+      </figure>
+    ))}
+  </template>
+  <div class="document-details">
+    <p class="document-meta">PDF · {pages} {pages === 1 ? 'page' : 'pages'}</p>
+    <h3>{title}</h3>
+    <p class="document-description">{description}</p>
+    <a class="document-download" href={href} download aria-label={`Download ${title} PDF`}>Download PDF <span aria-hidden="true">↓</span></a>
+  </div>
+</article>
+
+<style>
+  .document-card{background:#fff;border:1px solid var(--rule);border-radius:.5rem;display:flex;flex-direction:column;min-width:0;overflow:hidden}
+  .document-preview{align-items:center;background:#eeeae6;border-bottom:1px solid var(--rule);display:flex;height:18rem;justify-content:center;overflow:hidden;padding:1.25rem 1.25rem 2.75rem;position:relative;text-decoration:none}
+  .document-preview img{background:#fff;box-shadow:0 2px 12px rgb(44 37 39/.12);height:100%;object-fit:contain;width:auto;max-width:100%}
+  .preview-label{align-items:center;background:#fff;border:1px solid var(--rule);bottom:.65rem;color:var(--burgundy-dark);display:flex;font-size:.875rem;font-weight:600;gap:.7rem;padding:.3rem .65rem;position:absolute}
+  .document-preview:hover .preview-label,.document-preview:focus-visible .preview-label{background:var(--gold-soft);border-color:var(--gold)}
+  .document-preview:focus-visible{outline-offset:-4px}
+  .document-details{display:flex;flex:1;flex-direction:column;padding:1.15rem}
+  .document-meta{color:var(--muted);font-size:.8rem;margin:0 0 .5rem}
+  .document-details h3{font-size:1.25rem;line-height:1.2;margin:0 0 .55rem}
+  .document-description{color:var(--muted);flex:1;font-size:.95rem;line-height:1.45;margin:0 0 1rem}
+  .document-download{align-items:center;background:var(--burgundy);border:1px solid var(--burgundy);border-radius:.2rem;color:#fff;display:flex;font-size:.95rem;font-weight:600;gap:1rem;justify-content:space-between;min-height:44px;padding:.65rem .8rem;text-decoration:none}
+  .document-download:hover{background:var(--burgundy-dark)}
+  @media print{.document-preview{height:12rem}.document-card{break-inside:avoid}.document-download{background:transparent;color:var(--burgundy-dark)}}
+</style>

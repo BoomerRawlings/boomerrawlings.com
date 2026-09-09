@@ -1,0 +1,28 @@
+<dialog class="pdf-dialog" aria-labelledby="pdf-dialog-title" data-pdf-dialog>
+  <div class="pdf-dialog-header">
+    <h2 id="pdf-dialog-title">Document preview</h2>
+    <button type="button" data-pdf-close autofocus>Close <span aria-hidden="true">×</span></button>
+  </div>
+  <p class="pdf-dialog-help"><a data-pdf-open target="_blank" rel="noopener noreferrer">Open the PDF in a new tab</a></p>
+  <div class="pdf-pages" data-pdf-gallery tabindex="0" role="region" aria-label="Document pages"></div>
+</dialog>
+
+<!-- Keep this external: the SWC page intentionally disallows inline scripts. -->
+<script is:inline type="module" src="/scripts/swc-pdf-preview.js"></script>
+
+<style>
+  .pdf-dialog{background:var(--paper);border:1px solid var(--rule);border-radius:.5rem;color:var(--ink);height:90vh;height:90dvh;max-height:calc(100dvh - 2rem);max-width:72rem;padding:0;width:calc(100% - 2rem)}
+  .pdf-dialog[open]{display:flex;flex-direction:column}
+  .pdf-dialog::backdrop{background:rgb(28 17 21/.65)}
+  .pdf-dialog-header{align-items:center;border-bottom:1px solid var(--rule);display:flex;flex-shrink:0;gap:1rem;justify-content:space-between;padding:.65rem 1rem}
+  .pdf-dialog-header h2{font-size:1.25rem;line-height:1.25;margin:0}
+  .pdf-dialog-header button{background:#fff;border:1px solid var(--rule);border-radius:.2rem;color:var(--burgundy-dark);cursor:pointer;flex-shrink:0;font:600 1rem var(--sans);min-height:44px;padding:.5rem .75rem}
+  .pdf-dialog-help{color:var(--muted);flex-shrink:0;font-size:.875rem;line-height:1.4;margin:0;padding:.65rem 1rem}
+  .pdf-dialog-help a{color:var(--burgundy);font-weight:600;text-underline-offset:.2em}
+  .pdf-pages{background:#eeeae6;flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:1rem;scrollbar-width:thin}
+  .pdf-pages :global(figure){margin:0 auto 1.25rem;max-width:1000px}
+  .pdf-pages :global(figure:last-child){margin-bottom:0}
+  .pdf-pages :global(img){background:#fff;box-shadow:0 2px 12px rgb(44 37 39/.12);display:block;height:auto;margin:auto;max-width:100%;width:auto}
+  .pdf-pages :global(figcaption){color:var(--muted);font-size:.8rem;margin-top:.6rem;text-align:center}
+  @media print{.pdf-dialog{display:none!important}}
+</style>
