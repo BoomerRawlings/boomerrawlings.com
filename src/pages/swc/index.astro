@@ -25,6 +25,8 @@ const pdfResources = [
   ['Loaner Laptop Program Student Agreement', 'Loan terms, return procedures, and the student agreement.', '/documents/swc/pdf/swc-loaner-laptop-student-agreement.pdf', 2, 773, 1000],
 ] as const;
 const keyContacts = [
+  { name: 'Raquel Funches', role: 'Director · Restorative Justice and Other Off-Campus Programs', phone: '(619) 216-6658', tel: '+16192166658', email: 'rfunches@swccd.edu', office: 'HEC National City · Office 7118B', source: 'https://www.swccd.edu/_showcase/directory/index.aspx' },
+  { name: 'Carla Gomez', role: 'Assistant Director, Youth Justice Program', phone: '(619) 216-6657', tel: '+16192166657', email: 'csevilla@swccd.edu', office: 'HEC National City · Office 7119B', source: 'https://www.swccd.edu/_showcase/directory/index.aspx' },
   { name: 'Jeanne Kaufman', role: 'Bookstore credit contact (user-specified) · Senior Account Clerk', phone: '(619) 421-6700 x5334', tel: '+16194216700;ext=5334', email: 'jkaufman@swccd.edu', source: 'https://www.swcbookstore.com/site_contact_us.asp' },
   { name: 'Trina Eros', role: 'SWC Cares · Basic Needs Coordinator', phone: '(619) 216-6687', tel: '+16192166687', email: 'teros@swccd.edu', source: 'https://www.swccd.edu/student-support/swc-cares/index.aspx' },
   { name: 'Paola Duarte Vargas', role: 'SWC Cares · Basic Needs Project Technician', phone: '(619) 421-6700 x5404', tel: '+16194216700;ext=5404', email: '', source: 'https://go.swccd.edu/contact/person/5cc7d2b2db5b0850469a5e65ce96190f' },
@@ -34,7 +36,6 @@ const keyContacts = [
   { name: 'Elizabeth Sisco Parada', role: 'HECNC Student Services · Education Center Specialist', phone: '(619) 216-6665 x4852', tel: '+16192166665;ext=4852', email: 'esisco2@swccd.edu', source: 'https://go.swccd.edu/contact/person/8fa8f74bdb7fa6005e33f8fdae961983' },
   { name: 'Karen Sanchez Jimenez', role: 'Student Employment Services · Federal Work-Study (not Payroll)', phone: '(619) 421-6700 x5254', tel: '+16194216700;ext=5254', email: '', source: 'https://go.swccd.edu/contact/person/59decb5cdb168094469a5e65ce961968' },
   { name: 'Enrique Velez', role: 'HECNC IT · Instructional Lab Technician—Microcomputer', phone: '(619) 216-6665 x4877', tel: '+16192166665;ext=4877', email: 'evelez@swccd.edu', source: 'https://www.swccd.edu/administration/institutional-technology/staff-directory.aspx' },
-  { name: 'Yessica Diaz Roman, DrPH', role: 'Alcohol & Other Drug Studies · program contact', phone: '(619) 421-6700 x5440', tel: '+16194216700;ext=5440', email: 'yroman@swccd.edu', source: 'https://catalog.swccd.edu/associate-degree-certificate-programs/swhs/alcohol-drug-studies-cert/' },
 ] as const;
 const serviceContacts = [
   ['Restorative Justice Program', '(619) 216-6655', '+16192166655', 'swcrestorativejustice@swccd.edu'],
@@ -52,7 +53,7 @@ const serviceContacts = [
   ['Personal Wellness', '(619) 421-6700 x5279', '+16194216700;ext=5279', 'swcpersonalwellness@swccd.edu'],
 ] as const;
 const pathwayResources = [
-  ['SWC Alcohol and Other Drug Studies', 'Current SWC program and Yessica Diaz Roman’s contact information.', 'https://catalog.swccd.edu/associate-degree-certificate-programs/swhs/alcohol-drug-studies-cert/'],
+  ['SWC Alcohol and Other Drug Studies', 'Program information and certificate requirements.', 'https://catalog.swccd.edu/associate-degree-certificate-programs/swhs/alcohol-drug-studies-cert/'],
   ['CADTP registrant resources', 'External SUDRC registration, renewal, education, and certification guidance.', 'https://cadtpcounselors.org/registrants/'],
   ['SWC Work Experience Education', 'Field-placement guidance; Julie Swanson, jswanson@swccd.edu, (619) 421-6700 x5715.', 'https://www.swccd.edu/student-support/career-and-transfer-connections/employment-and-internships/work-experience-education-program/index.aspx'],
   ['Personal Wellness / Behavioral Health', 'Confidential counseling and referral support; do not email personal health information.', 'https://www.swccd.edu/student-support/health-services/personal-wellness-mental-health/index.aspx'],
@@ -141,19 +142,23 @@ const officialLinks = [
         <div class="contact-section" aria-labelledby="people-heading">
           <div class="resource-group-heading"><h3 id="people-heading">Key people</h3><p>Roles and details checked against current SWC sources.</p></div>
           <div class="contact-grid">
-            {keyContacts.map((contact) => (
-              <article class="contact-card">
-                <p>{contact.role}</p>
-                <h3>{contact.name}</h3>
-                <div class="contact-actions">
-                  <a href={`tel:${contact.tel}`}>{contact.phone}</a>
-                  {contact.email && <a href={`mailto:${contact.email}`}>{contact.email}</a>}
-                  <a href={contact.source} target="_blank" rel="noopener noreferrer">{contact.email ? 'Official source' : 'Official contact form'} <span aria-hidden="true">↗</span></a>
-                </div>
-              </article>
+            {keyContacts.map((contact, index) => (
+              <Fragment>
+                {index === 2 && <hr class="contact-divider" aria-hidden="true" />}
+                <article class="contact-card">
+                  <p>{contact.role}</p>
+                  <h3>{contact.name}</h3>
+                  <div class="contact-actions">
+                    {'office' in contact && <span class="contact-office">{contact.office}</span>}
+                    <a href={`tel:${contact.tel}`}>{contact.phone}</a>
+                    {contact.email && <a href={`mailto:${contact.email}`}>{contact.email}</a>}
+                    <a href={contact.source} target="_blank" rel="noopener noreferrer">{contact.email ? 'Official source' : 'Official contact form'} <span aria-hidden="true">↗</span></a>
+                  </div>
+                </article>
+              </Fragment>
             ))}
           </div>
-          <aside class="contact-note"><strong>Directory corrections:</strong> SWC lists Elizabeth as <em>Sisco Parada</em>, Karen under Student Employment/Federal Work-Study rather than Payroll, and Manuel under Student Services. SWC’s published program is Alcohol &amp; Other Drug Studies; CADTP uses SUDRC for an external Registered SUD Counselor status. Yessica is listed here only as the SWC program contact.</aside>
+          <aside class="contact-note"><strong>Directory corrections:</strong> SWC lists Elizabeth as <em>Sisco Parada</em>, Karen under Student Employment/Federal Work-Study rather than Payroll, and Manuel under Student Services. SWC’s published program is Alcohol &amp; Other Drug Studies; CADTP uses SUDRC for an external Registered SUD Counselor status.</aside>
         </div>
 
         <div class="contact-section" aria-labelledby="services-heading">
@@ -201,10 +206,10 @@ const officialLinks = [
   .section-tabs{background:rgb(251 250 247/.95);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:20}.tab-row{align-items:center;display:flex;gap:.55rem;overflow-x:auto;padding-block:.75rem;scrollbar-width:thin}.section-tabs a{background:#fff;border:1px solid var(--rule);border-radius:999px;flex:0 0 auto;font-size:.88rem;font-weight:600;padding:.55rem .9rem;text-decoration:none}.section-tabs a:hover,.section-tabs a:focus-visible{background:var(--gold-soft);border-color:var(--gold);color:var(--burgundy-dark)}
   .content-section{padding-block:clamp(3.75rem,8vw,6.5rem);scroll-margin-top:5rem}.content-section+.content-section{border-top:1px solid var(--rule)}.section-heading{align-items:start;display:grid;gap:1.1rem;grid-template-columns:2.4rem minmax(0,1fr);margin-bottom:2.4rem}.section-heading>span{color:var(--burgundy);font-size:.86rem;font-weight:700;letter-spacing:.1em;margin-top:.32rem}h2{color:var(--burgundy-dark);font-size:clamp(2rem,4.6vw,3.65rem);letter-spacing:-.035em;line-height:1;margin:.4rem 0 0}h3{color:var(--burgundy-dark);font-size:1.35rem;line-height:1.15}
   .resource-group+.resource-group{margin-top:2.4rem}.resource-group-heading{align-items:end;display:flex;gap:1rem;justify-content:space-between;margin-bottom:.85rem}.resource-group-heading h3,.resource-group-heading p{margin:0}.resource-group-heading p,.resource-note{color:var(--muted);font-size:.88rem}.resource-note{background:var(--gold-soft);border-left:.22rem solid var(--gold);line-height:1.45;margin:0 0 .9rem;padding:.65rem .8rem}.download-grid,.official-grid{display:grid;gap:.9rem;grid-template-columns:repeat(3,minmax(0,1fr))}.download-card{align-items:start;background:#fff;border:1px solid var(--rule);border-radius:1rem;display:grid;gap:.9rem;grid-template-columns:2.6rem minmax(0,1fr) auto;min-height:6.5rem;padding:1.15rem;text-decoration:none;transition:transform 140ms ease,box-shadow 140ms ease}.download-card:hover,.download-card:focus-visible{box-shadow:0 .7rem 2rem rgb(92 20 39/.08);transform:translateY(-2px)}.download-card--missing{background:var(--paper);border-style:dashed}.download-card--missing .file-type{background:var(--muted)}.download-card--missing:hover{box-shadow:none;transform:none}.file-type{align-items:center;background:var(--burgundy);border-radius:.45rem;color:#fff;display:flex;font-size:.61rem;font-weight:700;height:2.6rem;justify-content:center;letter-spacing:.035em;width:2.6rem}.download-card strong,.download-card small,.official-grid strong,.official-grid small{display:block}.download-card strong,.official-grid strong{color:var(--burgundy-dark);font-size:1.03rem;line-height:1.2}.download-card small,.official-grid small{color:var(--muted);font-size:.86rem;line-height:1.45;margin-top:.45rem}.arrow{color:var(--burgundy);font-size:1.2rem;font-weight:700}
-  .contact-section+.contact-section{margin-top:2.5rem}.contact-grid{display:grid;gap:.9rem;grid-template-columns:repeat(3,minmax(0,1fr))}.contact-card{background:#fff;border:1px solid var(--rule);border-radius:1rem;padding:1.15rem}.contact-card>p{color:var(--burgundy);font-size:.73rem;font-weight:700;letter-spacing:.07em;line-height:1.35;margin:0 0 .55rem;text-transform:uppercase}.contact-card h3{font-size:1.12rem;margin:0 0 .75rem}.contact-actions{display:grid;gap:.28rem}.contact-actions a{color:var(--muted);font-size:.84rem;overflow-wrap:anywhere;text-underline-offset:.18em}.contact-actions a:last-child{color:var(--burgundy);font-weight:600;margin-top:.25rem}.contact-note{background:var(--gold-soft);border-left:.22rem solid var(--gold);color:#5f513b;line-height:1.5;margin-top:1rem;padding:.85rem 1rem}.service-list{display:grid;gap:0 2rem;grid-template-columns:repeat(2,minmax(0,1fr));list-style:none;margin:0;padding:0}.service-list li{border-top:1px solid var(--rule);display:grid;gap:.25rem;padding:.8rem 0}.service-list strong{color:var(--burgundy-dark)}.service-list span{display:flex;flex-wrap:wrap;gap:.25rem 1rem}.service-list a{color:var(--muted);font-size:.88rem;overflow-wrap:anywhere;text-underline-offset:.18em}
+  .contact-section+.contact-section{margin-top:2.5rem}.contact-grid{display:grid;gap:.9rem;grid-template-columns:repeat(6,minmax(0,1fr))}.contact-card{grid-column:span 2;background:#fff;border:1px solid var(--rule);border-radius:1rem;padding:1.15rem}.contact-card:nth-child(-n+2){grid-column:span 3}.contact-divider{grid-column:1/-1;border:0;border-top:1px solid var(--rule);margin:.5rem 0}.contact-card>p{color:var(--burgundy);font-size:.73rem;font-weight:700;letter-spacing:.07em;line-height:1.35;margin:0 0 .55rem;text-transform:uppercase}.contact-card h3{font-size:1.12rem;margin:0 0 .75rem}.contact-actions{display:grid;gap:.28rem}.contact-actions a{color:var(--muted);font-size:.84rem;overflow-wrap:anywhere;text-underline-offset:.18em}.contact-actions a:last-child{color:var(--burgundy);font-weight:600;margin-top:.25rem}.contact-note{background:var(--gold-soft);border-left:.22rem solid var(--gold);color:#5f513b;line-height:1.5;margin-top:1rem;padding:.85rem 1rem}.service-list{display:grid;gap:0 2rem;grid-template-columns:repeat(2,minmax(0,1fr));list-style:none;margin:0;padding:0}.service-list li{border-top:1px solid var(--rule);display:grid;gap:.25rem;padding:.8rem 0}.service-list strong{color:var(--burgundy-dark)}.service-list span{display:flex;flex-wrap:wrap;gap:.25rem 1rem}.service-list a{color:var(--muted);font-size:.88rem;overflow-wrap:anywhere;text-underline-offset:.18em}
   .official-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.official-grid a{align-items:start;border-top:1px solid var(--rule);display:grid;gap:1rem;grid-template-columns:minmax(0,1fr) auto;padding:1.15rem 0;text-decoration:none}.official-grid a:hover strong,.official-grid a:focus-visible strong{color:var(--burgundy);text-decoration:underline;text-underline-offset:.2em}.official-grid a>span:last-child{color:var(--burgundy);font-size:1.1rem;font-weight:700}
   .page-footer{align-items:end;background:var(--burgundy-dark);border-bottom:.45rem solid var(--gold);color:#fff;display:flex;font-size:.82rem;justify-content:space-between;padding:2rem max(1.5rem,calc((100vw - 69rem)/2))}.page-footer p{margin:0}.page-footer p:last-child{color:rgb(255 255 255/.72);text-align:right}:focus-visible{outline:3px solid var(--burgundy);outline-offset:3px}
-  @media(max-width:52rem){.download-grid,.official-grid,.contact-grid,.service-list{grid-template-columns:minmax(0,1fr)}.resource-group-heading{align-items:start;display:grid;gap:.25rem}.download-card{min-height:0}.page-footer{align-items:start;display:grid;gap:.55rem}.page-footer p:last-child{text-align:left}}
+  @media(max-width:52rem){.download-grid,.official-grid,.contact-grid,.service-list{grid-template-columns:minmax(0,1fr)}.contact-card,.contact-card:nth-child(-n+2){grid-column:1/-1}.resource-group-heading{align-items:start;display:grid;gap:.25rem}.download-card{min-height:0}.page-footer{align-items:start;display:grid;gap:.55rem}.page-footer p:last-child{text-align:left}}
   @media(max-width:34rem){.utility-header{align-items:start;display:grid;gap:.25rem;padding-inline:1rem}.wrap{padding-inline:1rem}h1{font-size:clamp(2.75rem,16vw,4.25rem)}.section-heading{gap:.6rem;grid-template-columns:1.9rem minmax(0,1fr)}}
   .hero-inner{padding-block:2rem 1.75rem}
   h1{font-size:clamp(2.25rem,5vw,3.75rem);letter-spacing:-.035em;line-height:1.05;margin:.75rem 0 1rem;max-width:24ch}
@@ -213,6 +218,7 @@ const officialLinks = [
   .documents-section .section-heading{margin-bottom:.9rem}
   .documents-section h2{font-size:clamp(1.85rem,3.5vw,2.75rem)}
   .documents-intro{color:var(--muted);line-height:1.5;margin:0 0 1.5rem}
+  .contact-office{color:var(--muted);font-size:.84rem;line-height:1.45}
   .document-grid{display:grid;gap:1.15rem;grid-template-columns:repeat(3,minmax(0,1fr))}
   .canva-resource{line-height:1.5;margin:1.25rem 0}.canva-resource a{color:var(--burgundy);font-weight:600;text-underline-offset:.2em}
   .document-safety{margin:1.25rem 0 2.4rem}

@@ -188,9 +188,29 @@ if (!existsSync(swcPath)) {
     'Elizabeth Sisco Parada',
     'Karen Sanchez Jimenez',
     'Enrique Velez',
-    'Yessica Diaz Roman, DrPH',
+    'Raquel Funches',
+    'Carla Gomez',
   ]) {
     if (!swcHtml.includes(contactName)) failures.push(`swc/index.html: missing contact ${contactName}`);
+  }
+  if (/Yessica|yroman@swccd\.edu/i.test(swcHtml)) {
+    failures.push('swc/index.html: removed Dr. Roman contact or stale reference remains');
+  }
+  const swcContactCards = [...swcHtml.matchAll(/<article\b[^>]*class="contact-card"[^>]*>([\s\S]*?)<\/article>/g)]
+    .map(([, card]) => card);
+  if (!swcContactCards[0]?.includes('Raquel Funches')
+    || !swcContactCards[1]?.includes('Carla Gomez')
+    || !/Carla Gomez[\s\S]*?<\/article>\s*<hr\b[^>]*class="contact-divider"[^>]*>\s*<article\b[^>]*class="contact-card"/.test(swcHtml)) {
+    failures.push('swc/index.html: priority contacts must come first, separated from the remaining cards');
+  }
+  for (const [name, role, phone, email, office] of [
+    ['Raquel Funches', 'Director · Restorative Justice and Other Off-Campus Programs', '+16192166658', 'rfunches@swccd.edu', 'Office 7118B'],
+    ['Carla Gomez', 'Assistant Director, Youth Justice Program', '+16192166657', 'csevilla@swccd.edu', 'Office 7119B'],
+  ]) {
+    const card = swcContactCards.find((card) => card.includes(name)) ?? '';
+    if (![role, `href="tel:${phone}"`, `href="mailto:${email}"`, 'HEC National City', office].every((detail) => card.includes(detail))) {
+      failures.push(`swc/index.html: incomplete verified contact card for ${name}`);
+    }
   }
   for (const contactDetail of [
     'Basic Needs Project Technician',

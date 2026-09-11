@@ -1,5 +1,13 @@
 # Project state
 
+## SWC contact update
+
+- Mode: continuation. User authorized publication of the revised SWC contacts only.
+- Replaced the retired contact with the two requested RJ staff cards, including verified official roles, emails, phones and office locations. They occupy the first row, followed by a subtle divider; mobile stacks in order.
+- Documents, Canva link, service desks, official resources and noindex protections unchanged. Existing renderer/CSS reused; no new dependencies.
+- Isolated release based on latest production commit `ca64938`, preserving newer CBS8 updates and excluding unrelated local Pyotter/media work. npm ci, npm test and diff checks pass; independent source audit clean. Regression checks cover contact details, order and divider.
+- Status: verified, ready for the authorized main-branch push and live deployment check.
+
 ## CBS8 attachment table
 
 - Mode: new task. Objective: publish /cbs8/ with sortable public audio table, source link, CSV download and live scan progress; preserve paused unrelated work.
