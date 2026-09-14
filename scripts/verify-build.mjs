@@ -145,6 +145,54 @@ if (!existsSync(swcPath)) {
     failures.push('swc/index.html: expected one separate Canva link for the technology packet');
   }
   const swcResources = new Set();
+  const campusMapsOpening = swcHtml.match(/<details\b([^>]*\bid="campus-maps"[^>]*)>/);
+  if (!campusMapsOpening || /\bopen(?:\s|=|$)/.test(campusMapsOpening[1])
+    || swcHtml.indexOf('id="campus-maps"') < swcHtml.indexOf('id="official-links"')) {
+    failures.push('swc/index.html: campus maps must be collapsed by default at the bottom');
+  }
+  for (const [id, directory, pdf, pages] of [
+    ['chula-vista', 'chula-vista-campus', 'chula-vista-campus-map.pdf', 1],
+    ['national-city', 'hec-national-city', 'hecnc_map_bothbuildings.pdf', 4],
+    ['otay-mesa', 'hec-otay-mesa', 'hec-at-otay-mesa-map.pdf', 1],
+    ['san-ysidro', 'hec-san-ysidro', 'hec-at-san-ysidro-map.pdf', 2],
+    ['crown-cove', 'crown-cove-aquatic-center', 'crown-cove-aquatic-center-map.pdf', 1],
+  ]) {
+    const map = swcHtml.match(new RegExp(`<details\\b[^>]*\\bid="map-${id}"[^>]*>([\\s\\S]*?)<\\/details>`))?.[1] ?? '';
+    const source = `https://www.swccd.edu/about-swc/campus-maps-and-directions/${directory}/`;
+    swcResources.add(`${source}_files/${pdf}`);
+    for (const href of [`${source}_files/${pdf}`, `${source}index.aspx`]) {
+      if (!map.includes(`href="${href}" target="_blank" rel="noopener noreferrer"`)) {
+        failures.push(`swc/index.html: missing official campus map or directions for ${id}`);
+      }
+    }
+    for (let page = 1; page <= pages; page += 1) {
+      const preview = `/documents/swc/maps/${id}-${page}.jpg`;
+      swcResources.add(preview);
+      if (!map.includes(`src="${preview}"`) || !map.includes(`href="${preview}"`)
+        || !existsSync(join(output, preview))) {
+        failures.push(`swc/index.html: missing campus map preview ${preview}`);
+      }
+    }
+  }
+  const chairReferences = swcHtml.match(/<details\b([^>]*\bid="chair-references"[^>]*)>([\s\S]*?)<\/details>/);
+  if (!chairReferences || /\bopen(?:\s|=|$)/.test(chairReferences[1])
+    || !chairReferences[2].includes('<summary>Department chairs and Council of Chairs · 2026–2027</summary>')
+    || swcHtml.indexOf('id="chair-references"') > swcHtml.indexOf('id="official-links"')) {
+    failures.push('swc/index.html: chair reference sheets must be collapsed by default, before official links');
+  }
+  const chairTables = chairReferences?.[2] ?? '';
+  const councilTable = chairTables.match(/<table\b[^>]*id="council-chair-table"[^>]*>([\s\S]*?)<\/table>/)?.[1] ?? '';
+  const departmentTable = chairTables.match(/<table\b[^>]*id="department-chair-table"[^>]*>([\s\S]*?)<\/table>/)?.[1] ?? '';
+  if (/<img\b/.test(chairTables) || chairTables.includes('/documents/swc/reference/')
+    || (councilTable.match(/href="mailto:/g) ?? []).length !== 26
+    || (departmentTable.match(/data-department-chair(?:\s|>)/g) ?? []).length !== 27
+    || (departmentTable.match(/scope="rowgroup"/g) ?? []).length !== 12
+    || (departmentTable.match(/href="tel:\+16194216700;ext=\d{4}"/g) ?? []).length !== 27) {
+    failures.push('swc/index.html: chair sheets must be text tables with 26 council rows, 27 department rows and 12 school groups, not scans');
+  }
+  for (const requiredText of ['pbolland@swccd.edu', 'dpalmer@swccd.edu', 'Leslynn Gallo (retired)', 'Andrea Schnitz', 'Handwritten note: “Posey”.', 'Crystal Robinson']) {
+    if (!chairTables.includes(requiredText)) failures.push(`swc/index.html: chair transcription missing ${requiredText}`);
+  }
   if ((swcHtml.match(/<a\b[^>]*\bdownload(?:[=\s>])/g) || []).length !== swcDocuments.length) {
     failures.push('swc/index.html: expected exactly seven direct PDF downloads');
   }

@@ -1,12 +1,20 @@
 # Project state
 
+## SWC chair tables and campus maps
+
+- Mode: continuation. User authorized publishing both reviewed additions to `/swc/`.
+- Native collapsed chair section: 26 council entries, 27 departmental entries in 12 school groups, printed leadership headings, clickable emails/extensions. Typed source data in src/data/swcChairs.ts; conflicting printed details preserved, handwriting notes kept separate. No chair scans in public assets.
+- Native collapsed maps section: five locations, nine complete locally rendered official map pages, original PDF and directions links. All map previews reviewed; no private media or new client scripts/dependencies. Existing seven document resources and priority contacts unchanged.
+- Release isolated from mixed local work, based on production `9b8836d`; newer CBS8 code retained. Local desktop/mobile checks passed, including row counts, image loads, keyboard collapse and no page-wide horizontal overflow.
+- Status: approved release prepared for final verification, main-branch push and live check. Original mixed worktree still predates production; preserve its paused Pyotter/media work and reconcile before future publishing.
+
 ## SWC contact update
 
 - Mode: continuation. User authorized publication of the revised SWC contacts only.
 - Replaced the retired contact with the two requested RJ staff cards, including verified official roles, emails, phones and office locations. They occupy the first row, followed by a subtle divider; mobile stacks in order.
 - Documents, Canva link, service desks, official resources and noindex protections unchanged. Existing renderer/CSS reused; no new dependencies.
 - Isolated release based on latest production commit `ca64938`, preserving newer CBS8 updates and excluding unrelated local Pyotter/media work. npm ci, npm test and diff checks pass; independent source audit clean. Regression checks cover contact details, order and divider.
-- Status: verified, ready for the authorized main-branch push and live deployment check.
+- Status: published as `9b8836d`; Pages run `34636248341` succeeded and the live contact update was verified.
 
 ## CBS8 attachment table
 

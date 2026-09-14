@@ -2,6 +2,7 @@
 import CoffeeButton from '../../components/CoffeeButton.astro';
 import DocumentPreview from '../../components/DocumentPreview.astro';
 import PdfPreviewDialog from '../../components/PdfPreviewDialog.astro';
+import { councilChairs, departmentChairGroups } from '../../data/swcChairs';
 import '@fontsource/source-sans-3/latin-400.css';
 import '@fontsource/source-sans-3/latin-600.css';
 import '@fontsource/source-sans-3/latin-700.css';
@@ -36,6 +37,14 @@ const keyContacts = [
   { name: 'Elizabeth Sisco Parada', role: 'HECNC Student Services · Education Center Specialist', phone: '(619) 216-6665 x4852', tel: '+16192166665;ext=4852', email: 'esisco2@swccd.edu', source: 'https://go.swccd.edu/contact/person/8fa8f74bdb7fa6005e33f8fdae961983' },
   { name: 'Karen Sanchez Jimenez', role: 'Student Employment Services · Federal Work-Study (not Payroll)', phone: '(619) 421-6700 x5254', tel: '+16194216700;ext=5254', email: '', source: 'https://go.swccd.edu/contact/person/59decb5cdb168094469a5e65ce961968' },
   { name: 'Enrique Velez', role: 'HECNC IT · Instructional Lab Technician—Microcomputer', phone: '(619) 216-6665 x4877', tel: '+16192166665;ext=4877', email: 'evelez@swccd.edu', source: 'https://www.swccd.edu/administration/institutional-technology/staff-directory.aspx' },
+] as const;
+const campusMapBase = 'https://www.swccd.edu/about-swc/campus-maps-and-directions/';
+const campusMaps = [
+  { name: 'Chula Vista', id: 'chula-vista', address: '900 Otay Lakes Rd, Chula Vista, CA 91910', directory: 'chula-vista-campus', pdf: 'chula-vista-campus-map.pdf', sheets: ['Campus map and building directory'], width: 1093, height: 1800 },
+  { name: 'National City', id: 'national-city', address: '880 National City Blvd, National City, CA 91950', directory: 'hec-national-city', pdf: 'hecnc_map_bothbuildings.pdf', sheets: ['Main building, first floor', 'Main building, second floor', 'Plaza building, first floor', 'Plaza building, second floor'], width: 1800, height: 1093 },
+  { name: 'Otay Mesa', id: 'otay-mesa', address: '8100 Gigantic St, San Diego, CA 92154', directory: 'hec-otay-mesa', pdf: 'hec-at-otay-mesa-map.pdf', sheets: ['Campus map'], width: 1800, height: 997 },
+  { name: 'San Ysidro', id: 'san-ysidro', address: '460 W San Ysidro Blvd, San Ysidro, CA 92173', directory: 'hec-san-ysidro', pdf: 'hec-at-san-ysidro-map.pdf', sheets: ['First floor', 'Second floor'], width: 1800, height: 1391 },
+  { name: 'Crown Cove Aquatic Center', id: 'crown-cove', address: '5000 Highway 75, Coronado, CA 92118', directory: 'crown-cove-aquatic-center', pdf: 'crown-cove-aquatic-center-map.pdf', sheets: ['Aquatic center layout'], width: 1391, height: 1800 },
 ] as const;
 const serviceContacts = [
   ['Restorative Justice Program', '(619) 216-6655', '+16192166655', 'swcrestorativejustice@swccd.edu'],
@@ -178,6 +187,53 @@ const officialLinks = [
             ))}
           </div>
         </div>
+        <details id="chair-references" class="reference-fold">
+          <summary>Department chairs and Council of Chairs · 2026–2027</summary>
+          <p>Transcribed from the two reference sheets. Where names or emails differ, each entry is kept as printed.</p>
+          <h3 id="council-table-heading">Council of Chairs</h3>
+          <p class="table-scroll-hint">Scroll sideways for all columns.</p>
+          <div class="chair-table-wrap" role="region" aria-labelledby="council-table-heading" tabindex="0">
+            <table id="council-chair-table" class="chair-table">
+              <caption>Council of Chairs, 2026–2027</caption>
+              <thead><tr><th scope="col">Chair</th><th scope="col">Department</th><th scope="col">Email</th></tr></thead>
+              <tbody>
+                {councilChairs.map(([name, department, email]) => (
+                  <tr><th scope="row">{name}</th><td>{department}</td><td><a href={`mailto:${email}`}>{email}</a></td></tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p class="chair-table-note">*Council of Chairs Chair: Professor Tinh-Alfredo Khuong.</p>
+          <p class="chair-table-note">The handwritten interim note beside Life Science is unclear. The department sheet below includes a printed interim listing.</p>
+
+          <h3 id="department-table-heading">Department chairs by school</h3>
+          <p class="table-scroll-hint">Scroll sideways for all columns.</p>
+          <div class="chair-table-wrap" role="region" aria-labelledby="department-table-heading" tabindex="0">
+            <table id="department-chair-table" class="chair-table">
+              <caption>Southwestern College Department Chairs, 2026–2027</caption>
+              <thead><tr><th scope="col">Department</th><th scope="col">Chair</th><th scope="col">Email</th><th scope="col">Extension</th></tr></thead>
+              {departmentChairGroups.map((group) => (
+                <tbody>
+                  <tr class="chair-school-row"><th scope="rowgroup" colspan="4">
+                    <span>{group.name}</span>
+                    <small>{group.area} · Dean: {group.dean}</small>
+                    <small>Also listed in the heading: {group.listedNames}</small>
+                    {group.director && <small>{group.director}</small>}
+                  </th></tr>
+                  {group.rows.map(([department, chair, email, extension, note]) => (
+                    <tr data-department-chair>
+                      <th scope="row">{department}</th>
+                      <td>{chair}{note && <small class="chair-row-note">{note}</small>}</td>
+                      <td><a href={`mailto:${email}`}>{email}</a></td>
+                      <td><a href={`tel:+16194216700;ext=${extension}`}>{extension}</a></td>
+                    </tr>
+                  ))}
+                </tbody>
+              ))}
+            </table>
+          </div>
+          <p class="chair-table-note">Department chairs are elected every three years; the library chair and presiding chair are elected every two years, per the sheet.</p>
+        </details>
       </section>
 
       <section id="official-links" class="wrap content-section" aria-labelledby="official-heading">
@@ -187,6 +243,31 @@ const officialLinks = [
             <a href={href} target="_blank" rel="noopener noreferrer"><span><strong>{title}</strong><small>{text}</small></span><span aria-hidden="true">↗</span></a>
           ))}
         </div>
+        <details id="campus-maps" class="reference-fold">
+          <summary>Campus maps</summary>
+          <p>Maps from Southwestern College. Choose a location below; official PDFs and directions open in a new tab.</p>
+          {campusMaps.map((campus) => (
+            <details id={`map-${campus.id}`} class="campus-map">
+              <summary>{campus.name}<span>{campus.address}</span></summary>
+              <div class="map-links">
+                <a href={`${campusMapBase}${campus.directory}/_files/${campus.pdf}`} target="_blank" rel="noopener noreferrer">Official PDF <span aria-hidden="true">↗</span></a>
+                <a href={`${campusMapBase}${campus.directory}/index.aspx`} target="_blank" rel="noopener noreferrer">Directions <span aria-hidden="true">↗</span></a>
+              </div>
+              <div class="reference-sheet-grid">
+                {campus.sheets.map((label, index) => (
+                  <figure>
+                    <figcaption>{label}</figcaption>
+                    <a href={`/documents/swc/maps/${campus.id}-${index + 1}.jpg`} target="_blank" rel="noopener noreferrer" aria-label={`View ${campus.name}: ${label}, full size (opens in a new tab)`}>
+                      <img src={`/documents/swc/maps/${campus.id}-${index + 1}.jpg`} alt={`${campus.name}: ${label}. Official SWC map showing rooms, facilities, and routes.`} width={campus.width} height={campus.height} loading="lazy" decoding="async" />
+                      <span>View full size <span aria-hidden="true">↗</span></span>
+                    </a>
+                  </figure>
+                ))}
+              </div>
+            </details>
+          ))}
+          <p class="map-source-note">Previews checked <time datetime="2026-09-14">September 14, 2026</time>. See the official PDFs for updates.</p>
+        </details>
       </section>
     </main>
 
@@ -219,6 +300,31 @@ const officialLinks = [
   .documents-section h2{font-size:clamp(1.85rem,3.5vw,2.75rem)}
   .documents-intro{color:var(--muted);line-height:1.5;margin:0 0 1.5rem}
   .contact-office{color:var(--muted);font-size:.84rem;line-height:1.45}
+  .reference-fold{border-block:1px solid var(--rule);margin-top:2.5rem;padding-block:1rem;scroll-margin-top:5rem}
+  .reference-fold summary{color:var(--burgundy-dark);cursor:pointer;font-size:1.12rem;font-weight:600;line-height:1.4;padding:.5rem .25rem}
+  .reference-fold summary::marker{color:var(--burgundy)}
+  .reference-fold>p{color:var(--muted);font-size:.9rem;margin:1rem 0}
+  .reference-sheet-grid{display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),1fr));padding-bottom:.5rem}
+  .reference-sheet-grid figure{margin:0;min-width:0}.reference-sheet-grid figcaption{color:var(--burgundy-dark);font-weight:600;margin-bottom:.65rem}
+  .reference-sheet-grid a{display:block;text-underline-offset:.2em}.reference-sheet-grid img{display:block;width:100%;height:auto;border:1px solid var(--rule)}
+  .reference-sheet-grid a>span{display:block;color:var(--burgundy);font-size:.9rem;margin-top:.65rem}
+  .campus-map{border-top:1px solid var(--rule);padding-block:.65rem;scroll-margin-top:5rem}
+  .campus-map summary>span{display:block;color:var(--muted);font-size:.9rem;font-weight:400;margin:.25rem 0 0 1.1rem}
+  .map-links{display:flex;flex-wrap:wrap;gap:.75rem 1.5rem;margin:1rem 0;color:var(--burgundy);font-size:.95rem}
+  .map-links a{text-underline-offset:.2em}.campus-map .reference-sheet-grid{max-width:60rem;margin:0 auto 1rem}
+  #chair-references h3{font-size:1.2rem;margin:2rem 0 .8rem}
+  .chair-table-wrap{overflow-x:auto;max-width:100%;border:1px solid var(--rule);scrollbar-width:thin;scrollbar-color:var(--burgundy) var(--paper)}
+  .chair-table{border-collapse:collapse;width:100%;min-width:44rem;background:#fff;font-size:.94rem}
+  .chair-table caption{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .chair-table th,.chair-table td{text-align:left;vertical-align:top;border-bottom:1px solid var(--rule);padding:.8rem .9rem;line-height:1.4}
+  .chair-table thead{background:var(--burgundy-dark);color:#fff}.chair-table tbody th{font-weight:600}
+  .chair-table td a{color:var(--burgundy);text-underline-offset:.2em;white-space:nowrap}
+  .chair-table .chair-school-row th{background:var(--gold-soft);padding-block:1rem}
+  .chair-school-row span{display:block;color:var(--burgundy-dark);font-size:1rem}.chair-school-row small{display:block;font-size:.84rem;font-weight:400;margin-top:.25rem;color:var(--muted)}
+  .chair-row-note{display:block;color:var(--muted);font-size:.82rem;margin-top:.3rem}
+  #chair-references .chair-table-note{font-size:.86rem;margin:.75rem 0;color:var(--muted)}
+  #chair-references .table-scroll-hint{display:none}
+  @media(max-width:48rem){#chair-references .table-scroll-hint{display:block;font-size:.82rem;color:var(--muted);margin:.3rem 0 .6rem}}
   .document-grid{display:grid;gap:1.15rem;grid-template-columns:repeat(3,minmax(0,1fr))}
   .canva-resource{line-height:1.5;margin:1.25rem 0}.canva-resource a{color:var(--burgundy);font-weight:600;text-underline-offset:.2em}
   .document-safety{margin:1.25rem 0 2.4rem}
