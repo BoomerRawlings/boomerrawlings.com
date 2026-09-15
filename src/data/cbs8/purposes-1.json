@@ -1,0 +1,1762 @@
+{
+  "1": {
+    "purpose": "Receive text messages through the bookmarked online number service; number availability and access rules remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "2": {
+    "purpose": "Read DoNotPay's article about temporary phone numbers and their intended use for separating contact details.",
+    "basis": "Saved bookmark"
+  },
+  "3": {
+    "purpose": "Read IntelTechniques' VoIPSuite guide to managing internet-based calling and text messaging.",
+    "basis": "Saved bookmark"
+  },
+  "4": {
+    "purpose": "Read IntelTechniques' guide to using Twilio's command-line tools for telephone services.",
+    "basis": "Saved bookmark"
+  },
+  "5": {
+    "purpose": "Receive email in a temporary inbox intended for short-lived messages and signups.",
+    "basis": "Saved bookmark"
+  },
+  "6": {
+    "purpose": "Create email aliases that forward messages to your main inbox and can be disabled individually.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "addy.io — how email aliases work",
+        "url": "https://addy.io/",
+        "note": "The original AnonAddy URL redirects here. The provider documents alias forwarding, disabling, and replies."
+      }
+    ],
+    "ratingNote": "N/A concerns its utility role. Provider documentation explains forwarding; it is not an independent privacy or reliability audit."
+  },
+  "7": {
+    "purpose": "Create forwarding email aliases and reply through them without sharing your main address with correspondents.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "SimpleLogin — how email aliases work",
+        "url": "https://simplelogin.io/",
+        "note": "The provider explains forwarding aliases and replies sent through an alias."
+      }
+    ],
+    "ratingNote": "N/A concerns its utility role. Documented alias features do not certify anonymity, security, or identity."
+  },
+  "8": {
+    "purpose": "Receive messages in a disposable email inbox; the bookmark does not establish confidentiality or retention rules.",
+    "basis": "Saved bookmark"
+  },
+  "9": {
+    "purpose": "Send a text message from a web page using Globfone's bookmarked messaging service.",
+    "basis": "Saved bookmark"
+  },
+  "10": {
+    "purpose": "Use the bookmarked web text-messaging service; supported destinations and current sending features remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "11": {
+    "purpose": "Send a fax through a web form using the bookmarked FaxZero service.",
+    "basis": "Saved bookmark"
+  },
+  "12": {
+    "purpose": "Read incoming SMS messages through an online receiving service; privacy and number availability remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "13": {
+    "purpose": "Receive SMS messages through the bookmarked verification-number service; current coverage and access rules remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "14": {
+    "purpose": "Use the bookmarked SMS service; its specific current receiving features and access rules remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "15": {
+    "purpose": "Read incoming SMS messages through an online receiving service; privacy and number availability remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "16": {
+    "purpose": "Use Amazon's notification service to deliver application messages to subscribers or configured destinations.",
+    "basis": "Saved bookmark"
+  },
+  "17": {
+    "purpose": "Add calling and messaging functions to software through Twilio's communications services.",
+    "basis": "Saved bookmark"
+  },
+  "18": {
+    "purpose": "Read a saved social-media thread about a one-time mobile setup; instructions and current applicability remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "19": {
+    "purpose": "Generate candidate usernames for new accounts without having to invent each one manually.",
+    "basis": "Saved bookmark"
+  },
+  "20": {
+    "purpose": "Generate fictional names and profile details for examples, demonstrations, or test data.",
+    "basis": "Saved bookmark"
+  },
+  "21": {
+    "purpose": "Generate fictional resume examples; generated qualifications do not describe a verified person's history.",
+    "basis": "Saved bookmark"
+  },
+  "22": {
+    "purpose": "Generate names using Behind the Name's random-name tool and selectable naming traditions.",
+    "basis": "Saved bookmark"
+  },
+  "23": {
+    "purpose": "Generate example IMEI-format device identifiers using the bookmarked Windows Phone generator.",
+    "basis": "Saved bookmark"
+  },
+  "24": {
+    "purpose": "Generate example IMEI-format numbers for testing; these do not establish ownership of an actual device.",
+    "basis": "Saved bookmark"
+  },
+  "25": {
+    "purpose": "Generate sample US identifier formats for test data; outputs are not government-issued identity documents.",
+    "basis": "Saved bookmark"
+  },
+  "26": {
+    "purpose": "Explore Washington driver's-license number generation; generated values do not establish a valid license.",
+    "basis": "Saved bookmark"
+  },
+  "27": {
+    "purpose": "Generate mock driver's-license data for examples; outputs do not establish a person's identity.",
+    "basis": "Saved bookmark"
+  },
+  "28": {
+    "purpose": "Browse generated rental examples; the bookmark does not establish that any property is genuinely available.",
+    "basis": "Saved bookmark"
+  },
+  "29": {
+    "purpose": "Generate synthetic face images for illustration; the depicted person is not a verified real individual.",
+    "basis": "Saved bookmark"
+  },
+  "30": {
+    "purpose": "Generate random face images for mockups or examples; depicted identities are not verified.",
+    "basis": "Saved bookmark"
+  },
+  "31": {
+    "purpose": "Check a credit-card number's format or generate an example number for software testing.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Fake Name Generator — Credit Card Validator",
+        "url": "https://www.fakenamegenerator.com/credit-card-validator.php",
+        "note": "The linked page provides a number validator and a random example number."
+      }
+    ],
+    "ratingNote": "A format check does not establish an issued card, available funds, or authority to use an account."
+  },
+  "32": {
+    "purpose": "Look up telephone carrier identification codes and their associated long-distance carrier names.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Allred Tech — PIC/CIC Code Database",
+        "url": "https://www.allredtech.com/",
+        "note": "The provider describes carrier identification codes and exposes a carrier-directory search."
+      }
+    ],
+    "ratingNote": "This documents a carrier-code lookup, despite its placement among generators. Directory freshness and match accuracy were not independently tested."
+  },
+  "33": {
+    "purpose": "Generate example Canadian Social Insurance Number formats for testing; outputs are not issued credentials.",
+    "basis": "Saved bookmark"
+  },
+  "34": {
+    "purpose": "Check the format of an ABA bank routing number using the bookmarked validator.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Fake Name Generator — ABA/Routing Number Validator",
+        "url": "https://www.fakenamegenerator.com/aba-validator.php",
+        "note": "The saved URL opens a routing-number validator, although the bookmark calls it a generator."
+      }
+    ],
+    "ratingNote": "A valid-looking routing number does not establish an account, bank relationship, or transaction authority."
+  },
+  "35": {
+    "purpose": "Generate sample vehicle-identification numbers for testing; outputs do not establish a real vehicle's history.",
+    "basis": "Saved bookmark"
+  },
+  "36": {
+    "purpose": "Generate example UK National Insurance Number formats for testing; outputs are not issued credentials.",
+    "basis": "Saved bookmark"
+  },
+  "37": {
+    "purpose": "Generate example Social Security Number formats for testing; outputs do not establish a real person's identity.",
+    "basis": "Saved bookmark"
+  },
+  "38": {
+    "purpose": "Generate or validate Israeli ID-number formats; passing a format check does not establish an issued identity.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Georgy Bunin — Israel ID generator and validator",
+        "url": "https://georgybu.github.io/IID_Generator/",
+        "note": "The page explicitly identifies its function as Israeli ID generation and validation."
+      }
+    ],
+    "ratingNote": "N/A concerns generated or checked number formats. The page is not an issuing authority or a source of verified identity."
+  },
+  "39": {
+    "purpose": "Generate UUIDs and shortened identifiers to label software records or other items.",
+    "basis": "Saved bookmark"
+  },
+  "40": {
+    "purpose": "Estimate duplicate-ID probability from identifier length, available characters, and the rate at which IDs are generated.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Nano ID Collision Calculator",
+        "url": "https://zelark.github.io/nano-id-cc/",
+        "note": "The tool describes estimating collision probability from alphabet, length, and generation rate."
+      }
+    ],
+    "ratingNote": "This is a probability calculator, rather than an identity generator. Its calculations were not independently tested."
+  },
+  "41": {
+    "purpose": "Generate sample South African identity-number formats for testing; outputs are not issued identity documents.",
+    "basis": "Saved bookmark"
+  },
+  "42": {
+    "purpose": "Explore information historically encoded in Social Security Number formats; interpretation does not verify a person.",
+    "basis": "Saved bookmark"
+  },
+  "43": {
+    "purpose": "Explore encoding rules in driver's-license numbers; a matching format does not verify license validity or ownership.",
+    "basis": "Saved bookmark"
+  },
+  "44": {
+    "purpose": "Generate example dating-profile text for writing or demonstrations; outputs are fictional profile content.",
+    "basis": "Saved bookmark"
+  },
+  "45": {
+    "purpose": "Generate fictional profile details and names for examples or software testing.",
+    "basis": "Saved bookmark"
+  },
+  "46": {
+    "purpose": "Generate fictional company names for drafts, examples, or naming ideas.",
+    "basis": "Saved bookmark"
+  },
+  "47": {
+    "purpose": "Create a mock Twitter profile for illustrative use; it does not authenticate a real account.",
+    "basis": "Saved bookmark"
+  },
+  "48": {
+    "purpose": "Create a mock TikTok profile for illustrative use; it does not authenticate a real account.",
+    "basis": "Saved bookmark"
+  },
+  "49": {
+    "purpose": "Create a mock YouTube channel for illustrative use; it does not authenticate a real channel.",
+    "basis": "Saved bookmark"
+  },
+  "50": {
+    "purpose": "Build a formatted resume from supplied details using the bookmarked resume-builder project.",
+    "basis": "Saved bookmark"
+  },
+  "51": {
+    "purpose": "Browse tools for generating fictional identity data; specific tools and supported formats remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "52": {
+    "purpose": "Run a browser or desktop in a disposable hosted session, as described by the saved Kasm bookmark.",
+    "basis": "Saved bookmark"
+  },
+  "53": {
+    "purpose": "Run Android apps on a computer through BlueStacks' Android emulation software.",
+    "basis": "Saved bookmark"
+  },
+  "54": {
+    "purpose": "Use virtual Android devices for app testing through Genymotion's emulation platform.",
+    "basis": "Saved bookmark"
+  },
+  "55": {
+    "purpose": "Use the bookmarked Android-oriented desktop operating system; current hardware support remains unverified.",
+    "basis": "Saved bookmark"
+  },
+  "56": {
+    "purpose": "Run Android apps on a computer through the bookmarked Nox emulator.",
+    "basis": "Saved bookmark"
+  },
+  "57": {
+    "purpose": "Run Android apps on a computer through the bookmarked MEmu emulator.",
+    "basis": "Saved bookmark"
+  },
+  "58": {
+    "purpose": "Run Android apps on a computer through the bookmarked LDPlayer emulator.",
+    "basis": "Saved bookmark"
+  },
+  "59": {
+    "purpose": "Break a URL into interpretable parts to examine parameters and embedded information.",
+    "basis": "Saved bookmark"
+  },
+  "60": {
+    "purpose": "Ask computational questions and calculate results using Wolfram Alpha's reference and computation service.",
+    "basis": "Saved bookmark"
+  },
+  "61": {
+    "purpose": "Create and collaborate on documents through CryptPad's online editing tools.",
+    "basis": "Saved bookmark"
+  },
+  "62": {
+    "purpose": "Saved Recontool bookmark; its specific tools, inputs, and output functions remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "63": {
+    "purpose": "Create a mind map to organize ideas, leads, or relationships visually.",
+    "basis": "Saved bookmark"
+  },
+  "64": {
+    "purpose": "Examine a scanned printout for yellow printer tracking dots using the bookmarked detection tool.",
+    "basis": "Saved bookmark"
+  },
+  "65": {
+    "purpose": "Share text using an encrypted paste service; implementation and retention settings were not tested.",
+    "basis": "Saved bookmark"
+  },
+  "66": {
+    "purpose": "Share text through PrivateBin's paste interface; deployment-specific safeguards and retention remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "67": {
+    "purpose": "Share text through Disroot's bookmarked paste service; current limits and retention remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "68": {
+    "purpose": "Use the bookmarked Framadrop file-sharing service; current availability and transfer conditions remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "69": {
+    "purpose": "Collaborate on a shared text document using Riseup's bookmarked online pad.",
+    "basis": "Saved bookmark"
+  },
+  "70": {
+    "purpose": "Edit a shared spreadsheet in a browser using the bookmarked EtherCalc service.",
+    "basis": "Saved bookmark"
+  },
+  "71": {
+    "purpose": "Check supplied writing for possible proofreading issues using the bookmarked automated tool.",
+    "basis": "Saved bookmark"
+  },
+  "72": {
+    "purpose": "Draft and publish writing through the bookmarked Write.as blogging service.",
+    "basis": "Saved bookmark"
+  },
+  "73": {
+    "purpose": "Organize documents and photos using the bookmarked Cryptee service; privacy safeguards were not tested.",
+    "basis": "Saved bookmark"
+  },
+  "74": {
+    "purpose": "Create a scheduling poll to compare participants' availability for an event or meeting.",
+    "basis": "Saved bookmark"
+  },
+  "75": {
+    "purpose": "Saved Airborn bookmark; its precise current document or collaboration functions remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "76": {
+    "purpose": "Generate a Zoom meeting URL using the bookmarked tool; accepted inputs remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "77": {
+    "purpose": "Access onion-site content through a web gateway; this does not establish Tor Browser's protections.",
+    "basis": "Saved bookmark"
+  },
+  "78": {
+    "purpose": "Look for saved snapshots of web pages to compare earlier published content.",
+    "basis": "Saved bookmark"
+  },
+  "79": {
+    "purpose": "View dated captures of web pages to examine what an archived page displayed at a particular time.",
+    "basis": "Saved bookmark"
+  },
+  "80": {
+    "purpose": "Use a Python library to work with Wayback Machine captures and archive-related requests.",
+    "basis": "Saved bookmark"
+  },
+  "81": {
+    "purpose": "Look for cached copies of web pages through the bookmarked cache-search service.",
+    "basis": "Saved bookmark"
+  },
+  "82": {
+    "purpose": "Look for cached versions of a URL; the saved Google-cache label may describe historical functionality.",
+    "basis": "Saved bookmark"
+  },
+  "83": {
+    "purpose": "View older websites using the bookmarked historical-browser and web-archive interface.",
+    "basis": "Saved bookmark"
+  },
+  "84": {
+    "purpose": "Find openly available versions of scholarly articles through the Unpaywall browser extension.",
+    "basis": "Saved bookmark"
+  },
+  "85": {
+    "purpose": "Translate supplied text between languages using DeepL's machine-translation service.",
+    "basis": "Saved bookmark"
+  },
+  "86": {
+    "purpose": "View and edit comma-separated data files in the bookmarked online or offline CSV editor.",
+    "basis": "Saved bookmark"
+  },
+  "87": {
+    "purpose": "Convert comma-separated data into an HTML table using the saved CodePen example.",
+    "basis": "Saved bookmark"
+  },
+  "88": {
+    "purpose": "Try Microsoft's browser-based code editor and experiment with its editing interface.",
+    "basis": "Saved bookmark"
+  },
+  "89": {
+    "purpose": "Create flowcharts and other diagrams from text using the bookmarked Mermaid editor.",
+    "basis": "Saved bookmark"
+  },
+  "90": {
+    "purpose": "Write Markdown text and preview its formatting in the bookmarked editor.",
+    "basis": "Saved bookmark"
+  },
+  "91": {
+    "purpose": "Write and try SQL queries in the bookmarked online SQL editor.",
+    "basis": "Saved bookmark"
+  },
+  "92": {
+    "purpose": "Inspect a SQLite database through the bookmarked browser-based database viewer.",
+    "basis": "Saved bookmark"
+  },
+  "93": {
+    "purpose": "Extract text from an image using the bookmarked optical-character-recognition tool.",
+    "basis": "Saved bookmark"
+  },
+  "94": {
+    "purpose": "Use the bookmarked transcription service to turn speech into text; supported formats remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "95": {
+    "purpose": "Convert English text into phonetic notation to examine pronunciation rather than translate meaning.",
+    "basis": "Saved bookmark"
+  },
+  "96": {
+    "purpose": "Translate text between languages using Google's bookmarked machine-translation service.",
+    "basis": "Saved bookmark"
+  },
+  "97": {
+    "purpose": "Use the bookmarked multi-translation page; supported languages and translation providers remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "98": {
+    "purpose": "Translate supplied text between languages using Yandex's bookmarked translation service.",
+    "basis": "Saved bookmark"
+  },
+  "99": {
+    "purpose": "Translate supplied text between languages using Microsoft's bookmarked Bing Translator.",
+    "basis": "Saved bookmark"
+  },
+  "100": {
+    "purpose": "Translate supplied text using Reverso's bookmarked text-translation page.",
+    "basis": "Saved bookmark"
+  },
+  "101": {
+    "purpose": "Translate supplied text through Translatedict's bookmarked service; supported languages remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "102": {
+    "purpose": "Read supplied text aloud using NaturalReader's bookmarked online speech tool.",
+    "basis": "Saved bookmark"
+  },
+  "103": {
+    "purpose": "Read supplied text aloud using the bookmarked TTSReader speech tool.",
+    "basis": "Saved bookmark"
+  },
+  "104": {
+    "purpose": "Arrange notes and play a musical sequence in the bookmarked online sequencer.",
+    "basis": "Saved bookmark"
+  },
+  "105": {
+    "purpose": "Create an RSS feed from web content using the bookmarked FetchRSS service.",
+    "basis": "Saved bookmark"
+  },
+  "106": {
+    "purpose": "Find scholarly papers through the bookmarked Sci-Hub library; coverage and current access remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "107": {
+    "purpose": "Search the bookmarked Library Genesis collection for books or papers; current access remains unverified.",
+    "basis": "Saved bookmark"
+  },
+  "108": {
+    "purpose": "Search the bookmarked Z-Library site for books; current access and coverage remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "109": {
+    "purpose": "Find PDF documents through the bookmarked PDF Drive search service.",
+    "basis": "Saved bookmark"
+  },
+  "110": {
+    "purpose": "Read research preprints on arXiv; a preprint's presence does not establish peer review.",
+    "basis": "Saved bookmark"
+  },
+  "111": {
+    "purpose": "Read biology preprints on bioRxiv; a preprint's presence does not establish peer review.",
+    "basis": "Saved bookmark"
+  },
+  "112": {
+    "purpose": "Find and read digitized books in Project Gutenberg's electronic-text collection.",
+    "basis": "Saved bookmark"
+  },
+  "113": {
+    "purpose": "Saved Trantor library bookmark; the collection's precise contents and current access remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "114": {
+    "purpose": "Browse the bookmarked shadow-library reference site; specific collections and current access remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "115": {
+    "purpose": "Proofread and edit supplied writing using the bookmarked Typely text editor.",
+    "basis": "Saved bookmark"
+  },
+  "116": {
+    "purpose": "Store files online and share links through the bookmarked MEGA service.",
+    "basis": "Saved bookmark"
+  },
+  "117": {
+    "purpose": "Transfer files through the bookmarked transfer.sh service; current retention and upload limits remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "118": {
+    "purpose": "Share files through the bookmarked Send instance; its operator and current transfer conditions remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "119": {
+    "purpose": "Use the bookmarked Keep.sh file-sharing service; its exact current features remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "120": {
+    "purpose": "Share files through Disroot's upload service; current limits and retention remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "121": {
+    "purpose": "Use the bookmarked BlackHole file-transfer service; current availability and transfer conditions remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "122": {
+    "purpose": "Convert, decode, encode, and inspect data by combining operations in a browser.",
+    "basis": "Saved bookmark"
+  },
+  "123": {
+    "purpose": "Look up selected technical indicators using the bookmarked Mitaka browser-extension project.",
+    "basis": "Saved bookmark"
+  },
+  "124": {
+    "purpose": "Store and query breach-related datasets already lawfully held; the saved description does not validate the underlying records.",
+    "basis": "Saved bookmark"
+  },
+  "125": {
+    "purpose": "Identify possible formats of unfamiliar text strings using the bookmarked Python package.",
+    "basis": "Saved bookmark"
+  },
+  "126": {
+    "purpose": "Collect public information about an organization's internet presence for an authorized exposure assessment.",
+    "basis": "Saved bookmark"
+  },
+  "127": {
+    "purpose": "Browse the bookmarked developer utilities; the saved label does not identify each available operation.",
+    "basis": "Saved bookmark"
+  },
+  "128": {
+    "purpose": "Render graph descriptions as diagrams using the bookmarked online Graphviz editor.",
+    "basis": "Saved bookmark"
+  },
+  "129": {
+    "purpose": "Create and preview HTML, CSS, and JavaScript examples in a browser.",
+    "basis": "Saved bookmark"
+  },
+  "130": {
+    "purpose": "Generate a word-based passphrase using the bookmarked Diceware generator.",
+    "basis": "Saved bookmark"
+  },
+  "131": {
+    "purpose": "Check a URL for possible phishing indicators using the bookmarked analysis service.",
+    "basis": "Saved bookmark"
+  },
+  "132": {
+    "purpose": "Convert x86 or x64 assembly instructions into machine-code representations using an online tool.",
+    "basis": "Saved bookmark"
+  },
+  "133": {
+    "purpose": "Calculate with large numbers using the bookmarked arbitrary-size arithmetic calculator.",
+    "basis": "Saved bookmark"
+  },
+  "134": {
+    "purpose": "Calculate checksums of text or files to compare content and detect changes.",
+    "basis": "Saved bookmark"
+  },
+  "135": {
+    "purpose": "Clean supplied HTML using the bookmarked sanitizer; its protections were not tested.",
+    "basis": "Saved bookmark"
+  },
+  "136": {
+    "purpose": "Encode or decode URL characters to read or construct web addresses.",
+    "basis": "Saved bookmark"
+  },
+  "137": {
+    "purpose": "Translate machine-code bytes into assembly instructions for authorized software inspection.",
+    "basis": "Saved bookmark"
+  },
+  "138": {
+    "purpose": "Use the bookmarked disassembly service to inspect machine code; supported formats remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "139": {
+    "purpose": "Edit a photograph using the bookmarked Fotor image-editing interface.",
+    "basis": "Saved bookmark"
+  },
+  "140": {
+    "purpose": "Inspect compiled software through the bookmarked decompiler; supported languages and output quality remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "141": {
+    "purpose": "Open an introductory notebook explaining Google's hosted environment for running notebook code.",
+    "basis": "Saved bookmark"
+  },
+  "142": {
+    "purpose": "Compare source code with compiler-generated assembly to understand compiler behavior.",
+    "basis": "Saved bookmark"
+  },
+  "143": {
+    "purpose": "Write and preview HTML in the bookmarked browser-based page editor.",
+    "basis": "Saved bookmark"
+  },
+  "144": {
+    "purpose": "Choose a color and obtain its code for use in documents or interfaces.",
+    "basis": "Saved bookmark"
+  },
+  "145": {
+    "purpose": "Render supplied text into an image file using the bookmarked conversion tool.",
+    "basis": "Saved bookmark"
+  },
+  "146": {
+    "purpose": "Evaluate relational-algebra expressions to explore how database queries transform tables.",
+    "basis": "Saved bookmark"
+  },
+  "147": {
+    "purpose": "Convert and evaluate expressions in infix, prefix, and postfix notation.",
+    "basis": "Saved bookmark"
+  },
+  "148": {
+    "purpose": "Explore RSA calculations, encryption, and decryption with the bookmarked educational calculator.",
+    "basis": "Saved bookmark"
+  },
+  "149": {
+    "purpose": "Collect search-engine results using the bookmarked Digital Methods search scraper.",
+    "basis": "Saved bookmark"
+  },
+  "150": {
+    "purpose": "Experiment with hiding or reading information in images using the bookmarked steganography tool.",
+    "basis": "Saved bookmark"
+  },
+  "151": {
+    "purpose": "Convert torrent metadata into a magnet link using the bookmarked conversion tool.",
+    "basis": "Saved bookmark"
+  },
+  "152": {
+    "purpose": "Create YouTube playlists through the bookmarked tool; account and storage requirements remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "153": {
+    "purpose": "Create and preview data visualizations using the bookmarked Vega chart editor.",
+    "basis": "Saved bookmark"
+  },
+  "154": {
+    "purpose": "Generate starter files for a DISA integration plugin, ready for a developer to fill in.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "DISA Code Template Generator — overview",
+        "url": "https://duncanford.github.io/disa-code-generator/",
+        "note": "The developer explains that the generator creates five starter files for a DISA integration plugin."
+      }
+    ],
+    "ratingNote": "N/A concerns code scaffolding. Templates do not supply independent investigative evidence or guarantee working integration."
+  },
+  "155": {
+    "purpose": "Create alerting tokens for detecting access to resources you control.",
+    "basis": "Saved bookmark"
+  },
+  "156": {
+    "purpose": "Break down a shell command to explain its options before running it.",
+    "basis": "Saved bookmark"
+  },
+  "157": {
+    "purpose": "Run and share notebook code through Google's hosted Colaboratory environment.",
+    "basis": "Saved bookmark"
+  },
+  "158": {
+    "purpose": "Use a starter project for building an OSINT command-line tool; included functionality remains unverified.",
+    "basis": "Saved bookmark"
+  },
+  "159": {
+    "purpose": "Compare authorized password hashes with known values during a password-security audit.",
+    "basis": "Saved bookmark"
+  },
+  "160": {
+    "purpose": "Search the bookmarked hash-analysis community's records during an authorized password-security audit.",
+    "basis": "Saved bookmark"
+  },
+  "161": {
+    "purpose": "Look for known matches to authorized password hashes using the bookmarked lookup service.",
+    "basis": "Saved bookmark"
+  },
+  "162": {
+    "purpose": "Submit authorized password hashes for recovery or security analysis through the bookmarked service.",
+    "basis": "Saved bookmark"
+  },
+  "163": {
+    "purpose": "Calculate MD5 hashes or look for known matching inputs during authorized analysis.",
+    "basis": "Saved bookmark"
+  },
+  "164": {
+    "purpose": "Look for a known input matching an MD5 hash during authorized analysis.",
+    "basis": "Saved bookmark"
+  },
+  "165": {
+    "purpose": "Use the bookmarked hashing utility; supported algorithms and lookup capabilities remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "166": {
+    "purpose": "Search the bookmarked hash database during authorized analysis; current availability remains unverified.",
+    "basis": "Saved bookmark"
+  },
+  "167": {
+    "purpose": "Use the bookmarked media-download utility to save material you have permission to retain.",
+    "basis": "Saved bookmark"
+  },
+  "168": {
+    "purpose": "Save images from an Imgur album you have permission to retain.",
+    "basis": "Saved bookmark"
+  },
+  "169": {
+    "purpose": "Export online comments for review; supported platforms and collection limits remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "170": {
+    "purpose": "Extract image links from a web page to inspect its available image assets.",
+    "basis": "Saved bookmark"
+  },
+  "171": {
+    "purpose": "Use the bookmarked media-conversion or download service; supported sites and current features remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "172": {
+    "purpose": "Export comments from supported websites; the saved bookmark does not specify platform coverage.",
+    "basis": "Saved bookmark"
+  },
+  "173": {
+    "purpose": "Extract a page's links with the bookmarked Link Gopher browser-extension project.",
+    "basis": "Saved bookmark"
+  },
+  "174": {
+    "purpose": "Extract links from a web page to inventory its linked resources.",
+    "basis": "Saved bookmark"
+  },
+  "175": {
+    "purpose": "List links found on a web page using HackerTarget's bookmarked extraction tool.",
+    "basis": "Saved bookmark"
+  },
+  "176": {
+    "purpose": "Follow a workbook for requesting, freezing, and removing personal information from broker and credit-reporting services.",
+    "basis": "Saved bookmark"
+  },
+  "177": {
+    "purpose": "Read guidance on choosing privacy tools and understanding their tradeoffs.",
+    "basis": "Saved bookmark"
+  },
+  "178": {
+    "purpose": "Read EFF's guides for assessing digital risks and improving personal security practices.",
+    "basis": "Saved bookmark"
+  },
+  "179": {
+    "purpose": "Browse the bookmarked free-software resource; specific guides and recommendations remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "180": {
+    "purpose": "Use Consumer Reports' planner to identify practical steps for improving personal digital security.",
+    "basis": "Saved bookmark"
+  },
+  "181": {
+    "purpose": "Read practical digital-security guides and tool instructions in Security in a Box.",
+    "basis": "Saved bookmark"
+  },
+  "182": {
+    "purpose": "Read a Russian-language guide to reducing personal exposure through publicly discoverable information.",
+    "basis": "Saved bookmark"
+  },
+  "183": {
+    "purpose": "Compare software alternatives listed as responses to mass surveillance concerns.",
+    "basis": "Saved bookmark"
+  },
+  "184": {
+    "purpose": "Use the bookmarked Umbrella security resource; exact app features and current guidance remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "185": {
+    "purpose": "Saved Matweb bookmark; its specific privacy-related function cannot be established from the supplied metadata.",
+    "basis": "Saved bookmark"
+  },
+  "186": {
+    "purpose": "Remove file metadata using the bookmarked cleaning service; supported file formats remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "187": {
+    "purpose": "Prepare images for sharing by obscuring identifying details using the bookmarked scrubber.",
+    "basis": "Saved bookmark"
+  },
+  "188": {
+    "purpose": "Inspect or remove EXIF metadata embedded in image files.",
+    "basis": "Saved bookmark"
+  },
+  "189": {
+    "purpose": "Read the bookmarked guide to Bitcoin privacy concepts and limitations.",
+    "basis": "Saved bookmark"
+  },
+  "190": {
+    "purpose": "Review the bookmarked former peer-to-peer Bitcoin marketplace; the supplied audit records the trading service as closed.",
+    "basis": "Saved bookmark"
+  },
+  "191": {
+    "purpose": "Review the bookmarked peer-to-peer Monero marketplace; current trading availability remains unverified.",
+    "basis": "Saved bookmark"
+  },
+  "192": {
+    "purpose": "Review the bookmarked Bitcoin trading service; current products and access conditions remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "193": {
+    "purpose": "Review the bookmarked peer-to-peer trading marketplace; current products and access conditions remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "194": {
+    "purpose": "Play the bookmarked audio-jammer sound; effectiveness for obscuring speech was not tested.",
+    "basis": "Saved bookmark"
+  },
+  "195": {
+    "purpose": "Use the bookmarked speech-feedback tool; its exact current behavior and effectiveness remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "196": {
+    "purpose": "Inspect images for hidden information using the bookmarked StegOnline interface.",
+    "basis": "Saved bookmark"
+  },
+  "197": {
+    "purpose": "Read a guide to online anonymity, its tools, and their practical limitations.",
+    "basis": "Saved bookmark"
+  },
+  "198": {
+    "purpose": "Exchange messages and calls using Signal's end-to-end encrypted communication software.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Signal Support — Is it private? Can I trust it?",
+        "url": "https://support.signal.org/hc/en-us/articles/360007320391-Is-it-private-Can-I-trust-it",
+        "note": "Signal documents end-to-end encryption for messages and calls, and safety-number checks."
+      }
+    ],
+    "ratingNote": "N/A concerns communication software. The provider's encryption description is not an independent audit or proof of a correspondent's identity."
+  },
+  "199": {
+    "purpose": "Exchange messages and calls through the bookmarked Element communication client.",
+    "basis": "Saved bookmark"
+  },
+  "200": {
+    "purpose": "Communicate through the bookmarked Briar messaging app; device support and protections were not tested.",
+    "basis": "Saved bookmark"
+  },
+  "201": {
+    "purpose": "Make calls or exchange messages using the bookmarked Jami communication software.",
+    "basis": "Saved bookmark"
+  },
+  "202": {
+    "purpose": "Host or join a video meeting through the bookmarked Jitsi Meet service.",
+    "basis": "Saved bookmark"
+  },
+  "203": {
+    "purpose": "Coordinate team conversations through the bookmarked Rocket.Chat messaging platform.",
+    "basis": "Saved bookmark"
+  },
+  "204": {
+    "purpose": "Exchange messages and calls through the bookmarked Wire communication service.",
+    "basis": "Saved bookmark"
+  },
+  "205": {
+    "purpose": "Use the bookmarked Nekogram messaging client; supported Telegram features and current maintenance remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "206": {
+    "purpose": "Send messages, share files, join groups, and follow broadcast channels in Telegram.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Telegram FAQ — encryption and chat types",
+        "url": "https://telegram.org/faq#q-so-how-do-you-encrypt-data",
+        "note": "Telegram distinguishes server-client encryption for Cloud Chats from end-to-end encryption for Secret Chats."
+      }
+    ],
+    "ratingNote": "N/A concerns communication software. Ordinary Cloud Chats and Secret Chats have different protections; the category is not a blanket privacy endorsement."
+  },
+  "207": {
+    "purpose": "Host or join a video conversation using the bookmarked Brave Talk service.",
+    "basis": "Saved bookmark"
+  },
+  "208": {
+    "purpose": "Download Tor Browser to browse through Tor's relay network and reduce direct exposure of your network address.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Tor Project — What is Tor?",
+        "url": "https://support.torproject.org/about-tor/introduction/what-is-tor/",
+        "note": "The project describes its relay network and Tor Browser's role in accessing it."
+      }
+    ],
+    "ratingNote": "N/A concerns browsing software. The documentation describes a design, rather than certifying any particular user's anonymity or device security."
+  },
+  "209": {
+    "purpose": "Browse websites with Brave; specific privacy settings and protections were not tested.",
+    "basis": "Saved bookmark"
+  },
+  "210": {
+    "purpose": "Use Psiphon's network-access software to reach websites affected by filtering; effectiveness was not tested.",
+    "basis": "Saved bookmark"
+  },
+  "211": {
+    "purpose": "Route internet traffic through Proton VPN's service; speed and privacy safeguards were not tested.",
+    "basis": "Saved bookmark"
+  },
+  "212": {
+    "purpose": "Route internet traffic through hide.me's VPN service; speed and privacy safeguards were not tested.",
+    "basis": "Saved bookmark"
+  },
+  "213": {
+    "purpose": "Route internet traffic through AdGuard's VPN service; speed and privacy safeguards were not tested.",
+    "basis": "Saved bookmark"
+  },
+  "214": {
+    "purpose": "Access the I2P network using the bookmarked software; installation and protections were not tested.",
+    "basis": "Saved bookmark"
+  },
+  "215": {
+    "purpose": "Read Privacy Guides' comparison of VPN services and the tradeoffs of using one.",
+    "basis": "Saved bookmark"
+  },
+  "216": {
+    "purpose": "Read Privacy Guides' browser recommendations and suggested privacy-related configuration choices.",
+    "basis": "Saved bookmark"
+  },
+  "217": {
+    "purpose": "Exchange messages through the bookmarked Session app; platform support and protections were not tested.",
+    "basis": "Saved bookmark"
+  },
+  "218": {
+    "purpose": "Read the bookmarked OH SHINT investigation guide; its exact coverage remains unverified.",
+    "basis": "Saved bookmark"
+  },
+  "219": {
+    "purpose": "Browse a curated collection of links to public-source investigation tools and references.",
+    "basis": "Saved bookmark"
+  },
+  "220": {
+    "purpose": "Find public-source investigation resources focused on Canada in the bookmarked directory.",
+    "basis": "Saved bookmark"
+  },
+  "221": {
+    "purpose": "Browse Nixintel's curated investigation links to find tools relevant to a research question.",
+    "basis": "Saved bookmark"
+  },
+  "222": {
+    "purpose": "Browse FAROS' bookmarked directory of public-source investigation tools and references.",
+    "basis": "Saved bookmark"
+  },
+  "223": {
+    "purpose": "Find research tools collected for anti-money-laundering work in the bookmarked directory.",
+    "basis": "Saved bookmark"
+  },
+  "224": {
+    "purpose": "Saved Start.me page labeled TI; its exact subject matter and intended use remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "225": {
+    "purpose": "Saved Start.me page labeled TOOLKIT; its specific tools and research focus remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "226": {
+    "purpose": "Saved Trouble Fake directory; its precise verification topics and included tools remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "227": {
+    "purpose": "Read an article about approaching open-source investigation as a way of thinking.",
+    "basis": "Saved bookmark"
+  },
+  "228": {
+    "purpose": "Browse the saved GitHub collection of investigation resources; exact included materials remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "229": {
+    "purpose": "Read IntelTechniques' announcement of investigation resources and follow its original resource links.",
+    "basis": "Saved bookmark"
+  },
+  "230": {
+    "purpose": "Browse the bookmarked Technisette resource page; its current tools and subject coverage remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "231": {
+    "purpose": "Navigate a categorized tree of public-source investigation tools to find a suitable starting point.",
+    "basis": "Saved bookmark"
+  },
+  "232": {
+    "purpose": "Browse a curated GitHub list of public-source investigation tools and reference materials.",
+    "basis": "Saved bookmark"
+  },
+  "233": {
+    "purpose": "Read the bookmarked article about sharing practices; its specific recommendations remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "234": {
+    "purpose": "Browse OSINT Curious' saved resource list to locate investigation tools and references.",
+    "basis": "Saved bookmark"
+  },
+  "235": {
+    "purpose": "Browse OSINT Techniques' directory of tools for gathering and checking public information.",
+    "basis": "Saved bookmark"
+  },
+  "236": {
+    "purpose": "Find Aware Online tools intended for researching websites and their public information.",
+    "basis": "Saved bookmark"
+  },
+  "237": {
+    "purpose": "Consult a saved reference sheet for interpreting and building Shodan searches.",
+    "basis": "Saved bookmark"
+  },
+  "238": {
+    "purpose": "Read periodic summaries of investigation tools, methods, and resources collected by Sector035.",
+    "basis": "Saved bookmark"
+  },
+  "239": {
+    "purpose": "Browse the bookmarked OSINT Team site; its exact current articles and tools remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "240": {
+    "purpose": "Use the bookmarked QueryTool project for investigation queries; supported searches remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "241": {
+    "purpose": "Read a tutorial on examining a website's source code for publicly exposed information.",
+    "basis": "Saved bookmark"
+  },
+  "242": {
+    "purpose": "Read a tutorial about discovering publicly accessible FTP servers; current methods remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "243": {
+    "purpose": "Compare Bitcoin wallet options and features using Bitcoin.org's wallet-selection guide.",
+    "basis": "Saved bookmark"
+  },
+  "244": {
+    "purpose": "Watch short tutorials introducing specific public-source investigation methods and tools.",
+    "basis": "Saved bookmark"
+  },
+  "245": {
+    "purpose": "Browse the bookmarked Webint Master resource; its current articles and tool coverage remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "246": {
+    "purpose": "Find DFIR Diva's collection of public-source investigation learning resources and links.",
+    "basis": "Saved bookmark"
+  },
+  "247": {
+    "purpose": "Find search and sourcing utilities collected on Boolean Strings' tools page.",
+    "basis": "Saved bookmark"
+  },
+  "248": {
+    "purpose": "Read the bookmarked OSINT Me investigation blog; individual articles require separate review.",
+    "basis": "Saved bookmark"
+  },
+  "249": {
+    "purpose": "Browse Jake Creps' bookmarked site; its current investigation articles and services remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "250": {
+    "purpose": "Saved reKnowledge bookmark; its specific research service or tool function remains unverified.",
+    "basis": "Saved bookmark"
+  },
+  "251": {
+    "purpose": "Browse Bellingcat's online investigation toolkit to identify tools suited to a particular research task.",
+    "basis": "Saved bookmark"
+  },
+  "252": {
+    "purpose": "Browse Cipher387's collection of public-source investigation tools, organized as a reference directory.",
+    "basis": "Saved bookmark"
+  },
+  "253": {
+    "purpose": "Find open-source projects tagged for public-source investigation in the bookmarked project listing.",
+    "basis": "Saved bookmark"
+  },
+  "254": {
+    "purpose": "Read a saved comparison of Chrome extensions intended to assist online investigations.",
+    "basis": "Saved bookmark"
+  },
+  "255": {
+    "purpose": "Find links to free digital-forensics and incident-response training resources.",
+    "basis": "Saved bookmark"
+  },
+  "256": {
+    "purpose": "Find research and software for reducing image blur in a curated GitHub collection.",
+    "basis": "Saved bookmark"
+  },
+  "257": {
+    "purpose": "Browse OSINT.SH's investigation utilities; each tool's purpose and output need separate assessment.",
+    "basis": "Saved bookmark"
+  },
+  "258": {
+    "purpose": "Find investigation guides and tool links on OSINT Techniques' bookmarked site.",
+    "basis": "Saved bookmark"
+  },
+  "259": {
+    "purpose": "Read a Lithuanian-language introduction to gathering information from publicly available sources.",
+    "basis": "Saved bookmark"
+  },
+  "260": {
+    "purpose": "Browse a shared list of cyber-threat intelligence and public-source investigation resources.",
+    "basis": "Saved bookmark"
+  },
+  "261": {
+    "purpose": "Find Emsisoft's tool for recovering files affected by the Avaddon ransomware family.",
+    "basis": "Saved bookmark"
+  },
+  "262": {
+    "purpose": "View the saved hwosint social-media profile; the author's identity and current content remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "263": {
+    "purpose": "View the saved Stefanie Proto social-media profile; identity and current content remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "264": {
+    "purpose": "Browse a directory of curated resource lists; its current topics and entries remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "265": {
+    "purpose": "Search curated GitHub resource lists through the bookmarked Awesome Search interface.",
+    "basis": "Saved bookmark"
+  },
+  "266": {
+    "purpose": "Browse Ph055a's GitHub collection of public-source investigation tools and references.",
+    "basis": "Saved bookmark"
+  },
+  "267": {
+    "purpose": "Find investigation resources through MetaOSINT's bookmarked resource index.",
+    "basis": "Saved bookmark"
+  },
+  "268": {
+    "purpose": "Browse the bookmarked OSINT Support site; its specific tools and learning materials remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "269": {
+    "purpose": "Find a saved list of Google custom search engines for targeted research.",
+    "basis": "Saved bookmark"
+  },
+  "270": {
+    "purpose": "Read a saved article about assembling a people-research toolkit; the linked copy's current availability remains unverified.",
+    "basis": "Saved bookmark"
+  },
+  "271": {
+    "purpose": "Read a guide to advanced LinkedIn people searches; results require independent identity checks.",
+    "basis": "Saved bookmark"
+  },
+  "272": {
+    "purpose": "Find weather information for a place using the bookmarked OpenWeatherMap service.",
+    "basis": "Saved bookmark"
+  },
+  "273": {
+    "purpose": "Look up historical weather observations for a location and date.",
+    "basis": "Saved bookmark"
+  },
+  "274": {
+    "purpose": "Compare weather conditions and temperatures across locations using Time and Date's weather pages.",
+    "basis": "Saved bookmark"
+  },
+  "275": {
+    "purpose": "Look up local weather forecasts and conditions through the bookmarked AccuWeather service.",
+    "basis": "Saved bookmark"
+  },
+  "276": {
+    "purpose": "View the bookmarked Threatbutt map; whether it represents measured events or satire remains unverified.",
+    "basis": "Saved bookmark"
+  },
+  "277": {
+    "purpose": "View Kaspersky's visualization of security detections; it is not a complete record of worldwide attacks.",
+    "basis": "Saved bookmark"
+  },
+  "278": {
+    "purpose": "View Check Point's threat-map visualization; individual plotted events require separate interpretation.",
+    "basis": "Saved bookmark"
+  },
+  "279": {
+    "purpose": "View a map of distributed denial-of-service activity; coverage and event interpretation require separate review.",
+    "basis": "Saved bookmark"
+  },
+  "280": {
+    "purpose": "View the bookmarked FireEye threat-map page; present availability and displayed data remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "281": {
+    "purpose": "View Bitdefender's threat-map visualization; displayed detections do not establish complete global attack activity.",
+    "basis": "Saved bookmark"
+  },
+  "282": {
+    "purpose": "Look up technical threat indicators and related context through the bookmarked Pulsedive service.",
+    "basis": "Saved bookmark"
+  },
+  "283": {
+    "purpose": "Find Cisco Talos security research and technical reputation information for investigation leads.",
+    "basis": "Saved bookmark"
+  },
+  "284": {
+    "purpose": "View Fortinet's visualization of security detections; geographic plots do not identify an individual attacker.",
+    "basis": "Saved bookmark"
+  },
+  "285": {
+    "purpose": "Look up FortiGuard security research and threat information for technical context.",
+    "basis": "Saved bookmark"
+  },
+  "286": {
+    "purpose": "Find threat-intelligence context for technical indicators such as domains, addresses, and file identifiers.",
+    "basis": "Saved bookmark"
+  },
+  "287": {
+    "purpose": "Saved Cymon threat-intelligence bookmark; its specific lookup functions and current availability remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "288": {
+    "purpose": "Combine threat-intelligence analysis through the bookmarked IntelOwl software project; configured data sources affect results.",
+    "basis": "Saved bookmark"
+  },
+  "289": {
+    "purpose": "View the bookmarked Akamai internet-performance visualization; current availability and measurement coverage remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "290": {
+    "purpose": "View LookingGlass' bookmarked threat map; underlying event coverage and current availability remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "291": {
+    "purpose": "View NETSCOUT's visualization of cyber-threat activity; map coverage does not establish a complete event record.",
+    "basis": "Saved bookmark"
+  },
+  "292": {
+    "purpose": "Read collected reports about advanced persistent threats in the APTnotes repository.",
+    "basis": "Saved bookmark"
+  },
+  "293": {
+    "purpose": "Launch public-source searches from IntelTechniques' collection of investigation utilities.",
+    "basis": "Saved bookmark"
+  },
+  "294": {
+    "purpose": "Search the bookmarked SynapsInt service for public-information leads; supported fields remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "295": {
+    "purpose": "Search aggregated records through InfoTracer to find possible matches needing source-level verification.",
+    "basis": "Saved bookmark"
+  },
+  "296": {
+    "purpose": "Analyze file or domain security indicators through the bookmarked MetaDefender service.",
+    "basis": "Saved bookmark"
+  },
+  "297": {
+    "purpose": "Search for a username across online services to find possible public profiles.",
+    "basis": "Saved bookmark"
+  },
+  "298": {
+    "purpose": "Search SpyTox for possible person or contact matches; result sources and current coverage remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "299": {
+    "purpose": "Saved Effect Group bookmark for relationship leads; its specific search functions remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "300": {
+    "purpose": "Use the OSRFramework software collection to discover publicly associated identifiers and potential accounts.",
+    "basis": "Saved bookmark"
+  },
+  "301": {
+    "purpose": "Search the subset of websites selected by this saved Google custom search engine.",
+    "basis": "Saved bookmark"
+  },
+  "302": {
+    "purpose": "Search the websites selected by the bookmarked OSINT custom search engine.",
+    "basis": "Saved bookmark"
+  },
+  "303": {
+    "purpose": "Organize investigation entities and their possible connections in a visual relationship graph.",
+    "basis": "Saved bookmark"
+  },
+  "304": {
+    "purpose": "Saved IOA bookmark; its specific archive contents and search functions remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "305": {
+    "purpose": "Look up IP addresses and domains for technical exposure and threat-intelligence context.",
+    "basis": "Saved bookmark"
+  },
+  "306": {
+    "purpose": "Find public profiles and contact-related search leads collected by IDCrawl.",
+    "basis": "Saved bookmark"
+  },
+  "307": {
+    "purpose": "Search a person's name across public web content to find possible relevant pages.",
+    "basis": "Saved bookmark"
+  },
+  "308": {
+    "purpose": "Launch person-related searches through Intelligence X's collection of third-party search tools.",
+    "basis": "Saved bookmark"
+  },
+  "309": {
+    "purpose": "Look for possible names, addresses, phone numbers, and relationships in aggregated people-search results.",
+    "basis": "Saved bookmark"
+  },
+  "310": {
+    "purpose": "Search aggregated people records for possible matches; follow the original records before drawing conclusions.",
+    "basis": "Saved bookmark"
+  },
+  "311": {
+    "purpose": "Look for possible names, addresses, phone numbers, and relationships in aggregated people-search results.",
+    "basis": "Saved bookmark"
+  },
+  "312": {
+    "purpose": "Search the bookmarked Yandex people-search page for public profile leads; current functionality remains unverified.",
+    "basis": "Saved bookmark"
+  },
+  "313": {
+    "purpose": "Search historical and people-related records for possible family or contact leads.",
+    "basis": "Saved bookmark"
+  },
+  "314": {
+    "purpose": "Find people-search resources through iTools' bookmarked search directory.",
+    "basis": "Saved bookmark"
+  },
+  "315": {
+    "purpose": "Search selected people-related websites through a saved Google custom search engine.",
+    "basis": "Saved bookmark"
+  },
+  "316": {
+    "purpose": "Search selected dating websites through a saved Google custom search engine; results do not establish account ownership.",
+    "basis": "Saved bookmark"
+  },
+  "317": {
+    "purpose": "Find UK people, business, and place listings in 192.com's directory.",
+    "basis": "Saved bookmark"
+  },
+  "318": {
+    "purpose": "Find business listings across countries through Infobel's bookmarked international directory.",
+    "basis": "Saved bookmark"
+  },
+  "319": {
+    "purpose": "Build person-name search queries using Aware Online's people-search tool.",
+    "basis": "Saved bookmark"
+  },
+  "320": {
+    "purpose": "Find possible public profiles and web references associated with a person's name.",
+    "basis": "Saved bookmark"
+  },
+  "321": {
+    "purpose": "Look for possible telephone, address, and person matches in Whitepages' directory.",
+    "basis": "Saved bookmark"
+  },
+  "322": {
+    "purpose": "Find Canadian telephone-directory listings by person or business details.",
+    "basis": "Saved bookmark"
+  },
+  "323": {
+    "purpose": "Look up possible person, business, or telephone-directory matches through 411.",
+    "basis": "Saved bookmark"
+  },
+  "324": {
+    "purpose": "Search compiled background reports for possible public-record leads about a named person.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "FTC — TruthFinder and Instant Checkmate accuracy allegations, 2023",
+        "url": "https://www.ftc.gov/news-events/news/press-releases/2023/09/ftc-says-truthfinder-instant-checkmate-deceived-users-about-background-report-accuracy-violated-fcra",
+        "note": "The FTC's 2023 complaint and proposed-settlement announcement describes misleading accuracy claims and failures to verify third-party reports."
+      }
+    ],
+    "ratingNote": "The historical FTC findings support caution about report accuracy. They do not measure today's error rate or establish the truth of any individual report."
+  },
+  "325": {
+    "purpose": "Find possible names, telephone numbers, and address matches through ZabaSearch.",
+    "basis": "Saved bookmark"
+  },
+  "326": {
+    "purpose": "Look for possible contact matches using the identifiers supported by ThatsThem.",
+    "basis": "Saved bookmark"
+  },
+  "327": {
+    "purpose": "Find possible person and contact matches in Radaris' aggregated records.",
+    "basis": "Saved bookmark"
+  },
+  "328": {
+    "purpose": "Find web pages and profiles that may refer to a named person.",
+    "basis": "Saved bookmark"
+  },
+  "329": {
+    "purpose": "Saved GoFindWho people-search bookmark; supported identifiers and specific result types remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "330": {
+    "purpose": "Search the bookmarked Xlek people-record service; current source coverage and match quality remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "331": {
+    "purpose": "Saved Ufind.name people-search bookmark; its specific search fields and result types remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "332": {
+    "purpose": "Check a username across supported websites and collect possible matching public profile pages.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "WhatsMyName — maintainer documentation",
+        "url": "https://github.com/WebBreacher/WhatsMyName",
+        "note": "The maintainer explains per-site username detection rules and links the whatsmyname.app interface."
+      }
+    ],
+    "ratingNote": "The C grade concerns candidate profile discovery. A matching username does not establish common ownership; changed websites can break detection rules."
+  },
+  "333": {
+    "purpose": "Check a username for possible availability or profile matches using the bookmarked tool.",
+    "basis": "Saved bookmark"
+  },
+  "334": {
+    "purpose": "Find public profile pages that use a supplied username through IDCrawl.",
+    "basis": "Saved bookmark"
+  },
+  "335": {
+    "purpose": "Launch username searches across third-party services from Intelligence X's tools page.",
+    "basis": "Saved bookmark"
+  },
+  "336": {
+    "purpose": "Search for public profiles using a username and gather possible cross-site matches.",
+    "basis": "Saved bookmark"
+  },
+  "337": {
+    "purpose": "Search multiple websites for accounts using the same username, returning candidate profile links.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Sherlock — official repository",
+        "url": "https://github.com/sherlock-project/sherlock",
+        "note": "The project documents username searches and notes false-positive implications of ignoring exclusions."
+      }
+    ],
+    "ratingNote": "The C grade concerns username matches. Returned links need manual review and independent evidence before attributing accounts to one person."
+  },
+  "338": {
+    "purpose": "Check email or username availability signals on supported services; a signal does not identify the account's owner.",
+    "basis": "Saved bookmark"
+  },
+  "339": {
+    "purpose": "Extract identifiers from supplied public profile pages to help organize discovered account information.",
+    "basis": "Saved bookmark"
+  },
+  "340": {
+    "purpose": "Search social websites for candidate profiles associated with a supplied identifier.",
+    "basis": "Saved bookmark"
+  },
+  "341": {
+    "purpose": "Check whether a chosen handle appears on supported online services.",
+    "basis": "Saved bookmark"
+  },
+  "342": {
+    "purpose": "Check a username across supported websites to find possible existing accounts.",
+    "basis": "Saved bookmark"
+  },
+  "343": {
+    "purpose": "Check whether a username appears available on supported services.",
+    "basis": "Saved bookmark"
+  },
+  "344": {
+    "purpose": "Check the availability of a proposed username or domain name across supported services.",
+    "basis": "Saved bookmark"
+  },
+  "345": {
+    "purpose": "Search the bookmarked Lullar service for possible profile matches; supported identifiers remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "346": {
+    "purpose": "Look for Plenty of Fish profile leads using the bookmarked username-search service.",
+    "basis": "Saved bookmark"
+  },
+  "347": {
+    "purpose": "Launch username searches across services; the saved description warns that missing results may be misleading.",
+    "basis": "Saved bookmark"
+  },
+  "348": {
+    "purpose": "Build search queries for a username using Aware Online's search tool.",
+    "basis": "Saved bookmark"
+  },
+  "349": {
+    "purpose": "Search supported websites for pages using a supplied username.",
+    "basis": "Saved bookmark"
+  },
+  "350": {
+    "purpose": "Inspect account-association signals exposed by supported websites' recovery flows during authorized account audits.",
+    "basis": "Saved bookmark"
+  },
+  "351": {
+    "purpose": "Saved Identificator email-investigation bookmark; its specific inputs and outputs remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "352": {
+    "purpose": "Look up an email address or phone number for possible associated social-media profiles.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Epieos — email and phone lookup description",
+        "url": "https://epieos.com/",
+        "note": "The provider describes reverse email/phone searches for associated social profiles and makes real-time and no-false-positive claims."
+      }
+    ],
+    "ratingNote": "The C grade treats associations as leads. Provider claims were not benchmarked and do not independently establish identity, employment, or a personal relationship."
+  },
+  "353": {
+    "purpose": "Launch email-related searches through Intelligence X's collection of third-party tools.",
+    "basis": "Saved bookmark"
+  },
+  "354": {
+    "purpose": "Check supported services for signals that an email address may be associated with an account.",
+    "basis": "Saved bookmark"
+  },
+  "355": {
+    "purpose": "Gather email-related public information using the bookmarked Infoga investigation project.",
+    "basis": "Saved bookmark"
+  },
+  "356": {
+    "purpose": "Research possible email-to-phone associations using the bookmarked project; result accuracy and supported services remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "357": {
+    "purpose": "Check an email address's format and deliverability through the bookmarked validation API.",
+    "basis": "Saved bookmark"
+  },
+  "358": {
+    "purpose": "Check email format, domain records, and mail-server responses to assess likely deliverability.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Hunter — Email Verifier checks and limitations",
+        "url": "https://hunter.io/email-verifier",
+        "note": "Hunter describes format, MX, SMTP, and accept-all checks and acknowledges that verified addresses can still bounce."
+      }
+    ],
+    "ratingNote": "The B grade is scoped to deliverability signals. It does not verify mailbox ownership, a person's identity, or their role at an organization."
+  },
+  "359": {
+    "purpose": "Check whether an email address appears capable of receiving mail; this does not verify its owner.",
+    "basis": "Saved bookmark"
+  },
+  "360": {
+    "purpose": "Find domains whose registration records may contain a supplied email address.",
+    "basis": "Saved bookmark"
+  },
+  "361": {
+    "purpose": "Inspect an email address's domain and mail-server configuration for delivery troubleshooting.",
+    "basis": "Saved bookmark"
+  },
+  "362": {
+    "purpose": "Find likely email-address naming patterns used by a particular organization.",
+    "basis": "Saved bookmark"
+  },
+  "363": {
+    "purpose": "Read routing and authentication information from supplied email headers in a structured view.",
+    "basis": "Saved bookmark"
+  },
+  "364": {
+    "purpose": "Launch web searches for an email address through Aware Online's query tool.",
+    "basis": "Saved bookmark"
+  },
+  "365": {
+    "purpose": "Check email-address deliverability using the bookmarked Proofy service; results do not establish identity.",
+    "basis": "Saved bookmark"
+  },
+  "366": {
+    "purpose": "Generate possible email-address combinations from a person's name and an organization's domain.",
+    "basis": "Saved bookmark"
+  },
+  "367": {
+    "purpose": "Find email addresses, web addresses, and subdomains associated with a domain.",
+    "basis": "Saved bookmark"
+  },
+  "368": {
+    "purpose": "Review breach-exposure information associated with an email address; source coverage and current functionality remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "369": {
+    "purpose": "Look up an email address's reputation signals to assess possible risk, rather than verify personal identity.",
+    "basis": "Saved bookmark"
+  },
+  "370": {
+    "purpose": "Find email-address leads using OSINT.SH's bookmarked tool; supported sources remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "371": {
+    "purpose": "Collect email-address leads using the bookmarked EmailHarvester package; source coverage remains unverified.",
+    "basis": "Saved bookmark"
+  },
+  "372": {
+    "purpose": "Assess possible exposure of authorized email accounts in breach-related sources; matches require careful source verification.",
+    "basis": "Saved bookmark"
+  },
+  "373": {
+    "purpose": "Review the bookmarked breach-investigation project; its precise checks and supported sources remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "374": {
+    "purpose": "Saved Buster email-investigation project; its specific lookup behavior and supported sources remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "375": {
+    "purpose": "Find likely professional email addresses associated with people or companies.",
+    "basis": "Saved bookmark"
+  },
+  "376": {
+    "purpose": "Inspect Proton Mail account and Proton VPN address information using the bookmarked research script.",
+    "basis": "Saved bookmark"
+  },
+  "377": {
+    "purpose": "Launch telephone-number searches using IntelTechniques' collection of search shortcuts.",
+    "basis": "Saved bookmark"
+  },
+  "378": {
+    "purpose": "Try a hosted interface for gathering phone-number metadata and public-web leads; this demo's availability remains unverified.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "PhoneInfoga — features and explicit limitations",
+        "url": "https://sundowndev.github.io/phoneinfoga/",
+        "note": "The maintainer describes country, carrier, line-type, and web-footprint results and disclaims verified data or precise live location."
+      }
+    ],
+    "ratingNote": "Documentation supports the tool's intended purpose. It explicitly does not verify subscriber identity or track a phone; the hosted demo was not tested."
+  },
+  "379": {
+    "purpose": "Look for public web and profile leads associated with a phone number.",
+    "basis": "Saved bookmark"
+  },
+  "380": {
+    "purpose": "Saved Ignorant telephone-investigation package; its precise account checks and supported services remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "381": {
+    "purpose": "Gather phone-number country, carrier, and line-type information, plus possible public-web references.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "PhoneInfoga — features and explicit limitations",
+        "url": "https://sundowndev.github.io/phoneinfoga/",
+        "note": "The maintainer describes country, carrier, line-type, and web-footprint results and disclaims verified data or precise live location."
+      }
+    ],
+    "ratingNote": "Documentation supports the tool's intended purpose. It explicitly does not verify subscriber identity or track a phone; the hosted demo was not tested."
+  },
+  "382": {
+    "purpose": "Saved Moriarty telephone-investigation project; its exact searches and supported data sources remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "383": {
+    "purpose": "Use the bookmarked information-gathering project; its precise telephone-related capabilities remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "384": {
+    "purpose": "Search indexed Truecaller-related pages through the saved custom search engine.",
+    "basis": "Saved bookmark"
+  },
+  "385": {
+    "purpose": "Look for possible people or contact matches through the bookmarked Nuwber service.",
+    "basis": "Saved bookmark"
+  },
+  "386": {
+    "purpose": "Read caller-identification reports associated with a telephone number; reports require independent confirmation.",
+    "basis": "Saved bookmark"
+  },
+  "387": {
+    "purpose": "Generate telephone-number search variants and launch related web searches.",
+    "basis": "Saved bookmark"
+  },
+  "388": {
+    "purpose": "Look up a phone number and related community reports to find possible caller leads.",
+    "basis": "Saved bookmark"
+  },
+  "389": {
+    "purpose": "Look up a telephone number for a suggested name association requiring independent verification.",
+    "basis": "Saved bookmark"
+  },
+  "390": {
+    "purpose": "Search for possible records associated with a phone number through the bookmarked reverse-lookup service.",
+    "basis": "Saved bookmark"
+  },
+  "391": {
+    "purpose": "View suggested caller names and spam labels assembled partly from community reports.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Truecaller — Community Suggestions, January 2026",
+        "url": "https://www.truecaller.com/blog/features/truecaller-community-suggestions-more-than-just-a-name",
+        "note": "Truecaller explains how user-supplied names, company or profession suggestions, and spam reports inform caller labels."
+      }
+    ],
+    "ratingNote": "The C grade concerns community-supplied labels. Repeated suggestions are not legal subscriber records or independent proof of occupation or identity."
+  },
+  "392": {
+    "purpose": "Look up a telephone number using the bookmarked tool; supported data sources remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "393": {
+    "purpose": "Look for caller labels and possible contact associations through SYNC.me.",
+    "basis": "Saved bookmark"
+  },
+  "394": {
+    "purpose": "Look up estimated cellular-network cell positions using network identifiers and contributed observations.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "OpenCellID — common questions and location limits",
+        "url": "https://wiki.opencellid.org/docs/help/troubleshooting",
+        "note": "The project states that coordinates are estimated cell positions and that phone numbers or IMEIs cannot locate a handset."
+      }
+    ],
+    "ratingNote": "The B grade concerns cellular-network context. Coordinates are estimates, not surveyed mast positions, a person's location, or live handset GPS."
+  },
+  "395": {
+    "purpose": "Look up a cellular-network cell's estimated position from network identifiers; this is not live phone tracking.",
+    "basis": "Saved bookmark"
+  },
+  "396": {
+    "purpose": "Look up coordinates associated with cellular base-station identifiers; these do not establish a person's location.",
+    "basis": "Saved bookmark"
+  },
+  "397": {
+    "purpose": "Compare mobile-phone models, features, and specifications using Phone Scoop's device directory.",
+    "basis": "Saved bookmark"
+  },
+  "398": {
+    "purpose": "Compare mobile-phone models and read device specifications through GSMArena.",
+    "basis": "Saved bookmark"
+  },
+  "399": {
+    "purpose": "Saved FCC.io device-reference bookmark; its exact current lookup functions and record coverage remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "400": {
+    "purpose": "Look up historical telephone-directory entries to find dated name, address, or number leads.",
+    "basis": "Saved bookmark"
+  }
+}

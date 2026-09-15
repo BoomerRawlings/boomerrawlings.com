@@ -1,0 +1,15 @@
+---
+import audit from '../../data/cbs8/osint.html?raw';
+const notes = Object.assign({}, ...Object.values(import.meta.glob('../../data/cbs8/purposes-*.json', {eager: true, import: 'default'})));
+const html = audit.replace(/(<script id="dataset" type="application\/json">)([\s\S]*?)(<\/script>)/, (_, start, json, end) => {
+  const rows = JSON.parse(json).map(row => ({
+    ...row,
+    purpose: notes[row.id]?.purpose ?? row.scope,
+    purposeBasis: notes[row.id]?.basis ?? 'Saved bookmark',
+    references: notes[row.id]?.references ?? [],
+    ratingNote: notes[row.id]?.ratingNote ?? '',
+  }));
+  return start + JSON.stringify(rows).replaceAll('<', '\\u003c') + end;
+});
+---
+<Fragment set:html={html} />

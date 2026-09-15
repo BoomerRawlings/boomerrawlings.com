@@ -17,7 +17,7 @@ export default defineConfig({
         page !== 'https://boomerrawlings.com/aristotter/' &&
         page !== 'https://boomerrawlings.com/deckle/' &&
         page !== 'https://boomerrawlings.com/swc/' &&
-        page !== 'https://boomerrawlings.com/cbs8/',
+        !page.startsWith('https://boomerrawlings.com/cbs8/'),
     }),
   ],
 });

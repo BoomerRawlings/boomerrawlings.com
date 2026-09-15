@@ -28,6 +28,7 @@ const unlistedContentPaths = new Set([
   join('deckle', 'index.html'),
   join('swc', 'index.html'),
   join('cbs8', 'index.html'),
+  join('cbs8', 'osint', 'index.html'),
 ]);
 const contentHtmlFiles = htmlFiles.filter(
   (file) => {
@@ -38,13 +39,56 @@ const contentHtmlFiles = htmlFiles.filter(
 const unlistedHtmlFiles = htmlFiles.filter(
   (file) => unlistedContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 22 || unlistedHtmlFiles.length !== 4 || htmlFiles.length !== 30) {
+if (contentHtmlFiles.length !== 22 || unlistedHtmlFiles.length !== 5 || htmlFiles.length !== 31) {
   throw new Error(
-    `expected 22 public pages, 4 unlisted pages, and 4 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 22 public pages, 5 unlisted pages, and 4 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
 const failures = [];
+
+const cbs8Html = readFileSync(join(output, 'cbs8', 'index.html'), 'utf8');
+const osintHtml = readFileSync(join(output, 'cbs8', 'osint', 'index.html'), 'utf8');
+const osintWorkbook = join('cbs8', 'OSINT4ALL_expanded_reliability_audit.xlsx');
+for (const [label, html] of [['CBS8', cbs8Html], ['OSINT audit', osintHtml]]) {
+  if (!html.includes('/cbs8/OSINT4ALL_expanded_reliability_audit.xlsx')
+    || !html.includes('noindex,nofollow,noarchive,noimageindex')) {
+    failures.push(`${label}: workbook link or noindex protection missing`);
+  }
+}
+if (!cbs8Html.includes('href="/cbs8/osint/"') || !osintHtml.includes('href="/cbs8/"')
+  || !osintHtml.includes('<noscript>') || !osintHtml.includes('Content-Security-Policy')) {
+  failures.push('CBS8 audit: navigation, no-JavaScript fallback, or content policy missing');
+}
+if (!readFileSync(join(output, osintWorkbook)).equals(readFileSync(join('public', osintWorkbook)))) {
+  failures.push('CBS8 audit: workbook changed during build');
+}
+const osintData = JSON.parse(osintHtml.match(/<script id="dataset" type="application\/json">([\s\S]*?)<\/script>/)?.[1] ?? '[]');
+if (osintData.length !== 1172 || new Set(osintData.map(row => row.category)).size !== 55
+  || osintData.filter(row => row.basis === 'Documented').length !== 102) {
+  failures.push('CBS8 audit: supplied inventory or assessment coverage changed');
+}
+const originalOsint = JSON.parse(readFileSync(join('src', 'data', 'cbs8', 'osint.html'), 'utf8').match(/<script id="dataset" type="application\/json">([\s\S]*?)<\/script>/)[1]);
+const purposeNotes = Object.assign({}, ...[1,2,3].map(part => JSON.parse(readFileSync(join('src', 'data', 'cbs8', `purposes-${part}.json`), 'utf8'))));
+for (const [index, row] of osintData.entries()) {
+  if (!Number.isInteger(row.id) || Object.keys(originalOsint[index]).some(key => JSON.stringify(row[key]) !== JSON.stringify(originalOsint[index][key]))) {
+    failures.push(`CBS8 resource ${row.id}: original audit fields changed`);
+  }
+  if (!purposeNotes[row.id] || row.purpose !== purposeNotes[row.id].purpose || row.purpose.length < 20
+    || !['Saved bookmark', 'External documentation'].includes(row.purposeBasis)) {
+    failures.push(`CBS8 resource ${row.id}: purpose description or its basis is missing`);
+  }
+  if (row.references.some(source => !/^https?:\/\//.test(source.url) || !source.title || !source.note)
+    || (row.references.length && !row.ratingNote)) {
+    failures.push(`CBS8 resource ${row.id}: incomplete external evidence`);
+  }
+}
+for (const column of ['id','name','category','grade','purpose']) {
+  if (!osintHtml.includes(`data-sort="${column}"`)) failures.push(`CBS8 audit: ${column} sort control missing`);
+}
+if (!osintHtml.includes('src="/scripts/cbs8-osint.js"') || !existsSync(join(output, 'scripts', 'cbs8-osint.js'))) {
+  failures.push('CBS8 audit: sort and filter script missing');
+}
 
 const aristotterPath = join(output, 'aristotter', 'index.html');
 if (!existsSync(aristotterPath)) {
@@ -391,7 +435,7 @@ if (!existsSync(decklePath)) {
   if (deckleHtml.includes('Open Deckle directly')) failures.push('deckle/index.html: confusing direct-link overlay must remain absent');
 }
 // Deckle owns its button inside the proxied app, not the legacy iframe wrapper.
-for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => file !== decklePath && file !== join(output, 'cbs8', 'index.html'))) {
+for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => file !== decklePath && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html'))) {
   const html = readFileSync(file, 'utf8');
   const count = (html.match(/class="support-coffee"/g) ?? []).length;
   if (count !== 1

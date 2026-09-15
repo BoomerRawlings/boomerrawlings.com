@@ -19,6 +19,17 @@
 - Live verification: `/swc/` returned HTTP 200 with the requested nine-card order, eight PDF downloads, placement-question wording and noindex protections. All four published QR assets returned HTTP 200 and matched local SHA-256 hashes.
 - Next: no remaining work for this update; preserve paused objectives below.
 
+## CBS8 OSINT4ALL resources
+
+- Mode: continuation. User requests a sortable five-column directory (ID#, Resource, Original section, Grade, Purpose), plain-language purposes for every resource, and external evidence for rating context.
+- Status: publication authorized; scoped release on `codex/cbs8-osint-resources` reconciled with production `d330820`, preserving newer SWC changes. Original mixed worktree and paused tasks preserved.
+- Added resource links on `/cbs8/`, searchable `/cbs8/osint/`, and original workbook download in public/cbs8. Audit markup/data in src/data/cbs8/osint.html with a minimal Astro route. Existing audio table and live progress script unchanged.
+- Original dataset fields, ratings, provenance and caveats preserved; workbook byte-identical and labeled as the original audit. All 1,172 purpose notes in src/data/cbs8/purposes-{1,2,3}.json; 71 entries have additional citations across 64 distinct primary/regulatory URLs. Purpose descriptions based on metadata are distinguished from externally documented functions; opaque functions remain explicitly unverified. This is not an end-to-end test or independent accuracy benchmark of every service.
+- Five sortable columns; purpose stays visible, evidence and limits expand beneath it. Native same-origin JS reuses rendered rows to retain disclosure state and reduce sorting cost. Numeric ID, natural text, and explicit grade order support both directions. Search includes purposes; shortcut states visible with aria-pressed; exact row permalinks open the matching evidence. No automatic third-party requests, added dependencies, or site-wide changes. CSP allows only same-origin scripts; noindex/no-referrer and workbook fallback retained.
+- Verified: npm test (22 public pages, 5 unlisted pages, 4 redirects), diff check, independent content/scope review, full purpose coverage, original-field fidelity, reference schema and source-identical workbook checks. Production-preview browser tests at 1280px/390px cover all five sorts in both directions, keyboard sorting, search/filter/reset/empty states, persistent expanded evidence, source-only filter, safe download/back navigation, no overflow/page errors or automatic external requests, and no-JavaScript fallback. Preview port4323; local development port4322. Test artifacts remain in output/cbs8-osint-check, not release scope.
+- Final polish: compact coverage strip, one optional grading/provenance disclosure, calmer controls, full-width mobile search and 44px mobile targets. No added motion or dependencies; primary purpose text stays visible. Independent release review found no blockers.
+- Next: rerun checks, publish and verify live. Do not include output test files or unrelated paused work.
+
 ## SWC transcript envelope labels
 
 - Mode: continuation. Objective: move Transcript Envelope Labels to the end of the `/swc/` preview/download list and publish.

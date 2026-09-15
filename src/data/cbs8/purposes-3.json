@@ -1,0 +1,1666 @@
+{
+  "801": {
+    "purpose": "Search a saved Google custom search for GitHub pages; inspect the original repository or profile before relying on results.",
+    "basis": "Saved bookmark"
+  },
+  "802": {
+    "purpose": "Find websites containing particular source-code text, helping locate shared scripts, tags, or embedded identifiers.",
+    "basis": "Saved bookmark"
+  },
+  "803": {
+    "purpose": "Build Google searches for GitHub profiles to discover developers and inspect their publicly visible work.",
+    "basis": "Saved bookmark"
+  },
+  "804": {
+    "purpose": "Search text across Git repositories to locate code examples, functions, and references.",
+    "basis": "Saved bookmark"
+  },
+  "805": {
+    "purpose": "Saved NerdyData code-search bookmark; the saved description does not establish its specific search features or coverage.",
+    "basis": "Saved bookmark"
+  },
+  "806": {
+    "purpose": "Search indexed text-sharing posts for references; the saved bookmark does not establish archive completeness or dates.",
+    "basis": "Saved bookmark"
+  },
+  "807": {
+    "purpose": "Search GitHub for code and repositories, then inspect the files and their revision history.",
+    "basis": "Saved bookmark"
+  },
+  "808": {
+    "purpose": "Discover repositories hosted on Bitbucket and inspect their publicly available project information.",
+    "basis": "Saved bookmark"
+  },
+  "809": {
+    "purpose": "Find accidentally exposed secrets in code you maintain so the affected credentials can be reviewed and replaced.",
+    "basis": "Saved bookmark"
+  },
+  "810": {
+    "purpose": "Saved git-hound GitHub project; its specific code-search function is unverified from the available bookmark metadata.",
+    "basis": "Saved bookmark"
+  },
+  "811": {
+    "purpose": "Search source code through Webfinery; use original files to understand matches in context.",
+    "basis": "Saved bookmark"
+  },
+  "812": {
+    "purpose": "Find text in indexed online coding workspaces and paste sites for follow-up at the original source.",
+    "basis": "Saved bookmark"
+  },
+  "813": {
+    "purpose": "Search publicly indexed source code to find implementation examples and references to a term.",
+    "basis": "Saved bookmark"
+  },
+  "814": {
+    "purpose": "Saved Sourcegraph code-search bookmark; current repository coverage and available features have not been verified.",
+    "basis": "Saved bookmark"
+  },
+  "815": {
+    "purpose": "Browse an open-source project directory to discover software relevant to a topic.",
+    "basis": "Saved bookmark"
+  },
+  "816": {
+    "purpose": "Browse an index of curated software lists; the saved bookmark does not establish current coverage.",
+    "basis": "Saved bookmark"
+  },
+  "817": {
+    "purpose": "Find curated lists of development resources and open-source projects by topic.",
+    "basis": "Saved bookmark"
+  },
+  "818": {
+    "purpose": "Saved GitHub project named Zen; its specific function is not established by the bookmark.",
+    "basis": "Saved bookmark"
+  },
+  "819": {
+    "purpose": "Saved GitDorker GitHub project; its particular search features need confirmation in the project documentation.",
+    "basis": "Saved bookmark"
+  },
+  "820": {
+    "purpose": "Look up published domain-registration details; use dates and identifiers to interpret the returned record.",
+    "basis": "Saved bookmark"
+  },
+  "821": {
+    "purpose": "Look up domain-registration information through Verisign's saved web interface; current interface availability is unverified.",
+    "basis": "Saved bookmark"
+  },
+  "822": {
+    "purpose": "Look up a domain's registration, nameserver, and DNS records to understand its published technical configuration.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Who.is — domain information lookup",
+        "url": "https://who.is/",
+        "note": "The provider offers WHOIS, RDAP, DNS, and nameserver lookups."
+      }
+    ],
+    "ratingNote": "Supports the existing B for retrieving published technical records. Lookup results alone do not establish a person's identity or a domain's beneficial owner."
+  },
+  "823": {
+    "purpose": "Retrieve current or historical domain-registration records and search for related records through Whoxy.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Whoxy — WHOIS lookup and history services",
+        "url": "https://www.whoxy.com/",
+        "note": "The provider lists current, historical, reverse, and bulk WHOIS services."
+      }
+    ],
+    "ratingNote": "Supports B for domain-record retrieval, not verified personal ownership. Historical registration records describe their observation period; validate dates and identifiers."
+  },
+  "824": {
+    "purpose": "Look for earlier domain-registration records to compare changes in published registration details.",
+    "basis": "Saved bookmark"
+  },
+  "825": {
+    "purpose": "Saved DomainBigData bookmark for domain research; its specific searches and data coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "826": {
+    "purpose": "Saved Domain Codex search page; available domain fields and search coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "827": {
+    "purpose": "Saved DNSlytics bookmark for domain research; exact lookup features and historical coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "828": {
+    "purpose": "Saved SecurityTrails bookmark for infrastructure research; available DNS and domain-history features need verification.",
+    "basis": "Saved bookmark"
+  },
+  "829": {
+    "purpose": "Saved Shodan bookmark for internet-service research; current indexed fields, coverage, and search access are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "830": {
+    "purpose": "Saved Shodan InternetDB endpoint; its returned fields and update schedule need confirmation before use.",
+    "basis": "Saved bookmark"
+  },
+  "831": {
+    "purpose": "Saved GreyNoise visualization for network-activity research; specific classifications and observation coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "832": {
+    "purpose": "Saved FOFA infrastructure-search bookmark; the saved metadata does not establish its current search features.",
+    "basis": "Saved bookmark"
+  },
+  "833": {
+    "purpose": "Saved ZoomEye infrastructure-search bookmark; specific indexed information and search access are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "834": {
+    "purpose": "Saved Censys domain page for infrastructure research; current domain-search capabilities need confirmation.",
+    "basis": "Saved bookmark"
+  },
+  "835": {
+    "purpose": "Use the saved ViewDNS lookup site for domain research; available tools and historical coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "836": {
+    "purpose": "Read the Internet Census 2012 paper for historical observations about internet infrastructure.",
+    "basis": "Saved bookmark"
+  },
+  "837": {
+    "purpose": "Saved ONYPHE infrastructure-research service; the available metadata does not establish its specific search capabilities.",
+    "basis": "Saved bookmark"
+  },
+  "838": {
+    "purpose": "Check the network identity exposed by your browser using the saved IPLeak diagnostic page; functionality is unverified.",
+    "basis": "Saved bookmark"
+  },
+  "839": {
+    "purpose": "Search the saved Censys certificate index for domain references and certificate details.",
+    "basis": "Saved bookmark"
+  },
+  "840": {
+    "purpose": "Research IPv4-address observations through the saved Censys page; current interface and available fields are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "841": {
+    "purpose": "Use the saved ViewDNS lookup site for domain research; available tools and historical coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "842": {
+    "purpose": "Saved Robtex bookmark for network research; exact DNS, routing, and history features need verification.",
+    "basis": "Saved bookmark"
+  },
+  "843": {
+    "purpose": "Use a website-search helper to find public information about a site or domain.",
+    "basis": "Saved bookmark"
+  },
+  "844": {
+    "purpose": "Look up technologies associated with a website through the saved Wappalyzer page.",
+    "basis": "Saved bookmark"
+  },
+  "845": {
+    "purpose": "Saved Python package named photon; its precise function is unverified and should not be inferred from this category.",
+    "basis": "Saved bookmark"
+  },
+  "846": {
+    "purpose": "Look up software and services identified on a website to understand its technical setup.",
+    "basis": "Saved bookmark"
+  },
+  "847": {
+    "purpose": "Look up technologies detected on a website to compare its software and service choices.",
+    "basis": "Saved bookmark"
+  },
+  "848": {
+    "purpose": "Check network-service exposure on systems you are authorized to assess through a saved online Nmap interface.",
+    "basis": "Saved bookmark"
+  },
+  "849": {
+    "purpose": "Review network-service exposure on authorized systems using the saved Nmap checker interface.",
+    "basis": "Saved bookmark"
+  },
+  "850": {
+    "purpose": "Use a collection of online network utilities; specific available diagnostics need confirmation.",
+    "basis": "Saved bookmark"
+  },
+  "851": {
+    "purpose": "Search Google's certificate-transparency page for certificates that reference a domain.",
+    "basis": "Saved bookmark"
+  },
+  "852": {
+    "purpose": "Search publicly logged certificates for domain names and related certificate records.",
+    "basis": "Saved bookmark"
+  },
+  "853": {
+    "purpose": "Look up publicly logged certificates to find domain references and certificate issuance details.",
+    "basis": "Saved bookmark"
+  },
+  "854": {
+    "purpose": "Saved LeakIX infrastructure-search bookmark; its specific exposure categories and observation coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "855": {
+    "purpose": "Saved DomainWatch bookmark for domain research; the saved metadata does not establish its particular tools.",
+    "basis": "Saved bookmark"
+  },
+  "856": {
+    "purpose": "Inspect reports about a website's loading behavior and network requests through a URL-scanning service.",
+    "basis": "Saved bookmark"
+  },
+  "857": {
+    "purpose": "Look up DNS-related information to discover a domain's publicly visible technical relationships.",
+    "basis": "Saved bookmark"
+  },
+  "858": {
+    "purpose": "Saved Domain Codex search page; available domain fields and search coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "859": {
+    "purpose": "Saved SimilarWeb bookmark for website research; specific traffic measures and their collection methods need verification.",
+    "basis": "Saved bookmark"
+  },
+  "860": {
+    "purpose": "Saved Alexa website-information page; the bookmark does not establish whether this historical service remains available.",
+    "basis": "Saved bookmark"
+  },
+  "861": {
+    "purpose": "Open a saved website-information tool; its exact inputs, outputs, and current function are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "862": {
+    "purpose": "Look up an IP address in a network-reputation database to review recorded security observations.",
+    "basis": "Saved bookmark"
+  },
+  "863": {
+    "purpose": "Find domain names associated with a supplied search value; exact matching fields need confirmation.",
+    "basis": "Saved bookmark"
+  },
+  "864": {
+    "purpose": "Check an authorized server for the named POODLE encryption weakness through a saved diagnostic page.",
+    "basis": "Saved bookmark"
+  },
+  "865": {
+    "purpose": "Check an authorized server for the named Heartbleed weakness through a saved diagnostic page.",
+    "basis": "Saved bookmark"
+  },
+  "866": {
+    "purpose": "Look up earlier DNS observations to compare a domain's recorded technical changes.",
+    "basis": "Saved bookmark"
+  },
+  "867": {
+    "purpose": "Find publicly observable subdomains associated with a domain for an authorized website inventory.",
+    "basis": "Saved bookmark"
+  },
+  "868": {
+    "purpose": "Find domain names associated with an IP address; shared hosting alone does not establish common ownership.",
+    "basis": "Saved bookmark"
+  },
+  "869": {
+    "purpose": "Find websites with matching Google AdSense identifiers as leads for further website research.",
+    "basis": "Saved bookmark"
+  },
+  "870": {
+    "purpose": "Find websites with matching Google Analytics identifiers as leads for further website research.",
+    "basis": "Saved bookmark"
+  },
+  "871": {
+    "purpose": "Find domains using a particular mail-server record to compare their email infrastructure.",
+    "basis": "Saved bookmark"
+  },
+  "872": {
+    "purpose": "Estimate the geographic area associated with an IP address; this does not pinpoint an individual.",
+    "basis": "Saved bookmark"
+  },
+  "873": {
+    "purpose": "Look up top-level domains and their delegation records in IANA's root-zone database.",
+    "basis": "Saved bookmark"
+  },
+  "874": {
+    "purpose": "Saved Punkspider infrastructure-research bookmark; the saved metadata does not establish its specific scanning or search features.",
+    "basis": "Saved bookmark"
+  },
+  "875": {
+    "purpose": "Saved metabigor GitHub project; its particular infrastructure-research functions require verification in project documentation.",
+    "basis": "Saved bookmark"
+  },
+  "876": {
+    "purpose": "Saved Spyse infrastructure-research service; specific searches, data coverage, and current availability are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "877": {
+    "purpose": "Saved Netlas infrastructure-research service; the saved metadata does not establish its particular search features.",
+    "basis": "Saved bookmark"
+  },
+  "878": {
+    "purpose": "Saved Malpedia malware-reference bookmark; its particular catalog contents and search features have not been verified.",
+    "basis": "Saved bookmark"
+  },
+  "879": {
+    "purpose": "Observe suspicious software's behavior in an online analysis environment; review handling rules before submitting any file.",
+    "basis": "Saved bookmark"
+  },
+  "880": {
+    "purpose": "Review automated malware-analysis reports to understand reported file behavior and security indicators.",
+    "basis": "Saved bookmark"
+  },
+  "881": {
+    "purpose": "Compare antivirus and website-scanner findings for files or URLs to assess possible security concerns.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "VirusTotal — how it works",
+        "url": "https://docs.virustotal.com/docs/how-it-works",
+        "note": "Documents aggregation of antivirus and URL-scanner results, possible false positives, and sharing of submissions."
+      }
+    ],
+    "ratingNote": "B applies to aggregated security signals. Engines may disagree or produce false positives; a clean result is not a safety guarantee. Submitted content may be shared."
+  },
+  "882": {
+    "purpose": "Saved Maltiverse search page for threat research; its exact indicators and scoring method are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "883": {
+    "purpose": "Search a Google custom search for malware news and examine the underlying reports.",
+    "basis": "Saved bookmark"
+  },
+  "884": {
+    "purpose": "Browse shared threat information in AlienVault Open Threat Exchange; individual observations require source checking.",
+    "basis": "Saved bookmark"
+  },
+  "885": {
+    "purpose": "Compare malware-scanner results for a file using the saved Jotti service; handling rules need review.",
+    "basis": "Saved bookmark"
+  },
+  "886": {
+    "purpose": "Saved IObit Cloud file-security bookmark; the saved metadata does not establish its present analysis features.",
+    "basis": "Saved bookmark"
+  },
+  "887": {
+    "purpose": "Saved theZoo GitHub repository in a malware collection; precise contents and safe handling requirements are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "888": {
+    "purpose": "Saved VX-Underground malware-reference site; the bookmark does not establish the contents or safety of individual materials.",
+    "basis": "Saved bookmark"
+  },
+  "889": {
+    "purpose": "Browse the saved VX Heaven archive as historical malware-reference material; individual contents require separate review.",
+    "basis": "Saved bookmark"
+  },
+  "890": {
+    "purpose": "Browse the APTnotes data repository for published references about targeted cyberattack campaigns.",
+    "basis": "Saved bookmark"
+  },
+  "891": {
+    "purpose": "Find published security research papers in the saved Exploit Database papers repository.",
+    "basis": "Saved bookmark"
+  },
+  "892": {
+    "purpose": "Saved Exploit Database binary-material repository; individual contents and their research purpose require separate review.",
+    "basis": "Saved bookmark"
+  },
+  "893": {
+    "purpose": "Search a Google custom search for webcam pages and inspect each publisher's context.",
+    "basis": "Saved bookmark"
+  },
+  "894": {
+    "purpose": "Saved Insecam webcam directory; camera ownership, consent, and the status of individual feeds are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "895": {
+    "purpose": "Saved Camhacker webcam site; its specific function and authorization of listed feeds are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "896": {
+    "purpose": "Find publicly presented webcam views of places to inspect visible conditions and landmarks.",
+    "basis": "Saved bookmark"
+  },
+  "897": {
+    "purpose": "Find airport webcam pages to view publicly presented airport scenes and conditions.",
+    "basis": "Saved bookmark"
+  },
+  "898": {
+    "purpose": "Browse a webcam directory to locate publicly presented views of particular places.",
+    "basis": "Saved bookmark"
+  },
+  "899": {
+    "purpose": "Look up manufacturer default router-login information for equipment you own or are authorized to administer.",
+    "basis": "Saved bookmark"
+  },
+  "900": {
+    "purpose": "Find bar and pub webcam pages to view publicly presented venue scenes.",
+    "basis": "Saved bookmark"
+  },
+  "901": {
+    "purpose": "Browse webcam images from locations abroad to compare visible scenes and conditions.",
+    "basis": "Saved bookmark"
+  },
+  "902": {
+    "purpose": "Find live webcam pages by location through the saved Whatsupcams site.",
+    "basis": "Saved bookmark"
+  },
+  "903": {
+    "purpose": "Browse city webcam pages to inspect publicly presented streetscapes and local conditions.",
+    "basis": "Saved bookmark"
+  },
+  "904": {
+    "purpose": "Saved Thingful internet-device research bookmark; the saved metadata does not establish its specific lookup functions.",
+    "basis": "Saved bookmark"
+  },
+  "905": {
+    "purpose": "Find webcam views from around the world through a saved directory.",
+    "basis": "Saved bookmark"
+  },
+  "906": {
+    "purpose": "Browse listed live-camera views to inspect publicly presented scenes at particular locations.",
+    "basis": "Saved bookmark"
+  },
+  "907": {
+    "purpose": "Find location-based webcam views through the saved Webcamtaxi directory.",
+    "basis": "Saved bookmark"
+  },
+  "908": {
+    "purpose": "Saved Explorecams bookmark; its particular camera-related function is unverified from the available metadata.",
+    "basis": "Saved bookmark"
+  },
+  "909": {
+    "purpose": "Saved C4-cams page; the bookmark does not establish its function or who authorizes any camera access.",
+    "basis": "Saved bookmark"
+  },
+  "910": {
+    "purpose": "Browse a saved directory of Nest camera pages; consent and availability of individual feeds are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "911": {
+    "purpose": "Saved Opentopia camera-related bookmark; specific features and authorization of individual feeds are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "912": {
+    "purpose": "Browse the saved WorldCam site for webcam-location leads; individual feed details need verification.",
+    "basis": "Saved bookmark"
+  },
+  "913": {
+    "purpose": "View Hawaii traffic-camera information to inspect publicly shown road conditions.",
+    "basis": "Saved bookmark"
+  },
+  "914": {
+    "purpose": "View Honolulu traffic-camera information to inspect publicly shown road conditions.",
+    "basis": "Saved bookmark"
+  },
+  "915": {
+    "purpose": "Open a Lake County fire-camera map to inspect publicly presented landscape views.",
+    "basis": "Saved bookmark"
+  },
+  "916": {
+    "purpose": "Open a Virginia transportation traffic-camera dashboard to inspect publicly presented road conditions.",
+    "basis": "Saved bookmark"
+  },
+  "917": {
+    "purpose": "Open the saved Lubbock traffic-camera map to view publicly presented road scenes.",
+    "basis": "Saved bookmark"
+  },
+  "918": {
+    "purpose": "Open a Hong Kong traffic-data and camera dashboard to inspect reported road conditions.",
+    "basis": "Saved bookmark"
+  },
+  "919": {
+    "purpose": "Open the saved Baton Rouge traffic-camera map to view publicly presented road scenes.",
+    "basis": "Saved bookmark"
+  },
+  "920": {
+    "purpose": "Saved Surveillance under Surveillance project; its exact map content and collection method are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "921": {
+    "purpose": "Browse a map of Ukraine webcam links; feed timing, ownership, and availability require verification.",
+    "basis": "Saved bookmark"
+  },
+  "922": {
+    "purpose": "Saved Fisgonia camera-related bookmark; its specific function is not established by the available metadata.",
+    "basis": "Saved bookmark"
+  },
+  "923": {
+    "purpose": "Search places and inspect maps, routes, and available imagery for geographic context.",
+    "basis": "Saved bookmark"
+  },
+  "924": {
+    "purpose": "Search locations and compare maps, route information, and available imagery for geographic context.",
+    "basis": "Saved bookmark"
+  },
+  "925": {
+    "purpose": "Search places on Yandex Maps to inspect mapped locations and surrounding geographic context.",
+    "basis": "Saved bookmark"
+  },
+  "926": {
+    "purpose": "Generate a simulated landscape panorama to compare a viewpoint with visible terrain.",
+    "basis": "Saved bookmark"
+  },
+  "927": {
+    "purpose": "Explore mapped street-level imagery to compare roads, buildings, and visible landmarks.",
+    "basis": "Saved bookmark"
+  },
+  "928": {
+    "purpose": "Saved Geonarra map-related bookmark; the available metadata does not establish its specific function.",
+    "basis": "Saved bookmark"
+  },
+  "929": {
+    "purpose": "View the Waze live map for routes and reported traffic conditions.",
+    "basis": "Saved bookmark"
+  },
+  "930": {
+    "purpose": "Search Baidu Maps for places and surrounding geographic context, especially Chinese-language locations.",
+    "basis": "Saved bookmark"
+  },
+  "931": {
+    "purpose": "Discover imagery through the saved DigitalGlobe portal; image availability, dates, and current access need verification.",
+    "basis": "Saved bookmark"
+  },
+  "932": {
+    "purpose": "Search addresses and places or plan routes using the saved MapQuest map.",
+    "basis": "Saved bookmark"
+  },
+  "933": {
+    "purpose": "Explore community-maintained roads, paths, landmarks, and place names for geographic context.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "OpenStreetMap — about the project",
+        "url": "https://www.openstreetmap.org/about",
+        "note": "Describes map data maintained by community contributors using imagery, GPS, and local knowledge."
+      }
+    ],
+    "ratingNote": "B supports geographic context from community-maintained data. Verify current conditions and individual map features when precision matters."
+  },
+  "934": {
+    "purpose": "Open the saved Descartes Labs mapping site; available imagery and analysis features are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "935": {
+    "purpose": "View an ArcGIS wildfire map to inspect the geographic distribution of its published fire information.",
+    "basis": "Saved bookmark"
+  },
+  "936": {
+    "purpose": "Browse ArcGIS's geographic-data catalog to find map layers relevant to a place or topic.",
+    "basis": "Saved bookmark"
+  },
+  "937": {
+    "purpose": "Open NASA's FIRMS fire map to inspect reported satellite fire observations by location.",
+    "basis": "Saved bookmark"
+  },
+  "938": {
+    "purpose": "Review the saved Johns Hopkins COVID-19 map as a historical geographic health-data resource.",
+    "basis": "Saved bookmark"
+  },
+  "939": {
+    "purpose": "Inspect mapped reports about events in Ukraine; follow source links and distinguish reports from confirmed events.",
+    "basis": "Saved bookmark"
+  },
+  "940": {
+    "purpose": "Compare mapped locations and available satellite imagery through the saved Satellites.pro site.",
+    "basis": "Saved bookmark"
+  },
+  "941": {
+    "purpose": "Review a community-created map of reported military-base locations; authorship, dates, and individual claims need verification.",
+    "basis": "Saved bookmark"
+  },
+  "942": {
+    "purpose": "Explore map annotations about places and landmarks; individual contributions require corroboration.",
+    "basis": "Saved bookmark"
+  },
+  "943": {
+    "purpose": "Inspect geographically organized reports about the Syrian conflict and review their underlying sources.",
+    "basis": "Saved bookmark"
+  },
+  "944": {
+    "purpose": "Find radio stations by place to explore broadcasts from different regions.",
+    "basis": "Saved bookmark"
+  },
+  "945": {
+    "purpose": "Find publicly presented webcam views on Windy's map to inspect visible local conditions.",
+    "basis": "Saved bookmark"
+  },
+  "946": {
+    "purpose": "Create or edit GPX route files to organize geographic tracks and waypoints.",
+    "basis": "Saved bookmark"
+  },
+  "947": {
+    "purpose": "Saved OALLEY map application; the available metadata does not establish its particular mapping tools.",
+    "basis": "Saved bookmark"
+  },
+  "948": {
+    "purpose": "Browse geographic-programming demonstrations saved under the fgdc_gp_demos JSFiddle account.",
+    "basis": "Saved bookmark"
+  },
+  "949": {
+    "purpose": "Explore the saved KartaView map for street-level imagery; image dates and coverage need verification.",
+    "basis": "Saved bookmark"
+  },
+  "950": {
+    "purpose": "Search a Google custom search for Google Maps pages and inspect the original map details.",
+    "basis": "Saved bookmark"
+  },
+  "951": {
+    "purpose": "View a dashboard of U.S. power-plant locations and inspect its published geographic information.",
+    "basis": "Saved bookmark"
+  },
+  "952": {
+    "purpose": "View a map of UK onshore oil and gas activity to understand the locations shown.",
+    "basis": "Saved bookmark"
+  },
+  "953": {
+    "purpose": "Check the saved Walmart store-status dashboard for reported store availability; update timing needs verification.",
+    "basis": "Saved bookmark"
+  },
+  "954": {
+    "purpose": "Inspect mapped MODIS wildfire observations in a saved dashboard; confirm observation dates and publisher.",
+    "basis": "Saved bookmark"
+  },
+  "955": {
+    "purpose": "View the saved earthquake dashboard to inspect reported events and their locations.",
+    "basis": "Saved bookmark"
+  },
+  "956": {
+    "purpose": "Read published incident updates and mapped information through the saved InciWeb portal.",
+    "basis": "Saved bookmark"
+  },
+  "957": {
+    "purpose": "Explore the saved Earth globe visualization; the bookmark does not establish its displayed variables or update schedule.",
+    "basis": "Saved bookmark"
+  },
+  "958": {
+    "purpose": "View a custom map of reported U.S. labor strikes and inspect the sources behind its entries.",
+    "basis": "Saved bookmark"
+  },
+  "959": {
+    "purpose": "Saved custom map titled Active Agency Map; the agencies, subject, and data provenance are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "960": {
+    "purpose": "Saved map labeled Ontario GiveSendGo donors; its data origin and accuracy are unverified, and mapped identities should not be assumed.",
+    "basis": "Saved bookmark"
+  },
+  "961": {
+    "purpose": "Saved Live-action-map bookmark; the available metadata does not establish what events the map represents.",
+    "basis": "Saved bookmark"
+  },
+  "962": {
+    "purpose": "Browse a curated list of Ukraine maps, mapping communities, and map-making tools.",
+    "basis": "Saved bookmark"
+  },
+  "963": {
+    "purpose": "Saved Dopomoha page in the map collection; its specific assistance or mapping function is unverified.",
+    "basis": "Saved bookmark"
+  },
+  "964": {
+    "purpose": "Browse a map of Ukraine webcam links; feed timing, ownership, and availability require verification.",
+    "basis": "Saved bookmark"
+  },
+  "965": {
+    "purpose": "View a Ukraine-war heatmap; inspect its data sources and dates before interpreting concentrations.",
+    "basis": "Saved bookmark"
+  },
+  "966": {
+    "purpose": "View the displayed positions of London Underground trains on a map; timing and position estimates need checking.",
+    "basis": "Saved bookmark"
+  },
+  "967": {
+    "purpose": "Saved Livecorona map-related site; its geographic coverage, health measures, and dates are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "968": {
+    "purpose": "Find London traffic-camera views through the saved TfL JamCams site.",
+    "basis": "Saved bookmark"
+  },
+  "969": {
+    "purpose": "Open a saved Cesium geographic story; the bookmark does not identify the story's subject or sources.",
+    "basis": "Saved bookmark"
+  },
+  "970": {
+    "purpose": "Browse a saved GEOINT resource collection to discover mapping and geographic-research tools.",
+    "basis": "Saved bookmark"
+  },
+  "971": {
+    "purpose": "Look up geographic names to help identify and distinguish similarly named places.",
+    "basis": "Saved bookmark"
+  },
+  "972": {
+    "purpose": "Saved GeoSeer geographic-search bookmark; specific indexed datasets and search features require verification.",
+    "basis": "Saved bookmark"
+  },
+  "973": {
+    "purpose": "Search a Google custom search for geographic-intelligence resources and inspect the underlying sources.",
+    "basis": "Saved bookmark"
+  },
+  "974": {
+    "purpose": "Estimate an IP address's geographic area using the saved GeoIP tool; this does not locate a person precisely.",
+    "basis": "Saved bookmark"
+  },
+  "975": {
+    "purpose": "Browse Google Earth Engine's dataset catalog to find imagery and environmental data for geographic analysis.",
+    "basis": "Saved bookmark"
+  },
+  "976": {
+    "purpose": "Discover geographic datasets and mapping resources through the U.S. GeoPlatform portal.",
+    "basis": "Saved bookmark"
+  },
+  "977": {
+    "purpose": "Browse the saved INSPIRE geographic-data portal for European spatial-data resources.",
+    "basis": "Saved bookmark"
+  },
+  "978": {
+    "purpose": "Search FAO's map catalog for geographic datasets relevant to food, agriculture, and related topics.",
+    "basis": "Saved bookmark"
+  },
+  "979": {
+    "purpose": "Open UNEP/GRID's saved geographic-data catalog; available collections and access methods need verification.",
+    "basis": "Saved bookmark"
+  },
+  "980": {
+    "purpose": "Search ISRIC's data catalog for soil-related geographic datasets and their documentation.",
+    "basis": "Saved bookmark"
+  },
+  "981": {
+    "purpose": "Saved geocreepy geographic-research tool; its specific features and data sources are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "982": {
+    "purpose": "Review the saved U.S. Crisis Monitor project for geographically organized political-event research.",
+    "basis": "Saved bookmark"
+  },
+  "983": {
+    "purpose": "Open the saved Toronto Live map; its displayed topics and update frequency are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "984": {
+    "purpose": "Review a dashboard of reported residential fire fatalities in Indiana, including its source and date limits.",
+    "basis": "Saved bookmark"
+  },
+  "985": {
+    "purpose": "Inspect the geoprotests API listing for protest-related geographic data; field definitions and coverage require verification.",
+    "basis": "Saved bookmark"
+  },
+  "986": {
+    "purpose": "Browse Python examples implementing geographic-intelligence workflows and inspect their documented data requirements.",
+    "basis": "Saved bookmark"
+  },
+  "987": {
+    "purpose": "Inspect the geoclustering Python package listing; its clustering methods and expected inputs are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "988": {
+    "purpose": "Set up cryptocurrency-related alerts through the saved service; supported alert types need verification.",
+    "basis": "Saved bookmark"
+  },
+  "989": {
+    "purpose": "Inspect Bitcoin blocks, transactions, and address activity to follow publicly recorded transfers.",
+    "basis": "Saved bookmark"
+  },
+  "990": {
+    "purpose": "Inspect Ethereum transactions, addresses, and contracts to follow publicly recorded blockchain activity.",
+    "basis": "Saved bookmark"
+  },
+  "991": {
+    "purpose": "Saved Flowscan blockchain-explorer bookmark; the supported chain and specific record types need verification.",
+    "basis": "Saved bookmark"
+  },
+  "992": {
+    "purpose": "Search a Google custom search for Bitcoin-forum discussions and inspect the original posts.",
+    "basis": "Saved bookmark"
+  },
+  "993": {
+    "purpose": "Inspect publicly recorded blockchain transactions and blocks through the saved explorer.",
+    "basis": "Saved bookmark"
+  },
+  "994": {
+    "purpose": "Open BlockCypher's saved blockchain explorer; supported networks and available record types need verification.",
+    "basis": "Saved bookmark"
+  },
+  "995": {
+    "purpose": "Saved Addresschecker cryptocurrency-related tool; its exact checks and supported address types are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "996": {
+    "purpose": "Saved Coinwink cryptocurrency-related service; the bookmark does not establish its particular alert or tracking features.",
+    "basis": "Saved bookmark"
+  },
+  "997": {
+    "purpose": "Use a cryptocurrency-search helper to locate public blockchain and related research resources.",
+    "basis": "Saved bookmark"
+  },
+  "998": {
+    "purpose": "Browse a collection of cryptocurrency research tools and choose sources suited to the relevant blockchain.",
+    "basis": "Saved bookmark"
+  },
+  "999": {
+    "purpose": "Saved Dark Tracer research service; its specific monitoring features and underlying data sources are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1000": {
+    "purpose": "Review a ransomware-monitoring index as leads about reported extortion activity; individual attacker claims need corroboration.",
+    "basis": "Saved bookmark"
+  },
+  "1001": {
+    "purpose": "Read a reference list about ransomware websites for research context; listed claims and availability require separate verification.",
+    "basis": "Saved bookmark"
+  },
+  "1002": {
+    "purpose": "Search indexed Tor hidden-service pages to discover publicly listed sources for further review.",
+    "basis": "Saved bookmark"
+  },
+  "1003": {
+    "purpose": "Search an index of onion-site pages; individual sources and their claims require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1004": {
+    "purpose": "Inspect the onionsearch Python package for searching onion-site indexes; exact behavior and maintenance need verification.",
+    "basis": "Saved bookmark"
+  },
+  "1005": {
+    "purpose": "Access publicly listed onion-service pages through a web gateway; the gateway does not establish source authenticity.",
+    "basis": "Saved bookmark"
+  },
+  "1006": {
+    "purpose": "Saved directory labeled ransomware group sites; contents and attribution are unverified and may contain attacker claims.",
+    "basis": "Saved bookmark"
+  },
+  "1007": {
+    "purpose": "Saved Blockpath bookmark in the hidden-service collection; its actual function is not established by this metadata.",
+    "basis": "Saved bookmark"
+  },
+  "1008": {
+    "purpose": "Saved LinkBaseORG bookmark; the available metadata does not establish the subjects or provenance of its links.",
+    "basis": "Saved bookmark"
+  },
+  "1009": {
+    "purpose": "Browse Darknetlive's onion-site directory as source-discovery leads; listings do not establish legitimacy.",
+    "basis": "Saved bookmark"
+  },
+  "1010": {
+    "purpose": "Read Darknetlive's market directory for research context; listings do not establish safety or legitimacy.",
+    "basis": "Saved bookmark"
+  },
+  "1011": {
+    "purpose": "Browse a directory of dark-web forums as research leads; individual sources require separate evaluation.",
+    "basis": "Saved bookmark"
+  },
+  "1012": {
+    "purpose": "Saved search engine labeled Raklet; its indexed content, provenance, and current availability are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1013": {
+    "purpose": "Inspect Learn Me a Bitcoin's saved path tool; its exact input and purpose require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1014": {
+    "purpose": "Check claimed exposure in breach collections through the saved BreachDirectory service; provenance and coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1015": {
+    "purpose": "Check whether an email address appears in HIBP's indexed breach collections to understand possible past exposure.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Have I Been Pwned — frequently asked questions",
+        "url": "https://haveibeenpwned.com/FAQs",
+        "note": "Explains breach provenance, unverified and fabricated labels, sensitive records, and incomplete coverage."
+      }
+    ],
+    "ratingNote": "B applies to appearance in HIBP's indexed collections. A match does not prove account ownership or current compromise; no match does not prove no exposure. Inspect the breach's status."
+  },
+  "1016": {
+    "purpose": "Saved DeepSearch page in the leak collection; its specific search function and data provenance are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1017": {
+    "purpose": "Check claimed personal-data exposure through Cybernews' saved checker; collection coverage and matching accuracy need verification.",
+    "basis": "Saved bookmark"
+  },
+  "1018": {
+    "purpose": "Saved Intelligence X exposure-research search service; its specific indexed collections and access rules need verification.",
+    "basis": "Saved bookmark"
+  },
+  "1019": {
+    "purpose": "Browse DDoSecrets' collection descriptions to understand what material an archive claims to contain.",
+    "basis": "Saved bookmark"
+  },
+  "1020": {
+    "purpose": "Saved Scylla exposure-data bookmark; its current function and underlying data sources are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1021": {
+    "purpose": "Saved leaked-password checking service; its exact method and data handling are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1022": {
+    "purpose": "Search DeHashed's claimed exposure records to investigate possible credential leaks affecting authorized accounts.",
+    "basis": "Saved bookmark"
+  },
+  "1023": {
+    "purpose": "Saved Snusbase exposure-data service; its specific collections, matching rules, and provenance are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1024": {
+    "purpose": "Saved Leaked.site exposure-data bookmark; its function and the authenticity of its material are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1025": {
+    "purpose": "Saved checker claiming to match emails to the Ashley Madison leak; neither identity nor account ownership follows from a match.",
+    "basis": "Saved bookmark"
+  },
+  "1026": {
+    "purpose": "Saved Ashley Madison leak-search page; claimed matches require provenance checks and do not establish account ownership.",
+    "basis": "Saved bookmark"
+  },
+  "1027": {
+    "purpose": "Browse the saved Sony email archive by document context; individual messages require authenticity and date checks.",
+    "basis": "Saved bookmark"
+  },
+  "1028": {
+    "purpose": "Saved qoob dataset collection; subjects, provenance, and permitted uses are unverified from the bookmark.",
+    "basis": "Saved bookmark"
+  },
+  "1029": {
+    "purpose": "Check claimed appearance in a Facebook breach dataset; an apparent match does not establish current account ownership.",
+    "basis": "Saved bookmark"
+  },
+  "1030": {
+    "purpose": "Read a guide to discovering U.S. voter-record websites through custom search engines.",
+    "basis": "Saved bookmark"
+  },
+  "1031": {
+    "purpose": "Search a saved Washington voter-data copy; confirm record dates and identities with appropriate official sources.",
+    "basis": "Saved bookmark"
+  },
+  "1032": {
+    "purpose": "Search a saved Arkansas voter-data website; record dates, provenance, and identity matches require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1033": {
+    "purpose": "Search a saved Colorado voter-data website; record dates, provenance, and identity matches require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1034": {
+    "purpose": "Search a saved Delaware voter-data website; record dates, provenance, and identity matches require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1035": {
+    "purpose": "Search a saved Florida voter-data website; record dates, provenance, and identity matches require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1036": {
+    "purpose": "Search a saved Georgia voter-data website; record dates, provenance, and identity matches require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1037": {
+    "purpose": "Search a saved Connecticut voter-data website; record dates, provenance, and identity matches require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1038": {
+    "purpose": "Search a saved Michigan voter-data website; record dates, provenance, and identity matches require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1039": {
+    "purpose": "Search a saved Ohio voter-data website; record dates, provenance, and identity matches require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1040": {
+    "purpose": "Search a saved Oklahoma voter-data website; record dates, provenance, and identity matches require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1041": {
+    "purpose": "Search a saved Rhode Island voter-data website; record dates, provenance, and identity matches require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1042": {
+    "purpose": "Search a saved Wisconsin voter-data website; record dates, provenance, and identity matches require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1043": {
+    "purpose": "Search a saved Utah voter-data website; record dates, provenance, and identity matches require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1044": {
+    "purpose": "Search the saved Oklahoma voter-record lookup; validate dates and identity matches against source records.",
+    "basis": "Saved bookmark"
+  },
+  "1045": {
+    "purpose": "Use a saved New Jersey voter-record lookup; an apparent match does not establish current residence.",
+    "basis": "Saved bookmark"
+  },
+  "1046": {
+    "purpose": "Use a saved New York voter-record lookup; an apparent match does not establish current residence.",
+    "basis": "Saved bookmark"
+  },
+  "1047": {
+    "purpose": "Search Unicorn Riot's archived Discord messages for reported discussions; account attribution and context require independent checking.",
+    "basis": "Saved bookmark"
+  },
+  "1048": {
+    "purpose": "Search DDoSecrets' indexed collection material; evaluate each collection's provenance and individual claims separately.",
+    "basis": "Saved bookmark"
+  },
+  "1049": {
+    "purpose": "Search archived Parler material for research context; timestamps, completeness, and account attribution need verification.",
+    "basis": "Saved bookmark"
+  },
+  "1050": {
+    "purpose": "Review ProPublica's collection of Parler videos associated with the Capitol events; assess each video's context and location.",
+    "basis": "Saved bookmark"
+  },
+  "1051": {
+    "purpose": "Saved Project Whispers archive; its contents, provenance, and attribution methods are unverified from the bookmark.",
+    "basis": "Saved bookmark"
+  },
+  "1052": {
+    "purpose": "Search indexed 4chan posts for discussion references; anonymous posts are claims requiring corroboration.",
+    "basis": "Saved bookmark"
+  },
+  "1053": {
+    "purpose": "Browse the saved archived.moe discussion archive; verify board coverage, timestamps, and surrounding thread context.",
+    "basis": "Saved bookmark"
+  },
+  "1054": {
+    "purpose": "Search archived QResearch board discussions; anonymous allegations and account identities require independent verification.",
+    "basis": "Saved bookmark"
+  },
+  "1055": {
+    "purpose": "Read SPLC's profiles of people it classifies as extremists, including its stated evidence and definitions.",
+    "basis": "Saved bookmark"
+  },
+  "1056": {
+    "purpose": "Read SPLC's profiles of groups it classifies as extremist, including the evidence behind each classification.",
+    "basis": "Saved bookmark"
+  },
+  "1057": {
+    "purpose": "Saved site claiming a database of suspected terrorists; provenance, identities, and allegations are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1058": {
+    "purpose": "Saved site claiming access to a no-fly list; official status, dates, and identity matches are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1059": {
+    "purpose": "Search RAND's saved terrorism-incident database for event research; definitions and coverage dates need checking.",
+    "basis": "Saved bookmark"
+  },
+  "1060": {
+    "purpose": "Access the Global Terrorism Database for research on recorded incidents, using its definitions and coverage limits.",
+    "basis": "Saved bookmark"
+  },
+  "1061": {
+    "purpose": "Search current OFAC sanctions lists for potential name matches and compare the identifying details.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "OFAC — how to search sanctions lists",
+        "url": "https://ofac.treasury.gov/faqs/topic/1636",
+        "note": "Explains name-similarity scoring, current-list coverage, and the absence of removed historical entries."
+      }
+    ],
+    "ratingNote": "A supports official list provenance. The match score measures name similarity, not certainty of identity. Compare identifiers and the current entry; the search omits removed historical entries."
+  },
+  "1062": {
+    "purpose": "Search an archive of Donald Trump's posts to locate public statements and inspect recorded dates.",
+    "basis": "Saved bookmark"
+  },
+  "1063": {
+    "purpose": "Search a Google custom search for OFAC-related pages; verify any apparent match directly with OFAC.",
+    "basis": "Saved bookmark"
+  },
+  "1064": {
+    "purpose": "Review InformNapalm's database of claims about Russian military activity and examine the evidence behind each entry.",
+    "basis": "Saved bookmark"
+  },
+  "1065": {
+    "purpose": "Saved gogettr Python package; its particular function is unverified from the bookmark metadata.",
+    "basis": "Saved bookmark"
+  },
+  "1066": {
+    "purpose": "Inspect a Python client library for the GETTR API and its documented methods.",
+    "basis": "Saved bookmark"
+  },
+  "1067": {
+    "purpose": "Search a Google custom search for FBI wanted notices; verify the current notice on the FBI website.",
+    "basis": "Saved bookmark"
+  },
+  "1068": {
+    "purpose": "Search a Google custom search for INTERPOL wanted notices; verify current details with INTERPOL.",
+    "basis": "Saved bookmark"
+  },
+  "1069": {
+    "purpose": "Search a Google custom search for Europol wanted notices; verify details with the issuing authority.",
+    "basis": "Saved bookmark"
+  },
+  "1070": {
+    "purpose": "Saved Ironmarch.exposed archive; collection authenticity, account attribution, and current search function are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1071": {
+    "purpose": "Saved Greylist Trace business-research service; the available metadata does not establish its specific checks or evidence.",
+    "basis": "Saved bookmark"
+  },
+  "1072": {
+    "purpose": "Inspect an open-source market-analysis environment and the services it combines for research.",
+    "basis": "Saved bookmark"
+  },
+  "1073": {
+    "purpose": "Saved Tradint business-research tool; its specific datasets and analysis functions require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1074": {
+    "purpose": "Saved CoVi Analytics service; the available metadata does not establish which business or regulatory questions it addresses.",
+    "basis": "Saved bookmark"
+  },
+  "1075": {
+    "purpose": "Explore a saved PPP loan-data site; its dataset dates and source records require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1076": {
+    "purpose": "Search a PPP loan directory for organization records and compare them with the underlying SBA data.",
+    "basis": "Saved bookmark"
+  },
+  "1077": {
+    "purpose": "Look up Montréal Exchange trading quotes for a chosen symbol; quote timing and coverage need checking.",
+    "basis": "Saved bookmark"
+  },
+  "1078": {
+    "purpose": "Find companies listed on the Toronto Stock Exchange through its saved company directory.",
+    "basis": "Saved bookmark"
+  },
+  "1079": {
+    "purpose": "Search the saved SEDAR page for investment-fund filings; check the current filing platform and document dates.",
+    "basis": "Saved bookmark"
+  },
+  "1080": {
+    "purpose": "Search a Google custom search for companies and organizations, then verify details in source records.",
+    "basis": "Saved bookmark"
+  },
+  "1081": {
+    "purpose": "Saved WhaleSlide bookmark in the organization collection; its specific search function is unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1082": {
+    "purpose": "Find business-professional directory entries as leads for verifying a person's organizational role.",
+    "basis": "Saved bookmark"
+  },
+  "1083": {
+    "purpose": "Explore company and officer connections reported by Corporation Wiki; verify relationships against dated filing records.",
+    "basis": "Saved bookmark"
+  },
+  "1084": {
+    "purpose": "Explore a visualization of Pennsylvania PPP loan records; publisher, source dates, and completeness require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1085": {
+    "purpose": "Search the saved Michigan PPP loan table and compare records with the underlying SBA data.",
+    "basis": "Saved bookmark"
+  },
+  "1086": {
+    "purpose": "Find UK company registrations and filed documents through Companies House's official services.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Companies House — about us",
+        "url": "https://www.gov.uk/government/organisations/companies-house/about",
+        "note": "Identifies Companies House as the UK company register and explains examination and publication of company information."
+      }
+    ],
+    "ratingNote": "A supports official filing provenance. A filed statement must still be read in its dated context; registration alone does not establish business conduct or every claimed relationship."
+  },
+  "1087": {
+    "purpose": "Find business listings and contact leads in Brownbook, then confirm details with the business or original records.",
+    "basis": "Saved bookmark"
+  },
+  "1088": {
+    "purpose": "Find Russian company listings through list-org and check identifiers against official company records.",
+    "basis": "Saved bookmark"
+  },
+  "1089": {
+    "purpose": "Find company records across jurisdictions and follow their source links and retrieval dates.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "OpenCorporates — API reference and provenance model",
+        "url": "https://api.opencorporates.com/documentation/API-Reference",
+        "note": "Documents original source links, retrieval timestamps, company identifiers, and distinctions between source data and inferred links."
+      }
+    ],
+    "ratingNote": "B supports source-linked company discovery. Follow provenance and retrieval dates; some relationships are reconciled or inferred, and a missing inactive flag does not establish that a company is active."
+  },
+  "1090": {
+    "purpose": "Explore historical connections among offshore entities, officers, and intermediaries in ICIJ's assembled records.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "ICIJ — about the Offshore Leaks Database",
+        "url": "https://offshoreleaks.icij.org/pages/about",
+        "note": "Explains the contributing leaks, possible duplicates, historical coverage, and legitimate uses of offshore entities."
+      }
+    ],
+    "ratingNote": "B supports historical record connections. Duplicate names and entities may occur; confirm identities and dates. Inclusion in offshore records does not itself establish unlawful activity."
+  },
+  "1091": {
+    "purpose": "Find Texas tax resources and look up a business's franchise-tax account status through the Comptroller.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Texas Comptroller — franchise-tax account status search",
+        "url": "https://comptroller.texas.gov/taxes/franchise/account-status/",
+        "note": "Provides official searches by taxpayer number, entity name, or Secretary of State file number."
+      }
+    ],
+    "ratingNote": "A supports the Comptroller's tax-account record. Confirm the entity using its identifiers; account status does not establish every business relationship or beneficial owner."
+  },
+  "1092": {
+    "purpose": "Use a company-search helper to build searches for public organization information.",
+    "basis": "Saved bookmark"
+  },
+  "1093": {
+    "purpose": "Find local service-provider referral leads through the saved XRefer site.",
+    "basis": "Saved bookmark"
+  },
+  "1094": {
+    "purpose": "Saved TTABcenter bookmark; its specific business-record search function is unverified from the available metadata.",
+    "basis": "Saved bookmark"
+  },
+  "1095": {
+    "purpose": "Browse First Round's saved editorial search for articles and advice about building companies.",
+    "basis": "Saved bookmark"
+  },
+  "1096": {
+    "purpose": "Find startup-related leads through the saved Findingstartups site; specific fields and coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1097": {
+    "purpose": "Track or discover startup-related information through the saved Startup Tracker site; particular features need verification.",
+    "basis": "Saved bookmark"
+  },
+  "1098": {
+    "purpose": "Search a saved shop-search website for retail-business leads; indexed coverage and current function are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1099": {
+    "purpose": "Explore a saved COVID bailout tracker; included programs, data sources, and record dates require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1100": {
+    "purpose": "Search lender-approved PPP loans disclosed by the SBA and organized by ProPublica.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "ProPublica — Tracking PPP and data notes",
+        "url": "https://projects.propublica.org/coronavirus/bailouts/",
+        "note": "Identifies SBA-disclosed lender-approved loans as the source and states a June 1, 2021 approval-data cutoff."
+      }
+    ],
+    "ratingNote": "B supports discovery of archived SBA loan records. The page was updated in October 2024 but describes approved loans as of June 1, 2021. A listing does not establish wrongdoing."
+  },
+  "1101": {
+    "purpose": "Look up reported restaurant health violations in Los Angeles County; confirm inspection dates and final records.",
+    "basis": "Saved bookmark"
+  },
+  "1102": {
+    "purpose": "Look up Kansas restaurant inspection records to review reported findings and inspection dates.",
+    "basis": "Saved bookmark"
+  },
+  "1103": {
+    "purpose": "Look up Lexington-Fayette County restaurant inspections and distinguish dated findings from current conditions.",
+    "basis": "Saved bookmark"
+  },
+  "1104": {
+    "purpose": "Explore a saved Florida energy-sector political-money database; sources, reporting periods, and categories require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1105": {
+    "purpose": "Saved table labeled ValidFleetList, possibly about sailboats; its subject, publisher, and fields are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1106": {
+    "purpose": "View saved Viking Rifle Series competition results; event date and update status need checking.",
+    "basis": "Saved bookmark"
+  },
+  "1107": {
+    "purpose": "Find public and contributed police-officer directory information, then verify identity and current agency affiliation.",
+    "basis": "Saved bookmark"
+  },
+  "1108": {
+    "purpose": "Search a news publisher's police criminal-case database; distinguish accusations, charges, and court outcomes.",
+    "basis": "Saved bookmark"
+  },
+  "1109": {
+    "purpose": "Explore the saved Philadelphia police-misconduct table; read individual case findings and source dates before drawing conclusions.",
+    "basis": "Saved bookmark"
+  },
+  "1110": {
+    "purpose": "Review NYPD complaint records organized by NYCLU and distinguish allegations from investigation outcomes.",
+    "basis": "Saved bookmark"
+  },
+  "1111": {
+    "purpose": "Find an officer profile through the saved NYPD portal and inspect the information's date and scope.",
+    "basis": "Saved bookmark"
+  },
+  "1112": {
+    "purpose": "Review a Maine law-enforcement discipline chart; identify the underlying agency records and covered dates.",
+    "basis": "Saved bookmark"
+  },
+  "1113": {
+    "purpose": "Explore ABC15's saved Arizona law-enforcement database; verify each case's source records and disposition.",
+    "basis": "Saved bookmark"
+  },
+  "1114": {
+    "purpose": "Look up police complaints through the saved community site; claims and outcomes require separate checking.",
+    "basis": "Saved bookmark"
+  },
+  "1115": {
+    "purpose": "Search Boston police internal-affairs records covering 2010–2020 and compare allegations with recorded dispositions.",
+    "basis": "Saved bookmark"
+  },
+  "1116": {
+    "purpose": "Search a saved police-decertification table; issuing jurisdictions, dates, and final certification decisions require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1117": {
+    "purpose": "Search contributed San Francisco CopWatch entries by officer or incident and inspect the linked supporting material.",
+    "basis": "Saved bookmark"
+  },
+  "1118": {
+    "purpose": "Review New Jersey police and fire pension contributions for fiscal year 2011 as historical financial records.",
+    "basis": "Saved bookmark"
+  },
+  "1119": {
+    "purpose": "Find documented law-enforcement adoption of surveillance technologies, with links to the published evidence.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "EFF — about the Atlas of Surveillance",
+        "url": "https://www.atlasofsurveillance.org/about",
+        "note": "Explains its use of public records, news, crowdsourcing, and data journalism to document police technology adoption."
+      }
+    ],
+    "ratingNote": "B supports source-linked adoption reports. The project acknowledges incomplete coverage. Check each citation and date before treating a purchase or report as evidence of current operational use."
+  },
+  "1120": {
+    "purpose": "Explore a table of reported Clearview AI use by U.S. taxpayer-funded entities; definitions and evidence require checking.",
+    "basis": "Saved bookmark"
+  },
+  "1121": {
+    "purpose": "Review Oregon professional-standards cases, reported discipline, and certification decisions with their recorded status.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Oregon DPSST — professional-standards cases and field definitions",
+        "url": "https://www.oregon.gov/dpsst/CJ/Pages/Cases.aspx",
+        "note": "Defines case statuses, report types, certification actions, and the five-year period after case closure."
+      }
+    ],
+    "ratingNote": "A supports official case status. DPSST explicitly states that an open case under review is not proof of misconduct. Distinguish reports, pending actions, and final orders."
+  },
+  "1122": {
+    "purpose": "Search Pennsylvania forfeiture records covering 2010–2016 and inspect their source definitions and amounts.",
+    "basis": "Saved bookmark"
+  },
+  "1123": {
+    "purpose": "Saved BlueLeaks archive; collection provenance, individual document authenticity, and present access are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1124": {
+    "purpose": "Search selected archived public Facebook posts attributed to police officers and inspect their captured context.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Plain View Project — methodology and metadata sourcing",
+        "url": "https://www.plainviewproject.org/about",
+        "note": "Explains profile-verification steps, selection of public Facebook posts, screenshots, and dated employment metadata."
+      }
+    ],
+    "ratingNote": "B supports selected archived-post evidence under the project's criteria. Selection involves editorial judgment; employment metadata is dated and source links may no longer work."
+  },
+  "1125": {
+    "purpose": "Search the saved ICE-related document archive; individual documents require provenance, date, and context checks.",
+    "basis": "Saved bookmark"
+  },
+  "1126": {
+    "purpose": "Explore BGSU's research database of criminal arrest cases involving nonfederal sworn law-enforcement officers.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "BGSU — about the Henry A. Wallace Police Crime Database",
+        "url": "https://policecrime.bgsu.edu/Home/About",
+        "note": "Identifies a university research project summarizing nonfederal officers' criminal arrest cases and its release history."
+      }
+    ],
+    "ratingNote": "B supports a defined research dataset of arrest cases, not a list of proven convictions. The January 2026 release covers 2005–2021; check individual court dispositions separately."
+  },
+  "1127": {
+    "purpose": "Saved CAPstat police-accountability site; its specific datasets, coverage dates, and search features are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1128": {
+    "purpose": "Explore a saved police-data research project; verify jurisdiction, source documents, and case outcomes before use.",
+    "basis": "Saved bookmark"
+  },
+  "1129": {
+    "purpose": "Research recorded deaths during police interactions using a database checked against news reports and public records.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Fatal Encounters — methodology",
+        "url": "https://fatalencounters.org/methodology/",
+        "note": "Describes researchers, public-record requests, contributed reports, repeated verification, and acknowledged missing incidents."
+      }
+    ],
+    "ratingNote": "B supports documented fatal-encounter research. The methodology acknowledges omissions and uses news and public records; inclusion does not determine criminal liability or the legality of police conduct."
+  },
+  "1130": {
+    "purpose": "Search ProPublica's historical archive of selected NYPD civilian complaints, covering records through January 2020.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "ProPublica — The NYPD Files data and coverage notes",
+        "url": "https://projects.propublica.org/nypd-ccrb/",
+        "note": "States the July 2020 update stop, September 1985–January 2020 records, and selection of officers with a substantiated allegation."
+      }
+    ],
+    "ratingNote": "B applies to a historical, selected complaint archive. Updates stopped in July 2020. Not every included allegation was substantiated, and the collection is not all NYPD complaints."
+  },
+  "1131": {
+    "purpose": "Explore a saved policing-data portal; available jurisdictions, measures, and reporting periods require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1132": {
+    "purpose": "Review information about police surveillance in Chicago and inspect each claim's source and date.",
+    "basis": "Saved bookmark"
+  },
+  "1133": {
+    "purpose": "Explore documented fatal police encounters using the project's published inclusion rules and source methodology.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Mapping Police Violence — data and methodology",
+        "url": "https://mappingpoliceviolence.org/methodology",
+        "note": "Defines fatal encounters, explains exclusions, two-stage review, source collection, publication delay, and coding changes."
+      }
+    ],
+    "ratingNote": "B supports the dataset within its inclusion rules. It includes fatal force whether legally justified or unjustified and excludes some chase deaths. Check coding changes and publication delays before comparing totals."
+  },
+  "1134": {
+    "purpose": "Review ProPublica's collected protest-policing videos and assess individual footage with date and location context.",
+    "basis": "Saved bookmark"
+  },
+  "1135": {
+    "purpose": "Browse a shared list of videos labeled as protest police brutality; each allegation and video's context require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1136": {
+    "purpose": "Consult a reference map about access to police body-camera footage; confirm current rules with the relevant authority.",
+    "basis": "Saved bookmark"
+  },
+  "1137": {
+    "purpose": "Saved police-brutality database bookmark; its evidence standards, case outcomes, and coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1138": {
+    "purpose": "Read Chicago COPA investigation reports and released case materials, including each investigation's findings and dates.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Chicago COPA — case portal and publication policy",
+        "url": "https://www.chicagocopa.org/data-cases/case-portal/",
+        "note": "Explains final reports, varying publication timing, supplemental material, and redactions."
+      }
+    ],
+    "ratingNote": "A supports official reports and released material. Reports can have different findings; inclusion alone does not establish misconduct. Distinguish incident, closure, and publication dates."
+  },
+  "1139": {
+    "purpose": "Saved Coplookup police-information site; its exact records, identity matching, and data sources are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1140": {
+    "purpose": "Find Project Comport police datasets associated with the listed departments; field meanings and covered dates need verification.",
+    "basis": "Saved bookmark"
+  },
+  "1141": {
+    "purpose": "Review a table of reported untested sexual-assault kit counts; agency scope and reporting dates require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1142": {
+    "purpose": "Search The Trace's gun-dealer inspection project and review the underlying inspection records and findings.",
+    "basis": "Saved bookmark"
+  },
+  "1143": {
+    "purpose": "Browse The Intercept's surveillance-equipment catalog and inspect the source material supporting its descriptions.",
+    "basis": "Saved bookmark"
+  },
+  "1144": {
+    "purpose": "Explore a chart of Chicago Police Department demographics and check its underlying date and population definitions.",
+    "basis": "Saved bookmark"
+  },
+  "1145": {
+    "purpose": "Inspect a chart comparing racial disparities in police deaths; examine its denominators, definitions, and covered years.",
+    "basis": "Saved bookmark"
+  },
+  "1146": {
+    "purpose": "Compare police-budget figures for Iowa cities, using the visualization's fiscal years and accounting definitions.",
+    "basis": "Saved bookmark"
+  },
+  "1147": {
+    "purpose": "Saved TGCG Members table; the organization, records, and intended purpose are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1148": {
+    "purpose": "Saved Airtable labeled Buffalo Police; the table's precise subject, publisher, and record provenance are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1149": {
+    "purpose": "Open Colorado POST's saved certification portal; available lookup fields and displayed status definitions require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1150": {
+    "purpose": "Review an Alberta police-misconduct database and distinguish reported allegations from disciplinary or court findings.",
+    "basis": "Saved bookmark"
+  },
+  "1151": {
+    "purpose": "Search a saved RCMP-related death table; event definitions, source records, and coverage dates require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1152": {
+    "purpose": "Search a second saved RCMP-related death table; its relationship to the other versions requires verification.",
+    "basis": "Saved bookmark"
+  },
+  "1153": {
+    "purpose": "Search a third saved RCMP-related death table; its relationship to the other versions requires verification.",
+    "basis": "Saved bookmark"
+  },
+  "1154": {
+    "purpose": "Saved site alleging informant identities; claims are unverified and should not be treated as established facts.",
+    "basis": "Saved bookmark"
+  },
+  "1155": {
+    "purpose": "Review an archived page alleging informant identities only as unverified claims; neither attribution nor accuracy is established.",
+    "basis": "Saved bookmark"
+  },
+  "1156": {
+    "purpose": "Saved Goldensnitches allegation site; its specific contents, evidence, and claimed identities are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "1157": {
+    "purpose": "Read a directory of public sex-offender registry websites to locate the relevant issuing jurisdiction.",
+    "basis": "Saved bookmark"
+  },
+  "1158": {
+    "purpose": "Search public U.S. sex-offender registries through one government portal, then verify the jurisdiction's current record.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "NSOPW — about the national search portal",
+        "url": "https://www.nsopw.gov/about-nsopw",
+        "note": "Explains the DOJ partnership, jurisdiction-hosted records, varying search fields, and required verification at source registries."
+      }
+    ],
+    "ratingNote": "A supports the official cross-jurisdiction search. Each jurisdiction supplies and hosts its records; verify identifiers and current details there. Search coverage varies with the jurisdiction."
+  },
+  "1159": {
+    "purpose": "Find the official public-registry search service and read FBI guidance explaining its relationship to restricted law-enforcement records.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "FBI — sex-offender registry websites",
+        "url": "https://www.fbi.gov/how-we-can-help-you/online-safety/sex-offender-registry",
+        "note": "Directs the public to NSOPW and distinguishes it from the FBI registry available only to law enforcement."
+      }
+    ],
+    "ratingNote": "A supports an official explanatory page and referral. It is not a public copy of the restricted FBI registry, and does not itself establish a particular person's status."
+  },
+  "1160": {
+    "purpose": "Open Korea's saved sex-offender registry portal; eligibility, search scope, and current records require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1161": {
+    "purpose": "Read Manitoba's selected public notifications about people assessed by police as high-risk sex offenders.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Manitoba Justice — sex-offender notifications policy",
+        "url": "https://www.gov.mb.ca/justice/commsafe/notification/index.html",
+        "note": "Explains selected police notifications, current versus previous notices, incomplete coverage, and residence-based access limits."
+      }
+    ],
+    "ratingNote": "A supports official public notices about selected high-risk cases. This is not a complete registry; dates and current details require checking with the issuing police agency."
+  },
+  "1162": {
+    "purpose": "Review a private list claiming Alberta sex-offense convictions; verify each identity and conviction with authoritative records.",
+    "basis": "Saved bookmark"
+  },
+  "1163": {
+    "purpose": "Read a law firm's list of reported sex-offense convictions; verify names, dates, and court outcomes independently.",
+    "basis": "Saved bookmark"
+  },
+  "1164": {
+    "purpose": "Use a saved registry-related lookup service; verify any result directly with the issuing public registry.",
+    "basis": "Saved bookmark"
+  },
+  "1165": {
+    "purpose": "Open Nigeria's saved sexual-offender records page; record status, coverage, and identifying details require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1166": {
+    "purpose": "Open Poland's saved public sexual-offense registry and check the scope and date of individual records.",
+    "basis": "Saved bookmark"
+  },
+  "1167": {
+    "purpose": "Open the saved Maldives offender-list page; publisher authority, record currency, and identities require verification.",
+    "basis": "Saved bookmark"
+  },
+  "1168": {
+    "purpose": "Look up Michigan resident-directory leads; a listed association does not establish current residence or identity.",
+    "basis": "Saved bookmark"
+  },
+  "1169": {
+    "purpose": "Look up Ohio resident-directory leads; a listed association does not establish current residence or identity.",
+    "basis": "Saved bookmark"
+  },
+  "1170": {
+    "purpose": "Look up Florida resident-directory leads; a listed association does not establish current residence or identity.",
+    "basis": "Saved bookmark"
+  },
+  "1171": {
+    "purpose": "Look up North Carolina resident-directory leads; a listed association does not establish current residence or identity.",
+    "basis": "Saved bookmark"
+  },
+  "1172": {
+    "purpose": "Search New York's saved rent-regulated building lookup to research a building's recorded regulatory status.",
+    "basis": "Saved bookmark"
+  }
+}

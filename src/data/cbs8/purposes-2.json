@@ -1,0 +1,1841 @@
+{
+  "401": {
+    "purpose": "Look up a US mobile number's carrier to understand which telephone provider is associated with it.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "CarrierLookup: carrier search",
+        "url": "https://www.carrierlookup.com/",
+        "note": "Provider describes a carrier lookup for ten-digit US mobile numbers."
+      }
+    ],
+    "ratingNote": "Confirms carrier lookup scope only. No lookup was run; carrier metadata does not establish the subscriber's identity."
+  },
+  "402": {
+    "purpose": "Search a telephone number for possible name associations through Spy Dialer's reverse phone lookup.",
+    "basis": "Saved bookmark"
+  },
+  "403": {
+    "purpose": "Open the saved Phonerator telephone tool; its specific inputs and functions are unverified from the bookmark.",
+    "basis": "Saved bookmark"
+  },
+  "404": {
+    "purpose": "Browse a start.me collection of social media investigation resources and choose links for further research.",
+    "basis": "Saved bookmark"
+  },
+  "405": {
+    "purpose": "Find social media posts associated with a location to research events and local reporting.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Hunt Intelligence: location search",
+        "url": "https://www.huntintel.io/",
+        "note": "Provider describes finding and filtering social media posts around a location."
+      }
+    ],
+    "ratingNote": "Provider description supports the purpose; coverage, location accuracy, and account identity were not independently tested."
+  },
+  "406": {
+    "purpose": "Collect posts and profile information from supported social networks for later review and analysis.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "snscrape repository and README",
+        "url": "https://github.com/JustAnotherArchivist/snscrape",
+        "note": "Project describes collecting social profiles, searches, hashtags, and resulting posts."
+      }
+    ],
+    "ratingNote": "Documentation describes intended functionality. No scraper was run; platform compatibility, completeness, and identity accuracy remain untested."
+  },
+  "407": {
+    "purpose": "Search for social media profiles through Social Searcher's dedicated user discovery page.",
+    "basis": "Saved bookmark"
+  },
+  "408": {
+    "purpose": "Open the saved Who Posted What resource; supported searches and current functionality need verification.",
+    "basis": "Saved bookmark"
+  },
+  "409": {
+    "purpose": "Search a saved Google custom engine intended to find VK pages and profiles.",
+    "basis": "Saved bookmark"
+  },
+  "410": {
+    "purpose": "Search the saved Skype profile index; current coverage and lookup functionality remain unverified.",
+    "basis": "Saved bookmark"
+  },
+  "411": {
+    "purpose": "Use Aware Online's search helper to find videos or other indexed content on Vimeo.",
+    "basis": "Saved bookmark"
+  },
+  "412": {
+    "purpose": "Open the saved Kribrum social media resource; its specific research functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "413": {
+    "purpose": "Browse Patreon creator rankings, membership counts, earnings charts, and changes in popularity over time.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Graphtreon: Patreon statistics",
+        "url": "https://graphtreon.com/",
+        "note": "Provider displays creator rankings and charts for membership, growth, and earnings."
+      }
+    ],
+    "ratingNote": "Displayed analytics establish the site's purpose; underlying counts and earnings were not independently audited."
+  },
+  "414": {
+    "purpose": "Search social media through a dedicated search interface; covered platforms and result completeness are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "415": {
+    "purpose": "Open a resource page for Instagram, Reddit, and Snapchat research; available functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "416": {
+    "purpose": "Build Google searches for publicly indexed Dribbble profiles to find designers and portfolio pages.",
+    "basis": "Saved bookmark"
+  },
+  "417": {
+    "purpose": "Build Google searches for publicly indexed Xing profiles to find professional profile pages.",
+    "basis": "Saved bookmark"
+  },
+  "418": {
+    "purpose": "Read a resource article about browser extensions for open source and social media research.",
+    "basis": "Saved bookmark"
+  },
+  "419": {
+    "purpose": "Open IntelTechniques' Facebook research tools to construct searches and find relevant public pages.",
+    "basis": "Saved bookmark"
+  },
+  "420": {
+    "purpose": "Search a saved Google custom engine intended to find indexed Facebook content.",
+    "basis": "Saved bookmark"
+  },
+  "421": {
+    "purpose": "Search a saved Google custom engine intended to find Facebook photo pages.",
+    "basis": "Saved bookmark"
+  },
+  "422": {
+    "purpose": "Saved search entry for scraped Facebook data; dataset contents, provenance, access, and current function are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "423": {
+    "purpose": "Use the saved Sowsearch Facebook search interface to look for Facebook content.",
+    "basis": "Saved bookmark"
+  },
+  "424": {
+    "purpose": "Search for Facebook content through Social Searcher's dedicated Facebook search interface.",
+    "basis": "Saved bookmark"
+  },
+  "425": {
+    "purpose": "Save Facebook videos using the linked downloader when you have permission to retain the material.",
+    "basis": "Saved bookmark"
+  },
+  "426": {
+    "purpose": "Use Aware Online's Facebook search helper to build searches for relevant Facebook content.",
+    "basis": "Saved bookmark"
+  },
+  "427": {
+    "purpose": "Convert a Facebook profile or page reference into its numerical Facebook identifier.",
+    "basis": "Saved bookmark"
+  },
+  "428": {
+    "purpose": "Find Facebook pages associated with geographic areas through OSINT Combine's location search resource.",
+    "basis": "Saved bookmark"
+  },
+  "429": {
+    "purpose": "Read about a browser extension intended to generate a list of visible Facebook friends.",
+    "basis": "Saved bookmark"
+  },
+  "430": {
+    "purpose": "Read about a browser extension intended to extract Facebook entity identifiers from pages.",
+    "basis": "Saved bookmark"
+  },
+  "431": {
+    "purpose": "Read about a browser extension intended to retrieve a Facebook profile's numerical identifier.",
+    "basis": "Saved bookmark"
+  },
+  "432": {
+    "purpose": "Read about a browser extension advertised for finding Facebook associations from an email address.",
+    "basis": "Saved bookmark"
+  },
+  "433": {
+    "purpose": "Browse Facebook's saved profile directory link to look for publicly listed accounts.",
+    "basis": "Saved bookmark"
+  },
+  "434": {
+    "purpose": "Open the saved Have I Been Zucked resource; its precise lookup function is unverified from the bookmark.",
+    "basis": "Saved bookmark"
+  },
+  "435": {
+    "purpose": "Open IntelTechniques' Twitter research tools to construct searches for posts and accounts.",
+    "basis": "Saved bookmark"
+  },
+  "436": {
+    "purpose": "View Twitter/X posts through a third-party Nitter instance; this particular instance's availability is unverified.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Nitter repository and maintenance notice",
+        "url": "https://github.com/zedeus/nitter",
+        "note": "Project documents an alternative Twitter interface. Repository shows an archived notice dated 2026-09-11; README says continuation is planned."
+      }
+    ],
+    "ratingNote": "Project documentation supports the interface type, not this instance's operation. Maintenance status is unsettled; content accuracy and availability were not tested."
+  },
+  "437": {
+    "purpose": "View Twitter/X posts through a third-party Nitter instance; this particular instance's availability is unverified.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Nitter repository and maintenance notice",
+        "url": "https://github.com/zedeus/nitter",
+        "note": "Project documents an alternative Twitter interface. Repository shows an archived notice dated 2026-09-11; README says continuation is planned."
+      }
+    ],
+    "ratingNote": "Project documentation supports the interface type, not this instance's operation. Maintenance status is unsettled; content accuracy and availability were not tested."
+  },
+  "438": {
+    "purpose": "Open the saved BirdHunt Twitter research resource; its specific search functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "439": {
+    "purpose": "Find listed Nitter instances that provide alternative interfaces for viewing Twitter/X content.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Nitter repository and maintenance notice",
+        "url": "https://github.com/zedeus/nitter",
+        "note": "Project documents an alternative Twitter interface. Repository shows an archived notice dated 2026-09-11; README says continuation is planned."
+      }
+    ],
+    "ratingNote": "Project documentation supports the interface type, not this instance's operation. Maintenance status is unsettled; content accuracy and availability were not tested."
+  },
+  "440": {
+    "purpose": "Use a legacy Python tool designed to collect Twitter posts and account relationships for analysis.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "TWINT archived repository",
+        "url": "https://github.com/twintproject/twint",
+        "note": "Maintainer repository describes Twitter collection and shows archive status dated 2023-03-30."
+      }
+    ],
+    "ratingNote": "Archived software documentation supports the legacy purpose, not present-day compatibility. No collection or accuracy test was performed."
+  },
+  "441": {
+    "purpose": "Search a saved Google custom engine intended to find indexed Twitter/X content.",
+    "basis": "Saved bookmark"
+  },
+  "442": {
+    "purpose": "Search a saved Google custom engine intended to locate individual tweets or their indexed copies.",
+    "basis": "Saved bookmark"
+  },
+  "443": {
+    "purpose": "Search a saved Google custom engine intended to find Twitter photo content.",
+    "basis": "Saved bookmark"
+  },
+  "444": {
+    "purpose": "Search a saved Google custom engine intended to find archived tweet pages.",
+    "basis": "Saved bookmark"
+  },
+  "445": {
+    "purpose": "Narrow Twitter/X searches through the platform's advanced search interface to locate relevant posts.",
+    "basis": "Saved bookmark"
+  },
+  "446": {
+    "purpose": "Browse the saved Twitter profile directory link to look for listed accounts.",
+    "basis": "Saved bookmark"
+  },
+  "447": {
+    "purpose": "Open the saved TweetBeaver Twitter resource; its specific account and post functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "448": {
+    "purpose": "Use Aware Online's Twitter search helper to build searches for relevant posts.",
+    "basis": "Saved bookmark"
+  },
+  "449": {
+    "purpose": "Build Google searches for publicly indexed Twitter profiles to find accounts matching search terms.",
+    "basis": "Saved bookmark"
+  },
+  "450": {
+    "purpose": "Open the saved Tweettioc Twitter resource; its specific research functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "451": {
+    "purpose": "Search Twitter profile biographies to find accounts whose descriptions match relevant keywords.",
+    "basis": "Saved bookmark"
+  },
+  "452": {
+    "purpose": "Explore a saved map of tweets to investigate posts associated with places.",
+    "basis": "Saved bookmark"
+  },
+  "453": {
+    "purpose": "Open the saved Tweet Binder resource; its precise reporting and search functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "454": {
+    "purpose": "Open a Twitter search resource page to access its available search helpers.",
+    "basis": "Saved bookmark"
+  },
+  "455": {
+    "purpose": "Open a Twitter monitoring resource page; available monitoring methods and current functionality are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "456": {
+    "purpose": "Read connected Twitter/X posts as a single continuous page for easier review of a thread.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Thread Reader App",
+        "url": "https://threadreaderapp.com/",
+        "note": "Provider describes combining Twitter/X threads into easier-to-read pages."
+      }
+    ],
+    "ratingNote": "Reformatted posts remain dependent on the original author and thread. Completeness and preservation were not tested."
+  },
+  "457": {
+    "purpose": "Search Pushshift's saved Twitter user index; current access and index coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "458": {
+    "purpose": "Search a saved Twitter follower lookup service for possible account follow relationships.",
+    "basis": "Saved bookmark"
+  },
+  "459": {
+    "purpose": "Open the saved Dewey Twitter resource; its specific bookmark or search functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "460": {
+    "purpose": "Open the saved Geosocial Footprint resource; supported geographic analyses and current functionality are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "461": {
+    "purpose": "Explore a saved tweet map demonstration to inspect posts associated with geographic locations.",
+    "basis": "Saved bookmark"
+  },
+  "462": {
+    "purpose": "Open the saved DoesFollow Twitter resource; supported relationship checks and current functionality need verification.",
+    "basis": "Saved bookmark"
+  },
+  "463": {
+    "purpose": "Open the saved Sleeping Time Twitter resource; its specific activity analysis method is unverified.",
+    "basis": "Saved bookmark"
+  },
+  "464": {
+    "purpose": "Inspect Twitter account analytics through the saved Foller.me resource for account activity research.",
+    "basis": "Saved bookmark"
+  },
+  "465": {
+    "purpose": "Explore topics appearing in tweets through a saved Twitter topic visualization resource.",
+    "basis": "Saved bookmark"
+  },
+  "466": {
+    "purpose": "Open the saved TruthNest Twitter resource; its specific account analysis functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "467": {
+    "purpose": "Open the saved GetDayTrends resource; supported trend histories and geographic coverage need verification.",
+    "basis": "Saved bookmark"
+  },
+  "468": {
+    "purpose": "Explore trending Twitter hashtags and topics through the saved Trendsmap resource.",
+    "basis": "Saved bookmark"
+  },
+  "469": {
+    "purpose": "Open the saved Socialbearing Twitter resource; its specific analytics and search functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "470": {
+    "purpose": "Compare Twitter friend and follower connections to find overlapping account networks.",
+    "basis": "Saved bookmark"
+  },
+  "471": {
+    "purpose": "Use a saved first-tweet lookup to look for an account's earliest indexed post.",
+    "basis": "Saved bookmark"
+  },
+  "472": {
+    "purpose": "Open the saved TwitterTrails resource; its specific tracking and analysis functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "473": {
+    "purpose": "Export a Twitter account's available follower list into a spreadsheet for review.",
+    "basis": "Saved bookmark"
+  },
+  "474": {
+    "purpose": "Browse a saved Airtable collection labeled Simplescraper OSINT; its contents and specific use are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "475": {
+    "purpose": "Find listed Invidious instances that offer alternative interfaces for viewing YouTube videos.",
+    "basis": "Saved bookmark"
+  },
+  "476": {
+    "purpose": "Read a tutorial on checking a YouTube video's upload time for chronology research.",
+    "basis": "Saved bookmark"
+  },
+  "477": {
+    "purpose": "Use the saved yt-dlp package to retrieve video material you are authorized to preserve.",
+    "basis": "Saved bookmark"
+  },
+  "478": {
+    "purpose": "Open the saved youtube-dl web interface; supported downloads and current functionality need verification.",
+    "basis": "Saved bookmark"
+  },
+  "479": {
+    "purpose": "Search for YouTube videos associated with a location using the saved geographic search interface.",
+    "basis": "Saved bookmark"
+  },
+  "480": {
+    "purpose": "Retrieve metadata for multiple YouTube videos together to compare their recorded details.",
+    "basis": "Saved bookmark"
+  },
+  "481": {
+    "purpose": "Open the saved Hadzy YouTube resource; its specific comment or search functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "482": {
+    "purpose": "Find a YouTube channel's identifier for use in channel lookups and reference tracking.",
+    "basis": "Saved bookmark"
+  },
+  "483": {
+    "purpose": "Extract a YouTube video's available metadata to help examine its upload context.",
+    "basis": "Saved bookmark"
+  },
+  "484": {
+    "purpose": "Search for YouTube videos by location through a saved geographic search tool.",
+    "basis": "Saved bookmark"
+  },
+  "485": {
+    "purpose": "Find YouTube channels through a dedicated channel search interface for further review.",
+    "basis": "Saved bookmark"
+  },
+  "486": {
+    "purpose": "Use Aware Online's YouTube search helper to locate relevant videos or channels.",
+    "basis": "Saved bookmark"
+  },
+  "487": {
+    "purpose": "Open the saved Yout media resource; its specific conversion or retrieval functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "488": {
+    "purpose": "Search YouTube comments to locate relevant discussion attached to video content.",
+    "basis": "Saved bookmark"
+  },
+  "489": {
+    "purpose": "Open a resource page covering YouTube, Periscope, Twitch, and Dailymotion; available functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "490": {
+    "purpose": "Browse a saved index of unlisted videos that have been submitted or indexed.",
+    "basis": "Saved bookmark"
+  },
+  "491": {
+    "purpose": "Export available YouTube comments for review, comparison, or preservation alongside the source video.",
+    "basis": "Saved bookmark"
+  },
+  "492": {
+    "purpose": "Read Reddit content through an alternative interface; its current availability and privacy claims are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "493": {
+    "purpose": "Search a saved Reddit interface built around Pushshift; upstream access restrictions may limit functionality.",
+    "basis": "Saved bookmark",
+    "references": [
+      {
+        "title": "Reddit Help: Pushshift access requirements",
+        "url": "https://support.reddithelp.com/hc/en-us/articles/16470271632404-Pushshift-Access-Request",
+        "note": "Reddit limits Pushshift access to approved moderators and moderation use cases; registration and explicit approval are required."
+      }
+    ],
+    "ratingNote": "Reddit's access requirements limit the upstream service. This does not verify the saved interface, data completeness, or account identity."
+  },
+  "494": {
+    "purpose": "Open the saved Karma Decay Reddit resource; its specific image or search functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "495": {
+    "purpose": "Export a Reddit account's available posting history using the linked command line program.",
+    "basis": "Saved bookmark"
+  },
+  "496": {
+    "purpose": "Search Reddit-related statistics, popular communities, and trending topics through SocialGrep's search page.",
+    "basis": "Saved bookmark"
+  },
+  "497": {
+    "purpose": "Search Reddit content through the saved dedicated search interface to locate relevant discussions.",
+    "basis": "Saved bookmark"
+  },
+  "498": {
+    "purpose": "Search Reddit through the saved Bmai interface to locate posts or discussions.",
+    "basis": "Saved bookmark"
+  },
+  "499": {
+    "purpose": "Browse the saved Reddit archive interface for previously indexed Reddit content.",
+    "basis": "Saved bookmark"
+  },
+  "500": {
+    "purpose": "Search a saved interface for Pushshift data; current upstream access restrictions may limit functionality.",
+    "basis": "Saved bookmark",
+    "references": [
+      {
+        "title": "Reddit Help: Pushshift access requirements",
+        "url": "https://support.reddithelp.com/hc/en-us/articles/16470271632404-Pushshift-Access-Request",
+        "note": "Reddit limits Pushshift access to approved moderators and moderation use cases; registration and explicit approval are required."
+      }
+    ],
+    "ratingNote": "Reddit's access requirements limit the upstream service. This does not verify the saved interface, data completeness, or account identity."
+  },
+  "501": {
+    "purpose": "Open a saved Reddit author lookup page to inspect its available account records.",
+    "basis": "Saved bookmark"
+  },
+  "502": {
+    "purpose": "Open the saved Reveddit resource; its specific removed-content viewing functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "503": {
+    "purpose": "Save available Reddit content through the linked downloader when authorized to retain it.",
+    "basis": "Saved bookmark"
+  },
+  "504": {
+    "purpose": "Open the saved Redective Reddit resource; its specific account analysis functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "505": {
+    "purpose": "Generate inferred themes, sentiment, and personality summaries from Reddit posts using the linked Python project.",
+    "basis": "Saved bookmark",
+    "ratingNote": "Personality and sentiment outputs are inferences from selected text, not verified psychological traits or identity evidence."
+  },
+  "506": {
+    "purpose": "Open the saved Uncensor Reddit resource; its specific archive or viewing functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "507": {
+    "purpose": "Search a saved Google custom engine intended to find indexed Reddit content.",
+    "basis": "Saved bookmark"
+  },
+  "508": {
+    "purpose": "Search a saved Google custom engine intended to find indexed Reddit discussions.",
+    "basis": "Saved bookmark"
+  },
+  "509": {
+    "purpose": "Analyze a Reddit account's available activity through the saved user analysis interface.",
+    "basis": "Saved bookmark"
+  },
+  "510": {
+    "purpose": "Search Reddit content through the saved Redditsearch interface to find relevant discussions.",
+    "basis": "Saved bookmark"
+  },
+  "511": {
+    "purpose": "Use Aware Online's Reddit search helper to build searches for relevant Reddit content.",
+    "basis": "Saved bookmark"
+  },
+  "512": {
+    "purpose": "Open the saved Pholder Reddit resource; its specific image or browsing functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "513": {
+    "purpose": "Open the saved RedditMetis resource; its specific account analysis functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "514": {
+    "purpose": "Search Reddit comments by username to locate relevant statements in an account's visible history.",
+    "basis": "Saved bookmark"
+  },
+  "515": {
+    "purpose": "Open the saved Reddit Investigator resource; supported account analyses and current functionality need verification.",
+    "basis": "Saved bookmark"
+  },
+  "516": {
+    "purpose": "Access Pushshift's Reddit search and data tools under Reddit's documented moderator approval requirements.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Reddit Help: Pushshift access requirements",
+        "url": "https://support.reddithelp.com/hc/en-us/articles/16470271632404-Pushshift-Access-Request",
+        "note": "Reddit limits Pushshift access to approved moderators and moderation use cases; registration and explicit approval are required."
+      }
+    ],
+    "ratingNote": "Reddit's access requirements limit the upstream service. This does not verify the saved interface, data completeness, or account identity."
+  },
+  "517": {
+    "purpose": "Read Pushshift API documentation to understand how its Reddit data queries are structured.",
+    "basis": "Saved bookmark",
+    "references": [
+      {
+        "title": "Reddit Help: Pushshift access requirements",
+        "url": "https://support.reddithelp.com/hc/en-us/articles/16470271632404-Pushshift-Access-Request",
+        "note": "Reddit limits Pushshift access to approved moderators and moderation use cases; registration and explicit approval are required."
+      }
+    ],
+    "ratingNote": "Reddit's access requirements limit the upstream service. This does not verify the saved interface, data completeness, or account identity."
+  },
+  "518": {
+    "purpose": "Open the saved Searcheddit search resource; supported Reddit searches and coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "519": {
+    "purpose": "Open the saved Removeddit resource; its specific archive coverage and current functionality need verification.",
+    "basis": "Saved bookmark"
+  },
+  "520": {
+    "purpose": "Open the saved Deadit archive resource; its contents and retrieval functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "521": {
+    "purpose": "Explore a map of Reddit communities to discover related discussion spaces.",
+    "basis": "Saved bookmark"
+  },
+  "522": {
+    "purpose": "Explore a Reddit visualization to compare communities or connections displayed by the tool.",
+    "basis": "Saved bookmark"
+  },
+  "523": {
+    "purpose": "Open the saved ReSavr Reddit resource; its specific archive contents and coverage need verification.",
+    "basis": "Saved bookmark"
+  },
+  "524": {
+    "purpose": "Open the saved Redditle resource; its specific Reddit search functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "525": {
+    "purpose": "Open the saved Libredd.it resource; its specific Reddit viewing functions and current availability are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "526": {
+    "purpose": "Build Google searches for publicly indexed LinkedIn profiles to find professional background information.",
+    "basis": "Saved bookmark"
+  },
+  "527": {
+    "purpose": "Build searches for LinkedIn pages indexed by search engines to find professional profiles.",
+    "basis": "Saved bookmark"
+  },
+  "528": {
+    "purpose": "Construct LinkedIn search expressions using combined keywords to narrow professional profile searches.",
+    "basis": "Saved bookmark"
+  },
+  "529": {
+    "purpose": "Search a saved Google custom engine intended to find indexed LinkedIn profiles.",
+    "basis": "Saved bookmark"
+  },
+  "530": {
+    "purpose": "Search a saved Google custom engine intended to find LinkedIn profiles and images.",
+    "basis": "Saved bookmark"
+  },
+  "531": {
+    "purpose": "Open the saved Chartloop organization-chart resource; its source data and current functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "532": {
+    "purpose": "Historical API for retrieving professional-profile and company data; the provider now states that Proxycurl is no longer in service.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Proxycurl service notice",
+        "url": "https://nubela.co/proxycurl/",
+        "note": "The provider states Proxycurl is no longer in service; the retained page describes people and company data APIs."
+      }
+    ],
+    "ratingNote": "The shutdown notice is stronger availability evidence than the original provisional bookmark assessment. Historical features do not imply a working current service."
+  },
+  "533": {
+    "purpose": "Retrieve LinkedIn profile and company information using the linked package's advertised search functions.",
+    "basis": "Saved bookmark"
+  },
+  "534": {
+    "purpose": "Read about a browser extension advertised for finding LinkedIn associations from an email address.",
+    "basis": "Saved bookmark"
+  },
+  "535": {
+    "purpose": "Search a saved Google custom engine targeting Google+ photo pages; current coverage is unverified.",
+    "basis": "Saved bookmark"
+  },
+  "536": {
+    "purpose": "Inspect Google account and Drive metadata using a command line research framework with structured exports.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "GHunt repository and modules",
+        "url": "https://github.com/mxrch/GHunt",
+        "note": "Project lists email, Google account identifier, and Drive metadata modules plus JSON export."
+      }
+    ],
+    "ratingNote": "Documentation confirms intended module scope. No lookup was run; metadata associations do not independently verify a person's identity."
+  },
+  "537": {
+    "purpose": "Search social media content using Social Searcher's Google-based search interface.",
+    "basis": "Saved bookmark"
+  },
+  "538": {
+    "purpose": "Open a resource page covering Google+ and LinkedIn; current searches and platform coverage need verification.",
+    "basis": "Saved bookmark"
+  },
+  "539": {
+    "purpose": "Search DiscordHub's user index for account entries matching relevant names or identifiers.",
+    "basis": "Saved bookmark"
+  },
+  "540": {
+    "purpose": "Open the saved Discord Me resource; its specific directory and discovery functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "541": {
+    "purpose": "View a larger version of a Discord avatar to inspect visible image details.",
+    "basis": "Saved bookmark"
+  },
+  "542": {
+    "purpose": "Save and view offline the Discord chat history you can access in servers, groups, or conversations.",
+    "basis": "Saved bookmark"
+  },
+  "543": {
+    "purpose": "Open the saved DiscordOSINT project; its specific collection and search functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "544": {
+    "purpose": "Browse a saved Discord server directory to discover communities relevant to a topic.",
+    "basis": "Saved bookmark"
+  },
+  "545": {
+    "purpose": "Open the saved DISBOARD resource; its specific Discord directory functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "546": {
+    "purpose": "Browse a Discord server portal to find communities and their listed information.",
+    "basis": "Saved bookmark"
+  },
+  "547": {
+    "purpose": "Look up a Discord identifier to retrieve whatever account information the service exposes.",
+    "basis": "Saved bookmark"
+  },
+  "548": {
+    "purpose": "Open the saved Discord Center resource; its specific community discovery functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "549": {
+    "purpose": "Browse a Discord bot directory to discover automation tools and their descriptions.",
+    "basis": "Saved bookmark"
+  },
+  "550": {
+    "purpose": "Browse a Discord bot directory to compare listed bots and their advertised functions.",
+    "basis": "Saved bookmark"
+  },
+  "551": {
+    "purpose": "Browse a Discord bot directory to find bots suited to a server's needs.",
+    "basis": "Saved bookmark"
+  },
+  "552": {
+    "purpose": "Open the saved TwitchTracker resource; supported channel statistics and history need verification.",
+    "basis": "Saved bookmark"
+  },
+  "553": {
+    "purpose": "Open the saved Twitch-related resource; its name and URL do not establish its specific function.",
+    "basis": "Saved bookmark"
+  },
+  "554": {
+    "purpose": "Open a saved Twitch payout search project; dataset provenance, access, and current functionality are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "555": {
+    "purpose": "Find a Twitch channel through SullyGnome's dedicated channel search page.",
+    "basis": "Saved bookmark"
+  },
+  "556": {
+    "purpose": "Open the saved Searchstream resource; its specific streaming search coverage is unverified.",
+    "basis": "Saved bookmark"
+  },
+  "557": {
+    "purpose": "View the available follower list for a Twitch channel through the saved tool.",
+    "basis": "Saved bookmark"
+  },
+  "558": {
+    "purpose": "Check whether a proposed Twitch username is available through the saved lookup tool.",
+    "basis": "Saved bookmark"
+  },
+  "559": {
+    "purpose": "Inspect badges associated with a Twitch channel through the saved badge lookup tool.",
+    "basis": "Saved bookmark"
+  },
+  "560": {
+    "purpose": "Check the recorded duration of a Twitch follow relationship through the saved tool.",
+    "basis": "Saved bookmark"
+  },
+  "561": {
+    "purpose": "Inspect a Twitch account's available following information through the saved lookup tool.",
+    "basis": "Saved bookmark"
+  },
+  "562": {
+    "purpose": "Search a directory of Twitch streamers to find channels for further review.",
+    "basis": "Saved bookmark"
+  },
+  "563": {
+    "purpose": "Open the saved Twitchmetrics resource; its specific channel statistics and coverage need verification.",
+    "basis": "Saved bookmark"
+  },
+  "564": {
+    "purpose": "Search Twitch usernames through the saved interface to locate or check account names.",
+    "basis": "Saved bookmark"
+  },
+  "565": {
+    "purpose": "Open IntelTechniques' search tools to construct queries and access multiple search services.",
+    "basis": "Saved bookmark"
+  },
+  "566": {
+    "purpose": "Narrow Google web searches using filters and operators for phrases, sites, dates, and file types.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Google Search Help: refine searches",
+        "url": "https://support.google.com/websearch/answer/2466433?hl=en",
+        "note": "Google documents advanced search, filters, exact phrases, site restrictions, date operators, and file-type searches."
+      }
+    ],
+    "ratingNote": "Documentation supports query controls only. Search rankings and indexed pages do not independently verify a claim or identity."
+  },
+  "567": {
+    "purpose": "Open the saved Searx search instance to search the web through its configured sources.",
+    "basis": "Saved bookmark"
+  },
+  "568": {
+    "purpose": "Search Bing's web index for pages relevant to a topic or query.",
+    "basis": "Saved bookmark"
+  },
+  "569": {
+    "purpose": "Search Yandex's web index for pages relevant to a topic or query.",
+    "basis": "Saved bookmark"
+  },
+  "570": {
+    "purpose": "Search the web through the saved MetaGer interface; source coverage and privacy claims are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "571": {
+    "purpose": "Search the web through DuckDuckGo to locate pages relevant to a query.",
+    "basis": "Saved bookmark"
+  },
+  "572": {
+    "purpose": "Browse a directory of search engines organized across countries to find alternative search sources.",
+    "basis": "Saved bookmark"
+  },
+  "573": {
+    "purpose": "Open the saved Carrot2 web search interface; its specific result grouping functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "574": {
+    "purpose": "Search the web through Qwant to find pages relevant to a query.",
+    "basis": "Saved bookmark"
+  },
+  "575": {
+    "purpose": "Search the web through Startpage to locate pages relevant to a query.",
+    "basis": "Saved bookmark"
+  },
+  "576": {
+    "purpose": "Search a saved Google custom engine intended to find indexed mailing-list messages.",
+    "basis": "Saved bookmark"
+  },
+  "577": {
+    "purpose": "Search the web through Swisscows to locate pages relevant to a query.",
+    "basis": "Saved bookmark"
+  },
+  "578": {
+    "purpose": "Search Crossref's scholarly metadata index to locate research works and publication identifiers.",
+    "basis": "Saved bookmark"
+  },
+  "579": {
+    "purpose": "Search the web through Brave Search to locate pages relevant to a query.",
+    "basis": "Saved bookmark"
+  },
+  "580": {
+    "purpose": "Search the web through Mojeek to find pages relevant to a query.",
+    "basis": "Saved bookmark"
+  },
+  "581": {
+    "purpose": "Search Yahoo's web search interface for pages relevant to a topic.",
+    "basis": "Saved bookmark"
+  },
+  "582": {
+    "purpose": "Search Baidu's web index for pages relevant to a topic or query.",
+    "basis": "Saved bookmark"
+  },
+  "583": {
+    "purpose": "Search the web through Ecosia to locate pages relevant to a query.",
+    "basis": "Saved bookmark"
+  },
+  "584": {
+    "purpose": "Search the web through Dogpile to locate pages relevant to a query.",
+    "basis": "Saved bookmark"
+  },
+  "585": {
+    "purpose": "Search the web through the saved MetaCrawler interface, bookmarked under the label Zoo Search.",
+    "basis": "Saved bookmark"
+  },
+  "586": {
+    "purpose": "Find App Store applications and iTunes content through a dedicated search interface.",
+    "basis": "Saved bookmark"
+  },
+  "587": {
+    "purpose": "Search the web through the saved Ask search interface for relevant pages.",
+    "basis": "Saved bookmark"
+  },
+  "588": {
+    "purpose": "Open the saved ZorexEye search resource; its specific index and search functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "589": {
+    "purpose": "Open the saved Yassen resource; its name and URL do not establish its specific search function.",
+    "basis": "Saved bookmark"
+  },
+  "590": {
+    "purpose": "Open the saved Flippity resource; its name and URL do not establish its specific function.",
+    "basis": "Saved bookmark"
+  },
+  "591": {
+    "purpose": "Find published OpenPGP encryption keys and their verified-email associations for cryptographic communication.",
+    "basis": "Saved bookmark"
+  },
+  "592": {
+    "purpose": "Look up published OpenPGP keys on MIT's key server for cryptographic reference.",
+    "basis": "Saved bookmark"
+  },
+  "593": {
+    "purpose": "Open the saved IPSE resource; its specific search index and supported queries are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "594": {
+    "purpose": "Search for content indexed from IPFS using the saved IPFS search interface.",
+    "basis": "Saved bookmark"
+  },
+  "595": {
+    "purpose": "Open the saved Debate.cards resource; its specific argument search or reference functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "596": {
+    "purpose": "Open the saved Argumentsearch resource; its specific argument index and supported searches are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "597": {
+    "purpose": "Open the saved Mega-related search resource; indexed content, authorization, and coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "598": {
+    "purpose": "Search the web through the saved Presearch engine to locate relevant pages.",
+    "basis": "Saved bookmark"
+  },
+  "599": {
+    "purpose": "Open the saved Blockscan resource; its specific blockchain search coverage and supported networks are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "600": {
+    "purpose": "Open the saved PUBLC search resource; its specific index and search functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "601": {
+    "purpose": "Search social content through the saved GoPit social-search interface to locate relevant pages.",
+    "basis": "Saved bookmark"
+  },
+  "602": {
+    "purpose": "Search for indexed documents through the saved Doc-Txt document search interface.",
+    "basis": "Saved bookmark"
+  },
+  "603": {
+    "purpose": "Open the saved CachedViews resource to look for previously cached versions of web pages.",
+    "basis": "Saved bookmark"
+  },
+  "604": {
+    "purpose": "Look up a device's MAC address prefix to find associated manufacturer information.",
+    "basis": "Saved bookmark"
+  },
+  "605": {
+    "purpose": "Open the saved Sploitus security search resource; its specific index and coverage need verification.",
+    "basis": "Saved bookmark"
+  },
+  "606": {
+    "purpose": "Open the saved Vulmon security resource; its specific vulnerability search functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "607": {
+    "purpose": "Search Rapid7's vulnerability and exploit reference database for documented software security issues.",
+    "basis": "Saved bookmark"
+  },
+  "608": {
+    "purpose": "Open the saved Recon search entry; its onion gateway URL does not establish the indexed content or function.",
+    "basis": "Saved bookmark"
+  },
+  "609": {
+    "purpose": "Open a resource page with Google and Bing search helpers for web research.",
+    "basis": "Saved bookmark"
+  },
+  "610": {
+    "purpose": "Browse a saved bookmark resource page; its contents and specific research functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "611": {
+    "purpose": "Search forum discussions through Boardreader to find posts relevant to a topic.",
+    "basis": "Saved bookmark"
+  },
+  "612": {
+    "purpose": "Open the saved Libgen resource; its specific catalog coverage and current access are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "613": {
+    "purpose": "Open the saved Stacksearch resource; its specific search index and supported queries are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "614": {
+    "purpose": "Open the saved SearchTempest resource; its specific classified-listing search coverage needs verification.",
+    "basis": "Saved bookmark"
+  },
+  "615": {
+    "purpose": "Open the saved 2lingual resource; supported languages and specific search behavior need verification.",
+    "basis": "Saved bookmark"
+  },
+  "616": {
+    "purpose": "Query a saved search-engine aggregation interface to locate results from its configured engines.",
+    "basis": "Saved bookmark"
+  },
+  "617": {
+    "purpose": "Open the saved Milled search page; its indexed content and specific search functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "618": {
+    "purpose": "Open the saved BTDig resource; its specific file index and current search functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "619": {
+    "purpose": "Browse a collection of open source OSINT projects to discover tools and their repositories.",
+    "basis": "Saved bookmark"
+  },
+  "620": {
+    "purpose": "Search the web through the saved Monster Crawler interface for relevant pages.",
+    "basis": "Saved bookmark"
+  },
+  "621": {
+    "purpose": "Open the saved Arabo resource; its specific directory or search functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "622": {
+    "purpose": "Find scholarly publications through Google Scholar to identify research relevant to a topic.",
+    "basis": "Saved bookmark"
+  },
+  "623": {
+    "purpose": "Open the saved Million Short resource; its specific result filtering and current functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "624": {
+    "purpose": "Open the saved BeVigil resource; its specific security search functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "625": {
+    "purpose": "Search indexed WordPress.com content to find relevant blog posts and websites.",
+    "basis": "Saved bookmark"
+  },
+  "626": {
+    "purpose": "Open the saved Octosearch resource; its specific search index and supported queries are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "627": {
+    "purpose": "Search Craigslist listings through the saved search interface to find relevant advertisements.",
+    "basis": "Saved bookmark"
+  },
+  "628": {
+    "purpose": "Search indexed public Amazon S3 and Azure storage listings to discover publicly exposed files.",
+    "basis": "Saved bookmark"
+  },
+  "629": {
+    "purpose": "Search the saved public cloud-bucket index to discover listed storage resources.",
+    "basis": "Saved bookmark"
+  },
+  "630": {
+    "purpose": "Search indexed shortened URLs to discover links and their available destination information.",
+    "basis": "Saved bookmark"
+  },
+  "631": {
+    "purpose": "Open the saved Mywoodle resource; its name and URL do not establish its specific function.",
+    "basis": "Saved bookmark"
+  },
+  "632": {
+    "purpose": "Open the saved Search Atlas resource; its specific search or comparison functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "633": {
+    "purpose": "Build Google searches for publicly indexed Stack Overflow profiles to find developer profiles.",
+    "basis": "Saved bookmark"
+  },
+  "634": {
+    "purpose": "Open the saved Binparcel resource; its name and URL do not establish its specific function.",
+    "basis": "Saved bookmark"
+  },
+  "635": {
+    "purpose": "Search a saved Google custom engine labeled Homepage Search; its target sites are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "636": {
+    "purpose": "Search a saved Google custom engine intended to find Amazon cloud-hosted content.",
+    "basis": "Saved bookmark"
+  },
+  "637": {
+    "purpose": "Search a saved Google custom engine intended to discover other custom search engines.",
+    "basis": "Saved bookmark"
+  },
+  "638": {
+    "purpose": "Search a saved Google custom engine intended to find indexed robots.txt files.",
+    "basis": "Saved bookmark"
+  },
+  "639": {
+    "purpose": "Search a saved Google custom engine intended to find indexed shortened URLs.",
+    "basis": "Saved bookmark"
+  },
+  "640": {
+    "purpose": "Search a saved Google custom engine targeting Wikispaces pages; current coverage is unverified.",
+    "basis": "Saved bookmark"
+  },
+  "641": {
+    "purpose": "Search a saved Google custom engine intended to find material about dog bites.",
+    "basis": "Saved bookmark"
+  },
+  "642": {
+    "purpose": "Open a saved domain-focused Google custom search; the label does not establish its precise search rules.",
+    "basis": "Saved bookmark"
+  },
+  "643": {
+    "purpose": "Search a saved Google custom engine intended to find publicly indexed Google Drive folders.",
+    "basis": "Saved bookmark"
+  },
+  "644": {
+    "purpose": "Search a saved Google custom engine intended to find archived Chrome extension material.",
+    "basis": "Saved bookmark"
+  },
+  "645": {
+    "purpose": "Search a saved Google custom engine intended to find GitHub resource lists.",
+    "basis": "Saved bookmark"
+  },
+  "646": {
+    "purpose": "Search a saved Google custom engine intended to find Chrome Web Store listings.",
+    "basis": "Saved bookmark"
+  },
+  "647": {
+    "purpose": "Search a saved Google custom engine intended to find App Store listings.",
+    "basis": "Saved bookmark"
+  },
+  "648": {
+    "purpose": "Open a saved Google-domain custom search; the label does not establish its precise search rules.",
+    "basis": "Saved bookmark"
+  },
+  "649": {
+    "purpose": "Search a saved Google custom engine intended to find files by format.",
+    "basis": "Saved bookmark"
+  },
+  "650": {
+    "purpose": "Search a saved Google custom engine intended to discover other search engines.",
+    "basis": "Saved bookmark"
+  },
+  "651": {
+    "purpose": "Search a saved Google custom engine intended to find published mind maps.",
+    "basis": "Saved bookmark"
+  },
+  "652": {
+    "purpose": "Search a saved Google custom engine intended to find indexed Slack, Discord, or Zoom invitation pages.",
+    "basis": "Saved bookmark"
+  },
+  "653": {
+    "purpose": "Search a saved Google custom engine intended to find publicly indexed cloud storage buckets.",
+    "basis": "Saved bookmark"
+  },
+  "654": {
+    "purpose": "Search for visually similar face images online to find candidate image matches for further review.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "FaceCheck: service and matching caveats",
+        "url": "https://facecheck.id/",
+        "note": "Provider offers face-image search and warns that unrelated people can look alike and results require cross-checking."
+      }
+    ],
+    "ratingNote": "Provider warns against relying solely on a face search. Similarity scores are not independently validated identity evidence."
+  },
+  "655": {
+    "purpose": "Search Google's image index to find pictures and the web pages hosting them.",
+    "basis": "Saved bookmark"
+  },
+  "656": {
+    "purpose": "Search Yandex's image index to find pictures and related source web pages.",
+    "basis": "Saved bookmark"
+  },
+  "657": {
+    "purpose": "Search Bing's image index to find pictures and related source web pages.",
+    "basis": "Saved bookmark"
+  },
+  "658": {
+    "purpose": "Search using an image to find visually similar pictures, products, or possible object matches.",
+    "basis": "Saved bookmark"
+  },
+  "659": {
+    "purpose": "Search a saved Google custom engine intended to find indexed images.",
+    "basis": "Saved bookmark"
+  },
+  "660": {
+    "purpose": "Create and edit images in a browser using layers, filters, resizing, and drawing tools.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "miniPaint repository and features",
+        "url": "https://github.com/viliusle/miniPaint",
+        "note": "Project describes a browser-based editor with layers, filters, transforms, and drawing tools."
+      }
+    ],
+    "ratingNote": "Documentation confirms editing scope. Edited images are derivative material; the tool does not independently authenticate their contents."
+  },
+  "661": {
+    "purpose": "Find online images resembling a supplied face image and review the linked source pages.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "PimEyes FAQ: search limits",
+        "url": "https://pimeyes.com/en/faq",
+        "note": "Provider says matches depend on indexed public images and image quality; it does not guarantee completeness or verify identities."
+      }
+    ],
+    "ratingNote": "Provider limitations support treating results as image leads. Similarity does not establish a person's identity; no accuracy benchmark was run."
+  },
+  "662": {
+    "purpose": "Find copies and modified versions of an image online to trace where that image appears.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "TinEye Help: how matching works",
+        "url": "https://help.tineye.com/article/233-how-does-tineye-work",
+        "note": "TinEye compares image fingerprints to its index and finds copies, including cropped, edited, or resized versions."
+      }
+    ],
+    "ratingNote": "Documentation supports reused-image discovery, not face identification. A match does not prove ownership, first publication, or the depicted person's identity."
+  },
+  "663": {
+    "purpose": "Open the saved Findclone image resource; its specific matching functions and coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "664": {
+    "purpose": "Open Intelligence X's image-search launcher to access third-party image research services.",
+    "basis": "Saved bookmark"
+  },
+  "665": {
+    "purpose": "Use the saved reverse-image search resource to look for other appearances of an image.",
+    "basis": "Saved bookmark"
+  },
+  "666": {
+    "purpose": "Find images with similar artistic styles or moods to discover visual references and inspiration.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Same Energy: about the visual search engine",
+        "url": "https://same.energy/about",
+        "note": "Provider describes visual search based on image style and mood using deep learning."
+      }
+    ],
+    "ratingNote": "Style similarity is the documented goal. Results do not establish common origin, copyright ownership, or identity."
+  },
+  "667": {
+    "purpose": "Search Baidu's image index to find pictures and related source web pages.",
+    "basis": "Saved bookmark"
+  },
+  "668": {
+    "purpose": "Open the saved Peteyvid media resource; its specific video search coverage needs verification.",
+    "basis": "Saved bookmark"
+  },
+  "669": {
+    "purpose": "Search for music through the saved Musgle interface to locate relevant audio sources.",
+    "basis": "Saved bookmark"
+  },
+  "670": {
+    "purpose": "Search Yahoo's image index to find pictures and related source web pages.",
+    "basis": "Saved bookmark"
+  },
+  "671": {
+    "purpose": "Search a saved Google custom engine intended to find publicly indexed photo albums.",
+    "basis": "Saved bookmark"
+  },
+  "672": {
+    "purpose": "Search for a song using a sung or hummed melody rather than its title.",
+    "basis": "Saved bookmark"
+  },
+  "673": {
+    "purpose": "Enlarge and enhance faces in photos using the provider's advertised machine-learning photo processing.",
+    "basis": "Saved bookmark",
+    "ratingNote": "Enhancement may generate plausible detail. Preserve the original; enhanced pixels are not new factual evidence."
+  },
+  "674": {
+    "purpose": "Increase image resolution and enhance appearance with the provider's advertised neural-network processing.",
+    "basis": "Saved bookmark",
+    "ratingNote": "Enhancement may generate plausible detail. Preserve the original; enlarged output does not recover independently verified detail."
+  },
+  "675": {
+    "purpose": "Create or modify scalable vector graphics through the saved SVG editing tool.",
+    "basis": "Saved bookmark"
+  },
+  "676": {
+    "purpose": "Open the saved Pixsy image resource; its specific image monitoring and rights functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "677": {
+    "purpose": "Open the saved FotoForensics image-analysis resource; available analyses and their interpretation need verification.",
+    "basis": "Saved bookmark"
+  },
+  "678": {
+    "purpose": "Find podcast shows and episodes about a topic, then organize selected episodes into listening playlists.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Listen Notes: podcast search",
+        "url": "https://www.listennotes.com/",
+        "note": "Provider describes podcast and episode search and playlists for selected episodes."
+      }
+    ],
+    "ratingNote": "Provider description supports discovery functions. Search completeness and factual accuracy of podcast content were not independently checked."
+  },
+  "679": {
+    "purpose": "Submit an image to the saved recognition tool for a suggested description or subject label.",
+    "basis": "Saved bookmark"
+  },
+  "680": {
+    "purpose": "Inspect embedded photo metadata to find recorded camera settings, dates, and any included location fields.",
+    "basis": "Saved bookmark",
+    "ratingNote": "Metadata can be missing, edited, or copied. A timestamp or coordinate alone does not authenticate when or where a photo was taken."
+  },
+  "681": {
+    "purpose": "Inspect a photo's embedded metadata, including recorded camera settings, dates, and any location fields; optionally remove that metadata.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Jimpl: EXIF viewer and limitations",
+        "url": "https://jimpl.com/",
+        "note": "Provider describes EXIF viewing and removal and explicitly warns that metadata can be absent or edited."
+      }
+    ],
+    "ratingNote": "Metadata extraction does not authenticate a photograph's date or place. No photo was uploaded and no extraction was tested."
+  },
+  "682": {
+    "purpose": "Find podcasts through PodSearch to discover shows relevant to a topic.",
+    "basis": "Saved bookmark"
+  },
+  "683": {
+    "purpose": "Search the saved Picsearch picture index to locate relevant images and source pages.",
+    "basis": "Saved bookmark"
+  },
+  "684": {
+    "purpose": "Remove an image's background to prepare a cutout for authorized editing or presentation.",
+    "basis": "Saved bookmark"
+  },
+  "685": {
+    "purpose": "Open the saved Museo image resource; its specific collection and search functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "686": {
+    "purpose": "Compare two images to highlight visible differences between versions for closer inspection.",
+    "basis": "Saved bookmark"
+  },
+  "687": {
+    "purpose": "Inspect photo metadata, repeated regions, and compression patterns to identify details needing further verification.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Forensically: tools and interpretation",
+        "url": "https://29a.ch/photo-forensics/",
+        "note": "Author documents magnification, clone detection, error-level analysis, and metadata tools, with warnings about misleading results."
+      }
+    ],
+    "ratingNote": "The author says the tools cannot determine truth by themselves. A highlighted pattern alone does not prove manipulation."
+  },
+  "688": {
+    "purpose": "Open the saved Pictriev image resource; its specific face comparison functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "689": {
+    "purpose": "Open the saved Facesaerch image resource; its specific face-search method and coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "690": {
+    "purpose": "Look for a font matching lettering in an image to identify likely typefaces.",
+    "basis": "Saved bookmark"
+  },
+  "691": {
+    "purpose": "Search Sogou's picture index to find relevant images and associated web pages.",
+    "basis": "Saved bookmark"
+  },
+  "692": {
+    "purpose": "Search Pixabay's image collection to find illustrations or photos for potential reuse.",
+    "basis": "Saved bookmark"
+  },
+  "693": {
+    "purpose": "Open the saved Tidder image resource; its name and URL do not establish its specific function.",
+    "basis": "Saved bookmark"
+  },
+  "694": {
+    "purpose": "Open the saved Hue Tools resource; its specific color utilities need verification.",
+    "basis": "Saved bookmark"
+  },
+  "695": {
+    "purpose": "Recognize license-plate text in vehicle images for later comparison against the original image.",
+    "basis": "Saved bookmark",
+    "ratingNote": "Recognition may misread characters. Check the original image; a plate reading does not establish a driver or current owner."
+  },
+  "696": {
+    "purpose": "Compare license-plate designs from different countries to narrow a vehicle's possible registration region.",
+    "basis": "Saved bookmark"
+  },
+  "697": {
+    "purpose": "Decode a vehicle identification number to retrieve associated vehicle characteristics.",
+    "basis": "Saved bookmark"
+  },
+  "698": {
+    "purpose": "Open the saved Poctra vehicle resource; its specific vehicle records and coverage need verification.",
+    "basis": "Saved bookmark"
+  },
+  "699": {
+    "purpose": "Open the saved FAXVIN vehicle resource; supported history reports and coverage need verification.",
+    "basis": "Saved bookmark"
+  },
+  "700": {
+    "purpose": "Open the saved AutoCheck vehicle resource; supported history reports and record coverage need verification.",
+    "basis": "Saved bookmark"
+  },
+  "701": {
+    "purpose": "Look up a vehicle identification number through the saved ThatsThem VIN search.",
+    "basis": "Saved bookmark"
+  },
+  "702": {
+    "purpose": "Check a VIN against participating insurers' reports of unrecovered theft, salvage, and flood damage.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "NICB VINCheck scope and limitations",
+        "url": "https://www.nicb.org/vincheck",
+        "note": "NICB describes participating-insurer theft, salvage, and flood records; it excludes law-enforcement and nonparticipating-insurer records."
+      }
+    ],
+    "ratingNote": "The official source explicitly limits coverage. A clear result is not a complete vehicle history or evidence of current ownership."
+  },
+  "703": {
+    "purpose": "Browse submitted vehicle sightings through Autogespot's spots page to compare visible cars.",
+    "basis": "Saved bookmark"
+  },
+  "704": {
+    "purpose": "Open the saved Nomerogram vehicle resource; its specific plate searches and geographic coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "705": {
+    "purpose": "Read an article about researching cars with publicly available vehicle information.",
+    "basis": "Saved bookmark"
+  },
+  "706": {
+    "purpose": "Explore a saved map of Canadian license plates to compare regional plate designs.",
+    "basis": "Saved bookmark"
+  },
+  "707": {
+    "purpose": "Open the saved Carnet vehicle resource; its specific recognition or vehicle data functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "708": {
+    "purpose": "Suggest a car model from an image using the saved vehicle recognition tool.",
+    "basis": "Saved bookmark"
+  },
+  "709": {
+    "purpose": "Open Intelligence X's VIN-search launcher to access third-party vehicle identification services.",
+    "basis": "Saved bookmark"
+  },
+  "710": {
+    "purpose": "Look up a VIN through the saved report service to inspect available vehicle information.",
+    "basis": "Saved bookmark"
+  },
+  "711": {
+    "purpose": "Decode a vehicle identification number to retrieve associated manufacturer and model details.",
+    "basis": "Saved bookmark"
+  },
+  "712": {
+    "purpose": "Open the saved autoDNA vehicle resource; supported vehicle histories and geographic coverage need verification.",
+    "basis": "Saved bookmark"
+  },
+  "713": {
+    "purpose": "Decode a vehicle identification number to retrieve associated vehicle specifications.",
+    "basis": "Saved bookmark"
+  },
+  "714": {
+    "purpose": "Open the saved Orto vehicle resource; its name and URL do not establish its specific function.",
+    "basis": "Saved bookmark"
+  },
+  "715": {
+    "purpose": "Open the saved Europlates reference to investigate European license-plate designs and formats.",
+    "basis": "Saved bookmark"
+  },
+  "716": {
+    "purpose": "Open the saved How's My Driving NY resource; its specific vehicle violation records need verification.",
+    "basis": "Saved bookmark"
+  },
+  "717": {
+    "purpose": "Read illustrated explanations of number-plate formats to help interpret vehicle registrations.",
+    "basis": "Saved bookmark"
+  },
+  "718": {
+    "purpose": "Decode a vehicle identification number to find associated vehicle details through the saved lookup.",
+    "basis": "Saved bookmark"
+  },
+  "719": {
+    "purpose": "Search VehicleHistory's saved license-plate lookup page for available vehicle information.",
+    "basis": "Saved bookmark"
+  },
+  "720": {
+    "purpose": "Search using part of a UK number plate to narrow possible full registrations.",
+    "basis": "Saved bookmark"
+  },
+  "721": {
+    "purpose": "Look up a license plate through SearchQuarry's saved service for available associated information.",
+    "basis": "Saved bookmark"
+  },
+  "722": {
+    "purpose": "Check the official UK vehicle enquiry service for a registration's tax and MOT status.",
+    "basis": "Saved bookmark"
+  },
+  "723": {
+    "purpose": "Look up a number plate to inspect vehicle details available through the saved service.",
+    "basis": "Saved bookmark"
+  },
+  "724": {
+    "purpose": "Search a license-plate lookup service for listed vehicle information and associated reports.",
+    "basis": "Saved bookmark"
+  },
+  "725": {
+    "purpose": "Display aircraft observations on maps and browse flight statistics using configurable tracking data sources.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "FlightAirMap repository and supported sources",
+        "url": "https://github.com/Ysurac/FlightAirMap",
+        "note": "Project documents aircraft and vessel maps using configured sources, including ADS-B and AIS; virtual flight sources are also supported."
+      }
+    ],
+    "ratingNote": "Software documentation establishes visualization capabilities. Source selection, timestamps, coverage, and real-versus-simulated data require checking; no map was tested."
+  },
+  "726": {
+    "purpose": "View aircraft observations on ADS-B Exchange's map to inspect reported flight tracks.",
+    "basis": "Saved bookmark"
+  },
+  "727": {
+    "purpose": "Open the saved Icarus Flights resource; its specific aircraft tracking and archive functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "728": {
+    "purpose": "Look up flights through FlightAware to inspect available flight status and tracking information.",
+    "basis": "Saved bookmark"
+  },
+  "729": {
+    "purpose": "View aircraft movements on a map using combined tracking signals, schedules, and aircraft information.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "Flightradar24: how tracking works",
+        "url": "https://www.flightradar24.com/how-it-works",
+        "note": "Provider describes ADS-B, calculated MLAT positions, satellite signals, radar, and other tracking sources combined with schedule data."
+      }
+    ],
+    "ratingNote": "Provider documentation explains data provenance; it does not independently validate every position. Aircraft observations do not establish passenger identity."
+  },
+  "730": {
+    "purpose": "Listen to available air traffic control radio feeds for aviation communications context.",
+    "basis": "Saved bookmark"
+  },
+  "731": {
+    "purpose": "Browse the saved Planespotters resource for aircraft-related reference material; specific databases need verification.",
+    "basis": "Saved bookmark"
+  },
+  "732": {
+    "purpose": "Find and compare flight options through Skyscanner for travel planning.",
+    "basis": "Saved bookmark",
+    "ratingNote": "Travel search purpose differs from this row's original aircraft-observation scope; fare listings do not establish that a flight occurred."
+  },
+  "733": {
+    "purpose": "View the saved RadarBox aircraft tracking resource to inspect available flight observations.",
+    "basis": "Saved bookmark"
+  },
+  "734": {
+    "purpose": "Explore a saved ArcGIS map labeled for civil and military airspace reference.",
+    "basis": "Saved bookmark"
+  },
+  "735": {
+    "purpose": "View vessel positions received through AIS and inspect the reporting source and update time.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "MarineTraffic: position sources and freshness",
+        "url": "https://support.marinetraffic.com/en/articles/14594297-how-was-the-vessel-s-position-received-terrestrial-or-satellite",
+        "note": "Provider distinguishes terrestrial, satellite, and roaming AIS sources and advises checking the position timestamp."
+      }
+    ],
+    "ratingNote": "AIS reception and reporting intervals limit freshness. Vessel observations do not establish cargo, ownership, or who was aboard."
+  },
+  "736": {
+    "purpose": "Look up vessel observations through the saved VesselFinder resource to inspect available ship positions.",
+    "basis": "Saved bookmark"
+  },
+  "737": {
+    "purpose": "Display vessel observations on maps and browse statistics using configured AIS data sources.",
+    "basis": "External documentation",
+    "references": [
+      {
+        "title": "FlightAirMap repository and supported sources",
+        "url": "https://github.com/Ysurac/FlightAirMap",
+        "note": "Project documents aircraft and vessel maps using configured sources, including ADS-B and AIS; virtual flight sources are also supported."
+      }
+    ],
+    "ratingNote": "Software documentation establishes visualization capabilities. Source selection, timestamps, coverage, and real-versus-simulated data require checking; no map was tested."
+  },
+  "738": {
+    "purpose": "Read an article describing maritime research techniques and sources for investigating activity at sea.",
+    "basis": "Saved bookmark"
+  },
+  "739": {
+    "purpose": "View the saved ShipAIS resource to inspect available vessel position observations.",
+    "basis": "Saved bookmark"
+  },
+  "740": {
+    "purpose": "Open the saved FleetMon maritime resource; its specific vessel records and tracking functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "741": {
+    "purpose": "View ship positions reported through AIS on the saved interactive vessel map.",
+    "basis": "Saved bookmark"
+  },
+  "742": {
+    "purpose": "View Boatnerd's saved AIS map to inspect vessel observations in its covered areas.",
+    "basis": "Saved bookmark"
+  },
+  "743": {
+    "purpose": "View the saved cruise-ship tracking resource to inspect available vessel position reports.",
+    "basis": "Saved bookmark"
+  },
+  "744": {
+    "purpose": "Explore ShippingExplorer's map to inspect available ship observations and related vessel information.",
+    "basis": "Saved bookmark"
+  },
+  "745": {
+    "purpose": "Open a map labeled for submarine tracking; actual vessel coverage and position sources are unverified.",
+    "basis": "Saved bookmark",
+    "ratingNote": "A tracking label does not demonstrate coverage of submerged submarines or continuous military vessel positions."
+  },
+  "746": {
+    "purpose": "Explore a maritime awareness map to examine the geographic information and context it presents.",
+    "basis": "Saved bookmark"
+  },
+  "747": {
+    "purpose": "Search the saved shipping database resource; its specific vessel fields and historical coverage need verification.",
+    "basis": "Saved bookmark"
+  },
+  "748": {
+    "purpose": "Explore a crew-list research resource to find its available maritime records and indexes.",
+    "basis": "Saved bookmark"
+  },
+  "749": {
+    "purpose": "Inspect reported piracy incidents on the International Maritime Bureau's saved live piracy map.",
+    "basis": "Saved bookmark"
+  },
+  "750": {
+    "purpose": "Open a map labeled for military ship tracking; vessel coverage and position sources are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "751": {
+    "purpose": "Look up a shipping container's reported movement or delivery status through the saved service.",
+    "basis": "Saved bookmark"
+  },
+  "752": {
+    "purpose": "Track a shipping container through a carrier-linked tracking interface using its container reference.",
+    "basis": "Saved bookmark"
+  },
+  "753": {
+    "purpose": "Check Maersk's shipment tracking service for available container or shipment status updates.",
+    "basis": "Saved bookmark"
+  },
+  "754": {
+    "purpose": "Open the saved DorkSearch resource for specialized web queries; specific query-building functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "755": {
+    "purpose": "Read a reference sheet of search operators for narrowing publicly indexed web searches.",
+    "basis": "Saved bookmark"
+  },
+  "756": {
+    "purpose": "Browse documented search-query examples for identifying public information exposure during authorized security reviews.",
+    "basis": "Saved bookmark"
+  },
+  "757": {
+    "purpose": "Open the saved theHarvester package; its specific collection sources and current functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "758": {
+    "purpose": "Find publicly hosted files by format for authorized review of a website's published documents.",
+    "basis": "Saved bookmark"
+  },
+  "759": {
+    "purpose": "Automate searches for public information exposure during an authorized review of web content.",
+    "basis": "Saved bookmark"
+  },
+  "760": {
+    "purpose": "Open the saved ATSCAN project; its specific search or scanning functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "761": {
+    "purpose": "Automate searches for potentially exposed web pages during an authorized security review.",
+    "basis": "Saved bookmark"
+  },
+  "762": {
+    "purpose": "Open the saved FilePhish resource; its name and URL do not establish its specific file-search function.",
+    "basis": "Saved bookmark"
+  },
+  "763": {
+    "purpose": "Find publicly listed web directories to inspect their available file listings.",
+    "basis": "Saved bookmark"
+  },
+  "764": {
+    "purpose": "Build web searches for particular file formats to locate relevant public documents.",
+    "basis": "Saved bookmark"
+  },
+  "765": {
+    "purpose": "Search for publicly indexed open directories through the saved directory-search interface.",
+    "basis": "Saved bookmark"
+  },
+  "766": {
+    "purpose": "Open the saved Archive-It resource; its specific web archive collections and access need verification.",
+    "basis": "Saved bookmark"
+  },
+  "767": {
+    "purpose": "Open the saved OD Crawler resource; its directory index and current search coverage are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "768": {
+    "purpose": "Search a saved Google custom engine intended to find publicly indexed Google Docs.",
+    "basis": "Saved bookmark"
+  },
+  "769": {
+    "purpose": "Search a saved Google custom engine intended to find publicly indexed documents.",
+    "basis": "Saved bookmark"
+  },
+  "770": {
+    "purpose": "Search a saved Google custom engine intended to find cybersecurity documents.",
+    "basis": "Saved bookmark"
+  },
+  "771": {
+    "purpose": "Search a saved Google custom engine intended to find publicly indexed Google Drive content.",
+    "basis": "Saved bookmark"
+  },
+  "772": {
+    "purpose": "Search a saved Google custom engine intended to find SlideShare presentations.",
+    "basis": "Saved bookmark"
+  },
+  "773": {
+    "purpose": "Open a document-search resource page to locate relevant publicly indexed files.",
+    "basis": "Saved bookmark"
+  },
+  "774": {
+    "purpose": "Open the saved FONETASK resource; its name and URL do not establish its specific document-search function.",
+    "basis": "Saved bookmark"
+  },
+  "775": {
+    "purpose": "Use Aware Online's web archive search helper to look for archived pages.",
+    "basis": "Saved bookmark"
+  },
+  "776": {
+    "purpose": "Search an index of PDF files to locate public documents relevant to a topic.",
+    "basis": "Saved bookmark"
+  },
+  "777": {
+    "purpose": "Browse a curated GitHub list of public datasets to find data sources for research.",
+    "basis": "Saved bookmark"
+  },
+  "778": {
+    "purpose": "Open the saved Drive Search resource; supported document sources and current functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "779": {
+    "purpose": "Open the saved FilePursuit resource; its specific file index and current search coverage need verification.",
+    "basis": "Saved bookmark"
+  },
+  "780": {
+    "purpose": "Open the saved FileChef resource; its specific file searches and current coverage need verification.",
+    "basis": "Saved bookmark"
+  },
+  "781": {
+    "purpose": "Search for publicly listed web directories to locate available file listings.",
+    "basis": "Saved bookmark"
+  },
+  "782": {
+    "purpose": "Search an index of public FTP servers to locate listed files and directories.",
+    "basis": "Saved bookmark"
+  },
+  "783": {
+    "purpose": "Open the saved LENDX resource; its name and URL do not establish its specific file-search function.",
+    "basis": "Saved bookmark"
+  },
+  "784": {
+    "purpose": "Find publicly listed directories through the saved open-directory search helper.",
+    "basis": "Saved bookmark"
+  },
+  "785": {
+    "purpose": "Browse a researcher's collection of dataset links to discover potential sources for analysis.",
+    "basis": "Saved bookmark"
+  },
+  "786": {
+    "purpose": "Search Google's dataset discovery service to find datasets described on public websites.",
+    "basis": "Saved bookmark"
+  },
+  "787": {
+    "purpose": "Search Kaggle for datasets and related material relevant to an analysis topic.",
+    "basis": "Saved bookmark"
+  },
+  "788": {
+    "purpose": "Open the saved Databasd resource; its specific dataset catalog and search functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "789": {
+    "purpose": "Browse the US government's open-data portal to find datasets published by participating organizations.",
+    "basis": "Saved bookmark"
+  },
+  "790": {
+    "purpose": "Open the saved data.world resource; its specific public dataset discovery functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "791": {
+    "purpose": "Find public datasets available in BigQuery for querying and analysis.",
+    "basis": "Saved bookmark"
+  },
+  "792": {
+    "purpose": "Open the saved CNR-hosted Ariadne resource; its specific dataset search functions are unverified.",
+    "basis": "Saved bookmark"
+  },
+  "793": {
+    "purpose": "Search Data Science Central's site for datasets and related data-science resources.",
+    "basis": "Saved bookmark"
+  },
+  "794": {
+    "purpose": "Browse the saved Dataset List resource to discover potential datasets for analysis.",
+    "basis": "Saved bookmark"
+  },
+  "795": {
+    "purpose": "Search DataHub's dataset catalog to find published data relevant to a topic.",
+    "basis": "Saved bookmark"
+  },
+  "796": {
+    "purpose": "Browse the saved Socrata open-data portal to find available published datasets.",
+    "basis": "Saved bookmark"
+  },
+  "797": {
+    "purpose": "Open the saved OpenSanctions resource; its specific entity datasets and matching functions need verification.",
+    "basis": "Saved bookmark"
+  },
+  "798": {
+    "purpose": "Search FiveThirtyEight's site for published analysis and any accompanying data resources.",
+    "basis": "Saved bookmark"
+  },
+  "799": {
+    "purpose": "Search a saved Google custom engine intended to find publicly indexed paste pages.",
+    "basis": "Saved bookmark"
+  },
+  "800": {
+    "purpose": "Search a second saved Google custom engine intended to find publicly indexed paste pages.",
+    "basis": "Saved bookmark"
+  }
+}
