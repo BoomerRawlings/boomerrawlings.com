@@ -1,5 +1,14 @@
 # Project state
 
+## SWC transcript envelope labels
+
+- Mode: continuation. Objective: publish the supplied PDF first in the `/swc/` files section as Transcript Envelope Labels.
+- Status: implemented and verified locally; publication pending.
+- Supplied one-page blank label grid reviewed; no recipient/student data or active PDF content. Source PDF preserved byte-for-byte; matching preview uses the existing document component.
+- Existing course search, other PDFs, contacts, chair tables, maps, and noindex protections unchanged.
+- Verified: source/public PDF SHA-256 matches; complete rendered page reviewed; `npm test` and `git diff --check` pass with eight document cards and first-label ordering regression checks.
+- Next: verify build and first-document order, publish, confirm live file integrity.
+
 ## SWC course search
 
 - Mode: continuation. Objective: add the official Course & Course Section Search near the beginning of `/swc/` and publish.

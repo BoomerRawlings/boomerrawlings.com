@@ -121,6 +121,7 @@ if (!existsSync(swcPath)) {
     }
   }
   const swcDocuments = [
+    ['swc-transcript-envelope-labels', 1],
     ['swc-new-hire-packet', 21],
     ['swc-california-aods-options', 1],
     ['swc-generic-rj-sign-in-sheet', 1],
@@ -132,7 +133,10 @@ if (!existsSync(swcPath)) {
   if ((swcHtml.match(/data-pdf-preview(?:\s|>)/g) || []).length !== swcDocuments.length
     || !swcHtml.includes('data-pdf-dialog') || !swcHtml.includes('data-pdf-close')
     || !swcHtml.includes('Open the PDF in a new tab')) {
-    failures.push('swc/index.html: seven PDF previews and accessible reader fallback are required');
+    failures.push('swc/index.html: eight PDF previews and accessible reader fallback are required');
+  }
+  if (swcHtml.match(/data-pdf-title="([^"]+)"/)?.[1] !== 'Transcript Envelope Labels') {
+    failures.push('swc/index.html: Transcript Envelope Labels must be the first document');
   }
   if (!swcHtml.includes('src="/scripts/swc-pdf-preview.js"')
     || /<script\b(?![^>]*\bsrc=)[^>]*>/i.test(swcHtml)) {
@@ -200,7 +204,7 @@ if (!existsSync(swcPath)) {
     if (!chairTables.includes(requiredText)) failures.push(`swc/index.html: chair transcription missing ${requiredText}`);
   }
   if ((swcHtml.match(/<a\b[^>]*\bdownload(?:[=\s>])/g) || []).length !== swcDocuments.length) {
-    failures.push('swc/index.html: expected exactly seven direct PDF downloads');
+    failures.push('swc/index.html: expected exactly eight direct PDF downloads');
   }
   for (const [basename, pages] of swcDocuments) {
     const download = `/documents/swc/pdf/${basename}.pdf`;
