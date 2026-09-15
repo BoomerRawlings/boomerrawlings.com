@@ -1,5 +1,12 @@
 # Project state
 
+## SWC Cares and waitlist contacts
+
+- Mode: continuation. Objective: group requested staff under SWC Cares and add the supplied EMT/Fire Science waitlist connection.
+- Status: verified locally; ready to publish. Reuses existing contact renderer; official directory confirms supplied new contact details and email-form URL. User-specified program connection retained; no guessed email address.
+- `npm test`, diff check and independent source audit pass. Desktop 1280px shows three Cares cards in one row; mobile 390/320px stacks them, with no overflow/page errors. Priority contacts remain first; other content and original documents unchanged.
+- Next: scoped production push and live verification.
+
 ## SWC getting started and document order
 
 - Mode: continuation. Objective: add eight ordered enrollment steps at the top of `/swc/`, four Canvas/Outlook mobile QR links, and the requested document-card order; publish through existing GitHub Pages.

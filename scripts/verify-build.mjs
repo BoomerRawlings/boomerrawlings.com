@@ -317,6 +317,7 @@ if (!existsSync(swcPath)) {
     'Enrique Velez',
     'Raquel Funches',
     'Carla Gomez',
+    'Carmen Torres',
   ]) {
     if (!swcHtml.includes(contactName)) failures.push(`swc/index.html: missing contact ${contactName}`);
   }
@@ -338,6 +339,20 @@ if (!existsSync(swcPath)) {
     if (![role, `href="tel:${phone}"`, `href="mailto:${email}"`, 'HEC National City', office].every((detail) => card.includes(detail))) {
       failures.push(`swc/index.html: incomplete verified contact card for ${name}`);
     }
+  }
+  const caresGroup = swcHtml.match(/<div\b[^>]*class="contact-section"[^>]*aria-labelledby="swc-cares-heading"[^>]*>([\s\S]*?)(?=<div\b[^>]*class="contact-section"|<details\b)/)?.[1] ?? '';
+  const caresNames = [...caresGroup.matchAll(/<article\b[^>]*class="contact-card"[^>]*>[\s\S]*?<h3>([^<]+)<\/h3>/g)].map(([, name]) => name);
+  if (caresNames.join('|') !== ['Trina Eros', 'Paola Duarte Vargas', 'Manuel Burciaga Tarin'].join('|')
+    || !caresGroup.includes('SWC Cares · Student Services Specialist')
+    || swcContactCards.filter((card) => card.includes('Manuel Burciaga Tarin')).length !== 1
+    || swcHtml.includes('and Manuel under Student Services')) {
+    failures.push('swc/index.html: Manuel must appear once in the dedicated SWC Cares group with Trina and Paola');
+  }
+  const carmenCard = swcContactCards.find((card) => card.includes('Carmen Torres')) ?? '';
+  if (swcContactCards.filter((card) => card.includes('Carmen Torres')).length !== 1
+    || !['EMT &amp; Fire Science waitlist connection', 'Program Technician', 'HEC at Otay Mesa', 'Office 4105A', '(619) 216-6760',
+      'href="tel:+16192166760"', 'href="https://go.swccd.edu/contact/person/29430c97db8bf3005e33f8fdae9619b7" target="_blank" rel="noopener noreferrer"'].every((detail) => carmenCard.includes(detail))) {
+    failures.push('swc/index.html: Carmen Torres needs the complete EMT/Fire Science waitlist contact card');
   }
   for (const contactDetail of [
     'Basic Needs Project Technician',

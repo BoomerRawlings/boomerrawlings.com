@@ -39,13 +39,18 @@ const keyContacts = [
   { name: 'Jeanne Kaufman', role: 'Bookstore credit contact (user-specified) · Senior Account Clerk', phone: '(619) 421-6700 x5334', tel: '+16194216700;ext=5334', email: 'jkaufman@swccd.edu', source: 'https://www.swcbookstore.com/site_contact_us.asp' },
   { name: 'Trina Eros', role: 'SWC Cares · Basic Needs Coordinator', phone: '(619) 216-6687', tel: '+16192166687', email: 'teros@swccd.edu', source: 'https://www.swccd.edu/student-support/swc-cares/index.aspx' },
   { name: 'Paola Duarte Vargas', role: 'SWC Cares · Basic Needs Project Technician', phone: '(619) 421-6700 x5404', tel: '+16194216700;ext=5404', email: '', source: 'https://go.swccd.edu/contact/person/5cc7d2b2db5b0850469a5e65ce96190f' },
-  { name: 'Manuel Burciaga Tarin', role: 'Student Services Specialist · current directory role', phone: '(619) 421-6700 x5408', tel: '+16194216700;ext=5408', email: '', source: 'https://go.swccd.edu/contact/person/db22ee1f1b41a51060decae5624bcbbd' },
+  { name: 'Manuel Burciaga Tarin', role: 'SWC Cares · Student Services Specialist', phone: '(619) 421-6700 x5408', tel: '+16194216700;ext=5408', email: '', source: 'https://go.swccd.edu/contact/person/db22ee1f1b41a51060decae5624bcbbd' },
   { name: 'Sandra Salazar', role: 'HECNC Student Services · Education Center Specialist', phone: '(619) 216-6665 x4853', tel: '+16192166665;ext=4853', email: 'ssalazar@swccd.edu', source: 'https://www.swccd.edu/locations/higher-education-center-at-national-city/' },
   { name: 'Sarah Valdivia', role: 'HECNC Student Services · Education Center Specialist', phone: '(619) 216-6665 x4851', tel: '+16192166665;ext=4851', email: 'svaldiva@swccd.edu', source: 'https://www.swccd.edu/locations/higher-education-center-at-national-city/' },
   { name: 'Elizabeth Sisco Parada', role: 'HECNC Student Services · Education Center Specialist', phone: '(619) 216-6665 x4852', tel: '+16192166665;ext=4852', email: 'esisco2@swccd.edu', source: 'https://go.swccd.edu/contact/person/8fa8f74bdb7fa6005e33f8fdae961983' },
   { name: 'Karen Sanchez Jimenez', role: 'Student Employment Services · Federal Work-Study (not Payroll)', phone: '(619) 421-6700 x5254', tel: '+16194216700;ext=5254', email: '', source: 'https://go.swccd.edu/contact/person/59decb5cdb168094469a5e65ce961968' },
   { name: 'Enrique Velez', role: 'HECNC IT · Instructional Lab Technician—Microcomputer', phone: '(619) 216-6665 x4877', tel: '+16192166665;ext=4877', email: 'evelez@swccd.edu', source: 'https://www.swccd.edu/administration/institutional-technology/staff-directory.aspx' },
+  { name: 'Carmen Torres', role: 'EMT & Fire Science waitlist connection · Program Technician', phone: '(619) 216-6760', tel: '+16192166760', email: '', office: 'HEC at Otay Mesa · Office 4105A', source: 'https://go.swccd.edu/contact/person/29430c97db8bf3005e33f8fdae9619b7' },
 ] as const;
+const contactGroups = [
+  { heading: 'Key people', id: 'people-heading', cares: false, contacts: keyContacts.filter((contact) => !contact.role.startsWith('SWC Cares ·')) },
+  { heading: 'SWC Cares', id: 'swc-cares-heading', cares: true, contacts: keyContacts.filter((contact) => contact.role.startsWith('SWC Cares ·')) },
+];
 const campusMapBase = 'https://www.swccd.edu/about-swc/campus-maps-and-directions/';
 const campusMaps = [
   { name: 'Chula Vista', id: 'chula-vista', address: '900 Otay Lakes Rd, Chula Vista, CA 91910', directory: 'chula-vista-campus', pdf: 'chula-vista-campus-map.pdf', sheets: ['Campus map and building directory'], width: 1093, height: 1800 },
@@ -227,12 +232,13 @@ const officialLinks = [
       <section id="contacts" class="wrap content-section" aria-labelledby="contacts-heading">
         <header class="section-heading"><span>03</span><div><p>Contacts</p><h2 id="contacts-heading">People and service desks</h2></div></header>
 
-        <div class="contact-section" aria-labelledby="people-heading">
-          <div class="resource-group-heading"><h3 id="people-heading">Key people</h3><p>Roles and details checked against current SWC sources.</p></div>
-          <div class="contact-grid">
-            {keyContacts.map((contact, index) => (
+        {contactGroups.map(({ heading, id, cares, contacts }) => (
+        <div class="contact-section" aria-labelledby={id}>
+          <div class="resource-group-heading"><h3 id={id}>{heading}</h3><p>{cares ? 'Basic needs support contacts.' : 'Roles and details checked against current SWC sources.'}</p></div>
+          <div class:list={['contact-grid', { 'contact-grid--cares': cares }]}>
+            {contacts.map((contact, index) => (
               <Fragment>
-                {index === 2 && <hr class="contact-divider" aria-hidden="true" />}
+                {!cares && index === 2 && <hr class="contact-divider" aria-hidden="true" />}
                 <article class="contact-card">
                   <p>{contact.role}</p>
                   <h3>{contact.name}</h3>
@@ -246,8 +252,9 @@ const officialLinks = [
               </Fragment>
             ))}
           </div>
-          <aside class="contact-note"><strong>Directory corrections:</strong> SWC lists Elizabeth as <em>Sisco Parada</em>, Karen under Student Employment/Federal Work-Study rather than Payroll, and Manuel under Student Services. SWC’s published program is Alcohol &amp; Other Drug Studies; CADTP uses SUDRC for an external Registered SUD Counselor status.</aside>
+          {!cares && <aside class="contact-note"><strong>Directory corrections:</strong> SWC lists Elizabeth as <em>Sisco Parada</em> and Karen under Student Employment/Federal Work-Study rather than Payroll. SWC’s published program is Alcohol &amp; Other Drug Studies; CADTP uses SUDRC for an external Registered SUD Counselor status.</aside>}
         </div>
+        ))}
 
         <div class="contact-section" aria-labelledby="services-heading">
           <div class="resource-group-heading"><h3 id="services-heading">Service desks</h3><p>Quick references from the resource sheet and official SWC pages.</p></div>
@@ -380,6 +387,8 @@ const officialLinks = [
   .documents-section h2{font-size:clamp(1.85rem,3.5vw,2.75rem)}
   .documents-intro{color:var(--muted);line-height:1.5;margin:0 0 1.5rem}
   .contact-office{color:var(--muted);font-size:.84rem;line-height:1.45}
+  .contact-grid--cares{grid-template-columns:repeat(3,minmax(0,1fr))}.contact-grid--cares .contact-card,.contact-grid--cares .contact-card:nth-child(-n+2){grid-column:auto}
+  @media(max-width:52rem){.contact-grid--cares{grid-template-columns:minmax(0,1fr)}}
   .reference-fold{border-block:1px solid var(--rule);margin-top:2.5rem;padding-block:1rem;scroll-margin-top:5rem}
   .reference-fold summary{color:var(--burgundy-dark);cursor:pointer;font-size:1.12rem;font-weight:600;line-height:1.4;padding:.5rem .25rem}
   .reference-fold summary::marker{color:var(--burgundy)}
