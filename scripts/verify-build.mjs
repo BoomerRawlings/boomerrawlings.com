@@ -121,7 +121,6 @@ if (!existsSync(swcPath)) {
     }
   }
   const swcDocuments = [
-    ['swc-transcript-envelope-labels', 1],
     ['swc-new-hire-packet', 21],
     ['swc-california-aods-options', 1],
     ['swc-generic-rj-sign-in-sheet', 1],
@@ -129,14 +128,16 @@ if (!existsSync(swcPath)) {
     ['swc-rising-scholar-resources', 2],
     ['swc-rising-scholar-combo', 4],
     ['swc-loaner-laptop-student-agreement', 2],
+    ['swc-transcript-envelope-labels', 1],
   ];
   if ((swcHtml.match(/data-pdf-preview(?:\s|>)/g) || []).length !== swcDocuments.length
     || !swcHtml.includes('data-pdf-dialog') || !swcHtml.includes('data-pdf-close')
     || !swcHtml.includes('Open the PDF in a new tab')) {
     failures.push('swc/index.html: eight PDF previews and accessible reader fallback are required');
   }
-  if (swcHtml.match(/data-pdf-title="([^"]+)"/)?.[1] !== 'Transcript Envelope Labels') {
-    failures.push('swc/index.html: Transcript Envelope Labels must be the first document');
+  if ([...swcHtml.matchAll(/data-pdf-title="([^"]+)"/g)].at(-1)?.[1] !== 'Transcript Envelope Labels'
+    || [...swcHtml.matchAll(/href="([^"]+)" download/g)].at(-1)?.[1] !== '/documents/swc/pdf/swc-transcript-envelope-labels.pdf') {
+    failures.push('swc/index.html: Transcript Envelope Labels must be the last preview and download');
   }
   if (!swcHtml.includes('src="/scripts/swc-pdf-preview.js"')
     || /<script\b(?![^>]*\bsrc=)[^>]*>/i.test(swcHtml)) {
