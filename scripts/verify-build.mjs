@@ -65,6 +65,12 @@ if (!existsSync(swcPath)) {
     || !/<h1\b[^>]*>\s*SWC Restorative Justice\s*<\/h1>/.test(swcHtml)) {
     failures.push('swc/index.html: page title and heading must be SWC Restorative Justice');
   }
+  const swcHero = swcHtml.match(/<section\b[^>]*\bclass="hero"[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? '';
+  if (!swcHero.includes('class="course-search-link" href="https://collselfserv.swccd.edu/Student/Courses" target="_blank" rel="noopener noreferrer"')
+    || !swcHero.includes('Course &amp; Course Section Search')
+    || !swcHero.includes('opens in a new tab')) {
+    failures.push('swc/index.html: prominent safe Course & Course Section Search link must appear in the opening header');
+  }
   const swcText = swcHtml.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
   for (const retiredCopy of [
     'student worker hub',

@@ -69,7 +69,7 @@ const pathwayResources = [
 ] as const;
 const officialLinks = [
   ['Apply to SWC', 'Application instructions and the link to CCCApply.', 'https://www.swccd.edu/admissions-and-financial-aid/apply-and-register-for-credit-courses/index.aspx'],
-  ['Class search and registration', 'Find available classes and sign in to register.', 'https://collselfserv.swccd.edu/Student/Courses'],
+  ['Course & Course Section Search', 'Find courses and class sections; sign in to register.', 'https://collselfserv.swccd.edu/Student/Courses'],
   ['SWC catalog', 'Course descriptions, degrees, and certificate requirements.', 'https://www.swccd.edu/classes-and-registration/catalog/'],
   ['SWC Financial Aid', 'Aid options, application guidance, and office support.', 'https://www.swccd.edu/admissions-and-financial-aid/financial-aid/index.aspx'],
   ['FAFSA', 'Start or continue your federal student aid application.', 'https://studentaid.gov/h/apply-for-aid/fafsa'],
@@ -123,6 +123,7 @@ const officialLinks = [
       <section class="hero" aria-labelledby="page-title">
         <div class="wrap hero-inner">
           <h1 id="page-title">{title}</h1>
+          <a class="course-search-link" href="https://collselfserv.swccd.edu/Student/Courses" target="_blank" rel="noopener noreferrer" aria-label="Course & Course Section Search (opens in a new tab)"><span>Course &amp; Course Section Search</span><span aria-hidden="true">↗</span></a>
           <p class="unofficial-note"><strong>Unofficial resource.</strong> Maintained on a personal website; Southwestern College policies and official systems take precedence.</p>
         </div>
       </section>
@@ -295,6 +296,7 @@ const officialLinks = [
   .hero-inner{padding-block:2rem 1.75rem}
   h1{font-size:clamp(2.25rem,5vw,3.75rem);letter-spacing:-.035em;line-height:1.05;margin:.75rem 0 1rem;max-width:24ch}
   .unofficial-note{font-size:.9rem;margin-top:1rem;max-width:48rem}
+  .course-search-link{align-items:center;background:var(--burgundy);border:1px solid var(--burgundy);border-radius:.6rem;color:#fff;display:inline-flex;gap:.8rem;font-size:1rem;font-weight:600;line-height:1.35;max-width:100%;padding:.8rem 1rem;text-decoration:none}.course-search-link:hover{background:var(--burgundy-dark);border-color:var(--burgundy-dark)}.course-search-link span:first-child{min-width:0}.course-search-link span[aria-hidden]{flex:0 0 auto}
   .documents-section{padding-top:2rem}
   .documents-section .section-heading{margin-bottom:.9rem}
   .documents-section h2{font-size:clamp(1.85rem,3.5vw,2.75rem)}
