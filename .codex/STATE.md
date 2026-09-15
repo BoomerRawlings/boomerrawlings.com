@@ -1,5 +1,16 @@
 # Project state
 
+## SWC getting started and document order
+
+- Mode: continuation. Objective: add eight ordered enrollment steps at the top of `/swc/`, four Canvas/Outlook mobile QR links, and the requested document-card order; publish through existing GitHub Pages.
+- Status: verified locally; ready for scoped production push.
+- Documents: Combo, Launch Check, Resources, external Canva Technology Packet, Sign-In, Loaner Laptop Agreement, AODS, New Hire, Transcript Envelope Labels. All eight original PDFs and previews unchanged.
+- Verified destinations: official SWC application page uses HTTPS CCCApply; app stores identify Canvas by Instructure (student app) and Microsoft Outlook. Parchment source-school selector orders incoming transcripts; no outgoing-SWC storefront substitution.
+- Copy: placement questions and prerequisites for higher-level classes, not tests; orientation information and portal both linked. Getting started precedes documents; course search remains in opening header. Existing contacts, maps, chair tables, and noindex protections preserved.
+- QR assets: local black/white SVGs, medium error correction and four-module quiet zones; no new client scripts or production dependencies.
+- Verification: `npm test` and independent source audit pass. All four SVGs independently decoded to exact store URLs. Desktop 1280px and mobile 390/320px checks pass: no horizontal overflow/page errors, correct step/card order, loaded QR images, keyboard PDF open/close and section navigation. Original PDFs/previews untouched.
+- Next: one scoped production push, Pages completion and live verification.
+
 ## SWC transcript envelope labels
 
 - Mode: continuation. Objective: move Transcript Envelope Labels to the end of the `/swc/` preview/download list and publish.

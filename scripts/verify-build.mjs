@@ -90,7 +90,7 @@ if (!existsSync(swcPath)) {
     || !swcHtml.includes('<meta name="referrer" content="no-referrer">')) {
     failures.push('swc/index.html: private-link metadata is incomplete');
   }
-  for (const anchor of ['#downloads', '#contacts', '#official-links']) {
+  for (const anchor of ['#getting-started', '#downloads', '#contacts', '#official-links']) {
     if (!swcHtml.includes(`href="${anchor}"`)) failures.push(`swc/index.html: missing section tab ${anchor}`);
   }
   for (const section of ['start', 'workflows', 'handoff']) {
@@ -98,9 +98,63 @@ if (!existsSync(swcPath)) {
       failures.push(`swc/index.html: removed ${section} section or navigation tab remains`);
     }
   }
-  if (!(swcHtml.indexOf('id="downloads"') < swcHtml.indexOf('id="contacts"'))
+  if (!(swcHtml.indexOf('id="getting-started"') < swcHtml.indexOf('id="downloads"'))
+    || !(swcHtml.indexOf('href="#getting-started"') < swcHtml.indexOf('href="#downloads"'))
+    || !(swcHtml.indexOf('id="downloads"') < swcHtml.indexOf('id="contacts"'))
     || !(swcHtml.indexOf('href="#downloads"') < swcHtml.indexOf('href="#contacts"'))) {
-    failures.push('swc/index.html: documents must be the first content section and navigation tab');
+    failures.push('swc/index.html: Getting started must precede documents, then contacts, in content and navigation');
+  }
+  const gettingStarted = swcHtml.match(/<section\b[^>]*\bid="getting-started"[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? '';
+  const startSteps = [...gettingStarted.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/g)].map(([, step]) => step);
+  const startHeadings = ['CCCApply', 'FAFSA', 'MySWC Login', 'Mobile Setup', 'CalGrant / WebGrants4Students', 'New Student Orientation', 'Assessments / Placements', 'Evaluations'];
+  if (!gettingStarted.includes('<ol ') || startSteps.length !== startHeadings.length
+    || startSteps.some((step, index) => !step.includes(`<h3>${startHeadings[index]}</h3>`))) {
+    failures.push('swc/index.html: eight numbered Getting started steps must retain the requested order');
+  }
+  const startLinks = [
+    [0, 'https://launch.cccmypath.org/mypath/091?authSource=OpenCCC'],
+    [0, 'https://www.swccd.edu/admissions-and-financial-aid/apply-and-register-for-credit-courses/index.aspx'],
+    [1, 'https://studentaid.gov/h/apply-for-aid/fafsa'],
+    [2, 'https://my.swccd.edu/'],
+    [4, 'https://mygrantinfo.csac.ca.gov/'],
+    [5, 'https://orientation.swccd.edu/'],
+    [5, 'https://www.swccd.edu/admissions-and-financial-aid/resources/online-orientation.aspx'],
+    [6, 'https://www.swccd.edu/student-support/placement-and-prerequisites/'],
+    [7, 'https://www.swccd.edu/degrees-and-certificates/graduation-support/evaluations-and-petitions/index.aspx'],
+    [7, 'https://www.parchment.com/students/order-status/'],
+  ];
+  for (const [index, href] of startLinks) {
+    if (!startSteps[index]?.includes(`href="${href}" target="_blank" rel="noopener noreferrer"`)) {
+      failures.push(`swc/index.html: missing safe Getting started link ${href}`);
+    }
+  }
+  if (!startSteps[5]?.includes('start-button--prominent') || !startSteps[6]?.includes('start-button--prominent')
+    || !startSteps[6]?.includes('guided-placement questions') || !startSteps[6]?.includes('higher-level classes')) {
+    failures.push('swc/index.html: orientation and placements need prominent links, with placement-question and prerequisite guidance');
+  }
+  const mobileDownloads = [
+    ['canvas-ios', 'https://apps.apple.com/us/app/canvas-by-instructure/id480883488'],
+    ['canvas-android', 'https://play.google.com/store/apps/details?id=com.instructure.candroid'],
+    ['outlook-ios', 'https://apps.apple.com/us/app/microsoft-outlook/id951937596'],
+    ['outlook-android', 'https://play.google.com/store/apps/details?id=com.microsoft.office.outlook'],
+  ];
+  for (const [id, href] of mobileDownloads) {
+    const qrPath = `/images/swc/qr/${id}.svg`;
+    const qrFile = join(output, qrPath);
+    if (!startSteps[3]?.includes(`href="${href}" target="_blank" rel="noopener noreferrer"`)
+      || !startSteps[3]?.includes(`src="${qrPath}"`) || !existsSync(qrFile)) {
+      failures.push(`swc/index.html: missing mobile store link or QR code ${id}`);
+    } else {
+      const svg = readFileSync(qrFile, 'utf8');
+      const size = Number(svg.match(/viewBox="0 0 (\d+) \d+"/)?.[1]);
+      const modules = [...svg.matchAll(/M(\d+),(\d+)h1v1h-1z/g)];
+      if (!svg.includes(`<metadata>${href.replaceAll('&', '&amp;')}</metadata>`)
+        || !svg.includes('fill="#fff"') || !svg.includes('fill="#000"') || !size || modules.length < 100
+        || modules.some(([, x, y]) => Number(x) < 4 || Number(y) < 4 || Number(x) >= size - 4 || Number(y) >= size - 4)
+        || /<script\b|<image\b|\bon\w+=/.test(svg)) {
+        failures.push(`swc/index.html: invalid QR source, contrast, or quiet zone ${id}`);
+      }
+    }
   }
   const officialSection = swcHtml.match(/<section\b[^>]*\bid="official-links"[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? '';
   const requiredOfficialLinks = [
@@ -121,15 +175,21 @@ if (!existsSync(swcPath)) {
     }
   }
   const swcDocuments = [
-    ['swc-new-hire-packet', 21],
-    ['swc-california-aods-options', 1],
-    ['swc-generic-rj-sign-in-sheet', 1],
+    ['swc-rising-scholar-combo', 4],
     ['swc-rising-scholar-launch-check', 2],
     ['swc-rising-scholar-resources', 2],
-    ['swc-rising-scholar-combo', 4],
+    ['swc-generic-rj-sign-in-sheet', 1],
     ['swc-loaner-laptop-student-agreement', 2],
+    ['swc-california-aods-options', 1],
+    ['swc-new-hire-packet', 21],
     ['swc-transcript-envelope-labels', 1],
   ];
+  const actualDownloads = [...swcHtml.matchAll(/href="([^"]+)" download/g)].map(([, href]) => href);
+  const actualPreviews = [...swcHtml.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*data-pdf-preview(?:\s|>)/g)].map(([, href]) => href);
+  if (actualDownloads.join('|') !== swcDocuments.map(([name]) => `/documents/swc/pdf/${name}.pdf`).join('|')
+    || actualPreviews.join('|') !== swcDocuments.map(([name]) => `/documents/swc/pdf/${name}.pdf#view=FitH`).join('|')) {
+    failures.push('swc/index.html: PDF previews and downloads must retain the requested resource order');
+  }
   if ((swcHtml.match(/data-pdf-preview(?:\s|>)/g) || []).length !== swcDocuments.length
     || !swcHtml.includes('data-pdf-dialog') || !swcHtml.includes('data-pdf-close')
     || !swcHtml.includes('Open the PDF in a new tab')) {
@@ -153,7 +213,15 @@ if (!existsSync(swcPath)) {
     || !canvaLinks[0].includes('target="_blank"')
     || !canvaLinks[0].includes('rel="noopener noreferrer"')
     || /\bdownload(?:[=\s>])|data-pdf-preview/.test(canvaLinks[0])) {
-    failures.push('swc/index.html: expected one separate Canva link for the technology packet');
+    failures.push('swc/index.html: expected one safe external Canva link for the technology packet');
+  }
+  const documentCards = [...swcHtml.matchAll(/<article\b[^>]*class="(?:document-card|canva-card)"[^>]*>([\s\S]*?)<\/article>/g)].map(([, card]) => card);
+  if (documentCards.length !== 9
+    || !documentCards[2]?.includes('data-pdf-title="Rising Scholar Resources"')
+    || !documentCards[3]?.includes(`href="${canvaHref}"`)
+    || !documentCards[3]?.includes('Canva Technology Packet')
+    || !documentCards[4]?.includes('data-pdf-title="Generic SWC RJ Sign-In Sheet"')) {
+    failures.push('swc/index.html: Canva Technology Packet card must immediately follow Resources');
   }
   const swcResources = new Set();
   const campusMapsOpening = swcHtml.match(/<details\b([^>]*\bid="campus-maps"[^>]*)>/);

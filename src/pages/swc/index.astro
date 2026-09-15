@@ -12,19 +12,26 @@ const description = 'An unofficial SWC Restorative Justice resource with downloa
 const canonical = 'https://boomerrawlings.com/swc/';
 const socialImage = 'https://boomerrawlings.com/images/swc-student-worker-hub-social.png';
 const tabs = [
+  ['Getting started', '#getting-started'],
   ['Documents', '#downloads'],
   ['Contacts', '#contacts'],
   ['Official links', '#official-links'],
 ] as const;
 const pdfResources = [
-  ['New Hire Packet', 'Employment forms, instructions, and a payroll schedule.', '/documents/swc/pdf/swc-new-hire-packet.pdf', 21, 773, 1000],
-  ['AODS Options', 'A comparison of California SUD counselor credentials.', '/documents/swc/pdf/swc-california-aods-options.pdf', 1, 773, 1000],
-  ['Generic SWC RJ Sign-In Sheet', 'A blank sign-in sheet for Restorative Justice.', '/documents/swc/pdf/swc-generic-rj-sign-in-sheet.pdf', 1, 773, 1000],
+  ['Rising Scholar Combo', 'The resource handout and launch checklist in one PDF.', '/documents/swc/pdf/swc-rising-scholar-combo.pdf', 4, 773, 1000],
   ['Rising Scholar Launch Check', 'Enrollment steps and an account-information worksheet.', '/documents/swc/pdf/swc-rising-scholar-launch-check.pdf', 2, 773, 1000],
   ['Rising Scholar Resources', 'Campus contacts, a map, and books-and-supplies guidance.', '/documents/swc/pdf/swc-rising-scholar-resources.pdf', 2, 773, 1000],
-  ['Rising Scholar Combo', 'The resource handout and launch checklist in one PDF.', '/documents/swc/pdf/swc-rising-scholar-combo.pdf', 4, 773, 1000],
+  ['Generic SWC RJ Sign-In Sheet', 'A blank sign-in sheet for Restorative Justice.', '/documents/swc/pdf/swc-generic-rj-sign-in-sheet.pdf', 1, 773, 1000],
   ['Loaner Laptop Program Student Agreement', 'Loan terms, return procedures, and the student agreement.', '/documents/swc/pdf/swc-loaner-laptop-student-agreement.pdf', 2, 773, 1000],
+  ['AODS Options', 'A comparison of California SUD counselor credentials.', '/documents/swc/pdf/swc-california-aods-options.pdf', 1, 773, 1000],
+  ['New Hire Packet', 'Employment forms, instructions, and a payroll schedule.', '/documents/swc/pdf/swc-new-hire-packet.pdf', 21, 773, 1000],
   ['Transcript Envelope Labels', 'Blank address-label sheet for transcript envelopes.', '/documents/swc/pdf/swc-transcript-envelope-labels.pdf', 1, 1275, 1650],
+] as const;
+const mobileApps = [
+  ['Canvas', 'iOS · iPhone / iPad', 'App Store', 'https://apps.apple.com/us/app/canvas-by-instructure/id480883488', 'canvas-ios'],
+  ['Canvas', 'Android', 'Google Play', 'https://play.google.com/store/apps/details?id=com.instructure.candroid', 'canvas-android'],
+  ['Outlook', 'iOS · iPhone / iPad', 'App Store', 'https://apps.apple.com/us/app/microsoft-outlook/id951937596', 'outlook-ios'],
+  ['Outlook', 'Android', 'Google Play', 'https://play.google.com/store/apps/details?id=com.microsoft.office.outlook', 'outlook-android'],
 ] as const;
 const keyContacts = [
   { name: 'Raquel Funches', role: 'Director · Restorative Justice and Other Off-Campus Programs', phone: '(619) 216-6658', tel: '+16192166658', email: 'rfunches@swccd.edu', office: 'HEC National City · Office 7118B', source: 'https://www.swccd.edu/_showcase/directory/index.aspx' },
@@ -135,20 +142,90 @@ const officialLinks = [
         </div>
       </nav>
 
+      <section id="getting-started" class="wrap content-section getting-started-section" aria-labelledby="getting-started-heading">
+        <header class="section-heading"><span>01</span><div><p>Enrollment essentials</p><h2 id="getting-started-heading">Getting started</h2></div></header>
+        <ol class="getting-started-list" role="list">
+          <li class="start-step">
+            <h3>CCCApply</h3>
+            <p>Apply to Southwestern College through OpenCCC.</p>
+            <div class="start-actions">
+              <a class="start-button" href="https://launch.cccmypath.org/mypath/091?authSource=OpenCCC" target="_blank" rel="noopener noreferrer">Start CCCApply <span aria-hidden="true">↗</span></a>
+              <a class="start-text-link" href="https://www.swccd.edu/admissions-and-financial-aid/apply-and-register-for-credit-courses/index.aspx" target="_blank" rel="noopener noreferrer">SWC application instructions <span aria-hidden="true">↗</span></a>
+            </div>
+          </li>
+          <li class="start-step">
+            <h3>FAFSA</h3>
+            <p>Start or continue your federal student aid application.</p>
+            <div class="start-actions"><a class="start-button" href="https://studentaid.gov/h/apply-for-aid/fafsa" target="_blank" rel="noopener noreferrer">Apply for FAFSA <span aria-hidden="true">↗</span></a></div>
+          </li>
+          <li class="start-step start-step--wide">
+            <h3>MySWC Login</h3>
+            <p>Access your SWC account, student email, Canvas, and Self-Service.</p>
+            <div class="start-actions"><a class="start-button" href="https://my.swccd.edu/" target="_blank" rel="noopener noreferrer">Log in to MySWC <span aria-hidden="true">↗</span></a></div>
+          </li>
+          <li class="start-step start-step--wide">
+            <h3>Mobile Setup</h3>
+            <p>Install the student Canvas app (listed as “Canvas by Instructure”) and Microsoft Outlook. Scan a QR code with your phone, or click its store link.</p>
+            <div class="mobile-app-grid">
+              {mobileApps.map(([app, platform, store, href, id]) => (
+                <a class="mobile-app" href={href} target="_blank" rel="noopener noreferrer" aria-label={`${app} for ${platform} — open ${store}`}>
+                  <strong>{app}</strong><span>{platform}</span>
+                  <img src={`/images/swc/qr/${id}.svg`} width="180" height="180" alt={`${app} ${platform} download QR code`} loading="lazy" decoding="async" />
+                  <span class="mobile-store-link">Open {store} <span aria-hidden="true">↗</span></span>
+                </a>
+              ))}
+            </div>
+          </li>
+          <li class="start-step">
+            <h3>CalGrant / WebGrants4Students</h3>
+            <p>Check your Cal Grant status and manage your award.</p>
+            <div class="start-actions"><a class="start-button" href="https://mygrantinfo.csac.ca.gov/" target="_blank" rel="noopener noreferrer">Open WebGrants4Students <span aria-hidden="true">↗</span></a></div>
+          </li>
+          <li class="start-step">
+            <h3>New Student Orientation</h3>
+            <p>Complete your online orientation and learn about SWC.</p>
+            <div class="start-actions">
+              <a class="start-button start-button--prominent" href="https://orientation.swccd.edu/" target="_blank" rel="noopener noreferrer">Start New Student Orientation <span aria-hidden="true">↗</span></a>
+              <a class="start-button start-button--secondary" href="https://www.swccd.edu/admissions-and-financial-aid/resources/online-orientation.aspx" target="_blank" rel="noopener noreferrer">Orientation information <span aria-hidden="true">↗</span></a>
+            </div>
+          </li>
+          <li class="start-step">
+            <h3>Assessments / Placements</h3>
+            <p>Review your placement, answer any required guided-placement questions, and check prerequisites for higher-level classes.</p>
+            <div class="start-actions"><a class="start-button start-button--prominent" href="https://www.swccd.edu/student-support/placement-and-prerequisites/" target="_blank" rel="noopener noreferrer">Assessments &amp; Placements <span aria-hidden="true">↗</span></a></div>
+          </li>
+          <li class="start-step">
+            <h3>Evaluations</h3>
+            <p>Request evaluation of transcripts from other schools. In Parchment, select your previous school as the sender and SWC as the recipient, if supported.</p>
+            <div class="start-actions">
+              <a class="start-button" href="https://www.swccd.edu/degrees-and-certificates/graduation-support/evaluations-and-petitions/index.aspx" target="_blank" rel="noopener noreferrer">SWC evaluations <span aria-hidden="true">↗</span></a>
+              <a class="start-button start-button--secondary" href="https://www.parchment.com/students/order-status/" target="_blank" rel="noopener noreferrer">Order transcripts · Parchment <span aria-hidden="true">↗</span></a>
+            </div>
+          </li>
+        </ol>
+      </section>
+
       <section id="downloads" class="wrap content-section documents-section" aria-labelledby="downloads-heading">
-        <header class="section-heading"><span>01</span><div><p>Documents</p><h2 id="downloads-heading">Forms and reference sheets</h2></div></header>
-        <p class="documents-intro">Each PDF has its own preview and download.</p>
+        <header class="section-heading"><span>02</span><div><p>Documents</p><h2 id="downloads-heading">Forms and reference sheets</h2></div></header>
+        <p class="documents-intro">Preview or download each PDF, or open the technology packet in Canva.</p>
         <div class="document-grid">
-          {pdfResources.map(([resourceTitle, text, href, pages, width, height]) => (
-            <DocumentPreview title={resourceTitle} description={text} href={href} preview={href.replace('/pdf/', '/previews/').replace('.pdf', '.jpg')} pages={pages} width={width} height={height} />
+          {pdfResources.map(([resourceTitle, text, href, pages, width, height], index) => (
+            <Fragment>
+              {index === 3 && <article class="canva-card">
+                <a href="https://canva.link/7zeu5d8ronzqd2x" target="_blank" rel="noopener noreferrer" aria-label="Restorative Justice Student Technology Packet — open in Canva (opens in a new tab)">
+                  <div class="canva-card-cover" aria-hidden="true"><span>Canva</span><strong>Technology<br />Packet</strong><span>Restorative Justice · SWC</span></div>
+                  <div class="canva-card-details"><p class="canva-card-meta">Canva · External document</p><h3>Canva Technology Packet</h3><p>Restorative Justice Student Technology Packet. View the original in Canva.</p><span class="canva-card-button">open in Canva <span aria-hidden="true">↗</span></span></div>
+                </a>
+              </article>}
+              <DocumentPreview title={resourceTitle} description={text} href={href} preview={href.replace('/pdf/', '/previews/').replace('.pdf', '.jpg')} pages={pages} width={width} height={height} />
+            </Fragment>
           ))}
         </div>
-        <p class="canva-resource"><a href="https://canva.link/7zeu5d8ronzqd2x" target="_blank" rel="noopener noreferrer">Restorative Justice Student Technology Packet — open in Canva <span aria-hidden="true">↗</span></a></p>
         <p class="resource-note document-safety">Keep completed forms in approved restricted systems; never upload completed copies here. Some original handouts include password fields. Follow current SWC security policy and never record passwords in shared copies.</p>
       </section>
 
       <section id="contacts" class="wrap content-section" aria-labelledby="contacts-heading">
-        <header class="section-heading"><span>02</span><div><p>Contacts</p><h2 id="contacts-heading">People and service desks</h2></div></header>
+        <header class="section-heading"><span>03</span><div><p>Contacts</p><h2 id="contacts-heading">People and service desks</h2></div></header>
 
         <div class="contact-section" aria-labelledby="people-heading">
           <div class="resource-group-heading"><h3 id="people-heading">Key people</h3><p>Roles and details checked against current SWC sources.</p></div>
@@ -239,7 +316,7 @@ const officialLinks = [
       </section>
 
       <section id="official-links" class="wrap content-section" aria-labelledby="official-heading">
-        <header class="section-heading"><span>03</span><div><p>Official links</p><h2 id="official-heading">Enrollment, financial aid, and support</h2></div></header>
+        <header class="section-heading"><span>04</span><div><p>Official links</p><h2 id="official-heading">Enrollment, financial aid, and support</h2></div></header>
         <div class="official-grid">
           {officialLinks.map(([title, text, href]) => (
             <a href={href} target="_blank" rel="noopener noreferrer"><span><strong>{title}</strong><small>{text}</small></span><span aria-hidden="true">↗</span></a>
@@ -329,9 +406,18 @@ const officialLinks = [
   #chair-references .table-scroll-hint{display:none}
   @media(max-width:48rem){#chair-references .table-scroll-hint{display:block;font-size:.82rem;color:var(--muted);margin:.3rem 0 .6rem}}
   .document-grid{display:grid;gap:1.15rem;grid-template-columns:repeat(3,minmax(0,1fr))}
-  .canva-resource{line-height:1.5;margin:1.25rem 0}.canva-resource a{color:var(--burgundy);font-weight:600;text-underline-offset:.2em}
+  .getting-started-section{padding-block:2rem 2.5rem}.getting-started-section .section-heading{margin-bottom:1.5rem}.getting-started-section h2{font-size:clamp(1.85rem,3.5vw,2.75rem)}
+  .getting-started-list{counter-reset:enrollment;display:grid;gap:1rem;grid-template-columns:repeat(2,minmax(0,1fr));list-style:none;margin:0;padding:0}
+  .start-step{background:#fff;border:1px solid var(--rule);border-radius:.5rem;counter-increment:enrollment;min-width:0;padding:1.25rem 1.25rem 1.25rem 4.2rem;position:relative}
+  .start-step::before{align-items:center;background:var(--gold-soft);border:1px solid var(--gold);border-radius:50%;color:var(--burgundy-dark);content:counter(enrollment);display:flex;font-size:1.1rem;font-weight:700;height:2rem;justify-content:center;left:1.2rem;position:absolute;top:1.2rem;width:2rem}
+  .start-step--wide{grid-column:1/-1}.start-step h3{font-size:1.3rem;line-height:1.25;margin:0 0 .5rem;overflow-wrap:anywhere}.start-step>p{color:var(--muted);font-size:1rem;line-height:1.45;margin:0 0 1rem}
+  .start-actions{align-items:center;display:flex;flex-wrap:wrap;gap:.75rem}.start-button{align-items:center;background:var(--burgundy);border:1px solid var(--burgundy);border-radius:.3rem;color:#fff;display:inline-flex;gap:.8rem;font-size:1.05rem;font-weight:600;justify-content:space-between;line-height:1.3;max-width:100%;min-height:48px;padding:.7rem .9rem;text-decoration:none}.start-button span{flex:0 0 auto}.start-button:hover{background:var(--burgundy-dark);border-color:var(--burgundy-dark)}.start-button--secondary{background:#fff;color:var(--burgundy)}.start-button--secondary:hover{background:var(--gold-soft);border-color:var(--burgundy);color:var(--burgundy-dark)}.start-button--prominent{font-size:1.2rem;min-height:56px;width:100%}.start-text-link{color:var(--burgundy);font-size:1rem;line-height:1.4;padding-block:.4rem;text-underline-offset:.2em}
+  .mobile-app-grid{display:grid;gap:.9rem;grid-template-columns:repeat(4,minmax(0,1fr))}.mobile-app{align-items:center;background:var(--paper);border:1px solid var(--rule);border-radius:.4rem;display:flex;flex-direction:column;min-width:0;padding:.9rem;text-align:center;text-decoration:none}.mobile-app>strong{color:var(--burgundy-dark);font-size:1.15rem}.mobile-app>span{color:var(--muted);font-size:.9rem;line-height:1.4}.mobile-app img{background:#fff;display:block;height:auto;margin:.7rem 0;max-width:100%;width:180px}.mobile-app .mobile-store-link{color:var(--burgundy);font-size:1rem;font-weight:600;padding:.4rem 0;text-decoration:underline;text-underline-offset:.2em}.mobile-app:hover{border-color:var(--burgundy);background:var(--gold-soft)}
+  .canva-card{background:#fff;border:1px solid var(--rule);border-radius:.5rem;display:flex;min-width:0;overflow:hidden}.canva-card>a{display:flex;flex:1;flex-direction:column;text-decoration:none}.canva-card-cover{background:linear-gradient(135deg,var(--burgundy-dark),var(--burgundy));border-bottom:.3rem solid var(--gold);color:#fff;display:flex;flex-direction:column;gap:1.25rem;height:18rem;justify-content:center;padding:1.75rem}.canva-card-cover>span{font-size:.85rem;letter-spacing:.04em}.canva-card-cover>strong{font-size:2.5rem;letter-spacing:-.025em;line-height:1.05}.canva-card-details{display:flex;flex:1;flex-direction:column;padding:1.15rem}.canva-card-meta{color:var(--muted);font-size:.8rem;margin:0 0 .5rem}.canva-card h3{font-size:1.25rem;line-height:1.2;margin:0 0 .55rem}.canva-card-details>p:not(.canva-card-meta){color:var(--muted);flex:1;font-size:.95rem;line-height:1.45;margin:0 0 1rem}.canva-card-button{align-items:center;background:var(--burgundy);border:1px solid var(--burgundy);border-radius:.2rem;color:#fff;display:flex;font-size:.95rem;font-weight:600;gap:1rem;justify-content:space-between;min-height:44px;padding:.65rem .8rem}.canva-card a:hover .canva-card-button{background:var(--burgundy-dark)}.canva-card a:focus-visible{outline-offset:-4px}
   .document-safety{margin:1.25rem 0 2.4rem}
   @media(max-width:60rem){.document-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:48rem){.getting-started-list{grid-template-columns:minmax(0,1fr)}.mobile-app-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:36rem){.start-step{padding:1rem}.start-step::before{height:1.8rem;left:1rem;top:1rem;width:1.8rem}.start-step h3{min-height:1.8rem;padding-left:2.5rem}.mobile-app{padding:.65rem}.start-button{width:100%}.start-button--prominent{font-size:1.15rem}}
   @media(max-width:36rem){.document-grid{grid-template-columns:minmax(0,1fr)}}
   @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
   @media print{.utility-header,.section-tabs,.skip-link{display:none}.content-section{break-inside:avoid;padding-block:2rem}}
