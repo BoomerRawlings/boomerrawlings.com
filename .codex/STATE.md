@@ -5,7 +5,7 @@
 - Mode: continuation. Objective: group requested staff under SWC Cares and add the supplied EMT/Fire Science waitlist connection.
 - Status: published as `73b20a3` on 2026-09-15; Pages run `35029769224` succeeded. Reuses existing contact renderer; official directory confirms supplied new contact details and email-form URL. User-specified program connection retained; no guessed email address.
 - `npm test`, diff check and independent source audit pass. Desktop 1280px shows three Cares cards in one row; mobile 390/320px stacks them, with no overflow/page errors. Priority contacts remain first; other content and original documents unchanged.
-- Live `/swc/` returned HTTP 200; the contacts section matches the verified build exactly. Next: no remaining work for this update.
+- Live `/swc/` returned HTTP 200; requested group membership, new waitlist designation, phone, office and email-form destination verified. CDN email obfuscation transforms existing HTML, so byte-for-byte page comparison is not applicable. Next: no remaining work for this update.
 
 ## SWC getting started and document order
 
