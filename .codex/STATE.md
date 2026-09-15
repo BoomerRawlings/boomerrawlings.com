@@ -3,11 +3,11 @@
 ## SWC transcript envelope labels
 
 - Mode: continuation. Objective: publish the supplied PDF first in the `/swc/` files section as Transcript Envelope Labels.
-- Status: implemented and verified locally; publication pending.
+- Status: published as `86f707e` on 2026-09-15; Pages run `35026455823` succeeded.
 - Supplied one-page blank label grid reviewed; no recipient/student data or active PDF content. Source PDF preserved byte-for-byte; matching preview uses the existing document component.
 - Existing course search, other PDFs, contacts, chair tables, maps, and noindex protections unchanged.
-- Verified: source/public PDF SHA-256 matches; complete rendered page reviewed; `npm test` and `git diff --check` pass with eight document cards and first-label ordering regression checks.
-- Next: verify build and first-document order, publish, confirm live file integrity.
+- Verified: source/public/live PDF SHA-256 matches; complete rendered page reviewed; `npm test` and `git diff --check` pass. Live page has eight document cards with labels first; PDF and preview return HTTP 200.
+- Next: no remaining work for this update; preserve other objectives below.
 
 ## SWC course search
 
