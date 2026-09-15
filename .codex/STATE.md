@@ -3,11 +3,11 @@
 ## SWC course search
 
 - Mode: continuation. Objective: add the official Course & Course Section Search near the beginning of `/swc/` and publish.
-- Status: implemented and verified locally on 2026-09-15; publication pending.
+- Status: published as `ca7884a` on 2026-09-15; Pages run `35026122281` succeeded.
 - Prominent header link opens SWC Self-Service search in a new tab; lower official-resource label matches. Existing documents, contacts, chair tables, maps, and noindex protections unchanged.
 - Decision: link directly to the official search rather than duplicate its catalog or registration interface.
-- Verified: `npm test` and `git diff --check` pass; regression check requires the safe external search link inside the opening header.
-- Next: verify build, publish one scoped update, confirm production.
+- Verified: `npm test` and `git diff --check` pass; live page returned HTTP 200 with the safe search link in the opening header, all seven PDF previews, and noindex protections.
+- Next: no remaining work for this update; preserve other paused objectives below.
 
 ## SWC chair tables and campus maps
 
