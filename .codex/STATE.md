@@ -3,12 +3,12 @@
 ## SWC transcript envelope labels
 
 - Mode: continuation. Objective: move Transcript Envelope Labels to the end of the `/swc/` preview/download list and publish.
-- Status: reordered and verified locally; publication pending.
+- Status: published as `599da29` on 2026-09-15; Pages run `35027409762` succeeded.
 - Supplied one-page blank label grid reviewed; no recipient/student data or active PDF content. Source PDF preserved byte-for-byte; matching preview uses the existing document component.
 - Existing course search, other PDFs, contacts, chair tables, maps, and noindex protections unchanged.
 - Verified: previous release preserved the source/public/live PDF SHA-256; this reorder changes no PDF or preview asset.
-- `npm test` and `git diff --check` pass; regression checks require labels last among previews and downloads.
-- Next: verify last-preview/download ordering, publish, confirm live order.
+- `npm test` and `git diff --check` pass; live page returned HTTP 200 with labels last among all eight previews and downloads. Other seven retain prior order; assets unchanged.
+- Next: no remaining work for this update; preserve other objectives below.
 
 ## SWC course search
 
