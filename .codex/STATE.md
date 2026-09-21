@@ -3,12 +3,13 @@
 ## SWC Restorative Justice application
 
 - Mode: new task. Objective: publish the user-supplied Restorative Justice application on `/swc/`.
-- Status: verified, ready for one production push; fresh checkout of canonical production `aa1d3c6`. Preserve unrelated paused work below.
+- Status: published as `e8ee688` on 2026-09-21; GitHub Pages run `35656640650` succeeded. Preserve unrelated paused work below.
 - Reviewed both scanned pages: Southwestern College application and course registration for Richard J. Donovan Correctional Facility; identity fields blank. Source kept byte-identical, including its preselected educational goal.
 - Decision: reuse the document preview/download component; insert before Transcript Envelope Labels so existing relative order and labels-last placement remain intact.
 - Source SHA-256: `0b851e501f4a10376769b89b3cc6d08b2940e93ff54193f6b7a5c44c21203c40`.
 - Verification: `npm test`, diff check, and independent source review pass. Both 773x1000 previews visually reviewed. Browser opens the correct two-page dialog, loads both images, and closes with Escape; download points to the source-identical PDF. Browser screenshot capture unavailable.
-- Next: publish once through main/GitHub Pages and verify live page and asset hashes.
+- Live verification: `/swc/` returns HTTP 200 with the new preview/download and preserved noindex directives. PDF and both previews return HTTP 200 with source-matching SHA-256 hashes.
+- Next: no remaining work for this update.
 
 ## SWC Cares and waitlist contacts
 
