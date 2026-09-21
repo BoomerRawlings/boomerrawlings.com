@@ -226,6 +226,7 @@ if (!existsSync(swcPath)) {
     ['swc-loaner-laptop-student-agreement', 2],
     ['swc-california-aods-options', 1],
     ['swc-new-hire-packet', 21],
+    ['swc-restorative-justice-application', 2],
     ['swc-transcript-envelope-labels', 1],
   ];
   const actualDownloads = [...swcHtml.matchAll(/href="([^"]+)" download/g)].map(([, href]) => href);
@@ -237,7 +238,7 @@ if (!existsSync(swcPath)) {
   if ((swcHtml.match(/data-pdf-preview(?:\s|>)/g) || []).length !== swcDocuments.length
     || !swcHtml.includes('data-pdf-dialog') || !swcHtml.includes('data-pdf-close')
     || !swcHtml.includes('Open the PDF in a new tab')) {
-    failures.push('swc/index.html: eight PDF previews and accessible reader fallback are required');
+    failures.push('swc/index.html: nine PDF previews and accessible reader fallback are required');
   }
   if ([...swcHtml.matchAll(/data-pdf-title="([^"]+)"/g)].at(-1)?.[1] !== 'Transcript Envelope Labels'
     || [...swcHtml.matchAll(/href="([^"]+)" download/g)].at(-1)?.[1] !== '/documents/swc/pdf/swc-transcript-envelope-labels.pdf') {
@@ -260,7 +261,7 @@ if (!existsSync(swcPath)) {
     failures.push('swc/index.html: expected one safe external Canva link for the technology packet');
   }
   const documentCards = [...swcHtml.matchAll(/<article\b[^>]*class="(?:document-card|canva-card)"[^>]*>([\s\S]*?)<\/article>/g)].map(([, card]) => card);
-  if (documentCards.length !== 9
+  if (documentCards.length !== 10
     || !documentCards[2]?.includes('data-pdf-title="Rising Scholar Resources"')
     || !documentCards[3]?.includes(`href="${canvaHref}"`)
     || !documentCards[3]?.includes('Canva Technology Packet')
@@ -317,7 +318,7 @@ if (!existsSync(swcPath)) {
     if (!chairTables.includes(requiredText)) failures.push(`swc/index.html: chair transcription missing ${requiredText}`);
   }
   if ((swcHtml.match(/<a\b[^>]*\bdownload(?:[=\s>])/g) || []).length !== swcDocuments.length) {
-    failures.push('swc/index.html: expected exactly eight direct PDF downloads');
+    failures.push('swc/index.html: expected exactly nine direct PDF downloads');
   }
   for (const [basename, pages] of swcDocuments) {
     const download = `/documents/swc/pdf/${basename}.pdf`;
