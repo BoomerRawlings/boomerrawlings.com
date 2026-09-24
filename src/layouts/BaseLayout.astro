@@ -56,6 +56,7 @@ const pageTitle = titleBase === siteName ? titleBase : `${titleBase} | ${siteNam
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 const socialImage = new URL(image.src, Astro.site).toString();
 const isHome = Astro.url.pathname === '/';
+const isAnalysis = Astro.url.pathname.startsWith('/data-analysis/');
 const isAbout = Astro.url.pathname === '/about/';
 const pageId = `${canonical}#webpage`;
 const personSchema = {
@@ -117,6 +118,7 @@ const navItems = [
   ['Academics', '/cv/'],
   ['Writing', '/writing/'],
   ['Projects', '/work/'],
+  ['Data Analysis', '/data-analysis/'],
   ['About', '/about/'],
   ['All Work', '/all/'],
 ];
@@ -176,7 +178,7 @@ const isCurrent = (href: string) =>
     <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': schemaGraph })}></script>
     <title>{pageTitle}</title>
   </head>
-  <body class:list={{ 'home-page': isHome }}>
+  <body class:list={{ 'home-page': isHome, 'analysis-research': isAnalysis }}>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class:list={['site-header', { 'site-header--home': isHome }]}>
       <a class="wordmark" href="/" aria-label="Boomer Rawlings, home">
@@ -239,7 +241,7 @@ const isCurrent = (href: string) =>
         </ul>
       </div>
     </footer>
-    <CoffeeButton />
+    {!isAnalysis && <CoffeeButton />}
   </body>
 </html>
 

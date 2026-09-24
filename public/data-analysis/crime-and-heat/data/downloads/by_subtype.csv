@@ -1,0 +1,5 @@
+﻿Incident Sub Type,all_source_ids,core_dv_source_ids,dv_order_source_ids,broad_dv_source_ids,source_charge_rows,core_dv_share_of_source_ids
+ADULT,118556,12477,2974,15156,195446,0.1052414049056985
+OUTSIDE WARRANT,8739,0,0,0,8745,0.0
+LOCAL WARRANT,8287,0,0,0,8302,0.0
+MULTIPLE/CONFLICTING,731,1,4,5,2248,0.0013679890560875

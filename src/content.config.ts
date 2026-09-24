@@ -33,7 +33,7 @@ const archive = defineCollection({
       title: z.string(),
       slug: z.string(),
       date: z.coerce.date().optional(),
-      type: z.enum(['work', 'research', 'writing', 'photography']),
+      type: z.enum(['work', 'research', 'writing', 'photography', 'data-analysis']),
       description: z.string(),
       visualEvidence: z.array(visualEvidenceItem).max(3).optional(),
       document: z.object({

@@ -1,0 +1,152 @@
+[
+  {
+    "number": 1,
+    "title": "Supplied administrative data",
+    "detail": "Three Sheriff arrest CSV exports covering July 2018-2023, 2024 and 2025; source_manifest.csv. No agency dictionary supplied.",
+    "url": null
+  },
+  {
+    "number": 2,
+    "title": "California Penal Code 243",
+    "detail": "Subdivision (e)(1): relationship-specific battery.",
+    "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=243."
+  },
+  {
+    "number": 3,
+    "title": "California Penal Code 273.5",
+    "detail": "Relationship-specific corporal injury and prior-conviction provisions.",
+    "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=273.5."
+  },
+  {
+    "number": 4,
+    "title": "California Penal Code 12022.7",
+    "detail": "Subdivision (e): DV great-bodily-injury enhancement.",
+    "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=12022.7."
+  },
+  {
+    "number": 5,
+    "title": "California AB 1171, chaptered 2021",
+    "detail": "Repeal of separate spousal-rape section 262 and related changes.",
+    "url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202120220AB1171"
+  },
+  {
+    "number": 6,
+    "title": "California Penal Code 273.6",
+    "detail": "Protective-order offenses, in chapter text.",
+    "url": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?article=&chapter=2.&division=&lawCode=PEN&part=1.&title=9."
+  },
+  {
+    "number": 7,
+    "title": "California Penal Code 166",
+    "detail": "Contempt and protective-order subsections.",
+    "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=166."
+  },
+  {
+    "number": 8,
+    "title": "California Penal Code 13700",
+    "detail": "Law-enforcement domestic-violence relationship definition.",
+    "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=13700."
+  },
+  {
+    "number": 9,
+    "title": "Open-Meteo Historical Weather API",
+    "detail": "Daily variables, model selection and API options.",
+    "url": "https://open-meteo.com/en/docs/historical-weather-api"
+  },
+  {
+    "number": 10,
+    "title": "Copernicus Climate Change Service / ECMWF",
+    "detail": "ERA5-Land hourly data. DOI: 10.24381/cds.e2161bac.",
+    "url": "https://doi.org/10.24381/cds.e2161bac"
+  },
+  {
+    "number": 11,
+    "title": "U.S. Census Bureau, 2024 Gazetteer",
+    "detail": "ZCTA representative internal-point coordinates.",
+    "url": "https://www.census.gov/geographies/reference-files/2024/geo/gazetter-file.html"
+  },
+  {
+    "number": 12,
+    "title": "NOAA/NCEI Access Data Service",
+    "detail": "Daily station summaries and request documentation.",
+    "url": "https://www.ncei.noaa.gov/access/search/documentation/data-service/"
+  },
+  {
+    "number": 13,
+    "title": "NOAA GHCN-Daily documentation",
+    "detail": "Variable definitions, observation attributes and quality flags.",
+    "url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/readme.txt"
+  },
+  {
+    "number": 14,
+    "title": "Open-Meteo daily aggregation discussion",
+    "detail": "Maintainer explanation of timezone behavior; saved response offsets control this analysis.",
+    "url": "https://github.com/open-meteo/open-meteo/discussions/801"
+  },
+  {
+    "number": 15,
+    "title": "statsmodels: cov_nw_groupsum",
+    "detail": "Time-aggregated Newey-West covariance reference implementation.",
+    "url": "https://www.statsmodels.org/stable/generated/statsmodels.stats.sandwich_covariance.cov_nw_groupsum.html"
+  },
+  {
+    "number": 16,
+    "title": "statsmodels: generalized linear models",
+    "detail": "Poisson GLM numerical cross-check.",
+    "url": "https://www.statsmodels.org/stable/generated/statsmodels.genmod.generalized_linear_model.GLM.html"
+  },
+  {
+    "number": 17,
+    "title": "statsmodels: multipletests",
+    "detail": "Holm family-wise multiple-testing adjustment.",
+    "url": "https://www.statsmodels.org/stable/generated/statsmodels.stats.multitest.multipletests.html"
+  },
+  {
+    "number": 18,
+    "title": "Sanz-Barbero B, Linares C, Vives-Cases C, González JL, López-Ossorio JJ, Díaz J",
+    "detail": "Heat wave and the risk of intimate partner violence. Science of the Total Environment. 2018;644:413-419. doi:10.1016/j.scitotenv.2018.06.368.",
+    "url": "https://doi.org/10.1016/j.scitotenv.2018.06.368"
+  },
+  {
+    "number": 19,
+    "title": "Zhu Y, He C, Bell M, et al.",
+    "detail": "Association of Ambient Temperature With the Prevalence of Intimate Partner Violence Among Partnered Women in Low- and Middle-Income South Asian Countries. JAMA Psychiatry. 2023;80(9):952-961. doi:10.1001/jamapsychiatry.2023.1958.",
+    "url": "https://jamanetwork.com/journals/jamapsychiatry/fullarticle/2806604"
+  },
+  {
+    "number": 20,
+    "title": "California Family Code 6211",
+    "detail": "Domestic-relationship definition, including specified family relationships.",
+    "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=FAM&sectionNum=6211."
+  },
+  {
+    "number": 21,
+    "title": "Study computational records, September 24, 2026",
+    "detail": "audit.json, charge_classification_map.csv, model_results.csv, model_analysis_coverage.csv, noaa_crosscheck.csv, source_audit_pass2.json, weather_audit.md and statistical_audit/STATISTICAL_AUDIT.md with result CSVs. See page 11.",
+    "url": null
+  },
+  {
+    "number": 22,
+    "title": "Newey WK, West KD",
+    "detail": "A Simple, Positive Semi-Definite, Heteroskedasticity and Autocorrelation Consistent Covariance Matrix. Econometrica. 1987;55(3):703-708. doi:10.2307/1913610. Linked authors' working-paper record.",
+    "url": "https://www.nber.org/papers/t0055"
+  },
+  {
+    "number": 23,
+    "title": "Driscoll JC, Kraay AC",
+    "detail": "Consistent Covariance Matrix Estimation with Spatially Dependent Panel Data. Review of Economics and Statistics. 1998;80(4):549-560. doi:10.1162/003465398557825.",
+    "url": "https://doi.org/10.1162/003465398557825"
+  },
+  {
+    "number": 24,
+    "title": "Holm S",
+    "detail": "A Simple Sequentially Rejective Multiple Test Procedure. Scandinavian Journal of Statistics. 1979;6(2):65-70. Original article scan.",
+    "url": "https://www.ime.usp.br/~abe/lista/pdf4R8xPVzCnX.pdf"
+  },
+  {
+    "number": 25,
+    "title": "Muñoz-Sabater J, Dutra E, Agustí-Panareda A, et al.",
+    "detail": "ERA5-Land: a state-of-the-art global reanalysis dataset for land applications. Earth System Science Data. 2021;13:4349-4383. doi:10.5194/essd-13-4349-2021.",
+    "url": "https://doi.org/10.5194/essd-13-4349-2021"
+  }
+]

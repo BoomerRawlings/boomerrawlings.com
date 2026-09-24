@@ -1,5 +1,15 @@
 # Project state
 
+## Crime and heat publication
+
+- Mode: new task. Objective: publish a general Crime and Heat study, interactive Data Analysis section, selected charge families, and standalone DV PDF; email the report to the user and reply in the original journalist thread with the webpage.
+- Status: release QA passed; user requested mathematical typography review before publication. Website math now typeset at build time with locally bundled KaTeX fonts and accessible MathML; all14expressions visually checked desktop/mobile320 with no clipping. DV PDF finalized:12pages,267003bytes; allpages visually inspected; vector equations and embedded math fonts verified. Earlier PDF was emailed to user; revised copy will follow. Journalist reply awaits verified live page. Preserve unrelated work below.
+- Data: 214745 raw rows, 136313 source-ID record proxies, 12478 core DV; partial 2018, incomplete 2025, no2026. Dates and source-ID semantics remain unverified. Public files contain aggregates only.
+- General primary: 58770 eligible groups, 106 fitted ZIPs; +1.87% per10F maximum, 95% CI -0.05% to +3.83%, inconclusive. Separate DV primary:6637groups/95ZIPs,+2.9%,CI-1.0%to+7.0%. Retrospective comparison families separate; no causal or countywide-incidence claim.
+- Verification: four DV audit passes; independent general coefficient/SE replication;55-member public package extracted and all six models reproduced exactly;2148944category cells independently reconcile. Selected category families overlap. Public manifest67files, no raw record identifiers. Source hashes unchanged.
+- Interface: descriptive year/locality/category/weekday/hour filters; daily ZIP high/mean/low, zero-inclusive denominators, CSV exports. Default all records. Fixed regression estimates do not change under filters. Coverage/date/exposure limitations visible; formal methods and primary citations provided.
+- Release checks: final npm test and diff check pass; browser totals, invalid-range handling, year warnings, charge pagination and real downloaded CSV verified. Desktop1280/mobile390/320 inspected; research page has no horizontal overflow. Homepage/index/study navigation works; all research links resolve in build.
+- Next: one verified main push through existing GitHub Pages, live integrity checks, revised PDF email to user and authorized journalist reply focused on webpage. Final PDF SHA256:babe621e7f08aea6d949f3d2f760998e6a4f382af3db2ede0f20da1d16cc3832. Final npm test, staged artifact hash comparison and diff checks pass.
 ## SWC Restorative Justice application
 
 - Mode: new task. Objective: publish the user-supplied Restorative Justice application on `/swc/`.

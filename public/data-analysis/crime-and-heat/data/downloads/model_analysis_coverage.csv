@@ -1,0 +1,9 @@
+﻿year,source_ids_unique_date,core_ids_unique_date,core_base_root_eligible,core_excluded_court_among_root_eligible,core_excluded_not_exclusively_adult_among_root_eligible,broad_ids_unique_date,eligible_ids_before_weather,eligible_core_before_weather,eligible_broad_before_weather,weather_matched_eligible_ids,weather_matched_core_ids,weather_matched_broad_ids,zip_days,zip_days_missing_weather,included_primary_model
+2018,12090,988,965,19,0,1215,9219,946,1140,9142,944,1138,20608,0,False
+2019,24719,1947,1934,48,0,2331,18559,1886,2211,18412,1880,2203,40880,0,False
+2020,18585,1838,1830,39,0,2253,15737,1791,2133,15617,1789,2127,40992,0,False
+2021,19016,1875,1867,70,0,2351,15703,1797,2131,15587,1794,2126,40880,0,True
+2022,18310,1674,1668,29,0,2104,14758,1639,1964,14661,1634,1958,40880,0,True
+2023,18088,1682,1677,14,0,2019,14831,1663,1946,14732,1659,1942,40880,0,True
+2024,17082,1574,1564,14,0,1856,13878,1550,1799,13790,1550,1799,40992,0,True
+2025,8251,900,896,10,0,1029,7268,886,1003,7202,883,999,40880,0,False

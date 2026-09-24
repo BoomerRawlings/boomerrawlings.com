@@ -48,6 +48,13 @@ const contents = [
     detailLabel: `${counts.work} published projects`,
   },
   {
+    key: 'data-analysis',
+    label: 'Data Analysis',
+    href: '/data-analysis/',
+    detail: `${publishedEntries.filter(({ data }) => data.type === 'data-analysis').length} study`,
+    detailLabel: 'Published data analysis studies',
+  },
+  {
     key: 'all-work',
     label: 'All Work',
     href: '/all/',

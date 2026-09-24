@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "independent_aggregation": "Published exact charge mapping -> category ID sets -> existing eligibility -> daily count arrays; no builder aggregation functions used",
+  "all_source_category_totals_match": true,
+  "primary_eligible_category_totals_match": true,
+  "daily_category_cells_recomputed": 2148944,
+  "daily_cell_mismatches": 0,
+  "semantic_cases": 16,
+  "duplicate_charge_group_union_checked": true,
+  "privacy": "No individual identifiers written"
+}

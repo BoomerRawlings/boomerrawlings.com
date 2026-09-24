@@ -1,0 +1,270 @@
+{
+  "data/aggregates.json": {
+    "bytes": 1262293,
+    "sha256": "9cefbfe3cf3cb4dd0db43077308f3b0a59f4ffc251718dddcea37732f7c3f271"
+  },
+  "data/aggregate_downloads.zip": {
+    "bytes": 2791963,
+    "sha256": "595baa5175e4ffbae3c7c0931471c62b68c92279f6eb195a1ef27b2b958cccdf"
+  },
+  "data/audit-and-reproducibility.zip": {
+    "bytes": 75687,
+    "sha256": "ba52c8d5c73fcc9329171e916e0ce21ed73a51a34bfb34dda9c46030e81611dc"
+  },
+  "data/bibliography.json": {
+    "bytes": 6858,
+    "sha256": "37e4901bc1b60f05ee7413723917e326999d7d2d5728019c4ca66d10529ebcb4"
+  },
+  "data/categories_summary.json": {
+    "bytes": 10901,
+    "sha256": "7fa1a30aab43026d530afd04a9dcfb6d4efe7a58a1c18f8179c76d9af1b81065"
+  },
+  "data/category_aggregates.json": {
+    "bytes": 71014,
+    "sha256": "81ba7597dbd7f3543812dfbe8985fc24def04a611e2676bcbc646e00646d9a09"
+  },
+  "data/category_daily.json": {
+    "bytes": 4351729,
+    "sha256": "76df7f09374e14477dc181291e82b0fe9230f297c650e496d2a6359b6377ad19"
+  },
+  "data/category_mapping.csv": {
+    "bytes": 392313,
+    "sha256": "71235fbe4c311b6bd030f32e0f66b47a2278f051af4f4549ebcbe5f180cd7f78"
+  },
+  "data/category_methods.md": {
+    "bytes": 8667,
+    "sha256": "cb11f05a44929bec57c5dedcac6e44b33727e8cc1e75ee889637a2c81b0ff2fb"
+  },
+  "data/category_verification.json": {
+    "bytes": 492,
+    "sha256": "c7c6dc4cb0e5f4105fa2625455915dcd103b3044e087830e06f46b0f20c553e7"
+  },
+  "data/charge_classification_map.csv": {
+    "bytes": 289298,
+    "sha256": "d2b03a0e26f960f58289cfc166d9b9205b94525868d6c1e2c5ba14e3aeead745"
+  },
+  "data/crime_model_results.json": {
+    "bytes": 19897,
+    "sha256": "a5ae737324d7cf0a830f9505cf9c6e24eefd26e60a5b1430081ec20db1469497"
+  },
+  "data/daily.json": {
+    "bytes": 6200835,
+    "sha256": "f17d0672bd14fa9445c2e5b4f1905479fa937ec18597806121f1e25a42966b3d"
+  },
+  "data/data_dictionary.md": {
+    "bytes": 4480,
+    "sha256": "41f1967c94c5ea6f62ea14a00f4296cf519c3ba36bfdbe65382cce053719ec3f"
+  },
+  "data/general-analysis-and-audit.zip": {
+    "bytes": 4433597,
+    "sha256": "20e5854b14049fabc9bb04e7eb642d44d56efde67c971171bf625f1486c153b3"
+  },
+  "data/qa.json": {
+    "bytes": 10298,
+    "sha256": "fba68087f7ecac252aab6eaa1c7d70e903e231b12581b721efff8ea8e8afc35d"
+  },
+  "data/source_records_audit.json": {
+    "bytes": 1877,
+    "sha256": "de7b7123f36d9059d5df06f511903c360a09b1263692df43d3141a6a3db6b46f"
+  },
+  "data/summary.json": {
+    "bytes": 67029,
+    "sha256": "07c3e1229ac4c56f3786c7eacd7c2f109a6449875f5e9d09bf7434375ad2fced"
+  },
+  "downloads/domestic-violence-and-heat-report.pdf": {
+    "bytes": 267003,
+    "sha256": "babe621e7f08aea6d949f3d2f760998e6a4f382af3db2ede0f20da1d16cc3832"
+  },
+  "data/downloads/by_area.csv": {
+    "bytes": 2496,
+    "sha256": "58f5b98d3cfaea1c4feafca5ffddc6efcc8965efc1cc608fd77c608b12c16350"
+  },
+  "data/downloads/by_charge.csv": {
+    "bytes": 129849,
+    "sha256": "ea3befc87e5fb45ed0159614550ae3eac06e5db725343944d46e74648115dbd6"
+  },
+  "data/downloads/by_city.csv": {
+    "bytes": 4129,
+    "sha256": "4539c13f915519221f1fe54bcd7714044aeb4447c1adc0447ccacffe058d16a4"
+  },
+  "data/downloads/by_command.csv": {
+    "bytes": 1085,
+    "sha256": "194d0c5ab9f076057d638bc60f9726f76394b0644ae409387d6bfc19c32f502d"
+  },
+  "data/downloads/by_hour.csv": {
+    "bytes": 1267,
+    "sha256": "7f10639ecf6929042a7a42217ced2f2f5ee1c9738aa1ea3dd2ea7d33bfc79053"
+  },
+  "data/downloads/by_month.csv": {
+    "bytes": 4478,
+    "sha256": "eb84e4861d0f8c6ff5ee55856b4a8e625448273fa3b245510e71ecec7350af12"
+  },
+  "data/downloads/by_race.csv": {
+    "bytes": 1254,
+    "sha256": "e0e1c0ca5208d5809933e5be733d26907970ca52664c41347bde9c6b817489de"
+  },
+  "data/downloads/by_subtype.csv": {
+    "bytes": 328,
+    "sha256": "b479136f98bb6836fed3007568f7f60b6bcea23222a8860527f36315e2b1dd67"
+  },
+  "data/downloads/by_weekday.csv": {
+    "bytes": 552,
+    "sha256": "7934f23b7ebb9ba5813a9d17f7055e800168b14a0cbc311b22eaf4731a85b9cb"
+  },
+  "data/downloads/by_year.csv": {
+    "bytes": 574,
+    "sha256": "f79da20cd0f0f7724f31793b3bb78cfc488f7fc2e2beb95d81f3730d8831093e"
+  },
+  "data/downloads/by_year_charge_level.csv": {
+    "bytes": 803,
+    "sha256": "defa537034c106c4ae1bb68f938eb230c8f73921930e89a914482ea3dd40298c"
+  },
+  "data/downloads/by_year_city.csv": {
+    "bytes": 27576,
+    "sha256": "7fe4c4577ea814dd5fa4b43715c789d5623a4a279525e1da377c3046f5d65529"
+  },
+  "data/downloads/by_year_command.csv": {
+    "bytes": 8032,
+    "sha256": "ca1e4ea77356ef64a956b83dd3c84b0220279abde5ae75a41043315093a2f88f"
+  },
+  "data/downloads/by_year_subtype.csv": {
+    "bytes": 1625,
+    "sha256": "bb6e95806e07010aaee4f9bf49d2f0f23e065f5017dd26c0e9b8f9d202dcae51"
+  },
+  "data/downloads/by_zip.csv": {
+    "bytes": 11206,
+    "sha256": "8a179bf8808f02f4a55b6c5423306a96443ec3761bd7b010412bb9e153b93b89"
+  },
+  "data/downloads/crime_eligible_year.csv": {
+    "bytes": 535,
+    "sha256": "93d42caa1ccf0cd098e9b8c30532336d95e283f066cdf294fa6df170f75ababa"
+  },
+  "data/downloads/crime_model_results.csv": {
+    "bytes": 4462,
+    "sha256": "3b28795d3c061cfa68f1b1ea74c713adb5c771710d141f4850bc440f28aade7a"
+  },
+  "data/downloads/crime_primary_independent_hac.csv": {
+    "bytes": 677,
+    "sha256": "4763ad81c964e0d93bd8875d56ca81a2b31349258c0989f2ce795d3606427727"
+  },
+  "data/downloads/crime_temperature_bins_2021_2024.csv": {
+    "bytes": 338,
+    "sha256": "54e5fb4fd75cf73305ca468e9ba4e7756db77d75b654a0deddc438eea066681e"
+  },
+  "data/downloads/crime_weekday_2021_2024.csv": {
+    "bytes": 753,
+    "sha256": "f2fc3066b50056c54428054fc2e280ce007d8b664906c897645e83b5e84a2710"
+  },
+  "data/downloads/daily_all_source.csv": {
+    "bytes": 85539,
+    "sha256": "74251fff794ab624783435f3937004374a16498868b5bb827a14bc2efcb4d0c8"
+  },
+  "data/downloads/daily_zip_eligible_weather.csv": {
+    "bytes": 12588548,
+    "sha256": "db8535a17fbdca5075e47afc6d82a47af0641c07400c48320e9d10d2b37c1882"
+  },
+  "data/downloads/eligible_zip_month.csv": {
+    "bytes": 807353,
+    "sha256": "e86b337ef2fe9a6c46b303891acbeb7d335054c8d301034d3ad019da9f41b716"
+  },
+  "data/downloads/eligible_zip_year.csv": {
+    "bytes": 79844,
+    "sha256": "ef7f105bb75152b05e7372cc37be71cb9c178048c23a7e1a66d6dbfb745c6abd"
+  },
+  "data/downloads/heatwave_thresholds.csv": {
+    "bytes": 1688,
+    "sha256": "1e59bf4232fe3a9dfd731a54fa00be7c46252414068b90bb31e024755e7397aa"
+  },
+  "data/downloads/hour_counts_2021_2024.csv": {
+    "bytes": 636,
+    "sha256": "ae23ebddd0a32c8f9e6935b0e64cc0448ced5641af8823955edc55e8751cecb1"
+  },
+  "data/downloads/model_analysis_coverage.csv": {
+    "bytes": 1025,
+    "sha256": "677a67a8ebc733f7cadef4a1ac1fb9dd99536b7f08b229bcca5d3ce77bef7e4d"
+  },
+  "data/downloads/model_results.csv": {
+    "bytes": 8383,
+    "sha256": "c2523bf36b38caa0df32d92d1ad2df7e9a0cc1e250516c06972539fa6d49c232"
+  },
+  "data/downloads/seasonal_rates.csv": {
+    "bytes": 759,
+    "sha256": "77aec7cbfff217ff8b0a152e02b78e913db25754b7ce1e42435d51260f237188"
+  },
+  "data/downloads/temperature_bin_rates_2021_2024.csv": {
+    "bytes": 1146,
+    "sha256": "b9c8d0a6b01d362ed7d98380a1e4bab90111c60ff66b001df7f4f3ccb6e0c467"
+  },
+  "data/downloads/weather_noaa_crosscheck.csv": {
+    "bytes": 1575,
+    "sha256": "dd5b2b4da3a59185970ba3251d15113e17229e14a6e011e5c2667570204fa157"
+  },
+  "data/downloads/weather_zip_locations.csv": {
+    "bytes": 7226,
+    "sha256": "ef8dae0743b1185d291f808aef595aac6d13d538d00329f5ed711184d277c749"
+  },
+  "data/downloads/weekday_rates.csv": {
+    "bytes": 687,
+    "sha256": "b1caa777d5d5c365b7166bc5d68a75d6606d20fdb92ffc7d0322edbae7572c13"
+  },
+  "data/downloads/categories/by_area.csv": {
+    "bytes": 1943,
+    "sha256": "c5ed5a09f7a0d17b186a6bdfbbc316bd2d30a073d269e1f854786fa81e1f3957"
+  },
+  "data/downloads/categories/by_city.csv": {
+    "bytes": 3127,
+    "sha256": "650546f831762c0ffde7de403c67e49ebed10d02ebeeb3f546f86163af832c19"
+  },
+  "data/downloads/categories/by_command.csv": {
+    "bytes": 821,
+    "sha256": "dbf6b5267d40aa237391e315d792aec883be7ec75e808147bf49166e6de996bc"
+  },
+  "data/downloads/categories/by_hour.csv": {
+    "bytes": 917,
+    "sha256": "dd49c8bba6380c7036da7bb0ae946a29da7b6c43a47e1a7c2bf25ae06097cfcd"
+  },
+  "data/downloads/categories/by_month.csv": {
+    "bytes": 3328,
+    "sha256": "cf9b2a168170a3f74d8074978edea61853a6374f2f4f1198cc02e56f1e9e4462"
+  },
+  "data/downloads/categories/by_race.csv": {
+    "bytes": 877,
+    "sha256": "5f8b8628b10c37dc1536ac1ec11b38f3c1030644aac196245ae6f64ffcdc7fdd"
+  },
+  "data/downloads/categories/by_subtype.csv": {
+    "bytes": 228,
+    "sha256": "87587f18be9a2246a3d893c7d8687e0d882b6451dbd672bf1ea20409e60d6208"
+  },
+  "data/downloads/categories/by_weekday.csv": {
+    "bytes": 410,
+    "sha256": "d297655e4d822a89c8ea361c24f3f6c9ced2e7a6730ea55370887fb3f3a7fd8c"
+  },
+  "data/downloads/categories/by_year.csv": {
+    "bytes": 418,
+    "sha256": "28a564d1a5d404eb0d1dfc1ca86b86441a66c03ef17267ca721761698dffc368"
+  },
+  "data/downloads/categories/by_year_city.csv": {
+    "bytes": 21793,
+    "sha256": "b6e94b80db088aa035d488c2d43e69ad6757b96187d5fa507bc3515d23b6de01"
+  },
+  "data/downloads/categories/by_year_command.csv": {
+    "bytes": 6187,
+    "sha256": "cde402fdf48e83931923b0debaee840501fa8626b02041a326e5d9529027713d"
+  },
+  "data/downloads/categories/by_year_subtype.csv": {
+    "bytes": 1422,
+    "sha256": "1a2f413d5b02d376609256c0c8b18f86877437c0b2bb3daf74b11c3c7bdadfaf"
+  },
+  "data/downloads/categories/by_zip.csv": {
+    "bytes": 9627,
+    "sha256": "5219086bcaba0ecea1e705aa1a48b1fc60a829a9d7e88051f98e297a9a8bae1e"
+  },
+  "data/downloads/categories/hour_counts_2021_2024.csv": {
+    "bytes": 1140,
+    "sha256": "b1c68775982c68960708f81b702c99729ff74514830b7273c1640829baf7f342"
+  },
+  "data/downloads/categories/weekday_rates.csv": {
+    "bytes": 468,
+    "sha256": "09f0601f6d6c0a92b1e1c57b434cb616ee07cc0e32a55a4ec52b237b4662ea87"
+  }
+}

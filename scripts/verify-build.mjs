@@ -39,9 +39,9 @@ const contentHtmlFiles = htmlFiles.filter(
 const unlistedHtmlFiles = htmlFiles.filter(
   (file) => unlistedContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 22 || unlistedHtmlFiles.length !== 5 || htmlFiles.length !== 31) {
+if (contentHtmlFiles.length !== 24 || unlistedHtmlFiles.length !== 5 || htmlFiles.length !== 33) {
   throw new Error(
-    `expected 22 public pages, 5 unlisted pages, and 4 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 24 public pages, 5 unlisted pages, and 4 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
@@ -439,6 +439,10 @@ if (!existsSync(decklePath)) {
 for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => file !== decklePath && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html'))) {
   const html = readFileSync(file, 'utf8');
   const count = (html.match(/class="support-coffee"/g) ?? []).length;
+  if (html.includes('class="analysis-research"')) {
+    if (count !== 0) failures.push('Research publications must omit donation overlays');
+    continue;
+  }
   if (count !== 1
     || !html.includes('aria-label="Buy Boomer a coffee (opens in a new tab)"')
     || !html.includes('href="https://www.buymeacoffee.com/BoomerRawlings"')
@@ -1519,6 +1523,7 @@ for (const [label, href] of [
   ['Academics', '/cv/'],
   ['Writing', '/writing/'],
   ['Projects', '/work/'],
+  ['Data Analysis', '/data-analysis/'],
   ['About', '/about/'],
   ['All Work', '/all/'],
 ]) {
@@ -1528,7 +1533,7 @@ for (const [label, href] of [
   }
   previousNavOffset = navOffset;
 }
-if ((primaryNav.match(/class="nav-label" data-nav-label=/g) ?? []).length !== 5) {
+if ((primaryNav.match(/class="nav-label" data-nav-label=/g) ?? []).length !== 6) {
   failures.push('primary navigation: signal-ready labels are incomplete');
 }
 
@@ -1541,6 +1546,7 @@ for (const [label, href] of [
   ['Academics', '/cv/'],
   ['Writing', '/writing/'],
   ['Projects', '/work/'],
+  ['Data Analysis', '/data-analysis/'],
   ['All Work', '/all/'],
 ]) {
   const contentsOffset = homeContents.indexOf(`href="${href}"`);
@@ -1613,6 +1619,11 @@ let terminalGuideCount = 0;
 for (const file of contentHtmlFiles) {
   const html = readFileSync(file, 'utf8');
   const label = relative(output, file);
+  // Research publications intentionally omit the portfolio character and dialogue.
+  if (label.startsWith(`data-analysis${process.platform === 'win32' ? '\\' : '/'}`)) {
+    if (html.includes('data-pip-guide')) failures.push(`${label}: research pages must omit character dialogue`);
+    continue;
+  }
   const isTerminalGuide = html.includes('data-pip-terminal="true"');
   const pipCount = (
     html.match(/class="[^"]*\bportfolio-curator\b[^"]*"/g) ?? []
@@ -1765,9 +1776,9 @@ for (const file of contentHtmlFiles) {
   const html = readFileSync(file, 'utf8');
   const label = relative(output, file);
   const pipSignalCount = (html.match(/data-pip-signal=/g) ?? []).length;
-  if (pipSignalCount !== 1
+  if (!label.startsWith(`data-analysis${process.platform === 'win32' ? '\\' : '/'}`) && (pipSignalCount !== 1
     || !html.includes('data-pip-signal="next" aria-hidden="true"')
-    || html.includes('data-pip-arrow')) {
+    || html.includes('data-pip-arrow'))) {
     failures.push(`${label}: expected one hidden Pip signal inside Next, found ${pipSignalCount}`);
   }
   if (!html.includes('data-wordmark="Boomer Rawlings" aria-hidden="true"')) {
@@ -1777,6 +1788,7 @@ for (const file of contentHtmlFiles) {
     ['Academics', '/cv/'],
     ['Writing', '/writing/'],
     ['Projects', '/work/'],
+    ['Data Analysis', '/data-analysis/'],
     ['About', '/about/'],
     ['All Work', '/all/'],
   ]) {

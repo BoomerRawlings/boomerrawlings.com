@@ -1,0 +1,7 @@
+﻿temperature_bin,locality_days,distinct_calendar_dates,core_ids,broad_ids,all_eligible_ids,core_per_100_locality_days,broad_per_100_locality_days,period,interpretation
+<60F,25042,588,974,1140,8249,3.8894656976279847,4.552352048558421,2021-2024,Unadjusted pooled locality-day rates; geography and season can confound differences
+60-<70F,56786,964,2049,2406,19239,3.608283731905752,4.236959814038672,2021-2024,Unadjusted pooled locality-day rates; geography and season can confound differences
+70-<80F,49230,1125,1983,2375,17845,4.028031687995124,4.824294129595775,2021-2024,Unadjusted pooled locality-day rates; geography and season can confound differences
+80-<90F,25894,857,1314,1548,11243,5.074534641229628,5.978218892407507,2021-2024,Unadjusted pooled locality-day rates; geography and season can confound differences
+90-<100F,5883,638,292,329,2092,4.963454020057793,5.592384837667857,2021-2024,Unadjusted pooled locality-day rates; geography and season can confound differences
+>=100F,797,366,25,27,102,3.136762860727729,3.387703889585948,2021-2024,Unadjusted pooled locality-day rates; geography and season can confound differences

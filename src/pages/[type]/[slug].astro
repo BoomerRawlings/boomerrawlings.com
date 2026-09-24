@@ -8,7 +8,7 @@ import { formatFullDate, formatPartialDate, isoDate } from '../../lib/dates';
 
 export async function getStaticPaths() {
   const entries = await getCollection('archive', ({ data }) =>
-    data.status === 'published' && !data.externalUrl
+    data.status === 'published' && !data.externalUrl && data.type !== 'data-analysis'
   );
   return entries.map((entry) => ({
     params: { type: entry.data.type, slug: entry.data.slug },

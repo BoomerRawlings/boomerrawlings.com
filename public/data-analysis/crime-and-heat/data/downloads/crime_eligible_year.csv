@@ -1,0 +1,9 @@
+year,zip_days,calendar_days,eligible_all_count,core_count,broad_count,coverage_note
+2018,20608,184,9142,944,1138,July-December only
+2019,40880,365,18412,1880,2203,Completeness unverified
+2020,40992,366,15617,1789,2127,Completeness unverified
+2021,40880,365,15587,1794,2126,Completeness unverified
+2022,40880,365,14661,1634,1958,Completeness unverified
+2023,40880,365,14732,1659,1942,Completeness unverified
+2024,40992,366,13790,1550,1799,Completeness unverified
+2025,40880,365,7202,883,999,INCOMPLETE EXPORT; descriptive only

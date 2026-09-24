@@ -18,6 +18,7 @@ const displayDate = (entry: ArchiveEntry) => {
 };
 
 const displayKind = (entry: ArchiveEntry) => {
+  if (entry.data.type === 'data-analysis') return 'Data analysis';
   if (entry.data.type === 'writing') {
     return entry.data.writingKind === 'academic' ? 'Academic writing' : 'Personal writing';
   }

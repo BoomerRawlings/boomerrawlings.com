@@ -1,2 +1,4 @@
 * text=auto eol=lf
 *.pdf binary
+# Research artifacts retain exact bytes for published SHA-256 manifests.
+public/data-analysis/** -text whitespace=cr-at-eol

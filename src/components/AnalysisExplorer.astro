@@ -1,0 +1,47 @@
+---
+const {base,annual,categories} = Astro.props;
+const cols = annual.columns;
+const n = (row:any[], col:string) => Number(row[cols.indexOf(col)]).toLocaleString('en-US');
+const allCount = annual.rows.reduce((sum:number,row:any[]) => sum + Number(row[cols.indexOf('all')]),0).toLocaleString('en-US');
+---
+<section id="explorer" class="analysis-section" aria-labelledby="explorer-heading" data-record-explorer data-base={base}>
+  <div class="analysis-section-title"><span>02</span><div><h2 id="explorer-heading">Record explorer</h2><p>All supplied source-ID groups, including records outside the weather model. Selected charge categories overlap: one group may appear in several categories. Do not add category counts together.</p></div></div>
+  <div class="analysis-controls" data-record-controls hidden>
+    <label>Breakdown<select id="record-dimension" aria-label="Breakdown"><option value="by_year">Year</option><option value="by_month">Month</option><option value="by_city">Recorded city / locality</option><option value="weekday_rates">Day of week · 2021–2024</option><option value="hour_counts_2021_2024">Recorded hour · 2021–2024</option><option value="by_command">Command</option><option value="by_area">Area</option><option value="by_zip">Recorded ZIP</option><option value="by_subtype">Record subtype</option><option value="by_race">Source-reported race category</option><option value="by_charge">Charge</option></select></label>
+    <label>Record definition<select id="record-outcome" aria-label="Record definition">{categories.map((category:any)=><option value={category.id} data-definition={category.definition} selected={category.id==='all'}>{category.label}</option>)}</select></label>
+    <label>Year<select id="record-year" aria-label="Year"><option value="all">All available years</option>{Array.from({length:8},(_,i)=>2018+i).map(y=><option value={y}>{y}{y===2018?' · partial':y===2025?' · incomplete':''}</option>)}</select></label>
+  </div>
+  <p id="record-status" class="analysis-status" role="status" aria-live="polite">{allCount} source-ID groups · overlapping selected charge categories</p>
+  <p id="record-note" class="analysis-note">2018 is partial; 2025 is incomplete. Conflicting-year groups are retained separately. Counts are record units, not verified individual arrests.</p>
+  <div id="record-chart" class="analysis-bars" role="img" aria-label="Record counts by year" hidden></div>
+  <div class="analysis-table-scroll" tabindex="0" role="region" aria-label="Record summary table"><table id="record-table"><caption>All available years · Source-ID groups · Categories overlap</caption><thead><tr><th scope="col">Year</th>{categories.map((category:any)=><th scope="col" title={category.label}>{category.short_label}</th>)}</tr></thead><tbody>{annual.rows.map((r:any[])=><tr><th scope="row">{r[0]}</th>{categories.map((category:any)=><td>{n(r,category.id)}</td>)}</tr>)}</tbody></table></div>
+  <div class="analysis-pagination" id="record-pagination" hidden><button id="record-prev" type="button">Previous</button><span id="record-page" role="status" aria-live="polite"></span><button id="record-next" type="button">Next</button><button id="record-download" type="button" class="analysis-download-control">Download selected table · CSV</button></div>
+  <noscript><p>Interactive filters require JavaScript. The annual table, adjusted results, methods, and <a href={`${base}/data/aggregate_downloads.zip`}>complete aggregate data downloads</a> remain available.</p></noscript>
+</section>
+<section id="weather-explorer" class="analysis-section" aria-labelledby="weather-heading" data-weather-explorer>
+  <div class="analysis-section-title"><span>03</span><div><h2 id="weather-heading">Daily temperature and record counts</h2><p>ZIP-day aggregates for the weather-eligible population. Includes adult records with unambiguous dates and ZIPs, excluding warrant subtypes and detention/court categories.</p></div></div>
+  <p class="analysis-note">These unadjusted views do not reproduce the adjusted models. Counts use a narrower population than the record explorer. Categories overlap and are selected charge indicators, not exhaustive crime classifications. All-area temperatures are unweighted averages of the selected ZIP points, not measured county extrema.</p>
+  <button id="weather-load" type="button" class="analysis-button">Load daily explorer <span>10.6 MB</span></button>
+  <p id="weather-status" class="analysis-status" role="status" aria-live="polite">Daily data load on request. Default period: 2021–2024.</p>
+  <div id="weather-interface" hidden>
+    <div class="analysis-controls">
+      <label>ZIP area<select id="weather-zip" aria-label="ZIP area"><option value="all">All 112 ZIP areas</option></select></label>
+      <label>From year<select id="weather-start" aria-label="From year">{Array.from({length:8},(_,i)=>2018+i).map(y=><option value={y} selected={y===2021}>{y}</option>)}</select></label>
+      <label>Through year<select id="weather-end" aria-label="Through year">{Array.from({length:8},(_,i)=>2018+i).map(y=><option value={y} selected={y===2024}>{y}</option>)}</select></label>
+      <label>Eligible records<select id="weather-outcome" aria-label="Eligible records">{categories.map((category:any)=><option value={category.id} data-definition={category.definition} data-short-label={category.short_label} selected={category.id==='all'}>{category.label}</option>)}</select></label>
+      <label>Temperature measure<select id="weather-temperature" aria-label="Temperature measure"><option value="high10">Daily maximum</option><option value="mean10">Daily mean</option><option value="low10">Daily minimum</option></select></label>
+    </div>
+    <p id="weather-category-note" class="analysis-note"></p>
+    <p id="weather-warning" class="analysis-notice" hidden></p>
+    <div class="analysis-figure-heading"><h3 id="weather-chart-heading">Counts by temperature band</h3><p>Records per 100 ZIP-days; includes every selected zero-count ZIP-day. No population denominator or calendar adjustment.</p></div>
+    <div id="weather-chart" class="analysis-bars" role="img" aria-labelledby="weather-chart-heading"></div>
+    <div class="analysis-table-scroll" tabindex="0" role="region" aria-label="Temperature bands"><table id="weather-bins"></table></div>
+    <div class="analysis-figure-heading"><h3>Daily values</h3><p id="weather-daily-note">Daily high, mean, and low are modeled temperatures in °F. Dates use fixed UTC−7.</p></div>
+    <div class="analysis-table-scroll" tabindex="0" role="region" aria-label="Daily counts and temperatures"><table id="weather-daily"></table></div>
+    <div class="analysis-pagination"><button id="weather-prev" type="button">Previous 31 days</button><span id="weather-page" role="status" aria-live="polite"></span><button id="weather-next" type="button">Next 31 days</button><button id="weather-download" type="button" class="analysis-download-control">Download daily selection · CSV</button></div>
+  </div>
+  <noscript><p>Download the <a href={`${base}/data/daily.json`}>daily ZIP weather panel</a> and <a href={`${base}/data/category_daily.json`}>matching category counts</a> as JSON.</p></noscript>
+</section>
+<script>
+  import '../scripts/analysis-explorer';
+</script>

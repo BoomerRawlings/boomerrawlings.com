@@ -1,0 +1,60 @@
+{
+  "passed": true,
+  "implementation": "Independent Python csv/datetime source reconstruction; no production-module imports",
+  "observed": {
+    "raw_rows": 214745,
+    "valid_charge_rows": 214741,
+    "invalid_rows": 4,
+    "source_ids": 136313,
+    "core_dv_ids": 12478,
+    "broad_dv_ids": 15161,
+    "duplicate_charge_rows": 926,
+    "date_conflict_ids": 172,
+    "zip_conflict_ids": 419
+  },
+  "source_files": [
+    {
+      "source_export": "2018_2023",
+      "sha256": "463c0be35552d94e2e73e01e30c84f0dde9d53bb7ac5e5de0047321b1a68411a",
+      "date_field": "Incident Date_Time",
+      "identifier_field": "Incident Number",
+      "raw": 172424,
+      "valid": 172420,
+      "invalid": 4,
+      "duplicates": 6,
+      "source_ids": 110909
+    },
+    {
+      "source_export": "2024",
+      "sha256": "7d1874af6fdbc635ef2cbf7bec55e956ec0cab0d6e43840dfc62f24bce76ebbb",
+      "date_field": "Arrest Date/Time",
+      "identifier_field": "Incident Number",
+      "raw": 28279,
+      "valid": 28279,
+      "invalid": 0,
+      "duplicates": 596,
+      "source_ids": 17121
+    },
+    {
+      "source_export": "2025",
+      "sha256": "07642b0aa5908c804088e5a933038f28edceb15c736ebad7f8ce5d846b4f3a7a",
+      "date_field": "Arrest Date/Time",
+      "identifier_field": "Arrest Ref Nbr",
+      "raw": 14042,
+      "valid": 14042,
+      "invalid": 0,
+      "duplicates": 324,
+      "source_ids": 8283
+    }
+  ],
+  "year_conflicts": 37,
+  "raw_empty_dates": 79,
+  "jan_may_2025_monthly_id_appearances": 144,
+  "aggregate_tables_reconciled": 13,
+  "qualifying_codes_missing_from_reviewed_map": 0,
+  "limits": [
+    "Identifier meaning and agency completeness remain unverified.",
+    "Semantic date-header change cannot be resolved computationally.",
+    "Classification meaning is audited separately against statutes."
+  ]
+}
