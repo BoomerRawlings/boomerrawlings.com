@@ -22,7 +22,7 @@ const selectedWork = publishedEntries
 
 const counts = {
   work: publishedEntries.filter(({ data }) => data.type === 'work').length,
-  writing: publishedEntries.filter(({ data }) => data.type === 'writing').length,
+  writing: publishedEntries.filter(({ data }) => data.type === 'writing' || data.type === 'data-analysis').length,
 };
 
 const contents = [
@@ -46,13 +46,6 @@ const contents = [
     href: '/work/',
     detail: `${counts.work} projects`,
     detailLabel: `${counts.work} published projects`,
-  },
-  {
-    key: 'data-analysis',
-    label: 'Data Analysis',
-    href: '/data-analysis/',
-    detail: `${publishedEntries.filter(({ data }) => data.type === 'data-analysis').length} study`,
-    detailLabel: 'Published data analysis studies',
   },
   {
     key: 'all-work',

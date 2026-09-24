@@ -51,7 +51,7 @@ for(const category of categories.categories){
 }
 assert.deepEqual(summarizeCategoryDaily(panel,categoryPanel,{category:'core'}),result);
 assert(!JSON.stringify(summary).match(/prespecified|predeclared/i),'Retrospective study must not imply registration');
-const html=readFileSync(join(base,'index.html'),'utf8');
+const html=readFileSync('dist/writing/data-analysis/crime-and-heat/index.html','utf8');
 for(const required of ['Incident Date_Time','Arrest Date/Time','513','67 primary core-DV','2025','Holm','Newey','STROBE','crime_model_results.csv','source_records_audit.json','category_mapping.csv','58,770','−0.05%','nonexclusive']) assert(html.includes(required),`Missing essential method/attribution: ${required}`);
 assert(!html.includes('data-pip-guide'));
 assert(html.includes('<noscript>'));
@@ -59,8 +59,12 @@ assert(html.includes('katex-display'),'Model equation must be typeset at build t
 assert((html.match(/<math\b/g)||[]).length>=14,'Inline notation must retain accessible MathML');
 assert(!html.includes('katex-error'),'Malformed equations must not reach publication');
 assert(!html.includes('Y<sub>zd</sub>'),'Old improvised model notation must be removed');
-assert(existsSync('dist/data-analysis/index.html'));
-assert(readFileSync('dist/all/index.html','utf8').includes('/data-analysis/crime-and-heat/'));
+assert(existsSync('dist/writing/data-analysis/index.html'));
+assert(readFileSync('dist/all/index.html','utf8').includes('/writing/data-analysis/crime-and-heat/'));
+const writing=readFileSync('dist/writing/index.html','utf8');
+assert(writing.includes('/writing/data-analysis/'));
+assert(writing.includes('/writing/data-analysis/crime-and-heat/'));
+assert(readFileSync(join(base,'index.html'),'utf8').includes('/writing/data-analysis/crime-and-heat/'));
 const pdf=readFileSync(join(base,'downloads/domestic-violence-and-heat-report.pdf'));
 assert.equal(pdf.subarray(0,5).toString(),'%PDF-'); assert(pdf.length>50000);
 assert.equal(createHash('sha256').update(pdf).digest('hex'),'babe621e7f08aea6d949f3d2f760998e6a4f382af3db2ede0f20da1d16cc3832');

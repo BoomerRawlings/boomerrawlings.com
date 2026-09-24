@@ -56,7 +56,7 @@ const pageTitle = titleBase === siteName ? titleBase : `${titleBase} | ${siteNam
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 const socialImage = new URL(image.src, Astro.site).toString();
 const isHome = Astro.url.pathname === '/';
-const isAnalysis = Astro.url.pathname.startsWith('/data-analysis/');
+const isAnalysis = Astro.url.pathname.startsWith('/writing/data-analysis/');
 const isAbout = Astro.url.pathname === '/about/';
 const pageId = `${canonical}#webpage`;
 const personSchema = {
@@ -118,7 +118,6 @@ const navItems = [
   ['Academics', '/cv/'],
   ['Writing', '/writing/'],
   ['Projects', '/work/'],
-  ['Data Analysis', '/data-analysis/'],
   ['About', '/about/'],
   ['All Work', '/all/'],
 ];

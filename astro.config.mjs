@@ -14,6 +14,8 @@ export default defineConfig({
     }),
   },
   redirects: {
+    '/data-analysis': '/writing/data-analysis/',
+    '/data-analysis/crime-and-heat': '/writing/data-analysis/crime-and-heat/',
     '/archive': '/all/',
     '/work/horizonos': '/work/horizon/',
     '/work/icloud-media-archive': '/work/organizing-icloud-media/',

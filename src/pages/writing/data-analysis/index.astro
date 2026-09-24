@@ -1,13 +1,14 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import '../../styles/data-analysis.css';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/data-analysis.css';
 const entries = (await getCollection('archive', ({data}) => data.type === 'data-analysis' && data.status === 'published'))
   .sort((a,b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0));
 ---
 <BaseLayout title="Data Analysis" description="Empirical studies by Boomer Rawlings, with methods, interactive aggregate data, and research reports.">
   <div class="analysis-page analysis-index">
     <header class="analysis-intro">
+      <a class="analysis-back" href="/writing/">Writing</a>
       <p class="analysis-kicker">Research &amp; public records</p>
       <h1>Data Analysis</h1>
       <p class="analysis-deck">Empirical studies with documented methods, uncertainty estimates, and inspectable aggregate data.</p>
@@ -15,10 +16,10 @@ const entries = (await getCollection('archive', ({data}) => data.type === 'data-
     <section aria-label="Studies" class="analysis-studies">
       {entries.map(entry => <article>
         <p class="analysis-kicker">Observational analysis · September 2026</p>
-        <h2><a href={`/data-analysis/${entry.data.slug}/`}>{entry.data.title}</a></h2>
+        <h2><a href={`/writing/data-analysis/${entry.data.slug}/`}>{entry.data.title}</a></h2>
         <p>{entry.data.description}</p>
         <p class="analysis-meta">July 2018–December 2025 records · Primary analysis: 2021–2024</p>
-        <a class="analysis-text-link" href={`/data-analysis/${entry.data.slug}/`}>Read the study and explore the data <span aria-hidden="true">→</span></a>
+        <a class="analysis-text-link" href={`/writing/data-analysis/${entry.data.slug}/`}>Read the study and explore the data <span aria-hidden="true">→</span></a>
       </article>)}
     </section>
   </div>

@@ -106,7 +106,7 @@ if (root) {
     if (dim === 'by_month' && year.value !== 'all') notes.push('Groups without a unique month are excluded from this year’s monthly table; totals may be lower than the annual count.');
     if (period.includes('2025')) notes.push('2025 is incomplete; absent records are not confirmed zero arrests.');
     if (period.includes('2018')) notes.push('2018 begins July 1.');
-    if (dim === 'by_city') notes.push('SHERIFF is an administrative label; recorded locality is not a municipal crime rate.');
+    if (dim === 'by_city') notes.push('The supplied records do not establish complete municipal coverage. Counts are not population-adjusted crime rates and include warrant and detention/court categories excluded from the weather model. SHERIFF is an administrative label.');
     if (isWeekday) notes.push('Calendar-day denominators include zero-record dates. Fixed 2021–2024 scope; groups with conflicting dates are excluded.');
     if (isHour) notes.push('Fixed 2021–2024 scope. Recorded time may differ from offense time.');
     if (dim === 'by_race') notes.push('Source categories mix race and ethnicity labels. Counts lack population denominators and cannot establish differences in risk.');

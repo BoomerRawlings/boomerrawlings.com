@@ -59,7 +59,7 @@ const entries = (await getCollection('archive', ({ data }) => data.status === 'p
   </section>
   <section class="archive-table" aria-label="All work">
     {entries.map((entry) => (
-      <a class="archive-row" href={entry.data.externalUrl ?? '/' + entry.data.type + '/' + entry.data.slug + '/'}>
+      <a class="archive-row" href={entry.data.externalUrl ?? '/' + (entry.data.type === 'data-analysis' ? 'writing/data-analysis' : entry.data.type) + '/' + entry.data.slug + '/'}>
         {displayDate(entry) ? (
           <time class="archive-date" datetime={isoMonth(displayDate(entry)!)}>
             {formatMonthYear(displayDate(entry)!)}

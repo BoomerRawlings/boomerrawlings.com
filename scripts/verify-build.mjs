@@ -18,6 +18,8 @@ const htmlFiles = files.filter((file) => extname(file) === '.html');
 if (htmlFiles.length === 0) throw new Error('build produced no HTML');
 
 const redirectTargets = new Map([
+  [join('data-analysis', 'index.html'), '/writing/data-analysis/'],
+  [join('data-analysis', 'crime-and-heat', 'index.html'), '/writing/data-analysis/crime-and-heat/'],
   [join('archive', 'index.html'), '/all/'],
   [join('work', 'horizonos', 'index.html'), '/work/horizon/'],
   [join('work', 'icloud-media-archive', 'index.html'), '/work/organizing-icloud-media/'],
@@ -39,9 +41,9 @@ const contentHtmlFiles = htmlFiles.filter(
 const unlistedHtmlFiles = htmlFiles.filter(
   (file) => unlistedContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 24 || unlistedHtmlFiles.length !== 5 || htmlFiles.length !== 33) {
+if (contentHtmlFiles.length !== 24 || unlistedHtmlFiles.length !== 5 || htmlFiles.length !== 35) {
   throw new Error(
-    `expected 24 public pages, 5 unlisted pages, and 4 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 24 public pages, 5 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
@@ -751,7 +753,7 @@ if (writingHtml.includes('>Category<')) {
 if (!writingHtml.includes('Academic writing')) {
   failures.push('writing/index.html: academic writing heading is missing');
 }
-if (!writingHtml.includes('Selected academic work and one short personal essay, with publication and original production dates kept distinct')) {
+if (!writingHtml.includes('Selected academic work, a short personal essay, and data analysis, with publication and original production dates kept distinct')) {
   failures.push('writing/index.html: selected writing scope is not explicit');
 }
 for (const route of [
@@ -1523,7 +1525,6 @@ for (const [label, href] of [
   ['Academics', '/cv/'],
   ['Writing', '/writing/'],
   ['Projects', '/work/'],
-  ['Data Analysis', '/data-analysis/'],
   ['About', '/about/'],
   ['All Work', '/all/'],
 ]) {
@@ -1533,7 +1534,7 @@ for (const [label, href] of [
   }
   previousNavOffset = navOffset;
 }
-if ((primaryNav.match(/class="nav-label" data-nav-label=/g) ?? []).length !== 6) {
+if ((primaryNav.match(/class="nav-label" data-nav-label=/g) ?? []).length !== 5) {
   failures.push('primary navigation: signal-ready labels are incomplete');
 }
 
@@ -1546,7 +1547,6 @@ for (const [label, href] of [
   ['Academics', '/cv/'],
   ['Writing', '/writing/'],
   ['Projects', '/work/'],
-  ['Data Analysis', '/data-analysis/'],
   ['All Work', '/all/'],
 ]) {
   const contentsOffset = homeContents.indexOf(`href="${href}"`);
@@ -1620,7 +1620,7 @@ for (const file of contentHtmlFiles) {
   const html = readFileSync(file, 'utf8');
   const label = relative(output, file);
   // Research publications intentionally omit the portfolio character and dialogue.
-  if (label.startsWith(`data-analysis${process.platform === 'win32' ? '\\' : '/'}`)) {
+  if (label.startsWith(`writing${process.platform === 'win32' ? '\\' : '/'}data-analysis${process.platform === 'win32' ? '\\' : '/'}`)) {
     if (html.includes('data-pip-guide')) failures.push(`${label}: research pages must omit character dialogue`);
     continue;
   }
@@ -1776,7 +1776,7 @@ for (const file of contentHtmlFiles) {
   const html = readFileSync(file, 'utf8');
   const label = relative(output, file);
   const pipSignalCount = (html.match(/data-pip-signal=/g) ?? []).length;
-  if (!label.startsWith(`data-analysis${process.platform === 'win32' ? '\\' : '/'}`) && (pipSignalCount !== 1
+  if (!label.startsWith(`writing${process.platform === 'win32' ? '\\' : '/'}data-analysis${process.platform === 'win32' ? '\\' : '/'}`) && (pipSignalCount !== 1
     || !html.includes('data-pip-signal="next" aria-hidden="true"')
     || html.includes('data-pip-arrow'))) {
     failures.push(`${label}: expected one hidden Pip signal inside Next, found ${pipSignalCount}`);
@@ -1788,7 +1788,6 @@ for (const file of contentHtmlFiles) {
     ['Academics', '/cv/'],
     ['Writing', '/writing/'],
     ['Projects', '/work/'],
-    ['Data Analysis', '/data-analysis/'],
     ['About', '/about/'],
     ['All Work', '/all/'],
   ]) {

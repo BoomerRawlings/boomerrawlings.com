@@ -1,10 +1,10 @@
 ---
 import { getCollection, render } from 'astro:content';
 import { readFileSync } from 'node:fs';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import AnalysisExplorer from '../../components/AnalysisExplorer.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import AnalysisExplorer from '../../../components/AnalysisExplorer.astro';
 import 'katex/dist/katex.min.css';
-import '../../styles/data-analysis.css';
+import '../../../styles/data-analysis.css';
 export async function getStaticPaths() {
   return (await getCollection('archive', ({data}) => data.type === 'data-analysis' && data.status === 'published'))
     .map(entry => ({params:{slug:entry.data.slug},props:{entry}}));
@@ -33,7 +33,7 @@ const x = (rr:number) => 300 + (((rr-1)*100 + 15)/30)*470;
 <BaseLayout title={entry.data.title} description={entry.data.description} pageType="article" publishedTime="2026-09-24">
   <div class="analysis-page" data-analysis-study>
     <header class="analysis-intro">
-      <a class="analysis-back" href="/data-analysis/">Data Analysis</a>
+      <nav class="analysis-back" aria-label="Breadcrumb"><a href="/writing/">Writing</a><span aria-hidden="true"> / </span><a href="/writing/data-analysis/">Data Analysis</a></nav>
       <p class="analysis-kicker">San Diego area · Observational analysis · 24 September 2026</p>
       <h1>{entry.data.title}</h1>
       <p class="analysis-deck">Daily temperature and supplied San Diego-area arrest records, July 2018–December 2025. An observational study with separate charge-category breakdowns.</p>
@@ -44,7 +44,7 @@ const x = (rr:number) => 300 + (((rr-1)*100 + 15)/30)*470;
       </div>
     </header>
     <section class="analysis-finding" aria-labelledby="finding-heading">
-      <div><p class="analysis-kicker">All eligible records · 2021–2024</p><h2 id="finding-heading">The association is inconclusive.</h2><p>The adjusted estimate is positive, but its confidence interval includes no association. These records do not establish that heat increases arrests or crime incidence.</p></div>
+      <div><p class="analysis-kicker">All eligible records · 2021–2024</p><h2 id="finding-heading">The association is inconclusive.</h2><p>The adjusted estimate is positive, but its confidence interval includes no association. The two-sided <i>p</i>-value is {general.models[0].two_sided_p.toFixed(5)}, above the 0.05 significance threshold. These records do not establish that heat increases arrests or crime incidence.</p></div>
       <div class="analysis-estimate"><strong>+1.87<span>%</span></strong><p>per 10°F higher daily maximum</p><p class="analysis-ci">95% CI −0.05% to +3.83%</p><small>58,770 eligible record groups · 106 fitted ZIP areas</small></div>
     </section>
     <aside class="analysis-notice" aria-label="Data coverage limitation"><strong>Coverage limitation.</strong> The 2025 export is incomplete: 79 dates have no source records. A missing record is not a confirmed zero arrest. The main analysis uses 2021–2024. No 2026 records were supplied.</aside>
@@ -58,7 +58,7 @@ const x = (rr:number) => 300 + (((rr-1)*100 + 15)/30)*470;
         </svg></div><figcaption>All eligible records, 2021–2024. Five non-primary comparisons receive Holm correction within this general-arrest analysis; all adjusted p values are 1.00. Confidence intervals are individual, not simultaneous. The separate DV analysis has its own comparison family.</figcaption>
       </figure>
       <details class="analysis-details"><summary>All 6 general-arrest model specifications and results</summary><div class="analysis-table-scroll" tabindex="0" role="region" aria-label="Model results"><table><caption>Adjusted models; descriptive filters do not change these estimates.</caption><thead><tr><th scope="col">Specification</th><th scope="col">Period</th><th scope="col">Change</th><th scope="col">95% CI</th><th scope="col">p</th><th scope="col">Holm p</th><th scope="col">Groups</th></tr></thead><tbody>{general.models.map((m:any)=><tr><th scope="row">{labels[m.model]}</th><td>{m.period}</td><td>{signed(m.percent_change)}</td><td>{signed((m.ci95_low-1)*100)} to {signed((m.ci95_high-1)*100)}</td><td>{Number(m.two_sided_p).toFixed(3)}</td><td>{m.primary?'—':Number(m.p_holm_general_family).toFixed(3)}</td><td>{fmt(m.event_count)}</td></tr>)}</tbody></table></div></details>
-      <aside class="analysis-details"><h3>Category study: domestic violence</h3><p>The separate core-DV model estimates +2.9% per 10°F (95% CI −1.0% to +7.0%), based on 6,637 eligible groups. This association is also inconclusive. Other charge families in the explorer are descriptive; their filters do not fit category-specific regressions.</p><a href={`${base}/downloads/domestic-violence-and-heat-report.pdf`} download>Download the domestic violence report · PDF</a></aside>
+      <aside class="analysis-details"><h3>Category study: domestic violence</h3><p>The separate core-DV model estimates +2.9% per 10°F (95% CI −1.0% to +7.0%; two-sided <i>p</i> = 0.15258), based on 6,637 eligible groups. This association is also inconclusive at the 0.05 significance threshold. Other charge families in the explorer are descriptive; their filters do not fit category-specific regressions.</p><a href={`${base}/downloads/domestic-violence-and-heat-report.pdf`} download>Download the domestic violence report · PDF</a></aside>
     </section>
     <AnalysisExplorer base={base} annual={annual} categories={categories} />
     <section id="methods" class="analysis-section" aria-labelledby="methods-heading">

@@ -27,6 +27,12 @@ const groups = [
     entries: entries.filter(({ data }) => data.writingKind === 'personal'),
   },
 ].filter((group) => group.entries.length > 0);
+const analyses = (await getCollection('archive', ({ data }) =>
+  data.type === 'data-analysis' && data.status === 'published'
+)).sort((a, b) =>
+  (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0)
+    || a.data.title.localeCompare(b.data.title)
+);
 const isExternalVenue = (venue?: string) =>
   Boolean(venue && venue.toLowerCase() !== 'boomerrawlings.com');
 
@@ -34,18 +40,18 @@ const isExternalVenue = (venue?: string) =>
 
 <BaseLayout
   title="Writing"
-  description="Essays and academic writing by Boomer Rawlings on curation, financial literacy, rhetoric, psychology, attention bias, aggression, and research design."
+  description="Essays, academic writing, and data analysis by Boomer Rawlings on curation, financial literacy, rhetoric, psychology, public records, and research design."
 >
   <section class="page-intro page-intro--guided">
-    <p class="eyebrow">Essays + academic work</p>
+    <p class="eyebrow">Essays + academic work + data analysis</p>
     <h1>Writing</h1>
     <p class="page-deck">
-      Selected academic work and one short personal essay, with publication and original production dates kept distinct. Additional personal writing continues on <a href="https://boomerrawlings.substack.com/" rel="me">Substack</a>.
+      Selected academic work, a short personal essay, and data analysis, with publication and original production dates kept distinct. Additional personal writing continues on <a href="https://boomerrawlings.substack.com/" rel="me">Substack</a>.
     </p>
     <CuratorGuide
       headingId="curator-writing"
       messages={[
-        "This page brings together Boomer's academic writing and a short personal essay about curation.",
+        "This page brings together Boomer's academic writing, a short personal essay about curation, and data analysis.",
         'The academic papers keep their original context, including when they were produced, what the assignment asked for, and a downloadable PDF.',
         "Let's begin with The Age of Curation, a short argument for judgment and subtraction when information is abundant.",
       ]}
@@ -87,5 +93,32 @@ const isExternalVenue = (venue?: string) =>
         </ol>
       </section>
     ))}
+    {analyses.length > 0 && (
+      <section class="writing-group" aria-labelledby="writing-data-analysis">
+        <header class="writing-group-header">
+          <h2 id="writing-data-analysis"><a href="/writing/data-analysis/">Data Analysis</a></h2>
+        </header>
+        <ol>
+          {analyses.map((entry) => (
+            <li>
+              <a href={`/writing/data-analysis/${entry.data.slug}/`}>
+                <strong>{entry.data.title}</strong>
+                <span class="listing-detail">
+                  <small>{entry.data.description}</small>
+                  <span class="listing-meta">
+                    <span>Empirical study</span>
+                    {entry.data.date && (
+                      <time datetime={isoDate(entry.data.date)}>
+                        {formatFullDate(entry.data.date)}
+                      </time>
+                    )}
+                  </span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
   </div>
 </BaseLayout>
