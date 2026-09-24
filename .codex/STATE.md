@@ -2,7 +2,7 @@
 
 ## Crime and heat publication
 
-- Mode: continuation. Objective: address methodological feedback, update the general arrest-record/heat webpage and standalone DV PDF. Candidate complete; checked main push and live verification next. Previous production cb7da91; requested prior emails already sent. No new email or agency request sent.
+- Mode: continuation. Objective: address methodological feedback, update the general arrest-record/heat webpage and standalone DV PDF. Published as651acd1; GitHub Pages run36070661540 succeeded; live verification passed. Previous production cb7da91; requested prior emails already sent. No new email or agency request sent.
 - Route: `/writing/data-analysis/crime-and-heat/`, under Writing → Data Analysis. Legacy `/data-analysis/` routes redirect; asset base unchanged. Source work remains in sibling `dv_heat_analysis/`.
 - Source: 214745 rows,4 invalid,214741 charge lines,926 exact duplicates,136313 source-ID groups;12478 coreDV. Partial2018,incomplete2025,no2026.2024 retains Incident Number;2025 changes identifier. Agency/date/location meanings and completeness unverified. Public aggregates only.
 - Original full reference retained: general58770groups/106ZIPs,+1.87% per10°F,CI−0.05%to+3.83%,p=.05608;DV6637groups/95ZIPs,+2.89%,CI−1.05%to+6.98%,p=.15258. All67original artifacts preserved; originalPDF archived separately.
@@ -11,7 +11,7 @@
 - Strict warrant samples52203general/6435DV; original full52989/6570. NOAA46eligibleZIPs/66829pairedZIP-days. SeasonalDVseparation in2sparseZIPs resolved through certifiedextendedMLE, retaining all positive counts and full-calendarHAC. Numerical amendment public.
 - Verification: independent designs/covariances/splines/Holm pass; all22fits reproduced exactly from extracted122file aggregate package. Weather regrouping/source masks separately audited. Computational checks are not human peer review or agency authentication.
 - Deliverables: revised study, full results/issue response, agency draft,166manifestedartifacts. New14pagePDF272153bytes SHA256667ba853809976e4bc2edbb5bef0708f5f0cf673375b840c5f3eb02fdc6aabf0. Original12page267003bytes SHA256babe621e7f08aea6d949f3d2f760998e6a4f382af3db2ede0f20da1d16cc3832.
-- UI/checks: desktop1280/mobile390/320,16MathML expressions, no clipping/page overflow/errors; actual CSV1461dates/6501DV/93504ZIPdays/IANA23–25hours verified. Vista19315all/1727core unchanged; no population-risk interpretation. npm test passes24public/5unlisted/6redirects,16data tests,22fits/24tests andassetchecks. Final asset-only refresh verified before push.
+- UI/checks: desktop1280/mobile390/320,16MathML expressions, no clipping/page overflow/errors; actual CSV1461dates/6501DV/93504ZIPdays/IANA23–25hours verified. Vista19315all/1727core unchanged; no population-risk interpretation. npm test passes24public/5unlisted/6redirects,16data tests,22fits/24tests andassetchecks. Live manifest166entries,10selectedartifacthashes (including both PDFs and20.26MB audit ZIP), clientJSbytes and16MathML verified. Liveexplorer57903general/6501DV groups loads correctly. Final asset-only refresh verified before push.
 - Remaining:48ZIPhourly acquisition when permitted quota available; agency confirmation of extraction/coverage, unit/date/geography and2025gaps. Prepared draft notsent; no scheduled retries. Preserve unrelated objectives below.
 ## SWC Restorative Justice application
 
