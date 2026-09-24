@@ -1,0 +1,7 @@
+{
+  "source_url": "https://raw.githubusercontent.com/open-meteo/open-meteo/6d7e23e81efdc4687c06ec4137822d43f9fdda6f/Sources/App/Era5/Era5Variables.swift",
+  "citation_url": "https://github.com/open-meteo/open-meteo/blob/6d7e23e81efdc4687c06ec4137822d43f9fdda6f/Sources/App/Era5/Era5Variables.swift",
+  "commit": "6d7e23e81efdc4687c06ec4137822d43f9fdda6f",
+  "sha256": "589025f06766591096ae695197adc438408be7bd9c740855dd74c11df013ba4d",
+  "supports": "precipitation is not elevation-correctable; temperature and dew point are"
+}

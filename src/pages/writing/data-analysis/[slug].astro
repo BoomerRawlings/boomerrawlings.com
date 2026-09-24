@@ -1,8 +1,9 @@
 ---
 import { getCollection, render } from 'astro:content';
-import { readFileSync } from 'node:fs';
+import { readFileSync, statSync } from 'node:fs';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import AnalysisExplorer from '../../../components/AnalysisExplorer.astro';
+import AnalysisRevisionResults from '../../../components/AnalysisRevisionResults.astro';
 import 'katex/dist/katex.min.css';
 import '../../../styles/data-analysis.css';
 export async function getStaticPaths() {
@@ -12,72 +13,64 @@ export async function getStaticPaths() {
 const {entry} = Astro.props;
 const {Content} = await render(entry);
 const base = `/data-analysis/${entry.data.slug}`;
-const summary = JSON.parse(readFileSync(`public${base}/data/summary.json`, 'utf8'));
-const general = JSON.parse(readFileSync(`public${base}/data/crime_model_results.json`, 'utf8'));
-const aggregates = JSON.parse(readFileSync(`public${base}/data/category_aggregates.json`, 'utf8'));
-const categories = JSON.parse(readFileSync(`public${base}/data/categories_summary.json`, 'utf8')).categories;
-const annual = aggregates.tables.by_year;
-const labels: Record<string,string> = {
-  primary_high_10f:'Daily maximum, per 10°F · primary', secondary_mean_10f:'Daily mean, per 10°F',
-  secondary_low_10f:'Daily minimum, per 10°F',secondary_high_ge90:'Daily maximum ≥90°F vs <90°F',
-  secondary_high_ge80:'Daily maximum ≥80°F vs <80°F',secondary_heatwave_p90_3day:'Heatwave vs other days',
-  secondary_high_lag1_10f:'Previous-day maximum, per 10°F',secondary_high_trailing3_10f:'Three-day mean maximum, per 10°F',
-  sensitivity_broad_high_10f:'Broader charge definition, maximum per 10°F',sensitivity_2018_2024_high_10f:'2018–2024, maximum per 10°F',
-  sensitivity_exclude2024_high_10f:'2021–2023, maximum per 10°F',exploratory_2025_jul_dec_high_10f:'July–December 2025, maximum per 10°F',
-};
-const signed = (v:number) => `${v > 0 ? '+' : v < 0 ? '−' : ''}${Math.abs(v).toFixed(2)}%`;
-const fmt = (v:number) => v.toLocaleString('en-US');
-const chartModels = general.models;
-const x = (rr:number) => 300 + (((rr-1)*100 + 15)/30)*470;
+const revised = `${base}/data/revision-2`;
+const read = (file:string) => JSON.parse(readFileSync(`public${base}/data/${file}`, 'utf8'));
+const summary = read('summary.json');
+const general = read('crime_model_results.json');
+const revision = read('revision-2/revision_results.json');
+const categories = read('categories_summary.json').categories;
+const annual = read('category_aggregates.json').tables.by_year;
+const reference = revision.models.find((m:any)=>m.outcome==='all'&&m.specification==='R0');
+const dv = revision.models.find((m:any)=>m.outcome==='core'&&m.specification==='R0');
+const signed = (value:number) => `${value<0?'−':'+'}${Math.abs(value).toFixed(2)}`;
+const fmt = (value:number) => value.toLocaleString('en-US');
+const dailyMB = (['daily.json','category_daily.json'].reduce((sum,name)=>sum+statSync(`public${revised}/${name}`).size,0)/1e6).toFixed(1);
 ---
 <BaseLayout title={entry.data.title} description={entry.data.description} pageType="article" publishedTime="2026-09-24">
   <div class="analysis-page" data-analysis-study>
     <header class="analysis-intro">
       <nav class="analysis-back" aria-label="Breadcrumb"><a href="/writing/">Writing</a><span aria-hidden="true"> / </span><a href="/writing/data-analysis/">Data Analysis</a></nav>
-      <p class="analysis-kicker">San Diego area · Observational analysis · 24 September 2026</p>
+      <p class="analysis-kicker">San Diego area · Observational analysis · Revised 24 September 2026</p>
       <h1>{entry.data.title}</h1>
-      <p class="analysis-deck">Daily temperature and supplied San Diego-area arrest records, July 2018–December 2025. An observational study with separate charge-category breakdowns.</p>
-      <div class="analysis-actions">
-        <a class="analysis-button" href="#explorer">Explore the data</a>
-        <a href="#methods">Methods and limitations</a>
-        <a href="#downloads">Research downloads</a>
-      </div>
+      <p class="analysis-deck">Daily temperature and supplied San Diego-area arrest records, July 2018–December 2025. General findings, separate charge categories, and a domestic violence report.</p>
+      <div class="analysis-actions"><a class="analysis-button" href="#explorer">Explore the data</a><a href="#revision-estimates">Revised results</a><a href="#methods">Methods and limitations</a><a href="#downloads">Research downloads</a></div>
     </header>
     <section class="analysis-finding" aria-labelledby="finding-heading">
-      <div><p class="analysis-kicker">All eligible records · 2021–2024</p><h2 id="finding-heading">The association is inconclusive.</h2><p>The adjusted estimate is positive, but its confidence interval includes no association. The two-sided <i>p</i>-value is {general.models[0].two_sided_p.toFixed(5)}, above the 0.05 significance threshold. These records do not establish that heat increases arrests or crime incidence.</p></div>
-      <div class="analysis-estimate"><strong>+1.87<span>%</span></strong><p>per 10°F higher daily maximum</p><p class="analysis-ci">95% CI −0.05% to +3.83%</p><small>58,770 eligible record groups · 106 fitted ZIP areas</small></div>
+      <div><p class="analysis-kicker">Corrected weather · Available 64-ZIP sample · 2021–2024</p><h2 id="finding-heading">The association remains inconclusive.</h2><p>The corrected reference estimate includes no association within its confidence interval (two-sided <i>p</i> = {reference.two_sided_p.toFixed(5)}). Three sensitivity tests cross 0.05 individually; none crosses 0.05 after correction across all 24 revision tests. These records do not establish that heat increases crime or violence.</p></div>
+      <div class="analysis-estimate"><strong>{signed(reference.percent_change)}<span>%</span></strong><p>per 10°F higher daily maximum</p><p class="analysis-ci">95% CI {signed((reference.ci95_low-1)*100)}% to {signed((reference.ci95_high-1)*100)}%</p><small>{fmt(reference.event_count)} eligible record groups · {reference.zips} fitted ZIP areas</small></div>
     </section>
-    <aside class="analysis-notice" aria-label="Data coverage limitation"><strong>Coverage limitation.</strong> The 2025 export is incomplete: 79 dates have no source records. A missing record is not a confirmed zero arrest. The main analysis uses 2021–2024. No 2026 records were supplied.</aside>
-    <nav class="analysis-section-nav" aria-label="Study sections"><a href="#estimates">Adjusted estimates</a><a href="#explorer">Record explorer</a><a href="#weather-explorer">Daily temperature</a><a href="#methods">Methods</a><a href="#downloads">Data &amp; sources</a></nav>
-    <section id="estimates" class="analysis-section" aria-labelledby="estimates-heading">
-      <div class="analysis-section-title"><span>01</span><div><h2 id="estimates-heading">Adjusted estimates</h2><p>Poisson models with ZIP, year-month, and weekday adjustment. Lines indicate individual 95% confidence intervals.</p></div></div>
-      <figure class="analysis-forest">
-        <div class="analysis-chart-scroll"><svg viewBox="0 0 820 280" role="img" aria-labelledby="forest-title forest-desc"><title id="forest-title">Temperature associations across all eligible records</title><desc id="forest-desc">Percent change in expected daily record count. The primary estimate is plus 1.87 percent, with a 95 percent interval from minus 0.05 to plus 3.83. Exact values for all six general-arrest models follow in the results table.</desc>
-          {[-15,-10,-5,0,5,10,15].map(v => <g><line x1={x(1+v/100)} x2={x(1+v/100)} y1="22" y2="230" stroke={v===0?'#64717d':'#e1e5e8'} stroke-dasharray={v===0?'4 4':undefined}/><text x={x(1+v/100)} y="255" text-anchor="middle">{v>0?'+':''}{v}%</text></g>)}
-          {chartModels.map((m:any,i:number) => <g class:list={{'forest-primary':i===0}}><text x="0" y={43+i*35}>{labels[m.model].replace(' · primary','')}</text><line x1={x(m.ci95_low)} x2={x(m.ci95_high)} y1={38+i*35} y2={38+i*35} stroke={i===0?'#005b68':'#6b7785'} stroke-width={i===0?4:2}/><circle cx={x(m.rate_ratio)} cy={38+i*35} r={i===0?6:4} fill={i===0?'#005b68':'#33485c'}/></g>)}
-        </svg></div><figcaption>All eligible records, 2021–2024. Five non-primary comparisons receive Holm correction within this general-arrest analysis; all adjusted p values are 1.00. Confidence intervals are individual, not simultaneous. The separate DV analysis has its own comparison family.</figcaption>
-      </figure>
-      <details class="analysis-details"><summary>All 6 general-arrest model specifications and results</summary><div class="analysis-table-scroll" tabindex="0" role="region" aria-label="Model results"><table><caption>Adjusted models; descriptive filters do not change these estimates.</caption><thead><tr><th scope="col">Specification</th><th scope="col">Period</th><th scope="col">Change</th><th scope="col">95% CI</th><th scope="col">p</th><th scope="col">Holm p</th><th scope="col">Groups</th></tr></thead><tbody>{general.models.map((m:any)=><tr><th scope="row">{labels[m.model]}</th><td>{m.period}</td><td>{signed(m.percent_change)}</td><td>{signed((m.ci95_low-1)*100)} to {signed((m.ci95_high-1)*100)}</td><td>{Number(m.two_sided_p).toFixed(3)}</td><td>{m.primary?'—':Number(m.p_holm_general_family).toFixed(3)}</td><td>{fmt(m.event_count)}</td></tr>)}</tbody></table></div></details>
-      <aside class="analysis-details"><h3>Category study: domestic violence</h3><p>The separate core-DV model estimates +2.9% per 10°F (95% CI −1.0% to +7.0%; two-sided <i>p</i> = 0.15258), based on 6,637 eligible groups. This association is also inconclusive at the 0.05 significance threshold. Other charge families in the explorer are descriptive; their filters do not fit category-specific regressions.</p><a href={`${base}/downloads/domestic-violence-and-heat-report.pdf`} download>Download the domestic violence report · PDF</a></aside>
-    </section>
-    <AnalysisExplorer base={base} annual={annual} categories={categories} />
+    <aside class="analysis-notice" aria-label="Revision scope"><strong>Revision scope.</strong> Corrected weather is available for 64 of 112 ZIPs following the provider’s download quota. These contain 98.5% of the original general-record sample and 98.0% of the DV sample; availability is not random. Full original results and same-sample comparisons remain below. The main analyses exclude incomplete 2025 records; no 2026 data were supplied.</aside>
+    <nav class="analysis-section-nav" aria-label="Study sections"><a href="#revision-estimates">Adjusted estimates</a><a href="#explorer">Record explorer</a><a href="#weather-explorer">Daily temperature</a><a href="#methods">Methods</a><a href="#downloads">Data &amp; sources</a></nav>
+    <AnalysisRevisionResults revision={revision} originalGeneral={general} originalDv={summary} base={base} />
+    <aside class="analysis-details"><h3>Category study: domestic violence</h3><p>The corrected core-DV reference estimates {signed(dv.percent_change)}% per 10°F (95% CI {signed((dv.ci95_low-1)*100)}% to {signed((dv.ci95_high-1)*100)}%; <i>p</i> = {dv.two_sided_p.toFixed(5)}), from {fmt(dv.event_count)} eligible groups and {dv.zips} fitted ZIPs. The report includes all DV sensitivity results, original comparisons, source limitations, and agency questions. Other explorer categories remain descriptive.</p><a href={`${base}/downloads/domestic-violence-and-heat-report.pdf`} download>Download the revised domestic violence report · PDF</a></aside>
+    <AnalysisExplorer base={base} weatherBase={revised} weatherZipCount={revision.panel_metadata.zips} dailyMB={dailyMB} annual={annual} categories={categories} />
     <section id="methods" class="analysis-section" aria-labelledby="methods-heading">
       <div class="analysis-section-title"><span>04</span><div><h2 id="methods-heading">Methods and interpretation</h2><p>Record definitions, exposure assignment, model specification, and limits.</p></div></div>
       <article class="analysis-prose"><Content /></article>
     </section>
     <section id="downloads" class="analysis-section" aria-labelledby="downloads-heading">
-      <div class="analysis-section-title"><span>05</span><div><h2 id="downloads-heading">Data and sources</h2><p>Public downloads contain aggregate data. Counts, populations, and exclusions are documented in the data dictionary.</p></div></div>
+      <div class="analysis-section-title"><span>05</span><div><h2 id="downloads-heading">Data and sources</h2><p>Aggregate data, reproducible calculations, source documentation, and unresolved questions.</p></div></div>
       <div class="analysis-downloads">
-        <a href={`${base}/data/general-analysis-and-audit.zip`} download><strong>General analysis and audit</strong><span>ZIP · General models, category data, reproducible code, definitions</span></a>
-        <a href={`${base}/data/aggregate_downloads.zip`} download><strong>Shared aggregate data</strong><span>ZIP · All-record summaries, weather panel, DV model results</span></a>
-        <a href={`${base}/data/data_dictionary.md`} download><strong>Data dictionary</strong><span>Markdown · Fields, denominators, limitations</span></a>
-        <a href={`${base}/data/crime_model_results.json`} download><strong>General model results</strong><span>JSON · Estimates, sample sizes, diagnostics, independent checks</span></a>
-        <a href={`${base}/data/category_mapping.csv`} download><strong>Category classification</strong><span>CSV · Observed charges and explicit overlapping families</span></a>
-        <a href={`${base}/data/categories_summary.json`} download><strong>Category definitions</strong><span>JSON · Rules, totals, overlap, statute citations</span></a>
-        <a href={`${base}/downloads/domestic-violence-and-heat-report.pdf`} download><strong>Domestic violence report</strong><span>PDF · Separate category study, methods, tables, references</span></a>
-        <a href={`${base}/data/audit-and-reproducibility.zip`} download><strong>DV audit and source verification</strong><span>ZIP · Four audit passes, aggregate-only model code, references</span></a>
+        <a href={`${revised}/revision-analysis-and-audit.zip`} download><strong>Revised analysis and audit</strong><span>ZIP · All 22 fits, 24 tests, aggregate inputs, code and verification</span></a>
+        <a href={`${base}/downloads/domestic-violence-and-heat-report.pdf`} download><strong>Revised domestic violence report</strong><span>PDF · Standalone category study, methods, tables and references</span></a>
+        <a href={`${revised}/data_dictionary.md`} download><strong>Revised data dictionary</strong><span>Markdown · Fields, populations, civil-day weather and exclusions</span></a>
+        <a href={`${revised}/ISSUE_RESOLUTION.md`} download><strong>Methodological review response</strong><span>Markdown · Changes, sensitivity results and remaining limitations</span></a>
+        <a href={`${revised}/daily_zip_civil_counts.csv.gz`} download><strong>Corrected daily counts and weather</strong><span>CSV.gz · 64 ZIPs, all available dates, daily high, mean and low</span></a>
+        <a href={`${revised}/revision_results.json`} download><strong>Complete revised model results</strong><span>JSON · Estimates, intervals, tests, diagnostics and sample sizes</span></a>
+        <a href={`${revised}/numerical-audit.md`} download><strong>Independent numerical verification</strong><span>Markdown · Separate calculations, findings and audit boundaries</span></a>
+        <a href={`${revised}/AGENCY_CLARIFICATION_DRAFT.md`} download><strong>Agency clarification request</strong><span>Markdown · Prepared questions; not sent</span></a>
       </div>
-      <details class="analysis-details"><summary>Source documentation and provenance</summary><ul class="analysis-sources">{summary.sources.map((s:any)=><li><a href={s.url}>{s.title}</a></li>)}</ul><p>Arrest exports supplied by the requester. An agency response letter, public download page, and data dictionary were unavailable. Source filenames, hashes, and row audits are retained in the <a href={`${base}/data/summary.json`}>source and DV metadata</a>. The general model and category documentation are provided separately above.</p></details>
+      <details class="analysis-details"><summary>Original release and category documentation</summary><p>The original full-sample results use fixed UTC−7 weather. These files are retained unchanged for comparison and reproducibility.</p><ul class="analysis-sources">
+        <li><a href={`${base}/data/general-analysis-and-audit.zip`} download>Original general analysis and audit · ZIP</a></li>
+        <li><a href={`${base}/data/aggregate_downloads.zip`} download>Original shared aggregate data · ZIP</a></li>
+        <li><a href={`${base}/data/audit-and-reproducibility.zip`} download>Original DV audit and code · ZIP</a></li>
+        <li><a href={`${base}/downloads/domestic-violence-and-heat-original-2026-09-24.pdf`} download>Original DV report · PDF</a></li>
+        <li><a href={`${base}/data/downloads/crime_model_results.csv`} download>Original general model results · CSV</a></li>
+        <li><a href={`${base}/data/data_dictionary.md`} download>Original data dictionary · Markdown</a></li>
+        <li><a href={`${base}/data/category_mapping.csv`} download>Charge-category classification · CSV</a></li>
+        <li><a href={`${base}/data/categories_summary.json`} download>Category definitions and overlaps · JSON</a></li>
+      </ul></details>
+      <details class="analysis-details"><summary>Source documentation and provenance</summary><p>The arrest exports were supplied by the requester. No response letter, extraction query, or export-specific dictionary was available. Agency labels and comparisons with official reports cannot independently establish completeness. <a href={`${revised}/PROVENANCE_RESOLUTION.md`}>Source review and official documentation</a>; <a href={`${base}/data/summary.json`}>original filenames, hashes and metadata</a>.</p><ul class="analysis-sources">{summary.sources.map((s:any)=><li><a href={s.url}>{s.title}</a></li>)}</ul></details>
     </section>
   </div>
 </BaseLayout>

@@ -1,0 +1,476 @@
+[
+  {
+    "file": "raw\\era5_land_hourly_91901.json.gz",
+    "response_sha256": "b60954acd2243c6ab8fb44d09af23aecdda4bc4e5750c4adf1a089f25665a86c",
+    "compressed_sha256": "890908e0d1a099c8e37f34cb410f76de28bc7578c7486ce694dcb17de3d3303f",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_91902.json.gz",
+    "response_sha256": "32551d4e17b028526bb2d924d0cc7036b361c0d00d62efc5de38fbbf0ccea80c",
+    "compressed_sha256": "4b422ce42a7819fa4a3e95cef02280caab85b28cbd75f43d5c818e9cdde844c2",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_91905.json.gz",
+    "response_sha256": "6d03f9ac4ff8746619d9d6d1294f90ba9b5c5e67ba0dd5bbc960411b1c536628",
+    "compressed_sha256": "79a374e9140dc5642360c4105a86473a8b34c78be1cfc4064f77f2a14229e435",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_91906.json.gz",
+    "response_sha256": "723d45402180ad5090c81f0f1ff0eb6ec6dc2c8f661679e1f14224e281e48a74",
+    "compressed_sha256": "6f5555f1cfa1b439c40c3c55fe2a87954db7c94553d4b04d05fd88d0042ddebf",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_91910.json.gz",
+    "response_sha256": "4b81559c4fc2ba736609ad75a3c443acc3f9d7967a448ab1450a9819304d34ce",
+    "compressed_sha256": "b65b294c1db8d6922d2c07cda2fa433ae650b8cf36aa3d96fdd8f64c8de902a4",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_91911.json.gz",
+    "response_sha256": "0547f0fcf6b6da2311d39c8874167b5996399f88db68190eed090a1084e8f3e6",
+    "compressed_sha256": "c655e8a50a3bfff5ec0dea63552f4150d70331245d3bb3eeda9a6b2fa978ef34",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_91917.json.gz",
+    "response_sha256": "ba6121737486c5107d6d495445196b1324b5540c0ea756619005da0975e68213",
+    "compressed_sha256": "88f411a28999ff37194a0e6d820b5dcaf24a47afed85012b9c96a27a19e0ba7f",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_91932.json.gz",
+    "response_sha256": "018627c4ca54dd0710dc428ce132cfdd8acf70b33aa2aad70de817a3e57bcc88",
+    "compressed_sha256": "317b1fdcdd7fea18645dc81cc3dcbe559b4be1fa84d95de5ce9db42245dc934f",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_91935.json.gz",
+    "response_sha256": "a4e1e297faf9b2043e62d44d5fb0836df071680f6909d2df41076ec345c9e0b0",
+    "compressed_sha256": "999741d22534562859966d919f6db7cdee8a09ff9cfb6e9005f7d60b4ca89524",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_91941.json.gz",
+    "response_sha256": "fcdc8982641e6ac24fec91a9ff60ade9c0a08b38fa74ba9402b72b8a0f5912cb",
+    "compressed_sha256": "6a87973552bb7c423992b3069f1f1050138b3b9aeeb9c5f18666e35348f9d260",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_91942.json.gz",
+    "response_sha256": "e7ac83bfa0b9d7684bcfe17c618fd2e9c4e4a375a04654a08f32118929ea2b2e",
+    "compressed_sha256": "53818639e22560836dfbef2197c08ee3027d09345f71484e951d5833adabe36b",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_91945.json.gz",
+    "response_sha256": "298459858f7f4dbf54351676a3f6b5a866cea6a9c52dd2c0f705e7b90d2c4489",
+    "compressed_sha256": "c7f8e78760ca33eb843874b96a0b2fd2e9b541f1e8e5727c243878fd605986cd",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_91950.json.gz",
+    "response_sha256": "fb9e8f70ac245e381526fc999a0679f8cd9fb3ddee5af3b5dbdacb18405d35ef",
+    "compressed_sha256": "ff34ec3902edec55a731c1e6b3644a11546e1f036cec50c5ed91bdfc6347a82d",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_91962.json.gz",
+    "response_sha256": "43cc09d362e57bcb5f88522f24980ff33d5a8da3f191d8648344d7e243dfc54e",
+    "compressed_sha256": "c5e6f83df2779a08cd8a12278af01117e68fee771cecd2f05d2276668693a190",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_91977.json.gz",
+    "response_sha256": "f9980ae1484470afa36eda9b31f9917ec8a756230a286cb403e4ff3517eae162",
+    "compressed_sha256": "0e6544856e4f744d83f76bc248657ffb2e83789ba9c823990d47a8172de5415f",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_91978.json.gz",
+    "response_sha256": "91f301ac752d5947a2b9eb797b5e9753041766c5501e8970a2afd07ff6613c3d",
+    "compressed_sha256": "64732bf8e7912107c0e78212b846c1df52b68d7559003034ca51caae0f96f784",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_91980.json.gz",
+    "response_sha256": "67c18f46f98dcd92cfb51464b01459e14c5bc7683a599ae47d82d97d39502757",
+    "compressed_sha256": "1975ae2757ecda526fac8ab521c35d1a772adea764f547d2e3aa499a18383035",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92003.json.gz",
+    "response_sha256": "a6c1cbc415116dc09b7f2cff365552e62e92e1ba101f8c4d8ab1f11fb4ef283b",
+    "compressed_sha256": "f03a5d5aedb37fdb23a4b4894af57e53762ad286b71e3624e293d394d0e8e067",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92004.json.gz",
+    "response_sha256": "6e4d4892d6ecaf42f9361f9f0e6a13f63274576b422edada2faadf7e61424bf0",
+    "compressed_sha256": "951a68a6d48a80e4dc7c178ffd5d650816a37cc8a93384864221c977b998a370",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92007.json.gz",
+    "response_sha256": "fbc85d4360cf80d02758dceb9212e9a732db0e847df9c6d9f71ace67e45152fc",
+    "compressed_sha256": "107a2a24e3cb82dbd2a2ae90d8902f4d381bab52bd1fa316a8fc7141db54b011",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92008.json.gz",
+    "response_sha256": "627abd2e2a03c7dc2142e57c470cfcfeca0158478b4c53bb98a8f84a747f99ff",
+    "compressed_sha256": "d0ec1f09786eb1bc467bf2670a5406912f91b015c713120e7bbafc5194ec31f5",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92009.json.gz",
+    "response_sha256": "76825d38b4fc4347f2f96a19e0d16b25595ea366dbf66cb11582b736a03c7c2e",
+    "compressed_sha256": "6ac9e702c5fbacfab26a462c9bafad8e4add4056e83edfd4d0ec901bb650fad6",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92011.json.gz",
+    "response_sha256": "5e6940c46f4c787d218523c0eec8aaeb86fd9afeedd3de3a7d81ca0b466b3fec",
+    "compressed_sha256": "53bb6ea4bf6b2b44237d3b10d6571299dbe448543b2807c352f8beef2b3219c7",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92014.json.gz",
+    "response_sha256": "02dcca35fa24da0eaf99ccdc37012edc0bbacce7475095fbfa69aa7f54752641",
+    "compressed_sha256": "2ecd478f828472a0759c285acd1eb5815bc95aa246e2c7c546328f9ac14afbfe",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92019.json.gz",
+    "response_sha256": "5532660f8feb475aabd8ca29a7c3ffae6cd29c2736c6ba14d3b6c7372ae4900e",
+    "compressed_sha256": "b42438528f98688155f4171ad78f0826a9c94e2a30720f7704c8671f2700a839",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92020.json.gz",
+    "response_sha256": "2fc47d4071d0b14ec4c9d5880edb8c7fc0bd968b165538a3c5588c7b7948661c",
+    "compressed_sha256": "e0a73137143ecad1baa77369e2b2a5cf6eb181cd5438133b27c84b070c251c3c",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92021.json.gz",
+    "response_sha256": "35500c68cd33618a352b0e9ea0bc6ee29a3f90e6f7f90477679daa931aa6eb20",
+    "compressed_sha256": "b93ff121c5fed105888d436397cc0272d306b8c01da96821489b19535b9d6021",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92024.json.gz",
+    "response_sha256": "67a466a17c9a414e9e0a6cb857ff0838d5d76b4d52e9c547c1031ca42eb74d9d",
+    "compressed_sha256": "b5b6207308fe7514123c1ab914b2e2f765cf02cad0fe8cea97389273846fd7af",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92025.json.gz",
+    "response_sha256": "cc63af143877aa06dd92890dc1970466e23308cefd7e541c178cd0515c6bc632",
+    "compressed_sha256": "81fd73fa655834a956916fcf10c27ba35541da06c57c1312c29a25b4a1c7d140",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92026.json.gz",
+    "response_sha256": "5be2d43132d09a728579d1691e44c42a326bbb2145e86fd2ac28c19c652ee235",
+    "compressed_sha256": "9f31c35a1b423033e467bf7cd513ab73a7b7f0ddceebae3c4c865051fc9fd96c",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92027.json.gz",
+    "response_sha256": "89681341502592705982573599e5ee18376645b7d98830d8c25a67cdcf982604",
+    "compressed_sha256": "0b7d59301269b54d720796907ac5b5b368e550b8e73cf2080b9f8d7302c1d4f3",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92028.json.gz",
+    "response_sha256": "e727bf070659ccf409f9639c866fd90eeb5549a670343a70de647191f1bda3d3",
+    "compressed_sha256": "657ebf3b09443a84ba5b48d71371dc865ac48c50cfcde5c59b47733fc71c48f1",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92029.json.gz",
+    "response_sha256": "2670e74ac90f992fb0e2bf222673e060921d45f7a2f8db8cf06fc7ea6b58ac66",
+    "compressed_sha256": "b184b213f3b3d5019e4bfd5c0b3b8c96cb996235a7d1efb8c40711e5fc04c351",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92036.json.gz",
+    "response_sha256": "5ed8e23449fff0d3e60be959f1a2137b455971b57c9a9688cb7d5a2e2a3975f6",
+    "compressed_sha256": "4f84303f2e06ba62a04cb2333b6228e8e7a919ced20964ab495d8fc3e13dca15",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92040.json.gz",
+    "response_sha256": "1cd3742f037d5d37fb5fa9511c41aeedf99d85d2677bfdc1924cf76f787ad9bc",
+    "compressed_sha256": "67ee7b9923dde95cfdbbe4f6d51d1d3efeb13ced41def6488a8e4023bdfefc79",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92054.json.gz",
+    "response_sha256": "369592594c6631a4e56e1c90a8421f4a110add6fc883b068f21fe302d3057d67",
+    "compressed_sha256": "1b2d51e8da3fe1a31069aa07151422f05e98bb2bfc79177383944b00bb33f116",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92056.json.gz",
+    "response_sha256": "c3ca21b47036b6a06393e29df857248660b7dda423abefcb9b66ba1568417fc2",
+    "compressed_sha256": "6b903549925d805924b2dd7b69d5ecb7875b75255a165570ab879bead6463283",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92057.json.gz",
+    "response_sha256": "6ab563589702d58cac09582b657f6cf5e8b1513653f33f44cdc268bf6d4cc407",
+    "compressed_sha256": "5c1c61ca89385ed57696ddb9f944c36d6a91c2c659647babac5fd77a47442dd1",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92058.json.gz",
+    "response_sha256": "823af2e3bbe70f8b71aac1ef95d2b7f633fb61070d6ec98a12b752f83e27c708",
+    "compressed_sha256": "dbae47a6d4a94e6e2cf6ca236fec4e0e49853c68d12b06e358d661b1d8ba47ce",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92059.json.gz",
+    "response_sha256": "5052a5d635d55bdf5725af5a52e5ee2d84f7bf6662fcefba61fa6be0a71d5705",
+    "compressed_sha256": "15348abb84b3f87a529cef36bb7d77e80bec9c8ba1289b034a97abece4b13300",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92061.json.gz",
+    "response_sha256": "166431877083ce5c2a73195267a4c83b47b6f9a9bdec61b38647e1f89102412e",
+    "compressed_sha256": "b4275051e086a65813aed66be3a20bc3724b9c8c0ac6691b1f6dcac03b47b90e",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92064.json.gz",
+    "response_sha256": "24f87466c4af68298ee6aaf7203725268e0090866ec526f5ae078a22b15908a2",
+    "compressed_sha256": "5a29d69369b16676f7ee7c3c7f9800bba6ff68c83c9f4bf6a85e4262c945269b",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92065.json.gz",
+    "response_sha256": "5a08dfb04b9cf26cdca5abddf06ea09f0bf6c0a422eb7052d4407f08c6c7d939",
+    "compressed_sha256": "6aa6d554105c12c9dad772050ccd273a4de2e9781c31cf731425713f4f943741",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92069.json.gz",
+    "response_sha256": "0de707538db0145051c9bd6836da785552810c1ce31c3cf2b86b228d6d109454",
+    "compressed_sha256": "8ca6087f07feb923d2620cbbf4acb20942a5cddd5eaa01fd53c1081e9adab90f",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92071.json.gz",
+    "response_sha256": "d8bd99b843c3afd94d2825b936125acf1b35a379a00238041e6412b6fc99caef",
+    "compressed_sha256": "02dfeb9e13a3eefb5415e3aa10f7962d211a2060c273983a5d55a5a3944e258a",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92075.json.gz",
+    "response_sha256": "81d6b98fb96609c987dfce572702a802413ab64f6ee07d3c6da08369cbc190cb",
+    "compressed_sha256": "9f14dfd28925b5198fdedf83d6e1979bc148fbf22fd1bcae800d666555b258a4",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92078.json.gz",
+    "response_sha256": "376928307ed3b6d1928aebcbb08cc8360f8efb43e3d27512f5e1a7d55d106614",
+    "compressed_sha256": "9a77aca5f9bb8ce5aff2b41ec793f0aa2006761a559d65e2233d0619592b027c",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92081.json.gz",
+    "response_sha256": "f803235154aa9ba8ae7d4c6b82074444adf08823aad7d1f285e13f1a176ffa5e",
+    "compressed_sha256": "085fe38ee272ae051820a29ade94a653d23d7b4b1228eecdd2735a3f2bd0c2d0",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92082.json.gz",
+    "response_sha256": "76be7849c1abbdc53cc6b23e3eb3b289e899f0a3865b97e1f9ddbc16a15552f3",
+    "compressed_sha256": "34f846ff28c25d2f3325895b04d5e3facf5e0c078b14e0bccd189593f57f24a1",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92083.json.gz",
+    "response_sha256": "eacaba3b769e68e205efa93eb79fe371b914bad465baf75c882cfd34b3f10525",
+    "compressed_sha256": "f1bdac1f4cf2ccaaf979ee192bb5d0af2f978c30d9875dbcf2d3f04a42b09a13",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92084.json.gz",
+    "response_sha256": "e597aced3901135440cb1bcc71d9408cb17c03632aa80030dbb5354b03deb675",
+    "compressed_sha256": "36b6156850a938efbbdb8e72ccd2b44df2d0ca316f83917454d837d1a1772a71",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92101.json.gz",
+    "response_sha256": "15296f9805c63ca2a1b6932ae4c151e44a2ce924ad40b2da55827c98f97a57d8",
+    "compressed_sha256": "a390251f0c55ccab70c6db9382cc3f6dcedb839ba82c9c516317c084820e5f7b",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92102.json.gz",
+    "response_sha256": "944e43a3a87c641a5a925e96aada70ea67ab8446759b6b7c3cbb51a445ee27f6",
+    "compressed_sha256": "3aaf6286e0fab45fadae6f483e536a52370c26115214da5ec9da9e0033b84dfb",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92103.json.gz",
+    "response_sha256": "cd33aead95a2cf20ff8054eec863116b1e9e1c205a4988852c2c45cc04ef47e7",
+    "compressed_sha256": "c0c8f130761244617155a76f006f0e32a9335d9aadc062324856d50dacb48900",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92105.json.gz",
+    "response_sha256": "a4071461da011d6a6e836faea94dc7d7853f792635ff6f5c15126624107ac7d5",
+    "compressed_sha256": "cb8f7db45e3545cccca8dc1805ec40e1ee81749dba4cf91111ad2c01284c7efa",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92108.json.gz",
+    "response_sha256": "1e55b27a7ad836f4e136b66cdd229132f817f476c3b789ef948984923b0fdb4b",
+    "compressed_sha256": "03ed6c5d7858e32a548a01772dba4921f81be2ceedeff810c1dc6a4c4084e5f6",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92110.json.gz",
+    "response_sha256": "3dae0e0ae8aee88a4391d9ff16f6f5a2090a7b837b2ac7d7a795fd67470c1ced",
+    "compressed_sha256": "9de3b003090a9d595165a9b08ea1f2ef373433c3c556f9222c9d26dac781f91c",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92113.json.gz",
+    "response_sha256": "55166c296fb2cd5a543adef0bdfd79fc1a3642033a515de9dedd47935c68e376",
+    "compressed_sha256": "9a97646a6a030a98b98a690ba83ebaa8fcf52a448fb582745169c54a33b98b61",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92114.json.gz",
+    "response_sha256": "18e479d2606ceab42c823f0326f2b3dc399d3cf16b77ea62882eb89418699ab4",
+    "compressed_sha256": "08a30409368ac52b85af4532385bd1b52062c20c4b5c0507abeaa73302432a74",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92115.json.gz",
+    "response_sha256": "a61eb37589dc72475d3aea65c8344e616d8051f896425ff2edc0adc1b98850ca",
+    "compressed_sha256": "88e6c5f1795ef087bcccd5203142feb8bca1c0dacd86ad714508dd04db519574",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92123.json.gz",
+    "response_sha256": "97780bbf0b0ee73c96eb186c7b8a8b34de5878297ba5f156b6d4739bf8f1e59d",
+    "compressed_sha256": "54620bf2bdad2b98e1df2c99db10ddc82c28c842da1bd1e701dcba57127eea47",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92127.json.gz",
+    "response_sha256": "c0be28ad6f5a1cdc1eb4fe3828324ed586684d9d470376e6dcafe23e1986bfc5",
+    "compressed_sha256": "ba7d3caa922d2c180d423f5240cd6a44a3d76f03030e065d5e5da594944bce9f",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92154.json.gz",
+    "response_sha256": "1cc9b443e7bb627b4259a039b35c0adfa1fe52f50d52674122feb7afe3348686",
+    "compressed_sha256": "699ae7871b9eb92dab65631d3e8ac59b5946444c61b3f94aa888f49d09ec888e",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_land_hourly_92173.json.gz",
+    "response_sha256": "336dba436bff064862a15fa04b5432b61c0cfbd750f184a92af438b0d7ce878e",
+    "compressed_sha256": "5c654cba396065788d139d76a7f7e4359005c7ffd9e85b812559f0e85ddbffda",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_precipitation_hourly_91901.json.gz",
+    "response_sha256": "84d64668bd95d3dceb625603906a88441190b996797ef6804042e65cc1e34d9c",
+    "compressed_sha256": "02e7bb2f8342a99d816e461fbd31edfe22ca414d5f7d676c2fa6b502f430bb8b",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_precipitation_hourly_91902.json.gz",
+    "response_sha256": "0927ce84a08fdbd2ed95bd057e148b61fd8d4c2d0ca3a2721e90807a4441d4f7",
+    "compressed_sha256": "231224c8d008f577e7398173e9d4590f6d36e65592561c7b9fbe6cfd9de1a0df",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_precipitation_hourly_91905.json.gz",
+    "response_sha256": "bc85c1f90b333a8a948e354445b9b78f1e3bd33d122255945535302ea198ddb8",
+    "compressed_sha256": "024a1a7f381cb8edf46d27c594fd383a7533856365dabef8c901bd64b2000bbc",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_precipitation_hourly_91906.json.gz",
+    "response_sha256": "739e8f680924f009e05921574a6581d4f65cf670344d06c7d001c05a4b060a04",
+    "compressed_sha256": "efdd02e5fa4c0b42cf7e8b4a080ca9e0e5a33fb0e624841816ea9a58b99a0531",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_precipitation_hourly_91911.json.gz",
+    "response_sha256": "20f21005fc30458aaeb298d8d1547786bc32b6eb09c48a4cf9ffa725e8178b0d",
+    "compressed_sha256": "effdf424c34d7a6f7efcf52a2090c6607e4342b371c371e2ccbca0e3eb88ceb5",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_precipitation_hourly_91916.json.gz",
+    "response_sha256": "9c19f6014a0550295992517105bec2150cad85a00e40507735cb65907f63ba73",
+    "compressed_sha256": "7a129958e065a7cec8dfdb55ab5aa8e7a9e6ae146f5a4be70428cf6957bce071",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_precipitation_hourly_91980.json.gz",
+    "response_sha256": "7b4e73d64bbfab85429c8fce55de439da3db44616bc844b76b01fba07c1c83ea",
+    "compressed_sha256": "67a1054a59540106970c145e2a2997c5dca1a945316877612764fadc0f4fee74",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_precipitation_hourly_92003.json.gz",
+    "response_sha256": "0f325475b91d8412c379e32fb06acbf1ed57249b153b65d9d1a3bf70416de868",
+    "compressed_sha256": "09f372f63056bf72976b9db53513a0cb777b58409bb9aeaed3be02dbd19b6784",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_precipitation_hourly_92004.json.gz",
+    "response_sha256": "573ae8e705381da3cbdf36cb4d90f3c1bf9246cb8a31593bca73ddfc6a773d22",
+    "compressed_sha256": "f99631d29cd2fc97a72e07560f13df55b93e1cd530a2415c9cae73cab90344bf",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_precipitation_hourly_92007.json.gz",
+    "response_sha256": "3e2299326782b0d781141d7c2807f8179981960a015e7bb3f70e68161ac7f793",
+    "compressed_sha256": "dc11cc9bee645624cf028eb87463d402336a2b31f0a941e4f71fcb92a7080b98",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_precipitation_hourly_92025.json.gz",
+    "response_sha256": "abae5fa4361bb9e3e6e1604426e31d2557f63f145980d1a3c01d472690ef30f2",
+    "compressed_sha256": "1fda2b5a6a264932304a175ad96721a26f0da0f780efd50f057aa783d5d21e63",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_precipitation_hourly_92026.json.gz",
+    "response_sha256": "a5afb3864a2ab829d3eaaa53b440e65bf5a4432c46f879a050b39375a566c738",
+    "compressed_sha256": "504778c89c4bc1a3ed22d3f3e9be3b395670b79ad669f27512027ba080b17c45",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_precipitation_hourly_92028.json.gz",
+    "response_sha256": "6a4e5cf5307911bdad4d745405f03b4c4d1f5f3fec5aaf4e0e56819385a9c300",
+    "compressed_sha256": "110b8dd5ff5db2c1cb09e1e4938766cc9f08beca70ad32bc47023d59082d30d9",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_precipitation_hourly_92036.json.gz",
+    "response_sha256": "2e8a5c0bd06c1c698d35ae512d64485e2cc3b043a61cb2cc72a977755e6f248e",
+    "compressed_sha256": "8a3a97b103501b9ffc32cbb683e4f8d94a9cef403648b54134f4dd1dceed778f",
+    "hour_count": 65880
+  },
+  {
+    "file": "raw\\era5_precipitation_hourly_92059.json.gz",
+    "response_sha256": "319824bf7beed33dfabca0bb02a9e503f63c70bd7704cfb90580d5d249a99364",
+    "compressed_sha256": "7018374526df676d76420ab077fb26c744b264f67cbe9aa85a99fb79b18fb152",
+    "hour_count": 65880
+  }
+]

@@ -1,0 +1,201 @@
+---
+type Hypothesis = {
+  hypothesis: string;
+  p_raw: number;
+  p_holm_revision_family: number;
+};
+type Model = {
+  model?: string;
+  specification?: string;
+  outcome?: string;
+  primary?: boolean;
+  status: string;
+  count_ratio?: number;
+  rate_ratio?: number;
+  ci95_low?: number;
+  ci95_high?: number;
+  two_sided_p?: number;
+  event_count: number;
+  zip_days?: number;
+  n_locality_days?: number;
+  separated_zero_rows_removed?: number;
+  zips?: number;
+  n_zips?: number;
+  hypothesis_tests?: Hypothesis[];
+};
+interface Props {
+  revision: {
+    complete_battery: boolean;
+    models: Model[];
+    tests: Hypothesis[];
+    panel_metadata: { zips: number };
+  };
+  originalGeneral: Model | { models: Model[] };
+  originalDv: Model | { models: Model[] };
+  base: string;
+}
+const { revision, originalGeneral, originalDv, base } = Astro.props;
+const order = ['R00', 'R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9'];
+const labels: Record<string, string> = {
+  R00: 'Original weather · same ZIP sample',
+  R0: 'Corrected civil-day reference',
+  R1: 'Previous-day maximum',
+  R2: 'Rainfall, humidity and holidays',
+  R3: 'Local annual seasonality',
+  R4: 'Warrant co-charges excluded',
+  R5: 'Combined controls and exclusions',
+  R6: 'Nonlinear temperature · combined controls',
+  R7: 'ERA5-Land · station subset',
+  R8: 'NOAA maximum · station subset',
+  R9: 'Civil-day duration adjustment',
+};
+const descriptions: Record<string, string> = {
+  R00: 'Released fixed UTC−7 weather on the same available ZIPs as R0.',
+  R0: 'Actual local calendar-day maximum; original eligibility and calendar controls.',
+  R1: 'Previous civil calendar-day maximum; otherwise R0.',
+  R2: 'R0 plus rainfall, relative humidity and observed federal holidays.',
+  R3: 'R0 plus ZIP-specific annual sine and cosine terms.',
+  R4: 'R0 after excluding groups carrying a warrant-related co-charge.',
+  R5: 'Weather and holiday controls, local seasonality and warrant co-charge exclusion.',
+  R6: 'Restricted cubic spline with the R5 controls and exclusions.',
+  R7: 'R5 restricted to the station-matched dates and ZIPs used by R8.',
+  R8: 'Same rows and controls as R7, using quality-screened NOAA daily maximum.',
+  R9: 'R0 with an offset for the civil day’s 23, 24 or 25 hours.',
+};
+const fullPrimary = (source: Props['originalGeneral']): Model => {
+  const result = 'models' in source
+    ? source.models.find(model => model.model === 'primary_high_10f')
+    : source;
+  if (!result || result.status !== 'ok') throw new Error('Missing archived primary model.');
+  return result;
+};
+if (!revision.complete_battery || revision.models.length !== 22 || revision.tests.length !== 24) {
+  throw new Error('Revision results require the complete 22-model, 24-test battery.');
+}
+const modelFor = (outcome: string, spec: string): Model => {
+  const matches = revision.models.filter(model => model.outcome === outcome && model.specification === spec);
+  if (matches.length !== 1 || matches[0].status !== 'ok') throw new Error(`Missing revision model ${outcome}/${spec}.`);
+  return matches[0];
+};
+const outcomes = [
+  { id: 'all', label: 'All eligible records', full: fullPrimary(originalGeneral) },
+  { id: 'core', label: 'Core domestic violence', full: fullPrimary(originalDv) },
+];
+const finite = (value: number | undefined): value is number => typeof value === 'number' && Number.isFinite(value);
+const ratio = (model: Model) => model.count_ratio ?? model.rate_ratio;
+const number = (value: number | undefined) => finite(value) ? value.toLocaleString('en-US') : '—';
+const decimal = (value: number | undefined, digits = 5) => finite(value) ? value.toFixed(digits) : '—';
+const pvalue = (value: number | undefined) => finite(value) ? value < 0.00001 ? '<0.00001' : value.toFixed(5) : '—';
+const signed = (value: number) => `${value > 0 ? '+' : value < 0 ? '−' : ''}${Math.abs(value).toFixed(2)}%`;
+const percent = (value: number | undefined) => finite(value) ? signed(100 * (value - 1)) : '—';
+const interval = (model: Model) => `${decimal(model.ci95_low)}–${decimal(model.ci95_high)}`;
+const percentInterval = (model: Model) => `${percent(model.ci95_low)} to ${percent(model.ci95_high)}`;
+const zipCount = (model: Model) => model.zips ?? model.n_zips;
+const zipDays = (model: Model) => model.zip_days ?? model.n_locality_days;
+const testsFor = (model: Model) => {
+  const tests = model.hypothesis_tests ?? [];
+  const expected = model.specification === 'R6' ? 2 : 1;
+  if (tests.length !== expected || tests.some(test => !finite(test.p_raw) || !finite(test.p_holm_revision_family))) {
+    throw new Error(`Missing adjusted revision tests for ${model.outcome}/${model.specification}.`);
+  }
+  return tests;
+};
+revision.models.forEach(testsFor);
+const comparisons = outcomes.flatMap(outcome => [
+  { outcome: outcome.label, label: 'Full original reference', model: outcome.full },
+  { outcome: outcome.label, label: 'Same available ZIPs · original weather (R00)', model: modelFor(outcome.id, 'R00') },
+  { outcome: outcome.label, label: 'Same available ZIPs · civil-day weather (R0)', model: modelFor(outcome.id, 'R0') },
+]);
+const chartSpecs = ['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R7', 'R8', 'R9'];
+const chartModels = chartSpecs.map(spec => modelFor('all', spec));
+if (chartModels.some(model => !finite(ratio(model)) || !finite(model.ci95_low) || !finite(model.ci95_high))) {
+  throw new Error('Forest plot requires finite linear-model estimates and intervals.');
+}
+const limits = chartModels.flatMap(model => [100 * (model.ci95_low! - 1), 100 * (model.ci95_high! - 1)]);
+const lower = Math.min(0, ...limits), upper = Math.max(0, ...limits);
+const span = Math.max(upper - lower, 1), roughStep = span / 4;
+const magnitude = 10 ** Math.floor(Math.log10(roughStep));
+const multiple = [1, 2, 5, 10].find(value => value * magnitude >= roughStep)!;
+const step = multiple * magnitude;
+const axisMin = Math.floor((lower - span * 0.06) / step) * step;
+const axisMax = Math.ceil((upper + span * 0.06) / step) * step;
+const ticks = Array.from({ length: Math.round((axisMax - axisMin) / step) + 1 }, (_, i) => axisMin + i * step);
+const left = 300, right = 680, top = 44, rowHeight = 34;
+const chartBottom = top + (chartModels.length - 1) * rowHeight;
+const chartHeight = chartBottom + 83;
+const x = (countRatio: number) => left + (100 * (countRatio - 1) - axisMin) / (axisMax - axisMin) * (right - left);
+const reference = modelFor('all', 'R0');
+const chartDescription = `All eligible records, 2021–2024. Corrected civil-day reference: ${percent(ratio(reference))} per 10°F, individual 95% confidence interval ${percentInterval(reference)}. Nine linear specifications are shown; samples and controls differ. Exact estimates and hypothesis tests follow in the results tables.`;
+const adjustedBelowThreshold = revision.tests.filter(test => test.p_holm_revision_family < 0.05).length;
+---
+<section id="revision-estimates" class="analysis-section" aria-labelledby="revision-estimates-heading">
+  <div class="analysis-section-title"><span>01</span><div>
+    <h2 id="revision-estimates-heading">Revised analyses and original reference</h2>
+    <p>2021–2024. Corrected local calendar-day weather and additional sensitivity analyses, with the full original estimates retained for comparison.</p>
+  </div></div>
+  <p class="analysis-note">The revision uses {number(revision.panel_metadata.zips)} ZIP areas with complete hourly weather downloads. Acquisition prioritized areas with more source rows before the provider’s quota was reached; availability is not random. The original and corrected weather comparisons below use the same available ZIP sample. No result was selected for display because of statistical significance.</p>
+
+  <div class="analysis-table-scroll" tabindex="0" role="region" aria-label="Original and corrected weather comparison">
+    <table class="analysis-revision-comparison">
+      <caption>Expected daily record-count ratio per 10°F higher maximum; individual 95% confidence intervals. Raw two-sided p-values are shown here.</caption>
+      <thead><tr><th scope="col">Outcome</th><th scope="col">Analysis</th><th scope="col">Count ratio</th><th scope="col">95% CI</th><th scope="col">Raw p</th><th scope="col">Groups</th><th scope="col">Fitted ZIPs</th></tr></thead>
+      <tbody>{comparisons.map(row => <tr>
+        <th scope="row">{row.outcome}</th><td>{row.label}</td><td>{decimal(ratio(row.model))}</td><td>{interval(row.model)}</td>
+        <td>{pvalue(row.model.two_sided_p)}</td><td>{number(row.model.event_count)}</td><td>{number(zipCount(row.model))}</td>
+      </tr>)}</tbody>
+    </table>
+  </div>
+  <p class="analysis-note">The full original reference uses its original eligibility rules and all informative ZIPs in the 112-ZIP weather universe. Comparing it with R00 shows the sample change; comparing R00 with R0 isolates the weather-day revision within that sample. These are administrative record groups, not unique persons or population crime rates.</p>
+
+  <figure class="analysis-forest analysis-revision-forest">
+    <div class="analysis-chart-scroll" tabindex="0" role="region" aria-label="General-record sensitivity estimates chart">
+      <svg viewBox={`0 0 970 ${chartHeight}`} role="img" aria-labelledby="revision-forest-title revision-forest-desc">
+        <title id="revision-forest-title">General-record temperature associations across revised linear models</title>
+        <desc id="revision-forest-desc">{chartDescription}</desc>
+        <text x="0" y="16" font-weight="600">Specification</text>
+        <text x="710" y="16" font-weight="600">Change and individual 95% CI</text>
+        {ticks.map(tick => <g>
+          <line x1={x(1 + tick / 100)} x2={x(1 + tick / 100)} y1="25" y2={chartBottom + 16} stroke={tick === 0 ? '#64717d' : '#e1e5e8'} stroke-dasharray={tick === 0 ? '4 4' : undefined} />
+          <text x={x(1 + tick / 100)} y={chartBottom + 40} text-anchor="middle">{tick > 0 ? '+' : tick < 0 ? '−' : ''}{Math.abs(tick).toLocaleString('en-US', {maximumFractionDigits: 2})}%</text>
+        </g>)}
+        {chartModels.map((model, i) => <g class:list={{'forest-primary': model.specification === 'R0'}}>
+          <title>{model.specification}: {labels[model.specification!]}, {percent(ratio(model))}; 95% CI {percentInterval(model)}; {number(model.event_count)} groups, {number(zipCount(model))} ZIPs.</title>
+          <text x="0" y={top + i * rowHeight + 4}>{model.specification} · {labels[model.specification!]}</text>
+          <line x1={x(model.ci95_low!)} x2={x(model.ci95_high!)} y1={top + i * rowHeight} y2={top + i * rowHeight} stroke={model.specification === 'R0' ? '#005b68' : '#6b7785'} stroke-width={model.specification === 'R0' ? 3 : 2} />
+          <line x1={x(model.ci95_low!)} x2={x(model.ci95_low!)} y1={top + i * rowHeight - 4} y2={top + i * rowHeight + 4} stroke="#6b7785" />
+          <line x1={x(model.ci95_high!)} x2={x(model.ci95_high!)} y1={top + i * rowHeight - 4} y2={top + i * rowHeight + 4} stroke="#6b7785" />
+          <circle cx={x(ratio(model)!)} cy={top + i * rowHeight} r={model.specification === 'R0' ? 5 : 4} fill={model.specification === 'R0' ? '#005b68' : '#33485c'} />
+          <text x="710" y={top + i * rowHeight + 4}>{percent(ratio(model))} ({percentInterval(model)})</text>
+        </g>)}
+        <text x={(left + right) / 2} y={chartBottom + 68} text-anchor="middle">Change in expected daily record count per 10°F</text>
+      </svg>
+    </div>
+    <figcaption>Corrected reference R0: {percent(ratio(reference))} per 10°F (individual 95% CI {percentInterval(reference)}). R1 uses the previous day’s maximum; R7 and R8 use the same smaller station-matched sample. R9 adjusts for civil-day duration. R6 is nonlinear and has no single per-10°F ratio; its tests appear below. Intervals are individual, not simultaneous.</figcaption>
+  </figure>
+
+  {outcomes.map(outcome => <details class="analysis-details">
+    <summary>{outcome.label} · all 11 revision specifications and 12 hypothesis tests</summary>
+    <div class="analysis-table-scroll" tabindex="0" role="region" aria-label={`${outcome.label} full revision results`}>
+      <table>
+        <caption>2021–2024 · Linear count ratios are per 10°F. R6 reports separate joint-temperature and nonlinearity tests.</caption>
+        <thead><tr><th scope="col">Specification</th><th scope="col">Count ratio</th><th scope="col">Individual 95% CI</th><th scope="col">Raw p</th><th scope="col">Holm p</th><th scope="col">Groups</th><th scope="col">Fitted ZIPs</th><th scope="col">Fitted ZIP-days</th></tr></thead>
+        <tbody>{order.map(spec => {
+          const model = modelFor(outcome.id, spec);
+          const tests = testsFor(model);
+          return <tr>
+            <th scope="row"><strong>{spec} · {labels[spec]}</strong><br/><small>{descriptions[spec]}</small></th>
+            <td>{spec === 'R6' ? 'Nonlinear curve' : decimal(ratio(model))}</td>
+            <td>{spec === 'R6' ? 'No single 10°F contrast; see curve' : interval(model)}</td>
+            <td>{tests.map((test, i) => <>{i > 0 && <br/>}{spec === 'R6' && <span>{test.hypothesis === 'joint_temperature' ? 'Joint: ' : 'Nonlinearity: '}</span>}{pvalue(test.p_raw)}</>)}</td>
+            <td>{tests.map((test, i) => <>{i > 0 && <br/>}{spec === 'R6' && <span>{test.hypothesis === 'joint_temperature' ? 'Joint: ' : 'Nonlinearity: '}</span>}{pvalue(test.p_holm_revision_family)}</>)}</td>
+            <td>{number(model.event_count)}</td><td>{number(zipCount(model))}</td><td>{number(zipDays(model))}</td>
+          </tr>;
+        })}</tbody>
+      </table>
+    </div>
+    {outcome.id === 'core' && <p class="analysis-note">Fitted ZIP counts omit areas with no outcome records. Some DV specifications with local seasonal terms also remove zero-count rows identified by separation checks; all positive outcome groups are retained. ZIP-day counts describe the fitted rows for each specification. The corrected reference R0 is unaffected by that numerical amendment. <a href={`${base}/data/revision-2/NUMERICAL_AMENDMENT.md`}>Numerical amendment and separation checks</a>.</p>}
+  </details>)}
+
+  <p class="analysis-note">All {number(revision.tests.length)} revision tests across both outcomes receive one Holm correction, including R00 and both R6 hypotheses. {adjustedBelowThreshold === 0 ? 'None meets the adjusted 0.05 threshold.' : `${number(adjustedBelowThreshold)} meet the adjusted 0.05 threshold.`} The revision is retrospective and responds to methodological feedback; it was not preregistered. Original full-sample comparison families remain separate. Individual 95% intervals are not multiplicity-adjusted, and a non-significant result does not establish equivalence or absence of association.</p>
+  <p><a href={`${base}/data/revision-2/nonlinear-curves.svg`}>View nonlinear temperature curves and pointwise intervals</a> · <a href={`${base}/data/revision-2/revision_results.json`} download>Download complete revision results · JSON</a></p>
+</section>

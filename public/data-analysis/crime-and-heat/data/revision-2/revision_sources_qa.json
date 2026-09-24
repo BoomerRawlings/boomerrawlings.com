@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "original_file_hashes_match_prior_manifest": true,
+  "identifier_headers_verified": true,
+  "unique_private_mask_rows": 136313,
+  "strict_primary_all": 52989,
+  "strict_primary_core": 6570,
+  "original_primary_daily_cells_reconciled": 163632,
+  "sparse_daily_totals_reconciled": true,
+  "private_mask_sha256": "db2973949bceb6d9f6f10587a2e9797c145a25f09bfd082e3805f8ef5a478bcc",
+  "public_release_warning": "Never publish PRIVATE_event_warrant_flags.csv; contains record identifiers."
+}

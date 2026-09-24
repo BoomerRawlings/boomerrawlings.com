@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "zips": 64,
+  "dates": 2741,
+  "cells": 175424,
+  "primary_cells": 93504,
+  "primary_all": 57903,
+  "primary_core": 6501,
+  "category_source_cells_checked": 1227968,
+  "count_arrays_unchanged_within_selected_zips": true,
+  "civil_day_hours": [
+    23,
+    24,
+    25
+  ],
+  "outputs": {
+    "daily.json": "f12735b92db92d908e56fbf276d2bc4e89ed10e3d5bab4c7e030a2ff589f26f6",
+    "category_daily.json": "42b26a0317fa969630f71e1525bfe5d3727fb8e2375cf3c231ceeb57f1537897",
+    "daily_zip_civil_counts.csv.gz": "c9560c43e90f3219c2e5a7ed2dd1bb432f8efb55aca459fa8edbe5fcbc97d63f",
+    "nonlinear-curves.svg": "6a61c5eb03e3dc677c7880dcbca5ba4146597d0aa8f92666c4d05572500c5124"
+  }
+}

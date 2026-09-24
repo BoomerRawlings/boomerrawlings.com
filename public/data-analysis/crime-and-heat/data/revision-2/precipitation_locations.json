@@ -1,0 +1,182 @@
+[
+  {
+    "precip_representative_zip": "91901",
+    "model": "era5",
+    "grid_latitude": 32.75,
+    "grid_longitude": -116.75,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=32.813624&longitude=-116.726969&elevation=597.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_91901.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  },
+  {
+    "precip_representative_zip": "91902",
+    "model": "era5",
+    "grid_latitude": 32.75,
+    "grid_longitude": -117.0,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=32.673217&longitude=-117.006101&elevation=75.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_91902.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  },
+  {
+    "precip_representative_zip": "91905",
+    "model": "era5",
+    "grid_latitude": 32.75,
+    "grid_longitude": -116.25,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=32.678648&longitude=-116.307485&elevation=1159.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_91905.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  },
+  {
+    "precip_representative_zip": "91906",
+    "model": "era5",
+    "grid_latitude": 32.75,
+    "grid_longitude": -116.5,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=32.65805&longitude=-116.476042&elevation=972.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_91906.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  },
+  {
+    "precip_representative_zip": "91911",
+    "model": "era5",
+    "grid_latitude": 32.5,
+    "grid_longitude": -117.0,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=32.607352&longitude=-117.05036&elevation=74.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_91911.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  },
+  {
+    "precip_representative_zip": "91916",
+    "model": "era5",
+    "grid_latitude": 33.0,
+    "grid_longitude": -116.75,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=32.911035&longitude=-116.632006&elevation=1035.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_91916.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  },
+  {
+    "precip_representative_zip": "91980",
+    "model": "era5",
+    "grid_latitude": 32.5,
+    "grid_longitude": -116.75,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=32.585191&longitude=-116.63254&elevation=575.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_91980.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  },
+  {
+    "precip_representative_zip": "92003",
+    "model": "era5",
+    "grid_latitude": 33.25,
+    "grid_longitude": -117.25,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=33.285274&longitude=-117.197777&elevation=90.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_92003.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  },
+  {
+    "precip_representative_zip": "92004",
+    "model": "era5",
+    "grid_latitude": 33.25,
+    "grid_longitude": -116.25,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=33.197705&longitude=-116.167463&elevation=91.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_92004.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  },
+  {
+    "precip_representative_zip": "92007",
+    "model": "era5",
+    "grid_latitude": 33.0,
+    "grid_longitude": -117.25,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=33.023046&longitude=-117.275581&elevation=60.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_92007.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  },
+  {
+    "precip_representative_zip": "92025",
+    "model": "era5",
+    "grid_latitude": 33.0,
+    "grid_longitude": -117.0,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=33.077814&longitude=-117.033131&elevation=105.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_92025.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  },
+  {
+    "precip_representative_zip": "92026",
+    "model": "era5",
+    "grid_latitude": 33.25,
+    "grid_longitude": -117.0,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=33.210965&longitude=-117.124788&elevation=340.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_92026.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  },
+  {
+    "precip_representative_zip": "92028",
+    "model": "era5",
+    "grid_latitude": 33.5,
+    "grid_longitude": -117.25,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=33.386469&longitude=-117.224957&elevation=289.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_92028.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  },
+  {
+    "precip_representative_zip": "92036",
+    "model": "era5",
+    "grid_latitude": 33.0,
+    "grid_longitude": -116.25,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=33.032413&longitude=-116.265177&elevation=875.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_92036.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  },
+  {
+    "precip_representative_zip": "92055",
+    "model": "era5",
+    "grid_latitude": 33.5,
+    "grid_longitude": -117.5,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=33.411196&longitude=-117.433259&elevation=281.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_92055.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  },
+  {
+    "precip_representative_zip": "92059",
+    "model": "era5",
+    "grid_latitude": 33.5,
+    "grid_longitude": -117.0,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=33.382822&longitude=-117.051995&elevation=340.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_92059.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  },
+  {
+    "precip_representative_zip": "92060",
+    "model": "era5",
+    "grid_latitude": 33.25,
+    "grid_longitude": -116.75,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=33.350376&longitude=-116.864443&elevation=1654.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_92060.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  },
+  {
+    "precip_representative_zip": "92066",
+    "model": "era5",
+    "grid_latitude": 33.25,
+    "grid_longitude": -116.5,
+    "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=33.215412&longitude=-116.535834&elevation=1205.0&start_date=2018-06-29&end_date=2026-01-02&hourly=precipitation&models=era5&timezone=GMT&timeformat=unixtime&precipitation_unit=mm&cell_selection=land",
+    "raw_file": "raw\\era5_precipitation_hourly_92066.json.gz",
+    "hourly_count": 65880,
+    "aggregation": "Sum precipitation timestamps in (civil midnight, next civil midnight]; each timestamp ends the preceding hourly accumulation"
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "models_reproduced": 22,
+  "hypotheses_reproduced": 24,
+  "source": "Extracted aggregate-only candidate archive; no private record or hourly-cache inputs",
+  "maximum_absolute_differences": {
+    "coefficient_log_count": 0,
+    "standard_error": 0,
+    "count_ratio": 0,
+    "ci95_low": 0,
+    "ci95_high": 0,
+    "two_sided_p": 0,
+    "joint_temperature_wald": 0,
+    "joint_temperature_p": 0,
+    "nonlinearity_wald": 0,
+    "nonlinearity_p": 0
+  },
+  "panel_sha256": "ef73cf58b67388a275549b9a5a78dc7d0ac8a28f154867e0ef18018cc4671de7",
+  "fitter_sha256": "6d9bfdea5a8f1c21839cfb71095610085d30c5f04bb46a1d54d39354c084fa04",
+  "record_counts_and_sample_hashes_identical": true,
+  "holm_tests_identical": true,
+  "privacy": "Explicit source allowlist; record-ID/header, machine-path, credential-pattern, CSV-formula and NPZ-schema checks passed.",
+  "reproduction_reuse": "Prior extracted-archive model run retained after documentation/site-build-artifact-only packaging changes; fitter, panel, metadata, results and dependency pins verified byte-identical."
+}

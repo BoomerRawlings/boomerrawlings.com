@@ -1,0 +1,9 @@
+sample,outcome,zip_code,outcome_count,positive_dates,exact_phase,original_rows,retained_phase_rows,certified_separated_zero_rows,largest_direction_on_dropped_rows,smallest_direction_on_dropped_rows,positive_direction_max_absolute
+full,core_count,92011,1,1,22/183,1461,1,1460,-2.1413469506459393e-06,-2.0,0.0
+full,core_count,92110,1,1,39/73,1461,3,1458,-3.196519590042968e-05,-1.9999680348040996,0.0
+full,strict_core,92011,1,1,22/183,1461,1,1460,-2.1413469506459393e-06,-2.0,0.0
+full,strict_core,92110,1,1,39/73,1461,3,1458,-3.196519590042968e-05,-1.9999680348040996,0.0
+station_paired,core_count,92011,1,1,22/183,1436,1,1435,-2.1413469506459393e-06,-2.0,0.0
+station_paired,core_count,92110,1,1,39/73,1461,3,1458,-3.196519590042968e-05,-1.9999680348040996,0.0
+station_paired,strict_core,92011,1,1,22/183,1436,1,1435,-2.1413469506459393e-06,-2.0,0.0
+station_paired,strict_core,92110,1,1,39/73,1461,3,1458,-3.196519590042968e-05,-1.9999680348040996,0.0

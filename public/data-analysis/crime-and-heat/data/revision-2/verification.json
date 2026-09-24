@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "independent_method": "UTC hourly timestamps converted and grouped by local date, precipitation end timestamps shifted1ns; no production aggregation import",
+  "zip_days": 175424,
+  "numeric_cells_verified": 2105088,
+  "maximum_absolute_error_by_field": {
+    "temp_high_f": 0,
+    "temp_mean_f": 4.782613416409731e-09,
+    "temp_low_f": 0,
+    "relative_humidity_mean_pct": 4.7826063109823735e-09,
+    "relative_humidity_min_pct": 0,
+    "relative_humidity_max_pct": 0,
+    "day_hours": 0,
+    "prior_day_high_f": 0,
+    "prior_day_mean_f": 4.782613416409731e-09,
+    "prior_day_low_f": 0,
+    "precipitation_mm": 1.4210854715202004e-14,
+    "precipitation_hour_count": 0
+  },
+  "missing_values": 0,
+  "duplicate_zip_dates": 0,
+  "raw_files_verified": 79,
+  "raw_temperature_hours": 4216320,
+  "raw_precipitation_hours": 988200,
+  "final_csv_sha256": "4dd4df04aeb05780770919567d8241f1b64403b4410f432c0fb68ab6f885d225"
+}

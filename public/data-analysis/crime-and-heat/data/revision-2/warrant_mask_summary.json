@@ -1,0 +1,136 @@
+{
+  "primary_period": "2021-2024",
+  "counts": {
+    "all_source_ids": 136313,
+    "explicit_warrant_charge_ids": 27050,
+    "strict_warrant_exclusion_ids": 27050,
+    "original_all": 58770,
+    "original_core": 6637,
+    "excluded_all": 5781,
+    "excluded_core": 67,
+    "strict_all": 52989,
+    "strict_core": 6570,
+    "pc1551_1_counterexample_all": 17,
+    "pc1551_1_counterexample_core": 0
+  },
+  "exact_code_rule": {
+    "PC": [
+      "1551A",
+      "827.1",
+      "978.5"
+    ],
+    "ZZ": [
+      "BW-F",
+      "BW-M",
+      "OUTWARRANT",
+      "OW-F",
+      "OW-M"
+    ]
+  },
+  "daily_reconciliation": {
+    "checked_zip_days": 163632,
+    "original_all_and_core_cells_match": true
+  },
+  "normalization": "uppercase; remove spaces/parentheses only, retain decimals/hyphens",
+  "exclusion": "Any listed warrant co-charge or any warrant subtype on any line belonging to a source-scoped ID; preserves original files and baseline results.",
+  "not_excluded_on_code_alone": "PC1551.1 (arrest without warrant); no free-text WARRANT substring rule.",
+  "privacy": "PRIVATE_event_warrant_flags.csv contains event keys. Do not publish or include in public downloads. Sparse ZIP/date table is aggregate.",
+  "zero_days": "Sparse counts require left-join onto the existing full112ZIP\u00d71461day primary calendar and zero fill, not row deletion.",
+  "agency_field_values_charge_rows": {
+    "2018_2023": {
+      "<field absent>": 172420
+    },
+    "2024": {
+      "SHERIFF": 28279
+    },
+    "2025": {
+      "SHERIFF": 14042
+    }
+  },
+  "sources": [
+    {
+      "source_export": "2018_2023",
+      "filename": "Arrests_Jul_2018-Dec_2023_for_Release(Arrests & Citations).csv",
+      "sha256": "463c0be35552d94e2e73e01e30c84f0dde9d53bb7ac5e5de0047321b1a68411a",
+      "raw_rows": 172424,
+      "exact_headers": [
+        "Command",
+        "Sheriff's Area",
+        "Incident Date_Time ",
+        "Incident Number",
+        "Incident Type",
+        "Incident Sub Type",
+        "Violation Section",
+        "Muni Code City",
+        "Violation Type",
+        "Violation Description",
+        "Charge Level",
+        "Race",
+        "Zip Code",
+        "100 Block",
+        "Street Direction",
+        "Street Name",
+        "Street Type",
+        "City",
+        "State"
+      ],
+      "id_header": "Incident Number",
+      "date_header": "Incident Date_Time "
+    },
+    {
+      "source_export": "2024",
+      "filename": "Arrests_2024_for_Release(Sheet1).csv",
+      "sha256": "7d1874af6fdbc635ef2cbf7bec55e956ec0cab0d6e43840dfc62f24bce76ebbb",
+      "raw_rows": 28279,
+      "exact_headers": [
+        "Agency",
+        "Command",
+        "Sheriff's Area",
+        "Incident Number",
+        "Arrest Date/Time",
+        "Incident Type",
+        "Incident Sub Type",
+        "Violation Section",
+        "Violation Type",
+        "Violation Description",
+        "Charge Level",
+        "Race",
+        "100 Block",
+        "Street Direction",
+        "Street Name",
+        "Street Type",
+        "City",
+        "State",
+        "Zip Code"
+      ],
+      "id_header": "Incident Number",
+      "date_header": "Arrest Date/Time"
+    },
+    {
+      "source_export": "2025",
+      "filename": "Arrests_2025_for_Release(NetRMS Arrests 2025).csv",
+      "sha256": "07642b0aa5908c804088e5a933038f28edceb15c736ebad7f8ce5d846b4f3a7a",
+      "raw_rows": 14042,
+      "exact_headers": [
+        "Agency",
+        "Command",
+        "Area",
+        "Arrest Ref Nbr",
+        "Arrest Date/Time",
+        "Incident Type",
+        "Incident Sub Type",
+        "Violation Section",
+        "Violation Type",
+        "Violation Description",
+        "Charge Level",
+        "Race",
+        "100 Block or Intersection",
+        "City",
+        "State",
+        "Zip Code"
+      ],
+      "id_header": "Arrest Ref Nbr",
+      "date_header": "Arrest Date/Time"
+    }
+  ]
+}

@@ -56,6 +56,7 @@ async function fetchJSON(url: string) {
 
 if (root) {
   const base = root.dataset.base!;
+  const weatherBase = root.dataset.weatherBase!;
   let chargeAggregates: any, categoryAggregates: any, recordRows: any[][] = [], recordHeaders: string[] = [], recordPage = 0;
   let recordCaption = '', recordFile = '';
   const dimension = select('record-dimension'), outcome = select('record-outcome'), year = select('record-year');
@@ -136,6 +137,9 @@ if (root) {
 
   let panel: any, categoryPanel: any, weather: any, weatherPage = 0;
   let weatherFile = '';
+  const weatherDefinition = () => select('weather-outcome').value==='all'
+    ? 'All groups meeting original weather-model eligibility in the selected ZIPs and dates. Warrant subtypes and detention/court categories excluded; warrant co-charge exclusions apply only to designated statistical models.'
+    : `Within the weather-eligible sample: ${select('weather-outcome').selectedOptions[0].dataset.definition ?? ''}`;
   const weatherHeaders = ['Date','Eligible record groups','High °F','Mean °F','Low °F','ZIP-days'];
   const weatherValues = () => weather.daily.map((r:any)=>[r.date,r.count,r.high==null?null:Number(r.high.toFixed(2)),r.mean==null?null:Number(r.mean.toFixed(2)),r.low==null?null:Number(r.low.toFixed(2)),r.zipDays]);
   function clearWeather() {
@@ -168,13 +172,13 @@ if (root) {
     weatherPage = 0;
     get<HTMLButtonElement>('weather-download').disabled = false;
     get('weather-status').textContent = `${num(weather.totalCount)} eligible source-ID groups · ${labelOf('weather-outcome')} · ${num(weather.dateDays)} calendar dates · ${num(weather.zipCount)} ZIP ${weather.zipCount===1?'area':'areas'} · ${num(weather.zipDays)} ZIP-days`;
-    get('weather-category-note').textContent = select('weather-outcome').selectedOptions[0].dataset.definition ?? '';
+    get('weather-category-note').textContent = weatherDefinition();
     const warning = get('weather-warning'); warning.hidden = options.endYear !== 2025 && options.startYear !== 2018;
     warning.textContent = [options.startYear===2018?'2018 begins July 1.':'',options.endYear===2025?'2025 is incomplete. Exported zeros include missing records; these rates cannot establish a change in crime. Both primary analyses exclude 2025.':''].filter(Boolean).join(' ');
     get('weather-chart-heading').textContent = `${select('weather-outcome').selectedOptions[0].dataset.shortLabel} · ${labelOf('weather-temperature')}: records per 100 ZIP-days`;
     bars('weather-chart',weather.bins.map((r:any)=>({label:`${r.label}°F`,value:r.rate})),2);
     table('weather-bins',`Unadjusted temperature bands · ${labelOf('weather-outcome')}`,['Temperature °F','Groups','ZIP-days','Groups / 100 ZIP-days'],weather.bins.map((r:any)=>[r.label,num(r.count),num(r.zipDays),r.rate==null?'—':num(r.rate,2)]));
-    get('weather-daily-note').textContent = options.zip==='all'?'High, mean, and low are unweighted averages across 112 ZIP representative points, in °F. They are not the county’s highest or lowest measured temperatures. Dates use fixed UTC−7.':'Modeled high, hourly-based mean, and low at this ZIP representative point, in °F. Dates use fixed UTC−7.';
+    get('weather-daily-note').textContent = (options.zip==='all'?`High, mean, and low are unweighted averages across ${panel.zips.length} ZIP representative points, in °F. They are not the county’s highest or lowest measured temperatures. `:'Modeled high, hourly-based mean, and low at this ZIP representative point, in °F. ')+'Dates use America/Los_Angeles civil-day boundaries, including 23- and 25-hour days. Displayed ZIP temperatures are rounded to 0.1°F.';
     weatherFile = `daily-${options.zip}-${options.category}-${options.startYear}-${options.endYear}.csv`;
     pageWeather();
     return true;
@@ -184,8 +188,8 @@ if (root) {
     load.disabled = true; get('weather-status').textContent = 'Loading the daily ZIP panel…';
     try {
       [panel, categoryPanel] = await Promise.all([
-        fetchJSON(`${base}/data/daily.json`),
-        fetchJSON(`${base}/data/category_daily.json`),
+        fetchJSON(`${weatherBase}/daily.json`),
+        fetchJSON(`${weatherBase}/category_daily.json`),
       ]);
       if (!updateWeather()) throw new Error('Invalid daily panel');
       panel.zips.forEach((zip:string)=>{const option=document.createElement('option');option.value=zip;option.textContent=zip;select('weather-zip').append(option);});
@@ -197,10 +201,10 @@ if (root) {
   get('weather-next').addEventListener('click',()=>{weatherPage++;pageWeather();});
   get('weather-download').addEventListener('click',()=>{
     if (!weather) return;
-    const headers = ['date','zip_selection','category','category_label','category_definition','category_overlap_note','eligible_source_id_groups','temp_high_f','temp_mean_f','temp_low_f','zip_days','raw_source_rows_present_on_date','incomplete_export','coverage_note','temperature_spatial_aggregation','weather_day_timezone','record_date_definition'];
+    const headers = ['date','zip_selection','category','category_label','category_definition','category_overlap_note','eligible_source_id_groups','temp_high_f','temp_mean_f','temp_low_f','zip_days','raw_source_rows_present_on_date','incomplete_export','coverage_note','temperature_spatial_aggregation','weather_day_timezone','record_date_definition','civil_day_hours','weather_sample_note'];
     const rows = weatherValues().map((row:any[])=>{
       const i=panel.dates.indexOf(row[0]);
-      return [row[0],select('weather-zip').value,select('weather-outcome').value,labelOf('weather-outcome'),select('weather-outcome').selectedOptions[0].dataset.definition,'Categories overlap; do not sum category counts',...row.slice(1),panel.raw_source_present_by_date[i],panel.incomplete_export_by_date[i],panel.incomplete_export_by_date[i]?'INCOMPLETE_EXPORT_ABSENCE_NOT_CONFIRMED_ZERO_ARRESTS':'AGENCY_COMPLETENESS_UNVERIFIED',select('weather-zip').value==='all'?'Unweighted mean across selected ZIP representative points':'ZIP representative point modeled exposure','Fixed UTC-7','Recorded date; incident/arrest timestamp equivalence unverified'];
+      return [row[0],select('weather-zip').value,select('weather-outcome').value,labelOf('weather-outcome'),weatherDefinition(),'Categories overlap; do not sum category counts',...row.slice(1),panel.raw_source_present_by_date[i],panel.incomplete_export_by_date[i],panel.incomplete_export_by_date[i]?'INCOMPLETE_EXPORT_ABSENCE_NOT_CONFIRMED_ZERO_ARRESTS':'AGENCY_COMPLETENESS_UNVERIFIED',select('weather-zip').value==='all'?'Unweighted mean across selected ZIP representative points':'ZIP representative point modeled exposure','America/Los_Angeles civil date','Recorded date; incident/arrest timestamp equivalence unverified',panel.day_hours_by_date[i],'64 of 112 ZIPs; acquisition quota; nonrandom availability; original eligibility'];
     });
     csvDownload(weatherFile,headers,rows);
   });

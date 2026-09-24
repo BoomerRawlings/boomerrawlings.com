@@ -1,0 +1,17 @@
+# Weather-quota coverage amendment, before revised estimation
+
+24 September 2026. This amendment was approved by the coordinating analyst and independent statistical reviewer before any revised weather model was estimated. The original `FROZEN_SENSITIVITY_PLAN.md` remains unchanged, SHA-256 `B3BF02AF788588F4426CAA5A05ADDC87361ED0AF35812B4950235E996D24D591`.
+
+The weather provider's daily acquisition quota stopped complete hourly retrieval after 64 of the 112 ZIPs, covering 37 of 50 modeled grid cells. At the time of this amendment, those ZIPs contained 57,903 of the original 58,770 primary eligible all-record groups (98.525%) and 6,501 of 6,637 core-DV groups (97.951%). These are outcome coverage totals, not regression estimates. High record coverage does not establish geographic representativeness: the available ZIPs were determined by acquisition order and service availability, not a probability sample.
+
+Proceed only after complete corrected temperature, relative humidity, precipitation, day duration and prior-day exposure are verified for this **exact fixed set of 64 ZIPs** across all 1,461 primary dates. Save the ZIP list and input hashes. No missing exposure is imputed and no quota workaround is used. If complete covariates cannot be obtained for all 64, stop and explicitly document any further pre-estimation amendment; do not silently change samples. Do not add later ZIPs to a partly analyzed battery.
+
+R0–R9 retain the original frozen formulas, outcomes, knot rules, NOAA pairing, contrasts and covariance rules, but use this fixed weather-available geographic universe. The R6 weather-only knot quantiles use the 64-ZIP corrected primary panel and remain common to both outcomes. All-zero ZIP removal remains outcome/specification-specific and explicitly reported. The R7/R8 paired station comparison is nested within these 64 ZIPs.
+
+**R0 is now the restricted weather-available civil-day reference, not a full-sample replacement for the published primary estimate.** Preserve the historical full-sample general and DV estimates and clearly distinguish their coverage. R5 remains a specified sensitivity rather than a result-selected preferred model.
+
+Add **R00** for each outcome: the original baseline formula and eligibility, using legacy fixed-UTC−7 maximum temperature on exactly the same weather-available ZIP-days as R0. This separates the effect of geographic restriction (historical full sample versus R00) from the effect of changing temperature aggregation (R00 versus R0). Differences are descriptive paired coefficient comparisons, not new tests of the difference between coefficients. Matching per-outcome R00/R0 sample hashes, count totals and ZIP-day totals must be verified.
+
+Multiplicity becomes **Holm across 24 revision-family hypotheses**: the original 22 plus the two R00 linear association tests. There are now 22 fitted models, eleven per outcome. All are disclosed. Nominal intervals remain individual intervals; HAC14/28 and pointwise spline displays remain audit/descriptive outputs. This amendment is retrospective and not a preregistration. Previously released results were already known; the amended-weather estimates were not.
+
+Computational verification of the original full-sample legacy model before this amendment does not constitute a revised weather fit. Numerical validation of the new restricted battery will be reported separately.

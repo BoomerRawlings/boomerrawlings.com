@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "independently_refit_models": 2,
+  "full_matrix_and_covariance_models": 22,
+  "holm_family_tests": 24,
+  "methods": "Independent pandas design; SciPy natural spline interpolation with linear tails; statsmodels ConditionalPoisson/BFGS for R0; full-matrix S_hac_simple for all covariance checks; manual Holm",
+  "maximum_covariance_difference": 1.2538248217452974e-11,
+  "maximum_daily_reconstruction_difference": 1.4210854715202004e-14,
+  "panel_sha256": "ef73cf58b67388a275549b9a5a78dc7d0ac8a28f154867e0ef18018cc4671de7",
+  "results_sha256": "4160b66fb34254af2f65c621d3601921c54c1cc35ee7de2d31a7d23be9f0b0be",
+  "script_sha256": "e966412e8bd8e9cde296fcd840d10e49096b1e1606df200bb739f6234e0524a2",
+  "versions": {
+    "python": "3.12.14",
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "scipy": "1.18.1",
+    "statsmodels": "0.15.0"
+  },
+  "scope": "Numerical validation and descriptive model diagnostics; no new hypotheses or production changes; zero-frequency differences do not by themselves identify a structural-zero process."
+}
