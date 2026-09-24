@@ -1,0 +1,334 @@
+[
+  {
+    "url": "https://opendata.sandag.org/api/views/pr74-d3tr.json",
+    "final_url": "https://opendata.sandag.org/api/views/pr74-d3tr.json",
+    "retrieved_utc": "2026-09-24T23:12:13.069390+00:00",
+    "bytes": 38480,
+    "sha256": "6ea414c3902f8cee18c0e858dd0bc75e2015a55b3e498ec28d75c4fc279caade",
+    "last_modified": null,
+    "etag": null
+  },
+  {
+    "url": "https://opendata.sandag.org/resource/pr74-d3tr.json?%24select=agency+as+agency%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incidentuid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids%2Cmin%28incident_date%29+as+first_recorded_datetime%2Cmax%28incident_date%29+as+last_recorded_datetime&%24limit=50000&%24group=agency&%24order=agency&%24offset=0",
+    "final_url": "https://opendata.sandag.org/resource/pr74-d3tr.json?%24select=agency+as+agency%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incidentuid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids%2Cmin%28incident_date%29+as+first_recorded_datetime%2Cmax%28incident_date%29+as+last_recorded_datetime&%24limit=50000&%24group=agency&%24order=agency&%24offset=0",
+    "retrieved_utc": "2026-09-24T23:12:19.285142+00:00",
+    "bytes": 2323,
+    "sha256": "1115e8dd12e719b97ad4a414a63e31e6d528c15eb73da4da71bcbcff40d6e50d",
+    "last_modified": "Wed, 23 Sep 2026 15:58:09 GMT",
+    "etag": "W/\"aW5kaWEuMTY1MjRfMzNfNTg5MmVqc2tOaTNLQnVEdlN6QTB3RXFGLWZPVEE4bw---gzihzydlAAXpG7ILgHzq0OCDL1-BWl--gzip--gzip\"",
+    "dataset": "pr74-d3tr",
+    "output": "sandag_group_a_agency_coverage.csv",
+    "query": {
+      "$select": "agency as agency,count(*) as source_rows,count(distinct incidentuid) as distinct_incidents,count(distinct cibrs_unique_offense_id) as distinct_offense_ids,min(incident_date) as first_recorded_datetime,max(incident_date) as last_recorded_datetime",
+      "$limit": 50000,
+      "$group": "agency",
+      "$order": "agency",
+      "$offset": 0
+    }
+  },
+  {
+    "url": "https://opendata.sandag.org/resource/pr74-d3tr.json?%24select=agency+as+agency%2Cdomestic_violence_incident%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incidentuid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids&%24limit=50000&%24group=agency%2Cdomestic_violence_incident&%24order=agency%2Cdomestic_violence_incident&%24offset=0",
+    "final_url": "https://opendata.sandag.org/resource/pr74-d3tr.json?%24select=agency+as+agency%2Cdomestic_violence_incident%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incidentuid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids&%24limit=50000&%24group=agency%2Cdomestic_violence_incident&%24order=agency%2Cdomestic_violence_incident&%24offset=0",
+    "retrieved_utc": "2026-09-24T23:12:36.439517+00:00",
+    "bytes": 3105,
+    "sha256": "6a5e80e9486684ef5d3f208d13ed1196556a50539a42df119e975ba177973ee7",
+    "last_modified": "Wed, 23 Sep 2026 15:58:09 GMT",
+    "etag": "W/\"aW5kaWEuMTY1MjRfMzNfNTg5MjBNNjlmOWtvczQwZ2htVTJvQi1rY2tzRDNnNA---gzioSs6oeqfX-UmQNxEnuaXo7ep1_C--gzip--gzip\"",
+    "dataset": "pr74-d3tr",
+    "output": "sandag_group_a_agency_dv_flag.csv",
+    "query": {
+      "$select": "agency as agency,domestic_violence_incident,count(*) as source_rows,count(distinct incidentuid) as distinct_incidents,count(distinct cibrs_unique_offense_id) as distinct_offense_ids",
+      "$limit": 50000,
+      "$group": "agency,domestic_violence_incident",
+      "$order": "agency,domestic_violence_incident",
+      "$offset": 0
+    }
+  },
+  {
+    "url": "https://opendata.sandag.org/resource/pr74-d3tr.json?%24select=date_trunc_ymd%28incident_date%29+as+date%2Cagency+as+agency%2Cdomestic_violence_incident%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incidentuid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids&%24limit=50000&%24group=date_trunc_ymd%28incident_date%29%2Cagency%2Cdomestic_violence_incident&%24order=date_trunc_ymd%28incident_date%29%2Cagency%2Cdomestic_violence_incident&%24offset=0",
+    "final_url": "https://opendata.sandag.org/resource/pr74-d3tr.json?%24select=date_trunc_ymd%28incident_date%29+as+date%2Cagency+as+agency%2Cdomestic_violence_incident%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incidentuid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids&%24limit=50000&%24group=date_trunc_ymd%28incident_date%29%2Cagency%2Cdomestic_violence_incident&%24order=date_trunc_ymd%28incident_date%29%2Cagency%2Cdomestic_violence_incident&%24offset=0",
+    "retrieved_utc": "2026-09-24T23:12:40.717878+00:00",
+    "bytes": 5855348,
+    "sha256": "532547a47298c220c4c23777b52ececfcd1e8245b29985784c30b0e8cb5a9284",
+    "last_modified": "Wed, 23 Sep 2026 15:58:09 GMT",
+    "etag": "W/\"aW5kaWEuMTY1MjRfMzNfNTg5MjdiRjF1eXZseDc5MDBWZUN4elpUMjkzZXo5QQ---gzipJ0ZEUNE4ACWq3D1tq6CWgJPAlq--gzip--gzip\"",
+    "dataset": "pr74-d3tr",
+    "output": "sandag_group_a_daily_agency_dv.csv",
+    "query": {
+      "$select": "date_trunc_ymd(incident_date) as date,agency as agency,domestic_violence_incident,count(*) as source_rows,count(distinct incidentuid) as distinct_incidents,count(distinct cibrs_unique_offense_id) as distinct_offense_ids",
+      "$limit": 50000,
+      "$group": "date_trunc_ymd(incident_date),agency,domestic_violence_incident",
+      "$order": "date_trunc_ymd(incident_date),agency,domestic_violence_incident",
+      "$offset": 0
+    }
+  },
+  {
+    "url": "https://opendata.sandag.org/resource/pr74-d3tr.json?%24select=date_trunc_ym%28incident_date%29+as+month%2Cagency+as+agency%2Cdomestic_violence_incident%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incidentuid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids&%24limit=50000&%24group=date_trunc_ym%28incident_date%29%2Cagency%2Cdomestic_violence_incident&%24order=date_trunc_ym%28incident_date%29%2Cagency%2Cdomestic_violence_incident&%24offset=0",
+    "final_url": "https://opendata.sandag.org/resource/pr74-d3tr.json?%24select=date_trunc_ym%28incident_date%29+as+month%2Cagency+as+agency%2Cdomestic_violence_incident%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incidentuid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids&%24limit=50000&%24group=date_trunc_ym%28incident_date%29%2Cagency%2Cdomestic_violence_incident&%24order=date_trunc_ym%28incident_date%29%2Cagency%2Cdomestic_violence_incident&%24offset=0",
+    "retrieved_utc": "2026-09-24T23:12:46.663024+00:00",
+    "bytes": 233910,
+    "sha256": "489b062d8151b58152dcc09560e2e2c295f27d52e3049c92444c7b6f6e6eb985",
+    "last_modified": "Wed, 23 Sep 2026 15:58:09 GMT",
+    "etag": "W/\"aW5kaWEuMTY1MjRfMzNfNTg5MlU2Y1Jyb0gyV1JjM2xzeHJOd3NiTmtVOWszQQ---gzigfOYNLA16lwkQED9Romnl9YLW0P--gzip--gzip\"",
+    "dataset": "pr74-d3tr",
+    "output": "sandag_group_a_monthly_agency_dv.csv",
+    "query": {
+      "$select": "date_trunc_ym(incident_date) as month,agency as agency,domestic_violence_incident,count(*) as source_rows,count(distinct incidentuid) as distinct_incidents,count(distinct cibrs_unique_offense_id) as distinct_offense_ids",
+      "$limit": 50000,
+      "$group": "date_trunc_ym(incident_date),agency,domestic_violence_incident",
+      "$order": "date_trunc_ym(incident_date),agency,domestic_violence_incident",
+      "$offset": 0
+    }
+  },
+  {
+    "url": "https://opendata.sandag.org/resource/pr74-d3tr.json?%24select=date_trunc_ym%28incident_date%29+as+month%2Cagency+as+agency%2Ccibrs_offense_code+as+offense_code%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incidentuid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids&%24limit=50000&%24group=date_trunc_ym%28incident_date%29%2Cagency%2Ccibrs_offense_code&%24order=date_trunc_ym%28incident_date%29%2Cagency%2Ccibrs_offense_code&%24offset=0",
+    "final_url": "https://opendata.sandag.org/resource/pr74-d3tr.json?%24select=date_trunc_ym%28incident_date%29+as+month%2Cagency+as+agency%2Ccibrs_offense_code+as+offense_code%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incidentuid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids&%24limit=50000&%24group=date_trunc_ym%28incident_date%29%2Cagency%2Ccibrs_offense_code&%24order=date_trunc_ym%28incident_date%29%2Cagency%2Ccibrs_offense_code&%24offset=0",
+    "retrieved_utc": "2026-09-24T23:12:51.554100+00:00",
+    "bytes": 2940487,
+    "sha256": "9275b06d07a1102e2b280df9d70c3b1e0a3c96587a4a58081241fab7c8373174",
+    "last_modified": "Wed, 23 Sep 2026 15:58:09 GMT",
+    "etag": "W/\"aW5kaWEuMTY1MjRfMzNfNTg5MmhyalpxSVhYZXZnX055MTYxUW8xZUh0b3l1cw---gzimbGx07R0Oy7WcsBNjjWHQoCxRmu--gzip--gzip\"",
+    "dataset": "pr74-d3tr",
+    "output": "sandag_group_a_monthly_agency_offense.csv",
+    "query": {
+      "$select": "date_trunc_ym(incident_date) as month,agency as agency,cibrs_offense_code as offense_code,count(*) as source_rows,count(distinct incidentuid) as distinct_incidents,count(distinct cibrs_unique_offense_id) as distinct_offense_ids",
+      "$limit": 50000,
+      "$group": "date_trunc_ym(incident_date),agency,cibrs_offense_code",
+      "$order": "date_trunc_ym(incident_date),agency,cibrs_offense_code",
+      "$offset": 0
+    }
+  },
+  {
+    "url": "https://opendata.sandag.org/resource/pr74-d3tr.json?%24select=cibrs_status%2Ccount%28%2A%29+as+source_rows&%24limit=50000&%24group=cibrs_status&%24order=cibrs_status&%24offset=0",
+    "final_url": "https://opendata.sandag.org/resource/pr74-d3tr.json?%24select=cibrs_status%2Ccount%28%2A%29+as+source_rows&%24limit=50000&%24group=cibrs_status&%24order=cibrs_status&%24offset=0",
+    "retrieved_utc": "2026-09-24T23:12:52.150988+00:00",
+    "bytes": 220,
+    "sha256": "b6f0aae4b4d4be362eae54a4b4f5aa0be3eab0b21eb49b4655a88c3cbaec4d76",
+    "last_modified": "Wed, 23 Sep 2026 15:58:09 GMT",
+    "etag": "W/\"aW5kaWEuMTY1MjRfMzNfNTg5MllZam9MMDVHbHlweHp5eDdyMWtsWjEtRTdjNA---gziqi-fRs8PaFcg7N-6E8J0l25P8po--gzip--gzip\"",
+    "dataset": "pr74-d3tr",
+    "output": "sandag_group_a_status_counts.csv",
+    "query": {
+      "$select": "cibrs_status,count(*) as source_rows",
+      "$limit": 50000,
+      "$group": "cibrs_status",
+      "$order": "cibrs_status",
+      "$offset": 0
+    }
+  },
+  {
+    "url": "https://opendata.sandag.org/api/views/huzf-mi2z.json",
+    "final_url": "https://opendata.sandag.org/api/views/huzf-mi2z.json",
+    "retrieved_utc": "2026-09-24T23:12:52.857296+00:00",
+    "bytes": 30518,
+    "sha256": "4ee335d4cdc6842590fe8f726e257ab95df8283d849f4d08de6847c461c2d6d4",
+    "last_modified": null,
+    "etag": null
+  },
+  {
+    "url": "https://opendata.sandag.org/resource/huzf-mi2z.json?%24select=arrest_agency+as+agency%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incident_uid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids%2Ccount%28distinct+arrest_number%29+as+distinct_arrest_numbers%2Cmin%28arrest_date%29+as+first_recorded_datetime%2Cmax%28arrest_date%29+as+last_recorded_datetime&%24limit=50000&%24group=arrest_agency&%24order=arrest_agency&%24offset=0",
+    "final_url": "https://opendata.sandag.org/resource/huzf-mi2z.json?%24select=arrest_agency+as+agency%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incident_uid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids%2Ccount%28distinct+arrest_number%29+as+distinct_arrest_numbers%2Cmin%28arrest_date%29+as+first_recorded_datetime%2Cmax%28arrest_date%29+as+last_recorded_datetime&%24limit=50000&%24group=arrest_agency&%24order=arrest_agency&%24offset=0",
+    "retrieved_utc": "2026-09-24T23:12:55.033765+00:00",
+    "bytes": 2403,
+    "sha256": "c141ebd707418e07815ab0876b5881aef85a088f65b71927a8b401bd8aa4cf9a",
+    "last_modified": "Wed, 23 Sep 2026 15:49:21 GMT",
+    "etag": "W/\"aW5kaWEuMjk1MjVfMThfOTg3TWM1NjRvM0RCTmJQTWI5MXBBck5LLVBwWTZZ---gzipOJkXAPdIg-TmxORHeKXMkgS400E--gzip--gzip\"",
+    "dataset": "huzf-mi2z",
+    "output": "sandag_group_b_agency_coverage.csv",
+    "query": {
+      "$select": "arrest_agency as agency,count(*) as source_rows,count(distinct incident_uid) as distinct_incidents,count(distinct cibrs_unique_offense_id) as distinct_offense_ids,count(distinct arrest_number) as distinct_arrest_numbers,min(arrest_date) as first_recorded_datetime,max(arrest_date) as last_recorded_datetime",
+      "$limit": 50000,
+      "$group": "arrest_agency",
+      "$order": "arrest_agency",
+      "$offset": 0
+    }
+  },
+  {
+    "url": "https://opendata.sandag.org/resource/huzf-mi2z.json?%24select=arrest_agency+as+agency%2Cdomestic_violence_incident%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incident_uid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids%2Ccount%28distinct+arrest_number%29+as+distinct_arrest_numbers&%24limit=50000&%24group=arrest_agency%2Cdomestic_violence_incident&%24order=arrest_agency%2Cdomestic_violence_incident&%24offset=0",
+    "final_url": "https://opendata.sandag.org/resource/huzf-mi2z.json?%24select=arrest_agency+as+agency%2Cdomestic_violence_incident%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incident_uid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids%2Ccount%28distinct+arrest_number%29+as+distinct_arrest_numbers&%24limit=50000&%24group=arrest_agency%2Cdomestic_violence_incident&%24order=arrest_agency%2Cdomestic_violence_incident&%24offset=0",
+    "retrieved_utc": "2026-09-24T23:12:56.870910+00:00",
+    "bytes": 1373,
+    "sha256": "829b4114da2dc1480b237f78231529eefefe81b6d27f10e0fca0b316bfdc3876",
+    "last_modified": "Wed, 23 Sep 2026 15:49:21 GMT",
+    "etag": "W/\"aW5kaWEuMjk1MjVfMThfOTg3VEdKYXprNjhvTHcwWkxtX2dHQk9RemtuUkhF---gzipgoXB8UIN7okRMBxSNe-W1hyT9M8--gzip--gzip\"",
+    "dataset": "huzf-mi2z",
+    "output": "sandag_group_b_agency_dv_flag.csv",
+    "query": {
+      "$select": "arrest_agency as agency,domestic_violence_incident,count(*) as source_rows,count(distinct incident_uid) as distinct_incidents,count(distinct cibrs_unique_offense_id) as distinct_offense_ids,count(distinct arrest_number) as distinct_arrest_numbers",
+      "$limit": 50000,
+      "$group": "arrest_agency,domestic_violence_incident",
+      "$order": "arrest_agency,domestic_violence_incident",
+      "$offset": 0
+    }
+  },
+  {
+    "url": "https://opendata.sandag.org/resource/huzf-mi2z.json?%24select=date_trunc_ymd%28arrest_date%29+as+date%2Carrest_agency+as+agency%2Cdomestic_violence_incident%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incident_uid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids%2Ccount%28distinct+arrest_number%29+as+distinct_arrest_numbers&%24limit=50000&%24group=date_trunc_ymd%28arrest_date%29%2Carrest_agency%2Cdomestic_violence_incident&%24order=date_trunc_ymd%28arrest_date%29%2Carrest_agency%2Cdomestic_violence_incident&%24offset=0",
+    "final_url": "https://opendata.sandag.org/resource/huzf-mi2z.json?%24select=date_trunc_ymd%28arrest_date%29+as+date%2Carrest_agency+as+agency%2Cdomestic_violence_incident%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incident_uid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids%2Ccount%28distinct+arrest_number%29+as+distinct_arrest_numbers&%24limit=50000&%24group=date_trunc_ymd%28arrest_date%29%2Carrest_agency%2Cdomestic_violence_incident&%24order=date_trunc_ymd%28arrest_date%29%2Carrest_agency%2Cdomestic_violence_incident&%24offset=0",
+    "retrieved_utc": "2026-09-24T23:12:59.591901+00:00",
+    "bytes": 2835629,
+    "sha256": "6ee2664956f2cbc9b3e1e7cffabb6cf69f300dd8ebf33496e9c37487e54681ac",
+    "last_modified": "Wed, 23 Sep 2026 15:49:21 GMT",
+    "etag": "W/\"aW5kaWEuMjk1MjVfMThfOTg3bk9icG9YODdIdlF6X0ZoVkV1QjlvbFd1MkRN---gzipvwtng76PPYZfGukx5xo2nfsy9KU--gzip--gzip\"",
+    "dataset": "huzf-mi2z",
+    "output": "sandag_group_b_daily_agency_dv.csv",
+    "query": {
+      "$select": "date_trunc_ymd(arrest_date) as date,arrest_agency as agency,domestic_violence_incident,count(*) as source_rows,count(distinct incident_uid) as distinct_incidents,count(distinct cibrs_unique_offense_id) as distinct_offense_ids,count(distinct arrest_number) as distinct_arrest_numbers",
+      "$limit": 50000,
+      "$group": "date_trunc_ymd(arrest_date),arrest_agency,domestic_violence_incident",
+      "$order": "date_trunc_ymd(arrest_date),arrest_agency,domestic_violence_incident",
+      "$offset": 0
+    }
+  },
+  {
+    "url": "https://opendata.sandag.org/resource/huzf-mi2z.json?%24select=date_trunc_ym%28arrest_date%29+as+month%2Carrest_agency+as+agency%2Cdomestic_violence_incident%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incident_uid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids%2Ccount%28distinct+arrest_number%29+as+distinct_arrest_numbers&%24limit=50000&%24group=date_trunc_ym%28arrest_date%29%2Carrest_agency%2Cdomestic_violence_incident&%24order=date_trunc_ym%28arrest_date%29%2Carrest_agency%2Cdomestic_violence_incident&%24offset=0",
+    "final_url": "https://opendata.sandag.org/resource/huzf-mi2z.json?%24select=date_trunc_ym%28arrest_date%29+as+month%2Carrest_agency+as+agency%2Cdomestic_violence_incident%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incident_uid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids%2Ccount%28distinct+arrest_number%29+as+distinct_arrest_numbers&%24limit=50000&%24group=date_trunc_ym%28arrest_date%29%2Carrest_agency%2Cdomestic_violence_incident&%24order=date_trunc_ym%28arrest_date%29%2Carrest_agency%2Cdomestic_violence_incident&%24offset=0",
+    "retrieved_utc": "2026-09-24T23:13:00.914306+00:00",
+    "bytes": 113051,
+    "sha256": "b17d531518095e90dcd9b70d682ed59a57d3f5f5cbbb1cd8e19f99d297ab2fcf",
+    "last_modified": "Wed, 23 Sep 2026 15:49:21 GMT",
+    "etag": "W/\"aW5kaWEuMjk1MjVfMThfOTg3ZWlWT0VtUGE2cWN6WVk3bmhPb0d1RmJnYXVj---gzipmzhsj-jucxyGDFgCI88Z0wMhODs--gzip--gzip\"",
+    "dataset": "huzf-mi2z",
+    "output": "sandag_group_b_monthly_agency_dv.csv",
+    "query": {
+      "$select": "date_trunc_ym(arrest_date) as month,arrest_agency as agency,domestic_violence_incident,count(*) as source_rows,count(distinct incident_uid) as distinct_incidents,count(distinct cibrs_unique_offense_id) as distinct_offense_ids,count(distinct arrest_number) as distinct_arrest_numbers",
+      "$limit": 50000,
+      "$group": "date_trunc_ym(arrest_date),arrest_agency,domestic_violence_incident",
+      "$order": "date_trunc_ym(arrest_date),arrest_agency,domestic_violence_incident",
+      "$offset": 0
+    }
+  },
+  {
+    "url": "https://opendata.sandag.org/resource/huzf-mi2z.json?%24select=date_trunc_ym%28arrest_date%29+as+month%2Carrest_agency+as+agency%2Coffense_code+as+offense_code%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incident_uid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids%2Ccount%28distinct+arrest_number%29+as+distinct_arrest_numbers&%24limit=50000&%24group=date_trunc_ym%28arrest_date%29%2Carrest_agency%2Coffense_code&%24order=date_trunc_ym%28arrest_date%29%2Carrest_agency%2Coffense_code&%24offset=0",
+    "final_url": "https://opendata.sandag.org/resource/huzf-mi2z.json?%24select=date_trunc_ym%28arrest_date%29+as+month%2Carrest_agency+as+agency%2Coffense_code+as+offense_code%2Ccount%28%2A%29+as+source_rows%2Ccount%28distinct+incident_uid%29+as+distinct_incidents%2Ccount%28distinct+cibrs_unique_offense_id%29+as+distinct_offense_ids%2Ccount%28distinct+arrest_number%29+as+distinct_arrest_numbers&%24limit=50000&%24group=date_trunc_ym%28arrest_date%29%2Carrest_agency%2Coffense_code&%24order=date_trunc_ym%28arrest_date%29%2Carrest_agency%2Coffense_code&%24offset=0",
+    "retrieved_utc": "2026-09-24T23:13:02.512232+00:00",
+    "bytes": 557923,
+    "sha256": "5c38a9dfc10c52d067d33241b787e948f549a54e56f0542141c35abbc6535ba2",
+    "last_modified": "Wed, 23 Sep 2026 15:49:21 GMT",
+    "etag": "W/\"aW5kaWEuMjk1MjVfMThfOTg3WUUza1JMcmlFOC16a3cxQWs1aDlNbHVTUHRz---gzipnvPqKTtYr9mS1lOG-Wqk2ZJg-fM--gzip--gzip\"",
+    "dataset": "huzf-mi2z",
+    "output": "sandag_group_b_monthly_agency_offense.csv",
+    "query": {
+      "$select": "date_trunc_ym(arrest_date) as month,arrest_agency as agency,offense_code as offense_code,count(*) as source_rows,count(distinct incident_uid) as distinct_incidents,count(distinct cibrs_unique_offense_id) as distinct_offense_ids,count(distinct arrest_number) as distinct_arrest_numbers",
+      "$limit": 50000,
+      "$group": "date_trunc_ym(arrest_date),arrest_agency,offense_code",
+      "$order": "date_trunc_ym(arrest_date),arrest_agency,offense_code",
+      "$offset": 0
+    }
+  },
+  {
+    "url": "https://opendata.sandag.org/resource/huzf-mi2z.json?%24select=cibrs_status%2Ccount%28%2A%29+as+source_rows&%24limit=50000&%24group=cibrs_status&%24order=cibrs_status&%24offset=0",
+    "final_url": "https://opendata.sandag.org/resource/huzf-mi2z.json?%24select=cibrs_status%2Ccount%28%2A%29+as+source_rows&%24limit=50000&%24group=cibrs_status&%24order=cibrs_status&%24offset=0",
+    "retrieved_utc": "2026-09-24T23:13:02.987568+00:00",
+    "bytes": 342,
+    "sha256": "ecfa38ab76a1d1f9ec0652476ff4825293591cf9d5a60914dc1f7fd1f6b603df",
+    "last_modified": "Wed, 23 Sep 2026 15:49:21 GMT",
+    "etag": "W/\"aW5kaWEuMjk1MjVfMThfOTg3SE1PODFuM1VhV2RGRE44clUyNkttbUtFUnU0---gzipT7meyuaZer48qcPUOyeaDQ6G9JY--gzip--gzip\"",
+    "dataset": "huzf-mi2z",
+    "output": "sandag_group_b_status_counts.csv",
+    "query": {
+      "$select": "cibrs_status,count(*) as source_rows",
+      "$limit": 50000,
+      "$group": "cibrs_status",
+      "$order": "cibrs_status",
+      "$offset": 0
+    }
+  },
+  {
+    "url": "https://opendata.sandag.org/api/views/knre-fqwi.json",
+    "final_url": "https://opendata.sandag.org/api/views/knre-fqwi.json",
+    "retrieved_utc": "2026-09-24T23:13:03.599959+00:00",
+    "bytes": 30235,
+    "sha256": "4dd3399fb26fc6eea118942354a369d81f5512ce6a5925b8943839f247517f2c",
+    "last_modified": null,
+    "etag": null
+  },
+  {
+    "url": "https://opendata.sandag.org/resource/knre-fqwi.json?%24select=%2A&%24limit=50000&%24order=nibrs_code&%24offset=0",
+    "final_url": "https://opendata.sandag.org/resource/knre-fqwi.json?%24select=%2A&%24limit=50000&%24order=nibrs_code&%24offset=0",
+    "retrieved_utc": "2026-09-24T23:13:12.068813+00:00",
+    "bytes": 43556,
+    "sha256": "e1e2f0897096a3cbe95f554b98308a740a5ee91a7198cecb0beae93f7dd0dbb8",
+    "last_modified": "Wed, 31 Jan 2024 21:20:15 GMT",
+    "etag": "W/\"aW5kaWEuMjk1NzlfMl8xOEJodDBVTU9EMkhKUG9NdHQxS1dRcndEdkFnTQ---gziv_DL1zauz6X3NBhgsNar6g3ZPlR--gzip--gzip\"",
+    "dataset": "knre-fqwi",
+    "output": "sandag_offense_dictionary.csv",
+    "query": {
+      "$select": "*",
+      "$limit": 50000,
+      "$order": "nibrs_code",
+      "$offset": 0
+    }
+  },
+  {
+    "url": "https://seshat.datasd.org/police_nibrs/pd_nibrs_dictionary.csv",
+    "final_url": "https://seshat.datasd.org/police_nibrs/pd_nibrs_dictionary.csv",
+    "retrieved_utc": "2026-09-24T23:13:12.267654+00:00",
+    "bytes": 6513,
+    "sha256": "52fc5e5e0682ef4a36567904a88adef9f3a806c1041e5f7dec638fc9e8c0a06c",
+    "last_modified": "Fri, 12 Apr 2024 21:55:52 GMT",
+    "etag": "\"1cc0ed312c84347b1a47cc5c7612552c\""
+  },
+  {
+    "url": "https://seshat.datasd.org/police_nibrs/pd_nibrs_2020_datasd.csv",
+    "final_url": "https://seshat.datasd.org/police_nibrs/pd_nibrs_2020_datasd.csv",
+    "retrieved_utc": "2026-09-24T23:13:16.095128+00:00",
+    "bytes": 33752877,
+    "sha256": "f0963d41d0e938575e6797cd38917f032461a2be8c91c447251dbca2112dac40",
+    "last_modified": "Thu, 24 Sep 2026 14:07:16 GMT",
+    "etag": "\"bef61348cfc4145f6808284b8b4db524-5\""
+  },
+  {
+    "url": "https://seshat.datasd.org/police_nibrs/pd_nibrs_2021_datasd.csv",
+    "final_url": "https://seshat.datasd.org/police_nibrs/pd_nibrs_2021_datasd.csv",
+    "retrieved_utc": "2026-09-24T23:13:17.731893+00:00",
+    "bytes": 34238181,
+    "sha256": "49b7f9de01e54eb729a9aa18469affe0658ed2db938b0fadfe08ebdfc0ec8cad",
+    "last_modified": "Thu, 24 Sep 2026 14:07:22 GMT",
+    "etag": "\"fc1978946ae7ae873e8fdb4b39dd7f8c-5\""
+  },
+  {
+    "url": "https://seshat.datasd.org/police_nibrs/pd_nibrs_2022_datasd.csv",
+    "final_url": "https://seshat.datasd.org/police_nibrs/pd_nibrs_2022_datasd.csv",
+    "retrieved_utc": "2026-09-24T23:13:14.826116+00:00",
+    "bytes": 32063664,
+    "sha256": "010459ae3bc157c258740b1f10b74aad7107c910940be465e1922ea7c534c4f4",
+    "last_modified": "Thu, 24 Sep 2026 14:07:28 GMT",
+    "etag": "\"19690aa2e88d9fe2a2df45ec14efd362-4\""
+  },
+  {
+    "url": "https://seshat.datasd.org/police_nibrs/pd_nibrs_2023_datasd.csv",
+    "final_url": "https://seshat.datasd.org/police_nibrs/pd_nibrs_2023_datasd.csv",
+    "retrieved_utc": "2026-09-24T23:13:20.605837+00:00",
+    "bytes": 31440519,
+    "sha256": "6477a99698106d293ca53c16fe659143b3ab6a76fa2ca3ebc98bc22304bb4da3",
+    "last_modified": "Thu, 24 Sep 2026 14:07:35 GMT",
+    "etag": "\"5590b9926a90212f92f00aaa4c814011-4\""
+  },
+  {
+    "url": "https://seshat.datasd.org/police_nibrs/pd_nibrs_2024_datasd.csv",
+    "final_url": "https://seshat.datasd.org/police_nibrs/pd_nibrs_2024_datasd.csv",
+    "retrieved_utc": "2026-09-24T23:13:20.839006+00:00",
+    "bytes": 31495355,
+    "sha256": "7a5d2074ffe68b723d295597e202b7633660cd9cf79380f7835a36f9ff03bfd7",
+    "last_modified": "Thu, 24 Sep 2026 14:07:40 GMT",
+    "etag": "\"f869b3185b4d016646091b3ac262359a-4\""
+  },
+  {
+    "url": "https://seshat.datasd.org/police_nibrs/pd_nibrs_2025_datasd.csv",
+    "final_url": "https://seshat.datasd.org/police_nibrs/pd_nibrs_2025_datasd.csv",
+    "retrieved_utc": "2026-09-24T23:13:23.113270+00:00",
+    "bytes": 30131293,
+    "sha256": "89f41204056cbd85ba5cf4a7ad32b6e2bbf466648d30e68a6f16c5083d0723e0",
+    "last_modified": "Thu, 24 Sep 2026 14:07:47 GMT",
+    "etag": "\"78c3f27db9aba5a533eb03b2cad29bed-4\""
+  },
+  {
+    "url": "https://seshat.datasd.org/police_nibrs/pd_nibrs_2026_datasd.csv",
+    "final_url": "https://seshat.datasd.org/police_nibrs/pd_nibrs_2026_datasd.csv",
+    "retrieved_utc": "2026-09-24T23:13:24.962096+00:00",
+    "bytes": 21952296,
+    "sha256": "ea995d14bdbfcfa006bff519e34ccdc2799f68b2f90d5aedd123fe8a000a331f",
+    "last_modified": "Thu, 24 Sep 2026 14:07:53 GMT",
+    "etag": "\"674c492a3f2c3f732e85786930d6dffb-3\""
+  }
+]

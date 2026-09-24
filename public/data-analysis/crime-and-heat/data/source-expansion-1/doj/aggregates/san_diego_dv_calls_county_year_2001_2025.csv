@@ -1,0 +1,26 @@
+﻿year,county,reporting_entities_present,agency_month_rows,total_calls,weapons_involved,sub_firearm,sub_knife,sub_other,sub_personal,weapon_not_rpt,total_strang_suffo,sub_strangulation,sub_suffocation,coverage_note
+2001,San Diego County,27,324,20793,16927,107,561,2786,13473,0,,,,Agency reporting and definitions vary; no completeness guarantee
+2002,San Diego County,27,324,20877,16647,128,503,2727,13289,0,,,,Agency reporting and definitions vary; no completeness guarantee
+2003,San Diego County,27,324,21757,17094,121,505,2616,13852,0,,,,Agency reporting and definitions vary; no completeness guarantee
+2004,San Diego County,27,288,21351,16691,98,546,2485,13562,0,,,,Agency reporting and definitions vary; no completeness guarantee
+2005,San Diego County,27,281,21099,16413,110,497,2434,13372,0,,,,Agency reporting and definitions vary; no completeness guarantee
+2006,San Diego County,27,291,19883,15419,95,441,2442,12441,0,,,,Agency reporting and definitions vary; no completeness guarantee
+2007,San Diego County,27,315,18874,14390,101,434,2013,11842,0,,,,Agency reporting and definitions vary; no completeness guarantee
+2008,San Diego County,27,317,16748,12711,86,359,1721,10545,0,,,,Agency reporting and definitions vary; no completeness guarantee
+2009,San Diego County,27,324,17620,14164,75,428,1944,11717,0,,,,Agency reporting and definitions vary; no completeness guarantee
+2010,San Diego County,27,323,16876,13657,77,346,1934,11300,0,,,,Agency reporting and definitions vary; no completeness guarantee
+2011,San Diego County,27,324,15822,12688,75,310,1624,10679,0,,,,Agency reporting and definitions vary; no completeness guarantee
+2012,San Diego County,27,324,16401,12844,87,371,1627,10759,0,,,,Agency reporting and definitions vary; no completeness guarantee
+2013,San Diego County,27,324,16705,12890,81,382,1545,10882,0,,,,Agency reporting and definitions vary; no completeness guarantee
+2014,San Diego County,27,324,16994,12864,74,336,1395,11059,0,,,,Agency reporting and definitions vary; no completeness guarantee
+2015,San Diego County,27,324,17972,13065,96,307,1248,11414,0,,,,Agency reporting and definitions vary; no completeness guarantee
+2016,San Diego County,27,320,16719,12373,89,270,1238,10776,0,,,,Agency reporting and definitions vary; no completeness guarantee
+2017,San Diego County,27,324,17306,12537,69,271,1317,10880,0,,,,Agency reporting and definitions vary; no completeness guarantee
+2018,San Diego County,27,320,17511,12447,84,313,1125,10925,0,323,313,10,Agency reporting and definitions vary; no completeness guarantee
+2019,San Diego County,27,324,17436,11598,84,244,584,10686,0,463,455,8,Agency reporting and definitions vary; no completeness guarantee
+2020,San Diego County,27,299,17683,11476,111,246,583,10536,0,586,578,8,Agency reporting and definitions vary; no completeness guarantee
+2021,San Diego County,27,309,18366,11764,136,252,539,10837,0,85,83,2,Agency reporting and definitions vary; no completeness guarantee
+2022,San Diego County,28,325,17501,11236,108,238,534,10356,0,107,100,7,Agency reporting and definitions vary; no completeness guarantee
+2023,San Diego County,30,360,16666,10949,88,234,579,10048,0,129,127,2,Agency reporting and definitions vary; no completeness guarantee
+2024,San Diego County,30,360,15682,10578,97,205,585,9691,0,119,114,5,Contains documented partial Sheriff reporting
+2025,San Diego County,31,366,14979,9870,103,218,535,9014,0,151,146,5,Contains documented partial Sheriff reporting

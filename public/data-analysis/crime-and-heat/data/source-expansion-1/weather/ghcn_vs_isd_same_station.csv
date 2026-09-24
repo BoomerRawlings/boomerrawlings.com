@@ -1,0 +1,21 @@
+station,variable,matched_station_days,mean_ghcn_minus_hourly_sample_f,mae_f,rmse_f,correlation,note
+722900-23188,temp_high_f,1442,0.7885298196948682,0.7937725381414701,1.0547073004382688,0.994443749553598,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+722900-23188,temp_low_f,1442,-0.4844521497919557,0.5106657420249654,0.8092576348457714,0.9971170467508552,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+722903-03131,temp_high_f,1386,0.865844155844156,0.8733766233766236,1.1216326226798774,0.996583697324772,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+722903-03131,temp_low_f,1389,-0.6839740820734342,0.7080777537796976,1.0650367316392522,0.9959125639662327,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+722904-03178,temp_high_f,1351,1.0193782383419687,1.0257735011102889,1.2896108238457116,0.9956700216493894,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+722904-03178,temp_low_f,1351,-1.0141820873427092,1.065344189489267,1.5147370806150093,0.9923853393334636,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+722906-93112,temp_high_f,1309,0.6955233002291824,0.7029488158899923,1.017017614455651,0.9936004457987838,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+722906-93112,temp_low_f,1288,-0.7404037267080747,0.7767391304347826,1.1745277893478343,0.9942436143780997,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+722909-93115,temp_high_f,454,0.8746255506607932,0.8801762114537448,1.1331419031556573,0.9916444684600082,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+722909-93115,temp_low_f,455,-0.8584615384615386,0.9304615384615385,1.4110776802785239,0.9887209261930261,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+722927-03177,temp_high_f,1410,0.8398723404255319,0.8513617021276595,1.1243551343259417,0.9944164782167773,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+722927-03177,temp_low_f,1410,-0.4494893617021278,0.47400000000000003,0.7717418816643903,0.9968126466519871,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+722928-00369,temp_high_f,242,0.9699173553719003,0.9714049586776854,1.2650900729046852,0.9908860707142014,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+722928-00369,temp_low_f,242,-0.5652892561983471,0.586115702479339,0.9176776293475607,0.9940147089936695,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+722931-93107,temp_high_f,659,0.9611836115326253,0.9688315629742034,1.5190067435998003,0.9910529218845988,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+722931-93107,temp_low_f,659,-0.7645220030349015,0.8317147192716239,1.2365253093518462,0.9929695867094379,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+722934-53121,temp_high_f,1280,0.9797343749999998,0.9926718749999999,1.2435703387826518,0.9942991843002915,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+722934-53121,temp_low_f,1281,-0.8740046838407495,0.9184074941451991,1.3080725760326217,0.9952973984548712,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+745056-53120,temp_high_f,1092,0.9784615384615385,0.9807692307692307,1.2203818534097715,0.9983957282846209,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.
+745056-53120,temp_low_f,1092,-1.0912087912087913,1.1423076923076925,1.5499698685479644,0.9944357769454649,WBAN-linked station comparison; GHCN observing-day convention and continuous/sampled extrema may differ.

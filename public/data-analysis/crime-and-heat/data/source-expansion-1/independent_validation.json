@@ -1,0 +1,75 @@
+{
+  "status": "PASS",
+  "checks": {
+    "sandag_a": {
+      "source_rows": 791760,
+      "agency_totals_match_all_partitions": true,
+      "dv_flag_missing_in_all_rows": false
+    },
+    "sandag_b": {
+      "source_rows": 112170,
+      "agency_totals_match_all_partitions": true,
+      "dv_flag_missing_in_all_rows": true
+    },
+    "sdpd_2020": {
+      "source_rows": 86055,
+      "daily_monthly_totals_match": true
+    },
+    "sdpd_2021": {
+      "source_rows": 86781,
+      "daily_monthly_totals_match": true
+    },
+    "sdpd_2022": {
+      "source_rows": 81407,
+      "daily_monthly_totals_match": true
+    },
+    "sdpd_2023": {
+      "source_rows": 79840,
+      "daily_monthly_totals_match": true
+    },
+    "sdpd_2024": {
+      "source_rows": 80671,
+      "daily_monthly_totals_match": true
+    },
+    "sdpd_2025": {
+      "source_rows": 77861,
+      "daily_monthly_totals_match": true
+    },
+    "sdpd_2026": {
+      "source_rows": 56793,
+      "daily_monthly_totals_match": true
+    },
+    "doj": {
+      "agency_month_rows": 8038,
+      "county_years": 25,
+      "county_arrest_years": 46,
+      "monthly_annual_reconciliation": true,
+      "flagged_months": [
+        "2024-11",
+        "2024-12",
+        "2025-01",
+        "2025-02",
+        "2025-03",
+        "2025-04",
+        "2025-05",
+        "2025-06"
+      ]
+    },
+    "isd": {
+      "unique_quality_accepted_hours": 379574,
+      "complete_station_civil_days": 13235,
+      "day_hours_distribution": {
+        "24": 17436,
+        "23": 48,
+        "25": 48
+      },
+      "largest_temperature_difference_f": 1.4210854715202004e-14,
+      "all_daily_means_and_extrema_recomputed": true
+    },
+    "ghcn": {
+      "station_days": 74894,
+      "stations": 29,
+      "unique_keys_and_quality_rules_verified": true
+    }
+  }
+}

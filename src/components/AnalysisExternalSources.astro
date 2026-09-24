@@ -1,0 +1,32 @@
+---
+import { readFileSync } from 'node:fs';
+const { base } = Astro.props;
+const path = `${base}/data/source-expansion-1`;
+const inventory = JSON.parse(readFileSync(`public${path}/source_inventory.json`, 'utf8'));
+---
+<section id="external-validation" class="analysis-section" aria-labelledby="external-heading">
+  <div class="analysis-section-title"><span>05</span><div><h2 id="external-heading">Independent sources and coverage</h2><p>Official reporting qualifications, additional crime records and observed weather. Retrieved 24 September 2026.</p></div></div>
+  <aside class="analysis-notice"><strong>New reporting evidence.</strong> California DOJ documents incomplete Sheriff reporting for November–December 2024 and January–June 2025 in both its arrest and DV-call datasets. The primary analyses exclude 2025, but retain late 2024. This adds a limitation to their interpretation; it does not identify the supplied export’s missing records or establish the cause. <a href="https://data-openjustice.doj.ca.gov/sites/default/files/dataset/2026-07/Arrests%20Context_0615026.pdf#page=7">DOJ arrest qualifications, p. 7</a>; <a href={`${path}/doj/DOJ_BENCHMARKS.md`}>DV-call documentation and source audit</a>.</aside>
+  <div class="analysis-prose"><p>These sources extend the research material beyond the supplied files. Calls, reported offenses, arrest statistics and source-ID groups have different definitions. Each remains a separate series. The added data have not been used to refit the displayed models or change their p-values.</p></div>
+  <div class="analysis-table-scroll analysis-source-inventory" tabindex="0" aria-label="Additional dataset coverage">
+    <table><caption>Acquired sources and their analytic uses</caption><thead><tr><th scope="col">Source</th><th scope="col">Coverage acquired</th><th scope="col">Use and limitation</th><th scope="col">Documentation</th></tr></thead><tbody>
+      {inventory.sources.map((source:any)=><tr><th scope="row">{source.name}</th><td>{source.coverage}</td><td>{source.interpretation}</td><td><a href={`${path}/${source.documentation}`}>Source audit</a></td></tr>)}
+    </tbody></table>
+  </div>
+  <details class="analysis-details"><summary>What this adds to the Vista comparison</summary><p>Official Census counts are similar for Vista (98,381) and San Marcos (94,833) in 2020. Population size alone does not explain the large difference in the supplied totals. Both cities contract with the Sheriff, whose station service areas also include unincorporated territory. Until the recorded location and agency coverage are resolved, city totals cannot be interpreted as municipal crime rates.</p><p><a href={`${path}/context/GEOGRAPHIC_CONTEXT.md`}>Jurisdiction evidence and Census extraction</a> · <a href={`${path}/context/contract_city_population_2020.csv`} download>Municipal population context · CSV</a></p></details>
+  <details class="analysis-details"><summary>How the findings relate to published research</summary><p>A 2025 New Orleans study found higher odds of DV-related calls during sustained extreme heat. A Los Angeles study reported variation in the heat–crime association by neighborhood poverty. These findings support the research question; different outcomes, exposures and settings prevent treating them as replications of the supplied arrest-record analysis.</p><p><a href="https://doi.org/10.1001/jamanetworkopen.2025.30530">Dey et al., JAMA Network Open (2025)</a> · <a href="https://doi.org/10.1016/j.jpubeco.2021.104408">Heilmann et al., Journal of Public Economics (2021)</a> · <a href={`${path}/RESEARCH_CONTEXT.md`}>Primary-source review and requirements for further analysis</a></p></details>
+  <div class="analysis-downloads">
+    <a href={`${path}/source-validation-supplement.pdf`} download><strong>Source-validation supplement</strong><span>PDF · New reporting evidence, dataset definitions and implications</span></a>
+    <a href={`${path}/external-source-data-and-audit.zip`} download><strong>Additional data and verification</strong><span>ZIP · Separate aggregate series, weather observations, source hashes and code</span></a>
+    <a href={`${path}/SOURCE_EXPANSION.md`} download><strong>Source inventory and findings</strong><span>Markdown · Acquisition scope, limitations and verified results</span></a>
+    <a href={`${path}/publication_validation.json`} download><strong>Supplement validation</strong><span>JSON · Aggregate reconciliation, privacy checks and preservation of prior results</span></a>
+  </div>
+</section>
+<style>
+  .analysis-source-inventory table { min-width: 720px; table-layout: fixed; }
+  .analysis-source-inventory th, .analysis-source-inventory td { text-align: left; white-space: normal; overflow-wrap: break-word; }
+  .analysis-source-inventory thead th:nth-child(1) { width: 22%; }
+  .analysis-source-inventory thead th:nth-child(2) { width: 23%; }
+  .analysis-source-inventory thead th:nth-child(3) { width: 40%; }
+  .analysis-source-inventory thead th:nth-child(4) { width: 15%; }
+</style>

@@ -1,0 +1,539 @@
+month,group_type,offense_code,offense_description,source_rows
+2022-01,A,09A,Murder and Nonnegligent Manslaughter,4
+2022-01,A,100,Kidnaping/Abduction,16
+2022-01,A,100,Kidnapping/Abduction,3
+2022-01,A,11A,Forcible Rape,28
+2022-01,A,11B,Forcible Sodomy,5
+2022-01,A,11C,Sexual Assault With an Object,5
+2022-01,A,11D,Forcible Fondling,39
+2022-01,A,120,Robbery,114
+2022-01,A,13A,Aggravated Assault,308
+2022-01,A,13B,Simple Assault,574
+2022-01,A,13C,Intimidation,47
+2022-01,A,200,Arson,21
+2022-01,A,210,Extortion/Blackmail,6
+2022-01,A,220,Burglary/Breaking & Entering,303
+2022-01,A,23A,Pocket-Picking,4
+2022-01,A,23B,Purse-Snatching,7
+2022-01,A,23C,Shoplifting,115
+2022-01,A,23D,Theft From Building,51
+2022-01,A,23F,Theft From Motor Vehicle,704
+2022-01,A,23G,Theft of Motor Vehicle Parts/Accessories,38
+2022-01,A,23H,All Other Larceny,547
+2022-01,A,240,Motor Vehicle Theft,537
+2022-01,A,250,Counterfeiting/Forgery,33
+2022-01,A,26A,False Pretenses/Swindle/Confidence Game,25
+2022-01,A,26B,Credit Card/Automatic Teller Fraud,42
+2022-01,A,26C,Impersonation,218
+2022-01,A,26F,Identity Theft,6
+2022-01,A,270,Embezzlement,15
+2022-01,A,280,Stolen Property Offenses,77
+2022-01,A,290,Destruction/Damage/Vandalism of Property,664
+2022-01,A,35A,Drug/narcotic Violations,269
+2022-01,A,35B,Drug Equipment Violations,140
+2022-01,A,36B,Statutory Rape,1
+2022-01,A,39C,Gambling Equipment Violations,1
+2022-01,A,40A,Prostitution,17
+2022-01,A,40B,Assisting or Promoting Prostitution,1
+2022-01,A,520,Weapon Law Violations,100
+2022-01,B,90B,Curfew/Loitering/Vagrancy Violations,6
+2022-01,B,90C,Disorderly Conduct,3
+2022-01,B,90D,Driving Under the Influence,120
+2022-01,B,90E,Drunkenness,221
+2022-01,B,90G,Liquor Law Violations,4
+2022-01,B,90J,Trespass of Real Property,23
+2022-01,B,90Z,All Other Offenses,1350
+2022-02,A,09A,Murder and Nonnegligent Manslaughter,7
+2022-02,A,100,Kidnaping/Abduction,9
+2022-02,A,100,Kidnapping/Abduction,3
+2022-02,A,11A,Forcible Rape,35
+2022-02,A,11B,Forcible Sodomy,3
+2022-02,A,11C,Sexual Assault With an Object,2
+2022-02,A,11D,Forcible Fondling,34
+2022-02,A,120,Robbery,97
+2022-02,A,13A,Aggravated Assault,310
+2022-02,A,13B,Simple Assault,507
+2022-02,A,13C,Intimidation,53
+2022-02,A,200,Arson,23
+2022-02,A,210,Extortion/Blackmail,2
+2022-02,A,220,Burglary/Breaking & Entering,292
+2022-02,A,23A,Pocket-Picking,2
+2022-02,A,23B,Purse-Snatching,7
+2022-02,A,23C,Shoplifting,106
+2022-02,A,23D,Theft From Building,25
+2022-02,A,23E,Theft From Coin Operated Machine or Device,1
+2022-02,A,23F,Theft From Motor Vehicle,712
+2022-02,A,23G,Theft of Motor Vehicle Parts/Accessories,50
+2022-02,A,23H,All Other Larceny,538
+2022-02,A,240,Motor Vehicle Theft,479
+2022-02,A,250,Counterfeiting/Forgery,19
+2022-02,A,26A,False Pretenses/Swindle/Confidence Game,36
+2022-02,A,26B,Credit Card/Automatic Teller Fraud,53
+2022-02,A,26C,Impersonation,176
+2022-02,A,26F,Identity Theft,2
+2022-02,A,270,Embezzlement,10
+2022-02,A,280,Stolen Property Offenses,88
+2022-02,A,290,Destruction/Damage/Vandalism of Property,689
+2022-02,A,35A,Drug/narcotic Violations,286
+2022-02,A,35B,Drug Equipment Violations,128
+2022-02,A,36B,Statutory Rape,1
+2022-02,A,370,Pornography/Obscene Material,1
+2022-02,A,40A,Prostitution,31
+2022-02,A,520,Weapon Law Violations,104
+2022-02,B,90B,Curfew/Loitering/Vagrancy Violations,13
+2022-02,B,90C,Disorderly Conduct,9
+2022-02,B,90D,Driving Under the Influence,126
+2022-02,B,90E,Drunkenness,219
+2022-02,B,90G,Liquor Law Violations,18
+2022-02,B,90H,Peeping Tom,1
+2022-02,B,90J,Trespass of Real Property,27
+2022-02,B,90Z,All Other Offenses,1242
+2022-03,A,09A,Murder and Nonnegligent Manslaughter,2
+2022-03,A,100,Kidnaping/Abduction,17
+2022-03,A,11A,Forcible Rape,30
+2022-03,A,11B,Forcible Sodomy,9
+2022-03,A,11C,Sexual Assault With an Object,6
+2022-03,A,11D,Forcible Fondling,33
+2022-03,A,120,Robbery,110
+2022-03,A,13A,Aggravated Assault,364
+2022-03,A,13B,Simple Assault,671
+2022-03,A,13C,Intimidation,67
+2022-03,A,200,Arson,13
+2022-03,A,210,Extortion/Blackmail,6
+2022-03,A,220,Burglary/Breaking & Entering,308
+2022-03,A,23A,Pocket-Picking,8
+2022-03,A,23B,Purse-Snatching,4
+2022-03,A,23C,Shoplifting,94
+2022-03,A,23D,Theft From Building,41
+2022-03,A,23E,Theft From Coin Operated Machine or Device,1
+2022-03,A,23F,Theft From Motor Vehicle,628
+2022-03,A,23G,Theft of Motor Vehicle Parts/Accessories,38
+2022-03,A,23H,All Other Larceny,626
+2022-03,A,240,Motor Vehicle Theft,510
+2022-03,A,250,Counterfeiting/Forgery,19
+2022-03,A,26A,False Pretenses/Swindle/Confidence Game,38
+2022-03,A,26B,Credit Card/Automatic Teller Fraud,73
+2022-03,A,26C,Impersonation,221
+2022-03,A,26F,Identity Theft,4
+2022-03,A,270,Embezzlement,4
+2022-03,A,280,Stolen Property Offenses,95
+2022-03,A,290,Destruction/Damage/Vandalism of Property,691
+2022-03,A,35A,Drug/narcotic Violations,346
+2022-03,A,35B,Drug Equipment Violations,163
+2022-03,A,370,Pornography/Obscene Material,2
+2022-03,A,39B,Operating/Promoting/Assisting Gambling,1
+2022-03,A,39C,Gambling Equipment Violations,1
+2022-03,A,40A,Prostitution,5
+2022-03,A,40B,Assisting or Promoting Prostitution,3
+2022-03,A,520,Weapon Law Violations,110
+2022-03,B,90B,Curfew/Loitering/Vagrancy Violations,27
+2022-03,B,90C,Disorderly Conduct,6
+2022-03,B,90D,Driving Under the Influence,136
+2022-03,B,90E,Drunkenness,286
+2022-03,B,90G,Liquor Law Violations,6
+2022-03,B,90H,Peeping Tom,1
+2022-03,B,90J,Trespass of Real Property,38
+2022-03,B,90Z,All Other Offenses,1508
+2022-04,A,09A,Murder and Nonnegligent Manslaughter,5
+2022-04,A,100,Kidnaping/Abduction,13
+2022-04,A,100,Kidnapping/Abduction,2
+2022-04,A,11A,Forcible Rape,23
+2022-04,A,11B,Forcible Sodomy,3
+2022-04,A,11C,Sexual Assault With an Object,8
+2022-04,A,11D,Forcible Fondling,46
+2022-04,A,120,Robbery,94
+2022-04,A,13A,Aggravated Assault,364
+2022-04,A,13B,Simple Assault,592
+2022-04,A,13C,Intimidation,67
+2022-04,A,200,Arson,11
+2022-04,A,210,Extortion/Blackmail,5
+2022-04,A,220,Burglary/Breaking & Entering,286
+2022-04,A,23A,Pocket-Picking,3
+2022-04,A,23B,Purse-Snatching,5
+2022-04,A,23C,Shoplifting,79
+2022-04,A,23D,Theft From Building,42
+2022-04,A,23E,Theft From Coin Operated Machine or Device,2
+2022-04,A,23F,Theft From Motor Vehicle,470
+2022-04,A,23G,Theft of Motor Vehicle Parts/Accessories,33
+2022-04,A,23H,All Other Larceny,580
+2022-04,A,240,Motor Vehicle Theft,520
+2022-04,A,250,Counterfeiting/Forgery,16
+2022-04,A,26A,False Pretenses/Swindle/Confidence Game,28
+2022-04,A,26B,Credit Card/Automatic Teller Fraud,65
+2022-04,A,26C,Impersonation,224
+2022-04,A,26F,Identity Theft,3
+2022-04,A,270,Embezzlement,11
+2022-04,A,280,Stolen Property Offenses,85
+2022-04,A,290,Destruction/Damage/Vandalism of Property,596
+2022-04,A,35A,Drug/narcotic Violations,310
+2022-04,A,35B,Drug Equipment Violations,131
+2022-04,A,370,Pornography/Obscene Material,1
+2022-04,A,40A,Prostitution,29
+2022-04,A,40B,Assisting or Promoting Prostitution,3
+2022-04,A,520,Weapon Law Violations,116
+2022-04,B,90B,Curfew/Loitering/Vagrancy Violations,26
+2022-04,B,90C,Disorderly Conduct,6
+2022-04,B,90D,Driving Under the Influence,129
+2022-04,B,90E,Drunkenness,245
+2022-04,B,90H,Peeping Tom,1
+2022-04,B,90J,Trespass of Real Property,27
+2022-04,B,90Z,All Other Offenses,1421
+2022-05,A,09A,Murder and Nonnegligent Manslaughter,9
+2022-05,A,100,Kidnaping/Abduction,22
+2022-05,A,100,Kidnapping/Abduction,3
+2022-05,A,11A,Forcible Rape,36
+2022-05,A,11B,Forcible Sodomy,6
+2022-05,A,11C,Sexual Assault With an Object,5
+2022-05,A,11D,Forcible Fondling,34
+2022-05,A,120,Robbery,109
+2022-05,A,13A,Aggravated Assault,338
+2022-05,A,13B,Simple Assault,591
+2022-05,A,13C,Intimidation,58
+2022-05,A,200,Arson,9
+2022-05,A,210,Extortion/Blackmail,1
+2022-05,A,220,Burglary/Breaking & Entering,311
+2022-05,A,23A,Pocket-Picking,4
+2022-05,A,23B,Purse-Snatching,6
+2022-05,A,23C,Shoplifting,75
+2022-05,A,23D,Theft From Building,31
+2022-05,A,23F,Theft From Motor Vehicle,379
+2022-05,A,23G,Theft of Motor Vehicle Parts/Accessories,33
+2022-05,A,23H,All Other Larceny,584
+2022-05,A,240,Motor Vehicle Theft,517
+2022-05,A,250,Counterfeiting/Forgery,19
+2022-05,A,26A,False Pretenses/Swindle/Confidence Game,55
+2022-05,A,26B,Credit Card/Automatic Teller Fraud,32
+2022-05,A,26C,Impersonation,161
+2022-05,A,26D,Welfare Fraud,1
+2022-05,A,26F,Identity Theft,6
+2022-05,A,270,Embezzlement,12
+2022-05,A,280,Stolen Property Offenses,93
+2022-05,A,290,Destruction/Damage/Vandalism of Property,580
+2022-05,A,35A,Drug/narcotic Violations,309
+2022-05,A,35B,Drug Equipment Violations,153
+2022-05,A,36B,Statutory Rape,2
+2022-05,A,370,Pornography/Obscene Material,3
+2022-05,A,39A,Betting/Wagering,1
+2022-05,A,40A,Prostitution,2
+2022-05,A,520,Weapon Law Violations,101
+2022-05,B,90B,Curfew/Loitering/Vagrancy Violations,33
+2022-05,B,90C,Disorderly Conduct,5
+2022-05,B,90D,Driving Under the Influence,119
+2022-05,B,90E,Drunkenness,238
+2022-05,B,90G,Liquor Law Violations,6
+2022-05,B,90J,Trespass of Real Property,30
+2022-05,B,90Z,All Other Offenses,1448
+2022-06,A,09A,Murder and Nonnegligent Manslaughter,6
+2022-06,A,100,Kidnaping/Abduction,19
+2022-06,A,100,Kidnapping/Abduction,1
+2022-06,A,11A,Forcible Rape,22
+2022-06,A,11B,Forcible Sodomy,6
+2022-06,A,11C,Sexual Assault With an Object,5
+2022-06,A,11D,Forcible Fondling,42
+2022-06,A,120,Robbery,111
+2022-06,A,13A,Aggravated Assault,351
+2022-06,A,13B,Simple Assault,642
+2022-06,A,13C,Intimidation,81
+2022-06,A,200,Arson,17
+2022-06,A,210,Extortion/Blackmail,5
+2022-06,A,220,Burglary/Breaking & Entering,295
+2022-06,A,23A,Pocket-Picking,5
+2022-06,A,23B,Purse-Snatching,4
+2022-06,A,23C,Shoplifting,79
+2022-06,A,23D,Theft From Building,33
+2022-06,A,23F,Theft From Motor Vehicle,394
+2022-06,A,23G,Theft of Motor Vehicle Parts/Accessories,32
+2022-06,A,23H,All Other Larceny,611
+2022-06,A,240,Motor Vehicle Theft,540
+2022-06,A,250,Counterfeiting/Forgery,22
+2022-06,A,26A,False Pretenses/Swindle/Confidence Game,37
+2022-06,A,26B,Credit Card/Automatic Teller Fraud,37
+2022-06,A,26C,Impersonation,209
+2022-06,A,26F,Identity Theft,4
+2022-06,A,270,Embezzlement,13
+2022-06,A,280,Stolen Property Offenses,87
+2022-06,A,290,Destruction/Damage/Vandalism of Property,671
+2022-06,A,35A,Drug/narcotic Violations,298
+2022-06,A,35B,Drug Equipment Violations,132
+2022-06,A,36B,Statutory Rape,3
+2022-06,A,370,Pornography/Obscene Material,1
+2022-06,A,39B,Operating/Promoting/Assisting Gambling,1
+2022-06,A,40A,Prostitution,8
+2022-06,A,40B,Assisting or Promoting Prostitution,1
+2022-06,A,520,Weapon Law Violations,70
+2022-06,B,90B,Curfew/Loitering/Vagrancy Violations,6
+2022-06,B,90C,Disorderly Conduct,6
+2022-06,B,90D,Driving Under the Influence,117
+2022-06,B,90E,Drunkenness,171
+2022-06,B,90F,Family Offenses (Nonviolent),1
+2022-06,B,90G,Liquor Law Violations,2
+2022-06,B,90H,Peeping Tom,1
+2022-06,B,90J,Trespass of Real Property,22
+2022-06,B,90Z,All Other Offenses,1499
+2022-07,A,09A,Murder and Nonnegligent Manslaughter,4
+2022-07,A,100,Kidnaping/Abduction,20
+2022-07,A,100,Kidnapping/Abduction,3
+2022-07,A,11A,Forcible Rape,43
+2022-07,A,11B,Forcible Sodomy,4
+2022-07,A,11C,Sexual Assault With an Object,1
+2022-07,A,11D,Forcible Fondling,37
+2022-07,A,120,Robbery,103
+2022-07,A,13A,Aggravated Assault,410
+2022-07,A,13B,Simple Assault,650
+2022-07,A,13C,Intimidation,80
+2022-07,A,200,Arson,12
+2022-07,A,210,Extortion/Blackmail,5
+2022-07,A,220,Burglary/Breaking & Entering,261
+2022-07,A,23A,Pocket-Picking,11
+2022-07,A,23B,Purse-Snatching,7
+2022-07,A,23C,Shoplifting,76
+2022-07,A,23D,Theft From Building,30
+2022-07,A,23F,Theft From Motor Vehicle,437
+2022-07,A,23G,Theft of Motor Vehicle Parts/Accessories,31
+2022-07,A,23H,All Other Larceny,697
+2022-07,A,240,Motor Vehicle Theft,568
+2022-07,A,250,Counterfeiting/Forgery,24
+2022-07,A,26A,False Pretenses/Swindle/Confidence Game,35
+2022-07,A,26B,Credit Card/Automatic Teller Fraud,46
+2022-07,A,26C,Impersonation,206
+2022-07,A,26F,Identity Theft,3
+2022-07,A,270,Embezzlement,16
+2022-07,A,280,Stolen Property Offenses,91
+2022-07,A,290,Destruction/Damage/Vandalism of Property,576
+2022-07,A,35A,Drug/narcotic Violations,300
+2022-07,A,35B,Drug Equipment Violations,162
+2022-07,A,40A,Prostitution,1
+2022-07,A,40B,Assisting or Promoting Prostitution,1
+2022-07,A,520,Weapon Law Violations,94
+2022-07,B,90B,Curfew/Loitering/Vagrancy Violations,6
+2022-07,B,90C,Disorderly Conduct,4
+2022-07,B,90D,Driving Under the Influence,114
+2022-07,B,90E,Drunkenness,219
+2022-07,B,90G,Liquor Law Violations,6
+2022-07,B,90J,Trespass of Real Property,41
+2022-07,B,90Z,All Other Offenses,1470
+2022-08,A,09A,Murder and Nonnegligent Manslaughter,5
+2022-08,A,100,Kidnaping/Abduction,13
+2022-08,A,100,Kidnapping/Abduction,1
+2022-08,A,11A,Forcible Rape,25
+2022-08,A,11C,Sexual Assault With an Object,2
+2022-08,A,11D,Forcible Fondling,35
+2022-08,A,120,Robbery,121
+2022-08,A,13A,Aggravated Assault,371
+2022-08,A,13B,Simple Assault,711
+2022-08,A,13C,Intimidation,74
+2022-08,A,200,Arson,18
+2022-08,A,210,Extortion/Blackmail,7
+2022-08,A,220,Burglary/Breaking & Entering,233
+2022-08,A,23A,Pocket-Picking,6
+2022-08,A,23B,Purse-Snatching,8
+2022-08,A,23C,Shoplifting,94
+2022-08,A,23D,Theft From Building,37
+2022-08,A,23F,Theft From Motor Vehicle,375
+2022-08,A,23G,Theft of Motor Vehicle Parts/Accessories,32
+2022-08,A,23H,All Other Larceny,631
+2022-08,A,240,Motor Vehicle Theft,500
+2022-08,A,250,Counterfeiting/Forgery,18
+2022-08,A,26A,False Pretenses/Swindle/Confidence Game,37
+2022-08,A,26B,Credit Card/Automatic Teller Fraud,77
+2022-08,A,26C,Impersonation,221
+2022-08,A,26F,Identity Theft,6
+2022-08,A,270,Embezzlement,16
+2022-08,A,280,Stolen Property Offenses,76
+2022-08,A,290,Destruction/Damage/Vandalism of Property,619
+2022-08,A,35A,Drug/narcotic Violations,331
+2022-08,A,35B,Drug Equipment Violations,190
+2022-08,A,36B,Statutory Rape,2
+2022-08,A,370,Pornography/Obscene Material,3
+2022-08,A,40B,Assisting or Promoting Prostitution,1
+2022-08,A,520,Weapon Law Violations,104
+2022-08,B,90B,Curfew/Loitering/Vagrancy Violations,15
+2022-08,B,90C,Disorderly Conduct,4
+2022-08,B,90D,Driving Under the Influence,115
+2022-08,B,90E,Drunkenness,186
+2022-08,B,90G,Liquor Law Violations,9
+2022-08,B,90J,Trespass of Real Property,25
+2022-08,B,90Z,All Other Offenses,1497
+2022-09,A,09A,Murder and Nonnegligent Manslaughter,6
+2022-09,A,100,Kidnaping/Abduction,18
+2022-09,A,11A,Forcible Rape,39
+2022-09,A,11B,Forcible Sodomy,5
+2022-09,A,11C,Sexual Assault With an Object,2
+2022-09,A,11D,Forcible Fondling,56
+2022-09,A,120,Robbery,113
+2022-09,A,13A,Aggravated Assault,371
+2022-09,A,13B,Simple Assault,616
+2022-09,A,13C,Intimidation,79
+2022-09,A,200,Arson,11
+2022-09,A,210,Extortion/Blackmail,3
+2022-09,A,220,Burglary/Breaking & Entering,252
+2022-09,A,23A,Pocket-Picking,6
+2022-09,A,23B,Purse-Snatching,6
+2022-09,A,23C,Shoplifting,95
+2022-09,A,23D,Theft From Building,31
+2022-09,A,23E,Theft From Coin Operated Machine or Device,1
+2022-09,A,23F,Theft From Motor Vehicle,380
+2022-09,A,23G,Theft of Motor Vehicle Parts/Accessories,29
+2022-09,A,23H,All Other Larceny,654
+2022-09,A,240,Motor Vehicle Theft,558
+2022-09,A,250,Counterfeiting/Forgery,29
+2022-09,A,26A,False Pretenses/Swindle/Confidence Game,29
+2022-09,A,26B,Credit Card/Automatic Teller Fraud,49
+2022-09,A,26C,Impersonation,238
+2022-09,A,26F,Identity Theft,12
+2022-09,A,26G,Hacking/Computer Fraud,1
+2022-09,A,270,Embezzlement,12
+2022-09,A,280,Stolen Property Offenses,80
+2022-09,A,290,Destruction/Damage/Vandalism of Property,578
+2022-09,A,35A,Drug/narcotic Violations,272
+2022-09,A,35B,Drug Equipment Violations,151
+2022-09,A,36B,Statutory Rape,2
+2022-09,A,370,Pornography/Obscene Material,3
+2022-09,A,40A,Prostitution,1
+2022-09,A,520,Weapon Law Violations,78
+2022-09,B,90B,Curfew/Loitering/Vagrancy Violations,13
+2022-09,B,90C,Disorderly Conduct,5
+2022-09,B,90D,Driving Under the Influence,127
+2022-09,B,90E,Drunkenness,196
+2022-09,B,90F,Family Offenses (Nonviolent),1
+2022-09,B,90G,Liquor Law Violations,7
+2022-09,B,90H,Peeping Tom,1
+2022-09,B,90J,Trespass of Real Property,25
+2022-09,B,90Z,All Other Offenses,1389
+2022-10,A,09A,Murder and Nonnegligent Manslaughter,10
+2022-10,A,100,Kidnaping/Abduction,20
+2022-10,A,100,Kidnapping/Abduction,4
+2022-10,A,11A,Forcible Rape,26
+2022-10,A,11B,Forcible Sodomy,1
+2022-10,A,11C,Sexual Assault With an Object,6
+2022-10,A,11D,Forcible Fondling,44
+2022-10,A,120,Robbery,112
+2022-10,A,13A,Aggravated Assault,390
+2022-10,A,13B,Simple Assault,646
+2022-10,A,13C,Intimidation,75
+2022-10,A,200,Arson,14
+2022-10,A,210,Extortion/Blackmail,6
+2022-10,A,220,Burglary/Breaking & Entering,288
+2022-10,A,23A,Pocket-Picking,5
+2022-10,A,23B,Purse-Snatching,10
+2022-10,A,23C,Shoplifting,130
+2022-10,A,23D,Theft From Building,41
+2022-10,A,23E,Theft From Coin Operated Machine or Device,1
+2022-10,A,23F,Theft From Motor Vehicle,466
+2022-10,A,23G,Theft of Motor Vehicle Parts/Accessories,63
+2022-10,A,23H,All Other Larceny,750
+2022-10,A,240,Motor Vehicle Theft,658
+2022-10,A,250,Counterfeiting/Forgery,17
+2022-10,A,26A,False Pretenses/Swindle/Confidence Game,43
+2022-10,A,26B,Credit Card/Automatic Teller Fraud,53
+2022-10,A,26C,Impersonation,307
+2022-10,A,26F,Identity Theft,24
+2022-10,A,270,Embezzlement,12
+2022-10,A,280,Stolen Property Offenses,83
+2022-10,A,290,Destruction/Damage/Vandalism of Property,549
+2022-10,A,35A,Drug/narcotic Violations,290
+2022-10,A,35B,Drug Equipment Violations,162
+2022-10,A,36B,Statutory Rape,1
+2022-10,A,40A,Prostitution,1
+2022-10,A,40B,Assisting or Promoting Prostitution,1
+2022-10,A,520,Weapon Law Violations,88
+2022-10,B,90B,Curfew/Loitering/Vagrancy Violations,7
+2022-10,B,90C,Disorderly Conduct,10
+2022-10,B,90D,Driving Under the Influence,140
+2022-10,B,90E,Drunkenness,211
+2022-10,B,90G,Liquor Law Violations,6
+2022-10,B,90H,Peeping Tom,1
+2022-10,B,90J,Trespass of Real Property,30
+2022-10,B,90Z,All Other Offenses,1361
+2022-11,A,09A,Murder and Nonnegligent Manslaughter,3
+2022-11,A,100,Kidnaping/Abduction,13
+2022-11,A,100,Kidnapping/Abduction,1
+2022-11,A,11A,Forcible Rape,29
+2022-11,A,11B,Forcible Sodomy,5
+2022-11,A,11C,Sexual Assault With an Object,8
+2022-11,A,11D,Forcible Fondling,27
+2022-11,A,120,Robbery,106
+2022-11,A,13A,Aggravated Assault,361
+2022-11,A,13B,Simple Assault,494
+2022-11,A,13C,Intimidation,58
+2022-11,A,200,Arson,15
+2022-11,A,210,Extortion/Blackmail,7
+2022-11,A,220,Burglary/Breaking & Entering,257
+2022-11,A,23A,Pocket-Picking,10
+2022-11,A,23B,Purse-Snatching,7
+2022-11,A,23C,Shoplifting,133
+2022-11,A,23D,Theft From Building,30
+2022-11,A,23E,Theft From Coin Operated Machine or Device,2
+2022-11,A,23F,Theft From Motor Vehicle,421
+2022-11,A,23G,Theft of Motor Vehicle Parts/Accessories,53
+2022-11,A,23H,All Other Larceny,681
+2022-11,A,240,Motor Vehicle Theft,512
+2022-11,A,250,Counterfeiting/Forgery,20
+2022-11,A,26A,False Pretenses/Swindle/Confidence Game,44
+2022-11,A,26B,Credit Card/Automatic Teller Fraud,44
+2022-11,A,26C,Impersonation,406
+2022-11,A,26F,Identity Theft,25
+2022-11,A,270,Embezzlement,11
+2022-11,A,280,Stolen Property Offenses,74
+2022-11,A,290,Destruction/Damage/Vandalism of Property,506
+2022-11,A,35A,Drug/narcotic Violations,242
+2022-11,A,35B,Drug Equipment Violations,135
+2022-11,A,36B,Statutory Rape,2
+2022-11,A,370,Pornography/Obscene Material,1
+2022-11,A,39A,Betting/Wagering,1
+2022-11,A,40A,Prostitution,5
+2022-11,A,520,Weapon Law Violations,78
+2022-11,A,720,Animal Cruelty,2
+2022-11,B,90B,Curfew/Loitering/Vagrancy Violations,14
+2022-11,B,90C,Disorderly Conduct,10
+2022-11,B,90D,Driving Under the Influence,118
+2022-11,B,90E,Drunkenness,176
+2022-11,B,90G,Liquor Law Violations,6
+2022-11,B,90J,Trespass of Real Property,22
+2022-11,B,90Z,All Other Offenses,1218
+2022-12,A,09A,Murder and Nonnegligent Manslaughter,1
+2022-12,A,100,Kidnaping/Abduction,12
+2022-12,A,100,Kidnapping/Abduction,4
+2022-12,A,11A,Forcible Rape,26
+2022-12,A,11B,Forcible Sodomy,4
+2022-12,A,11C,Sexual Assault With an Object,5
+2022-12,A,11D,Forcible Fondling,29
+2022-12,A,120,Robbery,97
+2022-12,A,13A,Aggravated Assault,339
+2022-12,A,13B,Simple Assault,555
+2022-12,A,13C,Intimidation,62
+2022-12,A,200,Arson,19
+2022-12,A,210,Extortion/Blackmail,6
+2022-12,A,220,Burglary/Breaking & Entering,271
+2022-12,A,23A,Pocket-Picking,3
+2022-12,A,23B,Purse-Snatching,8
+2022-12,A,23C,Shoplifting,105
+2022-12,A,23D,Theft From Building,35
+2022-12,A,23F,Theft From Motor Vehicle,489
+2022-12,A,23G,Theft of Motor Vehicle Parts/Accessories,79
+2022-12,A,23H,All Other Larceny,719
+2022-12,A,240,Motor Vehicle Theft,554
+2022-12,A,250,Counterfeiting/Forgery,23
+2022-12,A,26A,False Pretenses/Swindle/Confidence Game,38
+2022-12,A,26B,Credit Card/Automatic Teller Fraud,36
+2022-12,A,26C,Impersonation,338
+2022-12,A,26F,Identity Theft,33
+2022-12,A,26G,Hacking/Computer Fraud,1
+2022-12,A,270,Embezzlement,13
+2022-12,A,280,Stolen Property Offenses,75
+2022-12,A,290,Destruction/Damage/Vandalism of Property,560
+2022-12,A,35A,Drug/narcotic Violations,319
+2022-12,A,35B,Drug Equipment Violations,142
+2022-12,A,40A,Prostitution,1
+2022-12,A,40B,Assisting or Promoting Prostitution,1
+2022-12,A,510,Bribery,1
+2022-12,A,520,Weapon Law Violations,84
+2022-12,A,720,Animal Cruelty,2
+2022-12,B,90B,Curfew/Loitering/Vagrancy Violations,15
+2022-12,B,90C,Disorderly Conduct,12
+2022-12,B,90D,Driving Under the Influence,124
+2022-12,B,90E,Drunkenness,171
+2022-12,B,90G,Liquor Law Violations,9
+2022-12,B,90H,Peeping Tom,1
+2022-12,B,90J,Trespass of Real Property,33
+2022-12,B,90Z,All Other Offenses,1237

@@ -1,0 +1,62 @@
+{
+  "portal": "https://openjustice.doj.ca.gov/data",
+  "discovery": "Official public JSON API linked by site application; public unauthenticated read-only requests",
+  "latest_release": "2026-07-01; data through 2025",
+  "files": [
+    {
+      "filename": "OnlineArrestData1980-2025.csv",
+      "url": "https://data-openjustice.doj.ca.gov/sites/default/files/dataset/2026-07/OnlineArrestData1980-2025.csv",
+      "resolved_url": "https://data-openjustice.doj.ca.gov/sites/default/files/dataset/2026-07/OnlineArrestData1980-2025.csv",
+      "bytes": 7105799,
+      "sha256": "5115c895cc5d0d00db21862a9fc6f9187376df59f89ce0b685291fb236587e35",
+      "retrieved_utc": "2026-09-24T23:07:17.801455+00:00",
+      "content_type": "text/csv",
+      "last_modified": "Wed, 01 Jul 2026 17:28:09 GMT",
+      "official_reported_size": 7105799
+    },
+    {
+      "filename": "Arrests Context_0615026.pdf",
+      "url": "https://data-openjustice.doj.ca.gov/sites/default/files/dataset/2026-07/Arrests%20Context_0615026.pdf",
+      "resolved_url": "https://data-openjustice.doj.ca.gov/sites/default/files/dataset/2026-07/Arrests%20Context_0615026.pdf",
+      "bytes": 341904,
+      "sha256": "0932431c584c6cf8b26b35f63fcb11e8854626e17c63188726f3076f8a1a54a9",
+      "retrieved_utc": "2026-09-24T23:07:17.431994+00:00",
+      "content_type": "application/pdf",
+      "last_modified": "Wed, 01 Jul 2026 17:29:51 GMT",
+      "official_reported_size": 341904
+    },
+    {
+      "filename": "DVRCA_2001-2025.csv",
+      "url": "https://data-openjustice.doj.ca.gov/sites/default/files/dataset/2026-07/DVRCA_2001-2025.csv",
+      "resolved_url": "https://data-openjustice.doj.ca.gov/sites/default/files/dataset/2026-07/DVRCA_2001-2025.csv",
+      "bytes": 12486945,
+      "sha256": "f168b0bfcc40bc72a0eb865ba0a51b72c5732e792176184407c91f42b9593e4b",
+      "retrieved_utc": "2026-09-24T23:07:20.196989+00:00",
+      "content_type": "text/csv",
+      "last_modified": "Wed, 01 Jul 2026 17:43:32 GMT",
+      "official_reported_size": 12486945
+    },
+    {
+      "filename": "Domestic Violence Related Calls for Service Context_06222026.pdf",
+      "url": "https://data-openjustice.doj.ca.gov/sites/default/files/dataset/2026-07/Domestic%20Violence%20Related%20Calls%20for%20Service%20Context_06222026.pdf",
+      "resolved_url": "https://data-openjustice.doj.ca.gov/sites/default/files/dataset/2026-07/Domestic%20Violence%20Related%20Calls%20for%20Service%20Context_06222026.pdf",
+      "bytes": 222795,
+      "sha256": "fbbb939f691e8e6f81e60120d6523213ece85dbe2b4938ed78b9ddcc8f509e19",
+      "retrieved_utc": "2026-09-24T23:07:17.397423+00:00",
+      "content_type": "application/pdf",
+      "last_modified": "Wed, 01 Jul 2026 17:43:39 GMT",
+      "official_reported_size": 222795
+    },
+    {
+      "filename": "NCIC Code Jurisdiction List_06182026.xlsx",
+      "url": "https://data-openjustice.doj.ca.gov/sites/default/files/dataset/2026-07/NCIC%20Code%20Jurisdiction%20List_06182026.xlsx",
+      "resolved_url": "https://data-openjustice.doj.ca.gov/sites/default/files/dataset/2026-07/NCIC%20Code%20Jurisdiction%20List_06182026.xlsx",
+      "bytes": 54868,
+      "sha256": "47370e89d3cc0145d76ef73514d719bdc115a9dabdb947c6ef9190e8bf7453d0",
+      "retrieved_utc": "2026-09-24T23:07:17.599575+00:00",
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "last_modified": "Wed, 01 Jul 2026 17:26:00 GMT",
+      "official_reported_size": 54868
+    }
+  ]
+}

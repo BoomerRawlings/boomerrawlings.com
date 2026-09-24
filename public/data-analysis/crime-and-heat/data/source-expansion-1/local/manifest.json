@@ -1,0 +1,227 @@
+[
+  {
+    "file": "acquire_local.py",
+    "bytes": 8920,
+    "sha256": "1447a06f3abe52ed944c647f21468041072faf693eb7e93225a6cf9cb89b9bb5"
+  },
+  {
+    "file": "acquisition.log",
+    "bytes": 355,
+    "sha256": "1baa65aef35fc6655528c27528126d28191dfc498137dbb355ce8cc97fee83a2"
+  },
+  {
+    "file": "annual_and_sheriff_retrieval_metadata.json",
+    "bytes": 1227,
+    "sha256": "bf6afbb68e107a559b6a3d61cded6e7589a05fbd3adf57073a0031dadaee342a"
+  },
+  {
+    "file": "annual_retrieval_metadata.json",
+    "bytes": 1227,
+    "sha256": "bf6afbb68e107a559b6a3d61cded6e7589a05fbd3adf57073a0031dadaee342a"
+  },
+  {
+    "file": "data_dictionary.md",
+    "bytes": 3188,
+    "sha256": "57ef1cd887a805a8dfb343f881e2139413e5a309ea70447929791ff19c00e40b"
+  },
+  {
+    "file": "finalize_local.py",
+    "bytes": 3727,
+    "sha256": "3f52a50169f1ee3238c53940dc4a946015277dee89592d2f6b19cf1365d83d57"
+  },
+  {
+    "file": "huzf-mi2z_metadata.json",
+    "bytes": 4360,
+    "sha256": "c3256bb2135e4758cbe3a00a9b237a1f734bcb1d547131c50fca83d2058bd53e"
+  },
+  {
+    "file": "knre-fqwi_metadata.json",
+    "bytes": 2293,
+    "sha256": "a48ac8dedcd6db091d2dadd589a3df48d29c509753525cf7d3c6dbfc92bbcb63"
+  },
+  {
+    "file": "pr74-d3tr_metadata.json",
+    "bytes": 5371,
+    "sha256": "061fe45da037058aea44f42ee55a75d56ae9d8ed8ec834949d6071a6f4a3ce5d"
+  },
+  {
+    "file": "qbrv-e75t_metadata.json",
+    "bytes": 2114,
+    "sha256": "1302d2e71b4bf8c447764fc53cb36669097f1b1281be87d7d319b57ce75f51f8"
+  },
+  {
+    "file": "README.md",
+    "bytes": 9231,
+    "sha256": "110fc056f508965e9af6c37288703909c74d5cea5f2981aa996f863c92289b63"
+  },
+  {
+    "file": "reconciliation.json",
+    "bytes": 8797,
+    "sha256": "616e26402a48c6e5ef73d825d768ae30bb95bf141c7322231657e3f561b194b0"
+  },
+  {
+    "file": "retrieval_metadata.json",
+    "bytes": 26854,
+    "sha256": "37443c1d99a229d7dd4b80a28db3bf67114fcf41e7bbf75bbab16115890d41d1"
+  },
+  {
+    "file": "sandag_annual_domestic_violence.csv",
+    "bytes": 468,
+    "sha256": "8c890151fac3dd7b304e6b1cb67322e767e244e9ef86f73fa9f6b244098d3a40"
+  },
+  {
+    "file": "sandag_group_a_agency_coverage.csv",
+    "bytes": 683,
+    "sha256": "e04291c2c2bf3d691b019430c73527d0a5eda191c3af9e6996b63a2e0921c3d1"
+  },
+  {
+    "file": "sandag_group_a_agency_dv_flag.csv",
+    "bytes": 859,
+    "sha256": "d3d34061be71afeabac8afac2ee78d7060e570f7bcaae3d8db03c132638b37d3"
+  },
+  {
+    "file": "sandag_group_a_daily_agency_dv.csv",
+    "bytes": 1269839,
+    "sha256": "a76aae35e793cb27aeea41f2afdf1b1a40eab24e799fa53fc59837729c3ca9c0"
+  },
+  {
+    "file": "sandag_group_a_monthly_agency_dv.csv",
+    "bytes": 50258,
+    "sha256": "56f6a060530eb1fd06dc20d3fc56ecf75c202623a0c06bd28db77ffed588bed3"
+  },
+  {
+    "file": "sandag_group_a_monthly_agency_offense.csv",
+    "bytes": 605125,
+    "sha256": "1116641646dddb745d08a04a15ee55dfadd7bcbde1a205d1163c5990d1893712"
+  },
+  {
+    "file": "sandag_group_a_status_counts.csv",
+    "bytes": 123,
+    "sha256": "060b70ed45c75f021467ae4aee65219ccc1cf565e17ddfd8c827d5df1e02baf1"
+  },
+  {
+    "file": "sandag_group_b_agency_coverage.csv",
+    "bytes": 665,
+    "sha256": "cebef2fa0d9f47e117b5540d3499875e2b4b1024256782694f8e89a42fea1aab"
+  },
+  {
+    "file": "sandag_group_b_agency_dv_flag.csv",
+    "bytes": 443,
+    "sha256": "02d270913a7297bc3b0f53ee29aa32178482b83cbebaa14da307e2bec51b8b60"
+  },
+  {
+    "file": "sandag_group_b_daily_agency_dv.csv",
+    "bytes": 575178,
+    "sha256": "8fd335e1d506c59c23a1b4b1f91c9ab9759c5e475f2079d8411dc5cd4a8e9e15"
+  },
+  {
+    "file": "sandag_group_b_monthly_agency_dv.csv",
+    "bytes": 23467,
+    "sha256": "73ffd655b4e9376605e8789604b17a4bd91e1d89a4bb8f586d6e37517523e9bf"
+  },
+  {
+    "file": "sandag_group_b_monthly_agency_offense.csv",
+    "bytes": 104553,
+    "sha256": "889748d7d052622bf33a7617a6fc8487cfbfbcf593284426e81243009011c136"
+  },
+  {
+    "file": "sandag_group_b_status_counts.csv",
+    "bytes": 175,
+    "sha256": "7fa38cdc46bdfe29f4101901d4783aaa0efc2e3a2126a69d7f8f8d0d63ae1382"
+  },
+  {
+    "file": "sandag_offense_dictionary.csv",
+    "bytes": 36875,
+    "sha256": "3bf00e9881da1de1d43e99c63022f05b2f8c9d5512acf13e1b7e5b61cbe8b0b9"
+  },
+  {
+    "file": "sdpd_nibrs_2020_daily.csv",
+    "bytes": 47359,
+    "sha256": "277b5573b81f3aa317484fdcec75e6c5f16b3c16623ea6c791a773a39ae930b7"
+  },
+  {
+    "file": "sdpd_nibrs_2020_monthly_offense.csv",
+    "bytes": 20916,
+    "sha256": "1c39d120d8ce8f754ef93d87c8097a429096857bc440bfd76fc8ca649e71b7e7"
+  },
+  {
+    "file": "sdpd_nibrs_2021_daily.csv",
+    "bytes": 47293,
+    "sha256": "a13b4a3e80f461401fab582e1384ef86bde4ad88f86b3cc02866537f21df8747"
+  },
+  {
+    "file": "sdpd_nibrs_2021_monthly_offense.csv",
+    "bytes": 21205,
+    "sha256": "cbc2178fff473f160c64a6de1c303add658bb4d95eef29ed231639ace1df5a64"
+  },
+  {
+    "file": "sdpd_nibrs_2022_daily.csv",
+    "bytes": 46959,
+    "sha256": "7bb46e8bc3fe42f06f11a149967efbb27a9299a20ff789372b7f29c532fdf14f"
+  },
+  {
+    "file": "sdpd_nibrs_2022_monthly_offense.csv",
+    "bytes": 21638,
+    "sha256": "990e85de8f0e0d764c4f674bad067f3462340aed4c10a1588d5140b2cdf57a84"
+  },
+  {
+    "file": "sdpd_nibrs_2023_daily.csv",
+    "bytes": 47000,
+    "sha256": "18f825a99df50e20c2aaea0d84b8588815f41372c6cc13004cdb65ace213eda1"
+  },
+  {
+    "file": "sdpd_nibrs_2023_monthly_offense.csv",
+    "bytes": 22305,
+    "sha256": "67c26a1633a9ecfaeb9941ccd66a29bba0348ab6386b859857b7c603a8a8523e"
+  },
+  {
+    "file": "sdpd_nibrs_2024_daily.csv",
+    "bytes": 47013,
+    "sha256": "9e9d8ef09dc99a487e393253188f575745b5644ceb5639fba7db673f1d48fe49"
+  },
+  {
+    "file": "sdpd_nibrs_2024_monthly_offense.csv",
+    "bytes": 22060,
+    "sha256": "7c9b437b8f976f412c58c1b36201a0191a8e0d831c6cd325261e8717a8711cbe"
+  },
+  {
+    "file": "sdpd_nibrs_2025_daily.csv",
+    "bytes": 46714,
+    "sha256": "c43b4eb3c72abea52af98bbdb96a3b156e976c9b132b6587daec718e7f0db45f"
+  },
+  {
+    "file": "sdpd_nibrs_2025_monthly_offense.csv",
+    "bytes": 21701,
+    "sha256": "9ec0b2578da5c1e856e29c38018995443667c47100edc6bc39b8fddbfbb4931a"
+  },
+  {
+    "file": "sdpd_nibrs_2026_daily.csv",
+    "bytes": 34018,
+    "sha256": "db55cb3d3d163d0f0e0c0e9da9a28dfd33220a22de6d09548e34219676181194"
+  },
+  {
+    "file": "sdpd_nibrs_2026_monthly_offense.csv",
+    "bytes": 16921,
+    "sha256": "5ffbd55c66bf4a5b45fc36af8a6c637b49ee705936244b6c6f86fc2c71fba9b1"
+  },
+  {
+    "file": "sdpd_nibrs_dictionary.csv",
+    "bytes": 6515,
+    "sha256": "69d217d9b8d52f97ff82645720f695ce18f91b5e860eacf22d130f585bcccc55"
+  },
+  {
+    "file": "sheriff_access_notes.json",
+    "bytes": 695,
+    "sha256": "4e30eac696d05bd8e1bccc24e62154ea1e23c2fdd5364c280f81c7005490b177"
+  },
+  {
+    "file": "sheriff_monthly_arrest_benchmarks.csv",
+    "bytes": 2042,
+    "sha256": "49e73c3883229105c58e2f4d8fa387d2b413868be7242b292ba572e20e7c5ee8"
+  },
+  {
+    "file": "snapshot_audit.json",
+    "bytes": 9728,
+    "sha256": "c4c5b38e5a969d850f2573789ba85f95b68a596dee1ebf9532b4f4053f36d5e1"
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "retrieved_utc": "2026-09-24T23:16:01.048380+00:00",
+  "method": "Official PDFs readable through web research text retrieval; direct urllib requests returned HTTP403. No direct PDF bytes were archived or hashed. CSV is a six-point benchmark, not a complete monthly series.",
+  "urls": [
+    "https://www.sdsheriff.gov/home/showpublisheddocument/10215/639171948673870000",
+    "https://www.sdsheriff.gov/home/showpublisheddocument/9664/639014781122570000",
+    "https://www.sdsheriff.gov/home/showpublisheddocument/9924/639080583858770000"
+  ],
+  "other_report_discovery": "2025-12 report discovered via official search snippet but not included because full text retrieval failed."
+}

@@ -1,0 +1,378 @@
+{
+  "reviewed_utc": "2026-09-24T23:17:50.967440+00:00",
+  "individual_records_retained": false,
+  "tables": {
+    "sandag_annual_domestic_violence.csv": {
+      "rows": 37,
+      "columns": [
+        "year",
+        "domestic_violence"
+      ]
+    },
+    "sandag_group_a_agency_coverage.csv": {
+      "rows": 11,
+      "columns": [
+        "agency",
+        "source_rows",
+        "distinct_incidents",
+        "distinct_offense_ids",
+        "first_recorded_date",
+        "last_recorded_date"
+      ]
+    },
+    "sandag_group_a_agency_dv_flag.csv": {
+      "rows": 22,
+      "columns": [
+        "agency",
+        "domestic_violence_incident",
+        "source_rows",
+        "distinct_incidents",
+        "distinct_offense_ids"
+      ]
+    },
+    "sandag_group_a_daily_agency_dv.csv": {
+      "rows": 35825,
+      "columns": [
+        "date",
+        "agency",
+        "domestic_violence_incident",
+        "source_rows",
+        "distinct_incidents",
+        "distinct_offense_ids"
+      ],
+      "first_date": "2021-01-01",
+      "last_date": "2026-09-23",
+      "future_date_cells": 0,
+      "pre_declared_start_cells": 0,
+      "latest_date_cells": 2
+    },
+    "sandag_group_a_monthly_agency_dv.csv": {
+      "rows": 1392,
+      "columns": [
+        "month",
+        "agency",
+        "domestic_violence_incident",
+        "source_rows",
+        "distinct_incidents",
+        "distinct_offense_ids"
+      ]
+    },
+    "sandag_group_a_monthly_agency_offense.csv": {
+      "rows": 19462,
+      "columns": [
+        "month",
+        "agency",
+        "offense_code",
+        "source_rows",
+        "distinct_incidents",
+        "distinct_offense_ids"
+      ]
+    },
+    "sandag_group_a_status_counts.csv": {
+      "rows": 4,
+      "columns": [
+        "cibrs_status",
+        "source_rows"
+      ]
+    },
+    "sandag_group_b_agency_coverage.csv": {
+      "rows": 10,
+      "columns": [
+        "agency",
+        "source_rows",
+        "distinct_incidents",
+        "distinct_offense_ids",
+        "distinct_arrest_numbers",
+        "first_recorded_date",
+        "last_recorded_date"
+      ]
+    },
+    "sandag_group_b_agency_dv_flag.csv": {
+      "rows": 10,
+      "columns": [
+        "agency",
+        "source_rows",
+        "domestic_violence_incident",
+        "distinct_incidents",
+        "distinct_offense_ids",
+        "distinct_arrest_numbers"
+      ]
+    },
+    "sandag_group_b_daily_agency_dv.csv": {
+      "rows": 17941,
+      "columns": [
+        "date",
+        "agency",
+        "domestic_violence_incident",
+        "source_rows",
+        "distinct_incidents",
+        "distinct_offense_ids",
+        "distinct_arrest_numbers"
+      ],
+      "first_date": "2021-01-01",
+      "last_date": "2026-09-23",
+      "future_date_cells": 0,
+      "pre_declared_start_cells": 0,
+      "latest_date_cells": 1
+    },
+    "sandag_group_b_monthly_agency_dv.csv": {
+      "rows": 690,
+      "columns": [
+        "month",
+        "agency",
+        "domestic_violence_incident",
+        "source_rows",
+        "distinct_incidents",
+        "distinct_offense_ids",
+        "distinct_arrest_numbers"
+      ]
+    },
+    "sandag_group_b_monthly_agency_offense.csv": {
+      "rows": 3064,
+      "columns": [
+        "month",
+        "agency",
+        "offense_code",
+        "source_rows",
+        "distinct_incidents",
+        "distinct_offense_ids",
+        "distinct_arrest_numbers"
+      ]
+    },
+    "sandag_group_b_status_counts.csv": {
+      "rows": 6,
+      "columns": [
+        "cibrs_status",
+        "source_rows"
+      ]
+    },
+    "sandag_offense_dictionary.csv": {
+      "rows": 64,
+      "columns": [
+        "nibrs_code",
+        "description",
+        "category",
+        "offense_definition",
+        "crime_against_category",
+        "group",
+        "notes"
+      ]
+    },
+    "sdpd_nibrs_2020_daily.csv": {
+      "rows": 1831,
+      "columns": [
+        "date",
+        "group_type",
+        "crime_against",
+        "source_rows",
+        "distinct_nibrs_offense_ids",
+        "distinct_case_numbers"
+      ],
+      "first_date": "2020-01-01",
+      "last_date": "2020-12-31",
+      "future_date_cells": 0,
+      "pre_declared_start_cells": 0,
+      "latest_date_cells": 5,
+      "outside_file_year_cells": 0
+    },
+    "sdpd_nibrs_2020_monthly_offense.csv": {
+      "rows": 519,
+      "columns": [
+        "month",
+        "group_type",
+        "offense_code",
+        "offense_description",
+        "source_rows"
+      ]
+    },
+    "sdpd_nibrs_2021_daily.csv": {
+      "rows": 1825,
+      "columns": [
+        "date",
+        "group_type",
+        "crime_against",
+        "source_rows",
+        "distinct_nibrs_offense_ids",
+        "distinct_case_numbers"
+      ],
+      "first_date": "2021-01-01",
+      "last_date": "2021-12-31",
+      "future_date_cells": 0,
+      "pre_declared_start_cells": 0,
+      "latest_date_cells": 5,
+      "outside_file_year_cells": 0
+    },
+    "sdpd_nibrs_2021_monthly_offense.csv": {
+      "rows": 528,
+      "columns": [
+        "month",
+        "group_type",
+        "offense_code",
+        "offense_description",
+        "source_rows"
+      ]
+    },
+    "sdpd_nibrs_2022_daily.csv": {
+      "rows": 1825,
+      "columns": [
+        "date",
+        "group_type",
+        "crime_against",
+        "source_rows",
+        "distinct_nibrs_offense_ids",
+        "distinct_case_numbers"
+      ],
+      "first_date": "2022-01-01",
+      "last_date": "2022-12-31",
+      "future_date_cells": 0,
+      "pre_declared_start_cells": 0,
+      "latest_date_cells": 5,
+      "outside_file_year_cells": 0
+    },
+    "sdpd_nibrs_2022_monthly_offense.csv": {
+      "rows": 538,
+      "columns": [
+        "month",
+        "group_type",
+        "offense_code",
+        "offense_description",
+        "source_rows"
+      ]
+    },
+    "sdpd_nibrs_2023_daily.csv": {
+      "rows": 1825,
+      "columns": [
+        "date",
+        "group_type",
+        "crime_against",
+        "source_rows",
+        "distinct_nibrs_offense_ids",
+        "distinct_case_numbers"
+      ],
+      "first_date": "2023-01-01",
+      "last_date": "2023-12-31",
+      "future_date_cells": 0,
+      "pre_declared_start_cells": 0,
+      "latest_date_cells": 5,
+      "outside_file_year_cells": 0
+    },
+    "sdpd_nibrs_2023_monthly_offense.csv": {
+      "rows": 557,
+      "columns": [
+        "month",
+        "group_type",
+        "offense_code",
+        "offense_description",
+        "source_rows"
+      ]
+    },
+    "sdpd_nibrs_2024_daily.csv": {
+      "rows": 1830,
+      "columns": [
+        "date",
+        "group_type",
+        "crime_against",
+        "source_rows",
+        "distinct_nibrs_offense_ids",
+        "distinct_case_numbers"
+      ],
+      "first_date": "2024-01-01",
+      "last_date": "2024-12-31",
+      "future_date_cells": 0,
+      "pre_declared_start_cells": 0,
+      "latest_date_cells": 5,
+      "outside_file_year_cells": 0
+    },
+    "sdpd_nibrs_2024_monthly_offense.csv": {
+      "rows": 548,
+      "columns": [
+        "month",
+        "group_type",
+        "offense_code",
+        "offense_description",
+        "source_rows"
+      ]
+    },
+    "sdpd_nibrs_2025_daily.csv": {
+      "rows": 1825,
+      "columns": [
+        "date",
+        "group_type",
+        "crime_against",
+        "source_rows",
+        "distinct_nibrs_offense_ids",
+        "distinct_case_numbers"
+      ],
+      "first_date": "2025-01-01",
+      "last_date": "2025-12-31",
+      "future_date_cells": 0,
+      "pre_declared_start_cells": 0,
+      "latest_date_cells": 5,
+      "outside_file_year_cells": 0
+    },
+    "sdpd_nibrs_2025_monthly_offense.csv": {
+      "rows": 536,
+      "columns": [
+        "month",
+        "group_type",
+        "offense_code",
+        "offense_description",
+        "source_rows"
+      ]
+    },
+    "sdpd_nibrs_2026_daily.csv": {
+      "rows": 1330,
+      "columns": [
+        "date",
+        "group_type",
+        "crime_against",
+        "source_rows",
+        "distinct_nibrs_offense_ids",
+        "distinct_case_numbers"
+      ],
+      "first_date": "2026-01-01",
+      "last_date": "2026-09-23",
+      "future_date_cells": 0,
+      "pre_declared_start_cells": 0,
+      "latest_date_cells": 5,
+      "outside_file_year_cells": 0
+    },
+    "sdpd_nibrs_2026_monthly_offense.csv": {
+      "rows": 416,
+      "columns": [
+        "month",
+        "group_type",
+        "offense_code",
+        "offense_description",
+        "source_rows"
+      ]
+    },
+    "sdpd_nibrs_dictionary.csv": {
+      "rows": 31,
+      "columns": [
+        "field",
+        "field_type",
+        "description",
+        "possible_values"
+      ]
+    },
+    "sheriff_monthly_arrest_benchmarks.csv": {
+      "rows": 6,
+      "columns": [
+        "month",
+        "total_arrests",
+        "with_force",
+        "without_force",
+        "source_url",
+        "report_prepared_date",
+        "pdf_page",
+        "scope",
+        "method"
+      ]
+    }
+  },
+  "acquisition_start_utc": "2026-09-24T23:12:13.069390+00:00",
+  "acquisition_end_utc": "2026-09-24T23:13:24.962096+00:00",
+  "recent_date_policy": "Latest observed day is excluded from any continuity inference; all 2026 records are partial-year provisional snapshots, not complete counts. No heat models fitted.",
+  "scope": "Public SANDAG filtered views only; Socrata count-distinct operations occur server-side. SDPD full CSVs processed in memory and not persisted."
+}

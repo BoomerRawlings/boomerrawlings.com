@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "created_utc": "2026-09-24T23:24:11.575914+00:00",
+  "status": "verified_observational_supplement_no_outcome_refits",
+  "source_products": [
+    "NOAA NCEI GHCN-Daily",
+    "NOAA NCEI full Integrated Surface Database"
+  ],
+  "ghcn_period": [
+    "1991-01-01",
+    "2025-12-31"
+  ],
+  "isd_civil_period": [
+    "2021-01-01",
+    "2024-12-31"
+  ],
+  "timezone_for_isd": "America/Los_Angeles",
+  "ghcn_quality_rule": "Nonblank QFLAG excluded separately for each element; source/MFLAG retained.",
+  "isd_quality_rule": "Accept air-temperature flags 1,5,C and documented instantaneous report types; no missing-temperature imputation.",
+  "isd_sample_rule": "One original accepted observation per UTC clock hour, closest to minute 30; daily aggregates only when every civil-day hour is present.",
+  "baseline_rule": "1991-2020 May-September pooled p90/p95, type 7 interpolation; >=90% total days and >=25 years each >=90% coverage. Exploratory, not official climate normals or calendar-day percentiles.",
+  "day_mean_definitions": {
+    "ghcn_reported_tavg_f": "Source-reported average; none valid in primary period. No substitution.",
+    "ghcn_tmax_tmin_midpoint_f": "Explicit calculated midpoint, not observed daily mean.",
+    "isd_temp_mean_f": "Arithmetic mean of the 23/24/25 selected hourly temperatures; exact original timestamp determines civil date."
+  },
+  "assignment_rule": "Before considering outcomes: stations with >=90% primary-period valid Tmax (GHCN) or fully observed civil days (ISD); nearest horizontal station among those candidates, then <=25 km and <=200 m elevation difference. Do not select a second station if nearest fails elevation.",
+  "coverage": [
+    {
+      "network": "original_six_current_archive",
+      "candidate_stations": 6,
+      "mapped_zips": 80,
+      "paired_high_zip_days": 116418,
+      "paired_all_groups": 38502,
+      "paired_core_groups": 3906,
+      "paired_civil_zips": 46,
+      "paired_civil_zip_days": 66829
+    },
+    {
+      "network": "expanded_ghcn",
+      "candidate_stations": 25,
+      "mapped_zips": 94,
+      "paired_high_zip_days": 136243,
+      "paired_all_groups": 53981,
+      "paired_core_groups": 5945,
+      "paired_civil_zips": 54,
+      "paired_civil_zip_days": 78580
+    },
+    {
+      "network": "isd_strict_complete_civil",
+      "candidate_stations": 5,
+      "mapped_zips": 80,
+      "paired_high_zip_days": 112131,
+      "paired_all_groups": 38461,
+      "paired_core_groups": 3805,
+      "paired_civil_zips": 43,
+      "paired_civil_zip_days": 60472
+    }
+  ],
+  "comparison_limits": "ZIP-representative modeled weather versus nearby station observations, not identical site exposure. GHCN source observing-day conventions differ. ISD is exactly civil-day allocated but hourly sampled, not continuous extrema. Pooled metrics repeat stations across ZIPs and are descriptive, not independent validation observations.",
+  "baseline_eligible_stations": 6,
+  "raw_files": 92,
+  "raw_total_bytes": 118533659,
+  "public_reproduction": "Curated data and reproduction_inputs reproduce paired metrics offline. Full raw replay requires original NOAA byte-identical archives, omitted from the compact public package. Downloads fail on hash changes.",
+  "source_links": {
+    "GHCN_dataset": "https://doi.org/10.7289/V5D21VHZ",
+    "GHCN_format": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/readme.txt",
+    "GHCN_inventory": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-inventory.txt",
+    "ISD_dataset": "https://www.ncei.noaa.gov/products/land-based-station/integrated-surface-database",
+    "ISD_format": "https://www.ncei.noaa.gov/pub/data/noaa/isd-format-document.pdf",
+    "ISD_station_history": "https://www.ncei.noaa.gov/pub/data/noaa/isd-history.csv",
+    "ISD_Lite_limitations": "https://www.ncei.noaa.gov/pub/data/noaa/isd-lite/isd-lite-technical-document.pdf",
+    "ERA5_Land_indirect_observational_influence": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=overview"
+  }
+}

@@ -1,0 +1,14 @@
+network,scope,modeled,observed,matched_zip_days,mean_modeled_minus_observed_f,mean_absolute_difference_f,rmse_f,correlation
+original_six_current_archive,all_matched_zip_days,legacy_high_f,temp_high_f,116418,-1.6272021508701404,3.8359183287807728,4.864969077510698,0.8755141138628674
+original_six_current_archive,all_matched_zip_days,legacy_low_f,temp_low_f,116390,-0.8729358192284561,2.7764045021049917,3.596167662602496,0.9215872820210423
+original_six_current_archive,all_matched_zip_days,civil_high_f,temp_high_f,66829,-1.4246057849137352,4.029324694369211,5.097052270831777,0.8752006336790672
+original_six_current_archive,all_matched_zip_days,civil_low_f,temp_low_f,66806,-0.5881085531239709,2.8093545489926055,3.6652926633566607,0.9199178298459781
+expanded_ghcn,all_matched_zip_days,legacy_high_f,temp_high_f,136243,-2.2454458577688396,3.7323168162767995,4.624849977322797,0.9156798015101193
+expanded_ghcn,all_matched_zip_days,legacy_low_f,temp_low_f,136180,0.4847319723894844,2.9418017330004407,4.048987288008206,0.9059048738108039
+expanded_ghcn,all_matched_zip_days,civil_high_f,temp_high_f,78580,-2.4195978620514125,3.914555866632731,4.803601822680323,0.9176578655595493
+expanded_ghcn,all_matched_zip_days,civil_low_f,temp_low_f,78586,0.7886679561245005,3.2068406586414886,4.34917752809604,0.896906361579388
+isd_strict_complete_civil,all_matched_zip_days,legacy_high_f,temp_high_f,112131,-0.20895060242038346,3.217460648705532,4.236175339963084,0.8774636400793935
+isd_strict_complete_civil,all_matched_zip_days,legacy_low_f,temp_low_f,112131,-0.9300300541331122,2.4712955382543633,3.1211812481953802,0.9340039940208795
+isd_strict_complete_civil,all_matched_zip_days,civil_high_f,temp_high_f,60472,0.4851696652996426,3.5710163381399656,4.730110128138179,0.8555147637334267
+isd_strict_complete_civil,all_matched_zip_days,civil_low_f,temp_low_f,60472,-0.9365544384177805,2.5920697182166954,3.265958096181987,0.929159534673322
+isd_strict_complete_civil,all_matched_zip_days,civil_mean_f,temp_mean_f,60472,-0.22354271868919576,2.1828320197489743,2.867422393685856,0.9377752948338819

@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "clean_extracted_public_package": true,
+  "fresh_upstream_downloads": 5,
+  "aggregate_hashes_reproduced": 10,
+  "private_inputs_required": false,
+  "script_absolute_paths_required": false
+}

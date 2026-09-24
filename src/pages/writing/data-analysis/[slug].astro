@@ -4,6 +4,7 @@ import { readFileSync, statSync } from 'node:fs';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import AnalysisExplorer from '../../../components/AnalysisExplorer.astro';
 import AnalysisRevisionResults from '../../../components/AnalysisRevisionResults.astro';
+import AnalysisExternalSources from '../../../components/AnalysisExternalSources.astro';
 import 'katex/dist/katex.min.css';
 import '../../../styles/data-analysis.css';
 export async function getStaticPaths() {
@@ -40,7 +41,7 @@ const dailyMB = (['daily.json','category_daily.json'].reduce((sum,name)=>sum+sta
       <div class="analysis-estimate"><strong>{signed(reference.percent_change)}<span>%</span></strong><p>per 10°F higher daily maximum</p><p class="analysis-ci">95% CI {signed((reference.ci95_low-1)*100)}% to {signed((reference.ci95_high-1)*100)}%</p><small>{fmt(reference.event_count)} eligible record groups · {reference.zips} fitted ZIP areas</small></div>
     </section>
     <aside class="analysis-notice" aria-label="Revision scope"><strong>Revision scope.</strong> Corrected weather is available for 64 of 112 ZIPs following the provider’s download quota. These contain 98.5% of the original general-record sample and 98.0% of the DV sample; availability is not random. Full original results and same-sample comparisons remain below. The main analyses exclude incomplete 2025 records; no 2026 data were supplied.</aside>
-    <nav class="analysis-section-nav" aria-label="Study sections"><a href="#revision-estimates">Adjusted estimates</a><a href="#explorer">Record explorer</a><a href="#weather-explorer">Daily temperature</a><a href="#methods">Methods</a><a href="#downloads">Data &amp; sources</a></nav>
+    <nav class="analysis-section-nav" aria-label="Study sections"><a href="#revision-estimates">Adjusted estimates</a><a href="#explorer">Record explorer</a><a href="#weather-explorer">Daily temperature</a><a href="#methods">Methods</a><a href="#external-validation">Independent sources</a><a href="#downloads">Data &amp; sources</a></nav>
     <AnalysisRevisionResults revision={revision} originalGeneral={general} originalDv={summary} base={base} />
     <aside class="analysis-details"><h3>Category study: domestic violence</h3><p>The corrected core-DV reference estimates {signed(dv.percent_change)}% per 10°F (95% CI {signed((dv.ci95_low-1)*100)}% to {signed((dv.ci95_high-1)*100)}%; <i>p</i> = {dv.two_sided_p.toFixed(5)}), from {fmt(dv.event_count)} eligible groups and {dv.zips} fitted ZIPs. The report includes all DV sensitivity results, original comparisons, source limitations, and agency questions. Other explorer categories remain descriptive.</p><a href={`${base}/downloads/domestic-violence-and-heat-report.pdf`} download>Download the revised domestic violence report · PDF</a></aside>
     <AnalysisExplorer base={base} weatherBase={revised} weatherZipCount={revision.panel_metadata.zips} dailyMB={dailyMB} annual={annual} categories={categories} />
@@ -48,8 +49,9 @@ const dailyMB = (['daily.json','category_daily.json'].reduce((sum,name)=>sum+sta
       <div class="analysis-section-title"><span>04</span><div><h2 id="methods-heading">Methods and interpretation</h2><p>Record definitions, exposure assignment, model specification, and limits.</p></div></div>
       <article class="analysis-prose"><Content /></article>
     </section>
+    <AnalysisExternalSources base={base} />
     <section id="downloads" class="analysis-section" aria-labelledby="downloads-heading">
-      <div class="analysis-section-title"><span>05</span><div><h2 id="downloads-heading">Data and sources</h2><p>Aggregate data, reproducible calculations, source documentation, and unresolved questions.</p></div></div>
+      <div class="analysis-section-title"><span>06</span><div><h2 id="downloads-heading">Data and sources</h2><p>Aggregate data, reproducible calculations, source documentation, and unresolved questions.</p></div></div>
       <div class="analysis-downloads">
         <a href={`${revised}/revision-analysis-and-audit.zip`} download><strong>Revised analysis and audit</strong><span>ZIP · All 22 fits, 24 tests, aggregate inputs, code and verification</span></a>
         <a href={`${base}/downloads/domestic-violence-and-heat-report.pdf`} download><strong>Revised domestic violence report</strong><span>PDF · Standalone category study, methods, tables and references</span></a>

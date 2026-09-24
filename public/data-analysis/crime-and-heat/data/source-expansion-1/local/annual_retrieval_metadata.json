@@ -1,0 +1,28 @@
+[
+  {
+    "url": "https://opendata.sandag.org/api/views/qbrv-e75t.json",
+    "final_url": "https://opendata.sandag.org/api/views/qbrv-e75t.json",
+    "retrieved_utc": "2026-09-24T23:12:55.970738+00:00",
+    "bytes": 7572,
+    "sha256": "97e7492e7bf984fe9596f5dc18705306c696f3f474320ea21bb78aa199b1d71c",
+    "last_modified": null,
+    "etag": null
+  },
+  {
+    "url": "https://opendata.sandag.org/resource/qbrv-e75t.json?%24select=year%2Cdomestic_violence&%24limit=50000&%24order=year&%24offset=0",
+    "final_url": "https://opendata.sandag.org/resource/qbrv-e75t.json?%24select=year%2Cdomestic_violence&%24limit=50000&%24order=year&%24offset=0",
+    "retrieved_utc": "2026-09-24T23:13:00.113085+00:00",
+    "bytes": 1666,
+    "sha256": "ffbe126bbd5abfb8ebbbdd0647557ff3ba8720add7919f2b64283d9a2f44e39e",
+    "last_modified": "Tue, 22 Aug 2023 16:03:13 GMT",
+    "etag": "W/\"anVsaWV0dC42MzE1XzFfN1hZY3pZTldQV3BwaFBNUFVtZmlKRWoyOHB2UQ---gziuMQJjQB-CvrihJ6hRvBHMZijE2u--gzip--gzip\"",
+    "dataset": "qbrv-e75t",
+    "output": "sandag_annual_domestic_violence.csv",
+    "query": {
+      "$select": "year,domestic_violence",
+      "$limit": 50000,
+      "$order": "year",
+      "$offset": 0
+    }
+  }
+]

@@ -1,0 +1,4 @@
+network,candidate_stations,mapped_zips,paired_high_zip_days,paired_all_groups,paired_core_groups,paired_civil_zips,paired_civil_zip_days
+original_six_current_archive,6,80,116418,38502,3906,46,66829
+expanded_ghcn,25,94,136243,53981,5945,54,78580
+isd_strict_complete_civil,5,80,112131,38461,3805,43,60472

@@ -1,0 +1,9 @@
+﻿year,doj_county_arrests_citations,doj_county_dv_calls,doj_sheriff_named_entity_dv_calls,doj_vista_named_entity_dv_calls,doj_san_marcos_named_entity_dv_calls,supplied_export_all_source_ids,supplied_export_core_dv_source_ids,supplied_export_broad_dv_source_ids,comparison_scope,doj_known_sheriff_reporting_issue
+2018,84693,17511,2503,632,370,12092,988,1215,Different units and populations; no equality or completeness percentage; supplied 2018 starts July; 2025 incomplete,
+2019,85251,17436,2522,639,316,24760,1947,2331,Different units and populations; no equality or completeness percentage; supplied 2018 starts July; 2025 incomplete,
+2020,69453,17683,2487,601,344,18589,1838,2254,Different units and populations; no equality or completeness percentage; supplied 2018 starts July; 2025 incomplete,
+2021,33363,18366,2517,597,344,19018,1875,2351,Different units and populations; no equality or completeness percentage; supplied 2018 starts July; 2025 incomplete,
+2022,55321,17501,2397,606,313,18317,1674,2104,Different units and populations; no equality or completeness percentage; supplied 2018 starts July; 2025 incomplete,
+2023,60268,16666,2158,519,310,18096,1682,2019,Different units and populations; no equality or completeness percentage; supplied 2018 starts July; 2025 incomplete,
+2024,59461,15682,1717,391,269,17121,1574,1856,Different units and populations; no equality or completeness percentage; supplied 2018 starts July; 2025 incomplete,Nov-Dec partial
+2025,57114,14979,1078,268,192,8283,900,1029,Different units and populations; no equality or completeness percentage; supplied 2018 starts July; 2025 incomplete,Jan-Jun partial

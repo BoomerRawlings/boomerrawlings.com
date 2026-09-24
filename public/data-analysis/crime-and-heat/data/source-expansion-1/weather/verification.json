@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "ghcn_rows": 296825,
+  "ghcn_stations": 29,
+  "baseline_eligible_stations": 6,
+  "isd_hourly_rows": 379574,
+  "isd_daily_rows": 17532,
+  "isd_stations": 12,
+  "complete_isd_station_days": 13235,
+  "raw_replay": true,
+  "raw_files_hashed": 92,
+  "raw_bytes_hashed": 118533659,
+  "ghcn_raw_value_cells_checked": 900390,
+  "isd_selected_observations_found_in_raw": 379574,
+  "dst_day_lengths": {
+    "24.0": 1453,
+    "23.0": 4,
+    "25.0": 4
+  },
+  "checks": "Unique keys; flags; daily source units and missingness; exact original ISD timestamps/values; independent pandas IANA day allocation and means/extrema; missing-hour exclusion; 23/25-hour days; independent baseline quantiles."
+}

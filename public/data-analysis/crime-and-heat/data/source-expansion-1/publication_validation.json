@@ -1,0 +1,508 @@
+{
+  "status": "PASS",
+  "version": "source-expansion-1",
+  "preserved_prior_artifacts": 166,
+  "prior_model_results_changed": false,
+  "new_effect_models": 0,
+  "source_files_curated": 123,
+  "csv_schemas_checked": 65,
+  "microrecord_identifiers_in_csv": false,
+  "source_manifests_verified": true,
+  "independent_aggregate_and_hourly_checks": "PASS",
+  "doj_clean_portable_reproduction": "PASS",
+  "pdf_pages": 4,
+  "artifact_hashes": {
+    "REPRODUCTION.md": {
+      "bytes": 2587,
+      "sha256": "c3b7e796394ce56d5b93ea2dea2a8caf6765e74f1feeab45a1c2b04f8c18ca15"
+    },
+    "RESEARCH_CONTEXT.md": {
+      "bytes": 5390,
+      "sha256": "802467310af5be5194f8c42c78e671d58b7d24061771642b6f3f6923e6f37667"
+    },
+    "SOURCE_EXPANSION.md": {
+      "bytes": 7979,
+      "sha256": "ebaf415a65a25d8e04aaf7b3920b7c3c49e513f62ced7b7cedd1d35326128295"
+    },
+    "audit_sources.py": {
+      "bytes": 5982,
+      "sha256": "374d9d2ae64a7a291dae45151e42be239cf0da830a64093cdc983d126e20da43"
+    },
+    "build_supplement.py": {
+      "bytes": 22831,
+      "sha256": "584376c9ee983039919fb332ef6add2c81e79b310e5f107f6359293fead7d5a0"
+    },
+    "context/GEOGRAPHIC_CONTEXT.md": {
+      "bytes": 2095,
+      "sha256": "4bd4e8319bd77ab1109e3f74146aa903b0204be529820bbbe4d8b8b4f897d1b9"
+    },
+    "context/acquire_context.py": {
+      "bytes": 3334,
+      "sha256": "988b6a008ac294489cb7810b96720b3ebd4ca3c9bfc4c93ecc334d9e3db5cbd0"
+    },
+    "context/contract_city_population_2020.csv": {
+      "bytes": 461,
+      "sha256": "18fbe547b270fd460e76c4f4b47b13ed5a4c71dc62a33d2a56790908021bb01b"
+    },
+    "context/source_metadata.json": {
+      "bytes": 333,
+      "sha256": "6e5e4951e3f9f66c4208c3872d5604cd294fb67cf65e60b79ec92d1d60198df3"
+    },
+    "context/validation.json": {
+      "bytes": 154,
+      "sha256": "8e3f8095b89c5a91ba29cc3e5c9dc50c7ce24e2da8d24af5194a2b6e2f8e022a"
+    },
+    "doj/DATA_DICTIONARY.md": {
+      "bytes": 6783,
+      "sha256": "1405b2b4a9daf18f20383255964a5fe273038ea61cf7e7e563f1b6efd0c61555"
+    },
+    "doj/DOJ_BENCHMARKS.md": {
+      "bytes": 11757,
+      "sha256": "4ad8d9b4a83004572cc1dc7ab14b19ac78877bd2c5ba791083d3ad04e5033588"
+    },
+    "doj/acquire_doj.py": {
+      "bytes": 1811,
+      "sha256": "a0911445bb814d60b6d416f51e4eb952dfe9fe9d35482fe29abb7e7c2feb28e1"
+    },
+    "doj/acquisition_verification.json": {
+      "bytes": 1269,
+      "sha256": "e569f3c5522b20a958c6472faa887ed0db1ed642baeb690f890b665ef6d3b65d"
+    },
+    "doj/aggregates/annual_context_comparison_2018_2025.csv": {
+      "bytes": 1653,
+      "sha256": "ef39e46d7c38b16bc092eba3644c115a57f7a2162ca83343636a27323c2e8797"
+    },
+    "doj/aggregates/california_control_totals_2001_2025.csv": {
+      "bytes": 567,
+      "sha256": "754e12412687c4b262517d773c7c5c42417522e67d4f4f4bdfb115d92663a79e"
+    },
+    "doj/aggregates/monthly_context_comparison_2018_2025.csv": {
+      "bytes": 18844,
+      "sha256": "b23eb5265129ed3e138bdd0ba8ef6364c34106de7a7cdda091cfeffb09e63be9"
+    },
+    "doj/aggregates/san_diego_arrests_county_year_age_1980_2025.csv": {
+      "bytes": 31116,
+      "sha256": "2de0d75b8dc040ff63c406e93e39535d1325286df0214509ef101ebcbd080b52"
+    },
+    "doj/aggregates/san_diego_dv_calls_agency_month_2001_2025.csv": {
+      "bytes": 1837526,
+      "sha256": "849e5d879d8e21222e004c446c36e20cab8a2e061c9086320ecc9533e53ed38b"
+    },
+    "doj/aggregates/san_diego_dv_calls_agency_year_2001_2025.csv": {
+      "bytes": 123414,
+      "sha256": "aa76a10ce814f98a91f4bb611140ad0e8873e933138ecb6cf3107bb4fad7e5de"
+    },
+    "doj/aggregates/san_diego_dv_calls_county_month_2001_2025.csv": {
+      "bytes": 20505,
+      "sha256": "73383368a25781b1cebd4f416664c83579d4d8c5df83a66d81f9776af481f295"
+    },
+    "doj/aggregates/san_diego_dv_calls_county_year_2001_2025.csv": {
+      "bytes": 3483,
+      "sha256": "c152d7e0aa540a628873b97f5455e92829953af946b5a3176b3cf9ac6d6b8879"
+    },
+    "doj/aggregates/san_diego_jurisdiction_listing.csv": {
+      "bytes": 1884,
+      "sha256": "6d2164c5bcb1493de3cffb30d438b0dea0e073f5c9f673f2b2f53f9577f9a426"
+    },
+    "doj/aggregates/statewide_dv_weapon_total_anomalies.csv": {
+      "bytes": 13324,
+      "sha256": "2098b52a50031d4dfd9d461d93d18bbf6603a1901f0a3919b94f35db92410ae6"
+    },
+    "doj/benchmark_summary.json": {
+      "bytes": 10372,
+      "sha256": "c061082269ade3f2e5b46adee9c905ba81fbea145c5490af94d07c2dfac73ebe"
+    },
+    "doj/build_package.py": {
+      "bytes": 5942,
+      "sha256": "e30e534f9ae8c0d3392c71bd169e21de4e809558b8789db7e6ae8548b41a1415"
+    },
+    "doj/comparison_inputs/by_month.csv": {
+      "bytes": 4561,
+      "sha256": "b9b5d92dfdafba6482b3a6b4ff6bab3325c0a74ddd357e7b423ba7e66aec2932"
+    },
+    "doj/comparison_inputs/by_year.csv": {
+      "bytes": 582,
+      "sha256": "bad24fcca6b7ca6d9b06f016908c5bb7e188da237145ad74572618ad98389cac"
+    },
+    "doj/normalization_verification.json": {
+      "bytes": 2164,
+      "sha256": "00d969ab8ddf1040e6d41476b3afe16e52c7aaa298ab78273daac8b8e0e56e1a"
+    },
+    "doj/normalize_doj.py": {
+      "bytes": 10587,
+      "sha256": "e51c27e4ab9cd2e8d40d9dae143bb970f1f5d003f0e0383857b9892bf6496c59"
+    },
+    "doj/portable_reproduction_verification.json": {
+      "bytes": 220,
+      "sha256": "3aa0d9466bf21cdad0dd74faf2d97f21fbeb6ca4e347d6d56026cf3aed43718a"
+    },
+    "doj/public_package_manifest.json": {
+      "bytes": 3904,
+      "sha256": "9b93f7b97b4d042a8bc62820f59eed8f3bf31639cf3cb91f991657693ea705b7"
+    },
+    "doj/source_metadata.json": {
+      "bytes": 3537,
+      "sha256": "7d85990bba035032453fe0c0d649e9458a3717af953408ebf8e7b2aa7063b13a"
+    },
+    "independent_validation.json": {
+      "bytes": 1870,
+      "sha256": "feced694fb71309376d787e5613551527bb661627eebafcbe311fcca10b5bea4"
+    },
+    "local/README.md": {
+      "bytes": 9231,
+      "sha256": "110fc056f508965e9af6c37288703909c74d5cea5f2981aa996f863c92289b63"
+    },
+    "local/acquire_local.py": {
+      "bytes": 8920,
+      "sha256": "1447a06f3abe52ed944c647f21468041072faf693eb7e93225a6cf9cb89b9bb5"
+    },
+    "local/acquisition.log": {
+      "bytes": 355,
+      "sha256": "1baa65aef35fc6655528c27528126d28191dfc498137dbb355ce8cc97fee83a2"
+    },
+    "local/annual_and_sheriff_retrieval_metadata.json": {
+      "bytes": 1227,
+      "sha256": "bf6afbb68e107a559b6a3d61cded6e7589a05fbd3adf57073a0031dadaee342a"
+    },
+    "local/annual_retrieval_metadata.json": {
+      "bytes": 1227,
+      "sha256": "bf6afbb68e107a559b6a3d61cded6e7589a05fbd3adf57073a0031dadaee342a"
+    },
+    "local/data_dictionary.md": {
+      "bytes": 3188,
+      "sha256": "57ef1cd887a805a8dfb343f881e2139413e5a309ea70447929791ff19c00e40b"
+    },
+    "local/finalize_local.py": {
+      "bytes": 3727,
+      "sha256": "3f52a50169f1ee3238c53940dc4a946015277dee89592d2f6b19cf1365d83d57"
+    },
+    "local/huzf-mi2z_metadata.json": {
+      "bytes": 4360,
+      "sha256": "c3256bb2135e4758cbe3a00a9b237a1f734bcb1d547131c50fca83d2058bd53e"
+    },
+    "local/knre-fqwi_metadata.json": {
+      "bytes": 2293,
+      "sha256": "a48ac8dedcd6db091d2dadd589a3df48d29c509753525cf7d3c6dbfc92bbcb63"
+    },
+    "local/manifest.json": {
+      "bytes": 7162,
+      "sha256": "8fef5799b9e46298c60490563d3e2dd80d9271608497a844f917e43cd7be29fe"
+    },
+    "local/pr74-d3tr_metadata.json": {
+      "bytes": 5371,
+      "sha256": "061fe45da037058aea44f42ee55a75d56ae9d8ed8ec834949d6071a6f4a3ce5d"
+    },
+    "local/qbrv-e75t_metadata.json": {
+      "bytes": 2114,
+      "sha256": "1302d2e71b4bf8c447764fc53cb36669097f1b1281be87d7d319b57ce75f51f8"
+    },
+    "local/reconciliation.json": {
+      "bytes": 8797,
+      "sha256": "616e26402a48c6e5ef73d825d768ae30bb95bf141c7322231657e3f561b194b0"
+    },
+    "local/retrieval_metadata.json": {
+      "bytes": 26854,
+      "sha256": "37443c1d99a229d7dd4b80a28db3bf67114fcf41e7bbf75bbab16115890d41d1"
+    },
+    "local/sandag_annual_domestic_violence.csv": {
+      "bytes": 468,
+      "sha256": "8c890151fac3dd7b304e6b1cb67322e767e244e9ef86f73fa9f6b244098d3a40"
+    },
+    "local/sandag_group_a_agency_coverage.csv": {
+      "bytes": 683,
+      "sha256": "e04291c2c2bf3d691b019430c73527d0a5eda191c3af9e6996b63a2e0921c3d1"
+    },
+    "local/sandag_group_a_agency_dv_flag.csv": {
+      "bytes": 859,
+      "sha256": "d3d34061be71afeabac8afac2ee78d7060e570f7bcaae3d8db03c132638b37d3"
+    },
+    "local/sandag_group_a_daily_agency_dv.csv": {
+      "bytes": 1269839,
+      "sha256": "a76aae35e793cb27aeea41f2afdf1b1a40eab24e799fa53fc59837729c3ca9c0"
+    },
+    "local/sandag_group_a_monthly_agency_dv.csv": {
+      "bytes": 50258,
+      "sha256": "56f6a060530eb1fd06dc20d3fc56ecf75c202623a0c06bd28db77ffed588bed3"
+    },
+    "local/sandag_group_a_monthly_agency_offense.csv": {
+      "bytes": 605125,
+      "sha256": "1116641646dddb745d08a04a15ee55dfadd7bcbde1a205d1163c5990d1893712"
+    },
+    "local/sandag_group_a_status_counts.csv": {
+      "bytes": 123,
+      "sha256": "060b70ed45c75f021467ae4aee65219ccc1cf565e17ddfd8c827d5df1e02baf1"
+    },
+    "local/sandag_group_b_agency_coverage.csv": {
+      "bytes": 665,
+      "sha256": "cebef2fa0d9f47e117b5540d3499875e2b4b1024256782694f8e89a42fea1aab"
+    },
+    "local/sandag_group_b_agency_dv_flag.csv": {
+      "bytes": 443,
+      "sha256": "02d270913a7297bc3b0f53ee29aa32178482b83cbebaa14da307e2bec51b8b60"
+    },
+    "local/sandag_group_b_daily_agency_dv.csv": {
+      "bytes": 575178,
+      "sha256": "8fd335e1d506c59c23a1b4b1f91c9ab9759c5e475f2079d8411dc5cd4a8e9e15"
+    },
+    "local/sandag_group_b_monthly_agency_dv.csv": {
+      "bytes": 23467,
+      "sha256": "73ffd655b4e9376605e8789604b17a4bd91e1d89a4bb8f586d6e37517523e9bf"
+    },
+    "local/sandag_group_b_monthly_agency_offense.csv": {
+      "bytes": 104553,
+      "sha256": "889748d7d052622bf33a7617a6fc8487cfbfbcf593284426e81243009011c136"
+    },
+    "local/sandag_group_b_status_counts.csv": {
+      "bytes": 175,
+      "sha256": "7fa38cdc46bdfe29f4101901d4783aaa0efc2e3a2126a69d7f8f8d0d63ae1382"
+    },
+    "local/sandag_offense_dictionary.csv": {
+      "bytes": 36875,
+      "sha256": "3bf00e9881da1de1d43e99c63022f05b2f8c9d5512acf13e1b7e5b61cbe8b0b9"
+    },
+    "local/sdpd_nibrs_2020_daily.csv": {
+      "bytes": 47359,
+      "sha256": "277b5573b81f3aa317484fdcec75e6c5f16b3c16623ea6c791a773a39ae930b7"
+    },
+    "local/sdpd_nibrs_2020_monthly_offense.csv": {
+      "bytes": 20916,
+      "sha256": "1c39d120d8ce8f754ef93d87c8097a429096857bc440bfd76fc8ca649e71b7e7"
+    },
+    "local/sdpd_nibrs_2021_daily.csv": {
+      "bytes": 47293,
+      "sha256": "a13b4a3e80f461401fab582e1384ef86bde4ad88f86b3cc02866537f21df8747"
+    },
+    "local/sdpd_nibrs_2021_monthly_offense.csv": {
+      "bytes": 21205,
+      "sha256": "cbc2178fff473f160c64a6de1c303add658bb4d95eef29ed231639ace1df5a64"
+    },
+    "local/sdpd_nibrs_2022_daily.csv": {
+      "bytes": 46959,
+      "sha256": "7bb46e8bc3fe42f06f11a149967efbb27a9299a20ff789372b7f29c532fdf14f"
+    },
+    "local/sdpd_nibrs_2022_monthly_offense.csv": {
+      "bytes": 21638,
+      "sha256": "990e85de8f0e0d764c4f674bad067f3462340aed4c10a1588d5140b2cdf57a84"
+    },
+    "local/sdpd_nibrs_2023_daily.csv": {
+      "bytes": 47000,
+      "sha256": "18f825a99df50e20c2aaea0d84b8588815f41372c6cc13004cdb65ace213eda1"
+    },
+    "local/sdpd_nibrs_2023_monthly_offense.csv": {
+      "bytes": 22305,
+      "sha256": "67c26a1633a9ecfaeb9941ccd66a29bba0348ab6386b859857b7c603a8a8523e"
+    },
+    "local/sdpd_nibrs_2024_daily.csv": {
+      "bytes": 47013,
+      "sha256": "9e9d8ef09dc99a487e393253188f575745b5644ceb5639fba7db673f1d48fe49"
+    },
+    "local/sdpd_nibrs_2024_monthly_offense.csv": {
+      "bytes": 22060,
+      "sha256": "7c9b437b8f976f412c58c1b36201a0191a8e0d831c6cd325261e8717a8711cbe"
+    },
+    "local/sdpd_nibrs_2025_daily.csv": {
+      "bytes": 46714,
+      "sha256": "c43b4eb3c72abea52af98bbdb96a3b156e976c9b132b6587daec718e7f0db45f"
+    },
+    "local/sdpd_nibrs_2025_monthly_offense.csv": {
+      "bytes": 21701,
+      "sha256": "9ec0b2578da5c1e856e29c38018995443667c47100edc6bc39b8fddbfbb4931a"
+    },
+    "local/sdpd_nibrs_2026_daily.csv": {
+      "bytes": 34018,
+      "sha256": "db55cb3d3d163d0f0e0c0e9da9a28dfd33220a22de6d09548e34219676181194"
+    },
+    "local/sdpd_nibrs_2026_monthly_offense.csv": {
+      "bytes": 16921,
+      "sha256": "5ffbd55c66bf4a5b45fc36af8a6c637b49ee705936244b6c6f86fc2c71fba9b1"
+    },
+    "local/sdpd_nibrs_dictionary.csv": {
+      "bytes": 6515,
+      "sha256": "69d217d9b8d52f97ff82645720f695ce18f91b5e860eacf22d130f585bcccc55"
+    },
+    "local/sheriff_access_notes.json": {
+      "bytes": 695,
+      "sha256": "4e30eac696d05bd8e1bccc24e62154ea1e23c2fdd5364c280f81c7005490b177"
+    },
+    "local/sheriff_monthly_arrest_benchmarks.csv": {
+      "bytes": 2042,
+      "sha256": "49e73c3883229105c58e2f4d8fa387d2b413868be7242b292ba572e20e7c5ee8"
+    },
+    "local/snapshot_audit.json": {
+      "bytes": 9728,
+      "sha256": "c4c5b38e5a969d850f2573789ba85f95b68a596dee1ebf9532b4f4053f36d5e1"
+    },
+    "requirements.txt": {
+      "bytes": 39,
+      "sha256": "1427e4be3cdc9e8c99cd5d9f2510fad9b281ce1da32e4bf94df7628f0498caea"
+    },
+    "source-validation-supplement.pdf": {
+      "bytes": 54620,
+      "sha256": "21fbb6f5b67b2165808b7e7dd89636e6d06c26e13898780e99ea6ad2a58556d6"
+    },
+    "source_inventory.json": {
+      "bytes": 3027,
+      "sha256": "6607fc9aac36f4ed7b1e4011cff0441e48b9837f4b473f91a59158c4a05297f2"
+    },
+    "weather/DATA_DICTIONARY.md": {
+      "bytes": 4566,
+      "sha256": "fa4335df31d8708d5b5af8423f77acf71f8d2a0ced3c0f18a38e05868d5d0dbe"
+    },
+    "weather/README.md": {
+      "bytes": 10119,
+      "sha256": "63aff157051ab9dd27bd7b4406e02e516bd6ea9ceacfecabbbc14f8ec5f7feb9"
+    },
+    "weather/artifact_manifest.json": {
+      "bytes": 5618,
+      "sha256": "cd4f13afb1f6f09c9b95feb6c04a10b136abe08a756db56a90d02c93cdbcccf7"
+    },
+    "weather/compare_noaa.py": {
+      "bytes": 14043,
+      "sha256": "10ee43efc531e1ea3ebc5f06a7e356b3537f73037e321a35a9678809348c3748"
+    },
+    "weather/comparison_summary.json": {
+      "bytes": 7982,
+      "sha256": "209bc9452f400f436973445dd6c7f217f80a5d872eddebc4f82657dec31270af"
+    },
+    "weather/dataset_provenance.json": {
+      "bytes": 4091,
+      "sha256": "4545d636008b3fe34af02cf6420260eac2dba49aa761e38716c29ecda0890507"
+    },
+    "weather/expand_noaa.py": {
+      "bytes": 14672,
+      "sha256": "5ec2bb33c9cdbf84da460953320e8ee4b7553035c42bff617e2c3302e73d9147"
+    },
+    "weather/finalize_manifest.py": {
+      "bytes": 3755,
+      "sha256": "ba1a494c1515b07a1dfdf338c8777a6bfb49e6f97e6e31d5c445a3529295114c"
+    },
+    "weather/ghcn_baseline_thresholds_1991_2020.csv": {
+      "bytes": 6667,
+      "sha256": "16aece852c26a2b39be4f19d5bc863b5b152aed42233d7232cecb35652abc51c"
+    },
+    "weather/ghcn_daily_1991_2025.csv.gz": {
+      "bytes": 2350992,
+      "sha256": "d713eef4126555086daddb684e2acef48121b56c038d70fdcc0dce1777a0a8c3"
+    },
+    "weather/ghcn_daily_2018_2025.csv": {
+      "bytes": 5489347,
+      "sha256": "2561355db587d951c96ed315aca1fa074f3bc676cb9d49bdd799507c0a4c0f64"
+    },
+    "weather/ghcn_heat_exceedance_2021_2024.csv": {
+      "bytes": 451698,
+      "sha256": "829aa9d23cea0aa61603a5a5f8541746d74bf2fc6cab5b49b483842c89bb5199"
+    },
+    "weather/ghcn_inventory_region.json": {
+      "bytes": 65965,
+      "sha256": "6361b36eb82677e76919395853b28c8b0f0582e61f99536c37c68734c44d2454"
+    },
+    "weather/ghcn_quality_summary.json": {
+      "bytes": 438,
+      "sha256": "b55be44ee5f9aaadee38b62c3010f46ddee1cee55cfec60707e59bc85b651ddc"
+    },
+    "weather/ghcn_selected_stations.json": {
+      "bytes": 9859,
+      "sha256": "7692e09abc0c76e0872ee1ee15c8c8f99a257b480a7c904c32833b3aeaa517e2"
+    },
+    "weather/ghcn_station_coverage.csv": {
+      "bytes": 4760,
+      "sha256": "61333c2f8e4f6a2c8d1b26726515e1a2a2ab38949aa508041892dbb6bf4db65b"
+    },
+    "weather/ghcn_vs_isd_same_station.csv": {
+      "bytes": 4330,
+      "sha256": "a90953ac5a3d70255c42770acb0308152a705ec9834a822ad2b56b2592f556fb"
+    },
+    "weather/ghcn_zip_paired_metrics.csv": {
+      "bytes": 23874,
+      "sha256": "a74d616eeea82baecb9dd9c3985bcaa5c0e22841a04873876f7558961760fe9b"
+    },
+    "weather/ghcn_zip_pairs_2021_2024.csv.gz": {
+      "bytes": 2249477,
+      "sha256": "96b04a93f3ef8d053c4a385d1aab6ce50dfa1bb1ad8da52d03f892f4d88f0d79"
+    },
+    "weather/ghcn_zip_station_assignment.csv": {
+      "bytes": 20759,
+      "sha256": "eb505713ef09e8f5e48651a203736edc353e37f40181e75655fda07f075e5231"
+    },
+    "weather/isd_civil_daily_2021_2024.csv": {
+      "bytes": 2479377,
+      "sha256": "05b96277bd2fcc7a92f89e2afb7629208a900f54ec5b594e4472fc946f1c8683"
+    },
+    "weather/isd_inventory_region.json": {
+      "bytes": 4826,
+      "sha256": "cfd1202e0f1e38f9f9d8b0e4d1c65260dee9e4c309bfb4ba88e8a386b4c131e1"
+    },
+    "weather/isd_pilot.json": {
+      "bytes": 1401,
+      "sha256": "df53df678414239f7ef15dd8d8dd179884c74722e05119d7698a91261f687c3d"
+    },
+    "weather/isd_quality_summary.csv": {
+      "bytes": 724,
+      "sha256": "54c6fa096232ace44885052207705f4fc256dcdb33a8e7c2122113617997fdf2"
+    },
+    "weather/isd_selected_hourly_2021_2024.csv.gz": {
+      "bytes": 4182778,
+      "sha256": "73d469c56e5260739df15223e57957b87ecc9819e685125348fd85e7fdc53135"
+    },
+    "weather/isd_selected_stations.json": {
+      "bytes": 3468,
+      "sha256": "30969216d5390abf84edb860529c674b72984f7f11e776d95559f2e806e8127e"
+    },
+    "weather/isd_station_coverage.csv": {
+      "bytes": 1250,
+      "sha256": "603bf9a3672a6adcb950d3f7318287a3d25209564a7a2f429462b7b95621b2e1"
+    },
+    "weather/isd_zip_pairs_2021_2024.csv.gz": {
+      "bytes": 2229624,
+      "sha256": "795fa0cd49502aa28c0b914263ea78d7935d6c6444b480c4c24d81f9283242b5"
+    },
+    "weather/isd_zip_station_assignment.csv": {
+      "bytes": 11781,
+      "sha256": "c4ce71dc24b8d98fc621f00ffec260aaa18cd12a06d1a86a10229104f5ba79aa"
+    },
+    "weather/network_coverage_comparison.csv": {
+      "bytes": 307,
+      "sha256": "f8341eaaabf9d5575aa68645c2bb8228839680a97f55252badcae8da55320c12"
+    },
+    "weather/original_six_cache_reconciliation.csv": {
+      "bytes": 3012,
+      "sha256": "f6f5e76ea0477f1ccf6b7bde94b140fc25959005f6d286450afbc19d500baa53"
+    },
+    "weather/raw_manifest.json": {
+      "bytes": 30499,
+      "sha256": "8368d6891a38f7ebaedb762ac75d97d998f2026bd997538caae66d37e6e89e15"
+    },
+    "weather/reproduction_inputs/civil.csv.gz": {
+      "bytes": 850806,
+      "sha256": "0c6fc5269f967d997c5b9847436a158eaca154454eb5546dfa479f1021dd16e4"
+    },
+    "weather/reproduction_inputs/locations.csv.gz": {
+      "bytes": 1547,
+      "sha256": "eb80f1fccd67f7ed6740b681a529d38d838af6d26fda1b54c637654f0b165b02"
+    },
+    "weather/reproduction_inputs/manifest.json": {
+      "bytes": 1860,
+      "sha256": "972fd81bd4a80240b989eb40b733b90bff53b0a260157c1151a3a8dec2263e06"
+    },
+    "weather/reproduction_inputs/original.csv.gz": {
+      "bytes": 1319272,
+      "sha256": "0a041646516891c092329d69ec1a26b8b2f3486f8cf131adb55505d3f56c9f0c"
+    },
+    "weather/reproduction_inputs/original_noaa.csv.gz": {
+      "bytes": 41441,
+      "sha256": "388c73c3bdf6314112fd7bbeca48cad359c3ede1df263d0ef5097bcc31ccc89d"
+    },
+    "weather/verification.json": {
+      "bytes": 731,
+      "sha256": "519b5d2c7f94d8a42ffed46769cafcb12f1bfe3f2e49180478c17351fc891a79"
+    },
+    "weather/verify_noaa.py": {
+      "bytes": 6764,
+      "sha256": "40ae5839e4584e96bafb1bc790acdb25305428d59a926ca62bc29311e876370f"
+    },
+    "weather/weather_paired_metrics.csv": {
+      "bytes": 2099,
+      "sha256": "ac2fb95dbfd86d8b735c7311b206eaf5508309671211acb0b687b63fb2a3666e"
+    }
+  }
+}

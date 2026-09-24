@@ -2,3 +2,6 @@
 *.pdf binary
 # Research artifacts retain exact bytes for published SHA-256 manifests.
 public/data-analysis/** -text whitespace=cr-at-eol
+# Preserve the audited source snapshot's whitespace without rewriting its hashes.
+public/data-analysis/crime-and-heat/data/source-expansion-1/local/sandag_offense_dictionary.csv -whitespace
+public/data-analysis/crime-and-heat/data/source-expansion-1/doj/normalize_doj.py whitespace=cr-at-eol,-blank-at-eof

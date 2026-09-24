@@ -1,0 +1,687 @@
+﻿year,county,agency_name,jurisdiction_code,months_present,months_absent,total_calls,weapons_involved,sub_firearm,sub_knife,sub_other,sub_personal,weapon_not_rpt,total_strang_suffo,sub_strangulation,sub_suffocation,strangulation_months_with_data,known_partial_months,coverage_note,unit
+2001,San Diego County,CA Highway Patrol - San Diego,3799,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,CSU San Diego,3714,12,,4,2,0,0,1,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,CSU San Marcos,3732,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,Carlsbad,3701,12,,247,172,1,3,20,148,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,Chula Vista,3702,12,,1972,1347,10,41,201,1095,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,Colorado Desert DPR,3722,12,,2,2,0,0,0,2,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,Coronado,3703,12,,64,37,0,1,1,35,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,Del Mar,3704,12,,12,9,0,0,2,7,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,El Cajon,3705,12,,898,651,1,12,89,549,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,Encinitas,37A4,12,,182,164,0,3,26,135,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,Escondido,3706,12,,912,857,2,40,71,744,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,Imperial Beach,3707,12,,205,153,0,9,19,125,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,La Mesa,3708,12,,359,320,0,9,44,267,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,Lemon Grove,37A1,12,,118,110,0,5,15,90,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,National City,3709,12,,566,520,3,12,77,428,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,Oceanside,3710,12,,1616,1229,10,34,208,977,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,Ocotillo Wells DPR,3724,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,Poway,37A3,12,,133,110,2,4,9,95,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,San Diego,3711,12,,10694,8698,53,330,1673,6642,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,San Diego Co. Sheriff's Department,3700,12,,1704,1546,19,40,204,1283,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,San Diego Coast DPR,3725,12,,5,5,0,0,0,5,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,San Diego Harbor,3715,12,,2,2,0,0,0,2,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,San Marcos,3712,12,,208,160,0,3,21,136,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,Santee,37A2,12,,288,259,1,3,41,214,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,Solana Beach,37A5,12,,29,25,0,1,1,23,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,UC San Diego,3797,12,,12,8,0,0,1,7,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2001,San Diego County,Vista,3713,12,,561,541,5,11,62,463,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,CA Highway Patrol - San Diego,3799,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,CSU San Diego,3714,12,,5,3,0,0,1,2,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,CSU San Marcos,3732,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,Carlsbad,3701,12,,345,248,0,8,38,202,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,Chula Vista,3702,12,,1840,1314,14,48,214,1038,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,Colorado Desert DPR,3722,12,,3,3,0,0,0,3,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,Coronado,3703,12,,62,44,0,0,3,41,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,Del Mar,3704,12,,9,9,0,1,2,6,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,El Cajon,3705,12,,903,584,4,15,96,469,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,Encinitas,37A4,12,,203,187,1,5,35,146,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,Escondido,3706,12,,975,923,5,25,105,788,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,Imperial Beach,3707,12,,215,206,2,6,25,173,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,La Mesa,3708,12,,347,326,2,5,48,271,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,Lemon Grove,37A1,12,,150,150,2,2,22,124,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,National City,3709,12,,598,529,3,15,71,440,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,Oceanside,3710,12,,2069,1125,8,38,136,943,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,Ocotillo Wells DPR,3724,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,Poway,37A3,12,,155,144,1,5,16,122,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,San Diego,3711,12,,9881,7946,60,259,1542,6085,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,San Diego Co. Sheriff's Department,3700,12,,1873,1753,16,45,226,1466,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,San Diego Coast DPR,3725,12,,1,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,San Diego Harbor,3715,12,,3,2,0,0,0,2,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,San Marcos,3712,12,,356,319,2,6,40,271,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,Santee,37A2,12,,308,288,2,6,32,248,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,Solana Beach,37A5,12,,34,31,0,0,4,27,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,UC San Diego,3797,12,,21,9,0,0,1,8,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2002,San Diego County,Vista,3713,12,,521,503,6,14,70,413,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,CA Highway Patrol - San Diego,3799,12,,1,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,CSU San Diego,3714,12,,6,6,0,0,0,6,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,CSU San Marcos,3732,12,,1,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,Carlsbad,3701,12,,395,252,2,7,39,204,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,Chula Vista,3702,12,,1881,1289,9,47,201,1032,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,Colorado Desert DPR,3722,12,,1,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,Coronado,3703,12,,57,39,0,1,4,34,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,Del Mar,3704,12,,9,8,0,0,0,8,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,El Cajon,3705,12,,719,442,4,14,47,377,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,Encinitas,37A4,12,,208,172,1,1,28,142,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,Escondido,3706,12,,882,832,3,26,86,717,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,Imperial Beach,3707,12,,261,242,1,4,23,214,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,La Mesa,3708,12,,379,337,2,7,31,297,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,Lemon Grove,37A1,12,,187,181,1,2,24,154,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,National City,3709,12,,684,585,0,20,98,467,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,Oceanside,3710,12,,1998,1056,7,23,120,906,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,Ocotillo Wells DPR,3724,12,,1,1,0,1,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,Poway,37A3,12,,195,171,1,1,19,150,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,San Diego,3711,12,,10526,8372,75,302,1570,6425,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,San Diego Co. Sheriff's Department,3700,12,,2160,1998,15,34,213,1736,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,San Diego Coast DPR,3725,12,,2,2,0,0,0,2,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,San Diego Harbor,3715,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,San Marcos,3712,12,,373,335,0,4,39,292,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,Santee,37A2,12,,281,249,0,1,25,223,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,Solana Beach,37A5,12,,31,31,0,0,3,28,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,UC San Diego,3797,12,,14,4,0,0,0,4,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2003,San Diego County,Vista,3713,12,,505,489,0,10,46,433,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,CA Highway Patrol - San Diego,3799,4,4;6;7;8;9;10;11;12,3,2,0,0,0,2,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,CSU San Diego,3714,11,12,19,8,0,0,0,8,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,CSU San Marcos,3732,5,4;6;7;8;9;10;12,1,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,Carlsbad,3701,12,,360,263,0,4,40,219,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,Chula Vista,3702,12,,1818,1261,7,36,199,1019,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,Colorado Desert DPR,3722,7,6;7;8;9;12,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,Coronado,3703,12,,58,23,0,2,3,18,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,Del Mar,3704,10,8;9,14,10,0,1,0,9,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,El Cajon,3705,12,,672,418,4,15,57,342,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,Encinitas,37A4,12,,208,184,0,3,21,160,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,Escondido,3706,12,,898,813,4,25,61,723,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,Imperial Beach,3707,12,,297,265,3,3,21,238,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,La Mesa,3708,12,,365,330,4,8,38,280,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,Lemon Grove,37A1,12,,191,172,2,4,15,151,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,National City,3709,12,,624,517,3,13,74,427,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,Oceanside,3710,12,,2070,1027,3,35,107,882,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,Ocotillo Wells DPR,3724,6,6;8;9;10;11;12,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,Poway,37A3,12,,204,183,0,3,18,162,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,San Diego,3711,12,,10033,8013,49,321,1480,6163,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,San Diego Co. Sheriff's Department,3700,12,,2221,2033,12,49,218,1754,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,San Diego Coast DPR,3725,6,2;6;8;9;11;12,4,2,0,1,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,San Diego Harbor,3715,11,11,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,San Marcos,3712,12,,359,313,3,9,42,259,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,Santee,37A2,12,,322,283,1,4,29,249,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,Solana Beach,37A5,12,,34,32,0,1,4,27,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,UC San Diego,3797,12,,19,11,0,0,3,8,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2004,San Diego County,Vista,3713,12,,557,528,3,9,55,461,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,CA Highway Patrol - San Diego,3799,4,2;3;4;8;9;10;11;12,6,6,0,0,0,6,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,CSU San Diego,3714,8,6;8;11;12,13,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,CSU San Marcos,3732,2,1;3;4;5;6;7;8;9;10;12,2,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,Carlsbad,3701,12,,372,239,0,4,39,196,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,Chula Vista,3702,12,,1972,1300,7,41,161,1091,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,Colorado Desert DPR,3722,9,3;7;10,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,Coronado,3703,12,,54,5,0,1,3,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,Del Mar,3704,10,4;8,22,21,0,0,3,18,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,El Cajon,3705,12,,732,438,2,13,61,362,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,Encinitas,37A4,12,,176,165,1,1,25,138,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,Escondido,3706,12,,961,850,7,28,75,740,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,Imperial Beach,3707,12,,220,200,0,5,20,175,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,La Mesa,3708,12,,352,305,1,11,36,257,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,Lemon Grove,37A1,12,,167,165,1,4,13,147,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,National City,3709,12,,577,486,0,18,71,397,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,Oceanside,3710,12,,2267,1224,4,20,159,1041,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,Ocotillo Wells DPR,3724,9,4;6;12,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,Poway,37A3,12,,171,160,0,3,20,137,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,San Diego,3711,12,,9614,7609,66,282,1390,5871,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,San Diego Co. Sheriff's Department,3700,12,,2134,2022,17,53,220,1732,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,San Diego Coast DPR,3725,1,1;2;3;4;5;6;8;9;10;11;12,1,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,San Diego Harbor,3715,12,,5,5,0,0,1,4,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,San Marcos,3712,12,,371,339,0,4,41,294,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,Santee,37A2,12,,309,295,1,1,33,260,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,Solana Beach,37A5,11,4,32,31,0,0,1,30,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,UC San Diego,3797,11,8,18,7,0,0,0,7,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2005,San Diego County,Vista,3713,12,,551,539,3,8,62,466,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,CA Highway Patrol - San Diego,3799,3,2;3;4;5;6;7;8;9;10,4,4,0,0,0,4,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,CSU San Diego,3714,11,6,19,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,CSU San Marcos,3732,10,1;4,11,2,0,1,1,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,Carlsbad,3701,12,,472,232,2,3,78,149,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,Chula Vista,3702,12,,1841,1214,12,40,181,981,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,Colorado Desert DPR,3722,11,2,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,Coronado,3703,11,11,49,3,0,1,1,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,Del Mar,3704,11,2,27,25,0,1,3,21,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,El Cajon,3705,12,,634,363,4,9,45,305,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,Encinitas,37A4,12,,223,190,0,3,25,162,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,Escondido,3706,12,,1020,925,2,20,101,802,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,Imperial Beach,3707,12,,235,215,1,3,19,192,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,La Mesa,3708,12,,363,312,3,8,52,249,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,Lemon Grove,37A1,12,,168,159,1,1,21,136,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,National City,3709,12,,479,431,3,8,69,351,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,Oceanside,3710,12,,2310,1275,7,29,204,1035,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,Ocotillo Wells DPR,3724,10,1;2,1,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,Poway,37A3,12,,147,121,2,0,17,102,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,San Diego,3711,12,,8673,6954,39,260,1284,5371,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,San Diego Co. Sheriff's Department,3700,12,,1924,1812,13,25,210,1564,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,San Diego Coast DPR,3725,4,1;2;4;5;7;8;9;10,3,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,San Diego Harbor,3715,8,1;2;4;9,40,37,0,0,3,34,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,San Marcos,3712,12,,373,335,2,9,35,289,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,Santee,37A2,12,,276,254,2,4,31,217,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,Solana Beach,37A5,11,1,38,31,0,0,3,28,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,UC San Diego,3797,9,1;2;6,10,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2006,San Diego County,Vista,3713,12,,543,523,2,16,59,446,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,CA Highway Patrol - San Diego,3799,3,3;5;6;7;8;9;10;11;12,3,3,0,0,1,2,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,CSU San Diego,3714,12,,17,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,CSU San Marcos,3732,12,,7,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,Carlsbad,3701,12,,438,154,3,7,70,74,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,Chula Vista,3702,12,,1818,1243,8,33,177,1025,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,Colorado Desert DPR,3722,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,Coronado,3703,12,,83,60,0,1,2,57,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,Del Mar,3704,12,,9,7,0,0,0,7,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,El Cajon,3705,12,,537,323,5,11,57,250,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,Encinitas,37A4,12,,177,134,0,3,18,113,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,Escondido,3706,12,,930,773,2,22,73,676,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,Imperial Beach,3707,12,,170,155,0,3,8,144,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,La Mesa,3708,12,,347,319,3,4,24,288,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,Lemon Grove,37A1,12,,163,137,1,3,13,120,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,National City,3709,12,,351,314,1,12,38,263,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,Oceanside,3710,12,,2405,1261,7,26,117,1111,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,Ocotillo Wells DPR,3724,12,,2,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,Poway,37A3,12,,145,114,0,2,8,104,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,San Diego,3711,12,,8137,6625,49,248,1092,5236,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,San Diego Co. Sheriff's Department,3700,12,,1958,1756,17,44,199,1496,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,San Diego Coast DPR,3725,12,,1,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,San Diego Harbor,3715,12,,71,39,0,1,4,34,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,San Marcos,3712,12,,291,247,2,8,35,202,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,Santee,37A2,12,,275,250,0,1,30,219,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,Solana Beach,37A5,12,,28,27,0,1,5,21,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,UC San Diego,3797,12,,9,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2007,San Diego County,Vista,3713,12,,502,445,3,4,42,396,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,CA Highway Patrol - San Diego,3799,5,1;2;4;5;6;7;8,1,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,CSU San Diego,3714,12,,20,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,CSU San Marcos,3732,12,,6,2,0,0,1,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,Carlsbad,3701,12,,382,97,0,6,46,45,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,Chula Vista,3702,12,,1613,1131,7,32,177,915,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,Colorado Desert DPR,3722,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,Coronado,3703,12,,99,55,0,1,4,50,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,Del Mar,3704,12,,9,8,0,0,0,8,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,El Cajon,3705,12,,555,327,4,11,46,266,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,Encinitas,37A4,12,,146,108,1,0,11,96,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,Escondido,3706,12,,987,841,3,13,57,768,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,Imperial Beach,3707,12,,168,136,1,2,13,120,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,La Mesa,3708,12,,394,348,2,8,40,298,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,Lemon Grove,37A1,12,,98,75,0,2,9,64,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,National City,3709,12,,366,316,1,9,42,264,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,Oceanside,3710,12,,1726,1113,3,19,109,982,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,Ocotillo Wells DPR,3724,12,,2,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,Poway,37A3,12,,121,91,0,1,9,81,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,San Diego,3711,12,,7829,6326,48,218,985,5075,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,San Diego Co. Sheriff's Department,3700,12,,1318,1040,12,21,104,903,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,San Diego Coast DPR,3725,12,,2,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,San Diego Harbor,3715,12,,65,39,0,0,2,37,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,San Marcos,3712,12,,224,186,3,4,15,164,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,Santee,37A2,12,,174,133,0,2,16,115,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,Solana Beach,37A5,12,,20,16,0,0,1,15,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,UC San Diego,3797,12,,29,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2008,San Diego County,Vista,3713,12,,394,318,1,10,34,273,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,CA Highway Patrol - San Diego,3799,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,CSU San Diego,3714,12,,13,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,CSU San Marcos,3732,12,,2,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,Carlsbad,3701,12,,437,147,0,7,54,86,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,Chula Vista,3702,12,,1521,1111,7,33,145,926,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,Colorado Desert DPR,3722,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,Coronado,3703,12,,69,22,0,1,1,20,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,Del Mar,3704,12,,22,19,0,2,3,14,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,El Cajon,3705,12,,421,268,1,7,15,245,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,Encinitas,37A4,12,,205,162,1,2,19,140,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,Escondido,3706,12,,898,831,2,19,76,734,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,Imperial Beach,3707,12,,250,200,1,10,23,166,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,La Mesa,3708,12,,419,379,2,5,36,336,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,Lemon Grove,37A1,12,,204,157,0,5,19,133,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,National City,3709,12,,383,326,3,16,27,280,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,Oceanside,3710,12,,1071,1053,2,18,123,910,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,Ocotillo Wells DPR,3724,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,Poway,37A3,12,,143,104,4,2,14,84,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,San Diego,3711,12,,8201,6800,30,239,1058,5473,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,San Diego Co. Sheriff's Department,3700,12,,2063,1621,17,43,214,1347,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,San Diego Coast DPR,3725,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,San Diego Harbor,3715,12,,70,43,0,1,3,39,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,San Marcos,3712,12,,288,230,2,7,24,197,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,Santee,37A2,12,,255,173,0,1,22,150,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,Solana Beach,37A5,12,,30,26,0,0,9,17,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,UC San Diego,3797,12,,26,2,0,1,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2009,San Diego County,Vista,3713,12,,629,490,3,9,59,419,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,CA Highway Patrol - San Diego,3799,11,5,2,2,0,0,0,2,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,CSU San Diego,3714,12,,20,1,0,1,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,CSU San Marcos,3732,12,,4,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,Carlsbad,3701,12,,351,99,0,1,54,44,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,Chula Vista,3702,12,,1341,997,7,34,148,808,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,Colorado Desert DPR,3722,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,Coronado,3703,12,,61,18,0,0,3,15,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,Del Mar,3704,12,,19,15,0,0,4,11,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,El Cajon,3705,12,,552,399,1,8,17,373,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,Encinitas,37A4,12,,233,147,0,3,9,135,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,Escondido,3706,12,,977,889,2,16,90,781,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,Imperial Beach,3707,12,,198,156,1,8,19,128,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,La Mesa,3708,12,,394,350,0,8,41,301,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,Lemon Grove,37A1,12,,166,130,1,5,14,110,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,National City,3709,12,,472,408,0,16,52,340,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,Oceanside,3710,12,,1011,984,2,22,109,851,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,Ocotillo Wells DPR,3724,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,Poway,37A3,12,,158,107,1,0,21,85,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,San Diego,3711,12,,7626,6393,37,182,1026,5148,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,San Diego Co. Sheriff's Department,3700,12,,2050,1594,20,24,223,1327,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,San Diego Coast DPR,3725,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,San Diego Harbor,3715,12,,63,39,0,0,0,39,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,San Marcos,3712,12,,309,247,0,4,22,221,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,Santee,37A2,12,,251,188,1,3,24,160,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,Solana Beach,37A5,12,,34,26,0,0,3,23,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,UC San Diego,3797,12,,8,1,0,1,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2010,San Diego County,Vista,3713,12,,576,466,4,10,55,397,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,CA Highway Patrol - San Diego,3799,12,,9,7,0,0,1,6,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,CSU San Diego,3714,12,,9,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,CSU San Marcos,3732,12,,4,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,Carlsbad,3701,12,,335,90,1,3,51,35,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,Chula Vista,3702,12,,1306,919,4,15,133,767,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,Colorado Desert DPR,3722,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,Coronado,3703,12,,65,14,0,0,3,11,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,Del Mar,3704,12,,27,19,0,0,0,19,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,El Cajon,3705,12,,768,506,2,17,29,458,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,Encinitas,37A4,12,,214,148,0,2,18,128,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,Escondido,3706,12,,900,797,3,19,61,714,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,Imperial Beach,3707,12,,213,158,1,4,19,134,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,La Mesa,3708,12,,308,279,5,7,26,241,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,Lemon Grove,37A1,12,,137,109,2,5,15,87,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,National City,3709,12,,419,346,0,3,50,293,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,Oceanside,3710,12,,931,864,2,11,101,750,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,Ocotillo Wells DPR,3724,12,,3,2,0,0,0,2,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,Poway,37A3,12,,127,100,1,1,11,87,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,San Diego,3711,12,,7137,6073,32,181,877,4983,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,San Diego Co. Sheriff's Department,3700,12,,1829,1449,16,30,150,1253,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,San Diego Coast DPR,3725,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,San Diego Harbor,3715,12,,65,39,0,1,2,36,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,San Marcos,3712,12,,251,206,0,1,22,183,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,Santee,37A2,12,,232,151,1,4,19,127,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,Solana Beach,37A5,12,,28,23,0,0,5,18,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,UC San Diego,3797,12,,17,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2011,San Diego County,Vista,3713,12,,488,386,5,6,31,344,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,CA Highway Patrol - San Diego,3799,12,,2,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,CSU San Diego,3714,12,,22,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,CSU San Marcos,3732,12,,2,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,Carlsbad,3701,12,,365,95,0,5,42,48,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,Chula Vista,3702,12,,1163,766,8,23,57,678,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,Colorado Desert DPR,3722,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,Coronado,3703,12,,52,2,0,0,0,2,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,Del Mar,3704,12,,19,15,0,0,1,14,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,El Cajon,3705,12,,687,470,0,10,30,430,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,Encinitas,37A4,12,,184,117,1,1,8,107,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,Escondido,3706,12,,918,788,5,13,68,702,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,Imperial Beach,3707,12,,264,201,3,5,13,180,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,La Mesa,3708,12,,367,335,2,12,46,275,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,Lemon Grove,37A1,12,,181,131,3,3,13,112,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,National City,3709,12,,445,343,2,12,55,274,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,Oceanside,3710,12,,907,879,7,19,88,765,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,Ocotillo Wells DPR,3724,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,Poway,37A3,12,,157,106,1,2,13,90,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,San Diego,3711,12,,7188,6153,34,196,861,5062,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,San Diego Co. Sheriff's Department,3700,12,,2244,1548,13,50,213,1272,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,San Diego Coast DPR,3725,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,San Diego Harbor,3715,12,,76,50,0,0,1,49,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,San Marcos,3712,12,,290,216,4,4,35,173,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,Santee,37A2,12,,291,205,0,8,20,177,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,Solana Beach,37A5,12,,42,30,0,0,5,25,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,UC San Diego,3797,12,,30,3,0,0,0,3,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2012,San Diego County,Vista,3713,12,,505,390,4,8,58,320,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,CA Highway Patrol - San Diego,3799,12,,3,3,0,0,0,3,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,CSU San Diego,3714,12,,11,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,CSU San Marcos,3732,12,,5,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,Carlsbad,3701,12,,340,100,1,2,46,51,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,Chula Vista,3702,12,,1171,839,2,29,72,736,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,Colorado Desert DPR,3722,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,Coronado,3703,12,,64,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,Del Mar,3704,12,,13,6,0,0,0,6,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,El Cajon,3705,12,,923,482,5,21,40,416,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,Encinitas,37A4,12,,184,106,0,0,22,84,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,Escondido,3706,12,,958,845,2,19,47,777,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,Imperial Beach,3707,12,,280,199,1,7,26,165,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,La Mesa,3708,12,,386,373,1,14,54,304,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,Lemon Grove,37A1,12,,153,108,0,5,11,92,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,National City,3709,12,,456,360,1,3,35,321,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,Oceanside,3710,12,,858,781,1,16,77,687,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,Ocotillo Wells DPR,3724,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,Poway,37A3,12,,151,101,1,1,16,83,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,San Diego,3711,12,,7225,6132,37,199,828,5068,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,San Diego Co. Sheriff's Department,3700,12,,2325,1593,23,39,188,1343,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,San Diego Coast DPR,3725,12,,1,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,San Diego Harbor,3715,12,,45,40,0,0,5,35,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,San Marcos,3712,12,,300,212,1,5,16,190,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,Santee,37A2,12,,251,181,2,5,19,155,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,Solana Beach,37A5,12,,39,25,0,2,2,21,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,UC San Diego,3797,12,,16,2,0,1,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2013,San Diego County,Vista,3713,12,,547,400,3,14,41,342,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,CA Highway Patrol - San Diego,3799,12,,4,4,0,0,0,4,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,CSU San Diego,3714,12,,14,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,CSU San Marcos,3732,12,,4,2,0,0,1,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,Carlsbad,3701,12,,371,79,0,7,39,33,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,Chula Vista,3702,12,,1090,759,4,29,58,668,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,Colorado Desert DPR,3722,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,Coronado,3703,12,,51,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,Del Mar,3704,12,,18,14,0,0,2,12,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,El Cajon,3705,12,,871,495,6,12,41,436,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,Encinitas,37A4,12,,209,125,1,0,9,115,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,Escondido,3706,12,,1001,792,4,12,46,730,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,Imperial Beach,3707,12,,195,136,0,5,6,125,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,La Mesa,3708,12,,379,321,0,5,51,265,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,Lemon Grove,37A1,12,,139,101,1,3,11,86,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,National City,3709,12,,409,300,0,3,37,260,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,Oceanside,3710,12,,1059,812,3,8,59,742,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,Ocotillo Wells DPR,3724,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,Poway,37A3,12,,144,93,1,3,10,79,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,San Diego,3711,12,,7377,6246,27,186,839,5194,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,San Diego Co. Sheriff's Department,3700,12,,2309,1577,21,38,122,1396,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,San Diego Coast DPR,3725,12,,2,2,0,0,0,2,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,San Diego Harbor,3715,12,,62,62,0,0,10,52,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,San Marcos,3712,12,,345,257,5,5,11,236,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,Santee,37A2,12,,216,164,0,4,13,147,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,Solana Beach,37A5,12,,53,39,0,0,1,38,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,UC San Diego,3797,12,,20,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2014,San Diego County,Vista,3713,12,,652,483,1,16,29,437,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,CA Highway Patrol - San Diego,3799,12,,4,4,0,0,0,4,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,CSU San Diego,3714,12,,14,2,0,1,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,CSU San Marcos,3732,12,,7,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,Carlsbad,3701,12,,422,69,1,7,45,16,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,Chula Vista,3702,12,,1281,902,6,20,69,807,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,Colorado Desert DPR,3722,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,Coronado,3703,12,,64,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,Del Mar,3704,12,,22,14,0,0,1,13,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,El Cajon,3705,12,,772,444,6,11,27,400,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,Encinitas,37A4,12,,237,129,0,1,9,119,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,Escondido,3706,12,,1181,848,7,13,38,790,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,Imperial Beach,3707,12,,189,134,0,3,8,123,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,La Mesa,3708,12,,386,280,2,10,21,247,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,Lemon Grove,37A1,12,,148,108,1,5,14,88,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,National City,3709,12,,458,305,1,7,40,257,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,Oceanside,3710,12,,1039,766,2,14,37,713,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,Ocotillo Wells DPR,3724,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,Poway,37A3,12,,152,97,0,3,7,87,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,San Diego,3711,12,,7393,6069,35,162,735,5137,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,San Diego Co. Sheriff's Department,3700,12,,2595,1760,21,34,121,1584,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,San Diego Coast DPR,3725,12,,2,2,0,0,0,2,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,San Diego Harbor,3715,12,,67,65,2,0,15,48,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,San Marcos,3712,12,,475,330,5,6,19,300,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,Santee,37A2,12,,223,159,1,3,13,142,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,Solana Beach,37A5,12,,34,19,0,0,0,19,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,UC San Diego,3797,12,,22,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2015,San Diego County,Vista,3713,12,,785,558,6,7,29,516,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,CA Highway Patrol - San Diego,3799,8,8;9;11;12,7,7,0,0,1,6,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,CSU San Diego,3714,12,,9,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,CSU San Marcos,3732,12,,5,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,Carlsbad,3701,12,,380,78,3,7,45,23,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,Chula Vista,3702,12,,1263,937,7,14,109,807,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,Colorado Desert DPR,3722,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,Coronado,3703,12,,47,14,0,1,2,11,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,Del Mar,3704,12,,21,15,0,0,1,14,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,El Cajon,3705,12,,743,501,2,13,42,444,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,Encinitas,37A4,12,,204,126,0,2,9,115,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,Escondido,3706,12,,1139,787,3,15,52,717,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,Imperial Beach,3707,12,,190,146,2,2,10,132,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,La Mesa,3708,12,,441,282,1,3,15,263,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,Lemon Grove,37A1,12,,196,156,5,1,14,136,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,National City,3709,12,,424,316,1,8,39,268,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,Oceanside,3710,12,,985,721,3,11,27,680,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,Ocotillo Wells DPR,3724,12,,2,2,1,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,Poway,37A3,12,,106,73,0,1,5,67,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,San Diego,3711,12,,6818,5529,42,147,640,4700,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,San Diego Co. Sheriff's Department,3700,12,,2337,1659,13,32,137,1477,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,San Diego Coast DPR,3725,12,,5,5,0,0,1,4,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,San Diego Harbor,3715,12,,59,59,0,1,3,55,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,San Marcos,3712,12,,353,259,0,1,19,239,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,Santee,37A2,12,,249,174,1,3,18,152,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,Solana Beach,37A5,12,,30,16,0,0,2,14,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,UC San Diego,3797,12,,25,4,0,0,0,4,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2016,San Diego County,Vista,3713,12,,681,506,5,8,47,446,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,CA Highway Patrol - San Diego,3799,12,,21,18,1,0,3,14,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,CSU San Diego,3714,12,,13,1,0,0,1,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,CSU San Marcos,3732,12,,7,1,0,0,1,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,Carlsbad,3701,12,,519,98,2,3,28,65,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,Chula Vista,3702,12,,1331,994,5,22,102,865,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,Colorado Desert DPR,3722,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,Coronado,3703,12,,46,17,0,1,1,15,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,Del Mar,3704,12,,16,11,0,0,0,11,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,El Cajon,3705,12,,887,588,1,13,48,526,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,Encinitas,37A4,12,,178,123,0,1,10,112,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,Escondido,3706,12,,1084,755,3,16,51,685,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,Imperial Beach,3707,12,,202,145,0,2,9,134,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,La Mesa,3708,12,,503,324,1,5,27,291,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,Lemon Grove,37A1,12,,177,147,1,2,20,124,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,National City,3709,12,,468,311,1,4,35,271,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,Oceanside,3710,12,,969,747,1,14,39,693,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,Ocotillo Wells DPR,3724,12,,0,0,0,0,0,0,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,Poway,37A3,12,,120,75,1,2,8,64,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,San Diego,3711,12,,7139,5565,34,144,683,4704,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,San Diego Co. Sheriff's Department,3700,12,,2388,1685,12,26,177,1470,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,San Diego Coast DPR,3725,12,,1,1,0,0,0,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,San Diego Harbor,3715,12,,61,60,1,1,11,47,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,San Marcos,3712,12,,310,235,0,2,15,218,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,Santee,37A2,12,,254,186,1,2,24,159,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,Solana Beach,37A5,12,,23,17,0,0,1,16,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,UC San Diego,3797,12,,19,2,0,0,1,1,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2017,San Diego County,Vista,3713,12,,570,431,4,11,22,394,0,,,,0,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,CA Highway Patrol - San Diego,3799,12,,18,16,0,0,0,16,0,1,0,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,CSU San Diego,3714,12,,4,1,0,0,0,1,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,CSU San Marcos,3732,12,,2,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,Carlsbad,3701,12,,538,88,2,4,15,67,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,Chula Vista,3702,12,,1497,1053,6,22,102,923,0,90,90,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,Colorado Desert DPR,3722,12,,0,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,Coronado,3703,12,,46,20,0,0,2,18,0,2,2,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,Del Mar,3704,12,,32,22,0,0,0,22,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,El Cajon,3705,12,,898,594,4,10,60,520,0,76,73,3,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,Encinitas,37A4,12,,203,130,0,3,9,118,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,Escondido,3706,12,,1096,730,3,12,57,658,0,35,35,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,Imperial Beach,3707,12,,219,157,1,5,7,144,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,La Mesa,3708,12,,433,298,0,4,11,283,0,2,2,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,Lemon Grove,37A1,12,,211,152,1,5,14,132,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,National City,3709,12,,537,308,4,8,24,272,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,Oceanside,3710,12,,943,729,4,11,22,692,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,Ocotillo Wells DPR,3724,12,,0,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,Poway,37A3,12,,129,89,0,2,8,79,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,San Diego,3711,12,,6823,5217,37,174,559,4447,0,110,107,3,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,San Diego Co. Sheriff's Department,3700,12,,2503,1796,15,37,156,1588,0,4,2,2,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,San Diego Coast DPR,3725,12,,1,1,0,0,1,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,San Diego Harbor,3715,8,9;10;11;12,54,54,0,0,6,48,0,0,0,0,8,,DOJ: Harbor Police did not report Sep-Dec,Reported DV-related calls; no imputation
+2018,San Diego County,San Marcos,3712,12,,370,263,1,1,17,244,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,Santee,37A2,12,,265,185,0,5,26,154,0,1,0,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,Solana Beach,37A5,12,,41,31,0,0,1,30,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,UC San Diego,3797,12,,16,2,0,0,1,1,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2018,San Diego County,Vista,3713,12,,632,511,6,10,27,468,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,CA Highway Patrol - San Diego,3799,12,,33,32,0,0,1,31,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,CSU San Diego,3714,12,,3,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,CSU San Marcos,3732,12,,2,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,Carlsbad,3701,12,,481,69,1,1,8,59,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,Chula Vista,3702,12,,1508,964,11,22,36,895,0,98,97,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,Colorado Desert DPR,3722,12,,0,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,Coronado,3703,12,,47,12,0,0,0,12,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,Del Mar,3704,12,,22,15,0,0,1,14,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,El Cajon,3705,12,,943,600,4,12,34,550,0,53,50,3,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,Encinitas,37A4,12,,197,130,0,4,4,122,0,3,2,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,Escondido,3706,12,,1042,667,4,9,23,631,0,63,62,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,Imperial Beach,3707,12,,199,126,0,1,1,124,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,La Mesa,3708,12,,479,299,0,4,5,290,0,5,5,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,Lemon Grove,37A1,12,,258,169,1,2,8,158,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,National City,3709,12,,518,295,2,11,15,267,0,2,2,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,Oceanside,3710,12,,917,708,5,12,10,681,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,Ocotillo Wells DPR,3724,12,,1,1,0,0,0,1,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,Poway,37A3,12,,130,84,1,2,0,81,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,San Diego,3711,12,,6800,4723,33,116,320,4254,0,227,226,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,San Diego Co. Sheriff's Department,3700,12,,2522,1735,14,33,78,1610,0,8,7,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,San Diego Coast DPR,3725,12,,1,1,0,0,0,1,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,San Diego Harbor,3715,12,,76,76,1,0,12,63,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,San Marcos,3712,12,,316,229,3,4,9,213,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,Santee,37A2,12,,243,169,1,1,5,162,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,Solana Beach,37A5,12,,41,27,0,0,3,24,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,UC San Diego,3797,12,,18,1,0,0,0,1,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2019,San Diego County,Vista,3713,12,,639,466,3,10,11,442,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,CA Highway Patrol - San Diego,3799,9,1;9;12,10,9,0,0,1,8,0,0,0,0,9,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,CSU San Diego,3714,8,4;7;9;12,5,1,0,0,1,0,0,0,0,0,8,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,CSU San Marcos,3732,9,9;10;11,0,0,0,0,0,0,0,0,0,0,9,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,Carlsbad,3701,12,,545,93,0,4,12,77,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,Chula Vista,3702,12,,1501,912,9,23,40,840,0,139,136,3,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,Colorado Desert DPR,3722,8,3;4;6;10,0,0,0,0,0,0,0,0,0,0,8,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,Coronado,3703,12,,45,16,0,1,0,15,0,4,4,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,Del Mar,3704,10,9;12,6,5,0,0,0,5,0,0,0,0,10,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,El Cajon,3705,12,,1089,689,8,17,33,631,0,63,62,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,Encinitas,37A4,12,,158,114,2,1,2,109,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,Escondido,3706,12,,1084,748,7,21,27,693,0,67,65,2,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,Imperial Beach,3707,12,,209,141,3,2,1,135,0,2,1,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,La Mesa,3708,12,,438,254,1,5,5,243,0,8,8,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,Lemon Grove,37A1,12,,199,129,2,3,8,116,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,National City,3709,12,,681,321,3,8,20,290,0,2,2,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,Oceanside,3710,12,,940,733,7,10,23,693,0,3,3,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,Ocotillo Wells DPR,3724,10,5;6,0,0,0,0,0,0,0,0,0,0,10,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,Poway,37A3,12,,135,84,1,1,3,79,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,San Diego,3711,12,,6802,4454,38,104,278,4034,0,287,287,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,San Diego Co. Sheriff's Department,3700,12,,2487,1756,18,23,84,1631,0,6,6,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,San Diego Coast DPR,3725,9,4;6;10,0,0,0,0,0,0,0,0,0,0,9,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,San Diego Harbor,3715,12,,62,62,1,0,5,56,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,San Marcos,3712,12,,344,254,2,4,11,237,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,Santee,37A2,12,,290,210,2,5,12,191,0,1,0,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,Solana Beach,37A5,11,11,41,30,1,1,0,28,0,1,1,0,11,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,UC San Diego,3797,9,10;11;12,11,2,0,0,0,2,0,2,2,0,9,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2020,San Diego County,Vista,3713,12,,601,459,6,13,17,423,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,CA Highway Patrol - San Diego,3799,12,,7,7,1,0,0,6,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,CSU San Diego,3714,10,4;5,10,0,0,0,0,0,0,0,0,0,10,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,CSU San Marcos,3732,6,1;2;4;5;6;7,1,0,0,0,0,0,0,0,0,0,6,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,Carlsbad,3701,12,,573,284,1,5,7,271,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,Chula Vista,3702,12,,1683,1011,9,27,40,935,0,4,4,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,Colorado Desert DPR,3722,11,2,0,0,0,0,0,0,0,0,0,0,11,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,Coronado,3703,12,,40,20,0,1,4,15,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,Del Mar,3704,12,,10,8,0,0,0,8,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,El Cajon,3705,12,,1117,643,11,14,36,582,0,57,57,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,Encinitas,37A4,12,,193,140,0,2,4,134,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,Escondido,3706,12,,1056,672,6,15,17,634,0,6,6,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,Imperial Beach,3707,12,,210,151,3,3,5,140,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,La Mesa,3708,12,,539,301,2,3,5,291,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,Lemon Grove,37A1,12,,272,186,5,3,8,170,0,1,0,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,National City,3709,12,,673,312,6,4,16,286,0,3,3,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,Oceanside,3710,12,,917,700,5,11,20,664,0,1,0,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,Ocotillo Wells DPR,3724,11,2,0,0,0,0,0,0,0,0,0,0,11,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,Poway,37A3,12,,119,71,0,1,2,68,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,San Diego,3711,12,,7086,4536,64,100,267,4105,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,San Diego Co. Sheriff's Department,3700,12,,2517,1733,19,40,74,1600,0,7,7,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,San Diego Coast DPR,3725,10,1;2,3,1,0,0,0,1,0,0,0,0,10,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,San Diego Harbor,3715,12,,87,87,0,1,12,74,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,San Marcos,3712,12,,344,255,1,3,9,242,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,Santee,37A2,12,,257,179,1,4,5,169,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,Solana Beach,37A5,12,,38,25,0,1,0,24,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,UC San Diego,3797,9,2;6;7,17,1,0,0,0,1,0,1,1,0,9,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2021,San Diego County,Vista,3713,12,,597,441,2,14,8,417,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,CA Highway Patrol - San Diego,3799,12,,5,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,CSU San Diego,3714,8,7;8;9;11,6,1,0,0,0,1,0,0,0,0,8,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,CSU San Marcos,3732,12,,4,4,0,0,2,2,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,Carlsbad,3701,12,,503,280,2,2,4,272,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,Chula Vista,3702,12,,1626,996,2,24,50,920,0,33,33,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,Colorado Desert DPR,3722,12,,0,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,Coronado,3703,12,,41,41,1,0,10,30,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,Del Mar,3704,12,,14,11,0,0,0,11,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,El Cajon,3705,12,,1004,575,4,20,27,524,0,28,27,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,Encinitas,37A4,12,,134,79,0,3,0,76,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,Escondido,3706,12,,1027,659,1,11,20,627,0,25,25,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,Imperial Beach,3707,12,,192,130,1,1,6,122,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,La Mesa,3708,12,,611,335,4,4,7,320,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,Lemon Grove,37A1,12,,211,147,4,4,9,130,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,Mira Costa College,37A6,5,1;2;3;4;5;6;7,3,3,0,0,1,2,0,0,0,0,5,,DOJ: began reporting September,Reported DV-related calls; no imputation
+2022,San Diego County,National City,3709,12,,588,273,2,3,13,255,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,Oceanside,3710,12,,807,635,7,13,29,586,0,2,2,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,Ocotillo Wells DPR,3724,12,,1,1,0,0,1,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,Poway,37A3,12,,123,71,0,1,4,66,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,San Diego,3711,12,,6867,4414,47,108,245,4014,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,San Diego Co. Sheriff's Department,3700,12,,2397,1622,25,30,67,1500,0,5,2,3,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,San Diego Coast DPR,3725,12,,10,3,0,0,0,3,0,1,0,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,San Diego Harbor,3715,12,,77,77,0,1,8,68,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,San Marcos,3712,12,,313,234,2,5,8,219,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,Santee,37A2,12,,276,171,5,1,7,158,0,2,2,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,Solana Beach,37A5,12,,31,20,0,1,1,18,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,UC San Diego,3797,12,,24,7,0,0,3,4,0,5,4,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2022,San Diego County,Vista,3713,12,,606,447,1,6,12,428,0,3,2,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,CA Highway Patrol - San Diego,3799,12,,8,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,CSU San Diego,3714,12,,3,3,0,0,1,2,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,CSU San Marcos,3732,12,,2,2,0,0,0,2,0,2,2,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,Cal Fire - San Diego,37A9,12,,0,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,Carlsbad,3701,12,,521,246,1,5,8,232,0,2,2,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,Chula Vista,3702,12,,1444,963,8,18,58,879,0,47,47,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,Colorado Desert DPR,3722,12,,1,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,Coronado,3703,12,,36,36,0,1,7,28,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,Del Mar,3704,12,,12,7,0,0,0,7,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,El Cajon,3705,12,,917,542,6,15,27,494,0,35,35,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,Encinitas,37A4,12,,163,101,0,2,8,91,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,Escondido,3706,12,,1046,700,5,18,22,655,0,28,27,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,Imperial Beach,3707,12,,171,115,0,1,3,111,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,La Mesa,3708,12,,573,324,3,5,13,303,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,Lemon Grove,37A1,12,,221,163,0,5,6,152,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,Mira Costa College,37A6,12,,1,1,0,0,1,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,National City,3709,12,,525,270,2,3,14,251,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,Oceanside,3710,12,,834,597,2,5,29,561,0,3,3,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,Ocotillo Wells DPR,3724,12,,2,2,0,0,0,2,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,Poway,37A3,12,,111,69,0,2,6,61,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,San Diego,3711,12,,6661,4412,36,118,251,4007,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,San Diego Co. Sheriff's Department,3700,12,,2158,1507,16,21,87,1383,0,4,4,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,San Diego Coast DPR,3725,12,,3,3,0,2,0,1,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,San Diego Community College,3728,12,,6,6,0,1,4,1,0,0,0,0,12,,DOJ: began reporting January,Reported DV-related calls; no imputation
+2023,San Diego County,San Diego Harbor,3715,12,,145,57,0,0,2,55,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,San Marcos,3712,12,,310,240,2,2,5,231,0,2,2,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,Santee,37A2,12,,229,156,0,3,11,142,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,Solana Beach,37A5,12,,29,23,1,0,2,20,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,UC San Diego,3797,12,,15,15,0,0,6,9,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2023,San Diego County,Vista,3713,12,,519,389,6,7,8,368,0,1,0,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,CA Highway Patrol - San Diego,3799,12,,7,3,0,0,0,3,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,CSU San Diego,3714,12,,9,9,0,0,3,6,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,CSU San Marcos,3732,12,,5,5,0,0,2,3,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,Cal Fire - San Diego,37A9,12,,0,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,Carlsbad,3701,12,,515,279,2,0,11,266,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,Chula Vista,3702,12,,1443,1000,6,15,66,913,0,59,57,2,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,Colorado Desert DPR,3722,12,,0,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,Coronado,3703,12,,25,25,0,0,6,19,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,Del Mar,3704,12,,9,8,0,0,1,7,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,El Cajon,3705,12,,833,489,2,5,28,454,0,29,28,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,Encinitas,37A4,12,,169,110,0,2,5,103,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,Escondido,3706,12,,950,621,11,12,30,568,0,9,8,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,Imperial Beach,3707,12,,182,134,0,0,7,127,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,La Mesa,3708,12,,565,334,2,3,9,320,0,4,3,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,Lemon Grove,37A1,12,,145,103,1,4,5,93,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,Mira Costa College,37A6,12,,0,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,National City,3709,12,,395,257,7,5,11,234,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,Oceanside,3710,12,,844,616,1,12,24,579,0,3,3,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,Ocotillo Wells DPR,3724,12,,0,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,Poway,37A3,12,,126,71,0,2,2,67,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,San Diego,3711,12,,6692,4545,42,116,272,4115,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,San Diego Co. Sheriff's Department,3700,12,,1717,1211,17,16,55,1123,0,3,3,0,12,11;12,DOJ: Sheriff did not report all data Nov-Dec; scope across separate contract-city rows unresolved,Reported DV-related calls; no imputation
+2024,San Diego County,San Diego Coast DPR,3725,12,,3,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,San Diego Community College,3728,12,,7,7,0,0,2,5,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,San Diego Harbor,3715,12,,148,71,0,2,6,63,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,San Marcos,3712,12,,269,207,1,3,5,198,0,2,2,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,Santee,37A2,12,,197,139,2,0,12,125,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,Solana Beach,37A5,12,,16,11,0,0,0,11,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,UC San Diego,3797,12,,20,20,0,0,4,16,0,2,2,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2024,San Diego County,Vista,3713,12,,391,303,3,8,19,273,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,CA Highway Patrol - San Diego,3799,12,,1,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,CSU San Diego,3714,12,,12,12,0,0,3,9,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,CSU San Marcos,3732,12,,6,6,0,0,2,4,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,Cal Fire - San Diego,37A9,12,,0,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,Carlsbad,3701,12,,618,319,0,0,10,309,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,Chula Vista,3702,12,,1600,1073,15,13,57,988,0,82,81,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,Colorado DPR,,12,,1,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,Coronado,3703,12,,34,34,0,1,6,27,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,Del Mar,3704,12,,5,4,0,0,0,4,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,El Cajon,3705,12,,855,491,3,7,33,448,0,26,26,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,Encinitas,37A4,12,,104,68,0,2,2,64,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,Escondido,3706,12,,815,548,3,14,26,505,0,22,20,2,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,Imperial Beach,3707,12,,84,62,0,3,6,53,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,La Mesa,3708,12,,544,301,2,2,18,279,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,Lemon Grove,37A1,12,,119,81,1,0,4,76,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,Mira Costa College,37A6,12,,1,1,0,0,1,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,National City,3709,12,,371,249,8,10,6,225,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,Oceanside,3710,12,,907,634,1,12,20,601,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,Ocotillo Wells DPR,3724,12,,0,0,0,0,0,0,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,Palomar College,37A7,6,1;2;3;4;5;6,1,0,0,0,0,0,0,0,0,0,6,,DOJ: began reporting July,Reported DV-related calls; no imputation
+2025,San Diego County,Poway,37A3,12,,91,49,0,2,4,43,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,San Diego,3711,12,,6962,4584,58,125,268,4133,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,San Diego Co. Sheriff's Department,3700,12,,1078,775,6,17,41,711,0,5,5,0,12,1;2;3;4;5;6,DOJ: Sheriff did not report all data Jan-Jun; scope across separate contract-city rows unresolved,Reported DV-related calls; no imputation
+2025,San Diego County,San Diego Coast DPR,3725,12,,5,4,0,0,0,4,0,1,1,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,San Diego Community College,3728,12,,12,12,0,0,5,7,0,3,2,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,San Diego Harbor,3715,12,,121,59,1,0,3,55,0,3,3,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,San Marcos,3712,12,,192,147,1,1,3,142,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,Santee,37A2,12,,136,97,1,2,4,90,0,2,1,1,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,Solana Beach,37A5,12,,18,12,0,1,1,10,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,UC San Diego,3797,12,,18,18,0,1,4,13,0,2,2,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation
+2025,San Diego County,Vista,3713,12,,268,230,3,5,8,214,0,0,0,0,12,,No completeness guarantee; row presence is not complete reporting,Reported DV-related calls; no imputation

@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "checked_utc": "2026-09-24T23:20:29.390967+00:00",
+  "files": [
+    {
+      "filename": "OnlineArrestData1980-2025.csv",
+      "bytes": 7105799,
+      "sha256": "5115c895cc5d0d00db21862a9fc6f9187376df59f89ce0b685291fb236587e35",
+      "cache_used": true,
+      "verified": true
+    },
+    {
+      "filename": "Arrests Context_0615026.pdf",
+      "bytes": 341904,
+      "sha256": "0932431c584c6cf8b26b35f63fcb11e8854626e17c63188726f3076f8a1a54a9",
+      "cache_used": true,
+      "verified": true
+    },
+    {
+      "filename": "DVRCA_2001-2025.csv",
+      "bytes": 12486945,
+      "sha256": "f168b0bfcc40bc72a0eb865ba0a51b72c5732e792176184407c91f42b9593e4b",
+      "cache_used": true,
+      "verified": true
+    },
+    {
+      "filename": "Domestic Violence Related Calls for Service Context_06222026.pdf",
+      "bytes": 222795,
+      "sha256": "fbbb939f691e8e6f81e60120d6523213ece85dbe2b4938ed78b9ddcc8f509e19",
+      "cache_used": true,
+      "verified": true
+    },
+    {
+      "filename": "NCIC Code Jurisdiction List_06182026.xlsx",
+      "bytes": 54868,
+      "sha256": "47370e89d3cc0145d76ef73514d719bdc115a9dabdb947c6ef9190e8bf7453d0",
+      "cache_used": true,
+      "verified": true
+    }
+  ]
+}

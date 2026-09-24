@@ -2,6 +2,8 @@
 
 ## Crime and heat publication
 
+- Source expansion ready for publication: `data/source-expansion-1/` has125newassets, including separate DOJ/local/NOAA/Census aggregates, source hashes, code and4pagePDF. Existing166artifacts and model estimates unchanged. DOJ explicitly flags incomplete Sheriff submissions Nov–Dec2024 andJan–Jun2025; exact export overlap unverified. Independent reconciliation and full hourly/civil-day checks pass; PDFvisualQA, npmtest and320/390/1280browserchecks pass. Combined14.2MBarchive independently extracted: allhashes, threeofflineaudits, reproducedCSVcontents andrelativeMDlinks pass. Publication/live verification pending. No new effect models or emails.
+
 - Mode: continuation. Objective: address methodological feedback, update the general arrest-record/heat webpage and standalone DV PDF. Published as651acd1; GitHub Pages run36070661540 succeeded; live verification passed. Previous production cb7da91; requested prior emails already sent. No new email or agency request sent.
 - Route: `/writing/data-analysis/crime-and-heat/`, under Writing → Data Analysis. Legacy `/data-analysis/` routes redirect; asset base unchanged. Source work remains in sibling `dv_heat_analysis/`.
 - Source: 214745 rows,4 invalid,214741 charge lines,926 exact duplicates,136313 source-ID groups;12478 coreDV. Partial2018,incomplete2025,no2026.2024 retains Incident Number;2025 changes identifier. Agency/date/location meanings and completeness unverified. Public aggregates only.

@@ -1,0 +1,65 @@
+{
+  "version": "source-expansion-1",
+  "retrieval_date": "2026-09-24",
+  "new_effect_models": 0,
+  "prior_results_preserved": true,
+  "sources": [
+    {
+      "name": "California DOJ",
+      "coverage": "County arrests: 1980–2025. Agency DV-call reports: 2001–2025.",
+      "interpretation": "Annual arrest/citation totals and monthly DV reports are separate benchmarks. Documented Sheriff reporting gaps; county totals include multiple agencies.",
+      "documentation": "doj/DOJ_BENCHMARKS.md"
+    },
+    {
+      "name": "SANDAG / ARJIS CIBRS",
+      "coverage": "2021–23 September 2026; agency-specific endpoints vary.",
+      "interpretation": "Group A supplies an explicit DV indicator. Group B DV values are all missing. Public releases are described as samples; coverage is not certified.",
+      "documentation": "local/README.md"
+    },
+    {
+      "name": "San Diego Police NIBRS",
+      "coverage": "2020–23 September 2026.",
+      "interpretation": "Daily reported offense counts for a different jurisdiction. Distinct offense identifiers are reconciled; incident counts cannot be summed across offense categories.",
+      "documentation": "local/README.md"
+    },
+    {
+      "name": "SANDAG historical DV series",
+      "coverage": "37 annual values, 1986–2022.",
+      "interpretation": "The actual downloaded years differ from the chart title. Historical context only; do not splice to modern incident data or use annual totals for daily heat inference.",
+      "documentation": "local/README.md"
+    },
+    {
+      "name": "NOAA daily stations",
+      "coverage": "29 stations; 1991–2025 archive extract.",
+      "interpretation": "25 stations meet the 2021–2024 maximum-temperature coverage rule. Six support a 1991–2020 warm-season baseline. Observation days differ from civil days.",
+      "documentation": "weather/README.md"
+    },
+    {
+      "name": "NOAA subdaily observations",
+      "coverage": "12 stations; 2021–2024.",
+      "interpretation": "379,574 accepted hourly samples; 13,235 complete station-days. High and low are sampled extrema; means require every civil hour.",
+      "documentation": "weather/README.md"
+    },
+    {
+      "name": "Census municipal context",
+      "coverage": "2020 population for nine Sheriff contract cities.",
+      "interpretation": "Population context only. Ambiguous recorded localities and agency coverage prevent municipal arrest-risk denominators.",
+      "documentation": "context/GEOGRAPHIC_CONTEXT.md"
+    }
+  ],
+  "verified_counts": {
+    "doj_arrest_years": 46,
+    "doj_dv_years": 25,
+    "doj_dv_agency_months": 8038,
+    "sandag_a_source_rows": 791760,
+    "sandag_a_agency_scoped_incidents": 624649,
+    "sandag_a_dv_flagged_incidents": 66681,
+    "sandag_b_rows": 112170,
+    "sdpd_offense_rows": 549408,
+    "historical_dv_years": 37,
+    "ghcn_stations": 29,
+    "isd_stations": 12,
+    "isd_accepted_hours": 379574,
+    "isd_complete_station_days": 13235
+  }
+}

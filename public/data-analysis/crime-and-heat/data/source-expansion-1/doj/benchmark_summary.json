@@ -1,0 +1,234 @@
+{
+  "status": "VERIFIED_WITH_DOCUMENTED_SOURCE_LIMITATIONS",
+  "snapshot_date": "2026-09-24",
+  "release_date": "2026-07-01",
+  "years": {
+    "county_arrests_citations": [
+      1980,
+      2025
+    ],
+    "dv_calls_agency_month": [
+      2001,
+      2025
+    ]
+  },
+  "observations": {
+    "statewide_dv_source_rows": 208175,
+    "statewide_arrest_source_rows": 111882,
+    "san_diego_dv_agency_month_rows": 8038,
+    "san_diego_dv_agency_year_rows": 686,
+    "san_diego_distinct_reporting_names": 32,
+    "san_diego_arrest_demographic_rows": 2206
+  },
+  "important_finding": {
+    "claim": "Official DOJ context documents identify incomplete San Diego County Sheriff submissions in November–December 2024 and January–June 2025.",
+    "confirmed_scope": "DOJ submissions; exact overlap with supplied arrest exports and separately labeled contract jurisdictions unresolved",
+    "not_established": [
+      "precise missing export records",
+      "complete earlier months",
+      "RMS migration causation",
+      "completeness percentage"
+    ],
+    "sources": [
+      {
+        "title": "Arrests/Arrest Dispositions context, revised June 2026",
+        "page": 7,
+        "section": "Agency-Specific Data Characteristics and Limitations",
+        "url": "https://data-openjustice.doj.ca.gov/sites/default/files/dataset/2026-07/Arrests%20Context_0615026.pdf#page=7"
+      },
+      {
+        "title": "Domestic Violence Related Calls for Service context, revised June 2026",
+        "page": 5,
+        "section": "Agency-Specific Data Characteristics and Limitations",
+        "url": "https://data-openjustice.doj.ca.gov/sites/default/files/dataset/2026-07/Domestic%20Violence%20Related%20Calls%20for%20Service%20Context_06222026.pdf#page=5"
+      }
+    ]
+  },
+  "unit_definitions": {
+    "dv_calls": "Reported DV-related calls resulting in a written responding-agency report, with or without arrest; not all incoming calls or unique victims.",
+    "arrests_citations": "County-of-reporting-agency arrest/citation occasions; highest-severity offense selected; not unique people.",
+    "supplied_export": "Previously published source-file-scoped ID groups; distinct unit and incomplete agency/date coverage."
+  },
+  "scope_limits": [
+    "No population denominators.",
+    "Arrest bulk download has no agency field or DV flag; no Sheriff arrest total derived.",
+    "County DV sums include separate reporting entities; Sheriff-named row is not certified as all Sheriff-service-area calls.",
+    "Agency-month presence is not complete reporting; missing rows are not zero-filled.",
+    "Strangulation/suffocation before 2018 remains missing.",
+    "2021 San Diego arrest/citation total 33363 is reproduced from the bulk file; sharp decline is unexplained, not established as real.",
+    "225 statewide weapon>total-call rows preserved, none San Diego."
+  ],
+  "annual_context": [
+    {
+      "year": 2018,
+      "doj_county_arrests_citations": 84693,
+      "doj_county_dv_calls": 17511,
+      "doj_sheriff_named_entity_dv_calls": 2503,
+      "doj_vista_named_entity_dv_calls": 632,
+      "doj_san_marcos_named_entity_dv_calls": 370,
+      "supplied_export_all_source_ids": 12092,
+      "supplied_export_core_dv_source_ids": 988,
+      "supplied_export_broad_dv_source_ids": 1215,
+      "comparison_scope": "Different units and populations; no equality or completeness percentage; supplied 2018 starts July; 2025 incomplete",
+      "doj_known_sheriff_reporting_issue": ""
+    },
+    {
+      "year": 2019,
+      "doj_county_arrests_citations": 85251,
+      "doj_county_dv_calls": 17436,
+      "doj_sheriff_named_entity_dv_calls": 2522,
+      "doj_vista_named_entity_dv_calls": 639,
+      "doj_san_marcos_named_entity_dv_calls": 316,
+      "supplied_export_all_source_ids": 24760,
+      "supplied_export_core_dv_source_ids": 1947,
+      "supplied_export_broad_dv_source_ids": 2331,
+      "comparison_scope": "Different units and populations; no equality or completeness percentage; supplied 2018 starts July; 2025 incomplete",
+      "doj_known_sheriff_reporting_issue": ""
+    },
+    {
+      "year": 2020,
+      "doj_county_arrests_citations": 69453,
+      "doj_county_dv_calls": 17683,
+      "doj_sheriff_named_entity_dv_calls": 2487,
+      "doj_vista_named_entity_dv_calls": 601,
+      "doj_san_marcos_named_entity_dv_calls": 344,
+      "supplied_export_all_source_ids": 18589,
+      "supplied_export_core_dv_source_ids": 1838,
+      "supplied_export_broad_dv_source_ids": 2254,
+      "comparison_scope": "Different units and populations; no equality or completeness percentage; supplied 2018 starts July; 2025 incomplete",
+      "doj_known_sheriff_reporting_issue": ""
+    },
+    {
+      "year": 2021,
+      "doj_county_arrests_citations": 33363,
+      "doj_county_dv_calls": 18366,
+      "doj_sheriff_named_entity_dv_calls": 2517,
+      "doj_vista_named_entity_dv_calls": 597,
+      "doj_san_marcos_named_entity_dv_calls": 344,
+      "supplied_export_all_source_ids": 19018,
+      "supplied_export_core_dv_source_ids": 1875,
+      "supplied_export_broad_dv_source_ids": 2351,
+      "comparison_scope": "Different units and populations; no equality or completeness percentage; supplied 2018 starts July; 2025 incomplete",
+      "doj_known_sheriff_reporting_issue": ""
+    },
+    {
+      "year": 2022,
+      "doj_county_arrests_citations": 55321,
+      "doj_county_dv_calls": 17501,
+      "doj_sheriff_named_entity_dv_calls": 2397,
+      "doj_vista_named_entity_dv_calls": 606,
+      "doj_san_marcos_named_entity_dv_calls": 313,
+      "supplied_export_all_source_ids": 18317,
+      "supplied_export_core_dv_source_ids": 1674,
+      "supplied_export_broad_dv_source_ids": 2104,
+      "comparison_scope": "Different units and populations; no equality or completeness percentage; supplied 2018 starts July; 2025 incomplete",
+      "doj_known_sheriff_reporting_issue": ""
+    },
+    {
+      "year": 2023,
+      "doj_county_arrests_citations": 60268,
+      "doj_county_dv_calls": 16666,
+      "doj_sheriff_named_entity_dv_calls": 2158,
+      "doj_vista_named_entity_dv_calls": 519,
+      "doj_san_marcos_named_entity_dv_calls": 310,
+      "supplied_export_all_source_ids": 18096,
+      "supplied_export_core_dv_source_ids": 1682,
+      "supplied_export_broad_dv_source_ids": 2019,
+      "comparison_scope": "Different units and populations; no equality or completeness percentage; supplied 2018 starts July; 2025 incomplete",
+      "doj_known_sheriff_reporting_issue": ""
+    },
+    {
+      "year": 2024,
+      "doj_county_arrests_citations": 59461,
+      "doj_county_dv_calls": 15682,
+      "doj_sheriff_named_entity_dv_calls": 1717,
+      "doj_vista_named_entity_dv_calls": 391,
+      "doj_san_marcos_named_entity_dv_calls": 269,
+      "supplied_export_all_source_ids": 17121,
+      "supplied_export_core_dv_source_ids": 1574,
+      "supplied_export_broad_dv_source_ids": 1856,
+      "comparison_scope": "Different units and populations; no equality or completeness percentage; supplied 2018 starts July; 2025 incomplete",
+      "doj_known_sheriff_reporting_issue": "Nov-Dec partial"
+    },
+    {
+      "year": 2025,
+      "doj_county_arrests_citations": 57114,
+      "doj_county_dv_calls": 14979,
+      "doj_sheriff_named_entity_dv_calls": 1078,
+      "doj_vista_named_entity_dv_calls": 268,
+      "doj_san_marcos_named_entity_dv_calls": 192,
+      "supplied_export_all_source_ids": 8283,
+      "supplied_export_core_dv_source_ids": 900,
+      "supplied_export_broad_dv_source_ids": 1029,
+      "comparison_scope": "Different units and populations; no equality or completeness percentage; supplied 2018 starts July; 2025 incomplete",
+      "doj_known_sheriff_reporting_issue": "Jan-Jun partial"
+    }
+  ],
+  "models_refitted": false,
+  "model_caveat": "Existing published models still include the documented late-2024 interval; this acquisition update does not revise fitted estimates.",
+  "public_data_contains_individual_records": false,
+  "public_package_omits_raw_bulk_sources": true,
+  "official_release_url": "https://oag.ca.gov/node/625792",
+  "csv_outputs": [
+    {
+      "path": "aggregates/annual_context_comparison_2018_2025.csv",
+      "rows": 8,
+      "bytes": 1653,
+      "sha256": "ef39e46d7c38b16bc092eba3644c115a57f7a2162ca83343636a27323c2e8797"
+    },
+    {
+      "path": "aggregates/california_control_totals_2001_2025.csv",
+      "rows": 25,
+      "bytes": 567,
+      "sha256": "754e12412687c4b262517d773c7c5c42417522e67d4f4f4bdfb115d92663a79e"
+    },
+    {
+      "path": "aggregates/monthly_context_comparison_2018_2025.csv",
+      "rows": 96,
+      "bytes": 18844,
+      "sha256": "b23eb5265129ed3e138bdd0ba8ef6364c34106de7a7cdda091cfeffb09e63be9"
+    },
+    {
+      "path": "aggregates/san_diego_arrests_county_year_age_1980_2025.csv",
+      "rows": 138,
+      "bytes": 31116,
+      "sha256": "2de0d75b8dc040ff63c406e93e39535d1325286df0214509ef101ebcbd080b52"
+    },
+    {
+      "path": "aggregates/san_diego_dv_calls_agency_month_2001_2025.csv",
+      "rows": 8038,
+      "bytes": 1837526,
+      "sha256": "849e5d879d8e21222e004c446c36e20cab8a2e061c9086320ecc9533e53ed38b"
+    },
+    {
+      "path": "aggregates/san_diego_dv_calls_agency_year_2001_2025.csv",
+      "rows": 686,
+      "bytes": 123414,
+      "sha256": "aa76a10ce814f98a91f4bb611140ad0e8873e933138ecb6cf3107bb4fad7e5de"
+    },
+    {
+      "path": "aggregates/san_diego_dv_calls_county_month_2001_2025.csv",
+      "rows": 300,
+      "bytes": 20505,
+      "sha256": "73383368a25781b1cebd4f416664c83579d4d8c5df83a66d81f9776af481f295"
+    },
+    {
+      "path": "aggregates/san_diego_dv_calls_county_year_2001_2025.csv",
+      "rows": 25,
+      "bytes": 3483,
+      "sha256": "c152d7e0aa540a628873b97f5455e92829953af946b5a3176b3cf9ac6d6b8879"
+    },
+    {
+      "path": "aggregates/san_diego_jurisdiction_listing.csv",
+      "rows": 38,
+      "bytes": 1884,
+      "sha256": "6d2164c5bcb1493de3cffb30d438b0dea0e073f5c9f673f2b2f53f9577f9a426"
+    },
+    {
+      "path": "aggregates/statewide_dv_weapon_total_anomalies.csv",
+      "rows": 225,
+      "bytes": 13324,
+      "sha256": "2098b52a50031d4dfd9d461d93d18bbf6603a1901f0a3919b94f35db92410ae6"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "id": "qbrv-e75t",
+  "name": "Total Domestic Violence Crimes in the County of San Diego 1980-2022",
+  "description": "Total Number of Domestic Violence Incidents in the County of San Diego from 1980-2022",
+  "rowsUpdatedAt": 1692720193,
+  "viewLastModified": 1786465872,
+  "metadata": {
+    "custom_fields": {
+      "Additional Information": {
+        "Use Limitations": "Allowed to Publish",
+        "Methodology": "The ability for SANDAG to analyze data and produce reports on crime trends for the region relies upon a cooperative agreement with each local law enforcement agency. SANDAG obtains crime data from every agency on a monthly basis, allowing the presentation of regional crime data in a timely manner. Crimes are categorized according to the FBI\u2019s standardized UCR guidelines for law enforcement agencies across the country. Reported crimes are tallied in ARJIS according to the date of data entry, which may or may not reflect the day of occurrence. It should be noted that while local law enforcement agencies strive to tabulate their statistics in a timely fashion, data entry delays sometimes occur, which may affect statistics. Data has been verified by each law enforcement agency in the region.",
+        "ODP Application": "Criminal Justice Research Clearinghouse",
+        "SANDAG Last Access Date": "7/7/2023",
+        "Data Timeframe": "1980-2022",
+        "Geographic Granularity": "Region"
+      },
+      "Maintenance": {
+        "Next Update Date": "2024",
+        "Update Frequency": "Yearly",
+        "SANDAG Last QA/QC Date": "N/A",
+        "Enrolled in Archiving": "Enrolled"
+      }
+    },
+    "rowLabel": "Domestic Violence Crimes",
+    "availableDisplayTypes": [
+      "table",
+      "fatrow",
+      "page"
+    ]
+  },
+  "provenance": "official",
+  "columns": [
+    {
+      "fieldName": "year",
+      "name": "Year",
+      "dataTypeName": "text",
+      "description": ""
+    },
+    {
+      "fieldName": "domestic_violence",
+      "name": "Domestic Violence",
+      "dataTypeName": "number",
+      "description": ""
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "status": "PASS_WITH_SOURCE_WARNINGS",
+  "statewide_weapon_count_exceeds_total_call_rows": 225,
+  "san_diego_weapon_count_exceeds_total_call_rows": 0,
+  "statewide_dv_source_rows": 208175,
+  "statewide_arrest_source_rows": 111882,
+  "san_diego_dv_agency_month_rows": 8038,
+  "san_diego_dv_agency_year_rows": 686,
+  "san_diego_distinct_reporting_names": 32,
+  "san_diego_arrest_demographic_rows": 2206,
+  "duplicate_natural_keys": 0,
+  "nonnegative_counts": true,
+  "felony_component_sums_match": true,
+  "weapon_component_sums_match": true,
+  "dv_annual_monthly_agency_county_totals_reconcile": true,
+  "latest_statewide_dv_totals_match_official_release": true,
+  "population_denominators_present": false,
+  "arrest_agency_field_available": false,
+  "unmatched_historical_dv_names": [
+    "Colorado DPR"
+  ],
+  "scope": "Reported counts only; absent months are not zero-filled; pre-2018 strangulation fields remain null",
+  "aggregate_hashes": {
+    "annual_context_comparison_2018_2025.csv": "ef39e46d7c38b16bc092eba3644c115a57f7a2162ca83343636a27323c2e8797",
+    "california_control_totals_2001_2025.csv": "754e12412687c4b262517d773c7c5c42417522e67d4f4f4bdfb115d92663a79e",
+    "monthly_context_comparison_2018_2025.csv": "b23eb5265129ed3e138bdd0ba8ef6364c34106de7a7cdda091cfeffb09e63be9",
+    "san_diego_arrests_county_year_age_1980_2025.csv": "2de0d75b8dc040ff63c406e93e39535d1325286df0214509ef101ebcbd080b52",
+    "san_diego_dv_calls_agency_month_2001_2025.csv": "849e5d879d8e21222e004c446c36e20cab8a2e061c9086320ecc9533e53ed38b",
+    "san_diego_dv_calls_agency_year_2001_2025.csv": "aa76a10ce814f98a91f4bb611140ad0e8873e933138ecb6cf3107bb4fad7e5de",
+    "san_diego_dv_calls_county_month_2001_2025.csv": "73383368a25781b1cebd4f416664c83579d4d8c5df83a66d81f9776af481f295",
+    "san_diego_dv_calls_county_year_2001_2025.csv": "c152d7e0aa540a628873b97f5455e92829953af946b5a3176b3cf9ac6d6b8879",
+    "san_diego_jurisdiction_listing.csv": "6d2164c5bcb1493de3cffb30d438b0dea0e073f5c9f673f2b2f53f9577f9a426",
+    "statewide_dv_weapon_total_anomalies.csv": "2098b52a50031d4dfd9d461d93d18bbf6603a1901f0a3919b94f35db92410ae6"
+  }
+}

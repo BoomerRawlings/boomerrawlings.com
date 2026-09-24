@@ -1,0 +1,32 @@
+field,field_type,description,possible_values
+objectid,Integar,Sequential unique whole numbers that are automatically generated.,
+nibrs_uniq,String,Unique value used to identify countable offenses per NIBRS counting rules,
+case_number,String,San Diego Police Department Case Number. This is used for tracking purposes within the San Diego Police Department's Records Management System.,
+occured_on,String,Date of Offense Occurrence as recorded in the Police Case report,
+approved_on,String,Date of Approval for Police Case Report.,
+day_of_week,Integar,Offense Day of Occurrence represented as an integer from 1 (Sunday) - 7 (Saturday).,1 through 7
+month,Integar,Month of year represented as a integer from 1 (January) - 12 (December).,1 through 12
+year,Integar,Year of Offense Occurrence.,2020 through present day
+code_section,String,Violation sections that make up the individual NIBRS Offense from the Police Case Report.,
+group_type,String,FBI NIBRS Offense Group.,A or B
+ibr_category,String,FBI NIBRS Offense Category,"'ANIMAL CRUELTY', 'ARSON', 'ASSAULT OFFENSES', 'BRIBERY', 'BURGLARY/BREAKING & ENTERING', 'COUNTERFEITING/FORGERY', 'DESTRUCTION/DAMAGE/VANDALISM OF PROPERTY', 'DRUG/NARCOTIC OFFENSES', 'EMBEZZLEMENT', 'EXTORTION/BLACKMAIL', 'FRAUD OFFENSES', 'GAMBLING OFFENSES', 'GROUP ""B"" OFFENSES', 'HOMICIDE OFFENSES', 'HUMAN TRAFFICKING', 'KIDNAPING/ABDUCTION', 'LARCENY/THEFT OFFENSES', 'MOTOR VEHICLE THEFT', 'PORNOGRAPHY/OBSCENE MATERIAL', 'PROSTITUTION OFFENSES', 'ROBBERY', 'SEX OFFENSES, FORCIBLE', 'SEX OFFENSES, NONFORCIBLE', 'STOLEN PROPERTY OFFENSES', 'WEAPON LAW VIOLATIONS', "
+crime_against,String,"FBI NIBRS Crime Against Category. PE = Persons, PR = Property, SO = Society. See https://ucr.fbi.gov/nibrs/2018/resource-pages/crimes_against_persons_property_and_society-2018.pdf","PE,PR,SO"
+ibr_offense,String,NIBRS Offense Codes. See https://ucr.fbi.gov/nibrs/2012/resources/nibrs-offense-definitions,"09A,09B,09C,100,11A,11B,11C,11D,120,13A,13B,13C,200,210,220,23A,23B,23C,23D,23E,23F,23G,23H,240,250,26A,26B,26C,26D,26E,26F,26G,270,280,290,35A,35B,36A,36B,370,39A,39B,39C,39D,40A,40B,510,520,64A,64B,720,90A,90B,90C,90D,90E,90F,90G,90H,90I,90J,90Z,"
+ibr_offense_description,String,FBI NIBRS Offense Description. See https://ucr.fbi.gov/nibrs/2012/resources/nibrs-offense-definitions.,"'Aggravated Assault', 'All Other Larceny', 'All Other Offenses', 'Animal Cruelty', 'Arson', 'Assisting or Promoting Prostitution', 'Bad Checks', 'Betting/Wagering', 'Bribery', 'Burglary/Breaking & Entering', 'Counterfeiting/Forgery', 'Credit Card/Automatic Teller Fraud', 'Curfew/Loitering/Vagrancy Violations', 'Destruction/Damage/Vandalism of Property', 'Disorderly Conduct', 'Driving Under the Influence', 'Drug Equipment Violations', 'Drug/narcotic Violations', 'Drunkenness', 'Embezzlement', 'Extortion/Blackmail', 'False Pretenses/Swindle/Confidence Game', 'Family Offenses (Nonviolent)', 'Forcible Fondling', 'Forcible Rape', 'Forcible Sodomy', 'Gambling Equipment Violations', 'Hacking/Computer Fraud', 'Human trafficking, Commercial Sex Acts', 'Human Trafficking, Involuntary Servitude', 'Identity Theft', 'Impersonation', 'Incest', 'Intimidation', 'Justifiable Homicide', 'Kidnaping/Abduction', 'Liquor Law Violations', 'Motor Vehicle Theft', 'Murder and Nonnegligent Manslaughter', 'Negligent Manslaughter', 'Operating/Promoting/Assisting Gambling', 'Peeping Tom', 'Pocket-Picking', 'Pornography/Obscene Material', 'Prostitution', 'Purse-Snatching', 'Robbery', 'Runaway', 'Sexual Assault With an Object', 'Shoplifting', 'Simple Assault', 'Sports Tampering', 'Statutory Rape', 'Stolen Property Offenses', 'Theft From Building', 'Theft From Coin Operated Machine or Device', 'Theft From Motor Vehicle', 'Theft of Motor Vehicle Parts/Accessories', 'Trespass of Real Property', 'Weapon Law Violations', 'Welfare Fraud', 'Wire Fraud', "
+pd_offense_category,String,San Diego Police Department Offense Category,"'Aggravated Assault', 'Alcohol Violations', 'All Other Offenses', 'Animal Cruelty', 'Arson', 'Burglary/Breaking & Entering', 'Curfew/Loitering/Vagrancy Violations', 'Disorderly Conduct', 'Drug/Narcotic Violations', 'Fraud/Counterfeiting', 'Gambling Violations', 'Homicide', 'Intimidation', 'Kidnapping/Abduction', 'Larceny', 'Motor Vehicle Theft', 'Other Sex Offenses', 'Pornography/Obscene Material', 'Prostitution', 'Robbery', 'Sexual Assault', 'Simple Assault', 'Stolen Property Offenses', 'Theft From Motor Vehicle', 'Vandalism', 'Weapon Law Violations', "
+violent_crime,Integar,"Binary value indicating whether Offense meets the FBI standard of a violent crime. 1 = True, 2 = False",0 or 1
+property_crime,Integar,"Binary value indicating whether Offense meets the FBI standard of a property crime. 1 = True, 2 = False",0 or 1
+beat,Integar,San Diego Police Department Beat number where Offense occurred,
+neighborhood,String,San Diego Police Department Neighborhood where incident occurred,
+service_area,Integar,San Diego Police Department Service Area where incident Occurred,"510, 240, 610, 720, 820, 310, 520, 120, 710, 320, 810, 930, 830, 430, 110, 620, 230, 440, 530"
+division_number,Integar,"San Diego Police Department where incident occurred represented as an integer. 1 = Northern, 2 = Northeastern, 3 = Eastern, 4 = Southeastern, 5 = Central, 6 = Western, 7 = Southern, 8 = Mid-City, 9 = Northwestern",1 through 9
+division,String,San Diego Police Department Division where Offense Occurred.,"Central, Northeastern, Western, Unknown, Southern, Mid-City, Eastern, Northern, Northwestern, Southeastern"
+block_addr,String,Block Address and/or intersection location of Incident. Street address is rounded down to block level. Empty values signify ,
+city,String,City where Offense occurred,
+state,String,State where Offense occurred,
+zip,String,Zip Code where Offense occurred,
+query_run_date,String,Date/Time when San Diego Police Department Records Management System was queried that returned record,
+geocode_status,String,Geocode status of record. M = Matched (Geocoded successfully to 1 address). T = Tied (Geocoded to multiple possible addresses). U = Unmatched (Geocoding unsuccessful),"M,T,U"
+geocode_score,Float,Geocode Confidence score represented as a percentage. Generated during Geocoding process in ArcGIS Pro,
+latitude,Float,Geocoded Y coordinate of Block Address and/or intersection where Offense Occurred in EPSG 4326,
+longitude,Float,Geocoded X coordinate of Block Address and/or intersection where Offense Occurred in EPSG 4326,

@@ -1,0 +1,60 @@
+{
+  "locations": {
+    "file": "locations.csv.gz",
+    "rows": 112,
+    "columns": [
+      "zip_code",
+      "latitude",
+      "longitude",
+      "downscaled_elevation_m"
+    ],
+    "source_relative_path": "weather/weather_locations.csv",
+    "source_sha256": "65902d62aa5ad72b937dc9a4fd6c75aad5dc28173e61d1242ab01c31f5af7105",
+    "sha256": "eb80f1fccd67f7ed6740b681a529d38d838af6d26fda1b54c637654f0b165b02"
+  },
+  "original": {
+    "file": "original.csv.gz",
+    "rows": 163632,
+    "columns": [
+      "zip_code",
+      "date",
+      "core_count",
+      "broad_count",
+      "eligible_all_count",
+      "temp_high_f",
+      "temp_mean_f",
+      "temp_low_f"
+    ],
+    "source_relative_path": "publication/data/downloads/daily_zip_eligible_weather.csv",
+    "source_sha256": "db8535a17fbdca5075e47afc6d82a47af0641c07400c48320e9d10d2b37c1882",
+    "sha256": "0a041646516891c092329d69ec1a26b8b2f3486f8cf131adb55505d3f56c9f0c"
+  },
+  "civil": {
+    "file": "civil.csv.gz",
+    "rows": 93504,
+    "columns": [
+      "zip_code",
+      "date",
+      "temp_high_f",
+      "temp_mean_f",
+      "temp_low_f"
+    ],
+    "source_relative_path": "publication/revision_weather/daily_zip_weather_civil.csv",
+    "source_sha256": "4dd4df04aeb05780770919567d8241f1b64403b4410f432c0fb68ab6f885d225",
+    "sha256": "0c6fc5269f967d997c5b9847436a158eaca154454eb5546dfa479f1021dd16e4"
+  },
+  "original_noaa": {
+    "file": "original_noaa.csv.gz",
+    "rows": 8766,
+    "columns": [
+      "station",
+      "date",
+      "temp_high_f",
+      "temp_low_f",
+      "temp_mean_f"
+    ],
+    "source_relative_path": "weather/noaa_station_daily.csv",
+    "source_sha256": "ef24ec29b9d26f44e606cb88f7efd6ee204ac4ed35bc3e48856574baafa8550d",
+    "sha256": "388c73c3bdf6314112fd7bbeca48cad359c3ede1df263d0ef5097bcc31ccc89d"
+  }
+}

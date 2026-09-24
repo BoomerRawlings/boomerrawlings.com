@@ -1,0 +1,158 @@
+{
+  "compare_noaa.py": {
+    "bytes": 14043,
+    "sha256": "10ee43efc531e1ea3ebc5f06a7e356b3537f73037e321a35a9678809348c3748"
+  },
+  "comparison_summary.json": {
+    "bytes": 7982,
+    "sha256": "209bc9452f400f436973445dd6c7f217f80a5d872eddebc4f82657dec31270af"
+  },
+  "DATA_DICTIONARY.md": {
+    "bytes": 4566,
+    "sha256": "fa4335df31d8708d5b5af8423f77acf71f8d2a0ced3c0f18a38e05868d5d0dbe"
+  },
+  "dataset_provenance.json": {
+    "bytes": 4091,
+    "sha256": "4545d636008b3fe34af02cf6420260eac2dba49aa761e38716c29ecda0890507"
+  },
+  "expand_noaa.py": {
+    "bytes": 14672,
+    "sha256": "5ec2bb33c9cdbf84da460953320e8ee4b7553035c42bff617e2c3302e73d9147"
+  },
+  "finalize_manifest.py": {
+    "bytes": 3755,
+    "sha256": "ba1a494c1515b07a1dfdf338c8777a6bfb49e6f97e6e31d5c445a3529295114c"
+  },
+  "ghcn_baseline_thresholds_1991_2020.csv": {
+    "bytes": 6667,
+    "sha256": "16aece852c26a2b39be4f19d5bc863b5b152aed42233d7232cecb35652abc51c"
+  },
+  "ghcn_daily_1991_2025.csv.gz": {
+    "bytes": 2350992,
+    "sha256": "d713eef4126555086daddb684e2acef48121b56c038d70fdcc0dce1777a0a8c3"
+  },
+  "ghcn_daily_2018_2025.csv": {
+    "bytes": 5489347,
+    "sha256": "2561355db587d951c96ed315aca1fa074f3bc676cb9d49bdd799507c0a4c0f64"
+  },
+  "ghcn_heat_exceedance_2021_2024.csv": {
+    "bytes": 451698,
+    "sha256": "829aa9d23cea0aa61603a5a5f8541746d74bf2fc6cab5b49b483842c89bb5199"
+  },
+  "ghcn_inventory_region.json": {
+    "bytes": 65965,
+    "sha256": "6361b36eb82677e76919395853b28c8b0f0582e61f99536c37c68734c44d2454"
+  },
+  "ghcn_quality_summary.json": {
+    "bytes": 438,
+    "sha256": "b55be44ee5f9aaadee38b62c3010f46ddee1cee55cfec60707e59bc85b651ddc"
+  },
+  "ghcn_selected_stations.json": {
+    "bytes": 9859,
+    "sha256": "7692e09abc0c76e0872ee1ee15c8c8f99a257b480a7c904c32833b3aeaa517e2"
+  },
+  "ghcn_station_coverage.csv": {
+    "bytes": 4760,
+    "sha256": "61333c2f8e4f6a2c8d1b26726515e1a2a2ab38949aa508041892dbb6bf4db65b"
+  },
+  "ghcn_vs_isd_same_station.csv": {
+    "bytes": 4330,
+    "sha256": "a90953ac5a3d70255c42770acb0308152a705ec9834a822ad2b56b2592f556fb"
+  },
+  "ghcn_zip_paired_metrics.csv": {
+    "bytes": 23874,
+    "sha256": "a74d616eeea82baecb9dd9c3985bcaa5c0e22841a04873876f7558961760fe9b"
+  },
+  "ghcn_zip_pairs_2021_2024.csv.gz": {
+    "bytes": 2249477,
+    "sha256": "96b04a93f3ef8d053c4a385d1aab6ce50dfa1bb1ad8da52d03f892f4d88f0d79"
+  },
+  "ghcn_zip_station_assignment.csv": {
+    "bytes": 20759,
+    "sha256": "eb505713ef09e8f5e48651a203736edc353e37f40181e75655fda07f075e5231"
+  },
+  "isd_civil_daily_2021_2024.csv": {
+    "bytes": 2479377,
+    "sha256": "05b96277bd2fcc7a92f89e2afb7629208a900f54ec5b594e4472fc946f1c8683"
+  },
+  "isd_inventory_region.json": {
+    "bytes": 4826,
+    "sha256": "cfd1202e0f1e38f9f9d8b0e4d1c65260dee9e4c309bfb4ba88e8a386b4c131e1"
+  },
+  "isd_pilot.json": {
+    "bytes": 1401,
+    "sha256": "df53df678414239f7ef15dd8d8dd179884c74722e05119d7698a91261f687c3d"
+  },
+  "isd_quality_summary.csv": {
+    "bytes": 724,
+    "sha256": "54c6fa096232ace44885052207705f4fc256dcdb33a8e7c2122113617997fdf2"
+  },
+  "isd_selected_hourly_2021_2024.csv.gz": {
+    "bytes": 4182778,
+    "sha256": "73d469c56e5260739df15223e57957b87ecc9819e685125348fd85e7fdc53135"
+  },
+  "isd_selected_stations.json": {
+    "bytes": 3468,
+    "sha256": "30969216d5390abf84edb860529c674b72984f7f11e776d95559f2e806e8127e"
+  },
+  "isd_station_coverage.csv": {
+    "bytes": 1250,
+    "sha256": "603bf9a3672a6adcb950d3f7318287a3d25209564a7a2f429462b7b95621b2e1"
+  },
+  "isd_zip_pairs_2021_2024.csv.gz": {
+    "bytes": 2229624,
+    "sha256": "795fa0cd49502aa28c0b914263ea78d7935d6c6444b480c4c24d81f9283242b5"
+  },
+  "isd_zip_station_assignment.csv": {
+    "bytes": 11781,
+    "sha256": "c4ce71dc24b8d98fc621f00ffec260aaa18cd12a06d1a86a10229104f5ba79aa"
+  },
+  "network_coverage_comparison.csv": {
+    "bytes": 307,
+    "sha256": "f8341eaaabf9d5575aa68645c2bb8228839680a97f55252badcae8da55320c12"
+  },
+  "original_six_cache_reconciliation.csv": {
+    "bytes": 3012,
+    "sha256": "f6f5e76ea0477f1ccf6b7bde94b140fc25959005f6d286450afbc19d500baa53"
+  },
+  "raw_manifest.json": {
+    "bytes": 30499,
+    "sha256": "8368d6891a38f7ebaedb762ac75d97d998f2026bd997538caae66d37e6e89e15"
+  },
+  "README.md": {
+    "bytes": 10119,
+    "sha256": "63aff157051ab9dd27bd7b4406e02e516bd6ea9ceacfecabbbc14f8ec5f7feb9"
+  },
+  "reproduction_inputs/civil.csv.gz": {
+    "bytes": 850806,
+    "sha256": "0c6fc5269f967d997c5b9847436a158eaca154454eb5546dfa479f1021dd16e4"
+  },
+  "reproduction_inputs/locations.csv.gz": {
+    "bytes": 1547,
+    "sha256": "eb80f1fccd67f7ed6740b681a529d38d838af6d26fda1b54c637654f0b165b02"
+  },
+  "reproduction_inputs/manifest.json": {
+    "bytes": 1860,
+    "sha256": "972fd81bd4a80240b989eb40b733b90bff53b0a260157c1151a3a8dec2263e06"
+  },
+  "reproduction_inputs/original.csv.gz": {
+    "bytes": 1319272,
+    "sha256": "0a041646516891c092329d69ec1a26b8b2f3486f8cf131adb55505d3f56c9f0c"
+  },
+  "reproduction_inputs/original_noaa.csv.gz": {
+    "bytes": 41441,
+    "sha256": "388c73c3bdf6314112fd7bbeca48cad359c3ede1df263d0ef5097bcc31ccc89d"
+  },
+  "verification.json": {
+    "bytes": 731,
+    "sha256": "519b5d2c7f94d8a42ffed46769cafcb12f1bfe3f2e49180478c17351fc891a79"
+  },
+  "verify_noaa.py": {
+    "bytes": 6764,
+    "sha256": "40ae5839e4584e96bafb1bc790acdb25305428d59a926ca62bc29311e876370f"
+  },
+  "weather_paired_metrics.csv": {
+    "bytes": 2099,
+    "sha256": "ac2fb95dbfd86d8b735c7311b206eaf5508309671211acb0b687b63fb2a3666e"
+  }
+}

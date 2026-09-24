@@ -1,0 +1,226 @@
+﻿YEAR,COUNTY,AGENCY_NAME,MONTH,TOTAL_CALLS,WEAPONS_INVOLVED,SUB_FIREARM,SUB_KNIFE,SUB_OTHER,SUB_PERSONAL,WEAPON_NOT_RPT,TOTAL_STRANG_SUFFO,SUB_STRANGULATION,SUB_SUFFOCATION
+2022,Contra Costa County,San Ramon,10,18,20,0,0,2,18,0,1,1,0
+2022,Contra Costa County,San Ramon,11,19,22,0,2,6,14,0,1,1,0
+2022,Contra Costa County,San Ramon,12,11,12,0,0,6,6,0,1,1,0
+2022,Contra Costa County,San Ramon,8,13,14,0,0,2,12,0,0,0,0
+2022,Contra Costa County,San Ramon,9,17,18,0,0,2,16,0,1,1,0
+2022,Humboldt County,Humboldt Co. Sheriff's Department,6,17,22,0,0,3,19,0,0,0,0
+2022,Los Angeles County,Vernon,8,1,2,0,0,1,1,0,0,0,0
+2022,Mendocino County,Ukiah,12,17,26,0,0,4,22,0,1,1,0
+2022,Mendocino County,Ukiah,5,12,13,0,0,3,10,0,2,1,1
+2022,Mendocino County,Ukiah,6,3,6,0,0,0,6,0,0,0,0
+2022,Orange County,Aliso Viejo,10,32,36,0,0,6,30,0,5,4,1
+2022,Orange County,Aliso Viejo,8,10,11,0,0,0,11,0,1,1,0
+2022,Orange County,Dana Point,10,20,23,0,3,4,16,0,2,2,0
+2022,Orange County,Dana Point,8,6,8,0,0,1,7,0,0,0,0
+2022,Orange County,Dana Point,9,12,15,0,0,2,13,0,1,1,0
+2022,Orange County,Laguna Hills,6,4,5,0,0,1,4,0,0,0,0
+2022,Orange County,Laguna Hills,8,8,14,0,2,0,12,0,1,1,0
+2022,Orange County,Laguna Niguel,10,30,31,0,0,4,27,0,5,5,0
+2022,Orange County,Laguna Woods,3,1,2,0,0,0,2,0,0,0,0
+2022,Orange County,Lake Forest,6,24,25,0,0,1,24,0,3,3,0
+2022,Orange County,Mission Viejo,10,33,35,0,1,5,29,0,0,0,0
+2022,Orange County,Mission Viejo,12,4,6,0,1,1,4,0,0,0,0
+2022,Orange County,Mission Viejo,1,14,16,0,3,1,12,0,2,2,0
+2022,Orange County,Orange,4,1,2,0,0,1,1,0,1,1,0
+2022,Orange County,Orange,5,2,4,0,1,1,2,0,1,1,0
+2022,Orange County,Rancho Santa Margarita,8,1,2,0,0,0,2,0,1,1,0
+2022,Orange County,San Clemente,10,29,36,0,0,5,31,0,4,2,2
+2022,Orange County,San Clemente,11,19,24,0,0,3,21,0,2,1,1
+2022,Orange County,San Clemente,1,7,8,0,0,0,8,0,0,0,0
+2022,Orange County,San Clemente,2,8,9,0,0,0,9,0,0,0,0
+2022,Orange County,San Clemente,4,9,12,0,0,3,9,0,2,2,0
+2022,Orange County,San Clemente,6,20,21,0,0,3,18,0,1,0,1
+2022,Orange County,Stanton,12,23,27,0,0,6,21,0,3,2,1
+2022,Orange County,Stanton,2,24,29,0,4,3,22,0,3,3,0
+2022,Orange County,Stanton,4,6,7,0,0,1,6,0,0,0,0
+2022,Orange County,Stanton,7,19,21,0,2,3,16,0,0,0,0
+2022,Orange County,Stanton,9,61,65,0,7,8,50,0,9,8,1
+2022,Orange County,Yorba Linda,1,2,5,0,0,0,5,0,3,2,1
+2022,Orange County,Yorba Linda,4,3,4,0,0,1,3,0,0,0,0
+2022,Orange County,Yorba Linda,5,5,6,0,0,2,4,0,1,1,0
+2022,Orange County,Yorba Linda,9,4,5,0,0,3,2,0,0,0,0
+2022,Riverside County,Menifee,1,13,15,0,0,2,13,0,4,4,0
+2022,Riverside County,Menifee,5,22,25,0,0,1,24,0,6,6,0
+2022,Riverside County,Menifee,6,25,28,0,0,6,22,0,6,5,1
+2022,San Bernardino County,Fontana,10,76,83,0,2,19,62,0,6,5,1
+2022,San Bernardino County,Fontana,11,71,83,1,3,10,69,0,10,5,5
+2022,San Bernardino County,Fontana,12,65,75,2,0,6,67,0,10,7,3
+2022,San Bernardino County,Fontana,1,69,70,0,0,16,54,0,13,10,3
+2022,San Bernardino County,Fontana,4,45,50,0,2,7,41,0,5,4,1
+2022,San Bernardino County,Fontana,6,51,55,0,0,11,44,0,9,7,2
+2022,San Bernardino County,Fontana,7,66,67,0,0,6,61,0,9,8,1
+2022,San Bernardino County,Fontana,8,63,72,0,0,17,55,0,9,6,3
+2022,San Bernardino County,Fontana,9,60,68,1,2,10,55,0,6,5,1
+2022,San Bernardino County,Upland,11,24,37,0,4,8,25,0,6,4,2
+2022,San Bernardino County,Upland,1,47,61,0,2,10,49,0,6,4,2
+2022,San Bernardino County,Upland,3,37,41,0,0,1,40,0,0,0,0
+2022,San Bernardino County,Upland,6,28,32,0,0,6,26,0,1,1,0
+2022,San Bernardino County,Upland,8,20,21,0,2,3,16,0,2,2,0
+2022,Santa Barbara County,Santa Maria,6,41,43,1,0,2,40,0,6,5,1
+2022,Sonoma County,Cotati,10,10,11,0,4,1,6,0,2,1,1
+2022,Sonoma County,Cotati,12,3,4,0,0,0,4,0,0,0,0
+2022,Sonoma County,Cotati,6,5,6,0,0,1,5,0,4,3,1
+2022,Sonoma County,Cotati,8,9,11,0,4,1,6,0,2,2,0
+2022,Sonoma County,Petaluma,6,14,15,0,0,2,13,0,3,3,0
+2022,Sonoma County,Rohnert Park,11,20,25,0,0,3,22,0,1,1,0
+2022,Sonoma County,Rohnert Park,5,22,24,0,0,3,21,0,4,3,1
+2022,Sonoma County,Rohnert Park,6,26,33,0,0,9,24,0,5,3,2
+2022,Sonoma County,Rohnert Park,7,11,16,0,0,0,16,0,5,5,0
+2022,Sonoma County,Sonoma Co. Sheriff's Department,10,46,49,8,2,6,33,0,7,7,0
+2022,Sonoma County,Sonoma Co. Sheriff's Department,11,51,54,0,2,9,43,0,12,9,3
+2022,Sonoma County,Sonoma Co. Sheriff's Department,12,48,51,0,0,10,41,0,11,9,2
+2022,Sonoma County,Sonoma Co. Sheriff's Department,5,28,41,4,0,2,35,0,2,2,0
+2022,Sonoma County,Sonoma Co. Sheriff's Department,6,25,29,2,0,3,24,0,2,2,0
+2022,Sonoma County,Sonoma Co. Sheriff's Department,7,33,43,6,0,5,32,0,2,2,0
+2022,Sonoma County,Sonoma Co. Sheriff's Department,8,37,40,0,0,4,36,0,2,2,0
+2022,Sonoma County,Sonoma Co. Sheriff's Department,9,45,50,0,0,4,46,0,10,9,1
+2022,Yolo County,UC Davis,8,6,7,0,0,2,5,0,0,0,0
+2022,Yolo County,West Sacramento,5,20,21,0,3,1,17,0,0,0,0
+2022,Yolo County,Woodland,10,31,32,0,0,7,25,0,2,2,0
+2022,Yolo County,Woodland,3,17,19,0,1,0,18,0,5,4,1
+2022,Yolo County,Woodland,7,32,40,0,1,4,35,0,3,3,0
+2023,Contra Costa County,San Ramon,11,24,26,0,0,5,21,0,3,3,0
+2023,Contra Costa County,San Ramon,12,22,41,0,4,13,24,0,3,3,0
+2023,Contra Costa County,San Ramon,1,10,14,0,0,2,12,0,2,2,0
+2023,Contra Costa County,San Ramon,3,18,25,2,0,9,14,0,4,3,1
+2023,Contra Costa County,San Ramon,4,14,15,0,0,5,10,0,4,2,2
+2023,Los Angeles County,CA Highway Patrol - Los Angeles,12,2,3,0,1,0,2,0,0,0,0
+2023,Los Angeles County,Gardena,10,21,22,0,1,1,20,0,2,2,0
+2023,Los Angeles County,Gardena,12,20,22,1,1,0,20,0,4,4,0
+2023,Los Angeles County,Gardena,7,12,13,0,0,1,12,0,1,1,0
+2023,Los Angeles County,Gardena,9,24,26,0,1,4,21,0,2,1,1
+2023,Los Angeles County,Hermosa Beach,1,5,6,2,0,2,2,0,1,1,0
+2023,Los Angeles County,Hermosa Beach,9,1,2,1,0,1,0,0,0,0,0
+2023,Los Angeles County,Long Beach,12,214,218,6,5,39,168,0,26,26,4
+2023,Los Angeles County,Long Beach,4,193,217,0,4,57,156,0,29,26,3
+2023,Los Angeles County,Los Angeles Co. Sheriff's Department,10,134,260,3,15,20,222,0,0,0,0
+2023,Los Angeles County,Pasadena,1,40,42,1,6,10,25,0,5,5,0
+2023,Los Angeles County,Vernon,11,1,2,0,0,0,2,0,0,0,0
+2023,Los Angeles County,Vernon,5,5,6,0,0,3,3,0,1,1,0
+2023,Mendocino County,Ukiah,12,15,18,0,0,5,13,0,2,2,0
+2023,Mendocino County,Ukiah,4,14,20,0,3,5,12,0,0,0,0
+2023,Mendocino County,Ukiah,5,6,7,0,0,2,5,0,3,3,0
+2023,Mendocino County,Ukiah,8,13,17,0,1,0,16,0,0,0,0
+2023,Orange County,Aliso Viejo,12,1,2,0,0,0,2,0,0,0,0
+2023,Orange County,Aliso Viejo,1,3,4,0,0,2,2,0,0,0,0
+2023,Orange County,Aliso Viejo,6,7,8,0,0,2,6,0,0,0,0
+2023,Orange County,Aliso Viejo,7,5,7,0,3,0,4,0,0,0,0
+2023,Orange County,Dana Point,5,3,4,0,0,0,4,0,2,1,1
+2023,Orange County,Dana Point,6,5,6,0,0,1,5,0,0,0,0
+2023,Orange County,Laguna Hills,5,2,5,0,0,0,5,0,0,0,0
+2023,Orange County,Laguna Niguel,10,21,24,0,1,3,20,0,5,4,1
+2023,Orange County,Laguna Niguel,11,20,27,0,0,5,22,0,4,3,1
+2023,Orange County,Laguna Niguel,5,7,8,0,0,1,7,0,1,1,0
+2023,Orange County,Laguna Niguel,6,60,70,0,3,12,55,0,8,7,1
+2023,Orange County,Laguna Niguel,8,38,47,0,2,1,44,0,4,3,1
+2023,Orange County,Laguna Niguel,9,15,18,0,0,2,16,0,2,2,0
+2023,Orange County,Lake Forest,10,6,9,0,0,3,6,0,1,1,0
+2023,Orange County,Lake Forest,7,4,6,0,0,0,6,0,1,1,0
+2023,Orange County,Lake Forest,8,16,17,0,1,2,14,0,1,1,0
+2023,Orange County,Mission Viejo,10,4,6,0,0,0,6,0,1,1,0
+2023,Orange County,Mission Viejo,2,12,16,0,1,4,11,0,0,0,0
+2023,Orange County,Mission Viejo,4,4,7,0,2,2,3,0,0,0,0
+2023,Orange County,Mission Viejo,8,20,27,0,0,1,26,0,0,0,0
+2023,Orange County,Orange,10,28,31,0,2,5,24,0,6,5,1
+2023,Orange County,Orange,12,31,41,2,0,7,32,0,10,6,4
+2023,Orange County,Orange Co. Sheriff's Department,3,1,2,0,0,0,2,0,0,0,0
+2023,Orange County,Orange Co. Sheriff's Department,4,4,5,0,0,0,5,0,0,0,0
+2023,Orange County,Placentia,10,14,15,0,0,3,12,0,1,1,0
+2023,Orange County,Placentia,11,10,11,1,0,0,10,0,1,1,0
+2023,Orange County,Placentia,12,9,10,0,1,1,8,0,1,1,0
+2023,Orange County,Placentia,6,6,7,0,0,1,6,0,1,1,0
+2023,Orange County,Rancho Santa Margarita,7,2,3,0,0,1,2,0,1,1,0
+2023,Orange County,Rancho Santa Margarita,9,2,3,0,0,0,3,0,2,1,1
+2023,Orange County,San Clemente,4,5,8,0,0,3,5,0,0,0,0
+2023,Orange County,San Clemente,5,8,12,0,2,1,9,0,1,1,0
+2023,Orange County,San Clemente,7,3,4,0,0,0,4,0,0,0,0
+2023,Orange County,San Juan Capistrano,4,3,5,0,2,0,3,0,0,0,0
+2023,Orange County,San Juan Capistrano,9,2,3,0,2,0,1,0,0,0,0
+2023,Orange County,Stanton,2,14,17,0,0,4,13,0,2,1,1
+2023,Orange County,Stanton,4,9,11,0,0,0,11,0,0,0,0
+2023,Orange County,Stanton,5,2,3,0,0,0,3,0,0,0,0
+2023,Orange County,Tustin,11,10,11,2,0,1,8,0,0,0,0
+2023,Orange County,Villa Park,6,1,2,0,0,0,2,0,0,0,0
+2023,Orange County,Yorba Linda,1,5,7,0,0,0,7,0,2,1,1
+2023,Orange County,Yorba Linda,2,9,10,0,0,0,10,0,0,0,0
+2023,Orange County,Yorba Linda,8,9,13,0,0,4,9,0,2,2,0
+2023,Placer County,Placer Co. Sheriff's Department,12,17,19,0,0,4,15,0,3,2,1
+2023,Placer County,Roseville,5,43,46,1,1,0,44,0,3,3,0
+2023,Riverside County,Menifee,1,20,21,0,1,7,13,0,0,0,0
+2023,Sacramento County,Isleton,5,1,2,0,0,1,1,0,0,0,0
+2023,Sacramento County,UC Med Center Sacramento,1,3,5,0,0,0,5,0,1,0,1
+2023,San Bernardino County,Fontana,10,87,96,2,4,8,82,0,8,7,1
+2023,San Bernardino County,Fontana,11,44,56,3,4,4,45,0,5,4,1
+2023,San Bernardino County,Fontana,12,80,91,0,6,9,76,0,7,6,1
+2023,San Bernardino County,Fontana,1,56,62,0,0,8,54,0,10,8,2
+2023,San Bernardino County,Fontana,2,57,65,2,2,7,54,0,7,6,1
+2023,San Bernardino County,Fontana,3,64,72,2,0,6,64,0,8,7,1
+2023,San Bernardino County,Fontana,4,58,65,0,1,12,52,0,7,5,2
+2023,San Bernardino County,Fontana,5,60,63,0,2,6,55,0,8,4,4
+2023,San Bernardino County,Fontana,6,77,85,0,4,11,70,0,6,4,2
+2023,San Bernardino County,Fontana,7,58,76,2,3,19,52,0,15,11,4
+2023,San Bernardino County,Fontana,8,91,104,0,3,15,86,0,13,10,3
+2023,San Bernardino County,Fontana,9,50,61,0,0,6,55,0,5,4,1
+2023,San Bernardino County,Montclair,10,7,8,0,0,1,7,0,0,0,0
+2023,San Bernardino County,Montclair,12,3,4,1,0,0,3,0,0,0,0
+2023,San Bernardino County,Montclair,7,7,8,0,0,1,7,0,0,0,0
+2023,San Bernardino County,Upland,10,31,32,0,0,5,27,0,5,3,2
+2023,San Bernardino County,Upland,11,40,55,0,0,8,47,0,4,4,0
+2023,San Bernardino County,Upland,12,32,38,0,0,4,34,0,3,3,0
+2023,San Bernardino County,Upland,2,46,53,0,0,5,48,0,10,6,4
+2023,San Bernardino County,Upland,6,41,53,0,8,5,40,0,7,5,2
+2023,San Bernardino County,Upland,7,37,51,0,1,6,44,0,8,7,1
+2023,San Bernardino County,Upland,8,27,29,0,5,4,20,0,4,2,2
+2023,San Joaquin County,Tracy,7,23,24,0,1,1,22,0,1,1,0
+2023,Santa Clara County,Milpitas,12,23,24,0,0,3,21,0,1,0,1
+2023,Sonoma County,Cotati,11,7,8,0,0,0,8,0,0,0,0
+2023,Sonoma County,Cotati,12,5,7,2,0,0,5,0,1,1,0
+2023,Sonoma County,Cotati,4,5,6,0,0,2,4,0,0,0,0
+2023,Sonoma County,Cotati,5,2,3,0,0,0,3,0,0,0,0
+2023,Sonoma County,Petaluma,10,17,19,0,0,1,18,0,5,4,1
+2023,Sonoma County,Petaluma,11,2,3,0,0,2,1,0,0,0,0
+2023,Sonoma County,Rohnert Park,11,30,34,0,1,7,26,0,9,6,3
+2023,Sonoma County,Rohnert Park,12,25,29,0,1,4,24,0,7,4,3
+2023,Sonoma County,Rohnert Park,1,41,54,0,0,13,41,0,10,7,3
+2023,Sonoma County,Rohnert Park,2,31,41,0,0,12,29,0,14,9,5
+2023,Sonoma County,Rohnert Park,3,50,53,0,0,9,44,0,11,7,4
+2023,Sonoma County,Rohnert Park,4,23,32,0,0,6,26,0,5,3,2
+2023,Sonoma County,Rohnert Park,5,24,35,6,0,1,28,0,10,9,1
+2023,Sonoma County,Rohnert Park,6,32,35,0,1,9,25,0,4,3,1
+2023,Sonoma County,Rohnert Park,7,35,46,5,0,5,36,0,7,6,1
+2023,Sonoma County,Rohnert Park,8,34,41,5,2,4,30,0,7,4,3
+2023,Sonoma County,Rohnert Park,9,25,27,2,1,1,23,0,7,5,2
+2023,Sonoma County,Sonoma,11,1,2,0,1,0,1,0,0,0,0
+2023,Sonoma County,Windsor,10,10,11,0,0,2,9,0,1,1,0
+2023,Sonoma County,Windsor,11,5,8,0,0,0,8,0,0,0,0
+2023,Sonoma County,Windsor,2,6,8,0,0,2,6,0,0,0,0
+2023,Sonoma County,Windsor,3,13,16,0,0,2,14,0,1,1,0
+2023,Sonoma County,Windsor,7,2,3,0,0,0,3,0,0,0,0
+2023,Sonoma County,Windsor,8,10,13,0,2,0,11,0,2,1,1
+2023,Sonoma County,Windsor,9,7,10,0,0,2,8,0,0,0,0
+2023,Stanislaus County,CSU Stanislaus,1,1,2,0,0,1,1,0,0,0,0
+2023,Stanislaus County,CSU Stanislaus,8,2,3,0,2,0,1,0,1,0,1
+2023,Stanislaus County,Turlock,5,24,25,1,1,2,21,0,4,4,0
+2023,Stanislaus County,Turlock,7,43,44,0,2,5,37,0,3,3,0
+2023,Stanislaus County,Turlock,9,32,35,0,1,4,30,0,3,2,1
+2023,Yolo County,UC Davis,10,2,3,0,0,1,2,0,0,0,0
+2023,Yolo County,UC Davis,11,2,3,0,0,2,1,0,2,2,0
+2023,Yolo County,UC Davis,12,4,5,0,0,3,2,0,1,1,0
+2023,Yolo County,UC Davis,2,2,3,0,0,0,3,0,1,1,0
+2023,Yolo County,West Sacramento,11,7,9,0,0,0,9,0,1,1,0
+2023,Yolo County,West Sacramento,12,6,7,0,0,3,4,0,0,0,0
+2023,Yolo County,Woodland,1,21,31,0,0,5,26,0,5,4,1
+2023,Yolo County,Woodland,4,30,40,0,0,3,37,0,5,5,0
+2023,Yolo County,Woodland,5,28,31,0,0,4,27,0,4,3,1
+2023,Yolo County,Woodland,8,106,118,0,2,19,97,0,20,17,3
+2023,Yolo County,Yolo Co. Sheriff's Department,7,11,14,0,0,7,7,0,0,0,0
+2024,Los Angeles County,Redondo Beach,12,6,7,0,0,1,6,0,1,0,1
+2024,Los Angeles County,Redondo Beach,1,5,7,1,0,1,5,0,1,0,1
+2024,Mendocino County,Ukiah,1,8,10,0,0,3,7,0,0,0,0
+2024,Mendocino County,Ukiah,2,10,14,0,0,2,12,0,2,2,0
+2024,Mendocino County,Ukiah,5,9,12,0,1,0,11,0,0,0,0
+2024,Mendocino County,Ukiah,6,8,14,0,0,3,11,0,0,0,0
+2024,Orange County,Placentia,7,19,20,0,2,3,15,0,2,2,0
+2024,San Bernardino County,Montclair,12,9,10,0,0,1,9,0,1,0,1
+2024,San Bernardino County,Montclair,4,9,10,0,0,3,7,0,0,0,0

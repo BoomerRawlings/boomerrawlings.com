@@ -1,0 +1,549 @@
+month,group_type,offense_code,offense_description,source_rows
+2024-01,A,09A,Murder and Nonnegligent Manslaughter,2
+2024-01,A,100,Kidnaping/Abduction,15
+2024-01,A,100,Kidnapping/Abduction,1
+2024-01,A,11A,Forcible Rape,19
+2024-01,A,11B,Forcible Sodomy,2
+2024-01,A,11C,Sexual Assault With an Object,3
+2024-01,A,11D,Forcible Fondling,63
+2024-01,A,120,Robbery,110
+2024-01,A,13A,Aggravated Assault,382
+2024-01,A,13B,Simple Assault,568
+2024-01,A,13C,Intimidation,95
+2024-01,A,200,Arson,14
+2024-01,A,210,Extortion/Blackmail,4
+2024-01,A,220,Burglary/Breaking & Entering,267
+2024-01,A,23A,Pocket-Picking,7
+2024-01,A,23B,Purse-Snatching,5
+2024-01,A,23C,Shoplifting,121
+2024-01,A,23D,Theft From Building,33
+2024-01,A,23E,Theft From Coin Operated Machine or Device,1
+2024-01,A,23F,Theft From Motor Vehicle,424
+2024-01,A,23G,Theft of Motor Vehicle Parts/Accessories,48
+2024-01,A,23H,All Other Larceny,781
+2024-01,A,240,Motor Vehicle Theft,447
+2024-01,A,250,Counterfeiting/Forgery,17
+2024-01,A,26A,False Pretenses/Swindle/Confidence Game,32
+2024-01,A,26B,Credit Card/Automatic Teller Fraud,16
+2024-01,A,26C,Impersonation,184
+2024-01,A,26F,Identity Theft,26
+2024-01,A,26G,Hacking/Computer Fraud,1
+2024-01,A,270,Embezzlement,12
+2024-01,A,280,Stolen Property Offenses,74
+2024-01,A,290,Destruction/Damage/Vandalism of Property,546
+2024-01,A,35A,Drug/narcotic Violations,319
+2024-01,A,35B,Drug Equipment Violations,205
+2024-01,A,36B,Statutory Rape,1
+2024-01,A,370,Pornography/Obscene Material,6
+2024-01,A,40A,Prostitution,4
+2024-01,A,40B,Assisting or Promoting Prostitution,1
+2024-01,A,520,Weapon Law Violations,65
+2024-01,A,720,Animal Cruelty,3
+2024-01,B,90B,Curfew/Loitering/Vagrancy Violations,18
+2024-01,B,90C,Disorderly Conduct,222
+2024-01,B,90D,Driving Under the Influence,107
+2024-01,B,90F,Family Offenses (Nonviolent),1
+2024-01,B,90G,Liquor Law Violations,1
+2024-01,B,90H,Peeping Tom,1
+2024-01,B,90J,Trespass of Real Property,43
+2024-01,B,90Z,All Other Offenses,1345
+2024-02,A,09A,Murder and Nonnegligent Manslaughter,4
+2024-02,A,100,Kidnaping/Abduction,23
+2024-02,A,100,Kidnapping/Abduction,2
+2024-02,A,11A,Forcible Rape,27
+2024-02,A,11B,Forcible Sodomy,2
+2024-02,A,11C,Sexual Assault With an Object,4
+2024-02,A,11D,Forcible Fondling,27
+2024-02,A,120,Robbery,91
+2024-02,A,13A,Aggravated Assault,328
+2024-02,A,13B,Simple Assault,473
+2024-02,A,13C,Intimidation,83
+2024-02,A,200,Arson,7
+2024-02,A,210,Extortion/Blackmail,5
+2024-02,A,220,Burglary/Breaking & Entering,208
+2024-02,A,23A,Pocket-Picking,13
+2024-02,A,23B,Purse-Snatching,4
+2024-02,A,23C,Shoplifting,117
+2024-02,A,23D,Theft From Building,30
+2024-02,A,23F,Theft From Motor Vehicle,437
+2024-02,A,23G,Theft of Motor Vehicle Parts/Accessories,34
+2024-02,A,23H,All Other Larceny,661
+2024-02,A,240,Motor Vehicle Theft,479
+2024-02,A,250,Counterfeiting/Forgery,12
+2024-02,A,26A,False Pretenses/Swindle/Confidence Game,32
+2024-02,A,26B,Credit Card/Automatic Teller Fraud,17
+2024-02,A,26C,Impersonation,156
+2024-02,A,26F,Identity Theft,26
+2024-02,A,26G,Hacking/Computer Fraud,2
+2024-02,A,270,Embezzlement,16
+2024-02,A,280,Stolen Property Offenses,69
+2024-02,A,290,Destruction/Damage/Vandalism of Property,520
+2024-02,A,35A,Drug/narcotic Violations,314
+2024-02,A,35B,Drug Equipment Violations,194
+2024-02,A,36B,Statutory Rape,3
+2024-02,A,370,Pornography/Obscene Material,4
+2024-02,A,40A,Prostitution,4
+2024-02,A,520,Weapon Law Violations,90
+2024-02,A,720,Animal Cruelty,3
+2024-02,B,90B,Curfew/Loitering/Vagrancy Violations,16
+2024-02,B,90C,Disorderly Conduct,199
+2024-02,B,90D,Driving Under the Influence,123
+2024-02,B,90G,Liquor Law Violations,4
+2024-02,B,90H,Peeping Tom,2
+2024-02,B,90J,Trespass of Real Property,29
+2024-02,B,90Z,All Other Offenses,1244
+2024-03,A,09A,Murder and Nonnegligent Manslaughter,5
+2024-03,A,100,Kidnaping/Abduction,18
+2024-03,A,100,Kidnapping/Abduction,6
+2024-03,A,11A,Forcible Rape,23
+2024-03,A,11B,Forcible Sodomy,2
+2024-03,A,11C,Sexual Assault With an Object,2
+2024-03,A,11D,Forcible Fondling,27
+2024-03,A,120,Robbery,94
+2024-03,A,13A,Aggravated Assault,326
+2024-03,A,13B,Simple Assault,564
+2024-03,A,13C,Intimidation,73
+2024-03,A,200,Arson,4
+2024-03,A,210,Extortion/Blackmail,4
+2024-03,A,220,Burglary/Breaking & Entering,239
+2024-03,A,23A,Pocket-Picking,3
+2024-03,A,23B,Purse-Snatching,4
+2024-03,A,23C,Shoplifting,180
+2024-03,A,23D,Theft From Building,32
+2024-03,A,23F,Theft From Motor Vehicle,426
+2024-03,A,23G,Theft of Motor Vehicle Parts/Accessories,41
+2024-03,A,23H,All Other Larceny,778
+2024-03,A,240,Motor Vehicle Theft,448
+2024-03,A,250,Counterfeiting/Forgery,11
+2024-03,A,26A,False Pretenses/Swindle/Confidence Game,24
+2024-03,A,26B,Credit Card/Automatic Teller Fraud,12
+2024-03,A,26C,Impersonation,187
+2024-03,A,26F,Identity Theft,20
+2024-03,A,270,Embezzlement,8
+2024-03,A,280,Stolen Property Offenses,73
+2024-03,A,290,Destruction/Damage/Vandalism of Property,565
+2024-03,A,35A,Drug/narcotic Violations,303
+2024-03,A,35B,Drug Equipment Violations,211
+2024-03,A,36B,Statutory Rape,1
+2024-03,A,39A,Betting/Wagering,1
+2024-03,A,40A,Prostitution,21
+2024-03,A,40B,Assisting or Promoting Prostitution,5
+2024-03,A,520,Weapon Law Violations,98
+2024-03,A,64B,"Human Trafficking, Involuntary Servitude",1
+2024-03,A,720,Animal Cruelty,2
+2024-03,B,90B,Curfew/Loitering/Vagrancy Violations,17
+2024-03,B,90C,Disorderly Conduct,231
+2024-03,B,90D,Driving Under the Influence,112
+2024-03,B,90G,Liquor Law Violations,11
+2024-03,B,90H,Peeping Tom,1
+2024-03,B,90J,Trespass of Real Property,24
+2024-03,B,90Z,All Other Offenses,1315
+2024-04,A,09A,Murder and Nonnegligent Manslaughter,5
+2024-04,A,100,Kidnaping/Abduction,18
+2024-04,A,11A,Forcible Rape,25
+2024-04,A,11B,Forcible Sodomy,3
+2024-04,A,11C,Sexual Assault With an Object,6
+2024-04,A,11D,Forcible Fondling,41
+2024-04,A,120,Robbery,87
+2024-04,A,13A,Aggravated Assault,347
+2024-04,A,13B,Simple Assault,562
+2024-04,A,13C,Intimidation,82
+2024-04,A,200,Arson,12
+2024-04,A,210,Extortion/Blackmail,7
+2024-04,A,220,Burglary/Breaking & Entering,205
+2024-04,A,23A,Pocket-Picking,9
+2024-04,A,23B,Purse-Snatching,9
+2024-04,A,23C,Shoplifting,255
+2024-04,A,23D,Theft From Building,27
+2024-04,A,23F,Theft From Motor Vehicle,525
+2024-04,A,23G,Theft of Motor Vehicle Parts/Accessories,93
+2024-04,A,23H,All Other Larceny,590
+2024-04,A,240,Motor Vehicle Theft,443
+2024-04,A,250,Counterfeiting/Forgery,17
+2024-04,A,26A,False Pretenses/Swindle/Confidence Game,25
+2024-04,A,26B,Credit Card/Automatic Teller Fraud,9
+2024-04,A,26C,Impersonation,152
+2024-04,A,26F,Identity Theft,29
+2024-04,A,26G,Hacking/Computer Fraud,1
+2024-04,A,270,Embezzlement,6
+2024-04,A,280,Stolen Property Offenses,69
+2024-04,A,290,Destruction/Damage/Vandalism of Property,606
+2024-04,A,35A,Drug/narcotic Violations,291
+2024-04,A,35B,Drug Equipment Violations,204
+2024-04,A,36B,Statutory Rape,3
+2024-04,A,370,Pornography/Obscene Material,2
+2024-04,A,40A,Prostitution,2
+2024-04,A,40B,Assisting or Promoting Prostitution,2
+2024-04,A,520,Weapon Law Violations,88
+2024-04,A,64B,"Human Trafficking, Involuntary Servitude",2
+2024-04,A,720,Animal Cruelty,1
+2024-04,B,90B,Curfew/Loitering/Vagrancy Violations,7
+2024-04,B,90C,Disorderly Conduct,197
+2024-04,B,90D,Driving Under the Influence,115
+2024-04,B,90G,Liquor Law Violations,10
+2024-04,B,90J,Trespass of Real Property,30
+2024-04,B,90Z,All Other Offenses,1349
+2024-05,A,09A,Murder and Nonnegligent Manslaughter,2
+2024-05,A,100,Kidnaping/Abduction,15
+2024-05,A,100,Kidnapping/Abduction,2
+2024-05,A,11A,Forcible Rape,26
+2024-05,A,11B,Forcible Sodomy,5
+2024-05,A,11C,Sexual Assault With an Object,2
+2024-05,A,11D,Forcible Fondling,22
+2024-05,A,120,Robbery,97
+2024-05,A,13A,Aggravated Assault,366
+2024-05,A,13B,Simple Assault,604
+2024-05,A,13C,Intimidation,123
+2024-05,A,200,Arson,15
+2024-05,A,210,Extortion/Blackmail,7
+2024-05,A,220,Burglary/Breaking & Entering,220
+2024-05,A,23A,Pocket-Picking,6
+2024-05,A,23B,Purse-Snatching,12
+2024-05,A,23C,Shoplifting,269
+2024-05,A,23D,Theft From Building,23
+2024-05,A,23E,Theft From Coin Operated Machine or Device,1
+2024-05,A,23F,Theft From Motor Vehicle,514
+2024-05,A,23G,Theft of Motor Vehicle Parts/Accessories,62
+2024-05,A,23H,All Other Larceny,618
+2024-05,A,240,Motor Vehicle Theft,548
+2024-05,A,250,Counterfeiting/Forgery,27
+2024-05,A,26A,False Pretenses/Swindle/Confidence Game,28
+2024-05,A,26B,Credit Card/Automatic Teller Fraud,21
+2024-05,A,26C,Impersonation,136
+2024-05,A,26F,Identity Theft,31
+2024-05,A,270,Embezzlement,16
+2024-05,A,280,Stolen Property Offenses,76
+2024-05,A,290,Destruction/Damage/Vandalism of Property,640
+2024-05,A,35A,Drug/narcotic Violations,313
+2024-05,A,35B,Drug Equipment Violations,205
+2024-05,A,36B,Statutory Rape,2
+2024-05,A,370,Pornography/Obscene Material,1
+2024-05,A,40A,Prostitution,2
+2024-05,A,40B,Assisting or Promoting Prostitution,1
+2024-05,A,520,Weapon Law Violations,91
+2024-05,A,64B,"Human Trafficking, Involuntary Servitude",1
+2024-05,B,90B,Curfew/Loitering/Vagrancy Violations,7
+2024-05,B,90C,Disorderly Conduct,210
+2024-05,B,90D,Driving Under the Influence,119
+2024-05,B,90E,Drunkenness,1
+2024-05,B,90G,Liquor Law Violations,5
+2024-05,B,90H,Peeping Tom,2
+2024-05,B,90J,Trespass of Real Property,29
+2024-05,B,90Z,All Other Offenses,1408
+2024-06,A,09A,Murder and Nonnegligent Manslaughter,1
+2024-06,A,100,Kidnaping/Abduction,19
+2024-06,A,100,Kidnapping/Abduction,4
+2024-06,A,11A,Forcible Rape,18
+2024-06,A,11B,Forcible Sodomy,1
+2024-06,A,11C,Sexual Assault With an Object,4
+2024-06,A,11D,Forcible Fondling,28
+2024-06,A,120,Robbery,89
+2024-06,A,13A,Aggravated Assault,388
+2024-06,A,13B,Simple Assault,630
+2024-06,A,13C,Intimidation,66
+2024-06,A,200,Arson,12
+2024-06,A,210,Extortion/Blackmail,3
+2024-06,A,220,Burglary/Breaking & Entering,197
+2024-06,A,23A,Pocket-Picking,4
+2024-06,A,23B,Purse-Snatching,3
+2024-06,A,23C,Shoplifting,257
+2024-06,A,23D,Theft From Building,40
+2024-06,A,23E,Theft From Coin Operated Machine or Device,2
+2024-06,A,23F,Theft From Motor Vehicle,418
+2024-06,A,23G,Theft of Motor Vehicle Parts/Accessories,55
+2024-06,A,23H,All Other Larceny,585
+2024-06,A,240,Motor Vehicle Theft,514
+2024-06,A,250,Counterfeiting/Forgery,28
+2024-06,A,26A,False Pretenses/Swindle/Confidence Game,32
+2024-06,A,26B,Credit Card/Automatic Teller Fraud,25
+2024-06,A,26C,Impersonation,133
+2024-06,A,26F,Identity Theft,26
+2024-06,A,270,Embezzlement,18
+2024-06,A,280,Stolen Property Offenses,87
+2024-06,A,290,Destruction/Damage/Vandalism of Property,548
+2024-06,A,35A,Drug/narcotic Violations,297
+2024-06,A,35B,Drug Equipment Violations,195
+2024-06,A,36B,Statutory Rape,4
+2024-06,A,370,Pornography/Obscene Material,2
+2024-06,A,40A,Prostitution,1
+2024-06,A,520,Weapon Law Violations,84
+2024-06,A,720,Animal Cruelty,2
+2024-06,B,90B,Curfew/Loitering/Vagrancy Violations,16
+2024-06,B,90C,Disorderly Conduct,218
+2024-06,B,90D,Driving Under the Influence,143
+2024-06,B,90G,Liquor Law Violations,10
+2024-06,B,90J,Trespass of Real Property,21
+2024-06,B,90Z,All Other Offenses,1291
+2024-07,A,09A,Murder and Nonnegligent Manslaughter,4
+2024-07,A,100,Kidnaping/Abduction,21
+2024-07,A,100,Kidnapping/Abduction,1
+2024-07,A,11A,Forcible Rape,27
+2024-07,A,11B,Forcible Sodomy,4
+2024-07,A,11C,Sexual Assault With an Object,4
+2024-07,A,11D,Forcible Fondling,39
+2024-07,A,120,Robbery,94
+2024-07,A,13A,Aggravated Assault,419
+2024-07,A,13B,Simple Assault,642
+2024-07,A,13C,Intimidation,97
+2024-07,A,200,Arson,12
+2024-07,A,210,Extortion/Blackmail,10
+2024-07,A,220,Burglary/Breaking & Entering,190
+2024-07,A,23A,Pocket-Picking,20
+2024-07,A,23B,Purse-Snatching,5
+2024-07,A,23C,Shoplifting,283
+2024-07,A,23D,Theft From Building,33
+2024-07,A,23E,Theft From Coin Operated Machine or Device,1
+2024-07,A,23F,Theft From Motor Vehicle,386
+2024-07,A,23G,Theft of Motor Vehicle Parts/Accessories,70
+2024-07,A,23H,All Other Larceny,649
+2024-07,A,240,Motor Vehicle Theft,507
+2024-07,A,250,Counterfeiting/Forgery,32
+2024-07,A,26A,False Pretenses/Swindle/Confidence Game,32
+2024-07,A,26B,Credit Card/Automatic Teller Fraud,24
+2024-07,A,26C,Impersonation,137
+2024-07,A,26F,Identity Theft,16
+2024-07,A,270,Embezzlement,15
+2024-07,A,280,Stolen Property Offenses,102
+2024-07,A,290,Destruction/Damage/Vandalism of Property,575
+2024-07,A,35A,Drug/narcotic Violations,356
+2024-07,A,35B,Drug Equipment Violations,261
+2024-07,A,36B,Statutory Rape,2
+2024-07,A,370,Pornography/Obscene Material,2
+2024-07,A,39A,Betting/Wagering,1
+2024-07,A,40A,Prostitution,6
+2024-07,A,520,Weapon Law Violations,71
+2024-07,A,720,Animal Cruelty,1
+2024-07,B,90B,Curfew/Loitering/Vagrancy Violations,20
+2024-07,B,90C,Disorderly Conduct,225
+2024-07,B,90D,Driving Under the Influence,126
+2024-07,B,90F,Family Offenses (Nonviolent),1
+2024-07,B,90G,Liquor Law Violations,5
+2024-07,B,90H,Peeping Tom,1
+2024-07,B,90J,Trespass of Real Property,26
+2024-07,B,90Z,All Other Offenses,1435
+2024-08,A,09A,Murder and Nonnegligent Manslaughter,8
+2024-08,A,100,Kidnaping/Abduction,21
+2024-08,A,100,Kidnapping/Abduction,3
+2024-08,A,11A,Forcible Rape,24
+2024-08,A,11B,Forcible Sodomy,3
+2024-08,A,11C,Sexual Assault With an Object,3
+2024-08,A,11D,Forcible Fondling,40
+2024-08,A,120,Robbery,79
+2024-08,A,13A,Aggravated Assault,429
+2024-08,A,13B,Simple Assault,649
+2024-08,A,13C,Intimidation,94
+2024-08,A,200,Arson,8
+2024-08,A,210,Extortion/Blackmail,7
+2024-08,A,220,Burglary/Breaking & Entering,205
+2024-08,A,23A,Pocket-Picking,4
+2024-08,A,23B,Purse-Snatching,7
+2024-08,A,23C,Shoplifting,290
+2024-08,A,23D,Theft From Building,40
+2024-08,A,23E,Theft From Coin Operated Machine or Device,1
+2024-08,A,23F,Theft From Motor Vehicle,353
+2024-08,A,23G,Theft of Motor Vehicle Parts/Accessories,48
+2024-08,A,23H,All Other Larceny,613
+2024-08,A,240,Motor Vehicle Theft,475
+2024-08,A,250,Counterfeiting/Forgery,20
+2024-08,A,26A,False Pretenses/Swindle/Confidence Game,32
+2024-08,A,26B,Credit Card/Automatic Teller Fraud,20
+2024-08,A,26C,Impersonation,153
+2024-08,A,26F,Identity Theft,30
+2024-08,A,26G,Hacking/Computer Fraud,1
+2024-08,A,270,Embezzlement,14
+2024-08,A,280,Stolen Property Offenses,76
+2024-08,A,290,Destruction/Damage/Vandalism of Property,505
+2024-08,A,35A,Drug/narcotic Violations,335
+2024-08,A,35B,Drug Equipment Violations,244
+2024-08,A,36A,Incest,1
+2024-08,A,36B,Statutory Rape,1
+2024-08,A,370,Pornography/Obscene Material,2
+2024-08,A,40A,Prostitution,3
+2024-08,A,40B,Assisting or Promoting Prostitution,1
+2024-08,A,520,Weapon Law Violations,77
+2024-08,A,64B,"Human Trafficking, Involuntary Servitude",1
+2024-08,A,720,Animal Cruelty,1
+2024-08,B,90B,Curfew/Loitering/Vagrancy Violations,20
+2024-08,B,90C,Disorderly Conduct,249
+2024-08,B,90D,Driving Under the Influence,138
+2024-08,B,90G,Liquor Law Violations,2
+2024-08,B,90H,Peeping Tom,1
+2024-08,B,90J,Trespass of Real Property,14
+2024-08,B,90Z,All Other Offenses,1458
+2024-09,A,09A,Murder and Nonnegligent Manslaughter,7
+2024-09,A,100,Kidnaping/Abduction,2
+2024-09,A,100,Kidnapping/Abduction,24
+2024-09,A,11A,Forcible Rape,20
+2024-09,A,11B,Forcible Sodomy,4
+2024-09,A,11C,Sexual Assault With an Object,3
+2024-09,A,11D,Forcible Fondling,28
+2024-09,A,120,Robbery,71
+2024-09,A,13A,Aggravated Assault,449
+2024-09,A,13B,Simple Assault,614
+2024-09,A,13C,Intimidation,102
+2024-09,A,200,Arson,16
+2024-09,A,210,Extortion/Blackmail,5
+2024-09,A,220,Burglary/Breaking & Entering,242
+2024-09,A,23A,Pocket-Picking,5
+2024-09,A,23B,Purse-Snatching,8
+2024-09,A,23C,Shoplifting,308
+2024-09,A,23D,Theft From Building,39
+2024-09,A,23F,Theft From Motor Vehicle,363
+2024-09,A,23G,Theft of Motor Vehicle Parts/Accessories,79
+2024-09,A,23H,All Other Larceny,575
+2024-09,A,240,Motor Vehicle Theft,404
+2024-09,A,250,Counterfeiting/Forgery,16
+2024-09,A,26A,False Pretenses/Swindle/Confidence Game,25
+2024-09,A,26B,Credit Card/Automatic Teller Fraud,20
+2024-09,A,26C,Impersonation,129
+2024-09,A,26D,Welfare Fraud,2
+2024-09,A,26F,Identity Theft,26
+2024-09,A,270,Embezzlement,15
+2024-09,A,280,Stolen Property Offenses,68
+2024-09,A,290,Destruction/Damage/Vandalism of Property,554
+2024-09,A,35A,Drug/narcotic Violations,354
+2024-09,A,35B,Drug Equipment Violations,260
+2024-09,A,36B,Statutory Rape,3
+2024-09,A,370,Pornography/Obscene Material,2
+2024-09,A,40A,Prostitution,6
+2024-09,A,520,Weapon Law Violations,70
+2024-09,A,720,Animal Cruelty,2
+2024-09,B,90B,Curfew/Loitering/Vagrancy Violations,16
+2024-09,B,90C,Disorderly Conduct,215
+2024-09,B,90D,Driving Under the Influence,119
+2024-09,B,90G,Liquor Law Violations,4
+2024-09,B,90J,Trespass of Real Property,22
+2024-09,B,90Z,All Other Offenses,1349
+2024-10,A,09A,Murder and Nonnegligent Manslaughter,1
+2024-10,A,100,Kidnapping/Abduction,27
+2024-10,A,11A,Forcible Rape,23
+2024-10,A,11B,Forcible Sodomy,3
+2024-10,A,11C,Sexual Assault With an Object,5
+2024-10,A,11D,Forcible Fondling,51
+2024-10,A,120,Robbery,88
+2024-10,A,13A,Aggravated Assault,401
+2024-10,A,13B,Simple Assault,569
+2024-10,A,13C,Intimidation,104
+2024-10,A,200,Arson,12
+2024-10,A,210,Extortion/Blackmail,7
+2024-10,A,220,Burglary/Breaking & Entering,261
+2024-10,A,23A,Pocket-Picking,6
+2024-10,A,23B,Purse-Snatching,10
+2024-10,A,23C,Shoplifting,294
+2024-10,A,23D,Theft From Building,32
+2024-10,A,23F,Theft From Motor Vehicle,381
+2024-10,A,23G,Theft of Motor Vehicle Parts/Accessories,88
+2024-10,A,23H,All Other Larceny,549
+2024-10,A,240,Motor Vehicle Theft,435
+2024-10,A,250,Counterfeiting/Forgery,19
+2024-10,A,26A,False Pretenses/Swindle/Confidence Game,26
+2024-10,A,26B,Credit Card/Automatic Teller Fraud,16
+2024-10,A,26C,Impersonation,125
+2024-10,A,26F,Identity Theft,23
+2024-10,A,270,Embezzlement,17
+2024-10,A,280,Stolen Property Offenses,86
+2024-10,A,290,Destruction/Damage/Vandalism of Property,576
+2024-10,A,35A,Drug/narcotic Violations,408
+2024-10,A,35B,Drug Equipment Violations,305
+2024-10,A,36B,Statutory Rape,2
+2024-10,A,370,Pornography/Obscene Material,2
+2024-10,A,40A,Prostitution,3
+2024-10,A,40B,Assisting or Promoting Prostitution,2
+2024-10,A,520,Weapon Law Violations,75
+2024-10,A,64B,"Human Trafficking, Involuntary Servitude",1
+2024-10,A,720,Animal Cruelty,4
+2024-10,B,90B,Curfew/Loitering/Vagrancy Violations,33
+2024-10,B,90C,Disorderly Conduct,205
+2024-10,B,90D,Driving Under the Influence,122
+2024-10,B,90E,Drunkenness,1
+2024-10,B,90F,Family Offenses (Nonviolent),1
+2024-10,B,90G,Liquor Law Violations,8
+2024-10,B,90H,Peeping Tom,3
+2024-10,B,90J,Trespass of Real Property,28
+2024-10,B,90Z,All Other Offenses,1462
+2024-11,A,09A,Murder and Nonnegligent Manslaughter,7
+2024-11,A,100,Kidnaping/Abduction,2
+2024-11,A,100,Kidnapping/Abduction,16
+2024-11,A,11A,Forcible Rape,31
+2024-11,A,11B,Forcible Sodomy,2
+2024-11,A,11C,Sexual Assault With an Object,8
+2024-11,A,11D,Forcible Fondling,34
+2024-11,A,120,Robbery,90
+2024-11,A,13A,Aggravated Assault,343
+2024-11,A,13B,Simple Assault,549
+2024-11,A,13C,Intimidation,86
+2024-11,A,200,Arson,13
+2024-11,A,210,Extortion/Blackmail,9
+2024-11,A,220,Burglary/Breaking & Entering,230
+2024-11,A,23A,Pocket-Picking,9
+2024-11,A,23B,Purse-Snatching,7
+2024-11,A,23C,Shoplifting,347
+2024-11,A,23D,Theft From Building,28
+2024-11,A,23F,Theft From Motor Vehicle,332
+2024-11,A,23G,Theft of Motor Vehicle Parts/Accessories,78
+2024-11,A,23H,All Other Larceny,570
+2024-11,A,240,Motor Vehicle Theft,381
+2024-11,A,250,Counterfeiting/Forgery,17
+2024-11,A,26A,False Pretenses/Swindle/Confidence Game,32
+2024-11,A,26B,Credit Card/Automatic Teller Fraud,18
+2024-11,A,26C,Impersonation,157
+2024-11,A,26F,Identity Theft,28
+2024-11,A,26G,Hacking/Computer Fraud,1
+2024-11,A,270,Embezzlement,16
+2024-11,A,280,Stolen Property Offenses,83
+2024-11,A,290,Destruction/Damage/Vandalism of Property,504
+2024-11,A,35A,Drug/narcotic Violations,378
+2024-11,A,35B,Drug Equipment Violations,311
+2024-11,A,40A,Prostitution,4
+2024-11,A,520,Weapon Law Violations,83
+2024-11,A,720,Animal Cruelty,1
+2024-11,B,90B,Curfew/Loitering/Vagrancy Violations,28
+2024-11,B,90C,Disorderly Conduct,232
+2024-11,B,90D,Driving Under the Influence,153
+2024-11,B,90F,Family Offenses (Nonviolent),1
+2024-11,B,90G,Liquor Law Violations,5
+2024-11,B,90J,Trespass of Real Property,21
+2024-11,B,90Z,All Other Offenses,1463
+2024-12,A,09A,Murder and Nonnegligent Manslaughter,3
+2024-12,A,100,Kidnapping/Abduction,20
+2024-12,A,11A,Forcible Rape,26
+2024-12,A,11B,Forcible Sodomy,4
+2024-12,A,11C,Sexual Assault With an Object,7
+2024-12,A,11D,Forcible Fondling,29
+2024-12,A,120,Robbery,90
+2024-12,A,13A,Aggravated Assault,362
+2024-12,A,13B,Simple Assault,574
+2024-12,A,13C,Intimidation,62
+2024-12,A,200,Arson,16
+2024-12,A,210,Extortion/Blackmail,8
+2024-12,A,220,Burglary/Breaking & Entering,223
+2024-12,A,23A,Pocket-Picking,7
+2024-12,A,23B,Purse-Snatching,8
+2024-12,A,23C,Shoplifting,376
+2024-12,A,23D,Theft From Building,30
+2024-12,A,23F,Theft From Motor Vehicle,404
+2024-12,A,23G,Theft of Motor Vehicle Parts/Accessories,92
+2024-12,A,23H,All Other Larceny,748
+2024-12,A,240,Motor Vehicle Theft,366
+2024-12,A,250,Counterfeiting/Forgery,16
+2024-12,A,26A,False Pretenses/Swindle/Confidence Game,35
+2024-12,A,26B,Credit Card/Automatic Teller Fraud,31
+2024-12,A,26C,Impersonation,134
+2024-12,A,26F,Identity Theft,26
+2024-12,A,270,Embezzlement,12
+2024-12,A,280,Stolen Property Offenses,84
+2024-12,A,290,Destruction/Damage/Vandalism of Property,523
+2024-12,A,35A,Drug/narcotic Violations,450
+2024-12,A,35B,Drug Equipment Violations,356
+2024-12,A,36B,Statutory Rape,1
+2024-12,A,370,Pornography/Obscene Material,1
+2024-12,A,40A,Prostitution,8
+2024-12,A,520,Weapon Law Violations,91
+2024-12,A,720,Animal Cruelty,5
+2024-12,B,90B,Curfew/Loitering/Vagrancy Violations,46
+2024-12,B,90C,Disorderly Conduct,231
+2024-12,B,90D,Driving Under the Influence,110
+2024-12,B,90G,Liquor Law Violations,5
+2024-12,B,90H,Peeping Tom,2
+2024-12,B,90J,Trespass of Real Property,33
+2024-12,B,90Z,All Other Offenses,1599

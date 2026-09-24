@@ -1,0 +1,70 @@
+{
+  "raw_bytes": 736812,
+  "rows": 14332,
+  "temperature_quality_counts": {
+    "1": 3879,
+    "5": 10079,
+    "9": 370,
+    "A": 1,
+    "6": 1,
+    "2": 2
+  },
+  "first_records": [
+    {
+      "date_utc": "20240101",
+      "time_utc": "0000",
+      "report_type": "FM-12",
+      "temp": "+0161",
+      "quality": "1"
+    },
+    {
+      "date_utc": "20240101",
+      "time_utc": "0017",
+      "report_type": "FM-15",
+      "temp": "+0156",
+      "quality": "5"
+    },
+    {
+      "date_utc": "20240101",
+      "time_utc": "0051",
+      "report_type": "FM-15",
+      "temp": "+0144",
+      "quality": "1"
+    },
+    {
+      "date_utc": "20240101",
+      "time_utc": "0151",
+      "report_type": "FM-15",
+      "temp": "+0173",
+      "quality": "5"
+    },
+    {
+      "date_utc": "20240101",
+      "time_utc": "0251",
+      "report_type": "FM-15",
+      "temp": "+0133",
+      "quality": "5"
+    },
+    {
+      "date_utc": "20240101",
+      "time_utc": "0300",
+      "report_type": "FM-12",
+      "temp": "+0133",
+      "quality": "1"
+    },
+    {
+      "date_utc": "20240101",
+      "time_utc": "0351",
+      "report_type": "FM-15",
+      "temp": "+0128",
+      "quality": "1"
+    },
+    {
+      "date_utc": "20240101",
+      "time_utc": "0451",
+      "report_type": "FM-15",
+      "temp": "+0122",
+      "quality": "1"
+    }
+  ]
+}

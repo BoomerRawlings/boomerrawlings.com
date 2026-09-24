@@ -1,0 +1,212 @@
+{
+  "ghcn_downloaded_stations": 29,
+  "ghcn_90pct_primary_tmax_stations": 25,
+  "isd_downloaded_stations": 12,
+  "isd_90pct_complete_civil_stations": 5,
+  "baseline_eligible_stations": 6,
+  "coverage": [
+    {
+      "network": "original_six_current_archive",
+      "candidate_stations": 6,
+      "mapped_zips": 80,
+      "paired_high_zip_days": 116418,
+      "paired_all_groups": 38502,
+      "paired_core_groups": 3906,
+      "paired_civil_zips": 46,
+      "paired_civil_zip_days": 66829
+    },
+    {
+      "network": "expanded_ghcn",
+      "candidate_stations": 25,
+      "mapped_zips": 94,
+      "paired_high_zip_days": 136243,
+      "paired_all_groups": 53981,
+      "paired_core_groups": 5945,
+      "paired_civil_zips": 54,
+      "paired_civil_zip_days": 78580
+    },
+    {
+      "network": "isd_strict_complete_civil",
+      "candidate_stations": 5,
+      "mapped_zips": 80,
+      "paired_high_zip_days": 112131,
+      "paired_all_groups": 38461,
+      "paired_core_groups": 3805,
+      "paired_civil_zips": 43,
+      "paired_civil_zip_days": 60472
+    }
+  ],
+  "paired_metrics": [
+    {
+      "network": "original_six_current_archive",
+      "scope": "all_matched_zip_days",
+      "modeled": "legacy_high_f",
+      "observed": "temp_high_f",
+      "matched_zip_days": 116418,
+      "mean_modeled_minus_observed_f": -1.6272021508701404,
+      "mean_absolute_difference_f": 3.8359183287807728,
+      "rmse_f": 4.864969077510698,
+      "correlation": 0.8755141138628674
+    },
+    {
+      "network": "original_six_current_archive",
+      "scope": "all_matched_zip_days",
+      "modeled": "legacy_low_f",
+      "observed": "temp_low_f",
+      "matched_zip_days": 116390,
+      "mean_modeled_minus_observed_f": -0.8729358192284561,
+      "mean_absolute_difference_f": 2.7764045021049917,
+      "rmse_f": 3.596167662602496,
+      "correlation": 0.9215872820210423
+    },
+    {
+      "network": "original_six_current_archive",
+      "scope": "all_matched_zip_days",
+      "modeled": "civil_high_f",
+      "observed": "temp_high_f",
+      "matched_zip_days": 66829,
+      "mean_modeled_minus_observed_f": -1.4246057849137352,
+      "mean_absolute_difference_f": 4.029324694369211,
+      "rmse_f": 5.097052270831777,
+      "correlation": 0.8752006336790672
+    },
+    {
+      "network": "original_six_current_archive",
+      "scope": "all_matched_zip_days",
+      "modeled": "civil_low_f",
+      "observed": "temp_low_f",
+      "matched_zip_days": 66806,
+      "mean_modeled_minus_observed_f": -0.5881085531239709,
+      "mean_absolute_difference_f": 2.8093545489926055,
+      "rmse_f": 3.6652926633566607,
+      "correlation": 0.9199178298459781
+    },
+    {
+      "network": "expanded_ghcn",
+      "scope": "all_matched_zip_days",
+      "modeled": "legacy_high_f",
+      "observed": "temp_high_f",
+      "matched_zip_days": 136243,
+      "mean_modeled_minus_observed_f": -2.2454458577688396,
+      "mean_absolute_difference_f": 3.7323168162767995,
+      "rmse_f": 4.624849977322797,
+      "correlation": 0.9156798015101193
+    },
+    {
+      "network": "expanded_ghcn",
+      "scope": "all_matched_zip_days",
+      "modeled": "legacy_low_f",
+      "observed": "temp_low_f",
+      "matched_zip_days": 136180,
+      "mean_modeled_minus_observed_f": 0.4847319723894844,
+      "mean_absolute_difference_f": 2.9418017330004407,
+      "rmse_f": 4.048987288008206,
+      "correlation": 0.9059048738108039
+    },
+    {
+      "network": "expanded_ghcn",
+      "scope": "all_matched_zip_days",
+      "modeled": "civil_high_f",
+      "observed": "temp_high_f",
+      "matched_zip_days": 78580,
+      "mean_modeled_minus_observed_f": -2.4195978620514125,
+      "mean_absolute_difference_f": 3.914555866632731,
+      "rmse_f": 4.803601822680323,
+      "correlation": 0.9176578655595493
+    },
+    {
+      "network": "expanded_ghcn",
+      "scope": "all_matched_zip_days",
+      "modeled": "civil_low_f",
+      "observed": "temp_low_f",
+      "matched_zip_days": 78586,
+      "mean_modeled_minus_observed_f": 0.7886679561245005,
+      "mean_absolute_difference_f": 3.2068406586414886,
+      "rmse_f": 4.34917752809604,
+      "correlation": 0.896906361579388
+    },
+    {
+      "network": "isd_strict_complete_civil",
+      "scope": "all_matched_zip_days",
+      "modeled": "legacy_high_f",
+      "observed": "temp_high_f",
+      "matched_zip_days": 112131,
+      "mean_modeled_minus_observed_f": -0.20895060242038346,
+      "mean_absolute_difference_f": 3.217460648705532,
+      "rmse_f": 4.236175339963084,
+      "correlation": 0.8774636400793935
+    },
+    {
+      "network": "isd_strict_complete_civil",
+      "scope": "all_matched_zip_days",
+      "modeled": "legacy_low_f",
+      "observed": "temp_low_f",
+      "matched_zip_days": 112131,
+      "mean_modeled_minus_observed_f": -0.9300300541331122,
+      "mean_absolute_difference_f": 2.4712955382543633,
+      "rmse_f": 3.1211812481953802,
+      "correlation": 0.9340039940208795
+    },
+    {
+      "network": "isd_strict_complete_civil",
+      "scope": "all_matched_zip_days",
+      "modeled": "civil_high_f",
+      "observed": "temp_high_f",
+      "matched_zip_days": 60472,
+      "mean_modeled_minus_observed_f": 0.4851696652996426,
+      "mean_absolute_difference_f": 3.5710163381399656,
+      "rmse_f": 4.730110128138179,
+      "correlation": 0.8555147637334267
+    },
+    {
+      "network": "isd_strict_complete_civil",
+      "scope": "all_matched_zip_days",
+      "modeled": "civil_low_f",
+      "observed": "temp_low_f",
+      "matched_zip_days": 60472,
+      "mean_modeled_minus_observed_f": -0.9365544384177805,
+      "mean_absolute_difference_f": 2.5920697182166954,
+      "rmse_f": 3.265958096181987,
+      "correlation": 0.929159534673322
+    },
+    {
+      "network": "isd_strict_complete_civil",
+      "scope": "all_matched_zip_days",
+      "modeled": "civil_mean_f",
+      "observed": "temp_mean_f",
+      "matched_zip_days": 60472,
+      "mean_modeled_minus_observed_f": -0.22354271868919576,
+      "mean_absolute_difference_f": 2.1828320197489743,
+      "rmse_f": 2.867422393685856,
+      "correlation": 0.9377752948338819
+    }
+  ],
+  "assignment_rule": "Before considering outcomes: stations with >=90% primary-period valid Tmax (GHCN) or fully observed civil days (ISD); nearest horizontal station among those candidates, then <=25 km and <=200 m elevation difference. Do not select a second station if nearest fails elevation.",
+  "comparison_limits": "ZIP-representative modeled weather versus nearby station observations, not identical site exposure. GHCN source observing-day conventions differ. ISD is exactly civil-day allocated but hourly sampled, not continuous extrema. Pooled metrics repeat stations across ZIPs and are descriptive, not independent validation observations.",
+  "inputs": {
+    "locations": {
+      "relative_path": "reproduction_inputs/locations.csv.gz",
+      "sha256": "eb80f1fccd67f7ed6740b681a529d38d838af6d26fda1b54c637654f0b165b02"
+    },
+    "original": {
+      "relative_path": "reproduction_inputs/original.csv.gz",
+      "sha256": "0a041646516891c092329d69ec1a26b8b2f3486f8cf131adb55505d3f56c9f0c"
+    },
+    "civil": {
+      "relative_path": "reproduction_inputs/civil.csv.gz",
+      "sha256": "0c6fc5269f967d997c5b9847436a158eaca154454eb5546dfa479f1021dd16e4"
+    },
+    "original_noaa": {
+      "relative_path": "reproduction_inputs/original_noaa.csv.gz",
+      "sha256": "388c73c3bdf6314112fd7bbeca48cad359c3ede1df263d0ef5097bcc31ccc89d"
+    },
+    "ghcn": {
+      "relative_path": "ghcn_daily_2018_2025.csv",
+      "sha256": "2561355db587d951c96ed315aca1fa074f3bc676cb9d49bdd799507c0a4c0f64"
+    },
+    "isd": {
+      "relative_path": "isd_civil_daily_2021_2024.csv",
+      "sha256": "05b96277bd2fcc7a92f89e2afb7629208a900f54ec5b594e4472fc946f1c8683"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+[
+  {
+    "file": "census_2020_places.html",
+    "url": "https://tigerweb.geo.census.gov/tigerwebmain/Files/acs26/tigerweb_acs26_incplace_2020_tab20_ca.html",
+    "retrieved_utc": "2026-09-24T23:11:57.097995+00:00",
+    "bytes": 422336,
+    "sha256": "d135546d9fcf353f8de869c7aee77a6e8664e034ba555f3c16502ed634a306f2"
+  }
+]

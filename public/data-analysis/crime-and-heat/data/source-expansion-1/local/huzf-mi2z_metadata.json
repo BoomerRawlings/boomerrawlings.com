@@ -1,0 +1,140 @@
+{
+  "id": "huzf-mi2z",
+  "name": "CIBRS Group B Public Crime Data",
+  "description": "Sample of detailed CIBRS Group B data, received from ARJIS. Filtered for the public.",
+  "rowsUpdatedAt": 1790178533,
+  "viewLastModified": 1790178386,
+  "metadata": {
+    "custom_fields": {
+      "Additional Information": {
+        "Use Limitations": "No Limitations",
+        "Methodology": "Crimes reported by various police departments in the San Deigo region",
+        "ODP Application": "CIBRS",
+        "SANDAG Last Access Date": "09/23/2026",
+        "Data Timeframe": "January 2021 - February 2025",
+        "Geographic Granularity": "Other"
+      },
+      "Maintenance": {
+        "Next Update Date": "Q2 2025",
+        "Update Frequency": "Weekly",
+        "SANDAG Last QA/QC Date": "09/23/2026"
+      }
+    },
+    "rowLabel": "Crime",
+    "availableDisplayTypes": [
+      "table",
+      "fatrow",
+      "page"
+    ],
+    "renderTypeConfig": {
+      "visible": {
+        "table": true
+      }
+    }
+  },
+  "provenance": "official",
+  "columns": [
+    {
+      "fieldName": "incident_uid",
+      "name": "Incident UID",
+      "dataTypeName": "text",
+      "description": "Numeric ID for each NIBRS crime incident"
+    },
+    {
+      "fieldName": "arrest_agency",
+      "name": "Arrest Agency",
+      "dataTypeName": "text",
+      "description": "Reporting Agency on crime case or arrest"
+    },
+    {
+      "fieldName": "arrest_date",
+      "name": "Arrest Date",
+      "dataTypeName": "calendar_date",
+      "description": "Date/Time that arrest occurred"
+    },
+    {
+      "fieldName": "cibrs_unique_offense_id",
+      "name": "CIBRS Unique Offense ID",
+      "dataTypeName": "text",
+      "description": "Unique Group B Offense ID *please note that each incident may have multiple arrests "
+    },
+    {
+      "fieldName": "crime_against_category",
+      "name": "Crime Against Category",
+      "dataTypeName": "text",
+      "description": "If the crime is a crime against Persons, Property or Society"
+    },
+    {
+      "fieldName": "offense_code",
+      "name": "Offense Code",
+      "dataTypeName": "text",
+      "description": "CIBRS/NIBRS offense codes"
+    },
+    {
+      "fieldName": "offense_description",
+      "name": "Offense Description",
+      "dataTypeName": "text",
+      "description": "Description of offense code "
+    },
+    {
+      "fieldName": "arrest_number",
+      "name": "Arrest Number",
+      "dataTypeName": "text",
+      "description": "Unique ID for each arrest, these may repeat across agency"
+    },
+    {
+      "fieldName": "beat",
+      "name": "beat",
+      "dataTypeName": "text",
+      "description": "Police Beat where crime occurred "
+    },
+    {
+      "fieldName": "city",
+      "name": "City",
+      "dataTypeName": "text",
+      "description": "City where crime occurred "
+    },
+    {
+      "fieldName": "zip_code",
+      "name": "Zip Code",
+      "dataTypeName": "text",
+      "description": "Zip code where crime occurred "
+    },
+    {
+      "fieldName": "census_tract",
+      "name": "Census Tract",
+      "dataTypeName": "text",
+      "description": "Census Tract where crime occurred "
+    },
+    {
+      "fieldName": "block_address",
+      "name": "Block Address",
+      "dataTypeName": "text",
+      "description": ""
+    },
+    {
+      "fieldName": "cibrs_status",
+      "name": "Cibrs Status",
+      "dataTypeName": "text",
+      "description": "The status of the incident in the CIBRS CA DOJ Portal, whether it has been accepted and ingested into the state data repository"
+    },
+    {
+      "fieldName": "cibrs_status_date",
+      "name": "Cibrs Status Date",
+      "dataTypeName": "calendar_date",
+      "description": "The date the incident was ingested into the state data portal"
+    },
+    {
+      "fieldName": "domestic_violence_incident",
+      "name": "Domestic Violence Incident",
+      "dataTypeName": "text",
+      "description": "If any occurrence of domestic violence was flagged by the reporting officer on the crime case"
+    },
+    {
+      "fieldName": "bcs_area",
+      "name": "BCS Area",
+      "dataTypeName": "text",
+      "description": "Sheriff BCS Reporting Area where crime occurred (this will only be present on sheriff cases) "
+    }
+  ]
+}

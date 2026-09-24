@@ -213,4 +213,28 @@ const verifyAggregateHeaders=(directory)=>{
   }
 };
 verifyAggregateHeaders(join(base,'data'));
-console.log('Research publication verified: original archives; 22 revised fits / 24 independently corrected tests; paired cohorts; 64-ZIP civil-day counts; visible estimates; source citations; MathML; aggregate downloads; and both PDFs.');
+const external=read('source-expansion-1/source_inventory.json');
+const externalCheck=read('source-expansion-1/publication_validation.json');
+const externalIndependent=read('source-expansion-1/independent_validation.json');
+assert.equal(external.new_effect_models,0);
+assert.equal(externalCheck.preserved_prior_artifacts,166);
+assert.equal(externalCheck.prior_model_results_changed,false);
+assert.equal(externalCheck.status,'PASS');
+assert.equal(externalIndependent.status,'PASS');
+assert.equal(externalCheck.pdf_pages,4);
+assert.equal(external.verified_counts.isd_accepted_hours,externalIndependent.checks.isd.unique_quality_accepted_hours);
+assert.equal(external.verified_counts.isd_complete_station_days,externalIndependent.checks.isd.complete_station_civil_days);
+assert.equal(external.verified_counts.doj_dv_agency_months,externalIndependent.checks.doj.agency_month_rows);
+for(const [name,expected] of Object.entries(externalCheck.artifact_hashes)){
+  const path=`data/source-expansion-1/${name}`;
+  assert.deepEqual(manifest[path],expected,`Supplement nested/global manifest agreement: ${name}`);
+}
+for(const source of external.sources){
+  assert(existsSync(join(base,'data/source-expansion-1',source.documentation)),`Missing external source audit: ${source.name}`);
+}
+assert(html.includes('id="external-validation"'));
+assert(html.includes('November–December 2024'));
+assert(html.includes('primary analyses exclude 2025'));
+assert(html.includes('source-validation-supplement.pdf'));
+assert(html.includes('external-source-data-and-audit.zip'));
+console.log('Research publication verified: frozen original/revised models and PDFs; 22 fits / 24 tests; MathML; civil-day explorer; independent source supplement, nested hashes, coverage qualifications and four-page PDF.');
