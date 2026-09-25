@@ -2,7 +2,7 @@
 
 ## Campus safety analysis
 
-- Continuation: report-year options now 2022, 2023, 2024, pooled; explicit 2024 default retained. Single-line presentation change, scoped audit/hash update, full npm test and package integrity pass. Deployment/live check pending.
+- Continuation: report-year options now 2022, 2023, 2024, pooled; explicit 2024 default retained. Single-line presentation change, scoped audit/hash update, full npm test and package integrity pass. Published1393857; Pages36187597382 succeeded. Live options2022/2023/2024/pooled and2024reset verified. Commit-versioned requests verify151manifest entries/15downloads; unversioned ZIP still held preceding presentation revision in CDN at check (scientific bytes unchanged). New ZIP1,942,008bytes/SHA b08fef96. Requested year ordering complete.
 
 - Continuation: resident-focused campus explorer and homepage highlights implemented. Default residential counts / documented occupants, 11 denominator-covered institutions; all42 optional, missing values retained. Both analyses replace Research Briefing Assistant and Research and Publishing Systems among seven homepage highlights; removed entries remain published. Independent source/code reviews and 7,560-rate checks pass, 52 citations/33 sources, original PDF/data unchanged. Desktop/mobile browser behavior and formulas verified. Final package and full npm test pass: 151 archive entries/public artifact hashes, ZIP 1,941,547 bytes / SHA 6d03c01f. Published as fc7a57c; Pages run 36187129919 succeeded. Live manifest151 and15 exact download hashes match; homepage seven highlights, resident default11/UCSD2.37, sorting/reset,52 citations and7 formulas verified; no browser errors. No required work remains.
 
