@@ -28,3 +28,16 @@ The website check script compares browser-helper calculations with all 7,560 Pyt
 - All 51 numbered subscript citations connect to 32 source entries, with 51 return links. A housing-occupancy citation was followed to the correct source and returned to the exact occurrence; focus followed the return target. Source highlighting and readable wrapping were visually checked at 390 px.
 - Desktop and 390 px table/controls screenshots show readable full-name labels and visible sorting indicators. At 320 px the page has no horizontal overflow, and both display equations fit their available 273 px without clipping. All seven MathML expressions remain present. No console errors or warnings appeared during these checks.
 - The PDF and statistical data are unchanged. The separate source/content review and definition provenance are recorded in [research/PRESENTATION_REVISION.md](research/PRESENTATION_REVISION.md). Live publication verification follows packaging.
+
+
+## Resident emphasis and homepage revision — 25 September 2026
+
+PASS for the revised website presentation. Local production-build browser checks at desktop 1280 and phone 390/320 pixels supplement the separate source/content review.
+
+- Opening and reset use housing counts / documented residents, with 11 rows and 11 available 2024 rates. Spot checks: San Diego 52 / 21,907 = 2.37; San Diego State 7 / 8,367 = 0.84 per 1,000. Rape selection retains the separate San Diego 20 / 21,907 = 0.91 result.
+- Pooled selection retains 11 rows with six rates; all-institution resident selection retains 42 rows with 11 rates; Ivy selection retains eight rows with none available. Missing populations never become zero or enrollment.
+- A legacy sort-only link loads enrollment/all 42 and preserves the San Diego 528 / 44,256 = 11.93 value. Explicit enrollment links retain the same definitions. Reset and reloaded new resident links retain the new default. Population sorting, source jump and exact return navigation work.
+- Download action reports completion; exported population/geography fields were also checked in source review. Clipboard copying is environment-dependent; the address-bar fallback remains available.
+- Homepage shows seven highlights, with the two studies first and correct destinations. Research Briefing Assistant and Research and Publishing Systems remain published on their detail and project-index routes. The resident study opens correctly from the homepage on mobile.
+- Desktop and phone screenshots inspected: featured rows, resident controls and the annual/pooled equations remain readable. No document overflow in checked phone views; both display equations fit at 390 and 320 pixels. Seven MathML expressions retained; browser error log empty.
+- Original PDF and all numerical artifacts remain byte-identical; the original PDF visual audit applies to those unchanged bytes. This check does not certify matched housing-property boundaries or expand source coverage.

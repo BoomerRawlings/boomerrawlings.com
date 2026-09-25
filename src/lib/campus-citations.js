@@ -20,6 +20,7 @@ export const campusSourceTitles = new Map([
   ['https://nces.ed.gov/programs/coe/indicator/a21', 'National Center for Education Statistics. Criminal Incidents at Postsecondary Institutions: scope and full-time-equivalent enrollment denominator.'],
   ['https://bjs.ojp.gov/content/pub/pdf/ccsvsftr.pdf#page=131', 'Bureau of Justice Statistics. Campus Climate Survey Validation Study: Final Technical Report, printed p. 110 (PDF p. 131): comparison with Clery reports.'],
   ...Object.entries({
+    'RESIDENT_FOCUS_REVISION.md': 'Campus safety resident-focus revision: documented occupancy coverage, opening-view definitions and preserved scientific results.',
     'PRESENTATION_REVISION.md': 'Campus safety presentation revision: abbreviation definitions, primary-source provenance and interface/source-navigation checks.',
     'PROTOCOL.md': 'Campus safety study protocol: fixed cohort, report years and comparison rules.',
     'source_manifest.json': 'Campus safety source manifest: exact source URLs, versions, retrieval dates and original-file hashes.',

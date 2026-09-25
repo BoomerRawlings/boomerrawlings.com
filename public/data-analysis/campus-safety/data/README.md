@@ -4,6 +4,10 @@ Study snapshot: 25 September 2026. Calendar report years 2022–2024. Fixed purp
 
 Reported Clery offenses relative to enrollment and, where documented, actual housing occupancy. These are descriptive reporting ratios, not victimization probabilities, causal effects or safety rankings. Read `PROTOCOL.md`, `AMENDMENT.md`, source coverage notes and the separate audits before interpreting values.
 
+## Resident-focused website revision
+
+The website now opens on 2024 housing offenses per 1,000 documented fall residents at 11 institutions (the ten University of California institutions and San Diego State). The optional broader enrollment comparison retains all 42 institutions. Missing resident denominators remain unavailable. Scientific inputs, calculations, formulas and the original comprehensive PDF are unchanged. See `research/RESIDENT_FOCUS_REVISION.md` for coverage, limits, and saved-view compatibility.
+
 ## Offline reproduction
 
 Python 3.12 or later; standard library only for the rate builder and independent numerical audit.

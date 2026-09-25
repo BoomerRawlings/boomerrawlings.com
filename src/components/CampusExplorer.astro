@@ -1,25 +1,25 @@
 ---
-import { selectedRows, rateLabel, sortOrders } from '../lib/campus-rates.js';
+import { selectedRows, rateLabel, sortOrders, initialView } from '../lib/campus-rates.js';
 const {data} = Astro.props;
-const rows = selectedRows(data);
+const rows = selectedRows(data, initialView);
 const number = (value:number|null) => value === null ? 'Unavailable' : value.toLocaleString('en-US');
 ---
 <section id="explorer" class="analysis-section" data-campus-explorer aria-labelledby="campus-explorer-heading">
-  <div class="analysis-section-title"><span>01</span><div><h2 id="campus-explorer-heading">Compare reported rates</h2><p>Start with a category and population. Every rate retains its count and denominator.</p></div></div>
+  <div class="analysis-section-title"><span>01</span><div><h2 id="campus-explorer-heading">Compare reported rates</h2><p>Start with campus-housing reports per documented resident. Every rate retains its count and denominator.</p></div></div>
   <div class="campus-controls" id="campus-controls" hidden>
     <label class="campus-control-wide">Reported category<select id="campus-category">{data.categories.map((c:any)=><option value={c.id}>{c.label}</option>)}</select></label>
-    <label class="campus-control-wide">Location / population<select id="campus-measure"><option value="enrollment">On campus / enrolled students</option><option value="housingEnrollment">Campus housing / enrolled students</option><option value="residents">Campus housing / documented residents</option></select></label>
+    <label class="campus-control-wide">Location / population<select id="campus-measure"><option value="residents">Campus housing / documented residents</option><option value="enrollment">On campus / enrolled students</option><option value="housingEnrollment">Campus housing / enrolled students</option></select></label>
     <label>Report year<select id="campus-period"><option value="2024">2024</option><option value="pooled">2022–2024 pooled annual rate</option><option value="2023">2023</option><option value="2022">2022</option></select></label>
-    <label>Comparison group<select id="campus-group"><option value="all">All 42 institutions</option><option value="uc">University of California</option><option value="ivy">Ivy League</option><option value="public">Additional public universities</option><option value="private">Additional private universities</option></select></label>
+    <label>Comparison group<select id="campus-group"><option value="resident-covered">Documented housing occupancy (11)</option><option value="all">All 42 institutions</option><option value="uc">University of California</option><option value="ivy">Ivy League</option><option value="public">Additional public universities</option><option value="private">Additional private universities</option></select></label>
     <label>Rate scale<select id="campus-scale"><option value="1000">Per 1,000</option><option value="10000">Per 10,000</option></select></label>
     <label>Display order<select id="campus-sort">{Object.entries(sortOrders).map(([value,order])=><option value={value}>{order.label}</option>)}</select></label>
     <label class="campus-control-wide">Find an institution<input id="campus-search" type="search" placeholder="Name or state" autocomplete="off" /></label>
   </div>
   <p id="campus-category-definition" class="analysis-note">Sum of the listed Clery criminal-offense categories. Excludes VAWA counts, hate-crime classifications, arrests and disciplinary referrals. It is not a count of unique incidents or people.</p>
-  <aside id="campus-measure-note" class="analysis-notice"><strong>What this measures.</strong> On-campus offenses reported in 2024, per 1,000 enrolled students. The denominator is fall enrollment. Reports can concern visitors, staff and earlier occurrences; this is not the probability that a student experiences a crime.</aside>
-  <div class="campus-table-heading"><h3 id="campus-table-title">Listed criminal offenses · 2024</h3><p id="campus-results-status" role="status" aria-live="polite">42 institutions · alphabetical order</p></div>
+  <aside id="campus-measure-note" class="analysis-notice"><strong>Approximate housing normalization.</strong> Residential-facility offenses reported in 2024 per 1,000 documented residents. The denominator is fall occupancy. Housing-property boundaries have not been matched to Clery geography; this is not a resident victimization rate.</aside>
+  <div class="campus-table-heading"><h3 id="campus-table-title">Listed criminal offenses · 2024</h3><p id="campus-results-status" role="status" aria-live="polite">11 institutions · 11 rates available · full institution name A–Z</p></div>
   <div class="analysis-table-scroll campus-table-wrap" role="region" tabindex="0" aria-label="Campus reported rates, scroll horizontally for counts and populations">
-    <table id="campus-results"><caption class="campus-sr-only">Reported criminal offenses per 1,000 enrolled students, 2024. Administrative reports, not individual risk.</caption><thead><tr><th scope="col">Institution</th><th scope="col">Rate per 1,000</th><th scope="col">Reported count</th><th scope="col">Fall enrollment</th></tr></thead><tbody>{rows.map((row:any)=><tr><th scope="row">{row.institution.name}</th><td class="campus-rate">{rateLabel(row.rate)}</td><td>{number(row.count)}</td><td>{number(row.population)}</td></tr>)}</tbody></table>
+    <table id="campus-results"><caption class="campus-sr-only">Reported housing criminal offenses per 1,000 documented residents, 2024. Administrative reports, not individual risk.</caption><thead><tr><th scope="col">Institution</th><th scope="col">Rate per 1,000</th><th scope="col">Reported count</th><th scope="col">Fall occupancy</th></tr></thead><tbody>{rows.map((row:any)=><tr><th scope="row">{row.institution.name}</th><td class="campus-rate">{rateLabel(row.rate)}</td><td>{number(row.count)}</td><td>{number(row.population)}</td></tr>)}</tbody></table>
   </div>
   <p class="analysis-note">Housing is already included in on-campus counts. Rate sorting does not establish which campus is safer. <a href="#methods">Definitions and comparability limits</a>.</p>
   <div class="campus-tools" id="campus-tools" hidden><button type="button" id="campus-download">Download selection · CSV</button><button type="button" id="campus-share">Copy this view’s link</button><button type="button" id="campus-reset">Reset filters</button><span id="campus-action-status" role="status" aria-live="polite"></span></div>
@@ -32,7 +32,7 @@ const number = (value:number|null) => value === null ? 'Unavailable' : value.toL
   <script id="campus-dataset" type="application/json" set:html={JSON.stringify(data).replace(/</g,'\\u003c')} />
 </section>
 <script>
-  import { measures, summarize, selectedRows, rateLabel, csvText, sortOrders, nextSort } from '../lib/campus-rates.js';
+  import { measures, summarize, selectedRows, rateLabel, csvText, sortOrders, nextSort, viewDefaults } from '../lib/campus-rates.js';
   import { annotateCampusTerms, enableCampusTermTooltips } from '../lib/campus-term-dom.js';
   import { stateNames } from '../lib/campus-terms.js';
   const root = document.querySelector('[data-campus-explorer]');
@@ -45,6 +45,7 @@ const number = (value:number|null) => value === null ? 'Unavailable' : value.toL
     const n = (value:number|null)=>value === null ? 'Unavailable' : value.toLocaleString('en-US');
     const el = (tag:string,text?:string,className?:string)=>{const node=document.createElement(tag); if(text!==undefined)node.textContent=text; if(className)node.className=className;return node;};
     const params = new URL(location.href).searchParams;
+    for (const [key,value] of Object.entries(viewDefaults(params))) controls[key].value=String(value);
     for (const [key,input] of Object.entries(controls)) {
       const value=params.get(key);
       if(value!==null && (input instanceof HTMLInputElement || Array.from(input.options).some(o=>o.value===value))) input.value=value;
@@ -54,7 +55,7 @@ const number = (value:number|null) => value === null ? 'Unavailable' : value.toL
     enableCampusTermTooltips(study);
     let current:any[]=[];
     function state(){return {...Object.fromEntries(Object.entries(controls).map(([key,input])=>[key,input.value])),scale:Number(controls.scale.value)} as any;}
-    function saveView(){const url=new URL(location.href);for(const [key,input] of Object.entries(controls)){if(input.value===defaults[key])url.searchParams.delete(key);else url.searchParams.set(key,input.value);}history.replaceState(null,'',url);}
+    function saveView(){const url=new URL(location.href);for(const [key,input] of Object.entries(controls)){if(key!=='measure' && key!=='group' && input.value===defaults[key])url.searchParams.delete(key);else url.searchParams.set(key,input.value);}history.replaceState(null,'',url);}
     function drawPair(s:any){
       const pair=[controls.first.value,controls.second.value].map(id=>data.institutions.find((inst:any)=>inst.id===id));
       const rates=pair.map(inst=>data.years.map((year:number)=>({...summarize(inst,s.category,String(year),s.measure,s.scale),year})));

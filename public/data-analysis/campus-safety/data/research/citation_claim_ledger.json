@@ -579,10 +579,10 @@
     }
   },
   "reviewed_file_hashes": {
-    "boomerrawlings.com/src/pages/writing/data-analysis/campus-safety.astro": "32085a67e0e8075a5eef65744e59e9c678d5e947f643bcf762c0ab5044a83f14",
-    "boomerrawlings.com/src/content/archive/campus-safety.md": "103513db1ccc2c91dc330d0b071a8fd59fb4fc3b0686705a85b64770a7d9a1b4",
-    "boomerrawlings.com/src/components/CampusExplorer.astro": "0d7bd4d2ea3b70e60667dc3b7d65e283f123bc87159247008852955463c2f338",
-    "boomerrawlings.com/src/lib/campus-rates.js": "d4ba3032c0fdd663fb423b9f672ae42c8cdc154ab5d5b570d963f0093d53b289",
+    "boomerrawlings.com/src/pages/writing/data-analysis/campus-safety.astro": "aadf37af829646b274ca492a5186e48b9926d256fdb72635d2abf241db067c40",
+    "boomerrawlings.com/src/content/archive/campus-safety.md": "58a8aa71e5aa736027b0e98888d4cb90df4cff8335ac9501cc99dd2ddb92fef8",
+    "boomerrawlings.com/src/components/CampusExplorer.astro": "f177e667b51ea55a7370148194d473ba86e721a90df73ab77857b9feaa5dda02",
+    "boomerrawlings.com/src/lib/campus-rates.js": "9467849ad2803ae3c07981fcecc28c8957994f10ed06a58d32bf71faa5d0f215",
     "campus_safety_analysis/publication/data/dataset.json": "5a4ac282c79e3e0a6d6fec478b24b6bae1c47d8350863d582314de39a01ef998",
     "campus_safety_analysis/publication/data/case_study.json": "5ed64dbca52b2d9768bc52d561cdaaa8640f11cef13b044dcf832e17c6e9da43",
     "campus_safety_analysis/publication/data/annual_rates.csv": "fccd2ad62d1af498fe1d619a0550d8a09c11fd871c2a17de125f33c1248084af",
@@ -598,9 +598,12 @@
     "boomerrawlings.com/src/lib/campus-terms.js": "fd133386a9af86967a549e0b49acdd4aa925cf03eb0308f1420237fb06842ee5",
     "boomerrawlings.com/src/lib/campus-abbreviations.js": "b109df6b512719035df948197736e1011a941d8e5a5a8b7b85d78b52a831b86d",
     "boomerrawlings.com/src/lib/campus-term-dom.js": "41b7f7e2bea4754af4ccb60ff9bb9031d9713d5b0fab4d71a12c3e2f777c7e06",
-    "boomerrawlings.com/src/lib/campus-citations.js": "f67784d4df71e8f64f47aaa6bd262449dfd55d9511b07a2026bbb7e6ba81c425",
+    "boomerrawlings.com/src/lib/campus-citations.js": "fe4e8d2231dfa01c6372473c85d2d4c3fa199a9f33b00ef1a4df9a7bb98ba8d2",
     "boomerrawlings.com/src/styles/campus-safety.css": "891a4078dec6a15413083857b3b620959e2f09a69f83d269cc36b3fe10782d4a",
-    "campus_safety_analysis/research/PRESENTATION_REVISION.md": "0ba9149cf4bb02a4aa38ee947bf9eb67ee8d327ba9ca2311c199481b2d226cba"
+    "campus_safety_analysis/research/PRESENTATION_REVISION.md": "0ba9149cf4bb02a4aa38ee947bf9eb67ee8d327ba9ca2311c199481b2d226cba",
+    "boomerrawlings.com/scripts/test-campus-residents.mjs": "b314aec834905db24885cb0f6f70c927ece76c898e8d2ee5ca3915dd164afa8a",
+    "boomerrawlings.com/package.json": "a28933bcc141d0cf69d2b601b7b7953cfcba0e5c91f8fea564574a58291380e1",
+    "campus_safety_analysis/research/RESIDENT_FOCUS_REVISION.md": "80186e3375b7de64ec47e3b525011cf9f16cd8f265f32a945babfa6034aa3646"
   },
   "counts": {
     "independent_original_input_checks": 4387,
@@ -685,6 +688,84 @@
         "final archive extraction/reproduction",
         "deployed-site behavior",
         "new source completeness or exposure claims"
+      ]
+    },
+    {
+      "id": "resident-focus-interface-2026-09-25",
+      "review_date": "2026-09-25",
+      "status": "resident_focus_source_and_content_review_passed_for_hashed_artifacts",
+      "scope": "User-requested resident-focused opening view; existing residential numerator and documented occupancy, denominator-covered display subset, preserved optional enrollment views and legacy saved-view semantics.",
+      "prior_reviewed_file_hashes": {
+        "boomerrawlings.com/src/pages/writing/data-analysis/campus-safety.astro": "32085a67e0e8075a5eef65744e59e9c678d5e947f643bcf762c0ab5044a83f14",
+        "boomerrawlings.com/src/content/archive/campus-safety.md": "103513db1ccc2c91dc330d0b071a8fd59fb4fc3b0686705a85b64770a7d9a1b4",
+        "boomerrawlings.com/src/components/CampusExplorer.astro": "0d7bd4d2ea3b70e60667dc3b7d65e283f123bc87159247008852955463c2f338",
+        "boomerrawlings.com/src/lib/campus-rates.js": "d4ba3032c0fdd663fb423b9f672ae42c8cdc154ab5d5b570d963f0093d53b289",
+        "campus_safety_analysis/publication/data/dataset.json": "5a4ac282c79e3e0a6d6fec478b24b6bae1c47d8350863d582314de39a01ef998",
+        "campus_safety_analysis/publication/data/case_study.json": "5ed64dbca52b2d9768bc52d561cdaaa8640f11cef13b044dcf832e17c6e9da43",
+        "campus_safety_analysis/publication/data/annual_rates.csv": "fccd2ad62d1af498fe1d619a0550d8a09c11fd871c2a17de125f33c1248084af",
+        "campus_safety_analysis/publication/data/pooled_rates.csv": "c1b7da4ff6af0cb9cf81c988e3d5fc20fef4a0a8091a97073df91a8b242dea2a",
+        "campus_safety_analysis/output/pdf/campus-safety-report.pdf": "8a0efc6be9634ac85d7fe815c153961e721ac24e714fe66e8cdd5df05eceaa88",
+        "campus_safety_analysis/PROTOCOL.md": "74c647e19010ac9a6adacf8eb4d039f9727a8a84e93c3f3ee04c96d2bad7af79",
+        "campus_safety_analysis/research/RESEARCH_REVIEW.md": "c0d6e3c907508b14654723a338eed3560cea853c57d0fec60f9c631df0eaeed1",
+        "campus_safety_analysis/research/CITATION_VALUE_VERIFICATION.json": "37c881f52a1e94fced25b58cd48a5da0f9729b5a4e74bf986ac8f33d2b58640e",
+        "campus_safety_analysis/research/asr_comparison_verification.json": "6d549a482959acfd70011ca452735c5c195435d1f54d6230602d32053542ec82",
+        "campus_safety_analysis/sources/clery/residential_applicability_2024_verification.json": "31fc6f67301051a585526fa9edd8ad3017a801526acc80d12dbfa2a1e4fddb02",
+        "boomerrawlings.com/src/components/CampusAbbreviations.astro": "c1b7219007cb0088bef4c770bd2ff005c3479654d3b01d6c0c48a3f5248ed085",
+        "boomerrawlings.com/src/components/CampusReferences.astro": "2e3f58452cf54d26b4011cc1faf427b948764c20c7f3769acfc52902fdc93774",
+        "boomerrawlings.com/src/lib/campus-terms.js": "fd133386a9af86967a549e0b49acdd4aa925cf03eb0308f1420237fb06842ee5",
+        "boomerrawlings.com/src/lib/campus-abbreviations.js": "b109df6b512719035df948197736e1011a941d8e5a5a8b7b85d78b52a831b86d",
+        "boomerrawlings.com/src/lib/campus-term-dom.js": "41b7f7e2bea4754af4ccb60ff9bb9031d9713d5b0fab4d71a12c3e2f777c7e06",
+        "boomerrawlings.com/src/lib/campus-citations.js": "f67784d4df71e8f64f47aaa6bd262449dfd55d9511b07a2026bbb7e6ba81c425",
+        "boomerrawlings.com/src/styles/campus-safety.css": "891a4078dec6a15413083857b3b620959e2f09a69f83d269cc36b3fe10782d4a",
+        "campus_safety_analysis/research/PRESENTATION_REVISION.md": "0ba9149cf4bb02a4aa38ee947bf9eb67ee8d327ba9ca2311c199481b2d226cba"
+      },
+      "updated_reviewed_file_hashes": {
+        "boomerrawlings.com/src/pages/writing/data-analysis/campus-safety.astro": "aadf37af829646b274ca492a5186e48b9926d256fdb72635d2abf241db067c40",
+        "boomerrawlings.com/src/content/archive/campus-safety.md": "58a8aa71e5aa736027b0e98888d4cb90df4cff8335ac9501cc99dd2ddb92fef8",
+        "boomerrawlings.com/src/components/CampusExplorer.astro": "f177e667b51ea55a7370148194d473ba86e721a90df73ab77857b9feaa5dda02",
+        "boomerrawlings.com/src/lib/campus-rates.js": "9467849ad2803ae3c07981fcecc28c8957994f10ed06a58d32bf71faa5d0f215",
+        "boomerrawlings.com/src/lib/campus-citations.js": "fe4e8d2231dfa01c6372473c85d2d4c3fa199a9f33b00ef1a4df9a7bb98ba8d2",
+        "boomerrawlings.com/scripts/test-campus-residents.mjs": "b314aec834905db24885cb0f6f70c927ece76c898e8d2ee5ca3915dd164afa8a",
+        "boomerrawlings.com/package.json": "a28933bcc141d0cf69d2b601b7b7953cfcba0e5c91f8fea564574a58291380e1",
+        "campus_safety_analysis/research/RESIDENT_FOCUS_REVISION.md": "80186e3375b7de64ec47e3b525011cf9f16cd8f265f32a945babfa6034aa3646"
+      },
+      "unchanged_scientific_artifact_hashes": {
+        "campus_safety_analysis/publication/data/dataset.json": "5a4ac282c79e3e0a6d6fec478b24b6bae1c47d8350863d582314de39a01ef998",
+        "campus_safety_analysis/publication/data/case_study.json": "5ed64dbca52b2d9768bc52d561cdaaa8640f11cef13b044dcf832e17c6e9da43",
+        "campus_safety_analysis/publication/data/annual_rates.csv": "fccd2ad62d1af498fe1d619a0550d8a09c11fd871c2a17de125f33c1248084af",
+        "campus_safety_analysis/publication/data/pooled_rates.csv": "c1b7da4ff6af0cb9cf81c988e3d5fc20fef4a0a8091a97073df91a8b242dea2a",
+        "campus_safety_analysis/output/pdf/campus-safety-report.pdf": "8a0efc6be9634ac85d7fe815c153961e721ac24e714fe66e8cdd5df05eceaa88",
+        "campus_safety_analysis/PROTOCOL.md": "74c647e19010ac9a6adacf8eb4d039f9727a8a84e93c3f3ee04c96d2bad7af79",
+        "campus_safety_analysis/research/RESEARCH_REVIEW.md": "c0d6e3c907508b14654723a338eed3560cea853c57d0fec60f9c631df0eaeed1",
+        "campus_safety_analysis/research/CITATION_VALUE_VERIFICATION.json": "37c881f52a1e94fced25b58cd48a5da0f9729b5a4e74bf986ac8f33d2b58640e",
+        "campus_safety_analysis/research/asr_comparison_verification.json": "6d549a482959acfd70011ca452735c5c195435d1f54d6230602d32053542ec82",
+        "campus_safety_analysis/sources/clery/residential_applicability_2024_verification.json": "31fc6f67301051a585526fa9edd8ad3017a801526acc80d12dbfa2a1e4fddb02"
+      },
+      "unchanged_prior_presentation_record_hash": {
+        "campus_safety_analysis/research/PRESENTATION_REVISION.md": "0ba9149cf4bb02a4aa38ee947bf9eb67ee8d327ba9ca2311c199481b2d226cba"
+      },
+      "revision_record": "campus_safety_analysis/research/RESIDENT_FOCUS_REVISION.md",
+      "independent_revision_checks": {
+        "category_period_coverage_configurations": 60,
+        "fixed_resident_covered_institutions": 11,
+        "complete_2024_resident_rates": 11,
+        "complete_each_earlier_and_pooled_resident_rates": 6,
+        "other_institutions_without_resident_denominators": 31,
+        "static_default_rows_verified": 11,
+        "citation_occurrences": 52,
+        "matching_return_links": 52,
+        "source_entries": 33,
+        "math_expressions": 7,
+        "unchanged_original_scientific_artifacts": 10
+      },
+      "original_scientific_checks_repeated": false,
+      "original_scientific_checks_note": "Original source-reading, numerical and PDF audit results retained for byte-identical artifacts. This revision independently reviewed presentation scope, data coverage, default rows and source navigation; it did not reacquire source files or revise estimates.",
+      "not_certified_here": [
+        "responsive browser rendering",
+        "complete regression run",
+        "final archive extraction/reproduction",
+        "deployed-site behavior",
+        "exact housing-property population alignment"
       ]
     }
   ]

@@ -4,21 +4,18 @@ import CuratorGuide from '../components/CuratorGuide.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const publishedEntries = await getCollection('archive', ({ data }) => data.status === 'published');
+const highlightOrder = [
+  'crime-and-heat',
+  'campus-safety',
+  'horizon',
+  'paperfield',
+  'triton-tidepool',
+  'pocketllm',
+  'organizing-icloud-media',
+];
 const selectedWork = publishedEntries
-  .filter(({ data }) => data.type === 'work' && data.featured)
-  .sort((a, b) => {
-    const order = [
-      'horizon',
-      'paperfield',
-      'triton-tidepool',
-      'research-briefing-assistant',
-      'pocketllm',
-      'workline',
-      'research-publishing-systems',
-      'organizing-icloud-media',
-    ];
-    return order.indexOf(a.data.slug) - order.indexOf(b.data.slug);
-  });
+  .filter(({ data }) => data.featured && highlightOrder.includes(data.slug))
+  .sort((a, b) => highlightOrder.indexOf(a.data.slug) - highlightOrder.indexOf(b.data.slug));
 
 const counts = {
   work: publishedEntries.filter(({ data }) => data.type === 'work').length,
@@ -90,22 +87,22 @@ const contents = [
     </section>
   </section>
 
-  <section class="project-ledger" aria-labelledby="projects-heading">
+  <section class="project-ledger" aria-labelledby="selected-work-heading">
     <div class="project-ledger-title">
-      <h2 id="projects-heading">Projects</h2>
-      <p>Selected<br />projects</p>
+      <h2 id="selected-work-heading">Selected work</h2>
+      <p>Research &amp;<br />projects</p>
     </div>
     <div class="project-register">
       <div class="ledger-columns" aria-hidden="true">
         <span>Type</span>
-        <span>Project</span>
+        <span>Work</span>
         <span>Description</span>
       </div>
       <ul class="ledger-list">
         {selectedWork.map((entry) => (
           <li>
-            <a href={'/work/' + entry.data.slug + '/'}>
-              <span class="ledger-type">{entry.data.projectStage ? 'WIP project' : 'Project'}</span>
+            <a href={entry.data.externalUrl ?? '/' + (entry.data.type === 'data-analysis' ? 'writing/data-analysis' : entry.data.type) + '/' + entry.data.slug + '/'}>
+              <span class="ledger-type">{entry.data.type === 'data-analysis' ? 'Data analysis' : entry.data.projectStage ? 'WIP project' : 'Project'}</span>
               <strong>{entry.data.title}</strong>
               <span class="ledger-description">{entry.data.description}</span>
             </a>

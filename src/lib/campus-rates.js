@@ -44,10 +44,18 @@ export function nextSort(current, column) {
   return active.direction === 'ascending' ? descending : ascending;
 }
 
+export const initialView = Object.freeze({category:'criminal_total', period:'2024', measure:'residents', scale:1000, group:'resident-covered', search:'', sort:'name'});
+
+// Older shared views omitted enrollment/all because those were the defaults.
+export function viewDefaults(params) {
+  const legacyView = ['category','period','measure','scale','group','search','sort','first','second'].some(key => params.has(key));
+  return legacyView ? {...initialView, measure:'enrollment', group:'all'} : {...initialView};
+}
+
 export function selectedRows(data, {category='criminal_total', period='2024', measure='enrollment', scale=1000, group='all', search='', sort='name'}={}) {
   const query = search.trim().toLocaleLowerCase();
   const aliases = {'110680':'UCSD','110714':'UCSC','110705':'UCSB','110635':'UCB','110644':'UCD','110653':'UCI','110671':'UCR','445188':'UCM','110699':'UCSF','122409':'SDSU','215062':'UPenn Penn','211440':'CMU','145637':'UIUC','199120':'UNC','234076':'UVA','240444':'UW Madison','236948':'UW Seattle'};
-  const rows = data.institutions.filter(inst => (group === 'all' || inst.group === group) && `${inst.name} ${inst.shortName} ${inst.officialName??''} ${aliases[inst.id]??''} ${inst.state}`.toLocaleLowerCase().includes(query))
+  const rows = data.institutions.filter(inst => (group === 'all' || inst.group === group || (group === 'resident-covered' && inst.years.some(year => year.residents > 0))) && `${inst.name} ${inst.shortName} ${inst.officialName??''} ${aliases[inst.id]??''} ${inst.state}`.toLocaleLowerCase().includes(query))
     .map(institution => ({institution,...summarize(institution,category,period,measure,scale)}));
   const order = sortOrders[sort] ?? sortOrders.name;
   return rows.sort((a,b) => {

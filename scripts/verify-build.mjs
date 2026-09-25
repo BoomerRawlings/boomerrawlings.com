@@ -1401,25 +1401,34 @@ if (publicHtml.includes('Interactive Systems')) {
   failures.push('public pages: obsolete Interactive Systems title remains');
 }
 
-const featuredProjects = [
-  'horizon',
-  'paperfield',
-  'triton-tidepool',
-  'research-briefing-assistant',
-  'pocketllm',
-  'research-publishing-systems',
-  'organizing-icloud-media',
+const featuredWork = [
+  ['/writing/data-analysis/crime-and-heat/', 'Data analysis'],
+  ['/writing/data-analysis/campus-safety/', 'Data analysis'],
+  ['/work/horizon/', 'Project'],
+  ['/work/paperfield/', 'Project'],
+  ['/work/triton-tidepool/', 'Project'],
+  ['/work/pocketllm/', 'Project'],
+  ['/work/organizing-icloud-media/', 'Project'],
 ];
-for (const slug of featuredProjects) {
-  if (!homeHtml.includes(`href="/work/${slug}/"`)) {
-    failures.push(`index.html: missing featured project ${slug}`);
-  }
+const homeLedger = homeHtml.match(/<ul\b[^>]*class="ledger-list"[^>]*>([\s\S]*?)<\/ul>/)?.[1] ?? '';
+const featuredRows = [...homeLedger.matchAll(/<li\b[^>]*>\s*<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>\s*<\/li>/g)];
+if (featuredRows.length !== featuredWork.length || !homeHtml.includes('>Selected work</h2>')) {
+  failures.push('index.html: selected work must contain exactly seven highlights');
 }
-const featuredProjectOffsets = featuredProjects.map((slug) =>
-  homeHtml.indexOf(`href="/work/${slug}/"`)
-);
-if (featuredProjectOffsets.some((offset, index) => index > 0 && offset <= featuredProjectOffsets[index - 1])) {
-  failures.push('index.html: featured projects are not in the intended guided order');
+featuredWork.forEach(([href, type], index) => {
+  const row = featuredRows[index];
+  if (row?.[1] !== href || !row?.[2].includes(`<span class="ledger-type">${type}</span>`)) {
+    failures.push(`index.html: selected highlight ${href} has the wrong order, destination, or type`);
+  }
+});
+for (const slug of ['research-briefing-assistant', 'research-publishing-systems']) {
+  const href = `/work/${slug}/`;
+  if (homeLedger.includes(`href="${href}"`)
+    || !workHtml.includes(`href="${href}"`)
+    || !allWorkHtml.includes(`href="${href}"`)
+    || !existsSync(join(output, 'work', slug, 'index.html'))) {
+    failures.push(`${slug}: removed homepage highlight must remain published in Projects and All Work`);
+  }
 }
 if (homeHtml.includes('href="/work/interactive-systems/"')) {
   failures.push('index.html: interactive experiments should remain off the homepage');
@@ -1430,8 +1439,7 @@ if (!workHtml.includes('href="/work/interactive-systems/"')) {
 if (homeHtml.includes('ledger-status') || homeHtml.includes('(public)')) {
   failures.push('index.html: redundant project-status language remains');
 }
-if (!homeHtml.includes('>WIP project</span>')
-  || !workHtml.includes('href="/work/research-briefing-assistant/"')
+if (!workHtml.includes('href="/work/research-briefing-assistant/"')
   || !workHtml.includes('<span class="project-stage">Work in progress</span>')
   || !allWorkHtml.includes('href="/work/research-briefing-assistant/"')
   || !allWorkRow('/work/research-briefing-assistant/').includes('>WIP project</span>')) {

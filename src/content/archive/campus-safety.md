@@ -4,8 +4,9 @@ slug: campus-safety
 type: data-analysis
 date: 2026-09-25
 status: published
-description: Reported campus offenses relative to enrollment and documented housing occupancy, across the University of California, Ivy League and selected public and private universities.
-analysisPeriod: 2022–2024 report years · 42 institutions · Enrollment and residential denominators
+featured: true
+description: Campus-housing offenses per 1,000 documented residents at 11 universities, with an interactive broader comparison of 42 institutions.
+analysisPeriod: 2022–2024 report years · 11 resident populations · 42 institutions
 tags: [Campus safety, Higher education, Public records, Per capita, Clery Act]
 ---
 
@@ -27,9 +28,11 @@ The institution is identified by its UNITID. Federal reporting campuses are aggr
 
 ## Population denominators
 
-The principal denominator is **fall enrolled headcount**, including undergraduate and graduate/professional students, full time and part time, as reported to IPEDS. Each report year uses the fall population from that same calendar year. A fall snapshot approximates institutional size; it is not measured time physically present on campus. Exclusively distance-enrolled students remain in the institutional denominator, and their counts are retained in the data. Removing them would require assumptions about which students were exposed to each reporting location. [IPEDS complete files and dictionaries](https://nces.ed.gov/ipeds/use-the-data/download-access-database), [denominator records](/data-analysis/campus-safety/data/enrollment_denominators.csv).
+The default residential view uses **actual reported occupancy**, not available beds or a percentage of undergraduates living in housing. California State Auditor Report 2024-111 supplies fall 2022, 2023 and 2024 occupancy for all ten UCs and San Diego State. Its housing inventory has **not been reconciled property by property with Clery's residential geography**. These ratios are therefore an approximate housing normalization, even though the occupancy values themselves are documented. Resident-normalized rates for the other institutions remain unavailable; missing resident counts are not estimated from bed capacity. [State Auditor, Tables A.1–A.2, printed pp. 56–59](https://www.auditor.ca.gov/wp-content/uploads/2025/10/2024-111-Report.pdf#page=62).
 
-The residential view uses **actual reported occupancy**, not available beds or a percentage of undergraduates living in housing. California State Auditor Report 2024-111 supplies fall 2022, 2023 and 2024 occupancy for all ten UCs and San Diego State. Its housing inventory has **not been reconciled property by property with Clery's residential geography**. These ratios are therefore an approximate housing normalization, even though the occupancy values themselves are documented. Resident-normalized rates for the other institutions remain unavailable; missing resident counts are not estimated from bed capacity. [State Auditor, Tables A.1–A.2, printed pp. 56–59](https://www.auditor.ca.gov/wp-content/uploads/2025/10/2024-111-Report.pdf#page=62).
+The opening cohort includes every institution with a documented resident denominator, regardless of whether its selected offense count is available. All 11 have complete 2024 housing rates; only six have complete 2022–2024 pooled housing rates. Selecting all 42 institutions retains the other 31 as unavailable in the resident view. This presentation change preserves the original comparison set, source records and calculations. [Resident-focus revision](/data-analysis/campus-safety/data/RESIDENT_FOCUS_REVISION.md).
+
+The broader optional enrollment view uses **fall enrolled headcount**, including undergraduate and graduate/professional students, full time and part time, as reported to IPEDS. Each report year uses the fall population from that same calendar year. A fall snapshot approximates institutional size; it is not measured time physically present on campus. Exclusively distance-enrolled students remain in the institutional denominator, and their counts are retained in the data. Removing them would require assumptions about which students were exposed to each reporting location. [IPEDS complete files and dictionaries](https://nces.ed.gov/ipeds/use-the-data/download-access-database), [denominator records](/data-analysis/campus-safety/data/enrollment_denominators.csv).
 
 The alternative **housing reports per enrolled student** uses the housing numerator with total enrollment. It permits a consistent enrollment-based comparison of reported housing offenses across institutions, but it is not a measure of risk among residents. The interface labels each numerator/population combination explicitly.
 

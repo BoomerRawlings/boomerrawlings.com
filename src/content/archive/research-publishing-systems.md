@@ -16,7 +16,7 @@ tags:
   - publishing
   - document systems
 status: published
-featured: true
+featured: false
 ---
 
 A useful publication starts with a specific reader. The sources, structure, wording, page design, testing, and delivery all follow from what that reader needs to understand or do next.

@@ -18,7 +18,7 @@ tags:
   - quality assurance
   - Codex skills
 status: published
-featured: true
+featured: false
 ---
 
 > Work in progress. The public repository contains the workflow, reference specifications, and a package validator. It does not replace substantive review of the research.

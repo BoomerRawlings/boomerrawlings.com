@@ -36,16 +36,16 @@
     "sha256": "acf7930991e0e2d554511a092f873d94455c443a9df04fa1979f45166ebba7c8"
   },
   "data/CITATION_AUDIT.md": {
-    "bytes": 10676,
-    "sha256": "9c38af750b37bbf96657335c245fa5326ffee29fd4ade00c40464c8632abeea7"
+    "bytes": 11811,
+    "sha256": "cd38f5583a7a54d4401be740beff0ed570da5c41d78b24559e07df1386cbf51b"
   },
   "data/CITATION_AUDIT_PLAN.md": {
     "bytes": 6057,
     "sha256": "168eda06afef1ab0c8cfdeef20ec279177f9544321dc9f3486004cae93c8bf90"
   },
   "data/citation_claim_ledger.json": {
-    "bytes": 33085,
-    "sha256": "5ab6d236f48e4233fc86619eff958dc558d4ee6975ded21aae707eb281ea002d"
+    "bytes": 40920,
+    "sha256": "92c98256227ad238bb117723cd3550b89ed255728ebe6fe2534586004585511c"
   },
   "data/CITATION_VALUE_VERIFICATION.json": {
     "bytes": 7914,
@@ -104,8 +104,8 @@
     "sha256": "74c647e19010ac9a6adacf8eb4d039f9727a8a84e93c3f3ee04c96d2bad7af79"
   },
   "data/README.md": {
-    "bytes": 4459,
-    "sha256": "2dc53f7f21f5256dd0dc6b073a4a02031bc58aee8a754d1bc35e38e28b5e3133"
+    "bytes": 5030,
+    "sha256": "5a9ae1a4ab4391a912db60874bbfbc3c7b459fd4ee3d8631599b3f77a4484629"
   },
   "data/research/asr_comparison_verification.json": {
     "bytes": 2363,
@@ -124,16 +124,16 @@
     "sha256": "ab1bef3cab993a254df51936988dde6ec8a6d3bac1a7f0299ee14c94cd85703c"
   },
   "data/research/CITATION_AUDIT.md": {
-    "bytes": 10676,
-    "sha256": "9c38af750b37bbf96657335c245fa5326ffee29fd4ade00c40464c8632abeea7"
+    "bytes": 11811,
+    "sha256": "cd38f5583a7a54d4401be740beff0ed570da5c41d78b24559e07df1386cbf51b"
   },
   "data/research/CITATION_AUDIT_PLAN.md": {
     "bytes": 6057,
     "sha256": "168eda06afef1ab0c8cfdeef20ec279177f9544321dc9f3486004cae93c8bf90"
   },
   "data/research/citation_claim_ledger.json": {
-    "bytes": 33085,
-    "sha256": "5ab6d236f48e4233fc86619eff958dc558d4ee6975ded21aae707eb281ea002d"
+    "bytes": 40920,
+    "sha256": "92c98256227ad238bb117723cd3550b89ed255728ebe6fe2534586004585511c"
   },
   "data/research/CITATION_VALUE_VERIFICATION.json": {
     "bytes": 7914,
@@ -159,6 +159,10 @@
     "bytes": 10936,
     "sha256": "ead2764a494cbd28ea1e0cdf7d2af26864dbb5329ad26123fa067814cd6e2ce0"
   },
+  "data/research/RESIDENT_FOCUS_REVISION.md": {
+    "bytes": 10036,
+    "sha256": "80186e3375b7de64ec47e3b525011cf9f16cd8f265f32a945babfa6034aa3646"
+  },
   "data/research/verified_asr_rape_counts.csv": {
     "bytes": 1549,
     "sha256": "0fa6ee65cab590904bf8d9d79c1afd92f45a81d06af4c6e353611021f762323e"
@@ -170,6 +174,10 @@
   "data/RESEARCH_REVIEW.md": {
     "bytes": 16448,
     "sha256": "c0d6e3c907508b14654723a338eed3560cea853c57d0fec60f9c631df0eaeed1"
+  },
+  "data/RESIDENT_FOCUS_REVISION.md": {
+    "bytes": 10036,
+    "sha256": "80186e3375b7de64ec47e3b525011cf9f16cd8f265f32a945babfa6034aa3646"
   },
   "data/source_manifest.json": {
     "bytes": 30930,
@@ -584,15 +592,15 @@
     "sha256": "720d63b466fb0625ab9f2b73ecbe649f9bdc0a4a3e3b3f80f83bfb106a01a08a"
   },
   "data/VISUAL_AUDIT.md": {
-    "bytes": 4784,
-    "sha256": "d67e3f036a63f57fd690d7623f31c4f055aea1c320a26ee19d34291d3a851c99"
+    "bytes": 6818,
+    "sha256": "9662d74bd8902660adf064a36f82a8a5ed3ef3dd650e4fc5b0eb09d8777ab7bb"
   },
   "downloads/campus-safety-report.pdf": {
     "bytes": 206075,
     "sha256": "8a0efc6be9634ac85d7fe815c153961e721ac24e714fe66e8cdd5df05eceaa88"
   },
   "downloads/campus-safety-reproducibility.zip": {
-    "bytes": 1932968,
-    "sha256": "dce400cbf9302db2329482f712f0b0dd4f6f552221c68c66b20c8c27e3a01744"
+    "bytes": 1941547,
+    "sha256": "6d03c01fc2378eb94f369bd941e3dace7102d5cff2e76204252c7643f29e7992"
   }
 }
