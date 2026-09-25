@@ -88,3 +88,8 @@ All ten non-website artifacts in the original hash map, including the report and
 **PASS: separate source/content review of the resident-focused opening view.** The website now opens with 2024 housing reports per 1,000 documented residents at the 11 institutions with sourced occupancy. The fixed 42-institution study, optional enrollment measures, missing values and geographic qualifications remain intact. See [RESIDENT_FOCUS_REVISION.md](RESIDENT_FOCUS_REVISION.md) for the rationale, 60 independently checked category-by-period coverage selections, 11 verified static rows, saved-view compatibility and audit boundaries.
 
 All ten original scientific/protocol/report artifact hashes and the earlier presentation note remain unchanged. The original scientific audit counts are not claimed as repeated. A second `presentation_revisions` entry preserves the preceding complete hash map and identifies the newly reviewed files. This revision has 52 citation occurrences, 52 return links and 33 source entries; the preceding 51/32 presentation audit remains a record of its earlier version. Browser, regression, package and deployment checks remain separate.
+
+
+## Report-year menu order — 25 September 2026
+
+**PASS: narrowly scoped selector-order review.** One component line now orders the choices as 2022, 2023, 2024, then pooled 2022–2024. An explicit selected attribute retains the 2024 opening and reset selection; existing saved-view and calculation logic is unchanged. The ledger preserves the prior component hash and records its replacement. Other reviewed artifacts remain unchanged. No scientific audit was repeated; build, browser and deployment checks remain separate.

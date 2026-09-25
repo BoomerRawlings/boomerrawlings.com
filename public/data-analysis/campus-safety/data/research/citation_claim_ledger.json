@@ -581,7 +581,7 @@
   "reviewed_file_hashes": {
     "boomerrawlings.com/src/pages/writing/data-analysis/campus-safety.astro": "aadf37af829646b274ca492a5186e48b9926d256fdb72635d2abf241db067c40",
     "boomerrawlings.com/src/content/archive/campus-safety.md": "58a8aa71e5aa736027b0e98888d4cb90df4cff8335ac9501cc99dd2ddb92fef8",
-    "boomerrawlings.com/src/components/CampusExplorer.astro": "f177e667b51ea55a7370148194d473ba86e721a90df73ab77857b9feaa5dda02",
+    "boomerrawlings.com/src/components/CampusExplorer.astro": "f31d67923370cf9859d076b2a8a51baaba3d8413be2ce44ca804c6fde83270f7",
     "boomerrawlings.com/src/lib/campus-rates.js": "9467849ad2803ae3c07981fcecc28c8957994f10ed06a58d32bf71faa5d0f215",
     "campus_safety_analysis/publication/data/dataset.json": "5a4ac282c79e3e0a6d6fec478b24b6bae1c47d8350863d582314de39a01ef998",
     "campus_safety_analysis/publication/data/case_study.json": "5ed64dbca52b2d9768bc52d561cdaaa8640f11cef13b044dcf832e17c6e9da43",
@@ -766,6 +766,26 @@
         "final archive extraction/reproduction",
         "deployed-site behavior",
         "exact housing-property population alignment"
+      ]
+    },
+    {
+      "id": "report-year-order-2026-09-25",
+      "review_date": "2026-09-25",
+      "status": "selector_order_content_review_passed_for_hashed_component",
+      "scope": "One-line report-year option reorder: 2022, 2023, 2024, then pooled 2022–2024. Explicit selected attribute preserves 2024 opening and reset selection.",
+      "prior_reviewed_file_hashes": {
+        "boomerrawlings.com/src/components/CampusExplorer.astro": "f177e667b51ea55a7370148194d473ba86e721a90df73ab77857b9feaa5dda02"
+      },
+      "updated_reviewed_file_hashes": {
+        "boomerrawlings.com/src/components/CampusExplorer.astro": "f31d67923370cf9859d076b2a8a51baaba3d8413be2ce44ca804c6fde83270f7"
+      },
+      "review_note": "Compared component with preceding committed version: exactly one content line changed. Existing initialView, saved-view application and reset logic are unchanged. Other reviewed artifact hashes remain unchanged.",
+      "original_scientific_checks_repeated": false,
+      "not_certified_here": [
+        "browser rendering or interaction",
+        "build completion",
+        "package integrity",
+        "deployed-site behavior"
       ]
     }
   ]
