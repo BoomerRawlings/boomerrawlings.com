@@ -15,6 +15,9 @@ from pypdf import PdfReader
 HERE = Path(__file__).resolve().parent
 STUDY = HERE.parent
 ROOT = STUDY.parent
+ledger_path = HERE / 'citation_claim_ledger.json'
+if ledger_path.exists() and json.loads(ledger_path.read_text(encoding='utf-8')).get('presentation_revisions'):
+    raise SystemExit('Historical audit recorder stopped: presentation revisions exist. Preserve the revision ledger and follow PRESENTATION_REVISION.md; this script cannot certify or overwrite later reviews.')
 PDF = STUDY / 'output/pdf/campus-safety-report.pdf'
 EXPECTED_PDF = '8a0efc6be9634ac85d7fe815c153961e721ac24e714fe66e8cdd5df05eceaa88'
 WEBSITE = STUDY / 'website' if (STUDY / 'website').is_dir() else ROOT / 'boomerrawlings.com'

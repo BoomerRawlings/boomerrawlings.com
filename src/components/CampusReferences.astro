@@ -1,0 +1,5 @@
+---
+import { addCampusCitations } from '../lib/campus-citations.js';
+const html = addCampusCitations(await Astro.slots.render('default'));
+---
+<Fragment set:html={html} />

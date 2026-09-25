@@ -41,3 +41,9 @@ The public package contains no individual victim records or raw API contact payl
 - `PACKAGE_MANIFEST.json`: byte sizes and SHA-256 hashes of packaged files, excluding the manifest itself.
 
 Missing cells are not zero. All-branch scope differs from a named main campus. Current 2024 no-housing declarations are not applied retrospectively. Resident ratios are approximate because housing-property boundaries remain unmatched. SDSU IPEDS versus campus/Auditor enrollment remains unresolved and explicitly disclosed. The completed Crime and Heat study is a separate analysis.
+
+## Presentation revision
+
+The September 2026 interface revision adds sortable headings, full-name/abbreviation definitions and reciprocal numbered source notes. See `research/PRESENTATION_REVISION.md` for the separate review. Numerical inputs, rates and report bytes remain unchanged. The original source-audit hash record is retained within the citation ledger's revision metadata; current presentation files have their own reviewed hashes.
+
+`research/build_citation_audit.py` is a historical audit recorder, not a source-reading or peer-review engine. It refuses to overwrite a ledger containing later presentation revisions. It is not part of the offline numerical reproduction commands above. The selected `website/` modules document the reviewed interface; the full website and build configuration remain in the website repository.

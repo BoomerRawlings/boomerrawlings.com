@@ -18,3 +18,13 @@ Independent reviewer inspected all seven pages, both vector equations, grayscale
 ## Calculation and publication checks
 
 The website check script compares browser-helper calculations with all 7,560 Python-produced annual/pooled rates and tests unequal-denominator pooling, missing values, zero counts, category sums, rate rescaling, CSV escaping, manifest hashes and mathematical markup. Those checks are run as part of the publication build. Source-version and geography uncertainties remain as stated in the methods; visual correctness does not resolve them.
+
+## Presentation revision: sortable headings and source navigation
+
+25 September 2026. **PASS** on the production-build preview; these checks supplement the original review above.
+
+- All four table headings sort in both directions. Browser-observed values were ordered correctly in all eight states; the dropdown, direction arrow, `aria-sort`, URL and keyboard focus agree. Missing resident populations remain last, and the selected ordering survives reload. Institution ordering uses the full source name.
+- First-use expansions and later abbreviations were inspected in static and interactive content. Native options retain full names. Definitions appear on pointer/focus/touch interaction; Escape dismisses the tooltip. The revised mobile tooltip stays within the content viewport. Source titles and reporting-campus strings remain verbatim, with definitions applied only to shorthand.
+- All 51 numbered subscript citations connect to 32 source entries, with 51 return links. A housing-occupancy citation was followed to the correct source and returned to the exact occurrence; focus followed the return target. Source highlighting and readable wrapping were visually checked at 390 px.
+- Desktop and 390 px table/controls screenshots show readable full-name labels and visible sorting indicators. At 320 px the page has no horizontal overflow, and both display equations fit their available 273 px without clipping. All seven MathML expressions remain present. No console errors or warnings appeared during these checks.
+- The PDF and statistical data are unchanged. The separate source/content review and definition provenance are recorded in [research/PRESENTATION_REVISION.md](research/PRESENTATION_REVISION.md). Live publication verification follows packaging.

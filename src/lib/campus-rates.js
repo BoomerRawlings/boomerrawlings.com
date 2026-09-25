@@ -23,18 +23,44 @@ export function rateLabel(value) {
   return value > 0 && value < .01 ? value.toFixed(3) : value.toFixed(2);
 }
 
+export const sortOrders = {
+  name: {column:'institution', direction:'ascending', label:'Full institution name A–Z'},
+  nameDesc: {column:'institution', direction:'descending', label:'Full institution name Z–A'},
+  rateDesc: {column:'rate', direction:'descending', label:'Reported rate: high to low'},
+  rateAsc: {column:'rate', direction:'ascending', label:'Reported rate: low to high'},
+  countDesc: {column:'count', direction:'descending', label:'Reported count: high to low'},
+  countAsc: {column:'count', direction:'ascending', label:'Reported count: low to high'},
+  populationDesc: {column:'population', direction:'descending', label:'Population: high to low'},
+  populationAsc: {column:'population', direction:'ascending', label:'Population: low to high'},
+};
+
+/** Numeric columns start highest first; names start A–Z. Repeated clicks reverse the order. */
+export function nextSort(current, column) {
+  const active = sortOrders[current] ?? sortOrders.name;
+  const ascending = column === 'institution' ? 'name' : `${column}Asc`;
+  const descending = column === 'institution' ? 'nameDesc' : `${column}Desc`;
+  if (!sortOrders[ascending]) throw new Error('Unknown sort column');
+  if (active.column !== column) return column === 'institution' ? ascending : descending;
+  return active.direction === 'ascending' ? descending : ascending;
+}
+
 export function selectedRows(data, {category='criminal_total', period='2024', measure='enrollment', scale=1000, group='all', search='', sort='name'}={}) {
   const query = search.trim().toLocaleLowerCase();
   const aliases = {'110680':'UCSD','110714':'UCSC','110705':'UCSB','110635':'UCB','110644':'UCD','110653':'UCI','110671':'UCR','445188':'UCM','110699':'UCSF','122409':'SDSU','215062':'UPenn Penn','211440':'CMU','145637':'UIUC','199120':'UNC','234076':'UVA','240444':'UW Madison','236948':'UW Seattle'};
   const rows = data.institutions.filter(inst => (group === 'all' || inst.group === group) && `${inst.name} ${inst.shortName} ${inst.officialName??''} ${aliases[inst.id]??''} ${inst.state}`.toLocaleLowerCase().includes(query))
     .map(institution => ({institution,...summarize(institution,category,period,measure,scale)}));
+  const order = sortOrders[sort] ?? sortOrders.name;
   return rows.sort((a,b) => {
-    if (sort !== 'name') {
-      if (a.rate === null && b.rate !== null) return 1;
-      if (b.rate === null && a.rate !== null) return -1;
-      if (a.rate !== null && b.rate !== null && a.rate !== b.rate) return sort === 'rateAsc' ? a.rate-b.rate : b.rate-a.rate;
+    const names = (a.institution.officialName??a.institution.name).localeCompare(b.institution.officialName??b.institution.name,'en');
+    if (order.column === 'institution' && names !== 0) return order.direction === 'ascending' ? names : -names;
+    if (order.column !== 'institution') {
+      const first = a[order.column], second = b[order.column];
+      // An unavailable value is always last, including in descending order.
+      if (first === null && second !== null) return 1;
+      if (second === null && first !== null) return -1;
+      if (first !== null && second !== null && first !== second) return order.direction === 'ascending' ? first-second : second-first;
     }
-    return a.institution.name.localeCompare(b.institution.name,'en');
+    return names || String(a.institution.id).localeCompare(String(b.institution.id),'en');
   });
 }
 

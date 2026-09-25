@@ -74,3 +74,10 @@ Paths are project-relative; SHA-256 identifies bytes rather than a mutable URL.
 | `campus_safety_analysis/sources/clery/residential_applicability_2024_verification.json` | `31fc6f67301051a585526fa9edd8ad3017a801526acc80d12dbfa2a1e4fddb02` |
 
 The audit plan and earlier draft preserve the review stages; this completed audit supersedes their pending status only for the scope and versions stated here.
+
+
+## Presentation revision — 25 September 2026
+
+**PASS: separate presentation source/content review.** The website subsequently gained sorting by every results-table column, source-derived full institutional names, abbreviation definitions, and numbered subscript citations with a return link to each occurrence. See [PRESENTATION_REVISION.md](PRESENTATION_REVISION.md) for primary definition sources, independent checks, qualifications and the limited review scope.
+
+All ten non-website artifacts in the original hash map, including the report and numerical inputs/results, remain byte-identical. The original 4,387 source-value checks and 44 claim families above describe the original scientific review; they were not relabeled as newly performed checks. The original hash table remains a historical review record. `citation_claim_ledger.json` preserves that complete map in `presentation_revisions` and records current reviewed website hashes at top level. Browser, package and deployment checks remain separate.

@@ -1,5 +1,5 @@
 ---
-import { selectedRows, rateLabel } from '../lib/campus-rates.js';
+import { selectedRows, rateLabel, sortOrders } from '../lib/campus-rates.js';
 const {data} = Astro.props;
 const rows = selectedRows(data);
 const number = (value:number|null) => value === null ? 'Unavailable' : value.toLocaleString('en-US');
@@ -12,7 +12,7 @@ const number = (value:number|null) => value === null ? 'Unavailable' : value.toL
     <label>Report year<select id="campus-period"><option value="2024">2024</option><option value="pooled">2022–2024 pooled annual rate</option><option value="2023">2023</option><option value="2022">2022</option></select></label>
     <label>Comparison group<select id="campus-group"><option value="all">All 42 institutions</option><option value="uc">University of California</option><option value="ivy">Ivy League</option><option value="public">Additional public universities</option><option value="private">Additional private universities</option></select></label>
     <label>Rate scale<select id="campus-scale"><option value="1000">Per 1,000</option><option value="10000">Per 10,000</option></select></label>
-    <label>Display order<select id="campus-sort"><option value="name">Institution A–Z</option><option value="rateDesc">Reported rate: high to low</option><option value="rateAsc">Reported rate: low to high</option></select></label>
+    <label>Display order<select id="campus-sort">{Object.entries(sortOrders).map(([value,order])=><option value={value}>{order.label}</option>)}</select></label>
     <label class="campus-control-wide">Find an institution<input id="campus-search" type="search" placeholder="Name or state" autocomplete="off" /></label>
   </div>
   <p id="campus-category-definition" class="analysis-note">Sum of the listed Clery criminal-offense categories. Excludes VAWA counts, hate-crime classifications, arrests and disciplinary referrals. It is not a count of unique incidents or people.</p>
@@ -32,7 +32,9 @@ const number = (value:number|null) => value === null ? 'Unavailable' : value.toL
   <script id="campus-dataset" type="application/json" set:html={JSON.stringify(data).replace(/</g,'\\u003c')} />
 </section>
 <script>
-  import { measures, summarize, selectedRows, rateLabel, csvText } from '../lib/campus-rates.js';
+  import { measures, summarize, selectedRows, rateLabel, csvText, sortOrders, nextSort } from '../lib/campus-rates.js';
+  import { annotateCampusTerms, enableCampusTermTooltips } from '../lib/campus-term-dom.js';
+  import { stateNames } from '../lib/campus-terms.js';
   const root = document.querySelector('[data-campus-explorer]');
   if (root) {
     const data = JSON.parse(document.getElementById('campus-dataset')!.textContent!);
@@ -47,6 +49,9 @@ const number = (value:number|null) => value === null ? 'Unavailable' : value.toL
       const value=params.get(key);
       if(value!==null && (input instanceof HTMLInputElement || Array.from(input.options).some(o=>o.value===value))) input.value=value;
     }
+    const study = document.querySelector('[data-campus-study]')!;
+    const annotate = ()=>annotateCampusTerms(study,data.institutions);
+    enableCampusTermTooltips(study);
     let current:any[]=[];
     function state(){return {...Object.fromEntries(Object.entries(controls).map(([key,input])=>[key,input.value])),scale:Number(controls.scale.value)} as any;}
     function saveView(){const url=new URL(location.href);for(const [key,input] of Object.entries(controls)){if(input.value===defaults[key])url.searchParams.delete(key);else url.searchParams.set(key,input.value);}history.replaceState(null,'',url);}
@@ -57,7 +62,7 @@ const number = (value:number|null) => value === null ? 'Unavailable' : value.toL
       const container=$('campus-pair');container.replaceChildren();
       pair.forEach((inst,index)=>{
         const card=el('article',undefined,'campus-card');card.append(el('h4',inst.name));
-        card.append(el('p',`${inst.branchCount} federal reporting ${inst.branchCount===1?'campus':'campuses'} · ${inst.state}`,'analysis-note'));
+        const scope=el('p',`${inst.branchCount} federal reporting ${inst.branchCount===1?'campus':'campuses'} · ${stateNames[inst.state]??inst.state}`,'analysis-note');scope.setAttribute('data-campus-no-terms','');card.append(scope);
         const chart=el('div',undefined,'campus-year-bars');
         rates[index].forEach(row=>{
           const line=el('div',undefined,'campus-year-row');line.append(el('span',String(row.year)));
@@ -66,28 +71,48 @@ const number = (value:number|null) => value === null ? 'Unavailable' : value.toL
         const table=el('table',undefined,'campus-mini-table');const head=el('thead');const hr=el('tr');['Year','Offenses','Population'].forEach(v=>{const th=el('th',v);th.setAttribute('scope','col');hr.append(th);});head.append(hr);table.append(head);const body=el('tbody');rates[index].forEach(row=>{const tr=el('tr');const th=el('th',String(row.year));th.setAttribute('scope','row');tr.append(th,el('td',n(row.count)),el('td',n(row.population)));body.append(tr);});table.append(body);card.append(table);
         inst.notes.forEach((note:string)=>card.append(el('p',note,'analysis-note')));
         if(s.measure==='residents')card.append(el('p',inst.residentNote,'campus-scope-note'));
-        const details=el('details');details.append(el('summary','Reporting campuses and source records'));const list=el('ul');inst.campuses.forEach((campus:any)=>list.append(el('li',`${campus.name} (${campus.id})`)));details.append(list);
+        const details=el('details');details.append(el('summary','Reporting campuses and source records'));const list=el('ul');list.setAttribute('data-campus-verbatim','');inst.campuses.forEach((campus:any)=>list.append(el('li',`${campus.name} (${campus.id})`)));details.append(list);
         const link=el('a','Download campus crosswalk') as HTMLAnchorElement;link.href='/data-analysis/campus-safety/data/campus_crosswalk.csv';details.append(link);card.append(details);container.append(card);
       });
     }
     function render(){
+      const focusedSortColumn=document.activeElement?.getAttribute('data-sort-column');
       const s=state();current=selectedRows(data,s);const category=data.categories.find((c:any)=>c.id===s.category);const definition=measures[s.measure];const pooled=s.period==='pooled';
       $('campus-category-definition').textContent=category.description;
       const per=`per ${n(s.scale)} ${definition.population}`;
       $('campus-table-title').textContent=`${category.label} · ${pooled?'2022–2024 pooled annual rate':s.period}`;
       const available=current.filter(row=>row.rate!==null).length;
-      $('campus-results-status').textContent=`${current.length} ${current.length===1?'institution':'institutions'} · ${available} ${available===1?'rate':'rates'} available${s.sort==='name'?' · alphabetical order':' · descriptive order, not a safety ranking'}`;
+      const order=sortOrders[s.sort];
+      $('campus-results-status').textContent=`${current.length} ${current.length===1?'institution':'institutions'} · ${available} ${available===1?'rate':'rates'} available · ${order.label}${order.column==='institution'?'':' · not a safety ranking'}`;
       $('campus-measure-note').textContent=s.measure==='residents'
         ? `Approximate housing normalization: residential-facility offenses ${per}${pooled?' per year':''}. Occupancy is documented for the ten UCs and San Diego State only. Housing-property boundaries have not been matched to Clery geography; this is not a resident victimization rate. ${pooled?'The denominator sums three fall occupancy snapshots.':'The denominator is fall occupancy in the selected year.'}`
         : `${s.measure==='housingEnrollment'?'Residential-facility':'On-campus'} reported offenses ${per}${pooled?' per year':''}. ${pooled?'The denominator sums three fall enrollment headcounts.':'The denominator is fall enrollment in the selected year.'} Reports may involve nonstudents and earlier occurrences. ${s.measure==='housingEnrollment'?'Enrollment includes students living elsewhere; this does not measure resident risk.':'Institutions may combine multiple reporting campuses; inspect their scope below.'}`;
       const table=$('campus-results');table.replaceChildren();const caption=el('caption',`${category.label}, ${per}; ${pooled?'2022–2024 pooled':s.period}. Administrative reporting measure, not individual risk.`,'campus-sr-only');table.append(caption);
-      const thead=el('thead');const tr=el('tr');['Institution',`Rate per ${n(s.scale)}`,'Reported count',`${pooled?'Sum of fall':'Fall'} ${s.measure==='residents'?'occupancy':'enrollment'}`].forEach(text=>{const th=el('th',text);th.setAttribute('scope','col');tr.append(th);});thead.append(tr);table.append(thead);const tbody=el('tbody');
+      const thead=el('thead');const tr=el('tr');
+      const columns=[['institution','Institution'],['rate',`Rate per ${n(s.scale)}`],['count','Reported count'],['population',`${pooled?'Sum of fall':'Fall'} ${s.measure==='residents'?'occupancy':'enrollment'}`]];
+      columns.forEach(([column,label])=>{
+        const th=el('th');th.setAttribute('scope','col');
+        const active=order.column===column;
+        if(active)th.setAttribute('aria-sort',order.direction);
+        const button=el('button',undefined,'campus-sort-button') as HTMLButtonElement;
+        button.type='button';button.dataset.sortColumn=column;
+        const next=sortOrders[nextSort(s.sort,column)];
+        const direction=column==='institution'?(next.direction==='ascending'?'A to Z':'Z to A'):(next.direction==='ascending'?'lowest first':'highest first');
+        button.setAttribute('aria-label',`${label}: sort ${direction}`);
+        const indicator=el('span',active?(order.direction==='ascending'?'↑':'↓'):'↕','campus-sort-indicator');indicator.setAttribute('aria-hidden','true');
+        button.append(el('span',label),indicator);
+        button.addEventListener('click',()=>{
+          controls.sort.value=nextSort(controls.sort.value,column);render();
+          (table.querySelector(`[data-sort-column="${column}"]`) as HTMLButtonElement)?.focus({preventScroll:true});
+        });th.append(button);tr.append(th);
+      });thead.append(tr);table.append(thead);const tbody=el('tbody');
       const max=Math.max(1,...current.map(row=>row.rate??0));
-      for(const row of current){const tr=el('tr');const name=el('th');name.setAttribute('scope','row');const button=el('button',row.institution.name,'campus-institution-button') as HTMLButtonElement;button.type='button';button.setAttribute('aria-label',`Inspect ${row.institution.name}`);button.addEventListener('click',()=>{controls.first.value=row.institution.id;drawPair(state());saveView();$('campus-detail-heading').setAttribute('tabindex','-1');$('campus-detail-heading').focus();$('campus-detail').scrollIntoView({block:'start',behavior:'smooth'});});name.append(button);if(row.institution.branchCount>1)name.append(el('span',`${row.institution.branchCount} reporting campuses`,'campus-row-scope'));tr.append(name);const td=el('td',undefined,'campus-rate');td.append(el('strong',rateLabel(row.rate)));if(row.rate!==null){const bar=el('span',undefined,'campus-table-bar');bar.style.width=`${row.rate/max*100}%`;bar.setAttribute('aria-hidden','true');td.append(bar);}tr.append(td,el('td',n(row.count)),el('td',n(row.population)));tbody.append(tr);}
-      if(!current.length){const tr=el('tr');const td=el('td','No institutions match these filters. Clear the search or change the comparison group.');td.setAttribute('colspan','4');tr.append(td);tbody.append(tr);}table.append(tbody);drawPair(s);saveView();
+      for(const row of current){const tr=el('tr');const name=el('th');name.setAttribute('scope','row');const button=el('button',row.institution.name,'campus-institution-button') as HTMLButtonElement;button.type='button';button.setAttribute('aria-label',`Inspect ${row.institution.officialName??row.institution.name}`);button.addEventListener('click',()=>{controls.first.value=row.institution.id;drawPair(state());annotate();saveView();$('campus-detail-heading').setAttribute('tabindex','-1');$('campus-detail-heading').focus();$('campus-detail').scrollIntoView({block:'start',behavior:'smooth'});});name.append(button);if(row.institution.branchCount>1)name.append(el('span',`${row.institution.branchCount} reporting campuses`,'campus-row-scope'));tr.append(name);const td=el('td',undefined,'campus-rate');td.append(el('strong',rateLabel(row.rate)));if(row.rate!==null){const bar=el('span',undefined,'campus-table-bar');bar.style.width=`${row.rate/max*100}%`;bar.setAttribute('aria-hidden','true');td.append(bar);}tr.append(td,el('td',n(row.count)),el('td',n(row.population)));tbody.append(tr);}
+      if(!current.length){const tr=el('tr');const td=el('td','No institutions match these filters. Clear the search or change the comparison group.');td.setAttribute('colspan','4');tr.append(td);tbody.append(tr);}table.append(tbody);drawPair(s);annotate();saveView();
+      if(focusedSortColumn)(table.querySelector(`[data-sort-column="${focusedSortColumn}"]`) as HTMLButtonElement)?.focus({preventScroll:true});
     }
     Object.entries(controls).forEach(([key,input])=>input.addEventListener(key==='search'?'input':'change',render));
-    $('campus-download').addEventListener('click',()=>{const s=state();const definition=measures[s.measure];const rows=[['institution','unitid','category','geography','population_basis','period','rate_scale','reported_count','population_sum','years','rate','source_collection','interpretation'],...current.map(row=>[row.institution.name,row.institution.id,s.category,definition.geography,definition.denominator,s.period,s.scale,row.count,row.population,row.years,row.rate,2025,s.measure==='residents'?'Approximate; housing boundaries unmatched':'Administrative reports; not individual risk'])];const blob=new Blob([csvText(rows)],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`campus-safety-${s.category}-${s.measure}-${s.period}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);$('campus-action-status').textContent='Selection downloaded.';});
+    $('campus-download').addEventListener('click',()=>{const s=state();const definition=measures[s.measure];const rows=[['institution','unitid','category','geography','population_basis','period','rate_scale','reported_count','population_sum','years','rate','source_collection','interpretation'],...current.map(row=>[row.institution.officialName??row.institution.name,row.institution.id,s.category,definition.geography,definition.denominator,s.period,s.scale,row.count,row.population,row.years,row.rate,2025,s.measure==='residents'?'Approximate; housing boundaries unmatched':'Administrative reports; not individual risk'])];const blob=new Blob([csvText(rows)],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`campus-safety-${s.category}-${s.measure}-${s.period}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);$('campus-action-status').textContent='Selection downloaded.';});
     $('campus-share').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(location.href);$('campus-action-status').textContent='View link copied.';}catch{$('campus-action-status').textContent='Copy the address from your browser to share this view.';}});
     $('campus-reset').addEventListener('click',()=>{for(const [key,input]of Object.entries(controls))input.value=defaults[key];render();$('campus-action-status').textContent='Filters reset.';});
     render();['campus-controls','campus-tools','campus-detail'].forEach(id=>$(id).hidden=false);

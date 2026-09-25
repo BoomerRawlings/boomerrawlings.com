@@ -36,16 +36,16 @@
     "sha256": "acf7930991e0e2d554511a092f873d94455c443a9df04fa1979f45166ebba7c8"
   },
   "data/CITATION_AUDIT.md": {
-    "bytes": 9651,
-    "sha256": "e5fe6e8ead6cef21e44841d1eacb451216f23aeff96bbbe308024d42979450c3"
+    "bytes": 10676,
+    "sha256": "9c38af750b37bbf96657335c245fa5326ffee29fd4ade00c40464c8632abeea7"
   },
   "data/CITATION_AUDIT_PLAN.md": {
     "bytes": 6057,
     "sha256": "168eda06afef1ab0c8cfdeef20ec279177f9544321dc9f3486004cae93c8bf90"
   },
   "data/citation_claim_ledger.json": {
-    "bytes": 25842,
-    "sha256": "3402d325564fd9269104afd004c9b5d3879dd4371bf925e418fb8e8d0c94897a"
+    "bytes": 33085,
+    "sha256": "5ab6d236f48e4233fc86619eff958dc558d4ee6975ded21aae707eb281ea002d"
   },
   "data/CITATION_VALUE_VERIFICATION.json": {
     "bytes": 7914,
@@ -95,13 +95,17 @@
     "bytes": 355184,
     "sha256": "c1b7da4ff6af0cb9cf81c988e3d5fc20fef4a0a8091a97073df91a8b242dea2a"
   },
+  "data/PRESENTATION_REVISION.md": {
+    "bytes": 11700,
+    "sha256": "0ba9149cf4bb02a4aa38ee947bf9eb67ee8d327ba9ca2311c199481b2d226cba"
+  },
   "data/PROTOCOL.md": {
     "bytes": 5049,
     "sha256": "74c647e19010ac9a6adacf8eb4d039f9727a8a84e93c3f3ee04c96d2bad7af79"
   },
   "data/README.md": {
-    "bytes": 3621,
-    "sha256": "4c79677c0ebb87ffd4c5180e66ba637b18a72ad72b55b092ae2e380d14e1703c"
+    "bytes": 4459,
+    "sha256": "2dc53f7f21f5256dd0dc6b073a4a02031bc58aee8a754d1bc35e38e28b5e3133"
   },
   "data/research/asr_comparison_verification.json": {
     "bytes": 2363,
@@ -116,20 +120,20 @@
     "sha256": "aef1cb8ffed2458c8b0c3697c5d21daa14967ff91ae46f659cea2da01606e608"
   },
   "data/research/build_citation_audit.py": {
-    "bytes": 28856,
-    "sha256": "26c2361e9336d8ad0bf1518b78de6cf97639a2077fd80c98841dace3f303e433"
+    "bytes": 29227,
+    "sha256": "ab1bef3cab993a254df51936988dde6ec8a6d3bac1a7f0299ee14c94cd85703c"
   },
   "data/research/CITATION_AUDIT.md": {
-    "bytes": 9651,
-    "sha256": "e5fe6e8ead6cef21e44841d1eacb451216f23aeff96bbbe308024d42979450c3"
+    "bytes": 10676,
+    "sha256": "9c38af750b37bbf96657335c245fa5326ffee29fd4ade00c40464c8632abeea7"
   },
   "data/research/CITATION_AUDIT_PLAN.md": {
     "bytes": 6057,
     "sha256": "168eda06afef1ab0c8cfdeef20ec279177f9544321dc9f3486004cae93c8bf90"
   },
   "data/research/citation_claim_ledger.json": {
-    "bytes": 25842,
-    "sha256": "3402d325564fd9269104afd004c9b5d3879dd4371bf925e418fb8e8d0c94897a"
+    "bytes": 33085,
+    "sha256": "5ab6d236f48e4233fc86619eff958dc558d4ee6975ded21aae707eb281ea002d"
   },
   "data/research/CITATION_VALUE_VERIFICATION.json": {
     "bytes": 7914,
@@ -138,6 +142,10 @@
   "data/research/document_retrieval_metadata.json": {
     "bytes": 1330,
     "sha256": "616b7aae8cacddd722fd1381074c5e8cae8e049cbd0f992738e618bf40b8d51a"
+  },
+  "data/research/PRESENTATION_REVISION.md": {
+    "bytes": 11700,
+    "sha256": "0ba9149cf4bb02a4aa38ee947bf9eb67ee8d327ba9ca2311c199481b2d226cba"
   },
   "data/research/RESEARCH_FINDINGS.json": {
     "bytes": 1328,
@@ -576,15 +584,15 @@
     "sha256": "720d63b466fb0625ab9f2b73ecbe649f9bdc0a4a3e3b3f80f83bfb106a01a08a"
   },
   "data/VISUAL_AUDIT.md": {
-    "bytes": 3015,
-    "sha256": "35be808d045151713ed10c0317c457512e7e3184f8a341eac0ed1a673b3f2f02"
+    "bytes": 4784,
+    "sha256": "d67e3f036a63f57fd690d7623f31c4f055aea1c320a26ee19d34291d3a851c99"
   },
   "downloads/campus-safety-report.pdf": {
     "bytes": 206075,
     "sha256": "8a0efc6be9634ac85d7fe815c153961e721ac24e714fe66e8cdd5df05eceaa88"
   },
   "downloads/campus-safety-reproducibility.zip": {
-    "bytes": 1865846,
-    "sha256": "d5dd6b1a440af77384ce1847d8e5c9f9f52f29c9a060f8a4120bccbe968c4002"
+    "bytes": 1932968,
+    "sha256": "dce400cbf9302db2329482f712f0b0dd4f6f552221c68c66b20c8c27e3a01744"
   }
 }

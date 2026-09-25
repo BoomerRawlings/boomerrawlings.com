@@ -1,0 +1,6 @@
+---
+import {addCampusAbbreviations} from '../lib/campus-abbreviations.js';
+const {institutions}=Astro.props;
+const html=addCampusAbbreviations(await Astro.slots.render('default'),institutions);
+---
+<Fragment set:html={html} />
