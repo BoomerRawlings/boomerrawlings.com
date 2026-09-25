@@ -1,0 +1,16 @@
+id,code,label,family,description
+criminal_total,SUM_11,Listed criminal offenses (combined),criminal_offenses,"Sum of eleven Clery criminal-offense categories. Excludes VAWA counts, hate-crime classifications, arrests and disciplinary referrals. Not deduplicated incidents or unique people."
+rape,RAPE,Rape,criminal_offenses,Rape: reported offenses in the federal criminal-offense table. Counts are not unique victims or report forms.
+fondling,FONDL,Fondling,criminal_offenses,Fondling: reported offenses in the federal criminal-offense table. Counts are not unique victims or report forms.
+incest,INCES,Incest,criminal_offenses,Incest: reported offenses in the federal criminal-offense table. Counts are not unique victims or report forms.
+statutory_rape,STATR,Statutory rape,criminal_offenses,Statutory rape: reported offenses in the federal criminal-offense table. Counts are not unique victims or report forms.
+murder,MURD,Murder / nonnegligent manslaughter,criminal_offenses,Murder / nonnegligent manslaughter: reported offenses in the federal criminal-offense table. Counts are not unique victims or report forms.
+negligent_manslaughter,NEG_M,Negligent manslaughter,criminal_offenses,Negligent manslaughter: reported offenses in the federal criminal-offense table. Counts are not unique victims or report forms.
+robbery,ROBBE,Robbery,criminal_offenses,Robbery: reported offenses in the federal criminal-offense table. Counts are not unique victims or report forms.
+aggravated_assault,AGG_A,Aggravated assault,criminal_offenses,Aggravated assault: reported offenses in the federal criminal-offense table. Counts are not unique victims or report forms.
+burglary,BURGLA,Burglary,criminal_offenses,Burglary: reported offenses in the federal criminal-offense table. Counts are not unique victims or report forms.
+motor_vehicle_theft,VEHIC,Motor vehicle theft,criminal_offenses,Motor vehicle theft: reported offenses in the federal criminal-offense table. Counts are not unique victims or report forms.
+arson,ARSON,Arson,criminal_offenses,Arson: reported offenses in the federal criminal-offense table. Counts are not unique victims or report forms.
+domestic_violence,DOMEST,Domestic violence (VAWA),vawa,Domestic violence (VAWA): reported offenses in the federal VAWA table. Counts are not unique victims or report forms. This classification may overlap other offense categories; do not add it to the combined criminal-offense count.
+dating_violence,DATING,Dating violence (VAWA),vawa,Dating violence (VAWA): reported offenses in the federal VAWA table. Counts are not unique victims or report forms. This classification may overlap other offense categories; do not add it to the combined criminal-offense count.
+stalking,STALK,Stalking (VAWA),vawa,Stalking (VAWA): reported offenses in the federal VAWA table. Counts are not unique victims or report forms. This classification may overlap other offense categories; do not add it to the combined criminal-offense count.

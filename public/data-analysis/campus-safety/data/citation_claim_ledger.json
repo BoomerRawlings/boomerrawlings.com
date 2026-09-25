@@ -1,0 +1,616 @@
+{
+  "schema_version": "1.0.0",
+  "review_date": "2026-09-25",
+  "status": "source_and_content_audit_passed_for_hashed_artifacts",
+  "human_peer_review": false,
+  "claim_families": 44,
+  "claims": [
+    {
+      "id": "S01",
+      "locations": "Methods scope; page facts; PDF 1",
+      "claim_summary": "Fixed purposive cohort of 42: 10 UC, 8 Ivy, SDSU plus 23 other institutions.",
+      "sources": [
+        "STUDY"
+      ],
+      "qualification": "Selection protocol fixed before this study computed cohort rates; originating research already contained some results. Not preregistered or nationally representative.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S02",
+      "locations": "Methods vintage; dataset; PDF 7",
+      "claim_summary": "2025 is the latest public bulk collection found at 25 September 2026 retrieval; report years 2022–2024.",
+      "sources": [
+        "FED",
+        "CATALOG"
+      ],
+      "qualification": "A retrieval snapshot, not a promise about future releases. Archive preparation date is not a publication date.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S03",
+      "locations": "Methods vintage; discrepancy panel",
+      "claim_summary": "One federal collection supplies primary counts; campus ASRs can differ.",
+      "sources": [
+        "FED",
+        "UCSD",
+        "STUDY"
+      ],
+      "qualification": "No selective replacement and no unsupported chronology claim.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S04",
+      "locations": "Methods timing; explorer notice; PDF 2",
+      "claim_summary": "Counts use report year, potentially earlier occurrence year.",
+      "sources": [
+        "REG"
+      ],
+      "qualification": "Section (c)(3); course-of-conduct rules can also matter.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S05",
+      "locations": "Page notice; methods; PDF 1–2",
+      "claim_summary": "Reported offenses are not convictions, unique victims or report forms.",
+      "sources": [
+        "REG",
+        "UCSC"
+      ],
+      "qualification": "Section (c)(2) concerns report inclusion; UCSC provides a direct multiple-offense example.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S06",
+      "locations": "Methods numerator; explorer notes",
+      "claim_summary": "Reports can concern staff, visitors or nonstudents.",
+      "sources": [
+        "NCES",
+        "REG"
+      ],
+      "qualification": "Does not assert a measured fraction of nonstudents at any particular institution.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S07",
+      "locations": "Methods geography; PDF 2",
+      "claim_summary": "Housing is a subset of on campus; noncampus and public property are separate.",
+      "sources": [
+        "REG",
+        "GUIDE"
+      ],
+      "qualification": "Correct geography paragraph is (c)(5), not hate-bias paragraph (c)(4).",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S08",
+      "locations": "Methods categories; dataset descriptions; PDF 3–4",
+      "claim_summary": "Combined view sums eleven specified criminal categories.",
+      "sources": [
+        "FED",
+        "GUIDE",
+        "STUDY"
+      ],
+      "qualification": "Not all possible crime; not a deduplicated incident count.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S09",
+      "locations": "Methods categories; explorer",
+      "claim_summary": "DV, dating violence and stalking are separate VAWA views; other reporting families excluded.",
+      "sources": [
+        "GUIDE",
+        "REG"
+      ],
+      "qualification": "Overlaps mean they are not added to the eleven-category sum.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S10",
+      "locations": "Page facts; dataset",
+      "claim_summary": "Fifteen category views: eleven individual criminal categories, their combined view, three VAWA categories.",
+      "sources": [
+        "STUDY"
+      ],
+      "qualification": "Arithmetic 11+1+3; not fifteen mutually exclusive crimes.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S11",
+      "locations": "Methods institution unit; PDF 2",
+      "claim_summary": "212 federal campuses map to the 42 selected institutions; enrollment counted once.",
+      "sources": [
+        "FED",
+        "API",
+        "GUIDE",
+        "STUDY"
+      ],
+      "qualification": "Independent raw API identity checks and original-workbook aggregation; institution-wide, not main-campus incidence.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S12",
+      "locations": "Dataset branch/foreign notes",
+      "claim_summary": "The inventory contains 47 reporting campuses outside the United States.",
+      "sources": [
+        "API",
+        "STUDY"
+      ],
+      "qualification": "Country metadata corroborates notes; exposure populations are not separately measured.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S13",
+      "locations": "Dataset medical notes; PDF 2–4",
+      "claim_summary": "Some identified reporting campuses are medical facilities.",
+      "sources": [
+        "FED",
+        "API",
+        "STUDY"
+      ],
+      "qualification": "Names independently checked; potential staff/patient exposure, not a measured composition adjustment.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S14",
+      "locations": "Methods denominator; PDF 2,7",
+      "claim_summary": "Fall headcount includes full-/part-time undergraduate and graduate/professional students; years matched.",
+      "sources": [
+        "IPEDS",
+        "STUDY"
+      ],
+      "qualification": "126 annual EFTOTLT values independently re-read from original ZIPs at EFALEVEL=1.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S15",
+      "locations": "Methods denominator; PDF 2",
+      "claim_summary": "Distance-only students remain in the denominator.",
+      "sources": [
+        "IPEDS",
+        "STUDY"
+      ],
+      "qualification": "Their presence does not measure physically present exposure; no unsupported correction applied.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S16",
+      "locations": "Methods residents; explorer; PDF 5",
+      "claim_summary": "Actual fall occupancy is documented for ten UCs and SDSU, 2022–2024.",
+      "sources": [
+        "AUDITOR",
+        "STUDY"
+      ],
+      "qualification": "33 independently transcribed cells; 31 institutions have no resident denominator, rather than zero residents.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S17",
+      "locations": "Methods residents; case; PDF 1,5",
+      "claim_summary": "Housing normalization is approximate because properties have not been matched to Clery geography.",
+      "sources": [
+        "AUDITOR",
+        "REG",
+        "STUDY"
+      ],
+      "qualification": "This is a stated unresolved crosswalk, not a claim that the source occupancy is estimated.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S18",
+      "locations": "Explorer alternate population",
+      "claim_summary": "Housing offenses divided by total enrollment do not estimate resident risk.",
+      "sources": [
+        "REG",
+        "IPEDS",
+        "STUDY"
+      ],
+      "qualification": "Numerator and population combination is labeled in the view.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S19",
+      "locations": "Methods equations; PDF 2",
+      "claim_summary": "Annual ratio is scale times count divided by annual population.",
+      "sources": [
+        "STUDY"
+      ],
+      "qualification": "Default scale 1,000; 10,000 changes units only. Full precision retained until display.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S20",
+      "locations": "Methods pooled equation; case; PDF 1–2",
+      "claim_summary": "Pooled ratio divides summed counts by summed matched annual populations.",
+      "sources": [
+        "STUDY"
+      ],
+      "qualification": "Denominator-weighted mean; snapshots are not unique people or measured person-time.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S21",
+      "locations": "Methods uncertainty; notices",
+      "claim_summary": "Ratios cannot estimate personal victimization probability or establish safety ordering.",
+      "sources": [
+        "REG",
+        "NCES",
+        "BJS",
+        "STUDY"
+      ],
+      "qualification": "Descriptive choice; no causal or equivalence claim.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S22",
+      "locations": "Methods missingness; explorer; PDF 2,5",
+      "claim_summary": "Unknown counts/populations invalidate a rate; source zeros remain zero.",
+      "sources": [
+        "FED",
+        "GUIDE",
+        "STUDY"
+      ],
+      "qualification": "Availability and missingness independently checked; structural no-housing status is separate from an observed numeric zero.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S23",
+      "locations": "Source panel; PDF 5",
+      "claim_summary": "All 42 have complete 2024 on-campus selected counts; six lack complete pooled totals.",
+      "sources": [
+        "FED",
+        "STUDY"
+      ],
+      "qualification": "2022 complete 36; 2023 complete 38; pooled incomplete Columbia, Florida, NYU, USC, UNC Chapel Hill, Virginia. Completeness means supplied cell coverage, not complete real-world reporting.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S24",
+      "locations": "Methods applicability paragraph; dataset notes; source panel; PDF 2,5",
+      "claim_summary": "2024 includes 103 numeric housing campuses and 109 explicitly declaring no housing; current declarations are applied to 2024 only.",
+      "sources": [
+        "API",
+        "GUIDE",
+        "STUDY"
+      ],
+      "qualification": "SurveyYear confirmed; no backfill of prior blank cells. The current API may include post-closure updates and supplements geography applicability only.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S25",
+      "locations": "Case; PDF 1",
+      "claim_summary": "UCSD housing rape 2022/23/24 is 12/11/20; SDSU main is 9/7/1.",
+      "sources": [
+        "UCSD",
+        "SDSU",
+        "STUDY"
+      ],
+      "qualification": "Separate versioned ASR main-campus comparison; 36-cell audit also covers other geographies.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S26",
+      "locations": "Case; PDF 1",
+      "claim_summary": "2024 housing ratios round to 0.91 UCSD and 0.12 SDSU per 1,000.",
+      "sources": [
+        "UCSD",
+        "SDSU",
+        "AUDITOR",
+        "STUDY"
+      ],
+      "qualification": "20/21,907 and 1/8,367; approximate occupancy match.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S27",
+      "locations": "Case; PDF 1",
+      "claim_summary": "Pooled UCSD 43/58,719=0.7323013; SDSU 17/24,386=0.6971213 per 1,000.",
+      "sources": [
+        "UCSD",
+        "SDSU",
+        "AUDITOR",
+        "STUDY"
+      ],
+      "qualification": "Shown as 0.73/0.70; closeness does not establish equivalent safety.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S28",
+      "locations": "UCSC panel; dataset note; PDF 5",
+      "claim_summary": "UCSC 2024 housing rape 38 includes 21 separate offenses disclosed in one report.",
+      "sources": [
+        "UCSC"
+      ],
+      "qualification": "Footnote 6, printed 11/PDF 12. Count retained; not 38 victims/report forms.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S29",
+      "locations": "UCSD panel; dataset note; PDF 5",
+      "claim_summary": "UCSD 2022 on-campus rape is federal 14 versus ASR 15; noncampus 4 versus 5.",
+      "sources": [
+        "FED",
+        "UCSD",
+        "STUDY"
+      ],
+      "qualification": "34 of 36 independently compared rape cells agree; two differences retained, not silently corrected.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S30",
+      "locations": "ASR notes; research review",
+      "claim_summary": "UCSD scooter/e-bike explanation concerns motor vehicle theft, not rape.",
+      "sources": [
+        "UCSD"
+      ],
+      "qualification": "No unsupported rape-trend explanation.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S31",
+      "locations": "Enrollment panel; dataset; PDF 3–4",
+      "claim_summary": "SDSU 2024 IPEDS is 41,137; CDS and State Auditor 39,373.",
+      "sources": [
+        "IPEDS",
+        "CDS",
+        "AUDITOR"
+      ],
+      "qualification": "Difference unresolved; common IPEDS definition retained throughout enrollment views.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S32",
+      "locations": "SDSU dataset note",
+      "claim_summary": "The enrollment discrepancy is not resolved by claiming Imperial Valley was omitted.",
+      "sources": [
+        "SDSUBUDGET",
+        "CDS"
+      ],
+      "qualification": "Budget explicitly labels SD & IV at 39,373; no alternative cause inferred.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S33",
+      "locations": "Related research; PDF 6",
+      "claim_summary": "NCES uses reported campus crime per 10,000 FTE.",
+      "sources": [
+        "NCES"
+      ],
+      "qualification": "Headcount, FTE and occupancy are not interchangeable; no unmatched benchmark imported.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S34",
+      "locations": "Related research; PDF 6",
+      "claim_summary": "BJS compares survey and administrative reporting across nine pilot campuses.",
+      "sources": [
+        "BJS"
+      ],
+      "qualification": "Alignment of geography, population, time and reporting is required.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S35",
+      "locations": "PDF 6 BJS comparison",
+      "claim_summary": "Narrowly aligned BJS survey estimate 60 rape incidents was not statistically different from 40 Clery rape incidents.",
+      "sources": [
+        "BJS"
+      ],
+      "qualification": "Printed 110/PDF 131; completed on-campus rape reported to school authorities; survey undergraduates/2014–15 versus 2014 Clery. Not universal completeness.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S36",
+      "locations": "PDF 6 AAU comparison",
+      "claim_summary": "AAU 2019: 33 schools, 181,752 respondents, 21.9% overall response.",
+      "sources": [
+        "AAU"
+      ],
+      "qualification": "Table 2; definitions/recall periods and resource contacts differ from Clery, no reporting multiplier.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S37",
+      "locations": "Methods interpretation; PDF 6",
+      "claim_summary": "No universal reporting correction follows from these studies.",
+      "sources": [
+        "BJS",
+        "AAU",
+        "STUDY"
+      ],
+      "qualification": "No causal attribution to any named campus; targeted rather than systematic review.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S38",
+      "locations": "Methods statistics; PDF 2",
+      "claim_summary": "No hypothesis tests/confidence-band ranking; offenses are not independent unique victims.",
+      "sources": [
+        "REG",
+        "UCSC",
+        "STUDY"
+      ],
+      "qualification": "Study design decision; does not claim event-process models are universally invalid.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S39",
+      "locations": "Explorer title, sort label, pair chart",
+      "claim_summary": "Rate sorting is descriptive; paired charts use a shared zero baseline and scale.",
+      "sources": [
+        "STUDY"
+      ],
+      "qualification": "Component inspected, including accessible captions, dynamic measure notes, unavailable values and offense-column label.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S40",
+      "locations": "PDF 3–5 tables",
+      "claim_summary": "42 all-campus and 11 resident-normalized 2024 rows reproduce source-checked counts/populations/rates.",
+      "sources": [
+        "FED",
+        "IPEDS",
+        "AUDITOR",
+        "STUDY"
+      ],
+      "qualification": "53 rows independently matched to rendered PDF text, all pages visually reviewed.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S41",
+      "locations": "Audit section; PDF 6",
+      "claim_summary": "Separate numerical audit checked 5,670 annual and 1,890 pooled rate rows.",
+      "sources": [
+        "STUDY"
+      ],
+      "qualification": "Audit record reviewed; its normalized-input starting point distinguished from this audit’s independent original-XLS/ZIP source reads.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S42",
+      "locations": "Audit section; PDF 6",
+      "claim_summary": "Research review, calculation audit and final citation audit have separate scopes.",
+      "sources": [
+        "STUDY"
+      ],
+      "qualification": "Automated/code-assisted independent review, not external human peer review.",
+      "verdict": "verified_with_stated_scope"
+    },
+    {
+      "id": "S43",
+      "locations": "Download and reproduction claims",
+      "claim_summary": "Aggregate extracts and code reproduce rates offline; original national extraction requires source downloads.",
+      "sources": [
+        "STUDY"
+      ],
+      "qualification": "Package integrity/reproduction gate is handled separately; this audit does not certify a not-yet-frozen archive.",
+      "verdict": "package_gate_separate"
+    },
+    {
+      "id": "S44",
+      "locations": "Public dataset and report privacy",
+      "claim_summary": "Reviewed outputs contain institutional aggregate counts, denominators and source notes.",
+      "sources": [
+        "STUDY"
+      ],
+      "qualification": "No victim-level records or identities in reviewed dataset/PDF; archive privacy is a separate gate.",
+      "verdict": "verified_with_stated_scope"
+    }
+  ],
+  "sources": {
+    "FED": {
+      "title": "2025 federal Campus Safety collection",
+      "url": "https://ope.ed.gov/campussafety/api/dataFiles/file?fileName=Crime2025EXCEL.zip",
+      "locator": "2022–2024 original XLS tables; codebooks; frozen archive hashes in CITATION_VALUE_VERIFICATION.json"
+    },
+    "CATALOG": {
+      "title": "Federal available collection years",
+      "url": "https://ope.ed.gov/campussafety/api/dataFiles/years",
+      "locator": "Retrieved 25 September 2026: maximum available year 2025"
+    },
+    "REG": {
+      "title": "34 CFR 668.46",
+      "url": "https://www.ecfr.gov/current/title-34/subtitle-B/chapter-VI/part-668/subpart-D/section-668.46",
+      "locator": "(a), (c)(1)–(3), (5)–(9)"
+    },
+    "GUIDE": {
+      "title": "2025 Campus Safety Survey User Guide",
+      "url": "https://surveys.ope.ed.gov/csss2025/wwwroot/documents/Campus_Safety_Users_Guide.pdf",
+      "locator": "Printed pp. 2–3, 25, 28–29; PDF pp. 5–6, 28, 31–32"
+    },
+    "IPEDS": {
+      "title": "IPEDS Fall Enrollment source files",
+      "url": "https://nces.ed.gov/ipeds/use-the-data/download-access-database",
+      "locator": "EF2022A/EF2023A revised; EF2024A provisional. EFTOTLT at EFALEVEL=1. Exact file URLs/hashes in source manifests."
+    },
+    "AUDITOR": {
+      "title": "California State Auditor Report 2024-111",
+      "url": "https://www.auditor.ca.gov/wp-content/uploads/2025/10/2024-111-Report.pdf#page=62",
+      "locator": "Tables A.1/A.2, printed pp. 56–59; PDF pp. 62–65"
+    },
+    "UCSD": {
+      "title": "UCSD 2025 Annual Security and Fire Safety Report",
+      "url": "https://www.police.ucsd.edu/docs/annualclery.pdf#page=142",
+      "locator": "PDF p. 142, rape rows and revision footnotes"
+    },
+    "SDSU": {
+      "title": "SDSU 2025 Annual Security Report",
+      "url": "https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf#page=7",
+      "locator": "PDF p. 7, main-campus table"
+    },
+    "UCSC": {
+      "title": "UCSC 2025 Annual Security and Fire Safety Report",
+      "url": "https://bpb-us-w2.wpmucdn.com/wordpress.ucsc.edu/dist/d/120/files/2025/09/2025-UC-Santa-Cruz-ASFSR_online-3.pdf#page=12",
+      "locator": "Printed p. 11 / PDF p. 12, rape table and footnote 6"
+    },
+    "CDS": {
+      "title": "SDSU Common Data Set 2024–2025",
+      "url": "https://asir.sdsu.edu/Documents/CommonDataSets/CDS_2024-25.pdf#page=3",
+      "locator": "B1, p. 3; grand total 39,373"
+    },
+    "SDSUBUDGET": {
+      "title": "SDSU 2024–2025 Budget Fact Sheet",
+      "url": "https://bfa.sdsu.edu/financial/budget/docs/2024-25-budget-fact-sheet.pdf#page=2",
+      "locator": "p. 2, SD & IV fall 2024 headcount; p. 4 note 2"
+    },
+    "NCES": {
+      "title": "NCES (2024), Criminal Incidents at Postsecondary Institutions",
+      "url": "https://nces.ed.gov/programs/coe/indicator/a21",
+      "locator": "Figure 1 and notes: per 10,000 FTE; includes staff/guests; duplicate/geography caveats"
+    },
+    "BJS": {
+      "title": "Krebs et al. (2016), Campus Climate Survey Validation Study",
+      "url": "https://bjs.ojp.gov/content/pub/pdf/ccsvsftr.pdf#page=131",
+      "locator": "Printed p. 110 / PDF p. 131, narrowly aligned rape comparison"
+    },
+    "AAU": {
+      "title": "Cantor et al., AAU 2019 survey, revised 17 January 2020",
+      "url": "https://www.aau.edu/uploads/images/general/Revised-Aggregate-report-and-appendices-1-7_01-16-2020_FINAL.pdf",
+      "locator": "Table 2, printed p. 6 / PDF p. 36; methods and nonresponse appendix 4"
+    },
+    "API": {
+      "title": "Federal campus context API",
+      "url": "https://ope.ed.gov/campussafety/api/campus/110680001",
+      "locator": "Source-specific campus URLs in manifest. SurveyYear=2024, identity, country, housing applicability only; no substitution for frozen offense cells."
+    },
+    "STUDY": {
+      "title": "Study calculations and independent audit artifacts",
+      "url": null,
+      "locator": "PROTOCOL.md; CITATION_VALUE_VERIFICATION.json; asr_comparison_verification.json; separate INDEPENDENT_NUMERICAL_AUDIT.json"
+    }
+  },
+  "reviewed_file_hashes": {
+    "boomerrawlings.com/src/pages/writing/data-analysis/campus-safety.astro": "20a4ad11cccffd8acb7fd19081fe95af2d2f8947fa5051321f1d009f290de191",
+    "boomerrawlings.com/src/content/archive/campus-safety.md": "daf8c0bdd38d4045684e538bb4b52742a0c340043d487bf7a1fc52e80810e640",
+    "boomerrawlings.com/src/components/CampusExplorer.astro": "5afc03ff329a3621bce58f86bb1db4334d4a78f706773f488214c78cfa38893e",
+    "boomerrawlings.com/src/lib/campus-rates.js": "1739202c1e252c717e7e74bb72add90081a42d4e0818a206fd48a28954a5c1ce",
+    "campus_safety_analysis/publication/data/dataset.json": "5a4ac282c79e3e0a6d6fec478b24b6bae1c47d8350863d582314de39a01ef998",
+    "campus_safety_analysis/publication/data/case_study.json": "5ed64dbca52b2d9768bc52d561cdaaa8640f11cef13b044dcf832e17c6e9da43",
+    "campus_safety_analysis/publication/data/annual_rates.csv": "fccd2ad62d1af498fe1d619a0550d8a09c11fd871c2a17de125f33c1248084af",
+    "campus_safety_analysis/publication/data/pooled_rates.csv": "c1b7da4ff6af0cb9cf81c988e3d5fc20fef4a0a8091a97073df91a8b242dea2a",
+    "campus_safety_analysis/output/pdf/campus-safety-report.pdf": "8a0efc6be9634ac85d7fe815c153961e721ac24e714fe66e8cdd5df05eceaa88",
+    "campus_safety_analysis/PROTOCOL.md": "74c647e19010ac9a6adacf8eb4d039f9727a8a84e93c3f3ee04c96d2bad7af79",
+    "campus_safety_analysis/research/RESEARCH_REVIEW.md": "c0d6e3c907508b14654723a338eed3560cea853c57d0fec60f9c631df0eaeed1",
+    "campus_safety_analysis/research/CITATION_VALUE_VERIFICATION.json": "37c881f52a1e94fced25b58cd48a5da0f9729b5a4e74bf986ac8f33d2b58640e",
+    "campus_safety_analysis/research/asr_comparison_verification.json": "6d549a482959acfd70011ca452735c5c195435d1f54d6230602d32053542ec82",
+    "campus_safety_analysis/sources/clery/residential_applicability_2024_verification.json": "31fc6f67301051a585526fa9edd8ad3017a801526acc80d12dbfa2a1e4fddb02"
+  },
+  "counts": {
+    "independent_original_input_checks": 4387,
+    "asr_rape_cells": 36,
+    "asr_matching_cells": 34,
+    "disclosed_asr_discrepancies": 2,
+    "pdf_pages": 7,
+    "pdf_summary_table_rows": 53,
+    "pdf_case_period_rows": 4,
+    "pdf_link_annotations": 22,
+    "pdf_distinct_link_targets": 14
+  },
+  "access_limitation": "IPEDS landing-page retrieval timed out during the final pass. Original annual ZIP bytes and fields were available and independently checked; this is not evidence that the landing URL is permanently broken.",
+  "not_certified_here": [
+    "final archive extraction/reproduction",
+    "deployed-site behavior",
+    "future publisher revisions",
+    "complete real-world reporting",
+    "property-level housing boundary alignment"
+  ]
+}

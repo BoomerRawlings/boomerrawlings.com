@@ -1,0 +1,326 @@
+{
+  "status": "APPROVED_SOURCE_COMPONENT",
+  "collection_year": 2025,
+  "report_years": [
+    2022,
+    2023,
+    2024
+  ],
+  "relative_root": "sources/clery",
+  "file_count": 58,
+  "total_bytes": 33565510,
+  "code_provenance": "Study-authored Python extraction/verification scripts; no agency endorsement. Primary files verified with original source SHA-256 hashes. API context uses an explicit whitelist and excludes descriptions/contact sections.",
+  "exclusions": [
+    "raw/",
+    "extracted/",
+    "_deps/",
+    "source_metadata.json",
+    "context_source_metadata.json",
+    "acquire_clery.py",
+    "source_summary.json",
+    "Exploratory source copies and internal historical archives"
+  ],
+  "external_dependencies": [
+    "The fixed cohort protocol at ../../PROTOCOL.md",
+    "The separately published IPEDS/occupancy source extracts under ../enrollment/",
+    "Original 2025 national archive and instructions obtainable using acquire_primary_clery.py"
+  ],
+  "privacy_checks": [
+    "No machine-specific absolute paths",
+    "No email-like strings",
+    "Exact context key whitelist",
+    "Raw API contacts and Description field excluded"
+  ],
+  "files": [
+    {
+      "path": "CLERY_SOURCES.md",
+      "bytes": 10427,
+      "sha256": "20c2645b0919a847d5a5bc335d2993bfb702f6bbc119e5111d61fc4a7c198d80"
+    },
+    {
+      "path": "COVERAGE.md",
+      "bytes": 4802,
+      "sha256": "6641aae74a787232e9f8ddcc83a5fc59c361552e9cf62a870e2f657aad6404e7"
+    },
+    {
+      "path": "DATA_DICTIONARY.md",
+      "bytes": 4329,
+      "sha256": "fd60a1d3598d6d03e9b207b1304dfd1273504f2c550036aaad81751ba941ce6f"
+    },
+    {
+      "path": "PUBLICATION_SOURCE_AUDIT.md",
+      "bytes": 2980,
+      "sha256": "776136bdf0e077a25c71cc0795b54931a891f7d04f93254d54395168d25d28c4"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4448,
+      "sha256": "eabdb707c8c8dea87472e96dc171a90047484150d85f1042184815bc0400c5ab"
+    },
+    {
+      "path": "acquire_context.py",
+      "bytes": 3403,
+      "sha256": "ad510bb97971d1ad4d317dc1ba1fd8195eea293b77690a55eab59fbbe872f456"
+    },
+    {
+      "path": "acquire_primary_clery.py",
+      "bytes": 1145,
+      "sha256": "5a889a1ae48f7cd5bda1afb7f67960630fe4edaee017c7188a8b75c3ea1f1367"
+    },
+    {
+      "path": "audit_identifiers.py",
+      "bytes": 4012,
+      "sha256": "0de38214a909ec0c30d7479f8ce234c1c8320ec3942048b22f669d766b880a61"
+    },
+    {
+      "path": "audit_publication_from_raw.py",
+      "bytes": 11783,
+      "sha256": "4348e9a53ef0af02e997e7ce4cb47ca9b360401c51daa9d637ef93ed710be95e"
+    },
+    {
+      "path": "build_crosswalk.py",
+      "bytes": 5085,
+      "sha256": "366fd8d478ba0ac2542c2fdf8f986d6626419596c7ae0e305df3e210b5486cc7"
+    },
+    {
+      "path": "build_public_manifest.py",
+      "bytes": 3445,
+      "sha256": "8cd28aeb251d7a149ec5e493d3866dbdb47cabf413c0278856389a9d894b66a3"
+    },
+    {
+      "path": "cohort_manifest.json",
+      "bytes": 4500,
+      "sha256": "122a72769a8b57db5d772e8166235d144a0d5272c7b6afb8562cc3a4eda5feb6"
+    },
+    {
+      "path": "context_source_metadata_public.json",
+      "bytes": 41374,
+      "sha256": "3e768bb7698a9e70c0f56daeebde48f2d5076678f514a464060c254e612a6df2"
+    },
+    {
+      "path": "derive_residential_2024.py",
+      "bytes": 4549,
+      "sha256": "a74effd3a626d7aeaa8241624d36df88e23a7bb2390b491d4273b44d497462b2"
+    },
+    {
+      "path": "identifier_validation.json",
+      "bytes": 539,
+      "sha256": "8baf8ffe6aae86ef79b4f26e65cae53f97edaa6a9470bcecc00ffe1430431090"
+    },
+    {
+      "path": "normalization_verification.json",
+      "bytes": 12945,
+      "sha256": "20a5a3eaf6a44ccdad5e3eb5428f0d64bedf0f526f0826a1e0f408c3e311ea7b"
+    },
+    {
+      "path": "normalize_clery.py",
+      "bytes": 8433,
+      "sha256": "b03184743b91db71d7cc18f87134fef94f8d790f1d5a059e9046b5ef8818a9ab"
+    },
+    {
+      "path": "normalized/campus_year_availability_2022_2024.csv",
+      "bytes": 195229,
+      "sha256": "08eb83a10359d436fe2a6e06be53fae274929c409a97cdb0fa28e69abf6b2682"
+    },
+    {
+      "path": "normalized/cohort_campus_context_current.json",
+      "bytes": 193902,
+      "sha256": "519e6611f8e51e53ab4357abec8ce8188792e85464bf439e3d077a8e7220e7f0"
+    },
+    {
+      "path": "normalized/cohort_campus_counts_2022_2024.csv",
+      "bytes": 21149682,
+      "sha256": "29743ee5f542881a74915a12b735019a0118b0ca322b29d09746361843eb11c4"
+    },
+    {
+      "path": "normalized/cohort_campus_crosswalk_2025.csv",
+      "bytes": 55219,
+      "sha256": "69148dbc0f98cb86d15120124734da6d08c291a9c1de55a4d8dd8006ac1fb756"
+    },
+    {
+      "path": "normalized/cohort_campus_residential_applicability_2024.csv",
+      "bytes": 2635760,
+      "sha256": "0265730ad5990ffd7947393509735f71077ebaa496e2294d16e72cdb87eb0ae4"
+    },
+    {
+      "path": "normalized/cohort_context_notes_current.json",
+      "bytes": 31986,
+      "sha256": "4a57c2e3c76a6368882f092429a2d3b3fe896525e27624ac13305dfde16832af"
+    },
+    {
+      "path": "normalized/cohort_geography_scope_2025.csv",
+      "bytes": 6169,
+      "sha256": "cff89577cf74018e01b150e71cca846d694e9eb516a7e74bdde9778e2f62c9cf"
+    },
+    {
+      "path": "normalized/cohort_hate_bias_wide_2025.csv",
+      "bytes": 866030,
+      "sha256": "0ede0a6f9c0123263cd717f35357729451e0fc4be4864cf9ca5b9fe5cfd721dd"
+    },
+    {
+      "path": "normalized/cohort_institution_counts_2022_2024.csv",
+      "bytes": 5267385,
+      "sha256": "77c704e1535d4cf9003bd66e7e0033f81fcf17a403032d01ec5e733b64d77014"
+    },
+    {
+      "path": "normalized/cohort_institution_crosswalk_2025.csv",
+      "bytes": 18656,
+      "sha256": "57b762678b7f8351b8a94e897102e02fdf93a310b6fb9a4cd62753d3072a6e3c"
+    },
+    {
+      "path": "normalized/cohort_institution_residential_2024_applicable_geography.csv",
+      "bytes": 693933,
+      "sha256": "5ca5efa4beb9a8242dcff0f513548f0f305a3fa3bdcfbb478330ac916e44ff14"
+    },
+    {
+      "path": "normalized/raw_cohort_Noncampusarrest222324.csv",
+      "bytes": 39749,
+      "sha256": "64ebf797d65b2cedf045be464bf1f2eb5b09ea1364610d89d2ad5e8df85aacde"
+    },
+    {
+      "path": "normalized/raw_cohort_Noncampuscrime222324.csv",
+      "bytes": 47332,
+      "sha256": "11af64663319634e3352ffa63910008dceb34f135f4b8986436d5a061be03e75"
+    },
+    {
+      "path": "normalized/raw_cohort_Noncampusdiscipline222324.csv",
+      "bytes": 39758,
+      "sha256": "8101899b1a4156a69d8faed91638aaf3fd090173c08bdf021aae477a608091b5"
+    },
+    {
+      "path": "normalized/raw_cohort_Noncampushate222324.csv",
+      "bytes": 156707,
+      "sha256": "e6a25919a3ac48cfac60aad08dd5d4ee7a331ca956c4dc164175bd98e3f85c59"
+    },
+    {
+      "path": "normalized/raw_cohort_Noncampusvawa222324.csv",
+      "bytes": 39759,
+      "sha256": "c5fd1ee190b5698528f4ff870e30de7175ac059fe3763cbdac876d6490b09b73"
+    },
+    {
+      "path": "normalized/raw_cohort_Oncampusarrest222324.csv",
+      "bytes": 40843,
+      "sha256": "b8f76250809e93c0bc3452757842553a03d7b7be6e7247ebcb4f523703fc7218"
+    },
+    {
+      "path": "normalized/raw_cohort_Oncampuscrime222324.csv",
+      "bytes": 51444,
+      "sha256": "89e8ec74551855f2f641179479b5df8c35572faab772851c5641fea37af4651e"
+    },
+    {
+      "path": "normalized/raw_cohort_Oncampusdiscipline222324.csv",
+      "bytes": 41037,
+      "sha256": "62c8ca3821fd74d779a2feee227576ac2c12ec2c7ccd914073f4fe7653326d69"
+    },
+    {
+      "path": "normalized/raw_cohort_Oncampushate222324.csv",
+      "bytes": 199302,
+      "sha256": "6ac6d960e0005f7f61f93e8001f305a503bb553c0bb1605cea33965986b8c5a5"
+    },
+    {
+      "path": "normalized/raw_cohort_Oncampusvawa222324.csv",
+      "bytes": 40949,
+      "sha256": "c62a8f5f9dca8898bbf68ab8b6f3d06956d3c1da59df574be81f8ee849541905"
+    },
+    {
+      "path": "normalized/raw_cohort_Publicpropertyarrest222324.csv",
+      "bytes": 40794,
+      "sha256": "0d423f583243525065169b5f8e73e9a71ac510513ff5823ec6f507635919315e"
+    },
+    {
+      "path": "normalized/raw_cohort_Publicpropertycrime222324.csv",
+      "bytes": 51064,
+      "sha256": "6cb31e787ddfba1293038c1c987fa212d68a1934181877959573b0d98602b584"
+    },
+    {
+      "path": "normalized/raw_cohort_Publicpropertydiscipline222324.csv",
+      "bytes": 40768,
+      "sha256": "7a8daabb595efe99b850e0b7d4435153cdb7612514d2b34da0e5d5d4026813b9"
+    },
+    {
+      "path": "normalized/raw_cohort_Publicpropertyhate222324.csv",
+      "bytes": 199295,
+      "sha256": "432f0f094af2695d5081326ac298b9f47ebdd50954b056a6af1a97832885311d"
+    },
+    {
+      "path": "normalized/raw_cohort_Publicpropertyvawa222324.csv",
+      "bytes": 40769,
+      "sha256": "d3c11401188c56b17cb98a93984e2b6c465d112dea3c003a1ce4d8aab47e04e7"
+    },
+    {
+      "path": "normalized/raw_cohort_Reportedarrest222324.csv",
+      "bytes": 38903,
+      "sha256": "f8623d3b969c12e06c7bb284984da3ed7a4b4d65d65381a39f4d87ee8a4408e8"
+    },
+    {
+      "path": "normalized/raw_cohort_Reportedcrime222324.csv",
+      "bytes": 44177,
+      "sha256": "d4428514ee336be04d761472e9ad0e55321d49f1cfbcbe0f535508f948582f20"
+    },
+    {
+      "path": "normalized/raw_cohort_Reporteddiscipline222324.csv",
+      "bytes": 38903,
+      "sha256": "f8623d3b969c12e06c7bb284984da3ed7a4b4d65d65381a39f4d87ee8a4408e8"
+    },
+    {
+      "path": "normalized/raw_cohort_Reportedhate222324.csv",
+      "bytes": 121301,
+      "sha256": "3630c09842b26478d97a5b54f70b65ca70f8ff8e4dcc8119ca415fb8031a669f"
+    },
+    {
+      "path": "normalized/raw_cohort_Reportedvawa222324.csv",
+      "bytes": 38906,
+      "sha256": "61e65e139232faa35955b9f7cb26d6b2f6700a5e12e269f99f3c77d71bd51374"
+    },
+    {
+      "path": "normalized/raw_cohort_Residencehallarrest222324.csv",
+      "bytes": 39844,
+      "sha256": "51a81b7700ff9dbe0d8cc69a4bee198ebb09e896809e04220304b0d52d06f30b"
+    },
+    {
+      "path": "normalized/raw_cohort_Residencehallcrime222324.csv",
+      "bytes": 47738,
+      "sha256": "45c5b4d82e40a7e597805c62033c83decd65ce141f0f669eb5e264bca83b7f69"
+    },
+    {
+      "path": "normalized/raw_cohort_Residencehalldiscipline222324.csv",
+      "bytes": 40098,
+      "sha256": "81217ed8302cfcd91eb7c9b7f8f0092acb326eafaf943e90e7baafb30980e011"
+    },
+    {
+      "path": "normalized/raw_cohort_Residencehallhate222324.csv",
+      "bytes": 160487,
+      "sha256": "58c95aa177dd7884c554e1dbe964369d266c1410330d9b416e5398d7df21d22e"
+    },
+    {
+      "path": "normalized/raw_cohort_Residencehallvawa222324.csv",
+      "bytes": 39934,
+      "sha256": "f3805086eb6dc4ab9bba36d098d96827057fca0ffb3c6736f160c75c0f5f39d1"
+    },
+    {
+      "path": "normalized/raw_cohort_Unfounded222324.csv",
+      "bytes": 38207,
+      "sha256": "c3b0c63ad0027ccb01ca8634dc75772cab4770986c38919806aec51c86bd33d3"
+    },
+    {
+      "path": "notes/codebook_fields_2025.json",
+      "bytes": 588993,
+      "sha256": "dbf523ec985a0083216ff7b8d3f3da61ea15e2e5121e815ed2a71b5d0295a2b3"
+    },
+    {
+      "path": "publication_raw_audit.json",
+      "bytes": 2364,
+      "sha256": "183443b97d4668f707c9339530e56eb691939aec1c957371689fc836479bd56a"
+    },
+    {
+      "path": "residential_applicability_2024_verification.json",
+      "bytes": 805,
+      "sha256": "31fc6f67301051a585526fa9edd8ad3017a801526acc80d12dbfa2a1e4fddb02"
+    },
+    {
+      "path": "source_metadata_primary_2025.json",
+      "bytes": 13130,
+      "sha256": "1f9da59b8646e5578e647ab51faab69267cc4655786baf4425a7661e0ec2fad4"
+    }
+  ]
+}

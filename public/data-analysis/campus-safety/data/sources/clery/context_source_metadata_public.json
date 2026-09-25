@@ -1,0 +1,1069 @@
+{
+  "status": "PASS",
+  "snapshot_report_year_field": 2024,
+  "snapshot_verified_date": "2026-09-25",
+  "scope": "Separate official campus API context; numeric counts retain frozen2025 bulk.",
+  "files": [
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110404001",
+      "bytes": 445348,
+      "sha256": "df0af68d94557787ef565460675c1b8884154c4c3a920189caee33216b26e708"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110635001",
+      "bytes": 433265,
+      "sha256": "cb5bb34af4fa46bd6e1104d0c4d6ff7a3f9cc8ad4652f979b8f5efdf6fc19bbb"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110635003",
+      "bytes": 252737,
+      "sha256": "6cac324df1d3cc86010a306ddeb9c2a08bfd087a8912a8bd35913848595c7575"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110644001",
+      "bytes": 610167,
+      "sha256": "f763f5149e9d80990ff49eec58f5472d6f0e73c036bb16ed807511282af51c83"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110644002",
+      "bytes": 247692,
+      "sha256": "8c834926d38fda013d376572f44a9e252f6966fd84b47a1aa44a07d61348f150"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110653001",
+      "bytes": 352082,
+      "sha256": "276454a304e070ac29bf929919ee7f79aef1a02d50ed307bafab8e8a4a09ed13"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110653002",
+      "bytes": 246098,
+      "sha256": "3a42442e20962775259ceecb8fa77b1fa8e6a61b947bf5ee48513fad2c08412b"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110662001",
+      "bytes": 410546,
+      "sha256": "b7cb7f52e4cd4e92cbcad4f518f6442fe06f57f182cfcb9b378310349b100d43"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110671001",
+      "bytes": 353517,
+      "sha256": "e325597e33095e2f5f4d9a9b8b1d419100aa23369aea81d9ff641ae36d3a4f79"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110671002",
+      "bytes": 167316,
+      "sha256": "0f786d484754e053f9ad3c0fac4e8b5e265254a270b605e69d883c8a84c87c6e"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110680001",
+      "bytes": 708787,
+      "sha256": "3498e23aaf3973dda145cdf9d69b0a16b02a51594c9315c290e2cc3598529fd9"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110699001",
+      "bytes": 389354,
+      "sha256": "b2e67ae71f4c12f27ddf8af3880b5978b38b7f21a0c7b927b3396c7c921ce9b0"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110699002",
+      "bytes": 342026,
+      "sha256": "6bc0e97d44e0191c16d31590d7b4ca2119ad4596d5d69773a3c4812f71b9f07e"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110699003",
+      "bytes": 332659,
+      "sha256": "02075705b804508d39eb4cd32c0c810cd490dc89cf43cfaafdb1898ddeb2934d"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110699004",
+      "bytes": 246618,
+      "sha256": "f196a9642ef96d1e7d1cf2432e4598b8bfb1fd00f3edf540fe5207da11b46649"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110699005",
+      "bytes": 246589,
+      "sha256": "675fc25e2c68f1a781e489276fcae233b673b0db7321535a1613b5b1992ef9eb"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110705001",
+      "bytes": 575563,
+      "sha256": "1383d12bd3134d42922e7129577eafa866582855cb6d088d3be08cf4a3fee7eb"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/110714001",
+      "bytes": 357363,
+      "sha256": "1979a992c7caed1fd356627f07159bbca2d44b7764afad0956e0f15e18717e0e"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/122409001",
+      "bytes": 385497,
+      "sha256": "8ce7b64fac3c9d175a674610754f3fa1bac825f745c5589d2772e4a858b199bd"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/122409002",
+      "bytes": 166613,
+      "sha256": "0c3b489741b6936bf02f3bdfe2a81dd18318f8059317ef8e2f10abae16d3b047"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/122409003",
+      "bytes": 166611,
+      "sha256": "f020a5c285320867645f6619e8f29aa86cabc5accfa3d04220a044b8297f1144"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/123961001",
+      "bytes": 379039,
+      "sha256": "c095399a4eeaca4059f4c594c158b2ed87522929f0ff64a6e9e746be89424c60"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/123961002",
+      "bytes": 334873,
+      "sha256": "7e8c5505eb459e9da035731e20d67856c003f4ecd88f8b6dee71a5fcad8828ea"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/123961003",
+      "bytes": 255202,
+      "sha256": "1e25721c9791306c7bf9782806e0d7f1b8b01c5579ef03a8a03a7a2dad0acfd9"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/123961005",
+      "bytes": 167570,
+      "sha256": "87a1cf946772f6bffa4887fd563e06d3b9f975253d43916c5e68c9fc3804df4d"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/123961006",
+      "bytes": 167583,
+      "sha256": "aafcc059ad5bcb6fd617ae7ea8b31076aa6b8dc9ebd92612656da5a9040920ae"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/123961007",
+      "bytes": 167581,
+      "sha256": "f3f2e6f94d4ef5979609053e0a9e7b1ef54d1b1cc5611f6332cc515569b7180c"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/123961008",
+      "bytes": 167603,
+      "sha256": "d33bdf4dd4c1a5d926112afd437f7a8eec3b651db06998de568e4bf0ccfdca3d"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/123961009",
+      "bytes": 167596,
+      "sha256": "6bc24333b9a7c558a1aeeaf3b95987db71bd4505ba1e3f294af32e66a8e63d3f"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/123961015",
+      "bytes": 246871,
+      "sha256": "e4a2e95a5069ec8b29c70ac4daffdac981d7af310988e062df79d4a6c8a261de"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/130794001",
+      "bytes": 531282,
+      "sha256": "92c5cc6172b844ba34d68c163997885d7b0102b62553123093bd8c73b66a1b1e"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/130794002",
+      "bytes": 166617,
+      "sha256": "85e86c28d6fd196fb741c96860ba33ddc7b9f005fb225a0c5da05c549feb2ad3"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/131496001",
+      "bytes": 479227,
+      "sha256": "bccf2fd3f1c21754250227ab44de3b7e06270ca650b58c37570ca06f3f966429"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/131496002",
+      "bytes": 254625,
+      "sha256": "7746bfebd9655418778ad5d2600e4705fae7c2574d9045356d3be8f256a2da77"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/131496003",
+      "bytes": 167065,
+      "sha256": "8fcd6425664f1db69d6b43541eacd8ce6852b2216d56d2221cf6e916b816eec2"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/131496005",
+      "bytes": 254610,
+      "sha256": "bf8dc9d2fc18545279e19a68ee33f363e3030884d9036eeb5c70a25e34099cc8"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/131496006",
+      "bytes": 167623,
+      "sha256": "9a8c11d62a18bd99d09b29fcbdea829c43957a7ac3e626f3b61dceefdd7a269a"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/131496007",
+      "bytes": 167089,
+      "sha256": "28b2042c7673a665f96ae5c5a37bb548006fcfad8360613c4d641ffbdfa04ad8"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130001",
+      "bytes": 642015,
+      "sha256": "a837f677a4789e998d07265e57a53dc8078f16d1c743b76b95dbb24f1219aae0"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130002",
+      "bytes": 337687,
+      "sha256": "1f9d2e72ce3f04659a61d01651f77edb78e57e1e4f576b8a51f3d1c1828a0adc"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130003",
+      "bytes": 172031,
+      "sha256": "eb5978ab5401211f79e027fc6b8e79eb863eef85b1b071797363255a80234037"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130005",
+      "bytes": 350061,
+      "sha256": "d9c7e2d99188577a93b96161b04c1f991c4282a7d5d7dc6ff655c3acf957f606"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130006",
+      "bytes": 171960,
+      "sha256": "c198db987f592b9ff8760a7101fdc5e0aadec7df3e2c6869799a36dcab1868c1"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130008",
+      "bytes": 171974,
+      "sha256": "51536839c7e387d6e2dc9fe7d5ab46bace27448db70cb2a8faf27be73880644d"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130009",
+      "bytes": 262535,
+      "sha256": "80714422824c820addbcee59d56647090c1617c4854fc5e19ce6b1f84494c4dd"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130010",
+      "bytes": 265606,
+      "sha256": "0121c1e32dd2125b581c67a089c17b7c8c9687aef19a86e94f191f353a741b89"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130011",
+      "bytes": 172006,
+      "sha256": "1417b9e90f765a4a8e96abf0cd85a61fe7b703ed5588f6b9ab62a621aa27d2f4"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130012",
+      "bytes": 258044,
+      "sha256": "c02ce51757cb6cc18c6b9a67ad52f3e94d58e4338d61aa84c1d632a19e7acf99"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130013",
+      "bytes": 262633,
+      "sha256": "8bb3edd11af87dd31a44f63f510f3e672784b8e46040c82797b0f852be6fd77b"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130014",
+      "bytes": 258038,
+      "sha256": "ea3f065cc0deffee56aa2ff4b1d339ede55aeedc3c5e0f98a792a060b98f36a6"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130015",
+      "bytes": 261112,
+      "sha256": "02f32c9765b088ad56c9c77f032190b56bf5aee627d96d1016e4b84b2605c018"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130017",
+      "bytes": 264189,
+      "sha256": "7e410c36c1c358ced4310f8180442754ea6e6d84b2b72650d470d26740951e55"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130018",
+      "bytes": 259581,
+      "sha256": "dc62c64d94cd22d797bc8865f909ecf5a0238f590296525023beedf0e02ca9c3"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130019",
+      "bytes": 258046,
+      "sha256": "e9e7f70e96d75a9666b4f0384c7b599e711d109679356fc144ff60afaeba22b5"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130020",
+      "bytes": 171979,
+      "sha256": "69cab65405011703016763e4549b4d3997b207adede78df20b03d3aaedd6d32d"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130021",
+      "bytes": 172017,
+      "sha256": "fc87d52df783999d0dcf0241349233adfbe92dad9c4814f769a29b8fc88a2029"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130022",
+      "bytes": 258048,
+      "sha256": "554fe6cc7bc0aef8d3a946c6097cee81e9903d39e48a90e081e5c426b40446a9"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130023",
+      "bytes": 258060,
+      "sha256": "512847700977805f52acb7e21f721aa1c4bf2f37c0cc4d44fa0c46181da08d36"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130024",
+      "bytes": 171990,
+      "sha256": "bc486a3c7b7a1f22c2460ad99a955454129364bcccf7b869a831eaebe591c9b8"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130025",
+      "bytes": 259583,
+      "sha256": "2fbc86c3f3b861f737c98c99cb921610d5fd725ccfa89198c9cf2f7e06b5d819"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130026",
+      "bytes": 263078,
+      "sha256": "a2d3fb8e6f7b9e0ed078fc781049cf503ed5acb9ee23052462b0b18ca7171049"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130027",
+      "bytes": 258028,
+      "sha256": "8817962e259f3a80473719cbc2beda91a695451256e4b4d73810a0bb29a3050d"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130028",
+      "bytes": 262654,
+      "sha256": "08b1f27cbcc7820feb75f0d530f12bdcbc7a15f3a3be6c39dd98a96cf3e0cad8"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130029",
+      "bytes": 172008,
+      "sha256": "2c2e8e6324f8fcce5a29d3f447558229a275edaa306dd2fa13c644ea0a0a050c"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130030",
+      "bytes": 258044,
+      "sha256": "1f274771d959608df530db2309021fd39daa7d5c7a09a63bdb5bc543d56cb492"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130031",
+      "bytes": 171987,
+      "sha256": "8fcf8bd12237b51fb5a46fad446dcb0a6cb4e32952e43faf439f983d2a63a5b9"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130032",
+      "bytes": 172001,
+      "sha256": "66457e79a37760857ca21f5b6e1830c32cf9357614a3997e6957ed4f2362ae3d"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130033",
+      "bytes": 171976,
+      "sha256": "d4716d6333013cfe6446f5b240680279dd54d5933f038ab65a612119fe20bb49"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130034",
+      "bytes": 172001,
+      "sha256": "0dffd7d3524ee5a0e495864bf77d6ebf43df988b9f170918e3fef437fcf3b497"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130035",
+      "bytes": 172026,
+      "sha256": "55fead6b85d6765fbc4032d506121f0bca25afe519983e902bd1db7531d9b2f1"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130036",
+      "bytes": 259567,
+      "sha256": "b4e5b317980c0c470286d96e7437261aa056e603faa2c40ce940913170e783fa"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130037",
+      "bytes": 259572,
+      "sha256": "ddfe8eceb4f3ece3a1f1d90a180ed5e6cf1ed61cb3fbf304315af88b3c2044c5"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130038",
+      "bytes": 171983,
+      "sha256": "94acdbcf3271d22fc0d4de1da0133d608c6ad2e6564c50b2e7fc70e459659a64"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130039",
+      "bytes": 171743,
+      "sha256": "5e566cbd99dfa62fb36548d75266dfd9d2141442ddc995bd008441c6a82b959e"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/134130040",
+      "bytes": 171403,
+      "sha256": "f2236023ba2b4991480f08a8f37e70f68adde09728ef0b6c1a2b3105c7fd33f9"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/139755001",
+      "bytes": 420879,
+      "sha256": "6052bb46972c046e1651d539fc3b7322962086f77bbd2e0a98613fefcd4967b0"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/139755002",
+      "bytes": 166772,
+      "sha256": "d5df68bf169ccca077f7f3e74953f558869361d020873c8bb3a534488a946e76"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/139755003",
+      "bytes": 286743,
+      "sha256": "9b415813fe99f12e1499d4cf413bd9c087a1816688b60da88b10db2212ed247b"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/139755004",
+      "bytes": 254430,
+      "sha256": "122ee0d997be78ab2feedcadfedd4142c8aa4fb661efd468ead56a1731a9af8a"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/144050001",
+      "bytes": 380625,
+      "sha256": "4476972ca3bc581de52c67e4941dcf088ff636d44549947ce12bd30ee2f0f971"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/144050002",
+      "bytes": 167348,
+      "sha256": "7640ff913ebaf1f611235c083b9185c860c14bc0771cc37814560c526eb09e7e"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/144050003",
+      "bytes": 246963,
+      "sha256": "dc43d43950b160548be8742cd9d9ad797dccc2fd614494d5a25f48648b0796e4"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/144050005",
+      "bytes": 247001,
+      "sha256": "236bc72b0aabd87bafe5fb7da97a1c4596718b85b93c6c73ae16fcd6ce82e620"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/144050006",
+      "bytes": 247013,
+      "sha256": "1ca1b520ee2ee8deec0eea5e3e833abd86917f86edabbf5ec4a5ce17bf460adb"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/144050008",
+      "bytes": 247026,
+      "sha256": "9b73e730eb740d7dbe4df6de1de9a401cbbb3ef430609f3b82879eafb2eb5e0b"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/144050009",
+      "bytes": 346906,
+      "sha256": "0641bdf5c71ab0710101cbe4534190dd369215a0c54e47df5c636810e707b02d"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/144050010",
+      "bytes": 167345,
+      "sha256": "6d609a130df9f3018a52fb1562cce95ec78626ea0042cc7c614d23d2fdf092c9"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/145637001",
+      "bytes": 392603,
+      "sha256": "2c0e895b50d4f0c08209a72e85001444a2e4e81a836acbf43908d4c5071ee082"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/145637003",
+      "bytes": 166601,
+      "sha256": "19248ba095857c0b7a0ed8365d20e2f70ecf54d52682f67da683080d75032708"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/147767001",
+      "bytes": 440806,
+      "sha256": "6c08f7ad4a6698b26cb066ea2cc5d3f634e22d7f4e0f9840ad70ff47f7621c9c"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/147767002",
+      "bytes": 246754,
+      "sha256": "4c31e266b4941db3bd80fec835cc684c5cccdbcf515f971a77b6b7f300b17651"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/147767003",
+      "bytes": 246757,
+      "sha256": "0784b25f3816cc047860b227248dc5af43aab9a9ad28a0243ded74e929cd02be"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/147767004",
+      "bytes": 167104,
+      "sha256": "53e68bcd2d0964dbb3af936c3ac78b38966469ff99ae481d7bc3b182d4905249"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/147767005",
+      "bytes": 246812,
+      "sha256": "af3a9a91cda5a344cecc4b140434e43d4ca9e49c494b54bc818a22ec68364e35"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/147767006",
+      "bytes": 167060,
+      "sha256": "6d31bb206fcaec033e85b6170b26b0efac1ffd4eb748a0be2b5b7171e0f4948d"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/152080001",
+      "bytes": 423924,
+      "sha256": "33b7c504a6aa07d20ee0d01e8905c5da10c167afeb142b59717e127634add82f"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/152080002",
+      "bytes": 253083,
+      "sha256": "d1296082f33748cbb57dabc21a009854870f2e3cf4df33b002dc4efde8f06856"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/152080003",
+      "bytes": 167071,
+      "sha256": "de782ea5066c10810050892e05e492d0f729fed02bf49e939b223123e3d1e2c8"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/152080004",
+      "bytes": 253059,
+      "sha256": "b5d76caed8e6240ecd8561da29ffd29b7a2cd22ac37a7db877c96c2139b3a41a"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/152080005",
+      "bytes": 253119,
+      "sha256": "d2766cff776144d93ed4dca02332bedd897c3774af45572dca2e9d5ba1e5356a"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/152080006",
+      "bytes": 257631,
+      "sha256": "b3961427f03035cc3140342e990de109ca55aa743219e272a675b2d6140e3ad3"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/152080007",
+      "bytes": 167066,
+      "sha256": "43eab8f82b273ad3fc11bd3729880eec2d19bc65dd818cc88792196484fdc8b8"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/162928001",
+      "bytes": 355173,
+      "sha256": "23b3ac7ec139ec9182cb750739a05e196b5f3e8e9f03265af10a6bf445322102"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/162928002",
+      "bytes": 335206,
+      "sha256": "0d74f55d83b74fa5c66600fbf8a0ebeb59c86530a024e4ca6dca0681b96cf55e"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/162928003",
+      "bytes": 167960,
+      "sha256": "3dba31adddbe6c182a0e23926c291859802d2272fee1dab9172eec56c020eda5"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/162928006",
+      "bytes": 168007,
+      "sha256": "a9689478c8fa5f624f27cb236c715cf945b07c3df86d24f03473d78bca73de61"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/162928007",
+      "bytes": 247173,
+      "sha256": "e56422d30bf2ad70990e762001ff270e268d2f77939fd4c3c5910cacf7d8fcc4"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/162928009",
+      "bytes": 167914,
+      "sha256": "fcd7a0d5be97269ed950beaafebd6a914ed2af0278b6de07beb02ae3f12c583c"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/162928011",
+      "bytes": 336669,
+      "sha256": "c928c52842164b2cf24428f5de07f06cedaed9598a95627d1ccd14dcdcc24437"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/162928012",
+      "bytes": 253840,
+      "sha256": "261a1e7b1ac3d8e93837428a2e88106ddb959f500997ec4de0f1b8c3101f3838"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/162928014",
+      "bytes": 168319,
+      "sha256": "0559e110accec470397dd8f71cec34edd941b0ad4c3c1549b8a80aee5bc4ef38"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/162928015",
+      "bytes": 167742,
+      "sha256": "e4144d9e57e78d8213045cee6a9ebdbc63ef8b3a82f6bd214b6c99d4a7f868ab"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/166027001",
+      "bytes": 551157,
+      "sha256": "97bad67b33812c9d10cf0c21205c10b6a1cde993170bacb518563132a6d09492"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/166027002",
+      "bytes": 336322,
+      "sha256": "d72a7a1f9ee373aa08897949dedc6a52b5f243dce904f1918484688abaaa11ff"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/166027003",
+      "bytes": 167178,
+      "sha256": "4de45607e88f3ef97a79e73390ae890d67edee5e0f946e6cbc4944a69075bf92"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/166027004",
+      "bytes": 167163,
+      "sha256": "e59daf8fad0cf384c0e2a85327f47787862a637802a9b0d4028aaad813d93a05"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/166027006",
+      "bytes": 265352,
+      "sha256": "0476a80bf96207d766d429218253f83487d40ceb8879f917a537528f165cd33d"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/166027008",
+      "bytes": 167170,
+      "sha256": "b2634bfeeb6662007227745d6001eb8704d6833edb8b6e0fe197826b43e1e8f6"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/166027009",
+      "bytes": 167208,
+      "sha256": "f84fa6473c2eec83bfee894b3dbc44cccdae0112327bd01b47ef0ca33fbee20d"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/166683001",
+      "bytes": 383012,
+      "sha256": "05ba28bca5af27b67b59f2c7bacbca1237b9bc3377307b7b4fb46e974b206390"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/170976001",
+      "bytes": 366186,
+      "sha256": "572506c86d04a258abebfffb24f926650704da95fbe86bab4fd43bd202ed307c"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/182670001",
+      "bytes": 510259,
+      "sha256": "3dfb00272f88d59c99b4eb34da692cb6fbefb163fb784509fa57ddf9429060be"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/182670002",
+      "bytes": 723200,
+      "sha256": "29927c2be37dc211fa9189333007da0b2cd16cdfb14229ab23b9eee997efaa2a"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/186131001",
+      "bytes": 453251,
+      "sha256": "ca0feb5c55ce15a8a0f32a9e0032e0c327566d0221bc9ac6bc82b76f69ffd287"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/186131002",
+      "bytes": 246365,
+      "sha256": "f783dc16950a2bcd6560afea9770e20aaa71ecfa7d4f05002b8d581df7f9739d"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/190150001",
+      "bytes": 583508,
+      "sha256": "5fe4aa5ba5f644d38d3b179d67d8b4d9ffcf3a1f433bdceefafbfa48634ed467"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/190150002",
+      "bytes": 343677,
+      "sha256": "c958d4a165aed872e26d78b1ba01cf9581dc438897438a75df0e6d8bbc97b581"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/190150004",
+      "bytes": 167229,
+      "sha256": "c874fd4bf04146b9cb65c1465b1753f874f8ee531603b522b44fe2087c7de66b"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/190150005",
+      "bytes": 167215,
+      "sha256": "39882af60e16bcb12e7af2834e0a996cf0d3d9c46029d0aeefdf7f7515be6642"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/190150006",
+      "bytes": 334349,
+      "sha256": "dd437364a419b0e00ff678b7dfdcc1128cfc94745551e8df5c8f7196af61b2c7"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/190150007",
+      "bytes": 167234,
+      "sha256": "b0ded635bfb39a4f33bf10337da3ad6cedd716217d1757124e4f9409071f0a0d"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/190150008",
+      "bytes": 167179,
+      "sha256": "33eac961586a1f914d5b537a8cc18ed28e547e1db4cacad737e6b900efef2df9"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/190415001",
+      "bytes": 457389,
+      "sha256": "1a2ecb44a3d595dde07a09303f47cffee000d5456a9f5115d50b4a5d8776f409"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/190415002",
+      "bytes": 332592,
+      "sha256": "7640604164883977920cfd13cb240f0630229d572ee70a30ab7948cf4f3d0579"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/190415003",
+      "bytes": 333749,
+      "sha256": "3fa6e66f2a7e27ff386edcbf20c44d7d24ab0000bf1ae996359e76ce9a8e0d12"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900001",
+      "bytes": 377986,
+      "sha256": "a18d515b51dfd2d02273ea3a31496e5772fce7b2a96fb21c2600d8413f2d1a28"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900002",
+      "bytes": 347706,
+      "sha256": "7f3da70e8b611cde3360b0825a5dcd3ee0f046b97c8a5c4defc3ce171e887c65"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900003",
+      "bytes": 337076,
+      "sha256": "de298a69addff1712ba64fb6fd8b829c07218b395d6df7a0e4fdf3419b8cdfc2"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900004",
+      "bytes": 249362,
+      "sha256": "68960d2f72563dac8a4848d63df08ee37ad42afeb4ae14aa343caea5bad9174f"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900005",
+      "bytes": 249391,
+      "sha256": "9e7212c4f571d36f5573910b86c5585aa18178412260c170f059622b403fc029"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900006",
+      "bytes": 249367,
+      "sha256": "bd47ca17cd2259008d4d6d930f9ba946c419a9c2bfc30aa6d11db63218cc2329"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900007",
+      "bytes": 249366,
+      "sha256": "92bb6477c484059bccabdf1afe1057d3692b66f15c407f3b7d2c936ca1718803"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900008",
+      "bytes": 249398,
+      "sha256": "3bc1e52838d21ad8a75264a6e4dc45060002feddd4d05f207a0f47771c29463c"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900009",
+      "bytes": 249417,
+      "sha256": "952365206ce408c50ee113daed67b377cfcb0158fb0c7ee9748e7b1aeca9d072"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900012",
+      "bytes": 249372,
+      "sha256": "f3b2637a703bfde385f8dc063642cf19577cf92e0cdaeac1f78989bf20179898"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900013",
+      "bytes": 249386,
+      "sha256": "fd239646aa33852e25b86075e729f1c3cdba8fbeeb1d4692a4ecd68495193c17"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900014",
+      "bytes": 336959,
+      "sha256": "dabf1b2402c5eac25038ed56808d8e1742fcf1a3c7895ca063c1cde856230c63"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900016",
+      "bytes": 276037,
+      "sha256": "e509b765d90ccdc0785ea0bd7a16c407a493540aa78312a2aec1d661ff6585c8"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900017",
+      "bytes": 255790,
+      "sha256": "83eda56dcda69e00fd98720e7ffc3fb8f2d8e89786c01f51dbefe2248af707dc"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900018",
+      "bytes": 255797,
+      "sha256": "74ea319c5399985537917e706ab7034615a11f7aa13cc4181dd22bac11f50fd5"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900019",
+      "bytes": 336984,
+      "sha256": "b2f3098d404b7b888ff023f7b4da30b7b9632e6d99336e29d35957814d9938d5"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900023",
+      "bytes": 341510,
+      "sha256": "9fbfeedefe94ef36ecd822faea2e74c50eff343742ea0f95fb71122c52c3d8fa"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900024",
+      "bytes": 249341,
+      "sha256": "09584f1e03b62682f9154b16e5101de289597ebb9f52739eaa7d96d092d7e9a8"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900025",
+      "bytes": 249414,
+      "sha256": "4a4d3a6649bdbbdbd0f2813e0161e58763390eb38a8b9af010766786da257c99"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900026",
+      "bytes": 249424,
+      "sha256": "382b03285206c7755079c9c4216bd96105d17d4559f676fa84e3d9dd02f47537"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900027",
+      "bytes": 169725,
+      "sha256": "7ece4b05b1b0b7b27a5449b5856d29e189fd1072bdc6b61371a0b7151c526c83"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900028",
+      "bytes": 169757,
+      "sha256": "875328f15447b09270ff7132e82e43b55d70dbd1aef51ecc1a392c7b686f616f"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900029",
+      "bytes": 169704,
+      "sha256": "f6223eeb88715fa1c0c66173d73c7d486e9c6b0b02d8a314e1589a7795f0513e"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900031",
+      "bytes": 169661,
+      "sha256": "3bf9227f55de57ca29197d7ccf6d00cf2f14b471381748ec5990b0bd2b5b74ad"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900033",
+      "bytes": 248968,
+      "sha256": "8b10840649b79d6bece655259ef4ad44314e8269d7bad808bdf58233e7b85f8e"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/193900034",
+      "bytes": 169664,
+      "sha256": "866b56bb83437e23466bd8494790b3f83be379e2b5cdfe4bec1411b08a06c764"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/198419001",
+      "bytes": 440388,
+      "sha256": "e514a4da34d6c5c3e517947776cf8f82008c5f156ae6c9951423f846a2284f28"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/198419002",
+      "bytes": 260349,
+      "sha256": "f10b9b63f2c606af368c44e6d0592280bbc20ee436bf4538ff4a4e51f6a42592"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/198419003",
+      "bytes": 166704,
+      "sha256": "f55b26409ed17d024a6f7c213c5a5c7e718e9827febd42ed1b8bc4db59803419"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/199120001",
+      "bytes": 485361,
+      "sha256": "59d0b99994556c98d7daa9f2545b17a096d360a7e55818826d24bfff4226fb51"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/199120002",
+      "bytes": 252670,
+      "sha256": "cfe1d30cfc8665f73521f8951d2ea9e4571f73e22c2a1779885c4af65498b6ef"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/199120003",
+      "bytes": 166488,
+      "sha256": "e732b127d042ecb2066336a12e8eaf9a70bf14cdf18b7f8818653988540b83f4"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/204796001",
+      "bytes": 429461,
+      "sha256": "abf41b067bb22d1c5a8d9d786006390630a086f054a92bbb74520c9ef32bade0"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/211440001",
+      "bytes": 414433,
+      "sha256": "5be96f19867babf71e55c6a75354d5de40506c27784c7b8f3013153913c6008d"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/211440003",
+      "bytes": 167039,
+      "sha256": "aa3af421848002e06ea6144ea56d9e3a41bf0c5c2e9b8a23427938e40faf91e6"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/211440004",
+      "bytes": 167038,
+      "sha256": "a0db3b9bee4675abfdd2559fa8f372ec617736cc66f13feaf90576c8438cab79"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/211440005",
+      "bytes": 167135,
+      "sha256": "f9b5058b70d9c464cf38b75fd5a04164e17d15204c26ff1fff49332c0bc882f0"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/211440006",
+      "bytes": 167064,
+      "sha256": "873a799d40b03ed6d2ac036384265477df78ea9f6eaba4598a3d3f9b7402f1a8"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/211440007",
+      "bytes": 167599,
+      "sha256": "9ef2d0371a0563dd31f4e85a8ba0051727e8ea2698e9ea326d6b8e66fee39030"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/214777001",
+      "bytes": 502797,
+      "sha256": "47f4c13fb77c49df77109f73c0441e372d0eeacaa4369b0f4a7bd551fa0656ab"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/214777002",
+      "bytes": 246122,
+      "sha256": "684ac805a875bac2cfaa4991b6ae3fd8b6f7c8defbd4e8edb60045e8f47ffb6b"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/214777003",
+      "bytes": 333903,
+      "sha256": "f5ab07655a12413187c307cb0a43f095e0483f9c8bdd7e5e006031f690377519"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/215062001",
+      "bytes": 340525,
+      "sha256": "ef9f0e90cff45a3f3ac3769656159a76d198c10dedd01e13709a2cce65e10c6c"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/215062003",
+      "bytes": 167181,
+      "sha256": "55667117aa1eb86fe5110ddb6ca2cf3880c87b9cdfdcec7c9f3c5d3f558193b7"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/215062004",
+      "bytes": 254730,
+      "sha256": "8cef797e77ee93e3bfdc6add9095f0a432b7049e57469e3b61fd907cf90b0b43"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/215062005",
+      "bytes": 167160,
+      "sha256": "8edb560bbc92f1613c4e492580e818d109c97f08dcc9c325b4c094b8acf16b77"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/215062006",
+      "bytes": 246770,
+      "sha256": "efff8192608f9a9a371bc16cb29b0d2a41538835b945322c3263f256c54e6109"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/215062007",
+      "bytes": 246519,
+      "sha256": "96c88bec208c2912c5942ab89581c66824f8f4ab56e5f060b5192e33f876b9bc"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/217156001",
+      "bytes": 486871,
+      "sha256": "8f498418035a7fbfc8f0b0a84b66e9513cac689030c31cbf41f9700f52b0fe5d"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/228778001",
+      "bytes": 368063,
+      "sha256": "87c83ebdded34e85fe95b8cb881dac7bf4d6f4328158e12e695998b9ccb52855"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/228778002",
+      "bytes": 167539,
+      "sha256": "f8f109cd7f4dd3f2f652b86de1744bba2fcf2ed26caa6038835259f9968dc583"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/228778003",
+      "bytes": 265024,
+      "sha256": "7afa127fcb0d0f49999192ac75485f2f16efca994560fb04d4fd4c2930b4209e"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/228778005",
+      "bytes": 254059,
+      "sha256": "3f2557aa78934d9d9cc9a5db4e44a6ecc6ec5129d947686b2bb0ba5b4d3b5d6b"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/228778007",
+      "bytes": 247683,
+      "sha256": "1b7a21624646561ccf731713e267085bca589fd57e401922000e0ec310967a99"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/228778010",
+      "bytes": 167310,
+      "sha256": "84240dfb0f55f54fadf263260b64450e33ad4728b283591b79bc0ac36d21f302"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/228778011",
+      "bytes": 167565,
+      "sha256": "12f01b21d2151f274f734a75f8710bd69c19902824c19a2eb90b1329ba7eaca8"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/234076001",
+      "bytes": 582112,
+      "sha256": "1899760f2d58c0d73e163f0cc3e4c50013cc511d9530fa4009b77de4aac07a84"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/234076005",
+      "bytes": 167162,
+      "sha256": "37461c4e095a55eb3e82f08f3a03a39bef698fc97983f5a4c9a38cafb27dd8dd"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/234076009",
+      "bytes": 260651,
+      "sha256": "bec0cd06fb0966d8f068525289a684ee1355df3d2ec5fd03bcc2bc53fb12da2a"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/234076012",
+      "bytes": 246570,
+      "sha256": "fc30a6f17047745bdea31e2a50313beed469e153f687128029364564c83f8c62"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/234076013",
+      "bytes": 167140,
+      "sha256": "da9e0d05bd1f5cf558e3106adde44d89705f243a1cdd1b884ead5349a0e0e4ff"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/234076014",
+      "bytes": 166723,
+      "sha256": "e4a22f26e8dbf296824c96d0e73638870125e16f989d67a01994b78301fb535b"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/236948001",
+      "bytes": 362511,
+      "sha256": "7d816e2b00599939f892b8869dd754dbc2de225f8f7da3e9dd14fb34487de968"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/240444001",
+      "bytes": 548996,
+      "sha256": "4ab95fe7d0589dcf55ac905ae451cd2d457c3870a99aa82b9ae7a4082b2299fd"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/243744001",
+      "bytes": 761528,
+      "sha256": "b7a9b4e18b5c9d848f0f86556238d4922b88e57ff34f94c11b9b9f5c8f45b97f"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/243744002",
+      "bytes": 255483,
+      "sha256": "63d6d945181aac6d1ee835f520fd9f23eddb24ea6e2fb97803788ed4a4e69f61"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/243744003",
+      "bytes": 247559,
+      "sha256": "0b8f955a1cb2a95582c25d3323e272469db61c7a46c8f1af506d82da6a175502"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/243744004",
+      "bytes": 247262,
+      "sha256": "fffaba0af22c7d5b0fe7f5ea6d8ac3254610b92c02b9d05fe496878c5faf5d35"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/243744006",
+      "bytes": 167894,
+      "sha256": "13e9348de1d6388ed2e284d7398170d05e0c0cadcfcb233fde56da8c22c3adb8"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/243744007",
+      "bytes": 247390,
+      "sha256": "bc1b0c9c7ab249ca00b223a1eab3a4f40ddc0a9ec9795ce1f5af6e7f6ad808a2"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/243744008",
+      "bytes": 247268,
+      "sha256": "b49e9da9974decfa04766e7a8ec60d57ef863588ab35f239423e568f158e49ce"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/243744009",
+      "bytes": 247308,
+      "sha256": "7e5e0d11fc91ec5ea9b8c1d2520879e90f3a4c0ef761153d55ca00ced02f601a"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/243744010",
+      "bytes": 253895,
+      "sha256": "fc435925e2394167fa7d17549867320964de88d068a91f2b3ef523ce33820b9a"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/243744013",
+      "bytes": 247304,
+      "sha256": "371f37973ca0435c7cec9d6bd9d855885cd4462a8b91c994d757c48bfb597dff"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/243744014",
+      "bytes": 247663,
+      "sha256": "a52b5302a3c767d22eeba88de3985095b8264cebf5408e208203931634ee77b8"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/243744015",
+      "bytes": 247450,
+      "sha256": "d56f4a9ed4879d1730bd54cd81503943457a8d919bc3de0c0622ef46f3d3fc31"
+    },
+    {
+      "url": "https://ope.ed.gov/campussafety/api/campus/445188001",
+      "bytes": 361243,
+      "sha256": "fc4e9598c88fe0f2c8288810430585cae8047e25324a35eb63ef6b951198b4fa"
+    }
+  ],
+  "public_exclusions": "Full API responses, contact sections and campus Description strings are excluded. Raw response hashes permit provenance checks against privately reacquired upstream data; sanitized JSON is the frozen public input."
+}

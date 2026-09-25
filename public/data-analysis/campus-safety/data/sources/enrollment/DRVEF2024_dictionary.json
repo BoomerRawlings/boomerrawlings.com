@@ -1,0 +1,2280 @@
+{
+  "Introduction": [
+    [
+      "Frequently used/Derived variables (Fall Enrollment) - Enrollments, retention rates and other selected enrollment indicators: Fall 2024",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "(Provisional release)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Filename",
+      "DRVEF2024",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Overview",
+      "Table includes total full- and part-time enrollment: number of students by student level; percent of students by race/ethnicity categories for all students, undergraduate students and graduate students; percent of students enrolled in distance education courses; percent of undergraduate students by age groups; number of adult age (25-64) that are enrolled by level of student; percent of first-time students that are in-state, out-of-state, or from foreign countries;  Frequently used derived variables may include data for child campuses derived from allocation factors that are reported by the parent institution. Parent/child indicators can be found in table flags2024.",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Note",
+      "IPEDS data, including provisional release data and final release data, adhere to rigorous quality control procedures established by NCES.\u00a0Data are imputed for nonresponding institutions.\u00a0Provisional release\u00a0data are used for First Look  web tables. Final release data include revisions to the provisional release data that have been made by institutions during the subsequent data collection year. While the final release data\u00a0offer\u00a0\u00a0the most up to date data, these data may not match tables from the First Look web tables based on provisional\u00a0release\u00a0data.",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Contents of spreadsheet",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Varlist",
+      "Variable list: Lists all variables in the table. Includes the variable name, variable label and the Data type, format and maximum field width of each variable.  The data type describes a variable as either a numeric (N) or Alphanumeric (A) and the format of a variable defines a variable as either continuous (Cont.) or categorical (Disc).  It all also lists the variable name of all imputation flag variables for each continuous variable. Imputation flag variable describes whether a value for the corresponding variable was reported, imputed or not applicable.",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Description",
+      "Long description or glossary definition of a variable. ",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Statistics",
+      "This worksheet lists the sum, mean, minimum and maximum values of all continuous variables in the data file. ",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  ],
+  "Varlist": [
+    [
+      "varNumber",
+      "varName",
+      "DataType",
+      "FieldWidth",
+      "format",
+      "imputationvar",
+      "varTitle"
+    ],
+    [
+      1,
+      "UNITID",
+      "N",
+      6,
+      "Cont",
+      "",
+      "Unique identification number of the institution"
+    ],
+    [
+      23355,
+      "ENRTOT",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Total  enrollment"
+    ],
+    [
+      20061,
+      "FTE",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Full-time equivalent fall enrollment"
+    ],
+    [
+      23805,
+      "EnrFt",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Full-time enrollment"
+    ],
+    [
+      23810,
+      "EnrPt",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Part-time enrollment"
+    ],
+    [
+      23315,
+      "PctEnrWh",
+      "N",
+      5,
+      "Cont",
+      null,
+      "Percent of total enrollment that are White"
+    ],
+    [
+      23320,
+      "PctEnrBK",
+      "N",
+      5,
+      "Cont",
+      null,
+      "Percent of total enrollment that are Black or African American "
+    ],
+    [
+      23325,
+      "PctEnrHS",
+      "N",
+      5,
+      "Cont",
+      null,
+      "Percent of total enrollment that are Hispanic/Latino"
+    ],
+    [
+      23330,
+      "PctEnrAP",
+      "N",
+      5,
+      "Cont",
+      null,
+      "Percent of total enrollment that are Asian/Native Hawaiian/Pacific Islander"
+    ],
+    [
+      24781,
+      "PCTENRAS",
+      "N",
+      5,
+      "Cont",
+      null,
+      "Percent of total enrollment that are Asian"
+    ],
+    [
+      24786,
+      "PCTENRNH",
+      "N",
+      5,
+      "Cont",
+      null,
+      "Percent of total enrollment that are Native Hawaiian or Other Pacific Islander"
+    ],
+    [
+      23335,
+      "PctEnrAN",
+      "N",
+      5,
+      "Cont",
+      null,
+      "Percent of total enrollment that are American Indian or Alaska Native"
+    ],
+    [
+      24561,
+      "PCTENR2M",
+      "N",
+      5,
+      "Cont",
+      null,
+      "Percent of total enrollment that are two or more races"
+    ],
+    [
+      23340,
+      "PctEnrUn",
+      "N",
+      5,
+      "Cont",
+      null,
+      "Percent of total enrollment that are Race/ethnicity unknown"
+    ],
+    [
+      23345,
+      "PctEnrNr",
+      "N",
+      5,
+      "Cont",
+      null,
+      "Percent of total enrollment that are U.S. Nonresident"
+    ],
+    [
+      23347,
+      "PCTENRW",
+      "N",
+      5,
+      "Cont",
+      null,
+      "Percent of total enrollment that are women"
+    ],
+    [
+      23350,
+      "PCTFT1ST",
+      "N",
+      5,
+      "Cont",
+      null,
+      "Full-time, first-time, degree/certificate seeking undergraduates (GRS Cohort) as percent of all undergraduates"
+    ],
+    [
+      24601,
+      "EFUG",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Undergraduate enrollment"
+    ],
+    [
+      24606,
+      "EFUG1ST",
+      "N",
+      6,
+      "Cont",
+      null,
+      "First-time degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24611,
+      "EFUGTRN",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Transfer-in degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24616,
+      "EFUGCNT",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Continuing degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24621,
+      "EFUGNDG",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Nondegree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24631,
+      "EFUGFT",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Full-time undergraduate enrollment"
+    ],
+    [
+      24636,
+      "EFUG1SFT",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Full-time first-time degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24641,
+      "EFUGTRFT",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Full-time transfer-in degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24646,
+      "EFUGCNFT",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Full-time continuing degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24651,
+      "EFUGNDFT",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Full-time nondegree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24661,
+      "EFUGPT",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Part-time undergraduate enrollment"
+    ],
+    [
+      24666,
+      "EFUG1SPT",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Part-time first-time degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24671,
+      "EFUGTRPT",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Part-time transfer-in degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24676,
+      "EFUGCNPT",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Part-time continuing degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24681,
+      "EFUGNDPT",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Part-time nondegree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24711,
+      "PCUENRWH",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of undergraduate enrollment that are White"
+    ],
+    [
+      24701,
+      "PCUENRBK",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of undergraduate enrollment that are Black or African American "
+    ],
+    [
+      24706,
+      "PCUENRHS",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of undergraduate enrollment that are Hispanic/Latino"
+    ],
+    [
+      24696,
+      "PCUENRAP",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of undergraduate enrollment that are Asian/Native Hawaiian/Pacific Islander"
+    ],
+    [
+      24791,
+      "PCUENRAS",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of undergraduate enrollment that are Asian"
+    ],
+    [
+      24796,
+      "PCUENRNH",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of undergraduate enrollment that are Native Hawaiian or Other Pacific Islander"
+    ],
+    [
+      24691,
+      "PCUENRAN",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of undergraduate enrollment that are American Indian or Alaska Native"
+    ],
+    [
+      24716,
+      "PCUENR2M",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of undergraduate enrollment that are two or more races"
+    ],
+    [
+      24721,
+      "PCUENRUN",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of undergraduate enrollment that are Race/ethnicity unknown"
+    ],
+    [
+      24726,
+      "PCUENRNR",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of undergraduate enrollment that are U.S. Nonresident"
+    ],
+    [
+      24731,
+      "PCUENRW",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of undergraduate enrollment that are women"
+    ],
+    [
+      24626,
+      "EFGRAD",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Graduate enrollment"
+    ],
+    [
+      24656,
+      "EFGRADFT",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Full-time graduate enrollment"
+    ],
+    [
+      24686,
+      "EFGRADPT",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Part-time graduate enrollment"
+    ],
+    [
+      24756,
+      "PCGENRWH",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of graduate enrollment that are White"
+    ],
+    [
+      24746,
+      "PCGENRBK",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of graduate enrollment that are Black or African American "
+    ],
+    [
+      24751,
+      "PCGENRHS",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of graduate enrollment that are Hispanic/Latino"
+    ],
+    [
+      24741,
+      "PCGENRAP",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of graduate enrollment that are Asian/Native Hawaiian/Pacific Islander"
+    ],
+    [
+      24801,
+      "PCGENRAS",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of graduate enrollment that are Asian"
+    ],
+    [
+      24806,
+      "PCGENRNH",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of graduate enrollment that are Native Hawaiian or Other Pacific Islander"
+    ],
+    [
+      24736,
+      "PCGENRAN",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of graduate enrollment that are American Indian or Alaska Native"
+    ],
+    [
+      24761,
+      "PCGENR2M",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of graduate enrollment that are two or more races"
+    ],
+    [
+      24766,
+      "PCGENRUN",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of graduate enrollment that are Race/ethnicity unknown"
+    ],
+    [
+      24771,
+      "PCGENRNR",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of graduate enrollment that are U.S. Nonresident"
+    ],
+    [
+      24776,
+      "PCGENRW",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of graduate enrollment that are women"
+    ],
+    [
+      23401,
+      "DVEF01",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Adult age (25-64) enrollment, all students"
+    ],
+    [
+      23402,
+      "DVEF02",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Adult age (25-64) enrollment, undergraduate"
+    ],
+    [
+      23403,
+      "DVEF03",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Adult age (25-64) enrollment, graduate"
+    ],
+    [
+      23405,
+      "DVEF05",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Adult age (25-64) enrollment, full-time students"
+    ],
+    [
+      23406,
+      "DVEF06",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Adult age (25-64) enrollment, full-time undergraduate"
+    ],
+    [
+      23407,
+      "DVEF07",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Adult age (25-64) enrollment, full-time graduate"
+    ],
+    [
+      23409,
+      "DVEF09",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Adult age (25-64) enrollment, part-time students"
+    ],
+    [
+      23410,
+      "DVEF10",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Adult age (25-64) enrollment, part-time undergraduate"
+    ],
+    [
+      23411,
+      "DVEF11",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Adult age (25-64) enrollment, part-time graduate"
+    ],
+    [
+      23413,
+      "DVEF13",
+      "N",
+      3,
+      "Cont",
+      null,
+      "Percent of undergraduate enrollment under 18"
+    ],
+    [
+      23414,
+      "DVEF14",
+      "N",
+      3,
+      "Cont",
+      null,
+      "Percent of undergraduate enrollment 18-24"
+    ],
+    [
+      23415,
+      "DVEF15",
+      "N",
+      3,
+      "Cont",
+      null,
+      "Percent of undergraduate enrollment, 25-64"
+    ],
+    [
+      23416,
+      "DVEF16",
+      "N",
+      3,
+      "Cont",
+      null,
+      "Percent of undergraduate enrollment over 65"
+    ],
+    [
+      24911,
+      "RMINSTTN",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Number of first-time undergraduates - in-state"
+    ],
+    [
+      24916,
+      "RMOUSTTN",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Number of first-time undergraduates - out-of-state"
+    ],
+    [
+      24921,
+      "RMFRGNCN",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Number of first-time undergraduates - foreign countries"
+    ],
+    [
+      24926,
+      "RMUNKNWN",
+      "N",
+      6,
+      "Cont",
+      null,
+      "Number of first-time undergraduates - residence unknown"
+    ],
+    [
+      24912,
+      "RMINSTTP",
+      "N",
+      3,
+      "Cont",
+      null,
+      "Percent of first-time undergraduates - in-state"
+    ],
+    [
+      24917,
+      "RMOUSTTP",
+      "N",
+      3,
+      "Cont",
+      null,
+      "Percent of first-time undergraduates - out-of-state"
+    ],
+    [
+      24922,
+      "RMFRGNCP",
+      "N",
+      3,
+      "Cont",
+      null,
+      "Percent of first-time undergraduates - foreign countries"
+    ],
+    [
+      24927,
+      "RMUNKNWP",
+      "N",
+      3,
+      "Cont",
+      null,
+      "Percent of first-time undergraduates - residence unknown"
+    ],
+    [
+      24866,
+      "PCTDEEXC",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of students enrolled exclusively in distance education courses"
+    ],
+    [
+      24871,
+      "PCTDESOM",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of students enrolled in some but not all distance education courses"
+    ],
+    [
+      24876,
+      "PCTDENON",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of students not enrolled in any distance education courses"
+    ],
+    [
+      24881,
+      "PCUDEEXC",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of undergraduate students enrolled exclusively in distance education courses"
+    ],
+    [
+      24886,
+      "PCUDESOM",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of undergraduate students enrolled in some but not all distance education courses"
+    ],
+    [
+      24891,
+      "PCUDENON",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of undergraduate students not enrolled in any distance education courses"
+    ],
+    [
+      24896,
+      "PCGDEEXC",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of graduate students enrolled exclusively in distance education courses"
+    ],
+    [
+      24901,
+      "PCGDESOM",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of graduate students enrolled in some but not all distance education courses"
+    ],
+    [
+      24906,
+      "PCGDENON",
+      "N",
+      4,
+      "Cont",
+      null,
+      "Percent of graduate students not enrolled in any distance education courses"
+    ]
+  ],
+  "Description": [
+    [
+      "varNumber",
+      "varName",
+      "longDescription"
+    ],
+    [
+      1,
+      "UNITID",
+      null
+    ],
+    [
+      23355,
+      "ENRTOT",
+      "Total men and women enrolled for credit in the fall of the academic year._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award._x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15. "
+    ],
+    [
+      20061,
+      "FTE",
+      "Full-time equivalent enrollment_x000D_\nThis variable is derived from the enrollment by race/ethnicity section of the fall enrollment survey. The full-time equivalent of the institution's part-time enrollment is estimated and then added to the full-time enrollment of the institution. This formula has been used to produce the full-time equivalent enrollment that is published annually in the Digest of Education Statistics. The full-time equivalent of part-time enrollment is estimated by multiplying the part-time enrollment by factors that vary by control and level of institution and level of student. The following factors were used:_x000D_\n_x000D_\nPart-time undergraduate enrollment (line 22) _x000D_\nPublic 4-year .403543_x000D_\nNot-for-profit and for-profit, 4-year .392857_x000D_\nPublic 2-year and <2year .335737_x000D_\nAll other sectors .397058_x000D_\nFirst professional (line 23)_x000D_\nPublic 4-year .600000_x000D_\nNot-for-profit and for-profit, 4-year .545454_x000D_\nGraduate (line 25)_x000D_\nPublic 4-year .361702_x000D_\nNot-for-profit and for-profit, 4-year .382059_x000D_\n_x000D_\nThese factors were estimated using reported full-time equivalent of part-time enrollments from enrollment data collected in the Higher Education General Information System (HEGIS) 1967-1986."
+    ],
+    [
+      23805,
+      "EnrFt",
+      "Total men and women enrolled for credit full time in the fall of the academic year._x000D_\n_x000D_\nFULL-TIME STUDENT  - Undergraduate\u2014A student enrolled for 12 or more semester credits , or 12 or more quarter credits, or 24 or more clock hours a week each term. Graduate\u2014A student enrolled for 9 or more semester credits, or 9 or more quarter credits, or a student involved in thesis or dissertation preparation that is considered full time by the institution. First-professional\u2014As defined by the institution._x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award._x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      23810,
+      "EnrPt",
+      "Total men and women enrolled for credit part time in the fall of the academic year._x000D_\n_x000D_\nPART-TIME STUDENT - Undergraduate\u2014A student enrolled for either 11 semester credits or less, or 11 quarter credits or less, or less than 24 clock hours a week each term. Graduate\u2014A student enrolled for either 8 semester credits or less, or 8 quarter credits or less._x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award._x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      23315,
+      "PctEnrWh",
+      "Percent of student body that is White non-Hispanic in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring surveys._x000D_\n_x000D_\nWhite, non-Hispanic - A person having origins in any of the original peoples of Europe, North Africa, or the Middle East (except those of Hispanic origin). _x000D_\n_x000D_\nThis variable is derived by dividing total White non-Hispanic enrollment (EFALEVEL=1,EFWHITT) by the grand total enrollment (EFALEVEL=1,EFTOTLT) for men and women.  Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      23320,
+      "PctEnrBK",
+      "Percent of student body that is Black non-Hispanic in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring surveys._x000D_\n_x000D_\nBlack non-Hispanic - A person having origins in any of the black racial groups of Africa (except those of Hispanic origin)._x000D_\n_x000D_\nThis variable is derived by dividing total Black non-Hispanic enrollment (EFALEVEL=1,EFBKAAT) by the grand total enrollment (EFALEVEL=1,EFTOTLT) for men and women .  Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      23325,
+      "PctEnrHS",
+      "Percent of student body that is Hispanic in the fall of the academic year. This variable is derived from enrollment component that is collected in the winter and spring surveys._x000D_\n_x000D_\nHispanic - A person of Mexican, Puerto Rican, Cuban, Central or South American or other Spanish culture or origin, regardless of race. _x000D_\n_x000D_\nThis variable is derived by dividing total Hispanic enrollment (EFALEVEL=1,EFHISPT) by the grand total enrollment (EFALEVEL=1,EFTOTLT) for men and women.  Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      23330,
+      "PctEnrAP",
+      "Percent of student body that is Asian or Pacific Islander in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring surveys._x000D_\n_x000D_\nAsian or Pacific Islander - A person having origins in any of the original peoples of the Far East, Southeast Asia, the Indian Subcontinent, and Pacific Islands. This includes people from China, Japan, Korea, the Philippine Islands, American Samoa, India, and Vietnam. _x000D_\n_x000D_\nThis variable is derived by dividing total Asian or Native Hawaiian and other Pacific Islander enrollment (EFALEVEL=1,EFASIAT,EFNHPIT) by the grand total enrollment (EFALEVEL=1,EFTOTLT) for men and women.  Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      24781,
+      "PCTENRAS",
+      "Percent of total enrollment that are Asian_x000D_\n_x000D_\nAsian (new definition) - A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam. _x000D_\n_x000D_\nThis variable is derived by dividing total Asian  enrollment (EFALEVEL=1,EFASIAT ) by the total  enrollment (EFALEVEL=1,EFTOTLT) for men and women . Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      24786,
+      "PCTENRNH",
+      "Percent of total enrollment that are Native Hawaiian or Other Pacific Islander_x000D_\n_x000D_\nNative Hawaiian or Other Pacific Islanders (new definition) - A person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands._x000D_\n_x000D_\nThis variable is derived by dividing total Native Hawaiian or Pacific Islander enrollment (EFALEVEL=1,EFNHPIT ) by the total  enrollment (EFALEVEL=1,EFTOTLT) for men and women . Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      23335,
+      "PctEnrAN",
+      "Percent of student body that is American Indian or Alaska Native in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring surveys._x000D_\n_x000D_\nAmerican Indian or Alaska Native - A person having origins in any of the original peoples of North America and who maintains cultural identification through tribal affiliation or community recognition. _x000D_\n_x000D_\nThis variable is derived by dividing total American Indian enrollment (EFALEVEL=1,EFAIANT)by the grand total enrollment (EFALEVEL=1,EFTOTLT) for men and women.  Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      24561,
+      "PCTENR2M",
+      "Percent of total enrollment that are two or more "
+    ],
+    [
+      23340,
+      "PctEnrUn",
+      "Percent of student body that is race/ethnicity unknown in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring surveys._x000D_\n_x000D_\n_x000D_\nRACE/ETHNICITY UNKNOWN - This category is used ONLY if the student did not select a racial/ethnic designation, AND the postsecondary institution finds it impossible to place the student in one of the aforementioned racial/ethnic categories during established enrollment procedures or in any post-enrollment identification or verification process. _x000D_\n_x000D_\nThis variable is derived by dividing total Race/ethnicity unknown enrollment (EFALEVEL=1,EFUNKNT) by the grand total enrollment (EFALEVEL=1,EFTOTLT for men and women.  Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      23345,
+      "PctEnrNr",
+      "Percent of student body that are U.S. Nonresident in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring surveys._x000D_\n_x000D_\nU.S. Nonresident - A person who is not a citizen or national of the United States and who is in this country on a visa or temporary basis and does not have the right to remain indefinitely. _x000D_\n_x000D_\nThis variable is derived by dividing total U.S. Nonresident enrollment (EFALEVEL=1,EFNRALT) by the grand total enrollment (EFALEVEL=1,EFTOTLT) for men and women.  Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      23347,
+      "PCTENRW",
+      "Percent of student body that are women in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring surveys._x000D_\n_x000D_\nThis variable is derived by dividing total women enrollment (EFALEVEL=1,EFTOTLW) by the grand total enrollment (EFALEVEL=1,EFTOTLT) for men and women.  Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      23350,
+      "PCTFT1ST",
+      "Full-time, first-time, degree/certificate seeking undergraduates (GRS Cohort) as percent of all undergraduates. This variable is derived from the enrollment component that is collected in the winter and spring surveys._x000D_\n_x000D_\nThis variable is derived by dividing full-time, first-time, degree/certificate seeking undergraduates (EFALEVEL=24,EFTOTLT) and dividing by all undergraduates (EFALEVEL=2,EFTOTLT). The ratio is then multipied by 100 and rounded to the nearest whole number._x000D_\n_x000D_\nFull-time first-time degree/certificate-seeking undergraduates enrolled for credit._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award._x000D_\n_x000D_\nFirst-time student (undergraduate) - A student attending any institution for the first time at the undergraduate level. Includes students enrolled in academic or occupational programs . Also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school). _x000D_\n_x000D_\nFull-time undergraduate -   A student enrolled for 12 or more semester credits , or 12 or more quarter credits, or 24 or more clock hours a week each term. _x000D_\n_x000D_\nUndergraduate  A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate."
+    ],
+    [
+      24601,
+      "EFUG",
+      "Total undergraduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nUndergraduate - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate. _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24606,
+      "EFUG1ST",
+      "First-time degree/certificate seeking undergraduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nFirst-time student (undergraduate)  A student who has no prior postsecondary experience (except as noted below) attending any institution for the first time at the undergraduate level. This includes students enrolled in academic or occupational programs. It also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school).  _x000D_\nDegree/certificate-seeking students  Students enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking _x000D_\nUndergraduate - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate. _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24611,
+      "EFUGTRN",
+      "Transfer-in degree/certificate seeking undergraduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nTransfer-in student - A student entering the reporting institution for the first time but known to have previously attended a postsecondary institution at the same level (e.g., undergraduate, graduate). The student may transfer with or without credit. _x000D_\nDegree/certificate-seeking students  Students enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking _x000D_\nUndergraduate - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate. _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24616,
+      "EFUGCNT",
+      "Continuing degree/certificate seeking undergraduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nContinuing - Students beyond their first-year and are also not transfer-ins_x000D_\nDegree/certificate-seeking students  Students enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking _x000D_\nUndergraduate - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate. _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24621,
+      "EFUGNDG",
+      "Nondegree/certificate seeking undergraduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nExamples of non-degree/certificate-seeking students would be high school students enrolled in creditable courses prior to high school graduation, or those enrolled in creditable courses who for some reason are not seeking a degree/certificate._x000D_\nUndergraduate - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate. _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24631,
+      "EFUGFT",
+      "Full-time undergraduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nFull-time undergraduate - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate and enrolled for 12 or more semester credits , or 12 or more quarter credits, or 24 or more clock hours a week each term. _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24636,
+      "EFUG1SFT",
+      "Full-time first-time degree/certificate seeking undergraduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nFirst-time student (undergraduate)  A student who has no prior postsecondary experience (except as noted below) attending any institution for the first time at the undergraduate level. This includes students enrolled in academic or occupational programs. It also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school).  _x000D_\nDegree/certificate-seeking students  Students enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking _x000D_\nFull-time undergraduate - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate and enrolled for 12 or more semester credits , or 12 or more quarter credits, or 24 or more clock hours a week each term. _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24641,
+      "EFUGTRFT",
+      "Full-time transfer-in degree/certificate seeking undergraduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nTransfer-in student - A student entering the reporting institution for the first time but known to have previously attended a postsecondary institution at the same level (e.g., undergraduate, graduate). The student may transfer with or without credit. _x000D_\nDegree/certificate-seeking students  Students enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking _x000D_\nFull-time undergraduate - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate and enrolled for 12 or more semester credits , or 12 or more quarter credits, or 24 or more clock hours a week each term. _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24646,
+      "EFUGCNFT",
+      "Full-time continuing degree/certificate seeking undergraduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nContinuing - Students beyond their first-year and are also not transfer-ins_x000D_\nDegree/certificate-seeking students  Students enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking _x000D_\nFull-time undergraduate - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate and enrolled for 12 or more semester credits , or 12 or more quarter credits, or 24 or more clock hours a week each term. _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24651,
+      "EFUGNDFT",
+      "Full-time nondegree/certificate seeking undergraduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nExamples of non-degree/certificate-seeking students would be high school students enrolled in creditable courses prior to high school graduation, or those enrolled in creditable courses who for some reason are not seeking a degree/certificate._x000D_\nFull-time undergraduate - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate and enrolled for 12 or more semester credits , or 12 or more quarter credits, or 24 or more clock hours a week each term. _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24661,
+      "EFUGPT",
+      "Part-time undergraduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nPart-time undergraduate - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate and enrolled for less than 12 semester credits or quarter credits, or 24 clock hours a week each term. _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24666,
+      "EFUG1SPT",
+      "Part-time first-time degree/certificate seeking undergraduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nFirst-time student (undergraduate)  A student who has no prior postsecondary experience (except as noted below) attending any institution for the first time at the undergraduate level. This includes students enrolled in academic or occupational programs. It also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school).  _x000D_\nDegree/certificate-seeking students  Students enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking _x000D_\nPart-time undergraduate - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate and enrolled for less than 12 semester credits or quarter credits, or 24 clock hours a week each term. _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24671,
+      "EFUGTRPT",
+      "Part-time transfer-in degree/certificate seeking undergraduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nTransfer-in student - A student entering the reporting institution for the first time but known to have previously attended a postsecondary institution at the same level (e.g., undergraduate, graduate). The student may transfer with or without credit. _x000D_\nDegree/certificate-seeking students  Students enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking _x000D_\nPart-time undergraduate - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate and enrolled for less than 12 semester credits or quarter credits, or 24 clock hours a week each term. _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24676,
+      "EFUGCNPT",
+      "Part-time continuing degree/certificate seeking undergraduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nContinuing - Students beyond their first-year and are also not transfer-ins_x000D_\nDegree/certificate-seeking students  Students enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking _x000D_\nPart-time undergraduate - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate and enrolled for less than 12 semester credits or quarter credits, or 24 clock hours a week each term. _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24681,
+      "EFUGNDPT",
+      "Part-time nondegree/certificate seeking undergraduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nExamples of non-degree/certificate-seeking students would be high school students enrolled in creditable courses prior to high school graduation, or those enrolled in creditable courses who for some reason are not seeking a degree/certificate._x000D_\nPart-time undergraduate - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate and enrolled for less than 12 semester credits or quarter credits, or 24 clock hours a week each term. _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24711,
+      "PCUENRWH",
+      "Percent of undergraduate students that are White in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring surveys. _x000D_\n_x000D_\nWhite (new definition) - A person having origins in any of the original peoples of Europe, the Middle East, or North Africa. _x000D_\nWhite, non-Hispanic (old definition) - A person having origins in any of the original peoples of Europe, North Africa, or the Middle East (except those of Hispanic origin). _x000D_\n_x000D_\nThis variable is derived by dividing total White undergraduate enrollment (EFALEVEL=2,EFWHITT) by the total undergraduate enrollment (EFALEVEL=2,EFTOTLT) for men and women . Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      24701,
+      "PCUENRBK",
+      "Percent of undergraduate students that are Black or African American in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring surveys. _x000D_\n_x000D_\nBlack or African American (new definition) - A person having origins in any of the black racial groups of Africa. _x000D_\nBlack, non-Hispanic (old definition) - A person having origins in any of the black racial groups of Africa (except those of Hispanic origin). _x000D_\n_x000D_\nThis variable is derived by dividing undegraduate Black non-Hispanic enrollment (EFALEVEL=2,EFBKAAT) by the undergraduate enrollment (EFALEVEL=2,EFTOTLT) for men and women. Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      24706,
+      "PCUENRHS",
+      "Percent of undergraduate students that are Hispanic/Latino  in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring surveys. _x000D_\n_x000D_\nHispanic or Latino (new definition) - A person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin, regardless of race. _x000D_\nHispanic (old definition) - A person of Mexican, Puerto Rican, Cuban, Central or South American or other Spanish culture or origin, regardless of race._x000D_\n_x000D_\nThis variable is derived by dividing total Hispanic/Latino undergraduate enrollment (EFALEVEL=2,EFHISPT) by the total undergraduate enrollment (EFALEVEL=2,EFTOTLT) for men and women . Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      24696,
+      "PCUENRAP",
+      "Percent of undergraduate students that are Asian/Native Hawaiian/Pacific Islander in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring surveys. _x000D_\n_x000D_\nAsian (new definition) - A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam. _x000D_\nNative Hawaiian or Other Pacific Islanders (new definition) - A person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands. _x000D_\nAsian/Pacific Islander (old definition) - A person having origins in any of the original peoples of the Far East, Southeast Asia, the Indian Subcontinent, and Pacific Islands. This includes people from China, Japan, Korea, the Philippine Islands, American Samoa, India, and Vietnam_x000D_\n_x000D_\nThis variable is derived by dividing total Asian/Native Hawaiian or Pacific Islander undergraduate enrollment (EFALEVEL=2,EFASIAT,EFNHPIT) by the total undergraduate enrollment (EFALEVEL=2,EFTOTLT) for men and women . Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      24791,
+      "PCUENRAS",
+      "Percent of undergraduate enrollment that are Asian_x000D_\n_x000D_\nAsian (new definition) - A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam. _x000D_\n_x000D_\nThis variable is derived by dividing total Asian undergraduate enrollment (EFALEVEL=2,EFASIAT ) by the total undergraduate enrollment (EFALEVEL=2,EFTOTLT) for men and women . Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      24796,
+      "PCUENRNH",
+      "Percent of undergraduate enrollment that are Native Hawaiian or Other Pacific Islander_x000D_\n_x000D_\nNative Hawaiian or Other Pacific Islanders (new definition) - A person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands._x000D_\n_x000D_\nThis variable is derived by dividing total Native Hawaiian or Pacific Islander undergraduate enrollment (EFALEVEL=2,EFNHPIT ) by the total undergraduate enrollment (EFALEVEL=2,EFTOTLT) for men and women . Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      24691,
+      "PCUENRAN",
+      "Percent of undergraduate students that are American Indian or Alaska Native in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring surveys. _x000D_\n_x000D_\nAmerican Indian or Alaska Native (new definition) - A person having origins in any of the original peoples of North and South America (including Central America) who maintains cultural identification through tribal affiliation or community attachment. _x000D_\nAmerican Indian or Alaska Native (old definition) - A person having origins in any of the original peoples of North America and who maintains cultural identification through tribal affiliation or community recognition_x000D_\n_x000D_\nThis variable is derived by dividing total American Indian undergraduate enrollment (EFALEVEL=2,EFAIANT) by the total undergraduate enrollment (EFALEVEL=2,EFTOTLT) for men and women . Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      24716,
+      "PCUENR2M",
+      "Percent of undergraduate students that are of two or more races in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring _x000D_\n_x000D_\nTwo or more races - Category used by institutions to report persons who selected more than one race._x000D_\n_x000D_\nThis variable is derived by dividing total two or more undergraduate enrollment (EFALEVEL=2,EF2MORT) by the total undergraduate enrollment (EFALEVEL=2,EFTOTLT) for men and women  . Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers"
+    ],
+    [
+      24721,
+      "PCUENRUN",
+      "Percent of undergraduate students that are race/ethnicity unknown in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring _x000D_\n_x000D_\nRACE/ETHNICITY UNKNOWN - This category is used ONLY if the student did not select a racial/ethnic designation, AND the postsecondary institution finds it impossible to place the student in one of the aforementioned racial/ethnic categories during established enrollment procedures or in any post-enrollment identification or verification process. _x000D_\n_x000D_\nThis variable is derived by dividing total race/ehtnicity unknown undergraduate enrollment (EFALEVEL=2,EFUNKNT) by the total undergraduate enrollment (EFALEVEL=2,EFTOTLT) for men and women. Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers"
+    ],
+    [
+      24726,
+      "PCUENRNR",
+      "Percent of undergraduate students that are U.S. Nonresident in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring _x000D_\n_x000D_\nU.S. Nonresident - A person who is not a citizen or national of the United States and who is in this country on a visa or temporary basis and does not have the right to remain indefinitely. _x000D_\nNOTE - U.S. Nonresidents are included here, rather than in any of the five racial/ethnic categories described below. Resident and other eligible (for financial aid purposes) non-citizens who are not citizens or nationals of the United States and who have been admitted as legal immigrants for the purpose of obtaining permanent resident status (and who hold either a registration card (Form I-551 or I-151), a Temporary Resident Card (Form I-688), or an Arrival-Departure Record (Form I-94) with a notation that conveys legal immigrant status such as Section 207 Refugee, Section 208 Asylee, Conditional Entrant Parolee or Cuban-Haitian) are to be reported in the appropriate racial/ethnic categories along with United States citizens._x000D_\n_x000D_\nThis variable is derived by dividing total U.S. Nonresident undergraduate enrollment (EFALEVEL=2,EFNRALT) by the total undergraduate enrollment (EFALEVEL=2,EFTOTLT) for men and women. Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers"
+    ],
+    [
+      24731,
+      "PCUENRW",
+      "Percent of undergraduate students that are women in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring_x000D_\n_x000D_\nThis variable is derived by dividing women undergraduate enrollment (EFALEVEL=2,EFTOTLW) by the total undergraduate enrollment (EFALEVEL=2,EFTOTLT) for men and women. Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers"
+    ],
+    [
+      24626,
+      "EFGRAD",
+      "Total graduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nGraduate student  A student who holds a bachelor's or first-professional degree, or equivalent, and is taking courses at the post-baccalaureate level. These students may or may not be enrolled in graduate programs .  _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24656,
+      "EFGRADFT",
+      "Full-time graduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nFull-time graduate student  A student who holds a bachelor's or first-professional degree, or equivalent, and is taking courses at the post-baccalaureate level or a student involved in thesis or dissertation preparation. Student is and enrolled for 9 or more semester credits, or 9 or more quarter credits or is considered full time by the institution.. These students may or may not be enrolled in graduate programs .  _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24686,
+      "EFGRADPT",
+      "Part-time graduate men and women enrolled for credit in the fall of the academic year. _x000D_\n_x000D_\nPart-time graduate student -  A student who holds a bachelor's or first-professional degree, or equivalent, and is taking courses at the post-baccalaureate level  or a student involved in thesis or dissertation preparation and enrolled for less than 9 semester or quarter credits.  These students may or may not be enrolled in graduate programs .  _x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24756,
+      "PCGENRWH",
+      "Percent of graduate students that are White in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring surveys. _x000D_\n_x000D_\nWhite (new definition) - A person having origins in any of the original peoples of Europe, the Middle East, or North Africa. _x000D_\nWhite, non-Hispanic (old definition) - A person having origins in any of the original peoples of Europe, North Africa, or the Middle East (except those of Hispanic origin). _x000D_\n_x000D_\nThis variable is derived by dividing total White graduate enrollment (EFALEVEL=12,EFWHITTT) by the total graduate enrollment (EFALEVEL=12,EFTOTLT) for men and women . Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      24746,
+      "PCGENRBK",
+      "Percent of graduate students that are Black or African American in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring surveys. _x000D_\n_x000D_\nBlack or African American (new definition) - A person having origins in any of the black racial groups of Africa. _x000D_\nBlack, non-Hispanic (old definition) - A person having origins in any of the black racial groups of Africa (except those of Hispanic origin). _x000D_\n_x000D_\nThis variable is derived by dividing graduate Black non-Hispanic enrollment (EFALEVEL=12,EFBKAAT) by the graduate enrollment (EFALEVEL=12,EFTOTLT) for men and women. Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      24751,
+      "PCGENRHS",
+      "Percent of graduate students that are Hispanic/Latino  in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring surveys. _x000D_\n_x000D_\nHispanic or Latino (new definition) - A person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin, regardless of race. _x000D_\nHispanic (old definition) - A person of Mexican, Puerto Rican, Cuban, Central or South American or other Spanish culture or origin, regardless of race._x000D_\n_x000D_\nThis variable is derived by dividing total Hispanic/Latino graduate enrollment (EFALEVEL=12,EFHISPT) by the total graduate enrollment (EFALEVEL=12,EFTOTLT) for men and women . Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      24741,
+      "PCGENRAP",
+      "Percent of graduate students that are Asian/Native Hawaiian/Pacific Islander in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring surveys. _x000D_\n_x000D_\nAsian (new definition) - A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam. _x000D_\nNative Hawaiian or Other Pacific Islanders (new definition) - A person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands. _x000D_\nAsian/Pacific Islander (old definition) - A person having origins in any of the original peoples of the Far East, Southeast Asia, the Indian Subcontinent, and Pacific Islands. This includes people from China, Japan, Korea, the Philippine Islands, American Samoa, India, and Vietnam_x000D_\n_x000D_\nThis variable is derived by dividing total Asian/Native Hawaiian or Pacific Islander graduate enrollment (EFALEVEL=12,EFASIAT,EFNHPIT ) by the total graduate enrollment (EFALEVEL=12,EFTOTLT) for men and women . Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      24801,
+      "PCGENRAS",
+      "Percent of graduate enrollment that are Asian_x000D_\n_x000D_\nAsian (new definition) - A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam. _x000D_\n_x000D_\nThis variable is derived by dividing total Asian graduate enrollment (EFALEVEL=12,EFASIAT ) by the total graduate enrollment (EFALEVEL=12,EFTOTLT) for men and women . Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      24806,
+      "PCGENRNH",
+      "Percent of graduate enrollment that are Native Hawaiian or Other Pacific Islander_x000D_\n_x000D_\nNative Hawaiian or Other Pacific Islanders (new definition) - A person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands._x000D_\n_x000D_\nThis variable is derived by dividing total Native Hawaiian or Pacific Islander graduate enrollment (EFALEVEL=12,EFNHPIT ) by the total graduate enrollment (EFALEVEL=12,EFTOTLT) for men and women . Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      24736,
+      "PCGENRAN",
+      "Percent of graduate students that are American Indian or Alaska Native in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring surveys. _x000D_\n_x000D_\nAmerican Indian or Alaska Native (new definition) - A person having origins in any of the original peoples of North and South America (including Central America) who maintains cultural identification through tribal affiliation or community attachment. _x000D_\nAmerican Indian or Alaska Native (old definition) - A person having origins in any of the original peoples of North America and who maintains cultural identification through tribal affiliation or community recognition_x000D_\n_x000D_\nThis variable is derived by dividing total American Indian graduate enrollment (EFALEVEL=12,EFAIANT) by the total graduate enrollment (EFALEVEL=12,EFTOTLT) for men and women . Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers."
+    ],
+    [
+      24761,
+      "PCGENR2M",
+      "Percent of graduate students that are of two or more races in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring _x000D_\n_x000D_\nTwo or more races - Category used by institutions to report persons who selected more than one race._x000D_\n_x000D_\nThis variable is derived by dividing total two or more graduate enrollment (EFALEVEL=12,EF2MORT) by the total graduate enrollment (EFALEVEL=2,EFTOTLT) for men and women  . Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers"
+    ],
+    [
+      24766,
+      "PCGENRUN",
+      "Percent of graduate students that are race/ethnicity unknown in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring _x000D_\n_x000D_\nRACE/ETHNICITY UNKNOWN - This category is used ONLY if the student did not select a racial/ethnic designation, AND the postsecondary institution finds it impossible to place the student in one of the aforementioned racial/ethnic categories during established enrollment procedures or in any post-enrollment identification or verification process. _x000D_\n_x000D_\nThis variable is derived by dividing total race/ehtnicity unknown graduate enrollment (EFALEVEL=12,EFUNKNT) by the total graduate enrollment (EFALEVEL=12,EFTOTLT) for men and women. Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers"
+    ],
+    [
+      24771,
+      "PCGENRNR",
+      "Percent of graduate students that are U.S. Nonresident in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring _x000D_\n_x000D_\nU.S. Nonresident - A person who is not a citizen or national of the United States and who is in this country on a visa or temporary basis and does not have the right to remain indefinitely. _x000D_\nNOTE - U.S. Nonresidents are included here, rather than in any of the five racial/ethnic categories described below. Resident and other eligible (for financial aid purposes) non-citizens who are not citizens or nationals of the United States and who have been admitted as legal immigrants for the purpose of obtaining permanent resident status (and who hold either a registration card (Form I-551 or I-151), a Temporary Resident Card (Form I-688), or an Arrival-Departure Record (Form I-94) with a notation that conveys legal immigrant status such as Section 207 Refugee, Section 208 Asylee, Conditional Entrant Parolee or Cuban-Haitian) are to be reported in the appropriate racial/ethnic categories along with United States citizens._x000D_\n_x000D_\nThis variable is derived by dividing total U.S. Nonresident graduate enrollment (EFALEVEL=12,EFNRALT) by the total graduate enrollment (EFALEVEL=12,EFTOTLT) for men and women. Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers"
+    ],
+    [
+      24776,
+      "PCGENRW",
+      "Percent of graduate students that are women in the fall of the academic year. This variable is derived from the enrollment component that is collected in the winter and spring_x000D_\n_x000D_\nThis variable is derived by dividing women graduate enrollment (EFALEVEL=12,EFTOTLW) by the total graduate enrollment (EFALEVEL=12,EFTOTLT) for men and women. Ratios are converted to percentages by multiplying by 100 and then are rounded to whole numbers"
+    ],
+    [
+      23401,
+      "DVEF01",
+      "Total fall enrollment of all adult students (age 25 through 64)._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15. "
+    ],
+    [
+      23402,
+      "DVEF02",
+      "Total fall enrollment of adult undergraduate students (age 25 through 64)._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15. _x000D_\n"
+    ],
+    [
+      23403,
+      "DVEF03",
+      "Total fall enrollment of adult graduate students (age 25 through 64)._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15. "
+    ],
+    [
+      23405,
+      "DVEF05",
+      "Total fall enrollment of all full-time adult students (age 25 through 64)._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15. _x000D_\n"
+    ],
+    [
+      23406,
+      "DVEF06",
+      "Total fall enrollment of all full-time undergraduate adult students (age 25 through 64)._x000D_\n_x000D_\nFULL-TIME STUDENT (Undergraduate) \u2014 A student enrolled for 12 or more semester credits , or 12 or more quarter credits, or 24 or more clock hours a week each term._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      23407,
+      "DVEF07",
+      "Total fall enrollment of full-time graduate adult students (age 25 through 64)._x000D_\n_x000D_\nFULL-TIME STUDENT (Graduate) \u2014 A student enrolled for 9 or more semester credits, or 9 or more quarter credits, or a student involved in thesis or dissertation preparation that is considered full time by the institution._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      23409,
+      "DVEF09",
+      "Total fall enrollment of all part-time adult students (age 25 through 64)._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15. _x000D_\n"
+    ],
+    [
+      23410,
+      "DVEF10",
+      "Total fall enrollment of all part-time undergraduate adult students (age 25 through 64)._x000D_\n_x000D_\nPART-TIME STUDENT (Undergraduate) \u2014 A student enrolled for either 11 semester credits or less, or 11 quarter credits or less, or less than 24 clock hours a week each term._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      23411,
+      "DVEF11",
+      "Total fall enrollment of all part-time graduate adult students (age 25 through 64)._x000D_\n_x000D_\nPART-TIME STUDENT (Graduate) \u2014 A student enrolled for either 8 semester credits or less, or 8 quarter credits or less._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15. "
+    ],
+    [
+      23413,
+      "DVEF13",
+      "Percentage of all undergraduate fall enrollment by students less than 18 years of age._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15. "
+    ],
+    [
+      23414,
+      "DVEF14",
+      "Percentage of all undergraduate fall enrollment by students 18 through 24 years of age._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15. "
+    ],
+    [
+      23415,
+      "DVEF15",
+      "Percentage of all undergraduate fall enrollment by students 25 through 64 years of age._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15. "
+    ],
+    [
+      23416,
+      "DVEF16",
+      "Percentage of all undergraduate fall enrollment by students age 65 years or more._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15. "
+    ],
+    [
+      24911,
+      "RMINSTTN",
+      "Number of first-time degree/certificate seeking undergraduate students who reside in the same state of the institution._x000D_\n_x000D_\nThis is derived as follows_x000D_\n_x000D_\nIn-state enollment = EFRES01 if  state of residence EFCSTATE.EF2012C=HD2012.FIPS _x000D_\n_x000D_\nFirst-time student (undergraduate degree/certificate seeking)  A student who has no prior postsecondary experience (except as noted below) attending any institution for the first time at the undergraduate level. This includes students enrolled in academic or occupational programs. It also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school). Student is enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking. _x000D_\n _x000D_\nState of residence - the state identified by the student as his/her permanent address at the time of application to the institution. This may be the legal residence of a parent or guardian, or the state in which a student has a driver's license or is registered to vote. It is not necessarily the state in which the student's high school is located."
+    ],
+    [
+      24916,
+      "RMOUSTTN",
+      "Number of first-time degree/certificate seeking undergraduate students who reside from a different state than that of the institution._x000D_\n_x000D_\nThis is derived as follows_x000D_\n_x000D_\nOut-of-state enollment = EFRES01 if  state of residence EFCSTATE.EF2012C not equal HD2012.FIPS and state of residence is not unknown (EFCSTATE not (57,98) and state of residence is not a foreign country EFCSTATE=90) _x000D_\n_x000D_\nFirst-time student (undergraduate degree/certificate seeking)  A student who has no prior postsecondary experience (except as noted below) attending any institution for the first time at the undergraduate level. This includes students enrolled in academic or occupational programs. It also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school). Student is enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking. _x000D_\n _x000D_\nState of residence - the state identified by the student as his/her permanent address at the time of application to the institution. This may be the legal residence of a parent or guardian, or the state in which a student has a driver's license or is registered to vote. It is not necessarily the state in which the student's high school is located."
+    ],
+    [
+      24921,
+      "RMFRGNCN",
+      "Number of first-time degree/certificate seeking undergraduate students who reside from foreign countries_x000D_\nThis is derived as follows_x000D_\n_x000D_\nNumber of first-time undergraduates - foreign countries = EFRES01.EFCSTATE=90  _x000D_\n_x000D_\nFirst-time student (undergraduate degree/certificate seeking)  A student who has no prior postsecondary experience (except as noted below) attending any institution for the first time at the undergraduate level. This includes students enrolled in academic or occupational programs. It also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school). Student is enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking. _x000D_\n _x000D_\nState of residence - the state identified by the student as his/her permanent address at the time of application to the institution. This may be the legal residence of a parent or guardian, or the state in which a student has a driver's license or is registered to vote. It is not necessarily the state in which the student's high school is located."
+    ],
+    [
+      24926,
+      "RMUNKNWN",
+      "Number of first-time degree/certificate seeking undergraduate students who residency status is unknown_x000D_\n_x000D_\nThis is derived as follows_x000D_\n_x000D_\nNumber of first-time undergraduates - residence unknown =  (From the U.S. but state unknown (EFRES01.EFCSTATE=57) plus residence unknown (EFRES01.EFCSTATE=98))  _x000D_\n_x000D_\nFirst-time student (undergraduate degree/certificate seeking)  A student who has no prior postsecondary experience (except as noted below) attending any institution for the first time at the undergraduate level. This includes students enrolled in academic or occupational programs. It also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school). Student is enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking. _x000D_\n _x000D_\nState of residence - the state identified by the student as his/her permanent address at the time of application to the institution. This may be the legal residence of a parent or guardian, or the state in which a student has a driver's license or is registered to vote. It is not necessarily the state in which the student's high school is located."
+    ],
+    [
+      24912,
+      "RMINSTTP",
+      "Percent of first-time degree/certificate seeking undergraduate students who reside in the same state of the institution._x000D_\n_x000D_\nThis is derived as follows_x000D_\n_x000D_\nIn-state enollment = EFRES01 if  state of residence EFCSTATE.EF2012C=HD2012.FIPS _x000D_\nPercent of first-time undergraduates - in-state = in-state enrollment divided by total enrollment of first-time degree/seeking undergraduates (EFRES01.EFCSTATE=99) * 100_x000D_\n_x000D_\nFirst-time student (undergraduate degree/certificate seeking)  A student who has no prior postsecondary experience (except as noted below) attending any institution for the first time at the undergraduate level. This includes students enrolled in academic or occupational programs. It also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school). Student is enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking. _x000D_\n _x000D_\nState of residence - the state identified by the student as his/her permanent address at the time of application to the institution. This may be the legal residence of a parent or guardian, or the state in which a student has a driver's license or is registered to vote. It is not necessarily the state in which the student's high school is located."
+    ],
+    [
+      24917,
+      "RMOUSTTP",
+      "Percent of first-time degree/certificate seeking undergraduate students who reside from a different state than that of the institution._x000D_\n_x000D_\nThis is derived as follows_x000D_\n_x000D_\nOut-of-state enollment = EFRES01 if  state of residence EFCSTATE.EF2012C not equal HD2012.FIPS and state of residence is not unknown (EFCSTATE not (57,98) and state of residence is not a foreign country EFCSTATE=90) _x000D_\nPercent of first-time undergraduates - out-of-state  = out-ofn-state enrollment divided by total enrollment of first-time degree/seeking undergraduates (EFRES01.EFCSTATE=99) * 100_x000D_\n_x000D_\nFirst-time student (undergraduate degree/certificate seeking)  A student who has no prior postsecondary experience (except as noted below) attending any institution for the first time at the undergraduate level. This includes students enrolled in academic or occupational programs. It also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school). Student is enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking. _x000D_\n _x000D_\nState of residence - the state identified by the student as his/her permanent address at the time of application to the institution. This may be the legal residence of a parent or guardian, or the state in which a student has a driver's license or is registered to vote. It is not necessarily the state in which the student's high school is located."
+    ],
+    [
+      24922,
+      "RMFRGNCP",
+      "Percent of first-time degree/certificate seeking undergraduate students who reside from foreign countries_x000D_\nThis is derived as follows_x000D_\n_x000D_\nPercent of first-time undergraduates - foreign countries = EFRES01.EFCSTATE=90  divided by total enrollment of first-time degree/seeking undergraduates (EFRES01.EFCSTATE=99) * 100_x000D_\n_x000D_\nFirst-time student (undergraduate degree/certificate seeking)  A student who has no prior postsecondary experience (except as noted below) attending any institution for the first time at the undergraduate level. This includes students enrolled in academic or occupational programs. It also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school). Student is enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking. _x000D_\n _x000D_\nState of residence - the state identified by the student as his/her permanent address at the time of application to the institution. This may be the legal residence of a parent or guardian, or the state in which a student has a driver's license or is registered to vote. It is not necessarily the state in which the student's high school is located."
+    ],
+    [
+      24927,
+      "RMUNKNWP",
+      "Percent of first-time degree/certificate seeking undergraduate students who residency status is unknown_x000D_\n_x000D_\nThis is derived as follows_x000D_\n_x000D_\nPercent of first-time undergraduates - residence unknown =  (From the U.S. but state unknown (EFRES01.EFCSTATE=57) plus residence unknown (EFRES01.EFCSTATE=98))  divided by total enrollment of first-time degree/seeking undergraduates (EFRES01.EFCSTATE=99) * 100_x000D_\n_x000D_\nFirst-time student (undergraduate degree/certificate seeking)  A student who has no prior postsecondary experience (except as noted below) attending any institution for the first time at the undergraduate level. This includes students enrolled in academic or occupational programs. It also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school). Student is enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking. _x000D_\n _x000D_\nState of residence - the state identified by the student as his/her permanent address at the time of application to the institution. This may be the legal residence of a parent or guardian, or the state in which a student has a driver's license or is registered to vote. It is not necessarily the state in which the student's high school is located."
+    ],
+    [
+      24866,
+      "PCTDEEXC",
+      "Percent of students who are enrolled only in courses that are considered distance education courses._x000D_\n_x000D_\nDerived: Students enrolled exclusively in distance education (EFDEEXC,EFDELEV=1) divided by all students enrolled (EFDETOT,EFDELEV=1)_x000D_\n_x000D_\nNOTE: Includes only students enrolled for credit as of the institution's official fall reporting date or October 15._x000D_\n_x000D_\nDistance education course - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.  _x000D_\n_x000D_\nDistance education - Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously._x000D_\n_x000D_\nTechnologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above."
+    ],
+    [
+      24871,
+      "PCTDESOM",
+      "Percent of students who are enrolled in at least one course that is considered a distance education course, but are not enrolled exclusively in distance education courses._x000D_\n_x000D_\nDerived: Students enrolled in some distance education (EFDESOM,EFDELEV=1) divided by all students enrolled (EFDETOT,EFDELEV=1)_x000D_\n_x000D_\nNOTE: Includes only students enrolled for credit as of the institution's official fall reporting date or October 15._x000D_\n_x000D_\nDistance education course - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.  _x000D_\n_x000D_\nDistance education - Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously._x000D_\n_x000D_\nTechnologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above."
+    ],
+    [
+      24876,
+      "PCTDENON",
+      "Percent of students who are not enrolled in any distance education courses._x000D_\n_x000D_\nDerived: Students not enrolled in any distance education (EFDENON,EFDELEV=1) divided by all students enrolled (EFDETOT,EFDELEV=1)_x000D_\n_x000D_\nNOTE: Includes only students enrolled for credit as of the institution's official fall reporting date or October 15._x000D_\n_x000D_\nDistance education course - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.  _x000D_\n_x000D_\nDistance education - Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously._x000D_\n_x000D_\nTechnologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above."
+    ],
+    [
+      24881,
+      "PCUDEEXC",
+      "Percent of undergraduate students who are enrolled only in courses that are considered distance education courses._x000D_\n_x000D_\nDerived: Undergraduate students enrolled exclusively in distance education (EFDEEXC,EFDELEV=2) divided by all undergraduate students enrolled (EFDETOT,EFDELEV=2)_x000D_\n_x000D_\nNOTE: Includes only students enrolled for credit as of the institution's official fall reporting date or October 15._x000D_\n_x000D_\nDistance education course - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.  _x000D_\n_x000D_\nDistance education - Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously._x000D_\n_x000D_\nTechnologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above."
+    ],
+    [
+      24886,
+      "PCUDESOM",
+      "Percent of undergradate students who are enrolled in at least one course that is considered a distance education course, but are not enrolled exclusively in distance education courses._x000D_\n_x000D_\nDerived: Undergraduate students enrolled in some distance education (EFDESOM,EFDELEV=2) divided by all undergraduate students enrolled (EFDETOT,EFDELEV=2)_x000D_\n_x000D_\nNOTE: Includes only students enrolled for credit as of the institution's official fall reporting date or October 15._x000D_\n_x000D_\nDistance education course - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.  _x000D_\n_x000D_\nDistance education - Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously._x000D_\n_x000D_\nTechnologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above."
+    ],
+    [
+      24891,
+      "PCUDENON",
+      "Percent of undergraduate students who are not enrolled in any distance education courses._x000D_\n_x000D_\nDerived: Undergraduate students not enrolled in any distance education (EFDENON,EFDELEV=2) divided by all undergraduate students enrolled (EFDETOT,EFDELEV=2)_x000D_\n_x000D_\nNOTE: Includes only students enrolled for credit as of the institution's official fall reporting date or October 15._x000D_\n_x000D_\nDistance education course - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.  _x000D_\n_x000D_\nDistance education - Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously._x000D_\n_x000D_\nTechnologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above."
+    ],
+    [
+      24896,
+      "PCGDEEXC",
+      "Percent of graduate students who are enrolled only in courses that are considered distance education courses._x000D_\n_x000D_\nDerived: Graduate students enrolled exclusively in distance education (EFDEEXC,EFDELEV=11) divided by all graduate students enrolled (EFDETOT,EFDELEV=11)_x000D_\n_x000D_\nNOTE: Includes only students enrolled for credit as of the institution's official fall reporting date or October 15._x000D_\n_x000D_\nDistance education course - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.  _x000D_\n_x000D_\nDistance education - Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously._x000D_\n_x000D_\nTechnologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above."
+    ],
+    [
+      24901,
+      "PCGDESOM",
+      "Percent of gradate students who are enrolled in at least one course that is considered a distance education course, but are not enrolled exclusively in distance education courses._x000D_\n_x000D_\nDerived: Graduate students enrolled in some distance education (EFDESOM,EFDELEV=11) divided by all graduate students enrolled (EFDETOT,EFDELEV=11)_x000D_\n_x000D_\nNOTE: Includes only students enrolled for credit as of the institution's official fall reporting date or October 15._x000D_\n_x000D_\nDistance education course - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.  _x000D_\n_x000D_\nDistance education - Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously._x000D_\n_x000D_\nTechnologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above."
+    ],
+    [
+      24906,
+      "PCGDENON",
+      "Percent of graduate students who are not enrolled in any distance education courses._x000D_\n_x000D_\nDerived: Graduate students not enrolled in any distance education (EFDENON,EFDELEV=11) divided by all graduate students enrolled (EFDETOT,EFDELEV=11)_x000D_\n_x000D_\nNOTE: Includes only students enrolled for credit as of the institution's official fall reporting date or October 15._x000D_\n_x000D_\nDistance education course - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.  _x000D_\n_x000D_\nDistance education - Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously._x000D_\n_x000D_\nTechnologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above."
+    ]
+  ],
+  "Statistics": [
+    [
+      "VarNumber",
+      "VarName",
+      "N",
+      "SUM",
+      "MEAN",
+      "MIN",
+      "MAX",
+      "varTitle"
+    ],
+    [
+      23355,
+      "ENRTOT",
+      5843,
+      20357226,
+      3484.037,
+      1,
+      210208,
+      "Total  enrollment"
+    ],
+    [
+      20061,
+      "FTE",
+      5843,
+      15347157,
+      2626.589,
+      1,
+      210208,
+      "Full-time equivalent fall enrollment"
+    ],
+    [
+      23805,
+      "EnrFt",
+      5843,
+      12401647,
+      2122.479,
+      0,
+      210208,
+      "Full-time enrollment"
+    ],
+    [
+      23810,
+      "EnrPt",
+      5843,
+      7955579,
+      1361.557,
+      0,
+      130297,
+      "Part-time enrollment"
+    ],
+    [
+      23315,
+      "PctEnrWh",
+      5843,
+      259026,
+      44.331,
+      0,
+      100,
+      "Percent of total enrollment that are White"
+    ],
+    [
+      23320,
+      "PctEnrBK",
+      5843,
+      105801,
+      18.107,
+      0,
+      100,
+      "Percent of total enrollment that are Black or African American "
+    ],
+    [
+      23325,
+      "PctEnrHS",
+      5843,
+      118429,
+      20.269,
+      0,
+      100,
+      "Percent of total enrollment that are Hispanic/Latino"
+    ],
+    [
+      23330,
+      "PctEnrAP",
+      5843,
+      28371,
+      4.856,
+      0,
+      100,
+      "Percent of total enrollment that are Asian/Native Hawaiian/Pacific Islander"
+    ],
+    [
+      24781,
+      "PCTENRAS",
+      5843,
+      25966,
+      4.444,
+      0,
+      97,
+      "Percent of total enrollment that are Asian"
+    ],
+    [
+      24786,
+      "PCTENRNH",
+      5843,
+      2077,
+      0.355,
+      0,
+      99,
+      "Percent of total enrollment that are Native Hawaiian or Other Pacific Islander"
+    ],
+    [
+      23335,
+      "PctEnrAN",
+      5843,
+      7229,
+      1.237,
+      0,
+      100,
+      "Percent of total enrollment that are American Indian or Alaska Native"
+    ],
+    [
+      24561,
+      "PCTENR2M",
+      5843,
+      21967,
+      3.76,
+      0,
+      100,
+      "Percent of total enrollment that are two or more races"
+    ],
+    [
+      23340,
+      "PctEnrUn",
+      5843,
+      25157,
+      4.305,
+      0,
+      100,
+      "Percent of total enrollment that are Race/ethnicity unknown"
+    ],
+    [
+      23345,
+      "PctEnrNr",
+      5843,
+      17951,
+      3.072,
+      0,
+      100,
+      "Percent of total enrollment that are U.S. Nonresident"
+    ],
+    [
+      23347,
+      "PCTENRW",
+      5843,
+      371555,
+      63.59,
+      0,
+      100,
+      "Percent of total enrollment that are women"
+    ],
+    [
+      23350,
+      "PCTFT1ST",
+      5578,
+      123216,
+      22.09,
+      0,
+      100,
+      "Full-time, first-time, degree/certificate seeking undergraduates (GRS Cohort) as percent of all undergraduates"
+    ],
+    [
+      24601,
+      "EFUG",
+      5843,
+      17022056,
+      2913.239,
+      0,
+      164423,
+      "Undergraduate enrollment"
+    ],
+    [
+      24606,
+      "EFUG1ST",
+      5843,
+      3109248,
+      532.132,
+      0,
+      16760,
+      "First-time degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24611,
+      "EFUGTRN",
+      5843,
+      1290364,
+      220.839,
+      0,
+      22305,
+      "Transfer-in degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24616,
+      "EFUGCNT",
+      5843,
+      10085211,
+      1726.033,
+      0,
+      130366,
+      "Continuing degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24621,
+      "EFUGNDG",
+      5843,
+      2537233,
+      434.235,
+      0,
+      52443,
+      "Nondegree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24631,
+      "EFUGFT",
+      5843,
+      10406845,
+      1781.079,
+      0,
+      155088,
+      "Full-time undergraduate enrollment"
+    ],
+    [
+      24636,
+      "EFUG1SFT",
+      5843,
+      2521365,
+      431.519,
+      0,
+      13981,
+      "Full-time first-time degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24641,
+      "EFUGTRFT",
+      5843,
+      781029,
+      133.669,
+      0,
+      22305,
+      "Full-time transfer-in degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24646,
+      "EFUGCNFT",
+      5843,
+      6853362,
+      1172.918,
+      0,
+      130366,
+      "Full-time continuing degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24651,
+      "EFUGNDFT",
+      5843,
+      251089,
+      42.973,
+      0,
+      4229,
+      "Full-time nondegree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24661,
+      "EFUGPT",
+      5843,
+      6615211,
+      1132.16,
+      0,
+      110702,
+      "Part-time undergraduate enrollment"
+    ],
+    [
+      24666,
+      "EFUG1SPT",
+      5843,
+      587883,
+      100.613,
+      0,
+      13180,
+      "Part-time first-time degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24671,
+      "EFUGTRPT",
+      5843,
+      509335,
+      87.17,
+      0,
+      14861,
+      "Part-time transfer-in degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24676,
+      "EFUGCNPT",
+      5843,
+      3231849,
+      553.115,
+      0,
+      81464,
+      "Part-time continuing degree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24681,
+      "EFUGNDPT",
+      5843,
+      2286144,
+      391.262,
+      0,
+      49828,
+      "Part-time nondegree/certificate-seeking undergraduate enrollment"
+    ],
+    [
+      24711,
+      "PCUENRWH",
+      5578,
+      246216,
+      44.141,
+      0,
+      100,
+      "Percent of undergraduate enrollment that are White"
+    ],
+    [
+      24701,
+      "PCUENRBK",
+      5578,
+      103345,
+      18.527,
+      0,
+      100,
+      "Percent of undergraduate enrollment that are Black or African American "
+    ],
+    [
+      24706,
+      "PCUENRHS",
+      5578,
+      117718,
+      21.104,
+      0,
+      100,
+      "Percent of undergraduate enrollment that are Hispanic/Latino"
+    ],
+    [
+      24696,
+      "PCUENRAP",
+      5578,
+      24832,
+      4.452,
+      0,
+      100,
+      "Percent of undergraduate enrollment that are Asian/Native Hawaiian/Pacific Islander"
+    ],
+    [
+      24791,
+      "PCUENRAS",
+      5578,
+      22547,
+      4.042,
+      0,
+      100,
+      "Percent of undergraduate enrollment that are Asian"
+    ],
+    [
+      24796,
+      "PCUENRNH",
+      5578,
+      1985,
+      0.356,
+      0,
+      99,
+      "Percent of undergraduate enrollment that are Native Hawaiian or Other Pacific Islander"
+    ],
+    [
+      24691,
+      "PCUENRAN",
+      5578,
+      7205,
+      1.292,
+      0,
+      100,
+      "Percent of undergraduate enrollment that are American Indian or Alaska Native"
+    ],
+    [
+      24716,
+      "PCUENR2M",
+      5578,
+      21567,
+      3.866,
+      0,
+      100,
+      "Percent of undergraduate enrollment that are two or more races"
+    ],
+    [
+      24721,
+      "PCUENRUN",
+      5578,
+      23576,
+      4.227,
+      0,
+      100,
+      "Percent of undergraduate enrollment that are Race/ethnicity unknown"
+    ],
+    [
+      24726,
+      "PCUENRNR",
+      5578,
+      13002,
+      2.331,
+      0,
+      100,
+      "Percent of undergraduate enrollment that are U.S. Nonresident"
+    ],
+    [
+      24731,
+      "PCUENRW",
+      5578,
+      354953,
+      63.634,
+      0,
+      100,
+      "Percent of undergraduate enrollment that are women"
+    ],
+    [
+      24626,
+      "EFGRAD",
+      5843,
+      3335170,
+      570.798,
+      0,
+      55120,
+      "Graduate enrollment"
+    ],
+    [
+      24656,
+      "EFGRADFT",
+      5843,
+      1994802,
+      341.4,
+      0,
+      55120,
+      "Full-time graduate enrollment"
+    ],
+    [
+      24686,
+      "EFGRADPT",
+      5843,
+      1340368,
+      229.397,
+      0,
+      37257,
+      "Part-time graduate enrollment"
+    ],
+    [
+      24756,
+      "PCGENRWH",
+      2042,
+      98063,
+      48.023,
+      0,
+      100,
+      "Percent of graduate enrollment that are White"
+    ],
+    [
+      24746,
+      "PCGENRBK",
+      2042,
+      26647,
+      13.049,
+      0,
+      100,
+      "Percent of graduate enrollment that are Black or African American "
+    ],
+    [
+      24751,
+      "PCGENRHS",
+      2042,
+      25490,
+      12.483,
+      0,
+      100,
+      "Percent of graduate enrollment that are Hispanic/Latino"
+    ],
+    [
+      24741,
+      "PCGENRAP",
+      2042,
+      13295,
+      6.511,
+      0,
+      93,
+      "Percent of graduate enrollment that are Asian/Native Hawaiian/Pacific Islander"
+    ],
+    [
+      24801,
+      "PCGENRAS",
+      2042,
+      12647,
+      6.193,
+      0,
+      93,
+      "Percent of graduate enrollment that are Asian"
+    ],
+    [
+      24806,
+      "PCGENRNH",
+      2042,
+      562,
+      0.275,
+      0,
+      49,
+      "Percent of graduate enrollment that are Native Hawaiian or Other Pacific Islander"
+    ],
+    [
+      24736,
+      "PCGENRAN",
+      2042,
+      1644,
+      0.805,
+      0,
+      100,
+      "Percent of graduate enrollment that are American Indian or Alaska Native"
+    ],
+    [
+      24761,
+      "PCGENR2M",
+      2042,
+      5958,
+      2.918,
+      0,
+      100,
+      "Percent of graduate enrollment that are two or more races"
+    ],
+    [
+      24766,
+      "PCGENRUN",
+      2042,
+      12620,
+      6.18,
+      0,
+      100,
+      "Percent of graduate enrollment that are Race/ethnicity unknown"
+    ],
+    [
+      24771,
+      "PCGENRNR",
+      2042,
+      20372,
+      9.976,
+      0,
+      100,
+      "Percent of graduate enrollment that are U.S. Nonresident"
+    ],
+    [
+      24776,
+      "PCGENRW",
+      2042,
+      125493,
+      61.456,
+      0,
+      100,
+      "Percent of graduate enrollment that are women"
+    ],
+    [
+      23401,
+      "DVEF01",
+      2577,
+      5010934,
+      1944.484,
+      0,
+      180301,
+      "Adult age (25-64) enrollment, all students"
+    ],
+    [
+      23402,
+      "DVEF02",
+      2577,
+      3115656,
+      1209.024,
+      0,
+      128603,
+      "Adult age (25-64) enrollment, undergraduate"
+    ],
+    [
+      23403,
+      "DVEF03",
+      2577,
+      1895278,
+      735.459,
+      0,
+      51698,
+      "Adult age (25-64) enrollment, graduate"
+    ],
+    [
+      23405,
+      "DVEF05",
+      2577,
+      2240274,
+      869.334,
+      0,
+      180301,
+      "Adult age (25-64) enrollment, full-time students"
+    ],
+    [
+      23406,
+      "DVEF06",
+      2577,
+      1232519,
+      478.277,
+      0,
+      128603,
+      "Adult age (25-64) enrollment, full-time undergraduate"
+    ],
+    [
+      23407,
+      "DVEF07",
+      2577,
+      1007755,
+      391.057,
+      0,
+      51698,
+      "Adult age (25-64) enrollment, full-time graduate"
+    ],
+    [
+      23409,
+      "DVEF09",
+      2577,
+      2770660,
+      1075.149,
+      0,
+      106422,
+      "Adult age (25-64) enrollment, part-time students"
+    ],
+    [
+      23410,
+      "DVEF10",
+      2577,
+      1883137,
+      730.748,
+      0,
+      88183,
+      "Adult age (25-64) enrollment, part-time undergraduate"
+    ],
+    [
+      23411,
+      "DVEF11",
+      2577,
+      887523,
+      344.402,
+      0,
+      33809,
+      "Adult age (25-64) enrollment, part-time graduate"
+    ],
+    [
+      23413,
+      "DVEF13",
+      2488,
+      27809,
+      11.177,
+      0,
+      76,
+      "Percent of undergraduate enrollment under 18"
+    ],
+    [
+      23414,
+      "DVEF14",
+      2488,
+      155323,
+      62.429,
+      0,
+      100,
+      "Percent of undergraduate enrollment 18-24"
+    ],
+    [
+      23415,
+      "DVEF15",
+      2488,
+      64900,
+      26.085,
+      0,
+      100,
+      "Percent of undergraduate enrollment, 25-64"
+    ],
+    [
+      23416,
+      "DVEF16",
+      2488,
+      602,
+      0.242,
+      0,
+      23,
+      "Percent of undergraduate enrollment over 65"
+    ],
+    [
+      24911,
+      "RMINSTTN",
+      5387,
+      2415144,
+      448.328,
+      0,
+      12297,
+      "Number of first-time undergraduates - in-state"
+    ],
+    [
+      24916,
+      "RMOUSTTN",
+      5387,
+      568695,
+      105.568,
+      0,
+      15856,
+      "Number of first-time undergraduates - out-of-state"
+    ],
+    [
+      24921,
+      "RMFRGNCN",
+      5387,
+      91241,
+      16.937,
+      0,
+      2440,
+      "Number of first-time undergraduates - foreign countries"
+    ],
+    [
+      24926,
+      "RMUNKNWN",
+      5387,
+      34105,
+      6.331,
+      0,
+      3076,
+      "Number of first-time undergraduates - residence unknown"
+    ],
+    [
+      24912,
+      "RMINSTTP",
+      5387,
+      436551,
+      81.038,
+      0,
+      100,
+      "Percent of first-time undergraduates - in-state"
+    ],
+    [
+      24917,
+      "RMOUSTTP",
+      5387,
+      81170,
+      15.068,
+      0,
+      100,
+      "Percent of first-time undergraduates - out-of-state"
+    ],
+    [
+      24922,
+      "RMFRGNCP",
+      5387,
+      11302,
+      2.098,
+      0,
+      100,
+      "Percent of first-time undergraduates - foreign countries"
+    ],
+    [
+      24927,
+      "RMUNKNWP",
+      5387,
+      9653,
+      1.792,
+      0,
+      100,
+      "Percent of first-time undergraduates - residence unknown"
+    ],
+    [
+      24866,
+      "PCTDEEXC",
+      5843,
+      87368,
+      14.953,
+      0,
+      100,
+      "Percent of students enrolled exclusively in distance education courses"
+    ],
+    [
+      24871,
+      "PCTDESOM",
+      5843,
+      119218,
+      20.404,
+      0,
+      100,
+      "Percent of students enrolled in some but not all distance education courses"
+    ],
+    [
+      24876,
+      "PCTDENON",
+      5843,
+      377769,
+      64.653,
+      0,
+      100,
+      "Percent of students not enrolled in any distance education courses"
+    ],
+    [
+      24881,
+      "PCUDEEXC",
+      5578,
+      74025,
+      13.271,
+      0,
+      100,
+      "Percent of undergraduate students enrolled exclusively in distance education courses"
+    ],
+    [
+      24886,
+      "PCUDESOM",
+      5578,
+      116369,
+      20.862,
+      0,
+      100,
+      "Percent of undergraduate students enrolled in some but not all distance education courses"
+    ],
+    [
+      24891,
+      "PCUDENON",
+      5578,
+      367425,
+      65.87,
+      0,
+      100,
+      "Percent of undergraduate students not enrolled in any distance education courses"
+    ],
+    [
+      24896,
+      "PCGDEEXC",
+      2042,
+      84782,
+      41.519,
+      0,
+      100,
+      "Percent of graduate students enrolled exclusively in distance education courses"
+    ],
+    [
+      24901,
+      "PCGDESOM",
+      2042,
+      37289,
+      18.261,
+      0,
+      100,
+      "Percent of graduate students enrolled in some but not all distance education courses"
+    ],
+    [
+      24906,
+      "PCGDENON",
+      2042,
+      82134,
+      40.222,
+      0,
+      100,
+      "Percent of graduate students not enrolled in any distance education courses"
+    ]
+  ]
+}

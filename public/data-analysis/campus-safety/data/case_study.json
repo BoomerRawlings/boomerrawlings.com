@@ -1,0 +1,90 @@
+[
+  {
+    "institution": "UC San Diego",
+    "unitid": "110680",
+    "period": 2022,
+    "asr_housing_rape_count": 12,
+    "fall_occupancy_sum": 17906,
+    "rate_per_1000": 0.6701664246621244,
+    "source_url": "https://www.police.ucsd.edu/docs/annualclery.pdf",
+    "pdf_page": "142",
+    "scope": "ASR named main-campus residential facilities / Auditor campus occupancy; approximate boundaries, not victimization risk"
+  },
+  {
+    "institution": "UC San Diego",
+    "unitid": "110680",
+    "period": 2023,
+    "asr_housing_rape_count": 11,
+    "fall_occupancy_sum": 18906,
+    "rate_per_1000": 0.5818258753834762,
+    "source_url": "https://www.police.ucsd.edu/docs/annualclery.pdf",
+    "pdf_page": "142",
+    "scope": "ASR named main-campus residential facilities / Auditor campus occupancy; approximate boundaries, not victimization risk"
+  },
+  {
+    "institution": "UC San Diego",
+    "unitid": "110680",
+    "period": 2024,
+    "asr_housing_rape_count": 20,
+    "fall_occupancy_sum": 21907,
+    "rate_per_1000": 0.9129501985666681,
+    "source_url": "https://www.police.ucsd.edu/docs/annualclery.pdf",
+    "pdf_page": "142",
+    "scope": "ASR named main-campus residential facilities / Auditor campus occupancy; approximate boundaries, not victimization risk"
+  },
+  {
+    "institution": "UC San Diego",
+    "unitid": "110680",
+    "period": "pooled",
+    "asr_housing_rape_count": 43,
+    "fall_occupancy_sum": 58719,
+    "rate_per_1000": 0.7323012994090499,
+    "source_url": "https://www.police.ucsd.edu/docs/annualclery.pdf",
+    "pdf_page": "142",
+    "scope": "ASR named main-campus residential facilities / Auditor campus occupancy; approximate boundaries, not victimization risk"
+  },
+  {
+    "institution": "San Diego State main campus",
+    "unitid": "122409",
+    "period": 2022,
+    "asr_housing_rape_count": 9,
+    "fall_occupancy_sum": 7919,
+    "rate_per_1000": 1.1365071347392348,
+    "source_url": "https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf",
+    "pdf_page": "7",
+    "scope": "ASR named main-campus residential facilities / Auditor campus occupancy; approximate boundaries, not victimization risk"
+  },
+  {
+    "institution": "San Diego State main campus",
+    "unitid": "122409",
+    "period": 2023,
+    "asr_housing_rape_count": 7,
+    "fall_occupancy_sum": 8100,
+    "rate_per_1000": 0.8641975308641975,
+    "source_url": "https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf",
+    "pdf_page": "7",
+    "scope": "ASR named main-campus residential facilities / Auditor campus occupancy; approximate boundaries, not victimization risk"
+  },
+  {
+    "institution": "San Diego State main campus",
+    "unitid": "122409",
+    "period": 2024,
+    "asr_housing_rape_count": 1,
+    "fall_occupancy_sum": 8367,
+    "rate_per_1000": 0.11951715071112705,
+    "source_url": "https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf",
+    "pdf_page": "7",
+    "scope": "ASR named main-campus residential facilities / Auditor campus occupancy; approximate boundaries, not victimization risk"
+  },
+  {
+    "institution": "San Diego State main campus",
+    "unitid": "122409",
+    "period": "pooled",
+    "asr_housing_rape_count": 17,
+    "fall_occupancy_sum": 24386,
+    "rate_per_1000": 0.6971212991060445,
+    "source_url": "https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf",
+    "pdf_page": "7",
+    "scope": "ASR named main-campus residential facilities / Auditor campus occupancy; approximate boundaries, not victimization risk"
+  }
+]

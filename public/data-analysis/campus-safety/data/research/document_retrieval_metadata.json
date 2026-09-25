@@ -1,0 +1,34 @@
+[
+  {
+    "file": "ucsd_2025_asr.pdf",
+    "url": "https://www.police.ucsd.edu/docs/annualclery.pdf",
+    "retrieved_utc": "2026-09-25T09:31:53.221697+00:00",
+    "bytes": 8856776,
+    "sha256": "d4d01766e4f4e7de813a320a5484c8a91d7d41b8862a3a15f85d88b0d3a3a0bb",
+    "pages": 459
+  },
+  {
+    "file": "ucsc_2025_asr.pdf",
+    "url": "https://bpb-us-w2.wpmucdn.com/wordpress.ucsc.edu/dist/d/120/files/2025/09/2025-UC-Santa-Cruz-ASFSR_online-3.pdf",
+    "retrieved_utc": "2026-09-25T09:34:09.480562+00:00",
+    "bytes": 10366710,
+    "sha256": "0a5473dc339935f35d33340b9cc89e7657aec66be5b40da3647e37a1f3a604e9",
+    "pages": 311
+  },
+  {
+    "file": "ca_auditor_2024_111.pdf",
+    "url": "https://www.auditor.ca.gov/wp-content/uploads/2025/10/2024-111-Report.pdf",
+    "retrieved_utc": "2026-09-25T09:34:33.377694+00:00",
+    "bytes": 4508391,
+    "sha256": "4057db7b14e1b85bb6980ad19455f873b474358d9f10fd0725e0ac68a24504b6",
+    "pages": 93
+  },
+  {
+    "file": "sdsu_2025_asr.pdf",
+    "url": "https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf",
+    "retrieved_utc": "2026-09-25T09:45:54.796883+00:00",
+    "bytes": 4610369,
+    "sha256": "3242ccb9a6632269bcd68c2cd5e045d3c73af502841519f2b17d2f5985ced4e3",
+    "pages": 145
+  }
+]

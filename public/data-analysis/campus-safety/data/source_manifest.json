@@ -1,0 +1,670 @@
+{
+  "snapshot_date": "2026-09-25",
+  "count_collection": 2025,
+  "report_years": [
+    2022,
+    2023,
+    2024
+  ],
+  "clery": {
+    "status": "PASS",
+    "snapshot_utc": "2026-09-25T09:37:32.623045+00:00",
+    "portal": "https://ope.ed.gov/campussafety/#/datafile/list",
+    "collection_year": 2025,
+    "report_years": [
+      2022,
+      2023,
+      2024
+    ],
+    "scope": "Primary frozen collection and official instructions only. No historical source vintage is used in the primary rates.",
+    "files": [
+      {
+        "filename": "2025_Campus_Safety_Users_Guide.pdf",
+        "url": "https://surveys.ope.ed.gov/csss2025/wwwroot/documents/Campus_Safety_Users_Guide.pdf",
+        "kind": "official survey instructions",
+        "bytes": 2866014,
+        "sha256": "4f65c03dc75e2e789a190e9406fa30f9b5dab62556853000def50b319dba1302",
+        "verified_utc": "2026-09-25T09:36:56.599064+00:00",
+        "archive_members": [],
+        "initial_retrieval_note": "Initial discovery download already present; original HTTP headers were not retained."
+      },
+      {
+        "filename": "Crime2025EXCEL.zip",
+        "url": "https://ope.ed.gov/campussafety/api/dataFiles/file?fileName=Crime2025EXCEL.zip",
+        "collection_year": 2025,
+        "calendar_years": [
+          2022,
+          2023,
+          2024
+        ],
+        "official_catalog": {
+          "FileName": "Crime2025EXCEL.zip",
+          "LinkName": "Data for calendar years 2022-24",
+          "Description": "Data are stored in 29 Excel files. The files contain a record for every institution. In addition, codebooks for each file are provided in Microsoft Word format, as well as a ReadMe.txt file containing file descriptions.",
+          "Year": 2025,
+          "Format": "Excel"
+        },
+        "bytes": 38213941,
+        "sha256": "28143ab29f9f9d43235800a3f1f4061b8f2928a7d11bce0e8327d2889ab6f007",
+        "verified_utc": "2026-09-25T09:36:56.507235+00:00",
+        "archive_members": [
+          {
+            "name": "Noncampusarrest222324.xls",
+            "bytes": 3183616,
+            "sha256": "4e7755270395e8ef3c8899f69d457cb15eb5bfb529ba3688cc84ae65cc60e3e2"
+          },
+          {
+            "name": "noncampusarrest222324_Doc.doc",
+            "bytes": 55808,
+            "sha256": "383fa95c7eceea113a53ea17d10e4b9540874d6729aa0ccfbcc3e345f9e71ae5"
+          },
+          {
+            "name": "Noncampuscrime222324.xls",
+            "bytes": 3584000,
+            "sha256": "daf1b483091330da0d739a4d0ae800058a4b7fd272ca8d8cc8ed48eb55a24f2a"
+          },
+          {
+            "name": "noncampuscrime222324_Doc.doc",
+            "bytes": 85504,
+            "sha256": "cc9ac533eea0474dc21e4f02fc9d9e203bdd1116a611bd80374edc86d37f3e4b"
+          },
+          {
+            "name": "Noncampusdiscipline222324.xls",
+            "bytes": 3183616,
+            "sha256": "78f2d532128a37a82858ec5f2c93ce7f7315aa498f2217b5626b0c4910fb671b"
+          },
+          {
+            "name": "noncampusdiscipline222324_Doc.doc",
+            "bytes": 56832,
+            "sha256": "ffb940be41bb25421f8b766940eeba68c9187a3c85fb31bdfe8e27816f18149d"
+          },
+          {
+            "name": "Noncampushate222324.xlsx",
+            "bytes": 4346874,
+            "sha256": "12931797dce381ba3413b012779d37c376d50e4b0bea7da6a4fef793c54be53b"
+          },
+          {
+            "name": "noncampushate222324_Doc.doc",
+            "bytes": 613376,
+            "sha256": "d8775f98fd2c741f815880531c210b6923b1867faaddd722e339e309b51d5e36"
+          },
+          {
+            "name": "Noncampusvawa222324.xls",
+            "bytes": 3183616,
+            "sha256": "67b0b036b9153ee8f71369e66172590d1e044062bc44b0bd70eba72cb42b52fa"
+          },
+          {
+            "name": "noncampusvawa222324_Doc.doc",
+            "bytes": 61440,
+            "sha256": "418164a01710e0d79a03c630b59648f0bfc1d7c812b7b72803770bc2040e069f"
+          },
+          {
+            "name": "Oncampusarrest222324.xls",
+            "bytes": 3491328,
+            "sha256": "677fcc133908b56dbf72eee89d40673ef5f0ce5086ff991517a02ce5761f9ec2"
+          },
+          {
+            "name": "oncampusarrest222324_Doc.doc",
+            "bytes": 55808,
+            "sha256": "81cf30b83d55daed18bff61200cfcbb80090cac132004ad609c1d033362704a0"
+          },
+          {
+            "name": "Oncampuscrime222324.xls",
+            "bytes": 4934656,
+            "sha256": "dcc6179e663d469f32cba9c98f615eec54f20e0acfbd4ea171bcac6519410ccc"
+          },
+          {
+            "name": "oncampuscrime222324_Doc.doc",
+            "bytes": 85504,
+            "sha256": "29d69599d04f7c4ad88f477f9d156deba2798342caee91bf8a570646e2f61075"
+          },
+          {
+            "name": "Oncampusdiscipline222324.xls",
+            "bytes": 3491328,
+            "sha256": "164b9e07bd411002ce14c6449763941e2d787f708ab5e8e4b918d38ed30c02ff"
+          },
+          {
+            "name": "oncampusdiscipline222324_Doc.doc",
+            "bytes": 56832,
+            "sha256": "1f8ec36c96cf0ba8c43bf02dcca4f598f9e6500358698b829844d47a9276a53e"
+          },
+          {
+            "name": "Oncampushate222324.xlsx",
+            "bytes": 11770642,
+            "sha256": "94b13fb3d7c3809bb67c1f5e7e78a7008279ab40f3e5fe371b55e6498214f113"
+          },
+          {
+            "name": "oncampushate222324_Doc.doc",
+            "bytes": 613376,
+            "sha256": "81493d61b2551e8816239907c8ffbde2f653fea2c99e397a0dec68cf64f1be0e"
+          },
+          {
+            "name": "Oncampusvawa222324.xls",
+            "bytes": 3491328,
+            "sha256": "070be67c460af3e77e2eee318d0420449a535382c2b2689b665be78a11433b96"
+          },
+          {
+            "name": "oncampusvawa222324_Doc.doc",
+            "bytes": 61440,
+            "sha256": "9d39e80b543059919d99ef6cdb316b148f5203f1d48d9847d743db0a55d549fb"
+          },
+          {
+            "name": "Publicpropertyarrest222324.xls",
+            "bytes": 3491328,
+            "sha256": "01b31935b1ad1dc4fac2850b9b3b14281311463bfce4aa346c2b62d769243c55"
+          },
+          {
+            "name": "publicpropertyarrest222324_Doc.doc",
+            "bytes": 55808,
+            "sha256": "15f7c312d683e57986d55afda9b27ed660f4cffba8ed344870def08993597fd8"
+          },
+          {
+            "name": "Publicpropertycrime222324.xls",
+            "bytes": 4934656,
+            "sha256": "5d16371dee2e6185e505dab4e638cd25754edb758c82aadeba35b262867c0bac"
+          },
+          {
+            "name": "publicpropertycrime222324_Doc.doc",
+            "bytes": 85504,
+            "sha256": "1e9d825fed7efa3841568998f0b93f145d43eaf73141dd4e6430e17457ea00fd"
+          },
+          {
+            "name": "Publicpropertydiscipline222324.xls",
+            "bytes": 3491328,
+            "sha256": "4c63dcb1d0a442f40ac4bd7fedb127c8a835e021f80ffb4890e5abd8c2d60a45"
+          },
+          {
+            "name": "publicpropertydiscipline222324_Doc.doc",
+            "bytes": 56832,
+            "sha256": "a2c74f4a66b811d61fa2877937c034a6def812dabdb035fdbd884aa347c5db5e"
+          },
+          {
+            "name": "Publicpropertyhate222324.xlsx",
+            "bytes": 11753835,
+            "sha256": "3ccd8dd6a0ee5849a31498327cb8e82b263abd4d292795f95b34f11171334eff"
+          },
+          {
+            "name": "publicpropertyhate222324_Doc.doc",
+            "bytes": 613376,
+            "sha256": "3ffa9a1cb1db1d83faa12e50779b4cf3a4922c808f86015d952150ee7ca264a0"
+          },
+          {
+            "name": "Publicpropertyvawa222324.xls",
+            "bytes": 3491328,
+            "sha256": "c0fcf9a746d10e02c9cbe01910778c118a20bead0ae801f33891d8c4d3a07009"
+          },
+          {
+            "name": "publicpropertyvawa222324_Doc.doc",
+            "bytes": 61440,
+            "sha256": "42731e34952f73fb38bfb5d5791b83bfa7ebd523e8dbcf4b10be33438eb57fdc"
+          },
+          {
+            "name": "ReadMe.txt",
+            "bytes": 5395,
+            "sha256": "f345658ad78bddf6d54e40e8af162ca6c9ad510f24f533a7c816695ac31bc5e6"
+          },
+          {
+            "name": "Reportedarrest222324.xls",
+            "bytes": 3048448,
+            "sha256": "e634f05943b609a55aa1f02121b9d9ff77198d7e85e9c7ba736833cf9b816965"
+          },
+          {
+            "name": "reportedarrest222324_Doc.doc",
+            "bytes": 55808,
+            "sha256": "8bd637279ccb31794c9da985cd88f4d477e6e5e9605070d36ce197e4a10c54df"
+          },
+          {
+            "name": "Reportedcrime222324.xls",
+            "bytes": 3049472,
+            "sha256": "4c4f665952394adf05120e32033efb73519ea0f0596aca84bee23ce1fad864a9"
+          },
+          {
+            "name": "reportedcrime222324_Doc.doc",
+            "bytes": 85504,
+            "sha256": "e23f11bd0e1d0cace9cb8888c72cd91a9f5b0af8fcb858eb29c22a3c0f17c595"
+          },
+          {
+            "name": "Reporteddiscipline222324.xls",
+            "bytes": 3048448,
+            "sha256": "693f218c9aa0d8c68868f9985af4e2781ba0cc99dee53b0d66673ca41ca88187"
+          },
+          {
+            "name": "reporteddiscipline222324_Doc.doc",
+            "bytes": 56832,
+            "sha256": "ea1f7955494ff1beade2d2a7960f3a914e87567919bdaf9f708084ebb19aadb3"
+          },
+          {
+            "name": "Reportedhate222324.xlsx",
+            "bytes": 1194378,
+            "sha256": "69aed866d2519bb52d3470876dcf061d688417c914fb1d95a68e036d3969245e"
+          },
+          {
+            "name": "reportedhate222324_Doc.doc",
+            "bytes": 613376,
+            "sha256": "631918bf65cf5ac88757d2642fef771f3dcb161540a10f69a5e5401a026aaf8b"
+          },
+          {
+            "name": "Reportedvawa222324.xls",
+            "bytes": 3048448,
+            "sha256": "b0a318277d116bf9bacfa41e4d7c91b3ca5dcfb9bae8403d6b813b158a595309"
+          },
+          {
+            "name": "reportedvawa222324_Doc.doc",
+            "bytes": 61440,
+            "sha256": "6bfb355378c148f8533188eaafda8e5ce670264f373ba4c59de866a50fd76bd1"
+          },
+          {
+            "name": "Residencehallarrest222324.xls",
+            "bytes": 3156992,
+            "sha256": "7c5aac4b37c2715dbb230516699202ddcbd42e640da0932dc114b180a5017e7a"
+          },
+          {
+            "name": "residencehallarrest222324_Doc.doc",
+            "bytes": 55808,
+            "sha256": "e95d671062772ab53e6270833268af88ff3bf3f8001539df031f151a1b2e8dfa"
+          },
+          {
+            "name": "Residencehallcrime222324.xls",
+            "bytes": 3511808,
+            "sha256": "774cb540068889d57ef98cbacdfdb8ad2ad630a0725343ac0fd872b1c3f11946"
+          },
+          {
+            "name": "residencehallcrime222324_Doc.doc",
+            "bytes": 85504,
+            "sha256": "01e876f78c9ac490fbc9e51268d67c452962aad4df82142119fbe77764a231df"
+          },
+          {
+            "name": "Residencehalldiscipline222324.xls",
+            "bytes": 3156992,
+            "sha256": "09a269e6e6b6f354cda12102c532374227751e72c8be125ee0829069e8a0a001"
+          },
+          {
+            "name": "residencehalldiscipline222324_Doc.doc",
+            "bytes": 56832,
+            "sha256": "0dae494c909951b0ad059e06f5a09016849e1c70b547aa95fd0242cd8f78311d"
+          },
+          {
+            "name": "Residencehallfire22.xls",
+            "bytes": 10265600,
+            "sha256": "09958dcc46e986299411a895786fd451515f5ea9e23030101356c7fae3f93137"
+          },
+          {
+            "name": "residencehallfire22_Doc.doc",
+            "bytes": 54272,
+            "sha256": "e206b5702702eb43d9b4664a3dc0981721f8652055b4d3846aa38cd6d4b576e2"
+          },
+          {
+            "name": "Residencehallfire23.xls",
+            "bytes": 10173440,
+            "sha256": "8bfa03d27b56791286b2e1396d23f990be12b37b3c11194573ae7a05e2b4c4db"
+          },
+          {
+            "name": "residencehallfire23_Doc.doc",
+            "bytes": 54784,
+            "sha256": "c74449eb91e48968f33b6750e9747b8a9ccc92964f7ff06ab278b1e39dbeeefb"
+          },
+          {
+            "name": "Residencehallfire24.xls",
+            "bytes": 10138112,
+            "sha256": "723767656bb9ba171c0464f0b9e55167e30e4e84ead030e172a7911071d5b580"
+          },
+          {
+            "name": "residencehallfire24_Doc.doc",
+            "bytes": 54272,
+            "sha256": "16b6f31491227626f90b2f399a19c6a7770e771b635275d15e9d2180831ee120"
+          },
+          {
+            "name": "Residencehallhate222324.xlsx",
+            "bytes": 3917488,
+            "sha256": "d2400821029131ad46f74d2a5a4a87e26efaaf0b1fd31327ee83a842dc91d33d"
+          },
+          {
+            "name": "residencehallhate222324_Doc.doc",
+            "bytes": 613376,
+            "sha256": "4ee73b75cb18105174ae1a7879f9196d365ffc3738f35ac98dd483ea509d715a"
+          },
+          {
+            "name": "Residencehallvawa222324.xls",
+            "bytes": 3156992,
+            "sha256": "7d93857ea856a00effd32da55aa762e6dce526c85269722080fa911a4928ac10"
+          },
+          {
+            "name": "residencehallvawa222324_Doc.doc",
+            "bytes": 61440,
+            "sha256": "851d64d74747d85fcf4d16bf8cf76365e3455e6625cc07b00db218c89e7f221c"
+          },
+          {
+            "name": "Unfounded222324.xls",
+            "bytes": 3130368,
+            "sha256": "ccda4c7349c35791aa2891b5d1e041051f5bd986133b9de7827c263eb35c58d0"
+          },
+          {
+            "name": "unfounded222324_Doc.doc",
+            "bytes": 51712,
+            "sha256": "7c7e3cd05261d4c0aef79dedb36dde6b5ff95dc70d9dcfa400ace3fbfc86299c"
+          }
+        ],
+        "initial_retrieval_note": "Initial discovery download already present; original HTTP headers were not retained."
+      }
+    ]
+  },
+  "enrollment": {
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "rows": 126,
+    "institutions": 42,
+    "latest_fall_year": 2024,
+    "cohort_source_sha256": "294a36c6e250444157a6ad4c7c0358b0c940509e3629328cc36d05931b1481ef",
+    "sources": {
+      "2022": {
+        "directory": {
+          "file": "HD2022.zip",
+          "member": "hd2022.csv",
+          "sha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+          "source_url": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+          "release": "single_release"
+        },
+        "fall_enrollment": {
+          "file": "EF2022A.zip",
+          "member": "ef2022a_rv.csv",
+          "sha256": "971fe8fad82ca03fbb1a72938fd7b2798176083734a100b6186d79bb537a0aba",
+          "source_url": "https://nces.ed.gov/ipeds/datacenter/data/EF2022A.zip",
+          "release": "final_revised"
+        },
+        "distance_enrollment": {
+          "file": "EF2022A_DIST.zip",
+          "member": "ef2022a_dist_rv.csv",
+          "sha256": "55ad2dc9dc130ae5f6865aded98dad0ab17d74dabf93f212971a859acc227d57",
+          "source_url": "https://nces.ed.gov/ipeds/datacenter/data/EF2022A_DIST.zip",
+          "release": "final_revised"
+        },
+        "derived_enrollment": {
+          "file": "DRVEF2022.zip",
+          "member": "drvef2022_rv.csv",
+          "sha256": "847b4acdafd06cbf89b69895194e2b316de41cb5d0f48bccea557523677ca48e",
+          "source_url": "https://nces.ed.gov/ipeds/datacenter/data/DRVEF2022.zip",
+          "release": "final_revised"
+        }
+      },
+      "2023": {
+        "directory": {
+          "file": "HD2023.zip",
+          "member": "hd2023.csv",
+          "sha256": "7865dec01a81ec0550aba7d862a49983de8bce45a603aee45af36e6c9692110b",
+          "source_url": "https://nces.ed.gov/ipeds/complete-data-files/HD2023.zip",
+          "release": "single_release"
+        },
+        "fall_enrollment": {
+          "file": "EF2023A.zip",
+          "member": "ef2023a_rv.csv",
+          "sha256": "0238ff58ddf603b8606b1b131311e0b569323b787c395dc83b7830c987096cb0",
+          "source_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2023A.zip",
+          "release": "final_revised"
+        },
+        "distance_enrollment": {
+          "file": "EF2023A_DIST.zip",
+          "member": "ef2023a_dist_rv.csv",
+          "sha256": "7beaacd86a44f418d55a462a013f4050c7cd811cbd9737a91617fbc4c1763a20",
+          "source_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2023A_DIST.zip",
+          "release": "final_revised"
+        },
+        "derived_enrollment": {
+          "file": "DRVEF2023.zip",
+          "member": "drvef2023_rv.csv",
+          "sha256": "01eb4c9c56c2d6019dc69123719126b7711db02036881d0a1f4a7246135a4391",
+          "source_url": "https://nces.ed.gov/ipeds/complete-data-files/DRVEF2023.zip",
+          "release": "final_revised"
+        }
+      },
+      "2024": {
+        "directory": {
+          "file": "HD2024.zip",
+          "member": "HD2024.csv",
+          "sha256": "d98425c123d7c0e872aec6e83960dfb501884818bf17385c340790f3d1f28345",
+          "source_url": "https://nces.ed.gov/ipeds/datacenter/data/HD2024.zip",
+          "release": "provisional"
+        },
+        "fall_enrollment": {
+          "file": "EF2024A.zip",
+          "member": "ef2024a.csv",
+          "sha256": "bb3256a68a1ffcbf2fcc85faf80ac14f055ccd75454d3a440dfff80a63671567",
+          "source_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2024A.zip",
+          "release": "provisional"
+        },
+        "distance_enrollment": {
+          "file": "EF2024A_DIST.zip",
+          "member": "ef2024a_dist.csv",
+          "sha256": "76425cc5508ef816b2192d4d3e68cc8819b1c85e753ce1aa3e3065ca0063a3c3",
+          "source_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2024A_DIST.zip",
+          "release": "provisional"
+        },
+        "derived_enrollment": {
+          "file": "DRVEF2024.zip",
+          "member": "drvef2024.csv",
+          "sha256": "52a7e67de212419753e48f8d6eb7783f5fbfb6bddbd66723f7e180d38c9b749e",
+          "source_url": "https://nces.ed.gov/ipeds/complete-data-files/DRVEF2024.zip",
+          "release": "provisional"
+        }
+      }
+    },
+    "checks": [
+      "42 verified UNITIDs and OPEIDs across three annual directories",
+      "Unique table keys",
+      "EF total agrees with DRVEF and distance table",
+      "Undergraduate + graduate and full-time + part-time equal total",
+      "Distance-exclusive + some + none equal total"
+    ]
+  },
+  "housing": {
+    "source_url": "https://www.auditor.ca.gov/wp-content/uploads/2025/10/2024-111-Report.pdf",
+    "pdf_sha256": "4057db7b14e1b85bb6980ad19455f873b474358d9f10fd0725e0ac68a24504b6",
+    "transcription": "Manually transcribed from rendered official tables; all UC annual enrollment and occupancy sums checked against printed system totals.",
+    "source_printed_pages": [
+      56,
+      57,
+      58,
+      59
+    ],
+    "source_pdf_pages": [
+      62,
+      63,
+      64,
+      65
+    ],
+    "all_rows": 66,
+    "primary_rows": 33,
+    "primary_institutions": 11,
+    "primary_not_sourced_institutions": 31,
+    "uc_totals_all_six_years_reconciled": true,
+    "clery_property_matches_verified": false,
+    "auditor_ipeds_enrollment_mismatches": 3,
+    "ucsd_2024_actual_occupancy": 21907,
+    "sdsu_2024_actual_occupancy": 8367
+  },
+  "research": {
+    "schema_version": "1.0.0",
+    "review_date": "2026-09-25",
+    "sources": [
+      {
+        "source_id": "clery_regulation",
+        "title": "34 CFR 668.46: Institutional security policies and crime statistics",
+        "url": "https://www.ecfr.gov/current/title-34/subtitle-B/chapter-VI/part-668/subpart-D/section-668.46",
+        "locator": "(a); (c)(1)-(3), (5)-(9); (d)",
+        "kind": "official regulation",
+        "reviewed_date": "2026-09-25",
+        "status": "reviewed",
+        "supported_use": "Report-year, geography, report inclusion and counting rules.",
+        "limits": "Rules do not establish completeness or victimization probabilities.",
+        "access": "Official/author web text reviewed; no downloaded-byte hash asserted."
+      },
+      {
+        "source_id": "fsa_current",
+        "title": "2026-2027 Federal Student Aid Handbook, volume 2, chapter 6",
+        "url": "https://fsapartners.ed.gov/knowledge-center/fsa-handbook/2026-2027/vol2/ch6-consumer-information-and-school-reporting",
+        "locator": "Campus Crime and Safety Information; Definitions Related to Crime Reporting",
+        "kind": "official guidance",
+        "reviewed_date": "2026-09-25",
+        "status": "reviewed",
+        "supported_use": "Current explanatory Clery guidance.",
+        "limits": "Do not retrospectively add newly required hazing outcomes to 2022-2024.",
+        "access": "Official/author web text reviewed; no downloaded-byte hash asserted."
+      },
+      {
+        "source_id": "ed_guidance_history",
+        "title": "U.S. Department of Education: Campus Security",
+        "url": "https://www.ed.gov/teaching-and-administration/safe-learning-environments/school-safety-and-security/campus-security",
+        "locator": "Clery Act guidance and 2016 handbook rescission",
+        "kind": "official guidance",
+        "reviewed_date": "2026-09-25",
+        "status": "reviewed",
+        "supported_use": "The 2016 handbook was rescinded in October 2020.",
+        "limits": "Historical handbook citations must be labeled historical.",
+        "access": "Official/author web text reviewed; no downloaded-byte hash asserted."
+      },
+      {
+        "source_id": "nces_rates",
+        "title": "NCES (2024): Criminal Incidents at Postsecondary Institutions",
+        "url": "https://nces.ed.gov/programs/coe/indicator/a21",
+        "locator": "Figure 1, notes and suggested citation; Digest 2023 table 329.20",
+        "kind": "official analysis",
+        "reviewed_date": "2026-09-25",
+        "status": "reviewed",
+        "supported_use": "Reported on-campus crimes per 10,000 FTE students; student/staff/guest and duplicate-reporting caveats.",
+        "limits": "FTE, headcount and occupancy are not interchangeable; national values not used as matched campus benchmarks.",
+        "access": "Official/author web text reviewed; no downloaded-byte hash asserted."
+      },
+      {
+        "source_id": "housing_audit",
+        "title": "California State Auditor (2025): California Colleges, report 2024-111",
+        "url": "https://www.auditor.ca.gov/wp-content/uploads/2025/10/2024-111-Report.pdf",
+        "locator": "Appendix A tables A.1-A.2, printed pp. 56-59 / PDF pp. 62-65; Appendix B capacity tables",
+        "kind": "official audit and administrative table",
+        "reviewed_date": "2026-09-25",
+        "status": "reviewed",
+        "supported_use": "Actual fall occupancy distinct from bed capacity.",
+        "limits": "Property scope has not been reconciled with Clery on-campus student housing.",
+        "retrieved_utc": "2026-09-25T09:34:33.377694+00:00",
+        "bytes": 4508391,
+        "sha256": "4057db7b14e1b85bb6980ad19455f873b474358d9f10fd0725e0ac68a24504b6",
+        "pages": 93,
+        "access": "Downloaded official PDF; cited tables independently read and rendered where specified."
+      },
+      {
+        "source_id": "bjs_validation",
+        "title": "Krebs et al. (2016): Campus Climate Survey Validation Study Final Technical Report, NCJ 249545",
+        "url": "https://bjs.ojp.gov/content/pub/pdf/ccsvsftr.pdf",
+        "locator": "Printed pp. 109-110 / PDF pp. 130-131, Clery comparison box",
+        "kind": "original empirical government research",
+        "reviewed_date": "2026-09-25",
+        "status": "reviewed",
+        "supported_use": "Nine-school comparison of narrowly aligned survey and Clery rape counts.",
+        "limits": "Different reference periods and population; not a national correction factor or proof of universal completeness.",
+        "access": "Official/author web text reviewed; no downloaded-byte hash asserted."
+      },
+      {
+        "source_id": "aau_2019",
+        "title": "Cantor et al.: Report on the AAU Campus Climate Survey on Sexual Assault and Misconduct, revised 17 January 2020",
+        "url": "https://www.aau.edu/uploads/images/general/Revised-Aggregate-report-and-appendices-1-7_01-16-2020_FINAL.pdf",
+        "locator": "Table 2 printed p. 6; section 3F pp. 28-31; appendix 4 nonresponse analysis",
+        "kind": "original survey report",
+        "reviewed_date": "2026-09-25",
+        "status": "reviewed",
+        "supported_use": "33 participating schools; resource contacts, self-reported experiences, survey design and nonresponse.",
+        "limits": "Resource contact is not police reporting; reference periods differ from Clery; participating campuses not nationally representative.",
+        "access": "Official/author web text reviewed; no downloaded-byte hash asserted."
+      },
+      {
+        "source_id": "richards_2024",
+        "title": "Richards, Branscum, Goldsmith and Ali (2024): Examining Institutional-Level Factors and Campus Climate on Sexual Misconduct Reporting to Title IX Coordinators and in Annual Security Reports",
+        "url": "https://www.crimrxiv.com/pub/5ab2b5jp/release/1",
+        "locator": "Author postprint; Method, Tables 1-3 and Limitations; Victims & Offenders 19(7), 1301-1319",
+        "kind": "original empirical author manuscript",
+        "reviewed_date": "2026-09-25",
+        "status": "reviewed",
+        "supported_use": "42 Maryland institutions, 2018-2020; institutional reporting associations.",
+        "limits": "Observational, small sample, heterogeneous survey measures; internal table/narrative discrepancy means no precise comparative mean ratio used.",
+        "access": "Official/author web text reviewed; no downloaded-byte hash asserted."
+      },
+      {
+        "source_id": "nobles_2013",
+        "title": "Nobles, Fox, Khey and Lizotte (2013): Community and Campus Crime: A Geospatial Examination of the Clery Act",
+        "url": "https://journals.sagepub.com/doi/abs/10.1177/0011128710372188",
+        "locator": "Author abstract; Crime & Delinquency 59(8), 1131-1156",
+        "kind": "original empirical paper, abstract access",
+        "reviewed_date": "2026-09-25",
+        "status": "reviewed",
+        "supported_use": "Location and student/nonstudent distinctions in one university study.",
+        "limits": "Abstract-only review; no numerical effects used; arrests/offending not victimization prevalence.",
+        "access": "Official/author web text reviewed; no downloaded-byte hash asserted."
+      },
+      {
+        "source_id": "clery_audit_2017",
+        "title": "California State Auditor: Report 2017-032, audit results",
+        "url": "https://information.auditor.ca.gov/reports/2017-032/auditresults.html",
+        "locator": "Table 2 and sampling footnote",
+        "kind": "official record audit",
+        "reviewed_date": "2026-09-25",
+        "status": "reviewed",
+        "supported_use": "Four institutions, 2016 reports; under-, over- and misreporting examples.",
+        "limits": "Targeted historical audit; error counts cannot be extrapolated nationally or to current campuses.",
+        "access": "Official/author web text reviewed; no downloaded-byte hash asserted."
+      },
+      {
+        "source_id": "ucsc_asr_2025",
+        "title": "UC Santa Cruz 2025 Annual Security and Fire Safety Report",
+        "url": "https://bpb-us-w2.wpmucdn.com/wordpress.ucsc.edu/dist/d/120/files/2025/09/2025-UC-Santa-Cruz-ASFSR_online-3.pdf",
+        "locator": "Printed pp. 8-11 / PDF pp. 9-12; rape table footnote 6 on printed p. 11",
+        "kind": "institutional primary report",
+        "reviewed_date": "2026-09-25",
+        "status": "reviewed",
+        "supported_use": "Rape counts and clustered-disclosure footnote, visually verified.",
+        "limits": "Offenses are not unique victims or report forms; do not collapse 21 separate offenses to one.",
+        "retrieved_utc": "2026-09-25T09:34:09.480562+00:00",
+        "bytes": 10366710,
+        "sha256": "0a5473dc339935f35d33340b9cc89e7657aec66be5b40da3647e37a1f3a604e9",
+        "pages": 311,
+        "access": "Downloaded official PDF; cited tables independently read and rendered where specified."
+      },
+      {
+        "source_id": "ucsd_asr_2025",
+        "title": "UC San Diego 2025 Annual Security and Fire Safety Report",
+        "url": "https://www.police.ucsd.edu/docs/annualclery.pdf",
+        "locator": "PDF p. 142, Criminal Offenses Reporting Table and revision footnotes",
+        "kind": "institutional primary report",
+        "reviewed_date": "2026-09-25",
+        "status": "reviewed",
+        "supported_use": "Rape counts and 2022/2023 revisions, visually verified.",
+        "limits": "Federal collection differs in two 2022 rape cells; revision chronology not established; scooter note concerns motor vehicle theft.",
+        "retrieved_utc": "2026-09-25T09:31:53.221697+00:00",
+        "bytes": 8856776,
+        "sha256": "d4d01766e4f4e7de813a320a5484c8a91d7d41b8862a3a15f85d88b0d3a3a0bb",
+        "pages": 459,
+        "access": "Downloaded official PDF; cited tables independently read and rendered where specified."
+      },
+      {
+        "source_id": "sdsu_asr_2025",
+        "title": "San Diego State University 2025 Annual Security Report",
+        "url": "https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf",
+        "locator": "PDF p. 7 main campus rape table; pp. 12/16 Imperial Valley/Georgia",
+        "kind": "institutional primary report",
+        "reviewed_date": "2026-09-25",
+        "status": "reviewed",
+        "supported_use": "Main-campus rape counts visually verified; auxiliary-campus rape zeros checked in report text/official HTML.",
+        "limits": "Federal auxiliary-campus housing cells are blank; not treated as observed numeric zero in the main-campus comparison.",
+        "retrieved_utc": "2026-09-25T09:45:54.796883+00:00",
+        "bytes": 4610369,
+        "sha256": "3242ccb9a6632269bcd68c2cd5e045d3c73af502841519f2b17d2f5985ced4e3",
+        "pages": 145,
+        "access": "Downloaded official PDF; cited tables independently read and rendered where specified."
+      }
+    ],
+    "excluded_quantitative_lead": {
+      "citation": "Yung (2015), DOI 10.1037/law0000037",
+      "reason": "Full text not retrieved; no press-release percentage used as verified research evidence."
+    }
+  },
+  "geography_rule": "2024 residential applicability additionally uses official API SurveyYear2024 declarations; original count vintage retained; no historical backfill."
+}

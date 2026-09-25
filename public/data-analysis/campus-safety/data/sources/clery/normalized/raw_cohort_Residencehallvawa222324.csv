@@ -1,0 +1,213 @@
+﻿UNITID_P,INSTNM,OPEID,BRANCH,Address,City,State,ZIP,sector_cd,Sector_desc,men_total,women_total,Total,DOMEST22,DATING22,STALK22,DOMEST23,DATING23,STALK23,DOMEST24,DATING24,STALK24,FILTER22,FILTER23,FILTER24
+110404001,California Institute of Technology,00113100  ,Main Campus,1200 E CALIFORNIA BLVD.,PASADENA,CA,91125,2,"Private nonprofit, 4-year or above",1459,971,2430,0,2,14,0,2,3,1,1,1,1,1,1
+110635001,University of California-Berkeley,00131200  ,Main Campus,1 Sproul Hall,Berkeley,CA,947201199,1,"Public, 4-year or above",21140,24742,45882,3,5,13,4,5,24,3,18,22,1,1,1
+110635003,University of California-Berkeley,00131200  ,University of California Washington Center,1608 Rhode Island Ave. NW,Washington,DC,20036,1,"Public, 4-year or above",21140,24742,45882,0,0,0,0,0,0,0,0,0,1,1,1
+110644001,University of California-Davis,00131300  ,Main Campus,One Shields Avenue,DAVIS,CA,956168678,1,"Public, 4-year or above",16798,23267,40065,4,5,10,4,13,11,6,10,20,1,1,1
+110644002,University of California-Davis,00131300  ,UC Davis Medical Center,2315 Stockton Blvd.,Sacramento,CA,95817,1,"Public, 4-year or above",16798,23267,40065,,,,,,,,,,1,1,1
+110653001,University of California-Irvine,00131400  ,UCI Main Campus,"University of California, Irvine",IRVINE,CA,92697,1,"Public, 4-year or above",16711,20586,37297,11,8,24,6,12,27,8,19,26,1,1,1
+110653002,University of California-Irvine,00131400  ,UCI Medical Center,101 The City Drive,Orange,CA,92868,1,"Public, 4-year or above",16711,20586,37297,,,,,,,,,,1,1,1
+110662001,University of California-Los Angeles,00131500  ,UCLA,405 HILGARD AVE,LOS ANGELES,CA,900951364,1,"Public, 4-year or above",20430,26905,47335,1,0,0,13,0,16,18,0,12,1,1,1
+110671001,University of California-Riverside,00131600  ,Main Campus,900 University Avenue,Riverside,CA,92521,1,"Public, 4-year or above",12810,13574,26384,3,6,2,7,8,2,4,13,3,1,1,1
+110671002,University of California-Riverside,00131600  ,UCR Palm Desert Center,75080 Frank Sinatra Drive,Palm Desert,CA,92211,1,"Public, 4-year or above",12810,13574,26384,,,,,,,,,,1,1,1
+110680001,University of California-San Diego,00131700  ,UC San Diego,9500 Gilman Dr Mail Code 0005,La Jolla,CA,920930005,1,"Public, 4-year or above",20975,23281,44256,19,10,6,13,7,5,7,14,12,1,1,1
+110699001,University of California-San Francisco,00131900  ,Main Campus - Parnassus Heights,500 Parnassus Ave,San Francisco,CA,941430402,1,"Public, 4-year or above",1100,1907,3007,0,0,1,1,0,0,0,0,1,1,1,1
+110699002,University of California-San Francisco,00131900  ,Mission Bay,550 16th St,San Francisco,CA,941430402,1,"Public, 4-year or above",1100,1907,3007,1,0,2,3,9,0,5,4,3,1,1,1
+110699003,University of California-San Francisco,00131900  ,Mount Zion,1600 Divisadero St,San Francisco,CA,941430402,1,"Public, 4-year or above",1100,1907,3007,0,0,0,0,0,0,0,0,0,1,1,1
+110699004,University of California-San Francisco,00131900  ,UCSF Benioff Children's Hospital - Oakland,747 52nd St,Oakland,CA,94609,1,"Public, 4-year or above",1100,1907,3007,,,,,,,,,,1,1,1
+110699005,University of California-San Francisco,00131900  ,UCSF Fresno,155 N Fresno St,Fresno,CA,93701,1,"Public, 4-year or above",1100,1907,3007,,,,,,,,,,1,1,1
+110705001,University of California-Santa Barbara,00132000  ,University of California Santa Barbara,552 University Road,SANTA BARBARA,CA,93106,1,"Public, 4-year or above",11366,14767,26133,8,14,24,3,15,20,7,27,28,1,1,1
+110714001,University of California-Santa Cruz,00132100  ,UC Santa Cruz,1156 HIGH ST,SANTA CRUZ,CA,95064,1,"Public, 4-year or above",9544,10394,19938,6,1,18,29,1,9,14,0,16,1,1,1
+122409001,San Diego State University,00115100  ,Main Campus,5500 CAMPANILE DR,SAN DIEGO,CA,921828210,1,"Public, 4-year or above",17570,23567,41137,3,0,0,0,0,1,3,0,0,1,1,1
+122409002,San Diego State University,00115100  ,Imperial Valley Campus,720 HEBER AVE,CALEXICO,CA,92231,1,"Public, 4-year or above",17570,23567,41137,,,,,,,,,,1,1,1
+122409003,San Diego State University,00115100  ,San Diego State University Georgia,"5 Kostava Street, 3rd floor",Tbilisi,,0108,1,"Public, 4-year or above",17570,23567,41137,,,,,,,,,,1,1,1
+123961001,University of Southern California,00132800  ,University Park Campus,University Park,Los Angeles,CA,900895012,2,"Private nonprofit, 4-year or above",21836,24730,46566,0,5,12,0,6,9,0,7,10,1,1,1
+123961002,University of Southern California,00132800  ,Health Sciences Campus,University of Southern California,Los Angeles,CA,90033,2,"Private nonprofit, 4-year or above",21836,24730,46566,1,0,0,0,1,2,0,1,0,1,1,1
+123961003,University of Southern California,00132800  ,Catalina Island,University of Southern California,Two Harbors,CA,90704,2,"Private nonprofit, 4-year or above",21836,24730,46566,0,0,0,0,0,0,0,0,0,1,1,1
+123961005,University of Southern California,00132800  ,Sacramento Center,1800 I St.,Sacramento,CA,95814,2,"Private nonprofit, 4-year or above",21836,24730,46566,,,,,,,,,,1,1,1
+123961006,University of Southern California,00132800  ,Marina del Rey,4676 Admiralty Way,Marina del Rey,CA,90292,2,"Private nonprofit, 4-year or above",21836,24730,46566,,,,,,,,,,1,1,1
+123961007,University of Southern California,00132800  ,Health Science Alhambra Building,1000 Fremont Av.,Alhambra,CA,91803,2,"Private nonprofit, 4-year or above",21836,24730,46566,,,,,,,,,,1,1,1
+123961008,University of Southern California,00132800  ,San Diego Alzheimer's Research Institute,9860 Mesa Rim Road,San Diego,CA,92121,2,"Private nonprofit, 4-year or above",21836,24730,46566,,,,,,,,,,1,1,1
+123961009,University of Southern California,00132800  ,Aviation Safety & Security,6033 West Century Blvd,Los Angeles,CA,90045,2,"Private nonprofit, 4-year or above",21836,24730,46566,,,,,,,,,,1,1,1
+123961015,University of Southern California,00132800  ,USC - Washington D.C. Capitol Campus,1771 N St NW,Washington,DC,20036,2,"Private nonprofit, 4-year or above",21836,24730,46566,,,,,,,,,,0,0,1
+130794001,Yale University,00142600  ,Main Campus,105 Wall Street,NEW HAVEN,CT,06511,2,"Private nonprofit, 4-year or above",7275,8289,15564,2,13,8,1,46,16,0,9,5,1,1,1
+130794002,Yale University,00142600  ,Yale University - West Campus,400 West Campus Drive,Orange,CT,06477,2,"Private nonprofit, 4-year or above",7275,8289,15564,,,,,,,,,,1,1,1
+131496001,Georgetown University,00144500  ,Hilltop Campus,37TH AND O ST NW,WASHINGTON,DC,20057,2,"Private nonprofit, 4-year or above",8833,11198,20031,0,5,6,0,2,2,0,3,7,1,1,1
+131496002,Georgetown University,00144500  ,Capitol Campus,"600 New Jersey Avenue, N.W.",Washington,DC,20001,2,"Private nonprofit, 4-year or above",8833,11198,20031,0,0,0,0,0,1,0,0,0,1,1,1
+131496003,Georgetown University,00144500  ,"Villa le Balze, Fiesole, Italy","Via  Vecchia Fiesolana #26, 50014 Fiesole, Italy",Florence,,,2,"Private nonprofit, 4-year or above",8833,11198,20031,0,0,0,,,,,,,1,1,1
+131496005,Georgetown University,00144500  ,"Education City, Doha, Qatar","P.O Box  23689  -  Doha, Qatar",Doha,,20057,2,"Private nonprofit, 4-year or above",8833,11198,20031,0,0,0,0,0,0,0,0,0,1,1,1
+131496006,Georgetown University,00144500  ,Center for Transnational Legal Studies,"Swan House, 37 High Holborn",London,,WC1V 6AA,2,"Private nonprofit, 4-year or above",8833,11198,20031,,,,,,,,,,1,1,1
+131496007,Georgetown University,00144500  ,School of Continuing Studies,640 Massachusetts Avenue N.W.,Washington,DC,20001,2,"Private nonprofit, 4-year or above",8833,11198,20031,,,,,,,,,,1,1,1
+134130001,University of Florida,00153500  ,University of Florida Gainesville - Main Campus,University of Florida,Gainesville,FL,32611,1,"Public, 4-year or above",24863,31448,56311,3,12,11,8,3,15,2,2,10,1,1,1
+134130002,University of Florida,00153500  ,UF Health Jacksonville,648 W 11th St.,Jacksonville,FL,32209,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130003,University of Florida,00153500  ,UF Research and Academic Center at Lake Nona,6550 Sanger Rd,Orlando,FL,32827,1,"Public, 4-year or above",24863,31448,56311,,,,,,,,,,1,1,1
+134130005,University of Florida,00153500  ,Whitney Laboratory for Marine Bioscience,9505 N Ocean Shore Blvd,St. Augustine,FL,32080,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130006,University of Florida,00153500  ,UF Historic St. Augustine,48 King St,St. Augustine ,FL,32084,1,"Public, 4-year or above",24863,31448,56311,,,,,,,,,,1,1,1
+134130008,University of Florida,00153500  ,CityLab Orlando,135 W Central Blvd #500 ,Orlando,FL,32801,1,"Public, 4-year or above",24863,31448,56311,,,,,,,,,,1,1,1
+134130009,University of Florida,00153500  ,Preservation Institute Nantucket,11 Centre St #7,Nantucket,MA,02554,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130010,University of Florida,00153500  ,Vicenza Institute of Architecture,"Contra S.S. Apostoli, 51",Vicenza,,36100,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130011,University of Florida,00153500  ,UF Research and Engineering Education Facility (REEF),1350 Poquito Rd N,Shalimar,FL,32579,1,"Public, 4-year or above",24863,31448,56311,,,,,,,,,,1,1,1
+134130012,University of Florida,00153500  ,Citrus Research and Education Center ,700 Experiment Station Rd,Lake Alfred,FL,33850,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130013,University of Florida,00153500  ,Everglades Research and Education Center ,3200 E Palm Beach Rd,Belle Glade,FL,33430,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130014,University of Florida,00153500  ,Florida Medical Entomology Laboratory ,200 9th St SE,Vero Beach,FL,32962,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130015,University of Florida,00153500  ,Fort Lauderdale Research and Education Center ,3205 College Ave,Davie,FL,33314,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130017,University of Florida,00153500  ,Gulf Coast Research and Education Center,14625 Co Rd 672,Wimauma,FL,33598,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130018,University of Florida,00153500  ,Indian River Research and Education Center Campus,2199 South Rock Road,Fort Pierce,FL,34945,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130019,University of Florida,00153500  ,Mid Florida Research and Education Center ,2725 S Binion Rd,Apopka ,FL,32703,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130020,University of Florida,00153500  ,Nature Coast Biological Station ,552 1st St,Cedar Key,FL,32625,1,"Public, 4-year or above",24863,31448,56311,,,,,,,,,,1,1,1
+134130021,University of Florida,00153500  ,North Florida Research and Education Center Campus (Suwannee Valley),7580 C.R. 136,Live Oak,FL,32060,1,"Public, 4-year or above",24863,31448,56311,,,,,,,,,,1,1,1
+134130022,University of Florida,00153500  ,North Florida Research and Education Center (Quincy),155 Research Rd,Quincy,FL,32351,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130023,University of Florida,00153500  ,North Florida Research and Education Center (Marianna),3925 Highway 71,Marianna,FL,32446,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130024,University of Florida,00153500  ,Plant Science Research and Education Unit ,2556 Co Hwy 318,Citra,FL,32113,1,"Public, 4-year or above",24863,31448,56311,,,,,,,,,,1,1,1
+134130025,University of Florida,00153500  ,Range Cattle Research and Education Center ,3401 Experiment Station Road,Ona,FL,33865,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130026,University of Florida,00153500  ,Southwest Florida Research and Education Center ,2685 Hwy 29 N,Immokalee,FL,34142,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130027,University of Florida,00153500  ,Tropical Aquaculture Laboratory ,1408 24th St SE,Ruskin,FL,33570,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130028,University of Florida,00153500  ,Tropical Research and Education Center ,18905 SW 280th St,Homestead,FL,33031,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130029,University of Florida,00153500  ,West Florida Research and Education Center (Milton),"5988 Hwy 90, Bldg. 4900",Milton,FL,32583,1,"Public, 4-year or above",24863,31448,56311,,,,,,,,,,1,1,1
+134130030,University of Florida,00153500  ,West Florida Research and Education Center (Jay),4253 Experiment Dr,Jay,FL,32565,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130031,University of Florida,00153500  ,Hastings Demonstration Unit,595 E St. Johns Ave.,Hastings,FL,321450728,1,"Public, 4-year or above",24863,31448,56311,,,,,,,,,,1,1,1
+134130032,University of Florida,00153500  ,UF MBA South Florida Campus,"2900 Monarch Lakes Boulevard, Suite 102",Miramar,FL,33027,1,"Public, 4-year or above",24863,31448,56311,,,,,,,,,,1,1,1
+134130033,University of Florida,00153500  ,Hialeah Dental Center Campus,750 E 25th St,Hialeah,FL,33013,1,"Public, 4-year or above",24863,31448,56311,,,,,,,,,,1,1,1
+134130034,University of Florida,00153500  ,NCEF Naples Pediatric Dental Center Campus,"7505 Grand Lely Dr, Bld L",Naples,FL,34113,1,"Public, 4-year or above",24863,31448,56311,,,,,,,,,,1,1,1
+134130035,University of Florida,00153500  ,St. Petersburg Dental Clinic,"C.W. Bill Young University Partnership Building, 9200 113th St",Seminole,FL,33772,1,"Public, 4-year or above",24863,31448,56311,,,,,,,,,,1,1,1
+134130036,University of Florida,00153500  ,IFAS Equine Science Center,2655 NW 100th St,Ocala,FL,34475,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130037,University of Florida,00153500  ,IFAS Horse Teaching Unit,1934 SW 63rd Ave.,Gainesville,FL,32608,1,"Public, 4-year or above",24863,31448,56311,0,0,0,0,0,0,0,0,0,1,1,1
+134130038,University of Florida,00153500  ,UF IFAS CALS at Plant City,1200 N Park Rd,Plant City,FL,33563,1,"Public, 4-year or above",24863,31448,56311,,,,,,,,,,1,1,1
+134130039,University of Florida,00153500  ,The Herbert Wertheim UF Scripps Institute for Biomedical Innovation & Technology,120 Scripps Way,Jupiter,FL,33458,1,"Public, 4-year or above",24863,31448,56311,,,,,,,,,,0,1,1
+134130040,University of Florida,00153500  ,JaxLab,256 E. Church St.,Jacksonville,FL,32202,1,"Public, 4-year or above",24863,31448,56311,,,,,,,,,,0,0,1
+139755001,Georgia Institute of Technology-Main Campus,00156900  ,Atlanta (Main) Campus,225 North Avenue NW,Atlanta,GA,30332,1,"Public, 4-year or above",36169,17194,53363,0,2,1,0,2,2,0,1,2,1,1,1
+139755002,Georgia Institute of Technology-Main Campus,00156900  ,Georgia Tech Savannah,210 Technology Circle,Savannah,GA,31407,1,"Public, 4-year or above",36169,17194,53363,,,,,,,,,,1,1,1
+139755003,Georgia Institute of Technology-Main Campus,00156900  ,Georgia Tech Europe,2 Rue Marconi,Metz,,57070,1,"Public, 4-year or above",36169,17194,53363,0,0,0,0,0,0,0,0,0,1,1,1
+139755004,Georgia Institute of Technology-Main Campus,00156900  ,Georgia Tech Shenzhen,"6F, Building 6B, International Innovation Valley, Dashi 1st Rd",Shenzhen,,518055,1,"Public, 4-year or above",36169,17194,53363,0,0,0,0,0,0,0,0,0,1,1,1
+144050001,University of Chicago,00177400  ,Main Campus,5801 S ELLIS AVE,CHICAGO,IL,60637,2,"Private nonprofit, 4-year or above",10087,8479,18566,0,3,4,1,0,2,2,1,2,1,1,1
+144050002,University of Chicago,00177400  ,Gleacher Center,450 North Cityfront Plaza Drive,Chicago,IL,60611,2,"Private nonprofit, 4-year or above",10087,8479,18566,,,,,,,,,,1,1,1
+144050003,University of Chicago,00177400  ,Center in Paris,41 Rue De Grand Moulins,Paris,,75013,2,"Private nonprofit, 4-year or above",10087,8479,18566,,,,,,,,,,1,1,1
+144050005,University of Chicago,00177400  ,Chicago Booth Europe Campus,One Bartholomew Close - Barts Square,London,,EC1A 7BL,2,"Private nonprofit, 4-year or above",10087,8479,18566,,,,,,,,,,1,1,1
+144050006,University of Chicago,00177400  ,Center in Beijing,"20th Floor, Culture Plaza, 59A Zhong Guan Cun Street, Haidian District",Beijing,,100872,2,"Private nonprofit, 4-year or above",10087,8479,18566,,,,,,,,,,1,1,1
+144050008,University of Chicago,00177400  ,The University of Chicago Francis and Rose Yuen Campus in Hong Kong,"168 Victoria Road, Mount Davis",Hong Kong,,,2,"Private nonprofit, 4-year or above",10087,8479,18566,,,,,,,,,,1,1,1
+144050009,University of Chicago,00177400  ,University of Chicago-MBL Campus,7 MBL Street,Woods Hole,MA,02543,2,"Private nonprofit, 4-year or above",10087,8479,18566,0,0,0,0,0,0,0,0,0,1,1,1
+144050010,University of Chicago,00177400  ,UChicago Center in Dehli,"DLF Capitol Point, Baba Kharak Singh Marg",New Delhi,,110001,2,"Private nonprofit, 4-year or above",10087,8479,18566,,,,,,,,,,1,1,1
+145637001,University of Illinois Urbana-Champaign,00177500  ,Main Campus,601 E John Street,Champaign,IL,61820,1,"Public, 4-year or above",31825,27413,59238,18,0,11,25,0,24,12,0,22,1,1,1
+145637003,University of Illinois Urbana-Champaign,00177500  ,Illini Center,200 S. Wacker Dr.,Chicago,IL,60606,1,"Public, 4-year or above",31825,27413,59238,,,,,,,,,,1,1,1
+147767001,Northwestern University,00173900  ,Main Campus,633 CLARK ST,EVANSTON,IL,602081320,2,"Private nonprofit, 4-year or above",10696,13160,23856,0,2,7,0,1,2,3,3,0,1,1,1
+147767002,Northwestern University,00173900  ,Chicago Campus,710 N. Lake Shore Drive,Chicago,IL,606113078,2,"Private nonprofit, 4-year or above",10696,13160,23856,,,,,,,,,,1,1,1
+147767003,Northwestern University,00173900  ,Miami,"95 Merrick Way, Suite 105",Coral Gables,FL,33134,2,"Private nonprofit, 4-year or above",10696,13160,23856,,,,,,,,,,1,1,1
+147767004,Northwestern University,00173900  ,Washington D.C. Campus,1301 K Street NW,Washington,DC,20005,2,"Private nonprofit, 4-year or above",10696,13160,23856,,,,,,,,,,1,1,1
+147767005,Northwestern University,00173900  ,"Education City, Qatar","Northwestern University in Qatar, P.O. Box 34102",Doha,,,2,"Private nonprofit, 4-year or above",10696,13160,23856,,,,,,,,,,1,1,1
+147767006,Northwestern University,00173900  ,San Francisco,44 Montgomery St.,San Francisco,CA,94104,2,"Private nonprofit, 4-year or above",10696,13160,23856,,,,,,,,,,1,1,1
+152080001,University of Notre Dame,00184000  ,Main Campus,204 Hammes Mowbray Hall,Notre Dame,IN,46556,2,"Private nonprofit, 4-year or above",6845,6197,13042,1,1,4,0,1,2,0,1,3,1,1,1
+152080002,University of Notre Dame,00184000  ,London Campus,1 - 4 Suffolk Street,London,,SW1Y 4HG,2,"Private nonprofit, 4-year or above",6845,6197,13042,0,0,0,0,0,0,0,0,0,1,1,1
+152080003,University of Notre Dame,00184000  ,Dublin Campus,58 Merrion Square South,Dublin 2,,,2,"Private nonprofit, 4-year or above",6845,6197,13042,,,,,,,,,,1,1,1
+152080004,University of Notre Dame,00184000  ,Rome Campus,Via Ostilia 15,Rome,,00184,2,"Private nonprofit, 4-year or above",6845,6197,13042,0,0,0,0,0,0,0,0,0,1,1,1
+152080005,University of Notre Dame,00184000  ,Jerusalem Campus,The University of Notre Dame at Tantur,Jerusalem,,,2,"Private nonprofit, 4-year or above",6845,6197,13042,0,0,0,0,0,0,0,0,0,1,1,1
+152080006,University of Notre Dame,00184000  ,UNDERC - East,7645 Notre Dame Lane,Land O' Lakes,WI,54540,2,"Private nonprofit, 4-year or above",6845,6197,13042,0,0,0,0,0,0,0,0,0,1,1,1
+152080007,University of Notre Dame,00184000  ,Chicago Campus,224 South Michigan Street,Chicago,IL,60604,2,"Private nonprofit, 4-year or above",6845,6197,13042,,,,,,,,,,1,1,1
+162928001,Johns Hopkins University,00207700  ,"JHU  HOMEWOOD  CAMPUS, BALTIMORE, MARYLAND",3400 N CHARLES ST,BALTIMORE,MD,212182688,2,"Private nonprofit, 4-year or above",14243,15967,30210,6,0,4,3,0,3,5,0,6,1,1,1
+162928002,Johns Hopkins University,00207700  ,"Johns Hopkins Medical Institutions, Baltimore, Md.",550 N. Broadway,Baltimore,MD,21205,2,"Private nonprofit, 4-year or above",14243,15967,30210,0,0,0,0,0,0,1,0,0,1,1,1
+162928003,Johns Hopkins University,00207700  ,"Harbor East Campus, Baltimore, Maryland",100 International Drive,Baltimore,MD,212014649,2,"Private nonprofit, 4-year or above",14243,15967,30210,,,,,,,,,,1,1,1
+162928006,Johns Hopkins University,00207700  ,"JHU Applied Physics Laboratory, Maryland",11100 Johns Hopkins Road,Laurel,MD,207236005,2,"Private nonprofit, 4-year or above",14243,15967,30210,,,,,,,,,,1,1,1
+162928007,Johns Hopkins University,00207700  ,Hopkins Bloomberg Center,555 Pennsylvania Ave,Washington,DC,20001,2,"Private nonprofit, 4-year or above",14243,15967,30210,,,,,,,,,,1,1,1
+162928009,Johns Hopkins University,00207700  ,"JHU SAIS Europe, Bologna, Italy","Via Belmeloro 11,  40126",Bologna,,,2,"Private nonprofit, 4-year or above",14243,15967,30210,,,,,,,,,,1,1,1
+162928011,Johns Hopkins University,00207700  ,Peabody Institute of Johns Hopkins University,1 East Mt. Vernon Place,Baltimore,MD,212022308,2,"Private nonprofit, 4-year or above",14243,15967,30210,0,0,1,0,0,3,2,0,2,1,1,1
+162928012,Johns Hopkins University,00207700  ,JHU - Nanjing,"162 Shanghai Rd, Gulou District",Nanjing,,210008,2,"Private nonprofit, 4-year or above",14243,15967,30210,0,0,0,0,0,0,0,0,0,1,1,1
+162928014,Johns Hopkins University,00207700  ,"The Johns Hopkins University Public Policy Center- Barcelona, Spain","Universitat Pompeu Fabra- Ciutadella Campus Calle Ramon Trias Fargas, 25-27, Building Merce Rodoreda 24",Barcelona,,08005,2,"Private nonprofit, 4-year or above",14243,15967,30210,,,,,,,,,,1,1,1
+162928015,Johns Hopkins University,00207700  ,Bayview Medical Center,4940 Eastern Ave,Baltimore,MD,21224,2,"Private nonprofit, 4-year or above",14243,15967,30210,,,,,,,,,,1,1,1
+166027001,Harvard University,00215500  ,Cambridge Campus,Massachusetts Hall,Cambridge,MA,02138,2,"Private nonprofit, 4-year or above",13812,16447,30259,0,4,2,2,3,0,0,3,5,1,1,1
+166027002,Harvard University,00215500  ,Longwood Campus,Massachusetts Hall,Cambridge,MA,02138,2,"Private nonprofit, 4-year or above",13812,16447,30259,0,0,0,0,0,0,0,0,1,1,1,1
+166027003,Harvard University,00215500  ,Concord Field Station,100 Old Causeway Road,Bedford,MA,01730,2,"Private nonprofit, 4-year or above",13812,16447,30259,,,,,,,,,,1,1,1
+166027004,Harvard University,00215500  ,Arnold Arboretum,125 Arborway,Boston,MA,02130,2,"Private nonprofit, 4-year or above",13812,16447,30259,,,,,,,,,,1,1,1
+166027006,Harvard University,00215500  ,Harvard Forest,324 North Main Street,Petersham,MA,01366,2,"Private nonprofit, 4-year or above",13812,16447,30259,0,0,0,0,0,0,0,0,0,1,1,1
+166027008,Harvard University,00215500  ,Center for Hellenic Studies,Othonos Street & Philhellene Square,Nafplion,,21 100,2,"Private nonprofit, 4-year or above",13812,16447,30259,,,,,,,,,,1,1,1
+166027009,Harvard University,00215500  ,DRCLAS - Chile,"Avenida Dag Hammarskjold 3269, Piso 3",Santiago,,7630000,2,"Private nonprofit, 4-year or above",13812,16447,30259,,,,,,,,,,1,1,1
+166683001,Massachusetts Institute of Technology,00217800  ,MIT,77 MASSACHUSETTS AVE,CAMBRIDGE,MA,021394307,2,"Private nonprofit, 4-year or above",6650,5236,11886,6,1,8,3,0,7,4,3,6,1,1,1
+170976001,University of Michigan-Ann Arbor,00232500  ,Ann Arbor campus,1109 Geddes Ave,ANN ARBOR,MI,481091079,1,"Public, 4-year or above",24997,27858,52855,5,7,16,7,2,8,9,11,22,1,1,1
+182670001,Dartmouth College,00257300  ,Dartmouth College  Main Campus,14 North Main Street,HANOVER,NH,03755,2,"Private nonprofit, 4-year or above",3534,3404,6938,1,0,7,4,0,7,15,0,8,1,1,1
+182670002,Dartmouth College,00257300  ,Lebanon Campus ,One Medical Centre Drive,Lebanon,NH,03756,2,"Private nonprofit, 4-year or above",3534,3404,6938,0,0,1,0,0,2,25,0,1,1,1,1
+186131001,Princeton University,00262700  ,Main Campus,1 Nassau Hall,PRINCETON,NJ,085440070,2,"Private nonprofit, 4-year or above",4759,4378,9137,0,1,0,3,0,0,0,4,0,1,1,1
+186131002,Princeton University,00262700  ,James Forrestal Campus,P.O. Box 451,Princeton,NJ,085430451,2,"Private nonprofit, 4-year or above",4759,4378,9137,,,,,,,,,,1,1,1
+190150001,Columbia University in the City of New York,00270700  ,Morningside Campus,535 West 116th Street,New York,NY,10027,2,"Private nonprofit, 4-year or above",15887,19286,35173,0,22,10,5,6,6,10,11,10,1,1,1
+190150002,Columbia University in the City of New York,00270700  ,Medical Center Campus,622 West 168th Street,New York,NY,10032,2,"Private nonprofit, 4-year or above",15887,19286,35173,0,1,1,0,0,0,0,0,0,1,1,1
+190150004,Columbia University in the City of New York,00270700  ,Lamont-Doherty Earth Observatory,61 Route 9W,Palisades,NY,10964,2,"Private nonprofit, 4-year or above",15887,19286,35173,,,,,,,,,,1,1,1
+190150005,Columbia University in the City of New York,00270700  ,Nevis Laboratories,Route 9,Irvington,NY,10533,2,"Private nonprofit, 4-year or above",15887,19286,35173,,,,,,,,,,1,1,1
+190150006,Columbia University in the City of New York,00270700  ,Manhattanville Campus,3270 Broadway,New York,NY,10027,2,"Private nonprofit, 4-year or above",15887,19286,35173,0,1,0,0,0,0,0,0,0,1,1,1
+190150007,Columbia University in the City of New York,00270700  ,Baker Athletics Complex ,533 West 218th Street,New York,NY,10034,2,"Private nonprofit, 4-year or above",15887,19286,35173,,,,,,,,,,0,0,1
+190150008,Columbia University in the City of New York,00270700  ,CU Paris / Reid Hall,4 rue de Chevreuse,Paris,,75006,2,"Private nonprofit, 4-year or above",15887,19286,35173,,,,,,,,,,0,0,1
+190415001,Cornell University,00271100  ,Endowed and Contract College Campuses,353 Pine Tree Road,ITHACA,NY,148531701,2,"Private nonprofit, 4-year or above",12696,14097,26793,0,35,12,7,35,19,1,19,5,1,1,1
+190415002,Cornell University,00271100  ,Cornell Tech Campus,2 West Loop Road,New York,NY,10044,2,"Private nonprofit, 4-year or above",12696,14097,26793,0,0,0,1,0,1,0,0,1,1,1,1
+190415003,Cornell University,00271100  ,Cornell AgriTech Campus,630 W. North Street,Geneva,NY,14456,2,"Private nonprofit, 4-year or above",12696,14097,26793,0,0,0,0,0,0,0,0,0,1,1,1
+193900001,New York University,00278500  ,NYU Washington Square ,70 Washington Square South,New York,NY,10012,2,"Private nonprofit, 4-year or above",23777,33055,56832,1,3,7,1,3,6,0,2,11,1,1,1
+193900002,New York University,00278500  ,NYU Grossman School of Medicine,530 First Avenue,New York,NY,10018,2,"Private nonprofit, 4-year or above",23777,33055,56832,0,0,0,0,0,0,0,0,0,1,1,1
+193900003,New York University,00278500  ,NYU in Florence/Villa La Pietra,Via Bolognese 120,Florence,,50139,2,"Private nonprofit, 4-year or above",23777,33055,56832,0,0,0,0,0,0,0,0,0,1,1,1
+193900004,New York University,00278500  ,NYU Accra,"4th Norla Road, North Labone",Accra,,,2,"Private nonprofit, 4-year or above",23777,33055,56832,,,,,,,,,,1,1,1
+193900005,New York University,00278500  ,NYU London,265 Strand,London,,WC2R 1DH,2,"Private nonprofit, 4-year or above",23777,33055,56832,,,,,,,,,,1,1,1
+193900006,New York University,00278500  ,NYU Madrid,"Calle del Barquillo, 13",Madrid,,28002,2,"Private nonprofit, 4-year or above",23777,33055,56832,,,,,,,,,,1,1,1
+193900007,New York University,00278500  ,NYU Paris,57-59 Boulevard St. Germain,Paris,,75016,2,"Private nonprofit, 4-year or above",23777,33055,56832,,,,,,,,,,1,1,1
+193900008,New York University,00278500  ,NYU Prague,"11 Male Namesti, Praha 1, Czech Republic 11000",Praha,,11000,2,"Private nonprofit, 4-year or above",23777,33055,56832,,,,,,,,,,1,1,1
+193900009,New York University,00278500  ,NYU Berlin - Academic Center,"Schönhauser Allee 36, 10435",Berlin,,10435,2,"Private nonprofit, 4-year or above",23777,33055,56832,,,,,,,,,,1,1,1
+193900012,New York University,00278500  ,NYU Buenos Aires,Anchorena 1314,Buenos Aires,,,2,"Private nonprofit, 4-year or above",23777,33055,56832,,,,,,,,,,1,1,1
+193900013,New York University,00278500  ,NYU Shanghai,"No. 567, West Yangsi Road",Pudong Shanghai,,,2,"Private nonprofit, 4-year or above",23777,33055,56832,,,,,,,,,,1,1,1
+193900014,New York University,00278500  ,NYU in Tel Aviv,Brandeis Street 17,Tel Aviv,,62260,2,"Private nonprofit, 4-year or above",23777,33055,56832,0,0,0,0,0,0,0,0,0,1,1,1
+193900016,New York University,00278500  ,NYU Abu Dhabi,P.O. Box 129188,Abu Dhabi,,,2,"Private nonprofit, 4-year or above",23777,33055,56832,0,1,0,0,1,0,0,0,0,1,1,1
+193900017,New York University,00278500  ,NYU Sydney,"Merewether H04 Buidling,  Academic Center, University of Sydney",Sydney,,NSW 2000,2,"Private nonprofit, 4-year or above",23777,33055,56832,0,0,0,0,0,0,0,0,0,1,1,1
+193900018,New York University,00278500  ,"NYU Washington, DC","1307 L Street, NW",Washington,DC,200054112,2,"Private nonprofit, 4-year or above",23777,33055,56832,0,0,1,0,0,0,0,0,0,1,1,1
+193900019,New York University,00278500  ,NYU Brooklyn Commons,370 Jay Street,Brooklyn,NY,11201,2,"Private nonprofit, 4-year or above",23777,33055,56832,0,0,0,0,0,0,0,4,0,1,1,1
+193900023,New York University,00278500  ,NYU Grossman Long Island School of Medicine,222 Station Plaza North,Mineola,NY,11501,2,"Private nonprofit, 4-year or above",23777,33055,56832,0,0,1,0,0,0,0,0,0,1,1,1
+193900024,New York University,00278500  ,NYU Los Angeles,145 South Fairfax Avenue,Los Angeles,CA,90036,2,"Private nonprofit, 4-year or above",23777,33055,56832,,,,,,,,,,1,1,1
+193900025,New York University,00278500  ,NYU Langone Hospital - Brooklyn,150 55th Street,Brooklyn,NY,11220,2,"Private nonprofit, 4-year or above",23777,33055,56832,,,,,,,,,,1,1,1
+193900026,New York University,00278500  ,NYU Berlin St. Agnes,Alexandrinenstrasse 118-123,Berlin,,10969,2,"Private nonprofit, 4-year or above",23777,33055,56832,,,,,,,,,,1,1,1
+193900027,New York University,00278500  ,NYU Kips Bay,433 First Avenue,New York,NY,10010,2,"Private nonprofit, 4-year or above",23777,33055,56832,,,,,,,,,,1,1,1
+193900028,New York University,00278500  ,NYU Midtown Center,11 West 42nd Street,New York,NY,10036,2,"Private nonprofit, 4-year or above",23777,33055,56832,,,,,,,,,,1,1,1
+193900029,New York University,00278500  ,NYU Upper East Side,1 E. 78th Street,New York,NY,10075,2,"Private nonprofit, 4-year or above",23777,33055,56832,,,,,,,,,,1,1,1
+193900031,New York University,00278500  , NYU Westchester,1 Mead Way,Bronxville,NY,10708,2,"Private nonprofit, 4-year or above",23777,33055,56832,,,,,,,,,,0,0,1
+193900033,New York University,00278500  ,NYU Athens,34 Taskalof Street,Athens,,106 73,2,"Private nonprofit, 4-year or above",23777,33055,56832,,,,,,,,,,0,0,1
+193900034,New York University,00278500  ,NYU Rockland ,125 Route 340,Sparkill,NY,10976,2,"Private nonprofit, 4-year or above",23777,33055,56832,,,,,,,,,,0,0,1
+198419001,Duke University,00292000  ,Main Campus,207 ALLEN BLDG. BOX 90001,DURHAM,NC,27708,2,"Private nonprofit, 4-year or above",7778,9721,17499,7,0,11,3,0,15,2,0,15,1,1,1
+198419002,Duke University,00292000  ,Marine Laboratory,135 Duke Marine Lab Road,Beaufort,NC,285169721,2,"Private nonprofit, 4-year or above",7778,9721,17499,0,0,0,0,0,0,0,0,0,1,1,1
+198419003,Duke University,00292000  ,Duke in DC,"1201 Pennsylvania Avenue, N.W.",Washington,DC,20004,2,"Private nonprofit, 4-year or above",7778,9721,17499,,,,,,,,,,1,1,1
+199120001,University of North Carolina at Chapel Hill,00297400  ,The University of North Carolina at Chapel Hill,"CB 9100, 200 South Building UNC-Chapel Hill",CHAPEL HILL,NC,275999100,1,"Public, 4-year or above",12821,19617,32438,11,9,7,0,6,8,5,0,7,1,1,1
+199120002,University of North Carolina at Chapel Hill,00297400  ,The Institute for Marine Sciences,3431 Arendell St,Morehead City,NC,28557,1,"Public, 4-year or above",12821,19617,32438,0,0,0,0,0,0,0,0,0,1,1,1
+199120003,University of North Carolina at Chapel Hill,00297400  ,Kenan-Flagler Business School - Charlotte Campus,620 S. Tryon St.,Charlotte,NC,28202,1,"Public, 4-year or above",12821,19617,32438,,,,,,,,,,0,1,1
+204796001,Ohio State University-Main Campus,00309000  ,Main Campus,190 N. OVAL MALL,COLUMBUS,OH,43210,1,"Public, 4-year or above",29217,32226,61443,0,17,26,1,15,22,1,12,14,1,1,1
+211440001,Carnegie Mellon University,00324200  ,Main Campus,5000 FORBES AVE,PITTSBURGH,PA,15213,2,"Private nonprofit, 4-year or above",8977,6911,15888,0,0,4,0,1,5,0,3,3,1,1,1
+211440003,Carnegie Mellon University,00324200  ,Qatar,Education City,Doha,,,2,"Private nonprofit, 4-year or above",8977,6911,15888,,,,,,,,,,1,1,1
+211440004,Carnegie Mellon University,00324200  ,Silicon Valley,"Building 23, Nasa Ames Research Park",Moffett Field,CA,94035,2,"Private nonprofit, 4-year or above",8977,6911,15888,,,,,,,,,,1,1,1
+211440005,Carnegie Mellon University,00324200  ,New York City,"88 Pine Street -Wall Street Plaza, 12th Floor",New York,NY,10005,2,"Private nonprofit, 4-year or above",8977,6911,15888,,,,,,,,,,1,1,1
+211440006,Carnegie Mellon University,00324200  ,Los Angeles,"4640 Lankershim Blvd, suite 125",North Hollywood,CA,91602,2,"Private nonprofit, 4-year or above",8977,6911,15888,,,,,,,,,,1,1,1
+211440007,Carnegie Mellon University,00324200  ,CMU-Africa,"Boulevard de l Umuganda, Telecom House 4th Fl",Kigali,,,2,"Private nonprofit, 4-year or above",8977,6911,15888,,,,,,,,,,1,1,1
+214777001,Pennsylvania State University-Main Campus,00332900  ,University Park Campus Penn State,201 OLD MAIN,UNIVERSITY PARK,PA,168021589,1,"Public, 4-year or above",26611,24126,50737,0,19,11,0,19,14,0,24,19,1,1,1
+214777002,Pennsylvania State University-Main Campus,00332900  ,Dickinson Law,150 South College St,Carlisle,PA,17013,1,"Public, 4-year or above",26611,24126,50737,,,,,,,,,,1,1,1
+214777003,Pennsylvania State University-Main Campus,00332900  ,Hershey College of Medicine ,700 HMC Crescent Road,Hershey,PA,17033,1,"Public, 4-year or above",26611,24126,50737,0,0,0,0,0,0,0,0,0,1,1,1
+215062001,University of Pennsylvania,00337800  ,Main Campus,1 COLLEGE HALL 34TH AND SPRUCE STS,PHILADELPHIA,PA,191046380,2,"Private nonprofit, 4-year or above",12877,16232,29109,0,2,0,0,1,1,1,1,0,1,1,1
+215062003,University of Pennsylvania,00337800  ,University Boathouse on the Schuylkill River,11 Kelly Drive,Philadelphia,PA,19130,2,"Private nonprofit, 4-year or above",12877,16232,29109,,,,,,,,,,1,1,1
+215062004,University of Pennsylvania,00337800  ,New Bolton Center,382 W Street Road,Kennett Square,PA,193481691,2,"Private nonprofit, 4-year or above",12877,16232,29109,0,0,0,0,0,0,0,0,0,1,1,1
+215062005,University of Pennsylvania,00337800  ,Morris Arboretum,100 East Northwestern Avenue,Philadelphia,PA,19118,2,"Private nonprofit, 4-year or above",12877,16232,29109,,,,,,,,,,1,1,1
+215062006,University of Pennsylvania,00337800  ,Wharton San Francisco,"2 Harrison Street, 6th Fl",San Francisco,CA,94105,2,"Private nonprofit, 4-year or above",12877,16232,29109,,,,,,,,,,1,1,1
+215062007,University of Pennsylvania,00337800  ,Wharton Center City,2401 Walnut Street,Philadelphia,PA,19103,2,"Private nonprofit, 4-year or above",12877,16232,29109,,,,,,,,,,1,1,1
+217156001,Brown University,00340100  ,Main Campus,Prospect Street,PROVIDENCE,RI,02912,2,"Private nonprofit, 4-year or above",5703,6253,11956,1,4,4,11,2,1,5,1,5,1,1,1
+228778001,The University of Texas at Austin,00365800  ,The University of Texas at Austin,Main Building Suite 400,Austin,TX,78712,1,"Public, 4-year or above",23614,30250,53864,1,4,5,5,3,10,4,0,2,1,1,1
+228778002,The University of Texas at Austin,00365800  ,J.J. Pickle Research Campus,10100 Burnet Road,Austin,TX,78758,1,"Public, 4-year or above",23614,30250,53864,,,,,,,,,,1,1,1
+228778003,The University of Texas at Austin,00365800  ,Marine Science Institute,750 Channel View Drive,Port Aransas,TX,78373,1,"Public, 4-year or above",23614,30250,53864,0,0,0,0,0,0,0,0,1,1,1,1
+228778005,The University of Texas at Austin,00365800  ,Winedale Historical Complex,3738 FM 2714,Round Top,TX,789544901,1,"Public, 4-year or above",23614,30250,53864,0,0,0,0,0,0,0,0,0,1,1,1
+228778007,The University of Texas at Austin,00365800  ,Wofford Denius UTLA Center,100 E. Tujunga Ave. Suite 200,Burbank,CA,91502,1,"Public, 4-year or above",23614,30250,53864,,,,,,,,,,1,1,1
+228778010,The University of Texas at Austin,00365800  ,LBJ Washington Center,1100 New York Ave NW,Washington,DC,20005,1,"Public, 4-year or above",23614,30250,53864,,,,,,,,,,1,1,1
+228778011,The University of Texas at Austin,00365800  ,UT in New York,"28 W 44th St, 15th Floor",New York ,NY,10036,1,"Public, 4-year or above",23614,30250,53864,,,,,,,,,,1,1,1
+234076001,University of Virginia-Main Campus,00374500  ,Main Campus,1827 University Ave,CHARLOTTESVILLE,VA,22904,1,"Public, 4-year or above",11946,14463,26409,2,6,12,0,10,16,0,8,20,1,1,1
+234076005,University of Virginia-Main Campus,00374500  ,University of Virginia Richmond Center,"2810 North Parham Road, Suite 300",Richmond,VA,23294,1,"Public, 4-year or above",11946,14463,26409,,,,,,,,,,1,1,1
+234076009,University of Virginia-Main Campus,00374500  ,Mountain Lake Biological Station,240 Salt Pond Cir,Pembroke,VA,24136,1,"Public, 4-year or above",11946,14463,26409,0,0,0,0,0,0,0,0,0,1,1,1
+234076012,University of Virginia-Main Campus,00374500  ,Darden Sands Family Grounds ,1100 Wilson Boulevard,Arlington ,VA,22209,1,"Public, 4-year or above",11946,14463,26409,,,,,,,,,,1,1,1
+234076013,University of Virginia-Main Campus,00374500  ,UVA-Inova,3300 Gallows Road,Falls Church,VA,22042,1,"Public, 4-year or above",11946,14463,26409,,,,,,,,,,1,1,1
+234076014,University of Virginia-Main Campus,00374500  ,Morven Campus,600 Morven Drive,Charlottesville,VA,22902,1,"Public, 4-year or above",11946,14463,26409,,,,,,,,,,0,1,1
+236948001,University of Washington-Seattle Campus,00379800  ,Main Campus,NONE,SEATTLE,WA,981954550,1,"Public, 4-year or above",29577,27420,56997,1,3,10,4,3,4,1,3,2,1,1,1
+240444001,University of Wisconsin-Madison,00389500  ,Main Campus,500 LINCOLN DR,MADISON,WI,53706,1,"Public, 4-year or above",23932,27112,51044,3,3,6,2,4,11,2,3,7,1,1,1
+243744001,Stanford University,00130500  ,Main Campus,450 Jane Stanford Way,STANFORD,CA,943052061,2,"Private nonprofit, 4-year or above",9667,8958,18625,6,0,13,3,0,14,44,0,25,1,1,1
+243744002,Stanford University,00130500  ,Stanford in Washington,"2661 Connecticut Ave, N.W.",Washington,DC,20008,2,"Private nonprofit, 4-year or above",9667,8958,18625,0,0,0,0,0,0,0,0,0,1,1,1
+243744003,Stanford University,00130500  ,Hopkins Marine Station,120 Ocean View Boulevard,Pacific Grove,CA,939503094,2,"Private nonprofit, 4-year or above",9667,8958,18625,,,,,,,,,,1,1,1
+243744004,Stanford University,00130500  ,"Stanford in Santiago, Chile","Santiago, Chile",Santiago,,750-0753,2,"Private nonprofit, 4-year or above",9667,8958,18625,,,,,,,,,,1,1,1
+243744006,Stanford University,00130500  ,"Stanford in Berlin, Germany",Pacellialee 18-20,Berlin,,14195,2,"Private nonprofit, 4-year or above",9667,8958,18625,,,,,,,,,,1,1,1
+243744007,Stanford University,00130500  ,Stanford Japan Center,"Kyoto, Japan",Kyoto,,,2,"Private nonprofit, 4-year or above",9667,8958,18625,,,,,,,,,,1,1,1
+243744008,Stanford University,00130500  ,Stanford in Paris,"Paris, France",Paris,,,2,"Private nonprofit, 4-year or above",9667,8958,18625,0,0,0,,,,,,,1,1,1
+243744009,Stanford University,00130500  ,Stanford in Florence,Piazza Santa Maria Sopr'Arno 1,Firenze,,0000,2,"Private nonprofit, 4-year or above",9667,8958,18625,,,,,,,,,,1,1,1
+243744010,Stanford University,00130500  ,Stanford in Oxford,"Oxford, England",Oxford,,,2,"Private nonprofit, 4-year or above",9667,8958,18625,0,0,0,0,0,0,0,0,0,1,1,1
+243744013,Stanford University,00130500  ,"Stanford in Madrid, Spain","Instituto Internacional, Miguel Angel, 8",Madrid,,,2,"Private nonprofit, 4-year or above",9667,8958,18625,,,,,,,,,,1,1,1
+243744014,Stanford University,00130500  ,"Stanford in Capetown, South Africa","Waverley Business Park Bldg 11A, Wycroft Road",Cape Town,,,2,"Private nonprofit, 4-year or above",9667,8958,18625,,,,,,,,,,1,1,1
+243744015,Stanford University,00130500  ,Stanford in New York,915 Broadway Suite 1801,New York,NY,10010,2,"Private nonprofit, 4-year or above",9667,8958,18625,,,,,,,,,,1,1,1
+445188001,University of California-Merced,04127100  ,"University of California, Merced",5200 North Lake Road,Merced,CA,95343,1,"Public, 4-year or above",5012,4098,9110,0,1,7,0,3,0,7,0,4,1,1,1

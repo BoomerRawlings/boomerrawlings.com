@@ -1,0 +1,43 @@
+unitid,label,campus_count,us_campus_count,outside_us_campus_count,countries,country_names_inferred_from_explicit_us_flag,api_housing_campuses_2024,api_no_housing_campuses_2024,scope
+110404,Caltech,1,1,0,United States,0,1,0,All federal institution branches; foreign campuses retained in institution-wide counts
+110635,UC Berkeley,2,2,0,United States,0,2,0,All federal institution branches; foreign campuses retained in institution-wide counts
+110644,UC Davis,2,2,0,United States,0,1,1,All federal institution branches; foreign campuses retained in institution-wide counts
+110653,UC Irvine,2,2,0,United States,0,1,1,All federal institution branches; foreign campuses retained in institution-wide counts
+110662,UCLA,1,1,0,United States,0,1,0,All federal institution branches; foreign campuses retained in institution-wide counts
+110671,UC Riverside,2,2,0,United States,0,1,1,All federal institution branches; foreign campuses retained in institution-wide counts
+110680,UC San Diego,1,1,0,United States,0,1,0,All federal institution branches; foreign campuses retained in institution-wide counts
+110699,UC San Francisco,5,5,0,United States,0,3,2,All federal institution branches; foreign campuses retained in institution-wide counts
+110705,UC Santa Barbara,1,1,0,United States,0,1,0,All federal institution branches; foreign campuses retained in institution-wide counts
+110714,UC Santa Cruz,1,1,0,United States,0,1,0,All federal institution branches; foreign campuses retained in institution-wide counts
+122409,San Diego State,3,2,1,Georgia;United States,0,1,2,All federal institution branches; foreign campuses retained in institution-wide counts
+123961,USC,9,9,0,United States,1,3,6,All federal institution branches; foreign campuses retained in institution-wide counts
+130794,Yale,2,2,0,United States,0,1,1,All federal institution branches; foreign campuses retained in institution-wide counts
+131496,Georgetown,6,3,3,Italy;Qatar;United Kingdom;United States,0,3,3,All federal institution branches; foreign campuses retained in institution-wide counts
+134130,Florida,37,36,1,Italy;United States,32,21,16,All federal institution branches; foreign campuses retained in institution-wide counts
+139755,Georgia Tech,4,2,2,China;France;United States,0,3,1,All federal institution branches; foreign campuses retained in institution-wide counts
+144050,Chicago,8,3,5,China;France;Hong Kong;India;United Kingdom;United States,0,2,6,All federal institution branches; foreign campuses retained in institution-wide counts
+145637,Illinois Urbana-Champaign,2,2,0,United States,0,1,1,All federal institution branches; foreign campuses retained in institution-wide counts
+147767,Northwestern,6,5,1,Qatar;United States,0,1,5,All federal institution branches; foreign campuses retained in institution-wide counts
+152080,Notre Dame,7,3,4,Ireland;Israel;Italy;United Kingdom;United States,0,5,2,All federal institution branches; foreign campuses retained in institution-wide counts
+162928,Johns Hopkins,10,7,3,China;Italy;Spain;United States,0,4,6,All federal institution branches; foreign campuses retained in institution-wide counts
+166027,Harvard,7,5,2,Chile;Greece;United States,0,3,4,All federal institution branches; foreign campuses retained in institution-wide counts
+166683,MIT,1,1,0,United States,0,1,0,All federal institution branches; foreign campuses retained in institution-wide counts
+170976,Michigan Ann Arbor,1,1,0,United States,0,1,0,All federal institution branches; foreign campuses retained in institution-wide counts
+182670,Dartmouth,2,2,0,United States,1,2,0,All federal institution branches; foreign campuses retained in institution-wide counts
+186131,Princeton,2,2,0,United States,0,1,1,All federal institution branches; foreign campuses retained in institution-wide counts
+190150,Columbia,7,6,1,France;United States,2,3,4,All federal institution branches; foreign campuses retained in institution-wide counts
+190415,Cornell,3,3,0,United States,1,3,0,All federal institution branches; foreign campuses retained in institution-wide counts
+193900,NYU,26,12,14,Argentina;Australia;China;Czech Republic;France;Germany;Ghana;Greece;Israel;Italy;Spain;United Arab Emirates;United Kingdom;United States,8,9,17,All federal institution branches; foreign campuses retained in institution-wide counts
+198419,Duke,3,3,0,United States,0,2,1,All federal institution branches; foreign campuses retained in institution-wide counts
+199120,North Carolina Chapel Hill,3,3,0,United States,2,2,1,All federal institution branches; foreign campuses retained in institution-wide counts
+204796,Ohio State Columbus,1,1,0,United States,0,1,0,All federal institution branches; foreign campuses retained in institution-wide counts
+211440,Carnegie Mellon,6,4,2,Qatar;Rwanda;United States,0,1,5,All federal institution branches; foreign campuses retained in institution-wide counts
+214777,Penn State University Park,3,3,0,United States,2,2,1,All federal institution branches; foreign campuses retained in institution-wide counts
+215062,Pennsylvania,6,6,0,United States,0,2,4,All federal institution branches; foreign campuses retained in institution-wide counts
+217156,Brown,1,1,0,United States,0,1,0,All federal institution branches; foreign campuses retained in institution-wide counts
+228778,Texas Austin,7,7,0,United States,1,3,4,All federal institution branches; foreign campuses retained in institution-wide counts
+234076,Virginia,6,6,0,United States,3,2,4,All federal institution branches; foreign campuses retained in institution-wide counts
+236948,Washington Seattle,1,1,0,United States,0,1,0,All federal institution branches; foreign campuses retained in institution-wide counts
+240444,Wisconsin Madison,1,1,0,United States,0,1,0,All federal institution branches; foreign campuses retained in institution-wide counts
+243744,Stanford,12,4,8,Chile;France;Germany;Italy;Japan;South Africa;Spain;United Kingdom;United States,1,3,9,All federal institution branches; foreign campuses retained in institution-wide counts
+445188,UC Merced,1,1,0,United States,0,1,0,All federal institution branches; foreign campuses retained in institution-wide counts

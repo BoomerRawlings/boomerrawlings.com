@@ -1,0 +1,590 @@
+{
+  "data/AMENDMENT.md": {
+    "bytes": 2751,
+    "sha256": "7d9bd1e98984f5ef8b6ea9af1274312c61786ef46011878ce2ecea29199aa254"
+  },
+  "data/annual_rates.csv": {
+    "bytes": 1054693,
+    "sha256": "fccd2ad62d1af498fe1d619a0550d8a09c11fd871c2a17de125f33c1248084af"
+  },
+  "data/asr_comparison_verification.json": {
+    "bytes": 2363,
+    "sha256": "6d549a482959acfd70011ca452735c5c195435d1f54d6230602d32053542ec82"
+  },
+  "data/asr_federal_rape_comparison.csv": {
+    "bytes": 9796,
+    "sha256": "7e7ff996fd5222dae0b4a668306c58a1a4c8c6b104c1643200c66ac94f808c4b"
+  },
+  "data/asr_housing_case_study.csv": {
+    "bytes": 2260,
+    "sha256": "fe5f26c6e6af128d0fa805c5d3ccf76db548da1f82625bd18cdde09f70a2fabf"
+  },
+  "data/build_verification.json": {
+    "bytes": 641,
+    "sha256": "71fd73944d32501fbe03695b3c4cb21470556261c72da4e974cd3f474f5928b5"
+  },
+  "data/campus_crosswalk.csv": {
+    "bytes": 55219,
+    "sha256": "69148dbc0f98cb86d15120124734da6d08c291a9c1de55a4d8dd8006ac1fb756"
+  },
+  "data/case_study.json": {
+    "bytes": 3808,
+    "sha256": "5ed64dbca52b2d9768bc52d561cdaaa8640f11cef13b044dcf832e17c6e9da43"
+  },
+  "data/category_dictionary.csv": {
+    "bytes": 2986,
+    "sha256": "acf7930991e0e2d554511a092f873d94455c443a9df04fa1979f45166ebba7c8"
+  },
+  "data/CITATION_AUDIT.md": {
+    "bytes": 9651,
+    "sha256": "e5fe6e8ead6cef21e44841d1eacb451216f23aeff96bbbe308024d42979450c3"
+  },
+  "data/CITATION_AUDIT_PLAN.md": {
+    "bytes": 6057,
+    "sha256": "168eda06afef1ab0c8cfdeef20ec279177f9544321dc9f3486004cae93c8bf90"
+  },
+  "data/citation_claim_ledger.json": {
+    "bytes": 25842,
+    "sha256": "3402d325564fd9269104afd004c9b5d3879dd4371bf925e418fb8e8d0c94897a"
+  },
+  "data/CITATION_VALUE_VERIFICATION.json": {
+    "bytes": 7914,
+    "sha256": "37c881f52a1e94fced25b58cd48a5da0f9729b5a4e74bf986ac8f33d2b58640e"
+  },
+  "data/CLERY_DATA_DICTIONARY.md": {
+    "bytes": 4329,
+    "sha256": "fd60a1d3598d6d03e9b207b1304dfd1273504f2c550036aaad81751ba941ce6f"
+  },
+  "data/COVERAGE.md": {
+    "bytes": 4802,
+    "sha256": "6641aae74a787232e9f8ddcc83a5fc59c361552e9cf62a870e2f657aad6404e7"
+  },
+  "data/dataset.json": {
+    "bytes": 509357,
+    "sha256": "5a4ac282c79e3e0a6d6fec478b24b6bae1c47d8350863d582314de39a01ef998"
+  },
+  "data/DENOMINATORS.md": {
+    "bytes": 9042,
+    "sha256": "4fc0cd7afd584f62b25c13a2474d1344005a1f06ee155396e8fc3d9175e72826"
+  },
+  "data/document_retrieval_metadata.json": {
+    "bytes": 1330,
+    "sha256": "616b7aae8cacddd722fd1381074c5e8cae8e049cbd0f992738e618bf40b8d51a"
+  },
+  "data/enrollment_denominators.csv": {
+    "bytes": 73886,
+    "sha256": "feb695fa1a5e04cc457d9f1e43b9653a0b7fe28d1516f55cd122eac13944b43a"
+  },
+  "data/housing_occupancy.csv": {
+    "bytes": 19631,
+    "sha256": "9458879d1cbfd4e91b52c2fa16af937b6f958ee0de3735256e8a8c8046e1527f"
+  },
+  "data/INDEPENDENT_NUMERICAL_AUDIT.json": {
+    "bytes": 3089,
+    "sha256": "582bea45a43a4c911ac6931761e6ffb83487d16158dd51d7b0cb32d392d67b32"
+  },
+  "data/INDEPENDENT_NUMERICAL_AUDIT.md": {
+    "bytes": 1245,
+    "sha256": "3ddcdca63b1988958a2d5316ff6ae806da95d21b1c15557aaed49d86ee448c96"
+  },
+  "data/PDF_VISUAL_AUDIT.md": {
+    "bytes": 3972,
+    "sha256": "e6b3854110c169ccfd02653e8c72b26b891b6212f69bcf78f903a99795d907b3"
+  },
+  "data/pooled_rates.csv": {
+    "bytes": 355184,
+    "sha256": "c1b7da4ff6af0cb9cf81c988e3d5fc20fef4a0a8091a97073df91a8b242dea2a"
+  },
+  "data/PROTOCOL.md": {
+    "bytes": 5049,
+    "sha256": "74c647e19010ac9a6adacf8eb4d039f9727a8a84e93c3f3ee04c96d2bad7af79"
+  },
+  "data/README.md": {
+    "bytes": 3621,
+    "sha256": "4c79677c0ebb87ffd4c5180e66ba637b18a72ad72b55b092ae2e380d14e1703c"
+  },
+  "data/research/asr_comparison_verification.json": {
+    "bytes": 2363,
+    "sha256": "6d549a482959acfd70011ca452735c5c195435d1f54d6230602d32053542ec82"
+  },
+  "data/research/asr_federal_rape_comparison.csv": {
+    "bytes": 9796,
+    "sha256": "7e7ff996fd5222dae0b4a668306c58a1a4c8c6b104c1643200c66ac94f808c4b"
+  },
+  "data/research/audit_asr_comparison.py": {
+    "bytes": 4051,
+    "sha256": "aef1cb8ffed2458c8b0c3697c5d21daa14967ff91ae46f659cea2da01606e608"
+  },
+  "data/research/build_citation_audit.py": {
+    "bytes": 28856,
+    "sha256": "26c2361e9336d8ad0bf1518b78de6cf97639a2077fd80c98841dace3f303e433"
+  },
+  "data/research/CITATION_AUDIT.md": {
+    "bytes": 9651,
+    "sha256": "e5fe6e8ead6cef21e44841d1eacb451216f23aeff96bbbe308024d42979450c3"
+  },
+  "data/research/CITATION_AUDIT_PLAN.md": {
+    "bytes": 6057,
+    "sha256": "168eda06afef1ab0c8cfdeef20ec279177f9544321dc9f3486004cae93c8bf90"
+  },
+  "data/research/citation_claim_ledger.json": {
+    "bytes": 25842,
+    "sha256": "3402d325564fd9269104afd004c9b5d3879dd4371bf925e418fb8e8d0c94897a"
+  },
+  "data/research/CITATION_VALUE_VERIFICATION.json": {
+    "bytes": 7914,
+    "sha256": "37c881f52a1e94fced25b58cd48a5da0f9729b5a4e74bf986ac8f33d2b58640e"
+  },
+  "data/research/document_retrieval_metadata.json": {
+    "bytes": 1330,
+    "sha256": "616b7aae8cacddd722fd1381074c5e8cae8e049cbd0f992738e618bf40b8d51a"
+  },
+  "data/research/RESEARCH_FINDINGS.json": {
+    "bytes": 1328,
+    "sha256": "3d0200c6f8bcc13ecc6186808af6bdb0800458b88892003c1cfcc1d41ecad7f3"
+  },
+  "data/research/RESEARCH_REVIEW.md": {
+    "bytes": 16448,
+    "sha256": "c0d6e3c907508b14654723a338eed3560cea853c57d0fec60f9c631df0eaeed1"
+  },
+  "data/research/research_sources.json": {
+    "bytes": 10936,
+    "sha256": "ead2764a494cbd28ea1e0cdf7d2af26864dbb5329ad26123fa067814cd6e2ce0"
+  },
+  "data/research/verified_asr_rape_counts.csv": {
+    "bytes": 1549,
+    "sha256": "0fa6ee65cab590904bf8d9d79c1afd92f45a81d06af4c6e353611021f762323e"
+  },
+  "data/research/verify_public_claim_values.py": {
+    "bytes": 10481,
+    "sha256": "720d63b466fb0625ab9f2b73ecbe649f9bdc0a4a3e3b3f80f83bfb106a01a08a"
+  },
+  "data/RESEARCH_REVIEW.md": {
+    "bytes": 16448,
+    "sha256": "c0d6e3c907508b14654723a338eed3560cea853c57d0fec60f9c631df0eaeed1"
+  },
+  "data/source_manifest.json": {
+    "bytes": 30930,
+    "sha256": "94c8422373eb9db992af887b767e5c9ea0e47adf5b6285b3e27ffb2d99f453d0"
+  },
+  "data/sources/clery/acquire_context.py": {
+    "bytes": 3403,
+    "sha256": "ad510bb97971d1ad4d317dc1ba1fd8195eea293b77690a55eab59fbbe872f456"
+  },
+  "data/sources/clery/acquire_primary_clery.py": {
+    "bytes": 1145,
+    "sha256": "5a889a1ae48f7cd5bda1afb7f67960630fe4edaee017c7188a8b75c3ea1f1367"
+  },
+  "data/sources/clery/audit_identifiers.py": {
+    "bytes": 4012,
+    "sha256": "0de38214a909ec0c30d7479f8ce234c1c8320ec3942048b22f669d766b880a61"
+  },
+  "data/sources/clery/audit_publication_from_raw.py": {
+    "bytes": 11783,
+    "sha256": "4348e9a53ef0af02e997e7ce4cb47ca9b360401c51daa9d637ef93ed710be95e"
+  },
+  "data/sources/clery/build_crosswalk.py": {
+    "bytes": 5085,
+    "sha256": "366fd8d478ba0ac2542c2fdf8f986d6626419596c7ae0e305df3e210b5486cc7"
+  },
+  "data/sources/clery/build_public_manifest.py": {
+    "bytes": 3445,
+    "sha256": "8cd28aeb251d7a149ec5e493d3866dbdb47cabf413c0278856389a9d894b66a3"
+  },
+  "data/sources/clery/CLERY_SOURCES.md": {
+    "bytes": 10427,
+    "sha256": "20c2645b0919a847d5a5bc335d2993bfb702f6bbc119e5111d61fc4a7c198d80"
+  },
+  "data/sources/clery/cohort_manifest.json": {
+    "bytes": 4500,
+    "sha256": "122a72769a8b57db5d772e8166235d144a0d5272c7b6afb8562cc3a4eda5feb6"
+  },
+  "data/sources/clery/context_source_metadata_public.json": {
+    "bytes": 41374,
+    "sha256": "3e768bb7698a9e70c0f56daeebde48f2d5076678f514a464060c254e612a6df2"
+  },
+  "data/sources/clery/COVERAGE.md": {
+    "bytes": 4802,
+    "sha256": "6641aae74a787232e9f8ddcc83a5fc59c361552e9cf62a870e2f657aad6404e7"
+  },
+  "data/sources/clery/DATA_DICTIONARY.md": {
+    "bytes": 4329,
+    "sha256": "fd60a1d3598d6d03e9b207b1304dfd1273504f2c550036aaad81751ba941ce6f"
+  },
+  "data/sources/clery/derive_residential_2024.py": {
+    "bytes": 4549,
+    "sha256": "a74effd3a626d7aeaa8241624d36df88e23a7bb2390b491d4273b44d497462b2"
+  },
+  "data/sources/clery/identifier_validation.json": {
+    "bytes": 539,
+    "sha256": "8baf8ffe6aae86ef79b4f26e65cae53f97edaa6a9470bcecc00ffe1430431090"
+  },
+  "data/sources/clery/normalization_verification.json": {
+    "bytes": 12945,
+    "sha256": "20a5a3eaf6a44ccdad5e3eb5428f0d64bedf0f526f0826a1e0f408c3e311ea7b"
+  },
+  "data/sources/clery/normalize_clery.py": {
+    "bytes": 8433,
+    "sha256": "b03184743b91db71d7cc18f87134fef94f8d790f1d5a059e9046b5ef8818a9ab"
+  },
+  "data/sources/clery/normalized/campus_year_availability_2022_2024.csv": {
+    "bytes": 195229,
+    "sha256": "08eb83a10359d436fe2a6e06be53fae274929c409a97cdb0fa28e69abf6b2682"
+  },
+  "data/sources/clery/normalized/cohort_campus_context_current.json": {
+    "bytes": 193902,
+    "sha256": "519e6611f8e51e53ab4357abec8ce8188792e85464bf439e3d077a8e7220e7f0"
+  },
+  "data/sources/clery/normalized/cohort_campus_counts_2022_2024.csv": {
+    "bytes": 21149682,
+    "sha256": "29743ee5f542881a74915a12b735019a0118b0ca322b29d09746361843eb11c4"
+  },
+  "data/sources/clery/normalized/cohort_campus_crosswalk_2025.csv": {
+    "bytes": 55219,
+    "sha256": "69148dbc0f98cb86d15120124734da6d08c291a9c1de55a4d8dd8006ac1fb756"
+  },
+  "data/sources/clery/normalized/cohort_campus_residential_applicability_2024.csv": {
+    "bytes": 2635760,
+    "sha256": "0265730ad5990ffd7947393509735f71077ebaa496e2294d16e72cdb87eb0ae4"
+  },
+  "data/sources/clery/normalized/cohort_context_notes_current.json": {
+    "bytes": 31986,
+    "sha256": "4a57c2e3c76a6368882f092429a2d3b3fe896525e27624ac13305dfde16832af"
+  },
+  "data/sources/clery/normalized/cohort_geography_scope_2025.csv": {
+    "bytes": 6169,
+    "sha256": "cff89577cf74018e01b150e71cca846d694e9eb516a7e74bdde9778e2f62c9cf"
+  },
+  "data/sources/clery/normalized/cohort_hate_bias_wide_2025.csv": {
+    "bytes": 866030,
+    "sha256": "0ede0a6f9c0123263cd717f35357729451e0fc4be4864cf9ca5b9fe5cfd721dd"
+  },
+  "data/sources/clery/normalized/cohort_institution_counts_2022_2024.csv": {
+    "bytes": 5267385,
+    "sha256": "77c704e1535d4cf9003bd66e7e0033f81fcf17a403032d01ec5e733b64d77014"
+  },
+  "data/sources/clery/normalized/cohort_institution_crosswalk_2025.csv": {
+    "bytes": 18656,
+    "sha256": "57b762678b7f8351b8a94e897102e02fdf93a310b6fb9a4cd62753d3072a6e3c"
+  },
+  "data/sources/clery/normalized/cohort_institution_residential_2024_applicable_geography.csv": {
+    "bytes": 693933,
+    "sha256": "5ca5efa4beb9a8242dcff0f513548f0f305a3fa3bdcfbb478330ac916e44ff14"
+  },
+  "data/sources/clery/normalized/raw_cohort_Noncampusarrest222324.csv": {
+    "bytes": 39749,
+    "sha256": "64ebf797d65b2cedf045be464bf1f2eb5b09ea1364610d89d2ad5e8df85aacde"
+  },
+  "data/sources/clery/normalized/raw_cohort_Noncampuscrime222324.csv": {
+    "bytes": 47332,
+    "sha256": "11af64663319634e3352ffa63910008dceb34f135f4b8986436d5a061be03e75"
+  },
+  "data/sources/clery/normalized/raw_cohort_Noncampusdiscipline222324.csv": {
+    "bytes": 39758,
+    "sha256": "8101899b1a4156a69d8faed91638aaf3fd090173c08bdf021aae477a608091b5"
+  },
+  "data/sources/clery/normalized/raw_cohort_Noncampushate222324.csv": {
+    "bytes": 156707,
+    "sha256": "e6a25919a3ac48cfac60aad08dd5d4ee7a331ca956c4dc164175bd98e3f85c59"
+  },
+  "data/sources/clery/normalized/raw_cohort_Noncampusvawa222324.csv": {
+    "bytes": 39759,
+    "sha256": "c5fd1ee190b5698528f4ff870e30de7175ac059fe3763cbdac876d6490b09b73"
+  },
+  "data/sources/clery/normalized/raw_cohort_Oncampusarrest222324.csv": {
+    "bytes": 40843,
+    "sha256": "b8f76250809e93c0bc3452757842553a03d7b7be6e7247ebcb4f523703fc7218"
+  },
+  "data/sources/clery/normalized/raw_cohort_Oncampuscrime222324.csv": {
+    "bytes": 51444,
+    "sha256": "89e8ec74551855f2f641179479b5df8c35572faab772851c5641fea37af4651e"
+  },
+  "data/sources/clery/normalized/raw_cohort_Oncampusdiscipline222324.csv": {
+    "bytes": 41037,
+    "sha256": "62c8ca3821fd74d779a2feee227576ac2c12ec2c7ccd914073f4fe7653326d69"
+  },
+  "data/sources/clery/normalized/raw_cohort_Oncampushate222324.csv": {
+    "bytes": 199302,
+    "sha256": "6ac6d960e0005f7f61f93e8001f305a503bb553c0bb1605cea33965986b8c5a5"
+  },
+  "data/sources/clery/normalized/raw_cohort_Oncampusvawa222324.csv": {
+    "bytes": 40949,
+    "sha256": "c62a8f5f9dca8898bbf68ab8b6f3d06956d3c1da59df574be81f8ee849541905"
+  },
+  "data/sources/clery/normalized/raw_cohort_Publicpropertyarrest222324.csv": {
+    "bytes": 40794,
+    "sha256": "0d423f583243525065169b5f8e73e9a71ac510513ff5823ec6f507635919315e"
+  },
+  "data/sources/clery/normalized/raw_cohort_Publicpropertycrime222324.csv": {
+    "bytes": 51064,
+    "sha256": "6cb31e787ddfba1293038c1c987fa212d68a1934181877959573b0d98602b584"
+  },
+  "data/sources/clery/normalized/raw_cohort_Publicpropertydiscipline222324.csv": {
+    "bytes": 40768,
+    "sha256": "7a8daabb595efe99b850e0b7d4435153cdb7612514d2b34da0e5d5d4026813b9"
+  },
+  "data/sources/clery/normalized/raw_cohort_Publicpropertyhate222324.csv": {
+    "bytes": 199295,
+    "sha256": "432f0f094af2695d5081326ac298b9f47ebdd50954b056a6af1a97832885311d"
+  },
+  "data/sources/clery/normalized/raw_cohort_Publicpropertyvawa222324.csv": {
+    "bytes": 40769,
+    "sha256": "d3c11401188c56b17cb98a93984e2b6c465d112dea3c003a1ce4d8aab47e04e7"
+  },
+  "data/sources/clery/normalized/raw_cohort_Reportedarrest222324.csv": {
+    "bytes": 38903,
+    "sha256": "f8623d3b969c12e06c7bb284984da3ed7a4b4d65d65381a39f4d87ee8a4408e8"
+  },
+  "data/sources/clery/normalized/raw_cohort_Reportedcrime222324.csv": {
+    "bytes": 44177,
+    "sha256": "d4428514ee336be04d761472e9ad0e55321d49f1cfbcbe0f535508f948582f20"
+  },
+  "data/sources/clery/normalized/raw_cohort_Reporteddiscipline222324.csv": {
+    "bytes": 38903,
+    "sha256": "f8623d3b969c12e06c7bb284984da3ed7a4b4d65d65381a39f4d87ee8a4408e8"
+  },
+  "data/sources/clery/normalized/raw_cohort_Reportedhate222324.csv": {
+    "bytes": 121301,
+    "sha256": "3630c09842b26478d97a5b54f70b65ca70f8ff8e4dcc8119ca415fb8031a669f"
+  },
+  "data/sources/clery/normalized/raw_cohort_Reportedvawa222324.csv": {
+    "bytes": 38906,
+    "sha256": "61e65e139232faa35955b9f7cb26d6b2f6700a5e12e269f99f3c77d71bd51374"
+  },
+  "data/sources/clery/normalized/raw_cohort_Residencehallarrest222324.csv": {
+    "bytes": 39844,
+    "sha256": "51a81b7700ff9dbe0d8cc69a4bee198ebb09e896809e04220304b0d52d06f30b"
+  },
+  "data/sources/clery/normalized/raw_cohort_Residencehallcrime222324.csv": {
+    "bytes": 47738,
+    "sha256": "45c5b4d82e40a7e597805c62033c83decd65ce141f0f669eb5e264bca83b7f69"
+  },
+  "data/sources/clery/normalized/raw_cohort_Residencehalldiscipline222324.csv": {
+    "bytes": 40098,
+    "sha256": "81217ed8302cfcd91eb7c9b7f8f0092acb326eafaf943e90e7baafb30980e011"
+  },
+  "data/sources/clery/normalized/raw_cohort_Residencehallhate222324.csv": {
+    "bytes": 160487,
+    "sha256": "58c95aa177dd7884c554e1dbe964369d266c1410330d9b416e5398d7df21d22e"
+  },
+  "data/sources/clery/normalized/raw_cohort_Residencehallvawa222324.csv": {
+    "bytes": 39934,
+    "sha256": "f3805086eb6dc4ab9bba36d098d96827057fca0ffb3c6736f160c75c0f5f39d1"
+  },
+  "data/sources/clery/normalized/raw_cohort_Unfounded222324.csv": {
+    "bytes": 38207,
+    "sha256": "c3b0c63ad0027ccb01ca8634dc75772cab4770986c38919806aec51c86bd33d3"
+  },
+  "data/sources/clery/notes/codebook_fields_2025.json": {
+    "bytes": 588993,
+    "sha256": "dbf523ec985a0083216ff7b8d3f3da61ea15e2e5121e815ed2a71b5d0295a2b3"
+  },
+  "data/sources/clery/PUBLIC_FILES.json": {
+    "bytes": 11677,
+    "sha256": "ef55bedb5aa424613b637f35b557bc7cf5553069abf6b5dd167444d3536ac5d3"
+  },
+  "data/sources/clery/publication_raw_audit.json": {
+    "bytes": 2364,
+    "sha256": "183443b97d4668f707c9339530e56eb691939aec1c957371689fc836479bd56a"
+  },
+  "data/sources/clery/PUBLICATION_SOURCE_AUDIT.md": {
+    "bytes": 2980,
+    "sha256": "776136bdf0e077a25c71cc0795b54931a891f7d04f93254d54395168d25d28c4"
+  },
+  "data/sources/clery/README.md": {
+    "bytes": 4448,
+    "sha256": "eabdb707c8c8dea87472e96dc171a90047484150d85f1042184815bc0400c5ab"
+  },
+  "data/sources/clery/residential_applicability_2024_verification.json": {
+    "bytes": 805,
+    "sha256": "31fc6f67301051a585526fa9edd8ad3017a801526acc80d12dbfa2a1e4fddb02"
+  },
+  "data/sources/clery/source_metadata_primary_2025.json": {
+    "bytes": 13130,
+    "sha256": "1f9da59b8646e5578e647ab51faab69267cc4655786baf4425a7661e0ec2fad4"
+  },
+  "data/sources/enrollment/acquire_ipeds.py": {
+    "bytes": 2500,
+    "sha256": "535df9373db8524ca67aa91ab6e000f1a02e7dd0054b8142cb6435401d502191"
+  },
+  "data/sources/enrollment/acquire_references.py": {
+    "bytes": 1615,
+    "sha256": "caf472c14765335c069d1778727ca86dbf5e152b6c070df90af3036ee4ce5def"
+  },
+  "data/sources/enrollment/artifact_manifest.json": {
+    "bytes": 7059,
+    "sha256": "1c8d5c55b4f958bef8963441fe3d438857aa460ff39b8a9b6b324744428886b1"
+  },
+  "data/sources/enrollment/audit_published_rates.py": {
+    "bytes": 10966,
+    "sha256": "0feb3f712bed1b86896cd23ece6acdaf65439a8f1795faa4eb289d286b1ebc22"
+  },
+  "data/sources/enrollment/auditor_ipeds_enrollment_comparison.csv": {
+    "bytes": 4665,
+    "sha256": "0975de9657cdc4776b121feba8221977a24473e772f58d7aec44a1717a2d34f9"
+  },
+  "data/sources/enrollment/build_denominators.py": {
+    "bytes": 8042,
+    "sha256": "3f3957af996341afba69dfa138a6e199514800710676cf177eb46dd16822f640"
+  },
+  "data/sources/enrollment/build_occupancy.py": {
+    "bytes": 6385,
+    "sha256": "8678db289bc528690db7490e752fbc124e591b13d2e6fb1d9ff81926995a2dea"
+  },
+  "data/sources/enrollment/clery_bulk_enrollment_comparison.csv": {
+    "bytes": 6144,
+    "sha256": "aaa38c1417a2911705fc61eea561678a6cfb183a9966f7c2a9205abe269094cc"
+  },
+  "data/sources/enrollment/cohort_definition.csv": {
+    "bytes": 18653,
+    "sha256": "294a36c6e250444157a6ad4c7c0358b0c940509e3629328cc36d05931b1481ef"
+  },
+  "data/sources/enrollment/DATA_DICTIONARY.md": {
+    "bytes": 4262,
+    "sha256": "0521f78ae984f0c6bb876878c34bd940e9d0de294df38f972d3d0cb9e184f29b"
+  },
+  "data/sources/enrollment/DRVEF2024_dictionary.json": {
+    "bytes": 116616,
+    "sha256": "d8532de1ab7303d9fae181fd06a67a443f0a4dc838ae09efb866e76460c7ec62"
+  },
+  "data/sources/enrollment/EF2024A_dictionary.json": {
+    "bytes": 54282,
+    "sha256": "7b705f6771d8e442e032fdee139d9977a3c0c0366a53721c389b1f00209f3ef0"
+  },
+  "data/sources/enrollment/EF2024A_DIST_dictionary.json": {
+    "bytes": 23599,
+    "sha256": "69cbe612c7bad34d3b7025c3335bdaa4baffa3c57d8584920e0f858f2b00036a"
+  },
+  "data/sources/enrollment/enrollment_2022_2024.csv": {
+    "bytes": 73886,
+    "sha256": "feb695fa1a5e04cc457d9f1e43b9653a0b7fe28d1516f55cd122eac13944b43a"
+  },
+  "data/sources/enrollment/ENROLLMENT_METHODS.md": {
+    "bytes": 9042,
+    "sha256": "4fc0cd7afd584f62b25c13a2474d1344005a1f06ee155396e8fc3d9175e72826"
+  },
+  "data/sources/enrollment/enrollment_provenance.json": {
+    "bytes": 4383,
+    "sha256": "536ef6963e730eb78fa36c097b4777a8e3aa0df095581362a1b1138a40618b6e"
+  },
+  "data/sources/enrollment/housing_source_manifest.json": {
+    "bytes": 841,
+    "sha256": "a1ec0b1a4721b85e49c8fb1cbfa5855d1466dd7624a2a77e668e289badec80ee"
+  },
+  "data/sources/enrollment/INDEPENDENT_NUMERICAL_AUDIT.json": {
+    "bytes": 3089,
+    "sha256": "582bea45a43a4c911ac6931761e6ffb83487d16158dd51d7b0cb32d392d67b32"
+  },
+  "data/sources/enrollment/INDEPENDENT_NUMERICAL_AUDIT.md": {
+    "bytes": 1245,
+    "sha256": "3ddcdca63b1988958a2d5316ff6ae806da95d21b1c15557aaed49d86ee448c96"
+  },
+  "data/sources/enrollment/institution_crosswalk_verified.csv": {
+    "bytes": 8871,
+    "sha256": "de37e9cae0586d21ea7e0be170edef556b4525495ee834edb6620e405481ac87"
+  },
+  "data/sources/enrollment/occupancy_2022_2024.csv": {
+    "bytes": 19631,
+    "sha256": "9458879d1cbfd4e91b52c2fa16af937b6f958ee0de3735256e8a8c8046e1527f"
+  },
+  "data/sources/enrollment/occupancy_auditor_2019_2024.csv": {
+    "bytes": 38981,
+    "sha256": "dd6bdbd04f6f4d79270272c43e3977dbb03d41f57d36a578ab21262a9bea6091"
+  },
+  "data/sources/enrollment/occupancy_availability_2022_2024.csv": {
+    "bytes": 19093,
+    "sha256": "62e21ddab238003b4be943c0e3a3311f4b034d4a3b79e4bb993b528b4c3e8d62"
+  },
+  "data/sources/enrollment/occupancy_provenance.json": {
+    "bytes": 810,
+    "sha256": "906101b9bfb7f1b03c56e82421abde070af4440c02d397518a6496b087aefd01"
+  },
+  "data/sources/enrollment/offline_reproduction_check.json": {
+    "bytes": 539,
+    "sha256": "1d989414475f78b5d44368a69f22b858f808e92cb4997ee0809c14ba5bba4fea"
+  },
+  "data/sources/enrollment/prepare_reproduction_inputs.py": {
+    "bytes": 1706,
+    "sha256": "cad80f80ac93060e7ff8602ec2b74ab4b302a1ec3ac120d8791867c048fb827e"
+  },
+  "data/sources/enrollment/raw_manifest.json": {
+    "bytes": 7501,
+    "sha256": "98c918b0cdc7806d4e36d52f952a21db1ed941263c0ac8795b019d90be0d86c4"
+  },
+  "data/sources/enrollment/README.md": {
+    "bytes": 1353,
+    "sha256": "965166faa2c9a6f2d9da8f528c8b161ea1087d11684eb502fe05a8eafd6ee244"
+  },
+  "data/sources/enrollment/reproduction_inputs/DRVEF2022_cohort.csv.gz": {
+    "bytes": 917,
+    "sha256": "845ff4b7cacc2208163a8e97138a36672b8daac4b5fdcd2f49fb646cafa05596"
+  },
+  "data/sources/enrollment/reproduction_inputs/DRVEF2023_cohort.csv.gz": {
+    "bytes": 918,
+    "sha256": "750337287288b72e3daccf1f69c35724d9f53fcadc38defecb7fec3f5edfa7d9"
+  },
+  "data/sources/enrollment/reproduction_inputs/DRVEF2024_cohort.csv.gz": {
+    "bytes": 916,
+    "sha256": "a71e9e7956cb40d009d1937b3a4c7f6abef45129c51f5efae9badc53772cac3a"
+  },
+  "data/sources/enrollment/reproduction_inputs/EF2022A_cohort.csv.gz": {
+    "bytes": 361,
+    "sha256": "48c9470db1bdbb519ae4e908d93b09283b8d0c6010156a43d959cf7b7dce8470"
+  },
+  "data/sources/enrollment/reproduction_inputs/EF2022A_DIST_cohort.csv.gz": {
+    "bytes": 725,
+    "sha256": "4a92913d3cb73dc95d6cc0f2c11c80184da85339ee1c23a9d76eb24c8374a463"
+  },
+  "data/sources/enrollment/reproduction_inputs/EF2023A_cohort.csv.gz": {
+    "bytes": 361,
+    "sha256": "a2bf5c478046dcbbe671b12bca88a1d2ec4e9274b40a3a196e0cd43c63124ca7"
+  },
+  "data/sources/enrollment/reproduction_inputs/EF2023A_DIST_cohort.csv.gz": {
+    "bytes": 727,
+    "sha256": "ca92e32cc97bf651bf6dd8369a8760bf7a1b0006a2a6bbc3ace9a04549f6b1b9"
+  },
+  "data/sources/enrollment/reproduction_inputs/EF2024A_cohort.csv.gz": {
+    "bytes": 360,
+    "sha256": "523ae6e4d7e5487fd2f663108dccd75986afe4e14a0c2fc47386b3680bd21dcc"
+  },
+  "data/sources/enrollment/reproduction_inputs/EF2024A_DIST_cohort.csv.gz": {
+    "bytes": 718,
+    "sha256": "d390627b5bbdce6eac48c737d69f99373fcaedbb6aadb02b8904b0025b095294"
+  },
+  "data/sources/enrollment/reproduction_inputs/HD2022_cohort.csv.gz": {
+    "bytes": 1143,
+    "sha256": "22c4c0a9077888e89ea71e84843a398dfdd4cc65ac73c6ebae81ed2f4871f05e"
+  },
+  "data/sources/enrollment/reproduction_inputs/HD2023_cohort.csv.gz": {
+    "bytes": 1145,
+    "sha256": "eac0ca7df9bbc7fe0e2dfd20009fdfb2b60d08003cc7f5baa097507fdcb4c05e"
+  },
+  "data/sources/enrollment/reproduction_inputs/HD2024_cohort.csv.gz": {
+    "bytes": 1145,
+    "sha256": "eac0ca7df9bbc7fe0e2dfd20009fdfb2b60d08003cc7f5baa097507fdcb4c05e"
+  },
+  "data/sources/enrollment/reproduction_inputs/manifest.json": {
+    "bytes": 6771,
+    "sha256": "69225e08f54b36bfef821cfc3b3ec5fdac681d42f73a3857956f8b399a141ca1"
+  },
+  "data/verified_asr_rape_counts.csv": {
+    "bytes": 1549,
+    "sha256": "0fa6ee65cab590904bf8d9d79c1afd92f45a81d06af4c6e353611021f762323e"
+  },
+  "data/verify_public_claim_values.py": {
+    "bytes": 10481,
+    "sha256": "720d63b466fb0625ab9f2b73ecbe649f9bdc0a4a3e3b3f80f83bfb106a01a08a"
+  },
+  "data/VISUAL_AUDIT.md": {
+    "bytes": 3015,
+    "sha256": "35be808d045151713ed10c0317c457512e7e3184f8a341eac0ed1a673b3f2f02"
+  },
+  "downloads/campus-safety-report.pdf": {
+    "bytes": 206075,
+    "sha256": "8a0efc6be9634ac85d7fe815c153961e721ac24e714fe66e8cdd5df05eceaa88"
+  },
+  "downloads/campus-safety-reproducibility.zip": {
+    "bytes": 1865846,
+    "sha256": "d5dd6b1a440af77384ce1847d8e5c9f9f52f29c9a060f8a4120bccbe968c4002"
+  }
+}

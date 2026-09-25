@@ -1,0 +1,20 @@
+{
+  "2024-111-Report.pdf": {
+    "url": "https://www.auditor.ca.gov/wp-content/uploads/2025/10/2024-111-Report.pdf",
+    "sha256": "4057db7b14e1b85bb6980ad19455f873b474358d9f10fd0725e0ac68a24504b6",
+    "bytes": 4508391,
+    "retrieved_utc": "2026-09-25T09:35:53.081978+00:00"
+  },
+  "CDS_UCSD_2024-20253.pdf": {
+    "url": "https://ir.ucsd.edu/stats/undergrad/CDS_UCSD_2024-20253.pdf",
+    "sha256": "efd047ecb6f1061e9eb5c669dbee79b3c5df6bd2b50dcc8b913b7eeb1b5b489d",
+    "bytes": 547757,
+    "retrieved_utc": "2026-09-25T09:35:53.095094+00:00"
+  },
+  "SDSU_CDS_2024-25.pdf": {
+    "url": "https://asir.sdsu.edu/Documents/CommonDataSets/CDS_2024-25.pdf",
+    "sha256": "647b004a5059a11cfd2f24ad51932016c2ca3482cf0f6f92b125bc7a90354df1",
+    "bytes": 499062,
+    "retrieved_utc": "2026-09-25T09:48:10.894395+00:00"
+  }
+}

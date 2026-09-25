@@ -1,0 +1,127 @@
+unitid,label,year,actual_student_housing_occupancy,status,reason
+110635,UC Berkeley,2022,9695,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110635,UC Berkeley,2023,9905,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110635,UC Berkeley,2024,10862,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110644,UC Davis,2022,13608,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110644,UC Davis,2023,14081,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110644,UC Davis,2024,15024,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110653,UC Irvine,2022,16455,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110653,UC Irvine,2023,17675,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110653,UC Irvine,2024,17695,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110662,UCLA,2022,22519,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110662,UCLA,2023,23680,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110662,UCLA,2024,24202,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+445188,UC Merced,2022,4086,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+445188,UC Merced,2023,4179,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+445188,UC Merced,2024,4077,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110671,UC Riverside,2022,8493,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110671,UC Riverside,2023,8428,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110671,UC Riverside,2024,8465,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110680,UC San Diego,2022,17906,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110680,UC San Diego,2023,18906,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110680,UC San Diego,2024,21907,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110699,UC San Francisco,2022,738,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110699,UC San Francisco,2023,754,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110699,UC San Francisco,2024,832,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110705,UC Santa Barbara,2022,10221,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110705,UC Santa Barbara,2023,10128,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110705,UC Santa Barbara,2024,10286,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110714,UC Santa Cruz,2022,9168,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110714,UC Santa Cruz,2023,9313,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+110714,UC Santa Cruz,2024,8888,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+217156,Brown,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+217156,Brown,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+217156,Brown,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+190150,Columbia,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+190150,Columbia,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+190150,Columbia,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+190415,Cornell,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+190415,Cornell,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+190415,Cornell,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+182670,Dartmouth,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+182670,Dartmouth,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+182670,Dartmouth,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+166027,Harvard,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+166027,Harvard,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+166027,Harvard,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+215062,Pennsylvania,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+215062,Pennsylvania,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+215062,Pennsylvania,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+186131,Princeton,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+186131,Princeton,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+186131,Princeton,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+130794,Yale,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+130794,Yale,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+130794,Yale,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+122409,San Diego State,2022,7919,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+122409,San Diego State,2023,8100,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+122409,San Diego State,2024,8367,actual_occupancy_found_geography_unverified,Actual occupants documented; Clery property correspondence not established.
+139755,Georgia Tech,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+139755,Georgia Tech,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+139755,Georgia Tech,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+145637,Illinois Urbana-Champaign,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+145637,Illinois Urbana-Champaign,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+145637,Illinois Urbana-Champaign,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+170976,Michigan Ann Arbor,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+170976,Michigan Ann Arbor,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+170976,Michigan Ann Arbor,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+199120,North Carolina Chapel Hill,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+199120,North Carolina Chapel Hill,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+199120,North Carolina Chapel Hill,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+204796,Ohio State Columbus,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+204796,Ohio State Columbus,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+204796,Ohio State Columbus,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+214777,Penn State University Park,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+214777,Penn State University Park,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+214777,Penn State University Park,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+228778,Texas Austin,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+228778,Texas Austin,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+228778,Texas Austin,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+134130,Florida,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+134130,Florida,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+134130,Florida,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+234076,Virginia,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+234076,Virginia,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+234076,Virginia,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+236948,Washington Seattle,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+236948,Washington Seattle,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+236948,Washington Seattle,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+240444,Wisconsin Madison,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+240444,Wisconsin Madison,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+240444,Wisconsin Madison,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+110404,Caltech,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+110404,Caltech,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+110404,Caltech,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+211440,Carnegie Mellon,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+211440,Carnegie Mellon,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+211440,Carnegie Mellon,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+144050,Chicago,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+144050,Chicago,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+144050,Chicago,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+198419,Duke,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+198419,Duke,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+198419,Duke,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+131496,Georgetown,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+131496,Georgetown,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+131496,Georgetown,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+162928,Johns Hopkins,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+162928,Johns Hopkins,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+162928,Johns Hopkins,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+166683,MIT,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+166683,MIT,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+166683,MIT,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+147767,Northwestern,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+147767,Northwestern,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+147767,Northwestern,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+152080,Notre Dame,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+152080,Notre Dame,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+152080,Notre Dame,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+193900,NYU,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+193900,NYU,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+193900,NYU,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+243744,Stanford,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+243744,Stanford,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+243744,Stanford,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+123961,USC,2022,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+123961,USC,2023,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.
+123961,USC,2024,,not_sourced,No verified actual all-student housing-occupancy source acquired in this bounded source pass; blank is not zero.

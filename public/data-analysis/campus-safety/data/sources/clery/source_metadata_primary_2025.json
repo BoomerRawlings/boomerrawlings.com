@@ -1,0 +1,342 @@
+{
+  "status": "PASS",
+  "snapshot_utc": "2026-09-25T09:37:32.623045+00:00",
+  "portal": "https://ope.ed.gov/campussafety/#/datafile/list",
+  "collection_year": 2025,
+  "report_years": [
+    2022,
+    2023,
+    2024
+  ],
+  "scope": "Primary frozen collection and official instructions only. No historical source vintage is used in the primary rates.",
+  "files": [
+    {
+      "filename": "2025_Campus_Safety_Users_Guide.pdf",
+      "url": "https://surveys.ope.ed.gov/csss2025/wwwroot/documents/Campus_Safety_Users_Guide.pdf",
+      "kind": "official survey instructions",
+      "bytes": 2866014,
+      "sha256": "4f65c03dc75e2e789a190e9406fa30f9b5dab62556853000def50b319dba1302",
+      "verified_utc": "2026-09-25T09:36:56.599064+00:00",
+      "archive_members": [],
+      "initial_retrieval_note": "Initial discovery download already present; original HTTP headers were not retained."
+    },
+    {
+      "filename": "Crime2025EXCEL.zip",
+      "url": "https://ope.ed.gov/campussafety/api/dataFiles/file?fileName=Crime2025EXCEL.zip",
+      "collection_year": 2025,
+      "calendar_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "official_catalog": {
+        "FileName": "Crime2025EXCEL.zip",
+        "LinkName": "Data for calendar years 2022-24",
+        "Description": "Data are stored in 29 Excel files. The files contain a record for every institution. In addition, codebooks for each file are provided in Microsoft Word format, as well as a ReadMe.txt file containing file descriptions.",
+        "Year": 2025,
+        "Format": "Excel"
+      },
+      "bytes": 38213941,
+      "sha256": "28143ab29f9f9d43235800a3f1f4061b8f2928a7d11bce0e8327d2889ab6f007",
+      "verified_utc": "2026-09-25T09:36:56.507235+00:00",
+      "archive_members": [
+        {
+          "name": "Noncampusarrest222324.xls",
+          "bytes": 3183616,
+          "sha256": "4e7755270395e8ef3c8899f69d457cb15eb5bfb529ba3688cc84ae65cc60e3e2"
+        },
+        {
+          "name": "noncampusarrest222324_Doc.doc",
+          "bytes": 55808,
+          "sha256": "383fa95c7eceea113a53ea17d10e4b9540874d6729aa0ccfbcc3e345f9e71ae5"
+        },
+        {
+          "name": "Noncampuscrime222324.xls",
+          "bytes": 3584000,
+          "sha256": "daf1b483091330da0d739a4d0ae800058a4b7fd272ca8d8cc8ed48eb55a24f2a"
+        },
+        {
+          "name": "noncampuscrime222324_Doc.doc",
+          "bytes": 85504,
+          "sha256": "cc9ac533eea0474dc21e4f02fc9d9e203bdd1116a611bd80374edc86d37f3e4b"
+        },
+        {
+          "name": "Noncampusdiscipline222324.xls",
+          "bytes": 3183616,
+          "sha256": "78f2d532128a37a82858ec5f2c93ce7f7315aa498f2217b5626b0c4910fb671b"
+        },
+        {
+          "name": "noncampusdiscipline222324_Doc.doc",
+          "bytes": 56832,
+          "sha256": "ffb940be41bb25421f8b766940eeba68c9187a3c85fb31bdfe8e27816f18149d"
+        },
+        {
+          "name": "Noncampushate222324.xlsx",
+          "bytes": 4346874,
+          "sha256": "12931797dce381ba3413b012779d37c376d50e4b0bea7da6a4fef793c54be53b"
+        },
+        {
+          "name": "noncampushate222324_Doc.doc",
+          "bytes": 613376,
+          "sha256": "d8775f98fd2c741f815880531c210b6923b1867faaddd722e339e309b51d5e36"
+        },
+        {
+          "name": "Noncampusvawa222324.xls",
+          "bytes": 3183616,
+          "sha256": "67b0b036b9153ee8f71369e66172590d1e044062bc44b0bd70eba72cb42b52fa"
+        },
+        {
+          "name": "noncampusvawa222324_Doc.doc",
+          "bytes": 61440,
+          "sha256": "418164a01710e0d79a03c630b59648f0bfc1d7c812b7b72803770bc2040e069f"
+        },
+        {
+          "name": "Oncampusarrest222324.xls",
+          "bytes": 3491328,
+          "sha256": "677fcc133908b56dbf72eee89d40673ef5f0ce5086ff991517a02ce5761f9ec2"
+        },
+        {
+          "name": "oncampusarrest222324_Doc.doc",
+          "bytes": 55808,
+          "sha256": "81cf30b83d55daed18bff61200cfcbb80090cac132004ad609c1d033362704a0"
+        },
+        {
+          "name": "Oncampuscrime222324.xls",
+          "bytes": 4934656,
+          "sha256": "dcc6179e663d469f32cba9c98f615eec54f20e0acfbd4ea171bcac6519410ccc"
+        },
+        {
+          "name": "oncampuscrime222324_Doc.doc",
+          "bytes": 85504,
+          "sha256": "29d69599d04f7c4ad88f477f9d156deba2798342caee91bf8a570646e2f61075"
+        },
+        {
+          "name": "Oncampusdiscipline222324.xls",
+          "bytes": 3491328,
+          "sha256": "164b9e07bd411002ce14c6449763941e2d787f708ab5e8e4b918d38ed30c02ff"
+        },
+        {
+          "name": "oncampusdiscipline222324_Doc.doc",
+          "bytes": 56832,
+          "sha256": "1f8ec36c96cf0ba8c43bf02dcca4f598f9e6500358698b829844d47a9276a53e"
+        },
+        {
+          "name": "Oncampushate222324.xlsx",
+          "bytes": 11770642,
+          "sha256": "94b13fb3d7c3809bb67c1f5e7e78a7008279ab40f3e5fe371b55e6498214f113"
+        },
+        {
+          "name": "oncampushate222324_Doc.doc",
+          "bytes": 613376,
+          "sha256": "81493d61b2551e8816239907c8ffbde2f653fea2c99e397a0dec68cf64f1be0e"
+        },
+        {
+          "name": "Oncampusvawa222324.xls",
+          "bytes": 3491328,
+          "sha256": "070be67c460af3e77e2eee318d0420449a535382c2b2689b665be78a11433b96"
+        },
+        {
+          "name": "oncampusvawa222324_Doc.doc",
+          "bytes": 61440,
+          "sha256": "9d39e80b543059919d99ef6cdb316b148f5203f1d48d9847d743db0a55d549fb"
+        },
+        {
+          "name": "Publicpropertyarrest222324.xls",
+          "bytes": 3491328,
+          "sha256": "01b31935b1ad1dc4fac2850b9b3b14281311463bfce4aa346c2b62d769243c55"
+        },
+        {
+          "name": "publicpropertyarrest222324_Doc.doc",
+          "bytes": 55808,
+          "sha256": "15f7c312d683e57986d55afda9b27ed660f4cffba8ed344870def08993597fd8"
+        },
+        {
+          "name": "Publicpropertycrime222324.xls",
+          "bytes": 4934656,
+          "sha256": "5d16371dee2e6185e505dab4e638cd25754edb758c82aadeba35b262867c0bac"
+        },
+        {
+          "name": "publicpropertycrime222324_Doc.doc",
+          "bytes": 85504,
+          "sha256": "1e9d825fed7efa3841568998f0b93f145d43eaf73141dd4e6430e17457ea00fd"
+        },
+        {
+          "name": "Publicpropertydiscipline222324.xls",
+          "bytes": 3491328,
+          "sha256": "4c63dcb1d0a442f40ac4bd7fedb127c8a835e021f80ffb4890e5abd8c2d60a45"
+        },
+        {
+          "name": "publicpropertydiscipline222324_Doc.doc",
+          "bytes": 56832,
+          "sha256": "a2c74f4a66b811d61fa2877937c034a6def812dabdb035fdbd884aa347c5db5e"
+        },
+        {
+          "name": "Publicpropertyhate222324.xlsx",
+          "bytes": 11753835,
+          "sha256": "3ccd8dd6a0ee5849a31498327cb8e82b263abd4d292795f95b34f11171334eff"
+        },
+        {
+          "name": "publicpropertyhate222324_Doc.doc",
+          "bytes": 613376,
+          "sha256": "3ffa9a1cb1db1d83faa12e50779b4cf3a4922c808f86015d952150ee7ca264a0"
+        },
+        {
+          "name": "Publicpropertyvawa222324.xls",
+          "bytes": 3491328,
+          "sha256": "c0fcf9a746d10e02c9cbe01910778c118a20bead0ae801f33891d8c4d3a07009"
+        },
+        {
+          "name": "publicpropertyvawa222324_Doc.doc",
+          "bytes": 61440,
+          "sha256": "42731e34952f73fb38bfb5d5791b83bfa7ebd523e8dbcf4b10be33438eb57fdc"
+        },
+        {
+          "name": "ReadMe.txt",
+          "bytes": 5395,
+          "sha256": "f345658ad78bddf6d54e40e8af162ca6c9ad510f24f533a7c816695ac31bc5e6"
+        },
+        {
+          "name": "Reportedarrest222324.xls",
+          "bytes": 3048448,
+          "sha256": "e634f05943b609a55aa1f02121b9d9ff77198d7e85e9c7ba736833cf9b816965"
+        },
+        {
+          "name": "reportedarrest222324_Doc.doc",
+          "bytes": 55808,
+          "sha256": "8bd637279ccb31794c9da985cd88f4d477e6e5e9605070d36ce197e4a10c54df"
+        },
+        {
+          "name": "Reportedcrime222324.xls",
+          "bytes": 3049472,
+          "sha256": "4c4f665952394adf05120e32033efb73519ea0f0596aca84bee23ce1fad864a9"
+        },
+        {
+          "name": "reportedcrime222324_Doc.doc",
+          "bytes": 85504,
+          "sha256": "e23f11bd0e1d0cace9cb8888c72cd91a9f5b0af8fcb858eb29c22a3c0f17c595"
+        },
+        {
+          "name": "Reporteddiscipline222324.xls",
+          "bytes": 3048448,
+          "sha256": "693f218c9aa0d8c68868f9985af4e2781ba0cc99dee53b0d66673ca41ca88187"
+        },
+        {
+          "name": "reporteddiscipline222324_Doc.doc",
+          "bytes": 56832,
+          "sha256": "ea1f7955494ff1beade2d2a7960f3a914e87567919bdaf9f708084ebb19aadb3"
+        },
+        {
+          "name": "Reportedhate222324.xlsx",
+          "bytes": 1194378,
+          "sha256": "69aed866d2519bb52d3470876dcf061d688417c914fb1d95a68e036d3969245e"
+        },
+        {
+          "name": "reportedhate222324_Doc.doc",
+          "bytes": 613376,
+          "sha256": "631918bf65cf5ac88757d2642fef771f3dcb161540a10f69a5e5401a026aaf8b"
+        },
+        {
+          "name": "Reportedvawa222324.xls",
+          "bytes": 3048448,
+          "sha256": "b0a318277d116bf9bacfa41e4d7c91b3ca5dcfb9bae8403d6b813b158a595309"
+        },
+        {
+          "name": "reportedvawa222324_Doc.doc",
+          "bytes": 61440,
+          "sha256": "6bfb355378c148f8533188eaafda8e5ce670264f373ba4c59de866a50fd76bd1"
+        },
+        {
+          "name": "Residencehallarrest222324.xls",
+          "bytes": 3156992,
+          "sha256": "7c5aac4b37c2715dbb230516699202ddcbd42e640da0932dc114b180a5017e7a"
+        },
+        {
+          "name": "residencehallarrest222324_Doc.doc",
+          "bytes": 55808,
+          "sha256": "e95d671062772ab53e6270833268af88ff3bf3f8001539df031f151a1b2e8dfa"
+        },
+        {
+          "name": "Residencehallcrime222324.xls",
+          "bytes": 3511808,
+          "sha256": "774cb540068889d57ef98cbacdfdb8ad2ad630a0725343ac0fd872b1c3f11946"
+        },
+        {
+          "name": "residencehallcrime222324_Doc.doc",
+          "bytes": 85504,
+          "sha256": "01e876f78c9ac490fbc9e51268d67c452962aad4df82142119fbe77764a231df"
+        },
+        {
+          "name": "Residencehalldiscipline222324.xls",
+          "bytes": 3156992,
+          "sha256": "09a269e6e6b6f354cda12102c532374227751e72c8be125ee0829069e8a0a001"
+        },
+        {
+          "name": "residencehalldiscipline222324_Doc.doc",
+          "bytes": 56832,
+          "sha256": "0dae494c909951b0ad059e06f5a09016849e1c70b547aa95fd0242cd8f78311d"
+        },
+        {
+          "name": "Residencehallfire22.xls",
+          "bytes": 10265600,
+          "sha256": "09958dcc46e986299411a895786fd451515f5ea9e23030101356c7fae3f93137"
+        },
+        {
+          "name": "residencehallfire22_Doc.doc",
+          "bytes": 54272,
+          "sha256": "e206b5702702eb43d9b4664a3dc0981721f8652055b4d3846aa38cd6d4b576e2"
+        },
+        {
+          "name": "Residencehallfire23.xls",
+          "bytes": 10173440,
+          "sha256": "8bfa03d27b56791286b2e1396d23f990be12b37b3c11194573ae7a05e2b4c4db"
+        },
+        {
+          "name": "residencehallfire23_Doc.doc",
+          "bytes": 54784,
+          "sha256": "c74449eb91e48968f33b6750e9747b8a9ccc92964f7ff06ab278b1e39dbeeefb"
+        },
+        {
+          "name": "Residencehallfire24.xls",
+          "bytes": 10138112,
+          "sha256": "723767656bb9ba171c0464f0b9e55167e30e4e84ead030e172a7911071d5b580"
+        },
+        {
+          "name": "residencehallfire24_Doc.doc",
+          "bytes": 54272,
+          "sha256": "16b6f31491227626f90b2f399a19c6a7770e771b635275d15e9d2180831ee120"
+        },
+        {
+          "name": "Residencehallhate222324.xlsx",
+          "bytes": 3917488,
+          "sha256": "d2400821029131ad46f74d2a5a4a87e26efaaf0b1fd31327ee83a842dc91d33d"
+        },
+        {
+          "name": "residencehallhate222324_Doc.doc",
+          "bytes": 613376,
+          "sha256": "4ee73b75cb18105174ae1a7879f9196d365ffc3738f35ac98dd483ea509d715a"
+        },
+        {
+          "name": "Residencehallvawa222324.xls",
+          "bytes": 3156992,
+          "sha256": "7d93857ea856a00effd32da55aa762e6dce526c85269722080fa911a4928ac10"
+        },
+        {
+          "name": "residencehallvawa222324_Doc.doc",
+          "bytes": 61440,
+          "sha256": "851d64d74747d85fcf4d16bf8cf76365e3455e6625cc07b00db218c89e7f221c"
+        },
+        {
+          "name": "Unfounded222324.xls",
+          "bytes": 3130368,
+          "sha256": "ccda4c7349c35791aa2891b5d1e041051f5bd986133b9de7827c263eb35c58d0"
+        },
+        {
+          "name": "unfounded222324_Doc.doc",
+          "bytes": 51712,
+          "sha256": "7c7e3cd05261d4c0aef79dedb36dde6b5ff95dc70d9dcfa400ace3fbfc86299c"
+        }
+      ],
+      "initial_retrieval_note": "Initial discovery download already present; original HTTP headers were not retained."
+    }
+  ]
+}

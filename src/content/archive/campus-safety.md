@@ -1,0 +1,78 @@
+---
+title: Campus safety, in proportion
+slug: campus-safety
+type: data-analysis
+date: 2026-09-25
+status: published
+description: Reported campus offenses relative to enrollment and documented housing occupancy, across the University of California, Ivy League and selected public and private universities.
+analysisPeriod: 2022–2024 report years · 42 institutions · Enrollment and residential denominators
+tags: [Campus safety, Higher education, Public records, Per capita, Clery Act]
+---
+
+## What is being compared?
+
+The unit is a **reported Clery offense**, divided by a documented population denominator. The analysis covers the ten University of California institutions, eight Ivy League institutions, San Diego State, and 23 additional public and private research universities. This fixed comparison set is purposive; it does not represent all U.S. higher education. Institutions were selected before this study calculated their rates. The originating shared research had already identified several UC and San Diego State results. [Study protocol](/data-analysis/campus-safety/data/PROTOCOL.md).
+
+Counts come from the U.S. Department of Education's **2025 Campus Safety and Security collection**, covering calendar report years **2022–2024**. That is the latest public bulk collection found at retrieval on 25 September 2026. The study keeps one collection vintage throughout; it does not select a different release for each institution or replace particular counts with more favorable values. Institutional annual security reports can contain different or corrected values. Known differences are documented separately. [Federal data portal](https://ope.ed.gov/campussafety/#/datafile/list), [source manifest](/data-analysis/campus-safety/data/source_manifest.json).
+
+Clery assigns offenses to the year they were reported to a campus security authority or local police, which need not be the year they occurred. [34 CFR § 668.46(c)(3)](https://www.ecfr.gov/current/title-34/subtitle-B/chapter-VI/part-668/subpart-D/section-668.46#p-668.46(c)(3)). Reports may concern students, staff or visitors. A count is neither a unique-victim count nor a count of report forms. Consequently, these rates do not estimate the proportion of students victimized. [NCES scope notes](https://nces.ed.gov/programs/coe/indicator/a21), [UCSC counting example, printed p. 11](https://bpb-us-w2.wpmucdn.com/wordpress.ucsc.edu/dist/d/120/files/2025/09/2025-UC-Santa-Cruz-ASFSR_online-3.pdf#page=12).
+
+## Geography and categories
+
+**On campus** is a legal reporting geography, not a synonym for a university's city or every place its students live. **On-campus student housing is a subset of on-campus geography.** It is never added a second time. Noncampus property and adjacent public property are distinct reporting areas; neither is included in the explorer's on-campus rate. The underlying download retains the other source tables for inspection. [34 CFR § 668.46(a), (c)(5)](https://www.ecfr.gov/current/title-34/subtitle-B/chapter-VI/part-668/subpart-D/section-668.46).
+
+The default category sums eleven listed criminal-offense categories: murder/nonnegligent manslaughter, negligent manslaughter, rape, fondling, incest, statutory rape, robbery, aggravated assault, burglary, motor vehicle theft and arson. This is a sum of reported offenses, not deduplicated incidents. **Domestic violence, dating violence and stalking** are available separately under the federal VAWA categories. They can overlap other criminal classifications and must not be added to the default total. Arrests, disciplinary referrals and hate-crime classifications are not combined with these measures. [Federal survey instructions](https://surveys.ope.ed.gov/csss2025/wwwroot/documents/Campus_Safety_Users_Guide.pdf), [category dictionary](/data-analysis/campus-safety/data/category_dictionary.csv).
+
+The institution is identified by its IPEDS UNITID. Federal reporting campuses are aggregated within that institution; an institution's enrollment is counted once, not once per reporting campus. This can include medical facilities, satellite locations and international reporting campuses. The explorer lists every included campus. Institution-wide results should not be described as the crime rate at a single main campus. [Campus crosswalk](/data-analysis/campus-safety/data/campus_crosswalk.csv), [survey instructions, pp. 2–3](https://surveys.ope.ed.gov/csss2025/wwwroot/documents/Campus_Safety_Users_Guide.pdf#page=5).
+
+## Population denominators
+
+The principal denominator is **fall enrolled headcount**, including undergraduate and graduate/professional students, full time and part time, as reported to IPEDS. Each report year uses the fall population from that same calendar year. A fall snapshot approximates institutional size; it is not measured time physically present on campus. Exclusively distance-enrolled students remain in the institutional denominator, and their counts are retained in the data. Removing them would require assumptions about which students were exposed to each reporting location. [IPEDS complete files and dictionaries](https://nces.ed.gov/ipeds/use-the-data/download-access-database), [denominator records](/data-analysis/campus-safety/data/enrollment_denominators.csv).
+
+The residential view uses **actual reported occupancy**, not available beds or a percentage of undergraduates living in housing. California State Auditor Report 2024-111 supplies fall 2022, 2023 and 2024 occupancy for all ten UCs and San Diego State. Its housing inventory has **not been reconciled property by property with Clery's residential geography**. These ratios are therefore an approximate housing normalization, even though the occupancy values themselves are documented. Resident-normalized rates for the other institutions remain unavailable; missing resident counts are not estimated from bed capacity. [State Auditor, Tables A.1–A.2, printed pp. 56–59](https://www.auditor.ca.gov/wp-content/uploads/2025/10/2024-111-Report.pdf#page=62).
+
+The alternative **housing reports per enrolled student** uses the housing numerator with total enrollment. It permits a consistent enrollment-based comparison of reported housing offenses across institutions, but it is not a measure of risk among residents. The interface labels each numerator/population combination explicitly.
+
+## Rate calculations
+
+For institution $i$ and report year $t$, the annual descriptive rate is
+
+$$
+R_{it}=k\,\frac{C_{it}}{N_{it}}.
+$$
+
+Here, $C_{it}$ is the selected reported-offense count, $N_{it}$ is the corresponding fall population, and $k$ is 1,000 by default, or 10,000 when selected. Changing the scale changes the numerical unit, not the comparison.
+
+The pooled annual rate for 2022–2024 is
+
+$$
+R_{i,\mathrm{pooled}}
+=k\,\frac{\sum_{t=2022}^{2024}C_{it}}
+{\sum_{t=2022}^{2024}N_{it}}.
+$$
+
+The denominator is the **sum of three annual population snapshots**. It does not count unique students across three years. Pooling is equivalent to an enrollment- or occupancy-weighted mean of the three annual rates; it is not their unweighted average. The pooled result remains a rate per year, rather than a three-year cumulative victimization probability. Counts and population sums accompany every displayed rate.
+
+Calculations retain full precision until display. An observed zero remains zero. Missing, inapplicable and unavailable source entries retain distinct processing statuses; an unknown cell is never replaced by zero. A selected rate is withheld when any required count or population is unavailable. The downloadable records identify these cases and preserve the federal source values and year-availability indicators. [Processing and coverage audit](/data-analysis/campus-safety/data/COVERAGE.md), [annual rates](/data-analysis/campus-safety/data/annual_rates.csv).
+
+For 2024 residential totals, the frozen count files are supplemented by official federal API declarations for survey year 2024: 103 reporting campuses provide numeric housing counts; 109 explicitly report no housing. The latter are excluded as an absent geography, while their original cells remain blank. This rule is not applied to earlier years. The API snapshot may include updates after the closed bulk file; its role and retrieval metadata are separately identified. [Coverage amendment](/data-analysis/campus-safety/data/AMENDMENT.md), [2024 applicability audit](/data-analysis/campus-safety/data/sources/clery/residential_applicability_2024_verification.json).
+
+## Interpreting differences
+
+A larger reporting rate can reflect more offending, more disclosure, differences in geography or recording, or a combination of these. These data cannot separate those mechanisms. Conversely, a small or zero count does not establish that no victimization occurred. No institution is labeled “safest” or “most dangerous,” and no causal interpretation is attached to differences.
+
+The comparison is descriptive. No hypothesis tests, confidence bands or significance-based rankings are presented. An assumed Poisson process would not account for unmeasured reporting or population-boundary error; a binomial interpretation would incorrectly treat offenses as unique victimized students. Multiple offenses disclosed together also undermine a simple independent-events interpretation. [Related research review](/data-analysis/campus-safety/data/RESEARCH_REVIEW.md), [UC Santa Cruz 2025 report, p. 11](https://bpb-us-w2.wpmucdn.com/wordpress.ucsc.edu/dist/d/120/files/2025/09/2025-UC-Santa-Cruz-ASFSR_online-3.pdf#page=12).
+
+## Comparison with other research
+
+NCES's national campus-crime indicator also places administrative counts over a population denominator, but uses **full-time-equivalent enrollment** and reports per 10,000 FTE students. This study uses enrolled headcount or documented residents. The resulting numbers are not interchangeable; simply changing the scale to 10,000 does not turn headcount into FTE. [NCES, Criminal Incidents at Postsecondary Institutions](https://nces.ed.gov/programs/coe/indicator/a21).
+
+Campus-climate surveys address a different question: respondents' experiences of victimization within a survey's stated population and recall period. The Bureau of Justice Statistics' Campus Climate Survey Validation Study compared survey estimates with Clery reports across nine pilot schools. Its analysis illustrates why population, geography and reporting to authorities must be aligned before comparing survey and administrative figures. Neither source can be treated as a direct substitute for the other. [BJS, Campus Climate Survey Validation Study](https://bjs.ojp.gov/content/pub/pdf/ccsvsftr.pdf#page=131).
+
+These precedents inform the definitions and limits here. They do not validate a causal claim about any institution or supply a universal correction for underreporting. The separate review records the design, population, numerator and denominator of each study considered. [Primary-research comparison](/data-analysis/campus-safety/data/RESEARCH_REVIEW.md).
+
+## Reproducibility and independent checks
+
+Public files include the fixed cohort, reporting-campus crosswalk, source-derived counts and population records, exact source URLs and hashes, category definitions, annual rates, pooled calculations, and calculation code. Source-specific extraction scripts retain field and row references. The study archive reproduces rates from the published aggregate inputs; re-extraction from the original national files requires the separately identified source downloads.
+
+Calculation checks, a methods/related-research review, and a separate citation audit are documented individually. Formula and page-layout checks cover the website and report. These are computational and source-verification audits, not external human peer review. Remaining source discrepancies, population-boundary limitations and missing cells are disclosed rather than statistically “corrected.” [Audit files and reproducibility package](#downloads).

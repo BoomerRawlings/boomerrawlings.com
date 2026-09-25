@@ -1,0 +1,1640 @@
+{
+  "Introduction": [
+    [
+      "File documentation for enrollment by race/ethnicity, gender, attendance status, and level of student: Fall 2024",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "(Provisional release)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Filename",
+      "EF2024A",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Overview",
+      "This file contains the number of students enrolled in the fall, by race/ethnicity, gender, attendance (full- or part-time) status and level of student.  Institutions with traditional academic year calendar systems (semester, quarter, trimester or  4-1-4) report their enrollment as of October 15 or the official fall reporting date of the institution. Institutions with calendar systems that differ by program or allow continuous enrollment report students that are enrolled at any time between August 1 and October 31. This file has multiple records per institution.  Records are uniquely defined by the variables IPEDS ID (UNITID), and the attendance status and level of student (EFALEVEL).   Each record will contain the total enrollment,  enrollment for men and women, and the total enrollment and enrollment for men and women for all nine race/ethnicity categories.  Beginning with fall 2022, variables containing information on students that do not fit the IPEDS binary gender (men/women) are available for total undergraduate and graduate levels.  These data are not disaggregated by the detailed undergraduate categories or by attendance status.\n",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Notes",
+      "IPEDS data, including provisional release data and final release data, adhere to rigorous quality control procedures established by NCES.\u00a0Data are imputed for nonresponding institutions.\u00a0Provisional release\u00a0data are used for First Look  web tables. Final release data include revisions to the provisional release data that have been made by institutions during the subsequent data collection year. While the final release data\u00a0offer\u00a0\u00a0the most up to date data, these data may not match tables from the First Look web tables based on provisional\u00a0release\u00a0data.",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Contents of spreadsheet",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Varlist",
+      "Variable list: Lists all variables in the table. Includes the variable name, variable label and the Data type, format and maximum field width of each variable.  The data type describes a variable as either a numeric (N) or Alphanumeric (A) and the format of a variable defines a variable as either continuous (Cont) or categorical (Disc).  It all also lists the variable name of all imputation flag variables for each continuous variable. Imputation flag variable describes whether a value for the corresponding variable was reported, imputed or not applicable.",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Description",
+      "Long description or glossary definition of a variable. ",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Frequencies",
+      "This worksheet contains the code values for of all categorical variables in the data file. It also lists the frequency and percent distribution for each code value by variable.(Provisional release)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Statistics",
+      "This worksheet lists the sum, mean, minimum and maximum values of all continuous variables in the data file. (Provisional release)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Imputation code values",
+      "This worksheet lists the code values for all imputation flag variables.",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  ],
+  "Varlist": [
+    [
+      "varNumber",
+      "varName",
+      "DataType",
+      "FieldWidth",
+      "format",
+      "imputationvar",
+      "varTitle"
+    ],
+    [
+      1,
+      "UNITID",
+      "N",
+      6,
+      "Cont",
+      "",
+      "Unique identification number of the institution"
+    ],
+    [
+      20166,
+      "EFALEVEL",
+      "N",
+      2,
+      "Disc",
+      null,
+      "Level of student"
+    ],
+    [
+      21985,
+      "LINE",
+      "N",
+      2,
+      "Disc",
+      null,
+      "Level of student (original line number on survey form)"
+    ],
+    [
+      21990,
+      "SECTION",
+      "N",
+      1,
+      "Disc",
+      null,
+      "Attendance status of student"
+    ],
+    [
+      21991,
+      "LSTUDY",
+      "N",
+      1,
+      "Disc",
+      null,
+      "Level of student"
+    ],
+    [
+      20286,
+      "EFTOTLT",
+      "N",
+      6,
+      "Cont",
+      "XEFTOTLT",
+      "Grand total"
+    ],
+    [
+      20241,
+      "EFTOTLM",
+      "N",
+      6,
+      "Cont",
+      "XEFTOTLM",
+      "Grand total men"
+    ],
+    [
+      20246,
+      "EFTOTLW",
+      "N",
+      6,
+      "Cont",
+      "XEFTOTLW",
+      "Grand total women"
+    ],
+    [
+      24432,
+      "EFAIANT",
+      "N",
+      6,
+      "Cont",
+      "XEFAIANT",
+      "American Indian or Alaska Native total "
+    ],
+    [
+      24434,
+      "EFAIANM",
+      "N",
+      6,
+      "Cont",
+      "XEFAIANM",
+      "American Indian or Alaska Native men "
+    ],
+    [
+      24436,
+      "EFAIANW",
+      "N",
+      6,
+      "Cont",
+      "XEFAIANW",
+      "American Indian or Alaska Native women"
+    ],
+    [
+      24438,
+      "EFASIAT",
+      "N",
+      6,
+      "Cont",
+      "XEFASIAT",
+      "Asian total "
+    ],
+    [
+      24440,
+      "EFASIAM",
+      "N",
+      6,
+      "Cont",
+      "XEFASIAM",
+      "Asian men "
+    ],
+    [
+      24442,
+      "EFASIAW",
+      "N",
+      6,
+      "Cont",
+      "XEFASIAW",
+      "Asian women"
+    ],
+    [
+      24444,
+      "EFBKAAT",
+      "N",
+      6,
+      "Cont",
+      "XEFBKAAT",
+      "Black or African American total "
+    ],
+    [
+      24446,
+      "EFBKAAM",
+      "N",
+      6,
+      "Cont",
+      "XEFBKAAM",
+      "Black or African American men"
+    ],
+    [
+      24448,
+      "EFBKAAW",
+      "N",
+      6,
+      "Cont",
+      "XEFBKAAW",
+      "Black or African American women"
+    ],
+    [
+      24450,
+      "EFHISPT",
+      "N",
+      6,
+      "Cont",
+      "XEFHISPT",
+      "Hispanic total "
+    ],
+    [
+      24452,
+      "EFHISPM",
+      "N",
+      6,
+      "Cont",
+      "XEFHISPM",
+      "Hispanic men "
+    ],
+    [
+      24454,
+      "EFHISPW",
+      "N",
+      6,
+      "Cont",
+      "XEFHISPW",
+      "Hispanic women "
+    ],
+    [
+      24456,
+      "EFNHPIT",
+      "N",
+      6,
+      "Cont",
+      "XEFNHPIT",
+      "Native Hawaiian or Other Pacific Islander total "
+    ],
+    [
+      24458,
+      "EFNHPIM",
+      "N",
+      6,
+      "Cont",
+      "XEFNHPIM",
+      "Native Hawaiian or Other Pacific Islander men "
+    ],
+    [
+      24460,
+      "EFNHPIW",
+      "N",
+      6,
+      "Cont",
+      "XEFNHPIW",
+      "Native Hawaiian or Other Pacific Islander women"
+    ],
+    [
+      24462,
+      "EFWHITT",
+      "N",
+      6,
+      "Cont",
+      "XEFWHITT",
+      "White total"
+    ],
+    [
+      24464,
+      "EFWHITM",
+      "N",
+      6,
+      "Cont",
+      "XEFWHITM",
+      "White men "
+    ],
+    [
+      24466,
+      "EFWHITW",
+      "N",
+      6,
+      "Cont",
+      "XEFWHITW",
+      "White women "
+    ],
+    [
+      24468,
+      "EF2MORT",
+      "N",
+      6,
+      "Cont",
+      "XEF2MORT",
+      "Two or more races total "
+    ],
+    [
+      24470,
+      "EF2MORM",
+      "N",
+      6,
+      "Cont",
+      "XEF2MORM",
+      "Two or more races men"
+    ],
+    [
+      24472,
+      "EF2MORW",
+      "N",
+      6,
+      "Cont",
+      "XEF2MORW",
+      "Two or more races women"
+    ],
+    [
+      20281,
+      "EFUNKNT",
+      "N",
+      6,
+      "Cont",
+      "XEFUNKNT",
+      "Race/ethnicity unknown total"
+    ],
+    [
+      20231,
+      "EFUNKNM",
+      "N",
+      6,
+      "Cont",
+      "XEFUNKNM",
+      "Race/ethnicity unknown men"
+    ],
+    [
+      20236,
+      "EFUNKNW",
+      "N",
+      6,
+      "Cont",
+      "XEFUNKNW",
+      "Race/ethnicity unknown women"
+    ],
+    [
+      20251,
+      "EFNRALT",
+      "N",
+      6,
+      "Cont",
+      "XEFNRALT",
+      "U.S. Nonresident total"
+    ],
+    [
+      20171,
+      "EFNRALM",
+      "N",
+      6,
+      "Cont",
+      "XEFNRALM",
+      "U.S. Nonresident men"
+    ],
+    [
+      20176,
+      "EFNRALW",
+      "N",
+      6,
+      "Cont",
+      "XEFNRALW",
+      "U.S. Nonresident women"
+    ],
+    [
+      24931,
+      "EFGNDRUN",
+      "N",
+      6,
+      "Cont",
+      "XEFGNDRUN",
+      "Gender unknown"
+    ],
+    [
+      24933,
+      "EFGNDRAN",
+      "N",
+      6,
+      "Cont",
+      "XEFGNDRAN",
+      "Another gender"
+    ],
+    [
+      24935,
+      "EFGNDRUA",
+      "N",
+      6,
+      "Cont",
+      "XEFGNDRUA",
+      "Total of gender unknown and another gender"
+    ],
+    [
+      24937,
+      "EFGNDRKN",
+      "N",
+      6,
+      "Cont",
+      "XEFGNDRKN",
+      "Total gender reported as one of the mutually exclusive binary categories (Men/Women)"
+    ]
+  ],
+  "Description": [
+    [
+      "varNumber",
+      "varName",
+      "longDescription"
+    ],
+    [
+      1,
+      "UNITID",
+      null
+    ],
+    [
+      20166,
+      "EFALEVEL",
+      "Level,  full- and part-time status, degree-seeking/non degree-seeking status  and year of study of student  - This variable identifies the level of enrollment data for the institution.  Enrollment counts are available by level of student (undergraduate or graduate).  Undergraduate enrollments are disaggregated by degree-seeking and non-degree seeking status. Degree-seeking enrollments are further broken out by first-time, first year students, transfer-ins and continuing students.  All of the above categories are available by full- and part-time status._x000D_\n_x000D_\nUndergraduate  A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate.  _x000D_\n_x000D_\nDegree/certificate-seeking students  Students enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking.  _x000D_\n_x000D_\nFirst-time student (undergraduate)  A student who has no prior postsecondary experience (except as noted below) attending any institution for the first time at the undergraduate level. This includes students enrolled in academic or occupational programs. It also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school).  _x000D_\n_x000D_\nTransfer-in student (undergraduate)  A student entering the reporting institution for the first time but known to have previously attended a postsecondary institution at the same level. The student may transfer with or without credit.  _x000D_\n_x000D_\nGraduate student  A student who holds a bachelor's degree or above and is taking courses at the postbaccalaureate level. These students may or may not be enrolled in graduate programs.  _x000D_\n_x000D_\nFull-time student  Undergraduate: A student enrolled for 12 or more semester credits , or 12 or more quarter credits, or 24 or more clock hours a week each term. Graduate: A student enrolled for 9 or more semester credits, or 9 or more quarter credits, or a student involved in thesis or dissertation preparation that is considered full time by the institution. Doctor's degree - Professional practice - as defined by the institution.  _x000D_\n_x000D_\nPart-time student  Undergraduate: A student enrolled for either less than 12 semester or quarter credits, or less than 24 clock hours a week each term. Graduate: A student enrolled for less than 9 semester or quarter credits"
+    ],
+    [
+      21985,
+      "LINE",
+      "Level of student (original line number on survey form)"
+    ],
+    [
+      21990,
+      "SECTION",
+      "Attendance status of student - Defines full and part-time status of student"
+    ],
+    [
+      21991,
+      "LSTUDY",
+      "Level of student "
+    ],
+    [
+      20286,
+      "EFTOTLT",
+      "Grand total men and women enrolled for credit during the fall_x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award._x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      20241,
+      "EFTOTLM",
+      "Grand total men enrolled for credit during the fall_x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award._x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      20246,
+      "EFTOTLW",
+      "Grand total women enrolled for credit during the fall_x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award._x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24432,
+      "EFAIANT",
+      "American Indian or Alaska Native men and women enrolled for credit during the fall._x000D_\n_x000D_\nAmerican Indian or Alaska Native - A person having origins in any of the original peoples of North and South America (including Central America) who maintains cultural identification through tribal affiliation or community attachment._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24434,
+      "EFAIANM",
+      "American Indian or Alaska Native men enrolled for credit during the fall._x000D_\n_x000D_\nAmerican Indian or Alaska Native - A person having origins in any of the original peoples of North and South America (including Central America) who maintains cultural identification through tribal affiliation or community attachment._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24436,
+      "EFAIANW",
+      "American Indian or Alaska Native women enrolled for credit during the fall._x000D_\n_x000D_\nAmerican Indian or Alaska Native - A person having origins in any of the original peoples of North and South America (including Central America) who maintains cultural identification through tribal affiliation or community attachment._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24438,
+      "EFASIAT",
+      "Asian men and women enrolled for credit during the fall._x000D_\n_x000D_\nAsian - A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24440,
+      "EFASIAM",
+      "Asian men enrolled for credit during the fall._x000D_\n_x000D_\nAsian - A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24442,
+      "EFASIAW",
+      "Asian women enrolled for credit during the fall.._x000D_\n_x000D_\nAsian - A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24444,
+      "EFBKAAT",
+      "Black or African American men and women enrolled for credit during the fall._x000D_\n_x000D_\nBlack or African American - A person having origins in any of the black racial groups of Africa._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24446,
+      "EFBKAAM",
+      "Black or African American men enrolled for credit during the fall._x000D_\n_x000D_\nBlack or African American - A person having origins in any of the black racial groups of Africa._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24448,
+      "EFBKAAW",
+      "Black or African American women enrolled for credit during the fall.._x000D_\n_x000D_\nBlack or African American - A person having origins in any of the black racial groups of Africa._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24450,
+      "EFHISPT",
+      "Hispanic or Latino men and women enrolled for credit during the fall._x000D_\n_x000D_\nHispanic or Latino - A person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin, regardless of race._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24452,
+      "EFHISPM",
+      "Hispanic or Latino men enrolled for credit during the fall._x000D_\n_x000D_\nHispanic or Latino - A person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin, regardless of race._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24454,
+      "EFHISPW",
+      "Hispanic or Latino women enrolled for credit during the fall._x000D_\n_x000D_\nHispanic or Latino - A person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin, regardless of race._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24456,
+      "EFNHPIT",
+      "Native Hawaiian or Other Pacific Islanders men and women enrolled for credit during the fall._x000D_\n_x000D_\nNative Hawaiian or Other Pacific Islanders - A person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24458,
+      "EFNHPIM",
+      "Native Hawaiian or Other Pacific Islanders men enrolled for credit during the fall._x000D_\n_x000D_\nNative Hawaiian or Other Pacific Islanders - A person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24460,
+      "EFNHPIW",
+      "Native Hawaiian or Other Pacific Islanders women enrolled for credit during the fall._x000D_\n_x000D_\nNative Hawaiian or Other Pacific Islanders - A person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24462,
+      "EFWHITT",
+      "White men and women enrolled for credit during the fall._x000D_\n_x000D_\nWhite - A person having origins in any of the original peoples of Europe, the Middle East, or North Africa._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24464,
+      "EFWHITM",
+      "White men enrolled for credit during the fall._x000D_\n_x000D_\nWhite - A person having origins in any of the original peoples of Europe, the Middle East, or North Africa._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24466,
+      "EFWHITW",
+      "White women enrolled for credit during the fall._x000D_\n_x000D_\nWhite - A person having origins in any of the original peoples of Europe, the Middle East, or North Africa._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24468,
+      "EF2MORT",
+      "Men and women of two or more races enrolled for credit during the fall.  _x000D_\n_x000D_\nTwo or more races - Category used by institutions to report persons who selected more than one race._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24470,
+      "EF2MORM",
+      "Men of two or more races enrolled for credit during the fall.  _x000D_\n_x000D_\nTwo or more races - Category used by institutions to report persons who selected more than one race._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24472,
+      "EF2MORW",
+      "Women of two or more races enrolled for credit during the fall.  _x000D_\n_x000D_\nTwo or more races - Category used by institutions to report persons who selected more than one race. _x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      20281,
+      "EFUNKNT",
+      "Rrace/ethnicity unknown enrolled for credit during the fall_x000D_\n_x000D_\nRACE/ETHNICITY UNKNOWN - This category is used ONLY if the student did not select a racial/ethnic designation, AND the postsecondary institution finds it impossible to place the student in one of the aforementioned racial/ethnic categories during established enrollment procedures or in any post-enrollment identification or verification process. _x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      20231,
+      "EFUNKNM",
+      "_x000D_\nRace/ethnicity unknown men enrolled for credit during the fall_x000D_\n_x000D_\nRACE/ETHNICITY UNKNOWN - This category is used ONLY if the student did not select a racial/ethnic designation, AND the postsecondary institution finds it impossible to place the student in one of the aforementioned racial/ethnic categories during established enrollment procedures or in any post-enrollment identification or verification process. _x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      20236,
+      "EFUNKNW",
+      "_x000D_\nRace/ethnicity unknown women enrolled for credit during the fall_x000D_\n_x000D_\nRACE/ETHNICITY UNKNOWN - This category is used ONLY if the student did not select a racial/ethnic designation, AND the postsecondary institution finds it impossible to place the student in one of the aforementioned racial/ethnic categories during established enrollment procedures or in any post-enrollment identification or verification process. _x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      20251,
+      "EFNRALT",
+      "U.S. Nonresidents enrolled for credit during the fall_x000D_\n_x000D_\nU.S. Nonresident - A person who is not a citizen or national of the United States and who is in this country on a visa or temporary basis and does not have the right to remain indefinitely._x000D_\nNOTE - U.S. Nonresidents are included here, rather than in any of the five racial/ethnic categories described below. Resident and other eligible (for financial aid purposes) non-citizens who are not citizens or nationals of the United States and who have been admitted as legal immigrants for the purpose of obtaining permanent resident status (and who hold either a registration card (Form I-551 or I-151), a Temporary Resident Card (Form I-688), or an Arrival-Departure Record (Form I-94) with a notation that conveys legal immigrant status such as Section 207 Refugee, Section 208 Asylee, Conditional Entrant Parolee or Cuban-Haitian) are to be reported in the appropriate racial/ethnic categories along with United States citizens._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      20171,
+      "EFNRALM",
+      "U.S. Nonresident men enrolled for credit during the fall_x000D_\n_x000D_\nU.S. Nonresident - A person who is not a citizen or national of the United States and who is in this country on a visa or temporary basis and does not have the right to remain indefinitely._x000D_\nNOTE - U.S. Nonresidents are included here, rather than in any of the five racial/ethnic categories described below. Resident and other eligible (for financial aid purposes) non-citizens who are not citizens or nationals of the United States and who have been admitted as legal immigrants for the purpose of obtaining permanent resident status (and who hold either a registration card (Form I-551 or I-151), a Temporary Resident Card (Form I-688), or an Arrival-Departure Record (Form I-94) with a notation that conveys legal immigrant status such as Section 207 Refugee, Section 208 Asylee, Conditional Entrant Parolee or Cuban-Haitian) are to be reported in the appropriate racial/ethnic categories along with United States citizens._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      20176,
+      "EFNRALW",
+      "U.S. Nonresident women enrolled for credit during the fall_x000D_\n_x000D_\nU.S. Nonresident - A person who is not a citizen or national of the United States and who is in this country on a visa or temporary basis and does not have the right to remain indefinitely._x000D_\nNOTE - U.S. Nonresidents are included here, rather than in any of the five racial/ethnic categories described below. Resident and other eligible (for financial aid purposes) non-citizens who are not citizens or nationals of the United States and who have been admitted as legal immigrants for the purpose of obtaining permanent resident status (and who hold either a registration card (Form I-551 or I-151), a Temporary Resident Card (Form I-688), or an Arrival-Departure Record (Form I-94) with a notation that conveys legal immigrant status such as Section 207 Refugee, Section 208 Asylee, Conditional Entrant Parolee or Cuban-Haitian) are to be reported in the appropriate racial/ethnic categories along with United States citizens._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award._x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24931,
+      "EFGNDRUN",
+      "Gender unknown enrolled for credit in the fall_x000D_\n_x000D_\nThe gender unknown\u2019 category is the number of students for whom the institution does not know a gender._x000D_\nEnrollment by gender Unknown or another gender are only reported for undergraduate and graduate levels and are not reported by full- or part-time status or the detailed degree/certificate-seeking undergraduate categories._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24933,
+      "EFGNDRAN",
+      "Number of students identified as another gender enrolled for credit during the fall_x000D_\n_x000D_\nAnother gender (i.e., gender information is known but does not fall into either of the mutually exclusive binary categories provided [Men/Women])._x000D_\n_x000D_\nThis variable is left missing or blank for institutions who indicated that they were not able to report another gender for this data collection. For institutions who indicated that they were able to report another gender for this data collection, but no students identified as another gender this variable/cell is zero._x000D_\n_x000D_\nEnrollment by gender Unknown or another gender are only reported for undergraduate and graduate levels and are not reported by full- or part-time status or the detailed degree/certificate-seeking undergraduate categories._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24935,
+      "EFGNDRUA",
+      "Number of gender unknown and students enrolled for credit during the fall_x000D_\n_x000D_\nGender unknown and another gender - The number of students the institution allocated to a binary gender category (Men/Women) because their gender was unknown or identified as another gender than the provided categories._x000D_\n_x000D_\nEnrollment by gender Unknown or another gender are only reported for undergraduate and graduate levels and are not reported by full- or part-time status or the detailed degree/certificate-seeking undergraduate categories._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ],
+    [
+      24937,
+      "EFGNDRKN",
+      "Number of students for whom gender is known and falls into one of the mutually exclusive binary categories [Men/Women] enrolled for credit during the fall. _x000D_\n_x000D_\nEnrollment by gender Unknown or another gender are only reported for undergraduate and graduate levels and are not reported by full- or part-time status or the detailed degree/certificate-seeking undergraduate categories._x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award. _x000D_\n_x000D_\nNOTE: Enrollment reported is of the institution^s official fall reporting date or October 15."
+    ]
+  ],
+  "Frequencies": [
+    [
+      "VarName",
+      "VarNumber",
+      "TableName",
+      "CodeValue",
+      "valuelabel",
+      "Frequency",
+      "Percent"
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "1",
+      "All students total",
+      "5,842",
+      5.132
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "2",
+      "All students, Undergraduate total",
+      "5,577",
+      4.899
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "3",
+      "All students, Undergraduate, Degree/certificate-seeking total",
+      "5,573",
+      4.896
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "4",
+      "All students, Undergraduate, Degree/certificate-seeking, First-time",
+      "5,388",
+      4.733
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "5",
+      "All students, Undergraduate, Other degree/certificate-seeking",
+      "5,566",
+      4.89
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "19",
+      "All students, Undergraduate, Other degree/certificatee-seeking, Transfer-ins",
+      "3,444",
+      3.025
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "20",
+      "All students, Undergraduate, Other degree/certificatee-seeking, Continuing",
+      "5,558",
+      4.883
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "11",
+      "All students, Undergraduate, Non-degree/certificate-seeking",
+      "2,786",
+      2.447
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "12",
+      "All students, Graduate",
+      "2,041",
+      1.793
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "21",
+      "Full-time students total",
+      "5,790",
+      5.086
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "22",
+      "Full-time students, Undergraduate total",
+      "5,515",
+      4.845
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "23",
+      "Full-time students, Undergraduate, Degree/certificate-seeking total",
+      "5,513",
+      4.843
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "24",
+      "Full-time students, Undergraduate, Degree/certificate-seeking, First-time",
+      "5,302",
+      4.658
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "25",
+      "Full-time students, Undergraduate, Degree/certificate-seeking, Other degree/certificate-seeking",
+      "5,504",
+      4.835
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "39",
+      "Full-time students, Undergraduate, Other degree/certificatee-seeking, Transfer-ins",
+      "3,412",
+      2.997
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "40",
+      "Full-time students, Undergraduate, Other degree/certificatee-seeking, Continuing",
+      "5,495",
+      4.827
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "31",
+      "Full-time students, Undergraduate, Non-degree/certificate-seeking",
+      "2,263",
+      1.988
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "32",
+      "Full-time students, Graduate",
+      "2,000",
+      1.757
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "41",
+      "Part-time students total",
+      "4,365",
+      3.835
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "42",
+      "Part-time students, Undergraduate total",
+      "4,117",
+      3.617
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "43",
+      "Part-time students, Undergraduate, Degree/certificate-seeking total",
+      "4,088",
+      3.591
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "44",
+      "Part-time students, Undergraduate, Degree/certificate-seeking, First-time",
+      "3,300",
+      2.899
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "45",
+      "Part-time students, Undergraduate, Degree/certificate-seeking, Other degree/certificate-seeking",
+      "4,076",
+      3.581
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "59",
+      "Part-time students, Undergraduate, Other degree/certificatee-seeking, Transfer-ins",
+      "2,715",
+      2.385
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "60",
+      "Part-time students, Undergraduate, Other degree/certificatee-seeking, Continuing",
+      "4,063",
+      3.569
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "51",
+      "Part-time students, Undergraduate, Non-degree/certificate-seeking",
+      "2,670",
+      2.346
+    ],
+    [
+      "EFALEVEL",
+      20166,
+      "EF2024A",
+      "52",
+      "Part-time students, Graduate",
+      "1,870",
+      1.643
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "1",
+      "Full-time, first-time, first-year, degree-seeking undergraduates",
+      "5,302",
+      4.658
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "2",
+      "Full-time undergraduate, other degree/certificatee-seeking, transfer-ins",
+      "3,412",
+      2.997
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "3",
+      "Full-time  undergraduate, other degree/certificatee-seeking, continuing",
+      "5,495",
+      4.827
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "6",
+      "Full-time degree-seeking undergraduates, total",
+      "5,513",
+      4.843
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "7",
+      "Full-time nondegree-seeking undergraduates",
+      "2,263",
+      1.988
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "8",
+      "Total  full-time undergraduates",
+      "5,515",
+      4.845
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "11",
+      "Full-time graduates",
+      "2,000",
+      1.757
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "14",
+      "Total full-time students",
+      "5,790",
+      5.086
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "15",
+      "Part-time, first-time, first-year, degree-seeking undergraduates",
+      "3,300",
+      2.899
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "16",
+      "Part-time undergraduate, other degree/certificatee-seeking, transfer-ins",
+      "2,715",
+      2.385
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "17",
+      "Part-time undergraduate, other degree/certificatee-seeking, continuing",
+      "4,063",
+      3.569
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "20",
+      "Part-time degree-seeking undergraduates, total",
+      "4,088",
+      3.591
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "21",
+      "Part-time nondegree-seeking undergraduates",
+      "2,670",
+      2.346
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "22",
+      "Total part-time undergraduates",
+      "4,117",
+      3.617
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "25",
+      "Part-time graduates",
+      "1,870",
+      1.643
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "28",
+      "Total part-time ",
+      "4,365",
+      3.835
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "29",
+      "Total enrollment",
+      "5,842",
+      5.132
+    ],
+    [
+      "LINE",
+      21985,
+      "EF2024A",
+      "99",
+      "Generated record not on original survey",
+      "45,513",
+      39.982
+    ],
+    [
+      "SECTION",
+      21990,
+      "EF2024A",
+      "1",
+      "Full-time",
+      "40,794",
+      35.837
+    ],
+    [
+      "SECTION",
+      21990,
+      "EF2024A",
+      "2",
+      "Part-time",
+      "31,264",
+      27.465
+    ],
+    [
+      "SECTION",
+      21990,
+      "EF2024A",
+      "3",
+      "All students",
+      "41,775",
+      36.698
+    ],
+    [
+      "LSTUDY",
+      21991,
+      "EF2024A",
+      "1",
+      "Undergraduate",
+      "91,925",
+      80.754
+    ],
+    [
+      "LSTUDY",
+      21991,
+      "EF2024A",
+      "3",
+      "Graduate",
+      "5,911",
+      5.193
+    ],
+    [
+      "LSTUDY",
+      21991,
+      "EF2024A",
+      "4",
+      "All students",
+      "15,997",
+      14.053
+    ]
+  ],
+  "Statistics": [
+    [
+      "VarNumber",
+      "VarName",
+      "N",
+      "SUM",
+      "MEAN",
+      "MIN",
+      "MAX",
+      "varTitle"
+    ],
+    [
+      20286,
+      "EFTOTLT",
+      113833,
+      167193812,
+      1468.764,
+      1,
+      210208,
+      "Grand total"
+    ],
+    [
+      20241,
+      "EFTOTLM",
+      113833,
+      71042638,
+      624.095,
+      0,
+      85706,
+      "Grand total men"
+    ],
+    [
+      20246,
+      "EFTOTLW",
+      113833,
+      96151174,
+      844.669,
+      0,
+      124502,
+      "Grand total women"
+    ],
+    [
+      24432,
+      "EFAIANT",
+      113833,
+      1094528,
+      9.615,
+      0,
+      2189,
+      "American Indian or Alaska Native total "
+    ],
+    [
+      24434,
+      "EFAIANM",
+      113833,
+      413332,
+      3.631,
+      0,
+      914,
+      "American Indian or Alaska Native men "
+    ],
+    [
+      24436,
+      "EFAIANW",
+      113833,
+      681196,
+      5.984,
+      0,
+      1387,
+      "American Indian or Alaska Native women"
+    ],
+    [
+      24438,
+      "EFASIAT",
+      113833,
+      11738074,
+      103.117,
+      0,
+      15175,
+      "Asian total "
+    ],
+    [
+      24440,
+      "EFASIAM",
+      113833,
+      5474956,
+      48.096,
+      0,
+      9495,
+      "Asian men "
+    ],
+    [
+      24442,
+      "EFASIAW",
+      113833,
+      6263118,
+      55.02,
+      0,
+      7749,
+      "Asian women"
+    ],
+    [
+      24444,
+      "EFBKAAT",
+      113833,
+      21284752,
+      186.982,
+      0,
+      37196,
+      "Black or African American total "
+    ],
+    [
+      24446,
+      "EFBKAAM",
+      113833,
+      7708408,
+      67.717,
+      0,
+      11382,
+      "Black or African American men"
+    ],
+    [
+      24448,
+      "EFBKAAW",
+      113833,
+      13576344,
+      119.265,
+      0,
+      26272,
+      "Black or African American women"
+    ],
+    [
+      24450,
+      "EFHISPT",
+      113833,
+      37466422,
+      329.135,
+      0,
+      41864,
+      "Hispanic total "
+    ],
+    [
+      24452,
+      "EFHISPM",
+      113833,
+      15199540,
+      133.525,
+      0,
+      18178,
+      "Hispanic men "
+    ],
+    [
+      24454,
+      "EFHISPW",
+      113833,
+      22266882,
+      195.61,
+      0,
+      23686,
+      "Hispanic women "
+    ],
+    [
+      24456,
+      "EFNHPIT",
+      113833,
+      431400,
+      3.79,
+      0,
+      1708,
+      "Native Hawaiian or Other Pacific Islander total "
+    ],
+    [
+      24458,
+      "EFNHPIM",
+      113833,
+      185788,
+      1.632,
+      0,
+      633,
+      "Native Hawaiian or Other Pacific Islander men "
+    ],
+    [
+      24460,
+      "EFNHPIW",
+      113833,
+      245612,
+      2.158,
+      0,
+      1075,
+      "Native Hawaiian or Other Pacific Islander women"
+    ],
+    [
+      24462,
+      "EFWHITT",
+      113833,
+      73551850,
+      646.138,
+      0,
+      107865,
+      "White total"
+    ],
+    [
+      24464,
+      "EFWHITM",
+      113833,
+      31932494,
+      280.521,
+      0,
+      42802,
+      "White men "
+    ],
+    [
+      24466,
+      "EFWHITW",
+      113833,
+      41619356,
+      365.618,
+      0,
+      65063,
+      "White women "
+    ],
+    [
+      24468,
+      "EF2MORT",
+      113833,
+      7138434,
+      62.71,
+      0,
+      7689,
+      "Two or more races total "
+    ],
+    [
+      24470,
+      "EF2MORM",
+      113833,
+      2985594,
+      26.228,
+      0,
+      3401,
+      "Two or more races men"
+    ],
+    [
+      24472,
+      "EF2MORW",
+      113833,
+      4152840,
+      36.482,
+      0,
+      5116,
+      "Two or more races women"
+    ],
+    [
+      20281,
+      "EFUNKNT",
+      113833,
+      7708788,
+      67.72,
+      0,
+      36829,
+      "Race/ethnicity unknown total"
+    ],
+    [
+      20231,
+      "EFUNKNM",
+      113833,
+      3538932,
+      31.089,
+      0,
+      20193,
+      "Race/ethnicity unknown men"
+    ],
+    [
+      20236,
+      "EFUNKNW",
+      113833,
+      4169856,
+      36.631,
+      0,
+      19755,
+      "Race/ethnicity unknown women"
+    ],
+    [
+      20251,
+      "EFNRALT",
+      113833,
+      6779564,
+      59.557,
+      0,
+      19202,
+      "U.S. Nonresident total"
+    ],
+    [
+      20171,
+      "EFNRALM",
+      113833,
+      3603594,
+      31.657,
+      0,
+      9255,
+      "U.S. Nonresident men"
+    ],
+    [
+      20176,
+      "EFNRALW",
+      113833,
+      3175970,
+      27.9,
+      0,
+      9947,
+      "U.S. Nonresident women"
+    ],
+    [
+      24931,
+      "EFGNDRUN",
+      13460,
+      476206,
+      35.379,
+      0,
+      14868,
+      "Gender unknown"
+    ],
+    [
+      24933,
+      "EFGNDRAN",
+      3562,
+      107014,
+      30.043,
+      0,
+      1754,
+      "Another gender"
+    ],
+    [
+      24935,
+      "EFGNDRUA",
+      11376,
+      526490,
+      46.281,
+      0,
+      14868,
+      "Total of gender unknown and another gender"
+    ],
+    [
+      24937,
+      "EFGNDRKN",
+      11376,
+      33887166,
+      2978.83,
+      0,
+      197477,
+      "Total gender reported as one of the mutually exclusive binary categories (Men/Women)"
+    ]
+  ],
+  "Imputation values": [
+    [
+      "CodeValue",
+      "ValueLabel"
+    ],
+    [
+      "A",
+      "Not applicable"
+    ],
+    [
+      "B",
+      "Institution left item blank"
+    ],
+    [
+      "C",
+      "Analyst corrected reported value"
+    ],
+    [
+      "D",
+      "Do not know"
+    ],
+    [
+      "G",
+      "Data generated from other data values"
+    ],
+    [
+      "H",
+      "Value not derived - data not usable"
+    ],
+    [
+      "J",
+      "Logical imputation"
+    ],
+    [
+      "K",
+      "Ratio adjustment"
+    ],
+    [
+      "L",
+      "Imputed using the Group Median procedure"
+    ],
+    [
+      "N",
+      "Imputed using Nearest Neighbor procedure"
+    ],
+    [
+      "P",
+      "Imputed using Carry Forward procedure"
+    ],
+    [
+      "R",
+      "Reported"
+    ],
+    [
+      "Z",
+      "Implied zero"
+    ]
+  ]
+}

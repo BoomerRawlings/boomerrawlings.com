@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "institution_unitid_opeid_matches": 42,
+  "public_api_campus_institution_matches": 212,
+  "enrollment_agent_crosswalk_sha256": "de37e9cae0586d21ea7e0be170edef556b4525495ee834edb6620e405481ac87",
+  "no_opeid_only_grouping": true,
+  "branch_name_rule": "Compare after trimming only leading/trailing spaces.",
+  "method": "Firstsix UNITID_P digits match the verified IPEDS UNITID/OPEID crosswalk and all212 official API institution IDs. Group strictly by UNITID; OPEID can be shared by distinct IPEDS units."
+}

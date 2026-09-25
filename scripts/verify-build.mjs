@@ -41,9 +41,9 @@ const contentHtmlFiles = htmlFiles.filter(
 const unlistedHtmlFiles = htmlFiles.filter(
   (file) => unlistedContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 24 || unlistedHtmlFiles.length !== 5 || htmlFiles.length !== 35) {
+if (contentHtmlFiles.length !== 25 || unlistedHtmlFiles.length !== 5 || htmlFiles.length !== 36) {
   throw new Error(
-    `expected 24 public pages, 5 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 25 public pages, 5 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 

@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "method": "Independent xlrd read of original archived federal workbooks versus visually verified institutional ASR cells.",
+  "scope": "Rape only, three main reporting campuses, four geographies, 2022-2024; not a full ASR audit. SDSU auxiliary campuses are not in this numeric-cell comparison.",
+  "cells_checked": 36,
+  "matching_cells": 34,
+  "differences": [
+    {
+      "institution": "UC San Diego",
+      "campus_id": "110680001",
+      "report_year": 2022,
+      "offense": "Rape",
+      "geography": "on_campus",
+      "federal_collection": 2025,
+      "federal_count": 14,
+      "asr_edition": 2025,
+      "asr_count": 15,
+      "difference_asr_minus_federal": 1,
+      "federal_workbook": "Oncampuscrime222324.xls",
+      "federal_field": "RAPE22",
+      "asr_pdf_page": 142,
+      "asr_url": "https://www.police.ucsd.edu/docs/annualclery.pdf",
+      "interpretation": "Source-specific values retained; revision chronology not established."
+    },
+    {
+      "institution": "UC San Diego",
+      "campus_id": "110680001",
+      "report_year": 2022,
+      "offense": "Rape",
+      "geography": "noncampus",
+      "federal_collection": 2025,
+      "federal_count": 4,
+      "asr_edition": 2025,
+      "asr_count": 5,
+      "difference_asr_minus_federal": 1,
+      "federal_workbook": "Noncampuscrime222324.xls",
+      "federal_field": "RAPE22",
+      "asr_pdf_page": 142,
+      "asr_url": "https://www.police.ucsd.edu/docs/annualclery.pdf",
+      "interpretation": "Source-specific values retained; revision chronology not established."
+    }
+  ],
+  "archive_sha256": "28143ab29f9f9d43235800a3f1f4061b8f2928a7d11bce0e8327d2889ab6f007",
+  "workbook_sha256": {
+    "Residencehallcrime222324.xls": "774cb540068889d57ef98cbacdfdb8ad2ad630a0725343ac0fd872b1c3f11946",
+    "Oncampuscrime222324.xls": "dcc6179e663d469f32cba9c98f615eec54f20e0acfbd4ea171bcac6519410ccc",
+    "Noncampuscrime222324.xls": "daf1b483091330da0d739a4d0ae800058a4b7fd272ca8d8cc8ed48eb55a24f2a",
+    "Publicpropertycrime222324.xls": "5d16371dee2e6185e505dab4e638cd25754edb758c82aadeba35b262867c0bac"
+  },
+  "asr_values_sha256": "0fa6ee65cab590904bf8d9d79c1afd92f45a81d06af4c6e353611021f762323e",
+  "output_sha256": "7e7ff996fd5222dae0b4a668306c58a1a4c8c6b104c1643200c66ac94f808c4b",
+  "xlrd_version": "2.0.2"
+}

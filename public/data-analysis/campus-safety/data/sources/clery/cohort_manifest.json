@@ -1,0 +1,217 @@
+{
+  "protocol": "../../PROTOCOL.md",
+  "collection_year": 2025,
+  "count": 42,
+  "institutions": [
+    {
+      "group": "UC",
+      "label": "UC Berkeley",
+      "unitid": "110635"
+    },
+    {
+      "group": "UC",
+      "label": "UC Davis",
+      "unitid": "110644"
+    },
+    {
+      "group": "UC",
+      "label": "UC Irvine",
+      "unitid": "110653"
+    },
+    {
+      "group": "UC",
+      "label": "UCLA",
+      "unitid": "110662"
+    },
+    {
+      "group": "UC",
+      "label": "UC Merced",
+      "unitid": "445188"
+    },
+    {
+      "group": "UC",
+      "label": "UC Riverside",
+      "unitid": "110671"
+    },
+    {
+      "group": "UC",
+      "label": "UC San Diego",
+      "unitid": "110680"
+    },
+    {
+      "group": "UC",
+      "label": "UC San Francisco",
+      "unitid": "110699"
+    },
+    {
+      "group": "UC",
+      "label": "UC Santa Barbara",
+      "unitid": "110705"
+    },
+    {
+      "group": "UC",
+      "label": "UC Santa Cruz",
+      "unitid": "110714"
+    },
+    {
+      "group": "Ivy League",
+      "label": "Brown",
+      "unitid": "217156"
+    },
+    {
+      "group": "Ivy League",
+      "label": "Columbia",
+      "unitid": "190150"
+    },
+    {
+      "group": "Ivy League",
+      "label": "Cornell",
+      "unitid": "190415"
+    },
+    {
+      "group": "Ivy League",
+      "label": "Dartmouth",
+      "unitid": "182670"
+    },
+    {
+      "group": "Ivy League",
+      "label": "Harvard",
+      "unitid": "166027"
+    },
+    {
+      "group": "Ivy League",
+      "label": "Pennsylvania",
+      "unitid": "215062"
+    },
+    {
+      "group": "Ivy League",
+      "label": "Princeton",
+      "unitid": "186131"
+    },
+    {
+      "group": "Ivy League",
+      "label": "Yale",
+      "unitid": "130794"
+    },
+    {
+      "group": "Additional public",
+      "label": "San Diego State",
+      "unitid": "122409"
+    },
+    {
+      "group": "Additional public",
+      "label": "Georgia Tech",
+      "unitid": "139755"
+    },
+    {
+      "group": "Additional public",
+      "label": "Illinois Urbana-Champaign",
+      "unitid": "145637"
+    },
+    {
+      "group": "Additional public",
+      "label": "Michigan Ann Arbor",
+      "unitid": "170976"
+    },
+    {
+      "group": "Additional public",
+      "label": "North Carolina Chapel Hill",
+      "unitid": "199120"
+    },
+    {
+      "group": "Additional public",
+      "label": "Ohio State Columbus",
+      "unitid": "204796"
+    },
+    {
+      "group": "Additional public",
+      "label": "Penn State University Park",
+      "unitid": "214777"
+    },
+    {
+      "group": "Additional public",
+      "label": "Texas Austin",
+      "unitid": "228778"
+    },
+    {
+      "group": "Additional public",
+      "label": "Florida",
+      "unitid": "134130"
+    },
+    {
+      "group": "Additional public",
+      "label": "Virginia",
+      "unitid": "234076"
+    },
+    {
+      "group": "Additional public",
+      "label": "Washington Seattle",
+      "unitid": "236948"
+    },
+    {
+      "group": "Additional public",
+      "label": "Wisconsin Madison",
+      "unitid": "240444"
+    },
+    {
+      "group": "Additional private",
+      "label": "Caltech",
+      "unitid": "110404"
+    },
+    {
+      "group": "Additional private",
+      "label": "Carnegie Mellon",
+      "unitid": "211440"
+    },
+    {
+      "group": "Additional private",
+      "label": "Chicago",
+      "unitid": "144050"
+    },
+    {
+      "group": "Additional private",
+      "label": "Duke",
+      "unitid": "198419"
+    },
+    {
+      "group": "Additional private",
+      "label": "Georgetown",
+      "unitid": "131496"
+    },
+    {
+      "group": "Additional private",
+      "label": "Johns Hopkins",
+      "unitid": "162928"
+    },
+    {
+      "group": "Additional private",
+      "label": "MIT",
+      "unitid": "166683"
+    },
+    {
+      "group": "Additional private",
+      "label": "Northwestern",
+      "unitid": "147767"
+    },
+    {
+      "group": "Additional private",
+      "label": "Notre Dame",
+      "unitid": "152080"
+    },
+    {
+      "group": "Additional private",
+      "label": "NYU",
+      "unitid": "193900"
+    },
+    {
+      "group": "Additional private",
+      "label": "Stanford",
+      "unitid": "243744"
+    },
+    {
+      "group": "Additional private",
+      "label": "USC",
+      "unitid": "123961"
+    }
+  ]
+}

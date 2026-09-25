@@ -1,0 +1,184 @@
+{
+  "HD2024.zip": {
+    "requested_url": "https://nces.ed.gov/ipeds/datacenter/data/HD2024.zip",
+    "final_url": "https://nces.ed.gov/ipeds/datacenter/data/HD2024.zip",
+    "retrieved_utc": "2026-09-25T09:30:44.742698+00:00",
+    "bytes": 1088372,
+    "sha256": "d98425c123d7c0e872aec6e83960dfb501884818bf17385c340790f3d1f28345",
+    "members": [
+      "HD2024.csv"
+    ],
+    "last_modified": "Sun, 21 Sep 2025 20:40:58 GMT"
+  },
+  "EF2024A.zip": {
+    "requested_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2024A.zip",
+    "final_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2024A.zip",
+    "retrieved_utc": "2026-09-25T09:33:07.846432+00:00",
+    "bytes": 3247994,
+    "sha256": "bb3256a68a1ffcbf2fcc85faf80ac14f055ccd75454d3a440dfff80a63671567",
+    "members": [
+      "ef2024a.csv"
+    ],
+    "last_modified": "Tue, 30 Dec 2025 22:54:23 GMT"
+  },
+  "EF2024A_DIST.zip": {
+    "requested_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2024A_DIST.zip",
+    "final_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2024A_DIST.zip",
+    "retrieved_utc": "2026-09-25T09:33:09.214602+00:00",
+    "bytes": 246152,
+    "sha256": "76425cc5508ef816b2192d4d3e68cc8819b1c85e753ce1aa3e3065ca0063a3c3",
+    "members": [
+      "ef2024a_dist.csv"
+    ],
+    "last_modified": "Tue, 30 Dec 2025 22:54:24 GMT"
+  },
+  "DRVEF2024.zip": {
+    "requested_url": "https://nces.ed.gov/ipeds/complete-data-files/DRVEF2024.zip",
+    "final_url": "https://nces.ed.gov/ipeds/complete-data-files/DRVEF2024.zip",
+    "retrieved_utc": "2026-09-25T09:33:10.701062+00:00",
+    "bytes": 404854,
+    "sha256": "52a7e67de212419753e48f8d6eb7783f5fbfb6bddbd66723f7e180d38c9b749e",
+    "members": [
+      "drvef2024.csv"
+    ],
+    "last_modified": "Tue, 30 Dec 2025 22:54:09 GMT"
+  },
+  "EF2024A_Dict.zip": {
+    "requested_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2024A_Dict.zip",
+    "final_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2024A_Dict.zip",
+    "retrieved_utc": "2026-09-25T09:33:11.492944+00:00",
+    "bytes": 16797,
+    "sha256": "01536d7d881352683d41b407585e988aadc17d123e2067e48af5e60a24c40a61",
+    "members": [
+      "ef2024a.xlsx"
+    ],
+    "last_modified": "Wed, 07 Jan 2026 02:05:10 GMT"
+  },
+  "DRVEF2024_Dict.zip": {
+    "requested_url": "https://nces.ed.gov/ipeds/complete-data-files/DRVEF2024_Dict.zip",
+    "final_url": "https://nces.ed.gov/ipeds/complete-data-files/DRVEF2024_Dict.zip",
+    "retrieved_utc": "2026-09-25T09:33:12.296392+00:00",
+    "bytes": 20095,
+    "sha256": "1a07503aea6e0c36e4417fef7867de738caa99142709bc4b0839122201122a16",
+    "members": [
+      "drvef2024.xlsx"
+    ],
+    "last_modified": "Tue, 30 Dec 2025 22:54:09 GMT"
+  },
+  "EF2024A_DIST_Dict.zip": {
+    "requested_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2024A_DIST_Dict.zip",
+    "final_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2024A_DIST_Dict.zip",
+    "retrieved_utc": "2026-09-25T09:33:13.103974+00:00",
+    "bytes": 10429,
+    "sha256": "adf6a53f729a6d0ca700d934d692f81fc1e1342aeaf0cc144e9443a476e2f435",
+    "members": [
+      "ef2024a_dist.xlsx"
+    ],
+    "last_modified": "Tue, 30 Dec 2025 22:54:24 GMT"
+  },
+  "HD2014.zip": {
+    "requested_url": "https://nces.ed.gov/ipeds/datacenter/data/HD2014.zip",
+    "final_url": "https://nces.ed.gov/ipeds/datacenter/data/HD2014.zip",
+    "retrieved_utc": "2026-09-25T09:34:17.546319+00:00",
+    "bytes": 1076134,
+    "sha256": "ff890e8305d3576c9ab9a0f3c6837ebce4fe5ce5c0d92374a0773f0a9f4150b8",
+    "members": [
+      "hd2014.csv"
+    ],
+    "last_modified": "Mon, 02 Nov 2015 15:38:38 GMT"
+  },
+  "HD2022.zip": {
+    "requested_url": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+    "final_url": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+    "retrieved_utc": "2026-09-25T09:35:41.591776+00:00",
+    "bytes": 1053927,
+    "sha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+    "members": [
+      "hd2022.csv"
+    ],
+    "last_modified": "Wed, 13 Sep 2023 16:46:08 GMT"
+  },
+  "EF2022A.zip": {
+    "requested_url": "https://nces.ed.gov/ipeds/datacenter/data/EF2022A.zip",
+    "final_url": "https://nces.ed.gov/ipeds/datacenter/data/EF2022A.zip",
+    "retrieved_utc": "2026-09-25T09:36:15.872942+00:00",
+    "bytes": 6000331,
+    "sha256": "971fe8fad82ca03fbb1a72938fd7b2798176083734a100b6186d79bb537a0aba",
+    "members": [
+      "ef2022a.csv",
+      "ef2022a_rv.csv"
+    ],
+    "last_modified": "Fri, 22 Nov 2024 19:44:16 GMT"
+  },
+  "EF2022A_DIST.zip": {
+    "requested_url": "https://nces.ed.gov/ipeds/datacenter/data/EF2022A_DIST.zip",
+    "final_url": "https://nces.ed.gov/ipeds/datacenter/data/EF2022A_DIST.zip",
+    "retrieved_utc": "2026-09-25T09:36:19.759865+00:00",
+    "bytes": 444720,
+    "sha256": "55ad2dc9dc130ae5f6865aded98dad0ab17d74dabf93f212971a859acc227d57",
+    "members": [
+      "ef2022a_dist.csv",
+      "ef2022a_dist_rv.csv"
+    ],
+    "last_modified": "Fri, 22 Nov 2024 19:47:09 GMT"
+  },
+  "HD2023.zip": {
+    "requested_url": "https://nces.ed.gov/ipeds/complete-data-files/HD2023.zip",
+    "final_url": "https://nces.ed.gov/ipeds/complete-data-files/HD2023.zip",
+    "retrieved_utc": "2026-09-25T09:36:26.332762+00:00",
+    "bytes": 1055326,
+    "sha256": "7865dec01a81ec0550aba7d862a49983de8bce45a603aee45af36e6c9692110b",
+    "members": [
+      "hd2023.csv"
+    ],
+    "last_modified": "Mon, 09 Feb 2026 22:55:16 GMT"
+  },
+  "EF2023A.zip": {
+    "requested_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2023A.zip",
+    "final_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2023A.zip",
+    "retrieved_utc": "2026-09-25T09:36:57.739589+00:00",
+    "bytes": 6501851,
+    "sha256": "0238ff58ddf603b8606b1b131311e0b569323b787c395dc83b7830c987096cb0",
+    "members": [
+      "ef2023a.csv",
+      "ef2023a_rv.csv"
+    ],
+    "last_modified": "Tue, 30 Dec 2025 22:55:29 GMT"
+  },
+  "EF2023A_DIST.zip": {
+    "requested_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2023A_DIST.zip",
+    "final_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2023A_DIST.zip",
+    "retrieved_utc": "2026-09-25T09:36:59.439757+00:00",
+    "bytes": 493560,
+    "sha256": "7beaacd86a44f418d55a462a013f4050c7cd811cbd9737a91617fbc4c1763a20",
+    "members": [
+      "ef2023a_dist.csv",
+      "ef2023a_dist_rv.csv"
+    ],
+    "last_modified": "Tue, 30 Dec 2025 22:55:31 GMT"
+  },
+  "DRVEF2022.zip": {
+    "requested_url": "https://nces.ed.gov/ipeds/datacenter/data/DRVEF2022.zip",
+    "final_url": "https://nces.ed.gov/ipeds/datacenter/data/DRVEF2022.zip",
+    "retrieved_utc": "2026-09-25T09:37:12.530264+00:00",
+    "bytes": 800204,
+    "sha256": "847b4acdafd06cbf89b69895194e2b316de41cb5d0f48bccea557523677ca48e",
+    "members": [
+      "drvef2022.csv",
+      "drvef2022_rv.csv"
+    ],
+    "last_modified": "Fri, 22 Nov 2024 19:26:00 GMT"
+  },
+  "DRVEF2023.zip": {
+    "requested_url": "https://nces.ed.gov/ipeds/complete-data-files/DRVEF2023.zip",
+    "final_url": "https://nces.ed.gov/ipeds/complete-data-files/DRVEF2023.zip",
+    "retrieved_utc": "2026-09-25T09:37:14.539674+00:00",
+    "bytes": 855321,
+    "sha256": "01eb4c9c56c2d6019dc69123719126b7711db02036881d0a1f4a7246135a4391",
+    "members": [
+      "drvef2023.csv",
+      "drvef2023_rv.csv"
+    ],
+    "last_modified": "Tue, 30 Dec 2025 22:55:03 GMT"
+  }
+}

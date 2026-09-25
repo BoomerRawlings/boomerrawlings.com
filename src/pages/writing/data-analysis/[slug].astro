@@ -8,7 +8,7 @@ import AnalysisExternalSources from '../../../components/AnalysisExternalSources
 import 'katex/dist/katex.min.css';
 import '../../../styles/data-analysis.css';
 export async function getStaticPaths() {
-  return (await getCollection('archive', ({data}) => data.type === 'data-analysis' && data.status === 'published'))
+  return (await getCollection('archive', ({data}) => data.type === 'data-analysis' && data.status === 'published' && data.slug === 'crime-and-heat'))
     .map(entry => ({params:{slug:entry.data.slug},props:{entry}}));
 }
 const {entry} = Astro.props;

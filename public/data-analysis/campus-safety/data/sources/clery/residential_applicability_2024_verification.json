@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "year": 2024,
+  "campus_rows": 7208,
+  "institution_rows": 1428,
+  "institutions": 42,
+  "numeric_campuses": 103,
+  "corroborated_no_housing_campuses": 109,
+  "unresolved_campuses": 0,
+  "historical_counts_changed": false,
+  "original_blank_cells_overwritten": false,
+  "interpretation": "A derived sum over applicable residential geography; corroborated absence of geography is explicitly distinguished from a reportedzero. Does not establish alignment to occupancy denominator.",
+  "file_hashes": {
+    "cohort_campus_residential_applicability_2024.csv": "0265730ad5990ffd7947393509735f71077ebaa496e2294d16e72cdb87eb0ae4",
+    "cohort_institution_residential_2024_applicable_geography.csv": "5ca5efa4beb9a8242dcff0f513548f0f305a3fa3bdcfbb478330ac916e44ff14"
+  }
+}

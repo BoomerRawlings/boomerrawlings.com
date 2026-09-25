@@ -15,10 +15,10 @@ const entries = (await getCollection('archive', ({data}) => data.type === 'data-
     </header>
     <section aria-label="Studies" class="analysis-studies">
       {entries.map(entry => <article>
-        <p class="analysis-kicker">Observational analysis · September 2026</p>
+        <p class="analysis-kicker">Empirical study{entry.data.date ? ` · ${entry.data.date.toLocaleDateString('en-US', {month:'long', year:'numeric', timeZone:'UTC'})}` : ''}</p>
         <h2><a href={`/writing/data-analysis/${entry.data.slug}/`}>{entry.data.title}</a></h2>
         <p>{entry.data.description}</p>
-        <p class="analysis-meta">July 2018–December 2025 records · Primary analysis: 2021–2024</p>
+        {entry.data.analysisPeriod && <p class="analysis-meta">{entry.data.analysisPeriod}</p>}
         <a class="analysis-text-link" href={`/writing/data-analysis/${entry.data.slug}/`}>Read the study and explore the data <span aria-hidden="true">→</span></a>
       </article>)}
     </section>

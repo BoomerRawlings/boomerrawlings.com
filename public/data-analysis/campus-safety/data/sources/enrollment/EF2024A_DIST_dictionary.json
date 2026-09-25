@@ -1,0 +1,584 @@
+{
+  "Introduction": [
+    [
+      "File documentation for enrollment by distance education status and level of student: Fall 2024",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "(Provisional release)",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Filename",
+      "EF2024A_DIST",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Overview",
+      "This file contains the number of students enrolled in the fall, by distance education status and level of student.  Institutions with traditional academic year calendar systems (semester, quarter, trimester or  4-1-4) report their enrollment as of October 15 or the official fall reporting date of the institution. Institutions with calendar systems that differ by program or allow continuous enrollment report students that are enrolled at any time between August 1 and October 31. This file has multiple records per institution.  Records are uniquely defined by the variables IPEDS ID (UNITID), and level of student (EFDELEV).   Each record will contain the total students enrolled, students enrolled exclusively in distance education courses, students enrolled in some education distance education courses and students not enrolled in any distance education courses. The number of students enrolled in exclusively distance education courses are also reported by the following location categories: located in the same state/jurisdiction as the institution; in a different state/jurisdiction than the institution; in the U.S. but the state/jurisdiction is unknown; and residing outside the U.S..\n\n",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Notes",
+      "IPEDS data, including provisional release data and final release data, adhere to rigorous quality control procedures established by NCES.\u00a0Data are imputed for nonresponding institutions.\u00a0Provisional release\u00a0data are used for First Look  web tables. Final release data include revisions to the provisional release data that have been made by institutions during the subsequent data collection year. While the final release data\u00a0offer\u00a0\u00a0the most up to date data, these data may not match tables from the First Look web tables based on provisional\u00a0release\u00a0data.",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Contents of spreadsheet",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Varlist",
+      "Variable list: Lists all variables in the table. Includes the variable name, variable label and the Data type, format and maximum field width of each variable.  The data type describes a variable as either a numeric (N) or Alphanumeric (A) and the format of a variable defines a variable as either continuous (Cont) or categorical (Disc).  It all also lists the variable name of all imputation flag variables for each continuous variable. Imputation flag variable describes whether a value for the corresponding variable was reported, imputed or not applicable.",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Description",
+      "Long description or glossary definition of a variable. ",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Frequencies",
+      "This worksheet contains the code values for of all categorical variables in the data file. It also lists the frequency and percent distribution for each code value by variable.",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Statistics",
+      "This worksheet lists the sum, mean, minimum and maximum values of all continuous variables in the data file.",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "Imputation code values",
+      "This worksheet lists the code values for all imputation flag variables.",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  ],
+  "Varlist": [
+    [
+      "varNumber",
+      "varName",
+      "DataType",
+      "FieldWidth",
+      "format",
+      "imputationvar",
+      "varTitle"
+    ],
+    [
+      1,
+      "UNITID",
+      "N",
+      6,
+      "Cont",
+      "",
+      "Unique identification number of the institution"
+    ],
+    [
+      24816,
+      "EFDELEV",
+      "N",
+      3,
+      "Disc",
+      null,
+      "Level of student"
+    ],
+    [
+      24821,
+      "EFDETOT",
+      "N",
+      6,
+      "Cont",
+      "XEFDETOT",
+      "All students enrolled"
+    ],
+    [
+      24826,
+      "EFDEEXC",
+      "N",
+      6,
+      "Cont",
+      "XEFDEEXC",
+      "Students enrolled exclusively in distance education courses"
+    ],
+    [
+      24831,
+      "EFDESOM",
+      "N",
+      6,
+      "Cont",
+      "XEFDESOM",
+      "Students enrolled in some but not all distance education courses"
+    ],
+    [
+      24836,
+      "EFDENON",
+      "N",
+      6,
+      "Cont",
+      "XEFDENON",
+      "Student not enrolled in any distance education courses"
+    ],
+    [
+      24841,
+      "EFDEEX1",
+      "N",
+      6,
+      "Cont",
+      "XEFDEEX1",
+      "Students enrolled exclusively in distance education courses and are located in same state/jurisdiction as institution"
+    ],
+    [
+      24846,
+      "EFDEEX2",
+      "N",
+      6,
+      "Cont",
+      "XEFDEEX2",
+      "Students enrolled exclusively in distance education courses and are located in U.S., not in same state/jurisdiction as institution"
+    ],
+    [
+      24851,
+      "EFDEEX3",
+      "N",
+      6,
+      "Cont",
+      "XEFDEEX3",
+      "Students enrolled exclusively in distance education courses and are located in U.S., state/jurisdiction unknown"
+    ],
+    [
+      24856,
+      "EFDEEX4",
+      "N",
+      6,
+      "Cont",
+      "XEFDEEX4",
+      "Students enrolled exclusively in distance education courses and are located outside U.S.  "
+    ],
+    [
+      24861,
+      "EFDEEX5",
+      "N",
+      6,
+      "Cont",
+      "XEFDEEX5",
+      "Students enrolled exclusively in distance education courses and location of student unknown/not reported  "
+    ]
+  ],
+  "Description": [
+    [
+      "varNumber",
+      "varName",
+      "longDescription"
+    ],
+    [
+      1,
+      "UNITID",
+      null
+    ],
+    [
+      24816,
+      "EFDELEV",
+      "Level and degree-seeking/non degree-seeking status of student  - This variable identifies the level of enrollment data for the institution.  Enrollment counts are available by level of student (undergraduate or graduate).  Undergraduate enrollments are disaggregated by degree-seeking and non-degree seeking status. _x000D_\n _x000D_\nUndergraduate  A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate.  _x000D_\n _x000D_\nDegree/certificate-seeking students  Students enrolled in courses for credit and recognized by the institution as seeking a degree, certificate, or other formal award. High school students also enrolled in postsecondary courses for credit are not considered degree/certificate-seeking.  _x000D_\n  _x000D_\nGraduate student  A student who holds a bachelor's degree or above and is taking courses at the postbaccalaureate level. These students may or may not be enrolled in graduate programs."
+    ],
+    [
+      24821,
+      "EFDETOT",
+      "Grand total enrolled for credit during the fall_x000D_\n_x000D_\nCREDIT - Recognition of attendance or performance in an instructional activity (course or program) that can be applied by a recipient toward the requirements for a degree, diploma, certificate, or other formal award._x000D_\nNOTE: Enrollment reported is of the institution's official fall reporting date or October 15."
+    ],
+    [
+      24826,
+      "EFDEEXC",
+      "Students who are enrolled only in courses that are considered distance education courses._x000D_\n_x000D_\nNOTE: Includes only students enrolled for credit as of the institution's official fall reporting date or October 15._x000D_\n_x000D_\nDistance education course - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.  _x000D_\n_x000D_\nDistance education - Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously._x000D_\n_x000D_\nTechnologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above."
+    ],
+    [
+      24831,
+      "EFDESOM",
+      "Students who are enrolled in at least one course that is considered a distance education course, but are not enrolled exclusively in distance education courses._x000D_\n_x000D_\nNOTE: Includes only students enrolled for credit as of the institution's official fall reporting date or October 15._x000D_\n_x000D_\nDistance education course - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.  _x000D_\n_x000D_\nDistance education - Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously._x000D_\n_x000D_\nTechnologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above."
+    ],
+    [
+      24836,
+      "EFDENON",
+      "Students who are not enrolled in any distance education courses._x000D_\n_x000D_\nNOTE: Includes only students enrolled for credit as of the institution's official fall reporting date or October 15._x000D_\n_x000D_\nDistance education course - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.  _x000D_\n_x000D_\nDistance education - Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously._x000D_\n_x000D_\nTechnologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above."
+    ],
+    [
+      24841,
+      "EFDEEX1",
+      "Students who are enrolled only in courses that are considered distance education courses that are located in the same state/jurisdiction as the institution._x000D_\n_x000D_\nNOTE: Includes only students enrolled for credit as of the institution's official fall reporting date or October 15._x000D_\n_x000D_\nDistance education course - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.  _x000D_\n_x000D_\nDistance education - Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously._x000D_\n_x000D_\nTechnologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above."
+    ],
+    [
+      24846,
+      "EFDEEX2",
+      "Students who are enrolled only in courses that are considered distance education courses that are lin a different state/jurisdiction than the institution._x000D_\n_x000D_\nNOTE: Includes only students enrolled for credit as of the institution's official fall reporting date or October 15._x000D_\n_x000D_\nDistance education course - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.  _x000D_\n_x000D_\nDistance education - Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously._x000D_\n_x000D_\nTechnologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above."
+    ],
+    [
+      24851,
+      "EFDEEX3",
+      "Students who are enrolled only in courses that are considered distance education courses in the U.S. but the state/jurisdiction is unknown_x000D_\n_x000D_\nNOTE: Includes only students enrolled for credit as of the institution's official fall reporting date or October 15._x000D_\n_x000D_\nDistance education course - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.  _x000D_\n_x000D_\nDistance education - Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously._x000D_\n_x000D_\nTechnologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above."
+    ],
+    [
+      24856,
+      "EFDEEX4",
+      "Students who are enrolled only in courses that are considered distance education courses that are residing outside the U.S._x000D_\n_x000D_\nNOTE: Includes only students enrolled for credit as of the institution's official fall reporting date or October 15._x000D_\n_x000D_\n_x000D_\nDistance education course - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.  _x000D_\n_x000D_\nDistance education - Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously._x000D_\n_x000D_\nTechnologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above."
+    ],
+    [
+      24861,
+      "EFDEEX5",
+      "Students who are enrolled only in courses that are considered distance education courses and the location is unknown/not reported_x000D_\n_x000D_\nNOTE: Includes only students enrolled for credit as of the institution's official fall reporting date or October 15._x000D_\n_x000D_\nDistance education course - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.  _x000D_\n_x000D_\nDistance education - Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously._x000D_\n_x000D_\nTechnologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above."
+    ]
+  ],
+  "Frequencies": [
+    [
+      "VarName",
+      "VarNumber",
+      "TableName",
+      "CodeValue",
+      "ValueLabel",
+      "Frequency",
+      "Percent"
+    ],
+    [
+      "EFDELEV",
+      24816,
+      "EF2024A_DIST",
+      "1",
+      "All students total",
+      "5,842",
+      26.775
+    ],
+    [
+      "EFDELEV",
+      24816,
+      "EF2024A_DIST",
+      "2",
+      "Undergraduate total",
+      "5,577",
+      25.56
+    ],
+    [
+      "EFDELEV",
+      24816,
+      "EF2024A_DIST",
+      "3",
+      "Degree/certificate-seeking total ",
+      "5,573",
+      25.542
+    ],
+    [
+      "EFDELEV",
+      24816,
+      "EF2024A_DIST",
+      "11",
+      "Non-degree/certificate-seeking",
+      "2,786",
+      12.769
+    ],
+    [
+      "EFDELEV",
+      24816,
+      "EF2024A_DIST",
+      "12",
+      "Graduate",
+      "2,041",
+      9.354
+    ]
+  ],
+  "Statistics": [
+    [
+      "VarNumber",
+      "VarName",
+      "N",
+      "SUM",
+      "MEAN",
+      "MIN",
+      "MAX",
+      "varTitle"
+    ],
+    [
+      24821,
+      "EFDETOT",
+      21819,
+      57736508,
+      2646.157,
+      1,
+      210208,
+      "All students enrolled"
+    ],
+    [
+      24826,
+      "EFDEEXC",
+      15309,
+      14616479,
+      954.764,
+      0,
+      210208,
+      "Students enrolled exclusively in distance education courses"
+    ],
+    [
+      24831,
+      "EFDESOM",
+      15035,
+      16441525,
+      1093.55,
+      0,
+      42409,
+      "Students enrolled in some but not all distance education courses"
+    ],
+    [
+      24836,
+      "EFDENON",
+      21545,
+      26678504,
+      1238.269,
+      0,
+      78108,
+      "Student not enrolled in any distance education courses"
+    ],
+    [
+      24841,
+      "EFDEEX1",
+      12552,
+      9229598,
+      735.309,
+      0,
+      26422,
+      "Students enrolled exclusively in distance education courses and are located in same state/jurisdiction as institution"
+    ],
+    [
+      24846,
+      "EFDEEX2",
+      12552,
+      4792327,
+      381.798,
+      0,
+      199614,
+      "Students enrolled exclusively in distance education courses and are located in U.S., not in same state/jurisdiction as institution"
+    ],
+    [
+      24851,
+      "EFDEEX3",
+      12552,
+      99852,
+      7.955,
+      0,
+      7661,
+      "Students enrolled exclusively in distance education courses and are located in U.S., state/jurisdiction unknown"
+    ],
+    [
+      24856,
+      "EFDEEX4",
+      12552,
+      330011,
+      26.292,
+      0,
+      35745,
+      "Students enrolled exclusively in distance education courses and are located outside U.S.  "
+    ],
+    [
+      24861,
+      "EFDEEX5",
+      12552,
+      164691,
+      13.121,
+      0,
+      20133,
+      "Students enrolled exclusively in distance education courses and location of student unknown/not reported  "
+    ]
+  ],
+  "Imputation values": [
+    [
+      "CodeValue",
+      "ValueLabel"
+    ],
+    [
+      "A",
+      "Not applicable"
+    ],
+    [
+      "B",
+      "Institution left item blank"
+    ],
+    [
+      "C",
+      "Analyst corrected reported value"
+    ],
+    [
+      "D",
+      "Do not know"
+    ],
+    [
+      "G",
+      "Data generated from other data values"
+    ],
+    [
+      "H",
+      "Value not derived - data not usable"
+    ],
+    [
+      "J",
+      "Logical imputation"
+    ],
+    [
+      "K",
+      "Ratio adjustment"
+    ],
+    [
+      "L",
+      "Imputed using the Group Median procedure"
+    ],
+    [
+      "N",
+      "Imputed using Nearest Neighbor procedure"
+    ],
+    [
+      "P",
+      "Imputed using Carry Forward procedure"
+    ],
+    [
+      "R",
+      "Reported"
+    ],
+    [
+      "Z",
+      "Implied zero"
+    ]
+  ]
+}

@@ -1,0 +1,794 @@
+[
+  {
+    "unitid": "110404",
+    "campus_id": "110404001",
+    "label": "Caltech",
+    "group": "Criminal Offenses",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110404001"
+  },
+  {
+    "unitid": "110404",
+    "campus_id": "110404001",
+    "label": "Caltech",
+    "group": "Criminal Offenses",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "Motorized bike and scooters were stolen from Housing common area locations.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110404001"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644001",
+    "label": "UC Davis",
+    "group": "Arrests",
+    "screen": "On campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644001"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644001",
+    "label": "UC Davis",
+    "group": "Arrests",
+    "screen": "On campus",
+    "text": "For 2023, Line a. Weapons: carrying, possessing, etc. was changed from 3 to 5 after an internal audit of Clery incident classification procedures.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644001"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644001",
+    "label": "UC Davis",
+    "group": "Arrests",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644001"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644001",
+    "label": "UC Davis",
+    "group": "Arrests",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "For 2023, Line a. Weapons: carrying, possessing, etc. was changed from 0 to 1 after an internal audit of Clery incident classification procedures.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644001"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644001",
+    "label": "UC Davis",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644001"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644001",
+    "label": "UC Davis",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "For year 2023, Line c. Rape was changed from 13 to 14 after an internal audit of Clery incident classification procedures. For year 2023, Line i. Burglary was changed from 93 to 94 after an internal audit of Clery incident classification procedures. For year 2023, Line j. Motor Vehicle Theft was changed from 157 to 158 after an internal audit of Clery incident classification procedures. For year 2023, Line k. Arson was changed from 10 to 12 after an internal audit of Clery incident classification procedures.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644001"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644001",
+    "label": "UC Davis",
+    "group": "Criminal Offenses",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644001"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644001",
+    "label": "UC Davis",
+    "group": "Criminal Offenses",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "For 2023, Line c. Rape was changed from 11 to 12 after an internal audit of Clery incident classification procedures.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644001"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644001",
+    "label": "UC Davis",
+    "group": "VAWA Offenses",
+    "screen": "On Campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644001"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644001",
+    "label": "UC Davis",
+    "group": "VAWA Offenses",
+    "screen": "On Campus",
+    "text": "For 2023, Line b. Dating Violence was changed from 13 to 14 after an internal audit of Clery incident classification procedures. For 2023, Line c. Stalking was changed from 32 to 33 after an internal audit of Clery incident classification procedures.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644001"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644001",
+    "label": "UC Davis",
+    "group": "VAWA Offenses",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644001"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644001",
+    "label": "UC Davis",
+    "group": "VAWA Offenses",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "For 2023, Line b. Dating Violence was changed from 12 to 13 after an internal audit of Clery incident classification procedures.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644001"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644002",
+    "label": "UC Davis",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644002"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644002",
+    "label": "UC Davis",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "For Year 2023, Line i. Burglary was changed from 5 to 6 after an internal audit of Clery incident classification procedures.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644002"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644002",
+    "label": "UC Davis",
+    "group": "Unfounded Crimes",
+    "screen": "Unfounded Crimes",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644002"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644002",
+    "label": "UC Davis",
+    "group": "Unfounded Crimes",
+    "screen": "Unfounded Crimes",
+    "text": "For 2022, Line a. Total unfounded crimes was changed from 0 to 3 based on the results of a survey of recent Medical Center crimes.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644002"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644002",
+    "label": "UC Davis",
+    "group": "VAWA Offenses",
+    "screen": "On Campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644002"
+  },
+  {
+    "unitid": "110644",
+    "campus_id": "110644002",
+    "label": "UC Davis",
+    "group": "VAWA Offenses",
+    "screen": "On Campus",
+    "text": "For 2023, Line c. Stalking was changed from 6 to 8 after an internal audit of Clery incident classification procedures.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110644002"
+  },
+  {
+    "unitid": "110671",
+    "campus_id": "110671001",
+    "label": "UC Riverside",
+    "group": "VAWA Offenses",
+    "screen": "On Campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110671001"
+  },
+  {
+    "unitid": "110671",
+    "campus_id": "110671001",
+    "label": "UC Riverside",
+    "group": "VAWA Offenses",
+    "screen": "On Campus",
+    "text": "For 2023, Line \"Dating Violence\" was changed from 11 to 14 due to an administrative error.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110671001"
+  },
+  {
+    "unitid": "110671",
+    "campus_id": "110671001",
+    "label": "UC Riverside",
+    "group": "VAWA Offenses",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110671001"
+  },
+  {
+    "unitid": "110671",
+    "campus_id": "110671001",
+    "label": "UC Riverside",
+    "group": "VAWA Offenses",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "For 2023, Line \"Dating Violence\" was changed from 7 to 8 due to an administrative error.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110671001"
+  },
+  {
+    "unitid": "110680",
+    "campus_id": "110680001",
+    "label": "UC San Diego",
+    "group": "Criminal Offenses",
+    "screen": "Noncampus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110680001"
+  },
+  {
+    "unitid": "110680",
+    "campus_id": "110680001",
+    "label": "UC San Diego",
+    "group": "Criminal Offenses",
+    "screen": "Noncampus",
+    "text": "For 2023, Line c was changed from 4 to 8 because there were 4 additional incidents of rape reported on non-campus property. For 2022, Line c was changed from 4 to 5 because there was 1 additional incident of rape reported on non-campus property. For 2022, Line d was changed from 8 to 12 because there were 4 additional incidents of fondling reported on non-campus property.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110680001"
+  },
+  {
+    "unitid": "110680",
+    "campus_id": "110680001",
+    "label": "UC San Diego",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110680001"
+  },
+  {
+    "unitid": "110680",
+    "campus_id": "110680001",
+    "label": "UC San Diego",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "For 2022, Line c was changed from 14 to 15 because there was 1 additional incident of rape reported on campus. For 2023, Line c was changed from 16 to 19 because there were 2 additional incidents of rape reported in an on-campus student housing facility and 1 additional incident of rape reported on campus. For 2023, Line d was changed from 16 to 21 because there were 3 additional incidents of fondling reported in an on-campus student housing facility and 2 additional incidents of fondling reported on campus. For 2023, Line h was changed from 8 to 9 because there was 1 additional incident of aggravated assault reported in an on-campus student housing facility. For 2023, Line i was changed from 36 to 37 because there was 1 additional incident of burglary reported in an on-campus student housing facility. For 2023, Line j was changed from 472 to 489 because there were 17 additional incidents of motor vehicle theft reported on campus.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110680001"
+  },
+  {
+    "unitid": "110680",
+    "campus_id": "110680001",
+    "label": "UC San Diego",
+    "group": "Criminal Offenses",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110680001"
+  },
+  {
+    "unitid": "110680",
+    "campus_id": "110680001",
+    "label": "UC San Diego",
+    "group": "Criminal Offenses",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "For 2023, Line c was changed from 9 to 11 because there were 2 additional incidents of rape reported in an on-campus student housing facility. For 2023, Line d was changed from 3 to 6 because there were 3 additional incidents of fondling reported in an on-campus student housing facility. For 2023, Line h was changed from 4 to 5 because there was 1 additional incident of aggravated assault reported in an on-campus student housing facility. For 2023, Line i was changed from 17 to 18 because there was 1 additional incident of burglary reported in an on-campus student housing facility. For 2022, Line k was changed from 1 to 0 because the arson occurred outside the residence and is included in the on campus category.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110680001"
+  },
+  {
+    "unitid": "110680",
+    "campus_id": "110680001",
+    "label": "UC San Diego",
+    "group": "Hate Crimes",
+    "screen": "On campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110680001"
+  },
+  {
+    "unitid": "110680",
+    "campus_id": "110680001",
+    "label": "UC San Diego",
+    "group": "Hate Crimes",
+    "screen": "On campus",
+    "text": "For 2023, Line n was changed from 0 to 1 because there was 1 additional Intimidation incident characterized by religion bias reported on-campus.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110680001"
+  },
+  {
+    "unitid": "110680",
+    "campus_id": "110680001",
+    "label": "UC San Diego",
+    "group": "VAWA Offenses",
+    "screen": "Noncampus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110680001"
+  },
+  {
+    "unitid": "110680",
+    "campus_id": "110680001",
+    "label": "UC San Diego",
+    "group": "VAWA Offenses",
+    "screen": "Noncampus",
+    "text": "For 2023, Line c was changed from 1 to 2 because there was 1 additional incident of stalking reported on non-campus property.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110680001"
+  },
+  {
+    "unitid": "110680",
+    "campus_id": "110680001",
+    "label": "UC San Diego",
+    "group": "VAWA Offenses",
+    "screen": "On Campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110680001"
+  },
+  {
+    "unitid": "110680",
+    "campus_id": "110680001",
+    "label": "UC San Diego",
+    "group": "VAWA Offenses",
+    "screen": "On Campus",
+    "text": "For 2023, Line b was changed from 8 to 10 because there were 2 additional incidents of dating violence reported in an on-campus student housing facility. For 2022, Line c was changed from 14 to 15 because there was 1 additional incident of stalking reported on campus. For 2023, Line c was changed from 14 to 16 because there were 2 additional incidents of stalking reported on campus.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110680001"
+  },
+  {
+    "unitid": "110680",
+    "campus_id": "110680001",
+    "label": "UC San Diego",
+    "group": "VAWA Offenses",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110680001"
+  },
+  {
+    "unitid": "110680",
+    "campus_id": "110680001",
+    "label": "UC San Diego",
+    "group": "VAWA Offenses",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "For 2023, Line b was changed from 5 to 7 because there were 2 additional incidents of dating violence reported in an on-campus student housing facility.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/110680001"
+  },
+  {
+    "unitid": "123961",
+    "campus_id": "123961001",
+    "label": "USC",
+    "group": "Hate Crimes",
+    "screen": "Noncampus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/123961001"
+  },
+  {
+    "unitid": "123961",
+    "campus_id": "123961001",
+    "label": "USC",
+    "group": "Hate Crimes",
+    "screen": "Noncampus",
+    "text": "For 2023 line l was changed from 4 to 0 to correct a data entry error.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/123961001"
+  },
+  {
+    "unitid": "123961",
+    "campus_id": "123961001",
+    "label": "USC",
+    "group": "Hate Crimes",
+    "screen": "Public Property",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/123961001"
+  },
+  {
+    "unitid": "123961",
+    "campus_id": "123961001",
+    "label": "USC",
+    "group": "Hate Crimes",
+    "screen": "Public Property",
+    "text": "For 2023 line l was changed from 0 to 4 to correct a data entry error.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/123961001"
+  },
+  {
+    "unitid": "123961",
+    "campus_id": "123961015",
+    "label": "USC",
+    "group": "Arrests",
+    "screen": "Public Property",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/123961015"
+  },
+  {
+    "unitid": "123961",
+    "campus_id": "123961015",
+    "label": "USC",
+    "group": "Arrests",
+    "screen": "Public Property",
+    "text": "For 2023, line a. was changed from 0 to 1 for partial year statistics.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/123961015"
+  },
+  {
+    "unitid": "139755",
+    "campus_id": "139755001",
+    "label": "Georgia Tech",
+    "group": "Hate Crimes",
+    "screen": "Noncampus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/139755001"
+  },
+  {
+    "unitid": "139755",
+    "campus_id": "139755001",
+    "label": "Georgia Tech",
+    "group": "Hate Crimes",
+    "screen": "Noncampus",
+    "text": "One (1) Clery-reportable intimidation incident based on religious bias was reported as a hate crime on the \"non-campus\" Clery geography on the Georgia Tech - Atlanta campus in 2023.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/139755001"
+  },
+  {
+    "unitid": "139755",
+    "campus_id": "139755001",
+    "label": "Georgia Tech",
+    "group": "Hate Crimes",
+    "screen": "On campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/139755001"
+  },
+  {
+    "unitid": "139755",
+    "campus_id": "139755001",
+    "label": "Georgia Tech",
+    "group": "Hate Crimes",
+    "screen": "On campus",
+    "text": "For 2024, one (1) Clery-reportable aggravated assault incident based on religious and race biases was reported as a hate crime on the \"on-campus, student housing facility\" Clery geography on the Georgia Tech - Atlanta campus. For 2024, one (1) Clery-reportable vandalism incident based on religious bias was reported as a hate crime on the \"on campus\" Clery geography on the Georgia Tech - Atlanta campus. For 2023, one (1) Clery-reportable vandalism incident based on religious and race biases was reported as a hate crime on the \"on-campus, student housing facility\" Clery geography on the Georgia Tech - Atlanta campus.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/139755001"
+  },
+  {
+    "unitid": "139755",
+    "campus_id": "139755001",
+    "label": "Georgia Tech",
+    "group": "Hate Crimes",
+    "screen": "On-campus Student Housing Facilities",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/139755001"
+  },
+  {
+    "unitid": "139755",
+    "campus_id": "139755001",
+    "label": "Georgia Tech",
+    "group": "Hate Crimes",
+    "screen": "On-campus Student Housing Facilities",
+    "text": "One (1) Clery-reportable aggravated assault incident based on religious and race biases was reported as a hate crime on the \"on-campus, student housing facility\" Clery geography on the Georgia Tech - Atlanta campus in 2024. One (1) Clery-reportable vandalism incident based on religious and race biases was reported as a hate crime on the \"on-campus, student housing facility\" Clery geography on the Georgia Tech - Atlanta campus in 2023.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/139755001"
+  },
+  {
+    "unitid": "139755",
+    "campus_id": "139755001",
+    "label": "Georgia Tech",
+    "group": "Hate Crimes",
+    "screen": "Public Property",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/139755001"
+  },
+  {
+    "unitid": "139755",
+    "campus_id": "139755001",
+    "label": "Georgia Tech",
+    "group": "Hate Crimes",
+    "screen": "Public Property",
+    "text": "One (1) Clery-reportable intimidation incident based on race bias was reported as a hate crime on the \"public property\" Clery geography on the Georgia Tech - Atlanta campus in 2023.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/139755001"
+  },
+  {
+    "unitid": "147767",
+    "campus_id": "147767001",
+    "label": "Northwestern",
+    "group": "Hate Crimes",
+    "screen": "On campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/147767001"
+  },
+  {
+    "unitid": "147767",
+    "campus_id": "147767001",
+    "label": "Northwestern",
+    "group": "Hate Crimes",
+    "screen": "On campus",
+    "text": "For 2024, Line L, one instance of simple assault was motivated by religion (captured in the table) and also national origin. For 2024, Line M, one instance of larceny-theft was motivated by religion (captured in the table) and also national origin.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/147767001"
+  },
+  {
+    "unitid": "166683",
+    "campus_id": "166683001",
+    "label": "MIT",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/166683001"
+  },
+  {
+    "unitid": "166683",
+    "campus_id": "166683001",
+    "label": "MIT",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "Upon further review, it was discovered that one of the motor vehicle thefts was from a bike cage that required individuals to leave the residence hall to gain access. This motor vehicle theft is now counted as an on campus motor vehicle theft and not an on campus residential motor vehicle theft.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/166683001"
+  },
+  {
+    "unitid": "166683",
+    "campus_id": "166683001",
+    "label": "MIT",
+    "group": "Disciplinary Actions",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/166683001"
+  },
+  {
+    "unitid": "166683",
+    "campus_id": "166683001",
+    "label": "MIT",
+    "group": "Disciplinary Actions",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "Last year's report had 43 liquor referrals originating from the same incident.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/166683001"
+  },
+  {
+    "unitid": "166683",
+    "campus_id": "166683001",
+    "label": "MIT",
+    "group": "Unfounded Crimes",
+    "screen": "Unfounded Crimes",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/166683001"
+  },
+  {
+    "unitid": "166683",
+    "campus_id": "166683001",
+    "label": "MIT",
+    "group": "Unfounded Crimes",
+    "screen": "Unfounded Crimes",
+    "text": "There were lines scratched on the surface of a plexiglass case at the Hart Nautical Museum. It was found to be undetermined whether there was intention to draw a hate symbol.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/166683001"
+  },
+  {
+    "unitid": "190150",
+    "campus_id": "190150001",
+    "label": "Columbia",
+    "group": "Hate Crimes",
+    "screen": "On campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/190150001"
+  },
+  {
+    "unitid": "190150",
+    "campus_id": "190150001",
+    "label": "Columbia",
+    "group": "Hate Crimes",
+    "screen": "On campus",
+    "text": "In 2024, a stalking hate crime incident was reported in our on-campus residential property.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/190150001"
+  },
+  {
+    "unitid": "190150",
+    "campus_id": "190150001",
+    "label": "Columbia",
+    "group": "Hate Crimes",
+    "screen": "On-campus Student Housing Facilities",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/190150001"
+  },
+  {
+    "unitid": "190150",
+    "campus_id": "190150001",
+    "label": "Columbia",
+    "group": "Hate Crimes",
+    "screen": "On-campus Student Housing Facilities",
+    "text": "In 2024, a stalking hate crime incident was reported in our on-campus residential property.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/190150001"
+  },
+  {
+    "unitid": "190150",
+    "campus_id": "190150007",
+    "label": "Columbia",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/190150007"
+  },
+  {
+    "unitid": "190150",
+    "campus_id": "190150007",
+    "label": "Columbia",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "For years 2022 and 2023 there were 0 Clery crimes on our Clery reportable geography.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/190150007"
+  },
+  {
+    "unitid": "190150",
+    "campus_id": "190150008",
+    "label": "Columbia",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/190150008"
+  },
+  {
+    "unitid": "190150",
+    "campus_id": "190150008",
+    "label": "Columbia",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "For years 2022 and 2023 there were 0 Clery Crimes in our Clery Reportable Geography.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/190150008"
+  },
+  {
+    "unitid": "193900",
+    "campus_id": "193900031",
+    "label": "NYU",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/193900031"
+  },
+  {
+    "unitid": "193900",
+    "campus_id": "193900031",
+    "label": "NYU",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "For the years 2023 and 2022, there were zero Clery crimes reported on our geography.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/193900031"
+  },
+  {
+    "unitid": "193900",
+    "campus_id": "193900033",
+    "label": "NYU",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/193900033"
+  },
+  {
+    "unitid": "193900",
+    "campus_id": "193900033",
+    "label": "NYU",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "There were no Clery crimes reported for 2023 and 2022 within our geography.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/193900033"
+  },
+  {
+    "unitid": "193900",
+    "campus_id": "193900034",
+    "label": "NYU",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/193900034"
+  },
+  {
+    "unitid": "193900",
+    "campus_id": "193900034",
+    "label": "NYU",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "There were no Clery crimes reported for 2023 and 2022 within our geography.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/193900034"
+  },
+  {
+    "unitid": "199120",
+    "campus_id": "199120001",
+    "label": "North Carolina Chapel Hill",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/199120001"
+  },
+  {
+    "unitid": "199120",
+    "campus_id": "199120001",
+    "label": "North Carolina Chapel Hill",
+    "group": "Criminal Offenses",
+    "screen": "On campus",
+    "text": "For 2023, Line d. was changed from 3 to 2, after an internal audit of our Clery cases and statistics. For 2023, Line j. was changed from 69 to 67, after an internal audit of our Clery cases and statistics.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/199120001"
+  },
+  {
+    "unitid": "199120",
+    "campus_id": "199120001",
+    "label": "North Carolina Chapel Hill",
+    "group": "Disciplinary Actions",
+    "screen": "Noncampus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/199120001"
+  },
+  {
+    "unitid": "199120",
+    "campus_id": "199120001",
+    "label": "North Carolina Chapel Hill",
+    "group": "Disciplinary Actions",
+    "screen": "Noncampus",
+    "text": "For 2023, Line c. was changed from 0 to 2 after an internal audit of our alcohol cases and statistics.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/199120001"
+  },
+  {
+    "unitid": "199120",
+    "campus_id": "199120001",
+    "label": "North Carolina Chapel Hill",
+    "group": "Disciplinary Actions",
+    "screen": "On Campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/199120001"
+  },
+  {
+    "unitid": "199120",
+    "campus_id": "199120001",
+    "label": "North Carolina Chapel Hill",
+    "group": "Disciplinary Actions",
+    "screen": "On Campus",
+    "text": "For 2023, Line c. was changed from 180 to 307 after an internal audit of our alcohol cases and statistics.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/199120001"
+  },
+  {
+    "unitid": "199120",
+    "campus_id": "199120001",
+    "label": "North Carolina Chapel Hill",
+    "group": "Disciplinary Actions",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/199120001"
+  },
+  {
+    "unitid": "199120",
+    "campus_id": "199120001",
+    "label": "North Carolina Chapel Hill",
+    "group": "Disciplinary Actions",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "For 2023, Line c. was changed from 167 to 295 after an internal audit of our alcohol cases and statistics.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/199120001"
+  },
+  {
+    "unitid": "199120",
+    "campus_id": "199120001",
+    "label": "North Carolina Chapel Hill",
+    "group": "Disciplinary Actions",
+    "screen": "Public Property",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/199120001"
+  },
+  {
+    "unitid": "199120",
+    "campus_id": "199120001",
+    "label": "North Carolina Chapel Hill",
+    "group": "Disciplinary Actions",
+    "screen": "Public Property",
+    "text": "For 2023, Line c. was changed from 0 to 6 after an internal audit of our alcohol cases and statistics.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/199120001"
+  },
+  {
+    "unitid": "199120",
+    "campus_id": "199120001",
+    "label": "North Carolina Chapel Hill",
+    "group": "Hate Crimes",
+    "screen": "On campus",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/199120001"
+  },
+  {
+    "unitid": "199120",
+    "campus_id": "199120001",
+    "label": "North Carolina Chapel Hill",
+    "group": "Hate Crimes",
+    "screen": "On campus",
+    "text": "The higher number of reported hate crimes at UNC-Chapel Hill reflects the occurrence of large-scale free expression events on campus during 2024 related to international conflicts. The University’s commitment to accurately documenting and addressing these incidents evidence UNC-Chapel Hill’s dedication to transparency, community safety, and support for those affected. The University took a number of steps to address these reported incidents, including providing campus alerts and other messages to the campus to ensure public safety. The University remains committed to programming intended to prevent misconduct motivated by bias and to addressing such conduct when it occurs.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/199120001"
+  },
+  {
+    "unitid": "234076",
+    "campus_id": "234076001",
+    "label": "Virginia",
+    "group": "Criminal Offenses",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "Caveat:",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/234076001"
+  },
+  {
+    "unitid": "234076",
+    "campus_id": "234076001",
+    "label": "Virginia",
+    "group": "Criminal Offenses",
+    "screen": "On-Campus Student Housing Facilities",
+    "text": "For 2023, Line Rape - Student Housing was changed from 13 to 12 because the previous entry was a typo.",
+    "source_url": "https://ope.ed.gov/campussafety/api/campus/234076001"
+  }
+]

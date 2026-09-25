@@ -1,0 +1,26 @@
+{
+  "source_url": "https://www.auditor.ca.gov/wp-content/uploads/2025/10/2024-111-Report.pdf",
+  "pdf_sha256": "4057db7b14e1b85bb6980ad19455f873b474358d9f10fd0725e0ac68a24504b6",
+  "transcription": "Manually transcribed from rendered official tables; all UC annual enrollment and occupancy sums checked against printed system totals.",
+  "source_printed_pages": [
+    56,
+    57,
+    58,
+    59
+  ],
+  "source_pdf_pages": [
+    62,
+    63,
+    64,
+    65
+  ],
+  "all_rows": 66,
+  "primary_rows": 33,
+  "primary_institutions": 11,
+  "primary_not_sourced_institutions": 31,
+  "uc_totals_all_six_years_reconciled": true,
+  "clery_property_matches_verified": false,
+  "auditor_ipeds_enrollment_mismatches": 3,
+  "ucsd_2024_actual_occupancy": 21907,
+  "sdsu_2024_actual_occupancy": 8367
+}

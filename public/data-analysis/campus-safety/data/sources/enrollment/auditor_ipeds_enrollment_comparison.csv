@@ -1,0 +1,34 @@
+unitid,label,year,fall_enrollment_auditor,fall_enrollment_ipeds,auditor_minus_ipeds,interpretation
+110635,UC Berkeley,2022,45307,45307,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110635,UC Berkeley,2023,45699,45699,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110635,UC Berkeley,2024,45882,45882,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110644,UC Davis,2022,39679,39679,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110644,UC Davis,2023,39707,39707,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110644,UC Davis,2024,40065,40065,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110653,UC Irvine,2022,35937,35937,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110653,UC Irvine,2023,36582,36582,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110653,UC Irvine,2024,37297,37297,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110662,UCLA,2022,46430,46430,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110662,UCLA,2023,46678,46678,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110662,UCLA,2024,47335,47335,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+445188,UC Merced,2022,9103,9103,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+445188,UC Merced,2023,9147,9147,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+445188,UC Merced,2024,9110,9110,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110671,UC Riverside,2022,26809,26809,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110671,UC Riverside,2023,26426,26426,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110671,UC Riverside,2024,26384,26384,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110680,UC San Diego,2022,42006,42006,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110680,UC San Diego,2023,42376,42376,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110680,UC San Diego,2024,44256,44256,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110699,UC San Francisco,2022,3140,3140,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110699,UC San Francisco,2023,3126,3126,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110699,UC San Francisco,2024,3007,3007,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110705,UC Santa Barbara,2022,26420,26420,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110705,UC Santa Barbara,2023,26068,26068,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110705,UC Santa Barbara,2024,26133,26133,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110714,UC Santa Cruz,2022,19478,19478,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110714,UC Santa Cruz,2023,19764,19764,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+110714,UC Santa Cruz,2024,19938,19938,0,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+122409,San Diego State,2022,36637,37402,-765,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+122409,San Diego State,2023,37538,39241,-1703,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.
+122409,San Diego State,2024,39373,41137,-1764,Separate source scopes/vintages retained; occupancy is not inferred from either enrollment series.

@@ -1,0 +1,190 @@
+{
+  "status": "PASS",
+  "review_date": "2026-09-25",
+  "scope": "Source-value checks for public claims. Original federal workbooks and annual IPEDS files independently read; housing occupancy independently transcribed. No production builder imported. Does not replace final prose/PDF audit.",
+  "check_counts": {
+    "cohort": 7,
+    "api_identity": 212,
+    "api_geography": 1,
+    "enrollment": 128,
+    "occupancy": 127,
+    "branch_notes": 104,
+    "original_federal_aggregate": 3528,
+    "category_total": 252,
+    "coverage": 4,
+    "case_study": 24
+  },
+  "total_checks": 4387,
+  "errors": [],
+  "coverage": {
+    "2022": 36,
+    "2023": 38,
+    "2024": 42
+  },
+  "incomplete_pooled_institutions": [
+    "123961",
+    "134130",
+    "190150",
+    "193900",
+    "199120",
+    "234076"
+  ],
+  "medical_note_evidence": [
+    {
+      "unitid": "190150",
+      "medical_location_names": [
+        "Medical Center Campus"
+      ]
+    },
+    {
+      "unitid": "134130",
+      "medical_location_names": [
+        "UF Health Jacksonville",
+        "Florida Medical Entomology Laboratory ",
+        "The Herbert Wertheim UF Scripps Institute for Biomedical Innovation & Technology"
+      ]
+    },
+    {
+      "unitid": "162928",
+      "medical_location_names": [
+        "Johns Hopkins Medical Institutions, Baltimore, Md.",
+        "Bayview Medical Center"
+      ]
+    },
+    {
+      "unitid": "193900",
+      "medical_location_names": [
+        "NYU Langone Hospital - Brooklyn"
+      ]
+    },
+    {
+      "unitid": "110644",
+      "medical_location_names": [
+        "UC Davis Medical Center"
+      ]
+    },
+    {
+      "unitid": "110653",
+      "medical_location_names": [
+        "UCI Medical Center"
+      ]
+    },
+    {
+      "unitid": "110699",
+      "medical_location_names": [
+        "UCSF Benioff Children's Hospital - Oakland"
+      ]
+    }
+  ],
+  "reviewed_file_hashes": {
+    "campus_safety_analysis/publication/data/dataset.json": "5a4ac282c79e3e0a6d6fec478b24b6bae1c47d8350863d582314de39a01ef998",
+    "campus_safety_analysis/publication/data/case_study.json": "5ed64dbca52b2d9768bc52d561cdaaa8640f11cef13b044dcf832e17c6e9da43",
+    "campus_safety_analysis/publication/data/annual_rates.csv": "fccd2ad62d1af498fe1d619a0550d8a09c11fd871c2a17de125f33c1248084af",
+    "campus_safety_analysis/publication/data/pooled_rates.csv": "c1b7da4ff6af0cb9cf81c988e3d5fc20fef4a0a8091a97073df91a8b242dea2a",
+    "boomerrawlings.com/src/pages/writing/data-analysis/campus-safety.astro": "20a4ad11cccffd8acb7fd19081fe95af2d2f8947fa5051321f1d009f290de191",
+    "boomerrawlings.com/src/content/archive/campus-safety.md": "8c9c6d2096f96b4d8f2c1984790573264124eb0c4ce8091db0c9ea06aeb755b3",
+    "boomerrawlings.com/src/components/CampusExplorer.astro": "12281539962da1feaa3bb01763d92abf4fb6112dbac9b5f56ff65847b19b84d6",
+    "boomerrawlings.com/src/lib/campus-rates.js": "e597fd30e8bfa05addf732fa29238f3ea0423f4bbeb08c1ae4a9b9180a44843f"
+  },
+  "primary_input_hashes": {
+    "federal_archive": "28143ab29f9f9d43235800a3f1f4061b8f2928a7d11bce0e8327d2889ab6f007",
+    "Oncampuscrime222324.xls": "dcc6179e663d469f32cba9c98f615eec54f20e0acfbd4ea171bcac6519410ccc",
+    "Oncampusvawa222324.xls": "070be67c460af3e77e2eee318d0420449a535382c2b2689b665be78a11433b96",
+    "Residencehallcrime222324.xls": "774cb540068889d57ef98cbacdfdb8ad2ad630a0725343ac0fd872b1c3f11946",
+    "Residencehallvawa222324.xls": "7d93857ea856a00effd32da55aa762e6dce526c85269722080fa911a4928ac10",
+    "EF2022A.zip": "971fe8fad82ca03fbb1a72938fd7b2798176083734a100b6186d79bb537a0aba",
+    "EF2023A.zip": "0238ff58ddf603b8606b1b131311e0b569323b787c395dc83b7830c987096cb0",
+    "EF2024A.zip": "bb3256a68a1ffcbf2fcc85faf80ac14f055ccd75454d3a440dfff80a63671567",
+    "auditor_pdf": "4057db7b14e1b85bb6980ad19455f873b474358d9f10fd0725e0ac68a24504b6"
+  },
+  "case_study": [
+    {
+      "institution": "UC San Diego",
+      "unitid": "110680",
+      "period": 2022,
+      "asr_housing_rape_count": 12,
+      "fall_occupancy_sum": 17906,
+      "rate_per_1000": 0.6701664246621244,
+      "source_url": "https://www.police.ucsd.edu/docs/annualclery.pdf",
+      "pdf_page": "142",
+      "scope": "ASR named main-campus residential facilities / Auditor campus occupancy; approximate boundaries, not victimization risk"
+    },
+    {
+      "institution": "UC San Diego",
+      "unitid": "110680",
+      "period": 2023,
+      "asr_housing_rape_count": 11,
+      "fall_occupancy_sum": 18906,
+      "rate_per_1000": 0.5818258753834762,
+      "source_url": "https://www.police.ucsd.edu/docs/annualclery.pdf",
+      "pdf_page": "142",
+      "scope": "ASR named main-campus residential facilities / Auditor campus occupancy; approximate boundaries, not victimization risk"
+    },
+    {
+      "institution": "UC San Diego",
+      "unitid": "110680",
+      "period": 2024,
+      "asr_housing_rape_count": 20,
+      "fall_occupancy_sum": 21907,
+      "rate_per_1000": 0.9129501985666681,
+      "source_url": "https://www.police.ucsd.edu/docs/annualclery.pdf",
+      "pdf_page": "142",
+      "scope": "ASR named main-campus residential facilities / Auditor campus occupancy; approximate boundaries, not victimization risk"
+    },
+    {
+      "institution": "UC San Diego",
+      "unitid": "110680",
+      "period": "pooled",
+      "asr_housing_rape_count": 43,
+      "fall_occupancy_sum": 58719,
+      "rate_per_1000": 0.7323012994090499,
+      "source_url": "https://www.police.ucsd.edu/docs/annualclery.pdf",
+      "pdf_page": "142",
+      "scope": "ASR named main-campus residential facilities / Auditor campus occupancy; approximate boundaries, not victimization risk"
+    },
+    {
+      "institution": "San Diego State main campus",
+      "unitid": "122409",
+      "period": 2022,
+      "asr_housing_rape_count": 9,
+      "fall_occupancy_sum": 7919,
+      "rate_per_1000": 1.1365071347392348,
+      "source_url": "https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf",
+      "pdf_page": "7",
+      "scope": "ASR named main-campus residential facilities / Auditor campus occupancy; approximate boundaries, not victimization risk"
+    },
+    {
+      "institution": "San Diego State main campus",
+      "unitid": "122409",
+      "period": 2023,
+      "asr_housing_rape_count": 7,
+      "fall_occupancy_sum": 8100,
+      "rate_per_1000": 0.8641975308641975,
+      "source_url": "https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf",
+      "pdf_page": "7",
+      "scope": "ASR named main-campus residential facilities / Auditor campus occupancy; approximate boundaries, not victimization risk"
+    },
+    {
+      "institution": "San Diego State main campus",
+      "unitid": "122409",
+      "period": 2024,
+      "asr_housing_rape_count": 1,
+      "fall_occupancy_sum": 8367,
+      "rate_per_1000": 0.11951715071112705,
+      "source_url": "https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf",
+      "pdf_page": "7",
+      "scope": "ASR named main-campus residential facilities / Auditor campus occupancy; approximate boundaries, not victimization risk"
+    },
+    {
+      "institution": "San Diego State main campus",
+      "unitid": "122409",
+      "period": "pooled",
+      "asr_housing_rape_count": 17,
+      "fall_occupancy_sum": 24386,
+      "rate_per_1000": 0.6971212991060445,
+      "source_url": "https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf",
+      "pdf_page": "7",
+      "scope": "ASR named main-campus residential facilities / Auditor campus occupancy; approximate boundaries, not victimization risk"
+    }
+  ]
+}

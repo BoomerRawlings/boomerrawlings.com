@@ -1,0 +1,18 @@
+{
+  "institutions": 42,
+  "institution_years": 126,
+  "categories": 15,
+  "annual_rate_rows": 5670,
+  "pooled_rate_rows": 1890,
+  "occupancy_rows": 33,
+  "complete_primary_pooled": 36,
+  "complete_resident_pooled": 6,
+  "coverage": {
+    "oncampus:complete_numeric_all_selected_campuses": 1624,
+    "residential:complete_numeric_all_selected_campuses": 420,
+    "residential:complete_numeric_or_corroborated_no_housing_2024": 588,
+    "residential:incomplete_campus_coverage": 756,
+    "oncampus:incomplete_campus_coverage": 140
+  },
+  "dataset_sha256": "5a4ac282c79e3e0a6d6fec478b24b6bae1c47d8350863d582314de39a01ef998"
+}

@@ -1,0 +1,71 @@
+{
+  "checked_utc": "2026-09-25T10:03:37.328964+00:00",
+  "pass": true,
+  "errors": [],
+  "checks": {
+    "campus raw cell and year eligibility": 108756,
+    "unique campus-count key": 108756,
+    "all listed branches represented": 21546,
+    "institution aggregation from source campus cells": 21546,
+    "applicability restricted to2024 housing": 1428,
+    "independent2024 housing applicability": 1428,
+    "42 institutions": 1,
+    "institution IDs match frozen cohort": 1,
+    "eleven primary categories only": 1,
+    "public branch list": 42,
+    "public branch count": 42,
+    "public year alignment": 42,
+    "public enrollment denominator": 126,
+    "public actual resident denominator": 126,
+    "public JSON offense count": 3780,
+    "unique public rate key": 7560,
+    "public numerator": 7560,
+    "public denominator once per year": 7560,
+    "pooled years": 7560,
+    "annual or weighted pooled rate": 7560,
+    "public rate availability": 7560,
+    "complete public rate key grid": 1,
+    "ASR case study source and denominator": 8,
+    "ASR case study rate": 8,
+    "stable publication snapshot during audit": 1
+  },
+  "published_files_sha256": {
+    "build_study.py": "2c746a8cb51380422bd68a2458b41b747a73377f787266833a70bce2bb2149ea",
+    "publication/data/annual_rates.csv": "fccd2ad62d1af498fe1d619a0550d8a09c11fd871c2a17de125f33c1248084af",
+    "publication/data/asr_housing_case_study.csv": "fe5f26c6e6af128d0fa805c5d3ccf76db548da1f82625bd18cdde09f70a2fabf",
+    "publication/data/category_dictionary.csv": "acf7930991e0e2d554511a092f873d94455c443a9df04fa1979f45166ebba7c8",
+    "publication/data/pooled_rates.csv": "c1b7da4ff6af0cb9cf81c988e3d5fc20fef4a0a8091a97073df91a8b242dea2a",
+    "publication/data/dataset.json": "5a4ac282c79e3e0a6d6fec478b24b6bae1c47d8350863d582314de39a01ef998"
+  },
+  "rate_tables": {
+    "annual_rates.csv": {
+      "rows": 5670,
+      "availability": {
+        "enrollment:available": 1740,
+        "housingEnrollment:available": 1080,
+        "residents:unavailable": 1545,
+        "housingEnrollment:unavailable": 810,
+        "enrollment:unavailable": 150,
+        "residents:available": 345
+      }
+    },
+    "pooled_rates.csv": {
+      "rows": 1890,
+      "availability": {
+        "enrollment:available": 540,
+        "housingEnrollment:available": 225,
+        "residents:unavailable": 540,
+        "housingEnrollment:unavailable": 405,
+        "enrollment:unavailable": 90,
+        "residents:available": 90
+      }
+    }
+  },
+  "maximum_rate_difference": 0,
+  "source_checks_scope": "Independent arithmetic from normalized campus raw_source_value and annual eligibility; original XLS extraction audited by separate classification agent.",
+  "limitations": [
+    "IPEDS versus SDSU CDS/Auditor population discrepancy unresolved; consistent IPEDS primary preserved.",
+    "Actual housing occupancy does not establish Clery property-level population equivalence.",
+    "Administrative offense counts do not measure unique victims or victimization risk."
+  ]
+}

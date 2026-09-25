@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "status": "research_review_complete_final_artifact_audit_pending",
+  "measure": "Reported offenses in on-campus student housing per 1,000 documented fall student residents.",
+  "residential_scope": "Approximate normalization until housing-property boundaries are reconciled with Clery geography.",
+  "not_measured": [
+    "unique victims",
+    "number of report forms",
+    "annual resident victimization probability",
+    "measured resident-years",
+    "causal campus safety differences"
+  ],
+  "source_strategy": "One fixed federal collection for primary comparison; source-specific ASR alternatives and discrepancies retained.",
+  "pooling": "1000 * sum(counts) / sum(matched annual populations); never an unweighted mean of campus/year rates.",
+  "uncertainty_decision": "Descriptive ratios; no hypothesis tests or confidence-interval safety ranking.",
+  "ucsc_2024_note": "ASR housing rape count 38 includes 21 separate offenses disclosed in one report over three weeks; all 38 remain in source counts.",
+  "ucsd_revision_note": "ASR PDF page 142 explicitly revises 2022/2023 counts; two 2022 rape cells differ from the fixed federal collection.",
+  "audits": [
+    "asr_comparison_verification.json",
+    "CITATION_AUDIT_PLAN.md"
+  ],
+  "human_peer_review": false
+}

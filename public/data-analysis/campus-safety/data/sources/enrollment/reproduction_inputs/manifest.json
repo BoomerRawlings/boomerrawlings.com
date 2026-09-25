@@ -1,0 +1,158 @@
+{
+  "HD2022": {
+    "file": "HD2022_cohort.csv.gz",
+    "rows": 42,
+    "sha256": "22c4c0a9077888e89ea71e84843a398dfdd4cc65ac73c6ebae81ed2f4871f05e",
+    "upstream": {
+      "file": "HD2022.zip",
+      "member": "hd2022.csv",
+      "sha256": "e36389b793741bf6886b8d85fa9b42614644162b0d0b1d024a663a9c1865c782",
+      "source_url": "https://nces.ed.gov/ipeds/datacenter/data/HD2022.zip",
+      "release": "single_release"
+    },
+    "selection": "Frozen 42 UNITIDs; total level1 for enrollment tables; only required aggregate fields."
+  },
+  "EF2022A": {
+    "file": "EF2022A_cohort.csv.gz",
+    "rows": 42,
+    "sha256": "48c9470db1bdbb519ae4e908d93b09283b8d0c6010156a43d959cf7b7dce8470",
+    "upstream": {
+      "file": "EF2022A.zip",
+      "member": "ef2022a_rv.csv",
+      "sha256": "971fe8fad82ca03fbb1a72938fd7b2798176083734a100b6186d79bb537a0aba",
+      "source_url": "https://nces.ed.gov/ipeds/datacenter/data/EF2022A.zip",
+      "release": "final_revised"
+    },
+    "selection": "Frozen 42 UNITIDs; total level1 for enrollment tables; only required aggregate fields."
+  },
+  "EF2022A_DIST": {
+    "file": "EF2022A_DIST_cohort.csv.gz",
+    "rows": 42,
+    "sha256": "4a92913d3cb73dc95d6cc0f2c11c80184da85339ee1c23a9d76eb24c8374a463",
+    "upstream": {
+      "file": "EF2022A_DIST.zip",
+      "member": "ef2022a_dist_rv.csv",
+      "sha256": "55ad2dc9dc130ae5f6865aded98dad0ab17d74dabf93f212971a859acc227d57",
+      "source_url": "https://nces.ed.gov/ipeds/datacenter/data/EF2022A_DIST.zip",
+      "release": "final_revised"
+    },
+    "selection": "Frozen 42 UNITIDs; total level1 for enrollment tables; only required aggregate fields."
+  },
+  "DRVEF2022": {
+    "file": "DRVEF2022_cohort.csv.gz",
+    "rows": 42,
+    "sha256": "845ff4b7cacc2208163a8e97138a36672b8daac4b5fdcd2f49fb646cafa05596",
+    "upstream": {
+      "file": "DRVEF2022.zip",
+      "member": "drvef2022_rv.csv",
+      "sha256": "847b4acdafd06cbf89b69895194e2b316de41cb5d0f48bccea557523677ca48e",
+      "source_url": "https://nces.ed.gov/ipeds/datacenter/data/DRVEF2022.zip",
+      "release": "final_revised"
+    },
+    "selection": "Frozen 42 UNITIDs; total level1 for enrollment tables; only required aggregate fields."
+  },
+  "HD2023": {
+    "file": "HD2023_cohort.csv.gz",
+    "rows": 42,
+    "sha256": "eac0ca7df9bbc7fe0e2dfd20009fdfb2b60d08003cc7f5baa097507fdcb4c05e",
+    "upstream": {
+      "file": "HD2023.zip",
+      "member": "hd2023.csv",
+      "sha256": "7865dec01a81ec0550aba7d862a49983de8bce45a603aee45af36e6c9692110b",
+      "source_url": "https://nces.ed.gov/ipeds/complete-data-files/HD2023.zip",
+      "release": "single_release"
+    },
+    "selection": "Frozen 42 UNITIDs; total level1 for enrollment tables; only required aggregate fields."
+  },
+  "EF2023A": {
+    "file": "EF2023A_cohort.csv.gz",
+    "rows": 42,
+    "sha256": "a2bf5c478046dcbbe671b12bca88a1d2ec4e9274b40a3a196e0cd43c63124ca7",
+    "upstream": {
+      "file": "EF2023A.zip",
+      "member": "ef2023a_rv.csv",
+      "sha256": "0238ff58ddf603b8606b1b131311e0b569323b787c395dc83b7830c987096cb0",
+      "source_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2023A.zip",
+      "release": "final_revised"
+    },
+    "selection": "Frozen 42 UNITIDs; total level1 for enrollment tables; only required aggregate fields."
+  },
+  "EF2023A_DIST": {
+    "file": "EF2023A_DIST_cohort.csv.gz",
+    "rows": 42,
+    "sha256": "ca92e32cc97bf651bf6dd8369a8760bf7a1b0006a2a6bbc3ace9a04549f6b1b9",
+    "upstream": {
+      "file": "EF2023A_DIST.zip",
+      "member": "ef2023a_dist_rv.csv",
+      "sha256": "7beaacd86a44f418d55a462a013f4050c7cd811cbd9737a91617fbc4c1763a20",
+      "source_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2023A_DIST.zip",
+      "release": "final_revised"
+    },
+    "selection": "Frozen 42 UNITIDs; total level1 for enrollment tables; only required aggregate fields."
+  },
+  "DRVEF2023": {
+    "file": "DRVEF2023_cohort.csv.gz",
+    "rows": 42,
+    "sha256": "750337287288b72e3daccf1f69c35724d9f53fcadc38defecb7fec3f5edfa7d9",
+    "upstream": {
+      "file": "DRVEF2023.zip",
+      "member": "drvef2023_rv.csv",
+      "sha256": "01eb4c9c56c2d6019dc69123719126b7711db02036881d0a1f4a7246135a4391",
+      "source_url": "https://nces.ed.gov/ipeds/complete-data-files/DRVEF2023.zip",
+      "release": "final_revised"
+    },
+    "selection": "Frozen 42 UNITIDs; total level1 for enrollment tables; only required aggregate fields."
+  },
+  "HD2024": {
+    "file": "HD2024_cohort.csv.gz",
+    "rows": 42,
+    "sha256": "eac0ca7df9bbc7fe0e2dfd20009fdfb2b60d08003cc7f5baa097507fdcb4c05e",
+    "upstream": {
+      "file": "HD2024.zip",
+      "member": "HD2024.csv",
+      "sha256": "d98425c123d7c0e872aec6e83960dfb501884818bf17385c340790f3d1f28345",
+      "source_url": "https://nces.ed.gov/ipeds/datacenter/data/HD2024.zip",
+      "release": "provisional"
+    },
+    "selection": "Frozen 42 UNITIDs; total level1 for enrollment tables; only required aggregate fields."
+  },
+  "EF2024A": {
+    "file": "EF2024A_cohort.csv.gz",
+    "rows": 42,
+    "sha256": "523ae6e4d7e5487fd2f663108dccd75986afe4e14a0c2fc47386b3680bd21dcc",
+    "upstream": {
+      "file": "EF2024A.zip",
+      "member": "ef2024a.csv",
+      "sha256": "bb3256a68a1ffcbf2fcc85faf80ac14f055ccd75454d3a440dfff80a63671567",
+      "source_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2024A.zip",
+      "release": "provisional"
+    },
+    "selection": "Frozen 42 UNITIDs; total level1 for enrollment tables; only required aggregate fields."
+  },
+  "EF2024A_DIST": {
+    "file": "EF2024A_DIST_cohort.csv.gz",
+    "rows": 42,
+    "sha256": "d390627b5bbdce6eac48c737d69f99373fcaedbb6aadb02b8904b0025b095294",
+    "upstream": {
+      "file": "EF2024A_DIST.zip",
+      "member": "ef2024a_dist.csv",
+      "sha256": "76425cc5508ef816b2192d4d3e68cc8819b1c85e753ce1aa3e3065ca0063a3c3",
+      "source_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2024A_DIST.zip",
+      "release": "provisional"
+    },
+    "selection": "Frozen 42 UNITIDs; total level1 for enrollment tables; only required aggregate fields."
+  },
+  "DRVEF2024": {
+    "file": "DRVEF2024_cohort.csv.gz",
+    "rows": 42,
+    "sha256": "a71e9e7956cb40d009d1937b3a4c7f6abef45129c51f5efae9badc53772cac3a",
+    "upstream": {
+      "file": "DRVEF2024.zip",
+      "member": "drvef2024.csv",
+      "sha256": "52a7e67de212419753e48f8d6eb7783f5fbfb6bddbd66723f7e180d38c9b749e",
+      "source_url": "https://nces.ed.gov/ipeds/complete-data-files/DRVEF2024.zip",
+      "release": "provisional"
+    },
+    "selection": "Frozen 42 UNITIDs; total level1 for enrollment tables; only required aggregate fields."
+  }
+}

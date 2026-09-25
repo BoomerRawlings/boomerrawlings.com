@@ -35,6 +35,7 @@ const archive = defineCollection({
       date: z.coerce.date().optional(),
       type: z.enum(['work', 'research', 'writing', 'photography', 'data-analysis']),
       description: z.string(),
+      analysisPeriod: z.string().optional(),
       visualEvidence: z.array(visualEvidenceItem).max(3).optional(),
       document: z.object({
         src: localAssetPath.refine((path) => path.endsWith('.pdf'), 'Document source must be a PDF.'),

@@ -1,0 +1,61 @@
+---
+import { getCollection, render } from 'astro:content';
+import { readFileSync } from 'node:fs';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CampusExplorer from '../../../components/CampusExplorer.astro';
+import 'katex/dist/katex.min.css';
+import '../../../styles/data-analysis.css';
+import '../../../styles/campus-safety.css';
+const entry = (await getCollection('archive')).find(e=>e.data.slug==='campus-safety')!;
+const {Content} = await render(entry);
+const base='/data-analysis/campus-safety';
+const data=JSON.parse(readFileSync(`public${base}/data/dataset.json`,'utf8'));
+const cases=JSON.parse(readFileSync(`public${base}/data/case_study.json`,'utf8'));
+const periods=[2022,2023,2024,'pooled'];
+const n=(v:number)=>v.toLocaleString('en-US');
+const example=(unitid:string,period:number|string)=>cases.find((r:any)=>r.unitid===unitid&&r.period===period);
+---
+<BaseLayout title={entry.data.title} description={entry.data.description} pageType="article" publishedTime="2026-09-25">
+  <div class="analysis-page campus-study" data-campus-study>
+    <header class="analysis-intro">
+      <nav class="analysis-back" aria-label="Breadcrumb"><a href="/writing/">Writing</a><span aria-hidden="true"> / </span><a href="/writing/data-analysis/">Data Analysis</a></nav>
+      <p class="analysis-kicker">Campus safety data analysis · 25 September 2026</p>
+      <h1>Campus safety,<br />in proportion.</h1>
+      <p class="analysis-deck">Reported offenses per 1,000 students across the University of California, Ivy League and selected public and private universities. Separate views for enrollment and documented campus-housing occupancy.</p>
+      <div class="analysis-actions"><a class="analysis-button" href="#explorer">Explore reported rates</a><a href="#methods">Read the methodology</a><a href={`${base}/downloads/campus-safety-report.pdf`}>Download the report · PDF</a></div>
+    </header>
+    <section class="campus-summary" aria-labelledby="campus-summary-heading">
+      <div><h2 id="campus-summary-heading">Population-adjusted reporting measures.</h2><p>Raw counts give larger institutions more opportunities to record offenses. Dividing by a documented population makes that scale visible. Differences in reporting, campus boundaries and who appears in the records still affect the comparison.</p><p>The explorer starts with <strong>2024 reported offenses per 1,000 enrolled students</strong>. Choose a category, compare years, or examine housing reports relative to actual documented residents. Every displayed rate includes its numerator and denominator.</p></div>
+      <div class="campus-facts"><div><strong>42</strong><span>institutions in the fixed comparison set</span></div><div><strong>2022–24</strong><span>calendar report years</span></div><div><strong>15</strong><span>category views, including separate VAWA measures</span></div><div><strong>11</strong><span>institutions with documented housing occupancy</span></div></div>
+    </section>
+    <aside class="analysis-notice"><strong>Interpretation.</strong> These are administrative reports, not convictions, unique victims or a student's probability of experiencing crime. Housing rates use fall occupancy with incompletely matched property boundaries. The study does not assign safety rankings. <a href="#methods">Definitions and limitations</a>.</aside>
+    <nav class="analysis-section-nav" aria-label="Study sections"><a href="#explorer">Rate explorer</a><a href="#case-study">Housing comparison</a><a href="#source-notes">Source discrepancies</a><a href="#methods">Methods &amp; related research</a><a href="#downloads">Data &amp; audits</a></nav>
+    <CampusExplorer data={data} />
+    <section id="case-study" class="analysis-section" aria-labelledby="campus-case-heading">
+      <div class="analysis-section-title"><span>02</span><div><h2 id="campus-case-heading">Housing reports: the time window matters</h2><p>A worked comparison from the originating UC and San Diego State research.</p></div></div>
+      <p>The 2025 institutional security reports give <strong>20</strong> residential-facility rape offenses at UC San Diego and <strong>1</strong> at SDSU's main campus for report year 2024. Against documented fall housing occupancy, that is <strong>0.91</strong> and <strong>0.12 per 1,000 residents</strong>. Across 2022–2024, the pooled ratios are much closer: <strong>0.73</strong> and <strong>0.70</strong>.</p>
+      <p class="analysis-note">This explicitly versioned ASR comparison uses the named main-campus housing tables, with State Auditor occupancy. It is separate from the explorer's all-branch federal aggregation; historical SDSU housing aggregation remains unavailable there. Property boundaries are not fully matched, and offenses need not involve resident students. These are approximate descriptive ratios, not victimization probabilities or evidence of equivalent safety.</p>
+      <div class="analysis-table-scroll" tabindex="0" role="region" aria-label="UC San Diego and SDSU main-campus housing comparison"><table><caption>Residential-facility rape offenses / actual fall housing occupancy</caption><thead><tr><th scope="col">Report period</th><th scope="col">UC San Diego: count / population</th><th scope="col">Rate per 1,000</th><th scope="col">SDSU main: count / population</th><th scope="col">Rate per 1,000</th></tr></thead><tbody>{periods.map(period=>{const u=example('110680',period);const s=example('122409',period);return <tr><th scope="row">{period==='pooled'?'2022–2024 pooled':period}</th><td>{n(u.asr_housing_rape_count)} / {n(u.fall_occupancy_sum)}</td><td>{u.rate_per_1000.toFixed(2)}</td><td>{n(s.asr_housing_rape_count)} / {n(s.fall_occupancy_sum)}</td><td>{s.rate_per_1000.toFixed(2)}</td></tr>;})}</tbody></table></div>
+      <p class="analysis-note">Pooled denominators sum three fall snapshots, not unique people. Sources: <a href="https://www.police.ucsd.edu/docs/annualclery.pdf#page=142">UCSD 2025 ASR, p. 142</a>; <a href="https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf#page=7">SDSU 2025 ASR, p. 7</a>; <a href="https://www.auditor.ca.gov/wp-content/uploads/2025/10/2024-111-Report.pdf#page=62">State Auditor, Tables A.1–A.2</a>. <a href={`${base}/data/asr_housing_case_study.csv`}>Download the calculation</a>.</p>
+    </section>
+    <section id="source-notes" class="analysis-section" aria-labelledby="campus-source-heading">
+      <div class="analysis-section-title"><span>03</span><div><h2 id="campus-source-heading">Source details that change interpretation</h2><p>Documented discrepancies and counting conventions remain visible in the results.</p></div></div>
+      <div class="campus-case-grid">
+        <article><h3>One disclosure can contain many offenses</h3><p>UC Santa Cruz's 2025 report explains that <strong>21 of its 38 residential rape offenses reported in 2024</strong> were disclosed in a single report. The published offense count is retained. It cannot be relabeled as 38 people or 38 report forms.</p><a href="https://bpb-us-w2.wpmucdn.com/wordpress.ucsc.edu/dist/d/120/files/2025/09/2025-UC-Santa-Cruz-ASFSR_online-3.pdf#page=12">UCSC report, printed p. 11, footnote 6</a></article>
+        <article><h3>Federal and campus tables can differ</h3><p>UCSD's 2022 on-campus rape count is <strong>14 in the frozen federal file</strong> and <strong>15 in its 2025 ASR</strong>; the noncampus count is 4 versus 5. The federal values remain in the explorer. A separate check of 36 rape cells across UCSD, UCSC and SDSU main found these two differences.</p><a href={`${base}/data/asr_federal_rape_comparison.csv`}>Inspect all 36 source-cell comparisons</a></article>
+        <article><h3>Enrollment definitions require consistency</h3><p>For fall 2024, IPEDS reports <strong>41,137 students at SDSU</strong>; its Common Data Set and the State Auditor use <strong>39,373</strong>. The full population difference remains unresolved. The enrollment explorer uses IPEDS consistently across all institutions and years.</p><a href={`${base}/data/DENOMINATORS.md`}>Review the denominator reconciliation</a></article>
+        <article><h3>Missing coverage is not a zero</h3><p>All 42 institutions have complete 2024 on-campus counts. Earlier source-year gaps prevent complete pooled totals for six institutions. Housing applicability is documented separately: current no-housing declarations are used for 2024 only, without backfilling earlier years.</p><a href={`${base}/data/COVERAGE.md`}>Review coverage and applicability rules</a></article>
+      </div>
+    </section>
+    <section id="methods" class="analysis-section" aria-labelledby="campus-methods-heading">
+      <div class="analysis-section-title"><span>04</span><div><h2 id="campus-methods-heading">Methods and related research</h2><p>Definitions, formulas, source alignment and interpretive limits.</p></div></div>
+      <article class="analysis-prose"><Content /></article>
+    </section>
+    <section id="downloads" class="analysis-section" aria-labelledby="campus-downloads-heading">
+      <div class="analysis-section-title"><span>05</span><div><h2 id="campus-downloads-heading">Data, sources and audit record</h2><p>Inspect the inputs and calculations behind the website.</p></div></div>
+      <div class="analysis-downloads"><a href={`${base}/downloads/campus-safety-report.pdf`}><strong>Research report</strong><span>Methods, results, housing comparison and sources · PDF</span></a><a href={`${base}/downloads/campus-safety-reproducibility.zip`}><strong>Reproducibility package</strong><span>Aggregate source extracts, code, rates and audit records · ZIP</span></a><a href={`${base}/data/annual_rates.csv`}><strong>Annual rates</strong><span>All categories and population measures · CSV</span></a><a href={`${base}/data/pooled_rates.csv`}><strong>Pooled 2022–2024 rates</strong><span>Counts, summed populations and availability · CSV</span></a><a href={`${base}/data/source_manifest.json`}><strong>Source manifest</strong><span>URLs, versions, retrieval dates and original-file hashes · JSON</span></a><a href={`${base}/data/artifact_manifest.json`}><strong>Published artifact manifest</strong><span>File sizes and SHA-256 checksums · JSON</span></a></div>
+      <div class="campus-audits"><article><h3>Calculations and data</h3><p>Independent source joins, arithmetic, pooled denominators, missingness and category reconciliation.</p><a href={`${base}/data/INDEPENDENT_NUMERICAL_AUDIT.md`}>Read the numerical audit</a></article><article><h3>Methods and presentation</h3><p>Comparable primary research, mathematical notation and responsive website/PDF checks.</p><a href={`${base}/data/RESEARCH_REVIEW.md`}>Related research</a> · <a href={`${base}/data/VISUAL_AUDIT.md`}>Visual audit</a></article><article><h3>Sources and citations</h3><p>A separate claim-by-claim audit of source support, locators and qualification.</p><a href={`${base}/data/CITATION_AUDIT.md`}>Read the citation audit</a></article></div>
+      <p class="analysis-note">This study reports documented administrative measures. It is not externally peer reviewed, and source verification does not establish complete reporting or matched personal exposure. Study snapshot: 25 September 2026.</p>
+    </section>
+  </div>
+</BaseLayout>

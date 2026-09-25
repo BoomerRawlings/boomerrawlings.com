@@ -5,6 +5,7 @@ type: data-analysis
 date: 2026-09-24
 status: published
 description: An observational study of supplied San Diego-area arrest records, with corrected civil-day weather, sensitivity analyses, interactive aggregates, and a domestic-violence report.
+analysisPeriod: July 2018–December 2025 records · Primary analysis 2021–2024
 tags: [Crime, Temperature, Public records, San Diego County, Domestic violence]
 ---
 

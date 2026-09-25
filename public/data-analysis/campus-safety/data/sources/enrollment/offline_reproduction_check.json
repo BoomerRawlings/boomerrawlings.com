@@ -1,0 +1,15 @@
+{
+  "pass": true,
+  "mode": "Offline; no rawZIPs/PDFs present;12cohortaggregateinputs",
+  "identical_csv_files": [
+    "auditor_ipeds_enrollment_comparison.csv",
+    "clery_bulk_enrollment_comparison.csv",
+    "cohort_definition.csv",
+    "enrollment_2022_2024.csv",
+    "institution_crosswalk_verified.csv",
+    "occupancy_2022_2024.csv",
+    "occupancy_auditor_2019_2024.csv",
+    "occupancy_availability_2022_2024.csv"
+  ],
+  "inputs_manifest_sha256": "69225e08f54b36bfef821cfc3b3ec5fdac681d42f73a3857956f8b399a141ca1"
+}

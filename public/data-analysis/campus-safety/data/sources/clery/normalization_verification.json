@@ -1,0 +1,295 @@
+{
+  "status": "PASS_WITH_MISSINGNESS_FLAGS",
+  "collection_year": 2025,
+  "calendar_years": [
+    2022,
+    2023,
+    2024
+  ],
+  "cohort_institutions": 42,
+  "cohort_campuses": 212,
+  "campus_count_rows": 108756,
+  "institution_count_rows": 21546,
+  "normalized_status_counts": {
+    "blank_source_cell": 43010,
+    "reported_numeric": 62839,
+    "year_filter_0": 2907
+  },
+  "institution_status_counts": {
+    "incomplete_campus_coverage": 10176,
+    "complete_numeric_all_selected_campuses": 11370
+  },
+  "housing_subset_pairs_checked": 10574,
+  "housing_exceeds_oncampus": [],
+  "tables": [
+    {
+      "source_file": "Oncampuscrime222324.xls",
+      "sha256": "dcc6179e663d469f32cba9c98f615eec54f20e0acfbd4ea171bcac6519410ccc",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 187,
+      "cohort_filtered_count_cells": 187
+    },
+    {
+      "source_file": "Residencehallcrime222324.xls",
+      "sha256": "774cb540068889d57ef98cbacdfdb8ad2ad630a0725343ac0fd872b1c3f11946",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 3575,
+      "cohort_filtered_count_cells": 187
+    },
+    {
+      "source_file": "Noncampuscrime222324.xls",
+      "sha256": "daf1b483091330da0d739a4d0ae800058a4b7fd272ca8d8cc8ed48eb55a24f2a",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 3905,
+      "cohort_filtered_count_cells": 187
+    },
+    {
+      "source_file": "Publicpropertycrime222324.xls",
+      "sha256": "5d16371dee2e6185e505dab4e638cd25754edb758c82aadeba35b262867c0bac",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 187,
+      "cohort_filtered_count_cells": 187
+    },
+    {
+      "source_file": "Reportedcrime222324.xls",
+      "sha256": "4c4f665952394adf05120e32033efb73519ea0f0596aca84bee23ce1fad864a9",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 6996,
+      "cohort_filtered_count_cells": 187
+    },
+    {
+      "source_file": "Oncampusvawa222324.xls",
+      "sha256": "070be67c460af3e77e2eee318d0420449a535382c2b2689b665be78a11433b96",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 51,
+      "cohort_filtered_count_cells": 51
+    },
+    {
+      "source_file": "Residencehallvawa222324.xls",
+      "sha256": "7d93857ea856a00effd32da55aa762e6dce526c85269722080fa911a4928ac10",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 975,
+      "cohort_filtered_count_cells": 51
+    },
+    {
+      "source_file": "Noncampusvawa222324.xls",
+      "sha256": "67b0b036b9153ee8f71369e66172590d1e044062bc44b0bd70eba72cb42b52fa",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 1065,
+      "cohort_filtered_count_cells": 51
+    },
+    {
+      "source_file": "Publicpropertyvawa222324.xls",
+      "sha256": "c0fcf9a746d10e02c9cbe01910778c118a20bead0ae801f33891d8c4d3a07009",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 51,
+      "cohort_filtered_count_cells": 51
+    },
+    {
+      "source_file": "Reportedvawa222324.xls",
+      "sha256": "b0a318277d116bf9bacfa41e4d7c91b3ca5dcfb9bae8403d6b813b158a595309",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 1908,
+      "cohort_filtered_count_cells": 51
+    },
+    {
+      "source_file": "Oncampusarrest222324.xls",
+      "sha256": "677fcc133908b56dbf72eee89d40673ef5f0ce5086ff991517a02ce5761f9ec2",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 51,
+      "cohort_filtered_count_cells": 51
+    },
+    {
+      "source_file": "Residencehallarrest222324.xls",
+      "sha256": "7c5aac4b37c2715dbb230516699202ddcbd42e640da0932dc114b180a5017e7a",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 975,
+      "cohort_filtered_count_cells": 51
+    },
+    {
+      "source_file": "Noncampusarrest222324.xls",
+      "sha256": "4e7755270395e8ef3c8899f69d457cb15eb5bfb529ba3688cc84ae65cc60e3e2",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 1065,
+      "cohort_filtered_count_cells": 51
+    },
+    {
+      "source_file": "Publicpropertyarrest222324.xls",
+      "sha256": "01b31935b1ad1dc4fac2850b9b3b14281311463bfce4aa346c2b62d769243c55",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 51,
+      "cohort_filtered_count_cells": 51
+    },
+    {
+      "source_file": "Reportedarrest222324.xls",
+      "sha256": "e634f05943b609a55aa1f02121b9d9ff77198d7e85e9c7ba736833cf9b816965",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 1908,
+      "cohort_filtered_count_cells": 51
+    },
+    {
+      "source_file": "Oncampusdiscipline222324.xls",
+      "sha256": "164b9e07bd411002ce14c6449763941e2d787f708ab5e8e4b918d38ed30c02ff",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 51,
+      "cohort_filtered_count_cells": 51
+    },
+    {
+      "source_file": "Residencehalldiscipline222324.xls",
+      "sha256": "09a269e6e6b6f354cda12102c532374227751e72c8be125ee0829069e8a0a001",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 975,
+      "cohort_filtered_count_cells": 51
+    },
+    {
+      "source_file": "Noncampusdiscipline222324.xls",
+      "sha256": "78f2d532128a37a82858ec5f2c93ce7f7315aa498f2217b5626b0c4910fb671b",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 1065,
+      "cohort_filtered_count_cells": 51
+    },
+    {
+      "source_file": "Publicpropertydiscipline222324.xls",
+      "sha256": "4c63dcb1d0a442f40ac4bd7fedb127c8a835e021f80ffb4890e5abd8c2d60a45",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 51,
+      "cohort_filtered_count_cells": 51
+    },
+    {
+      "source_file": "Reporteddiscipline222324.xls",
+      "sha256": "693f218c9aa0d8c68868f9985af4e2781ba0cc99dee53b0d66673ca41ca88187",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 1908,
+      "cohort_filtered_count_cells": 51
+    },
+    {
+      "source_file": "Oncampushate222324.xlsx",
+      "sha256": "94b13fb3d7c3809bb67c1f5e7e78a7008279ab40f3e5fe371b55e6498214f113",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 238,
+      "cohort_filtered_count_cells": 238
+    },
+    {
+      "source_file": "Residencehallhate222324.xlsx",
+      "sha256": "d2400821029131ad46f74d2a5a4a87e26efaaf0b1fd31327ee83a842dc91d33d",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 4550,
+      "cohort_filtered_count_cells": 238
+    },
+    {
+      "source_file": "Noncampushate222324.xlsx",
+      "sha256": "12931797dce381ba3413b012779d37c376d50e4b0bea7da6a4fef793c54be53b",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 4970,
+      "cohort_filtered_count_cells": 238
+    },
+    {
+      "source_file": "Publicpropertyhate222324.xlsx",
+      "sha256": "3ccd8dd6a0ee5849a31498327cb8e82b263abd4d292795f95b34f11171334eff",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 238,
+      "cohort_filtered_count_cells": 238
+    },
+    {
+      "source_file": "Reportedhate222324.xlsx",
+      "sha256": "69aed866d2519bb52d3470876dcf061d688417c914fb1d95a68e036d3969245e",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 8904,
+      "cohort_filtered_count_cells": 238
+    },
+    {
+      "source_file": "Unfounded222324.xls",
+      "sha256": "ccda4c7349c35791aa2891b5d1e041051f5bd986133b9de7827c263eb35c58d0",
+      "rows": 10111,
+      "unique_campus_ids": 10111,
+      "cohort_campus_rows": 212,
+      "cohort_blank_count_cells": 17,
+      "cohort_filtered_count_cells": 17
+    }
+  ],
+  "filter_policy": "FILTER0 retained as unavailable; codebook does not distinguish new/nonoperational campus from unreported data. Strict totals withheld; observed_sum explicitly partial.",
+  "offense_sum_policy": "No cross-family total calculated. Housing and reported-by-police tables never added to on-campus counts.",
+  "normalized_file_hashes": {
+    "cohort_campus_counts_2022_2024.csv": "29743ee5f542881a74915a12b735019a0118b0ca322b29d09746361843eb11c4",
+    "cohort_campus_crosswalk_2025.csv": "69148dbc0f98cb86d15120124734da6d08c291a9c1de55a4d8dd8006ac1fb756",
+    "cohort_hate_bias_wide_2025.csv": "0ede0a6f9c0123263cd717f35357729451e0fc4be4864cf9ca5b9fe5cfd721dd",
+    "cohort_institution_counts_2022_2024.csv": "77c704e1535d4cf9003bd66e7e0033f81fcf17a403032d01ec5e733b64d77014",
+    "cohort_institution_crosswalk_2025.csv": "57b762678b7f8351b8a94e897102e02fdf93a310b6fb9a4cd62753d3072a6e3c",
+    "raw_cohort_Noncampusarrest222324.csv": "64ebf797d65b2cedf045be464bf1f2eb5b09ea1364610d89d2ad5e8df85aacde",
+    "raw_cohort_Noncampuscrime222324.csv": "11af64663319634e3352ffa63910008dceb34f135f4b8986436d5a061be03e75",
+    "raw_cohort_Noncampusdiscipline222324.csv": "8101899b1a4156a69d8faed91638aaf3fd090173c08bdf021aae477a608091b5",
+    "raw_cohort_Noncampushate222324.csv": "e6a25919a3ac48cfac60aad08dd5d4ee7a331ca956c4dc164175bd98e3f85c59",
+    "raw_cohort_Noncampusvawa222324.csv": "c5fd1ee190b5698528f4ff870e30de7175ac059fe3763cbdac876d6490b09b73",
+    "raw_cohort_Oncampusarrest222324.csv": "b8f76250809e93c0bc3452757842553a03d7b7be6e7247ebcb4f523703fc7218",
+    "raw_cohort_Oncampuscrime222324.csv": "89e8ec74551855f2f641179479b5df8c35572faab772851c5641fea37af4651e",
+    "raw_cohort_Oncampusdiscipline222324.csv": "62c8ca3821fd74d779a2feee227576ac2c12ec2c7ccd914073f4fe7653326d69",
+    "raw_cohort_Oncampushate222324.csv": "6ac6d960e0005f7f61f93e8001f305a503bb553c0bb1605cea33965986b8c5a5",
+    "raw_cohort_Oncampusvawa222324.csv": "c62a8f5f9dca8898bbf68ab8b6f3d06956d3c1da59df574be81f8ee849541905",
+    "raw_cohort_Publicpropertyarrest222324.csv": "0d423f583243525065169b5f8e73e9a71ac510513ff5823ec6f507635919315e",
+    "raw_cohort_Publicpropertycrime222324.csv": "6cb31e787ddfba1293038c1c987fa212d68a1934181877959573b0d98602b584",
+    "raw_cohort_Publicpropertydiscipline222324.csv": "7a8daabb595efe99b850e0b7d4435153cdb7612514d2b34da0e5d5d4026813b9",
+    "raw_cohort_Publicpropertyhate222324.csv": "432f0f094af2695d5081326ac298b9f47ebdd50954b056a6af1a97832885311d",
+    "raw_cohort_Publicpropertyvawa222324.csv": "d3c11401188c56b17cb98a93984e2b6c465d112dea3c003a1ce4d8aab47e04e7",
+    "raw_cohort_Reportedarrest222324.csv": "f8623d3b969c12e06c7bb284984da3ed7a4b4d65d65381a39f4d87ee8a4408e8",
+    "raw_cohort_Reportedcrime222324.csv": "d4428514ee336be04d761472e9ad0e55321d49f1cfbcbe0f535508f948582f20",
+    "raw_cohort_Reporteddiscipline222324.csv": "f8623d3b969c12e06c7bb284984da3ed7a4b4d65d65381a39f4d87ee8a4408e8",
+    "raw_cohort_Reportedhate222324.csv": "3630c09842b26478d97a5b54f70b65ca70f8ff8e4dcc8119ca415fb8031a669f",
+    "raw_cohort_Reportedvawa222324.csv": "61e65e139232faa35955b9f7cb26d6b2f6700a5e12e269f99f3c77d71bd51374",
+    "raw_cohort_Residencehallarrest222324.csv": "51a81b7700ff9dbe0d8cc69a4bee198ebb09e896809e04220304b0d52d06f30b",
+    "raw_cohort_Residencehallcrime222324.csv": "45c5b4d82e40a7e597805c62033c83decd65ce141f0f669eb5e264bca83b7f69",
+    "raw_cohort_Residencehalldiscipline222324.csv": "81217ed8302cfcd91eb7c9b7f8f0092acb326eafaf943e90e7baafb30980e011",
+    "raw_cohort_Residencehallhate222324.csv": "58c95aa177dd7884c554e1dbe964369d266c1410330d9b416e5398d7df21d22e",
+    "raw_cohort_Residencehallvawa222324.csv": "f3805086eb6dc4ab9bba36d098d96827057fca0ffb3c6736f160c75c0f5f39d1",
+    "raw_cohort_Unfounded222324.csv": "c3b0c63ad0027ccb01ca8634dc75772cab4770986c38919806aec51c86bd33d3"
+  }
+}
