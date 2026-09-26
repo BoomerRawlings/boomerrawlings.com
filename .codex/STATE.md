@@ -1,5 +1,12 @@
 # Project state
 
+## Housing coverage diagnosis — 2026-09-25
+
+- Mode: exploration continuing campus study. User challenges10/42housing-rate coverage. Status: collection diagnosis complete; bounded external source leads recorded separately. No publication/data mutation.
+- Verified:2024combined housing offense counts available for29/42; adopted resident populations11/42, all California State Auditor; rates10/42. The other31 population gaps do not establish absence of public data. Exact missingness in sibling research/housing_coverage_2026_09_25/COVERAGE_DIAGNOSIS.json.
+- Diagnosis:19schools have usable combined housing counts but lack adopted resident populations;12lack both, Merced lacks count only. The10available rates are allCalifornia. Prior crime-source refresh retained frozen resident populations; broad housing-population acquisition remains unfinished.
+- Next research priority: verify same-year actual resident headcounts for the19count-ready schools, reconcile geographic scope, then separately resolve13crime-count gaps. Official source leads require retrieval/year/scope qualification before adoption; no expansion claimed.
+
 ## Layperson overview — 2026-09-25
 
 - Mode: continuation. Objective: add a concise general explanation above the school finder, preserving neutral launch. Status: published as7a71e57; Pages run36211038771 succeeded.
