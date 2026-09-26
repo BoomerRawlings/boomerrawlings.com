@@ -52,6 +52,7 @@ requireCheck('Region handler clears school selection; valid explicit school link
 const page=read('src/pages/writing/data-analysis/campus-safety.astro');
 const opening=page.split('<header class="analysis-intro">')[1]?.split('<CampusReader')[0]??'';
 requireCheck('Opening overview omits school-specific examples; source footer is collapsible',opening.includes('42 universities')&&!/UC San Diego|San Diego State|SDSU|UCSD|reader-highlights/.test(opening)&&references.includes('<details><summary id="reader-sources-heading">'));
+requireCheck('Visible overview qualifies its coverage finding by year and combined housing category',opening.includes('For 2024, 10 of the 42 schools')&&opening.includes('rate combining the listed housing offenses')&&data.institutions.filter(i=>readerResult(i,{category:'criminal_total',period:'2024',place:'housing'}).rate!==null).length===10);
 requireCheck('Separate reader references use R1/R2 without geography G1 collision',component.includes('[R1]')&&component.includes('[R2]')&&references.includes('[R1]')&&references.includes('[R2]'));
 const populationPaths=['data/housing_occupancy.csv','data/enrollment_denominators.csv'];
 requireCheck('Both reader population source files exist',populationPaths.every(p=>references.includes(p)&&fs.existsSync(new URL('public/data-analysis/campus-safety/'+p,site))));

@@ -1,5 +1,5 @@
 {
-  "checked_utc": "2026-09-26T01:07:17.744258+00:00",
+  "checked_utc": "2026-09-26T02:11:40.401234+00:00",
   "status": "PASS",
   "scope": "Independent editorial claim/citation review; final report text and reference annotations; focused primary-source spot checks; distinct from numeric and visual audits.",
   "claim_groups": 39,
@@ -231,6 +231,10 @@
     {
       "check": "Reader population source links name actual supplied files",
       "pass": true
+    },
+    {
+      "check": "Visible overview preserves qualified coverage and four supporting citation targets",
+      "pass": true
     }
   ],
   "claims": [
@@ -427,7 +431,7 @@
       "id": "C28",
       "topic": "Reader calculations and narrative",
       "claim": "All9450 school/category/year/location selections preserve counts, matching-year populations, rates, missingness and zero distinctions. Combined areas never add housing twice and show no population rate.",
-      "evidence": "Independent audit_reader_copy.mjs reconstructs selected values from current dataset; READER_COPY_AUDIT.json records 19 checks. This verifies explanations against verified aggregates, not source re-extraction.",
+      "evidence": "Independent audit_reader_copy.mjs reconstructs selected values from current dataset; READER_COPY_AUDIT.json records 20 checks. This verifies explanations against verified aggregates, not source re-extraction.",
       "status": "PASS"
     },
     {
@@ -447,8 +451,8 @@
     {
       "id": "C31",
       "topic": "Opening summary",
-      "claim": "The short overview describes reported crime at42 universities without a selected school or numerical school comparison. Region browsing and search do not automatically select a school. Detailed San Diego examples and their source qualifications are retained.",
-      "evidence": "Fixed cohort/dataset supports42 universities. Empty initial markup and explicit-selection handlers inspected; school-specific examples remain in the detailed study and unchanged PDF. Browser interaction is checked separately.",
+      "claim": "The visible general analysis distinguishes reported counts and population-adjusted rates from personal risk or safety rankings. Its10of42 coverage finding applies only to the2024 combined listed-offense housing rate. Housing is a campus subset; missing rates are unavailable, not zero. No school is selected automatically.",
+      "evidence": "Four adjacent citations: current rates.csv supports count/population ratios; BJS PDF131 supports the reporting-versus-survey distinction; coverage.json and independent reader arithmetic support the qualified10of42 finding;34CFR668.46 supports geography. No new empirical safety or victimization claim. Detailed examples and PDFs unchanged; browser behavior checked separately.",
       "status": "PASS"
     },
     {
@@ -516,7 +520,8 @@
     "Crime/Heat reference estimates explicitly identify the corrected64-postal-area analysis and63 fitted domestic-violence areas.",
     "School guide population links point to actual housing/enrollment files; the selected school source marker is computed. Combined-area pooled copy describes a count rather than division by populations, and ambiguous partial sums are not asserted to be lower bounds.",
     "All42 school notes use plain language for populations, locations covered and earlier federal data. Full state names are searchable alongside school names and abbreviations; region labels describe home location only.",
-    "The opening-view amendment removes automatic school selection and San Diego opening highlights. Region browsing does not choose a school. School-specific links, detailed examples, source qualifications, scientific outputs and reviewed PDFs are preserved."
+    "The opening-view amendment removes automatic school selection and San Diego opening highlights. Region browsing does not choose a school. School-specific links, detailed examples, source qualifications, scientific outputs and reviewed PDFs are preserved.",
+    "The follow-up opening analysis explains the results before a school is selected. Its10of42 finding is expressly2024/combined listed housing offenses, with four direct citations; it does not imply a national coverage estimate or safety ranking."
   ],
   "limitations": [
     "PASS applies only to reviewed factual/citation claims and recorded artifact versions. It is not certification of complete crime reporting, true victimization risk, matched property-level populations, or agency approval.",
@@ -529,8 +534,8 @@
   "reviewed_artifacts": [
     {
       "path": "boomerrawlings.com/src/pages/writing/data-analysis/campus-safety.astro",
-      "bytes": 18677,
-      "sha256": "73562fcd24e2dd8cadbc8fbfc4d7e4fdc8b0c796445ee2c5de3a64ed64bdc3e9"
+      "bytes": 20221,
+      "sha256": "6a73377bc0968f5ba1a4bb7129e2d703c7c1fe0a490762c385e86eb604217825"
     },
     {
       "path": "boomerrawlings.com/src/content/archive/campus-safety.md",
@@ -569,8 +574,8 @@
     },
     {
       "path": "campus_safety_analysis/research/freshness_2026_09_25/READER_COPY_AUDIT.json",
-      "bytes": 3504,
-      "sha256": "b5c6929c65d0114b866c57fb0ac84e253267dc70cbf143acddfe55fa13d06b5b"
+      "bytes": 3639,
+      "sha256": "06d767abe9b8a1c6a95331070adf0284790702c1728bb8277dc5b92e3d54b064"
     },
     {
       "path": "campus_safety_analysis/research/freshness_2026_09_25/build_current_reports.py",
@@ -624,13 +629,13 @@
     },
     {
       "path": "campus_safety_analysis/research/freshness_2026_09_25/README.md",
-      "bytes": 8752,
-      "sha256": "31aaeab25520805241cdbe16b98257be5ce5a1ac10c6fc9b383752cbb0250a25"
+      "bytes": 9059,
+      "sha256": "d60d125cafa65b792720373cc88c21469cf233aba0894b719bfba3c87a51f475"
     },
     {
       "path": "campus_safety_analysis/research/freshness_2026_09_25/PRESENTATION_AMENDMENT.md",
-      "bytes": 2115,
-      "sha256": "8d5742d1d08b84e4ac1f6fa3d32afba88adea6ec5f587b8cf10d627a5f403ef3"
+      "bytes": 2805,
+      "sha256": "0484c8e11837592b499bd0e7d02dafbfea606edcdf0db39c1c7445c0a526502f"
     },
     {
       "path": "campus_safety_analysis/research/RESEARCH_REVIEW.md",

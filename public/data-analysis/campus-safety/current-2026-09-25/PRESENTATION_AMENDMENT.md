@@ -2,6 +2,8 @@
 
 This presentation change follows the 25 September 2026 source review. The opening view gives a short introduction and asks the reader to choose a school. Regional browsing and search do not choose a school automatically. Valid school-specific links and source return links continue to open that school's explanation. The San Diego worked examples remain in the detailed study and PDF, outside the opening overview.
 
+The follow-up overview makes the general interpretation visible before the school finder: recorded counts and population-adjusted rates do not establish a safety ranking or individual risk, housing is part of the campus total, and unavailable rates are distinct from zeros. Its one coverage finding is limited to the combined listed-offense housing rate for 2024: 10 of 42 schools. Four linked citations support the rate calculations, reporting-versus-victimization distinction, current coverage and geographic definition. This wording adds no school-specific opening example or new numerical result.
+
 The selected-school calculations, source qualifications, categories, reporting years and denominators are unchanged. An empty school selection is an interface state, not a missing observation or zero count. The existing independent numerical audit and offline replay remain applicable to the unchanged scientific bytes.
 
 ## Preservation boundary
@@ -17,4 +19,4 @@ Only the current campus interface snapshot, presentation documentation, scoped a
 
 ## Verification scope
 
-The reader audit checks all 9,450 selected-school combinations and the source-marker logic. The citation ledger updates its opening-view description without reclassifying the retained San Diego source evidence. Actual blank-launch, region/search, deep-link and source-return behavior belongs to the separate browser record in `VISUAL_AUDIT.md`. Final archive and preservation checks are recorded separately from the archive to avoid a self-referential checksum.
+The reader audit checks all 9,450 selected-school combinations, the source-marker logic and the overview's year/category-qualified coverage statement. The citation ledger checks the four overview sources without reclassifying the retained San Diego source evidence. Actual blank-launch, region/search, deep-link and source-return behavior, including the visible overview, belongs to the separate browser record in `VISUAL_AUDIT.md`. Final archive and preservation checks are recorded separately from the archive to avoid a self-referential checksum.

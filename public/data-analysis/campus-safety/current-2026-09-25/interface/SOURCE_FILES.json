@@ -36,12 +36,12 @@
     "sha256": "2a89f6eb25b23878daae794b1a814167cb704762d6e4ed0db64f1c48ee291d75"
   },
   "styles/campus-reader.css": {
-    "bytes": 6282,
-    "sha256": "eebfe68e52652a052e07f2851e8629cb17249c69735fba00f05960060efb23d6"
+    "bytes": 6538,
+    "sha256": "57d5b4ee014053e4a30eb8783152a502294fe913c390cc931eefbaf4eb9dfbbd"
   },
   "pages/writing/data-analysis/campus-safety.astro": {
-    "bytes": 18677,
-    "sha256": "73562fcd24e2dd8cadbc8fbfc4d7e4fdc8b0c796445ee2c5de3a64ed64bdc3e9"
+    "bytes": 20221,
+    "sha256": "6a73377bc0968f5ba1a4bb7129e2d703c7c1fe0a490762c385e86eb604217825"
   },
   "content/archive/campus-safety.md": {
     "bytes": 15519,

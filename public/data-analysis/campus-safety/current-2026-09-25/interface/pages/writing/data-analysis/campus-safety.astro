@@ -32,6 +32,12 @@ const example=(unitid:string,period:number|string)=>cases.find((r:any)=>r.unitid
       <h1>Campus safety, in proportion.</h1>
       <p class="analysis-deck">Explore reported crime across 42 universities, with student populations and reporting context alongside the numbers.</p>
     </header>
+    <section class="reader-overview" aria-labelledby="reader-overview-heading">
+      <h2 id="reader-overview-heading">What this study tells us</h2>
+      <p>A larger crime total does not, by itself, mean a university is less safe. This study puts reported offenses in context: the population, location and year covered. Rates per 1,000 residents help account for population size; they do not measure a student’s chance of experiencing crime. <a data-campus-citation href={`${revision}/rates.csv`}>Current counts, populations and rates</a> <a data-campus-citation href="https://bjs.ojp.gov/content/pub/pdf/ccsvsftr.pdf#page=131">Bureau of Justice Statistics: campus survey and reported-crime comparison</a></p>
+      <p>The starting focus is student housing. For 2024, 10 of the 42 schools have enough verified data for a rate combining the listed housing offenses. Missing rates mean a comparison is unavailable, not that no crimes were reported. Housing is also included in the wider on-campus total, so those counts should not be added together. <a data-campus-citation href={`${revision}/coverage.json`}>Current coverage and exclusion record</a> <a data-campus-citation href="https://www.ecfr.gov/current/title-34/subtitle-B/chapter-VI/part-668/subpart-D/section-668.46">Federal definitions and reporting geography</a></p>
+      <p class="reader-overview-next">Choose a region or school below for a plain-English breakdown by year, type of report and location. Detailed tables, methods and the downloadable report follow.</p>
+    </section>
     <CampusReader data={data} />
     <details id="campus-technical" class="reader-technical"><summary>Detailed comparisons, geographic breakdowns and research methods</summary>
     <nav class="analysis-section-nav" aria-label="Study sections"><a href="#explorer">Rate explorer</a><a href="#report-geography">Geography</a><a href="#case-study">Housing comparison</a><a href="#source-inventory">Current sources</a><a href="#methods">Methods &amp; related research</a><a href="#downloads">Data &amp; audits</a><a href="#sources">Sources</a></nav>

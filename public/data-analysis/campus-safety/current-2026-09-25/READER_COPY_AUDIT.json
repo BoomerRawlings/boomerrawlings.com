@@ -1,5 +1,5 @@
 {
-  "checked_utc": "2026-09-26T01:07:15.120Z",
+  "checked_utc": "2026-09-26T02:11:37.163Z",
   "status": "PASS",
   "scope": "Data-to-explanation and reference-source checks. Does not certify rendered browser behavior or legal completeness of plain-language category descriptions.",
   "selections": 9450,
@@ -61,6 +61,10 @@
       "pass": true
     },
     {
+      "name": "Visible overview qualifies its coverage finding by year and combined housing category",
+      "pass": true
+    },
+    {
       "name": "Separate reader references use R1/R2 without geography G1 collision",
       "pass": true
     },
@@ -112,7 +116,7 @@
     },
     {
       "path": "src/pages/writing/data-analysis/campus-safety.astro",
-      "sha256": "73562fcd24e2dd8cadbc8fbfc4d7e4fdc8b0c796445ee2c5de3a64ed64bdc3e9"
+      "sha256": "6a73377bc0968f5ba1a4bb7129e2d703c7c1fe0a490762c385e86eb604217825"
     },
     {
       "path": "src/lib/campus-citations.js",
