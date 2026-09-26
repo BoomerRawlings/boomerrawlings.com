@@ -2,12 +2,13 @@
 
 ## Coverage expansion — 2026-09-25
 
-- Mode: continuation. Objective: expand actual housing populations and recheck newest reputable campus reports across all42 schools. Status: final verification complete; committing/deploying expansion.
+- Mode: continuation. Objective: expand actual housing populations and recheck newest reputable campus reports across all42 schools. Status: published as e947bd0; Pages run36216780650 succeeded.
 - Verified:42 latest-report checks;36,652 source cells/217 branches;39,268 geographic cells;9,450 rates. 2024 combined housing counts29→33/42; documented populations11→13; usable rates10→13. Five adopted observations: Stanford2024/2025 and Carnegie Mellon2022–2024. 2025 has one population but no complete combined housing rate.
 - Recovered Merced/Harvard/Hopkins/UVA originals and newest Stanford/Princeton editions; independent source and numerical audits pass. Harvard missing geographic columns remain unknown; Stanford combined violence definitions withheld. Texas resident figures withheld because student-only scope unresolved.
 - Preserved: federal archive, Crime/Heat and map opening. New population ledger gives dates, source hashes and scope;87 candidate records retain exclusions. Stanford2024 university-authored publisher-hosted PDF explicitly qualified.
 - Verified: full npm test PASS; all164 population observations independently checked; source/citation80/80, reader9,450selections/23checks, static21checks, map17checks, independent integration41checks. Clean ZIP replay reproduces all10 products exactly;203 manifested assets/25 interface snapshots pass. Desktop1280/mobile390/320, sorting, source returns and formulas pass; all10 PDF pages visually checked.
-- Final package: ZIP1,876,578bytes/SHA25616ceeeac1e6e31e0b1e53ef8d0d43be5ef3bf05956d0edf0162d6b014c2437b6. PDF223,688bytes/SHA256f8c7deed2cc17897077b48565f62bd2592f89e9d58a232f62a975ec87cadb97b. Federal/Crime artifacts byte-identical. Next: commit/deploy/live verification. No new email or automation.
+- Final package: ZIP1,876,578bytes/SHA25616ceeeac1e6e31e0b1e53ef8d0d43be5ef3bf05956d0edf0162d6b014c2437b6. PDF223,688bytes/SHA256f8c7deed2cc17897077b48565f62bd2592f89e9d58a232f62a975ec87cadb97b. Federal/Crime artifacts byte-identical. Live verification:16 assets match exact committed bytes, including PDF/ZIP/data/source ledgers. Neutral opening13/42; region-to-school selection, CMU2024rate1.00, population disclosure, source jump/return and Stanford2025documented-population/missing-rate behavior pass; no console errors.
+- Next: no required work remains for this expansion. Remaining29 institutions lack a paired2024combined housing rate; candidate ledger records unresolved population/geographic gaps. No new email or automation.
 
 ## Geographic school navigation — 2026-09-25
 
