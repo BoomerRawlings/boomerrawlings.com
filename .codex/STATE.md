@@ -2,11 +2,12 @@
 
 ## Opening-view simplification — 2026-09-25
 
-- Mode: continuation. User feedback: first launch remains overwhelming and overly focused on UCSD/SDSU. Status: implementation and verification complete; ready for production push.
+- Mode: continuation. User feedback: first launch remains overwhelming and overly focused on UCSD/SDSU. Status: published as eef03b8; Pages run36207614686 succeeded.
 - Short broad introduction, search and regional browsing. No school selected until explicit choice; regions never auto-select a school. Valid school/region links retain intended state. School-specific findings, coverage and sources use progressive disclosure.
 - Scientific inputs, calculations, PDFs, 151 federal artifacts and 330 Crime/Heat artifacts unchanged. Campus presentation amendment, 13 interface snapshots and 121-entry manifest refreshed; ZIP SHA256 a08e9c30fe4e6b599db5336ee096af3b1218c6568e1a0c2175d0e9dc278bf6a8.
 - Verified: full npm test passes. Reader audit 9,450 selections/19 checks; citation audit 39 claim groups/57 checks. Desktop1280/mobile390/320, blank launch, all five regions, search, explicit choice, missing values, citations/return links and school/region/source deep links pass. No overflow, duplicate IDs or browser errors.
-- Next: single production content push; Pages and live opening/selection/download checks; record completion.
+- Live verification: neutral opening, region browsing without automatic school selection, explicit school details and missing-value behavior confirmed; no console errors. Twelve live assets match committed bytes, including manifest, ZIP, amendment and interface snapshots.
+- Next: no required work remains for this presentation revision.
 
 ## Current publication revision — 2026-09-25
 
