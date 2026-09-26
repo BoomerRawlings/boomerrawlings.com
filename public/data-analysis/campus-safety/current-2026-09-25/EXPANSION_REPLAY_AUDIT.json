@@ -1,0 +1,21 @@
+{
+  "checked_utc": "2026-09-26T04:01:32.813276+00:00",
+  "status": "PASS",
+  "scope": "Clean archive extraction, manifest verification and independent offline calculation. All ten products equal the published scientific bytes. This record identifies scientific products and source inputs; the final ZIP checksum is separately listed in artifact_manifest.json. Source-PDF authentication and property-scope limits are documented in the source audits.",
+  "manifest_files_checked": 201,
+  "products": {
+    "source_cells.csv": "451895c85221121d5c00d83d38f2929332e32a1d9a50a78cdbd9370ead26069c",
+    "superseded_source_cells.csv": "12ebf4abfc32fb8bd6a138688a9849ab1733ed300716bf158d85f2ca12d79a05",
+    "population_sources.csv": "1cfde5693c35dffd15f7f05d4e1abe3847a356dc7147ffcbd2ee498783e6ed68",
+    "dataset.json": "555d18e4cdbb1fef20b9884ffec8d38286151a9331a9f9bc223e8d70707324ca",
+    "rates.csv": "efc2bb0693ad2c7a6adbf9413242d199a599a3ff041ecf8f20572496947d31d4",
+    "geography.json": "f903ee68028cf1d028ddcbbc16802a054580ca66228acdea968338576afc9fc5",
+    "case_study.json": "234cfafd586fb8e5643265bcf6acda2b11124668a837bfab743ec1d8a1227eba",
+    "coverage.json": "f9820014cce56a68ed747a136f93ca451fbdf58c9165c149b0dbaab635fc3352",
+    "source_inventory.json": "2cfe45e8f8c81a43cb6bd22df6afb106fdf149a811ae7fb0dfb25abcfe3b8c06",
+    "build_inputs.json": "6f971cd6ba0b48996e1cb27571b6d75d8d9861f7938c052623719db4afa0c707"
+  },
+  "independent_audit_status": "PASS",
+  "errors": [],
+  "privacy_scan": "No machine-specific user/project paths or credential-like tokens found in packaged text assets."
+}

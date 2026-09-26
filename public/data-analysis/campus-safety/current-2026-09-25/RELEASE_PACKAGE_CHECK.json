@@ -94,5 +94,6 @@
     "disposition": "No personal user path, secret token, private email, record identifier or individual street-address field found in the allowlisted textual/CSV files. The two lexical candidates are a generic C:/Windows/Fonts dependency and literal drive-prefix examples used by the private-source safety checker. Neither identifies the user or exposes a credential. Source original PDFs are intentionally outside the aggregate archive."
   },
   "status": "PASS",
-  "scope": "Prior candidate archive verification, identified by the hashes below. The same scientific outputs were replayed independently; later interface/audit additions change the final archive hash. Final archive integrity is checked externally, avoiding a self-referential checksum."
+  "historical_record": true,
+  "scope": "Historical pre-expansion candidate verification, identified by the hashes below. Its eight-output replay and prior integrity/privacy results do not verify the expanded ten-output scientific release. A new clean replay, archive integrity and privacy check are required after final packaging and recorded externally to avoid a self-referential checksum. See EXPANSION_AMENDMENT.md."
 }

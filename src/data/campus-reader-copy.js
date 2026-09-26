@@ -1,9 +1,9 @@
 export const regionCopy = {
   all: {label:'All regions', note:'Browse the 42 selected universities. This is a selected comparison group, not a survey of every university in the country.'},
-  West: {label:'West', note:'The western group includes the University of California campuses, San Diego State and other selected universities. Documented housing populations are available only for the California public universities in this release.'},
-  Midwest: {label:'Midwest', note:'These schools are grouped by their home location in the Midwest. Several report additional campuses. Housing counts can be read here, but verified resident populations are unavailable for this group.'},
-  Northeast: {label:'Northeast', note:'This group includes the Ivy League and other selected northeastern universities. Their reports can cover satellite locations, including overseas properties. Verified resident populations are unavailable for this group.'},
-  South: {label:'South', note:'This group includes selected universities in the South and the District of Columbia. Some institutions report many separate locations. Verified resident populations are unavailable for this group.'},
+  West: {label:'West', note:'This group includes the University of California campuses, San Diego State and other selected western universities. Resident populations now draw on state audits and institutional housing records. Availability depends on the school and year.'},
+  Midwest: {label:'Midwest', note:'These schools are grouped by their home location in the Midwest. Some include additional campuses elsewhere. Compare the reported area and population source before interpreting differences between schools.'},
+  Northeast: {label:'Northeast', note:'This group includes the Ivy League and other selected northeastern universities. Reports can include overseas properties. A home-city housing count may cover less of the institution than its crime report.'},
+  South: {label:'South', note:'This group includes selected universities in the South and the District of Columbia. Some report many separate locations. A residence-hall population may omit apartments or family housing, so incomplete populations are identified separately.'},
 };
 export const topicCopy = {
   criminal_total:{label:'Listed offenses combined',text:'Adds the eleven criminal-offense categories listed in these reports. It excludes domestic violence, dating violence and stalking classifications, arrests and disciplinary referrals. It is not a count of distinct people or incidents.'},
@@ -23,14 +23,14 @@ export const topicCopy = {
   stalking:{label:'Stalking',text:'Stalking classifications may overlap other reported offenses. They are displayed separately and should not be added to the combined-offense count.'},
 };
 export const placeCopy = {
-  housing:{label:'Student housing',text:'Reports in campus residential facilities. When a verified population exists, the rate uses documented fall housing occupancy. It does not estimate an individual resident’s chance of experiencing crime.'},
+  housing:{label:'Student housing',text:'Reports in campus residential facilities. The rate uses documented student residents where a dated population is available. Housing boundaries may differ between sources; read the population note below. This does not estimate a resident’s chance of experiencing crime.'},
   campus:{label:'All on-campus areas',text:'Reports on campus, including student housing. The optional rate uses all enrolled students, including those living elsewhere. It answers a different question from the housing comparison.'},
   combined:{label:'All reporting areas',text:'Adds on-campus areas, qualifying off-campus properties and public property within or next to campus. Off-campus properties can include recognized student-organization houses. Housing is already included in on-campus reports. No matched population is available for this combined area, so only counts are shown.'},
 };
 export const periodCopy = {
   '2022':'Reports recorded for calendar year 2022. Some newer editions no longer include this year; missing counts are not filled from the archived federal data.',
   '2023':'Reports recorded for calendar year 2023. Newer report editions can revise these earlier figures; the current-source view uses the verified revisions.',
-  '2024':'Reports recorded for calendar year 2024. This is the latest year with population data used in this study; count coverage still varies by school and category.',
-  '2025':'Reports recorded for calendar year 2025, where a verified report supplies them. Same-year housing and enrollment populations have not been established, so no 2025 rates are shown.',
-  pooled:'Combines 2022–2024 counts and divides by the sum of those three fall populations. This is a population-weighted annual comparison, not a three-year probability or a count of unique students.',
+  '2024':'Reports recorded for calendar year 2024. Population and count coverage vary by school and category. A newer publication may revise this year’s figures.',
+  '2025':'Reports recorded for calendar year 2025, where the source supplies them. Rates require a separately documented 2025 population; an earlier year’s population is never carried forward.',
+  pooled:'Combines 2022–2024 counts and divides by the sum of those three dated population snapshots. This is a population-weighted annual comparison, not a three-year probability or a count of unique students.',
 };

@@ -1,7 +1,7 @@
 """Independent offline audit of the current-source calculation products.
 
 Does not import or execute build_current.py. Reconstructs totals directly from
-source_cells.csv and populations from the separately preserved federal dataset.
+source_cells.csv and populations from independently versioned population inputs.
 Source transcription is covered by the separate UC/public/private audits.
 """
 import collections
@@ -82,6 +82,25 @@ geo = read_json(OUT / 'geography.json')['cells']
 cases = read_json(OUT / 'case_study.json')
 build_inputs = read_json(OUT / 'build_inputs.json')
 coverage = read_json(OUT / 'coverage.json')
+population_path = HERE / 'expansion/population_additions.csv'
+population_input = list(csv.DictReader(population_path.open(encoding='utf-8-sig', newline=''))) if population_path.exists() else []
+population_index = {}
+for row in population_input:
+    key = row['unitid'], int(row['year']), row['measure']
+    require(key not in population_index, 'unique_population_input', key)
+    require(row['status'] == 'accepted_actual' and row['measure'] in {'residents', 'enrollment'}, 'eligible_population_input', key)
+    require(int(row['value']) > 0 and row['source_url'].startswith('https://') and len(row['source_sha256']) == 64 and bool(row['period_label']) and bool(row['scope_note']), 'population_provenance_fields', key)
+    population_index[key] = row
+require(build_inputs.get('population_additions_sha256') == (sha(population_path) if population_path.exists() else None), 'population_input_hash', 'all')
+review_path = HERE / 'expansion/adjudications.json'
+review_input = read_json(review_path) if review_path.exists() else {}
+require(build_inputs.get('adjudications_sha256') == (sha(review_path) if review_path.exists() else None), 'adjudication_input_hash', 'all')
+inventory_path = HERE / 'expansion/source_inventory_updates.json'
+require(build_inputs.get('inventory_updates_sha256') == (sha(inventory_path) if inventory_path.exists() else None), 'inventory_input_hash', 'all')
+def matched_review(row):
+    matching = [x for x in review_input.get('cell_decisions', []) if all(str(row.get(k, '')) == str(v) for k, v in x['match'].items())]
+    require(len(matching) <= 1, 'unambiguous_adjudication', tuple(row.get(k) for k in ['campus_id', 'report_year', 'category', 'geography']))
+    return matching[0] if matching else None
 rules_path = HERE / 'private/structural_geography_rules.json'
 rules = read_json(rules_path)
 rules_audit = read_json(HERE / 'private/STRUCTURAL_RULES_AUDIT.json')
@@ -133,6 +152,9 @@ for r in source:
     branches[key[0]][key[1]] = r['campus']
     raw, reported, approved = (number(r[k]) for k in ('count', 'reported_count', 'analysis_count'))
     status_counts[r['analysis_status']] += 1
+    review = matched_review(r)
+    if review:
+        require(r['analysis_status'] == review['analysis_status'] and r['analysis_note'] == review['reason'] and bool(review['reason']), 'applied_review_decision', key)
     equal(reported, raw, 'literal_count_retention', key)
     if r['analysis_status'] in APPROVED:
         equal(approved, raw, 'approved_count_retention', key)
@@ -146,7 +168,7 @@ for r in source:
         equal(raw, 0, 'zero_narrative_literal', key)
     if r['analysis_status'] in STRUCTURAL:
         require(approved is None, 'structural_not_observed_zero', key)
-    if r['institution_unitid'] == '234076':
+    if r['institution_unitid'] == '234076' and not r.get('source_sha256'):
         require(r['analysis_status'] == 'unverified_source', 'uva_exclusion', key)
     require(r['category'] in CORE and r['geography'] in GEOS, 'source_category_geography', key)
     # UVA is deliberately excluded from calculations; its web-reader transcript
@@ -157,11 +179,20 @@ for r in source:
             'cell_source_provenance', key)
     if r['status'] == 'reported_not_applicable' and r['analysis_status'] in STRUCTURAL:
         rule = rules_index.get((r['campus_id'], int(r['report_year']), r['geography']))
-        require(rule is not None and rule['status'] == r['analysis_status'],
+        require((rule is not None and rule['status'] == r['analysis_status']) or (review is not None and review['analysis_status'] in STRUCTURAL),
                 'private_structural_whitelist', key)
     if r['institution_unitid'] in {'182670', '110662'} and r['category'] in {'domestic_violence', 'dating_violence'}:
         require(r['analysis_status'] == 'ambiguous_source', 'combined_category_exclusion', key)
-require(len(original_rows) == len(source), 'all_selected_source_rows_retained', 'all')
+    if r['campus_id'] == '243744001' and r['category'] in {'domestic_violence', 'dating_violence'}:
+        require(r['analysis_status'] == 'ambiguous_source', 'stanford_combined_category_exclusion', key)
+superseded_path = OUT / 'superseded_source_cells.csv'
+superseded = list(csv.DictReader(superseded_path.open(encoding='utf8', newline=''))) if superseded_path.exists() else []
+for r in superseded:
+    key = (r['input_file'], r['institution_unitid'], r['campus_id'], int(r['report_year']), r['category'], r['geography'])
+    require(key in original_rows and all(r.get(k, '') == v for k, v in original_rows[key].items()), 'superseded_original_preserved', key)
+    replacement = index.get(key[1:])
+    require(replacement is not None and replacement['input_file'] == 'expansion/current_core_counts.csv' and int(replacement['report_edition']) >= int(r['report_edition']), 'superseded_has_qualified_replacement', key)
+require(len(original_rows) == len(source) + len(superseded), 'all_selected_source_rows_retained', 'all')
 
 # This crosswalk had been wrong in the production input; its correction is
 # identity-only and does not alter institution counts.
@@ -192,9 +223,14 @@ for uid, inst in institutions.items():
     require(set(present_years) == set(YEARS), 'year_scope', uid)
     for yr in YEARS:
         for pop in ('enrollment', 'residents', 'fte', 'distanceOnly'):
-            expected_pop = old_years.get(yr, {}).get(pop)
+            addition = population_index.get((uid, yr, pop))
+            expected_pop = int(addition['value']) if addition else old_years.get(yr, {}).get(pop)
+            if addition and old_years.get(yr, {}).get(pop) not in (None, expected_pop):
+                require(bool(addition.get('supersession_reason')), 'population_replacement_reason', (uid, yr, pop))
             populations[uid, yr, pop] = expected_pop
-            equal(present_years[yr][pop], expected_pop, 'same_year_frozen_population', (uid, yr, pop))
+            equal(present_years[yr][pop], expected_pop, 'same_year_source_population', (uid, yr, pop))
+            if addition:
+                require(present_years[yr]['populationSources'][pop] == addition, 'display_population_provenance', (uid, yr, pop))
         for location in GEOS:
             for category in CORE:
                 parts = [index.get((uid, bid, yr, category, location)) for bid in active]
@@ -242,7 +278,7 @@ for r in rates:
     equal(r['population_sum'], expected_population, 'rate_population', key)
     equal(r['rate_per_1000'], expected_rate, 'rate_value', key)
     equal(r['years'], len(chosen), 'rate_year_count', key)
-    if period == '2025':
+    if period == '2025' and (uid, 2025, pop_key) not in population_index:
         equal(r['rate_per_1000'], None, 'no_2025_denominator_substitution', key)
     actual_editions = set(r['source_editions'].split(';')) - {''}
     expected_editions = edition_by_period[uid, period]
@@ -312,6 +348,19 @@ for period, measures in coverage['available_rates'].items():
         observed = sum(r['period'] == period and r['category'] == 'criminal_total'
                        and r['measure'] == measure and r['rate_per_1000'] != '' for r in rates)
         equal(value, observed, 'coverage_available_rate', (period, measure))
+for yr in YEARS:
+    for measure in ('residents', 'enrollment'):
+        equal(coverage['population_coverage'][str(yr)][measure],sum(populations[uid,yr,measure] is not None for uid in institutions),'coverage_population_count',(yr,measure))
+    equal(coverage['housing_count_coverage'][str(yr)],sum(totals[uid,yr,'criminal_total','residential'] is not None for uid in institutions),'coverage_housing_count',yr)
+population_ledger = list(csv.DictReader((OUT/'population_sources.csv').open(encoding='utf8', newline='')))
+ledger_keys = [(p['unitid'],int(p['year']),p['measure']) for p in population_ledger]
+require(len(ledger_keys)==len(set(ledger_keys)), 'unique_population_ledger', 'all')
+for p in population_ledger:
+    key = p['unitid'], int(p['year']), p['measure']
+    equal(p['value'],populations[key],'population_ledger_value',key)
+    displayed=next(y for y in institutions[key[0]]['years'] if y['year']==key[1])['populationSources'][key[2]]
+    require(all(p.get(k,'')==str(v) for k,v in displayed.items()),'population_ledger_display_agreement',key)
+require(set(ledger_keys)=={(u,y,m) for u in institutions for y in YEARS for m in ['residents','enrollment'] if populations[u,y,m] is not None},'complete_population_ledger','all')
 
 report = {
     'checked_utc': datetime.now(timezone.utc).isoformat(),
@@ -320,7 +369,7 @@ report = {
     'source_cells': len(source), 'rate_rows': len(rates), 'display_cells': len(geo),
     'institutions_with_source_cells': sum(bool(x) for x in branches.values()), 'housing_campus_pairs': housing_pairs,
     'checks': dict(checks), 'errors': errors,
-    'files': {name: sha(OUT / name) for name in ('source_cells.csv', 'dataset.json', 'rates.csv', 'geography.json', 'case_study.json', 'coverage.json', 'build_inputs.json', 'source_inventory.json')},
+    'files': {name: sha(OUT / name) for name in ('source_cells.csv', 'dataset.json', 'rates.csv', 'geography.json', 'case_study.json', 'coverage.json', 'build_inputs.json', 'source_inventory.json', 'population_sources.csv', 'superseded_source_cells.csv')},
     'builder_sha256': sha(HERE / 'build_current.py'),
     'auditor_sha256': sha(Path(__file__)),
     'frozen_sha256': sha(FROZEN),

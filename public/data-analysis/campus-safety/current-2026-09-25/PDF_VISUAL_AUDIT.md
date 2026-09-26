@@ -36,3 +36,20 @@ All 11 pages were rendered again at 110 dpi and directly inspected after the fin
 Final visual result: pass. The rape-table heading, 2024 comparison label, housing-rape time-series heading and unverified-edition label are corrected. Added acronym expansions, citation 6a, and the Crime and Heat model-sample qualification fit without clipping or collisions. Both equations remain intact. All source inventory rows, reference entries, page numbers, table rules and footer text are readable. The supplements retain their nine-page and two-page lengths.
 
 This signoff concerns the exact hashes above. It does not claim reciprocal in-PDF citation navigation: external reference links are present, while campus body reference indices remain plain text. Browser layout, actual published link responses, population/source authentication, and all-institution numerical verification are outside this visual check.
+
+## Resident-coverage expansion revision
+
+The current campus replacement was generated with `build_current_reports.py --campus-only`. The Crime and Heat supplement was not regenerated; its exact bytes and metadata remain unchanged. Earlier campus signoffs above describe archived versions, not the expanded report.
+
+| Report | Pages | Bytes | SHA-256 |
+|---|---:|---:|---|
+| Expanded campus safety current-source report | 10 | 223,688 | `f8c7deed2cc17897077b48565f62bd2592f89e9d58a232f62a975ec87cadb97b` |
+| Preserved Crime and Heat source-refresh supplement | 2 | 108,730 | `f6ce724d1450fba85601db40b46e5d59122d4191e254e81b5fe06bd517d2cba3` |
+
+All ten campus pages were rendered with Poppler at 1,350-pixel page height and directly inspected. Result: **PASS**. No clipping, collisions, missing characters, broken tables or blank pages. The 13-institution comparison, 42-school inventory and expanded reference list remain legible. The new expansion page fits on one page and distinguishes the five accepted resident observations from the unadopted Texas candidate. It retains Stanford's publisher-mirror provenance, Carnegie Mellon's housing scope, and the Hopkins edition/printed-issue-date discrepancy.
+
+Page 2 equations retain clear fraction rules, italic variables, lowered institution/year subscripts and correctly positioned 2022-2024 summation limits. Numerator and denominator remain unambiguous. The population explanation now cites the expanded population ledger, and describes dated snapshots rather than assuming a single source. Pages 3-4 show the revised 33 housing counts, 13 populations and 13 paired 2024 rates; one adopted Stanford 2025 population does not imply a complete matching institutional rate. References include direct Stanford and Carnegie Mellon sources and the source-derived population ledger.
+
+This visual signoff applies only to the exact replacement hash above. All ten pages also passed text extraction without replacement glyphs; embedded external reference links include the population ledger. Source/citation review and final model-independent numerical review remain separate audit records. The report's body reference indices remain plain text, as in the preceding version; this check does not claim reciprocal internal PDF citation navigation.
+
+Final citation review requested one acronym correction: the first occurrence of PDF now reads Portable Document Format (PDF). All ten pages were rerendered; nine PNGs remained byte-identical and the changed page 5 was directly reinspected without clipping or collisions. The final hash above incorporates this correction. Independent copy/source review accepted references 13-19, all five added populations and the Texas exclusion.

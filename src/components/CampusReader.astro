@@ -26,11 +26,12 @@ import '../styles/campus-reader.css';
       <label>Reporting period<select id="reader-year"><option value="2022">2022</option><option value="2023">2023</option><option value="2024" selected>2024</option><option value="2025">2025</option><option value="pooled">2022–2024 combined</option></select></label>
     </div>
     <div id="reader-outcome" aria-live="polite" aria-atomic="true">
-      <div class="reader-stats"><div><span>Reports in student housing</span><strong data-reader-count></strong></div><div><span data-reader-pop-label>Documented fall residents</span><strong data-reader-population></strong></div><div><span data-reader-rate-label>Reports per 1,000 residents</span><strong data-reader-rate></strong></div></div>
+      <div class="reader-stats"><div><span>Reports in student housing</span><strong data-reader-count></strong></div><div><span data-reader-pop-label>Documented residents</span><strong data-reader-population></strong></div><div><span data-reader-rate-label>Reports per 1,000 residents</span><strong data-reader-rate></strong></div></div>
       <h4 id="reader-result-heading"></h4><p id="reader-explanation"></p><p id="reader-zero" hidden></p>
     </div>
     <div class="reader-interpretation"><p><strong>Location.</strong> <span id="reader-location-explanation">{placeCopy.housing.text}</span></p><p><strong>Category.</strong> <span id="reader-topic-explanation">{topicCopy.criminal_total.text}</span></p><p><strong>Time period.</strong> <span id="reader-time-explanation">{periodCopy['2024']}</span></p></div>
     <p class="reader-small" id="reader-editions"></p>
+    <details id="reader-population-detail" class="reader-context" hidden><summary>What does this population cover?</summary><div id="reader-population-sources"></div></details>
     <p class="reader-small">Evidence for this view: <sub><a id="reader-school-citation" href="#reader-sources" aria-label="Selected school's source">[School source]</a></sub> <sub><a href="#reader-source-calculations" data-reader-source-link>[R1]</a></sub> <sub><a href="#reader-source-population" data-reader-source-link>[R2]</a></sub>. Counts describe reported offenses, not convictions, distinct victims or personal risk.</p>
     <div class="reader-next"><a id="reader-table-link" href="#explorer">Open this selection in the detailed table</a><a id="reader-location-link" href="#report-geography">Inspect individual campus locations</a></div>
   </article>
@@ -94,12 +95,14 @@ import '../styles/campus-reader.css';
       root!.querySelector('[data-reader-population]')!.textContent=place==='combined'?'No matched population':format(r.population);
       root!.querySelector('[data-reader-rate]')!.textContent=r.rate===null?'Not calculated':rateLabel(r.rate);
       root!.querySelector('[data-reader-count]')!.previousElementSibling!.textContent=place==='housing'?'Reports in student housing':place==='campus'?'Reports on campus':'Reports across all areas';
-      root!.querySelector('[data-reader-pop-label]')!.textContent=place==='combined'?'Population basis':`${year.value==='pooled'?'Sum of fall':'Fall'} ${place==='housing'?'residents':'enrollment'}`;
+      root!.querySelector('[data-reader-pop-label]')!.textContent=place==='combined'?'Population basis':`${year.value==='pooled'?'Summed populations':place==='housing'?'Documented residents':'Fall enrollment'}`;
       root!.querySelector('[data-reader-rate-label]')!.textContent=place==='combined'?'Population-adjusted rate':`Reports per 1,000 ${place==='housing'?'residents':'enrolled students'}`;
       $('reader-result-heading').textContent=r.headline;$('reader-explanation').textContent=r.interpretation;
       $('reader-zero').textContent=r.zero??'';$('reader-zero').hidden=!r.zero;
       $('reader-location-explanation').textContent=placeCopy[place].text;$('reader-topic-explanation').textContent=topicCopy[topic.value].text;$('reader-time-explanation').textContent=r.timeExplanation;
       $('reader-editions').textContent=`Current-source view · checked 25 September 2026. ${r.editions.length?`Report editions supplying this period: ${r.editions.join(', ')}. ${s.branchCount} ${s.branchCount===1?'reporting campus':'reporting campuses'} in the source inventory; this institutional summary may include locations away from the main campus.`:'No verified source edition supplies this period. Current reporting coverage for this selection is unverified.'}`;
+      $('reader-population-detail').hidden=!r.populationSources.length;
+      $('reader-population-sources').replaceChildren(...r.populationSources.map((p:any)=>el('p',`${p.period_label}: ${format(Number(p.value))} ${place==='housing'?'student residents':'enrolled students'}. ${p.source_title}. ${p.scope_note}`)));
       const cite=$('reader-school-citation') as HTMLAnchorElement;cite.href=`#reader-source-${selected}`;cite.textContent=`[S${schools.findIndex((s:any)=>s.id===selected)+1}]`;cite.setAttribute('aria-label',`School guide source for ${s.officialName}`);
       const table=$('reader-table-link') as HTMLAnchorElement;const u=new URL(location.href);u.hash='explorer';Object.entries({source:'current',measure:place==='housing'?'residents':'enrollment',group:'all',search:s.name,category:topic.value,period:year.value,first:s.id}).forEach(([k,v])=>u.searchParams.set(k,v));table.href=u.pathname+u.search+u.hash;table.textContent=place==='combined'?'Compare the on-campus rate in the detailed table':'Open this selection in the detailed table';
       root!.querySelectorAll<HTMLButtonElement>('[data-reader-place]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.readerPlace===place)));

@@ -1,0 +1,72 @@
+{
+  "result": "PASS",
+  "audited_at_utc": "2026-09-26T03:40:05.525460+00:00",
+  "method": "Independent pdfplumber extraction from original PDFs, separately visually verified row/column layouts; no producer extraction code imported or consulted.",
+  "visual_review": {
+    "completed": true,
+    "pages": {
+      "merced": [
+        156,
+        157
+      ],
+      "harvard": [
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76
+      ]
+    },
+    "scope": "All nine rendered table pages, geography/year headers, nonzero cells, subset/total footnotes; no report-wide policy audit."
+  },
+  "results": [
+    {
+      "result": "PASS",
+      "source_pdf": "california/merced_2025_asr.pdf",
+      "source_sha256": "f9744041278e58141c35c6397b2c8af1fc07967099fbd00c88ed9c052cdaf3fd",
+      "csv": "california/merced_core_counts.csv",
+      "csv_sha256": "a0977c54649cdc2e0aaeb277e3d03e4ad59284efe7459880f2aa27a16e8cb073",
+      "cells_checked": 168,
+      "numeric_cells": 168,
+      "explicit_unknown_cells": 0,
+      "status_counts": {
+        "reported_numeric": 168
+      },
+      "pages": [
+        156,
+        157
+      ],
+      "arithmetic_checks": 84,
+      "issues": [],
+      "qualification": "All four source geographies are printed. The housing column is a subset of campus and is not added again to the geographic total. Calendar years 2022\u20132024; appendix pages unnumbered."
+    },
+    {
+      "result": "PASS",
+      "source_pdf": "ivy_northeast/raw/harvard_asr_report.pdf",
+      "source_sha256": "c52024d2154a422a975890555ad0e11fd19790bcfc5d9cf405305edfa6031c3a",
+      "csv": "ivy_northeast/harvard_2025_core_counts.csv",
+      "csv_sha256": "9ed7d689342a62df1d73b070fdca39f2b194faa94056f569cd18d9e038418c42",
+      "cells_checked": 1176,
+      "numeric_cells": 798,
+      "explicit_unknown_cells": 378,
+      "status_counts": {
+        "reported_numeric": 798,
+        "not_reported": 378
+      },
+      "pages": [
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76
+      ],
+      "arithmetic_checks": 519,
+      "issues": [],
+      "qualification": "378 absent-column cells remain unknown, not inferred zero. Cambridge/Longwood print all four geographies; Forest prints housing but omits noncampus; Arboretum, Concord, Greece and Chile omit housing/noncampus. This audit does not adjudicate structural absence from a separate fire report. Printed TOTAL rows sum all fourteen categories, not only the eleven criminal-offense categories."
+    }
+  ]
+}

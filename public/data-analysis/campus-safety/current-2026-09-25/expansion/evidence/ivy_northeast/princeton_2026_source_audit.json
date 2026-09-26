@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "source_sha256": "bc5a24834477c9ae9f02fa450e2eb500b676859b384ad20323cd3b39730b5667",
+  "csv_sha256": "8c22198f432ba9f243ecb541a08b6a01264abfc87ab55774d0834d4838313761",
+  "cells": 336,
+  "overlay_numeric_checks": 420,
+  "visible_pages_reviewed": [
+    50,
+    51,
+    52,
+    53
+  ],
+  "printed_pages": [
+    48,
+    49,
+    50,
+    51
+  ],
+  "geography_subtotal_controls": 84,
+  "overlap_comparisons": 224,
+  "overlap_revisions": [],
+  "notes": [
+    "All four visible source tables inspected; stale hidden2021-23 tables excluded.",
+    "Hate-crime and newly required hazing tables outside the fixed14-category comparison.",
+    "Main2025 motor-vehicle theft38 total includes27 e-bikes,8 golf carts,2 motorized scooters and1 motor vehicle; do not describe all as stolen automobiles.",
+    "Forrestal2025 source notes one unfounded motor-vehicle theft; not added to reported offense counts."
+  ]
+}

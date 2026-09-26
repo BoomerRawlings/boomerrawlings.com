@@ -1,0 +1,44 @@
+{
+  "institution_notes": {
+    "445188": "The recovered 2025 annual security report supplies 2022–2024 counts. Its four geography columns and printed totals have been independently checked; the existing State Auditor resident populations are retained.",
+    "166027": "The recovered 2025 report supplies 2022–2024 tables for seven reporting campuses. Four tables omit housing columns without an explicit no-housing declaration; omitted cells remain unknown. The separately reviewed fire inventory does not resolve every omitted geography.",
+    "162928": "The downloaded report is titled 2025 but says issued October 1, 2026 and tabulates 2023–2025. It was publicly linked before that printed issue date. Both labels are preserved. Barcelona 2025 external-agency nonresponse and omitted noncampus geographies limit complete totals.",
+    "243744": "The latest main-campus report is the 2026 edition, covering 2023–2025; overseas reports remain separately linked 2025 editions. Main-campus domestic/dating definitions are combined and a footnote has a conflicting year. Separate-category comparisons are withheld for those cells. Actual university-housing populations for autumn 2024 and 2025 are qualified for property-scope differences.",
+    "211440": "Actual fall student housing counts include university and separately listed fraternity/sorority housing; current campus housing excludes graduate students. Population-property scope is approximate. The 2025 Pittsburgh fondling components sum to 3 but its printed total is 1; affected counts remain withheld.",
+    "228778": "Blank geographic source cells remain unknown. Brackenridge began separate reporting in 2023; earlier coverage was main-campus noncampus geography. A housing report gives 10,018 residents in spring 2024, but does not establish that dependents are excluded. This candidate is not adopted as a student-population denominator.",
+    "234076": "The original 2026 PDF has now been recovered and all 1,008 core cells independently checked against the earlier web transcription, with no differences. Six campus tables cover 2023–2025. Charlottesville 2024 fondling includes 50 incidents reported by one person; these are report-year counts.",
+    "186131": "The newly listed 2026 report supplies 2023–2025 tables. All 224 overlapping 2023–2024 core cells agree with the earlier 2025 report; 2022 retains its older attribution. Obsolete invisible table text was excluded using the visible current tables.",
+    "170976": "The statutory-rape table labels 2023, 2022 and 2021; no 2024 value is inferred. The 2024 on-campus fondling table gives 44 while its footnote gives 43. Residential fondling 7 is unambiguous and restored; complete combined 2024 totals remain unavailable."
+  },
+  "cell_decisions": [
+    {
+      "match": {
+        "institution_unitid": "144050",
+        "campus_id": "144050002",
+        "report_year": 2024,
+        "category": "burglary",
+        "geography": "residential",
+        "raw_value": "0",
+        "status": "source_total_conflict",
+        "source_sha256": "5427b9291336738968c24f9dafaa893e5ce717551707feacdb7f73fa53b43b08"
+      },
+      "analysis_status": "not_applicable_no_geography",
+      "reason": "Printed housing0 is independent of the campus6/total0 disagreement. Same-year federal OPE declaration explicitly says no campus housing, so structural absence independently corroborates this cell. No on-campus/total correction is inferred. Structural no-housing classification corroborated by the same-year federal applicability declaration; not an observed zero. Source: https://ope.ed.gov/campussafety/api/campus/144050002",
+      "source_url": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf#page=12",
+      "corroborating_sha256": "7640ff913ebaf1f611235c083b9185c860c14bc0771cc37814560c526eb09e7e"
+    },
+    {
+      "match": {
+        "institution_unitid": "170976",
+        "campus_id": "170976001",
+        "report_year": "2024",
+        "category": "fondling",
+        "geography": "residential",
+        "count": "7",
+        "source_sha256": "12ba624e2f95a1f6a61a6764225f6b6cee0076986b060fe7e0cec66746e42f92"
+      },
+      "analysis_status": "reported_numeric",
+      "reason": "The table explicitly gives 7 in On-Campus Residence Halls. The 44-versus-43 table/footnote discrepancy attaches to the on-campus cell, not this residential cell. Do not apply a category-wide exclusion to the unambiguous residential cell. Source: https://cdn.sanity.io/files/bflxpmv3/production/e5bbcc349237b5f972ae112e63bf68077d2a9fc7.pdf#page=16"
+    }
+  ]
+}

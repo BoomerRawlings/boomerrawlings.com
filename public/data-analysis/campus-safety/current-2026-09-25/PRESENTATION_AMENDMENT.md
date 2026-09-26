@@ -1,3 +1,5 @@
+> HISTORICAL RECORD: This amendment describes the earlier presentation-only release. Its 10/42 coverage, unchanged-science assertions and campus PDF hash are superseded by EXPANSION_AMENDMENT.md. It does not verify the expanded scientific outputs or PDF.
+
 # Campus guide: opening-view amendment
 
 This presentation change follows the 25 September 2026 source review. The opening view gives a short introduction and asks the reader to choose a school. Regional browsing and search do not choose a school automatically. Valid school-specific links and source return links continue to open that school's explanation. The San Diego worked examples remain in the detailed study and PDF, outside the opening overview.

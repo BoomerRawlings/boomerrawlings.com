@@ -1,3 +1,19 @@
+# Coverage expansion: interface and formula audit
+
+Release snapshot: 25 September 2026. This section supersedes the earlier coverage figures below; earlier sections are retained as historical verification records.
+
+The updated interface was exercised in the local production preview at 1280, 390 and 320 CSS-pixel widths. The opening remains broad and school-neutral; its coverage sentence shows13/42 combined housing rates for2024. Newly available Carnegie Mellon and Stanford views display separately sourced populations. Carnegie Mellon2024 shows4 housing offenses/3,988 residents=1.00 per1,000. Stanford2024 shows63/14,203=4.44; Stanford2025 displays14,042 documented residents alongside an unavailable count and no calculated rate.
+
+The population-scope disclosure opens within the selected-school explanation. Its dates, source titles and scope qualifications are visible. Selecting the school source opens the correct source entry; its return link restores the school explanation and focus. The population column sorts both directions with click/Enter (largest UCLA24,202; smallest UC San Francisco832). The default comparison contains13 institutions/13 rates. Years remain chronological with the pooled period last.
+
+Both display equations and five inline mathematical expressions retain semantic MathML. Fractions, subscripts, summation signs and limits were visually inspected on the responsive website. At320px, both display formulas fit their273px containers without horizontal overflow. No page overflow or browser warning/error was observed. Detailed methods remain behind the existing disclosure; no school-specific findings were added to the initial overview.
+
+The ten-page updated campus PDF was independently rendered and visually reviewed; see PDF_VISUAL_AUDIT.md for final file hash and page-specific verification. Root additionally inspected its formula page, expansion table and13-institution comparison. The unchanged Crime/Heat PDF was not regenerated for this expansion.
+
+The repeatable static_interface_checks.json, READER_COPY_AUDIT.json and MAP_NAVIGATION_AUDIT.json record separate structural, arithmetic/explanation and geographic-navigation checks. Browser behavior is not inferred from those checks.
+
+## Earlier release records — historical
+
 # Interface and formula audit
 
 Audit date: September 25, 2026. Local production preview: port 4326. This record separates static checks, direct PDF inspection, and browser interaction evidence; one is not substituted for another.

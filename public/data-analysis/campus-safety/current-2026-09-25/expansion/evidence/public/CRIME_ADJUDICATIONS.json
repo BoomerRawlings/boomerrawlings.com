@@ -1,0 +1,189 @@
+{
+  "review_date": "2026-09-25",
+  "status": "source_based_recommendations_not_website_mutations",
+  "decisions": [
+    {
+      "id": "michigan-2024-fondling-residential",
+      "unitid": "170976",
+      "year": 2024,
+      "campus_id": "170976001",
+      "category": "fondling",
+      "geography": "residential",
+      "count": 7,
+      "decision": "accept_explicit_source_cell",
+      "source": {
+        "url": "https://cdn.sanity.io/files/bflxpmv3/production/e5bbcc349237b5f972ae112e63bf68077d2a9fc7.pdf",
+        "sha256": "12ba624e2f95a1f6a61a6764225f6b6cee0076986b060fe7e0cec66746e42f92",
+        "edition": 2025,
+        "existing_file": "../../freshness_2026_09_25/public/retrieved/michigan/asr-4e09df57.pdf"
+      },
+      "pdf_page": 16,
+      "printed_page": 16,
+      "rationale": "The table explicitly gives 7 in On-Campus Residence Halls. The 44-versus-43 table/footnote discrepancy attaches to the on-campus cell, not this residential cell. Do not apply a category-wide exclusion to the unambiguous residential cell.",
+      "limits": "Does not resolve the absent 2024 statutory-rape row; complete combined 2024 criminal-offense total remains unavailable."
+    },
+    {
+      "id": "michigan-2024-fondling-oncampus",
+      "unitid": "170976",
+      "year": 2024,
+      "category": "fondling",
+      "geography": "oncampus",
+      "decision": "retain_conflict",
+      "source": {
+        "url": "https://cdn.sanity.io/files/bflxpmv3/production/e5bbcc349237b5f972ae112e63bf68077d2a9fc7.pdf",
+        "sha256": "12ba624e2f95a1f6a61a6764225f6b6cee0076986b060fe7e0cec66746e42f92",
+        "edition": 2025,
+        "existing_file": "../../freshness_2026_09_25/public/retrieved/michigan/asr-4e09df57.pdf"
+      },
+      "pdf_pages": [
+        16,
+        17
+      ],
+      "rationale": "Table gives starred44; explanatory note gives43. Do not select an undocumented correction or calculate a complete all-geography fondling total."
+    },
+    {
+      "id": "michigan-2024-statutory-rape",
+      "unitid": "170976",
+      "year": 2024,
+      "category": "statutory_rape",
+      "geography": "all",
+      "decision": "retain_missing",
+      "source": {
+        "url": "https://cdn.sanity.io/files/bflxpmv3/production/e5bbcc349237b5f972ae112e63bf68077d2a9fc7.pdf",
+        "sha256": "12ba624e2f95a1f6a61a6764225f6b6cee0076986b060fe7e0cec66746e42f92",
+        "edition": 2025,
+        "existing_file": "../../freshness_2026_09_25/public/retrieved/michigan/asr-4e09df57.pdf"
+      },
+      "pdf_page": 16,
+      "rationale": "The source rows are labeled2023,2022,2021. No2024 value is inferred from the repeated zeroes or presumed typographical error."
+    },
+    {
+      "id": "gatech-atlanta-specific-scope",
+      "unitid": "139755",
+      "years": [
+        2023,
+        2024,
+        2025
+      ],
+      "campus_id": "139755001",
+      "geography": "residential",
+      "decision": "eligible_only_if_explicitly_labeled_atlanta_scope",
+      "source": {
+        "url": "https://eoc.gatech.edu/sites/default/files/2026-09/2026%20Annual%20Security%20and%20Fire%20Safety%20Report.pdf",
+        "sha256": "68a12cae6f5e476bfb35ca6241e4499bd7431373f5448e999d4fe1a1051ce68f",
+        "edition": 2026,
+        "existing_file": "../../freshness_2026_09_25/public/retrieved/gatech/asr-94d44eb0.pdf"
+      },
+      "rationale": "Current Atlanta residential cells are explicit and may support Atlanta-specific counts. They do not establish complete institution-wide coverage. Current factbook occupancy is likewise Atlanta housing, including Greek housing, but Married Student occupancy has unresolved person-versus-unit basis.",
+      "limits": "No institution-wide residential zero may be imputed for Shenzhen; its2023 report explicitly describes controlled student housing. Savannah housing is explicitly inapplicable; retain that status rather than observed zero."
+    },
+    {
+      "id": "gatech-shenzhen-no-zero-inference",
+      "unitid": "139755",
+      "geography": "residential",
+      "decision": "retain_scope_gap",
+      "source": {
+        "url": "https://eoc.gatech.edu/sites/default/files/2024-08/GT%20Shenzhen%202023%20ASR.pdf",
+        "sha256": "b6f1afd93c3a05e9c369f0b309dbaca3de605119d79eefbc9f860261fa858ea9",
+        "existing_file": "retrieved/gatech_shenzhen_2023.pdf",
+        "edition": 2023
+      },
+      "pdf_pages": [
+        33,
+        35
+      ],
+      "rationale": "Historical Shenzhen report explicitly discusses student housing, residential inspection and fire systems. Its omission from the current Atlanta/Europe/Savannah report is not evidence that its housing was never applicable or had zero crimes."
+    },
+    {
+      "id": "ut-blank-geographies",
+      "unitid": "228778",
+      "years": [
+        2022,
+        2023,
+        2024
+      ],
+      "geography": "residential",
+      "decision": "retain_missing_blank_cells",
+      "source": {
+        "url": "https://compliance.utexas.edu/sites/default/files/documents/ASFSR%202025%20final.pdf",
+        "sha256": "3594b9f7a2917dd90015042de9a137ad54d1752b00739fec421d3a33e1cb3f7e",
+        "edition": 2025,
+        "existing_file": "../../freshness_2026_09_25/public/retrieved/ut/asr-6a9b50e0.pdf"
+      },
+      "pdf_pages": [
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81
+      ],
+      "rationale": "Gray/blank remote-campus cells do not explicitly denote observed zero. Report includes actual remote housing in Marine Science Institute and Winedale fire inventories, so a general no-remote-housing assumption is false. No source-supported blanket zero fill found.",
+      "limits": "Spring2024 reported10,018residents remains a contextual candidate because student-only composition is unresolved; it is not adopted as a student denominator. The crime numerator also remains incomplete. Main-campus rates would require separately identified numerator and a qualified student population."
+    },
+    {
+      "id": "unc-2024-domestic-dating",
+      "unitid": "199120",
+      "year": 2024,
+      "categories": [
+        "domestic_violence",
+        "dating_violence"
+      ],
+      "decision": "retain_combined_category_only",
+      "source": {
+        "url": "https://go.unc.edu/securityreport",
+        "sha256": "cf1efd3ce66c6b3d69365e231e37b62c68a17a9449063d6fb07ecfc14244baba",
+        "edition": 2026,
+        "existing_file": "../../freshness_2026_09_25/public/retrieved/unc/current-dfdf132c.pdf"
+      },
+      "pdf_pages": [
+        23,
+        24
+      ],
+      "rationale": "Footnote explicitly combines dating violence into2024 domestic-violence entry. Do not split combined value or extend the year-specific footnote to2025."
+    },
+    {
+      "id": "unc-2025-dating-and-remote-housing",
+      "unitid": "199120",
+      "year": 2025,
+      "decision": "retain_missing",
+      "source": {
+        "url": "https://go.unc.edu/securityreport",
+        "sha256": "cf1efd3ce66c6b3d69365e231e37b62c68a17a9449063d6fb07ecfc14244baba",
+        "edition": 2026,
+        "existing_file": "../../freshness_2026_09_25/public/retrieved/unc/current-dfdf132c.pdf"
+      },
+      "rationale": "A separate2025 dating-violence row is absent. Missing MAHEC/remote geography columns cannot be replaced by zero without explicit applicability evidence. No new source resolves those gaps."
+    },
+    {
+      "id": "virginia-2026-original-pdf-recovered",
+      "unitid": "234076",
+      "years": [
+        2023,
+        2024,
+        2025
+      ],
+      "decision": "restore_verified_original_pdf_cells",
+      "source": {
+        "url": "https://cleryact.virginia.edu/sites/cleryact/files/2026-09/UVA_Annual_Fire_Safety_Security_Report_2026_FINAL.pdf",
+        "sha256": "a8f39155d2dec776fd6690ee92813a47ecac10836169ad7a80f2faff07f34641",
+        "edition": 2026,
+        "existing_file": "retrieved/virginia_asr_2026.pdf"
+      },
+      "verified_cells_file": "current_core_counts.csv",
+      "verification_file": "UVA_VERIFICATION.json",
+      "pdf_pages": [
+        113,
+        123,
+        131,
+        140,
+        149,
+        157
+      ],
+      "rationale": "Original official PDF recovered through ordinary browser download. Independent extraction of all1,008 core geography cells matches every prior provisional web-reader cell, including raw dash markers and statuses. All six source tables visually checked.672 numeric cells are reported values;336 dashes are explicitly inapplicable geographies, not observed zero. Remove the former original-PDF-unavailable blanket exclusion for these verified rows.",
+      "limits": "2022 retains earlier-source attribution. Valmarana is explicitly not a separate campus in2023\u20132025; no historical zero is inferred.2024 Charlottesville fondling includes50 incidents from one report, per source note. No population denominator is established by recovering the crime PDF."
+    }
+  ]
+}

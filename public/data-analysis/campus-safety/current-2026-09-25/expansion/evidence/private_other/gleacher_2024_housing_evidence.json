@@ -1,0 +1,30 @@
+{
+  "derived_from": "sources/clery/normalized/cohort_campus_residential_applicability_2024.csv",
+  "source_csv_sha256": "0265730ad5990ffd7947393509735f71077ebaa496e2294d16e72cdb87eb0ae4",
+  "record": {
+    "collection_year": "2025",
+    "year": "2024",
+    "unitid": "144050",
+    "campus_id": "144050002",
+    "institution_label": "Chicago",
+    "cohort": "Additional private",
+    "branch": "Gleacher Center",
+    "family": "criminal_offenses",
+    "geography": "residential_facilities",
+    "offense_code": "BURGLA",
+    "offense_label": "Burglary",
+    "count": "",
+    "raw_source_value": "",
+    "source_year_filter": "1",
+    "status": "blank_source_cell",
+    "source_file": "Residencehallcrime222324.xls",
+    "source_sheet_row": "1810",
+    "source_column": "BURGLA24",
+    "applicability_status": "excluded_geography_no_housing_corroborated_2024",
+    "count_for_sum": "",
+    "api_survey_year": "2024",
+    "api_no_housing_declaration": "True",
+    "api_source_url": "https://ope.ed.gov/campussafety/api/campus/144050002",
+    "api_source_sha256": "7640ff913ebaf1f611235c083b9185c860c14bc0771cc37814560c526eb09e7e"
+  }
+}

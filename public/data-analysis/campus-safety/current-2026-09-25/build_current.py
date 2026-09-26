@@ -51,6 +51,36 @@ for name in ['current_asr_core_counts.csv','prior_asr_all_counts.csv']:
     rows.extend(chunk)
     provenance.append({'path':'inputs/sdsu/'+name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'selected_rows':len(chunk)})
 
+# Reviewed additions are separate from the preserved original extraction inputs.
+# A newer source replaces only the exact branch/year/category/geography cells it supplies.
+expansion = HERE/'expansion'
+count_additions = expansion/'current_core_counts.csv'
+superseded = []
+cell_key = lambda r: tuple(r[k] for k in ['institution_unitid','campus_id','report_year','category','geography'])
+if count_additions.exists():
+    additions=list(csv.DictReader(count_additions.open(encoding='utf-8-sig',newline='')))
+    replacement_keys={cell_key(r) for r in additions}
+    assert len(replacement_keys)==len(additions), 'Duplicate amendment cell'
+    superseded=[r for r in rows if cell_key(r) in replacement_keys]
+    old_editions={cell_key(r):int(r['report_edition']) for r in superseded}
+    for r in additions:
+        assert int(r['report_edition'])>=old_editions.get(cell_key(r),0), 'Older edition cannot replace current cell'
+        r['input_file']='expansion/current_core_counts.csv'
+    rows=[r for r in rows if cell_key(r) not in replacement_keys]+additions
+    provenance.append({'path':'expansion/current_core_counts.csv','sha256':hashlib.sha256(count_additions.read_bytes()).hexdigest(),'rows':len(additions),'superseded_cells':len(superseded)})
+adjudication_path=expansion/'adjudications.json'
+adjudications=json.loads(adjudication_path.read_text(encoding='utf8')) if adjudication_path.exists() else {}
+population_path=expansion/'population_additions.csv'
+inventory_updates=expansion/'source_inventory_updates.json'
+population_additions=list(csv.DictReader(population_path.open(encoding='utf-8-sig',newline=''))) if population_path.exists() else []
+population_index={}
+for p in population_additions:
+    key=(p['unitid'],int(p['year']),p['measure'])
+    assert key not in population_index and p['measure'] in ['residents','enrollment']
+    assert p['status']=='accepted_actual' and int(p['value'])>0
+    assert p['source_url'].startswith('https://') and len(p['source_sha256'])==64
+    population_index[key]=p
+
 NOTES = {
  '122409':'2024 rape: housing 1 is included in campus total 1; adding noncampus 2 and public property 0 gives 3. The 2026 report revises 2023 housing rape from 7 to 8. The 2022 observations retain their older 2025 report edition.',
  '110635':'Main-campus report covers 2022–2024; Washington Center covers 2023–2025. Institution-wide totals require both. Berkeley 2023 campus rape includes 39 incidents disclosed in one report between two unaffiliated parties.',
@@ -75,6 +105,7 @@ NOTES = {
  '162928':'Current report PDF could not be retrieved for verification. Use the separately labeled federal snapshot for historical values.',
  '182670':'The source reports dating violence within domestic violence; separate category comparisons are withheld. A Lebanon 2024 domestic-violence row also conflicts with its printed total.',
 }
+NOTES.update(adjudications.get('institution_notes',{}))
 
 rules_path=HERE/'private/structural_geography_rules.json'
 structural_rules=json.loads(rules_path.read_text(encoding='utf8')) if rules_path.exists() else []
@@ -104,7 +135,13 @@ def decision(r):
     if status=='not_applicable_campus_opened_2026': analysis_status='not_applicable_before_opening'
     if status in ['ambiguous_year_labels','combined_domestic_and_dating_violence','source_total_conflict']:
         analysis_status='ambiguous_source'
-    if uid=='234076': analysis_status='unverified_source'
+    if uid=='234076' and not r.get('source_sha256'): analysis_status='unverified_source'
+    if status=='reported_combined_dating_domestic_scope':
+        analysis_status='ambiguous_source';note='Source combines domestic and dating violence; the dating footnote also conflicts with the marked year. Separate category comparisons are withheld.'
+    if branch=='243744001' and cat in ['domestic_violence','dating_violence']:
+        analysis_status='ambiguous_source';note='California dating violence is included under domestic violence in the source definition. Separate-category counts are withheld; no split or footnote-year correction is inferred.'
+    if status=='reported_numeric_external_response_incomplete':
+        analysis_status='incomplete_coverage';note='Printed value retained; source states that local security/police did not respond to the statistics request. It cannot establish complete reporting.'
     if uid=='110662' and cat in ['domestic_violence','dating_violence']:
         analysis_status='ambiguous_source';note='Domestic and dating violence are combined; not a separable category count.'
     if uid=='182670' and cat in ['domestic_violence','dating_violence']:
@@ -119,6 +156,9 @@ def decision(r):
         analysis_status='incomplete_coverage';note='Source states local-agency data unavailable in usable form for 2025.'
     if uid=='228778' and r['campus']=='Brackenridge Field Laboratory' and yr==2022:
         analysis_status='not_applicable_before_separate_reporting';note='Separate campus reporting began 2023; earlier coverage was main-campus noncampus. This is not a statement about when the property physically opened.'
+    for review in adjudications.get('cell_decisions',[]):
+        if all(str(r.get(k,''))==str(v) for k,v in review['match'].items()):
+            analysis_status=review['analysis_status'];note=review['reason']
     approved = value if analysis_status in ['reported_numeric','reported_zero_narrative'] else None
     return value, approved, analysis_status, note
 
@@ -140,7 +180,8 @@ def write_json(name,obj):
     (OUT/name).write_text(json.dumps(obj,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf8')
 
 write_csv(OUT/'source_cells.csv',rows)
-write_json('build_inputs.json',{'frozen_sha256':hashlib.sha256(args.frozen.read_bytes()).hexdigest(),'structural_rules_sha256':hashlib.sha256(rules_path.read_bytes()).hexdigest() if rules_path.exists() else None,'inputs':provenance})
+if superseded: write_csv(OUT/'superseded_source_cells.csv',superseded)
+write_json('build_inputs.json',{'frozen_sha256':hashlib.sha256(args.frozen.read_bytes()).hexdigest(),'structural_rules_sha256':hashlib.sha256(rules_path.read_bytes()).hexdigest() if rules_path.exists() else None,'inputs':provenance,'population_additions_sha256':hashlib.sha256(population_path.read_bytes()).hexdigest() if population_path.exists() else None,'adjudications_sha256':hashlib.sha256(adjudication_path.read_bytes()).hexdigest() if adjudication_path.exists() else None,'inventory_updates_sha256':hashlib.sha256(inventory_updates.read_bytes()).hexdigest() if inventory_updates.exists() else None})
 by_inst=collections.defaultdict(list)
 index={}
 for r in rows:
@@ -157,6 +198,7 @@ current.update(schemaVersion=2,title='Current institutional annual reports: date
 current.pop('coverage',None);current.pop('knownDiscrepancies',None)
 for c in current['categories']: c['description']=c['description'].replace('federal criminal-offense table','institutional criminal-offense tables').replace('federal VAWA table','institutional VAWA tables')
 geo_cells=[]
+population_sources=[]
 for inst in current['institutions']:
     uid=inst['id']; rs=by_inst[uid]
     branches={r['campus_id']:r['campus'] for r in rs}
@@ -169,6 +211,19 @@ for inst in current['institutions']:
     inst['years']=[]
     for yr in YEARS:
         year={k:old_years.get(yr,{}).get(k) for k in ['enrollment','residents','fte','distanceOnly']}
+        year['populationSources']={}
+        for measure in ['residents','enrollment']:
+            added=population_index.get((uid,yr,measure))
+            if added:
+                if year[measure] is not None and year[measure]!=int(added['value']):
+                    assert added.get('supersession_reason'), 'Replacing an existing population requires documented reason'
+                year[measure]=int(added['value'])
+                source=dict(added)
+            elif year[measure] is not None:
+                source={'source_id':f'frozen-{uid}-{yr}-{measure}','unitid':uid,'year':str(yr),'measure':measure,'value':str(year[measure]),'status':'retained_actual','period_label':f'Fall {yr}','source_url':'https://www.auditor.ca.gov/wp-content/uploads/2025/10/2024-111-Report.pdf#page=62' if measure=='residents' else 'https://nces.ed.gov/ipeds/use-the-data/download-access-database','source_title':'California State Auditor, Report 2024-111, Tables A.1–A.2' if measure=='residents' else 'Integrated Postsecondary Education Data System fall enrollment','source_sha256':hashlib.sha256(args.frozen.read_bytes()).hexdigest(),'hash_basis':'Preserved original dataset; raw population-source hashes and rows are in the original archive.','scope_note':inst.get('residentNote','') if measure=='residents' else 'Institution-wide fall enrollment; not a housing population.'}
+            else: continue
+            population_sources.append(source)
+            year['populationSources'][measure]=source
         year.update(year=yr,counts={},countStatus={},sourceEditions=sorted(set(str(r['report_edition']) for r in rs if int(r['report_year'])==yr)))
         for geo in GEOS:
             counts={};statuses={}
@@ -186,6 +241,8 @@ for inst in current['institutions']:
             statuses['criminal_total']='complete' if counts['criminal_total'] is not None else 'unavailable_component'
             year['counts'][geo]=counts;year['countStatus'][geo]=statuses
         inst['years'].append(year)
+    if any((uid,yr,'residents') in population_index for yr in YEARS):
+        inst['residentNote']='Dated actual student-housing populations are documented in the population-source ledger. Source dates and housing-property scope vary; the resulting ratios are approximate reporting comparisons, not individual victimization probabilities.'
     for r in rs:
         if int(r['report_year']) not in YEARS: continue
         geo_cells.append({'unitid':uid,'campus_id':r['campus_id'],'campus_name':r['campus'],'year':int(r['report_year']),'category':r['category'],'geography':UI_GEOS[r['geography']],'count':r['analysis_count'],'status':r['analysis_status'],'source_url':r['source_url'],'report_edition':r['report_edition'],'source_pdf_page':r['pdf_page'],'notes':r['analysis_note']})
@@ -204,6 +261,7 @@ for inst in current['institutions']:
                 geo_cells.append({'unitid':uid,'campus_id':bid,'campus_name':bname,'year':yr,'category':'criminal_total','geography':UI_GEOS[geo],'count':None if is_na else value,'status':na_status if is_na else 'reported_numeric' if valid else 'not_reported','source_url':source['source_url'],'report_edition':source['report_edition'],'source_pdf_page':source['pdf_page'],'notes':'Calculated sum of 11 criminal-offense categories; all component locators and decisions are in source_cells.csv. '+(NOTES.get(uid,'') if not valid else '')})
 
 write_json('dataset.json',current)
+write_csv(OUT/'population_sources.csv',population_sources)
 write_json('geography.json',{'checked':'2026-09-25','institutions':[{'unitid':i['id'],'name':i.get('officialName',i['name']),'short_name':i['shortName']} for i in current['institutions']],'categories':[{'key':c['id'],'label':c['label']} for c in categories],'cells':geo_cells})
 
 # Exact same three-year pooling rule as the archived study, with new source coverage.
@@ -229,7 +287,9 @@ for uid,bid,label in [('110680','110680001','UC San Diego'),('122409','122409001
         pop=sum(next(y['residents'] for y in inst['years'] if y['year']==yr) for yr in wanted)
         cases.append({'institution':label,'unitid':uid,'period':period,'asr_housing_rape_count':count,'fall_occupancy_sum':pop,'rate_per_1000':1000*count/pop,'sources':[{'url':r['source_url'],'edition':r['report_edition'],'year':r['report_year']} for r in src],'scope':'Named main-campus housing / State Auditor fall occupancy; property boundaries incompletely matched.'})
 write_json('case_study.json',cases)
-coverage={'checked':'2026-09-25','source_cells':len(rows),'ui_cells':len(geo_cells),'institutions':42,'institutions_with_extracted_cells':len([u for u in by_inst if by_inst[u]]),'branches_with_extracted_cells':len(set((r['institution_unitid'],r['campus_id']) for r in rows)),'raw_statuses':dict(collections.Counter(r['status'] for r in rows)),'analysis_statuses':dict(collections.Counter(r['analysis_status'] for r in rows)),'rates':len(rates),'available_rates':{str(yr):{m:sum(r['rate_per_1000'] is not None for r in rates if r['period']==yr and r['measure']==m and r['category']=='criminal_total') for m in ['residents','enrollment']} for yr in [*YEARS,'pooled']},'limitations':['Retrieval date is an audit cutoff, not certification of unpublished data or reporting completeness.','No eligible 2025 population denominators; 2025 rates withheld.','UVA counts remain provisional until PDF/visual verification.','Not-applicable geography is distinct from a reported zero; its structural contribution is zero only under an explicit source status.']}
+coverage={'checked':'2026-09-25','source_cells':len(rows),'ui_cells':len(geo_cells),'institutions':42,'institutions_with_extracted_cells':len([u for u in by_inst if by_inst[u]]),'branches_with_extracted_cells':len(set((r['institution_unitid'],r['campus_id']) for r in rows)),'raw_statuses':dict(collections.Counter(r['status'] for r in rows)),'analysis_statuses':dict(collections.Counter(r['analysis_status'] for r in rows)),'rates':len(rates),'available_rates':{str(yr):{m:sum(r['rate_per_1000'] is not None for r in rates if r['period']==yr and r['measure']==m and r['category']=='criminal_total') for m in ['residents','enrollment']} for yr in [*YEARS,'pooled']},'population_coverage':{str(yr):{m:sum(any(y['year']==yr and y[m] is not None for y in i['years']) for i in current['institutions']) for m in ['residents','enrollment']} for yr in YEARS},'housing_count_coverage':{str(yr):sum(any(y['year']==yr and y['counts']['residential']['criminal_total'] is not None for y in i['years']) for i in current['institutions']) for yr in YEARS},'limitations':['Retrieval date is an audit cutoff, not certification of unpublished data or reporting completeness.','Populations require a dated actual student headcount; capacity, rounded percentages and incomplete subsets are not substituted. See the population-source ledger for dates and scope.','UVA counts remain provisional until PDF/visual verification.','Not-applicable geography is distinct from a reported zero; its structural contribution is zero only under an explicit source status.']}
+if not any(r['institution_unitid']=='234076' and r['analysis_status']=='unverified_source' for r in rows):
+    coverage['limitations'].remove('UVA counts remain provisional until PDF/visual verification.')
 write_json('coverage.json',coverage)
 
 inventories={}
@@ -239,12 +299,15 @@ for folder,name in [('uc','inventory.json'),('public','source_inventory.json'),(
 sdsu_inventory=json.loads((sdsu_path/'source_inventory.json').read_text(encoding='utf8'))
 sdsu_source=sdsu_inventory['selected_count_source']
 inventories['122409']={'unitid':'122409','landing_url':sdsu_inventory['listing']['requested_url'],'report_url':sdsu_source['final_url'],'report_edition':2026,'report_years':[2023,2024,2025],'checked_utc':sdsu_source['retrieved_utc'],'sha256':sdsu_source['sha256'],'limitations':[sdsu_source['publication_status_note']]}
+if inventory_updates.exists():
+    for entry in json.loads(inventory_updates.read_text(encoding='utf8')):
+        inventories[str(entry['unitid'])].update(entry)
 inventory=[]
 for inst in current['institutions']:
     uid=inst['id'];original=inventories[uid];rs=by_inst[uid]
     urls=sorted(set(r['source_url'].split('#')[0] for r in rs))
     qualifications=list(original.get('limitations',[]))
     if NOTES.get(uid): qualifications.insert(0,NOTES[uid])
-    inventory.append({'unitid':uid,'institution':inst.get('officialName',inst['name']),'landing_url':original['landing_url'],'report_url':original.get('report_url'),'editions':sorted(set(r['report_edition'] for r in rs)) or [str(original.get('report_edition') or 'Unverified')],'report_years':sorted(set(int(r['report_year']) for r in rs)),'checked_utc':original.get('checked_utc'),'source_files':[{'url':url,'sha256':sorted(set(r.get('source_sha256','') for r in rs if r['source_url'].split('#')[0]==url))} for url in urls],'source_cells':len(rs),'branch_count':inst['branchCount'],'verification':'provisional web-text extraction; current calculations withheld' if uid=='234076' else 'current source cells extracted; ambiguous cells excluded' if rs else 'current source counts not verified; current rates withheld','qualifications':qualifications,'denominator_sources':original.get('denominator_sources',[])})
+    inventory.append({'unitid':uid,'institution':inst.get('officialName',inst['name']),'landing_url':original['landing_url'],'report_url':original.get('report_url'),'editions':sorted(set(r['report_edition'] for r in rs)) or [str(original.get('report_edition') or 'Unverified')],'report_years':sorted(set(int(r['report_year']) for r in rs)),'checked_utc':original.get('checked_utc'),'source_files':[{'url':url,'sha256':sorted(set(r.get('source_sha256','') for r in rs if r['source_url'].split('#')[0]==url))} for url in urls],'source_cells':len(rs),'branch_count':inst['branchCount'],'verification':'provisional web-text extraction; current calculations withheld' if any(r['analysis_status']=='unverified_source' for r in rs) else 'current source cells extracted; ambiguous cells excluded' if rs else 'current source counts not verified; current rates withheld','qualifications':qualifications,'denominator_sources':original.get('denominator_sources',[]),'adopted_populations':[p for p in population_sources if p['unitid']==uid and p['measure']=='residents'],'latest_report_check':original.get('latest_report_check')})
 write_json('source_inventory.json',inventory)
 print(json.dumps(coverage,indent=2))

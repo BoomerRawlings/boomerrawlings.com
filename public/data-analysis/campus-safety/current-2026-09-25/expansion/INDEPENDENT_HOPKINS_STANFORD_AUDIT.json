@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "method": "Independent pdfplumber layout extraction, no import or execution of producer extraction script. Every new Hopkins/Stanford literal cell, category/year order and geographic identity independently reconstructed. Omitted columns retained missing unless narrative applicability is explicit. Separate visual checks recorded in root review.",
+  "checks": 3136,
+  "rows": 1848,
+  "errors": [],
+  "csv_sha256": "0ea6db7ce7e095030a674910452a20786743745732bd015b88fa712f3c6706a5",
+  "auditor_sha256": "cfc6ca0ae58a62b9b4b41e26134542ddda583129be2ca7dd16e31173f0b8c352"
+}

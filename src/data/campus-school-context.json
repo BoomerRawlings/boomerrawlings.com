@@ -45,7 +45,7 @@
     "region": "Northeast",
     "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
     "homeState": "PA",
-    "note": "Carnegie Mellon’s 2026 report covers Pittsburgh and five other locations, including overseas campuses. For Pittsburgh’s 2025 fondling figures, the numbers by location do not match the printed total; affected comparisons are unavailable.",
+    "note": "Carnegie Mellon’s 2026 report covers Pittsburgh and five other locations. Its housing census supports qualified populations for 2022–2024, including separately listed fraternity and sorority residents. Pittsburgh’s 2025 fondling figures conflict with their printed total; affected comparisons remain unavailable.",
     "alias": "CMU Carnegie Mellon Pennsylvania",
     "sources": [
       {
@@ -55,6 +55,10 @@
       {
         "label": "Official report listing",
         "url": "https://www.cmu.edu/police/reports/"
+      },
+      {
+        "label": "2023–2024 housing census",
+        "url": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf#page=81"
       },
       {
         "label": "Reports checked and known limitations",
@@ -87,7 +91,7 @@
     "region": "Northeast",
     "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
     "homeState": "NY",
-    "note": "Columbia’s 2025 report separates seven locations, including medical and research facilities and a Paris campus. Earlier figures for the Baker Athletics Complex and Paris were included in Morningside’s off-campus university-property figures. Access restrictions prevented checking whether a newer report had replaced this edition.",
+    "note": "Columbia’s current listing still links its 2025 report, separating seven locations including medical and research facilities and a Paris campus. Earlier figures for the Baker Athletics Complex and Paris were included in Morningside’s off-campus university-property figures. A complete dated student-housing population has not been established.",
     "alias": "Columbia University New York",
     "sources": [
       {
@@ -234,9 +238,13 @@
     "region": "Northeast",
     "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
     "homeState": "MA",
-    "note": "Harvard’s current report could not be retrieved for verification. Current counts remain unavailable; the earlier federal dataset retains its historical figures for seven locations.",
+    "note": "Harvard’s 2025 report supplies verified tables for seven locations and 2022–2024. Some branches omit student-housing columns, so complete university-wide housing totals remain unavailable. The housing populations located in this review cover Cambridge only and use different undergraduate and graduate census dates.",
     "alias": "Harvard University Massachusetts",
     "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://www.hupd.harvard.edu/sites/g/files/omnuum12486/files/2025-10/2025%20ASR%20VF%20Compressed.pdf"
+      },
       {
         "label": "Official report listing",
         "url": "https://www.hupd.harvard.edu/annual-security-report"
@@ -272,9 +280,13 @@
     "region": "South",
     "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
     "homeState": "MD",
-    "note": "Johns Hopkins’ current report could not be retrieved for verification, and its publication year remains unconfirmed. The earlier federal dataset covers ten locations, including medical and overseas campuses; those older figures are kept separate from the current view.",
+    "note": "Johns Hopkins’ recovered report is titled 2025, carries an October 2026 issue date and contains 2023–2025 crime tables. Missing geography columns and an unanswered Barcelona police request limit complete university-wide comparisons. The title is preserved rather than treated as the calendar year of every count.",
     "alias": "JHU Johns Hopkins Maryland",
     "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://publicsafety.jhu.edu/assets/uploads/sites/9/2024/11/annual_report_securityfiresafety.pdf"
+      },
       {
         "label": "Official report listing",
         "url": "https://publicsafety.jhu.edu/clery-crime-data/"
@@ -289,7 +301,7 @@
     "region": "Midwest",
     "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
     "homeState": "MI",
-    "note": "Michigan’s 2025 report covers Ann Arbor. Its statutory-rape table labels 2023, 2022 and 2021 instead of providing a verified 2024 figure, and the 2024 fondling table disagrees with a footnote; affected comparisons are unavailable.",
+    "note": "Michigan’s 2025 report covers Ann Arbor. The explicit 2024 housing-fondling count remains usable, but the campus-wide fondling count conflicts with a footnote. Statutory-rape rows label older years rather than 2024, so the complete combined 2024 total remains unavailable.",
     "alias": "UMich University of Michigan U-M Michigan",
     "sources": [
       {
@@ -478,12 +490,12 @@
     "region": "Northeast",
     "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
     "homeState": "NJ",
-    "note": "Princeton’s 2025 report covers the main campus and James Forrestal Campus. That report was verified, but restrictions on its official listing prevented checking whether a newer edition was available.",
+    "note": "Princeton’s current 2026 report covers the main campus and James Forrestal Campus for 2023–2025. All overlapping 2023–2024 core-category figures match the previously reviewed 2025 edition. A complete dated housing population has not been established for the resident-rate comparison.",
     "alias": "Princeton University New Jersey",
     "sources": [
       {
         "label": "Annual report reviewed",
-        "url": "https://publicsafety.princeton.edu/sites/g/files/toruqf2581/files/documents/Security%26FireSafety_Report_2025_V5.pdf"
+        "url": "https://publicsafety.princeton.edu/document/4686"
       },
       {
         "label": "Official report listing",
@@ -520,16 +532,24 @@
     "region": "West",
     "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
     "homeState": "CA",
-    "note": "Stanford’s 2025 report covers the main campus and eleven other locations. Some disclosures describe multiple offenses or events many years earlier. A Madrid sexual-offense subtotal also conflicts with one of its figures, so affected comparisons are unavailable.",
+    "note": "Stanford’s main-campus report now covers 2023–2025; overseas reports still use the 2025 edition. Documented housing populations are available for autumn 2024 and 2025, but university-provided housing has not been matched property by property to crime-reporting locations. Incomplete overseas years and conflicting source figures still prevent some institution-wide rates.",
     "alias": "Stanford University California",
     "sources": [
       {
         "label": "Annual report reviewed",
-        "url": "https://police.stanford.edu/pdf/ssfr-2025.pdf"
+        "url": "https://police.stanford.edu/pdf/ssfr-2026.pdf"
       },
       {
         "label": "Official report listing",
         "url": "https://police.stanford.edu/safety-report.html"
+      },
+      {
+        "label": "2025 housing population",
+        "url": "https://facts.stanford.edu/campus-life"
+      },
+      {
+        "label": "2024 housing population: university-authored report, publisher-hosted copy",
+        "url": "https://studyinternational.com/wp-content/uploads/2026/03/2025-Stanford-Fact-Book_WEB.pdf#page=48"
       },
       {
         "label": "Reports checked and known limitations",
@@ -541,7 +561,7 @@
     "region": "South",
     "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
     "homeState": "TX",
-    "note": "Texas Austin’s 2025 reports cover eight locations, including research and out-of-state facilities. Brackenridge started appearing as a separate campus in 2023; its earlier figures were included in the main campus’s off-campus university-property reporting.",
+    "note": "Texas Austin’s 2025 reports cover eight locations, including research and out-of-state facilities. A spring 2024 housing report gives a resident total without establishing that every resident is a student, so that figure is not adopted as the student-population denominator. Some branch crime tables also leave housing cells blank.",
     "alias": "UT UT Austin University of Texas",
     "sources": [
       {
@@ -551,6 +571,10 @@
       {
         "label": "Official report listing",
         "url": "https://compliance.utexas.edu/programs/clery"
+      },
+      {
+        "label": "Spring 2024 housing report",
+        "url": "https://utexas.app.box.com/v/LearnOutcomeReports/file/1743656171859"
       },
       {
         "label": "Reports checked and known limitations",
@@ -625,9 +649,13 @@
     "region": "West",
     "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
     "homeState": "CA",
-    "note": "Merced has documented housing populations for 2022–2024, but its current report could not be retrieved for verification. Its missing current rate reflects that gap; the earlier federal dataset remains available separately.",
+    "note": "Merced’s 2025 report and its 2022–2024 offense tables were recovered and checked. The state audit supplies actual fall housing populations for the same years; the housing properties have not been matched individually to the crime-reporting boundary.",
     "alias": "UCM UC Merced University of California Merced California",
     "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://clery.ucmerced.edu/sites/g/files/ufvvjh631/f/documents/ucm_2025_asr.pdf"
+      },
       {
         "label": "Official report listing",
         "url": "https://clery.ucmerced.edu/annual-security-reports"
@@ -789,12 +817,12 @@
     "region": "South",
     "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
     "homeState": "VA",
-    "note": "Virginia’s current tables were read through an official web page, but the original report file and its page layout could not be independently checked. Those figures remain available for review and are excluded from calculated comparisons.",
+    "note": "Virginia’s original 2026 report has now been recovered and checked against all six branch tables for 2023–2025. Its figures match the earlier web extraction, allowing verified cells to enter the comparison. The 2024 Charlottesville fondling count includes 50 incidents disclosed in one report.",
     "alias": "UVA University of Virginia",
     "sources": [
       {
         "label": "Annual report reviewed",
-        "url": "https://cleryact.virginia.edu/report"
+        "url": "https://cleryact.virginia.edu/sites/cleryact/files/2026-09/UVA_Annual_Fire_Safety_Security_Report_2026_FINAL.pdf"
       },
       {
         "label": "Official report listing",

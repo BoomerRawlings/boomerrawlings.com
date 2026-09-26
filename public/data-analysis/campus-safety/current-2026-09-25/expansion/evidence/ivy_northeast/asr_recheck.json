@@ -1,0 +1,326 @@
+{
+  "checked_utc": "2026-09-26T03:34:16.354732+00:00",
+  "institutions": [
+    {
+      "unitid": "217156",
+      "institution": "Brown",
+      "landing_url": "https://publicsafety.brown.edu/clery-compliance-and-crime-reporting",
+      "listing_http_status": 200,
+      "listing_checked_utc": "2026-09-26T03:05:51.958825+00:00",
+      "latest_evidence": "Fresh current official listing HTML acquired; observed report links saved.",
+      "observed_report_links": [
+        {
+          "url": "https://go.brown.edu/2025ASR-AFSR",
+          "text": "2025 Annual Security Report (ASR) and 2025 Annual Fire Safety Report (AFSR)"
+        }
+      ],
+      "report_url": "https://go.brown.edu/2025ASR-AFSR",
+      "report_sha256": "6c939f83dcf8e8b8633f3b670a2b71e3a3675bf036724be2c9b8c1778170332a",
+      "report_bytes": 2630452,
+      "report_pages": 171,
+      "report_checked_utc": "2026-09-26T03:05:52.496357+00:00",
+      "report_edition": 2025,
+      "hash_matches_prior_source_inventory": true,
+      "status": "fresh_pdf_acquired",
+      "limitations": "No statistical revisions inferred from unchanged PDFs."
+    },
+    {
+      "unitid": "190150",
+      "institution": "Columbia",
+      "landing_url": "https://publicsafety.columbia.edu/annualsecurityreport",
+      "listing_http_status": 403,
+      "listing_checked_utc": "2026-09-26T03:06:00.708393+00:00",
+      "latest_evidence": "Root ordinary browser found Download Annual Security and Fire Safety Report for2025 linked exactly to recovered SecurityReport2025.pdf.",
+      "observed_report_links": [],
+      "report_url": "https://publicsafety.columbia.edu/sites/publicsafety.columbia.edu/files/content/SecurityReport2025.pdf",
+      "report_sha256": "e4feafe2094f826288c3f0884e74170d2901f266a8f724d00af579350da6c6a6",
+      "report_bytes": 52644324,
+      "report_pages": 96,
+      "report_checked_utc": "2026-09-26T03:06:01.427535+00:00",
+      "report_edition": 2025,
+      "hash_matches_prior_source_inventory": true,
+      "status": "fresh_pdf_acquired",
+      "limitations": "No statistical revisions inferred from unchanged PDFs."
+    },
+    {
+      "unitid": "190415",
+      "institution": "Cornell",
+      "landing_url": "https://publicsafety.cornell.edu/reports-statistics/annual-security-report/",
+      "listing_http_status": 200,
+      "listing_checked_utc": "2026-09-26T03:06:08.158920+00:00",
+      "latest_evidence": "Fresh current official listing HTML acquired; observed report links saved.",
+      "observed_report_links": [
+        {
+          "url": "https://publicsafety.cornell.edu/clery/",
+          "text": "Annual Security Report"
+        },
+        {
+          "url": "https://publicsafety.cornell.edu/reports-statistics/annual-security-report/",
+          "text": "Annual Security Report"
+        },
+        {
+          "url": "https://publicsafety.cornell.edu/wp-content/uploads/2026-Campus_Watch_2026_FINAL-ua.pdf",
+          "text": "Annual Security Report The report contains statements of campus security policy and the three most recent calendar years of Clery Act statistics."
+        }
+      ],
+      "report_url": "https://publicsafety.cornell.edu/wp-content/uploads/2026-Campus_Watch_2026_FINAL-ua.pdf",
+      "report_sha256": "60645f197e24de6279b4164ae2526c5a75cd9750f065036073aae2f372e70cba",
+      "report_bytes": 17702172,
+      "report_pages": 36,
+      "report_checked_utc": "2026-09-26T03:06:09.592139+00:00",
+      "report_edition": 2026,
+      "hash_matches_prior_source_inventory": true,
+      "status": "fresh_pdf_acquired",
+      "limitations": "No statistical revisions inferred from unchanged PDFs."
+    },
+    {
+      "unitid": "182670",
+      "institution": "Dartmouth",
+      "landing_url": "https://www.dartmouth.edu/security/",
+      "listing_http_status": 200,
+      "listing_checked_utc": "2026-09-26T03:06:10.126980+00:00",
+      "latest_evidence": "Fresh current official listing HTML acquired; observed report links saved.",
+      "observed_report_links": [
+        {
+          "url": "https://www.dartmouth.edu/security/clery-compliance-office/asr.pdf",
+          "text": "Annual Security and Fire Safety Report"
+        }
+      ],
+      "report_url": "https://www.dartmouth.edu/security/clery-compliance-office/asr.pdf",
+      "report_sha256": "37a2a77d2405ff9a4f6dadfe06f5a8c1bf2c0e9f0b74d4ba74b6c395f12949b5",
+      "report_bytes": 3842647,
+      "report_pages": 136,
+      "report_checked_utc": "2026-09-26T03:06:11.532963+00:00",
+      "report_edition": 2025,
+      "hash_matches_prior_source_inventory": true,
+      "status": "fresh_pdf_acquired",
+      "limitations": "No statistical revisions inferred from unchanged PDFs."
+    },
+    {
+      "unitid": "131496",
+      "institution": "Georgetown",
+      "landing_url": "https://police.georgetown.edu/policies-reports/crimestats/",
+      "listing_http_status": 200,
+      "listing_checked_utc": "2026-09-26T03:07:27.588626+00:00",
+      "latest_evidence": "Fresh current official listing HTML acquired; observed report links saved.",
+      "observed_report_links": [
+        {
+          "url": "https://police.georgetown.edu/services-and-resources/crimestats/#annual-security-report",
+          "text": "Annual Security Report"
+        },
+        {
+          "url": "https://police.georgetown.edu/services-and-resources/crimestats/#annual-security-report",
+          "text": "Annual Security Report"
+        },
+        {
+          "url": "https://police.georgetown.edu/policies-reports/crimestats/#annual-security-report",
+          "text": "Annual Security Report"
+        },
+        {
+          "url": "https://police.georgetown.edu/policies-reports/crimestats/#annual-security-report",
+          "text": "Annual Security Report"
+        },
+        {
+          "url": "https://click.info.georgetown.edu/?qs=ABB7InYiOjEsImQiOjUwMDd9AAcAAAAABuPRAW1BOzBGgIZnuxoAWz4qJmqq3QOeBlR9MpOhCUvgCIyaNWC1_ThfCDjs3mwHIfmrW_WfguL2yhZxeffWUx6GxDgHcZOi",
+          "text": "2026 Annual Security Report"
+        },
+        {
+          "url": "https://georgetown.app.box.com/file/2000959149368?s=ufc9lwxmeti8pdxwgw6gazmwo8061oge",
+          "text": "2025 Annual Security Report"
+        },
+        {
+          "url": "https://georgetown.box.com/s/6dl5njccxxsiwbck9wjkj3newf0loe66",
+          "text": "2024 Annual Security Report"
+        },
+        {
+          "url": "https://click.info.georgetown.edu/?qs=ABB7InYiOjEsImQiOjUwMDd9AAcAAAAABuPRAW1CvXyApleICiteNAlfH9flitrgRZPLGXko5KBT_XGvLAqedJqRhqfOAhmfmOtulV_Pmz3n5tp0uSvMc9LDOhy31fGq",
+          "text": "2026 Fire Safety Report"
+        },
+        {
+          "url": "https://georgetown.box.com/s/t2wb5eb5okyfyd8gc66gbut4ek04htun",
+          "text": "2025 Fire Safety Report"
+        },
+        {
+          "url": "tel:+1+12026874343",
+          "text": "202-687-4343"
+        },
+        {
+          "url": "tel:+1+12026874343",
+          "text": "202-687-4343"
+        }
+      ],
+      "report_url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf",
+      "report_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28",
+      "report_bytes": 2652569,
+      "report_pages": 96,
+      "report_checked_utc": "2026-09-26T03:07:31.060985+00:00",
+      "report_edition": 2026,
+      "hash_matches_prior_source_inventory": true,
+      "status": "fresh_pdf_acquired",
+      "limitations": "No statistical revisions inferred from unchanged PDFs."
+    },
+    {
+      "unitid": "166027",
+      "institution": "Harvard",
+      "landing_url": "https://www.hupd.harvard.edu/annual-security-report",
+      "listing_http_status": 403,
+      "listing_checked_utc": "2026-09-26T03:07:55.915655+00:00",
+      "latest_evidence": "Root ordinary browser found2025 newest and downloaded current link.",
+      "observed_report_links": [],
+      "report_url": "https://www.hupd.harvard.edu/sites/g/files/omnuum12486/files/2025-10/2025%20ASR%20VF%20Compressed.pdf",
+      "report_sha256": "c52024d2154a422a975890555ad0e11fd19790bcfc5d9cf405305edfa6031c3a",
+      "report_bytes": 9881023,
+      "report_pages": 91,
+      "report_checked_utc": "2026-09-26T03:09:33Z",
+      "report_edition": 2025,
+      "hash_matches_prior_source_inventory": false,
+      "status": "newly_recovered_2025_report_extracted",
+      "limitations": "Omitted columns remain unknown. Fire report has explicitly limited geographic coverage."
+    },
+    {
+      "unitid": "166683",
+      "institution": "MIT",
+      "landing_url": "https://police.mit.edu/annual-security-report",
+      "listing_http_status": 200,
+      "listing_checked_utc": "2026-09-26T03:07:57.149208+00:00",
+      "latest_evidence": "Fresh current official listing HTML acquired; observed report links saved.",
+      "observed_report_links": [
+        {
+          "url": "https://police.mit.edu/clery-report-csas",
+          "text": "Clery Report for CSAs"
+        },
+        {
+          "url": "https://police.mit.edu/annual-security-report",
+          "text": "Annual Security Report"
+        },
+        {
+          "url": "https://police.mit.edu/sites/default/files/MIT-Police-Files/Documents/MITPolice_ASR_2025_Final_v3.pdf",
+          "text": "View The 2025 MIT Annual Security and Fire Safety Report"
+        },
+        {
+          "url": "https://police.mit.edu/annual-security-report",
+          "text": "Annual Security Report"
+        }
+      ],
+      "report_url": "https://police.mit.edu/sites/default/files/MIT-Police-Files/Documents/MITPolice_ASR_2025_Final_v3.pdf",
+      "report_sha256": "aad0230621aa52ae4d34a3f1aa98377ac1d463843e301bdfbfd80dd77536b485",
+      "report_bytes": 5003192,
+      "report_pages": 59,
+      "report_checked_utc": "2026-09-26T03:07:59.197371+00:00",
+      "report_edition": 2025,
+      "hash_matches_prior_source_inventory": true,
+      "status": "fresh_pdf_acquired",
+      "limitations": "No statistical revisions inferred from unchanged PDFs."
+    },
+    {
+      "unitid": "193900",
+      "institution": "NYU",
+      "landing_url": "https://www.nyu.edu/life/safety-health-wellness/campus-safety/clery-act-reporting/annual-security-reports.html",
+      "listing_http_status": 200,
+      "listing_checked_utc": "2026-09-26T03:07:59.558898+00:00",
+      "latest_evidence": "Fresh current official listing HTML acquired; observed report links saved.",
+      "observed_report_links": [],
+      "report_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf",
+      "report_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "report_bytes": 4491950,
+      "report_pages": 91,
+      "report_checked_utc": "2026-09-26T03:08:00.522047+00:00",
+      "report_edition": 2025,
+      "hash_matches_prior_source_inventory": true,
+      "status": "fresh_pdf_acquired",
+      "limitations": "No statistical revisions inferred from unchanged PDFs."
+    },
+    {
+      "unitid": "215062",
+      "institution": "Pennsylvania",
+      "landing_url": "https://almanac.upenn.edu/articles/the-university-of-pennsylvania-2026-annual-security-fire-safety-report-statistics-for-2023-2024-and-2025",
+      "listing_http_status": 200,
+      "listing_checked_utc": "2026-09-26T03:08:09.584557+00:00",
+      "latest_evidence": "Fresh current official listing HTML acquired; observed report links saved.",
+      "observed_report_links": [
+        {
+          "url": "https://almanac.upenn.edu/articles/the-university-of-pennsylvania-2026-annual-security-fire-safety-report-statistics-for-2023-2024-and-2025#main_content",
+          "text": "Skip to main content"
+        },
+        {
+          "url": "https://almanac.upenn.edu/articles/the-university-of-pennsylvania-2026-annual-security-fire-safety-report-statistics-for-2023-2024-and-2025",
+          "text": "Sections"
+        },
+        {
+          "url": "https://almanac.upenn.edu/articles/the-university-of-pennsylvania-2026-annual-security-fire-safety-report-statistics-for-2023-2024-and-2025#top",
+          "text": "Back to Top"
+        }
+      ],
+      "report_url": "https://www.publicsafety.upenn.edu/ASR/2026_ASR_PENN.pdf",
+      "report_sha256": "d2cf83dfd92ba0a226a5749833f49b11ac3cd40c660e292ab2629c1ac609f87c",
+      "report_bytes": 11486378,
+      "report_pages": 100,
+      "report_checked_utc": "2026-09-26T03:08:11.175276+00:00",
+      "report_edition": 2026,
+      "hash_matches_prior_source_inventory": true,
+      "status": "fresh_pdf_acquired",
+      "limitations": "No statistical revisions inferred from unchanged PDFs."
+    },
+    {
+      "unitid": "186131",
+      "institution": "Princeton",
+      "landing_url": "https://publicsafety.princeton.edu/information/monthlyannual-data",
+      "listing_http_status": 403,
+      "listing_checked_utc": "2026-09-26T03:08:16.275096+00:00",
+      "latest_evidence": "Root ordinary browser found2026 newest at /document/4686, with2025 /document/3946 below; downloaded current2026 report.",
+      "observed_report_links": [],
+      "report_url": "https://publicsafety.princeton.edu/document/4686",
+      "report_sha256": "bc5a24834477c9ae9f02fa450e2eb500b676859b384ad20323cd3b39730b5667",
+      "report_bytes": 10571732,
+      "report_pages": 64,
+      "report_checked_utc": "2026-09-26T03:34:39.559387+00:00",
+      "report_edition": 2026,
+      "hash_matches_prior_source_inventory": false,
+      "status": "new_2026_report_extracted_and_visually_verified",
+      "limitations": "Obsolete invisible text tables excluded through four-page visual review and current-overlay numeric checks. All224 overlapping core cells match2025 edition."
+    },
+    {
+      "unitid": "130794",
+      "institution": "Yale",
+      "landing_url": "https://your.yale.edu/campus-essentials/community-safety/clery",
+      "listing_http_status": 200,
+      "listing_checked_utc": "2026-09-26T03:08:17.973008+00:00",
+      "latest_evidence": "Fresh current official listing HTML acquired; observed report links saved.",
+      "observed_report_links": [
+        {
+          "url": "https://your.yale.edu/sites/default/files/2025-09/2025-Clery-Report_ADA.pdf",
+          "text": "annual security report"
+        },
+        {
+          "url": "https://your.yale.edu/sites/default/files/2025-09/2025-Clery-Report_ADA.pdf",
+          "text": "2025"
+        },
+        {
+          "url": "https://your.yale.edu/sites/default/files/2025-02/ASR2024-Cleary-Report.pdf",
+          "text": "2024"
+        },
+        {
+          "url": "https://your.yale.edu/sites/default/files/2025-01/YPD-Campus-Map-2024-Clery.pdf",
+          "text": "Yale Police Department (YPD) campus map"
+        },
+        {
+          "url": "https://your.yale.edu/sites/default/files/2025-02/UCR_NIBRS_Offense_Definition.pdf",
+          "text": "NIBRS Offense Count report"
+        },
+        {
+          "url": "https://your.yale.edu/sites/default/files/2026-09/August-ypd-2026-UCR.png",
+          "text": "August Report"
+        }
+      ],
+      "report_url": "https://your.yale.edu/sites/default/files/2025-09/2025-Clery-Report_ADA.pdf",
+      "report_sha256": "92215880611a5c80a3a3da27a4bfb37231dcbacee348167d292fd0bfce179c7a",
+      "report_bytes": 13855068,
+      "report_pages": 110,
+      "report_checked_utc": "2026-09-26T03:08:19.472554+00:00",
+      "report_edition": 2025,
+      "hash_matches_prior_source_inventory": true,
+      "status": "fresh_pdf_acquired",
+      "limitations": "No statistical revisions inferred from unchanged PDFs."
+    }
+  ]
+}

@@ -1,0 +1,3675 @@
+{
+  "status": "extracted_pending_independent_review",
+  "rows": 1848,
+  "checks": [
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "murder",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "murder",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "murder",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "fondling",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "fondling",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "fondling",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "incest",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "incest",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "incest",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "statutory_rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "statutory_rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "statutory_rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "robbery",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "robbery",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "robbery",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "burglary",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "burglary",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "burglary",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "arson",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "arson",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "arson",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "domestic_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "domestic_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "domestic_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "dating_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "dating_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "dating_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "stalking",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "stalking",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928001",
+      "category": "stalking",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "murder",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "murder",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "murder",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "fondling",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "fondling",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "fondling",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "incest",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "incest",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "incest",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "statutory_rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "statutory_rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "statutory_rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "robbery",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "robbery",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "robbery",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "burglary",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "burglary",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "burglary",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "arson",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "arson",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "arson",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "domestic_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "domestic_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "domestic_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "dating_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "dating_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "dating_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "stalking",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "stalking",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928011",
+      "category": "stalking",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "murder",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "murder",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "murder",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "fondling",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "fondling",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "fondling",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "incest",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "incest",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "incest",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "statutory_rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "statutory_rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "statutory_rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "robbery",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "robbery",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "robbery",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "burglary",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "burglary",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "burglary",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "arson",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "arson",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "arson",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "domestic_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "domestic_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "domestic_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "dating_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "dating_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "dating_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "stalking",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "stalking",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928002",
+      "category": "stalking",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "murder",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "murder",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "murder",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "fondling",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "fondling",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "fondling",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "incest",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "incest",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "incest",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "statutory_rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "statutory_rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "statutory_rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "robbery",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "robbery",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "robbery",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "burglary",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "burglary",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "burglary",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "arson",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "arson",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "arson",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "domestic_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "domestic_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "domestic_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "dating_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "dating_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "dating_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "stalking",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "stalking",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928003",
+      "category": "stalking",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "murder",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "murder",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "murder",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "fondling",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "fondling",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "fondling",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "incest",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "incest",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "incest",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "statutory_rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "statutory_rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "statutory_rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "robbery",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "robbery",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "robbery",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "burglary",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "burglary",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "burglary",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "arson",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "arson",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "arson",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "domestic_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "domestic_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "domestic_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "dating_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "dating_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "dating_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "stalking",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "stalking",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928006",
+      "category": "stalking",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "murder",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "murder",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "murder",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "fondling",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "fondling",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "fondling",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "incest",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "incest",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "incest",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "statutory_rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "statutory_rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "statutory_rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "robbery",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "robbery",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "robbery",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "burglary",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "burglary",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "burglary",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "arson",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "arson",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "arson",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "domestic_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "domestic_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "domestic_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "dating_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "dating_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "dating_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "stalking",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "stalking",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928007",
+      "category": "stalking",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "murder",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "murder",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "murder",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "fondling",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "fondling",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "fondling",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "incest",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "incest",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "incest",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "statutory_rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "statutory_rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "statutory_rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "robbery",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "robbery",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "robbery",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "burglary",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "burglary",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "burglary",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "arson",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "arson",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "arson",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "domestic_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "domestic_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "domestic_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "dating_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "dating_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "dating_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "stalking",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "stalking",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928009",
+      "category": "stalking",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "murder",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "murder",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "murder",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "fondling",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "fondling",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "fondling",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "incest",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "incest",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "incest",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "statutory_rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "statutory_rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "statutory_rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "robbery",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "robbery",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "robbery",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "burglary",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "burglary",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "burglary",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "arson",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "arson",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "arson",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "domestic_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "domestic_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "domestic_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "dating_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "dating_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "dating_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "stalking",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "stalking",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928012",
+      "category": "stalking",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "murder",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "murder",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "murder",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "fondling",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "fondling",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "fondling",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "incest",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "incest",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "incest",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "statutory_rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "statutory_rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "statutory_rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "robbery",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "robbery",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "robbery",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "burglary",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "burglary",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "burglary",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "arson",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "arson",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "arson",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "domestic_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "domestic_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "domestic_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "dating_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "dating_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "dating_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "stalking",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "stalking",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928015",
+      "category": "stalking",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "murder",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "murder",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "murder",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "fondling",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "fondling",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "fondling",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "incest",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "incest",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "incest",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "statutory_rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "statutory_rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "statutory_rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "robbery",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "robbery",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "robbery",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "burglary",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "burglary",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "burglary",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "arson",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "arson",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "arson",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "domestic_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "domestic_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "domestic_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "dating_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "dating_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "dating_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "stalking",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "stalking",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "hopkins",
+      "campus_id": "162928014",
+      "category": "stalking",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "murder",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "murder",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "murder",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "fondling",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "fondling",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "fondling",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "incest",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "incest",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "incest",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "statutory_rape",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "statutory_rape",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "statutory_rape",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "robbery",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "robbery",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "robbery",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "burglary",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "burglary",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "burglary",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "arson",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "arson",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "arson",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "domestic_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "domestic_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "domestic_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "dating_violence",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "dating_violence",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "dating_violence",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "stalking",
+      "year": 2023,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "stalking",
+      "year": 2024,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    },
+    {
+      "institution": "stanford",
+      "category": "stalking",
+      "year": 2025,
+      "sum_matches_printed_total": true,
+      "housing_not_above_campus": true
+    }
+  ],
+  "source_notes": [
+    {
+      "institution": "hopkins",
+      "edition": "Cover says 2025 Annual Security & Fire Safety Report; issued October 1, 2026; retrieved before printed issue date; numerical tables cover 2023\u20132025. Preserve both labels.",
+      "structural_absence": "Commuter/no-residence-hall statement appears on each of pp85,90,95,100,112,115. Explicit no-noncampus statement only pp85,90,100. Other missing noncampus columns remain unknown.",
+      "response_limitation": "Barcelona p115: UPF Security/Barcelona Police did not respond to request for 2025 statistics. Printed zeros preserved, qualified status, not confirmed absence.",
+      "source_sha256": "e88b93f8130ac64df9a307a31841e46ca93a7f7372a0e816bf879f2209ba0735"
+    },
+    {
+      "institution": "stanford",
+      "source_sha256": "79c9ef09b519b33b11da5b571ec491ced0b2ea87fb014904ad91e3f3627be5bc",
+      "scope": "Fresh 2026 full ASR applies to Main Campus; overseas reports remain separately listed 2025 editions. Do not replace overseas rows.",
+      "category_scope": "Printed p104 says California dating violence included in domestic violence. Both separate categories tagged for adjudication. Dating footnote mentions 2022 while the marked row now reads 2023; no inferred year correction."
+    }
+  ]
+}

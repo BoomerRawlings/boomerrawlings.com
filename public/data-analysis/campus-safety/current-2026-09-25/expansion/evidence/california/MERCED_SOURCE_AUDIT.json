@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "cells": 168,
+  "method": "Independent pdfplumber ruled-table extraction; compared against pypdf sequential text extraction. PDF156\u2013157 rendered and visually inspected.",
+  "source_sha256": "f9744041278e58141c35c6397b2c8af1fc07967099fbd00c88ed9c052cdaf3fd",
+  "ledger_sha256": "a0977c54649cdc2e0aaeb277e3d03e4ad59284efe7459880f2aa27a16e8cb073",
+  "manual_combined_housing_controls": {
+    "2022": 12,
+    "2023": 22,
+    "2024": 14
+  },
+  "geographic_total_identity": "oncampus + noncampus + publicproperty = printed total; housing is subset",
+  "edition": 2025,
+  "report_years": [
+    2022,
+    2023,
+    2024
+  ]
+}

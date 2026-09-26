@@ -1,6 +1,6 @@
 """Generate the dated current-source reports. Original publication PDFs remain unchanged."""
 from pathlib import Path
-import json, csv, hashlib
+import argparse, json, csv, hashlib
 from xml.sax.saxutils import escape
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
@@ -12,6 +12,9 @@ from pypdf import PdfReader
 ROOT=Path(__file__).resolve().parents[2]
 DATA=ROOT/'publication/current-2026-09-25'
 OUT=ROOT/'output/pdf';OUT.mkdir(parents=True,exist_ok=True)
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--campus-only',action='store_true',help='Rebuild campus report while preserving existing Crime and Heat PDF bytes.')
+args=parser.parse_args()
 fonts=Path('C:/Windows/Fonts')
 for name,file in [('Body','arial.ttf'),('Bold','arialbd.ttf'),('Italic','ariali.ttf'),('Title','georgiab.ttf'),('MathItalic','cambriai.ttf')]: pdfmetrics.registerFont(TTFont(name,str(fonts/file)))
 pdfmetrics.registerFont(TTFont('Math',str(fonts/'cambria.ttc'),subfontIndex=0))
@@ -67,6 +70,11 @@ data=json.loads((DATA/'dataset.json').read_text(encoding='utf8'))
 inventory=json.loads((DATA/'source_inventory.json').read_text(encoding='utf8'))
 coverage=json.loads((DATA/'coverage.json').read_text(encoding='utf8'))
 cases=json.loads((DATA/'case_study.json').read_text(encoding='utf8'))
+with (DATA/'population_sources.csv').open(encoding='utf8',newline='') as stream:
+    population_sources=list(csv.DictReader(stream))
+resident_sources={(r['unitid'],int(r['year'])):r for r in population_sources if r['measure']=='residents'}
+resident_2024=coverage['population_coverage']['2024']['residents']
+resident_2025=coverage['population_coverage']['2025']['residents']
 SITE='https://boomerrawlings.com/writing/data-analysis/campus-safety/'
 BASE='https://boomerrawlings.com/data-analysis/campus-safety/current-2026-09-25/'
 REFS=[
@@ -82,13 +90,20 @@ REFS=[
 ('Current source inventory: all 42 institutions, official listing/report links, retrieval dates, hashes and limits.',BASE+'source_inventory.json'),
 ('Current source-cell ledger: raw values, four geographies, edition/year, source locator, status and calculation decisions.',BASE+'source_cells.csv'),
 ('Current audit and reproduction record: source verification, calculations, citation review, visual checks and complete data.',SITE+'#downloads'),
+('Population-source ledger: adopted values, observation dates, source pages, checksums and geographic qualifications.',BASE+'population_sources.csv'),
+('Stanford University. Stanford Facts 2025, printed p. 46 / PDF p. 48: autumn 2024 housing. University-authored document recovered from StudyInternational; original official file unavailable.', 'https://studyinternational.com/wp-content/uploads/2026/03/2025-Stanford-Fact-Book_WEB.pdf#page=48'),
+('Stanford University. Stanford Facts: Student Life / Housing. Autumn quarter 2025 residents.', 'https://facts.stanford.edu/campus-life'),
+('Carnegie Mellon University. 2024 Annual Security and Fire Safety Report, p. 84: fall 2022 housing census.', 'https://www.cmu.edu/police/reports/fire-safety/2024asr.pdf#page=84'),
+('Carnegie Mellon University. 2026 Annual Security and Fire Safety Report, p. 81: fall 2023 and 2024 housing census.', 'https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf#page=81'),
+('Carnegie Mellon University Housing. Information for families: on-campus housing unavailable to graduate students.', 'https://www.cmu.edu/housing/about-us/for-our-families.html'),
+('University of Texas at Austin. University Housing and Dining, Learning and Outcomes Report 2023-2024, PDF p. 5: spring 2024 residents.', 'https://utexas.app.box.com/v/LearnOutcomeReports/file/1743656171859'),
 ]
 p('CAMPUS SAFETY DATA ANALYSIS / CURRENT-SOURCE REVISION','small')
 p('Campus safety,<br/>in proportion.','title')
 p('Reported campus offenses by geography and documented population. Source audit dated 25 September 2026; original federal results retained as an explicit archive.')
 h('Scope and principal interpretation')
 p(f'The fixed cohort includes <b>42 institutions</b>: the ten University of California (UC) institutions, eight Ivy League institutions and 24 other public/private universities including San Diego State University (SDSU). Current table extraction covers <b>{coverage["institutions_with_extracted_cells"]} institutions</b>, with verification limits stated for each. Four calendar years, 2022-2025, are available in the interface; coverage differs by edition and branch. [10-12]')
-p(f'The default compares 2024 campus-housing reports per 1,000 documented residents. <b>{coverage["available_rates"]["2024"]["residents"]} rates are available among 11 institutions with occupancy records.</b> No verified same-year 2025 population denominator is adopted. A missing rate does not imply no reports. These administrative ratios are not convictions, unique-victim counts or student victimization probabilities. [3,5,6,10]')
+p(f'The default compares 2024 campus-housing reports per 1,000 documented residents. <b>{coverage["available_rates"]["2024"]["residents"]} combined criminal-offense rates are available among {resident_2024} institutions with resident counts.</b> These populations are dated snapshots with qualified geographic scope. One 2025 population is adopted, but no complete matching combined institutional rate is available. Missing rates do not imply no reports. These administrative ratios are not convictions, unique-victim counts or student victimization probabilities. [3,5,10,13]')
 h('SDSU rape reports: why 2024 has both one and three')
 table(['Report year','Housing subset','Campus total','Noncampus','Public','Combined'],[[2023,8,11,2,0,13],[2024,1,1,2,0,3],[2025,10,11,5,0,16]],[76,92,88,90,72,98])
 p('Housing is already included in campus total. For 2024, <b>1 campus + 2 noncampus + 0 public = 3</b>. The earlier count of one describes housing/on-campus geography. Both report editions agree on those 2024 values; this discrepancy is geographic, not a revision. The 2026 edition does revise 2023 housing rape from seven to eight. [1,2]')
@@ -99,23 +114,38 @@ page('Population and rate calculations')
 p('An annual report edition is a publication version. Calendar report year identifies when an offense was reported to a campus security authority or local police, not necessarily when it occurred. Reports can involve nonstudents. [5]')
 h('Annual descriptive ratio')
 story.append(Equation())
-p('<i>C</i><sub>it</sub> is the selected count for institution <i>i</i>, year <i>t</i>; <i>N</i><sub>it</sub> is that year\'s documented population. The scale <i>k</i> is 1,000, or 10,000 when selected online. Counts and denominators accompany every rate. [3,6a,11]')
+p('<i>C</i><sub>it</sub> is the selected count for institution <i>i</i>, year <i>t</i>; <i>N</i><sub>it</sub> is that year\'s documented population. The scale <i>k</i> is 1,000, or 10,000 when selected online. Counts and denominators accompany every rate. [3,6a,11,13]')
 h('Pooled 2022-2024 annual ratio')
 story.append(Equation(True))
-p('Sum the three counts and divide by the sum of the three fall population snapshots. This is a denominator-weighted mean, not an unweighted average and not unique people across three years. Calculations retain full precision until display; any unavailable component withholds the result.')
+p('Sum the three counts and divide by the sum of the three dated population snapshots. This is a denominator-weighted mean, not an unweighted average and not unique people across three years. Calculations retain full precision until display; any unavailable component withholds the result.')
 h('Population alignment')
-p('Housing uses the State Auditor\'s actual fall occupancy for 2022-2024. The inventory is not matched property by property to Clery residential geography. Optional enrollment measures use institution-wide fall headcount once per year, including part-time and distance-only students. Neither denominator measures time physically present. [3,6a]')
-p('Current searches found housing capacity, rounded estimates and partial undergraduate/graduate populations at some institutions. They do not establish a complete aligned 2025 denominator. No earlier population is carried forward. The 2022-2024 federal enrollment file hashes are unchanged; release-year labels for other survey components are not mistaken for new fall enrollment data. [6,10,12]')
+p('Housing populations combine the State Auditor\'s actual fall occupancy and university housing census counts. These are dated fall/autumn snapshots and approximate institutional housing denominators: properties are not matched individually to Clery residential geography. Optional enrollment measures use institution-wide fall headcount, including part-time and distance-only students. Neither denominator measures time physically present. [3,6a,13-18]')
+p('Capacity, rounded estimates and incomplete undergraduate/graduate subsets are retained as research leads, not substituted for actual resident totals. No earlier population is carried forward. A valid population alone does not resolve missing source counts. The original 2022-2024 federal enrollment bytes remain unchanged. [6,10,12,13]')
+
+page('Expanded source and population coverage')
+p(f'The acquisition follow-up increases 2024 combined housing-count availability from 29 to {coverage["housing_count_coverage"]["2024"]} institutions; documented resident populations from 11 to {resident_2024}; and paired rates from 10 to {coverage["available_rates"]["2024"]["residents"]}. Current source extraction reaches all {coverage["institutions_with_extracted_cells"]} institutions, comprising {coverage["source_cells"]:,} source cells. Access and extraction do not establish complete reporting. [10-13]')
+h('Five additional resident observations')
+table(['Institution / period','Residents','Source scope'],[
+('Stanford, autumn 2024','14,203','7,108 undergraduate + 7,095 graduate residents. University-authored factbook recovered from a publisher mirror. [14]'),
+('Stanford, autumn 2025','14,042','6,727 undergraduate + 7,315 graduate residents. Current official university page. [15]'),
+('Carnegie Mellon, fall 2022','3,458','3,158 university housing + 300 fraternity/sorority housing. [16,18]'),
+('Carnegie Mellon, fall 2023','3,764','3,515 university housing + 249 fraternity/sorority housing. [17,18]'),
+('Carnegie Mellon, fall 2024','3,988','3,732 university housing + 256 fraternity/sorority housing. [17,18]'),
+],[163,64,289],pad=6)
+p('Stanford university-provided housing is not reconciled to every Clery parcel or overseas branch. The 2024 mirror agrees with the visible university-authored page and indexed official values; identical original bytes could not be authenticated. Carnegie Mellon combines disjoint undergraduate housing categories; its housing office excludes graduate students from on-campus housing. Its table is labeled Pittsburgh, although the 2024 total matches university-wide undergraduate enrollment. These source qualifications remain attached to each population. [13-18]','small')
+p('Texas reports 10,018 residents in spring 2024, but does not explicitly separate students from possible dependents in that figure. This is a documented candidate, not an adopted student denominator. Stanford\'s 2025 population is adopted, but overseas count coverage does not extend consistently through 2025. A population alone does not repair missing counts. [10,11,13,19]','small')
+h('Recovered and updated crime reports')
+p('Original Merced, Harvard, Johns Hopkins and Virginia reports were recovered and independently checked. Harvard still has omitted geographic columns. The Hopkins report is titled 2025, says issued October 1, 2026, and tabulates 2023-2025; it was publicly linked before that printed issue date. Stanford\'s main-campus report advances to 2026 while overseas editions remain mixed. The latest Princeton report adds 2025; overlapping 2023-2024 values agree with its previous edition. [10-12]','small')
 
 page('Housing comparison and updated results')
-p('2024 institutional residential-facility counts divided by documented fall occupancy. The 11-institution cohort remains visible even when a source count is unverified. Ratios are approximate geographic normalizations, not resident victimization rates. [3,10,11]')
+p(f'2024 institutional residential-facility counts divided by documented residents. All {resident_2024} institutions with an adopted population remain visible when a selected count is unavailable. Ratios are approximate geographic normalizations, not resident victimization rates. [3,10,11,13]')
 rows=[]
 for inst in data['institutions']:
     y=next(y for y in inst['years'] if y['year']==2024)
     if y['residents']:
         c=y['counts']['residential'];pop=y['residents']
         rows.append([('UC Los Angeles' if inst['name']=='UCLA' else inst['name']),number(pop),number(c['criminal_total']),rate(1000*c['criminal_total']/pop if c['criminal_total'] is not None else None),number(c['rape']),rate(1000*c['rape']/pop if c['rape'] is not None else None)])
-table(['Institution','Fall residents','Criminal offenses','Per 1,000','Rape offenses','Per 1,000'],rows,[152,75,75,70,74,70])
+table(['Institution','Residents','Criminal offenses','Per 1,000','Rape offenses','Per 1,000'],rows,[152,75,75,70,74,70])
 h('Housing rape reports by year and source edition')
 rows=[]
 for period in [2022,2023,2024,'pooled']:
@@ -130,11 +160,11 @@ table(['Source issue','Treatment in this revision'],[
 ('Historical revisions','Use the named current source cell; preserve older federal and institutional versions. Do not attribute a difference to a cause unless a source explains it.'),
 ('UC Davis / Santa Cruz corrections','Retain revised count cells and their footnotes. Repeated incidents disclosed in one report remain offenses, not inferred unique victims.'),
 ('Combined domestic/dating categories','Withhold separate-category comparisons where the source combines categories. Printed zero does not establish no dating-related violence.'),
-('Conflicting years or totals','Retain raw cells and source locators. Withhold affected calculations rather than silently repairing labels or totals.'),
+('Conflicting years or totals','Retain raw cells and source locators. Withhold ambiguous cells; retain an unambiguous geographic subset only with documented source evidence.'),
 ('Missing geographic columns','Unknown is not zero. Only explicit absent-geography declarations support structural zero contributions to a total.'),
 ('New or changed branches','Keep source-specific branch identities and opening/scope notes. Do not silently allocate an institution-wide population to a branch.'),
 ('Unusable outside-agency returns','Florida Everglades and Vicenza 2025 lack usable local-agency data; affected comparisons are withheld.'),
-('Blocked or provisional sources','Merced, Harvard and Johns Hopkins current counts are unverified. Virginia web-text cells remain provisional without original-file/visual verification.'),
+('Recovered sources','Merced, Harvard, Johns Hopkins and Virginia Portable Document Format (PDF) reports are now verified. Omitted columns, incomplete outside-agency returns and source conflicts still limit calculations.'),
 ],[157,359],pad=7)
 p('Detailed qualifications and every exclusion are recorded in the institutional inventory and cell ledger. The original federal snapshot remains available for reproducibility; it is not presented as the newest institutional account. Missing and withheld values must not be used to rank institutions. [10-12]')
 
@@ -144,10 +174,9 @@ for part in range(3):
     rows=[]
     for item in inventory[part*14:(part+1)*14]:
         status='Extracted; source exclusions apply' if item['source_cells'] else 'Current counts unverified'
-        if item['unitid']=='234076':status='Provisional text; calculations withheld'
         rows.append([link(item.get('report_url') or item['landing_url'],item['institution']),escape(', '.join('Unverified' if e in ('None','unverified') else e for e in item['editions'])),escape(', '.join(map(str,item['report_years'])) or 'Unverified'),status])
     table(['Institution / official report','Edition','Extracted years','Verification'],rows,[202,55,95,164],pad=7,markup=True)
-    p('No exact geographically aligned 2025 resident denominator is adopted for any institution. Report access is not proof of complete offense reporting. A source may change after the recorded audit cutoff.','small')
+    p('A dated resident population does not establish a complete corresponding offense numerator. Report access is not proof of complete reporting; sources may change after the recorded audit cutoff.','small')
 
 page('Interpretation, related research and verification')
 h('Administrative reporting is not prevalence')
@@ -156,10 +185,10 @@ h('Comparisons with related research')
 p('The National Center for Education Statistics (NCES) normalizes national campus counts by full-time-equivalent enrollment, per 10,000 students. This study uses enrolled headcount or documented residents. Changing the numerical scale does not reconcile those denominators. [8]')
 p('The Bureau of Justice Statistics Campus Climate Survey Validation Study compares survey and Clery measures across nine pilot campuses. Survey recall periods, populations and disclosures differ from administrative reports. Alignment matters before comparing them; neither source supplies a universal underreporting adjustment. The original targeted research review remains available and is not relabeled as a new systematic review. [9,12]')
 h('Audit structure')
-p('Source checks record exact downloaded versions, table headers, geography, raw tokens and footnotes. Alternate extraction engines and independent calculation reviews check category mappings, missingness, sums, population joins and rate calculations. Provisional Virginia tables remain excluded from calculated comparisons. The source and citation audit is separate from formula/layout verification. [10-12]')
+p('Source checks record exact downloaded versions, table headers, geography, raw tokens and footnotes. Alternate extraction engines and independent calculation reviews check category mappings, missingness, sums, population joins and rate calculations. The recovered Virginia PDF agrees with all 1,008 previously transcribed core cells; its visual verification is now complete. The source and citation audit is separate from formula/layout verification. [10-12]')
 p('The public package preserves source-derived aggregate cells, dated inventory, normalization decisions, calculations and replay code. It does not include individual victim records. Source re-extraction requires the exact original reports, identified by web address and hash where retrieved; a mutable web address alone does not identify a fixed version.')
 h('Material limitations')
-p('Reporting completeness is unknown. Housing properties are not fully matched to occupancy boundaries; fall snapshots are not person-time; nonstudents may be included; multiple offenses can be disclosed together; branches and source editions differ; 2025 population denominators remain unavailable. The federal and institutional series are separate selectable sources, not interchangeable estimates.')
+p('Reporting completeness is unknown. Housing properties are not fully matched to population boundaries; dated snapshots are not person-time; nonstudents may be included; multiple offenses can be disclosed together; branches and source editions differ. Most institutions lack adopted resident populations, especially for 2025. The federal and institutional series remain separate selectable sources, not interchangeable estimates. [10,11,13]')
 p('These checks are computational and source-verification audits. They are not external human peer review or agency certification. Publication states what was verified and leaves unresolved values unavailable. [12]')
 
 page('References and reproducibility')
@@ -168,6 +197,15 @@ p(link('https://nces.ed.gov/ipeds/use-the-data/download-access-database','[6a] I
 h('Version record')
 p('Current revision: 25 September 2026. SDSU current report Secure Hash Algorithm 256-bit (SHA-256) checksum: 8d697b9134573a07dd7d53a0db29c18f8fe3a5b97e026fb8221237766155c80b. The original report remains archived and contains superseded SDSU pooled figures. Current calculation tables and the source ledger govern this revision.','small')
 campus=build(OUT/'campus-safety-current-report.pdf','Campus safety: current sources')
+
+if args.campus_only:
+    crime_path=OUT/'crime-and-heat-source-refresh.pdf'
+    previous=json.loads((OUT/'current_reports_metadata.json').read_text(encoding='utf8'))
+    crime={'file':crime_path.name,'pages':len(PdfReader(crime_path).pages),'bytes':crime_path.stat().st_size,'sha256':hashlib.sha256(crime_path.read_bytes()).hexdigest()}
+    assert crime == previous['crime'], 'Existing Crime PDF differs from its recorded metadata; investigate before updating metadata.'
+    (OUT/'current_reports_metadata.json').write_text(json.dumps({'campus':campus,'crime':crime},indent=2)+'\n',encoding='utf8')
+    print(json.dumps({'campus':campus,'crime':crime,'crime_preserved':True},indent=2))
+    raise SystemExit(0)
 
 story=[]
 FBASE='https://boomerrawlings.com/data-analysis/crime-and-heat/data/freshness-2026-09-25/'

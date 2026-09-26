@@ -1,0 +1,115 @@
+{
+  "status": "original_pdf_extracted_all_core_cells_match_prior_web_extraction_and_visually_verified",
+  "source_url": "https://cleryact.virginia.edu/sites/cleryact/files/2026-09/UVA_Annual_Fire_Safety_Security_Report_2026_FINAL.pdf",
+  "source_sha256": "a8f39155d2dec776fd6690ee92813a47ecac10836169ad7a80f2faff07f34641",
+  "pdf_pages": 195,
+  "core_cells": 1008,
+  "numeric_cells": 672,
+  "inapplicable_cells": 336,
+  "prior_web_comparison_cells": 1008,
+  "prior_web_differences": [],
+  "table_checks": [
+    {
+      "pdf_page": 113,
+      "printed_page": 106,
+      "campus_id": "234076001",
+      "campus": "Charlottesville",
+      "category_rows": 14,
+      "year_groups": [
+        2025,
+        2024,
+        2023
+      ],
+      "visually_checked": true,
+      "inapplicable_geographies": []
+    },
+    {
+      "pdf_page": 123,
+      "printed_page": 116,
+      "campus_id": "234076012",
+      "campus": "Darden Sands Family Grounds",
+      "category_rows": 14,
+      "year_groups": [
+        2025,
+        2024,
+        2023
+      ],
+      "visually_checked": true,
+      "inapplicable_geographies": [
+        "residential"
+      ]
+    },
+    {
+      "pdf_page": 131,
+      "printed_page": 124,
+      "campus_id": "234076009",
+      "campus": "Mountain Lake Biological Station",
+      "category_rows": 14,
+      "year_groups": [
+        2025,
+        2024,
+        2023
+      ],
+      "visually_checked": true,
+      "inapplicable_geographies": [
+        "noncampus"
+      ]
+    },
+    {
+      "pdf_page": 140,
+      "printed_page": 133,
+      "campus_id": "234076005",
+      "campus": "Richmond Center: School of Nursing",
+      "category_rows": 14,
+      "year_groups": [
+        2025,
+        2024,
+        2023
+      ],
+      "visually_checked": true,
+      "inapplicable_geographies": [
+        "noncampus",
+        "residential"
+      ]
+    },
+    {
+      "pdf_page": 149,
+      "printed_page": 142,
+      "campus_id": "234076013",
+      "campus": "UVA-Inova Fairfax Campus",
+      "category_rows": 14,
+      "year_groups": [
+        2025,
+        2024,
+        2023
+      ],
+      "visually_checked": true,
+      "inapplicable_geographies": [
+        "noncampus",
+        "residential"
+      ]
+    },
+    {
+      "pdf_page": 157,
+      "printed_page": 150,
+      "campus_id": "234076014",
+      "campus": "Morven Sustainability Lab",
+      "category_rows": 14,
+      "year_groups": [
+        2025,
+        2024,
+        2023
+      ],
+      "visually_checked": true,
+      "inapplicable_geographies": [
+        "noncampus",
+        "residential"
+      ]
+    }
+  ],
+  "scope_notes": [
+    "Six campuses have2023\u20132025 statistics. Valmarana is explicitly not a separate campus in those years; no historical zero is created.",
+    "2024 Charlottesville fondling includes50 incidents from one report, per PDF115 footnote. Reporting-year counts are not occurrence-year counts.",
+    "2022 values remain attributed to earlier sources. Original federal CSV is unchanged."
+  ]
+}

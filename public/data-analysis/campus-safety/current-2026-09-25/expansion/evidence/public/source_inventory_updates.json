@@ -1,0 +1,225 @@
+{
+  "review_date": "2026-09-25",
+  "scope": "11 assigned public universities; refreshed official listings and original UVA PDF recovery",
+  "institutions": [
+    {
+      "unitid": "139755",
+      "institution_unitid": "139755",
+      "key": "gatech",
+      "report_edition": 2026,
+      "report_url": "https://eoc.gatech.edu/sites/default/files/2026-09/2026%20Annual%20Security%20and%20Fire%20Safety%20Report.pdf",
+      "sha256": "68a12cae6f5e476bfb35ca6241e4499bd7431373f5448e999d4fe1a1051ce68f",
+      "local_pdf": "retrieved/gatech/asr-94d44eb0.pdf",
+      "latest_report_check": {
+        "listing_url": "https://eoc.gatech.edu/jeanne-clery-act/georgia-tech-annual-security-and-fire-safety-reports",
+        "listing_checked_utc": "2026-09-26T03:06:09.164578+00:00",
+        "listing_status": 200,
+        "listing_sha256": "63d75caefd1659f9c4bdeef7a25f032a825844a37ca30710fd26f8044bfa2cbf",
+        "listing_file": "retrieved/gatech_asr_listing.html",
+        "report_bytes_verified_utc": "2026-09-25T21:37:29.430285+00:00",
+        "conclusion": "Official listing remains linked to the same report/source edition already acquired and verified during this review date. No later edition verified.",
+        "scope": "Listing refreshed; unchanged report bytes retained in prior same-day source inventory."
+      }
+    },
+    {
+      "unitid": "145637",
+      "institution_unitid": "145637",
+      "key": "illinois",
+      "report_edition": 2025,
+      "report_url": "https://police.illinois.edu/wp-content/uploads/2025/12/2025_Annual_Security_Fire_Safety_Report_FINAL_DRAFT_-_Re-Issue.pdf",
+      "sha256": "1023c5da3b7d4eec0fa43370c23d92553f58917ef3e80e5cc73231eec0b6699e",
+      "local_pdf": "retrieved/illinois/asr-46d1c34f.pdf",
+      "latest_report_check": {
+        "listing_url": "https://www.police.illinois.edu/crime-stats-and-clery/annual-security-and-fire-safety-report/",
+        "listing_checked_utc": "2026-09-26T03:06:09.165939+00:00",
+        "listing_status": 200,
+        "listing_sha256": "5fedf1c0369b8ffe3fde8dbc8a4926d9c88b1557d1950061caf2c8996ad9d233",
+        "listing_file": "retrieved/illinois_asr_listing.html",
+        "report_bytes_verified_utc": "2026-09-25T21:37:29.435073+00:00",
+        "conclusion": "Official listing remains linked to the same report/source edition already acquired and verified during this review date. No later edition verified.",
+        "scope": "Listing refreshed; unchanged report bytes retained in prior same-day source inventory."
+      }
+    },
+    {
+      "unitid": "170976",
+      "institution_unitid": "170976",
+      "key": "michigan",
+      "report_edition": 2025,
+      "report_url": "https://cdn.sanity.io/files/bflxpmv3/production/e5bbcc349237b5f972ae112e63bf68077d2a9fc7.pdf",
+      "sha256": "12ba624e2f95a1f6a61a6764225f6b6cee0076986b060fe7e0cec66746e42f92",
+      "local_pdf": "retrieved/michigan/asr-4e09df57.pdf",
+      "latest_report_check": {
+        "listing_url": "https://www.dpss.umich.edu/reports-and-data/annual-security-and-fire-safety-report",
+        "listing_checked_utc": "2026-09-26T03:13:12.261057+00:00",
+        "listing_status": 200,
+        "listing_sha256": "730e14067be384a95f04716d0a6e770a22fde47ca4ac841438ee2423dbbc6f36",
+        "listing_file": "retrieved/michigan_asr_specific.html",
+        "report_bytes_verified_utc": "2026-09-25T21:39:38.142544+00:00",
+        "conclusion": "Official listing remains linked to the same report/source edition already acquired and verified during this review date. No later edition verified.",
+        "scope": "Listing refreshed; unchanged report bytes retained in prior same-day source inventory."
+      }
+    },
+    {
+      "unitid": "199120",
+      "institution_unitid": "199120",
+      "key": "unc",
+      "report_edition": 2026,
+      "report_url": "https://go.unc.edu/securityreport",
+      "sha256": "cf1efd3ce66c6b3d69365e231e37b62c68a17a9449063d6fb07ecfc14244baba",
+      "local_pdf": "retrieved/unc/current-dfdf132c.pdf",
+      "latest_report_check": {
+        "listing_url": "https://police.unc.edu/",
+        "listing_checked_utc": "2026-09-26T03:06:09.165939+00:00",
+        "listing_status": 200,
+        "listing_sha256": "6ac6ea05975b8ae5dae41e53ef4b6d2feeb3e2c589170fc4c88cc87e9862eb79",
+        "listing_file": "retrieved/unc_asr_listing.html",
+        "report_bytes_verified_utc": "2026-09-25T21:37:29.437152+00:00",
+        "conclusion": "Official listing remains linked to the same report/source edition already acquired and verified during this review date. No later edition verified.",
+        "scope": "Listing refreshed; unchanged report bytes retained in prior same-day source inventory."
+      }
+    },
+    {
+      "unitid": "204796",
+      "institution_unitid": "204796",
+      "key": "ohio",
+      "report_edition": 2025,
+      "report_url": "https://dps.osu.edu/sites/default/files/documents/annual_security_fire_safety_report.pdf",
+      "sha256": "8492cc76790761caad104ab8710f242d2810f4b28ef3a3164324b71c3a3a8a1f",
+      "local_pdf": "retrieved/ohio/asr-ed1df6e2.pdf",
+      "latest_report_check": {
+        "listing_url": "https://dps.osu.edu/crime/clery-act",
+        "listing_checked_utc": "2026-09-26T03:06:09.167445+00:00",
+        "listing_status": 200,
+        "listing_sha256": "83e19055814aa2d23854191a699e7a7247797ce65c41037ec2549ee08e8e0780",
+        "listing_file": "retrieved/ohio_asr_listing.html",
+        "report_bytes_verified_utc": "2026-09-25T21:37:29.431516+00:00",
+        "conclusion": "Official listing remains linked to the same report/source edition already acquired and verified during this review date. No later edition verified.",
+        "scope": "Listing refreshed; unchanged report bytes retained in prior same-day source inventory."
+      }
+    },
+    {
+      "unitid": "214777",
+      "institution_unitid": "214777",
+      "key": "pennstate",
+      "report_edition": 2025,
+      "report_url": "https://www.police.psu.edu/sites/police/files/2025-11/penn-state-university-park-2025a.pdf",
+      "sha256": "aef612d7216400978e90962e6b2a212d83c58393765e96f9d9bd391ed1253df3",
+      "local_pdf": "retrieved/pennstate/asr-13d3c45b.pdf",
+      "latest_report_check": {
+        "listing_url": "https://www.police.psu.edu/annual-security-reports",
+        "listing_checked_utc": "2026-09-26T03:06:09.167445+00:00",
+        "listing_status": 200,
+        "listing_sha256": "615666ced0ebb851cc8a5bcafe12e2254be9b674f26516e5b2a958b5783f6480",
+        "listing_file": "retrieved/pennstate_asr_listing.html",
+        "report_bytes_verified_utc": "2026-09-25T21:37:29.432039+00:00",
+        "conclusion": "Official listing remains linked to the same report/source edition already acquired and verified during this review date. No later edition verified.",
+        "scope": "Listing refreshed; unchanged report bytes retained in prior same-day source inventory."
+      }
+    },
+    {
+      "unitid": "228778",
+      "institution_unitid": "228778",
+      "key": "ut",
+      "report_edition": 2025,
+      "report_url": "https://compliance.utexas.edu/sites/default/files/documents/ASFSR%202025%20final.pdf",
+      "sha256": "3594b9f7a2917dd90015042de9a137ad54d1752b00739fec421d3a33e1cb3f7e",
+      "local_pdf": "retrieved/ut/asr-6a9b50e0.pdf",
+      "latest_report_check": {
+        "listing_url": "https://compliance.utexas.edu/asfsr",
+        "listing_checked_utc": "2026-09-26T03:08:09.934799+00:00",
+        "listing_status": 200,
+        "listing_sha256": "5f9d03cda74facdd46e2e38fb6ab4183e49d2e2028865e00a63809b07b4ddb4d",
+        "listing_file": "retrieved/ut_asr_page.html",
+        "report_bytes_verified_utc": "2026-09-25T21:39:38.142544+00:00",
+        "conclusion": "Official listing remains linked to the same report/source edition already acquired and verified during this review date. No later edition verified.",
+        "scope": "Listing refreshed; unchanged report bytes retained in prior same-day source inventory."
+      }
+    },
+    {
+      "unitid": "134130",
+      "institution_unitid": "134130",
+      "key": "florida",
+      "report_edition": 2026,
+      "report_url": "https://clery.compliance.ufl.edu/annual-security-and-fire-safety-reports/2026-crime-statistics/",
+      "sha256": "1281c825a31478686b594e5b8356b0c148ee9346e341f890f9dde92453217f4e",
+      "local_pdf": null,
+      "latest_report_check": {
+        "listing_url": "https://clery.compliance.ufl.edu/annual-security-and-fire-safety-reports/",
+        "listing_checked_utc": "2026-09-26T03:06:09.169597+00:00",
+        "listing_status": 200,
+        "listing_sha256": "2681ed44114f27048093a27f9b5482a09a5ec29314dbd0590525d3e5a80edc0d",
+        "listing_file": "retrieved/florida_asr_listing.html",
+        "report_bytes_verified_utc": "2026-09-25T21:37:30.222471+00:00",
+        "conclusion": "Official listing remains linked to the same report/source edition already acquired and verified during this review date. No later edition verified.",
+        "scope": "Listing refreshed; unchanged report bytes retained in prior same-day source inventory."
+      }
+    },
+    {
+      "unitid": "234076",
+      "institution_unitid": "234076",
+      "key": "virginia",
+      "report_edition": 2026,
+      "report_url": "https://cleryact.virginia.edu/sites/cleryact/files/2026-09/UVA_Annual_Fire_Safety_Security_Report_2026_FINAL.pdf",
+      "sha256": "a8f39155d2dec776fd6690ee92813a47ecac10836169ad7a80f2faff07f34641",
+      "local_pdf": "retrieved/virginia_asr_2026.pdf",
+      "latest_report_check": {
+        "listing_url": "https://cleryact.virginia.edu/",
+        "listing_checked_utc": "2026-09-26T03:06:09.476023+00:00",
+        "listing_status": null,
+        "listing_sha256": null,
+        "listing_file": null,
+        "report_bytes_verified_utc": "2026-09-26T03:34:13.196562+00:00",
+        "conclusion": "Official listing Full Report link resolved to2026 PDF; ordinary browser download recovered original bytes. All1,008 core source cells independently extracted and visually verified.",
+        "scope": "Original source recovered; prior direct-download403 restriction no longer blocks verification.",
+        "report_bytes_sha256": "a8f39155d2dec776fd6690ee92813a47ecac10836169ad7a80f2faff07f34641",
+        "browser_listing_verified": true
+      },
+      "checked_utc": "2026-09-26T03:34:13.196562+00:00",
+      "verification": "original_pdf_independently_extracted_and_visually_verified",
+      "limitations": [
+        "Source2023\u20132025 cells verified from original2026 PDF.2022 retains older-source attribution.",
+        "Four branches explicitly lack housing. Mountain Lake lacks noncampus geography. Dashes retain inapplicable status, not observed zero.",
+        "Valmarana was not a separate campus in2023\u20132025; no historical zero is inferred.",
+        "2024 Charlottesville fondling includes50 incidents from one report. Source reporting year is not occurrence year."
+      ]
+    },
+    {
+      "unitid": "236948",
+      "institution_unitid": "236948",
+      "key": "washington",
+      "report_edition": 2025,
+      "report_url": "https://police.uw.edu/wp-content/uploads/2026/04/Annual-Security-and-Fire-Safety-Report-2025-2026-update.pdf",
+      "sha256": "dea60671ecfc6ad195467843a79107fc4037bb03edd3e963fc5695c9240c5559",
+      "local_pdf": "retrieved/washington/asr-228a9d69.pdf",
+      "latest_report_check": {
+        "listing_url": "https://police.uw.edu/clery-information/annual-security-and-fire-safety-reports/",
+        "listing_checked_utc": "2026-09-26T03:08:09.933684+00:00",
+        "listing_status": 200,
+        "listing_sha256": "711e41595985cbc9de5fe677e01d1b3ef4c4e2f52ac7274b869000b34497bf42",
+        "listing_file": "retrieved/washington_asr_page.html",
+        "report_bytes_verified_utc": "2026-09-25T21:39:38.143543+00:00",
+        "conclusion": "Official listing remains linked to the same report/source edition already acquired and verified during this review date. No later edition verified.",
+        "scope": "Listing refreshed; unchanged report bytes retained in prior same-day source inventory."
+      }
+    },
+    {
+      "unitid": "240444",
+      "institution_unitid": "240444",
+      "key": "wisconsin",
+      "report_edition": 2025,
+      "report_url": "https://go.wisc.edu/asr",
+      "sha256": "dd46c8cc8e593ac35cb5e9b6f44ba3ad04c744ce8bf6d069fad3a480e7b87d48",
+      "local_pdf": "retrieved/wisconsin/current-b9a2c570.pdf",
+      "latest_report_check": {
+        "listing_url": "https://uwpd.wisc.edu/data-policies-resources/clery-act/",
+        "listing_checked_utc": "2026-09-26T03:06:09.819077+00:00",
+        "listing_status": 200,
+        "listing_sha256": "0473044edc0d1d8ad2c8de84ab650fa43744fb8f0927016896dc9c9e520a535d",
+        "listing_file": "retrieved/wisconsin_asr_listing.html",
+        "report_bytes_verified_utc": "2026-09-25T21:37:34.214880+00:00",
+        "conclusion": "Official listing remains linked to the same report/source edition already acquired and verified during this review date. No later edition verified.",
+        "scope": "Listing refreshed; unchanged report bytes retained in prior same-day source inventory."
+      }
+    }
+  ]
+}

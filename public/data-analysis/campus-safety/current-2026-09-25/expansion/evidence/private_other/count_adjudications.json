@@ -1,0 +1,60 @@
+{
+  "scope": "Specific new decisions; original raw cells and old audit decisions remain intact. Never apply a restoration without every match condition.",
+  "adjudications": [
+    {
+      "match": {
+        "institution_unitid": "144050",
+        "campus_id": "144050002",
+        "report_year": 2024,
+        "category": "burglary",
+        "geography": "residential",
+        "raw_value": "0",
+        "status": "source_total_conflict",
+        "source_sha256": "5427b9291336738968c24f9dafaa893e5ce717551707feacdb7f73fa53b43b08"
+      },
+      "decision": "accept_numeric_corroborated_no_housing",
+      "value": 0,
+      "reason": "Printed housing0 is independent of the campus6/total0 disagreement. Same-year federal OPE declaration explicitly says no campus housing, so structural absence independently corroborates this cell. No on-campus/total correction is inferred.",
+      "source_url": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf#page=12",
+      "source_page": "PDF12; printed10",
+      "corroborating_url": "https://ope.ed.gov/campussafety/api/campus/144050002",
+      "corroborating_sha256": "7640ff913ebaf1f611235c083b9185c860c14bc0771cc37814560c526eb09e7e",
+      "evidence_file": "gleacher_2024_housing_evidence.json"
+    },
+    {
+      "match": {
+        "institution_unitid": "211440",
+        "campus_id": "211440001",
+        "report_year": 2025,
+        "category": "fondling",
+        "geographies": [
+          "residential",
+          "oncampus"
+        ],
+        "source_sha256": "3d656606897993dc7a03b7d93909b479ceedb78bfee7eae6535bed21a059dbdf"
+      },
+      "decision": "retain_withholding",
+      "reason": "Housing3 and campus3 exceed printed total1. Both counts are directly implicated in the inconsistency, and no independent same-year corroboration establishes which source value is wrong. Do not assume a total-column typo.",
+      "source_url": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf#page=44",
+      "source_page": "PDF44; printed44"
+    },
+    {
+      "match": {
+        "institution_unitid": "211440",
+        "campus_id": "211440001",
+        "report_year": 2025,
+        "category": "fondling",
+        "geographies": [
+          "noncampus",
+          "publicproperty"
+        ],
+        "raw_value": "0",
+        "source_sha256": "3d656606897993dc7a03b7d93909b479ceedb78bfee7eae6535bed21a059dbdf"
+      },
+      "decision": "raw_values_preserved_no_new_restoration",
+      "reason": "Printed zeros do not themselves exceed the total, but no independent absence evidence or corrected report was found. This review makes no broader restoration; housing/overall uncertainty remains.",
+      "source_url": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf#page=44",
+      "source_page": "PDF44; printed44"
+    }
+  ]
+}

@@ -1,89 +1,256 @@
 {
-  "checked_utc": "2026-09-25T22:35:38.207Z",
-  "scope": "Static HTTP/HTML and imported pure calculation functions. No browser surface was available to this agent; no responsive or interaction result is claimed.",
-  "default_current_rates": 10,
+  "checked_utc": "2026-09-26T04:02:52.095Z",
+  "status": "PASS",
+  "scope": "Local built HTML and imported pure functions. No HTTP, browser interaction, responsive layout or rendered-equation visual claim. Those are covered by separate reviews.",
+  "checks": [
+    {
+      "name": "Embedded current dataset equals published dataset",
+      "pass": true
+    },
+    {
+      "name": "Built dataset equals current public source bytes",
+      "pass": true
+    },
+    {
+      "name": "All 42 institutions retain extracted report evidence",
+      "pass": true
+    },
+    {
+      "name": "Current default includes 13 available resident-rate comparisons",
+      "pass": true
+    },
+    {
+      "name": "Archived default remains 11 available resident-rate comparisons",
+      "pass": true
+    },
+    {
+      "name": "Server-rendered default table agrees with current pure functions",
+      "pass": true
+    },
+    {
+      "name": "All 32 source/group/column-direction orders match independent comparator",
+      "pass": true
+    },
+    {
+      "name": "Column toggles retain expected numeric and name defaults",
+      "pass": true
+    },
+    {
+      "name": "Legacy view defaults preserve enrollment and all-school scope",
+      "pass": true
+    },
+    {
+      "name": "CSV helper preserves row order, quoted text and blank unknowns",
+      "pass": true
+    },
+    {
+      "name": "SDSU housing remains nested; all-area rape counts retain 2024 and 2025 evidence",
+      "pass": true
+    },
+    {
+      "name": "Virginia original-source sample is now verified, not stale unverified values",
+      "pass": true
+    },
+    {
+      "name": "Riverside missing geography and Berkeley combined categories remain distinguished",
+      "pass": true
+    },
+    {
+      "name": "2025 Stanford population is retained without inventing complete institution-wide rates",
+      "pass": true
+    },
+    {
+      "name": "Archived 2025 remains unavailable",
+      "pass": true
+    },
+    {
+      "name": "Static document IDs are unique",
+      "pass": true
+    },
+    {
+      "name": "Every static same-page anchor resolves",
+      "pass": true
+    },
+    {
+      "name": "Seven equations produce MathML without KaTeX error markup",
+      "pass": true
+    },
+    {
+      "name": "New provenance and candidate downloads exist and are linked",
+      "pass": true
+    },
+    {
+      "name": "Source retains accessible sort action labels, active sort state and focus restoration",
+      "pass": true
+    },
+    {
+      "name": "Initial school reading is empty and hidden",
+      "pass": true
+    }
+  ],
+  "default_current_rates": 13,
   "default_federal_rates": 11,
-  "default_visible_institutions": 11,
+  "default_visible_institutions": 13,
   "formulas": 7,
   "sorts": {
-    "current_name": {
-      "first": "San Diego State",
+    "current_resident-covered_name": {
+      "first": "Carnegie Mellon",
       "last": "UC Santa Cruz",
       "passed": true
     },
-    "current_nameDesc": {
+    "current_resident-covered_nameDesc": {
       "first": "UC Santa Cruz",
+      "last": "Carnegie Mellon",
+      "passed": true
+    },
+    "current_resident-covered_rateDesc": {
+      "first": "UC San Francisco",
       "last": "San Diego State",
       "passed": true
     },
-    "current_rateDesc": {
-      "first": "UC San Francisco",
-      "last": "UC Merced",
-      "passed": true
-    },
-    "current_rateAsc": {
+    "current_resident-covered_rateAsc": {
       "first": "San Diego State",
-      "last": "UC Merced",
+      "last": "UC San Francisco",
       "passed": true
     },
-    "current_countDesc": {
+    "current_resident-covered_countDesc": {
       "first": "UC Davis",
-      "last": "UC Merced",
+      "last": "Carnegie Mellon",
       "passed": true
     },
-    "current_countAsc": {
-      "first": "San Diego State",
-      "last": "UC Merced",
+    "current_resident-covered_countAsc": {
+      "first": "Carnegie Mellon",
+      "last": "UC Davis",
       "passed": true
     },
-    "current_populationDesc": {
+    "current_resident-covered_populationDesc": {
       "first": "UCLA",
       "last": "UC San Francisco",
       "passed": true
     },
-    "current_populationAsc": {
+    "current_resident-covered_populationAsc": {
       "first": "UC San Francisco",
       "last": "UCLA",
       "passed": true
     },
-    "federal_name": {
+    "current_all_name": {
+      "first": "Brown",
+      "last": "Yale",
+      "passed": true
+    },
+    "current_all_nameDesc": {
+      "first": "Yale",
+      "last": "Brown",
+      "passed": true
+    },
+    "current_all_rateDesc": {
+      "first": "UC San Francisco",
+      "last": "Yale",
+      "passed": true
+    },
+    "current_all_rateAsc": {
+      "first": "San Diego State",
+      "last": "Yale",
+      "passed": true
+    },
+    "current_all_countDesc": {
+      "first": "Columbia",
+      "last": "Pennsylvania",
+      "passed": true
+    },
+    "current_all_countAsc": {
+      "first": "Carnegie Mellon",
+      "last": "Pennsylvania",
+      "passed": true
+    },
+    "current_all_populationDesc": {
+      "first": "UCLA",
+      "last": "Yale",
+      "passed": true
+    },
+    "current_all_populationAsc": {
+      "first": "UC San Francisco",
+      "last": "Yale",
+      "passed": true
+    },
+    "federal_resident-covered_name": {
       "first": "San Diego State",
       "last": "UC Santa Cruz",
       "passed": true
     },
-    "federal_nameDesc": {
+    "federal_resident-covered_nameDesc": {
       "first": "UC Santa Cruz",
       "last": "San Diego State",
       "passed": true
     },
-    "federal_rateDesc": {
+    "federal_resident-covered_rateDesc": {
       "first": "UC San Francisco",
       "last": "San Diego State",
       "passed": true
     },
-    "federal_rateAsc": {
+    "federal_resident-covered_rateAsc": {
       "first": "San Diego State",
       "last": "UC San Francisco",
       "passed": true
     },
-    "federal_countDesc": {
+    "federal_resident-covered_countDesc": {
       "first": "UC Davis",
       "last": "UC San Francisco",
       "passed": true
     },
-    "federal_countAsc": {
+    "federal_resident-covered_countAsc": {
       "first": "San Diego State",
       "last": "UC Davis",
       "passed": true
     },
-    "federal_populationDesc": {
+    "federal_resident-covered_populationDesc": {
       "first": "UCLA",
       "last": "UC San Francisco",
       "passed": true
     },
-    "federal_populationAsc": {
+    "federal_resident-covered_populationAsc": {
       "first": "UC San Francisco",
       "last": "UCLA",
+      "passed": true
+    },
+    "federal_all_name": {
+      "first": "Brown",
+      "last": "Yale",
+      "passed": true
+    },
+    "federal_all_nameDesc": {
+      "first": "Yale",
+      "last": "Brown",
+      "passed": true
+    },
+    "federal_all_rateDesc": {
+      "first": "UC San Francisco",
+      "last": "Yale",
+      "passed": true
+    },
+    "federal_all_rateAsc": {
+      "first": "San Diego State",
+      "last": "Yale",
+      "passed": true
+    },
+    "federal_all_countDesc": {
+      "first": "Columbia",
+      "last": "Carnegie Mellon",
+      "passed": true
+    },
+    "federal_all_countAsc": {
+      "first": "Carnegie Mellon",
+      "last": "Columbia",
+      "passed": true
+    },
+    "federal_all_populationDesc": {
+      "first": "UCLA",
+      "last": "Yale",
+      "passed": true
+    },
+    "federal_all_populationAsc": {
+      "first": "UC San Francisco",
+      "last": "Yale",
       "passed": true
     }
   },
@@ -208,31 +375,31 @@
       "cells": [
         {
           "geography": "housing",
-          "count": null,
-          "status": "unverified_source"
+          "count": 24,
+          "status": "reported_numeric"
         },
         {
           "geography": "on_campus",
-          "count": null,
-          "status": "unverified_source"
+          "count": 29,
+          "status": "reported_numeric"
         },
         {
           "geography": "noncampus",
-          "count": null,
-          "status": "unverified_source"
+          "count": 3,
+          "status": "reported_numeric"
         },
         {
           "geography": "public_property",
-          "count": null,
-          "status": "unverified_source"
+          "count": 0,
+          "status": "reported_numeric"
         }
       ]
     }
   ],
   "duplicate_ids": [],
   "missing_internal_links": [],
-  "server_status": "11 institutions · 10 rates available · full institution name A–Z",
-  "server_main_rows": 11,
+  "server_status": "13 institutions · 13 rates available · full institution name A–Z",
+  "server_main_rows": 13,
   "legacy_view_defaults": {
     "category": "criminal_total",
     "period": "2024",
@@ -242,62 +409,30 @@
     "search": "",
     "sort": "name"
   },
-  "archive2025": [
+  "reviewed_artifacts": [
     {
-      "count": null,
-      "population": null,
-      "rate": null
+      "path": "dist/writing/data-analysis/campus-safety/index.html",
+      "sha256": "5483a89736d3bcdc7fc0583edb750302d263ca73e92ff54a42e58fdaf4c55bd9"
     },
     {
-      "count": null,
-      "population": null,
-      "rate": null
+      "path": "dist/data-analysis/campus-safety/current-2026-09-25/dataset.json",
+      "sha256": "555d18e4cdbb1fef20b9884ffec8d38286151a9331a9f9bc223e8d70707324ca"
     },
     {
-      "count": null,
-      "population": null,
-      "rate": null
+      "path": "dist/data-analysis/campus-safety/current-2026-09-25/geography.json",
+      "sha256": "f903ee68028cf1d028ddcbbc16802a054580ca66228acdea968338576afc9fc5"
     },
     {
-      "count": null,
-      "population": null,
-      "rate": null
+      "path": "dist/data-analysis/campus-safety/current-2026-09-25/coverage.json",
+      "sha256": "f9820014cce56a68ed747a136f93ca451fbdf58c9165c149b0dbaab635fc3352"
     },
     {
-      "count": null,
-      "population": null,
-      "rate": null
+      "path": "src/lib/campus-rates.js",
+      "sha256": "9467849ad2803ae3c07981fcecc28c8957994f10ed06a58d32bf71faa5d0f215"
     },
     {
-      "count": null,
-      "population": null,
-      "rate": null
-    },
-    {
-      "count": null,
-      "population": null,
-      "rate": null
-    },
-    {
-      "count": null,
-      "population": null,
-      "rate": null
-    },
-    {
-      "count": null,
-      "population": null,
-      "rate": null
-    },
-    {
-      "count": null,
-      "population": null,
-      "rate": null
-    },
-    {
-      "count": null,
-      "population": null,
-      "rate": null
+      "path": "src/components/CampusExplorer.astro",
+      "sha256": "4f9a015116d5099b7443f05073ae54feea9db031b3ac7472781de1366a049566"
     }
-  ],
-  "crime_refresh_57037": true
+  ]
 }

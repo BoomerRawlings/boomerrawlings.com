@@ -1,0 +1,289 @@
+{
+  "status": "qualified proposals for independent review; no publication mutation",
+  "accepted_rows": 5,
+  "rows": [
+    {
+      "institution_unitid": "243744",
+      "year": 2024,
+      "measure": "residents",
+      "value": 14203,
+      "status": "accepted_actual",
+      "source_url": "https://studyinternational.com/wp-content/uploads/2026/03/2025-Stanford-Fact-Book_WEB.pdf",
+      "source_sha256": "ad965bba67967cd78b95bbe8e89e3c993e226f46cb4422827337e9c7a5d42f17",
+      "source_id": "stanford-facts2025-housing",
+      "source_title": "Stanford Facts 2025 (university-authored; publisher-hosted copy)",
+      "period_label": "Autumn quarter 2024",
+      "scope_note": "Arithmetic sum of 7,108 students in university-provided undergraduate housing and 7,095 in graduate housing, autumn quarter 2024. Actual students, not beds or rounded housing percentages. University housing footprint, including any provided off-campus housing, is not parcel-matched to Clery residential geography or overseas branches. Stanford-authored Facts 2025 recovered from StudyInternational mirror; official origin now404 after site migration. Title, visible page46 and counts corroborate indexed official version, but identical original bytes cannot be authenticated.",
+      "source_page": "PDF48; printed46"
+    },
+    {
+      "institution_unitid": "243744",
+      "year": 2025,
+      "measure": "residents",
+      "value": 14042,
+      "status": "accepted_actual",
+      "source_url": "https://facts.stanford.edu/campus-life",
+      "source_sha256": "892dd2c4a33f7cca7a7a55abb94364e61b6eba729ca050ec4f8441f26589926d",
+      "source_id": "stanford-facts-current-housing",
+      "source_title": "Stanford Facts: Student Life / Housing",
+      "period_label": "Autumn quarter 2025",
+      "scope_note": "Arithmetic sum of 6,727 students in university-provided undergraduate housing and 7,315 in graduate housing, autumn quarter 2025. Actual students, not available beds. University-provided housing may include subsidized off-campus properties; no claim of exact Clery parcel matching or overseas coverage. Snapshot is not an annual average or person-time.",
+      "source_page": "Housing section"
+    },
+    {
+      "institution_unitid": "211440",
+      "year": 2022,
+      "measure": "residents",
+      "value": 3458,
+      "status": "accepted_actual",
+      "source_url": "https://www.cmu.edu/police/reports/fire-safety/2024asr.pdf",
+      "source_sha256": "5bfdfb888d3b155505f373424323fa9b9dbd1ece311054ec04565f12d21b93ba",
+      "source_id": "cmu-asr-housing-2022",
+      "source_title": "Carnegie Mellon Annual Security and Fire Safety Report housing census (2024 edition)",
+      "period_label": "Fall 2022",
+      "scope_note": "Pittsburgh undergraduates: University Housing 3,158 plus separately listed Fraternity & Sorority Housing 300. These disjoint rows are actual student classifications in the fall census. Current CMU Housing office explicitly states on-campus housing is unavailable to graduate students. ASR definition includes fraternity/sorority houses in residential facilities; the source discusses the on-campus fraternity/sorority quad. University-managed off-campus housing and branch footprints are not independently parcel-matched. Other ASR branches show housing not applicable; this is a qualified institutional housing proxy, not an annual mean. The 2024 housing-table total equals the all-location undergraduate total despite the Pittsburgh label; preserve source scope qualification and do not infer an adjusted count. Fall2025 housing cells are blank.",
+      "source_page": "PDF84; printed84"
+    },
+    {
+      "institution_unitid": "211440",
+      "year": 2023,
+      "measure": "residents",
+      "value": 3764,
+      "status": "accepted_actual",
+      "source_url": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf",
+      "source_sha256": "3d656606897993dc7a03b7d93909b479ceedb78bfee7eae6535bed21a059dbdf",
+      "source_id": "cmu-asr-housing-2023",
+      "source_title": "Carnegie Mellon Annual Security and Fire Safety Report housing census (2026 edition)",
+      "period_label": "Fall 2023",
+      "scope_note": "Pittsburgh undergraduates: University Housing 3,515 plus separately listed Fraternity & Sorority Housing 249. These disjoint rows are actual student classifications in the fall census. Current CMU Housing office explicitly states on-campus housing is unavailable to graduate students. ASR definition includes fraternity/sorority houses in residential facilities; the source discusses the on-campus fraternity/sorority quad. University-managed off-campus housing and branch footprints are not independently parcel-matched. Other ASR branches show housing not applicable; this is a qualified institutional housing proxy, not an annual mean. The 2024 housing-table total equals the all-location undergraduate total despite the Pittsburgh label; preserve source scope qualification and do not infer an adjusted count. Fall2025 housing cells are blank.",
+      "source_page": "PDF81; printed81"
+    },
+    {
+      "institution_unitid": "211440",
+      "year": 2024,
+      "measure": "residents",
+      "value": 3988,
+      "status": "accepted_actual",
+      "source_url": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf",
+      "source_sha256": "3d656606897993dc7a03b7d93909b479ceedb78bfee7eae6535bed21a059dbdf",
+      "source_id": "cmu-asr-housing-2024",
+      "source_title": "Carnegie Mellon Annual Security and Fire Safety Report housing census (2026 edition)",
+      "period_label": "Fall 2024",
+      "scope_note": "Pittsburgh undergraduates: University Housing 3,732 plus separately listed Fraternity & Sorority Housing 256. These disjoint rows are actual student classifications in the fall census. Current CMU Housing office explicitly states on-campus housing is unavailable to graduate students. ASR definition includes fraternity/sorority houses in residential facilities; the source discusses the on-campus fraternity/sorority quad. University-managed off-campus housing and branch footprints are not independently parcel-matched. Other ASR branches show housing not applicable; this is a qualified institutional housing proxy, not an annual mean. The 2024 housing-table total equals the all-location undergraduate total despite the Pittsburgh label; preserve source scope qualification and do not infer an adjusted count. Fall2025 housing cells are blank.",
+      "source_page": "PDF81; printed81"
+    }
+  ],
+  "supporting_source": {
+    "institution_key": "cmu",
+    "label": "housing-families",
+    "url": "https://www.cmu.edu/housing/about-us/for-our-families.html",
+    "retrieved_utc": "2026-09-26T03:16:52.544260+00:00",
+    "status": 200,
+    "resolved_url": "https://www.cmu.edu/housing/about-us/for-our-families.html",
+    "content_type": "text/html",
+    "last_modified": "Mon, 01 Jun 2026 20:36:44 GMT",
+    "bytes": 74165,
+    "sha256": "abba84ac221410dfd89b494dd7ef620669f4befe9d0ac614ac07afe3333ff3c4",
+    "local_file": "sources/cmu/housing-families-3324c6f1.html",
+    "links": [
+      {
+        "href": "//www.cmu.edu/",
+        "text": "Carnegie Mellon University"
+      },
+      {
+        "href": "../index.html",
+        "text": "Housing & Residential Education"
+      },
+      {
+        "href": "../index.html",
+        "text": "Housing & Residential Education"
+      },
+      {
+        "href": "../our-communities/residences/index.html",
+        "text": "residence halls"
+      },
+      {
+        "href": "../resident-services/special-accommodations.html",
+        "text": "students who need housing accommodations"
+      },
+      {
+        "href": "mailto:housing@andrew.cmu.edu",
+        "text": "email"
+      },
+      {
+        "href": "https://www.cmu.edu/housing/our-communities/first-year/index.html",
+        "text": "First-Year Communities page, "
+      },
+      {
+        "href": "../apply-for-housing/first-year.html",
+        "text": "assignments process for incoming first-year students"
+      },
+      {
+        "href": "https://www.cmu.edu/housing/first-year-move-in/index.html",
+        "text": "First-Year Move-In"
+      },
+      {
+        "href": "../our-communities/undergraduate/index.html",
+        "text": "housing options for upperclass residents"
+      },
+      {
+        "href": "https://www.cmu.edu/housing/roomselection/index.html",
+        "text": "Room Selection"
+      },
+      {
+        "href": "https://www.cmu.edu/housing/our-communities/greek-housing/index.html",
+        "text": "Fraternity and Sorority Life"
+      },
+      {
+        "href": "../apply-for-housing/upperclass.html",
+        "text": "Housing Waitlist application"
+      },
+      {
+        "href": "https://www.cmu.edu/housing/our-communities/off-campus-housing/index.html",
+        "text": "Off-Campus Housing"
+      },
+      {
+        "href": "https://www.cmu.edu/housing/our-communities/off-campus-housing/index.html",
+        "text": "Off-Campus Housing page"
+      },
+      {
+        "href": "https://www.cmu.edu/housing/",
+        "text": "Housing Services"
+      },
+      {
+        "href": "https://www.cmu.edu/housing/",
+        "text": "Residential Education"
+      },
+      {
+        "href": "https://www.facebook.com/cmuhousing/",
+        "text": "\n                CMU on Facebook\n                \n                    \n                \n            "
+      },
+      {
+        "href": "../residential-experience/index.html",
+        "text": "                     Residential Experience\n    "
+      },
+      {
+        "href": "../residential-experience/engage.html",
+        "text": "                     Engage Framework\n    "
+      },
+      {
+        "href": "../residential-experience/housefellows.html",
+        "text": "                     Housefellows\n    "
+      },
+      {
+        "href": "../residential-experience/involvement-and-leadership/index.html",
+        "text": "                     Involvement and Leadership\n    "
+      },
+      {
+        "href": "../residential-experience/involvement-and-leadership/house-sdc-councils.html",
+        "text": "                     House Council & Student Dormitory Council\n    "
+      },
+      {
+        "href": "../residential-experience/involvement-and-leadership/ra-and-ca-selection.html",
+        "text": "                     RA and CA Selection\n    "
+      },
+      {
+        "href": "../residential-experience/winter-break-resources.html",
+        "text": "                     Winter Break Events & Resources\n    "
+      },
+      {
+        "href": "../our-communities/residences/index.html",
+        "text": "                     Residences\n    "
+      },
+      {
+        "href": "../our-communities/residences/room-types.html",
+        "text": "                     Room Types\n    "
+      },
+      {
+        "href": "../our-communities/greek-housing/index.html",
+        "text": "                     Fraternity & Sorority Life Housing\n    "
+      },
+      {
+        "href": "../our-communities/greek-housing/greek-policies.html",
+        "text": "                     Fraternity & Sorority Life Policies\n    "
+      },
+      {
+        "href": "../our-communities/greek-housing/greek-quad.html",
+        "text": "                     FSL Quad\n    "
+      },
+      {
+        "href": "../our-communities/off-campus-housing/index.html",
+        "text": "                     Off-Campus Housing\n    "
+      },
+      {
+        "href": "../our-communities/off-campus-housing/pgh-neighborhoods.html",
+        "text": "                     Neighborhoods of Pittsburgh\n    "
+      },
+      {
+        "href": "../our-communities/off-campus-housing/living-in-pgh.html",
+        "text": "                     Living in Pittsburgh\n    "
+      },
+      {
+        "href": "../our-communities/off-campus-housing/oc-resources.html",
+        "text": "                     Off-Campus Resources\n    "
+      },
+      {
+        "href": "../apply-for-housing/index.html",
+        "text": "                     Apply for Housing\n    "
+      },
+      {
+        "href": "../apply-for-housing/first-year.html",
+        "text": "                     First-Year Application\n    "
+      },
+      {
+        "href": "../apply-for-housing/upperclass.html",
+        "text": "                     Upper-class Application\n    "
+      },
+      {
+        "href": "../apply-for-housing/summer.html",
+        "text": "                     Summer Housing\n    "
+      },
+      {
+        "href": "../apply-for-housing/winter-break.html",
+        "text": "                     Winter Break\n    "
+      },
+      {
+        "href": "https://www.cmu.edu/housing/roomselection/index.html",
+        "text": "                     Room Selection\n    "
+      },
+      {
+        "href": "../resident-services/index.html",
+        "text": "                     Services & Resources\n    "
+      },
+      {
+        "href": "../resident-services/policies.html",
+        "text": "                     Housing Policies\n    "
+      },
+      {
+        "href": "../resident-services/rates-and-fees/index.html",
+        "text": "                     Rates and Fees\n    "
+      },
+      {
+        "href": "../resident-services/access.html",
+        "text": "                     Access\n    "
+      },
+      {
+        "href": "../resident-services/amenities.html",
+        "text": "                     Amenities\n    "
+      },
+      {
+        "href": "../resident-services/assignments.html",
+        "text": "                     Assignments\n    "
+      },
+      {
+        "href": "../resident-services/special-accommodations.html",
+        "text": "                     Housing Accommodations\n    "
+      },
+      {
+        "href": "who-we-are/housing-services.html",
+        "text": "                     Housing Services\n    "
+      },
+      {
+        "href": "who-we-are/residential-education.html",
+        "text": "                     Residential Education\n    "
+      }
+    ],
+    "text_file": "sources/cmu/housing-families-3324c6f1.txt"
+  },
+  "unavailable_does_not_mean_nonexistent": true
+}

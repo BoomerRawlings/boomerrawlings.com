@@ -1,0 +1,32 @@
+{
+  "count_inputs": [
+    {
+      "path": "california/merced_core_counts.csv",
+      "sha256": "a0977c54649cdc2e0aaeb277e3d03e4ad59284efe7459880f2aa27a16e8cb073",
+      "rows": 168
+    },
+    {
+      "path": "ivy_northeast/harvard_2025_core_counts.csv",
+      "sha256": "9ed7d689342a62df1d73b070fdca39f2b194faa94056f569cd18d9e038418c42",
+      "rows": 1176
+    },
+    {
+      "path": "private_other/new_asr_core_counts.csv",
+      "sha256": "0ea6db7ce7e095030a674910452a20786743745732bd015b88fa712f3c6706a5",
+      "rows": 1848
+    },
+    {
+      "path": "public/current_core_counts.csv",
+      "sha256": "1b592f67270d3671f6e00e212e778761b69458a30e22f62d8930dfbbaae8ac9b",
+      "rows": 1008
+    },
+    {
+      "path": "ivy_northeast/princeton_2026_core_counts.csv",
+      "sha256": "8c22198f432ba9f243ecb541a08b6a01264abfc87ab55774d0834d4838313761",
+      "rows": 336
+    }
+  ],
+  "new_population_observations": 5,
+  "candidate_records": 87,
+  "latest_report_checks": 42
+}

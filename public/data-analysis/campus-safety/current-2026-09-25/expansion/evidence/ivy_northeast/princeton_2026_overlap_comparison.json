@@ -1,0 +1,2018 @@
+[
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "aggravated_assault",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "aggravated_assault",
+    "geography": "oncampus",
+    "prior_count": 1,
+    "current_count": 1,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "aggravated_assault",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "aggravated_assault",
+    "geography": "residential",
+    "prior_count": 1,
+    "current_count": 1,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "arson",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "arson",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "arson",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "arson",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "burglary",
+    "geography": "noncampus",
+    "prior_count": 2,
+    "current_count": 2,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "burglary",
+    "geography": "oncampus",
+    "prior_count": 8,
+    "current_count": 8,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "burglary",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "burglary",
+    "geography": "residential",
+    "prior_count": 4,
+    "current_count": 4,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "dating_violence",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "dating_violence",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "dating_violence",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "dating_violence",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "domestic_violence",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "domestic_violence",
+    "geography": "oncampus",
+    "prior_count": 4,
+    "current_count": 4,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "domestic_violence",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "domestic_violence",
+    "geography": "residential",
+    "prior_count": 3,
+    "current_count": 3,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "fondling",
+    "geography": "noncampus",
+    "prior_count": 1,
+    "current_count": 1,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "fondling",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "fondling",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "fondling",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "incest",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "incest",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "incest",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "incest",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "motor_vehicle_theft",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "motor_vehicle_theft",
+    "geography": "oncampus",
+    "prior_count": 36,
+    "current_count": 36,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "motor_vehicle_theft",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "motor_vehicle_theft",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "murder",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "murder",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "murder",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "murder",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "negligent_manslaughter",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "negligent_manslaughter",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "negligent_manslaughter",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "negligent_manslaughter",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "rape",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "rape",
+    "geography": "oncampus",
+    "prior_count": 6,
+    "current_count": 6,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "rape",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "rape",
+    "geography": "residential",
+    "prior_count": 5,
+    "current_count": 5,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "robbery",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "robbery",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "robbery",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "robbery",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "stalking",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "stalking",
+    "geography": "oncampus",
+    "prior_count": 3,
+    "current_count": 3,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "stalking",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "stalking",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "statutory_rape",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "statutory_rape",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "statutory_rape",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2023,
+    "category": "statutory_rape",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "aggravated_assault",
+    "geography": "noncampus",
+    "prior_count": 1,
+    "current_count": 1,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "aggravated_assault",
+    "geography": "oncampus",
+    "prior_count": 2,
+    "current_count": 2,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "aggravated_assault",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "aggravated_assault",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "arson",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "arson",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "arson",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "arson",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "burglary",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "burglary",
+    "geography": "oncampus",
+    "prior_count": 4,
+    "current_count": 4,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "burglary",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "burglary",
+    "geography": "residential",
+    "prior_count": 3,
+    "current_count": 3,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "dating_violence",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "dating_violence",
+    "geography": "oncampus",
+    "prior_count": 6,
+    "current_count": 6,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "dating_violence",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "dating_violence",
+    "geography": "residential",
+    "prior_count": 4,
+    "current_count": 4,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "domestic_violence",
+    "geography": "noncampus",
+    "prior_count": 1,
+    "current_count": 1,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "domestic_violence",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "domestic_violence",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "domestic_violence",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "fondling",
+    "geography": "noncampus",
+    "prior_count": 4,
+    "current_count": 4,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "fondling",
+    "geography": "oncampus",
+    "prior_count": 2,
+    "current_count": 2,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "fondling",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "fondling",
+    "geography": "residential",
+    "prior_count": 1,
+    "current_count": 1,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "incest",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "incest",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "incest",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "incest",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "motor_vehicle_theft",
+    "geography": "noncampus",
+    "prior_count": 1,
+    "current_count": 1,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "motor_vehicle_theft",
+    "geography": "oncampus",
+    "prior_count": 46,
+    "current_count": 46,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "motor_vehicle_theft",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "motor_vehicle_theft",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "murder",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "murder",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "murder",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "murder",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "negligent_manslaughter",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "negligent_manslaughter",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "negligent_manslaughter",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "negligent_manslaughter",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "rape",
+    "geography": "noncampus",
+    "prior_count": 2,
+    "current_count": 2,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "rape",
+    "geography": "oncampus",
+    "prior_count": 8,
+    "current_count": 8,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "rape",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "rape",
+    "geography": "residential",
+    "prior_count": 3,
+    "current_count": 3,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "robbery",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "robbery",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "robbery",
+    "geography": "publicproperty",
+    "prior_count": 1,
+    "current_count": 1,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "robbery",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "stalking",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "stalking",
+    "geography": "oncampus",
+    "prior_count": 7,
+    "current_count": 7,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "stalking",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "stalking",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "statutory_rape",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "statutory_rape",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "statutory_rape",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131001",
+    "year": 2024,
+    "category": "statutory_rape",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "aggravated_assault",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "aggravated_assault",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "aggravated_assault",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "aggravated_assault",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "arson",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "arson",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "arson",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "arson",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "burglary",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "burglary",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "burglary",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "burglary",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "dating_violence",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "dating_violence",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "dating_violence",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "dating_violence",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "domestic_violence",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "domestic_violence",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "domestic_violence",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "domestic_violence",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "fondling",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "fondling",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "fondling",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "fondling",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "incest",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "incest",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "incest",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "incest",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "motor_vehicle_theft",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "motor_vehicle_theft",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "motor_vehicle_theft",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "motor_vehicle_theft",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "murder",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "murder",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "murder",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "murder",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "negligent_manslaughter",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "negligent_manslaughter",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "negligent_manslaughter",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "negligent_manslaughter",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "rape",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "rape",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "rape",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "rape",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "robbery",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "robbery",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "robbery",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "robbery",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "stalking",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "stalking",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "stalking",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "stalking",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "statutory_rape",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "statutory_rape",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "statutory_rape",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2023,
+    "category": "statutory_rape",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "aggravated_assault",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "aggravated_assault",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "aggravated_assault",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "aggravated_assault",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "arson",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "arson",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "arson",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "arson",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "burglary",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "burglary",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "burglary",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "burglary",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "dating_violence",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "dating_violence",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "dating_violence",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "dating_violence",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "domestic_violence",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "domestic_violence",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "domestic_violence",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "domestic_violence",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "fondling",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "fondling",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "fondling",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "fondling",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "incest",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "incest",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "incest",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "incest",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "motor_vehicle_theft",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "motor_vehicle_theft",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "motor_vehicle_theft",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "motor_vehicle_theft",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "murder",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "murder",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "murder",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "murder",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "negligent_manslaughter",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "negligent_manslaughter",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "negligent_manslaughter",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "negligent_manslaughter",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "rape",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "rape",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "rape",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "rape",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "robbery",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "robbery",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "robbery",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "robbery",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "stalking",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "stalking",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "stalking",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "stalking",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "statutory_rape",
+    "geography": "noncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "statutory_rape",
+    "geography": "oncampus",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "statutory_rape",
+    "geography": "publicproperty",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  },
+  {
+    "campus_id": "186131002",
+    "year": 2024,
+    "category": "statutory_rape",
+    "geography": "residential",
+    "prior_count": 0,
+    "current_count": 0,
+    "changed": false
+  }
+]

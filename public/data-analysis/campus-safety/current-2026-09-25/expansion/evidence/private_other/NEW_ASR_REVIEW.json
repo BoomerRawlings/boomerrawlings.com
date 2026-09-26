@@ -1,0 +1,50 @@
+{
+  "status": "producer source/visual review complete; independent parent review requested",
+  "source_rows": 1848,
+  "parsed_keys_unique": true,
+  "visual_pages": {
+    "hopkins": [
+      60,
+      70,
+      78,
+      85,
+      90,
+      95,
+      100,
+      105,
+      112,
+      115
+    ],
+    "stanford": [
+      103,
+      104
+    ],
+    "population": [
+      "Stanford Facts2025 PDF48",
+      "CMU2026 PDF81",
+      "CMU2024 PDF84"
+    ],
+    "adjudication": [
+      "Chicago2026 PDF12",
+      "CMU2026 PDF44"
+    ]
+  },
+  "visual_scope": "All ten Hopkins core tables checked for column order, printed years, fourteen category labels, nonzero core cells and housing/noncampus applicability footnotes; Stanford two core tables and all source footnotes read. Counts compared with extracted rows; no discrepancy identified.",
+  "prior_current_comparisons": 112,
+  "prior_current_numeric_changes": [
+    {
+      "key": [
+        "243744001",
+        "2023",
+        "dating_violence",
+        "noncampus"
+      ],
+      "prior": "0",
+      "current": "1",
+      "prior_source_sha256": "bba0e2a0a14186a318af38a9c712e419b295968d17e394372a4e4fd8fde9c28c",
+      "current_source_sha256": "79c9ef09b519b33b11da5b571ec491ced0b2ea87fb014904ad91e3f3627be5bc"
+    }
+  ],
+  "new_asr_core_counts_sha256": "0ea6db7ce7e095030a674910452a20786743745732bd015b88fa712f3c6706a5",
+  "population_additions_sha256": "25d7d850a4a8ae94839c826809e7681e057292bbd4910b1692b3f50230b1affd"
+}

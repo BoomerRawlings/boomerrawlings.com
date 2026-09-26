@@ -1,0 +1,190 @@
+{
+  "status": "PASS",
+  "method": "Independent manual transcription of all four rendered current tables,PDF50\u201353. Uses visible2023\u20132025 layer; no import of producer extractor. All336core geography cells compared.",
+  "checked_cells": 336,
+  "manual_nonzero_category_controls": {
+    "rape": [
+      [
+        6,
+        4,
+        0,
+        0
+      ],
+      [
+        8,
+        3,
+        2,
+        0
+      ],
+      [
+        6,
+        5,
+        0,
+        0
+      ]
+    ],
+    "fondling": [
+      [
+        3,
+        3,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        4,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0
+      ]
+    ],
+    "robbery": [
+      [
+        2,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "aggravated_assault": [
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        1,
+        0
+      ],
+      [
+        1,
+        1,
+        0,
+        0
+      ]
+    ],
+    "burglary": [
+      [
+        7,
+        3,
+        0,
+        0
+      ],
+      [
+        4,
+        3,
+        0,
+        0
+      ],
+      [
+        8,
+        4,
+        2,
+        0
+      ]
+    ],
+    "motor_vehicle_theft": [
+      [
+        37,
+        0,
+        1,
+        0
+      ],
+      [
+        46,
+        0,
+        1,
+        0
+      ],
+      [
+        36,
+        0,
+        0,
+        0
+      ]
+    ],
+    "dating_violence": [
+      [
+        2,
+        2,
+        0,
+        0
+      ],
+      [
+        6,
+        4,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "domestic_violence": [
+      [
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        4,
+        3,
+        0,
+        0
+      ]
+    ],
+    "stalking": [
+      [
+        7,
+        0,
+        1,
+        0
+      ],
+      [
+        7,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        0,
+        0,
+        0
+      ]
+    ]
+  },
+  "errors": [],
+  "input_sha256": "8c22198f432ba9f243ecb541a08b6a01264abfc87ab55774d0834d4838313761",
+  "auditor_sha256": "e0de9404eb46548a1129d9aae97f535430d53c75bd7c16d7608e3eec6d591f1b"
+}

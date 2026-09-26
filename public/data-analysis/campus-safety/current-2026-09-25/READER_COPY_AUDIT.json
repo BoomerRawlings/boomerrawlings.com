@@ -1,5 +1,5 @@
 {
-  "checked_utc": "2026-09-26T02:53:42.884Z",
+  "checked_utc": "2026-09-26T03:57:23.122Z",
   "status": "PASS",
   "scope": "Data-to-explanation and reference-source checks. Does not certify rendered browser behavior or legal completeness of plain-language category descriptions.",
   "selections": 9450,
@@ -33,11 +33,11 @@
       "pass": true
     },
     {
-      "name": "2024 criminal-total housing availability matches retained coverage data",
+      "name": "2024 criminal-total housing availability matches independently audited coverage",
       "pass": true
     },
     {
-      "name": "All adopted resident populations belong to the11 California public institutions",
+      "name": "Expanded populations retain dated provenance and scope",
       "pass": true
     },
     {
@@ -61,7 +61,7 @@
       "pass": true
     },
     {
-      "name": "Visible overview qualifies its coverage finding by year and combined housing category",
+      "name": "Visible overview derives its dated combined-housing coverage from audited data",
       "pass": true
     },
     {
@@ -108,31 +108,31 @@
   "reviewed_artifacts": [
     {
       "path": "src/components/CampusReader.astro",
-      "sha256": "5163eae05e708e6b21874a37d7a3c57bef12a53200fcc6874a583739e15fdf90"
+      "sha256": "560585de3791ca86b7219d3a4430d85b24165f6fd5eb24238e2a9375645413a1"
     },
     {
       "path": "src/components/CampusReaderSources.astro",
-      "sha256": "44261b053c505f9f4bc0ec78fe44d3945e930d2ddc69061e460fa70bfdcc85f6"
+      "sha256": "9ee763a090f1d5386d282b7ef2410ee38dd5f5a7100fd74641f677130b78aee0"
     },
     {
       "path": "src/lib/campus-reader.js",
-      "sha256": "dd38608f30b67f8efb0a4df7d5f908ceaef9f930920dc6eb6a26cdb1df39653d"
+      "sha256": "7631e418b920336068cd0b62d41cd8921f628f74639bf9ca70de437e1b5119cf"
     },
     {
       "path": "src/data/campus-reader-copy.js",
-      "sha256": "eb3a423fe7695ccf53d4d8f8d193d1b207c714e6967b63670face89b7a31799a"
+      "sha256": "1e2d414d5dee563c0a1eb7efffa6d62c433e1e2f04faee15ec8462b7c2b0d17e"
     },
     {
       "path": "src/data/campus-school-context.json",
-      "sha256": "2a89f6eb25b23878daae794b1a814167cb704762d6e4ed0db64f1c48ee291d75"
+      "sha256": "20c25c343db0d37b1a08c05b50597c84f59e68f3f6ed0053fb7f3c8b3a6bbd09"
     },
     {
       "path": "src/pages/writing/data-analysis/campus-safety.astro",
-      "sha256": "6a73377bc0968f5ba1a4bb7129e2d703c7c1fe0a490762c385e86eb604217825"
+      "sha256": "fe3929bc632904395a66a1e6597586d546664bb626fc35ca40e2d5c7c1a45236"
     },
     {
       "path": "src/lib/campus-citations.js",
-      "sha256": "c5ccc075dae41208442935c6b02441b86ee961fa16a157f2762a0e319eebc528"
+      "sha256": "1214af7f7a3214afe99d28a3749b99dea0c1a29632157c4658030c79ddd02e56"
     },
     {
       "path": "src/components/CampusMap.astro",

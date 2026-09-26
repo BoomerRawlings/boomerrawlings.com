@@ -22,7 +22,8 @@ for(const school of data.institutions){
   assert.equal(r.population,expectedPop);if(expectedCount!==null&&expectedPop!==null)assert(Math.abs(r.rate-expectedCount/expectedPop*1000)<1e-12);else assert.equal(r.rate,null);
   assert(r.headline.length>20&&r.interpretation.length>60&&r.timeExplanation.length>60);
   if(r.count===null)assert(r.headline.includes('unavailable'));
-  if(period==='2025')assert.equal(r.rate,null);
+  if(period==='2025'&&expectedPop===null)assert.equal(r.rate,null);
+  assert.deepEqual(r.populationSources,place==='combined'?[]:years.map(y=>y.populationSources?.[place==='housing'?'residents':'enrollment']).filter(Boolean));
   if(place==='combined'&&period==='pooled')assert(r.timeExplanation.includes('three-year count'));
   assert(!/NaN|undefined|\[object Object\]/.test([r.headline,r.interpretation,r.timeExplanation,r.editions.join(',')].join(' ')));
   checked++;

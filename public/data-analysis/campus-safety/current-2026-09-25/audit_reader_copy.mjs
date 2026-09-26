@@ -39,8 +39,8 @@ requireCheck('Zero explanation never used for unavailable count',zeroPass===sele
 requireCheck('Missing/combined/pooled explanation semantics agree',explanationPass===selections);
 requireCheck('15 category keys match the documented study dictionary',Object.keys(topicCopy).length===15&&data.categories.every(c=>topicCopy[c.id]));
 requireCheck('Exactly four home-region groups plus all-schools control',Object.keys(regionCopy).join('|')==='all|West|Midwest|Northeast|South');
-requireCheck('2024 criminal-total housing availability matches retained coverage data',data.institutions.filter(i=>readerResult(i).rate!==null).length===10&&coverage.available_rates['2024'].residents===10);
-requireCheck('All adopted resident populations belong to the11 California public institutions',data.institutions.filter(i=>i.years.some(y=>y.residents>0)).length===11&&data.institutions.filter(i=>i.years.some(y=>y.residents>0)).every(i=>i.state==='CA'&&(i.group==='uc'||i.id==='122409')));
+requireCheck('2024 criminal-total housing availability matches independently audited coverage',data.institutions.filter(i=>readerResult(i).rate!==null).length===coverage.available_rates['2024'].residents&&coverage.available_rates['2024'].residents===13);
+requireCheck('Expanded populations retain dated provenance and scope',data.institutions.filter(i=>i.years.some(y=>y.residents>0)).length===13&&data.institutions.every(i=>i.years.filter(y=>y.residents>0).every(y=>y.populationSources?.residents?.period_label&&y.populationSources.residents.scope_note)));
 requireCheck('No2025 guide selection supplies a rate',data.institutions.every(i=>Object.keys(topicCopy).every(category=>['housing','campus','combined'].every(place=>readerResult(i,{category,place,period:'2025'}).rate===null))));
 const ordered=[...data.institutions].sort((a,b)=>a.officialName.localeCompare(b.officialName));
 const sdsuNumber=ordered.findIndex(i=>i.id==='122409')+1;
@@ -52,9 +52,9 @@ requireCheck('Region handler clears school selection; valid explicit school link
 const page=read('src/pages/writing/data-analysis/campus-safety.astro');
 const opening=page.split('<header class="analysis-intro">')[1]?.split('<CampusReader')[0]??'';
 requireCheck('Opening overview omits school-specific examples; source footer is collapsible',opening.includes('42 universities')&&!/UC San Diego|San Diego State|SDSU|UCSD|reader-highlights/.test(opening)&&references.includes('<details><summary id="reader-sources-heading">'));
-requireCheck('Visible overview qualifies its coverage finding by year and combined housing category',opening.includes('For 2024, 10 of the 42 schools')&&opening.includes('rate combining the listed housing offenses')&&data.institutions.filter(i=>readerResult(i,{category:'criminal_total',period:'2024',place:'housing'}).rate!==null).length===10);
+requireCheck('Visible overview derives its dated combined-housing coverage from audited data',opening.includes("For 2024, {coverage.available_rates['2024'].residents} of the 42 schools")&&opening.includes('rate combining the listed housing offenses')&&data.institutions.filter(i=>readerResult(i,{category:'criminal_total',period:'2024',place:'housing'}).rate!==null).length===coverage.available_rates['2024'].residents);
 requireCheck('Separate reader references use R1/R2 without geography G1 collision',component.includes('[R1]')&&component.includes('[R2]')&&references.includes('[R1]')&&references.includes('[R2]'));
-const populationPaths=['data/housing_occupancy.csv','data/enrollment_denominators.csv'];
+const populationPaths=['data/housing_occupancy.csv','data/enrollment_denominators.csv','current-2026-09-25/population_sources.csv'];
 requireCheck('Both reader population source files exist',populationPaths.every(p=>references.includes(p)&&fs.existsSync(new URL('public/data-analysis/campus-safety/'+p,site))));
 requireCheck('Combined pooled selection uses count-specific time explanation',component.includes("$('reader-time-explanation').textContent=r.timeExplanation"));
 requireCheck('42 school references and matching source notes',ordered.length===42&&ordered.every(i=>context[i.id]?.sources?.length&&context[i.id].note));

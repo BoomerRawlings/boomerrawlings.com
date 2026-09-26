@@ -1,0 +1,10 @@
+{
+  "requested_url": "https://drive.google.com/uc?export=download&id=1OIUxLEJi8HEFIR9HOjm_fSiOFTMIXIKr",
+  "retrieved_utc": "2026-09-26T03:07:26.211087+00:00",
+  "status": 200,
+  "final_url": "https://drive.usercontent.google.com/download?id=1OIUxLEJi8HEFIR9HOjm_fSiOFTMIXIKr&export=download",
+  "content_type": "application/octet-stream",
+  "bytes": 81261,
+  "sha256": "da30a319ece4a85f1a33ee10ff72f069a824653307bbb15f4c1a9b6322aea4b1",
+  "pages": 1
+}

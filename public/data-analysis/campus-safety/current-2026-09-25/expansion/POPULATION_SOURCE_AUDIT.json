@@ -1,0 +1,192 @@
+{
+  "checked_utc": "2026-09-26T03:58:31.841970+00:00",
+  "status": "PASS",
+  "scope": "All164 population-ledger values:126 independently read from original IPEDS ZIP total-level cells;33 retained housing values compared with visually inspected State Auditor tables;5new observations checked against saved original PDFs/HTML and metadata. Scope qualifications remain part of acceptance.",
+  "checks": {
+    "ledger164_unique": true,
+    "ledger126_enrollment38_residents": true,
+    "five_new159_retained": true,
+    "every_addition_metadata_exact": true,
+    "all164_values_match_display_dataset": true,
+    "ipeds2022_original_zip_hash": true,
+    "ipeds2022_all42_headcounts": true,
+    "ipeds2023_original_zip_hash": true,
+    "ipeds2023_all42_headcounts": true,
+    "ipeds2024_original_zip_hash": true,
+    "ipeds2024_all42_headcounts": true,
+    "state_auditor_original_pdf_hash": true,
+    "all33_retained_residents_match_visible_tables": true,
+    "retained_hash_basis_is_explicit": true,
+    "retained_period_labels_preserved": true,
+    "adopted_243744_2024_raw_hash": true,
+    "adopted_243744_2024_value_period_metadata": true,
+    "adopted_243744_2025_raw_hash": true,
+    "adopted_243744_2025_value_period_metadata": true,
+    "adopted_211440_2022_raw_hash": true,
+    "adopted_211440_2022_value_period_metadata": true,
+    "adopted_211440_2023_raw_hash": true,
+    "adopted_211440_2023_value_period_metadata": true,
+    "adopted_211440_2024_raw_hash": true,
+    "adopted_211440_2024_value_period_metadata": true,
+    "exact_five_adopted_keys": true,
+    "texas_not_adopted": true,
+    "texas_candidate_definition_preserved": true,
+    "only_explicit2025_stanford_population": true,
+    "no2025_combined_rate": true,
+    "no2025_rate_of_any_category": true
+  },
+  "errors": [],
+  "population_ledger_sha256": "1cfde5693c35dffd15f7f05d4e1abe3847a356dc7147ffcbd2ee498783e6ed68",
+  "adopted_input_sha256": "7a9065a18fcdfea52fe25204d31c893f937b9b2b5a9da3586f9d60ab9c9dc814",
+  "dataset_sha256": "555d18e4cdbb1fef20b9884ffec8d38286151a9331a9f9bc223e8d70707324ca",
+  "rates_sha256": "efc2bb0693ad2c7a6adbf9413242d199a599a3ff041ecf8f20572496947d31d4",
+  "ipeds_sources": [
+    {
+      "year": 2022,
+      "source_url": "https://nces.ed.gov/ipeds/datacenter/data/EF2022A.zip",
+      "sha256": "971fe8fad82ca03fbb1a72938fd7b2798176083734a100b6186d79bb537a0aba",
+      "member": "ef2022a_rv.csv",
+      "field": "EFTOTLT where EFALEVEL=1",
+      "observations": 42,
+      "release": "final_revised"
+    },
+    {
+      "year": 2023,
+      "source_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2023A.zip",
+      "sha256": "0238ff58ddf603b8606b1b131311e0b569323b787c395dc83b7830c987096cb0",
+      "member": "ef2023a_rv.csv",
+      "field": "EFTOTLT where EFALEVEL=1",
+      "observations": 42,
+      "release": "final_revised"
+    },
+    {
+      "year": 2024,
+      "source_url": "https://nces.ed.gov/ipeds/complete-data-files/EF2024A.zip",
+      "sha256": "bb3256a68a1ffcbf2fcc85faf80ac14f055ccd75454d3a440dfff80a63671567",
+      "member": "ef2024a.csv",
+      "field": "EFTOTLT where EFALEVEL=1",
+      "observations": 42,
+      "release": "provisional"
+    }
+  ],
+  "retained_housing_source": {
+    "source_url": "https://www.auditor.ca.gov/wp-content/uploads/2025/10/2024-111-Report.pdf",
+    "source_sha256": "4057db7b14e1b85bb6980ad19455f873b474358d9f10fd0725e0ac68a24504b6",
+    "pdf_pages": [
+      62,
+      63,
+      64,
+      65
+    ],
+    "printed_pages": [
+      56,
+      57,
+      58,
+      59
+    ],
+    "observations": 33,
+    "source_definition": "Number of enrolled students who lived in campus housing by academic year; actual occupancy, not capacity"
+  },
+  "adopted_observations": [
+    {
+      "unitid": "243744",
+      "year": 2024,
+      "value": 14203,
+      "components": [
+        7108,
+        7095
+      ],
+      "period_label": "Autumn quarter 2024",
+      "source_url": "https://studyinternational.com/wp-content/uploads/2026/03/2025-Stanford-Fact-Book_WEB.pdf",
+      "source_sha256": "ad965bba67967cd78b95bbe8e89e3c993e226f46cb4422827337e9c7a5d42f17",
+      "source_page": "PDF48; printed46",
+      "retrieved_utc": "2026-09-26T03:19:21.658003+00:00",
+      "source_local_file": "research/coverage_expansion_2026_09_25/private_other/sources/stanford/factbook2025-mirror-f9a4da8a.pdf",
+      "scope_note": "Arithmetic sum of 7,108 students in university-provided undergraduate housing and 7,095 in graduate housing, autumn quarter 2024. Actual students, not beds or rounded housing percentages. University housing footprint, including any provided off-campus housing, is not parcel-matched to Clery residential geography or overseas branches. Stanford-authored Facts 2025 recovered from StudyInternational mirror; the original university URL returns HTTP 404 after a site migration. Title, visible page 46 and counts corroborate indexed official version, but identical original bytes cannot be authenticated.",
+      "verification": "Original saved PDF page visually checked and text rechecked"
+    },
+    {
+      "unitid": "243744",
+      "year": 2025,
+      "value": 14042,
+      "components": [
+        6727,
+        7315
+      ],
+      "period_label": "Autumn quarter 2025",
+      "source_url": "https://facts.stanford.edu/campus-life",
+      "source_sha256": "892dd2c4a33f7cca7a7a55abb94364e61b6eba729ca050ec4f8441f26589926d",
+      "source_page": "Housing section",
+      "retrieved_utc": "2026-09-26T03:05:31.573388+00:00",
+      "source_local_file": "research/coverage_expansion_2026_09_25/private_other/sources/stanford/housing-current-503e49e7.html",
+      "scope_note": "Arithmetic sum of 6,727 students in university-provided undergraduate housing and 7,315 in graduate housing, autumn quarter 2025. Actual students, not available beds. University-provided housing may include subsidized off-campus properties; no claim of exact Clery parcel matching or overseas coverage. Snapshot is not an annual average or person-time.",
+      "verification": "Original saved institutional HTML housing statement checked; explicitly names students and autumn2025"
+    },
+    {
+      "unitid": "211440",
+      "year": 2022,
+      "value": 3458,
+      "components": [
+        3158,
+        300
+      ],
+      "period_label": "Fall 2022",
+      "source_url": "https://www.cmu.edu/police/reports/fire-safety/2024asr.pdf",
+      "source_sha256": "5bfdfb888d3b155505f373424323fa9b9dbd1ece311054ec04565f12d21b93ba",
+      "source_page": "PDF84; printed84",
+      "retrieved_utc": "2026-09-26T03:19:21.659030+00:00",
+      "source_local_file": "research/coverage_expansion_2026_09_25/private_other/sources/cmu/asr2024-aa294bda.pdf",
+      "scope_note": "Pittsburgh undergraduates: University Housing 3,158 plus separately listed Fraternity & Sorority Housing 300. These disjoint rows are actual student classifications in the fall census. Current CMU Housing office explicitly states on-campus housing is unavailable to graduate students. ASR definition includes fraternity/sorority houses in residential facilities; the source discusses the on-campus fraternity/sorority quad. University-managed off-campus housing and branch footprints are not independently parcel-matched. Other ASR branches show housing not applicable; this is a qualified institutional housing proxy, not an annual mean. The fall 2024 housing table labels its population as Pittsburgh, but its total equals the university-wide undergraduate enrollment across locations. That scope discrepancy remains unresolved. Fall 2025 housing cells are blank.",
+      "verification": "Original saved PDF page visually checked and text rechecked"
+    },
+    {
+      "unitid": "211440",
+      "year": 2023,
+      "value": 3764,
+      "components": [
+        3515,
+        249
+      ],
+      "period_label": "Fall 2023",
+      "source_url": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf",
+      "source_sha256": "3d656606897993dc7a03b7d93909b479ceedb78bfee7eae6535bed21a059dbdf",
+      "source_page": "PDF81; printed81",
+      "retrieved_utc": "2026-09-26T03:23:58.841282+00:00",
+      "source_local_file": "research/coverage_expansion_2026_09_25/private_other/sources/cmu/asr-fresh-7c2a7ceb.pdf",
+      "scope_note": "Pittsburgh undergraduates: University Housing 3,515 plus separately listed Fraternity & Sorority Housing 249. These disjoint rows are actual student classifications in the fall census. Current CMU Housing office explicitly states on-campus housing is unavailable to graduate students. ASR definition includes fraternity/sorority houses in residential facilities; the source discusses the on-campus fraternity/sorority quad. University-managed off-campus housing and branch footprints are not independently parcel-matched. Other ASR branches show housing not applicable; this is a qualified institutional housing proxy, not an annual mean. The fall 2024 housing table labels its population as Pittsburgh, but its total equals the university-wide undergraduate enrollment across locations. That scope discrepancy remains unresolved. Fall 2025 housing cells are blank.",
+      "verification": "Original saved PDF page visually checked and text rechecked"
+    },
+    {
+      "unitid": "211440",
+      "year": 2024,
+      "value": 3988,
+      "components": [
+        3732,
+        256
+      ],
+      "period_label": "Fall 2024",
+      "source_url": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf",
+      "source_sha256": "3d656606897993dc7a03b7d93909b479ceedb78bfee7eae6535bed21a059dbdf",
+      "source_page": "PDF81; printed81",
+      "retrieved_utc": "2026-09-26T03:23:58.841282+00:00",
+      "source_local_file": "research/coverage_expansion_2026_09_25/private_other/sources/cmu/asr-fresh-7c2a7ceb.pdf",
+      "scope_note": "Pittsburgh undergraduates: University Housing 3,732 plus separately listed Fraternity & Sorority Housing 256. These disjoint rows are actual student classifications in the fall census. Current CMU Housing office explicitly states on-campus housing is unavailable to graduate students. ASR definition includes fraternity/sorority houses in residential facilities; the source discusses the on-campus fraternity/sorority quad. University-managed off-campus housing and branch footprints are not independently parcel-matched. Other ASR branches show housing not applicable; this is a qualified institutional housing proxy, not an annual mean. The fall 2024 housing table labels its population as Pittsburgh, but its total equals the university-wide undergraduate enrollment across locations. That scope discrepancy remains unresolved. Fall 2025 housing cells are blank.",
+      "verification": "Original saved PDF page visually checked and text rechecked"
+    }
+  ],
+  "excluded_texas": {
+    "value": 10018,
+    "period": "Spring2024",
+    "source_sha256": "4f1793c6d7761bb3cbedd1dc986cb6bb4a31f1933473bc74df227884081647a0",
+    "source_url": "https://utexas.app.box.com/v/LearnOutcomeReports/file/1743656171859",
+    "source_page": "PDF5",
+    "decision": "Context only. Source says residents, not explicitly student-only residents. Family-housing eligibility does not prove inclusion of dependents, but the unresolved definition fails the student-headcount criterion."
+  },
+  "qualifications": [
+    "Stanford2024 university-authored fact book is publisher-hosted mirror; original URL unavailable. Counts/labels visually verified, but identity with original-site bytes cannot be authenticated.",
+    "CMU source labels housing as Pittsburgh undergraduates;2024 housing classification total equals all-location undergraduate enrollment. The source values are retained with that scope qualification, without inventing a correction. Current housing office excludes graduate students, but this is not a retrospective property-by-property census verification.",
+    "No adopted institutional housing population is asserted to be parcel-matched to every Clery property or branch. Dated snapshots are not person-time or individual victimization probabilities.",
+    "Retained ledger hashes explicitly identify the frozen dataset rather than falsely claiming a raw source-PDF hash; actual original upstream hashes are recorded here and in enrollment provenance.",
+    "An actual2025population alone does not create a rate: complete eligible numerator coverage is still required."
+  ]
+}

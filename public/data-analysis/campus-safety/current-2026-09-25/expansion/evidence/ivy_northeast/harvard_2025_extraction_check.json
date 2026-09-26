@@ -1,0 +1,69 @@
+{
+  "status": "EXTRACTION_CHECKS_PASS_AWAITING_INDEPENDENT_VISUAL_REVIEW",
+  "rows": 1176,
+  "numeric_cells": 798,
+  "unprinted_cells": 378,
+  "source_sha256": "c52024d2154a422a975890555ad0e11fd19790bcfc5d9cf405305edfa6031c3a",
+  "csv_sha256": "9ed7d689342a62df1d73b070fdca39f2b194faa94056f569cd18d9e038418c42",
+  "checks": [
+    {
+      "pdf_page": 70,
+      "campus_id": "166027001",
+      "source_row_and_column_totals": "PASS",
+      "unprinted_geographies": []
+    },
+    {
+      "pdf_page": 71,
+      "campus_id": "166027002",
+      "source_row_and_column_totals": "PASS",
+      "unprinted_geographies": []
+    },
+    {
+      "pdf_page": 72,
+      "campus_id": "166027004",
+      "source_row_and_column_totals": "PASS",
+      "unprinted_geographies": [
+        "residential",
+        "noncampus"
+      ]
+    },
+    {
+      "pdf_page": 73,
+      "campus_id": "166027003",
+      "source_row_and_column_totals": "PASS",
+      "unprinted_geographies": [
+        "residential",
+        "noncampus"
+      ]
+    },
+    {
+      "pdf_page": 74,
+      "campus_id": "166027006",
+      "source_row_and_column_totals": "PASS",
+      "unprinted_geographies": [
+        "noncampus"
+      ]
+    },
+    {
+      "pdf_page": 75,
+      "campus_id": "166027008",
+      "source_row_and_column_totals": "PASS",
+      "unprinted_geographies": [
+        "residential",
+        "noncampus"
+      ]
+    },
+    {
+      "pdf_page": 76,
+      "campus_id": "166027009",
+      "source_row_and_column_totals": "PASS",
+      "unprinted_geographies": [
+        "residential",
+        "noncampus"
+      ]
+    }
+  ],
+  "limitations": [
+    "Missing geography columns are unknown, not inferred zero. No residential denominator adopted. Report edition 2025 covers statistics 2022\u20132024; latest listing checked by parent using browser."
+  ]
+}
