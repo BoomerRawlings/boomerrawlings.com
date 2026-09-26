@@ -1,5 +1,22 @@
 # Project state
 
+## Resident gap completion — 2026-09-26
+
+- Mode: continuation. Objective: pursue missing student-resident populations and expose qualified evidence honestly. Status: verified release ready for publication.
+- Added five observations: Yale fall2022–2025=6,255/6,064/6,011/6,082; archived official Stanford autumn2023=14,137. Independent source/date/scope review passes. 2024 count coverage33/42 unchanged; resident populations/rates13→14/42. 2025 populations2, complete combined housing rates0. Ledger169=126 enrollment+43 residents.
+- Separate ledger:37 qualified observations/14 other schools, with actual partial, approximate and unresolved counts. Website explains evidence without using it in rates; unknown total means not yet verified, not absent public data. Cornell Ithaca8,861 has FY2024–25 scope and cannot normalize47institution offenses(45Ithaca+2Tech). Washington newest2025report listed but acquisition stopped at agreement; no terms accepted or institution contacted.
+- Verification: full npm test passes;9,450 scientific and reader selections,29reader checks,94independent source/citation checks plus88broader checks/53claim groups,21static checks. Ten scientific outputs plus separate evidence ledger replay exactly from extracted ZIP; privacy scan passes. All offense cells, federal archive and Crime/Heat preserved.
+- Visual: desktop1280/mobile390/320, neutral14/42opening, Yale2024rate9.32, Yale2025population/no rate, Florida partial8,941/no rate, source jump/return,7webmath elements pass; no overflow/duplicate IDs/console errors. Revised11-pagePDF all pages visually checked; root independently checked equations/new source table. PDF228,540bytes/SHA256ba542fa4a6d3a30d6dd2ba650d2644c8044a9ddab0b9e2b38638063ab1490ce3.
+- Evidence/work: sibling research/resident_gap_completion_2026_09_26; published aggregate evidence under current-2026-09-25/expansion/resident-gap. Original source files retained locally, not redistributed. Next: commit/publish and verify exact live assets/reader state; remaining gaps are documented, not force-filled.
+
+## Resident-gap reassessment — 2026-09-25
+
+- Mode: exploration/diagnosis. User challenges missing documented residents after expansion. Status: diagnosis complete; published data unchanged.
+- Verified baseline:2024 resident populations13/42;29 not adopted. Of those29,20 have a complete housing offense count. Missing is not proof of no published population: candidate ledger includes actual partial/qualified observations;10 schools have narrative searches but no individual candidate row.
+- Issue: website's generic Not available label combines unverified sources, partial populations, wrong periods and unresolved student/geographic definitions. Current exact-total eligibility rules may hide useful qualified/main-campus observations. Prior completion claims do not establish exhaustive acquisition.
+- Research: sibling research/resident_gap_reassessment_2026_09_25/. Independent public/private reviews confirm exact partial/qualified observations at Georgia Tech, Washington, Illinois, Cornell and Penn. Georgia Tech2024occupancy9,892 has unresolved person/unit basis; family eligibility alone does not prove dependent inclusion. Geographic proxy criteria must be consistent with accepted Stanford/CMU. Cornell population excludes Tech while current housing counts include Tech, a known mismatch.
+- Next: distinguish not-yet-verified, partial, approximate and unresolved definitions; retain documented context and pursue compatible campus-level numerator/population pairs. These changes remain unimplemented. No new complete denominator or rate adopted; no external contact or website mutation in this diagnosis.
+
 ## Coverage expansion — 2026-09-25
 
 - Mode: continuation. Objective: expand actual housing populations and recheck newest reputable campus reports across all42 schools. Status: published as e947bd0; Pages run36216780650 succeeded.

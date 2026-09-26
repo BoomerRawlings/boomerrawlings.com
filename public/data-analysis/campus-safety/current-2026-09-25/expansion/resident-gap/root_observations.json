@@ -1,0 +1,72 @@
+[
+  {
+    "id": "gatech-2024-occupancy",
+    "unitid": "139755",
+    "years": [2024],
+    "period_label": "Fall 2024",
+    "value": 9892,
+    "status": "unresolved",
+    "statement": "Georgia Tech reports housing occupancy of 9,892, including university and Greek housing.",
+    "reason_no_rate": "The table does not resolve whether its married-housing row counts students, households or other occupants. This figure is retained as documented occupancy, but is not treated as a verified student headcount. The international reporting footprint also remains unmatched.",
+    "source_url": "https://irp.gatech.edu/sites/default/files/FactBook/2024_FactBook_Final-Rev2.pdf#page=35",
+    "source_title": "Georgia Tech 2024 Fact Book",
+    "source_page": "PDF 35; printed 32",
+    "source_sha256": "bcd0e4aba663063c3b04aab4518b2670ba22ff3165aa476e25ad000638fb264b"
+  },
+  {
+    "id": "texas-2024-residents",
+    "unitid": "228778",
+    "years": [2024],
+    "period_label": "Spring 2024",
+    "value": 10018,
+    "status": "unresolved",
+    "statement": "University Housing and Dining reports 10,018 residents during spring 2024.",
+    "reason_no_rate": "This is an actual resident figure, not a bed count. Its student-only definition and full geographic coverage remain unresolved; it is also a spring observation rather than the fall snapshot used for the main comparison.",
+    "source_url": "https://utexas.app.box.com/v/LearnOutcomeReports/file/1743656171859",
+    "source_title": "University of Texas at Austin, 2023–2024 Learning and Outcomes Report",
+    "source_page": "PDF 5",
+    "source_sha256": "4f1793c6d7761bb3cbedd1dc986cb6bb4a31f1933473bc74df227884081647a0"
+  },
+  {
+    "id": "mit-2024-graduate",
+    "unitid": "166683",
+    "years": [2024],
+    "period_label": "15 October 2024",
+    "value": 2808,
+    "status": "partial",
+    "statement": "Graduate housing contains 2,808 graduate students, including Graduate Junction.",
+    "reason_no_rate": "This covers graduate students in that housing inventory, not all student residents. Undergraduate residents and graduate advisers in undergraduate communities require separate reconciliation. The report also has a one-student discrepancy in its separately listed undergraduate subtotal; nonstudents are reported separately.",
+    "source_url": "https://studentlife.mit.edu/app/uploads/2026/03/AY25-GHAC-Annual-Update.pdf#page=9",
+    "source_title": "Massachusetts Institute of Technology, Graduate Housing Advisory Committee annual update",
+    "source_page": "PDF 9–10, Tables 1a–1c",
+    "source_sha256": "59c95db2772a90f98b1348f2d182af04863f0cfc98bb229d23158d7808e55719"
+  },
+  {
+    "id": "mit-2025-graduate",
+    "unitid": "166683",
+    "years": [2025],
+    "period_label": "15 October 2025",
+    "value": 2839,
+    "status": "partial",
+    "statement": "Graduate housing contains 2,839 graduate students, including Graduate Junction.",
+    "reason_no_rate": "The figure excludes undergraduate students and does not establish the number of graduate advisers living in undergraduate communities. It is a documented student population, but only part of the population required for an institution-wide housing rate.",
+    "source_url": "https://studentlife.mit.edu/app/uploads/2026/03/AY25-GHAC-Annual-Update.pdf#page=9",
+    "source_title": "Massachusetts Institute of Technology, Graduate Housing Advisory Committee annual update",
+    "source_page": "PDF 9–10, Tables 1a–1c",
+    "source_sha256": "59c95db2772a90f98b1348f2d182af04863f0cfc98bb229d23158d7808e55719"
+  },
+  {
+    "id": "penn-2025-college-houses",
+    "unitid": "215062",
+    "years": [2025],
+    "period_label": "Academic year 2025–2026",
+    "value": 5994,
+    "status": "partial",
+    "statement": "The university reports 5,994 undergraduate students in campus housing in its College House section.",
+    "reason_no_rate": "This is an undergraduate figure, not a complete count of all student residents. The section expressly focuses on College Houses while also identifying separate Greek housing; the complete population corresponding to the reported residential crimes is not established.",
+    "source_url": "https://www.publicsafety.upenn.edu/ASR/2026_ASR_PENN.pdf#page=61",
+    "source_title": "University of Pennsylvania 2026 Annual Security and Fire Safety Report",
+    "source_page": "PDF 61; printed 58",
+    "source_sha256": "d2cf83dfd92ba0a226a5749833f49b11ac3cd40c660e292ab2629c1ac609f87c"
+  }
+]

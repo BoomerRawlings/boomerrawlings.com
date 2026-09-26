@@ -1,0 +1,128 @@
+{
+  "checked_utc": "2026-09-26T11:22:23.735113+00:00",
+  "status": "PASS",
+  "scope": "Independent source-to-display and calculation isolation audit; browser click behavior is reviewed separately by the coordinating agent.",
+  "checks": [
+    {
+      "name": "Same institution-year keys",
+      "pass": true
+    },
+    {
+      "name": "Every original offense count and enrollment preserved",
+      "pass": true
+    },
+    {
+      "name": "Frozen federal dataset is byte-identical to the fixed baseline",
+      "pass": true
+    },
+    {
+      "name": "Only five reviewed same-year resident additions",
+      "pass": true
+    },
+    {
+      "name": "All qualified records remain explicitly ineligible for rates",
+      "pass": true
+    },
+    {
+      "name": "All seven-school qualified observations copied without altered words or citation locators",
+      "pass": true
+    },
+    {
+      "name": "Compiled evidence is identical in interface and downloadable science folder",
+      "pass": true
+    },
+    {
+      "name": "Independent reader audit passes all29 checks over9450 selections",
+      "pass": true
+    },
+    {
+      "name": "Source references retain all page locators for shared URLs",
+      "pass": true
+    },
+    {
+      "name": "Population disclosure summary distinguishes enrollment from housing",
+      "pass": true
+    },
+    {
+      "name": "Source jump opens collapsed references and school return preserves selected view",
+      "pass": true
+    }
+  ],
+  "qualified_observations": 37,
+  "qualified_schools": 14,
+  "resident_changes": [
+    {
+      "unitid": "243744",
+      "year": 2023,
+      "before": null,
+      "after": 14137
+    },
+    {
+      "unitid": "130794",
+      "year": 2022,
+      "before": null,
+      "after": 6255
+    },
+    {
+      "unitid": "130794",
+      "year": 2023,
+      "before": null,
+      "after": 6064
+    },
+    {
+      "unitid": "130794",
+      "year": 2024,
+      "before": null,
+      "after": 6011
+    },
+    {
+      "unitid": "130794",
+      "year": 2025,
+      "before": null,
+      "after": 6082
+    }
+  ],
+  "baseline_commit": "a8f7d7e7e978dad962386833bfa8974fb3c81542",
+  "baseline_dataset_sha256": "555d18e4cdbb1fef20b9884ffec8d38286151a9331a9f9bc223e8d70707324ca",
+  "reviewed_files": [
+    {
+      "path": "src/lib/campus-reader.js",
+      "sha256": "9350905e8aa0136b5adb12a9b7f8129f3f28c61861be135f1872e60ae064aaef"
+    },
+    {
+      "path": "src/components/CampusReader.astro",
+      "sha256": "03098af66318a2c213b0a25aefed901ce7bd0b453b724807822db0553482a69c"
+    },
+    {
+      "path": "src/components/CampusReaderSources.astro",
+      "sha256": "f629e7cb37f54f8256b315e6d6998659c01f36ea4abf9a64c36a71cd2797f1f6"
+    },
+    {
+      "path": "src/data/campus-resident-evidence.json",
+      "sha256": "89133a41b0aa91746dcd4cab6ee777641bda5ce307eb4dafc1457fd0b985a948"
+    },
+    {
+      "path": "scripts/test-campus-reader.mjs",
+      "sha256": "b1bfd16deabf356d8405af92cbd790e37eb8a63a8ef3a8914bdd7245437113ba"
+    },
+    {
+      "path": "public/data-analysis/campus-safety/current-2026-09-25/dataset.json",
+      "sha256": "14b1303c8324aa3034ca8c6d303c34be89feefbd59f2055fd45de4390c284766"
+    },
+    {
+      "path": "public/data-analysis/campus-safety/current-2026-09-25/resident_evidence.json",
+      "sha256": "89133a41b0aa91746dcd4cab6ee777641bda5ce307eb4dafc1457fd0b985a948"
+    }
+  ],
+  "reader_audit_sha256": "9524241511c59d2bf3010559ab482d0a7e8dd32855785accb7380e741267cecf",
+  "resolved_findings": [
+    "Shared source URLs previously lost earlier page locators; pages now combined.",
+    "Population disclosure previously said housing in enrollment view; summary now selection-specific.",
+    "Compiler previously inserted spaces in citation locators/ordinals; original text now preserved."
+  ],
+  "remaining_limits": [
+    "Qualified fiscal/academic-year figures retain their stated periods and are never accepted as fall denominators.",
+    "Partial/approximate/unresolved source evidence remains scientifically ineligible for rates.",
+    "No inferred2025 rate from newly documented Yale population; original federal/offense data unchanged."
+  ]
+}

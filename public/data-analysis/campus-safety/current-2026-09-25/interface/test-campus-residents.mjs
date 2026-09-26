@@ -45,9 +45,9 @@ for(const [id,value] of [['campus-measure','residents'],['campus-group','residen
   assert.equal(attr(byId(id).childNodes.find(n=>n.tagName==='option'),'value'),value);
 }
 const table=byId('campus-results');
-assert.equal(table.childNodes.find(n=>n.tagName==='tbody').childNodes.filter(n=>n.tagName==='tr').length,13);
+assert.equal(table.childNodes.find(n=>n.tagName==='tbody').childNodes.filter(n=>n.tagName==='tr').length,14);
 assert(text(table).includes('Documented residents')); assert(!text(table).includes('Fall enrollment'));
-assert(text(byId('campus-results-status')).startsWith('13 institutions'));
+assert(text(byId('campus-results-status')).startsWith('14 institutions'));
 assert(text(byId('campus-measure-note')).includes('Housing-property boundaries'));
 
 nodes.length=0; walk(parse(readFileSync('dist/index.html','utf8')));

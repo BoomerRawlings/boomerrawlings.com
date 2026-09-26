@@ -1,0 +1,658 @@
+{
+  "checked": "2026-09-26",
+  "scope": "Qualified source observations. Display years indicate relevant calendar or academic/fiscal spans, not acceptance as fall denominators. These observations never feed the rate calculations. A missing observation does not establish absence of public data.",
+  "inputs": [
+    {
+      "path": "root_observations.json",
+      "sha256": "9ea3606405d9396734b0345254d5047e14b0cdb9e127caa2c2fa856cdd217041",
+      "rows": 5
+    },
+    {
+      "path": "public_observations.json",
+      "sha256": "c3c6036db3d20844a5691cf8eb286614d60a9f814f87668b948c5fc58aed3190",
+      "rows": 25
+    },
+    {
+      "path": "ivy_observations.json",
+      "sha256": "4793d66cfa51941032317bfcebb9e92df6cf45deb333806880e858c3e41636b9",
+      "rows": 7
+    }
+  ],
+  "observations": [
+    {
+      "unitid": "131496",
+      "years": [
+        2024
+      ],
+      "period_label": "Fall 2024",
+      "value": 37,
+      "status": "partial",
+      "statement": "Georgetown reports 37 undergraduate students housed at 55 H Street.",
+      "reason_no_rate": "This is one building and excludes graduate residents and the other housing locations.",
+      "source_url": "https://georgetown.app.box.com/index.php?rm=box_download_shared_file&shared_name=ocssvuvzmnzus702khgsodlfq8id1uhx&file_id=f_2082687131999",
+      "source_title": "Georgetown 2025 campus-plan compliance report",
+      "source_page": "PDF3; printed2",
+      "source_sha256": "6a8353a5b0239de050e0cd13b969e1a7e66a8656004fe2f29d042ea229b51f5e",
+      "id": "ivy-131496-5",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "131496",
+      "years": [
+        2025
+      ],
+      "period_label": "Spring 2025",
+      "value": 36,
+      "status": "partial",
+      "statement": "Georgetown reports 36 undergraduate students housed at 55 H Street.",
+      "reason_no_rate": "This is one building and excludes graduate residents and the other housing locations.",
+      "source_url": "https://georgetown.app.box.com/index.php?rm=box_download_shared_file&shared_name=ocssvuvzmnzus702khgsodlfq8id1uhx&file_id=f_2082687131999",
+      "source_title": "Georgetown 2025 campus-plan compliance report",
+      "source_page": "PDF3; printed2",
+      "source_sha256": "6a8353a5b0239de050e0cd13b969e1a7e66a8656004fe2f29d042ea229b51f5e",
+      "id": "ivy-131496-6",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "131496",
+      "years": [
+        2025
+      ],
+      "period_label": "Fall 2025",
+      "value": 360,
+      "status": "approximate",
+      "statement": "Georgetown reports approximately 360 graduate students housed at 55 H Street.",
+      "reason_no_rate": "The count is approximate and covers one building and one student level; it is not the full university housing population.",
+      "source_url": "https://georgetown.app.box.com/index.php?rm=box_download_shared_file&shared_name=ocssvuvzmnzus702khgsodlfq8id1uhx&file_id=f_2082687131999",
+      "source_title": "Georgetown 2025 campus-plan compliance report",
+      "source_page": "PDF2; printed1",
+      "source_sha256": "6a8353a5b0239de050e0cd13b969e1a7e66a8656004fe2f29d042ea229b51f5e",
+      "id": "ivy-131496-7",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "134130",
+      "years": [
+        2022
+      ],
+      "period_label": "Fiscal year 2022; exact census date unspecified",
+      "value": 7533,
+      "status": "partial",
+      "statement": "The university reports 7,533 occupants in its single-student residence housing for fiscal year 2022.",
+      "reason_no_rate": "The chart covers single-student residence housing, not the complete graduate/family housing population. A fiscal-year label does not establish a fall census date.",
+      "source_url": "https://cfo.ufl.edu/wp-content/uploads/2026/04/FINAL-UF-2026-Investor-Presentation.pptx",
+      "source_title": "University of Florida 2026 Investor Presentation",
+      "source_page": "Slide 8, Occupancy Analysis for Single Student Housing Residence; embedded chart ppt/media/image17.png",
+      "source_sha256": "6777e7bdc4b241938ce43a54dcdaf389ff6323c7a3714bf6317591e6e4641479",
+      "id": "134130-01",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "134130",
+      "years": [
+        2023
+      ],
+      "period_label": "Fiscal year 2023; exact census date unspecified",
+      "value": 8089,
+      "status": "partial",
+      "statement": "The university reports 8,089 occupants in its single-student residence housing for fiscal year 2023.",
+      "reason_no_rate": "The chart covers single-student residence housing, not the complete graduate/family housing population. A fiscal-year label does not establish a fall census date.",
+      "source_url": "https://cfo.ufl.edu/wp-content/uploads/2026/04/FINAL-UF-2026-Investor-Presentation.pptx",
+      "source_title": "University of Florida 2026 Investor Presentation",
+      "source_page": "Slide 8, Occupancy Analysis for Single Student Housing Residence; embedded chart ppt/media/image17.png",
+      "source_sha256": "6777e7bdc4b241938ce43a54dcdaf389ff6323c7a3714bf6317591e6e4641479",
+      "id": "134130-02",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "134130",
+      "years": [
+        2024
+      ],
+      "period_label": "Fiscal year 2024; exact census date unspecified",
+      "value": 8941,
+      "status": "partial",
+      "statement": "The university reports 8,941 occupants in its single-student residence housing for fiscal year 2024.",
+      "reason_no_rate": "The chart covers single-student residence housing, not the complete graduate/family housing population. A fiscal-year label does not establish a fall census date.",
+      "source_url": "https://cfo.ufl.edu/wp-content/uploads/2026/04/FINAL-UF-2026-Investor-Presentation.pptx",
+      "source_title": "University of Florida 2026 Investor Presentation",
+      "source_page": "Slide 8, Occupancy Analysis for Single Student Housing Residence; embedded chart ppt/media/image17.png",
+      "source_sha256": "6777e7bdc4b241938ce43a54dcdaf389ff6323c7a3714bf6317591e6e4641479",
+      "id": "134130-03",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "134130",
+      "years": [
+        2025
+      ],
+      "period_label": "Fiscal year 2025; exact census date unspecified",
+      "value": 8313,
+      "status": "partial",
+      "statement": "The university reports 8,313 occupants in its single-student residence housing for fiscal year 2025.",
+      "reason_no_rate": "The chart covers single-student residence housing, not the complete graduate/family housing population. A fiscal-year label does not establish a fall census date.",
+      "source_url": "https://cfo.ufl.edu/wp-content/uploads/2026/04/FINAL-UF-2026-Investor-Presentation.pptx",
+      "source_title": "University of Florida 2026 Investor Presentation",
+      "source_page": "Slide 8, Occupancy Analysis for Single Student Housing Residence; embedded chart ppt/media/image17.png",
+      "source_sha256": "6777e7bdc4b241938ce43a54dcdaf389ff6323c7a3714bf6317591e6e4641479",
+      "id": "134130-04",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "139755",
+      "years": [
+        2024
+      ],
+      "period_label": "Fall 2024",
+      "value": 9892,
+      "status": "unresolved",
+      "statement": "Georgia Tech reports housing occupancy of 9,892, including university and Greek housing.",
+      "reason_no_rate": "The table does not resolve whether its married-housing row counts students, households or other occupants. This figure is retained as documented occupancy, but is not treated as a verified student headcount. The international reporting footprint also remains unmatched.",
+      "source_url": "https://irp.gatech.edu/sites/default/files/FactBook/2024_FactBook_Final-Rev2.pdf#page=35",
+      "source_title": "Georgia Tech 2024 Fact Book",
+      "source_page": "PDF 35; printed 32",
+      "source_sha256": "bcd0e4aba663063c3b04aab4518b2670ba22ff3165aa476e25ad000638fb264b",
+      "id": "gatech-2024-occupancy",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "145637",
+      "years": [
+        2022
+      ],
+      "period_label": "Fall 2022, tenth day of classes",
+      "value": 8453,
+      "status": "partial",
+      "statement": "The housing report records 8,453 undergraduate and graduate residence-hall occupants/contracts on the tenth day of fall 2022.",
+      "reason_no_rate": "This is the residence-hall series; it does not provide all university-apartment student residents. The 2024–2025 report describes total contracts, and separately reports 215 off-campus expansion spaces without resolving inclusion in that series.",
+      "source_url": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf",
+      "source_title": "University of Illinois University Housing Annual Report 2024–2025",
+      "source_page": "PDF 5 / printed 3, 10th Day Occupancy",
+      "source_sha256": "616c7a754470be18586e0a19a3e9a13a958a72aa5bfff3d7a5e11950f15cc8a0",
+      "id": "145637-05",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "145637",
+      "years": [
+        2022
+      ],
+      "period_label": "Spring 2022, tenth day of classes",
+      "value": 9285,
+      "status": "partial",
+      "statement": "The housing report records 9,285 undergraduate and graduate residence-hall occupants/contracts on the tenth day of spring 2022.",
+      "reason_no_rate": "This is the residence-hall series; it does not provide all university-apartment student residents. The 2024–2025 report describes total contracts, and separately reports 215 off-campus expansion spaces without resolving inclusion in that series.",
+      "source_url": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf",
+      "source_title": "University of Illinois University Housing Annual Report 2024–2025",
+      "source_page": "PDF 5 / printed 3, 10th Day Occupancy",
+      "source_sha256": "616c7a754470be18586e0a19a3e9a13a958a72aa5bfff3d7a5e11950f15cc8a0",
+      "id": "145637-08",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "145637",
+      "years": [
+        2022
+      ],
+      "period_label": "Fiscal year 2022; all unique residents during the year",
+      "value": 12301,
+      "status": "unresolved",
+      "statement": "University Housing served 12,301 unique residents during fiscal year 2022, including dependents.",
+      "reason_no_rate": "The source explicitly includes dependents and accumulates unique people over the fiscal year. It is not a point-in-time student-only population.",
+      "source_url": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf",
+      "source_title": "University of Illinois University Housing Annual Report 2024–2025",
+      "source_page": "PDF 18 / printed 16, Key Performance Indicator 1 and definition",
+      "source_sha256": "616c7a754470be18586e0a19a3e9a13a958a72aa5bfff3d7a5e11950f15cc8a0",
+      "id": "145637-12",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "145637",
+      "years": [
+        2023
+      ],
+      "period_label": "Fall 2023, tenth day of classes",
+      "value": 9138,
+      "status": "partial",
+      "statement": "The housing report records 9,138 undergraduate and graduate residence-hall occupants/contracts on the tenth day of fall 2023.",
+      "reason_no_rate": "This is the residence-hall series; it does not provide all university-apartment student residents. The 2024–2025 report describes total contracts, and separately reports 215 off-campus expansion spaces without resolving inclusion in that series.",
+      "source_url": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf",
+      "source_title": "University of Illinois University Housing Annual Report 2024–2025",
+      "source_page": "PDF 5 / printed 3, 10th Day Occupancy",
+      "source_sha256": "616c7a754470be18586e0a19a3e9a13a958a72aa5bfff3d7a5e11950f15cc8a0",
+      "id": "145637-06",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "145637",
+      "years": [
+        2023
+      ],
+      "period_label": "Spring 2023, tenth day of classes",
+      "value": 8886,
+      "status": "partial",
+      "statement": "The housing report records 8,886 undergraduate and graduate residence-hall occupants/contracts on the tenth day of spring 2023.",
+      "reason_no_rate": "This is the residence-hall series; it does not provide all university-apartment student residents. The 2024–2025 report describes total contracts, and separately reports 215 off-campus expansion spaces without resolving inclusion in that series.",
+      "source_url": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf",
+      "source_title": "University of Illinois University Housing Annual Report 2024–2025",
+      "source_page": "PDF 5 / printed 3, 10th Day Occupancy",
+      "source_sha256": "616c7a754470be18586e0a19a3e9a13a958a72aa5bfff3d7a5e11950f15cc8a0",
+      "id": "145637-09",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "145637",
+      "years": [
+        2023
+      ],
+      "period_label": "Fiscal year 2023; all unique residents during the year",
+      "value": 13707,
+      "status": "unresolved",
+      "statement": "University Housing served 13,707 unique residents during fiscal year 2023, including dependents.",
+      "reason_no_rate": "The source explicitly includes dependents and accumulates unique people over the fiscal year. It is not a point-in-time student-only population.",
+      "source_url": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf",
+      "source_title": "University of Illinois University Housing Annual Report 2024–2025",
+      "source_page": "PDF 18 / printed 16, Key Performance Indicator 1 and definition",
+      "source_sha256": "616c7a754470be18586e0a19a3e9a13a958a72aa5bfff3d7a5e11950f15cc8a0",
+      "id": "145637-13",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "145637",
+      "years": [
+        2024
+      ],
+      "period_label": "Fall 2024, tenth day of classes",
+      "value": 9898,
+      "status": "partial",
+      "statement": "The housing report records 9,898 undergraduate and graduate residence-hall occupants/contracts on the tenth day of fall 2024.",
+      "reason_no_rate": "This is the residence-hall series; it does not provide all university-apartment student residents. The 2024–2025 report describes total contracts, and separately reports 215 off-campus expansion spaces without resolving inclusion in that series.",
+      "source_url": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf",
+      "source_title": "University of Illinois University Housing Annual Report 2024–2025",
+      "source_page": "PDF 5 / printed 3, 10th Day Occupancy",
+      "source_sha256": "616c7a754470be18586e0a19a3e9a13a958a72aa5bfff3d7a5e11950f15cc8a0",
+      "id": "145637-07",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "145637",
+      "years": [
+        2024
+      ],
+      "period_label": "Spring 2024, tenth day of classes",
+      "value": 8880,
+      "status": "partial",
+      "statement": "The housing report records 8,880 undergraduate and graduate residence-hall occupants/contracts on the tenth day of spring 2024.",
+      "reason_no_rate": "This is the residence-hall series; it does not provide all university-apartment student residents. The 2024–2025 report describes total contracts, and separately reports 215 off-campus expansion spaces without resolving inclusion in that series.",
+      "source_url": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf",
+      "source_title": "University of Illinois University Housing Annual Report 2024–2025",
+      "source_page": "PDF 5 / printed 3, 10th Day Occupancy",
+      "source_sha256": "616c7a754470be18586e0a19a3e9a13a958a72aa5bfff3d7a5e11950f15cc8a0",
+      "id": "145637-10",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "145637",
+      "years": [
+        2024
+      ],
+      "period_label": "Fiscal year 2024; all unique residents during the year",
+      "value": 12020,
+      "status": "unresolved",
+      "statement": "University Housing served 12,020 unique residents during fiscal year 2024, including dependents.",
+      "reason_no_rate": "The source explicitly includes dependents and accumulates unique people over the fiscal year. It is not a point-in-time student-only population.",
+      "source_url": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf",
+      "source_title": "University of Illinois University Housing Annual Report 2024–2025",
+      "source_page": "PDF 18 / printed 16, Key Performance Indicator 1 and definition",
+      "source_sha256": "616c7a754470be18586e0a19a3e9a13a958a72aa5bfff3d7a5e11950f15cc8a0",
+      "id": "145637-14",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "145637",
+      "years": [
+        2025
+      ],
+      "period_label": "Spring 2025, tenth day of classes",
+      "value": 9522,
+      "status": "partial",
+      "statement": "The housing report records 9,522 undergraduate and graduate residence-hall occupants/contracts on the tenth day of spring 2025.",
+      "reason_no_rate": "This is the residence-hall series; it does not provide all university-apartment student residents. The 2024–2025 report describes total contracts, and separately reports 215 off-campus expansion spaces without resolving inclusion in that series.",
+      "source_url": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf",
+      "source_title": "University of Illinois University Housing Annual Report 2024–2025",
+      "source_page": "PDF 5 / printed 3, 10th Day Occupancy",
+      "source_sha256": "616c7a754470be18586e0a19a3e9a13a958a72aa5bfff3d7a5e11950f15cc8a0",
+      "id": "145637-11",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "145637",
+      "years": [
+        2025
+      ],
+      "period_label": "Fiscal year 2025; all unique residents during the year",
+      "value": 12440,
+      "status": "unresolved",
+      "statement": "University Housing served 12,440 unique residents during fiscal year 2025, including dependents.",
+      "reason_no_rate": "The source explicitly includes dependents and accumulates unique people over the fiscal year. It is not a point-in-time student-only population.",
+      "source_url": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf",
+      "source_title": "University of Illinois University Housing Annual Report 2024–2025",
+      "source_page": "PDF 18 / printed 16, Key Performance Indicator 1 and definition",
+      "source_sha256": "616c7a754470be18586e0a19a3e9a13a958a72aa5bfff3d7a5e11950f15cc8a0",
+      "id": "145637-15",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "166683",
+      "years": [
+        2024
+      ],
+      "period_label": "15 October 2024",
+      "value": 2808,
+      "status": "partial",
+      "statement": "Graduate housing contains 2,808 graduate students, including Graduate Junction.",
+      "reason_no_rate": "This covers graduate students in that housing inventory, not all student residents. Undergraduate residents and graduate advisers in undergraduate communities require separate reconciliation. The report also has a one-student discrepancy in its separately listed undergraduate subtotal; nonstudents are reported separately.",
+      "source_url": "https://studentlife.mit.edu/app/uploads/2026/03/AY25-GHAC-Annual-Update.pdf#page=9",
+      "source_title": "Massachusetts Institute of Technology, Graduate Housing Advisory Committee annual update",
+      "source_page": "PDF 9–10, Tables 1a–1c",
+      "source_sha256": "59c95db2772a90f98b1348f2d182af04863f0cfc98bb229d23158d7808e55719",
+      "id": "mit-2024-graduate",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "166683",
+      "years": [
+        2025
+      ],
+      "period_label": "15 October 2025",
+      "value": 2839,
+      "status": "partial",
+      "statement": "Graduate housing contains 2,839 graduate students, including Graduate Junction.",
+      "reason_no_rate": "The figure excludes undergraduate students and does not establish the number of graduate advisers living in undergraduate communities. It is a documented student population, but only part of the population required for an institution-wide housing rate.",
+      "source_url": "https://studentlife.mit.edu/app/uploads/2026/03/AY25-GHAC-Annual-Update.pdf#page=9",
+      "source_title": "Massachusetts Institute of Technology, Graduate Housing Advisory Committee annual update",
+      "source_page": "PDF 9–10, Tables 1a–1c",
+      "source_sha256": "59c95db2772a90f98b1348f2d182af04863f0cfc98bb229d23158d7808e55719",
+      "id": "mit-2025-graduate",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "182670",
+      "years": [
+        2022,
+        2023
+      ],
+      "period_label": "Academic year 2022–23",
+      "value": 3768,
+      "status": "partial",
+      "statement": "Dartmouth reports 3,768 undergraduates across halls, affinity housing, college and private Greek housing, societies and temporary housing; non-college housing is excluded.",
+      "reason_no_rate": "Graduate residences are absent. The dashboard uses academic years; its export does not specify a census date. A full student housing rate cannot use this undergraduate-only count.",
+      "source_url": "https://public.tableau.com/views/StudentLife_0/Residence.pdf?:showVizHome=no",
+      "source_title": "Dartmouth Office of Institutional Research: Undergraduate Student Housing Occupancy",
+      "source_page": "PDF1",
+      "source_sha256": "50156af1d11bbcc6cd376602749db2b8cee8e9efd2f00916f3013434f36c2999",
+      "id": "ivy-182670-2",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "182670",
+      "years": [
+        2023,
+        2024
+      ],
+      "period_label": "Academic year 2023–24",
+      "value": 3768,
+      "status": "partial",
+      "statement": "Dartmouth reports 3,768 undergraduates across halls, affinity housing, college and private Greek housing, societies and temporary housing; non-college housing is excluded.",
+      "reason_no_rate": "Graduate residences are absent. The dashboard uses academic years; its export does not specify a census date. A full student housing rate cannot use this undergraduate-only count.",
+      "source_url": "https://public.tableau.com/views/StudentLife_0/Residence.pdf?:showVizHome=no",
+      "source_title": "Dartmouth Office of Institutional Research: Undergraduate Student Housing Occupancy",
+      "source_page": "PDF1",
+      "source_sha256": "50156af1d11bbcc6cd376602749db2b8cee8e9efd2f00916f3013434f36c2999",
+      "id": "ivy-182670-3",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "182670",
+      "years": [
+        2024,
+        2025
+      ],
+      "period_label": "Academic year 2024–25",
+      "value": 3858,
+      "status": "partial",
+      "statement": "Dartmouth reports 3,858 undergraduates across halls, affinity housing, college and private Greek housing, societies and temporary housing; non-college housing is excluded.",
+      "reason_no_rate": "Graduate residences are absent. The dashboard uses academic years; its export does not specify a census date. A full student housing rate cannot use this undergraduate-only count.",
+      "source_url": "https://public.tableau.com/views/StudentLife_0/Residence.pdf?:showVizHome=no",
+      "source_title": "Dartmouth Office of Institutional Research: Undergraduate Student Housing Occupancy",
+      "source_page": "PDF1",
+      "source_sha256": "50156af1d11bbcc6cd376602749db2b8cee8e9efd2f00916f3013434f36c2999",
+      "id": "ivy-182670-4",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "190415",
+      "years": [
+        2024,
+        2025
+      ],
+      "period_label": "FY2024–25; exact resident census date unspecified",
+      "value": 8861,
+      "status": "unresolved",
+      "statement": "Cornell reports 8,861 student residents for its Ithaca reporting boundary; the same figure appears in performance-year tables for July 2024–June 2025.",
+      "reason_no_rate": "The source excludes Cornell Tech, which has separately reported housing offenses. The exact resident census date is not stated. This cannot supply a whole-institution or exact Fall2024 rate.",
+      "source_url": "https://cornell.app.box.com/index.php?rm=box_download_shared_file&shared_name=tbpc5ryae9dhbh3bft99lgqlyjh9su9m&file_id=f_2234645641562",
+      "source_title": "Cornell 2026 sustainability report, official university mirror",
+      "source_page": "PDF12,21,23,383,407",
+      "source_sha256": "5b6c35e0975d07c40e499280815c86afea6fe72fc3fd69781541b76091d2fc95",
+      "id": "ivy-190415-1",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "204796",
+      "years": [
+        2024
+      ],
+      "period_label": "August 16, 2024 announcement of move-in completing that weekend",
+      "value": 15000,
+      "status": "approximate",
+      "statement": "Ohio State said more than 15,000 students would be living in Columbus campus residence halls after that weekend’s move-in.",
+      "reason_no_rate": "This is a lower-bound, forward-looking move-in statement rather than an exact completed census; residence halls do not establish all student housing.",
+      "source_url": "https://news.osu.edu/president-carter-joins-move-in-day-effort-to-welcome-students-back-to-campus/",
+      "source_title": "Ohio State: President Carter joins move-in day effort to welcome students back to campus (August 16, 2024)",
+      "source_page": "Headline/deck and paragraph beginning By Saturday evening",
+      "source_sha256": "39894e58e4295eab4b97af473fdec7f0f52af4011ccfb0c899a1168fb1dc4dc7",
+      "id": "204796-23",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "214777",
+      "years": [
+        2023,
+        2024
+      ],
+      "period_label": "2023–2024 Parents & Families Guide; census date unspecified",
+      "value": 14800,
+      "status": "approximate",
+      "statement": "The guide says more than 14,500 undergraduates and more than 300 graduate students live on campus—more than 14,800 combined.",
+      "reason_no_rate": "These are lower-bound descriptions in a 2023–2024 guide, not an exact census; the guide does not establish a fall 2024 population.",
+      "source_url": "https://newkensington.psu.edu/files/pdf/15116/2024/02/14/pp-parentsandfamiliesguide-accessible-compressed.pdf",
+      "source_title": "Penn State Parents & Families Guide 2023–2024",
+      "source_page": "PDF 34, Housing and Food Services",
+      "source_sha256": "9051a09229fba01a360c525e6f83e2cbcb2351db3e9c28075291787e2c130c2f",
+      "id": "214777-24",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "215062",
+      "years": [
+        2025
+      ],
+      "period_label": "Academic year 2025–2026",
+      "value": 5994,
+      "status": "partial",
+      "statement": "The university reports 5,994 undergraduate students in campus housing in its College House section.",
+      "reason_no_rate": "This is an undergraduate figure, not a complete count of all student residents. The section expressly focuses on College Houses while also identifying separate Greek housing; the complete population corresponding to the reported residential crimes is not established.",
+      "source_url": "https://www.publicsafety.upenn.edu/ASR/2026_ASR_PENN.pdf#page=61",
+      "source_title": "University of Pennsylvania 2026 Annual Security and Fire Safety Report",
+      "source_page": "PDF 61; printed 58",
+      "source_sha256": "d2cf83dfd92ba0a226a5749833f49b11ac3cd40c660e292ab2629c1ac609f87c",
+      "id": "penn-2025-college-houses",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "228778",
+      "years": [
+        2024
+      ],
+      "period_label": "Spring 2024",
+      "value": 10018,
+      "status": "unresolved",
+      "statement": "University Housing and Dining reports 10,018 residents during spring 2024.",
+      "reason_no_rate": "This is an actual resident figure, not a bed count. Its student-only definition and full geographic coverage remain unresolved; it is also a spring observation rather than the fall snapshot used for the main comparison.",
+      "source_url": "https://utexas.app.box.com/v/LearnOutcomeReports/file/1743656171859",
+      "source_title": "University of Texas at Austin, 2023–2024 Learning and Outcomes Report",
+      "source_page": "PDF 5",
+      "source_sha256": "4f1793c6d7761bb3cbedd1dc986cb6bb4a31f1933473bc74df227884081647a0",
+      "id": "texas-2024-residents",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "234076",
+      "years": [
+        2024,
+        2025
+      ],
+      "period_label": "2024–2025 academic year",
+      "value": null,
+      "status": "unresolved",
+      "statement": "The annual report states 99% fall and 96% spring student-housing occupancy, but gives no resident headcount.",
+      "reason_no_rate": "Rounded occupancy percentages without a matching exact occupied-student count cannot establish a denominator.",
+      "source_url": "https://studentaffairs.virginia.edu/sites/studentaffairs/files/2026-02/UVA_StudentAffairs_2025AnnualReport_020226.pdf",
+      "source_title": "University of Virginia Student Affairs Annual Report 2025",
+      "source_page": "PDF 12–14; especially PDF 14 / printed 14, Occupancy & Satisfaction",
+      "source_sha256": "51d5a79c30882feb782fda2eeb7be94f46f93f5cc3546d0aec6163f2498c9cae",
+      "id": "234076-25",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "236948",
+      "years": [
+        2022
+      ],
+      "period_label": "Autumn quarter 2022 opening",
+      "value": 8654,
+      "status": "partial",
+      "statement": "The bondholder report records 8,654 residence-hall occupants at the opening of autumn 2022.",
+      "reason_no_rate": "Footnote 3 excludes single-student and family apartments. This is a known subset of university housing.",
+      "source_url": "https://finance.uw.edu/treasury/files/BHReport/University%20of%20Washington%20Bondholders%20Report%20Fiscal%20Year%202024.pdf",
+      "source_title": "University of Washington Bondholders Report, Fiscal Year 2024",
+      "source_page": "PDF 94, Residence Halls table and footnote 3",
+      "source_sha256": "f728eef4742baeea8ccce9f261049304bdf600425f246b92804a7a2cb541c0ba",
+      "id": "236948-16",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "236948",
+      "years": [
+        2023
+      ],
+      "period_label": "Autumn quarter 2023 opening",
+      "value": 8515,
+      "status": "partial",
+      "statement": "The bondholder report records 8,515 residence-hall occupants at the opening of autumn 2023.",
+      "reason_no_rate": "Footnote 3 excludes single-student and family apartments. This is a known subset of university housing.",
+      "source_url": "https://finance.uw.edu/treasury/files/BHReport/University%20of%20Washington%20Bondholders%20Report%20Fiscal%20Year%202024.pdf",
+      "source_title": "University of Washington Bondholders Report, Fiscal Year 2024",
+      "source_page": "PDF 94, Residence Halls table and footnote 3",
+      "source_sha256": "f728eef4742baeea8ccce9f261049304bdf600425f246b92804a7a2cb541c0ba",
+      "id": "236948-17",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "236948",
+      "years": [
+        2023
+      ],
+      "period_label": "Autumn quarter 2023 opening",
+      "value": 9614,
+      "status": "partial",
+      "statement": "The financial discussion gives 9,614 as the autumn 2023 comparison count for nine- and twelve-month housing.",
+      "reason_no_rate": "This broader operational series still does not establish a complete housing population. The source discusses Commodore Duchess separately; management of Nordheim/Radford changed in 2024. The 2024 count is expressly approximate.",
+      "source_url": "https://finance.uw.edu/treasury/files/BHReport/University%20of%20Washington%20Bondholders%20Report%20Fiscal%20Year%202024.pdf",
+      "source_title": "University of Washington Bondholders Report, Fiscal Year 2024",
+      "source_page": "PDF 121, Housing and Food Services Management Discussion: Housing Operation",
+      "source_sha256": "f728eef4742baeea8ccce9f261049304bdf600425f246b92804a7a2cb541c0ba",
+      "id": "236948-19",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "236948",
+      "years": [
+        2024
+      ],
+      "period_label": "Autumn quarter 2024 opening",
+      "value": 8439,
+      "status": "partial",
+      "statement": "The bondholder report records 8,439 residence-hall occupants at the opening of autumn 2024.",
+      "reason_no_rate": "Footnote 3 excludes single-student and family apartments. This is a known subset of university housing.",
+      "source_url": "https://finance.uw.edu/treasury/files/BHReport/University%20of%20Washington%20Bondholders%20Report%20Fiscal%20Year%202024.pdf",
+      "source_title": "University of Washington Bondholders Report, Fiscal Year 2024",
+      "source_page": "PDF 94, Residence Halls table and footnote 3",
+      "source_sha256": "f728eef4742baeea8ccce9f261049304bdf600425f246b92804a7a2cb541c0ba",
+      "id": "236948-18",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "236948",
+      "years": [
+        2024
+      ],
+      "period_label": "Autumn quarter 2024 opening",
+      "value": 9044,
+      "status": "approximate",
+      "statement": "The financial discussion reports approximately 9,044 students in nine- and twelve-month housing at autumn 2024 opening.",
+      "reason_no_rate": "This broader operational series still does not establish a complete housing population. The source discusses Commodore Duchess separately; management of Nordheim/Radford changed in 2024. The 2024 count is expressly approximate.",
+      "source_url": "https://finance.uw.edu/treasury/files/BHReport/University%20of%20Washington%20Bondholders%20Report%20Fiscal%20Year%202024.pdf",
+      "source_title": "University of Washington Bondholders Report, Fiscal Year 2024",
+      "source_page": "PDF 121, Housing and Food Services Management Discussion: Housing Operation",
+      "source_sha256": "f728eef4742baeea8ccce9f261049304bdf600425f246b92804a7a2cb541c0ba",
+      "id": "236948-20",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "236948",
+      "years": [
+        2025
+      ],
+      "period_label": "2025–2026 academic year, tenth-day statistics",
+      "value": 9149,
+      "status": "partial",
+      "statement": "Housing & Food Services reports 9,149 occupants: 8,522 on nine-month agreements and 627 on twelve-month agreements.",
+      "reason_no_rate": "The table explicitly excludes Commodore Duchess, Radford Court and Stevens Court Family Housing; this is a known subset.",
+      "source_url": "https://hfs.washington.edu/about-hfs/facts-figures/",
+      "source_title": "University of Washington Housing & Food Services: Facts & Figures",
+      "source_page": "2025–26 Capacity and Occupancy table and immediately preceding exclusion note",
+      "source_sha256": "f00135b2dc602eca1943773492cdce40c5ad0495e7adbb06b261382f4a3e431c",
+      "id": "236948-21",
+      "eligible_for_rate": false
+    },
+    {
+      "unitid": "240444",
+      "years": [
+        2024
+      ],
+      "period_label": "Fall 2024 move-in / 2024–2025 academic year",
+      "value": 8915,
+      "status": "approximate",
+      "statement": "The university’s 2024 move-in article gives approximately 8,915 University Housing residents.",
+      "reason_no_rate": "The article marks the figures approximate and describes residence-hall move-in. It does not establish a complete student-only apartment population or an exact census date.",
+      "source_url": "https://news.wisc.edu/follow-that-cart/",
+      "source_title": "University of Wisconsin–Madison: Follow that cart! (August 28, 2024)",
+      "source_page": "Move-in, by the numbers; approximation footnote",
+      "source_sha256": "35cec298290b0e31a4f5e656a5620c7755442e99731847262483cbfd9ff68bc4",
+      "id": "240444-22",
+      "eligible_for_rate": false
+    }
+  ]
+}

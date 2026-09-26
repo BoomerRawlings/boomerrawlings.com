@@ -53,3 +53,20 @@ Page 2 equations retain clear fraction rules, italic variables, lowered institut
 This visual signoff applies only to the exact replacement hash above. All ten pages also passed text extraction without replacement glyphs; embedded external reference links include the population ledger. Source/citation review and final model-independent numerical review remain separate audit records. The report's body reference indices remain plain text, as in the preceding version; this check does not claim reciprocal internal PDF citation navigation.
 
 Final citation review requested one acronym correction: the first occurrence of PDF now reads Portable Document Format (PDF). All ten pages were rerendered; nine PNGs remained byte-identical and the changed page 5 was directly reinspected without clipping or collisions. The final hash above incorporates this correction. Independent copy/source review accepted references 13-19, all five added populations and the Texas exclusion.
+
+## Resident-source follow-up: 26 September 2026
+
+This section supersedes the preceding campus-PDF hash and page count. It does not change the preserved Crime and Heat supplement. Generation used `build_current_reports.py --campus-only`.
+
+| Report | Pages | Bytes | SHA-256 |
+|---|---:|---:|---|
+| Campus safety current-source report, resident follow-up | 11 | 228,540 | `ba542fa4a6d3a30d6dd2ba650d2644c8044a9ddab0b9e2b38638063ab1490ce3` |
+| Preserved Crime and Heat source-refresh supplement | 2 | 108,730 | `f6ce724d1450fba85601db40b46e5d59122d4191e254e81b5fe06bd517d2cba3` |
+
+All eleven campus pages were rendered with Poppler at 1,400-pixel page height and directly inspected. **PASS:** no clipping, collisions, missing glyphs, split table rows or blank pages. Page 2 retains the annual fraction, pooled fraction, italic variables, lowered subscripts and upper/lower summation limits. Page 5 accommodates the fourteen-institution comparison and the unchanged SDSU/UC San Diego case table. The 42-institution source inventory remains legible across pages 7-9; the full reference list fits on page 11.
+
+The new page 4 documents Yale's four fall student counts and the archived Stanford autumn-2023 count. It distinguishes students in undergraduate/graduate housing from inferred degree classifications. Following an independent source-review correction to that wording, pages 3-4 were rerendered and directly reinspected; the other nine rendered pages were byte-identical to their already inspected versions. The final eleven-page PDF also passes text extraction without replacement characters or null glyphs.
+
+Coverage copy agrees with the current calculations: fourteen paired 2024 housing rates among fourteen institutions with adopted residents; two adopted 2025 populations and no complete 2025 combined institutional rate. The offense-source audit remains dated 25 September; the additional population-source check is dated 26 September. New references 20-22 link Yale's original housing census, the archived university-authored Stanford factbook, and the separate resident-evidence ledger. The latter is explicitly excluded from exact denominators when figures are partial, approximate or definition-unresolved; missing adopted data do not establish public absence.
+
+External link annotations for all three new references are present. This visual signoff does not claim reciprocal internal PDF citation navigation. Independent source/citation verification is recorded separately in the resident follow-up source audit; independent rate and preservation verification is in `expansion/RESIDENT_FOLLOWUP_SCIENTIFIC_AUDIT.json` and the general `CURRENT_DATA_AUDIT.json`.

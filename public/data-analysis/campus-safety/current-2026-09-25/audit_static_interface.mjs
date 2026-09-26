@@ -27,13 +27,13 @@ check('Embedded current dataset equals published dataset',JSON.stringify(embedde
 check('Built dataset equals current public source bytes',hash(base+'dataset.json')===hash('public/data-analysis/campus-safety/current-2026-09-25/dataset.json'));
 check('All 42 institutions retain extracted report evidence',data.institutions.length===42&&coverage.institutions_with_extracted_cells===42);
 const currentDefault=selectedRows(data,initialView), federalDefault=selectedRows(federal,initialView);
-check('Current default includes 13 available resident-rate comparisons',currentDefault.length===13&&currentDefault.every(r=>r.rate!==null)&&coverage.available_rates['2024'].residents===13);
+check('Current default includes 14 available resident-rate comparisons',currentDefault.length===14&&currentDefault.every(r=>r.rate!==null)&&coverage.available_rates['2024'].residents===14);
 check('Archived default remains 11 available resident-rate comparisons',federalDefault.length===11&&federalDefault.every(r=>r.rate!==null));
 const table=find('campus-results'), tbody=table.childNodes.find(n=>n.tagName==='tbody');
 const mainRows=tbody.childNodes.filter(n=>n.tagName==='tr');
 const serverStatus=text(find('campus-results-status'));
 const normalizedName=name=>name.toLowerCase().replace(/[^a-z0-9]/g,'');
-check('Server-rendered default table agrees with current pure functions',mainRows.length===currentDefault.length&&mainRows.every((row,index)=>normalizedName(text(row.childNodes.find(n=>n.tagName==='th'))).startsWith(normalizedName(currentDefault[index].institution.officialName??currentDefault[index].institution.name)))&&serverStatus.startsWith('13 institutions · 13 rates available'));
+check('Server-rendered default table agrees with current pure functions',mainRows.length===currentDefault.length&&mainRows.every((row,index)=>normalizedName(text(row.childNodes.find(n=>n.tagName==='th'))).startsWith(normalizedName(currentDefault[index].institution.officialName??currentDefault[index].institution.name)))&&serverStatus.startsWith('14 institutions · 14 rates available'));
 
 // Independently construct an expected order; null values stay last in both directions.
 const sorts={};
@@ -79,7 +79,7 @@ check('Static document IDs are unique',duplicateIds.length===0);
 check('Every static same-page anchor resolves',missingInternalLinks.length===0);
 const formulas=nodes.filter(n=>n.tagName==='math').length;
 check('Seven equations produce MathML without KaTeX error markup',formulas===7&&!html.includes('katex-error'));
-const downloads=['population_sources.csv','expansion/population_candidates.csv','EXPANSION_AMENDMENT.md'];
+const downloads=['population_sources.csv','resident_evidence.json','expansion/population_candidates.csv','RESIDENT_GAP_AMENDMENT.md'];
 check('New provenance and candidate downloads exist and are linked',downloads.every(path=>fs.existsSync(new URL(base+path,site))&&nodes.some(n=>n.tagName==='a'&&attr(n,'href')?.endsWith('/'+path))));
 const source=read('src/components/CampusExplorer.astro');
 check('Source retains accessible sort action labels, active sort state and focus restoration',source.includes("th.setAttribute('aria-sort',order.direction)")&&source.includes("button.setAttribute('aria-label',`${label}: sort ${direction}`)")&&source.includes('focus({preventScroll:true})'));

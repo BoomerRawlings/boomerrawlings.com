@@ -1,8 +1,8 @@
 {
-  "checked_utc": "2026-09-26T04:04:01.876598+00:00",
+  "checked_utc": "2026-09-26T11:26:56.123261+00:00",
   "status": "PASS",
   "scope": "Independent editorial claim/citation review; final report text and reference annotations; focused primary-source spot checks; distinct from numeric and visual audits.",
-  "claim_groups": 50,
+  "claim_groups": 53,
   "checks": [
     {
       "check": "42 fixed institutional identifiers in inventory and current data",
@@ -257,7 +257,7 @@
       "pass": true
     },
     {
-      "check": "Five new resident records preserve exact independently supported values",
+      "check": "Ten added resident records preserve exact independently supported values",
       "pass": true
     },
     {
@@ -285,7 +285,7 @@
       "pass": true
     },
     {
-      "check": "Every new population source hash matches the recovered source bytes",
+      "check": "Every earlier expansion population source hash matches the recovered source bytes",
       "pass": true
     },
     {
@@ -323,6 +323,38 @@
     {
       "check": "Map source versions and non-offense scope explicitly qualified",
       "pass": true
+    },
+    {
+      "check": "Yale original student housing totals, fall basis and update date",
+      "pass": true
+    },
+    {
+      "check": "Stanford2023 archived original actual student fields and autumn date",
+      "pass": true
+    },
+    {
+      "check": "Qualified housing observations have sources and never claim rate eligibility",
+      "pass": true
+    },
+    {
+      "check": "Qualified evidence is a separate displayed ledger, not adopted data",
+      "pass": true
+    },
+    {
+      "check": "Crime and housing source-review dates distinguished",
+      "pass": true
+    },
+    {
+      "check": "New report clickable source: ETh-cgP0JKxIjKWO0cCYYbMBWWRbAovpNlmyYUWeK9GRkA",
+      "pass": true
+    },
+    {
+      "check": "New report clickable source: Stanford-FactBook2024_WEB.pdf",
+      "pass": true
+    },
+    {
+      "check": "New report clickable source: resident_evidence.json",
+      "pass": true
     }
   ],
   "claims": [
@@ -336,7 +368,7 @@
     {
       "id": "C02",
       "topic": "Source currency",
-      "claim": "Audit cutoff is25 September2026 Pacific; original annual reports are now recovered for all42 institutions. Retrieved editions and table years vary, and access does not certify completeness.",
+      "claim": "Crime-report review cutoff is25 September2026 Pacific; housing review extends through26 September2026; original annual reports are now recovered for all42 institutions. Retrieved editions and table years vary, and access does not certify completeness.",
       "evidence": "Fresh42-school source inventory; recovered Harvard/Merced/Hopkins/Virginia files; new Princeton2026 and Stanford main2026; source-specific original hashes and retained exclusions.",
       "status": "PASS_WITH_QUALIFICATION"
     },
@@ -385,7 +417,7 @@
     {
       "id": "C09",
       "topic": "Resident denominators",
-      "claim": "State Auditor documents actual2022–2024 fall occupancy for ten UCs and SDSU; five added Stanford/CMU observations extend the reviewed population series. Housing properties are not fully matched to Clery geography.",
+      "claim": "State Auditor documents actual2022–2024 fall occupancy for ten UCs and SDSU; ten added Stanford/CMU/Yale observations extend the reviewed population series. Housing properties are not fully matched to Clery geography.",
       "evidence": "State Auditor PDF62–65; Stanford Facts2025 PDF48 and current housing page; CMU2024 PDF84 and2026 PDF81; exact source fields and sums reread.",
       "status": "PASS_WITH_QUALIFICATION"
     },
@@ -519,7 +551,7 @@
       "id": "C28",
       "topic": "Reader calculations and narrative",
       "claim": "All9450 school/category/year/location selections preserve counts, matching-year populations, rates, missingness and zero distinctions. Combined areas never add housing twice and show no population rate.",
-      "evidence": "Independent audit_reader_copy.mjs reconstructs selected values from current dataset; READER_COPY_AUDIT.json records 23 checks. This verifies explanations against verified aggregates, not source re-extraction.",
+      "evidence": "Independent audit_reader_copy.mjs reconstructs selected values from current dataset; READER_COPY_AUDIT.json records 29 checks. This verifies explanations against verified aggregates, not source re-extraction.",
       "status": "PASS"
     },
     {
@@ -539,7 +571,7 @@
     {
       "id": "C31",
       "topic": "Opening summary",
-      "claim": "The visible overview distinguishes reported counts and population-adjusted rates from personal risk or safety rankings. Its current13of42 finding is explicitly2024 combined listed housing offenses and reads directly from verified coverage. Housing is a campus subset; missing rates are unavailable, not zero.",
+      "claim": "The visible overview distinguishes reported counts and population-adjusted rates from personal risk or safety rankings. Its current14of42 finding is explicitly2024 combined listed housing offenses and reads directly from verified coverage. Housing is a campus subset; missing rates are unavailable, not zero.",
       "evidence": "Four adjacent citations: current rates.csv; BJS PDF131 reporting-versus-survey comparison; coverage.json plus independent reader arithmetic;34CFR668.46 geography. No national coverage estimate or empirical safety claim.",
       "status": "PASS"
     },
@@ -621,6 +653,27 @@
       "status": "PASS_WITH_QUALIFICATION"
     },
     {
+      "id": "C43",
+      "topic": "Yale student populations",
+      "claim": "Four fall snapshots2022–2025 are actual student headcounts, not family-member counts. They produce no2025 rate without complete crime counts.",
+      "evidence": "Official OIR W023 PDF1–3; independent visual extraction; qualified property alignment retained.",
+      "status": "PASS_WITH_QUALIFICATION"
+    },
+    {
+      "id": "C44",
+      "topic": "Stanford2023 historical recovery",
+      "claim": "Autumn2023 university-provided student residents14,137, from7,207 students in undergraduate housing plus6,930 in graduate housing.",
+      "evidence": "Original university PDF captured14April2024; archive digest matches; PDF48/printed46 visually reviewed.",
+      "status": "PASS_WITH_QUALIFICATION"
+    },
+    {
+      "id": "C45",
+      "topic": "Qualified housing evidence",
+      "claim": "37 observations across14 other institutions distinguish partial, approximate and unresolved counts. None enters a rate; academic/fiscal spans do not imply fall censuses.",
+      "evidence": "Separate resident_evidence.json source-by-source review, reader isolation checks and explicit source/date/scope reasons.",
+      "status": "PASS_WITH_QUALIFICATION"
+    },
+    {
       "id": "H01",
       "topic": "Heat refresh counts",
       "claim": "56,793→57,037, net244: 95 newly added-date rows plus149 net earlier-date revisions; mutable rather than append-only.",
@@ -686,8 +739,8 @@
     "School guide population links point to actual housing/enrollment files; the selected school source marker is computed. Combined-area pooled copy describes a count rather than division by populations, and ambiguous partial sums are not asserted to be lower bounds.",
     "All42 school notes use plain language for populations, locations covered and earlier federal data. Full state names are searchable alongside school names and abbreviations; region labels describe home location only.",
     "The opening-view amendment removes automatic school selection and San Diego opening highlights. Region browsing does not choose a school. School-specific links, detailed examples, source qualifications, scientific outputs and reviewed PDFs are preserved.",
-    "The opening coverage finding now reads from the current audited2024 combined-housing-rate count:13of42. It retains four direct citations and does not imply a national coverage estimate or safety ranking.",
-    "Five qualified student-housing observations added for Stanford/Carnegie Mellon; Texas spring residents withheld because student-only scope is not established. Previously blocked report files recovered, Princeton2026 added, and exact sources/periods exposed per selection.",
+    "The opening coverage finding now reads from the current audited2024 combined-housing-rate count:14of42. It retains four direct citations and does not imply a national coverage estimate or safety ranking.",
+    "Ten qualified student-housing observations added for Stanford/Carnegie Mellon/Yale; Texas spring residents withheld because student-only scope is not established. Previously blocked report files recovered, Princeton2026 added, and exact sources/periods exposed per selection.",
     "The geographic navigation addition preserves all42 institutional identities and adds versioned directory/boundary/region sources. Independent extent review caught and corrected western Aleutian clipping without changing state paths, school coordinates or scientific measurements."
   ],
   "limitations": [
@@ -702,33 +755,33 @@
   "reviewed_artifacts": [
     {
       "path": "boomerrawlings.com/src/pages/writing/data-analysis/campus-safety.astro",
-      "bytes": 20545,
-      "sha256": "fe3929bc632904395a66a1e6597586d546664bb626fc35ca40e2d5c7c1a45236"
+      "bytes": 20790,
+      "sha256": "5f3a158c72d3f07b3bcee97b2e0bf332e8c9947ddc7db9f64c8516934e7ba3fa"
     },
     {
       "path": "boomerrawlings.com/src/content/archive/campus-safety.md",
-      "bytes": 17558,
-      "sha256": "f292b2138ba6a6238f434e4aa933bde13df15ed3832f90647361657796e4489a"
+      "bytes": 19387,
+      "sha256": "f7b8c3085ee2698637045710a7a86ee9b583acabd66200f0e5680ea3ba8953db"
     },
     {
       "path": "boomerrawlings.com/src/data/campus-school-context.json",
-      "bytes": 40858,
-      "sha256": "20c25c343db0d37b1a08c05b50597c84f59e68f3f6ed0053fb7f3c8b3a6bbd09"
+      "bytes": 40938,
+      "sha256": "2f9561e34394c7ec608e35d3d5a7683796cff0c56ed8c3f0a5c7c27cfa5a8463"
     },
     {
       "path": "boomerrawlings.com/src/components/CampusReader.astro",
-      "bytes": 15119,
-      "sha256": "560585de3791ca86b7219d3a4430d85b24165f6fd5eb24238e2a9375645413a1"
+      "bytes": 15980,
+      "sha256": "03098af66318a2c213b0a25aefed901ce7bd0b453b724807822db0553482a69c"
     },
     {
       "path": "boomerrawlings.com/src/components/CampusReaderSources.astro",
-      "bytes": 2578,
-      "sha256": "9ee763a090f1d5386d282b7ef2410ee38dd5f5a7100fd74641f677130b78aee0"
+      "bytes": 3228,
+      "sha256": "f629e7cb37f54f8256b315e6d6998659c01f36ea4abf9a64c36a71cd2797f1f6"
     },
     {
       "path": "boomerrawlings.com/src/lib/campus-reader.js",
-      "bytes": 3843,
-      "sha256": "7631e418b920336068cd0b62d41cd8921f628f74639bf9ca70de437e1b5119cf"
+      "bytes": 4547,
+      "sha256": "9350905e8aa0136b5adb12a9b7f8129f3f28c61861be135f1872e60ae064aaef"
     },
     {
       "path": "boomerrawlings.com/src/lib/campus-citations.js",
@@ -742,18 +795,18 @@
     },
     {
       "path": "campus_safety_analysis/research/freshness_2026_09_25/READER_COPY_AUDIT.json",
-      "bytes": 4686,
-      "sha256": "b963a9bc1f82f06de790a312a861e453c3c9664b29abedf5252549c57b5ab7ad"
+      "bytes": 5674,
+      "sha256": "9524241511c59d2bf3010559ab482d0a7e8dd32855785accb7380e741267cecf"
     },
     {
       "path": "campus_safety_analysis/research/freshness_2026_09_25/build_current_reports.py",
-      "bytes": 31704,
-      "sha256": "adb5dc3c7de8887bfd2fb4575edf0b4d420e91982e6f6c4ac73107ae1cfa2ccc"
+      "bytes": 35086,
+      "sha256": "36c76af38451f3a83826700c8abf46cdd7c93a11faed272ff9f25718d17ed0bb"
     },
     {
       "path": "campus_safety_analysis/output/pdf/campus-safety-current-report.pdf",
-      "bytes": 223688,
-      "sha256": "f8c7deed2cc17897077b48565f62bd2592f89e9d58a232f62a975ec87cadb97b"
+      "bytes": 228540,
+      "sha256": "ba542fa4a6d3a30d6dd2ba650d2644c8044a9ddab0b9e2b38638063ab1490ce3"
     },
     {
       "path": "campus_safety_analysis/output/pdf/crime-and-heat-source-refresh.pdf",
@@ -762,8 +815,8 @@
     },
     {
       "path": "campus_safety_analysis/publication/current-2026-09-25/dataset.json",
-      "bytes": 905771,
-      "sha256": "555d18e4cdbb1fef20b9884ffec8d38286151a9331a9f9bc223e8d70707324ca"
+      "bytes": 911929,
+      "sha256": "14b1303c8324aa3034ca8c6d303c34be89feefbd59f2055fd45de4390c284766"
     },
     {
       "path": "campus_safety_analysis/publication/current-2026-09-25/case_study.json",
@@ -773,12 +826,12 @@
     {
       "path": "campus_safety_analysis/publication/current-2026-09-25/coverage.json",
       "bytes": 1944,
-      "sha256": "f9820014cce56a68ed747a136f93ca451fbdf58c9165c149b0dbaab635fc3352"
+      "sha256": "028d3cb17840dd20b52afab3abaf2d5c776f29f3c96e5817e3ab444e335eb39b"
     },
     {
       "path": "campus_safety_analysis/publication/current-2026-09-25/source_inventory.json",
-      "bytes": 120694,
-      "sha256": "2cfe45e8f8c81a43cb6bd22df6afb106fdf149a811ae7fb0dfb25abcfe3b8c06"
+      "bytes": 126692,
+      "sha256": "9d3901050bfdafdb9b19ca96e60c1897e48c70e63451fe183caab9d642d182ea"
     },
     {
       "path": "campus_safety_analysis/publication/current-2026-09-25/source_cells.csv",
@@ -787,18 +840,18 @@
     },
     {
       "path": "campus_safety_analysis/publication/current-2026-09-25/rates.csv",
-      "bytes": 1374541,
-      "sha256": "efc2bb0693ad2c7a6adbf9413242d199a599a3ff041ecf8f20572496947d31d4"
+      "bytes": 1375811,
+      "sha256": "08ca930399b33e9397d5ee8e9472c194c4f0df28f48f818989b77d65462fe9ab"
     },
     {
       "path": "campus_safety_analysis/research/freshness_2026_09_25/CURRENT_DATA_AUDIT.json",
-      "bytes": 5484,
-      "sha256": "54a2a818e9b1dd9c62bea3b1d3c44ad4997cd048e1fe7a0e549b892f6a54987a"
+      "bytes": 5488,
+      "sha256": "07fe34ad087e074d5d732a1d32da32f0aa6368c805aa4cd66a33444d633382be"
     },
     {
       "path": "campus_safety_analysis/research/freshness_2026_09_25/README.md",
-      "bytes": 11726,
-      "sha256": "427ab5d27d827fc4d8995dc8c89df17f008fc71802397dd8f77238de00fc6f0b"
+      "bytes": 12737,
+      "sha256": "bc9d25f4042b182002d726d4433662f3843ae540a064df14c1e0755bf06f78cd"
     },
     {
       "path": "campus_safety_analysis/research/freshness_2026_09_25/PRESENTATION_AMENDMENT.md",
@@ -832,8 +885,8 @@
     },
     {
       "path": "campus_safety_analysis/publication/current-2026-09-25/population_sources.csv",
-      "bytes": 78855,
-      "sha256": "1cfde5693c35dffd15f7f05d4e1abe3847a356dc7147ffcbd2ee498783e6ed68"
+      "bytes": 84039,
+      "sha256": "1f2ea0b4de3f3682f66601ae62529c94afaf8aee81614cfdfd5b386e663d3a3d"
     },
     {
       "path": "campus_safety_analysis/research/coverage_expansion_2026_09_25/ivy_northeast/asr_recheck.json",
@@ -924,9 +977,34 @@
       "path": "campus_safety_analysis/research/map_navigation_2026_09_25/THIRD_PARTY_LICENSES.txt",
       "bytes": 6241,
       "sha256": "42a13a19ed96fb53db33e6911bb20db6b1b86dcbee3f4092cbe54be383bab5c2"
+    },
+    {
+      "path": "campus_safety_analysis/publication/current-2026-09-25/resident_evidence.json",
+      "bytes": 36472,
+      "sha256": "89133a41b0aa91746dcd4cab6ee777641bda5ce307eb4dafc1457fd0b985a948"
+    },
+    {
+      "path": "boomerrawlings.com/src/data/campus-resident-evidence.json",
+      "bytes": 36472,
+      "sha256": "89133a41b0aa91746dcd4cab6ee777641bda5ce307eb4dafc1457fd0b985a948"
+    },
+    {
+      "path": "campus_safety_analysis/research/freshness_2026_09_25/RESIDENT_GAP_AMENDMENT.md",
+      "bytes": 6330,
+      "sha256": "f15277adf6d9b33884452f40dc02066cd20693deb9c37ab1e074707ae10f9935"
     }
   ],
   "directly_reread_source_versions": [
+    {
+      "path": "campus_safety_analysis/research/resident_gap_completion_2026_09_26/ivy/yale_w023_housing.pdf",
+      "bytes": 324121,
+      "sha256": "8d7839f251567871886d0d09393f75825906f0d34b9d2e7f45c3c82197c9e918"
+    },
+    {
+      "path": "campus_safety_analysis/research/resident_gap_completion_2026_09_26/private/sources/stanford/facts2024-archived-0e7d8215.pdf",
+      "bytes": 1862007,
+      "sha256": "c622530f7b570d190ee2b374e7395aa15ae6b4777fa5649541610043bdb2f2d2"
+    },
     {
       "path": "campus_safety_analysis/research/sdsu_2026/asr_2026_newdraft.pdf",
       "bytes": 1562094,
@@ -1005,271 +1083,299 @@
         "url": "https://boomerrawlings.com/writing/data-analysis/campus-safety/"
       },
       {
-        "page": 6,
+        "page": 4,
+        "url": "https://www.boomerrawlings.com/data-analysis/campus-safety/current-2026-09-25/resident_evidence.json"
+      },
+      {
+        "page": 7,
         "url": "https://go.brown.edu/2025ASR-AFSR"
       },
       {
-        "page": 6,
+        "page": 7,
         "url": "https://security.caltech.edu/documents/22533/2025ASR-F-HR.pdf"
       },
       {
-        "page": 6,
+        "page": 7,
         "url": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
       },
       {
-        "page": 6,
+        "page": 7,
         "url": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
       },
       {
-        "page": 6,
+        "page": 7,
         "url": "https://publicsafety.columbia.edu/sites/publicsafety.columbia.edu/files/content/SecurityReport2025.pdf"
       },
       {
-        "page": 6,
+        "page": 7,
         "url": "https://publicsafety.cornell.edu/wp-content/uploads/2026-Campus_Watch_2026_FINAL-ua.pdf"
       },
       {
-        "page": 6,
+        "page": 7,
         "url": "https://www.dartmouth.edu/security/clery-compliance-office/asr.pdf"
       },
       {
-        "page": 6,
+        "page": 7,
         "url": "https://forms.hr.duke.edu/media/oarc/2025-Duke-ASR.pdf"
       },
       {
-        "page": 6,
+        "page": 7,
         "url": "https://clery.compliance.ufl.edu/annual-security-and-fire-safety-reports/2026-crime-statistics/"
       },
       {
-        "page": 6,
+        "page": 7,
         "url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf"
       },
       {
-        "page": 6,
+        "page": 7,
         "url": "https://eoc.gatech.edu/sites/default/files/2026-09/2026%20Annual%20Security%20and%20Fire%20Safety%20Report.pdf"
       },
       {
-        "page": 6,
+        "page": 7,
         "url": "https://www.hupd.harvard.edu/sites/g/files/omnuum12486/files/2025-10/2025%20ASR%20VF%20Compressed.pdf"
       },
       {
-        "page": 6,
+        "page": 7,
         "url": "https://police.illinois.edu/wp-content/uploads/2025/12/2025_Annual_Security_Fire_Safety_Report_FINAL_DRAFT_-_Re-Issue.pdf"
       },
       {
-        "page": 6,
+        "page": 7,
         "url": "https://publicsafety.jhu.edu/assets/uploads/sites/9/2024/11/annual_report_securityfiresafety.pdf"
       },
       {
-        "page": 7,
+        "page": 8,
         "url": "https://cdn.sanity.io/files/bflxpmv3/production/e5bbcc349237b5f972ae112e63bf68077d2a9fc7.pdf"
       },
       {
-        "page": 7,
+        "page": 8,
         "url": "https://police.mit.edu/sites/default/files/MIT-Police-Files/Documents/MITPolice_ASR_2025_Final_v3.pdf"
       },
       {
-        "page": 7,
+        "page": 8,
         "url": "https://go.unc.edu/securityreport"
       },
       {
-        "page": 7,
+        "page": 8,
         "url": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
       },
       {
-        "page": 7,
+        "page": 8,
         "url": "https://police.nd.edu/assets/665474/2025_annual_safety_reportt.pdf"
       },
       {
-        "page": 7,
+        "page": 8,
         "url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf"
       },
       {
-        "page": 7,
+        "page": 8,
         "url": "https://dps.osu.edu/sites/default/files/documents/annual_security_fire_safety_report.pdf"
       },
       {
-        "page": 7,
+        "page": 8,
         "url": "https://www.police.psu.edu/sites/police/files/2025-11/penn-state-university-park-2025a.pdf"
       },
       {
-        "page": 7,
+        "page": 8,
         "url": "https://www.publicsafety.upenn.edu/ASR/2026_ASR_PENN.pdf"
       },
       {
-        "page": 7,
+        "page": 8,
         "url": "https://publicsafety.princeton.edu/document/4686"
       },
       {
-        "page": 7,
+        "page": 8,
         "url": "https://police.sdsu.edu/_resources/files/asr_2026_newdraft.pdf"
       },
       {
-        "page": 7,
+        "page": 8,
         "url": "https://police.stanford.edu/pdf/ssfr-2026.pdf"
       },
       {
-        "page": 7,
+        "page": 8,
         "url": "https://compliance.utexas.edu/sites/default/files/documents/ASFSR%202025%20final.pdf"
       },
       {
-        "page": 7,
+        "page": 8,
         "url": "https://ucpd.berkeley.edu/sites/default/files/uc_berkeley_asfsr.pdf"
       },
       {
-        "page": 8,
+        "page": 9,
         "url": "https://clery.ucdavis.edu/sites/g/files/dgvnsk1761/files/media/documents/ASFSR-UCD-2026-vSep2026.pdf"
       },
       {
-        "page": 8,
+        "page": 9,
         "url": "https://www.police.uci.edu/clery/annual-reports/uci_security_report.pdf"
       },
       {
-        "page": 8,
+        "page": 9,
         "url": "https://clery.ucmerced.edu/sites/g/files/ufvvjh631/f/documents/ucm_2025_asr.pdf"
       },
       {
-        "page": 8,
+        "page": 9,
         "url": "https://compliance.ucr.edu/media/887/download?attachment"
       },
       {
-        "page": 8,
+        "page": 9,
         "url": "https://www.police.ucsd.edu/docs/annualclery.pdf"
       },
       {
-        "page": 8,
+        "page": 9,
         "url": "https://ucsf.box.com/v/UCPD-UCSF-ASR-2026"
       },
       {
-        "page": 8,
+        "page": 9,
         "url": "https://docs.google.com/document/d/17sbHHkxln7w8TaFRy0Dm3i1-NCgGwGznHmF6B1hcpy0/export?format=pdf"
       },
       {
-        "page": 8,
+        "page": 9,
         "url": "https://chancellor.ucsc.edu/files/2026/05/UC-Santa-Cruz-2025-Annual-Security-Fire-Safety-Report-FINAL-Republished-May-6-2026.pdf"
       },
       {
-        "page": 8,
+        "page": 9,
         "url": "https://ucla.box.com/s/gzlc5edy5yuyeozpf1adob2rvsrdf9ur"
       },
       {
-        "page": 8,
+        "page": 9,
         "url": "https://dps.usc.edu/wp-content/uploads/2026/09/2026-Annual-Security-and-Fire-Safety-Report.pdf"
       },
       {
-        "page": 8,
+        "page": 9,
         "url": "https://cleryact.virginia.edu/sites/cleryact/files/2026-09/UVA_Annual_Fire_Safety_Security_Report_2026_FINAL.pdf"
       },
       {
-        "page": 8,
+        "page": 9,
         "url": "https://police.uw.edu/wp-content/uploads/2026/04/Annual-Security-and-Fire-Safety-Report-2025-2026-update.pdf"
       },
       {
-        "page": 8,
+        "page": 9,
         "url": "https://go.wisc.edu/asr"
       },
       {
-        "page": 8,
+        "page": 9,
         "url": "https://your.yale.edu/sites/default/files/2025-09/2025-Clery-Report_ADA.pdf"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://police.sdsu.edu/_resources/files/asr_2026_newdraft.pdf#page=7"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf#page=7"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://www.auditor.ca.gov/wp-content/uploads/2025/10/2024-111-Report.pdf#page=62"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://www.police.ucsd.edu/docs/annualclery.pdf#page=142"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://www.ecfr.gov/current/title-34/subtitle-B/chapter-VI/part-668/subpart-D/section-668.46"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://nces.ed.gov/ipeds/survey-components/data-release-schedule"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://nces.ed.gov/ipeds/survey-components/data-release-schedule"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://ope.ed.gov/campussafety/#/datafile/list"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://nces.ed.gov/programs/coe/indicator/a21"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://bjs.ojp.gov/content/pub/pdf/ccsvsftr.pdf#page=131"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://bjs.ojp.gov/content/pub/pdf/ccsvsftr.pdf#page=131"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://boomerrawlings.com/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://boomerrawlings.com/data-analysis/campus-safety/current-2026-09-25/source_cells.csv"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://boomerrawlings.com/writing/data-analysis/campus-safety/#downloads"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://boomerrawlings.com/data-analysis/campus-safety/current-2026-09-25/population_sources.csv"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://studyinternational.com/wp-content/uploads/2026/03/2025-Stanford-Fact-Book_WEB.pdf#page=48"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://studyinternational.com/wp-content/uploads/2026/03/2025-Stanford-Fact-Book_WEB.pdf#page=48"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://facts.stanford.edu/campus-life"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://www.cmu.edu/police/reports/fire-safety/2024asr.pdf#page=84"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf#page=81"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://www.cmu.edu/housing/about-us/for-our-families.html"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://utexas.app.box.com/v/LearnOutcomeReports/file/1743656171859"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://utexas.app.box.com/v/LearnOutcomeReports/file/1743656171859"
       },
       {
-        "page": 10,
+        "page": 11,
+        "url": "https://yaleedu.sharepoint.com/:b:/s/OIRPublic/ETh-cgP0JKxIjKWO0cCYYbMBWWRbAovpNlmyYUWeK9GRkA?e=oaddM8&download=1"
+      },
+      {
+        "page": 11,
+        "url": "https://yaleedu.sharepoint.com/:b:/s/OIRPublic/ETh-cgP0JKxIjKWO0cCYYbMBWWRbAovpNlmyYUWeK9GRkA?e=oaddM8&download=1"
+      },
+      {
+        "page": 11,
+        "url": "https://web.archive.org/web/20240414165344id_/https://facts.stanford.edu/wp-content/uploads/sites/20/2024/01/Stanford-FactBook2024_WEB.pdf#page=48"
+      },
+      {
+        "page": 11,
+        "url": "https://web.archive.org/web/20240414165344id_/https://facts.stanford.edu/wp-content/uploads/sites/20/2024/01/Stanford-FactBook2024_WEB.pdf#page=48"
+      },
+      {
+        "page": 11,
+        "url": "https://www.boomerrawlings.com/data-analysis/campus-safety/current-2026-09-25/resident_evidence.json"
+      },
+      {
+        "page": 11,
+        "url": "https://www.boomerrawlings.com/data-analysis/campus-safety/current-2026-09-25/resident_evidence.json"
+      },
+      {
+        "page": 11,
         "url": "https://nces.ed.gov/ipeds/use-the-data/download-access-database"
       },
       {
-        "page": 10,
+        "page": 11,
         "url": "https://boomerrawlings.com/data-analysis/campus-safety/data/enrollment_denominators.csv"
       }
     ],

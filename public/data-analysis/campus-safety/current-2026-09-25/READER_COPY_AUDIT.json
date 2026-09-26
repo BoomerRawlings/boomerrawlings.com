@@ -1,5 +1,5 @@
 {
-  "checked_utc": "2026-09-26T03:57:23.122Z",
+  "checked_utc": "2026-09-26T11:20:20.317Z",
   "status": "PASS",
   "scope": "Data-to-explanation and reference-source checks. Does not certify rendered browser behavior or legal completeness of plain-language category descriptions.",
   "selections": 9450,
@@ -25,6 +25,22 @@
       "pass": true
     },
     {
+      "name": "Qualified evidence matches school/year and housing geography only",
+      "pass": true
+    },
+    {
+      "name": "Qualified evidence never changes counts/populations/rates or scientific input",
+      "pass": true
+    },
+    {
+      "name": "Qualified records identify source, period, limitation and precision status",
+      "pass": true
+    },
+    {
+      "name": "Displayed population provenance equals the denominator used",
+      "pass": true
+    },
+    {
       "name": "15 category keys match the documented study dictionary",
       "pass": true
     },
@@ -42,6 +58,14 @@
     },
     {
       "name": "No2025 guide selection supplies a rate",
+      "pass": true
+    },
+    {
+      "name": "Yale2025 documents6082residents without inventing a crime rate",
+      "pass": true
+    },
+    {
+      "name": "Stanford2023 retains its dated14137resident observation",
       "pass": true
     },
     {
@@ -108,15 +132,15 @@
   "reviewed_artifacts": [
     {
       "path": "src/components/CampusReader.astro",
-      "sha256": "560585de3791ca86b7219d3a4430d85b24165f6fd5eb24238e2a9375645413a1"
+      "sha256": "03098af66318a2c213b0a25aefed901ce7bd0b453b724807822db0553482a69c"
     },
     {
       "path": "src/components/CampusReaderSources.astro",
-      "sha256": "9ee763a090f1d5386d282b7ef2410ee38dd5f5a7100fd74641f677130b78aee0"
+      "sha256": "f629e7cb37f54f8256b315e6d6998659c01f36ea4abf9a64c36a71cd2797f1f6"
     },
     {
       "path": "src/lib/campus-reader.js",
-      "sha256": "7631e418b920336068cd0b62d41cd8921f628f74639bf9ca70de437e1b5119cf"
+      "sha256": "9350905e8aa0136b5adb12a9b7f8129f3f28c61861be135f1872e60ae064aaef"
     },
     {
       "path": "src/data/campus-reader-copy.js",
@@ -124,11 +148,15 @@
     },
     {
       "path": "src/data/campus-school-context.json",
-      "sha256": "20c25c343db0d37b1a08c05b50597c84f59e68f3f6ed0053fb7f3c8b3a6bbd09"
+      "sha256": "2f9561e34394c7ec608e35d3d5a7683796cff0c56ed8c3f0a5c7c27cfa5a8463"
+    },
+    {
+      "path": "src/data/campus-resident-evidence.json",
+      "sha256": "89133a41b0aa91746dcd4cab6ee777641bda5ce307eb4dafc1457fd0b985a948"
     },
     {
       "path": "src/pages/writing/data-analysis/campus-safety.astro",
-      "sha256": "fe3929bc632904395a66a1e6597586d546664bb626fc35ca40e2d5c7c1a45236"
+      "sha256": "5f3a158c72d3f07b3bcee97b2e0bf332e8c9947ddc7db9f64c8516934e7ba3fa"
     },
     {
       "path": "src/lib/campus-citations.js",
@@ -153,6 +181,10 @@
     {
       "path": "scripts/test-campus-map.mjs",
       "sha256": "2ea305ea1ee5b7f38f0bd064ffea2f16038402d64221954579ac3e5b68170c3f"
+    },
+    {
+      "path": "scripts/test-campus-reader.mjs",
+      "sha256": "b1bfd16deabf356d8405af92cbd790e37eb8a63a8ef3a8914bdd7245437113ba"
     }
   ]
 }

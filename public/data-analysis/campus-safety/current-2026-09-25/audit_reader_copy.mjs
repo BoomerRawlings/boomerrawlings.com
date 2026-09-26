@@ -9,12 +9,14 @@ const read=relative=>fs.readFileSync(new URL(relative,site),'utf8');
 const data=JSON.parse(read('public/data-analysis/campus-safety/current-2026-09-25/dataset.json'));
 const context=JSON.parse(read('src/data/campus-school-context.json'));
 const coverage=JSON.parse(read('public/data-analysis/campus-safety/current-2026-09-25/coverage.json'));
+const evidence=JSON.parse(read('src/data/campus-resident-evidence.json')).observations;
+const frozenData=JSON.stringify(data);
 const checks=[];
 const requireCheck=(name,pass)=>checks.push({name,pass:Boolean(pass)});
 const validCount=v=>Number.isInteger(v)&&v>=0;
 const sumKnown=values=>values.every(validCount)?values.reduce((a,b)=>a+b,0):null;
 const periods=['2022','2023','2024','2025','pooled'];
-let selections=0, countPass=0, populationPass=0, ratePass=0, zeroPass=0, explanationPass=0;
+let selections=0, countPass=0, populationPass=0, ratePass=0, zeroPass=0, explanationPass=0, evidenceIsolationPass=0, evidenceRatePass=0;
 const errors=[];
 for(const inst of data.institutions) for(const category of Object.keys(topicCopy)) for(const period of periods) for(const place of ['housing','campus','combined']) {
   selections++;
@@ -25,7 +27,11 @@ for(const inst of data.institutions) for(const category of Object.keys(topicCopy
   const populations=annual.map(a=>a?.[place==='housing'?'residents':'enrollment']);
   const population=place!=='combined'&&populations.every(x=>Number.isFinite(x)&&x>0)?populations.reduce((a,b)=>a+b,0):null;
   const rate=count!==null&&population!==null?1000*count/population:null;
-  const actual=readerResult(inst,{category,period,place});
+  const actual=readerResult(inst,{category,period,place},evidence);
+  const baseline=readerResult(inst,{category,period,place});
+  const selectedEvidence=place==='housing'?evidence.filter(e=>String(e.unitid)===inst.id&&e.years.some(y=>years.includes(y))):[];
+  evidenceIsolationPass+=JSON.stringify(actual.residentEvidence)===JSON.stringify(selectedEvidence);
+  evidenceRatePass+=actual.count===baseline.count&&actual.population===baseline.population&&actual.rate===baseline.rate;
   const matches=[actual.count===count,actual.population===population,actual.rate===rate,Boolean(actual.zero)===(count===0)];
   countPass+=matches[0]; populationPass+=matches[1]; ratePass+=matches[2]; zeroPass+=matches[3];
   const explanation=(count!==null||/unavailable/.test(actual.headline)) && (rate!==null||!/gives [\d,.]+ reports per/.test(actual.interpretation)) && (place!=='combined'||period!=='pooled'||(/three-year count/.test(actual.timeExplanation)&&!/divides/.test(actual.timeExplanation)));
@@ -37,11 +43,23 @@ requireCheck('Same-year population rules respected',populationPass===selections)
 requireCheck('All guide rates match independent arithmetic',ratePass===selections);
 requireCheck('Zero explanation never used for unavailable count',zeroPass===selections);
 requireCheck('Missing/combined/pooled explanation semantics agree',explanationPass===selections);
+requireCheck('Qualified evidence matches school/year and housing geography only',evidenceIsolationPass===selections&&evidence.length>0);
+requireCheck('Qualified evidence never changes counts/populations/rates or scientific input',evidenceRatePass===selections&&JSON.stringify(data)===frozenData);
+requireCheck('Qualified records identify source, period, limitation and precision status',evidence.every(e=>
+  data.institutions.some(i=>i.id===String(e.unitid))&&['partial','approximate','unresolved'].includes(e.status)&&
+  e.years.length&&e.years.every(y=>Number.isInteger(y)&&y>=2022&&y<=2025)&&e.period_label&&e.statement&&e.reason_no_rate&&
+  e.eligible_for_rate===false&&e.source_title&&e.source_page&&/^https:\/\//.test(e.source_url)&&/^[a-f0-9]{64}$/.test(e.source_sha256)));
+requireCheck('Displayed population provenance equals the denominator used',data.institutions.every(i=>i.years.every(y=>
+  ['residents','enrollment'].every(m=>y[m]===null||y[m]===undefined||
+    Number(y.populationSources?.[m]?.value)===y[m]&&y.populationSources[m].period_label&&y.populationSources[m].source_url))));
 requireCheck('15 category keys match the documented study dictionary',Object.keys(topicCopy).length===15&&data.categories.every(c=>topicCopy[c.id]));
 requireCheck('Exactly four home-region groups plus all-schools control',Object.keys(regionCopy).join('|')==='all|West|Midwest|Northeast|South');
-requireCheck('2024 criminal-total housing availability matches independently audited coverage',data.institutions.filter(i=>readerResult(i).rate!==null).length===coverage.available_rates['2024'].residents&&coverage.available_rates['2024'].residents===13);
-requireCheck('Expanded populations retain dated provenance and scope',data.institutions.filter(i=>i.years.some(y=>y.residents>0)).length===13&&data.institutions.every(i=>i.years.filter(y=>y.residents>0).every(y=>y.populationSources?.residents?.period_label&&y.populationSources.residents.scope_note)));
+requireCheck('2024 criminal-total housing availability matches independently audited coverage',data.institutions.filter(i=>readerResult(i).rate!==null).length===coverage.available_rates['2024'].residents&&coverage.available_rates['2024'].residents===14);
+requireCheck('Expanded populations retain dated provenance and scope',data.institutions.filter(i=>i.years.some(y=>y.residents>0)).length===14&&data.institutions.every(i=>i.years.filter(y=>y.residents>0).every(y=>y.populationSources?.residents?.period_label&&y.populationSources.residents.scope_note)));
 requireCheck('No2025 guide selection supplies a rate',data.institutions.every(i=>Object.keys(topicCopy).every(category=>['housing','campus','combined'].every(place=>readerResult(i,{category,place,period:'2025'}).rate===null))));
+const yale=data.institutions.find(i=>i.officialName==='Yale University'),stanford=data.institutions.find(i=>i.officialName==='Stanford University');
+requireCheck('Yale2025 documents6082residents without inventing a crime rate',yale.years.find(y=>y.year===2025)?.residents===6082&&readerResult(yale,{period:'2025'}).population===6082&&readerResult(yale,{period:'2025'}).rate===null);
+requireCheck('Stanford2023 retains its dated14137resident observation',stanford.years.find(y=>y.year===2023)?.residents===14137);
 const ordered=[...data.institutions].sort((a,b)=>a.officialName.localeCompare(b.officialName));
 const sdsuNumber=ordered.findIndex(i=>i.id==='122409')+1;
 const component=read('src/components/CampusReader.astro');
@@ -65,7 +83,7 @@ const mapComponent=read('src/components/CampusMap.astro'),mapHelper=read('src/li
 requireCheck('Navigation map preserves all42 school identities and existing home regions',map.schools.length===42&&new Set(map.schools.map(s=>s.id)).size===42&&map.schools.every(s=>context[s.id]?.region===s.region&&data.institutions.some(i=>i.id===s.id&&i.officialName===s.officialName)));
 requireCheck('Map shares explicit school/region handlers and current search-result IDs',component.includes('onRegion:selectRegion,onSchool:selectSchool')&&component.includes('matchIds:matches.map(')&&mapHelper.includes('current.matchIds.includes(s.id)')&&component.includes("browsing=true;selected='';render();save();"));
 requireCheck('Map declares navigation-only interpretation and numbered nearby-school choices',mapComponent.includes('Its crime report may cover other sites')&&mapComponent.includes('Marker sizes and colors do not indicate crime levels')&&mapHelper.includes('numbered markers open a choice of nearby schools')&&mapHelper.includes('button(s.officialName,()=>onSchool(s.id))'));
-const reviewed=['src/components/CampusReader.astro','src/components/CampusReaderSources.astro','src/lib/campus-reader.js','src/data/campus-reader-copy.js','src/data/campus-school-context.json','src/pages/writing/data-analysis/campus-safety.astro','src/lib/campus-citations.js','src/components/CampusMap.astro','src/lib/campus-map.js','src/data/campus-map.json','src/styles/campus-map.css','scripts/test-campus-map.mjs'];
+const reviewed=['src/components/CampusReader.astro','src/components/CampusReaderSources.astro','src/lib/campus-reader.js','src/data/campus-reader-copy.js','src/data/campus-school-context.json','src/data/campus-resident-evidence.json','src/pages/writing/data-analysis/campus-safety.astro','src/lib/campus-citations.js','src/components/CampusMap.astro','src/lib/campus-map.js','src/data/campus-map.json','src/styles/campus-map.css','scripts/test-campus-map.mjs','scripts/test-campus-reader.mjs'];
 const result={checked_utc:new Date().toISOString(),status:checks.every(c=>c.pass)?'PASS':'FAIL',scope:'Data-to-explanation and reference-source checks. Does not certify rendered browser behavior or legal completeness of plain-language category descriptions.',selections,checks,errors,region_counts:Object.fromEntries(['West','Midwest','Northeast','South'].map(r=>[r,Object.values(context).filter(c=>c.region===r).length])),sdsu_source_number:sdsuNumber,reviewed_artifacts:reviewed.map(path=>({path,sha256:crypto.createHash('sha256').update(read(path)).digest('hex')}))};
 fs.writeFileSync(new URL('READER_COPY_AUDIT.json',import.meta.url),JSON.stringify(result,null,2)+'\n');
 console.log(JSON.stringify({status:result.status,selections,checks:checks.length,failed:checks.filter(c=>!c.pass).map(c=>c.name),errors:errors.length,region_counts:result.region_counts},null,2));

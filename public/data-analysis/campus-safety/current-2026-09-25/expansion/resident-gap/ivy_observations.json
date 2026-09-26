@@ -1,0 +1,132 @@
+[
+  {
+    "observation_id": "ivy-190415-1",
+    "unitid": "190415",
+    "years": [
+      2024,
+      2025
+    ],
+    "period_label": "FY2024\u201325; exact resident census date unspecified",
+    "value": 8861,
+    "status": "unresolved",
+    "statement": "Cornell reports 8,861 student residents for its Ithaca reporting boundary; the same figure appears in performance-year tables for July 2024\u2013June 2025.",
+    "reason_no_rate": "The source excludes Cornell Tech, which has separately reported housing offenses. The exact resident census date is not stated. This cannot supply a whole-institution or exact Fall2024 rate.",
+    "eligible_for_rate": false,
+    "source_url": "https://cornell.app.box.com/index.php?rm=box_download_shared_file&shared_name=tbpc5ryae9dhbh3bft99lgqlyjh9su9m&file_id=f_2234645641562",
+    "source_title": "Cornell 2026 sustainability report, official university mirror",
+    "source_page": "PDF12,21,23,383,407",
+    "source_sha256": "5b6c35e0975d07c40e499280815c86afea6fe72fc3fd69781541b76091d2fc95",
+    "source_file": "raw/cornell_stars_2026.pdf"
+  },
+  {
+    "observation_id": "ivy-182670-2",
+    "unitid": "182670",
+    "years": [
+      2022,
+      2023
+    ],
+    "period_label": "Academic year 2022\u201323",
+    "value": 3768,
+    "status": "partial",
+    "statement": "Dartmouth reports 3,768 undergraduates across halls, affinity housing, college and private Greek housing, societies and temporary housing; non-college housing is excluded.",
+    "reason_no_rate": "Graduate residences are absent. The dashboard uses academic years; its export does not specify a census date. A full student housing rate cannot use this undergraduate-only count.",
+    "eligible_for_rate": false,
+    "source_url": "https://public.tableau.com/views/StudentLife_0/Residence.pdf?:showVizHome=no",
+    "source_title": "Dartmouth Office of Institutional Research: Undergraduate Student Housing Occupancy",
+    "source_page": "PDF1",
+    "source_sha256": "50156af1d11bbcc6cd376602749db2b8cee8e9efd2f00916f3013434f36c2999",
+    "source_file": "raw/dartmouth_residence_pdf.pdf"
+  },
+  {
+    "observation_id": "ivy-182670-3",
+    "unitid": "182670",
+    "years": [
+      2023,
+      2024
+    ],
+    "period_label": "Academic year 2023\u201324",
+    "value": 3768,
+    "status": "partial",
+    "statement": "Dartmouth reports 3,768 undergraduates across halls, affinity housing, college and private Greek housing, societies and temporary housing; non-college housing is excluded.",
+    "reason_no_rate": "Graduate residences are absent. The dashboard uses academic years; its export does not specify a census date. A full student housing rate cannot use this undergraduate-only count.",
+    "eligible_for_rate": false,
+    "source_url": "https://public.tableau.com/views/StudentLife_0/Residence.pdf?:showVizHome=no",
+    "source_title": "Dartmouth Office of Institutional Research: Undergraduate Student Housing Occupancy",
+    "source_page": "PDF1",
+    "source_sha256": "50156af1d11bbcc6cd376602749db2b8cee8e9efd2f00916f3013434f36c2999",
+    "source_file": "raw/dartmouth_residence_pdf.pdf"
+  },
+  {
+    "observation_id": "ivy-182670-4",
+    "unitid": "182670",
+    "years": [
+      2024,
+      2025
+    ],
+    "period_label": "Academic year 2024\u201325",
+    "value": 3858,
+    "status": "partial",
+    "statement": "Dartmouth reports 3,858 undergraduates across halls, affinity housing, college and private Greek housing, societies and temporary housing; non-college housing is excluded.",
+    "reason_no_rate": "Graduate residences are absent. The dashboard uses academic years; its export does not specify a census date. A full student housing rate cannot use this undergraduate-only count.",
+    "eligible_for_rate": false,
+    "source_url": "https://public.tableau.com/views/StudentLife_0/Residence.pdf?:showVizHome=no",
+    "source_title": "Dartmouth Office of Institutional Research: Undergraduate Student Housing Occupancy",
+    "source_page": "PDF1",
+    "source_sha256": "50156af1d11bbcc6cd376602749db2b8cee8e9efd2f00916f3013434f36c2999",
+    "source_file": "raw/dartmouth_residence_pdf.pdf"
+  },
+  {
+    "observation_id": "ivy-131496-5",
+    "unitid": "131496",
+    "years": [
+      2024
+    ],
+    "period_label": "Fall 2024",
+    "value": 37,
+    "status": "partial",
+    "statement": "Georgetown reports 37 undergraduate students housed at 55 H Street.",
+    "reason_no_rate": "This is one building and excludes graduate residents and the other housing locations.",
+    "eligible_for_rate": false,
+    "source_url": "https://georgetown.app.box.com/index.php?rm=box_download_shared_file&shared_name=ocssvuvzmnzus702khgsodlfq8id1uhx&file_id=f_2082687131999",
+    "source_title": "Georgetown 2025 campus-plan compliance report",
+    "source_page": "PDF3; printed2",
+    "source_sha256": "6a8353a5b0239de050e0cd13b969e1a7e66a8656004fe2f29d042ea229b51f5e",
+    "source_file": "raw/georgetown_pdf_2024_25.pdf"
+  },
+  {
+    "observation_id": "ivy-131496-6",
+    "unitid": "131496",
+    "years": [
+      2025
+    ],
+    "period_label": "Spring 2025",
+    "value": 36,
+    "status": "partial",
+    "statement": "Georgetown reports 36 undergraduate students housed at 55 H Street.",
+    "reason_no_rate": "This is one building and excludes graduate residents and the other housing locations.",
+    "eligible_for_rate": false,
+    "source_url": "https://georgetown.app.box.com/index.php?rm=box_download_shared_file&shared_name=ocssvuvzmnzus702khgsodlfq8id1uhx&file_id=f_2082687131999",
+    "source_title": "Georgetown 2025 campus-plan compliance report",
+    "source_page": "PDF3; printed2",
+    "source_sha256": "6a8353a5b0239de050e0cd13b969e1a7e66a8656004fe2f29d042ea229b51f5e",
+    "source_file": "raw/georgetown_pdf_2024_25.pdf"
+  },
+  {
+    "observation_id": "ivy-131496-7",
+    "unitid": "131496",
+    "years": [
+      2025
+    ],
+    "period_label": "Fall 2025",
+    "value": 360,
+    "status": "approximate",
+    "statement": "Georgetown reports approximately 360 graduate students housed at 55 H Street.",
+    "reason_no_rate": "The count is approximate and covers one building and one student level; it is not the full university housing population.",
+    "eligible_for_rate": false,
+    "source_url": "https://georgetown.app.box.com/index.php?rm=box_download_shared_file&shared_name=ocssvuvzmnzus702khgsodlfq8id1uhx&file_id=f_2082687131999",
+    "source_title": "Georgetown 2025 campus-plan compliance report",
+    "source_page": "PDF2; printed1",
+    "source_sha256": "6a8353a5b0239de050e0cd13b969e1a7e66a8656004fe2f29d042ea229b51f5e",
+    "source_file": "raw/georgetown_pdf_2024_25.pdf"
+  }
+]

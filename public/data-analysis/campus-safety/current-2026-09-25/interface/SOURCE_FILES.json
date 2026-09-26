@@ -1,11 +1,11 @@
 {
   "components/CampusReader.astro": {
-    "bytes": 15119,
-    "sha256": "560585de3791ca86b7219d3a4430d85b24165f6fd5eb24238e2a9375645413a1"
+    "bytes": 15980,
+    "sha256": "03098af66318a2c213b0a25aefed901ce7bd0b453b724807822db0553482a69c"
   },
   "components/CampusReaderSources.astro": {
-    "bytes": 2578,
-    "sha256": "9ee763a090f1d5386d282b7ef2410ee38dd5f5a7100fd74641f677130b78aee0"
+    "bytes": 3228,
+    "sha256": "f629e7cb37f54f8256b315e6d6998659c01f36ea4abf9a64c36a71cd2797f1f6"
   },
   "components/CampusMap.astro": {
     "bytes": 2019,
@@ -16,8 +16,8 @@
     "sha256": "4f9a015116d5099b7443f05073ae54feea9db031b3ac7472781de1366a049566"
   },
   "lib/campus-reader.js": {
-    "bytes": 3843,
-    "sha256": "7631e418b920336068cd0b62d41cd8921f628f74639bf9ca70de437e1b5119cf"
+    "bytes": 4547,
+    "sha256": "9350905e8aa0136b5adb12a9b7f8129f3f28c61861be135f1872e60ae064aaef"
   },
   "lib/campus-rates.js": {
     "bytes": 5719,
@@ -44,8 +44,12 @@
     "sha256": "1e2d414d5dee563c0a1eb7efffa6d62c433e1e2f04faee15ec8462b7c2b0d17e"
   },
   "data/campus-school-context.json": {
-    "bytes": 40858,
-    "sha256": "20c25c343db0d37b1a08c05b50597c84f59e68f3f6ed0053fb7f3c8b3a6bbd09"
+    "bytes": 40938,
+    "sha256": "2f9561e34394c7ec608e35d3d5a7683796cff0c56ed8c3f0a5c7c27cfa5a8463"
+  },
+  "data/campus-resident-evidence.json": {
+    "bytes": 36472,
+    "sha256": "89133a41b0aa91746dcd4cab6ee777641bda5ce307eb4dafc1457fd0b985a948"
   },
   "data/campus-map.json": {
     "bytes": 205370,
@@ -60,17 +64,17 @@
     "sha256": "e501e5490437c400baf3af34569655bbe79a303bb0dbf10758fc4bf9e7e8447c"
   },
   "pages/writing/data-analysis/campus-safety.astro": {
-    "bytes": 20545,
-    "sha256": "fe3929bc632904395a66a1e6597586d546664bb626fc35ca40e2d5c7c1a45236"
+    "bytes": 20790,
+    "sha256": "5f3a158c72d3f07b3bcee97b2e0bf332e8c9947ddc7db9f64c8516934e7ba3fa"
   },
   "content/archive/campus-safety.md": {
-    "bytes": 17558,
-    "sha256": "f292b2138ba6a6238f434e4aa933bde13df15ed3832f90647361657796e4489a"
+    "bytes": 19387,
+    "sha256": "f7b8c3085ee2698637045710a7a86ee9b583acabd66200f0e5680ea3ba8953db"
   },
   "test-campus-reader.mjs": {
     "original_project_path": "scripts/test-campus-reader.mjs",
-    "bytes": 3167,
-    "sha256": "950c0c06afd164f389932058910224da4ab9e595a95a20b797630fdab298c20e"
+    "bytes": 6335,
+    "sha256": "b1bfd16deabf356d8405af92cbd790e37eb8a63a8ef3a8914bdd7245437113ba"
   },
   "test-campus-map.mjs": {
     "original_project_path": "scripts/test-campus-map.mjs",
@@ -79,13 +83,13 @@
   },
   "test-campus-current.mjs": {
     "original_project_path": "scripts/test-campus-current.mjs",
-    "bytes": 5409,
-    "sha256": "3d547d624eb1558b8ced9854db452834b5d622e7eb6136030ea8cae8001b72dc"
+    "bytes": 5532,
+    "sha256": "71499030116f088e2eac8fd9e87572d6535d1c85ed1eb565a522b8980f0976b2"
   },
   "test-campus-residents.mjs": {
     "original_project_path": "scripts/test-campus-residents.mjs",
     "bytes": 3802,
-    "sha256": "16e8a1876c11a649aea94f9209da0b8badf7576719422af584f38e194e5e1ead"
+    "sha256": "7fb369b189f85763a78879afc7289bcfbb216b2ca3c05583aebccbc121f452e5"
   },
   "test-campus-sorting.mjs": {
     "original_project_path": "scripts/test-campus-sorting.mjs",

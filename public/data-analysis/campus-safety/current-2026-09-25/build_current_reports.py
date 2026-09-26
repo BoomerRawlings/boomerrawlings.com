@@ -62,7 +62,8 @@ class Equation(Flowable):
 
 def build(dest,title):
     def footer(c,d):
-        c.saveState();c.setStrokeColor(RULE);c.line(M,42,W-M,42);c.setFillColor(MUTED);c.setFont('Body',8);c.drawString(M,29,'Boomer Rawlings | '+title+' | 25 September 2026');c.drawRightString(W-M,29,str(d.page));c.restoreState()
+        date='26 September 2026' if title.startswith('Campus safety') else '25 September 2026'
+        c.saveState();c.setStrokeColor(RULE);c.line(M,42,W-M,42);c.setFillColor(MUTED);c.setFont('Body',8);c.drawString(M,29,'Boomer Rawlings | '+title+' | '+date);c.drawRightString(W-M,29,str(d.page));c.restoreState()
     SimpleDocTemplate(str(dest),pagesize=(W,H),leftMargin=M,rightMargin=M,topMargin=48,bottomMargin=56,title=title,author='Boomer Rawlings').build(story,onFirstPage=footer,onLaterPages=footer)
     return {'file':dest.name,'pages':len(PdfReader(dest).pages),'bytes':dest.stat().st_size,'sha256':hashlib.sha256(dest.read_bytes()).hexdigest()}
 
@@ -97,13 +98,16 @@ REFS=[
 ('Carnegie Mellon University. 2026 Annual Security and Fire Safety Report, p. 81: fall 2023 and 2024 housing census.', 'https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf#page=81'),
 ('Carnegie Mellon University Housing. Information for families: on-campus housing unavailable to graduate students.', 'https://www.cmu.edu/housing/about-us/for-our-families.html'),
 ('University of Texas at Austin. University Housing and Dining, Learning and Outcomes Report 2023-2024, PDF p. 5: spring 2024 residents.', 'https://utexas.app.box.com/v/LearnOutcomeReports/file/1743656171859'),
+('Yale University, Office of Institutional Research. W023, Headcount of Students in University Housing, PDF pp. 1-2; fall reference date and notes p. 3. Updated October 16, 2025.', resident_sources[('130794',2024)]['source_url']),
+('Stanford University. Stanford Facts 2024, printed p. 46 / PDF p. 48: autumn 2023 housing. Internet Archive capture of the original university PDF, April 14, 2024.', resident_sources[('243744',2023)]['source_url']+'#page=48'),
+('Resident-evidence ledger: documented partial, approximate and definition-unresolved observations; excluded from exact resident denominators.', 'https://www.boomerrawlings.com/data-analysis/campus-safety/current-2026-09-25/resident_evidence.json'),
 ]
 p('CAMPUS SAFETY DATA ANALYSIS / CURRENT-SOURCE REVISION','small')
 p('Campus safety,<br/>in proportion.','title')
-p('Reported campus offenses by geography and documented population. Source audit dated 25 September 2026; original federal results retained as an explicit archive.')
+p('Reported campus offenses by geography and documented population. Offense-source audit dated 25 September 2026; resident-source follow-up dated 26 September 2026. Original federal results remain available as an explicit archive.')
 h('Scope and principal interpretation')
 p(f'The fixed cohort includes <b>42 institutions</b>: the ten University of California (UC) institutions, eight Ivy League institutions and 24 other public/private universities including San Diego State University (SDSU). Current table extraction covers <b>{coverage["institutions_with_extracted_cells"]} institutions</b>, with verification limits stated for each. Four calendar years, 2022-2025, are available in the interface; coverage differs by edition and branch. [10-12]')
-p(f'The default compares 2024 campus-housing reports per 1,000 documented residents. <b>{coverage["available_rates"]["2024"]["residents"]} combined criminal-offense rates are available among {resident_2024} institutions with resident counts.</b> These populations are dated snapshots with qualified geographic scope. One 2025 population is adopted, but no complete matching combined institutional rate is available. Missing rates do not imply no reports. These administrative ratios are not convictions, unique-victim counts or student victimization probabilities. [3,5,10,13]')
+p(f'The default compares 2024 campus-housing reports per 1,000 documented residents. <b>{coverage["available_rates"]["2024"]["residents"]} combined criminal-offense rates are available among {resident_2024} institutions with resident counts.</b> These populations are dated snapshots with qualified geographic scope. {resident_2025} populations are adopted for 2025, but no complete matching combined institutional rate is available. Missing rates do not imply no reports. These administrative ratios are not convictions, unique-victim counts or student victimization probabilities. [3,5,10,13]')
 h('SDSU rape reports: why 2024 has both one and three')
 table(['Report year','Housing subset','Campus total','Noncampus','Public','Combined'],[[2023,8,11,2,0,13],[2024,1,1,2,0,3],[2025,10,11,5,0,16]],[76,92,88,90,72,98])
 p('Housing is already included in campus total. For 2024, <b>1 campus + 2 noncampus + 0 public = 3</b>. The earlier count of one describes housing/on-campus geography. Both report editions agree on those 2024 values; this discrepancy is geographic, not a revision. The 2026 edition does revise 2023 housing rape from seven to eight. [1,2]')
@@ -119,15 +123,15 @@ h('Pooled 2022-2024 annual ratio')
 story.append(Equation(True))
 p('Sum the three counts and divide by the sum of the three dated population snapshots. This is a denominator-weighted mean, not an unweighted average and not unique people across three years. Calculations retain full precision until display; any unavailable component withholds the result.')
 h('Population alignment')
-p('Housing populations combine the State Auditor\'s actual fall occupancy and university housing census counts. These are dated fall/autumn snapshots and approximate institutional housing denominators: properties are not matched individually to Clery residential geography. Optional enrollment measures use institution-wide fall headcount, including part-time and distance-only students. Neither denominator measures time physically present. [3,6a,13-18]')
+p('Housing populations combine the State Auditor\'s actual fall occupancy and university housing census counts. These are dated fall/autumn snapshots and approximate institutional housing denominators: properties are not matched individually to Clery residential geography. Optional enrollment measures use institution-wide fall headcount, including part-time and distance-only students. Neither denominator measures time physically present. [3,6a,13-18,20,21]')
 p('Capacity, rounded estimates and incomplete undergraduate/graduate subsets are retained as research leads, not substituted for actual resident totals. No earlier population is carried forward. A valid population alone does not resolve missing source counts. The original 2022-2024 federal enrollment bytes remain unchanged. [6,10,12,13]')
 
 page('Expanded source and population coverage')
 p(f'The acquisition follow-up increases 2024 combined housing-count availability from 29 to {coverage["housing_count_coverage"]["2024"]} institutions; documented resident populations from 11 to {resident_2024}; and paired rates from 10 to {coverage["available_rates"]["2024"]["residents"]}. Current source extraction reaches all {coverage["institutions_with_extracted_cells"]} institutions, comprising {coverage["source_cells"]:,} source cells. Access and extraction do not establish complete reporting. [10-13]')
-h('Five additional resident observations')
+h('Initial five resident additions')
 table(['Institution / period','Residents','Source scope'],[
-('Stanford, autumn 2024','14,203','7,108 undergraduate + 7,095 graduate residents. University-authored factbook recovered from a publisher mirror. [14]'),
-('Stanford, autumn 2025','14,042','6,727 undergraduate + 7,315 graduate residents. Current official university page. [15]'),
+('Stanford, autumn 2024','14,203','7,108 students in undergraduate housing + 7,095 in graduate housing. University-authored factbook recovered from a publisher mirror. [14]'),
+('Stanford, autumn 2025','14,042','6,727 students in undergraduate housing + 7,315 in graduate housing. Current official university page. [15]'),
 ('Carnegie Mellon, fall 2022','3,458','3,158 university housing + 300 fraternity/sorority housing. [16,18]'),
 ('Carnegie Mellon, fall 2023','3,764','3,515 university housing + 249 fraternity/sorority housing. [17,18]'),
 ('Carnegie Mellon, fall 2024','3,988','3,732 university housing + 256 fraternity/sorority housing. [17,18]'),
@@ -136,6 +140,21 @@ p('Stanford university-provided housing is not reconciled to every Clery parcel 
 p('Texas reports 10,018 residents in spring 2024, but does not explicitly separate students from possible dependents in that figure. This is a documented candidate, not an adopted student denominator. Stanford\'s 2025 population is adopted, but overseas count coverage does not extend consistently through 2025. A population alone does not repair missing counts. [10,11,13,19]','small')
 h('Recovered and updated crime reports')
 p('Original Merced, Harvard, Johns Hopkins and Virginia reports were recovered and independently checked. Harvard still has omitted geographic columns. The Hopkins report is titled 2025, says issued October 1, 2026, and tabulates 2023-2025; it was publicly linked before that printed issue date. Stanford\'s main-campus report advances to 2026 while overseas editions remain mixed. The latest Princeton report adds 2025; overlapping 2023-2024 values agree with its previous edition. [10-12]','small')
+
+page('Resident-source follow-up: 26 September')
+p('The follow-up verifies five further observations: four Yale housing censuses and one historical Stanford census. Together with the initial five additions, these records extend documented populations without changing any offense counts. [11,13,20,21]')
+table(['Institution / period','Residents','Source scope'],[
+('Yale, fall 2022','6,255','5,297 undergraduate + 958 graduate/professional students. [20]'),
+('Yale, fall 2023','6,064','5,120 undergraduate + 944 graduate/professional students. [20]'),
+('Yale, fall 2024','6,011','5,057 undergraduate + 954 graduate/professional students. [20]'),
+('Yale, fall 2025','6,082','5,115 undergraduate + 967 graduate/professional students. [20]'),
+('Stanford, autumn 2023','14,137','7,207 students in undergraduate housing + 6,930 in graduate housing; archived original university factbook. [21]'),
+],[163,64,289],pad=7)
+p('Yale explicitly counts students in university housing. Students residing with partners or dependents are a student classification; those columns do not add family members to the denominator. The source specifies fall of each academic year and records the summer 2024 closure of Helen Hadley Hall. Its housing properties are not independently matched to every Clery residential property. Current Yale offense tables end in 2024, so the 2025 population does not establish a 2025 rate. [11,13,20]')
+p('Stanford\'s complete 2024 factbook was recovered from an archived capture of its official website. The downloaded Portable Document Format (PDF) file\'s digest matches the archive index, and the housing page was visually checked. This resolves the earlier indexed-only source limitation for autumn 2023. The university-provided housing footprint retains the same geographic qualification as the 2024 and 2025 observations. [13,21]')
+h('Documented evidence beyond adopted totals')
+p('Partial populations, approximate figures and unresolved population definitions remain useful context. They are retained in a separate evidence ledger and do not enter the exact resident denominators. A missing adopted denominator means that this study has not verified a compatible total; it does not establish that no housing figure is publicly available. [13,22]')
+p(link('https://www.boomerrawlings.com/data-analysis/campus-safety/current-2026-09-25/resident_evidence.json','Resident evidence and outstanding qualifications'),'small')
 
 page('Housing comparison and updated results')
 p(f'2024 institutional residential-facility counts divided by documented residents. All {resident_2024} institutions with an adopted population remain visible when a selected count is unavailable. Ratios are approximate geographic normalizations, not resident victimization rates. [3,10,11,13]')
@@ -164,7 +183,7 @@ table(['Source issue','Treatment in this revision'],[
 ('Missing geographic columns','Unknown is not zero. Only explicit absent-geography declarations support structural zero contributions to a total.'),
 ('New or changed branches','Keep source-specific branch identities and opening/scope notes. Do not silently allocate an institution-wide population to a branch.'),
 ('Unusable outside-agency returns','Florida Everglades and Vicenza 2025 lack usable local-agency data; affected comparisons are withheld.'),
-('Recovered sources','Merced, Harvard, Johns Hopkins and Virginia Portable Document Format (PDF) reports are now verified. Omitted columns, incomplete outside-agency returns and source conflicts still limit calculations.'),
+('Recovered sources','Merced, Harvard, Johns Hopkins and Virginia PDF reports are now verified. Omitted columns, incomplete outside-agency returns and source conflicts still limit calculations.'),
 ],[157,359],pad=7)
 p('Detailed qualifications and every exclusion are recorded in the institutional inventory and cell ledger. The original federal snapshot remains available for reproducibility; it is not presented as the newest institutional account. Missing and withheld values must not be used to rank institutions. [10-12]')
 
@@ -195,7 +214,7 @@ page('References and reproducibility')
 for i,(label,url) in enumerate(REFS,1):p(f'<b>[{i}]</b> '+link(url,label),'small')
 p(link('https://nces.ed.gov/ipeds/use-the-data/download-access-database','[6a] IPEDS complete files and data dictionaries.')+' '+link('https://boomerrawlings.com/data-analysis/campus-safety/data/enrollment_denominators.csv','Source-derived fall enrollment denominator records, 2022-2024.'),'small')
 h('Version record')
-p('Current revision: 25 September 2026. SDSU current report Secure Hash Algorithm 256-bit (SHA-256) checksum: 8d697b9134573a07dd7d53a0db29c18f8fe3a5b97e026fb8221237766155c80b. The original report remains archived and contains superseded SDSU pooled figures. Current calculation tables and the source ledger govern this revision.','small')
+p('Resident-source revision: 26 September 2026; offense inventory remains the 25 September audit. SDSU current report Secure Hash Algorithm 256-bit (SHA-256) checksum: 8d697b9134573a07dd7d53a0db29c18f8fe3a5b97e026fb8221237766155c80b. The original report remains archived and contains superseded SDSU pooled figures. Current calculation tables and the source ledger govern this revision.','small')
 campus=build(OUT/'campus-safety-current-report.pdf','Campus safety: current sources')
 
 if args.campus_only:

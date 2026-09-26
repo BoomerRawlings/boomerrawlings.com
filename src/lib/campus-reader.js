@@ -1,9 +1,10 @@
 import {summarize, rateLabel} from './campus-rates.js';
 import {topicCopy, placeCopy, periodCopy} from '../data/campus-reader-copy.js';
 const number = value => value.toLocaleString('en-US');
-export function readerResult(institution,{category='criminal_total',period='2024',place='housing'}={}) {
+export function readerResult(institution,{category='criminal_total',period='2024',place='housing'}={},evidence=[]) {
   if(!topicCopy[category] || !placeCopy[place] || !periodCopy[period]) throw new Error('Invalid reader selection');
   const years=period==='pooled'?[2022,2023,2024]:[Number(period)];
+  const residentEvidence=place==='housing'?evidence.filter(e=>String(e.unitid)===institution.id&&e.years.some(y=>years.includes(y))):[];
   let result;
   if(place==='combined') {
     const cells=years.flatMap(year=>['oncampus','noncampus','publicproperty'].map(geo=>institution.years.find(y=>y.year===year)?.counts[geo]?.[category]));
@@ -18,11 +19,12 @@ export function readerResult(institution,{category='criminal_total',period='2024
   let interpretation;
   if(place==='combined') interpretation=result.count===null?'At least one year or reporting area is missing, ambiguous or unverified. The available figures do not establish a complete comparable total, so it is not displayed.':'This total includes qualifying off-campus properties and public property within or next to campus. It cannot be divided by the housing population to produce a resident rate.';
   else if(result.count===null) interpretation=`The source does not support a complete count for the selected years, category and location. Missing is not zero.${result.population!==null?` The population is documented (${number(result.population)}), but a rate still requires a verified count.`:''}`;
-  else if(result.population===null) interpretation=`The count is available, but a verified ${period==='pooled'?'complete set of same-year populations':'same-year population'} is not. No rate per resident${place==='campus'?' or enrolled student':''} is calculated; bed capacity and an earlier year's population are not substitutes.`;
+  else if(result.population===null) interpretation=`The count is available. A complete matching ${period==='pooled'?'set of same-year populations has':'same-year population has'} not yet been verified for this comparison.${place==='housing'?(residentEvidence.length?' Related housing figures are documented below, with the specific limits that prevent a comparable rate.':' This does not establish that the school has no published housing figures.'):' The selected enrollment denominator remains unverified.'} No rate is calculated from bed capacity or an earlier year's population.`;
   else interpretation=`${number(result.count)} reported ${offense} divided by ${number(result.population)} ${period==='pooled'?'summed population snapshots':'people in the documented population'}, then multiplied by 1,000, gives ${rateLabel(result.rate)} reports per 1,000 ${populationLabel}${period==='pooled'?' per year':''}. This is a reporting comparison, not a percentage of students victimized.`;
   const zero=result.count===0?'Zero means no offenses recorded in this source for the selected category and area; unreported offenses are not measured.':null;
   const editions=[...new Set(institution.years.filter(y=>years.includes(y.year)).flatMap(y=>y.sourceEditions??[]))];
   const timeExplanation=period==='pooled'&&place==='combined'?'Adds the 2022, 2023 and 2024 counts only when all three years and all three reporting areas are verified. This is a three-year count, not an annual rate or a count of unique people.':periodCopy[period];
   const populationSources=place==='combined'?[]:institution.years.filter(y=>years.includes(y.year)).map(y=>y.populationSources?.[place==='housing'?'residents':'enrollment']).filter(Boolean);
-  return {...result,headline,interpretation,zero,editions,scope,populationLabel,timeExplanation,populationSources};
+  const populationStatus=result.population!==null?'Verified total':residentEvidence.some(e=>e.status==='partial')?'Partial evidence':residentEvidence.some(e=>e.status==='approximate')?'Approximate only':residentEvidence.length?'Needs clarification':'Not yet verified';
+  return {...result,headline,interpretation,zero,editions,scope,populationLabel,timeExplanation,populationSources,residentEvidence,populationStatus};
 }

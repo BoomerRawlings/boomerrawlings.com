@@ -1,3 +1,5 @@
+> HISTORICAL RECORD: The 25 September expansion is superseded by RESIDENT_GAP_AMENDMENT.md for resident coverage, population additions, interface and report version. Its old report checksum identifies the earlier release.
+
 # Campus safety: resident and source-coverage expansion
 
 This scientific revision supersedes the earlier presentation-only amendment. Source acquisition is dated September 25, 2026 Pacific time; retrieval timestamps retain their original Coordinated Universal Time values. It expands the institutional series while preserving the separately labeled federal archive and all Crime and Heat files.

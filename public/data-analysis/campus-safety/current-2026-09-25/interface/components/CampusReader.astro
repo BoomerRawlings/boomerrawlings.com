@@ -1,5 +1,6 @@
 ---
 import context from '../data/campus-school-context.json';
+import residentEvidence from '../data/campus-resident-evidence.json';
 import {regionCopy,topicCopy,placeCopy,periodCopy} from '../data/campus-reader-copy.js';
 import CampusMap from './CampusMap.astro';
 import '../styles/campus-reader.css';
@@ -31,12 +32,13 @@ import '../styles/campus-reader.css';
     </div>
     <div class="reader-interpretation"><p><strong>Location.</strong> <span id="reader-location-explanation">{placeCopy.housing.text}</span></p><p><strong>Category.</strong> <span id="reader-topic-explanation">{topicCopy.criminal_total.text}</span></p><p><strong>Time period.</strong> <span id="reader-time-explanation">{periodCopy['2024']}</span></p></div>
     <p class="reader-small" id="reader-editions"></p>
-    <details id="reader-population-detail" class="reader-context" hidden><summary>What does this population cover?</summary><div id="reader-population-sources"></div></details>
+    <details id="reader-population-detail" class="reader-context" hidden><summary id="reader-population-summary">What do we know about the housing population?</summary><div id="reader-population-sources"></div><div id="reader-population-evidence"></div></details>
     <p class="reader-small">Evidence for this view: <sub><a id="reader-school-citation" href="#reader-sources" aria-label="Selected school's source">[School source]</a></sub> <sub><a href="#reader-source-calculations" data-reader-source-link>[R1]</a></sub> <sub><a href="#reader-source-population" data-reader-source-link>[R2]</a></sub>. Counts describe reported offenses, not convictions, distinct victims or personal risk.</p>
     <div class="reader-next"><a id="reader-table-link" href="#explorer">Open this selection in the detailed table</a><a id="reader-location-link" href="#report-geography">Inspect individual campus locations</a></div>
   </article>
   <noscript><p>JavaScript enables school search. Open the detailed comparisons below to explore the tables without it.</p></noscript>
   <script type="application/json" id="reader-context" set:html={JSON.stringify(context).replace(/</g,'\\u003c')} />
+  <script type="application/json" id="reader-resident-evidence" set:html={JSON.stringify(residentEvidence).replace(/</g,'\\u003c')} />
 </section>
 <script>
   import {regionCopy,topicCopy,placeCopy,periodCopy} from '../data/campus-reader-copy.js';
@@ -49,6 +51,7 @@ import '../styles/campus-reader.css';
   if(root){
     const data=JSON.parse(document.getElementById('campus-dataset')!.textContent!).current;
     const contexts=JSON.parse(document.getElementById('reader-context')!.textContent!);
+    const housingEvidence=JSON.parse(document.getElementById('reader-resident-evidence')!.textContent!).observations;
     const schools=[...data.institutions].sort((a:any,b:any)=>a.officialName.localeCompare(b.officialName));
     const $=(id:string)=>document.getElementById(id)!;
     const input=$('reader-search') as HTMLInputElement;
@@ -88,11 +91,11 @@ import '../styles/campus-reader.css';
     function render(){
       $('reader-reading').hidden=!selected;
       if(!selected){choices();return;}
-      const s=schools.find((s:any)=>s.id===selected),r=readerResult(s,selection());
+      const s=schools.find((s:any)=>s.id===selected),r=readerResult(s,selection(),housingEvidence);
       $('reader-school-heading').textContent=s.officialName.replace('University of California-','University of California, ');
       $('reader-school-scope').textContent=contexts[s.id].note;
       root!.querySelector('[data-reader-count]')!.textContent=format(r.count);
-      root!.querySelector('[data-reader-population]')!.textContent=place==='combined'?'No matched population':format(r.population);
+      root!.querySelector('[data-reader-population]')!.textContent=place==='combined'?'No matched population':place==='housing'&&r.population===null?r.populationStatus:format(r.population);
       root!.querySelector('[data-reader-rate]')!.textContent=r.rate===null?'Not calculated':rateLabel(r.rate);
       root!.querySelector('[data-reader-count]')!.previousElementSibling!.textContent=place==='housing'?'Reports in student housing':place==='campus'?'Reports on campus':'Reports across all areas';
       root!.querySelector('[data-reader-pop-label]')!.textContent=place==='combined'?'Population basis':`${year.value==='pooled'?'Summed populations':place==='housing'?'Documented residents':'Fall enrollment'}`;
@@ -100,9 +103,11 @@ import '../styles/campus-reader.css';
       $('reader-result-heading').textContent=r.headline;$('reader-explanation').textContent=r.interpretation;
       $('reader-zero').textContent=r.zero??'';$('reader-zero').hidden=!r.zero;
       $('reader-location-explanation').textContent=placeCopy[place].text;$('reader-topic-explanation').textContent=topicCopy[topic.value].text;$('reader-time-explanation').textContent=r.timeExplanation;
-      $('reader-editions').textContent=`Current-source view · checked 25 September 2026. ${r.editions.length?`Report editions supplying this period: ${r.editions.join(', ')}. ${s.branchCount} ${s.branchCount===1?'reporting campus':'reporting campuses'} in the source inventory; this institutional summary may include locations away from the main campus.`:'No verified source edition supplies this period. Current reporting coverage for this selection is unverified.'}`;
-      $('reader-population-detail').hidden=!r.populationSources.length;
+      $('reader-editions').textContent=`Crime-source review: 25 September 2026. Housing-source review: 26 September 2026. ${r.editions.length?`Report editions supplying this period: ${r.editions.join(', ')}. ${s.branchCount} ${s.branchCount===1?'reporting campus':'reporting campuses'} in the source inventory; this institutional summary may include locations away from the main campus.`:'No verified source edition supplies this period. Current reporting coverage for this selection is unverified.'}`;
+      $('reader-population-detail').hidden=!r.populationSources.length&&!r.residentEvidence.length;
+      $('reader-population-summary').textContent=place==='housing'?'What do we know about the housing population?':'What does the enrollment population cover?';
       $('reader-population-sources').replaceChildren(...r.populationSources.map((p:any)=>el('p',`${p.period_label}: ${format(Number(p.value))} ${place==='housing'?'student residents':'enrolled students'}. ${p.source_title}. ${p.scope_note}`)));
+      $('reader-population-evidence').replaceChildren(...r.residentEvidence.map((e:any)=>el('p',`${e.period_label}. ${e.statement} ${e.reason_no_rate}`)));
       const cite=$('reader-school-citation') as HTMLAnchorElement;cite.href=`#reader-source-${selected}`;cite.textContent=`[S${schools.findIndex((s:any)=>s.id===selected)+1}]`;cite.setAttribute('aria-label',`School guide source for ${s.officialName}`);
       const table=$('reader-table-link') as HTMLAnchorElement;const u=new URL(location.href);u.hash='explorer';Object.entries({source:'current',measure:place==='housing'?'residents':'enrollment',group:'all',search:s.name,category:topic.value,period:year.value,first:s.id}).forEach(([k,v])=>u.searchParams.set(k,v));table.href=u.pathname+u.search+u.hash;table.textContent=place==='combined'?'Compare the on-campus rate in the detailed table':'Open this selection in the detailed table';
       root!.querySelectorAll<HTMLButtonElement>('[data-reader-place]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.readerPlace===place)));

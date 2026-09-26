@@ -532,7 +532,7 @@
     "region": "West",
     "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
     "homeState": "CA",
-    "note": "Stanford’s main-campus report now covers 2023–2025; overseas reports still use the 2025 edition. Documented housing populations are available for autumn 2024 and 2025, but university-provided housing has not been matched property by property to crime-reporting locations. Incomplete overseas years and conflicting source figures still prevent some institution-wide rates.",
+    "note": "Stanford’s main-campus report now covers 2023–2025; overseas reports still use the 2025 edition. Documented housing populations are available for autumn 2023, 2024 and 2025, but university-provided housing has not been matched property by property to crime-reporting locations. Incomplete overseas years and conflicting source figures still prevent some institution-wide rates.",
     "alias": "Stanford University California",
     "sources": [
       {
@@ -880,7 +880,7 @@
     "region": "Northeast",
     "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
     "homeState": "CT",
-    "note": "Yale’s 2025 reports identify its main campus and West Campus separately. Both belong to this university-wide comparison, with the student population counted once rather than repeated for each campus.",
+    "note": "Yale’s 2025 crime reports separate its main campus and West Campus. Both enter this comparison, with the university housing population counted once. Its fall student-resident census covers 2022–2025; a 2025 rate remains unavailable because the crime reports stop at 2024.",
     "alias": "Yale University Connecticut",
     "sources": [
       {

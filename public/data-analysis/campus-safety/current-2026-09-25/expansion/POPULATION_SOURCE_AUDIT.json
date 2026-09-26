@@ -1,7 +1,7 @@
 {
   "checked_utc": "2026-09-26T03:58:31.841970+00:00",
   "status": "PASS",
-  "scope": "All164 population-ledger values:126 independently read from original IPEDS ZIP total-level cells;33 retained housing values compared with visually inspected State Auditor tables;5new observations checked against saved original PDFs/HTML and metadata. Scope qualifications remain part of acceptance.",
+  "scope": "Historical snapshot: 164 population-ledger values (126 enrollment, 38 housing); 126 independently read from original IPEDS ZIP total-level cells; 33 retained housing values compared with visually inspected State Auditor tables; 5 original expansion observations checked against saved source PDFs/HTML and metadata. The subsequent 5 observations are covered by the resident follow-up audits; the current ledger contains 169 observations (126 enrollment, 43 housing).",
   "checks": {
     "ledger164_unique": true,
     "ledger126_enrollment38_residents": true,
@@ -188,5 +188,10 @@
     "No adopted institutional housing population is asserted to be parcel-matched to every Clery property or branch. Dated snapshots are not person-time or individual victimization probabilities.",
     "Retained ledger hashes explicitly identify the frozen dataset rather than falsely claiming a raw source-PDF hash; actual original upstream hashes are recorded here and in enrollment provenance.",
     "An actual2025population alone does not create a rate: complete eligible numerator coverage is still required."
+  ],
+  "applicability": "Historical 164-observation snapshot before the Yale and Stanford-2023 follow-up. PASS and all check names apply only to the recorded input hashes, not the current 169-observation ledger.",
+  "superseded_by": [
+    "RESIDENT_FOLLOWUP_SCIENTIFIC_AUDIT.json",
+    "../CURRENT_DATA_AUDIT.json"
   ]
 }

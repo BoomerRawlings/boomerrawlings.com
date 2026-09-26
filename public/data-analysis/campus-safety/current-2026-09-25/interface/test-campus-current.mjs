@@ -11,10 +11,10 @@ function csv(text){let rows=[],row=[],cell='',quoted=false;for(let i=0;i<text.le
 const expected=csv(read('rates.csv'));assert.equal(expected.length,9450);
 for(const row of expected){const actual=summarize(data.institutions.find(i=>i.id===row.unitid),row.category,row.period,row.measure,1000);assert.equal(actual.count,row.reported_count===''?null:Number(row.reported_count));assert.equal(actual.population,row.population_sum===''?null:Number(row.population_sum));assert.equal(actual.years,Number(row.years));if(row.rate_per_1000==='')assert.equal(actual.rate,null);else assert(Math.abs(actual.rate-Number(row.rate_per_1000))<1e-12);}
 assert.equal(data.institutions.length,42);assert.equal(inventory.length,42);assert.deepEqual(data.years,[2022,2023,2024,2025]);
-assert.equal(selectedRows(data,initialView).length,13);assert.equal(selectedRows(data,initialView).filter(r=>r.rate!==null).length,13);
-for(const i of data.institutions){const y=i.years.find(y=>y.year===2025);assert.equal(y.residents,i.id==='243744'?14042:null);assert.equal(y.enrollment,null);assert.equal(summarize(i,'criminal_total','2025','residents',1000).rate,null);}
+assert.equal(selectedRows(data,initialView).length,14);assert.equal(selectedRows(data,initialView).filter(r=>r.rate!==null).length,14);
+for(const i of data.institutions){const y=i.years.find(y=>y.year===2025);assert.equal(y.residents,({'243744':14042,'130794':6082})[i.id]??null);assert.equal(y.enrollment,null);assert.equal(summarize(i,'criminal_total','2025','residents',1000).rate,null);}
 const populationLedger=csv(read('population_sources.csv'));
-for(const [id,year,value] of [['243744',2024,14203],['243744',2025,14042],['211440',2022,3458],['211440',2023,3764],['211440',2024,3988]]){
+for(const [id,year,value] of [['243744',2023,14137],['243744',2024,14203],['243744',2025,14042],['211440',2022,3458],['211440',2023,3764],['211440',2024,3988],['130794',2022,6255],['130794',2023,6064],['130794',2024,6011],['130794',2025,6082]]){
  const y=data.institutions.find(i=>i.id===id).years.find(y=>y.year===year);
  assert.equal(y.residents,value);assert(y.populationSources.residents.period_label);assert(y.populationSources.residents.scope_note);
  assert.equal(populationLedger.find(p=>p.unitid===id&&Number(p.year)===year&&p.measure==='residents').value,String(value));
@@ -37,4 +37,4 @@ assert.equal((html.match(/<math[\s>]/g)||[]).length,7);
 const period=html.match(/<select id="campus-period">([\s\S]*?)<\/select>/)[1];assert.deepEqual([...period.matchAll(/value="([^"]+)"/g)].map(m=>m[1]),['2022','2023','2024','2025','pooled']);
 const crime=JSON.parse(readFileSync('dist/data-analysis/crime-and-heat/data/freshness-2026-09-25/sdpd_nibrs_2026_daily.json','utf8'));
 assert(crime,'Refreshed aggregate is readable.');
-console.log(`Current campus publication: ${expected.length} cross-runtime rates; 42 sources, 13 resident rates, five dated additions and qualified exclusions, exact SDSU geography/revision, ${Object.keys(manifest).length} artifact hashes and seven formulas verified.`);
+console.log(`Current campus publication: ${expected.length} cross-runtime rates; 42 sources, 14 resident rates, ten dated additions and qualified exclusions, exact SDSU geography/revision, ${Object.keys(manifest).length} artifact hashes and seven formulas verified.`);

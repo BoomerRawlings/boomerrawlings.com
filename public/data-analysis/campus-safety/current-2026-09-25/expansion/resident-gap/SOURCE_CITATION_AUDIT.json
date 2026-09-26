@@ -1,0 +1,507 @@
+{
+  "checked_utc": "2026-09-26T11:26:03.449285+00:00",
+  "status": "PASS",
+  "scope": "37 qualified observations,5 newly adopted source observations, new PDF claims/references20\u201322, reader population-evidence separation and direct source-link rendering logic. Scientific extraction/rate audit and full visual audit remain separate.",
+  "checks": [
+    {
+      "check": "qualified records",
+      "pass_": true,
+      "detail": "25 public +5 coordinator +7 Ivy observations independently reviewed"
+    },
+    {
+      "check": "qualified institution coverage",
+      "pass_": true,
+      "detail": "37 qualified observations concern14 other institutions"
+    },
+    {
+      "check": "source bytes 134130-01",
+      "pass_": true,
+      "detail": "https://cfo.ufl.edu/wp-content/uploads/2026/04/FINAL-UF-2026-Investor-Presentation.pptx"
+    },
+    {
+      "check": "no rate authorization 134130-01",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 134130-02",
+      "pass_": true,
+      "detail": "https://cfo.ufl.edu/wp-content/uploads/2026/04/FINAL-UF-2026-Investor-Presentation.pptx"
+    },
+    {
+      "check": "no rate authorization 134130-02",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 134130-03",
+      "pass_": true,
+      "detail": "https://cfo.ufl.edu/wp-content/uploads/2026/04/FINAL-UF-2026-Investor-Presentation.pptx"
+    },
+    {
+      "check": "no rate authorization 134130-03",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 134130-04",
+      "pass_": true,
+      "detail": "https://cfo.ufl.edu/wp-content/uploads/2026/04/FINAL-UF-2026-Investor-Presentation.pptx"
+    },
+    {
+      "check": "no rate authorization 134130-04",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 145637-05",
+      "pass_": true,
+      "detail": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf"
+    },
+    {
+      "check": "no rate authorization 145637-05",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 145637-06",
+      "pass_": true,
+      "detail": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf"
+    },
+    {
+      "check": "no rate authorization 145637-06",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 145637-07",
+      "pass_": true,
+      "detail": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf"
+    },
+    {
+      "check": "no rate authorization 145637-07",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 145637-08",
+      "pass_": true,
+      "detail": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf"
+    },
+    {
+      "check": "no rate authorization 145637-08",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 145637-09",
+      "pass_": true,
+      "detail": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf"
+    },
+    {
+      "check": "no rate authorization 145637-09",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 145637-10",
+      "pass_": true,
+      "detail": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf"
+    },
+    {
+      "check": "no rate authorization 145637-10",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 145637-11",
+      "pass_": true,
+      "detail": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf"
+    },
+    {
+      "check": "no rate authorization 145637-11",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 145637-12",
+      "pass_": true,
+      "detail": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf"
+    },
+    {
+      "check": "no rate authorization 145637-12",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 145637-13",
+      "pass_": true,
+      "detail": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf"
+    },
+    {
+      "check": "no rate authorization 145637-13",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 145637-14",
+      "pass_": true,
+      "detail": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf"
+    },
+    {
+      "check": "no rate authorization 145637-14",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 145637-15",
+      "pass_": true,
+      "detail": "https://recruitment.housing.illinois.edu/sites/default/files/2025-08/FY24-25_Annual-Report_FINAL.pdf"
+    },
+    {
+      "check": "no rate authorization 145637-15",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 236948-16",
+      "pass_": true,
+      "detail": "https://finance.uw.edu/treasury/files/BHReport/University%20of%20Washington%20Bondholders%20Report%20Fiscal%20Year%202024.pdf"
+    },
+    {
+      "check": "no rate authorization 236948-16",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 236948-17",
+      "pass_": true,
+      "detail": "https://finance.uw.edu/treasury/files/BHReport/University%20of%20Washington%20Bondholders%20Report%20Fiscal%20Year%202024.pdf"
+    },
+    {
+      "check": "no rate authorization 236948-17",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 236948-18",
+      "pass_": true,
+      "detail": "https://finance.uw.edu/treasury/files/BHReport/University%20of%20Washington%20Bondholders%20Report%20Fiscal%20Year%202024.pdf"
+    },
+    {
+      "check": "no rate authorization 236948-18",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 236948-19",
+      "pass_": true,
+      "detail": "https://finance.uw.edu/treasury/files/BHReport/University%20of%20Washington%20Bondholders%20Report%20Fiscal%20Year%202024.pdf"
+    },
+    {
+      "check": "no rate authorization 236948-19",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 236948-20",
+      "pass_": true,
+      "detail": "https://finance.uw.edu/treasury/files/BHReport/University%20of%20Washington%20Bondholders%20Report%20Fiscal%20Year%202024.pdf"
+    },
+    {
+      "check": "no rate authorization 236948-20",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 236948-21",
+      "pass_": true,
+      "detail": "https://hfs.washington.edu/about-hfs/facts-figures/"
+    },
+    {
+      "check": "no rate authorization 236948-21",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 240444-22",
+      "pass_": true,
+      "detail": "https://news.wisc.edu/follow-that-cart/"
+    },
+    {
+      "check": "no rate authorization 240444-22",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 204796-23",
+      "pass_": true,
+      "detail": "https://news.osu.edu/president-carter-joins-move-in-day-effort-to-welcome-students-back-to-campus/"
+    },
+    {
+      "check": "no rate authorization 204796-23",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 214777-24",
+      "pass_": true,
+      "detail": "https://newkensington.psu.edu/files/pdf/15116/2024/02/14/pp-parentsandfamiliesguide-accessible-compressed.pdf"
+    },
+    {
+      "check": "no rate authorization 214777-24",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes 234076-25",
+      "pass_": true,
+      "detail": "https://studentaffairs.virginia.edu/sites/studentaffairs/files/2026-02/UVA_StudentAffairs_2025AnnualReport_020226.pdf"
+    },
+    {
+      "check": "no rate authorization 234076-25",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes ivy-190415-1",
+      "pass_": true,
+      "detail": "https://cornell.app.box.com/index.php?rm=box_download_shared_file&shared_name=tbpc5ryae9dhbh3bft99lgqlyjh9su9m&file_id=f_2234645641562"
+    },
+    {
+      "check": "no rate authorization ivy-190415-1",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes ivy-182670-2",
+      "pass_": true,
+      "detail": "https://public.tableau.com/views/StudentLife_0/Residence.pdf?:showVizHome=no"
+    },
+    {
+      "check": "no rate authorization ivy-182670-2",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes ivy-182670-3",
+      "pass_": true,
+      "detail": "https://public.tableau.com/views/StudentLife_0/Residence.pdf?:showVizHome=no"
+    },
+    {
+      "check": "no rate authorization ivy-182670-3",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes ivy-182670-4",
+      "pass_": true,
+      "detail": "https://public.tableau.com/views/StudentLife_0/Residence.pdf?:showVizHome=no"
+    },
+    {
+      "check": "no rate authorization ivy-182670-4",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes ivy-131496-5",
+      "pass_": true,
+      "detail": "https://georgetown.app.box.com/index.php?rm=box_download_shared_file&shared_name=ocssvuvzmnzus702khgsodlfq8id1uhx&file_id=f_2082687131999"
+    },
+    {
+      "check": "no rate authorization ivy-131496-5",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes ivy-131496-6",
+      "pass_": true,
+      "detail": "https://georgetown.app.box.com/index.php?rm=box_download_shared_file&shared_name=ocssvuvzmnzus702khgsodlfq8id1uhx&file_id=f_2082687131999"
+    },
+    {
+      "check": "no rate authorization ivy-131496-6",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes ivy-131496-7",
+      "pass_": true,
+      "detail": "https://georgetown.app.box.com/index.php?rm=box_download_shared_file&shared_name=ocssvuvzmnzus702khgsodlfq8id1uhx&file_id=f_2082687131999"
+    },
+    {
+      "check": "no rate authorization ivy-131496-7",
+      "pass_": true,
+      "detail": "Qualified context is not an adopted denominator"
+    },
+    {
+      "check": "source bytes gatech-2024-occupancy",
+      "pass_": true,
+      "detail": "https://irp.gatech.edu/sites/default/files/FactBook/2024_FactBook_Final-Rev2.pdf#page=35"
+    },
+    {
+      "check": "source bytes texas-2024-residents",
+      "pass_": true,
+      "detail": "https://utexas.app.box.com/v/LearnOutcomeReports/file/1743656171859"
+    },
+    {
+      "check": "source bytes mit-2024-graduate",
+      "pass_": true,
+      "detail": "https://studentlife.mit.edu/app/uploads/2026/03/AY25-GHAC-Annual-Update.pdf#page=9"
+    },
+    {
+      "check": "source bytes mit-2025-graduate",
+      "pass_": true,
+      "detail": "https://studentlife.mit.edu/app/uploads/2026/03/AY25-GHAC-Annual-Update.pdf#page=9"
+    },
+    {
+      "check": "source bytes penn-2025-college-houses",
+      "pass_": true,
+      "detail": "https://www.publicsafety.upenn.edu/ASR/2026_ASR_PENN.pdf#page=61"
+    },
+    {
+      "check": "public source values",
+      "pass_": true,
+      "detail": "Manual table/page review; Florida chart visually read separately from capacity"
+    },
+    {
+      "check": "coordinator source values",
+      "pass_": true,
+      "detail": "GeorgiaTech PDF35; Texas PDF5; MIT PDF9\u201310; Penn PDF61"
+    },
+    {
+      "check": "Ivy values",
+      "pass_": true,
+      "detail": "Cornell PDF21/383/407; Dartmouth rendered Tableau PDF1; Georgetown PDF2\u20133"
+    },
+    {
+      "check": "fiscal dates retained",
+      "pass_": true,
+      "detail": "Florida chart year labels are fiscal years, not inferred fall dates"
+    },
+    {
+      "check": "Illinois dependent definitions",
+      "pass_": true,
+      "detail": "PDF18 explicitly counts all unique residents including dependents during the fiscal year"
+    },
+    {
+      "check": "lower bounds retained",
+      "pass_": true,
+      "detail": "Ohio State prospective move-in and Penn State guide are not exact counts"
+    },
+    {
+      "check": "Cornell period and branch qualification",
+      "pass_": true,
+      "detail": "Ithaca scope and FY2024\u201325 retained; no whole-institution rate"
+    },
+    {
+      "check": "Dartmouth partial and academic labels",
+      "pass_": true,
+      "detail": "Undergraduate-only sums do not become institution populations"
+    },
+    {
+      "check": "Yale original",
+      "pass_": true,
+      "detail": "Original PDF,3pages"
+    },
+    {
+      "check": "Yale dates",
+      "pass_": true,
+      "detail": "Fall reference date and published update date verified"
+    },
+    {
+      "check": "Stanford original",
+      "pass_": true,
+      "detail": "Original university PDF captured by Internet Archive; digest matches acquisition index"
+    },
+    {
+      "check": "Stanford year/portfolio",
+      "pass_": true,
+      "detail": "Values classify students by undergraduate/graduate housing portfolio; degree-level wording requires care"
+    },
+    {
+      "check": "adopted population ledger",
+      "pass_": true,
+      "detail": "169 observations:126 enrollment and43 resident observations"
+    },
+    {
+      "check": "2024 final coverage",
+      "pass_": true,
+      "detail": "2024 combined housing counts33, populations14, paired rates14 of42"
+    },
+    {
+      "check": "2025 final coverage",
+      "pass_": true,
+      "detail": "Two actual populations; no complete2025 combined housing rate"
+    },
+    {
+      "check": "Yale amendment ratio",
+      "pass_": true,
+      "detail": "Descriptive reported-offense ratio, not a victimization probability"
+    },
+    {
+      "check": "Stanford amendment ratio",
+      "pass_": true,
+      "detail": "Descriptive reported-offense ratio, not a victimization probability"
+    },
+    {
+      "check": "Cornell all-branch housing total",
+      "pass_": true,
+      "detail": "2024 Ithaca45 +Tech2 +AgriTech0 =47; Ithaca population cannot silently cover omitted Tech offenses"
+    },
+    {
+      "check": "Cornell original offense pages",
+      "pass_": true,
+      "detail": "Original2026 Ithaca PDF6 and Tech PDF33 independently read; housing components21+11+1+9+3=45,Tech2"
+    },
+    {
+      "check": "amendment source qualifications",
+      "pass_": true,
+      "detail": "Final amendment preserves source period, excluded branch and housing-portfolio qualifications"
+    },
+    {
+      "check": "current citation definitions",
+      "pass_": true,
+      "detail": "C43\u201345 manually checked against Yale, Stanford and qualified-evidence originals; no unsupported census-year or adoption claim"
+    },
+    {
+      "check": "qualified evidence calculation separation",
+      "pass_": true,
+      "detail": "9,450 selections unchanged after modifying every context-only value"
+    },
+    {
+      "check": "new report references",
+      "pass_": true,
+      "detail": "References20\u201322 target original Yale PDF, archived original Stanford PDF and qualified evidence ledger"
+    }
+  ],
+  "source_review": "PASS",
+  "qualified_observations": 37,
+  "new_adopted_source_observations": 5,
+  "reader_selections": 9450,
+  "pending": [],
+  "artifacts": {
+    "root_observations.json": "9ea3606405d9396734b0345254d5047e14b0cdb9e127caa2c2fa856cdd217041",
+    "public/qualified_observations.json": "c3c6036db3d20844a5691cf8eb286614d60a9f814f87668b948c5fc58aed3190",
+    "ivy/qualified_observations.json": "4793d66cfa51941032317bfcebb9e92df6cf45deb333806880e858c3e41636b9",
+    "campus-safety-current-report.pdf": "ba542fa4a6d3a30d6dd2ba650d2644c8044a9ddab0b9e2b38638063ab1490ce3",
+    "freshness/RESIDENT_GAP_AMENDMENT.md": "f15277adf6d9b33884452f40dc02066cd20693deb9c37ab1e074707ae10f9935",
+    "freshness/README.md": "bc9d25f4042b182002d726d4433662f3843ae540a064df14c1e0755bf06f78cd",
+    "freshness/audit_current_citations.py": "4f9bfcc401e6bbaad97041194ba6f5a8e973448eb95650fcba186e5a61a9da22",
+    "current-data/coverage.json": "028d3cb17840dd20b52afab3abaf2d5c776f29f3c96e5817e3ab444e335eb39b",
+    "current-data/dataset.json": "14b1303c8324aa3034ca8c6d303c34be89feefbd59f2055fd45de4390c284766",
+    "current-data/geography.json": "f903ee68028cf1d028ddcbbc16802a054580ca66228acdea968338576afc9fc5",
+    "current-data/population_sources.csv": "1f2ea0b4de3f3682f66601ae62529c94afaf8aee81614cfdfd5b386e663d3a3d",
+    "website/src/lib/campus-reader.js": "9350905e8aa0136b5adb12a9b7f8129f3f28c61861be135f1872e60ae064aaef",
+    "website/src/components/CampusReader.astro": "03098af66318a2c213b0a25aefed901ce7bd0b453b724807822db0553482a69c",
+    "website/src/components/CampusReaderSources.astro": "f629e7cb37f54f8256b315e6d6998659c01f36ea4abf9a64c36a71cd2797f1f6",
+    "website/src/data/campus-resident-evidence.json": "89133a41b0aa91746dcd4cab6ee777641bda5ce307eb4dafc1457fd0b985a948",
+    "website/src/data/campus-school-context.json": "2f9561e34394c7ec608e35d3d5a7683796cff0c56ed8c3f0a5c7c27cfa5a8463",
+    "website/src/content/archive/campus-safety.md": "f7b8c3085ee2698637045710a7a86ee9b583acabd66200f0e5680ea3ba8953db",
+    "website/src/pages/writing/data-analysis/campus-safety.astro": "5f3a158c72d3f07b3bcee97b2e0bf332e8c9947ddc7db9f64c8516934e7ba3fa"
+  },
+  "limitations": [
+    "Not a new systematic review or an exhaustive proof of public data absence.",
+    "Original source periods and partial/mixed populations preserved; exact property matching remains qualified.",
+    "Browser layout and citation navigation are independently tested by the parent; this audit reviews source use and code paths."
+  ]
+}

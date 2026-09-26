@@ -1,6 +1,8 @@
-# Independent population-source audit
+# Historical population-source audit: first expansion
 
-**PASS — 31 checks, zero failures; checked September 26, 2026, 03:58 UTC.** All 164 published population observations agree with their reviewed source values and the displayed dataset. Acceptance retains the scope qualifications below; PASS does not establish exact correspondence between housing populations and every Clery property.
+**Historical scope.** This audit applies to the 164-observation snapshot identified below, before the Yale and Stanford-2023 follow-up. The current ledger contains 169 observations: 126 enrollment and 43 housing populations. Current additions, calculations and preservation checks are in [RESIDENT_FOLLOWUP_SCIENTIFIC_AUDIT.md](RESIDENT_FOLLOWUP_SCIENTIFIC_AUDIT.md) and [CURRENT_DATA_AUDIT.json](../CURRENT_DATA_AUDIT.json). Statements below about five additions or a sole 2025 population describe that earlier snapshot.
+
+**PASS — 31 checks, zero failures; checked September 26, 2026, 03:58 UTC.** All 164 population observations in that audited snapshot agree with their reviewed source values and its displayed dataset. Acceptance retains the scope qualifications below; PASS does not establish exact correspondence between housing populations and every Clery property.
 
 The audited `population_sources.csv` SHA-256 is `1cfde5693c35dffd15f7f05d4e1abe3847a356dc7147ffcbd2ee498783e6ed68`. The accepted-additions input SHA-256 is `7a9065a18fcdfea52fe25204d31c893f937b9b2b5a9da3586f9d60ab9c9dc814`. [POPULATION_SOURCE_AUDIT.json](POPULATION_SOURCE_AUDIT.json) records all source hashes, URLs, retrieval timestamps, pages, period labels, components and qualifications. The independent verifier is `../../coverage_expansion_2026_09_25/public/INTEGRATION_REVIEW.population.py`.
 
@@ -24,7 +26,7 @@ PDF pages were visually checked; source text, saved bytes and metadata were sepa
 
 Carnegie Mellon adds disjoint university-housing and fraternity/sorority student classifications. The table is labeled Pittsburgh undergraduates, but its 2024 classification total equals all-location undergraduate enrollment. This unresolved scope qualification is preserved, without inventing an adjustment. Current housing-office guidance excludes graduate students from on-campus housing; that corroboration is not a retrospective property-by-property census. Fall 2025 housing cells are blank and are not carried forward.
 
-Stanford explicitly identifies undergraduate and graduate **students**. Its 2024 university-authored fact book survives at a publisher-hosted mirror after the original institutional URL became unavailable. Visible title, page, year and values were checked, but identity with the original site's bytes cannot be authenticated. The 2025 observation comes directly from Stanford's saved institutional HTML and explicitly refers to autumn quarter 2025. Both institutions' housing footprints remain incompletely matched to Clery parcels and overseas branches.
+Stanford explicitly counts **students in undergraduate and graduate housing**; those housing labels do not necessarily classify students by degree level. Its 2024 university-authored fact book survives at a publisher-hosted mirror after the original institutional URL became unavailable. Visible title, page, year and values were checked, but identity with the original site's bytes cannot be authenticated. The 2025 observation comes directly from Stanford's saved institutional HTML and explicitly refers to autumn quarter 2025. Both institutions' housing footprints remain incompletely matched to Clery parcels and overseas branches.
 
 ## Texas exclusion and 2025 rates
 
