@@ -2,10 +2,11 @@
 
 ## Layperson overview — 2026-09-25
 
-- Mode: continuation. Objective: add a concise general explanation above the school finder, preserving neutral launch. Status: implementation and local verification complete; ready for production push.
+- Mode: continuation. Objective: add a concise general explanation above the school finder, preserving neutral launch. Status: published as7a71e57; Pages run36211038771 succeeded.
 - Explains counts versus population-adjusted rates, reporting geography, verified 2024 combined housing-rate availability and how to explore the study. Existing citation/backlink system reused. No scientific data or PDF changes.
 - Verified: source/citation audit39groups/58checks; reader9,450selections/20checks; four overview source/return links; desktop1280/mobile390/320; no overflow or console errors. Full npm test passes;121current artifact hashes. ZIP SHA256 8626cad6fed3962c7164af41770201771dd3e6aef5984ad34895ff8866598d3f.
-- Next: production push and live verification.
+- Live: overview visible above finder, no school preselected; four citations and actual source/return navigation verified. Eight live assets match exact committed bytes, including ZIP and manifest.
+- Next: no required work remains.
 
 ## Opening-view simplification — 2026-09-25
 
