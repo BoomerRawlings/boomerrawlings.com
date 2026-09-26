@@ -1,5 +1,13 @@
 # Project state
 
+## Geographic school navigation — 2026-09-25
+
+- Mode: continuation. Objective: clickable U.S. map, region focus and school selection. Status: implementation and verification complete; ready for production push.
+- Native accessible controls, region-to-school flow, nearby-school clusters, search/list fallback and neutral opening. Static Census-derived state outlines and frozen official NCES HD2024 home-campus coordinates; map encodes location/navigation only, no crime values.
+- Housing data collection remains unfinished and preserved below; no scientific/PDF changes in this presentation task.
+- Verified: full npm test passes;137 current artifact hashes,18 interface snapshots; independent map42schools/51geometries/17checks, reader9,450selections/23checks, citations41groups/61checks. Desktop1280/mobile390/320, all4regions, exact school preservation, clusters, Enter/Space, reset/global-search/deep links/source returns pass; no overlap/overflow/console errors. Map source replay exact; all scientific/PDF/federal/Crime bytes preserved. ZIP SHA25675319a9454e2bed4ea2cca6e8e6a575257cb2a444d637018332652bb245b439a.
+- Next: single production push and live map/download verification.
+
 ## Housing coverage diagnosis — 2026-09-25
 
 - Mode: exploration continuing campus study. User challenges10/42housing-rate coverage. Status: collection diagnosis complete; bounded external source leads recorded separately. No publication/data mutation.

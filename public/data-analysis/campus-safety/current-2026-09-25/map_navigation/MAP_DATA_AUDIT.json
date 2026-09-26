@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "source": "Frozen NCES IPEDS HD2024 institutional directory and Census-derived us-atlas 3.0.1",
+  "stateCount": 51,
+  "schoolCount": 42,
+  "checks": [
+    "42 unique cohort UNITIDs",
+    "IPEDS state = study state = existing school-context home state",
+    "42 full official institutional names matched to the published dataset during extraction",
+    "42 points contained within declared simplified Census state polygons",
+    "42 home states assigned to matching Census region",
+    "42 finite projected points within national viewBox",
+    "Full projected extent of all 51 state/DC geometries inside national viewBox, including Aleutian islands",
+    "50 states plus District of Columbia",
+    "Alaska and Hawaii retained in national West; excluded only from contiguous West zoom"
+  ],
+  "regionCounts": {
+    "West": 15,
+    "Midwest": 7,
+    "Northeast": 12,
+    "South": 8
+  },
+  "coordinatesSha256": "a336f3b5111fee47d3bf2351811fa925eb7b5aa14a4e9d5d5cd56cb9d0530867",
+  "topologySha256": "d76b391ccfa8bff601d51e3e3da5d43a89fa46cd5caca72ce731b383be5596d0",
+  "assetSha256": "3bb9075b9fdab8086296fc09f09ccf486c7c8da6170f34a3f5e5a7b6cb0af69f",
+  "assetBytes": 205370
+}

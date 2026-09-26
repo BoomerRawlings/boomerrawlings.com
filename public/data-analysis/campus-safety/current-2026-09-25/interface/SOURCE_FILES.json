@@ -1,11 +1,15 @@
 {
   "components/CampusReader.astro": {
-    "bytes": 13940,
-    "sha256": "12ed0f057e3b8623df422db59f8860ceffa638d3044fe6586728cf304a01826f"
+    "bytes": 14617,
+    "sha256": "5163eae05e708e6b21874a37d7a3c57bef12a53200fcc6874a583739e15fdf90"
   },
   "components/CampusReaderSources.astro": {
     "bytes": 2030,
     "sha256": "44261b053c505f9f4bc0ec78fe44d3945e930d2ddc69061e460fa70bfdcc85f6"
+  },
+  "components/CampusMap.astro": {
+    "bytes": 2019,
+    "sha256": "dd1684d47dfadb6faf9c2f435e2bfc93a64a266076251b83a66db541e4e271b5"
   },
   "lib/campus-reader.js": {
     "bytes": 3624,
@@ -27,6 +31,10 @@
     "bytes": 9551,
     "sha256": "c5ccc075dae41208442935c6b02441b86ee961fa16a157f2762a0e319eebc528"
   },
+  "lib/campus-map.js": {
+    "bytes": 7054,
+    "sha256": "0e206e63970dbc6629a783d8a5b2e8a7c08eebe47689e8c7cbaa1eaeeeab9727"
+  },
   "data/campus-reader-copy.js": {
     "bytes": 6185,
     "sha256": "eb3a423fe7695ccf53d4d8f8d193d1b207c714e6967b63670face89b7a31799a"
@@ -35,9 +43,17 @@
     "bytes": 39888,
     "sha256": "2a89f6eb25b23878daae794b1a814167cb704762d6e4ed0db64f1c48ee291d75"
   },
+  "data/campus-map.json": {
+    "bytes": 205370,
+    "sha256": "3bb9075b9fdab8086296fc09f09ccf486c7c8da6170f34a3f5e5a7b6cb0af69f"
+  },
   "styles/campus-reader.css": {
     "bytes": 6538,
     "sha256": "57d5b4ee014053e4a30eb8783152a502294fe913c390cc931eefbaf4eb9dfbbd"
+  },
+  "styles/campus-map.css": {
+    "bytes": 3986,
+    "sha256": "e501e5490437c400baf3af34569655bbe79a303bb0dbf10758fc4bf9e7e8447c"
   },
   "pages/writing/data-analysis/campus-safety.astro": {
     "bytes": 20221,
@@ -51,5 +67,10 @@
     "original_project_path": "scripts/test-campus-reader.mjs",
     "bytes": 2988,
     "sha256": "f4accfd75c85debcb1d0a76bf13f1570fc1673202bd8fe6a64c47e87ecaf463d"
+  },
+  "test-campus-map.mjs": {
+    "original_project_path": "scripts/test-campus-map.mjs",
+    "bytes": 2409,
+    "sha256": "2ea305ea1ee5b7f38f0bd064ffea2f16038402d64221954579ac3e5b68170c3f"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "checked_utc": "2026-09-26T02:11:37.163Z",
+  "checked_utc": "2026-09-26T02:53:42.884Z",
   "status": "PASS",
   "scope": "Data-to-explanation and reference-source checks. Does not certify rendered browser behavior or legal completeness of plain-language category descriptions.",
   "selections": 9450,
@@ -83,6 +83,18 @@
     {
       "name": "Context sources use only web or local publication URLs",
       "pass": true
+    },
+    {
+      "name": "Navigation map preserves all42 school identities and existing home regions",
+      "pass": true
+    },
+    {
+      "name": "Map shares explicit school/region handlers and current search-result IDs",
+      "pass": true
+    },
+    {
+      "name": "Map declares navigation-only interpretation and numbered nearby-school choices",
+      "pass": true
     }
   ],
   "errors": [],
@@ -96,7 +108,7 @@
   "reviewed_artifacts": [
     {
       "path": "src/components/CampusReader.astro",
-      "sha256": "12ed0f057e3b8623df422db59f8860ceffa638d3044fe6586728cf304a01826f"
+      "sha256": "5163eae05e708e6b21874a37d7a3c57bef12a53200fcc6874a583739e15fdf90"
     },
     {
       "path": "src/components/CampusReaderSources.astro",
@@ -121,6 +133,26 @@
     {
       "path": "src/lib/campus-citations.js",
       "sha256": "c5ccc075dae41208442935c6b02441b86ee961fa16a157f2762a0e319eebc528"
+    },
+    {
+      "path": "src/components/CampusMap.astro",
+      "sha256": "dd1684d47dfadb6faf9c2f435e2bfc93a64a266076251b83a66db541e4e271b5"
+    },
+    {
+      "path": "src/lib/campus-map.js",
+      "sha256": "0e206e63970dbc6629a783d8a5b2e8a7c08eebe47689e8c7cbaa1eaeeeab9727"
+    },
+    {
+      "path": "src/data/campus-map.json",
+      "sha256": "3bb9075b9fdab8086296fc09f09ccf486c7c8da6170f34a3f5e5a7b6cb0af69f"
+    },
+    {
+      "path": "src/styles/campus-map.css",
+      "sha256": "e501e5490437c400baf3af34569655bbe79a303bb0dbf10758fc4bf9e7e8447c"
+    },
+    {
+      "path": "scripts/test-campus-map.mjs",
+      "sha256": "2ea305ea1ee5b7f38f0bd064ffea2f16038402d64221954579ac3e5b68170c3f"
     }
   ]
 }

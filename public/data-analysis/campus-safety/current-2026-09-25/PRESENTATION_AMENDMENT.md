@@ -6,6 +6,12 @@ The follow-up overview makes the general interpretation visible before the schoo
 
 The selected-school calculations, source qualifications, categories, reporting years and denominators are unchanged. An empty school selection is an interface state, not a missing observation or zero count. The existing independent numerical audit and offline replay remain applicable to the unchanged scientific bytes.
 
+## Map navigation
+
+The map adds a geographic route into the same school guide. It uses all 42 institutional home-location records from the retained 2024 directory, state outlines derived from the Census Bureau's 2017 cartographic boundaries, and the four Census regions. These are navigation locations, not offense coordinates or Clery property boundaries. Regional colors identify geographic groups; school markers do not encode crime rates or safety. A numbered cluster indicates nearby schools. The source package preserves input geometry, coordinates, generator, pinned build dependencies, source qualifications and licenses under `map_navigation/`.
+
+The map adds no resident populations, offense counts or scientific rate calculations. The housing-coverage research leads remain outside the published dataset. `MAP_NAVIGATION_AUDIT.json` independently joins all 42 map records to the original directory and checks regional scope and full national geometry bounds, including the western Aleutians. Region focus fits the included home-campus points, while state shapes provide geographic context. Search and the region list share the same selection state; search does not automatically select a school. Interaction, responsive layout and source jump/return behavior are covered separately in the visual record.
+
 ## Preservation boundary
 
 The eight current data products (`source_cells.csv`, `dataset.json`, `geography.json`, `rates.csv`, `case_study.json`, `coverage.json`, `source_inventory.json` and `build_inputs.json`), all original federal assets and every Crime and Heat asset must retain their preceding release hashes. Both PDFs remain exact copies of the reviewed reports:

@@ -1,8 +1,8 @@
 {
-  "checked_utc": "2026-09-26T02:11:40.401234+00:00",
+  "checked_utc": "2026-09-26T02:53:44.724156+00:00",
   "status": "PASS",
   "scope": "Independent editorial claim/citation review; final report text and reference annotations; focused primary-source spot checks; distinct from numeric and visual audits.",
-  "claim_groups": 39,
+  "claim_groups": 41,
   "checks": [
     {
       "check": "42 fixed institutional identifiers in inventory and current data",
@@ -235,6 +235,18 @@
     {
       "check": "Visible overview preserves qualified coverage and four supporting citation targets",
       "pass": true
+    },
+    {
+      "check": "Independent map source audit passes for exact final asset",
+      "pass": true
+    },
+    {
+      "check": "Map cites boundary, directory and region sources beside its geographic qualification",
+      "pass": true
+    },
+    {
+      "check": "Map source versions and non-offense scope explicitly qualified",
+      "pass": true
     }
   ],
   "claims": [
@@ -431,7 +443,7 @@
       "id": "C28",
       "topic": "Reader calculations and narrative",
       "claim": "All9450 school/category/year/location selections preserve counts, matching-year populations, rates, missingness and zero distinctions. Combined areas never add housing twice and show no population rate.",
-      "evidence": "Independent audit_reader_copy.mjs reconstructs selected values from current dataset; READER_COPY_AUDIT.json records 20 checks. This verifies explanations against verified aggregates, not source re-extraction.",
+      "evidence": "Independent audit_reader_copy.mjs reconstructs selected values from current dataset; READER_COPY_AUDIT.json records 23 checks. This verifies explanations against verified aggregates, not source re-extraction.",
       "status": "PASS"
     },
     {
@@ -453,6 +465,20 @@
       "topic": "Opening summary",
       "claim": "The visible general analysis distinguishes reported counts and population-adjusted rates from personal risk or safety rankings. Its10of42 coverage finding applies only to the2024 combined listed-offense housing rate. Housing is a campus subset; missing rates are unavailable, not zero. No school is selected automatically.",
       "evidence": "Four adjacent citations: current rates.csv supports count/population ratios; BJS PDF131 supports the reporting-versus-survey distinction; coverage.json and independent reader arithmetic support the qualified10of42 finding;34CFR668.46 supports geography. No new empirical safety or victimization claim. Detailed examples and PDFs unchanged; browser behavior checked separately.",
+      "status": "PASS"
+    },
+    {
+      "id": "C32",
+      "topic": "Map source identity",
+      "claim": "The navigation asset contains the42 cohort home-directory locations and50 states plus District of Columbia. It uses retained2024 NCES directory coordinates, Census-derived2017 state outlines and Census regions, not a2026 location survey.",
+      "evidence": "Independent original HD2024 ZIP join confirms every identifier, full institutional name, state and coordinate. Pinned us-atlas3.0.1 topology and generation audit identify state geometry; MAP_SOURCES.md retains versions, source links, limitations and licenses. National view bounds include the western Aleutians.",
+      "status": "PASS_WITH_QUALIFICATION"
+    },
+    {
+      "id": "C33",
+      "topic": "Map interpretation",
+      "claim": "Map points navigate to institutions; they do not locate crimes, residential properties or every reporting branch. State colors identify regions, uniform markers are not crime or safety encodings, and cluster numerals count nearby schools.",
+      "evidence": "Explicit note with three source citations, navigation-only asset fields, region membership and reader source checks. Selected/hover styling denotes interface state. Actual pointer, keyboard, search, resize and focus behavior is reviewed separately in browser tests. Counts, denominators and rates unchanged.",
       "status": "PASS"
     },
     {
@@ -521,7 +547,8 @@
     "School guide population links point to actual housing/enrollment files; the selected school source marker is computed. Combined-area pooled copy describes a count rather than division by populations, and ambiguous partial sums are not asserted to be lower bounds.",
     "All42 school notes use plain language for populations, locations covered and earlier federal data. Full state names are searchable alongside school names and abbreviations; region labels describe home location only.",
     "The opening-view amendment removes automatic school selection and San Diego opening highlights. Region browsing does not choose a school. School-specific links, detailed examples, source qualifications, scientific outputs and reviewed PDFs are preserved.",
-    "The follow-up opening analysis explains the results before a school is selected. Its10of42 finding is expressly2024/combined listed housing offenses, with four direct citations; it does not imply a national coverage estimate or safety ranking."
+    "The follow-up opening analysis explains the results before a school is selected. Its10of42 finding is expressly2024/combined listed housing offenses, with four direct citations; it does not imply a national coverage estimate or safety ranking.",
+    "The geographic navigation addition preserves all42 institutional identities and adds versioned directory/boundary/region sources. Independent extent review caught and corrected western Aleutian clipping without changing state paths, school coordinates or scientific measurements."
   ],
   "limitations": [
     "PASS applies only to reviewed factual/citation claims and recorded artifact versions. It is not certification of complete crime reporting, true victimization risk, matched property-level populations, or agency approval.",
@@ -529,7 +556,8 @@
     "Harvard, Johns Hopkins and UC Merced current counts remain unverified; Virginia web-text values remain provisional and excluded. Columbia and Princeton current-listing access restrictions prevent an absolute newest-edition claim. Retrieved-source version/hash is the defensible claim.",
     "This audit reads report text and reference destinations; final rendered mathematical notation, responsive behavior, reference jump/return interaction, deployment, archive manifests and offline reproduction are separate checks.",
     "Underlying source-cell extraction is covered by separate numerical/source audits. This review directly rereads the principal SDSU, UCSD, UCSC and State Auditor case passages; it does not claim to visually re-extract every cell at all42 institutions.",
-    "Web addresses are mutable. Institutional originals are identified by saved hashes; an official linked report is not evidence of unpublished updates or final certification."
+    "Web addresses are mutable. Institutional originals are identified by saved hashes; an official linked report is not evidence of unpublished updates or final certification.",
+    "The map reuses the retained2024 directory for institutional home navigation. Simplified2017 Census-derived outlines and point-in-state checks do not establish crime location, housing scope, current legal boundaries or property-level population alignment."
   ],
   "reviewed_artifacts": [
     {
@@ -549,8 +577,8 @@
     },
     {
       "path": "boomerrawlings.com/src/components/CampusReader.astro",
-      "bytes": 13940,
-      "sha256": "12ed0f057e3b8623df422db59f8860ceffa638d3044fe6586728cf304a01826f"
+      "bytes": 14617,
+      "sha256": "5163eae05e708e6b21874a37d7a3c57bef12a53200fcc6874a583739e15fdf90"
     },
     {
       "path": "boomerrawlings.com/src/components/CampusReaderSources.astro",
@@ -574,8 +602,8 @@
     },
     {
       "path": "campus_safety_analysis/research/freshness_2026_09_25/READER_COPY_AUDIT.json",
-      "bytes": 3639,
-      "sha256": "06d767abe9b8a1c6a95331070adf0284790702c1728bb8277dc5b92e3d54b064"
+      "bytes": 4710,
+      "sha256": "877243d920354de721863b42895f71f609e62f6128f223cb1ceee7be0f55a882"
     },
     {
       "path": "campus_safety_analysis/research/freshness_2026_09_25/build_current_reports.py",
@@ -629,13 +657,13 @@
     },
     {
       "path": "campus_safety_analysis/research/freshness_2026_09_25/README.md",
-      "bytes": 9059,
-      "sha256": "d60d125cafa65b792720373cc88c21469cf233aba0894b719bfba3c87a51f475"
+      "bytes": 10458,
+      "sha256": "652b90bd276664432ee52ea626245d8d8e0dd2ea10b29d9f8a7f55c85cc7bf4b"
     },
     {
       "path": "campus_safety_analysis/research/freshness_2026_09_25/PRESENTATION_AMENDMENT.md",
-      "bytes": 2805,
-      "sha256": "0484c8e11837592b499bd0e7d02dafbfea606edcdf0db39c1c7445c0a526502f"
+      "bytes": 4120,
+      "sha256": "92ce06357edd76ef2df4feb2a64985428f5b3d11301b4fb5615d020a7048ef36"
     },
     {
       "path": "campus_safety_analysis/research/RESEARCH_REVIEW.md",
@@ -661,6 +689,61 @@
       "path": "dv_heat_analysis/publication/revision_models/results/revision_tests.csv",
       "bytes": 1574,
       "sha256": "3292200e6f71544f571109c2efcc5c5d4d23cd47f8f5d7e44024cca17b3750fd"
+    },
+    {
+      "path": "boomerrawlings.com/src/data/campus-map.json",
+      "bytes": 205370,
+      "sha256": "3bb9075b9fdab8086296fc09f09ccf486c7c8da6170f34a3f5e5a7b6cb0af69f"
+    },
+    {
+      "path": "boomerrawlings.com/src/components/CampusMap.astro",
+      "bytes": 2019,
+      "sha256": "dd1684d47dfadb6faf9c2f435e2bfc93a64a266076251b83a66db541e4e271b5"
+    },
+    {
+      "path": "boomerrawlings.com/src/lib/campus-map.js",
+      "bytes": 7054,
+      "sha256": "0e206e63970dbc6629a783d8a5b2e8a7c08eebe47689e8c7cbaa1eaeeeab9727"
+    },
+    {
+      "path": "boomerrawlings.com/src/styles/campus-map.css",
+      "bytes": 3986,
+      "sha256": "e501e5490437c400baf3af34569655bbe79a303bb0dbf10758fc4bf9e7e8447c"
+    },
+    {
+      "path": "boomerrawlings.com/scripts/test-campus-map.mjs",
+      "bytes": 2409,
+      "sha256": "2ea305ea1ee5b7f38f0bd064ffea2f16038402d64221954579ac3e5b68170c3f"
+    },
+    {
+      "path": "campus_safety_analysis/research/freshness_2026_09_25/MAP_NAVIGATION_AUDIT.json",
+      "bytes": 2850,
+      "sha256": "3e70f615681381bd3f6a9ee75fa0012f19fd9fcfcb57bc08a72a994f9a0bf34b"
+    },
+    {
+      "path": "campus_safety_analysis/research/map_navigation_2026_09_25/MAP_SOURCES.md",
+      "bytes": 5210,
+      "sha256": "597b3caa0c894149e3d8a5042f75319e387fc8cc2b1bda95478d6d36e5104b71"
+    },
+    {
+      "path": "campus_safety_analysis/research/map_navigation_2026_09_25/MAP_DATA_AUDIT.json",
+      "bytes": 1197,
+      "sha256": "9c652ddfd1df33141f905130e405ecb087b08c2081008635eca75e171279fba3"
+    },
+    {
+      "path": "campus_safety_analysis/research/map_navigation_2026_09_25/hd2024_coordinates.json",
+      "bytes": 12804,
+      "sha256": "a336f3b5111fee47d3bf2351811fa925eb7b5aa14a4e9d5d5cd56cb9d0530867"
+    },
+    {
+      "path": "campus_safety_analysis/research/map_navigation_2026_09_25/states-10m.json",
+      "bytes": 114554,
+      "sha256": "d76b391ccfa8bff601d51e3e3da5d43a89fa46cd5caca72ce731b383be5596d0"
+    },
+    {
+      "path": "campus_safety_analysis/research/map_navigation_2026_09_25/THIRD_PARTY_LICENSES.txt",
+      "bytes": 6241,
+      "sha256": "42a13a19ed96fb53db33e6911bb20db6b1b86dcbee3f4092cbe54be383bab5c2"
     }
   ],
   "directly_reread_source_versions": [

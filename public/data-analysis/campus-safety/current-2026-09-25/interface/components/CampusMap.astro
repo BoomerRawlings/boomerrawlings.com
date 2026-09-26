@@ -1,0 +1,23 @@
+---
+import map from '../data/campus-map.json';
+import '../styles/campus-map.css';
+const {schools, regions, states, width, height, viewBox, sources} = map;
+---
+<div class="campus-map" data-campus-map data-campus-verbatim>
+  <div class="campus-map-toolbar">
+    <h3 data-map-heading tabindex="-1">Choose a region</h3>
+    <button type="button" data-map-reset hidden>Back to national map</button>
+  </div>
+  <div class="campus-map-stage" data-map-stage>
+    <svg data-map-svg viewBox={viewBox.join(' ')} aria-hidden="true" focusable="false">
+      {regions.map(region=><g data-map-region={region.id} class="campus-map-region">{states.filter(state=>state.region===region.id).map(state=><path d={state.path}><title>{state.name}</title></path>)}</g>)}
+      <g class="campus-map-state-labels" data-map-state-labels hidden>{states.map(state=><text x={state.centroid[0]} y={state.centroid[1]} data-map-state-region={state.region}>{state.abbr}</text>)}</g>
+    </svg>
+    <div class="campus-map-region-labels" data-map-labels>{regions.map(region=><button type="button" data-map-region={region.id} style={`left:${region.label[0]/width*100}%;top:${region.label[1]/height*100}%`} aria-label={`Explore ${region.name}: ${region.schoolCount} schools`}><strong>{region.name}</strong><span>{region.schoolCount} schools</span></button>)}</div>
+    <div class="campus-map-markers" data-map-markers></div>
+  </div>
+  <p class="campus-map-help" data-map-status role="status" aria-live="polite">Select a region to see its schools.</p>
+  <div class="campus-map-nearby" data-map-nearby hidden aria-label="Choose a nearby school"></div>
+  <p class="campus-map-note">Locations mark each university’s home campus. Its crime report may cover other sites. Marker sizes and colors do not indicate crime levels. {sources.map(source=><a data-campus-citation href={source.url}>{source.label}</a>)}</p>
+  <script type="application/json" data-map-data set:html={JSON.stringify({width,height,viewBox,schools,regions}).replace(/</g,'\\u003c')} />
+</div>

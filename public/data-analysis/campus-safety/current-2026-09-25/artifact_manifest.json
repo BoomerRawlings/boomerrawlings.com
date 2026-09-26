@@ -1,15 +1,19 @@
 {
   "audit_current_citations.py": {
-    "bytes": 30253,
-    "sha256": "6e252cc682d32b96194cea6409aa132853ee9b83524cd5ac8dee6fd9d6ba8746"
+    "bytes": 33838,
+    "sha256": "a9e8eb4c4fae7382c992f8f139ec70e92a486f5842952374ba3179d2209f0768"
   },
   "audit_current_data.py": {
     "bytes": 18345,
     "sha256": "a1cfcf8bd1732a1d8b22ee8bfb5903d6b7ed6e61203c4dc19cc93702f681b017"
   },
+  "audit_map_navigation.py": {
+    "bytes": 6298,
+    "sha256": "5d0e8324fe76824f882f9312aefcfdc12ea6179b082d8de7bd1a109033f71e70"
+  },
   "audit_reader_copy.mjs": {
-    "bytes": 8135,
-    "sha256": "ea937b4c71de1f8fc9b45ebce1376129d74274a1e19fb2308a6c9e35652ad51d"
+    "bytes": 9420,
+    "sha256": "183bd891099490f7c558fceba5ee4b70f6608be87be44b06924d89074392b14d"
   },
   "build_current.py": {
     "bytes": 22295,
@@ -36,12 +40,12 @@
     "sha256": "772c88e304eddd6c1946c05c3a3ccc1f118392f4fc9211dc4af947223a17eb4d"
   },
   "CURRENT_CITATION_AUDIT.json": {
-    "bytes": 41410,
-    "sha256": "4dda9760d90bf014cc494217cc36a6d17cb748c1c7a3b3ed66dc5fa3f548fc71"
+    "bytes": 45953,
+    "sha256": "e48815de992025621b078c841c3fbaea2de72a35ea2c283e577f28578a499270"
   },
   "CURRENT_CITATION_AUDIT.md": {
-    "bytes": 20719,
-    "sha256": "bd9d0f06cd972adf659b08508af4fd2ecb65eb91805ff05b6cfa17919921f4fa"
+    "bytes": 23989,
+    "sha256": "ffd7892a14cfd40821448ed3e025e70bb68b18eee50f216147549b296a892b56"
   },
   "CURRENT_DATA_AUDIT.json": {
     "bytes": 4637,
@@ -155,9 +159,13 @@
     "bytes": 4753,
     "sha256": "140a53aab9e757cae685bb1d06ad8cc62f7c2b1e0cdef4c8b4385754da1d56c3"
   },
+  "interface/components/CampusMap.astro": {
+    "bytes": 2019,
+    "sha256": "dd1684d47dfadb6faf9c2f435e2bfc93a64a266076251b83a66db541e4e271b5"
+  },
   "interface/components/CampusReader.astro": {
-    "bytes": 13940,
-    "sha256": "12ed0f057e3b8623df422db59f8860ceffa638d3044fe6586728cf304a01826f"
+    "bytes": 14617,
+    "sha256": "5163eae05e708e6b21874a37d7a3c57bef12a53200fcc6874a583739e15fdf90"
   },
   "interface/components/CampusReaderSources.astro": {
     "bytes": 2030,
@@ -166,6 +174,10 @@
   "interface/content/archive/campus-safety.md": {
     "bytes": 15519,
     "sha256": "b6996cdade8d3ac94fc78774f85651d933be9c9f9813b09c55773e80ea2728c3"
+  },
+  "interface/data/campus-map.json": {
+    "bytes": 205370,
+    "sha256": "3bb9075b9fdab8086296fc09f09ccf486c7c8da6170f34a3f5e5a7b6cb0af69f"
   },
   "interface/data/campus-reader-copy.js": {
     "bytes": 6185,
@@ -178,6 +190,10 @@
   "interface/lib/campus-citations.js": {
     "bytes": 9551,
     "sha256": "c5ccc075dae41208442935c6b02441b86ee961fa16a157f2762a0e319eebc528"
+  },
+  "interface/lib/campus-map.js": {
+    "bytes": 7054,
+    "sha256": "0e206e63970dbc6629a783d8a5b2e8a7c08eebe47689e8c7cbaa1eaeeeab9727"
   },
   "interface/lib/campus-rates.js": {
     "bytes": 5719,
@@ -200,28 +216,76 @@
     "sha256": "6a73377bc0968f5ba1a4bb7129e2d703c7c1fe0a490762c385e86eb604217825"
   },
   "interface/README.md": {
-    "bytes": 620,
-    "sha256": "8958c54d000e53946dbb3245245150d2421bac9f2c4803897e8c9584c2a32395"
+    "bytes": 869,
+    "sha256": "a5c2b4d852f7f6708a86e5c6c8f08643ae0e1c149ad7e1add861be0edad771f5"
   },
   "interface/SOURCE_FILES.json": {
-    "bytes": 1944,
-    "sha256": "eae4d4385a0ee26be0e303dec583bce9ff081ec5fef1f702a01e1b2fd2a82075"
+    "bytes": 2695,
+    "sha256": "4511d546456eeeb1b146717e2ce8767d29a8e2ac4d76828033e32331bceb46ef"
+  },
+  "interface/styles/campus-map.css": {
+    "bytes": 3986,
+    "sha256": "e501e5490437c400baf3af34569655bbe79a303bb0dbf10758fc4bf9e7e8447c"
   },
   "interface/styles/campus-reader.css": {
     "bytes": 6538,
     "sha256": "57d5b4ee014053e4a30eb8783152a502294fe913c390cc931eefbaf4eb9dfbbd"
   },
+  "interface/test-campus-map.mjs": {
+    "bytes": 2409,
+    "sha256": "2ea305ea1ee5b7f38f0bd064ffea2f16038402d64221954579ac3e5b68170c3f"
+  },
   "interface/test-campus-reader.mjs": {
     "bytes": 2988,
     "sha256": "f4accfd75c85debcb1d0a76bf13f1570fc1673202bd8fe6a64c47e87ecaf463d"
+  },
+  "map_navigation/extract_coordinates.py": {
+    "bytes": 2555,
+    "sha256": "abacb4f9049b5cbe5d1d43625a0ec70624b304c1a6bc1a751762d4de862185e0"
+  },
+  "map_navigation/generate_map.mjs": {
+    "bytes": 8418,
+    "sha256": "f2fb3107e2cfa061bc67cb79b3663eeb8ed640ae0418d031284eabbfbbf56c6e"
+  },
+  "map_navigation/hd2024_coordinates.json": {
+    "bytes": 12804,
+    "sha256": "a336f3b5111fee47d3bf2351811fa925eb7b5aa14a4e9d5d5cd56cb9d0530867"
+  },
+  "map_navigation/MAP_DATA_AUDIT.json": {
+    "bytes": 1197,
+    "sha256": "9c652ddfd1df33141f905130e405ecb087b08c2081008635eca75e171279fba3"
+  },
+  "map_navigation/MAP_SOURCES.md": {
+    "bytes": 5210,
+    "sha256": "597b3caa0c894149e3d8a5042f75319e387fc8cc2b1bda95478d6d36e5104b71"
+  },
+  "map_navigation/states-10m.json": {
+    "bytes": 114554,
+    "sha256": "d76b391ccfa8bff601d51e3e3da5d43a89fa46cd5caca72ce731b383be5596d0"
+  },
+  "map_navigation/THIRD_PARTY_LICENSES.txt": {
+    "bytes": 6241,
+    "sha256": "42a13a19ed96fb53db33e6911bb20db6b1b86dcbee3f4092cbe54be383bab5c2"
+  },
+  "map_navigation/tooling/package-lock.json": {
+    "bytes": 2428,
+    "sha256": "9a6a6389f760990bc48636d4f2664a56002b2cba16fcfb68f155dfa8b176f058"
+  },
+  "map_navigation/tooling/package.json": {
+    "bytes": 107,
+    "sha256": "5ff5ee21d7ecd2d623e2edce42fe2e22e445c9b3ecb24bc1239658824a7a833b"
+  },
+  "MAP_NAVIGATION_AUDIT.json": {
+    "bytes": 2850,
+    "sha256": "3e70f615681381bd3f6a9ee75fa0012f19fd9fcfcb57bc08a72a994f9a0bf34b"
   },
   "PDF_VISUAL_AUDIT.md": {
     "bytes": 4317,
     "sha256": "cfb872fdd2a5e0f1328b896434862fc0b03a46d1cc158b3531eb1ae742d6acde"
   },
   "PRESENTATION_AMENDMENT.md": {
-    "bytes": 2805,
-    "sha256": "0484c8e11837592b499bd0e7d02dafbfea606edcdf0db39c1c7445c0a526502f"
+    "bytes": 4120,
+    "sha256": "92ce06357edd76ef2df4feb2a64985428f5b3d11301b4fb5615d020a7048ef36"
   },
   "private/2025_visual_source_review.json": {
     "bytes": 3947,
@@ -408,12 +472,12 @@
     "sha256": "9e5e58e0a6c816e80237ed018209da81c7e705d702d852be50bcc9056c6d57c3"
   },
   "READER_COPY_AUDIT.json": {
-    "bytes": 3639,
-    "sha256": "06d767abe9b8a1c6a95331070adf0284790702c1728bb8277dc5b92e3d54b064"
+    "bytes": 4710,
+    "sha256": "877243d920354de721863b42895f71f609e62f6128f223cb1ceee7be0f55a882"
   },
   "README.md": {
-    "bytes": 9059,
-    "sha256": "d60d125cafa65b792720373cc88c21469cf233aba0894b719bfba3c87a51f475"
+    "bytes": 10458,
+    "sha256": "652b90bd276664432ee52ea626245d8d8e0dd2ea10b29d9f8a7f55c85cc7bf4b"
   },
   "RELEASE_PACKAGE_CHECK.json": {
     "bytes": 3772,
@@ -476,11 +540,11 @@
     "sha256": "a65707c039f9a6e9c1d39175d235455697e769cbf242546ba254ba7d4a656125"
   },
   "VISUAL_AUDIT.md": {
-    "bytes": 8901,
-    "sha256": "24579eff44787e1cc5decd7e8a80942a6541c8b0fa040b7da56baa30f6d2a7e6"
+    "bytes": 10594,
+    "sha256": "e715b858a0c88197056ee7f0905c0bef2301d8dbf210ff6bc39f590bfe4426e7"
   },
   "campus-safety-current-reproducibility.zip": {
-    "bytes": 1415126,
-    "sha256": "8626cad6fed3962c7164af41770201771dd3e6aef5984ad34895ff8866598d3f"
+    "bytes": 1562098,
+    "sha256": "75319a9454e2bed4ea2cca6e8e6a575257cb2a444d637018332652bb245b439a"
   }
 }
