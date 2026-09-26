@@ -1,0 +1,174 @@
+L8248@P112: University of Virginia Charlottesville
+L8249@P112: Murder/and Nonnegligent
+L8250@P112: Manslaughter1
+L8251@P112: 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0
+L8252@P112: Manslaughter by
+L8253@P112: Negligence 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+L8254@P112: Rape 24 29 3 0 32 2 17 19 0 0 19 0 12 17 3 0 20 1
+L8255@P112: Fondling2 1 28 0 1 29 1 2 62 1 1 64 1 1 18 5 0 23 2
+L8256@P112: Incest 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+L8257@P112: Statutory Rape 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+L8258@P112: Robbery 0 1 0 0 1 0 0 0 0 0 0 0 0 2 0 0 2 0
+L8259@P112: Aggravated
+L8260@P112: Assault 3 25 3 7 35 2 0 17 5 5 27 0 2 16 2 3 21 0
+L8261@P112: Burglary 2 2 2 0 4 0 5 13 4 0 17 0 2 13 6 0 19 0
+L8262@P112: Motor Vehicle
+L8263@P112: Theft3 3 114 1 2 117 0 1 126 0 0 126 2 4 84 1 1 86 0
+L8264@P112: Arson 0 0 0 0 0 0 0 1 0 0 1 0 0 2 0 0 2 0
+L8265@P112: Violence Against Women Act (VAWA): ----------------------------------------------------
+L8266@P112: Dating Violence 6 12 2 1 15 1 8 14 0 0 14 0 10 16 0 0 16 0
+L8267@P112: Domestic
+L8268@P112: Violence 0 15 1 1 17 0 0 7 7 0 14 1 0 9 3 0 12 0
+L8269@P112: Stalking 10 69 2 1 72 1 20 85 3 1 89 0 16 40 1 0 41 1
+L8270@P112: 2025 2024 2023
+L8271@P112: Offense
+L8272@P112: On-Campus
+L8273@P112: Property
+L8274@P112: Non-Grounds/Non-Campus
+L8275@P112: Building or Property
+L8276@P112: Public Property
+L8277@P112: TOTAL
+L8278@P112: Unfounded Crimes
+L8279@P112: On-Campus
+L8280@P112: Property
+L8281@P112: Non-Grounds/Non-Campus
+L8282@P112: Building or Property
+L8283@P112: Public Property
+L8284@P112: TOTAL
+L8285@P112: Unfounded Crimes
+L8286@P112: OnCampus
+L8287@P112: Property
+L8288@P112: Non-Grounds/Non-Campus
+L8289@P112: Building or Property
+L8290@P112: Public Property
+L8291@P112: TOTAL
+L8292@P112: Unfounded Crimes
+L8293@P112: Student
+L8294@P112: Housing
+L8295@P112: Total On
+L8296@P112: Campus
+L8297@P112: Student
+L8298@P112: Housing
+L8299@P112: Total On
+L8300@P112: Campus
+L8301@P112: Student
+L8302@P112: Housing
+L8303@P112: Total On
+L8304@P112: Campus
+L8825@P122: UNIVERSITY OF VIRGINIA: DARDEN SANDS FAMILY GROUNDS
+L8826@P122: Note: The Darden Sands Family Grounds location does not have on-site residential housing facilities.
+L8827@P122: Murder/ and
+L8828@P122: Non-negligent
+L8829@P122: Manslaughter
+L8830@P122: – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0 0 0
+L8831@P122: Negligent
+L8832@P122: Manslaughter – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0 0 0
+L8833@P122: Rape – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0 0 0
+L8834@P122: Fondling – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0 0 0
+L8835@P122: Incest – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0 0 0
+L8836@P122: Statutory Rape – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0 0 0
+L8837@P122: Robbery – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0 0 0
+L8838@P122: Aggravated
+L8839@P122: Assault – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0 0 0
+L8840@P122: Burglary – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0 0 0
+L8841@P122: Motor Vehicle
+L8842@P122: Theft – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0 0 0
+L8843@P122: Arson – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0 0 0
+L8844@P122: Violence Against Women Act (VAWA): -----------------------------------------------------
+L8845@P122: Dating Violence – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0 0 0
+L8846@P122: Domestic
+L8847@P122: Violence – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0 0 0
+L8848@P122: Stalking – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0 0 0
+L8849@P122: 2025 2024 2023
+L8850@P122: Offense
+L8851@P122: OnCampus
+L8852@P122: Property
+L8853@P122: Non-Campus Building or
+L8854@P122: Property
+L8855@P122: Public Property
+L8856@P122: TOTAL
+L8857@P122: Unfounded Crimes
+L8858@P122: OnCampus
+L8859@P122: Property
+L8860@P122: Non-Campus Building or
+L8861@P122: Property
+L8862@P122: Public Property
+L8863@P122: TOTAL
+L8864@P122: Unfounded Crimes
+L8865@P122: OnCampus
+L8866@P122: Property
+L8867@P122: Non-Campus Building or
+L8868@P122: Property
+L8869@P122: Public Property
+L8870@P122: TOTAL
+L8871@P122: Unfounded Crimes
+L8872@P122: Student
+L8873@P122: Housing
+L8874@P122: Total On
+L8875@P122: Campus
+L8876@P122: Student
+L8877@P122: Housing
+L8878@P122: Total On
+L8879@P122: Campus
+L8880@P122: Student
+L8881@P122: Housing
+L8882@P122: Total On
+L8883@P122: Campus
+L9237@P130: UNIVERSITY OF VIRGINIA: MOUNTAIN LAKE BIOLOGICAL STATION
+L9238@P130: Note: MLBS does not have non-campus property.
+L9239@P130: Murder and Nonnegligent
+L9240@P130: Manslaughter
+L9241@P130: 0 0 – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0
+L9242@P130: Manslaughter by
+L9243@P130: Negligence 0 0 – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0
+L9244@P130: Rape 0 0 – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0
+L9245@P130: Fondling 0 0 – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0
+L9246@P130: Incest 0 0 – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0
+L9247@P130: Statutory Rape 0 0 – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0
+L9248@P130: Robbery 0 0 – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0
+L9249@P130: Aggravated
+L9250@P130: Assault 0 0 – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0
+L9251@P130: Burglary 0 0 – 0 0 0 0 0 – 0 0 0 0 1 – 0 1 0
+L9252@P130: Motor Vehicle
+L9253@P130: Theft 0 0 – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0
+L9254@P130: Arson 0 0 – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0
+L9255@P130: Violence Against Women Act (VAWA): -----------------------------------------------------
+L9256@P130: Dating Violence 0 0 – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0
+L9257@P130: Domestic
+L9258@P130: Violence 0 0 – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0
+L9259@P130: Stalking 0 0 – 0 0 0 0 0 – 0 0 0 0 0 – 0 0 0
+L9260@P130: 2025 2024 2023
+L9261@P130: Offense
+L9262@P130: OnCampus
+L9263@P130: Property
+L9264@P130: Non-Campus Building or
+L9265@P130: Property
+L9266@P130: Public Property
+L9267@P130: TOTAL
+L9268@P130: Unfounded Crimes
+L9269@P130: OnCampus
+L9270@P130: Property
+L9271@P130: Non-Campus Building or
+L9272@P130: Property
+L9273@P130: Public Property
+L9274@P130: TOTAL
+L9275@P130: Unfounded Crimes
+L9276@P130: OnCampus
+L9277@P130: Property
+L9278@P130: Non-Campus Building or
+L9279@P130: Property
+L9280@P130: Public Property
+L9281@P130: TOTAL
+L9282@P130: Unfounded Crimes
+L9283@P130: Student
+L9284@P130: Housing
+L9285@P130: Total On
+L9286@P130: Campus
+L9287@P130: Student
+L9288@P130: Housing
+L9289@P130: Total On
+L9290@P130: Campus
+L9291@P130: Student
+L9292@P130: Housing
+L9293@P130: Total On
+L9294@P130: Campus

@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "requests_verified": 133,
+  "frozen_raw_files_hash_verified": 97,
+  "sandag_normalized_metadata_unchanged": 4,
+  "sandag_aggregate_responses_unchanged": 14,
+  "sdpd_2026_source_rows": 57037,
+  "sdpd_net_new_rows": 244,
+  "sdpd_new_day_rows": 95,
+  "sdpd_prior_date_net_revisions": 149,
+  "sdpd_daily_cells": 1335,
+  "sdpd_monthly_offense_cells": 416,
+  "noaa_daily_historical_windows_unchanged": 29,
+  "noaa_hourly_files_unchanged": 60,
+  "noaa_inventory_files_unchanged": 3,
+  "models_refit": 0,
+  "request_counts_by_kind": {
+    "catalog": 3,
+    "context": 1,
+    "dictionary": 1,
+    "documentation": 6,
+    "doj": 5,
+    "sandag_aggregate": 14,
+    "sandag_metadata": 4,
+    "sdpd": 7,
+    "weather": 92
+  }
+}

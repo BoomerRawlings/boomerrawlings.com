@@ -1,0 +1,446 @@
+{
+  "review_date": "2026-09-25",
+  "status": "Official source inventory reviewed for all10 UC institutions; fresh PDF bytes and all14 core categories extracted for9institutions/17branches. Merced origin403 and web-PDF timeout prevent current byte-level verification or extraction.",
+  "institutions": [
+    {
+      "unitid": "110635",
+      "label": "UC Berkeley",
+      "landing_url": "https://chancellor.berkeley.edu/clery-act-compliance/clery-annual-security-and-fire-safety-reports",
+      "report_url": "https://ucpd.berkeley.edu/sites/default/files/uc_berkeley_asfsr.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:37:00.341749+00:00",
+      "local_pdf": "berkeley_report.pdf",
+      "sha256": "5c4a116d51891ae66dfc914cfe0e1d9dba95e1ef67e8246662d3bac093d5f9b8",
+      "bytes": 4298429,
+      "pages": 146,
+      "campus_scope": "Main Berkeley report; University of California Washington Center has a separate 2026 report.",
+      "federal_campuses": [
+        {
+          "id": "110635001",
+          "name": "Main Campus"
+        },
+        {
+          "id": "110635003",
+          "name": "University of California Washington Center"
+        }
+      ],
+      "additional_reports": [
+        {
+          "key": "ucdc",
+          "requested_url": "https://ucop.box.com/index.php?rm=box_download_shared_file&shared_name=4jqek4z8l3nrophccro9tyhnuzvj7iz8&file_id=f_1657190526988",
+          "checked_utc": "2026-09-25T21:41:03.493383+00:00",
+          "local_file": "ucdc_report.pdf",
+          "sha256": "a26be2eff49805643f786973c23763e33c9d42668f00c4ce40237db1a01b221f",
+          "bytes": 1019784,
+          "pages": 103
+        }
+      ],
+      "latest_evidence": "Current official listing followed to report; edition/report years verified in PDF.",
+      "denominator_sources": [
+        {
+          "url": "https://news.berkeley.edu/2026/03/23/uc-berkeley-reaches-major-housing-milestone-for-incoming-new-students/",
+          "finding": "Current rounded undergraduate-only housing statement; not exact fall 2025 all-resident census.",
+          "eligible_2025_denominator": false
+        }
+      ],
+      "limitations": [
+        "Exact dated and geographically matched 2025 housing occupancy not established by this source search. No capacity or prior-year population substitution.",
+        "Do not call the complete two-campus institution2025-only: UCDC has2026 report,2023–2025 statistics."
+      ],
+      "extraction_status": "all14_core_categories_all4_geographies_all_reported_years_all_federal_branches",
+      "denominator_search_status": "No exact dated geographically matched2025 housing headcount established; nonavailability is a search finding, not proof no such source exists."
+    },
+    {
+      "unitid": "110644",
+      "label": "UC Davis",
+      "landing_url": "https://clery.ucdavis.edu/asr",
+      "report_url": "https://clery.ucdavis.edu/sites/g/files/dgvnsk1761/files/media/documents/ASFSR-UCD-2026-vSep2026.pdf",
+      "report_edition": 2026,
+      "report_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "checked_utc": "2026-09-25T21:38:50.265737+00:00",
+      "local_pdf": "davis_report.pdf",
+      "sha256": "b1c70abe8d75ce8fc1809bb9fecead7199576f50f13a275da8b4bb1bb5e37cad",
+      "bytes": 5844886,
+      "pages": 400,
+      "campus_scope": "Davis and UC Davis Health; Health housing first opened June 2025.",
+      "federal_campuses": [
+        {
+          "id": "110644001",
+          "name": "Main Campus"
+        },
+        {
+          "id": "110644002",
+          "name": "UC Davis Medical Center"
+        }
+      ],
+      "additional_reports": [],
+      "latest_evidence": "Current official listing followed to report; edition/report years verified in PDF.",
+      "denominator_sources": [
+        {
+          "url": "https://housing.ucdavis.edu/apartments/anova-aggie-square/",
+          "finding": "103 master-leased beds describes capacity in one new Sacramento facility, not actual census; new housing geography in 2025.",
+          "eligible_2025_denominator": false
+        }
+      ],
+      "limitations": [
+        "Exact dated and geographically matched 2025 housing occupancy not established by this source search. No capacity or prior-year population substitution.",
+        "Landing HTML directHTTP403; web retrieval shows September23,2026 issue. Direct PDF bytes downloaded successfully."
+      ],
+      "extraction_status": "all14_core_categories_all4_geographies_all_reported_years_all_federal_branches",
+      "denominator_search_status": "No exact dated geographically matched2025 housing headcount established; nonavailability is a search finding, not proof no such source exists."
+    },
+    {
+      "unitid": "110653",
+      "label": "UC Irvine",
+      "landing_url": "https://www.police.uci.edu/clery/",
+      "report_url": "https://www.police.uci.edu/clery/annual-reports/uci_security_report.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:37:00.341749+00:00",
+      "local_pdf": "irvine_report.pdf",
+      "sha256": "9d635b9acbbfb46c23aef2b2718f45d71d54f41ff90ac0b8b8703140b86c60aa",
+      "bytes": 16467805,
+      "pages": 233,
+      "campus_scope": "Irvine main and UCI Health Medical Center, separate statistics tables.",
+      "federal_campuses": [
+        {
+          "id": "110653001",
+          "name": "UCI Main Campus"
+        },
+        {
+          "id": "110653002",
+          "name": "UCI Medical Center"
+        }
+      ],
+      "additional_reports": [],
+      "latest_evidence": "Current official listing followed to report; edition/report years verified in PDF.",
+      "denominator_sources": [
+        {
+          "url": "https://housing.uci.edu/mesa-court/",
+          "finding": "Approximate residents for one complex, not exact fall 2025 campus population.",
+          "eligible_2025_denominator": false
+        }
+      ],
+      "limitations": [
+        "Exact dated and geographically matched 2025 housing occupancy not established by this source search. No capacity or prior-year population substitution."
+      ],
+      "extraction_status": "all14_core_categories_all4_geographies_all_reported_years_all_federal_branches",
+      "denominator_search_status": "No exact dated geographically matched2025 housing headcount established; nonavailability is a search finding, not proof no such source exists."
+    },
+    {
+      "unitid": "110662",
+      "label": "UCLA",
+      "landing_url": "https://www.privacy.ucla.edu/clery-act-compliance/annual-security-fire-report",
+      "report_url": "https://ucla.box.com/s/gzlc5edy5yuyeozpf1adob2rvsrdf9ur",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:38:22.104131+00:00",
+      "local_pdf": "los_angeles_report.pdf",
+      "sha256": "a584413bd02e129feadc9c5357acfedfa8d76fa159cd19f62ec7a3edd4fdc8cf",
+      "bytes": 7175215,
+      "pages": 201,
+      "campus_scope": "UCLA reporting campus; listing identifies April 2026 republication.",
+      "federal_campuses": [
+        {
+          "id": "110662001",
+          "name": "UCLA"
+        }
+      ],
+      "additional_reports": [],
+      "latest_evidence": "Current official listing followed to report; edition/report years verified in PDF.",
+      "denominator_sources": [
+        {
+          "url": "https://newsroom.ucla.edu/stories/bruins-roll-into-westwood-new-year-and-welcome-events",
+          "finding": "September 19, 2025 approximate move-in counts and partial Hill scope, not exact aligned census.",
+          "eligible_2025_denominator": false
+        }
+      ],
+      "limitations": [
+        "Exact dated and geographically matched 2025 housing occupancy not established by this source search. No capacity or prior-year population substitution."
+      ],
+      "extraction_status": "all14_core_categories_all4_geographies_all_reported_years_all_federal_branches",
+      "denominator_search_status": "No exact dated geographically matched2025 housing headcount established; nonavailability is a search finding, not proof no such source exists."
+    },
+    {
+      "unitid": "445188",
+      "label": "UC Merced",
+      "landing_url": "https://clery.ucmerced.edu/annual-security-reports",
+      "report_url": "https://clery.ucmerced.edu/sites/g/files/ufvvjh631/f/documents/ucm_2025_asr.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:38:22+00:00",
+      "local_pdf": null,
+      "sha256": null,
+      "bytes": null,
+      "pages": 158,
+      "campus_scope": "University of California, Merced.",
+      "federal_campuses": [
+        {
+          "id": "445188001",
+          "name": "University of California, Merced"
+        }
+      ],
+      "additional_reports": [],
+      "latest_evidence": "Official listing and linked2025 PDF reviewed through web retrieval; direct HTTP403 prevents byte-level freshness/hash verification.",
+      "denominator_sources": [
+        {
+          "url": "https://housing.ucmerced.edu/",
+          "finding": "Housing-source search did not establish an exact dated 2025 resident census. Direct official HTTP requests blocked.",
+          "eligible_2025_denominator": false
+        }
+      ],
+      "limitations": [
+        "Exact dated and geographically matched 2025 housing occupancy not established by this source search. No capacity or prior-year population substitution.",
+        "No local PDF/hash; current2025 edition visible through web retrieval, but direct-origin freshness unconfirmed. No assertion that a2026 report does not exist."
+      ],
+      "extraction_status": "unavailable_current_pdf",
+      "denominator_search_status": "No exact dated geographically matched2025 housing headcount established; nonavailability is a search finding, not proof no such source exists."
+    },
+    {
+      "unitid": "110671",
+      "label": "UC Riverside",
+      "landing_url": "https://compliance.ucr.edu/clery-act-compliance",
+      "report_url": "https://compliance.ucr.edu/media/887/download?attachment",
+      "report_edition": 2026,
+      "report_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "checked_utc": "2026-09-25T21:38:50.264740+00:00",
+      "local_pdf": "riverside_report.pdf",
+      "sha256": "7494a8d0497110f95fcf597fe6f1e5050517bb4054ccf66052b8a3d97a362e2d",
+      "bytes": 1752552,
+      "pages": 177,
+      "campus_scope": "Riverside main and Palm Desert Center. Palm Desert tables omit housing and noncampus columns; do not silently impute zero.",
+      "federal_campuses": [
+        {
+          "id": "110671001",
+          "name": "Main Campus"
+        },
+        {
+          "id": "110671002",
+          "name": "UCR Palm Desert Center"
+        }
+      ],
+      "additional_reports": [],
+      "latest_evidence": "Current official listing followed to report; edition/report years verified in PDF.",
+      "denominator_sources": [
+        {
+          "url": "https://insideucr.ucr.edu/stories/2025/09/23/ucr-welcomes-its-largest-group-student-residents",
+          "finding": "15,000 includes accompanying family members; 1,100 UCR and almost250 community-college students concern one facility. Not campus-wide resident census.",
+          "eligible_2025_denominator": false
+        }
+      ],
+      "limitations": [
+        "Exact dated and geographically matched 2025 housing occupancy not established by this source search. No capacity or prior-year population substitution."
+      ],
+      "extraction_status": "all14_core_categories_all4_geographies_all_reported_years_all_federal_branches",
+      "denominator_search_status": "No exact dated geographically matched2025 housing headcount established; nonavailability is a search finding, not proof no such source exists."
+    },
+    {
+      "unitid": "110680",
+      "label": "UC San Diego",
+      "landing_url": "https://police.ucsd.edu/alerts/clery.html",
+      "report_url": "https://www.police.ucsd.edu/docs/annualclery.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:37:00.342999+00:00",
+      "local_pdf": "san_diego_report.pdf",
+      "sha256": "d4d01766e4f4e7de813a320a5484c8a91d7d41b8862a3a15f85d88b0d3a3a0bb",
+      "bytes": 8856776,
+      "pages": 459,
+      "campus_scope": "UC San Diego reporting campus; reissued February 26, 2026.",
+      "federal_campuses": [
+        {
+          "id": "110680001",
+          "name": "UC San Diego"
+        }
+      ],
+      "additional_reports": [],
+      "latest_evidence": "Current official listing followed to report; edition/report years verified in PDF.",
+      "denominator_sources": [
+        {
+          "url": "https://senate.ucsd.edu/media/671190/2024-performance-review-khosla.pdf",
+          "finding": "Fall2025 nearly22,000 is a prospective approximate housing statement, not actual2025 census.",
+          "eligible_2025_denominator": false
+        }
+      ],
+      "limitations": [
+        "Exact dated and geographically matched 2025 housing occupancy not established by this source search. No capacity or prior-year population substitution."
+      ],
+      "extraction_status": "all14_core_categories_all4_geographies_all_reported_years_all_federal_branches",
+      "denominator_search_status": "No exact dated geographically matched2025 housing headcount established; nonavailability is a search finding, not proof no such source exists."
+    },
+    {
+      "unitid": "110699",
+      "label": "UC San Francisco",
+      "landing_url": "https://police.ucsf.edu/clery-act-and-ucsf-annual-fire-safety-security-reports",
+      "report_url": "https://ucsf.box.com/v/UCPD-UCSF-ASR-2026",
+      "report_edition": 2026,
+      "report_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "checked_utc": "2026-09-25T21:38:22.105386+00:00",
+      "local_pdf": "san_francisco_report.pdf",
+      "sha256": "571994b6382c11ed08ae09ddd69d935f8d726e642e9b7ea126e41ea1e2859d1b",
+      "bytes": 5310989,
+      "pages": 103,
+      "campus_scope": "Parnassus Heights, Mission Bay, Mount Zion, Benioff Children’s Hospital Oakland and Fresno.",
+      "federal_campuses": [
+        {
+          "id": "110699001",
+          "name": "Main Campus - Parnassus Heights"
+        },
+        {
+          "id": "110699002",
+          "name": "Mission Bay"
+        },
+        {
+          "id": "110699003",
+          "name": "Mount Zion"
+        },
+        {
+          "id": "110699004",
+          "name": "UCSF Benioff Children's Hospital - Oakland"
+        },
+        {
+          "id": "110699005",
+          "name": "UCSF Fresno"
+        }
+      ],
+      "additional_reports": [
+        {
+          "key": "san_francisco_stats",
+          "requested_url": "https://ucsf.box.com/index.php?rm=box_download_shared_file&shared_name=owaeqqmzt4tibddl836rmfi8hk0ln4bo&file_id=f_2487802590453",
+          "checked_utc": "2026-09-25T21:38:22.106479+00:00",
+          "local_file": "san_francisco_stats_report.pdf",
+          "sha256": "95369d4ae1af33a5754e3a0673aa1337f9e908ad323514d2506c9a6df7924798",
+          "bytes": 814941,
+          "pages": 5
+        }
+      ],
+      "latest_evidence": "Current official listing followed to report; edition/report years verified in PDF.",
+      "denominator_sources": [
+        {
+          "url": "https://campuslifeserviceshome.ucsf.edu/housing",
+          "finding": "Serves students, trainees, faculty and staff; no exact dated2025 resident census established. Medical residents are not automatically housing residents.",
+          "eligible_2025_denominator": false
+        }
+      ],
+      "limitations": [
+        "Exact dated and geographically matched 2025 housing occupancy not established by this source search. No capacity or prior-year population substitution."
+      ],
+      "extraction_status": "all14_core_categories_all4_geographies_all_reported_years_all_federal_branches",
+      "denominator_search_status": "No exact dated geographically matched2025 housing headcount established; nonavailability is a search finding, not proof no such source exists."
+    },
+    {
+      "unitid": "110705",
+      "label": "UC Santa Barbara",
+      "landing_url": "https://police.ucsb.edu/asfsr",
+      "report_url": "https://docs.google.com/document/d/17sbHHkxln7w8TaFRy0Dm3i1-NCgGwGznHmF6B1hcpy0/export?format=pdf",
+      "report_edition": 2026,
+      "report_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "checked_utc": "2026-09-25T21:37:00.344057+00:00",
+      "local_pdf": "santa_barbara_report.pdf",
+      "sha256": "a0e0495251e9b0da6f250d2aaf69a83aac0dd487918289545ccec14d4662f7e5",
+      "bytes": 5972251,
+      "pages": 337,
+      "campus_scope": "UC Santa Barbara reporting campus. Current official report is a Google document; PDF is a dated export.",
+      "federal_campuses": [
+        {
+          "id": "110705001",
+          "name": "University of California Santa Barbara"
+        }
+      ],
+      "additional_reports": [],
+      "latest_evidence": "Current official listing followed to report; edition/report years verified in PDF.",
+      "denominator_sources": [
+        {
+          "url": "https://www.hdae.ucsb.edu/blog/compass/desk-willie-brown-v7n6",
+          "finding": "June2025 nearly10,000 is approximate, not exact fall2025 census.",
+          "eligible_2025_denominator": false
+        },
+        {
+          "url": "https://www.hdae.ucsb.edu/about/welcome",
+          "finding": "10,000 includes students, faculty and family; no exact census date.",
+          "eligible_2025_denominator": false
+        }
+      ],
+      "limitations": [
+        "Exact dated and geographically matched 2025 housing occupancy not established by this source search. No capacity or prior-year population substitution."
+      ],
+      "extraction_status": "all14_core_categories_all4_geographies_all_reported_years_all_federal_branches",
+      "denominator_search_status": "No exact dated geographically matched2025 housing headcount established; nonavailability is a search finding, not proof no such source exists."
+    },
+    {
+      "unitid": "110714",
+      "label": "UC Santa Cruz",
+      "landing_url": "https://chancellor.ucsc.edu/annual-security-reports/",
+      "report_url": "https://chancellor.ucsc.edu/files/2026/05/UC-Santa-Cruz-2025-Annual-Security-Fire-Safety-Report-FINAL-Republished-May-6-2026.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:38:22.099955+00:00",
+      "local_pdf": "santa_cruz_report.pdf",
+      "sha256": "f50193a642a0e62dee28a533c96e0a0c261a4bf23d32492052b0722e44ae5d83",
+      "bytes": 6859823,
+      "pages": 323,
+      "campus_scope": "UC Santa Cruz reporting campus; republished May 6, 2026.",
+      "federal_campuses": [
+        {
+          "id": "110714001",
+          "name": "UC Santa Cruz"
+        }
+      ],
+      "additional_reports": [],
+      "latest_evidence": "Current official listing followed to report; edition/report years verified in PDF.",
+      "denominator_sources": [
+        {
+          "url": "https://www.ucsc.edu/better-together/housing/",
+          "finding": "More than9,300 is rounded and undated, not exact fall2025 census.",
+          "eligible_2025_denominator": false
+        }
+      ],
+      "limitations": [
+        "Exact dated and geographically matched 2025 housing occupancy not established by this source search. No capacity or prior-year population substitution."
+      ],
+      "extraction_status": "all14_core_categories_all4_geographies_all_reported_years_all_federal_branches",
+      "denominator_search_status": "No exact dated geographically matched2025 housing headcount established; nonavailability is a search finding, not proof no such source exists."
+    }
+  ]
+}

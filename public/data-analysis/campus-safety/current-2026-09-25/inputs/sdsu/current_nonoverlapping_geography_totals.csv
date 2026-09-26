@@ -1,0 +1,265 @@
+campus,report_year,category,all_geographies_count,oncampus_count,noncampus_count,public_property_count,housing_subset_count,formula,source_edition
+San Diego,2023,murder,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,negligent_manslaughter,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,rape,13,11,2,0,8,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,fondling,1,0,0,1,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,incest,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,statutory_rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,robbery,3,1,0,2,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,aggravated_assault,7,4,2,1,2,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,burglary,23,18,5,0,6,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,motor_vehicle_theft,18,16,2,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,arson,2,1,0,1,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,domestic_violence,2,2,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,dating_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,stalking,2,2,0,0,1,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,arrests_weapons,8,7,1,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,arrests_drug,17,14,0,3,1,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,arrests_liquor,4,4,0,0,1,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,referrals_weapons,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,referrals_drug,269,269,0,0,269,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,referrals_liquor,774,774,0,0,774,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,hazing,,,,,,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2023,criminal_total,67,51,11,5,16,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,murder,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,negligent_manslaughter,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,rape,3,1,2,0,1,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,fondling,2,2,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,incest,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,statutory_rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,robbery,4,2,0,2,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,aggravated_assault,21,14,4,3,1,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,burglary,31,20,11,0,5,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,motor_vehicle_theft,7,6,0,1,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,arson,1,1,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,domestic_violence,11,10,1,0,3,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,dating_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,stalking,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,arrests_weapons,22,20,1,1,3,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,arrests_drug,17,10,1,6,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,arrests_liquor,10,6,0,4,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,referrals_weapons,16,16,0,0,16,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,referrals_drug,241,241,0,0,241,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,referrals_liquor,685,685,0,0,685,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,hazing,,,,,,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2024,criminal_total,69,46,17,6,7,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,murder,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,negligent_manslaughter,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,rape,16,11,5,0,10,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,fondling,7,7,0,0,5,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,incest,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,statutory_rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,robbery,7,3,0,4,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,aggravated_assault,17,12,1,4,1,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,burglary,14,11,3,0,8,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,motor_vehicle_theft,8,7,0,1,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,arson,2,1,0,1,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,domestic_violence,13,11,1,1,5,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,dating_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,stalking,1,1,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,arrests_weapons,20,12,1,7,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,arrests_drug,108,72,0,36,7,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,arrests_liquor,26,9,0,17,2,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,referrals_weapons,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,referrals_drug,223,223,0,0,223,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,referrals_liquor,689,689,0,0,689,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,hazing,1,1,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+San Diego,2025,criminal_total,71,52,9,10,24,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,murder,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,negligent_manslaughter,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,fondling,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,incest,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,statutory_rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,robbery,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,aggravated_assault,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,burglary,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,motor_vehicle_theft,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,arson,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,domestic_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,dating_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,stalking,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,arrests_weapons,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,arrests_drug,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,arrests_liquor,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,referrals_weapons,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,referrals_drug,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,referrals_liquor,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,hazing,,,,,,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2023,criminal_total,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,murder,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,negligent_manslaughter,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,fondling,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,incest,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,statutory_rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,robbery,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,aggravated_assault,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,burglary,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,motor_vehicle_theft,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,arson,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,domestic_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,dating_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,stalking,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,arrests_weapons,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,arrests_drug,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,arrests_liquor,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,referrals_weapons,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,referrals_drug,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,referrals_liquor,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,hazing,,,,,,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2024,criminal_total,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,murder,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,negligent_manslaughter,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,fondling,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,incest,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,statutory_rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,robbery,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,aggravated_assault,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,burglary,3,3,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,motor_vehicle_theft,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,arson,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,domestic_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,dating_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,stalking,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,arrests_weapons,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,arrests_drug,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,arrests_liquor,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,referrals_weapons,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,referrals_drug,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,referrals_liquor,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,hazing,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Imperial Valley,2025,criminal_total,3,3,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,murder,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,negligent_manslaughter,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,fondling,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,incest,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,statutory_rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,robbery,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,aggravated_assault,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,burglary,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,motor_vehicle_theft,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,arson,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,domestic_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,dating_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,stalking,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,arrests_weapons,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,arrests_drug,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,arrests_liquor,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,referrals_weapons,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,referrals_drug,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,referrals_liquor,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,hazing,,,,,,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2023,criminal_total,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,murder,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,negligent_manslaughter,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,fondling,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,incest,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,statutory_rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,robbery,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,aggravated_assault,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,burglary,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,motor_vehicle_theft,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,arson,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,domestic_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,dating_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,stalking,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,arrests_weapons,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,arrests_drug,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,arrests_liquor,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,referrals_weapons,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,referrals_drug,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,referrals_liquor,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,hazing,,,,,,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2024,criminal_total,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,murder,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,negligent_manslaughter,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,fondling,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,incest,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,statutory_rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,robbery,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,aggravated_assault,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,burglary,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,motor_vehicle_theft,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,arson,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,domestic_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,dating_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,stalking,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,arrests_weapons,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,arrests_drug,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,arrests_liquor,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,referrals_weapons,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,referrals_drug,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,referrals_liquor,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,hazing,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+Georgia,2025,criminal_total,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,murder,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,negligent_manslaughter,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,rape,13,11,2,0,8,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,fondling,1,0,0,1,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,incest,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,statutory_rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,robbery,3,1,0,2,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,aggravated_assault,7,4,2,1,2,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,burglary,23,18,5,0,6,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,motor_vehicle_theft,18,16,2,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,arson,2,1,0,1,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,domestic_violence,2,2,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,dating_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,stalking,2,2,0,0,1,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,arrests_weapons,8,7,1,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,arrests_drug,17,14,0,3,1,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,arrests_liquor,4,4,0,0,1,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,referrals_weapons,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,referrals_drug,269,269,0,0,269,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,referrals_liquor,774,774,0,0,774,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,hazing,,,,,,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2023,criminal_total,67,51,11,5,16,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,murder,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,negligent_manslaughter,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,rape,3,1,2,0,1,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,fondling,2,2,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,incest,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,statutory_rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,robbery,4,2,0,2,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,aggravated_assault,21,14,4,3,1,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,burglary,31,20,11,0,5,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,motor_vehicle_theft,7,6,0,1,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,arson,1,1,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,domestic_violence,11,10,1,0,3,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,dating_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,stalking,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,arrests_weapons,22,20,1,1,3,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,arrests_drug,17,10,1,6,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,arrests_liquor,10,6,0,4,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,referrals_weapons,16,16,0,0,16,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,referrals_drug,241,241,0,0,241,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,referrals_liquor,685,685,0,0,685,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,hazing,,,,,,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2024,criminal_total,69,46,17,6,7,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,murder,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,negligent_manslaughter,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,rape,16,11,5,0,10,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,fondling,7,7,0,0,5,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,incest,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,statutory_rape,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,robbery,7,3,0,4,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,aggravated_assault,17,12,1,4,1,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,burglary,17,14,3,0,8,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,motor_vehicle_theft,8,7,0,1,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,arson,2,1,0,1,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,domestic_violence,13,11,1,1,5,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,dating_violence,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,stalking,1,1,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,arrests_weapons,20,12,1,7,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,arrests_drug,108,72,0,36,7,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,arrests_liquor,26,9,0,17,2,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,referrals_weapons,0,0,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,referrals_drug,223,223,0,0,223,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,referrals_liquor,689,689,0,0,689,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,hazing,1,1,0,0,0,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026
+All three reporting campuses,2025,criminal_total,74,55,9,10,24,oncampus + noncampus + publicproperty; housing is already included in oncampus,2026

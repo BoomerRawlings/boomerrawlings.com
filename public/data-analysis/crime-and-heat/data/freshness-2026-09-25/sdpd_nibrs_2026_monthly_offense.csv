@@ -1,0 +1,417 @@
+month,group_type,offense_code,offense_description,source_rows
+2026-01,A,09A,Murder and Nonnegligent Manslaughter,2
+2026-01,A,09B,Negligent Manslaughter,2
+2026-01,A,100,Kidnapping/Abduction,17
+2026-01,A,11A,Forcible Rape,29
+2026-01,A,11B,Forcible Sodomy,4
+2026-01,A,11C,Sexual Assault With an Object,3
+2026-01,A,11D,Forcible Fondling,28
+2026-01,A,120,Robbery,75
+2026-01,A,13A,Aggravated Assault,329
+2026-01,A,13B,Simple Assault,538
+2026-01,A,13C,Intimidation,102
+2026-01,A,200,Arson,13
+2026-01,A,210,Extortion/Blackmail,2
+2026-01,A,220,Burglary/Breaking & Entering,171
+2026-01,A,23A,Pocket-Picking,5
+2026-01,A,23B,Purse-Snatching,3
+2026-01,A,23C,Shoplifting,368
+2026-01,A,23D,Theft From Building,28
+2026-01,A,23F,Theft From Motor Vehicle,290
+2026-01,A,23G,Theft of Motor Vehicle Parts/Accessories,85
+2026-01,A,23H,All Other Larceny,627
+2026-01,A,240,Motor Vehicle Theft,283
+2026-01,A,250,Counterfeiting/Forgery,9
+2026-01,A,26A,False Pretenses/Swindle/Confidence Game,32
+2026-01,A,26B,Credit Card/Automatic Teller Fraud,7
+2026-01,A,26C,Impersonation,235
+2026-01,A,26F,Identity Theft,18
+2026-01,A,270,Embezzlement,13
+2026-01,A,280,Stolen Property Offenses,36
+2026-01,A,290,Destruction/Damage/Vandalism of Property,486
+2026-01,A,35A,Drug/narcotic Violations,385
+2026-01,A,35B,Drug Equipment Violations,265
+2026-01,A,36B,Statutory Rape,4
+2026-01,A,370,Pornography/Obscene Material,4
+2026-01,A,39A,Betting/Wagering,1
+2026-01,A,39C,Gambling Equipment Violations,1
+2026-01,A,40A,Prostitution,5
+2026-01,A,520,Weapon Law Violations,79
+2026-01,A,64A,"Human trafficking, Commercial Sex Acts",48
+2026-01,A,64B,"Human Trafficking, Involuntary Servitude",1
+2026-01,A,720,Animal Cruelty,1
+2026-01,B,90B,Curfew/Loitering/Vagrancy Violations,57
+2026-01,B,90C,Disorderly Conduct,153
+2026-01,B,90D,Driving Under the Influence,127
+2026-01,B,90G,Liquor Law Violations,8
+2026-01,B,90J,Trespass of Real Property,29
+2026-01,B,90Z,All Other Offenses,1375
+2026-02,A,09A,Murder and Nonnegligent Manslaughter,2
+2026-02,A,100,Kidnapping/Abduction,15
+2026-02,A,11A,Forcible Rape,20
+2026-02,A,11B,Forcible Sodomy,3
+2026-02,A,11D,Forcible Fondling,27
+2026-02,A,120,Robbery,70
+2026-02,A,13A,Aggravated Assault,302
+2026-02,A,13B,Simple Assault,519
+2026-02,A,13C,Intimidation,67
+2026-02,A,200,Arson,8
+2026-02,A,210,Extortion/Blackmail,7
+2026-02,A,220,Burglary/Breaking & Entering,142
+2026-02,A,23A,Pocket-Picking,3
+2026-02,A,23B,Purse-Snatching,5
+2026-02,A,23C,Shoplifting,375
+2026-02,A,23D,Theft From Building,23
+2026-02,A,23F,Theft From Motor Vehicle,280
+2026-02,A,23G,Theft of Motor Vehicle Parts/Accessories,88
+2026-02,A,23H,All Other Larceny,480
+2026-02,A,240,Motor Vehicle Theft,298
+2026-02,A,250,Counterfeiting/Forgery,10
+2026-02,A,26A,False Pretenses/Swindle/Confidence Game,28
+2026-02,A,26B,Credit Card/Automatic Teller Fraud,11
+2026-02,A,26C,Impersonation,182
+2026-02,A,26D,Welfare Fraud,1
+2026-02,A,26F,Identity Theft,19
+2026-02,A,26G,Hacking/Computer Fraud,1
+2026-02,A,270,Embezzlement,10
+2026-02,A,280,Stolen Property Offenses,36
+2026-02,A,290,Destruction/Damage/Vandalism of Property,438
+2026-02,A,35A,Drug/narcotic Violations,346
+2026-02,A,35B,Drug Equipment Violations,233
+2026-02,A,36B,Statutory Rape,3
+2026-02,A,370,Pornography/Obscene Material,8
+2026-02,A,39A,Betting/Wagering,1
+2026-02,A,39C,Gambling Equipment Violations,1
+2026-02,A,40A,Prostitution,5
+2026-02,A,40B,Assisting or Promoting Prostitution,1
+2026-02,A,520,Weapon Law Violations,63
+2026-02,A,64A,"Human trafficking, Commercial Sex Acts",13
+2026-02,A,64B,"Human Trafficking, Involuntary Servitude",1
+2026-02,A,720,Animal Cruelty,5
+2026-02,B,90B,Curfew/Loitering/Vagrancy Violations,34
+2026-02,B,90C,Disorderly Conduct,163
+2026-02,B,90D,Driving Under the Influence,119
+2026-02,B,90G,Liquor Law Violations,9
+2026-02,B,90H,Peeping Tom,2
+2026-02,B,90J,Trespass of Real Property,28
+2026-02,B,90Z,All Other Offenses,1229
+2026-03,A,09A,Murder and Nonnegligent Manslaughter,5
+2026-03,A,09B,Negligent Manslaughter,1
+2026-03,A,100,Kidnapping/Abduction,18
+2026-03,A,11A,Forcible Rape,23
+2026-03,A,11B,Forcible Sodomy,3
+2026-03,A,11C,Sexual Assault With an Object,2
+2026-03,A,11D,Forcible Fondling,40
+2026-03,A,120,Robbery,88
+2026-03,A,13A,Aggravated Assault,404
+2026-03,A,13B,Simple Assault,616
+2026-03,A,13C,Intimidation,89
+2026-03,A,200,Arson,16
+2026-03,A,210,Extortion/Blackmail,7
+2026-03,A,220,Burglary/Breaking & Entering,118
+2026-03,A,23A,Pocket-Picking,2
+2026-03,A,23B,Purse-Snatching,4
+2026-03,A,23C,Shoplifting,531
+2026-03,A,23D,Theft From Building,33
+2026-03,A,23F,Theft From Motor Vehicle,309
+2026-03,A,23G,Theft of Motor Vehicle Parts/Accessories,101
+2026-03,A,23H,All Other Larceny,566
+2026-03,A,240,Motor Vehicle Theft,292
+2026-03,A,250,Counterfeiting/Forgery,12
+2026-03,A,26A,False Pretenses/Swindle/Confidence Game,39
+2026-03,A,26B,Credit Card/Automatic Teller Fraud,14
+2026-03,A,26C,Impersonation,223
+2026-03,A,26F,Identity Theft,32
+2026-03,A,26G,Hacking/Computer Fraud,3
+2026-03,A,270,Embezzlement,8
+2026-03,A,280,Stolen Property Offenses,56
+2026-03,A,290,Destruction/Damage/Vandalism of Property,541
+2026-03,A,35A,Drug/narcotic Violations,415
+2026-03,A,35B,Drug Equipment Violations,272
+2026-03,A,36B,Statutory Rape,2
+2026-03,A,370,Pornography/Obscene Material,3
+2026-03,A,39A,Betting/Wagering,1
+2026-03,A,40A,Prostitution,2
+2026-03,A,520,Weapon Law Violations,87
+2026-03,A,64A,"Human trafficking, Commercial Sex Acts",9
+2026-03,B,90B,Curfew/Loitering/Vagrancy Violations,39
+2026-03,B,90C,Disorderly Conduct,179
+2026-03,B,90D,Driving Under the Influence,114
+2026-03,B,90G,Liquor Law Violations,9
+2026-03,B,90J,Trespass of Real Property,21
+2026-03,B,90Z,All Other Offenses,1435
+2026-04,A,09A,Murder and Nonnegligent Manslaughter,1
+2026-04,A,100,Kidnapping/Abduction,19
+2026-04,A,11A,Forcible Rape,23
+2026-04,A,11B,Forcible Sodomy,1
+2026-04,A,11C,Sexual Assault With an Object,2
+2026-04,A,11D,Forcible Fondling,22
+2026-04,A,120,Robbery,77
+2026-04,A,13A,Aggravated Assault,377
+2026-04,A,13B,Simple Assault,572
+2026-04,A,13C,Intimidation,69
+2026-04,A,200,Arson,12
+2026-04,A,210,Extortion/Blackmail,6
+2026-04,A,220,Burglary/Breaking & Entering,118
+2026-04,A,23A,Pocket-Picking,1
+2026-04,A,23B,Purse-Snatching,4
+2026-04,A,23C,Shoplifting,455
+2026-04,A,23D,Theft From Building,17
+2026-04,A,23F,Theft From Motor Vehicle,267
+2026-04,A,23G,Theft of Motor Vehicle Parts/Accessories,85
+2026-04,A,23H,All Other Larceny,575
+2026-04,A,240,Motor Vehicle Theft,292
+2026-04,A,250,Counterfeiting/Forgery,4
+2026-04,A,26A,False Pretenses/Swindle/Confidence Game,38
+2026-04,A,26B,Credit Card/Automatic Teller Fraud,6
+2026-04,A,26C,Impersonation,225
+2026-04,A,26F,Identity Theft,34
+2026-04,A,26G,Hacking/Computer Fraud,1
+2026-04,A,270,Embezzlement,13
+2026-04,A,280,Stolen Property Offenses,49
+2026-04,A,290,Destruction/Damage/Vandalism of Property,476
+2026-04,A,35A,Drug/narcotic Violations,430
+2026-04,A,35B,Drug Equipment Violations,304
+2026-04,A,36B,Statutory Rape,2
+2026-04,A,370,Pornography/Obscene Material,6
+2026-04,A,39C,Gambling Equipment Violations,1
+2026-04,A,40A,Prostitution,2
+2026-04,A,520,Weapon Law Violations,60
+2026-04,A,64A,"Human trafficking, Commercial Sex Acts",5
+2026-04,A,720,Animal Cruelty,5
+2026-04,B,90B,Curfew/Loitering/Vagrancy Violations,51
+2026-04,B,90C,Disorderly Conduct,145
+2026-04,B,90D,Driving Under the Influence,113
+2026-04,B,90E,Drunkenness,1
+2026-04,B,90G,Liquor Law Violations,7
+2026-04,B,90H,Peeping Tom,1
+2026-04,B,90J,Trespass of Real Property,30
+2026-04,B,90Z,All Other Offenses,1366
+2026-05,A,09A,Murder and Nonnegligent Manslaughter,10
+2026-05,A,09B,Negligent Manslaughter,1
+2026-05,A,100,Kidnapping/Abduction,14
+2026-05,A,11A,Forcible Rape,28
+2026-05,A,11B,Forcible Sodomy,1
+2026-05,A,11C,Sexual Assault With an Object,5
+2026-05,A,11D,Forcible Fondling,25
+2026-05,A,120,Robbery,73
+2026-05,A,13A,Aggravated Assault,400
+2026-05,A,13B,Simple Assault,596
+2026-05,A,13C,Intimidation,88
+2026-05,A,200,Arson,11
+2026-05,A,210,Extortion/Blackmail,2
+2026-05,A,220,Burglary/Breaking & Entering,145
+2026-05,A,23A,Pocket-Picking,2
+2026-05,A,23B,Purse-Snatching,1
+2026-05,A,23C,Shoplifting,411
+2026-05,A,23D,Theft From Building,37
+2026-05,A,23F,Theft From Motor Vehicle,314
+2026-05,A,23G,Theft of Motor Vehicle Parts/Accessories,97
+2026-05,A,23H,All Other Larceny,626
+2026-05,A,240,Motor Vehicle Theft,348
+2026-05,A,250,Counterfeiting/Forgery,10
+2026-05,A,26A,False Pretenses/Swindle/Confidence Game,37
+2026-05,A,26B,Credit Card/Automatic Teller Fraud,7
+2026-05,A,26C,Impersonation,184
+2026-05,A,26F,Identity Theft,26
+2026-05,A,270,Embezzlement,6
+2026-05,A,280,Stolen Property Offenses,41
+2026-05,A,290,Destruction/Damage/Vandalism of Property,511
+2026-05,A,35A,Drug/narcotic Violations,406
+2026-05,A,35B,Drug Equipment Violations,257
+2026-05,A,36B,Statutory Rape,2
+2026-05,A,370,Pornography/Obscene Material,6
+2026-05,A,40A,Prostitution,1
+2026-05,A,520,Weapon Law Violations,67
+2026-05,A,64A,"Human trafficking, Commercial Sex Acts",7
+2026-05,A,64B,"Human Trafficking, Involuntary Servitude",1
+2026-05,A,720,Animal Cruelty,4
+2026-05,B,90B,Curfew/Loitering/Vagrancy Violations,17
+2026-05,B,90C,Disorderly Conduct,201
+2026-05,B,90D,Driving Under the Influence,141
+2026-05,B,90G,Liquor Law Violations,12
+2026-05,B,90J,Trespass of Real Property,26
+2026-05,B,90Z,All Other Offenses,1315
+2026-06,A,09A,Murder and Nonnegligent Manslaughter,5
+2026-06,A,100,Kidnapping/Abduction,28
+2026-06,A,11A,Forcible Rape,25
+2026-06,A,11B,Forcible Sodomy,5
+2026-06,A,11C,Sexual Assault With an Object,2
+2026-06,A,11D,Forcible Fondling,33
+2026-06,A,120,Robbery,77
+2026-06,A,13A,Aggravated Assault,394
+2026-06,A,13B,Simple Assault,621
+2026-06,A,13C,Intimidation,78
+2026-06,A,200,Arson,14
+2026-06,A,210,Extortion/Blackmail,8
+2026-06,A,220,Burglary/Breaking & Entering,141
+2026-06,A,23A,Pocket-Picking,1
+2026-06,A,23B,Purse-Snatching,3
+2026-06,A,23C,Shoplifting,412
+2026-06,A,23D,Theft From Building,26
+2026-06,A,23F,Theft From Motor Vehicle,325
+2026-06,A,23G,Theft of Motor Vehicle Parts/Accessories,102
+2026-06,A,23H,All Other Larceny,619
+2026-06,A,240,Motor Vehicle Theft,287
+2026-06,A,250,Counterfeiting/Forgery,8
+2026-06,A,26A,False Pretenses/Swindle/Confidence Game,37
+2026-06,A,26B,Credit Card/Automatic Teller Fraud,6
+2026-06,A,26C,Impersonation,198
+2026-06,A,26F,Identity Theft,22
+2026-06,A,26G,Hacking/Computer Fraud,3
+2026-06,A,270,Embezzlement,11
+2026-06,A,280,Stolen Property Offenses,44
+2026-06,A,290,Destruction/Damage/Vandalism of Property,473
+2026-06,A,35A,Drug/narcotic Violations,434
+2026-06,A,35B,Drug Equipment Violations,300
+2026-06,A,36B,Statutory Rape,3
+2026-06,A,370,Pornography/Obscene Material,5
+2026-06,A,40A,Prostitution,4
+2026-06,A,520,Weapon Law Violations,86
+2026-06,A,64A,"Human trafficking, Commercial Sex Acts",2
+2026-06,A,64B,"Human Trafficking, Involuntary Servitude",2
+2026-06,A,720,Animal Cruelty,2
+2026-06,B,90B,Curfew/Loitering/Vagrancy Violations,38
+2026-06,B,90C,Disorderly Conduct,182
+2026-06,B,90D,Driving Under the Influence,135
+2026-06,B,90F,Family Offenses (Nonviolent),1
+2026-06,B,90G,Liquor Law Violations,11
+2026-06,B,90H,Peeping Tom,1
+2026-06,B,90J,Trespass of Real Property,27
+2026-06,B,90Z,All Other Offenses,1396
+2026-07,A,09A,Murder and Nonnegligent Manslaughter,5
+2026-07,A,09B,Negligent Manslaughter,1
+2026-07,A,100,Kidnapping/Abduction,25
+2026-07,A,11A,Forcible Rape,23
+2026-07,A,11B,Forcible Sodomy,1
+2026-07,A,11C,Sexual Assault With an Object,1
+2026-07,A,11D,Forcible Fondling,35
+2026-07,A,120,Robbery,80
+2026-07,A,13A,Aggravated Assault,400
+2026-07,A,13B,Simple Assault,642
+2026-07,A,13C,Intimidation,88
+2026-07,A,200,Arson,7
+2026-07,A,210,Extortion/Blackmail,4
+2026-07,A,220,Burglary/Breaking & Entering,147
+2026-07,A,23A,Pocket-Picking,4
+2026-07,A,23B,Purse-Snatching,2
+2026-07,A,23C,Shoplifting,429
+2026-07,A,23D,Theft From Building,34
+2026-07,A,23F,Theft From Motor Vehicle,359
+2026-07,A,23G,Theft of Motor Vehicle Parts/Accessories,81
+2026-07,A,23H,All Other Larceny,646
+2026-07,A,240,Motor Vehicle Theft,271
+2026-07,A,250,Counterfeiting/Forgery,4
+2026-07,A,26A,False Pretenses/Swindle/Confidence Game,42
+2026-07,A,26B,Credit Card/Automatic Teller Fraud,8
+2026-07,A,26C,Impersonation,183
+2026-07,A,26F,Identity Theft,15
+2026-07,A,270,Embezzlement,8
+2026-07,A,280,Stolen Property Offenses,38
+2026-07,A,290,Destruction/Damage/Vandalism of Property,575
+2026-07,A,35A,Drug/narcotic Violations,463
+2026-07,A,35B,Drug Equipment Violations,302
+2026-07,A,36B,Statutory Rape,3
+2026-07,A,40A,Prostitution,6
+2026-07,A,520,Weapon Law Violations,62
+2026-07,A,64A,"Human trafficking, Commercial Sex Acts",18
+2026-07,A,64B,"Human Trafficking, Involuntary Servitude",1
+2026-07,A,720,Animal Cruelty,3
+2026-07,B,90B,Curfew/Loitering/Vagrancy Violations,72
+2026-07,B,90C,Disorderly Conduct,185
+2026-07,B,90D,Driving Under the Influence,155
+2026-07,B,90E,Drunkenness,2
+2026-07,B,90F,Family Offenses (Nonviolent),1
+2026-07,B,90G,Liquor Law Violations,11
+2026-07,B,90J,Trespass of Real Property,28
+2026-07,B,90Z,All Other Offenses,1420
+2026-08,A,09A,Murder and Nonnegligent Manslaughter,4
+2026-08,A,100,Kidnapping/Abduction,34
+2026-08,A,11A,Forcible Rape,26
+2026-08,A,11B,Forcible Sodomy,3
+2026-08,A,11C,Sexual Assault With an Object,2
+2026-08,A,11D,Forcible Fondling,30
+2026-08,A,120,Robbery,95
+2026-08,A,13A,Aggravated Assault,436
+2026-08,A,13B,Simple Assault,664
+2026-08,A,13C,Intimidation,88
+2026-08,A,200,Arson,11
+2026-08,A,210,Extortion/Blackmail,6
+2026-08,A,220,Burglary/Breaking & Entering,154
+2026-08,A,23A,Pocket-Picking,2
+2026-08,A,23B,Purse-Snatching,6
+2026-08,A,23C,Shoplifting,432
+2026-08,A,23D,Theft From Building,32
+2026-08,A,23F,Theft From Motor Vehicle,342
+2026-08,A,23G,Theft of Motor Vehicle Parts/Accessories,83
+2026-08,A,23H,All Other Larceny,591
+2026-08,A,240,Motor Vehicle Theft,284
+2026-08,A,250,Counterfeiting/Forgery,4
+2026-08,A,26A,False Pretenses/Swindle/Confidence Game,29
+2026-08,A,26B,Credit Card/Automatic Teller Fraud,7
+2026-08,A,26C,Impersonation,171
+2026-08,A,26F,Identity Theft,26
+2026-08,A,26G,Hacking/Computer Fraud,2
+2026-08,A,270,Embezzlement,18
+2026-08,A,280,Stolen Property Offenses,45
+2026-08,A,290,Destruction/Damage/Vandalism of Property,557
+2026-08,A,35A,Drug/narcotic Violations,409
+2026-08,A,35B,Drug Equipment Violations,269
+2026-08,A,36B,Statutory Rape,1
+2026-08,A,370,Pornography/Obscene Material,1
+2026-08,A,40A,Prostitution,6
+2026-08,A,40B,Assisting or Promoting Prostitution,3
+2026-08,A,520,Weapon Law Violations,61
+2026-08,A,64A,"Human trafficking, Commercial Sex Acts",2
+2026-08,A,64B,"Human Trafficking, Involuntary Servitude",1
+2026-08,A,720,Animal Cruelty,3
+2026-08,B,90B,Curfew/Loitering/Vagrancy Violations,85
+2026-08,B,90C,Disorderly Conduct,173
+2026-08,B,90D,Driving Under the Influence,115
+2026-08,B,90G,Liquor Law Violations,7
+2026-08,B,90J,Trespass of Real Property,26
+2026-08,B,90Z,All Other Offenses,1346
+2026-09,A,09A,Murder and Nonnegligent Manslaughter,1
+2026-09,A,100,Kidnapping/Abduction,16
+2026-09,A,11A,Forcible Rape,28
+2026-09,A,11B,Forcible Sodomy,3
+2026-09,A,11C,Sexual Assault With an Object,2
+2026-09,A,11D,Forcible Fondling,9
+2026-09,A,120,Robbery,69
+2026-09,A,13A,Aggravated Assault,270
+2026-09,A,13B,Simple Assault,447
+2026-09,A,13C,Intimidation,83
+2026-09,A,200,Arson,7
+2026-09,A,210,Extortion/Blackmail,4
+2026-09,A,220,Burglary/Breaking & Entering,117
+2026-09,A,23A,Pocket-Picking,5
+2026-09,A,23C,Shoplifting,310
+2026-09,A,23D,Theft From Building,19
+2026-09,A,23F,Theft From Motor Vehicle,249
+2026-09,A,23G,Theft of Motor Vehicle Parts/Accessories,76
+2026-09,A,23H,All Other Larceny,382
+2026-09,A,240,Motor Vehicle Theft,226
+2026-09,A,250,Counterfeiting/Forgery,7
+2026-09,A,26A,False Pretenses/Swindle/Confidence Game,24
+2026-09,A,26B,Credit Card/Automatic Teller Fraud,2
+2026-09,A,26C,Impersonation,102
+2026-09,A,26F,Identity Theft,17
+2026-09,A,26G,Hacking/Computer Fraud,1
+2026-09,A,270,Embezzlement,5
+2026-09,A,280,Stolen Property Offenses,39
+2026-09,A,290,Destruction/Damage/Vandalism of Property,415
+2026-09,A,35A,Drug/narcotic Violations,358
+2026-09,A,35B,Drug Equipment Violations,261
+2026-09,A,36B,Statutory Rape,1
+2026-09,A,370,Pornography/Obscene Material,2
+2026-09,A,40B,Assisting or Promoting Prostitution,1
+2026-09,A,520,Weapon Law Violations,58
+2026-09,A,64B,"Human Trafficking, Involuntary Servitude",1
+2026-09,A,720,Animal Cruelty,1
+2026-09,B,90B,Curfew/Loitering/Vagrancy Violations,66
+2026-09,B,90C,Disorderly Conduct,143
+2026-09,B,90D,Driving Under the Influence,92
+2026-09,B,90G,Liquor Law Violations,1
+2026-09,B,90H,Peeping Tom,1
+2026-09,B,90J,Trespass of Real Property,21
+2026-09,B,90Z,All Other Offenses,1085

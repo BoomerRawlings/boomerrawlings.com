@@ -1,0 +1,113 @@
+{
+  "status": "pass",
+  "checked_utc": "2026-09-25T22:21:22.793534+00:00",
+  "scope": "Second computational extraction by the same source reviewer; not second-person or external peer review.",
+  "engine": "pdfplumber 0.11.9 / pdfminer.six; physical table grids and character-size filtering",
+  "primary_engine": "pypdf text expressions plus manual Berkeley transcription",
+  "expected_cells": 2856,
+  "alternate_cells": 2856,
+  "institutions": 9,
+  "campuses": 17,
+  "status_counts": {
+    "reported_numeric": 2660,
+    "source_NA": 112,
+    "column_not_reported": 84
+  },
+  "missing_keys": [],
+  "extra_keys": [],
+  "count_or_status_differences": [],
+  "ucsf_full_report_vs_supplement_core_and_unfounded_cells": 1050,
+  "removed_superscript_glyphs": [
+    {
+      "pdf": "davis",
+      "page": 26,
+      "raw": "861,2",
+      "count_text": "86",
+      "excluded": "1,2"
+    },
+    {
+      "pdf": "riverside",
+      "page": 158,
+      "raw": "3896",
+      "count_text": "389",
+      "excluded": "6"
+    },
+    {
+      "pdf": "riverside",
+      "page": 158,
+      "raw": "147",
+      "count_text": "14",
+      "excluded": "7"
+    },
+    {
+      "pdf": "riverside",
+      "page": 158,
+      "raw": "117",
+      "count_text": "11",
+      "excluded": "7"
+    },
+    {
+      "pdf": "riverside",
+      "page": 158,
+      "raw": "148",
+      "count_text": "14",
+      "excluded": "8"
+    },
+    {
+      "pdf": "riverside",
+      "page": 158,
+      "raw": "88",
+      "count_text": "8",
+      "excluded": "8"
+    },
+    {
+      "pdf": "riverside",
+      "page": 159,
+      "raw": "109",
+      "count_text": "10",
+      "excluded": "9"
+    },
+    {
+      "pdf": "riverside",
+      "page": 159,
+      "raw": "29",
+      "count_text": "2",
+      "excluded": "9"
+    },
+    {
+      "pdf": "santa_cruz",
+      "page": 11,
+      "raw": "386",
+      "count_text": "38",
+      "excluded": "6"
+    },
+    {
+      "pdf": "santa_cruz",
+      "page": 12,
+      "raw": "167",
+      "count_text": "16",
+      "excluded": "7"
+    }
+  ],
+  "source_pdf_sha256": {
+    "davis": "b1c70abe8d75ce8fc1809bb9fecead7199576f50f13a275da8b4bb1bb5e37cad",
+    "riverside": "7494a8d0497110f95fcf597fe6f1e5050517bb4054ccf66052b8a3d97a362e2d",
+    "santa_barbara": "a0e0495251e9b0da6f250d2aaf69a83aac0dd487918289545ccec14d4662f7e5",
+    "ucdc": "a26be2eff49805643f786973c23763e33c9d42668f00c4ce40237db1a01b221f",
+    "san_diego": "d4d01766e4f4e7de813a320a5484c8a91d7d41b8862a3a15f85d88b0d3a3a0bb",
+    "irvine": "9d635b9acbbfb46c23aef2b2718f45d71d54f41ff90ac0b8b8703140b86c60aa",
+    "santa_cruz": "f50193a642a0e62dee28a533c96e0a0c261a4bf23d32492052b0722e44ae5d83",
+    "los_angeles": "a584413bd02e129feadc9c5357acfedfa8d76fa159cd19f62ec7a3edd4fdc8cf",
+    "san_francisco_stats": "95369d4ae1af33a5754e3a0673aa1337f9e908ad323514d2506c9a6df7924798",
+    "san_francisco": "571994b6382c11ed08ae09ddd69d935f8d726e642e9b7ea126e41ea1e2859d1b",
+    "berkeley": "5c4a116d51891ae66dfc914cfe0e1d9dba95e1ef67e8246662d3bac093d5f9b8"
+  },
+  "primary_csv_sha256": "497f5574b65f2bc0c76127d1002ceab208827e5ff3e6f60dde7989ea46a3c93a",
+  "method_limitations": [
+    "Fixed category order and geography headers are visually specified per report; the check is not independent source authentication.",
+    "Berkeley digits require a visually verified PDF character map because ToUnicode is defective.",
+    "Source N/A and omitted columns stay distinct from numeric zero; this check does not authorize later structural-zero normalization.",
+    "Merced is excluded: no verified current report PDF was obtained.",
+    "This check validates extraction, not compatibility of different report editions, population denominators, or crime definitions."
+  ]
+}

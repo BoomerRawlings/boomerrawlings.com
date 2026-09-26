@@ -1,0 +1,20 @@
+{
+  "issues": [
+    {
+      "campus_id": "243744013",
+      "year": 2024,
+      "geography": "noncampus",
+      "pdf_page": 56,
+      "printed_sex_total": 0,
+      "sum_components": 1
+    },
+    {
+      "campus_id": "243744013",
+      "year": 2024,
+      "geography": "noncampus",
+      "pdf_page": 57,
+      "printed_sex_total": 0,
+      "sum_components": 1
+    }
+  ]
+}

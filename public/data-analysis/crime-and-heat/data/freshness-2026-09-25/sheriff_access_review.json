@@ -1,0 +1,19 @@
+{
+  "checked_utc": "2026-09-25T21:55:00.713998+00:00",
+  "official_listing_url": "https://www.sdsheriff.gov/resources/open-data/law-enforcement-monthly-activity",
+  "direct_http_status": 403,
+  "fallback_method": "Search-indexed official listing text; separately indexed official April PDF text. No current Sheriff PDF bytes retrieved.",
+  "indexed_month_labels": [
+    "August 2026",
+    "May 2026",
+    "April 2026",
+    "March 2026",
+    "February 2026",
+    "Jan 2026"
+  ],
+  "additional_report_discovery_url": "https://www.sdsheriff.gov/home/showpublisheddocument/10213",
+  "pdf_sha256": null,
+  "new_values_integrated": false,
+  "latest_august_report_contents_verified": false,
+  "limitation": "Listing discovery is not a complete month inventory or evidence that all report contents have been verified."
+}

@@ -1,0 +1,45 @@
+# Independent public-university source extraction audit
+
+**Result: PASS for source transcription, category assignment, geography mapping, and missing-value preservation in the audited snapshot.** All 10,276 normalized output cells reconciled independently; 12 source-body hashes verified. Scope: 10 institutions, 62 source reporting campuses. This result does not certify denominator selection, federal campus-ID matching, comprehensive incident reporting, or every institution's latest possible release.
+
+`PUBLIC_SOURCE_AUDIT.json` pins the exact CSV and production-extractor hashes. `audit_public_sources.py` is independent of the production extractor: it never imports or executes it. Florida is parsed through labeled DOM rows using lxml; most PDF sources are checked through an alternate PDF text/table extraction path; Texas is checked using pypdf text-column positions against production pdfplumber word coordinates. Penn State is checked through text rows against production ruled-table extraction. No cells remain unchecked. Twelve rendered PDF pages were visually inspected for labels, column placement, pagination, and important footnotes; this is not a visual review of every source page.
+
+## Corrections made during review
+
+1. **Florida domestic/dating-violence rows were reversed.** The official HTML order is dating violence, domestic violence, stalking. The production mapping was corrected and label assertions added. The corrected output passes the independent label-based comparison.
+2. **Printed-page metadata was incorrect** where PDF page numbers differ: Washington printed page is PDF page minus one; Texas minus eight; North Carolina minus one. Corrected and independently checked. PDF fragment links continue to use PDF page numbers.
+3. **Texas source-campus name corrected** from Brackenridge Tract to Brackenridge Field Laboratory, matching the report heading.
+4. **Florida symbols classified without changing them to observed zeros.** A plus sign indicates an absent geography; UF Jacksonville's asterisk indicates a campus that opened after all three reporting years.
+5. **Illini Center campus identity corrected** from `145637002` to the frozen federal inventory's `145637003`. Institution counts unchanged; this fixes branch-level joins. The source-cell audit was rerun after regeneration: all 10,276 cells still pass.
+
+## Geography and category checks
+
+| Institution | Cells | Verified mapping and material qualifications |
+|---|---:|---|
+| Florida | 6,384 | 38 reporting-campus sections × 3 years × 14 categories × 4 geographies. Source row labels checked explicitly. Residential is a subset of on-campus. Plus signs and asterisks retained; see qualifications below. |
+| Georgia Tech | 504 | Atlanta, Europe, Savannah; 2023–2025. Source totals equal on-campus + noncampus + public property. Savannah has no housing column; PDF81 footnote explicitly states no on-campus student housing. Its normalized housing `n/a` is not a literal printed cell. |
+| Washington | 168 | Seattle; 2022–2024. On-campus, housing, noncampus, public columns precede a separate unfounded column, which is excluded from the four-geography output. |
+| Michigan | 168 | Ann Arbor. Crime and violence categories checked in their differing source order. Statutory rape is printed for 2023, 2022, 2021; no 2024 value may be inferred. Source inconsistency below remains unresolved. |
+| Illinois | 336 | Urbana-Champaign and Illini Center. Housing is a subset; Illini Center housing `n/a` retained. No extra addition of source total or housing to on-campus counts. |
+| Ohio State | 168 | Columbus only. Source separately prints campus excluding housing, housing, and campus total. Extracted on-campus uses campus total. Rape/fondling use the printed total including separately identified historical reports, not both component and total rows. |
+| Wisconsin | 168 | Madison. Source order is campus, housing, public, noncampus. Last two columns correctly reordered. Motor-vehicle-theft figures include micromobility vehicles under the report's definition. |
+| Texas | 1,344 | Eight reporting campuses; 2022–2024. Blank gray cells retained as missing, not zero. Brackenridge became a separately reported campus in 2023; 2022 blanks must not be imputed. |
+| Penn State | 504 | University Park, Dickinson Law, Hershey College of Medicine. Within each year, source order is housing, total campus, public, noncampus. Correctly reordered. Statutory rape precedes incest in the source; categories correctly assigned. |
+| North Carolina | 532 | Four reporting campuses; main, Charlotte, Marine Sciences, MAHEC. Main-campus housing is a subset. Omitted remote-campus geographies retained as missing. Combined violence reporting and partial scope require the qualifications below. |
+
+The general nonoverlapping geographic total is **on-campus + noncampus + public property**. Housing is already included in on-campus. Counts can be added only when components have compatible reporting scope and are numeric or explicitly inapplicable. A blank or unexplained symbol is not proof of zero. These normalized outputs include placeholder cells for absent source columns; they are not all literal printed source cells.
+
+## Qualifications that must survive publication
+
+- **Florida:** The [2026 crime tables](https://clery.compliance.ufl.edu/annual-security-and-fire-safety-reports/2026-crime-statistics/) contain 38 sections, including UF Jacksonville, which opened 20 August 2026. Its 2023–2025 asterisk values are inapplicable. JaxLab opened in August 2023 and closed in August 2026, moving operations to UF Jacksonville; the two names do not justify backfilling a new-campus time series. Plus-sign notes identify absent housing and/or noncampus property; Whitney Laboratory's noncampus-property absence is specifically for 2023. **Everglades Research and Education Center and Vicenza Institute of Architecture have 2025 asterisked year headings explaining that requested outside-agency statistics were unavailable in usable form. Displayed zeros do not establish complete ascertainment.** `florida_footnotes_audit.json` preserves campus-specific footnotes and neighboring headings.
+- **Michigan:** [PDF16](https://cdn.sanity.io/files/bflxpmv3/production/e5bbcc349237b5f972ae112e63bf68077d2a9fc7.pdf#page=16) prints 2024 on-campus fondling as 44; [PDF17](https://cdn.sanity.io/files/bflxpmv3/production/e5bbcc349237b5f972ae112e63bf68077d2a9fc7.pdf#page=17) refers to 43 in its historical-case note. Preserve 44 as the table value and disclose the source conflict. Do not silently reconcile it. The statutory-rape year sequence omits 2024; a complete 2024 combined crime total cannot be asserted from these source cells alone.
+- **Ohio State:** The [Columbus table, PDF61](https://dps.osu.edu/sites/default/files/documents/annual_security_fire_safety_report.pdf#page=61) identifies separate historical-case components. For example, 2023 rape total on campus is 59 and fondling total 366. Such reporting-year counts are not necessarily incidents that occurred in that year or crimes against currently enrolled students.
+- **Texas:** [Brackenridge PDF79, printed71](https://compliance.utexas.edu/sites/default/files/documents/ASFSR%202025%20final.pdf#page=79) says earlier years were included in main-campus noncampus property. This is a geographic scope change. The new-campus 2022 blanks should not contribute an inferred zero; they also should not be counted twice with the main campus. Other gray blank cells remain unquantified without an applicable source statement.
+- **North Carolina:** [PDF23–24, printed22–23](https://go.unc.edu/securityreport#page=23) gives a combined domestic/dating-violence value for 2024. The footnote specifies 2024; do not assume it also establishes a separate 2025 dating-violence value. The 2025 dating-violence row is absent. Combined values cannot be treated as a clean domestic-violence-only series. MAHEC has only 2025 entries, and the extracted absent housing/noncampus columns must not be imputed as observed zeros.
+- **Wisconsin:** [PDF13](https://go.wisc.edu/asr#page=13) identifies 34 of 37 on-campus motor-vehicle thefts in 2024 as e-bikes, e-scooters, or e-skateboards. The category should not be described as automobile theft alone.
+
+Source hashes, URLs, original cells, PDF and printed pages are retained in the extraction and acquisition records. Source-campus IDs prefixed `source:` require an explicit crosswalk before any join to the frozen federal institution/campus dataset. This audit does not establish that every branch can be combined with a common housing or enrollment denominator.
+
+## Reproduction
+
+Run `audit_public_sources.py` in this directory with the existing source snapshots, metadata, and corrected `current_core_counts.csv`. It uses offline files only and writes the audit JSON and Florida footnote inventory. Re-run after any source/extractor/CSV modification; a prior PASS applies only to its recorded hashes. `audit_renders/` contains temporary source-page previews used for review, not newly authored reports or publication assets.

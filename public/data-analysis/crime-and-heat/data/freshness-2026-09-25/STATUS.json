@@ -1,0 +1,20 @@
+{
+  "status": "COMPLETE_WITH_RECORDED_ACCESS_LIMITS",
+  "checked_utc": "2026-09-25T21:46:25.828354+00:00",
+  "requests": 133,
+  "retrieved": 131,
+  "same_bytes": 103,
+  "changed_bytes": 21,
+  "unavailable": [
+    {
+      "id": "sheriff_monthly_listing",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "id": "sheriff_about",
+      "error": "HTTP Error 403: Forbidden"
+    }
+  ],
+  "model_refits": 0,
+  "frozen_files_modified": false
+}

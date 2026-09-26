@@ -1,0 +1,959 @@
+{
+  "checked_utc": "2026-09-26T00:48:46.499243+00:00",
+  "status": "PASS",
+  "scope": "Independent editorial claim/citation review; final report text and reference annotations; focused primary-source spot checks; distinct from numeric and visual audits.",
+  "claim_groups": 39,
+  "checks": [
+    {
+      "check": "42 fixed institutional identifiers in inventory and current data",
+      "pass": true
+    },
+    {
+      "check": "39 extracted sources include provisional Virginia, not 39 fully certified institutions",
+      "pass": true
+    },
+    {
+      "check": "2024 default available resident ratios: 10 of 11",
+      "pass": true
+    },
+    {
+      "check": "No adopted 2025 resident or enrollment rates",
+      "pass": true
+    },
+    {
+      "check": "Separate numerical audit passes",
+      "pass": true
+    },
+    {
+      "check": "All four federal input refreshes preserve exact previous hashes",
+      "pass": true
+    },
+    {
+      "check": "Latest listed federal bulk collection is 2025",
+      "pass": true
+    },
+    {
+      "check": "Current processing claim cites current rates and current audit",
+      "pass": true
+    },
+    {
+      "check": "Historical federal housing applicability expressly limited to archive/year",
+      "pass": true
+    },
+    {
+      "check": "No new systematic or external-human-peer-review claim",
+      "pass": true
+    },
+    {
+      "check": "SDSU current PDF p7 rape geography 2023",
+      "pass": true
+    },
+    {
+      "check": "SDSU current PDF p7 rape geography 2024",
+      "pass": true
+    },
+    {
+      "check": "SDSU current PDF p7 rape geography 2025",
+      "pass": true
+    },
+    {
+      "check": "SDSU prior PDF p7 rape geography 2022",
+      "pass": true
+    },
+    {
+      "check": "SDSU prior PDF p7 rape geography 2023",
+      "pass": true
+    },
+    {
+      "check": "SDSU prior PDF p7 rape geography 2024",
+      "pass": true
+    },
+    {
+      "check": "SDSU current report exact version hash",
+      "pass": true
+    },
+    {
+      "check": "SDSU 2024 geography vs 2023 revision distinguished",
+      "pass": true
+    },
+    {
+      "check": "SDSU filename qualification and 2026 calendar-count exclusion",
+      "pass": true
+    },
+    {
+      "check": "UCSD p142 housing series and revised geographic counts",
+      "pass": true
+    },
+    {
+      "check": "UCSD cover reissue date",
+      "pass": true
+    },
+    {
+      "check": "Current UCSC p11 housing rape count and disclosure footnote",
+      "pass": true
+    },
+    {
+      "check": "Website UCSC citations use current May reissue / PDF11",
+      "pass": true
+    },
+    {
+      "check": "State Auditor source carries all six San Diego occupancy values",
+      "pass": true
+    },
+    {
+      "check": "Worked example 110680/2022: numerator, population, rate",
+      "pass": true
+    },
+    {
+      "check": "Worked example 110680/2023: numerator, population, rate",
+      "pass": true
+    },
+    {
+      "check": "Worked example 110680/2024: numerator, population, rate",
+      "pass": true
+    },
+    {
+      "check": "Worked example 110680/pooled: numerator, population, rate",
+      "pass": true
+    },
+    {
+      "check": "Worked example 122409/2022: numerator, population, rate",
+      "pass": true
+    },
+    {
+      "check": "Worked example 122409/2023: numerator, population, rate",
+      "pass": true
+    },
+    {
+      "check": "Worked example 122409/2024: numerator, population, rate",
+      "pass": true
+    },
+    {
+      "check": "Worked example 122409/pooled: numerator, population, rate",
+      "pass": true
+    },
+    {
+      "check": "Pooled SDSU mixed-edition attribution is explicit",
+      "pass": true
+    },
+    {
+      "check": "Old/new pooled displayed values independently recalculate",
+      "pass": true
+    },
+    {
+      "check": "Population-source citation distinguished from release timing",
+      "pass": true
+    },
+    {
+      "check": "PDF clickable reference target: asr_2026_newdraft.pdf#page=7",
+      "pass": true
+    },
+    {
+      "check": "PDF clickable reference target: 2025-annual-security-report-finalized-08-18-25.pdf#page=7",
+      "pass": true
+    },
+    {
+      "check": "PDF clickable reference target: 2024-111-Report.pdf#page=62",
+      "pass": true
+    },
+    {
+      "check": "PDF clickable reference target: annualclery.pdf#page=142",
+      "pass": true
+    },
+    {
+      "check": "PDF clickable reference target: ccsvsftr.pdf#page=131",
+      "pass": true
+    },
+    {
+      "check": "PDF clickable reference target: download-access-database",
+      "pass": true
+    },
+    {
+      "check": "PDF clickable reference target: enrollment_denominators.csv",
+      "pass": true
+    },
+    {
+      "check": "PDF clickable reference target: source_inventory.json",
+      "pass": true
+    },
+    {
+      "check": "PDF clickable reference target: source_cells.csv",
+      "pass": true
+    },
+    {
+      "check": "Heat refresh independent reconciliation passes",
+      "pass": true
+    },
+    {
+      "check": "Heat supplement totals agree with reconciliation",
+      "pass": true
+    },
+    {
+      "check": "Corrected reference coefficient and sample: all",
+      "pass": true
+    },
+    {
+      "check": "Corrected reference coefficient and sample: core",
+      "pass": true
+    },
+    {
+      "check": "Heat PDF names 64/63 postal-area model scope",
+      "pass": true
+    },
+    {
+      "check": "No fixed-battery Holm-adjusted p below .05",
+      "pass": true
+    },
+    {
+      "check": "Heat supplement excludes reanalysis-wide refresh inference",
+      "pass": true
+    },
+    {
+      "check": "School context keys match all 42 institutions",
+      "pass": true
+    },
+    {
+      "check": "Region derives from home state and discloses branch limit",
+      "pass": true
+    },
+    {
+      "check": "Every school context has primary evidence URLs and no current claim for blocked source",
+      "pass": true
+    },
+    {
+      "check": "Independent reader explanation audit passes all9450 selections",
+      "pass": true
+    },
+    {
+      "check": "Reader audit artifact hashes match reviewed guide files",
+      "pass": true
+    },
+    {
+      "check": "Reader population source links name actual supplied files",
+      "pass": true
+    }
+  ],
+  "claims": [
+    {
+      "id": "C01",
+      "topic": "Cohort and selection",
+      "claim": "42 institutions: 10 UC, 8 Ivy and 24 others including SDSU; purposive rather than representative.",
+      "evidence": "PROTOCOL.md; fixed cohort and dataset institutional identifiers.",
+      "status": "PASS"
+    },
+    {
+      "id": "C02",
+      "topic": "Source currency",
+      "claim": "Audit cutoff is 25 September 2026; retrieved editions and table years vary. Blocked and provisional sources are disclosed, not called verified latest records.",
+      "evidence": "Dated 42-school source inventory; current coverage and named exclusions.",
+      "status": "PASS_WITH_QUALIFICATION"
+    },
+    {
+      "id": "C03",
+      "topic": "Federal archive",
+      "claim": "2025 bulk is the latest catalog entry checked; calendar years 2022–2024 remain a separate archived option.",
+      "evidence": "federal/years.json; fileList.json; bulk_rechecks.json exact original/current hashes.",
+      "status": "PASS"
+    },
+    {
+      "id": "C04",
+      "topic": "Report year",
+      "claim": "An offense is assigned to the year reported to police or a campus security authority, not necessarily occurrence year.",
+      "evidence": "34 CFR 668.46(c)(3), freshly opened current eCFR, current through 24 September 2026.",
+      "status": "PASS"
+    },
+    {
+      "id": "C05",
+      "topic": "Geographic scope",
+      "claim": "Housing is a campus subset; combined geography is campus plus noncampus plus public property. Ordinary off-campus community crime is outside these boundaries.",
+      "evidence": "34 CFR 668.46(a),(c)(5), freshly opened current eCFR; source-table headings.",
+      "status": "PASS"
+    },
+    {
+      "id": "C06",
+      "topic": "Nonadditive counts",
+      "claim": "Offenses are neither unique people nor report forms; VAWA classifications can overlap core criminal categories.",
+      "evidence": "Federal survey instructions; regulation counting rules; UCSC current p11 multiple-offense disclosure.",
+      "status": "PASS"
+    },
+    {
+      "id": "C07",
+      "topic": "Categories",
+      "claim": "Eleven specified criminal categories; domestic violence, dating violence and stalking separate. No claim that this includes every newly reportable category.",
+      "evidence": "Archived category dictionary and 2025 survey instructions; current category mappings.",
+      "status": "PASS"
+    },
+    {
+      "id": "C08",
+      "topic": "Branch aggregation",
+      "claim": "Institution population counted once, branch source scope explicit, ambiguous missing branches withhold relevant comparisons.",
+      "evidence": "Current source-cell decisions and separate numerical audit; original survey campus/UNITID instructions.",
+      "status": "PASS"
+    },
+    {
+      "id": "C09",
+      "topic": "Resident denominators",
+      "claim": "State Auditor tables document actual 2022–2024 fall occupancy for all ten UCs and SDSU, not capacity; property matching incomplete.",
+      "evidence": "State Auditor 2024-111, PDF62–65/printed56–59; original denominator audit. Six worked-example occupancy cells re-read in this review.",
+      "status": "PASS_WITH_QUALIFICATION"
+    },
+    {
+      "id": "C10",
+      "topic": "2025 populations",
+      "claim": "No qualified same-year 2025 resident or enrollment denominator adopted; absence of a rate is not an observed zero.",
+      "evidence": "Current source inventory denominator-search notes; coverage.json; unchanged population inputs. This is a study adoption statement, not proof no such population exists anywhere.",
+      "status": "PASS_WITH_QUALIFICATION"
+    },
+    {
+      "id": "C11",
+      "topic": "Enrollment",
+      "claim": "Optional fall headcount includes undergraduate/graduate, full/part-time and distance-only enrollment; snapshots are not person-time.",
+      "evidence": "IPEDS frozen annual files/dictionaries and source-derived denominator records; unchanged file rechecks. PDF6a now links count sources separately from release schedule.",
+      "status": "PASS"
+    },
+    {
+      "id": "C12",
+      "topic": "Annual and pooled formulas",
+      "claim": "kC/N; pooled is sum counts / sum same-year population snapshots for exactly 2022–2024, not an unweighted mean or cumulative victimization probability.",
+      "evidence": "Algebra; independent numerical audit; eight worked rows recalculated without production builder.",
+      "status": "PASS"
+    },
+    {
+      "id": "C13",
+      "topic": "Missingness",
+      "claim": "Unknown cells are not zero; source N/A is preserved and contributes structural zero only with explicit scope evidence.",
+      "evidence": "Current normalization decisions, 48 private structural rules, public/UC scope review, independent numerical audit.",
+      "status": "PASS"
+    },
+    {
+      "id": "C14",
+      "topic": "Historical housing applicability",
+      "claim": "103 numeric and 109 absent-housing campuses apply specifically to archived 2024 federal housing, not earlier/current years.",
+      "evidence": "Retained applicability verification and amendment; website explicitly limits claim to that archive.",
+      "status": "PASS"
+    },
+    {
+      "id": "C15",
+      "topic": "SDSU 2024 geography",
+      "claim": "Housing1 is within campus1; campus1+noncampus2+public0=3. Both 2025 and 2026 editions agree.",
+      "evidence": "Both original PDFs p7, table headings and rape rows re-read.",
+      "status": "PASS"
+    },
+    {
+      "id": "C16",
+      "topic": "SDSU 2023 revision",
+      "claim": "Current housing rape8 versus prior7; 2022 older-edition9 explicitly retained; pooled17→18 and 0.70→0.74.",
+      "evidence": "2026 and 2025 SDSU PDF7; current case source-edition attribution; independent arithmetic.",
+      "status": "PASS"
+    },
+    {
+      "id": "C17",
+      "topic": "SDSU 2025 / email",
+      "claim": "Current 2026-edition table gives 2025 housing10/campus11/noncampus5/public0, combined16; it does not provide complete 2026 calendar figures.",
+      "evidence": "2026 PDF7 and exact listing-linked hash; newdraft filename caveat; email-only figure excluded.",
+      "status": "PASS"
+    },
+    {
+      "id": "C18",
+      "topic": "UC San Diego",
+      "claim": "Reissued February2026 report supports annual housing rape12/11/20 and pooled43/58,719=0.73; 2022 campus/noncampus counts revised.",
+      "evidence": "Current UCSD cover and PDF142; prior frozen discrepancy audit retained as historical.",
+      "status": "PASS"
+    },
+    {
+      "id": "C19",
+      "topic": "UC Santa Cruz",
+      "claim": "2024 housing rape38 includes 21 offenses in one disclosure; May2026 reissue is cited at PDF11, not the older PDF12.",
+      "evidence": "Current UCSC PDF11 footnote6 and table; current PDF12 correction statement.",
+      "status": "PASS"
+    },
+    {
+      "id": "C20",
+      "topic": "SDSU population discrepancy",
+      "claim": "IPEDS41,137 versus CDS/State Auditor39,373 remains unresolved, with one consistent optional enrollment source.",
+      "evidence": "Retained denominator reconciliation; SDSU CDS PDF3 undergraduate34,637+graduate4,736; State Auditor PDF64.",
+      "status": "PASS_WITH_QUALIFICATION"
+    },
+    {
+      "id": "C21",
+      "topic": "Descriptive interpretation",
+      "claim": "No campus significance test, safety ranking, causal effect or individual victimization probability inferred from these ratios.",
+      "evidence": "Study design; incomplete report/population alignment; regulation and repeated-disclosure examples.",
+      "status": "PASS"
+    },
+    {
+      "id": "C22",
+      "topic": "NCES precedent",
+      "claim": "National indicator uses FTE and scale10,000; not interchangeable with headcount/residents.",
+      "evidence": "Original retained targeted research review and citation audit. Current indicator web retrieval failed; this claim is retained evidence, not freshly recertified.",
+      "status": "PASS_RETAINED_EVIDENCE"
+    },
+    {
+      "id": "C23",
+      "topic": "BJS comparison",
+      "claim": "Nine-campus pilot illustrates need to align reporting, recall period, geography and population; no universal underreporting correction inferred.",
+      "evidence": "Fresh BJS report review, printed110/PDF131 comparison box. No new numerical claim about national prevalence.",
+      "status": "PASS"
+    },
+    {
+      "id": "C24",
+      "topic": "Audit limitations",
+      "claim": "Source/citation, numeric and visual checks are distinct; no external human peer review or agency certification claimed.",
+      "evidence": "Explicit website/report qualification and separate dated audit records.",
+      "status": "PASS"
+    },
+    {
+      "id": "C25",
+      "topic": "42-school notes and regions",
+      "claim": "Bespoke reporting-scope notes reflect retrieved sources and specific limitations; home-region labels do not describe every branch or relative safety.",
+      "evidence": "School context JSON checked against current source inventory/dataset, source-cell exceptions, private extraction findings, UC/public audit evidence.",
+      "status": "PASS"
+    },
+    {
+      "id": "C26",
+      "topic": "Reader category explanations",
+      "claim": "All15 selections correspond to the documented category keys:11 criminal offenses, their combined total, and three separate violence/stalking classifications. Descriptions are reading guidance, not exhaustive legal definitions.",
+      "evidence": "Federal survey instructions and category dictionary; no category is relabeled as unique people or every form of crime.",
+      "status": "PASS"
+    },
+    {
+      "id": "C27",
+      "topic": "Reader regions",
+      "claim": "Four home-region groups plus All regions partition42 schools:West15,Midwest7,Northeast12,South8. Availability statements concern this selected dataset, not regional risk.",
+      "evidence": "Institution home states and explicit regional assignment; all11 documented housing populations occur in the selected California public institutions. No regional count/rate ranking.",
+      "status": "PASS"
+    },
+    {
+      "id": "C28",
+      "topic": "Reader calculations and narrative",
+      "claim": "All9450 school/category/year/location selections preserve counts, matching-year populations, rates, missingness and zero distinctions. Combined areas never add housing twice and show no population rate.",
+      "evidence": "Independent audit_reader_copy.mjs reconstructs selected values from current dataset; READER_COPY_AUDIT.json records16 checks. This verifies explanations against verified aggregates, not source re-extraction.",
+      "status": "PASS"
+    },
+    {
+      "id": "C29",
+      "topic": "Reader pooled interpretation",
+      "claim": "Housing/enrollment pooling uses summed annual populations; combined-area pooling is explicitly a three-year count, not a rate. An ambiguous partial sum is not asserted to be a known lower bound.",
+      "evidence": "Reader conditional copy inspected; independent all-selection checks; mathematical meaning reconciled with methods.",
+      "status": "PASS"
+    },
+    {
+      "id": "C30",
+      "topic": "Reader citations",
+      "claim": "School markers derive from the same official-name order as42 source entries; initial SDSU marker isS18. ReaderR1/R2 avoid geographyG1 collision; housing/enrollment links point to actual separate data files.",
+      "evidence": "Reader components and link targets inspected; return targets/select-school handler reviewed. Actual focus and click behavior belongs to the separate browser audit.",
+      "status": "PASS"
+    },
+    {
+      "id": "C31",
+      "topic": "Opening summary",
+      "claim": "The2024 combined housing-offense ratio is available for10of42 schools; yearly and pooled UCSD/SDSU examples retain their source-specific meaning.",
+      "evidence": "Independent readerResults for criminal_total/housing/2024; coverage.json; previously source-checked case_study.json. Availability is not reported crime prevalence.",
+      "status": "PASS"
+    },
+    {
+      "id": "H01",
+      "topic": "Heat refresh counts",
+      "claim": "56,793→57,037, net244: 95 newly added-date rows plus149 net earlier-date revisions; mutable rather than append-only.",
+      "evidence": "Freshness audit, source diff and independent offline verification; no arrest/DV substitution.",
+      "status": "PASS"
+    },
+    {
+      "id": "H02",
+      "topic": "Heat upstream scope",
+      "claim": "133 requests;131 responses/two failures; specified unchanged DOJ/SANDAG/SDPD/historical weather/Census inputs distinguished from changing whole weather files.",
+      "evidence": "Dated freshness_results and source-by-source audit;97 frozen raw hashes verified,29 historical daily station windows,60 hourly files.",
+      "status": "PASS_WITH_QUALIFICATION"
+    },
+    {
+      "id": "H03",
+      "topic": "Heat outcome distinction",
+      "claim": "SDPD offense rows are not Sheriff arrests, unique victims or verified domestic-violence cases; partial2026 excluded from fitted models.",
+      "evidence": "SDPD dictionary/source reconciliation and explicit supplement methods.",
+      "status": "PASS"
+    },
+    {
+      "id": "H04",
+      "topic": "Heat reference estimates",
+      "claim": "Corrected R0 sample64 postal areas/63 fitted DV; +1.91%,p.05287 and +2.74%,p.17903; neither primary p<.05.",
+      "evidence": "revision_models/results/revision_models.csv exact R0 rows. Original wider-sample estimates are not substituted.",
+      "status": "PASS"
+    },
+    {
+      "id": "H05",
+      "topic": "Heat multiplicity / inference",
+      "claim": "None of24 fixed sensitivity tests has Holm-adjusted p<.05; non-significance is not no association or causation.",
+      "evidence": "revision_tests.csv; separate prior numerical audit; no model refit in freshness supplement.",
+      "status": "PASS"
+    },
+    {
+      "id": "H06",
+      "topic": "Heat geographic/weather gaps",
+      "claim": "Historical NOAA checks do not prove Open-Meteo panel unchanged; full reanalysis not reacquired and Sheriff latest contents unverified.",
+      "evidence": "Freshness record blocked requests and documentation-only scope; explicit report wording.",
+      "status": "PASS_WITH_QUALIFICATION"
+    },
+    {
+      "id": "H07",
+      "topic": "Heat public aggregates",
+      "claim": "1,335 daily and416 monthly cells separately sum to57,037; per-cell distinct cases not additive unique people; source identifiers excluded from released outputs.",
+      "evidence": "offline_verification.json; PUBLIC_FILES.json; aggregate privacy and reconciliation audit.",
+      "status": "PASS"
+    },
+    {
+      "id": "H08",
+      "topic": "Heat source version",
+      "claim": "Supplement gives exact response SHA and official SDPD source URL; future retrieval may differ.",
+      "evidence": "Freshness request/hash ledger and matching second retrieval documented in offline audit.",
+      "status": "PASS"
+    }
+  ],
+  "corrections_verified": [
+    "Current normalization paragraph now cites current audit/rates rather than archived count outputs.",
+    "UCSC citations now target the May2026 reissue at PDF11; the historical research review remains identified as historical.",
+    "PDF6 describes the IPEDS release schedule accurately;6a supplies complete files/dictionaries and source-derived population records. Formula population citations use6a.",
+    "SDSU PDF1 is labeled as the actual linked document rather than a listing page;2022 older-edition use and newdraft filename are explicit.",
+    "Crime/Heat reference estimates explicitly identify the corrected64-postal-area analysis and63 fitted domestic-violence areas.",
+    "School guide population links now point to actual housing/enrollment files; the initial school source marker is computed, not hardcoded. Combined-area pooled copy describes a count rather than division by populations, and ambiguous partial sums are not asserted to be lower bounds.",
+    "All42 school notes use plain language for populations, locations covered and earlier federal data. Full state names are searchable alongside school names and abbreviations; region labels describe home location only."
+  ],
+  "limitations": [
+    "PASS applies only to reviewed factual/citation claims and recorded artifact versions. It is not certification of complete crime reporting, true victimization risk, matched property-level populations, or agency approval.",
+    "The original related-research review is retained. eCFR geography/report-year provisions and BJS PDF131 were freshly checked; the NCES indicator could not be freshly opened and is supported by the identified prior review rather than relabeled current verification.",
+    "Harvard, Johns Hopkins and UC Merced current counts remain unverified; Virginia web-text values remain provisional and excluded. Columbia and Princeton current-listing access restrictions prevent an absolute newest-edition claim. Retrieved-source version/hash is the defensible claim.",
+    "This audit reads report text and reference destinations; final rendered mathematical notation, responsive behavior, reference jump/return interaction, deployment, archive manifests and offline reproduction are separate checks.",
+    "Underlying source-cell extraction is covered by separate numerical/source audits. This review directly rereads the principal SDSU, UCSD, UCSC and State Auditor case passages; it does not claim to visually re-extract every cell at all42 institutions.",
+    "Web addresses are mutable. Institutional originals are identified by saved hashes; an official linked report is not evidence of unpublished updates or final certification."
+  ],
+  "reviewed_artifacts": [
+    {
+      "path": "boomerrawlings.com/src/pages/writing/data-analysis/campus-safety.astro",
+      "bytes": 21066,
+      "sha256": "d91d53a3c048b53036f77661f2a3fae944317dbc1355980a9fc8f76c40f7423a"
+    },
+    {
+      "path": "boomerrawlings.com/src/content/archive/campus-safety.md",
+      "bytes": 15519,
+      "sha256": "b6996cdade8d3ac94fc78774f85651d933be9c9f9813b09c55773e80ea2728c3"
+    },
+    {
+      "path": "boomerrawlings.com/src/data/campus-school-context.json",
+      "bytes": 39888,
+      "sha256": "2a89f6eb25b23878daae794b1a814167cb704762d6e4ed0db64f1c48ee291d75"
+    },
+    {
+      "path": "boomerrawlings.com/src/components/CampusReader.astro",
+      "bytes": 13989,
+      "sha256": "13388f117bb44e567babd95e81f5c1849f2522fe33b56a0513911b93c96b7d1c"
+    },
+    {
+      "path": "boomerrawlings.com/src/components/CampusReaderSources.astro",
+      "bytes": 2069,
+      "sha256": "a19a651fce43028b70cf536a7cdb30b33ea8557218de54205c4395b5a26c7f08"
+    },
+    {
+      "path": "boomerrawlings.com/src/lib/campus-reader.js",
+      "bytes": 3624,
+      "sha256": "dd38608f30b67f8efb0a4df7d5f908ceaef9f930920dc6eb6a26cdb1df39653d"
+    },
+    {
+      "path": "boomerrawlings.com/src/data/campus-reader-copy.js",
+      "bytes": 6185,
+      "sha256": "eb3a423fe7695ccf53d4d8f8d193d1b207c714e6967b63670face89b7a31799a"
+    },
+    {
+      "path": "campus_safety_analysis/research/freshness_2026_09_25/READER_COPY_AUDIT.json",
+      "bytes": 2828,
+      "sha256": "c0f0c4f5cc02b40dd20b0429d3c65086e13cc79c8ca0ba4102ab293300e9d605"
+    },
+    {
+      "path": "campus_safety_analysis/research/freshness_2026_09_25/build_current_reports.py",
+      "bytes": 25972,
+      "sha256": "9c89a4586dbe1315422b8deaffaa944cec655c8130b7216999551f3de688b0c7"
+    },
+    {
+      "path": "campus_safety_analysis/output/pdf/campus-safety-current-report.pdf",
+      "bytes": 217978,
+      "sha256": "58b54176526f25b45466120e7818689af4e636b52f5a30100864289034993f42"
+    },
+    {
+      "path": "campus_safety_analysis/output/pdf/crime-and-heat-source-refresh.pdf",
+      "bytes": 108730,
+      "sha256": "f6ce724d1450fba85601db40b46e5d59122d4191e254e81b5fe06bd517d2cba3"
+    },
+    {
+      "path": "campus_safety_analysis/publication/current-2026-09-25/dataset.json",
+      "bytes": 805992,
+      "sha256": "cf5592b18c1379111248b762bf9447937f0b34383de7ed33e92645e37efac000"
+    },
+    {
+      "path": "campus_safety_analysis/publication/current-2026-09-25/case_study.json",
+      "bytes": 3632,
+      "sha256": "234cfafd586fb8e5643265bcf6acda2b11124668a837bfab743ec1d8a1227eba"
+    },
+    {
+      "path": "campus_safety_analysis/publication/current-2026-09-25/coverage.json",
+      "bytes": 1548,
+      "sha256": "772c88e304eddd6c1946c05c3a3ccc1f118392f4fc9211dc4af947223a17eb4d"
+    },
+    {
+      "path": "campus_safety_analysis/publication/current-2026-09-25/source_inventory.json",
+      "bytes": 52517,
+      "sha256": "31f37ee6f42130b78cf929d68444ddbef81198aa9ae2b2be29833019dc570729"
+    },
+    {
+      "path": "campus_safety_analysis/publication/current-2026-09-25/source_cells.csv",
+      "bytes": 13365690,
+      "sha256": "d1eb7fb9c7d485ea3378791f76bd42c88b3c764eea1036148d3e3dffd36a133f"
+    },
+    {
+      "path": "campus_safety_analysis/publication/current-2026-09-25/rates.csv",
+      "bytes": 1365526,
+      "sha256": "9e5e58e0a6c816e80237ed018209da81c7e705d702d852be50bcc9056c6d57c3"
+    },
+    {
+      "path": "campus_safety_analysis/research/freshness_2026_09_25/CURRENT_DATA_AUDIT.json",
+      "bytes": 4637,
+      "sha256": "2509dd727f9b7932238a13c8fba346956a416f3a79b26cb8fca02dfea451e08b"
+    },
+    {
+      "path": "campus_safety_analysis/research/freshness_2026_09_25/README.md",
+      "bytes": 8509,
+      "sha256": "ed93415b0352d1a307b048493b90b2d35e61ec0a0704a07930a1dd496a9de5c9"
+    },
+    {
+      "path": "campus_safety_analysis/research/RESEARCH_REVIEW.md",
+      "bytes": 16448,
+      "sha256": "c0d6e3c907508b14654723a338eed3560cea853c57d0fec60f9c631df0eaeed1"
+    },
+    {
+      "path": "dv_heat_analysis/publication/freshness_2026_09_25/FRESHNESS_AUDIT.md",
+      "bytes": 9648,
+      "sha256": "672f2d07fd7606736f1351aa551ca25bcbcf73cc511e5c64f7ee9548a1d57896"
+    },
+    {
+      "path": "dv_heat_analysis/publication/freshness_2026_09_25/offline_verification.json",
+      "bytes": 767,
+      "sha256": "575ea1c0e1684764aea35102d1e955afeac5ea5844af123203f6af33a6b6d7bf"
+    },
+    {
+      "path": "dv_heat_analysis/publication/revision_models/results/revision_models.csv",
+      "bytes": 11200,
+      "sha256": "6110b0e747f9b224b7184f48cd298c855fb6b23b7bd26c319ac126e600361603"
+    },
+    {
+      "path": "dv_heat_analysis/publication/revision_models/results/revision_tests.csv",
+      "bytes": 1574,
+      "sha256": "3292200e6f71544f571109c2efcc5c5d4d23cd47f8f5d7e44024cca17b3750fd"
+    }
+  ],
+  "directly_reread_source_versions": [
+    {
+      "path": "campus_safety_analysis/research/sdsu_2026/asr_2026_newdraft.pdf",
+      "bytes": 1562094,
+      "sha256": "8d697b9134573a07dd7d53a0db29c18f8fe3a5b97e026fb8221237766155c80b"
+    },
+    {
+      "path": "campus_safety_analysis/research/sdsu_2026/sdsu_2025_asr_comparison_source.pdf",
+      "bytes": 4610369,
+      "sha256": "3242ccb9a6632269bcd68c2cd5e045d3c73af502841519f2b17d2f5985ced4e3"
+    },
+    {
+      "path": "campus_safety_analysis/research/freshness_2026_09_25/uc/san_diego_report.pdf",
+      "bytes": 8856776,
+      "sha256": "d4d01766e4f4e7de813a320a5484c8a91d7d41b8862a3a15f85d88b0d3a3a0bb"
+    },
+    {
+      "path": "campus_safety_analysis/research/freshness_2026_09_25/uc/santa_cruz_report.pdf",
+      "bytes": 6859823,
+      "sha256": "f50193a642a0e62dee28a533c96e0a0c261a4bf23d32492052b0722e44ae5d83"
+    },
+    {
+      "path": "campus_safety_analysis/sources/enrollment/raw/2024-111-Report.pdf",
+      "bytes": 4508391,
+      "sha256": "4057db7b14e1b85bb6980ad19455f873b474358d9f10fd0725e0ac68a24504b6"
+    }
+  ],
+  "pdf_reference_targets": {
+    "campus": [
+      {
+        "page": 1,
+        "url": "https://boomerrawlings.com/writing/data-analysis/campus-safety/"
+      },
+      {
+        "page": 5,
+        "url": "https://go.brown.edu/2025ASR-AFSR"
+      },
+      {
+        "page": 5,
+        "url": "https://security.caltech.edu/documents/22533/2025ASR-F-HR.pdf"
+      },
+      {
+        "page": 5,
+        "url": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+      },
+      {
+        "page": 5,
+        "url": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+      },
+      {
+        "page": 5,
+        "url": "https://publicsafety.columbia.edu/sites/publicsafety.columbia.edu/files/content/SecurityReport2025.pdf"
+      },
+      {
+        "page": 5,
+        "url": "https://publicsafety.cornell.edu/wp-content/uploads/2026-Campus_Watch_2026_FINAL-ua.pdf"
+      },
+      {
+        "page": 5,
+        "url": "https://www.dartmouth.edu/security/clery-compliance-office/asr.pdf"
+      },
+      {
+        "page": 5,
+        "url": "https://forms.hr.duke.edu/media/oarc/2025-Duke-ASR.pdf"
+      },
+      {
+        "page": 5,
+        "url": "https://clery.compliance.ufl.edu/annual-security-and-fire-safety-reports/2026-crime-statistics/"
+      },
+      {
+        "page": 5,
+        "url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf"
+      },
+      {
+        "page": 5,
+        "url": "https://eoc.gatech.edu/sites/default/files/2026-09/2026%20Annual%20Security%20and%20Fire%20Safety%20Report.pdf"
+      },
+      {
+        "page": 5,
+        "url": "https://www.hupd.harvard.edu/annual-security-report"
+      },
+      {
+        "page": 5,
+        "url": "https://police.illinois.edu/wp-content/uploads/2025/12/2025_Annual_Security_Fire_Safety_Report_FINAL_DRAFT_-_Re-Issue.pdf"
+      },
+      {
+        "page": 5,
+        "url": "https://publicsafety.jhu.edu/clery-crime-data/"
+      },
+      {
+        "page": 6,
+        "url": "https://cdn.sanity.io/files/bflxpmv3/production/e5bbcc349237b5f972ae112e63bf68077d2a9fc7.pdf"
+      },
+      {
+        "page": 6,
+        "url": "https://police.mit.edu/sites/default/files/MIT-Police-Files/Documents/MITPolice_ASR_2025_Final_v3.pdf"
+      },
+      {
+        "page": 6,
+        "url": "https://go.unc.edu/securityreport"
+      },
+      {
+        "page": 6,
+        "url": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+      },
+      {
+        "page": 6,
+        "url": "https://police.nd.edu/assets/665474/2025_annual_safety_reportt.pdf"
+      },
+      {
+        "page": 6,
+        "url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf"
+      },
+      {
+        "page": 6,
+        "url": "https://dps.osu.edu/sites/default/files/documents/annual_security_fire_safety_report.pdf"
+      },
+      {
+        "page": 6,
+        "url": "https://www.police.psu.edu/sites/police/files/2025-11/penn-state-university-park-2025a.pdf"
+      },
+      {
+        "page": 6,
+        "url": "https://www.publicsafety.upenn.edu/ASR/2026_ASR_PENN.pdf"
+      },
+      {
+        "page": 6,
+        "url": "https://publicsafety.princeton.edu/sites/g/files/toruqf2581/files/documents/Security%26FireSafety_Report_2025_V5.pdf"
+      },
+      {
+        "page": 6,
+        "url": "https://police.sdsu.edu/_resources/files/asr_2026_newdraft.pdf"
+      },
+      {
+        "page": 6,
+        "url": "https://police.stanford.edu/pdf/ssfr-2025.pdf"
+      },
+      {
+        "page": 6,
+        "url": "https://compliance.utexas.edu/sites/default/files/documents/ASFSR%202025%20final.pdf"
+      },
+      {
+        "page": 6,
+        "url": "https://ucpd.berkeley.edu/sites/default/files/uc_berkeley_asfsr.pdf"
+      },
+      {
+        "page": 7,
+        "url": "https://clery.ucdavis.edu/sites/g/files/dgvnsk1761/files/media/documents/ASFSR-UCD-2026-vSep2026.pdf"
+      },
+      {
+        "page": 7,
+        "url": "https://www.police.uci.edu/clery/annual-reports/uci_security_report.pdf"
+      },
+      {
+        "page": 7,
+        "url": "https://clery.ucmerced.edu/sites/g/files/ufvvjh631/f/documents/ucm_2025_asr.pdf"
+      },
+      {
+        "page": 7,
+        "url": "https://compliance.ucr.edu/media/887/download?attachment"
+      },
+      {
+        "page": 7,
+        "url": "https://www.police.ucsd.edu/docs/annualclery.pdf"
+      },
+      {
+        "page": 7,
+        "url": "https://ucsf.box.com/v/UCPD-UCSF-ASR-2026"
+      },
+      {
+        "page": 7,
+        "url": "https://docs.google.com/document/d/17sbHHkxln7w8TaFRy0Dm3i1-NCgGwGznHmF6B1hcpy0/export?format=pdf"
+      },
+      {
+        "page": 7,
+        "url": "https://chancellor.ucsc.edu/files/2026/05/UC-Santa-Cruz-2025-Annual-Security-Fire-Safety-Report-FINAL-Republished-May-6-2026.pdf"
+      },
+      {
+        "page": 7,
+        "url": "https://ucla.box.com/s/gzlc5edy5yuyeozpf1adob2rvsrdf9ur"
+      },
+      {
+        "page": 7,
+        "url": "https://dps.usc.edu/wp-content/uploads/2026/09/2026-Annual-Security-and-Fire-Safety-Report.pdf"
+      },
+      {
+        "page": 7,
+        "url": "https://cleryact.virginia.edu/report"
+      },
+      {
+        "page": 7,
+        "url": "https://police.uw.edu/wp-content/uploads/2026/04/Annual-Security-and-Fire-Safety-Report-2025-2026-update.pdf"
+      },
+      {
+        "page": 7,
+        "url": "https://go.wisc.edu/asr"
+      },
+      {
+        "page": 7,
+        "url": "https://your.yale.edu/sites/default/files/2025-09/2025-Clery-Report_ADA.pdf"
+      },
+      {
+        "page": 9,
+        "url": "https://police.sdsu.edu/_resources/files/asr_2026_newdraft.pdf#page=7"
+      },
+      {
+        "page": 9,
+        "url": "https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf#page=7"
+      },
+      {
+        "page": 9,
+        "url": "https://www.auditor.ca.gov/wp-content/uploads/2025/10/2024-111-Report.pdf#page=62"
+      },
+      {
+        "page": 9,
+        "url": "https://www.police.ucsd.edu/docs/annualclery.pdf#page=142"
+      },
+      {
+        "page": 9,
+        "url": "https://www.ecfr.gov/current/title-34/subtitle-B/chapter-VI/part-668/subpart-D/section-668.46"
+      },
+      {
+        "page": 9,
+        "url": "https://nces.ed.gov/ipeds/survey-components/data-release-schedule"
+      },
+      {
+        "page": 9,
+        "url": "https://nces.ed.gov/ipeds/survey-components/data-release-schedule"
+      },
+      {
+        "page": 9,
+        "url": "https://ope.ed.gov/campussafety/#/datafile/list"
+      },
+      {
+        "page": 9,
+        "url": "https://nces.ed.gov/programs/coe/indicator/a21"
+      },
+      {
+        "page": 9,
+        "url": "https://bjs.ojp.gov/content/pub/pdf/ccsvsftr.pdf#page=131"
+      },
+      {
+        "page": 9,
+        "url": "https://bjs.ojp.gov/content/pub/pdf/ccsvsftr.pdf#page=131"
+      },
+      {
+        "page": 9,
+        "url": "https://boomerrawlings.com/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      },
+      {
+        "page": 9,
+        "url": "https://boomerrawlings.com/data-analysis/campus-safety/current-2026-09-25/source_cells.csv"
+      },
+      {
+        "page": 9,
+        "url": "https://boomerrawlings.com/writing/data-analysis/campus-safety/#downloads"
+      },
+      {
+        "page": 9,
+        "url": "https://nces.ed.gov/ipeds/use-the-data/download-access-database"
+      },
+      {
+        "page": 9,
+        "url": "https://boomerrawlings.com/data-analysis/campus-safety/data/enrollment_denominators.csv"
+      }
+    ],
+    "crime_heat": [
+      {
+        "page": 1,
+        "url": "https://data.sandiego.gov/datasets/police-nibrs/"
+      },
+      {
+        "page": 1,
+        "url": "https://boomerrawlings.com/data-analysis/crime-and-heat/data/freshness-2026-09-25/FRESHNESS_AUDIT.md"
+      },
+      {
+        "page": 2,
+        "url": "https://boomerrawlings.com/writing/data-analysis/crime-and-heat/#methods"
+      },
+      {
+        "page": 2,
+        "url": "https://boomerrawlings.com/data-analysis/crime-and-heat/data/freshness-2026-09-25/PUBLIC_FILES.json"
+      },
+      {
+        "page": 2,
+        "url": "https://boomerrawlings.com/data-analysis/crime-and-heat/data/freshness-2026-09-25/PUBLIC_FILES.json"
+      },
+      {
+        "page": 2,
+        "url": "https://seshat.datasd.org/police_nibrs/pd_nibrs_2026_datasd.csv"
+      },
+      {
+        "page": 2,
+        "url": "https://boomerrawlings.com/data-analysis/crime-and-heat/data/freshness-2026-09-25/FRESHNESS_AUDIT.md"
+      },
+      {
+        "page": 2,
+        "url": "https://boomerrawlings.com/data-analysis/crime-and-heat/data/freshness-2026-09-25/freshness_results.json"
+      },
+      {
+        "page": 2,
+        "url": "https://boomerrawlings.com/writing/data-analysis/crime-and-heat/"
+      },
+      {
+        "page": 2,
+        "url": "https://boomerrawlings.com/data-analysis/crime-and-heat/data/freshness-2026-09-25/offline_verification.json"
+      }
+    ]
+  }
+}

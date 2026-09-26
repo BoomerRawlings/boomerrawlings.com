@@ -5,13 +5,14 @@ const base = '/data-analysis/campus-safety/data/';
 // Exact URLs retain each verified locator. Different page/section locators are
 // distinct references even when they point into the same source document.
 export const campusSourceTitles = new Map([
+  ['https://police.sdsu.edu/_resources/files/asr_2026_newdraft.pdf#page=7', 'San Diego State University. 2026 Annual Security Report, PDF p. 7: main-campus 2023–2025 geography tables; exact linked version checked 25 September 2026.'],
   ['https://ope.ed.gov/campussafety/api/dataFiles/file?fileName=Crime2025EXCEL.zip', 'U.S. Department of Education. Campus Safety and Security, 2025 collection: 2022–2024 bulk data files.'],
   ['https://ope.ed.gov/campussafety/#/datafile/list', 'U.S. Department of Education. Campus Safety and Security data download portal.'],
   ['https://nces.ed.gov/ipeds/use-the-data/download-access-database', 'National Center for Education Statistics. Integrated Postsecondary Education Data System complete files and data dictionaries; fall enrollment, 2022–2024.'],
   ['https://www.auditor.ca.gov/wp-content/uploads/2025/10/2024-111-Report.pdf#page=62', 'California State Auditor. Report 2024-111, Tables A.1–A.2, printed pp. 56–59 (PDF pp. 62–65): fall student-housing occupancy.'],
   ['https://www.police.ucsd.edu/docs/annualclery.pdf#page=142', 'University of California, San Diego. 2025 Annual Security Report, p. 142: reported crime statistics.'],
   ['https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf#page=7', 'San Diego State University. 2025 Annual Security Report, p. 7: main-campus reported crime statistics.'],
-  ['https://bpb-us-w2.wpmucdn.com/wordpress.ucsc.edu/dist/d/120/files/2025/09/2025-UC-Santa-Cruz-ASFSR_online-3.pdf#page=12', 'University of California, Santa Cruz. 2025 Annual Security and Fire Safety Report, printed p. 11 (PDF p. 12), footnote 6.'],
+  ['https://bpb-us-w2.wpmucdn.com/wordpress.ucsc.edu/dist/d/120/files/2026/05/UC-Santa-Cruz-2025-Annual-Security-Fire-Safety-Report-FINAL-Republished-May-6-2026.pdf#page=11', 'University of California, Santa Cruz. 2025 Annual Security and Fire Safety Report, p. 11, reissued May 2026, footnote 6.'],
   ['https://asir.sdsu.edu/Documents/CommonDataSets/CDS_2024-25.pdf#page=3', 'San Diego State University. Common Data Set 2024–2025, p. 3: enrollment.'],
   ['https://www.ecfr.gov/current/title-34/subtitle-B/chapter-VI/part-668/subpart-D/section-668.46#p-668.46(c)(3)', 'Code of Federal Regulations, title 34, § 668.46(c)(3): calendar-year reporting.'],
   ['https://www.ecfr.gov/current/title-34/subtitle-B/chapter-VI/part-668/subpart-D/section-668.46', 'Code of Federal Regulations, title 34, § 668.46(a), (c)(5): definitions and reporting geography.'],
@@ -59,7 +60,7 @@ export function addCampusCitations(html) {
     for (const child of [...(node.childNodes ?? [])]) {
       const href = attr(child, 'href');
       const isSource = child.tagName === 'a' && href && !hasAttr(child, 'data-citation-exempt') &&
-        (hasAttr(child, 'data-campus-citation') || (methods && (href.startsWith('https://') || href.startsWith(base))));
+        (hasAttr(child, 'data-campus-citation') || (methods && (href.startsWith('https://') || href.startsWith(base) || href.startsWith('/data-analysis/campus-safety/current-2026-09-25/'))));
       if (!skip && isSource) {
         const label = textContent(child).trim();
         let reference = references.get(href);

@@ -1,0 +1,51 @@
+{
+  "components/CampusReader.astro": {
+    "bytes": 13989,
+    "sha256": "13388f117bb44e567babd95e81f5c1849f2522fe33b56a0513911b93c96b7d1c"
+  },
+  "components/CampusReaderSources.astro": {
+    "bytes": 2069,
+    "sha256": "a19a651fce43028b70cf536a7cdb30b33ea8557218de54205c4395b5a26c7f08"
+  },
+  "lib/campus-reader.js": {
+    "bytes": 3624,
+    "sha256": "dd38608f30b67f8efb0a4df7d5f908ceaef9f930920dc6eb6a26cdb1df39653d"
+  },
+  "lib/campus-rates.js": {
+    "bytes": 5719,
+    "sha256": "9467849ad2803ae3c07981fcecc28c8957994f10ed06a58d32bf71faa5d0f215"
+  },
+  "lib/campus-term-dom.js": {
+    "bytes": 3120,
+    "sha256": "41b7f7e2bea4754af4ccb60ff9bb9031d9713d5b0fab4d71a12c3e2f777c7e06"
+  },
+  "lib/campus-terms.js": {
+    "bytes": 5282,
+    "sha256": "fd133386a9af86967a549e0b49acdd4aa925cf03eb0308f1420237fb06842ee5"
+  },
+  "data/campus-reader-copy.js": {
+    "bytes": 6185,
+    "sha256": "eb3a423fe7695ccf53d4d8f8d193d1b207c714e6967b63670face89b7a31799a"
+  },
+  "data/campus-school-context.json": {
+    "bytes": 39888,
+    "sha256": "2a89f6eb25b23878daae794b1a814167cb704762d6e4ed0db64f1c48ee291d75"
+  },
+  "styles/campus-reader.css": {
+    "bytes": 5327,
+    "sha256": "720fbac807486b4be567aa5a4bbeefb3c2073454503beb5fca1536f21af98b01"
+  },
+  "pages/writing/data-analysis/campus-safety.astro": {
+    "bytes": 21066,
+    "sha256": "d91d53a3c048b53036f77661f2a3fae944317dbc1355980a9fc8f76c40f7423a"
+  },
+  "content/archive/campus-safety.md": {
+    "bytes": 15519,
+    "sha256": "b6996cdade8d3ac94fc78774f85651d933be9c9f9813b09c55773e80ea2728c3"
+  },
+  "test-campus-reader.mjs": {
+    "original_project_path": "scripts/test-campus-reader.mjs",
+    "bytes": 2988,
+    "sha256": "f4accfd75c85debcb1d0a76bf13f1570fc1673202bd8fe6a64c47e87ecaf463d"
+  }
+}

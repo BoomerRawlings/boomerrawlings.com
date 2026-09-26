@@ -1,0 +1,404 @@
+{
+  "audit_date": "2026-09-25",
+  "status": "source_audit_complete_with_disclosed_limits",
+  "institutions": [
+    {
+      "unitid": "139755",
+      "label": "Georgia Tech",
+      "key": "gatech",
+      "landing_url": "https://eoc.gatech.edu/jeanne-clery-act/georgia-tech-annual-security-and-fire-safety-reports",
+      "report_url": "https://eoc.gatech.edu/sites/default/files/2026-09/2026%20Annual%20Security%20and%20Fire%20Safety%20Report.pdf",
+      "report_edition": 2026,
+      "report_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "checked_utc": "2026-09-25T21:37:29.430285+00:00",
+      "local_pdf": "retrieved/gatech/asr-94d44eb0.pdf",
+      "local_html": null,
+      "sha256": "68a12cae6f5e476bfb35ca6241e4499bd7431373f5448e999d4fe1a1051ce68f",
+      "bytes": 41899085,
+      "pages": 102,
+      "campus_scope": "3 reporting campuses in the extracted source: Atlanta; Europe; Savannah.",
+      "additional_reports": [],
+      "latest_evidence": "Fresh official listing and current linked source retrieved",
+      "denominator_sources": [],
+      "limitations": [
+        "Current source covers Atlanta, Europe and Savannah. The frozen federal inventory additionally includes Shenzhen; institution-wide rates remain withheld pending resolution of that scope difference.",
+        "Savannah has no on-campus student housing under the explicit report footnote; its housing N/A is not an observed zero.",
+        "Source-cell verification does not establish complete reporting, exact population exposure, or property-level correspondence with a population denominator. Population eligibility is documented in the consolidated current-data audit."
+      ],
+      "verification": "source_cells_independently_verified_with_disclosed_limits",
+      "source_audit": "PUBLIC_SOURCE_AUDIT.md"
+    },
+    {
+      "unitid": "145637",
+      "label": "Illinois Urbana-Champaign",
+      "key": "illinois",
+      "landing_url": "https://www.police.illinois.edu/crime-stats-and-clery/annual-security-and-fire-safety-report/",
+      "report_url": "https://police.illinois.edu/wp-content/uploads/2025/12/2025_Annual_Security_Fire_Safety_Report_FINAL_DRAFT_-_Re-Issue.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:37:29.435073+00:00",
+      "local_pdf": "retrieved/illinois/asr-46d1c34f.pdf",
+      "local_html": null,
+      "sha256": "1023c5da3b7d4eec0fa43370c23d92553f58917ef3e80e5cc73231eec0b6699e",
+      "bytes": 3584138,
+      "pages": 158,
+      "campus_scope": "2 reporting campuses in the extracted source: Urbana-Champaign; Illini Center.",
+      "additional_reports": [],
+      "latest_evidence": "Fresh official listing and current linked source retrieved",
+      "denominator_sources": [],
+      "limitations": [
+        "Illini Center housing is explicitly N/A; it is not added as an observed zero.",
+        "Illini Center matches frozen federal campus ID 145637003. The corrected branch ID changes joins, not institution counts.",
+        "Source-cell verification does not establish complete reporting, exact population exposure, or property-level correspondence with a population denominator. Population eligibility is documented in the consolidated current-data audit."
+      ],
+      "verification": "source_cells_independently_verified_with_disclosed_limits",
+      "source_audit": "PUBLIC_SOURCE_AUDIT.md"
+    },
+    {
+      "unitid": "170976",
+      "label": "Michigan Ann Arbor",
+      "key": "michigan",
+      "landing_url": "https://www.dpss.umich.edu/reports-and-data/",
+      "report_url": "https://cdn.sanity.io/files/bflxpmv3/production/e5bbcc349237b5f972ae112e63bf68077d2a9fc7.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:39:38.142544+00:00",
+      "local_pdf": "retrieved/michigan/asr-4e09df57.pdf",
+      "local_html": null,
+      "sha256": "12ba624e2f95a1f6a61a6764225f6b6cee0076986b060fe7e0cec66746e42f92",
+      "bytes": 10643396,
+      "pages": 69,
+      "campus_scope": "1 reporting campuses in the extracted source: Ann Arbor.",
+      "additional_reports": [],
+      "latest_evidence": "Fresh official listing and current linked source retrieved",
+      "denominator_sources": [],
+      "limitations": [
+        "The statutory-rape table labels 2023,2022 and 2021; no 2024 value is inferred.",
+        "For 2024 on-campus fondling, the printed table gives 44 while its footnote gives 43. Source values are preserved; affected calculations are withheld.",
+        "Source-cell verification does not establish complete reporting, exact population exposure, or property-level correspondence with a population denominator. Population eligibility is documented in the consolidated current-data audit."
+      ],
+      "verification": "source_cells_independently_verified_with_disclosed_limits",
+      "source_audit": "PUBLIC_SOURCE_AUDIT.md"
+    },
+    {
+      "unitid": "199120",
+      "label": "North Carolina Chapel Hill",
+      "key": "unc",
+      "landing_url": "https://police.unc.edu/",
+      "report_url": "https://go.unc.edu/securityreport",
+      "report_edition": 2026,
+      "report_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "checked_utc": "2026-09-25T21:37:29.437152+00:00",
+      "local_pdf": "retrieved/unc/current-dfdf132c.pdf",
+      "local_html": null,
+      "sha256": "cf1efd3ce66c6b3d69365e231e37b62c68a17a9449063d6fb07ecfc14244baba",
+      "bytes": 2308192,
+      "pages": 92,
+      "campus_scope": "4 reporting campuses in the extracted source: Chapel Hill main; Kenan-Flagler Business School Charlotte; Institute of Marine Sciences; UNC Health Sciences at MAHEC.",
+      "additional_reports": [],
+      "latest_evidence": "Fresh official listing and current linked source retrieved",
+      "denominator_sources": [],
+      "limitations": [
+        "The 2024 domestic-violence entry combines dating violence. Separate 2025 dating-violence rows are absent; incompatible category calculations are withheld.",
+        "MAHEC has only 2025 entries. Missing remote-campus housing/noncampus columns remain unknown without an explicit applicability statement.",
+        "Source-cell verification does not establish complete reporting, exact population exposure, or property-level correspondence with a population denominator. Population eligibility is documented in the consolidated current-data audit."
+      ],
+      "verification": "source_cells_independently_verified_with_disclosed_limits",
+      "source_audit": "PUBLIC_SOURCE_AUDIT.md"
+    },
+    {
+      "unitid": "204796",
+      "label": "Ohio State Columbus",
+      "key": "ohio",
+      "landing_url": "https://dps.osu.edu/crime/clery-act",
+      "report_url": "https://dps.osu.edu/sites/default/files/documents/annual_security_fire_safety_report.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:37:29.431516+00:00",
+      "local_pdf": "retrieved/ohio/asr-ed1df6e2.pdf",
+      "local_html": null,
+      "sha256": "8492cc76790761caad104ab8710f242d2810f4b28ef3a3164324b71c3a3a8a1f",
+      "bytes": 11343135,
+      "pages": 124,
+      "campus_scope": "1 reporting campuses in the extracted source: Columbus.",
+      "additional_reports": [],
+      "latest_evidence": "Fresh official listing and current linked source retrieved",
+      "denominator_sources": [],
+      "limitations": [
+        "Columbus source TOTAL rows include separately identified historical Richard Strauss reports. Reporting year does not necessarily identify occurrence year.",
+        "Campus total already includes housing; historical components and printed totals are not added twice.",
+        "Source-cell verification does not establish complete reporting, exact population exposure, or property-level correspondence with a population denominator. Population eligibility is documented in the consolidated current-data audit."
+      ],
+      "verification": "source_cells_independently_verified_with_disclosed_limits",
+      "source_audit": "PUBLIC_SOURCE_AUDIT.md"
+    },
+    {
+      "unitid": "214777",
+      "label": "Penn State University Park",
+      "key": "pennstate",
+      "landing_url": "https://www.police.psu.edu/annual-security-reports",
+      "report_url": "https://www.police.psu.edu/sites/police/files/2025-11/penn-state-university-park-2025a.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:37:29.432039+00:00",
+      "local_pdf": "retrieved/pennstate/asr-13d3c45b.pdf",
+      "local_html": null,
+      "sha256": "aef612d7216400978e90962e6b2a212d83c58393765e96f9d9bd391ed1253df3",
+      "bytes": 1714236,
+      "pages": 75,
+      "campus_scope": "3 reporting campuses in the extracted source: University Park; Dickinson Law; Hershey College of Medicine.",
+      "additional_reports": [
+        {
+          "key": "pennstate-law",
+          "url": "https://www.police.psu.edu/sites/police/files/2025-11/penn-state-dickinson-law-2025a.pdf",
+          "role": "asr",
+          "checked_utc": "2026-09-25T21:47:02.335553+00:00",
+          "requested_url": "https://www.police.psu.edu/sites/police/files/2025-11/penn-state-dickinson-law-2025a.pdf?_freshness_audit=2026-09-25T21%3A47%3A02.335553%2B00%3A00",
+          "http_status": 200,
+          "resolved_url": "https://www.police.psu.edu/sites/police/files/2025-11/penn-state-dickinson-law-2025a.pdf?_freshness_audit=2026-09-25T21%3A47%3A02.335553%2B00%3A00",
+          "response_headers": {
+            "Date": "Fri, 25 Sep 2026 21:47:01 GMT",
+            "Last-Modified": "Fri, 14 Nov 2025 17:27:06 GMT",
+            "Age": "0",
+            "Content-Type": "application/pdf",
+            "Cache-Control": "public, max-age=120"
+          },
+          "bytes": 1814596,
+          "sha256": "6f4cd790a5ee178aedeb2300b65f969aa2e58073eefb62a6abfa9a69473785ce",
+          "kind": "pdf",
+          "local_pdf": "retrieved/pennstate-law/asr-ae3df7d5.pdf",
+          "local_text": "retrieved/pennstate-law/asr-ae3df7d5.txt",
+          "pages": 58,
+          "pdf_metadata": {
+            "/Author": "anonymous",
+            "/CreationDate": "D:20250929135744Z",
+            "/Creator": "Workiva",
+            "/ModDate": "D:20251104184516-05'00'",
+            "/Producer": "Wdesk Fidelity Content Translations Version 014.004.145",
+            "/Subject": "Penn State Dickinson Law 2025",
+            "/Title": "Penn State Dickinson Law 2025"
+          },
+          "first_page_excerpt": "Dickinson Law 2025 ANNUAL SECURITY REPORT AND ANNUAL FIRE SAFETY REPORT\n",
+          "status": "retrieved"
+        },
+        {
+          "key": "pennstate-med",
+          "url": "https://www.police.psu.edu/sites/police/files/2025-11/penn-state-hershey-medical-center-2025a.pdf",
+          "role": "asr",
+          "checked_utc": "2026-09-25T21:47:02.335553+00:00",
+          "requested_url": "https://www.police.psu.edu/sites/police/files/2025-11/penn-state-hershey-medical-center-2025a.pdf?_freshness_audit=2026-09-25T21%3A47%3A02.335553%2B00%3A00",
+          "http_status": 200,
+          "resolved_url": "https://www.police.psu.edu/sites/police/files/2025-11/penn-state-hershey-medical-center-2025a.pdf?_freshness_audit=2026-09-25T21%3A47%3A02.335553%2B00%3A00",
+          "response_headers": {
+            "Date": "Fri, 25 Sep 2026 21:47:01 GMT",
+            "Last-Modified": "Fri, 14 Nov 2025 17:29:13 GMT",
+            "Content-Type": "application/pdf",
+            "Cache-Control": "public, max-age=120"
+          },
+          "bytes": 1869037,
+          "sha256": "bf59879d7920579a80e4e6240b70e3f4fc09eb6fbb54c317f6102a6418a65b10",
+          "kind": "pdf",
+          "local_pdf": "retrieved/pennstate-med/asr-a69bf344.pdf",
+          "local_text": "retrieved/pennstate-med/asr-a69bf344.txt",
+          "pages": 65,
+          "pdf_metadata": {
+            "/Author": "anonymous",
+            "/CreationDate": "D:20250929133643Z",
+            "/Creator": "Workiva",
+            "/ModDate": "D:20251107124425-05'00'",
+            "/Producer": "Wdesk Fidelity Content Translations Version 014.004.145",
+            "/Subject": "Penn State Hershey Medical Center 2025",
+            "/Title": "Penn State Hershey Medical Center 2025"
+          },
+          "first_page_excerpt": "Hershey College of Medicine 2025 ANNUAL SECURITY REPORT AND ANNUAL FIRE SAFETY \nREPORT\n",
+          "status": "retrieved"
+        }
+      ],
+      "latest_evidence": "Fresh official listing and current linked source retrieved",
+      "denominator_sources": [],
+      "limitations": [
+        "University Park, Dickinson Law and Hershey College of Medicine reports are combined for this selected institution. The population is counted once.",
+        "Source columns are housing, campus total, public property and noncampus; the normalized output preserves those geographic meanings.",
+        "Source-cell verification does not establish complete reporting, exact population exposure, or property-level correspondence with a population denominator. Population eligibility is documented in the consolidated current-data audit."
+      ],
+      "verification": "source_cells_independently_verified_with_disclosed_limits",
+      "source_audit": "PUBLIC_SOURCE_AUDIT.md"
+    },
+    {
+      "unitid": "228778",
+      "label": "Texas Austin",
+      "key": "ut",
+      "landing_url": "https://compliance.utexas.edu/programs/clery",
+      "report_url": "https://compliance.utexas.edu/sites/default/files/documents/ASFSR%202025%20final.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:39:38.142544+00:00",
+      "local_pdf": "retrieved/ut/asr-6a9b50e0.pdf",
+      "local_html": null,
+      "sha256": "3594b9f7a2917dd90015042de9a137ad54d1752b00739fec421d3a33e1cb3f7e",
+      "bytes": 3729550,
+      "pages": 105,
+      "campus_scope": "8 reporting campuses in the extracted source: Austin main; J.J. Pickle Research Campus; Brackenridge Field Laboratory; Marine Science Institute; Winedale Historical Complex; LBJ Washington Center; UT in New York; Wofford Denius UTLA Center.",
+      "additional_reports": [],
+      "latest_evidence": "Fresh official listing and current linked source retrieved",
+      "denominator_sources": [],
+      "limitations": [
+        "Brackenridge Field Laboratory begins separate campus reporting in 2023; earlier coverage was main-campus noncampus geography. Its 2022 branch status is before separate reporting, not before physical opening.",
+        "Other blank geographic cells remain unknown; no observed zero is imputed from a gray or omitted cell.",
+        "Source-cell verification does not establish complete reporting, exact population exposure, or property-level correspondence with a population denominator. Population eligibility is documented in the consolidated current-data audit."
+      ],
+      "verification": "source_cells_independently_verified_with_disclosed_limits",
+      "source_audit": "PUBLIC_SOURCE_AUDIT.md"
+    },
+    {
+      "unitid": "134130",
+      "label": "Florida",
+      "key": "florida",
+      "landing_url": "https://clery.compliance.ufl.edu/annual-security-and-fire-safety-reports/",
+      "report_url": "https://clery.compliance.ufl.edu/annual-security-and-fire-safety-reports/2026-crime-statistics/",
+      "report_edition": 2026,
+      "report_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "checked_utc": "2026-09-25T21:37:30.222471+00:00",
+      "local_pdf": null,
+      "local_html": "retrieved/florida/current-412c80cd.html",
+      "sha256": "1281c825a31478686b594e5b8356b0c148ee9346e341f890f9dde92453217f4e",
+      "bytes": 619938,
+      "pages": null,
+      "campus_scope": "38 reporting campuses in the extracted source: Gainesville-Main Campus; UF Health Jacksonville; UF Jacksonville; JaxLab; CityLab Orlando; Citrus Research and Education Center; Everglades Research and Education Center; Florida Medical Entomology Laboratory; Fort Lauderdale Research and Education Center; Gulf Coast Research and Education Center; UF IFAS CALS at Plant City; Hastings Demonstration Unit; Hialeah Dental Center; IFAS Equine Science Center; IFAS Horse Teaching Unit; Indian River Research and Education Center; Mid Florida Research and Education Center; Nature Coast Biological Station; NCEF Naples Pediatric Dental Center; North Florida Research and Education Center (Marianna); North Florida Research and Education Center (Quincy); North Florida Research and Education Center (Suwannee Valley); Plant Science Research and Education Unit; Preservation Institute Nantucket; Range Cattle Research and Education Center; South Florida MBA Program; Southwest Florida Research and Education Center; St. Petersburg Dental Clinic; Tropical Aquaculture Laboratory; Tropical Research and Education Center; UF Historic St. Augustine; UF Research and Academic Center at Lake Nona; UF Research and Engineering Education Facility (REEF); The Herbert Wertheim UF Scripps Institute for Biomedical Innovation Technology; Vicenza Institute of Architecture; West Florida Research and Education Center (Jay); West Florida Research and Education Center (Milton); Whitney Laboratory for Marine Bioscience.",
+      "additional_reports": [],
+      "latest_evidence": "Fresh official listing and current linked source retrieved",
+      "denominator_sources": [],
+      "limitations": [
+        "The source has 38 campus sections, including UF Jacksonville, which opened 20 August 2026 and is excluded from 2022–2025 institution totals. JaxLab and UF Jacksonville are not retrospectively interchangeable.",
+        "Everglades and Vicenza 2025 have unusable outside-agency returns. Printed cells remain in the ledger; affected comparisons are withheld.",
+        "Plus-sign footnotes identify absent housing/noncampus geography. Whitney Laboratory noncampus absence is explicitly limited to 2023; source applicability is not backfilled.",
+        "Source-cell verification does not establish complete reporting, exact population exposure, or property-level correspondence with a population denominator. Population eligibility is documented in the consolidated current-data audit."
+      ],
+      "verification": "source_cells_independently_verified_with_disclosed_limits",
+      "source_audit": "PUBLIC_SOURCE_AUDIT.md"
+    },
+    {
+      "unitid": "234076",
+      "label": "Virginia",
+      "key": "virginia",
+      "landing_url": "https://cleryact.virginia.edu/",
+      "report_url": "https://cleryact.virginia.edu/report",
+      "report_edition": 2026,
+      "report_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "checked_utc": "2026-09-25T21:37:35.791280+00:00",
+      "local_pdf": null,
+      "local_html": null,
+      "sha256": null,
+      "bytes": null,
+      "pages": null,
+      "campus_scope": "6 reporting campuses in the extracted source: Charlottesville; Darden Sands Family Grounds; Mountain Lake Biological Station; Richmond Center: School of Nursing; UVA-Inova Fairfax Campus; Morven Sustainability Lab.",
+      "additional_reports": [],
+      "latest_evidence": "Official web reader identifies2026PDF,195pages; direct archival requests returned403",
+      "denominator_sources": [],
+      "limitations": [
+        "The official web reader permitted provisional transcription, but direct requests for original PDF bytes returned 403. No original PDF hash or visual verification is claimed.",
+        "All current calculations are withheld. Web-reader excerpt hashes and source lines are retained separately from unavailable original-file provenance.",
+        "Source-cell verification does not establish complete reporting, exact population exposure, or property-level correspondence with a population denominator. Population eligibility is documented in the consolidated current-data audit."
+      ],
+      "verification": "provisional_web_text_only_current_calculations_withheld",
+      "source_audit": "uva_web/REVIEW.md"
+    },
+    {
+      "unitid": "236948",
+      "label": "Washington Seattle",
+      "key": "washington",
+      "landing_url": "https://police.uw.edu/",
+      "report_url": "https://police.uw.edu/wp-content/uploads/2026/04/Annual-Security-and-Fire-Safety-Report-2025-2026-update.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:39:38.143543+00:00",
+      "local_pdf": "retrieved/washington/asr-228a9d69.pdf",
+      "local_html": null,
+      "sha256": "dea60671ecfc6ad195467843a79107fc4037bb03edd3e963fc5695c9240c5559",
+      "bytes": 1362098,
+      "pages": 67,
+      "campus_scope": "1 reporting campuses in the extracted source: Seattle.",
+      "additional_reports": [],
+      "latest_evidence": "Fresh official listing and current linked source retrieved",
+      "denominator_sources": [],
+      "limitations": [
+        "Seattle reporting scope only. Separate unfounded-crime totals are excluded from the four-geography core extraction.",
+        "The 2025 report was updated in 2026; its calendar reporting years remain 2022–2024.",
+        "Source-cell verification does not establish complete reporting, exact population exposure, or property-level correspondence with a population denominator. Population eligibility is documented in the consolidated current-data audit."
+      ],
+      "verification": "source_cells_independently_verified_with_disclosed_limits",
+      "source_audit": "PUBLIC_SOURCE_AUDIT.md"
+    },
+    {
+      "unitid": "240444",
+      "label": "Wisconsin Madison",
+      "key": "wisconsin",
+      "landing_url": "https://uwpd.wisc.edu/data-policies-resources/clery-act/",
+      "report_url": "https://go.wisc.edu/asr",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:37:34.214880+00:00",
+      "local_pdf": "retrieved/wisconsin/current-b9a2c570.pdf",
+      "local_html": null,
+      "sha256": "dd46c8cc8e593ac35cb5e9b6f44ba3ad04c744ce8bf6d069fad3a480e7b87d48",
+      "bytes": 7778956,
+      "pages": 245,
+      "campus_scope": "1 reporting campuses in the extracted source: Madison.",
+      "additional_reports": [],
+      "latest_evidence": "Fresh official listing and current linked source retrieved",
+      "denominator_sources": [],
+      "limitations": [
+        "Housing is a subset of campus total. The source public-property/noncampus columns are explicitly reordered into the normalized schema.",
+        "In 2024,34 of 37 on-campus motor-vehicle thefts concern e-bikes,e-scooters or e-skateboards. The category is broader than automobile theft.",
+        "Source-cell verification does not establish complete reporting, exact population exposure, or property-level correspondence with a population denominator. Population eligibility is documented in the consolidated current-data audit."
+      ],
+      "verification": "source_cells_independently_verified_with_disclosed_limits",
+      "source_audit": "PUBLIC_SOURCE_AUDIT.md"
+    }
+  ],
+  "scope_note": "Ten retrieved-source extractions independently checked across 10276 normalized cells; Virginia remains provisional web-reader transcription and excluded from calculations. No numerical source cells changed by this inventory finalization."
+}

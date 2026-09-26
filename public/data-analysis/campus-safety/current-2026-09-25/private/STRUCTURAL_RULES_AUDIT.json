@@ -1,0 +1,153 @@
+{
+  "status": "PASS",
+  "checked_utc": "2026-09-25T22:27:44.940460+00:00",
+  "rules_sha256": "f168f2c9b594098f49578993f26af070bdccfbe5f7e28e2f47fee8065ced0a33",
+  "rules": 48,
+  "geography_year_combinations": 135,
+  "source_pages_reviewed": 33,
+  "method": "Independent read of every unique cited PDF page using pypdf, with semantic comparison to the geography/year rule. Numerical N/A cells alone were not treated as proof of absent geography. This is a source-text/interpretation review, not a visual inspection of all rule pages.",
+  "findings": [
+    "CMU five branch descriptions expressly state no university-provided student housing; external Qatar Foundation housing does not establish CMU housing geography.",
+    "Georgetown no-property/no-housing footnotes support named geographies. Villa Le Balze housing absent specifically in2024\u201325. Dubai opened September2023 and declined to provide a partial-year table; its2023 on/non/public cells remain unknown. Jakarta opened January2025;2023\u201324 is before-opening N/A.",
+    "NYU named branch footnotes explicitly distinguish absence of on-campus residence halls from noncampus residence halls. Only the former maps to residential geography. Tulsa opened January2025;2022\u201324 is before-opening N/A. Midtown2022 oncampus/public N/A remains unexplained and excluded.",
+    "Dartmouth dating N/A is category combination and is absent from this structural whitelist. Columbia early branch data were included in another branch noncampus counts; no zero-imputation rule is authorized here."
+  ],
+  "verified_source_page_keys": [
+    {
+      "source_sha256": "3d656606897993dc7a03b7d93909b479ceedb78bfee7eae6535bed21a059dbdf",
+      "pdf_page": 54
+    },
+    {
+      "source_sha256": "3d656606897993dc7a03b7d93909b479ceedb78bfee7eae6535bed21a059dbdf",
+      "pdf_page": 59
+    },
+    {
+      "source_sha256": "3d656606897993dc7a03b7d93909b479ceedb78bfee7eae6535bed21a059dbdf",
+      "pdf_page": 62
+    },
+    {
+      "source_sha256": "3d656606897993dc7a03b7d93909b479ceedb78bfee7eae6535bed21a059dbdf",
+      "pdf_page": 65
+    },
+    {
+      "source_sha256": "3d656606897993dc7a03b7d93909b479ceedb78bfee7eae6535bed21a059dbdf",
+      "pdf_page": 68
+    },
+    {
+      "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28",
+      "pdf_page": 50
+    },
+    {
+      "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28",
+      "pdf_page": 52
+    },
+    {
+      "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28",
+      "pdf_page": 54
+    },
+    {
+      "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28",
+      "pdf_page": 56
+    },
+    {
+      "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28",
+      "pdf_page": 58
+    },
+    {
+      "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28",
+      "pdf_page": 60
+    },
+    {
+      "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28",
+      "pdf_page": 62
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 55
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 56
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 57
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 58
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 59
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 60
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 61
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 63
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 64
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 65
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 66
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 67
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 68
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 71
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 72
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 73
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 74
+    },
+    {
+      "source_sha256": "0d5ae5376816950db351087a07d01e86a07c3ea1d29f617d4635b7c526afa17f",
+      "pdf_page": 24
+    },
+    {
+      "source_sha256": "bcce2189de8fa5ec5cc7a3e568970088019627b9b2d6383193f9c8982e33a035",
+      "pdf_page": 27
+    },
+    {
+      "source_sha256": "459327205d660ccd5e14f4443ab8e50d4784572b1802f10f9b58ca1241811cf1",
+      "pdf_page": 29
+    },
+    {
+      "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "pdf_page": 70
+    }
+  ],
+  "limits": [
+    "Descriptions without an explicit historical time qualifier are interpreted jointly with the three-year N/A source tables; no resident denominator is inferred.",
+    "Before-opening or no-geography contributions can be structurally excluded from a compatible institution sum but may never be shown as reported branch zeros."
+  ]
+}

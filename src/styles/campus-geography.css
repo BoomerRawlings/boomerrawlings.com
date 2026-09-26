@@ -1,0 +1,47 @@
+.campus-geography{margin:3rem 0;padding-top:2rem;border-top:2px solid var(--study-ink,#183749);scroll-margin-top:2rem}
+.campus-geography [hidden]{display:none!important}
+.campus-geography-heading h2{margin:0 0 .65rem}
+.campus-geography-heading p{max-width:52rem}
+.campus-geography-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;padding:1.2rem;margin:1.5rem 0;background:#edf1f0;border:1px solid var(--study-rule,#c7d2d5)}
+.campus-geography-controls label{display:flex;flex-direction:column;gap:.4rem;min-width:0;font-size:.87rem;font-weight:600}
+.campus-geography-controls select,.campus-geography-controls input{width:100%;box-sizing:border-box;min-width:0;min-height:46px;padding:.65rem;border:1px solid #81949f;border-radius:2px;background:#fff;color:var(--study-ink,#183749);font:400 1rem/1.35 var(--sans,sans-serif)}
+.campus-geography-controls label small{font-weight:400;font-size:.82rem;line-height:1.5;color:var(--study-muted,#435b69)}
+.campus-geography select:focus-visible,.campus-geography input:focus-visible,.campus-geography button:focus-visible,.campus-geography a:focus-visible{outline:2px solid #006676;outline-offset:3px}
+.campus-geo-picker{min-width:0;margin:0;padding:0;border:0}
+.campus-geo-picker legend{padding:0;margin-bottom:.65rem;font-weight:700;font-size:1rem}
+.campus-geo-picker-status{margin:.55rem 0!important;font-size:.81rem;line-height:1.45;color:var(--study-muted,#435b69)}
+.campus-geo-choices{display:flex;flex-direction:column;gap:.35rem;max-height:13rem;overflow-y:auto;overscroll-behavior:contain;padding:.3rem;border-top:1px solid #c7d2d5;border-bottom:1px solid #c7d2d5;scrollbar-gutter:stable;background:#f7f9f8}
+.campus-geo-choice{position:relative;width:100%;min-height:44px;padding:.65rem .8rem;border:1px solid #c7d2d5;border-radius:2px;background:#fff;color:var(--study-ink,#183749);font:400 .94rem/1.4 var(--sans,sans-serif);text-align:left;overflow-wrap:anywhere;cursor:pointer}
+.campus-geo-choice:hover{border-color:#006676;background:#eef5f4}
+.campus-geo-choice[aria-pressed=true]{border-color:#006676;box-shadow:inset 3px 0 #006676;background:#e1efed;font-weight:700}
+.campus-geo-chosen{margin:.65rem 0 0!important;font-size:.83rem;line-height:1.45;color:var(--study-muted,#435b69);overflow-wrap:anywhere}
+.campus-geo-empty{margin:.3rem;font-size:.89rem;line-height:1.5}
+.campus-geography-controls input:disabled{background:#eef1f0;color:#526773}
+.campus-geography-load,.campus-geography-status{font-size:.87rem;color:var(--study-muted,#435b69)}
+.campus-geography-notice{padding:1rem 1.2rem;border-left:3px solid #a57d35;background:#f4f0e6;font-size:.96rem;line-height:1.65}
+.campus-geography-selection{margin:1.8rem 0 .85rem}
+.campus-geography-selection h3{margin:0 0 .4rem;font-size:1.2rem;line-height:1.4;overflow-wrap:anywhere}
+.campus-geography-selection p{margin:.25rem 0}
+.campus-geography-table{width:100%;border-collapse:collapse;border:1px solid var(--study-rule,#c7d2d5);font-variant-numeric:tabular-nums;table-layout:fixed}
+.campus-geography-table th,.campus-geography-table td{padding:.85rem 1rem;border-bottom:1px solid var(--study-rule,#c7d2d5);vertical-align:top}
+.campus-geography-table thead th{background:#edf1f0;font-size:.8rem;font-weight:600;text-align:left}
+.campus-geography-table thead th:last-child{width:10rem;text-align:right}
+.campus-geography-table tbody th{text-align:left;font-size:1rem;font-weight:600;overflow-wrap:anywhere}
+.campus-geography-table tbody td{text-align:right;font-size:1.2rem;font-weight:600;color:#006676;overflow-wrap:anywhere}
+.campus-geography-table small{display:block;margin-top:.28rem;font-size:.85rem;line-height:1.5;font-weight:400;color:var(--study-muted,#435b69)}
+.campus-geo-subset th>span,.campus-geo-derived th>span{padding-left:.7rem;border-left:2px solid #7da6ad}
+.campus-geography-table .campus-geo-subtotal{background:#f0f5f4}
+.campus-geography-table .campus-geo-total{border-top:2px solid #526e7a;background:#e8efed}
+.campus-geography-rule{max-width:60rem;margin:1rem 0;font-size:.89rem;line-height:1.65}
+.campus-geography-caveats{font-size:.91rem;line-height:1.65}
+.campus-geography-caveats:empty{display:none}
+.campus-geography-caveats ul{padding-left:1.3rem}.campus-geography-caveats li{margin:.5rem 0;overflow-wrap:anywhere}
+.campus-geography h4{font-size:1rem;margin:1.4rem 0 .65rem}
+.campus-geography-sources{font-size:.88rem;line-height:1.6;margin-top:1.5rem;padding-top:.3rem;border-top:1px solid var(--study-rule,#c7d2d5)}
+.campus-geography-sources ol{list-style:none;padding:0;margin:0}.campus-geography-sources li{padding:.6rem .15rem;scroll-margin-top:3rem;overflow-wrap:anywhere}
+.campus-geo-source-label{font-weight:600}.campus-geo-backlinks{display:block;margin-top:.3rem;font-size:.81rem}.campus-geo-backlinks a{display:inline-block;min-height:28px;padding:.1rem .15rem}
+.campus-geo-citation{font-size:.72em;line-height:0;vertical-align:sub;margin-left:.2em;white-space:nowrap}.campus-geo-citation a{text-decoration:none;padding:.15rem;scroll-margin-top:3rem}
+.campus-geo-citation a:target,.campus-geography-sources li:target{background:#f7edca;outline:2px solid #a67c24;outline-offset:4px}
+.campus-geo-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:600px){.campus-geography-controls{grid-template-columns:1fr;padding:1rem}.campus-geography-table th,.campus-geography-table td{padding:.7rem .65rem}.campus-geography-table thead th:last-child{width:7.5rem}.campus-geography-table tbody td{font-size:1rem}.campus-geography-table tbody th{font-size:.95rem}.campus-geography-notice{padding:.85rem 1rem}}
+@media(max-width:370px){.campus-geography-table thead th:last-child{width:6.6rem}.campus-geography-table small{font-size:.8rem}.campus-geo-subset th>span,.campus-geo-derived th>span{padding-left:.4rem}}

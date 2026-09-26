@@ -1,0 +1,59 @@
+{
+  "status": "PASS",
+  "checked_utc": "2026-09-25T22:13:20.016116+00:00",
+  "source_url": "https://forms.hr.duke.edu/media/oarc/2025-Duke-ASR.pdf",
+  "source_sha256": "311504825d6edaa9509ad4d4bd3b10bb1af584f399191cbbbcc0605a14cf75ed",
+  "report_edition": 2025,
+  "report_years": [
+    2022,
+    2023,
+    2024
+  ],
+  "source_method": "Manual transcription of raster source tables; all 504 source cells visually inspected on rendered pages 41\u201343, printed 39\u201341. No OCR extraction claimed.",
+  "source_cells": 504,
+  "numeric_agreement_with_federal_cells": 378,
+  "federal_blank_current_report_explicit_zero_cells": 126,
+  "numeric_disagreements": 0,
+  "federal_input_sha256": "29743ee5f542881a74915a12b735019a0118b0ca322b29d09746361843eb11c4",
+  "csv_sha256": "6640b1bbb2cd099aa4a088d781c77d13c0bd91886e1296920686282bb3f2b8f0",
+  "extractor_sha256": "5df952edd0bc8538662da9d33999dec7a5994cef72a23209df22a1e52946f627",
+  "render_checks": [
+    {
+      "pdf_page": 41,
+      "printed_page": 39,
+      "path": "duke_audit_renders/duke-41.png",
+      "sha256": "a2338224af2b8d75a7ad863cfe34d8292263f333a8fde5907025d2b6b07d3319"
+    },
+    {
+      "pdf_page": 42,
+      "printed_page": 40,
+      "path": "duke_audit_renders/duke-42.png",
+      "sha256": "d4f7d97252837bce51a66e2623bcf6f25064be92e1a5b9d11f41efee64c1f4b4"
+    },
+    {
+      "pdf_page": 43,
+      "printed_page": 41,
+      "path": "duke_audit_renders/duke-43.png",
+      "sha256": "8f129cc23cf807f27f9e5349eda2ab5fb7d388f928fda25e1a15b016956e7b73"
+    }
+  ],
+  "footnotes": [
+    {
+      "pdf_page": 41,
+      "scope": "Main campus includes hospital and medical research areas; not an exclusively student-residential population."
+    },
+    {
+      "pdf_page": 41,
+      "scope": "Residential crime figures are already included in on-campus figures; the same statement appears on PDF 42 and 43."
+    },
+    {
+      "pdf_page": 41,
+      "scope": "2024 on-campus motor vehicle theft is printed 36*. The footnote identifies 14 of 2024 motor vehicle thefts as electric scooters/bikes; raw marker preserved."
+    },
+    {
+      "pdf_page": 43,
+      "scope": "Duke in DC has no on-campus residential property. Its displayed housing zeroes are preserved as printed; they do not establish a housing population or support a housing rate."
+    }
+  ],
+  "interpretation_limit": "Counts only. No denominator, per-capita rate, or complete campus-ID crosswalk is certified by this transcription."
+}

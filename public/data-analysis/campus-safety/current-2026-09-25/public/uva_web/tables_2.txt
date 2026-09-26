@@ -1,0 +1,178 @@
+L9734@P139: UNIVERSITY OF VIRGINIA: RICHMOND CENTER: School of Nursing
+L9735@P139: Note: The UVA Richmond Center location does not have residential housing facilities or non-campus
+L9736@P139: property.
+L9737@P139: Murder/ and
+L9738@P139: Non-negligent
+L9739@P139: Manslaughter
+L9740@P139: – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L9741@P139: Negligent
+L9742@P139: Manslaughter – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L9743@P139: Rape – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L9744@P139: Fondling – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L9745@P139: Incest – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L9746@P139: Statutory Rape – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L9747@P139: Robbery – 1 – 0 1 0 – 0 – 0 0 0 – 0 – 0 0 0
+L9748@P139: Aggravated
+L9749@P139: Assault – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L9750@P139: Burglary – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L9751@P139: Motor Vehicle
+L9752@P139: Theft – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L9753@P139: Arson – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L9754@P139: Violence Against Women Act (VAWA): -----------------------------------------------------
+L9755@P139: Dating Violence – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L9756@P139: Domestic
+L9757@P139: Violence – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L9758@P139: Stalking – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L9759@P139: 2025 2024 2023
+L9760@P139: Offense
+L9761@P139: OnCampus
+L9762@P139: Property
+L9763@P139: Non-Campus Building
+L9764@P139: or Property
+L9765@P139: Public Property
+L9766@P139: TOTAL
+L9767@P139: Unfounded Crimes
+L9768@P139: OnCampus
+L9769@P139: Property
+L9770@P139: Non-Campus Building
+L9771@P139: or Property
+L9772@P139: Public Property
+L9773@P139: TOTAL
+L9774@P139: Unfounded Crimes
+L9775@P139: OnCampus
+L9776@P139: Property
+L9777@P139: Non-Campus Building
+L9778@P139: or Property
+L9779@P139: Public Property
+L9780@P139: TOTAL
+L9781@P139: Unfounded Crimes
+L9782@P139: Student
+L9783@P139: Housing
+L9784@P139: Total On
+L9785@P139: Campus
+L9786@P139: Student
+L9787@P139: Housing
+L9788@P139: Total On
+L9789@P139: Campus
+L9790@P139: Student
+L9791@P139: Housing
+L9792@P139: Total On
+L9793@P139: Campus
+L10244@P148: UNIVERSITY OF VIRGINIA: INOVA FAIRFAX CAMPUS
+L10245@P148: Note: The UVA–Inova location does not have residential housing facilities or non-campus property.
+L10246@P148: Murder/ and
+L10247@P148: Non-negligent
+L10248@P148: Manslaughter
+L10249@P148: – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10250@P148: Negligent
+L10251@P148: Manslaughter – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10252@P148: Rape – 3 – 0 3 0 – 2 – 0 2 0 – 4 – 0 4 0
+L10253@P148: Fondling – 3 – 0 3 0 – 6 – 0 6 0 – 7 – 0 7 0
+L10254@P148: Incest – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10255@P148: Statutory Rape – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10256@P148: Robbery – 0 – 0 0 0 – 0 – 0 0 0 – 2 – 0 2 0
+L10257@P148: Aggravated
+L10258@P148: Assault – 3 – 0 3 0 – 7 – 0 7 0 – 8 – 0 8 0
+L10259@P148: Burglary – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10260@P148: Motor Vehicle
+L10261@P148: Theft – 2 – 0 2 0 – 1 – 0 1 0 – 2 – 0 2 0
+L10262@P148: Arson – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10263@P148: Violence Against Women Act (VAWA): -----------------------------------------------------
+L10264@P148: Dating Violence – 2 – 0 2 0 – 3 – 0 3 0 – 4 – 0 4 0
+L10265@P148: Domestic
+L10266@P148: Violence – 7 – 0 7 0 – 0 – 0 0 0 – 3 – 0 3 0
+L10267@P148: Stalking – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10268@P148: 2025 2024 2023
+L10269@P148: Offense
+L10270@P148: OnCampus
+L10271@P148: Property
+L10272@P148: Non-Campus Building
+L10273@P148: or Property
+L10274@P148: Public Property
+L10275@P148: TOTAL
+L10276@P148: Unfounded Crimes
+L10277@P148: OnCampus
+L10278@P148: Property
+L10279@P148: Non-Campus Building
+L10280@P148: or Property
+L10281@P148: Public Property
+L10282@P148: TOTAL
+L10283@P148: Unfounded Crimes
+L10284@P148: OnCampus
+L10285@P148: Property
+L10286@P148: Non-Campus Building
+L10287@P148: or Property
+L10288@P148: Public Property
+L10289@P148: TOTAL
+L10290@P148: Unfounded Crimes
+L10291@P148: Student
+L10292@P148: Housing
+L10293@P148: Total On
+L10294@P148: Campus
+L10295@P148: Student
+L10296@P148: Housing
+L10297@P148: Total On
+L10298@P148: Campus
+L10299@P148: Student
+L10300@P148: Housing
+L10301@P148: Total On
+L10302@P148: Campus
+L10715@P156: University of Virginia: Morven Sustainability Lab
+L10716@P156: Note: The Morven location does not have student residential housing facilities or non-campus property.
+L10717@P156: Murder/ and
+L10718@P156: Non-negligent
+L10719@P156: Manslaughter
+L10720@P156: – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10721@P156: Negligent
+L10722@P156: Manslaughter – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10723@P156: Rape – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10724@P156: Fondling – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10725@P156: Incest – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10726@P156: Statutory Rape – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10727@P156: Robbery – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10728@P156: Aggravated
+L10729@P156: Assault – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10730@P156: Burglary – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10731@P156: Motor Vehicle
+L10732@P156: Theft – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10733@P156: Arson – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10734@P156: Violence Against Women Act (VAWA): -----------------------------------------------------
+L10735@P156: Dating Violence – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10736@P156: Domestic
+L10737@P156: Violence – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10738@P156: Stalking – 0 – 0 0 0 – 0 – 0 0 0 – 0 – 0 0 0
+L10739@P156: 2025 2024 2023
+L10740@P156: Offense
+L10741@P156: OnCampus
+L10742@P156: Property
+L10743@P156: Non-Campus Building
+L10744@P156: or Property
+L10745@P156: Public Property
+L10746@P156: TOTAL
+L10747@P156: Unfounded Crimes
+L10748@P156: OnCampus
+L10749@P156: Property
+L10750@P156: Non-Campus Building
+L10751@P156: or Property
+L10752@P156: Public Property
+L10753@P156: TOTAL
+L10754@P156: Unfounded Crimes
+L10755@P156: OnCampus
+L10756@P156: Property
+L10757@P156: Non-Campus Building
+L10758@P156: or Property
+L10759@P156: Public Property
+L10760@P156: TOTAL
+L10761@P156: Unfounded Crimes
+L10762@P156: Student
+L10763@P156: Housing
+L10764@P156: Total On
+L10765@P156: Campus
+L10766@P156: Student
+L10767@P156: Housing
+L10768@P156: Total On
+L10769@P156: Campus
+L10770@P156: Student
+L10771@P156: Housing
+L10772@P156: Total On
+L10773@P156: Campus

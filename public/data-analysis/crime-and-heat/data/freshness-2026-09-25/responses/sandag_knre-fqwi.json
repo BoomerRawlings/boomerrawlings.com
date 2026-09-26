@@ -1,0 +1,76 @@
+{
+  "id": "knre-fqwi",
+  "name": "CIBRS Offense Code Table",
+  "description": "A table of CIBRS offense codes and their associated information.\n\n*Notes: 90A, 90E, and 90H were deprecated by the FBI a few years ago, and should not be reported any longer. 90A (Bad Checks) should normally now be reported under 90Z.  (e.g. 476A PC) 90E (Drunkenness) should normally now be reported under 90C (Disorderly Conduct).  (e.g., 647(F) PC) 90H (Peeping Tom) should normally now be under 90C (647(J) PC) or 90Z (or even 90J (634 PC), depending on circumstances).",
+  "rowsUpdatedAt": 1706736009,
+  "viewLastModified": 1786460149,
+  "metadata": {
+    "custom_fields": {
+      "Additional Information": {
+        "Use Limitations": "Allowed to publish",
+        "Methodology": "N/A",
+        "ODP Application": "CIBRS",
+        "SANDAG Last Access Date": "12/15/2023",
+        "Data Timeframe": "N/A",
+        "Geographic Granularity": "Other"
+      },
+      "Maintenance": {
+        "Next Update Date": "N/A",
+        "Update Frequency": "Other",
+        "SANDAG Last QA/QC Date": "N/A",
+        "Enrolled in Archiving": "Enrolled"
+      }
+    },
+    "rowLabel": "CIBRS Offense",
+    "availableDisplayTypes": [
+      "table",
+      "fatrow",
+      "page"
+    ]
+  },
+  "provenance": "official",
+  "columns": [
+    {
+      "fieldName": "nibrs_code",
+      "name": "NIBRS Code",
+      "dataTypeName": "text",
+      "description": ""
+    },
+    {
+      "fieldName": "description",
+      "name": "Description",
+      "dataTypeName": "text",
+      "description": ""
+    },
+    {
+      "fieldName": "category",
+      "name": "Category",
+      "dataTypeName": "text",
+      "description": ""
+    },
+    {
+      "fieldName": "offense_definition",
+      "name": "Offense Definition",
+      "dataTypeName": "text",
+      "description": ""
+    },
+    {
+      "fieldName": "crime_against_category",
+      "name": "Crime Against Category",
+      "dataTypeName": "text",
+      "description": ""
+    },
+    {
+      "fieldName": "group",
+      "name": "Group",
+      "dataTypeName": "text",
+      "description": ""
+    },
+    {
+      "fieldName": "notes",
+      "name": "Notes",
+      "dataTypeName": "text",
+      "description": ""
+    }
+  ]
+}

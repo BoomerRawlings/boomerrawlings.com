@@ -1,0 +1,205 @@
+"""Generate the dated current-source reports. Original publication PDFs remain unchanged."""
+from pathlib import Path
+import json, csv, hashlib
+from xml.sax.saxutils import escape
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib import colors
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle, Flowable
+from pypdf import PdfReader
+
+ROOT=Path(__file__).resolve().parents[2]
+DATA=ROOT/'publication/current-2026-09-25'
+OUT=ROOT/'output/pdf';OUT.mkdir(parents=True,exist_ok=True)
+fonts=Path('C:/Windows/Fonts')
+for name,file in [('Body','arial.ttf'),('Bold','arialbd.ttf'),('Italic','ariali.ttf'),('Title','georgiab.ttf'),('MathItalic','cambriai.ttf')]: pdfmetrics.registerFont(TTFont(name,str(fonts/file)))
+pdfmetrics.registerFont(TTFont('Math',str(fonts/'cambria.ttc'),subfontIndex=0))
+pdfmetrics.registerFontFamily('Body',normal='Body',bold='Bold',italic='Italic',boldItalic='Bold')
+INK=colors.HexColor('#203447');TEAL=colors.HexColor('#005b68');MUTED=colors.HexColor('#526273');RULE=colors.HexColor('#cbd4d9');PALE=colors.HexColor('#eef2f1')
+W,H,M=612,792,48;CW=516
+styles={
+ 'body':ParagraphStyle('body',fontName='Body',fontSize=9.6,leading=13.4,textColor=INK,spaceAfter=9),
+ 'small':ParagraphStyle('small',fontName='Body',fontSize=8.2,leading=11.3,textColor=MUTED,spaceAfter=7),
+ 'title':ParagraphStyle('title',fontName='Title',fontSize=26,leading=31,textColor=INK,spaceAfter=15),
+ 'h1':ParagraphStyle('h1',fontName='Title',fontSize=19,leading=24,textColor=INK,spaceAfter=14),
+ 'h2':ParagraphStyle('h2',fontName='Bold',fontSize=11,leading=15,textColor=TEAL,spaceBefore=10,spaceAfter=6),
+ 'table':ParagraphStyle('table',fontName='Body',fontSize=8.2,leading=11,textColor=INK),
+ 'head':ParagraphStyle('head',fontName='Bold',fontSize=8,leading=10.4,textColor=colors.white),
+}
+story=[]
+def P(s,style='body'): return Paragraph(s,styles[style])
+def p(s,style='body'): story.append(P(s,style))
+def page(s): story.extend([PageBreak(),P(s,'h1')])
+def h(s):p(s,'h2')
+def link(url,label): return f'<link href="{escape(url)}" color="#005b68">{escape(label)}</link>'
+def table(headers,rows,widths,pad=5,markup=False):
+    t=Table([[P(escape(str(x)),'head') for x in headers]]+[[P(str(x) if markup else escape(str(x)),'table') for x in r] for r in rows],colWidths=widths,repeatRows=1,hAlign='LEFT')
+    t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),TEAL),('ROWBACKGROUNDS',(0,1),(-1,-1),[colors.white,PALE]),('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),6),('RIGHTPADDING',(0,0),(-1,-1),6),('TOPPADDING',(0,0),(-1,-1),pad),('BOTTOMPADDING',(0,0),(-1,-1),pad),('LINEBELOW',(0,-1),(-1,-1),.5,RULE)]));story.extend([t,Spacer(1,8)])
+def number(x):return 'Unavailable' if x is None else f'{x:,}'
+def rate(x):return 'Unavailable' if x is None else f'{x:.2f}'
+class Equation(Flowable):
+    def __init__(self,pooled=False):
+        Flowable.__init__(self);self.pooled=pooled;self.width=CW;self.height=108 if pooled else 72
+    def draw(self):
+        c=self.canv;c.setFillColor(INK);c.setStrokeColor(INK)
+        def text(x,y,s,font='Math',size=15):
+            c.setFont(font,size);c.drawString(x,y,s);return pdfmetrics.stringWidth(s,font,size)
+        def atom(x,y,s):
+            w=text(x,y,s,'MathItalic');text(x+w,y-4,'it','MathItalic',9)
+        x=(CW-(218 if self.pooled else 143))/2;y=54 if self.pooled else 35
+        w=text(x,y,'R','MathItalic');text(x+w,y-4,'i, pooled' if self.pooled else 'it','Math' if self.pooled else 'MathItalic',9)
+        x+=58 if self.pooled else 25;x+=text(x,y,' = ');x+=text(x,y,'k','MathItalic');x+=8
+        if self.pooled:
+            for yy,s in [(y+21,'C'),(y-29,'N')]:
+                text(x+9,yy,'∑','Math',22);text(x+5,yy+23,'2024','Math',7);text(x,yy-10,'t = 2022','MathItalic',7);atom(x+43,yy+4,s)
+            c.setLineWidth(.7);c.line(x-2,y+7,x+81,y+7)
+        else:
+            atom(x+5,y+14,'C');atom(x+5,y-17,'N');c.setLineWidth(.7);c.line(x,y+6,x+36,y+6)
+
+def build(dest,title):
+    def footer(c,d):
+        c.saveState();c.setStrokeColor(RULE);c.line(M,42,W-M,42);c.setFillColor(MUTED);c.setFont('Body',8);c.drawString(M,29,'Boomer Rawlings | '+title+' | 25 September 2026');c.drawRightString(W-M,29,str(d.page));c.restoreState()
+    SimpleDocTemplate(str(dest),pagesize=(W,H),leftMargin=M,rightMargin=M,topMargin=48,bottomMargin=56,title=title,author='Boomer Rawlings').build(story,onFirstPage=footer,onLaterPages=footer)
+    return {'file':dest.name,'pages':len(PdfReader(dest).pages),'bytes':dest.stat().st_size,'sha256':hashlib.sha256(dest.read_bytes()).hexdigest()}
+
+data=json.loads((DATA/'dataset.json').read_text(encoding='utf8'))
+inventory=json.loads((DATA/'source_inventory.json').read_text(encoding='utf8'))
+coverage=json.loads((DATA/'coverage.json').read_text(encoding='utf8'))
+cases=json.loads((DATA/'case_study.json').read_text(encoding='utf8'))
+SITE='https://boomerrawlings.com/writing/data-analysis/campus-safety/'
+BASE='https://boomerrawlings.com/data-analysis/campus-safety/current-2026-09-25/'
+REFS=[
+('San Diego State University. Current 2026 Annual Security Report; covers 2023-2025. Main-campus crime table: document p. 7.','https://police.sdsu.edu/_resources/files/asr_2026_newdraft.pdf#page=7'),
+('San Diego State University. 2025 Annual Security Report, p. 7. Retained for the 2022 value and edition comparison.','https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf#page=7'),
+('California State Auditor. Report 2024-111, Tables A.1-A.2, printed pp. 56-59 / PDF pp. 62-65. Actual fall housing occupancy.','https://www.auditor.ca.gov/wp-content/uploads/2025/10/2024-111-Report.pdf#page=62'),
+('University of California, San Diego. 2025 annual security report, reissued February 2026; crime tables pp. 142-143.','https://www.police.ucsd.edu/docs/annualclery.pdf#page=142'),
+('Code of Federal Regulations (CFR), title 34, section 668.46: definitions, calendar report years and geographic categories.','https://www.ecfr.gov/current/title-34/subtitle-B/chapter-VI/part-668/subpart-D/section-668.46'),
+('National Center for Education Statistics. Integrated Postsecondary Education Data System (IPEDS), data release schedule; fall-count source records linked separately below.','https://nces.ed.gov/ipeds/survey-components/data-release-schedule'),
+('United States Department of Education. Campus Safety and Security data portal, 2025 bulk collection; original 2022-2024 snapshot.','https://ope.ed.gov/campussafety/#/datafile/list'),
+('NCES. Criminal Incidents at Postsecondary Institutions: national rates use full-time-equivalent enrollment.','https://nces.ed.gov/programs/coe/indicator/a21'),
+('Bureau of Justice Statistics. Campus Climate Survey Validation Study, printed p. 110 / PDF p. 131: survey versus administrative reporting.','https://bjs.ojp.gov/content/pub/pdf/ccsvsftr.pdf#page=131'),
+('Current source inventory: all 42 institutions, official listing/report links, retrieval dates, hashes and limits.',BASE+'source_inventory.json'),
+('Current source-cell ledger: raw values, four geographies, edition/year, source locator, status and calculation decisions.',BASE+'source_cells.csv'),
+('Current audit and reproduction record: source verification, calculations, citation review, visual checks and complete data.',SITE+'#downloads'),
+]
+p('CAMPUS SAFETY DATA ANALYSIS / CURRENT-SOURCE REVISION','small')
+p('Campus safety,<br/>in proportion.','title')
+p('Reported campus offenses by geography and documented population. Source audit dated 25 September 2026; original federal results retained as an explicit archive.')
+h('Scope and principal interpretation')
+p(f'The fixed cohort includes <b>42 institutions</b>: the ten University of California (UC) institutions, eight Ivy League institutions and 24 other public/private universities including San Diego State University (SDSU). Current table extraction covers <b>{coverage["institutions_with_extracted_cells"]} institutions</b>, with verification limits stated for each. Four calendar years, 2022-2025, are available in the interface; coverage differs by edition and branch. [10-12]')
+p(f'The default compares 2024 campus-housing reports per 1,000 documented residents. <b>{coverage["available_rates"]["2024"]["residents"]} rates are available among 11 institutions with occupancy records.</b> No verified same-year 2025 population denominator is adopted. A missing rate does not imply no reports. These administrative ratios are not convictions, unique-victim counts or student victimization probabilities. [3,5,6,10]')
+h('SDSU rape reports: why 2024 has both one and three')
+table(['Report year','Housing subset','Campus total','Noncampus','Public','Combined'],[[2023,8,11,2,0,13],[2024,1,1,2,0,3],[2025,10,11,5,0,16]],[76,92,88,90,72,98])
+p('Housing is already included in campus total. For 2024, <b>1 campus + 2 noncampus + 0 public = 3</b>. The earlier count of one describes housing/on-campus geography. Both report editions agree on those 2024 values; this discrepancy is geographic, not a revision. The 2026 edition does revise 2023 housing rape from seven to eight. [1,2]')
+p('The email-only 2026 count is excluded: no reporting cutoff and aligned scope have been established. A report titled 2026 does not establish complete 2026 calendar data. The currently linked file name contains "newdraft"; this study records the listing and exact file hash without asserting final certification. [1,10]','small')
+p(link(SITE,'Interactive study, current sources and downloadable data'),'small')
+
+page('Population and rate calculations')
+p('An annual report edition is a publication version. Calendar report year identifies when an offense was reported to a campus security authority or local police, not necessarily when it occurred. Reports can involve nonstudents. [5]')
+h('Annual descriptive ratio')
+story.append(Equation())
+p('<i>C</i><sub>it</sub> is the selected count for institution <i>i</i>, year <i>t</i>; <i>N</i><sub>it</sub> is that year\'s documented population. The scale <i>k</i> is 1,000, or 10,000 when selected online. Counts and denominators accompany every rate. [3,6a,11]')
+h('Pooled 2022-2024 annual ratio')
+story.append(Equation(True))
+p('Sum the three counts and divide by the sum of the three fall population snapshots. This is a denominator-weighted mean, not an unweighted average and not unique people across three years. Calculations retain full precision until display; any unavailable component withholds the result.')
+h('Population alignment')
+p('Housing uses the State Auditor\'s actual fall occupancy for 2022-2024. The inventory is not matched property by property to Clery residential geography. Optional enrollment measures use institution-wide fall headcount once per year, including part-time and distance-only students. Neither denominator measures time physically present. [3,6a]')
+p('Current searches found housing capacity, rounded estimates and partial undergraduate/graduate populations at some institutions. They do not establish a complete aligned 2025 denominator. No earlier population is carried forward. The 2022-2024 federal enrollment file hashes are unchanged; release-year labels for other survey components are not mistaken for new fall enrollment data. [6,10,12]')
+
+page('Housing comparison and updated results')
+p('2024 institutional residential-facility counts divided by documented fall occupancy. The 11-institution cohort remains visible even when a source count is unverified. Ratios are approximate geographic normalizations, not resident victimization rates. [3,10,11]')
+rows=[]
+for inst in data['institutions']:
+    y=next(y for y in inst['years'] if y['year']==2024)
+    if y['residents']:
+        c=y['counts']['residential'];pop=y['residents']
+        rows.append([('UC Los Angeles' if inst['name']=='UCLA' else inst['name']),number(pop),number(c['criminal_total']),rate(1000*c['criminal_total']/pop if c['criminal_total'] is not None else None),number(c['rape']),rate(1000*c['rape']/pop if c['rape'] is not None else None)])
+table(['Institution','Fall residents','Criminal offenses','Per 1,000','Rape offenses','Per 1,000'],rows,[152,75,75,70,74,70])
+h('Housing rape reports by year and source edition')
+rows=[]
+for period in [2022,2023,2024,'pooled']:
+    u=next(r for r in cases if r['unitid']=='110680' and r['period']==period);s=next(r for r in cases if r['unitid']=='122409' and r['period']==period)
+    rows.append(['2022-24 pooled' if period=='pooled' else period,f'{u["asr_housing_rape_count"]} / {u["fall_occupancy_sum"]:,}',rate(u['rate_per_1000']),f'{s["asr_housing_rape_count"]} / {s["fall_occupancy_sum"]:,}',rate(s['rate_per_1000'])])
+table(['Period','UC San Diego count / residents','Per 1,000','SDSU main count / residents','Per 1,000'],rows,[89,140,64,149,74])
+p('SDSU 2022 uses its 2025 report; 2023-2024 use its current 2026 report. The revised 2023 housing count raises the pooled numerator from 17 to 18 and the ratio from 0.70 to 0.74. UC San Diego remains 43 / 58,719 = 0.73. Similar pooled ratios do not establish equivalent underlying safety. [1-4]','small')
+
+page('Geography, revisions and source conflicts')
+p('The geographic explorer separates campus housing, other campus locations, campus total, noncampus property and qualifying public property. Campus housing is a subset, not a fourth additive area. Ordinary off-campus community crime remains outside these reporting boundaries. [5]')
+table(['Source issue','Treatment in this revision'],[
+('Historical revisions','Use the named current source cell; preserve older federal and institutional versions. Do not attribute a difference to a cause unless a source explains it.'),
+('UC Davis / Santa Cruz corrections','Retain revised count cells and their footnotes. Repeated incidents disclosed in one report remain offenses, not inferred unique victims.'),
+('Combined domestic/dating categories','Withhold separate-category comparisons where the source combines categories. Printed zero does not establish no dating-related violence.'),
+('Conflicting years or totals','Retain raw cells and source locators. Withhold affected calculations rather than silently repairing labels or totals.'),
+('Missing geographic columns','Unknown is not zero. Only explicit absent-geography declarations support structural zero contributions to a total.'),
+('New or changed branches','Keep source-specific branch identities and opening/scope notes. Do not silently allocate an institution-wide population to a branch.'),
+('Unusable outside-agency returns','Florida Everglades and Vicenza 2025 lack usable local-agency data; affected comparisons are withheld.'),
+('Blocked or provisional sources','Merced, Harvard and Johns Hopkins current counts are unverified. Virginia web-text cells remain provisional without original-file/visual verification.'),
+],[157,359],pad=7)
+p('Detailed qualifications and every exclusion are recorded in the institutional inventory and cell ledger. The original federal snapshot remains available for reproducibility; it is not presented as the newest institutional account. Missing and withheld values must not be used to rank institutions. [10-12]')
+
+for part in range(3):
+    page(f'Institutional source inventory ({part+1}/3)')
+    p('Official annual-report links are clickable. Source editions can differ among branches. Data years are the years actually extracted, not an assertion of complete institutional coverage. Exact hashes, Coordinated Universal Time (UTC) retrieval times and exclusions appear in the online ledger. [10,11]','small')
+    rows=[]
+    for item in inventory[part*14:(part+1)*14]:
+        status='Extracted; source exclusions apply' if item['source_cells'] else 'Current counts unverified'
+        if item['unitid']=='234076':status='Provisional text; calculations withheld'
+        rows.append([link(item.get('report_url') or item['landing_url'],item['institution']),escape(', '.join('Unverified' if e in ('None','unverified') else e for e in item['editions'])),escape(', '.join(map(str,item['report_years'])) or 'Unverified'),status])
+    table(['Institution / official report','Edition','Extracted years','Verification'],rows,[202,55,95,164],pad=7,markup=True)
+    p('No exact geographically aligned 2025 resident denominator is adopted for any institution. Report access is not proof of complete offense reporting. A source may change after the recorded audit cutoff.','small')
+
+page('Interpretation, related research and verification')
+h('Administrative reporting is not prevalence')
+p('Higher recorded rates can reflect offending, disclosure, property boundaries, record conventions or a combination. A small or zero count does not establish absence of victimization. This purposive cohort is not a representative national sample; no safest-campus ranking, causal estimate or significance test is supplied.')
+h('Comparisons with related research')
+p('The National Center for Education Statistics (NCES) normalizes national campus counts by full-time-equivalent enrollment, per 10,000 students. This study uses enrolled headcount or documented residents. Changing the numerical scale does not reconcile those denominators. [8]')
+p('The Bureau of Justice Statistics Campus Climate Survey Validation Study compares survey and Clery measures across nine pilot campuses. Survey recall periods, populations and disclosures differ from administrative reports. Alignment matters before comparing them; neither source supplies a universal underreporting adjustment. The original targeted research review remains available and is not relabeled as a new systematic review. [9,12]')
+h('Audit structure')
+p('Source checks record exact downloaded versions, table headers, geography, raw tokens and footnotes. Alternate extraction engines and independent calculation reviews check category mappings, missingness, sums, population joins and rate calculations. Provisional Virginia tables remain excluded from calculated comparisons. The source and citation audit is separate from formula/layout verification. [10-12]')
+p('The public package preserves source-derived aggregate cells, dated inventory, normalization decisions, calculations and replay code. It does not include individual victim records. Source re-extraction requires the exact original reports, identified by web address and hash where retrieved; a mutable web address alone does not identify a fixed version.')
+h('Material limitations')
+p('Reporting completeness is unknown. Housing properties are not fully matched to occupancy boundaries; fall snapshots are not person-time; nonstudents may be included; multiple offenses can be disclosed together; branches and source editions differ; 2025 population denominators remain unavailable. The federal and institutional series are separate selectable sources, not interchangeable estimates.')
+p('These checks are computational and source-verification audits. They are not external human peer review or agency certification. Publication states what was verified and leaves unresolved values unavailable. [12]')
+
+page('References and reproducibility')
+for i,(label,url) in enumerate(REFS,1):p(f'<b>[{i}]</b> '+link(url,label),'small')
+p(link('https://nces.ed.gov/ipeds/use-the-data/download-access-database','[6a] IPEDS complete files and data dictionaries.')+' '+link('https://boomerrawlings.com/data-analysis/campus-safety/data/enrollment_denominators.csv','Source-derived fall enrollment denominator records, 2022-2024.'),'small')
+h('Version record')
+p('Current revision: 25 September 2026. SDSU current report Secure Hash Algorithm 256-bit (SHA-256) checksum: 8d697b9134573a07dd7d53a0db29c18f8fe3a5b97e026fb8221237766155c80b. The original report remains archived and contains superseded SDSU pooled figures. Current calculation tables and the source ledger govern this revision.','small')
+campus=build(OUT/'campus-safety-current-report.pdf','Campus safety: current sources')
+
+story=[]
+FBASE='https://boomerrawlings.com/data-analysis/crime-and-heat/data/freshness-2026-09-25/'
+p('CRIME AND HEAT / SOURCE-REFRESH SUPPLEMENT','small')
+p('Source currency<br/>and reporting coverage','title')
+p('25 September 2026. A dated audit of upstream data versions and a refreshed descriptive supplement. No heat-association model has been refitted.')
+h('What changed')
+p('The San Diego Police Department (SDPD) partial 2026 offense file increased from <b>56,793 to 57,037 records: a net addition of 244</b>. It now contains occurrence dates through 24 September. Of the increase, 95 records belong to the added 24 September date and a net 149 revise 26 earlier dates. Two daily totals decreased. This is a mutable administrative series, not simply a daily append. '+link('https://data.sandiego.gov/datasets/police-nibrs/','[1]'))
+table(['Source','Freshness finding'],[
+('California Department of Justice','Five retained data/context files unchanged; current catalog still covers through 2025. Reporting-gap qualifications remain.'),
+('San Diego Association of Governments','Fourteen aggregate/dictionary responses unchanged. Retained scientific metadata fields unchanged despite four raw metadata hash differences.'),
+('SDPD','2020-2025 files unchanged. Partial 2026 source revised to 57,037 records; refreshed daily and monthly aggregates reconcile to that total.'),
+('National Oceanic and Atmospheric Administration','Sixteen daily files changed; checked 1991-2025 and 2021-2024 records unchanged. Sixty hourly archive files unchanged.'),
+('Census','The retained 2020 population table unchanged. These remain 2020 counts, not current estimates.'),
+('Sheriff / Open-Meteo','Sheriff direct listings blocked; latest indexed report contents unverified. Open-Meteo documentation checked; full reanalysis responses not reacquired.'),
+],[159,357],pad=7)
+p('Request log: 133 web resources, 131 responses and two access failures. A successful response is not proof of complete data coverage. Exact web addresses, Coordinated Universal Time (UTC) timestamps, response hashes and comparison scopes are public. '+link(FBASE+'FRESHNESS_AUDIT.md','[2: full audit]'),'small')
+
+page('Interpretation and reproducible outputs')
+h('The refreshed file is a separate outcome')
+p('SDPD offense records are not Sheriff arrest records, unique victims or domestic-violence cases. Its documented schema has no explicit domestic-violence flag. The refresh extends contextual aggregate material; it does not extend the user-supplied arrest export or repair its unknown reporting gaps. Partial 2026 is excluded from the existing fitted study.')
+h('Statistical conclusions remain versioned')
+p('The fitted civil-day maximum-temperature results in the corrected 64-postal-area reference analysis (63 fitted postal areas for domestic violence) are unchanged: general eligible arrest-record groups, +1.91% per 10 degrees Fahrenheit (p = 0.05287); domestic-violence groups, +2.74% (p = 0.17903). Neither primary test meets a 0.05 threshold. These estimates do not establish no association or a causal effect. The fixed sensitivity battery has no test below 0.05 after Holm adjustment. '+link('https://boomerrawlings.com/writing/data-analysis/crime-and-heat/#methods','[3: study methods and results]'))
+p('Historical National Oceanic and Atmospheric Administration checks do not certify unchanged Open-Meteo reanalysis values: the complete reanalysis panel was not downloaded again, and previously quota-limited locations remain unresolved. No new data correction, extrapolation or effect model is implied.')
+h('Aggregate reconciliation and privacy')
+p('The refreshed release contains 1,335 daily group/category cells and 416 monthly offense cells; each aggregation reconciles to 57,037 source rows. Distinct case counts are cell-specific and must not be summed as unique cases across cells. Record-level source bytes were processed in memory; published outputs exclude case identifiers, addresses and coordinates.')
+p('A second source retrieval matched the audited 2026 file hash. The public allowlist contains the aggregate comma-separated values (CSV) and JavaScript Object Notation (JSON) files, provenance and checking code. Live refreshes are new audits because upstream data change. Offline checks validate the saved reconciliation. '+link(FBASE+'PUBLIC_FILES.json','[4: explicit file allowlist]'))
+h('Sources and remaining limits')
+p(link('https://seshat.datasd.org/police_nibrs/pd_nibrs_2026_datasd.csv','[1] SDPD 2026 source data file')+'; response Secure Hash Algorithm 256-bit (SHA-256) checksum 465589d9a9f809924014601759a6b9a29c413fcc76978358554c93db93898230. Retrieved 25 September 2026; Last-Modified 14:07:44 Greenwich Mean Time.','small')
+p(link(FBASE+'FRESHNESS_AUDIT.md','[2] Source-by-source audit: official links, reporting limitations and exact comparison windows.')+' '+link(FBASE+'freshness_results.json','Machine-readable request and hash record.'),'small')
+p(link('https://boomerrawlings.com/writing/data-analysis/crime-and-heat/','[3] Crime and Heat study: versioned models, source expansion and methods.')+' '+link(FBASE+'offline_verification.json','[4] Offline aggregate verification.'),'small')
+p('The supplied arrest data remain incompletely characterized by the agency. Direct Sheriff access failures prevent certification of its latest monthly series. This supplement reports verified retrieval results and gaps; it does not claim absolute completeness or external peer review.','small')
+crime=build(OUT/'crime-and-heat-source-refresh.pdf','Crime and heat: source refresh')
+(OUT/'current_reports_metadata.json').write_text(json.dumps({'campus':campus,'crime':crime},indent=2)+'\n')
+print(json.dumps({'campus':campus,'crime':crime},indent=2))

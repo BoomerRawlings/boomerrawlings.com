@@ -1,0 +1,31 @@
+{
+  "listing": {
+    "requested_url": "https://police.sdsu.edu/public-information/clery-act-compliance/annual-reports",
+    "final_url": "https://police.sdsu.edu/public-information/clery-act-compliance/annual-reports",
+    "retrieved_utc": "2026-09-25T21:29:17.396492+00:00",
+    "bytes": 34770,
+    "sha256": "861d0631fda06389d6924cd56d9222fab6b1e463e93c034c1ad9b72e3a81d6b0",
+    "response_headers": {
+      "Date": "Fri, 25 Sep 2026 21:29:15 GMT",
+      "Content-Type": "text/html; charset=utf-8",
+      "Cache-Control": "private"
+    },
+    "direct_asr_link": "https://police.sdsu.edu/_resources/files/asr_2026_newdraft.pdf"
+  },
+  "report": {
+    "requested_url": "https://police.sdsu.edu/_resources/files/asr_2026_newdraft.pdf",
+    "final_url": "https://police.sdsu.edu/_resources/files/asr_2026_newdraft.pdf",
+    "retrieved_utc": "2026-09-25T21:29:17.552779+00:00",
+    "bytes": 1562094,
+    "sha256": "8d697b9134573a07dd7d53a0db29c18f8fe3a5b97e026fb8221237766155c80b",
+    "response_headers": {
+      "Date": "Fri, 25 Sep 2026 21:29:15 GMT",
+      "Content-Type": "application/pdf",
+      "Content-Length": "1562094",
+      "Last-Modified": "Fri, 25 Sep 2026 18:51:38 GMT",
+      "ETag": "\"5fcc8ce51e4ddd1:0\"",
+      "Cache-Control": "max-age=432000"
+    },
+    "publication_status_note": "Current official listing labels this 2026 Annual Security Report; URL filename contains newdraft. No claim of final certification."
+  }
+}

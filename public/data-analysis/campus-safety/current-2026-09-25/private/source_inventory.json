@@ -1,0 +1,2746 @@
+{
+  "audit_date": "2026-09-25",
+  "status": "source_inventory_complete_with_explicit_retrieval_and_scope_limits",
+  "checked_utc": "2026-09-25T21:55:38.456098+00:00",
+  "institutions": [
+    {
+      "unitid": "217156",
+      "label": "Brown University",
+      "key": "brown",
+      "landing_url": "https://publicsafety.brown.edu/clery-compliance-and-crime-reporting",
+      "report_url": "https://go.brown.edu/2025ASR-AFSR",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:34:52.081619+00:00",
+      "local_pdf": "retrieved/brown/asr-db304ea7.pdf",
+      "sha256": "6c939f83dcf8e8b8633f3b670a2b71e3a3675bf036724be2c9b8c1778170332a",
+      "bytes": 2630452,
+      "pages": 171,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "217156001",
+            "name": "Main Campus"
+          }
+        ],
+        "latest_report_scope_status": "2025 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "latest_branch_count": 1,
+        "description": "One institution table; Providence neighborhood/police statistics separately presented and excluded from campus counts.",
+        "crime_table_pdf_pages": [
+          42,
+          43
+        ],
+        "extracted_branches": [
+          {
+            "id": "217156001",
+            "name": "Main Campus"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_numeric": 168
+        }
+      },
+      "additional_reports": [],
+      "latest_evidence": {
+        "status": "fresh_official_listing_and_download",
+        "landing": {
+          "url": "https://publicsafety.brown.edu/clery-compliance-and-crime-reporting",
+          "checked_utc": "2026-09-25T21:33:15.303093+00:00",
+          "local_html": "retrieved/brown/landing-bfc79844.html",
+          "local_text": "retrieved/brown/landing-bfc79844.txt",
+          "sha256": "37a8cf7bdfc9192d07cbad087ce97b76fa1c79f452f8ce094cb88c4f9d2573e6",
+          "bytes": 70101,
+          "metadata_file": "retrieved/brown/landing-bfc79844.metadata.json"
+        },
+        "main_pdf_metadata": "retrieved/brown/asr-db304ea7.metadata.json",
+        "freshness_interpretation": "Latest report linked by observed official page at check time, not a claim that later2026 publication cannot occur."
+      },
+      "denominator_sources": [],
+      "limitations": [],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.587920+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "Brown University student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_2025_core_counts.csv",
+        "audit": "second_2025_extraction_audit.json",
+        "issues": "extraction_2025_issues.json",
+        "rows": 168
+      }
+    },
+    {
+      "unitid": "190150",
+      "label": "Columbia University in the City of New York",
+      "key": "columbia",
+      "landing_url": "https://publicsafety.columbia.edu/annualsecurityreport",
+      "report_url": "https://publicsafety.columbia.edu/sites/publicsafety.columbia.edu/files/content/SecurityReport2025.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:38:33.357060+00:00",
+      "local_pdf": "retrieved/columbia/asr-9a59be08.pdf",
+      "sha256": "e4feafe2094f826288c3f0884e74170d2901f266a8f724d00af579350da6c6a6",
+      "bytes": 52644324,
+      "pages": 96,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "190150001",
+            "name": "Morningside Campus"
+          },
+          {
+            "id": "190150002",
+            "name": "Medical Center Campus"
+          },
+          {
+            "id": "190150004",
+            "name": "Lamont-Doherty Earth Observatory"
+          },
+          {
+            "id": "190150005",
+            "name": "Nevis Laboratories"
+          },
+          {
+            "id": "190150006",
+            "name": "Manhattanville Campus"
+          },
+          {
+            "id": "190150007",
+            "name": "Baker Athletics Complex"
+          },
+          {
+            "id": "190150008",
+            "name": "CU Paris / Reid Hall"
+          }
+        ],
+        "latest_report_scope_status": "2025 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "latest_branch_count": 7,
+        "description": "Seven campus tables: Morningside, Manhattanville, Medical Center, Baker Athletics, Lamont-Doherty, Nevis, CU Paris/Reid Hall.",
+        "crime_table_pdf_pages": [
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59
+        ],
+        "extracted_branches": [
+          {
+            "id": "190150001",
+            "name": "Morningside Campus"
+          },
+          {
+            "id": "190150002",
+            "name": "Medical Center Campus"
+          },
+          {
+            "id": "190150004",
+            "name": "Lamont-Doherty Earth Observatory"
+          },
+          {
+            "id": "190150005",
+            "name": "Nevis Laboratories"
+          },
+          {
+            "id": "190150006",
+            "name": "Manhattanville Campus"
+          },
+          {
+            "id": "190150007",
+            "name": "Baker Athletics Complex"
+          },
+          {
+            "id": "190150008",
+            "name": "CU Paris / Reid Hall"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_numeric": 952,
+          "reported_not_applicable": 224
+        }
+      },
+      "additional_reports": [],
+      "latest_evidence": {
+        "status": "direct_landing_blocked_or_pending",
+        "landing": null,
+        "main_pdf_metadata": "retrieved/columbia/asr-9a59be08.metadata.json",
+        "freshness_interpretation": "Freshness beyond retrieved/cached evidence remains explicitly unverified."
+      },
+      "denominator_sources": [
+        {
+          "url": "https://fy2025annualreport.cufo.columbia.edu/content/progress-student-and-community-living-spaces",
+          "checked_utc": "2026-09-25T21:49:55.675902+00:00",
+          "status": "failed",
+          "metadata_file": "retrieved/columbia/denominator-annual-e50ea5b0.metadata.json",
+          "error": "HTTPError: HTTP Error 403: Forbidden"
+        }
+      ],
+      "limitations": [
+        "Direct landing retrieval HTTP403; web open exposed current2025 link and exact PDF independently retrieved. Latest edition beyond cached landing not verified."
+      ],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.590737+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "Columbia University in the City of New York student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_2025_core_counts.csv",
+        "audit": "second_2025_extraction_audit.json",
+        "issues": "extraction_2025_issues.json",
+        "rows": 1176
+      }
+    },
+    {
+      "unitid": "190415",
+      "label": "Cornell University",
+      "key": "cornell",
+      "landing_url": "https://publicsafety.cornell.edu/reports-statistics/annual-security-report/",
+      "report_url": "https://publicsafety.cornell.edu/wp-content/uploads/2026-Campus_Watch_2026_FINAL-ua.pdf",
+      "report_edition": 2026,
+      "report_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "checked_utc": "2026-09-25T21:34:52.081619+00:00",
+      "local_pdf": "retrieved/cornell/asr-f3e1b40e.pdf",
+      "sha256": "60645f197e24de6279b4164ae2526c5a75cd9750f065036073aae2f372e70cba",
+      "bytes": 17702172,
+      "pages": 36,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "190415001",
+            "name": "Endowed and Contract College Campuses"
+          },
+          {
+            "id": "190415002",
+            "name": "Cornell Tech Campus"
+          },
+          {
+            "id": "190415003",
+            "name": "Cornell AgriTech Campus"
+          }
+        ],
+        "latest_report_scope_status": "2026 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "latest_branch_count": 3,
+        "extracted_branches": [
+          {
+            "id": "190415001",
+            "name": "Endowed and Contract College Campuses"
+          },
+          {
+            "id": "190415002",
+            "name": "Cornell Tech Campus"
+          },
+          {
+            "id": "190415003",
+            "name": "Cornell AgriTech Campus"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_numeric": 504
+        }
+      },
+      "additional_reports": [
+        {
+          "url": "https://tech.cornell.edu/wp-content/uploads/2026/09/2026-ASR.pdf",
+          "checked_utc": "2026-09-25T21:38:33.359294+00:00",
+          "local_pdf": "retrieved/cornell/tech-asr-fa532fb2.pdf",
+          "local_text": "retrieved/cornell/tech-asr-fa532fb2.txt",
+          "sha256": "0c8dc728a2c58e5b4c44061ca8f77511ffa4deee1ed5af89fd1e8dddce00edc5",
+          "bytes": 1085577,
+          "pages": 34,
+          "metadata_file": "retrieved/cornell/tech-asr-fa532fb2.metadata.json",
+          "discovered_from": "https://tech.cornell.edu/safety-security/"
+        },
+        {
+          "url": "https://cals.cornell.edu/2026-agritech-annual-security-report",
+          "checked_utc": "2026-09-25T21:34:52.087254+00:00",
+          "local_html": "retrieved/cornell/asr-eb39f8b4.html",
+          "local_text": "retrieved/cornell/asr-eb39f8b4.txt",
+          "sha256": "e6666e1b35dcf8e8d2cba79c3484c92a2645d68d2e7e795ffd099c0bb999996c",
+          "bytes": 153560,
+          "metadata_file": "retrieved/cornell/asr-eb39f8b4.metadata.json",
+          "discovered_from": "https://cals.cornell.edu/cornell-agritech/annual-security-report"
+        }
+      ],
+      "latest_evidence": {
+        "status": "fresh_official_listing_and_download",
+        "landing": {
+          "url": "https://publicsafety.cornell.edu/reports-statistics/annual-security-report/",
+          "checked_utc": "2026-09-25T21:33:15.303093+00:00",
+          "local_html": "retrieved/cornell/landing-596b2846.html",
+          "local_text": "retrieved/cornell/landing-596b2846.txt",
+          "sha256": "cabf732ce225c8f028a9143f8c09efcdd3b7eaf1e7462c19de83b529144a01c8",
+          "bytes": 77093,
+          "metadata_file": "retrieved/cornell/landing-596b2846.metadata.json"
+        },
+        "main_pdf_metadata": "retrieved/cornell/asr-f3e1b40e.metadata.json",
+        "freshness_interpretation": "Latest report linked by observed official page at check time, not a claim that later2026 publication cannot occur."
+      },
+      "denominator_sources": [],
+      "limitations": [],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.594816+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "Cornell University student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_asr_core_counts.csv",
+        "audit": "second_extraction_audit.json",
+        "issues": "extraction_issues.json",
+        "rows": 504
+      }
+    },
+    {
+      "unitid": "182670",
+      "label": "Dartmouth College",
+      "key": "dartmouth",
+      "landing_url": "https://www.dartmouth.edu/security/",
+      "report_url": "https://www.dartmouth.edu/security/clery-compliance-office/asr.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:34:52.081619+00:00",
+      "local_pdf": "retrieved/dartmouth/asr-d24ab270.pdf",
+      "sha256": "37a2a77d2405ff9a4f6dadfe06f5a8c1bf2c0e9f0b74d4ba74b6c395f12949b5",
+      "bytes": 3842647,
+      "pages": 136,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "182670001",
+            "name": "Dartmouth College  Main Campus"
+          },
+          {
+            "id": "182670002",
+            "name": "Lebanon Campus"
+          }
+        ],
+        "latest_report_scope_status": "2025 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "latest_branch_count": 2,
+        "description": "Hanover and Lebanon, each with primary and VAWA tables.",
+        "crime_table_pdf_pages": [
+          104,
+          105,
+          106,
+          110,
+          111,
+          112
+        ],
+        "extracted_branches": [
+          {
+            "id": "182670001",
+            "name": "Dartmouth College  Main Campus"
+          },
+          {
+            "id": "182670002",
+            "name": "Lebanon Campus"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_numeric": 308,
+          "reported_not_applicable": 24,
+          "source_total_conflict": 4
+        }
+      },
+      "additional_reports": [],
+      "latest_evidence": {
+        "status": "fresh_official_listing_and_download",
+        "landing": {
+          "url": "https://www.dartmouth.edu/security/",
+          "checked_utc": "2026-09-25T21:33:15.304109+00:00",
+          "local_html": "retrieved/dartmouth/landing-5b3e9171.html",
+          "local_text": "retrieved/dartmouth/landing-5b3e9171.txt",
+          "sha256": "a1330525a726a31a6b9cc94cc693530b59b35c5272d96c9cb04c861b8b3dedda",
+          "bytes": 14047,
+          "metadata_file": "retrieved/dartmouth/landing-5b3e9171.metadata.json"
+        },
+        "main_pdf_metadata": "retrieved/dartmouth/asr-d24ab270.metadata.json",
+        "freshness_interpretation": "Latest report linked by observed official page at check time, not a claim that later2026 publication cannot occur."
+      },
+      "denominator_sources": [
+        {
+          "url": "https://www.dartmouth.edu/oir/data-reporting/factbook/students.html",
+          "checked_utc": "2026-09-25T21:49:55.674874+00:00",
+          "status": "lead_reviewed_not_adopted",
+          "local_html": "retrieved/dartmouth/denominator-landing-727e0027.html",
+          "local_text": "retrieved/dartmouth/denominator-landing-727e0027.txt",
+          "sha256": "421e8e6839762bc7d390b38bdb9cb9836317180855d55ec2213d7c8578eb37c0",
+          "bytes": 18423,
+          "metadata_file": "retrieved/dartmouth/denominator-landing-727e0027.metadata.json"
+        },
+        {
+          "url": "https://www.dartmouth.edu/oir/data-reporting/factbook/studentlife.html",
+          "checked_utc": "2026-09-25T21:55:52.459641+00:00",
+          "status": "lead_reviewed_not_adopted",
+          "local_html": "retrieved/dartmouth/denominator-studentlife-9320fd7a.html",
+          "local_text": "retrieved/dartmouth/denominator-studentlife-9320fd7a.txt",
+          "sha256": "425dd7968d9be2536e8fe3677e880aab54a5ed5a7ca0c129584996eb6f9604ca",
+          "bytes": 15158,
+          "metadata_file": "retrieved/dartmouth/denominator-studentlife-9320fd7a.metadata.json"
+        },
+        {
+          "url": "https://public.tableau.com/views/StudentLife_0/Residence.csv?:showVizHome=no",
+          "checked_utc": "2026-09-25T21:59:27.021924+00:00",
+          "status": "failed",
+          "metadata_file": "retrieved/dartmouth/occupancy-tableau-f673b723.metadata.json",
+          "error": "HTTPError: HTTP Error 404: Not Found"
+        }
+      ],
+      "limitations": [
+        "Official factbook embeds public Tableau StudentLife_0/Residence for undergraduate housing occupancy; CSV export404. Undergraduate-only scope would require graduate/property alignment.",
+        "2024 Lebanon domestic violence on-campus25, residential25, noncampus0/public0 but printed total1 (PDFp112); all four cells flagged source_total_conflict. Footnotes29/30 say most or all from one report of repeated offenses.",
+        "Dating violence geography cells explicitly N/A and included within domestic violence; not separately usable zeroes. Hanover2024 fondling and domestic-violence footnotes also attribute most/all to one report of repeated offenses."
+      ],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.598087+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "Dartmouth College student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_2025_core_counts.csv",
+        "audit": "second_2025_extraction_audit.json",
+        "issues": "extraction_2025_issues.json",
+        "rows": 336
+      }
+    },
+    {
+      "unitid": "166027",
+      "label": "Harvard University",
+      "key": "harvard",
+      "landing_url": "https://www.hupd.harvard.edu/annual-security-report",
+      "report_url": null,
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:43:35.103616+00:00",
+      "local_pdf": null,
+      "sha256": null,
+      "bytes": null,
+      "pages": null,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "166027001",
+            "name": "Cambridge Campus"
+          },
+          {
+            "id": "166027002",
+            "name": "Longwood Campus"
+          },
+          {
+            "id": "166027003",
+            "name": "Concord Field Station"
+          },
+          {
+            "id": "166027004",
+            "name": "Arnold Arboretum"
+          },
+          {
+            "id": "166027006",
+            "name": "Harvard Forest"
+          },
+          {
+            "id": "166027008",
+            "name": "Center for Hellenic Studies"
+          },
+          {
+            "id": "166027009",
+            "name": "DRCLAS - Chile"
+          }
+        ],
+        "latest_report_scope_status": "unverified; listed branches are only frozen2025 federal inventory"
+      },
+      "additional_reports": [],
+      "latest_evidence": {
+        "status": "direct_landing_blocked_or_pending",
+        "landing": null,
+        "main_pdf_metadata": null,
+        "freshness_interpretation": "Freshness beyond retrieved/cached evidence remains explicitly unverified."
+      },
+      "denominator_sources": [],
+      "limitations": [
+        "Landing and PDF direct retrieval HTTP403. Web open shows2025 report; original PDF bytes not retrieved, currentness unverified."
+      ],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.600519+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "Harvard University student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "Unverified current PDF; do not use as refreshed data."
+    },
+    {
+      "unitid": "215062",
+      "label": "University of Pennsylvania",
+      "key": "penn",
+      "landing_url": "https://almanac.upenn.edu/articles/the-university-of-pennsylvania-2026-annual-security-fire-safety-report-statistics-for-2023-2024-and-2025",
+      "report_url": "https://www.publicsafety.upenn.edu/ASR/2026_ASR_PENN.pdf",
+      "report_edition": 2026,
+      "report_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "checked_utc": "2026-09-25T21:36:58.952947+00:00",
+      "local_pdf": "retrieved/penn/asr-16115b8c.pdf",
+      "sha256": "d2cf83dfd92ba0a226a5749833f49b11ac3cd40c660e292ab2629c1ac609f87c",
+      "bytes": 11486378,
+      "pages": 100,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "215062001",
+            "name": "Main Campus"
+          },
+          {
+            "id": "215062003",
+            "name": "University Boathouse on the Schuylkill River"
+          },
+          {
+            "id": "215062004",
+            "name": "New Bolton Center"
+          },
+          {
+            "id": "215062005",
+            "name": "Morris Arboretum"
+          },
+          {
+            "id": "215062006",
+            "name": "Wharton San Francisco"
+          },
+          {
+            "id": "215062007",
+            "name": "Wharton Center City"
+          }
+        ],
+        "latest_report_scope_status": "2026 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "latest_branch_count": 6,
+        "extracted_branches": [
+          {
+            "id": "215062001",
+            "name": "Main Campus"
+          },
+          {
+            "id": "215062003",
+            "name": "University Boathouse on the Schuylkill River"
+          },
+          {
+            "id": "215062004",
+            "name": "New Bolton Center"
+          },
+          {
+            "id": "215062005",
+            "name": "Morris Arboretum"
+          },
+          {
+            "id": "215062006",
+            "name": "Wharton San Francisco"
+          },
+          {
+            "id": "215062007",
+            "name": "Wharton Center City"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_numeric": 168,
+          "ambiguous_year_labels": 504,
+          "missing_branch_table": 336
+        },
+        "description": "Main campus has clear2023–25 tables. Morris Arboretum, New Bolton, University Boathouse tables conflict between heading2023–25 and column labels2022–24. Separate Wharton San Francisco and Center City tables not found in current PDF."
+      },
+      "additional_reports": [],
+      "latest_evidence": {
+        "status": "fresh_official_listing_and_download",
+        "landing": {
+          "url": "https://almanac.upenn.edu/articles/the-university-of-pennsylvania-2026-annual-security-fire-safety-report-statistics-for-2023-2024-and-2025",
+          "checked_utc": "2026-09-25T21:34:52.078052+00:00",
+          "local_html": "retrieved/penn/almanac-landing-5702120a.html",
+          "local_text": "retrieved/penn/almanac-landing-5702120a.txt",
+          "sha256": "77033b3f36397b52fb560b080ae614c7e5f465f9c3d90f6ccff8ca09d13b4c97",
+          "bytes": 20620,
+          "metadata_file": "retrieved/penn/almanac-landing-5702120a.metadata.json"
+        },
+        "main_pdf_metadata": "retrieved/penn/asr-16115b8c.metadata.json",
+        "freshness_interpretation": "Latest report linked by observed official page at check time, not a claim that later2026 publication cannot occur."
+      },
+      "denominator_sources": [
+        {
+          "url": "https://www.publicsafety.upenn.edu/ASR/2026_ASR_PENN.pdf#page=61",
+          "local_pdf": "retrieved/penn/asr-16115b8c.pdf",
+          "sha256": "d2cf83dfd92ba0a226a5749833f49b11ac3cd40c660e292ab2629c1ac609f87c",
+          "pdf_page": 61,
+          "printed_page": 58,
+          "period": "2025–2026 academic year",
+          "measure": "Undergraduate students in campus housing",
+          "value": 5994,
+          "status": "actual occupants stated; scope incomplete for institution-wide residential rates",
+          "limitations": "Section expressly focuses on College Houses; fraternity/sorority and any graduate campus residential coverage not reconciled."
+        },
+        {
+          "url": "https://penntoday.upenn.edu/news/numbers-move-2025",
+          "checked_utc": "2026-09-25T21:49:55.675902+00:00",
+          "status": "failed",
+          "metadata_file": "retrieved/penn/denominator-movein-161b8028.metadata.json",
+          "error": "HTTPError: HTTP Error 403: Forbidden"
+        }
+      ],
+      "limitations": [
+        "No2025 institution total inferred from main campus alone; five frozen branches withheld for conflicting years or missing tables."
+      ],
+      "report_years_status": "conflicting printed labels",
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.603864+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "University of Pennsylvania student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_asr_core_counts.csv",
+        "audit": "second_extraction_audit.json",
+        "issues": "extraction_issues.json",
+        "rows": 1008
+      }
+    },
+    {
+      "unitid": "186131",
+      "label": "Princeton University",
+      "key": "princeton",
+      "landing_url": "https://publicsafety.princeton.edu/information/monthlyannual-data",
+      "report_url": "https://publicsafety.princeton.edu/sites/g/files/toruqf2581/files/documents/Security%26FireSafety_Report_2025_V5.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:43:34.552229+00:00",
+      "local_pdf": "retrieved/princeton/asr-7771cb32.pdf",
+      "sha256": "ccbe00f7856bb20e98e1b47573fc16eacd8d029fc3d377bf2eb38c92f77f7094",
+      "bytes": 2211517,
+      "pages": 64,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "186131001",
+            "name": "Main Campus"
+          },
+          {
+            "id": "186131002",
+            "name": "James Forrestal Campus"
+          }
+        ],
+        "latest_report_scope_status": "2025 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "latest_branch_count": 2,
+        "description": "Main campus and James Forrestal; obsolete hidden text excluded using full visible table transcription and current-overlay crosscheck.",
+        "crime_table_pdf_pages": [
+          50,
+          51,
+          52,
+          53
+        ],
+        "extracted_branches": [
+          {
+            "id": "186131001",
+            "name": "Main Campus"
+          },
+          {
+            "id": "186131002",
+            "name": "James Forrestal Campus"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_numeric": 336
+        }
+      },
+      "additional_reports": [],
+      "latest_evidence": {
+        "status": "direct_landing_blocked_or_pending",
+        "landing": null,
+        "main_pdf_metadata": "retrieved/princeton/asr-7771cb32.metadata.json",
+        "freshness_interpretation": "Freshness beyond retrieved/cached evidence remains explicitly unverified."
+      },
+      "denominator_sources": [],
+      "limitations": [
+        "Direct landing retrieval HTTP403; web open exposed current2025 link and exact PDF independently retrieved. Latest edition beyond cached landing not verified."
+      ],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.608173+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "Princeton University student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_2025_core_counts.csv",
+        "audit": "second_2025_extraction_audit.json",
+        "issues": "extraction_2025_issues.json",
+        "rows": 336
+      }
+    },
+    {
+      "unitid": "130794",
+      "label": "Yale University",
+      "key": "yale",
+      "landing_url": "https://your.yale.edu/campus-essentials/community-safety/clery",
+      "report_url": "https://your.yale.edu/sites/default/files/2025-09/2025-Clery-Report_ADA.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:34:52.085258+00:00",
+      "local_pdf": "retrieved/yale/asr-008b0522.pdf",
+      "sha256": "92215880611a5c80a3a3da27a4bfb37231dcbacee348167d292fd0bfce179c7a",
+      "bytes": 13855068,
+      "pages": 110,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "130794001",
+            "name": "Main Campus"
+          },
+          {
+            "id": "130794002",
+            "name": "Yale University - West Campus"
+          }
+        ],
+        "latest_report_scope_status": "2025 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "latest_branch_count": 2,
+        "description": "Main and West Campus, annual2024/2023/2022 tables.",
+        "crime_table_pdf_pages": [
+          39,
+          40,
+          41,
+          42,
+          43,
+          44
+        ],
+        "extracted_branches": [
+          {
+            "id": "130794001",
+            "name": "Main Campus"
+          },
+          {
+            "id": "130794002",
+            "name": "Yale University - West Campus"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_numeric": 336
+        }
+      },
+      "additional_reports": [],
+      "latest_evidence": {
+        "status": "fresh_official_listing_and_download",
+        "landing": {
+          "url": "https://your.yale.edu/campus-essentials/community-safety/clery",
+          "checked_utc": "2026-09-25T21:33:16.056158+00:00",
+          "local_html": "retrieved/yale/landing-ac293c8b.html",
+          "local_text": "retrieved/yale/landing-ac293c8b.txt",
+          "sha256": "9a83f4226091aa22f63bd6545b230da6635374fabe19ecb0edbf9c315b99a8f9",
+          "bytes": 130601,
+          "metadata_file": "retrieved/yale/landing-ac293c8b.metadata.json"
+        },
+        "main_pdf_metadata": "retrieved/yale/asr-008b0522.metadata.json",
+        "freshness_interpretation": "Latest report linked by observed official page at check time, not a claim that later2026 publication cannot occur."
+      },
+      "denominator_sources": [],
+      "limitations": [],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.611259+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "Yale University student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_2025_core_counts.csv",
+        "audit": "second_2025_extraction_audit.json",
+        "issues": "extraction_2025_issues.json",
+        "rows": 336
+      }
+    },
+    {
+      "unitid": "110404",
+      "label": "California Institute of Technology",
+      "key": "caltech",
+      "landing_url": "https://security.caltech.edu/our-mission/annual-security-and-fire-safety-report",
+      "report_url": "https://security.caltech.edu/documents/22533/2025ASR-F-HR.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:34:52.086257+00:00",
+      "local_pdf": "retrieved/caltech/asr-27300d74.pdf",
+      "sha256": "f096eeeeaaacec3cb454a5f86f55fb47b59c0dd801ff55c9d681f61c9e921f2a",
+      "bytes": 16342909,
+      "pages": 93,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "110404001",
+            "name": "Main Campus"
+          }
+        ],
+        "latest_report_scope_status": "2025 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "latest_branch_count": 1,
+        "description": "One main-campus table, separately for2024/2023/2022.",
+        "crime_table_pdf_pages": [
+          84,
+          85,
+          86
+        ],
+        "extracted_branches": [
+          {
+            "id": "110404001",
+            "name": "Main Campus"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_numeric": 168
+        }
+      },
+      "additional_reports": [],
+      "latest_evidence": {
+        "status": "fresh_official_listing_and_download",
+        "landing": {
+          "url": "https://security.caltech.edu/our-mission/annual-security-and-fire-safety-report",
+          "checked_utc": "2026-09-25T21:33:16.081755+00:00",
+          "local_html": "retrieved/caltech/landing-b91c2f01.html",
+          "local_text": "retrieved/caltech/landing-b91c2f01.txt",
+          "sha256": "e8482bf98488cd298c295de3156fe2861ef42a3063f1cf3193daa4c29754594b",
+          "bytes": 150541,
+          "metadata_file": "retrieved/caltech/landing-b91c2f01.metadata.json"
+        },
+        "main_pdf_metadata": "retrieved/caltech/asr-27300d74.metadata.json",
+        "freshness_interpretation": "Latest report linked by observed official page at check time, not a claim that later2026 publication cannot occur."
+      },
+      "denominator_sources": [],
+      "limitations": [],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.614377+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "California Institute of Technology student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_2025_core_counts.csv",
+        "audit": "second_2025_extraction_audit.json",
+        "issues": "extraction_2025_issues.json",
+        "rows": 168
+      }
+    },
+    {
+      "unitid": "211440",
+      "label": "Carnegie Mellon University",
+      "key": "cmu",
+      "landing_url": "https://www.cmu.edu/police/reports/",
+      "report_url": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf",
+      "report_edition": 2026,
+      "report_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "checked_utc": "2026-09-25T21:36:58.951938+00:00",
+      "local_pdf": "retrieved/cmu/asr-7c2a7ceb.pdf",
+      "sha256": "3d656606897993dc7a03b7d93909b479ceedb78bfee7eae6535bed21a059dbdf",
+      "bytes": 1471915,
+      "pages": 83,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "211440001",
+            "name": "Main Campus"
+          },
+          {
+            "id": "211440003",
+            "name": "Qatar"
+          },
+          {
+            "id": "211440004",
+            "name": "Silicon Valley"
+          },
+          {
+            "id": "211440005",
+            "name": "New York City"
+          },
+          {
+            "id": "211440006",
+            "name": "Los Angeles"
+          },
+          {
+            "id": "211440007",
+            "name": "CMU-Africa"
+          }
+        ],
+        "latest_report_scope_status": "2026 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "latest_branch_count": 6,
+        "extracted_branches": [
+          {
+            "id": "211440001",
+            "name": "Main Campus"
+          },
+          {
+            "id": "211440003",
+            "name": "Qatar"
+          },
+          {
+            "id": "211440004",
+            "name": "Silicon Valley"
+          },
+          {
+            "id": "211440005",
+            "name": "New York City"
+          },
+          {
+            "id": "211440006",
+            "name": "Los Angeles"
+          },
+          {
+            "id": "211440007",
+            "name": "CMU-Africa"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_numeric": 795,
+          "source_total_conflict": 4,
+          "reported_not_applicable": 209
+        }
+      },
+      "additional_reports": [],
+      "latest_evidence": {
+        "status": "fresh_official_listing_and_download",
+        "landing": {
+          "url": "https://www.cmu.edu/police/reports/",
+          "checked_utc": "2026-09-25T21:34:52.075546+00:00",
+          "local_html": "retrieved/cmu/current-landing-cc53424f.html",
+          "local_text": "retrieved/cmu/current-landing-cc53424f.txt",
+          "sha256": "a125c0acdab11dfef106d9a5c62992178d2ac28dc970ffe0440be9c9f1b40a2e",
+          "bytes": 937314,
+          "metadata_file": "retrieved/cmu/current-landing-cc53424f.metadata.json"
+        },
+        "main_pdf_metadata": "retrieved/cmu/asr-7c2a7ceb.metadata.json",
+        "freshness_interpretation": "Latest report linked by observed official page at check time, not a claim that later2026 publication cannot occur."
+      },
+      "denominator_sources": [],
+      "limitations": [
+        "Pittsburgh2025 fondling: on-campus3 plus noncampus0/public0, but printed total1 (PDFp44). All four components retain source_total_conflict status; dependent calculations withheld."
+      ],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.617912+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "Carnegie Mellon University student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_asr_core_counts.csv",
+        "audit": "second_extraction_audit.json",
+        "issues": "extraction_issues.json",
+        "rows": 1008
+      }
+    },
+    {
+      "unitid": "144050",
+      "label": "University of Chicago",
+      "key": "chicago",
+      "landing_url": "https://safety-security.uchicago.edu/stay-informed/clery-act-reporting",
+      "report_url": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf",
+      "report_edition": 2026,
+      "report_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "checked_utc": "2026-09-25T21:36:58.950934+00:00",
+      "local_pdf": "retrieved/chicago/asr-4da72d79.pdf",
+      "sha256": "5427b9291336738968c24f9dafaa893e5ce717551707feacdb7f73fa53b43b08",
+      "bytes": 1990664,
+      "pages": 96,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "144050001",
+            "name": "Main Campus"
+          },
+          {
+            "id": "144050002",
+            "name": "Gleacher Center"
+          },
+          {
+            "id": "144050003",
+            "name": "Center in Paris"
+          },
+          {
+            "id": "144050005",
+            "name": "Chicago Booth Europe Campus"
+          },
+          {
+            "id": "144050006",
+            "name": "Center in Beijing"
+          },
+          {
+            "id": "144050008",
+            "name": "The University of Chicago Francis and Rose Yuen Campus in Hong Kong"
+          },
+          {
+            "id": "144050009",
+            "name": "University of Chicago-MBL Campus"
+          },
+          {
+            "id": "144050010",
+            "name": "UChicago Center in Dehli"
+          }
+        ],
+        "latest_report_scope_status": "2026 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "latest_branch_count": 8,
+        "extracted_branches": [
+          {
+            "id": "144050001",
+            "name": "Main Campus"
+          },
+          {
+            "id": "144050002",
+            "name": "Gleacher Center"
+          },
+          {
+            "id": "144050003",
+            "name": "Center in Paris"
+          },
+          {
+            "id": "144050005",
+            "name": "Chicago Booth Europe Campus"
+          },
+          {
+            "id": "144050006",
+            "name": "Center in Beijing"
+          },
+          {
+            "id": "144050008",
+            "name": "The University of Chicago Francis and Rose Yuen Campus in Hong Kong"
+          },
+          {
+            "id": "144050009",
+            "name": "University of Chicago-MBL Campus"
+          },
+          {
+            "id": "144050010",
+            "name": "UChicago Center in Dehli"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_numeric": 328,
+          "source_total_conflict": 8,
+          "reported_zero_narrative": 1008
+        },
+        "description": "Main and Gleacher tables; PDFp8 explicitly states no Clery crimes2023–25 for six other campuses. Those source zeros retain reported_zero_narrative status."
+      },
+      "additional_reports": [],
+      "latest_evidence": {
+        "status": "fresh_official_listing_and_download",
+        "landing": {
+          "url": "https://safety-security.uchicago.edu/clery_act_reporting/annual_security_report/",
+          "resolved_url": "https://safety-security.uchicago.edu/stay-informed/clery-act-reporting",
+          "checked_utc": "2026-09-25T21:34:52.076544+00:00",
+          "local_html": "retrieved/chicago/current-landing-f519cc3b.html",
+          "local_text": "retrieved/chicago/current-landing-f519cc3b.txt",
+          "sha256": "5f8f1189caed24f8f166a7fc52865a8563ff1440a2eb35e663a0c882ed2df243",
+          "bytes": 108001,
+          "metadata_file": "retrieved/chicago/current-landing-f519cc3b.metadata.json"
+        },
+        "main_pdf_metadata": "retrieved/chicago/asr-4da72d79.metadata.json",
+        "freshness_interpretation": "Latest report linked by observed official page at check time, not a claim that later2026 publication cannot occur."
+      },
+      "denominator_sources": [],
+      "limitations": [
+        "Gleacher table component/total inconsistencies require explicit cell-level flags."
+      ],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.620996+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "University of Chicago student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_asr_core_counts.csv",
+        "audit": "second_extraction_audit.json",
+        "issues": "extraction_issues.json",
+        "rows": 1344
+      }
+    },
+    {
+      "unitid": "198419",
+      "label": "Duke University",
+      "key": "duke",
+      "landing_url": "https://oarc.duke.edu/consumer-information/annual-clery-security-report/",
+      "report_url": "https://forms.hr.duke.edu/media/oarc/2025-Duke-ASR.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:43:34.549157+00:00",
+      "local_pdf": "retrieved/duke/asr-9b168b96.pdf",
+      "sha256": "311504825d6edaa9509ad4d4bd3b10bb1af584f399191cbbbcc0605a14cf75ed",
+      "bytes": 4938302,
+      "pages": 66,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "198419001",
+            "name": "Main Campus"
+          },
+          {
+            "id": "198419002",
+            "name": "Marine Laboratory"
+          },
+          {
+            "id": "198419003",
+            "name": "Duke in DC"
+          }
+        ],
+        "latest_report_scope_status": "2025 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "latest_branch_count": 3,
+        "description": "Cover explicitly Main Campus, Marine Lab and Duke inDC; crime table pages41–43 are raster images.",
+        "crime_table_pdf_pages": [
+          41,
+          42,
+          43
+        ],
+        "extracted_branches": [
+          {
+            "id": "198419001",
+            "name": "Main Campus (includes hospital and medical research areas)"
+          },
+          {
+            "id": "198419002",
+            "name": "Marine Lab at Beaufort, NC"
+          },
+          {
+            "id": "198419003",
+            "name": "Duke in DC Program, Washington, DC"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_numeric": 504
+        }
+      },
+      "additional_reports": [],
+      "latest_evidence": {
+        "status": "fresh_official_listing_and_download",
+        "landing": {
+          "url": "https://oarc.duke.edu/consumer-information/annual-clery-security-report/",
+          "checked_utc": "2026-09-25T21:38:33.541369+00:00",
+          "local_html": "retrieved/duke/current-landing-34727fb7.html",
+          "local_text": "retrieved/duke/current-landing-34727fb7.txt",
+          "sha256": "21a369e1c9de70925ef09d24991266d0d07ad3eb65cb39098840ba86a06e965a",
+          "bytes": 413430,
+          "metadata_file": "retrieved/duke/current-landing-34727fb7.metadata.json"
+        },
+        "main_pdf_metadata": "retrieved/duke/asr-9b168b96.metadata.json",
+        "freshness_interpretation": "Latest report linked by observed official page at check time, not a claim that later2026 publication cannot occur."
+      },
+      "denominator_sources": [],
+      "limitations": [],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.628206+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "Duke University student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_2025_core_counts.csv",
+        "audit": "second_2025_extraction_audit.json",
+        "issues": "extraction_2025_issues.json",
+        "rows": 504
+      }
+    },
+    {
+      "unitid": "131496",
+      "label": "Georgetown University",
+      "key": "georgetown",
+      "landing_url": "https://police.georgetown.edu/policies-reports/crimestats/",
+      "report_url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf",
+      "report_edition": 2026,
+      "report_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "checked_utc": "2026-09-25T21:44:29.612792+00:00",
+      "local_pdf": "retrieved/georgetown/static-asr-fe95d159.pdf",
+      "sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28",
+      "bytes": 2652569,
+      "pages": 96,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "131496001",
+            "name": "Hilltop Campus"
+          },
+          {
+            "id": "131496002",
+            "name": "Capitol Campus"
+          },
+          {
+            "id": "131496003",
+            "name": "Villa le Balze, Fiesole, Italy"
+          },
+          {
+            "id": "131496005",
+            "name": "Education City, Doha, Qatar"
+          },
+          {
+            "id": "131496006",
+            "name": "Center for Transnational Legal Studies"
+          },
+          {
+            "id": "131496007",
+            "name": "School of Continuing Studies"
+          }
+        ],
+        "latest_report_scope_status": "2026 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "known_added_branches": [
+          "Dubai",
+          "Indonesia"
+        ],
+        "latest_branch_count": 8,
+        "extracted_branches": [
+          {
+            "id": "131496-asr2026-dubai",
+            "name": "Georgetown University in Dubai"
+          },
+          {
+            "id": "131496-asr2026-jakarta",
+            "name": "Georgetown SFS Asia Pacific, Jakarta"
+          },
+          {
+            "id": "131496001",
+            "name": "Hilltop Campus"
+          },
+          {
+            "id": "131496002",
+            "name": "Capitol Campus"
+          },
+          {
+            "id": "131496003",
+            "name": "Villa le Balze, Fiesole, Italy"
+          },
+          {
+            "id": "131496005",
+            "name": "Education City, Doha, Qatar"
+          },
+          {
+            "id": "131496006",
+            "name": "Center for Transnational Legal Studies"
+          },
+          {
+            "id": "131496007",
+            "name": "School of Continuing Studies"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_not_applicable": 504,
+          "reported_numeric": 840
+        }
+      },
+      "additional_reports": [],
+      "latest_evidence": {
+        "status": "fresh_official_listing_and_download",
+        "landing": {
+          "url": "https://police.georgetown.edu/policies-reports/crimestats/",
+          "checked_utc": "2026-09-25T21:33:16.503729+00:00",
+          "local_html": "retrieved/georgetown/landing-89f4aceb.html",
+          "local_text": "retrieved/georgetown/landing-89f4aceb.txt",
+          "sha256": "00f47b108f3c9c9661743c954efeea525360533c7cb377d941bdbf742b6e0c82",
+          "bytes": 264601,
+          "metadata_file": "retrieved/georgetown/landing-89f4aceb.metadata.json"
+        },
+        "main_pdf_metadata": "retrieved/georgetown/static-asr-fe95d159.metadata.json",
+        "freshness_interpretation": "Latest report linked by observed official page at check time, not a claim that later2026 publication cannot occur."
+      },
+      "denominator_sources": [],
+      "limitations": [],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.630647+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "Georgetown University student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_asr_core_counts.csv",
+        "audit": "second_extraction_audit.json",
+        "issues": "extraction_issues.json",
+        "rows": 1344
+      }
+    },
+    {
+      "unitid": "162928",
+      "label": "Johns Hopkins University",
+      "key": "hopkins",
+      "landing_url": "https://publicsafety.jhu.edu/clery-crime-data/",
+      "report_url": null,
+      "report_edition": null,
+      "report_years": [],
+      "checked_utc": "2026-09-25T21:44:29.610393+00:00",
+      "local_pdf": null,
+      "sha256": null,
+      "bytes": null,
+      "pages": null,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "162928001",
+            "name": "JHU  HOMEWOOD  CAMPUS, BALTIMORE, MARYLAND"
+          },
+          {
+            "id": "162928002",
+            "name": "Johns Hopkins Medical Institutions, Baltimore, Md."
+          },
+          {
+            "id": "162928003",
+            "name": "Harbor East Campus, Baltimore, Maryland"
+          },
+          {
+            "id": "162928006",
+            "name": "JHU Applied Physics Laboratory, Maryland"
+          },
+          {
+            "id": "162928007",
+            "name": "Hopkins Bloomberg Center"
+          },
+          {
+            "id": "162928009",
+            "name": "JHU SAIS Europe, Bologna, Italy"
+          },
+          {
+            "id": "162928011",
+            "name": "Peabody Institute of Johns Hopkins University"
+          },
+          {
+            "id": "162928012",
+            "name": "JHU - Nanjing"
+          },
+          {
+            "id": "162928014",
+            "name": "The Johns Hopkins University Public Policy Center- Barcelona, Spain"
+          },
+          {
+            "id": "162928015",
+            "name": "Bayview Medical Center"
+          }
+        ],
+        "latest_report_scope_status": "unverified; listed branches are only frozen2025 federal inventory"
+      },
+      "additional_reports": [],
+      "latest_evidence": {
+        "status": "direct_landing_blocked_or_pending",
+        "landing": null,
+        "main_pdf_metadata": null,
+        "freshness_interpretation": "Freshness beyond retrieved/cached evidence remains explicitly unverified."
+      },
+      "denominator_sources": [],
+      "limitations": [
+        "Direct public-safety pages/PDF returnHTTP403. September26,2025 announcement calls its current file the2024 report; report edition naming must be verified from bytes, not announcement date."
+      ],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.634867+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "Johns Hopkins University student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "Unverified current PDF; do not use as refreshed data."
+    },
+    {
+      "unitid": "166683",
+      "label": "Massachusetts Institute of Technology",
+      "key": "mit",
+      "landing_url": "https://police.mit.edu/annual-security-report",
+      "report_url": "https://police.mit.edu/sites/default/files/MIT-Police-Files/Documents/MITPolice_ASR_2025_Final_v3.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:36:58.950934+00:00",
+      "local_pdf": "retrieved/mit/asr-8895265e.pdf",
+      "sha256": "aad0230621aa52ae4d34a3f1aa98377ac1d463843e301bdfbfd80dd77536b485",
+      "bytes": 5003192,
+      "pages": 59,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "166683001",
+            "name": "MIT"
+          }
+        ],
+        "latest_report_scope_status": "2025 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "latest_branch_count": 1,
+        "description": "MIT-wide table includes student residences as campus subset.",
+        "crime_table_pdf_pages": [
+          54
+        ],
+        "extracted_branches": [
+          {
+            "id": "166683001",
+            "name": "MIT"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_numeric": 164,
+          "source_total_conflict": 4
+        }
+      },
+      "additional_reports": [],
+      "latest_evidence": {
+        "status": "fresh_official_listing_and_download",
+        "landing": {
+          "url": "https://police.mit.edu/annual-security-report",
+          "checked_utc": "2026-09-25T21:34:52.076544+00:00",
+          "local_html": "retrieved/mit/current-landing-cc173b72.html",
+          "local_text": "retrieved/mit/current-landing-cc173b72.txt",
+          "sha256": "24af9b2bcc6889a87d0db956010c0ca4d88ddff038f6fee8e5c9bcc8a2ad6f6c",
+          "bytes": 54156,
+          "metadata_file": "retrieved/mit/current-landing-cc173b72.metadata.json"
+        },
+        "main_pdf_metadata": "retrieved/mit/asr-8895265e.metadata.json",
+        "freshness_interpretation": "Latest report linked by observed official page at check time, not a claim that later2026 publication cannot occur."
+      },
+      "denominator_sources": [
+        {
+          "url": "https://studentlife.mit.edu/app/uploads/2026/03/AY25-GHAC-Annual-Update.pdf",
+          "checked_utc": "2026-09-25T21:49:55.676941+00:00",
+          "status": "partial actual-occupancy lead, not full institutional denominator",
+          "local_pdf": "retrieved/mit/denominator-grad-housing-f873409b.pdf",
+          "local_text": "retrieved/mit/denominator-grad-housing-f873409b.txt",
+          "sha256": "59c95db2772a90f98b1348f2d182af04863f0cfc98bb229d23158d7808e55719",
+          "bytes": 222036,
+          "pages": 10,
+          "metadata_file": "retrieved/mit/denominator-grad-housing-f873409b.metadata.json",
+          "limitations": "AY26 total occupancy2549 covers a graduate housing assignment process and includes105 undergraduates plus visiting scholars/postdocs; does not establish all campus residences."
+        }
+      ],
+      "limitations": [
+        "2024 arson on-campus1, residential1, noncampus0/public0 but printed total2 (PDFp54). Source-total conflict flagged on all four cells."
+      ],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.638206+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "Massachusetts Institute of Technology student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_2025_core_counts.csv",
+        "audit": "second_2025_extraction_audit.json",
+        "issues": "extraction_2025_issues.json",
+        "rows": 168
+      }
+    },
+    {
+      "unitid": "147767",
+      "label": "Northwestern University",
+      "key": "northwestern",
+      "landing_url": "https://www.northwestern.edu/up/alerts-notices-data/clery-act-security-reports.html",
+      "report_url": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf",
+      "report_edition": 2026,
+      "report_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "checked_utc": "2026-09-25T21:34:53.269327+00:00",
+      "local_pdf": "retrieved/northwestern/asr-c886c005.pdf",
+      "sha256": "cd524be529f86767d0395c950449c01c7af5e5aa9cc924fb9efc95da9f9cca33",
+      "bytes": 1833220,
+      "pages": 107,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "147767001",
+            "name": "Main Campus"
+          },
+          {
+            "id": "147767002",
+            "name": "Chicago Campus"
+          },
+          {
+            "id": "147767003",
+            "name": "Miami"
+          },
+          {
+            "id": "147767004",
+            "name": "Washington D.C. Campus"
+          },
+          {
+            "id": "147767005",
+            "name": "Education City, Qatar"
+          },
+          {
+            "id": "147767006",
+            "name": "San Francisco"
+          }
+        ],
+        "latest_report_scope_status": "2026 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "latest_branch_count": 6,
+        "extracted_branches": [
+          {
+            "id": "147767001",
+            "name": "Main Campus"
+          },
+          {
+            "id": "147767002",
+            "name": "Chicago Campus"
+          },
+          {
+            "id": "147767003",
+            "name": "Miami"
+          },
+          {
+            "id": "147767004",
+            "name": "Washington D.C. Campus"
+          },
+          {
+            "id": "147767005",
+            "name": "Education City, Qatar"
+          },
+          {
+            "id": "147767006",
+            "name": "San Francisco"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_numeric": 696,
+          "not_reported_geography": 288,
+          "missing_source_year": 12,
+          "ambiguous_year_labels": 12
+        }
+      },
+      "additional_reports": [
+        {
+          "url": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf",
+          "checked_utc": "2026-09-25T21:35:12.452614+00:00",
+          "local_pdf": "retrieved/northwestern/asr-4713d28d.pdf",
+          "local_text": "retrieved/northwestern/asr-4713d28d.txt",
+          "sha256": "a221fcdf5297f8bb12d4daf5beecf0bb681a04f6d4587a1997a2adde26763573",
+          "bytes": 762176,
+          "pages": 51,
+          "metadata_file": "retrieved/northwestern/asr-4713d28d.metadata.json",
+          "discovered_from": "https://www.northwestern.edu/up/alerts-notices-data/clery-act-security-reports.html"
+        }
+      ],
+      "latest_evidence": {
+        "status": "fresh_official_listing_and_download",
+        "landing": {
+          "url": "https://www.northwestern.edu/up/alerts-notices-data/clery-act-security-reports.html",
+          "checked_utc": "2026-09-25T21:33:16.719996+00:00",
+          "local_html": "retrieved/northwestern/landing-9c5fc0a7.html",
+          "local_text": "retrieved/northwestern/landing-9c5fc0a7.txt",
+          "sha256": "44fb5d72b226a6c0f0a50737e7b907fa589e4ecfae83e16c0a8caed91058d27b",
+          "bytes": 34726,
+          "metadata_file": "retrieved/northwestern/landing-9c5fc0a7.metadata.json"
+        },
+        "main_pdf_metadata": "retrieved/northwestern/asr-c886c005.metadata.json",
+        "freshness_interpretation": "Latest report linked by observed official page at check time, not a claim that later2026 publication cannot occur."
+      },
+      "denominator_sources": [],
+      "limitations": [
+        "Chicago rape/incest/statutory-rape rows repeat2024 and omit2023 (PDFp42);2023/24 values withheld. Branches without geography columns retain not_reported_geography; no zero imputation."
+      ],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.641249+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "Northwestern University student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_asr_core_counts.csv",
+        "audit": "second_extraction_audit.json",
+        "issues": "extraction_issues.json",
+        "rows": 1008
+      }
+    },
+    {
+      "unitid": "152080",
+      "label": "University of Notre Dame",
+      "key": "notredame",
+      "landing_url": "https://police.nd.edu/crime-prevention-safety/records-reports/annual-clery-fire-safety-reports/",
+      "report_url": "https://police.nd.edu/assets/665474/2025_annual_safety_reportt.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:36:29.263816+00:00",
+      "local_pdf": "retrieved/notredame/asr-03e3d6ce.pdf",
+      "sha256": "9030d39bb918861a0378ecc24fc4928c0fd60f90aba1296c34df445996e8eb12",
+      "bytes": 1978922,
+      "pages": 102,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "152080001",
+            "name": "Main Campus"
+          },
+          {
+            "id": "152080002",
+            "name": "London Campus"
+          },
+          {
+            "id": "152080003",
+            "name": "Dublin Campus"
+          },
+          {
+            "id": "152080004",
+            "name": "Rome Campus"
+          },
+          {
+            "id": "152080005",
+            "name": "Jerusalem Campus"
+          },
+          {
+            "id": "152080006",
+            "name": "UNDERC - East"
+          },
+          {
+            "id": "152080007",
+            "name": "Chicago Campus"
+          }
+        ],
+        "latest_report_scope_status": "2025 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "latest_branch_count": 7,
+        "description": "Main, Chicago, Dublin, Jerusalem, London, Rome, UNDERC tables.",
+        "crime_table_pdf_pages": [
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26
+        ],
+        "extracted_branches": [
+          {
+            "id": "152080001",
+            "name": "Main Campus"
+          },
+          {
+            "id": "152080002",
+            "name": "London Campus"
+          },
+          {
+            "id": "152080003",
+            "name": "Dublin Campus"
+          },
+          {
+            "id": "152080004",
+            "name": "Rome Campus"
+          },
+          {
+            "id": "152080005",
+            "name": "Jerusalem Campus"
+          },
+          {
+            "id": "152080006",
+            "name": "UNDERC - East"
+          },
+          {
+            "id": "152080007",
+            "name": "Chicago Campus"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_numeric": 1092,
+          "not_reported_geography": 84
+        }
+      },
+      "additional_reports": [],
+      "latest_evidence": {
+        "status": "fresh_official_listing_and_download",
+        "landing": {
+          "url": "https://police.nd.edu/crime-prevention-safety/records-reports/annual-clery-fire-safety-reports/",
+          "checked_utc": "2026-09-25T21:33:16.948470+00:00",
+          "local_html": "retrieved/notredame/landing-cf1f7e82.html",
+          "local_text": "retrieved/notredame/landing-cf1f7e82.txt",
+          "sha256": "cebe425bc7fe5d6ebec6dba3c3b943ef5788418d019bf4b6afb5c227d061f621",
+          "bytes": 21173,
+          "metadata_file": "retrieved/notredame/landing-cf1f7e82.metadata.json"
+        },
+        "main_pdf_metadata": "retrieved/notredame/asr-03e3d6ce.metadata.json",
+        "freshness_interpretation": "Latest report linked by observed official page at check time, not a claim that later2026 publication cannot occur."
+      },
+      "denominator_sources": [],
+      "limitations": [
+        "Chicago and Dublin tables omit a residential column; those values remain blank not_reported_geography, not zero."
+      ],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.645064+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "University of Notre Dame student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_2025_core_counts.csv",
+        "audit": "second_2025_extraction_audit.json",
+        "issues": "extraction_2025_issues.json",
+        "rows": 1176
+      }
+    },
+    {
+      "unitid": "193900",
+      "label": "New York University",
+      "key": "nyu",
+      "landing_url": "https://www.nyu.edu/life/safety-health-wellness/campus-safety/clery-act-reporting/annual-security-reports.html",
+      "report_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:44:29.607347+00:00",
+      "local_pdf": "retrieved/nyu/asr-b478978b.pdf",
+      "sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad",
+      "bytes": 4491950,
+      "pages": 91,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "193900001",
+            "name": "NYU Washington Square"
+          },
+          {
+            "id": "193900002",
+            "name": "NYU Grossman School of Medicine"
+          },
+          {
+            "id": "193900003",
+            "name": "NYU in Florence/Villa La Pietra"
+          },
+          {
+            "id": "193900004",
+            "name": "NYU Accra"
+          },
+          {
+            "id": "193900005",
+            "name": "NYU London"
+          },
+          {
+            "id": "193900006",
+            "name": "NYU Madrid"
+          },
+          {
+            "id": "193900007",
+            "name": "NYU Paris"
+          },
+          {
+            "id": "193900008",
+            "name": "NYU Prague"
+          },
+          {
+            "id": "193900009",
+            "name": "NYU Berlin - Academic Center"
+          },
+          {
+            "id": "193900012",
+            "name": "NYU Buenos Aires"
+          },
+          {
+            "id": "193900013",
+            "name": "NYU Shanghai"
+          },
+          {
+            "id": "193900014",
+            "name": "NYU in Tel Aviv"
+          },
+          {
+            "id": "193900016",
+            "name": "NYU Abu Dhabi"
+          },
+          {
+            "id": "193900017",
+            "name": "NYU Sydney"
+          },
+          {
+            "id": "193900018",
+            "name": "NYU Washington, DC"
+          },
+          {
+            "id": "193900019",
+            "name": "NYU Brooklyn Commons"
+          },
+          {
+            "id": "193900023",
+            "name": "NYU Grossman Long Island School of Medicine"
+          },
+          {
+            "id": "193900024",
+            "name": "NYU Los Angeles"
+          },
+          {
+            "id": "193900025",
+            "name": "NYU Langone Hospital - Brooklyn"
+          },
+          {
+            "id": "193900026",
+            "name": "NYU Berlin St. Agnes"
+          },
+          {
+            "id": "193900027",
+            "name": "NYU Kips Bay"
+          },
+          {
+            "id": "193900028",
+            "name": "NYU Midtown Center"
+          },
+          {
+            "id": "193900029",
+            "name": "NYU Upper East Side"
+          },
+          {
+            "id": "193900031",
+            "name": "NYU Westchester"
+          },
+          {
+            "id": "193900033",
+            "name": "NYU Athens"
+          },
+          {
+            "id": "193900034",
+            "name": "NYU Rockland"
+          }
+        ],
+        "latest_report_scope_status": "2025 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "latest_branch_count": 27,
+        "description": "27 crime-table campus locations across four reports: New York/global22, Abu Dhabi1, Shanghai1, Langone3. Tulsa is included in2025 ASR but absent from frozen federal26-campus inventory.",
+        "crime_table_pdf_pages": [
+          50,
+          53,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74
+        ],
+        "known_added_branches": [
+          "NYU Tulsa"
+        ],
+        "extracted_branches": [
+          {
+            "id": "193900-asr2025-tulsa",
+            "name": "New York University - Tulsa"
+          },
+          {
+            "id": "193900001",
+            "name": "NYU Washington Square"
+          },
+          {
+            "id": "193900002",
+            "name": "NYU Grossman School of Medicine"
+          },
+          {
+            "id": "193900003",
+            "name": "NYU in Florence/Villa La Pietra"
+          },
+          {
+            "id": "193900004",
+            "name": "NYU Accra"
+          },
+          {
+            "id": "193900005",
+            "name": "NYU London"
+          },
+          {
+            "id": "193900006",
+            "name": "NYU Madrid"
+          },
+          {
+            "id": "193900007",
+            "name": "NYU Paris"
+          },
+          {
+            "id": "193900008",
+            "name": "NYU Prague"
+          },
+          {
+            "id": "193900009",
+            "name": "NYU Berlin - Academic Center"
+          },
+          {
+            "id": "193900012",
+            "name": "NYU Buenos Aires"
+          },
+          {
+            "id": "193900013",
+            "name": "NYU Shanghai"
+          },
+          {
+            "id": "193900014",
+            "name": "NYU in Tel Aviv"
+          },
+          {
+            "id": "193900016",
+            "name": "NYU Abu Dhabi"
+          },
+          {
+            "id": "193900017",
+            "name": "NYU Sydney"
+          },
+          {
+            "id": "193900018",
+            "name": "NYU Washington, DC"
+          },
+          {
+            "id": "193900019",
+            "name": "NYU Brooklyn Commons"
+          },
+          {
+            "id": "193900023",
+            "name": "NYU Grossman Long Island School of Medicine"
+          },
+          {
+            "id": "193900024",
+            "name": "NYU Los Angeles"
+          },
+          {
+            "id": "193900025",
+            "name": "NYU Langone Hospital - Brooklyn"
+          },
+          {
+            "id": "193900026",
+            "name": "NYU Berlin St. Agnes"
+          },
+          {
+            "id": "193900027",
+            "name": "NYU Kips Bay"
+          },
+          {
+            "id": "193900028",
+            "name": "NYU Midtown Center"
+          },
+          {
+            "id": "193900029",
+            "name": "NYU Upper East Side"
+          },
+          {
+            "id": "193900031",
+            "name": "NYU Westchester"
+          },
+          {
+            "id": "193900033",
+            "name": "NYU Athens"
+          },
+          {
+            "id": "193900034",
+            "name": "NYU Rockland"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_not_applicable": 1246,
+          "reported_numeric": 3290
+        }
+      },
+      "additional_reports": [
+        {
+          "url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-ABU%20DHABI-ASR-25.pdf",
+          "checked_utc": "2026-09-25T21:44:29.607347+00:00",
+          "local_pdf": "retrieved/nyu/asr-7870c798.pdf",
+          "local_text": "retrieved/nyu/asr-7870c798.txt",
+          "sha256": "0d5ae5376816950db351087a07d01e86a07c3ea1d29f617d4635b7c526afa17f",
+          "bytes": 4304275,
+          "pages": 35,
+          "metadata_file": "retrieved/nyu/asr-7870c798.metadata.json",
+          "discovered_from": "https://www.nyu.edu/life/safety-health-wellness/campus-safety/clery-act-reporting/annual-security-reports.html"
+        },
+        {
+          "url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-SHANGHAI-ASR-25.pdf",
+          "checked_utc": "2026-09-25T21:44:29.608351+00:00",
+          "local_pdf": "retrieved/nyu/asr-c91a3c0e.pdf",
+          "local_text": "retrieved/nyu/asr-c91a3c0e.txt",
+          "sha256": "bcce2189de8fa5ec5cc7a3e568970088019627b9b2d6383193f9c8982e33a035",
+          "bytes": 2437690,
+          "pages": 33,
+          "metadata_file": "retrieved/nyu/asr-c91a3c0e.metadata.json",
+          "discovered_from": "https://www.nyu.edu/life/safety-health-wellness/campus-safety/clery-act-reporting/annual-security-reports.html"
+        },
+        {
+          "url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU%20Langone%20Health%20ASR-25.pdf",
+          "checked_utc": "2026-09-25T21:44:29.609393+00:00",
+          "local_pdf": "retrieved/nyu/asr-cd2271cc.pdf",
+          "local_text": "retrieved/nyu/asr-cd2271cc.txt",
+          "sha256": "459327205d660ccd5e14f4443ab8e50d4784572b1802f10f9b58ca1241811cf1",
+          "bytes": 3245898,
+          "pages": 41,
+          "metadata_file": "retrieved/nyu/asr-cd2271cc.metadata.json",
+          "discovered_from": "https://www.nyu.edu/life/safety-health-wellness/campus-safety/clery-act-reporting/annual-security-reports.html"
+        }
+      ],
+      "latest_evidence": {
+        "status": "fresh_official_listing_and_download",
+        "landing": {
+          "url": "https://www.nyu.edu/life/safety-health-wellness/campus-safety/clery-act-reporting/annual-security-reports.html",
+          "checked_utc": "2026-09-25T21:43:34.548153+00:00",
+          "local_html": "retrieved/nyu/current-landing-7468e0d4.html",
+          "local_text": "retrieved/nyu/current-landing-7468e0d4.txt",
+          "sha256": "0265eeebb2775340075a44569a1d746d5fd8cabbc3f012b27efb4939d4dca585",
+          "bytes": 52084,
+          "metadata_file": "retrieved/nyu/current-landing-7468e0d4.metadata.json"
+        },
+        "main_pdf_metadata": "retrieved/nyu/asr-b478978b.metadata.json",
+        "freshness_interpretation": "Latest report linked by observed official page at check time, not a claim that later2026 publication cannot occur."
+      },
+      "denominator_sources": [],
+      "limitations": [
+        "New York report separately displays noncampus residence-hall counts; these are a subset of noncampus, never added twice."
+      ],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.648629+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "New York University student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_2025_core_counts.csv",
+        "audit": "second_2025_extraction_audit.json",
+        "issues": "extraction_2025_issues.json",
+        "rows": 4536
+      }
+    },
+    {
+      "unitid": "243744",
+      "label": "Stanford University",
+      "key": "stanford",
+      "landing_url": "https://police.stanford.edu/safety-report.html",
+      "report_url": "https://police.stanford.edu/pdf/ssfr-2025.pdf",
+      "report_edition": 2025,
+      "report_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "checked_utc": "2026-09-25T21:35:16.504854+00:00",
+      "local_pdf": "retrieved/stanford/asr-286cc8cb.pdf",
+      "sha256": "bba0e2a0a14186a318af38a9c712e419b295968d17e394372a4e4fd8fde9c28c",
+      "bytes": 7113484,
+      "pages": 137,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "243744001",
+            "name": "Main Campus"
+          },
+          {
+            "id": "243744002",
+            "name": "Stanford in Washington"
+          },
+          {
+            "id": "243744003",
+            "name": "Hopkins Marine Station"
+          },
+          {
+            "id": "243744004",
+            "name": "Stanford in Santiago, Chile"
+          },
+          {
+            "id": "243744006",
+            "name": "Stanford in Berlin, Germany"
+          },
+          {
+            "id": "243744007",
+            "name": "Stanford Japan Center"
+          },
+          {
+            "id": "243744008",
+            "name": "Stanford in Paris"
+          },
+          {
+            "id": "243744009",
+            "name": "Stanford in Florence"
+          },
+          {
+            "id": "243744010",
+            "name": "Stanford in Oxford"
+          },
+          {
+            "id": "243744013",
+            "name": "Stanford in Madrid, Spain"
+          },
+          {
+            "id": "243744014",
+            "name": "Stanford in Capetown, South Africa"
+          },
+          {
+            "id": "243744015",
+            "name": "Stanford in New York"
+          }
+        ],
+        "latest_report_scope_status": "2025 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "latest_branch_count": 12,
+        "description": "Main campus plus11 separate branch reports: Berlin, Cape Town, Florence, Hopkins Marine, Kyoto, Madrid, New York, Oxford, Paris, Santiago, WashingtonDC. Six-page main stats excerpt is auxiliary, not another campus.",
+        "crime_table_pdf_pages": [
+          101,
+          102
+        ],
+        "extracted_branches": [
+          {
+            "id": "243744001",
+            "name": "Main Campus"
+          },
+          {
+            "id": "243744002",
+            "name": "Stanford in Washington"
+          },
+          {
+            "id": "243744003",
+            "name": "Hopkins Marine Station"
+          },
+          {
+            "id": "243744004",
+            "name": "Stanford in Santiago, Chile"
+          },
+          {
+            "id": "243744006",
+            "name": "Stanford in Berlin, Germany"
+          },
+          {
+            "id": "243744007",
+            "name": "Stanford Japan Center"
+          },
+          {
+            "id": "243744008",
+            "name": "Stanford in Paris"
+          },
+          {
+            "id": "243744009",
+            "name": "Stanford in Florence"
+          },
+          {
+            "id": "243744010",
+            "name": "Stanford in Oxford"
+          },
+          {
+            "id": "243744013",
+            "name": "Stanford in Madrid, Spain"
+          },
+          {
+            "id": "243744014",
+            "name": "Stanford in Capetown, South Africa"
+          },
+          {
+            "id": "243744015",
+            "name": "Stanford in New York"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_numeric": 2012,
+          "source_total_conflict": 4
+        }
+      },
+      "additional_reports": [
+        {
+          "url": "https://police.stanford.edu/pdf/Paris2025.pdf",
+          "checked_utc": "2026-09-25T21:36:03.162998+00:00",
+          "local_pdf": "retrieved/stanford/asr-20a8f5b6.pdf",
+          "local_text": "retrieved/stanford/asr-20a8f5b6.txt",
+          "sha256": "32552b029f6ad6ac01872d5d5902ba3f2bb687541d4e6c88635536ae0120d73f",
+          "bytes": 1454368,
+          "pages": 60,
+          "metadata_file": "retrieved/stanford/asr-20a8f5b6.metadata.json",
+          "discovered_from": "https://police.stanford.edu/safety-report.html"
+        },
+        {
+          "url": "https://police.stanford.edu/pdf/Santiago2025.pdf",
+          "checked_utc": "2026-09-25T21:36:13.798462+00:00",
+          "local_pdf": "retrieved/stanford/asr-2d82a268.pdf",
+          "local_text": "retrieved/stanford/asr-2d82a268.txt",
+          "sha256": "2ccda7912e9016579223aca7e7306a4aff86bd83d1b0e1f882589d11b3907762",
+          "bytes": 1012804,
+          "pages": 59,
+          "metadata_file": "retrieved/stanford/asr-2d82a268.metadata.json",
+          "discovered_from": "https://police.stanford.edu/safety-report.html"
+        },
+        {
+          "url": "https://police.stanford.edu/pdf/Madrid2025.pdf",
+          "checked_utc": "2026-09-25T21:35:47.979713+00:00",
+          "local_pdf": "retrieved/stanford/asr-2ff41a87.pdf",
+          "local_text": "retrieved/stanford/asr-2ff41a87.txt",
+          "sha256": "3a74da8e62368ddeef3cbd2147daf1eed2b494d0dc4adb548c009a290bc0f225",
+          "bytes": 2008680,
+          "pages": 60,
+          "metadata_file": "retrieved/stanford/asr-2ff41a87.metadata.json",
+          "discovered_from": "https://police.stanford.edu/safety-report.html"
+        },
+        {
+          "url": "https://police.stanford.edu/pdf/statspages-ssfr-2025.pdf",
+          "checked_utc": "2026-09-25T21:35:21.315206+00:00",
+          "local_pdf": "retrieved/stanford/asr-681281de.pdf",
+          "local_text": "retrieved/stanford/asr-681281de.txt",
+          "sha256": "0b2357844b72d5c07fb6f4f15139a3be6b320f9bac1a5180de03f54aee982f42",
+          "bytes": 759936,
+          "pages": 6,
+          "metadata_file": "retrieved/stanford/asr-681281de.metadata.json",
+          "discovered_from": "https://police.stanford.edu/safety-report.html"
+        },
+        {
+          "url": "https://police.stanford.edu/pdf/Berlin2025.pdf",
+          "checked_utc": "2026-09-25T21:35:21.881638+00:00",
+          "local_pdf": "retrieved/stanford/asr-76bb9723.pdf",
+          "local_text": "retrieved/stanford/asr-76bb9723.txt",
+          "sha256": "fe355fee452c7ce31bbc7c43983a08efe8ad7b6002090ed7bfed9dc09cea2b65",
+          "bytes": 1027325,
+          "pages": 59,
+          "metadata_file": "retrieved/stanford/asr-76bb9723.metadata.json",
+          "discovered_from": "https://police.stanford.edu/safety-report.html"
+        },
+        {
+          "url": "https://police.stanford.edu/pdf/NewYork2025.pdf",
+          "checked_utc": "2026-09-25T21:35:55.173647+00:00",
+          "local_pdf": "retrieved/stanford/asr-85c3c77c.pdf",
+          "local_text": "retrieved/stanford/asr-85c3c77c.txt",
+          "sha256": "02c3974f29522f39fc78319a010ce7536450602ecb3e2be3c12980249a98fd54",
+          "bytes": 13907389,
+          "pages": 76,
+          "metadata_file": "retrieved/stanford/asr-85c3c77c.metadata.json",
+          "discovered_from": "https://police.stanford.edu/safety-report.html"
+        },
+        {
+          "url": "https://police.stanford.edu/pdf/WashingtonDC2025.pdf",
+          "checked_utc": "2026-09-25T21:36:20.215331+00:00",
+          "local_pdf": "retrieved/stanford/asr-86452e9c.pdf",
+          "local_text": "retrieved/stanford/asr-86452e9c.txt",
+          "sha256": "5fcc5113b616bbcfa628acd141678e8e94941732607f69650dd1e10ada8b4d2c",
+          "bytes": 11640058,
+          "pages": 76,
+          "metadata_file": "retrieved/stanford/asr-86452e9c.metadata.json",
+          "discovered_from": "https://police.stanford.edu/safety-report.html"
+        },
+        {
+          "url": "https://police.stanford.edu/pdf/Florence2025.pdf",
+          "checked_utc": "2026-09-25T21:35:31.165211+00:00",
+          "local_pdf": "retrieved/stanford/asr-9418b63f.pdf",
+          "local_text": "retrieved/stanford/asr-9418b63f.txt",
+          "sha256": "889af0b192e6ba521c331ea6d615b6357f5ee0c742eb6fc04c33b341161a077a",
+          "bytes": 1092163,
+          "pages": 59,
+          "metadata_file": "retrieved/stanford/asr-9418b63f.metadata.json",
+          "discovered_from": "https://police.stanford.edu/safety-report.html"
+        },
+        {
+          "url": "https://police.stanford.edu/pdf/Oxford2025.pdf",
+          "checked_utc": "2026-09-25T21:36:01.391448+00:00",
+          "local_pdf": "retrieved/stanford/asr-99ae13f0.pdf",
+          "local_text": "retrieved/stanford/asr-99ae13f0.txt",
+          "sha256": "dea37c13cc4389675c0813a5e4ac1521360139aab0dd93cc0ba32701d293c2a6",
+          "bytes": 1028402,
+          "pages": 61,
+          "metadata_file": "retrieved/stanford/asr-99ae13f0.metadata.json",
+          "discovered_from": "https://police.stanford.edu/safety-report.html"
+        },
+        {
+          "url": "https://police.stanford.edu/pdf/HopkinsPG2025.pdf",
+          "checked_utc": "2026-09-25T21:35:38.932914+00:00",
+          "local_pdf": "retrieved/stanford/asr-c7f8c0e9.pdf",
+          "local_text": "retrieved/stanford/asr-c7f8c0e9.txt",
+          "sha256": "25262ee6b73d630b567a73aad6c1bc96f00207cff45e61508ad0bb474ad401d6",
+          "bytes": 14049285,
+          "pages": 81,
+          "metadata_file": "retrieved/stanford/asr-c7f8c0e9.metadata.json",
+          "discovered_from": "https://police.stanford.edu/safety-report.html"
+        },
+        {
+          "url": "https://police.stanford.edu/pdf/CapeTown2025.pdf",
+          "checked_utc": "2026-09-25T21:35:23.689413+00:00",
+          "local_pdf": "retrieved/stanford/asr-ef2fd94e.pdf",
+          "local_text": "retrieved/stanford/asr-ef2fd94e.txt",
+          "sha256": "3434875740ab3017281a4e730f7a238bc279079fb0b727af402dbe2a3ed281ab",
+          "bytes": 1023948,
+          "pages": 59,
+          "metadata_file": "retrieved/stanford/asr-ef2fd94e.metadata.json",
+          "discovered_from": "https://police.stanford.edu/safety-report.html"
+        },
+        {
+          "url": "https://police.stanford.edu/pdf/Kyoto2025.pdf",
+          "checked_utc": "2026-09-25T21:35:42.539111+00:00",
+          "local_pdf": "retrieved/stanford/asr-f26ce135.pdf",
+          "local_text": "retrieved/stanford/asr-f26ce135.txt",
+          "sha256": "291976a896262e7f1d7e96bb9ed2eb9191d263114bc91cdc55ebfc968d5b6317",
+          "bytes": 2301788,
+          "pages": 60,
+          "metadata_file": "retrieved/stanford/asr-f26ce135.metadata.json",
+          "discovered_from": "https://police.stanford.edu/safety-report.html"
+        }
+      ],
+      "latest_evidence": {
+        "status": "fresh_official_listing_and_download",
+        "landing": {
+          "url": "https://police.stanford.edu/safety-report.html",
+          "checked_utc": "2026-09-25T21:33:17.088828+00:00",
+          "local_html": "retrieved/stanford/landing-c1fd6a63.html",
+          "local_text": "retrieved/stanford/landing-c1fd6a63.txt",
+          "sha256": "ffc7c2c0d592e64cff1330ae09f9f7385a872bfcc32426cdd6fd770ba4b6e544",
+          "bytes": 35541,
+          "metadata_file": "retrieved/stanford/landing-c1fd6a63.metadata.json"
+        },
+        "main_pdf_metadata": "retrieved/stanford/asr-286cc8cb.metadata.json",
+        "freshness_interpretation": "Latest report linked by observed official page at check time, not a claim that later2026 publication cannot occur."
+      },
+      "denominator_sources": [
+        {
+          "url": "https://facts.stanford.edu/wp-content/uploads/sites/20/2025/03/2025-Stanford-Fact-Book_WEB.pdf",
+          "checked_utc": "2026-09-25T21:59:27.567214+00:00",
+          "status": "failed",
+          "metadata_file": "retrieved/stanford/denominator-2024-facts-d2b92f51.metadata.json",
+          "error": "HTTPError: HTTP Error 404: Not Found"
+        },
+        {
+          "url": "https://housinginfo.stanford.edu/sites/g/files/sbiybj22376/files/media/file/2025-housing_info_fact_sheet_web_v.2_nov2025.pdf",
+          "checked_utc": "2026-09-25T21:49:55.677927+00:00",
+          "status": "capacity/context source, rejected as resident denominator",
+          "local_pdf": "retrieved/stanford/denominator-facts-779dcdd8.pdf",
+          "local_text": "retrieved/stanford/denominator-facts-779dcdd8.txt",
+          "sha256": "1dc015e484dc3d2094a401c73ca1d17adc7fd6ac1b564c6be1869110ae447e53",
+          "bytes": 1729936,
+          "pages": 2,
+          "metadata_file": "retrieved/stanford/denominator-facts-779dcdd8.metadata.json",
+          "limitations": "14,000 units/beds is inventory; explicitly spans campus, adjacent university lands and near transit."
+        },
+        {
+          "url": "https://facts.stanford.edu/campus-life",
+          "checked_utc": "2026-09-25T21:49:55.678434+00:00",
+          "status": "actual university-provided housing counts; geographic alignment unresolved",
+          "local_html": "retrieved/stanford/denominator-student-life-503e49e7.html",
+          "local_text": "retrieved/stanford/denominator-student-life-503e49e7.txt",
+          "sha256": "fe480a158031e7f8d6b6b6b8cd06d59817599c7a50076380608487984464abb9",
+          "bytes": 40488,
+          "metadata_file": "retrieved/stanford/denominator-student-life-503e49e7.metadata.json",
+          "period": "Autumn2025",
+          "undergraduate_occupants": 6727,
+          "graduate_occupants": 7315,
+          "sum_students": 14042,
+          "limitations": "University-provided housing includes campus, adjacent lands and potentially off-campus leased housing; main/branch Clery residential boundary not established."
+        }
+      ],
+      "limitations": [
+        "2024 main-campus domestic violence includes more than20 incidents from two reports describing extended relationship violence; some other reports concern incidents more than25years earlier (PDFp102). Counts measure reports, not same-year occurrence or distinct victims.",
+        "2023 main-campus statutory rape: three reports describe events more than10years earlier from the same victim (PDFp102)."
+      ],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.657289+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "Stanford University student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_2025_core_counts.csv",
+        "audit": "second_2025_extraction_audit.json",
+        "issues": "extraction_2025_issues.json",
+        "rows": 2016
+      }
+    },
+    {
+      "unitid": "123961",
+      "label": "University of Southern California",
+      "key": "usc",
+      "landing_url": "https://dps.usc.edu/alerts/annual-report/",
+      "report_url": "https://dps.usc.edu/wp-content/uploads/2026/09/2026-Annual-Security-and-Fire-Safety-Report.pdf",
+      "report_edition": 2026,
+      "report_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "checked_utc": "2026-09-25T21:36:28.346750+00:00",
+      "local_pdf": "retrieved/usc/asr-55324790.pdf",
+      "sha256": "7d4270c9f907036d36dfd0ecc33bfdc27e805e96a9d06a77e184a21892ce2d1f",
+      "bytes": 12166085,
+      "pages": 156,
+      "campus_scope": {
+        "frozen_2025_branches": [
+          {
+            "id": "123961001",
+            "name": "University Park Campus"
+          },
+          {
+            "id": "123961002",
+            "name": "Health Sciences Campus"
+          },
+          {
+            "id": "123961003",
+            "name": "Catalina Island"
+          },
+          {
+            "id": "123961005",
+            "name": "Sacramento Center"
+          },
+          {
+            "id": "123961006",
+            "name": "Marina del Rey"
+          },
+          {
+            "id": "123961007",
+            "name": "Health Science Alhambra Building"
+          },
+          {
+            "id": "123961008",
+            "name": "San Diego Alzheimer's Research Institute"
+          },
+          {
+            "id": "123961009",
+            "name": "Aviation Safety & Security"
+          },
+          {
+            "id": "123961015",
+            "name": "USC - Washington D.C. Capitol Campus"
+          }
+        ],
+        "latest_report_scope_status": "2026 source table extraction completed; missing, ambiguous and internally conflicting cells explicitly status-coded",
+        "latest_branch_count": 9,
+        "extracted_branches": [
+          {
+            "id": "123961001",
+            "name": "University Park Campus"
+          },
+          {
+            "id": "123961002",
+            "name": "Health Sciences Campus"
+          },
+          {
+            "id": "123961003",
+            "name": "Catalina Island"
+          },
+          {
+            "id": "123961005",
+            "name": "Sacramento Center"
+          },
+          {
+            "id": "123961006",
+            "name": "Marina del Rey"
+          },
+          {
+            "id": "123961007",
+            "name": "Health Science Alhambra Building"
+          },
+          {
+            "id": "123961008",
+            "name": "San Diego Alzheimer's Research Institute"
+          },
+          {
+            "id": "123961009",
+            "name": "Aviation Safety & Security"
+          },
+          {
+            "id": "123961015",
+            "name": "USC - Washington D.C. Capitol Campus"
+          }
+        ],
+        "status_cell_counts": {
+          "reported_numeric": 1512
+        }
+      },
+      "additional_reports": [],
+      "latest_evidence": {
+        "status": "fresh_official_listing_and_download",
+        "landing": {
+          "url": "https://dps.usc.edu/alerts/annual-report/",
+          "checked_utc": "2026-09-25T21:33:17.104135+00:00",
+          "local_html": "retrieved/usc/landing-d4f88eb0.html",
+          "local_text": "retrieved/usc/landing-d4f88eb0.txt",
+          "sha256": "1a490161f8c961c28449e2630af0b4ae82396f31b7546b3cf853c697a3499a55",
+          "bytes": 162401,
+          "metadata_file": "retrieved/usc/landing-d4f88eb0.metadata.json"
+        },
+        "main_pdf_metadata": "retrieved/usc/asr-55324790.metadata.json",
+        "freshness_interpretation": "Latest report linked by observed official page at check time, not a claim that later2026 publication cannot occur."
+      },
+      "denominator_sources": [],
+      "limitations": [],
+      "denominator_search": {
+        "checked_utc": "2026-09-25T22:30:45.660787+00:00",
+        "methods": [
+          "Review retrieved ASR text for occupancy counts and scope",
+          "Institution-specific official-source searches for2025 housing occupancy/student resident counts"
+        ],
+        "query": "University of Southern California student housing annual report actual residents occupancy2025",
+        "result": "No exact all-branch, geographically matched2025 resident denominator established; leads retained below.",
+        "records": [
+          "denominator-refined-0.txt",
+          "denominator-refined-1.txt",
+          "denominator-refined-2.txt",
+          "denominator-refined-3.txt",
+          "denominator-refined-4.txt"
+        ]
+      },
+      "report_years_evidence": "PDF cover and/or statistical-table headings; edition alone is not substituted for printed years.",
+      "extraction": {
+        "file": "current_asr_core_counts.csv",
+        "audit": "second_extraction_audit.json",
+        "issues": "extraction_issues.json",
+        "rows": 1512
+      }
+    }
+  ],
+  "summary": {
+    "institutions": 20,
+    "main_pdfs_retrieved": 18,
+    "confirmed_2026_institutions": 7,
+    "2025_pdfs_retrieved": 11,
+    "current_pdf_unverified": [
+      "Harvard",
+      "Johns Hopkins"
+    ],
+    "exact_matched_2025_resident_denominators_adopted": 0,
+    "important_denominator_leads": [
+      "Stanford autumn2025 actual student counts",
+      "Penn2025–26 undergraduate campus occupants",
+      "MIT partial graduate-housing process occupancy"
+    ]
+  }
+}

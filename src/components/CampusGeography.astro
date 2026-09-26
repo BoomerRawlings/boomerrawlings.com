@@ -1,0 +1,261 @@
+---
+import '../styles/campus-geography.css';
+import { campusTerms, fullTerms } from '../lib/campus-terms.js';
+
+const { data, dataUrl } = Astro.props;
+const numericStatuses = new Set(['reported_numeric', 'reported_zero_narrative']);
+const geographies = ['housing', 'on_campus', 'noncampus', 'public_property'];
+const institutions = [...data.institutions].sort((a, b) => a.name.localeCompare(b.name));
+const termDictionary = campusTerms(institutions.map(i => ({ id: String(i.unitid), name: i.short_name ?? i.name, officialName: i.name })));
+const initialInstitution = institutions.find(i => String(i.unitid) === '122409') ?? institutions[0];
+const institutionCells = data.cells.filter(c => String(c.unitid) === String(initialInstitution?.unitid));
+const initialCampus = institutionCells.find(c => String(c.campus_id) === '122409001') ?? institutionCells[0];
+const initial = { institution: String(initialInstitution?.unitid ?? ''), campus: String(initialCampus?.campus_id ?? ''), year: '2024', category: data.categories.some(c => c.key === 'rape') ? 'rape' : data.categories[0]?.key ?? '' };
+const selected = data.cells.filter(c => String(c.unitid) === initial.institution && String(c.campus_id) === initial.campus && String(c.year) === initial.year && c.category === initial.category);
+const sourceUrl = value => { if (typeof value !== 'string' || !value.trim()) return null; try { const url = new URL(value, 'https://boomerrawlings.com'); return ['https:', 'http:'].includes(url.protocol) ? url.href : null; } catch { return null; } };
+const notes = cell => Array.isArray(cell?.notes) ? cell.notes.filter(Boolean) : cell?.notes ? [String(cell.notes)] : [];
+const cells = Object.fromEntries(geographies.map(geography => {
+  const matches = selected.filter(c => c.geography === geography);
+  return [geography, matches.length === 1 ? matches[0] : { status: matches.length ? 'ambiguous_source' : 'not_reported', count: null, notes: matches.length ? ['Multiple unresolved records match this selection; the value is withheld.'] : [] }];
+}));
+const value = cell => cell?.status === 'not_applicable_no_geography' ? 0 : numericStatuses.has(cell?.status) && Number.isInteger(cell.count) && cell.count >= 0 ? cell.count : null;
+const known = cell => value(cell) !== null;
+const statusText = cell => cell?.status === 'not_applicable_no_geography' ? 'Not applicable' : cell?.status === 'not_applicable_before_opening' ? 'Not applicable before opening' : cell?.status === 'not_applicable_before_separate_reporting' ? 'Included in another reporting area' : known(cell) ? Number(cell.count).toLocaleString('en-US') : 'Unavailable';
+const h = value(cells.housing), c = value(cells.on_campus), n = value(cells.noncampus), p = value(cells.public_property);
+const other = h !== null && c !== null && h <= c ? c - h : null;
+const total = c !== null && n !== null && p !== null ? c + n + p : null;
+const rows = [
+  { key: 'housing', label: 'Campus housing', display: statusText(cells.housing), description: 'Included in the on-campus total.', dependencies: ['housing'], kind: 'subset' },
+  { key: 'other', label: 'Other on-campus locations', display: other === null ? 'Unavailable' : other.toLocaleString('en-US'), description: 'On-campus total minus campus housing.', dependencies: ['on_campus', 'housing'], kind: 'derived' },
+  { key: 'on_campus', label: 'On-campus total', display: statusText(cells.on_campus), description: 'Includes campus housing; do not add housing again.', dependencies: ['on_campus'], kind: 'subtotal' },
+  { key: 'noncampus', label: 'Noncampus property', display: statusText(cells.noncampus), description: 'Qualifying institution-related property outside campus.', dependencies: ['noncampus'], kind: 'reported' },
+  { key: 'public_property', label: 'Public property', display: statusText(cells.public_property), description: 'Qualifying public areas within or next to campus.', dependencies: ['public_property'], kind: 'reported' },
+  { key: 'total', label: 'All reported Clery geography', display: total === null ? 'Unavailable' : total.toLocaleString('en-US'), description: 'On-campus total + noncampus property + public property.', dependencies: ['on_campus', 'noncampus', 'public_property'], kind: 'total' },
+];
+const sources = [];
+for (const cell of selected) {
+  const url = sourceUrl(cell.source_url);
+  if (url && !sources.some(s => s.url === url)) sources.push({ url, number: sources.length + 1, label: `${cell.report_edition ? `${cell.report_edition} annual report` : 'Source record'}${cell.source_pdf_page ? `, document page ${cell.source_pdf_page}` : ''}` });
+}
+for (const row of rows) row.sources = [...new Set(row.dependencies.flatMap(g => selected.filter(cell => cell.geography === g).map(cell => sources.find(s => s.url === sourceUrl(cell.source_url))?.number).filter(Boolean)))];
+const caveats = [...new Set(selected.flatMap(notes))];
+const initialTitle = `${initialInstitution?.name ?? 'Institution unavailable'} · ${initialCampus?.campus_name ?? 'Campus unavailable'} · ${initial.year}`;
+const initialCategory = data.categories.find(category => category.key === initial.category)?.label ?? 'Reported category';
+---
+
+<section id="report-geography" class="campus-geography" data-campus-geography data-url={dataUrl} data-initial={JSON.stringify(initial)} aria-labelledby="campus-geography-heading">
+  <header class="campus-geography-heading">
+    <h2 id="campus-geography-heading">Where reports were recorded</h2>
+    <p>Search the current institutional reports by school, reporting campus and year. These are reported counts, without a population denominator.</p>
+  </header>
+  <div class="campus-geography-controls" data-geo-controls hidden>
+    <fieldset class="campus-geo-picker">
+      <legend>1. Choose a school</legend>
+      <label for="campus-geo-school-search">Search by name or abbreviation<input id="campus-geo-school-search" type="search" data-geo-school-search placeholder="For example, San Diego or SDSU" autocomplete="off" /></label>
+      <p class="campus-geo-picker-status" data-geo-school-status role="status" aria-live="polite"></p>
+      <div class="campus-geo-choices" data-geo-school-choices data-campus-no-terms role="group" aria-label="Matching schools"></div>
+      <p class="campus-geo-chosen" data-geo-school-chosen></p>
+      <select data-geo-institution hidden aria-hidden="true" tabindex="-1" aria-label="Selected institution">{institutions.map(i => <option value={i.unitid} selected={String(i.unitid) === initial.institution}>{i.name}</option>)}</select>
+    </fieldset>
+    <fieldset class="campus-geo-picker">
+      <legend>2. Choose a reporting campus</legend>
+      <label for="campus-geo-campus-search">Search this school's campuses<input id="campus-geo-campus-search" type="search" data-geo-campus-search placeholder="Campus name" autocomplete="off" /></label>
+      <p class="campus-geo-picker-status" data-geo-campus-status role="status" aria-live="polite"></p>
+      <div class="campus-geo-choices" data-geo-campus-choices data-campus-no-terms role="group" aria-label="Matching reporting campuses"></div>
+      <p class="campus-geo-chosen" data-geo-campus-chosen></p>
+      <select data-geo-campus hidden aria-hidden="true" tabindex="-1" aria-label="Selected reporting campus"><option value={initial.campus}>{initialCampus?.campus_name ?? 'Campus data unavailable'}</option></select>
+    </fieldset>
+    <label>3. Report year<select data-geo-year aria-describedby="campus-geo-year-help">{[2022, 2023, 2024, 2025].map(year => <option value={year} selected={year === 2024}>{year}</option>)}</select><small id="campus-geo-year-help">Calendar year of reporting. Report editions may cover different years.</small></label>
+    <label>4. Reported category<select data-geo-category aria-describedby="campus-geo-category-help">{data.categories.map(category => <option value={category.key} selected={category.key === initial.category}>{fullTerms(category.label, termDictionary)}</option>)}</select><small id="campus-geo-category-help">Choose one offense category or the combined criminal-offense count.</small></label>
+  </div>
+  <p class="campus-geography-load" data-geo-load role="status">Loading geographic filters…</p>
+  <aside class="campus-geography-notice"><strong>Campus housing is part of the on-campus total.</strong> Adding housing to that total would count it twice. Noncampus and public-property counts cover defined Clery locations, not every off-campus incident involving a student.</aside>
+  <div class="campus-geography-selection"><h3 data-geo-title>{initialTitle}</h3><p data-geo-category-label>{initialCategory}</p><p data-geo-interpretation>{initialCategory}: reported offense counts for this reporting campus in {initial.year}. They do not identify unique victims or establish convictions.</p><p data-geo-scope class="campus-geography-status">One reporting campus is shown. Use the rate comparison above for counts divided by a documented population.</p><p data-geo-status class="campus-geography-status" role="status" aria-live="polite">{selected.length ? 'Source-specific counts shown below.' : 'No verified source cells are available for this selection.'}</p></div>
+  <table class="campus-geography-table">
+    <caption class="campus-geo-sr-only" data-geo-caption>{initialCategory}, {initialTitle}. Housing is a subset of on-campus counts.</caption>
+    <thead><tr><th scope="col">Reported location</th><th scope="col">Count</th></tr></thead>
+    <tbody data-geo-rows>{rows.map(row => <tr class={`campus-geo-${row.kind}`}><th scope="row"><span>{row.label}</span>{row.sources.map(number => <sub class="campus-geo-citation"><a id={`campus-geo-ref-${row.key}-${number}`} href={`#campus-geo-source-${number}`} aria-label={`Source G${number} for ${row.label}`}>[G{number}]</a></sub>)}<small>{row.description}</small></th><td>{row.display}</td></tr>)}</tbody>
+  </table>
+  <p class="campus-geography-rule">“Not applicable” means the source explicitly identifies no such geography; it contributes zero only to derived totals. A period before a campus opened is labeled separately and has no derived branch total. “Unavailable” remains unknown and prevents a complete total. Counts may include nonstudents, repeated incidents and reports of earlier events.</p>
+  <div class="campus-geography-caveats" data-geo-caveats>{caveats.length > 0 && <><h4>Source qualifications</h4><ul>{caveats.map(note => <li>{note}</li>)}</ul></>}</div>
+  <div class="campus-geography-sources" aria-labelledby="campus-geo-sources-heading"><h4 id="campus-geo-sources-heading">Sources for this selection</h4><ol data-geo-sources>{sources.map(source => <li id={`campus-geo-source-${source.number}`} tabindex="-1"><span class="campus-geo-source-label">G{source.number}.</span> <a href={source.url} target="_blank" rel="noopener noreferrer">{source.label}</a><span class="campus-geo-backlinks">Return to {rows.filter(row => row.sources.includes(source.number)).map((row, index) => <>{index > 0 && ' · '}<a href={`#campus-geo-ref-${row.key}-${source.number}`}>{row.label.toLowerCase()}</a></>)}</span></li>)}</ol><p data-geo-no-source hidden={sources.length > 0}>No source link is available for this selection.</p></div>
+  <noscript><p>The default geographic breakdown is available without JavaScript. Changing the selection requires JavaScript.</p></noscript>
+</section>
+
+<script>
+  import { annotateCampusTerms } from '../lib/campus-term-dom.js';
+  import { campusTerms, fullTerms } from '../lib/campus-terms.js';
+  const root = document.querySelector<HTMLElement>('[data-campus-geography]');
+  if (root) {
+    const query = <T extends HTMLElement>(selector: string) => root.querySelector<T>(selector)!;
+    const controls = { institution: query<HTMLSelectElement>('[data-geo-institution]'), campus: query<HTMLSelectElement>('[data-geo-campus]'), year: query<HTMLSelectElement>('[data-geo-year]'), category: query<HTMLSelectElement>('[data-geo-category]') };
+    const initial = JSON.parse(root.dataset.initial!);
+    const numericStatuses = new Set(['reported_numeric', 'reported_zero_narrative']);
+    const geographies = ['housing', 'on_campus', 'noncampus', 'public_property'];
+    const value = (cell: any): number | null => cell?.status === 'not_applicable_no_geography' ? 0 : numericStatuses.has(cell?.status) && Number.isInteger(cell.count) && cell.count >= 0 ? cell.count : null;
+    const display = (cell: any) => cell?.status === 'not_applicable_no_geography' ? 'Not applicable' : cell?.status === 'not_applicable_before_opening' ? 'Not applicable before opening' : cell?.status === 'not_applicable_before_separate_reporting' ? 'Included in another reporting area' : value(cell) === null ? 'Unavailable' : Number(cell.count).toLocaleString('en-US');
+    const number = (n: number | null) => n === null ? 'Unavailable' : n.toLocaleString('en-US');
+    const el = (tag: string, text?: string, className?: string) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
+    const safeUrl = (input: string) => { if (typeof input !== 'string' || !input.trim()) return null; try { const url = new URL(input, location.origin); return ['https:', 'http:'].includes(url.protocol) ? url.href : null; } catch { return null; } };
+    const notes = (cell: any): string[] => Array.isArray(cell?.notes) ? cell.notes.filter(Boolean).map(String) : cell?.notes ? [String(cell.notes)] : [];
+    const state = () => Object.fromEntries(Object.entries(controls).map(([key, control]) => [key, control.value]));
+    const statusDescriptions: Record<string, string> = { ambiguous_source: 'Conflicting source labels or records; value withheld.', incomplete_coverage: 'Source coverage is incomplete.', not_reported: 'No verified value is available for this selection.', unverified_source: 'Source verification is incomplete; value withheld.', not_applicable_before_opening: 'The source excludes this period from separate campus reporting; a branch total is not calculated.' };
+    const loadStatus = query('[data-geo-load]');
+    let pendingSchool: any = null;
+    let selectSchool: ((selection: any) => void) | null = null;
+    document.addEventListener('campus-school-selected', event => {
+      pendingSchool = (event as CustomEvent).detail;
+      selectSchool?.(pendingSchool);
+    });
+
+    async function start() {
+      const response = await fetch(root!.dataset.url!, { credentials: 'same-origin' });
+      if (!response.ok) throw new Error('Geographic data could not be loaded.');
+      const data = await response.json();
+      if (!Array.isArray(data.cells) || !Array.isArray(data.institutions) || !Array.isArray(data.categories)) throw new Error('Geographic data are not available.');
+      const embeddedNode = document.getElementById('campus-dataset');
+      const embedded = embeddedNode ? JSON.parse(embeddedNode.textContent!) : null;
+      const definitions = embedded?.current?.institutions ?? embedded?.institutions ?? data.institutions.map((i: any) => ({ id: String(i.unitid), name: i.short_name ?? i.name, officialName: i.name }));
+      const dictionary = campusTerms(definitions);
+      const normalize = (text: string) => text.normalize('NFD').replace(/\p{M}/gu, '').toLocaleLowerCase().trim();
+      const schoolSearch = query<HTMLInputElement>('[data-geo-school-search]');
+      const campusSearch = query<HTMLInputElement>('[data-geo-campus-search]');
+      const schools = [...data.institutions].sort((a: any, b: any) => a.name.localeCompare(b.name));
+      const searchAliases = new Map<string, string[]>();
+      for (const [alias, term] of dictionary.lookup) { const aliases = searchAliases.get(String(term.id)) ?? []; aliases.push(alias); searchAliases.set(String(term.id), aliases); }
+      const institutionRows = new Map<string, any[]>();
+      for (const cell of data.cells) { const key = String(cell.unitid); const rows = institutionRows.get(key) ?? []; rows.push(cell); institutionRows.set(key, rows); }
+      function syncChoices() {
+        root!.querySelectorAll<HTMLButtonElement>('[data-geo-school-id]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.geoSchoolId === controls.institution.value)));
+        root!.querySelectorAll<HTMLButtonElement>('[data-geo-campus-id]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.geoCampusId === controls.campus.value)));
+        const school = data.institutions.find((i: any) => String(i.unitid) === controls.institution.value);
+        query('[data-geo-school-chosen]').textContent = `Selected school: ${school?.name ?? 'Unavailable'}`;
+        query('[data-geo-campus-chosen]').textContent = `Selected campus: ${controls.campus.selectedOptions[0]?.textContent ?? 'Unavailable'}`;
+      }
+      function schoolChoices() {
+        const needle = normalize(schoolSearch.value);
+        const matches = schools.filter((i: any) => normalize([i.name, i.short_name, ...(searchAliases.get(String(i.unitid)) ?? [])].join(' ')).includes(needle));
+        const list = query('[data-geo-school-choices]'); list.replaceChildren();
+        for (const inst of matches) {
+          const button = el('button', fullTerms(inst.name, dictionary), 'campus-geo-choice') as HTMLButtonElement;
+          button.type = 'button'; button.dataset.geoSchoolId = String(inst.unitid);
+          button.addEventListener('click', () => { controls.institution.value = String(inst.unitid); campusSearch.value = ''; setCampuses(); campusChoices(); render(); });
+          list.append(button);
+        }
+        if (!matches.length) list.append(el('p', 'No schools match this search. Try a shorter name or an abbreviation.', 'campus-geo-empty'));
+        query('[data-geo-school-status]').textContent = `${matches.length} of ${schools.length} schools shown.`;
+        syncChoices();
+      }
+      function campusChoices() {
+        const needle = normalize(campusSearch.value);
+        const campuses = [...controls.campus.options].filter(option => option.value);
+        const matches = campuses.filter(option => normalize(fullTerms(option.textContent ?? '', dictionary)).includes(needle) || normalize(option.textContent ?? '').includes(needle));
+        const list = query('[data-geo-campus-choices]'); list.replaceChildren();
+        for (const campus of matches) {
+          const button = el('button', fullTerms(campus.textContent ?? '', dictionary), 'campus-geo-choice') as HTMLButtonElement;
+          button.type = 'button'; button.dataset.geoCampusId = campus.value;
+          button.addEventListener('click', () => { controls.campus.value = campus.value; render(); });
+          list.append(button);
+        }
+        if (!matches.length) list.append(el('p', campuses.length ? 'No campuses match this search.' : 'Current campus counts have not been verified for this school.', 'campus-geo-empty'));
+        campusSearch.disabled = campuses.length < 2;
+        query('[data-geo-campus-status]').textContent = campuses.length ? `${matches.length} of ${campuses.length} reporting ${campuses.length === 1 ? 'campus' : 'campuses'} shown.` : 'No verified reporting-campus table available.';
+        syncChoices();
+      }
+      function setCampuses(preferred?: string) {
+        const options = new Map<string, string>();
+        for (const cell of institutionRows.get(controls.institution.value) ?? []) options.set(String(cell.campus_id), String(cell.campus_name));
+        controls.campus.replaceChildren();
+        for (const [id, name] of [...options].sort((a, b) => a[1].localeCompare(b[1]))) controls.campus.add(new Option(name, id));
+        if (!options.size) controls.campus.add(new Option('Campus data unavailable', ''));
+        const main = `${controls.institution.value}001`;
+        controls.campus.value = preferred && options.has(preferred) ? preferred : options.has(main) ? main : controls.campus.options[0].value;
+        controls.campus.disabled = !options.size;
+      }
+      function annotate() {
+        const study = root!.closest('[data-campus-study]') ?? root!;
+        annotateCampusTerms(study, definitions);
+      }
+      function render() {
+        const s = state();
+        const institution = data.institutions.find((i: any) => String(i.unitid) === s.institution);
+        const selected = (institutionRows.get(s.institution) ?? []).filter((cell: any) => String(cell.campus_id) === s.campus && String(cell.year) === s.year && cell.category === s.category);
+        const cells = Object.fromEntries(geographies.map(geography => {
+          const matches = selected.filter((cell: any) => cell.geography === geography);
+          return [geography, matches.length === 1 ? matches[0] : { count: null, status: matches.length ? 'ambiguous_source' : 'not_reported', notes: matches.length ? ['Multiple unresolved records match this selection; the value is withheld.'] : [] }];
+        }));
+        const h = value(cells.housing), c = value(cells.on_campus), n = value(cells.noncampus), p = value(cells.public_property);
+        const other = h !== null && c !== null && h <= c ? c - h : null;
+        const total = c !== null && n !== null && p !== null ? c + n + p : null;
+        const rows = [
+          { key: 'housing', label: 'Campus housing', display: display(cells.housing), description: 'Included in the on-campus total.', dependencies: ['housing'], kind: 'subset' },
+          { key: 'other', label: 'Other on-campus locations', display: number(other), description: 'On-campus total minus campus housing.', dependencies: ['on_campus', 'housing'], kind: 'derived' },
+          { key: 'on_campus', label: 'On-campus total', display: display(cells.on_campus), description: 'Includes campus housing; do not add housing again.', dependencies: ['on_campus'], kind: 'subtotal' },
+          { key: 'noncampus', label: 'Noncampus property', display: display(cells.noncampus), description: 'Qualifying institution-related property outside campus.', dependencies: ['noncampus'], kind: 'reported' },
+          { key: 'public_property', label: 'Public property', display: display(cells.public_property), description: 'Qualifying public areas within or next to campus.', dependencies: ['public_property'], kind: 'reported' },
+          { key: 'total', label: 'All reported Clery geography', display: number(total), description: 'On-campus total + noncampus property + public property.', dependencies: ['on_campus', 'noncampus', 'public_property'], kind: 'total' },
+        ];
+        const sources: { url: string; number: number; label: string }[] = [];
+        for (const cell of selected) { const url = safeUrl(cell.source_url); if (url && !sources.some(source => source.url === url)) sources.push({ url, number: sources.length + 1, label: `${cell.report_edition ? `${cell.report_edition} annual report` : 'Source record'}${cell.source_pdf_page ? `, document page ${cell.source_pdf_page}` : ''}` }); }
+        const rowSources = (row: typeof rows[number]): number[] => [...new Set<number>(row.dependencies.flatMap(g => selected.filter((cell: any) => cell.geography === g).map((cell: any) => sources.find(source => source.url === safeUrl(cell.source_url))?.number).filter(Boolean)))];
+        const title = `${institution?.name ?? 'Institution unavailable'} · ${controls.campus.selectedOptions[0]?.textContent ?? 'Campus unavailable'} · ${s.year}`;
+        const category = data.categories.find((category: any) => category.key === s.category)?.label ?? 'Reported category';
+        query('[data-geo-title]').textContent = title;
+        query('[data-geo-category-label]').textContent = category;
+        const interpretation = s.category === 'criminal_total'
+          ? 'The combined count adds 11 listed criminal-offense categories. It excludes domestic violence, dating violence, stalking, arrests and disciplinary referrals; it is not a count of unique incidents or people.'
+          : ['domestic_violence', 'dating_violence', 'stalking'].includes(s.category)
+            ? `${fullTerms(category, dictionary)} is shown separately from the combined criminal-offense count. Sources that combine categories or leave them unresolved are marked unavailable.`
+            : `${fullTerms(category, dictionary)}: counts of reported offenses in the locations below. They do not identify unique victims or establish convictions.`;
+        query('[data-geo-interpretation]').textContent = interpretation;
+        const branchCount = new Set((institutionRows.get(s.institution) ?? []).map((cell: any) => String(cell.campus_id))).size;
+        const editions = [...new Set(selected.map((cell: any) => String(cell.report_edition)).filter((edition: string) => edition && edition !== 'undefined'))].sort();
+        query('[data-geo-scope]').textContent = `${s.year} is the calendar report year.${editions.length ? ` Source report edition${editions.length === 1 ? '' : 's'}: ${editions.join(', ')}.` : ' No source cells cover this selection.'} ${branchCount ? `This school has ${branchCount} reporting ${branchCount === 1 ? 'campus' : 'campuses'} represented in this extract; this view shows one.` : 'Current reporting-campus counts have not been verified for this school.'} No population denominator is applied here.`;
+        query('[data-geo-caption]').textContent = `${category}, ${title}. Housing is a subset of on-campus counts.`;
+        const present = geographies.filter(g => value(cells[g]) !== null).length;
+        query('[data-geo-status]').textContent = `${present} of 4 geographic components available or explicitly not applicable. ${total === null ? 'The all-geography total is unavailable.' : 'The all-geography total excludes duplicate housing counts.'}`;
+        const tbody = query('[data-geo-rows]'); tbody.replaceChildren();
+        for (const row of rows) {
+          const tr = el('tr', undefined, `campus-geo-${row.kind}`), th = el('th'); th.setAttribute('scope', 'row'); th.append(el('span', row.label));
+          for (const number of rowSources(row)) { const sub = el('sub', undefined, 'campus-geo-citation'), a = el('a', `[G${number}]`) as HTMLAnchorElement; a.id = `campus-geo-ref-${row.key}-${number}`; a.href = `#campus-geo-source-${number}`; a.setAttribute('aria-label', `Source G${number} for ${row.label}`); sub.append(a); th.append(sub); }
+          th.append(el('small', row.description)); tr.append(th, el('td', row.display)); tbody.append(tr);
+        }
+        const caveats = [...new Set<string>([...selected, ...Object.values(cells)].flatMap((cell: any) => notes(cell)))];
+        for (const g of geographies) { const cell = cells[g]; if (value(cell) === null && cell.status !== 'not_reported') caveats.push(`${rows.find(row => row.key === g)!.label}: ${statusDescriptions[cell.status] ?? 'The source does not provide a verified numeric value.'}`); }
+        if (h !== null && c !== null && h > c) caveats.push('Housing exceeds the on-campus total in the selected source cells. The derived other-campus count is withheld pending reconciliation.');
+        const caveatBox = query('[data-geo-caveats]'); caveatBox.replaceChildren();
+        if (caveats.length) { const ul = el('ul'); caveats.forEach(note => ul.append(el('li', note))); caveatBox.append(el('h4', 'Source qualifications'), ul); }
+        const sourceList = query('[data-geo-sources]'); sourceList.replaceChildren();
+        for (const source of sources) {
+          const li = el('li'); li.id = `campus-geo-source-${source.number}`; li.tabIndex = -1;
+          const a = el('a', source.label) as HTMLAnchorElement; a.href = source.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+          li.append(el('span', `G${source.number}. `, 'campus-geo-source-label'), a);
+          const back = el('span', 'Return to ', 'campus-geo-backlinks');
+          rows.filter(row => rowSources(row).includes(source.number)).forEach((row, index) => { if (index) back.append(document.createTextNode(' · ')); const link = el('a', row.label.toLowerCase()) as HTMLAnchorElement; link.href = `#campus-geo-ref-${row.key}-${source.number}`; back.append(link); });
+          li.append(back); sourceList.append(li);
+        }
+        query('[data-geo-no-source]').hidden = sources.length > 0;
+        syncChoices();
+        annotate();
+      }
+      setCampuses(initial.campus);
+      schoolChoices(); campusChoices();
+      schoolSearch.addEventListener('input', schoolChoices);
+      campusSearch.addEventListener('input', campusChoices);
+      controls.institution.addEventListener('change', () => { campusSearch.value = ''; setCampuses(); campusChoices(); render(); });
+      [controls.campus, controls.year, controls.category].forEach(control => control.addEventListener('change', render));
+      root!.addEventListener('click', event => { const a = (event.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="#campus-geo-"]'); if (a) document.getElementById(a.hash.slice(1))?.focus({ preventScroll: true }); });
+      selectSchool = selection => {
+        if (!selection || !schools.some((i: any) => String(i.unitid) === String(selection.unitid))) return;
+        controls.institution.value = String(selection.unitid);
+        if ([...controls.year.options].some(option => option.value === String(selection.year))) controls.year.value = String(selection.year);
+        else if (selection.year === 'pooled') controls.year.value = '2024';
+        if ([...controls.category.options].some(option => option.value === String(selection.category))) controls.category.value = String(selection.category);
+        schoolSearch.value = ''; campusSearch.value = ''; setCampuses(); schoolChoices(); campusChoices(); render();
+      };
+      render(); if (pendingSchool) selectSchool(pendingSchool);
+      query('[data-geo-controls]').hidden = false; loadStatus.hidden = true;
+    }
+    start().catch(() => { loadStatus.textContent = 'Interactive geographic data could not be loaded. The default breakdown remains available; reload to retry.'; });
+  }
+</script>

@@ -1,15 +1,16 @@
 ---
 import { selectedRows, rateLabel, sortOrders, initialView } from '../lib/campus-rates.js';
-const {data} = Astro.props;
+const {data, federalData = data} = Astro.props;
 const rows = selectedRows(data, initialView);
 const number = (value:number|null) => value === null ? 'Unavailable' : value.toLocaleString('en-US');
 ---
 <section id="explorer" class="analysis-section" data-campus-explorer aria-labelledby="campus-explorer-heading">
   <div class="analysis-section-title"><span>01</span><div><h2 id="campus-explorer-heading">Compare reported rates</h2><p>Start with campus-housing reports per documented resident. Every rate retains its count and denominator.</p></div></div>
   <div class="campus-controls" id="campus-controls" hidden>
+    <label class="campus-control-wide">Count source<select id="campus-source"><option value="current">Current institutional reports · checked 25 September 2026</option><option value="federal">Archived federal 2025 collection · 2022–2024</option></select></label>
     <label class="campus-control-wide">Reported category<select id="campus-category">{data.categories.map((c:any)=><option value={c.id}>{c.label}</option>)}</select></label>
     <label class="campus-control-wide">Location / population<select id="campus-measure"><option value="residents">Campus housing / documented residents</option><option value="enrollment">On campus / enrolled students</option><option value="housingEnrollment">Campus housing / enrolled students</option></select></label>
-    <label>Report year<select id="campus-period"><option value="2022">2022</option><option value="2023">2023</option><option value="2024" selected>2024</option><option value="pooled">2022–2024 pooled annual rate</option></select></label>
+    <label>Report year<select id="campus-period"><option value="2022">2022</option><option value="2023">2023</option><option value="2024" selected>2024</option><option value="2025">2025 · counts; populations unavailable</option><option value="pooled">2022–2024 pooled annual rate</option></select></label>
     <label>Comparison group<select id="campus-group"><option value="resident-covered">Documented housing occupancy (11)</option><option value="all">All 42 institutions</option><option value="uc">University of California</option><option value="ivy">Ivy League</option><option value="public">Additional public universities</option><option value="private">Additional private universities</option></select></label>
     <label>Rate scale<select id="campus-scale"><option value="1000">Per 1,000</option><option value="10000">Per 10,000</option></select></label>
     <label>Display order<select id="campus-sort">{Object.entries(sortOrders).map(([value,order])=><option value={value}>{order.label}</option>)}</select></label>
@@ -17,19 +18,20 @@ const number = (value:number|null) => value === null ? 'Unavailable' : value.toL
   </div>
   <p id="campus-category-definition" class="analysis-note">Sum of the listed Clery criminal-offense categories. Excludes VAWA counts, hate-crime classifications, arrests and disciplinary referrals. It is not a count of unique incidents or people.</p>
   <aside id="campus-measure-note" class="analysis-notice"><strong>Approximate housing normalization.</strong> Residential-facility offenses reported in 2024 per 1,000 documented residents. The denominator is fall occupancy. Housing-property boundaries have not been matched to Clery geography; this is not a resident victimization rate.</aside>
-  <div class="campus-table-heading"><h3 id="campus-table-title">Listed criminal offenses · 2024</h3><p id="campus-results-status" role="status" aria-live="polite">11 institutions · 11 rates available · full institution name A–Z</p></div>
+  <p id="campus-source-note" class="analysis-note">Current institutional reports, checked 25 September 2026. Editions and coverage differ; ambiguous or unverified values are unavailable. <a href="#source-inventory">Inspect the source inventory</a>.</p>
+  <div class="campus-table-heading"><h3 id="campus-table-title">Listed criminal offenses · 2024</h3><p id="campus-results-status" role="status" aria-live="polite">{rows.length} institutions · {rows.filter((r:any)=>r.rate!==null).length} rates available · full institution name A–Z</p></div>
   <div class="analysis-table-scroll campus-table-wrap" role="region" tabindex="0" aria-label="Campus reported rates, scroll horizontally for counts and populations">
     <table id="campus-results"><caption class="campus-sr-only">Reported housing criminal offenses per 1,000 documented residents, 2024. Administrative reports, not individual risk.</caption><thead><tr><th scope="col">Institution</th><th scope="col">Rate per 1,000</th><th scope="col">Reported count</th><th scope="col">Fall occupancy</th></tr></thead><tbody>{rows.map((row:any)=><tr><th scope="row">{row.institution.name}</th><td class="campus-rate">{rateLabel(row.rate)}</td><td>{number(row.count)}</td><td>{number(row.population)}</td></tr>)}</tbody></table>
   </div>
   <p class="analysis-note">Housing is already included in on-campus counts. Rate sorting does not establish which campus is safer. <a href="#methods">Definitions and comparability limits</a>.</p>
   <div class="campus-tools" id="campus-tools" hidden><button type="button" id="campus-download">Download selection · CSV</button><button type="button" id="campus-share">Copy this view’s link</button><button type="button" id="campus-reset">Reset filters</button><span id="campus-action-status" role="status" aria-live="polite"></span></div>
-  <noscript><p>The default table and methods are available without JavaScript. Interactive filters require JavaScript; <a href="/data-analysis/campus-safety/data/annual_rates.csv">download all annual rates</a>.</p></noscript>
+  <noscript><p>The default table and methods are available without JavaScript. Interactive filters require JavaScript; <a href="/data-analysis/campus-safety/data/annual_rates.csv">download archived federal annual rates</a>.</p></noscript>
   <section id="campus-detail" class="campus-detail" hidden aria-labelledby="campus-detail-heading">
     <h3 id="campus-detail-heading">Inspect two institutions</h3><p>Annual values use the category, population and scale selected above. Both charts share a zero baseline and the same scale.</p>
     <div class="campus-pair-selectors"><label>First institution<select id="campus-first">{data.institutions.map((i:any)=><option value={i.id} selected={i.shortName==='UC San Diego'}>{i.name}</option>)}</select></label><label>Second institution<select id="campus-second">{data.institutions.map((i:any)=><option value={i.id} selected={i.shortName==='San Diego State'}>{i.name}</option>)}</select></label></div>
     <div class="campus-pair" id="campus-pair"></div>
   </section>
-  <script id="campus-dataset" type="application/json" set:html={JSON.stringify(data).replace(/</g,'\\u003c')} />
+  <script id="campus-dataset" type="application/json" set:html={JSON.stringify({current:data,federal:federalData}).replace(/</g,'\\u003c')} />
 </section>
 <script>
   import { measures, summarize, selectedRows, rateLabel, csvText, sortOrders, nextSort, viewDefaults } from '../lib/campus-rates.js';
@@ -37,14 +39,16 @@ const number = (value:number|null) => value === null ? 'Unavailable' : value.toL
   import { stateNames } from '../lib/campus-terms.js';
   const root = document.querySelector('[data-campus-explorer]');
   if (root) {
-    const data = JSON.parse(document.getElementById('campus-dataset')!.textContent!);
-    const ids = {category:'campus-category',measure:'campus-measure',period:'campus-period',group:'campus-group',scale:'campus-scale',sort:'campus-sort',search:'campus-search',first:'campus-first',second:'campus-second'};
+    const datasets = JSON.parse(document.getElementById('campus-dataset')!.textContent!);
+    let data = datasets.current;
+    const ids = {source:'campus-source',category:'campus-category',measure:'campus-measure',period:'campus-period',group:'campus-group',scale:'campus-scale',sort:'campus-sort',search:'campus-search',first:'campus-first',second:'campus-second'};
     const controls = Object.fromEntries(Object.entries(ids).map(([key,id])=>[key,document.getElementById(id) as HTMLInputElement|HTMLSelectElement]));
     const defaults = Object.fromEntries(Object.entries(controls).map(([key,input])=>[key,input.value]));
     const $ = (id:string)=>document.getElementById(id)!;
     const n = (value:number|null)=>value === null ? 'Unavailable' : value.toLocaleString('en-US');
     const el = (tag:string,text?:string,className?:string)=>{const node=document.createElement(tag); if(text!==undefined)node.textContent=text; if(className)node.className=className;return node;};
     const params = new URL(location.href).searchParams;
+    if (!params.has('source') && ['category','period','measure','scale','group','search','sort','first','second'].some(key=>params.has(key))) controls.source.value='federal';
     for (const [key,value] of Object.entries(viewDefaults(params))) controls[key].value=String(value);
     for (const [key,input] of Object.entries(controls)) {
       const value=params.get(key);
@@ -55,7 +59,7 @@ const number = (value:number|null) => value === null ? 'Unavailable' : value.toL
     enableCampusTermTooltips(study);
     let current:any[]=[];
     function state(){return {...Object.fromEntries(Object.entries(controls).map(([key,input])=>[key,input.value])),scale:Number(controls.scale.value)} as any;}
-    function saveView(){const url=new URL(location.href);for(const [key,input] of Object.entries(controls)){if(key!=='measure' && key!=='group' && input.value===defaults[key])url.searchParams.delete(key);else url.searchParams.set(key,input.value);}history.replaceState(null,'',url);}
+    function saveView(){const url=new URL(location.href);for(const [key,input] of Object.entries(controls)){if(!['source','measure','group'].includes(key) && input.value===defaults[key])url.searchParams.delete(key);else url.searchParams.set(key,input.value);}history.replaceState(null,'',url);}
     function drawPair(s:any){
       const pair=[controls.first.value,controls.second.value].map(id=>data.institutions.find((inst:any)=>inst.id===id));
       const rates=pair.map(inst=>data.years.map((year:number)=>({...summarize(inst,s.category,String(year),s.measure,s.scale),year})));
@@ -63,7 +67,7 @@ const number = (value:number|null) => value === null ? 'Unavailable' : value.toL
       const container=$('campus-pair');container.replaceChildren();
       pair.forEach((inst,index)=>{
         const card=el('article',undefined,'campus-card');card.append(el('h4',inst.name));
-        const scope=el('p',`${inst.branchCount} federal reporting ${inst.branchCount===1?'campus':'campuses'} · ${stateNames[inst.state]??inst.state}`,'analysis-note');scope.setAttribute('data-campus-no-terms','');card.append(scope);
+        const scope=el('p',`${inst.branchCount} ${s.source==='federal'?'federal':'source-inventory'} reporting ${inst.branchCount===1?'campus':'campuses'} · ${stateNames[inst.state]??inst.state}`,'analysis-note');scope.setAttribute('data-campus-no-terms','');card.append(scope);
         const chart=el('div',undefined,'campus-year-bars');
         rates[index].forEach(row=>{
           const line=el('div',undefined,'campus-year-row');line.append(el('span',String(row.year)));
@@ -73,12 +77,13 @@ const number = (value:number|null) => value === null ? 'Unavailable' : value.toL
         inst.notes.forEach((note:string)=>card.append(el('p',note,'analysis-note')));
         if(s.measure==='residents')card.append(el('p',inst.residentNote,'campus-scope-note'));
         const details=el('details');details.append(el('summary','Reporting campuses and source records'));const list=el('ul');list.setAttribute('data-campus-verbatim','');inst.campuses.forEach((campus:any)=>list.append(el('li',`${campus.name} (${campus.id})`)));details.append(list);
-        const link=el('a','Download campus crosswalk') as HTMLAnchorElement;link.href='/data-analysis/campus-safety/data/campus_crosswalk.csv';details.append(link);card.append(details);container.append(card);
+        const link=el('a',s.source==='federal'?'Download campus crosswalk':'Inspect current source inventory') as HTMLAnchorElement;link.href=s.source==='federal'?'/data-analysis/campus-safety/data/campus_crosswalk.csv':'#source-inventory';details.append(link);card.append(details);container.append(card);
       });
     }
     function render(){
       const focusedSortColumn=document.activeElement?.getAttribute('data-sort-column');
-      const s=state();current=selectedRows(data,s);const category=data.categories.find((c:any)=>c.id===s.category);const definition=measures[s.measure];const pooled=s.period==='pooled';
+      const s=state();data=datasets[s.source];current=selectedRows(data,s);const category=data.categories.find((c:any)=>c.id===s.category);const definition=measures[s.measure];const pooled=s.period==='pooled';
+      $('campus-source-note').textContent=s.source==='current'?'Current institutional reports, checked 25 September 2026. Editions and coverage differ; ambiguous or unverified values are unavailable. 2025 populations have not been established. Inspect source inventory below.':'Archived federal 2025 collection, covering 2022–2024. Preserved for reproducibility; some institutional reports now revise these counts. Older shared links retain this source.';
       $('campus-category-definition').textContent=category.description;
       const per=`per ${n(s.scale)} ${definition.population}`;
       $('campus-table-title').textContent=`${category.label} · ${pooled?'2022–2024 pooled annual rate':s.period}`;
@@ -113,7 +118,7 @@ const number = (value:number|null) => value === null ? 'Unavailable' : value.toL
       if(focusedSortColumn)(table.querySelector(`[data-sort-column="${focusedSortColumn}"]`) as HTMLButtonElement)?.focus({preventScroll:true});
     }
     Object.entries(controls).forEach(([key,input])=>input.addEventListener(key==='search'?'input':'change',render));
-    $('campus-download').addEventListener('click',()=>{const s=state();const definition=measures[s.measure];const rows=[['institution','unitid','category','geography','population_basis','period','rate_scale','reported_count','population_sum','years','rate','source_collection','interpretation'],...current.map(row=>[row.institution.officialName??row.institution.name,row.institution.id,s.category,definition.geography,definition.denominator,s.period,s.scale,row.count,row.population,row.years,row.rate,2025,s.measure==='residents'?'Approximate; housing boundaries unmatched':'Administrative reports; not individual risk'])];const blob=new Blob([csvText(rows)],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`campus-safety-${s.category}-${s.measure}-${s.period}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);$('campus-action-status').textContent='Selection downloaded.';});
+    $('campus-download').addEventListener('click',()=>{const s=state();const definition=measures[s.measure];const rows=[['institution','unitid','category','geography','population_basis','period','rate_scale','reported_count','population_sum','years','rate','source_basis','source_editions','interpretation'],...current.map(row=>[row.institution.officialName??row.institution.name,row.institution.id,s.category,definition.geography,definition.denominator,s.period,s.scale,row.count,row.population,row.years,row.rate,data.sourceCollection,s.source==='federal'?'2025':row.institution.years.filter((y:any)=>s.period==='pooled'?[2022,2023,2024].includes(y.year):y.year===Number(s.period)).map((y:any)=>`${y.year}: ${(y.sourceEditions??[]).join('/')}`).join('; '),s.measure==='residents'?'Approximate; housing boundaries unmatched':'Administrative reports; not individual risk'])];const blob=new Blob([csvText(rows)],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`campus-safety-${s.source}-${s.category}-${s.measure}-${s.period}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);$('campus-action-status').textContent='Selection downloaded.';});
     $('campus-share').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(location.href);$('campus-action-status').textContent='View link copied.';}catch{$('campus-action-status').textContent='Copy the address from your browser to share this view.';}});
     $('campus-reset').addEventListener('click',()=>{for(const [key,input]of Object.entries(controls))input.value=defaults[key];render();$('campus-action-status').textContent='Filters reset.';});
     render();['campus-controls','campus-tools','campus-detail'].forEach(id=>$(id).hidden=false);

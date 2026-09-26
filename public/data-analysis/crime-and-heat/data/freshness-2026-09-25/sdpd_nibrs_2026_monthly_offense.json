@@ -1,0 +1,2914 @@
+[
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "09A",
+    "offense_description": "Murder and Nonnegligent Manslaughter",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "09B",
+    "offense_description": "Negligent Manslaughter",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "100",
+    "offense_description": "Kidnapping/Abduction",
+    "source_rows": 17
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "11A",
+    "offense_description": "Forcible Rape",
+    "source_rows": 29
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "11B",
+    "offense_description": "Forcible Sodomy",
+    "source_rows": 4
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "11C",
+    "offense_description": "Sexual Assault With an Object",
+    "source_rows": 3
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "11D",
+    "offense_description": "Forcible Fondling",
+    "source_rows": 28
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "120",
+    "offense_description": "Robbery",
+    "source_rows": 75
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "13A",
+    "offense_description": "Aggravated Assault",
+    "source_rows": 329
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "13B",
+    "offense_description": "Simple Assault",
+    "source_rows": 538
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "13C",
+    "offense_description": "Intimidation",
+    "source_rows": 102
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "200",
+    "offense_description": "Arson",
+    "source_rows": 13
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "210",
+    "offense_description": "Extortion/Blackmail",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "220",
+    "offense_description": "Burglary/Breaking & Entering",
+    "source_rows": 171
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "23A",
+    "offense_description": "Pocket-Picking",
+    "source_rows": 5
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "23B",
+    "offense_description": "Purse-Snatching",
+    "source_rows": 3
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "23C",
+    "offense_description": "Shoplifting",
+    "source_rows": 368
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "23D",
+    "offense_description": "Theft From Building",
+    "source_rows": 28
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "23F",
+    "offense_description": "Theft From Motor Vehicle",
+    "source_rows": 290
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "23G",
+    "offense_description": "Theft of Motor Vehicle Parts/Accessories",
+    "source_rows": 85
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "23H",
+    "offense_description": "All Other Larceny",
+    "source_rows": 627
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "240",
+    "offense_description": "Motor Vehicle Theft",
+    "source_rows": 283
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "250",
+    "offense_description": "Counterfeiting/Forgery",
+    "source_rows": 9
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "26A",
+    "offense_description": "False Pretenses/Swindle/Confidence Game",
+    "source_rows": 32
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "26B",
+    "offense_description": "Credit Card/Automatic Teller Fraud",
+    "source_rows": 7
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "26C",
+    "offense_description": "Impersonation",
+    "source_rows": 235
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "26F",
+    "offense_description": "Identity Theft",
+    "source_rows": 18
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "270",
+    "offense_description": "Embezzlement",
+    "source_rows": 13
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "280",
+    "offense_description": "Stolen Property Offenses",
+    "source_rows": 36
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "290",
+    "offense_description": "Destruction/Damage/Vandalism of Property",
+    "source_rows": 486
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "35A",
+    "offense_description": "Drug/narcotic Violations",
+    "source_rows": 385
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "35B",
+    "offense_description": "Drug Equipment Violations",
+    "source_rows": 265
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "36B",
+    "offense_description": "Statutory Rape",
+    "source_rows": 4
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "370",
+    "offense_description": "Pornography/Obscene Material",
+    "source_rows": 4
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "39A",
+    "offense_description": "Betting/Wagering",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "39C",
+    "offense_description": "Gambling Equipment Violations",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "40A",
+    "offense_description": "Prostitution",
+    "source_rows": 5
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "520",
+    "offense_description": "Weapon Law Violations",
+    "source_rows": 79
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "64A",
+    "offense_description": "Human trafficking, Commercial Sex Acts",
+    "source_rows": 48
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "64B",
+    "offense_description": "Human Trafficking, Involuntary Servitude",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-01",
+    "group_type": "A",
+    "offense_code": "720",
+    "offense_description": "Animal Cruelty",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-01",
+    "group_type": "B",
+    "offense_code": "90B",
+    "offense_description": "Curfew/Loitering/Vagrancy Violations",
+    "source_rows": 57
+  },
+  {
+    "month": "2026-01",
+    "group_type": "B",
+    "offense_code": "90C",
+    "offense_description": "Disorderly Conduct",
+    "source_rows": 153
+  },
+  {
+    "month": "2026-01",
+    "group_type": "B",
+    "offense_code": "90D",
+    "offense_description": "Driving Under the Influence",
+    "source_rows": 127
+  },
+  {
+    "month": "2026-01",
+    "group_type": "B",
+    "offense_code": "90G",
+    "offense_description": "Liquor Law Violations",
+    "source_rows": 8
+  },
+  {
+    "month": "2026-01",
+    "group_type": "B",
+    "offense_code": "90J",
+    "offense_description": "Trespass of Real Property",
+    "source_rows": 29
+  },
+  {
+    "month": "2026-01",
+    "group_type": "B",
+    "offense_code": "90Z",
+    "offense_description": "All Other Offenses",
+    "source_rows": 1375
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "09A",
+    "offense_description": "Murder and Nonnegligent Manslaughter",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "100",
+    "offense_description": "Kidnapping/Abduction",
+    "source_rows": 15
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "11A",
+    "offense_description": "Forcible Rape",
+    "source_rows": 20
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "11B",
+    "offense_description": "Forcible Sodomy",
+    "source_rows": 3
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "11D",
+    "offense_description": "Forcible Fondling",
+    "source_rows": 27
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "120",
+    "offense_description": "Robbery",
+    "source_rows": 70
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "13A",
+    "offense_description": "Aggravated Assault",
+    "source_rows": 302
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "13B",
+    "offense_description": "Simple Assault",
+    "source_rows": 519
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "13C",
+    "offense_description": "Intimidation",
+    "source_rows": 67
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "200",
+    "offense_description": "Arson",
+    "source_rows": 8
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "210",
+    "offense_description": "Extortion/Blackmail",
+    "source_rows": 7
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "220",
+    "offense_description": "Burglary/Breaking & Entering",
+    "source_rows": 142
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "23A",
+    "offense_description": "Pocket-Picking",
+    "source_rows": 3
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "23B",
+    "offense_description": "Purse-Snatching",
+    "source_rows": 5
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "23C",
+    "offense_description": "Shoplifting",
+    "source_rows": 375
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "23D",
+    "offense_description": "Theft From Building",
+    "source_rows": 23
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "23F",
+    "offense_description": "Theft From Motor Vehicle",
+    "source_rows": 280
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "23G",
+    "offense_description": "Theft of Motor Vehicle Parts/Accessories",
+    "source_rows": 88
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "23H",
+    "offense_description": "All Other Larceny",
+    "source_rows": 480
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "240",
+    "offense_description": "Motor Vehicle Theft",
+    "source_rows": 298
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "250",
+    "offense_description": "Counterfeiting/Forgery",
+    "source_rows": 10
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "26A",
+    "offense_description": "False Pretenses/Swindle/Confidence Game",
+    "source_rows": 28
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "26B",
+    "offense_description": "Credit Card/Automatic Teller Fraud",
+    "source_rows": 11
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "26C",
+    "offense_description": "Impersonation",
+    "source_rows": 182
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "26D",
+    "offense_description": "Welfare Fraud",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "26F",
+    "offense_description": "Identity Theft",
+    "source_rows": 19
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "26G",
+    "offense_description": "Hacking/Computer Fraud",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "270",
+    "offense_description": "Embezzlement",
+    "source_rows": 10
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "280",
+    "offense_description": "Stolen Property Offenses",
+    "source_rows": 36
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "290",
+    "offense_description": "Destruction/Damage/Vandalism of Property",
+    "source_rows": 438
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "35A",
+    "offense_description": "Drug/narcotic Violations",
+    "source_rows": 346
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "35B",
+    "offense_description": "Drug Equipment Violations",
+    "source_rows": 233
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "36B",
+    "offense_description": "Statutory Rape",
+    "source_rows": 3
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "370",
+    "offense_description": "Pornography/Obscene Material",
+    "source_rows": 8
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "39A",
+    "offense_description": "Betting/Wagering",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "39C",
+    "offense_description": "Gambling Equipment Violations",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "40A",
+    "offense_description": "Prostitution",
+    "source_rows": 5
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "40B",
+    "offense_description": "Assisting or Promoting Prostitution",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "520",
+    "offense_description": "Weapon Law Violations",
+    "source_rows": 63
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "64A",
+    "offense_description": "Human trafficking, Commercial Sex Acts",
+    "source_rows": 13
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "64B",
+    "offense_description": "Human Trafficking, Involuntary Servitude",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-02",
+    "group_type": "A",
+    "offense_code": "720",
+    "offense_description": "Animal Cruelty",
+    "source_rows": 5
+  },
+  {
+    "month": "2026-02",
+    "group_type": "B",
+    "offense_code": "90B",
+    "offense_description": "Curfew/Loitering/Vagrancy Violations",
+    "source_rows": 34
+  },
+  {
+    "month": "2026-02",
+    "group_type": "B",
+    "offense_code": "90C",
+    "offense_description": "Disorderly Conduct",
+    "source_rows": 163
+  },
+  {
+    "month": "2026-02",
+    "group_type": "B",
+    "offense_code": "90D",
+    "offense_description": "Driving Under the Influence",
+    "source_rows": 119
+  },
+  {
+    "month": "2026-02",
+    "group_type": "B",
+    "offense_code": "90G",
+    "offense_description": "Liquor Law Violations",
+    "source_rows": 9
+  },
+  {
+    "month": "2026-02",
+    "group_type": "B",
+    "offense_code": "90H",
+    "offense_description": "Peeping Tom",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-02",
+    "group_type": "B",
+    "offense_code": "90J",
+    "offense_description": "Trespass of Real Property",
+    "source_rows": 28
+  },
+  {
+    "month": "2026-02",
+    "group_type": "B",
+    "offense_code": "90Z",
+    "offense_description": "All Other Offenses",
+    "source_rows": 1229
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "09A",
+    "offense_description": "Murder and Nonnegligent Manslaughter",
+    "source_rows": 5
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "09B",
+    "offense_description": "Negligent Manslaughter",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "100",
+    "offense_description": "Kidnapping/Abduction",
+    "source_rows": 18
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "11A",
+    "offense_description": "Forcible Rape",
+    "source_rows": 23
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "11B",
+    "offense_description": "Forcible Sodomy",
+    "source_rows": 3
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "11C",
+    "offense_description": "Sexual Assault With an Object",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "11D",
+    "offense_description": "Forcible Fondling",
+    "source_rows": 40
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "120",
+    "offense_description": "Robbery",
+    "source_rows": 88
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "13A",
+    "offense_description": "Aggravated Assault",
+    "source_rows": 404
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "13B",
+    "offense_description": "Simple Assault",
+    "source_rows": 616
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "13C",
+    "offense_description": "Intimidation",
+    "source_rows": 89
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "200",
+    "offense_description": "Arson",
+    "source_rows": 16
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "210",
+    "offense_description": "Extortion/Blackmail",
+    "source_rows": 7
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "220",
+    "offense_description": "Burglary/Breaking & Entering",
+    "source_rows": 118
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "23A",
+    "offense_description": "Pocket-Picking",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "23B",
+    "offense_description": "Purse-Snatching",
+    "source_rows": 4
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "23C",
+    "offense_description": "Shoplifting",
+    "source_rows": 531
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "23D",
+    "offense_description": "Theft From Building",
+    "source_rows": 33
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "23F",
+    "offense_description": "Theft From Motor Vehicle",
+    "source_rows": 309
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "23G",
+    "offense_description": "Theft of Motor Vehicle Parts/Accessories",
+    "source_rows": 101
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "23H",
+    "offense_description": "All Other Larceny",
+    "source_rows": 566
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "240",
+    "offense_description": "Motor Vehicle Theft",
+    "source_rows": 292
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "250",
+    "offense_description": "Counterfeiting/Forgery",
+    "source_rows": 12
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "26A",
+    "offense_description": "False Pretenses/Swindle/Confidence Game",
+    "source_rows": 39
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "26B",
+    "offense_description": "Credit Card/Automatic Teller Fraud",
+    "source_rows": 14
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "26C",
+    "offense_description": "Impersonation",
+    "source_rows": 223
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "26F",
+    "offense_description": "Identity Theft",
+    "source_rows": 32
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "26G",
+    "offense_description": "Hacking/Computer Fraud",
+    "source_rows": 3
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "270",
+    "offense_description": "Embezzlement",
+    "source_rows": 8
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "280",
+    "offense_description": "Stolen Property Offenses",
+    "source_rows": 56
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "290",
+    "offense_description": "Destruction/Damage/Vandalism of Property",
+    "source_rows": 541
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "35A",
+    "offense_description": "Drug/narcotic Violations",
+    "source_rows": 415
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "35B",
+    "offense_description": "Drug Equipment Violations",
+    "source_rows": 272
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "36B",
+    "offense_description": "Statutory Rape",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "370",
+    "offense_description": "Pornography/Obscene Material",
+    "source_rows": 3
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "39A",
+    "offense_description": "Betting/Wagering",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "40A",
+    "offense_description": "Prostitution",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "520",
+    "offense_description": "Weapon Law Violations",
+    "source_rows": 87
+  },
+  {
+    "month": "2026-03",
+    "group_type": "A",
+    "offense_code": "64A",
+    "offense_description": "Human trafficking, Commercial Sex Acts",
+    "source_rows": 9
+  },
+  {
+    "month": "2026-03",
+    "group_type": "B",
+    "offense_code": "90B",
+    "offense_description": "Curfew/Loitering/Vagrancy Violations",
+    "source_rows": 39
+  },
+  {
+    "month": "2026-03",
+    "group_type": "B",
+    "offense_code": "90C",
+    "offense_description": "Disorderly Conduct",
+    "source_rows": 179
+  },
+  {
+    "month": "2026-03",
+    "group_type": "B",
+    "offense_code": "90D",
+    "offense_description": "Driving Under the Influence",
+    "source_rows": 114
+  },
+  {
+    "month": "2026-03",
+    "group_type": "B",
+    "offense_code": "90G",
+    "offense_description": "Liquor Law Violations",
+    "source_rows": 9
+  },
+  {
+    "month": "2026-03",
+    "group_type": "B",
+    "offense_code": "90J",
+    "offense_description": "Trespass of Real Property",
+    "source_rows": 21
+  },
+  {
+    "month": "2026-03",
+    "group_type": "B",
+    "offense_code": "90Z",
+    "offense_description": "All Other Offenses",
+    "source_rows": 1435
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "09A",
+    "offense_description": "Murder and Nonnegligent Manslaughter",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "100",
+    "offense_description": "Kidnapping/Abduction",
+    "source_rows": 19
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "11A",
+    "offense_description": "Forcible Rape",
+    "source_rows": 23
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "11B",
+    "offense_description": "Forcible Sodomy",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "11C",
+    "offense_description": "Sexual Assault With an Object",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "11D",
+    "offense_description": "Forcible Fondling",
+    "source_rows": 22
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "120",
+    "offense_description": "Robbery",
+    "source_rows": 77
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "13A",
+    "offense_description": "Aggravated Assault",
+    "source_rows": 377
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "13B",
+    "offense_description": "Simple Assault",
+    "source_rows": 572
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "13C",
+    "offense_description": "Intimidation",
+    "source_rows": 69
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "200",
+    "offense_description": "Arson",
+    "source_rows": 12
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "210",
+    "offense_description": "Extortion/Blackmail",
+    "source_rows": 6
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "220",
+    "offense_description": "Burglary/Breaking & Entering",
+    "source_rows": 118
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "23A",
+    "offense_description": "Pocket-Picking",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "23B",
+    "offense_description": "Purse-Snatching",
+    "source_rows": 4
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "23C",
+    "offense_description": "Shoplifting",
+    "source_rows": 455
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "23D",
+    "offense_description": "Theft From Building",
+    "source_rows": 17
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "23F",
+    "offense_description": "Theft From Motor Vehicle",
+    "source_rows": 267
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "23G",
+    "offense_description": "Theft of Motor Vehicle Parts/Accessories",
+    "source_rows": 85
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "23H",
+    "offense_description": "All Other Larceny",
+    "source_rows": 575
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "240",
+    "offense_description": "Motor Vehicle Theft",
+    "source_rows": 292
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "250",
+    "offense_description": "Counterfeiting/Forgery",
+    "source_rows": 4
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "26A",
+    "offense_description": "False Pretenses/Swindle/Confidence Game",
+    "source_rows": 38
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "26B",
+    "offense_description": "Credit Card/Automatic Teller Fraud",
+    "source_rows": 6
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "26C",
+    "offense_description": "Impersonation",
+    "source_rows": 225
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "26F",
+    "offense_description": "Identity Theft",
+    "source_rows": 34
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "26G",
+    "offense_description": "Hacking/Computer Fraud",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "270",
+    "offense_description": "Embezzlement",
+    "source_rows": 13
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "280",
+    "offense_description": "Stolen Property Offenses",
+    "source_rows": 49
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "290",
+    "offense_description": "Destruction/Damage/Vandalism of Property",
+    "source_rows": 476
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "35A",
+    "offense_description": "Drug/narcotic Violations",
+    "source_rows": 430
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "35B",
+    "offense_description": "Drug Equipment Violations",
+    "source_rows": 304
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "36B",
+    "offense_description": "Statutory Rape",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "370",
+    "offense_description": "Pornography/Obscene Material",
+    "source_rows": 6
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "39C",
+    "offense_description": "Gambling Equipment Violations",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "40A",
+    "offense_description": "Prostitution",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "520",
+    "offense_description": "Weapon Law Violations",
+    "source_rows": 60
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "64A",
+    "offense_description": "Human trafficking, Commercial Sex Acts",
+    "source_rows": 5
+  },
+  {
+    "month": "2026-04",
+    "group_type": "A",
+    "offense_code": "720",
+    "offense_description": "Animal Cruelty",
+    "source_rows": 5
+  },
+  {
+    "month": "2026-04",
+    "group_type": "B",
+    "offense_code": "90B",
+    "offense_description": "Curfew/Loitering/Vagrancy Violations",
+    "source_rows": 51
+  },
+  {
+    "month": "2026-04",
+    "group_type": "B",
+    "offense_code": "90C",
+    "offense_description": "Disorderly Conduct",
+    "source_rows": 145
+  },
+  {
+    "month": "2026-04",
+    "group_type": "B",
+    "offense_code": "90D",
+    "offense_description": "Driving Under the Influence",
+    "source_rows": 113
+  },
+  {
+    "month": "2026-04",
+    "group_type": "B",
+    "offense_code": "90E",
+    "offense_description": "Drunkenness",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-04",
+    "group_type": "B",
+    "offense_code": "90G",
+    "offense_description": "Liquor Law Violations",
+    "source_rows": 7
+  },
+  {
+    "month": "2026-04",
+    "group_type": "B",
+    "offense_code": "90H",
+    "offense_description": "Peeping Tom",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-04",
+    "group_type": "B",
+    "offense_code": "90J",
+    "offense_description": "Trespass of Real Property",
+    "source_rows": 30
+  },
+  {
+    "month": "2026-04",
+    "group_type": "B",
+    "offense_code": "90Z",
+    "offense_description": "All Other Offenses",
+    "source_rows": 1366
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "09A",
+    "offense_description": "Murder and Nonnegligent Manslaughter",
+    "source_rows": 10
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "09B",
+    "offense_description": "Negligent Manslaughter",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "100",
+    "offense_description": "Kidnapping/Abduction",
+    "source_rows": 14
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "11A",
+    "offense_description": "Forcible Rape",
+    "source_rows": 28
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "11B",
+    "offense_description": "Forcible Sodomy",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "11C",
+    "offense_description": "Sexual Assault With an Object",
+    "source_rows": 5
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "11D",
+    "offense_description": "Forcible Fondling",
+    "source_rows": 25
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "120",
+    "offense_description": "Robbery",
+    "source_rows": 73
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "13A",
+    "offense_description": "Aggravated Assault",
+    "source_rows": 400
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "13B",
+    "offense_description": "Simple Assault",
+    "source_rows": 596
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "13C",
+    "offense_description": "Intimidation",
+    "source_rows": 88
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "200",
+    "offense_description": "Arson",
+    "source_rows": 11
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "210",
+    "offense_description": "Extortion/Blackmail",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "220",
+    "offense_description": "Burglary/Breaking & Entering",
+    "source_rows": 145
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "23A",
+    "offense_description": "Pocket-Picking",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "23B",
+    "offense_description": "Purse-Snatching",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "23C",
+    "offense_description": "Shoplifting",
+    "source_rows": 411
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "23D",
+    "offense_description": "Theft From Building",
+    "source_rows": 37
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "23F",
+    "offense_description": "Theft From Motor Vehicle",
+    "source_rows": 314
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "23G",
+    "offense_description": "Theft of Motor Vehicle Parts/Accessories",
+    "source_rows": 97
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "23H",
+    "offense_description": "All Other Larceny",
+    "source_rows": 626
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "240",
+    "offense_description": "Motor Vehicle Theft",
+    "source_rows": 348
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "250",
+    "offense_description": "Counterfeiting/Forgery",
+    "source_rows": 10
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "26A",
+    "offense_description": "False Pretenses/Swindle/Confidence Game",
+    "source_rows": 37
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "26B",
+    "offense_description": "Credit Card/Automatic Teller Fraud",
+    "source_rows": 7
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "26C",
+    "offense_description": "Impersonation",
+    "source_rows": 184
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "26F",
+    "offense_description": "Identity Theft",
+    "source_rows": 26
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "270",
+    "offense_description": "Embezzlement",
+    "source_rows": 6
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "280",
+    "offense_description": "Stolen Property Offenses",
+    "source_rows": 41
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "290",
+    "offense_description": "Destruction/Damage/Vandalism of Property",
+    "source_rows": 511
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "35A",
+    "offense_description": "Drug/narcotic Violations",
+    "source_rows": 406
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "35B",
+    "offense_description": "Drug Equipment Violations",
+    "source_rows": 257
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "36B",
+    "offense_description": "Statutory Rape",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "370",
+    "offense_description": "Pornography/Obscene Material",
+    "source_rows": 6
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "40A",
+    "offense_description": "Prostitution",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "520",
+    "offense_description": "Weapon Law Violations",
+    "source_rows": 67
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "64A",
+    "offense_description": "Human trafficking, Commercial Sex Acts",
+    "source_rows": 7
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "64B",
+    "offense_description": "Human Trafficking, Involuntary Servitude",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-05",
+    "group_type": "A",
+    "offense_code": "720",
+    "offense_description": "Animal Cruelty",
+    "source_rows": 4
+  },
+  {
+    "month": "2026-05",
+    "group_type": "B",
+    "offense_code": "90B",
+    "offense_description": "Curfew/Loitering/Vagrancy Violations",
+    "source_rows": 17
+  },
+  {
+    "month": "2026-05",
+    "group_type": "B",
+    "offense_code": "90C",
+    "offense_description": "Disorderly Conduct",
+    "source_rows": 201
+  },
+  {
+    "month": "2026-05",
+    "group_type": "B",
+    "offense_code": "90D",
+    "offense_description": "Driving Under the Influence",
+    "source_rows": 141
+  },
+  {
+    "month": "2026-05",
+    "group_type": "B",
+    "offense_code": "90G",
+    "offense_description": "Liquor Law Violations",
+    "source_rows": 12
+  },
+  {
+    "month": "2026-05",
+    "group_type": "B",
+    "offense_code": "90J",
+    "offense_description": "Trespass of Real Property",
+    "source_rows": 26
+  },
+  {
+    "month": "2026-05",
+    "group_type": "B",
+    "offense_code": "90Z",
+    "offense_description": "All Other Offenses",
+    "source_rows": 1315
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "09A",
+    "offense_description": "Murder and Nonnegligent Manslaughter",
+    "source_rows": 5
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "100",
+    "offense_description": "Kidnapping/Abduction",
+    "source_rows": 28
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "11A",
+    "offense_description": "Forcible Rape",
+    "source_rows": 25
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "11B",
+    "offense_description": "Forcible Sodomy",
+    "source_rows": 5
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "11C",
+    "offense_description": "Sexual Assault With an Object",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "11D",
+    "offense_description": "Forcible Fondling",
+    "source_rows": 33
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "120",
+    "offense_description": "Robbery",
+    "source_rows": 77
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "13A",
+    "offense_description": "Aggravated Assault",
+    "source_rows": 394
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "13B",
+    "offense_description": "Simple Assault",
+    "source_rows": 621
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "13C",
+    "offense_description": "Intimidation",
+    "source_rows": 78
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "200",
+    "offense_description": "Arson",
+    "source_rows": 14
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "210",
+    "offense_description": "Extortion/Blackmail",
+    "source_rows": 8
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "220",
+    "offense_description": "Burglary/Breaking & Entering",
+    "source_rows": 141
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "23A",
+    "offense_description": "Pocket-Picking",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "23B",
+    "offense_description": "Purse-Snatching",
+    "source_rows": 3
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "23C",
+    "offense_description": "Shoplifting",
+    "source_rows": 412
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "23D",
+    "offense_description": "Theft From Building",
+    "source_rows": 26
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "23F",
+    "offense_description": "Theft From Motor Vehicle",
+    "source_rows": 325
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "23G",
+    "offense_description": "Theft of Motor Vehicle Parts/Accessories",
+    "source_rows": 102
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "23H",
+    "offense_description": "All Other Larceny",
+    "source_rows": 619
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "240",
+    "offense_description": "Motor Vehicle Theft",
+    "source_rows": 287
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "250",
+    "offense_description": "Counterfeiting/Forgery",
+    "source_rows": 8
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "26A",
+    "offense_description": "False Pretenses/Swindle/Confidence Game",
+    "source_rows": 37
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "26B",
+    "offense_description": "Credit Card/Automatic Teller Fraud",
+    "source_rows": 6
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "26C",
+    "offense_description": "Impersonation",
+    "source_rows": 198
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "26F",
+    "offense_description": "Identity Theft",
+    "source_rows": 22
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "26G",
+    "offense_description": "Hacking/Computer Fraud",
+    "source_rows": 3
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "270",
+    "offense_description": "Embezzlement",
+    "source_rows": 11
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "280",
+    "offense_description": "Stolen Property Offenses",
+    "source_rows": 44
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "290",
+    "offense_description": "Destruction/Damage/Vandalism of Property",
+    "source_rows": 473
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "35A",
+    "offense_description": "Drug/narcotic Violations",
+    "source_rows": 434
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "35B",
+    "offense_description": "Drug Equipment Violations",
+    "source_rows": 300
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "36B",
+    "offense_description": "Statutory Rape",
+    "source_rows": 3
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "370",
+    "offense_description": "Pornography/Obscene Material",
+    "source_rows": 5
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "40A",
+    "offense_description": "Prostitution",
+    "source_rows": 4
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "520",
+    "offense_description": "Weapon Law Violations",
+    "source_rows": 86
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "64A",
+    "offense_description": "Human trafficking, Commercial Sex Acts",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "64B",
+    "offense_description": "Human Trafficking, Involuntary Servitude",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-06",
+    "group_type": "A",
+    "offense_code": "720",
+    "offense_description": "Animal Cruelty",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-06",
+    "group_type": "B",
+    "offense_code": "90B",
+    "offense_description": "Curfew/Loitering/Vagrancy Violations",
+    "source_rows": 38
+  },
+  {
+    "month": "2026-06",
+    "group_type": "B",
+    "offense_code": "90C",
+    "offense_description": "Disorderly Conduct",
+    "source_rows": 182
+  },
+  {
+    "month": "2026-06",
+    "group_type": "B",
+    "offense_code": "90D",
+    "offense_description": "Driving Under the Influence",
+    "source_rows": 135
+  },
+  {
+    "month": "2026-06",
+    "group_type": "B",
+    "offense_code": "90F",
+    "offense_description": "Family Offenses (Nonviolent)",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-06",
+    "group_type": "B",
+    "offense_code": "90G",
+    "offense_description": "Liquor Law Violations",
+    "source_rows": 11
+  },
+  {
+    "month": "2026-06",
+    "group_type": "B",
+    "offense_code": "90H",
+    "offense_description": "Peeping Tom",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-06",
+    "group_type": "B",
+    "offense_code": "90J",
+    "offense_description": "Trespass of Real Property",
+    "source_rows": 27
+  },
+  {
+    "month": "2026-06",
+    "group_type": "B",
+    "offense_code": "90Z",
+    "offense_description": "All Other Offenses",
+    "source_rows": 1396
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "09A",
+    "offense_description": "Murder and Nonnegligent Manslaughter",
+    "source_rows": 5
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "09B",
+    "offense_description": "Negligent Manslaughter",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "100",
+    "offense_description": "Kidnapping/Abduction",
+    "source_rows": 25
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "11A",
+    "offense_description": "Forcible Rape",
+    "source_rows": 23
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "11B",
+    "offense_description": "Forcible Sodomy",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "11C",
+    "offense_description": "Sexual Assault With an Object",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "11D",
+    "offense_description": "Forcible Fondling",
+    "source_rows": 35
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "120",
+    "offense_description": "Robbery",
+    "source_rows": 80
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "13A",
+    "offense_description": "Aggravated Assault",
+    "source_rows": 400
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "13B",
+    "offense_description": "Simple Assault",
+    "source_rows": 642
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "13C",
+    "offense_description": "Intimidation",
+    "source_rows": 88
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "200",
+    "offense_description": "Arson",
+    "source_rows": 7
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "210",
+    "offense_description": "Extortion/Blackmail",
+    "source_rows": 4
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "220",
+    "offense_description": "Burglary/Breaking & Entering",
+    "source_rows": 147
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "23A",
+    "offense_description": "Pocket-Picking",
+    "source_rows": 4
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "23B",
+    "offense_description": "Purse-Snatching",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "23C",
+    "offense_description": "Shoplifting",
+    "source_rows": 429
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "23D",
+    "offense_description": "Theft From Building",
+    "source_rows": 34
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "23F",
+    "offense_description": "Theft From Motor Vehicle",
+    "source_rows": 359
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "23G",
+    "offense_description": "Theft of Motor Vehicle Parts/Accessories",
+    "source_rows": 81
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "23H",
+    "offense_description": "All Other Larceny",
+    "source_rows": 646
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "240",
+    "offense_description": "Motor Vehicle Theft",
+    "source_rows": 271
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "250",
+    "offense_description": "Counterfeiting/Forgery",
+    "source_rows": 4
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "26A",
+    "offense_description": "False Pretenses/Swindle/Confidence Game",
+    "source_rows": 42
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "26B",
+    "offense_description": "Credit Card/Automatic Teller Fraud",
+    "source_rows": 8
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "26C",
+    "offense_description": "Impersonation",
+    "source_rows": 183
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "26F",
+    "offense_description": "Identity Theft",
+    "source_rows": 15
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "270",
+    "offense_description": "Embezzlement",
+    "source_rows": 8
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "280",
+    "offense_description": "Stolen Property Offenses",
+    "source_rows": 38
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "290",
+    "offense_description": "Destruction/Damage/Vandalism of Property",
+    "source_rows": 575
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "35A",
+    "offense_description": "Drug/narcotic Violations",
+    "source_rows": 463
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "35B",
+    "offense_description": "Drug Equipment Violations",
+    "source_rows": 302
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "36B",
+    "offense_description": "Statutory Rape",
+    "source_rows": 3
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "40A",
+    "offense_description": "Prostitution",
+    "source_rows": 6
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "520",
+    "offense_description": "Weapon Law Violations",
+    "source_rows": 62
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "64A",
+    "offense_description": "Human trafficking, Commercial Sex Acts",
+    "source_rows": 18
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "64B",
+    "offense_description": "Human Trafficking, Involuntary Servitude",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-07",
+    "group_type": "A",
+    "offense_code": "720",
+    "offense_description": "Animal Cruelty",
+    "source_rows": 3
+  },
+  {
+    "month": "2026-07",
+    "group_type": "B",
+    "offense_code": "90B",
+    "offense_description": "Curfew/Loitering/Vagrancy Violations",
+    "source_rows": 72
+  },
+  {
+    "month": "2026-07",
+    "group_type": "B",
+    "offense_code": "90C",
+    "offense_description": "Disorderly Conduct",
+    "source_rows": 185
+  },
+  {
+    "month": "2026-07",
+    "group_type": "B",
+    "offense_code": "90D",
+    "offense_description": "Driving Under the Influence",
+    "source_rows": 155
+  },
+  {
+    "month": "2026-07",
+    "group_type": "B",
+    "offense_code": "90E",
+    "offense_description": "Drunkenness",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-07",
+    "group_type": "B",
+    "offense_code": "90F",
+    "offense_description": "Family Offenses (Nonviolent)",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-07",
+    "group_type": "B",
+    "offense_code": "90G",
+    "offense_description": "Liquor Law Violations",
+    "source_rows": 11
+  },
+  {
+    "month": "2026-07",
+    "group_type": "B",
+    "offense_code": "90J",
+    "offense_description": "Trespass of Real Property",
+    "source_rows": 28
+  },
+  {
+    "month": "2026-07",
+    "group_type": "B",
+    "offense_code": "90Z",
+    "offense_description": "All Other Offenses",
+    "source_rows": 1420
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "09A",
+    "offense_description": "Murder and Nonnegligent Manslaughter",
+    "source_rows": 4
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "100",
+    "offense_description": "Kidnapping/Abduction",
+    "source_rows": 34
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "11A",
+    "offense_description": "Forcible Rape",
+    "source_rows": 26
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "11B",
+    "offense_description": "Forcible Sodomy",
+    "source_rows": 3
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "11C",
+    "offense_description": "Sexual Assault With an Object",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "11D",
+    "offense_description": "Forcible Fondling",
+    "source_rows": 30
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "120",
+    "offense_description": "Robbery",
+    "source_rows": 95
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "13A",
+    "offense_description": "Aggravated Assault",
+    "source_rows": 436
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "13B",
+    "offense_description": "Simple Assault",
+    "source_rows": 664
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "13C",
+    "offense_description": "Intimidation",
+    "source_rows": 88
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "200",
+    "offense_description": "Arson",
+    "source_rows": 11
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "210",
+    "offense_description": "Extortion/Blackmail",
+    "source_rows": 6
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "220",
+    "offense_description": "Burglary/Breaking & Entering",
+    "source_rows": 154
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "23A",
+    "offense_description": "Pocket-Picking",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "23B",
+    "offense_description": "Purse-Snatching",
+    "source_rows": 6
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "23C",
+    "offense_description": "Shoplifting",
+    "source_rows": 432
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "23D",
+    "offense_description": "Theft From Building",
+    "source_rows": 32
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "23F",
+    "offense_description": "Theft From Motor Vehicle",
+    "source_rows": 342
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "23G",
+    "offense_description": "Theft of Motor Vehicle Parts/Accessories",
+    "source_rows": 83
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "23H",
+    "offense_description": "All Other Larceny",
+    "source_rows": 591
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "240",
+    "offense_description": "Motor Vehicle Theft",
+    "source_rows": 284
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "250",
+    "offense_description": "Counterfeiting/Forgery",
+    "source_rows": 4
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "26A",
+    "offense_description": "False Pretenses/Swindle/Confidence Game",
+    "source_rows": 29
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "26B",
+    "offense_description": "Credit Card/Automatic Teller Fraud",
+    "source_rows": 7
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "26C",
+    "offense_description": "Impersonation",
+    "source_rows": 171
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "26F",
+    "offense_description": "Identity Theft",
+    "source_rows": 26
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "26G",
+    "offense_description": "Hacking/Computer Fraud",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "270",
+    "offense_description": "Embezzlement",
+    "source_rows": 18
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "280",
+    "offense_description": "Stolen Property Offenses",
+    "source_rows": 45
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "290",
+    "offense_description": "Destruction/Damage/Vandalism of Property",
+    "source_rows": 557
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "35A",
+    "offense_description": "Drug/narcotic Violations",
+    "source_rows": 409
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "35B",
+    "offense_description": "Drug Equipment Violations",
+    "source_rows": 269
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "36B",
+    "offense_description": "Statutory Rape",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "370",
+    "offense_description": "Pornography/Obscene Material",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "40A",
+    "offense_description": "Prostitution",
+    "source_rows": 6
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "40B",
+    "offense_description": "Assisting or Promoting Prostitution",
+    "source_rows": 3
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "520",
+    "offense_description": "Weapon Law Violations",
+    "source_rows": 61
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "64A",
+    "offense_description": "Human trafficking, Commercial Sex Acts",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "64B",
+    "offense_description": "Human Trafficking, Involuntary Servitude",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-08",
+    "group_type": "A",
+    "offense_code": "720",
+    "offense_description": "Animal Cruelty",
+    "source_rows": 3
+  },
+  {
+    "month": "2026-08",
+    "group_type": "B",
+    "offense_code": "90B",
+    "offense_description": "Curfew/Loitering/Vagrancy Violations",
+    "source_rows": 85
+  },
+  {
+    "month": "2026-08",
+    "group_type": "B",
+    "offense_code": "90C",
+    "offense_description": "Disorderly Conduct",
+    "source_rows": 173
+  },
+  {
+    "month": "2026-08",
+    "group_type": "B",
+    "offense_code": "90D",
+    "offense_description": "Driving Under the Influence",
+    "source_rows": 115
+  },
+  {
+    "month": "2026-08",
+    "group_type": "B",
+    "offense_code": "90G",
+    "offense_description": "Liquor Law Violations",
+    "source_rows": 7
+  },
+  {
+    "month": "2026-08",
+    "group_type": "B",
+    "offense_code": "90J",
+    "offense_description": "Trespass of Real Property",
+    "source_rows": 26
+  },
+  {
+    "month": "2026-08",
+    "group_type": "B",
+    "offense_code": "90Z",
+    "offense_description": "All Other Offenses",
+    "source_rows": 1346
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "09A",
+    "offense_description": "Murder and Nonnegligent Manslaughter",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "100",
+    "offense_description": "Kidnapping/Abduction",
+    "source_rows": 16
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "11A",
+    "offense_description": "Forcible Rape",
+    "source_rows": 28
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "11B",
+    "offense_description": "Forcible Sodomy",
+    "source_rows": 3
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "11C",
+    "offense_description": "Sexual Assault With an Object",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "11D",
+    "offense_description": "Forcible Fondling",
+    "source_rows": 9
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "120",
+    "offense_description": "Robbery",
+    "source_rows": 69
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "13A",
+    "offense_description": "Aggravated Assault",
+    "source_rows": 270
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "13B",
+    "offense_description": "Simple Assault",
+    "source_rows": 447
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "13C",
+    "offense_description": "Intimidation",
+    "source_rows": 83
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "200",
+    "offense_description": "Arson",
+    "source_rows": 7
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "210",
+    "offense_description": "Extortion/Blackmail",
+    "source_rows": 4
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "220",
+    "offense_description": "Burglary/Breaking & Entering",
+    "source_rows": 117
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "23A",
+    "offense_description": "Pocket-Picking",
+    "source_rows": 5
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "23C",
+    "offense_description": "Shoplifting",
+    "source_rows": 310
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "23D",
+    "offense_description": "Theft From Building",
+    "source_rows": 19
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "23F",
+    "offense_description": "Theft From Motor Vehicle",
+    "source_rows": 249
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "23G",
+    "offense_description": "Theft of Motor Vehicle Parts/Accessories",
+    "source_rows": 76
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "23H",
+    "offense_description": "All Other Larceny",
+    "source_rows": 382
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "240",
+    "offense_description": "Motor Vehicle Theft",
+    "source_rows": 226
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "250",
+    "offense_description": "Counterfeiting/Forgery",
+    "source_rows": 7
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "26A",
+    "offense_description": "False Pretenses/Swindle/Confidence Game",
+    "source_rows": 24
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "26B",
+    "offense_description": "Credit Card/Automatic Teller Fraud",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "26C",
+    "offense_description": "Impersonation",
+    "source_rows": 102
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "26F",
+    "offense_description": "Identity Theft",
+    "source_rows": 17
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "26G",
+    "offense_description": "Hacking/Computer Fraud",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "270",
+    "offense_description": "Embezzlement",
+    "source_rows": 5
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "280",
+    "offense_description": "Stolen Property Offenses",
+    "source_rows": 39
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "290",
+    "offense_description": "Destruction/Damage/Vandalism of Property",
+    "source_rows": 415
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "35A",
+    "offense_description": "Drug/narcotic Violations",
+    "source_rows": 358
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "35B",
+    "offense_description": "Drug Equipment Violations",
+    "source_rows": 261
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "36B",
+    "offense_description": "Statutory Rape",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "370",
+    "offense_description": "Pornography/Obscene Material",
+    "source_rows": 2
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "40B",
+    "offense_description": "Assisting or Promoting Prostitution",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "520",
+    "offense_description": "Weapon Law Violations",
+    "source_rows": 58
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "64B",
+    "offense_description": "Human Trafficking, Involuntary Servitude",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-09",
+    "group_type": "A",
+    "offense_code": "720",
+    "offense_description": "Animal Cruelty",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-09",
+    "group_type": "B",
+    "offense_code": "90B",
+    "offense_description": "Curfew/Loitering/Vagrancy Violations",
+    "source_rows": 66
+  },
+  {
+    "month": "2026-09",
+    "group_type": "B",
+    "offense_code": "90C",
+    "offense_description": "Disorderly Conduct",
+    "source_rows": 143
+  },
+  {
+    "month": "2026-09",
+    "group_type": "B",
+    "offense_code": "90D",
+    "offense_description": "Driving Under the Influence",
+    "source_rows": 92
+  },
+  {
+    "month": "2026-09",
+    "group_type": "B",
+    "offense_code": "90G",
+    "offense_description": "Liquor Law Violations",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-09",
+    "group_type": "B",
+    "offense_code": "90H",
+    "offense_description": "Peeping Tom",
+    "source_rows": 1
+  },
+  {
+    "month": "2026-09",
+    "group_type": "B",
+    "offense_code": "90J",
+    "offense_description": "Trespass of Real Property",
+    "source_rows": 21
+  },
+  {
+    "month": "2026-09",
+    "group_type": "B",
+    "offense_code": "90Z",
+    "offense_description": "All Other Offenses",
+    "source_rows": 1085
+  }
+]

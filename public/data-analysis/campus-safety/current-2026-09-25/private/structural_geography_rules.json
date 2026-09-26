@@ -1,0 +1,665 @@
+[
+  {
+    "campus_id": "211440003",
+    "geography": "residential",
+    "years": [
+      2023,
+      2024,
+      2025
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf#page=54",
+    "pdf_page": 54,
+    "reason": "Qatar students use housing owned and operated by Qatar Foundation; CMU expressly does not provide housing there.",
+    "source_sha256": "3d656606897993dc7a03b7d93909b479ceedb78bfee7eae6535bed21a059dbdf"
+  },
+  {
+    "campus_id": "211440006",
+    "geography": "residential",
+    "years": [
+      2023,
+      2024,
+      2025
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf#page=59",
+    "pdf_page": 59,
+    "reason": "CMU expressly does not provide housing for the Los Angeles MEIM program.",
+    "source_sha256": "3d656606897993dc7a03b7d93909b479ceedb78bfee7eae6535bed21a059dbdf"
+  },
+  {
+    "campus_id": "211440004",
+    "geography": "residential",
+    "years": [
+      2023,
+      2024,
+      2025
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf#page=62",
+    "pdf_page": 62,
+    "reason": "CMU expressly does not provide housing at Silicon Valley.",
+    "source_sha256": "3d656606897993dc7a03b7d93909b479ceedb78bfee7eae6535bed21a059dbdf"
+  },
+  {
+    "campus_id": "211440005",
+    "geography": "residential",
+    "years": [
+      2023,
+      2024,
+      2025
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf#page=65",
+    "pdf_page": 65,
+    "reason": "CMU expressly does not provide housing to MSCF New York students.",
+    "source_sha256": "3d656606897993dc7a03b7d93909b479ceedb78bfee7eae6535bed21a059dbdf"
+  },
+  {
+    "campus_id": "211440007",
+    "geography": "residential",
+    "years": [
+      2023,
+      2024,
+      2025
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf#page=68",
+    "pdf_page": 68,
+    "reason": "CMU-Africa expressly has no student housing.",
+    "source_sha256": "3d656606897993dc7a03b7d93909b479ceedb78bfee7eae6535bed21a059dbdf"
+  },
+  {
+    "campus_id": "131496002",
+    "geography": "noncampus",
+    "years": [
+      2023,
+      2024,
+      2025
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf#page=50",
+    "pdf_page": 50,
+    "reason": "Footnote16: no noncampus properties associated with Capitol Campus.",
+    "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28"
+  },
+  {
+    "campus_id": "131496007",
+    "geography": "residential",
+    "years": [
+      2023,
+      2024,
+      2025
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf#page=52",
+    "pdf_page": 52,
+    "reason": "Footnotes20/22: no on-campus housing or noncampus properties; SCS closed August2025.",
+    "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28"
+  },
+  {
+    "campus_id": "131496007",
+    "geography": "noncampus",
+    "years": [
+      2023,
+      2024,
+      2025
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf#page=52",
+    "pdf_page": 52,
+    "reason": "Footnotes20/22: no on-campus housing or noncampus properties; SCS closed August2025.",
+    "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28"
+  },
+  {
+    "campus_id": "131496005",
+    "geography": "noncampus",
+    "years": [
+      2023,
+      2024,
+      2025
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf#page=54",
+    "pdf_page": 54,
+    "reason": "Footnote25: no noncampus properties associated with Qatar campus.",
+    "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28"
+  },
+  {
+    "campus_id": "131496003",
+    "geography": "residential",
+    "years": [
+      2024,
+      2025
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf#page=56",
+    "pdf_page": 56,
+    "reason": "Footnote28 expressly states students were not housed on campus in2024 or2025.",
+    "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28"
+  },
+  {
+    "campus_id": "131496006",
+    "geography": "residential",
+    "years": [
+      2023,
+      2024,
+      2025
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf#page=58",
+    "pdf_page": 58,
+    "reason": "Footnotes31/33: no on-campus housing or noncampus properties at London location.",
+    "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28"
+  },
+  {
+    "campus_id": "131496006",
+    "geography": "noncampus",
+    "years": [
+      2023,
+      2024,
+      2025
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf#page=58",
+    "pdf_page": 58,
+    "reason": "Footnotes31/33: no on-campus housing or noncampus properties at London location.",
+    "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28"
+  },
+  {
+    "campus_id": "131496-asr2026-dubai",
+    "geography": "residential",
+    "years": [
+      2023,
+      2024,
+      2025
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf#page=60",
+    "pdf_page": 60,
+    "reason": "Footnote35: no on-campus housing at Dubai location. Other2023 values remain unreported: opened September2023, no full reporting year.",
+    "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28"
+  },
+  {
+    "campus_id": "131496-asr2026-jakarta",
+    "geography": "residential",
+    "years": [
+      2025
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf#page=62",
+    "pdf_page": 62,
+    "reason": "Footnotes38/40: no on-campus housing or noncampus properties at Jakarta location.",
+    "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28"
+  },
+  {
+    "campus_id": "131496-asr2026-jakarta",
+    "geography": "noncampus",
+    "years": [
+      2025
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf#page=62",
+    "pdf_page": 62,
+    "reason": "Footnotes38/40: no on-campus housing or noncampus properties at Jakarta location.",
+    "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28"
+  },
+  {
+    "campus_id": "131496-asr2026-jakarta",
+    "geography": "residential",
+    "years": [
+      2023,
+      2024
+    ],
+    "status": "not_applicable_before_opening",
+    "source_url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf#page=62",
+    "pdf_page": 62,
+    "reason": "Footnote37: Jakarta opened January2025; no statistics provided for2023\u201324. Not an observed zero.",
+    "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28"
+  },
+  {
+    "campus_id": "131496-asr2026-jakarta",
+    "geography": "oncampus",
+    "years": [
+      2023,
+      2024
+    ],
+    "status": "not_applicable_before_opening",
+    "source_url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf#page=62",
+    "pdf_page": 62,
+    "reason": "Footnote37: Jakarta opened January2025; no statistics provided for2023\u201324. Not an observed zero.",
+    "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28"
+  },
+  {
+    "campus_id": "131496-asr2026-jakarta",
+    "geography": "noncampus",
+    "years": [
+      2023,
+      2024
+    ],
+    "status": "not_applicable_before_opening",
+    "source_url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf#page=62",
+    "pdf_page": 62,
+    "reason": "Footnote37: Jakarta opened January2025; no statistics provided for2023\u201324. Not an observed zero.",
+    "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28"
+  },
+  {
+    "campus_id": "131496-asr2026-jakarta",
+    "geography": "publicproperty",
+    "years": [
+      2023,
+      2024
+    ],
+    "status": "not_applicable_before_opening",
+    "source_url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf#page=62",
+    "pdf_page": 62,
+    "reason": "Footnote37: Jakarta opened January2025; no statistics provided for2023\u201324. Not an observed zero.",
+    "source_sha256": "482ad79608c9eeb79176879e4144bc374753ed5da9f95f819e6c2c804315de28"
+  },
+  {
+    "campus_id": "193900027",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=55",
+    "pdf_page": 55,
+    "reason": "Table footnote: Kips Bay has no residence halls or noncampus locations.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900027",
+    "geography": "noncampus",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=55",
+    "pdf_page": 55,
+    "reason": "Table footnote: Kips Bay has no residence halls or noncampus locations.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900028",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=56",
+    "pdf_page": 56,
+    "reason": "Table footnote: Midtown Center has no residence halls or noncampus locations. This does not resolve its2022 on-campus/public-property N/A.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900028",
+    "geography": "noncampus",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=56",
+    "pdf_page": 56,
+    "reason": "Table footnote: Midtown Center has no residence halls or noncampus locations. This does not resolve its2022 on-campus/public-property N/A.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900029",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=57",
+    "pdf_page": 57,
+    "reason": "Table footnote: Upper East Side has no residence halls or noncampus locations.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900029",
+    "geography": "noncampus",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=57",
+    "pdf_page": 57,
+    "reason": "Table footnote: Upper East Side has no residence halls or noncampus locations.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900004",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=58",
+    "pdf_page": 58,
+    "reason": "Table footnote: Accra has no on-campus residence halls.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900009",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=59",
+    "pdf_page": 59,
+    "reason": "Table footnote: Berlin Academic Center has no residence halls.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900026",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=60",
+    "pdf_page": 60,
+    "reason": "Table footnote: Berlin St. Agnes has no on-campus residence halls.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900012",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=61",
+    "pdf_page": 61,
+    "reason": "Table footnote: Buenos Aires has no on-campus residence halls.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900005",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=63",
+    "pdf_page": 63,
+    "reason": "Table footnote: London has no on-campus residence halls.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900024",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=64",
+    "pdf_page": 64,
+    "reason": "Table footnote: Los Angeles has no on-campus residence halls.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900006",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=65",
+    "pdf_page": 65,
+    "reason": "Table footnote: Madrid has no on-campus residence halls.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900007",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=66",
+    "pdf_page": 66,
+    "reason": "Table footnote: Paris has no on-campus residence halls.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900008",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=67",
+    "pdf_page": 67,
+    "reason": "Table footnote: Prague has no on-campus residence halls.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900017",
+    "geography": "noncampus",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=68",
+    "pdf_page": 68,
+    "reason": "Table footnote: Sydney has no noncampus locations.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900018",
+    "geography": "noncampus",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=71",
+    "pdf_page": 71,
+    "reason": "Table footnote: Washington DC has no noncampus locations.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900033",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=72",
+    "pdf_page": 72,
+    "reason": "Table footnote: Athens has no on-campus residence halls.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900031",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=73",
+    "pdf_page": 73,
+    "reason": "Table footnote: Westchester has no residence halls or noncampus locations.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900031",
+    "geography": "noncampus",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=73",
+    "pdf_page": 73,
+    "reason": "Table footnote: Westchester has no residence halls or noncampus locations.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900034",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=74",
+    "pdf_page": 74,
+    "reason": "Table footnote: Rockland has no residence halls or noncampus locations.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900034",
+    "geography": "noncampus",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=74",
+    "pdf_page": 74,
+    "reason": "Table footnote: Rockland has no residence halls or noncampus locations.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900016",
+    "geography": "noncampus",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-ABU%20DHABI-ASR-25.pdf#page=24",
+    "pdf_page": 24,
+    "reason": "Abu Dhabi table footnote: campus has no noncampus locations.",
+    "source_sha256": "0d5ae5376816950db351087a07d01e86a07c3ea1d29f617d4635b7c526afa17f"
+  },
+  {
+    "campus_id": "193900013",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-SHANGHAI-ASR-25.pdf#page=27",
+    "pdf_page": 27,
+    "reason": "Shanghai table footnote: campus has no on-campus residence halls.",
+    "source_sha256": "bcce2189de8fa5ec5cc7a3e568970088019627b9b2d6383193f9c8982e33a035"
+  },
+  {
+    "campus_id": "193900025",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_no_geography",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU%20Langone%20Health%20ASR-25.pdf#page=29",
+    "pdf_page": 29,
+    "reason": "Langone Hospital-Brooklyn table footnote: campus has no residence halls.",
+    "source_sha256": "459327205d660ccd5e14f4443ab8e50d4784572b1802f10f9b58ca1241811cf1"
+  },
+  {
+    "campus_id": "193900-asr2025-tulsa",
+    "geography": "residential",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_before_opening",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=70",
+    "pdf_page": 70,
+    "reason": "Table footnote: Tulsa opened January2025 and crime data unavailable for previous years. Not an observed zero.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900-asr2025-tulsa",
+    "geography": "oncampus",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_before_opening",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=70",
+    "pdf_page": 70,
+    "reason": "Table footnote: Tulsa opened January2025 and crime data unavailable for previous years. Not an observed zero.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900-asr2025-tulsa",
+    "geography": "noncampus",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_before_opening",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=70",
+    "pdf_page": 70,
+    "reason": "Table footnote: Tulsa opened January2025 and crime data unavailable for previous years. Not an observed zero.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  },
+  {
+    "campus_id": "193900-asr2025-tulsa",
+    "geography": "publicproperty",
+    "years": [
+      2022,
+      2023,
+      2024
+    ],
+    "status": "not_applicable_before_opening",
+    "source_url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf#page=70",
+    "pdf_page": 70,
+    "reason": "Table footnote: Tulsa opened January2025 and crime data unavailable for previous years. Not an observed zero.",
+    "source_sha256": "ea281ce6805a356f7da7bd956971d4f72edf508b7da2ab7cad5d73e6f4ca7dad"
+  }
+]

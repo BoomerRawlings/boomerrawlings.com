@@ -20,3 +20,9 @@ th[aria-sort] .campus-sort-indicator{color:var(--campus-teal);font-weight:700}
 .campus-source-backlinks{display:block;margin-top:.4rem;font-size:.82rem;color:var(--study-muted)}
 .campus-source-backlinks a{display:inline-block;padding:.15rem .2rem;min-height:28px}
 .campus-explorer-sources{font-size:.87rem;line-height:1.6}
+
+.campus-source-inventory { min-width: 720px; }
+.campus-source-inventory th, .campus-source-inventory td { text-align: left; white-space: normal; vertical-align: top; max-width: 32rem; }
+.campus-source-inventory td:last-child { min-width: 8rem; }
+.campus-source-inventory td:last-child a { display: inline-block; margin: .2rem .4rem; }
+.campus-source-inventory details { margin-top: .55rem; }

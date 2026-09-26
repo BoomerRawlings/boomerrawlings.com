@@ -1,0 +1,59 @@
+{
+  "checked_utc": "2026-09-25T22:16:41.494758+00:00",
+  "status": "PASS",
+  "extracted_csv_sha256": "918352dc26ba62259c34d83c8e91c8e1fed4e207c69f4ed235b0502cf928af2c",
+  "extractor_sha256": "df83e6bd23cbacac30cc10e06edad2f1616adef78e8dcc870a9841236762215d",
+  "source_cell_count": 10276,
+  "independently_compared_cells": 10276,
+  "source_body_hashes_verified": 12,
+  "errors": [],
+  "unchecked_cells": [],
+  "institutions": {
+    "139755": 504,
+    "236948": 168,
+    "134130": 6384,
+    "170976": 168,
+    "145637": 336,
+    "204796": 168,
+    "240444": 168,
+    "228778": 1344,
+    "214777": 504,
+    "199120": 532
+  },
+  "method": "Independent implementations; Florida labeled DOM rows, PDF alternate text/table extraction and Texas pypdf text-column recovery. No import of production extractor.",
+  "visual_review_pdf_pages": {
+    "gatech": [
+      79
+    ],
+    "washington": [
+      13
+    ],
+    "michigan": [
+      16,
+      17
+    ],
+    "illinois": [
+      10
+    ],
+    "ohio": [
+      61
+    ],
+    "wisconsin": [
+      13
+    ],
+    "ut": [
+      79,
+      90
+    ],
+    "pennstate": [
+      60
+    ],
+    "unc": [
+      23,
+      24
+    ]
+  },
+  "visual_review_scope": "Twelve rendered source pages checked for labels, numerical alignment, geography headers, pagination, and cited footnotes; not a visual check of every page.",
+  "normalized_grid_note": "Output cells include explicitly absent geographies represented as null; not every output cell is a literal printed source cell. Savannah housing is documented absent by the PDF81 footnote; its n/a raw_value is a normalization.",
+  "scope_limit": "Does not certify denominator selection, federal campus ID crosswalk, latest-unavailable reports, or full incident ascertainment."
+}

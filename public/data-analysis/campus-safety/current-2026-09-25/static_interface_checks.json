@@ -1,0 +1,303 @@
+{
+  "checked_utc": "2026-09-25T22:35:38.207Z",
+  "scope": "Static HTTP/HTML and imported pure calculation functions. No browser surface was available to this agent; no responsive or interaction result is claimed.",
+  "default_current_rates": 10,
+  "default_federal_rates": 11,
+  "default_visible_institutions": 11,
+  "formulas": 7,
+  "sorts": {
+    "current_name": {
+      "first": "San Diego State",
+      "last": "UC Santa Cruz",
+      "passed": true
+    },
+    "current_nameDesc": {
+      "first": "UC Santa Cruz",
+      "last": "San Diego State",
+      "passed": true
+    },
+    "current_rateDesc": {
+      "first": "UC San Francisco",
+      "last": "UC Merced",
+      "passed": true
+    },
+    "current_rateAsc": {
+      "first": "San Diego State",
+      "last": "UC Merced",
+      "passed": true
+    },
+    "current_countDesc": {
+      "first": "UC Davis",
+      "last": "UC Merced",
+      "passed": true
+    },
+    "current_countAsc": {
+      "first": "San Diego State",
+      "last": "UC Merced",
+      "passed": true
+    },
+    "current_populationDesc": {
+      "first": "UCLA",
+      "last": "UC San Francisco",
+      "passed": true
+    },
+    "current_populationAsc": {
+      "first": "UC San Francisco",
+      "last": "UCLA",
+      "passed": true
+    },
+    "federal_name": {
+      "first": "San Diego State",
+      "last": "UC Santa Cruz",
+      "passed": true
+    },
+    "federal_nameDesc": {
+      "first": "UC Santa Cruz",
+      "last": "San Diego State",
+      "passed": true
+    },
+    "federal_rateDesc": {
+      "first": "UC San Francisco",
+      "last": "San Diego State",
+      "passed": true
+    },
+    "federal_rateAsc": {
+      "first": "San Diego State",
+      "last": "UC San Francisco",
+      "passed": true
+    },
+    "federal_countDesc": {
+      "first": "UC Davis",
+      "last": "UC San Francisco",
+      "passed": true
+    },
+    "federal_countAsc": {
+      "first": "San Diego State",
+      "last": "UC Davis",
+      "passed": true
+    },
+    "federal_populationDesc": {
+      "first": "UCLA",
+      "last": "UC San Francisco",
+      "passed": true
+    },
+    "federal_populationAsc": {
+      "first": "UC San Francisco",
+      "last": "UCLA",
+      "passed": true
+    }
+  },
+  "geography": [
+    {
+      "unit": "122409",
+      "campus": "122409001",
+      "year": 2024,
+      "cat": "rape",
+      "cells": [
+        {
+          "geography": "housing",
+          "count": 1,
+          "status": "reported_numeric"
+        },
+        {
+          "geography": "on_campus",
+          "count": 1,
+          "status": "reported_numeric"
+        },
+        {
+          "geography": "noncampus",
+          "count": 2,
+          "status": "reported_numeric"
+        },
+        {
+          "geography": "public_property",
+          "count": 0,
+          "status": "reported_numeric"
+        }
+      ]
+    },
+    {
+      "unit": "122409",
+      "campus": "122409001",
+      "year": 2025,
+      "cat": "rape",
+      "cells": [
+        {
+          "geography": "housing",
+          "count": 10,
+          "status": "reported_numeric"
+        },
+        {
+          "geography": "on_campus",
+          "count": 11,
+          "status": "reported_numeric"
+        },
+        {
+          "geography": "noncampus",
+          "count": 5,
+          "status": "reported_numeric"
+        },
+        {
+          "geography": "public_property",
+          "count": 0,
+          "status": "reported_numeric"
+        }
+      ]
+    },
+    {
+      "unit": "110671",
+      "campus": "110671002",
+      "year": 2024,
+      "cat": "rape",
+      "cells": [
+        {
+          "geography": "housing",
+          "count": null,
+          "status": "not_applicable_no_geography"
+        },
+        {
+          "geography": "on_campus",
+          "count": 0,
+          "status": "reported_numeric"
+        },
+        {
+          "geography": "noncampus",
+          "count": null,
+          "status": "not_reported"
+        },
+        {
+          "geography": "public_property",
+          "count": 0,
+          "status": "reported_numeric"
+        }
+      ]
+    },
+    {
+      "unit": "110662",
+      "campus": "110662001",
+      "year": 2024,
+      "cat": "dating_violence",
+      "cells": [
+        {
+          "geography": "housing",
+          "count": null,
+          "status": "ambiguous_source"
+        },
+        {
+          "geography": "on_campus",
+          "count": null,
+          "status": "ambiguous_source"
+        },
+        {
+          "geography": "noncampus",
+          "count": null,
+          "status": "ambiguous_source"
+        },
+        {
+          "geography": "public_property",
+          "count": null,
+          "status": "ambiguous_source"
+        }
+      ]
+    },
+    {
+      "unit": "234076",
+      "campus": "234076001",
+      "year": 2025,
+      "cat": "rape",
+      "cells": [
+        {
+          "geography": "housing",
+          "count": null,
+          "status": "unverified_source"
+        },
+        {
+          "geography": "on_campus",
+          "count": null,
+          "status": "unverified_source"
+        },
+        {
+          "geography": "noncampus",
+          "count": null,
+          "status": "unverified_source"
+        },
+        {
+          "geography": "public_property",
+          "count": null,
+          "status": "unverified_source"
+        }
+      ]
+    }
+  ],
+  "duplicate_ids": [],
+  "missing_internal_links": [],
+  "server_status": "11 institutions · 10 rates available · full institution name A–Z",
+  "server_main_rows": 11,
+  "legacy_view_defaults": {
+    "category": "criminal_total",
+    "period": "2024",
+    "measure": "enrollment",
+    "scale": 1000,
+    "group": "all",
+    "search": "",
+    "sort": "name"
+  },
+  "archive2025": [
+    {
+      "count": null,
+      "population": null,
+      "rate": null
+    },
+    {
+      "count": null,
+      "population": null,
+      "rate": null
+    },
+    {
+      "count": null,
+      "population": null,
+      "rate": null
+    },
+    {
+      "count": null,
+      "population": null,
+      "rate": null
+    },
+    {
+      "count": null,
+      "population": null,
+      "rate": null
+    },
+    {
+      "count": null,
+      "population": null,
+      "rate": null
+    },
+    {
+      "count": null,
+      "population": null,
+      "rate": null
+    },
+    {
+      "count": null,
+      "population": null,
+      "rate": null
+    },
+    {
+      "count": null,
+      "population": null,
+      "rate": null
+    },
+    {
+      "count": null,
+      "population": null,
+      "rate": null
+    },
+    {
+      "count": null,
+      "population": null,
+      "rate": null
+    }
+  ],
+  "crime_refresh_57037": true
+}

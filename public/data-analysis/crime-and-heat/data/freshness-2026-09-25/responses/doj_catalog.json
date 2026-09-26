@@ -1,0 +1,16 @@
+[
+  {
+    "id": "041eca85-2c60-4f38-a995-805231a75e3c",
+    "title": "Arrests",
+    "changed": "2026-07-01T17:30:14+00:00",
+    "alias": "/data/arrests",
+    "source_url": "https://data-openjustice.doj.ca.gov/jsonapi/node/dataset/041eca85-2c60-4f38-a995-805231a75e3c/field_source?resourceVersion=id%3A3525"
+  },
+  {
+    "id": "25b28e8b-42d2-42c2-ab28-ebf15669910f",
+    "title": "Domestic Violence Related Calls for Assistance",
+    "changed": "2026-07-01T17:43:52+00:00",
+    "alias": "/data/domestic-violence-related-calls-assistance",
+    "source_url": "https://data-openjustice.doj.ca.gov/jsonapi/node/dataset/25b28e8b-42d2-42c2-ab28-ebf15669910f/field_source?resourceVersion=id%3A3537"
+  }
+]

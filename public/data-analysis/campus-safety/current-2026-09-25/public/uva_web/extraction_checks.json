@@ -1,0 +1,19 @@
+{
+  "status": "Text extraction and arithmetic checks complete; visual verification pending",
+  "core_cells": 1008,
+  "numeric_cells": 672,
+  "campuses": 6,
+  "years": [
+    2023,
+    2024,
+    2025
+  ],
+  "overlap_cells": 672,
+  "numeric_comparisons": 448,
+  "numeric_differences": [],
+  "source_pdf_sha256": null,
+  "web_excerpt_sha256": {
+    "tables_1.txt": "263254f49fdd723664b96fed366f545e4c1dd13301135532d206322e019cdf17",
+    "tables_2.txt": "57be6e7a05b30e0eb10436197d65ffa6b7d3ad2b573887328433551a2d3c5c35"
+  }
+}

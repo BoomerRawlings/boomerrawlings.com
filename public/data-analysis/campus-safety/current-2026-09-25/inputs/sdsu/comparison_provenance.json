@@ -1,0 +1,21 @@
+{
+  "prior_asr": {
+    "file": "sdsu_2025_asr.pdf",
+    "url": "https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf",
+    "retrieved_utc": "2026-09-25T09:45:54.796883+00:00",
+    "bytes": 4610369,
+    "sha256": "3242ccb9a6632269bcd68c2cd5e045d3c73af502841519f2b17d2f5985ced4e3",
+    "pages": 145
+  },
+  "prior_asr_local_file": "sdsu_2025_asr_comparison_source.pdf",
+  "federal_subset": {
+    "file": "frozen_federal_sdsu_counts.csv",
+    "rows": 1539,
+    "sha256": "6aa86277290e5f40e04b5febedc666384c43f00efa0639cfd9edb92a875d5aea",
+    "source_relative_to_study": "sources/clery/normalized/cohort_campus_counts_2022_2024.csv",
+    "source_sha256": "29743ee5f542881a74915a12b735019a0118b0ca322b29d09746361843eb11c4",
+    "selection": "unitid == '122409'; all existing source columns and rows preserved",
+    "original_bulk_source": "https://ope.ed.gov/campussafety/api/dataFiles/file?fileName=Crime2025EXCEL.zip",
+    "collection": 2025
+  }
+}

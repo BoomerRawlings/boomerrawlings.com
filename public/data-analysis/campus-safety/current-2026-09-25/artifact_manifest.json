@@ -1,0 +1,478 @@
+{
+  "audit_current_citations.py": {
+    "bytes": 28450,
+    "sha256": "0546974f549eace9a94eeff55e6d7d4bc3edd66ce539fff085fb04edd7e4ff40"
+  },
+  "audit_current_data.py": {
+    "bytes": 18345,
+    "sha256": "a1cfcf8bd1732a1d8b22ee8bfb5903d6b7ed6e61203c4dc19cc93702f681b017"
+  },
+  "audit_reader_copy.mjs": {
+    "bytes": 6640,
+    "sha256": "ceffdef2e75b3b17dd488fc0d858f6bb9cf4f5cb97a98f32ae9e1b0e04c2e663"
+  },
+  "build_current.py": {
+    "bytes": 22295,
+    "sha256": "e193247b73011ada21f7c031bb9dddf70f21ec47cbedec51cde81d5d5025d5f8"
+  },
+  "build_current_reports.py": {
+    "bytes": 25972,
+    "sha256": "9c89a4586dbe1315422b8deaffaa944cec655c8130b7216999551f3de688b0c7"
+  },
+  "build_inputs.json": {
+    "bytes": 1148,
+    "sha256": "c1724b38b97967c718073df2ede02cb423d387dda12bf38019d7f24f1abac513"
+  },
+  "campus-safety-current-report.pdf": {
+    "bytes": 217978,
+    "sha256": "58b54176526f25b45466120e7818689af4e636b52f5a30100864289034993f42"
+  },
+  "case_study.json": {
+    "bytes": 3632,
+    "sha256": "234cfafd586fb8e5643265bcf6acda2b11124668a837bfab743ec1d8a1227eba"
+  },
+  "coverage.json": {
+    "bytes": 1548,
+    "sha256": "772c88e304eddd6c1946c05c3a3ccc1f118392f4fc9211dc4af947223a17eb4d"
+  },
+  "CURRENT_CITATION_AUDIT.json": {
+    "bytes": 39894,
+    "sha256": "7489878f1782d53333b27895f2c59b256e483bff0ef18a55d1beab6890726aa4"
+  },
+  "CURRENT_CITATION_AUDIT.md": {
+    "bytes": 19476,
+    "sha256": "faff499d461e40f154de456bcdd3225675a2ec5bfd99ffa0dd72c6818317559a"
+  },
+  "CURRENT_DATA_AUDIT.json": {
+    "bytes": 4637,
+    "sha256": "2509dd727f9b7932238a13c8fba346956a416f3a79b26cb8fca02dfea451e08b"
+  },
+  "CURRENT_DATA_AUDIT.md": {
+    "bytes": 9950,
+    "sha256": "f471800e74ec86fe539b2af1bbcc4356b21fb06548d463d1c22fa010afe86a62"
+  },
+  "dataset.json": {
+    "bytes": 805992,
+    "sha256": "cf5592b18c1379111248b762bf9447937f0b34383de7ed33e92645e37efac000"
+  },
+  "federal/bulk_rechecks.json": {
+    "bytes": 1779,
+    "sha256": "93ef6db53eadc8a1b1ddd476ca3c533fb4104bcd050fa48e652a222b5592250a"
+  },
+  "federal/fileList.json": {
+    "bytes": 16447,
+    "sha256": "2de84ac573ec8794db780c1c8f63d8bc02ce317def2fcf10a5e5244bf1f624ec"
+  },
+  "federal/years.json": {
+    "bytes": 91,
+    "sha256": "5792a386eb7b8ed7366150594e8f01d81cb941d4b7680d63240997787f96dac1"
+  },
+  "geography.json": {
+    "bytes": 13715162,
+    "sha256": "2ebcce446ebb6ef321848e4658f7ea4856257496583fd7da5f1f36382850bd38"
+  },
+  "inputs/frozen_dataset.json": {
+    "bytes": 509357,
+    "sha256": "5a4ac282c79e3e0a6d6fec478b24b6bae1c47d8350863d582314de39a01ef998"
+  },
+  "inputs/sdsu/asr_2025_vs_2026_comparison.csv": {
+    "bytes": 131159,
+    "sha256": "c2050bf23b444f87c6a862af02761a9379ff25752a34d3e61401416836e9c4ca"
+  },
+  "inputs/sdsu/audit_current_tables.py": {
+    "bytes": 2844,
+    "sha256": "eda64cec6ddd5234fbe70559a8d4a53ddb4f77809d911b7e09cb86f68c731317"
+  },
+  "inputs/sdsu/comparison_input_manifest.json": {
+    "bytes": 220,
+    "sha256": "36f3c49875cedca5238199dca10ef5b565d0a6a2dc3a1ba338d5b7c84a08f984"
+  },
+  "inputs/sdsu/comparison_provenance.json": {
+    "bytes": 1029,
+    "sha256": "8ed4da1bd4f58e265b2542675acf5f4ee2492e615629e81ef14e42c584596674"
+  },
+  "inputs/sdsu/current_asr_all_counts.csv": {
+    "bytes": 201623,
+    "sha256": "ee0641325a1494f31cc791b4a641b0df751d939d91cab89569bfc38e3ac9259b"
+  },
+  "inputs/sdsu/current_asr_all_counts.json": {
+    "bytes": 481257,
+    "sha256": "ec92407ca6871b639169fa1c19b128da844c00c63002a7e0018e3b4fa3d5de77"
+  },
+  "inputs/sdsu/current_asr_core_counts.csv": {
+    "bytes": 129803,
+    "sha256": "189626590286dd9be838a2e40cacc4f95334fd4995fb02a90bd5e439cf273c05"
+  },
+  "inputs/sdsu/current_asr_core_counts.json": {
+    "bytes": 316101,
+    "sha256": "d1639d25775f9c39adce03f95a8757238e7195c44b8b5ea2a556ee111b9b4038"
+  },
+  "inputs/sdsu/current_criminal_totals.csv": {
+    "bytes": 10487,
+    "sha256": "0967b8bebd9a8c93eebc342665aade883b9600f68c7eb0439825be4904b63366"
+  },
+  "inputs/sdsu/current_narrative_totals.csv": {
+    "bytes": 5408,
+    "sha256": "a858d7524379dd7c3399f9b889f126f6a872e5644018547fe62b591913870d99"
+  },
+  "inputs/sdsu/current_narrative_totals.json": {
+    "bytes": 9344,
+    "sha256": "412f1f473e8b1f304b4699def4060fa6a2027338e82b452ba0bd081e535e5c8a"
+  },
+  "inputs/sdsu/current_nonoverlapping_geography_totals.csv": {
+    "bytes": 34284,
+    "sha256": "e32e37068083e6469cac2fef15f33d1de68669a28cb9deb2d45358077496ec8b"
+  },
+  "inputs/sdsu/current_retrieval_metadata.json": {
+    "bytes": 1471,
+    "sha256": "0dd4239899e9433598dbfffbe6d9162386ebbb0683a53827f1c672924e9a473e"
+  },
+  "inputs/sdsu/extract_sdsu.py": {
+    "bytes": 14001,
+    "sha256": "6c6a7c4035197e7935809c38add231b336eea59429952f47a1eee5491342dac6"
+  },
+  "inputs/sdsu/extraction_verification.json": {
+    "bytes": 2162,
+    "sha256": "27166cc48ec00452c5cb9595e681872f457b38a9dbd7343ce1c6baadfcfdcfd8"
+  },
+  "inputs/sdsu/federal_2025_vs_asr_2026_comparison.csv": {
+    "bytes": 109156,
+    "sha256": "ced641f08cf73ac81733b2a17f683306cdac18a7b489e085757dcf683d4ffed2"
+  },
+  "inputs/sdsu/independent_table_audit.json": {
+    "bytes": 715,
+    "sha256": "8c4c43c99927edbc4c8c28c770b093bb5eabc175d589da054b37b8d0857a674b"
+  },
+  "inputs/sdsu/prior_asr_all_counts.csv": {
+    "bytes": 231517,
+    "sha256": "d6e47df9eeb3ee603064e49839f7933b2f8ac838c7f3214a01706ef2c4058fc4"
+  },
+  "inputs/sdsu/README.md": {
+    "bytes": 8832,
+    "sha256": "3a638a57422fdb09ef21aca5335186a786ad82b724931429f7b7d0553392cae1"
+  },
+  "inputs/sdsu/source_inventory.json": {
+    "bytes": 4753,
+    "sha256": "140a53aab9e757cae685bb1d06ad8cc62f7c2b1e0cdef4c8b4385754da1d56c3"
+  },
+  "interface/components/CampusReader.astro": {
+    "bytes": 13989,
+    "sha256": "13388f117bb44e567babd95e81f5c1849f2522fe33b56a0513911b93c96b7d1c"
+  },
+  "interface/components/CampusReaderSources.astro": {
+    "bytes": 2069,
+    "sha256": "a19a651fce43028b70cf536a7cdb30b33ea8557218de54205c4395b5a26c7f08"
+  },
+  "interface/content/archive/campus-safety.md": {
+    "bytes": 15519,
+    "sha256": "b6996cdade8d3ac94fc78774f85651d933be9c9f9813b09c55773e80ea2728c3"
+  },
+  "interface/data/campus-reader-copy.js": {
+    "bytes": 6185,
+    "sha256": "eb3a423fe7695ccf53d4d8f8d193d1b207c714e6967b63670face89b7a31799a"
+  },
+  "interface/data/campus-school-context.json": {
+    "bytes": 39888,
+    "sha256": "2a89f6eb25b23878daae794b1a814167cb704762d6e4ed0db64f1c48ee291d75"
+  },
+  "interface/lib/campus-rates.js": {
+    "bytes": 5719,
+    "sha256": "9467849ad2803ae3c07981fcecc28c8957994f10ed06a58d32bf71faa5d0f215"
+  },
+  "interface/lib/campus-reader.js": {
+    "bytes": 3624,
+    "sha256": "dd38608f30b67f8efb0a4df7d5f908ceaef9f930920dc6eb6a26cdb1df39653d"
+  },
+  "interface/lib/campus-term-dom.js": {
+    "bytes": 3120,
+    "sha256": "41b7f7e2bea4754af4ccb60ff9bb9031d9713d5b0fab4d71a12c3e2f777c7e06"
+  },
+  "interface/lib/campus-terms.js": {
+    "bytes": 5282,
+    "sha256": "fd133386a9af86967a549e0b49acdd4aa925cf03eb0308f1420237fb06842ee5"
+  },
+  "interface/pages/writing/data-analysis/campus-safety.astro": {
+    "bytes": 21066,
+    "sha256": "d91d53a3c048b53036f77661f2a3fae944317dbc1355980a9fc8f76c40f7423a"
+  },
+  "interface/README.md": {
+    "bytes": 620,
+    "sha256": "8958c54d000e53946dbb3245245150d2421bac9f2c4803897e8c9584c2a32395"
+  },
+  "interface/SOURCE_FILES.json": {
+    "bytes": 1804,
+    "sha256": "efa9880246435851b076e10af5c457e16b57c6e177124915fedbae62f6a2548b"
+  },
+  "interface/styles/campus-reader.css": {
+    "bytes": 5327,
+    "sha256": "720fbac807486b4be567aa5a4bbeefb3c2073454503beb5fca1536f21af98b01"
+  },
+  "interface/test-campus-reader.mjs": {
+    "bytes": 2988,
+    "sha256": "f4accfd75c85debcb1d0a76bf13f1570fc1673202bd8fe6a64c47e87ecaf463d"
+  },
+  "PDF_VISUAL_AUDIT.md": {
+    "bytes": 4317,
+    "sha256": "cfb872fdd2a5e0f1328b896434862fc0b03a46d1cc158b3531eb1ae742d6acde"
+  },
+  "private/2025_visual_source_review.json": {
+    "bytes": 3947,
+    "sha256": "9768d80535fc6dd54ab35d8b4b4b39e74e2c80904e1733c118848b66e8902394"
+  },
+  "private/audit_2025_visual_sources.py": {
+    "bytes": 6770,
+    "sha256": "caa877239fcf8dc926d60dbf49bd3cdb1b3137bec25c599ae1b1586429502585"
+  },
+  "private/audit_current_2025.py": {
+    "bytes": 9175,
+    "sha256": "33eff77598e561a0c0c0daa7a2efb455f6e981a33b241997ab844b3b5513ec65"
+  },
+  "private/audit_current_2026.py": {
+    "bytes": 8017,
+    "sha256": "299ad1497212df91f17a1de0393befca5ae4e7dbaaf010b1dab27f9175cb9e53"
+  },
+  "private/audit_duke_2025.py": {
+    "bytes": 6112,
+    "sha256": "5e7483a33fb1d1fdd49d7de1457d21664891bcda7e52e1b23c13b0359d071e4a"
+  },
+  "private/build_structural_rules.py": {
+    "bytes": 6995,
+    "sha256": "4effdfd87c7f3d68726924627d75b8281f0a55ff73a7612598a707baa0ebeca4"
+  },
+  "private/current_2025_core_counts.csv": {
+    "bytes": 3199194,
+    "sha256": "f395d3f3a6db3cf63806b9b0fcc30825fd69867089fa4c72c0a91e7cc4b62087"
+  },
+  "private/current_asr_core_counts.csv": {
+    "bytes": 2402339,
+    "sha256": "f230b422f4dab8e06db30e4e0fe613e97118c6ed40b881f20f9175b82d57ce93"
+  },
+  "private/duke_2025_core_counts.csv": {
+    "bytes": 162090,
+    "sha256": "6640b1bbb2cd099aa4a088d781c77d13c0bd91886e1296920686282bb3f2b8f0"
+  },
+  "private/duke_2025_core_counts.json": {
+    "bytes": 348724,
+    "sha256": "d2f207dcc00ef8baa5c89c34bd04c7d5e9931b5ac9d49542aa361a7956f3c517"
+  },
+  "private/duke_2025_federal_comparison.csv": {
+    "bytes": 55921,
+    "sha256": "5c22667017af036cd04c792b80abb5ed305f1cdff91c25c8b5a541d2d5fc7f4d"
+  },
+  "private/duke_2025_source_audit.json": {
+    "bytes": 2516,
+    "sha256": "3c175e3faaaa49c6b17aef529dc17780133a8660c2976c06fae1935fa025ca05"
+  },
+  "private/DUKE_SOURCE_AUDIT.md": {
+    "bytes": 2575,
+    "sha256": "f16479516d8251ef0818c21e281b40440482cf86484f7847f5fb1f8135104130"
+  },
+  "private/extract_current_2025.py": {
+    "bytes": 14678,
+    "sha256": "a839cfafedaea87a26165fdc9e3f04ba8caca82439a109d5a9f20fe19619d5ed"
+  },
+  "private/extract_current_2026.py": {
+    "bytes": 11758,
+    "sha256": "ec87b0433cfc7a61f9a44fac87fe3349e930cd4f8e62d390266659e3164f64bf"
+  },
+  "private/extract_duke_2025.py": {
+    "bytes": 5614,
+    "sha256": "5df952edd0bc8538662da9d33999dec7a5994cef72a23209df22a1e52946f627"
+  },
+  "private/extraction_2025_issues.json": {
+    "bytes": 554197,
+    "sha256": "fba4fccc7b07c3cc294ed1b2aa09f19ad1c8dfdb37cacb9cdf04cb380a223f6b"
+  },
+  "private/extraction_issues.json": {
+    "bytes": 139028,
+    "sha256": "4f4d47a683fada9f20c99d7a1cccfdededdd5f2d3aef6e84f6c8642566e13d29"
+  },
+  "private/federal_overlap_reconciliation.csv": {
+    "bytes": 4475138,
+    "sha256": "597bf476ef47898bab6c58b1e3589b045d36c1dbe14fe14cade49896707038d1"
+  },
+  "private/findings.md": {
+    "bytes": 9520,
+    "sha256": "cd101613ac070ad98750236217e78cd05b317bda2c238f6c0975158e08853d59"
+  },
+  "private/na_scope_interpretations.json": {
+    "bytes": 1916,
+    "sha256": "7a99650552a2ec91217a54d2f5d0793785cb895397cd12653cc7d86770103d5c"
+  },
+  "private/private_input_integrity.json": {
+    "bytes": 5521,
+    "sha256": "5596d6a3f72e8f478b04f90fe03427f50e31de96fded549284c90f48a222611d"
+  },
+  "private/second_2025_extraction_audit.json": {
+    "bytes": 400,
+    "sha256": "c076b542a9c8000d2d1c375db801f52456cba864e0898b9117bc3a76c89f9ca8"
+  },
+  "private/second_extraction_audit.json": {
+    "bytes": 325,
+    "sha256": "2004a83d7427c7d5f9f315c74522c0c4a85ea0642061a58a8323c3befa60fb16"
+  },
+  "private/source_inventory.json": {
+    "bytes": 108258,
+    "sha256": "a5e5e03c6c41a30cd5a23f470ff408c277a254b5c5bb8d1c51a7c9a1b2d9d2c3"
+  },
+  "private/stanford_sex_subtotal_check.json": {
+    "bytes": 389,
+    "sha256": "14338a2c929ef4abcd8fa645d4797e1b9c7a998e6fcea3bb5f465bcba74a7261"
+  },
+  "private/structural_geography_rules.json": {
+    "bytes": 24072,
+    "sha256": "f168f2c9b594098f49578993f26af070bdccfbe5f7e28e2f47fee8065ced0a33"
+  },
+  "private/STRUCTURAL_RULES_AUDIT.json": {
+    "bytes": 6223,
+    "sha256": "5b3ede40c8fa3e163f297a69e99b8f1cacdf23bdb245a635ccdf87b4c8e57b94"
+  },
+  "private/verify_private_inputs.py": {
+    "bytes": 4863,
+    "sha256": "6e91e2000c6422fcf44382d1fe56dfb28cf054723c0902d282e78853bbb810d3"
+  },
+  "public/audit_public_sources.py": {
+    "bytes": 15990,
+    "sha256": "b44ccbb60b9e3c6008ec8b5d6306c6ade9be3db163d9f690fd023ea22db13dc6"
+  },
+  "public/current_core_counts.csv": {
+    "bytes": 3458031,
+    "sha256": "918352dc26ba62259c34d83c8e91c8e1fed4e207c69f4ed235b0502cf928af2c"
+  },
+  "public/extract_public.py": {
+    "bytes": 15577,
+    "sha256": "df83e6bd23cbacac30cc10e06edad2f1616adef78e8dcc870a9841236762215d"
+  },
+  "public/florida_footnotes_audit.json": {
+    "bytes": 18554,
+    "sha256": "55b4e846e0eb67953a2e729ae44727668a9699970ca424dde413d22a57596d2c"
+  },
+  "public/PUBLIC_SOURCE_AUDIT.json": {
+    "bytes": 1810,
+    "sha256": "951235d7a2f4a6dd82fc9a45e988f405328686e56ec37301c71793bf6c85a289"
+  },
+  "public/PUBLIC_SOURCE_AUDIT.md": {
+    "bytes": 9148,
+    "sha256": "e1e3bd74d6527dfb052eaef248f881372718a114bd2a2369cf4c68da1ddd741f"
+  },
+  "public/source_inventory.json": {
+    "bytes": 23884,
+    "sha256": "b6758630452944f9a31c5b089dfabfc2c9b63d3fd9c99ca40e1f139af354818e"
+  },
+  "public/uva_web/current_core_counts.csv": {
+    "bytes": 454748,
+    "sha256": "6c333e627493cf8b0d6fd527764280556a97f4838b5a979cb967bd33f845def5"
+  },
+  "public/uva_web/extract_uva_web.py": {
+    "bytes": 4618,
+    "sha256": "cb92d884c08a57d18e8cae6f6623d11f21a04e233353859b6bdf63d6768404b3"
+  },
+  "public/uva_web/extraction_checks.json": {
+    "bytes": 539,
+    "sha256": "a426b508191c2ef260a14b73896d7cfabe626026a43a16175d2d78513a85e11f"
+  },
+  "public/uva_web/federal_comparison.csv": {
+    "bytes": 111675,
+    "sha256": "fe2945eba682ee56169398e47e8deab1b8d7b7e1bae3a15e65cb7cb21507a899"
+  },
+  "public/uva_web/main_table_notes.txt": {
+    "bytes": 2006,
+    "sha256": "a41dba25487f6951558b5fc0e850a204af9fbb4ae3d9114965e0059bd8c10d42"
+  },
+  "public/uva_web/metadata.json": {
+    "bytes": 1075,
+    "sha256": "ecfc42816ca932ff50c6395fea790b9f90257be2988aead6db35b94032bd0758"
+  },
+  "public/uva_web/REVIEW.md": {
+    "bytes": 1527,
+    "sha256": "42f532f0f440c9fa6ebc3d3b1daf212c715117e03e76c6a2bb997bf1a7229a54"
+  },
+  "public/uva_web/tables_1.txt": {
+    "bytes": 6205,
+    "sha256": "263254f49fdd723664b96fed366f545e4c1dd13301135532d206322e019cdf17"
+  },
+  "public/uva_web/tables_2.txt": {
+    "bytes": 6778,
+    "sha256": "57be6e7a05b30e0eb10436197d65ffa6b7d3ad2b573887328433551a2d3c5c35"
+  },
+  "rates.csv": {
+    "bytes": 1365526,
+    "sha256": "9e5e58e0a6c816e80237ed018209da81c7e705d702d852be50bcc9056c6d57c3"
+  },
+  "READER_COPY_AUDIT.json": {
+    "bytes": 2828,
+    "sha256": "c0f0c4f5cc02b40dd20b0429d3c65086e13cc79c8ca0ba4102ab293300e9d605"
+  },
+  "README.md": {
+    "bytes": 8509,
+    "sha256": "ed93415b0352d1a307b048493b90b2d35e61ec0a0704a07930a1dd496a9de5c9"
+  },
+  "RELEASE_PACKAGE_CHECK.json": {
+    "bytes": 3772,
+    "sha256": "f4457c3802c70912979b09acb8ed4ae0b6fc84358f1b41db08c354f507273db2"
+  },
+  "source_cells.csv": {
+    "bytes": 13365690,
+    "sha256": "d1eb7fb9c7d485ea3378791f76bd42c88b3c764eea1036148d3e3dffd36a133f"
+  },
+  "source_inventory.json": {
+    "bytes": 52517,
+    "sha256": "31f37ee6f42130b78cf929d68444ddbef81198aa9ae2b2be29833019dc570729"
+  },
+  "static_interface_checks.json": {
+    "bytes": 6609,
+    "sha256": "b95cce890c49045ef7dc208102c12d97015753f1b31b8c1296438985457d4c0d"
+  },
+  "uc/audit_second_extraction.py": {
+    "bytes": 13253,
+    "sha256": "942bd130859ca2043bbc40c65aee770a3129d5a697cfbe7292b451b0d743f286"
+  },
+  "uc/current_core_counts.csv": {
+    "bytes": 912474,
+    "sha256": "497f5574b65f2bc0c76127d1002ceab208827e5ff3e6f60dde7989ea46a3c93a"
+  },
+  "uc/current_core_counts.json": {
+    "bytes": 2040772,
+    "sha256": "18b6518798f6cdcb22aa0fcdf0424df38865db694cdc3ca9fffbde163b2c19d1"
+  },
+  "uc/extract_current_core.py": {
+    "bytes": 15467,
+    "sha256": "cde70ef6875655bd2e10e1c85ac4351148b4cc7fc615c84022b7fe2995f54335"
+  },
+  "uc/extraction_checks.json": {
+    "bytes": 11551,
+    "sha256": "4e74489a8fad88302e4ce16d766bf30a17454554bae07d10d46a672855ac13fd"
+  },
+  "uc/federal_comparison.csv": {
+    "bytes": 416030,
+    "sha256": "3f0c56887a74a53eb43c5c319eebb8b2d1a11c4df05d7779487e69d27e43c2cc"
+  },
+  "uc/FINDINGS.md": {
+    "bytes": 8492,
+    "sha256": "63c792ef86a15aa6e7187498af0e48552255c938cae60546c8329ac139f62ed2"
+  },
+  "uc/inventory.json": {
+    "bytes": 20438,
+    "sha256": "978984055176e59f21c29e95a5d0c19700047b607db3807f939c4a4af06231f5"
+  },
+  "uc/second_extraction_audit.json": {
+    "bytes": 3803,
+    "sha256": "bb45ca50cc0c4cb4df2dfe2e6cf2fd287d1bfa9486753265c721ceb9dee1e5ee"
+  },
+  "uc/SECOND_EXTRACTION_AUDIT.md": {
+    "bytes": 5096,
+    "sha256": "b95a0213553d21ae0e8348df8a6c4251412607f4e4eac3d587665b8b23ed7f24"
+  },
+  "uc/second_extraction_cells.json": {
+    "bytes": 663170,
+    "sha256": "a65707c039f9a6e9c1d39175d235455697e769cbf242546ba254ba7d4a656125"
+  },
+  "VISUAL_AUDIT.md": {
+    "bytes": 6639,
+    "sha256": "3e2bdd9c76f6a29de0a4d1384f26f81f394f017d5e462819deddb24f45480348"
+  },
+  "campus-safety-current-reproducibility.zip": {
+    "bytes": 1406177,
+    "sha256": "e7c7579809aae917d05031f5dcfa0bf33877ceb87d3ec2d56cfff33329779bba"
+  }
+}

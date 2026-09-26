@@ -1162,5 +1162,161 @@
   "data/source-expansion-1/weather/weather_paired_metrics.csv": {
     "bytes": 2099,
     "sha256": "ac2fb95dbfd86d8b735c7311b206eaf5508309671211acb0b687b63fb2a3666e"
+  },
+  "data/freshness-2026-09-25/audit_freshness.py": {
+    "bytes": 9850,
+    "sha256": "46d18e041a45b94707b981cf12a6caaa7e8886ab3e47905bc7586189995ae043"
+  },
+  "data/freshness-2026-09-25/crime-and-heat-source-refresh.pdf": {
+    "bytes": 108730,
+    "sha256": "f6ce724d1450fba85601db40b46e5d59122d4191e254e81b5fe06bd517d2cba3"
+  },
+  "data/freshness-2026-09-25/FRESHNESS_AUDIT.md": {
+    "bytes": 9648,
+    "sha256": "672f2d07fd7606736f1351aa551ca25bcbcf73cc511e5c64f7ee9548a1d57896"
+  },
+  "data/freshness-2026-09-25/freshness_results.json": {
+    "bytes": 139536,
+    "sha256": "e5496e1eb1ec7074bbb13236247abac075d964daead91a6bd57e48b978fc1ad8"
+  },
+  "data/freshness-2026-09-25/offline_verification.json": {
+    "bytes": 767,
+    "sha256": "575ea1c0e1684764aea35102d1e955afeac5ea5844af123203f6af33a6b6d7bf"
+  },
+  "data/freshness-2026-09-25/PUBLIC_FILES.json": {
+    "bytes": 6130,
+    "sha256": "b891bc958acda9243b038d866469a3a527274908b89f35bfb0e27bae73f8905b"
+  },
+  "data/freshness-2026-09-25/refresh_sdpd_2026.py": {
+    "bytes": 4653,
+    "sha256": "373bbffafbd6381558f58fcee9114216a0ebf7f9954c3a7dd173511e91962741"
+  },
+  "data/freshness-2026-09-25/responses/doj_arrest_latest_files.json": {
+    "bytes": 1081,
+    "sha256": "bccb862d1c548695316a732f65281ba12c07988b01ae79d1dbb779b615a6e682"
+  },
+  "data/freshness-2026-09-25/responses/doj_catalog.json": {
+    "bytes": 713,
+    "sha256": "554312520efec0fc213f9dea18592aab0170d167ab75f71240adedbbca39156f"
+  },
+  "data/freshness-2026-09-25/responses/doj_dv_latest_files.json": {
+    "bytes": 802,
+    "sha256": "be8d8d2e0d45505ce461be180e87bb9cfe49b66b8880e5c411269d4ab477294d"
+  },
+  "data/freshness-2026-09-25/responses/sandag_huzf-mi2z.json": {
+    "bytes": 4362,
+    "sha256": "ac8e3695e517145e9ffef51e81bf7444a2903adae31e04bde6d7d47e24045071"
+  },
+  "data/freshness-2026-09-25/responses/sandag_knre-fqwi.json": {
+    "bytes": 2295,
+    "sha256": "a69d98424cca435a45b7c009a814394e4fc8d6307273782084a6a7230503d8d5"
+  },
+  "data/freshness-2026-09-25/responses/sandag_pr74-d3tr.json": {
+    "bytes": 5373,
+    "sha256": "5efde3ff6aaec059d2b8c66f1a35c478bda2b04125ddbf5ac5d97956eff54c10"
+  },
+  "data/freshness-2026-09-25/responses/sandag_qbrv-e75t.json": {
+    "bytes": 2113,
+    "sha256": "31323bba34fb50feb3b2547686a324daa92c1daf07df60263297be9e09a683e7"
+  },
+  "data/freshness-2026-09-25/sdpd_2020_current_daily_counts.json": {
+    "bytes": 22697,
+    "sha256": "4edd8562c9cd79442023294d90c5d25dfcd8c66408ae58b1e5e7fbbfb1fffcfd"
+  },
+  "data/freshness-2026-09-25/sdpd_2020_daily_count_changes.json": {
+    "bytes": 4,
+    "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+  },
+  "data/freshness-2026-09-25/sdpd_2021_current_daily_counts.json": {
+    "bytes": 22635,
+    "sha256": "d48604e317a0d0b88c38835e94666bc81c0e60c901ad7831fdd07fa1cd3b72da"
+  },
+  "data/freshness-2026-09-25/sdpd_2021_daily_count_changes.json": {
+    "bytes": 4,
+    "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+  },
+  "data/freshness-2026-09-25/sdpd_2022_current_daily_counts.json": {
+    "bytes": 22635,
+    "sha256": "24261873aff1116b531a6a712ec37c073237a5fabefbd83de1b40a91d6284180"
+  },
+  "data/freshness-2026-09-25/sdpd_2022_daily_count_changes.json": {
+    "bytes": 4,
+    "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+  },
+  "data/freshness-2026-09-25/sdpd_2023_current_daily_counts.json": {
+    "bytes": 22635,
+    "sha256": "7a9b4fa41e336e661a89c99e25b6e65d11f43f078305adb9efe4af292e78b9fa"
+  },
+  "data/freshness-2026-09-25/sdpd_2023_daily_count_changes.json": {
+    "bytes": 4,
+    "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+  },
+  "data/freshness-2026-09-25/sdpd_2024_current_daily_counts.json": {
+    "bytes": 22697,
+    "sha256": "c78d81dd3fd94fee696013b03716be7cc64b10cd7d3e6bdd02137b473174a551"
+  },
+  "data/freshness-2026-09-25/sdpd_2024_daily_count_changes.json": {
+    "bytes": 4,
+    "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+  },
+  "data/freshness-2026-09-25/sdpd_2025_current_daily_counts.json": {
+    "bytes": 22635,
+    "sha256": "3044f03ad38bf9aad9165c0399a57645756f41fd74a168335e5d417556e088a6"
+  },
+  "data/freshness-2026-09-25/sdpd_2025_daily_count_changes.json": {
+    "bytes": 4,
+    "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+  },
+  "data/freshness-2026-09-25/sdpd_2026_current_daily_counts.json": {
+    "bytes": 16558,
+    "sha256": "ff0afbd4e45d27852124dfa427cad7b2f410e90fcd0c0817a12d8f4b7dd77dda"
+  },
+  "data/freshness-2026-09-25/sdpd_2026_daily_count_changes.json": {
+    "bytes": 3354,
+    "sha256": "913f8e9746e4270670495c9b0c460ec854da953a3f5bfa8795dd00bf54b89b34"
+  },
+  "data/freshness-2026-09-25/sdpd_2026_refresh_metadata.json": {
+    "bytes": 1868,
+    "sha256": "9b14e488f054b397846062dcc8981742ee3117d6adef6a3c864ce3b55a8fbecc"
+  },
+  "data/freshness-2026-09-25/sdpd_nibrs_2026_daily.csv": {
+    "bytes": 34149,
+    "sha256": "3d64f6f7577078ea135077a52e3884b927cff01e82d2bcb77384c4fea11d737d"
+  },
+  "data/freshness-2026-09-25/sdpd_nibrs_2026_daily.json": {
+    "bytes": 247662,
+    "sha256": "cfc189c8596360ba80bb9bed037b8dda70985a2233a78ec306872f07d0263992"
+  },
+  "data/freshness-2026-09-25/sdpd_nibrs_2026_monthly_offense.csv": {
+    "bytes": 16921,
+    "sha256": "727258b2ed4d19eb3da878d35865d4d92af0315a0ebca0f96f5286a98e2af2e9"
+  },
+  "data/freshness-2026-09-25/sdpd_nibrs_2026_monthly_offense.json": {
+    "bytes": 68417,
+    "sha256": "1c0adae6c80d9fbf92fc65cc3ba56ca12f1906a2d826cf86dffe2dcb6ffb7704"
+  },
+  "data/freshness-2026-09-25/sheriff_access_review.json": {
+    "bytes": 832,
+    "sha256": "11cef42422c1f37d0228157a00d7dcd3a33ddccc5b68e95aa8b3301b9e0ef01c"
+  },
+  "data/freshness-2026-09-25/source_freshness_summary.json": {
+    "bytes": 1241,
+    "sha256": "97f4d4866ecfb5ae0ac10690b088ac9d4adc736acc84c830f54a5bb972f6a647"
+  },
+  "data/freshness-2026-09-25/STATUS.json": {
+    "bytes": 469,
+    "sha256": "d706114a4176f01bf145774cbe7fc4c95d0a2727887dd66d2912855e1d6f4333"
+  },
+  "data/freshness-2026-09-25/verify_freshness.py": {
+    "bytes": 4310,
+    "sha256": "931a003c2f63a3a57dfe3fb66eadd599684660c9b4e149e9de596aff3dbdee65"
+  },
+  "data/freshness-2026-09-25/source-refresh-data-and-audit.zip": {
+    "bytes": 181833,
+    "sha256": "2c1f4489df75514162c032cdda5714f2ef8172541a471d102c9b4a50f61ed753"
+  },
+  "data/freshness-2026-09-25/artifact_manifest.json": {
+    "bytes": 5575,
+    "sha256": "ccbab54b3a2d088b5a50a7f0e33066d95832d4ff55ee46e87c3088143ec7fc80"
   }
 }

@@ -1,0 +1,79 @@
+{
+  "checked_utc": "2026-09-25T22:31:30.527783+00:00",
+  "status": "PASS",
+  "scope": "All 336 Princeton 14-category source cells; eight MIT/Dartmouth conflicting component cells; 12 Dartmouth Lebanon dating-violence n/a cells. Six rendered pages visually inspected.",
+  "princeton_cells": 336,
+  "conflicting_component_cells": 8,
+  "dating_na_cells": 12,
+  "csv_sha256": "f395d3f3a6db3cf63806b9b0fcc30825fd69867089fa4c72c0a91e7cc4b62087",
+  "audit_script_sha256": "caa877239fcf8dc926d60dbf49bd3cdb1b3137bec25c599ae1b1586429502585",
+  "source_pdfs": [
+    {
+      "path": "retrieved/princeton/asr-7771cb32.pdf",
+      "sha256": "ccbe00f7856bb20e98e1b47573fc16eacd8d029fc3d377bf2eb38c92f77f7094",
+      "source_url": "https://publicsafety.princeton.edu/sites/g/files/toruqf2581/files/documents/Security%26FireSafety_Report_2025_V5.pdf"
+    },
+    {
+      "path": "retrieved/mit/asr-8895265e.pdf",
+      "sha256": "aad0230621aa52ae4d34a3f1aa98377ac1d463843e301bdfbfd80dd77536b485",
+      "source_url": "https://police.mit.edu/sites/default/files/MIT-Police-Files/Documents/MITPolice_ASR_2025_Final_v3.pdf"
+    },
+    {
+      "path": "retrieved/dartmouth/asr-d24ab270.pdf",
+      "sha256": "37a2a77d2405ff9a4f6dadfe06f5a8c1bf2c0e9f0b74d4ba74b6c395f12949b5",
+      "source_url": "https://www.dartmouth.edu/security/clery-compliance-office/asr.pdf"
+    }
+  ],
+  "render_hashes": {
+    "princeton2025-50.png": "448b90d2ccb0ac690f34f30466dbd7c585f760b46eba320cbbad7e9c81bda787",
+    "princeton2025-51.png": "32217f6bf6932c213dc3a97cd3307dcdb6fb1f3fdff5174839e284e7bb13c6e4",
+    "princeton2025-52.png": "deeac10dacaa05aad77d26726c0e977d4bae4419358d17f9baca5b882f3d6390",
+    "princeton2025-53.png": "354db3cfedddaf7751d440c030604fdd34a51b233678a1c234b660ace4fbe14a",
+    "mit54.png": "e2b333f83d9217240e9d929b09b60b6d62d16e27bd983eaa687122d4398b94d0",
+    "dartmouth112.png": "eb00e83d82e795990b8c0ed6e9e8272ea4fb07bc9eeac1003644794b75988bc5"
+  },
+  "conflict_evidence": [
+    {
+      "campus_id": "166683001",
+      "category": "arson",
+      "year": 2024,
+      "pdf_page": 54,
+      "printed_page": 54,
+      "values": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "printed_total": 2,
+      "note": "Footnote 3 explicitly says total = campus + noncampus + public, and residence already belongs to campus. Visible components sum to 1, not the printed 2."
+    },
+    {
+      "campus_id": "182670002",
+      "category": "domestic_violence",
+      "year": 2024,
+      "pdf_page": 112,
+      "printed_page": 110,
+      "values": [
+        25,
+        25,
+        0,
+        0
+      ],
+      "printed_total": 1,
+      "note": "Visible campus and residence cells are each 25, followed by separate superscript footnote markers 29 and 30. Footnotes describe repeated offenses in one report. Printed total is 1; do not reconcile silently or substitute that total for geography values. The category also includes dating violence."
+    }
+  ],
+  "princeton_notes": [
+    "Current visible tables are controlling; the obsolete hidden PDF text layer is not a reliable count source.",
+    "Forrestal core counts are explicit printed zeros for all three years and geographies, not imputed zeros.",
+    "Hate-crime classifications, hazing, arrests, and disciplinary referrals were excluded from the 14-category check.",
+    "Hazing says Not Collected; it must not be interpreted as zero if that category is later added.",
+    "Motor-vehicle-theft footnote includes golf carts, motorized scooters, and motorized bicycles; it is not automobile theft alone."
+  ],
+  "required_analysis_handling": [
+    "Exclude conflicting MIT arson and Dartmouth domestic-violence comparisons while preserving the literal source cells.",
+    "Dartmouth dating n/a denotes a combined category, not absent geography; separate domestic and dating rates must both be withheld."
+  ],
+  "errors": []
+}

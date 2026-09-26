@@ -1,5 +1,17 @@
 # Project state
 
+## Current publication revision — 2026-09-25
+
+- Mode: continuation. Objective: publish current-source Campus Safety and Crime/Heat review, now with a plain-English campus overview, searchable regions/school cards and selection-specific explanations. Status: implementation and final local verification complete; ready for production push.
+- Sources: all42 institutional inventories searched;39 extracted, with Virginia provisional. Merced/Harvard/Johns Hopkins reports unverified. Ambiguous cells withheld. Original federal snapshot retained. No qualified2025 population adopted; rates unavailable.
+- Numerical verification:33,460 source cells,9,450 current rates,35,848 geographic cells; independent audit passes. Reader adds9,450 school/category/year/location explanations; independent calculation checks pass. Source/citation and PDF visual audits separate.
+- SDSU2024: housing1, campus1, noncampus2, public0; all-area3. Geography difference, not revision. Verified2023housingrape7→8 is a separate revision; pooled2022–24housing18/24,386×1,000=0.74. Current2025mainhousing10/campus11/noncampus5/public0,total16. Current2026ASR covers2023–25, not2026.
+- Current source: SDSU official listing links `asr_2026_newdraft.pdf`, SHA256 `8d697b9134573a07dd7d53a0db29c18f8fe3a5b97e026fb8221237766155c80b`. Older inconsistent2026 PDF excluded.
+- Crime/Heat:partial2026SDPD57,037(+244), throughSep24. Historical model inputs/results unchanged within checked scope; full Open-Meteo panel not reacquired. Safe aggregate refresh only.
+- Reader:4 home-location regions plusAll;42 school-specific notes;15categories,5periods,3location choices. No regional safety rankings or pooled regional risk claims. Advanced tables/methods preserved behind disclosure; fragment links reopen their sections. Region describes home location, not branch footprint.
+- PDFs:9-page current campus report and2-page Crime/Heat refresh, exact final versions rendered/checked. Source updates and interface snapshots packaged separately from original archive.
+- Final verification: full npm test passes;119 current campus artifacts,151 archived campus artifacts and330 Crime/Heat entries verified. Eight current outputs replay byte-for-byte;9,450 new rates and9,450 reader selections checked. Citation audit39claim groups/57checks; desktop1280/mobile390/320, sorting, links, tooltips and7equations pass;11PDFpages inspected. Current campus ZIP SHA256 e7c7579809aae917d05031f5dcfa0bf33877ceb87d3ec2d56cfff33329779bba.
+- Next: one verified commit/push, await Pages and verify live publication. No new emails.
 ## Campus safety analysis
 
 - Continuation: report-year options now 2022, 2023, 2024, pooled; explicit 2024 default retained. Single-line presentation change, scoped audit/hash update, full npm test and package integrity pass. Published1393857; Pages36187597382 succeeded. Live options2022/2023/2024/pooled and2024reset verified. Commit-versioned requests verify151manifest entries/15downloads; unversioned ZIP still held preceding presentation revision in CDN at check (scientific bytes unchanged). New ZIP1,942,008bytes/SHA b08fef96. Requested year ordering complete.

@@ -1,0 +1,872 @@
+{
+  "217156": {
+    "region": "Northeast",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "RI",
+    "note": "Brown’s 2025 report covers its main campus for 2022–2024. This study has no verified count of students living in Brown housing, so housing offenses are shown without a rate per resident.",
+    "alias": "Brown University Rhode Island",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://go.brown.edu/2025ASR-AFSR"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://publicsafety.brown.edu/clery-compliance-and-crime-reporting"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "110404": {
+    "region": "West",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "CA",
+    "note": "Caltech’s 2025 report covers its main campus for 2022–2024. Its relatively small enrollment means a change of only a few reported offenses can noticeably change the rate per 1,000 students.",
+    "alias": "California Institute of Technology Caltech California",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://security.caltech.edu/documents/22533/2025ASR-F-HR.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://security.caltech.edu/our-mission/annual-security-and-fire-safety-report"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "211440": {
+    "region": "Northeast",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "PA",
+    "note": "Carnegie Mellon’s 2026 report covers Pittsburgh and five other locations, including overseas campuses. For Pittsburgh’s 2025 fondling figures, the numbers by location do not match the printed total; affected comparisons are unavailable.",
+    "alias": "CMU Carnegie Mellon Pennsylvania",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://www.cmu.edu/police/reports/"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "144050": {
+    "region": "Midwest",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "IL",
+    "note": "Chicago’s 2026 report covers eight locations, including the Gleacher Center and overseas campuses. The Gleacher tables give conflicting totals for 2024 burglary and 2025 aggravated assault, so affected comparisons are unavailable.",
+    "alias": "UChicago University of Chicago Illinois",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://safety-security.uchicago.edu/stay-informed/clery-act-reporting"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "190150": {
+    "region": "Northeast",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "NY",
+    "note": "Columbia’s 2025 report separates seven locations, including medical and research facilities and a Paris campus. Earlier figures for the Baker Athletics Complex and Paris were included in Morningside’s off-campus university-property figures. Access restrictions prevented checking whether a newer report had replaced this edition.",
+    "alias": "Columbia University New York",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://publicsafety.columbia.edu/sites/publicsafety.columbia.edu/files/content/SecurityReport2025.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://publicsafety.columbia.edu/annualsecurityreport"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "190415": {
+    "region": "Northeast",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "NY",
+    "note": "Cornell’s 2026 reports cover 2023–2025 for the Ithaca colleges, Cornell Tech and Cornell AgriTech. The university-wide comparison includes all three locations, not just Ithaca.",
+    "alias": "Cornell University New York",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://publicsafety.cornell.edu/wp-content/uploads/2026-Campus_Watch_2026_FINAL-ua.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://publicsafety.cornell.edu/reports-statistics/annual-security-report/"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "182670": {
+    "region": "Northeast",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "NH",
+    "note": "Dartmouth’s 2025 report separates Hanover and Lebanon. It counts dating violence within domestic violence, and Lebanon’s 2024 domestic-violence figures by location do not match the printed total; separate comparisons are unavailable.",
+    "alias": "Dartmouth College New Hampshire",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://www.dartmouth.edu/security/clery-compliance-office/asr.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://www.dartmouth.edu/security/"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "198419": {
+    "region": "South",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "NC",
+    "note": "Duke’s 2025 report covers its main campus, Marine Lab and Washington program. The main-campus boundary includes hospital and medical research areas, so the count extends beyond undergraduate housing.",
+    "alias": "Duke University North Carolina",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://forms.hr.duke.edu/media/oarc/2025-Duke-ASR.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://oarc.duke.edu/consumer-information/annual-clery-security-report/"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "134130": {
+    "region": "South",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "FL",
+    "note": "Florida’s 2026 report includes research, medical and teaching locations beyond Gainesville. Local-agency information for Everglades and Vicenza could not support complete 2025 comparisons. The new Jacksonville campus opened in 2026, after the years covered here.",
+    "alias": "UF University of Florida",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://clery.compliance.ufl.edu/annual-security-and-fire-safety-reports/2026-crime-statistics/"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://clery.compliance.ufl.edu/annual-security-and-fire-safety-reports/"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "131496": {
+    "region": "South",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "DC",
+    "note": "Georgetown’s 2026 reports cover eight locations, including Dubai and Jakarta. Jakarta opened in January 2025; the earlier years are marked as before opening, rather than as years with zero offenses.",
+    "alias": "Georgetown GU District of Columbia",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://georgetown.app.box.com/shared/static/vfchwn61ulzagfq4x6cguzxm402g58nk.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://police.georgetown.edu/policies-reports/crimestats/"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "139755": {
+    "region": "South",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "GA",
+    "note": "Georgia Tech’s 2026 report supplies Atlanta, Europe and Savannah tables, while the earlier federal dataset also lists Shenzhen. University-wide rates are unavailable until that difference in locations covered is resolved; the three current tables remain available.",
+    "alias": "Georgia Tech Georgia Institute of Technology GT Georgia",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://eoc.gatech.edu/sites/default/files/2026-09/2026%20Annual%20Security%20and%20Fire%20Safety%20Report.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://eoc.gatech.edu/jeanne-clery-act/georgia-tech-annual-security-and-fire-safety-reports"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "166027": {
+    "region": "Northeast",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "MA",
+    "note": "Harvard’s current report could not be retrieved for verification. Current counts remain unavailable; the earlier federal dataset retains its historical figures for seven locations.",
+    "alias": "Harvard University Massachusetts",
+    "sources": [
+      {
+        "label": "Official report listing",
+        "url": "https://www.hupd.harvard.edu/annual-security-report"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "145637": {
+    "region": "Midwest",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "IL",
+    "note": "Illinois’ 2025 report covers Urbana-Champaign and the Illini Center. When their reported offenses are combined, the university’s student population is counted once.",
+    "alias": "UIUC Illinois Urbana-Champaign University of Illinois",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://police.illinois.edu/wp-content/uploads/2025/12/2025_Annual_Security_Fire_Safety_Report_FINAL_DRAFT_-_Re-Issue.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://www.police.illinois.edu/crime-stats-and-clery/annual-security-and-fire-safety-report/"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "162928": {
+    "region": "South",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "MD",
+    "note": "Johns Hopkins’ current report could not be retrieved for verification, and its publication year remains unconfirmed. The earlier federal dataset covers ten locations, including medical and overseas campuses; those older figures are kept separate from the current view.",
+    "alias": "JHU Johns Hopkins Maryland",
+    "sources": [
+      {
+        "label": "Official report listing",
+        "url": "https://publicsafety.jhu.edu/clery-crime-data/"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "170976": {
+    "region": "Midwest",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "MI",
+    "note": "Michigan’s 2025 report covers Ann Arbor. Its statutory-rape table labels 2023, 2022 and 2021 instead of providing a verified 2024 figure, and the 2024 fondling table disagrees with a footnote; affected comparisons are unavailable.",
+    "alias": "UMich University of Michigan U-M Michigan",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://cdn.sanity.io/files/bflxpmv3/production/e5bbcc349237b5f972ae112e63bf68077d2a9fc7.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://www.dpss.umich.edu/reports-and-data/"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "166683": {
+    "region": "Northeast",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "MA",
+    "note": "The Massachusetts Institute of Technology’s 2025 report provides one campus table. Its 2024 arson figures by location disagree with the printed total, so affected calculations are unavailable; the original numbers remain in the downloadable source records.",
+    "alias": "MIT Massachusetts Institute of Technology Massachusetts",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://police.mit.edu/sites/default/files/MIT-Police-Files/Documents/MITPolice_ASR_2025_Final_v3.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://police.mit.edu/annual-security-report"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "199120": {
+    "region": "South",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "NC",
+    "note": "North Carolina’s 2026 report covers Chapel Hill and three other locations. Some domestic and dating violence figures are combined, and some smaller-campus tables omit location categories; affected comparisons are unavailable rather than filled with zeroes.",
+    "alias": "UNC UNC-Chapel Hill University of North Carolina",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://go.unc.edu/securityreport"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://police.unc.edu/"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "147767": {
+    "region": "Midwest",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "IL",
+    "note": "Northwestern’s 2026 report covers six locations, including Chicago and overseas campuses. Several Chicago sexual-offense rows repeat a year label; figures with unclear years or missing location categories remain unavailable.",
+    "alias": "NU Northwestern University Illinois",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://www.northwestern.edu/up/alerts-notices-data/clery-act-security-reports.html"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "152080": {
+    "region": "Midwest",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "IN",
+    "note": "Notre Dame’s 2025 report covers seven locations, including overseas campuses. Its Chicago and Dublin tables have no student-housing column; missing figures do not establish that no housing offenses occurred.",
+    "alias": "ND University of Notre Dame Indiana",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://police.nd.edu/assets/665474/2025_annual_safety_reportt.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://police.nd.edu/crime-prevention-safety/records-reports/annual-clery-fire-safety-reports/"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "193900": {
+    "region": "Northeast",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "NY",
+    "note": "New York University’s 2025 reports list 27 locations, including medical and overseas campuses. Tulsa opened in January 2025, after the 2022–2024 statistics covered by these reports. Figures for off-campus residence halls are already included in the off-campus university-property totals and are not added again.",
+    "alias": "NYU New York University New York",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://www.nyu.edu/content/dam/nyu/campusSafety/documents/NYU-NEWYORK-ASR-25.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://www.nyu.edu/life/safety-health-wellness/campus-safety/clery-act-reporting/annual-security-reports.html"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "204796": {
+    "region": "Midwest",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "OH",
+    "note": "Ohio State’s 2025 report covers Columbus. The rape and fondling totals include separately identified Richard Strauss reports, so figures for a reporting year can include offenses that occurred many years earlier.",
+    "alias": "OSU Ohio State University Ohio",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://dps.osu.edu/sites/default/files/documents/annual_security_fire_safety_report.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://dps.osu.edu/crime/clery-act"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "214777": {
+    "region": "Northeast",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "PA",
+    "note": "Penn State’s 2025 reports cover University Park, Dickinson Law and the Hershey College of Medicine. The university-wide comparison includes all three locations, not just University Park.",
+    "alias": "PSU Penn State Pennsylvania State University Pennsylvania",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://www.police.psu.edu/sites/police/files/2025-11/penn-state-university-park-2025a.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://www.police.psu.edu/annual-security-reports"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "215062": {
+    "region": "Northeast",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "PA",
+    "note": "Penn’s 2026 report has conflicting year labels in some location tables, and two locations listed in the earlier dataset lack current tables. The study does not treat the main-campus count as a complete university-wide total.",
+    "alias": "UPenn Penn University of Pennsylvania",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://www.publicsafety.upenn.edu/ASR/2026_ASR_PENN.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://almanac.upenn.edu/articles/the-university-of-pennsylvania-2026-annual-security-fire-safety-report-statistics-for-2023-2024-and-2025"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "186131": {
+    "region": "Northeast",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "NJ",
+    "note": "Princeton’s 2025 report covers the main campus and James Forrestal Campus. That report was verified, but restrictions on its official listing prevented checking whether a newer edition was available.",
+    "alias": "Princeton University New Jersey",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://publicsafety.princeton.edu/sites/g/files/toruqf2581/files/documents/Security%26FireSafety_Report_2025_V5.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://publicsafety.princeton.edu/information/monthlyannual-data"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "122409": {
+    "region": "West",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "CA",
+    "note": "San Diego State’s current report separates San Diego, Imperial Valley and Georgia. For San Diego in 2024, one housing rape offense is already included in the campus count of one; two more at off-campus university properties bring the combined count to three. A separate correction raises the 2023 housing count from seven to eight.",
+    "alias": "SDSU San Diego State California",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://police.sdsu.edu/_resources/files/asr_2026_newdraft.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://police.sdsu.edu/public-information/clery-act-compliance/annual-reports"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "243744": {
+    "region": "West",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "CA",
+    "note": "Stanford’s 2025 report covers the main campus and eleven other locations. Some disclosures describe multiple offenses or events many years earlier. A Madrid sexual-offense subtotal also conflicts with one of its figures, so affected comparisons are unavailable.",
+    "alias": "Stanford University California",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://police.stanford.edu/pdf/ssfr-2025.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://police.stanford.edu/safety-report.html"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "228778": {
+    "region": "South",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "TX",
+    "note": "Texas Austin’s 2025 reports cover eight locations, including research and out-of-state facilities. Brackenridge started appearing as a separate campus in 2023; its earlier figures were included in the main campus’s off-campus university-property reporting.",
+    "alias": "UT UT Austin University of Texas",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://compliance.utexas.edu/sites/default/files/documents/ASFSR%202025%20final.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://compliance.utexas.edu/programs/clery"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "110635": {
+    "region": "West",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "CA",
+    "note": "Berkeley’s main-campus report covers 2022–2024, while the Washington Center’s newer report covers 2023–2025. A complete university-wide count needs both locations; a year available for only one cannot supply that total.",
+    "alias": "UCB UC Berkeley Berkeley University of California Berkeley California",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://ucpd.berkeley.edu/sites/default/files/uc_berkeley_asfsr.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://chancellor.berkeley.edu/clery-act-compliance/clery-annual-security-and-fire-safety-reports"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "110644": {
+    "region": "West",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "CA",
+    "note": "Davis’ 2026 report covers Davis and its health campus. It corrects 2024 fondling figures and explains that one disclosure contained repeated incidents; the number of offenses is not the number of different victims.",
+    "alias": "UCD UC Davis University of California Davis California",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://clery.ucdavis.edu/sites/g/files/dgvnsk1761/files/media/documents/ASFSR-UCD-2026-vSep2026.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://clery.ucdavis.edu/asr"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "110653": {
+    "region": "West",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "CA",
+    "note": "Irvine’s 2025 report covers the university and its medical center for 2022–2024. The study has documented housing populations, but it has not matched every housing property to the locations covered by the crime report.",
+    "alias": "UCI UC Irvine University of California Irvine California",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://www.police.uci.edu/clery/annual-reports/uci_security_report.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://www.police.uci.edu/clery/"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "445188": {
+    "region": "West",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "CA",
+    "note": "Merced has documented housing populations for 2022–2024, but its current report could not be retrieved for verification. Its missing current rate reflects that gap; the earlier federal dataset remains available separately.",
+    "alias": "UCM UC Merced University of California Merced California",
+    "sources": [
+      {
+        "label": "Official report listing",
+        "url": "https://clery.ucmerced.edu/annual-security-reports"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "110671": {
+    "region": "West",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "CA",
+    "note": "Riverside’s 2026 report separates Riverside and Palm Desert. Palm Desert explicitly has no student housing, but its table also omits an off-campus property column without establishing that no such property exists; totals requiring that column remain unavailable.",
+    "alias": "UCR UC Riverside University of California Riverside California",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://compliance.ucr.edu/media/887/download?attachment"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://compliance.ucr.edu/clery-act-compliance"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "110680": {
+    "region": "West",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "CA",
+    "note": "San Diego’s 2025 report was reissued in February 2026 and corrects several earlier counts. The current view uses that reissued report, while the earlier federal dataset preserves the older figures; the worked housing example identifies its student population separately.",
+    "alias": "UCSD UC San Diego University of California San Diego California",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://www.police.ucsd.edu/docs/annualclery.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://police.ucsd.edu/alerts/clery.html"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "110699": {
+    "region": "West",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "CA",
+    "note": "San Francisco’s current statistics cover five locations, including medical campuses in San Francisco, Oakland and Fresno. The university-wide result is not a count for one residential campus, and the housing population has not been matched property by property to the report.",
+    "alias": "UCSF UC San Francisco University of California San Francisco California",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://ucsf.box.com/v/UCPD-UCSF-ASR-2026"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://police.ucsf.edu/clery-act-and-ucsf-annual-fire-safety-security-reports"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "110705": {
+    "region": "West",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "CA",
+    "note": "Santa Barbara’s 2026 report covers 2023–2025. That edition does not confirm the earlier 2022 figures; 2025 counts are available, but the study has no verified same-year student population for calculating rates.",
+    "alias": "UCSB UC Santa Barbara University of California Santa Barbara California",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://docs.google.com/document/d/17sbHHkxln7w8TaFRy0Dm3i1-NCgGwGznHmF6B1hcpy0/export?format=pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://police.ucsb.edu/asfsr"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "110714": {
+    "region": "West",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "CA",
+    "note": "Santa Cruz’s 2025 report was reissued in May 2026 with corrections to 2024 domestic-violence entries. It also explains that 21 of the 38 housing rape offenses reported in 2024 came from one disclosure, so the count cannot be relabeled as 38 victims or report forms.",
+    "alias": "UCSC UC Santa Cruz University of California Santa Cruz California",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://chancellor.ucsc.edu/files/2026/05/UC-Santa-Cruz-2025-Annual-Security-Fire-Safety-Report-FINAL-Republished-May-6-2026.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://chancellor.ucsc.edu/annual-security-reports/"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "110662": {
+    "region": "West",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "CA",
+    "note": "Los Angeles’ 2025 report includes dating violence within domestic violence. Separate comparisons for both categories are unavailable because the report does not measure them independently.",
+    "alias": "UCLA UC Los Angeles University of California Los Angeles California",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://ucla.box.com/s/gzlc5edy5yuyeozpf1adob2rvsrdf9ur"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://www.privacy.ucla.edu/clery-act-compliance/annual-security-fire-report"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "123961": {
+    "region": "West",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "CA",
+    "note": "Southern California’s 2026 report covers nine locations, including health-sciences, research and Washington facilities. The university-wide comparison combines these locations rather than describing only University Park.",
+    "alias": "USC University of Southern California",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://dps.usc.edu/wp-content/uploads/2026/09/2026-Annual-Security-and-Fire-Safety-Report.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://dps.usc.edu/alerts/annual-report/"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "234076": {
+    "region": "South",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "VA",
+    "note": "Virginia’s current tables were read through an official web page, but the original report file and its page layout could not be independently checked. Those figures remain available for review and are excluded from calculated comparisons.",
+    "alias": "UVA University of Virginia",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://cleryact.virginia.edu/report"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://cleryact.virginia.edu/"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "236948": {
+    "region": "West",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "WA",
+    "note": "Washington’s 2025 report covers Seattle for 2022–2024. This study does not combine Bothell and Tacoma with Seattle, and it has no verified count of students living in Seattle campus housing for a resident rate.",
+    "alias": "UW University of Washington Seattle Washington",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://police.uw.edu/wp-content/uploads/2026/04/Annual-Security-and-Fire-Safety-Report-2025-2026-update.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://police.uw.edu/"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "240444": {
+    "region": "Midwest",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "WI",
+    "note": "Wisconsin’s 2025 report covers Madison for 2022–2024. It is not a statewide university-system total; rates per enrolled student use Madison’s student population.",
+    "alias": "UW-Madison University of Wisconsin Madison Wisconsin",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://go.wisc.edu/asr"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://uwpd.wisc.edu/data-policies-resources/clery-act/"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  },
+  "130794": {
+    "region": "Northeast",
+    "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
+    "homeState": "CT",
+    "note": "Yale’s 2025 reports identify its main campus and West Campus separately. Both belong to this university-wide comparison, with the student population counted once rather than repeated for each campus.",
+    "alias": "Yale University Connecticut",
+    "sources": [
+      {
+        "label": "Annual report reviewed",
+        "url": "https://your.yale.edu/sites/default/files/2025-09/2025-Clery-Report_ADA.pdf"
+      },
+      {
+        "label": "Official report listing",
+        "url": "https://your.yale.edu/campus-essentials/community-safety/clery"
+      },
+      {
+        "label": "Reports checked and known limitations",
+        "url": "/data-analysis/campus-safety/current-2026-09-25/source_inventory.json"
+      }
+    ]
+  }
+}

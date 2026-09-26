@@ -1,0 +1,3 @@
+# Reader interface source snapshot
+
+These files preserve the reviewed school and regional explanations, guide components, pure calculation helpers and associated page copy. Component/data/lib/style paths retain their original relative positions under the website src directory. The reader test is copied from scripts/test-campus-reader.mjs. SOURCE_FILES.json identifies exact versions. This subset is not a standalone Astro website; the test and source/citation review scripts require the full project layout and separately identified evidence. The portable aggregate replay is documented in the archive root README.

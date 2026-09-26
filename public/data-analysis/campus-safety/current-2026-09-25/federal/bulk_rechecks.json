@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Crime2025EXCEL.zip",
+    "url": "https://ope.ed.gov/campussafety/api/dataFiles/file?fileName=Crime2025EXCEL.zip",
+    "checked_utc": "2026-09-25T21:57:35.977015+00:00",
+    "bytes": 38213941,
+    "sha256": "28143ab29f9f9d43235800a3f1f4061b8f2928a7d11bce0e8327d2889ab6f007",
+    "original_sha256": "28143ab29f9f9d43235800a3f1f4061b8f2928a7d11bce0e8327d2889ab6f007",
+    "unchanged": true,
+    "last_modified": null
+  },
+  {
+    "name": "EF2024A.zip",
+    "url": "https://nces.ed.gov/ipeds/complete-data-files/EF2024A.zip",
+    "checked_utc": "2026-09-25T21:56:34.802369+00:00",
+    "bytes": 3247994,
+    "sha256": "bb3256a68a1ffcbf2fcc85faf80ac14f055ccd75454d3a440dfff80a63671567",
+    "original_sha256": "bb3256a68a1ffcbf2fcc85faf80ac14f055ccd75454d3a440dfff80a63671567",
+    "unchanged": true,
+    "last_modified": "Tue, 30 Dec 2025 22:54:23 GMT"
+  },
+  {
+    "name": "EF2022A.zip",
+    "url": "https://nces.ed.gov/ipeds/datacenter/data/EF2022A.zip",
+    "checked_utc": "2026-09-25T21:56:57.513810+00:00",
+    "bytes": 6000331,
+    "sha256": "971fe8fad82ca03fbb1a72938fd7b2798176083734a100b6186d79bb537a0aba",
+    "original_sha256": "971fe8fad82ca03fbb1a72938fd7b2798176083734a100b6186d79bb537a0aba",
+    "unchanged": true,
+    "last_modified": "Fri, 22 Nov 2024 19:44:16 GMT"
+  },
+  {
+    "name": "EF2023A.zip",
+    "url": "https://nces.ed.gov/ipeds/complete-data-files/EF2023A.zip",
+    "checked_utc": "2026-09-25T21:57:07.718189+00:00",
+    "bytes": 6501851,
+    "sha256": "0238ff58ddf603b8606b1b131311e0b569323b787c395dc83b7830c987096cb0",
+    "original_sha256": "0238ff58ddf603b8606b1b131311e0b569323b787c395dc83b7830c987096cb0",
+    "unchanged": true,
+    "last_modified": "Tue, 30 Dec 2025 22:55:29 GMT"
+  }
+]

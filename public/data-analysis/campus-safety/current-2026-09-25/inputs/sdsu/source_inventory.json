@@ -1,0 +1,119 @@
+{
+  "snapshot_date": "2026-09-25",
+  "listing": {
+    "requested_url": "https://police.sdsu.edu/public-information/clery-act-compliance/annual-reports",
+    "final_url": "https://police.sdsu.edu/public-information/clery-act-compliance/annual-reports",
+    "retrieved_utc": "2026-09-25T21:29:17.396492+00:00",
+    "bytes": 34770,
+    "sha256": "861d0631fda06389d6924cd56d9222fab6b1e463e93c034c1ad9b72e3a81d6b0",
+    "response_headers": {
+      "Date": "Fri, 25 Sep 2026 21:29:15 GMT",
+      "Content-Type": "text/html; charset=utf-8",
+      "Cache-Control": "private"
+    },
+    "direct_asr_link": "https://police.sdsu.edu/_resources/files/asr_2026_newdraft.pdf"
+  },
+  "selected_count_source": {
+    "requested_url": "https://police.sdsu.edu/_resources/files/asr_2026_newdraft.pdf",
+    "final_url": "https://police.sdsu.edu/_resources/files/asr_2026_newdraft.pdf",
+    "retrieved_utc": "2026-09-25T21:29:17.552779+00:00",
+    "bytes": 1562094,
+    "sha256": "8d697b9134573a07dd7d53a0db29c18f8fe3a5b97e026fb8221237766155c80b",
+    "response_headers": {
+      "Date": "Fri, 25 Sep 2026 21:29:15 GMT",
+      "Content-Type": "application/pdf",
+      "Content-Length": "1562094",
+      "Last-Modified": "Fri, 25 Sep 2026 18:51:38 GMT",
+      "ETag": "\"5fcc8ce51e4ddd1:0\"",
+      "Cache-Control": "max-age=432000"
+    },
+    "publication_status_note": "Current official listing labels this 2026 Annual Security Report; URL filename contains newdraft. No claim of final certification.",
+    "file": "asr_2026_newdraft.pdf",
+    "pages": 145,
+    "report_edition": 2026,
+    "report_years": [
+      2023,
+      2024,
+      2025
+    ],
+    "crime_table_pages": {
+      "San Diego": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "Imperial Valley": [
+        12,
+        13,
+        14,
+        15
+      ],
+      "Georgia": [
+        16,
+        17,
+        18,
+        19
+      ]
+    }
+  },
+  "other_reports_currently_linked": [
+    {
+      "listing_title": "2027 Campus Safety Plan",
+      "url": "https://police.sdsu.edu/_resources/files/2027_csp.pdf",
+      "file": "ancillary_sources/2027_csp.pdf",
+      "retrieved_utc": "2026-09-25T21:35:05.460467+00:00",
+      "bytes": 385688,
+      "sha256": "681b4a82dad1a2485f7a4d5b4a97b6ec18cd0ef95e7bfe2cac50688c504f3d23",
+      "pages": 5,
+      "response_headers": {
+        "Date": "Fri, 25 Sep 2026 21:35:03 GMT",
+        "Content-Type": "application/pdf",
+        "Content-Length": "385688",
+        "Last-Modified": "Tue, 25 Aug 2026 20:53:09 GMT",
+        "ETag": "\"d7ba86bcd334dd1:0\"",
+        "Cache-Control": "max-age=432000"
+      },
+      "in_current_crime_counts": false,
+      "exclusion_reason": "Safety planning/procedures document; edition year is not an observation year. No addition to Clery offense totals."
+    },
+    {
+      "listing_title": "2023 Systemwide Report on Campus Hate Incidents",
+      "url": "https://police.sdsu.edu/_resources/files/annual_swreport_hatecrimes_2024.pdf",
+      "file": "ancillary_sources/annual_swreport_hatecrimes_2024.pdf",
+      "retrieved_utc": "2026-09-25T21:35:05.456964+00:00",
+      "bytes": 223292,
+      "sha256": "3395fd545997c914a454158a85f3c916a5697df8112119268f794aa9a6c04fca",
+      "pages": 4,
+      "response_headers": {
+        "Date": "Fri, 25 Sep 2026 21:35:03 GMT",
+        "Content-Type": "application/pdf",
+        "Content-Length": "223292",
+        "Last-Modified": "Tue, 26 Nov 2024 04:40:55 GMT",
+        "ETag": "\"9ee07161bd3fdb1:0\"",
+        "Cache-Control": "max-age=432000"
+      },
+      "in_current_crime_counts": false,
+      "exclusion_reason": "CSU committee report dated November 2024 about 2023 criminal and noncriminal hate incidents; separate systemwide scope, not additive to campus Clery totals."
+    },
+    {
+      "listing_title": "2026 SDSU Fire Safety Report",
+      "url": "https://police.sdsu.edu/_resources/files/2026_fsp.pdf",
+      "file": "ancillary_sources/2026_fsp.pdf",
+      "retrieved_utc": "2026-09-25T21:35:05.467931+00:00",
+      "bytes": 790064,
+      "sha256": "129883199831cbe49292c3dc7267e5dde6a8b0513abae81b14d922d6cb916cdc",
+      "pages": 7,
+      "response_headers": {
+        "Date": "Fri, 25 Sep 2026 21:35:03 GMT",
+        "Content-Type": "application/pdf",
+        "Content-Length": "790064",
+        "Last-Modified": "Tue, 25 Aug 2026 20:53:34 GMT",
+        "ETag": "\"92a918cbd334dd1:0\"",
+        "Cache-Control": "max-age=432000"
+      },
+      "in_current_crime_counts": false,
+      "exclusion_reason": "Fire statistics 2023-2025 and fire-safety/facility information; distinct measures; no documented resident denominator inferred."
+    }
+  ]
+}

@@ -1,0 +1,4555 @@
+{
+  "status": "first_extraction_pending_independent_review",
+  "issues": [
+    {
+      "type": "printed_total_differs_from_components",
+      "campus": "211440001",
+      "category": "fondling",
+      "year": 2025,
+      "computed": 3,
+      "printed": 1,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "type": "printed_year_labels_conflict",
+      "campus": "147767002",
+      "category": "rape",
+      "years": [
+        2025,
+        2024,
+        2024
+      ],
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "type": "printed_year_labels_conflict",
+      "campus": "147767002",
+      "category": "incest",
+      "years": [
+        2025,
+        2024,
+        2024
+      ],
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "type": "printed_year_labels_conflict",
+      "campus": "147767002",
+      "category": "statutory_rape",
+      "years": [
+        2025,
+        2024,
+        2024
+      ],
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "type": "printed_total_differs_from_components",
+      "campus": "144050002",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "computed": 0,
+      "printed": 2,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "type": "printed_total_differs_from_components",
+      "campus": "144050002",
+      "category": "burglary",
+      "year": 2024,
+      "computed": 6,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    }
+  ],
+  "printed_total_checks": [
+    {
+      "campus": "211440001",
+      "category": "murder",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "murder",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "murder",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "rape",
+      "year": 2025,
+      "computed": 6,
+      "printed": 6,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "rape",
+      "year": 2024,
+      "computed": 3,
+      "printed": 3,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "rape",
+      "year": 2023,
+      "computed": 4,
+      "printed": 4,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "fondling",
+      "year": 2025,
+      "computed": 3,
+      "printed": 1,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "fondling",
+      "year": 2024,
+      "computed": 2,
+      "printed": 2,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "fondling",
+      "year": 2023,
+      "computed": 4,
+      "printed": 4,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "incest",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "incest",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "incest",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "statutory_rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "statutory_rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "statutory_rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "robbery",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "robbery",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "robbery",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "burglary",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "burglary",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "burglary",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "arson",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "arson",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "arson",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "domestic_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 45,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "domestic_violence",
+      "year": 2024,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 45,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "domestic_violence",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 45,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "dating_violence",
+      "year": 2025,
+      "computed": 2,
+      "printed": 2,
+      "pdf_page": 45,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "dating_violence",
+      "year": 2024,
+      "computed": 5,
+      "printed": 5,
+      "pdf_page": 45,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "dating_violence",
+      "year": 2023,
+      "computed": 2,
+      "printed": 2,
+      "pdf_page": 45,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "stalking",
+      "year": 2025,
+      "computed": 5,
+      "printed": 5,
+      "pdf_page": 45,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "stalking",
+      "year": 2024,
+      "computed": 12,
+      "printed": 12,
+      "pdf_page": 45,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440001",
+      "category": "stalking",
+      "year": 2023,
+      "computed": 9,
+      "printed": 9,
+      "pdf_page": 45,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "murder",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "murder",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "murder",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "fondling",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "fondling",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "fondling",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "incest",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "incest",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "incest",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "statutory_rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "statutory_rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "statutory_rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "robbery",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "robbery",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "robbery",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "burglary",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "burglary",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "burglary",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "arson",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "arson",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "arson",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 71,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "domestic_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 72,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "domestic_violence",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 72,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "domestic_violence",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 72,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "dating_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 72,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "dating_violence",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 72,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "dating_violence",
+      "year": 2023,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 72,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "stalking",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 72,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "stalking",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 72,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440003",
+      "category": "stalking",
+      "year": 2023,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 72,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "murder",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "murder",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "murder",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "fondling",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "fondling",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "fondling",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "incest",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "incest",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "incest",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "statutory_rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "statutory_rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "statutory_rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "robbery",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "robbery",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "robbery",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "burglary",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "burglary",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "burglary",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "arson",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "arson",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "arson",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 73,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "domestic_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 74,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "domestic_violence",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 74,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "domestic_violence",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 74,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "dating_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 74,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "dating_violence",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 74,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "dating_violence",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 74,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "stalking",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 74,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "stalking",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 74,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440006",
+      "category": "stalking",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 74,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "murder",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "murder",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "murder",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "fondling",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "fondling",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "fondling",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "incest",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "incest",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "incest",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "statutory_rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "statutory_rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "statutory_rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "robbery",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "robbery",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "robbery",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "burglary",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "burglary",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "burglary",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "arson",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "arson",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "arson",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 75,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "domestic_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 76,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "domestic_violence",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 76,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "domestic_violence",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 76,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "dating_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 76,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "dating_violence",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 76,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "dating_violence",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 76,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "stalking",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 76,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "stalking",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 76,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440004",
+      "category": "stalking",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 76,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "murder",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "murder",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "murder",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "fondling",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "fondling",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "fondling",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "incest",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "incest",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "incest",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "statutory_rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "statutory_rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "statutory_rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "robbery",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "robbery",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "robbery",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "burglary",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "burglary",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "burglary",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "arson",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "arson",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "arson",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 77,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "domestic_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 78,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "domestic_violence",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 78,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "domestic_violence",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 78,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "dating_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 78,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "dating_violence",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 78,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "dating_violence",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 78,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "stalking",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 78,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "stalking",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 78,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440005",
+      "category": "stalking",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 78,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "murder",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "murder",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "murder",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "fondling",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "fondling",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "fondling",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "incest",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "incest",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "incest",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "statutory_rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "statutory_rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "statutory_rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "robbery",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "robbery",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "robbery",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "burglary",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "burglary",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "burglary",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "arson",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "arson",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "arson",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 79,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "domestic_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 80,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "domestic_violence",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 80,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "domestic_violence",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 80,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "dating_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 80,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "dating_violence",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 80,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "dating_violence",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 80,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "stalking",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 80,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "stalking",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 80,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "211440007",
+      "category": "stalking",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 80,
+      "source": "https://www.cmu.edu/police/reports/fire-safety/2026-asr-final.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "murder",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "murder",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "murder",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "rape",
+      "year": 2025,
+      "computed": 9,
+      "printed": 9,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "rape",
+      "year": 2024,
+      "computed": 4,
+      "printed": 4,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "rape",
+      "year": 2023,
+      "computed": 3,
+      "printed": 3,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "fondling",
+      "year": 2025,
+      "computed": 10,
+      "printed": 10,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "fondling",
+      "year": 2024,
+      "computed": 12,
+      "printed": 12,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "fondling",
+      "year": 2023,
+      "computed": 2,
+      "printed": 2,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "incest",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "incest",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "incest",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "statutory_rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "statutory_rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "statutory_rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "robbery",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "robbery",
+      "year": 2024,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "robbery",
+      "year": 2023,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "computed": 2,
+      "printed": 2,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 38,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "burglary",
+      "year": 2025,
+      "computed": 7,
+      "printed": 7,
+      "pdf_page": 39,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "burglary",
+      "year": 2024,
+      "computed": 8,
+      "printed": 8,
+      "pdf_page": 39,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "burglary",
+      "year": 2023,
+      "computed": 18,
+      "printed": 18,
+      "pdf_page": 39,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "computed": 63,
+      "printed": 63,
+      "pdf_page": 39,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "computed": 87,
+      "printed": 87,
+      "pdf_page": 39,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "computed": 103,
+      "printed": 103,
+      "pdf_page": 39,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "arson",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 40,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "arson",
+      "year": 2024,
+      "computed": 3,
+      "printed": 3,
+      "pdf_page": 40,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "arson",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 40,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "domestic_violence",
+      "year": 2025,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 40,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "domestic_violence",
+      "year": 2024,
+      "computed": 5,
+      "printed": 5,
+      "pdf_page": 40,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "domestic_violence",
+      "year": 2023,
+      "computed": 2,
+      "printed": 2,
+      "pdf_page": 40,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "dating_violence",
+      "year": 2025,
+      "computed": 30,
+      "printed": 30,
+      "pdf_page": 40,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "dating_violence",
+      "year": 2024,
+      "computed": 5,
+      "printed": 5,
+      "pdf_page": 40,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "dating_violence",
+      "year": 2023,
+      "computed": 4,
+      "printed": 4,
+      "pdf_page": 40,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "stalking",
+      "year": 2025,
+      "computed": 14,
+      "printed": 14,
+      "pdf_page": 40,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "stalking",
+      "year": 2024,
+      "computed": 8,
+      "printed": 8,
+      "pdf_page": 40,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767001",
+      "category": "stalking",
+      "year": 2023,
+      "computed": 8,
+      "printed": 8,
+      "pdf_page": 40,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "murder",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "murder",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "murder",
+      "year": 2023,
+      "computed": 2,
+      "printed": 2,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "rape",
+      "year": 2025,
+      "computed": 5,
+      "printed": 5,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "fondling",
+      "year": 2025,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "fondling",
+      "year": 2024,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "fondling",
+      "year": 2023,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "incest",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "statutory_rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "robbery",
+      "year": 2025,
+      "computed": 4,
+      "printed": 4,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "robbery",
+      "year": 2024,
+      "computed": 10,
+      "printed": 10,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "robbery",
+      "year": 2023,
+      "computed": 13,
+      "printed": 13,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "computed": 6,
+      "printed": 6,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "computed": 10,
+      "printed": 10,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "computed": 8,
+      "printed": 8,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "burglary",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "burglary",
+      "year": 2024,
+      "computed": 2,
+      "printed": 2,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "burglary",
+      "year": 2023,
+      "computed": 2,
+      "printed": 2,
+      "pdf_page": 42,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "computed": 19,
+      "printed": 19,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "computed": 36,
+      "printed": 36,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "computed": 26,
+      "printed": 26,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "arson",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "arson",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "arson",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "domestic_violence",
+      "year": 2025,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "domestic_violence",
+      "year": 2024,
+      "computed": 20,
+      "printed": 20,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "domestic_violence",
+      "year": 2023,
+      "computed": 10,
+      "printed": 10,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "dating_violence",
+      "year": 2025,
+      "computed": 12,
+      "printed": 12,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "dating_violence",
+      "year": 2024,
+      "computed": 2,
+      "printed": 2,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "dating_violence",
+      "year": 2023,
+      "computed": 8,
+      "printed": 8,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "stalking",
+      "year": 2025,
+      "computed": 3,
+      "printed": 3,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "stalking",
+      "year": 2024,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767002",
+      "category": "stalking",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "murder",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "murder",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "murder",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "fondling",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "fondling",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "fondling",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "incest",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "incest",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "incest",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "statutory_rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "statutory_rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "statutory_rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "robbery",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "robbery",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "robbery",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "burglary",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "burglary",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "burglary",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 64,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 65,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 65,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 65,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "arson",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 66,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "arson",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 66,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "arson",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 66,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "domestic_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 66,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "domestic_violence",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 66,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "domestic_violence",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 66,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "dating_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 66,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "dating_violence",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 66,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "dating_violence",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 66,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "stalking",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 66,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "stalking",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 66,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767003",
+      "category": "stalking",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 66,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-evanston-chicago.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "murder",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "murder",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "murder",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "fondling",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "fondling",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "fondling",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "incest",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "incest",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "incest",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "statutory_rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "statutory_rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "statutory_rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "robbery",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "robbery",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "robbery",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "burglary",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "burglary",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "burglary",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 43,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "arson",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "arson",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "arson",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "domestic_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "domestic_violence",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "domestic_violence",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 44,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "dating_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 45,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "dating_violence",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 45,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "dating_violence",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 45,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "stalking",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 45,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "stalking",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 45,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "147767005",
+      "category": "stalking",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 45,
+      "source": "https://www.northwestern.edu/compliance/docs/annual-security-report-qatar.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "murder",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "murder",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "murder",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "rape",
+      "year": 2025,
+      "computed": 4,
+      "printed": 4,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "rape",
+      "year": 2024,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "rape",
+      "year": 2023,
+      "computed": 5,
+      "printed": 5,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "fondling",
+      "year": 2025,
+      "computed": 4,
+      "printed": 4,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "fondling",
+      "year": 2024,
+      "computed": 3,
+      "printed": 3,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "fondling",
+      "year": 2023,
+      "computed": 3,
+      "printed": 3,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "incest",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "incest",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "incest",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "statutory_rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "statutory_rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "statutory_rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "robbery",
+      "year": 2025,
+      "computed": 3,
+      "printed": 3,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "robbery",
+      "year": 2024,
+      "computed": 5,
+      "printed": 5,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "robbery",
+      "year": 2023,
+      "computed": 11,
+      "printed": 11,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "computed": 4,
+      "printed": 4,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "computed": 4,
+      "printed": 4,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "burglary",
+      "year": 2025,
+      "computed": 2,
+      "printed": 2,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "burglary",
+      "year": 2024,
+      "computed": 6,
+      "printed": 6,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "burglary",
+      "year": 2023,
+      "computed": 4,
+      "printed": 4,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "computed": 71,
+      "printed": 71,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "computed": 73,
+      "printed": 73,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "computed": 69,
+      "printed": 69,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "arson",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "arson",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "arson",
+      "year": 2023,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 9,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "domestic_violence",
+      "year": 2025,
+      "computed": 15,
+      "printed": 15,
+      "pdf_page": 10,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "domestic_violence",
+      "year": 2024,
+      "computed": 10,
+      "printed": 10,
+      "pdf_page": 10,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "domestic_violence",
+      "year": 2023,
+      "computed": 16,
+      "printed": 16,
+      "pdf_page": 10,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "dating_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 10,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "dating_violence",
+      "year": 2024,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 10,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "dating_violence",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 10,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "stalking",
+      "year": 2025,
+      "computed": 1,
+      "printed": 1,
+      "pdf_page": 10,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "stalking",
+      "year": 2024,
+      "computed": 6,
+      "printed": 6,
+      "pdf_page": 10,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050001",
+      "category": "stalking",
+      "year": 2023,
+      "computed": 16,
+      "printed": 16,
+      "pdf_page": 10,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "murder",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "murder",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "murder",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "negligent_manslaughter",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "negligent_manslaughter",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "negligent_manslaughter",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "fondling",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "fondling",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "fondling",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "incest",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "incest",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "incest",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "statutory_rape",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "statutory_rape",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "statutory_rape",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "robbery",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "robbery",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "robbery",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "aggravated_assault",
+      "year": 2025,
+      "computed": 0,
+      "printed": 2,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "aggravated_assault",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "aggravated_assault",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "burglary",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "burglary",
+      "year": 2024,
+      "computed": 6,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "burglary",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "motor_vehicle_theft",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "motor_vehicle_theft",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "motor_vehicle_theft",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "arson",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "arson",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "arson",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 12,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "domestic_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 13,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "domestic_violence",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 13,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "domestic_violence",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 13,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "dating_violence",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 13,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "dating_violence",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 13,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "dating_violence",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 13,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "stalking",
+      "year": 2025,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 13,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "stalking",
+      "year": 2024,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 13,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    },
+    {
+      "campus": "144050002",
+      "category": "stalking",
+      "year": 2023,
+      "computed": 0,
+      "printed": 0,
+      "pdf_page": 13,
+      "source": "https://safety-security.uchicago.edu/-/media/project/uchicago-tenant/dss/pdfs/annual-reports/fire-safety/annual-security-and-fire-safety-report-2026-2027_91726_2.pdf"
+    }
+  ]
+}

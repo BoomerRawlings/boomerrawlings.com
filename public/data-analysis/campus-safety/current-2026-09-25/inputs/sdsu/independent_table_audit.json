@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "method": "Independent PDF ruled-table extraction with pdfplumber; no import from primary pypdf extractor.",
+  "source_sha256": "8d697b9134573a07dd7d53a0db29c18f8fe3a5b97e026fb8221237766155c80b",
+  "output_sha256": "ee0641325a1494f31cc791b4a641b0df751d939d91cab89569bfc38e3ac9259b",
+  "tables_checked": 63,
+  "cells_checked": 756,
+  "printed_category_heading_checks": 63,
+  "source_status_counts": {
+    "reported_numeric": 732,
+    "source_NA": 24
+  },
+  "separate_visual_review": "A separate agent visually checked 252 core housing/on-campus cells on nine rendered pages. Extraction agent additionally inspected pages 10, 15 and 19 for NA, referrals and narrative counts."
+}

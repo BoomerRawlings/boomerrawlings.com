@@ -1,0 +1,55 @@
+{
+  "do_not_treat_as_structural_zero": [
+    {
+      "campus_ids": [
+        "182670001",
+        "182670002"
+      ],
+      "years": [
+        2022,
+        2023,
+        2024
+      ],
+      "category": "dating_violence",
+      "geographies": [
+        "residential",
+        "oncampus",
+        "noncampus",
+        "publicproperty"
+      ],
+      "reason": "Dartmouth table label explicitly says dating violence included within domestic violence. N/A represents category aggregation, not absent geography. Domestic-violence category is combined in this source."
+    },
+    {
+      "campus_ids": [
+        "190150007",
+        "190150008"
+      ],
+      "years": [
+        2022,
+        2023
+      ],
+      "reason": "Columbia footnote1 onPDF56/59 says Baker Athletics and Paris statistics included in Morningside NONCAMPUS counts in2022/23; separate campus reporting begins2024. Geographic reclassification, not absent data or zero. Institution combined all-geography total may be nonduplicated with explicit source mapping, but branch/oncampus trends not comparable without qualification."
+    },
+    {
+      "campus_ids": [
+        "131496-asr2026-dubai"
+      ],
+      "years": [
+        2023
+      ],
+      "reason": "Opened September2023; source declines to report partial year. Cannot code entire2023 as before opening; on/non/public remain unreported."
+    },
+    {
+      "campus_ids": [
+        "193900028"
+      ],
+      "years": [
+        2022
+      ],
+      "reason": "Midtown oncampus/publicN/A without verified openingdate. Preserve unknown."
+    }
+  ],
+  "geography_rules": 48,
+  "rule_year_combinations": 135,
+  "interpretation": "Rules preserve rawN/A and blank counts. Structural absence permits exclusion from a compatible institution geographic sum, not an observed zero or resident population; before-opening branch rates unavailable."
+}

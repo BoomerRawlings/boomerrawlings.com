@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "selected_report_url": "https://police.sdsu.edu/_resources/files/asr_2026_newdraft.pdf",
+  "selected_report_sha256": "8d697b9134573a07dd7d53a0db29c18f8fe3a5b97e026fb8221237766155c80b",
+  "core_cells": 504,
+  "all_table_cells": 756,
+  "source_numeric_cells": 732,
+  "source_NA_cells": 24,
+  "prior_asr_cells": 720,
+  "overlapping_asr_cells": 480,
+  "asr_changed_cells": [
+    {
+      "campus_id": "122409001",
+      "campus": "San Diego",
+      "report_year": 2023,
+      "category": "rape",
+      "family": "criminal_offenses",
+      "geography": "residential",
+      "asr_2025_count": 7,
+      "asr_2026_count": 8,
+      "difference": 1,
+      "same_numeric_value": false,
+      "asr_2025_url": "https://police.sdsu.edu/_resources/files/annual-security-reports/2025-annual-security-report-finalized-08-18-25.pdf#page=7",
+      "asr_2026_url": "https://police.sdsu.edu/_resources/files/asr_2026_newdraft.pdf#page=7"
+    }
+  ],
+  "federal_comparison_cells": 480,
+  "federal_comparable_numeric_cells": 320,
+  "federal_noncomparable_cells": 160,
+  "federal_numeric_differences": [
+    {
+      "campus_id": "122409001",
+      "campus": "San Diego",
+      "report_year": 2023,
+      "category": "rape",
+      "family": "criminal_offenses",
+      "geography": "residential",
+      "federal_2025_count": 7,
+      "federal_raw_value": "7",
+      "federal_status": "reported_numeric",
+      "asr_2026_count": 8,
+      "asr_raw_value": "8",
+      "asr_status": "reported_numeric",
+      "difference": 1,
+      "numeric_comparable": true,
+      "federal_source_file": "Residencehallcrime222324.xls",
+      "federal_source_row": "833",
+      "federal_source_column": "RAPE23",
+      "asr_2026_url": "https://police.sdsu.edu/_resources/files/asr_2026_newdraft.pdf#page=7"
+    }
+  ],
+  "housing_subset_checks": "All numerical residential cells are <= campus total in direct-linked current report.",
+  "not_done": [
+    "No enrollment or occupancy values inferred for 2025.",
+    "No source revision explanation inferred.",
+    "No reinterpretation of printed zero as absence of housing."
+  ]
+}

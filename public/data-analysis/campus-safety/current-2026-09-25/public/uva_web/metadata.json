@@ -1,0 +1,27 @@
+{
+  "unitid": "234076",
+  "label": "Virginia",
+  "landing_url": "https://cleryact.virginia.edu/",
+  "report_url": "https://cleryact.virginia.edu/report",
+  "actual_pdf_url": "https://cleryact.virginia.edu/sites/cleryact/files/2026-09/UVA_Annual_Fire_Safety_Security_Report_2026_FINAL.pdf",
+  "report_edition": 2026,
+  "report_years": [
+    2023,
+    2024,
+    2025
+  ],
+  "checked_utc": "2026-09-25T22:00:36.174710+00:00",
+  "local_pdf": null,
+  "sha256": null,
+  "bytes": null,
+  "pages": 195,
+  "campus_scope": "Six existing federal reporting campuses; Valmarana established June2026 and no2023\u20132025 statistics",
+  "additional_reports": [],
+  "latest_evidence": "Official listing and report web reader reviewed September25,2026; liveorigin403. Web excerpt snapshots available.",
+  "denominator_sources": [],
+  "limitations": [
+    "No PDF bytes/hash",
+    "Visual verification unavailable: screenshot tool returned only reference text; extraction provisional",
+    "New residential denominator not researched in this bounded extraction"
+  ]
+}

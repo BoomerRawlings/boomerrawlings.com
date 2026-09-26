@@ -1,0 +1,22 @@
+[
+  {
+    "filename": "DVRCA_2001-2025.csv",
+    "uri": {
+      "value": "public://dataset/2026-07/DVRCA_2001-2025.csv",
+      "url": "/sites/default/files/dataset/2026-07/DVRCA_2001-2025.csv"
+    },
+    "created": "2026-07-01T17:43:23+00:00",
+    "changed": "2026-07-01T17:43:52+00:00",
+    "filesize": 12486945
+  },
+  {
+    "filename": "Domestic Violence Related Calls for Service Context_06222026.pdf",
+    "uri": {
+      "value": "public://dataset/2026-07/Domestic Violence Related Calls for Service Context_06222026.pdf",
+      "url": "/sites/default/files/dataset/2026-07/Domestic%20Violence%20Related%20Calls%20for%20Service%20Context_06222026.pdf"
+    },
+    "created": "2026-07-01T17:43:39+00:00",
+    "changed": "2026-07-01T17:43:52+00:00",
+    "filesize": 222795
+  }
+]

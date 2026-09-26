@@ -1,0 +1,98 @@
+{
+  "checked_utc": "2026-09-26T00:39:43.816657+00:00",
+  "packages": {
+    "campus": {
+      "manifest_entries": 115,
+      "zip_entries": 115,
+      "zip_bytes": 1392607,
+      "zip_sha256": "d023a0361562f511bb8cf868682ec51152796768ed3659a56e5f731fafae6012",
+      "errors": []
+    },
+    "crime": {
+      "manifest_entries": 38,
+      "zip_entries": 38,
+      "zip_bytes": 181833,
+      "zip_sha256": "ff7ac98f4fb2a5b8a9dcf6313622b5f1e14e6b21ac0403abd9b9e3f46e77c4ee",
+      "errors": []
+    }
+  },
+  "privacy_findings": [
+    {
+      "package": "campus",
+      "file": "build_current_reports.py",
+      "kind": "machine_path",
+      "hits": 1
+    },
+    {
+      "package": "campus",
+      "file": "private/verify_private_inputs.py",
+      "kind": "machine_path",
+      "hits": 2
+    }
+  ],
+  "errors": [],
+  "offline_replay": {
+    "files": {
+      "source_cells.csv": {
+        "identical": true,
+        "sha256": "d1eb7fb9c7d485ea3378791f76bd42c88b3c764eea1036148d3e3dffd36a133f"
+      },
+      "dataset.json": {
+        "identical": true,
+        "sha256": "cf5592b18c1379111248b762bf9447937f0b34383de7ed33e92645e37efac000"
+      },
+      "geography.json": {
+        "identical": true,
+        "sha256": "2ebcce446ebb6ef321848e4658f7ea4856257496583fd7da5f1f36382850bd38"
+      },
+      "rates.csv": {
+        "identical": true,
+        "sha256": "9e5e58e0a6c816e80237ed018209da81c7e705d702d852be50bcc9056c6d57c3"
+      },
+      "case_study.json": {
+        "identical": true,
+        "sha256": "234cfafd586fb8e5643265bcf6acda2b11124668a837bfab743ec1d8a1227eba"
+      },
+      "coverage.json": {
+        "identical": true,
+        "sha256": "772c88e304eddd6c1946c05c3a3ccc1f118392f4fc9211dc4af947223a17eb4d"
+      },
+      "source_inventory.json": {
+        "identical": true,
+        "sha256": "31f37ee6f42130b78cf929d68444ddbef81198aa9ae2b2be29833019dc570729"
+      },
+      "build_inputs.json": {
+        "identical": true,
+        "sha256": "c1724b38b97967c718073df2ede02cb423d387dda12bf38019d7f24f1abac513"
+      }
+    },
+    "independent_audit": "PASS"
+  },
+  "internal_literal_asset_paths": {
+    "checked": 17,
+    "missing": [],
+    "scope": "Literal quoted/Markdown publication paths in copied interface source; source-code filesystem paths in manifests are not treated as browser links. Compiled site/routing and dynamic interpolation are separate frontend tests."
+  },
+  "crime_aggregate_reconciliation": {
+    "status": "PASS",
+    "outputs": {
+      "daily": {
+        "cells": 1335,
+        "source_rows": 57037
+      },
+      "monthly_offense": {
+        "cells": 416,
+        "source_rows": 57037
+      }
+    },
+    "changed_dates": 27,
+    "net_added_source_rows": 244,
+    "note": "Checks exported safe aggregates only; the original full source-freshness verifier also requires separately retained NOAA/DOJ raw files and prior expansion inputs."
+  },
+  "privacy_review": {
+    "status": "PASS",
+    "disposition": "No personal user path, secret token, private email, record identifier or individual street-address field found in the allowlisted textual/CSV files. The two lexical candidates are a generic C:/Windows/Fonts dependency and literal drive-prefix examples used by the private-source safety checker. Neither identifies the user or exposes a credential. Source original PDFs are intentionally outside the aggregate archive."
+  },
+  "status": "PASS",
+  "scope": "Prior candidate archive verification, identified by the hashes below. The same scientific outputs were replayed independently; later interface/audit additions change the final archive hash. Final archive integrity is checked externally, avoiding a self-referential checksum."
+}

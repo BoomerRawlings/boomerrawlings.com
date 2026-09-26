@@ -5,3 +5,6 @@ public/data-analysis/** -text whitespace=cr-at-eol
 # Preserve the audited source snapshot's whitespace without rewriting its hashes.
 public/data-analysis/crime-and-heat/data/source-expansion-1/local/sandag_offense_dictionary.csv -whitespace
 public/data-analysis/crime-and-heat/data/source-expansion-1/doj/normalize_doj.py whitespace=cr-at-eol,-blank-at-eof
+# Retain the reviewed extraction-script bytes in the versioned campus archive.
+public/data-analysis/campus-safety/current-2026-09-25/private/audit_current_2026.py whitespace=cr-at-eol,-blank-at-eof
+public/data-analysis/campus-safety/current-2026-09-25/private/extract_current_2026.py whitespace=cr-at-eol,-blank-at-eof
