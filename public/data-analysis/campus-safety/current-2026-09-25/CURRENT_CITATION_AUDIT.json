@@ -1,5 +1,5 @@
 {
-  "checked_utc": "2026-09-26T00:48:46.499243+00:00",
+  "checked_utc": "2026-09-26T01:07:17.744258+00:00",
   "status": "PASS",
   "scope": "Independent editorial claim/citation review; final report text and reference annotations; focused primary-source spot checks; distinct from numeric and visual audits.",
   "claim_groups": 39,
@@ -427,7 +427,7 @@
       "id": "C28",
       "topic": "Reader calculations and narrative",
       "claim": "All9450 school/category/year/location selections preserve counts, matching-year populations, rates, missingness and zero distinctions. Combined areas never add housing twice and show no population rate.",
-      "evidence": "Independent audit_reader_copy.mjs reconstructs selected values from current dataset; READER_COPY_AUDIT.json records16 checks. This verifies explanations against verified aggregates, not source re-extraction.",
+      "evidence": "Independent audit_reader_copy.mjs reconstructs selected values from current dataset; READER_COPY_AUDIT.json records 19 checks. This verifies explanations against verified aggregates, not source re-extraction.",
       "status": "PASS"
     },
     {
@@ -440,15 +440,15 @@
     {
       "id": "C30",
       "topic": "Reader citations",
-      "claim": "School markers derive from the same official-name order as42 source entries; initial SDSU marker isS18. ReaderR1/R2 avoid geographyG1 collision; housing/enrollment links point to actual separate data files.",
-      "evidence": "Reader components and link targets inspected; return targets/select-school handler reviewed. Actual focus and click behavior belongs to the separate browser audit.",
+      "claim": "School markers derive from the same official-name order as42 source entries after a school is selected. ReaderR1/R2 avoid geographyG1 collision; housing/enrollment links point to actual separate data files. Research and school source lists are collapsible.",
+      "evidence": "Reader components, static citation builder and link targets inspected; return targets/select-school handler reviewed. Actual disclosure, focus and click behavior belongs to the separate browser audit.",
       "status": "PASS"
     },
     {
       "id": "C31",
       "topic": "Opening summary",
-      "claim": "The2024 combined housing-offense ratio is available for10of42 schools; yearly and pooled UCSD/SDSU examples retain their source-specific meaning.",
-      "evidence": "Independent readerResults for criminal_total/housing/2024; coverage.json; previously source-checked case_study.json. Availability is not reported crime prevalence.",
+      "claim": "The short overview describes reported crime at42 universities without a selected school or numerical school comparison. Region browsing and search do not automatically select a school. Detailed San Diego examples and their source qualifications are retained.",
+      "evidence": "Fixed cohort/dataset supports42 universities. Empty initial markup and explicit-selection handlers inspected; school-specific examples remain in the detailed study and unchanged PDF. Browser interaction is checked separately.",
       "status": "PASS"
     },
     {
@@ -514,8 +514,9 @@
     "PDF6 describes the IPEDS release schedule accurately;6a supplies complete files/dictionaries and source-derived population records. Formula population citations use6a.",
     "SDSU PDF1 is labeled as the actual linked document rather than a listing page;2022 older-edition use and newdraft filename are explicit.",
     "Crime/Heat reference estimates explicitly identify the corrected64-postal-area analysis and63 fitted domestic-violence areas.",
-    "School guide population links now point to actual housing/enrollment files; the initial school source marker is computed, not hardcoded. Combined-area pooled copy describes a count rather than division by populations, and ambiguous partial sums are not asserted to be lower bounds.",
-    "All42 school notes use plain language for populations, locations covered and earlier federal data. Full state names are searchable alongside school names and abbreviations; region labels describe home location only."
+    "School guide population links point to actual housing/enrollment files; the selected school source marker is computed. Combined-area pooled copy describes a count rather than division by populations, and ambiguous partial sums are not asserted to be lower bounds.",
+    "All42 school notes use plain language for populations, locations covered and earlier federal data. Full state names are searchable alongside school names and abbreviations; region labels describe home location only.",
+    "The opening-view amendment removes automatic school selection and San Diego opening highlights. Region browsing does not choose a school. School-specific links, detailed examples, source qualifications, scientific outputs and reviewed PDFs are preserved."
   ],
   "limitations": [
     "PASS applies only to reviewed factual/citation claims and recorded artifact versions. It is not certification of complete crime reporting, true victimization risk, matched property-level populations, or agency approval.",
@@ -528,8 +529,8 @@
   "reviewed_artifacts": [
     {
       "path": "boomerrawlings.com/src/pages/writing/data-analysis/campus-safety.astro",
-      "bytes": 21066,
-      "sha256": "d91d53a3c048b53036f77661f2a3fae944317dbc1355980a9fc8f76c40f7423a"
+      "bytes": 18677,
+      "sha256": "73562fcd24e2dd8cadbc8fbfc4d7e4fdc8b0c796445ee2c5de3a64ed64bdc3e9"
     },
     {
       "path": "boomerrawlings.com/src/content/archive/campus-safety.md",
@@ -543,18 +544,23 @@
     },
     {
       "path": "boomerrawlings.com/src/components/CampusReader.astro",
-      "bytes": 13989,
-      "sha256": "13388f117bb44e567babd95e81f5c1849f2522fe33b56a0513911b93c96b7d1c"
+      "bytes": 13940,
+      "sha256": "12ed0f057e3b8623df422db59f8860ceffa638d3044fe6586728cf304a01826f"
     },
     {
       "path": "boomerrawlings.com/src/components/CampusReaderSources.astro",
-      "bytes": 2069,
-      "sha256": "a19a651fce43028b70cf536a7cdb30b33ea8557218de54205c4395b5a26c7f08"
+      "bytes": 2030,
+      "sha256": "44261b053c505f9f4bc0ec78fe44d3945e930d2ddc69061e460fa70bfdcc85f6"
     },
     {
       "path": "boomerrawlings.com/src/lib/campus-reader.js",
       "bytes": 3624,
       "sha256": "dd38608f30b67f8efb0a4df7d5f908ceaef9f930920dc6eb6a26cdb1df39653d"
+    },
+    {
+      "path": "boomerrawlings.com/src/lib/campus-citations.js",
+      "bytes": 9551,
+      "sha256": "c5ccc075dae41208442935c6b02441b86ee961fa16a157f2762a0e319eebc528"
     },
     {
       "path": "boomerrawlings.com/src/data/campus-reader-copy.js",
@@ -563,8 +569,8 @@
     },
     {
       "path": "campus_safety_analysis/research/freshness_2026_09_25/READER_COPY_AUDIT.json",
-      "bytes": 2828,
-      "sha256": "c0f0c4f5cc02b40dd20b0429d3c65086e13cc79c8ca0ba4102ab293300e9d605"
+      "bytes": 3504,
+      "sha256": "b5c6929c65d0114b866c57fb0ac84e253267dc70cbf143acddfe55fa13d06b5b"
     },
     {
       "path": "campus_safety_analysis/research/freshness_2026_09_25/build_current_reports.py",
@@ -618,8 +624,13 @@
     },
     {
       "path": "campus_safety_analysis/research/freshness_2026_09_25/README.md",
-      "bytes": 8509,
-      "sha256": "ed93415b0352d1a307b048493b90b2d35e61ec0a0704a07930a1dd496a9de5c9"
+      "bytes": 8752,
+      "sha256": "31aaeab25520805241cdbe16b98257be5ce5a1ac10c6fc9b383752cbb0250a25"
+    },
+    {
+      "path": "campus_safety_analysis/research/freshness_2026_09_25/PRESENTATION_AMENDMENT.md",
+      "bytes": 2115,
+      "sha256": "8d5742d1d08b84e4ac1f6fa3d32afba88adea6ec5f587b8cf10d627a5f403ef3"
     },
     {
       "path": "campus_safety_analysis/research/RESEARCH_REVIEW.md",

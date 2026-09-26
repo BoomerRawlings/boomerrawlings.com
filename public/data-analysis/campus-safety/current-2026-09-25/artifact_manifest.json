@@ -1,15 +1,15 @@
 {
   "audit_current_citations.py": {
-    "bytes": 28450,
-    "sha256": "0546974f549eace9a94eeff55e6d7d4bc3edd66ce539fff085fb04edd7e4ff40"
+    "bytes": 29050,
+    "sha256": "d8a55eaaf59e279aec35c44c36973cbe9d0882aade4b71bd6674467940f45116"
   },
   "audit_current_data.py": {
     "bytes": 18345,
     "sha256": "a1cfcf8bd1732a1d8b22ee8bfb5903d6b7ed6e61203c4dc19cc93702f681b017"
   },
   "audit_reader_copy.mjs": {
-    "bytes": 6640,
-    "sha256": "ceffdef2e75b3b17dd488fc0d858f6bb9cf4f5cb97a98f32ae9e1b0e04c2e663"
+    "bytes": 7789,
+    "sha256": "0006866097a9e888806228a00161bf47c37cd9c058c09f12560e59c3fe164bea"
   },
   "build_current.py": {
     "bytes": 22295,
@@ -36,12 +36,12 @@
     "sha256": "772c88e304eddd6c1946c05c3a3ccc1f118392f4fc9211dc4af947223a17eb4d"
   },
   "CURRENT_CITATION_AUDIT.json": {
-    "bytes": 39894,
-    "sha256": "7489878f1782d53333b27895f2c59b256e483bff0ef18a55d1beab6890726aa4"
+    "bytes": 40806,
+    "sha256": "75f24040fbc7406b22a6135936fe67052d8a1175416cfa83089fb02d1c1f0c56"
   },
   "CURRENT_CITATION_AUDIT.md": {
-    "bytes": 19476,
-    "sha256": "faff499d461e40f154de456bcdd3225675a2ec5bfd99ffa0dd72c6818317559a"
+    "bytes": 20257,
+    "sha256": "af34089dc46a9a72077aeaad048198d11957b4c827250828dfcd3622dcf26d5e"
   },
   "CURRENT_DATA_AUDIT.json": {
     "bytes": 4637,
@@ -156,12 +156,12 @@
     "sha256": "140a53aab9e757cae685bb1d06ad8cc62f7c2b1e0cdef4c8b4385754da1d56c3"
   },
   "interface/components/CampusReader.astro": {
-    "bytes": 13989,
-    "sha256": "13388f117bb44e567babd95e81f5c1849f2522fe33b56a0513911b93c96b7d1c"
+    "bytes": 13940,
+    "sha256": "12ed0f057e3b8623df422db59f8860ceffa638d3044fe6586728cf304a01826f"
   },
   "interface/components/CampusReaderSources.astro": {
-    "bytes": 2069,
-    "sha256": "a19a651fce43028b70cf536a7cdb30b33ea8557218de54205c4395b5a26c7f08"
+    "bytes": 2030,
+    "sha256": "44261b053c505f9f4bc0ec78fe44d3945e930d2ddc69061e460fa70bfdcc85f6"
   },
   "interface/content/archive/campus-safety.md": {
     "bytes": 15519,
@@ -174,6 +174,10 @@
   "interface/data/campus-school-context.json": {
     "bytes": 39888,
     "sha256": "2a89f6eb25b23878daae794b1a814167cb704762d6e4ed0db64f1c48ee291d75"
+  },
+  "interface/lib/campus-citations.js": {
+    "bytes": 9551,
+    "sha256": "c5ccc075dae41208442935c6b02441b86ee961fa16a157f2762a0e319eebc528"
   },
   "interface/lib/campus-rates.js": {
     "bytes": 5719,
@@ -192,20 +196,20 @@
     "sha256": "fd133386a9af86967a549e0b49acdd4aa925cf03eb0308f1420237fb06842ee5"
   },
   "interface/pages/writing/data-analysis/campus-safety.astro": {
-    "bytes": 21066,
-    "sha256": "d91d53a3c048b53036f77661f2a3fae944317dbc1355980a9fc8f76c40f7423a"
+    "bytes": 18677,
+    "sha256": "73562fcd24e2dd8cadbc8fbfc4d7e4fdc8b0c796445ee2c5de3a64ed64bdc3e9"
   },
   "interface/README.md": {
     "bytes": 620,
     "sha256": "8958c54d000e53946dbb3245245150d2421bac9f2c4803897e8c9584c2a32395"
   },
   "interface/SOURCE_FILES.json": {
-    "bytes": 1804,
-    "sha256": "efa9880246435851b076e10af5c457e16b57c6e177124915fedbae62f6a2548b"
+    "bytes": 1944,
+    "sha256": "1bc7c74a556afdc9f248f6fcd1e7fa595f5588816d1eab554bc6bc160e17bd66"
   },
   "interface/styles/campus-reader.css": {
-    "bytes": 5327,
-    "sha256": "720fbac807486b4be567aa5a4bbeefb3c2073454503beb5fca1536f21af98b01"
+    "bytes": 6282,
+    "sha256": "eebfe68e52652a052e07f2851e8629cb17249c69735fba00f05960060efb23d6"
   },
   "interface/test-campus-reader.mjs": {
     "bytes": 2988,
@@ -214,6 +218,10 @@
   "PDF_VISUAL_AUDIT.md": {
     "bytes": 4317,
     "sha256": "cfb872fdd2a5e0f1328b896434862fc0b03a46d1cc158b3531eb1ae742d6acde"
+  },
+  "PRESENTATION_AMENDMENT.md": {
+    "bytes": 2115,
+    "sha256": "8d5742d1d08b84e4ac1f6fa3d32afba88adea6ec5f587b8cf10d627a5f403ef3"
   },
   "private/2025_visual_source_review.json": {
     "bytes": 3947,
@@ -400,12 +408,12 @@
     "sha256": "9e5e58e0a6c816e80237ed018209da81c7e705d702d852be50bcc9056c6d57c3"
   },
   "READER_COPY_AUDIT.json": {
-    "bytes": 2828,
-    "sha256": "c0f0c4f5cc02b40dd20b0429d3c65086e13cc79c8ca0ba4102ab293300e9d605"
+    "bytes": 3504,
+    "sha256": "b5c6929c65d0114b866c57fb0ac84e253267dc70cbf143acddfe55fa13d06b5b"
   },
   "README.md": {
-    "bytes": 8509,
-    "sha256": "ed93415b0352d1a307b048493b90b2d35e61ec0a0704a07930a1dd496a9de5c9"
+    "bytes": 8752,
+    "sha256": "31aaeab25520805241cdbe16b98257be5ce5a1ac10c6fc9b383752cbb0250a25"
   },
   "RELEASE_PACKAGE_CHECK.json": {
     "bytes": 3772,
@@ -468,11 +476,11 @@
     "sha256": "a65707c039f9a6e9c1d39175d235455697e769cbf242546ba254ba7d4a656125"
   },
   "VISUAL_AUDIT.md": {
-    "bytes": 6639,
-    "sha256": "3e2bdd9c76f6a29de0a4d1384f26f81f394f017d5e462819deddb24f45480348"
+    "bytes": 8062,
+    "sha256": "2ceb1caf523937e536c796dab40c68b74347f27fe9aa715cf79b23bfb35d1027"
   },
   "campus-safety-current-reproducibility.zip": {
-    "bytes": 1406177,
-    "sha256": "e7c7579809aae917d05031f5dcfa0bf33877ceb87d3ec2d56cfff33329779bba"
+    "bytes": 1412932,
+    "sha256": "a08e9c30fe4e6b599db5336ee096af3b1218c6568e1a0c2175d0e9dc278bf6a8"
   }
 }

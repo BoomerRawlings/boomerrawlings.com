@@ -19,7 +19,6 @@ const federalData=JSON.parse(readFileSync(`public${base}/data/dataset.json`,'utf
 const data=JSON.parse(readFileSync(`public${revision}/dataset.json`,'utf8'));
 const geography=JSON.parse(readFileSync(`public${revision}/geography.json`,'utf8'));
 const inventory=JSON.parse(readFileSync(`public${revision}/source_inventory.json`,'utf8'));
-const coverage=JSON.parse(readFileSync(`public${revision}/coverage.json`,'utf8'));
 const cases=JSON.parse(readFileSync(`public${revision}/case_study.json`,'utf8'));
 const periods=[2022,2023,2024,'pooled'];
 const n=(v:number)=>v.toLocaleString('en-US');
@@ -30,16 +29,9 @@ const example=(unitid:string,period:number|string)=>cases.find((r:any)=>r.unitid
   <div class="analysis-page campus-study" data-campus-study>
     <header class="analysis-intro">
       <nav class="analysis-back" aria-label="Breadcrumb"><a href="/writing/">Writing</a><span aria-hidden="true"> / </span><a href="/writing/data-analysis/">Data Analysis</a></nav>
-      <p class="analysis-kicker">Campus safety data analysis · 25 September 2026</p>
-      <h1>Campus safety,<br />in proportion.</h1>
-      <p class="analysis-deck">What do campus crime reports tell us? Explore 42 universities, see how the numbers relate to the number of students, and understand what each comparison can—and cannot—show.</p>
-      <div class="analysis-actions"><a class="analysis-button" href="#school-guide">Find your school</a><a href="#explorer">Detailed comparisons</a><a href={`${revision}/campus-safety-current-report.pdf`}>Research report · PDF</a></div>
+      <h1>Campus safety, in proportion.</h1>
+      <p class="analysis-deck">Explore reported crime across 42 universities, with student populations and reporting context alongside the numbers.</p>
     </header>
-    <section aria-labelledby="campus-summary-heading"><h2 id="campus-summary-heading">What stands out</h2><div class="reader-highlights">
-      <article><h3>A single year can change the picture.</h3><p>For housing rape reports in 2024, UC San Diego’s rate was 0.91 per 1,000 residents; San Diego State’s was 0.12. Across 2022–2024, the annual pooled rates were nearly equal: 0.73 and 0.74. A single year does not describe a school’s whole history. <a data-campus-citation href={`${revision}/case_study.json`}>Versioned housing counts and calculations</a></p><a href="#case-study">See the comparison</a></article>
-      <article><h3>“On campus” and “all reports” differ.</h3><p>San Diego State recorded one on-campus rape offense for 2024 and two at qualifying non-campus properties: three across all reporting areas. The housing report is already part of the campus total; adding it again would count it twice. <a data-campus-citation href="https://police.sdsu.edu/_resources/files/asr_2026_newdraft.pdf#page=7">SDSU 2026 report, p. 7</a></p><a href="#report-geography">See the locations separately</a></article>
-      <article><h3>Population data limit fair comparisons.</h3><p>Only {coverage.available_rates['2024'].residents} of the 42 schools have both a verified 2024 combined housing-offense count and a documented resident population in this release. Newer 2025 counts are available for some schools, but 2025 rates cannot yet be calculated. Missing data never mean zero offenses. <a data-campus-citation href={`${revision}/coverage.json`}>Current count and population coverage</a></p><a href="#school-guide">Check a school’s coverage</a></article>
-    </div><p class="analysis-note">These are reports recorded by institutions. They do not measure convictions, distinct victims or an individual student’s chance of experiencing crime. More reports alone do not establish that a campus is less safe.</p></section>
     <CampusReader data={data} />
     <details id="campus-technical" class="reader-technical"><summary>Detailed comparisons, geographic breakdowns and research methods</summary>
     <nav class="analysis-section-nav" aria-label="Study sections"><a href="#explorer">Rate explorer</a><a href="#report-geography">Geography</a><a href="#case-study">Housing comparison</a><a href="#source-inventory">Current sources</a><a href="#methods">Methods &amp; related research</a><a href="#downloads">Data &amp; audits</a><a href="#sources">Sources</a></nav>

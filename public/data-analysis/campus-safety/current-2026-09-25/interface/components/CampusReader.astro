@@ -1,41 +1,38 @@
 ---
 import context from '../data/campus-school-context.json';
 import {regionCopy,topicCopy,placeCopy,periodCopy} from '../data/campus-reader-copy.js';
-import {readerResult} from '../lib/campus-reader.js';
 import '../styles/campus-reader.css';
-const {data}=Astro.props;
-const school=data.institutions.find((i:any)=>i.id==='122409');
-const initial=readerResult(school);
-const sourceNumber=[...data.institutions].sort((a:any,b:any)=>a.officialName.localeCompare(b.officialName)).findIndex((s:any)=>s.id===school.id)+1;
 ---
 <section id="school-guide" class="campus-reader" data-campus-reader aria-labelledby="reader-heading">
-  <div class="reader-heading"><p class="analysis-kicker">Start here</p><h2 id="reader-heading">Find a school. Understand its numbers.</h2><p>Choose a region or type a school’s name. Each view explains what is counted, how population changes the comparison and where information is missing.</p></div>
+  <div class="reader-heading"><h2 id="reader-heading">Explore the schools</h2><p>Search by name or choose a region to begin.</p></div>
   <div class="reader-browser" id="reader-browser" hidden>
-    <label class="reader-search">Find a school<input id="reader-search" type="search" placeholder="School, abbreviation or state — e.g. SDSU" autocomplete="off" /></label>
-    <div class="reader-regions" role="group" aria-label="Browse schools by home region">{Object.entries(regionCopy).map(([id,r])=><button type="button" data-reader-region={id} aria-pressed={id==='all'}>{r.label}<span>{id==='all'?42:Object.values(context).filter(c=>c.region===id).length}</span></button>)}</div>
+    <label class="reader-search">Find a school<input id="reader-search" type="search" placeholder="School name, abbreviation or state" autocomplete="off" /></label>
+    <div class="reader-regions" role="group" aria-label="Browse schools by home region">{Object.entries(regionCopy).map(([id,r])=><button type="button" data-reader-region={id} aria-pressed="false">{id==='all'?'Browse all schools':r.label}<span>{id==='all'?42:Object.values(context).filter(c=>c.region===id).length}</span></button>)}</div>
     <p id="reader-match-count" class="reader-small" role="status" aria-live="polite"></p>
     <div id="reader-school-list" class="reader-school-list" aria-label="Matching schools"></div>
-    <button id="reader-more" class="reader-more" type="button">Show more schools</button>
+    <button id="reader-more" class="reader-more" type="button" hidden>Show more schools</button>
+    <details id="reader-region-context" class="reader-context" hidden><summary>About this region’s coverage</summary>
     <p id="reader-region-note" class="reader-region-note">{regionCopy.all.note}</p>
     <p class="reader-small">Regions describe the university’s home location. The report may include campuses in other regions or countries. No regional crime or safety ranking is implied.</p>
+    </details>
   </div>
-  <article id="reader-reading" class="reader-reading" aria-labelledby="reader-school-heading" tabindex="-1">
-    <div class="reader-selected"><p class="analysis-kicker">Selected school</p><h3 id="reader-school-heading">{school.officialName}</h3><p id="reader-school-scope">{context[school.id].note}</p></div>
+  <article id="reader-reading" class="reader-reading" aria-labelledby="reader-school-heading" tabindex="-1" hidden>
+    <div class="reader-selected"><p class="analysis-kicker">Selected school</p><h3 id="reader-school-heading"></h3><p id="reader-school-scope"></p></div>
     <div id="reader-options" class="reader-options" hidden>
       <div class="reader-location"><span id="reader-place-label">Where were reports recorded?</span><div role="group" aria-labelledby="reader-place-label">{Object.entries(placeCopy).map(([id,v])=><button type="button" data-reader-place={id} aria-pressed={id==='housing'}>{v.label}</button>)}</div></div>
       <label>Type of report<select id="reader-topic">{Object.entries(topicCopy).map(([id,t])=><option value={id}>{t.label}</option>)}</select></label>
       <label>Reporting period<select id="reader-year"><option value="2022">2022</option><option value="2023">2023</option><option value="2024" selected>2024</option><option value="2025">2025</option><option value="pooled">2022–2024 combined</option></select></label>
     </div>
     <div id="reader-outcome" aria-live="polite" aria-atomic="true">
-      <div class="reader-stats"><div><span>Reports in student housing</span><strong data-reader-count>{initial.count}</strong></div><div><span data-reader-pop-label>Documented fall residents</span><strong data-reader-population>{initial.population?.toLocaleString('en-US')}</strong></div><div><span data-reader-rate-label>Reports per 1,000 residents</span><strong data-reader-rate>{initial.rate?.toFixed(2)}</strong></div></div>
-      <h4 id="reader-result-heading">{initial.headline}</h4><p id="reader-explanation">{initial.interpretation}</p><p id="reader-zero" hidden></p>
+      <div class="reader-stats"><div><span>Reports in student housing</span><strong data-reader-count></strong></div><div><span data-reader-pop-label>Documented fall residents</span><strong data-reader-population></strong></div><div><span data-reader-rate-label>Reports per 1,000 residents</span><strong data-reader-rate></strong></div></div>
+      <h4 id="reader-result-heading"></h4><p id="reader-explanation"></p><p id="reader-zero" hidden></p>
     </div>
     <div class="reader-interpretation"><p><strong>Location.</strong> <span id="reader-location-explanation">{placeCopy.housing.text}</span></p><p><strong>Category.</strong> <span id="reader-topic-explanation">{topicCopy.criminal_total.text}</span></p><p><strong>Time period.</strong> <span id="reader-time-explanation">{periodCopy['2024']}</span></p></div>
     <p class="reader-small" id="reader-editions"></p>
-    <p class="reader-small">Evidence for this view: <sub><a id="reader-school-citation" href="#reader-source-122409" aria-label="School guide source for San Diego State">[S{sourceNumber}]</a></sub> <sub><a href="#reader-source-calculations" data-reader-source-link>[R1]</a></sub> <sub><a href="#reader-source-population" data-reader-source-link>[R2]</a></sub>. Counts describe reported offenses, not convictions, distinct victims or personal risk.</p>
-    <div class="reader-next"><a id="reader-table-link" href="?source=current&measure=residents&group=all&search=SDSU#explorer">Open this selection in the detailed table</a><a id="reader-location-link" href="#report-geography">Inspect individual campus locations</a></div>
+    <p class="reader-small">Evidence for this view: <sub><a id="reader-school-citation" href="#reader-sources" aria-label="Selected school's source">[School source]</a></sub> <sub><a href="#reader-source-calculations" data-reader-source-link>[R1]</a></sub> <sub><a href="#reader-source-population" data-reader-source-link>[R2]</a></sub>. Counts describe reported offenses, not convictions, distinct victims or personal risk.</p>
+    <div class="reader-next"><a id="reader-table-link" href="#explorer">Open this selection in the detailed table</a><a id="reader-location-link" href="#report-geography">Inspect individual campus locations</a></div>
   </article>
-  <noscript><p>JavaScript enables school search and tailored explanations. The San Diego State example above and the detailed tables below remain available.</p></noscript>
+  <noscript><p>JavaScript enables school search. Open the detailed comparisons below to explore the tables without it.</p></noscript>
   <script type="application/json" id="reader-context" set:html={JSON.stringify(context).replace(/</g,'\\u003c')} />
 </section>
 <script>
@@ -52,31 +49,37 @@ const sourceNumber=[...data.institutions].sort((a:any,b:any)=>a.officialName.loc
     const $=(id:string)=>document.getElementById(id)!;
     const input=$('reader-search') as HTMLInputElement;
     const topic=$('reader-topic') as HTMLSelectElement, year=$('reader-year') as HTMLSelectElement;
-    let selected='122409',region='all',place='housing',expanded=false;
+    let selected='',region='all',place='housing',expanded=false,browsing=false;
     const params=new URL(location.href).searchParams;
     if(schools.some((s:any)=>s.id===params.get('school')))selected=params.get('school')!;
+    if(params.has('guideRegion')&&regionCopy[params.get('guideRegion')!]){region=params.get('guideRegion')!;browsing=true;}
+    if(selected){browsing=true;if(region!=='all'&&contexts[selected].region!==region)region='all';}
     if(params.has('guideYear')&&periodCopy[params.get('guideYear')!])year.value=params.get('guideYear')!;
     if(params.has('guideTopic')&&topicCopy[params.get('guideTopic')!])topic.value=params.get('guideTopic')!;
     if(params.has('guidePlace')&&placeCopy[params.get('guidePlace')!])place=params.get('guidePlace')!;
     const selection=()=>({category:topic.value,period:year.value,place});
     const format=(v:number|null)=>v===null?'Not available':v.toLocaleString('en-US');
     const el=(tag:string,text:string)=>{const e=document.createElement(tag);e.textContent=text;return e;};
-    function save(){const u=new URL(location.href);u.searchParams.set('school',selected);u.searchParams.set('guideYear',year.value);u.searchParams.set('guideTopic',topic.value);u.searchParams.set('guidePlace',place);history.replaceState(null,'',u);}
+    function save(){const u=new URL(location.href);if(browsing)u.searchParams.set('guideRegion',region);if(selected){u.searchParams.set('school',selected);u.searchParams.set('guideYear',year.value);u.searchParams.set('guideTopic',topic.value);u.searchParams.set('guidePlace',place);}else ['school','guideYear','guideTopic','guidePlace'].forEach(k=>u.searchParams.delete(k));history.replaceState(null,'',u);}
     function choices(){
       const group=schools.filter((s:any)=>region==='all'||contexts[s.id].region===region);
       const counts=group.map((s:any)=>readerResult(s,selection()));
       $('reader-region-note').textContent=`${regionCopy[region].note} For ${year.value==='pooled'?'2022–2024 combined':year.value} and ${topicCopy[topic.value].label.toLowerCase()}, ${counts.filter((v:any)=>v.count!==null).length} of ${group.length} schools have a complete ${place==='housing'?'housing':place==='campus'?'on-campus':'combined-area'} count${place==='combined'?'.':`; ${counts.filter((v:any)=>v.rate!==null).length} have the population and count needed for this rate.`}`;
       const q=input.value.trim().toLocaleLowerCase();
-      const matches=group.filter((s:any)=>`${s.officialName} ${s.name} ${contexts[s.id].alias} ${contexts[s.id].homeState} ${stateNames[s.state]??''}`.toLocaleLowerCase().includes(q));
+      const active=browsing||!!q;
+      const matches=active?group.filter((s:any)=>`${s.officialName} ${s.name} ${contexts[s.id].alias} ${contexts[s.id].homeState} ${stateNames[s.state]??''}`.toLocaleLowerCase().includes(q)):[];
       let shown=expanded||q?matches:matches.slice(0,8);
       const current=matches.find((s:any)=>s.id===selected);if(!q&&!expanded&&current&&!shown.includes(current))shown=[...shown.slice(0,7),current];
-      $('reader-match-count').textContent=matches.length?`${matches.length} schools${shown.length<matches.length?` · showing ${shown.length}`:''}. Select a school for its explanation.`:'No schools match. Try a shorter name or choose All regions.';
+      $('reader-match-count').textContent=!active?'':matches.length?`${matches.length} schools${shown.length<matches.length?` · showing ${shown.length}`:''}. Select a school for its explanation.`:'No schools match. Try a shorter name or browse all schools.';
+      $('reader-match-count').hidden=!active;$('reader-region-context').hidden=!active;
       const list=$('reader-school-list');list.replaceChildren();
       shown.forEach((s:any)=>{const b=el('button','') as HTMLButtonElement;b.type='button';b.dataset.readerSchool=s.id;b.setAttribute('aria-pressed',String(s.id===selected));b.setAttribute('data-campus-verbatim','');b.append(el('strong',s.officialName.replace('University of California-','University of California, ')),el('span',stateNames[s.state]??s.state));b.addEventListener('click',()=>{selected=s.id;render();save();$('reader-reading').focus({preventScroll:true});$('reader-reading').scrollIntoView({behavior:'auto',block:'start'});});list.append(b);});
       $('reader-more').hidden=shown.length>=matches.length; $('reader-more').textContent=`Show all ${matches.length} schools in this region`;
-      root!.querySelectorAll<HTMLButtonElement>('[data-reader-region]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.readerRegion===region)));
+      root!.querySelectorAll<HTMLButtonElement>('[data-reader-region]').forEach(b=>b.setAttribute('aria-pressed',String(active&&b.dataset.readerRegion===region)));
     }
     function render(){
+      $('reader-reading').hidden=!selected;
+      if(!selected){choices();return;}
       const s=schools.find((s:any)=>s.id===selected),r=readerResult(s,selection());
       $('reader-school-heading').textContent=s.officialName.replace('University of California-','University of California, ');
       $('reader-school-scope').textContent=contexts[s.id].note;
@@ -95,12 +98,12 @@ const sourceNumber=[...data.institutions].sort((a:any,b:any)=>a.officialName.loc
       root!.querySelectorAll<HTMLButtonElement>('[data-reader-place]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.readerPlace===place)));
       choices();annotateCampusTerms(document.querySelector('[data-campus-study]')!,data.institutions);
     }
-    root.querySelectorAll<HTMLButtonElement>('[data-reader-region]').forEach(b=>b.addEventListener('click',()=>{region=b.dataset.readerRegion!;input.value='';expanded=false;if(region!=='all'&&contexts[selected].region!==region)selected=schools.find((s:any)=>contexts[s.id].region===region).id;render();save();}));
+    root.querySelectorAll<HTMLButtonElement>('[data-reader-region]').forEach(b=>b.addEventListener('click',()=>{region=b.dataset.readerRegion!;input.value='';expanded=false;browsing=true;selected='';render();save();}));
     root.querySelectorAll<HTMLButtonElement>('[data-reader-place]').forEach(b=>b.addEventListener('click',()=>{place=b.dataset.readerPlace!;render();save();}));
     input.addEventListener('input',choices);$('reader-more').addEventListener('click',()=>{expanded=true;choices();});
     [topic,year].forEach(c=>c.addEventListener('change',()=>{render();save();}));
-    document.querySelectorAll<HTMLAnchorElement>('[data-reader-return]').forEach(a=>a.addEventListener('click',()=>{selected=a.dataset.readerReturn!;region='all';input.value='';render();save();}));
-    root.querySelectorAll<HTMLAnchorElement>('a[href^="#reader-source-"]').forEach(a=>a.addEventListener('click',()=>{const target=document.querySelector(a.getAttribute('href')!);const details=target?.closest('details');if(details)details.open=true;}));
+    document.querySelectorAll<HTMLAnchorElement>('[data-reader-return]').forEach(a=>a.addEventListener('click',()=>{selected=a.dataset.readerReturn!;region='all';browsing=true;input.value='';render();save();}));
+    root.querySelectorAll<HTMLAnchorElement>('#reader-school-citation,[data-reader-source-link]').forEach(a=>a.addEventListener('click',()=>{const target=document.querySelector(a.getAttribute('href')!);const details=target?.closest('details');if(details)details.open=true;}));
     $('reader-location-link').addEventListener('click',()=>document.dispatchEvent(new CustomEvent('campus-school-selected',{detail:{unitid:selected,year:year.value==='pooled'?'2024':year.value,category:topic.value}})));
     render();$('reader-browser').hidden=false;$('reader-options').hidden=false;
   }

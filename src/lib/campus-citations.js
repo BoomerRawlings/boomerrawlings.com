@@ -79,7 +79,7 @@ export function addCampusCitations(html) {
   walk(tree);
   if (!study) throw new Error('Campus citations require a data-campus-study container.');
   const entries = [...references.values()].map(reference => `<li id="campus-source-${reference.number}" tabindex="-1"><a class="campus-source-link" data-campus-verbatim href="${escape(reference.href)}">${escape(reference.title)}</a><span class="campus-source-backlinks">Return to ${reference.occurrences.map((id, index) => `<a href="#${id}" role="doc-backlink" aria-label="Return to citation ${index + 1} of source ${reference.number}">citation ${index + 1}</a>`).join(', ')}</span></li>`).join('');
-  const bibliography = parseFragment(`<section id="sources" class="analysis-section campus-sources" role="doc-endnotes" aria-labelledby="campus-sources-heading"><div class="analysis-section-title"><span>06</span><div><h2 id="campus-sources-heading">Sources and references</h2><p>Numbered references link to the evidence. Return links lead back to each citation in the study.</p></div></div><ol class="campus-source-list">${entries}</ol></section>`).childNodes[0];
+  const bibliography = parseFragment(`<section id="sources" class="analysis-section campus-sources" role="doc-endnotes" aria-labelledby="campus-sources-heading"><details><summary id="campus-sources-heading">Research sources and references</summary><p>Numbered references link to the evidence. Return links lead back to each citation in the study.</p><ol class="campus-source-list">${entries}</ol></details></section>`).childNodes[0];
   bibliography.parentNode = study;
   study.childNodes.push(bibliography);
   return serialize(tree);

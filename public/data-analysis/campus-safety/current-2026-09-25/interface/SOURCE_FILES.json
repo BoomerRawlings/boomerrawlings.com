@@ -1,11 +1,11 @@
 {
   "components/CampusReader.astro": {
-    "bytes": 13989,
-    "sha256": "13388f117bb44e567babd95e81f5c1849f2522fe33b56a0513911b93c96b7d1c"
+    "bytes": 13940,
+    "sha256": "12ed0f057e3b8623df422db59f8860ceffa638d3044fe6586728cf304a01826f"
   },
   "components/CampusReaderSources.astro": {
-    "bytes": 2069,
-    "sha256": "a19a651fce43028b70cf536a7cdb30b33ea8557218de54205c4395b5a26c7f08"
+    "bytes": 2030,
+    "sha256": "44261b053c505f9f4bc0ec78fe44d3945e930d2ddc69061e460fa70bfdcc85f6"
   },
   "lib/campus-reader.js": {
     "bytes": 3624,
@@ -23,6 +23,10 @@
     "bytes": 5282,
     "sha256": "fd133386a9af86967a549e0b49acdd4aa925cf03eb0308f1420237fb06842ee5"
   },
+  "lib/campus-citations.js": {
+    "bytes": 9551,
+    "sha256": "c5ccc075dae41208442935c6b02441b86ee961fa16a157f2762a0e319eebc528"
+  },
   "data/campus-reader-copy.js": {
     "bytes": 6185,
     "sha256": "eb3a423fe7695ccf53d4d8f8d193d1b207c714e6967b63670face89b7a31799a"
@@ -32,12 +36,12 @@
     "sha256": "2a89f6eb25b23878daae794b1a814167cb704762d6e4ed0db64f1c48ee291d75"
   },
   "styles/campus-reader.css": {
-    "bytes": 5327,
-    "sha256": "720fbac807486b4be567aa5a4bbeefb3c2073454503beb5fca1536f21af98b01"
+    "bytes": 6282,
+    "sha256": "eebfe68e52652a052e07f2851e8629cb17249c69735fba00f05960060efb23d6"
   },
   "pages/writing/data-analysis/campus-safety.astro": {
-    "bytes": 21066,
-    "sha256": "d91d53a3c048b53036f77661f2a3fae944317dbc1355980a9fc8f76c40f7423a"
+    "bytes": 18677,
+    "sha256": "73562fcd24e2dd8cadbc8fbfc4d7e4fdc8b0c796445ee2c5de3a64ed64bdc3e9"
   },
   "content/archive/campus-safety.md": {
     "bytes": 15519,

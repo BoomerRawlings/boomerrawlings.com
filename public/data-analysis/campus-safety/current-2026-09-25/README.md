@@ -4,11 +4,11 @@ This revision is separate from the preserved 2025 federal snapshot. All 42 insti
 
 ## Using the school guide
 
-The website opens with a school guide for reading one institution at a time. Search for a school or browse West, Midwest, Northeast and South, then select the reporting period, offense category and location. The explanation updates with the count, eligible population, available rate, report editions and the school's source limitations. Each of the 42 schools has its own scope note and references.
+The website opens with a brief overview and no school selected. Search for a school or browse West, Midwest, Northeast and South; browsing a region does not select a school. Select a school to open its explanation, then choose the reporting period, offense category and location. The explanation updates with the count, eligible population, available rate, report editions and the school's source limitations. Each of the 42 schools has its own scope note and references. A valid school-specific link still opens that school's view.
 
 Regions describe a university's home state, not every reporting branch; medical, satellite and overseas locations may lie elsewhere. Region selection is a browsing aid, not a regional crime-rate comparison. Student housing uses documented residents where available. All on-campus areas uses enrollment. All reporting areas combines the three nonoverlapping Clery geographies and shows counts only because no matched population denominator has been adopted. Missing or withheld results remain unavailable in both the explanation and detailed tables.
 
-The detailed rate table and branch-geography explorer remain available below the guide. The guide explains the current institutional series; the detailed table also offers the explicitly labeled federal archive. Neither display ranks institutional safety. `interface/` preserves the guide's copy, source notes, components and calculation helpers; `READER_COPY_AUDIT.json` records the independent checks of 9,450 guide selections. Browser interaction and rendered layout are separate checks in `VISUAL_AUDIT.md`.
+The detailed rate table and branch-geography explorer remain available below the guide. The guide explains the current institutional series; the detailed table also offers the explicitly labeled federal archive. Neither display ranks institutional safety. `interface/` preserves the guide's copy, source notes, components and calculation helpers; `READER_COPY_AUDIT.json` records the independent checks of 9,450 guide selections. Browser interaction and rendered layout are separate checks in `VISUAL_AUDIT.md`. `PRESENTATION_AMENDMENT.md` identifies the opening-view change and the unchanged scientific release and PDFs.
 
 ## Reading the data
 

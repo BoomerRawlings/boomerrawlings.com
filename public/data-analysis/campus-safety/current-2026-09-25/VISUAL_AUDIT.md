@@ -38,3 +38,11 @@ Directly exercised the local production preview after the September 25 redesign 
 - Detailed sections open when following their fragment links. All seven MathML expressions retained. Both displayed equations inspected at desktop and320px: fractions, subscripts and summation limits intact; no clipping or equation overflow.
 
 The geographic data are loaded asynchronously; the labeled default2024 table remains while loading. Checks distinguish reports from distinct incidents/people, home-region grouping from branch geography, missing values from zeros, and no population basis from a zero rate. These browser checks do not certify institution reporting completeness or external peer review.
+
+## Simplified opening — supersedes the prior automatic school selection
+
+September 25, 2026: the opening now contains a broad introduction and school/region finder. No school, school cards or case study is selected or shown before a reader searches or chooses a region. Region choices browse schools without selecting one. Coverage notes and both reference lists are collapsed until requested; the detailed research remains available.
+
+Parent directly verified the final local build at desktop1280, mobile390 and narrow320. No initial visible UCSD/SDSU references, no default selected school, and no document-wide horizontal overflow. Every region, including Browse all schools, leaves the school report hidden until a school button is selected. Search alone also leaves it hidden. Explicit SDSU and Harvard selections, a UCSD school deep link, a Northeast region deep link, and source/return navigation work. Research citation links open the relevant collapsed references and return to the body. No duplicate IDs or browser console errors observed. The final390px screenshot places search and all five region choices in the opening screen below the short introduction.
+
+Scientific data, mathematical expressions and PDFs are unchanged; prior equation/PDF evidence remains applicable. This section supersedes the earlier descriptions of a preselected San Diego State guide and automatic selection upon a region change.

@@ -1,5 +1,5 @@
 {
-  "checked_utc": "2026-09-26T00:48:43.775Z",
+  "checked_utc": "2026-09-26T01:07:15.120Z",
   "status": "PASS",
   "scope": "Data-to-explanation and reference-source checks. Does not certify rendered browser behavior or legal completeness of plain-language category descriptions.",
   "selections": 9450,
@@ -33,7 +33,7 @@
       "pass": true
     },
     {
-      "name": "2024 criminal-total housing availability matches overview",
+      "name": "2024 criminal-total housing availability matches retained coverage data",
       "pass": true
     },
     {
@@ -45,7 +45,19 @@
       "pass": true
     },
     {
-      "name": "Initial school source marker derives from shared official-name ordering",
+      "name": "Selected school source marker derives from shared official-name ordering",
+      "pass": true
+    },
+    {
+      "name": "Initial guide markup has an empty hidden school view",
+      "pass": true
+    },
+    {
+      "name": "Region handler clears school selection; valid explicit school links retained",
+      "pass": true
+    },
+    {
+      "name": "Opening overview omits school-specific examples; source footer is collapsible",
       "pass": true
     },
     {
@@ -80,11 +92,11 @@
   "reviewed_artifacts": [
     {
       "path": "src/components/CampusReader.astro",
-      "sha256": "13388f117bb44e567babd95e81f5c1849f2522fe33b56a0513911b93c96b7d1c"
+      "sha256": "12ed0f057e3b8623df422db59f8860ceffa638d3044fe6586728cf304a01826f"
     },
     {
       "path": "src/components/CampusReaderSources.astro",
-      "sha256": "a19a651fce43028b70cf536a7cdb30b33ea8557218de54205c4395b5a26c7f08"
+      "sha256": "44261b053c505f9f4bc0ec78fe44d3945e930d2ddc69061e460fa70bfdcc85f6"
     },
     {
       "path": "src/lib/campus-reader.js",
@@ -97,6 +109,14 @@
     {
       "path": "src/data/campus-school-context.json",
       "sha256": "2a89f6eb25b23878daae794b1a814167cb704762d6e4ed0db64f1c48ee291d75"
+    },
+    {
+      "path": "src/pages/writing/data-analysis/campus-safety.astro",
+      "sha256": "73562fcd24e2dd8cadbc8fbfc4d7e4fdc8b0c796445ee2c5de3a64ed64bdc3e9"
+    },
+    {
+      "path": "src/lib/campus-citations.js",
+      "sha256": "c5ccc075dae41208442935c6b02441b86ee961fa16a157f2762a0e319eebc528"
     }
   ]
 }
