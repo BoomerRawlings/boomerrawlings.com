@@ -6,7 +6,8 @@
 - Destination: public `BoomerRawlings/Skills`, `skills/lecture-study-guide/`; website `src/data/aiSkills.ts`, Projects → AI Skills (`/work/#ai-skills-heading`). Existing category and presentation reused.
 - Status: skill published as `BoomerRawlings/Skills@decef73`; six skill files match the reviewed local source. No course transcripts, PDFs or private source material included.
 - Verified: full `npm test` and `git diff --check` pass; local browser review confirms readable four-entry AI Skills shelf and exact GitHub destination. Existing skill order and full-project counts preserved.
-- Next: publish website in one production push; confirm GitHub Pages success and live listing. Preserve unrelated objectives below.
+- Website published as `baa3fd2`; GitHub Pages run `36327144143` succeeded. Live `/work/` returns HTTP 200 with Lecture Study Guide in AI Skills and the exact public repository link; refreshed browser layout inspected.
+- Next: no publication work remains. Preserve unrelated objectives below.
 
 ## Resident gap completion — 2026-09-26
 
