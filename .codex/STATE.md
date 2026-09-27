@@ -1,5 +1,13 @@
 # Project state
 
+## Lecture Study Guide publication — 2026-09-27
+
+- Mode: new task. Objective: publish the reviewed lecture-study-guide skill on GitHub and list it in the website's appropriate category. User explicitly authorized publication.
+- Destination: public `BoomerRawlings/Skills`, `skills/lecture-study-guide/`; website `src/data/aiSkills.ts`, Projects → AI Skills (`/work/#ai-skills-heading`). Existing category and presentation reused.
+- Status: skill published as `BoomerRawlings/Skills@decef73`; six skill files match the reviewed local source. No course transcripts, PDFs or private source material included.
+- Verified: full `npm test` and `git diff --check` pass; local browser review confirms readable four-entry AI Skills shelf and exact GitHub destination. Existing skill order and full-project counts preserved.
+- Next: publish website in one production push; confirm GitHub Pages success and live listing. Preserve unrelated objectives below.
+
 ## Resident gap completion — 2026-09-26
 
 - Mode: continuation. Objective: pursue missing student-resident populations and expose qualified evidence honestly. Status: published as5d0f0b8; Pages run36239028314 succeeded. Bounded follow-up complete; unresolved research gaps remain documented.

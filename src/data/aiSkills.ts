@@ -17,4 +17,10 @@ export const aiSkills = [
     summary:
       'Makes color-dependent visuals understandable in grayscale, then produces a print-ready PDF.',
   },
+  {
+    name: 'Lecture Study Guide',
+    href: 'https://github.com/BoomerRawlings/Skills/tree/main/skills/lecture-study-guide',
+    summary:
+      'Organizes lecture materials into cited, printable study guides with practice questions and separate source and visual audits.',
+  },
 ] as const;

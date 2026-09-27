@@ -970,6 +970,7 @@ for (const [name, href] of [
   ['Research Briefing Assistant', 'https://github.com/BoomerRawlings/research-briefing-assistant'],
   ['Printable', 'https://github.com/BoomerRawlings/Skills/tree/main/skills/printable'],
   ['BW Printable', 'https://github.com/BoomerRawlings/Skills/tree/main/skills/bw-printable'],
+  ['Lecture Study Guide', 'https://github.com/BoomerRawlings/Skills/tree/main/skills/lecture-study-guide'],
 ]) {
   const skillOffset = aiSkillsHtml.indexOf(`href="${href}"`);
   if (skillOffset <= previousAiSkillOffset
