@@ -2,7 +2,7 @@
 
 ## Boomer Karma — 2026-09-28
 
-- Mode: continuation. Objective: add an independently requestable feline score and photo validation. Status: implementation/browser verification in progress. Prior email formatting published as `eb8a0c8`, cache correction as `a3b78af`; Pages run `36479688420` passed.
+- Mode: continuation. Objective: add an independently requestable feline score and photo validation. Status: complete, published as `da751de`; Pages run `36482698229` passed. Prior email formatting published as `eb8a0c8`, cache correction as `a3b78af`.
 - Latest scope: nine-step report application, three bureau gauges, owner-supplied six-entry ledger totaling 20, appeals; completed applications and appeals automatically email the owner. No approval/account required for visitors.
 - Static GitHub Pages architecture retained. Data in `src/data/boomer-karma.json`; public score is sum of entries. Unlisted/noindex with no public navigation or sitemap link. No screenshots or identifying account fields published.
 - FormSubmit public endpoint activated through connected owner inbox; real test delivery verified. Helper awaits explicit success; failures preserve inputs. Report access flag uses sessionStorage, never answers. Submitted data retained by provider for 30 days, disclosed in page. No new runtime, DNS or hosting changes.
@@ -19,7 +19,8 @@
 - Verification: full suite passes, including 33 capture-time cases, 12 application lifecycle cases, 6 delivery cases and 7 feline publication groups. Real browser rejects a dog, stale metadata and absent metadata; accepts the cat fixture at 93% confidence. Fixed extensionless model shard routing by adding `.bin` manifest paths.
 - Attachment discovery: AJAX silently omits files. Native multipart delivery verified a JPEG in owner inbox; helper now requires its exact unique provider success redirect. Final browser transport verified: report released automatically, email preserved all answers, readable capacity, capture summary and a 16.7KB JPEG attachment. Three identified QA messages labeled/archived separately; no visitor content stored here.
 - Browser: 390/320 mobile and 1280 desktop layouts inspected without overflow; refresh retains issued cat report, all four factors total6, console clean. Independent review passed after semantic review-list and readable email value fixes.
-- Next: one verified publish and live asset/route checks. Use explicit test mode for future live delivery checks. Existing unrelated state preserved below.
+- Live verification: child route and parent link return200; noindex/sitemap exclusion retained; delivery helper, model manifest and all five weight files match local hashes; page scripts load200. Live browser opens the five-step application without console warnings/errors or test mode. No additional production email required after verified browser delivery.
+- Next: no required work remains. SMS deferred by user. Use explicit test mode for future live delivery checks. Existing unrelated state preserved below.
 - Limit: paperwork is comedy, not access control; anyone with the link can view the report.
 ## Lunar report plain-language revision — 2026-09-28
 
