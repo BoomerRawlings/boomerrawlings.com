@@ -33,12 +33,11 @@ function draw(){
   const height=340, left=38, right=width-13, top=34, bottom=281;
   const x=d=>left+(right-left)*d/360, y=v=>bottom-(v-95)/10*(bottom-top);
   svg.setAttribute('viewBox',`0 0 ${width} ${height}`);
-  svg.replaceChildren(el('title',{id:'lunar-chart-title'},`${current.label}: fitted lunar component`),el('desc',{id:'lunar-chart-desc'},`Index 100 is the modeled lunar baseline, not a population probability. Line with simultaneous 95 percent band. Fitted peak-to-trough ${fixed(current.fitted_peak_trough_percent)} percent; full versus new ${signed(current.full_vs_new_percent)}.`));
-  const diagnostic=current.model==='tracking_fraction_diagnostic';
-  svg.append(el('text',{x:left,y:16},diagnostic?'Any-feature tracking index':'Sex-logging index'));
+  svg.replaceChildren(el('title',{id:'lunar-chart-title'},`${current.label}: estimated pattern across the Moon’s cycle`),el('desc',{id:'lunar-chart-desc'},`Percent change from the model’s reference level, not a percentage of people. The line shows the estimate; shading shows its simultaneous 95 percent confidence band. Increase from lowest to highest ${fixed(current.fitted_peak_trough_percent)} percent; Full Moon versus New Moon ${signed(current.full_vs_new_percent)}.`));
+  svg.append(el('text',{x:left,y:16},'Change from reference (%)'));
   for(const tick of [96,98,100,102,104]){
     svg.append(el('line',{x1:left,x2:right,y1:y(tick),y2:y(tick),class:tick===100?'chart-baseline':'chart-grid'}));
-    svg.append(el('text',{x:left-8,y:y(tick)+4,'text-anchor':'end'},String(tick)));
+    svg.append(el('text',{x:left-8,y:y(tick)+4,'text-anchor':'end'},`${tick>100?'+':''}${tick-100}%`));
   }
   for(const [d,label] of [[0,['New','Moon']],[90,['First','quarter']],[180,['Full','Moon']],[270,['Last','quarter']],[360,['New','Moon']]]){
     svg.append(el('line',{x1:x(d),x2:x(d),y1:bottom,y2:bottom+5,class:'chart-grid'}));
@@ -56,8 +55,10 @@ function draw(){
   const degrees=Number(slider.value), value=estimate(current,degrees);
   svg.append(el('line',{x1:x(degrees),x2:x(degrees),y1:top,y2:bottom,class:'chart-marker'}));
   svg.append(el('circle',{cx:x(degrees),cy:y(value.index),r:4.5,class:'chart-dot'}));
-  byId('lunar-phase-output').textContent=`${phaseName(degrees)} · ${degrees}° · index ${fixed(value.index)}`;
-  slider.setAttribute('aria-valuetext',`${phaseName(degrees)}, ${degrees} degrees; fitted index ${fixed(value.index)}`);
+  const difference=value.index-100;
+  const reading=Math.abs(difference)<.005?'at the reference level':`${fixed(Math.abs(difference))}% ${difference>0?'above':'below'} the reference level`;
+  byId('lunar-phase-output').textContent=`${phaseName(degrees)} · ${reading}`;
+  slider.setAttribute('aria-valuetext',`${phaseName(degrees)}, ${degrees} degrees; ${reading}`);
 }
 function select(modelId, scroll=false){
   const model=data.models.find(m=>m.model===modelId);
@@ -66,14 +67,16 @@ function select(modelId, scroll=false){
   document.querySelectorAll('button[data-model]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.model===modelId)));
   byId('lunar-selection').textContent=model.label;
   byId('lunar-explanation').textContent=model.explanation;
+  byId('lunar-adjustment').textContent=model.model==='calendar_unadjusted'?'This comparison leaves out the weekday, seasonal and holiday adjustments. A wider shaded area means more uncertainty.':'The line shows the estimate after allowing for weekdays, seasons and selected holidays. A wider shaded area means more uncertainty.';
+  byId('lunar-chart-measure').textContent=model.model==='tracking_fraction_diagnostic'?'This view measures people with any app entry for a date, as a share of users counted as active. It measures recording activity, not sex entries.':model.model==='rolling_active_denominator'?'This view compares sex entries with users who had records on at least two days in the 42-day window ending on that date.':'The chart compares sex-related entries with the number of people who had any app record for that date.';
   byId('lunar-amplitude').textContent=`${fixed(model.fitted_peak_trough_percent)}%`;
   byId('lunar-p').textContent=pvalue(model.joint_p);
   byId('lunar-holm-wrap').hidden=model.regional_holm_p===null;
   byId('lunar-holm').textContent=model.regional_holm_p===null?'':pvalue(model.regional_holm_p);
   const includesZero=model.full_vs_new_ci_low<=0 && model.full_vs_new_ci_high>=0;
-  byId('lunar-contrast').textContent=`Full Moon versus New Moon: ${signed(model.full_vs_new_percent)}; 95% interval ${signed(model.full_vs_new_ci_low)} to ${signed(model.full_vs_new_ci_high)}. ${includesZero?'The interval includes no difference.':'This unadjusted contrast interval excludes zero; regional multiplicity is addressed separately in the whole-cycle tests.'}`;
+  byId('lunar-contrast').textContent=`Full Moon versus New Moon: ${signed(model.full_vs_new_percent)}; 95% interval ${signed(model.full_vs_new_ci_low)} to ${signed(model.full_vs_new_ci_high)}. ${includesZero?'This range includes zero, so the comparison does not give a clear answer.':'This range suggests a difference in this calculation. This particular interval is not adjusted for testing several areas; the whole-cycle tests report that adjustment separately.'}`;
   const region=data.regions.find(r=>r.model===modelId);
-  byId('lunar-coverage').textContent=region?`${region.logs.toLocaleString('en-US')} feature logs · ${region.dates} dates · one regional series. A subgroup of the same app dataset, not independent replication.`:`${model.regions} areas · ${model.dates} distinct dates · equal regional weight. ${model.model==='tracking_fraction_diagnostic'?'Outcome: any-feature tracking divided by rolling active users.':'The observations are calendar-dated logging ratios, not complete sex/no-sex histories.'}`;
+  byId('lunar-coverage').textContent=region?`${region.logs.toLocaleString('en-US')} sex-related entries · ${region.dates} dates. These are one area’s records from the same app; entries can come from the same people repeatedly.`:`${model.regions} areas · ${model.dates} dates · each area given equal weight. ${model.model==='tracking_fraction_diagnostic'?'This view concerns all app recording, not sex alone.':'People may leave entries out, so these records are not a complete account of their sex lives.'}`;
   draw();
   if(scroll){byId('explore').scrollIntoView({behavior:'auto',block:'start'});byId('lunar-selection').focus({preventScroll:true});}
 }
@@ -107,8 +110,13 @@ function revealHash(){
   if(!location.hash)return;
   let id;try{id=decodeURIComponent(location.hash.slice(1));}catch{return;}
   const target=byId(id);if(!target)return;
+  if(target instanceof HTMLDetailsElement)target.open=true;
   for(let parent=target.parentElement;parent;parent=parent.parentElement)if(parent instanceof HTMLDetailsElement)parent.open=true;
   requestAnimationFrame(()=>{target.scrollIntoView({block:'start'});if(target.matches('a,[tabindex]'))target.focus({preventScroll:true});});
 }
 addEventListener('hashchange',revealHash);
+byId('lunar-study').addEventListener('click',event=>{
+  const link=event.target instanceof Element?event.target.closest('a[href^="#"]'):null;
+  if(link && link.hash===location.hash)requestAnimationFrame(revealHash);
+});
 revealHash();

@@ -72,7 +72,7 @@
       "design_condition_number": 30.79332864860293,
       "regional_holm_p": null,
       "label": "All five areas · main analysis",
-      "explanation": "A small pooled pattern crosses the conventional .05 threshold in this model. Its size and uncertainty depend on modeling choices. The Full Moon versus New Moon comparison remains inconclusive."
+      "explanation": "The combined records suggest a small, tentative pattern in sex logging after accounting for each area’s weekdays, seasons and selected holidays. The curve shows that adjusted estimate. The main test is below .05, but several changes to how we analyze the records weaken the evidence. Full Moon versus New Moon remains unclear."
     },
     {
       "model": "hac_14",
@@ -100,8 +100,8 @@
       "finite_multiplier": 1.0261178003281242,
       "design_condition_number": 30.79332864860293,
       "regional_holm_p": null,
-      "label": "Allow dependence across 14 days",
-      "explanation": "The fitted curve is unchanged. With a shorter allowance for correlation between nearby dates, uncertainty increases and the whole-cycle test no longer crosses .05. This tests an inference assumption, not a new dataset."
+      "label": "Treat nearby dates as related: 14 days",
+      "explanation": "The estimated pattern stays the same, but the uncertainty grows. This check allows for related day-to-day changes over 14 days instead of 35; its test moves above .05. The records have not changed—only how uncertainty is calculated."
     },
     {
       "model": "hac_60",
@@ -129,8 +129,8 @@
       "finite_multiplier": 1.0261178003281242,
       "design_condition_number": 30.79332864860293,
       "regional_holm_p": null,
-      "label": "Allow dependence across 60 days",
-      "explanation": "The fitted curve is unchanged. A longer allowance for correlation between nearby dates produces narrower uncertainty here. Longer bandwidths do not necessarily produce wider intervals."
+      "label": "Treat nearby dates as related: 60 days",
+      "explanation": "The estimated pattern stays the same, but the uncertainty narrows in this check. It allows for related day-to-day changes over 60 days instead of 35. A longer allowance does not always make the estimate less precise."
     },
     {
       "model": "annual_four_harmonics",
@@ -158,8 +158,8 @@
       "finite_multiplier": 1.0319134388501694,
       "design_condition_number": 30.99662118057331,
       "regional_holm_p": null,
-      "label": "More flexible seasonal adjustment",
-      "explanation": "Four annual sine/cosine pairs replace two. The estimated pattern changes little under this particular seasonal check; that does not establish that all seasonal influences are controlled."
+      "label": "Allow more seasonal ups and downs",
+      "explanation": "The result changes little when we allow a more detailed seasonal pattern. This check accounts for more possible ups and downs during the year, but it cannot rule out every seasonal influence."
     },
     {
       "model": "phase_minus12h",
@@ -187,8 +187,8 @@
       "finite_multiplier": 1.0261178003281242,
       "design_condition_number": 30.804898251377224,
       "regional_holm_p": null,
-      "label": "Assign phase 12 hours earlier",
-      "explanation": "Moving the representative timestamp 12 hours earlier changes the result little. Actual event times and the source’s date-processing rules remain unverified."
+      "label": "Use Moon phase 12 hours earlier",
+      "explanation": "The result changes little when we use the Moon’s position 12 hours earlier. This checks our chosen time of day. The actual event times and the source’s handling of dates remain unverified."
     },
     {
       "model": "phase_plus12h",
@@ -216,8 +216,8 @@
       "finite_multiplier": 1.0261178003281242,
       "design_condition_number": 30.779722993627427,
       "regional_holm_p": null,
-      "label": "Assign phase 12 hours later",
-      "explanation": "Moving the representative timestamp 12 hours later changes the result little. This checks the chosen representative time, not the accuracy of each person’s reported date."
+      "label": "Use Moon phase 12 hours later",
+      "explanation": "Using the Moon’s position 12 hours later makes little difference to the result. That gives some reassurance about our chosen time of day, but it does not confirm the accuracy of anyone’s recorded date."
     },
     {
       "model": "rolling_active_denominator",
@@ -245,8 +245,8 @@
       "finite_multiplier": 1.0261178003281242,
       "design_condition_number": 30.79332864860293,
       "regional_holm_p": null,
-      "label": "Use rolling active users as denominator",
-      "explanation": "Here logs are divided by users inferred active from at least two tracking days in a trailing 42-day window. The whole-cycle test no longer crosses .05, and the Full Moon versus New Moon estimate changes sign. The measure itself has changed."
+      "label": "Compare with users active over six weeks",
+      "explanation": "The evidence becomes less clear when sex entries are compared with users active over the past 42 days. Active means at least two tracked days in that window. The test moves above .05, and the Full Moon estimate changes from higher to lower than New Moon. This changes what the ratio measures."
     },
     {
       "model": "tracking_fraction_diagnostic",
@@ -274,8 +274,8 @@
       "finite_multiplier": 1.0261178003281242,
       "design_condition_number": 30.79332864860293,
       "regional_holm_p": null,
-      "label": "Any-feature tracking · measurement check",
-      "explanation": "This view measures any-feature tracking among rolling active users, not sex logging. Its lunar association shows that reporting activity also varies. This is a diagnostic from the same records, not independent replication or proof of the explanation."
+      "label": "Check general app logging",
+      "explanation": "General app logging also varies with Moon phase in this model. This view compares users with any entry for a date with those active over the past 42 days. It uses the same records, so it cannot independently confirm the sex-logging pattern or prove that logging habits explain it."
     },
     {
       "model": "omit:Brazil - Central-West",
@@ -303,8 +303,8 @@
       "finite_multiplier": 1.0259754704199149,
       "design_condition_number": 27.53638387799539,
       "regional_holm_p": null,
-      "label": "Exclude Brazil · Central-West",
-      "explanation": "Excluding Brazil · Central-West gives a fitted swing of 2.05% and a whole-cycle p-value of 0.001. The pooled test remains below .05. This describes sensitivity to regional composition; it is not a formal test that regional effects differ."
+      "label": "Leave out Brazil · Central-West",
+      "explanation": "The statistical evidence becomes stronger when Brazil’s Central-West is left out; the test stays below .05. This shows that the mix of areas matters. It does not establish that Brazil’s pattern truly differs from the others."
     },
     {
       "model": "omit:France",
@@ -332,8 +332,8 @@
       "finite_multiplier": 1.0263357146159893,
       "design_condition_number": 27.54533033358259,
       "regional_holm_p": null,
-      "label": "Exclude France",
-      "explanation": "Excluding France gives a fitted swing of 1.87% and a whole-cycle p-value of 0.021. The pooled test remains below .05. This describes sensitivity to regional composition; it is not a formal test that regional effects differ."
+      "label": "Leave out France",
+      "explanation": "A small pattern remains when France is left out, and the test stays below .05. This is another check using the same app records. Removing France alone does not establish that its pattern differs from the other areas."
     },
     {
       "model": "omit:United Kingdom",
@@ -361,8 +361,8 @@
       "finite_multiplier": 1.0266962118813971,
       "design_condition_number": 27.545630620505783,
       "regional_holm_p": null,
-      "label": "Exclude United Kingdom",
-      "explanation": "Excluding United Kingdom gives a fitted swing of 1.63% and a whole-cycle p-value of 0.054. The pooled test moves above .05. This describes sensitivity to regional composition; it is not a formal test that regional effects differ."
+      "label": "Leave out the United Kingdom",
+      "explanation": "The combined result becomes less clear when the United Kingdom is left out. Its test moves just above .05. This shows how the conclusion depends on which areas are included; it does not prove the United Kingdom differs from the others."
     },
     {
       "model": "omit:United States - California",
@@ -390,8 +390,8 @@
       "finite_multiplier": 1.0259754704199149,
       "design_condition_number": 27.54739738211524,
       "regional_holm_p": null,
-      "label": "Exclude United States · California",
-      "explanation": "Excluding United States · California gives a fitted swing of 1.31% and a whole-cycle p-value of 0.195. The pooled test moves above .05. This describes sensitivity to regional composition; it is not a formal test that regional effects differ."
+      "label": "Leave out California",
+      "explanation": "Without California, the evidence for an overall pattern weakens and the test moves above .05. California’s records matter to the combined finding, but this check does not establish that its pattern differs from the other areas."
     },
     {
       "model": "omit:United States - Northeast",
@@ -419,8 +419,8 @@
       "finite_multiplier": 1.0259754704199149,
       "design_condition_number": 27.546667850375325,
       "regional_holm_p": null,
-      "label": "Exclude United States · Northeast",
-      "explanation": "Excluding United States · Northeast gives a fitted swing of 1.14% and a whole-cycle p-value of 0.198. The pooled test moves above .05. This describes sensitivity to regional composition; it is not a formal test that regional effects differ."
+      "label": "Leave out the Northeast",
+      "explanation": "Leaving out the Northeast makes the overall result less clear, with a test above .05. That helps explain why this area deserves follow-up. It does not prove the Northeast has a unique pattern or provide independent confirmation."
     },
     {
       "model": "study_year_1",
@@ -449,7 +449,7 @@
       "design_condition_number": 31.529367957250866,
       "regional_holm_p": null,
       "label": "July 2017–June 2018",
-      "explanation": "The first year has a larger fitted swing but greater uncertainty. Its whole-cycle test does not cross .05. A separate nonsignificant result does not establish a difference from the second year."
+      "explanation": "The first year suggests a larger pattern, but the estimate is less precise and its test stays above .05. Looking at this year alone does not establish that its pattern truly differs from the second year."
     },
     {
       "model": "study_year_2",
@@ -478,7 +478,7 @@
       "design_condition_number": 31.68878474756779,
       "regional_holm_p": null,
       "label": "July 2018–June 2019",
-      "explanation": "The second year has a smaller fitted swing, and its whole-cycle test does not cross .05. Each year contains fewer lunar cycles than the full study, limiting precision."
+      "explanation": "The second year suggests a smaller pattern, with a test above .05. One year contains fewer lunar cycles than the full study, making it harder to estimate a small pattern precisely. This result alone does not establish a difference between the years."
     },
     {
       "model": "region:Brazil - Central-West",
@@ -507,7 +507,7 @@
       "design_condition_number": 20.523747692024106,
       "regional_holm_p": 1.0,
       "label": "Brazil · Central-West",
-      "explanation": "Brazil’s Central-West series shows no clear whole-cycle association. It covers one region, not all of Brazil. The source’s older-band Northeast series was absent and was not reconstructed."
+      "explanation": "There is no clear lunar pattern in these Central-West sex logs. They cover one part of Brazil. Data for the selected older age group in Brazil’s Northeast were missing from the release, so that region was left out rather than filled in."
     },
     {
       "model": "region:France",
@@ -536,7 +536,7 @@
       "design_condition_number": 20.52167034985914,
       "regional_holm_p": 1.0,
       "label": "France",
-      "explanation": "France has the smallest fitted swing among the five areas. The data do not distinguish a whole-cycle pattern from sampling variation; this does not establish that the true effect is exactly zero."
+      "explanation": "France has the smallest estimated change among the five areas. The uncertainty is too large to clearly identify a lunar pattern in these logs. That does not prove there is no relationship."
     },
     {
       "model": "region:United Kingdom",
@@ -565,7 +565,7 @@
       "design_condition_number": 20.491414053133276,
       "regional_holm_p": 0.3593825128871324,
       "label": "United Kingdom",
-      "explanation": "The United Kingdom has a larger fitted swing than the pooled estimate, but uncertainty remains substantial. Its regional whole-cycle test does not cross .05 before or after correction for five comparisons."
+      "explanation": "The estimated change is larger than in the combined analysis, but still too uncertain to clearly identify a pattern. The test stays above .05 both before and after accounting for the five areas examined."
     },
     {
       "model": "region:United States - California",
@@ -594,7 +594,7 @@
       "design_condition_number": 20.515585462640008,
       "regional_holm_p": 0.05362156342464633,
       "label": "United States · California",
-      "explanation": "California’s uncorrected regional test crosses .05. After accounting for the five regional comparisons, its adjusted p-value is .054, just above that threshold. This remains exploratory."
+      "explanation": "California’s result is less convincing once we account for checking five areas. That correction helps limit false alarms. The adjusted p-value is .054, just above .05; the test before correction is below .05. The finding remains tentative."
     },
     {
       "model": "region:United States - Northeast",
@@ -623,7 +623,7 @@
       "design_condition_number": 20.515561132687054,
       "regional_holm_p": 0.00787281723999475,
       "label": "United States · Northeast",
-      "explanation": "The Northeast has the largest fitted swing and is the only area whose regional test stays below .05 after the five-comparison correction. It merits follow-up, but it is a subgroup of the same app dataset, not independent confirmation."
+      "explanation": "The Northeast has the largest estimated change. It is the only area whose test stays below .05 after accounting for the five areas checked. This deserves follow-up, but it comes from the same app and dates. It is not a separate study confirming the overall pattern."
     },
     {
       "model": "calendar_unadjusted",
@@ -651,8 +651,8 @@
       "finite_multiplier": 1.003020995599355,
       "design_condition_number": 1.5910840465191762,
       "regional_holm_p": null,
-      "label": "Without calendar adjustment",
-      "explanation": "This model includes region intercepts and lunar terms only. The fitted swing is similar, but unexplained variation is much greater and the whole-cycle test does not cross .05. It does not replace the main calendar-adjusted analysis."
+      "label": "Leave out other calendar patterns",
+      "explanation": "The estimated change is similar, but more variation remains unexplained and the test is above .05. This check allows for differences between areas while leaving out weekday, seasonal, holiday and longer-term changes. The main analysis still accounts for those calendar patterns."
     }
   ],
   "posthoc": {
