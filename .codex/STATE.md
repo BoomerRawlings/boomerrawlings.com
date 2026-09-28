@@ -2,7 +2,7 @@
 
 ## Boomer Karma — 2026-09-28
 
-- Mode: continuation. Objective: escalating repeat-request bureaucracy and score-optimization jokes. Status: verified locally, publishing. Prior feline release `da751de`, Pages run `36482698229` passed.
+- Mode: continuation. Objective: escalating repeat-request bureaucracy and score-optimization jokes. Status: complete; published `7506489`, Pages run `36484353194` passed. Prior feline release `da751de` retained.
 - Static Astro/GitHub Pages site retained. Human route `/BoomerKarma/` and feline route `/BoomerKarma/Kemberton/` stay unlisted/noindex. Existing ledgers in `src/data/boomer-karma.json` and `src/data/kem-karma.json` remain20 and6. No source screenshots, private photos, contact fields or credentials published.
 - Human report: nine-step comedy application, three bureau gauges, score refresh and appeals. Cat report: independent five-step authorized-representative application, strict five-minute original-capture metadata, self-hosted on-device COCO-SSD recognition and live-camera fallback. Timing is disclosed after rejection per user. No timestamp/identity proof claimed; metadata is editable.
 - Images resized/re-encoded before emailing, stripping original location metadata. No uploaded image persisted in source/browser storage. Camera/background/retry races covered; cat paperwork supplements precede photography. Repeat cat applications preserve access to already-issued report.
@@ -13,7 +13,8 @@
 - QA: full npm test passes (13 engine,7 supplements,7 desk,8 delivery cases plus existing12 camera/app,33 freshness and publication/site checks). Independent reviews passed; score checks count even when an update is found. Required supplements, Back/retry, report return, no score leakage and duplicate delivery covered.
 - Browser: actual human supplement request delivered; six escalating refresh jokes and counts persisted after reload; ambitious appeal required three supplements before sending; cat triggered extras before portrait. 320/390/1280 layouts inspected without overflow; console clean. No extra appeal/petition email sent during this QA.
 - Prior live QA: real cat accepted at93% confidence; dog/stale/missing metadata rejected; actual16.7KB JPEG attachment verified in owner inbox. Model weight shards use .bin URLs; hashes verified on production.
-- Next: verify new production deployment, page scripts and routes, then record completion. SMS deferred by user; no provider or phone number added. Joke gate is not access control; link recipients can read public content.
+- Live verification: both routes return200 with bureau UI, current script hash URLs and unchanged20/6 scores. All five public interaction scripts match local bytes; page bundles load200, noindex/sitemap exclusions retained. Live browser initializes ordinary oversight with no test contamination or console warnings/errors.
+- Next: no required work remains. SMS deferred by user; no provider or phone number added. Joke gate is not access control; link recipients can read public content.
 - Maintainer notes: `docs/boomer-karma.md`. Always use explicit test mode for live delivery checks; archive identified QA mail under test label. Visitor submissions preserved in Inbox. No DNS/runtime/hosting changes; unrelated state below preserved.
 
 ## Lunar report plain-language revision — 2026-09-28
