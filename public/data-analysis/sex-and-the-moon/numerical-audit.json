@@ -1,0 +1,134 @@
+{
+  "status": "PASS",
+  "models_compared": 21,
+  "model_checks": [
+    {
+      "model": "main_adjusted",
+      "status": "PASS"
+    },
+    {
+      "model": "hac_14",
+      "status": "PASS"
+    },
+    {
+      "model": "hac_60",
+      "status": "PASS"
+    },
+    {
+      "model": "annual_four_harmonics",
+      "status": "PASS"
+    },
+    {
+      "model": "phase_minus12h",
+      "status": "PASS"
+    },
+    {
+      "model": "phase_plus12h",
+      "status": "PASS"
+    },
+    {
+      "model": "rolling_active_denominator",
+      "status": "PASS"
+    },
+    {
+      "model": "tracking_fraction_diagnostic",
+      "status": "PASS"
+    },
+    {
+      "model": "omit:Brazil - Central-West",
+      "status": "PASS"
+    },
+    {
+      "model": "omit:France",
+      "status": "PASS"
+    },
+    {
+      "model": "omit:United Kingdom",
+      "status": "PASS"
+    },
+    {
+      "model": "omit:United States - California",
+      "status": "PASS"
+    },
+    {
+      "model": "omit:United States - Northeast",
+      "status": "PASS"
+    },
+    {
+      "model": "study_year_1",
+      "status": "PASS"
+    },
+    {
+      "model": "study_year_2",
+      "status": "PASS"
+    },
+    {
+      "model": "region:Brazil - Central-West",
+      "status": "PASS"
+    },
+    {
+      "model": "region:France",
+      "status": "PASS"
+    },
+    {
+      "model": "region:United Kingdom",
+      "status": "PASS"
+    },
+    {
+      "model": "region:United States - California",
+      "status": "PASS"
+    },
+    {
+      "model": "region:United States - Northeast",
+      "status": "PASS"
+    },
+    {
+      "model": "calendar_unadjusted",
+      "status": "PASS"
+    }
+  ],
+  "maximum_absolute_errors": {
+    "cos": 3.1194664906752934e-14,
+    "sin": 3.999404973864529e-15,
+    "wald": 2.5020874261372228e-11,
+    "p": 4.809971865249452e-13,
+    "partial_R2": 6.25367813089639e-16,
+    "full_vs_new_percent": 6.2977401071862005e-12,
+    "peak_to_trough_percent": 4.299449685163381e-12,
+    "peak_phase_degrees": 1.7053025658242404e-10,
+    "correction": 0,
+    "N": 0,
+    "T": 0,
+    "K": 0
+  },
+  "calendar_checks": {
+    "christmas": true,
+    "new_year": true,
+    "valentine": true,
+    "easter_window": true,
+    "carnival": true,
+    "national_day": true,
+    "thanksgiving": true
+  },
+  "denominator_identity_error": {
+    "cos": 2.0122792321330962e-16,
+    "sin": 1.5785983631388945e-16
+  },
+  "bootstrap_p": 0.026,
+  "bootstrap_exceedances": 51,
+  "bootstrap_q95_agreement": true,
+  "statsmodels_full_OLS_and_grouped_score_HAC_agreement": true,
+  "simultaneous_curve_band_agreement": true,
+  "source_extract_preserved": true,
+  "representative_noon_timezones_verified": true,
+  "descriptive_bin_assignment_verified": true,
+  "peak_direction_95_joint_ellipse_projection_approx_degrees": [
+    166.2841826243166,
+    319.5736680723077
+  ],
+  "primary_peak_trough_CI_percent": [
+    0.059069698923875466,
+    3.256050830807878
+  ],
+  "interpretation": "Nominal main35day association survives locked bootstrap; denominator, bandwidth, regional and temporal sensitivities materially limit generalization. Full-v-new contrast interval includeszero."
+}

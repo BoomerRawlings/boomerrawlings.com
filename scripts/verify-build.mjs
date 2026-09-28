@@ -31,6 +31,7 @@ const unlistedContentPaths = new Set([
   join('swc', 'index.html'),
   join('cbs8', 'index.html'),
   join('cbs8', 'osint', 'index.html'),
+  join('writing', 'data-analysis', 'sex-and-the-moon', 'index.html'),
 ]);
 const contentHtmlFiles = htmlFiles.filter(
   (file) => {
@@ -41,9 +42,9 @@ const contentHtmlFiles = htmlFiles.filter(
 const unlistedHtmlFiles = htmlFiles.filter(
   (file) => unlistedContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 25 || unlistedHtmlFiles.length !== 5 || htmlFiles.length !== 36) {
+if (contentHtmlFiles.length !== 25 || unlistedHtmlFiles.length !== 6 || htmlFiles.length !== 37) {
   throw new Error(
-    `expected 25 public pages, 5 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 25 public pages, 6 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 

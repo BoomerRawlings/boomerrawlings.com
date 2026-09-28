@@ -1,5 +1,14 @@
 # Project state
 
+## Lunar study publication — 2026-09-28
+
+- Mode: continuation of the sibling lunar analysis. Objective: publish a polished standalone report page, keep it absent from homepage/Writing/Academics listings, then email the live link to the user. Status: implementation and independent audits complete; final merged checks/release pending, not yet deployed or emailed.
+- Route: `writing/data-analysis/sex-and-the-moon/`; no archive entry; noindex and sitemap exclusion. Shared research styling with progressive detail, regional curves, all 21 planned models, sortable tables, mathematical notation and two-way source references.
+- Scientific baseline: sibling `sex_lunar_analysis/research/exploratory_2026_09_27`; 1,812,110 feature logs, 730 dates, five areas/one app. Primary p=.039, bootstrap .026; Full/New interval includes zero. No population-wide behavioral or causal claim. June12 calendar check remains post hoc.
+- Publication scope: derived estimates, methods, provenance and PDF. No raw daily source records. Existing campus/crime results and featured work remain unchanged. Source, numerical and browser/PDF checks precede the single production push.
+- Verification: 518 static checks; all 21 models and 11,403 rendered chart coordinates, 18 sort orders, source/return navigation, keyboard and no-script views. Desktop1280/mobile390/320 and all five equations checked; no overflow, browser errors or failed requests. Eight-page PDF visually checked with 30 internal citation destinations; SHA25696fa5cb0913c1f8dc4a41391799bdfed554e956eeafa13869204fd3e977a82eb. Separate source audit passes. Shared font policy now explicitly permits bundled data fonts; scripts unchanged.
+- Next: finish full merged site checks, publish via main/Pages, verify live assets and unlisted isolation, email the link using the authenticated account. Upstream Lecture Study Guide publication preserved.
+
 ## Lecture Study Guide publication — 2026-09-27
 
 - Mode: new task. Objective: publish the reviewed lecture-study-guide skill on GitHub and list it in the website's appropriate category. User explicitly authorized publication.

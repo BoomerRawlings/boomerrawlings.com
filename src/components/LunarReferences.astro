@@ -1,0 +1,31 @@
+---
+import { parseFragment, serialize } from 'parse5';
+const tree:any = parseFragment(await Astro.slots.render('default'));
+const references = new Map();
+const attr = (node:any, key:string) => node.attrs?.find((a:any) => a.name === key)?.value;
+const content = (node:any):string => node.nodeName === '#text' ? node.value : (node.childNodes ?? []).map(content).join('');
+const escape = (s:string) => s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
+let container:any;
+function walk(node:any) {
+  if (attr(node, 'id') === 'lunar-study') container = node;
+  for (const child of [...(node.childNodes ?? [])]) {
+    if (child.tagName === 'a' && child.attrs.some((a:any) => a.name === 'data-lunar-cite')) {
+      const href = attr(child, 'href');
+      if (!references.has(href)) references.set(href, {number:references.size+1, title:content(child).trim(), href, ids:[]});
+      const ref = references.get(href);
+      const id = `lunar-cite-${ref.number}-${ref.ids.length+1}`;
+      ref.ids.push(id);
+      const replacement:any = parseFragment(`<sub class="lunar-citation"><a id="${id}" href="#lunar-source-${ref.number}" role="doc-noteref" aria-label="Source ${ref.number}: ${escape(ref.title)}" title="${escape(ref.title)}">[${ref.number}]</a></sub>`).childNodes[0];
+      replacement.parentNode = node;
+      node.childNodes[node.childNodes.indexOf(child)] = replacement;
+    } else walk(child);
+  }
+}
+walk(tree);
+if (!container) throw new Error('Missing lunar study container');
+const items = [...references.values()].map(ref => `<li id="lunar-source-${ref.number}" tabindex="-1"><a href="${escape(ref.href)}">${escape(ref.title)}</a><span class="lunar-backlinks">Return to ${ref.ids.map((id:string,i:number) => `<a href="#${id}" role="doc-backlink" aria-label="Return to source ${ref.number}, citation ${i+1}">citation ${i+1}</a>`).join(' · ')}</span></li>`).join('');
+const section:any = parseFragment(`<section id="sources" class="analysis-section lunar-sources" aria-labelledby="lunar-source-heading"><h2 id="lunar-source-heading">Sources and reference notes</h2><p class="analysis-note">Each numbered citation links here. Return links lead to the corresponding passage. Findings in this report are new calculations; the source studies did not establish these lunar results.</p><ol role="doc-endnotes">${items}</ol></section>`).childNodes[0];
+section.parentNode = container;
+container.childNodes.push(section);
+---
+<Fragment set:html={serialize(tree)} />
