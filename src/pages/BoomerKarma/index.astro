@@ -1,0 +1,80 @@
+---
+import '@fontsource/source-sans-3/latin-400.css';
+import '@fontsource/source-sans-3/latin-600.css';
+import report from '../../data/boomer-karma.json';
+import KarmaApplication from '../../components/KarmaApplication.astro';
+import '../../styles/boomer-karma.css';
+
+if (!Number.isSafeInteger(report.openingBalance) || !Array.isArray(report.entries)
+  || report.entries.some(entry => !Number.isSafeInteger(entry.points) || !entry.note.trim() || !entry.detail.trim())
+  || !report.status.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(report.updatedAt)
+  || new Date(`${report.updatedAt}T12:00:00Z`).toISOString().slice(0, 10) !== report.updatedAt) {
+  throw new Error('BoomerKarma: check the balance, entries, status and report date.');
+}
+const score = report.openingBalance + report.entries.reduce((sum, entry) => sum + entry.points, 0);
+if (!Number.isSafeInteger(score)) throw new Error('BoomerKarma: total must be a safe integer.');
+const updated = new Intl.DateTimeFormat('en-US', {month:'short', day:'numeric', year:'numeric', timeZone:'UTC'}).format(new Date(`${report.updatedAt}T12:00:00Z`));
+const signed = (value: number) => `${value > 0 ? '+' : ''}${value}`;
+const bureaus = ['BoomerUnion', 'EquiBoom', 'ExperiBoom'];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; script-src 'self'; connect-src 'self' https://formsubmit.co; base-uri 'none'; form-action 'none'" />
+    <meta name="robots" content="noindex,nofollow,noarchive,noimageindex" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="description" content="BoomerKarma. Free connection scores. Unnecessarily complicated reports. Entirely vibes." />
+    <meta name="theme-color" content="#008600" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://boomerrawlings.com/BoomerKarma/" />
+    <title>BoomerKarma · Your vibes, on file</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to your overview</a>
+    <header class="site-header"><div class="header-inner">
+      <a class="brand" href="/BoomerKarma/" aria-label="BoomerKarma home"><span class="brand-parent">entirely unofficial</span>Boomer<span>Karma</span><sup>™*</sup></a>
+      <nav aria-label="Main navigation"><a href="/BoomerKarma/" aria-current="page">Overview</a><button type="button" data-request-report>My report</button><a href="#disclosures">How it works</a></nav>
+      <span class="account-avatar" aria-label="Bureau account">BK</span>
+    </div></header>
+    <div class="parody-strip">A friendship-score parody. Not affiliated with Credit Karma. <span>No finances. Just feelings.</span></div>
+    <main id="main">
+      <section id="report-gate" aria-labelledby="gate-heading">
+        <div class="page-heading"><div><p class="eyebrow">YOUR CONNECTION OVERVIEW</p><h1 id="gate-heading">Your vibes. Finally, in writing.</h1><p>Knowing where you stand should be simple. We’ve chosen otherwise.</p></div><span class="member-tag">Founding member</span></div>
+        <div class="promo-banner"><span class="promo-icon" aria-hidden="true">✓</span><div><strong>Free report. Premium bureaucracy.</strong><p>Get your scores from all three bureaus. They’re all Boomer.</p></div><span class="free-tag">100% free*</span></div>
+        <div class="dashboard-grid">
+          <section class="card locked-panel" aria-labelledby="locked-heading">
+            <div class="card-heading"><h2 id="locked-heading">Your connection scores</h2><span class="soft-label">Report required</span></div>
+            <div class="gauges locked-gauges">{bureaus.map(bureau => <div class="gauge-card"><div class="gauge-face"><svg viewBox="0 0 200 150" aria-hidden="true"><path class="gauge-track" d="M22 128 A85 85 0 1 1 178 128"/><path class="gauge-arc" d="M22 128 A85 85 0 1 1 178 128"/></svg><div class="gauge-center"><strong>—</strong><span>On a need-to-know basis</span></div></div><h3>{bureau}</h3><p>VibeScore™ 0.0</p></div>)}</div>
+            <div class="locked-callout"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/></svg><div><strong>Your scores are ready. Are you?</strong><p>One quick request. Nine entirely necessary steps.</p></div></div>
+            <button class="button primary request-button" type="button" data-request-report>Get my free report <span aria-hidden="true">→</span></button>
+            <p class="microcopy">Checking won’t hurt your score. It may test your patience.</p>
+            <noscript><p class="no-script">Enable JavaScript to complete the report paperwork. No account or personal information needed.</p></noscript>
+          </section>
+          <aside class="card next-step"><span class="recommended">RECOMMENDED FOR YOU</span><h2>A clearer picture.<br />Eventually.</h2><p>Your connection health, calculated using a proprietary blend of instinct and “I think.”</p><ul class="benefits"><li>Three very dependent bureaus</li><li>Zero financial consequences</li><li>One man with full discretion</li></ul><hr /><strong class="odds">Approval odds: mysterious</strong><p class="fine-print">*Free in money. Less free in administrative effort.</p></aside>
+        </div>
+        <div class="trust-row"><span><strong>$0</strong> report fee</span><span><strong>3</strong> bureaus</span><span><strong>1</strong> Boomer</span><span><strong>0</strong> published methodologies</span></div>
+      </section>
+
+      <section id="report" hidden aria-labelledby="report-heading">
+        <div class="page-heading"><div><p class="eyebrow">YOUR OFFICIAL UNOFFICIAL REPORT</p><h1 id="report-heading" tabindex="-1">Your connection report.</h1><p>The paperwork is over. The methodology remains a mystery.</p></div><div class="report-date">Report updated<br /><time datetime={report.updatedAt}>{updated}</time></div></div>
+        <div class="promo-banner issued-banner"><span class="promo-icon" aria-hidden="true">✓</span><div><strong>Application approved by all three bureaus.</strong><p>Three matching scores. All supplied by the same person.</p></div><span class="free-tag">REPORT ISSUED</span></div>
+        <div class="dashboard-grid">
+          <section class="card scores-panel" aria-labelledby="score-heading"><div class="card-heading"><h2 id="score-heading">Your connection scores</h2><span class="soft-label">Entirely unverified</span></div>
+            <div class="gauges">{bureaus.map((bureau, index) => <div class="gauge-card"><div class="gauge-face"><svg viewBox="0 0 200 150" aria-hidden="true"><path class="gauge-track" d="M22 128 A85 85 0 1 1 178 128"/><path class="gauge-arc" d="M22 128 A85 85 0 1 1 178 128"/></svg><div class="gauge-center"><strong id={index === 0 ? 'karma-score' : undefined}>{score}</strong><span>{report.status}</span></div></div><h3>{bureau}</h3><p>{index === 0 ? 'Boomer' : index === 1 ? 'Also Boomer' : 'Still Boomer'}</p></div>)}</div>
+            <p class="score-caption">{score === 20 ? '“Officially, I think we’re pushing twenty.”' : '“I have checked the notes. These are the points.”'}</p><p class="microcopy">VibeScore™ 0.0 · No known scale. The arcs are decorative.</p>
+            <button id="check-score" class="button secondary" type="button" hidden>Check for an update <span aria-hidden="true">↻</span></button><p id="check-status" class="live-status" role="status" aria-live="polite"></p>
+          </section>
+          <aside class="card next-step"><span class="recommended">YOUR NEXT BEST MOVE</span><h2>Dispute your vibes.</h2><p>Think you deserve more points? The appeals committee is ready to hear your case.</p><p>The appeals committee is also Boomer.</p><button id="open-appeal" class="button primary" type="button" hidden>Prepare an appeal</button><p class="fine-print">A request is not a guarantee. Neither, apparently, is friendship math.</p></aside>
+        </div>
+        <section class="card activity" aria-labelledby="activity-heading"><div class="card-heading"><h2 id="activity-heading">See what’s changed</h2><span class="soft-label">Selectively transparent</span></div><ol class="ledger">{[...report.entries].reverse().map(entry => <li><span class:list={['points', {'negative':entry.points < 0}]}>{signed(entry.points)}</span><div><h3>{entry.note}</h3><p>{entry.detail}</p></div><span class="entry-type">On file</span></li>)}{report.openingBalance !== 0 && <li><span class="points opening">{signed(report.openingBalance)}</span><div><h3>Opening estimate</h3><p>Reconstructed from “I think.” Accuracy not guaranteed.</p></div><span class="entry-type">Estimated</span></li>}</ol><p class="fine-print">No automatic deductions. Checking and appealing never change your score.</p></section>
+      </section>
+      <section id="disclosures" class="disclosures" aria-labelledby="disclosures-heading"><h2 id="disclosures-heading">A little more about your karma</h2><details><summary>How is my score calculated?</summary><p>Boomer notices something. Boomer has a feeling. Sometimes that feeling becomes a number. There is no published formula, minimum score, or known maximum.</p></details><details><summary>Why do all three bureaus give the same score?</summary><p>Because Boomer is all three bureaus. Vertical integration has gone too far.</p></details><details><summary>Can checking my score lower it?</summary><p>No. Neither can filling in forms, refreshing, or questioning the methodology. Only Boomer can record an adjustment.</p></details><details><summary>The actual fine print</summary><p>This is a Credit Karma-inspired parody about friendship, not a financial service. It has no financial value, and friendship is not conditional on the number. Completed report requests and appeals are emailed to Boomer through FormSubmit. FormSubmit retains submitted form data for 30 days. Unsubmitted answers stay in this tab. Closing the tab ends its report-access session. Anyone with the link can open the page; the paperwork is a joke, not a security system.</p><p>*The trademark symbol is also doing a bit.</p></details></section>
+    </main>
+    <footer><div><a class="footer-brand" href="/BoomerKarma/">BoomerKarma</a><p>Completely unverified. Personally endorsed.</p></div><details class="owner-access"><summary>Bureau access</summary><div><p><strong>Boomer only:</strong> update the points record and report date in GitHub, then commit to main. The website publishes your update after its checks pass.</p><a href="https://github.com/BoomerRawlings/boomerrawlings.com/edit/main/src/data/boomer-karma.json" target="_blank" rel="noopener noreferrer">Edit the official record ↗</a><p class="fine-print">Requires repository write access. This report is publicly readable.</p></div></details></footer>
+    <div class="honeypot" aria-hidden="true"><label for="karma-website">Leave this empty<input id="karma-website" name="_honey" type="text" tabindex="-1" autocomplete="off" /></label></div><script is:inline src="/scripts/boomer-karma-delivery.js" defer></script><KarmaApplication />
+    <dialog id="appeal-dialog" aria-labelledby="appeal-heading" aria-describedby="appeal-intro"><div class="dialog-header"><span class="eyebrow">FORM BK-02 / DEPARTMENT OF VIBES</span><button class="close-button" id="close-appeal" type="button" aria-label="Close appeal">×</button></div><h2 id="appeal-heading">Petition for reconsideration</h2><p id="appeal-intro">Please state your case to all three Boomers.</p><form id="appeal-form"><label for="appeal-reason">Nature of the grievance</label><select id="appeal-reason" required><option>I believe my vibes have been undervalued.</option><option>I performed an uncredited act of connection.</option><option>I respectfully question the methodology.</option><option>I would simply like more points.</option></select><label for="appeal-points">Points requested <span>(ambition encouraged)</span></label><input id="appeal-points" type="number" min="1" max="999" step="1" value="2" required /><label for="appeal-statement">Supporting evidence</label><textarea id="appeal-statement" rows="3" maxlength="1200" placeholder="I was very charming, scientifically speaking." required></textarea><label class="acknowledgment"><input type="checkbox" required /><span>I acknowledge that the appeals committee is also Boomer.</span></label><button class="button primary" type="submit">Send appeal to Boomer</button><p id="appeal-send-status" class="live-status" role="status" aria-live="polite"></p><p class="fine-print">Your completed appeal is emailed to Boomer.</p></form><section id="appeal-result" hidden aria-labelledby="receipt-heading"><h3 id="receipt-heading" tabindex="-1">Appeal sent.</h3><p>Your appeal is on its way to Boomer. Your score stays unchanged until he updates it.</p><label for="appeal-receipt">Your appeal</label><textarea id="appeal-receipt" rows="8" readonly></textarea><div class="receipt-actions"><button id="copy-appeal" class="button primary" type="button">Copy appeal</button><button id="share-appeal" class="button secondary" type="button" hidden>Share…</button><button id="edit-appeal" class="text-button" type="button">Send a follow-up</button></div><p id="copy-status" class="live-status" role="status" aria-live="polite"></p></section></dialog>
+    <script is:inline src="/scripts/boomer-karma.js" defer></script>
+  </body>
+</html>

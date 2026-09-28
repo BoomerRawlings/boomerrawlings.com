@@ -1,0 +1,37 @@
+{
+  "openingBalance": 0,
+  "updatedAt": "2026-09-28",
+  "status": "In good standing",
+  "entries": [
+    {
+      "points": 1,
+      "note": "“Where the wind takes me”",
+      "detail": "Spontaneity credit."
+    },
+    {
+      "points": 5,
+      "note": "Taking care of mom",
+      "detail": "Care recognized by all three bureaus."
+    },
+    {
+      "points": 4,
+      "note": "Been to Rehab",
+      "detail": "Personal growth credit."
+    },
+    {
+      "points": 10,
+      "note": "AI Boundaries Testing",
+      "detail": "Research and development credit."
+    },
+    {
+      "points": -2,
+      "note": "Can’t talk about AI Testing",
+      "detail": "Disclosure adjustment. Further details unavailable."
+    },
+    {
+      "points": 2,
+      "note": "Library Osmosis Theory",
+      "detail": "The thesis has the full support of the bureau."
+    }
+  ]
+}

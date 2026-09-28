@@ -29,9 +29,9 @@ const unlistedContentPaths = new Set([
   join('aristotter', 'index.html'),
   join('deckle', 'index.html'),
   join('swc', 'index.html'),
+  join('BoomerKarma', 'index.html'),
   join('cbs8', 'index.html'),
   join('cbs8', 'osint', 'index.html'),
-  join('BoomerKarma', 'index.html'),
   join('writing', 'data-analysis', 'sex-and-the-moon', 'index.html'),
 ]);
 const contentHtmlFiles = htmlFiles.filter(
@@ -50,6 +50,67 @@ if (contentHtmlFiles.length !== 25 || unlistedHtmlFiles.length !== 7 || htmlFile
 }
 
 const failures = [];
+
+const karmaPath = join(output, 'BoomerKarma', 'index.html');
+if (!existsSync(karmaPath)) {
+  failures.push('BoomerKarma/index.html: exact-case unlisted route is missing');
+} else {
+  const karmaHtml = readFileSync(karmaPath, 'utf8');
+  const karmaLedger = JSON.parse(readFileSync(join('src', 'data', 'boomer-karma.json'), 'utf8'));
+  const ledgerKeys = ['openingBalance', 'updatedAt', 'status', 'entries'];
+  const entryKeys = ['points', 'note', 'detail'];
+  if (Object.keys(karmaLedger).some(key => !ledgerKeys.includes(key))
+    || !Number.isSafeInteger(karmaLedger.openingBalance)
+    || !Array.isArray(karmaLedger.entries)
+    || karmaLedger.entries.some(entry => Object.keys(entry).some(key => !entryKeys.includes(key))
+      || !Number.isSafeInteger(entry.points) || typeof entry.note !== 'string' || typeof entry.detail !== 'string')) {
+    failures.push('BoomerKarma: ledger must contain valid points and bureau notes, without account identity fields');
+  } else {
+    const ledgerScore = karmaLedger.entries.reduce((total, entry) => total + entry.points, karmaLedger.openingBalance);
+    const renderedScore = karmaHtml.match(/<strong\b[^>]*\bid=["']karma-score["'][^>]*>\s*(-?\d+)\s*<\/strong>/)?.[1];
+    if (renderedScore === undefined || Number(renderedScore) !== ledgerScore) {
+      failures.push('BoomerKarma: visible score must equal the source ledger balance, without requiring JavaScript');
+    }
+    const ledgerHtml = karmaHtml.match(/<ol\b[^>]*\bclass="ledger"[^>]*>([\s\S]*?)<\/ol>/)?.[1] ?? '';
+    const ledgerRows = [...ledgerHtml.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/g)].map(([, row]) => row);
+    const escapeText = value => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    if (ledgerRows.length !== karmaLedger.entries.length + (karmaLedger.openingBalance === 0 ? 0 : 1)
+      || [...karmaLedger.entries].reverse().some((entry, index) => {
+        const row = ledgerRows[index] ?? '';
+        const signedPoints = `${entry.points > 0 ? '+' : ''}${entry.points}`;
+        return !row.includes(`>${signedPoints}</span>`)
+          || !row.includes(`<h3>${escapeText(entry.note)}</h3>`)
+          || !row.includes(`<p>${escapeText(entry.detail)}</p>`);
+      })) {
+      failures.push('BoomerKarma: every published ledger entry must preserve its source points, note and detail');
+    }
+  }
+  if (!karmaHtml.includes('<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">')
+    || !karmaHtml.includes('<meta name="referrer" content="no-referrer">')) {
+    failures.push('BoomerKarma: unlisted page metadata is incomplete');
+  }
+  for (const script of ['boomer-karma-delivery.js', 'karma-application.js', 'boomer-karma.js']) {
+    if (!karmaHtml.includes(`src="/scripts/${script}"`) || !existsSync(join(output, 'scripts', script))) {
+      failures.push(`BoomerKarma: required interaction script ${script} is missing`);
+    }
+  }
+  const gateAttributes = karmaHtml.match(/<section\b([^>]*\bid="report-gate"[^>]*)>/)?.[1];
+  const reportAttributes = karmaHtml.match(/<section\b([^>]*\bid="report"[^>]*)>/)?.[1];
+  const applicationSteps = [...karmaHtml.matchAll(/<fieldset\b[^>]*\bdata-step="(\d+)"[^>]*>/g)].map(([, step]) => Number(step));
+  if (!gateAttributes || /\bhidden(?:\s|=|$)/.test(gateAttributes)
+    || !reportAttributes || !/\bhidden(?:\s|=|$)/.test(reportAttributes)
+    || applicationSteps.join(',') !== '0,1,2,3,4,5,6,7,8') {
+    failures.push('BoomerKarma: new visits must show the gate and all nine application steps before revealing the report');
+  }
+  if (karmaHtml.indexOf('src="/scripts/boomer-karma-delivery.js"') > karmaHtml.indexOf('src="/scripts/karma-application.js"')
+    || !karmaHtml.includes("connect-src 'self' https://formsubmit.co")
+    || /Nothing is sent or saved|No application is sent anywhere|Your answers stay in this tab and are not sent/i.test(karmaHtml)) {
+    failures.push('BoomerKarma: delivery dependency, content policy or submission disclosure is inconsistent');
+  }
+  if (/<(?:img|picture|video|iframe)\b|(?:codex-remote-attachments|iMessage|Photo[- ]\d)|(?:href=["'](?:mailto|tel|sms):)|(?:type=["'](?:email|tel)["'])/i.test(karmaHtml)) {
+    failures.push('BoomerKarma: source conversation media or personal contact details must not be published');
+  }
+}
 
 const cbs8Html = readFileSync(join(output, 'cbs8', 'index.html'), 'utf8');
 const osintHtml = readFileSync(join(output, 'cbs8', 'osint', 'index.html'), 'utf8');
@@ -102,26 +163,6 @@ if (!existsSync(aristotterPath)) {
   if (!aristotterHtml.includes('<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">')
     || !aristotterHtml.includes('<meta name="referrer" content="no-referrer">')) {
     failures.push('aristotter/index.html: private-link metadata is incomplete');
-  }
-}
-const boomerKarmaPath = join(output, 'BoomerKarma', 'index.html');
-if (!existsSync(boomerKarmaPath)) {
-  failures.push('BoomerKarma/index.html: unlisted connection report is missing');
-} else {
-  const boomerKarmaHtml = readFileSync(boomerKarmaPath, 'utf8');
-  const boomerKarmaText = boomerKarmaHtml.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
-  if (!boomerKarmaHtml.includes('<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">')
-    || !boomerKarmaHtml.includes('<meta name="referrer" content="no-referrer">')) {
-    failures.push('BoomerKarma/index.html: unlisted-page metadata is incomplete');
-  }
-  for (const reportDetail of ['Emily-Anne', '20', 'ish', '+2', 'Completely unverified', 'not independent']) {
-    if (!boomerKarmaText.toLowerCase().includes(reportDetail.toLowerCase())) {
-      failures.push(`BoomerKarma/index.html: report detail is missing: ${reportDetail}`);
-    }
-  }
-  if (!boomerKarmaHtml.includes('src="/scripts/boomer-karma.js"')
-    || !existsSync(join(output, 'scripts', 'boomer-karma.js'))) {
-    failures.push('BoomerKarma/index.html: report refresh script is missing');
   }
 }
 const swcPath = join(output, 'swc', 'index.html');
@@ -460,7 +501,7 @@ if (!existsSync(decklePath)) {
   if (deckleHtml.includes('Open Deckle directly')) failures.push('deckle/index.html: confusing direct-link overlay must remain absent');
 }
 // Deckle owns its button inside the proxied app, not the legacy iframe wrapper.
-for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => file !== decklePath && file !== boomerKarmaPath && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html'))) {
+for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => file !== decklePath && file !== karmaPath && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html'))) {
   const html = readFileSync(file, 'utf8');
   const count = (html.match(/class="support-coffee"/g) ?? []).length;
   if (html.includes('class="analysis-research"')) {
@@ -485,6 +526,9 @@ for (const file of contentHtmlFiles) {
   }
   if (/href=["'][^"']*\/deckle\/?(?:[?#][^"']*)?["']/i.test(html)) {
     failures.push(`${relative(output, file)}: public page links to the unlisted Deckle route`);
+  }
+  if (/href=["'][^"']*\/BoomerKarma\/?(?:[?#][^"']*)?["']/i.test(html)) {
+    failures.push(`${label}: public page links to the unlisted BoomerKarma route`);
   }
 }
 

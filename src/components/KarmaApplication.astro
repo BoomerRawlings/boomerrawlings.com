@@ -1,0 +1,132 @@
+<dialog id="application-dialog" class="application-dialog" aria-labelledby="application-title" aria-describedby="application-privacy">
+  <div class="dialog-header">
+    <p class="eyebrow">Department of unnecessary paperwork</p>
+    <button class="close-button" type="button" id="application-close" aria-label="Close report application">×</button>
+  </div>
+  <h2 id="application-title">Your report is almost yours.</h2>
+  <p id="application-privacy" class="application-note">When you send, your completed answers go to Boomer. No account or personal identification required.</p>
+  <div class="application-progress">
+    <p id="application-progress-label">Step 1 of 9 · Eligibility</p>
+    <progress id="application-progress" value="1" max="9" aria-labelledby="application-progress-label">1 of 9</progress>
+  </div>
+
+  <form id="application-form" novalidate>
+    <fieldset class="application-step" data-step="0" data-title="Eligibility">
+      <legend tabindex="-1">01. Establish your jurisdiction.</legend>
+      <p class="application-intro">Before you may know how you are doing, we must establish that you would like to know how you are doing.</p>
+      <label for="application-capacity">In what capacity are you requesting this report?</label>
+      <select id="application-capacity" name="capacity" required>
+        <option value="">Select your very official capacity</option>
+        <option>I am the person with the vibes.</option>
+        <option>I am acting on behalf of my own curiosity.</option>
+        <option>I have direct access to the source.</option>
+      </select>
+      <label class="choice"><input type="checkbox" name="authorized" required /><span>I authorize myself to request information about my mysterious standing.</span></label>
+      <p class="application-note">No identification necessary. Your willingness to do this is evidence enough.</p>
+    </fieldset>
+
+    <fieldset class="application-step" data-step="1" data-title="Bureau selection" hidden disabled>
+      <legend tabindex="-1">02. Select your independent bureaus.</legend>
+      <p class="application-intro">A comprehensive report requires all three. They are each Boomer, wearing a slightly different administrative expression.</p>
+      <div class="choice-list">
+        <label class="choice"><input type="checkbox" name="bureau" value="BoomerUnion" required /><span><strong>BoomerUnion</strong><br />Boomer, but at the first desk.</span></label>
+        <label class="choice"><input type="checkbox" name="bureau" value="EquiBoom" required /><span><strong>EquiBoom</strong><br />Boomer, now facing slightly left.</span></label>
+        <label class="choice"><input type="checkbox" name="bureau" value="ExperiBoom" required /><span><strong>ExperiBoom</strong><br />Boomer with a clipboard.</span></label>
+      </div>
+      <p class="application-note">Please select all three. Our commitment to choice is mostly decorative.</p>
+    </fieldset>
+
+    <fieldset class="application-step" data-step="2" data-title="Statement of purpose" hidden disabled>
+      <legend tabindex="-1">03. Explain your interest in knowing.</legend>
+      <p class="application-intro">“Because I want to” is an entirely reasonable answer. Unfortunately, this is a form.</p>
+      <label for="application-purpose">Official purpose</label>
+      <select id="application-purpose" name="purpose" required>
+        <option value="">Choose a reason to be curious</option>
+        <option>Routine vibe maintenance</option>
+        <option>Checking whether we are pushing twenty</option>
+        <option>Academic research into friendship economics</option>
+        <option>I was told there would be paperwork</option>
+      </select>
+      <label for="application-justification">Supporting statement <span>(at least 12 words)</span></label>
+      <textarea id="application-justification" name="justification" rows="4" maxlength="1200" required aria-describedby="application-word-count application-justification-help" placeholder="I am requesting this report because…"></textarea>
+      <p id="application-word-count" class="application-counter" aria-live="polite">0 / 12 words minimum</p>
+      <p id="application-justification-help" class="application-note">A deeply unserious statement is acceptable. Please leave real personal details out.</p>
+    </fieldset>
+
+    <fieldset class="application-step" data-step="3" data-title="The fine print" hidden disabled>
+      <legend tabindex="-1">04. Acknowledge the very fine print.</legend>
+      <p class="application-intro">Our legal department is also Boomer. He would like you to know the following.</p>
+      <div class="choice-list">
+        <label class="choice"><input type="checkbox" name="fineprint-vibes" required /><span>I understand this is all vibes, with no scientifically defensible conversion rate.</span></label>
+        <label class="choice"><input type="checkbox" name="fineprint-bureaus" required /><span>I understand “three bureaus” does not necessarily imply three people.</span></label>
+        <label class="choice"><input type="checkbox" name="fineprint-standing" required /><span>I understand these joke points measure neither my worth nor an actual credit score.</span></label>
+      </div>
+      <p class="application-note">Reading the fine print does not earn points. It does earn passage to more fine print.</p>
+    </fieldset>
+
+    <fieldset class="application-step" data-step="4" data-title="Library verification" hidden disabled>
+      <legend tabindex="-1">05. Verify your capacity for osmosis.</legend>
+      <p class="application-intro">Select all three books. Being near knowledge makes you smarter by osmosis. We support this thesis. We have not peer-reviewed it.</p>
+      <div class="choice-list application-captcha">
+        <label class="choice"><input type="checkbox" name="library" value="atlas" /><span>A library atlas</span></label>
+        <label class="choice"><input type="checkbox" name="library" value="chair" /><span>A suspiciously comfortable chair</span></label>
+        <label class="choice"><input type="checkbox" name="library" value="novel" /><span>A very long novel</span></label>
+        <label class="choice"><input type="checkbox" name="library" value="plant" /><span>A plant with no library card</span></label>
+        <label class="choice"><input type="checkbox" name="library" value="dictionary" /><span>An unnecessarily large dictionary</span></label>
+        <label class="choice"><input type="checkbox" name="library" value="silence" /><span>The concept of silence</span></label>
+      </div>
+      <p class="application-note">This is a joke puzzle, not a security check. The books are the atlas, novel, and dictionary.</p>
+    </fieldset>
+
+    <fieldset class="application-step" data-step="5" data-title="Vibe notarization" hidden disabled>
+      <legend tabindex="-1">06. Notarize the central finding.</legend>
+      <p class="application-intro">Our notary requires the exact philosophical basis of this entire institution.</p>
+      <label for="application-notarization">Type “this is all vibes”</label>
+      <input id="application-notarization" name="notarization" type="text" maxlength="80" required autocomplete="off" spellcheck="false" aria-describedby="application-notary-note" />
+      <p id="application-notary-note" class="application-note">Capital letters are welcome. Punctuation will be referred to a separate committee.</p>
+    </fieldset>
+
+    <fieldset class="application-step" data-step="6" data-title="Administrative redundancy" hidden disabled>
+      <legend tabindex="-1">07. Complete the redundancy supplement.</legend>
+      <p class="application-intro">Your last declaration was received by this form. This form now requires three declarations about that declaration.</p>
+      <div class="choice-list">
+        <label class="choice"><input type="checkbox" name="redundant-original" required /><span>I confirm that I typed “this is all vibes.”</span></label>
+        <label class="choice"><input type="checkbox" name="redundant-confirmation" required /><span>I confirm that my confirmation refers to the phrase I confirmed.</span></label>
+        <label class="choice"><input type="checkbox" name="redundant-duplicate" required /><span>I understand that this page could have been an email, and that the email could have been nothing.</span></label>
+      </div>
+      <p class="application-note">Form BK-07B · Supplement to the supplement · One copy, emotionally in triplicate.</p>
+    </fieldset>
+
+    <fieldset class="application-step" data-step="7" data-title="Review your paperwork" hidden disabled>
+      <legend tabindex="-1">08. Review the work we made you do.</legend>
+      <p class="application-intro">Please admire your completed paperwork. Use Back to amend anything. Your report is still the same report.</p>
+      <dl class="application-review">
+        <dt>Official capacity</dt><dd id="review-capacity"></dd>
+        <dt>Bureaus consulted by this form</dt><dd>BoomerUnion, EquiBoom, ExperiBoom. One man. Three headings.</dd>
+        <dt>Purpose</dt><dd id="review-purpose"></dd>
+        <dt>Your supporting statement</dt><dd id="review-justification"></dd>
+        <dt>Scientific credentials</dt><dd>Successfully identified three books.</dd>
+        <dt>Notarized finding</dt><dd>This is all vibes.</dd>
+      </dl>
+      <label class="choice"><input type="checkbox" name="reviewed" required /><span>I have reviewed this summary and am prepared to request permission to proceed.</span></label>
+    </fieldset>
+
+    <fieldset class="application-step" data-step="8" data-title="Permission to receive permission" hidden disabled>
+      <legend tabindex="-1">09. The final preliminary authorization.</legend>
+      <p class="application-intro">Everything is in order. You may now request permission to receive permission to view the report.</p>
+      <p class="application-note">After this last checkbox, send your completed paperwork to Boomer to receive your report. Every answer and declaration goes with it.</p>
+      <div id="application-final-attestation" hidden>
+        <p><strong>Permission to receive permission: granted.</strong><br />Naturally, there is one last box.</p>
+        <label class="choice"><input id="application-final-check" type="checkbox" name="final" disabled required /><span>I agree to send my completed answers to Boomer. I have survived the paperwork and would now like to see a number.</span></label>
+      </div>
+    </fieldset>
+
+    <p id="application-error" class="application-error" role="alert" hidden></p>
+    <p id="application-send-status" class="application-note" role="status" hidden></p>
+    <div class="step-actions">
+      <button type="button" id="application-back" class="button secondary" hidden>Back</button>
+      <button type="submit" id="application-next" class="button primary">Continue to bureau selection</button>
+    </div>
+  </form>
+</dialog>
+<script is:inline src="/scripts/karma-application.js" defer></script>
