@@ -2,7 +2,7 @@
 
 ## Boomer Karma — 2026-09-28
 
-- Mode: continuation. Objective: clarify submission emails and separate development tests from visitor activity. Status: complete; formatting published as `eb8a0c8`, cache correction as `a3b78af`; Pages run `36479688420` passed. Original page published as `f5967d0`.
+- Mode: continuation. Objective: add an independently requestable feline score and photo validation. Status: implementation/browser verification in progress. Prior email formatting published as `eb8a0c8`, cache correction as `a3b78af`; Pages run `36479688420` passed.
 - Latest scope: nine-step report application, three bureau gauges, owner-supplied six-entry ledger totaling 20, appeals; completed applications and appeals automatically email the owner. No approval/account required for visitors.
 - Static GitHub Pages architecture retained. Data in `src/data/boomer-karma.json`; public score is sum of entries. Unlisted/noindex with no public navigation or sitemap link. No screenshots or identifying account fields published.
 - FormSubmit public endpoint activated through connected owner inbox; real test delivery verified. Helper awaits explicit success; failures preserve inputs. Report access flag uses sessionStorage, never answers. Submitted data retained by provider for 30 days, disclosed in page. No new runtime, DNS or hosting changes.
@@ -14,7 +14,12 @@
 - Verification: full site suite passes. No-send caller checks verify every field and declaration, confirmed-success handling and failure preservation. Delivery regression tests cover visitor/test subjects, unique references, unchanged retry references, duplicates, Pacific timestamps and navigation test-mode preservation.
 - Live check found browser caching could retain old scripts; content-hash URL versions now invalidate each changed script, with build checks enforcing matching hashes. Browser reload verified the revised test notice and links.
 - One final live-browser email verified: TEST ONLY subject/body, separate message and answer rows, Pacific timestamp, unique reference, no legacy paperwork block. Test archived under the setup/test label. Original visitor request preserved in Inbox; no real message content stored in source or state.
-- Next: no required work remains. Use explicit test mode for any future live delivery check. Future score changes use the JSON ledger and normal publication. Existing unrelated state preserved below.
+- Feline scope: linked `/BoomerKarma/Kemberton/` route, separate four-entry ledger totaling6, five-step authorized-requestor flow. On-device COCO-SSD cat detection, strict original capture metadata within five minutes, live-camera fallback. Wording implies taking a portrait; timing requirement disclosed only after rejection, per user. Photo is resized/re-encoded before email to remove original metadata. No user photos committed.
+- Official model self-hosted; dependencies pinned. Freshness tests pass33 cases, with no filesystem-date/digitization fallback. SMS authentication deferred by user until an SMS provider is available; no phone number in source/state.
+- Verification: full suite passes, including 33 capture-time cases, 12 application lifecycle cases, 6 delivery cases and 7 feline publication groups. Real browser rejects a dog, stale metadata and absent metadata; accepts the cat fixture at 93% confidence. Fixed extensionless model shard routing by adding `.bin` manifest paths.
+- Attachment discovery: AJAX silently omits files. Native multipart delivery verified a JPEG in owner inbox; helper now requires its exact unique provider success redirect. Final browser transport verified: report released automatically, email preserved all answers, readable capacity, capture summary and a 16.7KB JPEG attachment. Three identified QA messages labeled/archived separately; no visitor content stored here.
+- Browser: 390/320 mobile and 1280 desktop layouts inspected without overflow; refresh retains issued cat report, all four factors total6, console clean. Independent review passed after semantic review-list and readable email value fixes.
+- Next: one verified publish and live asset/route checks. Use explicit test mode for future live delivery checks. Existing unrelated state preserved below.
 - Limit: paperwork is comedy, not access control; anyone with the link can view the report.
 ## Lunar report plain-language revision — 2026-09-28
 

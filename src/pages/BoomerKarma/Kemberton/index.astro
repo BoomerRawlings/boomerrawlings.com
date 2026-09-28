@@ -1,0 +1,156 @@
+---
+import {createHash} from 'node:crypto';
+import {readFileSync} from 'node:fs';
+import '@fontsource/source-sans-3/latin-400.css';
+import '@fontsource/source-sans-3/latin-600.css';
+import report from '../../../data/kem-karma.json';
+import '../../../styles/boomer-karma.css';
+import '../../../styles/kem-karma.css';
+
+if (!Number.isSafeInteger(report.openingBalance) || !Array.isArray(report.entries)
+  || report.entries.some(entry => !Number.isSafeInteger(entry.points) || !entry.note.trim() || !entry.detail.trim())
+  || !report.status.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(report.updatedAt)
+  || new Date(`${report.updatedAt}T12:00:00Z`).toISOString().slice(0, 10) !== report.updatedAt) {
+  throw new Error('BoomerKarma: check the feline balance, entries, status and report date.');
+}
+const score = report.openingBalance + report.entries.reduce((sum, entry) => sum + entry.points, 0);
+if (!Number.isSafeInteger(score)) throw new Error('BoomerKarma: feline total must be a safe integer.');
+const updated = new Intl.DateTimeFormat('en-US', {month:'short', day:'numeric', year:'numeric', timeZone:'UTC'}).format(new Date(`${report.updatedAt}T12:00:00Z`));
+const signed = (value: number) => `${value > 0 ? '+' : ''}${value}`;
+const deliveryScript = `/scripts/boomer-karma-delivery.js?v=${createHash('sha256').update(readFileSync('public/scripts/boomer-karma-delivery.js')).digest('hex').slice(0, 12)}`;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; script-src 'self'; connect-src 'self' https://formsubmit.co; base-uri 'none'; form-action 'none'" />
+    <meta name="robots" content="noindex,nofollow,noarchive,noimageindex" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="description" content="BoomerKarma Feline Division. Request Kemberton’s entirely unofficial connection report." />
+    <meta name="theme-color" content="#008600" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://boomerrawlings.com/BoomerKarma/Kemberton/" />
+    <title>Kemberton · BoomerKarma Feline Division</title>
+  </head>
+  <body class="kem-page">
+    <a class="skip-link" href="#main">Skip to the feline bureau</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/BoomerKarma/" aria-label="BoomerKarma home"><span class="brand-parent">Entirely unofficial</span>Boomer<span>Karma</span><sup>™</sup></a>
+        <nav aria-label="Bureau navigation">
+          <a href="/BoomerKarma/">Human division</a>
+          <a href="/BoomerKarma/Kemberton/" aria-current="page">Feline division</a>
+        </nav>
+        <span class="account-avatar" aria-label="Kemberton">K</span>
+      </div>
+    </header>
+    <div class="parody-strip">A Credit Karma parody. No actual credit scores.<span>Same Boomer. Additional paperwork. Cat jurisdiction.</span></div>
+    <main id="main">
+      <noscript><p class="no-script">JavaScript is required for the photo check and report request. Your paperwork cannot advance through the bureau without it.</p></noscript>
+      <section id="kem-gate" aria-labelledby="kem-application-heading">
+        <div class="page-heading">
+          <div><p class="eyebrow">BOOMERKARMA / FELINE DIVISION</p><h1 id="kem-application-heading">Good vibes. Questionable bite history.</h1><p>Kemberton has a file. Naturally, you’ll need a file to request his file.</p></div>
+          <span class="member-tag">Authorized humans welcome</span>
+        </div>
+        <div class="kem-layout">
+          <section class="card kem-paperwork" aria-labelledby="kem-paperwork-heading">
+            <div class="kem-form-heading"><div><p class="eyebrow">FORM BK-CAT-01</p><h2 id="kem-paperwork-heading">Request a feline report</h2></div><span class="kem-free">FREE*</span></div>
+            <p class="kem-intro">Five departments. One cat. Please keep all paws inside the application.</p>
+            <div class="application-progress">
+              <p id="kem-step-label">Step 1 of 5 · Representation</p>
+              <progress id="kem-progress" value="1" max="5" aria-labelledby="kem-step-label">1 of 5</progress>
+            </div>
+            <form id="kem-form" novalidate>
+              <fieldset class="kem-step application-step" data-step="0" data-title="Representation">
+                <legend tabindex="-1">01. Establish your cat credentials.</legend>
+                <p class="application-intro">The applicant cannot use a keyboard without lying on it. Please identify his representative.</p>
+                <label for="kem-capacity">Your official capacity</label>
+                <select id="kem-capacity" name="capacity" required>
+                  <option value="">Select your appointment</option>
+                  <option value="Primary human">Primary human</option>
+                  <option value="Authorized couch attendant">Authorized couch attendant</option>
+                  <option value="Legal bow tie custodian">Legal bow tie custodian</option>
+                </select>
+                <label class="choice"><input type="checkbox" name="authorized" required /><span>I am authorized to request this report on Kemberton’s behalf. His refusal to acknowledge me does not invalidate my appointment.</span></label>
+                <p class="application-note">No account, identification, or approval from Boomer required.</p>
+              </fieldset>
+              <fieldset class="kem-step application-step" data-step="1" data-title="Applicant identification" hidden disabled>
+                <legend tabindex="-1">02. Name the interested pawty.</legend>
+                <p class="application-intro">We have narrowed the applicant down to Kemberton. Please assist us in narrowing it down further.</p>
+                <label for="kem-alias">Name used in this proceeding</label>
+                <select id="kem-alias" name="alias" required><option value="Kemberton">Kemberton</option><option value="Kem">Kem</option></select>
+                <label for="kem-purpose">Purpose of this inquiry</label>
+                <select id="kem-purpose" name="purpose" required>
+                  <option value="">Select a pressing feline matter</option>
+                  <option>Routine feline vibe maintenance</option>
+                  <option>Reviewing the impact of reported biting</option>
+                  <option>Documenting exceptional wardrobe choices</option>
+                  <option>The applicant knocked the request off the counter</option>
+                </select>
+                <label class="choice"><input id="kem-biting" type="checkbox" name="bite_acknowledged" required /><span>I acknowledge the reported biting. I understand that a bow tie is compelling character evidence, but not an automatic acquittal.</span></label>
+              </fieldset>
+              <fieldset class="kem-step application-step" data-step="2" data-title="Statement of catness" hidden disabled>
+                <legend tabindex="-1">03. Put his best paw forward.</legend>
+                <p class="application-intro">Explain why the applicant requires access to his own vibes. At least 12 words; “meow” repeated 12 times will be regarded as a stylistic choice.</p>
+                <label for="kem-statement">Statement on behalf of the applicant</label>
+                <textarea id="kem-statement" name="statement" rows="5" maxlength="1200" required placeholder="The applicant has retained me to investigate his standing with the bureau…"></textarea>
+                <label class="choice"><input type="checkbox" name="affiliation" required /><span>I have a professional, domestic, or treat-based relationship with the applicant.</span></label>
+                <label class="choice"><input type="checkbox" name="intent" required /><span>I understand that this report cannot be redeemed for treats, despite any representations made by the applicant.</span></label>
+              </fieldset>
+              <fieldset class="kem-step application-step" data-step="3" data-title="Applicant portrait" hidden disabled>
+                <legend tabindex="-1">04. Present the applicant.</legend>
+                <p class="application-intro">Please locate the applicant and invite him to sit for his bureau portrait. Face, ears, and general catness should be visible.</p>
+                <div class="kem-photo-invitation">
+                  <svg viewBox="0 0 88 72" fill="none" aria-hidden="true"><path d="M23 28 19 8l21 12h9L69 8l-4 20c7 8 9 21 0 29-12 10-33 10-45 0-8-8-6-21 3-29Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 37h1m22 0h1M40 45l4 3 4-3M44 48v6m0 0-5 3m5-3 5 3M7 40l15 4M6 51l16-1m59-10-15 4m16 7-16-1" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+                  <p>Neutral background optional.<br />Mild contempt anticipated.</p>
+                </div>
+                <label for="kem-photo-input">Choose applicant portrait</label>
+                <input id="kem-photo-input" name="portrait" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" capture="environment" />
+                <p class="application-note">Prefer an in-person sitting? Open the camera below. Cat cooperation is outside our service guarantee.</p>
+                <div class="kem-camera-actions"><button class="button secondary" id="kem-start-camera" type="button">Open portrait camera</button><button class="button primary" id="kem-capture" type="button" hidden>Take portrait</button><button class="text-button" id="kem-stop-camera" type="button" hidden>Close camera</button></div>
+                <video id="kem-video" autoplay muted playsinline hidden aria-label="Applicant camera preview"></video>
+                <img id="kem-preview" hidden alt="Applicant portrait" />
+                <p id="kem-photo-status" class="live-status" role="status" aria-live="polite"></p>
+                <p id="kem-photo-details" class="application-note" hidden></p>
+                <p class="application-note">Image recognition runs on your device. Your completed request, portrait, and validation result are emailed to Boomer only when you send.</p>
+              </fieldset>
+              <fieldset class="kem-step application-step" data-step="4" data-title="Final authorization" hidden disabled>
+                <legend tabindex="-1">05. Sign where the paw would go.</legend>
+                <p class="application-intro">Please inspect the paperwork. The applicant has declined to proofread it.</p>
+                <dl id="kem-review" class="application-review"></dl>
+                <label class="choice"><input id="kem-final" type="checkbox" name="final_acknowledged" required /><span>I authorize sending these answers, the applicant’s portrait, and its validation result to Boomer. Release the feline report upon successful delivery.</span></label>
+                <p class="application-note">No waiting for approval. Once your paperwork is delivered, his report opens automatically.</p>
+              </fieldset>
+              <p id="kem-error" class="application-error" role="alert" hidden></p>
+              <p id="kem-status" class="live-status" role="status" aria-live="polite"></p>
+              <div class="step-actions"><button class="button secondary" type="button" id="kem-back" hidden>Back</button><button class="button primary" id="kem-next" type="submit">Continue</button></div>
+            </form>
+            <p class="kem-form-privacy">Completed submissions go to Boomer via FormSubmit, which retains them for 30 days. Unsubmitted answers stay in this tab.</p>
+          </section>
+          <aside class="card kem-dossier" aria-labelledby="kem-file-heading">
+            <div class="kem-file-mark" aria-hidden="true"><span>K</span><i>FELINE DIVISION</i></div>
+            <p class="eyebrow">APPLICANT ON FILE</p><h2 id="kem-file-heading">Kemberton</h2><p class="kem-alias">Also known as Kem</p>
+            <dl class="kem-facts"><div><dt>Occupation</dt><dd>Cat</dd></div><div><dt>Representation</dt><dd>Human-assisted</dd></div><div><dt>Report status</dt><dd>Paperwork pending</dd></div></dl>
+            <div class="kem-score-pending"><span>CONNECTION SCORE</span><strong aria-label="Score withheld pending paperwork">—</strong><p>Held behind a completely unnecessary process.</p></div>
+            <p class="fine-print">*Free in the monetary sense. Your patience is a separate matter.</p>
+          </aside>
+        </div>
+      </section>
+      <section id="kem-report" hidden aria-labelledby="kem-report-heading">
+        <div class="page-heading"><div><p class="eyebrow">BOOMERKARMA / FELINE DIVISION</p><h1 id="kem-report-heading" tabindex="-1">Kemberton’s official unofficial report</h1><p>All paperwork accounted for. All cat behavior subject to interpretation.</p></div><div class="report-date">Record updated<br /><time datetime={report.updatedAt}>{updated}</time></div></div>
+        <div class="promo-banner"><span class="promo-icon" aria-hidden="true">✓</span><div><strong>Report released. Applicant remains a cat.</strong><p>Your completed request and portrait have been sent to Boomer.</p></div><span class="free-tag">PAPERWORK COMPLETE</span></div>
+        <div class="kem-report-layout">
+          <section class="card kem-score-card" aria-labelledby="kem-score-title"><p class="eyebrow">KEMBERton / KEM</p><h2 id="kem-score-title">Feline connection score</h2><div class="kem-score-gauge"><svg viewBox="0 0 260 185" aria-hidden="true"><path class="gauge-track" d="M35 158a107 107 0 1 1 190 0"/><path class="gauge-arc" d="M35 158a107 107 0 1 1 190 0"/></svg><div><strong id="kem-score">{signed(score)}</strong><span>{report.status}</span></div></div><p class="kem-score-explanation">Points for presence. Deductions for teeth.</p><div class="kem-bureau-seal"><span>✓ BoomerUnion</span><span>✓ EquiBoom</span><span>✓ ExperiBoom</span></div><p class="fine-print">All three bureaus are still Boomer. Cat ownership has not changed the methodology.</p></section>
+          <section class="card activity kem-ledger" aria-labelledby="kem-ledger-heading"><div class="card-heading"><h2 id="kem-ledger-heading">What’s in his file</h2><span class="soft-label">{report.entries.length} recorded factors</span></div><ul class="ledger">{report.entries.map(entry => <li><span class:list={['points', {negative:entry.points < 0}]}>{signed(entry.points)}</span><div><h3>{entry.note}</h3><p>{entry.detail}</p></div></li>)}</ul><p class="fine-print">The score changes when Boomer updates the record. Requesting a report doesn’t add or remove points.</p></section>
+        </div>
+        <div class="kem-report-return"><a class="button secondary" href="/BoomerKarma/">Return to the human division</a><p>One bureau visit per species is perfectly reasonable.</p></div>
+      </section>
+      <section class="disclosures kem-disclosures" aria-labelledby="kem-disclosures-heading"><h2 id="kem-disclosures-heading">A few notes from the bureau</h2><details><summary>What does the portrait check actually verify?</summary><p>It looks for a likely cat. It cannot establish that the cat is Kemberton or prove an image’s origin. The paperwork is a joke, not identity verification.</p></details><details><summary>Does Kem need an account?</summary><p>No. His authorized human can complete the request independently. Boomer receives the completed paperwork, and the report opens after successful delivery.</p></details><details><summary>Is this a real credit report?</summary><p>No. This is a personal joke and a Credit Karma parody. No affiliation, financial information, or actual credit reporting. This page is publicly readable by anyone with its link.</p></details></section>
+    </main>
+    <footer><div><a class="footer-brand" href="/BoomerKarma/">BoomerKarma</a><p>Entirely vibes. Now accepting cats.</p></div><p>Feline Division · Bureau of Unnecessary Paperwork</p></footer>
+    <div class="honeypot" aria-hidden="true"><label for="karma-website">Leave this empty<input id="karma-website" name="_honey" type="text" tabindex="-1" autocomplete="off" /></label></div>
+    <script is:inline src={deliveryScript} defer></script>
+    <script>import '../../../scripts/kem-application.js';</script>
+  </body>
+</html>

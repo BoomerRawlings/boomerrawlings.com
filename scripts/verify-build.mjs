@@ -31,6 +31,7 @@ const unlistedContentPaths = new Set([
   join('deckle', 'index.html'),
   join('swc', 'index.html'),
   join('BoomerKarma', 'index.html'),
+  join('BoomerKarma', 'Kemberton', 'index.html'),
   join('cbs8', 'index.html'),
   join('cbs8', 'osint', 'index.html'),
   join('writing', 'data-analysis', 'sex-and-the-moon', 'index.html'),
@@ -44,9 +45,9 @@ const contentHtmlFiles = htmlFiles.filter(
 const unlistedHtmlFiles = htmlFiles.filter(
   (file) => unlistedContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 25 || unlistedHtmlFiles.length !== 7 || htmlFiles.length !== 38) {
+if (contentHtmlFiles.length !== 25 || unlistedHtmlFiles.length !== 8 || htmlFiles.length !== 39) {
   throw new Error(
-    `expected 25 public pages, 7 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 25 public pages, 8 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
@@ -504,7 +505,7 @@ if (!existsSync(decklePath)) {
   if (deckleHtml.includes('Open Deckle directly')) failures.push('deckle/index.html: confusing direct-link overlay must remain absent');
 }
 // Deckle owns its button inside the proxied app, not the legacy iframe wrapper.
-for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => file !== decklePath && file !== karmaPath && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html'))) {
+for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => file !== decklePath && file !== karmaPath && file !== join(output, 'BoomerKarma', 'Kemberton', 'index.html') && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html'))) {
   const html = readFileSync(file, 'utf8');
   const count = (html.match(/class="support-coffee"/g) ?? []).length;
   if (html.includes('class="analysis-research"')) {
@@ -530,7 +531,7 @@ for (const file of contentHtmlFiles) {
   if (/href=["'][^"']*\/deckle\/?(?:[?#][^"']*)?["']/i.test(html)) {
     failures.push(`${relative(output, file)}: public page links to the unlisted Deckle route`);
   }
-  if (/href=["'][^"']*\/BoomerKarma\/?(?:[?#][^"']*)?["']/i.test(html)) {
+  if (/href=["'][^"']*\/BoomerKarma(?:\/[^"']*)?["']/i.test(html)) {
     failures.push(`${label}: public page links to the unlisted BoomerKarma route`);
   }
 }

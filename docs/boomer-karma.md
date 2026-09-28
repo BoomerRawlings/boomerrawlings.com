@@ -24,4 +24,20 @@ Each email now has its own reference in the subject to keep separate submissions
 
 Local or preview hosts automatically mark emails **TEST ONLY**. On the live site, always use `/BoomerKarma/?test=1` for delivery tests; a visible test notice confirms the mode. Never test the live form through its ordinary visitor URL. Prefer the no-send automated checks (`node scripts/test-boomer-karma-delivery.mjs`) and send at most one clearly marked email when delivery itself needs verification. Archive that test under `BoomerKarma/Tests & setup` after checking it. Existing visitor mail is labeled `BoomerKarma/Submissions`; these are mailbox labels, not automatic filtering rules.
 
-This route is omitted from navigation and the sitemap with noindex metadata. It is publicly readable by anyone with the link, not access-controlled. No names or source screenshots are published. Only repository writers can update the record; no custom passwords or credentials are shipped.
+These routes are omitted from public navigation and the sitemap with noindex metadata. They are publicly readable by anyone with the link, not access-controlled. No source screenshots or personal account fields are published. Only repository writers can update the record; no custom passwords or credentials are shipped.
+
+## Kemberton's report
+
+`/BoomerKarma/Kemberton/` is linked from the human division and works independently. Its five-step process covers representation, applicant identification, a 12-word statement, portrait inspection, and final authorization. Successful delivery automatically reveals the report. `src/data/kem-karma.json` contains the four owner-supplied factors totaling **+6**; edit this file and its date to change the shared score. The cat report uses a separate session-only issued flag.
+
+Portrait recognition runs locally using the self-hosted COCO-SSD model in `public/models/kem-cat/`; model and dependencies load only when needed. A cat must reach 50% model confidence. This classifies cats, not their identity or authenticity. Uploads require original capture metadata within five minutes; malformed, stale, future or missing timestamps reject. `DateTimeOriginal` takes precedence, with UTC GPS capture time as fallback. Filesystem timestamps, modification dates and digitization dates never qualify. Original capture times without an offset assume the device's local timezone. EXIF can be edited: this is best-effort theatrical validation, not proof of when an image was created.
+
+The initial instructions imply a portrait sitting. Rejections explain the five-minute requirement. The live camera provides a fallback for missing metadata or unsupported photo formats; permission is requested only when the visitor opens it. Camera tracks stop after capture, navigation or backgrounding. Age is checked again after recognition and immediately before each send.
+
+The accepted photo is resized to at most 1280 pixels per side and re-encoded as JPEG to remove original metadata, including location. Only final submission sends the portrait, answers and validation summary. Inputs and images stay in memory; no visitor photo is placed in source or browser storage.
+
+**Attachment delivery uses FormSubmit's native multipart endpoint.** Its AJAX endpoint silently drops uploads even when it reports success. The helper follows the native endpoint's documented `_next` redirect to a unique receipt URL on the provider's CORS-enabled origin; it requires an exact matching redirect before issuing the report. HTTP 200 or a generic success page alone never counts. Text-only human requests and appeals retain their JSON endpoint. Unchanged retries preserve their reference, so ambiguous transport failures can be recognized as duplicates in the inbox.
+
+SMS authentication is deferred. There is no connected SMS provider and no phone number in this implementation.
+
+Run `npm test` for publication, metadata, attachment transport and asynchronous camera/form lifecycle checks. Browser QA additionally verifies real cat/non-cat inference and actual JPEG delivery; new live tests must use `?test=1` and be archived separately afterward.

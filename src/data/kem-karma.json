@@ -1,0 +1,11 @@
+{
+  "openingBalance": 0,
+  "updatedAt": "2026-09-28",
+  "status": "Provisionally distinguished",
+  "entries": [
+    {"points": 2, "note": "Lazy posture on sofa", "detail": "Exemplary commitment to horizontal living."},
+    {"points": 2, "note": "Bow tie", "detail": "Formalwear recognized by the bureau."},
+    {"points": 4, "note": "Sweater picture", "detail": "Outstanding contributions to knitwear."},
+    {"points": -2, "note": "Reported biting", "detail": "A small adjustment for teeth-based communication."}
+  ]
+}
