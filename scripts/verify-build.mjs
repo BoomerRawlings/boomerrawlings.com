@@ -119,6 +119,10 @@ if (!existsSync(boomerKarmaPath)) {
       failures.push(`BoomerKarma/index.html: report detail is missing: ${reportDetail}`);
     }
   }
+  if (!boomerKarmaHtml.includes('src="/scripts/boomer-karma.js"')
+    || !existsSync(join(output, 'scripts', 'boomer-karma.js'))) {
+    failures.push('BoomerKarma/index.html: report refresh script is missing');
+  }
 }
 const swcPath = join(output, 'swc', 'index.html');
 if (!existsSync(swcPath)) {

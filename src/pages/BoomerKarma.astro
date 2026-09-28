@@ -132,19 +132,9 @@ const description = 'A playful, unverified connection score from the Bureau of B
         <p>Zero action required. Please continue being yourself.</p>
       </footer>
     </main>
+    <script is:inline type="module" src="/scripts/boomer-karma.js"></script>
   </body>
 </html>
-
-<script>
-  const refreshButton = document.querySelector<HTMLButtonElement>('#refresh-report');
-  const refreshMessage = document.querySelector<HTMLElement>('#refresh-message');
-
-  refreshButton?.addEventListener('click', () => {
-    if (refreshMessage) {
-      refreshMessage.textContent = 'Report pulled. Still pushing twenty. The bureau declines to explain the math.';
-    }
-  });
-</script>
 
 <style is:global>
   :root {
