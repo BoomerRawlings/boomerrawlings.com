@@ -31,6 +31,7 @@ const unlistedContentPaths = new Set([
   join('swc', 'index.html'),
   join('cbs8', 'index.html'),
   join('cbs8', 'osint', 'index.html'),
+  join('BoomerKarma', 'index.html'),
   join('writing', 'data-analysis', 'sex-and-the-moon', 'index.html'),
 ]);
 const contentHtmlFiles = htmlFiles.filter(
@@ -42,9 +43,9 @@ const contentHtmlFiles = htmlFiles.filter(
 const unlistedHtmlFiles = htmlFiles.filter(
   (file) => unlistedContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 25 || unlistedHtmlFiles.length !== 6 || htmlFiles.length !== 37) {
+if (contentHtmlFiles.length !== 25 || unlistedHtmlFiles.length !== 7 || htmlFiles.length !== 38) {
   throw new Error(
-    `expected 25 public pages, 6 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 25 public pages, 7 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
@@ -101,6 +102,22 @@ if (!existsSync(aristotterPath)) {
   if (!aristotterHtml.includes('<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">')
     || !aristotterHtml.includes('<meta name="referrer" content="no-referrer">')) {
     failures.push('aristotter/index.html: private-link metadata is incomplete');
+  }
+}
+const boomerKarmaPath = join(output, 'BoomerKarma', 'index.html');
+if (!existsSync(boomerKarmaPath)) {
+  failures.push('BoomerKarma/index.html: unlisted connection report is missing');
+} else {
+  const boomerKarmaHtml = readFileSync(boomerKarmaPath, 'utf8');
+  const boomerKarmaText = boomerKarmaHtml.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
+  if (!boomerKarmaHtml.includes('<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">')
+    || !boomerKarmaHtml.includes('<meta name="referrer" content="no-referrer">')) {
+    failures.push('BoomerKarma/index.html: unlisted-page metadata is incomplete');
+  }
+  for (const reportDetail of ['Emily-Anne', '20', 'ish', '+2', 'Completely unverified', 'not independent']) {
+    if (!boomerKarmaText.toLowerCase().includes(reportDetail.toLowerCase())) {
+      failures.push(`BoomerKarma/index.html: report detail is missing: ${reportDetail}`);
+    }
   }
 }
 const swcPath = join(output, 'swc', 'index.html');
@@ -439,7 +456,7 @@ if (!existsSync(decklePath)) {
   if (deckleHtml.includes('Open Deckle directly')) failures.push('deckle/index.html: confusing direct-link overlay must remain absent');
 }
 // Deckle owns its button inside the proxied app, not the legacy iframe wrapper.
-for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => file !== decklePath && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html'))) {
+for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => file !== decklePath && file !== boomerKarmaPath && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html'))) {
   const html = readFileSync(file, 'utf8');
   const count = (html.match(/class="support-coffee"/g) ?? []).length;
   if (html.includes('class="analysis-research"')) {

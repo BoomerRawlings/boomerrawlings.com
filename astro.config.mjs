@@ -26,6 +26,7 @@ export default defineConfig({
       filter: (page) =>
         page !== 'https://boomerrawlings.com/photography/' &&
         page !== 'https://boomerrawlings.com/aristotter/' &&
+        page !== 'https://boomerrawlings.com/BoomerKarma/' &&
         page !== 'https://boomerrawlings.com/deckle/' &&
         page !== 'https://boomerrawlings.com/swc/' &&
         page !== 'https://boomerrawlings.com/writing/data-analysis/sex-and-the-moon/' &&
