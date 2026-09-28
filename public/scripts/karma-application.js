@@ -118,25 +118,24 @@
   }
 
   function completedPaperwork() {
-    const checkboxAnswers = Array.from(form.querySelectorAll('input[type="checkbox"]')).map((field) => {
-      const declaration = field.closest('label').textContent.trim().replace(/\s+/gu, ' ');
-      return `${field.checked ? '[Checked]' : '[Not checked]'} ${declaration}`;
-    });
-    return [
-      'BOOMERKARMA — COMPLETED REPORT REQUEST',
-      'Nine departments. Three bureaus. One Boomer.',
-      '',
-      `Official capacity: ${form.elements.namedItem('capacity').value}`,
-      `Purpose: ${form.elements.namedItem('purpose').value}`,
-      '',
-      'Supporting statement:',
-      statement.value,
-      '',
-      `Notarized phrase: ${notarization.value}`,
-      '',
-      'All bureau selections, library selections, and checkbox declarations:',
-      ...checkboxAnswers,
-    ].join('\n');
+    const checkboxes = Array.from(form.querySelectorAll('input[type="checkbox"]'));
+    const answer = (field) => {
+      // Earlier steps are hidden, so normalize line breaks without relying on layout.
+      const label = field.closest('label').cloneNode(true);
+      label.querySelectorAll('br').forEach((lineBreak) => lineBreak.replaceWith(' '));
+      const declaration = label.textContent.trim().replace(/\s+/gu, ' ');
+      return `${field.checked ? 'Yes' : 'No'} — ${declaration}`;
+    };
+    return {
+      'Submitted message': statement.value,
+      'Purpose': form.elements.namedItem('purpose').value,
+      'Capacity': form.elements.namedItem('capacity').value,
+      'Current score': `${document.querySelector('#karma-score').textContent.trim()} points`,
+      'Bureaus selected': checkboxes.filter((field) => field.name === 'bureau' && field.checked).map((field) => field.value).join(', '),
+      'Library selections': checkboxes.filter((field) => field.name === 'library').map(answer).join('\n'),
+      'Notarized phrase': notarization.value,
+      'Declarations': checkboxes.filter((field) => field.name !== 'bureau' && field.name !== 'library').map(answer).join('\n'),
+    };
   }
 
   try {

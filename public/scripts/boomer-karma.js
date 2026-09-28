@@ -47,7 +47,17 @@ form.addEventListener('submit', async (event) => {
   sendStatus.textContent = 'Sending your appeal to Boomer…';
   form.setAttribute('aria-busy', 'true');
   try {
-    await window.BoomerKarmaDelivery.send('appeal', receipt.value);
+    if (!window.BoomerKarmaDelivery?.send) throw new Error('Delivery unavailable');
+    const acknowledgment = form.querySelector('input[type="checkbox"]');
+    const acknowledgmentText = acknowledgment.closest('label').innerText.trim().replace(/\s+/gu, ' ');
+    const delivered = await window.BoomerKarmaDelivery.send('appeal', {
+      'Submitted message': statement.value,
+      'Points requested': `+${points}`,
+      'Current score': `${document.querySelector('#karma-score').textContent.trim()} points`,
+      'Reason': document.querySelector('#appeal-reason').value,
+      'Acknowledgment': `${acknowledgment.checked ? 'Yes' : 'No'} — ${acknowledgmentText}`,
+    });
+    if (delivered !== true) throw new Error('Delivery not confirmed');
     form.hidden = true;
     result.hidden = false;
     copyStatus.textContent = '';
@@ -92,7 +102,9 @@ checkButton.addEventListener('click', async () => {
   checkButton.disabled = true;
   checkStatus.textContent = 'Consulting all three bureaus…';
   try {
-    const response = await fetch(`/BoomerKarma/?check=${Date.now()}`, {cache:'no-store', signal:AbortSignal.timeout(10000)});
+    const refreshQuery = new URLSearchParams({check: String(Date.now())});
+    if (new URLSearchParams(location.search).get('test') === '1') refreshQuery.set('test', '1');
+    const response = await fetch(`/BoomerKarma/?${refreshQuery}`, {cache:'no-store', signal:AbortSignal.timeout(10000)});
     if (!response.ok) throw new Error('Report unavailable');
     const fresh = new DOMParser().parseFromString(await response.text(), 'text/html');
     const freshScore = fresh.querySelector('#karma-score')?.textContent;

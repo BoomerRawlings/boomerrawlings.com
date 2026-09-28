@@ -18,4 +18,10 @@ The visitor's update button fetches the current published report. Appeals also e
 
 Delivery: `public/scripts/boomer-karma-delivery.js` uses a verified public FormSubmit address (not a secret). CSP permits only that additional connection origin. The recipient was activated and a test email verified in the connected owner inbox. No server, account sign-in, DNS changes, Netlify deployment, or Cloudflare Worker is required. The Netlify Forms setting explored during setup was restored to its original disabled state.
 
+## Submission emails and tests
+
+Each email now has its own reference in the subject to keep separate submissions out of one Gmail conversation. The body puts the submitted message near the top, followed by Pacific time, reference, action needed, and separately labeled answers. Every checkbox answer is retained below the main message. A retry with unchanged answers retains its reference; a new completed submission receives a new one. The form does not verify the visitor's identity.
+
+Local or preview hosts automatically mark emails **TEST ONLY**. On the live site, always use `/BoomerKarma/?test=1` for delivery tests; a visible test notice confirms the mode. Never test the live form through its ordinary visitor URL. Prefer the no-send automated checks (`node scripts/test-boomer-karma-delivery.mjs`) and send at most one clearly marked email when delivery itself needs verification. Archive that test under `BoomerKarma/Tests & setup` after checking it. Existing visitor mail is labeled `BoomerKarma/Submissions`; these are mailbox labels, not automatic filtering rules.
+
 This route is omitted from navigation and the sitemap with noindex metadata. It is publicly readable by anyone with the link, not access-controlled. No names or source screenshots are published. Only repository writers can update the record; no custom passwords or credentials are shipped.

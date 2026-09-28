@@ -2,7 +2,7 @@
 
 ## Boomer Karma — 2026-09-28
 
-- Mode: new task. Objective: publish `/BoomerKarma/` as Credit Karma-inspired friendship-score parody with deliberately laborious report requests. Status: complete; published as `f5967d0`, Pages run `36476932880` succeeded.
+- Mode: continuation. Objective: clarify submission emails and separate development tests from visitor activity. Status: implementation and verification in progress. Original page published as `f5967d0`, Pages run `36476932880` succeeded.
 - Latest scope: nine-step report application, three bureau gauges, owner-supplied six-entry ledger totaling 20, appeals; completed applications and appeals automatically email the owner. No approval/account required for visitors.
 - Static GitHub Pages architecture retained. Data in `src/data/boomer-karma.json`; public score is sum of entries. Unlisted/noindex with no public navigation or sitemap link. No screenshots or identifying account fields published.
 - FormSubmit public endpoint activated through connected owner inbox; real test delivery verified. Helper awaits explicit success; failures preserve inputs. Report access flag uses sessionStorage, never answers. Submitted data retained by provider for 30 days, disclosed in page. No new runtime, DNS or hosting changes.
@@ -10,7 +10,9 @@
 - Full site suite passes after integrating upstream's original report without duplicate routes; prior commits retained. Independent review passed after text-contrast and status-refresh fixes; nine-step validation and asynchronous failure/retry/double-click harnesses pass.
 - Browser checks: complete nine-step application, report unlock, appeal submission, refresh persistence and score refresh pass. Desktop1280 and phone390/320 inspected without horizontal overflow. Production console has no errors/warnings.
 - Live verification: exact-case route returns200; all three scripts match local source; noindex and sitemap exclusion retained. Completed live-browser application and appeal reached Inbox automatically; report email preserves every answer and checkbox state. Local-origin test messages alone were classified as spam.
-- Next: no required work remains. Future score changes use the JSON ledger and normal publication. Existing unrelated state preserved below.
+- Email cleanup: known setup/test messages labeled separately and archived; visitor submissions retained in Inbox with a submissions label. No message content or identifiers stored here. New formatting will put the submitted message near the top, use readable fields and Pacific timestamps, and separate subjects with request references. All local tests and explicit live test mode will be labeled TEST ONLY.
+- Verification: full site suite passes. No-send caller checks verify every field and declaration, confirmed-success handling and failure preservation. Delivery regression tests cover visitor/test subjects, unique references, unchanged retry references, duplicates, Pacific timestamps and navigation test-mode preservation.
+- Next: publish, confirm one clearly marked test email and archive it. Future score changes use the JSON ledger and normal publication. Existing unrelated state preserved below.
 - Limit: paperwork is comedy, not access control; anyone with the link can view the report.
 ## Lunar report plain-language revision — 2026-09-28
 
