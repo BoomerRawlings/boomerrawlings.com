@@ -2,11 +2,11 @@
 
 ## Lunar report plain-language revision — 2026-09-28
 
-- Mode: continuation. User requests approachable explanations, exact meaning of1.58%, Full/New comparison, prominent weekday controls and descriptive source scope. Status: implementation and checks complete; release pending.
+- Mode: continuation. User requests approachable explanations, exact meaning of1.58%, Full/New comparison, prominent weekday controls and descriptive source scope. Status: complete; released as `846199e`, Pages run `36437853350` succeeded.
 - Changes: explanatory hero, hypothetical10→10.16 entries per100 date-associated recording users, fitted curve versus actual days, separate phase-pair comparison, area-specific weekday-control panel. All21 model descriptions simplified. Exact statistics moved into expandable detail; chart relabels unchanged index values as percent from model reference, never an observed average.
 - Scientific values, dates, source IDs, PDF and CSV outputs unchanged; independent numeric-field equality checked. Page remains unlisted/noindex. No new email requested.
 - Verified: full site suite passes; final build/535 publication checks pass. Independent review checks21 model choices,105 percent readings,315 chart coordinates and unchanged scientific payload/PDF. Desktop/mobile320/390 visuals, sources, keyboard and repeated hero-link reopening pass; no page overflow, console errors or failed requests. Detailed audit in sibling `sex_lunar_analysis/publication/PLAIN_LANGUAGE_QA.md`.
-- Next: one verified production push, live comparison and state completion.
+- Live verification: page contains the revised embedded descriptions, all eight downloads match local bytes, five bundles load, noindex and listing/sitemap exclusions retained. No additional email sent. No required revision work remains.
 
 ## Lunar study publication — 2026-09-28
 
