@@ -1,3 +1,7 @@
+---
+interface Props { scriptSrc: string }
+const {scriptSrc} = Astro.props;
+---
 <dialog id="application-dialog" class="application-dialog" aria-labelledby="application-title" aria-describedby="application-privacy">
   <div class="dialog-header">
     <p class="eyebrow">Department of unnecessary paperwork</p>
@@ -129,4 +133,4 @@
     </div>
   </form>
 </dialog>
-<script is:inline src="/scripts/karma-application.js" defer></script>
+<script is:inline src={scriptSrc} defer></script>

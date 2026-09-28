@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { extname, join, relative } from 'node:path';
+import { createHash } from 'node:crypto';
 
 const output = 'dist';
 if (!existsSync(output)) throw new Error('dist/ does not exist; run the build first');
@@ -90,7 +91,9 @@ if (!existsSync(karmaPath)) {
     failures.push('BoomerKarma: unlisted page metadata is incomplete');
   }
   for (const script of ['boomer-karma-delivery.js', 'karma-application.js', 'boomer-karma.js']) {
-    if (!karmaHtml.includes(`src="/scripts/${script}"`) || !existsSync(join(output, 'scripts', script))) {
+    const scriptPath = join(output, 'scripts', script);
+    const revision = existsSync(scriptPath) ? createHash('sha256').update(readFileSync(scriptPath)).digest('hex').slice(0, 12) : '';
+    if (!revision || !karmaHtml.includes(`src="/scripts/${script}?v=${revision}"`)) {
       failures.push(`BoomerKarma: required interaction script ${script} is missing`);
     }
   }
@@ -102,7 +105,7 @@ if (!existsSync(karmaPath)) {
     || applicationSteps.join(',') !== '0,1,2,3,4,5,6,7,8') {
     failures.push('BoomerKarma: new visits must show the gate and all nine application steps before revealing the report');
   }
-  if (karmaHtml.indexOf('src="/scripts/boomer-karma-delivery.js"') > karmaHtml.indexOf('src="/scripts/karma-application.js"')
+  if (karmaHtml.indexOf('src="/scripts/boomer-karma-delivery.js?') > karmaHtml.indexOf('src="/scripts/karma-application.js?')
     || !karmaHtml.includes("connect-src 'self' https://formsubmit.co")
     || /Nothing is sent or saved|No application is sent anywhere|Your answers stay in this tab and are not sent/i.test(karmaHtml)) {
     failures.push('BoomerKarma: delivery dependency, content policy or submission disclosure is inconsistent');

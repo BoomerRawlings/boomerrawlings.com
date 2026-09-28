@@ -12,7 +12,8 @@
 - Live verification: exact-case route returns200; all three scripts match local source; noindex and sitemap exclusion retained. Completed live-browser application and appeal reached Inbox automatically; report email preserves every answer and checkbox state. Local-origin test messages alone were classified as spam.
 - Email cleanup: known setup/test messages labeled separately and archived; visitor submissions retained in Inbox with a submissions label. No message content or identifiers stored here. New formatting will put the submitted message near the top, use readable fields and Pacific timestamps, and separate subjects with request references. All local tests and explicit live test mode will be labeled TEST ONLY.
 - Verification: full site suite passes. No-send caller checks verify every field and declaration, confirmed-success handling and failure preservation. Delivery regression tests cover visitor/test subjects, unique references, unchanged retry references, duplicates, Pacific timestamps and navigation test-mode preservation.
-- Next: publish, confirm one clearly marked test email and archive it. Future score changes use the JSON ledger and normal publication. Existing unrelated state preserved below.
+- Formatting published as `eb8a0c8`; Pages run `36479241576` passed. Live check found browser caching could retain old scripts; content-hash URL versions now invalidate each changed script, with build checks enforcing matching hashes. No new email sent during that check.
+- Next: publish cache correction, confirm one clearly marked test email and archive it. Future score changes use the JSON ledger and normal publication. Existing unrelated state preserved below.
 - Limit: paperwork is comedy, not access control; anyone with the link can view the report.
 ## Lunar report plain-language revision — 2026-09-28
 
