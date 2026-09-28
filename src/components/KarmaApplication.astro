@@ -99,6 +99,7 @@ const {scriptSrc} = Astro.props;
         <label class="choice"><input type="checkbox" name="redundant-duplicate" required /><span>I understand that this page could have been an email, and that the email could have been nothing.</span></label>
       </div>
       <p class="application-note">Form BK-07B · Supplement to the supplement · One copy, emotionally in triplicate.</p>
+      <div id="application-supplements" class="bureau-supplements" hidden></div>
     </fieldset>
 
     <fieldset class="application-step" data-step="7" data-title="Review your paperwork" hidden disabled>
@@ -111,6 +112,7 @@ const {scriptSrc} = Astro.props;
         <dt>Your supporting statement</dt><dd id="review-justification"></dd>
         <dt>Scientific credentials</dt><dd>Successfully identified three books.</dd>
         <dt>Notarized finding</dt><dd>This is all vibes.</dd>
+        <dt id="review-supplements-label" hidden>Additional paperwork</dt><dd id="review-supplements" hidden></dd>
       </dl>
       <label class="choice"><input type="checkbox" name="reviewed" required /><span>I have reviewed this summary and am prepared to request permission to proceed.</span></label>
     </fieldset>

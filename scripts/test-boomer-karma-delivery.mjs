@@ -5,11 +5,11 @@ import {randomUUID} from 'node:crypto';
 import {test} from 'node:test';
 
 const source = readFileSync(new URL('../public/scripts/boomer-karma-delivery.js', import.meta.url), 'utf8');
-function client(hostname = 'boomerrawlings.com', search = '') {
+function client(hostname = 'boomerrawlings.com', search = '', bureau) {
   const calls = [];
   const notices = [];
   const homeLink = {href: '/BoomerKarma/', getAttribute(name) { return this[name]; }, setAttribute(name, value) { this[name] = value; }};
-  const window = {};
+  const window = {BoomerKarmaBureau: bureau};
   let respond = async () => ({ok: true, json: async () => ({success: 'true'})});
   runInNewContext(source, {
     window, location: {hostname, search}, URLSearchParams, Intl, Date, AbortSignal, Blob, File, FormData,
@@ -114,4 +114,29 @@ test('cat delivery requires its exact success redirect, not a 200 error page or 
   assert.equal(new Set(app.calls.map(call => call.body.Reference)).size, 1);
   app.respond(async call => ({ok: true, redirected: true, url: call.body._next}));
   assert.equal(await app.send('cat-report', answers, {attachment}), true);
+});
+
+test('bureau petitions preserve retry context and only count confirmed deliveries', async () => {
+  const events = [];
+  let note = 'Two suspiciously enthusiastic simulations. Local joke signals only.';
+  const bureau = {describe: () => note, snapshot: () => ({counts: {petitions: 2}}), record: (...args) => events.push(args)};
+  const app = client('boomerrawlings.com', '', bureau);
+  const petition = {...answers, Division: 'Feline division'};
+  app.respond(async () => ({ok: true, json: async () => ({success: false})}));
+  await assert.rejects(app.send('bureau-petition', petition));
+  assert.equal(events.length, 0);
+  assert.match(app.calls[0].body['Bureau context'], /Feline petition #3/);
+  note = 'An unrelated browser action happened while the request was pending.';
+  app.respond(async () => ({ok: true, json: async () => ({success: true})}));
+  assert.equal(await app.send('bureau-petition', petition), true);
+  assert.equal(app.calls[1].body['Bureau context'], app.calls[0].body['Bureau context']);
+  assert.equal(app.calls[1].body.Reference, app.calls[0].body.Reference);
+  assert.deepEqual(events, [['petition', 'feline']]);
+  assert.match(app.calls[1].body._subject, /Bureau paperwork petition/);
+  assert.match(app.calls[1].body['Action needed'], /No score or policy changes/);
+});
+
+test('optional bureau recording failure cannot invalidate a delivered request', async () => {
+  const app = client('boomerrawlings.com', '', {describe: () => '', snapshot: () => ({}), record: () => {throw Error('unavailable');}});
+  assert.equal(await app.send('report', answers), true);
 });

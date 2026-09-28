@@ -24,6 +24,48 @@ let cameraOpening = false;
 let generation = 0;
 let processing = false;
 let sending = false;
+let supplementalRequirements = [];
+const supplements = document.createElement('div');
+supplements.id = 'kem-supplements';
+supplements.className = 'bureau-supplements';
+supplements.hidden = true;
+steps[2].append(supplements);
+
+function supplementalAnswers() {
+  return supplementalRequirements.map(item => {
+    const select = supplements.querySelector(`[name="supplement-${item.id}"]`);
+    const checkbox = supplements.querySelector(`[name="supplement-${item.id}-confirmed"]`);
+    return `${item.title}\n${item.prompt}: ${select.value}\n${checkbox.checked ? 'Yes' : 'No'} — ${item.attestation}`;
+  }).join('\n\n');
+}
+function refreshSupplements() {
+  if (!window.BoomerKarmaBureau) return false;
+  window.BoomerKarmaBureau.inspect(document.querySelector('#kem-statement').value, 0, 'feline');
+  const required = window.BoomerKarmaBureau.requirements('feline');
+  if (required.map(item => item.id).join('|') === supplementalRequirements.map(item => item.id).join('|')) return false;
+  supplementalRequirements = required;
+  supplements.replaceChildren();
+  supplements.hidden = required.length === 0;
+  for (const item of required) {
+    const section = document.createElement('section'); section.className = 'bureau-supplement';
+    const heading = document.createElement('h3'); heading.textContent = item.title;
+    const label = document.createElement('label'); label.textContent = item.prompt;
+    const select = document.createElement('select');
+    select.id = `feline-supplement-${item.id}`; select.name = `supplement-${item.id}`; select.required = true;
+    label.htmlFor = select.id;
+    const placeholder = document.createElement('option'); placeholder.value = ''; placeholder.textContent = 'Select an administratively acceptable explanation';
+    select.append(placeholder);
+    for (const answer of item.options) {
+      const option = document.createElement('option'); option.value = answer; option.textContent = answer; select.append(option);
+    }
+    const declaration = document.createElement('label'); declaration.className = 'choice';
+    const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.name = `supplement-${item.id}-confirmed`; checkbox.required = true;
+    const wording = document.createElement('span'); wording.textContent = item.attestation;
+    declaration.append(checkbox, wording); section.append(heading, label, select, declaration); supplements.append(section);
+  }
+  document.querySelector('#kem-final').checked = false;
+  return required.length > 0;
+}
 
 function setError(message = '') {
   error.textContent = message;
@@ -49,7 +91,7 @@ function showStep(index) {
   if (step === 4) {
     const review = document.querySelector('#kem-review');
     review.replaceChildren();
-    for (const [label, value] of Object.entries({Applicant: 'Kem / Kemberton', Purpose: document.querySelector('#kem-purpose').value, Statement: document.querySelector('#kem-statement').value, Portrait: photo ? 'Cat detected. Bureau portrait accepted.' : 'Portrait required.'})) {
+    for (const [label, value] of Object.entries({Applicant: 'Kem / Kemberton', Purpose: document.querySelector('#kem-purpose').value, Statement: document.querySelector('#kem-statement').value, ...(supplementalRequirements.length ? {'Additional paperwork': supplementalAnswers()} : {}), Portrait: photo ? 'Cat detected. Bureau portrait accepted.' : 'Portrait required.'})) {
       const term = document.createElement('dt'); term.textContent = label;
       const description = document.createElement('dd'); description.textContent = value;
       review.append(term, description);
@@ -220,6 +262,25 @@ function revealReport() {
   document.querySelector('#kem-report').hidden = false;
 }
 try { if (sessionStorage.getItem(storageKey) === 'true') revealReport(); } catch { /* Optional convenience, never stores a photo. */ }
+document.querySelector('#kem-request-again')?.addEventListener('click', () => {
+  if (processing || sending) return;
+  ++generation; stopCamera(); clearPortrait(); form.reset();
+  supplementalRequirements = []; supplements.replaceChildren(); supplements.hidden = true;
+  photoStatus.textContent = ''; status.textContent = '';
+  document.querySelector('#kem-report').hidden = true;
+  document.querySelector('#kem-gate').hidden = false;
+  const returnToIssued = document.querySelector('#kem-return-issued');
+  if (returnToIssued) returnToIssued.hidden = false;
+  showStep(0);
+});
+document.querySelector('#kem-return-issued')?.addEventListener('click', () => {
+  if (sending) return;
+  const interrupted = processing;
+  ++generation; stopCamera(); processing = false;
+  if (interrupted) { clearPortrait(); input.value = ''; }
+  updateButtons(); revealReport();
+  document.querySelector('#kem-report-heading').focus();
+});
 back.addEventListener('click', () => { if (!processing && !sending && step > 0) showStep(step - 1); });
 form.addEventListener('input', () => {
   setError();
@@ -227,7 +288,15 @@ form.addEventListener('input', () => {
 });
 form.addEventListener('submit', async event => {
   event.preventDefault();
-  if (processing || sending || !validateStep()) return;
+  if (processing || sending) return;
+  // Assign any extra desk work before the portrait is taken, so bureaucracy
+  // does not consume the applicant's five-minute photo window.
+  if (step === 2 && refreshSupplements()) {
+    setError('Your file has acquired an additional department. Complete the supplemental declarations below, then continue.');
+    supplements.querySelector('select')?.focus();
+    return;
+  }
+  if (!validateStep()) return;
   if (step < steps.length - 1) { showStep(step + 1); return; }
   try {
     if (!photo) throw new Error('The portrait needs inspection before the request can be sent.');
@@ -236,7 +305,7 @@ form.addEventListener('submit', async event => {
     clearPortrait(); showStep(3); photoStatus.textContent = cause.message; setError(cause.message); return;
   }
   photo.firstSubmissionAge ??= Math.floor((Date.now() - photo.capturedAt) / 1000);
-  const declarations = [...form.querySelectorAll('input[type="checkbox"]')].map(field => `${field.checked ? 'Yes' : 'No'} — ${field.closest('label').textContent.trim().replace(/\s+/gu, ' ')}`).join('\n');
+  const declarations = [...form.querySelectorAll('input[type="checkbox"]')].filter(field => !field.name?.startsWith('supplement-')).map(field => `${field.checked ? 'Yes' : 'No'} — ${field.closest('label').textContent.trim().replace(/\s+/gu, ' ')}`).join('\n');
   const answers = {
     'Submitted message': document.querySelector('#kem-statement').value,
     'Applicant': 'Kem / Kemberton',
@@ -249,6 +318,7 @@ form.addEventListener('submit', async event => {
     'Timestamp source': photo.source,
     'Photo age at first send': `${photo.firstSubmissionAge} seconds (five-minute check passed; rechecked on every retry)`,
     'Declarations': declarations,
+    ...(supplementalRequirements.length ? {'Additional paperwork': supplementalAnswers()} : {}),
   };
   sending = true; updateButtons(); status.textContent = 'Sending the applicant’s file and portrait to Boomer…';
   try {

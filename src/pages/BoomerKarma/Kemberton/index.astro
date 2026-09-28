@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import '@fontsource/source-sans-3/latin-400.css';
 import '@fontsource/source-sans-3/latin-600.css';
 import report from '../../../data/kem-karma.json';
+import KarmaBureau from '../../../components/KarmaBureau.astro';
 import '../../../styles/boomer-karma.css';
 import '../../../styles/kem-karma.css';
 
@@ -17,7 +18,8 @@ const score = report.openingBalance + report.entries.reduce((sum, entry) => sum 
 if (!Number.isSafeInteger(score)) throw new Error('BoomerKarma: feline total must be a safe integer.');
 const updated = new Intl.DateTimeFormat('en-US', {month:'short', day:'numeric', year:'numeric', timeZone:'UTC'}).format(new Date(`${report.updatedAt}T12:00:00Z`));
 const signed = (value: number) => `${value > 0 ? '+' : ''}${value}`;
-const deliveryScript = `/scripts/boomer-karma-delivery.js?v=${createHash('sha256').update(readFileSync('public/scripts/boomer-karma-delivery.js')).digest('hex').slice(0, 12)}`;
+const scriptUrl = (name: string) => `/scripts/${name}?v=${createHash('sha256').update(readFileSync(`public/scripts/${name}`)).digest('hex').slice(0, 12)}`;
+const deliveryScript = scriptUrl('boomer-karma-delivery.js');
 ---
 <!doctype html>
 <html lang="en">
@@ -31,6 +33,7 @@ const deliveryScript = `/scripts/boomer-karma-delivery.js?v=${createHash('sha256
     <meta name="theme-color" content="#008600" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href="https://boomerrawlings.com/BoomerKarma/Kemberton/" />
+    <script is:inline src={scriptUrl('boomer-karma-bureau.js')} defer></script>
     <title>Kemberton · BoomerKarma Feline Division</title>
   </head>
   <body class="kem-page">
@@ -53,6 +56,7 @@ const deliveryScript = `/scripts/boomer-karma-delivery.js?v=${createHash('sha256
           <div><p class="eyebrow">BOOMERKARMA / FELINE DIVISION</p><h1 id="kem-application-heading">Good vibes. Questionable bite history.</h1><p>Kemberton has a file. Naturally, you’ll need a file to request his file.</p></div>
           <span class="member-tag">Authorized humans welcome</span>
         </div>
+        <button id="kem-return-issued" class="button secondary" type="button" hidden>Return to issued report</button>
         <div class="kem-layout">
           <section class="card kem-paperwork" aria-labelledby="kem-paperwork-heading">
             <div class="kem-form-heading"><div><p class="eyebrow">FORM BK-CAT-01</p><h2 id="kem-paperwork-heading">Request a feline report</h2></div><span class="kem-free">FREE*</span></div>
@@ -144,8 +148,9 @@ const deliveryScript = `/scripts/boomer-karma-delivery.js?v=${createHash('sha256
           <section class="card kem-score-card" aria-labelledby="kem-score-title"><p class="eyebrow">KEMBERton / KEM</p><h2 id="kem-score-title">Feline connection score</h2><div class="kem-score-gauge"><svg viewBox="0 0 260 185" aria-hidden="true"><path class="gauge-track" d="M35 158a107 107 0 1 1 190 0"/><path class="gauge-arc" d="M35 158a107 107 0 1 1 190 0"/></svg><div><strong id="kem-score">{signed(score)}</strong><span>{report.status}</span></div></div><p class="kem-score-explanation">Points for presence. Deductions for teeth.</p><div class="kem-bureau-seal"><span>✓ BoomerUnion</span><span>✓ EquiBoom</span><span>✓ ExperiBoom</span></div><p class="fine-print">All three bureaus are still Boomer. Cat ownership has not changed the methodology.</p></section>
           <section class="card activity kem-ledger" aria-labelledby="kem-ledger-heading"><div class="card-heading"><h2 id="kem-ledger-heading">What’s in his file</h2><span class="soft-label">{report.entries.length} recorded factors</span></div><ul class="ledger">{report.entries.map(entry => <li><span class:list={['points', {negative:entry.points < 0}]}>{signed(entry.points)}</span><div><h3>{entry.note}</h3><p>{entry.detail}</p></div></li>)}</ul><p class="fine-print">The score changes when Boomer updates the record. Requesting a report doesn’t add or remove points.</p></section>
         </div>
-        <div class="kem-report-return"><a class="button secondary" href="/BoomerKarma/">Return to the human division</a><p>One bureau visit per species is perfectly reasonable.</p></div>
+        <div class="kem-report-return"><button id="kem-request-again" class="button primary" type="button">Request another copy. Naturally.</button><a class="button secondary" href="/BoomerKarma/">Return to the human division</a><p>One bureau visit per species is perfectly reasonable.</p></div>
       </section>
+      <KarmaBureau division="feline" score={score} scriptSrc={scriptUrl('karma-bureau-desk.js')} />
       <section class="disclosures kem-disclosures" aria-labelledby="kem-disclosures-heading"><h2 id="kem-disclosures-heading">A few notes from the bureau</h2><details><summary>What does the portrait check actually verify?</summary><p>It looks for a likely cat. It cannot establish that the cat is Kemberton or prove an image’s origin. The paperwork is a joke, not identity verification.</p></details><details><summary>Does Kem need an account?</summary><p>No. His authorized human can complete the request independently. Boomer receives the completed paperwork, and the report opens after successful delivery.</p></details><details><summary>Is this a real credit report?</summary><p>No. This is a personal joke and a Credit Karma parody. No affiliation, financial information, or actual credit reporting. This page is publicly readable by anyone with its link.</p></details></section>
     </main>
     <footer><div><a class="footer-brand" href="/BoomerKarma/">BoomerKarma</a><p>Entirely vibes. Now accepting cats.</p></div><p>Feline Division · Bureau of Unnecessary Paperwork</p></footer>

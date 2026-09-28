@@ -80,7 +80,9 @@ check('new visitors see the application; report stays hidden until delivery', ()
 
 check('cat application loads the current email helper and local application bundle', () => {
   const scripts = nodes(catDocument).filter(node => node.tagName === 'script' && has(node, 'src'));
-  assert.ok(scripts.some(node => attr(node, 'src') === `/scripts/boomer-karma-delivery.js?v=${hash('public/scripts/boomer-karma-delivery.js').slice(0, 12)}`));
+  for (const name of ['boomer-karma-bureau.js', 'karma-bureau-desk.js', 'boomer-karma-delivery.js']) {
+    assert.ok(scripts.some(node => attr(node, 'src') === `/scripts/${name}?v=${hash(`public/scripts/${name}`).slice(0, 12)}`));
+  }
   assert.ok(scripts.some(node => attr(node, 'type') === 'module' && attr(node, 'src').startsWith('/_astro/')));
   for (const script of scripts) assert.ok(statSync(join('dist', attr(script, 'src').split('?')[0])).size > 0);
 });

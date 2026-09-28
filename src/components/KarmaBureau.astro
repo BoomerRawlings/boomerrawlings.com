@@ -1,0 +1,153 @@
+---
+import '../styles/karma-bureau.css';
+
+interface Props { division: 'human' | 'feline'; score: number; scriptSrc: string; }
+const {division, score, scriptSrc} = Astro.props;
+const feline = division === 'feline';
+---
+<section class="bureau-desk" data-bureau-root data-division={division} data-score={score} aria-labelledby="bureau-heading">
+  <div class="bureau-heading-row">
+    <div><p class="eyebrow">YOUR COMPLIMENTARY BUREAUCRACY</p><h2 id="bureau-heading">Your file has developed a file.</h2><p>The more you investigate, the more there is to investigate. An excellent service.</p></div>
+    <span class="bureau-seal" aria-hidden="true">BK<br /><small>DEPT. OF<br />ADDITIONAL DEPTS.</small></span>
+  </div>
+
+  <div class="bureau-status-card">
+    <div class="bureau-status-top"><p class="bureau-kicker">CURRENT ADMINISTRATIVE CLIMATE</p><span id="bureau-tier">Routine oversight</span></div>
+    <h3 id="bureau-title">A normal amount of interest.</h3>
+    <p id="bureau-notice">Your enthusiasm has not yet required its own department. Give it time.</p>
+    <dl class="bureau-counters" aria-label={`Activity for the ${division} division in this browser`}>
+      <div><dt>Reports issued</dt><dd data-bureau-count="requests">0</dd></div>
+      <div><dt>Score checks</dt><dd data-bureau-count="checks">0</dd></div>
+      <div><dt>Points appeals</dt><dd data-bureau-count="appeals">0</dd></div>
+      <div><dt>Simulations</dt><dd data-bureau-count="simulations">0</dd></div>
+      <div><dt>Review petitions</dt><dd data-bureau-count="petitions">0</dd></div>
+    </dl>
+    <p id="bureau-pattern" class="bureau-note">Pattern analysis: insufficient overthinking.</p>
+    <p id="bureau-storage" class="bureau-note" hidden></p>
+  </div>
+
+  <div class="bureau-columns">
+    <section class="bureau-panel" aria-labelledby="bureau-simulator-heading">
+      <p class="bureau-kicker">THE STRATEGIC VIBE PLANNING CENTER</p>
+      <h3 id="bureau-simulator-heading">What if I simply optimized everything?</h3>
+      <p>Forecast your next move with our deeply proprietary, suspiciously circular model.</p>
+      <form id="bureau-simulator">
+        <label for="bureau-action">Proposed initiative</label>
+        <select id="bureau-action" name="action">
+          {feline ? <>
+            <option value="posture">Improve sofa posture by 40%</option>
+            <option value="bowtie">Wear a second bow tie</option>
+            <option value="sweater">Submit a sweater portfolio</option>
+            <option value="biting">Consider biting less</option>
+          </> : <>
+            <option value="library">Stand near additional books</option>
+            <option value="wind">Follow a more favorable wind</option>
+            <option value="gooddeed">Schedule a highly spontaneous good deed</option>
+            <option value="spreadsheet">Put the friendship in a spreadsheet</option>
+          </>}
+        </select>
+        <label for="bureau-effort">Level of commitment</label>
+        <select id="bureau-effort" name="effort">
+          <option value="casual">Casual. Barely thought about it.</option>
+          <option value="committed">A color-coded plan exists.</option>
+          <option value="extreme">I have retained a vibes consultant.</option>
+        </select>
+        <label for="bureau-motive">Primary objective</label>
+        <select id="bureau-motive" name="motive">
+          <option value="connection">Pure, uncomplicated connection</option>
+          <option value="curiosity">Academic curiosity, obviously</option>
+          <option value="maximum">The mathematically maximum score</option>
+        </select>
+        <button class="button primary bureau-full-button" type="submit">Run an unnecessarily detailed forecast</button>
+      </form>
+      <div id="bureau-forecast" class="bureau-forecast" role="status" hidden>
+        <p class="bureau-kicker">PROJECTED ADJUSTMENT</p><p class="bureau-projection"><strong id="bureau-projected-score">+0</strong><span>additional points</span></p>
+        <p id="bureau-model-verdict"></p>
+        <ol id="bureau-model-reasons"></ol>
+        <p class="bureau-note">Simulation only. No points awarded or deducted. Only Boomer updates the real ledger.</p>
+      </div>
+    </section>
+
+    <section class="bureau-panel bureau-directory" aria-labelledby="bureau-directory-heading">
+      <p class="bureau-kicker">THREE BUREAUS. ONE GUY.</p>
+      <h3 id="bureau-directory-heading">A thriving ecosystem of conflicting advice.</h3>
+      <p>Consult the departments. Their recommendations have been carefully prevented from agreeing.</p>
+      <details>
+        <summary>Department of Organic Connection <span>DOC</span></summary>
+        <p>Stop thinking about points. This is the best thing you can do for your points. Please do not do it for that reason.</p>
+        <p class="bureau-ruling">Ruling: be yourself, with no measurable target.</p>
+        <details><summary>Request a measurable target</summary><p>Your target is “no measurable target.” Progress toward this target cannot be measured without missing it.</p></details>
+      </details>
+      <details>
+        <summary>Office of Exceptional Effort <span>OEE</span></summary>
+        <p>Have you considered trying harder? We cannot specify at what. Specificity falls under another office.</p>
+        <p class="bureau-ruling">Ruling: show initiative, but not this much initiative.</p>
+        <details><summary>Find the Office of Specificity</summary><p>Closed pending clarification of its purpose. Please contact the Office of Exceptional Effort.</p></details>
+      </details>
+      <details>
+        <summary>Bureau of Being Normal About This <span>BBNAT</span></summary>
+        <p id="bureau-normal-ruling">Opening this department is entirely normal. Counting how often you open it would be weird. We have a different department for that.</p>
+        <p class="bureau-ruling">Ruling: the score is allowed to remain a number.</p>
+        <details><summary>Is there a reward for being normal?</summary><p>No. Asking is not a deduction either. We refuse to make normality a competitive sport, despite several promising sponsorship offers.</p></details>
+      </details>
+      <p class="bureau-note">All departments report to Boomer, including the independent one.</p>
+    </section>
+  </div>
+
+  <div class="bureau-columns bureau-secondary">
+    <section class="bureau-panel" aria-labelledby="bureau-precedent-heading">
+      <p class="bureau-kicker">SELECTED ENTIRELY FICTIONAL PRECEDENT</p>
+      <h3 id="bureau-precedent-heading">Vibes jurisprudence</h3>
+      <details><summary>In re: Library Osmosis, 2 B.K. 20</summary><p>Proximity to knowledge may be charming. Repeatedly entering and leaving the same library does not compound the original charm.</p><p class="bureau-ruling">Holding: books are not an interest-bearing account.</p></details>
+      <details><summary>Kemberton v. The Second Bow Tie</summary><p>The first bow tie was distinguished. The second created a jurisdictional dispute over where the neck ended.</p><p class="bureau-ruling">Holding: accessories do not stack indefinitely.</p></details>
+      <details><summary>The People v. “Just Checking”</summary><p>The applicant checked whether the score had changed while checking whether the score had changed.</p><p class="bureau-ruling">Holding: a refresh is a request for information, not an event worthy of points.</p></details>
+      <details><summary>Goodhart’s Extremely Informal Suggestion</summary><p>When a nice moment becomes a points acquisition strategy, the bureau reserves the right to notice the spreadsheet.</p><p class="bureau-ruling">Holding: affection is not a speedrun.</p></details>
+    </section>
+
+    <section class="bureau-panel" aria-labelledby="bureau-review-heading">
+      <p class="bureau-kicker">PROCEDURAL REASSURANCE</p>
+      <h3 id="bureau-review-heading">Who reviews the reviewers?</h3>
+      <div class="bureau-review-ladder" aria-live="polite">
+        <p id="bureau-review-level" class="bureau-note">Review depth 0 of 4</p>
+        <h4 id="bureau-review-title">The Department of Review</h4>
+        <p id="bureau-review-copy">We reviewed the process and determined that it is a process. You may request a review of that determination.</p>
+      </div>
+      <div class="bureau-inline-actions"><button id="bureau-review-deeper" class="button secondary" type="button">Review this review</button><button id="bureau-review-start" class="bureau-link-button" type="button" hidden>Return to the first department</button></div>
+      <p class="bureau-note">Browsing the bureaucracy is free and sends nothing. A formal petition creates actual paperwork for Boomer.</p>
+      <button id="bureau-petition-open" class="bureau-link-button" type="button">File a formal petition about all this →</button>
+      <p id="bureau-petition-status" class="bureau-note" role="status"></p>
+    </section>
+  </div>
+
+  <div class="bureau-footnote">
+    <p>Activity counts live in this browser, separately for each division. Joke notices use simple activity and word patterns; they do not identify you or judge your intent. Simulations stay here; unsubmitted answers are not saved or sent. Completed petitions are emailed to Boomer through the same service as report requests.</p>
+    <button id="bureau-reset" type="button" class="bureau-link-button">Clear this browser’s bureau history</button>
+    <p id="bureau-reset-status" role="status"></p>
+  </div>
+
+  <dialog id="bureau-petition-dialog" aria-labelledby="bureau-petition-heading">
+    <div class="dialog-header"><p class="eyebrow">FORM BK-WHY-IS-THIS-A-FORM</p><button id="bureau-petition-close" class="close-button" type="button" aria-label="Close petition">×</button></div>
+    <h2 id="bureau-petition-heading">Petition for further unnecessary review</h2>
+    <p>Your petition goes to Boomer. Filing it does not change a score, earn points, or compel a response from the Department of Compelling Responses.</p>
+    <form id="bureau-petition-form" novalidate>
+      <label for="bureau-petition-reason">Matter requiring additional paperwork</label>
+      <select id="bureau-petition-reason" required>
+        <option value="">Select a procedural concern</option>
+        <option>I would like a review of the review.</option>
+        <option>The simulator refuses to reward my strategy.</option>
+        <option>I dispute the suggestion that I am optimizing.</option>
+        <option>A department has referred me to itself.</option>
+        <option>The cat contests human jurisdiction.</option>
+      </select>
+      <label for="bureau-petition-message">Statement of exquisite procedural concern <span>(at least 12 words)</span></label>
+      <textarea id="bureau-petition-message" rows="5" minlength="12" maxlength="1200" required></textarea>
+      <p id="bureau-petition-word-count" class="bureau-note">0 / 12 minimum words</p>
+      <label class="acknowledgment"><input id="bureau-petition-declaration" type="checkbox" required /><span>I certify that this paperwork is about other paperwork and that I understand how we got here.</span></label>
+      <label class="acknowledgment"><input id="bureau-petition-acceptance" type="checkbox" required /><span>I accept that a successful submission means the petition was delivered, not that I have won against the vibes.</span></label>
+      <p class="bureau-note">All answers and the current bureau summary will be emailed on Send. No unfinished text is saved. The submission provider retains delivered forms for 30 days.</p>
+      <p id="bureau-petition-error" class="application-error" role="alert" hidden></p>
+      <button id="bureau-petition-send" class="button primary bureau-full-button" type="submit">Send formal petition to Boomer</button>
+    </form>
+  </dialog>
+</section>
+<script is:inline src={scriptSrc} defer></script>

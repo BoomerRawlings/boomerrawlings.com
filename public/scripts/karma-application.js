@@ -29,6 +29,8 @@
   let opener = null;
   let sending = false;
   let issued = false;
+  const supplements = form.querySelector('#application-supplements');
+  let supplementalRequirements = [];
 
   const wordCount = () => statement.value.trim().split(/\s+/u).filter(Boolean).length;
 
@@ -51,6 +53,50 @@
     form.querySelector('#review-capacity').textContent = form.elements.namedItem('capacity').value;
     form.querySelector('#review-purpose').textContent = form.elements.namedItem('purpose').value;
     form.querySelector('#review-justification').textContent = statement.value.trim();
+    const summary = form.querySelector('#review-supplements');
+    if (summary) {
+      summary.textContent = supplementalAnswers();
+      summary.hidden = supplementalRequirements.length === 0;
+      form.querySelector('#review-supplements-label').hidden = summary.hidden;
+    }
+  }
+
+  function refreshSupplements() {
+    if (!supplements || !window.BoomerKarmaBureau) return;
+    window.BoomerKarmaBureau.inspect(statement.value, 0, 'human');
+    const required = window.BoomerKarmaBureau.requirements('human');
+    // Back/forward navigation must not erase completed declarations. Reassess
+    // only at this desk, never while a reviewed application is being sent.
+    if (required.map(item => item.id).join('|') === supplementalRequirements.map(item => item.id).join('|')) return;
+    supplementalRequirements = required;
+    supplements.replaceChildren();
+    supplements.hidden = required.length === 0;
+    for (const item of required) {
+      const section = document.createElement('section'); section.className = 'bureau-supplement';
+      const heading = document.createElement('h3'); heading.textContent = item.title;
+      const label = document.createElement('label'); label.textContent = item.prompt;
+      const select = document.createElement('select');
+      select.id = `human-supplement-${item.id}`; select.name = `supplement-${item.id}`; select.required = true;
+      label.htmlFor = select.id;
+      const placeholder = document.createElement('option'); placeholder.value = ''; placeholder.textContent = 'Select an administratively acceptable explanation';
+      select.append(placeholder);
+      for (const answer of item.options) {
+        const option = document.createElement('option'); option.value = answer; option.textContent = answer; select.append(option);
+      }
+      const declaration = document.createElement('label'); declaration.className = 'choice';
+      const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.name = `supplement-${item.id}-confirmed`; checkbox.required = true;
+      const wording = document.createElement('span'); wording.textContent = item.attestation;
+      declaration.append(checkbox, wording); section.append(heading, label, select, declaration); supplements.append(section);
+    }
+    form.elements.namedItem('reviewed').checked = false;
+  }
+
+  function supplementalAnswers() {
+    return supplementalRequirements.map(item => {
+      const select = form.elements.namedItem(`supplement-${item.id}`);
+      const checkbox = form.elements.namedItem(`supplement-${item.id}-confirmed`);
+      return `${item.title}\n${item.prompt}: ${select.value}\n${checkbox.checked ? 'Yes' : 'No'} — ${item.attestation}`;
+    }).join('\n\n');
   }
 
   function showStep(index, moveFocus = true) {
@@ -61,6 +107,7 @@
     });
     finalCheck.disabled = !finalRevealed;
     clearError();
+    if (current === 6) refreshSupplements();
     if (current === 7) updateReview();
     back.hidden = current === 0;
     next.textContent = current === 8 && finalRevealed ? 'Send paperwork & release my report' : nextLabels[current];
@@ -134,7 +181,8 @@
       'Bureaus selected': checkboxes.filter((field) => field.name === 'bureau' && field.checked).map((field) => field.value).join(', '),
       'Library selections': checkboxes.filter((field) => field.name === 'library').map(answer).join('\n'),
       'Notarized phrase': notarization.value,
-      'Declarations': checkboxes.filter((field) => field.name !== 'bureau' && field.name !== 'library').map(answer).join('\n'),
+      'Declarations': checkboxes.filter((field) => field.name !== 'bureau' && field.name !== 'library' && !field.name.startsWith('supplement-')).map(answer).join('\n'),
+      ...(supplementalRequirements.length ? {'Additional paperwork': supplementalAnswers()} : {}),
     };
   }
 
@@ -207,6 +255,8 @@
       dialog.close();
       focusReport();
       form.reset();
+      supplementalRequirements = [];
+      if (supplements) { supplements.replaceChildren(); supplements.hidden = true; }
       form.querySelectorAll('.application-review dd').forEach((entry) => {
         if (entry.id?.startsWith('review-')) entry.textContent = '';
       });

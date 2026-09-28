@@ -40,4 +40,14 @@ The accepted photo is resized to at most 1280 pixels per side and re-encoded as 
 
 SMS authentication is deferred. There is no connected SMS provider and no phone number in this implementation.
 
+## Escalating bureaucracy
+
+Both divisions include a shared bureau desk: a deliberately unhelpful simulator, contradictory departments and nested referrals, four fictional precedents, a finite chain of reviews ending with Boomer in a swivel chair, and a formal petition about the paperwork. Forecasts always show **+0 additional points**; they never reveal a locked report or change the authored ledger.
+
+`public/scripts/boomer-karma-bureau.js` maintains browser-local counts per division for delivered report requests, successful score checks, delivered appeals, simulator runs and delivered petitions. Explicit optimization language and ambitious point requests add named joke flags using simple rules, not an AI judgment. Five levels of administrative attention generate up to three required supplemental forms; human report, feline report and appeal callers validate and email their answers. Feline supplements precede portrait capture so the photo does not expire while doing extra paperwork. Repeating a cat request preserves access to the already-issued report.
+
+Only counts, known flag names and the latest 40 action timestamps are stored. Submitted text, photos and point-request amounts are never stored by this engine. Storage unavailable: in-memory fallback. Other tabs update via storage events; other devices are independent. The clear-history control removes only this app's active history key, preserving scores and issued-report flags. Localhost and `?test=1` use a separate test key, so QA never escalates visitor history. This history starts with this release; prior emails are not backfilled or treated as identity evidence.
+
+The delivery helper captures a readable bureau summary and sequence at first send, keeps both unchanged on retries, and increments successful actions only after confirmed delivery. New petitions have their own subject type. No simulator or unfinished statement is emailed. The no-send engine, supplemental-form and bureau-desk tests cover escalation, persistence, privacy, required answers, retries, duplicate prevention and unchanged scores.
+
 Run `npm test` for publication, metadata, attachment transport and asynchronous camera/form lifecycle checks. Browser QA additionally verifies real cat/non-cat inference and actual JPEG delivery; new live tests must use `?test=1` and be archived separately afterward.

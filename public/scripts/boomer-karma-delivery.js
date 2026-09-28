@@ -18,7 +18,7 @@
     async send(kind, answers, {attachment} = {}) {
       const entries = answers && typeof answers === 'object' && !Array.isArray(answers) ? Object.entries(answers) : [];
       const fingerprint = JSON.stringify(entries) + (attachment ? `|${attachment.size}|${attachment.lastModified}` : '');
-      if (!['report', 'appeal', 'cat-report'].includes(kind) || !entries.length || entries.length > 20
+      if (!['report', 'appeal', 'cat-report', 'bureau-petition'].includes(kind) || !entries.length || entries.length > 20
         || entries.some(([label, value]) => !label.trim() || label.startsWith('_') || label.length > 80 || typeof value !== 'string')
         || !answers['Submitted message']?.trim() || fingerprint.length > 16000 || pending.has(kind)) {
         throw new Error('Invalid or duplicate submission');
@@ -27,7 +27,9 @@
         || (attachment && (kind !== 'cat-report' || attachment.type !== 'image/jpeg' || attachment.size < 1 || attachment.size > 2000000))) {
         throw new Error('A verified cat portrait is required');
       }
-      // Keep a retry's reference stable. Answers stay only in memory, never browser storage.
+      const division = kind === 'cat-report' || (kind === 'bureau-petition' && /feline/i.test(answers.Division || '')) ? 'feline' : 'human';
+      const action = kind === 'appeal' ? 'appeal' : kind === 'bureau-petition' ? 'petition' : 'request';
+      // Keep a retry's reference and bureau notes stable. Answers stay only in memory.
       if (attempts.get(kind)?.fingerprint !== fingerprint) {
         const submitted = new Date();
         attempts.set(kind, {
@@ -36,10 +38,12 @@
           time: new Intl.DateTimeFormat('en-US', {
             timeZone: 'America/Los_Angeles', dateStyle: 'medium', timeStyle: 'long',
           }).format(submitted),
+          bureauNotes: window.BoomerKarmaBureau?.describe(division) || '',
+          sequence: (window.BoomerKarmaBureau?.snapshot(division)?.counts?.[`${action}s`] || 0) + 1,
         });
       }
-      const {reference, time} = attempts.get(kind);
-      const title = kind === 'cat-report' ? 'Kemberton score request' : kind === 'report' ? 'Report request' : 'Points appeal';
+      const {reference, time, bureauNotes, sequence} = attempts.get(kind);
+      const title = kind === 'cat-report' ? 'Kemberton score request' : kind === 'report' ? 'Report request' : kind === 'bureau-petition' ? 'Bureau paperwork petition' : 'Points appeal';
       const {'Submitted message': message, ...details} = answers;
       pending.add(kind);
       try {
@@ -54,10 +58,12 @@
             'Submitted message': message,
             'Submitted (Pacific time)': time,
             'Reference': reference,
-            'Action needed': testMode ? 'None. This is a delivery test.' : kind !== 'appeal'
+            'Action needed': testMode ? 'None. This is a delivery test.' : kind === 'bureau-petition'
+              ? 'Read the visitor’s paperwork petition. No score or policy changes happen automatically.' : kind !== 'appeal'
               ? 'None. The report opens automatically after successful delivery.'
               : 'Review the requested points. The score stays unchanged unless you update it.',
             ...details,
+            ...(bureauNotes ? {'Bureau context': `${division === 'feline' ? 'Feline' : 'Human'} ${action} #${sequence} on this browser.\n${bureauNotes}`} : {}),
         };
         let body = JSON.stringify(fields);
         const headers = {'Accept': 'application/json'};
@@ -88,6 +94,8 @@
           if (outcome.success !== true && outcome.success !== 'true') throw new Error(outcome.message || 'Delivery not accepted');
         }
         attempts.delete(kind);
+        // Optional comedy must never turn confirmed delivery into a failed send.
+        try { window.BoomerKarmaBureau?.record(action, division); } catch { /* Keep report release independent. */ }
         return true;
       } catch (error) {
         console.warn('BoomerKarma delivery:', error.message);

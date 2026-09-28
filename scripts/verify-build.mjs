@@ -91,7 +91,7 @@ if (!existsSync(karmaPath)) {
     || !karmaHtml.includes('<meta name="referrer" content="no-referrer">')) {
     failures.push('BoomerKarma: unlisted page metadata is incomplete');
   }
-  for (const script of ['boomer-karma-delivery.js', 'karma-application.js', 'boomer-karma.js']) {
+  for (const script of ['boomer-karma-bureau.js', 'karma-bureau-desk.js', 'boomer-karma-delivery.js', 'karma-application.js', 'boomer-karma.js']) {
     const scriptPath = join(output, 'scripts', script);
     const revision = existsSync(scriptPath) ? createHash('sha256').update(readFileSync(scriptPath)).digest('hex').slice(0, 12) : '';
     if (!revision || !karmaHtml.includes(`src="/scripts/${script}?v=${revision}"`)) {
