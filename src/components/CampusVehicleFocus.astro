@@ -1,0 +1,85 @@
+---
+import {vehicleComparison,vehicleGroups} from '../lib/campus-vehicle-focus.js';
+import '../styles/campus-vehicle-focus.css';
+const {data}=Astro.props;
+const view=vehicleComparison(data);
+const n=(v:number|null)=>v===null?'Unavailable':v.toLocaleString('en-US');
+const snapshot='/data-analysis/campus-safety/current-2026-09-25';
+const evidence='/data-analysis/campus-safety/vehicle-theft-2026-09-29';
+---
+<section id="vehicle-theft" class="vehicle-focus" data-vehicle-focus aria-labelledby="vehicle-heading">
+  <p class="analysis-kicker">2024 comparison · motor vehicle theft</p>
+  <h2 id="vehicle-heading">Vehicle theft, per student</h2>
+  <p class="vehicle-lead">UC San Diego reported <strong>444 on-campus motor vehicle thefts</strong> in 2024: <strong>10.03 for every 1,000 enrolled students</strong>. UC Riverside’s rate was higher, at <strong>14.74</strong>. Accounting for enrollment changes the order, although UC San Diego remains near the top of this comparison. <a data-campus-citation href={`${evidence}/comparison.csv`}>2024 vehicle-theft comparison: counts, same-year populations and rates</a></p>
+  <div class="vehicle-facts">
+    <div><strong>10.03</strong><span>UC San Diego reports per 1,000 enrolled students</span></div>
+    <div><strong id="vehicle-rate-rank">2nd of 9</strong><span id="vehicle-rate-rank-label">Among undergraduate-serving UC campuses, per student</span></div>
+    <div><strong id="vehicle-count-rank">1st of 9</strong><span id="vehicle-count-rank-label">Among those same campuses, by raw count</span></div>
+  </div>
+  <p class="vehicle-definition">“Motor vehicle” includes electric scooters and e-bikes. UC San Diego attributes much of the reported increase to those thefts; the table does not tell us how many were cars. <a data-campus-citation href="https://police.ucsd.edu/docs/annualclery.pdf#page=142">UC San Diego 2026 Annual Security and Fire Safety Report, p. 142: 2023–2025 counts and motor-vehicle footnote; checked 29 September 2026</a></p>
+  <div class="vehicle-controls" hidden>
+    <fieldset><legend>Compare with</legend><div>{Object.entries(vehicleGroups).map(([id,g])=><button type="button" data-vehicle-group={id} aria-pressed={id==='undergraduate'}>{g.label}</button>)}</div></fieldset>
+    <fieldset><legend>Show</legend><div><button type="button" data-vehicle-metric="rate" aria-pressed="true">Per 1,000 students</button><button type="button" data-vehicle-metric="count" aria-pressed="false">Raw report counts</button></div></fieldset>
+  </div>
+  <div class="vehicle-chart-heading"><h3 id="vehicle-chart-title">On-campus reports per 1,000 enrolled students</h3><p id="vehicle-position" role="status" aria-live="polite">UC San Diego: 2nd-highest of 9 available rates · 2024</p></div>
+  <p class="vehicle-scope" id="vehicle-scope">{vehicleGroups.undergraduate.note}</p>
+  <ol class="vehicle-bars" id="vehicle-bars" aria-labelledby="vehicle-chart-title">
+    {view.rows.map(row=><li class:list={[{'vehicle-selected':row.institution.id==='110680'}]}>
+      <div class="vehicle-row-heading"><a href={`?school=${row.institution.id}&guideTopic=motor_vehicle_theft&guidePlace=campus&guideYear=2024#reader-reading`}>{row.institution.name}</a><strong>{row.rate===null?'Unavailable':row.rate.toFixed(2)}</strong></div>
+      <div class="vehicle-track" aria-hidden="true"><span style={`width:${100*(row.rate??0)/view.maximum}%`}></span></div>
+      <p>{n(row.count)} reports · {n(row.population)} enrolled students</p>
+    </li>)}
+  </ol>
+  <p class="vehicle-scope"><strong>How to read this:</strong> 444 reports ÷ 44,256 enrolled students × 1,000 = 10.03. This accounts for enrollment size, not how many vehicles are parked on campus. Reports can involve staff or visitors, so this is not a student’s probability of theft. We use total enrollment because these reports cover the whole campus, including areas outside student housing. <a data-campus-citation href={`${snapshot}/population_sources.csv`}>Same-year fall enrollment: dated population sources and scope</a> <a data-campus-citation href="https://nces.ed.gov/programs/coe/indicator/a21">National Center for Education Statistics: scope of campus criminal-incident reporting</a></p>
+  <details class="vehicle-methods"><summary>What “highest” means, and the newest report</summary>
+    <p>The first comparison includes all nine undergraduate-serving UC institutions, using each institution’s total undergraduate and graduate enrollment. UC San Francisco is included in the other two comparison groups; its graduate and professional health-sciences focus makes it a different kind of institution. <a data-campus-citation href="https://www.ucsf.edu/about">UC San Francisco: institutional scope and graduate/professional education</a></p>
+    <p>In this study’s September 25 institutional-report snapshot, UC San Diego has the highest 2024 on-campus count among the 39 universities with complete figures, but the third-highest rate per enrolled student. UC Riverside and UC San Francisco have higher rates. The archived federal collection gives the same order with all 42 universities available. These comparisons do not establish a nationwide ranking or which university is safest. <a data-campus-citation href={`${evidence}/comparison.csv`}>Full 42-school comparison, including missing values and federal cross-check</a></p>
+    <p>The opening compares <strong>2024 on-campus reports</strong>, including housing, using total fall enrollment in that same year. It excludes qualifying off-campus properties and adjacent public property. UC San Diego’s all-area total is <strong>457</strong>: 444 on campus + 3 off campus + 10 on public property. The eight housing offenses are already included in 444. A headline using another geography, year or group may give a different order. <a data-campus-citation href="https://police.ucsd.edu/docs/annualclery.pdf#page=142">UC San Diego 2026 report, p. 142: motor vehicle theft by reporting geography</a></p>
+    <p><strong>Newest UC San Diego check: September 29, 2026.</strong> The university now publishes its 2026 report, covering 2023–2025. It retains the 2024 figures above and adds 434 on-campus motor vehicle thefts for 2025. That newer count is not mixed into a 2024 peer comparison. The broader explorer and downloadable report retain their explicitly dated September 25 study snapshot. <a data-campus-citation href="https://police.ucsd.edu/alerts/clery.html">UC San Diego official annual-report listing</a> <a data-campus-citation href={`${evidence}/SOURCE_REVIEW.md`}>September 29 source check, exact editions, hashes and comparison limits</a></p>
+    <p><a href={`${evidence}/comparison.csv`}>Download all comparison counts and populations</a> · <a href="?source=current&category=motor_vehicle_theft&period=2024&measure=enrollment&group=all&sort=rateDesc#explorer">Open the full sortable comparison</a></p>
+  </details>
+  <p class="vehicle-next"><a href="#school-guide">Explore another school, offense or housing comparison ↓</a></p>
+  <script id="vehicle-data" type="application/json" set:html={JSON.stringify({institutions:data.institutions.map((i:any)=>({id:i.id,name:i.name,shortName:i.shortName,officialName:i.officialName,group:i.group,state:i.state,years:i.years.filter((y:any)=>y.year===2024).map((y:any)=>({year:y.year,enrollment:y.enrollment,counts:{oncampus:{motor_vehicle_theft:y.counts.oncampus.motor_vehicle_theft}}}))}))}).replace(/</g,'\\u003c')} />
+</section>
+<script>
+  import {vehicleComparison,vehicleGroups} from '../lib/campus-vehicle-focus.js';
+  import {annotateCampusTerms} from '../lib/campus-term-dom.js';
+  const root=document.querySelector('[data-vehicle-focus]');
+  if(root){
+    const data=JSON.parse(document.getElementById('vehicle-data')!.textContent!);
+    let group='undergraduate',metric='rate';
+    const $=(id:string)=>document.getElementById(id)!;
+    const n=(v:number|null)=>v===null?'Unavailable':v.toLocaleString('en-US');
+    const el=(tag:string,text?:string)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;return node;};
+    const ordinal=(v:number)=>`${v}${v%100>=11&&v%100<=13?'th':({1:'st',2:'nd',3:'rd'}[v%10]??'th')}`;
+    function render(){
+      const view=vehicleComparison(data,group,metric);
+      const rateView=metric==='rate'?view:vehicleComparison(data,group,'rate');
+      const countView=metric==='count'?view:vehicleComparison(data,group,'count');
+      $('vehicle-rate-rank').textContent=`${ordinal(rateView.rank!)} of ${rateView.available}`;
+      $('vehicle-count-rank').textContent=`${ordinal(countView.rank!)} of ${countView.available}`;
+      $('vehicle-rate-rank-label').textContent='Among schools with available figures in this comparison, per student';
+      $('vehicle-count-rank-label').textContent='Among those same schools, by raw count';
+      $('vehicle-chart-title').textContent=metric==='rate'?'On-campus reports per 1,000 enrolled students':'On-campus reports before adjusting for enrollment';
+      $('vehicle-position').textContent=`UC San Diego: ${view.rank===1?'highest':`${ordinal(view.rank!)}-highest`} of ${view.available} available ${metric==='rate'?'rates':'counts'}${view.available<view.total?` (${view.total} schools selected)`:''} · 2024`;
+      $('vehicle-scope').textContent=vehicleGroups[group].note;
+      const bars=$('vehicle-bars');bars.replaceChildren();
+      for(const row of view.rows){
+        const li=el('li');li.classList.toggle('vehicle-selected',row.institution.id==='110680');li.dataset.vehicleSchool=row.institution.id;
+        const head=el('div');head.className='vehicle-row-heading';
+        const a=el('a',row.institution.name) as HTMLAnchorElement;
+        a.href=`?school=${row.institution.id}&guideTopic=motor_vehicle_theft&guidePlace=campus&guideYear=2024#reader-reading`;
+        const value=row[metric];head.append(a,el('strong',value===null?'Unavailable':metric==='rate'?value.toFixed(2):n(value)));
+        const track=el('div');track.className='vehicle-track';track.setAttribute('aria-hidden','true');
+        const bar=el('span');bar.style.width=`${100*(value??0)/view.maximum}%`;track.append(bar);
+        li.append(head,track,el('p',`${n(row.count)} reports · ${n(row.population)} enrolled students`));bars.append(li);
+      }
+      root!.querySelectorAll<HTMLButtonElement>('[data-vehicle-group]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.vehicleGroup===group)));
+      root!.querySelectorAll<HTMLButtonElement>('[data-vehicle-metric]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.vehicleMetric===metric)));
+      annotateCampusTerms(document.querySelector('[data-campus-study]'),data.institutions);
+    }
+    root.querySelectorAll<HTMLButtonElement>('[data-vehicle-group]').forEach(b=>b.addEventListener('click',()=>{group=b.dataset.vehicleGroup!;render();}));
+    root.querySelectorAll<HTMLButtonElement>('[data-vehicle-metric]').forEach(b=>b.addEventListener('click',()=>{metric=b.dataset.vehicleMetric!;render();}));
+    root.querySelector<HTMLElement>('.vehicle-controls')!.hidden=false;
+  }
+</script>

@@ -1,5 +1,13 @@
 # Project state
 
+## UC San Diego vehicle-theft opening — 2026-09-29
+
+- Mode: continuation. Objective: make campus-safety open with an honest UC San Diego comparison per enrolled student. Status: verified locally; production release pending.
+- Verified existing 2024 snapshot: UCSD on-campus444 / fall enrollment44,256 ×1,000=10.03254; Riverside389 /26,384=14.74378. UCSD third among39 available institutions of42; second among nine undergraduate-serving UC institutions. UCSF is a graduate/professional health-sciences institution and must be separately identified. No nationwide safety ranking supported.
+- New official UCSD2026 report located at the reused annualclery.pdf URL; source review confirms2024 motor-theft figures unchanged and2025 on-campus434. Older full-study snapshot stays explicitly dated25September; opening source check29September. Counts include electric scooters/bikes; no car-only count verified.
+- Implemented: nine-peer opening plus all ten UCs/all42 switches, raw counts versus per1,000, same-year denominators and missingness, source links and public aggregate audit supplement. Prior housing/maps and full-study snapshot preserved; old mutable UCSD2025 citations point to captured source records. No nationwide or car-only inference.
+- Verified: independent81input checks match original enrollment archive/source-cell sums;122group/metric rows and static defaults pass; full npm suite passes. Browser41checks cover320/390/1280layouts, all six group/metric states, missing values, hover/Escape, source-return links, school/table links, map/housing and no-script fallback. Small-card abbreviation spacing and bundled-inline navigation/CSP issues fixed; external-script regression guard added. Final copy-only build/static checks pass. Unrelated upstream BoomerKarma work preserved; no email requested.
+
 ## Boomer Karma — 2026-09-29
 
 - Mode: continuation. Objective: append18 owner-requested score entries, net+450. Status: complete; published as `f7285cf`, Pages run `36546915191` succeeded. Full npm test and independent ledger review pass. Live total483 across all three bureaus; all30 entries match exact authored points/text and report date2026-09-29. Prior12 preserved and cat unchanged6; bureau release `7506489` and feline release `da751de` retained.

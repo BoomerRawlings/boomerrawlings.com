@@ -1,0 +1,21 @@
+{
+  "verified_at_utc": "2026-09-29T16:51:32.251245+00:00",
+  "listing_url": "https://police.ucsd.edu/alerts/clery.html",
+  "source_url": "https://www.police.ucsd.edu/docs/annualclery.pdf",
+  "source_sha256": "cb739415cf4557c5996eda8f27c9cbd4ba66452c0e452e684711086e47c542f0",
+  "source_bytes": 10400773,
+  "source_pages": 451,
+  "previous_2025_source_sha256": "d4d01766e4f4e7de813a320a5484c8a91d7d41b8862a3a15f85d88b0d3a3a0bb",
+  "motor_table_page": 142,
+  "definition_page": 145,
+  "geography_page": 147,
+  "2023_2024_comparison": "Visually checked against the local 2025 report reissued February 2026; all five geography cells unchanged in each year.",
+  "stable_2025_official_archive": "Not located in the official Clery listing, current report links, or targeted official-domain search. Mutable current URL now serves the 2026 edition.",
+  "source_title": "2026 ANNUAL SECURITY & FIRE SAFETY REPORT",
+  "pdf_modified_metadata": "D:20260925162615-07'00'",
+  "server_last_modified": "Mon, 28 Sep 2026 15:14:46 GMT",
+  "timestamp_interpretation": "Metadata only; not asserted public release dates",
+  "previous_2025_source_records": "../current-2026-09-25/source_inventory.json",
+  "motor_cells": "ucsd_motor_vehicle_theft.csv",
+  "report_redistribution": false
+}

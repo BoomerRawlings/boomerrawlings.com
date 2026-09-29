@@ -1,0 +1,4 @@
+report_year,crime_year,housing_subset,on_campus_including_housing,noncampus,public_property,total_without_double_counting,pdf_page,source_url
+2026,2023,6,489,4,6,499,142,https://www.police.ucsd.edu/docs/annualclery.pdf
+2026,2024,8,444,3,10,457,142,https://www.police.ucsd.edu/docs/annualclery.pdf
+2026,2025,9,434,3,2,439,142,https://www.police.ucsd.edu/docs/annualclery.pdf

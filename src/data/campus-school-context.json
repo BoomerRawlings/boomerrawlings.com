@@ -691,12 +691,12 @@
     "region": "West",
     "regionBasis": "Institution home location; reporting branches may lie elsewhere.",
     "homeState": "CA",
-    "note": "San Diego’s 2025 report was reissued in February 2026 and corrects several earlier counts. The current view uses that reissued report, while the earlier federal dataset preserves the older figures; the worked housing example identifies its student population separately.",
+    "note": "This school guide retains the September 25 snapshot of San Diego’s reissued 2025 report. A separate September 29 check found the new 2026 edition: its 2024 vehicle-theft figures are unchanged, and it adds 2025 data. The vehicle-theft opening explains that update; the school guide and housing example retain their dated source editions.",
     "alias": "UCSD UC San Diego University of California San Diego California",
     "sources": [
       {
-        "label": "Annual report reviewed",
-        "url": "https://www.police.ucsd.edu/docs/annualclery.pdf"
+        "label": "September 29 report-version check and verified motor vehicle theft figures",
+        "url": "/data-analysis/campus-safety/vehicle-theft-2026-09-29/SOURCE_REVIEW.md"
       },
       {
         "label": "Official report listing",

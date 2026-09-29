@@ -5,12 +5,14 @@ type: data-analysis
 date: 2026-09-25
 status: published
 featured: true
-description: Reported campus offenses by geography, current institutional sources and documented resident populations, with an interactive comparison of 42 universities.
+description: UC San Diego vehicle theft per enrolled student, alongside interactive crime and housing comparisons across 42 universities, with dated sources and reporting context.
 analysisPeriod: 2022–2025 source years · coverage varies · 42 institutions
 tags: [Campus safety, Higher education, Public records, Per capita, Clery Act]
 ---
 
 ## What is being compared?
+
+The opening vehicle-theft comparison was added on September 29, 2026. It uses 2024 on-campus reports divided by the same year's total fall enrollment. The initial peer group comprises the nine undergraduate-serving University of California institutions; all ten UC institutions and all 42 study universities are also selectable. This is an enrollment-adjusted reporting measure, not vehicle-owner exposure or a nationwide safety ranking. UC San Diego's new 2026 report confirms its 2024 vehicle-theft counts; its newer 2025 count is described separately. The full-study datasets and report below remain the September 25 snapshot. [Opening comparison and calculations](/data-analysis/campus-safety/vehicle-theft-2026-09-29/comparison.csv), [dated source review](/data-analysis/campus-safety/vehicle-theft-2026-09-29/SOURCE_REVIEW.md).
 
 The unit is a **reported Clery offense**, divided by a documented population denominator. The analysis covers the ten University of California institutions, eight Ivy League institutions, San Diego State, and 23 additional public and private research universities. This fixed comparison set is purposive; it does not represent all U.S. higher education. Institutions were selected before this study calculated their rates. The originating shared research had already identified several UC and San Diego State results. [Study protocol](/data-analysis/campus-safety/data/PROTOCOL.md).
 
