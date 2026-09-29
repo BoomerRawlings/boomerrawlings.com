@@ -1,6 +1,6 @@
 {
   "openingBalance": 0,
-  "updatedAt": "2026-09-28",
+  "updatedAt": "2026-09-29",
   "status": "In good standing",
   "entries": [
     {
@@ -62,6 +62,96 @@
       "points": 5,
       "note": "Generally being a cool girl",
       "detail": "General coolness recognized unanimously by all three bureaus."
+    },
+    {
+      "points": 20,
+      "note": "Bringing a fire starter log",
+      "detail": "Initial capital supplied to the Department of Combustion."
+    },
+    {
+      "points": 10,
+      "note": "Bringing matches",
+      "detail": "Ignition infrastructure credit."
+    },
+    {
+      "points": 20,
+      "note": "Meeting up in a pitch black parking lot",
+      "detail": "Attendance confirmed despite limited visibility."
+    },
+    {
+      "points": 50,
+      "note": "Getting in the ocean",
+      "detail": "Marine participation credit. Swimming assessed separately."
+    },
+    {
+      "points": -15,
+      "note": "Not swimming",
+      "detail": "Aquatic follow-through adjustment. Entry credit retained."
+    },
+    {
+      "points": -10,
+      "note": "Not bringing more logs",
+      "detail": "Fuel reserves fell short of entirely unpublished expectations."
+    },
+    {
+      "points": 15,
+      "note": "Starting the fire",
+      "detail": "Proposal successfully converted into warmth."
+    },
+    {
+      "points": 10,
+      "note": "Encouraging me to go look for firewood",
+      "detail": "Delegation credit. The bureau has been sent into the field."
+    },
+    {
+      "points": 20,
+      "note": "Throwing matchbooks in the fire",
+      "detail": "Supporting documents submitted directly to the fire."
+    },
+    {
+      "points": 30,
+      "note": "Cuddles",
+      "detail": "Warmth recognized outside the combustion category."
+    },
+    {
+      "points": 50,
+      "note": "Sharing poetry",
+      "detail": "Literary disclosure credit. All three bureaus are listening."
+    },
+    {
+      "points": 30,
+      "note": "Liking my poetry",
+      "detail": "Reviewer bias declared. Points awarded anyway."
+    },
+    {
+      "points": 50,
+      "note": "Sharing life experiences",
+      "detail": "Connection credit. The details do not belong in the paperwork."
+    },
+    {
+      "points": 50,
+      "note": "Beach vibes",
+      "detail": "Coastal conditions favorable across all three bureaus."
+    },
+    {
+      "points": 30,
+      "note": "Kissing",
+      "detail": "The committee has lost its professional composure."
+    },
+    {
+      "points": 40,
+      "note": "Making out",
+      "detail": "Extended review. No minutes were taken."
+    },
+    {
+      "points": -50,
+      "note": "Locking us in the parking lot",
+      "detail": "Exit strategy failed its initial audit."
+    },
+    {
+      "points": 100,
+      "note": "Driving on the grass to get us out",
+      "detail": "Alternative exit strategy accepted on appeal."
     }
   ]
 }
