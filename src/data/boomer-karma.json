@@ -42,6 +42,21 @@
       "points": 1,
       "note": "Popcorn being a favorite",
       "detail": "Snack compatibility credit."
+    },
+    {
+      "points": 1,
+      "note": "Confirming the address for clarification",
+      "detail": "Technically unnecessary. Administratively appreciated."
+    },
+    {
+      "points": 3,
+      "note": "Suggesting a bonfire",
+      "detail": "Warmth and initiative credit."
+    },
+    {
+      "points": -1,
+      "note": "Probably unable to find an open fire pit",
+      "detail": "Realistic availability adjustment. Proposal remains warmly received."
     }
   ]
 }
