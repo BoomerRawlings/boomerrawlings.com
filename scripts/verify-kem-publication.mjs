@@ -40,9 +40,8 @@ check('cat score is the four owner-supplied factors totaling +6', () => {
   }
 });
 
-check('human score remains 20 in source and publication', () => {
-  assert.equal(total(human), 20);
-  assert.equal(text(byId(humanDocument, 'karma-score')), '20');
+check('human score matches its independently authored ledger', () => {
+  assert.equal(text(byId(humanDocument, 'karma-score')), String(total(human)));
 });
 
 check('cat route is canonical, unindexed, and omitted from every sitemap', () => {

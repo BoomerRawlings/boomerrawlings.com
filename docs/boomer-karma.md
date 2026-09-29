@@ -2,7 +2,7 @@
 
 Unlisted report: https://boomerrawlings.com/BoomerKarma/
 
-The shared source is `src/data/boomer-karma.json`. Score = `openingBalance` + every entry's `points`. Entries appear newest first; append new entries at the end of the array. The six user-supplied entries total 20, with no invented opening balance.
+The shared source is `src/data/boomer-karma.json`. Score = `openingBalance` + every entry's `points`. Entries appear newest first; append new entries at the end of the array. The eight user-supplied entries total 25, with no invented opening balance.
 
 ## Change the score
 
