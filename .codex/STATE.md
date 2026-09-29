@@ -2,7 +2,7 @@
 
 ## Boomer Karma — 2026-09-28
 
-- Mode: continuation. Objective: add owner-requested +5 for generally being a cool girl. Status: verifying/publishing; new human total33. Prior score release `62a800c`, bureau release `7506489` and feline release `da751de` retained.
+- Mode: continuation. Objective: add owner-requested +5 for generally being a cool girl. Status: complete; published as `b6e1501`, Pages run `36517315222` succeeded. Full npm test and independent ledger review passed; live page verified33 across all three bureaus and12 ledger entries. Cat remains6; bureau release `7506489` and feline release `da751de` retained.
 - Static Astro/GitHub Pages site retained. Human route `/BoomerKarma/` and feline route `/BoomerKarma/Kemberton/` stay unlisted/noindex. Ledgers in `src/data/boomer-karma.json` and `src/data/kem-karma.json` now total33 and6. No source screenshots, private photos, contact fields or credentials published.
 - Human report: nine-step comedy application, three bureau gauges, score refresh and appeals. Cat report: independent five-step authorized-representative application, strict five-minute original-capture metadata, self-hosted on-device COCO-SSD recognition and live-camera fallback. Timing is disclosed after rejection per user. No timestamp/identity proof claimed; metadata is editable.
 - Images resized/re-encoded before emailing, stripping original location metadata. No uploaded image persisted in source/browser storage. Camera/background/retry races covered; cat paperwork supplements precede photography. Repeat cat applications preserve access to already-issued report.
