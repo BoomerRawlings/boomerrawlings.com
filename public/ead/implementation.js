@@ -66,7 +66,10 @@
   }
   function trace(origin, announce = false) {
     if (!data) return;
+    // A deliberate selection wins over pointer and keyboard previews.
+    origin = pinned || origin;
     const changed = active?.id !== origin?.id || active?.side !== origin?.side;
+    if (pinned && !changed && !announce) return;
     active = origin;
     const connected = new Set(pairsFor(origin).flatMap(([a,b]) => [key('plain',a),key('artifact',b)]));
     cards.forEach((node, id) => {
@@ -79,14 +82,18 @@
     drawConnections(changed);
     if (announce && origin) {
       const labels = pairsFor(origin).map(([a,b]) => data.steps.find(s => s.id === (origin.side === 'plain' ? b : a)).number);
-      $('implementation-status').textContent = `Step ${data.steps.find(s => s.id === origin.id).number}: linked ${origin.side === 'plain' ? 'implementation' : 'plain-English'} steps ${labels.join(', ')}. Trace held.`;
+      $('implementation-status').textContent = `Step ${data.steps.find(s => s.id === origin.id).number}: linked ${origin.side === 'plain' ? 'implementation' : 'plain-English'} steps ${labels.join(', ')}. Highlights locked. Press Escape or Clear trace to release.`;
     } else if (announce) $('implementation-status').textContent = 'Trace cleared.';
   }
   function hold(side, id) {
-    pinned = pinned?.side === side && pinned.id === id ? null : {side,id};
+    pinned = {side,id};
     trace(pinned, true);
   }
   function bindTrace(card, side, step) {
+    card.addEventListener('click', event => {
+      if (event.target.closest('button,a,pre,input,textarea,select,summary') || !window.getSelection()?.isCollapsed) return;
+      hold(side,step.id);
+    });
     card.addEventListener('pointerenter', event => {if (event.pointerType !== 'touch') trace({side,id:step.id});});
     card.addEventListener('pointerleave', () => {
       const focused = document.activeElement?.closest('.implementation-card');
@@ -193,11 +200,15 @@
     });
     $('implementation-clear').addEventListener('click',()=>{pinned=null;$('implementation-download').focus({preventScroll:true});trace(null,true);});
     $('implementation-download').addEventListener('click',download);
-    $('implementation-board').addEventListener('keydown',event=>{if(event.key==='Escape'){pinned=null;trace(null,true);}});
+    document.addEventListener('keydown',event=>{
+      if(event.key==='Escape'&&!$('implementation-view').hidden&&!document.querySelector('dialog[open]')){pinned=null;trace(null,true);}
+    });
     new ResizeObserver(scheduleDraw).observe($('implementation-board'));
     filter();
   },{once:true});
-  document.addEventListener('ead:implementation-query',event=>{query=normalize(event.detail).trim();filter();});
+  document.addEventListener('ead:implementation-query',event=>{
+    const next=normalize(event.detail).trim();if(next===query)return;query=next;filter();
+  });
   document.addEventListener('ead:view',event=>{if(event.detail==='implementation')scheduleDraw();});
   mobile.addEventListener('change',scheduleDraw); reduced.addEventListener('change',()=>{ $('implementation-lines').getAnimations({subtree:true}).forEach(a=>a.finish()); });
 })();
