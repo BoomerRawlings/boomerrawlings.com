@@ -56,7 +56,7 @@
       <button type="button" disabled data-view="observations">Findings</button>
       <button type="button" disabled data-view="sources">Catalogue <span id="source-count">492</span></button>
     </nav>
-    <label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg><span class="sr-only">Search the current view</span><input id="search" type="search" disabled autocomplete="off" spellcheck="false" placeholder="Find a lab, researcher or topic" aria-describedby="search-help"><kbd>/</kbd></label>
+    <div class="search-wrap"><label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg><span class="sr-only">Search the current view</span><input id="search" type="search" disabled autocomplete="off" spellcheck="false" placeholder="Search researchers, labs and topics" aria-label="Search researchers, labs and topics" aria-describedby="search-help"><kbd>/</kbd></label><button id="search-clear" class="search-clear" type="button" aria-label="Clear search" hidden>Clear</button></div>
   </div>
   <main id="main" tabindex="-1">
     <div id="search-help" class="sr-only">Search runs on this device. The selected view determines what is searched.</div>
@@ -78,13 +78,15 @@
       </div>
     </section>
     <section id="observations-view" class="view" aria-label="Research observations" hidden>
+      <header class="view-heading"><p class="section-label">RESEARCH FINDINGS</p><h2>What changes the design</h2><p>Select a finding. Read the result, its implication, and the exact source.</p></header>
       <div class="section-toolbar"><div class="chips" id="observation-filters" aria-label="Observation type"><button data-kind="all" aria-pressed="true">All observations</button><button data-kind="finding" aria-pressed="false">Findings</button><button data-kind="anomaly" aria-pressed="false">Anomalies</button><button data-kind="design" aria-pressed="false">Proposals</button></div><span id="observation-count" class="result-count" aria-live="polite"></span></div>
       <label class="observation-picker select-label">Observation <select id="observation-select" aria-label="Choose an observation"></select></label>
       <div class="observation-layout"><div id="observation-list" class="observation-list"></div><article id="observation-detail" class="detail-panel" aria-live="polite"></article></div>
     </section>
     <section id="sources-view" class="view" aria-label="Searchable source catalogue" hidden>
-      <div class="section-toolbar"><div class="chips" id="source-filters" aria-label="Source coverage"><button data-coverage="reviewed" aria-pressed="true">Reviewed</button><button data-coverage="all" aria-pressed="false">Full catalogue</button><button data-coverage="flagged" aria-pressed="false">Flagged records</button></div><label class="select-label">Sort <select id="source-sort"><option value="year">Newest first</option><option value="title">Title A–Z</option></select></label></div>
-      <p class="catalog-note" id="catalog-note">23 focused reviews. Other records are indexed, not fully reviewed.</p>
+      <header class="view-heading"><p class="section-label">SOURCE CATALOGUE</p><h2>Papers &amp; evidence</h2></header>
+      <div class="section-toolbar"><div class="chips" id="source-filters" aria-label="Source coverage"><button data-coverage="all" aria-pressed="true">Full catalogue</button><button data-coverage="reviewed" aria-pressed="false">Reviewed</button><button data-coverage="flagged" aria-pressed="false">Flagged records</button></div><label class="select-label">Sort <select id="source-sort"><option value="year">Newest first</option><option value="title">Title A–Z</option></select></label></div>
+      <p class="catalog-note" id="catalog-note"></p>
       <div class="source-table-wrap"><table class="source-table"><thead><tr><th scope="col">Year</th><th scope="col">Source</th><th scope="col">Coverage</th><th scope="col"><span class="sr-only">Details</span></th></tr></thead><tbody id="source-rows"></tbody></table></div>
       <div class="pagination"><span id="source-results" role="status"></span><div><button id="page-prev">Previous</button><span id="page-number"></span><button id="page-next">Next</button></div></div>
     </section>

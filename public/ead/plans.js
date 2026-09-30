@@ -4,8 +4,8 @@
   const $ = id => document.getElementById(id);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const controls = new Map();
-  let plans = [], activeId = null, expanded = false, loading = false, rendered = false;
-  let reveal, guide, status, layoutTimer, fade, pendingRequest = null, providedData = null;
+  let plans = [], activeId = null, expanded = false, loading = false, rendered = false, foundationCount = 0;
+  let reveal, guide, status, layoutTimer, fade, pendingRequest = null, providedData = null, navigation = 0;
   const make = (tag, text, className) => {
     const node = document.createElement(tag);
     if (text !== undefined) node.textContent = text;
@@ -15,6 +15,15 @@
   const send = (type, detail) => document.dispatchEvent(new CustomEvent(type, {detail}));
   function notifyLayout() {
     send('ead:plan-layout', {id: activeId, expanded});
+  }
+  function afterReveal(alreadyOpen) {
+    if (alreadyOpen || reduced.matches) return Promise.resolve();
+    return new Promise(resolve => {
+      const finish = () => { clearTimeout(timer); reveal.removeEventListener('transitionend',ended); resolve(); };
+      const ended = event => { if (event.target===reveal && event.propertyName==='grid-template-rows') finish(); };
+      const timer = setTimeout(finish,380);
+      reveal.addEventListener('transitionend',ended);
+    });
   }
   function setExpanded(open) {
     if (!open && guide.contains(document.activeElement)) controls.get(activeId)?.focus();
@@ -27,6 +36,7 @@
       control.classList.toggle('is-selected', selected);
       control.setAttribute('aria-pressed', String(selected));
       control.setAttribute('aria-expanded', String(selected));
+      control.querySelector('.plan-choice-action').textContent = selected ? 'Close plan' : 'Open plan';
     });
     clearTimeout(layoutTimer);
     requestAnimationFrame(notifyLayout);
@@ -38,6 +48,7 @@
     const wasOpen = expanded;
     const changed = activeId !== id;
     const open = typeof forceOpen === 'boolean' ? forceOpen : changed || !expanded;
+    const request = ++navigation;
     activeId = id;
     setExpanded(open);
     send('ead:plan-select', {
@@ -51,6 +62,12 @@
     if (open && wasOpen && changed && !reduced.matches && guide.animate) {
       fade = guide.animate([{opacity: .55}, {opacity: 1}], {duration: 220, easing: 'ease-out'});
     }
+    if (open && (changed || !wasOpen)) afterReveal(wasOpen).then(() => {
+      if (request!==navigation || !expanded || $('implementation-view')?.hidden) return;
+      const heading=$('implementation-title');
+      heading?.focus({preventScroll:true});
+      heading?.scrollIntoView({block:'start',behavior:reduced.matches?'auto':'smooth'});
+    });
   }
   function render(data, mount) {
     plans = data.plans;
@@ -75,7 +92,16 @@
       dot.setAttribute('aria-hidden', 'true');
       const text = make('span', undefined, 'plan-choice-text');
       text.append(make('span', plan.title, 'plan-choice-title'));
-      text.append(make('span', plan.status === 'guide' ? 'Build guide' : 'Outline · scope to define', 'plan-choice-status'));
+      const purpose = {
+        'scientific-assistant': 'Develop a consistent scientist persona, then test and version it.',
+        'research-analyst': 'Turn a research question into a source-backed analysis.',
+        'social-simulation': 'Design synthetic roles and study their interactions.',
+        'procedure-navigator': 'Translate an approved process into guidance and checked actions.'
+      };
+      text.append(make('span', purpose[plan.id] || plan.description, 'plan-choice-purpose'));
+      const count = plan.steps?.length || foundationCount;
+      text.append(make('span', `${plan.status === 'guide' ? 'Build guide' : 'Outline · scope to define'}${count ? ` · ${count} steps` : ''}`, 'plan-choice-status'));
+      text.append(make('span', 'Open plan', 'plan-choice-action'));
       const arrow = make('span', '⌄', 'plan-choice-arrow');
       arrow.setAttribute('aria-hidden', 'true');
       control.append(dot, text, arrow);
@@ -146,6 +172,7 @@
     else { pendingRequest = request; init(); }
   });
   document.addEventListener('ead:plans-data', event => { providedData = event.detail; init(); });
+  document.addEventListener('ead:implementation-data', event => { foundationCount = event.detail.steps?.length || 0; });
   document.addEventListener('ead:view', event => {
     if (event.detail === 'implementation' && rendered) requestAnimationFrame(notifyLayout);
   });

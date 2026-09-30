@@ -34,7 +34,7 @@
   const assignId = (node, id) => { node.id = id; return node; };
   let data, outline, entities, locations, topics, initialized = false;
   let query = '', topicId = null, topicPreview = null, cityId = null, cityPreview = null, selectedId = null, edgeId = null;
-  let previousPositions = new Map(), networkNodeElements = new Map(), networkPage = 0, showAll = false, unlocated = false;
+  let previousPositions = new Map(), networkNodeElements = new Map(), networkPage = 0, browserPage = 0, showAll = false, unlocated = false;
   const cityMarkers = new Map(), cityButtons = new Map(), topicButtons = new Map();
   const state = {};
 
@@ -59,51 +59,87 @@
   const baseEntities = () => eligibleEntities().filter(entity => !curatedOverview() || entity.curated);
   const incident = id => data.connections.filter(edge => edge.source === id || edge.target === id);
   const edgeKind = edge => edge.kind === 'documented' ? 'Documented' : 'Inferred';
+  const connectionCount = id => new Set(incident(id).map(edge=>edge.source===id?edge.target:edge.source)).size;
+  const profileOrder = (a,b) => Number(b.id==='r-yue-zhang-westlake')-Number(a.id==='r-yue-zhang-westlake') || Number(Boolean(b.curated))-Number(Boolean(a.curated)) || Number(b.type==='person')-Number(a.type==='person') || connectionCount(b.id)-connectionCount(a.id) || a.name.localeCompare(b.name);
+  function portrait(entity, cls='atlas-avatar') {
+    const badge=make('span',entity.name.split(/\s+/).map(word=>word[0]).slice(0,2).join(''),cls);
+    if(entity.imageUrl)try{const url=new URL(entity.imageUrl,location.href);if(url.origin===location.origin){const image=make('img',undefined,cls);image.src=url.href;image.alt='';image.loading='lazy';image.addEventListener('error',()=>image.replaceWith(badge),{once:true});return image;}}catch{}
+    return badge;
+  }
   function scrollToNetwork() {
     state.networkTitle.focus({preventScroll:true});
     state.networkSection.scrollIntoView({block:'start',behavior:motion.matches ? 'auto' : 'smooth'});
   }
   function selectEntity(id, restoreNetworkFocus = false) {
     if (!entities.has(id)) return;
-    selectedId = id; edgeId = null; cityId = entityCities(entities.get(id))[0] || null; cityPreview = null; networkPage = 0;
+    selectedId = id; edgeId = null; if(cityPreview)cityId=cityPreview; cityPreview = null; networkPage = 0;
     render();
-    if (restoreNetworkFocus) networkNodeElements.get(id)?.focus();
-    else focusContact();
+    if (restoreNetworkFocus) networkNodeElements.get(id)?.focus({preventScroll:true});
+    else {const heading=state.contact.querySelector('h3');heading.tabIndex=-1;heading.focus({preventScroll:true});}
   }
   function focusContact() {
     const heading=state.contact.querySelector('h3');if(!heading)return;
     state.contact.scrollTop=0;heading.tabIndex=-1;heading.focus({preventScroll:true});
-    state.contact.scrollIntoView({block:matchMedia('(max-width:1200px)').matches?'start':'nearest',behavior:motion.matches?'auto':'smooth'});
+    state.browserPanel.scrollIntoView({block:'nearest',behavior:motion.matches?'auto':'smooth'});
   }
   function selectCity(id) {
-    cityId = id; cityPreview = null; selectedId = null; edgeId = null; networkPage = 0; unlocated = false;
+    cityId = id || null; cityPreview = null; selectedId = null; edgeId = null; networkPage = browserPage = 0; unlocated = false;
     render();
+    if(id&&matchMedia('(max-width:800px)').matches){const heading=state.cityList.querySelector('h3');heading.tabIndex=-1;heading.focus({preventScroll:true});state.browserPanel.scrollIntoView({block:'start',behavior:motion.matches?'auto':'smooth'});}
   }
   function previewCity(id) {
-    cityPreview = id; renderMap(); renderCityList();
+    if(cityId || selectedId || cityPreview===id)return;
+    cityPreview = id;browserPage=0;renderMap();if(!selectedId)renderCityList();
   }
   function selectTopic(id) {
-    topicId = id; topicPreview = null; selectedId = null; edgeId = null; cityId = cityPreview = null; networkPage = 0;
+    topicId = id; topicPreview = null; selectedId = null; edgeId = null; cityId = cityPreview = null; networkPage = browserPage = 0;
     render();
     topicButtons.get(id)?.focus({preventScroll:true});
   }
+  function exploreTopic(id) {
+    query='';unlocated=false;showAll=true;
+    document.dispatchEvent(new CustomEvent('ead:reset-query'));
+    selectTopic(id);
+    if(matchMedia('(max-width:800px)').matches)state.browserPanel.scrollIntoView({block:'start',behavior:motion.matches?'auto':'smooth'});
+  }
   function reset() {
-    query = ''; topicId = topicPreview = cityId = cityPreview = selectedId = edgeId = null; networkPage = 0; showAll = unlocated = false;
+    query = ''; topicId = topicPreview = cityId = cityPreview = selectedId = edgeId = null; networkPage = browserPage = 0; showAll = unlocated = false;
     document.dispatchEvent(new CustomEvent('ead:reset-query'));
     render(); state.overview.focus({preventScroll:true});
   }
   function build() {
     const root = $('atlas-root'); root.replaceChildren();
     const heading = make('div', undefined, 'atlas-heading');
-    const intro = make('div'); intro.append(make('p', 'CHINA / RESEARCH ATLAS', 'section-label'), make('h2', 'China research network'), make('p', 'Explore a city, follow a researcher, or trace a shared research topic.', 'atlas-intro'));
-    state.overview = button('Reset overview', reset, 'atlas-reset'); heading.append(intro, state.overview);
+    const intro = make('div'); intro.append(make('h2', 'China research network'));
+    if(entities.has('r-yue-zhang-westlake'))intro.append(button('Start with Yue Zhang →',()=>{selectEntity('r-yue-zhang-westlake');focusContact();},'atlas-start'));
+    state.overview = button('Reset atlas', reset, 'atlas-reset');
     state.status = assignId(make('p', '', 'atlas-status'), 'atlas-status'); state.status.setAttribute('role', 'status');
     const scope=make('div',undefined,'atlas-scope-controls');
-    state.allProfiles=button(`Browse all ${data.entities.length} profiles`,()=>{showAll=true;unlocated=false;selectedId=cityId=cityPreview=edgeId=null;networkPage=0;render();},'atlas-scope');
-    state.outsideMap=button('Unmapped / international',()=>{showAll=true;unlocated=true;selectedId=cityId=cityPreview=edgeId=null;networkPage=0;render();},'atlas-scope');
-    scope.append(state.allProfiles,state.outsideMap);root.append(heading,state.status,scope);
+    state.allProfiles=button(`All ${data.entities.length} profiles`,()=>{showAll=true;unlocated=false;selectedId=cityId=cityPreview=edgeId=null;networkPage=browserPage=0;render();},'atlas-scope');
+    state.outsideMap=button('Outside map',()=>{showAll=true;unlocated=true;selectedId=cityId=cityPreview=edgeId=null;networkPage=browserPage=0;render();},'atlas-scope');
+    scope.append(state.allProfiles,state.outsideMap,state.overview);heading.append(intro,scope);root.append(heading,state.status);
+    state.topicPanel = make('div',undefined,'atlas-topic-panel'); state.topicPanel.setAttribute('aria-label','Filter profiles by research topic');
+    state.topicPanel.append(make('span','Topics','atlas-topic-label'));
+    data.topics.forEach(topic => {
+      const control = button('',()=>selectTopic(topic.id),'atlas-topic'); control.append(make('span',topic.label),make('small',''));
+      control.setAttribute('aria-pressed','false'); control.title = topic.summary || topic.label;
+      const preview = () => { topicPreview=topic.id;renderMap();updateNetworkHighlights(); };
+      control.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')preview();});control.addEventListener('focus',preview);
+      topicButtons.set(topic.id,control); state.topicPanel.append(control);
+    });
+    const clearPreview = () => {topicPreview=null;renderMap();updateNetworkHighlights();};
+    state.topicPanel.addEventListener('pointerleave',()=>{if(!state.topicPanel.contains(document.activeElement))clearPreview();});
+    state.topicPanel.addEventListener('focusout',event=>{if(!state.topicPanel.contains(event.relatedTarget))clearPreview();});
+    state.clearTopic = button('Clear topic',()=>{topicId=topicPreview=null;networkPage=browserPage=0;render();state.overview.focus({preventScroll:true});},'atlas-clear-topic');
+    state.topicPanel.append(state.clearTopic);root.append(state.topicPanel);
     const grid = make('div', undefined, 'atlas-grid');
     state.mapPanel = make('section', undefined, 'atlas-map-panel'); state.mapPanel.setAttribute('aria-label', 'Cities and their researchers');
+    const mapToolbar=make('div',undefined,'atlas-map-toolbar');
+    const cityLabel=make('label','Browse city');cityLabel.htmlFor='atlas-city-select';state.citySelect=assignId(make('select'),'atlas-city-select');
+    const allCities=make('option','All cities');allCities.value='';state.citySelect.append(allCities);
+    data.locations.forEach(city=>{const option=make('option',city.name);option.value=city.id;state.citySelect.append(option);});
+    state.citySelect.addEventListener('change',()=>selectCity(state.citySelect.value));
+    mapToolbar.append(cityLabel,state.citySelect,button('Network ↓',scrollToNetwork,'atlas-map-network'));state.mapPanel.append(mapToolbar);
     state.map = assignId(svg('svg', {viewBox:'0 0 1000 640',role:'group','aria-label':'China geographic context with selectable research cities'}), 'atlas-map');
     const defs = svg('defs'), clip = svg('clipPath',{id:'atlas-map-clip'}); clip.append(svg('rect',{x:0,y:0,width:1000,height:640})); defs.append(clip); state.map.append(defs);
     const geography = svg('g',{'clip-path':'url(#atlas-map-clip)'});
@@ -117,62 +153,43 @@
     state.map.append(geography);
     state.mapEdges = svg('g',{class:'atlas-map-edges','aria-hidden':'true'}); state.map.append(state.mapEdges);
     const markerLayer = svg('g'); state.map.append(markerLayer);
-    state.cityIndex = make('div',undefined,'atlas-city-index'); state.cityIndex.setAttribute('aria-label','Browse research cities');
     const placed=[];
     [...data.locations].sort((a,b)=>b.lat-a.lat||a.id.localeCompare(b.id)).forEach(location => {
       if (!Number.isFinite(location.lat) || !Number.isFinite(location.lon)) return;
       const anchor = project(location.lon, location.lat);
       let p=anchor;
+      const markerWidth=Math.max(110,location.name.length*10+30),markerHeight=86;
       const candidates=[anchor];
-      for(const radius of [54,78,106])for(let angle=0;angle<8;angle++)candidates.push({x:anchor.x+Math.cos(angle*Math.PI/4)*radius,y:anchor.y+Math.sin(angle*Math.PI/4)*radius});
-      p=candidates.find(point=>point.x>25&&point.x<975&&point.y>25&&point.y<615&&placed.every(other=>Math.hypot(other.x-point.x,other.y-point.y)>49))||anchor;
-      placed.push(p);
+      for(const radius of [76,112,155,200,250,300])for(let angle=0;angle<16;angle++)candidates.push({x:anchor.x+Math.cos(angle*Math.PI/8)*radius,y:anchor.y+Math.sin(angle*Math.PI/8)*radius});
+      p=candidates.find(point=>point.x>markerWidth/2+8&&point.x<992-markerWidth/2&&point.y>48&&point.y<590&&placed.every(other=>Math.abs(other.x-point.x)>(other.width+markerWidth)/2+8||Math.abs(other.y-point.y)>markerHeight+8))||anchor;
+      placed.push({...p,width:markerWidth});
       if(p!==anchor){markerLayer.append(svg('path',{d:`M${anchor.x},${anchor.y}L${p.x},${p.y}`,class:'atlas-city-leader','aria-hidden':'true'}),svg('circle',{cx:anchor.x,cy:anchor.y,r:2,class:'atlas-city-anchor','aria-hidden':'true'}));}
       const marker = svg('g',{transform:`translate(${p.x},${p.y})`,class:'atlas-city',tabindex:0,role:'button','aria-label':location.name,'aria-pressed':'false'});
       const title = svg('title'); title.textContent = location.name;
-      marker.append(title,svg('circle',{r:23,class:'atlas-city-hit'}),svg('circle',{r:12,class:'atlas-city-halo'}),svg('circle',{r:5,class:'atlas-city-dot'}));
-      const label = svg('text',{x:p.x>800?-13:13,y:-13,'text-anchor':p.x>800?'end':'start',class:'atlas-city-label'}); label.textContent = location.name; marker.append(label);
+      marker.append(title,svg('rect',{x:-markerWidth/2,y:-markerHeight/2,width:markerWidth,height:markerHeight,rx:7,class:'atlas-city-hit'}),svg('circle',{cx:0,cy:-14,r:4,class:'atlas-city-dot'}));
+      const label = svg('text',{x:0,y:11,'text-anchor':'middle',class:'atlas-city-label'}); label.textContent = location.name; marker.append(label);
       marker.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')previewCity(location.id);});
       marker.addEventListener('focus',()=>previewCity(location.id));
       marker.addEventListener('click',()=>selectCity(location.id));
       marker.addEventListener('keydown',event=>{if(['Enter',' '].includes(event.key)){event.preventDefault();selectCity(location.id);}});
       cityMarkers.set(location.id,marker); markerLayer.append(marker);
-      const control = button(location.name,()=>selectCity(location.id),'atlas-city-chip');
-      control.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')previewCity(location.id);});
-      control.addEventListener('focus',()=>previewCity(location.id));
-      cityButtons.set(location.id,control); state.cityIndex.append(control);
+      cityButtons.set(location.id,state.citySelect.querySelector(`option[value="${location.id}"]`));
     });
     state.cityList = assignId(make('div',undefined,'atlas-city-results'),'atlas-city-results');
-    const mapCredit = make('p',undefined,'atlas-map-credit'); mapCredit.append(link('Natural Earth · public-domain geometry',outline.meta.licenseUrl),make('span','Leader lines connect separated markers to their city anchors. Boundaries follow the source.'));
-    state.mapPanel.append(state.map,state.cityIndex,state.cityList,mapCredit);
-    state.mapPanel.addEventListener('pointerleave',()=>{if(!state.mapPanel.contains(document.activeElement)){cityPreview=null;renderMap();renderCityList();}});
-    state.mapPanel.addEventListener('focusout',event=>{if(!state.mapPanel.contains(event.relatedTarget)){cityPreview=null;renderMap();renderCityList();}});
-    state.topicPanel = make('aside',undefined,'atlas-topic-panel'); state.topicPanel.setAttribute('aria-label','Research topics');
-    state.topicPanel.append(make('p','TOPICS','section-label'),make('p','Preview a topic. Select to hold its filter.','atlas-helper'));
-    data.topics.forEach(topic => {
-      const control = button('',()=>selectTopic(topic.id),'atlas-topic'); control.append(make('span',topic.label),make('small',''));
-      control.setAttribute('aria-pressed','false'); control.title = topic.summary || topic.label;
-      const preview = () => { topicPreview=topic.id;renderMap();updateNetworkHighlights(); };
-      control.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')preview();});
-      control.addEventListener('focus',preview);
-      topicButtons.set(topic.id,control); state.topicPanel.append(control);
-    });
-    const clearPreview = () => {topicPreview=null;renderMap();updateNetworkHighlights();};
-    state.topicPanel.addEventListener('pointerleave',()=>{if(!state.topicPanel.contains(document.activeElement))clearPreview();});
-    state.topicPanel.addEventListener('focusout',event=>{if(!state.topicPanel.contains(event.relatedTarget))clearPreview();});
-    state.clearTopic = button('Clear topic',()=>{topicId=topicPreview=null;networkPage=0;render();state.overview.focus({preventScroll:true});},'atlas-clear-topic');
-    state.topicPanel.append(state.clearTopic,button('View network ↓',scrollToNetwork,'atlas-network-jump'));
+    const mapCredit = make('p',undefined,'atlas-map-credit'); mapCredit.append(link('Natural Earth',outline.meta.licenseUrl),make('span','City anchors · source boundaries · separated labels use leader lines'));
+    state.mapPanel.append(state.map,mapCredit);
     state.contact = assignId(make('aside',undefined,'atlas-contact'),'atlas-contact'); state.contact.setAttribute('aria-label','Selected research profile');
-    grid.append(state.mapPanel,state.topicPanel,state.contact); root.append(grid);
+    state.browserPanel=make('section',undefined,'atlas-browser-panel');state.browserPanel.setAttribute('aria-label','Browse research profiles');state.browserPanel.append(state.cityList,state.contact);
+    grid.append(state.mapPanel,state.browserPanel); root.append(grid);
     const legend = make('div',undefined,'atlas-legend');
-    legend.append(make('span','Solid / documented relationship','documented'),make('span','Dashed / inferred relationship','inferred'),make('span','Location indicates the sourced institution, not a personal address.'));
+    legend.append(make('span','Solid: documented','documented'),make('span','Dashed: inferred','inferred'),make('span','Topic filters indicate shared research, not relationships.'));
     root.append(legend);
     state.networkSection = assignId(make('section',undefined,'atlas-network-section'),'atlas-network-section');
     const networkHeading = make('div',undefined,'atlas-network-heading');
     state.networkTitle = make('h2','Network'); state.networkTitle.tabIndex=-1;
     state.networkContext = make('p','','atlas-network-context');
-    const headingText=make('div'); headingText.append(state.networkTitle,state.networkContext);
-    state.networkReset=button('All filtered nodes',()=>{selectedId=cityId=edgeId=null;networkPage=0;render();state.networkTitle.focus({preventScroll:true});},'atlas-network-reset');
+    const headingText=make('div'); headingText.append(state.networkTitle,state.networkContext,make('p','Click a profile to follow it. Click a numbered link to inspect its evidence.','atlas-helper'));
+    state.networkReset=button('All filtered nodes',()=>{selectedId=cityId=cityPreview=edgeId=null;networkPage=browserPage=0;render();state.networkTitle.focus({preventScroll:true});},'atlas-network-reset');
     networkHeading.append(headingText,state.networkReset); state.networkSection.append(networkHeading);
     const networkGrid = make('div',undefined,'atlas-network-grid');
     state.network = assignId(svg('svg',{role:'group','aria-label':'Documented and inferred research relationships'}),'atlas-network');
@@ -194,6 +211,7 @@
     const connectedCities = new Set([...connectedIds].flatMap(id=>entityCities(entities.get(id))));
     const highlightTopic = topicId || topicPreview;
     const activeCity = cityPreview || cityId;
+    state.citySelect.value=cityId||'';
     data.locations.forEach(location => {
       const members = base.filter(entity=>entityCities(entity).includes(location.id));
       const relevant = !highlightTopic || members.some(entity=>list(entity.topicIds).includes(highlightTopic));
@@ -202,8 +220,7 @@
       marker.classList.toggle('is-empty',!members.length&&!connected); marker.classList.toggle('is-muted',!relevant&&!connected);
       marker.classList.toggle('is-active',activeCity===location.id||connected);
       marker.setAttribute('aria-pressed',String(cityId===location.id)); marker.setAttribute('aria-label',`${location.name}: ${members.length} matching profiles.${connected?' Includes the selected profile or a recorded connection.':''} Show city.`);
-      control.textContent=`${location.name} · ${members.length}`;control.classList.toggle('is-muted',(!members.length||!relevant)&&!connected);
-      control.setAttribute('aria-pressed',String(cityId===location.id));
+      control.textContent=`${location.name} · ${members.length}`;
     });
     state.mapEdges.replaceChildren();
     selectedEdges.forEach(edge=>{
@@ -215,47 +232,56 @@
     });
   }
   function renderCityList() {
-    const host=state.cityList;host.replaceChildren();
-    const location=locations.get(cityPreview||cityId);
-    if(!location){host.append(make('h3','Select a city'),make('p','Hover, focus, or select a city to see its labs and researchers.','atlas-helper'));return;}
-    const members=eligibleEntities().filter(entity=>entityCities(entity).includes(location.id));
-    host.append(make('h3',location.name),make('p',location.summary||`${members.length} profiles in this selection.`,'atlas-helper'));
+    const host=state.cityList;host.hidden=Boolean(selectedId);
+    const city=locations.get(cityPreview||cityId);
+    const starting=!query&&!topicId&&!city&&!showAll&&!unlocated;
+    const members=eligibleEntities().filter(entity=>(!city||entityCities(entity).includes(city.id))&&(!starting||entity.curated)).sort(profileOrder);
+    const totalPages=Math.max(1,Math.ceil(members.length/12));browserPage=Math.max(0,Math.min(browserPage,totalPages-1));
+    const key=JSON.stringify([city?.id,cityId,query,topicId,showAll,unlocated,browserPage,members.map(e=>e.id)]);
+    if(key===state.browserKey)return;state.browserKey=key;host.replaceChildren();
+    const title=city?.name || (query?'Search results':topicId?topics.get(topicId)?.label:unlocated?'Outside the map':starting?'Start exploring':'All profiles');
+    const header=make('div',undefined,'atlas-browser-heading');
+    header.append(make('h3',title),make('span',`${members.length} profiles`,'atlas-result-count'));host.append(header);
+    if(starting)host.append(make('p','Begin with Yue Zhang, or select a city to browse its people and labs.','atlas-helper'));
+    else if(city)host.append(make('p',cityId?'City selected. Click another map point to switch.':city.summary||'People and labs linked to this city.','atlas-helper'));
     const items=make('div',undefined,'atlas-city-members');
-    members.forEach(entity=>{
+    members.slice(browserPage*12,(browserPage+1)*12).forEach(entity=>{
       const control=button('',()=>selectEntity(entity.id),'atlas-entity-button');
-      control.append(make('small',entity.type==='lab'?'LAB':'RESEARCHER'),make('span',entity.name));control.setAttribute('aria-pressed',String(selectedId===entity.id));items.append(control);
+      const copy=make('span',undefined,'atlas-entity-copy'),count=connectionCount(entity.id);
+      copy.append(make('strong',starting&&entity.id==='r-yue-zhang-westlake'?'Start with Yue Zhang':entity.name),make('span',entity.affiliation||entity.type,'atlas-entity-affiliation'),make('small',`${entity.type==='lab'?'LAB':'RESEARCHER'} · ${count} connection${count===1?'':'s'}`));
+      control.append(portrait(entity),copy,make('span','→','atlas-entity-arrow'));control.setAttribute('aria-label',`${starting&&entity.id==='r-yue-zhang-westlake'?'Start with ':''}${entity.name}. ${count} connections. Show profile.`);items.append(control);
     });
-    if(!members.length)items.append(make('p','No profiles match the current search and topic.','atlas-helper'));host.append(items);
+    if(!members.length)items.append(make('p','No matching profiles. Clear a topic or reset the atlas to broaden the search.','atlas-helper'));host.append(items);
+    if(totalPages>1){const pager=make('div',undefined,'atlas-browser-pager');
+      const changePage=delta=>{browserPage+=delta;renderCityList();const buttons=host.querySelectorAll('.atlas-browser-pager button');const target=delta>0?buttons[1]:buttons[0];(target.disabled?(delta>0?buttons[0]:buttons[1]):target).focus({preventScroll:true});};
+      const previous=button('Previous',()=>changePage(-1)),next=button('Next',()=>changePage(1));previous.disabled=browserPage===0;next.disabled=browserPage===totalPages-1;
+      pager.append(previous,make('span',`${browserPage+1} / ${totalPages}`),next);host.append(pager);}
   }
   function renderContact() {
-    const host=state.contact;host.replaceChildren();
-    const entity=entities.get(selectedId);
-    if(!entity){
-      host.append(make('p','RESEARCH PROFILE','section-label'),make('h3',topicId?topics.get(topicId)?.label:'Follow the evidence'),make('p',topicId?topics.get(topicId)?.summary:'Choose a profile from a city or network node. Its work, source, and relationship evidence appear here.','atlas-profile-copy'));
-      const count=baseEntities().length;host.append(make('p',`${count} matching profiles · ${data.topics.length} curated topics`,'atlas-helper'));
-      if(cityId)host.append(make('p',`City selected: ${locations.get(cityId)?.name || cityId}`,'atlas-helper'));
-      return;
-    }
-    host.append(make('p',entity.type==='lab'?'LAB / RESEARCH GROUP':'RESEARCHER','section-label'));
-    const badge=make('div',entity.name.split(/\s+/).map(word=>word[0]).slice(0,2).join(''),'atlas-profile-monogram');
-    if(entity.imageUrl){
-      try {
-        const url=new URL(entity.imageUrl,location.href);
-        if(url.origin===location.origin){const image=make('img');image.src=url.href;image.alt=entity.name;image.loading='lazy';image.addEventListener('error',()=>image.replaceWith(badge),{once:true});host.append(image);}
-        else host.append(badge);
-      } catch {host.append(badge);}
-    } else host.append(badge);
-    host.append(make('h3',entity.name),make('p',entity.affiliation||locations.get(entity.locationId)?.name||'','atlas-affiliation'));
-    if(entity.locationBasis)host.append(make('p',`Location basis: ${entity.locationBasis}`,'atlas-helper'));
-    if(entity.locationSourceUrl)host.append(link('Location source ↗',entity.locationSourceUrl));
+    const host=state.contact;host.hidden=!selectedId;
+    const entity=entities.get(selectedId);if(!entity)return;
+    if(state.contactKey===entity.id)return;state.contactKey=entity.id;host.replaceChildren();host.scrollTop=0;
+    host.append(button('← Back to profiles',()=>{selectedId=edgeId=null;render();const h=state.cityList.querySelector('h3');h.tabIndex=-1;h.focus({preventScroll:true});},'atlas-back'));
+    const header=make('div',undefined,'atlas-profile-heading'),headingText=make('div');
+    headingText.append(make('p',entity.type==='lab'?'LAB / RESEARCH GROUP':'RESEARCHER','section-label'),make('h3',entity.name),make('p',entity.affiliation||locations.get(entity.locationId)?.name||'','atlas-affiliation'));
+    header.append(portrait(entity,'atlas-avatar atlas-profile-avatar'),headingText);host.append(header);
+    const count=connectionCount(entity.id),actions=make('div',undefined,'atlas-profile-actions');
+    if(count)actions.append(button(`View ${count} connection${count===1?'':'s'} ↓`,scrollToNetwork,'atlas-primary'));
+    actions.append(button('Find papers',()=>document.dispatchEvent(new CustomEvent('ead:catalogue',{detail:entity.name})),'atlas-papers'));
+    if(entity.sourceUrl)actions.append(link('Source ↗',entity.sourceUrl));host.append(actions);
+    if(!count)host.append(make('p','No recorded connections. Explore this profile’s papers or shared topics below.','atlas-helper'));
+    if(entity.work||entity.bio)host.append(make('p',text(entity.work||entity.bio),'atlas-profile-copy atlas-profile-summary'));
+    const topicList=make('div',undefined,'atlas-profile-topics');list(entity.topicIds).forEach(id=>{const topic=topics.get(id);if(topic)topicList.append(button(topic.label,()=>exploreTopic(id)));});host.append(topicList);
+    const detail=make('details',undefined,'atlas-profile-details');detail.append(make('summary','Biography, work & provenance'));
+    if(entity.bio)detail.append(make('h4','Research summary'),make('p',entity.bio,'atlas-profile-copy'));
+    if(entity.work)detail.append(make('h4','Work'),make('p',text(entity.work),'atlas-profile-copy'));
+    if(entity.reason)detail.append(make('h4','Why included'),make('p',text(entity.reason),'atlas-profile-copy'));
     const provided=typeof entity.providedBio==='string'?entity.providedBio.trim():'';
-    if(provided){host.append(make('h4','Provided description'),make('p',provided,'atlas-profile-copy'));if(entity.providedBioSourceUrl)host.append(link('Description source ↗',entity.providedBioSourceUrl));}
-    if(entity.bio)host.append(make('h4',entity.providedBio===true?'Provided biography':'Research summary'),make('p',entity.bio,'atlas-profile-copy'));
-    if(entity.work)host.append(make('h4','Work'),make('p',text(entity.work),'atlas-profile-copy'));
-    if(entity.reason)host.append(make('h4','Why included'),make('p',entity.reason,'atlas-profile-copy'));
-    const topicList=make('div',undefined,'atlas-profile-topics');list(entity.topicIds).forEach(id=>{const topic=topics.get(id);if(topic)topicList.append(button(topic.label,()=>selectTopic(id)));});host.append(topicList);
-    if(entity.sourceUrl)host.append(link('Open primary profile ↗',entity.sourceUrl));
-    host.append(button('Trace in network ↓',scrollToNetwork,'atlas-network-jump'));
+    if(provided){detail.append(make('h4','Provided description'),make('p',provided,'atlas-profile-copy'));if(entity.providedBioSourceUrl)detail.append(link('Description source ↗',entity.providedBioSourceUrl));}
+    if(entity.locationBasis)detail.append(make('h4','Location basis'),make('p',entity.locationBasis,'atlas-helper'));
+    if(entity.locationSourceUrl)detail.append(link('Location source ↗',entity.locationSourceUrl));
+    if(list(entity.affiliationRecords).length){detail.append(make('h4','Affiliations & history'));list(entity.affiliationRecords).forEach(record=>{detail.append(make('p',[record.name,record.relationship,record.role,record.date].filter(Boolean).join(' · '),'atlas-helper'));if(record.sourceUrl)detail.append(link('Affiliation source ↗',record.sourceUrl));});}
+    host.append(detail);
   }
   function networkData() {
     const base=baseEntities(),baseIds=new Set(base.map(e=>e.id));
@@ -282,11 +308,11 @@
     let height=Math.max(260,Math.ceil(visible.length/columns)*100+70);
     const positions=new Map();
     if(center){
-      height=compact.matches?Math.max(320,190+Math.ceil(page.length/2)*126):740;
-      positions.set(center.id,{x:width/2,y:compact.matches?64:350});
+      height=compact.matches?Math.max(320,190+Math.ceil(page.length/2)*126):650;
+      positions.set(center.id,{x:width/2,y:compact.matches?64:300});
       page.forEach((entity,index)=>{
         const angle=-Math.PI/2+index*Math.PI*2/Math.max(1,page.length);
-        positions.set(entity.id,compact.matches?{x:120+(index%2)*240,y:198+Math.floor(index/2)*126}:{x:500+Math.cos(angle)*365,y:350+Math.sin(angle)*255});
+        positions.set(entity.id,compact.matches?{x:120+(index%2)*240,y:198+Math.floor(index/2)*126}:{x:500+Math.cos(angle)*365,y:300+Math.sin(angle)*215});
       });
     } else visible.forEach((entity,index)=>positions.set(entity.id,{x:(index%columns+.5)*width/columns,y:70+Math.floor(index/columns)*100}));
     state.network.setAttribute('viewBox',`0 0 ${width} ${height}`);state.network.replaceChildren();networkNodeElements=new Map();
@@ -296,12 +322,26 @@
     state.networkReset.hidden=!selectedId&&!cityId;
     state.pagePrev.disabled=networkPage===0;state.pageNext.disabled=networkPage===totalPages-1;
     state.pageInfo.textContent=`Page ${networkPage+1} / ${totalPages}${center?' · focused profile retained':''}`;
-    const edgeLayer=svg('g',{'aria-hidden':'true'});state.network.append(edgeLayer);
-    edges.forEach(edge=>{
+    state.renderedEdges=edges;state.edgeElements=new Map();
+    const edgeLayer=svg('g'),badgeLayer=svg('g');state.network.append(edgeLayer,badgeLayer);
+    const parallel=new Map();edges.forEach(edge=>{const key=[edge.source,edge.target].sort().join('|');if(!parallel.has(key))parallel.set(key,[]);parallel.get(key).push(edge.id);});
+    edges.forEach((edge,index)=>{
       const a=positions.get(edge.source),b=positions.get(edge.target);if(!a||!b)return;
       const dx=Math.max(30,Math.abs(b.x-a.x)*.42),direction=b.x>=a.x?1:-1;
-      const path=svg('path',{d:`M${a.x},${a.y}C${a.x+dx*direction},${a.y-30} ${b.x-dx*direction},${b.y-30} ${b.x},${b.y}`,class:`atlas-network-edge ${edge.kind==='documented'?'documented':'inferred'}${edgeId===edge.id?' is-selected':''}`});
-      edgeLayer.append(path);
+      const pair=parallel.get([edge.source,edge.target].sort().join('|')),offset=(pair.indexOf(edge.id)-(pair.length-1)/2)*96;
+      const orientation=edge.source<edge.target?1:-1,length=Math.hypot(b.x-a.x,b.y-a.y)||1;
+      const ox=-(b.y-a.y)/length*offset*orientation,oy=(b.x-a.x)/length*offset*orientation;
+      const d=`M${a.x},${a.y}C${a.x+dx*direction+ox},${a.y-30+oy} ${b.x-dx*direction+ox},${b.y-30+oy} ${b.x},${b.y}`;
+      const edgeControl=svg('g',{class:`atlas-edge-control${edgeId===edge.id?' is-selected':''}`});
+      const badgeControl=svg('g',{class:`atlas-edge-control${edgeId===edge.id?' is-selected':''}`,role:'button',tabindex:0,'aria-pressed':String(edgeId===edge.id),'aria-label':`${edgeKind(edge)} relationship: ${entities.get(edge.source)?.name} and ${entities.get(edge.target)?.name}. ${edge.label}`});
+      if(edges.filter(other=>other.source===edge.source&&other.target===edge.target&&other.kind===edge.kind&&other.label===edge.label).length>1)badgeControl.setAttribute('aria-label',`${badgeControl.getAttribute('aria-label')}. Connection ${index+1}`);
+      const mid={x:(a.x+b.x)/2+ox*.75,y:(a.y+b.y)/2-22.5+oy*.75},hit=compact.matches?32:22;
+      const path=svg('path',{d,class:`atlas-network-edge ${edge.kind==='documented'?'documented':'inferred'}`});
+      const label=svg('text',{x:mid.x,y:mid.y+4,'text-anchor':'middle',class:'atlas-edge-number'});label.textContent=String(index+1);
+      edgeControl.append(svg('path',{d,class:'atlas-edge-hit'}),path);
+      badgeControl.append(svg('rect',{x:mid.x-hit,y:mid.y-hit,width:hit*2,height:hit*2,rx:hit,class:'atlas-edge-badge-hit'}),svg('circle',{cx:mid.x,cy:mid.y,r:compact.matches?16:11,class:'atlas-edge-badge'}),label);
+      edgeControl.addEventListener('click',()=>selectEdge(edge.id));badgeControl.addEventListener('click',()=>selectEdge(edge.id));badgeControl.addEventListener('keydown',event=>{if(['Enter',' '].includes(event.key)){event.preventDefault();selectEdge(edge.id);}});
+      edgeLayer.append(edgeControl);badgeLayer.append(badgeControl);state.edgeElements.set(edge.id,[edgeControl,badgeControl]);
     });
     visible.forEach(entity=>{
       const p=positions.get(entity.id),isCenter=entity.id===selectedId;
@@ -336,6 +376,12 @@
     if(!visible.length){const empty=svg('text',{x:width/2,y:110,'text-anchor':'middle',class:'atlas-network-empty'});empty.textContent='No profiles match these filters.';state.network.append(empty);}
     updateNetworkHighlights();renderNetworkDetail(edges);
   }
+  function selectEdge(id) {
+    edgeId=id;
+    state.edgeElements?.forEach((nodes,key)=>nodes.forEach(node=>{node.classList.toggle('is-selected',key===id);if(node.hasAttribute('role'))node.setAttribute('aria-pressed',String(key===id));}));
+    renderNetworkDetail(state.renderedEdges||[]);
+    if(id){state.networkDetail.scrollTop=0;if(matchMedia('(max-width:800px)').matches){const heading=state.networkDetail.querySelector('h3');heading.tabIndex=-1;heading.focus({preventScroll:true});state.networkDetail.scrollIntoView({block:'start',behavior:motion.matches?'auto':'smooth'});}}
+  }
   function updateNetworkHighlights() {
     const topic=topicId||topicPreview;
     networkNodeElements.forEach((node,id)=>node.classList.toggle('is-muted',Boolean(topic&&!list(entities.get(id)?.topicIds).includes(topic))));
@@ -346,7 +392,7 @@
     if(chosen){
       host.append(make('p',`${edgeKind(chosen).toUpperCase()} RELATIONSHIP`,'section-label'),make('h3',chosen.label),make('p',`${entities.get(chosen.source)?.name} → ${entities.get(chosen.target)?.name}`,'atlas-helper'),make('p',chosen.basis,'atlas-profile-copy'));
       if(chosen.sourceUrl)host.append(link('Open relationship evidence ↗',chosen.sourceUrl));
-      host.append(button('Back to relationships',()=>{edgeId=null;renderNetwork();const h=state.networkDetail.querySelector('h3');h.tabIndex=-1;h.focus({preventScroll:true});},'atlas-network-jump'));return;
+      host.append(button('Back to relationships',()=>{selectEdge(null);const h=state.networkDetail.querySelector('h3');h.tabIndex=-1;h.focus({preventScroll:true});},'atlas-network-jump'));return;
     }
     host.append(make('p','RELATIONSHIP EVIDENCE','section-label'),make('h3',selectedId?entities.get(selectedId).name:'Inspect a connection'));
     host.append(make('p',selectedId?'Select a relationship on this page to read its basis.':'Select a profile to focus its direct links. Topic similarity is shown separately from documented relationships.','atlas-helper'));
@@ -354,10 +400,12 @@
     const shown=selectedId?edges.filter(edge=>edge.source===selectedId||edge.target===selectedId):edges;
     const edgeList=make('div',undefined,'atlas-edge-list');
     shown.forEach(edge=>{
-      const control=button('',()=>{edgeId=edge.id;renderNetwork();const h=state.networkDetail.querySelector('h3');h.tabIndex=-1;h.focus({preventScroll:true});},'atlas-edge-button');
-      control.append(make('small',edgeKind(edge)),make('span',edge.label),make('em',`${entities.get(edge.source)?.name} / ${entities.get(edge.target)?.name}`));edgeList.append(control);
+      const control=button('',()=>{selectEdge(edge.id);const h=state.networkDetail.querySelector('h3');h.tabIndex=-1;h.focus({preventScroll:true});},'atlas-edge-button');
+      control.append(make('small',`${edges.indexOf(edge)+1} · ${edgeKind(edge)}`),make('span',edge.label),make('em',`${entities.get(edge.source)?.name} / ${entities.get(edge.target)?.name}`));edgeList.append(control);
     });
-    if(!shown.length)edgeList.append(make('p',selectedId?'No relationship recorded for this profile.':'No relationship recorded in this filtered selection.','atlas-helper'));host.append(edgeList);
+    if(!shown.length){edgeList.append(make('p',selectedId?'No recorded relationships. Explore this profile’s papers or shared topics.':'No relationships on this page. Select a profile to see every recorded connection.','atlas-helper'));
+      const entity=entities.get(selectedId);if(entity){edgeList.append(button('Find papers',()=>document.dispatchEvent(new CustomEvent('ead:catalogue',{detail:entity.name}))));list(entity.topicIds).forEach(id=>{const topic=topics.get(id);if(topic)edgeList.append(button(`Explore ${topic.label}`,()=>exploreTopic(id)));});}}
+    host.append(edgeList);
   }
   function render() {
     if(!initialized)return;
@@ -365,12 +413,12 @@
     if(selectedId&&!entities.has(selectedId)){selectedId=null;edgeId=null;}
     topicButtons.forEach((control,id)=>{
       control.setAttribute('aria-pressed',String(topicId===id));
-      control.querySelector('small').textContent=`${data.entities.filter(entity=>entityMatches(entity)&&list(entity.topicIds).includes(id)).length} profiles`;
+      control.querySelector('small').textContent=String(data.entities.filter(entity=>entityMatches(entity)&&list(entity.topicIds).includes(id)).length);
     });
     state.clearTopic.hidden=!topicId;
     state.allProfiles.setAttribute('aria-pressed',String(showAll&&!unlocated));state.outsideMap.setAttribute('aria-pressed',String(unlocated));
     const eligible=eligibleEntities();
-    state.status.textContent=`${eligible.length} searchable profiles · ${new Set(eligible.flatMap(entityCities)).size} sourced cities${curatedOverview()?` · network opens with ${base.length} curated profiles`:''}${topicId?` · ${topics.get(topicId)?.label} selected`:''}${query?` · search: ${query}`:''}${unlocated?' · without a verified map anchor':''}`;
+    state.status.textContent=`${eligible.length} profiles · ${new Set(eligible.flatMap(entityCities)).size} cities${topicId?` · ${topics.get(topicId)?.label}`:''}${query?` · search: ${query}`:''}${unlocated?' · outside mapped cities':''}`;
     renderMap();renderCityList();renderContact();renderNetwork();
   }
   async function initialize(input) {
@@ -392,8 +440,9 @@
   document.addEventListener('ead:atlas-query',event=>{
     const next=normalize(typeof event.detail==='string'?event.detail:event.detail?.query).trim();
     if(next===query)return;
-    query=next;selectedId=edgeId=cityId=cityPreview=null;networkPage=0;render();
+    query=next;selectedId=edgeId=cityId=cityPreview=null;networkPage=browserPage=0;render();
   });
+  document.addEventListener('ead:atlas-select',event=>{if(initialized&&entities.has(event.detail)){selectEntity(event.detail);scrollToNetwork();}});
   document.addEventListener('ead:view',event=>{if(event.detail==='atlas'&&initialized)renderNetwork();});
   compact.addEventListener('change',()=>{if(initialized)renderNetwork();});
   motion.addEventListener('change',()=>{if(motion.matches)$('atlas-root')?.getAnimations({subtree:true}).forEach(animation=>animation.finish());});

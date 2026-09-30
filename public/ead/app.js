@@ -31,9 +31,10 @@
   const flagged = (source) => ['withdrawn', 'identity_uncertain', 'not_target_author'].includes(source.status);
   const statusLabel = (source) => ({withdrawn:'Withdrawn',identity_uncertain:'Identity uncertain',not_target_author:'Other author'})[source.status];
   const attributionLabel = (source) => ({author_bibliography:'Listed in author bibliography',name_affiliation_checked:'Name and affiliation checked',profile_only:'Scholar profile only',identity_uncertain:'Identity unresolved',verified_yue_coauthor:'Yue Zhang coauthorship verified',verified_network_coauthor:'Collaborator authorship verified',not_target_author:'Different author'})[source.attribution] || words(source.attribution);
-  const state = {view:'atlas',query:'',kind:'all',observation:null,coverage:'reviewed',sort:'year',page:0};
+  const state = {view:'atlas',query:'',kind:'all',observation:null,coverage:'all',sort:'year',page:0};
+  const viewQueries = new Map();
   const views = new Set(['atlas','implementation','observations','sources','design']);
-  let briefing, catalogue, sources;
+  let briefing, catalogue, sources, atlas;
   const pageSize = 25;
 
   function sourceButton(id, mini = false) {
@@ -45,23 +46,28 @@
     if (source.status === 'withdrawn') b.append(el('span', 'Withdrawn', 'badge flagged'));
     return b;
   }
-  function setView(view, preserveQuery = false) {
+  function setView(view, resetQuery = false) {
     if (!views.has(view)) return;
+    viewQueries.set(state.view,state.query);
     state.view = view;
     document.body.dataset.view = view;
-    if (!preserveQuery) { state.query = ''; $('search').value = ''; }
+    state.query = resetQuery ? '' : viewQueries.get(view) || '';
+    $('search').value = state.query;
     document.querySelectorAll('.tabs button[data-view]').forEach(node => {
       const selected = node.dataset.view === (view === 'design' ? 'implementation' : view);
       node.classList.toggle('active', selected);
       if (selected) node.setAttribute('aria-current', 'page'); else node.removeAttribute('aria-current');
     });
     document.querySelectorAll('.view').forEach(node => { node.hidden = node.id !== `${view}-view`; });
-    $('search').closest('label').hidden = view === 'implementation';
-    $('search').placeholder = view === 'atlas' ? 'Find a lab, researcher or topic' : view === 'sources' ? 'Search papers and sources' : `Search ${view}`;
+    $('search').closest('.search-wrap').hidden = view === 'implementation';
+    const searchLabel = {atlas:'Search researchers, labs and topics',sources:'Search papers, authors and years',observations:'Search findings',design:'Search architecture'}[view] || 'Search';
+    $('search').placeholder = searchLabel;
+    $('search').setAttribute('aria-label',searchLabel);
     renderView();
     document.dispatchEvent(new CustomEvent('ead:view',{detail:view}));
   }
   function renderView() {
+    $('search-clear').hidden = !state.query;
     if (state.view === 'atlas') document.dispatchEvent(new CustomEvent('ead:atlas-query',{detail:state.query}));
     if (state.view === 'observations') renderObservations();
     if (state.view === 'sources') renderSources();
@@ -72,7 +78,7 @@
     const heading = target.matches('h1,h2,h3') ? target : target.querySelector('h1,h2,h3') || target;
     if (!heading.hasAttribute('tabindex')) heading.tabIndex = -1;
     heading.focus({preventScroll:true});
-    target.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+    target.scrollIntoView({block:'start',behavior:'instant'});
   }
   function renderObservations() {
     const found = briefing.observations.filter(o => (state.kind === 'all' || o.kind === state.kind) && includesQuery([o.title,o.observation,o.implication,o.caveat,...o.tags,...o.source_ids.map(id => sources.get(id)?.title)].join(' ')));
@@ -83,7 +89,12 @@
     found.forEach(o => { const option = el('option', o.title); option.value = o.id; picker.append(option); });
     picker.value = state.observation || ''; picker.disabled = !found.length;
     found.forEach(o => {
-      const b = button('', () => { state.observation = o.id; renderObservations(); if (matchMedia('(max-width:850px)').matches) $('observation-detail').scrollIntoView({block:'start'}); }, 'observation-item');
+      const b = button('', () => {
+        state.observation = o.id;
+        renderObservations();
+        if (matchMedia('(max-width:850px)').matches) focusAndScroll($('observation-detail'));
+        else $('observation-list').querySelector('[aria-pressed="true"]')?.focus({preventScroll:true});
+      }, 'observation-item');
       b.setAttribute('aria-pressed', String(o.id === state.observation));
       b.append(el('span', String(briefing.observations.indexOf(o) + 1).padStart(2, '0'), 'item-number'));
       const body = el('span'); body.append(el('span', o.title, 'item-title'));
@@ -92,7 +103,7 @@
     });
     const detail = $('observation-detail'); detail.replaceChildren();
     const current = found.find(o => o.id === state.observation);
-    if (!current) { detail.append(el('p','No matching observations. Try a shorter search or another filter.','empty')); return; }
+    if (!current) { detail.append(el('p','No findings match this search and filter.','empty'),button('Clear search and filters',()=>{state.query='';$('search').value='';state.kind='all';document.querySelectorAll('[data-kind]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.kind==='all')));renderView();},'recovery-action')); return; }
     const top = el('div', undefined, 'detail-top');
     top.append(el('span', current.kind === 'design' ? 'DESIGN PROPOSAL' : current.kind.toUpperCase(), `badge ${current.kind}`), el('span', current.tags.map(words).join(' / '), 'locator'));
     detail.append(top, el('h2', current.title), el('p', current.observation, 'observation-copy'));
@@ -108,7 +119,7 @@
     const evidence = el('section', undefined, 'evidence-block'); evidence.append(el('h3','SOURCE & LOCATION'));
     const sourceList = el('div', undefined, 'source-buttons'); current.source_ids.forEach(id => sourceList.append(sourceButton(id))); evidence.append(sourceList);
     current.evidence_locations.forEach(location => evidence.append(el('p', location, 'evidence-locations')));
-    detail.append(implication,caveat,evidence);
+    detail.append(implication,caveat,evidence,button('Open implementation plans →',()=>{setView('implementation');focusAndScroll($('implementation-plans'));},'recovery-action'));
   }
   function openSource(id) {
     const source = sources.get(id); if (!source) return;
@@ -116,19 +127,27 @@
     const title = el('h2',source.title); title.id = 'dialog-title';
     content.append(title,el('p',source.authors.join(', '),'dialog-authors'));
     if (flagged(source)) content.append(el('span',statusLabel(source),'badge flagged'));
+    content.append(link('Open primary source ↗',source.url,'external'));
     const facts = el('dl',undefined,'record-facts');
     const rows = [['Year',source.year || 'Unspecified'],['Coverage',source.reviewed ? 'Focused review' : 'Indexed record; not fully reviewed'],['Attribution',attributionLabel(source)],['Status',words(source.status)],['Version',source.version],['Authors',source.authorsFormat === 'as_recorded_may_be_abbreviated' ? 'As indexed; may be abbreviated' : null]];
     rows.filter(([,v]) => v).forEach(([k,v]) => facts.append(el('dt',k),el('dd',v)));
     content.append(facts);
     if (source.notes) content.append(el('p',source.notes));
-    content.append(link('Open primary source ↗',source.url,'external'));
+    const linkedIds = new Set(atlas.connections.filter(edge=>edge.sourceUrl===source.url).flatMap(edge=>[edge.source,edge.target]));
+    const linkedPeople = atlas.entities.filter(entity=>entity.type==='person' && source.authors.some(name=>normalize(name)===normalize(entity.name)) && (linkedIds.has(entity.id) || entity.paperIds?.includes(source.id) || (entity.id==='r-yue-zhang-westlake' && source.attribution==='verified_yue_coauthor')));
+    if(linkedPeople.length){
+      const section=el('section',undefined,'evidence-block');section.append(el('h3','EXPLORE AUTHORS IN THE ATLAS'));
+      const people=el('div',undefined,'source-people');
+      linkedPeople.forEach(entity=>people.append(button(`${entity.name} · View network`,()=>{$('source-dialog').close();setView('atlas');document.dispatchEvent(new CustomEvent('ead:atlas-select',{detail:entity.id}));},'source-link')));
+      section.append(people);content.append(section);
+    }
     const related = briefing.observations.filter(o => o.source_ids.includes(id));
     if (related.length) {
       const section = el('section',undefined,'evidence-block'); section.append(el('h3','OBSERVATIONS USING THIS SOURCE'));
       related.forEach(o => section.append(button(o.title,() => {
         $('source-dialog').close(); state.kind='all'; state.observation=o.id;
         document.querySelectorAll('[data-kind]').forEach(b => b.setAttribute('aria-pressed',String(b.dataset.kind === 'all')));
-        setView('observations'); $('observation-detail').tabIndex=-1;$('observation-detail').focus({preventScroll:true});$('observation-detail').scrollIntoView({block:'start'});
+        setView('observations',true); $('observation-detail').tabIndex=-1;$('observation-detail').focus({preventScroll:true});$('observation-detail').scrollIntoView({block:'start'});
       },'source-link'))); content.append(section);
     }
     if (source.sourceRows.length > 1) {
@@ -150,11 +169,11 @@
       if (flagged(source)) titleCell.append(el('span',statusLabel(source),'badge flagged'));
       source.tags.slice(0,4).forEach(tag => titleCell.append(el('span',words(tag),'source-tag')));
       const coverage = el('td',undefined,'source-status'); coverage.append(el('span',source.reviewed ? 'Reviewed' : 'Indexed',source.reviewed ? 'badge' : 'source-tag'));
-      const open = el('td'); open.append(button('Details ↗',() => openSource(source.id),'source-open'));
+      const open = el('td'); const details=button('Read record →',() => openSource(source.id),'source-open');details.setAttribute('aria-label',`Read record: ${source.title}`);open.append(details);
       tr.append(el('td',source.year || '—','year'),titleCell,coverage,open); tbody.append(tr);
     });
-    if (!matches.length) { const tr=el('tr'),td=el('td','No matching records. Try another term or the full catalogue.','empty'); td.colSpan=4;tr.append(td);tbody.append(tr); }
-    $('catalog-note').textContent = state.coverage === 'reviewed' ? '23 focused reviews, including one withdrawal review. Results and limitations are reported together.' : state.coverage === 'flagged' ? 'Withdrawn work, unresolved identities, and papers attributed to a different author. Retained for provenance; not treated as supporting evidence.' : '492 consolidated records. 23 reviewed; remaining records are indexed. Attribution and version caveats remain attached.';
+    if (!matches.length) { const tr=el('tr'),td=el('td',undefined,'empty');td.append(el('p','No records match this search and filter.'),button(state.coverage==='all'?'Clear search':'Search full catalogue',()=>{if(state.coverage==='all'){state.query='';$('search').value='';}state.coverage='all';document.querySelectorAll('[data-coverage]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.coverage==='all')));renderView();},'recovery-action')); td.colSpan=4;tr.append(td);tbody.append(tr); }
+    $('catalog-note').textContent = state.coverage === 'reviewed' ? '23 focused reviews. Select a title for evidence and related findings.' : state.coverage === 'flagged' ? 'Withdrawal and attribution records. Select a title for its status and source.' : '492 papers from Yue Zhang and collaborators · 23 focused reviews. Search title, author, year or topic; select a title to inspect its source.';
     $('source-results').textContent = matches.length ? `${start+1}–${Math.min(start+pageSize,matches.length)} of ${matches.length} records` : '0 records';
     $('page-number').textContent = `${state.page+1} / ${totalPages}`;
     $('page-prev').disabled = state.page === 0; $('page-next').disabled = state.page >= totalPages-1;
@@ -178,7 +197,7 @@
       b.addEventListener('click',() => {
         if (b.dataset.view) setView(b.dataset.view);
         if (b.dataset.jump) focusAndScroll($(b.dataset.jump));
-        else if (b.closest('.tabs')) document.querySelector('.workspace-bar').scrollIntoView({block:'start'});
+        else if (b.closest('.tabs')) $(`${state.view}-view`).scrollIntoView({block:'start',behavior:'instant'});
         else if (b.dataset.view) focusAndScroll($(`${state.view}-view`));
       });
     });
@@ -187,8 +206,10 @@
     document.querySelectorAll('[data-coverage]').forEach(b => b.addEventListener('click',() => {state.coverage=b.dataset.coverage;state.page=0;document.querySelectorAll('[data-coverage]').forEach(n => n.setAttribute('aria-pressed',String(n===b)));renderSources();}));
     $('search').disabled=false;
     $('search').addEventListener('input',() => {state.query=normalize($('search').value).trim();state.page=0;renderView();});
+    $('search-clear').addEventListener('click',()=>{state.query='';$('search').value='';state.page=0;renderView();$('search').focus();});
     $('source-sort').addEventListener('change',() => {state.sort=$('source-sort').value;state.page=0;renderSources();});
-    $('page-prev').addEventListener('click',() => {state.page--;renderSources();});$('page-next').addEventListener('click',() => {state.page++;renderSources();});
+    const changePage = delta => {state.page+=delta;renderSources();focusAndScroll($('sources-view'));};
+    $('page-prev').addEventListener('click',() => changePage(-1));$('page-next').addEventListener('click',() => changePage(1));
     $('about-button').addEventListener('click',() => $('about-dialog').showModal());
     document.querySelectorAll('.close-dialog').forEach(b => b.addEventListener('click',() => b.closest('dialog').close()));
     document.querySelectorAll('dialog').forEach(dialog => dialog.addEventListener('click',event => {if(event.target === dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left || event.clientX>r.right || event.clientY<r.top || event.clientY>r.bottom)dialog.close();}}));
@@ -203,9 +224,10 @@
       if (!briefing.observations.some(item => item.id === event.detail)) return;
       state.kind='all';state.observation=event.detail;
       document.querySelectorAll('[data-kind]').forEach(b => b.setAttribute('aria-pressed',String(b.dataset.kind==='all')));
-      setView('observations');$('observation-detail').tabIndex=-1;$('observation-detail').focus({preventScroll:true});$('observation-detail').scrollIntoView({block:'start'});
+      setView('observations',true);$('observation-detail').tabIndex=-1;$('observation-detail').focus({preventScroll:true});$('observation-detail').scrollIntoView({block:'start'});
     });
-    document.addEventListener('ead:reset-query',() => {state.query='';$('search').value='';});
+    document.addEventListener('ead:catalogue',event=>{setView('sources');state.query=normalize(event.detail).trim();$('search').value=event.detail;state.page=0;state.coverage='all';document.querySelectorAll('[data-coverage]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.coverage==='all')));renderView();focusAndScroll($('sources-view'));});
+    document.addEventListener('ead:reset-query',() => {state.query='';$('search').value='';$('search-clear').hidden=true;viewQueries.set(state.view,'');});
     document.dispatchEvent(new CustomEvent('ead:ready',{detail:{catalogue,briefing}}));
   }
   document.addEventListener('ead:open', () => {
@@ -213,7 +235,7 @@
       const response=await fetch(`./data/${name}.json`,{credentials:'omit',referrerPolicy:'no-referrer'});
       if(!response.ok)throw new Error('Data unavailable');return response.json();
     })).then(([b,s,x,i,p]) => {
-      briefing=b;catalogue=s;initialize();
+      briefing=b;catalogue=s;atlas=x;initialize();
       document.dispatchEvent(new CustomEvent('ead:atlas-data',{detail:x}));
       document.dispatchEvent(new CustomEvent('ead:implementation-data',{detail:i}));
       document.dispatchEvent(new CustomEvent('ead:plans-data',{detail:p}));

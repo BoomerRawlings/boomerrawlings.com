@@ -17,7 +17,8 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const mobile = matchMedia('(max-width: 760px)');
   const cards = new Map(), rows = new Map(), indexes = new Map();
-  let data, baseData, sources = new Map(), pinned = null, active = null, query = '', frame = 0;
+  let data, baseData, sources = new Map(), pinned = null, active = null, query = '', frame = 0, planId = null;
+  let traceSummary, searchClear;
 
   const key = (side, id) => `${side}:${id}`;
   const targets = step => [step.id, ...step.related_ids];
@@ -75,9 +76,21 @@
     cards.forEach((node, id) => {
       node.classList.toggle('is-connected', connected.has(id));
       node.classList.toggle('is-origin', Boolean(origin && id === key(origin.side, origin.id)));
+      const locked = Boolean(pinned && id === key(pinned.side,pinned.id));
+      node.classList.toggle('is-pinned', locked);
+      node.querySelector('.implementation-pin-label').hidden = !locked;
       node.querySelector('.implementation-title').setAttribute('aria-pressed', String(Boolean(pinned && id === key(pinned.side,pinned.id))));
     });
-    indexes.forEach((node,id) => node.classList.toggle('is-traced', origin?.id === id));
+    indexes.forEach((node,id) => {
+      node.classList.toggle('is-traced', origin?.id === id);
+      node.classList.toggle('is-related', connected.has(key('plain',id)) || connected.has(key('artifact',id)));
+      node.setAttribute('aria-pressed',String(pinned?.id === id));
+    });
+    const current = data.steps.find(step=>step.id===origin?.id);
+    if (traceSummary) {
+      traceSummary.textContent = current ? `${pinned ? 'Locked' : 'Preview'} · ${String(current.number).padStart(2,'0')} / ${current.title}` : 'Select a heading to keep its related steps highlighted.';
+      traceSummary.classList.toggle('is-locked',Boolean(pinned));
+    }
     $('implementation-clear').hidden = !pinned;
     drawConnections(changed);
     if (announce && origin) {
@@ -126,6 +139,7 @@
     const title = button('', () => hold(side,step.id), 'implementation-title');
     title.setAttribute('aria-pressed','false');
     title.append(make('span',String(step.number).padStart(2,'0'),'implementation-number'),make('span',side === 'plain' ? step.title : step.artifact));
+    const pinLabel=make('span','Locked','implementation-pin-label');pinLabel.hidden=true;pinLabel.setAttribute('aria-hidden','true');title.append(pinLabel);
     heading.append(title); card.append(heading);
     if (side === 'plain') {
       card.append(make('p',step.plain,'implementation-explanation'));
@@ -169,21 +183,40 @@
     });
     $('implementation-count').textContent = `${count} / ${data.steps.length} steps`;
     $('implementation-empty').hidden = count > 0;
+    if (searchClear) searchClear.hidden = !$('implementation-search').value;
     $('implementation-status').textContent = query ? `${count} matching steps. Clear search to restore all dependencies.` : '';
     trace(null); scheduleDraw();
   }
   function download() {
     if (!data) return;
-    const lines = [`# LEO — ${data.title || 'Implementation guide'}`,'',data.subtitle,'','Proposed guide. Synthetic workflows.',''];
+    const lines = [`# LEO — ${data.title || 'Implementation guide'}`,'',data.subtitle,'',data.status==='outline'?'Plan outline. Scope and acceptance criteria remain to be defined.':'Proposed guide. Synthetic workflows.',''];
     data.steps.forEach(step => {
       lines.push(`## ${step.number}. ${step.title}`,'',step.plain,'',`Checkpoint: ${step.check}`,'',`### ${step.artifact} (${step.kind})`,'','```'+(step.kind === 'CONFIG' ? 'json' : 'text'),step.code,'```','',step.notes,'','Evidence:');
       step.source_ids.forEach(id=>{const s=sources.get(id);if(s)lines.push(`- ${s.title}: ${s.url}`);}); lines.push('');
     });
     const url = URL.createObjectURL(new Blob([lines.join('\n')], {type:'text/markdown;charset=utf-8'}));
-    const a = make('a'); a.href = url; a.download = 'leo-implementation-guide.md'; a.click();
+    const a = make('a'); a.href = url; a.download = `leo-${planId || 'implementation-guide'}.md`; a.click();
     setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
   document.addEventListener('ead:ready',event=>{sources=new Map(event.detail.catalogue.entries.map(s=>[s.id,s]));},{once:true});
+  function clearSearch() {
+    $('implementation-search').value='';query='';filter();$('implementation-search').focus({preventScroll:true});
+  }
+  function setupGuide() {
+    const search=$('implementation-search').closest('label');
+    const onramp=make('div',undefined,'implementation-onramp');
+    for(const [heading,copy] of [
+      ['Use the step strip','Jump to a step. Read its purpose on the left and its template on the right.'],
+      ['Click a heading to lock','Related steps stay highlighted while you read, copy, or open evidence.']
+    ]){const item=make('p');item.append(make('strong',heading),make('span',copy));onramp.append(item);}
+    search.before(onramp);
+    const searchRow=make('div',undefined,'implementation-search-row');search.before(searchRow);
+    searchClear=button('Clear search',clearSearch,'implementation-search-clear');searchClear.hidden=true;
+    searchRow.append(search,searchClear);
+    traceSummary=document.querySelector('.implementation-controls > p');traceSummary.classList.add('implementation-trace-summary');
+    $('implementation-clear').textContent='Unlock step';
+    const empty=$('implementation-empty');empty.replaceChildren(make('span','No steps match this search.'),button('Show all steps',clearSearch,'implementation-empty-reset'));
+  }
   function renderSteps() {
     cards.clear(); rows.clear(); indexes.clear(); pinned=null; active=null; query='';
     $('implementation-search').value='';
@@ -204,11 +237,13 @@
   }
   document.addEventListener('ead:implementation-data',event=>{
     data=event.detail; baseData=data;
+    setupGuide();
     renderSteps();
     $('implementation-clear').addEventListener('click',()=>{pinned=null;$('implementation-download').focus({preventScroll:true});trace(null,true);});
     $('implementation-download').addEventListener('click',download);
     $('implementation-search').disabled=false;
     $('implementation-search').addEventListener('input',event=>{
+      searchClear.hidden=!event.target.value;
       const next=normalize(event.target.value).trim();if(next===query)return;query=next;filter();
     });
     document.addEventListener('keydown',event=>{
@@ -220,7 +255,9 @@
   document.addEventListener('ead:plan-select',event=>{
     const plan=event.detail;
     if (!baseData || !plan.expanded) return;
-    data=plan.steps ? {title:plan.title,subtitle:plan.description,steps:plan.steps} : baseData;
+    if(planId===plan.id){scheduleDraw();return;}
+    planId=plan.id;
+    data={...(plan.steps ? {steps:plan.steps} : baseData),title:plan.title,subtitle:plan.description,status:plan.status};
     $('implementation-title').textContent=plan.title;
     $('implementation-intro').textContent=plan.description;
     document.querySelector('.implementation-heading .section-label').textContent='IMPLEMENTATION / '+(plan.status==='outline'?'PLAN OUTLINE':'BUILD GUIDE');
