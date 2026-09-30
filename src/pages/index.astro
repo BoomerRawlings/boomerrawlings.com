@@ -56,7 +56,13 @@ const contents = [
 
 <BaseLayout description="Portfolio of Boomer Rawlings: psychology, local-first software, research systems, academic writing, and visual work.">
   <section class="home-intro">
-    <h1 class="sr-only">Projects, research, and writing by Boomer Rawlings.</h1>
+    <header class="home-identity">
+      <h1>Boomer Rawlings</h1>
+      <div>
+        <p>I work across psychology, research, software, and academic writing. This portfolio brings together selected projects, ideas, writing, and images.</p>
+        <p class="home-identity-links"><a href="/about/">About Boomer</a><a href="/cv/">Academics</a></p>
+      </div>
+    </header>
     <CuratorGuide
       variant="home"
       heading="Pip says"
@@ -112,3 +118,54 @@ const contents = [
     </div>
   </section>
 </BaseLayout>
+
+<style is:global>
+  .home-identity {
+    align-items: start;
+    display: grid;
+    gap: 1rem clamp(2.25rem, 4vw, 4rem);
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(13rem, 0.38fr) minmax(34rem, 1fr);
+  }
+
+  .home-identity h1 {
+    font-family: var(--display);
+    font-size: clamp(1.9rem, 3vw, 2.5rem);
+    font-weight: 500;
+    line-height: 1.05;
+    margin: 0;
+  }
+
+  .home-identity p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 48rem;
+  }
+
+  .home-identity .home-identity-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    margin-top: 0.6rem;
+  }
+
+  .home-identity-links a {
+    color: var(--yellow);
+    text-underline-offset: 0.2em;
+  }
+
+  @media (max-width: 70rem) {
+    .home-identity {
+      column-gap: 2.5rem;
+      grid-template-columns: minmax(14rem, 0.42fr) minmax(30rem, 1fr);
+    }
+  }
+
+  @media (max-width: 54rem) {
+    .home-identity {
+      grid-template-columns: minmax(0, 1fr);
+      margin-bottom: 2.5rem;
+    }
+  }
+</style>

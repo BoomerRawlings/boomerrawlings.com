@@ -192,24 +192,22 @@ const isExternalVenue = (venue?: string) =>
     <div>
       <h1>{entry.data.title}</h1>
       <p class="entry-description">{entry.data.description}</p>
-      {(isWriting || entry.data.projectStage) && (
-        <div class="entry-meta">
-          {entry.data.projectStage && <span>{entry.data.projectStage}</span>}
-          {isWriting && <span>By <a href="/about/" rel="author">Boomer Rawlings</a></span>}
-          {isWriting && entry.data.writingForm && <span>{entry.data.writingForm}</span>}
-          {isWriting && isExternalVenue(entry.data.venue) && <span>{entry.data.venue}</span>}
-          {isWriting && entry.data.publishedDate && (
-            <time datetime={isoDate(entry.data.publishedDate)}>
-              Published {formatFullDate(entry.data.publishedDate)}
-            </time>
-          )}
-          {isWriting && entry.data.producedDate && (
-            <time datetime={entry.data.producedDate}>
-              Produced {formatPartialDate(entry.data.producedDate)}
-            </time>
-          )}
-        </div>
-      )}
+      <div class="entry-meta">
+        {entry.data.projectStage && <span>{entry.data.projectStage}</span>}
+        <span>By <a href="/about/" rel="author">Boomer Rawlings</a></span>
+        {isWriting && entry.data.writingForm && <span>{entry.data.writingForm}</span>}
+        {isWriting && isExternalVenue(entry.data.venue) && <span>{entry.data.venue}</span>}
+        {isWriting && entry.data.publishedDate && (
+          <time datetime={isoDate(entry.data.publishedDate)}>
+            Published {formatFullDate(entry.data.publishedDate)}
+          </time>
+        )}
+        {isWriting && entry.data.producedDate && (
+          <time datetime={entry.data.producedDate}>
+            Produced {formatPartialDate(entry.data.producedDate)}
+          </time>
+        )}
+      </div>
     </div>
     {entry.data.curatorNotes && (
       <CuratorGuide

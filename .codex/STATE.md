@@ -1,5 +1,13 @@
 # Project state
 
+## Branded search visibility — 2026-09-30
+
+- Mode: continuation. Objective: evaluate and improve portfolio search visibility. User authorized fixes and focused publication. Status: verified release prepared; Google indexing inspection remains pending.
+- Baseline: all24 sitemap URLs returned200 with self-canonicals, unique titles/descriptions, oneH1, valid structured data and indexable responses. HTTP/www redirect correctly; unknown route404. Google displayed stale/different-site homepage title/snippet; cause unconfirmed, not evidence of a current canonical defect.
+- Changes: visible homepage name and factual introduction/profile links; creator bylines on archive projects; Pip tour copy excluded from snippets with data-nosnippet. Exact public HTML ownership file added for Search Console; no DNS changes.
+- Verified: full npm test and independent scoped review pass. Desktop1280, mobile390/320 and865 breakpoint checked; no horizontal overflow or console errors; keyboard focus visible. Existing content ordering, unlisted protections and research applications preserved.
+- Release source: isolated clone from main aa9d3c1; unrelated stale/dirty original checkout untouched. Next: one main push, confirm Pages/live challenge, verify Search Console, inspect indexed homepage/canonical, submit sitemap and request recrawl. Search result updates remain controlled by Google; no ranking guarantee.
+
 ## EAD research briefing — 2026-09-30
 
 - Mode: continuation. Objective: publish the approved unlisted research workspace at `/ead/`. User explicitly accepted no authentication on30September; prior live-release authorization remains active. Current status: ready for the authorized production release; full npm test and local browser checks passed.

@@ -16,7 +16,10 @@ function walk(directory) {
 walk(output);
 
 const htmlFragmentPaths = new Set([join('ead', 'workspace.html')]);
-const htmlFiles = files.filter((file) => extname(file) === '.html' && !htmlFragmentPaths.has(relative(output, file)));
+const verificationFile = 'google2d4dfdd31b0a0b0c.html';
+const htmlFiles = files.filter((file) => extname(file) === '.html'
+  && !htmlFragmentPaths.has(relative(output, file))
+  && relative(output, file) !== verificationFile);
 if (htmlFiles.length === 0) throw new Error('build produced no HTML');
 
 const redirectTargets = new Map([
@@ -54,6 +57,12 @@ if (contentHtmlFiles.length !== 25 || unlistedHtmlFiles.length !== 9 || htmlFile
 }
 
 const failures = [];
+
+const verificationPath = join(output, verificationFile);
+if (!existsSync(verificationPath)
+  || readFileSync(verificationPath, 'utf8').trim() !== `google-site-verification: ${verificationFile}`) {
+  failures.push('Google Search Console: verification file is missing or incorrect');
+}
 
 for (const fragmentPath of htmlFragmentPaths) {
   const path = join(output, fragmentPath);
@@ -1666,8 +1675,15 @@ const portfolioMapEnd = homeHtml.indexOf('</div>', portfolioMapStart);
 const portfolioMapHtml = portfolioMapStart === -1 || portfolioMapEnd === -1
   ? ''
   : homeHtml.slice(portfolioMapStart, portfolioMapEnd);
-if (!homeHtml.includes('<h1 class="sr-only">Projects, research, and writing by Boomer Rawlings.</h1>')
-  || !portfolioMapHtml.includes('class="portfolio-map__graphic"')
+const homeIdentity = homeHtml.match(/<header\b[^>]*class="home-identity"[^>]*>([\s\S]*?)<\/header>/)?.[1] ?? '';
+if (!/<h1\b[^>]*>Boomer Rawlings<\/h1>/.test(homeIdentity)
+  || homeIdentity.includes('sr-only')
+  || !homeIdentity.includes('psychology, research, software, and academic writing')
+  || !homeIdentity.includes('href="/about/"')
+  || !homeIdentity.includes('href="/cv/"')) {
+  failures.push('home identity: visible name, biography, or profile links are missing');
+}
+if (!portfolioMapHtml.includes('class="portfolio-map__graphic"')
   || !portfolioMapHtml.includes('aria-hidden="true" focusable="false"')
   || !portfolioMapHtml.includes('class="portfolio-map__pip"')
   || !portfolioMapHtml.includes('class="portfolio-curator"')
@@ -1698,6 +1714,9 @@ const workPages = workPagePaths.map((slug) =>
 );
 const discouragedProgressCopy = /Further documentation|intentionally provisional|incomplete|in progress|pending approval/i;
 for (const [index, html] of workPages.entries()) {
+  if (!html.includes('<span>By <a href="/about/" rel="author">Boomer Rawlings</a></span>')) {
+    failures.push(`work/${workPagePaths[index]}/: visible creator byline is missing`);
+  }
   if (workPagePaths[index] !== 'research-briefing-assistant' && discouragedProgressCopy.test(html)) {
     failures.push(`work/${workPagePaths[index]}/: progress-report language remains`);
   }
@@ -1723,6 +1742,9 @@ for (const file of contentHtmlFiles) {
     html.match(/class="[^"]*\bportfolio-curator\b[^"]*"/g) ?? []
   ).length;
   if (!html.includes('data-pip-guide')) failures.push(`${label}: missing Pip guide`);
+  if (!/<div\b[^>]*\bclass="curator-copy"[^>]*\bdata-nosnippet(?:\s|=|>)/.test(html)) {
+    failures.push(`${label}: Pip tour copy is not excluded from search snippets`);
+  }
   if (pipCount !== 1) failures.push(`${label}: expected exactly one Pip, found ${pipCount}`);
   if (label === 'index.html' && !html.includes('curator-guide--home')) {
     failures.push('index.html: missing home Pip');

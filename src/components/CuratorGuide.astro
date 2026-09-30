@@ -42,7 +42,7 @@ const signalStyle = (index: number, phase = 0) =>
   {variant === 'home'
     ? <PortfolioMap />
     : <span class="portfolio-curator" aria-hidden="true"></span>}
-  <div class="curator-copy">
+  <div class="curator-copy" data-nosnippet>
     <div class="curator-heading-row">
       <h2 id={headingId}>{heading}</h2>
       <button
