@@ -1,5 +1,15 @@
 # Project state
 
+## PSYC brain practice — 2026-09-30
+
+- Mode: new task. Objective: build and publish `/psyc/`, first tab Brain anatomy, plain visual rapid-fire practice.
+- Status: ready for publication. Isolated `codex/psyc` checkout starts at verified production `7750ba7`; unrelated paused work remains untouched.
+- Decisions: reuse Astro/GitHub Pages; local licensed photos/MRI; ten-question rounds, topic filters, keyboard answers, instant feedback, missed-question review. Keep this study tool outside portfolio navigation/sitemap, following existing standalone tool routes.
+- Implemented:31 source-linked questions, six licensed locally hosted images with attribution, seven verified photographic markers. External views distinguished from slice planes; hippocampus is not exposed on a true midsagittal cut.
+- Verified: full npm test passes; final build, site verifier and six quiz tests pass after phone-scroll refinement. Independent anatomy/code review found no blockers. Browser checks at1280/390/320 cover scoring, wrong/right feedback, numeric/Space keys, auto-next, topic reset, complete round5/6, missed replay1/1, images and no overflow/console errors. Mobile next-question scroll verified.
+- Next: publish one focused push, confirm GitHub Pages success and live route/assets.
+- Assumption: requested work on the named live route includes publication. No hosting or DNS changes needed.
+
 ## Branded search visibility — 2026-09-30
 
 - Mode: continuation. Objective: evaluate and improve portfolio search visibility. User authorized fixes and focused publication. Status: verified release prepared; Google indexing inspection remains pending.

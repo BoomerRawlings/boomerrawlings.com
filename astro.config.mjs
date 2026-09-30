@@ -28,6 +28,7 @@ export default defineConfig({
         page !== 'https://boomerrawlings.com/aristotter/' &&
         page !== 'https://boomerrawlings.com/deckle/' &&
         page !== 'https://boomerrawlings.com/swc/' &&
+        !page.startsWith('https://boomerrawlings.com/psyc/') &&
         !page.startsWith('https://boomerrawlings.com/ead/') &&
         !page.startsWith('https://boomerrawlings.com/BoomerKarma/') &&
         page !== 'https://boomerrawlings.com/writing/data-analysis/sex-and-the-moon/' &&

@@ -1,0 +1,46 @@
+---
+import { topics, questions, sources, images } from '../../../public/psyc/questions.js';
+import credits from '../../../public/psyc/images/credits.json';
+import '../../styles/psyc.css';
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow,noarchive,noimageindex" />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="description" content="Quick visual practice for brain anatomy: anatomical planes, views, lobes and internal structures." />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'" />
+  <link rel="canonical" href="https://boomerrawlings.com/psyc/" />
+  <title>PSYC · Brain practice</title>
+</head>
+<body>
+  <a class="skip" href="#brain-anatomy">Skip to practice</a>
+  <main>
+    <header class="masthead"><h1>PSYC</h1><a href="/">boomerrawlings.com</a></header>
+    <nav class="tabs" aria-label="Practice topics"><a href="#brain-anatomy" aria-current="page">Brain anatomy</a></nav>
+    <section id="brain-anatomy" aria-label="Brain anatomy practice">
+      <div class="toolbar"><div class="filters" role="group" aria-label="Question topic">{Object.entries(topics).map(([key, label]) => <button data-topic={key} aria-pressed={key === 'all' ? 'true' : 'false'}>{label}</button>)}</div></div>
+      <div class="settings"><span>Up to 10 questions per round</span><label><input id="auto-next" type="checkbox" checked /> Auto-next when correct</label></div>
+      <noscript><style>#quiz,.toolbar,.settings{display:none}</style><p>Enable JavaScript to answer the quizzes. Study references and image credits are below.</p></noscript>
+      <div id="quiz">
+        <div class="stats"><span id="progress">Loading questions…</span><span><span id="score">0 correct</span><span class="separator">·</span><span id="streak">0 in a row</span></span></div>
+        <progress id="progress-bar" max="10" value="0" aria-label="Round progress"></progress>
+        <div class="question-top"><p id="question-category" class="eyebrow">Brain anatomy</p><h2 id="question" tabindex="-1">Loading practice…</h2></div>
+        <div class="practice-grid">
+          <figure>
+            <div class="image-stage"><div id="photo-wrap"><img id="photo" alt="" /><span id="marker" hidden aria-hidden="true">1</span></div><p id="image-loading">Loading image…</p><div id="image-error" hidden><p>Image couldn’t load.</p><button id="retry-image">Retry image</button></div></div>
+            <figcaption><span id="image-kind"></span><span id="photo-credit" hidden></span></figcaption>
+          </figure>
+          <div class="answer-panel"><div id="answers" aria-label="Answer choices"></div><div id="feedback" hidden role="status" aria-live="polite" aria-atomic="true"><strong id="verdict"></strong><p id="explanation"></p><a id="source" href="#credits" target="_blank" rel="noopener noreferrer">Learn more</a></div><button id="next" class="primary" hidden>Next question</button></div>
+        </div>
+        <div class="practice-footer"><span><kbd>1–4</kbd> answer <span class="separator">·</span> <kbd>Space</kbd> next</span><button class="text-button" id="restart">Restart round</button></div>
+      </div>
+      <section id="summary" hidden aria-labelledby="summary-title"><p class="eyebrow">Round complete</p><h2 id="summary-title" tabindex="-1">Keep it going.</h2><p id="result"></p><p id="result-note"></p><div class="summary-actions"><button id="review" class="primary">Retry missed</button><button id="again">New round</button></div></section>
+    </section>
+    <details id="credits"><summary>Sources & image credits <span>{questions.length} questions</span></summary><div class="credits-body"><p>Photos and MRI slices are hosted with this page. Numbered points are overlays; original images are unchanged.</p><ul id="image-credits">{credits.map(credit => <li id={'credit-' + Object.keys(images).find(key => images[key].file === credit.file)}><a href={credit.source} target="_blank" rel="noopener noreferrer">{credit.title}</a> — {credit.author}. <a href={credit.licenseUrl} target="_blank" rel="noopener noreferrer">{credit.license}</a>.</li>)}</ul><h2>Study references</h2><ul>{Object.values(sources).map(source => <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label}</a></li>)}</ul><p>Functions are simplified study cues; brain regions work together in networks.</p></div></details>
+  </main>
+  <script is:inline type="module" src="/psyc/quiz.js"></script>
+</body>
+</html>

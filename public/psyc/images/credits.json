@@ -1,0 +1,76 @@
+[
+  {
+    "file": "sagittal-mri.jpg",
+    "title": "Mri brain side view",
+    "author": "Oliver Stollmann",
+    "license": "Attribution-only license",
+    "licenseUrl": "https://commons.wikimedia.org/wiki/File:Mri_brain_side_view.jpg#Licensing",
+    "source": "https://commons.wikimedia.org/wiki/File:Mri_brain_side_view.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/f/f1/Mri_brain_side_view.jpg",
+    "width": 900,
+    "height": 900,
+    "notes": "Sagittal MRI, face/anterior left. No visible patient identifiers. Good for sagittal plane, corpus callosum, brainstem, cerebellum. Source grants all uses with credit."
+  },
+  {
+    "file": "coronal.jpg",
+    "title": "MRI Brain T2 Cor (16)",
+    "author": "511KeV",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:MRI_Brain_T2_Cor_(16).jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/2/24/MRI_Brain_T2_Cor_%2816%29.jpg",
+    "width": 1080,
+    "height": 1080,
+    "notes": "Posterior coronal T2 section. Good for coronal plane recognition. Do not label this as a literal exterior front view. No laterality labels; avoid left/right hemisphere quiz."
+  },
+  {
+    "file": "axial.png",
+    "title": "Brain-T2-axial",
+    "author": "Sean Novak",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Brain-T2-axial.png",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/d/de/Brain-T2-axial.png",
+    "width": 724,
+    "height": 851,
+    "notes": "Axial T2-weighted MRI, anterior at image top. Good for axial/transverse recognition; avoid laterality question because R/L markers absent. An axial section is not an exterior superior view."
+  },
+  {
+    "file": "lateral.jpg",
+    "title": "Human brain lateral view",
+    "author": "John A. Beal, PhD, LSU Health Sciences Center Shreveport",
+    "license": "CC BY 2.5",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.5/",
+    "source": "https://commons.wikimedia.org/wiki/File:Human_brain_lateral_view.JPG",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Human_brain_lateral_view.JPG",
+    "width": 701,
+    "height": 487,
+    "notes": "Lateral specimen photograph; anterior left. Marker positions verified with companion labeled photo. Frontal 26%,54%; parietal 60%,35%; temporal 64%,64%; occipital 90%,51%; cerebellum 79%,86%.",
+    "reference": "https://commons.wikimedia.org/wiki/File:Human_brain_lateral_view_description.JPG"
+  },
+  {
+    "file": "medial.jpg",
+    "title": "Human brain midsagittal cut",
+    "author": "John A. Beal, PhD, LSU Health Sciences Center Shreveport",
+    "license": "CC BY 2.5",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.5/",
+    "source": "https://commons.wikimedia.org/wiki/File:Human_brain_midsagittal_cut.JPG",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/d/da/Human_brain_midsagittal_cut.JPG",
+    "width": 701,
+    "height": 486,
+    "notes": "Midsagittal specimen photograph, anterior right. Marker positions verified with companion labeled photo: thalamus 51.6%,55.6%; hypothalamus 54.8%,62.8%; pons 38.2%,73.3%; cerebellum 24.5%,66.3%; medulla 26.2%,84.4%. Corpus callosum approximate center 53%,44%. Hippocampus is not exposed by a true midsagittal cut.",
+    "reference": "https://commons.wikimedia.org/wiki/File:Human_brain_midsagittal_cut_description.JPG"
+  },
+  {
+    "file": "superior.jpg",
+    "title": "Brain autopsy top view",
+    "author": "Jensflorian",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Brain_autopsy_top_view.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Brain_autopsy_top_view.jpg",
+    "width": 1613,
+    "height": 1972,
+    "notes": "Actual superior specimen photo after formalin fixation. Two cerebral hemispheres and central longitudinal fissure visible. Good for superior view, fissure, gyri/sulci; avoid orientation/laterality quiz without independent markers."
+  }
+]
