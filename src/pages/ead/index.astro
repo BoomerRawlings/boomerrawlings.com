@@ -49,14 +49,12 @@
       <button type="button" disabled data-view="explorer" class="active" aria-current="page">Network</button>
       <button type="button" disabled data-view="observations">Findings</button>
       <button type="button" disabled data-view="sources">Catalogue <span id="source-count">492</span></button>
-      <button type="button" disabled data-view="connections" aria-label="Evidence map"><span class="nav-word">Evidence </span>map</button>
-      <button type="button" disabled data-view="implementation">Implementation</button>
     </nav>
     <label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg><span class="sr-only">Search the current view</span><input id="search" type="search" disabled autocomplete="off" spellcheck="false" placeholder="Find a person or topic" aria-describedby="search-help"><kbd>/</kbd></label>
   </div>
   <main id="main" tabindex="-1">
     <div id="search-help" class="sr-only">Search runs on this device. The selected view determines what is searched.</div>
-    <section id="explorer-view" class="view" aria-label="Author and research topic explorer">
+    <section id="explorer-view" class="view" aria-label="Research network and implementation">
       <div class="explorer-toolbar"><div><span class="section-label">RESEARCH NETWORK</span><span id="explorer-status" role="status">Loading research…</span></div><button id="explorer-reset" type="button" hidden>Reset network</button></div>
       <div id="explorer-layout" class="explorer-layout">
         <div id="explorer-canvas" class="explorer-canvas">
@@ -71,27 +69,12 @@
         </div>
         <aside id="explorer-detail" class="explorer-detail" aria-label="Selected node evidence" aria-live="polite" hidden></aside>
       </div>
-      <div class="explorer-footer"><span id="explorer-legend">Select the author to open his research network.</span><button type="button" disabled data-view="connections">Full evidence map</button></div>
-    </section>
-    <section id="observations-view" class="view" aria-label="Research observations" hidden>
-      <div class="section-toolbar"><div class="chips" id="observation-filters" aria-label="Observation type"><button data-kind="all" aria-pressed="true">All observations</button><button data-kind="finding" aria-pressed="false">Findings</button><button data-kind="anomaly" aria-pressed="false">Anomalies</button><button data-kind="design" aria-pressed="false">Proposals</button></div><span id="observation-count" class="result-count" aria-live="polite"></span></div>
-      <label class="observation-picker select-label">Observation <select id="observation-select" aria-label="Choose an observation"></select></label>
-      <div class="observation-layout"><div id="observation-list" class="observation-list"></div><article id="observation-detail" class="detail-panel" aria-live="polite"></article></div>
-    </section>
-    <section id="connections-view" class="view" aria-label="Interactive research connections" hidden>
-      <div class="section-toolbar graph-toolbar"><div class="chips" aria-label="Graph type"><button data-graph="research" aria-pressed="true">Researchers</button><button data-graph="papers" aria-pressed="false">Paper links</button><button data-graph="design" aria-pressed="false">Design connections</button></div><label class="select-label">Focus <select id="graph-focus" aria-label="Focus a researcher, paper, or objective"></select></label></div>
-      <div class="graph-layout"><div class="graph-shell"><div class="graph-heading"><div><h2 id="graph-title">Research network</h2><p id="graph-caption">Select a node to trace its evidence.</p></div><div class="graph-controls"><button id="zoom-out" aria-label="Zoom out">−</button><button id="zoom-in" aria-label="Zoom in">+</button><button id="zoom-reset">Reset</button></div></div><div id="graph-host"><svg id="network-svg" viewBox="0 0 1000 660" role="group" aria-label="Interactive connection graph"><g id="graph-transform"></g></svg></div><div class="graph-legend"><span><i class="legend-dot person"></i>Researcher</span><span><i class="legend-dot paper"></i>Paper</span><span><i class="legend-dot objective"></i>Design objective</span><span class="edge-key">Solid: documented</span><span class="edge-key inferred">Dashed: inferred relevance</span></div><p class="graph-hint">Drag to pan. Use + / − to zoom. Nodes are keyboard accessible.</p></div><aside id="node-detail" class="detail-panel graph-detail" aria-live="polite"></aside></div>
-      <details class="network-list"><summary>Browse connections as a list</summary><div id="network-list"></div></details>
-    </section>
-    <section id="sources-view" class="view" aria-label="Searchable source catalogue" hidden>
-      <div class="section-toolbar"><div class="chips" id="source-filters" aria-label="Source coverage"><button data-coverage="reviewed" aria-pressed="true">Reviewed</button><button data-coverage="all" aria-pressed="false">Full catalogue</button><button data-coverage="flagged" aria-pressed="false">Flagged records</button></div><label class="select-label">Sort <select id="source-sort"><option value="year">Newest first</option><option value="title">Title A–Z</option></select></label></div>
-      <p class="catalog-note" id="catalog-note">23 focused reviews. Other records are indexed, not fully reviewed.</p>
-      <div class="source-table-wrap"><table class="source-table"><thead><tr><th scope="col">Year</th><th scope="col">Source</th><th scope="col">Coverage</th><th scope="col"><span class="sr-only">Details</span></th></tr></thead><tbody id="source-rows"></tbody></table></div>
-      <div class="pagination"><span id="source-results" role="status"></span><div><button id="page-prev">Previous</button><span id="page-number"></span><button id="page-next">Next</button></div></div>
-    </section>
-    <section id="implementation-view" class="view" aria-label="Personality implementation guide" hidden>
-      <header class="implementation-heading"><div><p class="section-label">IMPLEMENTATION / LOCAL SCIENTIFIC ASSISTANT</p><h2>Turn personality into behavior.</h2><p id="implementation-intro">Eight steps from an observable profile to a tested, versioned agent.</p></div><button type="button" disabled data-view="design">Architecture overview <span aria-hidden="true">↗</span></button></header>
+      <div class="explorer-footer"><span id="explorer-legend">Select the author to open his research network.</span><button type="button" disabled data-jump="implementation-view">Implementation <span aria-hidden="true">↓</span></button></div>
+    <section id="implementation-view" aria-label="Personality implementation guide">
+      <header class="implementation-heading"><div><p class="section-label">IMPLEMENTATION / LOCAL SCIENTIFIC ASSISTANT</p><h2 id="implementation-title" tabindex="-1">Implementation</h2><p id="implementation-intro">Eight steps from an observable profile to a tested, versioned agent.</p></div><button type="button" disabled data-view="design">Architecture overview <span aria-hidden="true">↗</span></button></header>
       <div class="implementation-scope"><span class="scope-dot" aria-hidden="true"></span><span>Proposed build guide · synthetic workflows · model and hardware to be selected</span></div>
+      <label class="search implementation-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg><span class="sr-only">Search implementation steps</span><input id="implementation-search" type="search" disabled autocomplete="off" spellcheck="false" placeholder="Find a step, prompt, or control" aria-describedby="implementation-search-help"></label>
+      <p id="implementation-search-help" class="sr-only">Filters implementation steps only. Network search above is independent.</p>
       <nav id="implementation-index" class="implementation-index" aria-label="Implementation steps"></nav>
       <div class="implementation-controls"><p>Hover or focus to preview. Click a step to lock. Esc to clear.</p><div><span id="implementation-count"></span><button id="implementation-clear" type="button" hidden>Clear trace</button><button id="implementation-download" type="button">Download guide ↓</button></div></div>
       <div class="implementation-column-head"><span>01 / PLAIN ENGLISH</span><span aria-hidden="true">↔</span><span>02 / PROMPTS &amp; IMPLEMENTATION</span></div>
@@ -100,8 +83,20 @@
       <p id="implementation-status" class="implementation-status" role="status" aria-live="polite"></p>
       <div class="implementation-end"><span class="section-label">FIRST DELIVERABLE</span><p>A versioned persona, reviewed examples, synthetic procedures, and a recorded comparison. Fine-tuning follows only if a measured gap remains.</p></div>
     </section>
+    </section>
+    <section id="observations-view" class="view" aria-label="Research observations" hidden>
+      <div class="section-toolbar"><div class="chips" id="observation-filters" aria-label="Observation type"><button data-kind="all" aria-pressed="true">All observations</button><button data-kind="finding" aria-pressed="false">Findings</button><button data-kind="anomaly" aria-pressed="false">Anomalies</button><button data-kind="design" aria-pressed="false">Proposals</button></div><span id="observation-count" class="result-count" aria-live="polite"></span></div>
+      <label class="observation-picker select-label">Observation <select id="observation-select" aria-label="Choose an observation"></select></label>
+      <div class="observation-layout"><div id="observation-list" class="observation-list"></div><article id="observation-detail" class="detail-panel" aria-live="polite"></article></div>
+    </section>
+    <section id="sources-view" class="view" aria-label="Searchable source catalogue" hidden>
+      <div class="section-toolbar"><div class="chips" id="source-filters" aria-label="Source coverage"><button data-coverage="reviewed" aria-pressed="true">Reviewed</button><button data-coverage="all" aria-pressed="false">Full catalogue</button><button data-coverage="flagged" aria-pressed="false">Flagged records</button></div><label class="select-label">Sort <select id="source-sort"><option value="year">Newest first</option><option value="title">Title A–Z</option></select></label></div>
+      <p class="catalog-note" id="catalog-note">23 focused reviews. Other records are indexed, not fully reviewed.</p>
+      <div class="source-table-wrap"><table class="source-table"><thead><tr><th scope="col">Year</th><th scope="col">Source</th><th scope="col">Coverage</th><th scope="col"><span class="sr-only">Details</span></th></tr></thead><tbody id="source-rows"></tbody></table></div>
+      <div class="pagination"><span id="source-results" role="status"></span><div><button id="page-prev">Previous</button><span id="page-number"></span><button id="page-next">Next</button></div></div>
+    </section>
     <section id="design-view" class="view" aria-label="Proposed local agent design" hidden>
-      <button class="implementation-back" type="button" disabled data-view="implementation">← Implementation guide</button>
+      <button class="implementation-back" type="button" disabled data-view="explorer" data-jump="implementation-view">← Implementation guide</button>
       <div class="design-heading"><span class="badge design">PROPOSED ARCHITECTURE</span><h2>Stable behavior. Explicit authority.</h2><p>A local model proposes. Independent software checks permission, advances the workflow, and records the outcome.</p></div>
       <div class="authority-flow" aria-label="Proposed control flow"><div><span>01 / COMMUNICATION</span><strong>Scientist persona</strong><p>Warmth, clarity, scientific care.</p></div><div><span>02 / CONTEXT</span><strong>Revisable memory</strong><p>Evidence, scope, conflicts, expiry.</p></div><div class="authority-node"><span>03 / ENFORCEMENT</span><strong>Permission &amp; state</strong><p>Authenticated authority. Exact action checks.</p></div><div><span>04 / OUTCOME</span><strong>Verified receipt</strong><p>Attempted, completed, or unknown.</p></div></div>
       <div class="design-grid"><section><div class="section-label">DESIGN REQUIREMENTS</div><div id="principles"></div></section><section><div class="section-label">QUESTIONS TO RESOLVE</div><div id="questions"></div></section></div>

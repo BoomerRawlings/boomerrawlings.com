@@ -1,5 +1,7 @@
 /* Paired explanation / implementation with evidence-linked dependencies. */
-body[data-view="implementation"] .page-header { display: none; }
+#implementation-view { margin-top: 34px; border-top: 1px solid #405439; scroll-margin-top: 28px; }
+.implementation-search { width: min(100%,420px); margin: 0 0 22px; }
+#implementation-title:focus { outline: none; }
 .implementation-heading { display: flex; justify-content: space-between; gap: 25px; align-items: center; padding: 35px 0 22px; }
 .implementation-heading h2 { font-size: clamp(25px,2.5vw,37px); letter-spacing: -.8px; margin: 12px 0; font-weight: 500; }
 .implementation-heading p:not(.section-label) { color: #98ada0; font-size: 14px; }

@@ -81,14 +81,45 @@ for (const fixture of fixtures) {
 const nodes = [parse(read('index.html'))];
 for (let index = 0; index < nodes.length; index++) nodes.push(...(nodes[index].childNodes ?? []));
 const attrs = node => Object.fromEntries((node.attrs ?? []).map(({name, value}) => [name, value]));
+const hasClass = (node, name) => (attrs(node).class ?? '').split(/\s+/).includes(name);
+const within = (node, ancestor) => {
+  for (let parent = node.parentNode; parent; parent = parent.parentNode) if (parent === ancestor) return true;
+  return false;
+};
 const ids = nodes.map(node => attrs(node).id).filter(Boolean);
 assert(unique(ids), 'Built HTML contains duplicate IDs');
-for (const id of ['implementation-view', 'implementation-board', 'implementation-lines', 'implementation-rows', 'implementation-index', 'implementation-clear', 'implementation-download', 'implementation-count', 'implementation-empty', 'implementation-status']) {
+for (const id of ['implementation-view', 'implementation-search', 'implementation-board', 'implementation-lines', 'implementation-rows', 'implementation-index', 'implementation-clear', 'implementation-download', 'implementation-count', 'implementation-empty', 'implementation-status']) {
   assert(ids.includes(id), `Built page is missing ${id}`);
 }
-assert(nodes.some(node => node.tagName === 'button' && attrs(node)['data-view'] === 'implementation'), 'Guide needs a view control');
+const explorer = nodes.find(node => attrs(node).id === 'explorer-view');
+const implementation = nodes.find(node => attrs(node).id === 'implementation-view');
+assert.equal(explorer?.tagName, 'section', 'Network needs its outer view section');
+assert(hasClass(explorer, 'view'), 'Network must remain a navigable view');
+assert.equal(implementation.tagName, 'section', 'Implementation must remain a labeled section');
+assert.equal(implementation.parentNode, explorer, 'Implementation must be nested directly in the Network view');
+assert(!hasClass(implementation, 'view'), 'Embedded implementation must not be treated as a separate view');
+assert(!Object.hasOwn(attrs(implementation), 'hidden'), 'Embedded implementation must be visible within Network');
+const explorerChildren = explorer.childNodes.filter(node => node.tagName);
+const implementationIndex = explorerChildren.indexOf(implementation);
+assert(implementationIndex > 0 && hasClass(explorerChildren[implementationIndex - 1], 'explorer-footer'), 'Implementation must immediately follow the network footer');
+
+const tabs = nodes.filter(node => node.tagName === 'nav' && hasClass(node, 'tabs'));
+assert.equal(tabs.length, 1, 'Research needs one top-level view navigation');
+const navViews = nodes.filter(node => node.tagName === 'button' && within(node, tabs[0])).map(node => attrs(node)['data-view']);
+assert.deepEqual(navViews, ['explorer', 'observations', 'sources'], 'Top navigation must contain only Network, Findings and Catalogue');
+assert(!ids.includes('connections-view'), 'Removed evidence-map view must not remain in the built page');
+assert(!nodes.some(node => ['connections', 'implementation'].includes(attrs(node)['data-view'])), 'Removed standalone views must not retain navigation controls');
+
+const implementationSearch = nodes.find(node => attrs(node).id === 'implementation-search');
+assert.equal(implementationSearch.tagName, 'input', 'Implementation needs its own search input');
+assert.equal(attrs(implementationSearch).type, 'search', 'Implementation search must expose search semantics');
+assert(within(implementationSearch, implementation), 'Implementation search must belong to the embedded guide');
+assert(nodes.some(node => node.tagName === 'button' && within(node, implementation) && attrs(node)['data-view'] === 'design'), 'Embedded guide must retain access to the architecture view');
+const design = nodes.find(node => attrs(node).id === 'design-view');
+assert.equal(design?.tagName, 'section', 'Architecture view must remain available');
+assert(nodes.some(node => node.tagName === 'button' && within(node, design) && attrs(node)['data-view'] === 'explorer' && attrs(node)['data-jump'] === 'implementation-view'), 'Architecture return control must reopen Network at the implementation guide');
 const status = nodes.find(node => attrs(node).id === 'implementation-status');
 assert.equal(attrs(status).role, 'status', 'Guide feedback needs a status region');
 assert.equal(attrs(status)['aria-live'], 'polite', 'Guide feedback must announce politely');
 
-console.log(`Verified built implementation guide: ${steps.size} steps, ${configs.size} JSON templates, ${sourceRefs} evidence references, ${relatedRefs} related-step references, ${fixtures.length} unexecuted practice specifications, and proposed/unvalidated scope markers. Browser interactions and agent behavior remain separate checks.`);
+console.log(`Verified built implementation guide: ${steps.size} steps, ${configs.size} JSON templates, ${sourceRefs} evidence references, ${relatedRefs} related-step references, ${fixtures.length} unexecuted practice specifications, proposed/unvalidated scope markers, and Network-embedded navigation/search structure. Browser interactions and agent behavior remain separate checks.`);
