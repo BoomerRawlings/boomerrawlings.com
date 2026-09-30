@@ -9,6 +9,7 @@
   <meta name="theme-color" content="#080d0f">
   <title>LEO — Personality, memory & control</title>
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="preload" href="./fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./entry.css">
   <script is:inline src="./app.js" defer></script>
@@ -20,13 +21,13 @@
       <div id="entry-copy"><p class="entry-ego">Don't feed my ego</p><p class="entry-identity">I AM A</p></div>
       <form id="entry-form" novalidate>
         <label class="sr-only" for="entry-input">Complete I AM A</label>
-        <div class="entry-field"><input id="entry-input" type="text" placeholder="___" aria-describedby="entry-feedback" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go"><button id="entry-submit" type="submit" aria-label="Enter"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5v9H5m5-5-5 5 5 5"/></svg></button></div>
+        <div class="entry-field"><input id="entry-input" type="text" aria-describedby="entry-feedback" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go"><button id="entry-submit" type="submit" aria-label="Enter"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5v9H5m5-5-5 5 5 5"/></svg></button></div>
       </form>
     </div>
     <div id="entry-sequence" class="entry-sequence" role="img" aria-label="Low Exposure Operator" hidden>
-      <div class="entry-column"><span class="entry-initial" data-initial="L">L</span><span class="entry-tail" aria-hidden="true"><span>o</span><span>w</span></span></div>
-      <div class="entry-column"><span class="entry-initial" data-initial="E">E</span><span class="entry-tail" aria-hidden="true"><span>x</span><span>p</span><span>o</span><span>s</span><span>u</span><span>r</span><span>e</span></span></div>
-      <div class="entry-column"><span class="entry-initial" data-initial="O">O</span><span class="entry-tail" aria-hidden="true"><span>p</span><span>e</span><span>r</span><span>a</span><span>t</span><span>o</span><span>r</span></span></div>
+      <div class="entry-row"><span class="entry-initial" data-initial="L">L</span><span class="entry-tail" aria-hidden="true"><span>o</span><span>w</span></span></div>
+      <div class="entry-row"><span class="entry-initial" data-initial="E">E</span><span class="entry-tail" aria-hidden="true"><span>x</span><span>p</span><span>o</span><span>s</span><span>u</span><span>r</span><span>e</span></span></div>
+      <div class="entry-row"><span class="entry-initial" data-initial="O">O</span><span class="entry-tail" aria-hidden="true"><span>p</span><span>e</span><span>r</span><span>a</span><span>t</span><span>o</span><span>r</span></span></div>
     </div>
     <p id="entry-feedback" class="sr-only" role="status" aria-live="polite"></p>
     <noscript><p class="entry-noscript">Enable JavaScript to open this local preview.</p></noscript>
