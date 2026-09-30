@@ -53,12 +53,21 @@ body[data-view="poems"] .workspace-bar,body[data-view="poems"] .dateline,body[da
 .poems-view { min-height:calc(100svh - 79px); max-width:960px; margin:auto; }
 .poems-back { margin-top:28px; padding:10px 0; min-height:44px; border:0; background:transparent; color:var(--muted); font:11px var(--mono); }
 .poems-back:hover:not(:disabled) { background:transparent; color:var(--ink); }
-.poems-intro { padding:clamp(70px,14vh,150px) 0 90px; text-align:center; }
+.poems-intro { padding:clamp(54px,10vh,110px) 0 48px; text-align:center; }
 .poems-intro .section-label { font-size:10px; letter-spacing:.3em; }
 .poems-intro h1 { margin:22px 0 28px; color:#dce8df; font:400 clamp(36px,7vw,64px)/1.2 Georgia,"Times New Roman",serif; letter-spacing:-.025em; }
 .poems-intro h1:focus { outline:none; }
 .poems-rule { width:36px; height:1px; margin:0 auto 28px; background:#4c6254; }
-.poems-placeholder { color:#7f9688; font:12px/1.7 var(--mono); }
+.personal-poem { max-width:650px; margin:0 auto; padding:0 0 120px; color:#c2d0c6; font:400 clamp(18px,2vw,20px)/1.9 Georgia,"Times New Roman",serif; overflow-wrap:break-word; }
+.personal-poem p { margin:0 0 1.65em; }
+.poem-opening,.poem-ending { text-align:center; font-size:clamp(19px,2.3vw,23px); line-height:1.8; color:#d3dfd6; }
+.poem-opening p:last-child,.poem-body p:last-child,.poem-ending p:last-child { margin-bottom:0; }
+.poem-divider { width:36px; height:0; margin:clamp(52px,8vh,86px) auto; border:0; border-top:1px solid #4c6254; }
+.poem-ending p:last-child { margin-top:2.1em; font-style:italic; }
+@media(max-width:560px) {
+  .personal-poem { padding:0 5px 90px; line-height:1.85; }
+  .poems-intro { padding-bottom:32px; }
+}
 .dateline { color: #8eaaa0; text-align: right; font: 10px/1.7 var(--mono); letter-spacing: .08em; }
 .dateline span { display: block; color: #647c71; }
 .page-header { padding: 25px 30px; max-width: 1600px; }

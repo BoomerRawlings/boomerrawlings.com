@@ -1,7 +1,7 @@
 /* Deferred public workspace. This entry interaction is not authentication. */
 let leoWorkspaceLoad;
 // Bump with UI releases; match the entry shell's asset query version.
-const LEO_ASSET_VERSION = '20260930-network-2';
+const LEO_ASSET_VERSION = '20260930-poem-1';
 const leoAsset = name => `./${name}?v=${LEO_ASSET_VERSION}`;
 function loadLEOWorkspace() {
   if (leoWorkspaceLoad) return leoWorkspaceLoad;

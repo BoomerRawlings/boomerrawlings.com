@@ -327,3 +327,5 @@
 - Next: user supplies poem content; implementation-plan purpose remains for later discussion. QA evidence: web/qa/network/ in research workspace. All13 local browser checks passed; production bytes match tested release.
 
 - Release follow-up: production browser retained old unversioned UI assets despite correct origin bytes. Added shared release query version to initial entry assets, workspace HTML, and all deferred CSS/JS; loader/release tests enforce consistency. Full suite passed; final route build and publication pending. Future UI releases must bump LEO_ASSET_VERSION and matching entry-shell URLs.
+
+- Poem continuation: user supplied full text and permits formatting/punctuation changes, with all wording preserved. One continuous serif article;496 original words,40 paragraphs,57 lines,2 thematic breaks. Exact normalized text hash test passes; no wording/casing/punctuation edits were needed. Desktop1280/mobile390/320 screenshots and6 browser checks pass, no overflow or console errors. Entry/deferred asset version bumped to20260930-poem-1. Build, poem integrity, loader and unlisted release checks pass; publication pending.
