@@ -34,8 +34,9 @@
   const assignId = (node, id) => { node.id = id; return node; };
   let data, outline, entities, locations, topics, initialized = false;
   let query = '', topicId = null, topicPreview = null, cityId = null, cityPreview = null, selectedId = null, edgeId = null;
-  let previousPositions = new Map(), networkNodeElements = new Map(), networkPage = 0, browserPage = 0, showAll = false, unlocated = false;
-  const cityMarkers = new Map(), cityButtons = new Map(), topicButtons = new Map();
+  let previousPositions = new Map(), networkNodeElements = new Map(), networkPage = 0, browserPage = 0, unlocated = false, entityType = '';
+  let adjacency = new Map(), neighborCounts = new Map(), searchIndex = new Map(), entityLocations = new Map(), eligibleCache = {key:null,items:[]};
+  const cityMarkers = new Map(), cityLabels = new Map(), cityButtons = new Map(), topicButtons = new Map();
   const state = {};
 
   function project(lon, lat) {
@@ -49,18 +50,29 @@
       const p = project(lon, lat); return `${index ? 'L' : 'M'}${p.x.toFixed(2)},${p.y.toFixed(2)}`;
     }).join(' ') + 'Z')).join(' ');
   }
-  function entityMatches(entity) {
-    const terms = `${entity.name} ${entity.affiliation || ''} ${entity.bio || ''} ${text(entity.providedBio)} ${text(entity.work)} ${text(entity.reason)} ${entityCities(entity).map(id=>locations.get(id)?.name).join(' ')} ${list(entity.topicIds).map(id => topics.get(id)?.label || '').join(' ')}`;
-    return query.split(/\s+/).filter(Boolean).every(word => normalize(terms).includes(word));
+  const entityCities = entity => entityLocations.get(entity.id) || [];
+  const typeLabel = type => ({person:'Researcher',lab:'Lab / team',institution:'Institution'})[type] || 'Profile';
+  const readable = value => String(value || '').replaceAll('_',' ');
+  const entityMatches = entity => query.split(/\s+/).filter(Boolean).every(word => (searchIndex.get(entity.id)||'').includes(word));
+  function eligibleEntities() {
+    const key=JSON.stringify([query,topicId,unlocated,entityType]);
+    if(key!==eligibleCache.key)eligibleCache={key,items:data.entities.filter(entity=>entityMatches(entity)&&(!topicId||list(entity.topicIds).includes(topicId))&&(!unlocated||!entityCities(entity).length)&&(!entityType||entity.type===entityType)).sort(profileOrder)};
+    return eligibleCache.items;
   }
-  const entityCities = entity => [...new Set([entity.locationId,...list(entity.locationIds)].filter(id=>locations.has(id)))];
-  const eligibleEntities = () => data.entities.filter(entity => entityMatches(entity) && (!topicId || list(entity.topicIds).includes(topicId)) && (!unlocated || !entityCities(entity).length));
-  const curatedOverview = () => !showAll && !unlocated && !query && !topicId && !cityId && !selectedId && data.entities.some(entity=>entity.curated);
-  const baseEntities = () => eligibleEntities().filter(entity => !curatedOverview() || entity.curated);
-  const incident = id => data.connections.filter(edge => edge.source === id || edge.target === id);
+  const baseEntities = eligibleEntities;
+  const incident = id => adjacency.get(id) || [];
   const edgeKind = edge => edge.kind === 'documented' ? 'Documented' : 'Inferred';
-  const connectionCount = id => new Set(incident(id).map(edge=>edge.source===id?edge.target:edge.source)).size;
+  const connectionCount = id => neighborCounts.get(id) || 0;
   const profileOrder = (a,b) => Number(b.id==='r-yue-zhang-westlake')-Number(a.id==='r-yue-zhang-westlake') || Number(Boolean(b.curated))-Number(Boolean(a.curated)) || Number(b.type==='person')-Number(a.type==='person') || connectionCount(b.id)-connectionCount(a.id) || a.name.localeCompare(b.name);
+  function prepareIndexes() {
+    adjacency=new Map(data.entities.map(entity=>[entity.id,[]]));
+    data.connections.forEach(edge=>{adjacency.get(edge.source).push(edge);if(edge.target!==edge.source)adjacency.get(edge.target).push(edge);});
+    neighborCounts=new Map(data.entities.map(entity=>[entity.id,new Set(incident(entity.id).map(edge=>edge.source===entity.id?edge.target:edge.source).filter(id=>id!==entity.id)).size]));
+    entityLocations=new Map(data.entities.map(entity=>[entity.id,[...new Set([entity.locationId,...list(entity.locationIds)].filter(id=>locations.has(id)))]]));
+    searchIndex=new Map(data.entities.map(entity=>[entity.id,normalize([entity.name,entity.type,typeLabel(entity.type),entity.affiliation,entity.bio,text(entity.providedBio),text(entity.work),text(entity.reason),entityCities(entity).map(id=>locations.get(id)?.name).join(' '),list(entity.topicIds).map(id=>topics.get(id)?.label||'').join(' '),entity.indexRecord?.search_text,entity.indexRecord?.native_name,entity.indexRecord?.role,list(entity.indexRecord?.works).map(work=>[work.title,work.year].filter(Boolean).join(' ')).join(' ')].filter(Boolean).join(' '))]));
+    eligibleCache={key:null,items:[]};
+    state.totalTypes=data.entities.reduce((counts,entity)=>{counts[entity.type]=(counts[entity.type]||0)+1;return counts;},{person:0,lab:0,institution:0});
+  }
   function portrait(entity, cls='atlas-avatar') {
     const badge=make('span',entity.name.split(/\s+/).map(word=>word[0]).slice(0,2).join(''),cls);
     if(entity.imageUrl)try{const url=new URL(entity.imageUrl,location.href);if(url.origin===location.origin){const image=make('img',undefined,cls);image.src=url.href;image.alt='';image.loading='lazy';image.addEventListener('error',()=>image.replaceWith(badge),{once:true});return image;}}catch{}
@@ -97,13 +109,13 @@
     topicButtons.get(id)?.focus({preventScroll:true});
   }
   function exploreTopic(id) {
-    query='';unlocated=false;showAll=true;
+    query='';unlocated=false;entityType='';
     document.dispatchEvent(new CustomEvent('ead:reset-query'));
     selectTopic(id);
     if(matchMedia('(max-width:800px)').matches)state.browserPanel.scrollIntoView({block:'start',behavior:motion.matches?'auto':'smooth'});
   }
   function reset() {
-    query = ''; topicId = topicPreview = cityId = cityPreview = selectedId = edgeId = null; networkPage = browserPage = 0; showAll = unlocated = false;
+    query = ''; topicId = topicPreview = cityId = cityPreview = selectedId = edgeId = null; networkPage = browserPage = 0; unlocated = false; entityType='';
     document.dispatchEvent(new CustomEvent('ead:reset-query'));
     render(); state.overview.focus({preventScroll:true});
   }
@@ -115,9 +127,12 @@
     state.overview = button('Reset atlas', reset, 'atlas-reset');
     state.status = assignId(make('p', '', 'atlas-status'), 'atlas-status'); state.status.setAttribute('role', 'status');
     const scope=make('div',undefined,'atlas-scope-controls');
-    state.allProfiles=button(`All ${data.entities.length} profiles`,()=>{showAll=true;unlocated=false;selectedId=cityId=cityPreview=edgeId=null;networkPage=browserPage=0;render();},'atlas-scope');
-    state.outsideMap=button('Outside map',()=>{showAll=true;unlocated=true;selectedId=cityId=cityPreview=edgeId=null;networkPage=browserPage=0;render();},'atlas-scope');
-    scope.append(state.allProfiles,state.outsideMap,state.overview);heading.append(intro,scope);root.append(heading,state.status);
+    state.allProfiles=button(`All ${data.entities.length} profiles`,()=>{unlocated=false;entityType='';selectedId=cityId=cityPreview=edgeId=null;networkPage=browserPage=0;render();},'atlas-scope');
+    state.outsideMap=button('Outside map',()=>{unlocated=true;selectedId=cityId=cityPreview=edgeId=null;networkPage=browserPage=0;render();},'atlas-scope');
+    state.typeSelect=make('select',undefined,'atlas-type-select');state.typeSelect.setAttribute('aria-label','Profile type');
+    [['','All types'],['person','People'],['lab','Labs / teams'],['institution','Institutions']].forEach(([value,label])=>{const option=make('option',label);option.value=value;state.typeSelect.append(option);});
+    state.typeSelect.addEventListener('change',()=>{entityType=state.typeSelect.value;selectedId=cityId=cityPreview=edgeId=null;networkPage=browserPage=0;render();});
+    scope.append(state.allProfiles,state.outsideMap,state.typeSelect,state.overview);heading.append(intro,scope);root.append(heading,state.status);
     state.topicPanel = make('div',undefined,'atlas-topic-panel'); state.topicPanel.setAttribute('aria-label','Filter profiles by research topic');
     state.topicPanel.append(make('span','Topics','atlas-topic-label'));
     data.topics.forEach(topic => {
@@ -152,31 +167,37 @@
     outline.features.forEach(feature => geography.append(svg('path',{d:geometryPath(feature.geometry),class:`atlas-land${feature.properties.id === 'CHN' ? ' is-central' : ''}`})));
     state.map.append(geography);
     state.mapEdges = svg('g',{class:'atlas-map-edges','aria-hidden':'true'}); state.map.append(state.mapEdges);
-    const markerLayer = svg('g'); state.map.append(markerLayer);
-    const placed=[];
+    const markerLayer = svg('g'),labelLayer=svg('g',{'aria-hidden':'true',class:'atlas-city-labels'}); state.map.append(markerLayer,labelLayer);
+    const placed=[],anchors=data.locations.filter(city=>Number.isFinite(city.lat)&&Number.isFinite(city.lon)).map(city=>({...project(city.lon,city.lat),id:city.id}));
     [...data.locations].sort((a,b)=>b.lat-a.lat||a.id.localeCompare(b.id)).forEach(location => {
       if (!Number.isFinite(location.lat) || !Number.isFinite(location.lon)) return;
       const anchor = project(location.lon, location.lat);
-      let p=anchor;
-      const markerWidth=Math.max(110,location.name.length*10+30),markerHeight=86;
-      const candidates=[anchor];
-      for(const radius of [76,112,155,200,250,300])for(let angle=0;angle<16;angle++)candidates.push({x:anchor.x+Math.cos(angle*Math.PI/8)*radius,y:anchor.y+Math.sin(angle*Math.PI/8)*radius});
-      p=candidates.find(point=>point.x>markerWidth/2+8&&point.x<992-markerWidth/2&&point.y>48&&point.y<590&&placed.every(other=>Math.abs(other.x-point.x)>(other.width+markerWidth)/2+8||Math.abs(other.y-point.y)>markerHeight+8))||anchor;
-      placed.push({...p,width:markerWidth});
-      if(p!==anchor){markerLayer.append(svg('path',{d:`M${anchor.x},${anchor.y}L${p.x},${p.y}`,class:'atlas-city-leader','aria-hidden':'true'}),svg('circle',{cx:anchor.x,cy:anchor.y,r:2,class:'atlas-city-anchor','aria-hidden':'true'}));}
-      const marker = svg('g',{transform:`translate(${p.x},${p.y})`,class:'atlas-city',tabindex:0,role:'button','aria-label':location.name,'aria-pressed':'false'});
+      // The point never moves. Only its nearby label may choose another side;
+      // crowded labels appear on hover/focus/selection instead of crossing the map.
+      const width=location.name.length*10+16,height=28;
+      const candidates=[{x:anchor.x+12,y:anchor.y-height-6},{x:anchor.x+12,y:anchor.y+6},{x:anchor.x-width-12,y:anchor.y-height-6},{x:anchor.x-width-12,y:anchor.y+6},{x:anchor.x-width/2,y:anchor.y-height-18},{x:anchor.x-width/2,y:anchor.y+18}];
+      const clear=box=>box.x>=4&&box.x+width<=996&&box.y>=4&&box.y+height<=636&&placed.every(other=>box.x+width+5<other.x||box.x>other.x+other.width+5||box.y+height+5<other.y||box.y>other.y+other.height+5)&&anchors.every(point=>point.id===location.id||point.x<box.x-8||point.x>box.x+width+8||point.y<box.y-8||point.y>box.y+height+8);
+      const available=candidates.find(clear),box=available||candidates[0];
+      if(available)placed.push({...box,width,height});
+      const marker = svg('g',{transform:`translate(${anchor.x},${anchor.y})`,class:'atlas-city',tabindex:0,role:'button','aria-label':location.name,'aria-pressed':'false'});
       const title = svg('title'); title.textContent = location.name;
-      marker.append(title,svg('rect',{x:-markerWidth/2,y:-markerHeight/2,width:markerWidth,height:markerHeight,rx:7,class:'atlas-city-hit'}),svg('circle',{cx:0,cy:-14,r:4,class:'atlas-city-dot'}));
-      const label = svg('text',{x:0,y:11,'text-anchor':'middle',class:'atlas-city-label'}); label.textContent = location.name; marker.append(label);
-      marker.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')previewCity(location.id);});
-      marker.addEventListener('focus',()=>previewCity(location.id));
+      marker.append(title,svg('circle',{r:14,class:'atlas-city-hit'}),svg('circle',{r:9,class:'atlas-city-halo'}),svg('circle',{r:4.5,class:'atlas-city-dot'}));
+      const label=svg('g',{class:`atlas-city-caption${available?'':' is-dense'}`});
+      const nearX=Math.max(box.x,Math.min(anchor.x,box.x+width)),nearY=Math.max(box.y,Math.min(anchor.y,box.y+height));
+      label.append(svg('path',{d:`M${anchor.x},${anchor.y}L${nearX},${nearY}`,class:'atlas-city-leader'}),svg('rect',{x:box.x,y:box.y,width,height,rx:3,class:'atlas-city-label-bg'}));
+      const caption=svg('text',{x:box.x+8,y:box.y+19,class:'atlas-city-label'});caption.textContent=location.name;label.append(caption);labelLayer.append(label);cityLabels.set(location.id,label);
+      let hovered=false,focused=false;const showLabel=()=>{label.classList.toggle('is-peek',hovered||focused);if(hovered||focused)labelLayer.append(label);};
+      marker.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch'){hovered=true;showLabel();previewCity(location.id);}});
+      marker.addEventListener('pointerleave',()=>{hovered=false;showLabel();});
+      marker.addEventListener('focus',()=>{focused=true;showLabel();previewCity(location.id);});
+      marker.addEventListener('blur',()=>{focused=false;showLabel();});
       marker.addEventListener('click',()=>selectCity(location.id));
       marker.addEventListener('keydown',event=>{if(['Enter',' '].includes(event.key)){event.preventDefault();selectCity(location.id);}});
       cityMarkers.set(location.id,marker); markerLayer.append(marker);
       cityButtons.set(location.id,state.citySelect.querySelector(`option[value="${location.id}"]`));
     });
     state.cityList = assignId(make('div',undefined,'atlas-city-results'),'atlas-city-results');
-    const mapCredit = make('p',undefined,'atlas-map-credit'); mapCredit.append(link('Natural Earth',outline.meta.licenseUrl),make('span','City anchors · source boundaries · separated labels use leader lines'));
+    const mapCredit = make('p',undefined,'atlas-map-credit'); mapCredit.append(link('Natural Earth',outline.meta.licenseUrl),make('span','Points mark city anchors. Hover a point or choose a city above.'));
     state.mapPanel.append(state.map,mapCredit);
     state.contact = assignId(make('aside',undefined,'atlas-contact'),'atlas-contact'); state.contact.setAttribute('aria-label','Selected research profile');
     state.browserPanel=make('section',undefined,'atlas-browser-panel');state.browserPanel.setAttribute('aria-label','Browse research profiles');state.browserPanel.append(state.cityList,state.contact);
@@ -219,6 +240,8 @@
       const marker=cityMarkers.get(location.id),control=cityButtons.get(location.id); if(!marker)return;
       marker.classList.toggle('is-empty',!members.length&&!connected); marker.classList.toggle('is-muted',!relevant&&!connected);
       marker.classList.toggle('is-active',activeCity===location.id||connected);
+      const caption=cityLabels.get(location.id);caption.classList.toggle('is-active',activeCity===location.id);caption.classList.toggle('is-muted',(!members.length||!relevant)&&!connected);
+      if(activeCity===location.id)caption.parentNode.append(caption);
       marker.setAttribute('aria-pressed',String(cityId===location.id)); marker.setAttribute('aria-label',`${location.name}: ${members.length} matching profiles.${connected?' Includes the selected profile or a recorded connection.':''} Show city.`);
       control.textContent=`${location.name} · ${members.length}`;
     });
@@ -234,21 +257,21 @@
   function renderCityList() {
     const host=state.cityList;host.hidden=Boolean(selectedId);
     const city=locations.get(cityPreview||cityId);
-    const starting=!query&&!topicId&&!city&&!showAll&&!unlocated;
-    const members=eligibleEntities().filter(entity=>(!city||entityCities(entity).includes(city.id))&&(!starting||entity.curated)).sort(profileOrder);
+    const starting=!query&&!topicId&&!city&&!unlocated&&!entityType;
+    const members=eligibleEntities().filter(entity=>!city||entityCities(entity).includes(city.id));
     const totalPages=Math.max(1,Math.ceil(members.length/12));browserPage=Math.max(0,Math.min(browserPage,totalPages-1));
-    const key=JSON.stringify([city?.id,cityId,query,topicId,showAll,unlocated,browserPage,members.map(e=>e.id)]);
+    const key=JSON.stringify([city?.id,cityId,query,topicId,entityType,unlocated,browserPage,members.map(e=>e.id)]);
     if(key===state.browserKey)return;state.browserKey=key;host.replaceChildren();
-    const title=city?.name || (query?'Search results':topicId?topics.get(topicId)?.label:unlocated?'Outside the map':starting?'Start exploring':'All profiles');
+    const title=city?.name || (query?'Search results':topicId?topics.get(topicId)?.label:unlocated?'Outside the map':entityType?({person:'People',lab:'Labs / teams',institution:'Institutions'})[entityType]:'All profiles');
     const header=make('div',undefined,'atlas-browser-heading');
     header.append(make('h3',title),make('span',`${members.length} profiles`,'atlas-result-count'));host.append(header);
-    if(starting)host.append(make('p','Begin with Yue Zhang, or select a city to browse its people and labs.','atlas-helper'));
-    else if(city)host.append(make('p',cityId?'City selected. Click another map point to switch.':city.summary||'People and labs linked to this city.','atlas-helper'));
+    if(starting)host.append(make('p','The full directory. Begin with Yue Zhang, search, or choose a city or profile type.','atlas-helper'));
+    else if(city)host.append(make('p',cityId?'City selected. Click another map point to switch.':city.summary||'People, labs and institutions linked to this city.','atlas-helper'));
     const items=make('div',undefined,'atlas-city-members');
     members.slice(browserPage*12,(browserPage+1)*12).forEach(entity=>{
       const control=button('',()=>selectEntity(entity.id),'atlas-entity-button');
       const copy=make('span',undefined,'atlas-entity-copy'),count=connectionCount(entity.id);
-      copy.append(make('strong',starting&&entity.id==='r-yue-zhang-westlake'?'Start with Yue Zhang':entity.name),make('span',entity.affiliation||entity.type,'atlas-entity-affiliation'),make('small',`${entity.type==='lab'?'LAB':'RESEARCHER'} · ${count} connection${count===1?'':'s'}`));
+      copy.append(make('strong',starting&&entity.id==='r-yue-zhang-westlake'?'Start with Yue Zhang':entity.name),make('span',entity.affiliation||typeLabel(entity.type),'atlas-entity-affiliation'),make('small',`${typeLabel(entity.type).toUpperCase()} · ${count} connection${count===1?'':'s'}`));
       control.append(portrait(entity),copy,make('span','→','atlas-entity-arrow'));control.setAttribute('aria-label',`${starting&&entity.id==='r-yue-zhang-westlake'?'Start with ':''}${entity.name}. ${count} connections. Show profile.`);items.append(control);
     });
     if(!members.length)items.append(make('p','No matching profiles. Clear a topic or reset the atlas to broaden the search.','atlas-helper'));host.append(items);
@@ -263,7 +286,7 @@
     if(state.contactKey===entity.id)return;state.contactKey=entity.id;host.replaceChildren();host.scrollTop=0;
     host.append(button('← Back to profiles',()=>{selectedId=edgeId=null;render();const h=state.cityList.querySelector('h3');h.tabIndex=-1;h.focus({preventScroll:true});},'atlas-back'));
     const header=make('div',undefined,'atlas-profile-heading'),headingText=make('div');
-    headingText.append(make('p',entity.type==='lab'?'LAB / RESEARCH GROUP':'RESEARCHER','section-label'),make('h3',entity.name),make('p',entity.affiliation||locations.get(entity.locationId)?.name||'','atlas-affiliation'));
+    headingText.append(make('p',typeLabel(entity.type).toUpperCase(),'section-label'),make('h3',entity.name),make('p',entity.affiliation||locations.get(entity.locationId)?.name||'','atlas-affiliation'));
     header.append(portrait(entity,'atlas-avatar atlas-profile-avatar'),headingText);host.append(header);
     const count=connectionCount(entity.id),actions=make('div',undefined,'atlas-profile-actions');
     if(count)actions.append(button(`View ${count} connection${count===1?'':'s'} ↓`,scrollToNetwork,'atlas-primary'));
@@ -272,16 +295,53 @@
     if(!count)host.append(make('p','No recorded connections. Explore this profile’s papers or shared topics below.','atlas-helper'));
     if(entity.work||entity.bio)host.append(make('p',text(entity.work||entity.bio),'atlas-profile-copy atlas-profile-summary'));
     const topicList=make('div',undefined,'atlas-profile-topics');list(entity.topicIds).forEach(id=>{const topic=topics.get(id);if(topic)topicList.append(button(topic.label,()=>exploreTopic(id)));});host.append(topicList);
+    renderIndexDetails(host,entity);
     const detail=make('details',undefined,'atlas-profile-details');detail.append(make('summary','Biography, work & provenance'));
     if(entity.bio)detail.append(make('h4','Research summary'),make('p',entity.bio,'atlas-profile-copy'));
     if(entity.work)detail.append(make('h4','Work'),make('p',text(entity.work),'atlas-profile-copy'));
     if(entity.reason)detail.append(make('h4','Why included'),make('p',text(entity.reason),'atlas-profile-copy'));
     const provided=typeof entity.providedBio==='string'?entity.providedBio.trim():'';
-    if(provided){detail.append(make('h4','Provided description'),make('p',provided,'atlas-profile-copy'));if(entity.providedBioSourceUrl)detail.append(link('Description source ↗',entity.providedBioSourceUrl));}
+    const record=entity.indexRecord||{},translated=record.bio_translated||record.bio_is_translation;
+    if(record.native_name)detail.append(make('h4','Name as published'),make('p',record.native_name,'atlas-profile-copy'));
+    if(list(record.topics).length)detail.append(make('h4','Research topics'),make('p',record.topics.join(' · '),'atlas-profile-copy'));
+    if(provided){detail.append(make('h4',translated?'Provided description · translated':'Provided description'),make('p',provided,'atlas-profile-copy'));if(entity.providedBioSourceUrl)detail.append(link('Description source ↗',entity.providedBioSourceUrl));}
+    const original=record.bio_original_excerpt||record.bio_original;
+    if(original&&original!==provided){detail.append(make('h4',`Original excerpt${record.bio_language?` · ${record.bio_language}`:''}`),make('p',text(original),'atlas-profile-copy'));}
     if(entity.locationBasis)detail.append(make('h4','Location basis'),make('p',entity.locationBasis,'atlas-helper'));
     if(entity.locationSourceUrl)detail.append(link('Location source ↗',entity.locationSourceUrl));
+    if(record.image_source_url&&entity.imageUrl)detail.append(link('Image source ↗',record.image_source_url));
     if(list(entity.affiliationRecords).length){detail.append(make('h4','Affiliations & history'));list(entity.affiliationRecords).forEach(record=>{detail.append(make('p',[record.name,record.relationship,record.role,record.date].filter(Boolean).join(' · '),'atlas-helper'));if(record.sourceUrl)detail.append(link('Affiliation source ↗',record.sourceUrl));});}
     host.append(detail);
+  }
+  function renderIndexDetails(host,entity) {
+    const record=entity.indexRecord;if(!record||typeof record!=='object')return;
+    const disclosure=(title)=>{const node=make('details',undefined,'atlas-profile-details');node.append(make('summary',title));return node;};
+    const works=list(record.works);
+    if(works.length){const section=disclosure(`Linked works · ${works.length}`);
+      works.forEach(work=>{const item=make('article',undefined,'atlas-record-item');item.append(work.url?link(work.title||'Open work ↗',work.url):make('p',work.title||'Indexed work','atlas-profile-copy'));
+        const meta=[work.year||work.date,work.type,work.version,readable(work.relationship)].filter(Boolean);if(meta.length)item.append(make('p',meta.join(' · '),'atlas-helper'));
+        if(work.authorship_source_url)item.append(link('Authorship source ↗',work.authorship_source_url));section.append(item);});host.append(section);}
+    if(record.role||record.profile_role||record.current_status||record.profile_role_status||list(record.role_history).length){const section=disclosure('Role & history');
+      const fields=[['Indexed role',record.role],['Institution',record.affiliation||record.institution],['Role basis',readable(record.role_basis)],['Role date',record.role_date],['Record status',readable(record.current_status)],['Profile role status',readable(record.profile_role_status)]];
+      if(record.profile_role&&record.profile_role!==record.role)fields.push(['Profile role',record.profile_role],['Profile institution',record.profile_affiliation],['Profile role basis',readable(record.profile_role_basis)]);
+      const facts=make('dl',undefined,'atlas-record-facts');fields.filter(([,value])=>value).forEach(([label,value])=>facts.append(make('dt',label),make('dd',text(value))));section.append(facts);
+      const source=record.profile_role_source_url||record.profile_source_url||record.source_url;if(source)section.append(link('Role source ↗',source));
+      list(record.role_history).forEach(role=>{const item=make('article',undefined,'atlas-record-item');item.append(make('p',[role.role,role.institution,role.start_date?`from ${role.start_date}`:null,role.end_date?`to ${role.end_date}`:null].filter(Boolean).join(' · '),'atlas-profile-copy'));if(role.source_url)item.append(link('History source ↗',role.source_url));section.append(item);});host.append(section);}
+    const evidenceGroups=[['Application evidence',record.application_evidence||record.documented_application],['Inferred application',record.application_inference||record.inferred_application||record.potential_application],['Funding evidence',record.funding_evidence],['Additional research evidence',record.additional_research_evidence]];
+    evidenceGroups.forEach(([title,value])=>{if(!value||Array.isArray(value)&&!value.length)return;const section=disclosure(title);
+      (Array.isArray(value)?value:[value]).forEach(evidence=>{const item=make('article',undefined,'atlas-record-item');
+        if(typeof evidence==='string')item.append(make('p',evidence,'atlas-profile-copy'));
+        else if(evidence&&typeof evidence==='object'){
+          if(evidence.title||evidence.source_title)item.append(make('h4',evidence.title||evidence.source_title));
+          if(evidence.description||evidence.explanation)item.append(make('p',evidence.description||evidence.explanation,'atlas-profile-copy'));
+          const meta=[readable(evidence.basis||evidence.relation_basis),evidence.date,readable(evidence.verification_level),evidence.page?`page ${evidence.page}`:null,evidence.source_date_basis?`date basis: ${readable(evidence.source_date_basis)}`:null,evidence.project_start?`project start: ${evidence.project_start}`:null,evidence.planned_end?`planned end: ${evidence.planned_end}`:null].filter(Boolean);
+          if(meta.length)item.append(make('p',meta.join(' · '),'atlas-helper'));
+          if(evidence.source_url)item.append(link('Evidence source ↗',evidence.source_url));
+        }section.append(item);});host.append(section);});
+    if(list(record.author_affiliations).length){const section=disclosure('Paper authors & affiliations');
+      list(record.author_affiliations).forEach(author=>{const item=make('article',undefined,'atlas-record-item');item.append(entities.has(author.researcher_id)?button(author.name,()=>selectEntity(author.researcher_id),'atlas-author-link'):make('strong',author.name));item.append(make('p',[author.affiliation,author.role_in_work,author.affiliation_status].filter(Boolean).join(' · '),'atlas-helper'));section.append(item);});if(record.source_url)section.append(link('Paper source ↗',record.source_url));host.append(section);}
+    const additional=[...new Set([...list(record.additional_source_urls),...list(record.identity_source_urls)])];
+    if(additional.length){const section=disclosure('Additional sources');additional.forEach((url,index)=>section.append(link(`Source ${index+1} ↗`,url)));host.append(section);}
   }
   function networkData() {
     const base=baseEntities(),baseIds=new Set(base.map(e=>e.id));
@@ -292,7 +352,7 @@
       const local=new Set(base.filter(e=>entityCities(e).includes(cityId)).map(e=>e.id));visibleIds=new Set(local);
       data.connections.forEach(edge=>{if(baseIds.has(edge.source)&&baseIds.has(edge.target)&&(local.has(edge.source)||local.has(edge.target))){visibleIds.add(edge.source);visibleIds.add(edge.target);}});
     }
-    const visible=(selectedId?data.entities:base).filter(e=>visibleIds.has(e.id)).sort((a,b)=>Number(Boolean(b.curated))-Number(Boolean(a.curated))||(locations.get(a.locationId)?.name||'').localeCompare(locations.get(b.locationId)?.name||'')||a.type.localeCompare(b.type)||a.name.localeCompare(b.name));
+    const visible=(selectedId?data.entities:base).filter(e=>visibleIds.has(e.id)).sort(profileOrder);
     return {visible,edges:data.connections.filter(edge=>visibleIds.has(edge.source)&&visibleIds.has(edge.target))};
   }
   function renderNetwork() {
@@ -345,7 +405,7 @@
     });
     visible.forEach(entity=>{
       const p=positions.get(entity.id),isCenter=entity.id===selectedId;
-      const g=svg('g',{transform:`translate(${p.x},${p.y})`,class:`atlas-network-node ${entity.type==='lab'?'lab':'person'}${center?' bubble':''}${isCenter?' is-selected':''}`,tabindex:0,role:'button','aria-label':`${entity.name}, ${entity.type}. Show profile and relationships.`,'aria-pressed':String(isCenter)});
+      const g=svg('g',{transform:`translate(${p.x},${p.y})`,class:`atlas-network-node ${['person','lab','institution'].includes(entity.type)?entity.type:'person'}${center?' bubble':''}${isCenter?' is-selected':''}`,tabindex:0,role:'button','aria-label':`${entity.name}, ${typeLabel(entity.type)}. Show profile and relationships.`,'aria-pressed':String(isCenter)});
       const title=svg('title');title.textContent=entity.name;g.append(title);
       if(center){
         const radius=isCenter?42:29;
@@ -360,11 +420,11 @@
           }
         }catch{}}
         if(!imageShown){const initials=svg('text',{x:0,y:5,'text-anchor':'middle',class:'atlas-bubble-initials'});initials.textContent=entity.name.split(/\s+/).map(word=>word[0]).slice(0,2).join('');g.append(initials);}
-      } else g.append(svg('rect',{x:-103,y:-31,width:206,height:62,rx:entity.type==='lab'?3:15}),svg('circle',{cx:-87,cy:-13,r:3,class:'atlas-node-dot'}));
+      } else g.append(svg('rect',{x:-103,y:-31,width:206,height:62,rx:entity.type==='person'?15:entity.type==='lab'?3:0}),svg('circle',{cx:-87,cy:-13,r:3,class:'atlas-node-dot'}));
       const label=svg('text',{'text-anchor':'middle',class:'atlas-node-label'}),names=[];
       for(const word of entity.name.split(/\s+/)){if(!names.length||names.at(-1).length+word.length>(center?21:24))names.push(word);else names[names.length-1]+=` ${word}`;}
       names.slice(0,2).forEach((line,index)=>{const span=svg('tspan',{x:0,y:center?(isCenter?63:49)+index*16:names.length>1?-4+index*16:3});span.textContent=line+(index===1&&names.length>2?'…':'');label.append(span);});g.append(label);
-      if(!center){const type=svg('text',{x:0,y:24,'text-anchor':'middle',class:'atlas-node-type'});type.textContent=`${entity.type==='lab'?'LAB':'RESEARCHER'} · ${locations.get(entity.locationId)?.name||(entity.locationScope==='external'?'OUTSIDE MAP':'LOCATION UNVERIFIED')}`;g.append(type);}
+      if(!center){const type=svg('text',{x:0,y:24,'text-anchor':'middle',class:'atlas-node-type'});type.textContent=`${typeLabel(entity.type).toUpperCase()} · ${locations.get(entity.locationId)?.name||(entity.locationScope==='external'?'OUTSIDE MAP':'LOCATION UNVERIFIED')}`;g.append(type);}
       g.addEventListener('click',()=>selectEntity(entity.id,true));
       g.addEventListener('keydown',event=>{if(['Enter',' '].includes(event.key)){event.preventDefault();selectEntity(entity.id,true);}});
       state.network.append(g);networkNodeElements.set(entity.id,g);
@@ -391,7 +451,11 @@
     const chosen=edges.find(edge=>edge.id===edgeId);
     if(chosen){
       host.append(make('p',`${edgeKind(chosen).toUpperCase()} RELATIONSHIP`,'section-label'),make('h3',chosen.label),make('p',`${entities.get(chosen.source)?.name} → ${entities.get(chosen.target)?.name}`,'atlas-helper'),make('p',chosen.basis,'atlas-profile-copy'));
+      const record=chosen.indexRecord||chosen,mechanism=chosen.mechanism||record.mechanism,date=chosen.date||record.date;
+      if(mechanism||date)host.append(make('p',[mechanism?`Mechanism: ${readable(mechanism)}`:null,date?`Evidence date: ${date}`:null].filter(Boolean).join(' · '),'atlas-helper'));
       if(chosen.sourceUrl)host.append(link('Open relationship evidence ↗',chosen.sourceUrl));
+      const support=[...new Set([...list(chosen.additional_source_urls),...list(record.additional_source_urls),...list(chosen.evidenceUrls),chosen.supporting_source_url,record.supporting_source_url].filter(url=>typeof url==='string'&&url!==chosen.sourceUrl))];
+      support.forEach((url,index)=>host.append(link(`Supporting source ${index+1} ↗`,url)));
       host.append(button('Back to relationships',()=>{selectEdge(null);const h=state.networkDetail.querySelector('h3');h.tabIndex=-1;h.focus({preventScroll:true});},'atlas-network-jump'));return;
     }
     host.append(make('p','RELATIONSHIP EVIDENCE','section-label'),make('h3',selectedId?entities.get(selectedId).name:'Inspect a connection'));
@@ -409,16 +473,16 @@
   }
   function render() {
     if(!initialized)return;
-    const base=baseEntities();
     if(selectedId&&!entities.has(selectedId)){selectedId=null;edgeId=null;}
     topicButtons.forEach((control,id)=>{
       control.setAttribute('aria-pressed',String(topicId===id));
       control.querySelector('small').textContent=String(data.entities.filter(entity=>entityMatches(entity)&&list(entity.topicIds).includes(id)).length);
     });
     state.clearTopic.hidden=!topicId;
-    state.allProfiles.setAttribute('aria-pressed',String(showAll&&!unlocated));state.outsideMap.setAttribute('aria-pressed',String(unlocated));
+    state.allProfiles.setAttribute('aria-pressed',String(!unlocated&&!entityType));state.outsideMap.setAttribute('aria-pressed',String(unlocated));state.typeSelect.value=entityType;
     const eligible=eligibleEntities();
-    state.status.textContent=`${eligible.length} profiles · ${new Set(eligible.flatMap(entityCities)).size} cities${topicId?` · ${topics.get(topicId)?.label}`:''}${query?` · search: ${query}`:''}${unlocated?' · outside mapped cities':''}`;
+    const counts=state.totalTypes;
+    state.status.textContent=`${counts.person} people · ${counts.lab} labs / teams · ${counts.institution} institutions · ${data.connections.length} relationships${eligible.length!==data.entities.length?` · ${eligible.length} matching profiles`:''}${query?` · search: ${query}`:''}${unlocated?' · outside mapped cities':''}`;
     renderMap();renderCityList();renderContact();renderNetwork();
   }
   async function initialize(input) {
@@ -430,6 +494,7 @@
       data={...input,locations:list(input.locations),topics:list(input.topics),entities:list(input.entities),connections:list(input.connections)};
       entities=new Map(data.entities.map(entity=>[entity.id,entity]));locations=new Map(data.locations.map(location=>[location.id,location]));topics=new Map(data.topics.map(topic=>[topic.id,topic]));
       data.connections=data.connections.filter(edge=>entities.has(edge.source)&&entities.has(edge.target));
+      prepareIndexes();
       build();initialized=true;render();
       document.dispatchEvent(new CustomEvent('ead:atlas-ready'));
     } catch {

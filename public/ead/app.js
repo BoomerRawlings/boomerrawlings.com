@@ -31,10 +31,11 @@
   const flagged = (source) => ['withdrawn', 'identity_uncertain', 'not_target_author'].includes(source.status);
   const statusLabel = (source) => ({withdrawn:'Withdrawn',identity_uncertain:'Identity uncertain',not_target_author:'Other author'})[source.status];
   const attributionLabel = (source) => ({author_bibliography:'Listed in author bibliography',name_affiliation_checked:'Name and affiliation checked',profile_only:'Scholar profile only',identity_uncertain:'Identity unresolved',verified_yue_coauthor:'Yue Zhang coauthorship verified',verified_network_coauthor:'Collaborator authorship verified',not_target_author:'Different author'})[source.attribution] || words(source.attribution);
-  const state = {view:'atlas',query:'',kind:'all',observation:null,coverage:'all',sort:'year',page:0};
+  const state = {view:'atlas',query:'',kind:'all',observation:null,coverage:'all',sort:'year',page:0,catalogueMode:'papers',findingsMode:'research'};
   const viewQueries = new Map();
   const views = new Set(['atlas','implementation','observations','sources','design']);
   let briefing, catalogue, sources, atlas;
+  const researchProfiles = new Map();
   const pageSize = 25;
 
   function sourceButton(id, mini = false) {
@@ -60,11 +61,14 @@
     });
     document.querySelectorAll('.view').forEach(node => { node.hidden = node.id !== `${view}-view`; });
     $('search').closest('.search-wrap').hidden = view === 'implementation';
-    const searchLabel = {atlas:'Search researchers, labs and topics',sources:'Search papers, authors and years',observations:'Search findings',design:'Search architecture'}[view] || 'Search';
-    $('search').placeholder = searchLabel;
-    $('search').setAttribute('aria-label',searchLabel);
+    updateSearchLabel();
     renderView();
     document.dispatchEvent(new CustomEvent('ead:view',{detail:view}));
+  }
+  function updateSearchLabel() {
+    const searchLabel = {atlas:'Search profiles, institutions and topics',sources:state.catalogueMode === 'research' ? 'Search research sources and profiles' : 'Search papers, authors and years',observations:state.findingsMode === 'cases' ? 'Search reported cases' : 'Search findings',design:'Search architecture'}[state.view] || 'Search';
+    $('search').placeholder = searchLabel;
+    $('search').setAttribute('aria-label',searchLabel);
   }
   function renderView() {
     $('search-clear').hidden = !state.query;
@@ -81,6 +85,11 @@
     target.scrollIntoView({block:'start',behavior:'instant'});
   }
   function renderObservations() {
+    $('observations-view').querySelector('.view-heading h2').textContent=state.findingsMode==='cases'?'Reported operations & claims':'What changes the design';
+    $('observations-view').querySelector('.view-heading > p:last-child').textContent=state.findingsMode==='cases'?'Expand a case for its evidence, attribution and related research profiles.':'Select a finding. Read the result, its implication, and the exact source.';
+    $('research-findings').hidden = state.findingsMode !== 'research';
+    $('reported-cases').hidden = state.findingsMode !== 'cases';
+    if (state.findingsMode === 'cases') { renderCases(); return; }
     const found = briefing.observations.filter(o => (state.kind === 'all' || o.kind === state.kind) && includesQuery([o.title,o.observation,o.implication,o.caveat,...o.tags,...o.source_ids.map(id => sources.get(id)?.title)].join(' ')));
     $('observation-count').textContent = `${found.length} observation${found.length === 1 ? '' : 's'}`;
     const list = $('observation-list'); list.replaceChildren();
@@ -145,7 +154,7 @@
     if (related.length) {
       const section = el('section',undefined,'evidence-block'); section.append(el('h3','OBSERVATIONS USING THIS SOURCE'));
       related.forEach(o => section.append(button(o.title,() => {
-        $('source-dialog').close(); state.kind='all'; state.observation=o.id;
+        $('source-dialog').close(); state.kind='all'; state.observation=o.id; selectFindings('research');
         document.querySelectorAll('[data-kind]').forEach(b => b.setAttribute('aria-pressed',String(b.dataset.kind === 'all')));
         setView('observations',true); $('observation-detail').tabIndex=-1;$('observation-detail').focus({preventScroll:true});$('observation-detail').scrollIntoView({block:'start'});
       },'source-link'))); content.append(section);
@@ -157,6 +166,9 @@
     if (!$('source-dialog').open) $('source-dialog').showModal();
   }
   function renderSources() {
+    $('source-filters').hidden = state.catalogueMode !== 'papers';
+    if (state.catalogueMode === 'research') { renderResearchSources(); return; }
+    document.querySelector('.source-table th:nth-child(3)').textContent = 'Coverage';
     const matches = catalogue.entries.filter(s => (state.coverage === 'all' || (state.coverage === 'reviewed' ? s.reviewed : flagged(s))) && includesQuery([s.title,s.shortTitle,s.year,s.url,s.doi,...s.authors,...s.tags,s.notes,words(s.status),...s.aliases,...s.sourceRows.map(r => r.title)].join(' ')));
     matches.sort(state.sort === 'title' ? (a,b) => a.title.localeCompare(b.title) : (a,b) => (b.year || 0)-(a.year || 0) || a.title.localeCompare(b.title));
     const totalPages = Math.max(1, Math.ceil(matches.length / pageSize)); state.page = Math.min(state.page,totalPages-1);
@@ -178,6 +190,105 @@
     $('page-number').textContent = `${state.page+1} / ${totalPages}`;
     $('page-prev').disabled = state.page === 0; $('page-next').disabled = state.page >= totalPages-1;
   }
+  function selectFindings(mode) {
+    state.findingsMode=mode;
+    document.querySelectorAll('[data-findings]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.findings===mode)));
+  }
+  function syncCatalogue() {
+    document.querySelectorAll('[data-catalogue]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.catalogue===state.catalogueMode)));
+  }
+  function atlasProfile(id) {
+    if ($('source-dialog').open) $('source-dialog').close();
+    setView('atlas',true);
+    document.dispatchEvent(new CustomEvent('ead:atlas-select',{detail:id}));
+  }
+  function urlsIn(value, result = new Set()) {
+    if (typeof value === 'string' && /^https?:\/\//.test(value)) result.add(value);
+    else if (Array.isArray(value)) value.forEach(item=>urlsIn(item,result));
+    else if (value && typeof value === 'object') Object.values(value).forEach(item=>urlsIn(item,result));
+    return result;
+  }
+  function indexResearchProfiles() {
+    const add=(url,id)=>{if(!researchProfiles.has(url))researchProfiles.set(url,new Set());researchProfiles.get(url).add(id);};
+    atlas.entities.forEach(entity=>urlsIn(entity).forEach(url=>add(url,entity.id)));
+    atlas.connections.forEach(edge=>urlsIn(edge).forEach(url=>{add(url,edge.source);add(url,edge.target);}));
+  }
+  function profilesFor(url) {
+    const ids=researchProfiles.get(url);
+    return ids ? atlas.entities.filter(entity=>ids.has(entity.id)) : [];
+  }
+  function renderCases() {
+    const matches=atlas.reportedCases.filter(item=>includesQuery(JSON.stringify(item)));
+    $('case-count').textContent=`${matches.length} of ${atlas.reportedCases.length} reported cases · attribution, allegations and online claims retain their source status.`;
+    const host=$('case-list');host.replaceChildren();
+    matches.forEach(item=>{
+      const card=el('article',undefined,'case-card');
+      const top=el('div',undefined,'case-meta');top.append(el('span',item.claim_type,'badge'),el('span',item.date || 'Undated','locator'));
+      card.append(top,el('h3',item.name),el('p',item.status,'case-status'),el('p',item.summary));
+      const detail=el('details');detail.append(el('summary','Evidence & related profiles'));
+      const facts=el('dl',undefined,'case-facts');
+      if(item.verified_connection)facts.append(el('dt','Recorded connection'),el('dd',item.verified_connection));
+      if(item.inference)facts.append(el('dt','Inference'),el('dd',item.inference));
+      detail.append(facts);
+      const evidence=el('div',undefined,'case-evidence');
+      (item.evidence || []).forEach(entry=>{const row=el('div');row.append(link(`${entry.label} ↗`,entry.url),el('p',entry.finding));evidence.append(row);});
+      if(!(item.evidence || []).some(entry=>entry.url===item.source_url))evidence.append(link('Primary record ↗',item.source_url));
+      detail.append(evidence);
+      const related=atlas.entities.filter(entity=>(item.related_lab_ids || []).includes(entity.indexRecord?.id || entity.id));
+      if(related.length){
+        const profiles=el('div',undefined,'source-people');
+        profiles.append(el('p','Related research profiles','section-label'));
+        related.forEach(entity=>profiles.append(button(`${entity.name} · View network →`,()=>atlasProfile(entity.id),'source-link')));
+        detail.append(profiles);
+      }
+      card.append(detail);host.append(card);
+    });
+    if(!matches.length)host.append(el('p','No reported cases match.','empty'),button('Clear search',()=>{state.query='';$('search').value='';renderView();},'recovery-action'));
+  }
+  function openResearchSource(source) {
+    const content=$('dialog-content');content.replaceChildren();
+    const title=el('h2',source.title || source.url);title.id='dialog-title';
+    content.append(title,link('Open source ↗',source.url,'external'));
+    const facts=el('dl',undefined,'record-facts');
+    [['Type',words(source.type)],['Published',source.date],['Accessed',source.accessed_on || source.accessed_during?.join(' / ')],['Checked',source.checked_date]].filter(([,v])=>v).forEach(([k,v])=>facts.append(el('dt',k),el('dd',v)));
+    content.append(facts);
+    [['Documented',source.documented],['Inference',source.inference]].filter(([,v])=>v).forEach(([label,value])=>{const section=el('section',undefined,'evidence-block');section.append(el('h3',label.toUpperCase()),el('p',Array.isArray(value)?value.join(' '):value));content.append(section);});
+    const profiles=profilesFor(source.url);
+    if(profiles.length){
+      const section=el('section',undefined,'evidence-block');section.append(el('h3',`LINKED PROFILES · ${profiles.length}`));
+      const list=el('div',undefined,'source-people');
+      profiles.forEach(entity=>list.append(button(`${entity.name} · View network →`,()=>atlasProfile(entity.id),'source-link')));
+      section.append(list);content.append(section);
+    }
+    const cases=atlas.reportedCases.filter(item=>urlsIn(item).has(source.url));
+    if(cases.length){
+      const section=el('section',undefined,'evidence-block');section.append(el('h3','REPORTED CASES USING THIS SOURCE'));
+      cases.forEach(item=>section.append(button(item.name,()=>{$('source-dialog').close();selectFindings('cases');setView('observations',true);state.query=normalize(item.name);$('search').value=item.name;renderView();focusAndScroll($('reported-cases'));},'source-link')));
+      content.append(section);
+    }
+    if(!$('source-dialog').open)$('source-dialog').showModal();
+  }
+  function renderResearchSources() {
+    document.querySelector('.source-table th:nth-child(3)').textContent='Type';
+    const matches=atlas.sourceIndex.filter(source=>includesQuery([source.title,source.url,source.date,words(source.type),...profilesFor(source.url).map(entity=>entity.name)].join(' ')));
+    matches.sort(state.sort==='title' ? (a,b)=>(a.title || a.url).localeCompare(b.title || b.url) : (a,b)=>String(b.date || '').localeCompare(String(a.date || '')) || (a.title || a.url).localeCompare(b.title || b.url));
+    const pages=Math.max(1,Math.ceil(matches.length/pageSize));state.page=Math.min(state.page,pages-1);const start=state.page*pageSize;
+    const tbody=$('source-rows');tbody.replaceChildren();
+    matches.slice(start,start+pageSize).forEach(source=>{
+      const tr=el('tr'),cell=el('td');cell.append(button(source.title || source.url,()=>openResearchSource(source),'paper-title'));
+      let domain;try{domain=new URL(source.url).hostname;}catch{domain=source.url;}
+      cell.append(el('p',domain,'authors'));
+      const profiles=profilesFor(source.url);
+      if(profiles.length)cell.append(el('p',`${profiles.slice(0,4).map(entity=>entity.name).join(' · ')}${profiles.length>4?` · +${profiles.length-4} profiles`:''}`,'authors'));
+      const open=el('td');open.append(button('Read record →',()=>openResearchSource(source),'source-open'));
+      tr.append(el('td',source.date?.slice(0,4) || '—','year'),cell,el('td',words(source.type),'source-status'),open);tbody.append(tr);
+    });
+    if(!matches.length){const tr=el('tr'),td=el('td',undefined,'empty');td.colSpan=4;td.append(el('p','No research sources match.'),button('Clear search',()=>{state.query='';$('search').value='';renderView();},'recovery-action'));tr.append(td);tbody.append(tr);}
+    $('catalog-note').textContent=`${atlas.sourceIndex.length} research sources from the expanded index · profiles, publications and institutional records. Select a source to inspect provenance and linked profiles.`;
+    $('source-results').textContent=matches.length?`${start+1}–${Math.min(start+pageSize,matches.length)} of ${matches.length} sources`:'0 sources';
+    $('page-number').textContent=`${state.page+1} / ${pages}`;
+    $('page-prev').disabled=state.page===0;$('page-next').disabled=state.page>=pages-1;
+  }
   function renderDesign() {
     [['principles',briefing.design_principles,'title','principle'],['questions',briefing.open_questions,'question','why_it_matters']].forEach(([id,items,title,body]) => {
       const host=$(id);host.replaceChildren();
@@ -191,7 +302,15 @@
 
   function initialize() {
     sources=new Map(catalogue.entries.map(s => [s.id,s]));
-    $('source-count').textContent=catalogue.stats.catalogEntries;
+    $('source-count').textContent='';
+    document.querySelector('.coverage div:nth-child(2) strong').textContent=atlas.entities.length;
+    document.querySelector('[data-catalogue="papers"]').textContent=`Papers · ${catalogue.entries.length}`;
+    document.querySelector('[data-catalogue="research"]').textContent=`Research sources · ${atlas.sourceIndex.length}`;
+    document.querySelector('[data-findings="research"]').textContent=`Research findings · ${briefing.observations.length}`;
+    document.querySelector('[data-findings="cases"]').textContent=`Reported cases · ${atlas.reportedCases.length}`;
+    indexResearchProfiles();
+    document.querySelectorAll('[data-catalogue]').forEach(b => b.addEventListener('click',()=>{state.catalogueMode=b.dataset.catalogue;state.page=0;state.query='';$('search').value='';syncCatalogue();updateSearchLabel();renderView();}));
+    document.querySelectorAll('[data-findings]').forEach(b => b.addEventListener('click',()=>{selectFindings(b.dataset.findings);state.query='';$('search').value='';updateSearchLabel();renderView();}));
     document.querySelectorAll('button[data-view],button[data-jump]').forEach(b => {
       b.disabled=false;
       b.addEventListener('click',() => {
@@ -222,12 +341,13 @@
     document.addEventListener('ead:source',event => openSource(event.detail));
     document.addEventListener('ead:observation',event => {
       if (!briefing.observations.some(item => item.id === event.detail)) return;
-      state.kind='all';state.observation=event.detail;
+      state.kind='all';state.observation=event.detail;selectFindings('research');
       document.querySelectorAll('[data-kind]').forEach(b => b.setAttribute('aria-pressed',String(b.dataset.kind==='all')));
       setView('observations',true);$('observation-detail').tabIndex=-1;$('observation-detail').focus({preventScroll:true});$('observation-detail').scrollIntoView({block:'start'});
     });
-    document.addEventListener('ead:catalogue',event=>{setView('sources');state.query=normalize(event.detail).trim();$('search').value=event.detail;state.page=0;state.coverage='all';document.querySelectorAll('[data-coverage]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.coverage==='all')));renderView();focusAndScroll($('sources-view'));});
+    document.addEventListener('ead:catalogue',event=>{state.catalogueMode='papers';syncCatalogue();setView('sources');state.query=normalize(event.detail).trim();$('search').value=event.detail;state.page=0;state.coverage='all';document.querySelectorAll('[data-coverage]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.coverage==='all')));renderView();focusAndScroll($('sources-view'));});
     document.addEventListener('ead:reset-query',() => {state.query='';$('search').value='';$('search-clear').hidden=true;viewQueries.set(state.view,'');});
+    updateSearchLabel();
     document.dispatchEvent(new CustomEvent('ead:ready',{detail:{catalogue,briefing}}));
   }
   document.addEventListener('ead:open', () => {

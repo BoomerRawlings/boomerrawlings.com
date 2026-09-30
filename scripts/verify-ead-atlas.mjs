@@ -74,12 +74,12 @@ for (const row of locations.values()) {
 for (const row of topics.values()) check(nonempty(row.label) && nonempty(row.summary), `topic ${row.id}: missing label or summary`);
 for (const row of entities.values()) {
   const label = `entity ${row.id}`;
-  check(nonempty(row.name) && ['person', 'lab'].includes(row.type), `${label}: missing name or unsupported type`);
-  check(nonempty(row.bio) && nonempty(row.reason), `${label}: missing research summary or inclusion basis`);
+  check(nonempty(row.name) && ['person', 'lab', 'institution'].includes(row.type), `${label}: missing name or unsupported type`);
+  if (row.type !== 'institution') check(nonempty(row.bio) && nonempty(row.reason), `${label}: missing research summary or inclusion basis`);
   source(row.sourceUrl, `${label} source`);
   for (const field of ['providedBioSourceUrl', 'imageSourceUrl']) if (row[field] != null) source(row[field], `${label} ${field}`);
   if (nonempty(row.providedBio)) source(row.providedBioSourceUrl, `${label} quoted description source`);
-  references(row.topicIds, topics, `${label} topics`, true);
+  references(row.topicIds, topics, `${label} topics`, row.type !== 'institution');
   if (row.locationId != null) {
     check(locations.has(row.locationId), `${label}: unresolved location ${row.locationId}`);
     check(nonempty(row.locationBasis), `${label}: mapped location lacks its basis`);
@@ -152,4 +152,5 @@ check(mastheads.length === 1 && brands.length === 1 && text(brands[0]).replace(/
 check(!nodes.some(node => hasClass(node, 'brand-name') && within(node, mastheads[0])), 'index: expanded brand duplicates LEO in masthead');
 
 if (failures.length) throw new Error(`EAD atlas: ${failures.length} integrity failure(s)\n${[...new Set(failures)].slice(0, 40).join('\n')}`);
+await import('./verify-ead-full-research.mjs');
 console.log(`Verified EAD atlas: ${entities.size} profiles, ${connections.size} sourced relationships, ${topics.size} topics, ${locations.size} locations, ${imageCount} local images, ${positions} geographic coordinates, four views and LEO masthead.`);
