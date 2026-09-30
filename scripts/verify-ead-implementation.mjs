@@ -78,7 +78,7 @@ for (const fixture of fixtures) {
   assert(Array.isArray(fixture.conversation) && fixture.conversation.length > 0, `${fixture.id}: missing conversation`);
 }
 
-const nodes = [parse(read('index.html'))];
+const nodes = [parse(read('workspace.html'))];
 for (let index = 0; index < nodes.length; index++) nodes.push(...(nodes[index].childNodes ?? []));
 const attrs = node => Object.fromEntries((node.attrs ?? []).map(({name, value}) => [name, value]));
 const hasClass = (node, name) => (attrs(node).class ?? '').split(/\s+/).includes(name);

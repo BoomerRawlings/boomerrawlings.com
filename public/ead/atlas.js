@@ -434,6 +434,7 @@
       document.dispatchEvent(new CustomEvent('ead:atlas-ready'));
     } catch {
       root.replaceChildren(make('p','The research atlas could not load. Reload to retry.','atlas-load-error'));
+      document.dispatchEvent(new Event('ead:load-error'));
     }
   }
   document.addEventListener('ead:atlas-data',event=>initialize(event.detail),{once:true});

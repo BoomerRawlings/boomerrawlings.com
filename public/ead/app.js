@@ -239,6 +239,6 @@
       document.dispatchEvent(new CustomEvent('ead:atlas-data',{detail:x}));
       document.dispatchEvent(new CustomEvent('ead:implementation-data',{detail:i}));
       document.dispatchEvent(new CustomEvent('ead:plans-data',{detail:p}));
-    }).catch(() => { $('load-error').hidden=false; $('atlas-root').textContent='Research unavailable. Reload to retry.'; });
+    }).catch(() => { $('load-error').hidden=false; $('atlas-root').textContent='Research unavailable. Reload to retry.'; document.dispatchEvent(new Event('ead:load-error')); });
   }, {once:true});
 })();

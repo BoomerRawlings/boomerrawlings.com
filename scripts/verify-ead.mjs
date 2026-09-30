@@ -31,6 +31,32 @@ const isEad = (url) => url.origin === site && /^\/ead(?:\/|$)/.test(url.pathname
 const parseUrl = (value, base) => { try { return new URL(value, base); } catch { return null; } };
 
 const htmlNodes = [...nodes(parse(text(page), { sourceCodeLocationInfo: true }))];
+const workspaceFile = join(output, 'ead', 'workspace.html');
+if (!existsSync(workspaceFile)) throw new Error('dist/ead/workspace.html is missing; build the site first');
+const workspaceNodes = [...nodes(parse(text(workspaceFile), { sourceCodeLocationInfo: true }))];
+const shellNodes = new Set(htmlNodes);
+const allNodes = [...htmlNodes, ...workspaceNodes];
+const ids = allNodes.map(node => attrs(node).id).filter(Boolean);
+check(new Set(ids).size === ids.length, 'EAD shell/workspace: duplicate IDs after insertion');
+const workspace = htmlNodes.find(node => attrs(node).id === 'research-workspace');
+check(workspace && Object.hasOwn(attrs(workspace), 'hidden') && Object.hasOwn(attrs(workspace), 'inert'), 'EAD shell: workspace must start hidden and inert');
+check(workspace && [...nodes(workspace)].every(node => node === workspace || (!node.tagName && (node.nodeName !== '#text' || !node.value.trim()))), 'EAD shell: research markup must be deferred');
+const initialScripts = htmlNodes.filter(node => node.tagName === 'script').map(node => attrs(node).src);
+const initialStyles = htmlNodes.filter(node => node.tagName === 'link' && (attrs(node).rel ?? '').split(/\s+/).includes('stylesheet')).map(node => attrs(node).href);
+check(JSON.stringify(initialScripts) === JSON.stringify(['./loader.js','./entry.js']), 'EAD shell: only loader.js and entry.js may execute initially, in that order');
+check(JSON.stringify(initialStyles) === JSON.stringify(['./entry.css']), 'EAD shell: only entry.css may load initially');
+for (const node of htmlNodes) {
+  const a = attrs(node);
+  const rel = (a.rel ?? '').split(/\s+/);
+  if (rel.some(value => ['preload','prefetch','modulepreload'].includes(value))) check(a.as === 'font', 'EAD shell: do not preload deferred research');
+  if (a.src) check(node.tagName === 'script' || (node.tagName === 'img' && /\/images\/lion-approved\.png$/.test(a.src)), 'EAD shell: unexpected initial research resource');
+}
+check(workspaceNodes.some(node => attrs(node).id === 'main'), 'EAD workspace: missing research content');
+check(!workspaceNodes.some(node => ['script','style','link'].includes(node.tagName)), 'EAD workspace: scripts and styles belong in the deferred loader manifest');
+for (const [name, expected] of [['robots','noindex'],['referrer','no-referrer']]) {
+  const meta = workspaceNodes.find(node => node.tagName === 'meta' && attrs(node).name === name);
+  check((attrs(meta ?? {}).content ?? '').split(/\s*,\s*/).includes(expected), `EAD workspace: missing ${name} metadata`);
+}
 const metadata = (name, value) => htmlNodes.filter((n) => n.tagName === 'meta' && attrs(n)[name]?.toLowerCase() === value);
 const robots = metadata('name', 'robots');
 check(robots.length === 1, 'EAD: require exactly one robots meta tag');
@@ -77,7 +103,7 @@ function cssResources(css, base, label) {
     localResource(match[2] ?? match[4], base, label, true);
   }
 }
-for (const node of htmlNodes) {
+for (const node of allNodes) {
   if (!node.tagName) continue;
   const a = attrs(node);
   const label = `EAD <${node.tagName}>`;
@@ -113,12 +139,29 @@ for (const node of htmlNodes) {
   }
   if (a.style) cssResources(a.style, urlFor(page), label);
   if (node.tagName === 'style') cssResources(body(node), urlFor(page), label);
-  if (a.src || node.tagName === 'style' || (node.tagName === 'link' && a.href)) {
+  if (shellNodes.has(node) && (a.src || node.tagName === 'style' || (node.tagName === 'link' && a.href))) {
     const beforeResources = csp[0]?.sourceCodeLocation?.startOffset < node.sourceCodeLocation?.startOffset;
     check(beforeResources, 'EAD: CSP must precede resource-loading elements');
     check(referrer[0]?.sourceCodeLocation?.startOffset < node.sourceCodeLocation?.startOffset, 'EAD: referrer policy must precede resource-loading elements');
   }
 }
+const loader = text(join(output, 'ead', 'loader.js'));
+const entryCss = text(join(output, 'ead', 'entry.css'));
+check(!/@import\b/i.test(entryCss), 'EAD entry CSS: imports would bypass deferred loading');
+for (const match of entryCss.matchAll(/url\(\s*(['"]?)(.*?)\1\s*\)/gi)) {
+  const url = parseUrl(match[2], urlFor(page));
+  check(url?.origin === site && /^\/ead\/(?:fonts\/[^/]+|images\/lion-approved\.png)$/.test(url.pathname), 'EAD entry CSS: unexpected pre-entry resource');
+}
+for (const [name, extension, expected] of [
+  ['styles','css',['style','oracle','implementation','atlas','plans','reveal']],
+  ['scripts','js',['app','atlas','implementation','plans','reveal']],
+]) {
+  const declaration = loader.match(new RegExp(`\\bconst\\s+${name}\\s*=\\s*\\[([^\\]]+)\\]`));
+  const assets = declaration ? [...declaration[1].matchAll(/['"]([a-z-]+)['"]/g)].map(match => match[1]) : [];
+  check(JSON.stringify(assets) === JSON.stringify(expected), `EAD loader: incomplete ${name} manifest`);
+  for (const asset of assets) localResource(`./${asset}.${extension}`,urlFor(page),`EAD deferred ${name}`);
+}
+check(loader.includes("'./workspace.html'"), 'EAD loader: missing workspace fragment reference');
 for (const file of stylesheets) cssResources(text(file), urlFor(file), relative(output, file));
 
 // Parse URL-bearing attributes, not prose: titles containing "EAD" are harmless.

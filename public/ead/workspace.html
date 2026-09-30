@@ -1,0 +1,62 @@
+<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">
+<meta name="referrer" content="no-referrer">
+  <a class="skip" href="#main">Skip to research</a>
+  <div class="masthead"><div class="brand"><span id="leo-dock" class="leo-dock" aria-label="Low Exposure Oracle"><span>L</span><span>E</span><span>O</span></span></div><img id="oracle-lion" class="oracle-lion" src="./images/lion-approved.png" alt="" width="56" height="56"><span class="dateline">PUBLIC-SOURCE RESEARCH<span>29 SEP 2026</span></span></div>
+  <header class="page-header">
+    <div><p class="eyebrow">RESEARCH / BEHAVIOR / SYSTEMS</p><h1>Research, people <span>&amp; connections</span></h1><p class="intro">Findings, measurement limits, and proposed tests.</p></div>
+    <div class="coverage" aria-label="Research coverage"><div><strong>23</strong><span>focused reviews</span></div><div><strong>467</strong><span>atlas profiles</span></div><div><strong>12</strong><span>observations</span></div></div>
+  </header>
+  <div class="workspace-bar">
+    <nav class="tabs" aria-label="Research views">
+      <button type="button" disabled data-view="atlas" class="active" aria-current="page">Atlas</button>
+      <button type="button" disabled data-view="implementation">Implementation</button>
+      <button type="button" disabled data-view="observations">Findings</button>
+      <button type="button" disabled data-view="sources">Catalogue <span id="source-count">492</span></button>
+    </nav>
+    <div class="search-wrap"><label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg><span class="sr-only">Search the current view</span><input id="search" type="search" disabled autocomplete="off" spellcheck="false" placeholder="Search researchers, labs and topics" aria-label="Search researchers, labs and topics" aria-describedby="search-help"><kbd>/</kbd></label><button id="search-clear" class="search-clear" type="button" aria-label="Clear search" hidden>Clear</button></div>
+  </div>
+  <main id="main" tabindex="-1">
+    <div id="search-help" class="sr-only">Search runs on this device. The selected view determines what is searched.</div>
+    <section id="atlas-view" class="view" aria-label="China research atlas"><div id="atlas-root"><p class="empty">Loading research atlas…</p></div></section>
+    <section id="implementation-view" class="view" aria-label="Implementation plans" hidden>
+      <div id="implementation-plans"></div>
+      <div id="implementation-guide" hidden>
+      <header class="implementation-heading"><div><p class="section-label">IMPLEMENTATION / LOCAL SCIENTIFIC ASSISTANT</p><h2 id="implementation-title" tabindex="-1">Implementation</h2><p id="implementation-intro">Eight steps from an observable profile to a tested, versioned agent.</p></div><button type="button" disabled data-view="design">Architecture overview <span aria-hidden="true">↗</span></button></header>
+      <div class="implementation-scope"><span class="scope-dot" aria-hidden="true"></span><span>Proposed build guide · synthetic workflows · model and hardware to be selected</span></div>
+      <label class="search implementation-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg><span class="sr-only">Search implementation steps</span><input id="implementation-search" type="search" disabled autocomplete="off" spellcheck="false" placeholder="Find a step, prompt, or control" aria-describedby="implementation-search-help"></label>
+      <p id="implementation-search-help" class="sr-only">Filters steps in the selected implementation plan.</p>
+      <nav id="implementation-index" class="implementation-index" aria-label="Implementation steps"></nav>
+      <div class="implementation-controls"><p>Hover or focus to preview. Click a step to lock. Esc to clear.</p><div><span id="implementation-count"></span><button id="implementation-clear" type="button" hidden>Clear trace</button><button id="implementation-download" type="button">Download guide ↓</button></div></div>
+      <div class="implementation-column-head"><span>01 / PLAIN ENGLISH</span><span aria-hidden="true">↔</span><span>02 / PROMPTS &amp; IMPLEMENTATION</span></div>
+      <div id="implementation-board" class="implementation-board"><svg id="implementation-lines" aria-hidden="true"></svg><div id="implementation-rows"></div></div>
+      <p id="implementation-empty" class="empty" hidden>No matching steps. Try personality, memory, approval, or evaluation.</p>
+      <p id="implementation-status" class="implementation-status" role="status" aria-live="polite"></p>
+      <div class="implementation-end"><span class="section-label">FIRST DELIVERABLE</span><p>A versioned persona, reviewed examples, synthetic procedures, and a recorded comparison. Fine-tuning follows only if a measured gap remains.</p></div>
+      </div>
+    </section>
+    <section id="observations-view" class="view" aria-label="Research observations" hidden>
+      <header class="view-heading"><p class="section-label">RESEARCH FINDINGS</p><h2>What changes the design</h2><p>Select a finding. Read the result, its implication, and the exact source.</p></header>
+      <div class="section-toolbar"><div class="chips" id="observation-filters" aria-label="Observation type"><button data-kind="all" aria-pressed="true">All observations</button><button data-kind="finding" aria-pressed="false">Findings</button><button data-kind="anomaly" aria-pressed="false">Anomalies</button><button data-kind="design" aria-pressed="false">Proposals</button></div><span id="observation-count" class="result-count" aria-live="polite"></span></div>
+      <label class="observation-picker select-label">Observation <select id="observation-select" aria-label="Choose an observation"></select></label>
+      <div class="observation-layout"><div id="observation-list" class="observation-list"></div><article id="observation-detail" class="detail-panel" aria-live="polite"></article></div>
+    </section>
+    <section id="sources-view" class="view" aria-label="Searchable source catalogue" hidden>
+      <header class="view-heading"><p class="section-label">SOURCE CATALOGUE</p><h2>Papers &amp; evidence</h2></header>
+      <div class="section-toolbar"><div class="chips" id="source-filters" aria-label="Source coverage"><button data-coverage="all" aria-pressed="true">Full catalogue</button><button data-coverage="reviewed" aria-pressed="false">Reviewed</button><button data-coverage="flagged" aria-pressed="false">Flagged records</button></div><label class="select-label">Sort <select id="source-sort"><option value="year">Newest first</option><option value="title">Title A–Z</option></select></label></div>
+      <p class="catalog-note" id="catalog-note"></p>
+      <div class="source-table-wrap"><table class="source-table"><thead><tr><th scope="col">Year</th><th scope="col">Source</th><th scope="col">Coverage</th><th scope="col"><span class="sr-only">Details</span></th></tr></thead><tbody id="source-rows"></tbody></table></div>
+      <div class="pagination"><span id="source-results" role="status"></span><div><button id="page-prev">Previous</button><span id="page-number"></span><button id="page-next">Next</button></div></div>
+    </section>
+    <section id="design-view" class="view" aria-label="Proposed local agent design" hidden>
+      <button class="implementation-back" type="button" disabled data-view="implementation" data-jump="implementation-title">← Implementation guide</button>
+      <div class="design-heading"><span class="badge design">PROPOSED ARCHITECTURE</span><h2>Stable behavior. Explicit authority.</h2><p>A local model proposes. Independent software checks permission, advances the workflow, and records the outcome.</p></div>
+      <div class="authority-flow" aria-label="Proposed control flow"><div><span>01 / COMMUNICATION</span><strong>Scientist persona</strong><p>Warmth, clarity, scientific care.</p></div><div><span>02 / CONTEXT</span><strong>Revisable memory</strong><p>Evidence, scope, conflicts, expiry.</p></div><div class="authority-node"><span>03 / ENFORCEMENT</span><strong>Permission &amp; state</strong><p>Authenticated authority. Exact action checks.</p></div><div><span>04 / OUTCOME</span><strong>Verified receipt</strong><p>Attempted, completed, or unknown.</p></div></div>
+      <div class="design-grid"><section><div class="section-label">DESIGN REQUIREMENTS</div><div id="principles"></div></section><section><div class="section-label">QUESTIONS TO RESOLVE</div><div id="questions"></div></section></div>
+      <div class="experiment"><div><span class="section-label">FIRST COMPARISON</span><h3>One frozen model. Three configurations.</h3><p>Fixed persona → reviewed examples → curated case memory.</p></div><div><strong>Measure separately</strong><p>Personality · factual accuracy · authorized completion · false denials · unauthorized proposals · executed effects.</p></div></div>
+    </section>
+    <div id="load-error" class="empty" role="alert" hidden>Research data could not be loaded. Reload this page to retry.</div>
+    <noscript><section class="no-script"><h2>Research observations</h2><p>Human Simulacra found that self-reported personality and observed behavior can move in opposite directions. Notes2Skills showed that reliable compilation can preserve incorrect model extraction. MemPot reported strong aggregate detection alongside missed and delayed detections.</p><p><a href="https://proceedings.iclr.cc/paper_files/paper/2025/file/1de176cfe0d9a288bc97faa574d7197c-Paper-Conference.pdf" rel="noreferrer noopener">Human Simulacra</a> · <a href="https://arxiv.org/abs/2606.11897v2" rel="noreferrer noopener">Notes2Skills</a> · <a href="https://arxiv.org/abs/2602.07517v1" rel="noreferrer noopener">MemPot</a></p><p>Enable JavaScript for local search and interactive graphs. No account required. Search runs in your browser.</p></section></noscript>
+  </main>
+  <footer><span>Public research · source check 29 Sep 2026</span><span>Research synthesis; no system validation.</span><button id="about-button">Scope &amp; method</button></footer>
+  <dialog id="source-dialog" aria-labelledby="dialog-title"><div class="dialog-top"><span class="eyebrow">SOURCE RECORD</span><button class="close-dialog" aria-label="Close source details">×</button></div><div id="dialog-content"></div></dialog>
+  <dialog id="about-dialog" aria-labelledby="about-title"><div class="dialog-top"><span class="eyebrow">SCOPE &amp; METHOD</span><button class="close-dialog" aria-label="Close scope and method">×</button></div><h2 id="about-title">What this briefing covers</h2><p>The atlas connects public research across agentic AI, security and social science. Contact cards identify their sources; solid lines mark documented relationships and dashed lines mark inferred connections. The paper catalogue retains the original Yue Zhang and collaborator literature collection.</p><p>Findings report the papers’ results. Anomalies identify measurement or provenance issues. Design proposals are our applications of the evidence, not experimentally validated systems.</p><p>Search and graphs run locally in the browser. No analytics, remote fonts, or automatic third-party requests are added. Primary sources open only when selected.</p><p>This unlisted page loads its research after the entry key. No account or authentication is used.</p></dialog>

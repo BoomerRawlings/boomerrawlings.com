@@ -15,7 +15,8 @@ function walk(directory) {
 }
 walk(output);
 
-const htmlFiles = files.filter((file) => extname(file) === '.html');
+const htmlFragmentPaths = new Set([join('ead', 'workspace.html')]);
+const htmlFiles = files.filter((file) => extname(file) === '.html' && !htmlFragmentPaths.has(relative(output, file)));
 if (htmlFiles.length === 0) throw new Error('build produced no HTML');
 
 const redirectTargets = new Map([
@@ -53,6 +54,19 @@ if (contentHtmlFiles.length !== 25 || unlistedHtmlFiles.length !== 9 || htmlFile
 }
 
 const failures = [];
+
+for (const fragmentPath of htmlFragmentPaths) {
+  const path = join(output, fragmentPath);
+  if (!existsSync(path)) {
+    failures.push(`${fragmentPath}: deferred workspace fragment is missing`);
+    continue;
+  }
+  const html = readFileSync(path, 'utf8');
+  if (!html.includes('<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">')
+    || !html.includes('<meta name="referrer" content="no-referrer">')) {
+    failures.push(`${fragmentPath}: unlisted fragment metadata is incomplete`);
+  }
+}
 
 const karmaPath = join(output, 'BoomerKarma', 'index.html');
 if (!existsSync(karmaPath)) {

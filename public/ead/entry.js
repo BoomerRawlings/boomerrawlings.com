@@ -1,4 +1,4 @@
-/* Local visual entry only. Production must authenticate on the server before delivering protected assets. */
+/* Visual entry and deferred loading for an unlisted public research page. */
 (() => {
   'use strict';
   const screen = document.getElementById('entry-screen');
@@ -8,6 +8,7 @@
   const sequence = document.getElementById('entry-sequence');
   const workspace = document.getElementById('research-workspace');
   const feedback = document.getElementById('entry-feedback');
+  const retry = document.getElementById('entry-retry');
   const lion = document.getElementById('entry-lion');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const animations = new Set();
@@ -90,7 +91,6 @@
     input.readOnly = true;
     input.blur();
     feedback.textContent = 'Low Exposure Oracle.';
-    document.dispatchEvent(new Event('ead:open'));
     if (reducedMotion.matches) { finish(); return; }
 
     sequence.hidden = false;
@@ -211,6 +211,22 @@
     finish();
   }
 
+  async function begin() {
+    phase = 'loading'; screen.dataset.phase = phase;
+    input.readOnly = true;
+    feedback.textContent = 'Loading research…';
+    try {
+      await loadLEOWorkspace();
+    } catch {
+      phase = 'error'; screen.dataset.phase = phase;
+      feedback.textContent = 'Could not load research. Reload to retry.';
+      retry.hidden = false;
+      retry.focus();
+      return;
+    }
+    play().catch(() => { if (!opened) finish(); });
+  }
+
   form.addEventListener('submit', event => {
     event.preventDefault();
     if (phase !== 'idle' || composing) return;
@@ -223,11 +239,12 @@
       if (!reducedMotion.matches) animate(form,[{transform:'translateX(0)'},{transform:'translateX(-4px)'},{transform:'translateX(4px)'},{transform:'translateX(0)'}],{duration:180,easing:'steps(1,end)',fill:'none'});
       return;
     }
-    play().catch(() => { if (!opened) finish(); });
+    begin();
   });
+  retry.addEventListener('click', () => location.reload());
   // Interrupted motion must never strand the reader behind an invisible entry screen.
-  document.addEventListener('visibilitychange', () => { if (document.hidden && phase !== 'idle' && !opened) finish(); });
-  addEventListener('resize', () => { if (phase !== 'idle' && !opened) finish(); });
-  reducedMotion.addEventListener('change', () => { if (reducedMotion.matches && phase !== 'idle' && !opened) finish(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && completion && !opened) finish(); });
+  addEventListener('resize', () => { if (completion && !opened) finish(); });
+  reducedMotion.addEventListener('change', () => { if (reducedMotion.matches && completion && !opened) finish(); });
   if (matchMedia('(pointer:fine)').matches) input.focus({preventScroll:true});
 })();

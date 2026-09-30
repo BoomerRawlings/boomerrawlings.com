@@ -8,8 +8,9 @@ const flush = () => new Promise(setImmediate);
 const event = (type, properties = {}) => Object.assign(new Event(type, { cancelable: true }), properties);
 
 // Only the DOM interfaces entry.js uses. Geometry and rendered motion belong to browser tests.
-function harness({ reduced = false } = {}) {
-  let now = 0, nextTimer = 0, opens = 0;
+function harness({ reduced = false, loading = 'ready' } = {}) {
+  let now = 0, nextTimer = 0, opens = 0, loadCalls = 0, reloads = 0;
+  let loadPromise, resolveLoad, rejectLoad;
   const timers = new Map();
   const classChanges = [];
   const schedule = (callback, delay = 0) => {
@@ -60,7 +61,7 @@ function harness({ reduced = false } = {}) {
       return Object.assign(animation, { finished, cancel() { clear(timer); reject(new Error('Animation cancelled')); } });
     }
   }
-  const ids = ['entry-screen', 'entry-form', 'entry-input', 'entry-copy', 'entry-sequence', 'research-workspace', 'entry-feedback', 'entry-lion', 'oracle-lion', 'leo-dock', 'main'];
+  const ids = ['entry-screen', 'entry-form', 'entry-input', 'entry-copy', 'entry-sequence', 'research-workspace', 'entry-feedback', 'entry-retry', 'entry-lion', 'oracle-lion', 'leo-dock', 'main'];
   const elements = Object.fromEntries(ids.map((id) => [id, new Element()]));
   const document = new EventTarget();
   document.hidden = false; document.body = new Element(); document.body.classList.add('entry-pending');
@@ -83,25 +84,39 @@ function harness({ reduced = false } = {}) {
   const workspace = elements['research-workspace']; workspace.hidden = true; workspace.inert = true;
   elements['entry-sequence'].hidden = true;
   elements['entry-lion'].hidden = true;
+  elements['entry-retry'].hidden = true;
   const window = new EventTarget();
   const motion = new EventTarget(); motion.matches = reduced;
   document.addEventListener('ead:open', () => opens++);
+  const startWorkspace = () => document.dispatchEvent(event('ead:open'));
+  const loadLEOWorkspace = () => {
+    loadCalls++;
+    if (!loadPromise) {
+      loadPromise = new Promise((resolve, reject) => { resolveLoad = resolve; rejectLoad = reject; });
+      if (loading === 'ready') Promise.resolve().then(() => { startWorkspace(); resolveLoad(); });
+    }
+    return loadPromise;
+  };
   runInNewContext(source, {
-    document, Event, AbortController,
+    document, Event, AbortController, loadLEOWorkspace,
+    location: { reload() { reloads++; } },
     matchMedia: (query) => query === '(prefers-reduced-motion: reduce)' ? motion : { matches: false },
     addEventListener: window.addEventListener.bind(window), setTimeout: schedule, clearTimeout: clear,
   }, { filename: 'public/ead/entry.js' });
   const input = elements['entry-input'], form = elements['entry-form'], screen = elements['entry-screen'];
   return {
     input, form, screen, workspace, document, motion, window, elements, classChanges,
-    get opens() { return opens; }, get pendingTimers() { return timers.size; },
+    get opens() { return opens; }, get loadCalls() { return loadCalls; }, get reloads() { return reloads; }, get pendingTimers() { return timers.size; },
+    startWorkspace,
+    async resolveLoading() { if (!opens) startWorkspace(); resolveLoad(); await flush(); },
+    async rejectLoading() { rejectLoad(new Error('Workspace unavailable')); await flush(); },
     type(value) { input.value = value; input.setSelectionRange(value.length, value.length); input.dispatchEvent(event('input')); },
     paste(value, kind = 'paste') {
       const transfer = { getData: () => value };
       const e = event(kind, kind === 'paste' ? { clipboardData: transfer } : { dataTransfer: transfer });
       input.dispatchEvent(e); assert(e.defaultPrevented, `${kind} must preserve the full raw input`);
     },
-    submit() { const e = event('submit'); form.dispatchEvent(e); assert(e.defaultPrevented, 'Submit must not reload the page'); },
+    async submit() { const e = event('submit'); form.dispatchEvent(e); assert(e.defaultPrevented, 'Submit must not reload the page'); await flush(); },
     async tick() {
       assert(timers.size, 'Expected a pending animation/wait');
       const [id, timer] = [...timers].sort((a, b) => a[1].at - b[1].at)[0];
@@ -116,6 +131,7 @@ function stillClosed(h) {
 }
 function usable(h) {
   assert.equal(h.opens, 1, 'Lazy initialization event fires once');
+  assert.equal(h.loadCalls, 1, 'Entry invokes the workspace loader once');
   assert.equal(h.screen.hidden, true); assert.equal(h.workspace.hidden, false); assert.equal(h.workspace.inert, false);
   assert.equal(h.document.body.classList.contains('entry-pending'), false);
   assert.equal(h.document.body.classList.contains('entry-docking'), false);
@@ -132,6 +148,9 @@ let cases = 0;
   const attributes = new Map(input.attrs.map(attr => [attr.name, attr.value]));
   assert.equal(attributes.has('placeholder'), false, 'Entry has no placeholder cue');
   assert.equal(attributes.has('maxlength'), false, 'Entry accepts the full value before comparison');
+  const retry = nodes.find(node => node.tagName === 'button' && node.attrs.some(attr => attr.name === 'id' && attr.value === 'entry-retry'));
+  assert(retry?.attrs.some(attr => attr.name === 'hidden'), 'Reload control starts hidden');
+  assert(retry.attrs.some(attr => attr.name === 'type' && attr.value === 'button'), 'Reload is an explicit button, not another submission');
   const textContent = node => node.nodeName === '#text' ? node.value : (node.childNodes ?? []).map(textContent).join('');
   const rows = nodes.filter(node => node.attrs?.some(attr => attr.name === 'class' && attr.value.split(/\s+/).includes('entry-row')));
   assert.deepEqual(rows.map(row => textContent(row).replace(/\s+/g, '')), ['Low', 'Exposure', 'Oracle'], 'The actual markup spells the expanded name');
@@ -139,47 +158,48 @@ let cases = 0;
 }
 const invalid = ['', 'L', 'LE', 'LEOX', 'XLEO', ' LEO', 'LEO ', 'L EO', 'LEO\t', '\tLEO', 'LEO\r\n', '\nLEO', 'L\nEO', 'LEO\u00a0', 'LEO\u200b', 'ＬＥＯ', 'LEО'];
 for (const value of invalid) {
-  const h = harness({ reduced: true }); h.paste(value); h.submit(); stillClosed(h);
+  const h = harness({ reduced: true }); h.paste(value); await h.submit(); stillClosed(h);
+  assert.equal(h.loadCalls,0,'Rejected entries must not start research loading');
   assert.equal(h.input.attributes.get('aria-invalid'), 'true', `Rejected ${JSON.stringify(value)}`);
   cases++;
 }
 for (const method of ['type', 'paste']) for (const value of ['LEO', 'leo', 'lEo']) {
   const h = harness({ reduced: true }); h[method](value);
   assert.equal(h.input.value, 'LEO'); stillClosed(h); // Entry never auto-submits at the third character.
-  h.submit(); usable(h); h.submit(); h.paste('LEO'); h.submit(); usable(h);
+  await h.submit(); usable(h); await h.submit(); h.paste('LEO'); await h.submit(); usable(h);
   assert.equal(h.pendingTimers, 0, 'Reduced motion finishes immediately'); cases++;
 }
 for (const value of ['LEOX', ' LEO', 'LEO\n']) {
-  const h = harness({ reduced: true }); h.paste(value, 'drop'); h.submit(); stillClosed(h); cases++;
+  const h = harness({ reduced: true }); h.paste(value, 'drop'); await h.submit(); stillClosed(h); cases++;
 }
 {
-  const h = harness({ reduced: true }); h.type('LEOX'); h.submit(); stillClosed(h);
-  h.input.setSelectionRange(3, 4); h.paste(''); h.submit(); usable(h); cases++;
+  const h = harness({ reduced: true }); h.type('LEOX'); await h.submit(); stillClosed(h);
+  h.input.setSelectionRange(3, 4); h.paste(''); await h.submit(); usable(h); cases++;
 }
 {
   const h = harness({ reduced: true }); h.type('LEO');
-  h.input.dispatchEvent(event('compositionstart')); h.type('leo'); h.submit(); stillClosed(h);
+  h.input.dispatchEvent(event('compositionstart')); h.type('leo'); await h.submit(); stillClosed(h);
   const enter = event('keydown', { key: 'Enter', isComposing: true }); h.input.dispatchEvent(enter); assert(enter.defaultPrevented);
   h.input.dispatchEvent(event('compositionend')); assert.equal(h.input.value, 'LEO'); stillClosed(h);
-  h.submit(); usable(h); cases++;
+  await h.submit(); usable(h); cases++;
 }
 {
   const h = harness(); h.window.dispatchEvent(event('resize')); h.document.hidden = true;
   h.document.dispatchEvent(event('visibilitychange')); stillClosed(h); cases++;
 }
 {
-  const h = harness(); h.type('LEO'); h.submit();
+  const h = harness(); h.type('LEO'); await h.submit();
   assert.equal(h.opens, 1, 'Only accepted submission starts data loading, before animation finishes');
   assert(h.workspace.hidden && h.workspace.inert, 'Loading must not reveal the workspace early');
-  h.submit(); assert.equal(h.opens, 1); await h.settle(); usable(h); cases++;
+  await h.submit(); assert.equal(h.opens, 1); await h.settle(); usable(h); cases++;
 }
 {
-  const h = harness(); h.type('LEOX'); h.submit(); stillClosed(h);
+  const h = harness(); h.type('LEOX'); await h.submit(); stillClosed(h);
   await h.settle(); stillClosed(h); // Invalid-input feedback animation must not reveal anything.
-  h.type('LEO'); h.submit(); await h.settle(); usable(h); cases++;
+  h.type('LEO'); await h.submit(); await h.settle(); usable(h); cases++;
 }
 {
-  const h = harness(); h.type('LEO'); h.submit();
+  const h = harness(); h.type('LEO'); await h.submit();
   const expected = ['ow', 'xposure', 'racle'].flatMap((word, row) => [...word].map((character, position) => `row:${row}:tail:${position}:${character}`));
   for (let i = 0; h.screen.dataset.phase !== 'expanded' && i < 100; i++) await h.tick();
   assert.equal(h.screen.dataset.phase, 'expanded');
@@ -202,19 +222,55 @@ for (const value of ['LEOX', ' LEO', 'LEO\n']) {
   cases++;
 }
 for (const phase of ['stacking', 'stacked', 'printing', 'expanded', 'collapsing', 'regrouping', 'docking', 'lion-travel', 'lion-pulse']) for (const interruption of ['resize', 'hidden', 'reduced-motion']) {
-  const h = harness(); h.type('LEO'); h.submit();
+  const h = harness(); h.type('LEO'); await h.submit();
   for (let i = 0; h.screen.dataset.phase !== phase && i < 100; i++) await h.tick();
   assert.equal(h.screen.dataset.phase, phase); assert.equal(h.workspace.inert, true);
   assert.equal(h.screen.hidden, false, 'Entry remains present until the sequence finishes');
   if (phase.startsWith('lion-')) assert.equal(h.elements['entry-lion'].hidden, false, 'Lion is present for its travel and pulse');
-  h.submit(); assert.equal(h.opens, 1); assert.equal(h.screen.dataset.phase, phase, 'Repeated submit does not restart the current phase');
+  await h.submit(); assert.equal(h.opens, 1); assert.equal(h.screen.dataset.phase, phase, 'Repeated submit does not restart the current phase');
   if (interruption === 'resize') h.window.dispatchEvent(event('resize'));
   else if (interruption === 'hidden') { h.document.hidden = true; h.document.dispatchEvent(event('visibilitychange')); }
   else { h.motion.matches = true; h.motion.dispatchEvent(event('change')); }
   const lettersAtInterruption = h.classChanges.filter(change => change.name === 'is-printed').length;
   await h.settle(); usable(h);
   assert.equal(h.classChanges.filter(change => change.name === 'is-printed').length, lettersAtInterruption, 'Interrupted typing/deleting does not continue in the background');
-  h.window.dispatchEvent(event('resize')); h.document.dispatchEvent(event('visibilitychange')); h.submit(); usable(h);
+  h.window.dispatchEvent(event('resize')); h.document.dispatchEvent(event('visibilitychange')); await h.submit(); usable(h);
   cases++;
 }
-console.log(`Verified ${cases} EAD entry behavior cases against public/ead/entry.js. Visual sequence and server authentication are not tested here.`);
+assert.equal(cases,60,'The original entry behavior coverage must remain intact');
+for (const reduced of [false,true]) {
+  const h=harness({reduced,loading:'deferred'});h.type('LEO');await h.submit();
+  assert.equal(h.screen.dataset.phase,'loading');assert.equal(h.input.readOnly,true);
+  stillClosed(h);assert.equal(h.loadCalls,1);assert.equal(h.pendingTimers,0,'Motion waits for the workspace');
+  for(let i=0;i<5;i++)await h.submit();
+  assert.equal(h.loadCalls,1,'Repeated accepted submission must not restart a pending load');
+  h.startWorkspace();assert.equal(h.opens,1);
+  assert(h.workspace.hidden&&h.workspace.inert,'Initialization alone does not reveal an unready workspace');
+  await h.resolveLoading();await h.settle();usable(h);cases++;
+}
+for (const interruption of ['resize','hidden','reduced-motion']) {
+  const h=harness({loading:'deferred'});h.type('LEO');await h.submit();
+  if(interruption==='resize')h.window.dispatchEvent(event('resize'));
+  else if(interruption==='hidden'){h.document.hidden=true;h.document.dispatchEvent(event('visibilitychange'));}
+  else{h.motion.matches=true;h.motion.dispatchEvent(event('change'));}
+  stillClosed(h);assert.equal(h.screen.dataset.phase,'loading','Interruption cannot bypass pending loading');
+  assert.equal(h.elements.main.focusCount,0);assert.equal(h.loadCalls,1);
+  await h.resolveLoading();await h.settle();usable(h);cases++;
+}
+for (const initializationStarted of [false,true]) {
+  const h=harness({loading:'deferred'});h.type('LEO');await h.submit();
+  if(initializationStarted)h.startWorkspace();
+  await h.rejectLoading();
+  assert.equal(h.screen.dataset.phase,'error');assert.equal(h.screen.hidden,false);
+  assert(h.workspace.hidden&&h.workspace.inert,'Failed loading keeps partial research inaccessible');
+  assert.equal(h.elements['entry-retry'].hidden,false,'Failure exposes an explicit reload control');
+  assert(h.elements['entry-feedback'].textContent.trim(),'Failure must provide feedback');
+  assert.equal(h.elements.main.focusCount,0);assert.equal(h.pendingTimers,0);
+  h.window.dispatchEvent(event('resize'));h.document.hidden=true;h.document.dispatchEvent(event('visibilitychange'));
+  h.motion.matches=true;h.motion.dispatchEvent(event('change'));await h.submit();
+  assert.equal(h.screen.dataset.phase,'error');assert(h.workspace.hidden&&h.workspace.inert);
+  assert.equal(h.loadCalls,1,'Submission cannot silently retry a failed load');
+  assert.equal(h.reloads,0);h.elements['entry-retry'].dispatchEvent(event('click'));
+  assert.equal(h.reloads,1,'Only explicit reload retries failed initialization');cases++;
+}
+console.log(`Verified ${cases} EAD entry behavior cases (60 original + ${cases-60} deferred-loading cases) against public/ead/entry.js. Visual sequence and server authentication are not tested here.`);

@@ -128,7 +128,7 @@ for (const feature of items(geography.features, 'geography features')) {
 }
 check(featureIds.has('CHN'), 'geography: central China feature missing');
 
-const tree = parse(read('index.html'));
+const tree = parse(read('workspace.html'));
 const nodes = [tree];
 for (let i = 0; i < nodes.length; i++) nodes.push(...(nodes[i].childNodes ?? []));
 const attrs = node => Object.fromEntries((node?.attrs ?? []).map(({name, value}) => [name, value]));
