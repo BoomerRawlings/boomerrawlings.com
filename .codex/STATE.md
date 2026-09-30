@@ -1,5 +1,14 @@
 # Project state
 
+## EAD research briefing — 2026-09-29
+
+- Mode: continuation; unlisted research webpage at `/ead/`. Status: built and locally verified; publication pending source-visibility choice. Public repository makes source discoverable even when route is excluded from navigation and search indexes.
+- Scope: public research only. Twelve observations with caveats, 23 focused reviews, searchable492-record catalogue, 17 researchers, three interactive graph modes using43nodes/91edges, proposed design requirements and open questions. Withdrawal, attribution uncertainty and historical lab-role caveats preserved.
+- Files: `src/pages/ead/index.astro`, `public/ead/`, `scripts/verify-ead.mjs`. Standalone semantic page, local assets/search, no analytics or remote fonts. HTML noindex/nofollow/noarchive/noimageindex, no-referrer, strict meta CSP. Route excluded from sitemap and public listings. No response-header protection or access control claimed.
+- Verified: full npm test passed; final build/EAD release checks passed. Independent data/content/privacy review passed. Browser38checks at1280/390/320 cover search/filter/sort/pagination, source provenance, dialogs, graph modes/focus/overview/zoom/pan/keyboard and no overflow. Fixed All-connections resetting to first node. No console errors observed.
+- Isolation: built from main4456d19 in a separate clone; original site checkout's unrelated unfinished work preserved. No hosting or DNS changes.
+- Next: after source-visibility preference resolved, fetch latest main, reconcile only these changes, publish one verified push and verify live route, assets and listing exclusions. If restricted access is required, select owner-approved hosting/access configuration before publication.
+
 ## UC San Diego vehicle-theft opening — 2026-09-29
 
 - Mode: continuation. Objective: make campus-safety open with an honest UC San Diego comparison per enrolled student. Status: complete; published as883c994, Pages run36602963774 succeeded.

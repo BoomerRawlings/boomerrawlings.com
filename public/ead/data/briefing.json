@@ -1,0 +1,223 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-09-29",
+  "title": "Personality, memory, and controlled agency",
+  "summary": "A research briefing on maintaining a consistent scientific assistant while keeping process authority outside the model.",
+  "scope": "23 focused paper reviews. Findings inform proposed experiments; no local model or security boundary has been evaluated.",
+  "priority_key": {"1": "Core finding or design decision", "2": "Evaluation detail or research anomaly"},
+  "observations": [
+    {
+      "id": "reported-versus-observed-personality",
+      "title": "Self-description can improve while behavior worsens",
+      "observation": "Human Simulacra: adding RAG raises GPT-4-Turbo self-report from 78.67 to 85.33, while observer score falls from 69.00 to 65.50.",
+      "implication": "Assess personality through decisions and responses under pressure, alongside questionnaires.",
+      "caveat": "Different rubrics; eleven fictional characters. These scores do not establish human personality or security behavior.",
+      "source_ids": ["author-2025-3adde7414731"],
+      "evidence_locations": ["Tables 2–3, PDF p. 7"],
+      "priority": 1,
+      "tags": ["personality", "evaluation"],
+      "kind": "finding"
+    },
+    {
+      "id": "personality-alignment-comparison",
+      "title": "The alignment table qualifies the headline claim",
+      "observation": "PAS reports questionnaire error of 8.89 for Llama-3-8B, versus 6.81 for few-shot GPT-4o. Lower is better; this comparison contradicts a blanket superiority claim.",
+      "implication": "Read the metric and comparison cells before treating a method as the preferred baseline.",
+      "caveat": "Approximately 20% of GPT-4o queries refused and were excluded. Questionnaire error is not long-term persona retention.",
+      "source_ids": ["author-2025-49f2a561f1ea"],
+      "evidence_locations": ["Table 1, PDF p. 7", "Appendix C.1, PDF p. 21"],
+      "priority": 2,
+      "tags": ["personality", "measurement", "anomaly"],
+      "kind": "anomaly"
+    },
+    {
+      "id": "imitation-versus-emotional-fit",
+      "title": "Better imitation need not mean better emotional fit",
+      "observation": "EmoCharacter: RoleLLM increases GPT-3.5 semantic similarity from 0.208 to 0.230, but reduces emotion consistency from 0.439 to 0.399.",
+      "implication": "Keep professional traits stable while allowing tone to respond appropriately to context.",
+      "caveat": "Six fictional characters and short dialogues. Another table reports 0.397 rather than 0.399.",
+      "source_ids": ["network-personality-emocharacter"],
+      "evidence_locations": ["Tables 2–3, PDF p. 7 / printed p. 6224"],
+      "priority": 1,
+      "tags": ["personality", "conversation", "measurement"],
+      "kind": "finding"
+    },
+    {
+      "id": "memory-tradeoffs",
+      "title": "Memory can improve one constraint and damage another",
+      "observation": "NCP-Bench: HiAgent reduces GPT-4o-mini commitment conflicts from 26% to 4%, while player-input conflicts rise from 13% to 38%.",
+      "implication": "Score retained commitments, responsiveness, and task completion separately after each memory change.",
+      "caveat": "Interactive fiction with automated players and auditors. These rates cannot be transferred to an access-control workflow.",
+      "source_ids": ["author-2026-0fb35f2a0b16"],
+      "evidence_locations": ["Table 3, PDF p. 8"],
+      "priority": 1,
+      "tags": ["memory", "consistency", "regression"],
+      "kind": "finding"
+    },
+    {
+      "id": "extraction-before-compilation",
+      "title": "A deterministic compiler can preserve a wrong directive",
+      "observation": "Notes2Skills: replacing adjudicated extraction with model extraction reduces action accuracy from 100% to 68.2% in one session, and 77.8% to 22.2% in another.",
+      "implication": "Validate extracted meaning, source qualifications, and authority before converting a note into an executable step.",
+      "caveat": "Three sessions and 48 downstream files. Action agreement is not a measured security-violation rate.",
+      "source_ids": ["network-personality-notes2skills"],
+      "evidence_locations": ["Table 13, PDF p. 16; reviewed September 2026 v2"],
+      "priority": 1,
+      "tags": ["uncertainty", "extraction", "authority"],
+      "kind": "finding"
+    },
+    {
+      "id": "local-replication-boundary",
+      "title": "An open-weight backbone is not a fully local experiment",
+      "observation": "AMA's Qwen3-8B LoCoMo score improves from 0.696 to 0.707 over full context. The study still uses hosted embeddings and a hosted evaluator.",
+      "implication": "Re-evaluate the complete local pipeline, including retrieval, embeddings, judging, and runtime settings.",
+      "caveat": "The reported score is model-judged. Replacing supporting components may change quality, latency, and memory behavior.",
+      "source_ids": ["network-personality-ama"],
+      "evidence_locations": ["Table 1, PDF p. 6", "Evaluation and implementation, PDF pp. 6–7"],
+      "priority": 1,
+      "tags": ["local-inference", "memory", "replication"],
+      "kind": "finding"
+    },
+    {
+      "id": "confident-evaluation",
+      "title": "Confident judging remains fallible",
+      "observation": "In the evaluation-uncertainty study, GPT-4o achieves 0.684 judgment accuracy in the 0.8–1.0 confidence bin on Olympic 2024 questions.",
+      "implication": "Use model judgments as measured aids; verify action traces independently and calibrate subjective ratings against humans.",
+      "caveat": "Confidence means verdict-token probability. The table omits the bin count, limiting interpretation.",
+      "source_ids": ["network-procedure-uncertainty"],
+      "evidence_locations": ["Confidence definition, PDF p. 4", "Table 20, PDF p. 32"],
+      "priority": 1,
+      "tags": ["evaluation", "uncertainty", "verification"],
+      "kind": "finding"
+    },
+    {
+      "id": "detection-operating-point",
+      "title": "High detection AUC can hide late or missed detection",
+      "observation": "MemPot's HealthMagicCare/IKEA setting reports AUROC 0.96, but true-positive rate 0.42 at 1% false-positive rate. Mean first-detection time is nine turns in this setting.",
+      "implication": "Measure leakage before detection, alert delay, false alarms, and benign utility at the intended operating point.",
+      "caveat": "Detection under the paper's threat model does not establish interception before disclosure or feasibility on local hardware.",
+      "source_ids": ["network-procedure-mempot"],
+      "evidence_locations": ["Table 2, PDF p. 7", "Table 4, PDF p. 8"],
+      "priority": 1,
+      "tags": ["memory", "detection", "evaluation"],
+      "kind": "finding"
+    },
+    {
+      "id": "specbench-arithmetic",
+      "title": "A reported improvement does not match its table cells",
+      "observation": "SpecBench reports Qwen3-14B-thinking alignment of 57.32, rising to 62.92 with Align3: 5.60 percentage points. Adjacent prose claims 6.29.",
+      "implication": "Preserve exact cells, versions, and calculations when comparing candidate methods.",
+      "caveat": "The composite metric mixes safety and behavioral preferences. It is not an unauthorized-action rate.",
+      "source_ids": ["network-procedure-specbench"],
+      "evidence_locations": ["Table 2 and adjacent prose, PDF p. 7; reviewed arXiv v3"],
+      "priority": 2,
+      "tags": ["specifications", "measurement", "anomaly"],
+      "kind": "anomaly"
+    },
+    {
+      "id": "long-context-pass-rule",
+      "title": "The long-context comparison also changes the pass rule",
+      "observation": "LongSafety reports Llama-3.1-8B at 74.2% on short inputs and 13.4% on long inputs. Long-input success requires passing both instruction positions; short-input success uses one condition.",
+      "implication": "Hold the scoring rule constant when isolating context-length effects.",
+      "caveat": "This asymmetry limits a simple causal interpretation of the drop. The benchmark measures content safety, not resource authorization.",
+      "source_ids": ["network-procedure-longsafety"],
+      "evidence_locations": ["Metric definition, PDF p. 5", "Table 3, PDF p. 6"],
+      "priority": 2,
+      "tags": ["long-context", "measurement", "anomaly"],
+      "kind": "anomaly"
+    },
+    {
+      "id": "withdrawn-evidence",
+      "title": "Withdrawal changes how a paper can be used",
+      "observation": "Logic Agent was withdrawn in December 2024 because its experiments contained errors. Its earlier reported improvements are excluded from positive evidence here.",
+      "implication": "Track publication status alongside the retained source, rather than relying on a downloaded PDF alone.",
+      "caveat": "The historical proposal remains readable. It supplies no dependable performance evidence for this design.",
+      "source_ids": ["supplemental-37cc2f22a11b"],
+      "evidence_locations": ["arXiv:2404.18130, v2 withdrawal notice, 2024-12-06"],
+      "priority": 2,
+      "tags": ["provenance", "withdrawal", "anomaly"],
+      "kind": "anomaly"
+    },
+    {
+      "id": "separate-memory-and-authority",
+      "title": "Keep persona, memory, and authority separate",
+      "observation": "Our proposed architecture gives each a separate role: persona defines communication; memory stores revisable evidence; authoritative workflow state determines permitted actions.",
+      "implication": "Require typed action proposals, current preconditions, independent permission checks, and verified execution receipts.",
+      "caveat": "This is an engineering proposal informed by the papers. It has not been implemented or security-qualified.",
+      "source_ids": ["network-personality-notes2skills", "network-procedure-refutebench2", "author-2024-ad7ba3506031"],
+      "evidence_locations": ["Design synthesis; not a paper-reported implementation result"],
+      "priority": 1,
+      "tags": ["architecture", "memory", "authority"],
+      "kind": "design"
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "define-stable-personality",
+      "question": "Which traits must remain stable, and which aspects of tone should adapt?",
+      "why_it_matters": "Warmth, brevity, evidence standards, and willingness to disagree need separate behavioral criteria.",
+      "source_ids": ["author-2025-3adde7414731", "network-personality-emocharacter", "NET-PENGUIN"]
+    },
+    {
+      "id": "memory-promotion",
+      "question": "What evidence permits a memory update, and who can approve a change in procedure?",
+      "why_it_matters": "Useful corrections need scope and expiry. Conversation alone cannot establish a new permission.",
+      "source_ids": ["author-2024-9f8c0bcbe242", "network-procedure-refutebench2", "network-personality-notes2skills"]
+    },
+    {
+      "id": "fully-local-baseline",
+      "question": "What survives when every model, embedding, and evaluator runs locally?",
+      "why_it_matters": "Published configurations often use hosted components. Hardware, latency, and model capability may alter the result.",
+      "source_ids": ["network-personality-ama", "network-personality-agentfly", "network-personality-self-verification"]
+    },
+    {
+      "id": "minimal-useful-adaptation",
+      "question": "Does curated memory improve behavior enough to justify its added failure modes?",
+      "why_it_matters": "Compare a fixed prompt, reviewed examples, and small case memory before steering, fine-tuning, or adding agents.",
+      "source_ids": ["network-personality-agentfly", "network-personality-controllm", "author-2025-87224d694b26"]
+    },
+    {
+      "id": "acceptance-evidence",
+      "question": "What evidence would justify advancing beyond synthetic practice?",
+      "why_it_matters": "Define acceptable false denials, evidence errors, personality drift, and forbidden proposals or effects before model comparison.",
+      "source_ids": ["author-2024-744d6146bc4b", "network-procedure-specbench", "network-procedure-taskcalibration", "network-procedure-uncertainty"]
+    }
+  ],
+  "design_principles": [
+    {
+      "id": "behavior-before-labels",
+      "title": "Specify observable behavior",
+      "principle": "Define calm disagreement, useful clarification, candid uncertainty, and accurate status reporting. Test behavior across pressure, delay, and correction.",
+      "source_ids": ["author-2025-3adde7414731", "network-personality-emocharacter", "NET-PENGUIN"],
+      "kind": "design"
+    },
+    {
+      "id": "authority-outside-generation",
+      "title": "Keep action authority outside generation",
+      "principle": "The model proposes an action. Separate software checks identity, approval, scope, version, expiry, and workflow state before execution.",
+      "source_ids": ["network-personality-notes2skills", "network-procedure-specbench", "author-2025-18b49ffc7eb9"],
+      "kind": "design"
+    },
+    {
+      "id": "traceable-revisable-memory",
+      "title": "Make memory traceable and revisable",
+      "principle": "Retain source, scope, timestamps, uncertainty, and supersession. Review promotion into durable memory; keep policy and persona changes separate.",
+      "source_ids": ["network-personality-ama", "network-personality-agentfly", "network-procedure-refutebench2"],
+      "kind": "design"
+    },
+    {
+      "id": "independent-scorecards",
+      "title": "Measure independent failure dimensions",
+      "principle": "Separate personality, claim support, missing prerequisites, legitimate completion, false denial, and unauthorized effects. Preserve failures rather than averaging them away.",
+      "source_ids": ["author-2024-ad7ba3506031", "network-procedure-refchecker", "network-procedure-specbench"],
+      "kind": "design"
+    },
+    {
+      "id": "controlled-change",
+      "title": "Change one component at a time",
+      "principle": "Freeze the baseline and held-out scenarios. Compare changes under the same task and resource budget; retain versions, regression results, and rollback.",
+      "source_ids": ["author-2025-87224d694b26", "author-2024-744d6146bc4b", "network-personality-self-verification"],
+      "kind": "design"
+    }
+  ]
+}
