@@ -50,13 +50,14 @@
     document.body.dataset.view = view;
     if (!preserveQuery) { state.query = ''; $('search').value = ''; }
     document.querySelectorAll('button[data-view]').forEach(node => {
-      const selected = node.dataset.view === view;
+      const selected = node.dataset.view === view || (view === 'design' && node.closest('.tabs') && node.dataset.view === 'implementation');
       node.classList.toggle('active', selected);
       if (selected) node.setAttribute('aria-current', 'page'); else node.removeAttribute('aria-current');
     });
     document.querySelectorAll('.view').forEach(node => { node.hidden = node.id !== `${view}-view`; });
     $('search').placeholder = view === 'explorer' ? 'Find a person or topic' : `Search ${view === 'connections' ? 'people and papers' : view}`;
     renderView();
+    document.dispatchEvent(new CustomEvent('ead:view',{detail:view}));
   }
   function renderView() {
     if (state.view === 'explorer') document.dispatchEvent(new CustomEvent('ead:explorer-query',{detail:state.query}));
@@ -64,6 +65,7 @@
     if (state.view === 'sources') renderSources();
     if (state.view === 'connections') renderGraph();
     if (state.view === 'design') renderDesign();
+    if (state.view === 'implementation') document.dispatchEvent(new CustomEvent('ead:implementation-query',{detail:state.query}));
   }
   function renderObservations() {
     const found = briefing.observations.filter(o => (state.kind === 'all' || o.kind === state.kind) && includesQuery([o.title,o.observation,o.implication,o.caveat,...o.tags,...o.source_ids.map(id => sources.get(id)?.title)].join(' ')));
@@ -293,12 +295,13 @@
     document.dispatchEvent(new CustomEvent('ead:ready',{detail:{catalogue,briefing}}));
   }
   document.addEventListener('ead:open', () => {
-    Promise.all(['briefing','sources','network','explorer'].map(async name => {
+    Promise.all(['briefing','sources','network','explorer','implementation'].map(async name => {
       const response=await fetch(`./data/${name}.json`,{credentials:'omit',referrerPolicy:'no-referrer'});
       if(!response.ok)throw new Error('Data unavailable');return response.json();
-    })).then(([b,s,n,x]) => {
+    })).then(([b,s,n,x,i]) => {
       briefing=b;catalogue=s;network=n;initialize();
       document.dispatchEvent(new CustomEvent('ead:explorer-data',{detail:x}));
+      document.dispatchEvent(new CustomEvent('ead:implementation-data',{detail:i}));
     }).catch(() => { $('load-error').hidden=false; $('explorer-status').textContent='Research unavailable'; });
   }, {once:true});
 })();

@@ -21,21 +21,63 @@
   const normalize = value => String(value||'').normalize('NFKD').toLowerCase();
   let data, sources, briefing;
   let expanded=false, selected={kind:'focal',id:'yue-zhang'}, query='';
+  let hovered=null, focused=null;
+  const reduceMotion=matchMedia('(prefers-reduced-motion:reduce)');
+  const motion=new Set();
   const peoplePositions=[[21,13],[34,25],[17,37],[31,49],[16,61],[29,73],[17,86],[42,88]];
   const topicPositions=[[74,13],[82,28],[79,43],[83,58],[77,73],[67,89]];
   const positions=new Map();
   const nodeButtons=new Map();
+  const links=[];
   const topicsFor = person => data.topics.filter(topic=>topic.person_ids.includes(person.id));
   const sourceText = id => {const s=sources.get(id);return s ? `${s.title} ${s.shortTitle} ${s.authors.join(' ')} ${(s.tags||[]).join(' ')}` : '';};
   const matches = item => !query || query.split(/\s+/).filter(Boolean).every(word => normalize(`${item.name||item.label} ${item.role||''} ${item.summary||''} ${item.paper_ids.map(sourceText).join(' ')}`).includes(word));
 
+  function stopMotion() {
+    motion.forEach(animation=>animation.cancel());motion.clear();
+  }
+  function animate(node,frames,options) {
+    if(reduceMotion.matches||!node.animate)return;
+    const animation=node.animate(frames,options);motion.add(animation);
+    animation.finished.catch(()=>{}).finally(()=>motion.delete(animation));
+  }
+  function revealNetwork(previousAuthor) {
+    if(reduceMotion.matches||document.hidden||document.body.dataset.view!=='explorer')return;
+    const mobile=matchMedia('(max-width:700px)').matches;
+    const canvas=$('explorer-canvas').getBoundingClientRect();
+    const author=$('explorer-author'),current=author.getBoundingClientRect();
+    const dx=previousAuthor.left+previousAuthor.width/2-current.left-current.width/2;
+    const dy=previousAuthor.top+previousAuthor.height/2-current.top-current.height/2;
+    const settled=mobile?'none':'translate(-50%,-50%)';
+    const authorFrom=mobile?`translate(${dx}px,${dy}px)`:`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px))`;
+    animate(author,[{transform:authorFrom},{transform:settled}],{duration:560,easing:'cubic-bezier(.2,.7,.2,1)'});
+    let index=0;
+    nodeButtons.forEach((node,id)=>{
+      if(node.hidden)return;
+      const [x,y]=positions.get(id),delay=index++*22;
+      const from=mobile?'translateY(14px) scale(.97)':`translate(calc(-50% + ${canvas.width*(.5-x/100)}px),calc(-50% + ${canvas.height*(.48-y/100)}px)) scale(.7)`;
+      const to=mobile?'none':'translate(-50%,-50%)';
+      animate(node,[{transform:from,opacity:0},{transform:to,opacity:1}],{duration:mobile?360:620,delay,fill:'backwards',easing:'cubic-bezier(.18,.75,.24,1)'});
+    });
+    if(!mobile)animate($('explorer-lines'),[{clipPath:'circle(0% at 50% 48%)',opacity:0},{clipPath:'circle(110% at 50% 48%)',opacity:1}],{duration:800,easing:'cubic-bezier(.2,.6,.2,1)'});
+  }
+  function clearPreview() {hovered=null;focused=null;}
+  function preview(kind,id,input,active) {
+    if(!expanded||query||document.body.dataset.view!=='explorer')return;
+    if(input==='pointer')hovered=active?{kind,id}:null;
+    else focused=active?{kind,id}:null;
+    renderConnections();
+  }
+
   function pick(kind,id) {
+    stopMotion();clearPreview();
     expanded=true;selected={kind,id};query='';send('ead:reset-query');
     render();
     const heading=$('explorer-detail').querySelector('h2');heading.tabIndex=-1;heading.focus({preventScroll:true});
     if(matchMedia('(max-width:1200px)').matches) $('explorer-detail').scrollIntoView({block:'nearest',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});
   }
   function reset() {
+    stopMotion();clearPreview();
     expanded=false;selected={kind:'focal',id:data.focal.id};query='';send('ead:reset-query');render();
     $('explorer-author').focus({preventScroll:true});
   }
@@ -46,18 +88,52 @@
     node.append(el('span',item.name||item.label,'node-name'));
     node.append(el('span',`${item.paper_ids.length} paper${item.paper_ids.length===1?'':'s'}`,'node-note'));
     node.setAttribute('aria-label',`${item.name||item.label}. ${item.paper_ids.length} reviewed papers. Show evidence.`);
+    node.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')preview(kind,item.id,'pointer',true);});
+    node.addEventListener('pointerleave',()=>preview(kind,item.id,'pointer',false));
+    node.addEventListener('focus',()=>preview(kind,item.id,'focus',true));
+    node.addEventListener('blur',()=>preview(kind,item.id,'focus',false));
     nodeButtons.set(item.id,node);positions.set(item.id,(kind==='person'?peoplePositions:topicPositions)[index]);
     return node;
   }
-  function drawLine(from,to,kind,dimmed=false) {
+  function drawLine(fromId,toId,kind) {
     const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    const from=fromId===data.focal.id?[50,48]:positions.get(fromId),to=positions.get(toId);
     const [x1,y1]=from.map(n=>n*10),[x2,y2]=to.map(n=>n*10);
     path.setAttribute('d',`M${x1},${y1} C${(x1+x2)/2},${y1} ${(x1+x2)/2},${y2} ${x2},${y2}`);
-    path.setAttribute('class',`explorer-link ${kind}${dimmed?' dimmed':''}`);
+    path.setAttribute('class',`explorer-link ${kind}`);
+    if(kind==='related')path.setAttribute('pathLength','1');
     $('explorer-lines').append(path);
+    links.push({path,fromId,toId,kind});
+  }
+  function renderConnections() {
+    if(!data)return;
+    const transient=expanded&&!query?(hovered||focused):null;
+    const active=transient||selected;
+    const person=data.people.find(item=>active.kind==='person'&&item.id===active.id);
+    const topic=data.topics.find(item=>active.kind==='topic'&&item.id===active.id);
+    const relatedIds=new Set([active.id]);
+    if(person)topicsFor(person).forEach(t=>relatedIds.add(t.id));
+    if(topic)topic.person_ids.forEach(id=>relatedIds.add(id));
+    $('explorer-layout').dataset.previewId=transient?.id||'';
+    nodeButtons.forEach((node,id)=>{
+      const related=active.kind==='focal'||relatedIds.has(id);
+      node.classList.toggle('is-muted',!related&&!query);
+      node.classList.toggle('is-related',relatedIds.has(id)&&id!==active.id&&!query);
+      node.classList.toggle('is-preview',transient?.id===id);
+      node.setAttribute('aria-pressed',String(selected.id===id));
+    });
+    links.forEach(({path,fromId,toId,kind})=>{
+      const visible=expanded&&!nodeButtons.get(toId).hidden&&(kind!=='related'||!nodeButtons.get(fromId).hidden);
+      const activePair=kind==='related'&&!query&&Boolean((person&&fromId===person.id)||(topic&&toId===topic.id));
+      path.classList.toggle('is-visible',visible&&(kind!=='related'||activePair));
+      path.classList.toggle('dimmed',kind!=='related'&&active.kind!=='focal'&&!relatedIds.has(toId)&&!query);
+    });
+    $('explorer-legend').textContent=!expanded?'Select the author to open his research network.':transient?`Preview: ${person?.name||topic?.label}. Highlighted links share reviewed papers; click to select.`:'Solid: documented relationships. Dotted: curated topics. Selected links: shared papers.';
   }
   function render() {
     if(!data)return;
+    const opening=expanded&&!$('explorer-layout').classList.contains('is-expanded');
+    const previousAuthor=$('explorer-author').getBoundingClientRect();
     $('explorer-layout').classList.toggle('is-expanded',expanded);
     $('explorer-author').setAttribute('aria-expanded',String(expanded));
     $('explorer-author').querySelector('.author-action').firstChild.textContent=expanded?'Collapse network ':'Explore connections ';
@@ -65,7 +141,6 @@
     $('explorer-people').hidden=!expanded;$('explorer-topics').hidden=!expanded;
     $('explorer-detail').hidden=!expanded;$('explorer-reset').hidden=!expanded;
     document.querySelectorAll('.map-group-label').forEach(node=>{node.hidden=!expanded;});
-    $('explorer-lines').replaceChildren();
     let peopleCount=0,topicCount=0;
     const person=data.people.find(item=>selected.kind==='person'&&item.id===selected.id);
     const topic=data.topics.find(item=>selected.kind==='topic'&&item.id===selected.id);
@@ -73,17 +148,12 @@
       const node=nodeButtons.get(item.id),visible=matches(item);
       node.hidden=!visible;
       if(visible){if(kind==='person')peopleCount++;else topicCount++;}
-      const related=selected.kind==='focal'||item.id===selected.id||(kind==='person'&&topic?.person_ids.includes(item.id))||(kind==='topic'&&person&&item.person_ids.includes(person.id));
-      node.classList.toggle('is-muted',!related&&!query);
-      node.setAttribute('aria-pressed',String(selected.id===item.id));
-      if(expanded&&visible)drawLine([50,48],positions.get(item.id),kind==='person'?'person':'topic',!related&&!query);
     });
-    if(expanded&&!query&&person)topicsFor(person).forEach(t=>drawLine(positions.get(person.id),positions.get(t.id),'related'));
-    if(expanded&&!query&&topic)topic.person_ids.forEach(id=>drawLine(positions.get(id),positions.get(topic.id),'related'));
+    renderConnections();
     $('explorer-empty').hidden=!expanded||peopleCount+topicCount>0;
     $('explorer-status').textContent=expanded?`${peopleCount} collaborator${peopleCount===1?'':'s'} / ${topicCount} topic${topicCount===1?'':'s'}`:'YUE ZHANG / WESTLAKE NLP';
-    $('explorer-legend').textContent=expanded?'Solid: documented relationships. Dotted: curated topics. Selected links: shared papers.':'Select the author to open his research network.';
     if(expanded){if(query)renderSearch();else renderDetail(person||topic||data.focal,selected.kind);}
+    if(opening)revealNetwork(previousAuthor);
   }
   function renderSearch() {
     const host=$('explorer-detail');host.replaceChildren();
@@ -148,11 +218,22 @@
     $('explorer-author').hidden=false;
     data.people.forEach((p,i)=>$('explorer-people').append(makeNode(p,'person',i)));
     data.topics.forEach((t,i)=>$('explorer-topics').append(makeNode(t,'topic',i)));
+    data.people.forEach(p=>drawLine(data.focal.id,p.id,'person'));
+    data.topics.forEach(t=>{
+      drawLine(data.focal.id,t.id,'topic');
+      t.person_ids.forEach(id=>drawLine(id,t.id,'related'));
+    });
     $('explorer-author').addEventListener('click',()=>{if(expanded)reset();else{expanded=true;selected={kind:'focal',id:data.focal.id};render();}});
     $('explorer-reset').addEventListener('click',reset);
     render();
   },{once:true});
   document.addEventListener('ead:explorer-query',event=>{
+    stopMotion();clearPreview();
     query=normalize(event.detail).trim();if(query)expanded=true;render();
   });
+  const leaveView=()=>{stopMotion();clearPreview();if(data)renderConnections();};
+  new MutationObserver(()=>{if(document.body.dataset.view!=='explorer')leaveView();}).observe(document.body,{attributes:true,attributeFilter:['data-view']});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)leaveView();});
+  window.addEventListener('resize',stopMotion,{passive:true});
+  reduceMotion.addEventListener?.('change',()=>{if(reduceMotion.matches)stopMotion();});
 })();

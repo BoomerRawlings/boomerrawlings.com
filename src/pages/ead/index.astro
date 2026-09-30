@@ -13,8 +13,10 @@
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./entry.css">
   <link rel="stylesheet" href="./oracle.css">
+  <link rel="stylesheet" href="./implementation.css">
   <script is:inline src="./app.js" defer></script>
   <script is:inline src="./explorer.js" defer></script>
+  <script is:inline src="./implementation.js" defer></script>
   <script is:inline src="./entry.js" defer></script>
 </head>
 <body class="entry-pending" data-view="explorer">
@@ -48,7 +50,7 @@
       <button type="button" disabled data-view="observations">Findings</button>
       <button type="button" disabled data-view="sources">Catalogue <span id="source-count">492</span></button>
       <button type="button" disabled data-view="connections" aria-label="Evidence map"><span class="nav-word">Evidence </span>map</button>
-      <button type="button" disabled data-view="design">Design</button>
+      <button type="button" disabled data-view="implementation">Implementation</button>
     </nav>
     <label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg><span class="sr-only">Search the current view</span><input id="search" type="search" disabled autocomplete="off" spellcheck="false" placeholder="Find a person or topic" aria-describedby="search-help"><kbd>/</kbd></label>
   </div>
@@ -87,7 +89,19 @@
       <div class="source-table-wrap"><table class="source-table"><thead><tr><th scope="col">Year</th><th scope="col">Source</th><th scope="col">Coverage</th><th scope="col"><span class="sr-only">Details</span></th></tr></thead><tbody id="source-rows"></tbody></table></div>
       <div class="pagination"><span id="source-results" role="status"></span><div><button id="page-prev">Previous</button><span id="page-number"></span><button id="page-next">Next</button></div></div>
     </section>
+    <section id="implementation-view" class="view" aria-label="Personality implementation guide" hidden>
+      <header class="implementation-heading"><div><p class="section-label">IMPLEMENTATION / LOCAL SCIENTIFIC ASSISTANT</p><h2>Turn personality into behavior.</h2><p id="implementation-intro">Eight steps from an observable profile to a tested, versioned agent.</p></div><button type="button" disabled data-view="design">Architecture overview <span aria-hidden="true">↗</span></button></header>
+      <div class="implementation-scope"><span class="scope-dot" aria-hidden="true"></span><span>Proposed build guide · synthetic workflows · model and hardware to be selected</span></div>
+      <nav id="implementation-index" class="implementation-index" aria-label="Implementation steps"></nav>
+      <div class="implementation-controls"><p>Hover or focus to trace dependencies. Select a title to hold.</p><div><span id="implementation-count"></span><button id="implementation-clear" type="button" hidden>Clear trace</button><button id="implementation-download" type="button">Download guide ↓</button></div></div>
+      <div class="implementation-column-head"><span>01 / PLAIN ENGLISH</span><span aria-hidden="true">↔</span><span>02 / PROMPTS &amp; IMPLEMENTATION</span></div>
+      <div id="implementation-board" class="implementation-board"><svg id="implementation-lines" aria-hidden="true"></svg><div id="implementation-rows"></div></div>
+      <p id="implementation-empty" class="empty" hidden>No matching steps. Try personality, memory, approval, or evaluation.</p>
+      <p id="implementation-status" class="implementation-status" role="status" aria-live="polite"></p>
+      <div class="implementation-end"><span class="section-label">FIRST DELIVERABLE</span><p>A versioned persona, reviewed examples, synthetic procedures, and a recorded comparison. Fine-tuning follows only if a measured gap remains.</p></div>
+    </section>
     <section id="design-view" class="view" aria-label="Proposed local agent design" hidden>
+      <button class="implementation-back" type="button" disabled data-view="implementation">← Implementation guide</button>
       <div class="design-heading"><span class="badge design">PROPOSED ARCHITECTURE</span><h2>Stable behavior. Explicit authority.</h2><p>A local model proposes. Independent software checks permission, advances the workflow, and records the outcome.</p></div>
       <div class="authority-flow" aria-label="Proposed control flow"><div><span>01 / COMMUNICATION</span><strong>Scientist persona</strong><p>Warmth, clarity, scientific care.</p></div><div><span>02 / CONTEXT</span><strong>Revisable memory</strong><p>Evidence, scope, conflicts, expiry.</p></div><div class="authority-node"><span>03 / ENFORCEMENT</span><strong>Permission &amp; state</strong><p>Authenticated authority. Exact action checks.</p></div><div><span>04 / OUTCOME</span><strong>Verified receipt</strong><p>Attempted, completed, or unknown.</p></div></div>
       <div class="design-grid"><section><div class="section-label">DESIGN REQUIREMENTS</div><div id="principles"></div></section><section><div class="section-label">QUESTIONS TO RESOLVE</div><div id="questions"></div></section></div>
