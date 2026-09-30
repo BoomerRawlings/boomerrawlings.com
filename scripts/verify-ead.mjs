@@ -43,8 +43,8 @@ check(workspace && Object.hasOwn(attrs(workspace), 'hidden') && Object.hasOwn(at
 check(workspace && [...nodes(workspace)].every(node => node === workspace || (!node.tagName && (node.nodeName !== '#text' || !node.value.trim()))), 'EAD shell: research markup must be deferred');
 const initialScripts = htmlNodes.filter(node => node.tagName === 'script').map(node => attrs(node).src);
 const initialStyles = htmlNodes.filter(node => node.tagName === 'link' && (attrs(node).rel ?? '').split(/\s+/).includes('stylesheet')).map(node => attrs(node).href);
-check(JSON.stringify(initialScripts) === JSON.stringify(['./loader.js','./entry.js']), 'EAD shell: only loader.js and entry.js may execute initially, in that order');
-check(JSON.stringify(initialStyles) === JSON.stringify(['./entry.css']), 'EAD shell: only entry.css may load initially');
+check(JSON.stringify(initialScripts.map(url=>url.split('?')[0])) === JSON.stringify(['./loader.js','./entry.js']), 'EAD shell: only loader.js and entry.js may execute initially, in that order');
+check(JSON.stringify(initialStyles.map(url=>url.split('?')[0])) === JSON.stringify(['./entry.css']), 'EAD shell: only entry.css may load initially');
 for (const node of htmlNodes) {
   const a = attrs(node);
   const rel = (a.rel ?? '').split(/\s+/);
@@ -146,6 +146,8 @@ for (const node of allNodes) {
   }
 }
 const loader = text(join(output, 'ead', 'loader.js'));
+const version=loader.match(/const LEO_ASSET_VERSION = '([^']+)'/)?.[1];
+check(version && [...initialScripts,...initialStyles].every(url=>url.endsWith(`?v=${version}`)), 'EAD entry and deferred assets must share a release version');
 const entryCss = text(join(output, 'ead', 'entry.css'));
 check(!/@import\b/i.test(entryCss), 'EAD entry CSS: imports would bypass deferred loading');
 for (const match of entryCss.matchAll(/url\(\s*(['"]?)(.*?)\1\s*\)/gi)) {
@@ -161,7 +163,7 @@ for (const [name, extension, expected] of [
   check(JSON.stringify(assets) === JSON.stringify(expected), `EAD loader: incomplete ${name} manifest`);
   for (const asset of assets) localResource(`./${asset}.${extension}`,urlFor(page),`EAD deferred ${name}`);
 }
-check(loader.includes("'./workspace.html'"), 'EAD loader: missing workspace fragment reference');
+check(loader.includes("leoAsset('workspace.html')"), 'EAD loader: missing workspace fragment reference');
 for (const file of stylesheets) cssResources(text(file), urlFor(file), relative(output, file));
 
 // Parse URL-bearing attributes, not prose: titles containing "EAD" are harmless.

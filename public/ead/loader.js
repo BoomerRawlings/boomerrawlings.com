@@ -1,5 +1,8 @@
 /* Deferred public workspace. This entry interaction is not authentication. */
 let leoWorkspaceLoad;
+// Bump with UI releases; match the entry shell's asset query version.
+const LEO_ASSET_VERSION = '20260930-network-2';
+const leoAsset = name => `./${name}?v=${LEO_ASSET_VERSION}`;
 function loadLEOWorkspace() {
   if (leoWorkspaceLoad) return leoWorkspaceLoad;
   leoWorkspaceLoad = (async () => {
@@ -7,7 +10,7 @@ function loadLEOWorkspace() {
     const timeout = setTimeout(() => controller.abort(), 20000);
     let markup;
     try {
-      const response = await fetch('./workspace.html', {credentials:'omit', referrerPolicy:'no-referrer', signal:controller.signal});
+      const response = await fetch(leoAsset('workspace.html'), {credentials:'omit', referrerPolicy:'no-referrer', signal:controller.signal});
       if (!response.ok) throw new Error('Workspace unavailable');
       markup = await response.text();
     } finally { clearTimeout(timeout); }
@@ -24,8 +27,8 @@ function loadLEOWorkspace() {
         if (error) { node.remove(); reject(new Error('Asset unavailable')); } else resolve();
       };
       node.onload = () => done(false); node.onerror = () => done(true);
-      if (kind === 'css') { node.rel = 'stylesheet'; node.href = `./${name}.css`; }
-      else { node.src = `./${name}.js`; }
+      if (kind === 'css') { node.rel = 'stylesheet'; node.href = leoAsset(`${name}.css`); }
+      else { node.src = leoAsset(`${name}.js`); }
       document.head.append(node);
     });
     const styles = ['style','oracle','implementation','atlas','plans','reveal'];

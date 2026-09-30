@@ -320,8 +320,10 @@
 
 ## EAD network and navigation refinement — 2026-09-30
 
-- Mode: continuation. Objective: readable full network prioritized for secure agents; LEO returns to intro; lion opens poems view. Status: implemented and verified locally; publication pending under prior user authorization.
+- Mode: continuation. Objective: readable full network prioritized for secure agents; LEO returns to intro; lion opens poems view. Status: published1dc8742; Pages36763340770 succeeded and24 live asset/data/privacy checks pass. Preserved concurrent3d0416c and reran combined full npm test successfully.
 - Network: all749 profiles retained; source-based High relevance/Relevant/Context/Needs review tiers for personality, memory, tool use, process adherence and agent safeguards. No special Yue starter or sort preference. Click cards to focus direct neighbors; paged card layout, gutter connections and grouped evidence preserve every record. Relevance reasons and excerpts link to sources.
 - Navigation: LEO collapses to a cleared exact-key entry; repeat launch reuses loaded data and replays reveal. Lion opens empty personal poems view; back preserves research state. No poems invented; no authentication or privacy claims added.
 - Verified: full npm test passed (73 entry,11 loader cases); 11000 layouts across11 widths, all749 profiles/direct neighborhoods and26994 connectors. Desktop/mobile browser checks cover cards, grouping/source drill-down, exact badge hit target, selection clearing, page changes, relevance/empty filters, context preservation, key rejection after reset, keyboard activation and repeat launch. Final tiny focus-scroll adjustment checked separately. Public data unchanged; no new dependencies.
-- Next: publish one verified commit and check production asset hashes and navigation. QA evidence remains in the research workspace under web/qa/network/.
+- Next: user supplies poem content; implementation-plan purpose remains for later discussion. QA evidence: web/qa/network/ in research workspace. All13 local browser checks passed; production bytes match tested release.
+
+- Release follow-up: production browser retained old unversioned UI assets despite correct origin bytes. Added shared release query version to initial entry assets, workspace HTML, and all deferred CSS/JS; loader/release tests enforce consistency. Full suite passed; final route build and publication pending. Future UI releases must bump LEO_ASSET_VERSION and matching entry-shell URLs.
