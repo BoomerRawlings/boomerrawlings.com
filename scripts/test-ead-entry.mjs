@@ -71,7 +71,7 @@ function harness({ reduced = false, loading = 'ready' } = {}) {
   const rows = initials.map((initial, index) => {
     const row = new Element(`row:${index}`);
     row.selectors.set('.entry-initial', [initial]);
-    row.selectors.set('.entry-tail > span', [...['ow', 'xposure', 'racle'][index]].map((character, position) => {
+    row.selectors.set('.entry-tail > span', [...['ow', 'xposure', 'perator'][index]].map((character, position) => {
       const letter = new Element(`row:${index}:tail:${position}:${character}`);
       letter.textContent = character;
       return letter;
@@ -153,7 +153,7 @@ let cases = 0;
   assert(retry.attrs.some(attr => attr.name === 'type' && attr.value === 'button'), 'Reload is an explicit button, not another submission');
   const textContent = node => node.nodeName === '#text' ? node.value : (node.childNodes ?? []).map(textContent).join('');
   const rows = nodes.filter(node => node.attrs?.some(attr => attr.name === 'class' && attr.value.split(/\s+/).includes('entry-row')));
-  assert.deepEqual(rows.map(row => textContent(row).replace(/\s+/g, '')), ['Low', 'Exposure', 'Oracle'], 'The actual markup spells the expanded name');
+  assert.deepEqual(rows.map(row => textContent(row).replace(/\s+/g, '')), ['Low', 'Exposure', 'Operator'], 'The actual markup spells the expanded name');
   cases++;
 }
 const invalid = ['', 'L', 'LE', 'LEOX', 'XLEO', ' LEO', 'LEO ', 'L EO', 'LEO\t', '\tLEO', 'LEO\r\n', '\nLEO', 'L\nEO', 'LEO\u00a0', 'LEO\u200b', 'ＬＥＯ', 'LEО'];
@@ -200,11 +200,11 @@ for (const value of ['LEOX', ' LEO', 'LEO\n']) {
 }
 {
   const h = harness(); h.type('LEO'); await h.submit();
-  const expected = ['ow', 'xposure', 'racle'].flatMap((word, row) => [...word].map((character, position) => `row:${row}:tail:${position}:${character}`));
+  const expected = ['ow', 'xposure', 'perator'].flatMap((word, row) => [...word].map((character, position) => `row:${row}:tail:${position}:${character}`));
   for (let i = 0; h.screen.dataset.phase !== 'expanded' && i < 100; i++) await h.tick();
   assert.equal(h.screen.dataset.phase, 'expanded');
   const printed = h.classChanges.filter(change => change.name === 'is-printed');
-  assert.deepEqual(printed.map(change => change.id), expected, 'Suffixes type in Low, Exposure, Oracle order');
+  assert.deepEqual(printed.map(change => change.id), expected, 'Suffixes type in Low, Exposure, Operator order');
   assert(printed.every(change => change.enabled), 'Expanded words retain every printed character');
   assert(printed.every((change, index) => !index || change.at > printed[index - 1].at), 'Characters print on separate timer turns');
   await h.settle(); usable(h);

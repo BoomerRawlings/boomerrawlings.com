@@ -90,7 +90,7 @@
     screen.dataset.phase = phase;
     input.readOnly = true;
     input.blur();
-    feedback.textContent = 'Low Exposure Oracle.';
+    feedback.textContent = 'Low Exposure Operator.';
     if (reducedMotion.matches) { finish(); return; }
 
     sequence.hidden = false;
