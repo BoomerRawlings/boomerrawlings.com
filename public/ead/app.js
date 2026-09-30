@@ -31,7 +31,7 @@
   const flagged = (source) => ['withdrawn', 'identity_uncertain', 'not_target_author'].includes(source.status);
   const statusLabel = (source) => ({withdrawn:'Withdrawn',identity_uncertain:'Identity uncertain',not_target_author:'Other author'})[source.status];
   const attributionLabel = (source) => ({author_bibliography:'Listed in author bibliography',name_affiliation_checked:'Name and affiliation checked',profile_only:'Scholar profile only',identity_uncertain:'Identity unresolved',verified_yue_coauthor:'Yue Zhang coauthorship verified',verified_network_coauthor:'Collaborator authorship verified',not_target_author:'Different author'})[source.attribution] || words(source.attribution);
-  const state = {view:'observations',query:'',kind:'all',observation:null,coverage:'reviewed',sort:'year',page:0,graph:'research',focus:'yue-zhang'};
+  const state = {view:'explorer',query:'',kind:'all',observation:null,coverage:'reviewed',sort:'year',page:0,graph:'research',focus:'yue-zhang'};
   let briefing, catalogue, network, sources, nodes;
   let graphScale = 1, graphX = 0, graphY = 0;
   const pageSize = 25;
@@ -47,17 +47,19 @@
   }
   function setView(view, preserveQuery = false) {
     state.view = view;
+    document.body.dataset.view = view;
     if (!preserveQuery) { state.query = ''; $('search').value = ''; }
-    document.querySelectorAll('[data-view]').forEach(node => {
+    document.querySelectorAll('button[data-view]').forEach(node => {
       const selected = node.dataset.view === view;
       node.classList.toggle('active', selected);
       if (selected) node.setAttribute('aria-current', 'page'); else node.removeAttribute('aria-current');
     });
     document.querySelectorAll('.view').forEach(node => { node.hidden = node.id !== `${view}-view`; });
-    $('search').placeholder = `Search ${view === 'connections' ? 'people and papers' : view}`;
+    $('search').placeholder = view === 'explorer' ? 'Find a person or topic' : `Search ${view === 'connections' ? 'people and papers' : view}`;
     renderView();
   }
   function renderView() {
+    if (state.view === 'explorer') document.dispatchEvent(new CustomEvent('ead:explorer-query',{detail:state.query}));
     if (state.view === 'observations') renderObservations();
     if (state.view === 'sources') renderSources();
     if (state.view === 'connections') renderGraph();
@@ -117,7 +119,7 @@
       related.forEach(o => section.append(button(o.title,() => {
         $('source-dialog').close(); state.kind='all'; state.observation=o.id;
         document.querySelectorAll('[data-kind]').forEach(b => b.setAttribute('aria-pressed',String(b.dataset.kind === 'all')));
-        setView('observations'); $('observation-detail').scrollIntoView({block:'start'});
+        setView('observations'); $('observation-detail').tabIndex=-1;$('observation-detail').focus({preventScroll:true});$('observation-detail').scrollIntoView({block:'start'});
       },'source-link'))); content.append(section);
     }
     if (source.sourceRows.length > 1) {
@@ -259,11 +261,12 @@
   function initialize() {
     sources=new Map(catalogue.entries.map(s => [s.id,s]));nodes=new Map(network.nodes.map(n => [n.id,n]));
     $('source-count').textContent=catalogue.stats.catalogEntries;
-    document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click',() => setView(b.dataset.view)));
+    document.querySelectorAll('button[data-view]').forEach(b => {b.disabled=false;b.addEventListener('click',() => setView(b.dataset.view));});
     document.querySelectorAll('[data-kind]').forEach(b => b.addEventListener('click',() => {state.kind=b.dataset.kind;document.querySelectorAll('[data-kind]').forEach(n => n.setAttribute('aria-pressed',String(n===b)));renderObservations();}));
     $('observation-select').addEventListener('change',() => {state.observation=$('observation-select').value;renderObservations();});
     document.querySelectorAll('[data-coverage]').forEach(b => b.addEventListener('click',() => {state.coverage=b.dataset.coverage;state.page=0;document.querySelectorAll('[data-coverage]').forEach(n => n.setAttribute('aria-pressed',String(n===b)));renderSources();}));
     document.querySelectorAll('[data-graph]').forEach(b => b.addEventListener('click',() => {state.graph=b.dataset.graph;state.focus=state.graph === 'design' ? 'objective-personality' : state.graph === 'papers' ? 'author-2025-3adde7414731' : 'yue-zhang';document.querySelectorAll('[data-graph]').forEach(n => n.setAttribute('aria-pressed',String(n===b)));renderGraph();}));
+    $('search').disabled=false;
     $('search').addEventListener('input',() => {state.query=normalize($('search').value).trim();state.page=0;renderView();});
     $('source-sort').addEventListener('change',() => {state.sort=$('source-sort').value;state.page=0;renderSources();});
     $('page-prev').addEventListener('click',() => {state.page--;renderSources();});$('page-next').addEventListener('click',() => {state.page++;renderSources();});
@@ -279,12 +282,23 @@
     svg.addEventListener('pointermove',event => {if(!drag)return;const p=point(event);graphX=drag.ox+p.x-drag.x;graphY=drag.oy+p.y-drag.y;graphTransform();});
     const stopDrag=()=>{drag=null;svg.classList.remove('dragging');};svg.addEventListener('pointerup',stopDrag);svg.addEventListener('pointercancel',stopDrag);
     matchMedia('(max-width:560px)').addEventListener('change',() => {if(state.view==='connections')renderGraph();});
-    renderObservations();
+    document.addEventListener('ead:source',event => openSource(event.detail));
+    document.addEventListener('ead:observation',event => {
+      if (!briefing.observations.some(item => item.id === event.detail)) return;
+      state.kind='all';state.observation=event.detail;
+      document.querySelectorAll('[data-kind]').forEach(b => b.setAttribute('aria-pressed',String(b.dataset.kind==='all')));
+      setView('observations');$('observation-detail').tabIndex=-1;$('observation-detail').focus({preventScroll:true});$('observation-detail').scrollIntoView({block:'start'});
+    });
+    document.addEventListener('ead:reset-query',() => {state.query='';$('search').value='';});
+    document.dispatchEvent(new CustomEvent('ead:ready',{detail:{catalogue,briefing}}));
   }
   document.addEventListener('ead:open', () => {
-    Promise.all(['briefing','sources','network'].map(async name => {
+    Promise.all(['briefing','sources','network','explorer'].map(async name => {
       const response=await fetch(`./data/${name}.json`,{credentials:'omit',referrerPolicy:'no-referrer'});
       if(!response.ok)throw new Error('Data unavailable');return response.json();
-    })).then(([b,s,n]) => {briefing=b;catalogue=s;network=n;initialize();}).catch(() => { $('load-error').hidden=false; });
+    })).then(([b,s,n,x]) => {
+      briefing=b;catalogue=s;network=n;initialize();
+      document.dispatchEvent(new CustomEvent('ead:explorer-data',{detail:x}));
+    }).catch(() => { $('load-error').hidden=false; $('explorer-status').textContent='Research unavailable'; });
   }, {once:true});
 })();

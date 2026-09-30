@@ -60,7 +60,7 @@ function harness({ reduced = false } = {}) {
       return Object.assign(animation, { finished, cancel() { clear(timer); reject(new Error('Animation cancelled')); } });
     }
   }
-  const ids = ['entry-screen', 'entry-form', 'entry-input', 'entry-copy', 'entry-sequence', 'research-workspace', 'entry-feedback', 'main'];
+  const ids = ['entry-screen', 'entry-form', 'entry-input', 'entry-copy', 'entry-sequence', 'research-workspace', 'entry-feedback', 'entry-lion', 'oracle-lion', 'leo-dock', 'main'];
   const elements = Object.fromEntries(ids.map((id) => [id, new Element()]));
   const document = new EventTarget();
   document.hidden = false; document.body = new Element(); document.body.classList.add('entry-pending');
@@ -70,7 +70,7 @@ function harness({ reduced = false } = {}) {
   const rows = initials.map((initial, index) => {
     const row = new Element(`row:${index}`);
     row.selectors.set('.entry-initial', [initial]);
-    row.selectors.set('.entry-tail > span', [...['ow', 'xposure', 'perator'][index]].map((character, position) => {
+    row.selectors.set('.entry-tail > span', [...['ow', 'xposure', 'racle'][index]].map((character, position) => {
       const letter = new Element(`row:${index}:tail:${position}:${character}`);
       letter.textContent = character;
       return letter;
@@ -82,6 +82,7 @@ function harness({ reduced = false } = {}) {
   document.querySelectorAll = (selector) => { assert.equal(selector, '#leo-dock > span'); return initials.map(() => new Element()); };
   const workspace = elements['research-workspace']; workspace.hidden = true; workspace.inert = true;
   elements['entry-sequence'].hidden = true;
+  elements['entry-lion'].hidden = true;
   const window = new EventTarget();
   const motion = new EventTarget(); motion.matches = reduced;
   document.addEventListener('ead:open', () => opens++);
@@ -131,6 +132,9 @@ let cases = 0;
   const attributes = new Map(input.attrs.map(attr => [attr.name, attr.value]));
   assert.equal(attributes.has('placeholder'), false, 'Entry has no placeholder cue');
   assert.equal(attributes.has('maxlength'), false, 'Entry accepts the full value before comparison');
+  const textContent = node => node.nodeName === '#text' ? node.value : (node.childNodes ?? []).map(textContent).join('');
+  const rows = nodes.filter(node => node.attrs?.some(attr => attr.name === 'class' && attr.value.split(/\s+/).includes('entry-row')));
+  assert.deepEqual(rows.map(row => textContent(row).replace(/\s+/g, '')), ['Low', 'Exposure', 'Oracle'], 'The actual markup spells the expanded name');
   cases++;
 }
 const invalid = ['', 'L', 'LE', 'LEOX', 'XLEO', ' LEO', 'LEO ', 'L EO', 'LEO\t', '\tLEO', 'LEO\r\n', '\nLEO', 'L\nEO', 'LEO\u00a0', 'LEO\u200b', 'ＬＥＯ', 'LEО'];
@@ -176,11 +180,11 @@ for (const value of ['LEOX', ' LEO', 'LEO\n']) {
 }
 {
   const h = harness(); h.type('LEO'); h.submit();
-  const expected = ['ow', 'xposure', 'perator'].flatMap((word, row) => [...word].map((character, position) => `row:${row}:tail:${position}:${character}`));
+  const expected = ['ow', 'xposure', 'racle'].flatMap((word, row) => [...word].map((character, position) => `row:${row}:tail:${position}:${character}`));
   for (let i = 0; h.screen.dataset.phase !== 'expanded' && i < 100; i++) await h.tick();
   assert.equal(h.screen.dataset.phase, 'expanded');
   const printed = h.classChanges.filter(change => change.name === 'is-printed');
-  assert.deepEqual(printed.map(change => change.id), expected, 'Suffixes type in Low, Exposure, Operator order');
+  assert.deepEqual(printed.map(change => change.id), expected, 'Suffixes type in Low, Exposure, Oracle order');
   assert(printed.every(change => change.enabled), 'Expanded words retain every printed character');
   assert(printed.every((change, index) => !index || change.at > printed[index - 1].at), 'Characters print on separate timer turns');
   await h.settle(); usable(h);
@@ -197,10 +201,13 @@ for (const value of ['LEOX', ' LEO', 'LEO\n']) {
   assert.equal(cursors.size, 0, 'Typing cursor clears after the sequence');
   cases++;
 }
-for (const phase of ['stacking', 'stacked', 'printing', 'expanded', 'collapsing', 'regrouping', 'docking']) for (const interruption of ['resize', 'hidden', 'reduced-motion']) {
+for (const phase of ['stacking', 'stacked', 'printing', 'expanded', 'collapsing', 'regrouping', 'docking', 'lion-travel', 'lion-pulse']) for (const interruption of ['resize', 'hidden', 'reduced-motion']) {
   const h = harness(); h.type('LEO'); h.submit();
   for (let i = 0; h.screen.dataset.phase !== phase && i < 100; i++) await h.tick();
   assert.equal(h.screen.dataset.phase, phase); assert.equal(h.workspace.inert, true);
+  assert.equal(h.screen.hidden, false, 'Entry remains present until the sequence finishes');
+  if (phase.startsWith('lion-')) assert.equal(h.elements['entry-lion'].hidden, false, 'Lion is present for its travel and pulse');
+  h.submit(); assert.equal(h.opens, 1); assert.equal(h.screen.dataset.phase, phase, 'Repeated submit does not restart the current phase');
   if (interruption === 'resize') h.window.dispatchEvent(event('resize'));
   else if (interruption === 'hidden') { h.document.hidden = true; h.document.dispatchEvent(event('visibilitychange')); }
   else { h.motion.matches = true; h.motion.dispatchEvent(event('change')); }

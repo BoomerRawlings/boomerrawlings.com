@@ -8,6 +8,7 @@
   const sequence = document.getElementById('entry-sequence');
   const workspace = document.getElementById('research-workspace');
   const feedback = document.getElementById('entry-feedback');
+  const lion = document.getElementById('entry-lion');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const animations = new Set();
   let phase = 'idle';
@@ -80,7 +81,7 @@
     screen.dataset.phase = phase;
     input.readOnly = true;
     input.blur();
-    feedback.textContent = 'Low Exposure Operator.';
+    feedback.textContent = 'Low Exposure Oracle.';
     document.dispatchEvent(new Event('ead:open'));
     if (reducedMotion.matches) { finish(); return; }
 
@@ -172,7 +173,29 @@
     });
     await Promise.all(flights);
     if (opened) return;
-    await wait(80);
+    const dock = document.getElementById('leo-dock').getBoundingClientRect();
+    const destination = document.getElementById('oracle-lion').getBoundingClientRect();
+    lion.hidden = false;
+    const mark = lion.getBoundingClientRect();
+    const originX = dock.left + dock.width + 12;
+    const originY = dock.top + dock.height/2 - mark.height/2;
+    const targetX = destination.left;
+    const targetY = destination.top;
+    phase = 'lion-travel'; screen.dataset.phase = phase;
+    await animate(lion, [
+      {transform:`translate(${originX}px, ${originY}px)`,opacity:0},
+      {transform:`translate(${originX+18}px, ${originY}px)`,opacity:1,offset:.18},
+      {transform:`translate(${targetX}px, ${targetY}px)`,opacity:1}
+    ], {duration:650,easing:'cubic-bezier(.2,.65,.3,1)'}).finished;
+    if (opened) return;
+    phase = 'lion-pulse'; screen.dataset.phase = phase;
+    await animate(lion, [
+      {transform:`translate(${targetX}px, ${targetY}px) scale(1)`,opacity:.85},
+      {transform:`translate(${targetX}px, ${targetY}px) scale(1.10)`,opacity:1,offset:.5},
+      {transform:`translate(${targetX}px, ${targetY}px) scale(1)`,opacity:.85}
+    ], {duration:680,easing:'ease-in-out'}).finished;
+    if (opened) return;
+    await wait(100);
     finish();
   }
 

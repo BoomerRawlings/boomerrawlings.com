@@ -7,15 +7,17 @@
   <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="theme-color" content="#080d0f">
-  <title>LEO — Personality, memory & control</title>
+  <title>LEO — Low Exposure Oracle</title>
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
   <link rel="preload" href="./fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./entry.css">
+  <link rel="stylesheet" href="./oracle.css">
   <script is:inline src="./app.js" defer></script>
+  <script is:inline src="./explorer.js" defer></script>
   <script is:inline src="./entry.js" defer></script>
 </head>
-<body class="entry-pending">
+<body class="entry-pending" data-view="explorer">
   <section id="entry-screen" class="entry-screen" aria-label="LEO entry">
     <div class="entry-prompt">
       <div id="entry-copy"><p class="entry-ego">Don't feed my ego</p><p class="entry-identity">I AM A</p></div>
@@ -24,33 +26,52 @@
         <div class="entry-field"><input id="entry-input" type="text" aria-describedby="entry-feedback" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go"><button id="entry-submit" type="submit" aria-label="Enter"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5v9H5m5-5-5 5 5 5"/></svg></button></div>
       </form>
     </div>
-    <div id="entry-sequence" class="entry-sequence" role="img" aria-label="Low Exposure Operator" hidden>
+    <div id="entry-sequence" class="entry-sequence" role="img" aria-label="Low Exposure Oracle" hidden>
       <div class="entry-row"><span class="entry-initial" data-initial="L">L</span><span class="entry-tail" aria-hidden="true"><span>o</span><span>w</span></span></div>
       <div class="entry-row"><span class="entry-initial" data-initial="E">E</span><span class="entry-tail" aria-hidden="true"><span>x</span><span>p</span><span>o</span><span>s</span><span>u</span><span>r</span><span>e</span></span></div>
-      <div class="entry-row"><span class="entry-initial" data-initial="O">O</span><span class="entry-tail" aria-hidden="true"><span>p</span><span>e</span><span>r</span><span>a</span><span>t</span><span>o</span><span>r</span></span></div>
+      <div class="entry-row"><span class="entry-initial" data-initial="O">O</span><span class="entry-tail" aria-hidden="true"><span>r</span><span>a</span><span>c</span><span>l</span><span>e</span></span></div>
     </div>
+    <div id="entry-lion" class="entry-lion" aria-hidden="true" hidden><img src="./images/oracle-lion.png" alt="" width="48" height="48"></div>
     <p id="entry-feedback" class="sr-only" role="status" aria-live="polite"></p>
     <noscript><p class="entry-noscript">Enable JavaScript to open this local preview.</p></noscript>
   </section>
   <div id="research-workspace" hidden inert>
   <a class="skip" href="#main">Skip to research</a>
-  <div class="masthead"><div class="brand"><span id="leo-dock" class="leo-dock" aria-label="Low Exposure Operator"><span>L</span><span>E</span><span>O</span></span><span class="brand-divider"></span><span>Research briefing</span></div><span class="dateline">29 Sep 2026</span></div>
+  <div class="masthead"><div class="brand"><span id="leo-dock" class="leo-dock" aria-label="Low Exposure Oracle"><span>L</span><span>E</span><span>O</span></span><span class="brand-divider"></span><span class="brand-name">Low Exposure Oracle</span></div><img id="oracle-lion" class="oracle-lion" src="./images/oracle-lion.png" alt="" width="48" height="48"><span class="dateline">PUBLIC-SOURCE RESEARCH<span>29 SEP 2026</span></span></div>
   <header class="page-header">
     <div><p class="eyebrow">LOCAL AGENTS / BEHAVIOR / AUTHORITY</p><h1>Personality, memory <span>&amp; control</span></h1><p class="intro">Findings, measurement limits, and proposed tests.</p></div>
     <div class="coverage" aria-label="Research coverage"><div><strong>23</strong><span>focused reviews</span></div><div><strong>17</strong><span>researchers</span></div><div><strong>12</strong><span>observations</span></div></div>
   </header>
   <div class="workspace-bar">
     <nav class="tabs" aria-label="Research views">
-      <button type="button" data-view="observations" class="active" aria-current="page">Observations</button>
-      <button type="button" data-view="connections">Connections</button>
-      <button type="button" data-view="sources">Sources <span id="source-count">492</span></button>
-      <button type="button" data-view="design">Design</button>
+      <button type="button" disabled data-view="explorer" class="active" aria-current="page">Network</button>
+      <button type="button" disabled data-view="observations">Findings</button>
+      <button type="button" disabled data-view="sources">Catalogue <span id="source-count">492</span></button>
+      <button type="button" disabled data-view="connections" aria-label="Evidence map"><span class="nav-word">Evidence </span>map</button>
+      <button type="button" disabled data-view="design">Design</button>
     </nav>
-    <label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg><span class="sr-only">Search the current view</span><input id="search" type="search" autocomplete="off" spellcheck="false" placeholder="Search observations" aria-describedby="search-help"><kbd>/</kbd></label>
+    <label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg><span class="sr-only">Search the current view</span><input id="search" type="search" disabled autocomplete="off" spellcheck="false" placeholder="Find a person or topic" aria-describedby="search-help"><kbd>/</kbd></label>
   </div>
   <main id="main" tabindex="-1">
     <div id="search-help" class="sr-only">Search runs on this device. The selected view determines what is searched.</div>
-    <section id="observations-view" class="view" aria-label="Research observations">
+    <section id="explorer-view" class="view" aria-label="Author and research topic explorer">
+      <div class="explorer-toolbar"><div><span class="section-label">RESEARCH NETWORK</span><span id="explorer-status" role="status">Loading research…</span></div><button id="explorer-reset" type="button" hidden>Reset network</button></div>
+      <div id="explorer-layout" class="explorer-layout">
+        <div id="explorer-canvas" class="explorer-canvas">
+          <div class="map-coordinate top-left" aria-hidden="true">01 / FOCAL AUTHOR</div>
+          <div class="map-coordinate bottom-right" aria-hidden="true">PERSONALITY · MEMORY · CONTROL</div>
+          <svg id="explorer-lines" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true"></svg>
+          <span class="map-group-label people-label" hidden>COLLABORATORS</span><span class="map-group-label topics-label" hidden>RESEARCH TOPICS</span>
+          <button id="explorer-author" class="explorer-author" type="button" aria-expanded="false" aria-controls="explorer-people explorer-topics" hidden><span class="author-portrait"><img id="author-photo" alt="Yue Zhang" width="150" height="150"></span><strong>Yue Zhang</strong><span class="author-affiliation">Westlake University · NLP</span><span class="author-action">Explore connections <span aria-hidden="true">+</span></span></button>
+          <div id="explorer-people" class="explorer-people" aria-label="Selected collaborators" hidden></div>
+          <div id="explorer-topics" class="explorer-topics" aria-label="Research topics" hidden></div>
+          <p id="explorer-empty" class="explorer-empty" hidden>No matching people or topics.</p>
+        </div>
+        <aside id="explorer-detail" class="explorer-detail" aria-label="Selected node evidence" aria-live="polite" hidden></aside>
+      </div>
+      <div class="explorer-footer"><span id="explorer-legend">Select the author to open his research network.</span><button type="button" disabled data-view="connections">Full evidence map</button></div>
+    </section>
+    <section id="observations-view" class="view" aria-label="Research observations" hidden>
       <div class="section-toolbar"><div class="chips" id="observation-filters" aria-label="Observation type"><button data-kind="all" aria-pressed="true">All observations</button><button data-kind="finding" aria-pressed="false">Findings</button><button data-kind="anomaly" aria-pressed="false">Anomalies</button><button data-kind="design" aria-pressed="false">Proposals</button></div><span id="observation-count" class="result-count" aria-live="polite"></span></div>
       <label class="observation-picker select-label">Observation <select id="observation-select" aria-label="Choose an observation"></select></label>
       <div class="observation-layout"><div id="observation-list" class="observation-list"></div><article id="observation-detail" class="detail-panel" aria-live="polite"></article></div>

@@ -1,0 +1,302 @@
+{
+  "focal": {
+    "id": "yue-zhang",
+    "name": "Yue Zhang",
+    "role": "Professor, Westlake University; Natural Language Processing Lab",
+    "summary": "Studies language models, causal reasoning and human-like behavior. This map follows selected papers through his direct collaborators.",
+    "profile_url": "https://en.westlake.edu.cn/faculty/nlp/yue-zhang.html",
+    "photo_path": "images/yue-zhang.jpg",
+    "photo_source": "https://frcchang.github.io/yue_zhang.jpg",
+    "photo_provenance": {
+      "page_url": "https://frcchang.github.io/",
+      "retrieved_on": "2026-09-29",
+      "identity_evidence_url": "https://en.westlake.edu.cn/faculty/nlp/yue-zhang.html",
+      "identity_basis": "Author homepage and official NLP profile agree on Oxford PhD in 2009, Cambridge postdoctoral work, SUTD and Westlake NLP appointments. The portrait is the leading image on that author homepage.",
+      "sha256": "d00e651d5c54272014de4240978e8f55a563ada94f503899ca4fe46887dce63c",
+      "width": 1976,
+      "height": 2544,
+      "modifications": "None; original JPEG bytes retained."
+    }
+  },
+  "people": [
+    {
+      "id": "minjun-zhu",
+      "name": "Minjun Zhu",
+      "role": "PhD researcher, Westlake NLP",
+      "relationship": "PhD advisee; lab roster and PI CV",
+      "summary": "Personality alignment and self-verification, including PAS.",
+      "paper_ids": [
+        "author-2025-49f2a561f1ea",
+        "network-personality-self-verification"
+      ],
+      "evidence_urls": [
+        "https://westlakenlp.com/team.html",
+        "https://frcchang.github.io/pub/cv.pdf",
+        "https://arxiv.org/pdf/2408.11779",
+        "https://arxiv.org/pdf/2503.08569"
+      ],
+      "caveat": "Current role follows the lab roster; its update date is unstated."
+    },
+    {
+      "id": "qiujie-xie",
+      "name": "Qiujie Xie",
+      "role": "PhD researcher, Westlake NLP",
+      "relationship": "PhD advisee; lab roster and PI CV",
+      "summary": "Personification, emotional fidelity and uncertainty in model evaluation.",
+      "paper_ids": [
+        "network-procedure-uncertainty",
+        "network-personality-emocharacter",
+        "author-2025-3adde7414731"
+      ],
+      "evidence_urls": [
+        "https://westlakenlp.com/team.html",
+        "https://frcchang.github.io/pub/cv.pdf",
+        "https://arxiv.org/pdf/2402.18180",
+        "https://arxiv.org/pdf/2602.20973"
+      ],
+      "caveat": "Current role follows the lab roster; its update date is unstated."
+    },
+    {
+      "id": "yixuan-weng",
+      "name": "Yixuan Weng",
+      "role": "Researcher; former Westlake/CAS intern",
+      "relationship": "Direct coauthor; former lab research intern",
+      "summary": "Personality control and verification, spanning PAS and ControlLM.",
+      "paper_ids": [
+        "author-2025-49f2a561f1ea",
+        "network-personality-controllm",
+        "network-personality-self-verification"
+      ],
+      "evidence_urls": [
+        "https://wengsyx.github.io/",
+        "https://arxiv.org/pdf/2408.11779",
+        "https://arxiv.org/pdf/2411.00816"
+      ],
+      "caveat": "Current appointment not established."
+    },
+    {
+      "id": "linyi-yang",
+      "name": "Linyi Yang",
+      "role": "Assistant Professor, SUSTech",
+      "relationship": "Formerly supervised by Yue Zhang; continuing coauthor",
+      "summary": "Memory adaptation, scientific agent skills and model reasoning.",
+      "paper_ids": [
+        "network-personality-ama",
+        "network-procedure-mempot",
+        "network-personality-notes2skills",
+        "network-procedure-uncertainty",
+        "author-2025-18b49ffc7eb9",
+        "author-2025-3adde7414731",
+        "network-personality-agentfly",
+        "author-2025-49f2a561f1ea"
+      ],
+      "evidence_urls": [
+        "https://yanglinyi.github.io/",
+        "https://sustech.edu.cn/en/faculties/linyiyang.html",
+        "https://arxiv.org/pdf/2408.11779",
+        "https://arxiv.org/pdf/2402.18180"
+      ],
+      "caveat": "Exact dates of the former appointment are not established."
+    },
+    {
+      "id": "jianhao-yan",
+      "name": "Jianhao Yan",
+      "role": "Researcher; Yue Zhang PhD advising verified",
+      "relationship": "PhD advising and direct coauthorship",
+      "summary": "Correction retention and long-horizon consistency through RefuteBench and NCP-Bench.",
+      "paper_ids": [
+        "author-2026-0fb35f2a0b16",
+        "network-procedure-refutebench2",
+        "author-2024-9f8c0bcbe242"
+      ],
+      "evidence_urls": [
+        "https://westlakenlp.com/team.html",
+        "https://elliottyan.github.io/",
+        "https://arxiv.org/pdf/2608.08160",
+        "https://arxiv.org/pdf/2502.18308v1"
+      ],
+      "caveat": "Present role unresolved: the roster and personal page contain stale student descriptions."
+    },
+    {
+      "id": "yafu-li",
+      "name": "Yafu Li",
+      "role": "Postdoc, CUHK; researcher, Shanghai AI Lab",
+      "relationship": "Former PhD advisee",
+      "summary": "Specification alignment and regressions during continual tuning.",
+      "paper_ids": [
+        "network-procedure-specbench",
+        "author-2025-87224d694b26"
+      ],
+      "evidence_urls": [
+        "https://westlakenlp.com/team.html",
+        "https://yafuly.github.io/",
+        "https://arxiv.org/pdf/2504.14945"
+      ],
+      "caveat": "Role reported on a personal page updated 28 July 2026."
+    },
+    {
+      "id": "cunxiang-wang",
+      "name": "Cunxiang Wang",
+      "role": "Evaluation lead, ZhipuAI; postdoc, Tsinghua",
+      "relationship": "PhD alumnus of the lab; direct coauthor",
+      "summary": "Long-context safety, causal reasoning and retrieval evaluation.",
+      "paper_ids": [
+        "author-2025-18b49ffc7eb9",
+        "network-procedure-longsafety",
+        "author-2024-ad7ba3506031"
+      ],
+      "evidence_urls": [
+        "https://westlakenlp.com/team.html",
+        "https://aclanthology.org/2025.acl-long.1530/",
+        "https://arxiv.org/pdf/2306.05087",
+        "https://aclanthology.org/2025.coling-main.524.pdf"
+      ],
+      "caveat": "Current placement follows the undated alumni roster."
+    },
+    {
+      "id": "jindong-wang",
+      "name": "Jindong Wang",
+      "role": "Assistant Professor, William & Mary",
+      "relationship": "External direct coauthor",
+      "summary": "Interactive evaluation and context-sensitive safety.",
+      "paper_ids": [
+        "NET-PENGUIN",
+        "author-2024-744d6146bc4b"
+      ],
+      "evidence_urls": [
+        "https://www.wm.edu/offices/uc/mediarelations/experts/name/jdw.php",
+        "https://jd92.wang/",
+        "https://arxiv.org/pdf/2411.00816",
+        "https://arxiv.org/pdf/2306.05087"
+      ],
+      "caveat": ""
+    }
+  ],
+  "topics": [
+    {
+      "id": "personality",
+      "label": "Personality",
+      "summary": "Alignment, personification and emotional fidelity: compare stated traits with observed behavior.",
+      "paper_ids": [
+        "author-2025-49f2a561f1ea",
+        "author-2025-3adde7414731",
+        "network-personality-controllm",
+        "network-personality-emocharacter"
+      ],
+      "person_ids": [
+        "minjun-zhu",
+        "qiujie-xie",
+        "yixuan-weng",
+        "linyi-yang"
+      ],
+      "observation_ids": [
+        "reported-versus-observed-personality",
+        "personality-alignment-comparison",
+        "imitation-versus-emotional-fit"
+      ]
+    },
+    {
+      "id": "memory",
+      "label": "Memory",
+      "summary": "Stored context and adaptation can improve one behavior while harming another. Conversational memory and parameter-update forgetting require separate tests.",
+      "paper_ids": [
+        "author-2026-0fb35f2a0b16",
+        "network-personality-ama",
+        "network-personality-agentfly",
+        "network-personality-notes2skills",
+        "author-2025-87224d694b26"
+      ],
+      "person_ids": [
+        "linyi-yang",
+        "jianhao-yan",
+        "yafu-li"
+      ],
+      "observation_ids": [
+        "memory-tradeoffs",
+        "extraction-before-compilation",
+        "local-replication-boundary",
+        "separate-memory-and-authority"
+      ]
+    },
+    {
+      "id": "reasoning",
+      "label": "Reasoning",
+      "summary": "Causal analysis and self-verification test the relationship between generated reasoning and answers.",
+      "paper_ids": [
+        "author-2025-18b49ffc7eb9",
+        "network-personality-self-verification"
+      ],
+      "person_ids": [
+        "minjun-zhu",
+        "yixuan-weng",
+        "linyi-yang",
+        "cunxiang-wang"
+      ],
+      "observation_ids": []
+    },
+    {
+      "id": "instruction-following",
+      "label": "Instruction following",
+      "summary": "Correction scope, goal retention and specification alignment across turns.",
+      "paper_ids": [
+        "author-2024-9f8c0bcbe242",
+        "network-procedure-refutebench2",
+        "network-procedure-specbench",
+        "network-personality-notes2skills"
+      ],
+      "person_ids": [
+        "linyi-yang",
+        "jianhao-yan",
+        "yafu-li"
+      ],
+      "observation_ids": [
+        "extraction-before-compilation",
+        "specbench-arithmetic",
+        "separate-memory-and-authority"
+      ]
+    },
+    {
+      "id": "security",
+      "label": "Security",
+      "summary": "Content safety, personalized responses and memory-extraction defenses. These studies do not establish resource authorization.",
+      "paper_ids": [
+        "network-procedure-longsafety",
+        "network-procedure-mempot",
+        "NET-PENGUIN"
+      ],
+      "person_ids": [
+        "linyi-yang",
+        "cunxiang-wang",
+        "jindong-wang"
+      ],
+      "observation_ids": [
+        "detection-operating-point",
+        "long-context-pass-rule"
+      ]
+    },
+    {
+      "id": "evaluation",
+      "label": "Evaluation",
+      "summary": "Interactive tests, claim checks and judge uncertainty. Withdrawn findings remain visible as evidence cautions.",
+      "paper_ids": [
+        "author-2024-744d6146bc4b",
+        "author-2024-ad7ba3506031",
+        "network-procedure-refchecker",
+        "network-procedure-taskcalibration",
+        "network-procedure-uncertainty",
+        "supplemental-37cc2f22a11b"
+      ],
+      "person_ids": [
+        "qiujie-xie",
+        "linyi-yang",
+        "cunxiang-wang",
+        "jindong-wang"
+      ],
+      "observation_ids": [
+        "confident-evaluation",
+        "withdrawn-evidence",
+        "separate-memory-and-authority"
+      ]
+    }
+  ]
+}
