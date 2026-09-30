@@ -20,7 +20,7 @@
 
 ## EAD research briefing — 2026-09-30
 
-- Mode: continuation. Objective: publish the complete parallel research index in the unlisted `/ead/` workspace. User explicitly requested the full release and accepted public hosting without authentication. Status: merged; local verification complete; ready for the authorized full-index release.
+- Mode: continuation. Objective: publish the complete parallel research index in the unlisted `/ead/` workspace. User explicitly requested the full release and accepted public hosting without authentication. Status: merged; published7750ba7; Pages36744857009 succeeded. All20 live HTTP/content checks and fresh production browser checks passed.
 - Immediate name correction published as53de45a; Pages36742995311 succeeded and live title verified Low Exposure Operator. LEO alone remains in masthead. Exact uploaded lion and entry animation retained.
 - Data:749 profiles (438 people,91 labs/teams,220 institutions),1410 relationships (1393 documented,17 inferred),389 sources (359 original+30 relationship references),7 classified reported cases,169 local images,21 city anchors,six topics. All original467profiles/588edges/492papers preserved. No isolated profiles; missing portraits use initials.
 - Coverage: complete original index retained as `data/china-labs.json`; lossless indexRecord projection in china-map, including roles/history/works/funding/provenance. Full directory is default. Separate searchable paper/source collections and reported cases; documented/inferred links and allegation/rumor status stay distinct.
@@ -28,7 +28,7 @@
 - Verification: full npm test passed including67 entry and11 loader cases. Independent frozen-baseline verifier preserves all original records and exact raw-index fields; all169 images decode. Desktop/mobile browser checks cover default counts, sociology source-to-profile navigation, institution filtering, edge evidence, reported cases/search, catalogue pagination, original papers and implementation access. No console errors or horizontal overflow.
 - Files: `src/pages/ead/index.astro`, `public/ead/`, EAD verifier/behavior scripts and baseline fixture. Privacy metadata, self-only CSP, no public navigation/sitemap listing preserved. Direct files/source public; no DNS/hosting changes.
 - Isolation: release clone includes upstream586d871 and Operator53de45a. Original portfolio checkout and private research archives untouched. Full public index publication now explicitly authorized.
-- Next: publish one verified full-index commit, verify exact Pages deployment/live bytes and UI. City dots now retain exact anchors, with compact nearby labels and dense labels revealed on focus/selection.
+- Live verification: Operator entry,749 profiles,389 research sources,7 reported cases, exact release asset/data bytes and representative image hashes confirmed; no public homepage/sitemap listing. Earlier browser timeout recovered in a fresh tab. City dots retain exact anchors with compact nearby labels. Next: implementation-plan scope remains for user discussion.
 ## UC San Diego vehicle-theft opening — 2026-09-29
 
 - Mode: continuation. Objective: make campus-safety open with an honest UC San Diego comparison per enrolled student. Status: complete; published as883c994, Pages run36602963774 succeeded.
@@ -316,3 +316,12 @@
 - More distinct physical loops require more approved drawings than the current 32-frame vocabulary.
 
 - CBS8 transcript follow-up: separate transcript count/bar added; updates independently from request audit through existing live feed. Runtime publisher remains active until both jobs complete. Only progress counts added publicly. Build checks passed.
+
+
+## EAD network and navigation refinement — 2026-09-30
+
+- Mode: continuation. Objective: readable full network prioritized for secure agents; LEO returns to intro; lion opens poems view. Status: implemented and verified locally; publication pending under prior user authorization.
+- Network: all749 profiles retained; source-based High relevance/Relevant/Context/Needs review tiers for personality, memory, tool use, process adherence and agent safeguards. No special Yue starter or sort preference. Click cards to focus direct neighbors; paged card layout, gutter connections and grouped evidence preserve every record. Relevance reasons and excerpts link to sources.
+- Navigation: LEO collapses to a cleared exact-key entry; repeat launch reuses loaded data and replays reveal. Lion opens empty personal poems view; back preserves research state. No poems invented; no authentication or privacy claims added.
+- Verified: full npm test passed (73 entry,11 loader cases); 11000 layouts across11 widths, all749 profiles/direct neighborhoods and26994 connectors. Desktop/mobile browser checks cover cards, grouping/source drill-down, exact badge hit target, selection clearing, page changes, relevance/empty filters, context preservation, key rejection after reset, keyboard activation and repeat launch. Final tiny focus-scroll adjustment checked separately. Public data unchanged; no new dependencies.
+- Next: publish one verified commit and check production asset hashes and navigation. QA evidence remains in the research workspace under web/qa/network/.

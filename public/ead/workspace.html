@@ -1,7 +1,7 @@
 <meta name="robots" content="noindex,nofollow,noarchive,noimageindex">
 <meta name="referrer" content="no-referrer">
   <a class="skip" href="#main">Skip to research</a>
-  <div class="masthead"><div class="brand"><span id="leo-dock" class="leo-dock" aria-label="Low Exposure Operator"><span>L</span><span>E</span><span>O</span></span></div><img id="oracle-lion" class="oracle-lion" src="./images/lion-approved.png" alt="" width="56" height="56"><span class="dateline">PUBLIC-SOURCE RESEARCH<span>30 SEP 2026</span></span></div>
+  <div class="masthead"><div class="brand"><button id="leo-dock" class="leo-dock" type="button" aria-label="LEO — return to entry" title="Return to entry"><span>L</span><span>E</span><span>O</span></button></div><button id="poems-open" class="poems-open" type="button" aria-label="Poems for Emily Anne" title="Poems for Emily Anne" aria-controls="poems-view" aria-expanded="false"><img id="oracle-lion" class="oracle-lion" src="./images/lion-approved.png" alt="" width="56" height="56"></button><span class="dateline">PUBLIC-SOURCE RESEARCH<span>30 SEP 2026</span></span></div>
   <header class="page-header">
     <div><p class="eyebrow">RESEARCH / BEHAVIOR / SYSTEMS</p><h1>Research, people <span>&amp; connections</span></h1><p class="intro">Findings, measurement limits, and proposed tests.</p></div>
     <div class="coverage" aria-label="Research coverage"><div><strong>23</strong><span>focused reviews</span></div><div><strong>467</strong><span>atlas profiles</span></div><div><strong>12</strong><span>observations</span></div></div>
@@ -17,6 +17,10 @@
   </div>
   <main id="main" tabindex="-1">
     <div id="search-help" class="sr-only">Search runs on this device. The selected view determines what is searched.</div>
+    <section id="poems-view" class="view poems-view" aria-labelledby="poems-title" hidden>
+      <button id="poems-back" class="poems-back" type="button">← Back to research</button>
+      <div class="poems-intro"><p class="section-label">POEMS</p><h1 id="poems-title" tabindex="-1">Emily Anne</h1><div class="poems-rule" aria-hidden="true"></div><p class="poems-placeholder">Poems to come.</p></div>
+    </section>
     <section id="atlas-view" class="view" aria-label="China research atlas"><div id="atlas-root"><p class="empty">Loading research atlas…</p></div></section>
     <section id="implementation-view" class="view" aria-label="Implementation plans" hidden>
       <div id="implementation-plans"></div>

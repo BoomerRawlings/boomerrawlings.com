@@ -33,7 +33,8 @@
   const attributionLabel = (source) => ({author_bibliography:'Listed in author bibliography',name_affiliation_checked:'Name and affiliation checked',profile_only:'Scholar profile only',identity_uncertain:'Identity unresolved',verified_yue_coauthor:'Yue Zhang coauthorship verified',verified_network_coauthor:'Collaborator authorship verified',not_target_author:'Different author'})[source.attribution] || words(source.attribution);
   const state = {view:'atlas',query:'',kind:'all',observation:null,coverage:'all',sort:'year',page:0,catalogueMode:'papers',findingsMode:'research'};
   const viewQueries = new Map();
-  const views = new Set(['atlas','implementation','observations','sources','design']);
+  const views = new Set(['atlas','implementation','observations','sources','design','poems']);
+  let poemsReturn = {view:'atlas',scroll:0}, poemsAnimation;
   let briefing, catalogue, sources, atlas;
   const researchProfiles = new Map();
   const pageSize = 25;
@@ -60,7 +61,8 @@
       if (selected) node.setAttribute('aria-current', 'page'); else node.removeAttribute('aria-current');
     });
     document.querySelectorAll('.view').forEach(node => { node.hidden = node.id !== `${view}-view`; });
-    $('search').closest('.search-wrap').hidden = view === 'implementation';
+    $('search').closest('.search-wrap').hidden = view === 'implementation' || view === 'poems';
+    $('poems-open').setAttribute('aria-expanded',String(view === 'poems'));
     updateSearchLabel();
     renderView();
     document.dispatchEvent(new CustomEvent('ead:view',{detail:view}));
@@ -83,6 +85,27 @@
     if (!heading.hasAttribute('tabindex')) heading.tabIndex = -1;
     heading.focus({preventScroll:true});
     target.scrollIntoView({block:'start',behavior:'instant'});
+  }
+  function openPoems() {
+    if (state.view !== 'poems') {
+      poemsReturn = {view:state.view,scroll:window.scrollY};
+      setView('poems');
+      window.scrollTo({top:0,behavior:'instant'});
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        poemsAnimation?.cancel();
+        poemsAnimation=$('poems-view').querySelector('.poems-intro').animate(
+          [{opacity:0,transform:'translateY(14px)'},{opacity:1,transform:'translateY(0)'}],
+          {duration:480,easing:'cubic-bezier(.2,.7,.3,1)'});
+        poemsAnimation.finished.catch(()=>{});
+      }
+    }
+    $('poems-title').focus({preventScroll:true});
+  }
+  function closePoems() {
+    poemsAnimation?.cancel();
+    setView(poemsReturn.view);
+    window.scrollTo({top:poemsReturn.scroll,behavior:'instant'});
+    $('main').focus({preventScroll:true});
   }
   function renderObservations() {
     $('observations-view').querySelector('.view-heading h2').textContent=state.findingsMode==='cases'?'Reported operations & claims':'What changes the design';
@@ -309,6 +332,14 @@
     document.querySelector('[data-findings="research"]').textContent=`Research findings · ${briefing.observations.length}`;
     document.querySelector('[data-findings="cases"]').textContent=`Reported cases · ${atlas.reportedCases.length}`;
     indexResearchProfiles();
+    $('leo-dock').addEventListener('click',()=>document.dispatchEvent(new Event('ead:close-request')));
+    $('poems-open').addEventListener('click',openPoems);
+    $('poems-back').addEventListener('click',closePoems);
+    document.addEventListener('ead:close',()=>{
+      poemsAnimation?.cancel();
+      document.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());
+    });
+    document.addEventListener('ead:closed',()=>{if(state.view==='poems')setView(poemsReturn.view);});
     document.querySelectorAll('[data-catalogue]').forEach(b => b.addEventListener('click',()=>{state.catalogueMode=b.dataset.catalogue;state.page=0;state.query='';$('search').value='';syncCatalogue();updateSearchLabel();renderView();}));
     document.querySelectorAll('[data-findings]').forEach(b => b.addEventListener('click',()=>{selectFindings(b.dataset.findings);state.query='';$('search').value='';updateSearchLabel();renderView();}));
     document.querySelectorAll('button[data-view],button[data-jump]').forEach(b => {
@@ -333,6 +364,7 @@
     document.querySelectorAll('.close-dialog').forEach(b => b.addEventListener('click',() => b.closest('dialog').close()));
     document.querySelectorAll('dialog').forEach(dialog => dialog.addEventListener('click',event => {if(event.target === dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left || event.clientX>r.right || event.clientY<r.top || event.clientY>r.bottom)dialog.close();}}));
     document.addEventListener('keydown',event => {
+      if ($('research-workspace').inert || state.view === 'poems') return;
       if(event.key === '/' && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName) && !document.querySelector('dialog[open]')) {
         event.preventDefault();
         (state.view === 'implementation' && $('implementation-guide').closest('.is-expanded') ? $('implementation-search') : state.view === 'implementation' ? $('implementation-plans').querySelector('button') : $('search'))?.focus();

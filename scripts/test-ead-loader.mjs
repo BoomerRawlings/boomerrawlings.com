@@ -76,7 +76,7 @@ let cases=0;
   assert(h.assets.every(asset=>asset.tag==='link'),'Scripts wait for stylesheet readiness');
   await h.emit('ead:atlas-ready');assert.equal(h.outcome,'pending','An early readiness event cannot bypass asset loading');
   h.assets[0].onload();await flush();assert.equal(h.assets.length,6);assert.equal(h.opens,0);
-  await h.finishAssets('link');assert.equal(h.assets.filter(asset=>asset.tag==='script').length,5);
+  await h.finishAssets('link');assert.equal(h.assets.filter(asset=>asset.tag==='script').length,7);
   const scripts=h.assets.filter(asset=>asset.tag==='script');
   for(const asset of scripts.slice(0,-1))asset.onload();await flush();assert.equal(h.opens,0,'Initialization waits for every script');
   scripts.at(-1).onload();await flush();assert.equal(h.opens,1);assert.equal(h.outcome,'pending','Initialization is not readiness');

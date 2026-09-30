@@ -17,7 +17,9 @@
   let composing = false;
   let opened = false;
   let revealed = false;
-  let completion;
+  let completion, returnAnimation;
+  let loaded = false;
+  let cycle = 0;
 
   const animate = (node, frames, options) => {
     const animation = node.animate(frames, {fill:'forwards', ...options});
@@ -84,7 +86,55 @@
     document.dispatchEvent(new Event('ead:reveal'));
   }
 
+  async function returnToEntry() {
+    if (phase !== 'complete') return;
+    phase = 'returning';
+    cycle++;
+    completion?.abort();
+    completion = undefined;
+    workspace.inert = true;
+    document.dispatchEvent(new Event('ead:close'));
+    document.body.classList.add('entry-returning');
+    if (!reducedMotion.matches) {
+      const dock = document.getElementById('leo-dock').getBoundingClientRect();
+      const bounds = workspace.getBoundingClientRect();
+      const origin = `${dock.left + dock.width/2 - bounds.left}px ${dock.top + dock.height/2 - bounds.top}px`;
+      returnAnimation = animate(workspace,[
+        {clipPath:`circle(150vmax at ${origin})`,opacity:1},
+        {clipPath:`circle(0px at ${origin})`,opacity:.35}
+      ],{duration:520,easing:'cubic-bezier(.65,0,.3,1)'});
+      try { await returnAnimation.finished; } catch { /* A motion preference change completes the reset. */ }
+    }
+    animations.forEach(animation=>animation.cancel());
+    animations.clear();
+    returnAnimation = undefined;
+    workspace.hidden = true;
+    screen.hidden = false;
+    delete screen.dataset.phase;
+    sequence.hidden = true;
+    lion.hidden = true;
+    sequence.querySelectorAll('.entry-row').forEach(row=>{
+      row.classList.remove('is-typing');
+      row.querySelectorAll('.entry-tail > span').forEach(letter=>letter.classList.remove('is-printed'));
+    });
+    input.readOnly = false;
+    retry.hidden = true;
+    phase = 'idle';
+    opened = false;
+    revealed = false;
+    composing = false;
+    update('');
+    document.body.classList.remove('entry-returning','entry-docking','entry-revealing');
+    document.body.classList.add('entry-pending');
+    document.dispatchEvent(new Event('ead:closed'));
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    input.focus({preventScroll:true});
+  }
+
   async function play() {
+    const activeCycle = cycle;
+    const interrupted = () => opened || cycle !== activeCycle;
     phase = 'stacking';
     completion = new AbortController();
     screen.dataset.phase = phase;
@@ -114,26 +164,26 @@
       ], {duration:220, delay:80, easing:'cubic-bezier(.2,.7,.3,1)', fill:'both'}).finished;
     });
     await Promise.all(stacks);
-    if (opened) return;
+    if (interrupted()) return;
     phase = 'stacked'; screen.dataset.phase = phase;
     await wait(220);
-    if (opened) return;
+    if (interrupted()) return;
     phase = 'printing'; screen.dataset.phase = phase;
     for (const row of rows) {
       row.classList.add('is-typing');
       for (const letter of row.querySelectorAll('.entry-tail > span')) {
         await wait(70);
-        if (opened) return;
+        if (interrupted()) return;
         letter.classList.add('is-printed');
       }
       await wait(110);
-      if (opened) return;
+      if (interrupted()) return;
       row.classList.remove('is-typing');
     }
-    if (opened) return;
+    if (interrupted()) return;
     phase = 'expanded'; screen.dataset.phase = phase;
     await wait(950);
-    if (opened) return;
+    if (interrupted()) return;
     animate(copy, [{opacity:0}], {duration:0});
     phase = 'collapsing'; screen.dataset.phase = phase;
     for (const row of [...rows].reverse()) {
@@ -141,15 +191,15 @@
       const letters = [...row.querySelectorAll('.entry-tail > span')];
       for (const letter of letters.reverse()) {
         await wait(30);
-        if (opened) return;
+        if (interrupted()) return;
         letter.classList.remove('is-printed');
       }
       await wait(55);
-      if (opened) return;
+      if (interrupted()) return;
       row.classList.remove('is-typing');
     }
     await wait(180);
-    if (opened) return;
+    if (interrupted()) return;
     phase = 'regrouping'; screen.dataset.phase = phase;
     const grouped = initials.map((letter,index) => {
       const from = letter.getBoundingClientRect();
@@ -163,7 +213,7 @@
       {transform:`translate(${grouped[index].x}px, ${grouped[index].y}px)`}
     ], {duration:200,easing:'cubic-bezier(.2,.7,.3,1)'}).finished));
     await wait(140);
-    if (opened) return;
+    if (interrupted()) return;
     phase = 'docking'; screen.dataset.phase = phase;
     workspace.hidden = false;
     document.body.classList.add('entry-docking');
@@ -180,7 +230,7 @@
       ], {duration:440,easing:'cubic-bezier(.65,0,.25,1)'}).finished;
     });
     await Promise.all(flights);
-    if (opened) return;
+    if (interrupted()) return;
     const dock = document.getElementById('leo-dock').getBoundingClientRect();
     const destination = document.getElementById('oracle-lion').getBoundingClientRect();
     lion.hidden = false;
@@ -195,7 +245,7 @@
       {transform:`translate(${originX+18}px, ${originY}px)`,opacity:1,offset:.18},
       {transform:`translate(${targetX}px, ${targetY}px)`,opacity:1}
     ], {duration:650,easing:'cubic-bezier(.2,.65,.3,1)'}).finished;
-    if (opened) return;
+    if (interrupted()) return;
     phase = 'lion-pulse'; screen.dataset.phase = phase;
     const pulse = animate(lion, [
       {transform:`translate(${targetX}px, ${targetY}px) scale(1)`,opacity:.56},
@@ -203,20 +253,21 @@
       {transform:`translate(${targetX}px, ${targetY}px) scale(1)`,opacity:.56}
     ], {duration:680,easing:'ease-in-out'});
     await wait(340);
-    if (opened) return;
+    if (interrupted()) return;
     revealWorkspace();
     await pulse.finished;
-    if (opened) return;
+    if (interrupted()) return;
     await wait(100);
     finish();
   }
 
   async function begin() {
+    const activeCycle = ++cycle;
     phase = 'loading'; screen.dataset.phase = phase;
     input.readOnly = true;
     feedback.textContent = 'Loading research…';
     try {
-      await loadLEOWorkspace();
+      if (!loaded) { await loadLEOWorkspace(); loaded = true; }
     } catch {
       phase = 'error'; screen.dataset.phase = phase;
       feedback.textContent = 'Could not load research. Reload to retry.';
@@ -224,7 +275,7 @@
       retry.focus();
       return;
     }
-    play().catch(() => { if (!opened) finish(); });
+    play().catch(() => { if (!opened && cycle === activeCycle) finish(); });
   }
 
   form.addEventListener('submit', event => {
@@ -242,9 +293,14 @@
     begin();
   });
   retry.addEventListener('click', () => location.reload());
+  document.addEventListener('ead:close-request',returnToEntry);
   // Interrupted motion must never strand the reader behind an invisible entry screen.
   document.addEventListener('visibilitychange', () => { if (document.hidden && completion && !opened) finish(); });
   addEventListener('resize', () => { if (completion && !opened) finish(); });
-  reducedMotion.addEventListener('change', () => { if (reducedMotion.matches && completion && !opened) finish(); });
+  reducedMotion.addEventListener('change', () => {
+    if (!reducedMotion.matches) return;
+    if (phase === 'returning') returnAnimation?.cancel();
+    else if (completion && !opened) finish();
+  });
   if (matchMedia('(pointer:fine)').matches) input.focus({preventScroll:true});
 })();

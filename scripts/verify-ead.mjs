@@ -154,7 +154,7 @@ for (const match of entryCss.matchAll(/url\(\s*(['"]?)(.*?)\1\s*\)/gi)) {
 }
 for (const [name, extension, expected] of [
   ['styles','css',['style','oracle','implementation','atlas','plans','reveal']],
-  ['scripts','js',['app','atlas','implementation','plans','reveal']],
+  ['scripts','js',['relevance','network-layout','app','atlas','implementation','plans','reveal']],
 ]) {
   const declaration = loader.match(new RegExp(`\\bconst\\s+${name}\\s*=\\s*\\[([^\\]]+)\\]`));
   const assets = declaration ? [...declaration[1].matchAll(/['"]([a-z-]+)['"]/g)].map(match => match[1]) : [];

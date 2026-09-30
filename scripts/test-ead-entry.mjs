@@ -129,13 +129,13 @@ function stillClosed(h) {
   assert.equal(h.opens, 0); assert.equal(h.screen.hidden, false);
   assert.equal(h.workspace.hidden, true); assert.equal(h.workspace.inert, true);
 }
-function usable(h) {
+function usable(h, entries = 1) {
   assert.equal(h.opens, 1, 'Lazy initialization event fires once');
   assert.equal(h.loadCalls, 1, 'Entry invokes the workspace loader once');
   assert.equal(h.screen.hidden, true); assert.equal(h.workspace.hidden, false); assert.equal(h.workspace.inert, false);
   assert.equal(h.document.body.classList.contains('entry-pending'), false);
   assert.equal(h.document.body.classList.contains('entry-docking'), false);
-  assert.equal(h.elements.main.focusCount, 1, 'Focus transfers once');
+  assert.equal(h.elements.main.focusCount, entries, 'Focus transfers once per accepted entry');
 }
 
 let cases = 0;
@@ -273,4 +273,75 @@ for (const initializationStarted of [false,true]) {
   assert.equal(h.reloads,0);h.elements['entry-retry'].dispatchEvent(event('click'));
   assert.equal(h.reloads,1,'Only explicit reload retries failed initialization');cases++;
 }
-console.log(`Verified ${cases} EAD entry behavior cases (60 original + ${cases-60} deferred-loading cases) against public/ead/entry.js. Visual sequence and server authentication are not tested here.`);
+function returnedToEntry(h) {
+  assert.equal(h.screen.hidden,false,'Entry is visible again');
+  assert.equal(h.screen.dataset.phase,undefined,'Initial prompt styling is restored');
+  assert(h.workspace.hidden&&h.workspace.inert,'Research is hidden and cannot receive input');
+  assert.equal(h.input.value,'','The accepted key is cleared');
+  assert.equal(h.input.readOnly,false,'Input is editable again');
+  assert.equal(h.elements['entry-sequence'].hidden,true);
+  assert.equal(h.elements['entry-lion'].hidden,true);
+  assert.equal(h.elements['entry-feedback'].textContent,'');
+  assert.equal(h.document.body.classList.contains('entry-pending'),true);
+  assert.equal(h.document.body.classList.contains('entry-returning'),false);
+}
+for(const reduced of [false,true]) {
+  const h=harness({reduced});let reveals=0,closes=0,closed=0;
+  h.document.addEventListener('ead:reveal',()=>reveals++);
+  h.document.addEventListener('ead:close',()=>closes++);
+  h.document.addEventListener('ead:closed',()=>closed++);
+  h.type('LEO');await h.submit();await h.settle();usable(h);
+  for(let entry=2;entry<=3;entry++) {
+    const focusBefore=h.input.focusCount;
+    h.document.dispatchEvent(event('ead:close-request'));
+    assert.equal(h.workspace.inert,true,'Return disables research controls immediately');
+    await h.settle();returnedToEntry(h);
+    assert.equal(h.input.focusCount,focusBefore+1,'Focus returns to the key input');
+    h.paste('LEOX');await h.submit();await h.settle();
+    assert(h.workspace.hidden&&h.workspace.inert,'Invalid keys remain rejected after return');
+    assert.equal(h.loadCalls,1,'Returning and rejected entries do not reload data');
+    h.type('LEO');await h.submit();await h.settle();usable(h,entry);
+  }
+  assert.equal(h.opens,1,'Three entries still initialize the workspace only once');
+  assert.equal(reveals,reduced?0:3,'Each animated entry triggers its reveal');
+  assert.equal(closes,2);assert.equal(closed,2);cases++;
+}
+{
+  const h=harness();h.type('LEO');await h.submit();await h.settle();
+  h.document.dispatchEvent(event('ead:close-request'));
+  h.document.dispatchEvent(event('ead:close-request'));
+  h.motion.matches=true;h.motion.dispatchEvent(event('change'));
+  await h.settle();returnedToEntry(h);
+  assert.equal(h.input.focusCount,1,'Repeated return requests perform one reset');
+  h.type('LEO');await h.submit();usable(h,2);cases++;
+}
+{
+  const h=harness();h.type('LEO');await h.submit();
+  for(let i=0;h.screen.dataset.phase!=='printing'&&i<100;i++)await h.tick();
+  h.window.dispatchEvent(event('resize'));
+  // Return immediately, before rejected promises from interrupted entry motion
+  // settle. Old animation continuations must not reopen or strand the prompt.
+  h.document.dispatchEvent(event('ead:close-request'));
+  await h.settle();returnedToEntry(h);
+  h.type('LEO');await h.submit();await h.settle();usable(h,2);cases++;
+}
+{
+  const h=harness({reduced:true,loading:'deferred'});
+  h.document.dispatchEvent(event('ead:close-request'));stillClosed(h);
+  h.type('LEO');await h.submit();h.document.dispatchEvent(event('ead:close-request'));
+  assert.equal(h.screen.dataset.phase,'loading','A return event cannot bypass pending initialization');
+  await h.resolveLoading();usable(h);cases++;
+}
+{
+  const nodes=[parse(readFileSync(new URL('../public/ead/workspace.html',import.meta.url),'utf8'))];
+  for(let i=0;i<nodes.length;i++)nodes.push(...(nodes[i].childNodes??[]));
+  const byId=id=>nodes.find(node=>node.attrs?.some(attr=>attr.name==='id'&&attr.value===id));
+  for(const id of ['leo-dock','poems-open','poems-back']){
+    const node=byId(id);assert.equal(node?.tagName,'button',`${id} is a keyboard-accessible button`);
+    assert(node.attrs.some(attr=>attr.name==='type'&&attr.value==='button'));
+  }
+  assert(byId('poems-open').attrs.some(attr=>attr.name==='aria-label'&&attr.value.includes('Emily Anne')));
+  assert(byId('poems-view').attrs.some(attr=>attr.name==='hidden'),'Poems view starts hidden');
+  assert(byId('poems-title'),'Personal page has a focusable heading');cases++;
+}
+console.log(`Verified ${cases} EAD entry behavior cases (60 original + ${cases-60} loading/return cases) against public/ead/entry.js. Geometry and visual sequence require browser checks.`);

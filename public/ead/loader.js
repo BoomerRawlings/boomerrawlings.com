@@ -29,7 +29,7 @@ function loadLEOWorkspace() {
       document.head.append(node);
     });
     const styles = ['style','oracle','implementation','atlas','plans','reveal'];
-    const scripts = ['app','atlas','implementation','plans','reveal'];
+    const scripts = ['relevance','network-layout','app','atlas','implementation','plans','reveal'];
     await Promise.all(styles.map(name => asset(name, 'css')));
     await Promise.all(scripts.map(name => asset(name, 'js')));
     await new Promise((resolve, reject) => {

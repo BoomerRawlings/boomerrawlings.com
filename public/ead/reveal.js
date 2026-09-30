@@ -37,7 +37,14 @@
     a.finished.then(()=>wave.remove(),()=>wave.remove());
     for(const node of document.querySelectorAll('.workspace-bar,.masthead .dateline'))animate(node,[{opacity:0,transform:'translateY(-5px)'},{opacity:1,transform:'translateY(0)'}],{duration:750,delay:200,easing:'ease-out'});
     revealAtlas();
-  },{once:true});
+  });
+  document.addEventListener('ead:close',()=>{
+    running.forEach(animation=>animation.cancel());
+    running.clear();
+    document.querySelectorAll('.launch-wave').forEach(wave=>wave.remove());
+    launched=false;
+    atlasAnimated=false;
+  });
   document.addEventListener('ead:atlas-ready',revealAtlas,{once:true});
   reduced.addEventListener('change',()=>{if(reduced.matches)running.forEach(a=>a.cancel());});
 })();
