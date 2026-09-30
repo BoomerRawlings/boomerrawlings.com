@@ -2,12 +2,14 @@
 
 ## EAD research briefing — 2026-09-29
 
-- Mode: continuation; unlisted research webpage at `/ead/`. Status: built and locally verified; publication pending source-visibility choice. Public repository makes source discoverable even when route is excluded from navigation and search indexes.
+- Mode: continuation; research webpage at `/ead/`. Status: built and locally verified; user explicitly withheld publication on29September. Exploring private source and restricted access with a custom three-character entry screen. Do not push this EAD commit to the public repository or deploy without later authorization.
+- Entry motion complete locally: blank dark prompt, uppercase exact entry submitted with Enter, three vertical words, prompt fade, retraction and initials docking in the top-left mark. `public/ead/entry.js`/`entry.css`; research data loads once after accepted input. This visual interaction provides no authentication or origin protection.
+- Entry verification: full npm suite including43 entry behavior cases passed; browser19checks and visual inspection cover desktop, small portrait/landscape, input rejection, phase sequence, resize recovery, and post-entry source search/graphs. Reduced-motion and hidden-tab recovery pass behavioral tests. Nothing published.
 - Scope: public research only. Twelve observations with caveats, 23 focused reviews, searchable492-record catalogue, 17 researchers, three interactive graph modes using43nodes/91edges, proposed design requirements and open questions. Withdrawal, attribution uncertainty and historical lab-role caveats preserved.
 - Files: `src/pages/ead/index.astro`, `public/ead/`, `scripts/verify-ead.mjs`. Standalone semantic page, local assets/search, no analytics or remote fonts. HTML noindex/nofollow/noarchive/noimageindex, no-referrer, strict meta CSP. Route excluded from sitemap and public listings. No response-header protection or access control claimed.
 - Verified: full npm test passed; final build/EAD release checks passed. Independent data/content/privacy review passed. Browser38checks at1280/390/320 cover search/filter/sort/pagination, source provenance, dialogs, graph modes/focus/overview/zoom/pan/keyboard and no overflow. Fixed All-connections resetting to first node. No console errors observed.
 - Isolation: built from main4456d19 in a separate clone; original site checkout's unrelated unfinished work preserved. No hosting or DNS changes.
-- Next: after source-visibility preference resolved, fetch latest main, reconcile only these changes, publish one verified push and verify live route, assets and listing exclusions. If restricted access is required, select owner-approved hosting/access configuration before publication.
+- Next: review the completed entry motion, then settle private hosting and real authentication. A three-character code alone is insufficient; every protected page/data asset and alternate origin needs server-enforced access checks. Preserve the custom entry design while using a separate strong credential. Hosting/auth changes and publication remain unapproved.
 
 ## UC San Diego vehicle-theft opening — 2026-09-29
 

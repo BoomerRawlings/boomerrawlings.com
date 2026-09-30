@@ -281,8 +281,10 @@
     matchMedia('(max-width:560px)').addEventListener('change',() => {if(state.view==='connections')renderGraph();});
     renderObservations();
   }
-  Promise.all(['briefing','sources','network'].map(async name => {
-    const response=await fetch(`./data/${name}.json`,{credentials:'omit',referrerPolicy:'no-referrer'});
-    if(!response.ok)throw new Error('Data unavailable');return response.json();
-  })).then(([b,s,n]) => {briefing=b;catalogue=s;network=n;initialize();}).catch(() => { $('load-error').hidden=false; });
+  document.addEventListener('ead:open', () => {
+    Promise.all(['briefing','sources','network'].map(async name => {
+      const response=await fetch(`./data/${name}.json`,{credentials:'omit',referrerPolicy:'no-referrer'});
+      if(!response.ok)throw new Error('Data unavailable');return response.json();
+    })).then(([b,s,n]) => {briefing=b;catalogue=s;network=n;initialize();}).catch(() => { $('load-error').hidden=false; });
+  }, {once:true});
 })();

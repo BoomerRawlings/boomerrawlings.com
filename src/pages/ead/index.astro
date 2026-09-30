@@ -6,15 +6,34 @@
   <meta name="robots" content="noindex,nofollow,noarchive,noimageindex">
   <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
-  <meta name="theme-color" content="#102a36">
-  <title>EAD — Personality, memory & control</title>
+  <meta name="theme-color" content="#080d0f">
+  <title>LEO — Personality, memory & control</title>
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./entry.css">
   <script is:inline src="./app.js" defer></script>
+  <script is:inline src="./entry.js" defer></script>
 </head>
-<body>
+<body class="entry-pending">
+  <section id="entry-screen" class="entry-screen" aria-label="LEO entry">
+    <div class="entry-prompt">
+      <div id="entry-copy"><p class="entry-ego">Don't feed my ego</p><p class="entry-identity">I AM A</p></div>
+      <form id="entry-form" novalidate>
+        <label class="sr-only" for="entry-input">Complete I AM A</label>
+        <div class="entry-field"><input id="entry-input" type="text" placeholder="___" aria-describedby="entry-feedback" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go"><button id="entry-submit" type="submit" aria-label="Enter"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5v9H5m5-5-5 5 5 5"/></svg></button></div>
+      </form>
+    </div>
+    <div id="entry-sequence" class="entry-sequence" role="img" aria-label="Low Exposure Operator" hidden>
+      <div class="entry-column"><span class="entry-initial" data-initial="L">L</span><span class="entry-tail" aria-hidden="true"><span>o</span><span>w</span></span></div>
+      <div class="entry-column"><span class="entry-initial" data-initial="E">E</span><span class="entry-tail" aria-hidden="true"><span>x</span><span>p</span><span>o</span><span>s</span><span>u</span><span>r</span><span>e</span></span></div>
+      <div class="entry-column"><span class="entry-initial" data-initial="O">O</span><span class="entry-tail" aria-hidden="true"><span>p</span><span>e</span><span>r</span><span>a</span><span>t</span><span>o</span><span>r</span></span></div>
+    </div>
+    <p id="entry-feedback" class="sr-only" role="status" aria-live="polite"></p>
+    <noscript><p class="entry-noscript">Enable JavaScript to open this local preview.</p></noscript>
+  </section>
+  <div id="research-workspace" hidden inert>
   <a class="skip" href="#main">Skip to research</a>
-  <div class="masthead"><div class="brand"><span class="brand-mark" aria-hidden="true">E</span><strong>EAD</strong><span class="brand-divider"></span><span>Research briefing</span></div><span class="dateline">29 Sep 2026</span></div>
+  <div class="masthead"><div class="brand"><span id="leo-dock" class="leo-dock" aria-label="Low Exposure Operator"><span>L</span><span>E</span><span>O</span></span><span class="brand-divider"></span><span>Research briefing</span></div><span class="dateline">29 Sep 2026</span></div>
   <header class="page-header">
     <div><p class="eyebrow">LOCAL AGENTS / BEHAVIOR / AUTHORITY</p><h1>Personality, memory <span>&amp; control</span></h1><p class="intro">Findings, measurement limits, and proposed tests.</p></div>
     <div class="coverage" aria-label="Research coverage"><div><strong>23</strong><span>focused reviews</span></div><div><strong>17</strong><span>researchers</span></div><div><strong>12</strong><span>observations</span></div></div>
@@ -57,6 +76,7 @@
   </main>
   <footer><span>Public research · source check 29 Sep 2026</span><span>Research synthesis; no system validation.</span><button id="about-button">Scope &amp; method</button></footer>
   <dialog id="source-dialog" aria-labelledby="dialog-title"><div class="dialog-top"><span class="eyebrow">SOURCE RECORD</span><button class="close-dialog" aria-label="Close source details">×</button></div><div id="dialog-content"></div></dialog>
-  <dialog id="about-dialog" aria-labelledby="about-title"><div class="dialog-top"><span class="eyebrow">SCOPE &amp; METHOD</span><button class="close-dialog" aria-label="Close scope and method">×</button></div><h2 id="about-title">What this briefing covers</h2><p>23 focused reviews selected from Yue Zhang’s publications and a verified collaborator network. The full catalogue preserves unresolved identities, duplicate source rows, and withdrawal status.</p><p>Findings report the papers’ results. Anomalies identify measurement or provenance issues. Design proposals are our applications of the evidence, not experimentally validated systems.</p><p>Search and graphs run locally in the browser. No analytics, remote fonts, or automatic third-party requests are added. Primary sources open only when selected.</p><p>This page is unlisted, not access-protected. A person with its address can read it.</p></dialog>
+  <dialog id="about-dialog" aria-labelledby="about-title"><div class="dialog-top"><span class="eyebrow">SCOPE &amp; METHOD</span><button class="close-dialog" aria-label="Close scope and method">×</button></div><h2 id="about-title">What this briefing covers</h2><p>23 focused reviews selected from Yue Zhang’s publications and a verified collaborator network. The full catalogue preserves unresolved identities, duplicate source rows, and withdrawal status.</p><p>Findings report the papers’ results. Anomalies identify measurement or provenance issues. Design proposals are our applications of the evidence, not experimentally validated systems.</p><p>Search and graphs run locally in the browser. No analytics, remote fonts, or automatic third-party requests are added. Primary sources open only when selected.</p><p>This local preview demonstrates the entry interaction. Server-side authentication and private hosting are not configured.</p></dialog>
+  </div>
 </body>
 </html>
