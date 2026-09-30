@@ -14,12 +14,17 @@
   <link rel="stylesheet" href="./entry.css">
   <link rel="stylesheet" href="./oracle.css">
   <link rel="stylesheet" href="./implementation.css">
+  <link rel="stylesheet" href="./atlas.css">
+  <link rel="stylesheet" href="./plans.css">
+  <link rel="stylesheet" href="./reveal.css">
   <script is:inline src="./app.js" defer></script>
-  <script is:inline src="./explorer.js" defer></script>
+  <script is:inline src="./atlas.js" defer></script>
   <script is:inline src="./implementation.js" defer></script>
+  <script is:inline src="./plans.js" defer></script>
+  <script is:inline src="./reveal.js" defer></script>
   <script is:inline src="./entry.js" defer></script>
 </head>
-<body class="entry-pending" data-view="explorer">
+<body class="entry-pending" data-view="atlas">
   <section id="entry-screen" class="entry-screen" aria-label="LEO entry">
     <div class="entry-prompt">
       <div id="entry-copy"><p class="entry-ego">Don't feed my ego</p><p class="entry-identity">I AM A</p></div>
@@ -33,48 +38,36 @@
       <div class="entry-row"><span class="entry-initial" data-initial="E">E</span><span class="entry-tail" aria-hidden="true"><span>x</span><span>p</span><span>o</span><span>s</span><span>u</span><span>r</span><span>e</span></span></div>
       <div class="entry-row"><span class="entry-initial" data-initial="O">O</span><span class="entry-tail" aria-hidden="true"><span>r</span><span>a</span><span>c</span><span>l</span><span>e</span></span></div>
     </div>
-    <div id="entry-lion" class="entry-lion" aria-hidden="true" hidden><img src="./images/oracle-lion.png" alt="" width="48" height="48"></div>
+    <div id="entry-lion" class="entry-lion" aria-hidden="true" hidden><img src="./images/lion-approved.png" alt="" width="56" height="56"></div>
     <p id="entry-feedback" class="sr-only" role="status" aria-live="polite"></p>
     <noscript><p class="entry-noscript">Enable JavaScript to open this local preview.</p></noscript>
   </section>
   <div id="research-workspace" hidden inert>
   <a class="skip" href="#main">Skip to research</a>
-  <div class="masthead"><div class="brand"><span id="leo-dock" class="leo-dock" aria-label="Low Exposure Oracle"><span>L</span><span>E</span><span>O</span></span><span class="brand-divider"></span><span class="brand-name">Low Exposure Oracle</span></div><img id="oracle-lion" class="oracle-lion" src="./images/oracle-lion.png" alt="" width="48" height="48"><span class="dateline">PUBLIC-SOURCE RESEARCH<span>29 SEP 2026</span></span></div>
+  <div class="masthead"><div class="brand"><span id="leo-dock" class="leo-dock" aria-label="Low Exposure Oracle"><span>L</span><span>E</span><span>O</span></span></div><img id="oracle-lion" class="oracle-lion" src="./images/lion-approved.png" alt="" width="56" height="56"><span class="dateline">PUBLIC-SOURCE RESEARCH<span>29 SEP 2026</span></span></div>
   <header class="page-header">
-    <div><p class="eyebrow">LOCAL AGENTS / BEHAVIOR / AUTHORITY</p><h1>Personality, memory <span>&amp; control</span></h1><p class="intro">Findings, measurement limits, and proposed tests.</p></div>
-    <div class="coverage" aria-label="Research coverage"><div><strong>23</strong><span>focused reviews</span></div><div><strong>17</strong><span>researchers</span></div><div><strong>12</strong><span>observations</span></div></div>
+    <div><p class="eyebrow">RESEARCH / BEHAVIOR / SYSTEMS</p><h1>Research, people <span>&amp; connections</span></h1><p class="intro">Findings, measurement limits, and proposed tests.</p></div>
+    <div class="coverage" aria-label="Research coverage"><div><strong>23</strong><span>focused reviews</span></div><div><strong>467</strong><span>atlas profiles</span></div><div><strong>12</strong><span>observations</span></div></div>
   </header>
   <div class="workspace-bar">
     <nav class="tabs" aria-label="Research views">
-      <button type="button" disabled data-view="explorer" class="active" aria-current="page">Network</button>
+      <button type="button" disabled data-view="atlas" class="active" aria-current="page">Atlas</button>
+      <button type="button" disabled data-view="implementation">Implementation</button>
       <button type="button" disabled data-view="observations">Findings</button>
       <button type="button" disabled data-view="sources">Catalogue <span id="source-count">492</span></button>
     </nav>
-    <label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg><span class="sr-only">Search the current view</span><input id="search" type="search" disabled autocomplete="off" spellcheck="false" placeholder="Find a person or topic" aria-describedby="search-help"><kbd>/</kbd></label>
+    <label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg><span class="sr-only">Search the current view</span><input id="search" type="search" disabled autocomplete="off" spellcheck="false" placeholder="Find a lab, researcher or topic" aria-describedby="search-help"><kbd>/</kbd></label>
   </div>
   <main id="main" tabindex="-1">
     <div id="search-help" class="sr-only">Search runs on this device. The selected view determines what is searched.</div>
-    <section id="explorer-view" class="view" aria-label="Research network and implementation">
-      <div class="explorer-toolbar"><div><span class="section-label">RESEARCH NETWORK</span><span id="explorer-status" role="status">Loading research…</span></div><button id="explorer-reset" type="button" hidden>Reset network</button></div>
-      <div id="explorer-layout" class="explorer-layout">
-        <div id="explorer-canvas" class="explorer-canvas">
-          <div class="map-coordinate top-left" aria-hidden="true">01 / FOCAL AUTHOR</div>
-          <div class="map-coordinate bottom-right" aria-hidden="true">PERSONALITY · MEMORY · CONTROL</div>
-          <svg id="explorer-lines" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true"></svg>
-          <span class="map-group-label people-label" hidden>COLLABORATORS</span><span class="map-group-label topics-label" hidden>RESEARCH TOPICS</span>
-          <button id="explorer-author" class="explorer-author" type="button" aria-expanded="false" aria-controls="explorer-people explorer-topics" hidden><span class="author-portrait"><img id="author-photo" alt="Yue Zhang" width="150" height="150"></span><strong>Yue Zhang</strong><span class="author-affiliation">Westlake University · NLP</span><span class="author-action">Explore connections <span aria-hidden="true">+</span></span></button>
-          <div id="explorer-people" class="explorer-people" aria-label="Selected collaborators" hidden></div>
-          <div id="explorer-topics" class="explorer-topics" aria-label="Research topics" hidden></div>
-          <p id="explorer-empty" class="explorer-empty" hidden>No matching people or topics.</p>
-        </div>
-        <aside id="explorer-detail" class="explorer-detail" aria-label="Selected node evidence" aria-live="polite" hidden></aside>
-      </div>
-      <div class="explorer-footer"><span id="explorer-legend">Select the author to open his research network.</span><button type="button" disabled data-jump="implementation-view">Implementation <span aria-hidden="true">↓</span></button></div>
-    <section id="implementation-view" aria-label="Personality implementation guide">
+    <section id="atlas-view" class="view" aria-label="China research atlas"><div id="atlas-root"><p class="empty">Loading research atlas…</p></div></section>
+    <section id="implementation-view" class="view" aria-label="Implementation plans" hidden>
+      <div id="implementation-plans"></div>
+      <div id="implementation-guide" hidden>
       <header class="implementation-heading"><div><p class="section-label">IMPLEMENTATION / LOCAL SCIENTIFIC ASSISTANT</p><h2 id="implementation-title" tabindex="-1">Implementation</h2><p id="implementation-intro">Eight steps from an observable profile to a tested, versioned agent.</p></div><button type="button" disabled data-view="design">Architecture overview <span aria-hidden="true">↗</span></button></header>
       <div class="implementation-scope"><span class="scope-dot" aria-hidden="true"></span><span>Proposed build guide · synthetic workflows · model and hardware to be selected</span></div>
       <label class="search implementation-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg><span class="sr-only">Search implementation steps</span><input id="implementation-search" type="search" disabled autocomplete="off" spellcheck="false" placeholder="Find a step, prompt, or control" aria-describedby="implementation-search-help"></label>
-      <p id="implementation-search-help" class="sr-only">Filters implementation steps only. Network search above is independent.</p>
+      <p id="implementation-search-help" class="sr-only">Filters steps in the selected implementation plan.</p>
       <nav id="implementation-index" class="implementation-index" aria-label="Implementation steps"></nav>
       <div class="implementation-controls"><p>Hover or focus to preview. Click a step to lock. Esc to clear.</p><div><span id="implementation-count"></span><button id="implementation-clear" type="button" hidden>Clear trace</button><button id="implementation-download" type="button">Download guide ↓</button></div></div>
       <div class="implementation-column-head"><span>01 / PLAIN ENGLISH</span><span aria-hidden="true">↔</span><span>02 / PROMPTS &amp; IMPLEMENTATION</span></div>
@@ -82,7 +75,7 @@
       <p id="implementation-empty" class="empty" hidden>No matching steps. Try personality, memory, approval, or evaluation.</p>
       <p id="implementation-status" class="implementation-status" role="status" aria-live="polite"></p>
       <div class="implementation-end"><span class="section-label">FIRST DELIVERABLE</span><p>A versioned persona, reviewed examples, synthetic procedures, and a recorded comparison. Fine-tuning follows only if a measured gap remains.</p></div>
-    </section>
+      </div>
     </section>
     <section id="observations-view" class="view" aria-label="Research observations" hidden>
       <div class="section-toolbar"><div class="chips" id="observation-filters" aria-label="Observation type"><button data-kind="all" aria-pressed="true">All observations</button><button data-kind="finding" aria-pressed="false">Findings</button><button data-kind="anomaly" aria-pressed="false">Anomalies</button><button data-kind="design" aria-pressed="false">Proposals</button></div><span id="observation-count" class="result-count" aria-live="polite"></span></div>
@@ -96,7 +89,7 @@
       <div class="pagination"><span id="source-results" role="status"></span><div><button id="page-prev">Previous</button><span id="page-number"></span><button id="page-next">Next</button></div></div>
     </section>
     <section id="design-view" class="view" aria-label="Proposed local agent design" hidden>
-      <button class="implementation-back" type="button" disabled data-view="explorer" data-jump="implementation-view">← Implementation guide</button>
+      <button class="implementation-back" type="button" disabled data-view="implementation" data-jump="implementation-title">← Implementation guide</button>
       <div class="design-heading"><span class="badge design">PROPOSED ARCHITECTURE</span><h2>Stable behavior. Explicit authority.</h2><p>A local model proposes. Independent software checks permission, advances the workflow, and records the outcome.</p></div>
       <div class="authority-flow" aria-label="Proposed control flow"><div><span>01 / COMMUNICATION</span><strong>Scientist persona</strong><p>Warmth, clarity, scientific care.</p></div><div><span>02 / CONTEXT</span><strong>Revisable memory</strong><p>Evidence, scope, conflicts, expiry.</p></div><div class="authority-node"><span>03 / ENFORCEMENT</span><strong>Permission &amp; state</strong><p>Authenticated authority. Exact action checks.</p></div><div><span>04 / OUTCOME</span><strong>Verified receipt</strong><p>Attempted, completed, or unknown.</p></div></div>
       <div class="design-grid"><section><div class="section-label">DESIGN REQUIREMENTS</div><div id="principles"></div></section><section><div class="section-label">QUESTIONS TO RESOLVE</div><div id="questions"></div></section></div>
@@ -107,7 +100,7 @@
   </main>
   <footer><span>Public research · source check 29 Sep 2026</span><span>Research synthesis; no system validation.</span><button id="about-button">Scope &amp; method</button></footer>
   <dialog id="source-dialog" aria-labelledby="dialog-title"><div class="dialog-top"><span class="eyebrow">SOURCE RECORD</span><button class="close-dialog" aria-label="Close source details">×</button></div><div id="dialog-content"></div></dialog>
-  <dialog id="about-dialog" aria-labelledby="about-title"><div class="dialog-top"><span class="eyebrow">SCOPE &amp; METHOD</span><button class="close-dialog" aria-label="Close scope and method">×</button></div><h2 id="about-title">What this briefing covers</h2><p>23 focused reviews selected from Yue Zhang’s publications and a verified collaborator network. The full catalogue preserves unresolved identities, duplicate source rows, and withdrawal status.</p><p>Findings report the papers’ results. Anomalies identify measurement or provenance issues. Design proposals are our applications of the evidence, not experimentally validated systems.</p><p>Search and graphs run locally in the browser. No analytics, remote fonts, or automatic third-party requests are added. Primary sources open only when selected.</p><p>This local preview demonstrates the entry interaction. Server-side authentication and private hosting are not configured.</p></dialog>
+  <dialog id="about-dialog" aria-labelledby="about-title"><div class="dialog-top"><span class="eyebrow">SCOPE &amp; METHOD</span><button class="close-dialog" aria-label="Close scope and method">×</button></div><h2 id="about-title">What this briefing covers</h2><p>The atlas connects public research across agentic AI, security and social science. Contact cards identify their sources; solid lines mark documented relationships and dashed lines mark inferred connections. The paper catalogue retains the original Yue Zhang and collaborator literature collection.</p><p>Findings report the papers’ results. Anomalies identify measurement or provenance issues. Design proposals are our applications of the evidence, not experimentally validated systems.</p><p>Search and graphs run locally in the browser. No analytics, remote fonts, or automatic third-party requests are added. Primary sources open only when selected.</p><p>This local preview demonstrates the entry interaction. Server-side authentication and private hosting are not configured.</p></dialog>
   </div>
 </body>
 </html>

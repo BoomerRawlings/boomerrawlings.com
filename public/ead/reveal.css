@@ -1,0 +1,8 @@
+/* The pulse uncovers the workspace; controls settle in its wake. */
+body.entry-revealing #research-workspace { opacity: 1; }
+body.entry-revealing .entry-screen { background: transparent; pointer-events: none; mix-blend-mode: screen; }
+body.entry-revealing .entry-prompt,body.entry-revealing .entry-sequence { visibility: hidden; }
+body.entry-revealing .leo-dock { visibility: visible; }
+body.entry-revealing .oracle-lion { visibility: hidden; }
+.launch-wave { position: fixed; z-index: 90; pointer-events: none; width: 200vmax; height: 200vmax; left: calc(50% - 100vmax); top: calc(39px - 100vmax); border: 1px solid #9db790; border-radius: 50%; box-shadow: 0 0 35px #8aac6b12; }
+@media(prefers-reduced-motion:reduce) { .launch-wave { display:none; } }

@@ -22,7 +22,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,[t
 .brand-name { color: #8faaa0; font: 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
 .brand-divider { background: #354a40; }
 .leo-dock { font-size: 22px; gap: 3px; }
-.oracle-lion { position: absolute; top: 15px; left: calc(50% - 24px); width: 48px; height: 48px; object-fit: contain; opacity: .85; }
+.oracle-lion { position: absolute; top: 11px; left: calc(50% - 28px); width: 56px; height: 56px; object-fit: contain; opacity: .55; filter: invert(1) sepia(.2) saturate(.45); mix-blend-mode: screen; }
 .dateline { color: #8eaaa0; text-align: right; font: 10px/1.7 var(--mono); letter-spacing: .08em; }
 .dateline span { display: block; color: #647c71; }
 .page-header { padding: 25px 30px; max-width: 1600px; }
@@ -31,7 +31,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,[t
 .page-header .intro { font-size: 14px; }
 .coverage strong { font-size: 22px; }
 .coverage span { font-size: 11px; }
-body[data-view="explorer"] .page-header { display: none; }
+body[data-view="atlas"] .page-header,body[data-view="implementation"] .page-header { display: none; }
 .workspace-bar { max-width: none; margin: 0 30px; height: 65px; min-height: 65px; border-color: var(--line); gap: 25px; }
 .tabs { gap: 26px; }
 .tabs button { font: 12px var(--mono); padding: 20px 0 17px; border-bottom-width: 2px; white-space: nowrap; }

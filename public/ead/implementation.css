@@ -1,5 +1,5 @@
 /* Paired explanation / implementation with evidence-linked dependencies. */
-#implementation-view { margin-top: 34px; border-top: 1px solid #405439; scroll-margin-top: 28px; }
+#implementation-view { scroll-margin-top: 28px; }
 .implementation-search { width: min(100%,420px); margin: 0 0 22px; }
 #implementation-title:focus { outline: none; }
 .implementation-heading { display: flex; justify-content: space-between; gap: 25px; align-items: center; padding: 35px 0 22px; }
@@ -10,7 +10,7 @@
 .implementation-back { margin-top: 25px; }
 .implementation-scope { display: flex; align-items: center; gap: 9px; color: #b7ba97; font: 10px/1.6 var(--mono); padding-bottom: 23px; }
 .scope-dot { width: 5px; height: 5px; background: #b7ba97; border-radius: 50%; flex-shrink: 0; }
-.implementation-index { display: grid; grid-template-columns: repeat(8,minmax(0,1fr)); border: 1px solid #2b3f32; background: #0e1812; }
+.implementation-index { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0,1fr); border: 1px solid #2b3f32; background: #0e1812; }
 .implementation-index button { text-align: left; border: 0; border-right: 1px solid #2b3f32; background: transparent; padding: 14px 13px; min-width: 0; border-radius: 0; transition: background .25s,color .25s; }
 .implementation-index button:last-child { border-right: 0; }
 .implementation-index button > span:first-child { display: block; color: #7d967c; font: 10px var(--mono); margin-bottom: 8px; }

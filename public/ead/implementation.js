@@ -17,7 +17,7 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const mobile = matchMedia('(max-width: 760px)');
   const cards = new Map(), rows = new Map(), indexes = new Map();
-  let data, sources = new Map(), pinned = null, active = null, query = '', frame = 0;
+  let data, baseData, sources = new Map(), pinned = null, active = null, query = '', frame = 0;
 
   const key = (side, id) => `${side}:${id}`;
   const targets = step => [step.id, ...step.related_ids];
@@ -34,13 +34,13 @@
   function drawConnections(animate = false) {
     const svg = $('implementation-lines');
     svg.replaceChildren();
-    if (!data || $('explorer-view').hidden || mobile.matches) return;
+    if (!data || $('implementation-view').hidden || !$('implementation-guide').closest('.is-expanded') || mobile.matches) return;
     const board = $('implementation-board').getBoundingClientRect();
     if (!board.width) return;
     svg.setAttribute('viewBox', `0 0 ${board.width} ${board.height}`);
     const pairs = active ? pairsFor(active) : data.steps.map(s => [s.id, s.id]);
     pairs.forEach(([left, right]) => {
-      if (rows.get(left).hidden || rows.get(right).hidden) return;
+      if (!rows.has(left) || !rows.has(right) || rows.get(left).hidden || rows.get(right).hidden) return;
       const a = cards.get(key('plain', left)).getBoundingClientRect();
       const b = cards.get(key('artifact', right)).getBoundingClientRect();
       const x1 = a.right - board.left, y1 = a.top - board.top + 42;
@@ -174,7 +174,7 @@
   }
   function download() {
     if (!data) return;
-    const lines = ['# Low Exposure Oracle — Implementation guide','',data.subtitle,'','Proposed guide. Synthetic workflows; no model or security validation.',''];
+    const lines = [`# LEO — ${data.title || 'Implementation guide'}`,'',data.subtitle,'','Proposed guide. Synthetic workflows.',''];
     data.steps.forEach(step => {
       lines.push(`## ${step.number}. ${step.title}`,'',step.plain,'',`Checkpoint: ${step.check}`,'',`### ${step.artifact} (${step.kind})`,'','```'+(step.kind === 'CONFIG' ? 'json' : 'text'),step.code,'```','',step.notes,'','Evidence:');
       step.source_ids.forEach(id=>{const s=sources.get(id);if(s)lines.push(`- ${s.title}: ${s.url}`);}); lines.push('');
@@ -184,8 +184,10 @@
     setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
   document.addEventListener('ead:ready',event=>{sources=new Map(event.detail.catalogue.entries.map(s=>[s.id,s]));},{once:true});
-  document.addEventListener('ead:implementation-data',event=>{
-    data=event.detail;
+  function renderSteps() {
+    cards.clear(); rows.clear(); indexes.clear(); pinned=null; active=null; query='';
+    $('implementation-search').value='';
+    $('implementation-rows').replaceChildren(); $('implementation-index').replaceChildren();
     data.steps.forEach(step=>{
       const row=make('div',undefined,'implementation-row');row.append(createCard(step,'plain'),createCard(step,'artifact'));
       rows.set(step.id,row);$('implementation-rows').append(row);
@@ -198,6 +200,11 @@
       index.setAttribute('aria-label',`Step ${step.number}: ${step.title}`);
       indexes.set(step.id,index);$('implementation-index').append(index);
     });
+    filter();
+  }
+  document.addEventListener('ead:implementation-data',event=>{
+    data=event.detail; baseData=data;
+    renderSteps();
     $('implementation-clear').addEventListener('click',()=>{pinned=null;$('implementation-download').focus({preventScroll:true});trace(null,true);});
     $('implementation-download').addEventListener('click',download);
     $('implementation-search').disabled=false;
@@ -205,11 +212,23 @@
       const next=normalize(event.target.value).trim();if(next===query)return;query=next;filter();
     });
     document.addEventListener('keydown',event=>{
-      if(event.key==='Escape'&&!$('explorer-view').hidden&&!document.querySelector('dialog[open]')){pinned=null;trace(null,true);}
+      if(event.key==='Escape'&&!$('implementation-view').hidden&&!document.querySelector('dialog[open]')){pinned=null;trace(null,true);}
     });
     new ResizeObserver(scheduleDraw).observe($('implementation-board'));
     filter();
   },{once:true});
-  document.addEventListener('ead:view',event=>{if(event.detail==='explorer')scheduleDraw();});
+  document.addEventListener('ead:plan-select',event=>{
+    const plan=event.detail;
+    if (!baseData || !plan.expanded) return;
+    data=plan.steps ? {title:plan.title,subtitle:plan.description,steps:plan.steps} : baseData;
+    $('implementation-title').textContent=plan.title;
+    $('implementation-intro').textContent=plan.description;
+    document.querySelector('.implementation-heading .section-label').textContent='IMPLEMENTATION / '+(plan.status==='outline'?'PLAN OUTLINE':'BUILD GUIDE');
+    document.querySelector('.implementation-scope span:last-child').textContent=plan.status==='outline'?'Outline · scope and acceptance criteria to define':'Proposed build guide · synthetic workflows';
+    document.querySelector('.implementation-end p').textContent=plan.status==='outline'?'Define the intended use, approved inputs and success criteria before extending this outline.':'A versioned persona, reviewed examples, synthetic procedures, and a recorded comparison.';
+    renderSteps();
+  });
+  document.addEventListener('ead:plan-layout',scheduleDraw);
+  document.addEventListener('ead:view',event=>{if(event.detail==='implementation')scheduleDraw();});
   mobile.addEventListener('change',scheduleDraw); reduced.addEventListener('change',()=>{ $('implementation-lines').getAnimations({subtree:true}).forEach(a=>a.finish()); });
 })();

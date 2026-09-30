@@ -31,8 +31,8 @@
   const flagged = (source) => ['withdrawn', 'identity_uncertain', 'not_target_author'].includes(source.status);
   const statusLabel = (source) => ({withdrawn:'Withdrawn',identity_uncertain:'Identity uncertain',not_target_author:'Other author'})[source.status];
   const attributionLabel = (source) => ({author_bibliography:'Listed in author bibliography',name_affiliation_checked:'Name and affiliation checked',profile_only:'Scholar profile only',identity_uncertain:'Identity unresolved',verified_yue_coauthor:'Yue Zhang coauthorship verified',verified_network_coauthor:'Collaborator authorship verified',not_target_author:'Different author'})[source.attribution] || words(source.attribution);
-  const state = {view:'explorer',query:'',kind:'all',observation:null,coverage:'reviewed',sort:'year',page:0};
-  const views = new Set(['explorer','observations','sources','design']);
+  const state = {view:'atlas',query:'',kind:'all',observation:null,coverage:'reviewed',sort:'year',page:0};
+  const views = new Set(['atlas','implementation','observations','sources','design']);
   let briefing, catalogue, sources;
   const pageSize = 25;
 
@@ -51,17 +51,18 @@
     document.body.dataset.view = view;
     if (!preserveQuery) { state.query = ''; $('search').value = ''; }
     document.querySelectorAll('.tabs button[data-view]').forEach(node => {
-      const selected = node.dataset.view === (view === 'design' ? 'explorer' : view);
+      const selected = node.dataset.view === (view === 'design' ? 'implementation' : view);
       node.classList.toggle('active', selected);
       if (selected) node.setAttribute('aria-current', 'page'); else node.removeAttribute('aria-current');
     });
     document.querySelectorAll('.view').forEach(node => { node.hidden = node.id !== `${view}-view`; });
-    $('search').placeholder = view === 'explorer' ? 'Find a person or topic' : `Search ${view}`;
+    $('search').closest('label').hidden = view === 'implementation';
+    $('search').placeholder = view === 'atlas' ? 'Find a lab, researcher or topic' : view === 'sources' ? 'Search papers and sources' : `Search ${view}`;
     renderView();
     document.dispatchEvent(new CustomEvent('ead:view',{detail:view}));
   }
   function renderView() {
-    if (state.view === 'explorer') document.dispatchEvent(new CustomEvent('ead:explorer-query',{detail:state.query}));
+    if (state.view === 'atlas') document.dispatchEvent(new CustomEvent('ead:atlas-query',{detail:state.query}));
     if (state.view === 'observations') renderObservations();
     if (state.view === 'sources') renderSources();
     if (state.view === 'design') renderDesign();
@@ -194,7 +195,7 @@
     document.addEventListener('keydown',event => {
       if(event.key === '/' && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName) && !document.querySelector('dialog[open]')) {
         event.preventDefault();
-        (document.activeElement.closest('#implementation-view') ? $('implementation-search') : $('search')).focus();
+        (state.view === 'implementation' && $('implementation-guide').closest('.is-expanded') ? $('implementation-search') : state.view === 'implementation' ? $('implementation-plans').querySelector('button') : $('search'))?.focus();
       }
     });
     document.addEventListener('ead:source',event => openSource(event.detail));
@@ -208,13 +209,14 @@
     document.dispatchEvent(new CustomEvent('ead:ready',{detail:{catalogue,briefing}}));
   }
   document.addEventListener('ead:open', () => {
-    Promise.all(['briefing','sources','explorer','implementation'].map(async name => {
+    Promise.all(['briefing','sources','china-map','implementation','plans'].map(async name => {
       const response=await fetch(`./data/${name}.json`,{credentials:'omit',referrerPolicy:'no-referrer'});
       if(!response.ok)throw new Error('Data unavailable');return response.json();
-    })).then(([b,s,x,i]) => {
+    })).then(([b,s,x,i,p]) => {
       briefing=b;catalogue=s;initialize();
-      document.dispatchEvent(new CustomEvent('ead:explorer-data',{detail:x}));
+      document.dispatchEvent(new CustomEvent('ead:atlas-data',{detail:x}));
       document.dispatchEvent(new CustomEvent('ead:implementation-data',{detail:i}));
-    }).catch(() => { $('load-error').hidden=false; $('explorer-status').textContent='Research unavailable'; });
+      document.dispatchEvent(new CustomEvent('ead:plans-data',{detail:p}));
+    }).catch(() => { $('load-error').hidden=false; $('atlas-root').textContent='Research unavailable. Reload to retry.'; });
   }, {once:true});
 })();

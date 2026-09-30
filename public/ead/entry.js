@@ -15,6 +15,7 @@
   let rawValue = '';
   let composing = false;
   let opened = false;
+  let revealed = false;
   let completion;
 
   const animate = (node, frames, options) => {
@@ -69,10 +70,17 @@
     screen.hidden = true;
     workspace.hidden = false;
     workspace.inert = false;
-    document.body.classList.remove('entry-pending','entry-docking');
+    document.body.classList.remove('entry-pending','entry-docking','entry-revealing');
     animations.forEach(animation => animation.cancel());
     animations.clear();
     document.getElementById('main').focus({preventScroll:true});
+  }
+
+  function revealWorkspace() {
+    if (revealed || opened) return;
+    revealed = true;
+    document.body.classList.add('entry-revealing');
+    document.dispatchEvent(new Event('ead:reveal'));
   }
 
   async function play() {
@@ -189,11 +197,15 @@
     ], {duration:650,easing:'cubic-bezier(.2,.65,.3,1)'}).finished;
     if (opened) return;
     phase = 'lion-pulse'; screen.dataset.phase = phase;
-    await animate(lion, [
-      {transform:`translate(${targetX}px, ${targetY}px) scale(1)`,opacity:.85},
-      {transform:`translate(${targetX}px, ${targetY}px) scale(1.10)`,opacity:1,offset:.5},
-      {transform:`translate(${targetX}px, ${targetY}px) scale(1)`,opacity:.85}
-    ], {duration:680,easing:'ease-in-out'}).finished;
+    const pulse = animate(lion, [
+      {transform:`translate(${targetX}px, ${targetY}px) scale(1)`,opacity:.56},
+      {transform:`translate(${targetX}px, ${targetY}px) scale(1.08)`,opacity:.8,offset:.5},
+      {transform:`translate(${targetX}px, ${targetY}px) scale(1)`,opacity:.56}
+    ], {duration:680,easing:'ease-in-out'});
+    await wait(340);
+    if (opened) return;
+    revealWorkspace();
+    await pulse.finished;
     if (opened) return;
     await wait(100);
     finish();
