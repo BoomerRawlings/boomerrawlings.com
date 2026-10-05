@@ -1,7 +1,7 @@
 import { categories, topics as rawTopics, sources as rawSources } from '../../../public/brain/curriculum.js';
 import { journeys, makeRound, cleanProgress } from '../../../public/brain/study.js';
 import type { createBrainViewer } from './models';
-import type { Narrative, PickSpec } from './scene-types';
+import type { Narrative, PickSpec, RepresentationSpec } from './scene-types';
 
 type Depth='essentials'|'mechanism'|'advanced';
 type Lesson={summary:string;bullets:string[]};
@@ -103,7 +103,7 @@ function setTopic(id:string,updateHash=true,focus=false){
   $('topic-sources').replaceChildren(...selected.sources.map(id=>{const source=sources[id];const item=document.createElement('li');if(source)item.append(externalLink(`${source.title} ↗`,source.url));return item;}));
   renderDepth();renderProgress();renderJourney();
   $<HTMLSelectElement>('model-view').value='perspective';
-  if(viewer){viewer.setTopic(selected);viewer.setDetail(depth==='essentials'?0:depth==='mechanism'?2:3);}
+  if(viewer){viewer.setTopic(selected);}
   if(updateHash)history.replaceState(null,'',`#topic=${encodeURIComponent(id)}&depth=${depth}`);
   if(focus){$('topic-title').focus({preventScroll:true});if(innerWidth<=620)document.querySelector('.viewer-column')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});}
   announce(`${selected.title}. ${depth} explanation.`);
@@ -139,7 +139,7 @@ $('mobile-topic').addEventListener('change',()=>setTopic($<HTMLSelectElement>('m
 $('bookmarks-filter').addEventListener('click',()=>{savedOnly=!savedOnly;$('bookmarks-filter').setAttribute('aria-pressed',String(savedOnly));$('bookmarks-filter').textContent=savedOnly?'★':'☆';filterTopics();});
 $('bookmark-topic').addEventListener('click',()=>{progress.saved=progress.saved.includes(selected.id)?progress.saved.filter(id=>id!==selected.id):[...progress.saved,selected.id];save();renderProgress();if(savedOnly)filterTopics();announce(progress.saved.includes(selected.id)?'Topic saved.':'Topic removed from saved.');});
 $('mark-understood').addEventListener('click',()=>{progress.understood=progress.understood.includes(selected.id)?progress.understood.filter(id=>id!==selected.id):[...progress.understood,selected.id];save();renderProgress();});
-all<HTMLButtonElement>('[data-depth]').forEach(tab=>{tab.addEventListener('click',()=>{depth=tab.dataset.depth! as Depth;renderDepth();viewer?.setDetail(depth==='essentials'?0:depth==='mechanism'?2:3);history.replaceState(null,'',`#topic=${selected.id}&depth=${depth}`);});tab.addEventListener('keydown',event=>{if(!['ArrowRight','ArrowLeft','Home','End'].includes(event.key))return;event.preventDefault();const tabs=all<HTMLButtonElement>('[data-depth]');const index=tabs.indexOf(tab);const next=event.key==='Home'?0:event.key==='End'?2:(index+(event.key==='ArrowRight'?1:2))%3;tabs[next].focus();tabs[next].click();});});
+all<HTMLButtonElement>('[data-depth]').forEach(tab=>{tab.addEventListener('click',()=>{depth=tab.dataset.depth! as Depth;renderDepth();history.replaceState(null,'',`#topic=${selected.id}&depth=${depth}`);});tab.addEventListener('keydown',event=>{if(!['ArrowRight','ArrowLeft','Home','End'].includes(event.key))return;event.preventDefault();const tabs=all<HTMLButtonElement>('[data-depth]');const index=tabs.indexOf(tab);const next=event.key==='Home'?0:event.key==='End'?2:(index+(event.key==='ArrowRight'?1:2))%3;tabs[next].focus();tabs[next].click();});});
 $('next-topic').addEventListener('click',()=>{if(activeJourney){const index=activeJourney.ids.indexOf(selected.id);if(index<activeJourney.ids.length-1){setTopic(activeJourney.ids[index+1],true,true);return;}activeJourney=null;renderJourney();setMode('paths');$('paths-heading').tabIndex=-1;$('paths-heading').focus();announce('Sequence complete. Select another sequence or practice questions.');return;}const index=topics.indexOf(selected);setTopic(topics[(index+1)%topics.length].id,true,true);});
 
 $('journey-cards').replaceChildren(...journeys.map((journey,index)=>{const card=button('',()=>{activeJourney=journey;setMode('explore');setTopic(journey.ids[0],true,true);$('active-journey').scrollIntoView({behavior:'smooth',block:'start'});},'journey-card');const number=document.createElement('span');number.className='path-index';number.textContent=`SEQUENCE ${String(index+1).padStart(2,'0')}`;const title=document.createElement('h3');title.textContent=journey.title;const desc=document.createElement('p');desc.textContent=journey.description;const trail=document.createElement('span');trail.textContent=`${journey.ids.length} topics →`;card.append(number,title,desc,trail);return card;}));
@@ -235,13 +235,20 @@ async function initializeViewer(){
       onStatus:text=>{$('model-provenance').textContent=text;$('viewer-loading').hidden=!/^Loading/.test(text);$('model-kind').textContent=/^Model could not load|3D unavailable/i.test(text)?'Model unavailable':/^Loading/.test(text)?'Assembling model':selected.scene==='channel'?'Gating schematic + protein structure':selected.scene==='molecule'?(selected.id==='neuropeptides'?'Peptide connectivity schematic':'Computed molecular conformer'):selected.scene==='tracts'?'Population tractography':selected.scene==='brain'?'Measured anatomy + study layers':selected.id==='dendrites'?'Measured arbor + study overlays':'Custom mechanism model';},
       onHover:showPart,
       onFocus:part=>{focusedPart=part;showPart(part);const child=part?.childTopic||part?.topicId;$('model-enter').hidden=!child||child===selected.id||!byId.has(child);$('model-enter').textContent=child&&byId.has(child)?`${byId.get(child)!.title} ↗`:'Open related topic ↗';$('model-unfocus').hidden=!part;},
-      onDetail:level=>{$('detail-name').textContent=['Overview','Structures','Mechanism','Fine detail'][level];$('detail-dots').textContent=Array.from({length:4},(_,i)=>i<=level?'●':'○').join(' ');},
+      onDetail:level=>{$('detail-name').textContent=['Overview','Structures','Close-up','Fine detail'][level];$('detail-dots').textContent=Array.from({length:4},(_,i)=>i<=level?'●':'○').join(' ');},
       onParts:parts=>{const select=$<HTMLSelectElement>('model-part'),value=select.value;select.replaceChildren();const empty=document.createElement('option');empty.value='';empty.textContent=parts.length?'Choose a structure…':'Zoom to reveal structures';select.append(empty);for(const part of parts){const option=document.createElement('option');option.value=part.id;option.textContent=part.label;select.append(option);}if(parts.some(part=>part.id===value))select.value=value;},
+      onRepresentations:(views:RepresentationSpec[],active:string)=>{
+        const group=$('model-representations');group.hidden=views.length<2;
+        const existing=Array.from(group.querySelectorAll<HTMLButtonElement>('button'));
+        if(existing.length!==views.length||existing.some((item,i)=>item.dataset.representation!==views[i].id))group.replaceChildren(...views.map(view=>{const item=button(view.label,()=>{viewer?.setRepresentation(view.id);$<HTMLSelectElement>('model-view').value='perspective';});item.dataset.representation=view.id;item.title=view.description;return item;}));
+        group.querySelectorAll<HTMLButtonElement>('button').forEach((item,i)=>{item.textContent=views[i].label;item.title=views[i].description;item.setAttribute('aria-pressed',String(item.dataset.representation===active));});
+        const chosen=views.find(view=>view.id===active);if(chosen)$('model-kind').textContent=chosen.label;$('scale-badge').textContent=chosen?.scale||selected.scale;
+      },
       onNarrative:setNarrative,
       onTime:(fraction,step)=>{if(!animation)return;$<HTMLInputElement>('animation-scrub').value=String(Math.round(fraction*1000));const currentStep=animation.steps[step];$('animation-step').textContent=currentStep?.label||'';$('animation-description').textContent=currentStep?.description||'';$('animation-time').textContent=`${Math.round(fraction*100)}%`;all('#animation-steps button').forEach((el,i)=>el.setAttribute('aria-current',String(i===step)));}
     });
     if(!viewer)throw new Error('3D unavailable');
-    viewer.setPlaying(playing);viewer.setLabels(labels);viewer.setTopic(selected);viewer.setDetail(depth==='essentials'?0:depth==='mechanism'?2:3);
+    viewer.setPlaying(playing);viewer.setLabels(labels);viewer.setTopic(selected);
   }catch{ $('model-fallback').hidden=false;$('model-provenance').textContent='Written guide available. 3D rendering could not initialize.';all<HTMLButtonElement|HTMLSelectElement>('.viewer-controls button,.viewer-controls select').forEach(el=>el.disabled=true); }
   finally{if(!viewer)$('viewer-loading').hidden=true;}
 }

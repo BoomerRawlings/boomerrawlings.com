@@ -48,7 +48,7 @@ Cerebellar regression additionally requires one closed exterior, source white ma
 - [DIPY bundle visualization](https://docs.dipy.org/stable/examples_built/visualization/viz_bundles.html): bundle displays, coordinate transforms, orientation colors. Reference only; custom browser implementation.
 - [Brainlife tractography](https://brainlife.io/app/5e9db4c5f1745d5768f68d19), [QA](https://brainlife.io/app/5d60171f4cfacf00366c114a), [surface viewing](https://brainlife.io/docs/tutorial/introduction-to-brainlife/): anatomically constrained workflows and geometry QA. No user data used.
 
-Close zoom substitutes **enlarged teaching schematics**: region-specific functional topology at level2, axon/myelin/node diagram at level3. Positions/scales illustrative; no microscopic continuity claimed. Measured HCP streamlines have no signaling animation. Node pulse is schematic propagation.
+Zoom continuously magnifies the selected model and preserves its geometry and selectable structures. Separate explicit views provide **Anatomy/Tractography**, a region-specific **Circuit schematic**, and an **Axon schematic**. Changing views requires choosing one; camera distance never replaces anatomy with a diagram. Diagram positions/scales are illustrative, with no microscopic continuity claimed. Semantic structure links open related study topics through deliberate selection. Measured HCP streamlines have no signaling animation. The axon-view node pulse is schematic propagation.
 
 ## Regeneration
 

@@ -1,5 +1,17 @@
 # Project state
 
+## Brain zoom continuity — 2026-10-05
+
+- Mode: continuation. Objective: smooth scroll zoom without disconnected model jumps; re-audit all models.
+- Status: implementation and verification complete; production release pending.
+- Implemented:85 explicit views across50topics; wheel input accumulates eased camera goals without navigation; additive details fade; explanation tabs preserve camera. Macro anatomy/circuit/axon and channel gating/experimental views selected explicitly. Experimental structures remain static with no gating timeline.
+- Audit corrections: independent schematic framing, camera-projected fit, visible exterior label anchors/outer-lobe whitelist, appropriate representation scale badges, rapid switch cancellation, keyboard focus retention, synaptic shaft–soma attachment, particle-independent electrical-synapse framing.
+- Verified: full npm test, strict TypeScript, diff check.255 adjacent boundaries/full-range sweeps,5 wheel cases,21 timer cases,15 oblique fits;6,244 animation/LOD states. New guard coverage for external cortex labels, dendritic attachment and ignored particle bounds.
+- Visual: all85 views at3 zoom distances (255 settled captures) plus36 paused later animation stages reviewed; all pass after corrective recaptures. Actual rapid inward wheel/reversal retains topic and representation with eased intermediate positions. Text-depth/camera independence, keyboard selection/focus, expanded Escape,390/320 layouts with no overflow, PHE914 chainA.1 selection at intermediate zoom pass; no browser errors.
+- Evidence: local QA folder `qa/zoom-continuity` outside repository (inventory, macro/micro/animation reports, screenshots, baseline red and wheel trace). Original failure: two inward scrolls replaced cortex with unrelated diagram; regression was red before production changes.
+- Next: commit/push once to main, verify Pages and live renderer/assets, stop preview and record release.
+- Limits: schematics and measured anatomy remain explicitly separate representations; no fabricated microscopic continuity between unrelated datasets.
+
 ## Brain interface copy cleanup — 2026-10-05
 
 - Mode: continuation. User requests removal of hero counters and promotional/poetic phrasing throughout Brain.

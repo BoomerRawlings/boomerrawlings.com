@@ -39,7 +39,7 @@ globalThis.fetch = async input => {
 const vector = (x = 0, y = 0, z = 0) => new THREE.Vector3(x, y, z);
 function instrument() {
   const root = new THREE.Group();
-  const registry = { labels: [], picks: [], details: [], parts: [], animations: [], layouts: [], statuses: [], narratives: [], materials: new Set() };
+  const registry = { labels: [], picks: [], details: [], representations: [], parts: [], animations: [], layouts: [], statuses: [], narratives: [], materials: new Set() };
   const material = (color = 0xdbe9ed, opacity = 1, emissive = 0) => {
     const value = new THREE.MeshStandardMaterial({ color, roughness: .65, metalness: .04, transparent: opacity < 1, opacity, depthWrite: opacity >= .85, emissive: color, emissiveIntensity: emissive });
     registry.materials.add(value); return value;
@@ -63,6 +63,7 @@ function instrument() {
     label(text, object, point = vector(), options = {}) { registry.labels.push({ text, object, point, options }); },
     pick(object, spec) { registry.picks.push({ object, spec }); },
     detail(object, min, max = 3) { object.visible = min === 0; registry.details.push({ object, min, max }); },
+    representation(object, spec) { object.visible = registry.representations.length === 0; registry.representations.push({ object, spec }); },
     separable(object, offset) { registry.parts.push({ object, base: object.position.clone(), offset }); },
     animate(fn) { registry.animations.push(fn); },
     layout(fn) { registry.layouts.push(fn); },
@@ -138,6 +139,15 @@ function inspectFrame(root, location) {
   assert(visibleRenderables > 0, `${location}: no visible renderable geometry`);
   return { objects, instances, visibleRenderables };
 }
+function inspectNarrative(narrative) {
+  assert(Number.isFinite(narrative.duration) && narrative.duration > 0, 'Narrative duration must be positive');
+  assert(narrative.steps.length > 0, 'Narrative needs steps');
+  let previous = -1;
+  for (const step of narrative.steps) {
+    assert(Number.isFinite(step.at) && step.at >= 0 && step.at < narrative.duration && step.at > previous, `Invalid narrative step time ${step.at}`);
+    nonempty(step.label, 'Narrative step label'); nonempty(step.description, 'Narrative step description'); previous = step.at;
+  }
+}
 function inspectRegistry(root, registry, requireNarrative) {
   assert(registry.picks.length > 0, 'Scene has no inspectable structures');
   for (const { object, spec } of registry.picks) {
@@ -146,8 +156,9 @@ function inspectRegistry(root, registry, requireNarrative) {
     for (const key of ['childTopic', 'topicId']) if (spec[key] !== undefined) assert(topicIds.has(spec[key]), `Pick ${spec.id} links to unknown ${key} ${spec[key]}`);
     for (const key of ['level', 'maxLevel']) if (spec[key] !== undefined) assert(Number.isInteger(spec[key]) && spec[key] >= 0 && spec[key] <= 3, `Pick ${spec.id} invalid ${key}`);
   }
-  for (const { object, text, point } of registry.labels) {
+  for (const { object, text, point, options } of registry.labels) {
     assert(belongsTo(object, root), `Detached label object: ${text}`); nonempty(text, 'Label'); finite(point.toArray(), 'Label position');
+    if(options.normal){finite(options.normal.toArray(),'Label surface normal');assert(Math.abs(options.normal.length()-1)<.001,`Label ${text} needs a unit surface normal`);}
   }
   for (const { object, min, max } of registry.details) {
     assert(belongsTo(object, root), 'Detached detail object');
@@ -156,19 +167,22 @@ function inspectRegistry(root, registry, requireNarrative) {
   for (const { object, base, offset } of registry.parts) {
     assert(belongsTo(object, root), 'Detached separable object'); finite(base.toArray(), 'Separation base'); finite(offset.toArray(), 'Separation offset');
   }
-  assert(registry.narratives.length <= 1, 'A scene cannot define conflicting animation narratives');
-  if (requireNarrative) assert.equal(registry.narratives.length, 1, 'Each microscopic scene must define an animation narrative');
+  const representationIds = new Set();
+  for (const { object, spec } of registry.representations) {
+    assert(belongsTo(object, root), `Detached representation: ${spec.id}`);
+    nonempty(spec.id, 'Representation id'); nonempty(spec.label, 'Representation label'); nonempty(spec.description, 'Representation description');
+    assert(!representationIds.has(spec.id), `Duplicate representation: ${spec.id}`); representationIds.add(spec.id);
+    if(spec.scale!==undefined)nonempty(spec.scale,'Representation scale');
+    if(['circuit','axon'].includes(spec.id))assert.equal(spec.scale,'Schematic','Macro schematic must not inherit anatomical centimeter units');
+    if (spec.narrative) inspectNarrative(spec.narrative);
+  }
+  assert(registry.narratives.length <= 1, 'A scene cannot define conflicting default animation narratives');
+  if (requireNarrative) assert(registry.narratives.length || registry.representations.some(r => r.spec.narrative), 'Each microscopic scene must define an animation narrative');
   // Anatomy and tractography do not imply measured temporal activity. Exercise
   // their illustrative detail animations without requiring a biological story.
   if (!registry.narratives.length) return { duration: 18, steps: [] };
   const narrative = registry.narratives[0];
-  assert(Number.isFinite(narrative.duration) && narrative.duration > 0, 'Narrative duration must be positive');
-  assert(narrative.steps.length > 0, 'Narrative needs steps');
-  let previous = -1;
-  for (const step of narrative.steps) {
-    assert(Number.isFinite(step.at) && step.at >= 0 && step.at < narrative.duration && step.at > previous, `Invalid narrative step time ${step.at}`);
-    nonempty(step.label, 'Narrative step label'); nonempty(step.description, 'Narrative step description'); previous = step.at;
-  }
+  inspectNarrative(narrative);
   return narrative;
 }
 function dispose(root, registry) {
@@ -189,28 +203,50 @@ try {
     const { ctx, registry } = instrument();
     try {
       await (['brain', 'tracts'].includes(topic.scene) ? buildMacroScene : buildMicroScene)(topic, ctx);
-      const narrative = inspectRegistry(ctx.root, registry, !['brain', 'tracts'].includes(topic.scene));
-      const geometry = inspectGeometry(ctx.root);
-      // Include event boundaries, both sides of transitions, and the loop seam.
-      const times = [...new Set([0, .001, narrative.duration / 4, narrative.duration / 2, narrative.duration * .75, narrative.duration - .001, narrative.duration, narrative.duration + .001,
-        ...narrative.steps.flatMap(step => [Math.max(0, step.at - .001), step.at, step.at + .001])])].sort((a, b) => a - b);
-      const frames = [], lodCounts = [];
-      for (let level = 0; level <= 3; level++) {
-        for (const detail of registry.details) detail.object.visible = level >= detail.min && level <= detail.max;
-        for (const separation of registry.parts.length ? [0, 1] : [0]) {
-          for (const time of times) {
-            for (const part of registry.parts) part.object.position.copy(part.base).addScaledVector(part.offset, separation);
-            for (const animate of registry.animations) animate(time, 1 / 60);
-            for (const layout of registry.layouts) layout();
-            const frame = inspectFrame(ctx.root, `${topic.id}:LOD${level},t=${time},separation=${separation}`);
-            frames.push(frame);
-          }
-        }
-        lodCounts.push(frames.at(-1).visibleRenderables);
+      const defaultNarrative = inspectRegistry(ctx.root, registry, !['brain', 'tracts'].includes(topic.scene));
+      if(['brain-overview','cerebral-cortex'].includes(topic.id)){
+        const measured=registry.representations.find(r=>r.spec.id==='measured');assert(measured,'Opaque cortex needs its measured representation');
+        const labels=registry.labels.filter(label=>belongsTo(label.object,measured.object));
+        assert.equal(labels.length,8,'Opaque exterior should label the four outer lobes in each hemisphere');
+        for(const label of labels){assert(!/insular|limbic|midbrain|cerebellum/i.test(label.text),`Occluded anatomy must not label the opaque exterior: ${label.text}`);assert(label.options.normal,'Exterior labels need surface orientation');}
       }
+      if(topic.id==='synaptic-integration'){
+        ctx.root.updateMatrixWorld(true);
+        const branch=registry.picks.find(p=>p.spec.id==='integrating-branch')?.object;assert(branch?.geometry,'Integration needs its dendritic shaft');
+        let soma;ctx.root.traverse(object=>{if(object.geometry?.type==='SphereGeometry'&&(!soma||object.geometry.parameters.radius>soma.geometry.parameters.radius))soma=object;});assert(soma,'Integration needs a cell body');
+        const center=soma.getWorldPosition(vector()),radius=soma.geometry.parameters.radius*soma.getWorldScale(vector()).x;
+        const positions=branch.geometry.attributes.position;let enclosed=0;
+        for(let i=0;i<positions.count;i++){const vertex=vector().fromBufferAttribute(positions,i).applyMatrix4(branch.matrixWorld);if(vertex.distanceTo(center)<radius)enclosed++;}
+        assert(enclosed>=6,'A patch of dendritic surface must overlap the soma, not just the centerline');
+      }
+      const geometry = inspectGeometry(ctx.root);
+      const representations = registry.representations.length ? registry.representations : [{ spec: { id: 'default' } }];
+      const frames = [], lodCounts = [], viewCounts = {};
+      for (const representation of representations) {
+        const narrative = representation.spec.narrative === null ? { duration: 18, steps: [] } : representation.spec.narrative ?? defaultNarrative;
+        // Include event boundaries, both sides of transitions, and the loop seam.
+        const times = [...new Set([0, .001, narrative.duration / 4, narrative.duration / 2, narrative.duration * .75, narrative.duration - .001, narrative.duration, narrative.duration + .001,
+          ...narrative.steps.flatMap(step => [Math.max(0, step.at - .001), step.at, step.at + .001])])].sort((a, b) => a - b);
+        viewCounts[representation.spec.id] = [];
+        for (let level = 0; level <= 3; level++) {
+          for (const detail of registry.details) detail.object.visible = level >= detail.min && level <= detail.max;
+          for (const view of registry.representations) view.object.visible = view === representation;
+          for (const separation of registry.parts.length ? [0, 1] : [0]) {
+            for (const time of times) {
+              for (const part of registry.parts) part.object.position.copy(part.base).addScaledVector(part.offset, separation);
+              for (const animate of registry.animations) animate(time, 1 / 60);
+              for (const layout of registry.layouts) layout();
+              const frame = inspectFrame(ctx.root, `${topic.id}:${representation.spec.id}:LOD${level},t=${time},separation=${separation}`);
+              frames.push(frame);
+            }
+          }
+          viewCounts[representation.spec.id].push(frames.at(-1).visibleRenderables);
+        }
+      }
+      lodCounts.push(...viewCounts[representations[0].spec.id]);
       inspectGeometry(ctx.root); // Catch mutations to geometry during animation.
-      const semanticFingerprint = createHash('sha256').update(JSON.stringify({ geometry: geometry.geometryFingerprint, picks: registry.picks.map(({ spec }) => spec), narrative })).digest('hex').slice(0, 16);
-      const row = { id: topic.id, scene: topic.scene, ...geometry, objects: frames[0].objects, instances: frames[0].instances, picks: registry.picks.length, distinctPickIds: new Set(registry.picks.map(({ spec }) => spec.id)).size, labels: registry.labels.length, animations: registry.animations.length, frames: frames.length, lodVisible: lodCounts, semanticFingerprint };
+      const semanticFingerprint = createHash('sha256').update(JSON.stringify({ geometry: geometry.geometryFingerprint, picks: registry.picks.map(({ spec }) => spec), defaultNarrative, representations: registry.representations.map(r => r.spec) })).digest('hex').slice(0, 16);
+      const row = { id: topic.id, scene: topic.scene, ...geometry, objects: frames[0].objects, instances: frames[0].instances, picks: registry.picks.length, distinctPickIds: new Set(registry.picks.map(({ spec }) => spec.id)).size, labels: registry.labels.length, animations: registry.animations.length, frames: frames.length, lodVisible: lodCounts, representationViews: viewCounts, semanticFingerprint };
       report.push(row);
       console.log(`PASS ${topic.id.padEnd(25)} ${String(row.geometries).padStart(4)} geometries | ${String(row.picks).padStart(3)} picks | LOD ${lodCounts.join('/')} | ${row.semanticFingerprint}`);
     } catch (error) {

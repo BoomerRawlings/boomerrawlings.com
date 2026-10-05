@@ -2,12 +2,13 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { buildMicroScene } from './scenes-micro';
 import { buildMacroScene } from './scenes-macro';
-import type { BrainTopic, LabelOptions, Narrative, PickSpec, SceneContext } from './scene-types';
+import { cameraBlend, detailOpacity, wheelZoomFactor, zoomDetailLevel } from './zoom';
+import type { BrainTopic, LabelOptions, Narrative, PickSpec, RepresentationSpec, SceneContext } from './scene-types';
 export type { BrainTopic } from './scene-types';
 export type BrainViewer = {
   setTopic(topic:BrainTopic):void; setMode(scene:string,target?:string):void;
   setExploded(value:boolean):void; setLabels(value:boolean):void; setPlaying(value:boolean):void;
-  setView(view:'lateral'|'superior'|'anterior'):void; setDetail(level:number):void;
+  setView(view:'lateral'|'superior'|'anterior'):void; setDetail(level:number):void; setRepresentation(id:string):void;
   focusPart(id:string):void; enter():void; back():void; zoom(direction:number):void;
   seek(fraction:number):void; reset():void; resize():void; dispose():void;
 };
@@ -15,6 +16,7 @@ type Options = {
   onSelect?:(id:string)=>void; onStatus?:(text:string)=>void;
   onHover?:(part:PickSpec|null)=>void; onFocus?:(part:PickSpec|null)=>void;
   onDetail?:(level:number)=>void; onParts?:(parts:PickSpec[])=>void;
+  onRepresentations?:(views:RepresentationSpec[],active:string)=>void;
   onNarrative?:(narrative:Narrative|null)=>void; onTime?:(fraction:number,step:number)=>void;
 };
 type Label={element:HTMLDivElement;object:THREE.Object3D;point:THREE.Vector3;options:LabelOptions};
@@ -48,7 +50,10 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
   let highlighted:{mesh:THREE.Mesh;original:THREE.Material|THREE.Material[];clones:THREE.Material[]}[]=[];
   const instanceSelections=new Map<string,Pick>();let instanceMarker:{mesh:THREE.Mesh;source:THREE.InstancedMesh;index:number}|null=null;
   const home=V(),targetGoal=V(),cameraGoal=V();let moving=false;
-  let down={x:0,y:0},scrollIntent=0,lastTransition=0;
+  let representations:{object:THREE.Object3D;spec:RepresentationSpec}[]=[],representationId='',sceneNarrative:Narrative|null=null,sceneStatus='';
+  let fadeObjects:{object:THREE.Mesh;layers:typeof details}[]=[],detachedMaterials=new Set<THREE.Material>();
+  let representationTimer:ReturnType<typeof setTimeout>|undefined;
+  let down={x:0,y:0};
   const shown=(object:THREE.Object3D):boolean=>{for(let p:THREE.Object3D|null=object;p;p=p.parent)if(!p.visible)return false;return true;};
   const material:SceneContext['material']=(color=0xdbe9ed,opacity=1,emissive=0)=>new THREE.MeshStandardMaterial({color,roughness:.65,metalness:.04,transparent:opacity<1,opacity,depthWrite:opacity>=.85,emissive:color,emissiveIntensity:emissive});
   const mesh:SceneContext['mesh']=(geometry,mat,parent=root)=>{const m=new THREE.Mesh(geometry,mat);parent.add(m);return m;};
@@ -71,14 +76,43 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
       m.material=Array.isArray(original)?clones:clones[0];highlighted.push({mesh:m,original,clones});});dirty=true;
   }
   function setHover(part:Pick|null){if(hover===part)return;hover=part;highlight(hover||focused);canvas.style.cursor=part?'pointer':'grab';options.onHover?.(part?.spec||null);}
-  function clearFocus(preserveEntry=false){if(!preserveEntry)pendingEntry=undefined;focused=null;scrollIntent=0;options.onFocus?.(null);highlight(hover);}
-  function disposeRoot(){unhighlight();instanceSelections.clear();const geos=new Set<THREE.BufferGeometry>(),mats=new Set<THREE.Material>();root.traverse(o=>{const m=o as THREE.Mesh;if(m instanceof THREE.InstancedMesh)m.dispose();if(m.geometry)geos.add(m.geometry);if(m.material)(Array.isArray(m.material)?m.material:[m.material]).forEach(a=>mats.add(a));});geos.forEach(g=>g.dispose());mats.forEach(m=>m.dispose());root.clear();labels.forEach(l=>l.element.remove());labels=[];picks=[];parts=[];details=[];animations=[];layouts=[];}
+  function clearFocus(preserveEntry=false){if(!preserveEntry)pendingEntry=undefined;focused=null;options.onFocus?.(null);highlight(hover);}
+  function disposeRoot(){unhighlight();instanceSelections.clear();const geos=new Set<THREE.BufferGeometry>(),mats=new Set<THREE.Material>();root.traverse(o=>{const m=o as THREE.Mesh;if(m instanceof THREE.InstancedMesh)m.dispose();if(m.geometry)geos.add(m.geometry);if(m.material)(Array.isArray(m.material)?m.material:[m.material]).forEach(a=>mats.add(a));});geos.forEach(g=>g.dispose());detachedMaterials.forEach(m=>mats.add(m));mats.forEach(m=>m.dispose());detachedMaterials.clear();fadeObjects=[];representations=[];representationId="";root.clear();labels.forEach(l=>l.element.remove());labels=[];picks=[];parts=[];details=[];animations=[];layouts=[];}
   function available(){return picks.filter(p=>!p.object.userData.contextOnly&&shown(p.object)&&(p.spec.level??0)<=detailLevel&&(p.spec.maxLevel??3)>=detailLevel);}
+  function prepareFades(){
+    const usage=new Map<THREE.Material,number>();
+    root.traverse(o=>{const m=o as THREE.Mesh;if(m.material)for(const mat of Array.isArray(m.material)?m.material:[m.material])usage.set(mat,(usage.get(mat)||0)+1);});
+    root.traverse(o=>{const m=o as THREE.Mesh;if(!m.material)return;const layers=details.filter(d=>{if(d.min===0&&d.max===3)return false;for(let p:THREE.Object3D|null=o;p;p=p.parent)if(p===d.object)return true;return false;});if(!layers.length)return;
+      const materials=Array.isArray(m.material)?m.material:[m.material],owned=materials.map(mat=>{if((usage.get(mat)||0)<2)return mat;detachedMaterials.add(mat);return mat.clone();});m.material=Array.isArray(m.material)?owned:owned[0];fadeObjects.push({object:m,layers});
+    });
+  }
+  function applyFades(){
+    const saved=new Map<THREE.Material,{opacity:number;transparent:boolean;depthWrite:boolean}>();
+    for(const item of fadeObjects){if(!shown(item.object))continue;const weight=item.layers.reduce((n,d)=>n*(d.object.userData.zoomOpacity??1),1);if(weight>.999)continue;
+      for(const mat of Array.isArray(item.object.material)?item.object.material:[item.object.material]){if(saved.has(mat))continue;saved.set(mat,{opacity:mat.opacity,transparent:mat.transparent,depthWrite:mat.depthWrite});mat.opacity*=weight;mat.transparent=true;mat.depthWrite=false;}
+    }return()=>{for(const[mat,original]of saved)Object.assign(mat,original);};
+  }
   function updateDetail(force=false){
-    const ratio=camera.position.distanceTo(controls.target)/baseDistance,level=ratio>.84?0:ratio>.62?1:ratio>.42?2:3;
-    if(level===detailLevel&&!force)return;detailLevel=level;for(const d of details)d.object.visible=level>=d.min&&level<=d.max;
-    if(hover&&!available().includes(hover))setHover(null);if(focused&&(!shown(focused.object)||(focused.spec.level??0)>level||(focused.spec.maxLevel??3)<level)){const replacement=available().find(p=>p.spec.id===focused!.spec.id);if(replacement){focused=replacement;options.onFocus?.(replacement.spec);}else clearFocus(true);}highlight(hover||focused);options.onDetail?.(level);
+    const ratio=camera.position.distanceTo(controls.target)/baseDistance,level=zoomDetailLevel(ratio);
+    for(const d of details){const opacity=detailOpacity(ratio,d.min,d.max);if(Math.abs((d.object.userData.zoomOpacity??-1)-opacity)>.001)dirty=true;d.object.userData.zoomOpacity=opacity;d.object.visible=opacity>.003;}
+    if(level===detailLevel&&!force)return;detailLevel=level;
+    if(hover&&(!shown(hover.object)||(hover.spec.level??0)>level||(hover.spec.maxLevel??3)<level))setHover(null);
+    if(focused&&(!shown(focused.object)||(focused.spec.level??0)>level||(focused.spec.maxLevel??3)<level))clearFocus();
+    highlight(hover||focused);options.onDetail?.(level);
     const seen=new Set<string>();options.onParts?.(available().filter(p=>{if(seen.has(p.spec.id))return false;seen.add(p.spec.id);return true;}).map(p=>p.spec));container.dataset.detail=String(level);dirty=true;
+  }
+  function activateRepresentation(id:string){
+    const selected=representations.find(r=>r.spec.id===id);if(!selected)return;
+    representationId=id;for(const view of representations)view.object.visible=view===selected;
+    narrative=selected.spec.narrative===undefined?sceneNarrative:selected.spec.narrative;options.onNarrative?.(narrative);
+    options.onStatus?.(selected.spec.status||selected.spec.description||sceneStatus);options.onRepresentations?.(representations.map(r=>r.spec),id);
+    container.dataset.representation=id;time=0;lastUi=0;dirty=true;
+  }
+  function setRepresentation(id:string){
+    if(!ready||!representations.some(r=>r.spec.id===id))return;
+    clearTimeout(representationTimer);if(id===representationId){container.classList.remove('model-changing');return;}setHover(null);clearFocus();moving=false;
+    const token=generation;container.classList.add('model-changing');
+    representationTimer=setTimeout(()=>{if(disposed||token!==generation)return;activateRepresentation(id);fit();container.classList.remove('model-changing');},reduced.matches?0:140);
   }
   function setCamera(target:THREE.Vector3,distance:number,direction=camera.position.clone().sub(controls.target).normalize(),instant=false){
     targetGoal.copy(target);cameraGoal.copy(target).addScaledVector(direction,distance);
@@ -90,20 +124,24 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
     const ratio=viewPosition.distanceTo(viewTarget)/baseDistance,previousTarget=viewTarget.clone(),direction=viewPosition.clone().sub(viewTarget).normalize();
     const visibility=details.map(d=>d.object.visible);for(const d of details)d.object.visible=d.min===0;
     const box=new THREE.Box3();root.updateMatrixWorld(true);
-    root.traverseVisible(o=>{const m=o as THREE.Mesh;if(o.userData.contextOnly)return;if(m instanceof THREE.InstancedMesh){m.computeBoundingBox();if(m.boundingBox)box.union(m.boundingBox.clone().applyMatrix4(m.matrixWorld));}else if(m.geometry){if(!m.geometry.boundingBox)m.geometry.computeBoundingBox();if(m.geometry.boundingBox)box.union(m.geometry.boundingBox.clone().applyMatrix4(m.matrixWorld));}});
+    root.traverseVisible(o=>{const m=o as THREE.Mesh;if(o.userData.contextOnly||o.userData.fitIgnore)return;if(m instanceof THREE.InstancedMesh){m.computeBoundingBox();if(m.boundingBox)box.union(m.boundingBox.clone().applyMatrix4(m.matrixWorld));}else if(m.geometry){if(!m.geometry.boundingBox)m.geometry.computeBoundingBox();if(m.geometry.boundingBox)box.union(m.geometry.boundingBox.clone().applyMatrix4(m.matrixWorld));}});
     details.forEach((d,i)=>d.object.visible=visibility[i]);
-    if(box.isEmpty()){home.set(0,0,0);baseDistance=12;}else{box.getCenter(home);const size=box.getSize(V()),fov=THREE.MathUtils.degToRad(camera.fov);baseDistance=Math.max(size.y/(2*Math.tan(fov/2)),size.x/(2*Math.tan(fov/2)*camera.aspect),size.z*.8)*(current.id==='optic-radiation'?2.1:1.3)*(camera.aspect<1?1.35:1);baseDistance=Math.max(baseDistance,5);}
+    if(box.isEmpty()){home.set(0,0,0);baseDistance=12;}else{
+      box.getCenter(home);const forward=preserveView?direction:topicDirection(),right=V().crossVectors(camera.up,forward).normalize(),up=V().crossVectors(forward,right).normalize();
+      const tanY=Math.tan(THREE.MathUtils.degToRad(camera.fov)/2),tanX=tanY*camera.aspect;let distance=0;
+      for(const x of[box.min.x,box.max.x])for(const y of[box.min.y,box.max.y])for(const z of[box.min.z,box.max.z]){const corner=V(x,y,z).sub(home),near=corner.dot(forward);distance=Math.max(distance,near+Math.abs(corner.dot(right))/tanX,near+Math.abs(corner.dot(up))/tanY);}
+      baseDistance=Math.max(distance*1.18,.75);
+    }
     controls.minDistance=baseDistance*.12;controls.maxDistance=baseDistance*1.65;
     setCamera(preserveView?previousTarget:home,baseDistance*(preserveView?ratio:1),preserveView?direction:topicDirection(),true);updateDetail(true);
   }
-  function detailTarget(level:number){return level>=2&&current.id==='structural-plasticity'&&!focused?V(home.x,.55,home.z):controls.target;}
   function focus(part:Pick){
-    if(focused===part){enter();return;}focused=part;pendingEntry=part.spec.childTopic||part.spec.topicId;scrollIntent=0;options.onFocus?.(part.spec);
+    if(focused===part){enter();return;}focused=part;pendingEntry=part.spec.childTopic||part.spec.topicId;options.onFocus?.(part.spec);
     const box=new THREE.Box3().setFromObject(part.object),center=box.isEmpty()?part.object.getWorldPosition(V()):box.getCenter(V());
     if(part.instanceId!==undefined&&part.object instanceof THREE.InstancedMesh){const matrix=new THREE.Matrix4();part.object.getMatrixAt(part.instanceId,matrix);center.setFromMatrixPosition(matrix.premultiply(part.object.matrixWorld));}
     const size=box.getSize(V()).length(),distance=Math.max(baseDistance*.24,Math.min(camera.position.distanceTo(controls.target)*.7,size*1.3,baseDistance*.72));setCamera(center,distance);highlight(part);dirty=true;
   }
-  function enter(){const id=pendingEntry||focused?.spec.childTopic||focused?.spec.topicId;if(id&&id!==current.id){lastTransition=performance.now();options.onSelect?.(id);}}
+  function enter(){const id=pendingEntry||focused?.spec.childTopic||focused?.spec.topicId;if(id&&id!==current.id){options.onSelect?.(id);}}
   function hit(event:PointerEvent):Pick|null{
     if(!ready)return null;
     const rect=canvas.getBoundingClientRect();pointer.set((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);const active=new Map(available().map(p=>[p.object,p]));
@@ -112,7 +150,7 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
       if(!shown(hit.object))continue;
       let object=hit.object,instanceId=hit.instanceId;
       const residues=object.userData.residueCloud;
-      if(detailLevel===3&&residues instanceof THREE.InstancedMesh&&shown(residues)){
+      if(detailLevel>=2&&residues instanceof THREE.InstancedMesh&&shown(residues)){
         const local=residues.worldToLocal(hit.point.clone()),matrix=new THREE.Matrix4(),point=V();let nearest=Infinity;
         for(let i=0;i<residues.count;i++){residues.getMatrixAt(i,matrix);const distance=point.setFromMatrixPosition(matrix).distanceToSquared(local);if(distance<nearest){nearest=distance;instanceId=i;}}
         object=residues;
@@ -125,8 +163,16 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
   function onLeave(){setHover(null);}
   function onDown(event:PointerEvent){down={x:event.clientX,y:event.clientY};moving=false;}
   function onUp(event:PointerEvent){if(Math.hypot(event.clientX-down.x,event.clientY-down.y)>6)return;const part=hit(event);if(part)focus(part);else clearFocus();}
-  function onWheel(event:WheelEvent){moving=false;if(event.deltaY>0){scrollIntent=0;if(focused&&camera.position.distanceTo(controls.target)>baseDistance*.92)clearFocus();return;}if(pendingEntry&&performance.now()-lastTransition>1000&&camera.position.distanceTo(controls.target)<baseDistance*.3){scrollIntent++;if(scrollIntent>=3)enter();}}
-  function zoom(direction:number){setCamera(controls.target,THREE.MathUtils.clamp(camera.position.distanceTo(controls.target)*(direction>0?.78:1.28),controls.minDistance,controls.maxDistance));}
+  function zoomBy(factor:number){
+    const target=moving?targetGoal:controls.target,position=moving?cameraGoal:camera.position;
+    const distance=THREE.MathUtils.clamp(position.distanceTo(target)*factor,controls.minDistance,controls.maxDistance);
+    setCamera(target,distance,position.clone().sub(target).normalize());
+  }
+  function onWheel(event:WheelEvent){
+    event.preventDefault();event.stopImmediatePropagation();
+    if(ready)zoomBy(wheelZoomFactor(event.deltaY,event.deltaMode,container.clientHeight));
+  }
+  function zoom(direction:number){zoomBy(direction>0?.86:1/.86);}
   function onKey(event:KeyboardEvent){
     if(['+','=','-','_','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Escape','Enter'].includes(event.key))event.preventDefault();else return;
     if(event.key==='Escape'){clearFocus();setCamera(home,baseDistance);return;}if(event.key==='Enter'){enter();return;}if(['+','=','-','_'].includes(event.key)){zoom(event.key==='+'||event.key==='='?1:-1);return;}
@@ -137,39 +183,42 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
     const rect=container.getBoundingClientRect(),occupied:{x:number;y:number;w:number;h:number}[]=[];
     for(const l of [...labels].sort((a,b)=>(b.options.priority??0)-(a.options.priority??0))){
       let display=showLabels&&shown(l.object)&&detailLevel>=(l.options.minDetail??0)&&detailLevel<=(l.options.maxDetail??3);
-      const projected=l.object.localToWorld(l.point.clone()).project(camera);display=display&&projected.z<1&&projected.z>-1;
+      const anchor=l.object.localToWorld(l.point.clone());
+      if(l.options.normal){const normal=l.options.normal.clone().applyNormalMatrix(new THREE.Matrix3().getNormalMatrix(l.object.matrixWorld));display=display&&normal.dot(camera.position.clone().sub(anchor).normalize())>.08;}
+      const projected=anchor.project(camera);display=display&&projected.z<1&&projected.z>-1;
       let x=(projected.x*.5+.5)*rect.width,y=(-projected.y*.5+.5)*rect.height;const w=l.element.offsetWidth||110,h=l.element.offsetHeight||23;
       display=display&&x>0&&y>35&&x<rect.width&&y<rect.height-55;x=Math.max(8,Math.min(rect.width-w-8,x-w/2));y-=h/2;
       if(display&&occupied.some(b=>x<b.x+b.w+6&&x+w+6>b.x&&y<b.y+b.h+5&&y+h+5>b.y))display=false;
-      if(display){occupied.push({x,y,w,h});l.element.style.transform=`translate(${Math.round(x)}px,${Math.round(y)}px)`;}l.element.style.visibility=display?'visible':'hidden';
+      if(display){occupied.push({x,y,w,h});l.element.style.transform=`translate(${Math.round(x)}px,${Math.round(y)}px)`;}l.element.style.opacity=display?'1':'0';
     }
   }
   const viewportObserver=new IntersectionObserver(entries=>{inViewport=entries[0]?.isIntersecting??true;if(inViewport)dirty=true;});viewportObserver.observe(container);
   const resizeObserver=new ResizeObserver(resize);resizeObserver.observe(container);controls.addEventListener('change',()=>{dirty=true;});controls.addEventListener('start',()=>{moving=false;});
-  canvas.addEventListener('pointermove',onMove);canvas.addEventListener('pointerleave',onLeave);canvas.addEventListener('pointerdown',onDown);canvas.addEventListener('pointerup',onUp);canvas.addEventListener('wheel',onWheel,{passive:true});canvas.addEventListener('keydown',onKey);
+  canvas.addEventListener('pointermove',onMove);canvas.addEventListener('pointerleave',onLeave);canvas.addEventListener('pointerdown',onDown);canvas.addEventListener('pointerup',onUp);canvas.addEventListener('wheel',onWheel,{passive:false,capture:true});canvas.addEventListener('keydown',onKey);
   function tick(now:number){
     if(disposed)return;frame=requestAnimationFrame(tick);const dt=Math.min((now-lastTime)/1000||0,.05);lastTime=now;if(!inViewport||(document.hidden&&!dirty))return;
     if(playing&&ready){time+=dt;dirty=true;}
-    if(moving){const a=reduced.matches?1:1-Math.exp(-dt*8);camera.position.lerp(cameraGoal,a);controls.target.lerp(targetGoal,a);if(camera.position.distanceTo(cameraGoal)<.002){camera.position.copy(cameraGoal);controls.target.copy(targetGoal);moving=false;}dirty=true;}
+    if(moving){const a=reduced.matches?1:cameraBlend(dt);camera.position.lerp(cameraGoal,a);controls.target.lerp(targetGoal,a);if(camera.position.distanceTo(cameraGoal)<.002){camera.position.copy(cameraGoal);controls.target.copy(targetGoal);moving=false;}dirty=true;}
     controls.update();updateDetail();const desired=exploded?1:0;if(Math.abs(explosion-desired)>.001){explosion=reduced.matches?desired:THREE.MathUtils.lerp(explosion,desired,1-Math.exp(-dt*6));dirty=true;}
-    if(!dirty)return;for(const p of parts)p.object.position.copy(p.base).addScaledVector(p.offset,explosion);for(const update of animations)update(time,playing?dt:0);for(const layout of layouts)layout();root.updateMatrixWorld(true);if(instanceMarker){const matrix=new THREE.Matrix4();instanceMarker.source.getMatrixAt(instanceMarker.index,matrix);instanceMarker.mesh.matrix.copy(instanceMarker.source.matrixWorld).multiply(matrix).scale(V(1.65,1.65,1.65));}renderer.render(scene,camera);drawLabels();dirty=false;
+    if(!dirty)return;for(const p of parts)p.object.position.copy(p.base).addScaledVector(p.offset,explosion);for(const update of animations)update(time,playing?dt:0);for(const layout of layouts)layout();root.updateMatrixWorld(true);if(instanceMarker){const matrix=new THREE.Matrix4();instanceMarker.source.getMatrixAt(instanceMarker.index,matrix);instanceMarker.mesh.matrix.copy(instanceMarker.source.matrixWorld).multiply(matrix).scale(V(1.65,1.65,1.65));}const restoreFades=applyFades();renderer.render(scene,camera);restoreFades();drawLabels();dirty=false;container.dataset.moving=String(moving);container.dataset.zoom=(camera.position.distanceTo(controls.target)/baseDistance).toFixed(3);
     if(ready)container.dataset.rendered=current.id;
     if(narrative&&now-lastUi>90){const progress=(time%narrative.duration)/narrative.duration;let step=0;for(let i=0;i<narrative.steps.length;i++)if(time%narrative.duration>=narrative.steps[i].at)step=i;options.onTime?.(progress,step);lastUi=now;}
   }
   async function setTopic(topic:BrainTopic){
-    const token=++generation;ready=false;current=topic;container.dataset.rendered='';container.dataset.topic=topic.id;setHover(null);clearFocus();disposeRoot();time=0;lastUi=0;detailLevel=-1;explosion=0;requestedDetail=0;moving=false;narrative=null;options.onNarrative?.(null);options.onParts?.([]);options.onStatus?.('Loading detailed model…');
+    const token=++generation;clearTimeout(representationTimer);container.classList.remove('model-changing');ready=false;current=topic;container.dataset.rendered='';container.dataset.topic=topic.id;setHover(null);clearFocus();disposeRoot();time=0;lastUi=0;detailLevel=-1;explosion=0;requestedDetail=0;moving=false;narrative=null;sceneNarrative=null;sceneStatus='';container.dataset.representation='';options.onRepresentations?.([],'');options.onNarrative?.(null);options.onParts?.([]);options.onStatus?.('Loading detailed model…');
     const buildRoot=new THREE.Group();root.add(buildRoot);
     const ctx:SceneContext={root:buildRoot,material,mesh:(geometry,mat,parent=buildRoot)=>mesh(geometry,mat,parent),ball:(position,radius,color,parent=buildRoot,opacity=1)=>ball(position,radius,color,parent,opacity),tube:(points,radius,color,parent=buildRoot,opacity=1,segments=48)=>tube(points,radius,color,parent,opacity,segments),link:(a,b,radius,color,parent=buildRoot,opacity=1)=>link(a,b,radius,color,parent,opacity),
       label(text,object,point=V(),labelOptions={}){if(token!==generation)return;const element=document.createElement('div');element.className='model-label';element.textContent=text;labelLayer.append(element);labels.push({element,object,point,options:labelOptions});},
-      pick(object,spec){if(token===generation)picks.push({object,spec});},detail(object,min,max=3){if(token===generation){object.visible=min===0;details.push({object,min,max});}},separable(object,offset){if(token===generation)parts.push({object,base:object.position.clone(),offset});},animate(fn){if(token===generation)animations.push(fn);},layout(fn){if(token===generation)layouts.push(fn);},status(text){if(token===generation)options.onStatus?.(text);},
-      narrative(value){if(token===generation){narrative=value;options.onNarrative?.(value);}},isCurrent(){return token===generation&&!disposed;}
+      pick(object,spec){if(token===generation)picks.push({object,spec});},detail(object,min,max=3){if(token===generation){object.visible=min===0;details.push({object,min,max});}},separable(object,offset){if(token===generation)parts.push({object,base:object.position.clone(),offset});},animate(fn){if(token===generation)animations.push(fn);},layout(fn){if(token===generation)layouts.push(fn);},status(text){if(token===generation){sceneStatus=text;options.onStatus?.(text);}},
+      representation(object,spec){if(token===generation){object.visible=representations.length===0;representations.push({object,spec});}},
+      narrative(value){if(token===generation){sceneNarrative=value;narrative=value;options.onNarrative?.(value);}},isCurrent(){return token===generation&&!disposed;}
     };
-    try{if(topic.scene==='brain'||topic.scene==='tracts')await buildMacroScene(topic,ctx);else await buildMicroScene(topic,ctx);if(!ctx.isCurrent())return;for(const fn of animations)fn(0,0);ready=true;resize();fit();if(requestedDetail)setCamera(detailTarget(requestedDetail),baseDistance*[1,.73,.52,.32][requestedDetail]);dirty=true;}
+    try{if(topic.scene==='brain'||topic.scene==='tracts')await buildMacroScene(topic,ctx);else await buildMicroScene(topic,ctx);if(!ctx.isCurrent())return;for(const fn of animations)fn(0,0);prepareFades();if(representations.length)activateRepresentation(representations[0].spec.id);ready=true;resize();fit();if(requestedDetail)setCamera(controls.target,baseDistance*[1,.73,.52,.32][requestedDetail]);dirty=true;}
     catch(error){if(!ctx.isCurrent())return;options.onStatus?.('Model could not load. Choose another topic or reload; the complete written guide remains available.');console.error('Brain model load failed',error);}
   }
   resize();frame=requestAnimationFrame(tick);
   return{setTopic(topic){void setTopic(topic);},setMode(scene,target){void setTopic({...current,scene,modelTarget:target});},setExploded(value){exploded=value;dirty=true;},setLabels(value){showLabels=value;dirty=true;},setPlaying(value){playing=value;dirty=true;},
-    setView(view){clearFocus();setCamera(home,camera.position.distanceTo(controls.target),view==='lateral'?V(1,0,0):view==='superior'?V(.001,1,0):V(0,0,1));},setDetail(level){requestedDetail=Math.max(0,Math.min(3,Math.round(level)));if(ready)setCamera(detailTarget(requestedDetail),baseDistance*[1,.73,.52,.32][requestedDetail]);},focusPart(id){const part=available().find(p=>p.spec.id===id);if(part)focus(part);},enter,back(){clearFocus();setCamera(home,baseDistance);},zoom,seek(fraction){if(narrative){time=THREE.MathUtils.clamp(fraction,0,.9999)*narrative.duration;lastUi=0;dirty=true;}},reset(){clearFocus();setCamera(home,baseDistance,topicDirection());},resize,
-    dispose(){disposed=true;generation++;cancelAnimationFrame(frame);resizeObserver.disconnect();viewportObserver.disconnect();controls.dispose();canvas.removeEventListener('pointermove',onMove);canvas.removeEventListener('pointerleave',onLeave);canvas.removeEventListener('pointerdown',onDown);canvas.removeEventListener('pointerup',onUp);canvas.removeEventListener('wheel',onWheel);canvas.removeEventListener('keydown',onKey);disposeRoot();renderer.dispose();canvas.remove();labelLayer.remove();}
+    setView(view){clearFocus();setCamera(home,camera.position.distanceTo(controls.target),view==='lateral'?V(1,0,0):view==='superior'?V(.001,1,0):V(0,0,1));},setDetail(level){requestedDetail=Math.max(0,Math.min(3,Math.round(level)));if(ready)setCamera(controls.target,baseDistance*[1,.73,.52,.32][requestedDetail]);},setRepresentation,focusPart(id){const part=available().find(p=>p.spec.id===id);if(part)focus(part);},enter,back(){clearFocus();setCamera(home,baseDistance);},zoom,seek(fraction){if(narrative){time=THREE.MathUtils.clamp(fraction,0,.9999)*narrative.duration;lastUi=0;dirty=true;}},reset(){clearFocus();setCamera(home,baseDistance,topicDirection());},resize,
+    dispose(){disposed=true;generation++;clearTimeout(representationTimer);cancelAnimationFrame(frame);resizeObserver.disconnect();viewportObserver.disconnect();controls.dispose();canvas.removeEventListener('pointermove',onMove);canvas.removeEventListener('pointerleave',onLeave);canvas.removeEventListener('pointerdown',onDown);canvas.removeEventListener('pointerup',onUp);canvas.removeEventListener('wheel',onWheel,true);canvas.removeEventListener('keydown',onKey);disposeRoot();renderer.dispose();canvas.remove();labelLayer.remove();}
   };
 }
