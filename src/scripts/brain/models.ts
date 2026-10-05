@@ -13,6 +13,7 @@ export type BrainViewer = {
   seek(fraction:number):void; reset():void; resize():void; dispose():void;
 };
 type Options = {
+  initialRepresentation?:string; autoRotate?:boolean;
   onSelect?:(id:string)=>void; onStatus?:(text:string)=>void;
   onHover?:(part:PickSpec|null)=>void; onFocus?:(part:PickSpec|null)=>void;
   onDetail?:(level:number)=>void; onParts?:(parts:PickSpec[])=>void;
@@ -139,7 +140,16 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
     if(focused===part){enter();return;}focused=part;pendingEntry=part.spec.childTopic||part.spec.topicId;options.onFocus?.(part.spec);
     const box=new THREE.Box3().setFromObject(part.object),center=box.isEmpty()?part.object.getWorldPosition(V()):box.getCenter(V());
     if(part.instanceId!==undefined&&part.object instanceof THREE.InstancedMesh){const matrix=new THREE.Matrix4();part.object.getMatrixAt(part.instanceId,matrix);center.setFromMatrixPosition(matrix.premultiply(part.object.matrixWorld));}
-    const size=box.getSize(V()).length(),distance=Math.max(baseDistance*.24,Math.min(camera.position.distanceTo(controls.target)*.7,size*1.3,baseDistance*.72));setCamera(center,distance);highlight(part);dirty=true;
+    const size=box.getSize(V()).length();let distance=Math.max(baseDistance*.24,Math.min(camera.position.distanceTo(controls.target)*.7,size*1.3,baseDistance*.72));
+    // A focus target must fit even when it is a tall channel or a broad region.
+    // Keep individual residue zoom separate from its whole instanced cloud.
+    if(part.instanceId===undefined&&!box.isEmpty()){
+      const forward=camera.position.clone().sub(controls.target).normalize(),right=V().crossVectors(camera.up,forward).normalize();if(right.lengthSq()<.5)right.setFromMatrixColumn(camera.matrixWorld,0);
+      const up=V().crossVectors(forward,right).normalize(),tanY=Math.tan(THREE.MathUtils.degToRad(camera.fov)/2),tanX=tanY*camera.aspect;let fitDistance=0;
+      for(const x of[box.min.x,box.max.x])for(const y of[box.min.y,box.max.y])for(const z of[box.min.z,box.max.z]){const corner=V(x,y,z).sub(center),near=corner.dot(forward);fitDistance=Math.max(fitDistance,near+Math.abs(corner.dot(right))/tanX,near+Math.abs(corner.dot(up))/tanY);}
+      distance=Math.max(distance,fitDistance*1.18);
+    }
+    setCamera(center,distance);highlight(part);dirty=true;
   }
   function enter(){const id=pendingEntry||focused?.spec.childTopic||focused?.spec.topicId;if(id&&id!==current.id){options.onSelect?.(id);}}
   function hit(event:PointerEvent):Pick|null{
@@ -181,10 +191,13 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
   function resize(){if(disposed)return;const width=Math.max(1,container.clientWidth),height=Math.max(1,container.clientHeight),oldAspect=camera.aspect;camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height,false);if(ready&&Math.abs(oldAspect-camera.aspect)>.01)fit(true);dirty=true;}
   function drawLabels(){
     const rect=container.getBoundingClientRect(),occupied:{x:number;y:number;w:number;h:number}[]=[];
+    const regionOccluders:THREE.Object3D[]=[];if(showLabels&&labels.some(l=>l.object.userData.atlasRegion&&shown(l.object)))root.traverseVisible(o=>{if(o instanceof THREE.Mesh&&o.userData.atlasRegion&&!(Array.isArray(o.material)?o.material:[o.material]).some(m=>m.opacity<.85))regionOccluders.push(o);});
+    const labelRay=new THREE.Raycaster();
     for(const l of [...labels].sort((a,b)=>(b.options.priority??0)-(a.options.priority??0))){
       let display=showLabels&&shown(l.object)&&detailLevel>=(l.options.minDetail??0)&&detailLevel<=(l.options.maxDetail??3);
       const anchor=l.object.localToWorld(l.point.clone());
       if(l.options.normal){const normal=l.options.normal.clone().applyNormalMatrix(new THREE.Matrix3().getNormalMatrix(l.object.matrixWorld));display=display&&normal.dot(camera.position.clone().sub(anchor).normalize())>.08;}
+      if(display&&l.object.userData.atlasRegion){labelRay.far=camera.position.distanceTo(anchor)+.001;labelRay.set(camera.position,anchor.clone().sub(camera.position).normalize());const first=labelRay.intersectObjects(regionOccluders,false)[0];if(first&&first.object!==l.object)display=false;}
       const projected=anchor.project(camera);display=display&&projected.z<1&&projected.z>-1;
       let x=(projected.x*.5+.5)*rect.width,y=(-projected.y*.5+.5)*rect.height;const w=l.element.offsetWidth||110,h=l.element.offsetHeight||23;
       display=display&&x>0&&y>35&&x<rect.width&&y<rect.height-55;x=Math.max(8,Math.min(rect.width-w-8,x-w/2));y-=h/2;
@@ -199,7 +212,7 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
     if(disposed)return;frame=requestAnimationFrame(tick);const dt=Math.min((now-lastTime)/1000||0,.05);lastTime=now;if(!inViewport||(document.hidden&&!dirty))return;
     if(playing&&ready){time+=dt;dirty=true;}
     if(moving){const a=reduced.matches?1:cameraBlend(dt);camera.position.lerp(cameraGoal,a);controls.target.lerp(targetGoal,a);if(camera.position.distanceTo(cameraGoal)<.002){camera.position.copy(cameraGoal);controls.target.copy(targetGoal);moving=false;}dirty=true;}
-    controls.update();updateDetail();const desired=exploded?1:0;if(Math.abs(explosion-desired)>.001){explosion=reduced.matches?desired:THREE.MathUtils.lerp(explosion,desired,1-Math.exp(-dt*6));dirty=true;}
+    controls.autoRotate=Boolean(options.autoRotate&&playing&&!reduced.matches&&!focused);controls.autoRotateSpeed=.5;controls.update(dt);updateDetail();const desired=exploded?1:0;if(Math.abs(explosion-desired)>.001){explosion=reduced.matches?desired:THREE.MathUtils.lerp(explosion,desired,1-Math.exp(-dt*6));dirty=true;}
     if(!dirty)return;for(const p of parts)p.object.position.copy(p.base).addScaledVector(p.offset,explosion);for(const update of animations)update(time,playing?dt:0);for(const layout of layouts)layout();root.updateMatrixWorld(true);if(instanceMarker){const matrix=new THREE.Matrix4();instanceMarker.source.getMatrixAt(instanceMarker.index,matrix);instanceMarker.mesh.matrix.copy(instanceMarker.source.matrixWorld).multiply(matrix).scale(V(1.65,1.65,1.65));}const restoreFades=applyFades();renderer.render(scene,camera);restoreFades();drawLabels();dirty=false;container.dataset.moving=String(moving);container.dataset.zoom=(camera.position.distanceTo(controls.target)/baseDistance).toFixed(3);
     if(ready)container.dataset.rendered=current.id;
     if(narrative&&now-lastUi>90){const progress=(time%narrative.duration)/narrative.duration;let step=0;for(let i=0;i<narrative.steps.length;i++)if(time%narrative.duration>=narrative.steps[i].at)step=i;options.onTime?.(progress,step);lastUi=now;}
@@ -213,12 +226,12 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
       representation(object,spec){if(token===generation){object.visible=representations.length===0;representations.push({object,spec});}},
       narrative(value){if(token===generation){sceneNarrative=value;narrative=value;options.onNarrative?.(value);}},isCurrent(){return token===generation&&!disposed;}
     };
-    try{if(topic.scene==='brain'||topic.scene==='tracts')await buildMacroScene(topic,ctx);else await buildMicroScene(topic,ctx);if(!ctx.isCurrent())return;for(const fn of animations)fn(0,0);prepareFades();if(representations.length)activateRepresentation(representations[0].spec.id);ready=true;resize();fit();if(requestedDetail)setCamera(controls.target,baseDistance*[1,.73,.52,.32][requestedDetail]);dirty=true;}
+    try{if(topic.scene==='brain'||topic.scene==='tracts')await buildMacroScene(topic,ctx);else await buildMicroScene(topic,ctx);if(!ctx.isCurrent())return;for(const fn of animations)fn(0,0);prepareFades();if(representations.length)activateRepresentation(representations.find(view=>view.spec.id===options.initialRepresentation)?.spec.id||representations[0].spec.id);ready=true;resize();fit();if(requestedDetail)setCamera(controls.target,baseDistance*[1,.73,.52,.32][requestedDetail]);dirty=true;}
     catch(error){if(!ctx.isCurrent())return;options.onStatus?.('Model could not load. Choose another topic or reload; the complete written guide remains available.');console.error('Brain model load failed',error);}
   }
   resize();frame=requestAnimationFrame(tick);
   return{setTopic(topic){void setTopic(topic);},setMode(scene,target){void setTopic({...current,scene,modelTarget:target});},setExploded(value){exploded=value;dirty=true;},setLabels(value){showLabels=value;dirty=true;},setPlaying(value){playing=value;dirty=true;},
     setView(view){clearFocus();setCamera(home,camera.position.distanceTo(controls.target),view==='lateral'?V(1,0,0):view==='superior'?V(.001,1,0):V(0,0,1));},setDetail(level){requestedDetail=Math.max(0,Math.min(3,Math.round(level)));if(ready)setCamera(controls.target,baseDistance*[1,.73,.52,.32][requestedDetail]);},setRepresentation,focusPart(id){const part=available().find(p=>p.spec.id===id);if(part)focus(part);},enter,back(){clearFocus();setCamera(home,baseDistance);},zoom,seek(fraction){if(narrative){time=THREE.MathUtils.clamp(fraction,0,.9999)*narrative.duration;lastUi=0;dirty=true;}},reset(){clearFocus();setCamera(home,baseDistance,topicDirection());},resize,
-    dispose(){disposed=true;generation++;clearTimeout(representationTimer);cancelAnimationFrame(frame);resizeObserver.disconnect();viewportObserver.disconnect();controls.dispose();canvas.removeEventListener('pointermove',onMove);canvas.removeEventListener('pointerleave',onLeave);canvas.removeEventListener('pointerdown',onDown);canvas.removeEventListener('pointerup',onUp);canvas.removeEventListener('wheel',onWheel,true);canvas.removeEventListener('keydown',onKey);disposeRoot();renderer.dispose();canvas.remove();labelLayer.remove();}
+    dispose(){disposed=true;generation++;clearTimeout(representationTimer);cancelAnimationFrame(frame);resizeObserver.disconnect();viewportObserver.disconnect();controls.dispose();canvas.removeEventListener('pointermove',onMove);canvas.removeEventListener('pointerleave',onLeave);canvas.removeEventListener('pointerdown',onDown);canvas.removeEventListener('pointerup',onUp);canvas.removeEventListener('wheel',onWheel,true);canvas.removeEventListener('keydown',onKey);disposeRoot();renderer.dispose();renderer.forceContextLoss();canvas.remove();labelLayer.remove();}
   };
 }

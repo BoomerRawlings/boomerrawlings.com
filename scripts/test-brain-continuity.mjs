@@ -124,6 +124,22 @@ for(const aspect of [.4,.7,1,16/9,2.5])for(const dimensions of [[12,.6,8],[.3,7,
   geometry.dispose();hidden.geometry.dispose();particleContext.geometry.dispose();mat.dispose();fitCases++;
 }
 
+// The selected object must remain framed, not only the initial whole model.
+const createFocusDriver=new Function('THREE','aspect',`
+ const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z),camera=new THREE.PerspectiveCamera(37,aspect,.015,500),controls={target:V()},options={};
+ const baseDistance=12;let focused=null,pendingEntry,dirty=false;camera.position.set(7.4,4,9.4);camera.lookAt(controls.target);camera.updateMatrixWorld(true);
+ function enter(){} function highlight(){} function setCamera(target,distance){const direction=camera.position.clone().sub(controls.target).normalize();camera.position.copy(target).addScaledVector(direction,distance);controls.target.copy(target);camera.lookAt(target);camera.updateMatrixWorld(true);}
+ ${actualFunction('focus')}
+ return object=>{focus({object,spec:{}});return camera;};
+`);
+let focusCases=0;
+for(const aspect of[.4,.7,1,16/9,2.5])for(const dimensions of[[.44,1.8,.44],[8,.2,3],[.3,.4,.2]]){
+ const geometry=new THREE.BoxGeometry(...dimensions),material=new THREE.MeshBasicMaterial(),object=new THREE.Mesh(geometry,material);object.rotation.set(.3,.4,.2);object.position.set(.3,-.2,.1);object.updateMatrixWorld(true);
+ const camera=createFocusDriver(THREE,aspect)(object),vertices=geometry.attributes.position;
+ for(let i=0;i<vertices.count;i++){const p=new THREE.Vector3().fromBufferAttribute(vertices,i).applyMatrix4(object.matrixWorld).project(camera);assert(Math.abs(p.x)<.99&&Math.abs(p.y)<.99,'Selected anatomical structure must fit the camera');}
+ geometry.dispose();material.dispose();focusCases++;
+}
+
 const originalFetch = globalThis.fetch;
 globalThis.fetch = async input => {
   const url = new URL(typeof input === 'string' ? input : input.url ?? input.href, 'http://continuity.local');
@@ -230,4 +246,4 @@ try {
 } finally { globalThis.fetch = originalFetch; }
 for (const failure of failures) console.error(`FAIL ${failure}`);
 assert.equal(failures.length, 0, `${failures.length} zoom-continuity regressions. Details: .astro/brain-continuity-report.json`);
-console.log(`PASS ${cases.length} adjacent-zoom checks plus full-range sweeps across ${topics.length} real scenes; ${wheelCases.length} wheel/trackpad cases; ${switchCases.length} representation timer cases; focused controls retained; ${fitCases} oblique camera fits.`);
+console.log(`PASS ${cases.length} adjacent-zoom checks plus full-range sweeps across ${topics.length} real scenes; ${wheelCases.length} wheel/trackpad cases; ${switchCases.length} representation timer cases; focused controls retained; ${fitCases} oblique camera fits; ${focusCases} selected-structure fits.`);

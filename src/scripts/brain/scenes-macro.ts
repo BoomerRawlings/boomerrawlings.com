@@ -121,40 +121,67 @@ async function fibers(topic:BrainTopic,ctx:SceneContext):Promise<string>{
     const group=new THREE.Group();ctx.root.add(group);const g=bundleGeometry(payloads[index],tractColors[info.category]||0xc0ded5);
     const line=new THREE.LineSegments(g,new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:all?.7:.9,depthWrite:false}));group.add(line);
     const topicId=info.topicIds.find(id=>['corpus-callosum','corticospinal','dorsal-column','optic-radiation','association-fibers'].includes(id))||'white-matter';
-    ctx.pick(group,{id:info.id,label:info.name,description:`${info.streamlineCount} sampled HCP1065 diffusion streamlines; estimated pathways, not counted axons.`,topicId,childTopic:all&&topicId!=='white-matter'?topicId:'myelin',level:0,maxLevel:3,kind:'measured tractography',priority:4});
-    ctx.label(info.name,group,center(info.bounds),{minDetail:all?1:0,maxDetail:3,priority:all?1:4});
+    const lemniscus=info.id.startsWith('medial-lemniscus-');
+    const label=lemniscus?`Composite ascending somatosensory estimate · ${info.hemisphere}`:info.name;
+    const limitation=lemniscus?' The source ML-labeled reconstruction includes a cortical extension; it is not one uninterrupted medial-lemniscus axon through the thalamic relay.':'';
+    ctx.pick(group,{id:info.id,label,description:`${info.streamlineCount} sampled HCP1065 diffusion streamlines; estimated pathways, not counted axons.${limitation}`,topicId,childTopic:all&&topicId!=='white-matter'?topicId:'myelin',level:0,maxLevel:3,kind:'measured tractography',priority:4});
+    ctx.label(label,group,center(info.bounds),{minDetail:all?1:0,maxDetail:3,priority:all?1:4});
     ctx.separable(group,V(info.hemisphere==='left'?-.4:info.hemisphere==='right'?.4:0,.12,0));
   });
-  const caveat=topic.id==='dorsal-column'?'Measured medial lemniscus covers the brain portion. Spinal dorsal columns and their medullary crossing are shown in Circuit schematic.':'Population tractography estimates pathways; line direction and count do not represent signaling direction or axon number.';
+  const caveat=topic.id==='dorsal-column'?'ML-labeled somatosensory projection includes a cortical extension; no uninterrupted axon through the thalamic relay, spinal dorsal-column or decussation geometry is implied.':'Population tractography estimates pathways; line direction and count do not represent signaling direction or axon number.';
   const status=`HCP1065 · ${chosen.reduce((n,b)=>n+b.streamlineCount,0).toLocaleString()} sampled streamlines · ${caveat}`;
   return status;
 }
-type Node={id:string;label:string;position:THREE.Vector3;color?:number;child?:string};
-/** Functional topology, deliberately separate from the measured millimetre frame. */
-function circuitInset(topic:BrainTopic,ctx:SceneContext):THREE.Group{
+type RegionalMesh=AtlasMesh&{regionId:string;topicIds:string[];sourceLabelName:string;sourceVoxelCount:number;centroid:number[];atlasStructureIds:number[]};
+type RegionalAtlas={metadata:unknown;meshes:RegionalMesh[]};
+const regionSelections:Record<string,string[]>={
+  'brain-overview':['hippocampal-head','hippocampal-body','hippocampal-tail','thalamus-pulvinar','thalamus-mediodorsal','amygdala-basolateral','hypothalamus-mammillary','red-nucleus','substantia-nigra'],
+  'corpus-callosum':['anterior-commissure'],
+  'association-fibers':['superior-frontal-gyrus','supramarginal-gyrus','angular-gyrus','superior-temporal-gyrus','parahippocampal-anterior','parahippocampal-posterior'],
+};
+const regionDescriptions:Record<string,string>={
+  'hippocampal-head':'Anterior longitudinal portion of the hippocampus; not a CA or dentate subfield.',
+  'hippocampal-body':'Middle longitudinal portion of the hippocampus; not a CA or dentate subfield.',
+  'hippocampal-tail':'Posterior longitudinal portion of the hippocampus; not a CA or dentate subfield.',
+  'hypothalamus-supraoptic-region':'Source-defined supraoptic region; broader than the supraoptic nucleus.',
+  'cerebellar-deep-nuclei':'Combined deep-nuclear parcellation; the source does not separate dentate, interposed and fastigial nuclei.',
+  'thalamus-vpl':'Ventral posterior lateral thalamic nucleus, a body somatosensory relay. No spinal portion is fabricated.',
+  'thalamus-lgn':'Dorsal lateral geniculate nucleus. The full surrounding thalamus is not mislabeled as LGN.',
+  'precentral-gyrus':'Measured precentral gyrus; a gross anatomical gyrus, not an exact functional motor-area border.',
+  'postcentral-gyrus':'Measured postcentral gyrus; a gross anatomical gyrus, not a cytoarchitectonic parcel.',
+  'cuneus':'Medial occipital gyrus superior to the calcarine sulcus; not identical to all of primary visual cortex.',
+  'lingual-gyrus':'Medial occipital gyrus inferior to the calcarine sulcus; not identical to all of primary visual cortex.',
+  'optic-radiation-volume':'Atlas-labeled optic-radiation volume, distinct from diffusion streamlines.',
+  'medulla-pyramidal':'Measured pyramidal part of medulla; not a separate relay neuron or complete spinal corticospinal route.',
+};
+/** Anatomical regions keep their measured shape, scale and position. A crossing
+ * is a trajectory property, never a made-up spherical relay. Connectivity lives
+ * in the dedicated cellular circuit lessons, not inferred from adjacent masks. */
+function regionalAnatomy(details:RegionalAtlas,atlas:Atlas,topic:BrainTopic,ctx:SceneContext):THREE.Group{
   const group=new THREE.Group();ctx.root.add(group);
-  let nodes:Node[]=[],edges:number[][]=[],caption='Functional circuit schematic · enlarged, positions illustrative';
-  const node=(id:string,label:string,x:number,y:number,z=0,child='neuron'):Node=>({id,label,position:V(x,y,z),child});
-  switch(topic.id){
-    case 'hippocampus':nodes=[node('ec','Entorhinal cortex',-1.2,.65,0,'hippocampal-circuit'),node('dg','Dentate gyrus',-.8,-.3),node('ca3','CA3',.1,-.65),node('ca1','CA1',1,.2),node('subiculum','Subiculum',.7,.9)];edges=[[0,1],[1,2],[2,3],[3,4],[0,3]];break;
-    case 'cerebellum':nodes=[node('mossy','Mossy fiber',-1.2,-.75,0,'cerebellar-circuit'),node('granule','Granule cell',-.55,-.3),node('purkinje','Purkinje cell',.2,.6,0,'cerebellar-circuit'),node('deep','Deep nucleus',1,-.6),node('climbing','Climbing fiber',-1,.85)];edges=[[0,1],[1,2],[2,3],[0,3],[4,2],[4,3]];break;
-    case 'amygdala':nodes=[node('sensory','Sensory input',-1,.8),node('bla','Basolateral complex',-.4,.1,0,'synaptic-integration'),node('itc','Intercalated cells',.3,.55,0,'gaba'),node('cea','Central amygdala',.8,-.2),node('output','Autonomic / behavioral output',.3,-.85)];edges=[[0,1],[1,3],[1,2],[2,3],[3,4]];break;
-    case 'thalamus':nodes=[node('input','Driver input',-1,-.55),node('relay','Thalamic relay',0,.1),node('cortex','Cortex',1,.85,0,'cortical-circuit'),node('trn','Reticular nucleus',.9,-.65,0,'gaba')];edges=[[0,1],[1,2],[2,1],[2,3],[3,1]];break;
-    case 'hypothalamus':nodes=[node('input','Homeostatic inputs',-1,.85),node('hypo','Hypothalamic neurons',0,.35,0,'synaptic-release'),node('auto','Autonomic output',-1,-.7),node('pit','Pituitary control',1,-.7,0,'neuropeptides')];edges=[[0,1],[1,2],[1,3]];break;
-    case 'brainstem':nodes=[node('midbrain','Midbrain circuits',-.6,.95),node('pons','Pontine circuits',.6,.15),node('medulla','Medullary circuits',-.3,-.65),node('cord','Spinal pathways',.7,-1.1,0,'corticospinal')];edges=[[0,1],[1,2],[2,3]];caption='Brainstem pathway scaffold · schematic, not a measured nucleus map';break;
-    case 'dorsal-column':nodes=[node('dorsal','Ipsilateral dorsal column',-.85,-1),node('nuclei','Gracile / cuneate nuclei',-.85,-.2),node('cross','Internal arcuate crossing',0,.15),node('ml','Contralateral medial lemniscus',.85,.45),node('vpl','VPL thalamus',.85,1)];edges=[[0,1],[1,2],[2,3],[3,4]];caption='Dorsal column → medial lemniscus schematic · body pathway crosses in medulla';break;
-    case 'corticospinal':nodes=[node('motor','Motor cortex',-.75,1,0,'cortical-circuit'),node('pyramid','Medullary pyramids',-.75,.1),node('cross','Pyramidal decussation',0,-.4),node('lcst','Lateral corticospinal tract',.75,-.8),node('motor-neuron','Spinal motor circuits',1,-1.2)];edges=[[0,1],[1,2],[2,3],[3,4]];caption='Major corticospinal route schematic · most fibers cross in caudal medulla';break;
-    case 'optic-radiation':nodes=[node('lgn','Lateral geniculate nucleus',-1,0,0,'thalamus'),node('meyer','Temporal loop',-.3,-.75),node('dorsal-or','Dorsal radiation',-.1,.7),node('v1','Primary visual cortex',1,0,0,'cortical-circuit')];edges=[[0,1],[0,2],[1,3],[2,3]];caption='Geniculocalcarine routing schematic · measured bundle available in Tractography';break;
-    case 'corpus-callosum':nodes=[node('left-cortex','Left cortex',-1,.25,0,'cortical-circuit'),node('cc','Callosal axons',0,0,0,'myelin'),node('right-cortex','Right cortex',1,.25,0,'cortical-circuit')];edges=[[0,1],[1,2]];caption='Interhemispheric connection schematic · many heterogeneous axons';break;
-    case 'association-fibers':nodes=[node('frontal','Frontal cortex',-1,.75,0,'cortical-circuit'),node('parietal','Parietal cortex',1,.65,0,'cortical-circuit'),node('temporal','Temporal cortex',-.75,-.65,0,'cortical-circuit'),node('occipital','Occipital cortex',1,-.65,0,'cortical-circuit')];edges=[[0,1],[0,2],[2,3]];caption='Association pathways schematic · arcs denote routes, not measured positions';break;
-    case 'white-matter':nodes=[node('commissural','Commissural fibers',-1,.8,0,'corpus-callosum'),node('projection','Projection fibers',1,.8,0,'corticospinal'),node('association','Association fibers',-1,-.65,0,'association-fibers'),node('myelin','Myelinated axons',1,-.65,0,'myelin')];edges=[[0,3],[1,3],[2,3]];caption='White-matter organization schematic · pathway classes and microscopic substrate';break;
-    default:
-      for(let layer=1;layer<=6;layer++)nodes.push(node(`layer-${layer}`,`Cortical layer ${['I','II','III','IV','V','VI'][layer-1]}`,layer%2?.45:-.45,1.1-(layer-1)*.43,0,layer===5?'corticospinal':'cortical-circuit'));
-      edges=[[1,2],[3,1],[2,4],[4,5]];caption='Six neocortical layers · schematic column, expanded beyond atlas resolution';
+  const selected=details.meshes.filter(item=>regionSelections[topic.id]?.includes(item.regionId)||(!regionSelections[topic.id]&&item.topicIds.includes(topic.id)));
+  selected.forEach((item,index)=>{
+    const mesh=ctx.mesh(geometry(item),ctx.material(palette[Math.floor(index/2)%palette.length],1,.025),group);
+    mesh.userData.atlasRegion={id:item.id,sourceIds:item.atlasStructureIds,sourceName:item.sourceLabelName};
+    const description=regionDescriptions[item.regionId]||'Named source parcellation in its original anatomical position. Shape comes from annotated voxels, not a generic graph node.';
+    const child=item.topicIds[0]==='cerebral-cortex'?'cortical-circuit':childFor[item.topicIds[0]]||'neuron';
+    ctx.pick(mesh,{id:item.id,label:item.name,description:`${description} Allen 2020 label ${item.atlasStructureIds.join(', ')}.`,topicId:item.topicIds[0],childTopic:child,level:0,maxLevel:3,kind:'measured atlas region',priority:6});
+    // Labels have a source-mask centroid; collision/occlusion is handled by the renderer.
+    const cerebellarExterior=topic.id==='cerebellum'&&item.regionId==='cerebellar-hemisphere';
+    ctx.label(item.name,mesh,V(...item.centroid as [number,number,number]).multiplyScalar(SCALE),{minDetail:index<4||cerebellarExterior?0:1,maxDetail:3,priority:cerebellarExterior?4:3});
+    ctx.separable(mesh,center(item.bounds).normalize().multiplyScalar(.3));
+  });
+  const extra:Record<string,string[]>={
+    'corpus-callosum':['corpus-callosum'],
+    'white-matter':['corpus-callosum','fornix'],
+  };
+  for(const id of extra[topic.id]||[]){
+    const item=atlas.meshes.find(item=>item.id===id);if(!item)continue;
+    const mesh=ctx.mesh(geometry(item),ctx.material(tissueColors[id]||0xc8d6cb),group);
+    mesh.userData.atlasRegion={id,sourceIds:(item as AtlasMesh&{atlasStructureIds:number[]}).atlasStructureIds};
+    ctx.pick(mesh,{id:`regional-${id}`,label:item.name,description:'Atlas-labeled white-matter volume. Volume shape does not measure individual axons.',topicId:topicFor[id]||id,childTopic:'myelin',kind:'measured atlas region',level:0,maxLevel:3,priority:5});
+    ctx.label(item.name,mesh,center(item.bounds),{minDetail:0,maxDetail:3,priority:4});
   }
-  nodes.forEach((n,i)=>{const ball=ctx.ball(n.position,.16,i===nodes.length-1?0xe6be82:0xa2d9cb,group);ctx.pick(ball,{id:`${topic.id}-${n.id}`,label:n.label,description:'Schematic functional element; position and size are illustrative.',childTopic:n.child,level:0,maxLevel:3,kind:'schematic mechanism',priority:6});ctx.label(n.label,ball,V(),{minDetail:0,maxDetail:3,priority:4});});
-  edges.forEach(([a,b])=>ctx.link(nodes[a].position,nodes[b].position,.025,0x8dbcb6,group,.7));
-  ctx.label(caption,group,V(0,1.65,0),{minDetail:0,maxDetail:3,priority:7});
   return group;
 }
 function axonInset(topic:BrainTopic,ctx:SceneContext):THREE.Group{
@@ -162,9 +189,25 @@ function axonInset(topic:BrainTopic,ctx:SceneContext):THREE.Group{
   const axon=ctx.link(V(-1.5,0,0),V(1.5,0,0),.09,0xd6c991,group);
   ctx.pick(axon,{id:`${topic.id}-axon`,label:'Axon membrane',description:'Enlarged schematic axon; no claim of microscopic continuity with a displayed streamline.',childTopic:'neuron',level:0,maxLevel:3,kind:'schematic cell',priority:5});
   for(let i=0;i<5;i++){
-    const x=-1.2+i*.6,sleeve=ctx.mesh(new THREE.CylinderGeometry(.24,.24,.46,20,1,true),ctx.material(0x9ecbbd,.85),group);sleeve.rotation.z=Math.PI/2;sleeve.position.x=x;
+    const x=-1.2+i*.6,sleeve=ctx.mesh(new THREE.CylinderGeometry(.13,.13,.46,24,1,true),ctx.material(0x9ecbbd,.85),group);sleeve.rotation.z=Math.PI/2;sleeve.position.x=x;
     ctx.pick(sleeve,{id:`${topic.id}-myelin-${i}`,label:'Myelin internode',description:'Oligodendrocyte wrapping shown schematically; fibers are not individually reconstructed axons.',childTopic:'myelin',level:0,maxLevel:3,kind:'schematic cell',priority:6});
-    if(i<4){const node=ctx.ball(V(x+.3,0,0),.115,0xe6ad80,group);ctx.pick(node,{id:`${topic.id}-node-${i}`,label:'Node of Ranvier',childTopic:'sodium-channel',level:0,maxLevel:3,kind:'schematic membrane',priority:7});}
+    for(const end of [-1,1])for(let layer=0;layer<4;layer++){
+      const wrap=ctx.mesh(new THREE.TorusGeometry(.096+layer*.01,.004,5,24),ctx.material(0xadcfc3),group);
+      wrap.rotation.y=Math.PI/2;wrap.position.x=x+end*.23;ctx.detail(wrap,1);
+    }
+    if(i<4){
+      // A node is the exposed cylindrical axonal membrane between myelin
+      // internodes, not a swollen bead or a separate neuronal cell body.
+      const node=ctx.mesh(new THREE.CylinderGeometry(.094,.094,.14,24,1,true),ctx.material(0xe6ad80),group);
+      node.rotation.z=Math.PI/2;node.position.x=x+.3;
+      ctx.pick(node,{id:`${topic.id}-node-${i}`,label:'Node of Ranvier',description:'Exposed axonal membrane between myelin internodes; enriched in voltage-gated sodium channels. The axon remains continuous through the gap.',childTopic:'sodium-channel',level:0,maxLevel:3,kind:'schematic membrane',priority:7});
+      for(let j=0;j<8;j++){
+        const angle=j*Math.PI/4,channel=ctx.mesh(new THREE.TorusGeometry(.013,.004,5,8),ctx.material(0xc7b6df),group);
+        channel.position.set(x+.3,.096*Math.cos(angle),.096*Math.sin(angle));
+        channel.quaternion.setFromUnitVectors(V(0,0,1),V(0,Math.cos(angle),Math.sin(angle)));
+        ctx.detail(channel,2);
+      }
+    }
   }
   ctx.label('Myelinated axon · microscopic schematic, not a measured streamline',group,V(0,.7,0),{minDetail:0,maxDetail:3,priority:7});
   const pulse=ctx.ball(V(-1.45,.08,0),.055,0xf7db91,group);
@@ -174,7 +217,9 @@ function axonInset(topic:BrainTopic,ctx:SceneContext):THREE.Group{
 export async function buildMacroScene(topic:BrainTopic,ctx:SceneContext):Promise<void>{
   ctx.status('Loading measured reference anatomy…');
   const atlas=await load<Atlas>('/brain/models/atlas.json');if(!ctx.isCurrent())return;
-  anatomy(atlas,topic,ctx);
+  // HCP2009a and Allen2009b are different templates. Do not visually imply
+  // an exact registration by superimposing unrelated anatomy on tractography.
+  if(topic.scene!=='tracts')anatomy(atlas,topic,ctx);
   let measuredStatus='';
   if(topic.scene==='tracts')measuredStatus=await fibers(topic,ctx);
   else{
@@ -182,12 +227,17 @@ export async function buildMacroScene(topic:BrainTopic,ctx:SceneContext):Promise
     measuredStatus=`Allen Human Reference Atlas 2020 · ${representation} · ${topic.title}. Cells and circuits are separate teaching schematics.`;
   }
   if(!ctx.isCurrent())return;
-  // The three representations are explicit choices; zoom never replaces them.
-  // Diagram coordinates remain illustrative rather than claiming one specimen.
+  // Explicit source representations; zoom never replaces anatomy with a diagram.
   const measured=new THREE.Group();for(const child of [...ctx.root.children])measured.add(child);ctx.root.add(measured);
-  ctx.representation(measured,{id:'measured',label:topic.scene==='tracts'?'Tractography':'Anatomy',description:topic.scene==='tracts'?'Estimated white-matter pathways from HCP1065 diffusion MRI. Streamlines are not individual axons.':'Measured reference parcellations from Allen Human Reference Atlas 2020.',status:measuredStatus,narrative:null});
-  const circuit=circuitInset(topic,ctx);
-  ctx.representation(circuit,{id:'circuit',label:'Circuit schematic',description:'Functional connections drawn as a diagram. Node positions and sizes are illustrative.',status:'Circuit schematic · functional connections; positions and sizes are illustrative.',scale:'Schematic',narrative:null});
+  const details=await load<RegionalAtlas>('/brain/models/atlas-details.json');if(!ctx.isCurrent())return;
+  const regions=regionalAnatomy(details,atlas,topic,ctx);
+  const dorsal=topic.id==='dorsal-column';
+  const registerRegions=()=>ctx.representation(regions,{id:'regions',label:dorsal?'Relay anatomy':'Regional anatomy',description:dorsal?'Measured VPL thalamic nuclei and postcentral gyri. These source regions locate the thalamic relay and cortical destination; the spinal pathway is not supplied.':'Named human atlas regions in their original coordinates. Select each measured shape to identify it.',status:dorsal?'Allen reference anatomy · VPL relay and postcentral gyri · no invented spinal tract, crossing or continuous axon through the relay.':'Allen Human Reference Atlas 2020 · atlas-derived parcellations · surfaces smoothed and simplified; original coordinate frame retained.',scale:'Reference anatomy · mm',narrative:null});
+  // The HCP ML entry contains a cortical continuation. Accurate named relay
+  // regions are the default; the composite estimate is an explicit alternative.
+  if(dorsal)registerRegions();
+  ctx.representation(measured,{id:'measured',label:dorsal?'Composite tract estimate':topic.scene==='tracts'?'Tractography':'Anatomy',description:dorsal?'Composite estimated ascending somatosensory streamlines from the HCP ML source label. Includes cortical continuation; not exact medial-lemniscus anatomy or an uninterrupted axon through VPL.':topic.scene==='tracts'?'Estimated white-matter pathways from HCP1065 diffusion MRI. Streamlines are not individual axons.':'Measured reference parcellations from Allen Human Reference Atlas 2020.',status:measuredStatus,narrative:null});
+  if(!dorsal)registerRegions();
   const axon=axonInset(topic,ctx);
   ctx.representation(axon,{id:'axon',label:'Axon schematic',description:'A myelinated axon with internodes and nodes of Ranvier. This is a separate microscopic teaching model.',status:'Axon schematic · myelin and nodes of Ranvier; no measured continuity with an atlas region or streamline.',scale:'Schematic',narrative:null});
 }
