@@ -1,5 +1,19 @@
 # Project state
 
+## Visual recognition - 2026-10-05
+
+- Mode: continuation. Objective: make every topic visually transferable to classroom anatomy/chemistry, reducing misleading abstraction.
+- Status: source/visual audit and implementation in progress; baseline `eff478a` verified against remote main.
+- Findings: molecular CPK colors are muted, dark bonds disappear; no conventional2D chemistry cross-reference; protein defaults show schematic gating while measured structures are secondary. Isolated anatomy and generic cell shapes weaken recognition.
+- Direction: standard molecular depiction and element key, stable identifying features, atlas context/orientation, stronger cell silhouettes; preserve accurate topology and explicit reference limits.
+- Ownership: macro geometry/context; micro cell/synapse morphology;50-topic recognition reference dataset; root chemistry/protein/UI integration and final verification.
+- Next: implement source-backed visuals, audit model/card views, run relevant checks, one verified production release.
+- Course emphasis: Cognitive Neuroscience first; Ward4e2020 and Reisberg8e2022 supplied. Actual textbook figures inspected;32 verified references across22 topics. PDFs/EPUB remain outside repository.
+- Implemented: atlas cutaways/CSF landmarks and source-matched MRI tract context; distinct cell silhouettes and connected synapses;9 standard formulas + CPK elements;6 experimental ribbon structures rigidly aligned to OPM.
+- Verified:9 independent RDKit graph/stereochemistry comparisons;6 rigid protein fits RMSD<.006Å;50 default model screenshots inspected, corrective recaptures underway.
+- Final verification: full npm test and strict TypeScript pass;50 scenes/7,012 frames/291 zoom boundaries.50 defaults +4 macro focus +3 micro closeups +9 phone views inspected; formula/conformer cards, vertical reveal, next/undo and320px protein card pass. No production-preview console errors.
+- Next: one verified release, live asset hashes and UI check; preserve explicit model limits.
+
 ## Structure search - 2026-10-05
 
 - Mode: continuation. Objective: replace oversized structure dropdown with compact, usable selection.

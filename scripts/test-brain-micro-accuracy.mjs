@@ -16,10 +16,13 @@ import {topics} from '../public/brain/curriculum.js';
 // Channel assemblies: RCSB 6J8J, 2R9R, 7MIY, 3KG2, 4PE5, 6D6T.
 // EAAT1 https://pmc.ncbi.nlm.nih.gov/articles/PMC5410168/
 // Connexin36 https://pmc.ncbi.nlm.nih.gov/articles/PMC10008584/
+// Human pyramidal reconstructions (Fig2/6) https://pmc.ncbi.nlm.nih.gov/articles/PMC11094408/
+// Dye-filled astrocyte morphology (Fig1/2) https://pmc.ncbi.nlm.nih.gov/articles/PMC6757596/
+// Human bouton/spine EM (Fig3/4) https://pmc.ncbi.nlm.nih.gov/articles/PMC12205628/
 const rootPath=path.resolve('.');
 const source=await fs.readFile(process.env.BRAIN_MICRO_ACCURACY_SOURCE||'src/scripts/brain/scenes-micro.ts','utf8');
 const compiled=await transform(source,{loader:'ts',format:'esm',target:'es2022'});
-const compiledPath=path.join(rootPath,'.astro','brain-micro-accuracy.mjs');
+const compiledPath=path.join(rootPath,'.astro',`brain-micro-accuracy-${process.pid}.mjs`);
 await fs.mkdir(path.dirname(compiledPath),{recursive:true});await fs.writeFile(compiledPath,compiled.code);
 const originalFetch=globalThis.fetch;
 globalThis.fetch=async url=>{assert(String(url).startsWith('/brain/models/'));return{ok:true,json:async()=>JSON.parse(await fs.readFile(path.join(rootPath,'public',String(url).slice(1)),'utf8'))};};
@@ -57,6 +60,31 @@ try{
   const{buildMicroScene}=await import(pathToFileURL(compiledPath).href);
   for(const topic of topics.filter(t=>!['brain','tracts'].includes(t.scene))){
     const s=instrument();await buildMicroScene(topic,s.ctx);s.frame(0);
+    // Conventional silhouettes must survive overview; a named organelle cannot be an empty shell.
+    for(const soma of descendants(s.root,o=>o.userData.recognitionFeature==='pyramidal-soma')){
+      assert.equal(soma.geometry.type,'LatheGeometry');const p=soma.geometry.parameters.points;
+      assert(Math.max(...p.filter(q=>q.y<-.05).map(q=>q.x))>Math.max(...p.filter(q=>q.y>.20).map(q=>q.x))*2,'Pyramidal soma must taper toward the apical pole');
+      assert(soma.material.opacity>.9,'A recognizable soma must have a visible surface, with an explicit cutaway rather than a ghost sphere');
+    }
+    for(const membrane of descendants(s.root,o=>o.userData.membraneRecognitionFace)){
+      const position=membrane.geometry.attributes.position,indices=membrane.geometry.index.array;
+      const distToSegment=(p,a,b)=>{const dx=b[0]-a[0],dz=b[1]-a[1],u=Math.max(0,Math.min(1,((p[0]-a[0])*dx+(p[1]-a[1])*dz)/(dx*dx+dz*dz||1)));return Math.hypot(p[0]-a[0]-u*dx,p[1]-a[1]-u*dz);};
+      for(const hole of membrane.userData.membraneRecognitionFace.holes){const center=[hole.x,hole.z];
+        for(let i=0;i<indices.length;i+=3){const pts=Array.from(indices.slice(i,i+3),j=>[position.getX(j),position.getZ(j)]),cross=(a,b)=>(b[0]-a[0])*(center[1]-a[1])-(b[1]-a[1])*(center[0]-a[0]),signs=pts.map((a,j)=>cross(a,pts[(j+1)%3]));
+          assert(!(signs.every(n=>n>=0)||signs.every(n=>n<=0)),'Continuous synaptic membrane must not close a named protein pore');
+          assert(pts.every((a,j)=>distToSegment(center,a,pts[(j+1)%3])>=hole.radius*.994),'Membrane triangles must stay outside the actual protein opening');
+        }
+      }
+    }
+    for(const inner of descendants(s.root,o=>o.userData.mitochondrialInnerMembrane)){
+      const plates=descendants(inner.parent,o=>o.userData.mitochondrialCrista);assert.equal(plates.length,7,'Mitochondrial cutaway needs lamellar inner-membrane folds');
+      assert(plates.every(p=>p.geometry.type==='ExtrudeGeometry'),'Cristae must be membrane plates rather than unattached curly centerlines');
+    }
+    if(topic.id==='neuron'){
+      const trunk=s.find('apical-dendrite').object,body=s.find('neuronal-soma').object,position=trunk.geometry.attributes.position,base=V();for(let i=0;i<7;i++)base.add(V(position.getX(i),position.getY(i),position.getZ(i)));trunk.localToWorld(base.divideScalar(7));
+      assert(base.distanceTo(new THREE.Box3().setFromObject(body).clampPoint(base,V()))<.14,'The dominant apical trunk must join the tapered soma');
+      assert.equal(descendants(s.root,o=>o.userData.recognitionFeature==='apical-trunk').length,1,'One dominant apical trunk distinguishes a pyramidal cell');
+    }
     // Test actual instanced transforms: increasing membrane thickness cannot stretch spherical heads.
     for(const heads of descendants(s.root,o=>o.userData.lipidHeads)){
       const tails=heads.parent.children.find(o=>o.userData.lipidTails);assert(tails&&tails.count===heads.count*2);
@@ -112,8 +140,21 @@ try{
     }
     if(topic.id==='astrocytes'||topic.id==='microglia'){
       assert(!s.picks.some(p=>p.spec.id.startsWith('neuron-')),'Glia must have their own processes, not neuron morphology');
-      if(topic.id==='astrocytes'){assert.equal(s.matching(/^endfoot-/).length,3);assert(s.matching(/^glial-tip-/).every(p=>p.spec.label==='Fine astrocytic leaflet'));}
-      else{assert(s.matching(/^glial-tip-/).every(p=>p.spec.label==='Surveying microglial process'));assert(!s.matching(/^endfoot-/).length);}
+      const leaflets=descendants(s.root,o=>o.userData.recognitionFeature==='astrocytic-leaflets');
+      if(topic.id==='astrocytes'){
+        assert.equal(s.matching(/^endfoot-/).length,3);assert(s.matching(/^glial-tip-/).every(p=>p.spec.label==='Fine astrocytic leaflet'));
+        assert(leaflets.reduce((sum,o)=>sum+o.count,0)>=300,'Whole-cell astrocyte fill needs a bushy fine-process territory, not only a GFAP-like skeleton');
+        assert(leaflets.every(o=>s.details.some(d=>d.object===o&&d.min===0)),'Fine astrocyte leaflets must shape the overview silhouette');
+        const capillary=s.find('capillary').object;for(const foot of s.matching(/^endfoot-/)){assert.equal(foot.object.geometry.type,'CylinderGeometry');assert(foot.object.geometry.parameters.radiusTop>capillary.geometry.parameters.radiusTop,'Broad endfeet must lie outside the capillary wall');assert(Math.abs(foot.object.geometry.parameters.thetaLength-Math.PI)<1e-8,'An endfoot should conform to a curved vessel wall');}
+        assert.equal(s.matching(/^erythrocyte-/).length,5);for(const rbc of s.matching(/^erythrocyte-/)){const profile=rbc.object.geometry.parameters.points;assert.equal(rbc.object.geometry.type,'LatheGeometry');assert(profile[0].x===0&&profile.at(-1).x===0,'An erythrocyte has a closed center, not a torus hole');assert(Math.abs(profile[0].y)<Math.max(...profile.map(p=>Math.abs(p.y)))*.5,'The erythrocyte center must be thinner than its biconcave rim');}
+      }
+      else{assert(s.matching(/^glial-tip-/).every(p=>p.spec.label==='Surveying microglial process'));assert(!s.matching(/^endfoot-/).length);assert.equal(leaflets.length,0,'Ramified microglia must not inherit astrocyte spongiform leaflets');}
+    }
+    if(['synaptic-release','transmitter-clearance','short-term-plasticity'].includes(topic.id)){
+      const boutons=s.matching(/^presynaptic-bouton$/),heads=s.matching(/^postsynaptic-spine$/);assert(boutons.length&&heads.length);
+      for(const head of heads){const container=head.object.parent,neck=s.matching(/^postsynaptic-spine-neck$/).find(p=>p.object.parent===container),shaft=s.matching(/^postsynaptic-dendritic-shaft$/).find(p=>p.object.parent===container);assert(neck&&shaft,'A receiving spine must retain its neck and parent shaft');assert(head.object.material.opacity>.9&&head.object.geometry.parameters.phiLength===Math.PI,'The head needs an opaque longitudinal cutaway silhouette');}
+      assert.equal(s.matching(/^terminal-axon$/).length,boutons.length,'Every bouton must join an incoming axon');
+      const fineLipids=descendants(s.root,o=>o.userData.lipidHeads);assert(fineLipids.every(o=>s.details.some(d=>d.object===o.parent&&d.min===2)),'Fine molecular lipid grains must not replace the default recognizable synaptic compartments');
     }
     if(topic.id==='resting-potential'){
       assert.equal(s.matching(/^pump-alpha-TM-/).length,10,'P-type ATPase α chain has ten transmembrane helices, not a threefold channel');
@@ -126,6 +167,10 @@ try{
     if(topic.id==='synaptic-integration'){
       assert.equal(s.matching(/^dendritic-spine$/).length,2,'Only the two excitatory inputs use spines');
       const contact=s.find('inhibitory-somatic-contact').object.getWorldPosition(V()),soma=s.root.children.find(o=>o.isMesh&&o.geometry.type==='SphereGeometry'&&o.geometry.parameters.radius===.62);assert(contact.distanceTo(soma.position)<.63,'Perisomatic inhibitory density must contact the soma');
+    }
+    if(topic.id==='homeostatic-plasticity'){
+      const axon=s.find('scaled-presynaptic-axon').object,vertices=axon.geometry.attributes.position;assert(vertices.count>20,'Coordinated synapse comparison retains a continuous presynaptic axonal process');
+      for(const bouton of s.matching(/^scaled-synapse-/)){const p=bouton.object.getWorldPosition(V());let distance=Infinity;for(let i=0;i<vertices.count;i++)distance=Math.min(distance,p.distanceTo(axon.localToWorld(V(vertices.getX(i),vertices.getY(i),vertices.getZ(i)))));assert(distance<bouton.object.geometry.parameters.radius,'Every terminal swelling must physically join the visible axonal process');}
     }
     if(['synaptic-release','transmitter-clearance','short-term-plasticity'].includes(topic.id)){
       for(const cav of s.matching(/^presynaptic-cav$/)){assert(Math.abs(cav.object.rotation.x-Math.PI)<1e-8,'Presynaptic extracellular channel domain must face the cleft');membraneClearance(s,cav.object,.41);}

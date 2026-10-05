@@ -206,7 +206,10 @@ try {
       const defaultNarrative = inspectRegistry(ctx.root, registry, !['brain', 'tracts'].includes(topic.scene));
       if(['brain-overview','cerebral-cortex'].includes(topic.id)){
         const measured=registry.representations.find(r=>r.spec.id==='measured');assert(measured,'Opaque cortex needs its measured representation');
-        const labels=registry.labels.filter(label=>belongsTo(label.object,measured.object));
+        const measuredLabels=registry.labels.filter(label=>belongsTo(label.object,measured.object));
+        const orientation=new Set(['Anterior','Posterior','Superior']);
+        assert.deepEqual(measuredLabels.filter(label=>orientation.has(label.text)).map(label=>label.text).sort(),[...orientation].sort(),'Standard lateral view needs its source-axis orientation landmarks');
+        const labels=measuredLabels.filter(label=>!orientation.has(label.text));
         assert.equal(labels.length,8,'Opaque exterior should label the four outer lobes in each hemisphere');
         for(const label of labels){assert(!/insular|limbic|midbrain|cerebellum/i.test(label.text),`Occluded anatomy must not label the opaque exterior: ${label.text}`);assert(label.options.normal,'Exterior labels need surface orientation');}
       }

@@ -8,6 +8,32 @@ import { topics } from '../public/brain/curriculum.js';
 const publicRoot=new URL('../public/',import.meta.url);
 const atlas=JSON.parse(await readFile(new URL('brain/models/atlas.json',publicRoot),'utf8'));
 const details=JSON.parse(await readFile(new URL('brain/models/atlas-details.json',publicRoot),'utf8'));
+const mri=JSON.parse(await readFile(new URL('brain/models/tracts/reference-mri.json',publicRoot),'utf8'));
+const landmarks=JSON.parse(await readFile(new URL('brain/models/atlas-landmarks.json',publicRoot),'utf8'));
+assert.deepEqual(landmarks.metadata.coordinates,atlas.metadata.coordinates);
+assert.deepEqual(landmarks.metadata.sha256,atlas.metadata.sha256);
+assert.deepEqual(landmarks.meshes.map(m=>[m.id,m.atlasStructureIds[0]]),[['third-ventricle',10602],['inferior-ventricular-horn',10600],['cerebral-aqueduct',12369],['fourth-ventricle',12805]]);
+for(const m of landmarks.meshes){
+ assert.equal(m.kind,'csf-space');assert(m.sourceVoxelCount>0&&m.quality.watertight);
+ assert(m.positions.every(Number.isFinite)&&m.indices.every(i=>Number.isInteger(i)&&i>=0&&i<m.positions.length/3));
+ const edges=new Map();for(let i=0;i<m.indices.length;i+=3)for(let j=0;j<3;j++){const a=m.indices[i+j],b=m.indices[i+(j+1)%3],key=a<b?`${a},${b}`:`${b},${a}`;edges.set(key,(edges.get(key)||0)+1);}
+ assert([...edges.values()].every(n=>n===2),`${m.id}: torn landmark surface`);
+}
+assert.equal(mri.metadata.template,'ICBM 2009a Nonlinear Asymmetric');
+assert.equal(mri.metadata.samplingMm,2);
+assert.deepEqual(mri.metadata.coordinates.centerSourceRAS,atlas.metadata.coordinates.centerSourceRAS);
+assert(mri.metadata.copyright.includes('Permission to use, copy, modify, and distribute'));
+assert.deepEqual(mri.planes.map(p=>p.id),['sagittal','coronal','axial']);
+for(const plane of mri.planes){
+ assert.equal(plane.positions.length,plane.intensities.length*3);
+ assert(plane.positions.every(Number.isFinite));assert(plane.intensities.every(i=>Number.isInteger(i)&&i>=0&&i<=255));
+ assert(plane.indices.length>1000&&plane.indices.every(i=>Number.isInteger(i)&&i>=0&&i<plane.intensities.length));
+ const coordinate=plane.id==='sagittal'?0:plane.id==='coronal'?2:1;
+ const rasAxis=plane.id==='sagittal'?0:plane.id==='coronal'?1:2;
+ const expectedLevel=plane.sourceLevelMm-mri.metadata.coordinates.centerSourceRAS[rasAxis];
+ for(let i=coordinate;i<plane.positions.length;i+=3)assert.equal(plane.positions[i],expectedLevel,`${plane.id}: arbitrary relocation of MRI reference`);
+ assert(new Set(plane.intensities).size>100,'MRI must contain actual source intensity detail, not a solid plane');
+}
 assert.equal(details.metadata.license,'CC BY 4.0');
 assert.deepEqual(details.metadata.coordinates,atlas.metadata.coordinates,'Regional mesh coordinate frame must remain identical to the base atlas');
 assert.deepEqual(details.metadata.sha256,atlas.metadata.sha256,'Regional models must use the same verified source volume and ontology');
@@ -66,7 +92,20 @@ try{
    representation(object,spec){views.push({object,spec});},separable(){},animate(){},layout(){},status(){},narrative(){},isCurrent(){return true;},
   };
   await buildMacroScene(topic,ctx);
-  assert.deepEqual(views.map(v=>v.spec.id),topic.id==='dorsal-column'?['regions','measured','axon']:['measured','regions','axon']);
+  const hasContext=!['brain-overview','cerebral-cortex'].includes(topic.id);
+  assert.deepEqual(views.map(v=>v.spec.id),topic.id==='dorsal-column'?['context','regions','measured','axon']:hasContext?['context','measured','regions','axon']:['measured','regions','axon']);
+  const context=views.find(v=>v.spec.id==='context');
+  if(context){
+   assert(context.spec.viewDirection?.length===3,'Context needs a consistent anatomical view');
+   if(topic.scene==='tracts'&&topic.id!=='dorsal-column'){
+    let references=0;context.object.traverse(o=>{if(o.isMesh){assert(o.userData.mriReference,'Only source-matched MRI may accompany HCP streamlines');assert.equal(o.userData.mriReference.template,mri.metadata.template);references++;}});
+    assert.equal(references,1);
+   }else{
+    let hemispheres=0;context.object.traverse(o=>{if(o.userData.anatomicalContext?.sourceId==='hemisphere-left'){hemispheres++;assert.equal(o.material.opacity,1,'Cutaway must not reintroduce a noisy transparent shell');}});
+    assert.equal(hemispheres,1);
+    for(const landmark of landmarks.meshes.filter(m=>m.topicIds.includes(topic.id)))assert(picks.some(p=>p.spec.id===`context-${landmark.id}`&&p.spec.label.endsWith('CSF space')),`${topic.id}: missing source CSF-space landmark`);
+   }
+  }
   const regions=views.find(v=>v.spec.id==='regions').object;
   assert(regions.children.length,`${topic.id}: empty anatomy detail`);
   regions.traverse(o=>{if(o.isMesh){assert(o.userData.atlasRegion,`${topic.id}: arbitrary regional node`);assert.equal(o.geometry.type,'BufferGeometry');}});
@@ -81,11 +120,11 @@ try{
   }
   if(topic.scene==='tracts')views.find(v=>v.spec.id==='measured').object.traverse(o=>assert(!o.isMesh,'HCP streamlines must not imply an exact overlay with different-template Allen anatomy'));
   if(topic.id==='dorsal-column'){
-   assert.equal(views[0].spec.label,'Relay anatomy','An anatomically composite ML reconstruction must not be the default anatomy');
-   assert.equal(views[1].spec.label,'Composite tract estimate');
+   assert.equal(views[0].spec.label,'Relay in context','An anatomically composite ML reconstruction must not be the default anatomy');
+   assert.equal(views.find(v=>v.spec.id==='measured').spec.label,'Composite tract estimate');
    assert(picks.filter(p=>p.spec.id.startsWith('medial-lemniscus-')).every(p=>p.spec.label.startsWith('Composite ascending somatosensory estimate')));
   }
   root.traverse(o=>{o.geometry?.dispose();if(o.material)o.material.dispose();});count++;
  }
 }finally{globalThis.fetch=originalFetch;}
-console.log(`Brain regional accuracy passed: ${details.meshes.length} unique source-derived surfaces, hemisphere/orientation landmarks, ${count} macro topics, no generic anatomy nodes or mixed-template overlays.`);
+console.log(`Brain regional accuracy passed: ${details.meshes.length} unique source-derived surfaces, 4 ventricular landmarks, 3 source-matched MRI reference planes, hemisphere/orientation landmarks, ${count} macro topics, no generic anatomy nodes or mixed-template overlays.`);

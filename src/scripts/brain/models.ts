@@ -124,7 +124,7 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
     targetGoal.copy(target);cameraGoal.copy(target).addScaledVector(direction,distance);
     if(instant||reduced.matches){camera.position.copy(cameraGoal);controls.target.copy(targetGoal);moving=false;controls.update();updateDetail();}else moving=true;dirty=true;
   }
-  function topicDirection(){return current.id==='electrical-synapses'?V(0,0,1):current.id==='cerebellum'?V(7,3,-9).normalize():defaultDirection;}
+  function topicDirection(){const view=representations.find(r=>r.spec.id===representationId)?.spec.viewDirection;return view?V(...view).normalize():current.scene==='molecule'?V(.08,.08,1).normalize():current.id==='electrical-synapses'?V(0,0,1):current.id==='cerebellum'?V(7,3,-9).normalize():defaultDirection;}
   function fit(preserveView=false){
     const viewTarget=preserveView&&moving?targetGoal:controls.target,viewPosition=preserveView&&moving?cameraGoal:camera.position;
     const ratio=viewPosition.distanceTo(viewTarget)/baseDistance,previousTarget=viewTarget.clone(),direction=viewPosition.clone().sub(viewTarget).normalize();
@@ -231,7 +231,7 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
       representation(object,spec){if(token===generation){object.visible=representations.length===0;representations.push({object,spec});}},
       narrative(value){if(token===generation){sceneNarrative=value;narrative=value;options.onNarrative?.(value);}},isCurrent(){return token===generation&&!disposed;}
     };
-    try{if(topic.scene==='brain'||topic.scene==='tracts')await buildMacroScene(topic,ctx);else await buildMicroScene(topic,ctx);if(!ctx.isCurrent())return;for(const fn of animations)fn(0,0);prepareFades();if(representations.length)activateRepresentation(representations.find(view=>view.spec.id===options.initialRepresentation)?.spec.id||representations[0].spec.id);ready=true;resize();fit();if(requestedDetail)setCamera(controls.target,baseDistance*[1,.73,.52,.32][requestedDetail]);dirty=true;}
+    try{if(topic.scene==='brain'||topic.scene==='tracts')await buildMacroScene(topic,ctx);else await buildMicroScene(topic,ctx);if(!ctx.isCurrent())return;for(const fn of animations)fn(0,0);prepareFades();if(representations.length)activateRepresentation(representations.find(view=>view.spec.id===(options.initialRepresentation||(topic.scene==='channel'?'experimental':'')))?.spec.id||representations[0].spec.id);ready=true;resize();fit();if(requestedDetail)setCamera(controls.target,baseDistance*[1,.73,.52,.32][requestedDetail]);dirty=true;}
     catch(error){if(!ctx.isCurrent())return;options.onStatus?.('Model could not load. Choose another topic or reload; the complete written guide remains available.');console.error('Brain model load failed',error);}
   }
   resize();frame=requestAnimationFrame(tick);

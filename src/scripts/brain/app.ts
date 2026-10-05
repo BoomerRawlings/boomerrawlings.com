@@ -3,6 +3,7 @@ import { journeys, makeRound, cleanProgress } from '../../../public/brain/study.
 import type { createBrainViewer } from './models';
 import { initializePractice } from './practice';
 import { createStructurePicker } from './structure-picker';
+import { renderRecognition } from './recognition';
 import type { Narrative, PickSpec, RepresentationSpec } from './scene-types';
 
 type Depth='essentials'|'mechanism'|'advanced';
@@ -106,7 +107,7 @@ function setTopic(id:string,updateHash=true,focus=false){
   const group=document.querySelector<HTMLDetailsElement>(`.topic-group[data-category="${selected.category}"]`);if(group)group.open=true;
   $('topic-connections').replaceChildren(...selected.connections.filter(id=>byId.has(id)).map(id=>button(`${byId.get(id)!.title} ↗`,()=>setTopic(id,true,true))));
   $('topic-sources').replaceChildren(...selected.sources.map(id=>{const source=sources[id];const item=document.createElement('li');if(source)item.append(externalLink(`${source.title} ↗`,source.url));return item;}));
-  renderDepth();renderProgress();renderJourney();
+  renderRecognition(id);renderDepth();renderProgress();renderJourney();
   $<HTMLSelectElement>('model-view').value='perspective';
   if(viewer){viewer.setTopic(selected);}
   if(updateHash)history.replaceState(null,'',`#topic=${encodeURIComponent(id)}&depth=${depth}`);
@@ -250,7 +251,7 @@ async function initializeViewer(){
     const {createBrainViewer}=await import('./models');
     viewer=await createBrainViewer($('brain-viewer'),{
       onSelect:id=>{if(byId.has(id))setTopic(id,true);},
-      onStatus:text=>{$('model-provenance').textContent=text;$('viewer-loading').hidden=!/^Loading/.test(text);$('model-kind').textContent=/^Model could not load|3D unavailable/i.test(text)?'Model unavailable':/^Loading/.test(text)?'Assembling model':selected.scene==='channel'?'Gating schematic + protein structure':selected.scene==='molecule'?(selected.id==='neuropeptides'?'Peptide connectivity schematic':'Computed molecular conformer'):selected.scene==='tracts'?'Population tractography':selected.scene==='brain'?'Measured anatomy + study layers':selected.id==='dendrites'?'Measured arbor + study overlays':'Custom mechanism model';},
+      onStatus:text=>{$('model-provenance').textContent=text;$('viewer-loading').hidden=!/^Loading/.test(text);$('model-kind').textContent=/^Model could not load|3D unavailable/i.test(text)?'Model unavailable':/^Loading/.test(text)?'Assembling model':selected.scene==='channel'?'Gating schematic + protein structure':selected.scene==='molecule'?(selected.id==='neuropeptides'?'Computed peptide conformer':'Computed molecular conformer'):selected.scene==='tracts'?'Population tractography':selected.scene==='brain'?'Measured anatomy + study layers':selected.id==='dendrites'?'Measured arbor + study overlays':'Custom mechanism model';},
       onHover:showPart,
       onFocus:part=>{structurePicker.setFocus(part);focusedPart=part;showPart(part);const child=part?.childTopic||part?.topicId;$('model-enter').hidden=!child||child===selected.id||!byId.has(child);$('model-enter').textContent=child&&byId.has(child)?`${byId.get(child)!.title} ↗`:'Open related topic ↗';$('model-unfocus').hidden=!part;},
       onDetail:level=>{$('detail-name').textContent=['Overview','Structures','Close-up','Fine detail'][level];$('detail-dots').textContent=Array.from({length:4},(_,i)=>i<=level?'●':'○').join(' ');},

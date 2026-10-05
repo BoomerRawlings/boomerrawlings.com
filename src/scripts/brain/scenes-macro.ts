@@ -7,11 +7,15 @@ type Atlas={metadata:{coordinates:{centerSourceRAS:number[]}};meshes:AtlasMesh[]
 type BundleInfo={id:string;name:string;category:string;hemisphere:string;topicIds:string[];bounds:number[][];file:string;streamlineCount:number};
 type Manifest={bundles:BundleInfo[];streamlineCount:number};
 type Bundle={positions:number[];offsets:number[]};
+type ReferencePlane={id:string;sourceAxis:string;sourceLevelMm:number;positions:number[];indices:number[];intensities:number[];bounds:number[][]};
+type ReferenceMRI={metadata:{template:string};planes:ReferencePlane[]};
+type LandmarkAtlas={meshes:(AtlasMesh&{topicIds:string[];atlasStructureIds:number[]})[]};
 const SCALE=.045;
 const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z);
 const palette=[0xd9b6ab,0xc1c7ab,0xadafcf,0xa2c4c9,0xd2b19b,0xc2abbf];
 const tissueColors:Record<string,number>={hippocampus:0xe5be6b,amygdala:0xe49b90,thalamus:0x9bc6dd,hypothalamus:0xebba7a,caudate:0xa6cbb9,putamen:0xb0c99b,'globus-pallidus':0xc4b998,cerebellum:0xb8cad5,midbrain:0x90b8c0,pons:0xaac3ba,medulla:0xbacdb5,'corpus-callosum':0xefdfa1,fornix:0xc7b9e9,'cerebellar-peduncles':0x8bd3bd,'white-matter-left':0xd6e2db,'white-matter-right':0xd6e2db,ventricles:0x6da9c6};
 const tractColors:Record<string,number>={commissural:0xe9cf86,projection:0x98c7ed,sensory:0xceade4,association:0x81d4bf,limbic:0xe5af94,cerebellar:0x98c8b5};
+const bundleColors:Record<string,number>={'arcuate':0xe6a093,'uncinate':0x82d4ba,'inferior-longitudinal':0xe1c775,'superior-longitudinal':0x83bcec,'cingulum':0xc5a1df,'cingulum-temporal':0xe3ae81};
 const childFor:Record<string,string>={hippocampus:'hippocampal-circuit',cerebellum:'cerebellar-circuit','cerebral-cortex':'cortical-circuit',thalamus:'neuron',hypothalamus:'synaptic-release',amygdala:'synaptic-integration',brainstem:'resting-potential'};
 const topicFor:Record<string,string>={caudate:'basal-ganglia',putamen:'basal-ganglia','globus-pallidus':'basal-ganglia',fornix:'white-matter','cerebellar-peduncles':'white-matter','white-matter-left':'white-matter','white-matter-right':'white-matter',ventricles:'brain-overview'};
 const cache=new Map<string,Promise<unknown>>();
@@ -79,7 +83,7 @@ function anatomy(atlas:Atlas,topic:BrainTopic,ctx:SceneContext):void{
         const mesh=ctx.mesh(g,ctx.material(opacity<.2?0xaab9bf:color,opacity),group);
         mesh.userData.contextOnly=opacity<.2;
         ctx.pick(mesh,{id:region.id,label:region.name,description:'Allen atlas exterior; lobe boundary assigned from the nearest cortical label.',topicId:'cerebral-cortex',childTopic:overview?'cerebral-cortex':'cortical-circuit',level:0,maxLevel:3,kind:'measured atlas',priority:2});
-        if(!tracts&&opacity>=.2&&/^(frontal|parietal|temporal|occipital)-/.test(region.id)){const anchor=exteriorLabelAnchor(g);if(anchor)ctx.label(region.name.replace(' · ',' — '),mesh,anchor.point,{normal:anchor.normal,minDetail:index===0?0:1,maxDetail:3,priority:index===0?3:1});}
+        if(!tracts&&opacity>=.2&&/^(frontal|parietal|temporal|occipital)-/.test(region.id)){const anchor=exteriorLabelAnchor(g);if(anchor)ctx.label(region.name.replace(' · ',' — '),mesh,anchor.point,{normal:anchor.normal,minDetail:0,maxDetail:3,priority:index===0?3:2});}
       }
       continue;
     }
@@ -91,6 +95,7 @@ function anatomy(atlas:Atlas,topic:BrainTopic,ctx:SceneContext):void{
     if(item.kind==='ventricle'&&!overview)continue;
     const opacity=tracts?(external?.14:.07):selected?1:overview?(external?1:.7):.13;
     const mesh=ctx.mesh(geometry(item),ctx.material(tissueColors[item.id]||0xb9c9ce,opacity,.035));
+    mesh.userData.atlasRegion={id:item.id,sourceName:item.name};
     mesh.userData.contextOnly=tracts||!selected;
     const target=item.kind==='brainstem'?'brainstem':topicFor[item.id]||item.id;
     const child=overview?target:childFor[target]||'neuron';
@@ -118,7 +123,8 @@ async function fibers(topic:BrainTopic,ctx:SceneContext):Promise<string>{
   const chosen=manifest.bundles.filter(bundle=>all||bundle.topicIds.includes(topic.id));
   const payloads=await Promise.all(chosen.map(bundle=>load<Bundle>(bundle.file)));if(!ctx.isCurrent())return '';
   chosen.forEach((info,index)=>{
-    const group=new THREE.Group();ctx.root.add(group);const g=bundleGeometry(payloads[index],tractColors[info.category]||0xc0ded5);
+    const group=new THREE.Group();ctx.root.add(group);const family=info.id.replace(/-(left|right)$/,'');
+    const g=bundleGeometry(payloads[index],bundleColors[family]||tractColors[info.category]||0xc0ded5);
     const line=new THREE.LineSegments(g,new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:all?.7:.9,depthWrite:false}));group.add(line);
     const topicId=info.topicIds.find(id=>['corpus-callosum','corticospinal','dorsal-column','optic-radiation','association-fibers'].includes(id))||'white-matter';
     const lemniscus=info.id.startsWith('medial-lemniscus-');
@@ -131,6 +137,81 @@ async function fibers(topic:BrainTopic,ctx:SceneContext):Promise<string>{
   const caveat=topic.id==='dorsal-column'?'ML-labeled somatosensory projection includes a cortical extension; no uninterrupted axon through the thalamic relay, spinal dorsal-column or decussation geometry is implied.':'Population tractography estimates pathways; line direction and count do not represent signaling direction or axon number.';
   const status=`HCP1065 · ${chosen.reduce((n,b)=>n+b.streamlineCount,0).toLocaleString()} sampled streamlines · ${caveat}`;
   return status;
+}
+
+/** Labels follow anatomical axes, never screen-left conventions. No arrow is
+ * an inferred connection and no orientation marker substitutes for anatomy. */
+function orientation(group:THREE.Group,ctx:SceneContext,bounds:THREE.Box3,axes:'sagittal'|'coronal'|'axial'='sagittal'):void{
+  const middle=bounds.getCenter(V()),gap=.32;
+  const labels: [string,THREE.Vector3][] = axes==='axial'
+    ? [['Anterior',V(middle.x,middle.y,bounds.max.z+gap)],['Posterior',V(middle.x,middle.y,bounds.min.z-gap)],['Right',V(bounds.max.x+gap,middle.y,middle.z)]]
+    : axes==='coronal'
+      ? [['Superior',V(middle.x,bounds.max.y+gap,middle.z)],['Inferior',V(middle.x,bounds.min.y-gap,middle.z)],['Right',V(bounds.max.x+gap,middle.y,middle.z)]]
+      : [['Anterior',V(middle.x,middle.y,bounds.max.z+gap)],['Posterior',V(middle.x,middle.y,bounds.min.z-gap)],['Superior',V(middle.x,bounds.max.y+gap,middle.z)]];
+  for(const [text,point]of labels)ctx.label(text,group,point,{minDetail:0,maxDetail:3,priority:1});
+}
+
+const contextNeighbors:Record<string,string[]>={
+  thalamus:['hypothalamus','fornix','midbrain','pons','medulla'],
+  hypothalamus:['thalamus','fornix','midbrain'],
+  hippocampus:['amygdala','fornix','thalamus'],
+  amygdala:['hippocampus','fornix'],
+  cerebellum:['midbrain','pons','medulla'],
+  brainstem:['cerebellum','thalamus'],
+  'dorsal-column':['hypothalamus','midbrain','pons','medulla'],
+};
+
+/** A conventional right-hemisphere removal, not a translucent whole-brain
+ * envelope. The remaining left cortex and every landmark retain source shape
+ * and position. This shows where the target sits before isolated inspection. */
+function contextualAnatomy(atlas:Atlas,landmarks:LandmarkAtlas,topic:BrainTopic,ctx:SceneContext,regional?:THREE.Group):THREE.Group{
+  const before=new Set(ctx.root.children);
+  if(!regional)anatomy(atlas,topic,ctx);
+  const group=new THREE.Group();ctx.root.add(group);
+  if(regional)group.add(regional);
+  for(const child of [...ctx.root.children])if(child!==group&&!before.has(child))group.add(child);
+  const shell=atlas.meshes.find(item=>item.id==='hemisphere-left')!;
+  const cortical=ctx.mesh(geometry(shell),ctx.material(0x56646e,1,.018),group);
+  cortical.userData.atlasRegion={id:'context-hemisphere-left',sourceName:shell.name};
+  cortical.userData.anatomicalContext={template:'Allen 2020 / ICBM2009b symmetric',sourceId:shell.id};
+  ctx.pick(cortical,{id:'context-hemisphere-left',label:'Left cerebral hemisphere · cutaway context',description:'Source-derived left cerebral surface at its original location. The right cerebral exterior is removed to expose the highlighted deep anatomy. This surface is not moved or mirrored.',topicId:'cerebral-cortex',level:0,maxLevel:3,kind:'anatomical landmark',priority:0});
+  const neighborIds=contextNeighbors[topic.id]||['thalamus','midbrain','pons','medulla'];
+  for(const id of neighborIds){
+    const item=atlas.meshes.find(m=>m.id===id);if(!item)continue;
+    const color=new THREE.Color(tissueColors[id]||0x9aa8ad).lerp(new THREE.Color(0x64717a),.6);
+    const mesh=ctx.mesh(geometry(item),ctx.material(color.getHex(),1,.025),group);
+    mesh.userData.atlasRegion={id:`context-${id}`,sourceName:item.name};
+    mesh.userData.anatomicalContext={template:'Allen 2020 / ICBM2009b symmetric',sourceId:id};
+    ctx.pick(mesh,{id:`context-${id}`,label:`${item.name} · landmark`,description:'Neighboring measured structure from the same Allen reference atlas. Original size, shape and relative location retained.',topicId:item.kind==='brainstem'?'brainstem':topicFor[id]||id,level:0,maxLevel:3,kind:'anatomical landmark',priority:2});
+    if(neighborIds.indexOf(id)<2)ctx.label(item.name,mesh,center(item.bounds),{minDetail:0,maxDetail:3,priority:2});
+  }
+  for(const item of landmarks.meshes.filter(item=>item.topicIds.includes(topic.id))){
+    const mat=ctx.material(0x6cacc5,.13,.025);mat.depthWrite=false;
+    const mesh=ctx.mesh(geometry(item),mat,group);
+    mesh.userData.atlasRegion={id:item.id,sourceIds:item.atlasStructureIds,sourceName:item.name};
+    mesh.userData.anatomicalContext={template:'Allen 2020 / ICBM2009b symmetric',sourceId:item.id};
+    ctx.pick(mesh,{id:`context-${item.id}`,label:`${item.name} · CSF space`,description:`Atlas-labeled cerebrospinal-fluid space; the blue surface bounds a cavity, not solid neural tissue. Allen label ${item.atlasStructureIds.join(', ')}. Original coordinates retained.`,level:0,maxLevel:3,kind:'anatomical landmark',priority:3});
+    ctx.label(`${item.name} · CSF`,mesh,center(item.bounds),{minDetail:0,maxDetail:3,priority:2});
+  }
+  group.updateMatrixWorld(true);orientation(group,ctx,new THREE.Box3().setFromObject(group));
+  return group;
+}
+
+function addMRIReference(data:ReferenceMRI,topic:BrainTopic,group:THREE.Group,ctx:SceneContext):'sagittal'|'coronal'|'axial'{
+  const axis=topic.id==='corticospinal'?'coronal':topic.id==='optic-radiation'?'axial':'sagittal';
+  const plane=data.planes.find(item=>item.id===axis)!;
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(plane.positions.map(value=>value*SCALE),3));g.setIndex(plane.indices);
+  const colors:number[]=[];
+  // Source intensities are display grayscale. Three expects linear vertex
+  // colors; applying output conversion twice washes out the anatomical detail.
+  for(const intensity of plane.intensities){const value=intensity/255,c=new THREE.Color(value,value,value).convertSRGBToLinear();colors.push(c.r,c.g,c.b);}
+  g.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));g.computeBoundingBox();g.computeBoundingSphere();
+  const mesh=ctx.mesh(g,new THREE.MeshBasicMaterial({vertexColors:true,side:THREE.DoubleSide,transparent:true,opacity:.83,depthWrite:false,toneMapped:false}),group);
+  mesh.renderOrder=-1;
+  mesh.userData.mriReference={template:data.metadata.template,plane:axis,sourceAxis:plane.sourceAxis,sourceLevelMm:plane.sourceLevelMm};
+  ctx.pick(mesh,{id:`mri-reference-${axis}`,label:`${axis[0].toUpperCase()+axis.slice(1)} T1 MRI reference`,description:`ICBM 2009a asymmetric reference section at anatomical ${plane.sourceAxis}=${plane.sourceLevelMm} mm, sampled every 2 mm. Same named template as the HCP1065 streamlines; no Allen anatomy is superimposed.`,level:0,maxLevel:3,kind:'MRI reference',priority:0});
+  orientation(group,ctx,g.boundingBox!,axis);
+  return axis;
 }
 type RegionalMesh=AtlasMesh&{regionId:string;topicIds:string[];sourceLabelName:string;sourceVoxelCount:number;centroid:number[];atlasStructureIds:number[]};
 type RegionalAtlas={metadata:unknown;meshes:RegionalMesh[]};
@@ -232,11 +313,30 @@ export async function buildMacroScene(topic:BrainTopic,ctx:SceneContext):Promise
   const details=await load<RegionalAtlas>('/brain/models/atlas-details.json');if(!ctx.isCurrent())return;
   const regions=regionalAnatomy(details,atlas,topic,ctx);
   const dorsal=topic.id==='dorsal-column';
-  const registerRegions=()=>ctx.representation(regions,{id:'regions',label:dorsal?'Relay anatomy':'Regional anatomy',description:dorsal?'Measured VPL thalamic nuclei and postcentral gyri. These source regions locate the thalamic relay and cortical destination; the spinal pathway is not supplied.':'Named human atlas regions in their original coordinates. Select each measured shape to identify it.',status:dorsal?'Allen reference anatomy · VPL relay and postcentral gyri · no invented spinal tract, crossing or continuous axon through the relay.':'Allen Human Reference Atlas 2020 · atlas-derived parcellations · surfaces smoothed and simplified; original coordinate frame retained.',scale:'Reference anatomy · mm',narrative:null});
+  const rightOblique:[number,number,number]=[1,.18,.3];
+  const regionalView:[number,number,number]=['thalamus','hypothalamus','dorsal-column'].includes(topic.id)?[.15,.12,1]:topic.id==='cerebellum'?[.35,.18,-1]:rightOblique;
+  const registerRegions=()=>ctx.representation(regions,{id:'regions',label:dorsal?'Relay anatomy':'Regional anatomy',description:dorsal?'Measured VPL thalamic nuclei and postcentral gyri. These source regions locate the thalamic relay and cortical destination; the spinal pathway is not supplied.':'Named human atlas regions in their original coordinates. Select each measured shape to identify it.',status:dorsal?'Allen reference anatomy · VPL relay and postcentral gyri · no invented spinal tract, crossing or continuous axon through the relay.':'Allen Human Reference Atlas 2020 · atlas-derived parcellations · surfaces smoothed and simplified; original coordinate frame retained.',scale:'Reference anatomy · mm',narrative:null,viewDirection:regionalView});
+  if(topic.scene==='tracts'&&!dorsal){
+    const reference=await load<ReferenceMRI>('/brain/models/tracts/reference-mri.json');if(!ctx.isCurrent())return;
+    const context=new THREE.Group();ctx.root.add(context);
+    // Build another registration of the same source lines; representations are
+    // explicitly switched, never replaced when the user crosses a zoom level.
+    const before=new Set(ctx.root.children);await fibers(topic,ctx);if(!ctx.isCurrent())return;
+    for(const child of [...ctx.root.children])if(!before.has(child))context.add(child);
+    const axis=addMRIReference(reference,topic,context,ctx);
+    const viewDirection:[number,number,number]=axis==='coronal'?[.08,.06,1]:axis==='axial'?[0,1,-.12]:[1,.08,.06];
+    ctx.representation(context,{id:'context',label:'Tracts in MRI',description:`Estimated pathways against a ${axis} T1 reference section from the same ICBM2009a asymmetric template. Rotate to see the native three-dimensional relationships.`,status:`HCP1065 pathways + ICBM2009a asymmetric ${axis} T1 section · source coordinates retained; MRI sampled at 2 mm. Streamlines remain estimates, not individual axons.`,scale:'Reference anatomy · mm',narrative:null,viewDirection});
+  }else if(!['brain-overview','cerebral-cortex'].includes(topic.id)){
+    const landmarks=await load<LandmarkAtlas>('/brain/models/atlas-landmarks.json');if(!ctx.isCurrent())return;
+    const context=contextualAnatomy(atlas,landmarks,topic,ctx,dorsal?regionalAnatomy(details,atlas,topic,ctx):undefined);
+    ctx.representation(context,{id:'context',label:dorsal?'Relay in context':'Anatomical context',description:'Right cerebral exterior removed; measured target and neighboring anatomy shown against the remaining left hemisphere. Every structure retains its original atlas location and relative scale.',status:'Allen Human Reference Atlas 2020 · source-derived anatomical cutaway · right cerebral exterior removed to reveal the highlighted anatomy; source shape, size and position retained.',scale:'Reference anatomy · mm',narrative:null,viewDirection:rightOblique});
+  }else{
+    measured.updateMatrixWorld(true);orientation(measured,ctx,new THREE.Box3().setFromObject(measured));
+  }
   // The HCP ML entry contains a cortical continuation. Accurate named relay
   // regions are the default; the composite estimate is an explicit alternative.
   if(dorsal)registerRegions();
-  ctx.representation(measured,{id:'measured',label:dorsal?'Composite tract estimate':topic.scene==='tracts'?'Tractography':'Anatomy',description:dorsal?'Composite estimated ascending somatosensory streamlines from the HCP ML source label. Includes cortical continuation; not exact medial-lemniscus anatomy or an uninterrupted axon through VPL.':topic.scene==='tracts'?'Estimated white-matter pathways from HCP1065 diffusion MRI. Streamlines are not individual axons.':'Measured reference parcellations from Allen Human Reference Atlas 2020.',status:measuredStatus,narrative:null});
+  ctx.representation(measured,{id:'measured',label:dorsal?'Composite tract estimate':topic.scene==='tracts'?'Tractography':['brain-overview','cerebral-cortex'].includes(topic.id)?'Anatomy':'Isolated anatomy',description:dorsal?'Composite estimated ascending somatosensory streamlines from the HCP ML source label. Includes cortical continuation; not exact medial-lemniscus anatomy or an uninterrupted axon through VPL.':topic.scene==='tracts'?'Estimated white-matter pathways from HCP1065 diffusion MRI. Streamlines are not individual axons.':'Measured reference parcellations from Allen Human Reference Atlas 2020.',status:measuredStatus,narrative:null,viewDirection:topic.id==='cerebellum'?[.35,.18,-1]:rightOblique});
   if(!dorsal)registerRegions();
   const axon=axonInset(topic,ctx);
   ctx.representation(axon,{id:'axon',label:'Axon schematic',description:'A myelinated axon with internodes and nodes of Ranvier. This is a separate microscopic teaching model.',status:'Axon schematic · myelin and nodes of Ranvier; no measured continuity with an atlas region or streamline.',scale:'Schematic',narrative:null});

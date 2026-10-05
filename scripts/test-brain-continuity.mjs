@@ -103,7 +103,7 @@ assert.equal(group.children[0].title,'Measured population streamlines','Reused r
 // depth-axis clipping that an axis-aligned width/height heuristic misses.
 const createFitDriver = new Function('THREE','root','aspect',`
   const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z),defaultDirection=V(7.4,4,9.4).normalize();
-  const current={id:'brain-overview'},details=[],camera=new THREE.PerspectiveCamera(37,aspect,.015,500);
+  const current={id:'brain-overview'},details=[],representations=[],representationId='',camera=new THREE.PerspectiveCamera(37,aspect,.015,500);
   const controls={target:V(),update(){camera.lookAt(this.target);camera.updateMatrixWorld(true);}},home=V(),targetGoal=V(),cameraGoal=V(),reduced={matches:false};
   let baseDistance=12,moving=false,dirty=false;camera.position.set(0,0,12);
   function updateDetail(){}
