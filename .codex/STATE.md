@@ -3,9 +3,10 @@
 ## Brain interface copy cleanup — 2026-10-05
 
 - Mode: continuation. User requests removal of hero counters and promotional/poetic phrasing throughout Brain.
-- Status: verified release ready on clean `bb25496`/main. Removed top-right scale/topic/depth counters, hero/footer slogans; plain headings, study sequences, quiz feedback and20 curriculum display fields. Scientific explanations and interactions retained.
+- Status: complete. Published `77e73d4`; Pages run `37284058516` succeeded. Removed top-right scale/topic/depth counters, hero/footer slogans; plain headings, study sequences, quiz feedback and20 curriculum display fields. Scientific explanations and interactions retained.
 - Verified: full npm test; desktop study/sequence/quiz views and390/320 layouts, no overflow or console errors. Deep comparison confirms scientific lessons, questions, sources, IDs and sequencing unchanged.
-- Next: publish focused update and confirm live copy.
+- Live: HTTP200; fresh asset/script hashes match release; browser confirms counters and slogans absent, new headings/sequences/subtitles present, no console errors. Preview stopped and viewport reset.
+- Next: no required work remains.
 
 ## Brain model refinement — 2026-10-05
 
