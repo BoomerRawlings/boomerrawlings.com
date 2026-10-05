@@ -1,5 +1,17 @@
 # Project state
 
+## Brain neuroscience explorer — 2026-10-04
+
+- Mode: new task. Objective: create and publish `/brain/`, a futuristic neuroscience study guide spanning whole brain through tracts, cells, transmitters, channels and plasticity.
+- Status: verified release prepared; publication in progress. Isolated clone from verified production `0bd017f`; existing `/psyc/` quiz and unrelated paused objectives preserved.
+- Decisions: retain Astro/static GitHub Pages. Standalone unlisted route. Three.js only on Brain; eight connected scales, three explanation depths, guided paths and recall. User request on live domain authorizes publication after verification.
+- Evidence: `/brain/` returned404; `/psyc/` has31 anatomy questions. Visual reference is YouTube Short `6oer0cd12Us`, an interactive anatomical atlas.
+- Models: acquiring Allen human reference atlas2020 (CC BY4.0) geometry and RCSB6D6T receptor backbones (CC0). Explicitly distinguish measured geometry from teaching schematics.
+- Implemented:50 topics across8 scales,3 explanation depths,4 guided paths, randomized recall/missed review, local saved/understood progress, search and8 interactive model modes.31 atlas surfaces+experimental receptor total3.25MB. Sources and license metadata bundled; 3D lazy-loaded. All50 deep dives enriched:7,446 instructional words,71 references. Full npm test, strict Brain TypeScript and model/content checks pass. Browser checks at1280/390/320 cover all8 modes, search, three depths, complete6-question round+5-miss retry, saved/understood reload persistence, guided steps and camera controls; no console errors or horizontal overflow. Independent review corrected chemical structures, channel direction, labels and lifecycle.
+- Next: one production push; confirm Pages success and live content/model assets.
+- Assumptions: broad foundational neuroscience, with specialist detail progressively revealed. No claim of exhaustive field coverage or clinical utility.
+
+
 ## PSYC brain practice — 2026-09-30
 
 - Mode: new task. Objective: build and publish `/psyc/`, first tab Brain anatomy, plain visual rapid-fire practice.
