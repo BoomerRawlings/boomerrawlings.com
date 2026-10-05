@@ -1,5 +1,13 @@
 # Project state
 
+## Vertical flashcard flip - 2026-10-05
+
+- Mode: continuation. User requests calmer top-to-bottom card flipping.
+- Status: verified locally; publishing.
+- Change: rotate all card faces on X axis; gentler easing/perspective; clip transient perspective overflow. Reduced-motion behavior retained.
+- Verified: full npm test; desktop and390px phone reveal/return motion, Space shortcut, no horizontal overflow or console errors.
+- Next: confirm Pages deployment and live CSS/motion.
+
 ## Anatomical accuracy — 2026-10-05
 
 - Mode: continuation. Objective: anatomically appropriate geometry and connections across all atlas topics and Practice.
