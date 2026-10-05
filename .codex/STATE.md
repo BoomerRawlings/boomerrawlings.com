@@ -3,7 +3,7 @@
 ## Visual recognition - 2026-10-05
 
 - Mode: continuation. Objective: make every topic visually transferable to classroom anatomy/chemistry, reducing misleading abstraction.
-- Status: source/visual audit and implementation in progress; baseline `eff478a` verified against remote main.
+- Status: complete. Published `bb65a3a`; Pages run `37334892318` succeeded.
 - Findings: molecular CPK colors are muted, dark bonds disappear; no conventional2D chemistry cross-reference; protein defaults show schematic gating while measured structures are secondary. Isolated anatomy and generic cell shapes weaken recognition.
 - Direction: standard molecular depiction and element key, stable identifying features, atlas context/orientation, stronger cell silhouettes; preserve accurate topology and explicit reference limits.
 - Ownership: macro geometry/context; micro cell/synapse morphology;50-topic recognition reference dataset; root chemistry/protein/UI integration and final verification.
@@ -12,7 +12,9 @@
 - Implemented: atlas cutaways/CSF landmarks and source-matched MRI tract context; distinct cell silhouettes and connected synapses;9 standard formulas + CPK elements;6 experimental ribbon structures rigidly aligned to OPM.
 - Verified:9 independent RDKit graph/stereochemistry comparisons;6 rigid protein fits RMSD<.006Å;50 default model screenshots inspected, corrective recaptures underway.
 - Final verification: full npm test and strict TypeScript pass;50 scenes/7,012 frames/291 zoom boundaries.50 defaults +4 macro focus +3 micro closeups +9 phone views inspected; formula/conformer cards, vertical reveal, next/undo and320px protein card pass. No production-preview console errors.
-- Next: one verified release, live asset hashes and UI check; preserve explicit model limits.
+- Live: Brain/Psyc200;3 bundled asset hashes and17 reference/model assets match tested build. Browser confirms textbook-linked hippocampal context, charged acetylcholine formula/card toggle and OPM-oriented AMPA ribbons; no console errors. Screenshot: external `qa/visual-recognition/live-textbook-anatomy.png`.
+- Limits: existing50-topic foundation is not complete coverage of either textbook. Cellular animations remain labeled teaching models; molecular/protein data retain source/construct/protonation limits.
+- Next: none for this visual-recognition request; course curriculum gaps documented in `docs/brain-textbook-reference-map.md`.
 
 ## Structure search - 2026-10-05
 
