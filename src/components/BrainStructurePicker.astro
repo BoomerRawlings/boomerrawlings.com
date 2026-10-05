@@ -1,0 +1,13 @@
+<div class="structure-picker" id="structure-picker">
+  <button id="model-part" type="button" aria-label="Find a structure" aria-expanded="false" aria-controls="structure-panel" disabled>
+    <svg viewBox="0 0 20 20" width="14" height="14" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg>
+    <span>Structures</span><span id="structure-count" class="structure-count" aria-hidden="true"></span>
+  </button>
+  <section id="structure-panel" class="structure-panel" aria-label="Find model structures" hidden>
+    <div class="structure-search-heading"><label for="structure-search">Find a structure</label><button id="structure-close" type="button" aria-label="Close structure search">×</button></div>
+    <input id="structure-search" type="search" placeholder="Search this model…" autocomplete="off" spellcheck="false" aria-controls="structure-results" />
+    <div id="structure-results" class="structure-results" role="group" aria-label="Matching structures"></div>
+    <p id="structure-empty" class="structure-empty" hidden>No matches. Try a shorter name.</p>
+    <div class="structure-search-footer"><span id="structure-status" role="status" aria-live="polite"></span><span>↑ ↓ to browse · Esc to close</span></div>
+  </section>
+</div>

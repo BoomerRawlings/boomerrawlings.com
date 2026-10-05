@@ -33,7 +33,7 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
   renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.7));renderer.setClearColor(0x08131b,0);
   renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.94;
   const canvas=renderer.domElement;canvas.style.cssText='display:block;width:100%;height:100%;touch-action:none';
-  canvas.tabIndex=0;canvas.setAttribute('role','img');canvas.setAttribute('aria-label','3D model. Arrow keys orbit. Plus and minus zoom. Escape clears focus. Choose a structure below for keyboard exploration.');container.append(canvas);
+  canvas.tabIndex=0;canvas.setAttribute('role','img');canvas.setAttribute('aria-label','3D model. Arrow keys orbit. Plus and minus zoom. Escape clears focus. Use Structures below to search and focus a model part.');container.append(canvas);
   const labelLayer=document.createElement('div');labelLayer.className='model-label-layer';labelLayer.setAttribute('aria-hidden','true');container.append(labelLayer);
   const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(37,1,.015,500),root=new THREE.Group();scene.add(root);
   scene.add(new THREE.HemisphereLight(0xe5f5ff,0x233d43,1.4));
@@ -100,7 +100,12 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
     if(hover&&(!shown(hover.object)||(hover.spec.level??0)>level||(hover.spec.maxLevel??3)<level))setHover(null);
     if(focused&&(!shown(focused.object)||(focused.spec.level??0)>level||(focused.spec.maxLevel??3)<level))clearFocus();
     highlight(hover||focused);options.onDetail?.(level);
-    const seen=new Set<string>();options.onParts?.(available().filter(p=>{if(seen.has(p.spec.id))return false;seen.add(p.spec.id);return true;}).map(p=>p.spec));container.dataset.detail=String(level);dirty=true;
+    const seen=new Set<string>(),namedObjects=new Map(picks.map(p=>[p.object,p.spec]));
+    options.onParts?.(available().filter(p=>{if(seen.has(p.spec.id))return false;seen.add(p.spec.id);return true;}).map(p=>{
+      let parent=p.object.parent;
+      while(parent&&!namedObjects.has(parent))parent=parent.parent;
+      return parent?{...p.spec,parentLabel:namedObjects.get(parent)!.label}:p.spec;
+    }));container.dataset.detail=String(level);dirty=true;
   }
   function activateRepresentation(id:string){
     const selected=representations.find(r=>r.spec.id===id);if(!selected)return;

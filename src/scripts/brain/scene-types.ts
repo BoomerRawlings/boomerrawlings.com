@@ -1,7 +1,7 @@
 import type * as THREE from 'three';
 
 export type BrainTopic = { id:string;title:string;scene:string;modelTarget?:string;category?:string;color?:string };
-export type PickSpec = { id:string;label:string;description?:string;topicId?:string;childTopic?:string;level?:number;maxLevel?:number;kind?:string;priority?:number };
+export type PickSpec = { id:string;label:string;parentLabel?:string;description?:string;topicId?:string;childTopic?:string;level?:number;maxLevel?:number;kind?:string;priority?:number };
 export type LabelOptions = { minDetail?:number;maxDetail?:number;priority?:number;normal?:THREE.Vector3 };
 export type Narrative = { duration:number;steps:{at:number;label:string;description:string}[] };
 export type RepresentationSpec = { id:string;label:string;description:string;status?:string;scale?:string;narrative?:Narrative|null };

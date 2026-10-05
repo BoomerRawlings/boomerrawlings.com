@@ -2,6 +2,7 @@ import { categories, topics as rawTopics, sources as rawSources } from '../../..
 import { journeys, makeRound, cleanProgress } from '../../../public/brain/study.js';
 import type { createBrainViewer } from './models';
 import { initializePractice } from './practice';
+import { createStructurePicker } from './structure-picker';
 import type { Narrative, PickSpec, RepresentationSpec } from './scene-types';
 
 type Depth='essentials'|'mechanism'|'advanced';
@@ -38,6 +39,8 @@ let explorationTrail:string[]=[];
 let focusedPart:PickSpec|null=null;
 let animation:Narrative|null=null;
 const backgroundSelector='.site-header,.intro,#paths-panel,#recall-panel,#active-journey,.library,.reader,.scale-journey,.source-ledger,.site-footer';
+
+const structurePicker=createStructurePicker(id=>viewer?.focusPart(id));
 
 function save(){try{localStorage.setItem(storageKey,JSON.stringify(progress));}catch{}}
 function announce(message:string){$('announcement').textContent=message;}
@@ -80,7 +83,7 @@ function renderJourney(){
 }
 
 function setTopic(id:string,updateHash=true,focus=false){
-  const next=byId.get(id);if(!next)return;
+  const next=byId.get(id);if(!next)return;structurePicker.reset();
   const trailIndex=explorationTrail.indexOf(id);
   explorationTrail=trailIndex>=0?explorationTrail.slice(0,trailIndex+1):[...explorationTrail,id].slice(-5);
   $('model-trail').replaceChildren(...explorationTrail.flatMap((topicId,index)=>{
@@ -125,7 +128,7 @@ function filterTopics(){
 }
 
 function setMode(nextMode:string){
-  mode=nextMode;
+  structurePicker.close();mode=nextMode;
   all<HTMLButtonElement>('[data-mode]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.mode===mode)));
   $('paths-panel').hidden=mode!=='paths';$('recall-panel').hidden=mode!=='recall';
   document.body.classList.toggle('recall-mode',mode==='recall');
@@ -219,7 +222,6 @@ $('model-motion').setAttribute('aria-pressed',String(playing));
 $('model-motion').addEventListener('click',()=>{playing=!playing;viewer?.setPlaying(playing);$('model-motion').setAttribute('aria-pressed',String(playing));});
 $('model-zoom-in').addEventListener('click',()=>viewer?.zoom(1));
 $('model-zoom-out').addEventListener('click',()=>viewer?.zoom(-1));
-$('model-part').addEventListener('change',()=>viewer?.focusPart($<HTMLSelectElement>('model-part').value));
 $('model-enter').addEventListener('click',()=>viewer?.enter());
 $('model-unfocus').addEventListener('click',()=>viewer?.back());
 $('animation-scrub').addEventListener('input',()=>{playing=false;viewer?.setPlaying(false);$('model-motion').setAttribute('aria-pressed','false');viewer?.seek(Number($<HTMLInputElement>('animation-scrub').value)/1000);});
@@ -235,7 +237,7 @@ function setNarrative(value:Narrative|null){
     control.title=step.description;return control;
   }));
 }
-function setExpanded(value:boolean){expanded=value;const panel=document.querySelector<HTMLElement>('.viewer-column')!;panel.classList.toggle('is-expanded',expanded);if(expanded){panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-label','Expanded neuroscience model');}else{panel.removeAttribute('role');panel.removeAttribute('aria-modal');panel.removeAttribute('aria-label');}all<HTMLElement>(backgroundSelector).forEach(el=>el.inert=expanded);$('model-fullscreen').setAttribute('aria-label',expanded?'Close expanded model':'Expand model');document.body.style.overflow=expanded?'hidden':'';requestAnimationFrame(()=>viewer?.resize());$('model-fullscreen').focus();}
+function setExpanded(value:boolean){structurePicker.close();expanded=value;const panel=document.querySelector<HTMLElement>('.viewer-column')!;panel.classList.toggle('is-expanded',expanded);if(expanded){panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-label','Expanded neuroscience model');}else{panel.removeAttribute('role');panel.removeAttribute('aria-modal');panel.removeAttribute('aria-label');}all<HTMLElement>(backgroundSelector).forEach(el=>el.inert=expanded);$('model-fullscreen').setAttribute('aria-label',expanded?'Close expanded model':'Expand model');document.body.style.overflow=expanded?'hidden':'';requestAnimationFrame(()=>viewer?.resize());$('model-fullscreen').focus();}
 $('model-fullscreen').addEventListener('click',()=>setExpanded(!expanded));
 document.addEventListener('keydown',event=>{const editable=(event.target as HTMLElement).matches('input,textarea,select,[contenteditable]');if(event.key==='Escape'){if(expanded)setExpanded(false);else if(editable){$<HTMLInputElement>('topic-search').value='';filterTopics();}}if(expanded){if(event.key==='Tab'){const controls=all<HTMLElement>('.viewer-column button:not(:disabled):not([hidden]),.viewer-column select:not(:disabled),.viewer-column input:not(:disabled),.viewer-column canvas').filter(el=>el.getClientRects().length>0);if(event.shiftKey&&document.activeElement===controls[0]){event.preventDefault();controls.at(-1)?.focus();}else if(!event.shiftKey&&document.activeElement===controls.at(-1)){event.preventDefault();controls[0]?.focus();}}return;}if(editable)return;if(event.key==='/'){event.preventDefault();setMode('explore');$('topic-search').focus();}if(mode==='recall'&&!$('question-practice').hidden&&!$('recall-quiz').hidden){const digit=Number(event.key);if(digit>=1&&digit<=4&&!answered)answerQuestion(choiceOrder[digit-1]);if(event.key==='Enter'&&answered&&(event.target as HTMLElement).tagName!=='BUTTON')$('recall-next').click();}});
 
@@ -250,13 +252,13 @@ async function initializeViewer(){
       onSelect:id=>{if(byId.has(id))setTopic(id,true);},
       onStatus:text=>{$('model-provenance').textContent=text;$('viewer-loading').hidden=!/^Loading/.test(text);$('model-kind').textContent=/^Model could not load|3D unavailable/i.test(text)?'Model unavailable':/^Loading/.test(text)?'Assembling model':selected.scene==='channel'?'Gating schematic + protein structure':selected.scene==='molecule'?(selected.id==='neuropeptides'?'Peptide connectivity schematic':'Computed molecular conformer'):selected.scene==='tracts'?'Population tractography':selected.scene==='brain'?'Measured anatomy + study layers':selected.id==='dendrites'?'Measured arbor + study overlays':'Custom mechanism model';},
       onHover:showPart,
-      onFocus:part=>{focusedPart=part;showPart(part);const child=part?.childTopic||part?.topicId;$('model-enter').hidden=!child||child===selected.id||!byId.has(child);$('model-enter').textContent=child&&byId.has(child)?`${byId.get(child)!.title} ↗`:'Open related topic ↗';$('model-unfocus').hidden=!part;},
+      onFocus:part=>{structurePicker.setFocus(part);focusedPart=part;showPart(part);const child=part?.childTopic||part?.topicId;$('model-enter').hidden=!child||child===selected.id||!byId.has(child);$('model-enter').textContent=child&&byId.has(child)?`${byId.get(child)!.title} ↗`:'Open related topic ↗';$('model-unfocus').hidden=!part;},
       onDetail:level=>{$('detail-name').textContent=['Overview','Structures','Close-up','Fine detail'][level];$('detail-dots').textContent=Array.from({length:4},(_,i)=>i<=level?'●':'○').join(' ');},
-      onParts:parts=>{const select=$<HTMLSelectElement>('model-part'),value=select.value;select.replaceChildren();const empty=document.createElement('option');empty.value='';empty.textContent=parts.length?'Choose a structure…':'Zoom to reveal structures';select.append(empty);for(const part of parts){const option=document.createElement('option');option.value=part.id;option.textContent=part.label;select.append(option);}if(parts.some(part=>part.id===value))select.value=value;},
+      onParts:parts=>structurePicker.setParts(parts),
       onRepresentations:(views:RepresentationSpec[],active:string)=>{
         const group=$('model-representations');group.hidden=views.length<2;
         const existing=Array.from(group.querySelectorAll<HTMLButtonElement>('button'));
-        if(existing.length!==views.length||existing.some((item,i)=>item.dataset.representation!==views[i].id))group.replaceChildren(...views.map(view=>{const item=button(view.label,()=>{viewer?.setRepresentation(view.id);$<HTMLSelectElement>('model-view').value='perspective';});item.dataset.representation=view.id;item.title=view.description;return item;}));
+        if(existing.length!==views.length||existing.some((item,i)=>item.dataset.representation!==views[i].id))group.replaceChildren(...views.map(view=>{const item=button(view.label,()=>{structurePicker.reset();viewer?.setRepresentation(view.id);$<HTMLSelectElement>('model-view').value='perspective';});item.dataset.representation=view.id;item.title=view.description;return item;}));
         group.querySelectorAll<HTMLButtonElement>('button').forEach((item,i)=>{item.textContent=views[i].label;item.title=views[i].description;item.setAttribute('aria-pressed',String(item.dataset.representation===active));});
         const chosen=views.find(view=>view.id===active);if(chosen)$('model-kind').textContent=chosen.label;$('scale-badge').textContent=chosen?.scale||selected.scale;
       },
