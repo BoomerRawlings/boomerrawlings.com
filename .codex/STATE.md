@@ -3,14 +3,16 @@
 ## Brain learning systems — 2026-10-05
 
 - Mode: continuation. Objective: animated flashcards and engaging learning loops, restrained progress feedback; preserve existing atlas/zoom fixes.
-- Status: implemented; final QA before deployment. Baseline `ba891c4` / code `6b75695`.
+- Status: complete. Published `96bbc3f`; Pages run `37293962438` succeeded. Baseline `ba891c4` / code `6b75695`.
 - Decisions:150 source-grounded recall/mechanism/application cards across50topics; eight animated schematic families; short spaced-review sessions with bounded retries, undo and local resume. Separate local review storage preserves existing saved/understood/quiz data. Existing question rounds remain available inside Practice.
 - UX: due/new/reviewed counts, subject decks, confidence ratings, meaningful session summary; no badges, scores masquerading as mastery, or streak pressure. Links connect each card back to its 3D lesson; sequence/current-topic practice entry points.
 - Verified: full npm test passes, including150-card provenance/coverage and review-engine scheduling, bounded retries, undo/reload and local-day checks. Strict TypeScript passed. Visible five-card completion, Again/undo/keyboard/reload/resume/model-return/quiz flow works;390/320layouts fit including long application answers.
 - Audit fixes: independent session labels, deck keyboard focus, inert outgoing cards, cancellation on format changes, all topic references, single announcements and inactive animation cleanup. Eight visual families inspected front/back; corrected circuit feedback branch and larger callouts recaptured. Production preview confirms3Dinitialization/return, partial-session reload, references and sequence practice; no console errors.
 - Evidence: `docs/codex/user-facing-tests/2026-10-05__user-facing-flow-test__flashcard-resume.md`; local screenshot/audit files in external `qa/practice` folder.
 - Final checks: final build/strict TypeScript and focused Brain publication/content/review tests pass; corrected resume labels, six ratings for five cards, difficult retry scope and deck focus rechecked. Remote main matches baseline.
-- Next: publish one verified release and verify live assets.
+- Final visual audit: all16 settled desktop front/back captures pass, including corrected circuit and readable callouts. Saved-topic empty/three-card flow also verified on production preview.
+- Live: Brain/Psyc HTTP200; five release JS/CSS/content assets match local SHA-256, unchanged study source matches after line-ending normalization. Production browser confirms150-card hub, channel-card reveal,3Dlesson link and return; no console errors. Screenshot `qa/practice/live-practice.png` outside repo. Viewport reset; temporary preview closed.
+- Next: no required work remains.
 - Assumption: original site-edit authorization includes normal tested production deployment. Review intervals are transparent simple heuristics, not a validated memory model.
 
 ## Brain zoom continuity — 2026-10-05
