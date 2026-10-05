@@ -2,18 +2,16 @@
 
 ## Anatomical accuracy — 2026-10-05
 
-- Mode: continuation. Objective: every topic/node uses anatomically appropriate geometry and connections across atlas and Practice.
-- Status: final tests pass; preparing production publication; baseline `f739656` / production code `96bbc3f` verified.
-- Milestone: topic-specific reusable WebGL cards replace eight generic sketches;108 source-derived regional meshes; distinct cellular morphology, circuit placement, synapse topology and channel architecture. New macro/micro anatomical regression checks.
-- Verification: full npm test and strict TypeScript passed;50 desktop card models loaded successfully, no horizontal overflow. Pixel audit prompted label toggles and a cerebellar fiber attachment fix; final recheck pending.
-- Findings: eight generic flashcard sketches create wrong topic associations (glia as neurons, electrical synapses as chemical release, identical invented molecules). Macro detail diagrams substitute balls for anatomical regions; crossing locations appear as relay nodes. Micro audit found incorrect Purkinje/oligodendrocyte shapes, laminar placement and channel pore details.
-- Decisions: reuse corrected topic-specific3D scenes in flashcards instead of generic SVG families; prefer experimental protein structures for molecular shape. Add source-derived regional atlas masks rather than inventing nuclear boundaries. Preserve source/species/representation limits and existing study progress.
-- Ownership: macro/regional anatomy; cellular/circuit/channel geometry; independent50-topic source audit; root viewer/card integration and visual verification.
-- Visual: all50 desktop +50 phone card models and14 regional views inspected. Corrected label obstruction, regional white-matter transparency and cerebellar labels. Card undo/reload/lesson-return, source keyboard controls and answer hiding pass.
-- Final corrections: explicit embedded protein architectures/loops, radial nodal axes, opposed connexon polarity, round lipid heads, correct openings and ion routes; AMPARs occupy distinct endosomal membrane sites with luminal extracellular domains. Selected structures use projected camera fitting. Independent source review and regression checks pass.
-- Verified final build: full npm test and strict TypeScript pass;108 regional surfaces,36 micro scenes,6,244 animation/detail frames,255 zoom boundaries and15 focus-framing cases. Final18 gating states and9 changed phone cards pass pixel review; five final pool/focus close-ups also pass.
-- Next: publish one tested release, verify production assets and browser, record final deployment.
-- Limits: atlas-derived surfaces, population tractography and experimental conformations are references; cell/circuit mechanisms are constrained teaching models, not measured universal specimens. No claim of expert certification.
+- Mode: continuation. Objective: anatomically appropriate geometry and connections across all atlas topics and Practice.
+- Status: complete. Published `691893f`; Pages run `37323403732` succeeded.
+- Implemented:108 source-derived regional surfaces replace generic macro node diagrams; corrected cellular morphology, cortical layers, synapse topology, channel architectures, myelin/nodes and membrane receptor trafficking. Topic-specific reusable WebGL cards replace eight generic sketches; experimental protein structures preferred where available.
+- Decisions: preserve source coordinates and species/construct limits; keep incompatible atlas/tractography templates separate; no invented nuclear boundaries or continuous axons across relay synapses. Existing study progress and scheduling preserved.
+- Verified: full npm test, strict TypeScript and diff checks pass. Coverage includes108 regional surfaces,36 micro scenes,6,244 animation/detail frames,255 zoom boundaries and15 selected-structure framing cases.
+- Visual: all50 desktop and50 phone card models,14 regional views,18 final gating states,9 changed phone cards and5 final receptor-pool/focus close-ups inspected. Corrected label obstruction, transparency artifacts, attachment errors and camera clipping. Card undo/reload/lesson-return, keyboard controls and answer hiding pass.
+- Live: Brain/Psyc HTTP200; four release assets (including lazy renderer and regional geometry) match built SHA-256; four study/data sources match normalized text. Production browser confirms regional thalamic nuclei and experimental NMDA flashcard with source/species disclosure; no console errors.
+- Evidence: `docs/brain-anatomical-accuracy.md`; screenshots and audit reports in external `qa/anatomical-accuracy` folder, including `live-anatomy.png` and `live-card.png`.
+- Limits: atlas surfaces are smoothed; tractography estimates pathways; experimental structures show fixed Cα conformations. Cell/circuit animations remain source-informed teaching models, not measured universal specimens or expert-certified replicas.
+- Next: no required work remains.
 
 ## Brain learning systems — 2026-10-05
 
