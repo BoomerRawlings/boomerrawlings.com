@@ -2,7 +2,7 @@
 
 ## Native lecture replacement — 2026-10-05
 
-- Mode: continuation. Status: verified; publishing. Baseline9da7f56.
+- Mode: continuation. Status: implemented/verified; deployment queued. Release99f1329 pushed to main; baseline9da7f56.
 - Objective: complete native alternative to supplied PowerPoints, all information retained, related bullets visible together; integrated selected diagrams/animations.
 - Implemented:139 native scenes,197 groups/417 text items,106 clean scientific figure crops. Full source-slide images removed from lecture payload.18 integrated demonstrations;4 controlled animated diagrams; optional full visual focus; private native presenter previews/notes/timer. Arrow/Space advances whole scenes, including reading guides.
 - Preserve: encrypted memory-only collection;139-page order; no invented L6 slides. Originals/crop provenance remain private outside repository.
@@ -12,7 +12,9 @@
 - Evidence: docs/codex/user-facing-tests/2026-10-05__user-facing-flow-test__native-lectures.md; external qa/lectures/native.
 - Limits: embedded browser does not expose separate companion popup pixels/native fullscreen; companion lifecycle/content verified by production-code tests. Dense scientific labels use enlargement.
 - Lock cleanup verified: source images/descriptions and native scene DOM cleared; gate restored.
-- Next: single verified release, live check and state checkpoint.
+- Publication blocker: Pages run37369683487 build job111963441606 remains queued without a runner (2026-10-05 20:35UTC). GitHub status confirms an active Actions runner-assignment delay incident. No build failure; live site still serves previous release.
+- Preview: tested production bundle available locally on port4323, Lectures route. All private content remains encrypted at rest in public output. External qa/lectures/native/release-assets.json contains the five final release hashes.
+- Next: after https://github.com/BoomerRawlings/boomerrawlings.com/actions/runs/37369683487 succeeds, compare live app/CSS/models/labs/collection hashes, verify native lecture unlock/navigation in production, update this state. Do not redeploy or cancel the queued run merely for the upstream delay.
 
 ## Lectures portal — 2026-10-05
 
