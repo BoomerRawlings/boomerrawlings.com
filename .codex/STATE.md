@@ -3,10 +3,11 @@
 ## Vertical flashcard flip - 2026-10-05
 
 - Mode: continuation. User requests calmer top-to-bottom card flipping.
-- Status: verified locally; publishing.
+- Status: complete. Published `18ade63`; Pages run `37324952025` succeeded.
 - Change: rotate all card faces on X axis; gentler easing/perspective; clip transient perspective overflow. Reduced-motion behavior retained.
 - Verified: full npm test; desktop and390px phone reveal/return motion, Space shortcut, no horizontal overflow or console errors.
-- Next: confirm Pages deployment and live CSS/motion.
+- Live: release hashes match tested build; X-axis motion and softer easing confirmed in production, no horizontal overflow or console errors. Screenshot: external `qa/anatomical-accuracy/live-vertical-flip.png`.
+- Next: none.
 
 ## Anatomical accuracy — 2026-10-05
 
