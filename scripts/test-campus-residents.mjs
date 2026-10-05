@@ -53,7 +53,7 @@ assert(text(byId('campus-measure-note')).includes('Housing-property boundaries')
 nodes.length=0; walk(parse(readFileSync('dist/index.html','utf8')));
 const ledger=nodes.find(n=>attr(n,'class')==='ledger-list');
 const links=ledger.childNodes.filter(n=>n.tagName==='li').map(li=>li.childNodes.find(n=>n.tagName==='a'));
-assert.equal(links.length,7);
-assert.deepEqual(links.slice(0,2).map(n=>attr(n,'href')),['/writing/data-analysis/crime-and-heat/','/writing/data-analysis/campus-safety/']);
+assert.equal(links.length,8);
+assert.deepEqual(links.slice(0,3).map(n=>attr(n,'href')),['https://boomerrawlings.com/brain/','/writing/data-analysis/crime-and-heat/','/writing/data-analysis/campus-safety/']);
 assert(!links.some(n=>/research-briefing-assistant|research-publishing-systems/.test(attr(n,'href'))));
-console.log('Resident focus: documented occupancy cohort, missingness, exact numerator/denominator, old/new URL semantics, static defaults and seven homepage highlights verified.');
+console.log('Resident focus: documented occupancy cohort, missingness, exact numerator/denominator, old/new URL semantics, static defaults and eight homepage highlights verified.');

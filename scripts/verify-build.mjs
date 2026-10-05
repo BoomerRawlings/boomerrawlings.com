@@ -1499,6 +1499,7 @@ if (publicHtml.includes('Interactive Systems')) {
 }
 
 const featuredWork = [
+  ['https://boomerrawlings.com/brain/', 'Project'],
   ['/writing/data-analysis/crime-and-heat/', 'Data analysis'],
   ['/writing/data-analysis/campus-safety/', 'Data analysis'],
   ['/work/horizon/', 'Project'],
@@ -1510,7 +1511,7 @@ const featuredWork = [
 const homeLedger = homeHtml.match(/<ul\b[^>]*class="ledger-list"[^>]*>([\s\S]*?)<\/ul>/)?.[1] ?? '';
 const featuredRows = [...homeLedger.matchAll(/<li\b[^>]*>\s*<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>\s*<\/li>/g)];
 if (featuredRows.length !== featuredWork.length || !homeHtml.includes('>Selected work</h2>')) {
-  failures.push('index.html: selected work must contain exactly seven highlights');
+  failures.push('index.html: selected work must contain exactly eight highlights');
 }
 featuredWork.forEach(([href, type], index) => {
   const row = featuredRows[index];
@@ -1664,7 +1665,7 @@ for (const [label, href] of [
 if (homeContents.includes('href="/research/"')
   || homeContents.includes('href="/about/"')
   || !homeContents.includes('>Overview</span>')
-  || !homeContents.includes('aria-label="9 published projects"')) {
+  || !homeContents.includes('aria-label="10 published projects"')) {
   failures.push('home contents: section overview is stale or project count is missing');
 }
 const homeGuideOffset = homeHtml.indexOf('data-pip-guide');

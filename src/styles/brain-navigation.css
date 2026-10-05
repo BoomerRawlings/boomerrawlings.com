@@ -1,0 +1,21 @@
+.model-compass{position:absolute;right:10px;bottom:28px;width:112px;z-index:4;pointer-events:none;user-select:none}
+.compass-stage{height:112px;position:relative;background:radial-gradient(circle,#0a1724b8 0%,#0a172440 55%,transparent 70%)}
+.compass-stage svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.compass-stage button{position:absolute;transform:translate(-50%,-50%);width:25px;height:25px;min-height:0;padding:0;border:1px solid var(--axis-color);border-radius:50%;background:#142332;color:var(--axis-color);font:600 10px/1 var(--font-mono,monospace);pointer-events:auto;box-shadow:0 1px 6px #0005}
+.compass-stage button[data-front=false]{background:#0c1722;color:#c4ccd4;border-color:#617486}
+.compass-stage button:hover,.compass-stage button:focus-visible{background:var(--axis-color);color:#08131b;outline:2px solid white;outline-offset:2px}
+.compass-title{display:block;text-align:center;font-size:9px;letter-spacing:.02em;color:#b5c3ce}
+.separation-note{font-size:11px;color:var(--muted,#b5c3ce);margin:8px 0 0;text-align:center;padding:0 12px}
+.answer-comparison{margin:18px 0 0;padding:0;list-style:none;display:grid;gap:14px}
+.answer-comparison li{padding:12px;border-left:2px solid #516777;background:#ffffff03}
+.answer-comparison li[data-correct=true]{border-color:#84d6bb}
+.answer-comparison strong{font-weight:500!important;font-size:13px!important;color:#e4edf2!important}
+.answer-comparison p{margin:6px 0 0!important}
+.answer-result{margin-left:auto;font:11px/1.3 var(--font-mono,monospace);min-width:74px}
+.correction-prompt{border-left:2px solid #d9b78d;padding-left:12px}
+#recall-feedback details summary{cursor:pointer;padding:8px 0;font-weight:600;font-size:13px}
+@media(max-width:620px){.model-compass{width:96px;right:5px;bottom:38px}.compass-stage{height:96px}.compass-stage button{width:24px;height:24px}.compass-title{font-size:8px}.answer-result{min-width:0;max-width:62px}}
+
+/* Reserve the compass corner when a selected structure has explanatory copy. */
+.model-selection{right:138px;margin:0;max-width:360px}
+@media(max-width:620px){.model-selection{right:112px;left:15px}}

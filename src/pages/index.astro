@@ -5,6 +5,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const publishedEntries = await getCollection('archive', ({ data }) => data.status === 'published');
 const highlightOrder = [
+  'brain-study-guide',
   'crime-and-heat',
   'campus-safety',
   'horizon',

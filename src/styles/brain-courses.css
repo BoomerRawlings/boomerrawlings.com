@@ -1,0 +1,25 @@
+#brain-courses{max-width:1720px;margin:0 auto 24px;border:1px solid var(--line);border-radius:10px;background:#0c1722;overflow:hidden}
+.course-bar{display:flex;align-items:center;gap:18px;padding:13px 18px;flex-wrap:wrap}
+.course-tabs{display:flex;gap:5px}
+.course-tabs button,.course-toggle{border:1px solid #2c424e;border-radius:5px;padding:8px 12px;font-size:12px;color:#c0ccd6}
+.course-tabs button[aria-pressed=true]{background:#1b3834;color:var(--mint);border-color:#567e73}
+.course-toggle{margin-left:auto;background:#132432}
+.course-scope{font-size:12px;color:var(--muted)}
+.course-panel{display:grid;grid-template-columns:minmax(210px,280px) minmax(0,1fr);gap:28px;padding:24px;border-top:1px solid var(--line)}
+.chapter-list{display:flex;flex-direction:column;gap:4px;max-height:570px;overflow:auto;align-self:start;scrollbar-width:thin;scrollbar-color:#35505c transparent}
+.chapter-list button{text-align:left;display:flex;gap:12px;padding:10px 12px;font-size:12px;line-height:1.45;border:1px solid transparent;border-radius:4px}
+.chapter-list button span:first-child{color:#78929f;font:11px/1.6 monospace}
+.chapter-list button[aria-current=true]{background:#18302e;color:var(--mint);border-color:#355a51}
+.chapter-list button:hover{background:#142934}
+.course-notes{max-width:980px;min-width:0}.course-notes h2{font-size:25px;font-weight:450;margin:8px 0 14px}.course-notes h3{font-size:14px;font-weight:600;margin:0 0 8px}.course-notes p{font-size:13px;line-height:1.65;color:#b9c9d3;margin:0 0 14px}.course-notes .chapter-overview{font-size:15px;color:#d2dce2;max-width:850px}
+.chapter-ideas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin:25px 0 12px}
+.chapter-correction{border-left:2px solid #d4b17e;background:#bd975408;padding:15px 18px;margin:15px 0 25px}.chapter-correction .chapter-claim{color:#e7cfac;font-style:italic}
+.chapter-retrieval details{border-top:1px solid #263d49;padding:13px 0}.chapter-retrieval summary,.course-background>summary{cursor:pointer;font-size:13px;line-height:1.6;color:#d5e4e9}.chapter-retrieval details p{margin:12px 0 0}.chapter-models{margin:23px 0}
+.chapter-topic-links{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}.chapter-topic-links button{font-size:12px;padding:6px 9px;border:1px solid #344c57;border-radius:4px;color:#c5dddd}
+.course-practice{font-size:12px;color:var(--mint);padding:9px 12px;border:1px solid #3c665b;border-radius:5px;margin:5px 0}
+.course-notes .course-coverage,.course-notes .chapter-source{font-size:11px;color:#99aab7}.chapter-source a{color:#badad6;text-decoration:underline;text-underline-offset:3px}.course-background{margin:22px 0}.course-background>p{margin-top:12px}
+.course-chooser{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:24px}.course-chooser h2{font-size:20px}.course-chooser p{font-size:12px;color:var(--muted)}.course-chooser button{color:var(--mint);font-size:13px;padding:10px 0}
+#brain-courses button:focus-visible,#brain-courses summary:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+@media(max-width:1100px){.chapter-ideas{grid-template-columns:1fr;gap:5px}.course-panel{gap:18px;grid-template-columns:225px minmax(0,1fr)}}
+@media(max-width:620px){#brain-courses{margin-bottom:18px}.course-bar{gap:10px;padding:12px}.course-bar>.eyebrow{display:none}.course-tabs{gap:4px}.course-tabs button{font-size:11px;padding:8px 10px}.course-scope{order:3;flex:1 1 100%;font-size:11px}.course-toggle{padding:8px;font-size:10px}.course-panel{padding:14px;grid-template-columns:1fr;gap:20px}.chapter-list{max-height:190px;border-bottom:1px solid var(--line);padding-bottom:10px}.chapter-list button{padding:8px 10px}.course-notes h2{font-size:22px}.course-notes .chapter-overview{font-size:14px}.course-chooser{grid-template-columns:1fr}}
+@media(max-width:360px){.course-toggle{margin-left:0}.course-bar{gap:8px}.course-scope{order:0}}

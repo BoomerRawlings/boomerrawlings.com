@@ -82,18 +82,27 @@ globalThis.fetch=async url=>new Response(await readFile(new URL(String(url).repl
 let count=0;
 try{
  for(const topic of topics.filter(t=>['brain','tracts'].includes(t.scene))){
-  const root=new THREE.Group(),picks=[],views=[],details=[],labels=[];
+  const root=new THREE.Group(),picks=[],views=[],details=[],labels=[],separations=[];
   const material=(color=0xffffff,opacity=1)=>new THREE.MeshStandardMaterial({color,opacity,transparent:opacity<1});
   const mesh=(geometry,mat,parent=root)=>{const m=new THREE.Mesh(geometry,mat);parent.add(m);return m;};
   const ctx={root,material,mesh,
    ball(p,r,c,parent=root,o=1){const m=mesh(new THREE.SphereGeometry(r,8,6),material(c,o),parent);m.position.copy(p);return m;},
    link(a,b,r,c,parent=root,o=1){const m=mesh(new THREE.CylinderGeometry(r,r,a.distanceTo(b),8),material(c,o),parent);m.position.copy(a).add(b).multiplyScalar(.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),b.clone().sub(a).normalize());return m;},
    label(text,object,point,options){labels.push({text,object,point,options});},pick(object,spec){picks.push({object,spec});},detail(object,min,max=3){details.push({object,min,max});},
-   representation(object,spec){views.push({object,spec});},separable(){},animate(){},layout(){},status(){},narrative(){},isCurrent(){return true;},
+   representation(object,spec){views.push({object,spec});},separable(object,offset){separations.push({object,offset,base:object.position.clone()});},animate(){},layout(){},status(){},narrative(){},isCurrent(){return true;},
   };
   await buildMacroScene(topic,ctx);
   const hasContext=!['brain-overview','cerebral-cortex'].includes(topic.id);
-  assert.deepEqual(views.map(v=>v.spec.id),topic.id==='dorsal-column'?['context','regions','measured','axon']:hasContext?['context','measured','regions','axon']:['measured','regions','axon']);
+  const expectedViews=topic.id==='dorsal-column'?['context','regions','measured']:hasContext?['context','measured','regions']:['measured','regions'];
+  if(topic.scene==='tracts')expectedViews.push('axon');
+  assert.deepEqual(views.map(v=>v.spec.id),expectedViews);
+  if(topic.scene==='brain'){
+   assert(!views.some(v=>v.spec.id==='axon'),'Gross brain-region lessons must not offer a generic axon as their anatomy');
+   const generic=new Set(['neuron','myelin','synaptic-release','synaptic-integration','resting-potential','sodium-channel']);
+   assert(!picks.some(p=>generic.has(p.spec.childTopic)),`${topic.id}: misleading generic macro-to-micro child route`);
+  }
+  const within=(object,parent)=>{for(let p=object;p;p=p.parent)if(p===parent)return true;return false;};
+  assert.equal(new Set(separations.map(s=>s.object)).size,separations.length,'Part must receive exactly one rigid separation offset');
   const context=views.find(v=>v.spec.id==='context');
   if(context){
    assert(context.spec.viewDirection?.length===3,'Context needs a consistent anatomical view');
@@ -109,6 +118,47 @@ try{
   const regions=views.find(v=>v.spec.id==='regions').object;
   assert(regions.children.length,`${topic.id}: empty anatomy detail`);
   regions.traverse(o=>{if(o.isMesh){assert(o.userData.atlasRegion,`${topic.id}: arbitrary regional node`);assert.equal(o.geometry.type,'BufferGeometry');}});
+  const regionalParts=separations.filter(s=>within(s.object,regions));
+  assert.equal(regionalParts.length,regions.children.length,`${topic.id}: each measured region must separate`);
+  const direction=new THREE.Vector3(...views.find(v=>v.spec.id==='regions').spec.viewDirection).normalize();
+  const right=new THREE.Vector3().crossVectors(new THREE.Vector3(0,1,0),direction).normalize(),up=new THREE.Vector3().crossVectors(direction,right).normalize();
+  const projected=object=>{
+   const box=new THREE.Box3().setFromObject(object),values=[];
+   for(const x of[box.min.x,box.max.x])for(const y of[box.min.y,box.max.y])for(const z of[box.min.z,box.max.z]){const p=new THREE.Vector3(x,y,z);values.push([p.dot(right),p.dot(up)]);}
+   return{left:Math.min(...values.map(v=>v[0])),right:Math.max(...values.map(v=>v[0])),bottom:Math.min(...values.map(v=>v[1])),top:Math.max(...values.map(v=>v[1]))};
+  };
+  const positions=regionalParts.map(s=>new Float32Array(s.object.geometry.attributes.position.array));
+  regionalParts.forEach(s=>s.object.position.copy(s.base).add(s.offset));root.updateMatrixWorld(true);
+  const boxes=regionalParts.map(s=>projected(s.object));
+  for(let i=0;i<boxes.length;i++)for(let j=i+1;j<boxes.length;j++){
+   const a=boxes[i],b=boxes[j],overlapX=Math.min(a.right,b.right)-Math.max(a.left,b.left),overlapY=Math.min(a.top,b.top)-Math.max(a.bottom,b.bottom);
+   assert(overlapX<=.015||overlapY<=.015,`${topic.id}: separated source regions ${i}/${j} remain stacked`);
+  }
+  regionalParts.forEach((s,i)=>{assert.deepEqual(s.object.geometry.attributes.position.array,positions[i],'Separation must not deform anatomical source vertices');s.object.position.copy(s.base);});root.updateMatrixWorld(true);
+  if(['brain-overview','cerebral-cortex'].includes(topic.id)){
+   const measured=views.find(v=>v.spec.id==='measured').object;
+   const lobes=picks.filter(p=>within(p.object,measured)&&/^(frontal|parietal|temporal|occipital|insula|limbic)-(left|right)$/.test(p.spec.id));
+   assert.equal(lobes.length,12);
+   const offsets=lobes.map(p=>separations.find(s=>s.object===p.object)?.offset);
+   assert(offsets.every(o=>o?.length()>1.5),'Each lobe surface needs meaningful individual separation');
+   assert.equal(new Set(offsets.map(o=>o.toArray().join(','))).size,12,'Lobes must not move as only two hemisphere slabs');
+   const wholeParts=separations.filter(s=>within(s.object,measured));
+   wholeParts.forEach(s=>s.object.position.copy(s.base).add(s.offset));root.updateMatrixWorld(true);
+   const wholeBoxes=wholeParts.map(s=>projected(s.object));
+   for(let i=0;i<wholeBoxes.length;i++)for(let j=i+1;j<wholeBoxes.length;j++){
+    const a=wholeBoxes[i],b=wholeBoxes[j];
+    assert(Math.min(a.right,b.right)-Math.max(a.left,b.left)<=.015||Math.min(a.top,b.top)-Math.max(a.bottom,b.bottom)<=.015,`${topic.id}: separated exterior/deep source parts ${i}/${j} still overlap`);
+   }
+   wholeParts.forEach(s=>s.object.position.copy(s.base));root.updateMatrixWorld(true);
+  }
+  if(topic.scene==='tracts'){
+   const measured=views.find(v=>v.spec.id==='measured').object,families=[];measured.traverse(o=>{if(o.userData.tractFamily)families.push(o);});
+   if(families.length>1)assert(families.every(o=>separations.some(s=>s.object===o)),`${topic.id}: named tract families must separate intact`);
+   const measuredDirection=new THREE.Vector3(...views.find(v=>v.spec.id==='measured').spec.viewDirection).normalize();
+   for(const part of separations.filter(s=>within(s.object,measured)))assert(measuredDirection.distanceTo(new THREE.Vector3(...part.object.userData.explodedLayout.direction))<1e-9,`${topic.id}: measured view must match tract-separation projection`);
+   if(topic.id!=='dorsal-column')assert.deepEqual(context.spec.viewDirection,views.find(v=>v.spec.id==='measured').spec.viewDirection,`${topic.id}: context and tractography should use the same conventional plane`);
+   assert(views.find(v=>v.spec.id==='axon').spec.description.includes('not reconstructed'),'Tract axon teaching model must explain its separate scale');
+  }
   if(topic.id==='white-matter')regions.traverse(o=>{if(o.isMesh)assert(!o.userData.atlasRegion.id.startsWith('white-matter-'),'Opaque regional tracts must not be obscured by a faceted transparent bulk envelope');});
   if(topic.id==='cerebellum'){
    const hemisphereLabels=labels.filter(l=>l.object.userData.atlasRegion?.id.startsWith('cerebellar-hemisphere-'));

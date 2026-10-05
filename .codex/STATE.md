@@ -1,5 +1,20 @@
 # Project state
 
+## Course navigation and model inspection — 2026-10-05
+
+- Mode: continuation. Status: verified locally; ready to publish.
+- Objective: stronger separation, dynamic orientation compass, nuanced question corrections, PSYC105/108 chapter study materials, coherent anatomical links, homepage Selected work.
+- Baseline: clean303e15e; prior releasebb65a3a verified live.
+- Decisions: preserve source geometry; exploded offsets explicitly illustrative. Remove organ-to-generic-axon views. Anatomical compass only for atlas/tract coordinates; generic axes for schematics. Course scope preserves review history.
+- Verified: official UCSD105 Cognitive Psychology /108 Cognitive Neuroscience; Ward16 chapters, Reisberg15. Book pairing assumed105 Reisberg /108 Ward pending optional confirmation.
+- Implemented: rigid region/family separation with smooth camera fit; orientation compass; no generic organ-to-axon views;31 original chapter guides,93 concepts,62 retrieval prompts;150 answer explanations/100 targeted corrections; homepage feature.
+- Verified:282 separated/nested camera fits,12 orientation checks; feedback and chapter integrity; strict TypeScript. Production-preview checks confirm chapter filters, notes-only reload and keyboard retrieval.
+- Final local checks: full npm test and strict TypeScript pass;50 scenes/6,500 frames/267 zoom boundaries. All60 macro views visually pass after fixing cortical overlap and bilateral tract orientation.320/390 layouts, compass rotation/snap, focused nucleus, course reload, Again/undo, and keyboard wrong-answer disclosure verified. No preview console errors.
+- Evidence: `docs/codex/user-facing-tests/2026-10-05__user-facing-flow-test__course-study-and-anatomy.md`; external `qa/course-navigation`.
+- Next: normal production push; confirm Pages success and live page/assets.
+- Limits: no lecture schedule supplied; use actual textbook chapters, clearly label supporting models and curriculum gaps.
+
+
 ## Visual recognition - 2026-10-05
 
 - Mode: continuation. Objective: make every topic visually transferable to classroom anatomy/chemistry, reducing misleading abstraction.

@@ -13,7 +13,7 @@ const project = fileURLToPath(new URL('../', import.meta.url));
 const publicRoot = path.join(project, 'public');
 const output = path.join(project, '.astro', 'brain-continuity-check.mjs');
 await mkdir(path.dirname(output), { recursive: true });
-await build({ stdin: { contents: "export { buildMicroScene } from './src/scripts/brain/scenes-micro.ts'; export { buildMacroScene } from './src/scripts/brain/scenes-macro.ts'; export * from './src/scripts/brain/zoom.ts';", resolveDir: project, sourcefile: 'continuity-entry.ts' }, outfile: output, bundle: true, platform: 'node', format: 'esm', packages: 'external', logLevel: 'silent' });
+await build({ stdin: { contents: "export { buildMicroScene } from './src/scripts/brain/scenes-micro.ts'; export { buildMacroScene } from './src/scripts/brain/scenes-macro.ts'; export * from './src/scripts/brain/zoom.ts'; export { compassAxes, compassProjection } from './src/scripts/brain/compass.ts';", resolveDir: project, sourcefile: 'continuity-entry.ts' }, outfile: output, bundle: true, platform: 'node', format: 'esm', packages: 'external', logLevel: 'silent' });
 const module = await import(pathToFileURL(output));
 const { buildMicroScene, buildMacroScene } = module;
 const rendererSource = (await transform(await readFile(path.join(project, 'src/scripts/brain/models.ts'), 'utf8'), { loader: 'ts', target: 'es2022' })).code;
@@ -101,16 +101,16 @@ assert.equal(group.children[0].title,'Measured population streamlines','Reused r
 
 // Actual fitting code, projected against real oblique geometry. This catches
 // depth-axis clipping that an axis-aligned width/height heuristic misses.
-const createFitDriver = new Function('THREE','root','aspect',`
+const createFitDriver = new Function('THREE','root','aspect','fixture',`
   const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z),defaultDirection=V(7.4,4,9.4).normalize();
-  const current={id:'brain-overview'},details=[],representations=[],representationId='',camera=new THREE.PerspectiveCamera(37,aspect,.015,500);
+  const config=fixture||{},parts=config.parts||[],current=config.topic||{id:'brain-overview'},details=config.details||[],representations=config.representations||[],representationId=config.representationId||'',camera=new THREE.PerspectiveCamera(37,aspect,.015,500);
   const controls={target:V(),update(){camera.lookAt(this.target);camera.updateMatrixWorld(true);}},home=V(),targetGoal=V(),cameraGoal=V(),reduced={matches:false};
-  let baseDistance=12,moving=false,dirty=false;camera.position.set(0,0,12);
+  let baseDistance=12,moving=false,dirty=false,exploded=false;camera.position.set(0,0,12);
   function updateDetail(){}
   ${actualFunction('topicDirection')}
   ${actualFunction('setCamera')}
   ${actualFunction('fit')}
-  return {fit(){fit();return camera;},preserve(){targetGoal.copy(controls.target).add(V(.2,-.1,.3));cameraGoal.copy(targetGoal).addScaledVector(defaultDirection,baseDistance*.42);moving=true;camera.aspect=.7;camera.updateProjectionMatrix();fit(true);return {ratio:camera.position.distanceTo(controls.target)/baseDistance,target:controls.target.toArray()};}};
+  return {fit(){fit();return camera;},separate(value){exploded=value;fit(false,true);return{camera,goal:cameraGoal.clone(),moving};},settle(){camera.position.copy(cameraGoal);controls.target.copy(targetGoal);controls.update();moving=false;return camera;},preserve(){targetGoal.copy(controls.target).add(V(.2,-.1,.3));cameraGoal.copy(targetGoal).addScaledVector(defaultDirection,baseDistance*.42);moving=true;camera.aspect=.7;camera.updateProjectionMatrix();fit(true);return {ratio:camera.position.distanceTo(controls.target)/baseDistance,target:controls.target.toArray()};}};
 `);
 let fitCases=0;
 for(const aspect of [.4,.7,1,16/9,2.5])for(const dimensions of [[12,.6,8],[.3,7,4],[.18,.25,.2]]){
@@ -122,6 +122,68 @@ for(const aspect of [.4,.7,1,16/9,2.5])for(const dimensions of [[12,.6,8],[.3,7,
   const vertices=geometry.attributes.position;for(let i=0;i<vertices.count;i++){const ndc=new THREE.Vector3().fromBufferAttribute(vertices,i).applyMatrix4(box.matrixWorld).project(camera);assert(Math.abs(ndc.x)<.99&&Math.abs(ndc.y)<.99&&Math.abs(ndc.z)<1,`Oblique ${dimensions.join('×')} object clipped at aspect ${aspect}`);}
   const preserved=fitDriver.preserve();assert(Math.abs(preserved.ratio-.42)<1e-9,'Resize must preserve pending zoom ratio');assert(preserved.target.every((value,i)=>Math.abs(value-[3.2,-2.1,1.3][i])<1e-9),'Resize must preserve pending camera target');
   geometry.dispose();hidden.geometry.dispose();particleContext.geometry.dispose();mat.dispose();fitCases++;
+}
+
+// Source axes are anatomical world axes; the compass must project them through
+// the inverse camera orientation without changing that orientation.
+assert.deepEqual(module.compassAxes.map(axis=>[axis.anatomy,...axis.vector]),[
+  ['R',1,0,0],['L',-1,0,0],['S',0,1,0],['I',0,-1,0],['A',0,0,1],['P',0,0,-1],
+]);
+let compassCases=0;
+for(const [position,up,expected] of[
+  [[0,0,1],[0,1,0],[[1,0,0],[0,1,0],[0,0,1]]],
+  [[1,0,0],[0,1,0],[[0,0,1],[0,1,0],[-1,0,0]]],
+  [[-1,0,0],[0,1,0],[[0,0,-1],[0,1,0],[1,0,0]]],
+  [[0,1,0],[0,0,-1],[[1,0,0],[0,0,1],[0,-1,0]]],
+]){
+  const camera=new THREE.PerspectiveCamera();camera.position.fromArray(position);camera.up.fromArray(up);camera.lookAt(0,0,0);
+  const orientation=camera.quaternion.clone();
+  for(const [index,axis] of [0,2,4].entries()){
+    const projected=module.compassProjection(module.compassAxes[axis].vector,camera.quaternion);
+    assert(projected.distanceTo(new THREE.Vector3(...expected[index]))<1e-9,`${module.compassAxes[axis].name} compass direction reversed for view ${position}`);
+    assert(module.compassProjection(module.compassAxes[axis+1].vector,camera.quaternion).add(projected).length()<1e-9,'Opposite anatomical axes must stay opposite');compassCases++;
+  }
+  assert(camera.quaternion.equals(orientation),'Compass projection must not mutate camera orientation');
+}
+
+function assertVisibleFits(root,camera,label){
+  root.updateMatrixWorld(true);let meshes=0;
+  root.traverseVisible(object=>{
+    if(object.userData.contextOnly||object.userData.fitIgnore)return;
+    let bounds;
+    if(object.isInstancedMesh){object.computeBoundingBox();bounds=object.boundingBox;}
+    else if(object.geometry){object.geometry.computeBoundingBox();bounds=object.geometry.boundingBox;}
+    if(!bounds||bounds.isEmpty())return;
+    for(const x of[bounds.min.x,bounds.max.x])for(const y of[bounds.min.y,bounds.max.y])for(const z of[bounds.min.z,bounds.max.z]){
+      const p=new THREE.Vector3(x,y,z).applyMatrix4(object.matrixWorld).project(camera);
+      assert(Math.abs(p.x)<.99&&Math.abs(p.y)<.99&&Math.abs(p.z)<1,`${label}: ${object.name||object.type} clips after settled fit`);
+    }
+    meshes++;
+  });
+  assert(meshes>0,`${label}: empty geometry cannot validate framing`);
+}
+let separatedFitCases=0;
+function checkSeparatedFit(root,fixture,label){
+  for(const aspect of[.4,1,2.5]){
+    const driver=createFitDriver(THREE,root,aspect,fixture);driver.fit();
+    for(const separated of[true,false]){
+      const poses=fixture.parts.map(part=>part.object.position.clone()),before=driver.settle().position.clone();
+      const pending=driver.separate(separated);
+      assert(pending.camera.position.equals(before),`${label}: Separate must animate camera rather than jump`);
+      assert(pending.moving,`${label}: Separate must schedule camera interpolation`);
+      fixture.parts.forEach((part,index)=>assert(part.object.position.equals(poses[index]),`${label}: fitting must restore nested part positions before rendering`));
+      fixture.parts.forEach(part=>part.object.position.copy(part.base).addScaledVector(part.offset,separated?1:0));
+      assertVisibleFits(root,driver.settle(),`${label}/${separated?'separated':'assembled'}/aspect=${aspect}`);separatedFitCases++;
+    }
+  }
+}
+// A translated/rotated parent and independently translated children exercise
+// local-vs-world offsets, including nested separable registrations.
+{
+  const root=new THREE.Group(),parent=new THREE.Group(),material=new THREE.MeshBasicMaterial();root.add(parent);parent.position.set(2,-1,3);parent.rotation.set(.3,.8,-.2);
+  const a=new THREE.Mesh(new THREE.BoxGeometry(2,.6,4),material),b=new THREE.Mesh(new THREE.BoxGeometry(.5,3,.7),material);a.position.set(-1,0,0);b.position.set(1,0,0);parent.add(a,b);
+  const parts=[{object:parent,offset:new THREE.Vector3(3,-2,1)},{object:a,offset:new THREE.Vector3(-6,3,2)},{object:b,offset:new THREE.Vector3(7,-2,-1)}].map(part=>({...part,base:part.object.position.clone()}));
+  checkSeparatedFit(root,{parts},'nested transformed parts');a.geometry.dispose();b.geometry.dispose();material.dispose();
 }
 
 // The selected object must remain framed, not only the initial whole model.
@@ -150,7 +212,7 @@ globalThis.fetch = async input => {
 };
 const V = (x = 0, y = 0, z = 0) => new THREE.Vector3(x, y, z);
 function context() {
-  const root = new THREE.Group(), registry = { details: [], picks: [], representations: [], animations: [], layouts: [], materials: new Set() };
+  const root = new THREE.Group(), registry = { details: [], picks: [], representations: [], parts: [], animations: [], layouts: [], materials: new Set() };
   const material = (color = 0xdbe9ed, opacity = 1, emissive = 0) => {
     const mat = new THREE.MeshStandardMaterial({ color, opacity, transparent: opacity < 1, emissive: color, emissiveIntensity: emissive }); registry.materials.add(mat); return mat;
   };
@@ -163,7 +225,8 @@ function context() {
     representation(object, spec) { object.visible = registry.representations.length === 0; registry.representations.push({ object, spec }); },
     pick(object, spec) { registry.picks.push({ object, spec }); },
     animate(fn) { registry.animations.push(fn); }, layout(fn) { registry.layouts.push(fn); },
-    label() {}, separable() {}, status() {}, narrative() {}, isCurrent() { return true; },
+    separable(object,offset) { registry.parts.push({object,offset,base:object.position.clone()}); },
+    label() {}, status() {}, narrative() {}, isCurrent() { return true; },
   };
   return { ctx, registry };
 }
@@ -194,6 +257,7 @@ try {
       for (const representation of views) {
         if (representation !== 'default') driver.representation(representation);
         driver.ratio(1);
+        if(['brain','tracts'].includes(topic.scene))checkSeparatedFit(ctx.root,{...registry,topic,representationId:representation},`${topic.id}/${representation}`);
         const baseline = visibleGeometry(ctx.root);
         for (const threshold of [.84, .62, .42]) {
           const from = driver.ratio(threshold + .0001), before = visibleGeometry(ctx.root);
@@ -246,4 +310,4 @@ try {
 } finally { globalThis.fetch = originalFetch; }
 for (const failure of failures) console.error(`FAIL ${failure}`);
 assert.equal(failures.length, 0, `${failures.length} zoom-continuity regressions. Details: .astro/brain-continuity-report.json`);
-console.log(`PASS ${cases.length} adjacent-zoom checks plus full-range sweeps across ${topics.length} real scenes; ${wheelCases.length} wheel/trackpad cases; ${switchCases.length} representation timer cases; focused controls retained; ${fitCases} oblique camera fits; ${focusCases} selected-structure fits.`);
+console.log(`PASS ${cases.length} adjacent-zoom checks plus full-range sweeps across ${topics.length} real scenes; ${wheelCases.length} wheel/trackpad cases; ${switchCases.length} representation timer cases; focused controls retained; ${fitCases} oblique camera fits; ${separatedFitCases} separated/nested camera fits; ${compassCases} anatomical compass projections; ${focusCases} selected-structure fits.`);
