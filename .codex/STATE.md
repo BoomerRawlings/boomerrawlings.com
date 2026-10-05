@@ -2,7 +2,7 @@
 
 ## Course navigation and model inspection — 2026-10-05
 
-- Mode: continuation. Status: main release9658176 live; follow-up af3441e deploying.
+- Mode: continuation. Status: complete; application releaseaf3441e live and verified.
 - Objective: stronger separation, dynamic orientation compass, nuanced question corrections, PSYC105/108 chapter study materials, coherent anatomical links, homepage Selected work.
 - Baseline: clean303e15e; prior releasebb65a3a verified live.
 - Decisions: preserve source geometry; exploded offsets explicitly illustrative. Remove organ-to-generic-axon views. Anatomical compass only for atlas/tract coordinates; generic axes for schematics. Course scope preserves review history.
@@ -14,7 +14,9 @@
 - Live main release: Pages37345860504 succeeded; three bundled assets and two source datasets matched local build. Homepage feature present.
 - Follow-up: local standalone links bypass delayed Pip departure. Broad data-topic selectors had hidden the renderer and altered counts/card surfaces; all four operations now target library buttons.
 - Follow-up verified: full npm test and strict TypeScript pass; four actual-filter regressions fail on old code and pass on fix. UI AMPA-to108Ch.2, search and persisted reload retain visible thalamus/compass without console errors.
-- Next: confirm af3441e Pages success; live smoke and checkpoint.
+- Live final: Pages37348851172 succeeded foraf3441e; CSS/app/lazy-renderer plus course/feedback datasets match tested build. Homepage link opens Brain; live AMPA-to108Ch.2 retains visible model,16-topic count and compass; Superior snap updates projected axes. Screenshot: external `qa/course-navigation/live-brain-guide.png`.
+- Documentation-onlydfb9bc0 preserves the same site code; Pages37349054217 build passed. Preview stopped; viewport reset.
+- Next: none for this request.
 - Limits: no lecture schedule supplied; use actual textbook chapters, clearly label supporting models and curriculum gaps.
 
 
