@@ -111,3 +111,28 @@ test('Builder keeps input outside repo, adds independent records, replaces by op
     const resolved=path.resolve(temporary),parent=path.resolve(os.tmpdir());assert.equal(path.dirname(resolved),parent);assert.ok(path.basename(resolved).startsWith('brain-lecture-test-'));await rm(resolved,{recursive:true,force:true});
   }
 });
+
+
+test('Teaching annotations validate normalized source bounds and remain independently copied',()=>{
+  const valid=clone(course), teaching={steps:[{title:'A concept',explanation:'An explanation grounded in the source.',region:{x:.1,y:.2,width:.3,height:.4}}],demo:{kind:'propagation',label:'Animate conduction',purpose:'Compare propagation.'}};
+  valid.lectures[0].slides[0].teaching=teaching;
+  const copied=validateLectureCourse(valid);
+  assert.deepEqual(copied.lectures[0].slides[0].teaching,teaching);
+  copied.lectures[0].slides[0].teaching.steps[0].region.x=.2;
+  assert.equal(teaching.steps[0].region.x,.1);
+  for(const mutate of [s=>s.teaching.steps[0].region.x=.9,s=>s.teaching.steps[0].region.height=0,s=>s.teaching.steps[0].region.y=NaN,s=>s.teaching.demo.kind='invented',s=>s.teaching.steps=Array(9).fill(teaching.steps[0]),s=>delete s.reference]){
+    const bad=clone(valid);mutate(bad.lectures[0].slides[0]);assert.throws(()=>validateLectureCourse(bad),failure('unavailable'));
+  }
+});
+
+
+test('Native lectures keep complete simultaneous content and require safe source figures',()=>{
+ const valid=clone(course);const s=valid.lectures[0].slides[0];
+ s.presentation={title:'Native lesson',layout:'comparison',groups:[{title:'Together',items:['First related claim','Second related claim']}],figures:[{image:png,alt:'A source diagram'}],takeaway:'A complete idea'};
+ delete s.reference;s.visual={kind:'none'};
+ const copied=validateLectureCourse(valid);assert.deepEqual(copied.lectures[0].slides[0],s);
+ copied.lectures[0].slides[0].presentation.groups[0].items.pop();assert.equal(s.presentation.groups[0].items.length,2);
+ for(const mutate of [s=>s.presentation.figures[0].image='data:image/svg+xml;base64,AAAA',s=>s.presentation.layout='unknown',s=>s.presentation.groups[0].items=[''],s=>delete s.presentation]){
+  const bad=clone(valid);mutate(bad.lectures[0].slides[0]);assert.throws(()=>validateLectureCourse(bad),failure('unavailable'));
+ }
+});

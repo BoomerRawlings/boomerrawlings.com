@@ -47,18 +47,34 @@ function resource(value:unknown):LectureResource{
   if(r.optional!==undefined){if(typeof r.optional!=='boolean')return invalid();result.optional=r.optional;}if(r.slides!==undefined){result.slides=list(r.slides,200).map(slide);unique(result.slides.map(s=>s.id));}return result;
 }
 function slide(value:unknown):LectureSlide{
-  const r=object(value,['id','title','kicker','takeaway','bullets','notes','sourceIds','source','reference','visual']);
+  const r=object(value,['id','title','kicker','takeaway','bullets','notes','sourceIds','source','reference','visual','teaching','presentation']);
   const result:LectureSlide={id:id(r.id),title:text(r.title,500),takeaway:text(r.takeaway,6000),bullets:list(r.bullets,20).map(v=>text(v,3000)),sourceIds:list(r.sourceIds,30).map(v=>id(v)),visual:null as unknown as LectureSlide['visual']};
   unique(result.sourceIds);if(result.sourceIds.some(v=>!knownSources.has(v)))return invalid();
   const kicker=optionalText(r.kicker,500),notes=optionalText(r.notes,16000);if(kicker!==undefined)result.kicker=kicker;if(notes!==undefined)result.notes=notes;
   if(r.source!==undefined){const s=object(r.source,['title','page']);result.source={title:text(s.title,500),page:integer(s.page,1,10000)};}
   if(r.reference!==undefined){const s=object(r.reference,['image','alt']);result.reference={image:image(s.image),alt:text(s.alt,2000)};}
+  if(r.presentation!==undefined){
+    const p=object(r.presentation,['title','eyebrow','layout','groups','figures','takeaway']);
+    if(!['title','text','split','gallery','comparison'].includes(String(p.layout)))return invalid();
+    result.presentation={title:text(p.title,500),layout:p.layout as NonNullable<LectureSlide['presentation']>['layout'],groups:list(p.groups,12).map(value=>{const g=object(value,['title','items']),title=optionalText(g.title,500);return{...(title?{title}:{}),items:list(g.items,30).map(v=>text(v,5000))};}),figures:list(p.figures,8).map(value=>{const f=object(value,['image','alt','caption']),caption=optionalText(f.caption,3000);return{image:image(f.image),alt:text(f.alt,3000),...(caption?{caption}:{})};})};
+    const eyebrow=optionalText(p.eyebrow,500),takeaway=optionalText(p.takeaway,4000);if(eyebrow)result.presentation.eyebrow=eyebrow;if(takeaway)result.presentation.takeaway=takeaway;
+  }
+  if(r.teaching!==undefined){
+    const t=object(r.teaching,['steps','demo']);
+    result.teaching={steps:list(t.steps,8).map(value=>{
+      const s=object(value,['title','explanation','region']);
+      const step:NonNullable<LectureSlide['teaching']>['steps'][number]={title:text(s.title,250),explanation:text(s.explanation,4000)};
+      if(s.region!==undefined){const box=object(s.region,['x','y','width','height']);for(const k of ['x','y','width','height'])if(typeof box[k]!=='number'||!Number.isFinite(box[k])||(box[k] as number)<0||(box[k] as number)>1)return invalid();const {x,y,width,height}=box as Record<string,number>;if(width<=0||height<=0||x+width>1.001||y+height>1.001)return invalid();step.region={x,y,width,height};}return step;
+    })};
+    if(t.demo!==undefined){const d=object(t.demo,['label','purpose','kind']);if(d.kind!=='existing'&&d.kind!=='propagation')return invalid();result.teaching.demo={label:text(d.label,250),purpose:text(d.purpose,4000),kind:d.kind};}
+  }
   const v=object(r.visual,['kind','topicId','representation','lab','image','alt','caption','hotspots','prompt','choices']);
-  if(v.kind==='model'){
+  if(v.kind==='none'){object(r.visual,['kind']);if(!result.presentation)return invalid();result.visual={kind:'none'};
+  }else if(v.kind==='model'){
     object(r.visual,['kind','topicId','representation']);const representation=optionalText(v.representation,80);if(representation!==undefined&&!/^[a-z0-9-]+$/.test(representation))return invalid();
     result.visual={kind:'model',topicId:topic(v.topicId),...(representation!==undefined?{representation}:{})};
   }else if(v.kind==='lab'){
-    object(r.visual,['kind','lab']);if(!['spike','summation','rate-code','methods'].includes(String(v.lab)))return invalid();result.visual={kind:'lab',lab:v.lab as 'spike'|'summation'|'rate-code'|'methods'};
+    object(r.visual,['kind','lab']);if(!['spike','summation','rate-code','methods','propagation'].includes(String(v.lab)))return invalid();result.visual={kind:'lab',lab:v.lab as Extract<LectureSlide['visual'],{kind:'lab'}>['lab']};
   }else if(v.kind==='comparison'){
     object(r.visual,['kind','prompt','choices']);result.visual={kind:'comparison',prompt:text(v.prompt,3000),choices:list(v.choices,6,2).map(value=>{const c=object(value,['label','explanation']);return{label:text(c.label,1000),explanation:text(c.explanation,6000)};})};
   }else if(v.kind==='figure'){
@@ -66,7 +82,9 @@ function slide(value:unknown):LectureSlide{
     const visual:Extract<LectureSlide['visual'],{kind:'figure'}>={kind:'figure',image:image(v.image),alt:text(v.alt,2000),...(caption!==undefined?{caption}:{})};
     if(v.hotspots!==undefined)visual.hotspots=list(v.hotspots,30).map(value=>{const h=object(value,['x','y','label','explanation']);if(typeof h.x!=='number'||typeof h.y!=='number'||!Number.isFinite(h.x)||!Number.isFinite(h.y)||h.x<0||h.x>1||h.y<0||h.y>1)return invalid();return{x:h.x,y:h.y,label:text(h.label,500),explanation:text(h.explanation,6000)};});
     result.visual=visual;
-  }else return invalid();return result;
+  }else return invalid();
+  if(result.teaching&&!result.presentation&&!result.reference&&result.visual.kind!=='figure')return invalid();
+  return result;
 }
 
 /** Validate and copy only supported fields. No decrypted strings enter persistence. */

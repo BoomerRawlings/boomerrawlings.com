@@ -1,5 +1,19 @@
 # Project state
 
+## Native lecture replacement — 2026-10-05
+
+- Mode: continuation. Status: verified; publishing. Baseline9da7f56.
+- Objective: complete native alternative to supplied PowerPoints, all information retained, related bullets visible together; integrated selected diagrams/animations.
+- Implemented:139 native scenes,197 groups/417 text items,106 clean scientific figure crops. Full source-slide images removed from lecture payload.18 integrated demonstrations;4 controlled animated diagrams; optional full visual focus; private native presenter previews/notes/timer. Arrow/Space advances whole scenes, including reading guides.
+- Preserve: encrypted memory-only collection;139-page order; no invented L6 slides. Originals/crop provenance remain private outside repository.
+- Verified: all139 original pages/native frames and106 crops reviewed;18 demos pass settled pixel audit. Corrected image clipping, dense text, multi-figure sizing and comparison collapse.320/390 no horizontal overflow;1920 projector capture. No production-preview console errors.
+- Interaction: modal figure enlargement/Escape, blank/restore, pointer, clicker keys, demo focus/context, retained separation verified. Native modal closes before blanking; figure src/alt cleared; pointer restored. Code review resolved all reported defects.
+- Tests:13 presenter,11 mounted-demo,4 companion regressions pass; full npm test passed (exit0), final strict lecture TS and diff checks pass.
+- Evidence: docs/codex/user-facing-tests/2026-10-05__user-facing-flow-test__native-lectures.md; external qa/lectures/native.
+- Limits: embedded browser does not expose separate companion popup pixels/native fullscreen; companion lifecycle/content verified by production-code tests. Dense scientific labels use enlargement.
+- Lock cleanup verified: source images/descriptions and native scene DOM cleared; gate restored.
+- Next: single verified release, live check and state checkpoint.
+
 ## Lectures portal — 2026-10-05
 
 - Mode: continuation. Status: complete. Release7214116 live; Pages37361157029 succeeded. Baseline9704ded.

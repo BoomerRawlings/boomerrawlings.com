@@ -112,8 +112,8 @@ export function initializeLectures(host:HTMLElement){
     };
     search.addEventListener('input',renderList);road.append(tools,count,list,empty);renderList();
     const aside=el('aside','','lecture-map-aside');aside.setAttribute('aria-label','Using these lectures');
-    const guide=el('section');guide.append(el('p','PRESENTING','lecture-eyebrow'),el('h3','Built for the lecture room'),el('p','Open a lecture to present. Reveal points at your pace, interact with the visuals, or compare the original slide.'));
-    const keys=el('dl','','lecture-key-list');for(const [key,label] of [['→ / Space','Reveal / next'],['←','Previous step'],['Esc','Leave presentation'],['L','Laser pointer']]){keys.append(el('dt',key),el('dd',label));}guide.append(keys);
+    const guide=el('section');guide.append(el('p','PRESENTING','lecture-eyebrow'),el('h3','Built for the lecture room'),el('p','Present complete lessons with related ideas together. Open integrated demonstrations when useful, enlarge figures for discussion, and keep your notes and next-slide preview on your own display.'));
+    const keys=el('dl','','lecture-key-list');for(const [key,label] of [['→ / Space','Next slide'],['←','Previous slide'],['Esc','Leave presentation'],['L','Laser pointer'],['B','Blank screen'],['D','Demonstration']]){keys.append(el('dt',key),el('dd',label));}guide.append(keys);
     const relations=el('section');relations.append(el('p','CONCEPT CONNECTIONS','lecture-eyebrow'),el('h3','Across the lectures'));
     const conceptual=course.connections.filter(c=>c.kind==='concept');for(const edge of conceptual){const from=course.lectures.find(l=>l.id===edge.from),to=course.lectures.find(l=>l.id===edge.to);if(!from||!to)continue;const row=el('div','','lecture-concept-edge');row.append(button(`L${from.number}`,()=>present(from)),el('span',`— ${edge.label} →`),button(`L${to.number}`,()=>present(to)));relations.append(row);}
     relations.append(el('p','Lines describe study relationships; slide order follows the supplied lectures.','lecture-small'));

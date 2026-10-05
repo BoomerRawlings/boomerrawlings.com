@@ -1,0 +1,54 @@
+/* Lecture demos use a single controlled JS clock, never an independent CSS loop. */
+.lp-lab .lecture-lab.lecture-demo{height:100%;min-height:0;display:flex;flex-direction:column;gap:12px;padding:clamp(14px,2vw,26px);overflow:auto;background:radial-gradient(ellipse at 45% 0%,#173239,#09151e 80%)}
+.lecture-demo .lecture-demo-heading{flex:none;display:grid;gap:6px}
+.lecture-demo .lecture-demo-heading h3{margin:0;font-size:clamp(23px,2.2vw,34px);font-weight:450;line-height:1.12;letter-spacing:-.025em}
+.lecture-demo .lecture-lab-description{margin:0;font-size:clamp(14px,1.2vw,18px);line-height:1.4;color:#afc7cd}
+.lecture-demo .lecture-demo-stage{position:relative;flex:1 1 280px;min-height:220px;min-width:0;display:flex;align-items:center;justify-content:center}
+.lecture-demo .lecture-demo-stage>svg{display:block;width:100%;height:100%;min-height:220px;max-height:100%;overflow:visible;font-family:inherit}
+.lecture-demo .lecture-demo-phase{flex:none;min-height:3em;margin:0;padding:11px 15px;border-left:3px solid #b5efc9;background:#142e30;color:#e1ede4;font-size:clamp(15px,1.45vw,21px);line-height:1.42;text-wrap:pretty}
+.lecture-demo .lecture-demo-transport{flex:none;display:flex;align-items:center;gap:10px;min-width:0}
+.lecture-demo button{font-family:inherit;cursor:pointer}
+.lecture-demo .lecture-demo-transport>button{flex:none;min-height:42px;padding:8px 17px;border:1px solid #537177;border-radius:5px;color:#d8eade;background:#163037;font-size:16px;line-height:1.2;white-space:nowrap}
+.lecture-demo .lecture-demo-transport>button:first-child{min-width:104px;border-color:#a8d4b6;background:#b5efc9;color:#0d2b25}
+.lecture-demo button:hover{filter:brightness(1.1)}
+.lecture-demo button:focus-visible,.lecture-demo input:focus-visible,.lecture-demo summary:focus-visible{outline:2px solid #e1fcb3;outline-offset:4px}
+.lecture-demo .lecture-demo-timeline{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.lecture-demo .lecture-demo-timeline input{display:block;min-width:40px;width:100%;height:28px;accent-color:#b5efc9;cursor:pointer}
+.lecture-demo .lecture-demo-timeline output{min-width:3.4ch;font-size:16px;font-variant-numeric:tabular-nums;color:#c3d9d5}
+.lecture-demo .lecture-demo-settings{flex:none;min-width:0;color:#bbd0d1;font-size:14px;border-top:1px solid #2a4750;padding-top:9px}
+.lecture-demo .lecture-demo-settings>summary{cursor:pointer;width:fit-content;padding:3px 0;font-size:14px;color:#abc6ca}
+.lecture-demo .lecture-demo-settings[open]>.lecture-lab-controls{padding-top:14px;padding-bottom:5px}
+.lecture-demo .lecture-lab-controls{gap:14px 22px;align-items:start}
+.lecture-demo .lecture-lab-controls>label{font-size:14px;min-width:170px;line-height:1.35}
+.lecture-demo .lecture-lab-controls input[type=range]{height:28px;margin:0;cursor:pointer}
+.lecture-demo .lecture-lab-controls .lecture-lab-check{flex-basis:auto;align-self:center;min-height:32px}
+.lecture-demo .lecture-lab-controls input[type=checkbox]{width:17px;height:17px;flex:none}
+.lecture-demo .lecture-lab-controls>button{font-size:15px;min-height:42px;padding:9px 15px;background:#142c34}
+.lecture-demo .lecture-lab-controls>button[aria-pressed=true]{background:#254e43;color:#e2f5e5}
+.lp-lab .lecture-lab.lecture-demo .lecture-lab-note{flex:none;margin:0;color:#91aeb8;font-size:clamp(11px,.9vw,13px);line-height:1.45}
+.lecture-demo [hidden]{display:none!important}
+.lecture-demo-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-height:800px) and (min-width:721px){
+  .lp-lab .lecture-lab.lecture-demo{gap:9px;padding:14px 20px}
+  .lecture-demo .lecture-demo-heading h3{font-size:25px}
+  .lecture-demo .lecture-lab-description{font-size:14px}
+  .lecture-demo .lecture-demo-stage{flex-basis:230px;min-height:200px}
+  .lecture-demo .lecture-demo-stage>svg{min-height:200px}
+  .lecture-demo .lecture-demo-phase{font-size:16px;padding:9px 12px}
+}
+@media(max-width:720px){
+  .lp-lab .lecture-lab.lecture-demo{height:auto;overflow:visible;padding:16px 12px;gap:14px}
+  .lecture-demo .lecture-demo-heading h3{font-size:24px}
+  .lecture-demo .lecture-lab-description{font-size:14px}
+  .lecture-demo .lecture-demo-stage{flex:0 0 auto;min-height:0;overflow-x:auto;justify-content:start;padding-bottom:6px}
+  .lecture-demo .lecture-demo-stage>svg{width:max(100%,560px);height:255px;min-width:560px;min-height:255px;flex:none}
+  .lecture-demo .lecture-demo-phase{font-size:16px;min-height:0;padding:11px 12px}
+  .lecture-demo .lecture-demo-transport{flex-wrap:wrap;gap:9px}
+  .lecture-demo .lecture-demo-transport>button{flex:1;min-height:44px;font-size:16px}
+  .lecture-demo .lecture-demo-timeline{flex-basis:100%;gap:10px}
+  .lecture-demo .lecture-demo-timeline input{height:36px}
+  .lecture-demo .lecture-lab-controls>label{flex-basis:100%;min-width:0;font-size:14px}
+  .lecture-demo .lecture-demo-settings>summary{font-size:15px;min-height:30px}
+  .lecture-demo .lecture-lab-controls{gap:17px}
+  .lecture-demo .lecture-lab-controls>button{flex:1 1 42%}
+}

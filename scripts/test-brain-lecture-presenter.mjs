@@ -15,23 +15,15 @@ function bodyEnd(text,start){
   }throw Error('Unclosed production function');
 }
 function actualFunction(name){const at=source.indexOf(`function ${name}(`);assert(at>=0,`Missing ${name}`);const start=source.slice(Math.max(0,at-6),at)==='async '?at-6:at,body=source.indexOf('{',at);return source.slice(start,bodyEnd(source,body)+1);}
-const step=new Function(`${actualFunction('lectureStep')};return lectureStep;`)();
 const slides=[{bullets:['A','B']},{bullets:[]},{bullets:['C']}];
-test('Next reveals actual points before advancing; Back reverses that sequence',()=>{
-  let position={index:0,revealed:0};
-  for(const expected of[{index:0,revealed:1},{index:0,revealed:2},{index:1,revealed:0},{index:2,revealed:0},{index:2,revealed:1}]){position=step(slides,position,1);assert.deepEqual(position,expected);}
-  assert.equal(step(slides,position,1),'end');
-  for(const expected of[{index:2,revealed:0},{index:1,revealed:0},{index:0,revealed:2},{index:0,revealed:1},{index:0,revealed:0},{index:0,revealed:0}]){position=step(slides,position,-1);assert.deepEqual(position,expected);}
-  assert.equal(step([],{index:0,revealed:0},1),'end');
-});
 const keyboardStart=source.indexOf('dialog.addEventListener("keydown",');assert(keyboardStart>=0);
 const keyboardBody=source.indexOf('{',keyboardStart),keyboardText=source.slice(keyboardBody+1,bodyEnd(source,keyboardBody));
-const keyboard=new Function('event','fixture',`const{overview=false}=fixture,deck={slides:[1,2,3]},laserEnabled=true;function hideLaser(){}function move(value){fixture.moves.push(value)}function jump(value){fixture.jumps.push(value)}function setLaser(value){fixture.laser.push(value)}${keyboardText}`);
+const keyboard=new Function('event','fixture',`const{overview=false}=fixture,deck={slides:[1,2,3]},laserEnabled=true,blanked=false,figureZoom=fixture.zoom||1;const lectureCanvas=()=>Boolean(fixture.canvas);function hideLaser(){}function move(value){fixture.moves.push(value)}function jump(value){fixture.jumps.push(value)}function setLaser(value){fixture.laser.push(value)}${keyboardText}`);
 class Target{
   constructor(tag,parent=null){this.tag=tag;this.parent=parent;}
   closest(selector){return selector.split(',').some(part=>part===this.tag)?this:this.parent?.closest(selector)||null;}
 }
-function key(key,target=new Target('h2'),extra={}){const fixture={moves:[],jumps:[],laser:[]},event={key,target,prevented:0,stopped:0,preventDefault(){this.prevented++;},stopPropagation(){this.stopped++;},...extra};keyboard(event,fixture);return{...fixture,prevented:event.prevented,stopped:event.stopped};}
+function key(key,target=new Target('h2'),extra={}){const fixture={moves:[],jumps:[],laser:[],...extra.fixture},event={key,target,prevented:0,stopped:0,preventDefault(){this.prevented++;},stopPropagation(){this.stopped++;},...extra};keyboard(event,fixture);return{...fixture,prevented:event.prevented,stopped:event.stopped};}
 test('Presentation shortcuts never consume model, native control or figure-pan keys',()=>{
   for(const tag of['input','select','textarea','button','a','summary','canvas','[contenteditable]','[role="slider"]','[data-el="figure-scroll"]'])for(const pressed of['ArrowRight','ArrowLeft',' ','PageDown','PageUp','Home','End','l']){
     const result=key(pressed,new Target('span',new Target(tag)));assert.deepEqual(result,{moves:[],jumps:[],laser:[],prevented:0,stopped:0},`${tag}: ${pressed}`);
@@ -47,9 +39,9 @@ const ensure=actualFunction('ensureViewer').replace('await import("../models")',
 assert(!ensure.includes('await import('),'Viewer import must be mocked, not loaded during lifecycle test');
 const harness=new Function('moduleLoader',`
  let opened=true,destroyed=false,session=1,slideToken=0,figureVersion=0,viewer=null,viewerPromise=null,drag=null,deck={slides:[1]};
- let exits=0,focuses=0,opener={isConnected:true,focus(){focuses++}};const modelHost={},elements=new Map(),document={fullscreenElement:null},dialog={open:true,close(){this.open=false}},figureImage={removeAttribute(){}};
- const el=key=>{if(!elements.has(key))elements.set(key,{replaceChildren(){}});return elements.get(key)};
- function hideLaser(){}function stopLab(){}function showSelection(){}function showNarrative(){}function renderViews(){}function showPhase(){}function onExit(){exits++}
+ let blanked=false;const speaker={close(){}};let exits=0,focuses=0,opener={isConnected:true,focus(){focuses++}};const modelHost={},elements=new Map(),document={fullscreenElement:null},dialog={open:true,close(){this.open=false}},figureImage={removeAttribute(){}};
+ const control=key=>el(key);const el=key=>{if(!elements.has(key))elements.set(key,{replaceChildren(){},removeAttribute(){},close(){}});return elements.get(key)};
+ function hideLaser(){}function closeImage(){}function stopLab(){}function showSelection(){}function showNarrative(){}function renderViews(){}function showPhase(){}function onExit(){exits++}
  let focusedPart=null;
  ${ensure}
  ${actualFunction('close')}
@@ -106,4 +98,39 @@ test('Orientation tuning respects 180° line symmetry and shared firing-rate sca
       const rates=labs.orientationRates(angle,width);assert.equal(rates[index],45);assert(rates.every(rate=>rate>=3&&rate<=45));
     }
   }
+});
+
+const presentStep=new Function(`${actualFunction('presentationStep')};return presentationStep;`)();
+test('Lecture canvas advances full source pages without mandatory summary reveals',()=>{
+ const sourceSlides=[{bullets:['hidden summary','another'],teaching:{steps:[{title:'Note',explanation:'Optional'}]}},{bullets:['full content already visible'],teaching:{steps:[]}}];
+ assert.deepEqual(presentStep(sourceSlides,{index:0,revealed:0},1),{index:1,revealed:0});
+ assert.equal(presentStep(sourceSlides,{index:1,revealed:0},1),'end');
+ assert.deepEqual(presentStep(sourceSlides,{index:1,revealed:0},-1),{index:0,revealed:0});
+ assert.deepEqual(presentStep(sourceSlides,{index:0,revealed:0},-1),{index:0,revealed:0});
+ assert.deepEqual(presentStep(slides,{index:0,revealed:0},1),{index:1,revealed:0},'Reading guides also advance complete slides');
+});
+
+
+test('Lecture clicker navigation survives focused source canvas and presentation buttons',()=>{
+ for(const tag of ['.lp-header','.lp-navigation','.lp-teaching-panel','.lp-footer-tools']){
+   assert.deepEqual(key('ArrowRight',new Target('button',new Target(tag))).moves,[1]);
+   assert.equal(key(' ',new Target('button',new Target(tag))).prevented,0,'Space keeps native button activation');
+ }
+ assert.deepEqual(key('ArrowRight',new Target('[data-el="figure-scroll"]'),{fixture:{canvas:true}}).moves,[1]);
+ assert.deepEqual(key('ArrowRight',new Target('[data-el="figure-scroll"]'),{fixture:{canvas:true,zoom:2}}).moves,[],'Zoomed source keeps its pan keys');
+});
+
+
+test('Closing an enlarged private figure clears its pixels/description and returns the pointer',()=>{
+ const image={src:'private pixels',alt:'private description',removeAttribute(name){delete this[name]}},laser={},modal={closed:false,close(){this.closed=true}},main={focuses:0,focus(){this.focuses++}},children=[];
+ const fixture={el:key=>({'image-lightbox':modal,'enlarged-image':image,laser,main})[key],dialog:{append(node){children.push(node)}},hideLaser(){}};
+ const closeImage=new Function('fixture',`const {el,dialog,hideLaser}=fixture;${actualFunction('closeImage')};return closeImage`)(fixture);
+ closeImage(false);assert.equal(image.src,undefined);assert.equal(image.alt,'');assert.equal(modal.closed,true);assert.deepEqual(children,[laser]);assert.equal(main.focuses,0);
+ closeImage();assert.equal(main.focuses,1);
+});
+
+test('Reopening the same slide preserves its loaded model instead of rebuilding separation and time',async()=>{
+ let builds=0,resizes=0;const viewer={resize(){resizes++},setPlaying(){},setLabels(){},setTopic(){builds++}};
+ const fn=new Function('viewer',`let loadedModelToken=-1,opened=true,slideToken=7,pendingRepresentation,labels=true;const topics=new Map([['fixture',{id:'fixture'}]]),modelHost={querySelector(){return null}};async function ensureViewer(){return viewer}function applyPlaying(){}${actualFunction('loadModel')};return loadModel`)(viewer);
+ const slide={visual:{kind:'model',topicId:'fixture'}};await fn(slide,7);await fn(slide,7);assert.equal(builds,1);assert.equal(resizes,2);
 });
