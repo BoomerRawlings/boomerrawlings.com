@@ -3,11 +3,12 @@
 ## Structure search - 2026-10-05
 
 - Mode: continuation. Objective: replace oversized structure dropdown with compact, usable selection.
-- Status: final local verification passed; publishing.
+- Status: complete. Published `7b6d4de`; Pages run `37327119191` succeeded.
 - Change: disclosure search, bounded results, zoom-aware Structures/Fine details; existing semantic parent names distinguish repeated protein features. Direct3D selection retained.
 - Verified: strict TypeScript and continuity suite; keyboard search/select, no-match, Escape within expanded view, repeated selection without navigation,390px layout and64-part zoom refresh retain query/focus.
 - Final checks: full npm test passed;64-part lists grouped and searchable by domain;320/390 layouts fit; Home/End, single list tab stop, clean Tab exit and outside dismissal work. No console errors.
-- Next: publish once and verify live.
+- Live: release/data hashes match tested build; old select absent, search filters correctly, Enter focuses anatomy and restores trigger focus; no console errors. Screenshot: external `qa/anatomical-accuracy/live-structure-search.png`.
+- Next: none.
 
 ## Vertical flashcard flip - 2026-10-05
 
