@@ -1,0 +1,107 @@
+import { categories, topics, sources as rawSources } from '../../../public/brain/curriculum.js';
+import { flashcards } from '../../../public/brain/cards.js';
+import { sanitizeReview, buildSession, rateReview, undoReview, currentReviewId, reviewStats, scheduleReview, localDayKey } from '../../../public/brain/review.js';
+import { renderCardVisual } from './card-visuals';
+import type { CardVisual } from './card-visuals';
+
+type Card={id:string;topicId:string;level:string;kind:string;prompt:string;answer:string;detail:string;visual:CardVisual};
+type RecordState={due:number;intervalDays:number;reviews:number;lapses:number;lastReviewed:number;lastRating:string};
+type Session={startedAt:number;initialIds:string[];queue:string[];attempts:Record<string,number>;retryCounts:Record<string,number>;ratings:{again:number;hard:number;good:number};reviewedIds:string[];totalRetries:number;dayKey:string};
+type ReviewState={version:1;records:Record<string,RecordState>;session:Session|null;daily:{dayKey:string;ratings:number;cardIds:string[]};activity:Record<string,{ratings:number;cardIds:string[]}>;history:unknown[]};
+type Settings={pool:string;deck:string;level:string;length:number;format:string;screen:string;revealed:boolean;paused:boolean;customIds:string[];customLabel:string;sessionLabel:string;sessionStartedAt:number};
+type Options={getSavedTopics:()=>string[];onExplore:(id:string)=>void;onUpdate?:()=>void};
+const cards=flashcards as Card[],cardById=new Map(cards.map(c=>[c.id,c])),topicById=new Map(topics.map(t=>[t.id,t]));
+const $=<T extends HTMLElement=HTMLElement>(id:string)=>document.getElementById(id) as T;
+const all=<T extends HTMLElement=HTMLElement>(selector:string)=>Array.from(document.querySelectorAll<T>(selector));
+const storageKey='brain-review-v1';
+const depthNames:Record<string,string>={essentials:'Recall',mechanism:'Explain',advanced:'Apply'};
+const levelLabels:Record<string,string>={essentials:'Essentials',mechanism:'Mechanism',advanced:'Application'};
+const cardCount=(count:number)=>`${count} card${count===1?'':'s'}`;
+const sources=rawSources as Record<string,{title:string;url:string;organization:string}>;
+
+export function initializePractice(options:Options){
+  let raw:any={};try{raw=JSON.parse(localStorage.getItem(storageKey)||'{}');}catch{}
+  let state=sanitizeReview(raw,cards.map(c=>c.id)) as ReviewState;
+  const ui=raw?.ui||{};
+  const settings:Settings={pool:['all','due','saved'].includes(ui.pool)?ui.pool:'all',deck:categories.some(c=>c.id===ui.deck)?ui.deck:'',level:['essentials','mechanism','advanced'].includes(ui.level)?ui.level:'all',length:[5,10,20].includes(ui.length)?ui.length:10,format:ui.format==='questions'?'questions':'cards',screen:['session','result'].includes(ui.screen)&&state.session?ui.screen:'hub',revealed:Boolean(ui.revealed),paused:matchMedia('(prefers-reduced-motion: reduce)').matches||Boolean(ui.paused),customIds:Array.isArray(ui.customIds)?ui.customIds.filter((id:unknown)=>typeof id==='string'&&topicById.has(id)):[],customLabel:typeof ui.customLabel==='string'?ui.customLabel.slice(0,100):'',sessionLabel:typeof ui.sessionLabel==='string'?ui.sessionLabel.slice(0,200):'',sessionStartedAt:typeof ui.sessionStartedAt==='number'&&Number.isFinite(ui.sessionStartedAt)?ui.sessionStartedAt:0};
+  if(!settings.customIds.length)settings.customLabel='';
+  let active=false,busy=false,transition=0,cleanupFront=()=>{},cleanupBack=()=>{},lastRating='';
+  const references=document.createElement('section');references.id='card-references';references.className='card-references';references.hidden=true;references.setAttribute('aria-labelledby','card-references-title');document.querySelector('#flashcard-back .flashcard-copy')!.append(references);
+  $('card-source').textContent='Topic references';$('card-source').setAttribute('aria-controls',references.id);$('card-source').setAttribute('aria-expanded','false');
+  const announce=(message:string)=>{$('review-announcement').textContent=message;};
+  const makeButton=(label:string,fn:()=>void,cls='')=>{const el=document.createElement('button');el.type='button';el.textContent=label;el.className=cls;el.addEventListener('click',fn);return el;};
+  function save(){try{localStorage.setItem(storageKey,JSON.stringify({...state,ui:settings}));}catch{$('review-storage').textContent='Browser storage is unavailable. This session works, but progress will not survive a reload.';$('review-storage').dataset.warning='true';}}
+  function pool(){const now=Date.now(),saved=new Set(options.getSavedTopics());return cards.filter(card=>{
+    const topic=topicById.get(card.topicId)!;
+    return (!settings.deck||topic.category===settings.deck)&&(settings.level==='all'||card.level===settings.level)&&(!settings.customIds.length||settings.customIds.includes(card.topicId))&&(settings.pool!=='saved'||saved.has(card.topicId))&&(settings.pool!=='due'||Boolean(state.records[card.id]&&state.records[card.id].due<=now));
+  });}
+  function scopeLabel(){return settings.customLabel||categories.find(c=>c.id===settings.deck)?.title||(settings.pool==='due'?'Due cards':settings.pool==='saved'?'Saved topics':'All subjects');}
+  function withDepth(label:string,selected:Card[]){const levels=new Set(selected.map(card=>card.level));const depth=levels.size===3?'All depths':Object.keys(levelLabels).filter(level=>levels.has(level)).map(level=>levelLabels[level]).join(' + ');return `${label} · ${depth||'All depths'}`;}
+  function sessionLabel(){const session=state.session;if(!session)return'';if(settings.sessionStartedAt!==session.startedAt||!settings.sessionLabel){const selected=session.initialIds.map(id=>cardById.get(id)).filter((card):card is Card=>Boolean(card));const topicIds=new Set(selected.map(card=>card.topicId)),categoryIds=new Set(selected.map(card=>topicById.get(card.topicId)!.category));const label=topicIds.size===1?topicById.get(selected[0].topicId)!.title:categoryIds.size===1?categories.find(category=>category.id===topicById.get(selected[0].topicId)!.category)!.title:'All subjects';settings.sessionLabel=withDepth(label,selected);settings.sessionStartedAt=session.startedAt;}return settings.sessionLabel;}
+  function cancelTransition(){transition++;busy=false;$('flashcard-scene').inert=false;$('review-ratings').inert=false;$('flashcard-scene').classList.remove('is-leaving');}
+  function collapseReferences(){references.hidden=true;$('card-source').setAttribute('aria-expanded','false');}
+  function showScreen(screen:string){settings.screen=screen;if(screen!=='session'){cleanupFront();cleanupBack();}$('review-hub').hidden=screen!=='hub';$('review-session').hidden=screen!=='session';$('review-result').hidden=screen!=='result';save();}
+  function renderHub(){
+    const focusedDeck=document.activeElement instanceof HTMLElement&&$('review-decks').contains(document.activeElement)?document.activeElement.closest<HTMLElement>('[data-deck]')?.dataset.deck:undefined;
+    const now=Date.now(),stats=reviewStats(state,{now}),selected=pool();
+    $('review-due').textContent=String(cards.filter(c=>state.records[c.id]?.due<=now).length);$('review-new').textContent=String(cards.filter(c=>!state.records[c.id]).length);$('review-today').textContent=String(stats.today);
+    $('review-week').replaceChildren(...Array.from({length:7},(_,i)=>{const date=new Date(now);date.setDate(date.getDate()-(6-i));const key=localDayKey(date.getTime()),entry=state.activity?.[key];const n=entry?.cardIds.length||0;const el=document.createElement('div');el.className='review-day';el.dataset.active=String(n>0);el.dataset.today=String(i===6);el.title=`${date.toLocaleDateString(undefined,{month:'short',day:'numeric'})}: ${cardCount(n)} reviewed`;el.setAttribute('aria-label',el.title);const bar=document.createElement('i');bar.setAttribute('aria-hidden','true');const label=document.createElement('span');label.textContent=date.toLocaleDateString(undefined,{weekday:'narrow'});el.append(bar,label);return el;}));
+    $<HTMLSelectElement>('review-level').value=settings.level;$<HTMLSelectElement>('review-length').value=String(settings.length);
+    all('[data-review-pool]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.reviewPool===settings.pool)));
+    const count=Math.min(settings.length,selected.length);$('review-start').textContent=count?`Start ${cardCount(count)} →`:'No cards in this selection';$<HTMLButtonElement>('review-start').disabled=!count;
+    $('review-selection-note').textContent=selected.length?`${scopeLabel()} · ${cardCount(selected.length)} · due material comes first.`:settings.pool==='saved'?'Save a topic in Explore to include it here.':settings.pool==='due'?'Nothing due in this selection. Choose All cards to practice ahead.':'Choose another subject or depth.';
+    $('review-resume').hidden=!state.session?.queue.length;$('review-resume').textContent=state.session?.queue.length?`Resume · ${state.session.queue.length} remaining`:'';
+    $('review-clear-deck').hidden=!settings.deck&&!settings.customIds.length;
+    $('review-decks').replaceChildren(...categories.map((category,index)=>{const deckCards=cards.filter(c=>topicById.get(c.topicId)?.category===category.id),due=deckCards.filter(c=>state.records[c.id]?.due<=now).length,seen=deckCards.filter(c=>state.records[c.id]).length;const el=makeButton('',()=>{settings.deck=settings.deck===category.id?'':category.id;settings.customIds=[];settings.customLabel='';renderHub();save();},'review-deck');el.dataset.deck=category.id;el.setAttribute('aria-pressed',String(settings.deck===category.id));const number=document.createElement('small');number.textContent=`${String(index+1).padStart(2,'0')} / ${deckCards.length} CARDS`;const title=document.createElement('strong');title.textContent=category.title;const note=document.createElement('span');note.textContent=`${due?`${due} due · `:''}${seen}/${deckCards.length} reviewed`;const bar=document.createElement('i');bar.className='deck-track';bar.setAttribute('aria-hidden','true');const fill=document.createElement('i');fill.style.width=`${seen/deckCards.length*100}%`;bar.append(fill);el.append(number,title,note,bar);return el;}));
+    if(focusedDeck)all<HTMLButtonElement>('#review-decks [data-deck]').find(el=>el.dataset.deck===focusedDeck)?.focus({preventScroll:true});
+  }
+  function intervalText(grade:'again'|'hard'|'good'){
+    const id=currentReviewId(state);if(!id)return'';const next=scheduleReview(state.records[id],grade,Date.now());
+    const days=next.intervalDays;return days<1?'10 min':days===1?'1 day':`${Math.round(days)} days`;
+  }
+  function drawVisuals(card:Card){cleanupFront();cleanupBack();cleanupFront=renderCardVisual($('card-visual-front'),{visual:card.visual,topicId:card.topicId,answerVisible:false,paused:settings.paused||settings.revealed||!active});cleanupBack=renderCardVisual($('card-visual-back'),{visual:card.visual,topicId:card.topicId,answerVisible:true,paused:settings.paused||!settings.revealed||!active});$('card-motion').textContent=settings.paused?'Play animation':'Pause animation';$('card-motion').setAttribute('aria-pressed',String(!settings.paused));}
+  function reveal(value=true){if(busy)return;const card=cardById.get(currentReviewId(state)||'');if(!card)return;settings.revealed=value;if(!value)collapseReferences();$('flashcard').classList.toggle('is-revealed',value);$('flashcard-front').inert=value;$('flashcard-back').inert=!value;$('flashcard-front').setAttribute('aria-hidden',String(value));$('flashcard-back').setAttribute('aria-hidden',String(!value));$('review-ratings').hidden=!value;$('review-response-label').textContent=value?'How well did you retrieve it?':'Reveal the explanation, then rate your recall.';drawVisuals(card);save();$(value?'card-answer':'card-prompt').focus({preventScroll:true});}
+  function renderCard(focus=false){
+    const id=currentReviewId(state),card=id?cardById.get(id):null;if(!card){renderResult();return;}
+    const session=state.session!,topic=topicById.get(card.topicId)!,category=categories.find(c=>c.id===topic.category)!;
+    const label=sessionLabel();showScreen('session');$('review-session-label').textContent=label;$('review-position').textContent=`${session.reviewedIds.length} / ${cardCount(session.initialIds.length)} reviewed`;$('review-repeats').textContent=session.totalRetries?`${session.queue.filter(id=>session.reviewedIds.includes(id)).length} revisit${session.queue.filter(id=>session.reviewedIds.includes(id)).length===1?'':'s'} queued`:'';
+    $<HTMLProgressElement>('review-progress').max=session.initialIds.length;$<HTMLProgressElement>('review-progress').value=session.reviewedIds.length;
+    $('card-category').textContent=category.title;$('card-kind').textContent=depthNames[card.level]||'Recall';$('card-prompt').textContent=card.prompt;$('card-topic').textContent=topic.title;$('card-answer').textContent=card.answer;$('card-detail').textContent=card.detail;
+    collapseReferences();references.replaceChildren();$('card-source').hidden=!topic.sources.some(id=>sources[id]);$<HTMLButtonElement>('review-undo').disabled=!state.history.length;
+    $('interval-again').textContent=(session.retryCounts[id!]||0)<2?'Revisit + 10 min':'Review in 10 min';$('interval-hard').textContent=`Review in ${intervalText('hard')}`;$('interval-good').textContent=`Review in ${intervalText('good')}`;$('review-last-rating').textContent=lastRating;
+    $('flashcard-scene').inert=false;$('review-ratings').inert=false;$('flashcard-scene').classList.remove('is-leaving');reveal(settings.revealed);if(focus)$(settings.revealed?'card-answer':'card-prompt').focus({preventScroll:true});
+  }
+  function start(selected=pool(),label=scopeLabel()){
+    if(!selected.length){announce('No cards match this selection.');return;}
+    cancelTransition();state=buildSession(selected,state,{count:settings.length,now:Date.now()}) as ReviewState;settings.sessionLabel=withDepth(label,selected);settings.sessionStartedAt=state.session!.startedAt;settings.revealed=false;lastRating='';announce('');save();renderCard(true);options.onUpdate?.();
+  }
+  function rate(grade:'again'|'hard'|'good'){
+    if(busy||!settings.revealed||!currentReviewId(state))return;busy=true;const token=++transition;
+    const nextLabel=intervalText(grade);state=rateReview(state,grade,{now:Date.now()}) as ReviewState;settings.revealed=false;lastRating=grade==='again'?'Marked for another look.':`Next review in ${nextLabel}.`;save();$('flashcard-scene').inert=true;$('review-ratings').inert=true;$('flashcard-scene').classList.add('is-leaving');announce(lastRating);options.onUpdate?.();
+    setTimeout(()=>{if(token!==transition)return;busy=false;if(active&&settings.format==='cards')renderCard(true);},matchMedia('(prefers-reduced-motion: reduce)').matches?0:180);
+  }
+  function difficult(){const session=state.session;return session?session.initialIds.filter(id=>(session.attempts[id]||0)>1||state.records[id]?.lastRating!=='good'):[];}
+  function renderResult(){
+    if(!state.session){showScreen('hub');renderHub();return;}showScreen('result');const session=state.session;const unique=session.reviewedIds.length,needs=difficult();const result=$('review-result');result.replaceChildren();
+    const mark=document.createElement('span');mark.className='review-completion-mark';mark.textContent='✓';mark.setAttribute('aria-hidden','true');const title=document.createElement('h3');title.textContent='Session complete';const note=document.createElement('p');note.textContent=`${cardCount(unique)} reviewed. ${needs.length?`${needs.length} worth another look. Your next reviews are scheduled.`:'Your next reviews are scheduled. Choose another deck or return to the atlas.'}`;
+    const metrics=document.createElement('div');metrics.className='result-metrics';for(const [n,label]of [[session.ratings.good,'Got it'],[session.ratings.hard,'With effort'],[session.ratings.again,'Again']]as const){const block=document.createElement('div'),value=document.createElement('strong'),caption=document.createElement('span');value.textContent=String(n);caption.textContent=label;block.append(value,caption);metrics.append(block);}const metricNote=document.createElement('p');metricNote.textContent='Ratings include repeated attempts. They reflect your own assessment.';metricNote.className='review-storage';
+    const actions=document.createElement('div');actions.className='result-actions';actions.append(makeButton('Choose a deck',()=>{showScreen('hub');renderHub();},'primary'));if(needs.length)actions.append(makeButton('Review difficult cards',()=>start(needs.map(id=>cardById.get(id)!), 'Difficult cards'),'subtle'));actions.append(makeButton('Undo last rating',()=>undo(),'subtle'));
+    const links=document.createElement('div');links.className='result-topics';for(const topicId of [...new Set(needs.map(id=>cardById.get(id)!.topicId))].slice(0,4))links.append(makeButton(`${topicById.get(topicId)!.title} ↗`,()=>options.onExplore(topicId)));
+    result.append(mark,title,note,metrics,metricNote,links,actions);result.focus({preventScroll:true});announce(`Session complete. ${cardCount(unique)} reviewed.`);
+  }
+  function undo(){if(!state.history.length)return;cancelTransition();state=undoReview(state) as ReviewState;settings.revealed=true;lastRating='Last rating undone.';save();renderCard(true);options.onUpdate?.();announce(lastRating);}
+  function setFormat(format:string){cancelTransition();settings.format=format;$('flashcard-practice').hidden=format!=='cards';$('question-practice').hidden=format!=='questions';all('[data-practice-format]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.practiceFormat===format)));if(format==='cards')refresh();else{cleanupFront();cleanupBack();}save();}
+  function refresh(){renderHub();if(settings.screen==='session'&&state.session)renderCard();else if(settings.screen==='result'&&state.session&&!state.session.queue.length)renderResult();else showScreen('hub');}
+  $('review-start').addEventListener('click',()=>start());$('review-resume').addEventListener('click',()=>{cancelTransition();settings.revealed=false;renderCard(true);});$('review-pause').addEventListener('click',()=>{cancelTransition();showScreen('hub');renderHub();});$('review-undo').addEventListener('click',undo);
+  $('card-reveal').addEventListener('click',()=>reveal());$('card-question').addEventListener('click',()=>reveal(false));
+  $('card-motion').addEventListener('click',()=>{if(busy)return;settings.paused=!settings.paused;const card=cardById.get(currentReviewId(state)||'');if(card)drawVisuals(card);save();});
+  $('card-model').addEventListener('click',()=>{if(busy||!settings.revealed)return;const card=cardById.get(currentReviewId(state)||'');if(card)options.onExplore(card.topicId);});
+  $('card-source').addEventListener('click',()=>{if(busy||!settings.revealed)return;const card=cardById.get(currentReviewId(state)||'');if(!card)return;if(!references.hidden){collapseReferences();return;}const heading=document.createElement('h4');heading.id='card-references-title';heading.textContent='Topic references';const list=document.createElement('ul');for(const id of [...new Set(topicById.get(card.topicId)!.sources)]){const source=sources[id];if(!source)continue;const item=document.createElement('li'),link=document.createElement('a');link.textContent=source.title;link.href=source.url;link.target='_blank';link.rel='noopener noreferrer';item.append(link);list.append(item);}references.replaceChildren(heading,list);references.hidden=false;$('card-source').setAttribute('aria-expanded','true');});
+  all('[data-rating]').forEach(el=>el.addEventListener('click',()=>rate(el.dataset.rating as 'again'|'hard'|'good')));
+  all('[data-practice-format]').forEach(el=>el.addEventListener('click',()=>setFormat(el.dataset.practiceFormat!)));
+  all('[data-review-pool]').forEach(el=>el.addEventListener('click',()=>{settings.pool=el.dataset.reviewPool!;settings.customIds=[];settings.customLabel='';renderHub();save();}));
+  $('review-clear-deck').addEventListener('click',()=>{settings.deck='';settings.customIds=[];settings.customLabel='';renderHub();save();});
+  $('review-level').addEventListener('change',()=>{settings.level=$<HTMLSelectElement>('review-level').value;renderHub();save();});$('review-length').addEventListener('change',()=>{settings.length=Number($<HTMLSelectElement>('review-length').value);renderHub();save();});
+  document.addEventListener('keydown',event=>{if(!active||settings.format!=='cards'||settings.screen!=='session'||event.repeat||event.ctrlKey||event.metaKey||event.altKey)return;const editable=(event.target as HTMLElement).matches('input,select,textarea,[contenteditable]');if(editable)return;if(event.code==='Space'&&!(event.target as HTMLElement).closest('button,a')){event.preventDefault();reveal(!settings.revealed);}if(settings.revealed&&['1','2','3'].includes(event.key)){event.preventDefault();rate((['again','hard','good']as const)[Number(event.key)-1]);}if(event.key.toLowerCase()==='z'){event.preventDefault();undo();}});
+  return{setActive(value:boolean){active=value;if(value)setFormat(settings.format);else{cancelTransition();cleanupFront();cleanupBack();}},startForTopics(topicIds:string[],label:string){settings.pool='all';settings.deck='';settings.level='all';settings.customIds=topicIds.filter(id=>topicById.has(id));settings.customLabel=label;settings.format='cards';setFormat('cards');start(pool(),label);},reviewedTopics(){return new Set(cards.filter(c=>state.records[c.id]).map(c=>c.topicId));}};
+}

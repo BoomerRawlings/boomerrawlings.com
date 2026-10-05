@@ -1,0 +1,32 @@
+<div id="flashcard-practice">
+  <div id="review-hub">
+    <div class="review-overview">
+      <div class="review-intro"><span class="eyebrow">RETRIEVAL PRACTICE</span><h3>Review session</h3><p>Recall it. Reveal the explanation. Decide what needs another look.</p><div class="review-launch"><button id="review-start" class="primary">Start 10 cards <span aria-hidden="true">→</span></button><button id="review-resume" class="subtle" hidden>Resume session</button></div><p id="review-selection-note" class="review-selection-note"></p></div>
+      <div class="review-dashboard" aria-label="Your review activity"><span class="review-stat-caption">Across all decks</span><div class="review-stat"><strong id="review-due">0</strong><span>Due now</span></div><div class="review-stat"><strong id="review-new">150</strong><span>New cards</span></div><div class="review-stat"><strong id="review-today">0</strong><span>Reviewed today</span></div><div class="review-week" id="review-week" aria-label="Review activity over the last seven days"></div></div>
+    </div>
+    <div class="review-setup"><div class="review-filters" role="group" aria-label="Card selection"><button data-review-pool="all" aria-pressed="true">All cards</button><button data-review-pool="due" aria-pressed="false">Due now</button><button data-review-pool="saved" aria-pressed="false">Saved topics</button></div><div class="review-selects"><label>Depth<select id="review-level"><option value="all">All depths</option><option value="essentials">Essentials</option><option value="mechanism">Mechanism</option><option value="advanced">Application</option></select></label><label>Session<select id="review-length"><option value="10">10 cards</option><option value="20">20 cards</option><option value="5">5 cards</option></select></label></div></div>
+    <div class="review-deck-heading"><h4>Subject decks</h4><button id="review-clear-deck" hidden>All subjects ↗</button></div>
+    <div id="review-decks" class="review-decks"></div>
+    <p class="review-storage" id="review-storage">Saved in this browser. Review timing adapts to your ratings; ratings are self-assessment.</p>
+  </div>
+  <div id="review-session" hidden>
+    <div class="review-session-top"><button id="review-pause" class="subtle">← Decks</button><span id="review-session-label"></span><button id="review-undo" class="subtle" disabled>Undo</button></div>
+    <div class="review-track"><progress id="review-progress" max="10" value="0" aria-label="Cards reviewed in this session"></progress><div><span id="review-position"></span><span id="review-repeats"></span></div></div>
+    <div class="flashcard-scene" id="flashcard-scene">
+      <div class="flashcard" id="flashcard">
+        <section class="flashcard-face flashcard-front" id="flashcard-front" aria-labelledby="card-prompt">
+          <div class="flashcard-copy"><div class="card-meta"><span id="card-category"></span><span id="card-kind"></span></div><h3 id="card-prompt" tabindex="-1"></h3><p class="card-instruction">Say the answer—or think it through—before turning the card.</p><button class="card-reveal" id="card-reveal">Reveal answer <kbd>Space</kbd><span aria-hidden="true">↗</span></button></div>
+          <div class="card-illustration"><div id="card-visual-front" class="card-visual-host"></div><span class="card-sketch-caption">Concept sketch</span></div>
+        </section>
+        <section class="flashcard-face flashcard-back" id="flashcard-back" aria-labelledby="card-answer" aria-hidden="true" inert>
+          <div class="flashcard-copy"><div class="card-meta"><span id="card-topic"></span><span>EXPLANATION</span></div><h3 id="card-answer" tabindex="-1"></h3><p id="card-detail"></p><div class="card-answer-links"><button id="card-model">Explore the 3D lesson ↗</button><button id="card-source">Read source ↗</button><button id="card-question">See question</button></div></div>
+          <div class="card-illustration"><div id="card-visual-back" class="card-visual-host"></div><span class="card-sketch-caption">Concept sketch · not to scale</span></div>
+        </section>
+      </div>
+    </div>
+    <div class="review-response" id="review-response"><p id="review-response-label">Reveal the explanation, then rate your recall.</p><div class="review-ratings" id="review-ratings" hidden><button data-rating="again"><span><kbd>1</kbd> Again</span><small id="interval-again"></small></button><button data-rating="hard"><span><kbd>2</kbd> With effort</span><small id="interval-hard"></small></button><button data-rating="good"><span><kbd>3</kbd> Got it</span><small id="interval-good"></small></button></div></div>
+    <div class="review-session-footer"><span id="review-last-rating"></span><button id="card-motion" aria-pressed="true">Pause animation</button></div>
+  </div>
+  <div id="review-result" class="review-result" hidden tabindex="-1"></div>
+  <div class="sr-only" id="review-announcement" role="status" aria-live="polite"></div>
+</div>

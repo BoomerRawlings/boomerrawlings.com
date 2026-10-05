@@ -1,6 +1,7 @@
 import { categories, topics as rawTopics, sources as rawSources } from '../../../public/brain/curriculum.js';
 import { journeys, makeRound, cleanProgress } from '../../../public/brain/study.js';
 import type { createBrainViewer } from './models';
+import { initializePractice } from './practice';
 import type { Narrative, PickSpec, RepresentationSpec } from './scene-types';
 
 type Depth='essentials'|'mechanism'|'advanced';
@@ -19,6 +20,7 @@ let progress=cleanProgress(stored,topics.map(t=>t.id));
 let selected=byId.get(progress.lastTopic)||topics[0];
 let depth=progress.depth as Depth;
 let mode='explore';
+let practice:ReturnType<typeof initializePractice>|null=null;
 let savedOnly=false;
 let activeJourney:typeof journeys[number]|null=null;
 let viewer:Awaited<ReturnType<typeof createBrainViewer>>=null;
@@ -128,8 +130,12 @@ function setMode(nextMode:string){
   $('paths-panel').hidden=mode!=='paths';$('recall-panel').hidden=mode!=='recall';
   document.body.classList.toggle('recall-mode',mode==='recall');
   $('active-journey').hidden=mode==='recall'||!activeJourney;
+  practice?.setActive(mode==='recall');
+  const params=new URLSearchParams(location.hash.slice(1));if(mode==='explore')params.delete('mode');else params.set('mode',mode==='recall'?'practice':'paths');history.replaceState(null,'',`#${params}`);
   if(mode!=='recall')requestAnimationFrame(()=>viewer?.resize());
 }
+
+practice=initializePractice({getSavedTopics:()=>progress.saved,onExplore:id=>{setMode('explore');setTopic(id,true,true);},onUpdate:()=>renderJourneyCards()});
 
 all<HTMLButtonElement>('[data-mode]').forEach(el=>el.addEventListener('click',()=>setMode(el.dataset.mode!)));
 all<HTMLButtonElement>('[data-topic]').forEach(el=>el.addEventListener('click',()=>setTopic(el.dataset.topic!,true,true)));
@@ -142,7 +148,17 @@ $('mark-understood').addEventListener('click',()=>{progress.understood=progress.
 all<HTMLButtonElement>('[data-depth]').forEach(tab=>{tab.addEventListener('click',()=>{depth=tab.dataset.depth! as Depth;renderDepth();history.replaceState(null,'',`#topic=${selected.id}&depth=${depth}`);});tab.addEventListener('keydown',event=>{if(!['ArrowRight','ArrowLeft','Home','End'].includes(event.key))return;event.preventDefault();const tabs=all<HTMLButtonElement>('[data-depth]');const index=tabs.indexOf(tab);const next=event.key==='Home'?0:event.key==='End'?2:(index+(event.key==='ArrowRight'?1:2))%3;tabs[next].focus();tabs[next].click();});});
 $('next-topic').addEventListener('click',()=>{if(activeJourney){const index=activeJourney.ids.indexOf(selected.id);if(index<activeJourney.ids.length-1){setTopic(activeJourney.ids[index+1],true,true);return;}activeJourney=null;renderJourney();setMode('paths');$('paths-heading').tabIndex=-1;$('paths-heading').focus();announce('Sequence complete. Select another sequence or practice questions.');return;}const index=topics.indexOf(selected);setTopic(topics[(index+1)%topics.length].id,true,true);});
 
-$('journey-cards').replaceChildren(...journeys.map((journey,index)=>{const card=button('',()=>{activeJourney=journey;setMode('explore');setTopic(journey.ids[0],true,true);$('active-journey').scrollIntoView({behavior:'smooth',block:'start'});},'journey-card');const number=document.createElement('span');number.className='path-index';number.textContent=`SEQUENCE ${String(index+1).padStart(2,'0')}`;const title=document.createElement('h3');title.textContent=journey.title;const desc=document.createElement('p');desc.textContent=journey.description;const trail=document.createElement('span');trail.textContent=`${journey.ids.length} topics →`;card.append(number,title,desc,trail);return card;}));
+function renderJourneyCards(){
+  const reviewed=practice?.reviewedTopics()||new Set<string>();
+  $('journey-cards').replaceChildren(...journeys.map((journey,index)=>{
+    const card=document.createElement('article');card.className='journey-card';const number=document.createElement('span');number.className='path-index';number.textContent=`SEQUENCE ${String(index+1).padStart(2,'0')}`;
+    const title=document.createElement('h3');title.textContent=journey.title;const desc=document.createElement('p');desc.textContent=journey.description;const trail=document.createElement('span');trail.className='journey-progress';trail.textContent=`${journey.ids.filter(id=>reviewed.has(id)).length}/${journey.ids.length} topics practiced`;
+    const actions=document.createElement('div');actions.className='journey-actions';actions.append(button('Explore →',()=>{activeJourney=journey;setMode('explore');setTopic(journey.ids[0],true,true);$('active-journey').scrollIntoView({behavior:'smooth',block:'start'});}),button('Practice cards',()=>{setMode('recall');practice?.startForTopics(journey.ids,journey.title);$('recall-panel').scrollIntoView({behavior:'smooth',block:'start'});}));card.append(number,title,desc,trail,actions);return card;
+  }));
+}
+renderJourneyCards();
+$('topic-practice').addEventListener('click',()=>{setMode('recall');practice?.startForTopics([selected.id],selected.title);$('recall-panel').scrollIntoView({behavior:'smooth',block:'start'});});
+$('journey-practice').addEventListener('click',()=>{if(activeJourney){setMode('recall');practice?.startForTopics(activeJourney.ids,activeJourney.title);$('recall-panel').scrollIntoView({behavior:'smooth',block:'start'});}});
 $('journey-prev').addEventListener('click',()=>{if(activeJourney){const index=activeJourney.ids.indexOf(selected.id);if(index>0)setTopic(activeJourney.ids[index-1],true,true);}});
 $('journey-next').addEventListener('click',()=>{if(activeJourney){const index=activeJourney.ids.indexOf(selected.id);if(index<activeJourney.ids.length-1)setTopic(activeJourney.ids[index+1],true,true);}});
 $('journey-exit').addEventListener('click',()=>{activeJourney=null;renderJourney();});
@@ -221,10 +237,10 @@ function setNarrative(value:Narrative|null){
 }
 function setExpanded(value:boolean){expanded=value;const panel=document.querySelector<HTMLElement>('.viewer-column')!;panel.classList.toggle('is-expanded',expanded);if(expanded){panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-label','Expanded neuroscience model');}else{panel.removeAttribute('role');panel.removeAttribute('aria-modal');panel.removeAttribute('aria-label');}all<HTMLElement>(backgroundSelector).forEach(el=>el.inert=expanded);$('model-fullscreen').setAttribute('aria-label',expanded?'Close expanded model':'Expand model');document.body.style.overflow=expanded?'hidden':'';requestAnimationFrame(()=>viewer?.resize());$('model-fullscreen').focus();}
 $('model-fullscreen').addEventListener('click',()=>setExpanded(!expanded));
-document.addEventListener('keydown',event=>{const editable=(event.target as HTMLElement).matches('input,textarea,select,[contenteditable]');if(event.key==='Escape'){if(expanded)setExpanded(false);else if(editable){$<HTMLInputElement>('topic-search').value='';filterTopics();}}if(expanded){if(event.key==='Tab'){const controls=all<HTMLElement>('.viewer-column button:not(:disabled):not([hidden]),.viewer-column select:not(:disabled),.viewer-column input:not(:disabled),.viewer-column canvas').filter(el=>el.getClientRects().length>0);if(event.shiftKey&&document.activeElement===controls[0]){event.preventDefault();controls.at(-1)?.focus();}else if(!event.shiftKey&&document.activeElement===controls.at(-1)){event.preventDefault();controls[0]?.focus();}}return;}if(editable)return;if(event.key==='/'){event.preventDefault();setMode('explore');$('topic-search').focus();}if(mode==='recall'&&!$('recall-quiz').hidden){const digit=Number(event.key);if(digit>=1&&digit<=4&&!answered)answerQuestion(choiceOrder[digit-1]);if(event.key==='Enter'&&answered&&(event.target as HTMLElement).tagName!=='BUTTON')$('recall-next').click();}});
+document.addEventListener('keydown',event=>{const editable=(event.target as HTMLElement).matches('input,textarea,select,[contenteditable]');if(event.key==='Escape'){if(expanded)setExpanded(false);else if(editable){$<HTMLInputElement>('topic-search').value='';filterTopics();}}if(expanded){if(event.key==='Tab'){const controls=all<HTMLElement>('.viewer-column button:not(:disabled):not([hidden]),.viewer-column select:not(:disabled),.viewer-column input:not(:disabled),.viewer-column canvas').filter(el=>el.getClientRects().length>0);if(event.shiftKey&&document.activeElement===controls[0]){event.preventDefault();controls.at(-1)?.focus();}else if(!event.shiftKey&&document.activeElement===controls.at(-1)){event.preventDefault();controls[0]?.focus();}}return;}if(editable)return;if(event.key==='/'){event.preventDefault();setMode('explore');$('topic-search').focus();}if(mode==='recall'&&!$('question-practice').hidden&&!$('recall-quiz').hidden){const digit=Number(event.key);if(digit>=1&&digit<=4&&!answered)answerQuestion(choiceOrder[digit-1]);if(event.key==='Enter'&&answered&&(event.target as HTMLElement).tagName!=='BUTTON')$('recall-next').click();}});
 
-function readLocation(){const params=new URLSearchParams(location.hash.slice(1));const topic=params.get('topic');const nextDepth=params.get('depth');if(nextDepth&&['essentials','mechanism','advanced'].includes(nextDepth))depth=nextDepth as Depth;if(topic&&byId.has(topic))setTopic(topic,false);else setTopic(selected.id,false);}
-window.addEventListener('hashchange',()=>{if(location.hash.startsWith('#topic='))readLocation();});
+function readLocation(){const params=new URLSearchParams(location.hash.slice(1));const topic=params.get('topic');const nextDepth=params.get('depth');if(nextDepth&&['essentials','mechanism','advanced'].includes(nextDepth))depth=nextDepth as Depth;if(topic&&byId.has(topic))setTopic(topic,false);else setTopic(selected.id,false);const requestedMode=params.get('mode');setMode(requestedMode==='practice'?'recall':requestedMode==='paths'?'paths':'explore');}
+window.addEventListener('hashchange',()=>{const params=new URLSearchParams(location.hash.slice(1));if(params.has('topic')||params.has('mode')||params.has('depth'))readLocation();});
 readLocation();
 
 async function initializeViewer(){
