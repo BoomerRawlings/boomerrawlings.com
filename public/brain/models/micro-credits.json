@@ -1,0 +1,232 @@
+{
+  "version": 1,
+  "title": "Cellular and molecular model provenance",
+  "assets": [
+    {
+      "file": "/brain/models/micro-neuron.json",
+      "name": "Allen mouse visual-cortex Cux2 neuron",
+      "source": "https://celltypes.brain-map.org/experiment/morphology/485909730",
+      "coordinates": "https://api.brain-map.org/api/v2/well_known_file_download/500961530",
+      "license": "Allen Institute terms of use: noncommercial use with attribution",
+      "licenseUrl": "https://alleninstitute.org/legal/terms-of-use",
+      "representation": "Measured dendrite-only SWC reconstruction; teaching spines and axon are separate overlays.",
+      "citation": "Allen Cell Types Database (2015), Allen Institute for Brain Science. Mouse Cux2 specimen 485909730, reconstruction 500961528."
+    },
+    {
+      "file": "/brain/models/micro-sodium.json",
+      "name": "Human Nav1.7 with auxiliary subunits",
+      "source": "https://www.rcsb.org/structure/6J8J",
+      "coordinates": "https://files.rcsb.org/download/6J8J.pdb1",
+      "license": "CC0 — wwPDB coordinates",
+      "licenseUrl": "https://www.rcsb.org/pages/policies",
+      "representation": "Experimental C-alpha backbone trace, biological assembly 1. Selected channel protein entities. Missing residues remain gaps. Coordinate axes are deposited axes, not assumed membrane orientation.",
+      "citation": {
+        "title": "Structures of human Nav1.7 channel in complex with auxiliary subunits and animal toxins.",
+        "doi": "https://pubmed.ncbi.nlm.nih.gov/30765606/",
+        "year": 2019
+      }
+    },
+    {
+      "file": "/brain/models/micro-potassium.json",
+      "name": "Rat Kv1.2/Kv2.1 paddle chimera with beta subunits",
+      "source": "https://www.rcsb.org/structure/2R9R",
+      "coordinates": "https://files.rcsb.org/download/2R9R.pdb1",
+      "license": "CC0 — wwPDB coordinates",
+      "licenseUrl": "https://www.rcsb.org/pages/policies",
+      "representation": "Experimental C-alpha backbone trace, biological assembly 1. Selected channel protein entities. Missing residues remain gaps. Coordinate axes are deposited axes, not assumed membrane orientation.",
+      "citation": {
+        "title": "Atomic structure of a voltage-dependent K+ channel in a lipid membrane-like environment.",
+        "doi": "https://pubmed.ncbi.nlm.nih.gov/18004376/",
+        "year": 2007
+      }
+    },
+    {
+      "file": "/brain/models/micro-calcium.json",
+      "name": "Human presynaptic N-type CaV2.2 complex",
+      "source": "https://www.rcsb.org/structure/7MIY",
+      "coordinates": "https://files.rcsb.org/download/7MIY.pdb1",
+      "license": "CC0 — wwPDB coordinates",
+      "licenseUrl": "https://www.rcsb.org/pages/policies",
+      "representation": "Experimental C-alpha backbone trace, biological assembly 1. Selected channel protein entities. Missing residues remain gaps. Coordinate axes are deposited axes, not assumed membrane orientation.",
+      "citation": {
+        "title": "Structure of human Ca v 2.2 channel blocked by the painkiller ziconotide.",
+        "doi": "https://pubmed.ncbi.nlm.nih.gov/34234349/",
+        "year": 2021
+      }
+    },
+    {
+      "file": "/brain/models/micro-ampa.json",
+      "name": "Rat GluA2 AMPA receptor",
+      "source": "https://www.rcsb.org/structure/3KG2",
+      "coordinates": "https://files.rcsb.org/download/3KG2.pdb1",
+      "license": "CC0 — wwPDB coordinates",
+      "licenseUrl": "https://www.rcsb.org/pages/policies",
+      "representation": "Experimental C-alpha backbone trace, biological assembly 1. Selected channel protein entities. Missing residues remain gaps. Coordinate axes are deposited axes, not assumed membrane orientation.",
+      "citation": {
+        "title": "X-ray structure, symmetry and mechanism of an AMPA-subtype glutamate receptor.",
+        "doi": "https://pubmed.ncbi.nlm.nih.gov/19946266/",
+        "year": 2009
+      }
+    },
+    {
+      "file": "/brain/models/micro-nmda.json",
+      "name": "GluN1a/GluN2B NMDA receptor",
+      "source": "https://www.rcsb.org/structure/4PE5",
+      "coordinates": "https://files.rcsb.org/download/4PE5.pdb1",
+      "license": "CC0 — wwPDB coordinates",
+      "licenseUrl": "https://www.rcsb.org/pages/policies",
+      "representation": "Experimental C-alpha backbone trace, biological assembly 1. Selected channel protein entities. Missing residues remain gaps. Coordinate axes are deposited axes, not assumed membrane orientation.",
+      "citation": {
+        "title": "Crystal structure of a heterotetrameric NMDA receptor ion channel.",
+        "doi": "https://pubmed.ncbi.nlm.nih.gov/24876489/",
+        "year": 2014
+      }
+    },
+    {
+      "file": "/brain/models/gaba-a-6d6t.json",
+      "name": "GABA-A receptor α1β2γ2 · conformation B",
+      "source": "https://www.rcsb.org/structure/6D6T",
+      "coordinates": "https://files.rcsb.org/download/6D6T.cif",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "representation": "Alpha-carbon trace of receptor chains A–E; separate segments at residue gaps. Antibody chains, ligands, side chains and unresolved residues omitted.",
+      "citation": "Zhu S., Noviello C.M., Teng J., Walsh R.M., Kim J.J., Hibbs R.E. (2018). Structure of a human synaptic GABAA receptor. Nature 559, 67–72. https://doi.org/10.1038/s41586-018-0255-3"
+    },
+    {
+      "file": "/brain/models/micro-molecules.json",
+      "id": "glutamate",
+      "name": "L-glutamic acid",
+      "source": "https://pubchem.ncbi.nlm.nih.gov/compound/33032",
+      "coordinates": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/33032/JSON?record_type=3d",
+      "representation": "Computed 3D conformers. Explicit hydrogens and record formal charges. Not experimental bound conformations; protonation state follows the PubChem record.",
+      "attribution": "NCBI PubChem structural record; no third-party prose or image copied."
+    },
+    {
+      "file": "/brain/models/micro-molecules.json",
+      "id": "gaba",
+      "name": "GABA",
+      "source": "https://pubchem.ncbi.nlm.nih.gov/compound/119",
+      "coordinates": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/119/JSON?record_type=3d",
+      "representation": "Computed 3D conformers. Explicit hydrogens and record formal charges. Not experimental bound conformations; protonation state follows the PubChem record.",
+      "attribution": "NCBI PubChem structural record; no third-party prose or image copied."
+    },
+    {
+      "file": "/brain/models/micro-molecules.json",
+      "id": "dopamine",
+      "name": "Dopamine",
+      "source": "https://pubchem.ncbi.nlm.nih.gov/compound/681",
+      "coordinates": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/681/JSON?record_type=3d",
+      "representation": "Computed 3D conformers. Explicit hydrogens and record formal charges. Not experimental bound conformations; protonation state follows the PubChem record.",
+      "attribution": "NCBI PubChem structural record; no third-party prose or image copied."
+    },
+    {
+      "file": "/brain/models/micro-molecules.json",
+      "id": "serotonin",
+      "name": "Serotonin",
+      "source": "https://pubchem.ncbi.nlm.nih.gov/compound/5202",
+      "coordinates": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/5202/JSON?record_type=3d",
+      "representation": "Computed 3D conformers. Explicit hydrogens and record formal charges. Not experimental bound conformations; protonation state follows the PubChem record.",
+      "attribution": "NCBI PubChem structural record; no third-party prose or image copied."
+    },
+    {
+      "file": "/brain/models/micro-molecules.json",
+      "id": "acetylcholine",
+      "name": "Acetylcholine",
+      "source": "https://pubchem.ncbi.nlm.nih.gov/compound/187",
+      "coordinates": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/187/JSON?record_type=3d",
+      "representation": "Computed 3D conformers. Explicit hydrogens and record formal charges. Not experimental bound conformations; protonation state follows the PubChem record.",
+      "attribution": "NCBI PubChem structural record; no third-party prose or image copied."
+    },
+    {
+      "file": "/brain/models/micro-molecules.json",
+      "id": "norepinephrine",
+      "name": "Norepinephrine",
+      "source": "https://pubchem.ncbi.nlm.nih.gov/compound/439260",
+      "coordinates": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/439260/JSON?record_type=3d",
+      "representation": "Computed 3D conformers. Explicit hydrogens and record formal charges. Not experimental bound conformations; protonation state follows the PubChem record.",
+      "attribution": "NCBI PubChem structural record; no third-party prose or image copied."
+    },
+    {
+      "file": "/brain/models/micro-molecules.json",
+      "id": "glycine",
+      "name": "Glycine",
+      "source": "https://pubchem.ncbi.nlm.nih.gov/compound/750",
+      "coordinates": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/750/JSON?record_type=3d",
+      "representation": "Computed 3D conformers. Explicit hydrogens and record formal charges. Not experimental bound conformations; protonation state follows the PubChem record.",
+      "attribution": "NCBI PubChem structural record; no third-party prose or image copied."
+    },
+    {
+      "file": "/brain/models/micro-molecules.json",
+      "id": "histamine",
+      "name": "Histamine",
+      "source": "https://pubchem.ncbi.nlm.nih.gov/compound/774",
+      "coordinates": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/774/JSON?record_type=3d",
+      "representation": "Computed 3D conformers. Explicit hydrogens and record formal charges. Not experimental bound conformations; protonation state follows the PubChem record.",
+      "attribution": "NCBI PubChem structural record; no third-party prose or image copied."
+    }
+  ],
+  "references": [
+    {
+      "name": "Molecular Mechanism of Synaptic Function",
+      "source": "https://www.biointeractive.org/classroom-resources/molecular-mechanism-synaptic-function",
+      "use": "Causal stages: calcium, vesicle fusion, diffusion and receptor response."
+    },
+    {
+      "name": "Excitatory and Inhibitory Synapses — PDB-101 / Goodsell",
+      "source": "https://pdb101.rcsb.org/sci-art/goodsell-gallery/excitatory-and-inhibitory-synapses",
+      "use": "Molecular components and cellular organization; original geometry used."
+    },
+    {
+      "name": "Neurotransmitter Transporters — PDB-101",
+      "source": "https://pdb101.rcsb.org/motm/171",
+      "use": "Uptake pathways separated from receptor signaling."
+    },
+    {
+      "name": "Voltage-gated Sodium Channels — PDB-101",
+      "source": "https://pdb101.rcsb.org/motm/243",
+      "use": "Four-domain architecture and charged voltage-sensing motifs."
+    },
+    {
+      "name": "AMPA Receptor — PDB-101",
+      "source": "https://pdb101.rcsb.org/motm/235",
+      "use": "Ligand-binding organization and pore coupling."
+    },
+    {
+      "name": "Zhu et al. 2018: Structure of a human synaptic GABA-A receptor",
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6220708/",
+      "use": "Five beta-rich extracellular domains, four membrane helices per subunit, two beta/alpha GABA-binding interfaces."
+    },
+    {
+      "name": "NMDA receptor activation mechanisms",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK5274/",
+      "use": "Two glutamate-binding and two co-agonist-binding subunits; three membrane helices plus re-entrant pore loop."
+    },
+    {
+      "name": "AllenSDK Cell Types / SWC format",
+      "source": "https://alleninstitute.github.io/AllenSDK/cell_types.html",
+      "use": "Measured compartment topology and morphology interpretation."
+    },
+    {
+      "name": "Nimmerjahn et al. 2005: Microglial surveillance",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/15831717/",
+      "use": "Dynamic process surveillance instead of a static generic glial star."
+    },
+    {
+      "name": "Purves et al.: Molecular Mechanisms Underlying LTP",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK11101/",
+      "use": "NMDA-dependent induction and receptor/kinase mechanisms."
+    },
+    {
+      "name": "Lisman et al.: CaMKII action in LTP",
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4050655/",
+      "use": "Kinase signaling and AMPA trafficking as distinct mechanisms."
+    },
+    {
+      "name": "Purves et al.: Basal Ganglia Circuits",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK10847/",
+      "use": "Signs and relationships of direct and indirect pathways."
+    }
+  ],
+  "limitations": "Experimental backbones are fixed coordinate snapshots; gating, molecular transport, cellular shapes and circuit timing are original teaching schematics. PubChem conformers are computed, with record charge states. Allen measured morphology retains tree topology with enlarged rendering radii.",
+  "documentation": "docs/brain/micro-models.md"
+}

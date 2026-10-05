@@ -1,6 +1,7 @@
 import { categories, topics as rawTopics, sources as rawSources } from '../../../public/brain/curriculum.js';
 import { journeys, makeRound, cleanProgress } from '../../../public/brain/study.js';
 import type { createBrainViewer } from './models';
+import type { Narrative, PickSpec } from './scene-types';
 
 type Depth='essentials'|'mechanism'|'advanced';
 type Lesson={summary:string;bullets:string[]};
@@ -31,6 +32,9 @@ let roundCorrect=0;
 let answered=false;
 let roundMissed:string[]=[];
 let choiceOrder:number[]=[];
+let explorationTrail:string[]=[];
+let focusedPart:PickSpec|null=null;
+let animation:Narrative|null=null;
 const backgroundSelector='.site-header,.intro,#paths-panel,#recall-panel,#active-journey,.library,.reader,.scale-journey,.source-ledger,.site-footer';
 
 function save(){try{localStorage.setItem(storageKey,JSON.stringify(progress));}catch{}}
@@ -75,6 +79,13 @@ function renderJourney(){
 
 function setTopic(id:string,updateHash=true,focus=false){
   const next=byId.get(id);if(!next)return;
+  const trailIndex=explorationTrail.indexOf(id);
+  explorationTrail=trailIndex>=0?explorationTrail.slice(0,trailIndex+1):[...explorationTrail,id].slice(-5);
+  $('model-trail').replaceChildren(...explorationTrail.flatMap((topicId,index)=>{
+    const crumb=button(byId.get(topicId)!.title,()=>setTopic(topicId));
+    if(index===explorationTrail.length-1)crumb.setAttribute('aria-current','page');
+    const divider=document.createElement('span');divider.textContent='›';return index?[divider,crumb]:[crumb];
+  }));
   selected=next;progress.lastTopic=id;save();
   $<HTMLSelectElement>('mobile-topic').value=id;
   const category=categories.find(c=>c.id===selected.category)!;
@@ -92,7 +103,7 @@ function setTopic(id:string,updateHash=true,focus=false){
   $('topic-sources').replaceChildren(...selected.sources.map(id=>{const source=sources[id];const item=document.createElement('li');if(source)item.append(externalLink(`${source.title} ↗`,source.url));return item;}));
   renderDepth();renderProgress();renderJourney();
   $<HTMLSelectElement>('model-view').value='perspective';
-  if(viewer)viewer.setTopic(selected);
+  if(viewer){viewer.setTopic(selected);viewer.setDetail(depth==='essentials'?0:depth==='mechanism'?2:3);}
   if(updateHash)history.replaceState(null,'',`#topic=${encodeURIComponent(id)}&depth=${depth}`);
   if(focus){$('topic-title').focus({preventScroll:true});if(innerWidth<=620)document.querySelector('.viewer-column')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});}
   announce(`${selected.title}. ${depth} explanation.`);
@@ -128,7 +139,7 @@ $('mobile-topic').addEventListener('change',()=>setTopic($<HTMLSelectElement>('m
 $('bookmarks-filter').addEventListener('click',()=>{savedOnly=!savedOnly;$('bookmarks-filter').setAttribute('aria-pressed',String(savedOnly));$('bookmarks-filter').textContent=savedOnly?'★':'☆';filterTopics();});
 $('bookmark-topic').addEventListener('click',()=>{progress.saved=progress.saved.includes(selected.id)?progress.saved.filter(id=>id!==selected.id):[...progress.saved,selected.id];save();renderProgress();if(savedOnly)filterTopics();announce(progress.saved.includes(selected.id)?'Topic saved.':'Topic removed from saved.');});
 $('mark-understood').addEventListener('click',()=>{progress.understood=progress.understood.includes(selected.id)?progress.understood.filter(id=>id!==selected.id):[...progress.understood,selected.id];save();renderProgress();});
-all<HTMLButtonElement>('[data-depth]').forEach(tab=>{tab.addEventListener('click',()=>{depth=tab.dataset.depth! as Depth;renderDepth();history.replaceState(null,'',`#topic=${selected.id}&depth=${depth}`);});tab.addEventListener('keydown',event=>{if(!['ArrowRight','ArrowLeft','Home','End'].includes(event.key))return;event.preventDefault();const tabs=all<HTMLButtonElement>('[data-depth]');const index=tabs.indexOf(tab);const next=event.key==='Home'?0:event.key==='End'?2:(index+(event.key==='ArrowRight'?1:2))%3;tabs[next].focus();tabs[next].click();});});
+all<HTMLButtonElement>('[data-depth]').forEach(tab=>{tab.addEventListener('click',()=>{depth=tab.dataset.depth! as Depth;renderDepth();viewer?.setDetail(depth==='essentials'?0:depth==='mechanism'?2:3);history.replaceState(null,'',`#topic=${selected.id}&depth=${depth}`);});tab.addEventListener('keydown',event=>{if(!['ArrowRight','ArrowLeft','Home','End'].includes(event.key))return;event.preventDefault();const tabs=all<HTMLButtonElement>('[data-depth]');const index=tabs.indexOf(tab);const next=event.key==='Home'?0:event.key==='End'?2:(index+(event.key==='ArrowRight'?1:2))%3;tabs[next].focus();tabs[next].click();});});
 $('next-topic').addEventListener('click',()=>{if(activeJourney){const index=activeJourney.ids.indexOf(selected.id);if(index<activeJourney.ids.length-1){setTopic(activeJourney.ids[index+1],true,true);return;}activeJourney=null;renderJourney();setMode('paths');$('paths-heading').tabIndex=-1;$('paths-heading').focus();announce('Journey complete. Choose another route or test your recall.');return;}const index=topics.indexOf(selected);setTopic(topics[(index+1)%topics.length].id,true,true);});
 
 $('journey-cards').replaceChildren(...journeys.map((journey,index)=>{const card=button('',()=>{activeJourney=journey;setMode('explore');setTopic(journey.ids[0],true,true);$('active-journey').scrollIntoView({behavior:'smooth',block:'start'});},'journey-card');const number=document.createElement('span');number.className='path-index';number.textContent=`JOURNEY ${String(index+1).padStart(2,'0')}`;const title=document.createElement('h3');title.textContent=journey.title;const desc=document.createElement('p');desc.textContent=journey.description;const trail=document.createElement('span');trail.textContent=`${journey.ids.length} connected concepts →`;card.append(number,title,desc,trail);return card;}));
@@ -190,9 +201,27 @@ $('model-explode').addEventListener('click',()=>{separated=!separated;viewer?.se
 $('model-labels').addEventListener('click',()=>{labels=!labels;viewer?.setLabels(labels);$('model-labels').setAttribute('aria-pressed',String(labels));});
 $('model-motion').setAttribute('aria-pressed',String(playing));
 $('model-motion').addEventListener('click',()=>{playing=!playing;viewer?.setPlaying(playing);$('model-motion').setAttribute('aria-pressed',String(playing));});
+$('model-zoom-in').addEventListener('click',()=>viewer?.zoom(1));
+$('model-zoom-out').addEventListener('click',()=>viewer?.zoom(-1));
+$('model-part').addEventListener('change',()=>viewer?.focusPart($<HTMLSelectElement>('model-part').value));
+$('model-enter').addEventListener('click',()=>viewer?.enter());
+$('model-unfocus').addEventListener('click',()=>viewer?.back());
+$('animation-scrub').addEventListener('input',()=>{playing=false;viewer?.setPlaying(false);$('model-motion').setAttribute('aria-pressed','false');viewer?.seek(Number($<HTMLInputElement>('animation-scrub').value)/1000);});
+function showPart(part:PickSpec|null){
+  const shown=part||focusedPart;$('model-selection').hidden=!shown;
+  $('selection-name').textContent=shown?.label||'';
+  $('selection-description').textContent=shown?.description||(shown?'Click to focus this structure.':'');
+}
+function setNarrative(value:Narrative|null){
+  animation=value;$('model-timeline').hidden=!value;$('animation-steps').replaceChildren();if(!value)return;
+  $('animation-steps').replaceChildren(...value.steps.map((step,index)=>{
+    const control=button(`${String(index+1).padStart(2,'0')} ${step.label}`,()=>{playing=false;viewer?.setPlaying(false);$('model-motion').setAttribute('aria-pressed','false');viewer?.seek(step.at/value.duration);});
+    control.title=step.description;return control;
+  }));
+}
 function setExpanded(value:boolean){expanded=value;const panel=document.querySelector<HTMLElement>('.viewer-column')!;panel.classList.toggle('is-expanded',expanded);if(expanded){panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-label','Expanded neuroscience model');}else{panel.removeAttribute('role');panel.removeAttribute('aria-modal');panel.removeAttribute('aria-label');}all<HTMLElement>(backgroundSelector).forEach(el=>el.inert=expanded);$('model-fullscreen').setAttribute('aria-label',expanded?'Close expanded model':'Expand model');document.body.style.overflow=expanded?'hidden':'';requestAnimationFrame(()=>viewer?.resize());$('model-fullscreen').focus();}
 $('model-fullscreen').addEventListener('click',()=>setExpanded(!expanded));
-document.addEventListener('keydown',event=>{const editable=(event.target as HTMLElement).matches('input,textarea,select,[contenteditable]');if(event.key==='Escape'){if(expanded)setExpanded(false);else if(editable){$<HTMLInputElement>('topic-search').value='';filterTopics();}}if(expanded){if(event.key==='Tab'){const controls=all<HTMLButtonElement|HTMLSelectElement>('.viewer-controls button:not(:disabled),.viewer-controls select:not(:disabled)');if(event.shiftKey&&document.activeElement===controls[0]){event.preventDefault();controls.at(-1)?.focus();}else if(!event.shiftKey&&document.activeElement===controls.at(-1)){event.preventDefault();controls[0]?.focus();}}return;}if(editable)return;if(event.key==='/'){event.preventDefault();setMode('explore');$('topic-search').focus();}if(mode==='recall'&&!$('recall-quiz').hidden){const digit=Number(event.key);if(digit>=1&&digit<=4&&!answered)answerQuestion(choiceOrder[digit-1]);if(event.key==='Enter'&&answered&&(event.target as HTMLElement).tagName!=='BUTTON')$('recall-next').click();}});
+document.addEventListener('keydown',event=>{const editable=(event.target as HTMLElement).matches('input,textarea,select,[contenteditable]');if(event.key==='Escape'){if(expanded)setExpanded(false);else if(editable){$<HTMLInputElement>('topic-search').value='';filterTopics();}}if(expanded){if(event.key==='Tab'){const controls=all<HTMLElement>('.viewer-column button:not(:disabled):not([hidden]),.viewer-column select:not(:disabled),.viewer-column input:not(:disabled),.viewer-column canvas').filter(el=>el.getClientRects().length>0);if(event.shiftKey&&document.activeElement===controls[0]){event.preventDefault();controls.at(-1)?.focus();}else if(!event.shiftKey&&document.activeElement===controls.at(-1)){event.preventDefault();controls[0]?.focus();}}return;}if(editable)return;if(event.key==='/'){event.preventDefault();setMode('explore');$('topic-search').focus();}if(mode==='recall'&&!$('recall-quiz').hidden){const digit=Number(event.key);if(digit>=1&&digit<=4&&!answered)answerQuestion(choiceOrder[digit-1]);if(event.key==='Enter'&&answered&&(event.target as HTMLElement).tagName!=='BUTTON')$('recall-next').click();}});
 
 function readLocation(){const params=new URLSearchParams(location.hash.slice(1));const topic=params.get('topic');const nextDepth=params.get('depth');if(nextDepth&&['essentials','mechanism','advanced'].includes(nextDepth))depth=nextDepth as Depth;if(topic&&byId.has(topic))setTopic(topic,false);else setTopic(selected.id,false);}
 window.addEventListener('hashchange',()=>{if(location.hash.startsWith('#topic='))readLocation();});
@@ -201,9 +230,18 @@ readLocation();
 async function initializeViewer(){
   try{
     const {createBrainViewer}=await import('./models');
-    viewer=await createBrainViewer($('brain-viewer'),{onSelect:id=>{if(byId.has(id))setTopic(id,true);},onStatus:text=>{$('model-provenance').textContent=text;$('viewer-loading').hidden=!/^Loading/.test(text);$('model-kind').textContent=/could not load|failed|3D unavailable/i.test(text)?'Model unavailable':/^Loading/.test(text)?'Loading anatomy':/experimental|6D6T|PDB/i.test(text)?'Experimental protein coordinates':/atlas|measured/i.test(text)&&!/schematic/i.test(text)?'Atlas-derived human anatomy':'Teaching schematic · not to scale';}});
+    viewer=await createBrainViewer($('brain-viewer'),{
+      onSelect:id=>{if(byId.has(id))setTopic(id,true);},
+      onStatus:text=>{$('model-provenance').textContent=text;$('viewer-loading').hidden=!/^Loading/.test(text);$('model-kind').textContent=/^Model could not load|3D unavailable/i.test(text)?'Model unavailable':/^Loading/.test(text)?'Assembling model':selected.scene==='channel'?'Gating schematic + protein structure':selected.scene==='molecule'?(selected.id==='neuropeptides'?'Peptide connectivity schematic':'Computed molecular conformer'):selected.scene==='tracts'?'Population tractography':selected.scene==='brain'?'Measured anatomy + study layers':selected.id==='dendrites'?'Measured arbor + study overlays':'Custom mechanism model';},
+      onHover:showPart,
+      onFocus:part=>{focusedPart=part;showPart(part);const child=part?.childTopic||part?.topicId;$('model-enter').hidden=!child||child===selected.id||!byId.has(child);$('model-enter').textContent=child&&byId.has(child)?`${byId.get(child)!.title} ↗`:'Explore inside ↗';$('model-unfocus').hidden=!part;},
+      onDetail:level=>{$('detail-name').textContent=['Overview','Structures','Mechanism','Fine detail'][level];$('detail-dots').textContent=Array.from({length:4},(_,i)=>i<=level?'●':'○').join(' ');},
+      onParts:parts=>{const select=$<HTMLSelectElement>('model-part'),value=select.value;select.replaceChildren();const empty=document.createElement('option');empty.value='';empty.textContent=parts.length?'Choose a structure…':'Zoom to reveal structures';select.append(empty);for(const part of parts){const option=document.createElement('option');option.value=part.id;option.textContent=part.label;select.append(option);}if(parts.some(part=>part.id===value))select.value=value;},
+      onNarrative:setNarrative,
+      onTime:(fraction,step)=>{if(!animation)return;$<HTMLInputElement>('animation-scrub').value=String(Math.round(fraction*1000));const currentStep=animation.steps[step];$('animation-step').textContent=currentStep?.label||'';$('animation-description').textContent=currentStep?.description||'';$('animation-time').textContent=`${Math.round(fraction*100)}%`;all('#animation-steps button').forEach((el,i)=>el.setAttribute('aria-current',String(i===step)));}
+    });
     if(!viewer)throw new Error('3D unavailable');
-    viewer.setPlaying(playing);viewer.setLabels(labels);viewer.setTopic(selected);
+    viewer.setPlaying(playing);viewer.setLabels(labels);viewer.setTopic(selected);viewer.setDetail(depth==='essentials'?0:depth==='mechanism'?2:3);
   }catch{ $('model-fallback').hidden=false;$('model-provenance').textContent='Written guide available. 3D rendering could not initialize.';all<HTMLButtonElement|HTMLSelectElement>('.viewer-controls button,.viewer-controls select').forEach(el=>el.disabled=true); }
   finally{if(!viewer)$('viewer-loading').hidden=true;}
 }
