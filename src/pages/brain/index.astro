@@ -7,6 +7,8 @@ import '../../styles/brain-structure-picker.css';
 import '../../styles/brain-recognition.css';
 import '../../styles/brain-navigation.css';
 import '../../styles/brain-courses.css';
+import '../../styles/brain-lectures.css';
+import '../../styles/brain-lecture-presenter.css';
 import BrainStructurePicker from '../../components/BrainStructurePicker.astro';
 import BrainFlashcards from '../../components/BrainFlashcards.astro';
 ---
@@ -28,12 +30,13 @@ import BrainFlashcards from '../../components/BrainFlashcards.astro';
   <a class="skip-link" href="#workspace">Skip to explorer</a>
   <header class="site-header">
     <a class="wordmark" href="/brain/" aria-label="Brain home"><svg class="brain-mark" viewBox="0 0 44 44" aria-hidden="true"><g class="logo-orbit logo-orbit-a"><ellipse cx="22" cy="22" rx="18" ry="9"/><circle class="logo-electron" cx="40" cy="22" r="2"/></g><g class="logo-orbit logo-orbit-b"><ellipse cx="22" cy="22" rx="18" ry="9"/><circle class="logo-electron" cx="4" cy="22" r="1.6"/></g><circle class="logo-core" cx="22" cy="22" r="3"/></svg><span>BRAIN<span class="wordmark-sub">Neuroscience atlas</span></span></a>
-    <nav class="main-nav" aria-label="Study modes"><button data-mode="explore" aria-pressed="true">Explore <span>01</span></button><button data-mode="paths" aria-pressed="false">Study sequences <span>02</span></button><button data-mode="recall" aria-pressed="false">Practice <span>03</span></button></nav>
+    <nav class="main-nav" aria-label="Study modes"><button data-mode="explore" aria-pressed="true">Explore <span>01</span></button><button data-mode="paths" aria-pressed="false">Study sequences <span>02</span></button><button data-mode="recall" aria-pressed="false">Practice <span>03</span></button><button data-mode="lectures" aria-pressed="false">Lectures <span>04</span></button></nav>
     <a class="owner-link" href="/">Boomer Rawlings <span aria-hidden="true">↗</span></a>
   </header>
   <main>
     <section class="intro" aria-labelledby="page-title"><h1 id="page-title">Neuroscience study guide</h1></section>
     <section id="brain-courses" aria-label="Course study materials"></section>
+    <section id="lectures-panel" aria-labelledby="lectures-heading" tabindex="-1" hidden></section>
     <section id="paths-panel" class="mode-panel" hidden aria-labelledby="paths-heading"><div class="section-heading"><div><h2 id="paths-heading">Study sequences</h2></div><p>Ordered topics covering anatomy and mechanisms. Progress is saved in this browser.</p></div><div id="journey-cards" class="journey-cards"></div></section>
     <section id="recall-panel" class="practice-panel" hidden aria-labelledby="recall-heading">
       <div class="practice-heading"><div><h2 id="recall-heading">Practice</h2><p>Animated flashcards, explanations, and applied recall.</p></div><div class="practice-switch" role="group" aria-label="Practice format"><button data-practice-format="cards" aria-pressed="true">Flashcards</button><button data-practice-format="questions" aria-pressed="false">Questions</button></div></div>

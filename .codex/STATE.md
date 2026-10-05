@@ -1,5 +1,18 @@
 # Project state
 
+## Lectures portal — 2026-10-05
+
+- Mode: continuation. Status: verified locally; publishing. Baseline9704ded.
+- Objective: fourth Lectures tab, password-selected collections, labeled relationships, source-paced interactive presentation and green pointer.
+- Sources: user L1–L5 PDFs (139pages), Quiroga2005/Tyree2023 papers, optional action-potential video. Originals/adaptation scripts outside repo. Only encrypted lecture payload committed.
+- Implemented: gate/map/search;139lecture slides + two6-slide paper guides; reveals/overview/notes/source comparison; figure hotspots/zoom,4 schematic labs, existing atlas models with separation/orientation/picking. L6 lecture awaits source slides.
+- Decisions: static Pages retained; AES-GCM/PBKDF2 password encryption, memory-only unlock. Shared password remains guessable; no account-authentication claim.
+- Verified: full npm test passes; final build/strict TS +10crypto/10presenter tests pass. Source page order and raster references checked. Public ciphertext contains no lecture titles/plaintext source data.
+- Visual: all151slides captured and independently reviewed; dense lab layout fixed; L5trial raster restored and demo moved to orientation slide,3recaptures pass.320/390phone controls, all4modes, search empty, keyboard pacing/Escape, source-state retention, separation/reset/compass and actual green pointer verified.
+- Cleanup: lock/reload removes decrypted DOM; close/destroy releases retained map/openers. Regression covers actual close. No observed console errors. Embedded browser declines native fullscreen; explanatory window fallback works.
+- Evidence: `docs/codex/user-facing-tests/2026-10-05__user-facing-flow-test__lectures.md`; external `qa/lectures`.
+- Next: one production push, check Pages and byte hashes, live unlock/presentation; close preview and finalize state.
+
 ## Course navigation and model inspection — 2026-10-05
 
 - Mode: continuation. Status: complete; application releaseaf3441e live and verified.

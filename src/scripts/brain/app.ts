@@ -2,6 +2,7 @@ import { categories, topics as rawTopics, sources as rawSources } from '../../..
 import { journeys, makeRound, cleanProgress } from '../../../public/brain/study.js';
 import type { createBrainViewer } from './models';
 import { initializePractice } from './practice';
+import { initializeLectures } from './lectures';
 import { createStructurePicker } from './structure-picker';
 import { renderRecognition } from './recognition';
 import { initCourses, type CourseScope } from './courses';
@@ -45,7 +46,7 @@ let choiceOrder:number[]=[];
 let explorationTrail:string[]=[];
 let focusedPart:PickSpec|null=null;
 let animation:Narrative|null=null;
-const backgroundSelector='.site-header,.intro,#brain-courses,#paths-panel,#recall-panel,#active-journey,.library,.reader,.scale-journey,.source-ledger,.site-footer';
+const backgroundSelector='.site-header,.intro,#brain-courses,#lectures-panel,#paths-panel,#recall-panel,#active-journey,.library,.reader,.scale-journey,.source-ledger,.site-footer';
 
 const structurePicker=createStructurePicker(id=>viewer?.focusPart(id));
 
@@ -145,12 +146,17 @@ function setMode(nextMode:string){
   all<HTMLButtonElement>('[data-mode]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.mode===mode)));
   $('paths-panel').hidden=mode!=='paths';$('recall-panel').hidden=mode!=='recall';
   document.body.classList.toggle('recall-mode',mode==='recall');
+  document.body.classList.toggle('lectures-mode',mode==='lectures');
+  $('lectures-panel').hidden=mode!=='lectures';lectureController.setActive(mode==='lectures');
+  const skip=document.querySelector<HTMLAnchorElement>('.skip-link')!;skip.href=mode==='lectures'?'#lectures-panel':'#workspace';skip.textContent=mode==='lectures'?'Skip to lectures':'Skip to explorer';
   $('active-journey').hidden=mode==='recall'||!activeJourney;
   practice?.setActive(mode==='recall');
-  const params=new URLSearchParams(location.hash.slice(1));if(mode==='explore')params.delete('mode');else params.set('mode',mode==='recall'?'practice':'paths');history.replaceState(null,'',`#${params}`);
+  const params=new URLSearchParams(location.hash.slice(1));if(mode==='explore')params.delete('mode');else params.set('mode',mode==='recall'?'practice':mode);history.replaceState(null,'',`#${params}`);
   if(mode!=='recall')requestAnimationFrame(()=>viewer?.resize());
 }
 
+const lectureController=initializeLectures($('lectures-panel'));
+all<HTMLAnchorElement>('a[href="#sources"]').forEach(link=>link.addEventListener('click',()=>{if(mode==='lectures')setMode('explore');}));
 practice=initializePractice({getTopicScope:()=>({ids:courseScope.topicIds,label:courseScope.label}),getSavedTopics:()=>progress.saved,onExplore:id=>{setMode('explore');setTopic(id,true,true);},onUpdate:()=>renderJourneyCards()});
 
 all<HTMLButtonElement>('[data-mode]').forEach(el=>el.addEventListener('click',()=>setMode(el.dataset.mode!)));
@@ -260,7 +266,7 @@ function setNarrative(value:Narrative|null){
 }
 function setExpanded(value:boolean){structurePicker.close();expanded=value;const panel=document.querySelector<HTMLElement>('.viewer-column')!;panel.classList.toggle('is-expanded',expanded);if(expanded){panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-label','Expanded neuroscience model');}else{panel.removeAttribute('role');panel.removeAttribute('aria-modal');panel.removeAttribute('aria-label');}all<HTMLElement>(backgroundSelector).forEach(el=>el.inert=expanded);$('model-fullscreen').setAttribute('aria-label',expanded?'Close expanded model':'Expand model');document.body.style.overflow=expanded?'hidden':'';requestAnimationFrame(()=>viewer?.resize());$('model-fullscreen').focus();}
 $('model-fullscreen').addEventListener('click',()=>setExpanded(!expanded));
-document.addEventListener('keydown',event=>{const editable=(event.target as HTMLElement).matches('input,textarea,select,[contenteditable]');if(event.key==='Escape'){if(expanded)setExpanded(false);else if(editable){$<HTMLInputElement>('topic-search').value='';filterTopics();}}if(expanded){if(event.key==='Tab'){const controls=all<HTMLElement>('.viewer-column button:not(:disabled):not([hidden]),.viewer-column select:not(:disabled),.viewer-column input:not(:disabled),.viewer-column canvas').filter(el=>el.getClientRects().length>0);if(event.shiftKey&&document.activeElement===controls[0]){event.preventDefault();controls.at(-1)?.focus();}else if(!event.shiftKey&&document.activeElement===controls.at(-1)){event.preventDefault();controls[0]?.focus();}}return;}if(editable)return;if(event.key==='/'){event.preventDefault();setMode('explore');$('topic-search').focus();}if(mode==='recall'&&!$('question-practice').hidden&&!$('recall-quiz').hidden){const digit=Number(event.key);if(digit>=1&&digit<=4&&!answered)answerQuestion(choiceOrder[digit-1]);if(event.key==='Enter'&&answered&&!(event.target as HTMLElement).closest('button,a,summary,input,select,textarea,[contenteditable]'))$('recall-next').click();}});
+document.addEventListener('keydown',event=>{if(mode==='lectures')return;const editable=(event.target as HTMLElement).matches('input,textarea,select,[contenteditable]');if(event.key==='Escape'){if(expanded)setExpanded(false);else if(editable){$<HTMLInputElement>('topic-search').value='';filterTopics();}}if(expanded){if(event.key==='Tab'){const controls=all<HTMLElement>('.viewer-column button:not(:disabled):not([hidden]),.viewer-column select:not(:disabled),.viewer-column input:not(:disabled),.viewer-column canvas').filter(el=>el.getClientRects().length>0);if(event.shiftKey&&document.activeElement===controls[0]){event.preventDefault();controls.at(-1)?.focus();}else if(!event.shiftKey&&document.activeElement===controls.at(-1)){event.preventDefault();controls[0]?.focus();}}return;}if(editable)return;if(event.key==='/'){event.preventDefault();setMode('explore');$('topic-search').focus();}if(mode==='recall'&&!$('question-practice').hidden&&!$('recall-quiz').hidden){const digit=Number(event.key);if(digit>=1&&digit<=4&&!answered)answerQuestion(choiceOrder[digit-1]);if(event.key==='Enter'&&answered&&!(event.target as HTMLElement).closest('button,a,summary,input,select,textarea,[contenteditable]'))$('recall-next').click();}});
 
 
 let courseReady=false;
@@ -281,7 +287,7 @@ courseController=initCourses($('brain-courses'),{
 });
 
 courseReady=true;
-function readLocation(){const params=new URLSearchParams(location.hash.slice(1));const topic=params.get('topic');const nextDepth=params.get('depth');if(nextDepth&&['essentials','mechanism','advanced'].includes(nextDepth))depth=nextDepth as Depth;if(topic&&byId.has(topic))setTopic(topic,false);else if(courseTopics().length)setTopic(inCourse(selected.id)?selected.id:courseTopics()[0].id,false);const requestedMode=params.get('mode');setMode(requestedMode==='practice'?'recall':requestedMode==='paths'?'paths':'explore');}
+function readLocation(){const params=new URLSearchParams(location.hash.slice(1));const topic=params.get('topic');const nextDepth=params.get('depth');if(nextDepth&&['essentials','mechanism','advanced'].includes(nextDepth))depth=nextDepth as Depth;if(topic&&byId.has(topic))setTopic(topic,false);else if(courseTopics().length)setTopic(inCourse(selected.id)?selected.id:courseTopics()[0].id,false);const requestedMode=params.get('mode');setMode(requestedMode==='practice'?'recall':requestedMode==='paths'?'paths':requestedMode==='lectures'?'lectures':'explore');}
 window.addEventListener('hashchange',()=>{const params=new URLSearchParams(location.hash.slice(1));if(params.has('topic')||params.has('mode')||params.has('depth'))readLocation();});
 readLocation();
 
