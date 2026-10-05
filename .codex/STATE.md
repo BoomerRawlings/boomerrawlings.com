@@ -1,5 +1,12 @@
 # Project state
 
+## Brain interface copy cleanup — 2026-10-05
+
+- Mode: continuation. User requests removal of hero counters and promotional/poetic phrasing throughout Brain.
+- Status: verified release ready on clean `bb25496`/main. Removed top-right scale/topic/depth counters, hero/footer slogans; plain headings, study sequences, quiz feedback and20 curriculum display fields. Scientific explanations and interactions retained.
+- Verified: full npm test; desktop study/sequence/quiz views and390/320 layouts, no overflow or console errors. Deep comparison confirms scientific lessons, questions, sources, IDs and sequencing unchanged.
+- Next: publish focused update and confirm live copy.
+
 ## Brain model refinement — 2026-10-05
 
 - Mode: continuation. Objective: animated masthead; repair and visually audit every model; zoom-dependent hover and direct exploration; deeper, source-grounded models/animations at every scale.

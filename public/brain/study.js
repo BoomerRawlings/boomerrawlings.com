@@ -1,8 +1,8 @@
 export const journeys = [
-  { id:'thought', title:'From a thought to an ion', description:'Cross the scales, from cortical networks to the channels that carry a signal.', ids:['brain-overview','cerebral-cortex','cortical-circuit','neuron','synaptic-release','glutamate','ampa','sodium-channel'] },
-  { id:'memory', title:'How a memory takes shape', description:'Trace a route from the hippocampus to a synapse that changes with experience.', ids:['hippocampus','hippocampal-circuit','nmda','ltp','ltd','structural-plasticity','memory-consolidation'] },
-  { id:'movement', title:'The making of a movement', description:'Connect action selection, descending pathways, myelin and ion channels.', ids:['basal-ganglia','dopamine','cerebellar-circuit','corticospinal','myelin','sodium-channel','potassium-channel'] },
-  { id:'balance', title:'Keeping a network in balance', description:'Explore excitation, inhibition and the mechanisms that stabilize a circuit.', ids:['resting-potential','synaptic-integration','gaba','gabaa','astrocytes','transmitter-clearance','homeostatic-plasticity'] },
+  { id:'thought', title:'Neural signaling', description:'Cortical circuits, neurons, synapses, neurotransmitters and ion channels.', ids:['brain-overview','cerebral-cortex','cortical-circuit','neuron','synaptic-release','glutamate','ampa','sodium-channel'] },
+  { id:'memory', title:'Memory and synaptic plasticity', description:'Hippocampal circuits, synaptic changes and memory consolidation.', ids:['hippocampus','hippocampal-circuit','nmda','ltp','ltd','structural-plasticity','memory-consolidation'] },
+  { id:'movement', title:'Motor control', description:'Basal ganglia, cerebellar circuits, descending pathways and axonal conduction.', ids:['basal-ganglia','dopamine','cerebellar-circuit','corticospinal','myelin','sodium-channel','potassium-channel'] },
+  { id:'balance', title:'Excitation and inhibition', description:'Membrane potential, synaptic integration, inhibition and homeostatic plasticity.', ids:['resting-potential','synaptic-integration','gaba','gabaa','astrocytes','transmitter-clearance','homeostatic-plasticity'] },
 ];
 export function makeRound(pool, count=10, random=Math.random) {
   const shuffled=[...pool];
