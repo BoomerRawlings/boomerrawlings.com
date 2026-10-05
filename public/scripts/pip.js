@@ -270,6 +270,7 @@ if (document.documentElement.dataset.pipNavigationEnhanced !== 'true') {
         || event.ctrlKey
         || event.shiftKey
         || event.altKey
+        || clicked.hasAttribute('data-pip-direct')
         || clicked.hasAttribute('download')
         || (clicked.target && clicked.target !== '_self')
       ) return;

@@ -1499,7 +1499,7 @@ if (publicHtml.includes('Interactive Systems')) {
 }
 
 const featuredWork = [
-  ['https://boomerrawlings.com/brain/', 'Project'],
+  ['/brain/', 'Project'],
   ['/writing/data-analysis/crime-and-heat/', 'Data analysis'],
   ['/writing/data-analysis/campus-safety/', 'Data analysis'],
   ['/work/horizon/', 'Project'],

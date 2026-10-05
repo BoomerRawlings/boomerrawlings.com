@@ -58,7 +58,7 @@ function renderProgress(){
   const pool=courseTopics(),understoodCount=pool.filter(t=>progress.understood.includes(t.id)).length;
   $('study-progress-label').textContent=`Study progress · ${understoodCount}/${pool.length}`;
   $<HTMLProgressElement>('study-progress').max=Math.max(1,pool.length);$<HTMLProgressElement>('study-progress').value=understoodCount;
-  all<HTMLButtonElement>('[data-topic]').forEach(el=>{el.dataset.complete=String(progress.understood.includes(el.dataset.topic!));const icon=el.querySelector('.topic-indicator');if(icon)icon.textContent=progress.understood.includes(el.dataset.topic!)?'✓':'↗';});
+  all<HTMLButtonElement>('#topic-library button[data-topic]').forEach(el=>{el.dataset.complete=String(progress.understood.includes(el.dataset.topic!));const icon=el.querySelector('.topic-indicator');if(icon)icon.textContent=progress.understood.includes(el.dataset.topic!)?'✓':'↗';});
   const understood=progress.understood.includes(selected.id);
   const mark=$<HTMLButtonElement>('mark-understood');mark.setAttribute('aria-pressed',String(understood));mark.replaceChildren();const icon=document.createElement('span');icon.textContent=understood?'✓':'○';mark.append(icon,understood?'Marked understood':'Mark understood');
   const saved=progress.saved.includes(selected.id);
@@ -113,7 +113,7 @@ function setTopic(id:string,updateHash=true,focus=false){
   $('topic-title').textContent=selected.title;
   $('topic-subtitle').textContent=selected.subtitle;
   $('brain-viewer').setAttribute('aria-label',`Interactive 3D model for ${selected.title}. Drag to orbit; scroll or pinch to zoom. Use the model controls below.`);
-  all<HTMLButtonElement>('[data-topic]').forEach(el=>{if(el.dataset.topic===id)el.setAttribute('aria-current','true');else el.removeAttribute('aria-current');});
+  all<HTMLButtonElement>('#topic-library button[data-topic]').forEach(el=>{if(el.dataset.topic===id)el.setAttribute('aria-current','true');else el.removeAttribute('aria-current');});
   const group=document.querySelector<HTMLDetailsElement>(`.topic-group[data-category="${selected.category}"]`);if(group)group.open=true;
   $('topic-connections').replaceChildren(...selected.connections.filter(id=>byId.has(id)).map(id=>button(`${byId.get(id)!.title} ↗`,()=>setTopic(id,true,true))));
   $('topic-sources').replaceChildren(...selected.sources.map(id=>{const source=sources[id];const item=document.createElement('li');if(source)item.append(externalLink(`${source.title} ↗`,source.url));return item;}));
@@ -128,8 +128,8 @@ function setTopic(id:string,updateHash=true,focus=false){
 function filterTopics(){
   const query=$<HTMLInputElement>('topic-search').value.trim().toLowerCase();let count=0;
   const matches=new Set(topics.filter(t=>inCourse(t.id)&&(!savedOnly||progress.saved.includes(t.id))&&(!query||[t.title,t.subtitle,t.essentials.summary,...t.essentials.bullets,t.mechanism.summary,...t.mechanism.bullets,t.advanced.summary,...t.advanced.bullets].join(' ').toLowerCase().includes(query))).map(t=>t.id));
-  all<HTMLButtonElement>('[data-topic]').forEach(el=>{const show=matches.has(el.dataset.topic!);el.hidden=!show;if(show)count++;});
-  all<HTMLDetailsElement>('.topic-group').forEach(group=>{const count=group.querySelectorAll('[data-topic]:not([hidden])').length;group.hidden=!count;const countLabel=group.querySelector('.category-count');if(countLabel)countLabel.textContent=String(count);if((query||savedOnly)&&!group.hidden)group.open=true;});
+  all<HTMLButtonElement>('#topic-library button[data-topic]').forEach(el=>{const show=matches.has(el.dataset.topic!);el.hidden=!show;if(show)count++;});
+  all<HTMLDetailsElement>('.topic-group').forEach(group=>{const count=group.querySelectorAll('button[data-topic]:not([hidden])').length;group.hidden=!count;const countLabel=group.querySelector('.category-count');if(countLabel)countLabel.textContent=String(count);if((query||savedOnly)&&!group.hidden)group.open=true;});
   $('empty-library').hidden=count>0;
   $('empty-library').textContent=courseScope.topicIds?.length===0?'This chapter has study notes above; a matching 3D lesson is not available yet.':savedOnly?'No saved topics match. Use the star beside a topic to save it.':'No matching concepts. Try “dopamine,” “myelin,” or “memory.”';
   $('library-count').textContent=`${count} ${savedOnly?'saved ':''}topic${count===1?'':'s'}${courseScope.courseId==='all'?'':` · ${courseScope.label}`}`;
@@ -154,7 +154,7 @@ function setMode(nextMode:string){
 practice=initializePractice({getTopicScope:()=>({ids:courseScope.topicIds,label:courseScope.label}),getSavedTopics:()=>progress.saved,onExplore:id=>{setMode('explore');setTopic(id,true,true);},onUpdate:()=>renderJourneyCards()});
 
 all<HTMLButtonElement>('[data-mode]').forEach(el=>el.addEventListener('click',()=>setMode(el.dataset.mode!)));
-all<HTMLButtonElement>('[data-topic]').forEach(el=>el.addEventListener('click',()=>setTopic(el.dataset.topic!,true,true)));
+all<HTMLButtonElement>('#topic-library button[data-topic]').forEach(el=>el.addEventListener('click',()=>setTopic(el.dataset.topic!,true,true)));
 all<HTMLButtonElement>('[data-scale]').forEach(el=>el.addEventListener('click',()=>{setMode('explore');savedOnly=false;$('bookmarks-filter').setAttribute('aria-pressed','false');$<HTMLInputElement>('topic-search').value='';filterTopics();setTopic(courseTopics().find(t=>t.category===el.dataset.scale)!.id,true,true);$('workspace').scrollIntoView({behavior:'smooth',block:'start'});}));
 $('topic-search').addEventListener('input',filterTopics);
 $('mobile-topic').addEventListener('change',()=>setTopic($<HTMLSelectElement>('mobile-topic').value,true,true));

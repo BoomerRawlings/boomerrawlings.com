@@ -108,7 +108,7 @@ const contents = [
       <ul class="ledger-list">
         {selectedWork.map((entry) => (
           <li>
-            <a href={entry.data.externalUrl ?? '/' + (entry.data.type === 'data-analysis' ? 'writing/data-analysis' : entry.data.type) + '/' + entry.data.slug + '/'}>
+            <a data-pip-direct={entry.data.externalUrl?.startsWith('https://boomerrawlings.com/') || undefined} href={entry.data.externalUrl?.replace(/^https:\/\/boomerrawlings\.com\//, '/') ?? '/' + (entry.data.type === 'data-analysis' ? 'writing/data-analysis' : entry.data.type) + '/' + entry.data.slug + '/'}>
               <span class="ledger-type">{entry.data.type === 'data-analysis' ? 'Data analysis' : entry.data.projectStage ? 'WIP project' : 'Project'}</span>
               <strong>{entry.data.title}</strong>
               <span class="ledger-description">{entry.data.description}</span>

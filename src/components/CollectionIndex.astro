@@ -58,7 +58,7 @@ const entries = (await getCollection('archive', ({ data }) =>
     <ol>
       {entries.map((entry) => (
         <li>
-          <a href={entry.data.externalUrl ?? '/' + entry.data.type + '/' + entry.data.slug + '/'}>
+          <a data-pip-direct={entry.data.externalUrl?.startsWith('https://boomerrawlings.com/') || undefined} href={entry.data.externalUrl?.replace(/^https:\/\/boomerrawlings\.com\//, '/') ?? '/' + entry.data.type + '/' + entry.data.slug + '/'}>
             <strong>
               {entry.data.title}
               {entry.data.projectStage && <> <span class="project-stage">{entry.data.projectStage}</span></>}

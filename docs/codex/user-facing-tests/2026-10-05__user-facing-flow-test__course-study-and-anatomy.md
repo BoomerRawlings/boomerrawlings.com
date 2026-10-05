@@ -21,6 +21,7 @@ Production Astro preview; Chromium; desktop1280px, phone390px and320px. Source d
 - At390px, separated thalamic nuclei, searched for dorsal lateral geniculate nucleus, focused its left source region, and returned from the expanded viewer.
 - At320px, inspected105 chapter12, zero matching model cards, disabled model-question round, and available chapter retrieval content.
 - Verified homepage Selected work includes Brain Study Guide first, correct destination/acronym, and all seven existing highlights.
+- Live follow-up reproduced an out-of-scope AMPA model disappearing when switching to108 chapter2. Scoped topic filtering to library buttons; repeated AMPA-to-chapter2, thalamus separation, search and persisted reload successfully. Four actual-filter regressions fail on old code and pass on the fix.
 
 ## What Worked
 Course scope consistently filters library, question rounds, decks and counts. Notes-only chapters remain useful. Stored ratings/history survive course switching. Native answer disclosure keyboard behavior remains intact. Models and compass respond together; clear Reassemble action restores source relationships.
@@ -41,13 +42,13 @@ No remaining blockers observed. Chapters without supporting models explicitly sa
 No remaining issue observed in tested flows. Every model question has choice-specific explanations;100 wrong options have targeted corrections. Flashcard confidence remains self-assessment rather than automatic grading.
 
 ## Errors Encountered
-No production-preview console errors. Test expectations for seven homepage highlights/nine projects needed updating to eight/ten after adding the requested work.
+Live follow-up found broad data-topic selectors hiding the viewer and altering card surfaces/counts; corrected all four library selectors and added regression coverage. Live homepage arrival exposed a native browser transition abort and an early click that did not select a course. Standalone study links now use local paths and bypass the delayed Pip departure; course selection after arrival was rechecked. The hidden browser still records a native transition abort; no persistent control failure was observed. Test expectations for seven homepage highlights/nine projects needed updating to eight/ten after adding the requested work.
 
 ## Completion Result
 Pass. Full `npm test`, strict TypeScript and final build pass. Model checks cover50 scenes,6,500 animation/detail frames,267 zoom boundaries,282 separated/nested fits and12 compass projections. Chapter integrity verifies31 chapters,93 ideas,31 misconception corrections and62 retrieval prompts; answer feedback and actual keyboard-handler regressions pass.
 
 ## Severity Summary
-Two blocking visual-overlap issues corrected. One phone tooltip/compass collision corrected. No unresolved blocker in audited flows.
+One blocking course-filter visibility bug and two blocking visual-overlap issues corrected. One phone tooltip/compass collision corrected. No unresolved blocker in audited flows.
 
 ## Recommended Next Actions
 Map actual lecture dates/order when a syllabus is supplied. Future visual coverage can add method-specific and higher-level cognition models; the current guide distinguishes those gaps from existing supporting anatomy.
