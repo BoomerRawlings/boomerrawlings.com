@@ -3,12 +3,13 @@
 ## Brain model refinement — 2026-10-05
 
 - Mode: continuation. Objective: animated masthead; repair and visually audit every model; zoom-dependent hover and direct exploration; deeper, source-grounded models/animations at every scale.
-- Status: verified release ready from clean `6b2c215`; production publication next. No unrelated changes.
+- Status: complete. Published `f4f94e0`; Pages run `37283143689` succeeded. No unrelated changes.
 - Implemented: animated orbital logo; semantic hover/focus; four zoom levels; accessible structure selection and trail; click/zoom navigation; staged animation scrubbing.50 distinct scene variants retain existing study content/progress.
 - Assets: continuous native-resolution-derived cortex/cerebellum exteriors;25 HCP bundles/8,900 measured streamlines;8 complete molecular conformers;6 experimental channel C-alpha structures with individual residue hover; measured mouse dendritic arbor. Source/representation limits and licenses explicit.
 - Visual evidence: all50 models reviewed in overview and fine detail (100 settled images); targeted corrected recaptures pass, plus3 deep-region mechanism regressions. Fixed cortex/cerebellum tears, clipped inserts, protein framing, stretched/obscured connexins, and optic-radiation context. Cerebellum uses posterior default; electrical synapses use frontal default.
 - Verification: full npm test and final build/strict TypeScript pass.50 scenes cover3,964 animation/LOD frames and35 assets.100 unique final view inventory verified. Desktop pointer/structure selection, callosum→node→channel click and sustained wheel navigation pass; actual LEU297/chainA residue selection verified. Paused step/seek/selection-clear and dialog keyboard loop/Escape pass. Logo transforms animate.390/320 layouts, expanded controls, topic selection and depth preservation pass without overflow or console errors.
-- Next: one verified production push; confirm Pages success and live route/assets/browser; record release.
+- Live evidence: `/brain/` HTTP200; all37 model/provenance assets, curriculum/study files and release JS match local SHA-256. Production browser renders repaired cortex and new controls without console errors; `/psyc/` remains200. Viewport reset and temporary preview tabs removed.
+- Next: no required work remains.
 - Limits: atlas envelope approximates gross anatomy; tractography is estimated pathways; experimental proteins are static C-alpha traces; custom motion/insets teach mechanisms rather than measured trajectories.
 
 ## Brain neuroscience explorer — 2026-10-04
