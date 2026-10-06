@@ -2,7 +2,7 @@
 
 ## Wide views and interactive charts — 2026-10-06
 
-- Mode: continuation. Status: verified, ready for publication; baseline057e3dd (release99f1329 live).
+- Mode: continuation. Status: complete; release1d03922 live. Pages37497100556 succeeded. Baseline057e3dd.
 - Objective: horizontal expanded views; axon/small-structure fidelity and recognition at distance; meaningful interaction for all neuroscience graphs/charts.
 - Scope: explorer expansion, lecture diagram focus and figure enlargement; model camera/geometry refinement; complete source chart inventory and truthful empirical inspection alongside interactive teaching plots.
 - Decisions: keep source empirical images/data faithful; never infer numeric values from pixels as measured data. Desktop uses broad visual canvas with adjacent controls; phones retain accessible responsive controls.
@@ -11,7 +11,8 @@
 - Verified: final full npm test passes; strict model/lecture TypeScript,13 presenter cases,13 demos,12 access cases,5 chart groups,36-scene anatomy/270zoom boundaries/6628model frames pass. All50 chart views captured and194 targets activated; independent pixel review passes source views. Source images/inspectors removed on lock; no preview console errors.
 - Visual audit: axon continuity, distant silhouette, channel LOD and timing-pair framing corrected. Desktop/phone model recaptures pass. Final landscape screenshot confirms descriptions in control rail clear both traces; tall source crops retain all axes and true aspect, comparison selectors fit. Final build and affected chart/presenter/filter checks pass.
 - Evidence: docs/codex/user-facing-tests/2026-10-06__user-facing-flow-test__wide-views-and-charts.md; external screenshot set.
-- Next: one verified release; live hash/interaction verification.
+- Live verification: HTML and all five app/CSS/models/labs/encrypted-pack SHA-256 hashes match tested dist. Whole-fiber expanded model, lecture unlock and source-panel comparison work on the public site; no browser warnings/errors. Final phone model has no page overflow and descriptions stay outside canvas. Evidence: external live-release-verification.json, live-wide-myelin.png and live-chart-comparison.png.
+- Next: none for this request.
 - Risks: no raw samples for some empirical source plots; panel/axis/condition inspection must communicate that limit. Private source content remains outside repository, only encrypted pack public.
 
 ## Native lecture replacement — 2026-10-05
