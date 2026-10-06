@@ -1,0 +1,77 @@
+/* Keep controls adjacent to an expanded visual instead of shortening its canvas. */
+.viewer-sidebar,.lp-model-sidebar{display:contents}
+.lp-figure-inspector,.lp-expanded-figure{height:100%;min-width:0;min-height:0;flex:1}
+.lp-image-lightbox[open]{display:grid!important;grid-template-rows:auto minmax(0,1fr);gap:18px;padding:18px 26px;align-items:stretch}
+.lp-image-lightbox>header{display:flex;align-items:center;justify-content:space-between;gap:18px;background:none;padding:0;border:0}
+.lp-image-lightbox h2{margin:0;font-size:20px;line-height:1.2;font-weight:500}
+.lp-image-lightbox>header>button{flex:none}
+.lecture-presenter[data-demo-focus=true] .lp-content{display:none}
+.lecture-presenter[data-demo-focus=true] .lp-figure{padding:0;height:100%;min-height:0}
+.lecture-presenter:not([data-demo-focus=true]) .lp-figure .figure-inspector{display:flex;flex-direction:column;overflow:auto}
+.lecture-presenter:not([data-demo-focus=true]) .lp-figure .figure-viewport{flex:0 0 300px;min-height:300px}
+.lecture-presenter:not([data-demo-focus=true]) .lp-figure .figure-sidebar{overflow:visible;flex:none}
+@media(max-width:720px){.lp-image-lightbox[open]{padding:12px;gap:12px}.lp-image-lightbox h2{font-size:17px}.lp-image-lightbox>header>button{font-size:12px}}
+@media(min-width:721px){.lp-expanded-figure .figure-viewport,.lecture-presenter[data-demo-focus=true] .figure-viewport{min-height:0;max-height:none}}
+@media(min-width:960px){
+  .viewer-column.is-expanded{display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,290px);grid-template-rows:auto auto auto minmax(0,1fr);gap:0 24px;inset:24px;padding:0 24px 24px;height:auto;overflow:hidden}
+  .viewer-column.is-expanded .viewer-topline{grid-column:1/-1;grid-row:1;padding:20px 0 12px}
+  .viewer-column.is-expanded .model-trail{grid-column:1/-1;grid-row:2;padding:0 0 10px}
+  .viewer-column.is-expanded .model-representations{grid-column:1;grid-row:3;padding:0 0 10px}
+  .viewer-column.is-expanded .viewer-stage{grid-column:1;grid-row:4;min-height:0;height:100%;width:100%;border:1px solid #263e44;border-radius:8px}
+  .viewer-column.is-expanded .viewer-sidebar{display:flex;flex-direction:column;gap:20px;grid-column:2;grid-row:3/5;min-height:0;overflow:auto;overscroll-behavior:contain;border-left:1px solid #29434a;padding:4px 0 0 22px;scrollbar-color:#3e625a transparent}
+  .viewer-column.is-expanded .structure-controls{flex-wrap:wrap;padding:0;margin:0;gap:10px}
+  .viewer-column.is-expanded .structure-picker{width:100%;max-width:none}
+  .viewer-column.is-expanded .structure-controls>button{font-size:12px}
+  .viewer-column.is-expanded .model-timeline{width:100%;margin:0;padding:14px;flex:none}
+  .viewer-column.is-expanded .timeline-heading{font-size:11px;line-height:1.4}
+  .viewer-column.is-expanded .model-timeline input{height:26px}
+  .viewer-column.is-expanded .animation-steps{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .viewer-column.is-expanded .animation-steps button{font-size:11px;line-height:1.4;padding-top:7px}
+  .viewer-column.is-expanded #animation-description{font-size:12px;line-height:1.5;min-height:0}
+  .viewer-column.is-expanded .viewer-controls{display:flex;padding:0;gap:8px;justify-content:start}
+  .viewer-column.is-expanded .viewer-controls button,.viewer-column.is-expanded .viewer-controls select{font-size:12px;min-height:38px;padding:8px 11px}
+  .viewer-column.is-expanded .viewer-controls select{width:100%}
+  .viewer-column.is-expanded #model-fullscreen{margin-left:auto}
+  .viewer-column.is-expanded .separation-note{margin:0;padding:0;text-align:left;font-size:12px;line-height:1.5}
+  .viewer-column.is-expanded .model-provenance{margin-top:auto;padding:0;min-height:0;text-align:left;font-size:11px;line-height:1.55}
+
+  .lecture-presenter[data-demo-focus=true] .lp-main{padding:20px 28px}
+  .lecture-presenter[data-demo-focus=true][data-visual-kind=model] .lp-visual{display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,290px);grid-template-rows:auto auto minmax(0,1fr);gap:12px 24px}
+  .lecture-presenter[data-demo-focus=true][data-visual-kind=model] .lp-visual-heading{grid-column:1/-1;grid-row:1;text-align:left;font-size:17px;margin:0}
+  .lecture-presenter[data-demo-focus=true][data-visual-kind=model] .lp-model-views{grid-column:1;grid-row:2;padding:0}
+  .lecture-presenter[data-demo-focus=true][data-visual-kind=model] .lp-model{grid-column:1;grid-row:3;width:100%;height:100%;min-height:0;max-width:none;border:1px solid #29434a;align-self:stretch}
+  .lecture-presenter[data-demo-focus=true] .lp-model-sidebar{display:flex;flex-direction:column;gap:20px;grid-column:2;grid-row:2/4;min-height:0;overflow:auto;border-left:1px solid #375d50;padding-left:22px;scrollbar-color:#3e625a transparent}
+  .lecture-presenter[data-demo-focus=true] .lp-model-buttons{justify-content:start;gap:8px}
+  .lecture-presenter[data-demo-focus=true] .lp-model-buttons button{font-size:13px;min-height:38px}
+  .lecture-presenter[data-demo-focus=true] .lp-model-hint{text-align:left;font-size:11px;margin-top:12px;display:block}
+  .lecture-presenter[data-demo-focus=true] .lp-timeline{width:100%;padding:0;margin:0}
+  .lecture-presenter[data-demo-focus=true] .lp-timeline p{font-size:15px;line-height:1.5}
+  .lecture-presenter[data-demo-focus=true] .lp-selection{position:static;margin:0}
+  .lecture-presenter[data-demo-focus=true] .lp-selection p{max-height:none;font-size:13px}
+  .lecture-presenter[data-demo-focus=true] .lp-model-status{margin-top:auto;font-size:11px;line-height:1.5}
+
+  .lecture-presenter[data-demo-focus=true] .lp-lab{max-width:none;overflow:hidden}
+  .lecture-presenter[data-demo-focus=true] .lecture-demo{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,320px);grid-template-rows:minmax(0,1fr) auto;gap:18px 26px;padding:20px;overflow:hidden}
+  .lecture-presenter[data-demo-focus=true] .lecture-demo-stage{grid-column:1;grid-row:1;min-height:0;align-self:stretch}
+  .lecture-presenter[data-demo-focus=true] .lecture-demo-stage>svg{min-height:0;width:100%;height:100%;max-height:none}
+  .lecture-presenter[data-demo-focus=true] .lecture-demo-transport{grid-column:1;grid-row:2;flex-wrap:wrap}
+  .lecture-presenter[data-demo-focus=true] .lecture-demo-aside{display:flex;flex-direction:column;gap:20px;grid-column:2;grid-row:1/3;min-height:0;overflow:auto;border-left:1px solid #29434a;padding-left:22px}
+  .lecture-presenter[data-demo-focus=true] .lecture-demo-heading h3{font-size:27px}
+  .lecture-presenter[data-demo-focus=true] .lecture-demo-phase{font-size:17px;line-height:1.5;min-height:0}
+  .lecture-presenter[data-demo-focus=true] .lecture-demo-settings{margin-top:auto}
+  .lecture-presenter[data-demo-focus=true] .lecture-lab-controls>label{min-width:0;width:100%;flex-basis:100%}
+}
+@media(max-width:959px) and (orientation:landscape){
+  .viewer-column.is-expanded{display:grid;grid-template-columns:minmax(0,1fr) 230px;grid-template-rows:auto auto auto minmax(0,1fr);gap:5px 10px;inset:8px;padding:10px}
+  .viewer-column.is-expanded .viewer-topline{grid-column:1/-1;grid-row:1;padding:0}
+  .viewer-column.is-expanded .viewer-stage{grid-column:1;grid-row:4;min-height:0;height:100%}
+  .viewer-column.is-expanded .model-trail{grid-column:1;grid-row:2;padding:0}
+  .viewer-column.is-expanded .model-representations{grid-column:1;grid-row:3;padding:0}
+  .viewer-column.is-expanded .viewer-sidebar{display:flex;flex-direction:column;grid-column:2;grid-row:2/5;overflow:auto;min-height:0;gap:12px}
+  .viewer-column.is-expanded .model-timeline{width:auto;margin:0}
+  .viewer-column.is-expanded .model-provenance{min-height:0}
+}
+@media(min-width:960px),(orientation:landscape){
+  .viewer-column.is-expanded .structure-panel{position:relative;bottom:auto;left:auto;transform:none;width:100%;max-height:min(390px,55dvh);margin-top:10px}
+}
+.viewer-column.is-expanded .model-selection{position:static;inset:auto;max-width:none;max-height:none;margin:0;flex:none;pointer-events:auto}

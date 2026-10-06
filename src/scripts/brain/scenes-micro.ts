@@ -22,6 +22,17 @@ function branch(ctx: SceneContext, points: THREE.Vector3[], radius: number, colo
   const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3)); geometry.setIndex(indices); geometry.computeVertexNormals();
   return { mesh: ctx.mesh(geometry, ctx.material(color), parent), curve };
 }
+/** Curved internode with tapered paranodal ends; preserves its axonal centerline. */
+function internode(ctx:SceneContext,axon:THREE.Curve<THREE.Vector3>,start:number,end:number,radius:(u:number)=>number,parent=ctx.root){
+  const curve=new THREE.CatmullRomCurve3(Array.from({length:17},(_,i)=>axon.getPointAt(lerp(start,end,i/16))));
+  const geometry=new THREE.TubeGeometry(curve,32,1,16,false),positions=geometry.attributes.position;
+  for(let ring=0;ring<=32;ring++){
+    const u=ring/32,center=curve.getPointAt(u),inner=radius(lerp(start,end,u)),taper=Math.sin(Math.PI*.5*clamp(Math.min(u,1-u)/.13,0,1));
+    const r=inner*(1+.6*taper);
+    for(let side=0;side<=16;side++){const index=ring*17+side,p=V().fromBufferAttribute(positions,index).sub(center).multiplyScalar(r).add(center);positions.setXYZ(index,p.x,p.y,p.z);}
+  }
+  geometry.computeVertexNormals();const sheath=ctx.mesh(geometry,ctx.material(C.teal),parent);sheath.userData.myelinSpan={start,end};return sheath;
+}
 function train(ctx: SceneContext, curve: THREE.Curve<THREE.Vector3>, color: number, count = 5, parent = ctx.root, options: { start?: number; end?: number; duration?: number; radius?: number; detail?: number; reverse?: boolean } = {}) {
   const { start = 0, end = 16, duration = 16, radius = .042, detail = 0, reverse = false } = options;
   const g = group(parent); ctx.detail(g, detail);
@@ -238,9 +249,12 @@ async function buildCell(topic: BrainTopic, ctx: SceneContext) {
   grow(V(0,1.15),Math.PI/2,.82,3,2,0);grow(V(0,.74),.26,.62,2,40,.12);grow(V(0,.88),Math.PI-.25,.68,2,50,-.1);
   for(let i=0;i<4;i++){const a=Math.PI*(.96+i*.35),start=V(Math.cos(a)*.27,-.13,Math.sin(i)*.11);grow(start,a,.74,2,100+i*100,(i%2?.15:-.15));}
   caption(ctx,'Dendritic arbor',tree,V(.15,2.9,0),0,3);
-  const axon=branch(ctx,[V(-.45,-.7),V(.2,-1.3,.1),V(1.4,-1.35,.05),V(2.85,-.9,.05)],.11,C.pink,ctx.root,.042);pick(ctx,axon.mesh,'axon','Axon','Action potentials regenerate along the membrane; they are not particles moving down a hollow tube.','myelin');
-  const hillock=ctx.mesh(new THREE.ConeGeometry(.19,.6,16),ctx.material(C.amber));hillock.position.set(-.35,-.85,.02);hillock.rotation.z=-.7;pick(ctx,hillock,'axon-initial-segment','Axon initial segment','A specialized channel-rich compartment often initiates action potentials.','sodium-channel',1);
-  for(let i=0;i<4;i++){const a=axon.curve.getPointAt(.24+i*.16),b=axon.curve.getPointAt(.34+i*.16);const sheath=ctx.link(a,b,.16,C.teal,ctx.root,.85);pick(ctx,sheath,`myelin-${i}`,'Myelinated internode','Glial membrane wraps insulate this segment; exposed nodes regenerate the spike.','myelin');}
+  const axon=branch(ctx,[V(-.6,-.78),V(.2,-1.3,.1),V(1.4,-1.35,.05),V(2.85,-.9,.05)],.11,C.pink,ctx.root,.042);pick(ctx,axon.mesh,'axon','Axon','Action potentials regenerate along the membrane; they are not particles moving down a hollow tube.','myelin');
+  const hillock=branch(ctx,Array.from({length:8},(_,i)=>axon.curve.getPointAt(i/7*.17)),.12,C.amber,ctx.root,.10).mesh;pick(ctx,hillock,'axon-initial-segment','Axon initial segment','A specialized unmyelinated, channel-rich axonal compartment often initiates action potentials.','sodium-channel',1);
+  for(let i=0;i<4;i++){
+    const start=.24+i*.16,end=start+.145,sheath=internode(ctx,axon.curve,start,end,u=>lerp(.11,.042,u)+.002);pick(ctx,sheath,`myelin-${i}`,'Myelinated internode','Continuous glial wrapping follows the axon and tapers toward short exposed nodal gaps. Lengths and thickness are illustrative.','myelin');
+    if(i<3){const node=ctx.tube(Array.from({length:6},(_,j)=>axon.curve.getPointAt(lerp(end,start+.16,j/5))),lerp(.11,.042,end)+.003,C.amber,ctx.root,1,10);node.mesh.userData.recognitionFeature='exposed-axonal-node';pick(ctx,node.mesh,`axon-node-${i}`,'Node of Ranvier','A short exposed patch of the continuous axonal membrane between adjacent myelin internodes.','sodium-channel');}
+  }
   for(let i=0;i<4;i++){const end=V(3.2,-.95+(i-1.5)*.42,(i-1.5)*.22);branch(ctx,[V(2.8,-.95,.05),V(3,-.95+(i-1.5)*.25),end],.04,C.pink,ctx.root,.02);const terminal=ctx.ball(end,.11,C.pink);pick(ctx,terminal,`terminal-${i}`,'Axon bouton','Vesicles release transmitter at specialized presynaptic active zones.','synaptic-release');}
   train(ctx,axon.curve,C.amber,2,ctx.root,{start:6,end:13,radius:.065});
   const microtubules=group(ctx.root);ctx.detail(microtubules,2);for(let j=0;j<3;j++){const pts=axon.curve.getPoints(35).map(p=>p.add(V(0,(j-1)*.035,.07)));const rail=ctx.tube(pts,.012,C.blue,microtubules,1,40);train(ctx,rail.curve,C.violet,2,microtubules,{start:0,end:16,radius:.033,detail:2});}pick(ctx,microtubules,'axonal-transport','Microtubules + transport cargo','Motor proteins carry organelles and cargo; their movement is distinct from the electrical spike.',undefined,2);
@@ -250,18 +264,30 @@ async function buildCell(topic: BrainTopic, ctx: SceneContext) {
 }
 
 function buildMyelin(ctx:SceneContext){
-  const axon=ctx.tube([V(-3.4,0),V(-1.4,.04),V(1.3,-.02),V(3.3,.03)],.14,C.pink,ctx.root,1,72);pick(ctx,axon.mesh,'axon-core','Axon inside myelin','The axoplasm contains cytoskeletal tracks; the electrically active membrane surrounds it.','neuron');
+  const whole=group(ctx.root),cutaway=group(ctx.root);
+  const axon=ctx.tube([V(-3.8,0),V(-.475,0),V(2.85,0)],.14,C.pink,ctx.root,1,72);pick(ctx,axon.mesh,'axon-core','Axon inside myelin','One continuous axon runs through all internodes and exposed nodes. Axoplasm contains cytoskeletal tracks; the electrically active membrane surrounds it.','neuron');
   const nodeXs=[-2.025,-.475,1.075];
-  for(let i=0;i<4;i++){const g=group(ctx.root,V(-2.8+i*1.55,0,0));for(let layer=0;layer<9;layer++){const r=.19+layer*.026;const shell=ctx.mesh(new THREE.CylinderGeometry(r,r,1.28,40,1,true,0,Math.PI*1.63),ctx.material(layer%2?C.pearl:C.teal,.88),g);shell.rotation.z=Math.PI/2;pick(ctx,shell,`lamella-${i}-${layer}`,'Compact myelin lamella','Repeated wraps of oligodendrocyte membrane form compact myelin. This cutaway exaggerates layer spacing.','myelin',layer>3?1:0);}ctx.separable(g,V(0,i%2?.35:-.35,.2));
-    for(const x of [-.65,.65])for(let j=0;j<5;j++){const ring=ctx.mesh(new THREE.TorusGeometry(.2+j*.021,.018,6,28),ctx.material(C.violet),g);ring.rotation.y=Math.PI/2;ring.position.x=x*(1-j*.035);ctx.detail(ring,1);}
+  for(let i=0;i<4;i++){const g=group(cutaway,V(-2.8+i*1.55,0,0)),closed=group(whole,g.position);for(let layer=0;layer<9;layer++){
+      const r=.154+layer*.010,half=.73-layer*.007,foot=.148+layer*.0005;
+      const profile=[new THREE.Vector2(foot,-half),new THREE.Vector2(foot+.003,-half+.018),new THREE.Vector2(r-.003,-half+.075),new THREE.Vector2(r,-half+.11),new THREE.Vector2(r,half-.11),new THREE.Vector2(r-.003,half-.075),new THREE.Vector2(foot+.003,half-.018),new THREE.Vector2(foot,half)];
+      const mat=ctx.material(layer%2?C.pearl:C.teal);mat.side=THREE.DoubleSide;
+      const shell=ctx.mesh(new THREE.LatheGeometry(profile,40,.28,Math.PI*1.63),mat,g);shell.rotation.z=Math.PI/2;shell.userData.myelinLamella={length:half*2,axonRadius:.14,outerRadius:r};const detail=layer===0||layer===8?0:1;ctx.detail(shell,detail);pick(ctx,shell,`lamella-${i}-${layer}`,'Compact myelin lamella','Membrane wraps taper down toward paranodal contacts. A wedge is removed to expose the continuous axon; layer spacing and node length are enlarged for visibility.','myelin',detail);
+      if(layer===8){const compact=ctx.mesh(new THREE.LatheGeometry(profile,40),ctx.material(C.teal),closed);compact.rotation.z=Math.PI/2;compact.userData.recognitionFeature='compact-myelin-sheath';pick(ctx,compact,`compact-internode-${i}`,'Compact myelin internode','A complete insulating glial wrap surrounds this continuous axon. Tapered paranodal ends flank short exposed nodes; select Cutaway to inspect internal wraps.','myelin');}
+    }ctx.separable(g,V(0,i%2?.35:-.35,.2));ctx.separable(closed,V(0,i%2?.35:-.35,.2));
+    for(const end of [-1,1])for(let j=0;j<5;j++){const ring=ctx.mesh(new THREE.TorusGeometry(.155+j*.002,.008,8,28),ctx.material(C.violet),g);ring.rotation.y=Math.PI/2;ring.position.x=end*(.71-j*.014);ctx.detail(ring,1);}
   }
-  for(const x of nodeXs){const channels=group(ctx.root,V(x,0));for(let i=0;i<9;i++){const a=i/9*Math.PI*2;const protein=helicalProtein(ctx,channels,V(0,Math.cos(a)*.16,Math.sin(a)*.16),C.amber,.16,'nav');protein.group.rotation.x=a;pick(ctx,protein.group,`nodal-nav-${x}-${i}`,'Nodal Naᵥ channel cluster','High channel density at nodes supports regenerative inward sodium current. Four six-transmembrane domains span the local axonal membrane.','sodium-channel',1);}ctx.detail(channels,1);caption(ctx,'Node of Ranvier',channels,V(0,.72,.3),1,2);}
-  const glia=group(ctx.root,V(.3,1.65,-.3)),glialSoma=ctx.ball(V(),.23,C.violet,glia);nucleus(ctx,glia,V(0,0,.07),.13);pick(ctx,glialSoma,'oligodendrocyte','Oligodendrocyte','A CNS glial cell sends processes to several myelinated internodes. These are glial processes, not neuronal dendrites or an axon.','myelin');for(const x of [-2.8,.3,1.85]){const process=branch(ctx,[V(.3,1.65,-.3),V((x+.3)/2,.9,-.4),V(x,.38,-.15)],.045,C.violet,ctx.root,.019);pick(ctx,process.mesh,`oligodendrocyte-process-${x}`,'Myelinating glial process','A glial membrane process reaches an internode and contributes compact membrane wraps.','myelin',1);}caption(ctx,'Oligodendrocyte',glia,V(0,.55),0,3);
-  for(let j=0;j<4;j++){const rail=ctx.tube([V(-3.4,(j-1.5)*.035,.11),V(0,(j-1.5)*.035,.11),V(3.3,(j-1.5)*.035,.11)],.008,C.blue,ctx.root,1,24);ctx.detail(rail.mesh,2);train(ctx,rail.curve,C.amber,1,ctx.root,{detail:2,radius:.025});}
+  for(const x of nodeXs){
+    const node=ctx.mesh(new THREE.CylinderGeometry(.143,.143,.09,24,1,true),ctx.material(C.amber));node.rotation.z=Math.PI/2;node.position.x=x;node.userData.recognitionFeature='exposed-axonal-node';pick(ctx,node,`exposed-node-${x}`,'Node of Ranvier','Short exposed axonal membrane between tapered paranodes. Node lengths vary across real axons; this teaching gap is enlarged.','sodium-channel');if(x===nodeXs[1])caption(ctx,'Node of Ranvier',node,V(.72,0,.3),0,4);
+    const channels=group(ctx.root,V(x,0));for(let i=0;i<9;i++){const a=i/9*Math.PI*2;const protein=helicalProtein(ctx,channels,V(0,Math.cos(a)*.16,Math.sin(a)*.16),C.amber,.16,'nav');protein.group.rotation.x=a;pick(ctx,protein.group,`nodal-nav-${x}-${i}`,'Nodal Naᵥ channel cluster','High channel density at nodes supports regenerative inward sodium current. Four six-transmembrane domains span the local axonal membrane.','sodium-channel',2);}ctx.detail(channels,2);
+  }
+  const glia=group(ctx.root,V(.3,1.65,-.3)),glialSoma=ctx.ball(V(),.23,C.violet,glia);nucleus(ctx,glia,V(0,0,.07),.13);pick(ctx,glialSoma,'oligodendrocyte','Oligodendrocyte','A CNS glial cell sends processes to several myelinated internodes. These are glial processes, not neuronal dendrites or an axon.','myelin');for(const x of [-2.8,.3,1.85]){const process=branch(ctx,[V(.3,1.65,-.3),V((x+.3)/2,.9,-.4),V(x,.198,-.12)],.045,C.violet,ctx.root,.019);pick(ctx,process.mesh,`oligodendrocyte-process-${x}`,'Myelinating glial process','A glial membrane process reaches an internode and contributes compact membrane wraps.','myelin',1);}caption(ctx,'Oligodendrocyte',glia,V(0,.55),0,3);
+  for(let j=0;j<4;j++){const rail=ctx.tube([V(-3.8,(j-1.5)*.035,.11),V(0,(j-1.5)*.035,.11),V(2.85,(j-1.5)*.035,.11)],.008,C.blue,ctx.root,1,24);ctx.detail(rail.mesh,2);train(ctx,rail.curve,C.amber,1,ctx.root,{detail:2,radius:.025});}
   const wave=ctx.mesh(new THREE.TorusGeometry(.18,.035,8,32),ctx.material(C.amber,1,.65));wave.rotation.y=Math.PI/2;
-  ctx.animate(t=>{const u=phase(t,12)/12;wave.position.set(-3.35+u*6.65,.03,0);wave.scale.setScalar(.9+.15*Math.sin(t*8));});
-  caption(ctx,'Concentric membrane wraps · cutaway',ctx.root,V(0,-1.0,.5),0,3);
-  ctx.status('Original myelin cutaway · lamella spacing and channel density exaggerated. Light marks electrical propagation, not ion travel along the axon.');
+  ctx.animate(t=>{const u=phase(t,12)/12;wave.position.set(-3.75+u*6.55,0,0);wave.scale.setScalar(.9+.15*Math.sin(t*8));});
+  caption(ctx,'Concentric membrane wraps · cutaway',cutaway,V(0,-.7,.5),0,3);
+  ctx.representation(whole,{id:'whole-fiber',label:'Whole fiber',description:'Continuous axon with complete compact myelin sheaths, tapered ends and short exposed nodes. Switch to Cutaway for the internal wraps.',status:'Myelinated CNS fiber · teaching geometry, not a measured specimen. Relative dimensions illustrative; the axon remains continuous through every node.',scale:'Schematic'});
+  ctx.representation(cutaway,{id:'cutaway',label:'Cutaway',description:'A wedge is removed from each sheath to expose concentric wraps and the same continuous axon. Zoom adds internal lamellae and nodal channels.',status:'Myelin cutaway · layer spacing, relative thickness and node length illustrative. Fine wraps and channels appear on zoom; moving light marks electrical propagation, not an ion traveling along the axon.',scale:'Schematic'});
+  ctx.status('Original myelin cutaway · relative thickness, layer spacing and node lengths illustrative. Fine wraps and channel clusters appear on zoom. Light marks electrical propagation, not ion travel along the axon.');
   narrative(ctx,[[0,'Insulated internode','Compact membrane wraps increase resistance and reduce effective capacitance.'],[3,'Nodal regeneration','Voltage-gated sodium channels regenerate the spike at exposed nodes.'],[7,'Local current spreads','Current spreads between nodes while the electrical event advances.'],[10,'Glial support','Paranodal junctions and oligodendrocyte processes organize the axon–myelin interface.']],12);
 }
 
@@ -530,7 +556,13 @@ function buildPlasticity(topic:BrainTopic,ctx:SceneContext){
   if(topic.id==='spike-timing'){
     const pre=smallNeuron(ctx,ctx.root,V(-2.15,1.2),C.teal,'pyramidal',.8),post=smallNeuron(ctx,ctx.root,V(2.15,1.2),C.blue,'pyramidal',.8);caption(ctx,'Presynaptic',pre.group,V(0,1),0,4);caption(ctx,'Postsynaptic',post.group,V(0,1),0,4);
     const connection=ctx.tube([V(-1.9,1),V(0,.55,.35),V(1.95,1)],.055,C.teal);pick(ctx,connection.mesh,'timing-sensitive-synapse','Timing-sensitive connection','Pre/post spike order can influence plasticity, but the rule depends on the synapse, frequency and state.','ltp');
-    const traces:THREE.Group[]=[];for(let row=0;row<2;row++){const g=group(ctx.root,V(0,-.6-row*.9)),baseline=ctx.link(V(-3,0),V(3,0),.009,C.dark,g);const trace=ctx.tube([V(-1.3,0),V(-.18,0),V(-.04,.65),V(.08,-.16),V(.28,0),V(1.3,0)],.027,row?C.blue:C.teal,g,1,55);traces.push(g);caption(ctx,row?'Post spike':'Pre spike',g,V(-2.65,.28),0,3);}
+    const chart=group(ctx.root),traces:THREE.Group[]=[];for(let row=0;row<2;row++){
+      const g=group(chart,V(0,-.6-row*.9));ctx.link(V(-3,0),V(3,0),.009,C.dark,g);
+      const trace=ctx.tube([V(-1.3,0),V(-.18,0),V(-.04,.65),V(.08,-.16),V(.28,0),V(1.3,0)],.037,row?C.blue:C.teal,g,1,55);
+      const spec:PickSpec={id:row?'inspect-post-before-pre':'inspect-pre-before-post',label:row?'Post-before-pre · inspect blue trace':'Pre-before-post · inspect mint trace',description:`${row?'Reversed-order':'Causal-order'} teaching example. Selection moves the animation to ${row?'the postsynaptic-first':'the presynaptic-first'} pairing. Horizontal position is relative time; vertical height is qualitative voltage. Neither axis has measured units.`,kind:'Interactive trace',level:0,priority:5,seekSeconds:row?12:2};
+      trace.mesh.userData.focusTarget=chart;trace.mesh.userData.qualitativeTrace=true;ctx.pick(trace.mesh,spec);const peak=ctx.ball(V(-.04,.65),.085,row?C.blue:C.teal,g);peak.userData.focusTarget=chart;peak.userData.qualitativeTrace=true;ctx.pick(peak,spec);
+      traces.push(g);caption(ctx,row?'Post spike · select reversed order':'Pre spike · select causal order',g,V(-2.65,.28),0,3);
+    }
     const timingMarker=ctx.ball(V(0,-2.3),.11,C.amber);pick(ctx,timingMarker,'relative-spike-order','Relative spike order','No physical millisecond scale is assigned to this animation. Canonical pre-before-post and reversed-order examples are contrasted.');
     ctx.animate(t=>{const p=phase(t,20),positive=p<10;traces[0].position.x=positive?-.45:.45;traces[1].position.x=positive?.45:-.45;const mat=connection.mesh.material as THREE.MeshStandardMaterial;mat.color.setHex(positive?C.teal:C.pink);mat.emissiveIntensity=(p%10)>3?.25:.04;const first=positive?pre.soma:post.soma,second=positive?post.soma:pre.soma;(first.material as THREE.MeshStandardMaterial).emissiveIntensity=Math.max(0,1-Math.abs(p%10-2))*.8;(second.material as THREE.MeshStandardMaterial).emissiveIntensity=Math.max(0,1-Math.abs(p%10-3))*.8;});
     ctx.status('Original spike-timing comparison · canonical timing rule, not universal across synapses; traces have qualitative time and voltage axes.');narrative(ctx,[[0,'Pre before post','A presynaptic spike precedes a postsynaptic spike in this canonical example.'],[4,'Potentiation-biased pairing','Repeated causal-order pairing can strengthen some connections.'],[10,'Post before pre','The order is reversed.'],[14,'Depression-biased pairing','At some synapses the opposite order can weaken a connection; other timing rules also occur.']],20);return;

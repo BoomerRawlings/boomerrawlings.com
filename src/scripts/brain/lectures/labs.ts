@@ -1,3 +1,4 @@
+import {mountChartProbe,clientChartPoint,type ChartProbe} from './chart-interactions';
 type Lab='spike'|'summation'|'rate-code'|'methods'|'propagation';
 export type LectureLabCleanup=(()=>void)&{setActive:(active:boolean)=>void};
 const NS='http://www.w3.org/2000/svg';
@@ -81,9 +82,11 @@ export function mountLectureLab(host:HTMLElement,lab:Lab):LectureLabCleanup{
   play.type=replay.type='button';play.dataset.action='play';replay.dataset.action='replay';timeline.type='range';timeline.min='0';timeline.max='1000';timeline.step='1';timeline.value='0';timeline.setAttribute('aria-label','Demonstration time');
   timelineLabel.append(node('span','Time','lecture-demo-sr'),timeline,timeReadout);transport.append(play,replay,timelineLabel);
   const settings=node('details','','lecture-demo-settings'),settingsSummary=node('summary','Change the conditions'),controls=node('div','','lecture-lab-controls');settings.append(settingsSummary,controls);
-  const note=node('p','','lecture-lab-note');shell.append(heading,stage,phase,transport,settings,note);host.replaceChildren(shell);
+  const note=node('p','','lecture-lab-note'),aside=node('div','','lecture-demo-aside');aside.append(heading,phase,settings,note);shell.append(aside,stage,transport);host.replaceChildren(shell);
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
-  let disposed=false,render:(time:number)=>void=()=>{},clock:ReturnType<typeof createDemoClock>|null=null;
+  let disposed=false,render:(time:number)=>void=()=>{},clock:ReturnType<typeof createDemoClock>|null=null,probe:ChartProbe|null=null,active=true;
+  const extraCleanup:(()=>void)[]=[];
+  function extraListener(type:string,handler:EventListener){svg.addEventListener(type,handler);extraCleanup.push(()=>svg.removeEventListener(type,handler));}
   let phaseText='';
   function explain(text:string){if(text!==phaseText){phaseText=text;phase.textContent=text;}}
   function range(labelText:string,min:number,max:number,value:number,change:(n:number)=>void){
@@ -123,7 +126,7 @@ export function mountLectureLab(host:HTMLElement,lab:Lab):LectureLabCleanup{
     title.textContent='A spike unfolds';description.textContent='Watch voltage and channel behavior together. Pause anywhere, or change the stimulus.';
     svg.setAttribute('aria-label','Membrane voltage trace progressively shows depolarization, an action potential, repolarization and recovery.');
     let drive=24,blocked=false;const{x,y}=chart(),ghost=line('',colors.mint,3,.18),progress=line('',colors.mint,4.5),marker=cursor(),voltage=text(82,351,'',colors.mint,24),channel=text(846,351,'',colors.violet,21,'end');
-    function parameters(){ghost.setAttribute('d',trace(t=>spikeVoltage(t,drive,blocked),x,y));}
+    function parameters(){ghost.setAttribute('d',trace(t=>spikeVoltage(t,drive,blocked),x,y));probe?.refresh();}
     render=time=>{
       const value=spikeVoltage(time,drive,blocked),spike=drive>=20&&!blocked,onset=spike?2+60/drive:5,p=time-onset;
       progress.setAttribute('d',trace(t=>spikeVoltage(t,drive,blocked),x,y,time));marker.beam.setAttribute('transform',`translate(${x(time)} 0)`);attr(marker.dot,{cx:x(time),cy:y(value)});voltage.textContent=`${Math.round(value)} mV`;
@@ -138,6 +141,7 @@ export function mountLectureLab(host:HTMLElement,lab:Lab):LectureLabCleanup{
     range('Depolarizing drive (mV)',0,30,drive,value=>{drive=value;parameters();});check('Block voltage-gated Na⁺ current',blocked,value=>{blocked=value;parameters();});
     note.textContent='Schematic voltage, not recorded data. −70 mV rest and about −50 mV threshold follow the lecture example; values vary. Channels shape the spike; pumps maintain gradients over time. Changing a condition pauses at the start.';
     parameters();start(20);
+    probe=mountChartProbe(aside,svg,{label:'Inspect membrane voltage',bounds:{x:82,y:52,width:758,height:258},domain:[0,20],step:.05,xLabel:'Teaching time',sample:t=>[{label:'Voltage',value:spikeVoltage(t,drive,blocked),unit:'illustrative mV'}],context:()=>`Drive ${drive} mV · Na⁺ current ${blocked?'blocked':'available'}`,onSeek:t=>clock?.seek(t)});
   }else if(lab==='summation'){
     title.textContent='Timing changes the sum';description.textContent='Inputs arrive one by one. Their graded effects overlap—or fade before the next input.';
     svg.setAttribute('aria-label','Excitatory postsynaptic potentials accumulate over time. Their combined voltage is compared with an illustrative threshold.');
@@ -152,6 +156,7 @@ export function mountLectureLab(host:HTMLElement,lab:Lab):LectureLabCleanup{
       }
       if(inhibition){const kernel=(dt:number)=>dt<0?0:dt*Math.exp(1-dt/2)/2;components.append(svgNode('path',{d:trace(t=>-70-12*kernel(t-3),x,y),fill:'none',stroke:colors.violet,'stroke-width':2,opacity:.65}));}
       ghost.setAttribute('d',trace(t=>postsynapticVoltage(t,count,spacing,inhibition),x,y));
+      probe?.refresh();
     }
     render=time=>{
       const value=postsynapticVoltage(time,count,spacing,inhibition),received=Array.from({length:count},(_,i)=>2+i*spacing).filter(t=>t<=time).length;
@@ -166,6 +171,7 @@ export function mountLectureLab(host:HTMLElement,lab:Lab):LectureLabCleanup{
     range('Excitatory inputs',1,5,count,value=>{count=value;parameters();});range('Spacing between inputs',0,4,spacing,value=>{spacing=value;parameters();});check('Add an inhibitory input',inhibition,value=>{inhibition=value;parameters();});
     note.textContent='Linear teaching model, not a biophysical simulation. Real integration depends on conductances, dendritic location and timing. Inhibition need not produce a large hyperpolarization. Faint curves are individual responses; bright curve is their sum.';
     parameters();start(20);
+    probe=mountChartProbe(aside,svg,{label:'Inspect the summed response',bounds:{x:82,y:52,width:758,height:258},domain:[0,20],step:.05,xLabel:'Teaching time',sample:t=>[{label:'Summed voltage',value:postsynapticVoltage(t,count,spacing,inhibition),unit:'illustrative mV'}],context:()=>`${count} excitatory inputs · spacing ${spacing}${inhibition?' · inhibition at 3':''}`,onSeek:t=>clock?.seek(t)});
   }else if(lab==='rate-code'){
     title.textContent='A changing population response';description.textContent='Follow the stimulus, firing-rate pattern, and accumulating spike marks together.';
     svg.setAttribute('aria-label','A rotating bar stimulus changes the relative firing rates of four differently tuned neurons. Equal-sized spike marks accumulate in time.');
@@ -186,8 +192,9 @@ export function mountLectureLab(host:HTMLElement,lab:Lab):LectureLabCleanup{
       else if(p<.95)explain('Rate changes · More frequent marks show a stronger response; the size of each action potential is unchanged.');
       else explain('One full orientation cycle · The population pattern changes continuously. Selectivity alone does not establish necessity or sufficiency.');
     };
-    const rebuild=()=>{events=populationSpikeTimes(angle,width,sweep);};range('Starting orientation (degrees)',0,180,angle,value=>{angle=value;rebuild();});range('Tuning width (degrees)',10,60,width,value=>{width=value;rebuild();});check('Rotate the stimulus during playback',sweep,value=>{sweep=value;rebuild();});
+    const rebuild=()=>{events=populationSpikeTimes(angle,width,sweep);probe?.refresh();};range('Starting orientation (degrees)',0,180,angle,value=>{angle=value;rebuild();});range('Tuning width (degrees)',10,60,width,value=>{width=value;rebuild();});check('Rotate the stimulus during playback',sweep,value=>{sweep=value;rebuild();});
     note.textContent='Synthetic tuning and deterministic spike marks, not recordings. Rates and demonstration time are uncalibrated. The spike history uses the stimulus present when each mark appeared; individual marks do not grow in amplitude.';start(12);
+    probe=mountChartProbe(aside,svg,{label:'Inspect population response',bounds:{x:594,y:54,width:271,height:273},domain:[0,12],step:.05,xLabel:'Teaching time',sample:t=>orientationRates(sweep?(angle+180*t/12)%180:angle,width).map((value,i)=>({label:`${[0,45,90,135][i]}° neuron`,value,unit:'relative units'})),context:()=>`Start ${angle}° · tuning width ${width}° · ${sweep?'rotating':'fixed'} stimulus`,onSeek:t=>clock?.seek(t)});
   }else if(lab==='propagation'){
     title.textContent='One signal, two conduction patterns';description.textContent='Compare continuous regeneration with regeneration at nodes between myelin segments.';
     svg.setAttribute('aria-label','Unmyelinated and myelinated axons show local membrane voltage changes spreading from left to right. Myelinated conduction regenerates spikes at nodes.');
@@ -222,17 +229,23 @@ export function mountLectureLab(host:HTMLElement,lab:Lab):LectureLabCleanup{
     };
     note.textContent='Teaching comparison, not a scale model or measured speed ratio. Myelin reduces current loss and membrane capacitance; action potentials regenerate at nodes of Ranvier. Color indicates active voltage, recent activity, or local current—not individual ions.';start(14);
   }else{
-    title.textContent='Choose a method for the question';description.textContent='Compare the evidence each method provides. This comparison is intentionally static.';transport.hidden=true;settings.open=true;settingsSummary.textContent='Select a method';
+    title.textContent='Choose a method for the question';description.textContent='Select a plotted method or use the buttons to compare its evidence and assumptions.';transport.hidden=true;settings.open=true;settingsSummary.textContent='Select a method';
     const methods=[{name:'EEG / ERP',x:540,y:92,text:'Electrical activity recorded at the scalp. Excellent timing; locating underlying generators requires an inverse model and is less direct.'},{name:'fMRI',x:190,y:262,text:'BOLD reflects a hemodynamic response associated with neural activity. More spatially localized than scalp EEG, with a slower temporal response.'},{name:'Single-unit recording',x:110,y:86,text:'Spikes from individual neurons with high temporal precision. Invasive, with a limited cell sample; selectivity alone does not establish necessity.'},{name:'TMS',x:365,y:179,text:'Stimulation perturbs cortical processing. Effects can support causal inference with appropriate controls; perturbation is not a recording of information content.'}];let selected=0;
     const buttons:HTMLButtonElement[]=[];render=()=>{
       svg.replaceChildren();line('M82 59V337H850','#66848e',1.5);text(82,30,'Faster temporal evidence ↑');text(465,391,'More spatially distributed measurement →',colors.muted,21,'middle');
       methods.forEach((m,i)=>{svg.append(svgNode('circle',{cx:m.x,cy:m.y,r:i===selected?16:9,fill:i===selected?colors.mint:'#426371',stroke:colors.mint,'stroke-width':i===selected?2:0}));text(m.x+25,m.y+7,m.name,i===selected?'#edf7e9':colors.muted,22);buttons[i]?.setAttribute('aria-pressed',String(i===selected));});explain(methods[selected].text);
     };
     methods.forEach((m,i)=>{const button=node('button',m.name);button.type='button';button.addEventListener('click',()=>{if(!disposed){selected=i;render(0);}});buttons.push(button);controls.append(button);});
-    note.textContent='Qualitative comparison, not calibrated resolution. TMS is a perturbation method; its marker is a teaching reference, not a measurement-resolution estimate. Task, analysis and experimental design affect every method.';render(0);
+    svg.setAttribute('tabindex','0');svg.setAttribute('role','group');svg.setAttribute('aria-label','Qualitative methods comparison. Hover or click a method; arrow keys select methods. Positions are qualitative, not numeric resolution measurements.');
+    function methodAt(event:PointerEvent){const p=clientChartPoint({x:event.clientX,y:event.clientY},svg.getBoundingClientRect(),{width:900,height:410});if(!p)return-1;return methods.findIndex(m=>Math.hypot(p.x-m.x,p.y-m.y)<35);}
+    extraListener('pointermove',((event:PointerEvent)=>{if(!active||disposed)return;const i=methodAt(event);if(i>=0)explain(methods[i].text);}) as EventListener);
+    extraListener('pointerleave',()=>{if(!disposed)explain(methods[selected].text);});
+    extraListener('click',((event:PointerEvent)=>{if(!active||disposed)return;const i=methodAt(event);if(i>=0){selected=i;render(0);}}) as EventListener);
+    extraListener('keydown',((event:KeyboardEvent)=>{if(!active||disposed)return;let next=selected;if(event.key==='ArrowRight'||event.key==='ArrowDown')next=(selected+1)%methods.length;else if(event.key==='ArrowLeft'||event.key==='ArrowUp')next=(selected+methods.length-1)%methods.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=methods.length-1;else return;event.preventDefault();event.stopPropagation();selected=next;render(0);}) as EventListener);
+    note.textContent='Qualitative comparison, not calibrated resolution. Hover or select a method to read its evidence and assumptions. Arrow keys work in the chart. TMS is a perturbation method; its marker is a teaching reference, not a measurement-resolution estimate. Task, analysis and experimental design affect every method.';render(0);
   }
   const visibility=()=>clock?.setVisible(!document.hidden),motion=()=>{if(reduced.matches)clock?.pause();};
   document.addEventListener('visibilitychange',visibility);reduced.addEventListener('change',motion);
-  const cleanup:LectureLabCleanup=Object.assign(()=>{if(disposed)return;disposed=true;clock?.dispose();document.removeEventListener('visibilitychange',visibility);reduced.removeEventListener('change',motion);host.replaceChildren();},{setActive:(value:boolean)=>{if(!disposed)clock?.setActive(value);}});
+  const cleanup:LectureLabCleanup=Object.assign(()=>{if(disposed)return;disposed=true;clock?.dispose();probe?.destroy();extraCleanup.forEach(remove=>remove());document.removeEventListener('visibilitychange',visibility);reduced.removeEventListener('change',motion);host.replaceChildren();},{setActive:(value:boolean)=>{if(!disposed){active=value;clock?.setActive(value);probe?.setActive(value);}}});
   return cleanup;
 }

@@ -1,10 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFile} from 'node:fs/promises';
-import {transform} from 'esbuild';
+import {fileURLToPath} from 'node:url';
+import {build} from 'esbuild';
 
-const source=await readFile(new URL('../src/scripts/brain/lectures/labs.ts',import.meta.url),'utf8');
-const compiled=(await transform(source,{loader:'ts',target:'es2022',format:'esm'})).code;
+const compiled=(await build({entryPoints:[fileURLToPath(new URL('../src/scripts/brain/lectures/labs.ts',import.meta.url))],bundle:true,platform:'node',target:'es2022',format:'esm',write:false,logLevel:'silent'})).outputFiles[0].text;
 const {createDemoClock,mountLectureLab,conductionState,populationSpikeTimes,spikeVoltage,postsynapticVoltage,orientationRates}=await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
 function scheduler(){
   const callbacks=new Map();let next=0,timestamp=0;
@@ -33,14 +32,17 @@ class Target{
   events=new Map();
   addEventListener(type,callback){if(!this.events.has(type))this.events.set(type,new Set());this.events.get(type).add(callback);}
   removeEventListener(type,callback){this.events.get(type)?.delete(callback);}
-  dispatch(type){for(const callback of this.events.get(type)||[])callback({target:this,type});}
+  dispatch(type,values={}){const event={target:this,type,prevented:false,stopped:false,preventDefault(){this.prevented=true;},stopPropagation(){this.stopped=true;},...values};for(const callback of this.events.get(type)||[])callback(event);return event;}
   listenerCount(){return[...this.events.values()].reduce((sum,list)=>sum+list.size,0);}
 }
 class Element extends Target{
   constructor(tag){super();this.tagName=tag;this.children=[];this.attributes={};this.dataset={};this.textContent='';this.className='';this.value='';}
   setAttribute(key,value){this.attributes[key]=String(value);}
-  append(...children){this.children.push(...children);}
-  replaceChildren(...children){this.children=[...children];}
+  getAttribute(key){return this.attributes[key]??null;}
+  getBoundingClientRect(){return{left:0,top:0,width:900,height:410};}
+  append(...children){children.forEach(child=>child.parent=this);this.children.push(...children);}
+  replaceChildren(...children){this.children=[];this.append(...children);}
+  remove(){if(this.parent)this.parent.children=this.parent.children.filter(child=>child!==this);this.parent=null;}
 }
 function find(element,predicate){if(predicate(element))return element;for(const child of element.children){const result=find(child,predicate);if(result)return result;}return null;}
 function serialized(element){return JSON.stringify([element.tagName,element.textContent,element.attributes,element.children.map(serialized)]);}
@@ -71,6 +73,23 @@ test('Reduced-motion mounting stays paused; changing conditions resets and pause
 });
 test('Methods remains a deliberate static comparison with no animation loop',()=>{
   const env=environment();try{const cleanup=mountLectureLab(env.host,'methods');assert.equal(env.frames.count(),0);cleanup.setActive(false);cleanup.setActive(true);assert.equal(env.frames.count(),0);cleanup();}finally{env.restore();}
+});
+test('Methods plotted markers inspect evidence by hover, select by click or keyboard, and suspend when inactive',()=>{
+  const env=environment();try{
+    const cleanup=mountLectureLab(env.host,'methods'),svg=find(env.host,e=>e.tagName==='svg'),phase=find(env.host,e=>e.className==='lecture-demo-phase');
+    svg.dispatch('pointermove',{clientX:110,clientY:86});assert(phase.textContent.includes('individual neurons'));
+    svg.dispatch('click',{clientX:365,clientY:179});assert.equal(find(env.host,e=>e.tagName==='button'&&e.textContent==='TMS').attributes['aria-pressed'],'true');assert(phase.textContent.includes('perturbs cortical'));
+    const key=svg.dispatch('keydown',{key:'Home'});assert(key.prevented&&key.stopped);assert(phase.textContent.includes('scalp'));
+    svg.dispatch('keydown',{key:'ArrowRight'});assert(phase.textContent.includes('BOLD'));cleanup.setActive(false);const frozen=phase.textContent;svg.dispatch('click',{clientX:110,clientY:86});svg.dispatch('keydown',{key:'End'});assert.equal(phase.textContent,frozen);cleanup();assert.equal(svg.listenerCount(),0);
+  }finally{env.restore();}
+});
+test('Actual voltage-chart probe pins a condition snapshot, reads changed conditions and scrubs the shared clock',()=>{
+  const env=environment(true);try{
+    const cleanup=mountLectureLab(env.host,'spike'),inspect=find(env.host,e=>e.attributes['aria-label']==='Inspect Teaching time'),probe=find(env.host,e=>e.className==='native-chart-probe');
+    inspect.value='6';inspect.dispatch('input');find(probe,e=>e.tagName==='button'&&e.textContent==='Pin readout').dispatch('click');
+    const block=find(env.host,e=>e.tagName==='input'&&e.type==='checkbox');block.checked=true;block.dispatch('change');assert(find(probe,e=>e.className==='chart-probe-comparison').textContent.includes('Na⁺ current available'),'Pinned condition must remain the previous condition');assert(find(probe,e=>e.className==='chart-probe-context').textContent.includes('blocked'));
+    find(probe,e=>e.tagName==='button'&&e.textContent==='Go to this point').dispatch('click');assert.equal(find(env.host,e=>e.attributes['aria-label']==='Demonstration time').value,'300');assert.equal(env.frames.count(),0);cleanup();
+  }finally{env.restore();}
 });
 test('Conduction progresses monotonically, starts together and reaches the myelinated end first',()=>{
   let previous={continuous:0,saltatory:0};

@@ -124,6 +124,17 @@ for(const aspect of [.4,.7,1,16/9,2.5])for(const dimensions of [[12,.6,8],[.3,7,
   geometry.dispose();hidden.geometry.dispose();particleContext.geometry.dispose();mat.dispose();fitCases++;
 }
 
+// A thin, rotated axon should not be framed around empty corners of a global
+// world box. Check measurable silhouette improvement without shrinking anatomy.
+{
+ const root=new THREE.Group(),geometry=new THREE.CylinderGeometry(.09,.09,8,16),material=new THREE.MeshBasicMaterial(),axon=new THREE.Mesh(geometry,material);axon.rotation.set(.7,.5,.95);root.add(axon);
+ const camera=createFitDriver(THREE,root,16/9).fit(),box=new THREE.Box3().setFromObject(root),center=box.getCenter(new THREE.Vector3()),forward=camera.position.clone().sub(center).normalize(),right=new THREE.Vector3().crossVectors(camera.up,forward).normalize(),up=new THREE.Vector3().crossVectors(forward,right).normalize(),tanY=Math.tan(THREE.MathUtils.degToRad(camera.fov)/2);let oldDistance=0;
+ for(const x of[box.min.x,box.max.x])for(const y of[box.min.y,box.max.y])for(const z of[box.min.z,box.max.z]){const p=new THREE.Vector3(x,y,z).sub(center);oldDistance=Math.max(oldDistance,p.dot(forward)+Math.abs(p.dot(right))/(tanY*camera.aspect),p.dot(forward)+Math.abs(p.dot(up))/tanY);}
+ assert(camera.position.distanceTo(center)<oldDistance*1.18*.95,'Distant axon fit must reclaim empty bounding-box space');
+ for(const id of['neuron','myelin','dendrites']){const profile=createFitDriver(THREE,root,16/9,{topic:{id}}).fit().position.clone().sub(center).normalize();assert(profile.z>.98&&Math.abs(profile.x)<.18,'Default cellular view must retain long-axis silhouette with mild depth cues');}
+ geometry.dispose();material.dispose();
+}
+
 // Source axes are anatomical world axes; the compass must project them through
 // the inverse camera orientation without changing that orientation.
 assert.deepEqual(module.compassAxes.map(axis=>[axis.anatomy,...axis.vector]),[
@@ -189,12 +200,22 @@ function checkSeparatedFit(root,fixture,label){
 // The selected object must remain framed, not only the initial whole model.
 const createFocusDriver=new Function('THREE','aspect',`
  const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z),camera=new THREE.PerspectiveCamera(37,aspect,.015,500),controls={target:V()},options={};
- const baseDistance=12;let focused=null,pendingEntry,dirty=false;camera.position.set(7.4,4,9.4);camera.lookAt(controls.target);camera.updateMatrixWorld(true);
+ const baseDistance=12,narrative={duration:20};let focused=null,pendingEntry,dirty=false,time=0,lastUi=0;camera.position.set(7.4,4,9.4);camera.lookAt(controls.target);camera.updateMatrixWorld(true);
  function enter(){} function highlight(){} function setCamera(target,distance){const direction=camera.position.clone().sub(controls.target).normalize();camera.position.copy(target).addScaledVector(direction,distance);controls.target.copy(target);camera.lookAt(target);camera.updateMatrixWorld(true);}
  ${actualFunction('focus')}
- return object=>{focus({object,spec:{}});return camera;};
+ return (object,spec={})=>{focus({object,spec});camera.userData.selectedTime=time;return camera;};
 `);
 let focusCases=0;
+{
+ const object=new THREE.Mesh(new THREE.SphereGeometry(.1),new THREE.MeshBasicMaterial()),driver=createFocusDriver(THREE,16/9);
+ for(const [seekSeconds,expected]of[[2,2],[12,12],[-5,0],[99,19.999]])assert.equal(driver(object,{seekSeconds}).userData.selectedTime,expected,'Selecting a chart trace must seek the live narrative clock with clamped bounds');
+ object.geometry.dispose();object.material.dispose();
+}
+{
+ const chart=new THREE.Group(),geometry=new THREE.BoxGeometry(6,.7,.1),material=new THREE.MeshBasicMaterial(),a=new THREE.Mesh(geometry,material),b=new THREE.Mesh(geometry,material);a.position.y=.6;b.position.y=-.6;chart.add(a,b);a.userData.focusTarget=chart;chart.updateMatrixWorld(true);
+ for(const aspect of[.4,1,2.5]){const camera=createFocusDriver(THREE,aspect)(a,{seekSeconds:12});for(const object of[a,b]){const p=geometry.attributes.position;for(let i=0;i<p.count;i++){const v=new THREE.Vector3().fromBufferAttribute(p,i).applyMatrix4(object.matrixWorld).project(camera);assert(Math.abs(v.x)<.99&&Math.abs(v.y)<.99,'Selected spike comparison must retain both traces within the frame');}}}
+ geometry.dispose();material.dispose();
+}
 for(const aspect of[.4,.7,1,16/9,2.5])for(const dimensions of[[.44,1.8,.44],[8,.2,3],[.3,.4,.2]]){
  const geometry=new THREE.BoxGeometry(...dimensions),material=new THREE.MeshBasicMaterial(),object=new THREE.Mesh(geometry,material);object.rotation.set(.3,.4,.2);object.position.set(.3,-.2,.1);object.updateMatrixWorld(true);
  const camera=createFocusDriver(THREE,aspect)(object),vertices=geometry.attributes.position;

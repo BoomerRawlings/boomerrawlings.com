@@ -1,5 +1,19 @@
 # Project state
 
+## Wide views and interactive charts — 2026-10-06
+
+- Mode: continuation. Status: verified, ready for publication; baseline057e3dd (release99f1329 live).
+- Objective: horizontal expanded views; axon/small-structure fidelity and recognition at distance; meaningful interaction for all neuroscience graphs/charts.
+- Scope: explorer expansion, lecture diagram focus and figure enlargement; model camera/geometry refinement; complete source chart inventory and truthful empirical inspection alongside interactive teaching plots.
+- Decisions: keep source empirical images/data faithful; never infer numeric values from pixels as measured data. Desktop uses broad visual canvas with adjacent controls; phones retain accessible responsive controls.
+- Implemented: desktop visual canvas with control rail; explicit Whole fiber/Cutaway, shorter nodes/tapered sheaths and improved fit; native chart probes and phase selection; full figure inspector with pan/zoom, source-region explanations, broad A/B comparison and temporary notes.
+- Content:50 displayed figure/reference instances across42 slides,194 panel targets. Only inspection metadata added; source pixels and lecture text retained. Encrypted collection replaced in place (one record,21761964bytes). Two crop sets tightened after pixel review.
+- Verified: final full npm test passes; strict model/lecture TypeScript,13 presenter cases,13 demos,12 access cases,5 chart groups,36-scene anatomy/270zoom boundaries/6628model frames pass. All50 chart views captured and194 targets activated; independent pixel review passes source views. Source images/inspectors removed on lock; no preview console errors.
+- Visual audit: axon continuity, distant silhouette, channel LOD and timing-pair framing corrected. Desktop/phone model recaptures pass. Final landscape screenshot confirms descriptions in control rail clear both traces; tall source crops retain all axes and true aspect, comparison selectors fit. Final build and affected chart/presenter/filter checks pass.
+- Evidence: docs/codex/user-facing-tests/2026-10-06__user-facing-flow-test__wide-views-and-charts.md; external screenshot set.
+- Next: one verified release; live hash/interaction verification.
+- Risks: no raw samples for some empirical source plots; panel/axis/condition inspection must communicate that limit. Private source content remains outside repository, only encrypted pack public.
+
 ## Native lecture replacement — 2026-10-05
 
 - Mode: continuation. Status: complete; release99f1329 live and verified. Pages37369683487 attempt2 succeeded October5 evening Pacific; baseline9da7f56.

@@ -74,7 +74,7 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
       o.material=Array.isArray(original)?clones:clones[0];highlighted.push({mesh:o as unknown as THREE.Mesh,original,clones});
     });
     part.object.traverse(o=>{const m=o as THREE.Mesh;if(!(m.isMesh||o instanceof THREE.Line)||!shown(m))return;const original=m.material,materials=Array.isArray(original)?original:[original];
-      const clones=materials.map(mat=>{const copy=mat.clone();if(copy instanceof THREE.MeshStandardMaterial){copy.emissive.set(0x63e8cf);copy.emissiveIntensity=.35;copy.roughness=.4;}else if('color'in copy){(copy as THREE.MeshBasicMaterial).color.set(0x9fffe1);copy.opacity=1;}return copy;});
+      const clones=materials.map(mat=>{const copy=mat.clone();if(copy instanceof THREE.MeshStandardMaterial){if(m.userData.qualitativeTrace)copy.emissive.copy(copy.color);else copy.emissive.set(0x63e8cf);copy.emissiveIntensity=.35;copy.roughness=.4;}else if('color'in copy){(copy as THREE.MeshBasicMaterial).color.set(0x9fffe1);copy.opacity=1;}return copy;});
       m.material=Array.isArray(original)?clones:clones[0];highlighted.push({mesh:m,original,clones});});dirty=true;
   }
   function setHover(part:Pick|null){if(hover===part)return;hover=part;highlight(hover||focused);canvas.style.cursor=part?'pointer':'grab';options.onHover?.(part?.spec||null);}
@@ -125,29 +125,49 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
     targetGoal.copy(target);cameraGoal.copy(target).addScaledVector(direction,distance);
     if(instant||reduced.matches){camera.position.copy(cameraGoal);controls.target.copy(targetGoal);moving=false;controls.update();updateDetail();}else moving=true;dirty=true;
   }
-  function topicDirection(){const view=representations.find(r=>r.spec.id===representationId)?.spec.viewDirection;return view?V(...view).normalize():current.scene==='molecule'?V(.08,.08,1).normalize():current.id==='electrical-synapses'?V(0,0,1):current.id==='cerebellum'?V(7,3,-9).normalize():defaultDirection;}
+  function topicDirection(){
+    const view=representations.find(r=>r.spec.id===representationId)?.spec.viewDirection;
+    // A shallow oblique view keeps the long axon and its exposed nodes in profile.
+    // These are model axes, not a new anatomical coordinate convention.
+    if(representationId==='axon'||['neuron','myelin','dendrites'].includes(current.id))return V(.16,.10,1).normalize();
+    return view?V(...view).normalize():current.scene==='molecule'?V(.08,.08,1).normalize():['electrical-synapses','spike-timing'].includes(current.id)?V(0,0,1):current.id==='cerebellum'?V(7,3,-9).normalize():defaultDirection;
+  }
   function fit(preserveView=false,fitSeparated=false){
     const viewTarget=preserveView&&moving?targetGoal:controls.target,viewPosition=preserveView&&moving?cameraGoal:camera.position;
     const ratio=viewPosition.distanceTo(viewTarget)/baseDistance,previousTarget=viewTarget.clone(),direction=viewPosition.clone().sub(viewTarget).normalize();
     const positions=parts.map(p=>p.object.position.clone());
     for(const p of parts)p.object.position.copy(p.base).addScaledVector(p.offset,exploded?1:0);
     const visibility=details.map(d=>d.object.visible);for(const d of details)d.object.visible=d.min===0;
-    const box=new THREE.Box3();root.updateMatrixWorld(true);
-    root.traverseVisible(o=>{const m=o as THREE.Mesh;if(o.userData.contextOnly||o.userData.fitIgnore)return;if(m instanceof THREE.InstancedMesh){m.computeBoundingBox();if(m.boundingBox)box.union(m.boundingBox.clone().applyMatrix4(m.matrixWorld));}else if(m.geometry){if(!m.geometry.boundingBox)m.geometry.computeBoundingBox();if(m.geometry.boundingBox)box.union(m.geometry.boundingBox.clone().applyMatrix4(m.matrixWorld));}});
+    const box=new THREE.Box3(),corners:THREE.Vector3[]=[];root.updateMatrixWorld(true);
+    root.traverseVisible(o=>{
+      const m=o as THREE.Mesh;if(o.userData.contextOnly||o.userData.fitIgnore)return;
+      let bounds:THREE.Box3|null=null;
+      if(m instanceof THREE.InstancedMesh){m.computeBoundingBox();bounds=m.boundingBox;}
+      else if(m.geometry){if(!m.geometry.boundingBox)m.geometry.computeBoundingBox();bounds=m.geometry.boundingBox;}
+      if(!bounds||bounds.isEmpty())return;
+      // Project each local bounding box after its world transform. A single
+      // enclosing world box invents empty corners around branching arbors and
+      // rotated axons, making their real silhouettes needlessly small.
+      for(const x of[bounds.min.x,bounds.max.x])for(const y of[bounds.min.y,bounds.max.y])for(const z of[bounds.min.z,bounds.max.z]){
+        const point=V(x,y,z).applyMatrix4(m.matrixWorld);corners.push(point);box.expandByPoint(point);
+      }
+    });
     details.forEach((d,i)=>d.object.visible=visibility[i]);
     parts.forEach((p,i)=>p.object.position.copy(positions[i]));root.updateMatrixWorld(true);
     if(box.isEmpty()){home.set(0,0,0);baseDistance=12;}else{
       box.getCenter(home);const forward=preserveView||fitSeparated?direction:topicDirection(),right=V().crossVectors(camera.up,forward).normalize();if(right.lengthSq()<.5)right.setFromMatrixColumn(camera.matrixWorld,0);const up=V().crossVectors(forward,right).normalize();
       const tanY=Math.tan(THREE.MathUtils.degToRad(camera.fov)/2),tanX=tanY*camera.aspect;let distance=0;
-      for(const x of[box.min.x,box.max.x])for(const y of[box.min.y,box.max.y])for(const z of[box.min.z,box.max.z]){const corner=V(x,y,z).sub(home),near=corner.dot(forward);distance=Math.max(distance,near+Math.abs(corner.dot(right))/tanX,near+Math.abs(corner.dot(up))/tanY);}
+      for(const point of corners){const corner=point.sub(home),near=corner.dot(forward);distance=Math.max(distance,near+Math.abs(corner.dot(right))/tanX,near+Math.abs(corner.dot(up))/tanY);}
       baseDistance=Math.max(distance*1.18,.75);
     }
     controls.minDistance=baseDistance*.12;controls.maxDistance=Math.max(baseDistance*1.65,camera.position.distanceTo(controls.target));
     setCamera(preserveView?previousTarget:home,baseDistance*(preserveView?ratio:1),preserveView||fitSeparated?direction:topicDirection(),!fitSeparated);updateDetail(true);
   }
   function focus(part:Pick){
+    if(narrative&&Number.isFinite(part.spec.seekSeconds)){time=THREE.MathUtils.clamp(part.spec.seekSeconds!,0,narrative.duration-.001);lastUi=0;dirty=true;}
     if(focused===part){enter();return;}focused=part;pendingEntry=part.spec.childTopic||part.spec.topicId;options.onFocus?.(part.spec);
-    const box=new THREE.Box3().setFromObject(part.object),center=box.isEmpty()?part.object.getWorldPosition(V()):box.getCenter(V());
+    const focusObject=part.object.userData.focusTarget instanceof THREE.Object3D?part.object.userData.focusTarget:part.object;
+    const box=new THREE.Box3().setFromObject(focusObject),center=box.isEmpty()?part.object.getWorldPosition(V()):box.getCenter(V());
     if(part.instanceId!==undefined&&part.object instanceof THREE.InstancedMesh){const matrix=new THREE.Matrix4();part.object.getMatrixAt(part.instanceId,matrix);center.setFromMatrixPosition(matrix.premultiply(part.object.matrixWorld));}
     const size=box.getSize(V()).length();let distance=Math.max(baseDistance*.24,Math.min(camera.position.distanceTo(controls.target)*.7,size*1.3,baseDistance*.72));
     // A focus target must fit even when it is a tall channel or a broad region.

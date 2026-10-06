@@ -19,6 +19,7 @@ import {topics} from '../public/brain/curriculum.js';
 // Human pyramidal reconstructions (Fig2/6) https://pmc.ncbi.nlm.nih.gov/articles/PMC11094408/
 // Dye-filled astrocyte morphology (Fig1/2) https://pmc.ncbi.nlm.nih.gov/articles/PMC6757596/
 // Human bouton/spine EM (Fig3/4) https://pmc.ncbi.nlm.nih.gov/articles/PMC12205628/
+// Nodal geometry/variation: Arancibia-Cárcamo et al. 2017 https://doi.org/10.7554/eLife.23329
 const rootPath=path.resolve('.');
 const source=await fs.readFile(process.env.BRAIN_MICRO_ACCURACY_SOURCE||'src/scripts/brain/scenes-micro.ts','utf8');
 const compiled=await transform(source,{loader:'ts',format:'esm',target:'es2022'});
@@ -132,11 +133,35 @@ try{
       assert.equal(s.find('projection-3').object.userData.circuitEdge.sign,'inhibit','Purkinje output must be inhibitory');
     }
     if(topic.id==='myelin'){
+      assert.deepEqual(s.representations.map(r=>r.spec.id),['whole-fiber','cutaway'],'Whole fiber and internal cutaway are explicit views; zoom must not replace the silhouette');
+      assert.equal(s.matching(/^compact-internode-/).length,4,'Whole fiber needs four closed insulating sheaths');
+      for(const shell of s.matching(/^compact-internode-/))assert.equal(shell.object.geometry.parameters.phiLength,Math.PI*2,'Default compact sheath must completely surround axon');
       assert(!s.picks.some(p=>p.spec.id==='neuron-interneuron'),'Oligodendrocyte must not reuse an interneuron');
       assert.equal(s.matching(/^oligodendrocyte-process-/).length,3,'One glial cell must contact several internodes');
-      const sheaths=s.matching(/^lamella-\d-0$/).map(p=>({x:p.object.getWorldPosition(V()).x,half:p.object.geometry.parameters.height/2}));
+      const sheaths=s.matching(/^lamella-\d-0$/).map(p=>{p.object.geometry.computeBoundingBox();const box=p.object.geometry.boundingBox;return{x:p.object.getWorldPosition(V()).x,half:(box.max.y-box.min.y)/2};});
+      assert.equal(sheaths.length,4);
+      for(const p of s.matching(/^lamella-/)){
+        const profile=p.object.geometry.parameters.points;assert(profile[0].x<profile[3].x&&profile.at(-1).x<profile[4].x,'Myelin must taper toward axon at both paranodal ends');
+        assert(p.object.material.opacity===1,'Opaque compact-myelin silhouette must remain readable at overview');
+      }
+      for(let i=1;i<sheaths.length;i++){const gap=sheaths[i].x-sheaths[i-1].x-sheaths[i].half-sheaths[i-1].half;assert(gap>0&&gap<sheaths[i].half*.2,'Exposed nodes must be short positive gaps, not long unmyelinated internodes');}
+      const axon=s.find('axon-core').object.geometry.parameters.path;
+      assert(axon.getPointAt(0).x<sheaths[0].x-sheaths[0].half&&axon.getPointAt(1).x>sheaths.at(-1).x+sheaths.at(-1).half,'Continuous axon must extend through every sheath');
       for(const node of s.matching(/^nodal-nav-/)){const x=node.object.getWorldPosition(V()).x;assert(sheaths.every(sheath=>Math.abs(x-sheath.x)>sheath.half),'Nodal channels must occupy exposed gaps, not compact myelin');}
       for(const node of s.matching(/^nodal-nav-/)){const p=node.object.position,radial=V(0,p.y,p.z).normalize(),normal=V(0,1).applyQuaternion(node.object.quaternion);assert(normal.dot(radial)>.999999,'Nodal protein membrane normal must point radially out of the axon');}
+    }
+    if(topic.id==='neuron'){
+      const axon=s.find('axon').object,positions=axon.geometry.attributes.position,start=V();for(let i=0;i<7;i++)start.add(V().fromBufferAttribute(positions,i));start.divideScalar(7);axon.localToWorld(start);
+      const soma=s.find('neuronal-soma').object,vertices=soma.geometry.attributes.position;let gap=Infinity;for(let i=0;i<vertices.count;i++)gap=Math.min(gap,start.distanceTo(soma.localToWorld(V().fromBufferAttribute(vertices,i))));assert(gap<.04,'Axon must meet the rendered basal soma surface, not start floating in its open cutaway');
+      const sheaths=s.matching(/^myelin-\d$/).map(p=>p.object.userData.myelinSpan);assert.equal(sheaths.length,4);
+      for(let i=1;i<sheaths.length;i++){const gap=sheaths[i].start-sheaths[i-1].end;assert(gap>0&&gap<(sheaths[i].end-sheaths[i].start)*.15,'Neuron overview must distinguish short nodes from long internodes');}
+      assert.equal(s.matching(/^axon-node-/).length,3,'Every inter-sheath gap remains a selectable exposed axonal node');
+    }
+    if(topic.id==='spike-timing'){
+      assert.equal(s.find('inspect-pre-before-post').spec.seekSeconds,2);
+      assert.equal(s.find('inspect-post-before-pre').spec.seekSeconds,12);
+      assert(s.find('inspect-pre-before-post').spec.description.includes('Neither axis has measured units'),'Qualitative spike trace cannot imply measured timing or voltage');
+      const a=s.find('inspect-pre-before-post').object,b=s.find('inspect-post-before-pre').object;assert(a.userData.focusTarget===b.userData.focusTarget&&inside(a,a.userData.focusTarget)&&inside(b,b.userData.focusTarget),'Selecting either spike must frame both traces for timing comparison');
     }
     if(topic.id==='astrocytes'||topic.id==='microglia'){
       assert(!s.picks.some(p=>p.spec.id.startsWith('neuron-')),'Glia must have their own processes, not neuron morphology');

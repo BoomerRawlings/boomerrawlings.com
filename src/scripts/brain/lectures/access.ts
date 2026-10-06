@@ -1,5 +1,5 @@
 import { topics, sources } from '../../../../public/brain/curriculum.js';
-import type { LectureCourse, Lecture, LectureSlide, LectureResource } from './types';
+import type { LectureCourse, Lecture, LectureSlide, LectureResource, FigureRegion, FigureInspection } from './types';
 
 export class LectureAccessError extends Error {
   readonly code:'password'|'unavailable';
@@ -28,6 +28,20 @@ function integer(value:unknown,min:number,max:number):number{if(typeof value!=='
 function list(value:unknown,max:number,min=0):unknown[]{if(!Array.isArray(value)||value.length<min||value.length>max)return invalid();return value;}
 function optionalText(value:unknown,max=2000):string|undefined{return value===undefined?undefined:text(value,max);}
 function unique(values:string[]):void{if(new Set(values).size!==values.length)invalid();}
+function region(value:unknown):FigureRegion{
+  const box=object(value,['x','y','width','height']);
+  for(const key of ['x','y','width','height'])if(typeof box[key]!=='number'||!Number.isFinite(box[key])||(box[key] as number)<0||(box[key] as number)>1)return invalid();
+  const {x,y,width,height}=box as Record<string,number>;
+  if(width<=0||height<=0||x+width>1.000001||y+height>1.000001)return invalid();return{x,y,width,height};
+}
+function inspection(value:unknown):FigureInspection{
+  const r=object(value,['kind','dataAvailability','source','panels']);
+  if(!['source-plot','schematic','simulation'].includes(String(r.kind))||!['image-only','reported-summary'].includes(String(r.dataAvailability)))return invalid();
+  const s=object(r.source,['citation','page','figure']),source:FigureInspection['source']={citation:text(s.citation,3000)};
+  if(s.page!==undefined)source.page=integer(s.page,1,10000);if(s.figure!==undefined)source.figure=text(s.figure,300);
+  const panels=list(r.panels,16,1).map(value=>{const p=object(value,['id','label','region','interpretation','xAxis','yAxis']),xAxis=optionalText(p.xAxis,1000),yAxis=optionalText(p.yAxis,1000);return{id:id(p.id),label:text(p.label,500),region:region(p.region),interpretation:text(p.interpretation,6000),...(xAxis?{xAxis}:{}),...(yAxis?{yAxis}:{})};});
+  unique(panels.map(p=>p.id));return{kind:r.kind as FigureInspection['kind'],dataAvailability:r.dataAvailability as FigureInspection['dataAvailability'],source,panels};
+}
 function topic(value:unknown):string{const v=id(value);if(!knownTopics.has(v))return invalid();return v;}
 function base64(value:unknown,maxBytes:number):string{
   if(typeof value!=='string'||!value.length||value.length%4||value.length>Math.ceil(maxBytes/3)*4||!/^[A-Za-z0-9+/]*={0,2}$/.test(value))return invalid();
@@ -52,11 +66,11 @@ function slide(value:unknown):LectureSlide{
   unique(result.sourceIds);if(result.sourceIds.some(v=>!knownSources.has(v)))return invalid();
   const kicker=optionalText(r.kicker,500),notes=optionalText(r.notes,16000);if(kicker!==undefined)result.kicker=kicker;if(notes!==undefined)result.notes=notes;
   if(r.source!==undefined){const s=object(r.source,['title','page']);result.source={title:text(s.title,500),page:integer(s.page,1,10000)};}
-  if(r.reference!==undefined){const s=object(r.reference,['image','alt']);result.reference={image:image(s.image),alt:text(s.alt,2000)};}
+  if(r.reference!==undefined){const s=object(r.reference,['image','alt','caption','inspection']),caption=optionalText(s.caption,4000);result.reference={image:image(s.image),alt:text(s.alt,2000),...(caption?{caption}:{}),...(s.inspection!==undefined?{inspection:inspection(s.inspection)}:{})};}
   if(r.presentation!==undefined){
     const p=object(r.presentation,['title','eyebrow','layout','groups','figures','takeaway']);
     if(!['title','text','split','gallery','comparison'].includes(String(p.layout)))return invalid();
-    result.presentation={title:text(p.title,500),layout:p.layout as NonNullable<LectureSlide['presentation']>['layout'],groups:list(p.groups,12).map(value=>{const g=object(value,['title','items']),title=optionalText(g.title,500);return{...(title?{title}:{}),items:list(g.items,30).map(v=>text(v,5000))};}),figures:list(p.figures,8).map(value=>{const f=object(value,['image','alt','caption']),caption=optionalText(f.caption,3000);return{image:image(f.image),alt:text(f.alt,3000),...(caption?{caption}:{})};})};
+    result.presentation={title:text(p.title,500),layout:p.layout as NonNullable<LectureSlide['presentation']>['layout'],groups:list(p.groups,12).map(value=>{const g=object(value,['title','items']),title=optionalText(g.title,500);return{...(title?{title}:{}),items:list(g.items,30).map(v=>text(v,5000))};}),figures:list(p.figures,8).map(value=>{const f=object(value,['image','alt','caption','inspection']),caption=optionalText(f.caption,3000);return{image:image(f.image),alt:text(f.alt,3000),...(caption?{caption}:{}),...(f.inspection!==undefined?{inspection:inspection(f.inspection)}:{})};})};
     const eyebrow=optionalText(p.eyebrow,500),takeaway=optionalText(p.takeaway,4000);if(eyebrow)result.presentation.eyebrow=eyebrow;if(takeaway)result.presentation.takeaway=takeaway;
   }
   if(r.teaching!==undefined){
@@ -68,7 +82,7 @@ function slide(value:unknown):LectureSlide{
     })};
     if(t.demo!==undefined){const d=object(t.demo,['label','purpose','kind']);if(d.kind!=='existing'&&d.kind!=='propagation')return invalid();result.teaching.demo={label:text(d.label,250),purpose:text(d.purpose,4000),kind:d.kind};}
   }
-  const v=object(r.visual,['kind','topicId','representation','lab','image','alt','caption','hotspots','prompt','choices']);
+  const v=object(r.visual,['kind','topicId','representation','lab','image','alt','caption','hotspots','prompt','choices','inspection']);
   if(v.kind==='none'){object(r.visual,['kind']);if(!result.presentation)return invalid();result.visual={kind:'none'};
   }else if(v.kind==='model'){
     object(r.visual,['kind','topicId','representation']);const representation=optionalText(v.representation,80);if(representation!==undefined&&!/^[a-z0-9-]+$/.test(representation))return invalid();
@@ -78,9 +92,10 @@ function slide(value:unknown):LectureSlide{
   }else if(v.kind==='comparison'){
     object(r.visual,['kind','prompt','choices']);result.visual={kind:'comparison',prompt:text(v.prompt,3000),choices:list(v.choices,6,2).map(value=>{const c=object(value,['label','explanation']);return{label:text(c.label,1000),explanation:text(c.explanation,6000)};})};
   }else if(v.kind==='figure'){
-    object(r.visual,['kind','image','alt','caption','hotspots']);const caption=optionalText(v.caption,4000);
+    object(r.visual,['kind','image','alt','caption','hotspots','inspection']);const caption=optionalText(v.caption,4000);
     const visual:Extract<LectureSlide['visual'],{kind:'figure'}>={kind:'figure',image:image(v.image),alt:text(v.alt,2000),...(caption!==undefined?{caption}:{})};
     if(v.hotspots!==undefined)visual.hotspots=list(v.hotspots,30).map(value=>{const h=object(value,['x','y','label','explanation']);if(typeof h.x!=='number'||typeof h.y!=='number'||!Number.isFinite(h.x)||!Number.isFinite(h.y)||h.x<0||h.x>1||h.y<0||h.y>1)return invalid();return{x:h.x,y:h.y,label:text(h.label,500),explanation:text(h.explanation,6000)};});
+    if(v.inspection!==undefined)visual.inspection=inspection(v.inspection);
     result.visual=visual;
   }else return invalid();
   if(result.teaching&&!result.presentation&&!result.reference&&result.visual.kind!=='figure')return invalid();

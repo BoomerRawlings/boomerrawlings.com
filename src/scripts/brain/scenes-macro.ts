@@ -341,16 +341,16 @@ function axonInset(topic:BrainTopic,ctx:SceneContext):THREE.Group{
   ctx.pick(axon,{id:`${topic.id}-axon`,label:'Axon membrane',description:'Enlarged schematic axon; no claim of microscopic continuity with a displayed streamline.',childTopic:'neuron',level:0,maxLevel:3,kind:'schematic cell',priority:5});
   for(let i=0;i<5;i++){
     const internode=new THREE.Group();group.add(internode);ctx.separable(internode,V(0,.65+(i%2)*.35,0));
-    const x=-1.2+i*.6,sleeve=ctx.mesh(new THREE.CylinderGeometry(.13,.13,.46,24,1,true),ctx.material(0x9ecbbd,.85),internode);sleeve.rotation.z=Math.PI/2;sleeve.position.x=x;
+    const x=-1.2+i*.6,profile=[new THREE.Vector2(.093,-.275),new THREE.Vector2(.103,-.25),new THREE.Vector2(.13,-.22),new THREE.Vector2(.13,.22),new THREE.Vector2(.103,.25),new THREE.Vector2(.093,.275)],sleeve=ctx.mesh(new THREE.LatheGeometry(profile,32),ctx.material(0x9ecbbd),internode);sleeve.rotation.z=Math.PI/2;sleeve.position.x=x;sleeve.userData.myelinInternode={length:.55,spacing:.6,axonRadius:.09};
     ctx.pick(sleeve,{id:`${topic.id}-myelin-${i}`,label:'Myelin internode',description:'Oligodendrocyte wrapping shown schematically; fibers are not individually reconstructed axons.',childTopic:'myelin',level:0,maxLevel:3,kind:'schematic cell',priority:6});
     for(const end of [-1,1])for(let layer=0;layer<4;layer++){
       const wrap=ctx.mesh(new THREE.TorusGeometry(.096+layer*.01,.004,5,24),ctx.material(0xadcfc3),internode);
-      wrap.rotation.y=Math.PI/2;wrap.position.x=x+end*.23;ctx.detail(wrap,1);
+      wrap.rotation.y=Math.PI/2;wrap.position.x=x+end*(.268-layer*.008);ctx.detail(wrap,1);
     }
     if(i<4){
       // A node is the exposed cylindrical axonal membrane between myelin
       // internodes, not a swollen bead or a separate neuronal cell body.
-      const node=ctx.mesh(new THREE.CylinderGeometry(.094,.094,.14,24,1,true),ctx.material(0xe6ad80),group);
+      const node=ctx.mesh(new THREE.CylinderGeometry(.094,.094,.05,24,1,true),ctx.material(0xe6ad80),group);
       node.rotation.z=Math.PI/2;node.position.x=x+.3;
       ctx.pick(node,{id:`${topic.id}-node-${i}`,label:'Node of Ranvier',description:'Exposed axonal membrane between myelin internodes; enriched in voltage-gated sodium channels. The axon remains continuous through the gap.',childTopic:'sodium-channel',level:0,maxLevel:3,kind:'schematic membrane',priority:7});
       for(let j=0;j<8;j++){
@@ -361,7 +361,7 @@ function axonInset(topic:BrainTopic,ctx:SceneContext):THREE.Group{
       }
     }
   }
-  ctx.label('Myelinated axon · microscopic schematic, not a measured streamline',group,V(0,.7,0),{minDetail:0,maxDetail:3,priority:7});
+  ctx.label('Myelinated axon · tapered sheaths, short exposed nodes',group,V(0,.45,0),{minDetail:0,maxDetail:3,priority:7});
   const pulse=ctx.ball(V(-1.45,.08,0),.055,0xf7db91,group);
   ctx.animate(time=>{pulse.position.x=-.9+Math.floor((time%2)/.5)*.6;});
   return group;

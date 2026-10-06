@@ -25,7 +25,7 @@ class Target{
 }
 function key(key,target=new Target('h2'),extra={}){const fixture={moves:[],jumps:[],laser:[],...extra.fixture},event={key,target,prevented:0,stopped:0,preventDefault(){this.prevented++;},stopPropagation(){this.stopped++;},...extra};keyboard(event,fixture);return{...fixture,prevented:event.prevented,stopped:event.stopped};}
 test('Presentation shortcuts never consume model, native control or figure-pan keys',()=>{
-  for(const tag of['input','select','textarea','button','a','summary','canvas','[contenteditable]','[role="slider"]','[data-el="figure-scroll"]'])for(const pressed of['ArrowRight','ArrowLeft',' ','PageDown','PageUp','Home','End','l']){
+  for(const tag of['input','select','textarea','button','a','summary','canvas','[contenteditable]','[role="slider"]','.figure-inspector'])for(const pressed of['ArrowRight','ArrowLeft',' ','PageDown','PageUp','Home','End','l']){
     const result=key(pressed,new Target('span',new Target(tag)));assert.deepEqual(result,{moves:[],jumps:[],laser:[],prevented:0,stopped:0},`${tag}: ${pressed}`);
   }
 });
@@ -41,7 +41,7 @@ const harness=new Function('moduleLoader',`
  let opened=true,destroyed=false,session=1,slideToken=0,figureVersion=0,viewer=null,viewerPromise=null,drag=null,deck={slides:[1]};
  let blanked=false;const speaker={close(){}};let exits=0,focuses=0,opener={isConnected:true,focus(){focuses++}};const modelHost={},elements=new Map(),document={fullscreenElement:null},dialog={open:true,close(){this.open=false}},figureImage={removeAttribute(){}};
  const control=key=>el(key);const el=key=>{if(!elements.has(key))elements.set(key,{replaceChildren(){},removeAttribute(){},close(){}});return elements.get(key)};
- function hideLaser(){}function closeImage(){}function stopLab(){}function showSelection(){}function showNarrative(){}function renderViews(){}function showPhase(){}function onExit(){exits++}
+ function hideLaser(){}function closeImage(){}function stopLab(){}function stopFigure(){}function showSelection(){}function showNarrative(){}function renderViews(){}function showPhase(){}function onExit(){exits++}
  let focusedPart=null;
  ${ensure}
  ${actualFunction('close')}
@@ -116,17 +116,17 @@ test('Lecture clicker navigation survives focused source canvas and presentation
    assert.deepEqual(key('ArrowRight',new Target('button',new Target(tag))).moves,[1]);
    assert.equal(key(' ',new Target('button',new Target(tag))).prevented,0,'Space keeps native button activation');
  }
- assert.deepEqual(key('ArrowRight',new Target('[data-el="figure-scroll"]'),{fixture:{canvas:true}}).moves,[1]);
- assert.deepEqual(key('ArrowRight',new Target('[data-el="figure-scroll"]'),{fixture:{canvas:true,zoom:2}}).moves,[],'Zoomed source keeps its pan keys');
+ assert.deepEqual(key('ArrowRight',new Target('.figure-inspector'),{fixture:{canvas:true}}).moves,[],'Chart inspection keeps its pan keys at every zoom');
+ assert.deepEqual(key('ArrowRight',new Target('.figure-inspector'),{fixture:{canvas:true,zoom:2}}).moves,[],'Zoomed source keeps its pan keys');
 });
 
 
-test('Closing an enlarged private figure clears its pixels/description and returns the pointer',()=>{
- const image={src:'private pixels',alt:'private description',removeAttribute(name){delete this[name]}},laser={},modal={closed:false,close(){this.closed=true}},main={focuses:0,focus(){this.focuses++}},children=[];
- const fixture={el:key=>({'image-lightbox':modal,'enlarged-image':image,laser,main})[key],dialog:{append(node){children.push(node)}},hideLaser(){}};
- const closeImage=new Function('fixture',`const {el,dialog,hideLaser}=fixture;${actualFunction('closeImage')};return closeImage`)(fixture);
- closeImage(false);assert.equal(image.src,undefined);assert.equal(image.alt,'');assert.equal(modal.closed,true);assert.deepEqual(children,[laser]);assert.equal(main.focuses,0);
- closeImage();assert.equal(main.focuses,1);
+test('Closing an enlarged private figure disposes interaction data and returns the pointer',()=>{
+ let disposed=0,cleared=0;const laser={},modal={closed:false,close(){this.closed=true}},main={focuses:0,focus(){this.focuses++}},children=[],host={replaceChildren(){cleared++}},title={textContent:'Private chart'};
+ const fixture={inspector:{destroy(){disposed++}},el:key=>({'image-lightbox':modal,'expanded-figure':host,'image-title':title,laser,main})[key],dialog:{append(node){children.push(node)}},hideLaser(){}};
+ const handle=new Function('fixture',`const {el,dialog,hideLaser}=fixture;let nativeInspector=fixture.inspector;${actualFunction('closeImage')};return{closeImage,get:()=>nativeInspector}`)(fixture);
+ handle.closeImage(false);assert.equal(disposed,1);assert.equal(cleared,1);assert.equal(handle.get(),null);assert.equal(modal.closed,true);assert.deepEqual(children,[laser]);assert.equal(main.focuses,0);assert.equal(title.textContent,'Inspect figure');
+ handle.closeImage();assert.equal(main.focuses,1);assert.equal(disposed,1,'Dispose once, even when exit also closes the lightbox');
 });
 
 test('Reopening the same slide preserves its loaded model instead of rebuilding separation and time',async()=>{
