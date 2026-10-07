@@ -1,4 +1,14 @@
+export const workflowDisplay = {
+  name: 'Workflow Display',
+  href: 'https://github.com/BoomerRawlings/Skills/tree/main/skills/workflow-display',
+  summary:
+    'Builds workflow displays with paired explanations and artifacts, smooth transitions, and animated connections. Use the starter directly or hand it to an agent.',
+  agentPrompt:
+    'Read https://raw.githubusercontent.com/BoomerRawlings/Skills/main/skills/workflow-display/SKILL.md and use its bundled starter to build a display for my workflow. Keep explanation and artifact cards paired, with smooth transitions and animated connections. Ask me for the workflow content you need; adapt the typography and colors to my project.',
+} as const;
+
 export const aiSkills = [
+  workflowDisplay,
   {
     name: 'Research Briefing Assistant',
     href: 'https://github.com/BoomerRawlings/research-briefing-assistant',

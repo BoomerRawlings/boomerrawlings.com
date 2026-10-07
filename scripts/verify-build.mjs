@@ -43,18 +43,23 @@ const unlistedContentPaths = new Set([
   join('cbs8', 'osint', 'index.html'),
   join('writing', 'data-analysis', 'sex-and-the-moon', 'index.html'),
 ]);
+// Portable examples own their document shell; portfolio metadata/Pip rules stay unchanged.
+const standaloneContentPaths = new Set([join('workflow-display', 'index.html')]);
 const contentHtmlFiles = htmlFiles.filter(
   (file) => {
     const path = relative(output, file);
-    return !redirectTargets.has(path) && !unlistedContentPaths.has(path);
+    return !redirectTargets.has(path) && !unlistedContentPaths.has(path) && !standaloneContentPaths.has(path);
   },
 );
 const unlistedHtmlFiles = htmlFiles.filter(
   (file) => unlistedContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 25 || unlistedHtmlFiles.length !== 11 || htmlFiles.length !== 42) {
+const standaloneHtmlFiles = htmlFiles.filter(
+  (file) => standaloneContentPaths.has(relative(output, file)),
+);
+if (contentHtmlFiles.length !== 25 || standaloneHtmlFiles.length !== 1 || unlistedHtmlFiles.length !== 11 || htmlFiles.length !== 43) {
   throw new Error(
-    `expected 25 public pages, 11 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 25 portfolio pages, 1 standalone public demo, 11 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
@@ -545,7 +550,7 @@ for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => fi
     failures.push(`${relative(output, file)}: shared coffee link is missing, duplicated, or depends on an external script`);
   }
 }
-for (const file of contentHtmlFiles) {
+for (const file of [...contentHtmlFiles, ...standaloneHtmlFiles]) {
   const html = readFileSync(file, 'utf8');
   const label = relative(output, file);
   if (/href=["'][^"']*\/aristotter\/?(?:[?#][^"']*)?["']/i.test(html)) {
@@ -559,6 +564,9 @@ for (const file of contentHtmlFiles) {
   }
   if (/href=["'][^"']*\/BoomerKarma(?:\/[^"']*)?["']/i.test(html)) {
     failures.push(`${label}: public page links to the unlisted BoomerKarma route`);
+  }
+  if (/href=["'][^"']*\/ead(?:\/[^"']*)?(?:[?#][^"']*)?["']/i.test(html)) {
+    failures.push(`${label}: public page links to the unlisted EAD route`);
   }
 }
 
@@ -805,6 +813,70 @@ for (const file of contentHtmlFiles) {
     if (/\s(?:autoplay|loop)(?=\s|=|>)/i.test(video)) {
       failures.push(label + ': evidence video must not autoplay or loop');
     }
+  }
+}
+
+const workflowDemoPath = join(output, 'workflow-display', 'index.html');
+const workflowDemoHtml = readFileSync(workflowDemoPath, 'utf8');
+if (!/<title>[^<]+<\/title>/.test(workflowDemoHtml)
+  || !/<meta name="description" content="[^"]+">/.test(workflowDemoHtml)
+  || !workflowDemoHtml.includes('<link rel="canonical" href="https://boomerrawlings.com/workflow-display/">')) {
+  failures.push('workflow-display/index.html: hosted demo title, description, or canonical is missing');
+}
+if (!/<style>[\s\S]+<\/style>/.test(workflowDemoHtml)
+  || (workflowDemoHtml.match(/<script\b/g) ?? []).length !== 2
+  || /<script\b[^>]*\bsrc=|<link\b[^>]*\brel=["']stylesheet["']/i.test(workflowDemoHtml)
+  || /\{\{(?:STYLES|DATA|SCRIPT)\}\}/.test(workflowDemoHtml)
+  || !workflowDemoHtml.includes('id="connection-lines"')
+  || !workflowDemoHtml.includes('id="step-rows"')
+  || !workflowDemoHtml.includes('<noscript>')) {
+  failures.push('workflow-display/index.html: portable renderer, embedded assets, or no-script explanation is incomplete');
+}
+try {
+  const data = JSON.parse(workflowDemoHtml.match(/<script type="application\/json" id="workflow-data">([\s\S]*?)<\/script>/)?.[1] ?? 'null');
+  if (!data?.title || !Array.isArray(data.plans) || data.plans.length < 2) throw new Error('Expected multiple example plans');
+  let dependencies = 0;
+  for (const plan of data.plans) {
+    if (!plan.title || !Array.isArray(plan.steps) || !plan.steps.length) throw new Error('Empty example plan');
+    const ids = new Set(plan.steps.map(step => step.id));
+    if (ids.size !== plan.steps.length) throw new Error('Duplicate step IDs');
+    for (const step of plan.steps) {
+      if (!step.id || !step.title || !step.description || !step.artifact?.title || !step.artifact?.code) throw new Error('Incomplete explanation/artifact pair');
+      for (const id of step.related ?? []) {
+        if (!ids.has(id) || id === step.id) throw new Error('Invalid dependency');
+        dependencies++;
+      }
+    }
+  }
+  if (!dependencies) throw new Error('Examples need meaningful dependencies');
+} catch (error) {
+  failures.push(`workflow-display/index.html: invalid example data: ${error.message}`);
+}
+if (!readFileSync(workflowDemoPath).equals(readFileSync(join('public', 'workflow-display', 'index.html')))) {
+  failures.push('workflow-display/index.html: generated standalone demo changed during the website build');
+}
+const workflowZipPath = join(output, 'downloads', 'workflow-display.zip');
+if (!existsSync(workflowZipPath)) {
+  failures.push('Workflow Display: downloadable kit is missing');
+} else {
+  const zip = readFileSync(workflowZipPath);
+  if (zip.readUInt32LE(0) !== 0x04034b50
+    || !zip.includes(Buffer.from([0x50, 0x4b, 0x05, 0x06]))
+    || !zip.equals(readFileSync(join('public', 'downloads', 'workflow-display.zip')))) {
+    failures.push('Workflow Display: kit is not a ZIP archive or changed during the website build');
+  }
+  // Package smoke check: required paths must appear as ZIP central-directory entries.
+  const entries = new Set();
+  const signature = Buffer.from([0x50, 0x4b, 0x01, 0x02]);
+  for (let offset = zip.indexOf(signature); offset >= 0 && offset + 46 <= zip.length;) {
+    const nameLength = zip.readUInt16LE(offset + 28);
+    const extraLength = zip.readUInt16LE(offset + 30);
+    const commentLength = zip.readUInt16LE(offset + 32);
+    entries.add(zip.toString('utf8', offset + 46, offset + 46 + nameLength));
+    offset = zip.indexOf(signature, offset + 46 + nameLength + extraLength + commentLength);
+  }
+  for (const path of ['SKILL.md', 'README.md', 'LICENSE', 'demo.html', 'scripts/build.mjs', 'scripts/validate.mjs', 'assets/template.html', 'assets/workflow.css', 'assets/workflow.js', 'examples/content-pipeline.json', 'examples/research-review.json', 'references/schema.md', 'references/design.md', 'tests/workflow.test.mjs']) {
+    if (!entries.has(`workflow-display/${path}`)) failures.push(`Workflow Display kit: missing ${path}`);
   }
 }
 
@@ -1063,6 +1135,7 @@ const aiSkillsHtml = aiSkillsStart >= 0
   : '';
 let previousAiSkillOffset = -1;
 for (const [name, href] of [
+  ['Workflow Display', 'https://github.com/BoomerRawlings/Skills/tree/main/skills/workflow-display'],
   ['Research Briefing Assistant', 'https://github.com/BoomerRawlings/research-briefing-assistant'],
   ['Printable', 'https://github.com/BoomerRawlings/Skills/tree/main/skills/printable'],
   ['BW Printable', 'https://github.com/BoomerRawlings/Skills/tree/main/skills/bw-printable'],
@@ -1074,6 +1147,19 @@ for (const [name, href] of [
     failures.push(`work/index.html: AI skill ${name} is missing, misordered, or not directly linked`);
   }
   previousAiSkillOffset = skillOffset;
+}
+const workflowFeature = workHtml.match(/<section\b[^>]*\bid="workflow-display"[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? '';
+if (!workflowFeature
+  || workHtml.indexOf('id="workflow-display"') > workHtml.indexOf('<section class="listing"')
+  || !workflowFeature.includes('href="/workflow-display/"')
+  || !/<a\b[^>]*\bhref="\/downloads\/workflow-display\.zip"[^>]*\bdownload(?:\s|=|>)/.test(workflowFeature)
+  || !workflowFeature.includes('href="https://github.com/BoomerRawlings/Skills/tree/main/skills/workflow-display"')
+  || !/<textarea\b[^>]*\bid="workflow-agent-prompt"[^>]*\breadonly(?:\s|=|>)/.test(workflowFeature)
+  || !workflowFeature.includes('https://raw.githubusercontent.com/BoomerRawlings/Skills/main/skills/workflow-display/SKILL.md')
+  || !workflowFeature.includes('id="copy-workflow-prompt"')
+  || !workflowFeature.includes('id="workflow-copy-status" role="status"')
+  || !homeHtml.includes('href="/work/#workflow-display"')) {
+  failures.push('Workflow Display: prominent feature, demo/download/source links, agent handoff, or homepage discovery is incomplete');
 }
 if (!aiSkillsHtml.includes('id="ai-skills-heading">AI Skills</h2>')
   || !aiSkillsHtml.includes('Reusable Codex workflows.')
@@ -1942,4 +2028,4 @@ for (const required of ['withastro/action@e84f40bd8d2caa9e768ec82ad30dd81f0b2808
 }
 
 if (failures.length) throw new Error(failures.join('\n'));
-console.log(`Verified ${contentHtmlFiles.length} public pages, ${unlistedHtmlFiles.length} unlisted pages, and ${redirectTargets.size} redirects: metadata and local links pass.`);
+console.log(`Verified ${contentHtmlFiles.length} portfolio pages, ${standaloneHtmlFiles.length} standalone public demo, ${unlistedHtmlFiles.length} unlisted pages, and ${redirectTargets.size} redirects: metadata, local links, and workflow kit pass.`);

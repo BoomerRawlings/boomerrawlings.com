@@ -94,6 +94,11 @@ const contents = [
     </section>
   </section>
 
+  <aside class="home-workflow-feature" aria-label="Featured reusable skill">
+    <span>Reusable skill &amp; starter</span>
+    <a href="/work/#workflow-display"><strong>Workflow Display</strong><span>Paired explanations and artifacts. Smooth animation. Connected steps.</span><span aria-hidden="true">Explore ↗</span></a>
+  </aside>
+
   <section class="project-ledger" aria-labelledby="selected-work-heading">
     <div class="project-ledger-title">
       <h2 id="selected-work-heading">Selected work</h2>
@@ -121,6 +126,14 @@ const contents = [
 </BaseLayout>
 
 <style is:global>
+  .home-workflow-feature { background: var(--paper); border-bottom: 1px solid var(--rule); display: grid; gap: 0.7rem 2rem; grid-template-columns: 12rem minmax(0, 1fr); padding: 1.4rem 5vw; }
+  .home-workflow-feature > span { align-self: center; color: var(--muted); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .home-workflow-feature a { align-items: baseline; display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; text-decoration: none; }
+  .home-workflow-feature strong { color: var(--blue); font-size: 1.1rem; }
+  .home-workflow-feature a > span:first-of-type { flex: 1 1 22rem; line-height: 1.4; }
+  .home-workflow-feature a > span:last-of-type { color: var(--blue); font-family: var(--mono); font-size: 0.75rem; }
+  .home-workflow-feature a:hover strong { text-decoration: underline; text-underline-offset: 0.2em; }
+
   .home-identity {
     align-items: start;
     display: grid;
@@ -164,6 +177,8 @@ const contents = [
   }
 
   @media (max-width: 54rem) {
+    .home-workflow-feature { grid-template-columns: minmax(0, 1fr); padding: 1.4rem 1.25rem; }
+
     .home-identity {
       grid-template-columns: minmax(0, 1fr);
       margin-bottom: 2.5rem;
