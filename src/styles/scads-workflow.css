@@ -1,0 +1,164 @@
+/* Workflow Display integration. All tokens and selectors stay inside this section. */
+.scads-workflow {
+  --wf-surface: var(--paper);
+  --wf-raised: #ebe7dc;
+  --wf-code: #eef1f2;
+  --wf-text: var(--navy);
+  --wf-muted: #445976;
+  --wf-border: #aeb9be;
+  --wf-accent: var(--blue);
+  --wf-dependency: #927000;
+  --wf-connected: #edf5f5;
+  --wf-focus: var(--blue);
+  --wf-ease: cubic-bezier(.22, 1, .36, 1);
+  --wf-duration: 360ms;
+  padding: 2.5rem 5vw;
+  color: var(--wf-text);
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule-gold);
+  scroll-margin-top: 1rem;
+}
+.scads-workflow *, .scads-workflow *::before, .scads-workflow *::after { box-sizing: border-box; }
+.scads-workflow [hidden] { display: none !important; }
+.scads-workflow h2, .scads-workflow h3, .scads-workflow h4, .scads-workflow p { margin: 0; }
+.scads-workflow a { color: var(--wf-accent); text-underline-offset: .2em; }
+.scads-workflow button, .scads-workflow input { font: inherit; color: inherit; touch-action: manipulation; }
+.scads-workflow button { cursor: pointer; border: 1px solid var(--wf-border); background: var(--wf-surface); min-height: 44px; padding: .55rem .8rem; border-radius: 0; }
+.scads-workflow button:hover { background: var(--wf-raised); border-color: var(--wf-accent); }
+.scads-workflow button:disabled { opacity: .65; cursor: progress; }
+.scads-workflow :is(button, a, input, pre, summary):focus-visible { outline: 2px solid var(--wf-focus); outline-offset: 4px; }
+.scads-workflow .workflow-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.scads-workflow .workflow-eyebrow { color: var(--wf-muted); font: .7rem/1.5 var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+.scads-workflow .workflow-intro h2 { margin: .6rem 0 1rem; color: var(--blue); font: 500 clamp(2rem,3.2vw,2.8rem)/1.05 var(--display); text-transform: uppercase; }
+.scads-workflow .workflow-intro > p:not(.workflow-eyebrow) { line-height: 1.6; max-width: 58rem; }
+.scads-workflow .workflow-intro > .workflow-timing-note { color: var(--wf-muted); font-size: .92rem; margin-top: .8rem; }
+.scads-workflow .workflow-launch-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.5rem; margin-top: 1.4rem; }
+.scads-workflow .workflow-launch-actions > a { display: inline-flex; align-items: center; min-height: 44px; font-size: .95rem; font-weight: 600; }
+.scads-workflow .workflow-toggle { display: flex; align-items: center; justify-content: space-between; gap: 1.2rem; background: var(--navy); color: var(--paper); border-color: var(--navy); text-align: left; font: 500 1.3rem/1.25 var(--display); letter-spacing: .03em; text-transform: uppercase; padding: .85rem 1.15rem; }
+.scads-workflow .workflow-toggle:hover { background: var(--blue); border-color: var(--blue); }
+.scads-workflow .workflow-toggle[aria-expanded="true"] > span:last-child { transform: rotate(180deg); }
+.scads-workflow .plan-reveal { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows var(--wf-duration) var(--wf-ease), opacity .22s ease; }
+.scads-workflow .plan-reveal.is-expanded { grid-template-rows: 1fr; opacity: 1; }
+.scads-workflow .plan-reveal-inner { min-height: 0; overflow: hidden; visibility: hidden; transition: visibility 0s var(--wf-duration); }
+.scads-workflow .plan-reveal.is-expanded > .plan-reveal-inner { visibility: visible; transition-delay: 0s; }
+.scads-workflow .guide-heading { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 2rem 0 1.5rem; }
+.scads-workflow .guide-heading h3 { font: 500 clamp(1.8rem,2.4vw,2.2rem)/1.15 var(--display); text-transform: uppercase; color: var(--navy); margin: 0 0 .7rem; overflow-wrap: anywhere; scroll-margin-top: 1rem; }
+.scads-workflow .guide-heading p { font-size: 1rem; line-height: 1.65; color: var(--wf-muted); max-width: 55rem; }
+.scads-workflow .guide-heading > button { flex-shrink: 0; font: .75rem/1.5 var(--mono); }
+.scads-workflow .guide-onramp { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; border-top: 1px solid var(--wf-border); padding: 1.2rem 0 1.5rem; }
+.scads-workflow .guide-onramp p { display: grid; gap: .4rem; font-size: .92rem; line-height: 1.6; color: var(--wf-muted); }
+.scads-workflow .guide-onramp strong { color: var(--wf-text); }
+.scads-workflow .search-row { display: flex; align-items: center; gap: .75rem; margin-bottom: 1.4rem; }
+.scads-workflow .search { width: min(100%,34rem); display: flex; border: 1px solid var(--wf-border); background: var(--wf-surface); padding: .15rem .8rem; }
+.scads-workflow .search:focus-within { outline: 2px solid var(--wf-focus); outline-offset: 3px; }
+.scads-workflow .search input { min-width: 0; width: 100%; min-height: 44px; border: 0; outline: 0; background: transparent; font-size: 1rem; }
+.scads-workflow .search input::placeholder { color: var(--wf-muted); opacity: 1; }
+.scads-workflow .search-row > button { font: .75rem/1.4 var(--mono); white-space: nowrap; }
+.scads-workflow .workflow-index-disclosure { border-block: 1px solid var(--wf-border); }
+.scads-workflow .workflow-index-disclosure > summary { cursor: pointer; padding: .9rem 0; font-weight: 600; color: var(--blue); }
+.scads-workflow .step-index { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: .5rem; padding-bottom: 1rem; }
+.scads-workflow .step-index button { text-align: left; min-width: 0; padding: .75rem; transition: background .2s, box-shadow .2s; }
+.scads-workflow .step-index button > span:first-child { display: block; color: var(--wf-muted); font: .68rem var(--mono); margin-bottom: .4rem; }
+.scads-workflow .step-index button > span:last-child { display: block; font-size: .85rem; line-height: 1.4; overflow-wrap: anywhere; }
+.scads-workflow .step-index button.is-related { background: var(--wf-connected); }
+.scads-workflow .step-index button.is-traced { box-shadow: inset 0 -3px var(--wf-accent); }
+.scads-workflow .step-index button[aria-pressed="true"] > span:first-child::after { content: ' / LOCKED'; }
+.scads-workflow .guide-controls { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 0; min-height: 76px; }
+.scads-workflow .guide-controls > p { color: var(--wf-muted); font-size: .85rem; line-height: 1.6; border-left: 2px solid var(--wf-border); padding-left: .75rem; }
+.scads-workflow .guide-controls > p.is-locked { border-color: var(--wf-accent); color: var(--wf-text); }
+.scads-workflow .guide-controls > div { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; }
+.scads-workflow .guide-controls span, .scads-workflow .guide-controls button { font: .7rem/1.5 var(--mono); }
+.scads-workflow .column-head, .scads-workflow .workflow-row { display: grid; grid-template-columns: minmax(0,.9fr) 88px minmax(0,1.1fr); }
+.scads-workflow .column-head { padding-bottom: 1rem; font: .7rem/1.5 var(--mono); color: var(--wf-muted); text-transform: uppercase; }
+.scads-workflow .column-head > span:nth-child(2) { text-align: center; }
+.scads-workflow .workflow-board { position: relative; }
+.scads-workflow [data-workflow="connection-lines"] { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; z-index: 2; }
+.scads-workflow .connection-wire { fill: none; stroke: var(--wf-border); stroke-width: 1.25; }
+.scads-workflow .connection-wire.is-active { stroke: var(--wf-accent); stroke-width: 1.75; }
+.scads-workflow .connection-wire.is-dependency { stroke: var(--wf-dependency); stroke-dasharray: 5 5; }
+.scads-workflow .connection-tracer { fill: none; stroke: var(--blue); stroke-width: 3.5; stroke-linecap: round; }
+.scads-workflow .connection-port { fill: var(--wf-muted); }
+.scads-workflow .connection-port.is-active { fill: var(--wf-accent); }
+.scads-workflow .dependency-arrow { fill: var(--wf-dependency); }
+.scads-workflow .workflow-row { margin-bottom: 1.75rem; align-items: stretch; }
+.scads-workflow .workflow-card { min-width: 0; border: 1px solid var(--wf-border); background: var(--wf-surface); scroll-margin-top: 1rem; transition: background .26s, border-color .26s, box-shadow .26s; }
+.scads-workflow .workflow-card.is-connected { background: var(--wf-connected); border-color: var(--wf-accent); }
+.scads-workflow .workflow-card.is-origin { box-shadow: inset 3px 0 var(--wf-accent); }
+.scads-workflow .workflow-card.is-pinned { border-width: 2px; margin: -1px; }
+.scads-workflow .plain-card { grid-column: 1; display: flex; flex-direction: column; }
+.scads-workflow .artifact-card { grid-column: 3; }
+.scads-workflow .workflow-card h4 { font: 500 1.5rem/1.15 var(--display); }
+.scads-workflow .artifact-card h4 { font: .85rem/1.5 var(--mono); }
+.scads-workflow .card-title { width: 100%; display: flex; align-items: baseline; gap: .9rem; text-align: left; padding: 1.4rem 1.4rem 1rem; border: 0; background: transparent; font: inherit; }
+.scads-workflow .card-title:hover { background: transparent; }
+.scads-workflow .card-title:focus-visible { outline-offset: -5px; }
+.scads-workflow .card-title > span:nth-child(2) { min-width: 0; overflow-wrap: anywhere; }
+.scads-workflow .step-number { flex-shrink: 0; color: var(--wf-accent); font: .75rem var(--mono); }
+.scads-workflow .pin-label { margin-left: auto; flex-shrink: 0; border: 1px solid var(--wf-accent); padding: .25rem; color: var(--wf-accent); font: .6rem/1 var(--mono); }
+.scads-workflow .card-description { padding: 0 1.4rem 1.5rem; font-size: 1rem; line-height: 1.7; color: var(--wf-muted); overflow-wrap: anywhere; }
+.scads-workflow .checkpoint { margin: auto 1.4rem 1.4rem; padding-left: .8rem; border-left: 2px solid var(--gold); }
+.scads-workflow .checkpoint > span, .scads-workflow .resources > span { font: .65rem/1.5 var(--mono); letter-spacing: .05em; color: var(--wf-accent); }
+.scads-workflow .checkpoint p { margin-top: .4rem; font-size: .85rem; line-height: 1.65; overflow-wrap: anywhere; }
+.scads-workflow .resources { padding: .9rem 1.4rem; display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .75rem; border-top: 1px solid var(--wf-border); }
+.scads-workflow .resources a { font-size: .85rem; overflow-wrap: anywhere; min-height: 44px; display: inline-flex; align-items: center; }
+.scads-workflow .code-tools { display: flex; justify-content: space-between; align-items: center; gap: .75rem; padding: 0 1.4rem .75rem; }
+.scads-workflow .code-tools > span { font: .65rem/1.5 var(--mono); color: var(--wf-muted); letter-spacing: .03em; overflow-wrap: anywhere; }
+.scads-workflow .copy-button { font: .75rem var(--mono); padding: .4rem .6rem; }
+.scads-workflow .code-actions { display: flex; gap: .4rem; flex-shrink: 0; }
+.scads-workflow .code-actions [aria-pressed="true"] { border-color: var(--wf-accent); background: var(--wf-connected); }
+.scads-workflow .artifact-card pre { margin: 0; padding: 1.1rem 1.4rem; max-height: 320px; overflow: auto; white-space: pre; overflow-wrap: normal; background: var(--wf-code); border-block: 1px solid var(--wf-border); scrollbar-width: thin; color: var(--navy); }
+.scads-workflow .artifact-card pre.is-wrapped { white-space: pre-wrap; overflow-wrap: anywhere; }
+.scads-workflow .artifact-card code { font: .8rem/1.8 var(--mono); }
+.scads-workflow .artifact-note { padding: 1rem 1.4rem; font-size: .85rem; line-height: 1.65; color: var(--wf-muted); overflow-wrap: anywhere; }
+.scads-workflow .card-relations { padding: 0 1.4rem 1rem; font: .72rem/1.75 var(--mono); color: var(--wf-muted); }
+.scads-workflow .plain-card .card-relations { margin-top: auto; }
+.scads-workflow .artifact-card pre + .card-relations { padding-top: 1rem; }
+.scads-workflow .relation-link { color: var(--wf-accent); font: inherit; border: 0; border-bottom: 1px dotted var(--wf-muted); padding: .25rem .1rem; background: transparent; text-align: left; }
+.scads-workflow .relation-link:hover { background: transparent; border-color: var(--wf-accent); }
+.scads-workflow .empty-result { padding: 2rem 1rem; text-align: center; border: 1px solid var(--wf-border); margin-top: 1rem; }
+.scads-workflow .empty-result button { margin-top: 1rem; }
+.scads-workflow .connection-legend { display: flex; flex-wrap: wrap; gap: .35rem 1.4rem; margin: .5rem 0 1.5rem; font: .7rem/1.7 var(--mono); color: var(--wf-muted); }
+.scads-workflow .guide-end { border-top: 1px solid var(--wf-border); padding: 1.4rem 0; color: var(--wf-muted); font-size: .9rem; line-height: 1.6; }
+.scads-workflow .workflow-close { margin-bottom: .5rem; font: .8rem/1.5 var(--mono); }
+@media (max-width: 1100px) {
+  .scads-workflow .column-head, .scads-workflow .workflow-row { grid-template-columns: minmax(0,.9fr) 56px minmax(0,1.1fr); }
+  .scads-workflow .card-title { padding-inline: 1rem; gap: .6rem; }
+  .scads-workflow :is(.card-description, .resources, .code-tools, .artifact-card pre, .artifact-note, .card-relations) { padding-inline: 1rem; }
+  .scads-workflow .checkpoint { margin-inline: 1rem; }
+}
+@media (max-width: 760px) {
+  .scads-workflow { padding-block: 2rem; }
+  .scads-workflow .workflow-launch-actions { align-items: stretch; gap: .6rem 1.2rem; }
+  .scads-workflow .workflow-toggle { width: 100%; }
+  .scads-workflow .guide-heading { display: block; }
+  .scads-workflow .guide-heading > button { margin-top: 1rem; }
+  .scads-workflow .guide-onramp { grid-template-columns: minmax(0,1fr); gap: .9rem; }
+  .scads-workflow .search-row { flex-wrap: wrap; }
+  .scads-workflow .search { width: 100%; }
+  .scads-workflow .step-index { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .scads-workflow .guide-controls { display: block; }
+  .scads-workflow .guide-controls > div { margin-top: .8rem; flex-wrap: wrap; }
+  .scads-workflow .column-head { display: none; }
+  .scads-workflow .workflow-row { grid-template-columns: minmax(0,1fr); gap: 22px; margin-bottom: 2.4rem; position: relative; }
+  .scads-workflow .plain-card, .scads-workflow .artifact-card { grid-column: 1; position: relative; }
+  .scads-workflow .plain-card::before, .scads-workflow .artifact-card::before { display: block; padding: 1rem 1rem 0; color: var(--wf-muted); font: .65rem/1.5 var(--mono); letter-spacing: .08em; }
+  .scads-workflow .plain-card::before { content: 'RECORDED OUTCOME + SESSION WINDOW'; }
+  .scads-workflow .artifact-card::before { content: 'MY PROMPT'; }
+  .scads-workflow .artifact-card::after { content: ''; position: absolute; left: 30px; bottom: 100%; height: 24px; border-left: 1px solid var(--wf-accent); }
+  .scads-workflow .card-title { padding-top: .8rem; flex-wrap: wrap; }
+  .scads-workflow .card-title > span:nth-child(2) { flex: 1; }
+  .scads-workflow .workflow-card h4 { font-size: 1.4rem; }
+  .scads-workflow .artifact-card h4 { font-size: .8rem; }
+  .scads-workflow .code-tools { flex-wrap: wrap; }
+  .scads-workflow [data-workflow="connection-lines"] { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scads-workflow *, .scads-workflow *::before, .scads-workflow *::after { transition: none !important; animation: none !important; scroll-behavior: auto; }
+}
+@media print {
+  .scads-workflow .workflow-launch-actions, .scads-workflow .search-row, .scads-workflow .workflow-index-disclosure, .scads-workflow .guide-controls, .scads-workflow .guide-onramp, .scads-workflow .guide-heading > button, .scads-workflow .copy-button, .scads-workflow .pin-label, .scads-workflow [data-workflow="connection-lines"], .scads-workflow .workflow-close { display: none; }
+  .scads-workflow .plan-reveal:not(.is-expanded) { display: none; }
+  .scads-workflow .plan-reveal.is-expanded, .scads-workflow .plan-reveal.is-expanded > .plan-reveal-inner { display: block; overflow: visible; opacity: 1; visibility: visible; }
+  .scads-workflow .artifact-card pre { max-height: none; overflow: visible; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .scads-workflow .workflow-row { break-inside: avoid; }
+}

@@ -5,7 +5,7 @@
 .scads-authorship { max-width: 49rem; color: var(--muted); line-height: 1.55; }
 .scads-links { display: flex; flex-wrap: wrap; gap: .65rem 1.5rem; margin: 1.5rem 0 0; }
 .scads-links a, .scads-back { color: var(--blue); font-weight: 600; text-underline-offset: .22em; line-height: 1.5; }
-.scads-header .curator-guide { margin-top: 2.5rem; max-width: 70rem; }
+.scads-header .curator-guide { margin-top: 2.5rem; max-width: 70rem; padding: clamp(1rem, 2vw, 1.5rem); background: var(--navy); color: var(--paper); border: 1px solid var(--rule-gold); }
 .scads-header .eyebrow { margin-top: 1.5rem; }
 .scads-collection, .scads-article { padding: 2.5rem 5vw; }
 .scads-section-heading { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: .5rem 2rem; border-bottom: 2px solid var(--blue); padding-bottom: .65rem; }

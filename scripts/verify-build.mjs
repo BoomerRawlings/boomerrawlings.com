@@ -44,7 +44,7 @@ const unlistedContentPaths = new Set([
   join('writing', 'data-analysis', 'sex-and-the-moon', 'index.html'),
 ]);
 // Portable examples own their document shell; portfolio metadata/Pip rules stay unchanged.
-const standaloneContentPaths = new Set([join('workflow-display', 'index.html')]);
+const standaloneContentPaths = new Set([join('workflow-display', 'index.html'), join('documents', 'scads-2026', 'workflow.html')]);
 const contentHtmlFiles = htmlFiles.filter(
   (file) => {
     const path = relative(output, file);
@@ -57,9 +57,9 @@ const unlistedHtmlFiles = htmlFiles.filter(
 const standaloneHtmlFiles = htmlFiles.filter(
   (file) => standaloneContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 35 || standaloneHtmlFiles.length !== 1 || unlistedHtmlFiles.length !== 11 || htmlFiles.length !== 53) {
+if (contentHtmlFiles.length !== 35 || standaloneHtmlFiles.length !== 2 || unlistedHtmlFiles.length !== 11 || htmlFiles.length !== 54) {
   throw new Error(
-    `expected 35 portfolio pages, 1 standalone public demo, 11 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 35 portfolio pages, 2 standalone workflow displays, 11 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
@@ -1454,7 +1454,7 @@ if (!existsSync(join(output, 'images', 'portfolio-curator.webp'))) {
 if (!homeHtml.includes('class="portfolio-curator"')) {
   failures.push('index.html: missing portfolio curator interface');
 }
-if (!homeHtml.includes('Pip says')
+if (!homeHtml.includes('Start here with Pip')
   || !homeHtml.includes("Hi! I'm Pip!")
   || !homeHtml.includes('ABOUT will be our first stop')
   || !homeHtml.includes('action="/about/"')) {

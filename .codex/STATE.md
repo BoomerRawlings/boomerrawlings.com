@@ -4,11 +4,15 @@
 
 - Mode: new task; website/GitHub publication authorized. Isolated branch from production31774d5; unrelated mixed checkout preserved.
 - Objective: nine-problem overview, project pages, master's-level PDFs, five working browser demonstrations, four clearly projected research plans, nested GitHub sources; lead Selected work and add publication month/year column.
-- Status: implementation complete; full npm test passes. Overview/nine pages, five source-derived browser demos, five10-page working papers and four8-page proposals ready. Five existing projects In progress; four unstarted projects explicitly projected, implementation not begun.
+- Status: complete; release0c1a750 live. Full npm test and Pages37648441194 build/deploy passed. Overview/nine pages, five source-derived browser demos, five10-page working papers and four8-page proposals published. Five existing projects In progress; four unstarted projects explicitly projected, implementation not begun.
 - Decisions: preserve existing brand/layout/Pip. Projects tour → overview → Horizon; each project tour returns overview. Published dates on selected work use first published archive Git history, independently of original project date.
 - Source: public BoomerRawlings/scads-2026-problems commitc8d7653/tagscads-2026-10-07; all9 nested projects verified via GitHub. Paper paths documents/scads-2026. Data demos distinguish fixtures/recorded model outputs from live services.
 - Verified:26 browser journeys/interactions at1440/390/320, all9 Pip branches, five demos/reset/empty states, no overflow; selected8dates/order and source/PDF links. All82PDFpages visually checked; independent methods/results critique resolved;290 PDF-to-source links resolve and29 demo source hashes match frozen source.
-- Next: one verified site push, Pages/live integrity checks. No DNS/hosting changes. Preserve original mixed checkout and concurrently advancing research implementations.
+- Live verification:13 pages pass publication/content/tour checks;16 assets byte-identical to release, including all9PDFs,6JSON files and demo script. Evidence: tmp/scads-live-verification.json. Main tour CV/Projects → overview → Horizon; individual guides return overview.
+- Browser live verification:15 checks passed; overview, CV→overview→Horizon, project→overview, 311/GraphRAG interactions, homepage dates/order at1440/390/320, no overflow or application faults.
+- Follow-up implemented: Start here with Pip, centered date/type/work columns, navy SCADS Pip panel. Date alignment within1px at7 widths1440–320.
+- Workflow:43 interleaved recorded sessions, one expandable paired stream, verbatim project prompts/outcomes/PDT session windows; no summed effort. Search, context links, animation, copy/wrap and HTML/JSON/text downloads; P06–P09 represented as proposal publication. Source release488c57c reproduces outputs exactly; frozen projects/papers and originaltag preserved.
+- Follow-up verified: full npm test passed; final build/site/SCADS parity checks passed after scoped animation/project-search fixes. Desktop/390/320 interactions, keyboard, reduced motion, safe text/URLs, download/copy/search/collapse and no-overflow checks passed. Next: one verified follow-up push and Pages/live checks. Preserve original mixed checkout.
 
 ## Workflow Display skill — 2026-10-06
 

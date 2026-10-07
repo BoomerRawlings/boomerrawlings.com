@@ -13,6 +13,17 @@ function nodes(root, predicate) {
 const hasClass = (node, name) => (attr(node, 'class') ?? '').split(/\s+/).includes(name);
 const hrefs = html => nodes(parse(html), n => n.tagName === 'a').map(n => attr(n, 'href'));
 const overview = read('work/scads-2026');
+assert(overview.includes('data-scads-workflow') && overview.includes('href="#workflow"'), 'The collection must expose its single chronological workflow');
+assert(overview.includes('/scripts/scads-workflow.js'), 'Workflow behavior must use the same-origin script');
+const workflow = JSON.parse(readFileSync('dist/data/scads/workflow.json', 'utf8'));
+assert.equal(workflow.plans.length, 1, 'Projects share one interleaved workflow');
+assert.equal(workflow.plans[0].steps.length, 43);
+assert(workflow.description.includes('not hours worked'));
+assert(workflow.footer.includes('P06–P09') && workflow.footer.includes('implementation had not begun'));
+const standalone = readFileSync('dist/documents/scads-2026/workflow.html', 'utf8');
+const embedded = standalone.match(/<script type="application\/json" id="workflow-data">([\s\S]*?)<\/script>/)?.[1];
+assert(embedded, 'The downloadable HTML must include its offline data');
+assert.deepEqual(JSON.parse(embedded), workflow, 'Website and downloadable workflow must preserve the same prompts and timing');
 assert.equal(nodes(parse(overview), n => hasClass(n, 'scads-project-copy')).length, 9);
 assert.equal(nodes(parse(overview), n => n.tagName === 'form' && attr(n, 'data-pip-form') !== undefined).map(n => attr(n, 'action')).join(), '/work/horizon/');
 for (const path of ['cv', 'work']) assert(read(path).includes('action="/work/scads-2026/"'), `${path}: main tour must visit the overview`);

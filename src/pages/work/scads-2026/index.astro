@@ -2,6 +2,7 @@
 import { getEntry } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import CuratorGuide from '../../../components/CuratorGuide.astro';
+import ScadsWorkflow from '../../../components/ScadsWorkflow.astro';
 import { scadsProjects, scadsSource, scadsAuthorship, scadsSchema } from '../../../data/scads';
 import '../../../styles/scads.css';
 const entry = await getEntry('archive', 'scads-2026');
@@ -15,15 +16,18 @@ if (!entry) throw new Error('Missing SCADS archive entry');
     <p class="scads-authorship">{scadsAuthorship}</p>
     <nav class="scads-links" aria-label="Collection resources">
       <a href="#problems">Explore the problems ↓</a>
+      <a href="#workflow">How I worked through them ↓</a>
       <a href={scadsSource}>Problem-set source on GitHub ↗</a>
       <a href="https://ncsu-las.org/scads/">Original SCADS brief ↗</a>
     </nav>
     <CuratorGuide headingId="curator-scads" messages={[
       'Welcome to the SCADS problem sets. These are Boomer’s individual research and development projects, undertaken after the original submission and grading dates.',
       'Five projects have implemented software and browser demos. Four are clearly labeled projected solutions with research plans. Every problem has a paper and its own source or planning directory.',
+      'The workflow below brings Boomer’s project sessions into one chronological stream. Each step pairs the prompt with its recorded outcome and timing.',
       'Open any project for my walkthrough of that work. Our main portfolio tour continues from this overview to Horizon.',
     ]} nextExhibit={{ href: '/work/horizon/', label: 'Horizon' }} />
   </header>
+  <ScadsWorkflow />
   <section id="problems" class="scads-collection" aria-labelledby="problems-heading">
     <div class="scads-section-heading"><h2 id="problems-heading">The problem sets</h2><span>05 in progress / 04 not started</span></div>
     <ol class="scads-projects">

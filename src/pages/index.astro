@@ -67,9 +67,9 @@ const contents = [
     </header>
     <CuratorGuide
       variant="home"
-      heading="Pip says"
+      heading="Start here with Pip"
       messages={[
-        "Hi! I'm Pip! I'll guide you through Boomer's portfolio.",
+        "Hi! I'm Pip! I'll guide you through Boomer's portfolio. Select Next to start the tour.",
         'This portfolio has broad coverage, from academic papers and research software to experimental interfaces and photography.',
         'ABOUT will be our first stop, giving you some background information about Boomer.',
       ]}
@@ -130,12 +130,12 @@ const contents = [
 
 <style is:global>
   .project-ledger .ledger-columns, .project-ledger .ledger-list a { grid-template-columns: 7.1rem 5.6rem minmax(9rem, .85fr) minmax(15rem, 1.7fr); gap: 1rem; }
-  .ledger-date { align-self: start; font: .74rem/1.6 var(--mono); color: var(--muted); padding-top: .1rem; }
+  .ledger-date { align-self: center; font: .74rem/1.6 var(--mono); color: var(--muted); }
   @media (max-width: 70rem) {
     .project-ledger .ledger-list a { grid-template-columns: 6.6rem minmax(0,1fr); gap: .4rem 1rem; align-items: start; padding-block: 1.2rem; }
     .project-ledger .ledger-columns, .project-ledger .ledger-type { display: none; }
-    .project-ledger .ledger-date { grid-column: 1; grid-row: 1 / 3; }
-    .project-ledger .ledger-list strong { grid-column: 2; grid-row: 1; }
+    .project-ledger .ledger-date { grid-column: 1; grid-row: 1; }
+    .project-ledger .ledger-list strong { grid-column: 2; grid-row: 1; align-self: center; }
     .project-ledger .ledger-description { grid-column: 2; grid-row: 2; }
   }
   @media (max-width: 26rem) {

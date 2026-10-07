@@ -1,0 +1,54 @@
+---
+import '../styles/scads-workflow.css';
+---
+
+<section id="workflow" class="scads-workflow" data-scads-workflow data-workflow-source="/data/scads/workflow.json" aria-labelledby="scads-workflow-heading">
+  <header class="workflow-intro">
+    <p class="workflow-eyebrow">A chronological working record</p>
+    <h2 id="scads-workflow-heading">How I worked through the problems</h2>
+    <p>Follow one timeline across P01–P09. Each recorded outcome stays beside the prompt that directed it; connections link related project history.</p>
+    <p class="workflow-timing-note">Recorded session windows show elapsed calendar time, including gaps and overlapping sessions. They are not hours worked. The notes identify the timing evidence available for each step.</p>
+    <p class="workflow-timing-note">This log includes later development than some published source and paper snapshots. P06–P09 appear together as research proposals; their implementation had not begun.</p>
+    <div class="workflow-launch-actions">
+      <button class="workflow-toggle" type="button" data-workflow="open-workflow" aria-controls="scads-workflow-reveal" aria-expanded="false" disabled>
+        <span class="plan-choice-action">Open chronological workflow</span><span aria-hidden="true">↓</span>
+      </button>
+      <a href="/documents/scads-2026/workflow.html" download>Download interactive HTML ↗</a>
+      <a href="/data/scads/workflow.json" download>Download source JSON ↗</a>
+    </div>
+  </header>
+  <div id="scads-workflow-reveal" data-workflow="plan-reveal" class="plan-reveal" inert aria-hidden="true">
+    <div class="plan-reveal-inner">
+      <section data-workflow="workflow-guide" aria-labelledby="scads-workflow-guide-title">
+        <header class="guide-heading">
+          <div><h3 id="scads-workflow-guide-title" data-workflow="guide-title" tabindex="-1"></h3><p data-workflow="guide-summary"></p></div>
+          <button data-workflow="download-guide" type="button">Download text guide ↓</button>
+        </header>
+        <div class="guide-onramp">
+          <p><strong>Read each pair</strong><span>The recorded outcome and session window are paired with the matching prompt.</span></p>
+          <p><strong>Follow a connection</strong><span>Hover or focus to preview. Select a heading to lock its connections. Dashed arrows link earlier project context; the same links appear below each card.</span></p>
+        </div>
+        <div class="search-row">
+          <label class="search"><span class="workflow-sr-only">Search chronological workflow</span><input data-workflow="step-search" type="search" autocomplete="off" placeholder="Search a problem, date, phrase, or artifact" aria-describedby="scads-workflow-search-help" /></label>
+          <button data-workflow="clear-search" type="button" hidden>Clear search</button>
+        </div>
+        <p id="scads-workflow-search-help" class="workflow-sr-only">Search keeps each outcome and prompt together. Clear search to restore all related history.</p>
+        <details class="workflow-index-disclosure">
+          <summary>Jump to a step</summary>
+          <nav data-workflow="step-index" class="step-index" aria-label="Chronological workflow steps"></nav>
+        </details>
+        <div class="guide-controls"><p data-workflow="trace-summary">Select a heading to keep its connections highlighted.</p><div><span data-workflow="step-count"></span><button data-workflow="clear-trace" type="button" hidden>Unlock step</button></div></div>
+        <div class="column-head" aria-hidden="true"><span>Recorded outcome + session window</span><span>↔</span><span>My prompt</span></div>
+        <div data-workflow="workflow-board" class="workflow-board"><svg data-workflow="connection-lines" aria-hidden="true" focusable="false"></svg><div data-workflow="step-rows"></div></div>
+        <div data-workflow="empty-result" class="empty-result" hidden><p>No steps match this search.</p><button data-workflow="show-all" type="button">Show all steps</button></div>
+        <p class="connection-legend"><span>Solid line: outcome / prompt pair.</span><span>Dashed arrow: related project history.</span><span>Earlier and later context are also linked on each card.</span></p>
+        <p data-workflow="guide-end" class="guide-end"></p>
+        <button class="workflow-close" data-workflow="close-workflow" type="button">Close chronological workflow ↑</button>
+      </section>
+    </div>
+  </div>
+  <p data-workflow="workflow-status" class="workflow-sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+  <p data-workflow="load-error" class="empty-result" role="alert" hidden>The workflow could not load. Try reloading, or use the downloadable HTML and source JSON above.</p>
+  <noscript><p>Open the downloadable interactive HTML to explore the workflow, or read the source JSON.</p></noscript>
+</section>
+<script is:inline type="module" src="/scripts/scads-workflow.js"></script>
