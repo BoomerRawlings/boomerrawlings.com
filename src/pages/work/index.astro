@@ -97,27 +97,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       </section>
     </Fragment>
   </CollectionIndex>
+  <script is:inline src="/scripts/workflow-display-feature.js" defer></script>
 </BaseLayout>
-
-<script>
-  const copyButton = document.querySelector<HTMLButtonElement>('#copy-workflow-prompt');
-  const prompt = document.querySelector<HTMLTextAreaElement>('#workflow-agent-prompt');
-  const status = document.querySelector<HTMLElement>('#workflow-copy-status');
-
-  if (copyButton && prompt && status) {
-    copyButton.hidden = false;
-    copyButton.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(prompt.value);
-        status.textContent = 'Prompt copied.';
-      } catch {
-        prompt.focus();
-        prompt.select();
-        status.textContent = 'Prompt selected. Copy it with your keyboard or selection menu.';
-      }
-    });
-  }
-</script>
 
 <style is:global>
   .workflow-feature {

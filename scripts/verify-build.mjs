@@ -1149,6 +1149,11 @@ for (const [name, href] of [
   previousAiSkillOffset = skillOffset;
 }
 const workflowFeature = workHtml.match(/<section\b[^>]*\bid="workflow-display"[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? '';
+if (!workHtml.includes('src="/scripts/workflow-display-feature.js"')
+  || !existsSync(join(output, 'scripts', 'workflow-display-feature.js'))
+  || [...workHtml.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)].some(([,attributes,body]) => !/\bsrc=/.test(attributes) && !/application\/ld\+json/.test(attributes) && body.trim())) {
+  failures.push('Workflow Display: feature script must load externally under the portfolio content policy');
+}
 if (!workflowFeature
   || workHtml.indexOf('id="workflow-display"') > workHtml.indexOf('<section class="listing"')
   || !workflowFeature.includes('href="/workflow-display/"')

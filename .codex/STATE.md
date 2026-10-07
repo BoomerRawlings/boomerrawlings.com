@@ -2,13 +2,14 @@
 
 ## Workflow Display skill — 2026-10-06
 
-- Mode: new task. Implementation complete; full npm test passes. Main publishes this release through the existing Pages workflow.
+- Mode: new task. Published; final production copy-button correction ready. Full npm test and Pages37567426372 passed for f57dfd8.
 - Added: homepage callout, prominent Projects feature and AI Skills entry; standalone /workflow-display/ demo and downloadable /downloads/workflow-display.zip.
 - Package: BoomerRawlings/Skills commit4f94cd8, release workflow-display-v1.0.0. Complete MIT-licensed skill, examples, builder, validation, preview and manual/agent setup.
 - Decisions: preserve explanation/artifact pairs, smooth unfolding and animated directional connections; theme customizable. Existing unlisted EAD route unchanged and not publicly linked.
 - Verified:32 package tests, skill validator, extracted-kit generation, independent5-pair light-theme adaptation; desktop/phone interaction checks and reduced-motion simulation. Website verifier preserves25 portfolio checks and separately validates the new standalone demo/kit.
 - Evidence: docs/codex/user-facing-tests/2026-10-06__user-facing-flow-test__workflow-display.md.
-- Release follow-through: verify Pages success and live demo/ZIP hashes after push. Future updates regenerate demo and kit from the skill together; preserve hosted canonical/description.
+- Live verification: demo and ZIP hashes match the tested artifacts; homepage, Projects feature and raw skill return200. Production CSP blocked the original inlined prompt script; moved to a deferred same-origin file, added a build regression, and verified copying in production preview.
+- Release follow-through: publish copy-button correction; verify Pages and live copying. Future updates regenerate demo and kit from the skill together; preserve hosted canonical/description.
 
 ## Wide views and interactive charts — 2026-10-06
 
