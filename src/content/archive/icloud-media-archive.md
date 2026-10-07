@@ -1,6 +1,7 @@
 ---
 title: iCloud Media Migration and Catalog
 slug: organizing-icloud-media
+publishedDate: 2026-08-23
 type: work
 description: A supervised system built to export, verify, prepare, and search 31,550 iCloud media files without changing the originals.
 date: "2026-08"

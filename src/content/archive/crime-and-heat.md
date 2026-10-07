@@ -1,6 +1,7 @@
 ---
 title: Heat and arrest records
 slug: crime-and-heat
+publishedDate: 2026-09-24
 type: data-analysis
 date: 2026-09-24
 status: published

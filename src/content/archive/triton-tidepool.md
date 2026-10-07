@@ -18,7 +18,7 @@ tags:
   - local-first software
   - knowledge management
 status: published
-featured: true
+featured: false
 ---
 
 **89 registered sources · 71 completed research records · 611 verified active-run artifacts**

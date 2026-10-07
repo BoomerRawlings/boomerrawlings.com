@@ -1,0 +1,105 @@
+---
+interface Props { slug: string; }
+const { slug } = Astro.props;
+const demos: Record<string, { title: string; description: string; provenance: string }> = {
+  '01-sensemaking': {
+    title: 'Follow a finding back to its evidence',
+    description: 'Choose a question, then open its sources. Compare dated claims and see why the conclusion keeps its qualifications.',
+    provenance: 'Browser demo · saved Riverwatch14 analysis of the fictional Cedar Basin dataset. Findings are recorded model output; source text comes from the original fixture. Shared-origin sources are not independent corroboration.',
+  },
+  '02-311-analytics': {
+    title: 'Ask a smaller citywide question',
+    description: 'Filter service requests and watch the counts, closure rate, and measured closure times change together.',
+    provenance: 'Browser demo · all 32 authored fixture rows, November–December 2025. Fictional requests, not NYC measurements. Aggregation runs locally in your browser.',
+  },
+  '03-semantic-discovery': {
+    title: 'Find the specification in the source',
+    description: 'Choose equipment and a specification. Inspect the value alongside its operating conditions, quoted evidence, and manual page.',
+    provenance: 'Browser demo · 14 agent-reviewed development observations from four admitted historical manuals. These are source-inspected records, not an independent accuracy benchmark or a live extraction run.',
+  },
+  '04-org-knowledge-graphs': {
+    title: 'Inspect the relationship, then the evidence',
+    description: 'Select a person and switch between declared reporting lines and messages. Open any connection to inspect its source.',
+    provenance: 'Browser demo · six fictional entities from the sample roster. Three unique dated messages are shown; the duplicate and malformed import examples are excluded. Reporting declarations and communication remain separate.',
+  },
+  '05-graphrag-discovery': {
+    title: 'Change the date. Keep the evidence.',
+    description: 'Set when information was known and when the claim applies. Watch a plan, a late correction, conflicting reports, and a withdrawal change the answer.',
+    provenance: 'Browser demo · authored Pump P temporal fixture. Version selection and interval filtering run locally over five published batches. Fictional claims and controlled clocks; no live retrieval or model call.',
+  },
+};
+const demo = demos[slug];
+if (!demo) throw new Error(`Unknown SCADS demo: ${slug}`);
+---
+<section class="scads-demo" data-scads-demo={slug} aria-labelledby={`demo-title-${slug}`}>
+  <header class="demo-heading">
+    <p class="demo-kicker">Interactive browser demo</p>
+    <h3 id={`demo-title-${slug}`}>{demo.title}</h3>
+    <p>{demo.description}</p>
+  </header>
+  <div class="demo-controls" data-demo-controls></div>
+  <p class="demo-status" data-demo-status role="status">Loading the bundled evidence…</p>
+  <div class="demo-results" data-demo-results aria-label="Demo results"></div>
+  <noscript><p>Enable JavaScript to explore the demo, or inspect the <a href={`/data/scads/${slug}.json`}>bundled data</a>.</p></noscript>
+  <footer class="demo-provenance">
+    <p>{demo.provenance}</p>
+    <a href={`/data/scads/${slug}.json`}>Inspect demo data</a>
+    <span aria-hidden="true"> · </span>
+    <a href="/data/scads/provenance.json">Source fingerprints</a>
+  </footer>
+</section>
+<script is:inline type="module" src="/scripts/scads-demo.js"></script>
+<style>
+  .scads-demo { background: var(--paper); border: 1px solid var(--rule); border-top: 4px solid var(--gold); color: var(--navy); margin-block: 2rem; min-width: 0; }
+  .demo-heading { padding: clamp(1rem, 3vw, 1.8rem); padding-bottom: .6rem; }
+  .demo-kicker { color: var(--blue); font: .7rem var(--mono); letter-spacing: .09em; text-transform: uppercase; }
+  .demo-heading h3 { font: 500 clamp(1.8rem, 4vw, 2.4rem)/1.1 var(--display); margin: .5rem 0; }
+  .demo-heading > p:last-child { max-width: 72ch; line-height: 1.55; }
+  .demo-controls { align-items: end; display: flex; flex-wrap: wrap; gap: .8rem; padding: .6rem clamp(1rem, 3vw, 1.8rem) 1rem; }
+  .scads-demo :global(.demo-field) { display: flex; flex: 1 1 150px; flex-direction: column; font-size: .85rem; font-weight: 600; gap: .35rem; min-width: 0; }
+  .scads-demo :global(select), .scads-demo :global(input) { background: white; border: 1px solid var(--rule); border-radius: 0; color: var(--navy); font: inherit; min-height: 44px; padding: .6rem; width: 100%; }
+  .scads-demo :global(button) { background: var(--paper); border: 1px solid var(--blue); border-radius: 0; color: var(--blue); cursor: pointer; font: 600 .9rem var(--sans); min-height: 44px; padding: .6rem .85rem; text-align: left; }
+  .scads-demo :global(button:hover), .scads-demo :global(button[aria-pressed="true"]) { background: var(--blue); color: var(--paper); }
+  .scads-demo :global(:is(button, select, input, a):focus-visible) { outline: 3px solid var(--gold); outline-offset: 3px; }
+  .scads-demo :global(.demo-reset) { flex: 0 0 auto; }
+  .demo-status { background: var(--navy); color: var(--paper); font: .75rem/1.6 var(--mono); margin: 0; padding: .75rem clamp(1rem, 3vw, 1.8rem); }
+  .demo-results { padding: clamp(1rem, 3vw, 1.8rem); }
+  .scads-demo :global(.demo-grid) { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+  .scads-demo :global(.demo-card) { border: 1px solid var(--rule); min-width: 0; padding: 1rem; }
+  .scads-demo :global(.demo-card h4) { font: 500 1.65rem/1.1 var(--display); margin: .3rem 0 .65rem; }
+  .scads-demo :global(.demo-card p), .scads-demo :global(.demo-explanation) { line-height: 1.55; margin: .6rem 0; }
+  .scads-demo :global(.demo-label) { color: var(--blue); font: .69rem/1.5 var(--mono); letter-spacing: .03em; overflow-wrap: anywhere; }
+  .scads-demo :global(.demo-qualification) { border-left: 3px solid var(--gold); padding: .4rem .8rem; }
+  .scads-demo :global(.demo-source-list) { display: flex; flex-wrap: wrap; gap: .45rem; margin-block: 1rem; }
+  .scads-demo :global(.demo-source) { background: var(--sand); border-left: 3px solid var(--blue); margin: 1rem 0 0; padding: 1rem; }
+  .scads-demo :global(.demo-source blockquote) { font: inherit; line-height: 1.6; margin: .7rem 0; overflow-wrap: anywhere; white-space: pre-line; }
+  .scads-demo :global(.demo-source p) { overflow-wrap: anywhere; }
+  .scads-demo :global(.demo-metrics) { display: flex; flex-wrap: wrap; gap: 1.2rem; margin: 0 0 1.5rem; }
+  .scads-demo :global(.demo-metric) { flex: 1 1 100px; }
+  .scads-demo :global(.demo-metric dt) { font: .72rem/1.5 var(--mono); }
+  .scads-demo :global(.demo-metric dd) { color: var(--blue); font: 500 2.3rem/1.2 var(--display); margin: .35rem 0; }
+  .scads-demo :global(.demo-bars) { display: grid; gap: .7rem; margin: 1rem 0; }
+  .scads-demo :global(.demo-bar-line) { display: grid; gap: .35rem; grid-template-columns: minmax(0, 1fr) auto; font-size: .86rem; }
+  .scads-demo :global(.demo-bar-track) { background: var(--sand); grid-column: 1 / -1; height: 8px; }
+  .scads-demo :global(.demo-bar-fill) { background: var(--blue); height: 8px; }
+  .scads-demo :global(.demo-table-wrap) { margin-top: 1.5rem; overflow-x: auto; }
+  .scads-demo :global(table) { border-collapse: collapse; font-size: .83rem; margin: 0; width: 100%; }
+  .scads-demo :global(caption) { font-weight: 600; margin-bottom: .5rem; text-align: left; }
+  .scads-demo :global(th), .scads-demo :global(td) { border-bottom: 1px solid var(--rule); padding: .5rem; text-align: left; vertical-align: top; }
+  .scads-demo :global(th) { background: var(--sand); }
+  .scads-demo :global(.demo-value) { color: var(--blue); font: 500 2rem var(--display); }
+  .scads-demo :global(.demo-network) { background: var(--sand); border: 1px solid var(--rule); padding: 1rem; }
+  .scads-demo :global(.demo-node) { background: var(--navy); color: var(--paper); padding: 1rem; }
+  .scads-demo :global(.demo-node h4) { font: 500 1.75rem var(--display); margin: 0; }
+  .scads-demo :global(.demo-node p) { margin: .25rem 0; }
+  .scads-demo :global(.demo-connections) { display: grid; gap: .7rem; margin: 1rem 0 0 1rem; padding-left: 1rem; border-left: 2px solid var(--gold); }
+  .scads-demo :global(.demo-edge) { position: relative; width: 100%; }
+  .scads-demo :global(.demo-edge::before) { background: var(--gold); content: ''; height: 2px; left: -1.1rem; position: absolute; top: 50%; width: 1rem; }
+  .scads-demo :global(.demo-edge small) { display: block; font-weight: 400; line-height: 1.5; }
+  .scads-demo :global(.demo-empty) { border: 1px dashed var(--rule); line-height: 1.6; padding: 1.1rem; }
+  .scads-demo :global(.demo-pill) { background: var(--sand); border: 1px solid var(--rule-gold); display: inline-block; font: .65rem var(--mono); padding: .3rem .45rem; }
+  .demo-provenance { border-top: 1px solid var(--rule); font-size: .79rem; line-height: 1.55; padding: .8rem clamp(1rem, 3vw, 1.8rem) 1rem; }
+  .demo-provenance p { max-width: 100ch; }
+  .demo-provenance a { color: var(--blue); }
+  @media (max-width: 420px) { .scads-demo :global(.demo-field) { flex-basis: 100%; } .scads-demo :global(.demo-reset) { width: 100%; } }
+</style>

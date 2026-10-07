@@ -1,0 +1,49 @@
+.scads-header { padding: 3.5rem 5vw 2.5rem; background: var(--paper); border-bottom: 1px solid var(--rule-gold); }
+.scads-header h1 { color: var(--blue); font: 500 clamp(3.5rem, 7vw, 6.5rem)/.96 var(--display); text-transform: uppercase; max-width: 65rem; margin: 1.2rem 0; letter-spacing: .01em; }
+.scads-header--project h1 { font-size: clamp(3rem, 5.8vw, 5rem); }
+.scads-deck { font-size: clamp(1.4rem, 2.3vw, 1.9rem); line-height: 1.35; margin: 1.4rem 0; }
+.scads-authorship { max-width: 49rem; color: var(--muted); line-height: 1.55; }
+.scads-links { display: flex; flex-wrap: wrap; gap: .65rem 1.5rem; margin: 1.5rem 0 0; }
+.scads-links a, .scads-back { color: var(--blue); font-weight: 600; text-underline-offset: .22em; line-height: 1.5; }
+.scads-header .curator-guide { margin-top: 2.5rem; max-width: 70rem; }
+.scads-header .eyebrow { margin-top: 1.5rem; }
+.scads-collection, .scads-article { padding: 2.5rem 5vw; }
+.scads-section-heading { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: .5rem 2rem; border-bottom: 2px solid var(--blue); padding-bottom: .65rem; }
+.scads-section-heading h2, .scads-problem-solution h2, .scads-research h2 { color: var(--blue); font: 500 2rem/1.1 var(--display); text-transform: uppercase; margin: 0; letter-spacing: .035em; }
+.scads-section-heading > span { color: var(--muted); font: .75rem/1.5 var(--mono); }
+.scads-projects { list-style: none; margin: 0; padding: 0; }
+.scads-projects > li { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 2rem; padding: 2.5rem 0; border-bottom: 1px solid var(--rule-gold); }
+.scads-number { font: 500 4.5rem/1 var(--display); color: var(--gold); }
+.scads-meta { display: flex; align-items: baseline; flex-wrap: wrap; gap: .6rem 1.5rem; font: .75rem/1.6 var(--mono); color: var(--muted); }
+.scads-status { border: 1px solid var(--rule-gold); padding: .15rem .55rem; color: var(--navy); background: var(--paper); white-space: nowrap; }
+.scads-project-copy h3 { font: 500 clamp(1.9rem, 3vw, 2.55rem)/1.1 var(--display); text-transform: uppercase; margin: 1rem 0; }
+.scads-project-copy h3 a { color: var(--navy); text-decoration: none; }
+.scads-project-copy h3 a:hover { color: var(--blue); text-decoration: underline; text-underline-offset: .12em; }
+.scads-project-copy p { max-width: 59rem; line-height: 1.6; margin: .8rem 0; }
+.scads-question { font-size: 1.2rem; }
+.scads-colophon { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding: 1.5rem 5vw 2.5rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: .9rem; line-height: 1.6; }
+.scads-colophon p { margin: 0; max-width: 44rem; }
+.scads-projected-note { border-left: 3px solid var(--gold); padding: .7rem 1rem; background: var(--sand); max-width: 55rem; line-height: 1.6; margin: 1.5rem 0; }
+.scads-roadmap { padding: 1rem 0 3rem; }
+.scads-roadmap li { padding: .65rem .4rem; line-height: 1.6; max-width: 60rem; }
+.scads-problem-solution { display: grid; grid-template-columns: 1fr 1.7fr; gap: 3rem; padding: .5rem 0 2.5rem; }
+.scads-problem-solution p, .scads-method p, .scads-research p { line-height: 1.65; max-width: 54rem; }
+.scads-method { padding: 1rem 0 2.5rem; }
+.scads-method ol { list-style: none; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 2rem; padding: 0; margin: 1.5rem 0 0; }
+.scads-method li { border-left: 1px solid var(--rule-gold); padding-left: 1.2rem; }
+.scads-method li > span { color: var(--gold); font: .8rem var(--mono); }
+.scads-method h3 { font: 500 1.75rem var(--display); text-transform: uppercase; margin: .5rem 0 0; }
+.scads-method p { margin-top: .5rem; }
+.scads-demo-section { scroll-margin-top: 1rem; padding: 1rem 0 3rem; }
+.scads-research { display: grid; grid-template-columns: 1fr 1.7fr; gap: 3rem; border-top: 2px solid var(--blue); padding: 2rem 0 .5rem; }
+.scads-research .eyebrow { margin-top: 0; }
+.scads-research p:first-child { margin-top: 0; }
+@media (max-width: 48rem) {
+  .scads-header { padding-top: 2rem; }
+  .scads-projects > li { grid-template-columns: 2.5rem minmax(0,1fr); gap: 1rem; padding-block: 2rem; }
+  .scads-number { font-size: 2.7rem; }
+  .scads-problem-solution, .scads-method ol, .scads-research, .scads-colophon { grid-template-columns: minmax(0,1fr); gap: 1.5rem; }
+  .scads-links { gap: .75rem 1rem; }
+  .scads-links a { min-height: 2.3rem; display: inline-flex; align-items: center; }
+  .scads-collection, .scads-article { padding-top: 2rem; }
+}

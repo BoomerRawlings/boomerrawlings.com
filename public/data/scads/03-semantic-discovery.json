@@ -1,0 +1,284 @@
+{
+  "kind": "source-inspected-development-observations",
+  "observations": [
+    {
+      "lead_id": "lead-007",
+      "doc_id": "tm9-1752-homelite-1942",
+      "pdf_page": 3,
+      "model": "HRH-28",
+      "attribute": "output_power",
+      "value": 1500,
+      "value_max": null,
+      "unit": "W",
+      "qualifier": "unspecified",
+      "subject": "HRH-28",
+      "source_quote": "The heater-generator model HRH-28 is a self-contained machine designed for supplying 1,500 watts",
+      "conditions": [
+        "DC"
+      ],
+      "notes": "Pixels confirm R in HRH-28; embedded OCR incorrectly reads HEH-28. Documented whole assembly output.",
+      "title": "TM 9-1752: Auxiliary Generator, Homelite Model HRH-28",
+      "source_url": "https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-1752.pdf",
+      "review": "Agent-reviewed development observation"
+    },
+    {
+      "lead_id": "lead-008",
+      "doc_id": "tm9-1752-homelite-1942",
+      "pdf_page": 3,
+      "model": "HR-28",
+      "attribute": "output_power",
+      "value": 1500,
+      "value_max": null,
+      "unit": "W",
+      "qualifier": "rated",
+      "subject": "HR-28",
+      "source_quote": "The generator is a Homelite model HR-28, 30-volt, d-c type of 1,500 watts rating",
+      "conditions": [
+        "DC"
+      ],
+      "notes": "Distinct subcomponent of HRH-28 assembly; do not duplicate as independently corroborating source.",
+      "title": "TM 9-1752: Auxiliary Generator, Homelite Model HRH-28",
+      "source_url": "https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-1752.pdf",
+      "review": "Agent-reviewed development observation"
+    },
+    {
+      "lead_id": "lead-009",
+      "doc_id": "tm9-1752-homelite-1942",
+      "pdf_page": 3,
+      "model": "HR-28",
+      "attribute": "output_voltage",
+      "value": 30,
+      "value_max": null,
+      "unit": "V",
+      "qualifier": "rated",
+      "subject": "HR-28",
+      "source_quote": "The generator is a Homelite model HR-28, 30-volt, d-c type of 1,500 watts rating",
+      "conditions": [
+        "DC"
+      ],
+      "notes": "DC output; no 50/60Hz assumption.",
+      "title": "TM 9-1752: Auxiliary Generator, Homelite Model HRH-28",
+      "source_url": "https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-1752.pdf",
+      "review": "Agent-reviewed development observation"
+    },
+    {
+      "lead_id": "lead-010",
+      "doc_id": "tm9-1752-homelite-1942",
+      "pdf_page": 3,
+      "model": "HR",
+      "attribute": "speed",
+      "value": 3400,
+      "value_max": 3600,
+      "unit": "rpm",
+      "qualifier": "unspecified",
+      "subject": "HR",
+      "source_quote": "Homelite model HR, 3,400-3,600 rpm, 2-cycle, single-cylinder",
+      "conditions": [],
+      "notes": "Pixels confirm HR; source engine speed range, distinct from generator power.",
+      "title": "TM 9-1752: Auxiliary Generator, Homelite Model HRH-28",
+      "source_url": "https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-1752.pdf",
+      "review": "Agent-reviewed development observation"
+    },
+    {
+      "lead_id": "lead-001",
+      "doc_id": "tm9-617-m18-1944",
+      "pdf_page": 12,
+      "model": "M18",
+      "attribute": "output_power",
+      "value": 30000,
+      "value_max": null,
+      "unit": "W",
+      "qualifier": "rated",
+      "subject": "M18",
+      "source_quote": "Rated generator output ... 30-kw (80 percent power factor), 3-phase, 60-cycle, 125-v or 30-kw ... 250-v",
+      "conditions": [
+        "power factor 0.8",
+        "three-phase AC"
+      ],
+      "notes": "Same rated power for two voltage configurations; do not infer an input-power rating.",
+      "title": "TM 9-617: Generating Unit M18",
+      "source_url": "https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-617.pdf",
+      "review": "Agent-reviewed development observation"
+    },
+    {
+      "lead_id": "lead-002",
+      "doc_id": "tm9-617-m18-1944",
+      "pdf_page": 12,
+      "model": "M18",
+      "attribute": "frequency",
+      "value": 60,
+      "value_max": null,
+      "unit": "Hz",
+      "qualifier": "rated",
+      "subject": "M18",
+      "source_quote": "60-cycle, 125-v or 30-kw (80 percent power factor), 3-phase, 60-cycle, 250-v",
+      "conditions": [
+        "three-phase AC"
+      ],
+      "notes": "Generator AC output frequency.",
+      "title": "TM 9-617: Generating Unit M18",
+      "source_url": "https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-617.pdf",
+      "review": "Agent-reviewed development observation"
+    },
+    {
+      "lead_id": "lead-003",
+      "doc_id": "tm9-617-m18-1944",
+      "pdf_page": 12,
+      "model": "M18",
+      "attribute": "weight",
+      "value": 1902.3663997800002,
+      "value_max": null,
+      "unit": "kg",
+      "qualifier": "unspecified",
+      "subject": "M18",
+      "source_quote": "Weight, less fuel and water ... 4,194 lb",
+      "conditions": [
+        "less fuel and water"
+      ],
+      "notes": "Dry mass qualifier must remain available to the reviewer.",
+      "title": "TM 9-617: Generating Unit M18",
+      "source_url": "https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-617.pdf",
+      "review": "Agent-reviewed development observation"
+    },
+    {
+      "lead_id": "lead-004",
+      "doc_id": "tm9-618-m7-1943",
+      "pdf_page": 6,
+      "model": "M7",
+      "attribute": "output_power",
+      "value": 28000,
+      "value_max": null,
+      "unit": "W",
+      "qualifier": "rated",
+      "subject": "M7",
+      "source_quote": "Rated generator output ... 35-kva, 28-kw, 3-phase, 60-cycle, 125-v",
+      "conditions": [
+        "three-phase AC"
+      ],
+      "notes": "35 kVA is apparent power; it is not 35 kW. Appended changes introduce other variants; do not blindly apply to M15A1.",
+      "title": "TM 9-618: Generating Units M7, M7A1, and M15A1",
+      "source_url": "https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-618.pdf",
+      "review": "Agent-reviewed development observation"
+    },
+    {
+      "lead_id": "lead-005",
+      "doc_id": "tm9-618-m7-1943",
+      "pdf_page": 6,
+      "model": "M7",
+      "attribute": "output_voltage",
+      "value": 125,
+      "value_max": null,
+      "unit": "V",
+      "qualifier": "rated",
+      "subject": "M7",
+      "source_quote": "Rated generator output ... 35-kva, 28-kw, 3-phase, 60-cycle, 125-v",
+      "conditions": [
+        "three-phase AC"
+      ],
+      "notes": "Output, not input voltage.",
+      "title": "TM 9-618: Generating Units M7, M7A1, and M15A1",
+      "source_url": "https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-618.pdf",
+      "review": "Agent-reviewed development observation"
+    },
+    {
+      "lead_id": "lead-006",
+      "doc_id": "tm9-618-m7-1943",
+      "pdf_page": 6,
+      "model": "M7",
+      "attribute": "weight",
+      "value": 1949.0864138900001,
+      "value_max": null,
+      "unit": "kg",
+      "qualifier": "unspecified",
+      "subject": "M7",
+      "source_quote": "Weight, less fuel and water ... 4,297 lb",
+      "conditions": [
+        "less fuel and water"
+      ],
+      "notes": "Data occurs below M7A1 discussion; full scope and revisions needed before extending to variants.",
+      "title": "TM 9-618: Generating Units M7, M7A1, and M15A1",
+      "source_url": "https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-618.pdf",
+      "review": "Agent-reviewed development observation"
+    },
+    {
+      "lead_id": "lead-011",
+      "doc_id": "tm9-834-workshop-1944",
+      "pdf_page": 52,
+      "model": "221207",
+      "attribute": "horsepower",
+      "value": 1.5,
+      "value_max": null,
+      "unit": "hp",
+      "qualifier": "unspecified",
+      "subject": "driving engine of compressor 221207",
+      "source_quote": "The 4-cubic-foot, air-cooled compressor is belt-driven by a 1 1/2-horsepower gasoline engine",
+      "conditions": [
+        "driving engine"
+      ],
+      "notes": "This is the driving engine power for compressor model221207; preserve component role.",
+      "title": "TM 9-834: Vehicular General Purpose Unit Equipment",
+      "source_url": "https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-834.pdf",
+      "review": "Agent-reviewed development observation"
+    },
+    {
+      "lead_id": "lead-014",
+      "doc_id": "tm9-834-workshop-1944",
+      "pdf_page": 39,
+      "model": "GR-300-S",
+      "attribute": "weight",
+      "value": 907.18474,
+      "value_max": null,
+      "unit": "kg",
+      "qualifier": "unspecified",
+      "subject": "GR-300-S",
+      "source_quote": "WELDER ASSEMBLY. Weight (as shown) ... 2000 lb",
+      "conditions": [
+        "as shown"
+      ],
+      "notes": "Assembly mass, not engine-only mass.",
+      "title": "TM 9-834: Vehicular General Purpose Unit Equipment",
+      "source_url": "https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-834.pdf",
+      "review": "Agent-reviewed development observation"
+    },
+    {
+      "lead_id": "lead-016",
+      "doc_id": "tm9-834-workshop-1944",
+      "pdf_page": 93,
+      "model": "OTC-33B",
+      "attribute": "output_voltage",
+      "value": 15,
+      "value_max": null,
+      "unit": "V",
+      "qualifier": "unspecified",
+      "subject": "OTC-33B",
+      "source_quote": "Output voltage ... 15 volt d-c",
+      "conditions": [
+        "DC"
+      ],
+      "notes": "Page heading says12-volts; data says15V output. Preserve battery nominal vs output distinction.",
+      "title": "TM 9-834: Vehicular General Purpose Unit Equipment",
+      "source_url": "https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-834.pdf",
+      "review": "Agent-reviewed development observation"
+    },
+    {
+      "lead_id": "lead-017",
+      "doc_id": "tm9-834-workshop-1944",
+      "pdf_page": 93,
+      "model": "OTC-33B",
+      "attribute": "speed",
+      "value": 2200,
+      "value_max": 2400,
+      "unit": "rpm",
+      "qualifier": "unspecified",
+      "subject": "OTC-33B",
+      "source_quote": "Speed (governed) ... 2200 to 2400 rpm",
+      "conditions": [
+        "governed speed"
+      ],
+      "notes": "Governed speed is not no-load speed.",
+      "title": "TM 9-834: Vehicular General Purpose Unit Equipment",
+      "source_url": "https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-834.pdf",
+      "review": "Agent-reviewed development observation"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "kind": "fictional-source-fixture",
+  "entities": [
+    {
+      "id": "morgan",
+      "name": "Morgan Bell",
+      "role": "Research Director",
+      "department": "Research",
+      "type": "person",
+      "manager": "",
+      "valid_from": "2026-01-01"
+    },
+    {
+      "id": "taylor",
+      "name": "Taylor Reed",
+      "role": "Research Analyst",
+      "department": "Research",
+      "type": "person",
+      "manager": "morgan",
+      "valid_from": "2026-01-01"
+    },
+    {
+      "id": "casey",
+      "name": "Casey Vale",
+      "role": "Program Coordinator",
+      "department": "Operations",
+      "type": "person",
+      "manager": "",
+      "valid_from": "2026-01-01"
+    },
+    {
+      "id": "alex-r",
+      "name": "Alex Morgan",
+      "role": "Research Analyst",
+      "department": "Research",
+      "type": "person",
+      "manager": "morgan",
+      "valid_from": "2026-01-01"
+    },
+    {
+      "id": "alex-o",
+      "name": "Alex Morgan",
+      "role": "Operations Specialist",
+      "department": "Operations",
+      "type": "person",
+      "manager": "casey",
+      "valid_from": "2026-01-01"
+    },
+    {
+      "id": "help",
+      "name": "Shared Help Desk",
+      "role": "Shared service",
+      "department": "Operations",
+      "type": "shared_mailbox",
+      "manager": "",
+      "valid_from": "2026-01-01"
+    }
+  ],
+  "edges": [
+    {
+      "from": "taylor",
+      "to": "morgan",
+      "kind": "reporting",
+      "label": "reports to",
+      "id": "roster-taylor",
+      "date": "2026-01-01",
+      "evidence": "Roster declaration: Taylor Reed (taylor) → manager ID morgan; valid from 2026-01-01.",
+      "source": "fixtures/sample-roster.csv"
+    },
+    {
+      "from": "alex-r",
+      "to": "morgan",
+      "kind": "reporting",
+      "label": "reports to",
+      "id": "roster-alex-r",
+      "date": "2026-01-01",
+      "evidence": "Roster declaration: Alex Morgan (alex-r) → manager ID morgan; valid from 2026-01-01.",
+      "source": "fixtures/sample-roster.csv"
+    },
+    {
+      "from": "alex-o",
+      "to": "casey",
+      "kind": "reporting",
+      "label": "reports to",
+      "id": "roster-alex-o",
+      "date": "2026-01-01",
+      "evidence": "Roster declaration: Alex Morgan (alex-o) → manager ID casey; valid from 2026-01-01.",
+      "source": "fixtures/sample-roster.csv"
+    },
+    {
+      "from": "taylor",
+      "to": "morgan",
+      "kind": "communication",
+      "label": "sent a message to",
+      "id": "sample-001",
+      "date": "2026-01-05T09:00:00-08:00",
+      "title": "Reporting line",
+      "evidence": "I report directly to Morgan Bell. Please add that to the directory.",
+      "source": "fixtures/sample-communications.csv"
+    },
+    {
+      "from": "morgan",
+      "to": "taylor",
+      "kind": "communication",
+      "label": "sent a message to",
+      "id": "sample-002",
+      "date": "2026-01-05T18:00:00Z",
+      "title": "Re: Reporting line",
+      "evidence": "Thanks for confirming. Please send your weekly update tomorrow.",
+      "source": "fixtures/sample-communications.csv"
+    },
+    {
+      "from": "casey",
+      "to": "taylor",
+      "kind": "communication",
+      "label": "sent a message to",
+      "id": "sample-003",
+      "date": "2026-01-06T17:00:00Z",
+      "title": "Project coordination",
+      "evidence": "Please send me the workshop slides. I coordinate this temporary project; your formal reporting line is unchanged.",
+      "source": "fixtures/sample-communications.csv"
+    }
+  ]
+}

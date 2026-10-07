@@ -1,6 +1,7 @@
 ---
 title: Campus safety, in proportion
 slug: campus-safety
+publishedDate: 2026-09-25
 type: data-analysis
 date: 2026-09-25
 status: published

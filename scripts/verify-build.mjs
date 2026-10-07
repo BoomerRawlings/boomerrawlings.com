@@ -57,9 +57,9 @@ const unlistedHtmlFiles = htmlFiles.filter(
 const standaloneHtmlFiles = htmlFiles.filter(
   (file) => standaloneContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 25 || standaloneHtmlFiles.length !== 1 || unlistedHtmlFiles.length !== 11 || htmlFiles.length !== 43) {
+if (contentHtmlFiles.length !== 35 || standaloneHtmlFiles.length !== 1 || unlistedHtmlFiles.length !== 11 || htmlFiles.length !== 53) {
   throw new Error(
-    `expected 25 portfolio pages, 1 standalone public demo, 11 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 35 portfolio pages, 1 standalone public demo, 11 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
@@ -1590,12 +1590,12 @@ if (publicHtml.includes('Interactive Systems')) {
 }
 
 const featuredWork = [
+  ['/work/scads-2026/', 'Project'],
   ['/brain/', 'Project'],
   ['/writing/data-analysis/crime-and-heat/', 'Data analysis'],
   ['/writing/data-analysis/campus-safety/', 'Data analysis'],
   ['/work/horizon/', 'Project'],
   ['/work/paperfield/', 'Project'],
-  ['/work/triton-tidepool/', 'Project'],
   ['/work/pocketllm/', 'Project'],
   ['/work/organizing-icloud-media/', 'Project'],
 ];
@@ -1610,7 +1610,7 @@ featuredWork.forEach(([href, type], index) => {
     failures.push(`index.html: selected highlight ${href} has the wrong order, destination, or type`);
   }
 });
-for (const slug of ['research-briefing-assistant', 'research-publishing-systems']) {
+for (const slug of ['research-briefing-assistant', 'research-publishing-systems', 'triton-tidepool']) {
   const href = `/work/${slug}/`;
   if (homeLedger.includes(`href="${href}"`)
     || !workHtml.includes(`href="${href}"`)
@@ -1756,7 +1756,7 @@ for (const [label, href] of [
 if (homeContents.includes('href="/research/"')
   || homeContents.includes('href="/about/"')
   || !homeContents.includes('>Overview</span>')
-  || !homeContents.includes('aria-label="10 published projects"')) {
+  || !homeContents.includes('aria-label="11 published projects"')) {
   failures.push('home contents: section overview is stale or project count is missing');
 }
 const homeGuideOffset = homeHtml.indexOf('data-pip-guide');

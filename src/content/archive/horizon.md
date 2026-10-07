@@ -1,6 +1,7 @@
 ---
 title: Horizon
 slug: horizon
+publishedDate: 2026-08-23
 type: work
 description: A local-first Windows workspace that unifies calendar, projects, research, files, capture, and focus without taking ownership of the underlying Markdown.
 date: "2026-03"

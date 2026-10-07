@@ -1,6 +1,7 @@
 ---
 title: pocketLLM
 slug: pocketllm
+publishedDate: 2026-08-25
 date: "2026-08"
 type: work
 description: A local Windows tool that creates reversible pseudonymized working copies of supported text files while leaving originals unchanged.

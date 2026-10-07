@@ -1,5 +1,15 @@
 # Project state
 
+## SCADS research collection — 2026-10-07
+
+- Mode: new task; website/GitHub publication authorized. Isolated branch from production31774d5; unrelated mixed checkout preserved.
+- Objective: nine-problem overview, project pages, master's-level PDFs, five working browser demonstrations, four clearly projected research plans, nested GitHub sources; lead Selected work and add publication month/year column.
+- Status: implementation complete; full npm test passes. Overview/nine pages, five source-derived browser demos, five10-page working papers and four8-page proposals ready. Five existing projects In progress; four unstarted projects explicitly projected, implementation not begun.
+- Decisions: preserve existing brand/layout/Pip. Projects tour → overview → Horizon; each project tour returns overview. Published dates on selected work use first published archive Git history, independently of original project date.
+- Source: public BoomerRawlings/scads-2026-problems commitc8d7653/tagscads-2026-10-07; all9 nested projects verified via GitHub. Paper paths documents/scads-2026. Data demos distinguish fixtures/recorded model outputs from live services.
+- Verified:26 browser journeys/interactions at1440/390/320, all9 Pip branches, five demos/reset/empty states, no overflow; selected8dates/order and source/PDF links. All82PDFpages visually checked; independent methods/results critique resolved;290 PDF-to-source links resolve and29 demo source hashes match frozen source.
+- Next: one verified site push, Pages/live integrity checks. No DNS/hosting changes. Preserve original mixed checkout and concurrently advancing research implementations.
+
 ## Workflow Display skill — 2026-10-06
 
 - Mode: new task. Complete; release86529f7 live. Full npm test and Pages37568173475 passed.

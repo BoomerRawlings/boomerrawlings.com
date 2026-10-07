@@ -1,0 +1,53 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CuratorGuide from '../../../components/CuratorGuide.astro';
+import { scadsProjects, scadsSource, scadsAuthorship, scadsSchema } from '../../../data/scads';
+import '../../../styles/scads.css';
+const entry = await getEntry('archive', 'scads-2026');
+if (!entry) throw new Error('Missing SCADS archive entry');
+---
+<BaseLayout title={entry.data.title} description={entry.data.description} structuredData={scadsSchema(entry.data.title)}>
+  <header class="scads-header">
+    <p class="eyebrow">Research software / October 2026</p>
+    <h1>SCADS 2026<br />problem sets</h1>
+    <p class="scads-deck">Nine problems. Independent approaches.<br />From research plans to working software.</p>
+    <p class="scads-authorship">{scadsAuthorship}</p>
+    <nav class="scads-links" aria-label="Collection resources">
+      <a href="#problems">Explore the problems ↓</a>
+      <a href={scadsSource}>Problem-set source on GitHub ↗</a>
+      <a href="https://ncsu-las.org/scads/">Original SCADS brief ↗</a>
+    </nav>
+    <CuratorGuide headingId="curator-scads" messages={[
+      'Welcome to the SCADS problem sets. These are Boomer’s individual research and development projects, undertaken after the original submission and grading dates.',
+      'Five projects have implemented software and browser demos. Four are clearly labeled projected solutions with research plans. Every problem has a paper and its own source or planning directory.',
+      'Open any project for my walkthrough of that work. Our main portfolio tour continues from this overview to Horizon.',
+    ]} nextExhibit={{ href: '/work/horizon/', label: 'Horizon' }} />
+  </header>
+  <section id="problems" class="scads-collection" aria-labelledby="problems-heading">
+    <div class="scads-section-heading"><h2 id="problems-heading">The problem sets</h2><span>05 in progress / 04 not started</span></div>
+    <ol class="scads-projects">
+      {scadsProjects.map(project => (
+        <li>
+          <div class="scads-number" aria-hidden="true">{project.number}</div>
+          <div class="scads-project-copy">
+            <div class="scads-meta"><span>{project.category}</span><span class="scads-status">{project.status}</span></div>
+            <h3><a href={`/work/scads-2026/${project.slug}/`}>{project.title}</a></h3>
+            <p class="scads-question">{project.problem}</p>
+            <p><strong>{project.status === 'Not started' ? 'Projected solution.' : 'My solution.'}</strong> {project.solution}</p>
+            {project.status === 'Not started' && <p class="scads-projected-note">Implementation has not begun. The paper contains the proposed method, evaluation plan, and roadmap.</p>}
+            <nav class="scads-links" aria-label={`${project.title} resources`}>
+              <a href={`/work/scads-2026/${project.slug}/`}>{project.status === 'Not started' ? 'Explore the proposal ↗' : 'Explore & try the demo ↗'}</a>
+              <a href={`/documents/scads-2026/${project.slug}.pdf`}>{project.status === 'Not started' ? 'Research proposal (PDF)' : 'Research paper (PDF)'}</a>
+              <a href={`${scadsSource}/tree/main/projects/${project.slug}`}>{project.status === 'Not started' ? 'Project plan on GitHub ↗' : 'Project source ↗'}</a>
+            </nav>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+  <aside class="scads-colophon">
+    <p>Inspired by the SCADS 2026 Problem Book. Independent portfolio work by <a href="/about/" rel="author">Boomer Rawlings</a>; no program affiliation or endorsement is implied.</p>
+    <p>Published <time datetime="2026-10-07">October 2026</time>. Each paper connects the problem to its method, evaluation, and reproduction steps or implementation roadmap.</p>
+  </aside>
+</BaseLayout>

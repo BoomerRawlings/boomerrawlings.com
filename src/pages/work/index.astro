@@ -10,13 +10,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     title="Projects"
     eyebrow="Selected work"
     introduction="Local-first software, research tools, reusable AI skills, learning systems, media infrastructure, and experimental worlds."
+    source={{ href: 'https://github.com/BoomerRawlings/scads-2026-problems', label: 'SCADS problem-set source on GitHub ↗' }}
     guide={{
       messages: [
         "Welcome to Boomer's project room! Software, research tools, reusable AI skills, learning systems, and experimental worlds all meet here.",
         'The full projects document larger systems. The AI Skills shelf is smaller by design, with each entry linking directly to its public workflow on GitHub.',
-        "Let's begin with Horizon, the desktop workspace that brings many of those interests together.",
+        "Let's begin with the SCADS problem sets: nine independent research problems, with software demonstrations, papers, and projected solutions.",
       ],
-      nextExhibit: { href: '/work/horizon/', label: 'Horizon' },
+      nextExhibit: { href: '/work/scads-2026/', label: 'SCADS problem sets' },
     }}
   >
     <section slot="before-listing" class="workflow-feature" id="workflow-display" aria-labelledby="workflow-display-heading">

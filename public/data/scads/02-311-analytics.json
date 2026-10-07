@@ -1,0 +1,326 @@
+{
+  "kind": "synthetic_fixture",
+  "source": "authored fixture; not real NYC service requests",
+  "rows": [
+    {
+      "unique_key": "FIX-001",
+      "created_date": "2025-11-01T10:00:00-04:00",
+      "borough": "BROOKLYN",
+      "complaint_type": "Rodent",
+      "agency": "DOHMH",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 24
+    },
+    {
+      "unique_key": "FIX-002",
+      "created_date": "2025-11-05T12:00:00-05:00",
+      "borough": "BROOKLYN",
+      "complaint_type": "Rodent",
+      "agency": "DOHMH",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 48
+    },
+    {
+      "unique_key": "FIX-003",
+      "created_date": "2025-11-07T20:00:00-05:00",
+      "borough": "BROOKLYN",
+      "complaint_type": "Noise - Residential",
+      "agency": "NYPD",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 2
+    },
+    {
+      "unique_key": "FIX-004",
+      "created_date": "2025-11-12T20:00:00-05:00",
+      "borough": "BROOKLYN",
+      "complaint_type": "Noise - Street/Sidewalk",
+      "agency": "NYPD",
+      "status": "Open",
+      "is_closed": false,
+      "closure_hours": null
+    },
+    {
+      "unique_key": "FIX-005",
+      "created_date": "2025-11-03T12:00:00-05:00",
+      "borough": "MANHATTAN",
+      "complaint_type": "Rodent",
+      "agency": "DOHMH",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 72
+    },
+    {
+      "unique_key": "FIX-006",
+      "created_date": "2025-11-15T20:00:00-05:00",
+      "borough": "MANHATTAN",
+      "complaint_type": "Noise - Residential",
+      "agency": "NYPD",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 4
+    },
+    {
+      "unique_key": "FIX-007",
+      "created_date": "2025-11-20T12:00:00-05:00",
+      "borough": "QUEENS",
+      "complaint_type": "Rodent",
+      "agency": "DOHMH",
+      "status": "Open",
+      "is_closed": false,
+      "closure_hours": null
+    },
+    {
+      "unique_key": "FIX-008",
+      "created_date": "2025-11-22T12:00:00-05:00",
+      "borough": "QUEENS",
+      "complaint_type": "Dirty Conditions",
+      "agency": "DSNY",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 12
+    },
+    {
+      "unique_key": "FIX-009",
+      "created_date": "2025-11-24T12:00:00-05:00",
+      "borough": "BRONX",
+      "complaint_type": "Rodent",
+      "agency": "DOHMH",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 36
+    },
+    {
+      "unique_key": "FIX-010",
+      "created_date": "2025-11-26T12:00:00-05:00",
+      "borough": "STATEN ISLAND",
+      "complaint_type": "Blocked Driveway",
+      "agency": "NYPD",
+      "status": "Open",
+      "is_closed": false,
+      "closure_hours": null
+    },
+    {
+      "unique_key": "FIX-011",
+      "created_date": "2025-11-29T20:00:00-05:00",
+      "borough": "BROOKLYN",
+      "complaint_type": "Noise - Commercial",
+      "agency": "NYPD",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 8
+    },
+    {
+      "unique_key": "FIX-012",
+      "created_date": "2025-11-30T23:00:00-05:00",
+      "borough": "MANHATTAN",
+      "complaint_type": "Noise - Vehicle",
+      "agency": "NYPD",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 1
+    },
+    {
+      "unique_key": "FIX-013",
+      "created_date": "2025-11-18T12:00:00-05:00",
+      "borough": "BROOKLYN",
+      "complaint_type": "Rodent",
+      "agency": "DOHMH",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": null
+    },
+    {
+      "unique_key": "FIX-014",
+      "created_date": "2025-11-19T12:00:00-05:00",
+      "borough": "MANHATTAN",
+      "complaint_type": "Rodent",
+      "agency": "DOHMH",
+      "status": "Open",
+      "is_closed": false,
+      "closure_hours": null
+    },
+    {
+      "unique_key": "FIX-015",
+      "created_date": "2025-11-02T01:30:00-04:00",
+      "borough": "QUEENS",
+      "complaint_type": "Noise - Residential",
+      "agency": "NYPD",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 6
+    },
+    {
+      "unique_key": "FIX-016",
+      "created_date": "2025-11-02T01:30:00-05:00",
+      "borough": "BRONX",
+      "complaint_type": "Rodent",
+      "agency": "DOHMH",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 1
+    },
+    {
+      "unique_key": "FIX-017",
+      "created_date": "2025-12-01T12:00:00-05:00",
+      "borough": "BROOKLYN",
+      "complaint_type": "Rodent",
+      "agency": "DOHMH",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 12
+    },
+    {
+      "unique_key": "FIX-018",
+      "created_date": "2025-12-05T12:00:00-05:00",
+      "borough": "BROOKLYN",
+      "complaint_type": "Rodent",
+      "agency": "DOHMH",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 24
+    },
+    {
+      "unique_key": "FIX-019",
+      "created_date": "2025-12-10T12:00:00-05:00",
+      "borough": "BROOKLYN",
+      "complaint_type": "Rodent",
+      "agency": "DOHMH",
+      "status": "Open",
+      "is_closed": false,
+      "closure_hours": null
+    },
+    {
+      "unique_key": "FIX-020",
+      "created_date": "2025-12-15T12:00:00-05:00",
+      "borough": "BROOKLYN",
+      "complaint_type": "Rodent",
+      "agency": "DOHMH",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 48
+    },
+    {
+      "unique_key": "FIX-021",
+      "created_date": "2025-12-03T20:00:00-05:00",
+      "borough": "BROOKLYN",
+      "complaint_type": "Noise - Residential",
+      "agency": "NYPD",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 2
+    },
+    {
+      "unique_key": "FIX-022",
+      "created_date": "2025-12-09T20:00:00-05:00",
+      "borough": "BROOKLYN",
+      "complaint_type": "Noise - Street/Sidewalk",
+      "agency": "NYPD",
+      "status": "Open",
+      "is_closed": false,
+      "closure_hours": null
+    },
+    {
+      "unique_key": "FIX-023",
+      "created_date": "2025-12-20T20:00:00-05:00",
+      "borough": "BROOKLYN",
+      "complaint_type": "Noise - Commercial",
+      "agency": "NYPD",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 4
+    },
+    {
+      "unique_key": "FIX-024",
+      "created_date": "2025-12-04T12:00:00-05:00",
+      "borough": "MANHATTAN",
+      "complaint_type": "Rodent",
+      "agency": "DOHMH",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 96
+    },
+    {
+      "unique_key": "FIX-025",
+      "created_date": "2025-12-11T20:00:00-05:00",
+      "borough": "MANHATTAN",
+      "complaint_type": "Noise - Vehicle",
+      "agency": "NYPD",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 1
+    },
+    {
+      "unique_key": "FIX-026",
+      "created_date": "2025-12-06T12:00:00-05:00",
+      "borough": "QUEENS",
+      "complaint_type": "Rodent",
+      "agency": "DOHMH",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 24
+    },
+    {
+      "unique_key": "FIX-027",
+      "created_date": "2025-12-12T12:00:00-05:00",
+      "borough": "QUEENS",
+      "complaint_type": "Rodent",
+      "agency": "DOHMH",
+      "status": "Open",
+      "is_closed": false,
+      "closure_hours": null
+    },
+    {
+      "unique_key": "FIX-028",
+      "created_date": "2025-12-19T12:00:00-05:00",
+      "borough": "QUEENS",
+      "complaint_type": "Dirty Conditions",
+      "agency": "DSNY",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 6
+    },
+    {
+      "unique_key": "FIX-029",
+      "created_date": "2025-12-21T12:00:00-05:00",
+      "borough": "BRONX",
+      "complaint_type": "Rodent",
+      "agency": "DOHMH",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 72
+    },
+    {
+      "unique_key": "FIX-030",
+      "created_date": "2025-12-24T12:00:00-05:00",
+      "borough": "STATEN ISLAND",
+      "complaint_type": "Blocked Driveway",
+      "agency": "NYPD",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 3
+    },
+    {
+      "unique_key": "FIX-031",
+      "created_date": "2025-12-25T12:00:00-05:00",
+      "borough": null,
+      "complaint_type": "Rodent",
+      "agency": "DOHMH",
+      "status": "Open",
+      "is_closed": false,
+      "closure_hours": null
+    },
+    {
+      "unique_key": "FIX-032",
+      "created_date": "2025-12-31T23:30:00-05:00",
+      "borough": "BROOKLYN",
+      "complaint_type": "Noise - Residential",
+      "agency": "NYPD",
+      "status": "Closed",
+      "is_closed": true,
+      "closure_hours": 2
+    }
+  ]
+}

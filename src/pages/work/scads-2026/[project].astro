@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CuratorGuide from '../../../components/CuratorGuide.astro';
+import ScadsDemo from '../../../components/ScadsDemo.astro';
+import { scadsProjects, scadsSource, scadsAuthorship, scadsSchema, projectedDisclaimer } from '../../../data/scads';
+import '../../../styles/scads.css';
+export function getStaticPaths() {
+  return scadsProjects.map(project => ({ params: { project: project.slug }, props: { project } }));
+}
+const { project } = Astro.props;
+const projected = project.status === 'Not started';
+const source = `${scadsSource}/tree/main/projects/${project.slug}`;
+---
+<BaseLayout title={project.title} description={project.solution} structuredData={scadsSchema(project.title, project.slug)}>
+  <header class="scads-header scads-header--project">
+    <a class="scads-back" href="/work/scads-2026/">← All problem sets</a>
+    <p class="eyebrow">SCADS 2026 / Problem {project.number}</p>
+    <h1>{project.title}</h1>
+    <p class="scads-deck">{project.short}</p>
+    <div class="scads-meta"><span>{project.category}</span><span class="scads-status">{project.status}</span></div>
+    {projected && <aside class="scads-projected-note" aria-label="Projected solution disclaimer">{projectedDisclaimer}</aside>}
+    <nav class="scads-links" aria-label="Project resources">
+      <a href={projected ? '#method-heading' : '#demo'}>{projected ? 'Explore the proposed method ↓' : 'Try the browser demo ↓'}</a>
+      <a href={`/documents/scads-2026/${project.slug}.pdf`}>Read the research paper (PDF)</a>
+      <a href={source}>{projected ? 'Read the plan on GitHub ↗' : 'Explore source & run locally ↗'}</a>
+    </nav>
+    <CuratorGuide headingId={`curator-${project.slug}`} messages={[...project.pip]} nextExhibit={{ href: '/work/scads-2026/', label: 'Problem sets' }} />
+  </header>
+  <article class="scads-article">
+    <section class="scads-problem-solution" aria-label="Problem and solution">
+      <div><h2>The task</h2><p>{project.problem}</p></div>
+      <div><h2>{projected ? 'Projected solution' : 'My solution'}</h2><p>{project.solution}</p><p>{project.explanation}</p></div>
+    </section>
+    <section class="scads-method" aria-labelledby="method-heading">
+      <div class="scads-section-heading"><h2 id="method-heading">{projected ? 'Proposed workflow' : 'How it works'}</h2><span>{project.technologies}</span></div>
+      <ol>{project.method.map(([name, detail], index) => <li><span>{String(index + 1).padStart(2, '0')}</span><h3>{name}</h3><p>{detail}</p></li>)}</ol>
+    </section>
+    {!projected && <section id="demo" class="scads-demo-section" aria-labelledby="demo-heading">
+      <div class="scads-section-heading"><h2 id="demo-heading">Try it</h2><span>Interactive browser demonstration</span></div>
+      <ScadsDemo slug={project.slug} />
+    </section>}
+    {projected && <section class="scads-roadmap" aria-labelledby="roadmap-heading">
+      <div class="scads-section-heading"><h2 id="roadmap-heading">Implementation roadmap</h2><span>Proposed milestones / Not started</span></div>
+      <ol><li><strong>Define and freeze.</strong> Specify the task, data rights, baselines, evaluation criteria, and reserved test material.</li><li><strong>Build the smallest end-to-end study.</strong> Implement the proposed workflow with traceable inputs and reproducible outputs.</li><li><strong>Compare and stress-test.</strong> Run controlled baseline comparisons and ablations; inspect failure modes and resource use.</li><li><strong>Reproduce and report.</strong> Repeat the study from a clean environment and publish measured findings with supporting artifacts.</li></ol>
+      <p>The research proposal expands these milestones into project-specific methods, experimental controls, and deliverables.</p>
+    </section>}
+    <section class="scads-research" aria-labelledby="research-heading">
+      <div><p class="eyebrow">Methods / evidence / reproduction</p><h2 id="research-heading">Read the research.</h2></div>
+      <div><p>{project.evidence}</p><p>{projected ? 'The proposal develops the research question, proposed method, evaluation design, and phased roadmap. Its GitHub directory contains the planning documents. No implementation or experimental results are claimed.' : 'The paper connects the research question to the implementation, worked examples, and evidence. The project directory includes the runnable software, documentation, and tests.'}</p>
+        <nav class="scads-links" aria-label="Research resources"><a href={`/documents/scads-2026/${project.slug}.pdf`}>{projected ? 'Research proposal (PDF)' : 'Research paper (PDF)'}</a><a href={`${scadsSource}/blob/main/projects/${project.slug}/${project.evidencePath}`}>{projected ? 'Plan & roadmap ↗' : 'Evidence & methods ↗'}</a><a href={source}>Project directory ↗</a></nav>
+      </div>
+    </section>
+  </article>
+  <aside class="scads-colophon"><p>{scadsAuthorship}</p><p><a href="/work/scads-2026/">Back to the collection</a> · Published <time datetime="2026-10-07">October 2026</time>.</p></aside>
+</BaseLayout>

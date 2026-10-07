@@ -1,6 +1,7 @@
 ---
 title: Paperfield
 slug: paperfield
+publishedDate: 2026-08-23
 type: work
 description: A local, offline-capable research desk where papers can be positioned, grouped, connected, imported by DOI, and read in place.
 date: "2026-05"

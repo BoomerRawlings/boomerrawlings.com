@@ -1,0 +1,108 @@
+{
+  "kind": "recorded-analysis-of-synthetic-fixture",
+  "findings": [
+    {
+      "question": "How ready is Riverwatch?",
+      "claim": "Riverwatch Pilot readiness is recorded as delayed due to pending sensor acceptance.",
+      "evidence_ids": [
+        "tbl-003",
+        "img-note-001",
+        "memo-001",
+        "video-tx-001"
+      ],
+      "qualification": "Readiness status varies by date; the 2026-09-03 register states 'ready', while 2026-09-05 sources state 'delayed'."
+    },
+    {
+      "question": "What does deployment depend on?",
+      "claim": "Riverwatch deployment depends on the Silt Sensor Batch supplied by Northline Instruments.",
+      "evidence_ids": [
+        "memo-001",
+        "memo-003"
+      ],
+      "qualification": "Dependency is explicit in memos; sensor acceptance is pending."
+    },
+    {
+      "question": "When are the sensors expected?",
+      "claim": "Northline Instruments revised shipping date for Silt Sensor Batch is reported as 2026-09-19.",
+      "evidence_ids": [
+        "memo-004",
+        "tbl-006"
+      ],
+      "qualification": "Earlier register reported 2026-09-14; both represent plans, not confirmed delivery."
+    },
+    {
+      "question": "Does pending acceptance mean defective?",
+      "claim": "Pending acceptance does not establish defective components.",
+      "evidence_ids": [
+        "memo-003",
+        "tbl-005"
+      ],
+      "qualification": "Calibration check is required; no defect rate or count is implied."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "img-note-001",
+      "title": "Synthetic planning-board annotation",
+      "date": "2026-09-05",
+      "path": "annotations/riverwatch_planning_board.txt",
+      "text": "AGENT-AUTHORED SYNTHETIC IMAGE ANNOTATION — NO IMAGE WAS PROCESSED.\nSource ID: img-note-001\nDate: 2026-09-05\nFictional subject: Riverwatch Pilot planning board\n\nThis text describes an invented planning-board view. It is a test fixture,\nnot OCR, image-model output, or an annotation of an actual photograph.\n\nAnnotated fictional board text: \"Riverwatch — delayed. Field release blocked\npending sensor acceptance.\"\n\nNormalized fixture claim: Riverwatch Pilot readiness is delayed. This annotation\ndoes not independently verify the memo or supply evidence of actual conditions.\n"
+    },
+    {
+      "id": "img-note-002",
+      "title": "Synthetic inspection-tag annotation",
+      "date": "2026-09-04",
+      "path": "annotations/sensor_inspection_tags.txt",
+      "text": "AGENT-AUTHORED SYNTHETIC IMAGE ANNOTATION — NO IMAGE WAS PROCESSED.\nSource ID: img-note-002\nDate: 2026-09-04\nFictional subject: Silt Sensor Batch inspection tags\n\nThis text describes invented tags. It is a test fixture, not OCR, image-model\noutput, or an annotation of an actual photograph.\n\nAnnotated fictional tag text: \"Silt Sensor Batch. Acceptance: pending.\nCalibration check required before field release.\"\n\nNormalized fixture claim: Silt Sensor Batch acceptance is pending. No count,\nconfidence percentage, defect rate, or completed inspection is implied.\n"
+    },
+    {
+      "id": "memo-001",
+      "title": "Riverwatch dependency review",
+      "date": "2026-09-05",
+      "path": "documents/riverwatch_dependency_review.txt",
+      "text": "SYNTHETIC FIXTURE — fictional organization, event, and claims.\nSource ID: memo-001\nDate: 2026-09-05\nSubject: Riverwatch Pilot dependency review\n\nRiverwatch Pilot depends on the Silt Sensor Batch for its planned field deployment.\nReadiness is delayed while sensor acceptance remains pending. The 2026-09-03\nreadiness register still says ready; retain both dated claims for review rather\nthan silently replacing one with the other.\n\nThis review concerns Riverwatch field deployment. It does not say that all work\nin the Delta Field Team, Watershed Division, or institute has stopped. A revised\nshipping date is evidence of schedule risk, not proof of misconduct or a failed\nsensor batch.\n"
+    },
+    {
+      "id": "memo-003",
+      "title": "Sensor supply and acceptance note",
+      "date": "2026-09-04",
+      "path": "documents/sensor_supply_note.txt",
+      "text": "SYNTHETIC FIXTURE — fictional organization, event, and claims.\nSource ID: memo-003\nDate: 2026-09-04\nSubject: Silt Sensor Batch supply and acceptance\n\nRiverwatch Pilot depends on the Silt Sensor Batch. The Silt Sensor Batch is\nsupplied by Northline Instruments. It requires calibration and acceptance\nbefore field release. Acceptance is pending.\n\nThe supplier is external to Cedar Basin Research Institute. This dependency\ndoes not place the supplier within the institute's organizational hierarchy.\nPending acceptance alone is not evidence of a defective component.\n"
+    },
+    {
+      "id": "memo-004",
+      "title": "Northline revised shipping notice",
+      "date": "2026-09-05",
+      "path": "documents/northline_shipping_notice.txt",
+      "text": "SYNTHETIC FIXTURE — fictional organization, event, and claims.\nSource ID: memo-004\nDate: 2026-09-05\nSubject: Northline revised shipping notice\n\nNorthline Instruments reports a revised expected arrival of 2026-09-19 for the\nSilt Sensor Batch. The 2026-09-02 shipping register reports 2026-09-14. Both are\nplans; neither source confirms physical delivery.\n\nThe later notice may explain the older register's discrepancy. Retain the\ndates and source identifiers so a reviewer can reconcile the records. The\nsource does not establish an institute-wide delay or a supplier fault rate.\n"
+    },
+    {
+      "id": "tbl-003",
+      "title": "Riverwatch readiness register",
+      "date": "2026-09-03",
+      "path": "records.csv#row=4",
+      "text": "Riverwatch Pilot readiness is recorded as ready. This entry predates the dependency review and has not been reconciled with later source material."
+    },
+    {
+      "id": "tbl-005",
+      "title": "Silt sensor acceptance register",
+      "date": "2026-09-04",
+      "path": "records.csv#row=6",
+      "text": "Silt Sensor Batch acceptance is pending. Field release requires successful calibration; a pending entry does not establish that the sensors are defective."
+    },
+    {
+      "id": "tbl-006",
+      "title": "Northline shipping register",
+      "date": "2026-09-02",
+      "path": "records.csv#row=7",
+      "text": "Northline Instruments expected arrival for the Silt Sensor Batch is 2026-09-14. This is a planned date rather than confirmation of receipt."
+    },
+    {
+      "id": "video-tx-001",
+      "title": "Synthetic Riverwatch coordination transcript",
+      "date": "2026-09-05",
+      "path": "transcripts/riverwatch_coordination.txt",
+      "text": "AGENT-AUTHORED SYNTHETIC VIDEO TRANSCRIPT — NO VIDEO OR AUDIO WAS PROCESSED.\nSource ID: video-tx-001\nDate: 2026-09-05\nFictional subject: Riverwatch coordination meeting\n\nThese invented role labels and timestamps exercise transcript handling. They\ndo not represent actual people, a recording, speech recognition, or independent\ncorroboration of other fixture sources.\n\n[00:00] Project coordinator: Riverwatch readiness is delayed. Keep field release\non hold until the Silt Sensor Batch passes acceptance.\n[00:14] Logistics coordinator: The register still says ready. Show that dated\nentry next to the dependency review when preparing the status report.\n[00:27] Project coordinator: Scope the concern to Riverwatch deployment. We have\nnot established that other institute activities are delayed.\n"
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 ---
 title: Brain Study Guide
 slug: brain-study-guide
+publishedDate: 2026-10-05
 date: "2026-10"
 type: work
 description: "BRAIN — Boomer’s Ridiculously Ambitious Interactive Neuroscience. Explore 3D anatomy, study by chapter, and practice with animated flashcards."

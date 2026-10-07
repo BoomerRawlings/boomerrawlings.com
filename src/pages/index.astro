@@ -2,15 +2,16 @@
 import { getCollection } from 'astro:content';
 import CuratorGuide from '../components/CuratorGuide.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { formatMonthYear, isoMonth } from '../lib/dates';
 
 const publishedEntries = await getCollection('archive', ({ data }) => data.status === 'published');
 const highlightOrder = [
+  'scads-2026',
   'brain-study-guide',
   'crime-and-heat',
   'campus-safety',
   'horizon',
   'paperfield',
-  'triton-tidepool',
   'pocketllm',
   'organizing-icloud-media',
 ];
@@ -106,6 +107,7 @@ const contents = [
     </div>
     <div class="project-register">
       <div class="ledger-columns" aria-hidden="true">
+        <span>Published</span>
         <span>Type</span>
         <span>Work</span>
         <span>Description</span>
@@ -114,6 +116,7 @@ const contents = [
         {selectedWork.map((entry) => (
           <li>
             <a data-pip-direct={entry.data.externalUrl?.startsWith('https://boomerrawlings.com/') || undefined} href={entry.data.externalUrl?.replace(/^https:\/\/boomerrawlings\.com\//, '/') ?? '/' + (entry.data.type === 'data-analysis' ? 'writing/data-analysis' : entry.data.type) + '/' + entry.data.slug + '/'}>
+              <time class="ledger-date" datetime={isoMonth(entry.data.publishedDate!)}>{formatMonthYear(entry.data.publishedDate!)}</time>
               <span class="ledger-type">{entry.data.type === 'data-analysis' ? 'Data analysis' : entry.data.projectStage ? 'WIP project' : 'Project'}</span>
               <strong>{entry.data.title}</strong>
               <span class="ledger-description">{entry.data.description}</span>
@@ -126,6 +129,19 @@ const contents = [
 </BaseLayout>
 
 <style is:global>
+  .project-ledger .ledger-columns, .project-ledger .ledger-list a { grid-template-columns: 7.1rem 5.6rem minmax(9rem, .85fr) minmax(15rem, 1.7fr); gap: 1rem; }
+  .ledger-date { align-self: start; font: .74rem/1.6 var(--mono); color: var(--muted); padding-top: .1rem; }
+  @media (max-width: 70rem) {
+    .project-ledger .ledger-list a { grid-template-columns: 6.6rem minmax(0,1fr); gap: .4rem 1rem; align-items: start; padding-block: 1.2rem; }
+    .project-ledger .ledger-columns, .project-ledger .ledger-type { display: none; }
+    .project-ledger .ledger-date { grid-column: 1; grid-row: 1 / 3; }
+    .project-ledger .ledger-list strong { grid-column: 2; grid-row: 1; }
+    .project-ledger .ledger-description { grid-column: 2; grid-row: 2; }
+  }
+  @media (max-width: 26rem) {
+    .project-ledger .ledger-list a { grid-template-columns: 5.2rem minmax(0,1fr); gap: .4rem .7rem; }
+    .ledger-date { font-size: .68rem; }
+  }
   .home-workflow-feature { background: var(--paper); border-bottom: 1px solid var(--rule); display: grid; gap: 0.7rem 2rem; grid-template-columns: 12rem minmax(0, 1fr); padding: 1.4rem 5vw; }
   .home-workflow-feature > span { align-self: center; color: var(--muted); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.04em; text-transform: uppercase; }
   .home-workflow-feature a { align-items: baseline; display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; text-decoration: none; }
