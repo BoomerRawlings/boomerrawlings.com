@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "catalog": {
+    "id": "example",
+    "label": "Example collection",
+    "sourceUrl": "https://example.org",
+    "snapshot": "2026-10-12"
+  },
+  "items": [
+    {
+      "id": "example-work",
+      "title": "Example publication title",
+      "type": "article",
+      "date": "2026",
+      "datePrecision": "year",
+      "dateKind": "publication",
+      "url": "https://example.org/publication",
+      "sourceUrls": [
+        "https://example.org/publication"
+      ]
+    }
+  ],
+  "people": [
+    {
+      "id": "example-person",
+      "name": "Example credited name",
+      "entityStatus": "unresolved_name_label"
+    }
+  ],
+  "credits": [
+    {
+      "itemId": "example-work",
+      "personId": "example-person",
+      "role": "author",
+      "sourceUrls": [
+        "https://example.org/publication"
+      ]
+    }
+  ],
+  "relationships": [],
+  "affiliations": []
+}

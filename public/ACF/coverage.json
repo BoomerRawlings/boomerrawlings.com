@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 1,
+  "title": "The Atlas of Contested Futures — coverage",
+  "snapshot": "2026-10-12",
+  "principles": [
+    "Public bibliographic metadata only, no full articles.",
+    "Credits retain literal source roles. A publishing account is not automatically a person.",
+    "Names remain separate across catalogs. Source labels are not verified identities.",
+    "Solid edges show source-documented relationships; dashed edges show possible or inferred relationships.",
+    "Optional themes use English title keyword matches only; they are not source-assigned subjects.",
+    "The graph shows a bounded representative sample; search and the reading room use every loaded record.",
+    "Historical deletions, missing bylines, unresolved duplicates and partial archive access remain.",
+    "Related catalogs are separately collected, not asserted to be IEET affiliates."
+  ],
+  "catalogs": [
+    {
+      "id": "ieet",
+      "label": "IEET",
+      "sourceUrl": "https://ieet.org/",
+      "snapshot": "2026-10-12T06:43:22.723635+00:00",
+      "coverage": {
+        "summary": "IEET archives, journals, bibliographies, newsletters, public reports, people and events.",
+        "limits": [
+          "9,449 legacy article records; 3,467 lack a usable byline. Medium and historical event coverage remain incomplete.",
+          "Includes linked publications and pre-IEET predecessor material; inclusion does not establish contemporary institutional affiliation.",
+          "Metadata only. Names are source labels, not globally resolved identities; catalogs are not merged by name. Coauthorship, citation and thematic similarity do not establish affiliation.",
+          "This compact view omits full text and detailed competing source assertions. Open the evidence links to assess dates, roles and uncertainty."
+        ]
+      },
+      "counts": {
+        "items": 10467,
+        "people": 897,
+        "credits": 7377,
+        "relationships": 1,
+        "affiliations": 92
+      }
+    },
+    {
+      "id": "transhumanity",
+      "label": "Transhumanity",
+      "sourceUrl": "https://transhumanity.net/",
+      "snapshot": "2026-10-12T08:55:11.351922+00:00",
+      "coverage": {
+        "summary": "Current and recovered historical metadata, linked subdomains, Foundation Library holdings, publications and events.",
+        "limits": [
+          "Historical deletions and restricted Cyberlife/Policy surfaces leave gaps; complete historical coverage is not established.",
+          "Library holdings and linked works need not concern transhumanism or represent affiliated authors. Publishing accounts remain distinct credit roles.",
+          "Metadata only. Names are source labels, not globally resolved identities; catalogs are not merged by name. Coauthorship, citation and thematic similarity do not establish affiliation.",
+          "This compact view omits full text and detailed competing source assertions. Open the evidence links to assess dates, roles and uncertainty."
+        ]
+      },
+      "counts": {
+        "items": 2584,
+        "people": 798,
+        "credits": 2581,
+        "relationships": 157,
+        "affiliations": 370
+      }
+    },
+    {
+      "id": "technophany",
+      "label": "Technophany",
+      "sourceUrl": "https://technophany.philosophyandtechnology.network/",
+      "snapshot": "2026-10-12T07:18:14.617888+00:00",
+      "coverage": {
+        "summary": "106 active journal articles across nine issue containers, plus distinct wider-network publications, announcements and events.",
+        "limits": [
+          "Wider-network records are not all journal publications. Online First and issue dates retain source uncertainty.",
+          "Deleted journal tombstones and unavailable metadata are excluded; announced events do not prove occurrence.",
+          "Metadata only. Names are source labels, not globally resolved identities; catalogs are not merged by name. Coauthorship, citation and thematic similarity do not establish affiliation.",
+          "This compact view omits full text and detailed competing source assertions. Open the evidence links to assess dates, roles and uncertainty."
+        ]
+      },
+      "counts": {
+        "items": 577,
+        "people": 240,
+        "credits": 415,
+        "relationships": 160,
+        "affiliations": 188
+      }
+    },
+    {
+      "id": "posthuman-studies",
+      "label": "Journal of Posthuman Studies",
+      "sourceUrl": "https://www.psupress.org/Journals/jnls_JPHS.html",
+      "snapshot": "2026-10-12T07:04:10.873869+00:00",
+      "coverage": {
+        "summary": "164 journal DOI records and 19 reconstructed issue indexes, with editorial and contextual records.",
+        "limits": [
+          "Official issue tables of contents were inaccessible; indexes are reconstructed from publisher-deposited registry metadata.",
+          "Review candidates, contextual works and historical roles remain qualified; complete journal history is not established.",
+          "Metadata only. Names are source labels, not globally resolved identities; catalogs are not merged by name. Coauthorship, citation and thematic similarity do not establish affiliation.",
+          "This compact view omits full text and detailed competing source assertions. Open the evidence links to assess dates, roles and uncertainty."
+        ]
+      },
+      "counts": {
+        "items": 192,
+        "people": 162,
+        "credits": 216,
+        "relationships": 195,
+        "affiliations": 208
+      }
+    },
+    {
+      "id": "futures-studies",
+      "label": "Journal of Futures Studies",
+      "sourceUrl": "https://jfsdigital.org/homepage/",
+      "snapshot": "2026-10-12T07:30:33.431738+00:00",
+      "coverage": {
+        "summary": "1,195 issue-linked items, 113 issues, In Press listings, website publications, editorial roles and event sessions.",
+        "limits": [
+          "Supporting website pages are included; not every item is a scholarly publication.",
+          "Historical completeness is unproven; event announcements and programs do not establish occurrence or journal hosting.",
+          "Metadata only. Names are source labels, not globally resolved identities; catalogs are not merged by name. Coauthorship, citation and thematic similarity do not establish affiliation.",
+          "This compact view omits full text and detailed competing source assertions. Open the evidence links to assess dates, roles and uncertainty."
+        ]
+      },
+      "counts": {
+        "items": 1988,
+        "people": 1444,
+        "credits": 2313,
+        "relationships": 1228,
+        "affiliations": 131
+      }
+    },
+    {
+      "id": "network-cultures",
+      "label": "Institute of Network Cultures",
+      "sourceUrl": "https://networkcultures.org/",
+      "snapshot": "2026-10-12T07:46:12.753214+00:00",
+      "coverage": {
+        "summary": "Publisher catalog, 47 inventoried archive roots, public posts, events, project and program metadata.",
+        "limits": [
+          "Author taxonomy labels, source bylines and verified work authors remain separate roles; contributor coverage is selective.",
+          "Historical program and legacy index review is bounded. Unresolved editions, names and date conflicts remain.",
+          "Metadata only. Names are source labels, not globally resolved identities; catalogs are not merged by name. Coauthorship, citation and thematic similarity do not establish affiliation.",
+          "This compact view omits full text and detailed competing source assertions. Open the evidence links to assess dates, roles and uncertainty."
+        ]
+      },
+      "counts": {
+        "items": 4702,
+        "people": 2088,
+        "credits": 8900,
+        "relationships": 3683,
+        "affiliations": 242
+      }
+    },
+    {
+      "id": "aft-technoprog",
+      "label": "AFT–Technoprog",
+      "sourceUrl": "https://transhumanistes.com/",
+      "snapshot": "2026-10-12T07:23:38.236230+00:00",
+      "coverage": {
+        "summary": "French and English site publications, newsletters, bibliography references, conferences, sessions and public role assertions.",
+        "limits": [
+          "Referenced works can predate the association. Inclusion and authorship do not establish membership.",
+          "Event/session records are not a definitive count of unique historical events; dates and provisional programs can remain uncertain.",
+          "Metadata only. Names are source labels, not globally resolved identities; catalogs are not merged by name. Coauthorship, citation and thematic similarity do not establish affiliation.",
+          "This compact view omits full text and detailed competing source assertions. Open the evidence links to assess dates, roles and uncertainty."
+        ]
+      },
+      "counts": {
+        "items": 2026,
+        "people": 362,
+        "credits": 2176,
+        "relationships": 1124,
+        "affiliations": 111
+      }
+    },
+    {
+      "id": "biopolitical-times",
+      "label": "Biopolitical Times",
+      "sourceUrl": "https://www.geneticsandsociety.org/biopolitical-times",
+      "snapshot": "2026-10-12T08:20:46.973371+00:00",
+      "coverage": {
+        "summary": "1,735 core blog records, 90 additional CGS records and 875 linked external items, with source-qualified relationships.",
+        "limits": [
+          "Most linked external items are link-label metadata, not independently verified publications. CGS profile/event enrichment stopped at access restrictions.",
+          "Event candidates remain qualified; neither full CGS coverage nor complete historical coverage is claimed.",
+          "Metadata only. Names are source labels, not globally resolved identities; catalogs are not merged by name. Coauthorship, citation and thematic similarity do not establish affiliation.",
+          "This compact view omits full text and detailed competing source assertions. Open the evidence links to assess dates, roles and uncertainty.",
+          "21,465 relationship assertions with endpoints outside this catalog are omitted from the graph."
+        ]
+      },
+      "counts": {
+        "items": 2725,
+        "people": 836,
+        "credits": 2582,
+        "relationships": 8972,
+        "affiliations": 29
+      }
+    },
+    {
+      "id": "c4ss",
+      "label": "Center for a Stateless Society",
+      "sourceUrl": "https://c4ss.org/",
+      "snapshot": "2026-10-12T07:15:12.558737+00:00",
+      "coverage": {
+        "summary": "7,973 current public posts plus editions, zines, studies, audio, podcast, multilingual and event metadata.",
+        "limits": [
+          "Publishing-account labels are not universal original-author claims; many language and attribution fields remain unresolved.",
+          "Historical reprints, inaccessible speaker archives and two unexposed PDF identities remain gaps. Announcements do not prove occurrence.",
+          "Metadata only. Names are source labels, not globally resolved identities; catalogs are not merged by name. Coauthorship, citation and thematic similarity do not establish affiliation.",
+          "This compact view omits full text and detailed competing source assertions. Open the evidence links to assess dates, roles and uncertainty.",
+          "38 relationship assertions with endpoints outside this catalog are omitted from the graph."
+        ]
+      },
+      "counts": {
+        "items": 8684,
+        "people": 534,
+        "credits": 16653,
+        "relationships": 1828,
+        "affiliations": 76
+      }
+    }
+  ]
+}

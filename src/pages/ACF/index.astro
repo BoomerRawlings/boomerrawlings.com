@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Explore the Atlas of Contested Futures: a public, connected collection of research, people, publications and events." />
+    <meta name="theme-color" content="#10111f" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'" />
+    <link rel="canonical" href="https://boomerrawlings.com/ACF/" />
+    <title>The Atlas of Contested Futures</title>
+    <link rel="icon" href="/ACF/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/ACF/style.css" />
+    <script is:inline src="/ACF/entry.js" defer></script>
+    <script is:inline type="module" src="/ACF/app.js"></script>
+  </head>
+  <body class="entry-pending" data-view="map">
+    <a class="skip-link" href="#search">Skip to collection search</a>
+
+    <section id="entry-screen" aria-labelledby="entry-heading">
+      <header class="entry-masthead">
+        <span class="small-brand"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3 37 33H3Z M20 3v30M3 33l25-15M37 33 12 18"/><circle cx="20" cy="23" r="4"/></svg>ACF <span>/ A collection of possible worlds</span></span>
+        <a href="/" class="quiet-link">Boomer Rawlings <span aria-hidden="true">↗</span></a>
+      </header>
+      <div class="entry-orbits" aria-hidden="true"><i></i><i></i><i></i><span>00° / ∞</span></div>
+      <div class="entry-prompt" id="entry-prompt">
+        <div class="entry-intro">
+          <p class="eyebrow"><span class="tiny-star" aria-hidden="true">✳</span> Many futures. One collection.</p>
+          <h1 id="entry-heading">Worlds worth<br /><em>finding.</em></h1>
+          <p class="entry-description">Ideas do not exist in isolation.<br />Follow the people, publications and possibilities that connect them.</p>
+        </div>
+        <div class="entry-challenge">
+          <p class="eyebrow challenge-number">01 / A small riddle to begin</p>
+          <blockquote class="riddle">
+            I hold worlds that do not yet exist,<br />
+            and chart the paths where futures split.<br />
+            I bear their weight, yet have no hands.<br />
+            <em>What am I?</em>
+          </blockquote>
+          <form id="entry-form" novalidate>
+            <label for="entry-input">Your answer</label>
+            <div class="answer-field">
+              <input id="entry-input" name="answer" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="80" enterkeyhint="go" aria-describedby="entry-feedback entry-public-note" placeholder="Five letters…" />
+              <button id="entry-submit" type="submit" aria-label="Enter the collection"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></button>
+            </div>
+            <p id="entry-feedback" role="status" aria-live="polite"></p>
+          </form>
+          <button id="entry-hint" class="text-button" type="button" aria-expanded="false" aria-controls="hint-copy">A gentle hint <span aria-hidden="true">+</span></button>
+          <p id="hint-copy" hidden>A book of maps shares its name with the figure who carries the heavens.</p>
+          <p id="entry-public-note">A playful entrance to a public collection.<br />No account, password or private material.</p>
+        </div>
+      </div>
+      <div id="entry-sequence" aria-hidden="true" hidden>
+        <p class="sequence-coordinate">Opening a new field of view</p>
+        <div class="sequence-title"><span>A</span><span>T</span><span>L</span><span>A</span><span>S</span></div>
+        <p class="sequence-subtitle">of contested futures</p>
+        <div class="sequence-compass"><span></span></div>
+      </div>
+      <button id="skip-animation" class="text-button" type="button" hidden>Skip animation <span aria-hidden="true">→</span></button>
+      <footer class="entry-footer"><span>Research is a constellation.</span><span>Trace your own path <span aria-hidden="true">↗</span></span></footer>
+      <noscript><p class="noscript-note">This interactive atlas needs JavaScript. The <a href="https://ieet.org/publications/">IEET publication directory</a> is available without it.</p></noscript>
+    </section>
+
+    <div id="atlas-workspace" hidden inert>
+      <header class="atlas-header">
+        <button id="return-entry" class="atlas-brand" type="button" aria-label="Return to the opening riddle"><span class="brand-mark" aria-hidden="true">A<span class="brand-star">✳</span></span><span>The Atlas <small>of Contested Futures</small></span></button>
+        <div class="header-right"><p id="dataset-status" class="dataset-status"><span class="status-dot" aria-hidden="true"></span>Preparing the collection</p><button id="about-open" class="quiet-button" type="button">About <span aria-hidden="true">↗</span></button></div>
+      </header>
+
+      <div class="explore-toolbar" role="search" aria-label="Explore the collection">
+        <label class="search-field" for="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><span class="sr-only">Search titles, authors and topics</span><input id="search" type="search" placeholder="Find an idea, a person, a possible future…" autocomplete="off" /></label>
+        <div class="toolbar-filters">
+          <label class="filter-field" for="type-filter"><span>Show</span><select id="type-filter"><option value="">All types</option></select></label>
+          <fieldset class="year-filter"><legend class="sr-only">Publication years</legend><label for="year-from" class="sr-only">From year</label><input id="year-from" type="number" min="1000" max="2200" inputmode="numeric" placeholder="From" /><span aria-hidden="true">—</span><label for="year-to" class="sr-only">To year</label><input id="year-to" type="number" min="1000" max="2200" inputmode="numeric" placeholder="To" /></fieldset>
+          <button id="collections-open" class="collection-button" type="button"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2 8 4-8 4-8-4 8-4Zm-8 8 8 4 8-4M2 14l8 4 8-4"/></svg>Collections</button>
+        </div>
+      </div>
+
+      <main id="main" class="atlas-main" tabindex="-1">
+        <section id="catalog-scale" class="catalog-scale" aria-label="Full collection by record type">
+          <div class="scale-copy"><p id="scale-total">The full collection</p><p id="scale-legend">Every loaded record, across all types</p></div>
+          <svg id="scale-bar" viewBox="0 0 1000 8" preserveAspectRatio="none" role="img" aria-label="Record type distribution across every loaded record" width="100%" height="8"></svg>
+        </section>
+        <div class="exploration-bar"><nav id="breadcrumbs" aria-label="Current exploration"><span>All connections</span></nav><div class="view-switch" role="group" aria-label="Display"><button id="map-view" type="button" aria-pressed="true">Map</button><button id="list-view" type="button" aria-pressed="false">List</button></div></div>
+        <div class="atlas-panels">
+          <section id="graph-stage" class="graph-stage" aria-labelledby="graph-heading">
+            <div class="graph-intro"><p class="eyebrow">A field of connected ideas</p><h1 id="graph-heading">Every idea has<br /><em>a wider world.</em></h1><p id="graph-subtitle">Choose a constellation. Follow a connection.</p></div>
+            <canvas id="network" tabindex="0" aria-label="Interactive publication network. Use the collection list for keyboard access to every record." aria-describedby="graph-instructions"></canvas>
+            <p id="graph-instructions" class="graph-instructions">Drag to explore · Scroll or pinch to zoom · Select a node to follow</p>
+            <div class="graph-controls"><button id="zoom-in" type="button" aria-label="Zoom in">+</button><button id="zoom-out" type="button" aria-label="Zoom out">−</button><button id="reset-view" type="button" aria-label="Reset map view"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 7a7 7 0 1 1-1 6M4 2v5h5"/></svg></button><span class="control-divider" aria-hidden="true"></span><button id="motion-toggle" type="button" aria-pressed="false" aria-label="Toggle map motion"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 4v12M15 4v12"/></svg></button></div>
+            <label class="theme-control"><input id="themes-toggle" type="checkbox" /><span>Explore thematic links</span><span class="inference-badge">Inferred</span></label>
+            <div class="graph-bottom"><p id="graph-status" role="status" aria-live="polite">Loading public metadata…</p><div class="graph-legend" aria-label="Relationship legend"><span><i class="documented-line" aria-hidden="true"></i>Documented</span><span><i class="inferred-line" aria-hidden="true"></i>Inferred theme</span></div></div>
+          </section>
+
+          <aside class="records-panel" aria-labelledby="results-heading">
+            <header class="records-header"><div><p class="eyebrow">The reading room</p><h2 id="results-heading">Explore the collection</h2></div><span id="results-count" class="count-pill">…</span></header>
+            <div id="results" class="results"></div>
+            <div class="load-more-wrap"><button id="load-more" class="load-more" type="button">More from the collection <span aria-hidden="true">↓</span></button></div>
+            <p class="records-footnote">Metadata, people, and paths back to the source.</p>
+          </aside>
+
+          <aside id="detail" class="detail-panel" aria-label="Selected record" hidden><button id="detail-close" class="detail-close" type="button" aria-label="Close selected record">Close <span aria-hidden="true">×</span></button><div id="detail-content"></div></aside>
+        </div>
+      </main>
+      <footer class="atlas-footer"><span>A living map, an incomplete territory.</span><a href="/">Boomer Rawlings <span aria-hidden="true">↗</span></a></footer>
+    </div>
+
+    <dialog id="collections-dialog" aria-labelledby="collections-heading"><div class="dialog-heading"><div><p class="eyebrow">Shape your atlas</p><h2 id="collections-heading">Collections</h2></div><form method="dialog"><button class="dialog-close" aria-label="Close collections">×</button></form></div><p class="dialog-intro">Start with the IEET collection. Add compatible public catalogs to expand your field of view.</p><div id="collection-options"></div><div class="import-box"><label for="import-file">Bring another collection</label><p>Import a metadata catalog in JSON or JSONL format. Imports stay in this browser session; no upload.</p><input id="import-file" type="file" accept=".json,.jsonl,application/json,application/x-ndjson" /><p id="import-status" role="status" aria-live="polite"></p><a href="/ACF/import-format.json" target="_blank" rel="noopener">View import format <span aria-hidden="true">↗</span></a></div></dialog>
+
+    <dialog id="about-dialog" aria-labelledby="about-heading"><div class="dialog-heading"><div><p class="eyebrow">Read the map</p><h2 id="about-heading">Many futures.<br />A shared atlas.</h2></div><form method="dialog"><button class="dialog-close" aria-label="Close about">×</button></form></div><p class="dialog-intro">The Atlas of Contested Futures connects public research, people and events around the futures we imagine, debate and build.</p><div class="about-grid"><section><h3>Begin anywhere</h3><p>Select a collection, search for an idea, or follow a node. Zooming reveals finer detail. The reading room offers the same records as an accessible list.</p></section><section><h3>Read connections carefully</h3><p>Solid lines represent relationships documented in source metadata. Dashed lines represent inferred thematic similarities, which you can turn on separately. A connection never implies agreement or endorsement.</p></section><section><h3>A map with open edges</h3><p>The initial collection draws on public IEET and separately collected related catalogs. Historical coverage is incomplete. Some dates and bylines are missing; possible duplicates and name ambiguities remain. Each record keeps its source evidence.</p></section><section><h3>Public by design</h3><p>The opening riddle is playful, not authentication. This site contains public metadata and links, not private research notes or full copyrighted articles. Additional catalogs are imported locally in your browser.</p></section></div><a class="source-link" href="/ACF/coverage.json" target="_blank" rel="noopener">Collection coverage and provenance <span aria-hidden="true">↗</span></a></dialog>
+  </body>
+</html>
