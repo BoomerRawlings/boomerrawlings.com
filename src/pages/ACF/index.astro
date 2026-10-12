@@ -9,10 +9,10 @@
     <link rel="canonical" href="https://boomerrawlings.com/ACF/" />
     <title>A question of futures</title>
     <link rel="icon" href="/ACF/icon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/ACF/style.css?v=regions-20261012d" />
-    <link rel="stylesheet" href="/ACF/entry-effects.css?v=regions-20261012d" />
-    <script is:inline src="/ACF/entry.js?v=regions-20261012d" defer></script>
-    <script is:inline type="module" src="/ACF/app.js?v=regions-20261012d"></script>
+    <link rel="stylesheet" href="/ACF/style.css?v=stars-20261012" />
+    <link rel="stylesheet" href="/ACF/entry-effects.css?v=stars-20261012" />
+    <script is:inline src="/ACF/entry.js?v=stars-20261012" defer></script>
+    <script is:inline type="module" src="/ACF/app.js?v=stars-20261012"></script>
   </head>
   <body class="entry-pending" data-view="map">
     <a class="skip-link" href="#search">Skip to collection search</a>
@@ -90,16 +90,22 @@
         <div class="atlas-panels">
           <section id="graph-stage" class="graph-stage" aria-labelledby="graph-heading">
             <div class="graph-intro"><h1 id="graph-heading">A field of possible futures</h1><p id="graph-subtitle">Every record has a point. Follow one back to its source.</p></div>
-            <canvas id="network" tabindex="0" aria-label="Interactive publication network. Hover or tap a node for metadata." aria-describedby="graph-instructions graph-keyboard-instructions"></canvas>
-            <p id="graph-instructions" class="graph-instructions">Hover or tap for metadata · Drag to pan · Scroll or pinch to zoom</p>
-            <p id="graph-keyboard-instructions" class="sr-only">Focus the map and use arrow keys to preview nodes, Enter to pin a preview, Shift plus arrow keys to pan, and Escape to dismiss. Previous node and Next node also browse previews. Use the collection list to access every record.</p>
+            <canvas id="network" tabindex="0" aria-label="Interactive publication network. Click or tap a star to center it." aria-describedby="graph-instructions graph-keyboard-instructions"></canvas>
+            <button id="empty-map" class="empty-map-note" type="button" hidden>No stars in view · Return to overview ↗</button>
+            <p id="graph-instructions" class="graph-instructions">Click to center · Drag to pan · Scroll or pinch to zoom</p>
+            <p id="graph-keyboard-instructions" class="sr-only">Arrow keys preview stars; Enter or Space centers a star and pins its preview. Shift plus arrows pans. Escape dismisses. Use Overview, Nearby and Close view, or the zoom slider, to change scale. Drag a preview header to pan; touch its body to scroll metadata. Previous node and Next node also browse previews.</p>
+            <div class="map-perspectives" role="group" aria-label="Map perspectives">
+              <div class="perspective-presets"><button id="view-overview" type="button">Overview</button><button id="view-nearby" type="button">Nearby</button><button id="view-close" type="button">Close view</button></div>
+              <div class="perspective-scale"><label for="map-zoom" class="sr-only">Map zoom</label><input id="map-zoom" type="range" min="-1.3219280948873622" max="6" step="any" value="0" /><output id="map-zoom-value" for="map-zoom">1.0×</output><button id="expand-map" type="button" aria-pressed="false">Expand map</button></div>
+            </div>
             <aside id="node-preview" class="node-preview" aria-label="Node preview" hidden>
-              <div class="preview-header"><p id="preview-kind" class="preview-kind"></p><button id="preview-close" class="preview-close" type="button" aria-label="Close node preview">×</button></div>
+              <div class="preview-header" title="Drag here to pan the map"><p id="preview-kind" class="preview-kind"></p><span class="preview-drag-hint" aria-hidden="true">⠿</span><button id="preview-close" class="preview-close" type="button" aria-label="Close node preview">×</button></div>
               <h2 id="preview-title"></h2>
               <p id="preview-collection" class="preview-collection"></p>
               <p id="preview-meta" class="preview-meta"></p>
               <p id="preview-context" class="preview-context"></p>
               <button id="preview-open" class="preview-open" type="button">Open record <span aria-hidden="true">↗</span></button>
+              <button id="preview-zoom" class="text-button" type="button">Zoom to this star ↗</button>
             </aside>
             <p id="preview-announcement" class="sr-only" role="status" aria-live="polite"></p>
             <div class="graph-controls"><button id="zoom-in" type="button" aria-label="Zoom in">+</button><button id="zoom-out" type="button" aria-label="Zoom out">−</button><button id="reset-view" type="button" aria-label="Reset map view"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 7a7 7 0 1 1-1 6M4 2v5h5"/></svg></button><span class="control-divider" aria-hidden="true"></span><button id="motion-toggle" type="button" aria-pressed="false" aria-label="Toggle map motion"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 4v12M15 4v12"/></svg></button></div>

@@ -6,6 +6,13 @@ export function routeOpacity(inferred, zoom) {
   const detail = Math.min(1, Math.max(0, Math.log2(Math.max(1, zoom)) / 4));
   return inferred ? 0.006 + detail * 0.094 : 0.008 + detail * 0.072;
 }
+export function starAppearance(zoom, selected = false) {
+  const distance = Number.isFinite(zoom) ? Math.min(64, Math.max(0.4, zoom)) : 1;
+  const detail = Math.min(1, Math.log2(Math.max(1, distance)) / 4);
+  // Distant overlapping stars keep their density structure. Close stars reveal a core and halo.
+  // Region contrast is fixed: every nonmember remains visible under the unchanged mask.
+  return { detail, alpha: selected ? 0.42 : 0.42 * Math.sqrt(Math.min(1, distance)) + detail * 0.16 };
+}
 const POINT_VERTEX = `
 attribute vec2 a_position; attribute float a_size; attribute vec3 a_color; attribute float a_selected;
 uniform vec2 u_viewport; uniform vec2 u_pan; uniform float u_scale; uniform float u_dpr; uniform float u_zoom;
@@ -19,8 +26,16 @@ void main() {
   v_opacity = mix(1.0, mix(0.38, 2.24, a_selected), u_hasSelection);
 }`;
 const POINT_FRAGMENT = `
-precision mediump float; varying vec3 v_color; varying float v_opacity; uniform float u_alpha;
-void main() { float d = length(gl_PointCoord - vec2(0.5)) * 2.0; if (d > 1.0) discard; gl_FragColor = vec4(v_color, u_alpha * v_opacity * (1.0 - smoothstep(0.55, 1.0, d))); }
+precision mediump float; varying vec3 v_color; varying float v_opacity; uniform float u_alpha; uniform float u_detail;
+void main() {
+  float d = length(gl_PointCoord - vec2(0.5)) * 2.0;
+  if (d > 1.0) discard;
+  float core = 1.0 - smoothstep(0.0, 0.38, d);
+  float halo = (1.0 - d) * (1.0 - d);
+  float shape = mix(1.0 - smoothstep(0.55, 1.0, d), core * 0.7 + halo * 0.3, u_detail);
+  vec3 color = mix(v_color, vec3(1.0), core * u_detail * 0.42);
+  gl_FragColor = vec4(color, u_alpha * v_opacity * shape);
+}
 `;
 const LINE_VERTEX = `
 attribute vec2 a_position; attribute float a_distance;
@@ -80,7 +95,7 @@ export class GraphRenderer {
         attributes: Object.fromEntries(attributes.map(name => [name, gl.getAttribLocation(program, name)])),
         uniforms: Object.fromEntries(uniforms.map(name => [name, gl.getUniformLocation(program, name)])),
       });
-      this.pointLocations = locations(this.pointsProgram, ['a_position', 'a_size', 'a_color', 'a_selected'], ['u_viewport', 'u_pan', 'u_scale', 'u_dpr', 'u_zoom', 'u_alpha', 'u_hasSelection']);
+      this.pointLocations = locations(this.pointsProgram, ['a_position', 'a_size', 'a_color', 'a_selected'], ['u_viewport', 'u_pan', 'u_scale', 'u_dpr', 'u_zoom', 'u_alpha', 'u_detail', 'u_hasSelection']);
       this.lineLocations = locations(this.linesProgram, ['a_position', 'a_distance'], ['u_viewport', 'u_pan', 'u_scale', 'u_inferred', 'u_alpha']);
       gl.enable(gl.BLEND); gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
       this.backend = 'webgl'; this.gpuCanvas.style.visibility = 'visible';
@@ -183,6 +198,7 @@ export class GraphRenderer {
     const stats = { backend: this.backend, submittedRecords: 0, submittedNames: 0, drawnPoints: 0, submittedEdges: 0, drawnEdges: 0 };
     if (this.backend === 'unavailable') return stats;
     this.checkContext();
+    const appearance = starAppearance(camera.scale / camera.baseScale, this.selection !== null);
     if (this.gl) {
       const gl = this.gl;
       const pixelWidth = Math.round(camera.width * camera.dpr), pixelHeight = Math.round(camera.height * camera.dpr);
@@ -203,6 +219,7 @@ export class GraphRenderer {
       }
       const locations = this.pointLocations; this.camera(locations, camera);
       gl.uniform1f(locations.uniforms.u_dpr, camera.dpr); gl.uniform1f(locations.uniforms.u_zoom, camera.scale / camera.baseScale);
+      gl.uniform1f(locations.uniforms.u_detail, appearance.detail);
       for (const group of this.pointGroups) {
         if (!enabled(group.kind, layers) || !group.count) continue;
         gl.bindBuffer(gl.ARRAY_BUFFER, group.buffer);
@@ -215,7 +232,7 @@ export class GraphRenderer {
           gl.disableVertexAttribArray(locations.attributes.a_selected); this.activeAttributes.delete(locations.attributes.a_selected);
           gl.vertexAttrib1f(locations.attributes.a_selected, 0);
         }
-        gl.uniform1f(locations.uniforms.u_alpha, group.kind === 'item' ? 0.42 : group.kind === 'person' ? 0.48 : 0.72);
+        gl.uniform1f(locations.uniforms.u_alpha, group.kind === 'item' ? appearance.alpha : group.kind === 'person' ? 0.48 : 0.72);
         gl.drawArrays(gl.POINTS, 0, group.count); stats.drawnPoints += group.count;
         if (group.kind === 'item') stats.submittedRecords += group.count;
         if (group.kind === 'person') stats.submittedNames += group.count;
@@ -230,7 +247,7 @@ export class GraphRenderer {
       for (const node of screen) {
         const selected = node.kind === 'item' && this.selection?.has(node.id);
         const color = selected ? '#ffd192' : node.color || PALETTE[node.kind];
-        const alpha = node.kind === 'item' ? (this.selection ? selected ? 0.94 : 0.16 : 0.42) : node.kind === 'person' ? 0.48 : 0.72;
+        const alpha = node.kind === 'item' ? (this.selection ? selected ? 0.94 : 0.16 : appearance.alpha) : node.kind === 'person' ? 0.48 : 0.72;
         const key = `${color}:${alpha}`;
         if (!groups.has(key)) groups.set(key, { color, alpha, growth: selected ? 1.65 : 1, nodes: [] });
         groups.get(key).nodes.push(node);

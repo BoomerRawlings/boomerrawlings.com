@@ -152,3 +152,15 @@ body[data-view=list] .map-layers{display:none}
 /* Small screens scroll the exploration area instead of crushing the field
    beneath seven region controls. The search toolbar stays available above it. */
 @media(max-width:680px){.atlas-main{display:block;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}.atlas-panels{height:max(420px,55svh);min-height:420px;flex:none}.region-choice{min-height:44px}.region-panel{top:24%;max-height:76%}.records-panel{min-height:420px}body[data-view=list] .atlas-panels{height:max(520px,65svh)}.detail-panel:not(.region-panel){top:5%;max-height:95%}}
+
+/* Camera tools stay readable independently of the world's zoom. */
+.map-perspectives{position:absolute;z-index:12;right:18px;top:18px;width:256px;padding:5px 8px;background:#101320ec;border:1px solid var(--line);border-radius:5px;box-shadow:0 6px 18px #03050c66;touch-action:manipulation}
+.perspective-presets,.perspective-scale{display:flex;align-items:center;gap:4px}.perspective-presets button{flex:1;min-height:34px;font-size:11px;color:var(--ice);border-bottom:1px solid var(--line)}.perspective-scale{gap:7px}.perspective-scale input{width:82px;flex:1;accent-color:var(--copper);min-height:32px}.perspective-scale output{font:10px var(--mono);min-width:31px;color:var(--muted)}#expand-map{font-size:10px;min-height:34px;color:var(--copper);white-space:nowrap}
+.preview-header{cursor:grab;touch-action:none;user-select:none}.preview-drag-hint{color:var(--faint);margin-left:auto;font-size:20px}.node-preview{user-select:none}.node-preview button{user-select:auto}#preview-zoom{min-height:40px;width:100%;text-align:left}
+body[data-map-expanded=true] .catalog-scale,body[data-map-expanded=true] .map-layers,body[data-map-expanded=true] .region-navigation,body[data-map-expanded=true] .records-panel{display:none}
+body[data-map-expanded=true] .atlas-panels{grid-template-columns:1fr}body[data-map-expanded=true] .graph-stage{min-height:0}
+@media(max-width:680px){.map-perspectives{top:38px;right:12px;width:calc(100% - 24px);max-width:280px}.perspective-presets button{min-height:36px}.perspective-scale input{min-height:34px}body[data-map-expanded=true] .atlas-main{display:flex;overflow:hidden}body[data-map-expanded=true] .atlas-panels{height:auto;min-height:0;flex:1}body[data-map-expanded=true] .graph-stage{min-height:0}body[data-map-expanded=true] .graph-intro{display:block}}
+@media(max-width:360px){.map-perspectives{top:10px}body[data-map-expanded=true] .map-perspectives{top:38px}}
+.empty-map-note{position:absolute;z-index:10;left:50%;top:50%;transform:translate(-50%,-50%);max-width:calc(100% - 40px);min-height:48px;padding:12px 18px;color:var(--ice);background:#101320ec;border:1px solid var(--line);border-radius:5px;font-size:12px}
+/* A hover card must never catch the click intended for the star below it. */
+.node-preview[data-reason=hover]{pointer-events:none}

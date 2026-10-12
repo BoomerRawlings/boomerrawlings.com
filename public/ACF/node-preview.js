@@ -1,18 +1,26 @@
-import { previewInfo, previewPlacement } from './preview-data.js?v=regions-20261012d';
+import { previewInfo, previewPlacement } from './preview-data.js?v=stars-20261012';
 
 /** One accessible card shared by pointer, touch and keyboard exploration. */
 export class NodePreview {
-  constructor(stage, canvas, getIndex, onOpen) {
+  constructor(stage, canvas, getIndex, onOpen, { onPanStart, onZoom } = {}) {
     this.stage = stage; this.canvas = canvas; this.getIndex = getIndex; this.onOpen = onOpen;
     this.card = stage.querySelector('#node-preview');
     this.announcement = stage.querySelector('#preview-announcement');
     this.fields = Object.fromEntries(['kind', 'title', 'collection', 'meta', 'context', 'open'].map(key => [key, stage.querySelector('#preview-' + key)]));
     this.card.addEventListener('pointerenter', () => { this.overCard = true; this.cancelHide(); });
     this.card.addEventListener('pointerleave', () => { this.overCard = false; this.scheduleHide(); });
-    this.card.addEventListener('focusin', () => this.cancelHide());
+    this.card.addEventListener('focusin', () => { this.cancelHide(); if (this.node) { this.pinned = true; this.card.dataset.reason = 'keyboard'; } });
     this.card.addEventListener('focusout', event => { if (!this.card.contains(event.relatedTarget)) this.scheduleHide(); });
     stage.querySelector('#preview-close').addEventListener('click', () => this.close(true));
     this.fields.open.addEventListener('click', () => { const node = this.node; this.close(); if (node) this.onOpen(node); });
+    stage.querySelector('#preview-zoom')?.addEventListener('click', () => { if (this.node) onZoom?.(this.node); });
+    this.card.addEventListener('dragstart', event => event.preventDefault());
+    this.card.addEventListener('pointerdown', event => {
+      if (!onPanStart || event.target.closest('button,a,input,select,textarea')) return;
+      // Touch can still scroll long metadata; the header is an explicit pan handle.
+      if (event.pointerType !== 'mouse' && !event.target.closest('.preview-header')) return;
+      onPanStart(event);
+    });
   }
   cancelHide() { clearTimeout(this.timer); }
   scheduleHide() {

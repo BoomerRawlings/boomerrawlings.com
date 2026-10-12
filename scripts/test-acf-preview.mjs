@@ -97,7 +97,7 @@ test('oversize, zoomed fractional and unavailable dimensions produce finite safe
 
 // A minimal event/focus DOM, not a controller mock. All card behavior below runs
 // through NodePreview's real registered handlers and real metadata projection.
-function previewDOM(onOpen = () => {}) {
+function previewDOM(onOpen = () => {}, options = {}) {
   const document = { activeElement: null };
   const elements = new Map();
   const make = (id, parent = null, rect = { left: 0, top: 0, width: 0, height: 0 }) => {
@@ -124,15 +124,15 @@ function previewDOM(onOpen = () => {}) {
   const stage = make('stage', null, { left: 100, top: 80, width: 800, height: 600 });
   const canvas = make('canvas', stage, { left: 120, top: 110, width: 760, height: 540 });
   const card = make('node-preview', stage, { left: 0, top: 0, width: 280, height: 180 }); card.hidden = true;
-  for (const key of ['kind', 'title', 'collection', 'meta', 'context', 'open', 'close']) make('preview-' + key, card);
+  for (const key of ['kind', 'title', 'collection', 'meta', 'context', 'open', 'close', 'zoom']) make('preview-' + key, card);
   const announcement = make('preview-announcement', stage);
   const outside = make('outside');
-  const controller = new NodePreview(stage, canvas, () => ieet, onOpen);
+  const controller = new NodePreview(stage, canvas, () => ieet, onOpen, options);
   const node = { id: ieet.items[0].id, kind: 'item' }, next = { id: ieet.items[1].id, kind: 'item' };
   return { controller, card, canvas, stage, announcement, outside, elements, document, node, next };
 }
 
-test('hover null delays dismissal; crossing into the card and focusing its controls retain it', t => {
+test('hover dismissal is delayed and keyboard focus pins an interactive preview', t => {
   t.mock.timers.enable({ apis: ['setTimeout'] });
   const ui = previewDOM();
   ui.controller.update(ui.node, { x: 100, y: 80 }, 'hover');
@@ -147,12 +147,14 @@ test('hover null delays dismissal; crossing into the card and focusing its contr
   ui.card.emit('pointerleave');
   t.mock.timers.tick(100);
   ui.elements.get('preview-open').focus();
+  assert.equal(ui.controller.pinned, true); assert.equal(ui.card.dataset.reason, 'keyboard');
   t.mock.timers.tick(1000); assert.equal(ui.card.hidden, false);
   ui.controller.update(null, null, 'hover');
   t.mock.timers.tick(1000); assert.equal(ui.card.hidden, false);
   ui.outside.focus();
   t.mock.timers.tick(219); assert.equal(ui.card.hidden, false);
-  t.mock.timers.tick(1); assert.equal(ui.card.hidden, true);
+  t.mock.timers.tick(1); assert.equal(ui.card.hidden, false);
+  ui.controller.update(null, null, 'dismiss'); assert.equal(ui.card.hidden, true);
   assert.equal(ui.controller.node, null);
 });
 
@@ -242,4 +244,23 @@ test('Open preserves the selected node and hides its preview before navigation',
   assert.equal(ui.controller.pinned, false);
   ui.elements.get('preview-open').emit('click');
   assert.equal(opened.length, 1); // A stale click never opens a cleared node.
+});
+
+test('preview drags forward mouse body and touch handle, preserving controls and touch scrolling', () => {
+  const gestures = [], zoomed = [];
+  const ui = previewDOM(() => {}, { onPanStart: e => gestures.push(e), onZoom: node => zoomed.push(node.id) });
+  ui.controller.update(ui.node, { x: 50, y: 50 }, 'select');
+  const body = { closest: () => null };
+  const handle = { closest: selector => selector === '.preview-header' ? {} : null };
+  const control = { closest: selector => selector.includes('button') ? {} : null };
+  ui.card.emit('pointerdown', { pointerType: 'mouse', target: body });
+  ui.card.emit('pointerdown', { pointerType: 'touch', target: body });
+  ui.card.emit('pointerdown', { pointerType: 'touch', target: handle });
+  ui.card.emit('pointerdown', { pointerType: 'mouse', target: control });
+  assert.equal(gestures.length, 2, 'Only the mouse body and touch header initiate map panning');
+  assert.equal(ui.card.hidden, false, 'Press alone keeps metadata visible; graph closes only on actual movement');
+  let prevented = false; ui.card.emit('dragstart', { preventDefault: () => { prevented = true; } });
+  assert.equal(prevented, true, 'Native HTML drag never replaces the map gesture');
+  ui.elements.get('preview-zoom').emit('click'); assert.deepEqual(zoomed, [ui.node.id]);
+  ui.controller.close(); ui.elements.get('preview-zoom').emit('click'); assert.equal(zoomed.length, 1);
 });

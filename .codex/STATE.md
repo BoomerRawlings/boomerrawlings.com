@@ -1,13 +1,23 @@
 # Project state
 
-## Region-switch scroll correction — active
+## Star centering, panning and distant views — release ready
 
-- Mode: continuation; approved scoped region QA/fix/deploy. Baseline9999eef; previous work preserved.
-- Confirmed: at320x700 regionA scrolled3367px→B retainedoffset andfocusedClose top-2995.8125/bottom-2957.8125;390x844 keyboardEnter retained2957px andClose top-2475.71875/bottom-2437.71875. Prior savednarrow caseClose top-341.8125. All33945points retained.
-- Fix: resetpanel scrollTop onlyonregion-IDchange, afterrender. Preserve same-region facet expansion/scroll andAll/clearallfocus. No renderer/data/entrance changes ornewperformance claims.
-- Completed: minimal region-ID-only reset, cache regions-20261012d; build47pages, ACF68/68 andstaticverify pass. Actual320/390 pointer+keyboard switching resets0 withheading/Closevisible. Same-regionAll/Clear preserves expandedcontrols, focusedcontrol andexactscrolloffset. Evidence: .acf-qa/region-scroll-before.json and region-scroll-local-browser.json.
-- GPU verified:23 actualWebGLdraws of33945records;11snapshots retain original ID/Float32SHA andsamebasebuffers. Exactmasks1584/662/22614; mask-onlyuploads135780bytes. Evidence: .acf-qa/region-scroll-gpu-proof.json/.md.
-- Next: scopeddeploy/fullCI/livehashes andcleanscreenshots.
+- Mode: continuation; click centers, drag pans through selected stars/previews, richer dynamic stars and useful distant views. Baseline 164c60c verified equal to origin/main; earlier work preserved. User clarified no photos; no media/catalog changes.
+- Completed: current-zoom centering, press-target/final-release drag fixes, preview body/header panning and hover click-through; wider region labels, zoom-derived star cores/halos, Overview/Nearby/Close, slider, Expand map and empty-sky recovery. Cache stars-20261012.
+- Final local validation: ACF 80/80; 47-page build/static verifier pass. Actual 320/390/1280 browser clicks, keyboard, popup drags, region scroll/focus and Canvas/List pass; no console errors/overflow.
+- Independent GPU proof: 702 actual draws each retain 33,945 records; 15 snapshots preserve IDs, original Float32 coordinates, CPU/GPU base buffers and exact masks. Center error below 0.000000001px; phone popup drag +50,+43. Idle revision unchanged for 72.3s.
+- Instrumented CPU draw p95: 390 expanded 14.3ms; 1280 standard 5.1ms; input-to-CPU-draw 20.0/12.6ms. Different layouts, viewport emulation, no comparative speedup or physical-device/GPU-FPS claim. Startup 1196.7ms with 339/192/398ms long tasks.
+- Evidence: sibling .acf-qa/stars-final-gpu-proof.json/.md, region-browser-stars-final.json, region-browser-stars-canvas.json, star-acf-final.log, star-build-final.log and star-static-final.log.
+- Next: scoped commit/push, full Linux CI/Pages, fresh/cached live hash and interaction checks.
+## Region-switch scroll correction — complete
+
+- Mode: continuation; scoped correction under existing public region update authorization. Live164c60cfdadeaec253ba9e8b0b9c601dfee08e1c; Pages38320406093 fullLinuxCI/build/deploy passed; cache regions-20261012d.
+- Confirmed baseline defect:320x700 retained3367px→newregion focusedClose top-2995.8125;390x844 retained2957px→Close top-2475.71875. Fixed resetafterrender onlyonregion-IDchange. Same-regionfacet expansion/scroll/focus preserved.
+- Local/live320/390 pointer+keyboard allfourregionchanges reset0; Close bounds371.19–409.19 at320 and481.28–519.28 at390, headingalsoinsidepanel. All preserves707/472px; focusedClear1008/713px. Sixteenlivesnapshots nooverflow/consoleerrors; eightcleanJPGs. Fresh/cachedversiond confirmed.
+- GPUproof:23 actualPOINTSdraws of33945records;11snapshots retain originalID/Float32SHA andsamebasebuffers. Exactmasks1584/662/22614; mask-onlyuploads135780bytes; nonmemberalpha0.1596.
+- Validation:47pagebuild, ACF68/68, staticverification andfullLinuxCI pass. All11liveassetSHA match canonicalGit/testedtext; neutralHTML/noprobes/LEO200. Renderer/data/entrance andpriorperformanceclaims untouched.
+- Evidence:.acf-qa/region-scroll-report.md, region-scroll-gpu-proof.json/.md, region-scroll-live-browser.json, region-live-verification.json, region-scroll-pages-run.json; priorbefore/local evidence preserved.
+- Next:none required. QAserver stopped, temporarytabsclosed, viewportreset, currentlivemap retained. Finalstatecheckpoint local toavoid unnecessaryproductionpush. Viewport/API-submissionevidence only; nophysical-phone/GPU-FPSclaim.
 ## Atlas region update — complete
 
 - Mode: continuation; approved public update at /ACF/ complete. Final9999eef3976afb9ed8752cdd5fb34133716db15b; Pages38319063995 full Linux test/build/deploy passed. Initialregionrelease1c3f12a and requestedclarityfollowupfa23a90 also passed; finalcache regions-20261012c.

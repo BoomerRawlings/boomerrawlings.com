@@ -1,7 +1,7 @@
-import { AtlasGraph } from './graph.js?v=regions-20261012d';
-import { NodePreview } from './node-preview.js?v=regions-20261012d';
-import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=regions-20261012d';
-import { getRegions, regionFacets } from './regions.js?v=regions-20261012d';
+import { AtlasGraph } from './graph.js?v=stars-20261012';
+import { NodePreview } from './node-preview.js?v=stars-20261012';
+import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=stars-20261012';
+import { getRegions, regionFacets } from './regions.js?v=stars-20261012';
 
 const $ = id => document.getElementById(id);
 const number = n => n.toLocaleString();
@@ -17,12 +17,18 @@ let resumePreparation;
 let regionFilters = {}, regionResult = null, regionPageSize = 20, regionNavigationIndex;
 const regionKeys = ['term', 'overlap', 'collection', 'type', 'year', 'person', 'role', 'sort'];
 const regionScope = () => scope?.kind === 'theme';
-const preview = new NodePreview($('graph-stage'), $('network'), () => index, node => node.scope ? navigate('scope', node.scope) : navigate('item', node.id));
+const preview = new NodePreview($('graph-stage'), $('network'), () => index, node => node.scope ? navigate('scope', node.scope) : navigate('item', node.id), {
+  onPanStart: event => graph?.pointerDown(event, { panOnly: true }),
+  onZoom: node => graph?.focusRecord(node.id),
+});
 try {
   graph = new AtlasGraph($('network'), {
+    onZoom: zoom => { $('map-zoom').value = String(Math.log2(zoom)); $('map-zoom').setAttribute('aria-valuetext', zoom.toFixed(1) + ' times overview'); $('map-zoom-value').textContent = zoom.toFixed(1) + '×'; },
     onSelect: (node, anchor) => preview.update(node, anchor, 'select'),
     onPreview: (node, anchor, reason) => preview.update(node, anchor, reason),
     onStatus: stats => {
+      const empty = stats.recordCount > 0 && stats.inViewRecords === 0;
+      if ($('empty-map').hidden === empty) $('empty-map').hidden = !empty;
       if (stats.backend !== graphBackend) {
         graphBackend = stats.backend;
         $('graph-fallback-note').hidden = graphBackend !== 'canvas2d';
@@ -453,8 +459,18 @@ $('preview-next').addEventListener('click', () => graph?.stepPreview(1));
 $('zoom-in').addEventListener('click', () => graph?.zoomBy(1.3));
 $('zoom-out').addEventListener('click', () => graph?.zoomBy(1 / 1.3));
 $('reset-view').addEventListener('click', () => graph?.reset());
+$('view-overview').addEventListener('click', () => graph?.reset());
+for (const [id, ratio] of [['view-nearby', 4], ['view-close', 12]]) $(id).addEventListener('click', () => graph?.setPerspective?.(ratio));
+$('empty-map').addEventListener('click', () => graph?.reset());
+$('map-zoom').addEventListener('input', () => { if (graph) graph.zoomBy(2 ** Number($('map-zoom').value) * graph.baseScale / graph.scale); });
+function expandMap(expanded) {
+  preview.close(); document.body.dataset.mapExpanded = String(expanded);
+  $('expand-map').textContent = expanded ? 'Restore layout' : 'Expand map'; $('expand-map').setAttribute('aria-pressed', String(expanded));
+  graph?.measure?.();
+}
+$('expand-map').addEventListener('click', () => expandMap(document.body.dataset.mapExpanded !== 'true'));
 $('motion-toggle').addEventListener('click', () => { const paused = graph?.toggleMotion(); $('motion-toggle').setAttribute('aria-pressed', String(Boolean(paused))); $('motion-toggle').setAttribute('aria-label', paused ? 'Resume map motion' : 'Pause map motion'); });
-for (const view of ['map', 'list']) $(view + '-view').addEventListener('click', () => { document.body.dataset.view = view; for (const v of ['map', 'list']) $(v + '-view').setAttribute('aria-pressed', String(v === view)); graph?.setActive(active && view === 'map'); });
+for (const view of ['map', 'list']) $(view + '-view').addEventListener('click', () => { if (view === 'list') expandMap(false); document.body.dataset.view = view; for (const v of ['map', 'list']) $(v + '-view').setAttribute('aria-pressed', String(v === view)); graph?.setActive(active && view === 'map'); });
 for (const name of ['collections', 'about']) {
   $(name + '-open').addEventListener('click', () => { preview.close(); $(name + '-dialog').showModal(); });
   $(name + '-dialog').addEventListener('click', event => { if (event.target === event.currentTarget) { const rect = event.currentTarget.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) event.currentTarget.close(); } });

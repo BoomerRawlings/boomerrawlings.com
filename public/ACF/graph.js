@@ -1,5 +1,5 @@
-import { SpatialGrid } from './graph-spatial.js?v=regions-20261012d';
-import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=regions-20261012d';
+import { SpatialGrid } from './graph-spatial.js?v=stars-20261012';
+import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=stars-20261012';
 
 const COLORS = { hub: '#d89976', item: '#a9c9db', person: '#aaa4d0' };
 const REGION_COLORS = ['#90c2d1', '#c5a5cc', '#d6ac7f', '#9ebd92', '#94a8d3', '#c7bb82'];
@@ -86,6 +86,7 @@ export class AtlasGraph {
     canvas.addEventListener('pointerup', event => this.pointerUp(event), { signal });
     canvas.addEventListener('pointercancel', event => this.pointerCancel(event), { signal });
     canvas.addEventListener('lostpointercapture', event => this.pointerCancel(event), { signal });
+    canvas.addEventListener('dragstart', event => event.preventDefault(), { signal });
     canvas.addEventListener('pointerleave', () => {
       if (!this.pointers.size) this.setHovered(null, true);
     }, { signal });
@@ -210,8 +211,29 @@ export class AtlasGraph {
     if (node.kind === 'hub' && !this.layers.regions) this.setLayers({ regions: true });
     this.dismissPreview('layout');
     this.scale = Math.max(this.scale, this.baseScale * 5);
-    const center = this.viewportCenter();
-    this.pan = { x: center.x - node.x * this.scale, y: center.y - node.y * this.scale };
+    this.onZoom(this.scale / this.baseScale);
+    this.select(node, 'keyboard');
+    return true;
+  }
+
+  setPerspective(ratio) {
+    if (this.destroyed || !Number.isFinite(ratio) || ratio <= 0) return false;
+    let node = this.byId.get(this.selected);
+    if (!node || !this.nodeEnabled(node)) {
+      node = null;
+      const center = this.viewportCenter();
+      const x = (center.x - this.pan.x) / this.scale, y = (center.y - this.pan.y) / this.scale;
+      let distance = Infinity;
+      // An explicit perspective change must find a record even after the camera
+      // has been panned outside the cloud. Screen projection would discard it.
+      for (const candidate of this.nodes) {
+        if (candidate.kind !== 'item') continue;
+        const next = Math.hypot(candidate.x - x, candidate.y - y);
+        if (next < distance) { node = candidate; distance = next; }
+      }
+    }
+    if (!node) return false;
+    this.scale = this.baseScale * clamp(ratio, 0.4, 64);
     this.onZoom(this.scale / this.baseScale);
     this.select(node, 'keyboard');
     return true;
@@ -334,11 +356,14 @@ export class AtlasGraph {
     return { x: event.clientX - rect.left, y: event.clientY - rect.top };
   }
 
-  pointerDown(event) {
-    if (!this.active || (event.pointerType === 'mouse' && event.button !== 0)) return;
+  pointerDown(event, { panOnly = false } = {}) {
+    if (!this.active || event.button !== 0) return;
+    event.preventDefault();
     const point = this.point(event);
     if (!this.pointers.size) {
       this.start = point;
+      this.panOnly = panOnly;
+      this.pressTarget = panOnly ? null : this.hit(point)?.id || null;
       this.moved = false;
     } else { this.moved = true; this.dismissPreview('layout'); }
     this.pointers.set(event.pointerId, point);
@@ -354,6 +379,7 @@ export class AtlasGraph {
       if (!this.pointers.size && event.pointerType !== 'touch') this.setHovered(this.hit(point)?.id || null);
       return;
     }
+    event.preventDefault();
     const previous = this.pointers.get(event.pointerId);
     const oldPair = [...this.pointers.values()];
     this.pointers.set(event.pointerId, point);
@@ -371,11 +397,11 @@ export class AtlasGraph {
       this.moved = true;
       this.onZoom(this.scale / this.baseScale);
     } else {
+      const origin = this.moved ? previous : this.start;
       if (Math.hypot(point.x - this.start.x, point.y - this.start.y) > 5) this.moved = true;
-      if (this.moved) {
-        this.pan.x += point.x - previous.x;
-        this.pan.y += point.y - previous.y;
-      }
+      if (!this.moved) return;
+      this.pan.x += point.x - origin.x;
+      this.pan.y += point.y - origin.y;
     }
     if (this.moved) this.dismissPreview('layout');
     this.requestDraw(true);
@@ -383,23 +409,30 @@ export class AtlasGraph {
 
   pointerUp(event) {
     if (!this.pointers.has(event.pointerId)) return;
-    const point = this.point(event);
-    const canSelect = this.pointers.size === 1 && !this.moved;
+    event.preventDefault();
+    // A quick drag may deliver its final position only on release.
+    this.pointerMove(event);
+    const canSelect = this.pointers.size === 1 && !this.moved && !this.panOnly;
     this.pointers.delete(event.pointerId);
     if (this.canvas.hasPointerCapture(event.pointerId)) this.canvas.releasePointerCapture(event.pointerId);
-    if (canSelect) this.select(this.hit(point), 'hover');
+    if (canSelect) this.select(this.byId.get(this.pressTarget), 'hover');
     if (!this.pointers.size) {
+      this.pressTarget = null;
       this.canvas.style.cursor = 'grab';
-      this.setHovered(event.pointerType === 'mouse' && !this.moved ? this.hit(point)?.id || null : null, event.pointerType === 'touch');
+      // Selection moves the camera: the old pointer position no longer identifies
+      // the selected star. Keep its new preview anchor until the pointer moves.
+      if (!canSelect) this.setHovered(null, event.pointerType === 'touch');
     }
   }
 
   pointerCancel(event) {
     if (!this.pointers.has(event.pointerId)) return;
     this.pointers.delete(event.pointerId);
+    if (this.canvas.hasPointerCapture(event.pointerId)) this.canvas.releasePointerCapture(event.pointerId);
     this.moved = true;
     this.dismissPreview('layout');
-    if (!this.pointers.size) this.canvas.style.cursor = 'grab';
+    if (!this.pointers.size) { this.pressTarget = null; this.canvas.style.cursor = 'grab'; }
+    this.requestDraw();
   }
 
   keyDown(event) {
@@ -522,6 +555,12 @@ export class AtlasGraph {
 
   select(node, reason = 'keyboard') {
     if (!node) { this.dismissPreview('dismiss'); this.requestDraw(); return; }
+    const center = this.viewportCenter();
+    this.pan = { x: center.x - node.x * this.scale, y: center.y - node.y * this.scale };
+    this.hovered = null;
+    this.labelBoxes = [];
+    this.labelPlans = [];
+    this.exclusions = null;
     this.selected = node.id;
     this.keyboardId = node.id;
     this.emitPreview(node, reason);
@@ -842,7 +881,7 @@ export class AtlasGraph {
   labelExclusions() {
     if (this.exclusions) return this.exclusions;
     const canvas = this.canvas.getBoundingClientRect();
-    const elements = this.canvas.parentElement?.querySelectorAll?.('.graph-intro, .graph-controls, .theme-control, .region-controls, .region-bar, .graph-bottom, .graph-instructions, .preview-navigation, .map-layers') || [];
+    const elements = this.canvas.parentElement?.querySelectorAll?.('.graph-intro, .graph-controls, .theme-control, .region-controls, .region-bar, .graph-bottom, .graph-instructions, .preview-navigation, .map-layers, .map-perspectives') || [];
     this.exclusions = [...elements].map(element => {
       const rect = element.getBoundingClientRect();
       return { x: rect.left - canvas.left - 6, y: rect.top - canvas.top - 6, width: rect.width + 12, height: rect.height + 12 };
@@ -894,7 +933,11 @@ export class AtlasGraph {
     const candidates = [];
     const previous = this.previousLabelBoxes?.get(node.id);
     if (highlighted && previous?.width === width && previous?.height === height) candidates.push({ ...previous });
-    for (const distance of [node.radius + 12, 42, 76, 112]) {
+    // Distant hubs can share a tiny patch of sky. A bounded outer search keeps
+    // their existing labels and leader lines readable without moving any stars.
+    const distances = [node.radius + 12, 42, 76, 112];
+    if (node.kind === 'hub' && this.scale / this.baseScale <= 1.3) distances.push(160, 224);
+    for (const distance of distances) {
       for (const [dx, dy] of [[outward, 0], [0, 1], [0, -1], [-outward, 0], [outward, 1], [outward, -1], [-outward, 1], [-outward, -1]]) {
         candidates.push({ id: node.id, x: node.sx + dx * distance - (dx < 0 ? width : dx === 0 ? width / 2 : 0), y: node.sy + dy * distance - (dy < 0 ? height : dy === 0 ? height / 2 : 0), width, height });
       }

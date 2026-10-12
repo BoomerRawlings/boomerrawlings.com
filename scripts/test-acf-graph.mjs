@@ -201,8 +201,8 @@ test('desktop and compact views reveal every person through keyboard navigation 
     h.labels.length = 0; h.labelBoxes.length = 0; h.tick(0);
     assertReadableOverview(h);
     for (let i = 0; i < 12; i++) {
-      const person = h.graph.screen.find(node => node.id === `work-${i}`);
-      assert.ok(person, 'all person hubs remain available even when their labels are suppressed');
+      const person = h.graph.byId.get(`work-${i}`);
+      assert.ok(person, 'all person hubs remain available after selecting another person moves the camera');
       // Cycling reaches even a hub whose dot is temporarily covered by another title.
       let steps = 0;
       do { h.graph.stepPreview(1); steps++; } while (h.previews.at(-1).node?.id !== person.id && steps <= 501);
@@ -286,9 +286,132 @@ test('pointer click selects, drag pans, and touch pinch zooms without selecting'
   h.pointer('pointermove', 4, 600, 350);
   assert.ok(Math.abs(h.graph.scale - scale * 2) < 1e-10);
   h.pointer('pointerup', 3, 400, 350);
-  h.pointer('pointerup', 4, 600, 350);
+  const pinched = { ...h.graph.pan };
+  h.pointer('pointermove', 4, 620, 360);
+  h.pointer('pointerup', 4, 620, 360);
+  assert.deepEqual(h.graph.pan, { x: pinched.x + 20, y: pinched.y + 10 }, 'remaining finger continues panning without a jump or new selection');
   assert.equal(h.selected.length, 1, 'ending a pinch must not open a record');
   assert.equal(h.graph.pointers.size, 0);
+});
+
+test('dragging a selected star or title pans the whole camera, including release-only motion', t => {
+  const h = harness(t, { reducedMotion: true });
+  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  const node = h.graph.byId.get('work-0'), coordinates = h.graph.nodes.map(({ id, x, y }) => ({ id, x, y }));
+  for (const pointerType of ['mouse', 'touch', 'pen']) for (const surface of ['star', 'title']) {
+    h.graph.select(node); h.tick(0);
+    const title = h.graph.labelBoxes.find(box => box.id === node.id);
+    assert.ok(title);
+    const point = surface === 'star' ? h.graph.anchor(node) : { x: title.x + title.width / 2, y: title.y + title.height / 2 };
+    const pan = { ...h.graph.pan }, scale = h.graph.scale, selections = h.selected.length;
+    assert.equal(h.pointer('pointerdown', 1, point.x, point.y, pointerType).defaultPrevented, true);
+    h.pointer('pointermove', 1, point.x + 3, point.y + 1, pointerType);
+    assert.deepEqual(h.graph.pan, pan, 'small press jitter leaves the map still');
+    assert.equal(h.graph.selected, node.id);
+    h.pointer('pointermove', 1, point.x + 8, point.y + 6, pointerType);
+    assert.deepEqual(h.graph.pan, { x: pan.x + 8, y: pan.y + 6 }, 'crossing the drag threshold retains all movement from the press');
+    assert.equal(h.graph.selected, null, 'a real drag dismisses the pinned star');
+    assert.equal(h.previews.at(-1).node, null);
+    h.pointer('pointerup', 1, point.x + 44, point.y + 21, pointerType);
+    assert.deepEqual(h.graph.pan, { x: pan.x + 44, y: pan.y + 21 }, 'release consumes movement after the last move event');
+    assert.equal(h.graph.scale, scale); assert.equal(h.selected.length, selections);
+    assert.equal(h.canvas.captures.size, 0); assert.equal(h.graph.pointers.size, 0);
+    assert.equal(h.canvas.style.cursor, 'grab');
+    assert.deepEqual(h.graph.nodes.map(({ id, x, y }) => ({ id, x, y })), coordinates, 'dragging changes no individual star positions');
+    const final = { ...h.graph.pan };
+    h.pointer('pointerdown', 2, point.x, point.y, pointerType);
+    h.pointer('pointerup', 2, point.x + 70, point.y - 35, pointerType);
+    assert.deepEqual(h.graph.pan, { x: final.x + 70, y: final.y - 35 }, 'a fast drag with no move event still pans');
+    assert.equal(h.selected.length, selections, 'no drag recenters or opens a star');
+  }
+});
+
+test('small click jitter selects the pressed star; cancel and lost capture cannot select', t => {
+  const h = harness(t, { reducedMotion: true });
+  h.graph.setData({ nodes: [
+    { id: 'pressed', kind: 'item', x: 0, y: 0 }, { id: 'nearby', kind: 'item', x: 3, y: 0 },
+  ], bounds: { left: -250, right: 250, top: -250, bottom: 250 } });
+  h.graph.setActive(true); h.tick(0); h.graph.zoomBy(1);
+  const press = h.graph.anchor(h.graph.byId.get('pressed')), release = h.graph.anchor(h.graph.byId.get('nearby'));
+  assert.ok(release.x - press.x < 5);
+  h.pointer('pointerdown', 1, press.x, press.y, 'mouse');
+  h.pointer('pointerup', 1, release.x, release.y, 'mouse');
+  assert.equal(h.selected.at(-1).id, 'pressed', 'dense adjacent stars cannot replace the original click target');
+  for (const type of ['pointercancel', 'lostpointercapture']) {
+    h.pointer('pointerdown', 2, press.x, press.y, 'mouse');
+    h.send(type, { pointerId: 2 });
+    h.pointer('pointerup', 2, press.x, press.y, 'mouse');
+    assert.equal(h.selected.length, 1); assert.equal(h.canvas.captures.size, 0); assert.equal(h.graph.pointers.size, 0);
+    assert.equal(h.graph.selected, null);
+  }
+  assert.equal(h.send('dragstart').defaultPrevented, true, 'native HTML dragging never takes over the map');
+  for (const pointerType of ['mouse', 'pen']) {
+    h.send('pointerdown', { pointerId: 3, pointerType, button: 2, clientX: press.x, clientY: press.y });
+    assert.equal(h.canvas.captures.size, 0); assert.equal(h.graph.pointers.size, 0, 'secondary buttons preserve browser interaction');
+  }
+});
+
+test('forwarded preview gestures capture the canvas, pan only after movement and never select', t => {
+  const h = harness(t, { reducedMotion: true });
+  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  h.graph.select(h.graph.byId.get('work-0')); h.tick(0);
+  const pan = { ...h.graph.pan }, selected = h.graph.selected, selections = h.selected.length;
+  const press = () => {
+    const event = Object.assign(new Event('pointerdown', { cancelable: true }), { pointerId: 1, pointerType: 'mouse', button: 0, clientX: 120, clientY: 140 });
+    h.graph.pointerDown(event, { panOnly: true });
+    assert.equal(event.defaultPrevented, true); assert.equal(h.canvas.hasPointerCapture(1), true);
+  };
+  press(); h.pointer('pointerup', 1, 120, 140, 'mouse');
+  assert.deepEqual(h.graph.pan, pan); assert.equal(h.graph.selected, selected);
+  assert.equal(h.selected.length, selections, 'clicking the preview body never activates a hidden star');
+  press(); h.pointer('pointermove', 1, 136, 149, 'mouse'); h.pointer('pointerup', 1, 150, 160, 'mouse');
+  assert.deepEqual(h.graph.pan, { x: pan.x + 30, y: pan.y + 20 });
+  assert.equal(h.graph.selected, null); assert.equal(h.previews.at(-1).node, null);
+  assert.equal(h.selected.length, selections); assert.equal(h.canvas.captures.size, 0);
+});
+
+for (const reducedMotion of [false, true]) test(`star activation centers without zooming or stale previews (reduced motion: ${reducedMotion})`, t => {
+  const h = harness(t, { reducedMotion });
+  h.graph.setData({
+    nodes: [
+      { id: 'record', label: 'Publication', kind: 'item', x: -130, y: -70 },
+      { id: 'name', label: 'Credited name', kind: 'person', x: 90, y: 50 },
+      { id: 'theme', label: 'Inferred theme', kind: 'hub', x: -30, y: 100 },
+    ], bounds: { left: -200, right: 200, top: -200, bottom: 200 },
+  });
+  h.graph.setActive(true);
+  for (const width of [320, 390, 1000]) {
+    Object.assign(h.canvas.rect, { width, height: 700, left: 43, top: 87 }); h.graph.measure();
+    for (const node of h.graph.nodes) for (const input of ['mouse', 'touch', 'Enter', ' ']) {
+      h.graph.reset(); h.graph.zoomBy(1.6);
+      const scale = h.graph.scale, pan = { ...h.graph.pan }, anchor = h.graph.anchor(node), center = h.graph.viewportCenter();
+      assert.ok(Math.hypot(anchor.x - center.x, anchor.y - center.y) > 20, 'fixture activates an off-center star');
+      if (input === 'mouse' || input === 'touch') {
+        if (input === 'mouse') {
+          h.pointer('pointermove', 1, anchor.x + 43, anchor.y + 87, input);
+          assert.deepEqual(h.graph.pan, pan, 'hover previews never recenter the camera');
+        }
+        h.pointer('pointerdown', 1, anchor.x + 43, anchor.y + 87, input);
+        h.pointer('pointerup', 1, anchor.x + 43, anchor.y + 87, input);
+      } else {
+        h.graph.focusNode(node);
+        assert.deepEqual(h.graph.pan, pan, 'focusing an already visible star does not recenter it');
+        h.send('keydown', { key: input });
+      }
+      const centered = h.graph.anchor(node);
+      assert.equal(h.selected.at(-1).id, node.id);
+      assert.equal(h.graph.scale, scale, 'activation retains the current zoom');
+      assert.ok(Math.hypot(centered.x - center.x, centered.y - center.y) < 1e-8, 'selected star reaches the usable map center immediately');
+      assert.deepEqual(h.selectedAnchors.at(-1), centered, 'pinned card receives the new canvas-local anchor');
+      assert.equal(h.previews.at(-1).node.id, node.id, 'pointer-up does not re-hit the old cursor location');
+      assert.deepEqual(h.previews.at(-1).anchor, centered);
+      assert.equal(h.graph.previewId, node.id);
+      assert.equal(h.graph.labelBoxes.length, 0, 'obsolete painted hit boxes are discarded before the next frame');
+      h.tick(0);
+      assert.deepEqual(h.graph.anchor(node), centered, 'selection animation never moves the camera farther');
+      if (reducedMotion) assert.equal(h.frames.size, 0, 'reduced motion renders centering once');
+    }
+  }
 });
 
 test('reduced motion, pause, hidden tabs and destruction suppress animation', t => {
@@ -373,9 +496,9 @@ test('touch pinning, empty-space dismissal and layout changes have distinct prev
   h.pointer('pointerdown', 1, anchor.x, anchor.y);
   h.pointer('pointerup', 1, anchor.x, anchor.y);
   assert.equal(h.selected.at(-1).id, node.id, 'first touch tap selects the card');
-  assert.deepEqual(h.selectedAnchors.at(-1), anchor);
-  assert.equal(h.previews.at(-1).node, null);
-  assert.equal(h.previews.at(-1).reason, 'hover', 'touch cleanup must not dismiss a pinned card');
+  assert.deepEqual(h.selectedAnchors.at(-1), h.graph.viewportCenter());
+  assert.equal(h.previews.at(-1).node.id, node.id);
+  assert.deepEqual(h.previews.at(-1).anchor, h.graph.viewportCenter(), 'touch retains the selected star and its centered card anchor');
   for (const change of [
     () => h.graph.reset(),
     () => { h.canvas.rect.width = 980; h.graph.measure(); },
@@ -406,6 +529,7 @@ test('item-only results retain readable titles and avoid measured overlay contro
   const data = fixture(); data.nodes = data.nodes.filter(node => node.kind === 'item'); data.edges = [];
   h.graph.setData(data); h.graph.setActive(true); h.tick(0);
   assert.ok(selector.includes('.preview-navigation'));
+  assert.ok(selector.includes('.map-perspectives'), 'zoom and expanded-view controls are excluded from labels');
   assert.equal(h.graph.labelBoxes.length, 2, 'compact item-only search still shows two real publication titles');
   assert.ok(h.labels.includes('Article · IEET'));
   for (const box of h.graph.labelBoxes) {
@@ -603,6 +727,14 @@ test('GPU submits all 33,945 record vertices with exact buffer parity; camera an
   assert.equal(h.canvas.dataset.submittedRecords, '33945');
   assert.equal(h.canvas.dataset.recordIdHash, idHash);
   assert.equal(h.gl.uploads.length, uploads, 'camera only changes uniforms');
+  const geometry = records.values, buffer = records.buffer, coordinates = records.values.slice();
+  h.graph.select(h.graph.byId.get('record-20000')); h.tick(0);
+  const centered = h.graph.anchor(h.graph.byId.get('record-20000')), center = h.graph.viewportCenter();
+  assert.ok(Math.hypot(centered.x - center.x, centered.y - center.y) < 1e-8);
+  assert.equal(records.values, geometry); assert.equal(records.buffer, buffer);
+  assert.deepEqual(records.values, coordinates, 'centering never changes original record coordinates');
+  assert.equal(h.canvas.dataset.recordIdHash, idHash); assert.equal(h.canvas.dataset.submittedRecords, '33945');
+  assert.equal(h.gl.uploads.length, uploads, 'centering reuses every GPU geometry buffer');
   h.graph.setLayers({ names: true, inferred: true }); h.tick(0);
   assert.equal(h.canvas.dataset.submittedRecords, '33945');
   assert.equal(h.canvas.dataset.submittedNames, '7361');
@@ -637,6 +769,48 @@ test('dense full-scale picking uses the spatial neighborhood and keeps every rec
   assert.equal(h.previews.at(-1).node.id, 'record-00000', 'keyboard cycling includes every enabled vertex and wraps');
   const anchor = h.previews.at(-1).anchor;
   assert.ok(anchor.x >= 0 && anchor.x <= h.graph.width && anchor.y >= 0 && anchor.y <= h.graph.height, 'offscreen keyboard target is brought into view');
+});
+
+test('perspectives recover a real record from empty sky at the requested zoom without changing full geometry', t => {
+  const h = harness(t, { gpu: true, layers: {}, reducedMotion: true });
+  h.graph.setData(fullScaleData()); h.graph.setActive(true); h.tick(0);
+  const records = h.graph.renderer.pointGroups.find(group => group.kind === 'item');
+  const values = records.values, coordinates = values.slice(), buffer = records.buffer, uploads = h.gl.uploads.length, idHash = h.canvas.dataset.recordIdHash;
+  h.graph.zoomBy(0.4);
+  h.pointer('pointerdown', 1, 50, 50, 'mouse'); h.pointer('pointerup', 1, 10050, -7950, 'mouse'); h.tick(0);
+  assert.equal(h.canvas.dataset.inViewRecords, '0', 'fixture pans beyond every source record');
+  assert.equal(h.graph.selected, null);
+  // Far lower-left world coordinates choose the nearest corner record, even
+  // though no record can be found by screen-clipped picking at this camera.
+  assert.equal(h.graph.setPerspective(4), true); h.tick(0);
+  assert.equal(h.selected.at(-1).id, 'record-33840');
+  const target = h.graph.byId.get(h.graph.selected), center = h.graph.viewportCenter();
+  for (const ratio of [4, 16, 100, 0.1]) {
+    assert.equal(h.graph.setPerspective(ratio), true); h.tick(0);
+    const anchor = h.graph.anchor(target), expectedRatio = Math.max(0.4, Math.min(64, ratio));
+    assert.ok(Math.hypot(anchor.x - center.x, anchor.y - center.y) < 1e-8);
+    assert.equal(h.graph.scale, h.graph.baseScale * expectedRatio);
+    assert.equal(h.selected.at(-1).id, target.id, 'subsequent perspectives retain the chosen star');
+    assert.deepEqual(h.selectedAnchors.at(-1), anchor); assert.equal(h.previews.at(-1).node.id, target.id);
+    assert.ok(Number(h.canvas.dataset.inViewRecords) > 0);
+    assert.equal(h.canvas.dataset.submittedRecords, '33945'); assert.equal(h.canvas.dataset.recordIdHash, idHash);
+    assert.equal(records.values, values); assert.equal(records.buffer, buffer); assert.deepEqual(values, coordinates);
+    assert.equal(h.gl.uploads.length, uploads, 'perspectives change only camera uniforms');
+  }
+  h.graph.select(h.graph.byId.get('@theme:2')); h.graph.setPerspective(8);
+  assert.equal(h.selected.at(-1).id, '@theme:2', 'an explicitly selected theme takes priority over automatic record choice');
+  h.graph.setLayers({ regions: false });
+  assert.equal(h.graph.setPerspective(4), true);
+  assert.equal(h.selected.at(-1).kind, 'item', 'automatic perspective targets records rather than hidden hubs');
+});
+
+test('perspectives leave empty data and invalid ratios unchanged', t => {
+  const h = harness(t, { reducedMotion: true });
+  h.graph.setActive(true);
+  const before = { pan: { ...h.graph.pan }, scale: h.graph.scale };
+  for (const ratio of [4, 0, -1, NaN, Infinity]) assert.equal(h.graph.setPerspective(ratio), false);
+  assert.deepEqual({ pan: h.graph.pan, scale: h.graph.scale }, before);
+  assert.equal(h.selected.length, 0);
 });
 
 test('context loss renders every in-view record through Canvas2D, restores full buffers, and releases resources', t => {
@@ -846,6 +1020,29 @@ test('all six region labels and hub picking work without inferred routes or reco
   assert.equal(h.graph.layers.regions, true, 'locating a theme enables regions');
   h.graph.setLayers({ inferred: false }); h.tick(0);
   assert.equal(h.graph.nodeEnabled(h.graph.byId.get('@theme:2')), true);
+});
+
+test('distant region labels use bounded outer positions without covering controls or moving hubs', t => {
+  const h = harness(t, { reducedMotion: true, layers: { names: false, labels: false, regions: true } });
+  const names = ['Minds and machines', 'Bodies and medicine', 'Power and society', 'Planet and environment', 'Culture and identity', 'Futures and change'];
+  const nodes = names.map((label, i) => ({ id: `theme-${i}`, label, count: 100 + i, kind: 'hub', x: (i % 3 - 1) * 90, y: (Math.floor(i / 3) - 0.5) * 90 }));
+  const overlays = [{ left: 0, top: 0, width: 260, height: 120 }, { left: 760, top: 0, width: 240, height: 90 }, { left: 410, top: 275, width: 230, height: 220 }, { left: 0, top: 590, width: 1000, height: 110 }];
+  h.canvas.parentElement = { querySelectorAll: () => overlays.map(rect => ({ getBoundingClientRect: () => rect })) };
+  h.graph.setData({ nodes, bounds: { left: -1400, right: 1400, top: -1100, bottom: 1100 } });
+  h.graph.setActive(true); h.graph.zoomBy(0.4); h.tick(0);
+  assert.equal(h.graph.labelBoxes.length, 6, 'a roomy distant view labels all six clustered hubs');
+  assert.ok(h.graph.labelBoxes.some(box => {
+    const point = h.graph.anchor(h.graph.byId.get(box.id));
+    return Math.max(box.x - point.x, point.x - box.x - box.width, box.y - point.y, point.y - box.y - box.height) > 112;
+  }), 'crowded hubs use space beyond the old local search');
+  for (const box of h.graph.labelBoxes) {
+    assert.ok(box.x >= 8 && box.y >= 8 && box.x + box.width <= h.graph.width - 8 && box.y + box.height <= h.graph.height - 8);
+    assert.ok(h.graph.labelExclusions().every(other => !h.graph.overlaps(box, other, 3)));
+    assert.ok(h.graph.labelBoxes.every(other => box === other || !h.graph.overlaps(box, other)));
+    assert.equal(h.graph.hit({ x: box.x + box.width / 2, y: box.y + box.height / 2 }).id, box.id, 'displaced titles retain their original hub hit target');
+  }
+  assert.deepEqual(h.graph.nodes.map(({ x, y }) => ({ x, y })), nodes.map(({ x, y }) => ({ x, y })), 'leaders displace only labels');
+  assert.equal(h.frames.size, 0, 'distant label layout returns to idle');
 });
 
 test('selection survives graphics loss/restoration, empty facets and stale record removal', t => {
