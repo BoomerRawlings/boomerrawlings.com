@@ -3,6 +3,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import { parse } from 'parse5';
 import * as model from '../public/ACF/model.js';
+import * as regions from '../public/ACF/regions.js';
 import { previewInfo } from '../public/ACF/preview-data.js';
 
 const source = readFileSync(new URL('../public/ACF/entry.js', import.meta.url), 'utf8');
@@ -14,10 +15,19 @@ const event = (type, properties = {}) => Object.assign(new Event(type, { cancela
 // Exercise the real script against the real markup. This deliberately models only
 // the DOM APIs used by the entrance; rendered geometry belongs to browser checks.
 function harness({ reduced = false, animationAPI = true, entrySource = source, autoReady = true } = {}) {
-  let hasApp = false;
+  let hasApp = false, currentGraph;
   let now = 0, timerId = 0, animations = 0, enters = 0, exits = 0, task = 0;
   const timers = new Map(), ids = new Map(), activeAnimations = new Map(), trace = [];
   const document = new EventTarget(), window = new EventTarget();
+  const location = { hash: '', pathname: '/ACF/', href: 'https://atlas.example/ACF/' };
+  const historyEntries = [{ state: null, url: location.href }]; let historyPosition = 0;
+  const setLocation = url => { const parsed = new URL(url, location.href); location.href = parsed.href; location.hash = parsed.hash; location.pathname = parsed.pathname; };
+  const history = {
+    get state() { return historyEntries[historyPosition].state; },
+    pushState(state, _unused, url) { setLocation(url); historyEntries.splice(++historyPosition); historyEntries.push({ state: structuredClone(state), url: location.href }); },
+    replaceState(state, _unused, url) { setLocation(url); historyEntries[historyPosition] = { state: structuredClone(state), url: location.href }; },
+    go(delta) { const next = historyPosition + delta; if (next < 0 || next >= historyEntries.length) return; historyPosition = next; setLocation(historyEntries[next].url); window.dispatchEvent(event('popstate')); },
+  };
   document.hidden = false;
   document.title = markup.match(/<title>(.*?)<\/title>/)[1];
   const record = (event, detail = {}) => trace.push({ at: now, task, event, activeAnimations: activeAnimations.size, ...detail });
@@ -35,6 +45,7 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
       this.children = []; this.parentElement = null;
       this.hidden = this.attributes.has('hidden'); this.inert = this.attributes.has('inert');
       this.open = this.attributes.has('open'); this.readOnly = false; this.disabled = false;
+      this.checked = this.attributes.has('checked');
       this.value = ''; this.textContent = ''; this.innerHTML = ''; this.scrollTop = 0;
       this.focusCount = 0; this.selectCount = 0;
       this.dataset = Object.fromEntries(attributes.filter(a => a.name.startsWith('data-')).map(a => [a.name.slice(5), a.value]));
@@ -45,6 +56,7 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
         remove: (...names) => names.forEach(n => classes.delete(n)),
         contains: name => classes.has(name),
       };
+      Object.defineProperty(this, 'className', { get: () => [...classes].join(' '), set: value => { classes.clear(); String(value).split(/\s+/).filter(Boolean).forEach(name => classes.add(name)); } });
       if (!animationAPI) this.animate = undefined;
     }
     setAttribute(name, value) { this.attributes.set(name, String(value)); }
@@ -57,16 +69,20 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
     set id(value) { this.attributes.set('id', value); ids.set(value, this); }
     get options() { return this.children; }
     append(...children) { for (const child of children) { this.children.push(child); child.parentElement = this; } }
+    prepend(...children) { for (const child of children) child.parentElement = this; this.children.unshift(...children); }
     replaceChildren(...children) { this.children = []; this.append(...children); }
     before(child) { const position = this.parentElement.children.indexOf(this); this.parentElement.children.splice(position, 0, child); child.parentElement = this.parentElement; }
     remove() { if (this.parentElement) this.parentElement.children = this.parentElement.children.filter(c => c !== this); this.parentElement = null; }
     close() { this.open = false; this.removeAttribute('open'); }
     querySelector(selector) {
-      assert(selector.startsWith('.'), `Unexpected selector ${selector}`);
       const descendants = [...this.children];
       for (let i = 0; i < descendants.length; i++) descendants.push(...descendants[i].children);
-      return descendants.find(n => n.classList.contains(selector.slice(1))) || null;
+      if (selector.startsWith('.')) return descendants.find(n => n.classList.contains(selector.slice(1))) || null;
+      const attribute = selector.match(/^\[([^=]+)="([^"]*)"\]$/);
+      assert(attribute, `Unexpected selector ${selector}`);
+      return descendants.find(n => n.getAttribute(attribute[1]) === attribute[2]) || null;
     }
+    contains(node) { return node === this || this.children.some(child => child.contains(node)); }
     animate(frames, options = {}) {
       animations++;
       const animationId = animations, target = this.id || this.className || this.attributes.get('class') || this.tagName;
@@ -110,12 +126,17 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
   document.addEventListener('acf:load-error', () => record('acf:load-error'));
   const globals = {
     document, window, Event, CustomEvent,
-    matchMedia: query => { assert.equal(query, '(prefers-reduced-motion: reduce)'); return motion; },
+    matchMedia: query => {
+      if (query === '(prefers-reduced-motion: reduce)') return motion;
+      assert.equal(query, '(max-width: 680px)');
+      return { matches: false }; // This lifecycle harness uses the desktop layout.
+    },
     setTimeout: (callback, delay) => { record('timer:schedule', { delay: delay || 0 }); return schedule(callback, delay); }, clearTimeout: clear,
   };
   runInNewContext(entrySource, globals, { filename: 'public/ACF/entry.js' });
   return {
-    $, document, window, motion, trace,
+    $, document, window, motion, trace, history, location,
+    get graph() { return currentGraph; },
     get enters() { return enters; }, get exits() { return exits; },
     get animations() { return animations; }, get pendingTimers() { return timers.size; },
     type(value) { $('entry-input').value = value; $('entry-input').dispatchEvent(event('input')); },
@@ -127,16 +148,17 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
       const data = new Map(directory.catalogs.map(entry => ['/ACF/data/' + entry.file, readFileSync(new URL('../public/ACF/data/' + entry.file, import.meta.url), 'utf8')]));
       const body = path => path === corruptPath ? '{invalid json' : path.endsWith('/index.json') ? JSON.stringify(directory) : data.get(path);
       class Graph {
-        constructor() { this.ctx = {}; record('graph:construct'); }
-        setData(graph) { record('graph:setData', { nodes: graph.nodes.length }); }
+        constructor() { currentGraph = this; this.ctx = {}; record('graph:construct'); }
+        setData(graph) { this.data = graph; record('graph:setData', { nodes: graph.nodes.length, records: graph.nodes.filter(node => node.kind === 'item').length }); }
+        setRegionSelection(ids, meta) { this.regionSelection = ids; this.regionSelectionMeta = meta; record('graph:setRegionSelection', { selected: ids === null ? null : ids.size, meta }); }
         setActive(active) { record('graph:setActive', { active }); }
         setLayers(layers) { record('graph:setLayers', { layers }); }
         focusRecord(id) { record('graph:focusRecord', { id }); return true; }
       }
-      class Preview { close() {} }
+      class Preview { constructor() { this.card = new Element(); } close() {} }
       const moduleGlobals = {
-        ...globals, ...model, AtlasGraph: Graph, NodePreview: Preview, previewInfo,
-        URL, URLSearchParams, location: { hash: '', pathname: '/ACF/' }, history: { pushState() {} },
+        ...globals, ...model, ...regions, AtlasGraph: Graph, NodePreview: Preview, previewInfo,
+        URL, URLSearchParams, location, history,
         addEventListener: window.addEventListener.bind(window), performance: { now: () => now },
         AbortSignal: { timeout: () => undefined },
         JSON: { stringify: JSON.stringify, parse: value => { record('json:parse'); return JSON.parse(value); } },
@@ -527,6 +549,96 @@ for (const reduced of [false, true]) {
   assert(h.$('dataset-status').textContent.startsWith('0 records'), 'An intentionally empty catalog selection survives reentry');
   assert.equal(h.trace.filter(step => step.event === 'fetch:start').length, 10);
   assert.equal(graphPreparations(h).length, preparations, 'Empty cached reentry does not rebuild');
+  cases++;
+}
+
+// Region controls execute the real app against all nine public catalogs. Check
+// actual IDs, history and data-object reuse, not only displayed aggregate text.
+{
+  const h = harness({ reduced: true }); h.loadApp(); h.type('atlas'); h.submit(); await h.settle(); usable(h);
+  const directory = JSON.parse(readFileSync(new URL('../public/ACF/data/index.json', import.meta.url), 'utf8'));
+  const oracle = model.createIndex(directory.catalogs.map(entry => JSON.parse(readFileSync(new URL('../public/ACF/data/' + entry.file, import.meta.url), 'utf8'))));
+  const originalGraph = h.graph.data;
+  const assertField = expected => {
+    assert.equal(h.graph.data, originalGraph, 'Region exploration reuses the installed full geometry');
+    assert.equal(h.trace.filter(step => step.event === 'graph:setData').length, 1, 'Region navigation/facets/history never rebuild point buffers');
+    assert.equal(originalGraph.nodes.filter(node => node.kind === 'item').length, 33945);
+    assert.deepEqual([...h.graph.regionSelection].sort(), expected.map(item => item.id).sort(), 'Highlight exact source-record membership');
+    assert.equal(h.$('region-panel').dataset.selectedCount, String(expected.length));
+    assert.equal(h.$('results-count').textContent, expected.length.toLocaleString());
+  };
+  const chooseRegion = id => { const choice = h.$('region-memberships').children.find(button => button.dataset.regionId === id); assert(choice, id + ' accessible region button'); choice.dispatchEvent(event('click')); };
+  const descendants = node => node.children.flatMap(child => [child, ...descendants(child)]);
+  const openFacets = () => {
+    const controls = h.$('region-content').querySelector('.region-filters'); assert(controls);
+    if (!controls.open) { controls.open = true; controls.dispatchEvent(event('toggle')); }
+    return controls;
+  };
+  const facet = (key, value) => { openFacets(); h.$('region-facet-' + key).value = value; h.$('region-facet-' + key).dispatchEvent(event('change')); };
+  assert.equal(h.$('region-memberships').children.length, 7, 'Six themes and unmatched remain accessible without route lines');
+  assert.equal(h.$('regions-toggle').checked, true, 'Soft regions visible on first entry');
+  assert.equal(h.$('themes-toggle').checked, false, 'Initial region meaning does not require inferred route lines');
+  assert.match(h.$('region-union').textContent, /11,331 unique title-matched · 22,614 unmatched/);
+  for (const id of [...model.THEMES.map(([id]) => id), 'unmatched']) {
+    chooseRegion(id);
+    assertField(oracle.items.filter(item => id === 'unmatched' ? item.themes.length === 0 : item.themes.includes(id)));
+    assert.equal(h.document.activeElement, h.$('region-close'), 'Region selection moves focus to its accessible panel');
+    assert.equal(h.$('region-panel').hidden, false);
+    assert.equal(descendants(h.$('region-content')).filter(node => node.tagName === 'SELECT').length, 1, 'Closed facets create only the sort selector, not all name/term options');
+    assert.equal(h.$('region-content').querySelector('.region-filters').open, false);
+  }
+  chooseRegion('minds');
+  const minds = oracle.items.filter(item => item.themes.includes('minds'));
+  const people = regions.regionFacets(oracle, 'minds').people;
+  assert(people.length > 80, 'Full-data fixture reaches bounded name-picker path');
+  openFacets();
+  assert.equal(h.$('region-facet-person').options.length, 81, 'Only 80 name choices plus All are initially inserted');
+  const latePerson = people.at(-1), personControl = h.$('region-facet-person').parentElement;
+  const nameSearch = personControl.children.find(node => node.tagName === 'INPUT'); assert(nameSearch);
+  assert(personControl.children.some(node => node.textContent.includes(`all ${people.length.toLocaleString()}`)), 'Name search discloses its complete searchable base');
+  nameSearch.value = latePerson.label + ' / ' + latePerson.catalogLabel; nameSearch.dispatchEvent(event('input'));
+  assert(h.$('region-facet-person').options.some(option => option.value === latePerson.id), 'A label beyond the first 80 is searchable and selectable');
+  facet('person', latePerson.id);
+  const credited = minds.filter(item => (oracle.byItem.get(item.id) || []).some(credit => credit.personId === latePerson.id));
+  assertField(credited); assert.match(h.location.hash, /theme=minds&person=/);
+  h.history.go(-1); assertField(minds);
+  h.history.go(1); assertField(credited); assert.equal(h.$('region-panel').hidden, false, 'History treats the person parameter as a region facet');
+  h.history.go(-1); assertField(minds);
+  facet('year', 'unknown');
+  const unknown = minds.filter(item => item.year === null); assert(unknown.length > 0); assertField(unknown);
+  assert.match(h.location.hash, /year=unknown/, 'Unknown dates have a history-addressable facet');
+  h.history.go(-1); assertField(minds);
+  h.history.go(1); assertField(unknown);
+  facet('collection', 'ieet');
+  const combined = unknown.filter(item => item.catalogId === 'ieet'); assertField(combined);
+  assert.equal(h.$('region-facet-year').value, 'unknown', 'Combined facets preserve previous selection');
+  for (const id of ['names-toggle','labels-toggle','relationships-toggle','themes-toggle','regions-toggle']) {
+    h.$(id).checked = !h.$(id).checked; h.$(id).dispatchEvent(event('change')); assertField(combined);
+  }
+  h.history.go(-1); assertField(unknown);
+  h.history.go(-1); assertField(minds);
+  const regionList = h.$('region-records'), rows = regionList.children[0];
+  assert.equal(rows.children.length, 20, 'Region starts with a bounded page of real records');
+  regionList.children[1].dispatchEvent(event('click'));
+  assert.equal(rows.children.length, 40, 'Pagination adds actual records');
+  const first = rows.children[0]; assert(oracle.byId.has(first.dataset.recordId)); first.dispatchEvent(event('click'));
+  assert.equal(h.$('detail').hidden, false, 'Region record opens source details');
+  assert.equal(h.$('region-panel').hidden, true);
+  assert.equal(h.graph.data, originalGraph);
+  h.history.go(-1); assertField(minds); assert.equal(h.$('region-panel').hidden, false, 'Back restores region drilldown');
+  h.$('region-close').focus(); h.document.dispatchEvent(event('keydown', { key: 'Escape' }));
+  assert.equal(h.$('region-panel').hidden, true, 'Escape closes region details');
+  const pressedRegion = h.$('region-memberships').children.find(choice => choice.dataset.regionId === 'minds');
+  assert.equal(h.document.activeElement, pressedRegion, 'Escape restores focus to the selected region choice');
+  for (let node = h.document.activeElement; node; node = node.parentElement) assert.equal(node.hidden, false, 'Restored focus has no hidden ancestor');
+  chooseRegion('minds'); assertField(minds);
+  h.$('breadcrumbs').children[0].dispatchEvent(event('click'));
+  assert.equal(h.graph.regionSelection, null, 'All connections clears the membership mask');
+  assert.equal(h.graph.data, originalGraph);
+  assert.equal(h.$('results-count').textContent, '33,945');
+  assert.equal(h.$('region-panel').hidden, true);
+  chooseRegion('minds'); h.click('return-entry'); h.type('atlas'); h.submit(); await h.settle(); usable(h, 2);
+  assertField(minds); assert.equal(h.trace.filter(step => step.event === 'fetch:start').length, 10, 'Region survives cached reentry without new fetches');
   cases++;
 }
 

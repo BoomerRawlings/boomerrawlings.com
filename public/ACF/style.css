@@ -121,3 +121,30 @@ body[data-view=list] .map-layers{display:none}
 .graph-instructions{bottom:96px}
 .graph-controls,.preview-navigation{bottom:112px}
 @media(max-width:680px){.map-layers{padding:0 18px;max-height:32vh}.map-layers summary{font-size:10px;padding:8px 0}.map-layers summary span{font-size:9px;margin-left:8px}.layer-options{gap:2px 12px}.layer-options label{font-size:11px;min-height:36px}.layer-explanation,#region-evidence p{font-size:10px}.graph-bottom{min-height:89px;padding:9px 16px}.graph-controls,.preview-navigation{bottom:99px}#graph-status{font-size:8px}}
+
+/* Seven persistent, keyboard/touch-accessible entry points. Counts never add overlaps. */
+.region-navigation{flex:none;padding:9px 30px 10px;border-bottom:1px solid var(--line);background:#111320}
+.region-navigation-heading{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font:10px/1.5 var(--mono);color:var(--ice)}
+#region-union{margin:0;color:var(--muted);font:10px/1.5 var(--sans)}
+#region-memberships{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;padding:7px 0 0}
+.region-choice{--region-color:#b4b3ae;display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;padding:8px 9px;text-align:left;border:1px solid color-mix(in srgb,var(--region-color) 45%,transparent);border-left:3px solid var(--region-color);border-radius:4px;background:color-mix(in srgb,var(--region-color) 6%,#111320);color:var(--text)}
+.region-choice:hover,.region-choice[aria-pressed=true]{background:color-mix(in srgb,var(--region-color) 20%,#111320);border-color:var(--region-color)}
+.region-name{font:12px/1.3 var(--sans)}.region-count{font:10px/1.3 var(--mono);color:var(--region-color);flex:none}
+.region-minds{--region-color:#90c2d1}.region-bodies{--region-color:#c5a5cc}.region-power{--region-color:#d6ac7f}.region-planet{--region-color:#9ebd92}.region-culture{--region-color:#94a8d3}.region-futures{--region-color:#c7bb82}
+.region-panel{width:430px;padding:54px 22px 24px;scrollbar-width:thin;overflow-wrap:anywhere}
+.region-total{font:14px/1.6 var(--sans);color:var(--ice)}
+.region-note{font:11px/1.7 var(--sans);color:var(--muted);margin:9px 0}
+.region-section{border-top:1px solid var(--line);padding:12px 0;margin-top:15px}
+.region-section summary{cursor:pointer;min-height:36px;font:13px/1.5 var(--sans);color:var(--ice)}
+.region-facet-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.region-facet{display:flex;flex-direction:column;gap:6px;min-width:0;color:var(--muted);font:11px/1.5 var(--sans)}
+.region-facet select,.region-facet input{width:100%;min-width:0;max-width:100%;min-height:44px;background:#10121f;border:1px solid var(--line);border-radius:3px;color:var(--text);padding:7px;font:12px var(--sans)}
+.region-sort{margin:18px 0 8px}.region-records .record-card{padding:17px 0;width:100%}.record-match{display:block;color:var(--ice);font:11px/1.6 var(--sans);margin-top:9px}
+.region-person,.region-relation{border-top:1px solid var(--line-soft);padding:10px 0}.region-panel .source-link{font-size:11px;margin:8px 0;overflow-wrap:anywhere}
+.region-panel .detail-title{font-size:29px}.region-panel .load-more{min-height:44px}
+@media(max-width:1100px){#region-memberships{grid-template-columns:repeat(4,minmax(0,1fr))}.region-navigation{padding:7px 22px}.region-navigation-heading{align-items:flex-start}#region-union{max-width:52ch}.region-choice{min-height:44px}.region-panel{width:380px}}
+@media(max-width:680px){.region-navigation{padding:6px 14px}.region-navigation-heading{font-size:9px}#region-union{display:none}#region-memberships{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding-top:5px}.region-choice{padding:5px 7px;min-height:44px;gap:5px}.region-name{font-size:11px}.region-count{font-size:10px}.region-unmatched{grid-column:1/-1}.region-panel{width:100%;top:14%;padding:58px 18px 24px}.region-facet select,.region-facet input{font-size:16px}.region-navigation~.atlas-panels .graph-intro{top:8px}.region-navigation~.atlas-panels .graph-intro #graph-heading{font-size:16px}.region-navigation~.atlas-panels .graph-bottom{min-height:65px;padding:5px 14px}.region-navigation~.atlas-panels .graph-controls,.region-navigation~.atlas-panels .preview-navigation{bottom:70px}.catalog-scale{padding-top:5px;padding-bottom:5px}#scale-legend{display:none}.scale-copy{margin-bottom:4px}.exploration-bar{min-height:40px;padding-top:3px;padding-bottom:3px}.region-panel .detail-title{font-size:27px}}
+@media(max-width:360px){.region-choice{min-height:42px}.region-name{font-size:10px}.region-count{font-size:9px}.region-navigation-heading{font-size:8px}.region-navigation~.atlas-panels .graph-intro{display:none}.region-navigation~.atlas-panels #graph-status{font-size:7px}.region-facet-grid{grid-template-columns:1fr}}
+/* Small screens scroll the exploration area instead of crushing the field
+   beneath seven region controls. The search toolbar stays available above it. */
+@media(max-width:680px){.atlas-main{display:block;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}.atlas-panels{height:max(420px,55svh);min-height:420px;flex:none}.region-choice{min-height:44px}.region-panel{top:24%;max-height:76%}.records-panel{min-height:420px}body[data-view=list] .atlas-panels{height:max(520px,65svh)}.detail-panel:not(.region-panel){top:5%;max-height:95%}}

@@ -9,10 +9,10 @@
     <link rel="canonical" href="https://boomerrawlings.com/ACF/" />
     <title>A question of futures</title>
     <link rel="icon" href="/ACF/icon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/ACF/style.css?v=fullmap-20261012" />
-    <link rel="stylesheet" href="/ACF/entry-effects.css?v=fullmap-20261012" />
-    <script is:inline src="/ACF/entry.js?v=fullmap-20261012" defer></script>
-    <script is:inline type="module" src="/ACF/app.js?v=fullmap-20261012"></script>
+    <link rel="stylesheet" href="/ACF/style.css?v=regions-20261012" />
+    <link rel="stylesheet" href="/ACF/entry-effects.css?v=regions-20261012" />
+    <script is:inline src="/ACF/entry.js?v=regions-20261012" defer></script>
+    <script is:inline type="module" src="/ACF/app.js?v=regions-20261012"></script>
   </head>
   <body class="entry-pending" data-view="map">
     <a class="skip-link" href="#search">Skip to collection search</a>
@@ -60,7 +60,7 @@
         <label class="search-field" for="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><span class="sr-only">Search titles, authors and topics</span><input id="search" type="search" placeholder="Find an idea, a person, a possible future…" autocomplete="off" /></label>
         <div class="toolbar-filters">
           <label class="filter-field" for="type-filter"><span>Show</span><select id="type-filter"><option value="">All types</option></select></label>
-          <fieldset class="year-filter"><legend class="sr-only">Publication years</legend><label for="year-from" class="sr-only">From year</label><input id="year-from" type="number" min="1000" max="2200" inputmode="numeric" placeholder="From" /><span aria-hidden="true">—</span><label for="year-to" class="sr-only">To year</label><input id="year-to" type="number" min="1000" max="2200" inputmode="numeric" placeholder="To" /></fieldset>
+          <fieldset class="year-filter"><legend class="sr-only">Record years</legend><label for="year-from" class="sr-only">From year</label><input id="year-from" type="number" min="1000" max="2200" inputmode="numeric" placeholder="From" /><span aria-hidden="true">—</span><label for="year-to" class="sr-only">To year</label><input id="year-to" type="number" min="1000" max="2200" inputmode="numeric" placeholder="To" /></fieldset>
           <button id="collections-open" class="collection-button" type="button"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2 8 4-8 4-8-4 8-4Zm-8 8 8 4 8-4M2 14l8 4 8-4"/></svg>Collections</button>
         </div>
       </div>
@@ -78,11 +78,15 @@
             <label><input id="names-toggle" type="checkbox" />Catalog-local names</label>
             <label><input id="relationships-toggle" type="checkbox" />Source routes</label>
             <label><input id="themes-toggle" type="checkbox" />Inferred routes</label>
-            <label><input id="regions-toggle" type="checkbox" />Theme regions</label>
+            <label><input id="regions-toggle" type="checkbox" checked />Theme regions</label>
           </div>
           <p class="layer-explanation">Labels are limited for readability. Point and route data are not sampled; overlapping points remain separate records. Solid routes show source credits or recorded relationships; dashed routes show inferred matches. Routes do not establish citation, influence or agreement.</p>
-          <div id="region-evidence" hidden><p>Regions overlap illustratively. Membership comes only from English title keywords: minds (AI, robots, consciousness); bodies (enhancement, longevity); power (politics, rights); planet (climate, energy); culture (media, ethics); futures (risk, foresight). Select a group to inspect matching titles and their source evidence. Counts can overlap.</p><div id="region-memberships"></div></div>
+          <div id="region-evidence"><p>Regions and proximity are illustrative, not an objective taxonomy. Membership comes only from English title keywords. Boundaries do not contain every member: overlapping memberships share positions. Select a group to inspect literal matches, unknown dates, source credits and documented relationships. No affiliation, agreement, citation or influence is implied. Collections remain a provenance lens.</p></div>
         </details>
+        <section class="region-navigation" aria-label="Title-word regions">
+          <div class="region-navigation-heading"><span>Title-word regions · illustrative</span><p id="region-union">Unique record memberships; overlapping groups.</p></div>
+          <div id="region-memberships" role="group" aria-label="Explore a region"></div>
+        </section>
         <div class="atlas-panels">
           <section id="graph-stage" class="graph-stage" aria-labelledby="graph-heading">
             <div class="graph-intro"><h1 id="graph-heading">A field of possible futures</h1><p id="graph-subtitle">Every record has a point. Follow one back to its source.</p></div>
@@ -110,6 +114,7 @@
             <p class="records-footnote">Metadata, people, and paths back to the source.</p>
           </aside>
 
+          <aside id="region-panel" class="detail-panel region-panel" aria-label="Selected region" hidden><button id="region-close" class="detail-close" type="button" aria-label="Close region details">Close <span aria-hidden="true">×</span></button><div id="region-content"></div></aside>
           <aside id="detail" class="detail-panel" aria-label="Selected record" hidden><button id="detail-close" class="detail-close" type="button" aria-label="Close selected record">Close <span aria-hidden="true">×</span></button><div id="detail-content"></div></aside>
         </div>
       </main>

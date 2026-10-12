@@ -7,18 +7,18 @@ function fakeGL() {
   let id = 0, buffer = null, program = null;
   const buffers = new Map(), pointers = new Map(), enabled = new Set();
   const gl = {
-    VERTEX_SHADER: 35633, FRAGMENT_SHADER: 35632, COMPILE_STATUS: 35713, LINK_STATUS: 35714, ARRAY_BUFFER: 34962, STATIC_DRAW: 35044,
+    VERTEX_SHADER: 35633, FRAGMENT_SHADER: 35632, COMPILE_STATUS: 35713, LINK_STATUS: 35714, ARRAY_BUFFER: 34962, STATIC_DRAW: 35044, DYNAMIC_DRAW: 35048,
     BLEND: 3042, SRC_ALPHA: 770, ONE_MINUS_SRC_ALPHA: 771, ONE: 1, FLOAT: 5126, COLOR_BUFFER_BIT: 16384, POINTS: 0, LINES: 1,
     lost: false, draws: [], uploads: [], deletedBuffers: [], deletedPrograms: [], uniforms: [],
     createShader: () => ({ id: ++id }), shaderSource() {}, compileShader() {}, getShaderParameter: () => true, deleteShader() {},
     createProgram: () => ({ id: ++id }), attachShader() {}, linkProgram() {}, getProgramParameter: () => true,
     deleteProgram: value => gl.deletedPrograms.push(value),
-    getAttribLocation: (_, name) => ({ a_position: 0, a_size: 1, a_distance: 1, a_color: 2 })[name],
+    getAttribLocation: (_, name) => ({ a_position: 0, a_size: 1, a_distance: 1, a_color: 2, a_selected: 3 })[name],
     getUniformLocation: (_, name) => name, useProgram: value => { program = value; }, uniform1f: (name, value) => gl.uniforms.push({ program, name, value }), uniform2f() {},
     createBuffer: () => ({ id: ++id }), bindBuffer: (_, value) => { buffer = value; },
     bufferData: (_, values) => { buffers.set(buffer, values); gl.uploads.push({ buffer, values }); },
     deleteBuffer: value => gl.deletedBuffers.push(value), enable() {}, blendFuncSeparate: (...factors) => { gl.blendFactors = factors; }, viewport() {}, clearColor() {}, clear() {},
-    enableVertexAttribArray: location => enabled.add(location), disableVertexAttribArray: location => enabled.delete(location),
+    enableVertexAttribArray: location => enabled.add(location), disableVertexAttribArray: location => enabled.delete(location), vertexAttrib1f() {},
     vertexAttribPointer: (location, size, type, normalized, stride, offset) => pointers.set(location, { buffer, size, stride, offset }),
     drawArrays: (mode, first, count) => {
       for (const location of enabled) {
@@ -338,7 +338,7 @@ test('empty data and unavailable canvas report useful zero-visible status', t =>
   h.graph.setActive(true);
   assert.equal(h.graph.edges.length, 0);
   assert.equal(h.canvas.dataset.graphUnavailable, 'true');
-  assert.deepEqual(h.status.at(-1), { visibleNodes: 0, totalNodes: 0, visibleEdges: 0, recordCount: 0, nameCount: 0, inViewRecords: 0, inViewNames: 0, backend: 'unavailable', submittedRecords: 0, submittedNames: 0, drawnPoints: 0, submittedEdges: 0, drawnEdges: 0 });
+  assert.deepEqual(h.status.at(-1), { visibleNodes: 0, totalNodes: 0, visibleEdges: 0, recordCount: 0, nameCount: 0, selectedRecords: 0, regionId: '', regionLabel: '', regionMemberTotal: 0, inViewRecords: 0, inViewNames: 0, backend: 'unavailable', submittedRecords: 0, submittedNames: 0, drawnPoints: 0, submittedEdges: 0, drawnEdges: 0 });
   assert.equal(h.frames.size, 0);
 });
 
@@ -551,7 +551,7 @@ test('decorative depth is deterministic, responds to camera changes and never be
   const positions = points.map(point => h.graph.depthPosition(point));
   assert.ok(positions.every(point => point.x >= 0 && point.x < h.graph.width && point.y >= 0 && point.y < h.graph.height));
   for (const point of positions) assert.equal(h.graph.hit(point), null, 'a background point is never a selectable record');
-  assert.deepEqual(h.status.at(-1), { visibleNodes: 0, totalNodes: 0, visibleEdges: 0, recordCount: 0, nameCount: 0, inViewRecords: 0, inViewNames: 0, backend: 'canvas2d', submittedRecords: 0, submittedNames: 0, drawnPoints: 0, submittedEdges: 0, drawnEdges: 0, selectedEdges: 0 });
+  assert.deepEqual(h.status.at(-1), { visibleNodes: 0, totalNodes: 0, visibleEdges: 0, recordCount: 0, nameCount: 0, selectedRecords: 0, regionId: '', regionLabel: '', regionMemberTotal: 0, inViewRecords: 0, inViewNames: 0, backend: 'canvas2d', submittedRecords: 0, submittedNames: 0, drawnPoints: 0, submittedEdges: 0, drawnEdges: 0, selectedEdges: 0 });
   h.graph.zoomBy(2); h.tick(0);
   const zoomed = points.map(point => h.graph.depthPosition(point));
   assert.ok(zoomed.some((point, i) => Math.hypot(point.x - positions[i].x, point.y - positions[i].y) > 1), 'zoom creates decorative depth');
@@ -582,7 +582,7 @@ test('GPU submits all 33,945 record vertices with exact buffer parity; camera an
   const data = fullScaleData();
   h.graph.setData(data); h.graph.setActive(true); h.tick(0);
   assert.equal(h.graph.renderer.backend, 'webgl');
-  assert.deepEqual(h.graph.layers, { names: false, labels: true, relationships: false, regions: false, inferred: false });
+  assert.deepEqual(h.graph.layers, { names: false, labels: true, relationships: false, regions: true, inferred: false });
   const records = h.graph.renderer.pointGroups.find(group => group.kind === 'item');
   assert.equal(records.count, 33945);
   assert.equal(records.values.length, 33945 * 6);
@@ -595,7 +595,7 @@ test('GPU submits all 33,945 record vertices with exact buffer parity; camera an
   assert.equal(h.canvas.dataset.inViewRecords, '33945');
   assert.equal(h.canvas.dataset.nameCount, '7361');
   assert.equal(h.canvas.dataset.submittedNames, '0');
-  assert.equal(h.gl.draws.filter(draw => draw.mode === h.gl.POINTS).at(-1).count, 33945);
+  assert.ok(h.gl.draws.some(draw => draw.mode === h.gl.POINTS && draw.count === 33945));
   const uploads = h.gl.uploads.length;
   const idHash = h.canvas.dataset.recordIdHash;
   h.graph.zoomBy(12); h.tick(0);
@@ -632,6 +632,8 @@ test('dense full-scale picking uses the spatial neighborhood and keeps every rec
   h.graph.focusRecord('record-33944'); h.tick(0);
   assert.equal(h.selected.at(-1).id, 'record-33944', 'list focus reaches a record outside the old bounded sample');
   h.graph.stepPreview(1); h.tick(0);
+  assert.equal(h.previews.at(-1).node.id, '@theme:0', 'keyboard cycling includes the independently visible theme hubs');
+  for (let i = 0; i < 6; i++) h.graph.stepPreview(1);
   assert.equal(h.previews.at(-1).node.id, 'record-00000', 'keyboard cycling includes every enabled vertex and wraps');
   const anchor = h.previews.at(-1).anchor;
   assert.ok(anchor.x >= 0 && anchor.x <= h.graph.width && anchor.y >= 0 && anchor.y <= h.graph.height, 'offscreen keyboard target is brought into view');
@@ -645,7 +647,7 @@ test('context loss renders every in-view record through Canvas2D, restores full 
   assert.equal(loss.defaultPrevented, true, 'renderer opts into context restoration');
   assert.equal(h.canvas.dataset.backend, 'canvas2d');
   assert.equal(h.canvas.dataset.submittedRecords, '33945', 'fallback overview draws every source record, not a smaller sample');
-  assert.equal(h.canvas.dataset.drawnPoints, '33945');
+  assert.equal(h.canvas.dataset.drawnPoints, '33951');
   h.graph.zoomBy(8); h.tick(0);
   assert.equal(h.canvas.dataset.submittedRecords, h.canvas.dataset.inViewRecords, 'fallback submission count honestly reflects camera culling');
   assert.ok(Number(h.canvas.dataset.submittedRecords) < 33945);
@@ -786,4 +788,110 @@ test('overview names and routes stay faint while zoom strengthens routes without
   assert.equal(h.canvas.dataset.submittedNames, '7361');
   assert.equal(h.canvas.dataset.submittedEdges, edges);
   assert.equal(h.gl.uploads.length, uploads, 'zoom opacity uses uniforms, never resampling data');
+});
+
+test('region selection highlights exact unique record membership without replacing full geometry', t => {
+  const h = harness(t, { gpu: true, reducedMotion: true, layers: {} });
+  h.graph.setData(fullScaleData()); h.graph.setActive(true); h.tick(0);
+  const renderer = h.graph.renderer, records = renderer.pointGroups.find(group => group.kind === 'item');
+  const geometry = records.values, buffer = records.buffer, hash = h.canvas.dataset.recordIdHash;
+  const initialUploads = h.gl.uploads.length;
+  const ids = new Set(['record-00003', 'record-10000', 'record-33944', 'name-1', '@theme:0', 'missing']);
+  h.graph.setRegionSelection(ids, { id: 'minds', label: 'Minds & machines', total: 1584 }); h.tick(0);
+  assert.deepEqual([...h.graph.regionSelection], ['record-00003', 'record-10000', 'record-33944']);
+  assert.deepEqual([...records.selectionValues.keys()].filter(i => records.selectionValues[i]), [3, 10000, 33944]);
+  assert.equal(h.canvas.dataset.selectedRecords, '3'); assert.equal(h.canvas.dataset.regionMemberTotal, '1584');
+  assert.equal(h.canvas.dataset.regionId, 'minds'); assert.equal(h.canvas.dataset.regionLabel, 'Minds & machines');
+  assert.equal(h.canvas.dataset.submittedRecords, '33945'); assert.equal(h.canvas.dataset.recordIdHash, hash);
+  assert.equal(records.values, geometry); assert.equal(records.buffer, buffer);
+  assert.equal(h.gl.uploads.length, initialUploads + 1, 'only the small selection mask uploads');
+  assert.equal(h.gl.uploads.at(-1).values.length, 33945);
+  const selectionBuffer = records.selectionBuffer;
+  ids.clear();
+  assert.equal(h.graph.regionSelection.size, 3, 'caller mutations cannot alter a rendered selection silently');
+  h.graph.setRegionSelection(new Set(['record-00003', 'record-10000', 'record-33944']), { id: 'minds', total: 1584 }); h.tick(0);
+  assert.equal(h.gl.uploads.length, initialUploads + 1, 'same membership reuses the mask');
+  h.graph.reset(); h.tick(0);
+  assert.equal(h.canvas.dataset.selectedRecords, '3', 'camera reset preserves the active exact membership');
+  assert.equal(records.buffer, buffer); assert.equal(h.gl.uploads.length, initialUploads + 1);
+  h.graph.zoomBy(2); h.graph.setLayers({ regions: false, inferred: true, names: true }); h.tick(0);
+  assert.equal(h.gl.uploads.length, initialUploads + 1, 'camera and independent layers upload nothing');
+  assert.equal(h.canvas.dataset.submittedRecords, '33945'); assert.equal(h.canvas.dataset.submittedEdges, '3000');
+  h.graph.setRegionSelection(new Set(['record-00000', 'record-00001']), { id: 'unmatched', label: 'No current title-keyword match', total: 20000 }); h.tick(0);
+  assert.equal(records.selectionBuffer, selectionBuffer); assert.equal(records.buffer, buffer); assert.equal(records.values, geometry);
+  assert.deepEqual([...records.selectionValues.keys()].filter(i => records.selectionValues[i]), [0, 1]);
+  const uploads = h.gl.uploads.length;
+  h.graph.setRegionSelection(null); h.tick(0);
+  assert.equal(h.canvas.dataset.selectedRecords, '0'); assert.equal(h.canvas.dataset.regionId, '');
+  assert.equal(h.gl.uploads.length, uploads, 'clearing selection changes a uniform, not data');
+  assert.equal(h.canvas.dataset.submittedRecords, '33945'); assert.equal(h.frames.size, 0);
+});
+
+test('all six region labels and hub picking work without inferred routes or record labels', t => {
+  const h = harness(t, { gpu: true, reducedMotion: true, layers: { labels: false } });
+  Object.assign(h.canvas.rect, { width: 1400, height: 1000 }); h.graph.measure();
+  const data = fullScaleData();
+  data.nodes.filter(node => node.kind === 'hub').forEach((node, i) => { node.x = (i % 3 - 1) * 760; node.y = (Math.floor(i / 3) - 0.5) * 1000; node.count = i + 20; });
+  data.regions = data.nodes.filter(node => node.kind === 'hub').map(node => ({ ...node, radiusX: 400, radiusY: 300 }));
+  h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  const regionLabels = h.graph.labelBoxes.filter(box => h.graph.byId.get(box.id).kind === 'hub');
+  assert.equal(regionLabels.length, 6, 'six spatial labels are attempted independently; generous space shows all');
+  assert.equal(h.canvas.dataset.submittedEdges, '0');
+  for (const box of regionLabels) assert.equal(h.graph.hit({ x: box.x + 4, y: box.y + 4 }).id, box.id);
+  h.graph.setLayers({ inferred: true, regions: false }); h.tick(0);
+  assert.equal(h.canvas.dataset.submittedEdges, '3000', 'route lines remain available when region shapes/hubs are off');
+  assert.equal(h.canvas.dataset.drawnPoints, '33945');
+  assert.equal(h.graph.labelBoxes.length, 0);
+  h.graph.focusRecord('@theme:2'); h.tick(0);
+  assert.equal(h.graph.layers.regions, true, 'locating a theme enables regions');
+  h.graph.setLayers({ inferred: false }); h.tick(0);
+  assert.equal(h.graph.nodeEnabled(h.graph.byId.get('@theme:2')), true);
+});
+
+test('selection survives graphics loss/restoration, empty facets and stale record removal', t => {
+  const h = harness(t, { gpu: true, reducedMotion: true, layers: {} });
+  const data = fullScaleData(); h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  h.graph.setRegionSelection(new Set(['record-00003', 'record-10000']), { id: 'futures', total: 2700 }); h.tick(0);
+  const oldBuffer = h.graph.renderer.pointGroups[0].selectionBuffer;
+  h.gl.lost = true; h.gpuCanvas.dispatchEvent(new Event('webglcontextlost', { cancelable: true })); h.tick(0);
+  assert.equal(h.canvas.dataset.backend, 'canvas2d'); assert.equal(h.canvas.dataset.submittedRecords, '33945');
+  assert.equal(h.canvas.dataset.selectedRecords, '2');
+  h.gl.lost = false; h.gpuCanvas.dispatchEvent(new Event('webglcontextrestored')); h.tick(0);
+  const records = h.graph.renderer.pointGroups[0];
+  assert.notEqual(records.selectionBuffer, oldBuffer);
+  assert.deepEqual([...records.selectionValues.keys()].filter(i => records.selectionValues[i]), [3, 10000]);
+  assert.equal(h.canvas.dataset.submittedRecords, '33945');
+  h.graph.setRegionSelection(new Set(), { id: 'futures', total: 2700 }); h.tick(0);
+  assert.equal(h.graph.regionSelection.size, 0); assert.equal(h.canvas.dataset.selectedRecords, '0');
+  assert.equal(records.selectionValues.some(value => value !== 0), false);
+  h.graph.setRegionSelection(new Set(['record-00003', 'record-10000']), { id: 'futures', total: 2700 });
+  h.graph.setData({ nodes: data.nodes.slice(0, 100), edges: [], bounds: data.bounds }); h.tick(0);
+  assert.deepEqual([...h.graph.regionSelection], ['record-00003']);
+  assert.equal(h.canvas.dataset.selectedRecords, '1'); assert.equal(h.canvas.dataset.recordCount, '100');
+  assert.equal(h.graph.renderer.pointGroups[0].selectionValues.length, 100);
+});
+
+test('Canvas fallback keeps region routes independent and highlights all selected visible records', t => {
+  const h = harness(t, { reducedMotion: true, layers: { names: false, labels: false, regions: false, inferred: true, relationships: false } });
+  const data = fullScaleData(); h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  h.graph.setRegionSelection(new Set(data.nodes.filter(node => node.kind === 'item').map(node => node.id)), { id: 'unmatched' }); h.tick(0);
+  assert.equal(h.canvas.dataset.backend, 'canvas2d'); assert.equal(h.canvas.dataset.selectedRecords, '33945');
+  assert.equal(h.canvas.dataset.drawnPoints, '33945'); assert.equal(h.canvas.dataset.submittedRecords, '33945');
+  assert.equal(h.canvas.dataset.submittedEdges, '3000'); assert.equal(h.frames.size, 0);
+});
+
+test('Canvas selection paints only exact member IDs bright while surrounding records stay visible', t => {
+  const h = harness(t, { reducedMotion: true, layers: { labels: false, names: false, inferred: false, relationships: false } });
+  const nodes = Array.from({ length: 20 }, (_, i) => ({ id: `record-${i}`, label: `Record ${i}`, kind: 'item', x: i * 30, y: i % 2 * 50 }));
+  h.graph.setData({ nodes, edges: [] }); h.graph.setActive(true); h.tick(0);
+  const ctx = h.graph.ctx, batches = []; let arcs = [];
+  ctx.beginPath = () => { arcs = []; };
+  ctx.arc = (x, y) => arcs.push({ x, y });
+  ctx.fill = () => batches.push({ color: ctx.fillStyle, alpha: ctx.globalAlpha, arcs });
+  h.graph.setRegionSelection(new Set(['record-1', 'record-7', 'record-19']), { id: 'unmatched' }); h.tick(0);
+  const bright = batches.find(batch => batch.color === '#ffd192'), dim = batches.find(batch => batch.color === '#a9c9db');
+  assert.equal(bright.alpha, 0.94); assert.equal(dim.alpha, 0.16);
+  assert.deepEqual(bright.arcs, ['record-1', 'record-7', 'record-19'].map(id => h.graph.anchor(h.graph.byId.get(id))));
+  assert.equal(dim.arcs.length, 17); assert.equal(h.canvas.dataset.submittedRecords, '20');
+  assert.equal(h.frames.size, 0, 'selection is static under reduced motion');
 });

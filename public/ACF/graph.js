@@ -1,7 +1,9 @@
-import { SpatialGrid } from './graph-spatial.js?v=fullmap-20261012';
-import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=fullmap-20261012';
+import { SpatialGrid } from './graph-spatial.js?v=regions-20261012';
+import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=regions-20261012';
 
 const COLORS = { hub: '#d89976', item: '#a9c9db', person: '#aaa4d0' };
+const REGION_COLORS = ['#90c2d1', '#c5a5cc', '#d6ac7f', '#9ebd92', '#94a8d3', '#c7bb82'];
+const regionRGBA = (color, alpha) => `rgba(${[1, 3, 5].map(start => parseInt(color.slice(start, start + 2), 16)).join(',')},${alpha})`;
 const clamp = (value, low, high) => Math.min(high, Math.max(low, value));
 const finite = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 
@@ -23,12 +25,15 @@ export class AtlasGraph {
     this.onLabels = onLabels;
     this.onZoom = onZoom;
     this.onStatus = onStatus;
-    this.layers = { names: false, labels: true, relationships: false, regions: false, inferred: false };
+    this.layers = { names: false, labels: true, relationships: false, regions: true, inferred: false };
     this.renderer = new GraphRenderer(canvas, this.ctx, () => { this.animationUntil = 0; this.connectionPulse = null; this.requestDraw(); });
     this.available = this.renderer.backend !== 'unavailable';
     this.spatial = new SpatialGrid();
     this.adjacency = new Map();
     this.regions = [];
+    this.regionNodes = [];
+    this.regionSelection = null;
+    this.regionSelectionMeta = {};
     this.fixedBounds = null;
     this.dataRevision = 0;
     this.screenKey = '';
@@ -131,7 +136,9 @@ export class AtlasGraph {
     this.nodes = [...this.byId.values()];
     this.edges = edges.filter(edge => edge && this.byId.has(String(edge.from)) && this.byId.has(String(edge.to)))
       .map(edge => ({ ...edge, from: String(edge.from), to: String(edge.to) }));
-    this.regions = regions;
+    this.regions = regions.map((region, i) => ({ ...region, color: REGION_COLORS[i % REGION_COLORS.length] }));
+    this.regionNodes = this.nodes.filter(node => node.kind === 'hub');
+    for (const region of this.regions) { const node = this.byId.get(region.id); if (node) node.color = region.color; }
     this.fixedBounds = bounds && ['left', 'right', 'top', 'bottom'].every(key => Number.isFinite(bounds[key])) ? bounds : null;
     this.spatial = new SpatialGrid(this.nodes);
     this.adjacency = new Map(this.nodes.map(node => [node.id, []]));
@@ -146,6 +153,9 @@ export class AtlasGraph {
     this.canvas.dataset.recordIdCount = String(this.recordCount);
     this.canvas.dataset.recordIdHash = hash(this.nodes.filter(node => node.kind === 'item').map(node => node.id).join('\n')).toString(16);
     this.renderer.setData(this.nodes, this.edges, this.byId);
+    // Data replacement can remove records; a retained region selection must never retain stale IDs.
+    if (this.regionSelection) this.regionSelection = new Set([...this.regionSelection].filter(id => this.byId.get(id)?.kind === 'item'));
+    this.renderer.setRegionSelection(this.regionSelection);
     this.dataRevision++;
     this.screenKey = '';
     this.enabledNodes = this.nodes.filter(node => this.nodeEnabled(node));
@@ -166,8 +176,20 @@ export class AtlasGraph {
     }
   }
 
-  nodeEnabled(node) { return node.kind === 'item' || (node.kind === 'person' ? this.layers.names : this.layers.inferred); }
+  nodeEnabled(node) { return node.kind === 'item' || (node.kind === 'person' ? this.layers.names : this.layers.regions); }
+  routeNodeEnabled(node) { return node.kind !== 'person' || this.layers.names; }
   edgeEnabled(edge) { return edge.inferred ? this.layers.inferred : this.layers.relationships; }
+
+  setRegionSelection(memberIds, { id = '', label = '', total = memberIds?.size || 0 } = {}) {
+    if (this.destroyed) return;
+    const selection = memberIds == null ? null : new Set([...memberIds].map(String).filter(value => this.byId.get(value)?.kind === 'item'));
+    const same = selection === null ? this.regionSelection === null : this.regionSelection !== null && selection.size === this.regionSelection.size && [...selection].every(value => this.regionSelection.has(value));
+    this.regionSelectionMeta = selection === null ? {} : { id: String(id), label: String(label), total: Math.max(selection.size, finite(total, selection.size)) };
+    if (!same) { this.regionSelection = selection; this.renderer.setRegionSelection(selection); }
+    this.labelsDirty = true;
+    this.requestDraw();
+    if (!this.ctx) this.publishStatus({ backend: 'unavailable', submittedRecords: 0, submittedNames: 0, drawnPoints: 0, submittedEdges: 0, drawnEdges: 0 });
+  }
 
   setLayers(layers = {}) {
     let changed = false;
@@ -185,7 +207,7 @@ export class AtlasGraph {
     const node = this.byId.get(String(id));
     if (!node || this.destroyed) return false;
     if (node.kind === 'person' && !this.layers.names) this.setLayers({ names: true });
-    if (node.kind === 'hub' && !this.layers.inferred) this.setLayers({ inferred: true });
+    if (node.kind === 'hub' && !this.layers.regions) this.setLayers({ regions: true });
     this.dismissPreview('layout');
     this.scale = Math.max(this.scale, this.baseScale * 5);
     const center = this.viewportCenter();
@@ -538,7 +560,7 @@ export class AtlasGraph {
     if (!this.active || this.destroyed || document.hidden || this.paused || this.motion.matches || (!this.layers.relationships && !this.layers.inferred)) return;
     const edges = [];
     for (const edge of nodeId ? this.adjacency.get(nodeId) || [] : this.edges) {
-      if (!this.edgeEnabled(edge) || !this.nodeEnabled(this.byId.get(edge.from)) || !this.nodeEnabled(this.byId.get(edge.to))) continue;
+      if (!this.edgeEnabled(edge) || !this.routeNodeEnabled(this.byId.get(edge.from)) || !this.routeNodeEnabled(this.byId.get(edge.to))) continue;
       edges.push(edge); if (edges.length === 72) break;
     }
     if (!edges.length) return;
@@ -610,15 +632,15 @@ export class AtlasGraph {
 
   radius(node) { return clamp(node.size * Math.sqrt(this.scale / this.baseScale), 0.6, 18); }
 
-  project(node) {
-    if (!node || !this.nodeEnabled(node)) return null;
+  project(node, route = false) {
+    if (!node || !(route ? this.routeNodeEnabled(node) : this.nodeEnabled(node))) return null;
     const x = node.x * this.scale + this.pan.x, y = node.y * this.scale + this.pan.y, radius = this.radius(node);
     if (x + radius < 0 || x - radius > this.width || y + radius < 0 || y - radius > this.height) return null;
     node.sx = x; node.sy = y; node.radius = radius; return node;
   }
 
   updateScreen() {
-    const key = `${this.dataRevision}:${this.renderer.backend}:${this.layers.names}:${this.layers.inferred}:${this.layers.relationships}:${this.width}:${this.height}:${this.pan.x}:${this.pan.y}:${this.scale}`;
+    const key = `${this.dataRevision}:${this.renderer.backend}:${this.layers.names}:${this.layers.regions}:${this.layers.inferred}:${this.layers.relationships}:${this.width}:${this.height}:${this.pan.x}:${this.pan.y}:${this.scale}`;
     if (key === this.screenKey) return;
     this.screenKey = key;
     this.visible = this.chooseVisible();
@@ -626,6 +648,7 @@ export class AtlasGraph {
       Object.assign(this, this.renderer.countInView(this, this.layers));
       this.screenLabelOrder = { item: [], hub: [] };
       const points = new Map();
+      for (const node of this.regionNodes) { const point = this.project(node); if (point) points.set(node.id, point); }
       for (const kind of ['item', 'hub']) {
         for (const node of this.labelOrder[kind].slice(0, 512)) {
           const point = this.project(node);
@@ -648,7 +671,9 @@ export class AtlasGraph {
       node.sx = node.x * this.scale + this.pan.x; node.sy = node.y * this.scale + this.pan.y; node.radius = this.radius(node); return node;
     }).filter(node => node.sx + node.radius >= 0 && node.sx - node.radius <= this.width && node.sy + node.radius >= 0 && node.sy - node.radius <= this.height);
     this.screenPoints = new Map(this.screen.map(node => [node.id, node]));
-    this.visibleEdges = this.edges.filter(edge => this.edgeEnabled(edge) && this.screenPoints.has(edge.from) && this.screenPoints.has(edge.to));
+    this.routePoints = new Map(this.screenPoints);
+    if (this.layers.inferred && !this.layers.regions) for (const node of this.regionNodes) { const point = this.project(node, true); if (point) this.routePoints.set(node.id, point); }
+    this.visibleEdges = this.edges.filter(edge => this.edgeEnabled(edge) && this.routePoints.has(edge.from) && this.routePoints.has(edge.to));
     this.displayedEdges = this.visibleEdges.filter(edge => edge.inferred ? this.layers.inferred : this.layers.relationships);
     this.inViewRecords = this.screen.filter(node => node.kind === 'item').length;
     this.inViewNames = this.screen.filter(node => node.kind === 'person').length;
@@ -671,19 +696,19 @@ export class AtlasGraph {
     this.paintDepth(ctx);
     this.renderer.checkContext();
     this.updateScreen();
-    const points = this.renderer.backend === 'webgl' ? new Map(this.screenPoints) : this.screenPoints;
+    const points = this.renderer.backend === 'webgl' ? new Map(this.screenPoints) : this.routePoints;
     const edges = this.visibleEdges;
     const emphasis = this.hovered || this.keyboardId || this.selected;
     const focusPoint = this.project(this.byId.get(emphasis)); if (focusPoint) points.set(emphasis, focusPoint);
     const selectedEdges = [];
     if (emphasis && (this.layers.relationships || this.layers.inferred)) for (const edge of this.adjacency.get(emphasis) || []) {
       if (!this.edgeEnabled(edge)) continue;
-      const a = this.project(this.byId.get(edge.from)), b = this.project(this.byId.get(edge.to));
+      const a = this.project(this.byId.get(edge.from), true), b = this.project(this.byId.get(edge.to), true);
       if (a && b) { points.set(a.id, a); points.set(b.id, b); selectedEdges.push(edge); }
       if (selectedEdges.length === 256) break;
     }
     if (this.connectionPulse) for (const edge of this.connectionPulse.edges) {
-      const a = this.project(this.byId.get(edge.from)), b = this.project(this.byId.get(edge.to));
+      const a = this.project(this.byId.get(edge.from), true), b = this.project(this.byId.get(edge.to), true);
       if (a && b) { points.set(a.id, a); points.set(b.id, b); }
     }
     if (this.layers.regions) this.paintRegions(ctx);
@@ -755,7 +780,9 @@ export class AtlasGraph {
       this.labelPlans = [];
       const compact = this.width < 500;
       if (points.has(emphasis)) this.placeLabel(ctx, points.get(emphasis), true);
-      const hubs = this.layers.labels ? this.screenLabelOrder.hub.filter(node => node.id !== emphasis) : [];
+      // Regions explain the field independently of optional record/name labels or route lines.
+      if (this.layers.regions) for (const node of this.regionNodes) if (node.id !== emphasis && points.has(node.id)) this.placeLabel(ctx, points.get(node.id), false);
+      const hubs = this.layers.labels ? this.screenLabelOrder.hub.filter(node => node.kind !== 'hub' && node.id !== emphasis) : [];
       const items = this.layers.labels ? this.screenLabelOrder.item.filter(node => node.id !== emphasis) : [];
       // Give both records and source labels space, including results with no people.
       let itemCount = 0, hubCount = 0;
@@ -781,6 +808,7 @@ export class AtlasGraph {
     const available = drawStats.backend !== 'unavailable';
     const status = { visibleNodes: available ? this.inViewCount || 0 : 0, totalNodes: this.nodes.length,
       visibleEdges: drawStats.visibleEdges || 0, recordCount: this.recordCount || 0, nameCount: this.nameCount || 0,
+      selectedRecords: this.regionSelection?.size || 0, regionId: this.regionSelectionMeta.id || '', regionLabel: this.regionSelectionMeta.label || '', regionMemberTotal: this.regionSelectionMeta.total || 0,
       inViewRecords: available ? this.inViewRecords || 0 : 0, inViewNames: available ? this.inViewNames || 0 : 0, ...drawStats };
     const statusKey = JSON.stringify(status);
     if (statusKey !== this.lastStatus) { this.lastStatus = statusKey; this.onStatus(status); }
@@ -794,9 +822,13 @@ export class AtlasGraph {
       if (region.count === 0) continue;
       if (![region.x, region.y, region.radiusX, region.radiusY].every(Number.isFinite)) continue;
       const anchor = this.anchor(region);
-      ctx.beginPath(); ctx.ellipse(anchor.x, anchor.y, Math.abs(region.radiusX * this.scale), Math.abs(region.radiusY * this.scale), 0, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(170,164,208,0.035)'; ctx.fill();
-      ctx.strokeStyle = 'rgba(170,164,208,0.23)'; ctx.lineWidth = 1; ctx.setLineDash([4, 7]); ctx.stroke();
+      const selected = this.regionSelectionMeta.id === region.id || this.regionSelectionMeta.id === region.themeId;
+      // A small fixed number of overlapping illustrative bands, never derived record membership.
+      for (const band of [1, 0.94, 0.88]) {
+        ctx.beginPath(); ctx.ellipse(anchor.x, anchor.y, Math.abs(region.radiusX * this.scale * band), Math.abs(region.radiusY * this.scale * band), 0, 0, Math.PI * 2);
+        ctx.fillStyle = regionRGBA(region.color, selected ? 0.025 : 0.013); ctx.fill();
+        ctx.strokeStyle = regionRGBA(region.color, band === 1 ? selected ? 0.58 : 0.25 : 0.05); ctx.lineWidth = selected && band === 1 ? 1.5 : 1; ctx.setLineDash(band === 1 ? [4, 7] : []); ctx.stroke();
+      }
     }
     ctx.setLineDash([]);
   }
@@ -810,7 +842,7 @@ export class AtlasGraph {
   labelExclusions() {
     if (this.exclusions) return this.exclusions;
     const canvas = this.canvas.getBoundingClientRect();
-    const elements = this.canvas.parentElement?.querySelectorAll?.('.graph-intro, .graph-controls, .theme-control, .graph-bottom, .graph-instructions, .preview-navigation, .map-layers') || [];
+    const elements = this.canvas.parentElement?.querySelectorAll?.('.graph-intro, .graph-controls, .theme-control, .region-controls, .region-bar, .graph-bottom, .graph-instructions, .preview-navigation, .map-layers') || [];
     this.exclusions = [...elements].map(element => {
       const rect = element.getBoundingClientRect();
       return { x: rect.left - canvas.left - 6, y: rect.top - canvas.top - 6, width: rect.width + 12, height: rect.height + 12 };
@@ -897,7 +929,7 @@ export class AtlasGraph {
     ctx.fillStyle = highlighted ? '#f5e0d1' : '#d9d7e6';
     lines.forEach((line, i) => ctx.fillText(line, box.x + 8, box.y + 16 + i * 16));
     ctx.font = '11px system-ui, sans-serif';
-    ctx.fillStyle = node.kind === 'item' ? '#a9c9db' : '#d89976';
+    ctx.fillStyle = node.kind === 'hub' ? node.color || '#d89976' : node.kind === 'item' ? '#a9c9db' : '#d89976';
     ctx.fillText(sub, box.x + 8, box.y + 16 + lines.length * 16);
   }
 
@@ -930,5 +962,6 @@ export class AtlasGraph {
     this.adjacency.clear();
     this.spatial = new SpatialGrid();
     this.focusOrder = []; this.labelOrder = { item: [], hub: [] };
+    this.regionNodes = []; this.regions = []; this.regionSelection = null; this.regionSelectionMeta = {};
   }
 }
