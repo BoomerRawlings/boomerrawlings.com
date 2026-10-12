@@ -83,10 +83,21 @@
         <div class="exploration-bar"><nav id="breadcrumbs" aria-label="Current exploration"><span>All connections</span></nav><div class="view-switch" role="group" aria-label="Display"><button id="map-view" type="button" aria-pressed="true">Map</button><button id="list-view" type="button" aria-pressed="false">List</button></div></div>
         <div class="atlas-panels">
           <section id="graph-stage" class="graph-stage" aria-labelledby="graph-heading">
-            <div class="graph-intro"><p class="eyebrow">A field of connected ideas</p><h1 id="graph-heading">Every idea has<br /><em>a wider world.</em></h1><p id="graph-subtitle">Choose a constellation. Follow a connection.</p></div>
-            <canvas id="network" tabindex="0" aria-label="Interactive publication network. Use the collection list for keyboard access to every record." aria-describedby="graph-instructions"></canvas>
-            <p id="graph-instructions" class="graph-instructions">Drag to explore · Scroll or pinch to zoom · Select a node to follow</p>
+            <div class="graph-intro"><h1 id="graph-heading">Network of publications</h1><p id="graph-subtitle">Hover or tap a node to read its metadata.</p></div>
+            <canvas id="network" tabindex="0" aria-label="Interactive publication network. Hover or tap a node for metadata." aria-describedby="graph-instructions graph-keyboard-instructions"></canvas>
+            <p id="graph-instructions" class="graph-instructions">Hover or tap for metadata · Drag to pan · Scroll or pinch to zoom</p>
+            <p id="graph-keyboard-instructions" class="sr-only">Focus the map and use arrow keys to preview nodes, Enter to pin a preview, Shift plus arrow keys to pan, and Escape to dismiss. Previous node and Next node also browse previews. Use the collection list to access every record.</p>
+            <aside id="node-preview" class="node-preview" aria-label="Node preview" hidden>
+              <div class="preview-header"><p id="preview-kind" class="preview-kind"></p><button id="preview-close" class="preview-close" type="button" aria-label="Close node preview">×</button></div>
+              <h2 id="preview-title"></h2>
+              <p id="preview-collection" class="preview-collection"></p>
+              <p id="preview-meta" class="preview-meta"></p>
+              <p id="preview-context" class="preview-context"></p>
+              <button id="preview-open" class="preview-open" type="button">Open record <span aria-hidden="true">↗</span></button>
+            </aside>
+            <p id="preview-announcement" class="sr-only" role="status" aria-live="polite"></p>
             <div class="graph-controls"><button id="zoom-in" type="button" aria-label="Zoom in">+</button><button id="zoom-out" type="button" aria-label="Zoom out">−</button><button id="reset-view" type="button" aria-label="Reset map view"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 7a7 7 0 1 1-1 6M4 2v5h5"/></svg></button><span class="control-divider" aria-hidden="true"></span><button id="motion-toggle" type="button" aria-pressed="false" aria-label="Toggle map motion"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 4v12M15 4v12"/></svg></button></div>
+            <div id="preview-navigation" class="preview-navigation" role="group" aria-label="Browse node previews"><button id="preview-prev" type="button" aria-label="Previous node"><span aria-hidden="true">←</span><span class="preview-nav-label">Previous node</span></button><button id="preview-next" type="button" aria-label="Next node"><span class="preview-nav-label">Next node</span><span aria-hidden="true">→</span></button></div>
             <label class="theme-control"><input id="themes-toggle" type="checkbox" /><span>Explore thematic links</span><span class="inference-badge">Inferred</span></label>
             <div class="graph-bottom"><p id="graph-status" role="status" aria-live="polite">Loading public metadata…</p><div class="graph-legend" aria-label="Relationship legend"><span><i class="documented-line" aria-hidden="true"></i>Documented</span><span><i class="inferred-line" aria-hidden="true"></i>Inferred theme</span></div></div>
           </section>

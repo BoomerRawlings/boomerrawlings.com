@@ -12,10 +12,12 @@ function hash(value) {
 
 /** An event-driven view of a bounded, pre-positioned section of the catalog. */
 export class AtlasGraph {
-  constructor(canvas, { onSelect = () => {}, onZoom = () => {}, onStatus = () => {} } = {}) {
+  constructor(canvas, { onSelect = () => {}, onPreview = () => {}, onLabels = () => {}, onZoom = () => {}, onStatus = () => {} } = {}) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.onSelect = onSelect;
+    this.onPreview = onPreview;
+    this.onLabels = onLabels;
     this.onZoom = onZoom;
     this.onStatus = onStatus;
     this.nodes = [];
@@ -40,19 +42,24 @@ export class AtlasGraph {
     this.animationUntil = 0;
     this.initialized = false;
     this.lastStatus = '';
+    this.labelBoxes = [];
+    this.labelPlans = [];
+    this.labelsDirty = true;
+    this.previewId = null;
+    this.previewAnchor = { x: 0, y: 0 };
     this.motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     this.abort = new AbortController();
     const signal = this.abort.signal;
     this.canvas.style.touchAction = 'none';
     if (!this.canvas.hasAttribute('tabindex')) this.canvas.tabIndex = 0;
-    this.canvas.setAttribute('aria-keyshortcuts', '+ - ArrowUp ArrowDown ArrowLeft ArrowRight Home Enter');
+    this.canvas.setAttribute('aria-keyshortcuts', '+ - ArrowUp ArrowDown ArrowLeft ArrowRight Shift+ArrowUp Shift+ArrowDown Shift+ArrowLeft Shift+ArrowRight [ ] Home Enter Escape');
     canvas.addEventListener('pointerdown', event => this.pointerDown(event), { signal });
     canvas.addEventListener('pointermove', event => this.pointerMove(event), { signal });
     canvas.addEventListener('pointerup', event => this.pointerUp(event), { signal });
     canvas.addEventListener('pointercancel', event => this.pointerCancel(event), { signal });
     canvas.addEventListener('lostpointercapture', event => this.pointerCancel(event), { signal });
     canvas.addEventListener('pointerleave', () => {
-      if (!this.pointers.size) this.setHovered(null);
+      if (!this.pointers.size) this.setHovered(null, true);
     }, { signal });
     canvas.addEventListener('wheel', event => {
       if (!this.active) return;
@@ -61,10 +68,14 @@ export class AtlasGraph {
       this.zoomBy(Math.exp(-clamp(delta, -500, 500) * 0.0015), this.point(event));
     }, { signal, passive: false });
     canvas.addEventListener('keydown', event => this.keyDown(event), { signal });
-    canvas.addEventListener('focus', () => this.requestDraw(), { signal });
+    canvas.addEventListener('focus', () => {
+      if (!this.active || this.pointers.size) return;
+      this.updateScreen();
+      this.focusNode(this.byId.get(this.keyboardId) || this.nearestCenter());
+    }, { signal });
     canvas.addEventListener('blur', () => this.requestDraw(), { signal });
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) this.cancelFrame();
+      if (document.hidden) { this.dismissPreview('layout'); this.cancelFrame(); }
       else this.requestDraw();
     }, { signal });
     this.motion.addEventListener('change', () => {
@@ -109,6 +120,7 @@ export class AtlasGraph {
 
   setActive(active) {
     if (this.destroyed) return;
+    if (!active) this.dismissPreview('layout');
     this.active = Boolean(active);
     if (this.active) {
       this.measure();
@@ -166,6 +178,7 @@ export class AtlasGraph {
 
   reset() {
     if (this.destroyed) return;
+    this.dismissPreview('layout');
     if (!this.width || !this.height) {
       this.initialized = false;
       return;
@@ -195,6 +208,7 @@ export class AtlasGraph {
 
   zoomBy(factor, anchor = this.viewportCenter()) {
     if (this.destroyed || !Number.isFinite(factor) || factor <= 0) return;
+    this.dismissPreview('layout');
     const next = clamp(this.scale * factor, this.baseScale * 0.4, this.baseScale * 8);
     const ratio = next / this.scale;
     this.pan.x = anchor.x - (anchor.x - this.pan.x) * ratio;
@@ -222,7 +236,7 @@ export class AtlasGraph {
     if (!this.pointers.size) {
       this.start = point;
       this.moved = false;
-    } else this.moved = true;
+    } else { this.moved = true; this.dismissPreview('layout'); }
     this.pointers.set(event.pointerId, point);
     this.canvas.setPointerCapture(event.pointerId);
     this.canvas.focus({ preventScroll: true });
@@ -233,7 +247,7 @@ export class AtlasGraph {
     if (!this.active) return;
     const point = this.point(event);
     if (!this.pointers.has(event.pointerId)) {
-      if (!this.pointers.size) this.setHovered(this.hit(point)?.id || null);
+      if (!this.pointers.size && event.pointerType !== 'touch') this.setHovered(this.hit(point)?.id || null);
       return;
     }
     const previous = this.pointers.get(event.pointerId);
@@ -259,7 +273,7 @@ export class AtlasGraph {
         this.pan.y += point.y - previous.y;
       }
     }
-    this.hovered = null;
+    if (this.moved) this.dismissPreview('layout');
     this.requestDraw(true);
   }
 
@@ -269,37 +283,87 @@ export class AtlasGraph {
     const canSelect = this.pointers.size === 1 && !this.moved;
     this.pointers.delete(event.pointerId);
     if (this.canvas.hasPointerCapture(event.pointerId)) this.canvas.releasePointerCapture(event.pointerId);
-    if (canSelect) this.select(this.hit(point));
+    if (canSelect) this.select(this.hit(point), 'hover');
     if (!this.pointers.size) {
       this.canvas.style.cursor = 'grab';
-      this.setHovered(event.pointerType === 'mouse' ? this.hit(point)?.id || null : null);
+      this.setHovered(event.pointerType === 'mouse' && !this.moved ? this.hit(point)?.id || null : null, event.pointerType === 'touch');
     }
   }
 
   pointerCancel(event) {
+    if (!this.pointers.has(event.pointerId)) return;
     this.pointers.delete(event.pointerId);
     this.moved = true;
+    this.dismissPreview('layout');
     if (!this.pointers.size) this.canvas.style.cursor = 'grab';
   }
 
   keyDown(event) {
     if (!this.active || event.altKey || event.ctrlKey || event.metaKey) return;
-    if (['+', '=', '-', '_', 'Home', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Enter', ' '].includes(event.key)) event.preventDefault();
+    if (['+', '=', '-', '_', '[', ']', 'Escape', 'Home', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Enter', ' '].includes(event.key)) event.preventDefault();
     else return;
     if (event.key === '+' || event.key === '=') this.zoomBy(1.25);
     else if (event.key === '-' || event.key === '_') this.zoomBy(0.8);
     else if (event.key === 'Home') this.reset();
+    else if (event.key === 'Escape') { this.dismissPreview('dismiss'); this.requestDraw(); }
+    else if (event.key === '[' || event.key === ']') this.cycleFocus(event.key === ']' ? 1 : -1);
     else if (event.key === 'Enter' || event.key === ' ') {
-      const target = this.byId.get(this.keyboardId || this.hovered) || this.nearestCenter();
-      this.select(target);
-    } else {
+      this.updateScreen();
+      const target = this.byId.get(this.hovered || this.keyboardId) || this.nearestCenter();
+      this.select(target, 'keyboard');
+    } else if (event.shiftKey) {
       const shifts = { ArrowLeft: [48, 0], ArrowRight: [-48, 0], ArrowUp: [0, 48], ArrowDown: [0, -48] };
       const [x, y] = shifts[event.key];
       this.pan.x += x;
       this.pan.y += y;
-      this.keyboardId = null;
+      this.dismissPreview('layout');
       this.requestDraw(true);
+    } else this.directionalFocus(event.key);
+  }
+
+  focusNode(node) {
+    if (!node) return;
+    this.keyboardId = node.id;
+    this.hovered = null;
+    this.emitPreview(node, 'keyboard');
+    this.requestDraw();
+  }
+
+  focusCandidates() {
+    this.updateScreen();
+    return this.screen.filter(node => node.sx >= 8 && node.sx <= this.width - 8 && node.sy >= 8 && node.sy <= this.height - 8);
+  }
+
+  directionalFocus(key) {
+    const candidates = this.focusCandidates();
+    const current = candidates.find(node => node.id === (this.keyboardId || this.hovered)) || this.nearestCenter();
+    if (!current) return;
+    const origin = this.anchor(current);
+    const [dx, dy] = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[key];
+    let next = null;
+    let best = Infinity;
+    for (const candidate of candidates) {
+      const x = candidate.sx - origin.x, y = candidate.sy - origin.y;
+      const forward = x * dx + y * dy;
+      if (candidate.id === current.id || forward < 1) continue;
+      const sideways = Math.abs(x * dy - y * dx);
+      const score = Math.hypot(x, y) + sideways * 2;
+      if (score < best) { best = score; next = candidate; }
     }
+    this.focusNode(this.byId.get((next || current).id));
+  }
+
+  cycleFocus(direction) {
+    const candidates = this.focusCandidates().sort((a, b) => a.id.localeCompare(b.id));
+    if (!candidates.length) return;
+    const current = candidates.findIndex(node => node.id === (this.keyboardId || this.hovered));
+    const index = current < 0 ? (direction > 0 ? 0 : candidates.length - 1) : (current + direction + candidates.length) % candidates.length;
+    this.focusNode(this.byId.get(candidates[index].id));
+  }
+
+  stepPreview(direction = 1) {
+    if (!this.active || this.destroyed) return;
+    this.cycleFocus(direction < 0 ? -1 : 1);
   }
 
   nearestCenter() {
@@ -314,6 +378,10 @@ export class AtlasGraph {
   }
 
   hit(point) {
+    this.updateScreen();
+    // Opaque title cards are painted above dots, so their hit regions must win too.
+    const label = this.labelBoxes.find(box => point.x >= box.x && point.x <= box.x + box.width && point.y >= box.y && point.y <= box.y + box.height);
+    if (label) return this.byId.get(label.id);
     let result = null;
     let closest = Infinity;
     for (const node of this.screen) {
@@ -323,19 +391,45 @@ export class AtlasGraph {
     return result ? this.byId.get(result.id) : null;
   }
 
-  setHovered(id) {
-    if (id === this.hovered) return;
+  setHovered(id, force = false) {
+    if (id === this.hovered && !force) return;
     this.hovered = id;
     this.canvas.style.cursor = id ? 'pointer' : 'grab';
+    this.emitPreview(this.byId.get(id) || null, 'hover');
     this.requestDraw();
   }
 
-  select(node) {
-    if (!node) return;
+  select(node, reason = 'keyboard') {
+    if (!node) { this.dismissPreview('dismiss'); this.requestDraw(); return; }
     this.selected = node.id;
     this.keyboardId = node.id;
+    this.emitPreview(node, reason);
     this.requestDraw(true);
-    this.onSelect(node);
+    this.onSelect(node, this.anchor(node));
+  }
+
+  anchor(node) {
+    return { x: node.x * this.scale + this.pan.x, y: node.y * this.scale + this.pan.y };
+  }
+
+  emitPreview(node, reason) {
+    this.labelsDirty = true;
+    this.previewId = node?.id || null;
+    if (node) this.previewAnchor = this.anchor(node);
+    if (this.active) this.onPreview(node, { ...this.previewAnchor }, reason);
+  }
+
+  dismissPreview(reason = 'layout') {
+    this.hovered = null;
+    this.keyboardId = null;
+    this.selected = null;
+    this.labelBoxes = [];
+    this.labelPlans = [];
+    this.labelsDirty = true;
+    this.exclusions = null;
+    this.canvas.style.cursor = this.pointers.size ? 'grabbing' : 'grab';
+    this.emitPreview(null, reason);
+    if (this.active) this.onLabels([]);
   }
 
   requestDraw(animate = false) {
@@ -362,19 +456,23 @@ export class AtlasGraph {
     return [...sampled, ...fixed];
   }
 
-  draw(time) {
-    if (!this.active || this.destroyed || document.hidden || !this.ctx || !this.width || !this.height) return;
-    const start = performance.now();
-    const ctx = this.ctx;
-    ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-    ctx.clearRect(0, 0, this.width, this.height);
+  updateScreen() {
     this.visible = this.chooseVisible();
     this.screen = this.visible.map(node => ({
       ...node,
       sx: node.x * this.scale + this.pan.x,
       sy: node.y * this.scale + this.pan.y,
       radius: clamp(finite(node.size, node.kind === 'hub' ? 8 : node.kind === 'person' ? 4.5 : 2.3) * Math.sqrt(this.scale / this.baseScale), 1.5, 22),
-    })).filter(node => node.sx > -80 && node.sx < this.width + 80 && node.sy > -80 && node.sy < this.height + 80);
+    })).filter(node => node.sx > -24 && node.sx < this.width + 24 && node.sy > -24 && node.sy < this.height + 24);
+  }
+
+  draw(time) {
+    if (!this.active || this.destroyed || document.hidden || !this.ctx || !this.width || !this.height) return;
+    const start = performance.now();
+    const ctx = this.ctx;
+    ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    ctx.clearRect(0, 0, this.width, this.height);
+    this.updateScreen();
     const points = new Map(this.screen.map(node => [node.id, node]));
     const edges = this.edges.filter(edge => points.has(edge.from) && points.has(edge.to));
     const emphasis = this.hovered || this.keyboardId || this.selected;
@@ -432,10 +530,24 @@ export class AtlasGraph {
         ctx.stroke();
       }
     }
-    this.labelBoxes = [];
-    const labels = this.screen.filter(node => node.kind !== 'item' && node.id !== emphasis).sort((a,b) => (b.count || 0) - (a.count || 0));
-    for (const node of labels) this.label(ctx, node, false);
-    if (points.has(emphasis)) this.label(ctx, points.get(emphasis), true);
+    if (this.labelsDirty) {
+      this.previousLabelBoxes = new Map(this.labelBoxes.map(box => [box.id, box]));
+      this.labelBoxes = [];
+      this.labelPlans = [];
+      const compact = this.width < 500;
+      if (points.has(emphasis)) this.placeLabel(ctx, points.get(emphasis), true);
+      const hubs = this.screen.filter(node => node.kind !== 'item' && node.id !== emphasis).sort((a, b) => (b.count || 0) - (a.count || 0));
+      const items = this.screen.filter(node => node.kind === 'item' && node.id !== emphasis).sort((a, b) => hash(`label:${a.id}`) - hash(`label:${b.id}`));
+      // Give both records and source labels space, including results with no people.
+      let itemCount = 0, hubCount = 0;
+      while ((itemCount < (compact ? 2 : 4) && items.length) || (hubCount < (compact ? 2 : 4) && hubs.length)) {
+        if (itemCount < (compact ? 2 : 4) && items.length && this.placeLabel(ctx, items.shift(), false)) itemCount++;
+        if (hubCount < (compact ? 2 : 4) && hubs.length && this.placeLabel(ctx, hubs.shift(), false)) hubCount++;
+      }
+      this.labelsDirty = false;
+      this.onLabels(this.labelBoxes.map(box => ({ ...box })));
+    }
+    for (const plan of this.labelPlans) this.paintLabel(ctx, plan);
     if (document.activeElement === this.canvas) this.drawCrosshair(ctx);
     const status = { visibleNodes: this.screen.length, totalNodes: this.nodes.length, visibleEdges: edges.length };
     const statusKey = `${status.visibleNodes}/${status.totalNodes}/${status.visibleEdges}`;
@@ -453,33 +565,98 @@ export class AtlasGraph {
     ctx.quadraticCurveTo((a.sx + b.sx) / 2 + (b.sy - a.sy) * bend, (a.sy + b.sy) / 2 - (b.sx - a.sx) * bend, b.sx, b.sy);
   }
 
-  label(ctx, node, highlighted) {
-    const compact = this.width < 500;
-    const maximum = Math.min(compact ? 180 : 270, this.width - 24);
-    ctx.font = `${highlighted ? '500' : '400'} ${highlighted ? 12 : compact ? 10 : 11}px system-ui, sans-serif`;
-    let label = node.label.length > 240 ? `${node.label.slice(0, 239)}…` : node.label;
-    if (ctx.measureText(label).width > maximum) {
-      while (label.length > 1 && ctx.measureText(`${label}…`).width > maximum) label = label.slice(0, -1);
-      label += '…';
+  labelExclusions() {
+    if (this.exclusions) return this.exclusions;
+    const canvas = this.canvas.getBoundingClientRect();
+    const elements = this.canvas.parentElement?.querySelectorAll('.graph-intro, .graph-controls, .theme-control, .graph-bottom, .graph-instructions, .preview-navigation') || [];
+    this.exclusions = [...elements].map(element => {
+      const rect = element.getBoundingClientRect();
+      return { x: rect.left - canvas.left - 6, y: rect.top - canvas.top - 6, width: rect.width + 12, height: rect.height + 12 };
+    }).filter(box => box.width > 12 && box.height > 12 && box.y + box.height > 0 && box.y < this.height);
+    if (!this.exclusions.length) {
+      const compact = this.width < 500;
+      this.exclusions = [
+        { x: 0, y: 0, width: compact ? this.width : Math.min(310, this.width * 0.5), height: compact ? 42 : Math.min(150, this.height * 0.27) },
+        { x: 0, y: this.height - (compact ? 112 : 54), width: this.width, height: compact ? 112 : 54 },
+      ];
     }
-    const count = node.kind !== 'item' && node.count != null ? new Intl.NumberFormat().format(finite(node.count)) : '';
-    const width = Math.max(ctx.measureText(label).width, count ? ctx.measureText(count).width : 0);
-    const x = clamp(node.sx - width / 2, 10, Math.max(10, this.width - width - 10));
-    const y = clamp(node.sy + node.radius + 18, 20, this.height - (count ? 27 : 12));
-    const box = { x: x - 6, y: y - 12, width: width + 12, height: count ? 35 : 20 };
-    if (!highlighted && this.labelBoxes?.some(b => box.x < b.x + b.width + 5 && box.x + box.width + 5 > b.x && box.y < b.y + b.height + 5 && box.y + box.height + 5 > b.y)) return;
-    this.labelBoxes?.push(box);
-    ctx.fillStyle = highlighted ? 'rgba(14,16,30,0.95)' : 'rgba(14,16,30,0.76)';
-    ctx.fillRect(x - 6, y - 12, width + 12, count ? 35 : 20);
+    return this.exclusions;
+  }
+
+  overlaps(a, b, gap = 6) {
+    return a.x < b.x + b.width + gap && a.x + a.width + gap > b.x && a.y < b.y + b.height + gap && a.y + a.height + gap > b.y;
+  }
+
+  fitText(ctx, value, maximum) {
+    let text = String(value || '').slice(0, 240);
+    if (ctx.measureText(text).width <= maximum) return text;
+    while (text.length && ctx.measureText(`${text}…`).width > maximum) text = text.slice(0, -1);
+    return `${text.trimEnd()}…`;
+  }
+
+  titleLines(ctx, title, maximum) {
+    const words = String(title).slice(0, 240).trim().split(/\s+/);
+    let first = '';
+    while (words.length && ctx.measureText(first ? `${first} ${words[0]}` : words[0]).width <= maximum) first += `${first ? ' ' : ''}${words.shift()}`;
+    if (!first) return [this.fitText(ctx, words.shift() || '', maximum), ...(words.length ? [this.fitText(ctx, words.join(' '), maximum)] : [])];
+    return [first, ...(words.length ? [this.fitText(ctx, words.join(' '), maximum)] : [])];
+  }
+
+  placeLabel(ctx, node, highlighted) {
+    const compact = this.width < 500;
+    const maximum = Math.min(compact ? 154 : 214, this.width - 36);
+    const font = `500 ${compact ? 12 : 13}px system-ui, sans-serif`;
+    ctx.font = font;
+    const lines = this.titleLines(ctx, node.label, maximum);
+    const count = node.kind !== 'item' && node.count != null ? `${new Intl.NumberFormat().format(finite(node.count))} records` : '';
+    const meta = node.metaLabel || [node.typeLabel, node.collectionLabel].filter(Boolean).join(' · ');
+    const sublabel = count ? [count, meta].filter(Boolean).join(' · ') : meta || (node.kind === 'item' ? 'Record' : node.kind === 'person' ? 'Source name label' : 'Theme');
+    const titleWidth = Math.max(...lines.map(line => ctx.measureText(line).width));
+    ctx.font = '11px system-ui, sans-serif';
+    const sub = this.fitText(ctx, sublabel, maximum);
+    const width = Math.min(maximum, Math.max(titleWidth, ctx.measureText(sub).width)) + 16;
+    const height = lines.length * 16 + 25;
+    const outward = node.sx < this.viewportCenter().x ? -1 : 1;
+    const candidates = [];
+    const previous = this.previousLabelBoxes?.get(node.id);
+    if (highlighted && previous?.width === width && previous?.height === height) candidates.push({ ...previous });
+    for (const distance of [node.radius + 12, 42, 76, 112]) {
+      for (const [dx, dy] of [[outward, 0], [0, 1], [0, -1], [-outward, 0], [outward, 1], [outward, -1], [-outward, 1], [-outward, -1]]) {
+        candidates.push({ id: node.id, x: node.sx + dx * distance - (dx < 0 ? width : dx === 0 ? width / 2 : 0), y: node.sy + dy * distance - (dy < 0 ? height : dy === 0 ? height / 2 : 0), width, height });
+      }
+    }
+    const valid = box => box.x >= 8 && box.y >= 8 && box.x + box.width <= this.width - 8 && box.y + box.height <= this.height - 8 && !this.labelExclusions().some(other => this.overlaps(box, other, 3)) && !this.labelBoxes.some(other => this.overlaps(box, other));
+    let box = candidates.find(valid);
+    if (!box && highlighted) {
+      // Selected records retain their title even when controls leave very little space.
+      for (let y = 12; y + height < this.height - 8 && !box; y += 24) for (let x = 12; x + width < this.width - 8; x += 32) {
+        const candidate = { id: node.id, x, y, width, height };
+        if (valid(candidate)) { box = candidate; break; }
+      }
+    }
+    if (!box) return false;
+    this.labelBoxes.push(box);
+    this.labelPlans.push({ node, highlighted, box, lines, sub, font });
+    return true;
+  }
+
+  paintLabel(ctx, { node, highlighted, box, lines, sub, font }) {
+    ctx.beginPath();
+    ctx.moveTo(node.sx, node.sy);
+    ctx.lineTo(clamp(node.sx, box.x + 4, box.x + box.width - 4), clamp(node.sy, box.y + 4, box.y + box.height - 4));
+    ctx.strokeStyle = highlighted ? 'rgba(216,153,118,0.8)' : 'rgba(169,201,219,0.38)';
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
+    ctx.fillStyle = highlighted ? 'rgba(14,16,30,0.97)' : 'rgba(14,16,30,0.91)';
+    ctx.fillRect(box.x, box.y, box.width, box.height);
     ctx.textBaseline = 'alphabetic';
     ctx.textAlign = 'left';
+    ctx.font = font;
     ctx.fillStyle = highlighted ? '#f5e0d1' : '#d9d7e6';
-    ctx.fillText(label, x, y);
-    if (count) {
-      ctx.font = '10px ui-monospace, monospace';
-      ctx.fillStyle = '#adacc2';
-      ctx.fillText(count, x + width / 2 - ctx.measureText(count).width / 2, y + 16);
-    }
+    lines.forEach((line, i) => ctx.fillText(line, box.x + 8, box.y + 16 + i * 16));
+    ctx.font = '11px system-ui, sans-serif';
+    ctx.fillStyle = node.kind === 'item' ? '#a9c9db' : '#d89976';
+    ctx.fillText(sub, box.x + 8, box.y + 16 + lines.length * 16);
   }
 
   drawCrosshair(ctx) {
@@ -496,6 +673,7 @@ export class AtlasGraph {
 
   destroy() {
     if (this.destroyed) return;
+    this.dismissPreview('dismiss');
     this.destroyed = true;
     this.active = false;
     this.cancelFrame();

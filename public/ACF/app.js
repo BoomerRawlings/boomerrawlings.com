@@ -1,4 +1,6 @@
 import { AtlasGraph } from './graph.js';
+import { NodePreview } from './node-preview.js';
+import { previewInfo } from './preview-data.js';
 import { createIndex, filterItems, graphData, normalizeImport, inferredRelationship, label, safeUrl, THEMES } from './model.js';
 
 const $ = id => document.getElementById(id);
@@ -9,9 +11,11 @@ const link = (value, url) => { const a = el('a', 'source-link', value); a.href =
 const catalogs = new Map(), cache = new Map();
 let directory, index = createIndex([]), records = [], scope = null, selection = null, pageSize = 40, loading, active = false, importNumber = 0;
 let graph;
+const preview = new NodePreview($('graph-stage'), $('network'), () => index, node => node.scope ? navigate('scope', node.scope) : navigate('item', node.id));
 try {
   graph = new AtlasGraph($('network'), {
-    onSelect: node => node.scope ? navigate('scope', node.scope) : navigate('item', node.id),
+    onSelect: (node, anchor) => preview.update(node, anchor, 'select'),
+    onPreview: (node, anchor, reason) => preview.update(node, anchor, reason),
     onStatus: stats => { if (records.length) $('graph-status').textContent = `${number(stats.visibleNodes)} sampled nodes · ${number(records.length)} records searchable. Zoom for detail.`; },
   });
   if (!graph.ctx) throw new Error('Canvas unavailable');
@@ -89,6 +93,12 @@ function refresh() {
 }
 function renderGraph() {
   const data = graphData(index, records, $('themes-toggle').checked);
+  for (const node of data.nodes) {
+    const info = previewInfo(node, index);
+    node.typeLabel = index.byId.has(node.id) ? label(index.byId.get(node.id).type) : info.kind === 'person' ? 'Credited name' : 'Inferred theme';
+    node.collectionLabel = info.collection;
+    node.metaLabel = info.kind === 'item' ? node.typeLabel + ' · ' + info.collection : node.typeLabel;
+  }
   graph?.setData(data); graph?.setActive(active && document.body.dataset.view !== 'list');
   if (!records.length) $('graph-status').textContent = 'No records in this view. Try fewer filters.';
 }
@@ -133,7 +143,7 @@ function readLocation() {
   else if (themeId && THEMES.some(t => t[0] === themeId)) { scope = { kind: 'theme', id: themeId }; $('themes-toggle').checked = true; closeDetail(); refresh(); }
   else { scope = null; closeDetail(); refresh(); }
 }
-function openDetail() { $('detail').hidden = false; }
+function openDetail() { preview.close(); $('detail').hidden = false; }
 function closeDetail() { $('detail').hidden = true; selection = null; }
 function detailSection(title, content) { const section = el('section', 'detail-section'); section.append(el('h3', '', title), ...content); return section; }
 function sourceLinks(urls) { return [...new Set(urls.filter(safeUrl))].slice(0, 30).map((u, i) => link(`${i ? 'Evidence' : 'Open source'} · ${new URL(u).hostname} ↗`, u)); }
@@ -165,7 +175,6 @@ function showPerson(id) {
 }
 function renderCollections() {
   const total = directory?.catalogs.reduce((sum, entry) => sum + entry.itemCount, 0) || 0;
-  document.querySelector('.graph-intro .eyebrow').textContent = `${number(total)} records across ${directory?.catalogs.length || 0} public collections`;
   if (!$('load-all-collections') && directory) {
     const all = button(`Load all ${number(total)} records`, async () => {
       all.disabled = true; $('import-status').textContent = 'Opening all collections…';
@@ -216,14 +225,16 @@ for (const id of ['type-filter', 'year-from', 'year-to']) $(id).addEventListener
 $('themes-toggle').addEventListener('change', renderGraph);
 $('load-more').addEventListener('click', () => { const previous = pageSize; pageSize += 40; renderList(); $('results').children[previous]?.focus({ preventScroll: true }); });
 $('detail-close').addEventListener('click', () => { closeDetail(); $('search').focus({ preventScroll: true }); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && !document.querySelector('dialog[open]')) closeDetail(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !document.querySelector('dialog[open]')) { preview.close(preview.card.contains(document.activeElement)); closeDetail(); } });
+$('preview-prev').addEventListener('click', () => graph?.stepPreview(-1));
+$('preview-next').addEventListener('click', () => graph?.stepPreview(1));
 $('zoom-in').addEventListener('click', () => graph?.zoomBy(1.3));
 $('zoom-out').addEventListener('click', () => graph?.zoomBy(1 / 1.3));
 $('reset-view').addEventListener('click', () => graph?.reset());
 $('motion-toggle').addEventListener('click', () => { const paused = graph?.toggleMotion(); $('motion-toggle').setAttribute('aria-pressed', String(Boolean(paused))); $('motion-toggle').setAttribute('aria-label', paused ? 'Resume map motion' : 'Pause map motion'); });
 for (const view of ['map', 'list']) $(view + '-view').addEventListener('click', () => { document.body.dataset.view = view; for (const v of ['map', 'list']) $(v + '-view').setAttribute('aria-pressed', String(v === view)); graph?.setActive(active && view === 'map'); });
 for (const name of ['collections', 'about']) {
-  $(name + '-open').addEventListener('click', () => $(name + '-dialog').showModal());
+  $(name + '-open').addEventListener('click', () => { preview.close(); $(name + '-dialog').showModal(); });
   $(name + '-dialog').addEventListener('click', event => { if (event.target === event.currentTarget) { const rect = event.currentTarget.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) event.currentTarget.close(); } });
 }
 addEventListener('popstate', readLocation);

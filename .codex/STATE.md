@@ -2,13 +2,13 @@
 
 ## Atlas of Contested Futures — 2026-10-12
 
-- Mode: new task; explicit public deployment approved for /ACF. Isolated codex/atlas-contested-futures branch from production 361a9ca; all existing routes/research preserved.
-- Status: implementation and local verification complete; ready for one production push and live verification.
-- Built: accessible ATLAS riddle and cinematic reveal, bounded Canvas publication graph, full-record search/type/year filters, source/credit/affiliation details, optional inferred themes, nine catalogs on demand, session-local JSON/JSONL imports.
-- Data: 33,945 catalog records, 7,361 unresolved source name labels, 43,213 credit edges, 17,348 item relationships, 1,447 affiliation assertions. No cross-catalog identity merging. Initial IEET: 10,467 records, 897 labels. Public projection excludes private fields/prose; related catalogs do not imply IEET affiliation.
-- Verified: nine bundles reproduce byte-identically; all ACF tests pass (20 test groups including 23 entrance scenarios). Existing full validation chain passes using physical build plus no-space test junction. Browser checks at 1280/768/390/320 widths pass; error/retry, local import, all records, keyboard, dates/search and repeat entry verified. Touch handlers and reduced motion tested. Full-record proportional aggregate sums to 100%; final local all-record update 99 ms, Canvas frames 0.3–1.7 ms. See docs/ACF.md for count semantics and measurement limits.
-- Next: one verified production push through existing Pages workflow, verify exact live /ACF and release SHA.
-- Limits: historical coverage incomplete, unresolved names/duplicates, missing dates/bylines. Graph uses representative nodes; all loaded records stay searchable. Imports stay in memory; source URLs can later expire.
+- Mode: continuation; fix idle information and hover/tap/keyboard previews. Public redeployment explicitly approved on 2026-10-12. Base production 4135baa; isolated codex/atlas-contested-futures branch, collectors and unrelated routes preserved.
+- Status: implementation, interaction QA, final production build and build verification pass. Ready for one Pages push, then live verification.
+- Built: collision-aware publication/name labels; full-title metadata cards, source credits, date basis and collection; directional arrows/Previous/Next; bounds, focus restoration, scroll reset and stale-preview dismissal. Painted labels take hit priority over obscured dots. Existing ATLAS entrance, full search/list, source details, themes and imports retained.
+- Data unchanged: 33,945 records, 7,361 catalog-local name labels, 43,213 credit rows, 17,348 relationship rows (130 tentative/inferred), 1,447 affiliation assertions. No global identity/edge deduplication claim. Initial IEET 10,467 records/897 labels; public metadata only.
+- Verified: all 50 pre-existing checks plus physical-path production build passed; final ACF suite 37/37 passes, including 23 entrance cases. Browser 1280/768/390/320: idle titles, exact-title hover, tap/keyboard previews, source navigation, bounds/overflow, zoom/filter/empty-click/list dismissal, all catalogs and inference caveats. No console errors. Local all-data update106ms, ordinary idle Canvas frame0.6–1.3ms; unthrottled desktop observations, not device guarantees.
+- Next: commit, push main, verify Pages and live previews. Sticky Close remains visible after scrolling short-screen cards. Use existing GitHub Pages workflow; preserve DNS, LEO and every catalog. See docs/ACF.md for reproducible imports, validation and count semantics.
+- Limits: representative map sample ≤480; every loaded record searchable. Historical coverage, name ambiguity and missing metadata remain explicit. Imports stay in memory. Physical phones untested; touch/pinch handlers tested deterministically.
 
 ## SCADS research collection — 2026-10-07
 
