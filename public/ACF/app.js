@@ -1,6 +1,6 @@
-import { AtlasGraph } from './graph.js?v=previews-20261012b';
-import { NodePreview } from './node-preview.js?v=previews-20261012b';
-import { previewInfo } from './preview-data.js?v=previews-20261012b';
+import { AtlasGraph } from './graph.js?v=space-20261012';
+import { NodePreview } from './node-preview.js?v=space-20261012';
+import { previewInfo } from './preview-data.js?v=space-20261012';
 import { createIndex, filterItems, graphData, normalizeImport, inferredRelationship, label, safeUrl, THEMES } from './model.js';
 
 const $ = id => document.getElementById(id);
@@ -32,7 +32,7 @@ async function catalogData(entry) {
 }
 async function start() {
   if (loading) return loading;
-  if (catalogs.size) { graph?.setActive(true); return; }
+  if (catalogs.size) { graph?.setActive(active && document.body.dataset.view !== 'list'); return; }
   $('dataset-status').textContent = 'Opening the IEET collection…';
   $('load-more').hidden = true;
   loading = (async () => {
@@ -41,7 +41,7 @@ async function start() {
       directory ||= await fetchJSON('/ACF/data/index.json');
       const first = directory.catalogs.find(c => c.id === directory.defaultCatalog);
       catalogs.set(first.id, await catalogData(first));
-      rebuild(); renderCollections(); readLocation();
+      rebuild(false); renderCollections(); readLocation();
       $('atlas-workspace').dataset.loadMs = (performance.now() - began).toFixed(1);
       document.dispatchEvent(new CustomEvent('acf:ready'));
     } catch (error) {
@@ -52,7 +52,7 @@ async function start() {
   })();
   return loading;
 }
-function rebuild() {
+function rebuild(refreshView = true) {
   index = createIndex(catalogs.values());
   const previous = $('type-filter').value;
   const option = el('option', '', 'All types'); option.value = '';
@@ -63,7 +63,7 @@ function rebuild() {
   if (selection && !index.byId.has(selection) && !index.people.has(selection)) closeDetail();
   $('dataset-status').textContent = `${number(index.items.length)} records · ${number(catalogs.size)} ${catalogs.size === 1 ? 'collection' : 'collections'}`;
   renderScale();
-  refresh();
+  if (refreshView) refresh();
 }
 function renderScale() {
   if (!$('scale-bar')) return;

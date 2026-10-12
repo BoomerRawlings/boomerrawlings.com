@@ -40,6 +40,15 @@ export class AtlasGraph {
     this.keyboardId = null;
     this.frame = null;
     this.animationUntil = 0;
+    this.connectionPulse = null;
+    this.depthOrigin = { x: 0, y: 0 };
+    // Decorative depth texture only: these points never enter node, edge or hit indexes.
+    this.depthLayers = [36, 18, 12].map((count, layer) => Array.from({ length: count }, (_, i) => ({
+      u: hash(`depth-x:${layer}:${i}`) / 4294967296,
+      v: hash(`depth-y:${layer}:${i}`) / 4294967296,
+      depth: (layer + 1) / 3,
+      radius: 0.45 + layer * 0.2,
+    })));
     this.initialized = false;
     this.lastStatus = '';
     this.labelBoxes = [];
@@ -75,11 +84,12 @@ export class AtlasGraph {
     }, { signal });
     canvas.addEventListener('blur', () => this.requestDraw(), { signal });
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) { this.dismissPreview('layout'); this.cancelFrame(); }
+      if (document.hidden) { this.dismissPreview('layout'); this.animationUntil = 0; this.cancelFrame(); }
       else this.requestDraw();
     }, { signal });
     this.motion.addEventListener('change', () => {
       this.animationUntil = 0;
+      this.connectionPulse = null;
       this.requestDraw();
     }, { signal });
     this.resize = new ResizeObserver(() => this.measure());
@@ -112,6 +122,7 @@ export class AtlasGraph {
     this.keyboardId = null;
     this.screen = [];
     this.reset();
+    this.startConnectionPulse();
     if (!this.ctx) {
       this.canvas.dataset.graphUnavailable = 'true';
       this.onStatus({ visibleNodes: 0, totalNodes: this.nodes.length, visibleEdges: 0 });
@@ -120,10 +131,12 @@ export class AtlasGraph {
 
   setActive(active) {
     if (this.destroyed) return;
+    const wasActive = this.active;
     if (!active) this.dismissPreview('layout');
     this.active = Boolean(active);
     if (this.active) {
       this.measure();
+      if (!wasActive) this.startConnectionPulse();
       this.requestDraw(true);
     } else {
       this.cancelFrame();
@@ -201,6 +214,7 @@ export class AtlasGraph {
       x: center.x - (bounds.left + bounds.right) / 2 * this.scale,
       y: center.y - (bounds.top + bounds.bottom) / 2 * this.scale,
     };
+    this.depthOrigin = { ...this.pan };
     this.initialized = true;
     this.onZoom(1);
     this.requestDraw(true);
@@ -221,6 +235,7 @@ export class AtlasGraph {
   toggleMotion() {
     this.paused = !this.paused;
     this.animationUntil = 0;
+    this.connectionPulse = null;
     this.requestDraw(!this.paused);
     return this.paused;
   }
@@ -404,6 +419,7 @@ export class AtlasGraph {
     this.selected = node.id;
     this.keyboardId = node.id;
     this.emitPreview(node, reason);
+    this.startConnectionPulse(node.id);
     this.requestDraw(true);
     this.onSelect(node, this.anchor(node));
   }
@@ -420,6 +436,7 @@ export class AtlasGraph {
   }
 
   dismissPreview(reason = 'layout') {
+    this.connectionPulse = null;
     this.hovered = null;
     this.keyboardId = null;
     this.selected = null;
@@ -430,6 +447,61 @@ export class AtlasGraph {
     this.canvas.style.cursor = this.pointers.size ? 'grabbing' : 'grab';
     this.emitPreview(null, reason);
     if (this.active) this.onLabels([]);
+  }
+
+  startConnectionPulse(nodeId = null) {
+    this.connectionPulse = null;
+    if (!this.active || this.destroyed || document.hidden || this.paused || this.motion.matches) return;
+    const edges = this.edges.filter(edge => !nodeId || edge.from === nodeId || edge.to === nodeId)
+      .map(edge => ({ edge, rank: hash(`emphasis:${edge.from}:${edge.to}:${Boolean(edge.inferred)}`) }))
+      .sort((a, b) => a.rank - b.rank).slice(0, 72).map(value => value.edge);
+    if (!edges.length) return;
+    this.connectionPulse = { started: performance.now(), duration: 780, nodeId, edges };
+    this.requestDraw();
+  }
+
+  depthPosition(point) {
+    const center = this.viewportCenter();
+    const zoomDepth = 1 + Math.log2(this.scale / this.baseScale) * point.depth * 0.055;
+    const x = center.x + (point.u - 0.5) * this.width * zoomDepth + (this.pan.x - this.depthOrigin.x) * point.depth * 0.1;
+    const y = center.y + (point.v - 0.5) * this.height * zoomDepth + (this.pan.y - this.depthOrigin.y) * point.depth * 0.1;
+    return { x: ((x % this.width) + this.width) % this.width, y: ((y % this.height) + this.height) % this.height };
+  }
+
+  paintDepth(ctx) {
+    this.depthLayers.forEach((points, layer) => {
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(156,151,181,${0.12 + layer * 0.035})`;
+      for (const point of points) {
+        const { x, y } = this.depthPosition(point);
+        ctx.moveTo(x + point.radius, y);
+        ctx.arc(x, y, point.radius, 0, Math.PI * 2);
+      }
+      ctx.fill();
+    });
+  }
+
+  paintConnectionPulse(ctx, points, time) {
+    const pulse = this.connectionPulse;
+    this.canvas.dataset.highlightedEdges = '0';
+    if (!pulse || this.paused || this.motion.matches || !this.active || document.hidden) return false;
+    const progress = (time - pulse.started) / pulse.duration;
+    if (progress >= 1) { this.connectionPulse = null; return false; }
+    const amount = Math.sin(Math.PI * clamp(progress, 0, 1));
+    const visible = pulse.edges.filter(edge => points.has(edge.from) && points.has(edge.to));
+    if (!visible.length) { this.connectionPulse = null; return false; }
+    // Whole edges brighten together: no particles, arrows, travel or causal direction.
+    for (const inferred of [false, true]) {
+      ctx.beginPath();
+      ctx.setLineDash(inferred ? [3, 5] : []);
+      ctx.strokeStyle = inferred ? `rgba(216,153,118,${(amount * 0.25).toFixed(3)})` : `rgba(169,201,219,${(amount * 0.25).toFixed(3)})`;
+      ctx.lineWidth = 0.8 + amount * 0.35;
+      for (const edge of visible) if (Boolean(edge.inferred) === inferred) this.edgePath(ctx, points.get(edge.from), points.get(edge.to));
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    this.canvas.dataset.highlightedEdges = String(visible.length);
+    return true;
   }
 
   requestDraw(animate = false) {
@@ -472,6 +544,7 @@ export class AtlasGraph {
     const ctx = this.ctx;
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
     ctx.clearRect(0, 0, this.width, this.height);
+    this.paintDepth(ctx);
     this.updateScreen();
     const points = new Map(this.screen.map(node => [node.id, node]));
     const edges = this.edges.filter(edge => points.has(edge.from) && points.has(edge.to));
@@ -501,6 +574,7 @@ export class AtlasGraph {
       ctx.stroke();
       ctx.setLineDash([]);
     }
+    const highlighting = this.paintConnectionPulse(ctx, points, time);
     const settling = !this.paused && !this.motion.matches && time < this.animationUntil;
     const settle = settling ? Math.sin((1 - (this.animationUntil - time) / 700) * Math.PI) : 0;
     for (const node of this.screen) {
@@ -556,7 +630,7 @@ export class AtlasGraph {
     this.canvas.dataset.totalNodes = String(status.totalNodes);
     this.canvas.dataset.visibleEdges = String(status.visibleEdges);
     this.canvas.dataset.frameMs = (performance.now() - start).toFixed(2);
-    if (settling) this.requestDraw();
+    if (settling || highlighting) this.requestDraw();
   }
 
   edgePath(ctx, a, b) {

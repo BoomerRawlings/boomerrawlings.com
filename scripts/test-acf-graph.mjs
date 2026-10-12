@@ -140,7 +140,7 @@ test('overview is bounded, labels avoid collisions, and settling stops at idle',
   assert.ok(h.dashes.some(value => value.join(',') === '2,5'), 'inferred edges remain dashed');
   assert.equal(h.status.at(-1).visibleNodes, Number(h.canvas.dataset.visibleNodes));
   assert.ok(h.frames.size > 0, 'brief settling animation begins');
-  h.tick(710);
+  h.tick(810);
   assert.equal(h.frames.size, 0, 'no permanent render loop');
   h.graph.zoomBy(2.6);
   assert.equal(h.graph.chooseVisible().length, 500, 'zoom reveals more of the bounded sample');
@@ -408,4 +408,120 @@ test('an opaque publication title wins over a different dot hidden underneath it
   h.pointer('pointerdown', 8, covered.sx, covered.sy, 'mouse');
   h.pointer('pointerup', 8, covered.sx, covered.sy, 'mouse');
   assert.equal(h.selected.at(-1).id, box.id, 'click pins the visible publication');
+});
+
+function recordEdgePaints(h) {
+  const painted = [];
+  const edgePath = h.graph.edgePath.bind(h.graph);
+  h.graph.edgePath = (context, from, to) => {
+    painted.push({ from: from.id, to: to.id, dash: [...(h.dashes.at(-1) || [])], style: context.strokeStyle });
+    edgePath(context, from, to);
+  };
+  return painted;
+}
+
+test('selection briefly emphasizes only actual visible incident edges, preserving both classifications', t => {
+  const h = harness(t);
+  const data = fixture();
+  data.edges.push({ from: 'work-2', to: 'work-3', inferred: false });
+  data.edges.push({ from: 'missing', to: 'work-3', inferred: false });
+  h.graph.setData(data); h.graph.setActive(true); h.tick(810);
+  const painted = recordEdgePaints(h);
+  h.graph.select(h.graph.byId.get('work-0'));
+  h.graph.requestDraw(); h.graph.requestDraw();
+  assert.equal(h.frames.size, 1, 'selection and repeated invalidations share one animation frame');
+  h.tick(390);
+  const pulse = painted.filter(edge => edge.style.endsWith(',0.250)'));
+  assert.ok(pulse.length > 0 && pulse.length <= 72, 'connection emphasis has a fixed small edge budget');
+  assert.equal(Number(h.canvas.dataset.highlightedEdges), pulse.length);
+  const visibleIds = new Set(h.graph.screen.map(node => node.id));
+  for (const edge of pulse) {
+    const source = data.edges.find(candidate => candidate.from === edge.from && candidate.to === edge.to);
+    assert.ok(source, 'each emphasized connection exists in the supplied data');
+    assert.ok(edge.from === 'work-0' || edge.to === 'work-0', 'unrelated connections receive no selection pulse');
+    assert.ok(visibleIds.has(edge.from) && visibleIds.has(edge.to), 'both endpoints must be visible');
+    assert.deepEqual(edge.dash, source.inferred ? [3, 5] : [], 'documented and inferred classifications survive emphasis');
+  }
+  assert.ok(pulse.some(edge => edge.dash.length) && pulse.some(edge => !edge.dash.length));
+  const fixedAnchor = h.graph.anchor(h.graph.byId.get('work-0'));
+  h.tick(400);
+  assert.equal(h.canvas.dataset.highlightedEdges, '0');
+  assert.equal(h.graph.connectionPulse, null);
+  assert.equal(h.frames.size, 0, 'the entire scene returns to idle within 800 ms');
+  assert.deepEqual(h.graph.anchor(h.graph.byId.get('work-0')), fixedAnchor, 'emphasis never moves records');
+});
+
+test('data changes replace connection emphasis; zoom, hidden state and exit cancel it', t => {
+  const h = harness(t);
+  const painted = recordEdgePaints(h);
+  h.graph.setData(fixture(8)); h.graph.setActive(true); h.tick(390);
+  assert.ok(Number(h.canvas.dataset.highlightedEdges) > 0, 'entry can emphasize the visible relationship sample');
+  const replacement = fixture(8);
+  replacement.edges = [{ from: 'work-6', to: 'work-7', inferred: true }];
+  h.graph.setData(replacement);
+  painted.length = 0; h.tick(390);
+  assert.deepEqual(painted.filter(edge => edge.style.endsWith(',0.250)')).map(({ from, to, dash }) => ({ from, to, dash })), [
+    { from: 'work-6', to: 'work-7', dash: [3, 5] },
+  ], 'filter/theme changes cannot retain connections from the preceding graph');
+  h.graph.zoomBy(1.2); h.tick(0);
+  assert.equal(h.graph.connectionPulse, null, 'zoom clears obsolete connection emphasis');
+  h.graph.select(h.graph.byId.get('work-6'));
+  h.doc.hidden = true; h.doc.dispatchEvent(new Event('visibilitychange'));
+  assert.equal(h.graph.connectionPulse, null);
+  assert.equal(h.frames.size, 0, 'a hidden page cancels the bounded loop immediately');
+  h.doc.hidden = false; h.doc.dispatchEvent(new Event('visibilitychange')); h.tick(0);
+  assert.equal(h.frames.size, 0, 'visibility return does not replay a stale pulse');
+  h.graph.select(h.graph.byId.get('work-6'));
+  h.graph.setActive(false);
+  assert.equal(h.graph.connectionPulse, null);
+  assert.equal(h.frames.size, 0);
+  h.graph.setActive(true); h.graph.destroy();
+  assert.equal(h.graph.connectionPulse, null);
+  assert.equal(h.frames.size, 0);
+});
+
+test('reduced and paused motion keep selected relationships static with no replay loop', t => {
+  const h = harness(t, { reducedMotion: true });
+  const painted = recordEdgePaints(h);
+  h.graph.setData(fixture(8)); h.graph.setActive(true); h.tick(0);
+  const assertStaticSelection = () => {
+    painted.length = 0;
+    h.graph.select(h.graph.byId.get('work-0')); h.tick(0);
+    const selectedEdges = painted.filter(edge => edge.style === 'rgba(216,153,118,0.64)');
+    assert.equal(selectedEdges.length, 7, 'selected relationships remain visible without motion');
+    assert.ok(selectedEdges.some(edge => edge.dash.length) && selectedEdges.some(edge => !edge.dash.length));
+    assert.equal(h.graph.connectionPulse, null);
+    assert.equal(h.frames.size, 0);
+  };
+  assertStaticSelection();
+  h.media.matches = false; h.media.dispatchEvent(new Event('change'));
+  h.graph.toggleMotion(); h.tick(0);
+  assertStaticSelection();
+  h.graph.toggleMotion(); h.tick(810);
+  assert.equal(h.frames.size, 0, 'resume does not restart old connection emphasis');
+});
+
+test('decorative depth is deterministic, responds to camera changes and never becomes records', t => {
+  const h = harness(t, { reducedMotion: true });
+  h.graph.setData({ nodes: [], edges: [] }); h.graph.setActive(true); h.tick(0);
+  const points = h.graph.depthLayers.flat();
+  assert.equal(points.length, 66, 'decoration has a small viewport-independent budget');
+  const positions = points.map(point => h.graph.depthPosition(point));
+  assert.ok(positions.every(point => point.x >= 0 && point.x < h.graph.width && point.y >= 0 && point.y < h.graph.height));
+  for (const point of positions) assert.equal(h.graph.hit(point), null, 'a background point is never a selectable record');
+  assert.deepEqual(h.status.at(-1), { visibleNodes: 0, totalNodes: 0, visibleEdges: 0 });
+  h.graph.zoomBy(2); h.tick(0);
+  const zoomed = points.map(point => h.graph.depthPosition(point));
+  assert.ok(zoomed.some((point, i) => Math.hypot(point.x - positions[i].x, point.y - positions[i].y) > 1), 'zoom creates decorative depth');
+  h.send('keydown', { key: 'ArrowRight', shiftKey: true }); h.tick(0);
+  const panned = points.map(point => h.graph.depthPosition(point));
+  for (let i = 0; i < points.length; i++) {
+    const expected = (zoomed[i].x - 48 * points[i].depth * 0.1 + h.graph.width) % h.graph.width;
+    assert.ok(Math.abs(panned[i].x - expected) < 1e-9, 'depth layers pan a fraction of the record camera');
+  }
+  h.graph.reset(); h.tick(0);
+  assert.deepEqual(points.map(point => h.graph.depthPosition(point)), positions, 'reset reproduces the same decorative field');
+  assert.equal(h.graph.nodes.length, 0);
+  assert.equal(h.graph.edges.length, 0);
+  assert.equal(h.frames.size, 0, 'decorative depth never creates an ambient loop');
 });

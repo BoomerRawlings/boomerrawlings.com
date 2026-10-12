@@ -7,16 +7,13 @@
   const form = $('entry-form');
   const input = $('entry-input');
   const feedback = $('entry-feedback');
-  const sequence = $('entry-sequence');
   const workspace = $('atlas-workspace');
   const skip = $('skip-animation');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const running = new Set();
-  const timers = new Map();
   let phase = 'idle';
   let cycle = 0;
   let attempts = 0;
-  let wave;
 
   function animate(node, frames, options) {
     if (!node.animate) return Promise.resolve();
@@ -24,19 +21,9 @@
     running.add(animation);
     return animation.finished.catch(() => {});
   }
-  function wait(ms) {
-    return new Promise(resolve => {
-      const timer = setTimeout(() => { timers.delete(timer); resolve(); }, ms);
-      timers.set(timer, resolve);
-    });
-  }
   function clearMotion() {
     running.forEach(animation => animation.cancel());
     running.clear();
-    timers.forEach((resolve, timer) => { clearTimeout(timer); resolve(); });
-    timers.clear();
-    wave?.remove();
-    wave = null;
   }
   function finish() {
     if (phase !== 'opening') return;
@@ -48,7 +35,7 @@
     workspace.hidden = false;
     workspace.inert = false;
     skip.hidden = true;
-    document.body.classList.remove('entry-pending', 'entry-revealing');
+    document.body.classList.remove('entry-pending');
     document.dispatchEvent(new CustomEvent('acf:enter', { bubbles: true }));
     $('search').focus({ preventScroll: true });
   }
@@ -58,41 +45,16 @@
     phase = 'opening';
     const activeCycle = ++cycle;
     const active = () => phase === 'opening' && cycle === activeCycle;
-    feedback.textContent = 'Atlas. A whole world of connections. Opening the collection.';
+    feedback.textContent = 'Atlas. Opening the collection.';
     input.readOnly = true;
     $('entry-submit').disabled = true;
     prompt.inert = true;
     input.blur();
-    if (reduced.matches || !sequence.animate) { finish(); return; }
+    if (reduced.matches || !prompt.animate) { finish(); return; }
     skip.hidden = false;
     // Keep the transition keyboard-operable without requiring anyone to wait.
     skip.focus({ preventScroll: true });
-    sequence.hidden = false;
-    const title = sequence.querySelector('.sequence-title');
-    const subtitle = sequence.querySelector('.sequence-subtitle');
-    const coordinate = sequence.querySelector('.sequence-coordinate');
-    const compass = sequence.querySelector('.sequence-compass');
-    animate(prompt, [{ opacity: 1, transform: 'translateY(0)' }, { opacity: 0, transform: 'translateY(-12px)' }], { duration: 260, easing: 'ease-in' });
-    animate(screen.querySelector('.entry-orbits'), [{ opacity: .28 }, { opacity: .55, transform: 'scale(1.06)' }], { duration: 1000, easing: 'ease-out' });
-    animate(coordinate, [{ opacity: 0 }, { opacity: 1 }], { duration: 500, delay: 220 });
-    animate(subtitle, [{ opacity: 0, clipPath: 'inset(0 50%)', transform: 'translateY(6px)' }, { opacity: 1, clipPath: 'inset(0 0%)', transform: 'translateY(0)' }], { duration: 620, delay: 480, easing: 'cubic-bezier(.2,.7,.2,1)' });
-    animate(compass, [{ opacity: 0, transform: 'scaleX(0)' }, { opacity: 1, transform: 'scaleX(1)' }], { duration: 580, delay: 550, easing: 'ease-out' });
-    await Promise.all([...title.children].map((letter, i) => animate(letter, [
-      { opacity: 0, transform: `translateY(${25 + i * 3}px) rotateX(-85deg) rotateY(${(2 - i) * 13}deg)` },
-      { opacity: 1, transform: 'translateY(0) rotateX(0) rotateY(0)' }
-    ], { duration: 700, delay: 210 + i * 85, easing: 'cubic-bezier(.16,.7,.2,1)' })));
-    if (!active()) return;
-    await wait(260);
-    if (!active()) return;
-    workspace.hidden = false;
-    document.body.classList.add('entry-revealing');
-    wave = document.createElement('div');
-    wave.className = 'atlas-wave';
-    wave.setAttribute('aria-hidden', 'true');
-    document.body.append(wave);
-    animate(wave, [{ transform: 'scale(0)', opacity: .9 }, { transform: 'scale(1)', opacity: 0 }], { duration: 1200, easing: 'cubic-bezier(.14,.62,.3,1)' });
-    animate(sequence, [{ opacity: 1, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(.92)' }], { duration: 430, easing: 'ease-in' });
-    await animate(workspace, [{ clipPath: 'circle(0 at 50% 48%)', opacity: .4 }, { clipPath: 'circle(150vmax at 50% 48%)', opacity: 1 }], { duration: 1100, easing: 'cubic-bezier(.14,.62,.3,1)' });
+    await animate(prompt, [{ opacity: 1 }, { opacity: 0 }], { duration: 220, easing: 'ease-out' });
     if (active()) finish();
   }
 
@@ -105,7 +67,6 @@
     workspace.inert = true;
     screen.hidden = false;
     screen.inert = false;
-    sequence.hidden = true;
     skip.hidden = true;
     prompt.inert = false;
     input.readOnly = false;
@@ -120,10 +81,9 @@
     attempts = 0;
     phase = 'idle';
     document.body.classList.add('entry-pending');
-    document.body.classList.remove('entry-revealing');
     screen.scrollTop = 0;
     document.dispatchEvent(new CustomEvent('acf:exit', { bubbles: true }));
-    input.focus({ preventScroll: true });
+    input.focus();
   }
 
   form.addEventListener('submit', event => {
