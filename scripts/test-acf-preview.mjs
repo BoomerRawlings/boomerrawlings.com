@@ -31,7 +31,11 @@ test('all catalog previews distinguish credited labels, publishing roles and unk
       const info = previewInfo(node, index);
       assert.deepEqual(Object.keys(info).sort(), fields);
       assert.ok(Object.values(info).every(value => typeof value === 'string' && value.length > 0));
-      assert.equal(info.collection, bundle.catalog.label);
+      if (node.scope?.kind === 'theme') {
+        assert.equal(info.collection, 'Loaded collections');
+        assert.equal(info.kind, 'theme');
+        assert.match(info.context, /inferred thematic matches, not source-documented/);
+      } else assert.equal(info.collection, bundle.catalog.label);
     }
   }
   for (const role of ['publishing_account', 'publisher_byline', 'cms_author', 'source_author_taxonomy']) {

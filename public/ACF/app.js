@@ -1,7 +1,6 @@
-import { AtlasGraph } from './graph.js?v=letters-20261012';
-import { NodePreview } from './node-preview.js?v=letters-20261012';
-import { previewInfo } from './preview-data.js?v=letters-20261012';
-import { createIndex, filterItems, graphData, normalizeImport, inferredRelationship, label, safeUrl, THEMES } from './model.js';
+import { AtlasGraph } from './graph.js?v=fullmap-20261012';
+import { NodePreview } from './node-preview.js?v=fullmap-20261012';
+import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=fullmap-20261012';
 
 const $ = id => document.getElementById(id);
 const number = n => n.toLocaleString();
@@ -9,46 +8,91 @@ const el = (tag, className, value) => { const n = document.createElement(tag); i
 const button = (value, action, className = 'text-button') => { const b = el('button', className, value); b.type = 'button'; b.addEventListener('click', action); return b; };
 const link = (value, url) => { const a = el('a', 'source-link', value); a.href = safeUrl(url); a.target = '_blank'; a.rel = 'noopener noreferrer'; return a; };
 const catalogs = new Map(), cache = new Map();
-let directory, index = createIndex([]), records = [], scope = null, selection = null, pageSize = 40, loading, active = false, importNumber = 0;
+const sessionImports = new Map();
+let directory, index = createIndex([]), records = [], scope = null, selection = null, pageSize = 40, loading, active = false, initialized = false, preparationPending = false, importNumber = 0;
 let graph;
+let preparedIndex, preparedFilters;
+let resumePreparation;
 const preview = new NodePreview($('graph-stage'), $('network'), () => index, node => node.scope ? navigate('scope', node.scope) : navigate('item', node.id));
 try {
   graph = new AtlasGraph($('network'), {
     onSelect: (node, anchor) => preview.update(node, anchor, 'select'),
     onPreview: (node, anchor, reason) => preview.update(node, anchor, reason),
-    onStatus: stats => { if (records.length) $('graph-status').textContent = `${number(stats.visibleNodes)} sampled nodes · ${number(records.length)} records searchable. Zoom for detail.`; },
+    onStatus: stats => {
+      if (!records.length) return;
+      const fallback = stats.backend === 'canvas2d' ? 'Canvas 2D fallback · ' : stats.backend === 'unavailable' ? 'Graphics unavailable · ' : '';
+      $('graph-status').textContent = `${fallback}${number(stats.submittedRecords || 0)} of ${number(stats.recordCount || records.length)} record points submitted · ${number(stats.inViewRecords || 0)} in view. ${number(stats.submittedNames || 0)} name points on; ${number(stats.nameCount || 0)} catalog-local labels available. Overlapping points remain separate records.`;
+    },
   });
-  if (!graph.ctx) throw new Error('Canvas unavailable');
+  if (graph.available === false) throw new Error('Graphics unavailable');
 } catch { $('graph-status').textContent = 'Map unavailable. Every record is available in the reading room.'; document.body.dataset.view = 'list'; }
 
 async function fetchJSON(path) {
+  await waitForActive();
   const response = await fetch(path, { signal: AbortSignal.timeout(45000) });
   if (!response.ok) throw new Error(`The catalog could not load (${response.status}).`);
-  return response.json();
+  // An in-flight body may arrive after Return. Keep its bytes, but defer JSON
+  // parsing until the next entry; response.json() cannot pause that parse.
+  const contents = await response.text();
+  await waitForActive();
+  return JSON.parse(contents);
 }
 async function catalogData(entry) {
   if (!cache.has(entry.id)) cache.set(entry.id, fetchJSON('/ACF/data/' + entry.file).catch(error => { cache.delete(entry.id); throw error; }));
   return cache.get(entry.id);
 }
+async function waitForActive() {
+  // Returning to the riddle pauses unfinished preparation until its next entry.
+  // A delayed fetch must not move index/graph work into a repeated letter intro.
+  while (!active) {
+    // Share one resumption listener across the directory and all catalog bodies.
+    resumePreparation ||= new Promise(resolve => document.addEventListener('acf:enter', () => { resumePreparation = null; resolve(); }, { once: true }));
+    await resumePreparation;
+  }
+}
+async function yieldPreparation() {
+  await new Promise(resolve => setTimeout(resolve, 0));
+  await waitForActive();
+}
 async function start() {
   if (loading) return loading;
-  if (catalogs.size) { graph?.setActive(active && document.body.dataset.view !== 'list'); return; }
-  $('dataset-status').textContent = 'Opening the IEET collection…';
+  if (initialized) { graph?.setActive(active && document.body.dataset.view !== 'list'); document.dispatchEvent(new CustomEvent('acf:ready')); return; }
+  $('dataset-status').textContent = 'Opening all collections…';
   $('load-more').hidden = true;
+  preparationPending = true;
   loading = (async () => {
     const began = performance.now();
     try {
       directory ||= await fetchJSON('/ACF/data/index.json');
-      const first = directory.catalogs.find(c => c.id === directory.defaultCatalog);
-      catalogs.set(first.id, await catalogData(first));
-      rebuild(false); renderCollections(); readLocation();
+      await waitForActive();
+      // Publish one complete index only after every catalog arrives. Never show
+      // a partial load while labelling it the complete map.
+      const allData = await Promise.all(directory.catalogs.map(catalogData));
+      await waitForActive();
+      for (const data of allData) catalogs.set(data.catalog.id, data);
+      rebuild(false);
+      // Real task boundaries let the still loading screen respond between CPU
+      // stages. The final view reuses this cached graph and current controls.
+      await yieldPreparation();
+      graphData(index, index.items, true);
+      await yieldPreparation();
+      preparationPending = false;
+      renderCollections(); readLocation();
+      initialized = true;
+      $('import-file').disabled = false;
       $('atlas-workspace').dataset.loadMs = (performance.now() - began).toFixed(1);
       document.dispatchEvent(new CustomEvent('acf:ready'));
     } catch (error) {
+      // A late failure belongs to the pending load, not a new riddle/intro.
+      await waitForActive();
+      catalogs.clear(); cache.clear();
+      document.body.dataset.view = 'list'; $('map-view').setAttribute('aria-pressed', 'false'); $('list-view').setAttribute('aria-pressed', 'true'); graph?.setActive(false);
       $('dataset-status').textContent = 'Collection unavailable';
       $('graph-status').textContent = 'Unable to load public metadata. Check your connection and retry.';
+      $('import-status').textContent = 'Retry loading the public collections to enable local imports.';
       $('results').replaceChildren(el('p', 'error-state', error.name === 'TimeoutError' ? 'The connection took too long.' : error.message), button('Retry loading', () => start(), 'load-more'));
-    } finally { loading = null; }
+      document.dispatchEvent(new CustomEvent('acf:load-error'));
+    } finally { preparationPending = false; loading = null; }
   })();
   return loading;
 }
@@ -85,6 +129,7 @@ function renderScale() {
 }
 function filters() { return { query: $('search').value, type: $('type-filter').value, from: $('year-from').value, to: $('year-to').value, scope }; }
 function refresh() {
+  if (preparationPending) return;
   const began = performance.now();
   records = filterItems(index, filters()); pageSize = 40;
   renderList(); renderBreadcrumbs(); renderGraph();
@@ -92,15 +137,26 @@ function refresh() {
   $('atlas-workspace').dataset.updateMs = (performance.now() - began).toFixed(1);
 }
 function renderGraph() {
-  const data = graphData(index, records, $('themes-toggle').checked);
+  const key = JSON.stringify(filters());
+  if (preparedIndex === index && preparedFilters === key) { applyLayers(); graph?.setActive(active && document.body.dataset.view !== 'list'); return; }
+  const data = graphData(index, records, true);
   for (const node of data.nodes) {
-    const info = previewInfo(node, index);
-    node.typeLabel = index.byId.has(node.id) ? label(index.byId.get(node.id).type) : info.kind === 'person' ? 'Credited name' : 'Inferred theme';
-    node.collectionLabel = info.collection;
-    node.metaLabel = info.kind === 'item' ? node.typeLabel + ' · ' + info.collection : node.typeLabel;
+    if (node.typeLabel) continue;
+    const item = index.byId.get(node.id), person = index.people.get(node.id);
+    node.typeLabel = item ? label(item.type) : person ? 'Catalog-local name' : 'Inferred theme';
+    node.collectionLabel = index.catalogById.get((item || person)?.catalogId)?.label || 'Loaded collections';
+    node.metaLabel = item ? node.typeLabel + ' · ' + node.collectionLabel : node.typeLabel;
   }
-  graph?.setData(data); graph?.setActive(active && document.body.dataset.view !== 'list');
+  graph?.setData(data); applyLayers(); graph?.setActive(active && document.body.dataset.view !== 'list');
+  preparedIndex = index; preparedFilters = key;
+  const totals = new Map(THEMES.map(([id]) => [id, 0]));
+  for (const item of records) for (const id of item.themes) totals.set(id, totals.get(id) + 1);
+  $('region-memberships').replaceChildren(...THEMES.map(([id, title]) => button(`${title} · ${number(totals.get(id))}`, () => navigate('scope', { kind: 'theme', id }), 'theme-member')));
   if (!records.length) $('graph-status').textContent = 'No records in this view. Try fewer filters.';
+}
+function applyLayers() {
+  graph?.setLayers({ names: $('names-toggle').checked, labels: $('labels-toggle').checked, relationships: $('relationships-toggle').checked, regions: $('regions-toggle').checked, inferred: $('themes-toggle').checked });
+  $('region-evidence').hidden = !$('regions-toggle').checked && !$('themes-toggle').checked;
 }
 function recordCard(item) {
   const card = button('', () => navigate('item', item.id), 'record-card');
@@ -148,18 +204,30 @@ function closeDetail() { $('detail').hidden = true; selection = null; }
 function detailSection(title, content) { const section = el('section', 'detail-section'); section.append(el('h3', '', title), ...content); return section; }
 function sourceLinks(urls) { return [...new Set(urls.filter(safeUrl))].slice(0, 30).map((u, i) => link(`${i ? 'Evidence' : 'Open source'} · ${new URL(u).hostname} ↗`, u)); }
 function showItem(item) {
-  selection = item.id; openDetail();
+  selection = item.id;
+  graph?.focusRecord?.(item.id);
+  openDetail();
   const content = $('detail-content');
   const catalog = index.catalogById.get(item.catalogId);
   content.replaceChildren(el('p', 'detail-kicker', label(item.type) + ' / ' + catalog.label), el('h2', 'detail-title', item.title));
   const metadata = [item.date || item.dateRaw || 'Date unknown', item.dateKind ? label(item.dateKind) : '', item.datePrecision ? `${item.datePrecision} precision` : '', item.journal, item.publisher, item.doi ? `DOI: ${item.doi}` : '', item.isbn ? `ISBN: ${item.isbn}` : '', item.publicationStatus ? `Publication: ${label(item.publicationStatus)}` : '', item.eventStatus ? `Event: ${label(item.eventStatus)}` : ''].filter(Boolean);
   content.append(el('p', 'detail-meta', metadata.join(' · ')));
+  content.append(button('Locate this record on the map', () => {
+    for (const id of ['search', 'type-filter', 'year-from', 'year-to']) $(id).value = '';
+    scope = null; closeDetail(); refresh();
+    document.body.dataset.view = 'map'; $('map-view').setAttribute('aria-pressed', 'true'); $('list-view').setAttribute('aria-pressed', 'false');
+    graph?.setActive(active); graph?.focusRecord?.(item.id); $('network').focus({ preventScroll: true });
+  }, 'locate-record'));
   const credits = index.byItem.get(item.id) || [];
   content.append(detailSection('Source credits', credits.length ? credits.map(c => button(`${index.people.get(c.personId)?.name || 'Unresolved name'} · ${label(c.role)}`, () => navigate('scope', { kind: 'person', id: c.personId }), 'credit-chip')) : [el('p', 'detail-note', 'No usable byline in this snapshot. No author has been inferred.')]));
   content.append(detailSection('Source trail', sourceLinks([item.url, ...(item.sourceUrls || []), ...credits.flatMap(c => c.sourceUrls || [])])));
-  const relations = index.relationships.filter(r => r.from === item.id || r.to === item.id);
+  const relations = index.relationshipsByItem.get(item.id) || [];
   if (relations.length) content.append(detailSection('Relationships & their basis', relations.map(r => { const outgoing = r.from === item.id; const target = index.byId.get(outgoing ? r.to : r.from); const block = el('div'); block.append(button(`${inferredRelationship(r) ? 'Inferred' : 'Documented'} · ${target?.title || 'Related record'}`, () => target && navigate('item', target.id), 'related-record'), el('p', 'detail-note', `${outgoing ? 'This record → related record' : 'Related record → this record'}: ${label(r.kind)}. Basis: ${label(r.basis)}.`), ...sourceLinks(r.sourceUrls || [])); return block; })));
-  if (item.themes.length) content.append(detailSection('Possible themes · inferred', [el('p', 'detail-note', 'Title keyword matches, not source-assigned subjects or evidence of agreement.'), ...item.themes.map(id => button(THEMES.find(t => t[0] === id)[1], () => navigate('scope', { kind: 'theme', id }), 'credit-chip'))]));
+  if (item.themes.length) content.append(detailSection('Possible themes · inferred', [el('p', 'detail-note', 'Title keyword matches, not source-assigned subjects or evidence of agreement.'), ...item.themeEvidence.map(evidence => {
+    const row = el('div');
+    row.append(button(THEMES.find(t => t[0] === evidence.themeId)[1], () => navigate('scope', { kind: 'theme', id: evidence.themeId }), 'credit-chip'), el('p', 'detail-note', `Matched title text: ${evidence.terms.map(term => '“' + term + '”').join(', ')}.`), ...sourceLinks(evidence.sourceUrls));
+    return row;
+  })]));
   if (item.qualityFlags?.length) content.append(detailSection('Metadata cautions', [el('p', 'detail-note', item.qualityFlags.map(label).join(' · '))]));
   content.append(detailSection('Coverage', [el('p', 'detail-note', `${catalog.snapshot ? `Snapshot ${catalog.snapshot}. ` : ''}${catalog.coverage?.summary || 'Coverage is incomplete.'}`), el('p', 'detail-note', 'Names are source labels, not verified identities. Presence in a catalog does not imply organizational membership or endorsement.')]));
   $('detail-close').focus({ preventScroll: true });
@@ -187,7 +255,7 @@ function renderCollections() {
     }, 'load-more');
     all.id = 'load-all-collections'; $('collection-options').before(all);
   }
-  const entries = [...(directory?.catalogs || []), ...[...catalogs.values()].filter(c => c.catalog.id.startsWith('local-')).map(c => ({ id: c.catalog.id, label: c.catalog.label, itemCount: c.items.length, coverageSummary: c.catalog.coverage.summary }))];
+  const entries = [...(directory?.catalogs || []), ...[...sessionImports.values()].map(({ data: c }) => ({ id: c.catalog.id, label: c.catalog.label, itemCount: c.items.length, coverageSummary: c.catalog.coverage.summary }))];
   $('collection-options').replaceChildren(...entries.map(entry => {
     const row = el('label', 'collection-option'), check = el('input'); check.type = 'checkbox'; check.checked = catalogs.has(entry.id); check.value = entry.id;
     const copy = el('span'); copy.append(el('strong', 'collection-name', entry.label), el('span', 'collection-meta', `${number(entry.itemCount)} records · ${entry.coverageSummary || 'Public metadata snapshot'}`));
@@ -205,6 +273,7 @@ function renderCollections() {
   }));
 }
 $('import-file').addEventListener('change', async event => {
+  if (!initialized) { $('import-status').textContent = 'Finish loading the public collections before importing local metadata.'; event.target.value = ''; return; }
   const file = event.target.files?.[0]; if (!file) return;
   $('import-status').textContent = 'Reading local metadata…';
   try {
@@ -212,7 +281,10 @@ $('import-file').addEventListener('change', async event => {
     const contents = await file.text();
     const raw = file.name.toLowerCase().endsWith('.jsonl') ? contents.split(/\r?\n/).filter(s => s.trim()).map(s => JSON.parse(s)) : JSON.parse(contents);
     const data = normalizeImport(raw, 'local-' + ++importNumber);
-    if (index.items.length + data.items.length > 120000) throw new Error('This session supports up to 120,000 records. Remove a collection first.');
+    // Removed imports remain cached for re-selection. Count the entire session,
+    // including inactive imports, so toggling collections cannot bypass limits.
+    validateSessionImport(data, file.size, { publicRecords: directory.catalogs.reduce((sum, row) => sum + row.itemCount, 0), imports: sessionImports.values() });
+    sessionImports.set(data.catalog.id, { data, bytes: file.size });
     catalogs.set(data.catalog.id, data); cache.set(data.catalog.id, Promise.resolve(data)); rebuild(); renderCollections();
     $('import-status').textContent = `${number(data.items.length)} records added. Stored in memory for this session only.`;
   } catch (error) { $('import-status').textContent = error instanceof SyntaxError ? 'The file is not valid JSON. Use the example format below.' : error.message; }
@@ -222,7 +294,7 @@ $('import-file').addEventListener('change', async event => {
 let debounce;
 for (const id of ['search', 'year-from', 'year-to']) $(id).addEventListener('input', () => { clearTimeout(debounce); debounce = setTimeout(refresh, 160); });
 for (const id of ['type-filter', 'year-from', 'year-to']) $(id).addEventListener('change', () => { clearTimeout(debounce); refresh(); });
-$('themes-toggle').addEventListener('change', renderGraph);
+for (const id of ['names-toggle', 'labels-toggle', 'relationships-toggle', 'regions-toggle', 'themes-toggle']) $(id).addEventListener('change', applyLayers);
 $('load-more').addEventListener('click', () => { const previous = pageSize; pageSize += 40; renderList(); $('results').children[previous]?.focus({ preventScroll: true }); });
 $('detail-close').addEventListener('click', () => { closeDetail(); $('search').focus({ preventScroll: true }); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !document.querySelector('dialog[open]')) { preview.close(preview.card.contains(document.activeElement)); closeDetail(); } });

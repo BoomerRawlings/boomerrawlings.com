@@ -1,3 +1,6 @@
+import { SpatialGrid } from './graph-spatial.js?v=fullmap-20261012';
+import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=fullmap-20261012';
+
 const COLORS = { hub: '#d89976', item: '#a9c9db', person: '#aaa4d0' };
 const clamp = (value, low, high) => Math.min(high, Math.max(low, value));
 const finite = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
@@ -10,7 +13,7 @@ function hash(value) {
   return (result ^ (result >>> 16)) >>> 0;
 }
 
-/** An event-driven view of a bounded, pre-positioned section of the catalog. */
+/** Event-driven full-record map. Labels and connection emphasis are bounded; records are not sampled. */
 export class AtlasGraph {
   constructor(canvas, { onSelect = () => {}, onPreview = () => {}, onLabels = () => {}, onZoom = () => {}, onStatus = () => {} } = {}) {
     this.canvas = canvas;
@@ -20,6 +23,17 @@ export class AtlasGraph {
     this.onLabels = onLabels;
     this.onZoom = onZoom;
     this.onStatus = onStatus;
+    this.layers = { names: false, labels: true, relationships: false, regions: false, inferred: false };
+    this.renderer = new GraphRenderer(canvas, this.ctx, () => { this.animationUntil = 0; this.connectionPulse = null; this.requestDraw(); });
+    this.available = this.renderer.backend !== 'unavailable';
+    this.spatial = new SpatialGrid();
+    this.adjacency = new Map();
+    this.regions = [];
+    this.fixedBounds = null;
+    this.dataRevision = 0;
+    this.screenKey = '';
+    this.focusOrder = [];
+    this.labelOrder = { item: [], hub: [] };
     this.nodes = [];
     this.edges = [];
     this.visible = [];
@@ -97,7 +111,7 @@ export class AtlasGraph {
     this.measure();
   }
 
-  setData({ nodes = [], edges = [] } = {}) {
+  setData({ nodes = [], edges = [], regions = [], bounds = null } = {}) {
     if (this.destroyed) return;
     this.byId = new Map();
     for (const node of nodes) {
@@ -109,24 +123,76 @@ export class AtlasGraph {
         kind: ['hub', 'person'].includes(node.kind) ? node.kind : 'item',
         x: finite(node.x),
         y: finite(node.y),
-        // LOD selection must not share the layout's angle seed.
-        seed: hash(`visible:${node.id}`),
+        size: clamp(finite(node.size, node.kind === 'hub' ? 5 : node.kind === 'person' ? 0.9 : 0.75), 0.65, node.kind === 'item' ? 0.75 : node.kind === 'person' ? 0.9 : 8),
+        seed: hash(`label:${node.id}`),
       };
       this.byId.set(clean.id, clean);
     }
     this.nodes = [...this.byId.values()];
     this.edges = edges.filter(edge => edge && this.byId.has(String(edge.from)) && this.byId.has(String(edge.to)))
       .map(edge => ({ ...edge, from: String(edge.from), to: String(edge.to) }));
+    this.regions = regions;
+    this.fixedBounds = bounds && ['left', 'right', 'top', 'bottom'].every(key => Number.isFinite(bounds[key])) ? bounds : null;
+    this.spatial = new SpatialGrid(this.nodes);
+    this.adjacency = new Map(this.nodes.map(node => [node.id, []]));
+    for (const edge of this.edges) { this.adjacency.get(edge.from).push(edge); if (edge.to !== edge.from) this.adjacency.get(edge.to).push(edge); }
+    this.focusOrder = [...this.nodes].sort((a, b) => a.id.localeCompare(b.id));
+    this.labelOrder = {
+      item: this.nodes.filter(node => node.kind === 'item').sort((a, b) => a.seed - b.seed),
+      hub: this.nodes.filter(node => node.kind !== 'item').sort((a, b) => (b.count || 0) - (a.count || 0) || a.seed - b.seed),
+    };
+    this.recordCount = this.nodes.filter(node => node.kind === 'item').length;
+    this.nameCount = this.nodes.filter(node => node.kind === 'person').length;
+    this.canvas.dataset.recordIdCount = String(this.recordCount);
+    this.canvas.dataset.recordIdHash = hash(this.nodes.filter(node => node.kind === 'item').map(node => node.id).join('\n')).toString(16);
+    this.renderer.setData(this.nodes, this.edges, this.byId);
+    this.dataRevision++;
+    this.screenKey = '';
+    this.enabledNodes = this.nodes.filter(node => this.nodeEnabled(node));
+    this.enabledFocus = this.focusOrder.filter(node => this.nodeEnabled(node));
     if (!this.byId.has(this.selected)) this.selected = null;
     this.hovered = null;
     this.keyboardId = null;
     this.screen = [];
-    this.reset();
+    const firstData = !this.hasData && this.nodes.length;
+    this.hasData ||= this.nodes.length > 0;
+    this.dismissPreview('layout');
+    if (firstData || !this.initialized) this.reset();
+    else this.requestDraw();
     this.startConnectionPulse();
     if (!this.ctx) {
       this.canvas.dataset.graphUnavailable = 'true';
-      this.onStatus({ visibleNodes: 0, totalNodes: this.nodes.length, visibleEdges: 0 });
+      this.publishStatus({ backend: 'unavailable', submittedRecords: 0, submittedNames: 0, drawnPoints: 0, submittedEdges: 0, drawnEdges: 0 });
     }
+  }
+
+  nodeEnabled(node) { return node.kind === 'item' || (node.kind === 'person' ? this.layers.names : this.layers.inferred); }
+  edgeEnabled(edge) { return edge.inferred ? this.layers.inferred : this.layers.relationships; }
+
+  setLayers(layers = {}) {
+    let changed = false;
+    for (const key of Object.keys(this.layers)) if (typeof layers[key] === 'boolean' && layers[key] !== this.layers[key]) { this.layers[key] = layers[key]; changed = true; }
+    if (!changed || this.destroyed) return;
+    this.enabledNodes = this.nodes.filter(node => this.nodeEnabled(node));
+    this.enabledFocus = this.focusOrder.filter(node => this.nodeEnabled(node));
+    this.screenKey = '';
+    this.dismissPreview('layout');
+    this.startConnectionPulse();
+    this.requestDraw();
+  }
+
+  focusRecord(id) {
+    const node = this.byId.get(String(id));
+    if (!node || this.destroyed) return false;
+    if (node.kind === 'person' && !this.layers.names) this.setLayers({ names: true });
+    if (node.kind === 'hub' && !this.layers.inferred) this.setLayers({ inferred: true });
+    this.dismissPreview('layout');
+    this.scale = Math.max(this.scale, this.baseScale * 5);
+    const center = this.viewportCenter();
+    this.pan = { x: center.x - node.x * this.scale, y: center.y - node.y * this.scale };
+    this.onZoom(this.scale / this.baseScale);
+    this.select(node, 'keyboard');
+    return true;
   }
 
   setActive(active) {
@@ -134,6 +200,7 @@ export class AtlasGraph {
     const wasActive = this.active;
     if (!active) this.dismissPreview('layout');
     this.active = Boolean(active);
+    this.renderer.setActive(this.active);
     if (this.active) {
       this.measure();
       if (!wasActive) this.startConnectionPulse();
@@ -196,11 +263,11 @@ export class AtlasGraph {
       this.initialized = false;
       return;
     }
-    const bounds = this.nodes.reduce((box, node) => ({
+    const bounds = this.fixedBounds || this.nodes.reduce((box, node) => ({
       left: Math.min(box.left, node.x), right: Math.max(box.right, node.x),
       top: Math.min(box.top, node.y), bottom: Math.max(box.bottom, node.y),
     }), { left: Infinity, right: -Infinity, top: Infinity, bottom: -Infinity });
-    if (!this.nodes.length) Object.assign(bounds, { left: -450, right: 450, top: -300, bottom: 300 });
+    if (!this.nodes.length && !this.fixedBounds) Object.assign(bounds, { left: -450, right: 450, top: -300, bottom: 300 });
     const { left, right, top, bottom } = this.viewportFrame();
     const center = this.viewportCenter();
     const scale = Math.min(
@@ -208,7 +275,7 @@ export class AtlasGraph {
       Math.max(50, this.height - top - bottom) / Math.max(180, bounds.bottom - bounds.top),
       1.35,
     );
-    this.scale = Math.max(0.08, scale);
+    this.scale = Math.max(0.000001, scale);
     this.baseScale = this.scale;
     this.pan = {
       x: center.x - (bounds.left + bounds.right) / 2 * this.scale,
@@ -223,7 +290,7 @@ export class AtlasGraph {
   zoomBy(factor, anchor = this.viewportCenter()) {
     if (this.destroyed || !Number.isFinite(factor) || factor <= 0) return;
     this.dismissPreview('layout');
-    const next = clamp(this.scale * factor, this.baseScale * 0.4, this.baseScale * 8);
+    const next = clamp(this.scale * factor, this.baseScale * 0.4, this.baseScale * 64);
     const ratio = next / this.scale;
     this.pan.x = anchor.x - (anchor.x - this.pan.x) * ratio;
     this.pan.y = anchor.y - (anchor.y - this.pan.y) * ratio;
@@ -275,7 +342,7 @@ export class AtlasGraph {
       const before = center(oldPair);
       const after = center(newPair);
       const ratio = distance(newPair) / Math.max(1, distance(oldPair));
-      const next = clamp(this.scale * ratio, this.baseScale * 0.4, this.baseScale * 8);
+      const next = clamp(this.scale * ratio, this.baseScale * 0.4, this.baseScale * 64);
       this.pan.x = after.x - (before.x - this.pan.x) * next / this.scale;
       this.pan.y = after.y - (before.y - this.pan.y) * next / this.scale;
       this.scale = next;
@@ -350,30 +417,40 @@ export class AtlasGraph {
   }
 
   directionalFocus(key) {
-    const candidates = this.focusCandidates();
-    const current = candidates.find(node => node.id === (this.keyboardId || this.hovered)) || this.nearestCenter();
+    const current = this.byId.get(this.keyboardId || this.hovered) || this.nearestCenter();
     if (!current) return;
     const origin = this.anchor(current);
     const [dx, dy] = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[key];
     let next = null;
     let best = Infinity;
-    for (const candidate of candidates) {
-      const x = candidate.sx - origin.x, y = candidate.sy - origin.y;
-      const forward = x * dx + y * dy;
-      if (candidate.id === current.id || forward < 1) continue;
-      const sideways = Math.abs(x * dy - y * dx);
-      const score = Math.hypot(x, y) + sideways * 2;
-      if (score < best) { best = score; next = candidate; }
+    for (let radius = 32; radius <= Math.max(this.width, this.height) * 4; radius *= 2) {
+      const range = radius / this.scale;
+      const candidates = this.spatial.query(current.x - range, current.y - range, current.x + range, current.y + range);
+      for (const node of candidates) {
+        const candidate = this.project(node); if (!candidate) continue;
+        const x = candidate.sx - origin.x, y = candidate.sy - origin.y;
+        const forward = x * dx + y * dy;
+        if (candidate.id === current.id || forward < 1) continue;
+        const sideways = Math.abs(x * dy - y * dx);
+        const score = Math.hypot(x, y) + sideways * 2;
+        if (score < best) { best = score; next = candidate; }
+      }
+      if (best <= radius) break;
     }
     this.focusNode(this.byId.get((next || current).id));
   }
 
   cycleFocus(direction) {
-    const candidates = this.focusCandidates().sort((a, b) => a.id.localeCompare(b.id));
+    const candidates = this.enabledFocus || [];
     if (!candidates.length) return;
     const current = candidates.findIndex(node => node.id === (this.keyboardId || this.hovered));
     const index = current < 0 ? (direction > 0 ? 0 : candidates.length - 1) : (current + direction + candidates.length) % candidates.length;
-    this.focusNode(this.byId.get(candidates[index].id));
+    const node = candidates[index], point = this.anchor(node);
+    if (point.x < 8 || point.x > this.width - 8 || point.y < 8 || point.y > this.height - 8) {
+      const center = this.viewportCenter(); this.pan = { x: center.x - node.x * this.scale, y: center.y - node.y * this.scale };
+      this.dismissPreview('layout');
+    }
+    this.focusNode(node);
   }
 
   stepPreview(direction = 1) {
@@ -385,23 +462,30 @@ export class AtlasGraph {
     let nearest = null;
     let distance = Infinity;
     const center = this.viewportCenter();
-    for (const node of this.screen) {
-      const candidate = (node.sx - center.x) ** 2 + (node.sy - center.y) ** 2;
-      if (candidate < distance) { distance = candidate; nearest = node; }
+    const x = (center.x - this.pan.x) / this.scale, y = (center.y - this.pan.y) / this.scale;
+    for (let radius = 16; radius <= Math.max(this.width, this.height) * 4; radius *= 2) {
+      const range = radius / this.scale;
+      for (const value of this.spatial.query(x - range, y - range, x + range, y + range)) {
+        const node = this.project(value); if (!node) continue;
+        const candidate = (node.sx - center.x) ** 2 + (node.sy - center.y) ** 2;
+        if (candidate < distance) { distance = candidate; nearest = node; }
+      }
+      if (distance <= radius * radius) break;
     }
     return nearest ? this.byId.get(nearest.id) : null;
   }
 
   hit(point) {
-    this.updateScreen();
     // Opaque title cards are painted above dots, so their hit regions must win too.
     const label = this.labelBoxes.find(box => point.x >= box.x && point.x <= box.x + box.width && point.y >= box.y && point.y <= box.y + box.height);
     if (label) return this.byId.get(label.id);
     let result = null;
     let closest = Infinity;
-    for (const node of this.screen) {
-      const distance = Math.hypot(point.x - node.sx, point.y - node.sy);
-      if (distance <= Math.max(11, node.radius + 6) && distance < closest) { result = node; closest = distance; }
+    const x = (point.x - this.pan.x) / this.scale, y = (point.y - this.pan.y) / this.scale, range = 26 / this.scale;
+    for (const node of this.spatial.query(x - range, y - range, x + range, y + range)) {
+      if (!this.nodeEnabled(node)) continue;
+      const anchor = this.anchor(node), distance = Math.hypot(point.x - anchor.x, point.y - anchor.y);
+      if (distance <= Math.max(8, this.radius(node) + 4) && (distance < closest || (distance === closest && node.id < result.id))) { result = node; closest = distance; }
     }
     return result ? this.byId.get(result.id) : null;
   }
@@ -451,10 +535,12 @@ export class AtlasGraph {
 
   startConnectionPulse(nodeId = null) {
     this.connectionPulse = null;
-    if (!this.active || this.destroyed || document.hidden || this.paused || this.motion.matches) return;
-    const edges = this.edges.filter(edge => !nodeId || edge.from === nodeId || edge.to === nodeId)
-      .map(edge => ({ edge, rank: hash(`emphasis:${edge.from}:${edge.to}:${Boolean(edge.inferred)}`) }))
-      .sort((a, b) => a.rank - b.rank).slice(0, 72).map(value => value.edge);
+    if (!this.active || this.destroyed || document.hidden || this.paused || this.motion.matches || (!this.layers.relationships && !this.layers.inferred)) return;
+    const edges = [];
+    for (const edge of nodeId ? this.adjacency.get(nodeId) || [] : this.edges) {
+      if (!this.edgeEnabled(edge) || !this.nodeEnabled(this.byId.get(edge.from)) || !this.nodeEnabled(this.byId.get(edge.to))) continue;
+      edges.push(edge); if (edges.length === 72) break;
+    }
     if (!edges.length) return;
     this.connectionPulse = { started: performance.now(), duration: 780, nodeId, edges };
     this.requestDraw();
@@ -506,7 +592,7 @@ export class AtlasGraph {
 
   requestDraw(animate = false) {
     if (this.destroyed || !this.active || document.hidden || !this.ctx) return;
-    if (animate && !this.paused && !this.motion.matches) this.animationUntil = performance.now() + 700;
+    if (animate && this.selected && !this.paused && !this.motion.matches) this.animationUntil = performance.now() + 700;
     if (this.frame === null) this.frame = requestAnimationFrame(time => {
       this.frame = null;
       this.draw(time);
@@ -519,23 +605,61 @@ export class AtlasGraph {
   }
 
   chooseVisible() {
-    const detail = clamp((this.scale / this.baseScale - 1) / 1.6, 0, 1);
-    const budget = Math.round(250 + detail * 250);
-    const fixed = this.nodes.filter(node => node.kind !== 'item' || [this.selected, this.hovered, this.keyboardId].includes(node.id));
-    const fixedIds = new Set(fixed.map(node => node.id));
-    const sampled = this.nodes.filter(node => !fixedIds.has(node.id)).sort((a, b) => a.seed - b.seed)
-      .slice(0, Math.max(0, budget - fixed.length));
-    return [...sampled, ...fixed];
+    return this.enabledNodes || [];
+  }
+
+  radius(node) { return clamp(node.size * Math.sqrt(this.scale / this.baseScale), 0.6, 18); }
+
+  project(node) {
+    if (!node || !this.nodeEnabled(node)) return null;
+    const x = node.x * this.scale + this.pan.x, y = node.y * this.scale + this.pan.y, radius = this.radius(node);
+    if (x + radius < 0 || x - radius > this.width || y + radius < 0 || y - radius > this.height) return null;
+    node.sx = x; node.sy = y; node.radius = radius; return node;
   }
 
   updateScreen() {
+    const key = `${this.dataRevision}:${this.renderer.backend}:${this.layers.names}:${this.layers.inferred}:${this.layers.relationships}:${this.width}:${this.height}:${this.pan.x}:${this.pan.y}:${this.scale}`;
+    if (key === this.screenKey) return;
+    this.screenKey = key;
     this.visible = this.chooseVisible();
-    this.screen = this.visible.map(node => ({
-      ...node,
-      sx: node.x * this.scale + this.pan.x,
-      sy: node.y * this.scale + this.pan.y,
-      radius: clamp(finite(node.size, node.kind === 'hub' ? 8 : node.kind === 'person' ? 4.5 : 2.3) * Math.sqrt(this.scale / this.baseScale), 1.5, 22),
-    })).filter(node => node.sx > -24 && node.sx < this.width + 24 && node.sy > -24 && node.sy < this.height + 24);
+    if (this.renderer.backend === 'webgl') {
+      Object.assign(this, this.renderer.countInView(this, this.layers));
+      this.screenLabelOrder = { item: [], hub: [] };
+      const points = new Map();
+      for (const kind of ['item', 'hub']) {
+        for (const node of this.labelOrder[kind].slice(0, 512)) {
+          const point = this.project(node);
+          if (point) { points.set(node.id, point); this.screenLabelOrder[kind].push(point); }
+          if (this.screenLabelOrder[kind].length === 160) break;
+        }
+      }
+      if (this.screenLabelOrder.item.length < 8) {
+        const local = this.spatial.query(-this.pan.x / this.scale, -this.pan.y / this.scale, (this.width - this.pan.x) / this.scale, (this.height - this.pan.y) / this.scale);
+        for (const node of local) if (node.kind === 'item' && !points.has(node.id)) {
+          const point = this.project(node); if (point) { points.set(node.id, point); this.screenLabelOrder.item.push(point); }
+          if (this.screenLabelOrder.item.length === 32) break;
+        }
+      }
+      this.screenPoints = points; this.screen = [...points.values()];
+      this.visibleEdges = []; this.displayedEdges = [];
+      this.labelsDirty = true; return;
+    }
+    this.screen = this.spatial.query((-24 - this.pan.x) / this.scale, (-24 - this.pan.y) / this.scale, (this.width + 24 - this.pan.x) / this.scale, (this.height + 24 - this.pan.y) / this.scale).filter(node => this.nodeEnabled(node)).map(node => {
+      node.sx = node.x * this.scale + this.pan.x; node.sy = node.y * this.scale + this.pan.y; node.radius = this.radius(node); return node;
+    }).filter(node => node.sx + node.radius >= 0 && node.sx - node.radius <= this.width && node.sy + node.radius >= 0 && node.sy - node.radius <= this.height);
+    this.screenPoints = new Map(this.screen.map(node => [node.id, node]));
+    this.visibleEdges = this.edges.filter(edge => this.edgeEnabled(edge) && this.screenPoints.has(edge.from) && this.screenPoints.has(edge.to));
+    this.displayedEdges = this.visibleEdges.filter(edge => edge.inferred ? this.layers.inferred : this.layers.relationships);
+    this.inViewRecords = this.screen.filter(node => node.kind === 'item').length;
+    this.inViewNames = this.screen.filter(node => node.kind === 'person').length;
+    this.inViewCount = this.screen.length;
+    this.screenLabelOrder = {};
+    for (const kind of ['item', 'hub']) {
+      const candidates = [];
+      for (const node of this.labelOrder[kind]) if (this.screenPoints.has(node.id)) { candidates.push(node); if (candidates.length === 160) break; }
+      this.screenLabelOrder[kind] = candidates;
+    }
+    this.labelsDirty = true;
   }
 
   draw(time) {
@@ -545,40 +669,61 @@ export class AtlasGraph {
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
     ctx.clearRect(0, 0, this.width, this.height);
     this.paintDepth(ctx);
+    this.renderer.checkContext();
     this.updateScreen();
-    const points = new Map(this.screen.map(node => [node.id, node]));
-    const edges = this.edges.filter(edge => points.has(edge.from) && points.has(edge.to));
+    const points = this.renderer.backend === 'webgl' ? new Map(this.screenPoints) : this.screenPoints;
+    const edges = this.visibleEdges;
     const emphasis = this.hovered || this.keyboardId || this.selected;
+    const focusPoint = this.project(this.byId.get(emphasis)); if (focusPoint) points.set(emphasis, focusPoint);
+    const selectedEdges = [];
+    if (emphasis && (this.layers.relationships || this.layers.inferred)) for (const edge of this.adjacency.get(emphasis) || []) {
+      if (!this.edgeEnabled(edge)) continue;
+      const a = this.project(this.byId.get(edge.from)), b = this.project(this.byId.get(edge.to));
+      if (a && b) { points.set(a.id, a); points.set(b.id, b); selectedEdges.push(edge); }
+      if (selectedEdges.length === 256) break;
+    }
+    if (this.connectionPulse) for (const edge of this.connectionPulse.edges) {
+      const a = this.project(this.byId.get(edge.from)), b = this.project(this.byId.get(edge.to));
+      if (a && b) { points.set(a.id, a); points.set(b.id, b); }
+    }
+    if (this.layers.regions) this.paintRegions(ctx);
     ctx.lineCap = 'round';
-    for (const inferred of [false, true]) {
-      ctx.beginPath();
-      ctx.strokeStyle = inferred ? 'rgba(216,153,118,0.18)' : 'rgba(169,201,219,0.19)';
-      ctx.lineWidth = inferred ? 0.65 : 0.7;
-      ctx.setLineDash(inferred ? [2, 5] : []);
-      for (const edge of edges) {
-        if (Boolean(edge.inferred) !== inferred) continue;
-        this.edgePath(ctx, points.get(edge.from), points.get(edge.to));
+    const displayedEdges = this.displayedEdges;
+    if (this.renderer.backend !== 'webgl' && (this.layers.relationships || this.layers.inferred)) {
+      for (const inferred of [false, true]) {
+        ctx.beginPath();
+        const opacity = routeOpacity(inferred, this.scale / this.baseScale);
+        ctx.strokeStyle = inferred ? `rgba(216,153,118,${opacity})` : `rgba(169,201,219,${opacity})`;
+        ctx.lineWidth = inferred ? 0.65 : 0.7;
+        ctx.setLineDash(inferred ? [2, 5] : []);
+        for (const edge of displayedEdges) {
+          if (Boolean(edge.inferred) !== inferred) continue;
+          this.edgePath(ctx, points.get(edge.from), points.get(edge.to));
+        }
+        ctx.stroke();
       }
-      ctx.stroke();
     }
     ctx.setLineDash([]);
+    const drawStats = this.renderer.draw(this, this.layers, this.screen);
+    if (drawStats.backend === 'canvas2d') drawStats.submittedEdges = drawStats.drawnEdges = displayedEdges.length;
     if (emphasis) {
       ctx.beginPath();
       ctx.strokeStyle = 'rgba(216,153,118,0.64)';
       ctx.lineWidth = 1.05;
-      for (const edge of edges) if (!edge.inferred && (edge.from === emphasis || edge.to === emphasis)) this.edgePath(ctx, points.get(edge.from), points.get(edge.to));
+      for (const edge of selectedEdges) if (!edge.inferred) this.edgePath(ctx, points.get(edge.from), points.get(edge.to));
       ctx.stroke();
       ctx.beginPath();
       ctx.setLineDash([3, 5]);
-      for (const edge of edges) if (edge.inferred && (edge.from === emphasis || edge.to === emphasis)) this.edgePath(ctx, points.get(edge.from), points.get(edge.to));
+      for (const edge of selectedEdges) if (edge.inferred) this.edgePath(ctx, points.get(edge.from), points.get(edge.to));
       ctx.stroke();
       ctx.setLineDash([]);
     }
     const highlighting = this.paintConnectionPulse(ctx, points, time);
     const settling = !this.paused && !this.motion.matches && time < this.animationUntil;
     const settle = settling ? Math.sin((1 - (this.animationUntil - time) / 700) * Math.PI) : 0;
-    for (const node of this.screen) {
-      const highlighted = node.id === emphasis;
+    const focus = points.get(emphasis);
+    for (const node of focus ? [focus] : []) {
+      const highlighted = true;
       const color = node.color || COLORS[node.kind];
       if (node.kind !== 'item' || highlighted) {
         const glowSize = node.radius * (highlighted ? 5 : 3.6) + settle * 3;
@@ -610,27 +755,50 @@ export class AtlasGraph {
       this.labelPlans = [];
       const compact = this.width < 500;
       if (points.has(emphasis)) this.placeLabel(ctx, points.get(emphasis), true);
-      const hubs = this.screen.filter(node => node.kind !== 'item' && node.id !== emphasis).sort((a, b) => (b.count || 0) - (a.count || 0));
-      const items = this.screen.filter(node => node.kind === 'item' && node.id !== emphasis).sort((a, b) => hash(`label:${a.id}`) - hash(`label:${b.id}`));
+      const hubs = this.layers.labels ? this.screenLabelOrder.hub.filter(node => node.id !== emphasis) : [];
+      const items = this.layers.labels ? this.screenLabelOrder.item.filter(node => node.id !== emphasis) : [];
       // Give both records and source labels space, including results with no people.
       let itemCount = 0, hubCount = 0;
       while ((itemCount < (compact ? 2 : 4) && items.length) || (hubCount < (compact ? 2 : 4) && hubs.length)) {
-        if (itemCount < (compact ? 2 : 4) && items.length && this.placeLabel(ctx, items.shift(), false)) itemCount++;
-        if (hubCount < (compact ? 2 : 4) && hubs.length && this.placeLabel(ctx, hubs.shift(), false)) hubCount++;
+        if (itemCount < (compact ? 2 : 4) && items.length && this.placeLabel(ctx, points.get(items.shift().id), false)) itemCount++;
+        if (hubCount < (compact ? 2 : 4) && hubs.length && this.placeLabel(ctx, points.get(hubs.shift().id), false)) hubCount++;
       }
       this.labelsDirty = false;
       this.onLabels(this.labelBoxes.map(box => ({ ...box })));
     }
     for (const plan of this.labelPlans) this.paintLabel(ctx, plan);
     if (document.activeElement === this.canvas) this.drawCrosshair(ctx);
-    const status = { visibleNodes: this.screen.length, totalNodes: this.nodes.length, visibleEdges: edges.length };
-    const statusKey = `${status.visibleNodes}/${status.totalNodes}/${status.visibleEdges}`;
-    if (statusKey !== this.lastStatus) { this.lastStatus = statusKey; this.onStatus(status); }
-    this.canvas.dataset.visibleNodes = String(status.visibleNodes);
-    this.canvas.dataset.totalNodes = String(status.totalNodes);
-    this.canvas.dataset.visibleEdges = String(status.visibleEdges);
+    drawStats.visibleEdges = this.renderer.backend === 'webgl' ? null : displayedEdges.length;
+    drawStats.selectedEdges = selectedEdges.length;
+    drawStats.drawnEdges += selectedEdges.length + Number(this.canvas.dataset.highlightedEdges || 0);
+    this.publishStatus(drawStats);
     this.canvas.dataset.frameMs = (performance.now() - start).toFixed(2);
+    this.canvas.dataset.renderRevision = String((Number(this.canvas.dataset.renderRevision) || 0) + 1);
     if (settling || highlighting) this.requestDraw();
+  }
+
+  publishStatus(drawStats) {
+    const available = drawStats.backend !== 'unavailable';
+    const status = { visibleNodes: available ? this.inViewCount || 0 : 0, totalNodes: this.nodes.length,
+      visibleEdges: drawStats.visibleEdges || 0, recordCount: this.recordCount || 0, nameCount: this.nameCount || 0,
+      inViewRecords: available ? this.inViewRecords || 0 : 0, inViewNames: available ? this.inViewNames || 0 : 0, ...drawStats };
+    const statusKey = JSON.stringify(status);
+    if (statusKey !== this.lastStatus) { this.lastStatus = statusKey; this.onStatus(status); }
+    for (const [key, value] of Object.entries(status)) this.canvas.dataset[key] = String(value);
+    this.canvas.dataset.graphUnavailable = String(!available);
+    this.available = available;
+  }
+
+  paintRegions(ctx) {
+    for (const region of this.regions) {
+      if (region.count === 0) continue;
+      if (![region.x, region.y, region.radiusX, region.radiusY].every(Number.isFinite)) continue;
+      const anchor = this.anchor(region);
+      ctx.beginPath(); ctx.ellipse(anchor.x, anchor.y, Math.abs(region.radiusX * this.scale), Math.abs(region.radiusY * this.scale), 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(170,164,208,0.035)'; ctx.fill();
+      ctx.strokeStyle = 'rgba(170,164,208,0.23)'; ctx.lineWidth = 1; ctx.setLineDash([4, 7]); ctx.stroke();
+    }
+    ctx.setLineDash([]);
   }
 
   edgePath(ctx, a, b) {
@@ -642,7 +810,7 @@ export class AtlasGraph {
   labelExclusions() {
     if (this.exclusions) return this.exclusions;
     const canvas = this.canvas.getBoundingClientRect();
-    const elements = this.canvas.parentElement?.querySelectorAll('.graph-intro, .graph-controls, .theme-control, .graph-bottom, .graph-instructions, .preview-navigation') || [];
+    const elements = this.canvas.parentElement?.querySelectorAll?.('.graph-intro, .graph-controls, .theme-control, .graph-bottom, .graph-instructions, .preview-navigation, .map-layers') || [];
     this.exclusions = [...elements].map(element => {
       const rect = element.getBoundingClientRect();
       return { x: rect.left - canvas.left - 6, y: rect.top - canvas.top - 6, width: rect.width + 12, height: rect.height + 12 };
@@ -753,10 +921,14 @@ export class AtlasGraph {
     this.cancelFrame();
     this.abort.abort();
     this.resize.disconnect();
+    this.renderer.destroy();
     this.pointers.clear();
     this.nodes = [];
     this.edges = [];
     this.screen = [];
     this.byId.clear();
+    this.adjacency.clear();
+    this.spatial = new SpatialGrid();
+    this.focusOrder = []; this.labelOrder = { item: [], hub: [] };
   }
 }

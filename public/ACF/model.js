@@ -7,6 +7,7 @@ export const THEMES = [
   ['culture', 'Culture & networks', /\b(cultur\w*|internet|network\w*|media|art|design|digital|philosoph\w*|ethic\w*)\b/i],
   ['futures', 'Futures & risk', /\b(futur\w*|risk\w*|utopia\w*|dystopia\w*|scenario\w*|foresight|singularit\w*)\b/i],
 ];
+const themeMatchers = THEMES.map(([id, , rule]) => [id, new RegExp(rule.source, 'gi')]);
 export const label = value => String(value || 'Unspecified').replaceAll('_', ' ').replace(/\b\w/g, c => c.toUpperCase());
 export const text = (value, max = 1000) => typeof value === 'string' ? value.trim().slice(0, max) : '';
 const uncertainKinds = new Set(['thematically_related_to_dossier', 'possibly_same_event', 'original_publication_wording_candidate', 'associated_event', 'episode_announcement']);
@@ -22,10 +23,37 @@ export function safeUrl(value) {
   } catch { return ''; }
 }
 const urls = values => [...new Set((Array.isArray(values) ? values : []).flat().map(safeUrl).filter(Boolean))];
+// Per-file row limits precede normalization/allocation. The app also budgets
+// cumulative imported bytes and rows across the browser session.
+export const IMPORT_LIMITS = Object.freeze({ items: 60000, people: 20000, credits: 150000, relationships: 100000, affiliations: 30000 });
+export const SESSION_IMPORT_LIMITS = Object.freeze({ records: 120000, people: 60000, relations: 500000, bytes: 120 * 1024 * 1024 });
+export function validateSessionImport(data, byteLength, { publicRecords = 0, imports = [] } = {}) {
+  const measure = (catalog, bytes) => {
+    if (!catalog || !Array.isArray(catalog.items) || !Number.isSafeInteger(bytes) || bytes < 0) throw new Error('Import accounting requires a catalog and a nonnegative byte length.');
+    const count = key => {
+      if (catalog[key] === undefined) return 0;
+      if (!Array.isArray(catalog[key])) throw new Error(`Import accounting requires an array for ${key}.`);
+      return catalog[key].length;
+    };
+    return { records: count('items'), people: count('people'), relations: count('credits') + count('relationships') + count('affiliations'), bytes };
+  };
+  if (!Number.isSafeInteger(publicRecords) || publicRecords < 0) throw new Error('Public record accounting must be a nonnegative integer.');
+  const totals = measure(data, byteLength);
+  totals.records += publicRecords;
+  // Deliberately include cached, deselected imports: unchecking a collection
+  // does not release its metadata or restore the session's memory budget.
+  for (const previous of imports) {
+    const used = measure(previous.data, previous.bytes);
+    for (const key of Object.keys(totals)) totals[key] += used[key];
+  }
+  const names = { records: 'records including public collections', people: 'imported name labels', relations: 'imported credit, relationship and affiliation rows', bytes: 'imported bytes' };
+  for (const [key, limit] of Object.entries(SESSION_IMPORT_LIMITS)) if (totals[key] > limit) throw new Error(`This session exceeds ${limit.toLocaleString('en-US')} ${names[key]}. Reload to clear previous imports before importing more.`);
+  return totals;
+}
 export function normalizeImport(raw, namespace) {
   if (Array.isArray(raw)) raw = { items: raw, catalog: { label: 'Imported collection' } };
   if (!raw || !Array.isArray(raw.items) || !raw.items.length) throw new Error('Use a catalog with an items array, or one item per JSONL line.');
-  if (raw.items.length > 60000) throw new Error('Use at most 60,000 records per import.');
+  if (raw.items.length > IMPORT_LIMITS.items) throw new Error('Use at most 60,000 records per import.');
   if (raw.schemaVersion !== undefined && raw.schemaVersion !== 1) throw new Error('This importer supports schemaVersion 1.');
   if (!/^[a-z0-9-]+$/i.test(namespace)) throw new Error('Use a valid collection namespace.');
   const rows = key => {
@@ -33,6 +61,7 @@ export function normalizeImport(raw, namespace) {
     if (!Array.isArray(raw[key])) throw new Error(`${key} must be an array.`);
     return raw[key];
   };
+  for (const [key, limit] of Object.entries(IMPORT_LIMITS)) if (rows(key).length > limit) throw new Error(`Use at most ${limit.toLocaleString('en-US')} ${key} rows per import.`);
   const object = (value, kind) => { if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${kind} records must be objects.`); return value; };
   const scalar = value => Array.isArray(value) ? value.filter(v => typeof v === 'string' || typeof v === 'number').join('; ') : typeof value === 'number' ? String(value) : value;
   const evidence = v => urls([v.sourceUrls || v.source_urls || [], v.source_url, v.evidence?.source_url]);
@@ -92,27 +121,46 @@ export function normalizeImport(raw, namespace) {
   return { schemaVersion: 1, catalog: { id: namespace, label: text(raw.catalog?.label, 150) || 'Imported collection', sourceUrl: safeUrl(raw.catalog?.sourceUrl), snapshot: text(raw.catalog?.snapshot, 40), coverage: { summary: 'Local import. Provenance supplied by the importer; not independently verified.', limits: ['No identity merging across catalogs. Imported data stays in this browser session.', ...((Array.isArray(raw.catalog?.coverage?.limits) ? raw.catalog.coverage.limits : []).map(value => text(value, 1000)).filter(Boolean))] } }, items, people, credits, relationships, affiliations };
 }
 export function createIndex(catalogs) {
-  const items = [], byId = new Map(), people = new Map(), byItem = new Map(), byPerson = new Map(), catalogById = new Map(), relationships = [], affiliations = new Map();
-  for (const data of catalogs) {
+  const items = [], byId = new Map(), people = new Map(), byItem = new Map(), byPerson = new Map(), catalogById = new Map(), relationships = [], relationshipsByItem = new Map(), affiliations = new Map();
+  for (const data of [...catalogs].sort((a, b) => a.catalog.id.localeCompare(b.catalog.id))) {
+    if (catalogById.has(data.catalog.id)) throw new Error('Duplicate catalog ID.');
     catalogById.set(data.catalog.id, data.catalog);
-    for (const p of data.people) people.set(p.id, { ...p, catalogId: data.catalog.id });
-    for (const item of data.items) { const copy = { ...item, title: item.title || 'Untitled source record', catalogId: data.catalog.id }; items.push(copy); byId.set(copy.id, copy); }
+    for (const p of data.people) {
+      if (people.has(p.id) || String(p.id).startsWith('@theme:')) throw new Error('Duplicate or reserved name-label ID.');
+      people.set(p.id, { ...p, catalogId: data.catalog.id });
+    }
+    for (const item of data.items) {
+      if (byId.has(item.id) || String(item.id).startsWith('@theme:')) throw new Error('Duplicate or reserved item ID.');
+      const copy = { ...item, title: item.title || 'Untitled source record', catalogId: data.catalog.id };
+      items.push(copy); byId.set(copy.id, copy);
+    }
     for (const c of data.credits) {
       if (!byItem.has(c.itemId)) byItem.set(c.itemId, []);
       if (!byPerson.has(c.personId)) byPerson.set(c.personId, []);
       byItem.get(c.itemId).push(c); byPerson.get(c.personId).push(c);
     }
-    relationships.push(...(data.relationships || []));
+    for (const relation of data.relationships || []) {
+      relationships.push(relation);
+      for (const id of new Set([relation.from, relation.to])) {
+        if (!relationshipsByItem.has(id)) relationshipsByItem.set(id, []);
+        relationshipsByItem.get(id).push(relation);
+      }
+    }
     for (const a of data.affiliations || []) { if (!affiliations.has(a.personId)) affiliations.set(a.personId, []); affiliations.get(a.personId).push(a); }
   }
+  for (const id of people.keys()) if (byId.has(id)) throw new Error('Item and name-label IDs overlap.');
   for (const i of items) {
-    i.sampleScore = hash('sample:' + i.id);
-    i.themes = THEMES.filter(t => t[2].test(i.title)).map(t => t[0]);
+    i.themeEvidence = [];
+    for (const [themeId, rule] of themeMatchers) {
+      const terms = i.title.match(rule);
+      if (terms) i.themeEvidence.push({ themeId, field: 'title', terms: [...new Set(terms)], rule: rule.source, sourceUrls: i.sourceUrls?.length ? i.sourceUrls : i.url ? [i.url] : [] });
+    }
+    i.themes = i.themeEvidence.map(evidence => evidence.themeId);
     i.year = /^\d{4}/.test(i.date || '') ? Number(i.date.slice(0, 4)) : null;
     i.searchText = [i.title, i.doi, i.type, i.publisher, i.journal, ...(byItem.get(i.id) || []).map(c => people.get(c.personId)?.name || '')].join(' ').toLocaleLowerCase();
   }
   items.sort((a, b) => (b.date || '').localeCompare(a.date || '') || a.title.localeCompare(b.title));
-  return { items, byId, people, byItem, byPerson, catalogById, relationships, affiliations };
+  return { items, byId, people, byItem, byPerson, catalogById, relationships, relationshipsByItem, affiliations };
 }
 export function filterItems(index, { query = '', type = '', from = '', to = '', scope = null } = {}) {
   const terms = query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
@@ -120,42 +168,73 @@ export function filterItems(index, { query = '', type = '', from = '', to = '', 
   return index.items.filter(i => (!type || i.type === type) && (!from || (i.year && i.year >= Number(from))) && (!to || (i.year && i.year <= Number(to))) && terms.every(t => i.searchText.includes(t)) && (!scope || (scope.kind === 'person' ? personItems.has(i.id) : scope.kind === 'theme' ? i.themes.includes(scope.id) : scope.kind === 'type' ? i.type === scope.id : true)));
 }
 export function hash(value) { let h = 2166136261; for (const c of String(value ?? '')) h = Math.imul(h ^ c.charCodeAt(0), 16777619); h ^= h >>> 16; h = Math.imul(h, 0x85ebca6b); h ^= h >>> 13; h = Math.imul(h, 0xc2b2ae35); h ^= h >>> 16; return (h >>> 0) / 4294967296; }
-export function graphData(index, records, inferred = false) {
-  const nodes = [], edges = [], itemNodes = new Map(), groups = [], memberships = new Map();
-  const available = new Set(records.map(i => i.id));
-  if (inferred) {
-    for (const [id, name] of THEMES) { const members = records.filter(i => i.themes.includes(id)); if (members.length) groups.push({ id: 'theme:' + id, scope: { kind: 'theme', id }, label: name, kind: 'hub', members, inferred: true }); }
-  } else {
-    for (const [id, credits] of index.byPerson) {
-      const members = [...new Set(credits.filter(c => available.has(c.itemId)).map(c => c.itemId))];
-      if (members.length > 1) groups.push({ id, scope: { kind: 'person', id }, label: index.people.get(id)?.name || 'Unresolved name', kind: 'person', members: members.map(id => index.byId.get(id)) });
-    }
-    groups.sort((a, b) => b.members.length - a.members.length);
-    groups.splice(12);
+export const GRAPH_BOUNDS = Object.freeze({ left: -1400, right: 1400, top: -1100, bottom: 1100 });
+const themeRegions = THEMES.map(([themeId, name, rule], i) => {
+  const angle = i * Math.PI / 3 - Math.PI / 2;
+  return { id: '@theme:' + themeId, themeId, label: name, x: Math.cos(angle) * 550, y: Math.sin(angle) * 400, radiusX: 900, radiusY: 680, color: '#aaa4d0', inferred: true, basis: 'Title keyword match; not documented affiliation, agreement, citation or influence.', rule: rule.source };
+});
+const regionById = new Map(themeRegions.map(region => [region.themeId, region]));
+
+function itemPosition(item) {
+  const angle = hash('angle:' + item.id) * Math.PI * 2, radius = Math.sqrt(hash('radius:' + item.id));
+  if (!item.themes.length) return { x: Math.cos(angle) * radius * 1220, y: Math.sin(angle) * radius * 900 };
+  let x = 0, y = 0;
+  for (const theme of item.themes) { const region = regionById.get(theme); x += region.x; y += region.y; }
+  // Position is an illustrative title-keyword arrangement, never evidence of a
+  // source relationship. It depends only on this record's ID and title.
+  return { x: x / item.themes.length + Math.cos(angle) * radius * 240, y: y / item.themes.length + Math.sin(angle) * radius * 180 };
+}
+
+function fullGraph(index) {
+  const nodes = [], edges = [], byId = new Map(), adjacency = new Map();
+  const members = new Map(THEMES.map(([id]) => [id, []]));
+  const addNode = node => { nodes.push(node); byId.set(node.id, node); adjacency.set(node.id, []); };
+  for (const item of index.items) {
+    addNode({ id: item.id, label: item.title, kind: 'item', catalogId: item.catalogId, ...itemPosition(item), size: 2.5, color: '#a9c9db', themes: item.themes });
+    for (const theme of item.themes) members.get(theme).push(item.id);
   }
-  // A small representative sample keeps large catalogs responsive. The reading room searches every record.
-  groups.forEach((group, n) => {
-    const angle = n * Math.PI * 2 / Math.max(groups.length, 1) - Math.PI / 2;
-    const hub = { id: group.id, label: group.label, kind: group.kind, count: group.members.length, scope: group.scope, x: Math.cos(angle) * 270, y: Math.sin(angle) * 225, size: 7, color: group.inferred ? '#aaa4d0' : '#d89976' };
-    nodes.push(hub);
-    const members = group.members.slice().sort((a,b) => a.sampleScore - b.sampleScore).slice(0, Math.floor(380 / Math.max(groups.length, 1)));
-    for (const item of members) {
-      if (!memberships.has(item.id)) memberships.set(item.id, []);
-      memberships.get(item.id).push(hub);
-      edges.push({ from: hub.id, to: item.id, inferred: group.inferred || false });
-      if (!itemNodes.has(item.id)) itemNodes.set(item.id, item);
-    }
-  });
-  const remaining = records.filter(i => !itemNodes.has(i.id)).sort((a,b) => a.sampleScore - b.sampleScore).slice(0, Math.max(0, 480 - nodes.length - itemNodes.size));
-  for (const item of remaining) itemNodes.set(item.id, item);
-  for (const item of itemNodes.values()) {
-    const hubs = memberships.get(item.id) || [], a = hash('angle:' + item.id) * Math.PI * 2, r = 30 + Math.sqrt(hash('radius:' + item.id)) * 125;
-    const x = hubs.length ? hubs.reduce((s,h) => s+h.x, 0) / hubs.length + Math.cos(a)*r : Math.cos(a)*(150+hash(item.id+'x')*310);
-    const y = hubs.length ? hubs.reduce((s,h) => s+h.y, 0) / hubs.length + Math.sin(a)*r : Math.sin(a)*(110+hash(item.id+'y')*245);
-    nodes.push({ id: item.id, label: item.title, kind: 'item', x, y, size: 2.5, color: '#a9c9db' });
-    // Preserve all known credits between the visible people and visible works.
-    if (!inferred) for (const c of index.byItem.get(item.id) || []) if (groups.some(g => g.id === c.personId) && !edges.some(e => e.from === c.personId && e.to === item.id)) edges.push({ from: c.personId, to: item.id, inferred: false });
+  let orphanPeople = 0;
+  for (const person of index.people.values()) {
+    const count = new Set((index.byPerson.get(person.id) || []).map(credit => credit.itemId)).size;
+    const angle = hash('person-angle:' + person.id) * Math.PI * 2, radius = .5 + Math.sqrt(hash('person-radius:' + person.id)) * .5;
+    if (!count) orphanPeople++;
+    addNode({ id: person.id, label: person.name, kind: 'person', catalogId: person.catalogId, scope: { kind: 'person', id: person.id }, count, orphan: count === 0, x: Math.cos(angle) * radius * 1240, y: Math.sin(angle) * radius * 920, size: 4, color: '#d89976' });
   }
-  for (const r of index.relationships) if (itemNodes.has(r.from) && itemNodes.has(r.to) && (inferred || !inferredRelationship(r))) edges.push({ from: r.from, to: r.to, inferred: inferredRelationship(r) });
-  return { nodes, edges };
+  const regions = themeRegions.map(region => ({ ...region, memberIds: members.get(region.themeId), count: members.get(region.themeId).length, totalCount: members.get(region.themeId).length }));
+  if (index.items.length) for (const region of regions) addNode({ id: region.id, label: region.label, kind: 'hub', scope: { kind: 'theme', id: region.themeId }, count: region.count, x: region.x, y: region.y, size: 7, color: region.color, inferred: true });
+  const addEdge = edge => {
+    if (!byId.has(edge.from) || !byId.has(edge.to)) throw new Error('Graph relationship references an unknown endpoint.');
+    edges.push(edge); adjacency.get(edge.from).push(edge);
+    if (edge.to !== edge.from) adjacency.get(edge.to).push(edge);
+  };
+  for (const credits of index.byItem.values()) for (const credit of credits) addEdge({ from: credit.personId, to: credit.itemId, type: 'credit', kind: 'credit', role: credit.role, basis: 'Source-listed credit; matching names do not establish identity.', sourceUrls: credit.sourceUrls, inferred: false });
+  for (const relation of index.relationships) addEdge({ ...relation, type: 'relationship', inferred: inferredRelationship(relation) });
+  for (const item of index.items) for (const evidence of item.themeEvidence) addEdge({ from: '@theme:' + evidence.themeId, to: item.id, type: 'theme', kind: 'title_keyword_match', basis: 'Inferred from literal title keywords only.', sourceUrls: evidence.sourceUrls, evidence, inferred: true });
+  return { nodes, edges, byId, adjacency, regions, bounds: GRAPH_BOUNDS, counts: { items: index.items.length, people: index.people.size, orphanPeople, themes: index.items.length ? THEMES.length : 0, edges: edges.length } };
+}
+
+/** All graph data is cached once per index. Rendering layers control visibility;
+ * filtering selects a view in O(N+E), without re-sorting or re-positioning nodes. */
+export function graphData(index, records = index.items) {
+  const graph = index.graph ||= fullGraph(index);
+  if (records === index.items) return graph;
+  const available = new Set();
+  for (const record of records) if (index.byId.has(record.id)) available.add(record.id);
+  if (available.size === index.items.length) return graph;
+  const personCounts = new Map(), themeCounts = new Map();
+  for (const id of available) {
+    const credited = new Set((index.byItem.get(id) || []).map(credit => credit.personId));
+    for (const person of credited) personCounts.set(person, (personCounts.get(person) || 0) + 1);
+    for (const theme of index.byId.get(id).themes) themeCounts.set(theme, (themeCounts.get(theme) || 0) + 1);
+  }
+  const nodes = [];
+  for (const node of graph.nodes) {
+    if (node.kind === 'item' && available.has(node.id)) nodes.push(node);
+    else if (node.kind === 'person' && personCounts.has(node.id)) nodes.push({ ...node, count: personCounts.get(node.id) });
+    else if (node.kind === 'hub' && themeCounts.has(node.scope.id)) nodes.push({ ...node, count: themeCounts.get(node.scope.id) });
+  }
+  const selected = new Set(nodes.map(node => node.id));
+  const edges = graph.edges.filter(edge => selected.has(edge.from) && selected.has(edge.to));
+  const regions = graph.regions.map(region => ({ ...region, count: themeCounts.get(region.themeId) || 0, memberIds: region.memberIds.filter(id => available.has(id)) }));
+  return { nodes, edges, regions, bounds: graph.bounds, counts: { items: available.size, people: personCounts.size, orphanPeople: 0, themes: themeCounts.size, edges: edges.length } };
 }

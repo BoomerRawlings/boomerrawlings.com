@@ -13,12 +13,14 @@ const event = (type, properties = {}) => Object.assign(new Event(type, { cancela
 
 // Exercise the real script against the real markup. This deliberately models only
 // the DOM APIs used by the entrance; rendered geometry belongs to browser checks.
-function harness({ reduced = false, animationAPI = true, entrySource = source } = {}) {
-  let now = 0, timerId = 0, animations = 0, enters = 0, exits = 0;
+function harness({ reduced = false, animationAPI = true, entrySource = source, autoReady = true } = {}) {
+  let hasApp = false;
+  let now = 0, timerId = 0, animations = 0, enters = 0, exits = 0, task = 0;
   const timers = new Map(), ids = new Map(), activeAnimations = new Map(), trace = [];
   const document = new EventTarget(), window = new EventTarget();
   document.hidden = false;
-  const record = (event, detail = {}) => trace.push({ at: now, event, activeAnimations: activeAnimations.size, ...detail });
+  document.title = markup.match(/<title>(.*?)<\/title>/)[1];
+  const record = (event, detail = {}) => trace.push({ at: now, task, event, activeAnimations: activeAnimations.size, ...detail });
   const schedule = (callback, delay = 0) => {
     const id = ++timerId;
     timers.set(id, { at: now + delay, callback });
@@ -102,9 +104,10 @@ function harness({ reduced = false, animationAPI = true, entrySource = source } 
   };
   document.querySelector = selector => document.querySelectorAll(selector)[0] || null;
   const motion = new EventTarget(); motion.matches = reduced;
-  document.addEventListener('acf:enter', () => { enters++; record('acf:enter', { workspaceHidden: $('atlas-workspace').hidden, workspaceInert: $('atlas-workspace').inert }); });
+  document.addEventListener('acf:enter', () => { enters++; record('acf:enter', { workspaceHidden: $('atlas-workspace').hidden, workspaceInert: $('atlas-workspace').inert }); if (!hasApp && autoReady) document.dispatchEvent(new CustomEvent('acf:ready')); });
   document.addEventListener('acf:exit', () => { exits++; record('acf:exit'); });
   document.addEventListener('acf:ready', () => record('acf:ready'));
+  document.addEventListener('acf:load-error', () => record('acf:load-error'));
   const globals = {
     document, window, Event, CustomEvent,
     matchMedia: query => { assert.equal(query, '(prefers-reduced-motion: reduce)'); return motion; },
@@ -118,13 +121,17 @@ function harness({ reduced = false, animationAPI = true, entrySource = source } 
     type(value) { $('entry-input').value = value; $('entry-input').dispatchEvent(event('input')); },
     submit() { const e = event('submit'); $('entry-form').dispatchEvent(e); assert(e.defaultPrevented, 'Submission must not navigate'); },
     click(id) { $(id).dispatchEvent(event('click')); },
-    loadApp({ fetchDelay = 0 } = {}) {
+    loadApp({ fetchDelay = 0, directoryDelay = fetchDelay, bodyDelay = 0, failPath = null, networkFailPath = null, corruptPath = null } = {}) {
+      hasApp = true;
       const directory = JSON.parse(readFileSync(new URL('../public/ACF/data/index.json', import.meta.url), 'utf8'));
-      const data = JSON.parse(readFileSync(new URL('../public/ACF/data/ieet.json', import.meta.url), 'utf8'));
+      const data = new Map(directory.catalogs.map(entry => ['/ACF/data/' + entry.file, readFileSync(new URL('../public/ACF/data/' + entry.file, import.meta.url), 'utf8')]));
+      const body = path => path === corruptPath ? '{invalid json' : path.endsWith('/index.json') ? JSON.stringify(directory) : data.get(path);
       class Graph {
         constructor() { this.ctx = {}; record('graph:construct'); }
         setData(graph) { record('graph:setData', { nodes: graph.nodes.length }); }
         setActive(active) { record('graph:setActive', { active }); }
+        setLayers(layers) { record('graph:setLayers', { layers }); }
+        focusRecord(id) { record('graph:focusRecord', { id }); return true; }
       }
       class Preview { close() {} }
       const moduleGlobals = {
@@ -132,12 +139,22 @@ function harness({ reduced = false, animationAPI = true, entrySource = source } 
         URL, URLSearchParams, location: { hash: '', pathname: '/ACF/' }, history: { pushState() {} },
         addEventListener: window.addEventListener.bind(window), performance: { now: () => now },
         AbortSignal: { timeout: () => undefined },
+        JSON: { stringify: JSON.stringify, parse: value => { record('json:parse'); return JSON.parse(value); } },
         createIndex: catalogs => { const input = [...catalogs]; record('model:createIndex', { records: input.reduce((sum, c) => sum + c.items.length, 0) }); return model.createIndex(input); },
-        graphData: (...args) => { record('model:graphData', { records: args[1].length }); return model.graphData(...args); },
+        graphData: (...args) => { record('model:graphData', { records: (args[1] || args[0].items).length, cached: Boolean(args[0].graph) }); return model.graphData(...args); },
         fetch: path => {
-          assert(['/ACF/data/index.json', '/ACF/data/ieet.json'].includes(path), `Unexpected catalog fetch ${path}`);
+          assert(path === '/ACF/data/index.json' || data.has(path), `Unexpected catalog fetch ${path}`);
           record('fetch:start', { path });
-          return new Promise(resolve => schedule(() => { record('fetch:response', { path }); resolve({ ok: true, json: async () => path.endsWith('/index.json') ? directory : data }); }, fetchDelay));
+          return new Promise((resolve, reject) => schedule(() => {
+            record('fetch:response', { path });
+            if (path === networkFailPath) { reject(new Error('Network unavailable')); return; }
+            const consume = asJson => new Promise(finish => schedule(() => {
+              record('fetch:body', { path });
+              if (asJson) record('json:parse', { path });
+              finish(asJson ? JSON.parse(body(path)) : body(path));
+            }, path.endsWith('/index.json') ? 0 : bodyDelay));
+            resolve({ ok: path !== failPath, status: path === failPath ? 503 : 200, json: () => consume(true), text: () => consume(false) });
+          }, path.endsWith('/index.json') ? directoryDelay : fetchDelay));
         },
       };
       // Only module import declarations are replaced. Actual app listeners,
@@ -145,9 +162,10 @@ function harness({ reduced = false, animationAPI = true, entrySource = source } 
       runInNewContext(appSource.replace(/^import[^\n]+\r?\n/gm, ''), moduleGlobals, { filename: 'public/ACF/app.js' });
     },
     async tick() {
+      await flush();
       assert(timers.size, 'Expected pending motion');
       const [id, timer] = [...timers].sort((a, b) => a[1].at - b[1].at)[0];
-      timers.delete(id); now = timer.at; timer.callback(); await flush();
+      timers.delete(id); now = timer.at; task++; timer.callback(); await flush();
     },
     async settle() {
       await flush();
@@ -174,6 +192,7 @@ function usable(h, expectedEntries = 1) {
   assert.equal(h.document.body.classList.contains('entry-revealing'), false);
   assert.equal(h.document.activeElement, h.$('search'), 'Focus enters the usable search control');
   assert.equal(h.pendingTimers, 0, 'Opening cancels remaining motion');
+  assert.equal(h.document.title, 'The Atlas of Contested Futures', 'Successful entry reveals the collection title');
 }
 let cases = 0;
 if (process.argv.includes('--probe-letter-progress')) {
@@ -193,10 +212,12 @@ for (const value of ['', 'world', 'ATLA', 'ATLASS', 'A TLAS']) {
 }
 {
   const h = harness({ reduced: true });
+  assert(!/atlas/i.test(h.document.title), 'The browser title does not disclose the riddle answer');
+  assert(!/atlas/i.test(h.$('entry-heading').textContent), 'The accessible heading does not disclose the answer');
   for (const id of ['entry-hint', 'hint-copy', 'entry-public-note']) assert.equal(h.document.getElementById(id), null, `${id} is removed from the entrance`);
   assert.equal(h.$('entry-input').getAttribute('aria-describedby'), 'entry-feedback', 'The input references only its existing feedback');
   for (let i = 0; i < 3; i++) { h.type('world'); h.submit(); }
-  assert(h.$('entry-feedback').textContent.includes('Try ATLAS'), 'Repeated misses expose the playful answer');
+  assert(!/atlas/i.test(h.$('entry-feedback').textContent), 'Wrong-answer feedback does not disclose the answer');
   closed(h); cases++;
 }
 for (const value of ['ATLAS', 'atlas', 'aTlAs', '  atlas  ', '\tatlas\u00a0']) {
@@ -225,6 +246,7 @@ for (const reduced of [false, true]) {
     assert.equal(h.$('entry-sequence').hidden, true, 'Return clears the letter sequence');
     assert.equal(h.$('entry-screen').inert, false);
     assert.equal(h.$('entry-feedback').textContent, '');
+    assert(!/atlas/i.test(h.document.title), 'Return restores the neutral browser title');
     assert.equal(h.document.activeElement, h.$('entry-input'));
     h.document.dispatchEvent(event('acf:exit-request'));
     assert.equal(h.exits, entry, 'Repeated exit request is harmless');
@@ -267,13 +289,14 @@ function assertNoModelMotionOverlap(h) {
 
 function assertLetterMotion(h) {
   const animations = h.trace.filter(step => step.event === 'animation:start');
-  assert.equal(animations.length, 6, 'Normal opening animates the prompt and all five ATLAS letters');
+  assert.equal(animations.length, 12, 'Normal opening animates the prompt, five letters, five star opacities and connecting lines');
   const prompt = animations.find(step => step.target === 'entry-prompt');
   assert(prompt && prompt.duration <= 180, 'Prompt fade clears room for the letters');
   assert.deepEqual(prompt.properties, ['opacity']);
   const letters = Array.from({ length: 5 }, (_, i) => animations.find(step => step.target === `atlas-letter-${i}`));
   assert(letters.every(Boolean), 'All five ATLAS letter targets animate');
-  assert.equal(letters.map(letter => h.$(letter.target).textContent).join(''), 'ATLAS', 'The real markup spells the opening word');
+  assert.equal(letters.map(letter => h.$(letter.target).textContent).join(''), 'ATLAS', 'The real hidden markup spells the opening word');
+  for (const star of animations.filter(step => step.target.startsWith('entry-star-') || step.target === 'entry-links')) assert.deepEqual(star.properties, ['opacity'], 'Constellation emergence changes opacity only');
   assert.equal(h.$('entry-sequence').getAttribute('aria-hidden'), 'true', 'Decorative letters do not duplicate the screen-reader announcement');
   for (const [i, letter] of letters.entries()) {
     assert(letter.visible, 'Animated letters must not have a hidden DOM ancestor');
@@ -299,51 +322,164 @@ async function assertLetterProgress(h) {
   assertLetterMotion(h);
   assert.equal(h.$('entry-sequence').hidden, false, 'The letter sequence is displayed during normal opening');
   closed(h);
-  // The prompt and first four letters complete before the final S. None may
-  // reveal the workspace early; this exercises actual Animation.finished awaits.
-  for (let i = 0; i < 5; i++) {
-    await h.tick(); closed(h);
-    assert.equal(h.$('entry-sequence').hidden, false, 'Letters remain visible until the final animation finishes');
+  // Exercise every actual finished promise before the static loading hold.
+  while (!h.enters) {
+    await h.tick();
+    if (!h.enters) closed(h);
+    assert.equal(h.$('entry-sequence').hidden, false, 'Constellation stays visible through the data handoff');
   }
-  await h.tick(); usable(h);
-  assert.equal(h.$('entry-sequence').hidden, true, 'Completion hides the letter sequence');
-  const lastFinish = Math.max(...h.trace.filter(step => step.event === 'animation:start').map(step => step.at + step.duration + step.delay));
-  assert.equal(h.trace.find(step => step.event === 'acf:enter').at, lastFinish, 'Entry waits for the last staggered letter');
+  assert.equal(h.$('atlas-workspace').hidden, false, 'Prepared workspace can lay out beneath the still constellation');
+  assert.equal(h.$('atlas-workspace').inert, true, 'The covered workspace remains inert until the reveal completes');
+  const letterFinishes = h.trace.filter(step => step.event === 'animation:start' && step.target.startsWith('atlas-letter-')).map(step => step.at + step.duration + step.delay);
+  assert.equal(h.trace.find(step => step.event === 'acf:enter').at, Math.max(...letterFinishes), 'Data work waits for the final staggered letter');
+  await h.settle(); usable(h);
+  assert.equal(h.$('entry-sequence').hidden, true);
+
 }
 {
   const h = harness(); h.type('atlas'); h.submit();
   await assertLetterProgress(h);
   cases++;
 }
+function graphPreparations(h) { return h.trace.filter(step => step.event === 'model:graphData' && !step.cached); }
+const fetchBoundarySequences = [];
+async function assertFetchBoundary(kind) {
+  const h = harness();
+  h.loadApp(kind === 'directory' ? { directoryDelay: 800 } : { bodyDelay: 800 });
+  h.type('atlas'); h.submit();
+  while (!h.enters) await h.tick();
+  if (kind === 'body') while (h.trace.filter(step => step.event === 'fetch:response').length < 10) await h.tick();
+  h.click('skip-animation'); h.click('return-entry'); h.type('atlas'); h.submit();
+  await h.settle(); usable(h, 2);
+  const overlap = h.trace.filter(step => ['fetch:start', 'json:parse'].includes(step.event) && step.activeAnimations > 0);
+  assert.equal(overlap.length, 0, `${kind}: delayed response must not start requests or parse JSON during repeated letters`);
+  assertNoModelMotionOverlap(h); assertPreparationYields(h);
+  assert.equal(h.trace.filter(step => step.event === 'fetch:start').length, 10);
+  assert.equal(h.trace.filter(step => step.event === 'json:parse').length, 10);
+  assert.equal(graphPreparations(h).length, 1);
+  assert.equal(h.trace.filter(step => step.event === 'graph:setData').length, 1);
+  fetchBoundarySequences.push({ kind, trace: h.trace });
+}
+async function assertLateFailure(kind) {
+  const h = harness();
+  const options = kind === 'body' ? { bodyDelay: 800, corruptPath: '/ACF/data/ieet.json' }
+    : { directoryDelay: 800, [kind === 'http' ? 'failPath' : 'networkFailPath']: '/ACF/data/index.json' };
+  h.loadApp(options); h.type('atlas'); h.submit();
+  while (!h.enters) await h.tick();
+  if (kind === 'body') while (h.trace.filter(step => step.event === 'fetch:response').length < 10) await h.tick();
+  h.click('skip-animation'); h.click('return-entry'); h.type('atlas'); h.submit();
+  await h.settle(); usable(h, 2);
+  const failures = h.trace.filter(step => step.event === 'acf:load-error');
+  assert.equal(failures.length, 1);
+  assert.equal(failures[0].activeAnimations, 0, `${kind}: late failure cannot dismiss a repeated letter intro`);
+  assert(failures[0].at >= h.trace.filter(step => step.event === 'acf:enter')[1].at);
+  assert.equal(h.$('dataset-status').textContent, 'Collection unavailable');
+  assert.equal(h.document.body.dataset.view, 'list');
+  assert(h.$('results').children.some(child => child.textContent === 'Retry loading'));
+  assertNoModelMotionOverlap(h);
+  fetchBoundarySequences.push({ kind: `${kind}-failure`, trace: h.trace });
+}
+function assertPreparationYields(h) {
+  const index = h.trace.find(step => step.event === 'model:createIndex' && step.records > 0);
+  const graph = graphPreparations(h)[0];
+  const upload = h.trace.find(step => step.event === 'graph:setData');
+  assert(index && graph && upload, 'The actual app completes all three preparation stages');
+  assert(index.task < graph.task && graph.task < upload.task, 'Index, cached graph preparation and renderer upload occupy separate scheduled tasks');
+}
+if (process.argv.includes('--probe-preparation-yields')) {
+  const h = harness({ reduced: true }); h.loadApp(); h.type('atlas'); h.submit(); await h.settle();
+  assertPreparationYields(h); process.exit(0);
+}
+if (process.argv.includes('--probe-fetch-boundaries')) {
+  await assertFetchBoundary(process.argv.includes('--body-only') ? 'body' : 'directory'); process.exit(0);
+}
+if (process.argv.includes('--probe-load-errors')) {
+  for (const kind of ['http', 'network', 'body']) await assertLateFailure(kind); process.exit(0);
+}
+
+for (const completion of ['ready', 'error', 'skip', 'resize', 'hidden', 'reduced-motion']) {
+  const h = harness({ autoReady: false }); h.type('atlas'); h.submit(); await h.settle();
+  assert.equal(h.enters, 1);
+  assert.equal(h.$('entry-screen').hidden, false, 'The static constellation covers the data load');
+  assert.equal(h.$('entry-loading').hidden, false, 'Loading has a visible accessible status');
+  assert.equal(h.$('atlas-workspace').hidden, false, 'The graph can measure its eventual viewport');
+  assert.equal(h.$('atlas-workspace').inert, true);
+  assert.equal(h.trace.find(step => step.event === 'acf:enter').activeAnimations, 0, 'No entrance animation runs while indexing starts');
+  assert.equal(h.animations, 12, 'The loading hold adds no ambient animations');
+  if (completion === 'ready') h.document.dispatchEvent(event('acf:ready'));
+  else if (completion === 'error') h.document.dispatchEvent(event('acf:load-error'));
+  else if (completion === 'skip') h.click('skip-animation');
+  else if (completion === 'resize') h.window.dispatchEvent(event('resize'));
+  else if (completion === 'hidden') { h.document.hidden = true; h.document.dispatchEvent(event('visibilitychange')); }
+  else { h.motion.matches = true; h.motion.dispatchEvent(event('change')); }
+  await h.settle(); usable(h);
+  h.click('return-entry');
+  h.document.dispatchEvent(event('acf:ready')); h.document.dispatchEvent(event('acf:load-error'));
+  await h.settle(); closed(h, 1); cases++;
+}
+{
+  const h = harness({ autoReady: false }); h.type('atlas'); h.submit(); await h.settle();
+  h.document.dispatchEvent(event('acf:ready'));
+  assert.equal(h.animations, 14, 'Only two bounded reveal tracks follow preparation');
+  h.click('skip-animation'); usable(h);
+  h.click('return-entry'); await h.settle(); closed(h, 1); cases++;
+}
 
 const loadSequences = [];
+for (const kind of ['directory', 'body']) { await assertFetchBoundary(kind); cases++; }
+for (const kind of ['http', 'network', 'body']) { await assertLateFailure(kind); cases++; }
+{
+  const h = harness(); h.loadApp({ fetchDelay: 800 }); h.type('atlas'); h.submit();
+  while (!h.enters) await h.tick();
+  h.click('skip-animation'); h.click('return-entry'); h.type('atlas'); h.submit();
+  await h.settle(); usable(h, 2);
+  assertNoModelMotionOverlap(h);
+  assertPreparationYields(h);
+  assert.equal(graphPreparations(h).length, 1, 'Interrupted loading resumes its one cached graph preparation');
+  assert.equal(h.trace.filter(step => step.event === 'graph:setData').length, 1);
+  assert.equal(h.trace.filter(step => step.event === 'fetch:start').length, 10);
+  cases++;
+}
+{
+  const h = harness({ reduced: true }); h.loadApp(); h.type('atlas'); h.submit();
+  while (!h.trace.some(step => step.event === 'model:createIndex' && step.records === 33945)) await h.tick();
+  h.$('search').value = 'full-map-qa-intentionally-unmatched-query-739128';
+  h.$('year-from').dispatchEvent(event('change'));
+  assert.equal(h.trace.filter(step => step.event === 'graph:setData').length, 0, 'A filter change cannot prematurely upload during staged startup');
+  await h.settle(); usable(h);
+  assert.equal(h.$('results-count').textContent, '0', 'Final preparation uses the latest filter input');
+  assert.equal(h.trace.filter(step => step.event === 'graph:setData').length, 1);
+  assert.equal(graphPreparations(h).length, 1);
+  assertPreparationYields(h); cases++;
+}
 for (const reduced of [false, true]) for (const fetchDelay of [0, 800]) {
   const h = harness({ reduced }); h.loadApp({ fetchDelay });
   assert.equal(h.trace.filter(step => step.event === 'fetch:start').length, 0, 'Idle riddle does not trigger the catalog listener');
   h.type('atlas'); h.submit(); await h.settle(); usable(h);
   const ready = h.trace.filter(step => step.event === 'acf:ready');
   assert.equal(ready.length, 1, 'Actual application reaches a usable catalog');
-  assert(h.trace.some(step => step.event === 'model:createIndex' && step.records === 10467), 'Real IEET metadata reaches actual model indexing');
+  assert(h.trace.some(step => step.event === 'model:createIndex' && step.records === 33945), 'Every real catalog reaches actual model indexing');
   assert(h.trace.some(step => step.event === 'graph:setData' && step.nodes > 0), 'Actual application renders prepared graph data');
   if (process.argv.includes('--profile-motion') && !reduced && fetchDelay === 0) console.log(JSON.stringify({ motionProfile: h.trace.filter(step => step.event === 'animation:start') }));
-  assert.equal(h.trace.filter(step => step.event === 'model:graphData').length, 1, 'Initial catalog load prepares the graph exactly once');
+  assert.equal(graphPreparations(h).length, 1, 'Initial catalog load prepares the graph exactly once');
   assert.equal(h.trace.filter(step => step.event === 'graph:setData').length, 1, 'Initial catalog load installs graph data exactly once');
+  assertPreparationYields(h);
   assertNoModelMotionOverlap(h);
   const fetches = h.trace.filter(step => step.event === 'fetch:start');
-  assert.equal(fetches.length, 2);
+  assert.equal(fetches.length, 10);
   loadSequences.push({ reduced, fetchDelay, readyAt: ready[0].at, trace: h.trace.map(step => ({ ...step })) });
   h.click('return-entry'); h.type('atlas'); h.submit(); await h.settle(); usable(h, 2);
-  assert.equal(h.trace.filter(step => step.event === 'fetch:start').length, 2, 'Reentry uses the actual application cache');
-  assert.equal(h.trace.filter(step => step.event === 'model:graphData').length, 1, 'Cached reentry does not redundantly prepare graph data');
+  assert.equal(h.trace.filter(step => step.event === 'fetch:start').length, 10, 'Reentry uses the actual application cache');
+  assert.equal(graphPreparations(h).length, 1, 'Cached reentry does not redundantly prepare graph data');
   // Real collection-change handlers must retain the normal rebuild/refresh path.
   const check = h.$('collection-options').children[0].children[0];
   check.checked = false; check.dispatchEvent(event('change')); await h.settle();
-  assert.equal(h.trace.filter(step => step.event === 'model:graphData').length, 2, 'Removing a collection still refreshes the graph once');
-  assert(h.$('dataset-status').textContent.startsWith('0 records'), 'Removing the only collection clears the visible data');
+  assert.equal(graphPreparations(h).length, 2, 'Removing a collection still refreshes the graph once');
+  assert(h.$('dataset-status').textContent.startsWith('23,478 records'), 'Removing IEET preserves every other loaded collection');
   check.checked = true; check.dispatchEvent(event('change')); await h.settle();
-  assert.equal(h.trace.filter(step => step.event === 'model:graphData').length, 3, 'Re-adding a cached collection still refreshes the graph once');
-  assert(h.$('dataset-status').textContent.startsWith('10,467 records'));
-  assert.equal(h.trace.filter(step => step.event === 'fetch:start').length, 2, 'Collection re-addition reuses metadata cache');
+  assert.equal(graphPreparations(h).length, 3, 'Re-adding a cached collection still refreshes the graph once');
+  assert(h.$('dataset-status').textContent.startsWith('33,945 records'));
+  assert.equal(h.trace.filter(step => step.event === 'fetch:start').length, 10, 'Collection re-addition reuses metadata cache');
   assertNoModelMotionOverlap(h);
   cases++;
 }
@@ -361,12 +497,36 @@ for (const reduced of [false, true]) {
   const reentryActivation = h.trace.slice(afterExit).filter(step => step.event === 'graph:setActive');
   assert(reentryActivation.length > 0, 'Cached reentry runs the actual graph-activation branch');
   assert(reentryActivation.every(step => step.active === false), 'Cached List reentry must not activate the hidden graph');
-  assert.equal(h.trace.filter(step => step.event === 'fetch:start').length, 2, 'List reentry keeps cached metadata');
-  assert.equal(h.trace.filter(step => step.event === 'model:graphData').length, 1, 'List reentry does not prepare hidden graph data');
+  assert.equal(h.trace.filter(step => step.event === 'fetch:start').length, 10, 'List reentry keeps cached metadata');
+  assert.equal(graphPreparations(h).length, 1, 'List reentry does not prepare hidden graph data');
   h.click('map-view');
   assert.equal(h.trace.filter(step => step.event === 'graph:setActive').at(-1).active, true, 'Selecting Map resumes its visible graph');
   h.click('return-entry'); h.type('atlas'); h.submit(); await h.settle(); usable(h, 3);
   assert.equal(h.trace.filter(step => step.event === 'graph:setActive').at(-1).active, true, 'Cached Map reentry still resumes the visible graph');
+  cases++;
+}
+
+{
+  const h = harness(); h.loadApp({ failPath: '/ACF/data/ieet.json' });
+  h.type('atlas'); h.submit(); await h.settle(); usable(h);
+  assert.equal(h.trace.filter(step => step.event === 'acf:load-error').length, 1, 'Actual fetch failure releases the static entrance');
+  assert.equal(h.$('dataset-status').textContent, 'Collection unavailable');
+  assert.equal(h.document.body.dataset.view, 'list', 'A failed startup makes the retry control visible on narrow screens');
+  assert(h.$('results').children.some(child => child.textContent === 'Retry loading'), 'The released workspace offers retry');
+  assert.equal(h.trace.filter(step => step.event === 'acf:ready').length, 0);
+  assertNoModelMotionOverlap(h); cases++;
+}
+{
+  const h = harness({ reduced: true }); h.loadApp(); h.type('atlas'); h.submit(); await h.settle(); usable(h);
+  for (const row of h.$('collection-options').children) {
+    const check = row.children[0]; check.checked = false; check.dispatchEvent(event('change')); await h.settle();
+  }
+  assert(h.$('dataset-status').textContent.startsWith('0 records'));
+  const preparations = graphPreparations(h).length;
+  h.click('return-entry'); h.type('atlas'); h.submit(); await h.settle(); usable(h, 2);
+  assert(h.$('dataset-status').textContent.startsWith('0 records'), 'An intentionally empty catalog selection survives reentry');
+  assert.equal(h.trace.filter(step => step.event === 'fetch:start').length, 10);
+  assert.equal(graphPreparations(h).length, preparations, 'Empty cached reentry does not rebuild');
   cases++;
 }
 
@@ -380,10 +540,10 @@ assert.throws(() => assertNoModelMotionOverlap(early), /must not overlap entranc
 cases++;
 if (process.argv.includes('--probe-early-load')) assertNoModelMotionOverlap(early);
 
-const unawaitedSource = source.replace(/await Promise\.all\(/, 'Promise.all(');
+const unawaitedSource = source.replace('await Promise.all([fade,', 'Promise.all([fade,');
 assert.notEqual(unawaitedSource, source, 'The premature-finish mutation must reach the actual letter await');
 const unawaited = harness({ entrySource: unawaitedSource }); unawaited.type('atlas'); unawaited.submit();
-await assert.rejects(assertLetterProgress(unawaited), /letter sequence is displayed|Expected values to be strictly equal/, 'The progress guard catches opening without awaiting the letters');
+await assert.rejects(assertLetterProgress(unawaited), /Normal opening animates|letter sequence is displayed|Expected values to be strictly equal|One entry event/, 'The progress guard catches opening without awaiting the letters');
 await unawaited.settle();
 cases++;
 if (process.argv.includes('--probe-unawaited-letters')) await assertLetterProgress(unawaited);
@@ -403,6 +563,7 @@ if (reportFlag >= 0) {
     kind: 'deterministic lifecycle characterization; not a browser frame-rate result',
     sourcePaths: ['public/ACF/entry.js', 'public/ACF/app.js', 'public/ACF/model.js'],
     loadSequences,
+    fetchBoundarySequences,
     earlyLoadMutation: { caught: true, overlaps: modelMotionOverlap(early) },
     unawaitedLettersMutation: { caught: true, trace: unawaited.trace.filter(step => step.event.startsWith('animation:') || step.event === 'acf:enter') },
     globalEasingMutation: { caught: true, animations: globalEasing.trace.filter(step => step.event === 'animation:start') },

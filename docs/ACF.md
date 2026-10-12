@@ -1,57 +1,107 @@
 # Atlas of Contested Futures
 
-Public route: https://boomerrawlings.com/ACF/ (the directory route also accepts `/ACF` on GitHub Pages).
+Public route: https://boomerrawlings.com/ACF/ (`/ACF` also resolves on GitHub Pages).
 
-The ATLAS riddle is a playful entrance, never access control. Everything shipped under `public/ACF` is public. No full articles, account data or private research notes are included.
+Atlas explores public bibliographic metadata. Its riddle is a playful entrance, never access control. Everything shipped under `public/ACF` is public; full articles, private research notes and account data are excluded. Related catalogs were collected independently and do not imply IEET affiliation.
 
-## Counts and provenance
+## Snapshot and provenance
 
-The 2026-10-12 snapshot contains 33,945 exported catalog records and 7,361 catalog-local name labels. Their sum, 41,306, is a count of addressable record/name entries, not globally disambiguated entities. There are 43,213 credit rows, 17,348 item-relationship rows and 1,447 affiliation assertions. These are separate table counts; their sum is not a verified unique-edge count. Among item relationships, 130 are explicitly tentative or inferred. The combined original source-assertion total is not established by these exports. IEET alone reconciled 10,488 source assertions into 10,467 records.
+The 2026-10-12 snapshot contains all nine exported collections:
 
-IDs remain namespaced. Names, editions and manifestations are not merged across collections. Literal credit roles remain visible, including publishing accounts. Related catalogs are independently collected and do not imply IEET affiliation. Record detail preserves dates, precision, source URLs, role assertions, directional relationships and their stated basis. `public/ACF/coverage.json` describes coverage gaps per catalog.
+| Collection | Records | Catalog-local name labels |
+| --- | ---: | ---: |
+| IEET | 10,467 | 897 |
+| Transhumanity | 2,584 | 798 |
+| Technophany | 577 | 240 |
+| Journal of Posthuman Studies | 192 | 162 |
+| Journal of Futures Studies | 1,988 | 1,444 |
+| Institute of Network Cultures | 4,702 | 2,088 |
+| AFT–Technoprog | 2,026 | 362 |
+| Biopolitical Times | 2,725 | 836 |
+| Center for a Stateless Society | 8,684 | 534 |
+| **Total** | **33,945** | **7,361** |
 
-## Scale and interaction
+The 41,306 record/name entries are not globally disambiguated entities. IDs remain namespaced; names, editions and manifestations are not merged across collections. Labels may identify people, groups or public publishing accounts. Literal credit roles remain visible.
 
-The initial request loads IEET only (10,467 records). Collections can load all nine catalogs together. A proportional type-distribution strip counts every loaded record, including records outside the current search. Search, type/year filters and paginated reading-room access operate on every loaded record.
+The exports retain 43,213 credit rows, 17,348 item-relationship rows and 1,447 affiliation assertions. These are separate table counts, not a verified unique-edge total. Of the item relationships, 130 are explicitly tentative or inferred. Affiliation assertions retain their source and temporal qualification; they do not become invented map connections. Dates, precision, unknown titles/bylines, source URLs, relationship direction and stated basis remain available in record/name details.
 
-The Canvas map uses a deterministic representative sample of at most 480 record/name nodes, with 250 initially rendered and more revealed while zooming. Zoom changes detail within the sample; search and scope changes rebuild it. The displayed count identifies the sample. Source credits and recorded relationships use solid lines; optional title-keyword themes and explicitly tentative relationships use dashed lines. Group counts count records credited to that source label, not independent affiliations. Sampling never removes records from the reading room.
+The combined original source-assertion total is not established. IEET alone reconciled 10,488 source assertions into 10,467 records, including 504 publication-view records and 199 events/talks. `public/ACF/coverage.json` and each bundle describe source-specific gaps. A complete export of the collected snapshot does not establish complete historical coverage of an organization.
 
-At rest, collision-aware labels show representative publication titles with type/collection metadata and credited names with record counts. Labels are clickable. Hover opens a readable metadata card; moving into the card retains it. A click or touch tap pins the card. Focus the canvas and use arrows or Previous/Next to preview nodes, Enter to pin, Shift+arrows to pan, and Escape to dismiss. Open record/credited records follows the existing source detail path. Zoom, pan, filtering, resize, view changes and exit dismiss stale previews. Cards remain within the map bounds and scroll on short screens. Names remain unresolved source labels; inferred themes are explicitly identified.
+## Complete map and reading room
 
-The map adds three faint decorative depth layers (66 points) that respond only to zoom/pan. They are not records, relationships or population measurements and never enter counts or hit testing. Selected actual relationships and newly filtered/theme views receive a nondirectional, simultaneous brightness emphasis lasting at most780ms, bounded to72 existing edges. Solid/documented and dashed/inferred styles remain distinct. Reduced-motion and paused views retain static selected connections. There is no ambient animation loop.
+Initial entry fetches all nine catalogs and publishes one index after every catalog arrives. The first full map contains every 33,945 record point. The optional names layer contains all 7,361 labels, including 204 without a resolved credit. Six inferred theme hubs bring the full cached graph to 41,312 nodes. Its 73,320 edge entries comprise the exported credits and item relationships plus 12,759 overlapping title-theme matches.
 
-Canvas rendering stops at idle, on exit, when hidden, and for reduced-motion settling. Phones have separate map/list views, horizontal controls and readable detail panels. The accessible list is the complete alternative to the canvas.
+Record points are never sampled or progressively substituted at different zoom levels. Coordinates depend on namespaced IDs and title-theme membership; filtering, zooming or removing another collection does not reposition surviving records. Bounds remain stable. Search, type/year filters, name/theme scopes and the paginated reading room operate on every active record. The type-distribution strip counts every active collection record, including records outside the current search.
+
+WebGL uploads every enabled point and route. Canvas 2D provides a fallback that draws points intersecting the camera viewport; camera culling does not remove records from the model. Status separates points submitted for drawing from geometrically in-view points. Neither number measures unobscured pixels: points can overlap. Names, labels, documented routes, inferred routes and regions have separate controls. Only labels are reduced for readability. The initial view shows record points and labels; names, routes and regions are opt-in.
+
+The model caches nodes, edges and adjacency once per index. Startup separates indexing, cached graph construction and final drawing setup into browser tasks, allowing interaction between stages. Returning to the riddle pauses new requests, JSON parsing, unfinished preparation and load-error display until the next completed entry. Already-requested response bodies may still arrive; they are retained without parsing or restarting the fetch. Filtering scans cached data without repeated position calculation or sorting. Layer changes reuse the prepared graph. Opening another record detail with unchanged filters avoids rebuilding or uploading the graph. Item details use a cached relationship lookup.
+
+Hover or keyboard focus opens a metadata preview; moving into the card retains it. Click/tap pins it. Arrows traverse nearby visible nodes; Previous/Next cycles through every enabled node, including offscreen records. Enter pins, Shift+arrows pans and Escape dismisses. Search results and the detail panel's Locate action reach an individual record and center it on the map. The reading room remains the complete accessible alternative. Preview names are credited labels, not verified identities; unknown metadata is explicit.
+
+## Themes, regions and motion
+
+Six overlapping themes use the English title-keyword rules in `model.js`: Minds & machines, Bodies & enhancement, Power & justice, Planet & possibility, Culture & networks, and Futures & risk. Record detail shows the literal matched title text and its source URLs. Matches are heuristic and language-limited; absence of a match does not establish absence of a subject.
+
+Theme hubs, dashed theme routes and region ellipses are inferred presentation aids. Their coordinates, proximity and overlap do not establish citation, influence, agreement, affiliation or organizational membership. Documented credit/item routes are solid; tentative item relationships and title-theme routes are dashed. Name counts measure unique credited records, not affiliations.
+
+Three faint decorative depth layers contain 66 points outside the record model, counts and hit testing. Selected existing routes may receive a nondirectional brightness emphasis, bounded to 72 edges and 780 ms. No ambient animation loop runs. Idle, hidden, paused and exited views stop rendering; reduced motion retains static context.
+
+## Neutral entrance and loading sequence
+
+Before the answer, the page/browser title is “A question of futures”; the opening heading and accessibility text do not disclose the answer. The original riddle, answer form, feedback and back link remain. There is no separate hint control or public-information blurb. The form accepts case/whitespace variation. The Atlas title appears after a correct answer; return restores the neutral title.
+
+Five letters rise, spread and settle into ATLAS, then shrink into a decorative five-point constellation. Each letter uses a 1,440 ms transform/opacity track, staggered by 60 ms, for 1,680 ms total. A linear timeline with segment easing preserves the common settled hold. Prompt, letter, star and link animations are awaited before catalog work starts. There are no animated layout properties or timer-driven entrance loops.
+
+The constellation then holds still while catalogs load and the full graph prepares. It is decoration, not a preview of catalog relationships. The workspace is inert during this loading phase. `acf:ready` triggers the constellation's 420 ms spread and the screen's 460 ms fade, then enables the explorer. Load failure exposes the retry interface. Skip, resize/visibility interruption, reduced motion and missing animation APIs can complete immediately; these paths do not promise a visible loading hold. Return/reentry resets motion and reuses loaded data without activating a hidden List-view map.
 
 ## Updating and importing
 
-The HTML entrance-script/stylesheet/module URLs and changed preview module imports share a release query version. Bump them together when these assets change, so a returning visitor cannot mix cached scripts/styles with new markup. The production-shell test checks this boundary.
+Regenerate the allowlisted public projection with:
 
-`node scripts/build-acf-catalogs.mjs --source-root <completed-collection-root> --output public/ACF/data` regenerates allowlisted public metadata. It reads finished collectors without editing them. Review regenerated public files before committing. The nine output bundles reproduce deterministically.
+```sh
+node scripts/build-acf-catalogs.mjs --source-root <completed-collection-root> --output public/ACF/data
+```
 
-The browser accepts the schema in `/ACF/import-format.json`, compatible catalog objects, and item-only JSON/JSONL. Imports are validated, namespaced and held in memory; there is no upload or persistence. Limits: 40 MB per file, 60,000 items per import, 120,000 total session records. Titles, URLs and source evidence are required according to the format; supported unknown source titles remain explicitly untitled. Malformed references reject clearly. Free-text notes, abstracts, contact fields and credentials are discarded; unsafe/local/credential-bearing links are rejected. Imported claims are supplied by the importer, not independently verified.
+The adapter reads completed catalogs without modifying collectors. Its nine bundles are deterministic; review regenerated public files before committing. Source catalogs remain unchanged by the map. HTML script/stylesheet URLs and module dependencies share a release query version, currently `fullmap-20261012`. Bump the entry, styles, app, model, preview, graph, spatial-index and renderer dependencies together; regression checks prevent mixed cached releases.
 
-## Validation
+The browser accepts `/ACF/import-format.json`, compatible catalog objects and item-only JSON/JSONL. Imports stay in memory, with no upload or persistence. Validation namespaces IDs, requires public source evidence, rejects malformed references and preserves supported literal roles/temporal assertions. Explicitly unknown source titles stay untitled. Only allowed metadata fields survive: abstracts, notes, contact and account fields are discarded. Links must pass the public HTTP(S) URL filter, which excludes local/IP destinations, embedded credentials and recognized credential query parameters. Imported provenance is supplied by the importer, not independently verified.
 
-`npm run test:acf` checks the public projection and foreign keys, URL boundaries, all nine imports, real-data filters, unknown titles, tentative-relationship classification, entry/reveal lifecycle, bounded rendering, idle title labels, label collision/selection, preview metadata and bounds, hover/card retention, keyboard announcements, pinned touch selection, zoom hit detection, pointer drag and two-touch pinch, reduced motion and cleanup. The existing `npm test` chain includes ACF after every pre-existing check.
+| Limit | Maximum |
+| --- | ---: |
+| Each file | 40 MiB |
+| Items / names per import | 60,000 / 20,000 |
+| Credits / relationships / affiliations per import | 150,000 / 100,000 / 30,000 |
+| Session records, including all 33,945 public records | 120,000 |
+| Imported name labels per session | 60,000 |
+| Imported credit + relationship + affiliation rows per session | 500,000 |
+| Imported file bytes per session | 120 MiB |
 
-Local browser QA used the desktop in-app browser at 1280×720, 768×1024, 390×844 and 320×700. Checked wrong/mixed-case answer, letter reveal/skip, repeat entry, keyboard map selection, date/search/type filters, source/name navigation, browser Back, import, load-all, no horizontal overflow, and an intentionally failed catalog request followed by successful Retry. Physical phones and their CPUs/networks were not tested. Touch gestures were exercised through the actual pointer handlers in deterministic tests.
+Deselected imports remain cached and selectable; they still count against every session limit. Unchecking a collection does not restore its import budget. Reload clears imported data and its budget. Public records count toward the session record limit even when deselected.
 
-Observed local desktop measurements, without CPU/network throttling: IEET readiness approximately 196–409 ms after entry, full 33,945-record filter/layout/list update approximately 99 ms after caching sample ranks, ordinary filtered queries approximately 21–29 ms in Node, Canvas frames approximately 0.3–1.7 ms. These are development-machine observations, not universal device guarantees. Combined public JSON is about 42 MB raw / 4.88 MB gzip; IEET about 6.67 MB raw / 0.96 MB gzip. Host compression and network affect transfer time.
+## Validation and performance
 
-Windows checkout paths containing spaces expose an existing unrelated test's `URL.pathname` issue. Validation used a normal physical-path Astro build, then the exact remaining test chain through a temporary no-space junction with `--preserve-symlinks-main`. No unrelated production code changed. GitHub's Linux workflow runs the normal `npm test` command.
+`npm run test:acf` covers projection/schema/foreign keys, URL and import boundaries, all nine catalogs, full point/ID parity, stable coordinates, exact theme evidence, graph caching, renderer layers/fallback, spatial picking, preview lifecycle and accessibility, and the real entry/app load sequence. Entrance tests check awaited motion, static loading, readiness, interruption and repeat entry; they do not measure physical frame rate. The existing `npm test` chain includes ACF after the pre-existing site checks.
 
-## Letter entrance and bounded spatial emphasis — 2026-10-12
+Local browser measurements used Chrome 155 on Windows, DPR 1, without CPU/network throttling. The 390×844 case is a desktop browser viewport, not a physical phone. Each scripted interaction run recorded 90 draws; benchmark instrumentation is included. Values below are milliseconds at the 95th percentile. Desktop input samples combine its two layer runs.
 
-The calm entrance contains the title, original riddle, answer form and back link. Its separate hint and public-information note are removed; provenance/public-data explanations remain inside the explorer. ATLAS accepts case/whitespace variation and wrong-answer feedback remains accessible.
+| Viewport / backend / enabled layers | CPU draw | Input to draw | Animation callback interval |
+| --- | ---: | ---: | ---: |
+| 1280×800 / WebGL / records + labels | 2.6 | 12.2 | 10.2 |
+| 1280×800 / WebGL / all layers | 5.2 | 12.2 | 10.3 |
+| 390×844 / WebGL / records + labels | 3.2 | 11.7 | 10.3 |
+| 390×844 / Canvas 2D / records + labels | 51.6 | 69.9 | 70.1 |
 
-LEO's existing initial-letter rearrangement informed the intro. Atlas uses five copper letters that rise, spread, grow, settle into ATLAS, then lift/fade before the explorer opens. Five1440ms letter animations are staggered60ms (1680ms total), alongside one180ms prompt fade. Only transforms/opacity animate; there are no waves, shadows, clipping, layout animation, extra timers or continuous entrance loops. The timeline is linear, with easing on individual moving segments: this preserves a307ms common settled hold. Applying easing to the entire timeline compressed that hold and was rejected by both rendered evidence and regression checks.
+These measure JavaScript drawing/submission and callback cadence, not GPU completion or displayed FPS. Desktop maximum observed input-to-draw delay was 43.5 ms. Canvas fallback is substantially slower: median CPU draw 32 ms, maximum 57.5 ms; maximum input-to-draw delay 83.2 ms. The complete reading room is the alternative when graphics are slow. During the phone-viewport pan, 15,000–33,945 records intersected the camera; reset restored all 33,945. Clipping does not sample or delete records.
 
-All six animation promises are awaited before hiding the gate or starting catalog work. Skip, resize/visibility interruption, repeat entry and reduced-motion/no-animation-API completion cancel/reset cleanly. Reduced motion enters immediately with no letter transforms. Reentry focus can scroll the answer into short viewports. The existing one-preparation startup path and inactive cached List reentry remain intact.
+Startup after the entry signal, excluding letter motion and final reveal, took 1,306.4 ms on desktop WebGL, 1,575.9 ms on phone-viewport WebGL and 1,171.5 ms on phone-viewport Canvas. Task boundaries split the earlier 989 ms uninterrupted preparation into observed long tasks of 329/151/489 ms, 371/193/467 ms and 313/151/368 ms respectively. Startup remains a main-thread bottleneck; staging allows interaction between tasks rather than eliminating their cost. The normal entrance holds a still constellation during this work. A worker is not implemented. Observed used JavaScript heap was 110.0/125.9/137.3 MB respectively, including the diagnostic harness; this is not total browser/GPU memory.
 
-The real entry/app/model integration suite verifies visible letter targets, changing transforms, settled hold, final-letter completion, interruptions, repeated entry, source-data load ordering, one initial graph preparation and cached List/Map behavior. Intentional premature-reveal, early-load and global-easing mutations fail their respective guards. These deterministic tests do not measure physical animation smoothness. Local browser probes separately capture real computed transforms, opacity, bounds and screenshots across rising/settled/departing states, using actual normal motion preference at desktop/phone viewports. Probes are unshipped and do not pause or alter the animations.
+A desktop follow-up after adding request/parse/error resumption guards measured 1,342.6 ms startup, long tasks of 391/161/476 ms, 360.3 ms renderer setup and 132.5 MB used heap. It retained exact record/name IDs and coordinates with no errors. Deterministic delayed-directory/body tests separately verify that new requests and parsing wait through repeated letter motion; late load errors also wait for entry. The renderer and camera timing table above are unchanged by these guards.
 
-The graph's bounded780ms relationship emphasis and three decorative depth layers are unchanged. The previous main-view comparison measured p95Canvas2.6–3.3ms (max3.4ms),80–81 draws then idle; this adds bounded work, not an FPS optimization. Decorative points remain outside record counts/hits, and actual/inferred relationships stay visibly distinct.
+Actual WebGL buffers matched all 33,945 record IDs, 7,361 name IDs and six hubs, with zero coordinate mismatches. With all layers enabled, 73,320 routes were submitted. Forced context loss retained those counts in Canvas fallback, with one all-layer fallback draw taking 182.3 ms; restoring WebGL retained the same data. All three final scenarios reported no errors or pending idle frame. The local evidence summary is `full-map-performance-summary.json`.
 
-Physical phones and GPU-presented FPS remain unverified; the supported browser exposes viewport controls but no CPU/network throttling or reduced-motion emulation. Normal preference is checked in the rendered browser; reduced-motion behavior is tested through the real script's media-query branch in the deterministic harness. Controlled800ms fetch delays test ordering only. Initial catalog indexing can still produce a brief startup long task after the intro.
+The nine catalog bundles total 41,972,984 bytes raw (about 42 MB); a local default-gzip estimate is 4,793,086 bytes (about 4.79 MB). Actual host compression and network conditions determine transfer cost. Earlier sampled-map timings are not evidence for this renderer. Physical phones, throttled CPU/network behavior and GPU-presented FPS remain unverified.
 
-Final unthrottled browser observations: two1280×720 and two390×844 runs completed in1685–1688ms. All five letters had distinct visible positions and sizes, were fully opaque/settled near951ms, and their actual finished promises resolved before entry. Observed entrance RAF max gaps12.4–15.1ms, none over34ms; these are callback timings, not presented GPU FPS. Diagnostic geometry reads every100ms add some observation work. Full52-command site suite,42ACFtest groups and33entrance cases pass.
+All 52 package test commands were validated: the build and first 50 checks passed; the final ACF command passed 57/57 after correcting one obsolete test expectation for inferred-theme collection labels. Production code did not change for that retry. ACF includes 49 entrance lifecycle cases, including delayed directory/body delivery, repeated entry, late failures and retry. The original attempt and complete ACF retry logs are retained separately. All 432 source catalog/collector files and 12 public catalog/adapter files matched their prior hashes.
+
+On Windows, a pre-existing unrelated test's `URL.pathname` handling fails for checkout paths with spaces. Validation builds from the normal physical checkout without `NODE_OPTIONS`, then runs the exact remaining test chain through a verified no-space junction with process-local `--preserve-symlinks-main`. The build must not use that flag. GitHub's Linux workflow runs the normal `npm test` command.

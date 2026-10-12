@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { test } from 'node:test';
-import { normalizeImport, safeUrl } from '../public/ACF/model.js';
+import { normalizeImport, safeUrl, IMPORT_LIMITS, SESSION_IMPORT_LIMITS, validateSessionImport } from '../public/ACF/model.js';
 import { safePublicUrl } from './build-acf-catalogs.mjs';
 
 const fixture = () => ({
@@ -75,4 +75,37 @@ test('all nine shipped bundles reimport without losing item, people, relationshi
     for (let i = 0; i < original.affiliations.length; i++) assert.equal(imported.affiliations[i].temporalStatus, original.affiliations[i].temporalStatus);
     assert.ok(!imported.items.some(item => item.title === 'Untitled source record')); // Missing titles remain explicitly null metadata.
   }
+});
+
+test('import budgets reject oversized related tables before allocating normalized graph rows', () => {
+  for (const key of ['people','credits','relationships','affiliations']) {
+    const input=fixture(); input[key]=new Array(IMPORT_LIMITS[key]+1);
+    assert.throws(()=>normalizeImport(input,'local-budget'),new RegExp(`${key} rows per import`));
+  }
+});
+
+const countedCatalog = counts => Object.fromEntries(['items','people','credits','relationships','affiliations'].map(key=>[key,new Array(counts[key]||0)]));
+test('session budgets accept exact limits and count cached inactive imports at every boundary', () => {
+  const publicRecords=33945;
+  const examples=[
+    {field:'records',previous:{items:SESSION_IMPORT_LIMITS.records-publicRecords-1},next:{items:1},bytes:0,previousBytes:0,excess:{items:2}},
+    {field:'people',previous:{people:SESSION_IMPORT_LIMITS.people-1},next:{people:1},bytes:0,previousBytes:0,excess:{people:2}},
+    {field:'relations',previous:{credits:200000,relationships:200000,affiliations:99999},next:{credits:1},bytes:0,previousBytes:0,excess:{affiliations:2}},
+    {field:'bytes',previous:{},next:{},bytes:1,previousBytes:SESSION_IMPORT_LIMITS.bytes-1,excess:{},excessBytes:2},
+  ];
+  for(const sample of examples){
+    const imports=[{data:countedCatalog(sample.previous),bytes:sample.previousBytes,active:false}];
+    const totals=validateSessionImport(countedCatalog(sample.next),sample.bytes,{publicRecords,imports});
+    assert.equal(totals[sample.field],SESSION_IMPORT_LIMITS[sample.field]);
+    assert.throws(()=>validateSessionImport(countedCatalog(sample.excess),sample.excessBytes??sample.bytes,{publicRecords,imports}),/Reload to clear previous imports/);
+    const currentOnly=validateSessionImport(countedCatalog(sample.excess),sample.excessBytes??sample.bytes,{publicRecords,imports:[]});
+    assert(currentOnly[sample.field]<SESSION_IMPORT_LIMITS[sample.field],'The same candidate fits only when the prior session data really is absent');
+  }
+});
+
+test('session accounting includes all relationship table types and rejects invalid byte/public totals', () => {
+  const existing={data:countedCatalog({items:3,people:2,credits:4,relationships:5,affiliations:6}),bytes:123};
+  assert.deepEqual(validateSessionImport(countedCatalog({items:1,people:1,credits:1,relationships:2,affiliations:3}),456,{publicRecords:33945,imports:[existing]}),{records:33949,people:3,relations:21,bytes:579});
+  for(const bytes of [-1,NaN,Infinity,1.5]) assert.throws(()=>validateSessionImport(countedCatalog({}),bytes),/byte length/);
+  for(const publicRecords of [-1,NaN,Infinity,1.5]) assert.throws(()=>validateSessionImport(countedCatalog({}),0,{publicRecords}),/nonnegative integer/);
 });
