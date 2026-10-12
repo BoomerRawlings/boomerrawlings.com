@@ -70,7 +70,9 @@ function harness({ reduced = false, animationAPI = true, entrySource = source } 
       const animationId = animations, target = this.id || this.className || this.attributes.get('class') || this.tagName;
       activeAnimations.set(animationId, target);
       const properties = [...new Set((Array.isArray(frames) ? frames : [frames]).flatMap(frame => Object.keys(frame)))].filter(key => !['offset', 'easing', 'composite'].includes(key));
-      record('animation:start', { target, duration: options.duration || 0, delay: options.delay || 0, properties });
+      let visible = true;
+      for (let node = this; node; node = node.parentElement) if (node.hidden) visible = false;
+      record('animation:start', { target, duration: options.duration || 0, delay: options.delay || 0, easing: options.easing || 'linear', properties, visible, keyframes: Array.isArray(frames) ? Array.from(frames, frame => ({ ...frame })) : frames });
       let resolve, reject;
       const finished = new Promise((yes, no) => { resolve = yes; reject = no; });
       const timer = schedule(() => { activeAnimations.delete(animationId); record('animation:finish', { target }); resolve(); }, (options.duration || 0) + (options.delay || 0));
@@ -80,6 +82,7 @@ function harness({ reduced = false, animationAPI = true, entrySource = source } 
   const root = new Element('document');
   function build(node, parent) {
     let next = parent;
+    if (node.nodeName === '#text') parent.textContent += node.value;
     if (node.tagName) {
       next = new Element(node.tagName, node.attrs);
       parent.append(next);
@@ -166,17 +169,22 @@ function usable(h, expectedEntries = 1) {
   assert.equal(h.$('atlas-workspace').hidden, false);
   assert.equal(h.$('atlas-workspace').inert, false);
   assert.equal(h.$('skip-animation').hidden, true);
+  assert.equal(h.$('entry-sequence').hidden, true, 'The usable workspace has no visible letter sequence');
   assert.equal(h.document.body.classList.contains('entry-pending'), false);
   assert.equal(h.document.body.classList.contains('entry-revealing'), false);
   assert.equal(h.document.activeElement, h.$('search'), 'Focus enters the usable search control');
   assert.equal(h.pendingTimers, 0, 'Opening cancels remaining motion');
 }
 let cases = 0;
+if (process.argv.includes('--probe-letter-progress')) {
+  const h = harness(); h.type('atlas'); h.submit(); await assertLetterProgress(h);
+}
 
 for (const value of ['', 'world', 'ATLA', 'ATLASS', 'A TLAS']) {
   const h = harness({ reduced: true }); h.type(value); h.submit(); closed(h);
   assert.equal(h.$('entry-input').getAttribute('aria-invalid'), 'true');
   assert(h.$('entry-feedback').textContent.trim(), 'Helpful feedback is announced');
+  assert(!/hint|below/i.test(h.$('entry-feedback').textContent), 'Wrong-answer feedback cannot point to a removed hint');
   assert.equal(h.document.activeElement, h.$('entry-input'));
   assert.equal(h.animations, 0);
   h.type('another path');
@@ -185,13 +193,8 @@ for (const value of ['', 'world', 'ATLA', 'ATLASS', 'A TLAS']) {
 }
 {
   const h = harness({ reduced: true });
-  assert.equal(h.$('hint-copy').hidden, true);
-  h.click('entry-hint');
-  assert.equal(h.$('hint-copy').hidden, false);
-  assert.equal(h.$('entry-hint').getAttribute('aria-expanded'), 'true'); closed(h);
-  h.click('entry-hint');
-  assert.equal(h.$('hint-copy').hidden, true);
-  assert.equal(h.$('entry-hint').getAttribute('aria-expanded'), 'false');
+  for (const id of ['entry-hint', 'hint-copy', 'entry-public-note']) assert.equal(h.document.getElementById(id), null, `${id} is removed from the entrance`);
+  assert.equal(h.$('entry-input').getAttribute('aria-describedby'), 'entry-feedback', 'The input references only its existing feedback');
   for (let i = 0; i < 3; i++) { h.type('world'); h.submit(); }
   assert(h.$('entry-feedback').textContent.includes('Try ATLAS'), 'Repeated misses expose the playful answer');
   closed(h); cases++;
@@ -219,9 +222,8 @@ for (const reduced of [false, true]) {
     assert.equal(h.$('entry-input').readOnly, false);
     assert.equal(h.$('entry-submit').disabled, false);
     assert.equal(h.$('entry-prompt').inert, false);
-    assert.equal(h.document.getElementById('entry-sequence'), null, 'No separate title/reveal sequence remains');
+    assert.equal(h.$('entry-sequence').hidden, true, 'Return clears the letter sequence');
     assert.equal(h.$('entry-screen').inert, false);
-    assert.equal(h.$('hint-copy').hidden, true);
     assert.equal(h.$('entry-feedback').textContent, '');
     assert.equal(h.document.activeElement, h.$('entry-input'));
     h.document.dispatchEvent(event('acf:exit-request'));
@@ -229,11 +231,13 @@ for (const reduced of [false, true]) {
   }
   cases++;
 }
-for (const interruption of ['skip', 'resize', 'hidden', 'reduced-motion']) {
+for (const stage of ['start', 'letters']) for (const interruption of ['skip', 'resize', 'hidden', 'reduced-motion']) {
   const h = harness(); h.type('atlas'); h.submit();
+  if (stage === 'letters') { await h.tick(); await h.tick(); }
   assert.equal(h.$('skip-animation').hidden, false);
   assert.equal(h.document.activeElement, h.$('skip-animation'));
-  assert.equal(h.$('atlas-workspace').hidden, true, 'The application stays hidden during the prompt fade');
+  assert.equal(h.$('entry-sequence').hidden, false, 'The letter sequence remains visible until completion or interruption');
+  assert.equal(h.$('atlas-workspace').hidden, true, 'The application stays hidden during the letter entrance');
   assert.equal(h.$('atlas-workspace').inert, true, 'The transition cannot receive premature input');
   if (interruption === 'skip') h.click('skip-animation');
   else if (interruption === 'resize') h.window.dispatchEvent(event('resize'));
@@ -261,21 +265,54 @@ function assertNoModelMotionOverlap(h) {
   assert.equal(modelMotionOverlap(h).length, 0, 'Catalog indexing/graph preparation must not overlap entrance Web Animations');
 }
 
-function assertCalmMotionBudget(h) {
+function assertLetterMotion(h) {
   const animations = h.trace.filter(step => step.event === 'animation:start');
-  assert.equal(animations.length, 1, 'Normal opening uses one prompt fade');
-  assert.equal(animations[0].target, 'entry-prompt', 'Only the prompt animates; no viewport reveal');
-  assert.deepEqual(animations[0].properties, ['opacity'], 'Only opacity animates; no transform, clipping or wave');
-  assert(animations[0].duration > 0 && animations[0].duration <= 220, 'Opening fade stays within the 220 ms budget');
-  assert.equal(animations[0].delay, 0, 'The fade has no artificial delay');
+  assert.equal(animations.length, 6, 'Normal opening animates the prompt and all five ATLAS letters');
+  const prompt = animations.find(step => step.target === 'entry-prompt');
+  assert(prompt && prompt.duration <= 180, 'Prompt fade clears room for the letters');
+  assert.deepEqual(prompt.properties, ['opacity']);
+  const letters = Array.from({ length: 5 }, (_, i) => animations.find(step => step.target === `atlas-letter-${i}`));
+  assert(letters.every(Boolean), 'All five ATLAS letter targets animate');
+  assert.equal(letters.map(letter => h.$(letter.target).textContent).join(''), 'ATLAS', 'The real markup spells the opening word');
+  assert.equal(h.$('entry-sequence').getAttribute('aria-hidden'), 'true', 'Decorative letters do not duplicate the screen-reader announcement');
+  for (const [i, letter] of letters.entries()) {
+    assert(letter.visible, 'Animated letters must not have a hidden DOM ancestor');
+    assert.deepEqual([...letter.properties].sort(), ['opacity', 'transform'], 'Letters use composited transform and opacity only');
+    assert.equal(letter.easing, 'linear', 'The letter timeline remains linear so the shared hold uses elapsed time; ease individual keyframe segments instead');
+    assert(letter.duration > 0 && letter.duration <= 1500, 'Each letter has a bounded rise, hold and exit sequence');
+    assert(i === 0 ? letter.delay === 0 : letter.delay > letters[i - 1].delay && letter.delay - letters[i - 1].delay <= 100, 'Letters enter in a short ordered stagger');
+    assert.equal(letter.keyframes.length, 5, 'Letter motion includes departure, rise, settled hold and exit');
+    assert.notEqual(letter.keyframes[0].transform, letter.keyframes[2].transform, 'Letters visibly change position/scale before the hold');
+    assert.equal(letter.keyframes[2].opacity, 1, 'The ATLAS word becomes fully visible');
+    assert.equal(letter.keyframes[3].opacity, 1, 'The assembled letters remain visible during the hold');
+    assert.equal(letter.keyframes[2].transform, letter.keyframes[3].transform, 'Each letter has a settled hold before its exit');
+    assert.equal(letter.keyframes.at(-1).opacity, 0, 'Letters fade out before the workspace opens');
+  }
+  const holdStart = Math.max(...letters.map(letter => letter.at + letter.delay + letter.duration * letter.keyframes[2].offset));
+  const holdEnd = Math.min(...letters.map(letter => letter.at + letter.delay + letter.duration * letter.keyframes[3].offset));
+  assert(holdEnd - holdStart >= 250, 'The complete ATLAS word holds together visibly for at least 250ms');
+  assert(Math.max(...letters.map(letter => letter.duration + letter.delay)) <= 1800, 'The letter entrance finishes within its bounded motion budget');
   assert.equal(h.trace.filter(step => step.event === 'timer:schedule').length, 0, 'Opening creates no custom timers');
   assert.equal(h.trace.filter(step => step.event === 'element:create').length, 0, 'Opening creates no transient wave/overlay nodes');
 }
+async function assertLetterProgress(h) {
+  assertLetterMotion(h);
+  assert.equal(h.$('entry-sequence').hidden, false, 'The letter sequence is displayed during normal opening');
+  closed(h);
+  // The prompt and first four letters complete before the final S. None may
+  // reveal the workspace early; this exercises actual Animation.finished awaits.
+  for (let i = 0; i < 5; i++) {
+    await h.tick(); closed(h);
+    assert.equal(h.$('entry-sequence').hidden, false, 'Letters remain visible until the final animation finishes');
+  }
+  await h.tick(); usable(h);
+  assert.equal(h.$('entry-sequence').hidden, true, 'Completion hides the letter sequence');
+  const lastFinish = Math.max(...h.trace.filter(step => step.event === 'animation:start').map(step => step.at + step.duration + step.delay));
+  assert.equal(h.trace.find(step => step.event === 'acf:enter').at, lastFinish, 'Entry waits for the last staggered letter');
+}
 {
   const h = harness(); h.type('atlas'); h.submit();
-  assertCalmMotionBudget(h);
-  await h.settle(); usable(h);
-  assert.equal(h.trace.find(step => step.event === 'acf:enter').at, 220, 'The entrance completes when its single fade ends');
+  await assertLetterProgress(h);
   cases++;
 }
 
@@ -334,7 +371,7 @@ for (const reduced of [false, true]) {
 }
 
 // Prove the ordering seam is red-capable without editing production: move only
-// the entry signal before the prompt fade in an in-memory source copy.
+// the entry signal before the letter sequence in an in-memory source copy.
 // This is a structural regression, not a simulated frame-rate measurement.
 const earlyLoadSource = source.replace('input.blur();', "input.blur();\n    document.dispatchEvent(new CustomEvent('acf:enter'));");
 assert.notEqual(earlyLoadSource, source, 'Early-load mutation must reach the real entrance motion sequence');
@@ -343,12 +380,21 @@ assert.throws(() => assertNoModelMotionOverlap(early), /must not overlap entranc
 cases++;
 if (process.argv.includes('--probe-early-load')) assertNoModelMotionOverlap(early);
 
-const slowMotionSource = source.replace(/duration:\s*220\b/, 'duration: 2200');
-assert.notEqual(slowMotionSource, source, 'The duration mutation must reach the actual entrance fade');
-const slowMotion = harness({ entrySource: slowMotionSource }); slowMotion.type('atlas'); slowMotion.submit(); await slowMotion.settle();
-assert.throws(() => assertCalmMotionBudget(slowMotion), /220 ms budget/, 'The motion budget catches an unbounded entrance delay');
+const unawaitedSource = source.replace(/await Promise\.all\(/, 'Promise.all(');
+assert.notEqual(unawaitedSource, source, 'The premature-finish mutation must reach the actual letter await');
+const unawaited = harness({ entrySource: unawaitedSource }); unawaited.type('atlas'); unawaited.submit();
+await assert.rejects(assertLetterProgress(unawaited), /letter sequence is displayed|Expected values to be strictly equal/, 'The progress guard catches opening without awaiting the letters');
+await unawaited.settle();
 cases++;
-if (process.argv.includes('--probe-slow-motion')) assertCalmMotionBudget(slowMotion);
+if (process.argv.includes('--probe-unawaited-letters')) await assertLetterProgress(unawaited);
+
+const globalEasingSource = source.replace("delay: i * 60, easing: 'linear'", "delay: i * 60, easing: 'cubic-bezier(.22,.7,.26,1)'");
+assert.notEqual(globalEasingSource, source, 'The easing mutation must reach the actual letter timeline');
+const globalEasing = harness({ entrySource: globalEasingSource }); globalEasing.type('atlas'); globalEasing.submit();
+assert.throws(() => assertLetterMotion(globalEasing), /letter timeline remains linear/, 'The motion guard catches global easing that compresses the shared hold');
+await globalEasing.settle();
+cases++;
+if (process.argv.includes('--probe-global-easing')) assertLetterMotion(globalEasing);
 
 const reportFlag = process.argv.indexOf('--load-sequence-report');
 if (reportFlag >= 0) {
@@ -358,7 +404,8 @@ if (reportFlag >= 0) {
     sourcePaths: ['public/ACF/entry.js', 'public/ACF/app.js', 'public/ACF/model.js'],
     loadSequences,
     earlyLoadMutation: { caught: true, overlaps: modelMotionOverlap(early) },
-    slowMotionMutation: { caught: true, animations: slowMotion.trace.filter(step => step.event === 'animation:start') },
+    unawaitedLettersMutation: { caught: true, trace: unawaited.trace.filter(step => step.event.startsWith('animation:') || step.event === 'acf:enter') },
+    globalEasingMutation: { caught: true, animations: globalEasing.trace.filter(step => step.event === 'animation:start') },
   }, null, 2) + '\n');
 }
-console.log(`Verified ${cases} ACF entrance cases: existing behavior plus actual app/catalog lifecycle ordering and an early-load mutation. Virtual-time sequencing only; physical animation smoothness belongs to browser measurements.`);
+console.log(`Verified ${cases} ACF entrance cases: letter progression, cleanup, actual app/catalog lifecycle ordering and intentional mutations. Virtual-time sequencing only; physical animation smoothness belongs to browser measurements.`);

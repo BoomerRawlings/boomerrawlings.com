@@ -1,6 +1,6 @@
-import { AtlasGraph } from './graph.js?v=space-20261012';
-import { NodePreview } from './node-preview.js?v=space-20261012';
-import { previewInfo } from './preview-data.js?v=space-20261012';
+import { AtlasGraph } from './graph.js?v=letters-20261012';
+import { NodePreview } from './node-preview.js?v=letters-20261012';
+import { previewInfo } from './preview-data.js?v=letters-20261012';
 import { createIndex, filterItems, graphData, normalizeImport, inferredRelationship, label, safeUrl, THEMES } from './model.js';
 
 const $ = id => document.getElementById(id);
