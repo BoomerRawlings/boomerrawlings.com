@@ -22,6 +22,8 @@ Canvas rendering stops at idle, on exit, when hidden, and for reduced-motion set
 
 ## Updating and importing
 
+The HTML stylesheet/module URLs and changed preview module imports share a release query version. Bump them together when these assets change, so a returning visitor cannot mix cached scripts/styles with new markup. The production-shell test checks this boundary.
+
 `node scripts/build-acf-catalogs.mjs --source-root <completed-collection-root> --output public/ACF/data` regenerates allowlisted public metadata. It reads finished collectors without editing them. Review regenerated public files before committing. The nine output bundles reproduce deterministically.
 
 The browser accepts the schema in `/ACF/import-format.json`, compatible catalog objects, and item-only JSON/JSONL. Imports are validated, namespaced and held in memory; there is no upload or persistence. Limits: 40 MB per file, 60,000 items per import, 120,000 total session records. Titles, URLs and source evidence are required according to the format; supported unknown source titles remain explicitly untitled. Malformed references reject clearly. Free-text notes, abstracts, contact fields and credentials are discarded; unsafe/local/credential-bearing links are rejected. Imported claims are supplied by the importer, not independently verified.

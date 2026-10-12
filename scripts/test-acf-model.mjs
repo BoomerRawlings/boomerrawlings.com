@@ -44,6 +44,19 @@ test('production shell has exact route, accessible controls and local assets', (
   for (const file of ['entry.js','app.js','model.js','graph.js','style.css','import-format.json','coverage.json']) assert.ok(readFileSync(`dist/ACF/${file}`).length>0);
 });
 
+test('updated preview markup loads one version of its changed assets for returning visitors', () => {
+  const html = readFileSync('dist/ACF/index.html','utf8');
+  const css = new URL(html.match(/href="(\/ACF\/style\.css[^\"]*)"/)[1], 'https://boomerrawlings.com');
+  const app = new URL(html.match(/src="(\/ACF\/app\.js[^\"]*)"/)[1], 'https://boomerrawlings.com');
+  const version = css.searchParams.get('v');
+  assert.ok(version, 'changed CSS must bypass a previous release cached under its plain URL');
+  assert.equal(app.searchParams.get('v'), version);
+  for (const [file, dependencies] of [['app.js', ['graph.js', 'node-preview.js', 'preview-data.js']], ['node-preview.js', ['preview-data.js']]]) {
+    const source = readFileSync('dist/ACF/' + file, 'utf8');
+    for (const dependency of dependencies) assert.ok(source.includes(`'./${dependency}?v=${version}'`), `${file} must load the same release of ${dependency}`);
+  }
+});
+
 test('all catalogs preserve unknown titles and distinguish uncertain relationships from explicit links', () => {
   const directory = JSON.parse(readFileSync('public/ACF/data/index.json','utf8'));
   const data = directory.catalogs.map(e => JSON.parse(readFileSync('public/ACF/data/'+e.file,'utf8')));
