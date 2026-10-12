@@ -9,10 +9,10 @@
     <link rel="canonical" href="https://boomerrawlings.com/ACF/" />
     <title>A question of futures</title>
     <link rel="icon" href="/ACF/icon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/ACF/style.css?v=regions-20261012" />
-    <link rel="stylesheet" href="/ACF/entry-effects.css?v=regions-20261012" />
-    <script is:inline src="/ACF/entry.js?v=regions-20261012" defer></script>
-    <script is:inline type="module" src="/ACF/app.js?v=regions-20261012"></script>
+    <link rel="stylesheet" href="/ACF/style.css?v=regions-20261012b" />
+    <link rel="stylesheet" href="/ACF/entry-effects.css?v=regions-20261012b" />
+    <script is:inline src="/ACF/entry.js?v=regions-20261012b" defer></script>
+    <script is:inline type="module" src="/ACF/app.js?v=regions-20261012b"></script>
   </head>
   <body class="entry-pending" data-view="map">
     <a class="skip-link" href="#search">Skip to collection search</a>
@@ -74,7 +74,7 @@
         <details id="map-layers" class="map-layers">
           <summary>Map layers <span>Every record has a point</span></summary>
           <div class="layer-options" role="group" aria-label="Map layers">
-            <label><input id="labels-toggle" type="checkbox" checked />Labels</label>
+            <label><input id="labels-toggle" type="checkbox" checked />Record/name labels</label>
             <label><input id="names-toggle" type="checkbox" />Catalog-local names</label>
             <label><input id="relationships-toggle" type="checkbox" />Source routes</label>
             <label><input id="themes-toggle" type="checkbox" />Inferred routes</label>
@@ -104,7 +104,7 @@
             <p id="preview-announcement" class="sr-only" role="status" aria-live="polite"></p>
             <div class="graph-controls"><button id="zoom-in" type="button" aria-label="Zoom in">+</button><button id="zoom-out" type="button" aria-label="Zoom out">−</button><button id="reset-view" type="button" aria-label="Reset map view"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 7a7 7 0 1 1-1 6M4 2v5h5"/></svg></button><span class="control-divider" aria-hidden="true"></span><button id="motion-toggle" type="button" aria-pressed="false" aria-label="Toggle map motion"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 4v12M15 4v12"/></svg></button></div>
             <div id="preview-navigation" class="preview-navigation" role="group" aria-label="Browse node previews"><button id="preview-prev" type="button" aria-label="Previous node"><span aria-hidden="true">←</span><span class="preview-nav-label">Previous node</span></button><button id="preview-next" type="button" aria-label="Next node"><span class="preview-nav-label">Next node</span><span aria-hidden="true">→</span></button></div>
-            <div class="graph-bottom"><p id="graph-status" aria-live="off">Loading public metadata…</p><div class="graph-legend" aria-label="Relationship legend"><span><i class="documented-line" aria-hidden="true"></i>Source-documented</span><span><i class="inferred-line" aria-hidden="true"></i>Inferred</span></div></div>
+            <div class="graph-bottom"><div class="graph-summary"><p id="graph-status" aria-live="off">Loading public metadata…</p><p id="graph-fallback-note" hidden>Canvas fallback retains the full record field but may be slower. Use List for faster browsing.</p></div><div class="graph-legend" aria-label="Relationship legend"><span><i class="documented-line" aria-hidden="true"></i>Source-documented</span><span><i class="inferred-line" aria-hidden="true"></i>Inferred</span></div></div>
           </section>
 
           <aside class="records-panel" aria-labelledby="results-heading">

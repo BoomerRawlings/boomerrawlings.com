@@ -148,7 +148,7 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
       const data = new Map(directory.catalogs.map(entry => ['/ACF/data/' + entry.file, readFileSync(new URL('../public/ACF/data/' + entry.file, import.meta.url), 'utf8')]));
       const body = path => path === corruptPath ? '{invalid json' : path.endsWith('/index.json') ? JSON.stringify(directory) : data.get(path);
       class Graph {
-        constructor() { currentGraph = this; this.ctx = {}; record('graph:construct'); }
+        constructor(_canvas, options = {}) { currentGraph = this; this.ctx = {}; this.onStatus = options.onStatus; record('graph:construct'); }
         setData(graph) { this.data = graph; record('graph:setData', { nodes: graph.nodes.length, records: graph.nodes.filter(node => node.kind === 'item').length }); }
         setRegionSelection(ids, meta) { this.regionSelection = ids; this.regionSelectionMeta = meta; record('graph:setRegionSelection', { selected: ids === null ? null : ids.size, meta }); }
         setActive(active) { record('graph:setActive', { active }); }
@@ -549,6 +549,29 @@ for (const reduced of [false, true]) {
   assert(h.$('dataset-status').textContent.startsWith('0 records'), 'An intentionally empty catalog selection survives reentry');
   assert.equal(h.trace.filter(step => step.event === 'fetch:start').length, 10);
   assert.equal(graphPreparations(h).length, preparations, 'Empty cached reentry does not rebuild');
+  cases++;
+}
+
+{
+  const h = harness({ reduced: true }); h.loadApp();
+  const notice = h.$('graph-fallback-note'), text = notice.textContent;
+  assert.equal(notice.hidden, true, 'Fallback notice is absent before a Canvas backend is reported');
+  assert.match(text, /full record field.*slower.*List.*faster/i);
+  assert.equal(notice.getAttribute('aria-live'), null, 'Static fallback explanation is not a live region');
+  assert.equal(h.$('graph-status').getAttribute('aria-live'), 'off', 'Camera status changes do not produce live announcements');
+  assert.match(h.$('labels-toggle').parentElement.textContent, /Record\/name labels/);
+  let hidden = notice.hidden, writes = 0;
+  Object.defineProperty(notice, 'hidden', { get: () => hidden, set: value => { hidden = value; writes++; } });
+  const status = { recordCount: 33945, submittedRecords: 33945, nameCount: 7361, submittedNames: 0, inViewRecords: 33945 };
+  h.graph.onStatus({ ...status, backend: 'webgl' }); assert.equal(writes, 1); assert.equal(hidden, true);
+  h.graph.onStatus({ ...status, backend: 'canvas2d' }); assert.equal(writes, 2); assert.equal(hidden, false);
+  for (const inViewRecords of [33000, 20000, 33945]) h.graph.onStatus({ ...status, inViewRecords, backend: 'canvas2d' });
+  assert.equal(writes, 2, 'Panning and repeated Canvas frames never rewrite the notice visibility');
+  assert.equal(notice.textContent, text, 'The explanatory text stays static');
+  h.graph.onStatus({ ...status, backend: 'webgl' }); assert.equal(writes, 3); assert.equal(hidden, true, 'GPU restoration hides the fallback notice');
+  h.graph.onStatus({ ...status, backend: 'webgl' }); assert.equal(writes, 3);
+  h.graph.onStatus({ ...status, backend: 'canvas2d' }); assert.equal(writes, 4); assert.equal(hidden, false);
+  h.graph.onStatus({ ...status, backend: 'unavailable' }); assert.equal(writes, 5); assert.equal(hidden, true, 'An unavailable map does not claim a retained rendered field');
   cases++;
 }
 

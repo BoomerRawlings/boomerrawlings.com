@@ -4,13 +4,15 @@
 
 - Mode: continuation; explicit user instruction authorizes building and publicly deploying scoped regions at /ACF/.
 - Baseline: 1e1e2eec291e0062e522217486cd38226f91a6e1 verified equal to origin/main; preserve other routes and paused state.
-- Status: implementation and local validation complete; final accessible-name correction rebuilt; ACF68/68 pass; scoped production deployment pending.
+- Status: scoped release1c3f12ad9badaf10ad0e482cd3e983fcf97697ed pushed once; Pages38318017644 fulltest/build/deploy passed; 11liveasset hashes and fresh/cached live320/390/768/1280 checks passed. Final localbuild andACF68/68 pass.
 - Built: seven persistent region choices; six distinct soft boundaries; exact member mask retaining all33945 point buffers/positions. Lazy region facets, source-year/unknown breakdowns, paginated records/credits/neighbors and explicit evidence semantics; history and accessible close focus preserved.
 - Verified: unique union11331/unmatched22614, theme counts1584/2530/2678/662/2605/2700. All432collector/source files and12publiccatalog/adapter files unchanged. Baseline Float32 coordinate parity retained.
 - Decisions: never subtract overlapping membership totals; do not merge names across catalogs; no importance rankings. Lazy bounded80-option searchable name picker preserves all names; small aggregates cached eight results. No new data collection.
 - Verified browser:894 actual WebGL draws each33945items;36snapshots/22 exact source-mask matches. Base buffers/Float32coords retained; nonmember alpha0.1596. Person23/history, unmatchedunknown1632, static/idle, contextrestore and320/390/768/1280 layouts pass. All52packagecommands validated;ACF68/68 including50entrancecases. Final facetselect gets explicit accessible name.
 - Performance: desktop initial/selected/alllayer CPUdraw p95 3.8/3.8/11.4ms;390viewport10.6/9.4ms;Canvas1280 67.9/62.5ms. Startup1156.4ms/maxblock418;unmatched UI85.1ms sync. Slower observations disclosed; contextual baseline comparison, no GPUFPS/physicaldevice claim.
-- Next: scoped commit/push via existing Pages workflow; exact hashes and fresh/cached live verification.
+- Independent IEET controls74/19/8/4 match exact supplied hashes in actual masks and logicalselection; noIDconversion. Latest903observedPOINTSdraws each33945;41snapshots/27exactmasks.
+- New final clarity refinement requested afterfirstrelease: staticCanvasguidance withtransition-only visibility/recovery; explicitRecord/name labels; versionregions-20261012b. Build/static/ACF68groups(51entrancecases)pass;actualfallback/recovery checkinprogress.
+- Next: publish scopedclarityfollowup, verifyexacthashes/freshcachedbehavior andfinalscreenshots. Pre-existing gestureDOMexclusion invalidation remains documentedprofilingcandidate; no provennewlayoutregression.
 - Limits: desktop viewport emulation only; CPU draw submission is not GPU FPS. Prior startup/fallback limits remain until new measurements.
 
 

@@ -1,7 +1,7 @@
-import { AtlasGraph } from './graph.js?v=regions-20261012';
-import { NodePreview } from './node-preview.js?v=regions-20261012';
-import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=regions-20261012';
-import { getRegions, regionFacets } from './regions.js?v=regions-20261012';
+import { AtlasGraph } from './graph.js?v=regions-20261012b';
+import { NodePreview } from './node-preview.js?v=regions-20261012b';
+import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=regions-20261012b';
+import { getRegions, regionFacets } from './regions.js?v=regions-20261012b';
 
 const $ = id => document.getElementById(id);
 const number = n => n.toLocaleString();
@@ -11,7 +11,7 @@ const link = (value, url) => { const a = el('a', 'source-link', value); a.href =
 const catalogs = new Map(), cache = new Map();
 const sessionImports = new Map();
 let directory, index = createIndex([]), records = [], scope = null, selection = null, pageSize = 40, loading, active = false, initialized = false, preparationPending = false, importNumber = 0;
-let graph;
+let graph, graphBackend;
 let preparedIndex, preparedFilters;
 let resumePreparation;
 let regionFilters = {}, regionResult = null, regionPageSize = 20, regionNavigationIndex;
@@ -23,6 +23,10 @@ try {
     onSelect: (node, anchor) => preview.update(node, anchor, 'select'),
     onPreview: (node, anchor, reason) => preview.update(node, anchor, reason),
     onStatus: stats => {
+      if (stats.backend !== graphBackend) {
+        graphBackend = stats.backend;
+        $('graph-fallback-note').hidden = graphBackend !== 'canvas2d';
+      }
       const fallback = stats.backend === 'canvas2d' ? 'Canvas 2D fallback · ' : stats.backend === 'unavailable' ? 'Graphics unavailable · ' : '';
       const selected = regionScope() ? `${number(records.length)} selected / ${number(regionResult?.total || 0)} region members. ` : '';
       $('graph-status').textContent = `${selected}${fallback}${number(stats.submittedRecords || 0)} of ${number(stats.recordCount || index.items.length)} record points submitted · ${number(stats.inViewRecords || 0)} in view. ${number(stats.submittedNames || 0)} name points on; ${number(stats.nameCount || 0)} catalog-local labels available. Overlapping points remain separate records.`;

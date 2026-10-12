@@ -1,5 +1,5 @@
-import { SpatialGrid } from './graph-spatial.js?v=regions-20261012';
-import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=regions-20261012';
+import { SpatialGrid } from './graph-spatial.js?v=regions-20261012b';
+import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=regions-20261012b';
 
 const COLORS = { hub: '#d89976', item: '#a9c9db', person: '#aaa4d0' };
 const REGION_COLORS = ['#90c2d1', '#c5a5cc', '#d6ac7f', '#9ebd92', '#94a8d3', '#c7bb82'];

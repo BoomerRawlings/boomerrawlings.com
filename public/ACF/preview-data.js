@@ -1,4 +1,4 @@
-import { label, THEMES } from './model.js?v=regions-20261012';
+import { label, THEMES } from './model.js?v=regions-20261012b';
 
 const value = input => typeof input === 'string' ? input.trim() : '';
 const count = input => Number.isFinite(input) && input >= 0 ? Math.floor(input) : null;
