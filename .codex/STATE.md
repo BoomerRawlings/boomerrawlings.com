@@ -11,8 +11,8 @@
 - Verified browser:894 actual WebGL draws each33945items;36snapshots/22 exact source-mask matches. Base buffers/Float32coords retained; nonmember alpha0.1596. Person23/history, unmatchedunknown1632, static/idle, contextrestore and320/390/768/1280 layouts pass. All52packagecommands validated;ACF68/68 including50entrancecases. Final facetselect gets explicit accessible name.
 - Performance: desktop initial/selected/alllayer CPUdraw p95 3.8/3.8/11.4ms;390viewport10.6/9.4ms;Canvas1280 67.9/62.5ms. Startup1156.4ms/maxblock418;unmatched UI85.1ms sync. Slower observations disclosed; contextual baseline comparison, no GPUFPS/physicaldevice claim.
 - Independent IEET controls74/19/8/4 match exact supplied hashes in actual masks and logicalselection; noIDconversion. Latest903observedPOINTSdraws each33945;41snapshots/27exactmasks.
-- New final clarity refinement requested afterfirstrelease: staticCanvasguidance withtransition-only visibility/recovery; explicitRecord/name labels; versionregions-20261012b. Build/static/ACF68groups(51entrancecases)pass;actualfallback/recovery checkinprogress.
-- Next: publish scopedclarityfollowup, verifyexacthashes/freshcachedbehavior andfinalscreenshots. Pre-existing gestureDOMexclusion invalidation remains documentedprofilingcandidate; no provennewlayoutregression.
+- New final clarity refinement requested afterfirstrelease: staticCanvasguidance withtransition-only visibility/recovery; explicitRecord/name labels; versionregions-20261012b. Build/static/ACF68groups(51entrancecases)pass;actualfallback/recovery/390/320notice checks pass; completeList33945. Finalreleasefa23a90 pushed;Pages38318661954 running.
+- New keyboard audit: clearinglastfacet collapsescontrols andmovesfocus(region-close observed). Preserveexpandedstate/focus on same-region refresh andclearall; versionc targetedfix inprogress. Then finaltargeted/liveverification. Pre-existing gestureDOMexclusion invalidation remains documentedprofilingcandidate; no provennewlayoutregression.
 - Limits: desktop viewport emulation only; CPU draw submission is not GPU FPS. Prior startup/fallback limits remain until new measurements.
 
 

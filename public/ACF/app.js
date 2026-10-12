@@ -1,7 +1,7 @@
-import { AtlasGraph } from './graph.js?v=regions-20261012b';
-import { NodePreview } from './node-preview.js?v=regions-20261012b';
-import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=regions-20261012b';
-import { getRegions, regionFacets } from './regions.js?v=regions-20261012b';
+import { AtlasGraph } from './graph.js?v=regions-20261012c';
+import { NodePreview } from './node-preview.js?v=regions-20261012c';
+import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=regions-20261012c';
+import { getRegions, regionFacets } from './regions.js?v=regions-20261012c';
 
 const $ = id => document.getElementById(id);
 const number = n => n.toLocaleString();
@@ -233,6 +233,7 @@ function regionPagedRows(container, rows, render, size = 12) {
 function renderRegionPanel() {
   const data = regionResult, region = getRegions(index).byId.get(scope.id), content = $('region-content');
   if (!region || !data) return;
+  const previousSameRegionOpen = $('region-panel').dataset.regionId === region.id && content.querySelector('.region-filters')?.open;
   $('region-panel').hidden = false;
   $('region-panel').dataset.regionId = region.id;
   $('region-panel').dataset.memberCount = String(data.total);
@@ -241,7 +242,7 @@ function renderRegionPanel() {
   content.append(el('p', 'region-total', `${number(records.length)} selected of ${number(data.total)} unique region records. ${number(index.items.length)} record points remain in the field.`));
   content.append(el('p', 'detail-note', region.id === 'unmatched' ? 'No current English title-keyword match. This includes titles in other languages and ambiguous or missing titles; it does not mean these records lack a theme.' : 'Literal title words determine membership. Boundaries and proximity are illustrative; they establish no objective taxonomy, affiliation, agreement, citation or influence. A record may belong to several regions.'));
   const controls = el('details', 'region-section region-filters');
-  controls.open = Object.keys(regionFilters).some(key => key !== 'sort');
+  controls.open = previousSameRegionOpen || Object.keys(regionFilters).some(key => key !== 'sort');
   controls.append(el('summary', '', 'Combine facets & inspect counts'));
   controls.append(el('p', 'region-note', 'Each count uses unique records in the current selection. Filters combine with search and record years. Collections identify provenance; names stay catalog-local.'));
   let facetsPrepared = false;
@@ -249,7 +250,12 @@ function renderRegionPanel() {
     if (facetsPrepared) return; facetsPrepared = true;
     const grid = el('div', 'region-facet-grid');
     grid.append(facetSelect('term', 'Literal matched word', data.terms), facetSelect('overlap', 'Overlapping theme', data.overlaps), facetSelect('collection', 'Collection', data.collections), facetSelect('type', 'Record type', data.types), facetSelect('year', 'Record year / unknown', data.years), facetSelect('person', 'Credited name / collection', data.people.map(p => ({ ...p, label: p.label + ' / ' + p.catalogLabel }))), facetSelect('role', 'Credit role', data.roles));
-    controls.append(grid, button('Clear region facets', () => { history.replaceState(viewContext(), '', location.href); regionFilters = {}; history.pushState(viewContext(), '', '#theme=' + encodeURIComponent(scope.id)); refresh(); }, 'credit-chip'));
+    const clear = button('Clear region facets', () => {
+      history.replaceState(viewContext(), '', location.href); regionFilters = {};
+      history.pushState(viewContext(), '', '#theme=' + encodeURIComponent(scope.id)); refresh();
+      $('region-clear-facets')?.focus({ preventScroll: true });
+    }, 'credit-chip');
+    clear.id = 'region-clear-facets'; controls.append(grid, clear);
   };
   controls.addEventListener('toggle', () => { if (controls.open) prepareFacets(); });
   if (controls.open) prepareFacets();
