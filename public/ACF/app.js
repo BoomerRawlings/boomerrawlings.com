@@ -1,7 +1,7 @@
-import { AtlasGraph } from './graph.js?v=regions-20261012c';
-import { NodePreview } from './node-preview.js?v=regions-20261012c';
-import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=regions-20261012c';
-import { getRegions, regionFacets } from './regions.js?v=regions-20261012c';
+import { AtlasGraph } from './graph.js?v=regions-20261012d';
+import { NodePreview } from './node-preview.js?v=regions-20261012d';
+import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=regions-20261012d';
+import { getRegions, regionFacets } from './regions.js?v=regions-20261012d';
 
 const $ = id => document.getElementById(id);
 const number = n => n.toLocaleString();
@@ -233,7 +233,8 @@ function regionPagedRows(container, rows, render, size = 12) {
 function renderRegionPanel() {
   const data = regionResult, region = getRegions(index).byId.get(scope.id), content = $('region-content');
   if (!region || !data) return;
-  const previousSameRegionOpen = $('region-panel').dataset.regionId === region.id && content.querySelector('.region-filters')?.open;
+  const regionChanged = $('region-panel').dataset.regionId !== region.id;
+  const previousSameRegionOpen = !regionChanged && content.querySelector('.region-filters')?.open;
   $('region-panel').hidden = false;
   $('region-panel').dataset.regionId = region.id;
   $('region-panel').dataset.memberCount = String(data.total);
@@ -296,6 +297,7 @@ function renderRegionPanel() {
       row.append(button(index.byId.get(r.from).title, () => navigate('item', r.from), 'related-record'), el('p', 'region-note', '→ ' + label(r.kind)), button(index.byId.get(r.to).title, () => navigate('item', r.to), 'related-record'), el('p', 'detail-note', 'Documented basis: ' + (r.basis || 'Source assertion; unspecified relationship basis.')), ...sourceLinks(r.sourceUrls || [])); return row;
     });
   }));
+  if (regionChanged) $('region-panel').scrollTop = 0;
 }
 function recordCard(item) {
   const card = button('', () => navigate('item', item.id), 'record-card');

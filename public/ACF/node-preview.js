@@ -1,4 +1,4 @@
-import { previewInfo, previewPlacement } from './preview-data.js?v=regions-20261012c';
+import { previewInfo, previewPlacement } from './preview-data.js?v=regions-20261012d';
 
 /** One accessible card shared by pointer, touch and keyboard exploration. */
 export class NodePreview {

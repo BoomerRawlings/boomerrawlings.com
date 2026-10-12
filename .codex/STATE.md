@@ -1,21 +1,25 @@
 # Project state
 
-## Atlas region update — active
+## Region-switch scroll correction — active
 
-- Mode: continuation; explicit user instruction authorizes building and publicly deploying scoped regions at /ACF/.
-- Baseline: 1e1e2eec291e0062e522217486cd38226f91a6e1 verified equal to origin/main; preserve other routes and paused state.
-- Status: scoped release1c3f12ad9badaf10ad0e482cd3e983fcf97697ed pushed once; Pages38318017644 fulltest/build/deploy passed; 11liveasset hashes and fresh/cached live320/390/768/1280 checks passed. Final localbuild andACF68/68 pass.
-- Built: seven persistent region choices; six distinct soft boundaries; exact member mask retaining all33945 point buffers/positions. Lazy region facets, source-year/unknown breakdowns, paginated records/credits/neighbors and explicit evidence semantics; history and accessible close focus preserved.
-- Verified: unique union11331/unmatched22614, theme counts1584/2530/2678/662/2605/2700. All432collector/source files and12publiccatalog/adapter files unchanged. Baseline Float32 coordinate parity retained.
-- Decisions: never subtract overlapping membership totals; do not merge names across catalogs; no importance rankings. Lazy bounded80-option searchable name picker preserves all names; small aggregates cached eight results. No new data collection.
-- Verified browser:894 actual WebGL draws each33945items;36snapshots/22 exact source-mask matches. Base buffers/Float32coords retained; nonmember alpha0.1596. Person23/history, unmatchedunknown1632, static/idle, contextrestore and320/390/768/1280 layouts pass. All52packagecommands validated;ACF68/68 including50entrancecases. Final facetselect gets explicit accessible name.
-- Performance: desktop initial/selected/alllayer CPUdraw p95 3.8/3.8/11.4ms;390viewport10.6/9.4ms;Canvas1280 67.9/62.5ms. Startup1156.4ms/maxblock418;unmatched UI85.1ms sync. Slower observations disclosed; contextual baseline comparison, no GPUFPS/physicaldevice claim.
-- Independent IEET controls74/19/8/4 match exact supplied hashes in actual masks and logicalselection; noIDconversion. Latest903observedPOINTSdraws each33945;41snapshots/27exactmasks.
-- New final clarity refinement requested afterfirstrelease: staticCanvasguidance withtransition-only visibility/recovery; explicitRecord/name labels; versionregions-20261012b. Build/static/ACF68groups(51entrancecases)pass;actualfallback/recovery/390/320notice checks pass; completeList33945. Finalreleasefa23a90 pushed;Pages38318661954 running.
-- New keyboard audit: clearinglastfacet collapsescontrols andmovesfocus(region-close observed). Preserveexpandedstate/focus on same-region refresh andclearall; versionc targetedfix inprogress. Then finaltargeted/liveverification. Pre-existing gestureDOMexclusion invalidation remains documentedprofilingcandidate; no provennewlayoutregression.
-- Limits: desktop viewport emulation only; CPU draw submission is not GPU FPS. Prior startup/fallback limits remain until new measurements.
+- Mode: continuation; approved scoped region QA/fix/deploy. Baseline9999eef; previous work preserved.
+- Confirmed: at320x700 regionA scrolled3367px→B retainedoffset andfocusedClose top-2995.8125/bottom-2957.8125;390x844 keyboardEnter retained2957px andClose top-2475.71875/bottom-2437.71875. Prior savednarrow caseClose top-341.8125. All33945points retained.
+- Fix: resetpanel scrollTop onlyonregion-IDchange, afterrender. Preserve same-region facet expansion/scroll andAll/clearallfocus. No renderer/data/entrance changes ornewperformance claims.
+- Completed: minimal region-ID-only reset, cache regions-20261012d; build47pages, ACF68/68 andstaticverify pass. Actual320/390 pointer+keyboard switching resets0 withheading/Closevisible. Same-regionAll/Clear preserves expandedcontrols, focusedcontrol andexactscrolloffset. Evidence: .acf-qa/region-scroll-before.json and region-scroll-local-browser.json.
+- GPU verified:23 actualWebGLdraws of33945records;11snapshots retain original ID/Float32SHA andsamebasebuffers. Exactmasks1584/662/22614; mask-onlyuploads135780bytes. Evidence: .acf-qa/region-scroll-gpu-proof.json/.md.
+- Next: scopeddeploy/fullCI/livehashes andcleanscreenshots.
+## Atlas region update — complete
 
-
+- Mode: continuation; approved public update at /ACF/ complete. Final9999eef3976afb9ed8752cdd5fb34133716db15b; Pages38319063995 full Linux test/build/deploy passed. Initialregionrelease1c3f12a and requestedclarityfollowupfa23a90 also passed; finalcache regions-20261012c.
+- Delivered: six named/count regions plus unmatched, default distinct soft boundaries, source-backed facets/records/credits/neighbors; exact separate masks retain all33945points and coordinates. Neutralentrance, completeList, independentlayers, history/session/import behavior preserved.
+- Counts: uniqueunion11331 + unmatched22614 =33945; memberships12759 overlap. Theme counts1584/2530/2678/662/2605/2700. All432source/collector and12publiccatalog/adapterfiles unchanged.
+- GPUproof:903 actual33945item POINTSdraws;41snapshots/27exactsource-maskchecks. Basebuffers retained withincontext; only intentionalrestore reuploads. Nonmemberalpha0.1596. IndependentIEET controls74/19/8/4 match supplied SHA256 exactly; noIDconversion.
+- Validation:52requiredcommands validated; finalACF68/68groups with51entrancecases, finalbuild/static pass. Actualcontextloss/recovery, CanvascompleteList, staticidle, source/facet/history/name-reload and320/390/768/1280 checks pass.
+- Finalaccessibility: named facetselects; visibleEscape focus; lastfacetAll keepscontrolsopen/selectfocused; clearall keepsbuttonfocused. StaticCanvas guidance changesvisibility onlyonbackendtransition andhidesonrecovery; Record/name labels wordingexplicit.
+- Live:11applicationasset hashes match canonicalGit/testedtext; neutralHTML/LEO200. Freshandformerlycached versionc;10finalDOMsnapshots/11cleanJPGs plus priorfullregionjourney evidence. Full33945points, sourcefacet4, phonekeyboardclearing, repeatSkip, nooverflow/consoleerrors.
+- Performance: desktopCPUdraw p95initial/selected/alllayers3.8/3.8/11.4ms;390viewport10.6/9.4ms;Canvas1280 67.9/62.5ms. Desktopstartup1156.4ms/maxblock418;unmatchedaction85.1ms sync. Slowerobservations disclosed; differentviewport/instrumentation precludes controlled attribution. No physicaldevice/GPUFPS claim.
+- Evidence:.acf-qa/region-release-report.md, region-live-verification.json, region-live-browser.json, region-independent-controls.json, region-gpu-proof.json, region-performance-summary.json, region-pages-run.json, region-keyboard-browser.json/logs.
+- Next:none required. Pre-existing cameraDOMexclusion invalidation remains optionalprofilingcandidate; no provennewforced-layoutregression. QAserverstopped, temporarytabsclosed, viewportreset, onelivemapretained. Finalcheckpoint local toavoid anotherproductionpush.
 ## Atlas of Contested Futures — current task
 
 - Mode: continuation; full-record renderer and public deployment explicitly approved by Boomer through parent chat transcript. Baseline6a7ee8e verified equal to origin/main; preserve existing local final checkpoint and all unrelated routes/catalogs.
