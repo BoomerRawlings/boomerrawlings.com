@@ -1,10 +1,16 @@
+import { routeGeometry, routeStyle } from './route-style.js?v=futures-20261012';
+
 const PALETTE = { item: '#a9c9db', person: '#aaa4d0', hub: '#d89976' };
 const enabled = (kind, layers) => kind === 'item' || (kind === 'person' ? layers.names : layers.regions);
 const routeEndpointEnabled = (kind, layers) => kind !== 'person' || layers.names;
 const rgb = value => /^#[\da-f]{6}$/i.test(value || '') ? [1, 3, 5].map(start => parseInt(value.slice(start, start + 2), 16) / 255) : [0.66, 0.79, 0.86];
-export function routeOpacity(inferred, zoom) {
+export function routeOpacity(inferred, zoom, edgeCount = 0, focused = false) {
   const detail = Math.min(1, Math.max(0, Math.log2(Math.max(1, zoom)) / 4));
-  return inferred ? 0.006 + detail * 0.094 : 0.008 + detail * 0.072;
+  // Dense catalogs retain every route, but their combined backdrop must not cover the stars.
+  // Small imported catalogs keep their original visibility; the selected overlay stays bright.
+  const count = Number.isFinite(edgeCount) ? Math.max(1200, edgeCount) : 1200;
+  const density = Math.sqrt(1200 / count) * (focused ? 0.35 : 1);
+  return (inferred ? 0.006 + detail * 0.094 : 0.008 + detail * 0.072) * density;
 }
 export function starAppearance(zoom, selected = false) {
   const distance = Number.isFinite(zoom) ? Math.min(64, Math.max(0.4, zoom)) : 1;
@@ -38,14 +44,27 @@ void main() {
 }
 `;
 const LINE_VERTEX = `
-attribute vec2 a_position; attribute float a_distance;
+attribute vec2 a_position; attribute vec2 a_progress;
 uniform vec2 u_viewport; uniform vec2 u_pan; uniform float u_scale;
-varying float v_distance;
-void main() { vec2 screen = a_position * u_scale + u_pan; gl_Position = vec4(screen.x / u_viewport.x * 2.0 - 1.0, 1.0 - screen.y / u_viewport.y * 2.0, 0.0, 1.0); v_distance = a_distance * u_scale; }
+varying mediump float v_progress;
+void main() { vec2 screen = a_position * u_scale + u_pan; gl_Position = vec4(screen.x / u_viewport.x * 2.0 - 1.0, 1.0 - screen.y / u_viewport.y * 2.0, 0.0, 1.0); v_progress = a_progress.x + a_progress.y; }
 `;
 const LINE_FRAGMENT = `
-precision mediump float; varying float v_distance; uniform float u_inferred; uniform float u_alpha;
-void main() { if (u_inferred > 0.5 && mod(v_distance, 8.0) > 3.0) discard; gl_FragColor = u_inferred > 0.5 ? vec4(0.847,0.6,0.463,u_alpha) : vec4(0.663,0.788,0.859,u_alpha); }
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+varying mediump float v_progress;
+uniform float u_inferred; uniform float u_alpha; uniform vec3 u_color;
+uniform float u_time; uniform float u_speed; uniform float u_flow;
+void main() {
+  float forward = 1.0 - smoothstep(0.0, 0.08, abs(fract(v_progress - u_time * u_speed) - 0.12));
+  float reverse = 1.0 - smoothstep(0.0, 0.08, abs(fract(v_progress + u_time * u_speed + 0.5) - 0.12));
+  float flow = max(forward, reverse) * u_flow;
+  if (u_inferred > 0.5 && fract(v_progress * 36.0) > 0.42 && flow < 0.2) discard;
+  gl_FragColor = vec4(mix(u_color, vec3(1.0), flow * 0.35), u_alpha * (1.0 + flow * 3.0));
+}
 `;
 
 /** Full enabled point batches. The existing canvas stays the accessible 2D overlay/fallback. */
@@ -53,7 +72,7 @@ export class GraphRenderer {
   constructor(canvas, context, changed = () => {}) {
     this.canvas = canvas; this.context = context; this.changed = changed;
     this.backend = context ? 'canvas2d' : 'unavailable';
-    this.nodes = []; this.edges = []; this.byId = new Map(); this.pointGroups = []; this.edgeGroups = [];
+    this.nodes = []; this.edges = []; this.byId = new Map(); this.pointGroups = []; this.edgeGroups = []; this.routes = new Map();
     this.selection = null;
     this.abort = new AbortController(); this.gl = null; this.gpuCanvas = null; this.destroyed = false;
     if (!context || !document.createElement || !canvas.parentElement?.insertBefore) return;
@@ -96,7 +115,7 @@ export class GraphRenderer {
         uniforms: Object.fromEntries(uniforms.map(name => [name, gl.getUniformLocation(program, name)])),
       });
       this.pointLocations = locations(this.pointsProgram, ['a_position', 'a_size', 'a_color', 'a_selected'], ['u_viewport', 'u_pan', 'u_scale', 'u_dpr', 'u_zoom', 'u_alpha', 'u_detail', 'u_hasSelection']);
-      this.lineLocations = locations(this.linesProgram, ['a_position', 'a_distance'], ['u_viewport', 'u_pan', 'u_scale', 'u_inferred', 'u_alpha']);
+      this.lineLocations = locations(this.linesProgram, ['a_position', 'a_progress'], ['u_viewport', 'u_pan', 'u_scale', 'u_inferred', 'u_alpha', 'u_color', 'u_time', 'u_speed', 'u_flow']);
       gl.enable(gl.BLEND); gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
       this.backend = 'webgl'; this.gpuCanvas.style.visibility = 'visible';
     } catch { this.fallback(); }
@@ -123,22 +142,27 @@ export class GraphRenderer {
       members.forEach((node, i) => values.set([node.x, node.y, node.size, ...rgb(node.color || PALETTE[kind])], i * 6));
       return { kind, count: members.length, values, members };
     });
-    const groups = new Map();
+    const groups = new Map(); this.routes = new Map();
     for (const edge of edges) {
-      const a = byId.get(edge.from), b = byId.get(edge.to), key = `${Boolean(edge.inferred)}:${a.kind}:${b.kind}`;
-      if (!groups.has(key)) groups.set(key, { inferred: Boolean(edge.inferred), fromKind: a.kind, toKind: b.kind, members: [] });
+      const a = byId.get(edge.from), b = byId.get(edge.to), style = routeStyle(edge), key = `${style.id}:${Boolean(edge.inferred)}:${a.kind}:${b.kind}`;
+      this.routes.set(edge, routeGeometry(a, b, edge));
+      if (!groups.has(key)) groups.set(key, { style, inferred: Boolean(edge.inferred), fromKind: a.kind, toKind: b.kind, members: [] });
       groups.get(key).members.push(edge);
     }
     this.edgeGroups = [...groups.values()].map(group => {
-      const values = new Float32Array(group.members.length * 6);
+      const values = new Float32Array(group.members.length * 24);
       group.members.forEach((edge, i) => {
-        const a = byId.get(edge.from), b = byId.get(edge.to);
-        values.set([a.x, a.y, 0, b.x, b.y, Math.hypot(b.x - a.x, b.y - a.y)], i * 6);
+        const route = this.routes.get(edge);
+        for (let segment = 0; segment < 3; segment++) for (let end = 0; end < 2; end++) {
+          const index = segment + end, point = route.points[index], distance = route.distances[index];
+          values.set([point.x, point.y, route.length ? distance / route.length : 0, route.phase], i * 24 + (segment * 2 + end) * 4);
+        }
       });
       return { ...group, values, count: group.members.length };
     });
     this.upload();
   }
+  routeFor(edge) { return this.routes.get(edge); }
   setRegionSelection(selection) {
     this.selection = selection;
     const records = this.pointGroups.find(group => group.kind === 'item');
@@ -194,7 +218,7 @@ export class GraphRenderer {
     }
     return counts;
   }
-  draw(camera, layers, screen) {
+  draw(camera, layers, screen, { flowTime = 0, animateRoutes = false } = {}) {
     const stats = { backend: this.backend, submittedRecords: 0, submittedNames: 0, drawnPoints: 0, submittedEdges: 0, drawnEdges: 0 };
     if (this.backend === 'unavailable') return stats;
     this.checkContext();
@@ -208,12 +232,19 @@ export class GraphRenderer {
       gl.viewport(0, 0, this.gpuCanvas.width, this.gpuCanvas.height); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
       if (layers.relationships || layers.inferred) {
         const locations = this.lineLocations; this.camera(locations, camera);
-        for (const group of this.edgeGroups) {
-          if (!(group.inferred ? layers.inferred : layers.relationships) || !routeEndpointEnabled(group.fromKind, layers) || !routeEndpointEnabled(group.toKind, layers) || !group.count) continue;
-          gl.bindBuffer(gl.ARRAY_BUFFER, group.buffer); this.attribute(locations.attributes.a_position, 2, 12, 0); this.attribute(locations.attributes.a_distance, 1, 12, 8);
+        const groups = this.edgeGroups.filter(group => (group.inferred ? layers.inferred : layers.relationships) && routeEndpointEnabled(group.fromKind, layers) && routeEndpointEnabled(group.toKind, layers) && group.count);
+        const edgeCount = groups.reduce((sum, group) => sum + group.count, 0);
+        const focused = Boolean(camera.hovered || camera.keyboardId || camera.selected);
+        // All category speeds make a whole number of cycles in 100s: wrap without a seam or precision growth.
+        gl.uniform1f(locations.uniforms.u_time, Number.isFinite(flowTime) ? flowTime % 100 : 0);
+        gl.uniform1f(locations.uniforms.u_flow, animateRoutes ? 1 : 0);
+        for (const group of groups) {
+          gl.bindBuffer(gl.ARRAY_BUFFER, group.buffer); this.attribute(locations.attributes.a_position, 2, 16, 0); this.attribute(locations.attributes.a_progress, 2, 16, 8);
           gl.uniform1f(locations.uniforms.u_inferred, group.inferred ? 1 : 0);
-          gl.uniform1f(locations.uniforms.u_alpha, routeOpacity(group.inferred, camera.scale / camera.baseScale));
-          gl.drawArrays(gl.LINES, 0, group.count * 2);
+          gl.uniform3f(locations.uniforms.u_color, ...group.style.rgb);
+          gl.uniform1f(locations.uniforms.u_speed, group.style.speed);
+          gl.uniform1f(locations.uniforms.u_alpha, routeOpacity(group.inferred, camera.scale / camera.baseScale, edgeCount, focused));
+          gl.drawArrays(gl.LINES, 0, group.count * 6);
           stats.submittedEdges += group.count;
         }
       }
@@ -267,7 +298,7 @@ export class GraphRenderer {
   setActive(active) { if (this.gpuCanvas) this.gpuCanvas.style.display = active ? 'block' : 'none'; }
   destroy() {
     this.destroyed = true; this.abort.abort(); this.release(); this.gl = null; this.gpuCanvas?.remove();
-    this.nodes = []; this.edges = []; this.byId = new Map(); this.pointGroups = []; this.edgeGroups = [];
+    this.nodes = []; this.edges = []; this.byId = new Map(); this.pointGroups = []; this.edgeGroups = []; this.routes.clear();
     this.selection = null;
   }
 }

@@ -1,5 +1,6 @@
-import { SpatialGrid } from './graph-spatial.js?v=stars-20261012';
-import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=stars-20261012';
+import { SpatialGrid } from './graph-spatial.js?v=futures-20261012';
+import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=futures-20261012';
+import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=futures-20261012';
 
 const COLORS = { hub: '#d89976', item: '#a9c9db', person: '#aaa4d0' };
 const REGION_COLORS = ['#90c2d1', '#c5a5cc', '#d6ac7f', '#9ebd92', '#94a8d3', '#c7bb82'];
@@ -60,6 +61,11 @@ export class AtlasGraph {
     this.frame = null;
     this.animationUntil = 0;
     this.connectionPulse = null;
+    this.cameraFlight = null;
+    this.flowTime = 0;
+    this.flowClock = null;
+    this.lastDrawTime = -Infinity;
+    this.flowOnly = false;
     this.depthOrigin = { x: 0, y: 0 };
     // Decorative depth texture only: these points never enter node, edge or hit indexes.
     this.depthLayers = [36, 18, 12].map((count, layer) => Array.from({ length: count }, (_, i) => ({
@@ -104,12 +110,15 @@ export class AtlasGraph {
     }, { signal });
     canvas.addEventListener('blur', () => this.requestDraw(), { signal });
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) { this.dismissPreview('layout'); this.animationUntil = 0; this.cancelFrame(); }
+      if (document.hidden) { this.dismissPreview('layout'); this.animationUntil = 0; this.flowClock = null; this.cancelFrame(); }
       else this.requestDraw();
     }, { signal });
     this.motion.addEventListener('change', () => {
+      if (this.motion.matches) this.advanceCamera(Infinity);
       this.animationUntil = 0;
       this.connectionPulse = null;
+      this.flowClock = null;
+      if (!this.motion.matches && this.renderer.backend === 'webgl') this.startConnectionPulse(this.selected);
       this.requestDraw();
     }, { signal });
     this.resize = new ResizeObserver(() => this.measure());
@@ -210,9 +219,7 @@ export class AtlasGraph {
     if (node.kind === 'person' && !this.layers.names) this.setLayers({ names: true });
     if (node.kind === 'hub' && !this.layers.regions) this.setLayers({ regions: true });
     this.dismissPreview('layout');
-    this.scale = Math.max(this.scale, this.baseScale * 5);
-    this.onZoom(this.scale / this.baseScale);
-    this.select(node, 'keyboard');
+    this.select(node, 'keyboard', Math.max(this.scale, this.baseScale * 5));
     return true;
   }
 
@@ -233,9 +240,7 @@ export class AtlasGraph {
       }
     }
     if (!node) return false;
-    this.scale = this.baseScale * clamp(ratio, 0.4, 64);
-    this.onZoom(this.scale / this.baseScale);
-    this.select(node, 'keyboard');
+    this.select(node, 'keyboard', this.baseScale * clamp(ratio, 0.4, 64));
     return true;
   }
 
@@ -252,6 +257,7 @@ export class AtlasGraph {
     } else {
       this.cancelFrame();
       this.animationUntil = 0;
+      this.flowClock = null;
       this.pointers.clear();
       this.hovered = null;
       this.canvas.style.cursor = 'grab';
@@ -345,8 +351,11 @@ export class AtlasGraph {
 
   toggleMotion() {
     this.paused = !this.paused;
+    if (this.paused) this.advanceCamera(Infinity);
     this.animationUntil = 0;
     this.connectionPulse = null;
+    this.flowClock = null;
+    if (!this.paused && this.renderer.backend === 'webgl') this.startConnectionPulse(this.selected);
     this.requestDraw(!this.paused);
     return this.paused;
   }
@@ -359,6 +368,7 @@ export class AtlasGraph {
   pointerDown(event, { panOnly = false } = {}) {
     if (!this.active || event.button !== 0) return;
     event.preventDefault();
+    this.cameraFlight = null;
     const point = this.point(event);
     if (!this.pointers.size) {
       this.start = point;
@@ -460,6 +470,8 @@ export class AtlasGraph {
 
   focusNode(node) {
     if (!node) return;
+    if (this.cameraFlight?.nodeId === node.id) return;
+    this.cameraFlight = null;
     this.keyboardId = node.id;
     this.hovered = null;
     this.emitPreview(node, 'keyboard');
@@ -546,6 +558,7 @@ export class AtlasGraph {
   }
 
   setHovered(id, force = false) {
+    if (this.cameraFlight) return;
     if (id === this.hovered && !force) return;
     this.hovered = id;
     this.canvas.style.cursor = id ? 'pointer' : 'grab';
@@ -553,20 +566,59 @@ export class AtlasGraph {
     this.requestDraw();
   }
 
-  select(node, reason = 'keyboard') {
+  select(node, reason = 'keyboard', targetScale = this.scale) {
     if (!node) { this.dismissPreview('dismiss'); this.requestDraw(); return; }
     const center = this.viewportCenter();
-    this.pan = { x: center.x - node.x * this.scale, y: center.y - node.y * this.scale };
+    this.cameraFlight = null;
     this.hovered = null;
     this.labelBoxes = [];
     this.labelPlans = [];
     this.exclusions = null;
     this.selected = node.id;
     this.keyboardId = node.id;
+    const target = { scale: targetScale, pan: { x: center.x - node.x * targetScale, y: center.y - node.y * targetScale } };
+    const distance = Math.hypot(target.pan.x - this.pan.x, target.pan.y - this.pan.y);
+    if (this.active && this.ctx && !document.hidden && !this.paused && !this.motion.matches && (distance > 0.5 || Math.abs(targetScale - this.scale) > 1e-8)) {
+      // Delay the card until arrival: its hit area must not slide under a user's pointer.
+      this.emitPreview(null, 'layout');
+      this.cameraFlight = { started: performance.now(), duration: 600, fromScale: this.scale, fromPan: { ...this.pan }, target, nodeId: node.id, reason };
+      this.requestDraw(true);
+      return;
+    }
+    this.scale = target.scale;
+    this.pan = target.pan;
+    this.onZoom(this.scale / this.baseScale);
+    this.finishSelection(node, reason);
+  }
+
+  finishSelection(node, reason) {
     this.emitPreview(node, reason);
     this.startConnectionPulse(node.id);
     this.requestDraw(true);
     this.onSelect(node, this.anchor(node));
+  }
+
+  advanceCamera(time) {
+    const flight = this.cameraFlight;
+    if (!flight) return false;
+    const progress = clamp((time - flight.started) / flight.duration, 0, 1);
+    const eased = progress * progress * (3 - 2 * progress);
+    const center = this.viewportCenter();
+    this.scale = Math.exp(Math.log(flight.fromScale) + Math.log(flight.target.scale / flight.fromScale) * eased);
+    // Interpolate world center and logarithmic zoom together to avoid a curved overshoot.
+    for (const axis of ['x', 'y']) {
+      const from = (center[axis] - flight.fromPan[axis]) / flight.fromScale;
+      const to = (center[axis] - flight.target.pan[axis]) / flight.target.scale;
+      this.pan[axis] = center[axis] - (from + (to - from) * eased) * this.scale;
+    }
+    this.onZoom(this.scale / this.baseScale);
+    if (progress < 1) return true;
+    this.scale = flight.target.scale;
+    this.pan = flight.target.pan;
+    this.cameraFlight = null;
+    const node = this.byId.get(flight.nodeId);
+    if (node && this.selected === node.id) this.finishSelection(node, flight.reason);
+    return false;
   }
 
   anchor(node) {
@@ -581,6 +633,7 @@ export class AtlasGraph {
   }
 
   dismissPreview(reason = 'layout') {
+    this.cameraFlight = null;
     this.connectionPulse = null;
     this.hovered = null;
     this.keyboardId = null;
@@ -596,14 +649,14 @@ export class AtlasGraph {
 
   startConnectionPulse(nodeId = null) {
     this.connectionPulse = null;
-    if (!this.active || this.destroyed || document.hidden || this.paused || this.motion.matches || (!this.layers.relationships && !this.layers.inferred)) return;
+    if (!nodeId || !this.active || this.destroyed || document.hidden || this.paused || this.motion.matches || (!this.layers.relationships && !this.layers.inferred)) return;
     const edges = [];
     for (const edge of nodeId ? this.adjacency.get(nodeId) || [] : this.edges) {
       if (!this.edgeEnabled(edge) || !this.routeNodeEnabled(this.byId.get(edge.from)) || !this.routeNodeEnabled(this.byId.get(edge.to))) continue;
-      edges.push(edge); if (edges.length === 72) break;
+      edges.push(edge); if (edges.length === 12) break;
     }
     if (!edges.length) return;
-    this.connectionPulse = { started: performance.now(), duration: 780, nodeId, edges };
+    this.connectionPulse = { started: performance.now(), duration: 2600, nodeId, edges };
     this.requestDraw();
   }
 
@@ -633,29 +686,42 @@ export class AtlasGraph {
     this.canvas.dataset.highlightedEdges = '0';
     if (!pulse || this.paused || this.motion.matches || !this.active || document.hidden) return false;
     const progress = (time - pulse.started) / pulse.duration;
-    if (progress >= 1) { this.connectionPulse = null; return false; }
-    const amount = Math.sin(Math.PI * clamp(progress, 0, 1));
+    const persistent = this.renderer.backend === 'webgl' && this.selected === pulse.nodeId;
+    if (!persistent && progress >= 1) { this.connectionPulse = null; return false; }
+    const amount = persistent ? Math.min(1, progress * 8) : Math.min(1, progress * 8, (1 - progress) * 8);
     const visible = pulse.edges.filter(edge => points.has(edge.from) && points.has(edge.to));
     if (!visible.length) { this.connectionPulse = null; return false; }
-    // Whole edges brighten together: no particles, arrows, travel or causal direction.
-    for (const inferred of [false, true]) {
-      ctx.beginPath();
-      ctx.setLineDash(inferred ? [3, 5] : []);
-      ctx.strokeStyle = inferred ? `rgba(216,153,118,${(amount * 0.25).toFixed(3)})` : `rgba(169,201,219,${(amount * 0.25).toFixed(3)})`;
-      ctx.lineWidth = 0.8 + amount * 0.35;
-      for (const edge of visible) if (Boolean(edge.inferred) === inferred) this.edgePath(ctx, points.get(edge.from), points.get(edge.to));
-      ctx.stroke();
+    // Equal counterflows communicate evidence classes without implying causation.
+    for (const edge of visible) {
+      const style = routeStyle(edge), route = this.renderer.routeFor(edge);
+      if (!route) continue;
+      const seconds = this.renderer.backend === 'webgl' ? this.flowTime : (time - pulse.started) / 1000;
+      const fractions = [seconds * style.speed + 0.12 - route.phase, 0.12 - seconds * style.speed - 0.5 - route.phase];
+      ctx.fillStyle = regionRGBA(style.color, amount * 0.92);
+      for (const fraction of fractions) {
+        const point = this.anchor(routePointAt(route, ((fraction % 1) + 1) % 1));
+        ctx.beginPath(); ctx.arc(point.x, point.y, 2.1, 0, Math.PI * 2); ctx.fill();
+      }
     }
     ctx.setLineDash([]);
     this.canvas.dataset.highlightedEdges = String(visible.length);
     return true;
   }
 
-  requestDraw(animate = false) {
+  routesFlowing() {
+    return !this.paused && !this.motion.matches && this.renderer.backend === 'webgl' && this.renderer.edgeGroups.some(group => group.count &&
+      (group.inferred ? this.layers.inferred : this.layers.relationships) && (this.layers.names || (group.fromKind !== 'person' && group.toKind !== 'person')));
+  }
+
+  requestDraw(animate = false, flowOnly = false) {
     if (this.destroyed || !this.active || document.hidden || !this.ctx) return;
     if (animate && this.selected && !this.paused && !this.motion.matches) this.animationUntil = performance.now() + 700;
+    if (!flowOnly) this.flowOnly = false;
+    else if (this.frame === null) this.flowOnly = true;
     if (this.frame === null) this.frame = requestAnimationFrame(time => {
       this.frame = null;
+      if (this.flowOnly && !this.cameraFlight && time - this.lastDrawTime < 1000 / 30) { this.requestDraw(false, true); return; }
+      this.flowOnly = false;
       this.draw(time);
     });
   }
@@ -729,6 +795,11 @@ export class AtlasGraph {
   draw(time) {
     if (!this.active || this.destroyed || document.hidden || !this.ctx || !this.width || !this.height) return;
     const start = performance.now();
+    this.lastDrawTime = time;
+    const flying = this.advanceCamera(time);
+    const flowing = this.routesFlowing();
+    if (flowing && this.flowClock !== null) this.flowTime += Math.max(0, time - this.flowClock) / 1000;
+    this.flowClock = flowing ? time : null;
     const ctx = this.ctx;
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
     ctx.clearRect(0, 0, this.width, this.height);
@@ -744,7 +815,7 @@ export class AtlasGraph {
       if (!this.edgeEnabled(edge)) continue;
       const a = this.project(this.byId.get(edge.from), true), b = this.project(this.byId.get(edge.to), true);
       if (a && b) { points.set(a.id, a); points.set(b.id, b); selectedEdges.push(edge); }
-      if (selectedEdges.length === 256) break;
+      if (selectedEdges.length === 48) break;
     }
     if (this.connectionPulse) for (const edge of this.connectionPulse.edges) {
       const a = this.project(this.byId.get(edge.from), true), b = this.project(this.byId.get(edge.to), true);
@@ -754,32 +825,31 @@ export class AtlasGraph {
     ctx.lineCap = 'round';
     const displayedEdges = this.displayedEdges;
     if (this.renderer.backend !== 'webgl' && (this.layers.relationships || this.layers.inferred)) {
-      for (const inferred of [false, true]) {
+      for (const style of Object.values(ROUTE_STYLES)) {
         ctx.beginPath();
-        const opacity = routeOpacity(inferred, this.scale / this.baseScale);
-        ctx.strokeStyle = inferred ? `rgba(216,153,118,${opacity})` : `rgba(169,201,219,${opacity})`;
-        ctx.lineWidth = inferred ? 0.65 : 0.7;
-        ctx.setLineDash(inferred ? [2, 5] : []);
+        const opacity = routeOpacity(style.inferred, this.scale / this.baseScale, displayedEdges.length, Boolean(emphasis));
+        ctx.strokeStyle = regionRGBA(style.color, opacity);
+        ctx.lineWidth = style.inferred ? 0.65 : 0.7;
+        ctx.setLineDash(style.inferred ? [2, 5] : []);
         for (const edge of displayedEdges) {
-          if (Boolean(edge.inferred) !== inferred) continue;
-          this.edgePath(ctx, points.get(edge.from), points.get(edge.to));
+          if (routeStyle(edge) !== style) continue;
+          this.edgePath(ctx, points.get(edge.from), points.get(edge.to), edge);
         }
         ctx.stroke();
       }
     }
     ctx.setLineDash([]);
-    const drawStats = this.renderer.draw(this, this.layers, this.screen);
+    const drawStats = this.renderer.draw(this, this.layers, this.screen, { flowTime: this.flowTime, animateRoutes: flowing });
     if (drawStats.backend === 'canvas2d') drawStats.submittedEdges = drawStats.drawnEdges = displayedEdges.length;
     if (emphasis) {
-      ctx.beginPath();
-      ctx.strokeStyle = 'rgba(216,153,118,0.64)';
-      ctx.lineWidth = 1.05;
-      for (const edge of selectedEdges) if (!edge.inferred) this.edgePath(ctx, points.get(edge.from), points.get(edge.to));
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.setLineDash([3, 5]);
-      for (const edge of selectedEdges) if (edge.inferred) this.edgePath(ctx, points.get(edge.from), points.get(edge.to));
-      ctx.stroke();
+      for (const style of Object.values(ROUTE_STYLES)) {
+        ctx.beginPath();
+        ctx.strokeStyle = regionRGBA(style.color, 0.64);
+        ctx.lineWidth = 1.05;
+        ctx.setLineDash(style.inferred ? [3, 5] : []);
+        for (const edge of selectedEdges) if (routeStyle(edge) === style) this.edgePath(ctx, points.get(edge.from), points.get(edge.to), edge);
+        ctx.stroke();
+      }
       ctx.setLineDash([]);
     }
     const highlighting = this.paintConnectionPulse(ctx, points, time);
@@ -840,7 +910,10 @@ export class AtlasGraph {
     this.publishStatus(drawStats);
     this.canvas.dataset.frameMs = (performance.now() - start).toFixed(2);
     this.canvas.dataset.renderRevision = String((Number(this.canvas.dataset.renderRevision) || 0) + 1);
-    if (settling || highlighting) this.requestDraw();
+    this.canvas.dataset.cameraMoving = String(Boolean(this.cameraFlight));
+    this.canvas.dataset.routesFlowing = String(flowing);
+    if (flying) this.requestDraw();
+    else if (settling || highlighting || flowing) this.requestDraw(false, true);
   }
 
   publishStatus(drawStats) {
@@ -872,10 +945,11 @@ export class AtlasGraph {
     ctx.setLineDash([]);
   }
 
-  edgePath(ctx, a, b) {
-    const bend = ((a.seed ^ b.seed) % 17 - 8) * 0.0035;
+  edgePath(ctx, a, b, edge) {
+    const route = this.renderer.routeFor(edge);
     ctx.moveTo(a.sx, a.sy);
-    ctx.quadraticCurveTo((a.sx + b.sx) / 2 + (b.sy - a.sy) * bend, (a.sy + b.sy) / 2 - (b.sx - a.sx) * bend, b.sx, b.sy);
+    if (route) for (let i = 1; i < route.points.length; i++) { const anchor = this.anchor(route.points[i]); ctx.lineTo(anchor.x, anchor.y); }
+    else ctx.lineTo(b.sx, b.sy);
   }
 
   labelExclusions() {

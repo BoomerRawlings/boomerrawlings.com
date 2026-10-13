@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { AtlasGraph } from '../public/ACF/graph.js';
 import { routeOpacity } from '../public/ACF/graph-renderer.js';
+import { routeStyle, routePointAt } from '../public/ACF/route-style.js';
 
 function fakeGL() {
   let id = 0, buffer = null, program = null;
@@ -13,8 +14,8 @@ function fakeGL() {
     createShader: () => ({ id: ++id }), shaderSource() {}, compileShader() {}, getShaderParameter: () => true, deleteShader() {},
     createProgram: () => ({ id: ++id }), attachShader() {}, linkProgram() {}, getProgramParameter: () => true,
     deleteProgram: value => gl.deletedPrograms.push(value),
-    getAttribLocation: (_, name) => ({ a_position: 0, a_size: 1, a_distance: 1, a_color: 2, a_selected: 3 })[name],
-    getUniformLocation: (_, name) => name, useProgram: value => { program = value; }, uniform1f: (name, value) => gl.uniforms.push({ program, name, value }), uniform2f() {},
+    getAttribLocation: (_, name) => ({ a_position: 0, a_size: 1, a_distance: 1, a_color: 2, a_selected: 3, a_progress: 4 })[name],
+    getUniformLocation: (_, name) => name, useProgram: value => { program = value; }, uniform1f: (name, value) => gl.uniforms.push({ program, name, value }), uniform2f() {}, uniform3f() {},
     createBuffer: () => ({ id: ++id }), bindBuffer: (_, value) => { buffer = value; },
     bufferData: (_, values) => { buffers.set(buffer, values); gl.uploads.push({ buffer, values }); },
     deleteBuffer: value => gl.deletedBuffers.push(value), enable() {}, blendFuncSeparate: (...factors) => { gl.blendFactors = factors; }, viewport() {}, clearColor() {}, clear() {},
@@ -181,7 +182,7 @@ test('overview contains every enabled point, labels avoid collisions, and settli
   assertReadableOverview(h);
   assert.ok(h.dashes.some(value => value.join(',') === '2,5'), 'inferred edges remain dashed');
   assert.equal(h.status.at(-1).visibleNodes, Number(h.canvas.dataset.visibleNodes));
-  assert.ok(h.frames.size > 0, 'brief settling animation begins');
+  assert.equal(h.frames.size, 0, 'Canvas overview avoids a permanent CPU animation loop');
   h.tick(810);
   assert.equal(h.frames.size, 0, 'no permanent render loop');
   h.graph.zoomBy(2.6);
@@ -398,15 +399,20 @@ for (const reducedMotion of [false, true]) test(`star activation centers without
         assert.deepEqual(h.graph.pan, pan, 'focusing an already visible star does not recenter it');
         h.send('keydown', { key: input });
       }
+      if (!reducedMotion) {
+        assert.deepEqual(h.graph.pan, pan, 'activation starts at the current camera without a jump');
+        assert.equal(h.previews.at(-1).node, null, 'moving camera defers the pinned card');
+        h.tick(600);
+      }
       const centered = h.graph.anchor(node);
       assert.equal(h.selected.at(-1).id, node.id);
       assert.equal(h.graph.scale, scale, 'activation retains the current zoom');
-      assert.ok(Math.hypot(centered.x - center.x, centered.y - center.y) < 1e-8, 'selected star reaches the usable map center immediately');
+      assert.ok(Math.hypot(centered.x - center.x, centered.y - center.y) < 1e-8, 'selected star reaches the usable map center');
       assert.deepEqual(h.selectedAnchors.at(-1), centered, 'pinned card receives the new canvas-local anchor');
       assert.equal(h.previews.at(-1).node.id, node.id, 'pointer-up does not re-hit the old cursor location');
       assert.deepEqual(h.previews.at(-1).anchor, centered);
       assert.equal(h.graph.previewId, node.id);
-      assert.equal(h.graph.labelBoxes.length, 0, 'obsolete painted hit boxes are discarded before the next frame');
+      if (reducedMotion) assert.equal(h.graph.labelBoxes.length, 0, 'obsolete painted hit boxes are discarded before the next frame');
       h.tick(0);
       assert.deepEqual(h.graph.anchor(node), centered, 'selection animation never moves the camera farther');
       if (reducedMotion) assert.equal(h.frames.size, 0, 'reduced motion renders centering once');
@@ -436,6 +442,97 @@ test('reduced motion, pause, hidden tabs and destruction suppress animation', t 
   const scale = h.graph.scale;
   h.send('keydown', { key: '+' });
   assert.equal(h.graph.scale, scale, 'destroy removes event listeners');
+});
+
+test('camera flights ease between real positions, preserve zoom on click and settle exactly once', t => {
+  const h = harness(t, { gpu: true, layers: {} });
+  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  const node = h.graph.byId.get('work-200'), start = h.graph.anchor(node), center = h.graph.viewportCenter();
+  const scale = h.graph.scale, uploads = h.gl.uploads.length;
+  h.graph.select(node); const from = { ...h.graph.pan };
+  assert.deepEqual(h.graph.anchor(node), start, 'click does not jump on the input event');
+  h.tick(100);
+  const first = h.graph.anchor(node);
+  const distance = point => Math.hypot(point.x - center.x, point.y - center.y);
+  assert.ok(distance(first) < distance(start) && distance(first) > distance(start) * 0.8, 'ease-in begins gently');
+  assert.equal(h.selected.length, 0, 'pinned preview waits until camera arrival');
+  h.tick(200);
+  const middle = h.graph.anchor(node);
+  assert.ok(Math.abs(distance(middle) - distance(start) / 2) < 1e-7, 'halfway travel has an intermediate view');
+  assert.notDeepEqual(h.graph.pan, from); assert.equal(h.graph.scale, scale);
+  h.tick(300);
+  assert.deepEqual(h.graph.anchor(node), center); assert.equal(h.graph.cameraFlight, null);
+  assert.equal(h.selected.length, 1); assert.deepEqual(h.selectedAnchors[0], center);
+  assert.equal(h.gl.uploads.length, uploads, 'flight changes camera uniforms only');
+  h.tick(710); assert.equal(h.frames.size, 0, 'routes-off map stops after the finite camera/selection motion');
+  h.tick(5000); assert.equal(h.selected.length, 1, 'arrival callback is never replayed');
+});
+
+test('drag and wheel interrupt in-flight camera at its current position without a delayed snap', t => {
+  const h = harness(t, { gpu: true, layers: {} });
+  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  const node = h.graph.byId.get('work-200');
+  h.graph.select(node); h.tick(230);
+  const current = { ...h.graph.pan };
+  h.pointer('pointerdown', 1, 100, 120, 'mouse');
+  assert.equal(h.graph.cameraFlight, null); assert.deepEqual(h.graph.pan, current);
+  h.pointer('pointermove', 1, 160, 155, 'mouse'); h.pointer('pointerup', 1, 160, 155, 'mouse');
+  const dragged = { x: current.x + 60, y: current.y + 35 };
+  assert.deepEqual(h.graph.pan, dragged); h.tick(1200);
+  assert.deepEqual(h.graph.pan, dragged); assert.equal(h.selected.length, 0);
+  h.graph.select(node); h.tick(200); h.graph.zoomBy(1.2);
+  const zoomed = { pan: { ...h.graph.pan }, scale: h.graph.scale };
+  h.tick(1000);
+  assert.equal(h.graph.cameraFlight, null); assert.deepEqual({ pan: h.graph.pan, scale: h.graph.scale }, zoomed);
+  assert.equal(h.selected.length, 0, 'interrupted flights never open a stale card');
+});
+
+test('replacement flights, resize, hidden state and static motion never replay an obsolete target', t => {
+  const h = harness(t, { gpu: true, layers: {} });
+  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  const a = h.graph.byId.get('work-200'), b = h.graph.byId.get('work-210');
+  h.graph.select(a); h.tick(200); const current = { ...h.graph.pan };
+  h.graph.select(b); assert.deepEqual(h.graph.pan, current, 'new flight starts at the actual intermediate view');
+  h.tick(600); assert.equal(h.selected.length, 1); assert.equal(h.selected[0].id, b.id);
+  h.graph.select(a); h.tick(200); Object.assign(h.canvas.rect, { width:390,height:700 }); h.graph.measure();
+  assert.equal(h.graph.cameraFlight, null); const resized = { ...h.graph.pan }; h.tick(1000);
+  assert.deepEqual(h.graph.pan, resized); assert.equal(h.selected.length, 1);
+  h.graph.select(a); h.tick(200); h.graph.toggleMotion(); h.tick(0);
+  assert.deepEqual(h.graph.anchor(a), h.graph.viewportCenter()); assert.equal(h.graph.cameraFlight, null);
+  assert.equal(h.frames.size, 0, 'pause completes navigation in one static render');
+  h.graph.toggleMotion(); h.graph.select(b); h.tick(200);
+  h.media.matches = true; h.media.dispatchEvent(new Event('change')); h.tick(0);
+  assert.deepEqual(h.graph.anchor(b), h.graph.viewportCenter()); assert.equal(h.frames.size, 0);
+  h.media.matches = false; h.media.dispatchEvent(new Event('change'));
+  h.graph.select(a); h.tick(200); h.doc.hidden = true; h.doc.dispatchEvent(new Event('visibilitychange'));
+  const hidden = { ...h.graph.pan }; assert.equal(h.graph.cameraFlight, null); assert.equal(h.frames.size, 0);
+  h.doc.hidden = false; h.doc.dispatchEvent(new Event('visibilitychange')); h.tick(1000);
+  assert.deepEqual(h.graph.pan, hidden); assert.equal(h.frames.size, 0);
+});
+
+test('GPU route flow is capped at30Hz, preserves full buffers, pauses and stops when layers are off', t => {
+  const h = harness(t, { gpu: true, layers: {} });
+  h.graph.setData(fullScaleData()); h.graph.setActive(true); h.tick(0);
+  const records = h.graph.renderer.pointGroups.find(group => group.kind === 'item');
+  const coordinates = records.values.slice(), values = records.values, buffer = records.buffer, uploads = h.gl.uploads.length;
+  h.graph.setLayers({ relationships:true, inferred:true, names:true }); h.tick(0);
+  assert.equal(h.canvas.dataset.routesFlowing, 'true'); const revision = Number(h.canvas.dataset.renderRevision);
+  h.tick(16); assert.equal(Number(h.canvas.dataset.renderRevision), revision);
+  h.tick(18); assert.equal(Number(h.canvas.dataset.renderRevision), revision + 1);
+  assert.equal(h.canvas.dataset.submittedRecords, '33945'); assert.equal(h.canvas.dataset.submittedEdges, '36945');
+  assert.equal(records.values, values); assert.equal(records.buffer, buffer); assert.deepEqual(records.values, coordinates);
+  assert.equal(h.gl.uploads.length, uploads);
+  const phase = h.graph.flowTime; assert.ok(phase > 0);
+  h.graph.toggleMotion(); h.tick(0); assert.equal(h.frames.size, 0); assert.equal(h.canvas.dataset.routesFlowing, 'false');
+  h.tick(5000); assert.equal(h.graph.flowTime, phase, 'static interval advances no flow');
+  h.graph.toggleMotion(); h.tick(0); assert.equal(h.graph.flowTime, phase, 'resume keeps its phase');
+  h.tick(34); assert.ok(h.graph.flowTime > phase);
+  h.doc.hidden = true; h.doc.dispatchEvent(new Event('visibilitychange')); assert.equal(h.frames.size, 0);
+  const hiddenPhase = h.graph.flowTime; h.tick(5000);
+  h.doc.hidden = false; h.doc.dispatchEvent(new Event('visibilitychange')); h.tick(0); assert.equal(h.graph.flowTime, hiddenPhase);
+  h.graph.setLayers({ relationships:false, inferred:false }); h.tick(0);
+  assert.equal(h.frames.size, 0); assert.equal(h.canvas.dataset.routesFlowing, 'false');
+  h.tick(5000); assert.equal(h.gl.uploads.length, uploads); assert.deepEqual(records.values, coordinates);
 });
 
 test('responsive fit preserves world center and relative zoom', t => {
@@ -579,71 +676,81 @@ test('an opaque publication title wins over a different dot hidden underneath it
 function recordEdgePaints(h) {
   const painted = [];
   const edgePath = h.graph.edgePath.bind(h.graph);
-  h.graph.edgePath = (context, from, to) => {
+  h.graph.edgePath = (context, from, to, edge) => {
     painted.push({ from: from.id, to: to.id, dash: [...(h.dashes.at(-1) || [])], style: context.strokeStyle });
-    edgePath(context, from, to);
+    edgePath(context, from, to, edge);
   };
   return painted;
 }
 
-test('selection briefly emphasizes only actual visible incident edges, preserving both classifications', t => {
+test('selected routes use bounded paired flow with evidence colors and speeds', t => {
   const h = harness(t);
   const data = fixture();
   data.edges.push({ from: 'work-2', to: 'work-3', inferred: false });
-  data.edges.push({ from: 'missing', to: 'work-3', inferred: false });
-  h.graph.setData(data); h.graph.setActive(true); h.tick(810);
-  const painted = recordEdgePaints(h);
-  h.graph.select(h.graph.byId.get('work-0'));
-  h.graph.requestDraw(); h.graph.requestDraw();
-  assert.equal(h.frames.size, 1, 'selection and repeated invalidations share one animation frame');
-  h.tick(390);
-  const pulse = painted.filter(edge => edge.style.endsWith(',0.250)'));
-  assert.ok(pulse.length > 0 && pulse.length <= 72, 'connection emphasis has a fixed small edge budget');
-  assert.equal(Number(h.canvas.dataset.highlightedEdges), pulse.length);
-  const visibleIds = new Set(h.graph.screen.map(node => node.id));
-  for (const edge of pulse) {
-    const source = data.edges.find(candidate => candidate.from === edge.from && candidate.to === edge.to);
-    assert.ok(source, 'each emphasized connection exists in the supplied data');
-    assert.ok(edge.from === 'work-0' || edge.to === 'work-0', 'unrelated connections receive no selection pulse');
-    assert.ok(visibleIds.has(edge.from) && visibleIds.has(edge.to), 'both endpoints must be visible');
-    assert.deepEqual(edge.dash, source.inferred ? [3, 5] : [], 'documented and inferred classifications survive emphasis');
+  h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  h.graph.select(h.graph.byId.get('work-0')); h.tick(600); h.tick(400);
+  const pulse = h.graph.connectionPulse;
+  assert.ok(pulse && pulse.edges.length > 0 && pulse.edges.length <= 12, 'at most24 paired markers');
+  assert.equal(Number(h.canvas.dataset.highlightedEdges), pulse.edges.length);
+  for (const edge of pulse.edges) {
+    assert.ok(edge.from === 'work-0' || edge.to === 'work-0');
+    const route = h.graph.renderer.routeFor(edge), style = routeStyle(edge);
+    assert.equal(route.points.length, 4, 'three straight angular segments');
+    assert.ok(style.speed > 0);
+    const a = routePointAt(route, 0.1), b = routePointAt(route, 0.2);
+    assert.ok(Math.hypot(a.x - b.x, a.y - b.y) > 0, 'markers move along an actual route');
   }
-  assert.ok(pulse.some(edge => edge.dash.length) && pulse.some(edge => !edge.dash.length));
   const fixedAnchor = h.graph.anchor(h.graph.byId.get('work-0'));
-  h.tick(400);
+  h.tick(2300);
   assert.equal(h.canvas.dataset.highlightedEdges, '0');
   assert.equal(h.graph.connectionPulse, null);
-  assert.equal(h.frames.size, 0, 'the entire scene returns to idle within 800 ms');
-  assert.deepEqual(h.graph.anchor(h.graph.byId.get('work-0')), fixedAnchor, 'emphasis never moves records');
+  assert.equal(h.frames.size, 0, 'Canvas flow ends after the bounded selection burst');
+  assert.deepEqual(h.graph.anchor(h.graph.byId.get('work-0')), fixedAnchor);
 });
 
-test('data changes replace connection emphasis; zoom, hidden state and exit cancel it', t => {
+test('selected GPU markers continue beyond the Canvas burst and resume only when motion is enabled', t => {
+  const h = harness(t, { gpu:true });
+  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  h.graph.select(h.graph.byId.get('work-0')); h.tick(600); h.tick(3400);
+  assert.ok(h.graph.connectionPulse, 'selected GPU markers remain available after2.6s');
+  assert.equal(h.canvas.dataset.highlightedEdges, '12'); assert.equal(h.frames.size, 1);
+  h.graph.toggleMotion(); h.tick(0);
+  assert.equal(h.canvas.dataset.highlightedEdges, '0'); assert.equal(h.frames.size, 0);
+  h.graph.toggleMotion(); h.tick(3400);
+  assert.equal(h.canvas.dataset.highlightedEdges, '12', 'explicit resume restores selected marker flow');
+  h.media.matches = true; h.media.dispatchEvent(new Event('change')); h.tick(0);
+  assert.equal(h.canvas.dataset.highlightedEdges, '0'); assert.equal(h.frames.size, 0);
+  h.media.matches = false; h.media.dispatchEvent(new Event('change')); h.tick(3400);
+  assert.equal(h.canvas.dataset.highlightedEdges, '12');
+  h.graph.setLayers({ relationships:false, inferred:false }); h.tick(0);
+  assert.equal(h.graph.connectionPulse, null); assert.equal(h.canvas.dataset.highlightedEdges, '0');
+  assert.equal(h.frames.size, 0, 'disabled routes stop both GPU and selected flows');
+});
+
+test('data changes, zoom, hidden state and exit cancel obsolete flow and flights', t => {
   const h = harness(t);
-  const painted = recordEdgePaints(h);
-  h.graph.setData(fixture(8)); h.graph.setActive(true); h.tick(390);
-  assert.ok(Number(h.canvas.dataset.highlightedEdges) > 0, 'entry can emphasize the visible relationship sample');
+  h.graph.setData(fixture(8)); h.graph.setActive(true); h.tick(0);
+  h.graph.select(h.graph.byId.get('work-6')); h.tick(600);
+  assert.ok(h.graph.connectionPulse);
   const replacement = fixture(8);
   replacement.edges = [{ from: 'work-6', to: 'work-7', inferred: true }];
-  h.graph.setData(replacement);
-  painted.length = 0; h.tick(390);
-  assert.deepEqual(painted.filter(edge => edge.style.endsWith(',0.250)')).map(({ from, to, dash }) => ({ from, to, dash })), [
-    { from: 'work-6', to: 'work-7', dash: [3, 5] },
-  ], 'filter/theme changes cannot retain connections from the preceding graph');
+  h.graph.setData(replacement); h.tick(0);
+  assert.equal(h.graph.connectionPulse, null);
+  h.graph.select(h.graph.byId.get('work-6')); h.tick(600);
+  assert.deepEqual(h.graph.connectionPulse.edges.map(({from,to}) => ({from,to})), [{ from:'work-6', to:'work-7' }]);
   h.graph.zoomBy(1.2); h.tick(0);
-  assert.equal(h.graph.connectionPulse, null, 'zoom clears obsolete connection emphasis');
+  assert.equal(h.graph.connectionPulse, null);
   h.graph.select(h.graph.byId.get('work-6'));
   h.doc.hidden = true; h.doc.dispatchEvent(new Event('visibilitychange'));
-  assert.equal(h.graph.connectionPulse, null);
-  assert.equal(h.frames.size, 0, 'a hidden page cancels the bounded loop immediately');
+  assert.equal(h.graph.connectionPulse, null); assert.equal(h.graph.cameraFlight, null);
+  assert.equal(h.frames.size, 0);
   h.doc.hidden = false; h.doc.dispatchEvent(new Event('visibilitychange')); h.tick(0);
-  assert.equal(h.frames.size, 0, 'visibility return does not replay a stale pulse');
-  h.graph.select(h.graph.byId.get('work-6'));
-  h.graph.setActive(false);
-  assert.equal(h.graph.connectionPulse, null);
+  assert.equal(h.frames.size, 0, 'Canvas visibility return does not replay a stale burst');
+  h.graph.select(h.graph.byId.get('work-6')); h.graph.setActive(false);
+  assert.equal(h.graph.connectionPulse, null); assert.equal(h.graph.cameraFlight, null);
   assert.equal(h.frames.size, 0);
   h.graph.setActive(true); h.graph.destroy();
-  assert.equal(h.graph.connectionPulse, null);
-  assert.equal(h.frames.size, 0);
+  assert.equal(h.graph.connectionPulse, null); assert.equal(h.frames.size, 0);
 });
 
 test('reduced and paused motion keep selected relationships static with no replay loop', t => {
@@ -653,7 +760,7 @@ test('reduced and paused motion keep selected relationships static with no repla
   const assertStaticSelection = () => {
     painted.length = 0;
     h.graph.select(h.graph.byId.get('work-0')); h.tick(0);
-    const selectedEdges = painted.filter(edge => edge.style === 'rgba(216,153,118,0.64)');
+    const selectedEdges = painted.filter(edge => edge.style.endsWith(',0.64)'));
     assert.equal(selectedEdges.length, 7, 'selected relationships remain visible without motion');
     assert.ok(selectedEdges.some(edge => edge.dash.length) && selectedEdges.some(edge => !edge.dash.length));
     assert.equal(h.graph.connectionPulse, null);
@@ -903,13 +1010,30 @@ test('all four route-toggle combinations govern both base routes and selected em
   for (const relationships of [false, true]) for (const inferred of [false, true]) {
     h.graph.setLayers({ relationships, inferred }); h.tick(0);
     h.graph.select(h.graph.byId.get('a')); painted.length = 0; h.tick(0);
-    const selection = painted.filter(edge => edge.style === 'rgba(216,153,118,0.64)');
+    const selection = painted.filter(edge => edge.style.endsWith(',0.64)'));
     assert.equal(Number(h.canvas.dataset.submittedEdges), Number(relationships) + Number(inferred));
     assert.equal(selection.filter(edge => !edge.dash.length).length, Number(relationships), 'documented emphasis follows its own toggle');
     assert.equal(selection.filter(edge => edge.dash.length).length, Number(inferred), 'inferred emphasis follows its own toggle');
     assert.equal(h.graph.selected, 'a', 'turning routes off preserves focused record visibility');
     assert.equal(h.canvas.dataset.submittedRecords, '2');
   }
+});
+
+test('high-degree stars highlight48 routes while every enabled base route remains submitted', t => {
+  const h = harness(t, { gpu:true, reducedMotion:true });
+  const data = fixture(500);
+  h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  const values = h.graph.renderer.edgeGroups.map(group => group.values), uploads = h.gl.uploads.length;
+  const painted = recordEdgePaints(h);
+  h.graph.select(h.graph.byId.get('work-0')); h.tick(0);
+  const highlighted = painted.filter(edge => edge.style.endsWith(',0.64)'));
+  assert.equal(highlighted.length, 48);
+  assert.equal(h.canvas.dataset.selectedEdges, '48');
+  assert.equal(Number(h.canvas.dataset.submittedEdges), data.edges.length, 'emphasis cap never removes a base route');
+  assert.ok(highlighted.every(edge => edge.from === 'work-0' || edge.to === 'work-0'));
+  assert.ok(highlighted.some(edge => edge.dash.length) && highlighted.some(edge => !edge.dash.length));
+  assert.equal(h.gl.uploads.length, uploads);
+  h.graph.renderer.edgeGroups.forEach((group, i) => assert.equal(group.values, values[i]));
 });
 
 test('GPU camera changes project bounded labels and never iterate the relationship collection', t => {
@@ -954,7 +1078,9 @@ test('overview names and routes stay faint while zoom strengthens routes without
     assert.equal(samples[0], inferred ? 0.006 : 0.008);
     assert.ok(samples.slice(1).every((value, i) => value >= samples[i]));
     assert.ok(samples.every(value => value <= (inferred ? 0.100001 : 0.080001)));
-    assert.ok(h.gl.uniforms.some(call => call.program === renderer.linesProgram && call.name === 'u_alpha' && call.value === samples[0]));
+    const expected = routeOpacity(inferred, 1, Number(h.canvas.dataset.submittedEdges), false);
+    assert.ok(expected < samples[0], 'dense full-catalog routes retain a subdued backdrop');
+    assert.ok(h.gl.uniforms.some(call => call.program === renderer.linesProgram && call.name === 'u_alpha' && call.value === expected));
   }
   const uploads = h.gl.uploads.length, edges = h.canvas.dataset.submittedEdges;
   h.graph.zoomBy(16); h.tick(0);
@@ -962,6 +1088,7 @@ test('overview names and routes stay faint while zoom strengthens routes without
   assert.equal(h.canvas.dataset.submittedNames, '7361');
   assert.equal(h.canvas.dataset.submittedEdges, edges);
   assert.equal(h.gl.uploads.length, uploads, 'zoom opacity uses uniforms, never resampling data');
+  for (const inferred of [false, true]) assert.ok(h.gl.uniforms.some(call => call.program === renderer.linesProgram && call.name === 'u_alpha' && call.value === routeOpacity(inferred, 16, Number(edges), false)));
 });
 
 test('region selection highlights exact unique record membership without replacing full geometry', t => {

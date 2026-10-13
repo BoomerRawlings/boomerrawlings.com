@@ -1,13 +1,20 @@
-/* Five letters become a small constellation. Geometry is decorative, never data. */
+/* Typed coordinates become a loose constellation, then the prepared universe.
+   Entrance geometry is decorative; all actual records stay in the map. */
 #entry-heading.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;font-size:1px}
-#entry-sequence{display:grid;place-items:center;padding:0 0 8vh;gap:0;overflow:hidden;font-size:clamp(58px,10vw,108px);transform-origin:50% 46%}
+#entry-sequence{display:grid;place-items:center;padding:0 0 8vh;gap:0;overflow:hidden;color:#a7e5ee;font:400 clamp(54px,9.5vw,102px)/1 var(--mono);letter-spacing:0;transform-origin:50% 46%}
 .entry-word{position:relative;width:4em;height:2.5em;flex:none}
-.entry-letter{position:absolute;top:50%;width:.8em;margin:-.5em 0 0 -.4em;transform-origin:50% 50%;opacity:0}
+.entry-word:before,.entry-word:after{content:'';position:absolute;width:.28em;height:.28em;border-color:#8ecedb55;border-style:solid;pointer-events:none}.entry-word:before{left:-.28em;top:.2em;border-width:1px 0 0 1px}.entry-word:after{right:-.28em;bottom:.2em;border-width:0 1px 1px 0}
+.entry-coordinate{position:absolute;left:0;right:0;top:-.2em;display:flex;align-items:center;justify-content:space-between;gap:8px;color:#9cabbc;font:9px/1.6 var(--mono);letter-spacing:.12em;white-space:nowrap}.entry-coordinate span{color:var(--copper);letter-spacing:.05em}
+.entry-letter{position:absolute;top:50%;width:.8em;margin:-.5em 0 0 -.4em;transform-origin:50% 50%;opacity:0;text-shadow:0 0 22px #7cd4e92e}
 #atlas-letter-0{left:10%}#atlas-letter-1{left:30%}#atlas-letter-2{left:50%}#atlas-letter-3{left:70%}#atlas-letter-4{left:90%}
-#entry-constellation{position:absolute;inset:0;width:100%;height:100%;overflow:visible;stroke:var(--copper);stroke-width:.75;pointer-events:none}
-#entry-constellation circle{fill:var(--ice);stroke:var(--copper);stroke-width:1}
-#entry-links{opacity:1}
-#entry-links path{stroke-opacity:.42}
+#entry-cursor{position:absolute;left:0;top:50%;width:2px;height:.85em;margin-top:-.44em;background:var(--copper);opacity:0;box-shadow:0 0 12px #e3a48140}
+#entry-constellation{position:absolute;inset:0;width:100%;height:100%;overflow:visible;stroke:#8fdae8;stroke-width:.8;stroke-linejoin:miter;pointer-events:none}
+#entry-constellation>circle{fill:#ddfaff;stroke:#7cd4e9;stroke-width:1;filter:drop-shadow(0 0 4px #7cd4e99e)}
+#entry-links,#entry-field{opacity:1}
+#entry-links path{stroke-opacity:.75}
+#entry-links .entry-link-secondary{stroke:var(--copper);stroke-opacity:.6;stroke-dasharray:3 5}
+#entry-field path{stroke-opacity:.25;stroke-width:.65}#entry-field circle{fill:var(--ice);stroke:none;opacity:.6}
+body.entry-revealing #network,body.entry-revealing .atlas-gpu-points{transform-origin:50% 50%;will-change:transform,opacity}
 #entry-loading{position:fixed;left:20px;right:20px;top:calc(50% + 115px);margin:0;text-align:center;color:var(--muted);font:11px/1.6 var(--mono);letter-spacing:.025em;pointer-events:none}
-@media(max-width:600px){#entry-loading{top:calc(50% + 85px);font-size:10px}.riddle{margin-top:0}}
+@media(max-width:600px){#entry-loading{top:calc(50% + 85px);font-size:10px}.entry-coordinate{font-size:7px;letter-spacing:.06em}.riddle{margin-top:0}}
 @media(max-height:400px){#entry-sequence{font-size:54px;padding-bottom:0}#entry-loading{top:auto;bottom:60px}#entry-screen{padding-top:18px;padding-bottom:18px}.riddle{margin-top:0;margin-bottom:15px}}

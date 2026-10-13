@@ -14,7 +14,7 @@ const event = (type, properties = {}) => Object.assign(new Event(type, { cancela
 
 // Exercise the real script against the real markup. This deliberately models only
 // the DOM APIs used by the entrance; rendered geometry belongs to browser checks.
-function harness({ reduced = false, animationAPI = true, entrySource = source, autoReady = true } = {}) {
+function harness({ reduced = false, animationAPI = true, entrySource = source, autoReady = true, bounds = {}, gpuCanvas = true } = {}) {
   let hasApp = false, currentGraph;
   let now = 0, timerId = 0, animations = 0, enters = 0, exits = 0, task = 0;
   const timers = new Map(), ids = new Map(), activeAnimations = new Map(), trace = [];
@@ -83,6 +83,7 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
       return descendants.find(n => n.getAttribute(attribute[1]) === attribute[2]) || null;
     }
     contains(node) { return node === this || this.children.some(child => child.contains(node)); }
+    getBoundingClientRect() { return bounds[this.id] || { left: 0, top: 0, width: 400, height: 250 }; }
     animate(frames, options = {}) {
       animations++;
       const animationId = animations, target = this.id || this.className || this.attributes.get('class') || this.tagName;
@@ -111,6 +112,9 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
   }
   build(parse(markup), root);
   const $ = id => { assert(ids.has(id), `Missing real markup ID ${id}`); return ids.get(id); };
+  // The renderer creates this sibling canvas at runtime. Exercise the entrance
+  // against both that WebGL surface and the overlay-only Canvas fallback.
+  if (gpuCanvas) $('graph-stage').append(new Element('canvas', [{ name: 'class', value: 'atlas-gpu-points' }]));
   document.getElementById = id => ids.get(id) || null;
   document.createElement = tag => { record('element:create', { tag }); return new Element(tag); };
   document.createElementNS = (_namespace, tag) => new Element(tag);
@@ -311,32 +315,37 @@ function assertNoModelMotionOverlap(h) {
 
 function assertLetterMotion(h) {
   const animations = h.trace.filter(step => step.event === 'animation:start');
-  assert.equal(animations.length, 12, 'Normal opening animates the prompt, five letters, five star opacities and connecting lines');
+  assert.equal(animations.length, 14, 'Normal opening animates the prompt, typed letters/cursor, five stars, links and distant field');
   const prompt = animations.find(step => step.target === 'entry-prompt');
   assert(prompt && prompt.duration <= 180, 'Prompt fade clears room for the letters');
   assert.deepEqual(prompt.properties, ['opacity']);
   const letters = Array.from({ length: 5 }, (_, i) => animations.find(step => step.target === `atlas-letter-${i}`));
   assert(letters.every(Boolean), 'All five ATLAS letter targets animate');
   assert.equal(letters.map(letter => h.$(letter.target).textContent).join(''), 'ATLAS', 'The real hidden markup spells the opening word');
-  for (const star of animations.filter(step => step.target.startsWith('entry-star-') || step.target === 'entry-links')) assert.deepEqual(star.properties, ['opacity'], 'Constellation emergence changes opacity only');
+  for (const star of animations.filter(step => step.target.startsWith('entry-star-') || ['entry-links', 'entry-field'].includes(step.target))) assert.deepEqual(star.properties, ['opacity'], 'Constellation emergence changes opacity only');
   assert.equal(h.$('entry-sequence').getAttribute('aria-hidden'), 'true', 'Decorative letters do not duplicate the screen-reader announcement');
   for (const [i, letter] of letters.entries()) {
     assert(letter.visible, 'Animated letters must not have a hidden DOM ancestor');
     assert.deepEqual([...letter.properties].sort(), ['opacity', 'transform'], 'Letters use composited transform and opacity only');
     assert.equal(letter.easing, 'linear', 'The letter timeline remains linear so the shared hold uses elapsed time; ease individual keyframe segments instead');
-    assert(letter.duration > 0 && letter.duration <= 1500, 'Each letter has a bounded rise, hold and exit sequence');
-    assert(i === 0 ? letter.delay === 0 : letter.delay > letters[i - 1].delay && letter.delay - letters[i - 1].delay <= 100, 'Letters enter in a short ordered stagger');
-    assert.equal(letter.keyframes.length, 5, 'Letter motion includes departure, rise, settled hold and exit');
-    assert.notEqual(letter.keyframes[0].transform, letter.keyframes[2].transform, 'Letters visibly change position/scale before the hold');
+    assert(letter.duration > 0 && letter.duration <= 1500, 'Each letter has a bounded type, hold and constellation sequence');
+    assert(i === 0 ? letter.delay >= prompt.duration : letter.delay > letters[i - 1].delay && letter.delay - letters[i - 1].delay <= 100, 'Letters type in an ordered cadence after the prompt clears');
+    assert.equal(letter.keyframes.length, 5, 'Letter motion includes typed appearance, settled hold and star conversion');
+    assert.equal(letter.keyframes[0].transform, letter.keyframes[2].transform, 'Typed letters remain aligned instead of tumbling');
+    assert.equal(letter.keyframes[0].easing, 'steps(1, end)', 'Characters appear with a discrete typing step');
     assert.equal(letter.keyframes[2].opacity, 1, 'The ATLAS word becomes fully visible');
     assert.equal(letter.keyframes[3].opacity, 1, 'The assembled letters remain visible during the hold');
     assert.equal(letter.keyframes[2].transform, letter.keyframes[3].transform, 'Each letter has a settled hold before its exit');
     assert.equal(letter.keyframes.at(-1).opacity, 0, 'Letters fade out before the workspace opens');
+    assert.notEqual(letter.keyframes[3].transform, letter.keyframes.at(-1).transform, 'Each letter travels into its constellation point');
   }
   const holdStart = Math.max(...letters.map(letter => letter.at + letter.delay + letter.duration * letter.keyframes[2].offset));
   const holdEnd = Math.min(...letters.map(letter => letter.at + letter.delay + letter.duration * letter.keyframes[3].offset));
   assert(holdEnd - holdStart >= 250, 'The complete ATLAS word holds together visibly for at least 250ms');
   assert(Math.max(...letters.map(letter => letter.duration + letter.delay)) <= 1800, 'The letter entrance finishes within its bounded motion budget');
+  const cursor = animations.find(step => step.target === 'entry-cursor');
+  assert(cursor && cursor.keyframes.some(frame => frame.easing === 'steps(5, end)'), 'The cursor advances with the five typed characters');
+  assert.equal(cursor.keyframes.at(-1).opacity, 0, 'Cursor disappears before the constellation holds');
   assert.equal(h.trace.filter(step => step.event === 'timer:schedule').length, 0, 'Opening creates no custom timers');
   assert.equal(h.trace.filter(step => step.event === 'element:create').length, 0, 'Opening creates no transient wave/overlay nodes');
 }
@@ -427,7 +436,7 @@ for (const completion of ['ready', 'error', 'skip', 'resize', 'hidden', 'reduced
   assert.equal(h.$('atlas-workspace').hidden, false, 'The graph can measure its eventual viewport');
   assert.equal(h.$('atlas-workspace').inert, true);
   assert.equal(h.trace.find(step => step.event === 'acf:enter').activeAnimations, 0, 'No entrance animation runs while indexing starts');
-  assert.equal(h.animations, 12, 'The loading hold adds no ambient animations');
+  assert.equal(h.animations, 14, 'The loading hold adds no ambient animations');
   if (completion === 'ready') h.document.dispatchEvent(event('acf:ready'));
   else if (completion === 'error') h.document.dispatchEvent(event('acf:load-error'));
   else if (completion === 'skip') h.click('skip-animation');
@@ -442,8 +451,43 @@ for (const completion of ['ready', 'error', 'skip', 'resize', 'hidden', 'reduced
 {
   const h = harness({ autoReady: false }); h.type('atlas'); h.submit(); await h.settle();
   h.document.dispatchEvent(event('acf:ready'));
-  assert.equal(h.animations, 14, 'Only two bounded reveal tracks follow preparation');
+  assert.equal(h.animations, 18, 'Constellation, screen and both map surfaces get bounded reveal tracks');
   h.click('skip-animation'); usable(h);
+  h.click('return-entry'); await h.settle(); closed(h, 1); cases++;
+}
+for (const gpuCanvas of [true, false]) for (const [width, height] of [[1280, 900], [390, 844], [320, 700]]) {
+  const word = { left: width / 2 - 180, top: height * .46 - 110, width: 360, height: 220 };
+  const map = { left: 0, top: height * .35, width: width > 600 ? width - 354 : width, height: height * .55 };
+  const h = harness({ autoReady: false, bounds: { 'entry-word': word, network: map }, gpuCanvas });
+  h.type('atlas'); h.submit(); await h.settle();
+  assert.equal(h.trace.find(step => step.event === 'acf:enter').at, 1500, 'The typing/constellation phase has a fixed 1.5s budget');
+  assert(!h.trace.some(step => step.target === 'network'), 'The actual map does not animate before it is ready');
+  const beforeReady = h.trace.length;
+  h.document.dispatchEvent(event('acf:ready'));
+  assert(h.document.body.classList.contains('entry-revealing'), 'Reveal marks the short compositor lifetime');
+  const reveal = h.trace.slice(beforeReady).filter(step => step.event === 'animation:start');
+  assert.deepEqual(reveal.map(step => step.target), ['entry-sequence', 'entry-screen', 'network', ...(gpuCanvas ? ['atlas-gpu-points'] : [])]);
+  assert(reveal.every(step => step.duration === 820), 'Every reveal track shares one bounded duration');
+  const dx = map.left + map.width / 2 - word.left - word.width / 2;
+  const dy = map.top + map.height / 2 - word.top - word.height / 2;
+  assert.equal(reveal[0].keyframes.at(-1).transform, `translate(${dx}px, ${dy}px) scale(2.4)`, 'Constellation joins the measured map center at every width');
+  assert.equal(reveal[2].keyframes.at(-1).transform, 'scale(1)', 'Universe settles at its real overview scale');
+  if (gpuCanvas) {
+    assert.deepEqual(reveal[2].keyframes, reveal[3].keyframes, 'All stars and their label/region overlay use identical reveal frames');
+    assert.equal(reveal[2].at, reveal[3].at, 'Both rendering surfaces start together');
+    assert.equal(reveal[2].easing, reveal[3].easing, 'Both rendering surfaces share easing');
+  }
+  assert.equal(h.$('atlas-workspace').inert, true, 'Inputs wait until visual settling finishes');
+  await h.settle(); usable(h); cases++;
+}
+for (const interruption of ['resize', 'hidden', 'reduced-motion', 'error']) {
+  const h = harness({ autoReady: false }); h.type('atlas'); h.submit(); await h.settle();
+  h.document.dispatchEvent(event('acf:ready'));
+  if (interruption === 'resize') h.window.dispatchEvent(event('resize'));
+  else if (interruption === 'hidden') { h.document.hidden = true; h.document.dispatchEvent(event('visibilitychange')); }
+  else if (interruption === 'error') h.document.dispatchEvent(event('acf:load-error'));
+  else { h.motion.matches = true; h.motion.dispatchEvent(event('change')); }
+  usable(h);
   h.click('return-entry'); await h.settle(); closed(h, 1); cases++;
 }
 
@@ -705,7 +749,7 @@ await unawaited.settle();
 cases++;
 if (process.argv.includes('--probe-unawaited-letters')) await assertLetterProgress(unawaited);
 
-const globalEasingSource = source.replace("delay: i * 60, easing: 'linear'", "delay: i * 60, easing: 'cubic-bezier(.22,.7,.26,1)'");
+const globalEasingSource = source.replace("duration, delay, easing: 'linear'", "duration, delay, easing: 'cubic-bezier(.22,.7,.26,1)'");
 assert.notEqual(globalEasingSource, source, 'The easing mutation must reach the actual letter timeline');
 const globalEasing = harness({ entrySource: globalEasingSource }); globalEasing.type('atlas'); globalEasing.submit();
 assert.throws(() => assertLetterMotion(globalEasing), /letter timeline remains linear/, 'The motion guard catches global easing that compresses the shared hold');

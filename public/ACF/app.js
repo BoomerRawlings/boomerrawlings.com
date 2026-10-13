@@ -1,7 +1,7 @@
-import { AtlasGraph } from './graph.js?v=stars-20261012';
-import { NodePreview } from './node-preview.js?v=stars-20261012';
-import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=stars-20261012';
-import { getRegions, regionFacets } from './regions.js?v=stars-20261012';
+import { AtlasGraph } from './graph.js?v=futures-20261012';
+import { NodePreview } from './node-preview.js?v=futures-20261012';
+import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=futures-20261012';
+import { getRegions, regionFacets } from './regions.js?v=futures-20261012';
 
 const $ = id => document.getElementById(id);
 const number = n => n.toLocaleString();
@@ -176,6 +176,9 @@ function applyRegionSelection() {
 }
 function applyLayers() {
   graph?.setLayers({ names: $('names-toggle').checked, labels: $('labels-toggle').checked, relationships: $('relationships-toggle').checked, regions: $('regions-toggle').checked, inferred: $('themes-toggle').checked });
+  const connected = $('relationships-toggle').checked || $('themes-toggle').checked;
+  $('connections-toggle').setAttribute('aria-pressed', String(connected));
+  $('connections-toggle').textContent = connected ? 'Hide connections' : 'Show connections';
 }
 function renderRegionNavigation() {
   const data = getRegions(index);
@@ -460,6 +463,12 @@ $('zoom-in').addEventListener('click', () => graph?.zoomBy(1.3));
 $('zoom-out').addEventListener('click', () => graph?.zoomBy(1 / 1.3));
 $('reset-view').addEventListener('click', () => graph?.reset());
 $('view-overview').addEventListener('click', () => graph?.reset());
+$('connections-toggle').addEventListener('click', () => {
+  const enabled = !$('relationships-toggle').checked && !$('themes-toggle').checked;
+  $('relationships-toggle').checked = $('themes-toggle').checked = enabled;
+  if (enabled) $('names-toggle').checked = true;
+  applyLayers();
+});
 for (const [id, ratio] of [['view-nearby', 4], ['view-close', 12]]) $(id).addEventListener('click', () => graph?.setPerspective?.(ratio));
 $('empty-map').addEventListener('click', () => graph?.reset());
 $('map-zoom').addEventListener('input', () => { if (graph) graph.zoomBy(2 ** Number($('map-zoom').value) * graph.baseScale / graph.scale); });

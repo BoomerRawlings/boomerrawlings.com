@@ -1,4 +1,4 @@
-import { THEMES, label } from './model.js?v=stars-20261012';
+import { THEMES, label } from './model.js?v=futures-20261012';
 
 // Titles supply these groups. A region, proximity or overlapping boundary is
 // never evidence of affiliation, agreement, citation or influence.

@@ -1,6 +1,16 @@
 # Project state
 
-## Star centering, panning and distant views — release ready
+## Futuristic entrance and flowing routes — active
+
+- Mode: continuation. User requests unified full-title logo, typed ATLAS → loose constellation → smoothly revealed universe, smooth click panning and angular flowing connections colored by type with faster documented/slower inferred travel. Screenshot is visual reference.
+- Baseline 90c64ec verified equal to origin/main; previous completion checkpoint preserved. Same authorized public /ACF/ scope; data and other routes unchanged.
+- Implemented: unified full-title wordmark; 1,500ms typing → angular constellation → 820ms GPU/overlay crossfade; 600ms interruptible camera flight; cached angular routes, four colors/speeds, visible Show connections and pause control. Cache futures-20261012.
+- Decisions: flow speed represents recorded vs inferred categories, not invented numerical probabilities or causal direction. Preserve all 33,945 record positions and independent layer controls. Canvas keeps bounded flow work because fallback is slower.
+- Validation: ACF90/90 groups including61 entrance cases, graph45/45 and renderer7/7;47-page build/static verifier pass. Actual1280/390/320 entrance, camera interruption, popup panning, layout/nooverflow, pause and Canvas/List checks completed.
+- Evidence: sibling .acf-qa/futures-entry-proof.md/.json verifies42 identical GPU/overlay samples and14 monotonic reveal samples; futures-gpu-proof.md/.json verifies every33945record and73320enabled angular routes, preserved geometry/buffers, four colors/speeds, camera center error effectively0. Finalselected overlay bounded48paths/12flowing highlights; pause verified at320. Canvas remains slower; CPU submission evidence is not GPU FPS or physical-device performance.
+- Next: one scoped publish, Linux CI/Pages, live hash and cached/fresh browser verification. Local QA evidence/probes remain unshipped.
+
+## Star centering, panning and distant views — complete
 
 - Mode: continuation; click centers, drag pans through selected stars/previews, richer dynamic stars and useful distant views. Baseline 164c60c verified equal to origin/main; earlier work preserved. User clarified no photos; no media/catalog changes.
 - Completed: current-zoom centering, press-target/final-release drag fixes, preview body/header panning and hover click-through; wider region labels, zoom-derived star cores/halos, Overview/Nearby/Close, slider, Expand map and empty-sky recovery. Cache stars-20261012.
@@ -8,7 +18,10 @@
 - Independent GPU proof: 702 actual draws each retain 33,945 records; 15 snapshots preserve IDs, original Float32 coordinates, CPU/GPU base buffers and exact masks. Center error below 0.000000001px; phone popup drag +50,+43. Idle revision unchanged for 72.3s.
 - Instrumented CPU draw p95: 390 expanded 14.3ms; 1280 standard 5.1ms; input-to-CPU-draw 20.0/12.6ms. Different layouts, viewport emulation, no comparative speedup or physical-device/GPU-FPS claim. Startup 1196.7ms with 339/192/398ms long tasks.
 - Evidence: sibling .acf-qa/stars-final-gpu-proof.json/.md, region-browser-stars-final.json, region-browser-stars-canvas.json, star-acf-final.log, star-build-final.log and star-static-final.log.
-- Next: scoped commit/push, full Linux CI/Pages, fresh/cached live hash and interaction checks.
+- Live: 90c64ecca5cf9b5f5b0ca77a82cf646a50c057ce; Pages 38323824576 full Linux CI/build/deploy passed. All 11 live JS/CSS hashes match canonical Git/tested text; neutral entrance, no diagnostics and LEO 200 verified.
+- Live browser: 14 snapshots across cached 1280 and fresh 390/320; click centering, popup body/header panning, 0.4x/4x/12x controls, expansion, keyboard and complete List pass. All 33,945 point IDs retained; no overflow or console errors; six clean screenshots. Evidence: .acf-qa/stars-release-report.md, stars-live-browser.json, stars-live-verification.json and stars-pages-run.json.
+- Canvas retains all records but CPU draw p95 84.7ms/input 87.6ms at 390 expanded; slower fallback and List guidance remain. See stars-canvas-proof.md for counter-based limits.
+- Next: none required. Temporary QA server/tabs cleaned up, viewport reset, live map retained. Final state checkpoint local to avoid an unnecessary production push.
 ## Region-switch scroll correction — complete
 
 - Mode: continuation; scoped correction under existing public region update authorization. Live164c60cfdadeaec253ba9e8b0b9c601dfee08e1c; Pages38320406093 fullLinuxCI/build/deploy passed; cache regions-20261012d.

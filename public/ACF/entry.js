@@ -37,6 +37,7 @@
     workspace.hidden = false; workspace.inert = false;
     skip.hidden = true;
     document.body.classList.remove('entry-pending');
+    document.body.classList.remove('entry-revealing');
     enter();
     $('search').focus({ preventScroll: true });
   }
@@ -46,9 +47,17 @@
     phase = 'revealing';
     const activeCycle = cycle;
     loading.hidden = true;
+    document.body.classList.add('entry-revealing');
+    // The small, decorative field travels into the actual map viewport while
+    // the already prepared universe settles beneath it. No data is fabricated.
+    const word = $('entry-word').getBoundingClientRect(), map = $('network').getBoundingClientRect();
+    const dx = map.width ? map.left + map.width / 2 - word.left - word.width / 2 : 0;
+    const dy = map.height ? map.top + map.height / 2 - word.top - word.height / 2 : 0;
+    const surfaces = [$('network'), $('graph-stage').querySelector('.atlas-gpu-points')].filter(Boolean);
     await Promise.all([
-      animate(sequence, [{ opacity: 1, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(1.5)' }], { duration: 420, easing: 'cubic-bezier(.22,.7,.26,1)' }),
-      animate(screen, [{ opacity: 1 }, { opacity: 0 }], { duration: 460, easing: 'ease-out' }),
+      animate(sequence, [{ opacity: 1, transform: 'translate(0, 0) scale(1)' }, { opacity: .65, offset: .45 }, { opacity: 0, transform: `translate(${dx}px, ${dy}px) scale(2.4)` }], { duration: 820, easing: 'cubic-bezier(.2,.65,.25,1)' }),
+      animate(screen, [{ opacity: 1 }, { opacity: 1, offset: .12 }, { opacity: 0 }], { duration: 820, easing: 'ease-in-out' }),
+      ...surfaces.map(surface => animate(surface, [{ opacity: .35, transform: 'scale(1.18)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 820, easing: 'cubic-bezier(.2,.65,.25,1)' })),
     ]);
     if (phase === 'revealing' && cycle === activeCycle) finish();
   }
@@ -74,20 +83,31 @@
     input.blur();
     if (reduced.matches || !prompt.animate) { finish(); return; }
     skip.hidden = false; skip.focus({ preventScroll: true }); sequence.hidden = false;
-    const fade = animate(prompt, [{ opacity: 1 }, { opacity: 0 }], { duration: 180, easing: 'ease-out' });
+    const fade = animate(prompt, [{ opacity: 1 }, { opacity: 0 }], { duration: 160, easing: 'ease-out' });
     const destinations = [[-.1, .15], [.05, -.75], [-.05, .3], [0, -.35], [.1, .5]];
-    const flights = letters.map((letter, i) => animate(letter, [
-      { offset: 0, easing: 'ease-out', opacity: 0, transform: `translate(${(2 - i) * 28}px, 76px) scale(.34) rotate(${(i - 2) * 5}deg)` },
-      { offset: .16, easing: 'cubic-bezier(.22,.7,.26,1)', opacity: 1, transform: `translate(${(2 - i) * 18}px, 42px) scale(.64) rotate(${(i - 2) * 2}deg)` },
-      { offset: .42, opacity: 1, transform: 'translate(0, 0) scale(1) rotate(0deg)' },
-      { offset: .8, easing: 'ease-in', opacity: 1, transform: 'translate(0, 0) scale(1) rotate(0deg)' },
-      { offset: 1, opacity: 0, transform: `translate(${destinations[i][0]}em, ${destinations[i][1]}em) scale(.025) rotate(0deg)` },
-    ], { duration: 1440, delay: i * 60, easing: 'linear' }));
+    const flights = letters.map((letter, i) => {
+      const delay = 160 + i * 85, duration = 1500 - delay;
+      return animate(letter, [
+        { offset: 0, easing: 'steps(1, end)', opacity: 0, transform: 'translate(0, 0) scale(1)' },
+        { offset: .01, opacity: 1, transform: 'translate(0, 0) scale(1)' },
+        { offset: (650 - delay) / duration, opacity: 1, transform: 'translate(0, 0) scale(1)' },
+        { offset: (920 - delay) / duration, easing: 'cubic-bezier(.4,0,.2,1)', opacity: 1, transform: 'translate(0, 0) scale(1)' },
+        { offset: 1, opacity: 0, transform: `translate(${destinations[i][0]}em, ${destinations[i][1]}em) scale(.025)` },
+      ], { duration, delay, easing: 'linear' });
+    });
     const anchors = stars.map((star, i) => animate(star, [
-      { opacity: 0, offset: 0 }, { opacity: 0, offset: .8 }, { opacity: 1, offset: 1 },
-    ], { duration: 1440, delay: i * 60, easing: 'linear' }));
-    const links = animate($('entry-links'), [{ opacity: 0, offset: 0 }, { opacity: 0, offset: .75 }, { opacity: 1, offset: 1 }], { duration: 1680, easing: 'linear' });
-    await Promise.all([fade, ...flights, ...anchors, links]);
+      { opacity: 0, offset: 0 }, { opacity: 0, offset: .68 + i * .025 }, { opacity: 1, offset: 1 },
+    ], { duration: 1500, easing: 'linear' }));
+    const links = animate($('entry-links'), [{ opacity: 0, offset: 0 }, { opacity: 0, offset: .72 }, { opacity: 1, offset: 1 }], { duration: 1500, easing: 'linear' });
+    const field = animate($('entry-field'), [{ opacity: 0, offset: 0 }, { opacity: 0, offset: .78 }, { opacity: 1, offset: 1 }], { duration: 1500, easing: 'linear' });
+    const cursor = animate($('entry-cursor'), [
+      { opacity: 0, transform: 'translateX(0)' },
+      { opacity: 1, transform: 'translateX(0)', offset: .16, easing: 'steps(5, end)' },
+      { opacity: 1, transform: 'translateX(4em)', offset: .585 },
+      { opacity: 1, transform: 'translateX(4em)', offset: .8 },
+      { opacity: 0, transform: 'translateX(4em)' },
+    ], { duration: 1000, easing: 'linear' });
+    await Promise.all([fade, ...flights, ...anchors, links, field, cursor]);
     if (phase === 'opening' && cycle === activeCycle) prepare();
   }
   function returnToEntry() {
