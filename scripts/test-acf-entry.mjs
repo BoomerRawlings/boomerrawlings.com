@@ -5,6 +5,7 @@ import { parse } from 'parse5';
 import * as model from '../public/ACF/model.js';
 import * as regions from '../public/ACF/regions.js';
 import { previewInfo } from '../public/ACF/preview-data.js';
+import { UIMotion } from '../public/ACF/ui-motion.js';
 
 const source = readFileSync(new URL('../public/ACF/entry.js', import.meta.url), 'utf8');
 const appSource = readFileSync(new URL('../public/ACF/app.js', import.meta.url), 'utf8');
@@ -30,7 +31,8 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
   };
   document.hidden = false;
   document.title = markup.match(/<title>(.*?)<\/title>/)[1];
-  const record = (event, detail = {}) => trace.push({ at: now, task, event, activeAnimations: activeAnimations.size, ...detail });
+  const record = (event, detail = {}) => trace.push({ at: now, task, event, activeAnimations: activeAnimations.size,
+    entranceAnimations: [...activeAnimations.values()].filter(target => /^(entry-|atlas-letter-|atlas-gpu-points$|network$)/.test(target)).length, ...detail });
   const schedule = (callback, delay = 0) => {
     const id = ++timerId;
     timers.set(id, { at: now + delay, callback });
@@ -74,10 +76,22 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
     before(child) { const position = this.parentElement.children.indexOf(this); this.parentElement.children.splice(position, 0, child); child.parentElement = this.parentElement; }
     remove() { if (this.parentElement) this.parentElement.children = this.parentElement.children.filter(c => c !== this); this.parentElement = null; }
     close() { this.open = false; this.removeAttribute('open'); }
+    matches(selector) {
+      return selector.split(',').some(part => {
+        const value = part.trim();
+        if (value === '[hidden]') return this.hidden;
+        if (value.startsWith('.')) return this.classList.contains(value.slice(1));
+        if (value.startsWith('#')) return this.id === value.slice(1);
+        return this.tagName === value.toUpperCase();
+      });
+    }
+    closest(selector) { for (let node = this; node; node = node.parentElement) if (node.matches(selector)) return node; return null; }
+    getClientRects() { return this.closest('[hidden]') ? [] : [this.getBoundingClientRect()]; }
     querySelector(selector) {
       const descendants = [...this.children];
       for (let i = 0; i < descendants.length; i++) descendants.push(...descendants[i].children);
       if (selector.startsWith('.')) return descendants.find(n => n.classList.contains(selector.slice(1))) || null;
+      if (/^[a-zA-Z,\s]+$/.test(selector)) return descendants.find(n => n.matches(selector)) || null;
       const attribute = selector.match(/^\[([^=]+)="([^"]*)"\]$/);
       assert(attribute, `Unexpected selector ${selector}`);
       return descendants.find(n => n.getAttribute(attribute[1]) === attribute[2]) || null;
@@ -119,8 +133,11 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
   document.createElement = tag => { record('element:create', { tag }); return new Element(tag); };
   document.createElementNS = (_namespace, tag) => new Element(tag);
   document.querySelectorAll = selector => {
-    assert.equal(selector, 'dialog[open]');
-    return [...ids.values()].filter(n => n.tagName === 'DIALOG' && n.open);
+    if (selector === 'dialog[open]') return [...ids.values()].filter(n => n.tagName === 'DIALOG' && n.open);
+    assert(/^[.#]?[a-zA-Z0-9_-]+$/.test(selector), `Unexpected document selector ${selector}`);
+    const descendants = [...root.children];
+    for (let i = 0; i < descendants.length; i++) descendants.push(...descendants[i].children);
+    return descendants.filter(node => node.matches(selector));
   };
   document.querySelector = selector => document.querySelectorAll(selector)[0] || null;
   const motion = new EventTarget(); motion.matches = reduced;
@@ -137,6 +154,7 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
     },
     setTimeout: (callback, delay) => { record('timer:schedule', { delay: delay || 0 }); return schedule(callback, delay); }, clearTimeout: clear,
   };
+  document.defaultView = { matchMedia: globals.matchMedia };
   runInNewContext(entrySource, globals, { filename: 'public/ACF/entry.js' });
   return {
     $, document, window, motion, trace, history, location,
@@ -161,7 +179,7 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
       }
       class Preview { constructor() { this.card = new Element(); } close() {} }
       const moduleGlobals = {
-        ...globals, ...model, ...regions, AtlasGraph: Graph, NodePreview: Preview, previewInfo,
+        ...globals, ...model, ...regions, AtlasGraph: Graph, NodePreview: Preview, previewInfo, UIMotion,
         URL, URLSearchParams, location, history,
         addEventListener: window.addEventListener.bind(window), performance: { now: () => now },
         AbortSignal: { timeout: () => undefined },
@@ -307,7 +325,9 @@ for (const stage of ['start', 'letters']) for (const interruption of ['skip', 'r
 }
 
 function modelMotionOverlap(h) {
-  return h.trace.filter(step => (step.event === 'model:createIndex' || step.event === 'model:graphData') && step.records > 0 && step.activeAnimations > 0);
+  // Later collection changes intentionally reveal their new UI. This guard
+  // isolates the entrance tracks whose typing must remain free of model work.
+  return h.trace.filter(step => (step.event === 'model:createIndex' || step.event === 'model:graphData') && step.records > 0 && step.entranceAnimations > 0);
 }
 function assertNoModelMotionOverlap(h) {
   assert.equal(modelMotionOverlap(h).length, 0, 'Catalog indexing/graph preparation must not overlap entrance Web Animations');

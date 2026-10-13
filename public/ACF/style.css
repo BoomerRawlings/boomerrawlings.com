@@ -171,3 +171,12 @@ body[data-map-expanded=true] .atlas-panels{grid-template-columns:1fr}body[data-m
 .graph-legend{display:grid;grid-template-columns:repeat(2,max-content);gap:5px 14px}.graph-legend .credit-line{border-color:#65dceb}.graph-legend .recorded-line{border-color:#82e0a4}.graph-legend .inferred-line{border-color:#bc9aff;border-top-style:dashed}.graph-legend .theme-line{border-color:#edb56b;border-top-style:dashed}
 @media(max-width:680px){.atlas-header{height:auto;min-height:90px;display:block;padding:13px 16px 7px}.atlas-brand{font-size:17px;gap:10px;max-width:100%;letter-spacing:.045em}.atlas-emblem{width:32px;height:32px}.atlas-header .header-right{justify-content:space-between;gap:14px;margin-top:5px;padding-left:42px}.dataset-status{max-width:none;font-size:8px}.atlas-header .quiet-button{min-height:25px;padding:3px 0;font-size:10px}.graph-legend{grid-template-columns:repeat(4,max-content);gap:4px 9px;font-size:7px}.graph-legend i{width:12px}.connection-tools button{min-height:38px}.connection-tools span{font-size:8px}}
 @media(max-width:360px){body[data-map-expanded=true] .map-perspectives{top:10px}.atlas-brand{font-size:15px}.graph-legend{grid-template-columns:repeat(2,max-content);gap:3px 16px}.atlas-header{padding-left:14px;padding-right:14px}}
+
+/* One bounded trace leads each semantic reveal; all real text stays accessible. */
+:where(.ui-motion-surface:not(dialog)){position:relative}
+.ui-trace{position:absolute;z-index:3;pointer-events:none;user-select:none;left:0;right:0;top:0;height:16px;border-top:1px solid #75dce9;border-left:1px solid #75dce980;transform-origin:0 0;opacity:0;background:linear-gradient(90deg,#75dce91c,transparent 65%);clip-path:polygon(0 0,100% 0,calc(100% - 12px) 4px,28px 4px,16px 16px,0 16px)}
+.ui-trace:after{content:'';position:absolute;right:0;top:-1px;width:22px;height:2px;background:var(--copper);box-shadow:0 0 9px #e3a481aa}
+.node-preview>.ui-trace,.detail-panel>.ui-trace,dialog>.ui-trace{left:1px;right:1px}
+.region-choice,.view-switch button,.connection-tools button,.record-card,.credit-chip{transition:background-color 160ms ease,border-color 160ms ease,color 160ms ease}
+body[data-ui-motion-paused=true] *,body[data-ui-motion-paused=true] *:before,body[data-ui-motion-paused=true] *:after{transition:none!important}
+@media(prefers-reduced-motion:reduce){.ui-trace{display:none}}

@@ -264,3 +264,23 @@ test('preview drags forward mouse body and touch handle, preserving controls and
   ui.elements.get('preview-zoom').emit('click'); assert.deepEqual(zoomed, [ui.node.id]);
   ui.controller.close(); ui.elements.get('preview-zoom').emit('click'); assert.equal(zoomed.length, 1);
 });
+
+test('preview reveals only new content or a new selection, never repeated camera anchors', () => {
+  const reveals = [], dismissals = [];
+  const ui = previewDOM(() => {}, { onReveal: (card, fields) => reveals.push({ card, fields }), onDismiss: card => dismissals.push(card) });
+  ui.controller.update(ui.node, { x: 100, y: 90 }, 'hover');
+  assert.equal(reveals.length, 1);
+  for (let i = 0; i < 20; i++) ui.controller.update(ui.node, { x: 100 + i, y: 90 }, 'hover');
+  assert.equal(reveals.length, 1, 'Repositioning the existing card must not replay its data');
+  ui.controller.update(ui.node, { x: 140, y: 90 }, 'select');
+  ui.controller.update(ui.node, { x: 140, y: 90 }, 'select');
+  assert.equal(reveals.length, 2, 'Graph onPreview + onSelect share a single reveal');
+  ui.controller.update(ui.next, { x: 140, y: 90 }, 'keyboard');
+  assert.equal(reveals.length, 3);
+  assert.equal(reveals.at(-1).fields[1].textContent, previewInfo(ui.next, ieet).title, 'Complete accessible text precedes the visual reveal');
+  ui.controller.close();
+  assert.equal(dismissals.at(-1), ui.card);
+  assert.equal(ui.card.hidden, true, 'Closing never waits for a visual exit');
+  ui.controller.update(ui.next, { x: 140, y: 90 }, 'select');
+  assert.equal(reveals.length, 4, 'A newly opened card reveals even for the same record');
+});

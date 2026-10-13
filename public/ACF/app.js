@@ -1,7 +1,8 @@
-import { AtlasGraph } from './graph.js?v=futures-20261012';
-import { NodePreview } from './node-preview.js?v=futures-20261012';
-import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=futures-20261012';
-import { getRegions, regionFacets } from './regions.js?v=futures-20261012';
+import { AtlasGraph } from './graph.js?v=territories-20261012';
+import { NodePreview } from './node-preview.js?v=territories-20261012';
+import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=territories-20261012';
+import { getRegions, regionFacets } from './regions.js?v=territories-20261012';
+import { UIMotion } from './ui-motion.js?v=territories-20261012';
 
 const $ = id => document.getElementById(id);
 const number = n => n.toLocaleString();
@@ -17,9 +18,13 @@ let resumePreparation;
 let regionFilters = {}, regionResult = null, regionPageSize = 20, regionNavigationIndex;
 const regionKeys = ['term', 'overlap', 'collection', 'type', 'year', 'person', 'role', 'sort'];
 const regionScope = () => scope?.kind === 'theme';
+const uiMotion = new UIMotion(document, { active: false });
+const revealPanel = (panel, content) => uiMotion.reveal($(panel), { fields: [...$(content).children].filter(node => !node.classList.contains('region-records')) });
 const preview = new NodePreview($('graph-stage'), $('network'), () => index, node => node.scope ? navigate('scope', node.scope) : navigate('item', node.id), {
   onPanStart: event => graph?.pointerDown(event, { panOnly: true }),
   onZoom: node => graph?.focusRecord(node.id),
+  onReveal: (card, fields) => uiMotion.reveal(card, { fields }),
+  onDismiss: card => uiMotion.cancel(card),
 });
 try {
   graph = new AtlasGraph($('network'), {
@@ -149,8 +154,9 @@ function refresh() {
   regionResult = regionScope() ? regionFacets(index, scope.id, { ...regionFilters, query: $('search').value, from: $('year-from').value, to: $('year-to').value, globalType: $('type-filter').value }) : null;
   records = regionResult ? regionResult.records : filterItems(index, filters()); pageSize = 40; regionPageSize = 20;
   renderList(); renderBreadcrumbs(); renderGraph(); renderRegionNavigation();
-  if (regionScope()) renderRegionPanel(); else $('region-panel').hidden = true;
-  $('graph-subtitle').textContent = regionScope() ? 'Bright points match this selection; the full field stays in place. Proximity is illustrative.' : scope?.kind === 'person' ? 'Documented credits. Names may refer to people, groups or publishing accounts.' : 'Explore a title-word region. Boundaries and proximity are illustrative, not a taxonomy.';
+  if (regionScope()) renderRegionPanel(); else { uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; }
+  $('graph-subtitle').textContent = regionScope() ? 'Territories trace clusters of title matches; borders are illustrative. Exact membership is shown by the selection.' : scope?.kind === 'person' ? 'Documented credits. Names may refer to people, groups or publishing accounts.' : 'Explore overlapping subject territories. Shapes trace clusters of title matches; exact membership appears on selection.';
+  uiMotion.reveal($('graph-heading'), { fields: [], mode: 'view' });
   $('atlas-workspace').dataset.updateMs = (performance.now() - began).toFixed(1);
 }
 function renderGraph() {
@@ -179,6 +185,7 @@ function applyLayers() {
   const connected = $('relationships-toggle').checked || $('themes-toggle').checked;
   $('connections-toggle').setAttribute('aria-pressed', String(connected));
   $('connections-toggle').textContent = connected ? 'Hide connections' : 'Show connections';
+  uiMotion.reveal($('connections-toggle'), { key: String(connected), fields: [] });
 }
 function renderRegionNavigation() {
   const data = getRegions(index);
@@ -192,7 +199,12 @@ function renderRegionNavigation() {
     $('region-union').textContent = `${number(data.unionIds.size)} unique title-matched · ${number(data.unmatchedIds.size)} unmatched. Memberships overlap; counts are unique records within each group.`;
     regionNavigationIndex = index;
   }
-  for (const b of $('region-memberships').children) b.setAttribute('aria-pressed', String(regionScope() && scope.id === b.dataset.regionId));
+  for (const b of $('region-memberships').children) {
+    const selected = regionScope() && scope.id === b.dataset.regionId;
+    const changed = b.getAttribute('aria-pressed') !== String(Boolean(selected));
+    b.setAttribute('aria-pressed', String(Boolean(selected)));
+    if (selected && changed) uiMotion.reveal(b);
+  }
 }
 function setRegionFacet(key, value) {
   history.replaceState(viewContext(), '', location.href);
@@ -226,16 +238,23 @@ function facetSelect(key, title, rows, all = 'All') {
 function lazyRegionSection(title, populate) {
   const section = el('details', 'region-section'); section.append(el('summary', '', title));
   let populated = false;
-  section.addEventListener('toggle', () => { if (section.open && !populated) { populated = true; populate(section); } });
+  section.addEventListener('toggle', () => {
+    if (section.open) {
+      if (!populated) { populated = true; populate(section); }
+      uiMotion.reveal(section, { fields: [...section.children].slice(1) });
+    } else uiMotion.cancel(section);
+  });
   return section;
 }
 function regionPagedRows(container, rows, render, size = 12) {
   const list = el('div'), more = button('Show more', () => append(), 'load-more'); let shown = 0;
   const append = () => {
+    const previous = shown;
     const next = Math.min(shown + size, rows.length);
     for (; shown < next; shown++) list.append(render(rows[shown]));
     more.hidden = shown === rows.length;
     more.textContent = `Show ${Math.min(size, rows.length - shown)} more (${number(shown)} of ${number(rows.length)})`;
+    if (previous) uiMotion.reveal(list, { fields: [...list.children].slice(previous) });
   };
   container.append(list, more); append();
 }
@@ -244,13 +263,14 @@ function renderRegionPanel() {
   if (!region || !data) return;
   const regionChanged = $('region-panel').dataset.regionId !== region.id;
   const previousSameRegionOpen = !regionChanged && content.querySelector('.region-filters')?.open;
+  uiMotion.cancel($('region-panel'));
   $('region-panel').hidden = false;
   $('region-panel').dataset.regionId = region.id;
   $('region-panel').dataset.memberCount = String(data.total);
   $('region-panel').dataset.selectedCount = String(records.length);
   content.replaceChildren(el('p', 'detail-kicker', region.id === 'unmatched' ? 'Unmatched titles · preserved' : 'Title-word region · inferred'), el('h2', 'detail-title', region.label));
   content.append(el('p', 'region-total', `${number(records.length)} selected of ${number(data.total)} unique region records. ${number(index.items.length)} record points remain in the field.`));
-  content.append(el('p', 'detail-note', region.id === 'unmatched' ? 'No current English title-keyword match. This includes titles in other languages and ambiguous or missing titles; it does not mean these records lack a theme.' : 'Literal title words determine membership. Boundaries and proximity are illustrative; they establish no objective taxonomy, affiliation, agreement, citation or influence. A record may belong to several regions.'));
+  content.append(el('p', 'detail-note', region.id === 'unmatched' ? 'No current English title-keyword match. This includes titles in other languages and ambiguous or missing titles; it does not mean these records lack a theme.' : 'Territories trace clusters of title matches; borders are illustrative. Exact membership is shown by the selection. Literal title words determine membership, which may overlap; shapes establish no objective taxonomy, affiliation, agreement, citation or influence.'));
   const controls = el('details', 'region-section region-filters');
   controls.open = previousSameRegionOpen || Object.keys(regionFilters).some(key => key !== 'sort');
   controls.append(el('summary', '', 'Combine facets & inspect counts'));
@@ -267,7 +287,10 @@ function renderRegionPanel() {
     }, 'credit-chip');
     clear.id = 'region-clear-facets'; controls.append(grid, clear);
   };
-  controls.addEventListener('toggle', () => { if (controls.open) prepareFacets(); });
+  controls.addEventListener('toggle', () => {
+    if (controls.open) { prepareFacets(); uiMotion.reveal(controls, { fields: [...controls.children].slice(1) }); }
+    else uiMotion.cancel(controls);
+  });
   if (controls.open) prepareFacets();
   content.append(controls);
   const overlaps = el('p', 'region-note', 'Overlaps in selection: ' + (data.overlaps.length ? data.overlaps.map(row => `${row.label} ${number(row.count)}`).join(' · ') : 'none'));
@@ -307,6 +330,7 @@ function renderRegionPanel() {
     });
   }));
   if (regionChanged) $('region-panel').scrollTop = 0;
+  revealPanel('region-panel', 'region-content');
 }
 function recordCard(item) {
   const card = button('', () => navigate('item', item.id), 'record-card');
@@ -317,7 +341,8 @@ function recordCard(item) {
   card.append(el('span', 'record-meta', [item.date ? item.date.slice(0, 10) : item.dateRaw || 'Date unknown', index.catalogById.get(item.catalogId)?.label].filter(Boolean).join(' / ')));
   return card;
 }
-function renderList() {
+function renderList(revealFrom = 0) {
+  uiMotion.cancel($('results'));
   $('results-count').textContent = number(records.length);
   $('results-heading').textContent = scope ? scopeLabel() : 'Explore the collection';
   $('results').replaceChildren(...records.slice(0, pageSize).map(recordCard));
@@ -327,12 +352,14 @@ function renderList() {
   }
   $('load-more').hidden = pageSize >= records.length;
   $('load-more').textContent = `Show ${Math.min(40, Math.max(0, records.length - pageSize))} more records ↓`;
+  uiMotion.reveal($('results'), { fields: [...$('results').children].slice(revealFrom) });
 }
 function clearFilters() { for (const id of ['search', 'type-filter', 'year-from', 'year-to']) $(id).value = ''; scope = null; regionFilters = {}; selection = null; closeDetail(); history.pushState(viewContext(), '', location.pathname); refresh(); }
 function scopeLabel() { return scope?.kind === 'person' ? index.people.get(scope.id)?.name || 'Name not loaded' : regionScope() ? getRegions(index).byId.get(scope.id)?.label || 'Theme' : label(scope?.id); }
 function renderBreadcrumbs() {
   $('breadcrumbs').replaceChildren(button('All connections', clearFilters));
   if (scope) $('breadcrumbs').append(el('span', '', ' / ' + scopeLabel()));
+  uiMotion.reveal($('breadcrumbs'));
 }
 function viewContext() { return { scope, regionFilters: { ...regionFilters }, fields: Object.fromEntries(['search', 'type-filter', 'year-from', 'year-to'].map(id => [id, $(id).value])) }; }
 function navigate(kind, value) {
@@ -349,18 +376,19 @@ function readLocation() {
   if (itemId) {
     scope = history.state?.scope || null; regionFilters = history.state?.regionFilters || {}; refresh();
     if (index.byId.has(itemId)) showItem(index.byId.get(itemId));
-    else if (index.items.length) { openDetail(); $('detail-content').replaceChildren(el('h2', 'detail-title', 'Collection not loaded'), el('p', 'detail-note', 'Load this record’s collection, then reopen the link. Imported records exist only in their original browser session.')); }
+    else if (index.items.length) { openDetail(); $('detail-content').replaceChildren(el('h2', 'detail-title', 'Collection not loaded'), el('p', 'detail-note', 'Load this record’s collection, then reopen the link. Imported records exist only in their original browser session.')); revealPanel('detail', 'detail-content'); }
   } else if (!themeId && personId && index.people.has(personId)) { scope = { kind: 'person', id: personId }; refresh(); showPerson(personId); }
   else if (themeId && getRegions(index).byId.has(themeId)) { scope = { kind: 'theme', id: themeId }; regionFilters = Object.fromEntries(regionKeys.filter(key => params.has(key)).map(key => [key, params.get(key)])); closeDetail(); refresh(); }
   else { scope = null; regionFilters = {}; closeDetail(); refresh(); }
 }
-function openDetail() { preview.close(); $('region-panel').hidden = true; $('detail').hidden = false; }
-function closeDetail() { $('detail').hidden = true; selection = null; $('region-panel').hidden = !regionScope(); }
-function closeRegionDetails() { $('region-panel').hidden = true; const trigger = $('region-memberships').querySelector('[aria-pressed="true"]') || $('search'); trigger.focus({ preventScroll: true }); trigger.scrollIntoView?.({ block: 'nearest', behavior: 'instant' }); }
-function closeRecordDetails() { closeDetail(); (regionScope() ? $('region-close') : $('search')).focus({ preventScroll: true }); }
+function openDetail() { preview.close(); uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; $('detail').hidden = false; }
+function closeDetail() { uiMotion.cancel($('detail')); $('detail').hidden = true; selection = null; $('region-panel').hidden = !regionScope(); }
+function closeRegionDetails() { uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; const trigger = $('region-memberships').querySelector('[aria-pressed="true"]') || $('search'); trigger.focus({ preventScroll: true }); trigger.scrollIntoView?.({ block: 'nearest', behavior: 'instant' }); uiMotion.reveal(trigger, { fields: [] }); }
+function closeRecordDetails() { closeDetail(); (regionScope() ? $('region-close') : $('search')).focus({ preventScroll: true }); if (regionScope()) revealPanel('region-panel', 'region-content'); else uiMotion.reveal($('graph-heading'), { fields: [], mode: 'view' }); }
 function detailSection(title, content) { const section = el('section', 'detail-section'); section.append(el('h3', '', title), ...content); return section; }
 function sourceLinks(urls) { return [...new Set(urls.filter(safeUrl))].slice(0, 30).map((u, i) => link(`${i ? 'Evidence' : 'Open source'} · ${new URL(u).hostname} ↗`, u)); }
 function showItem(item) {
+  uiMotion.cancel($('detail'));
   selection = item.id;
   graph?.focusRecord?.(item.id);
   openDetail();
@@ -389,8 +417,10 @@ function showItem(item) {
   if (item.qualityFlags?.length) content.append(detailSection('Metadata cautions', [el('p', 'detail-note', item.qualityFlags.map(label).join(' · '))]));
   content.append(detailSection('Coverage', [el('p', 'detail-note', `${catalog.snapshot ? `Snapshot ${catalog.snapshot}. ` : ''}${catalog.coverage?.summary || 'Coverage is incomplete.'}`), el('p', 'detail-note', 'Names are source labels, not verified identities. Presence in a catalog does not imply organizational membership or endorsement.')]));
   $('detail-close').focus({ preventScroll: true });
+  revealPanel('detail', 'detail-content');
 }
 function showPerson(id) {
+  uiMotion.cancel($('detail'));
   selection = id; openDetail(); const person = index.people.get(id), credits = index.byPerson.get(id) || [];
   $('detail-content').replaceChildren(el('p', 'detail-kicker', 'Credited name / ' + index.catalogById.get(person.catalogId).label), el('h2', 'detail-title', person.name), el('p', 'detail-note', `${label(person.entityStatus)}. This name label is kept separate from matching names in other catalogs.`), el('p', 'detail-meta', `${number(new Set(credits.map(c => c.itemId)).size)} records with documented credits.`));
   $('detail-content').append(detailSection('Roles in this snapshot', [el('p', 'detail-note', [...new Set(credits.map(c => label(c.role)))].join(' · '))]), detailSection('Credit evidence', sourceLinks(credits.flatMap(c => c.sourceUrls || []).slice(0, 15))));
@@ -398,8 +428,10 @@ function showPerson(id) {
   if (affiliations.length) $('detail-content').append(detailSection('Documented affiliation assertions', affiliations.map(a => { const row = el('div'); row.append(el('p', '', [a.organization, a.role, a.temporalStatus].filter(Boolean).join(' · ')), ...sourceLinks(a.sourceUrls || [])); return row; })));
   $('detail-content').append(el('p', 'detail-note', 'The reading room now shows records credited to this label. Close this panel to explore them.'));
   $('detail-close').focus({ preventScroll: true });
+  revealPanel('detail', 'detail-content');
 }
 function renderCollections() {
+  uiMotion.cancel($('collection-options'));
   const total = directory?.catalogs.reduce((sum, entry) => sum + entry.itemCount, 0) || 0;
   if (!$('load-all-collections') && directory) {
     const all = button(`Load all ${number(total)} records`, async () => {
@@ -409,7 +441,7 @@ function renderCollections() {
         for (const data of allData) catalogs.set(data.catalog.id, data);
         rebuild(); renderCollections(); $('import-status').textContent = `${number(index.items.length)} records searchable. Names remain separate across collections.`;
       } catch { $('import-status').textContent = 'Some collections could not load. Your current view is preserved; try again.'; }
-      finally { all.disabled = false; }
+      finally { all.disabled = false; uiMotion.reveal($('import-status'), { mode: 'view', fields: [] }); }
     }, 'load-more');
     all.id = 'load-all-collections'; $('collection-options').before(all);
   }
@@ -425,10 +457,11 @@ function renderCollections() {
         else catalogs.delete(entry.id);
         rebuild(); $('import-status').textContent = `${number(index.items.length)} records available.`;
       } catch { check.checked = false; $('import-status').textContent = 'Unable to load that collection. Check your connection and try again.'; }
-      finally { check.disabled = false; }
+      finally { check.disabled = false; uiMotion.reveal(row); uiMotion.reveal($('import-status'), { mode: 'view', fields: [] }); }
     });
     return row;
   }));
+  uiMotion.reveal($('collection-options'));
 }
 $('import-file').addEventListener('change', async event => {
   if (!initialized) { $('import-status').textContent = 'Finish loading the public collections before importing local metadata.'; event.target.value = ''; return; }
@@ -447,13 +480,19 @@ $('import-file').addEventListener('change', async event => {
     $('import-status').textContent = `${number(data.items.length)} records added. Stored in memory for this session only.`;
   } catch (error) { $('import-status').textContent = error instanceof SyntaxError ? 'The file is not valid JSON. Use the example format below.' : error.message; }
   event.target.value = '';
+  uiMotion.reveal($('import-status'), { mode: 'view', fields: [] });
 });
 
 let debounce;
 for (const id of ['search', 'year-from', 'year-to']) $(id).addEventListener('input', () => { clearTimeout(debounce); debounce = setTimeout(refresh, 160); });
 for (const id of ['type-filter', 'year-from', 'year-to']) $(id).addEventListener('change', () => { clearTimeout(debounce); refresh(); });
-for (const id of ['names-toggle', 'labels-toggle', 'relationships-toggle', 'regions-toggle', 'themes-toggle']) $(id).addEventListener('change', applyLayers);
-$('load-more').addEventListener('click', () => { const previous = pageSize; pageSize += 40; renderList(); $('results').children[previous]?.focus({ preventScroll: true }); });
+for (const id of ['names-toggle', 'labels-toggle', 'relationships-toggle', 'regions-toggle', 'themes-toggle']) $(id).addEventListener('change', event => { applyLayers(); uiMotion.reveal(event.currentTarget.closest('label'), { fields: [] }); });
+const layerControls = document.querySelector('.map-layers');
+layerControls?.addEventListener('toggle', () => {
+  if (layerControls.open) uiMotion.reveal(layerControls, { fields: [...layerControls.children].slice(1) });
+  else uiMotion.cancel(layerControls);
+});
+$('load-more').addEventListener('click', () => { const previous = pageSize; pageSize += 40; renderList(previous); $('results').children[previous]?.focus({ preventScroll: true }); });
 $('detail-close').addEventListener('click', closeRecordDetails);
 $('region-close').addEventListener('click', closeRegionDetails);
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !document.querySelector('dialog[open]')) { preview.close(preview.card.contains(document.activeElement)); if (!$('detail').hidden) closeRecordDetails(); else if (!$('region-panel').hidden) closeRegionDetails(); } });
@@ -476,14 +515,24 @@ function expandMap(expanded) {
   preview.close(); document.body.dataset.mapExpanded = String(expanded);
   $('expand-map').textContent = expanded ? 'Restore layout' : 'Expand map'; $('expand-map').setAttribute('aria-pressed', String(expanded));
   graph?.measure?.();
+  uiMotion.reveal($('graph-stage'), { fields: [], mode: 'view' });
+  if (!expanded) uiMotion.reveal($('region-memberships'));
 }
 $('expand-map').addEventListener('click', () => expandMap(document.body.dataset.mapExpanded !== 'true'));
-$('motion-toggle').addEventListener('click', () => { const paused = graph?.toggleMotion(); $('motion-toggle').setAttribute('aria-pressed', String(Boolean(paused))); $('motion-toggle').setAttribute('aria-label', paused ? 'Resume map motion' : 'Pause map motion'); });
-for (const view of ['map', 'list']) $(view + '-view').addEventListener('click', () => { if (view === 'list') expandMap(false); document.body.dataset.view = view; for (const v of ['map', 'list']) $(v + '-view').setAttribute('aria-pressed', String(v === view)); graph?.setActive(active && view === 'map'); });
+$('motion-toggle').addEventListener('click', () => { const paused = graph ? graph.toggleMotion() : !uiMotion.paused; uiMotion.setPaused(paused); $('motion-toggle').setAttribute('aria-pressed', String(Boolean(paused))); $('motion-toggle').setAttribute('aria-label', paused ? 'Resume motion' : 'Pause motion'); });
+for (const view of ['map', 'list']) $(view + '-view').addEventListener('click', () => {
+  if (view === 'list') { expandMap(false); uiMotion.cancel($('graph-stage')); }
+  else uiMotion.cancel($('results'));
+  document.body.dataset.view = view;
+  for (const v of ['map', 'list']) $(v + '-view').setAttribute('aria-pressed', String(v === view));
+  graph?.setActive(active && view === 'map');
+  uiMotion.reveal(view === 'list' ? $('results') : $('graph-stage'), { ...(view === 'map' ? { fields: [] } : {}), mode: 'view' });
+});
 for (const name of ['collections', 'about']) {
-  $(name + '-open').addEventListener('click', () => { preview.close(); $(name + '-dialog').showModal(); });
+  $(name + '-open').addEventListener('click', () => { preview.close(); $(name + '-dialog').showModal(); uiMotion.reveal($(name + '-dialog')); });
+  $(name + '-dialog').addEventListener('close', () => { uiMotion.cancel($(name + '-dialog')); uiMotion.reveal($(name + '-open'), { fields: [] }); });
   $(name + '-dialog').addEventListener('click', event => { if (event.target === event.currentTarget) { const rect = event.currentTarget.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) event.currentTarget.close(); } });
 }
 addEventListener('popstate', readLocation);
-document.addEventListener('acf:enter', () => { active = true; start(); });
-document.addEventListener('acf:exit', () => { active = false; graph?.setActive(false); });
+document.addEventListener('acf:enter', () => { active = true; uiMotion.setActive(true); start(); });
+document.addEventListener('acf:exit', () => { active = false; uiMotion.setActive(false); graph?.setActive(false); });

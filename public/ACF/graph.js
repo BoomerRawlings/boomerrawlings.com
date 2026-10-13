@@ -1,6 +1,7 @@
-import { SpatialGrid } from './graph-spatial.js?v=futures-20261012';
-import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=futures-20261012';
-import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=futures-20261012';
+import { SpatialGrid } from './graph-spatial.js?v=territories-20261012';
+import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=territories-20261012';
+import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=territories-20261012';
+import { buildTerritory } from './territory-geometry.js?v=territories-20261012';
 
 const COLORS = { hub: '#d89976', item: '#a9c9db', person: '#aaa4d0' };
 const REGION_COLORS = ['#90c2d1', '#c5a5cc', '#d6ac7f', '#9ebd92', '#94a8d3', '#c7bb82'];
@@ -61,6 +62,8 @@ export class AtlasGraph {
     this.frame = null;
     this.animationUntil = 0;
     this.connectionPulse = null;
+    this.territoryReveal = null;
+    this.selectionReveal = null;
     this.cameraFlight = null;
     this.flowTime = 0;
     this.flowClock = null;
@@ -110,13 +113,15 @@ export class AtlasGraph {
     }, { signal });
     canvas.addEventListener('blur', () => this.requestDraw(), { signal });
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) { this.dismissPreview('layout'); this.animationUntil = 0; this.flowClock = null; this.cancelFrame(); }
+      if (document.hidden) { this.dismissPreview('layout'); this.animationUntil = 0; this.territoryReveal = null; this.flowClock = null; this.cancelFrame(); }
       else this.requestDraw();
     }, { signal });
     this.motion.addEventListener('change', () => {
       if (this.motion.matches) this.advanceCamera(Infinity);
       this.animationUntil = 0;
       this.connectionPulse = null;
+      this.territoryReveal = null;
+      this.selectionReveal = null;
       this.flowClock = null;
       if (!this.motion.matches && this.renderer.backend === 'webgl') this.startConnectionPulse(this.selected);
       this.requestDraw();
@@ -146,7 +151,10 @@ export class AtlasGraph {
     this.nodes = [...this.byId.values()];
     this.edges = edges.filter(edge => edge && this.byId.has(String(edge.from)) && this.byId.has(String(edge.to)))
       .map(edge => ({ ...edge, from: String(edge.from), to: String(edge.to) }));
-    this.regions = regions.map((region, i) => ({ ...region, color: REGION_COLORS[i % REGION_COLORS.length] }));
+    this.regions = regions.map((region, i) => ({ ...region, color: REGION_COLORS[i % REGION_COLORS.length], members: new Set(region.memberIds || []), territory: buildTerritory(region, this.byId) }));
+    this.territoryReveal = null;
+    this.selectionReveal = null;
+    this.canvas.dataset.territoryCount = String(this.regions.filter(region => region.territory).length);
     this.regionNodes = this.nodes.filter(node => node.kind === 'hub');
     for (const region of this.regions) { const node = this.byId.get(region.id); if (node) node.color = region.color; }
     this.fixedBounds = bounds && ['left', 'right', 'top', 'bottom'].every(key => Number.isFinite(bounds[key])) ? bounds : null;
@@ -194,14 +202,17 @@ export class AtlasGraph {
     if (this.destroyed) return;
     const selection = memberIds == null ? null : new Set([...memberIds].map(String).filter(value => this.byId.get(value)?.kind === 'item'));
     const same = selection === null ? this.regionSelection === null : this.regionSelection !== null && selection.size === this.regionSelection.size && [...selection].every(value => this.regionSelection.has(value));
+    const previousRegion = this.regionSelectionMeta.id;
     this.regionSelectionMeta = selection === null ? {} : { id: String(id), label: String(label), total: Math.max(selection.size, finite(total, selection.size)) };
     if (!same) { this.regionSelection = selection; this.renderer.setRegionSelection(selection); }
+    if (!same || previousRegion !== this.regionSelectionMeta.id) this.startTerritoryReveal(selection === null ? null : String(id));
     this.labelsDirty = true;
     this.requestDraw();
     if (!this.ctx) this.publishStatus({ backend: 'unavailable', submittedRecords: 0, submittedNames: 0, drawnPoints: 0, submittedEdges: 0, drawnEdges: 0 });
   }
 
   setLayers(layers = {}) {
+    const regionsVisible = this.layers.regions;
     let changed = false;
     for (const key of Object.keys(this.layers)) if (typeof layers[key] === 'boolean' && layers[key] !== this.layers[key]) { this.layers[key] = layers[key]; changed = true; }
     if (!changed || this.destroyed) return;
@@ -210,6 +221,8 @@ export class AtlasGraph {
     this.screenKey = '';
     this.dismissPreview('layout');
     this.startConnectionPulse();
+    if (!this.layers.regions) this.territoryReveal = null;
+    else if (!regionsVisible) this.startTerritoryReveal();
     this.requestDraw();
   }
 
@@ -252,11 +265,12 @@ export class AtlasGraph {
     this.renderer.setActive(this.active);
     if (this.active) {
       this.measure();
-      if (!wasActive) this.startConnectionPulse();
+      if (!wasActive) { this.startConnectionPulse(); this.startTerritoryReveal(); }
       this.requestDraw(true);
     } else {
       this.cancelFrame();
       this.animationUntil = 0;
+      this.territoryReveal = null;
       this.flowClock = null;
       this.pointers.clear();
       this.hovered = null;
@@ -354,6 +368,8 @@ export class AtlasGraph {
     if (this.paused) this.advanceCamera(Infinity);
     this.animationUntil = 0;
     this.connectionPulse = null;
+    this.territoryReveal = null;
+    this.selectionReveal = null;
     this.flowClock = null;
     if (!this.paused && this.renderer.backend === 'webgl') this.startConnectionPulse(this.selected);
     this.requestDraw(!this.paused);
@@ -570,6 +586,7 @@ export class AtlasGraph {
     if (!node) { this.dismissPreview('dismiss'); this.requestDraw(); return; }
     const center = this.viewportCenter();
     this.cameraFlight = null;
+    this.selectionReveal = null;
     this.hovered = null;
     this.labelBoxes = [];
     this.labelPlans = [];
@@ -594,6 +611,8 @@ export class AtlasGraph {
   finishSelection(node, reason) {
     this.emitPreview(node, reason);
     this.startConnectionPulse(node.id);
+    this.startTerritoryReveal(node.id);
+    this.selectionReveal = this.active && !document.hidden && !this.paused && !this.motion.matches ? { nodeId: node.id, started: performance.now(), duration: 620 } : null;
     this.requestDraw(true);
     this.onSelect(node, this.anchor(node));
   }
@@ -635,6 +654,7 @@ export class AtlasGraph {
   dismissPreview(reason = 'layout') {
     this.cameraFlight = null;
     this.connectionPulse = null;
+    this.selectionReveal = null;
     this.hovered = null;
     this.keyboardId = null;
     this.selected = null;
@@ -657,6 +677,15 @@ export class AtlasGraph {
     }
     if (!edges.length) return;
     this.connectionPulse = { started: performance.now(), duration: 2600, nodeId, edges };
+    this.requestDraw();
+  }
+
+  startTerritoryReveal(nodeId = null) {
+    this.territoryReveal = null;
+    if (!this.active || this.destroyed || document.hidden || this.paused || this.motion.matches || !this.layers.regions) return;
+    const ids = this.regions.filter(region => region.territory && (nodeId === null || region.id === nodeId || region.themeId === nodeId || region.members.has(nodeId))).map(region => region.id);
+    if (!ids.length) return;
+    this.territoryReveal = { ids: new Set(ids), started: performance.now(), duration: 920 };
     this.requestDraw();
   }
 
@@ -809,6 +838,10 @@ export class AtlasGraph {
     const points = this.renderer.backend === 'webgl' ? new Map(this.screenPoints) : this.routePoints;
     const edges = this.visibleEdges;
     const emphasis = this.hovered || this.keyboardId || this.selected;
+    let selectionReveal = this.selectionReveal;
+    if (selectionReveal && (time >= selectionReveal.started + selectionReveal.duration || this.paused || this.motion.matches || selectionReveal.nodeId !== this.selected)) { this.selectionReveal = null; selectionReveal = null; }
+    const acquisition = selectionReveal ? clamp((time - selectionReveal.started) / selectionReveal.duration, 0, 1) : 1;
+    const routeReveal = selectionReveal?.nodeId === emphasis ? 1 - (1 - acquisition) ** 3 : 1;
     const focusPoint = this.project(this.byId.get(emphasis)); if (focusPoint) points.set(emphasis, focusPoint);
     const selectedEdges = [];
     if (emphasis && (this.layers.relationships || this.layers.inferred)) for (const edge of this.adjacency.get(emphasis) || []) {
@@ -821,7 +854,7 @@ export class AtlasGraph {
       const a = this.project(this.byId.get(edge.from), true), b = this.project(this.byId.get(edge.to), true);
       if (a && b) { points.set(a.id, a); points.set(b.id, b); }
     }
-    if (this.layers.regions) this.paintRegions(ctx);
+    const revealingTerritories = this.layers.regions && this.paintRegions(ctx, time);
     ctx.lineCap = 'round';
     const displayedEdges = this.displayedEdges;
     if (this.renderer.backend !== 'webgl' && (this.layers.relationships || this.layers.inferred)) {
@@ -847,7 +880,7 @@ export class AtlasGraph {
         ctx.strokeStyle = regionRGBA(style.color, 0.64);
         ctx.lineWidth = 1.05;
         ctx.setLineDash(style.inferred ? [3, 5] : []);
-        for (const edge of selectedEdges) if (routeStyle(edge) === style) this.edgePath(ctx, points.get(edge.from), points.get(edge.to), edge);
+        for (const edge of selectedEdges) if (routeStyle(edge) === style) this.edgePath(ctx, points.get(edge.from), points.get(edge.to), edge, routeReveal, emphasis);
         ctx.stroke();
       }
       ctx.setLineDash([]);
@@ -882,6 +915,17 @@ export class AtlasGraph {
         ctx.arc(node.sx, node.sy, node.radius + 4 + settle, 0, Math.PI * 2);
         ctx.stroke();
       }
+      if (selectionReveal?.nodeId === node.id) {
+        ctx.strokeStyle = regionRGBA(color, (1 - acquisition) * 0.85); ctx.lineWidth = 1;
+        const radius = node.radius + 7 + (1 - acquisition) * 18;
+        ctx.beginPath();
+        for (let i = 0; i < 3; i++) {
+          const angle = i * Math.PI * 2 / 3 + acquisition * 0.55, sweep = 0.22 + acquisition * 1.45;
+          ctx.moveTo(node.sx + Math.cos(angle) * radius, node.sy + Math.sin(angle) * radius);
+          ctx.arc(node.sx, node.sy, radius, angle, angle + sweep);
+        }
+        ctx.stroke();
+      }
     }
     if (this.labelsDirty) {
       this.previousLabelBoxes = new Map(this.labelBoxes.map(box => [box.id, box]));
@@ -912,8 +956,11 @@ export class AtlasGraph {
     this.canvas.dataset.renderRevision = String((Number(this.canvas.dataset.renderRevision) || 0) + 1);
     this.canvas.dataset.cameraMoving = String(Boolean(this.cameraFlight));
     this.canvas.dataset.routesFlowing = String(flowing);
+    this.canvas.dataset.territoriesRevealing = String(Boolean(revealingTerritories));
+    this.canvas.dataset.selectionRevealing = String(Boolean(selectionReveal));
+    this.canvas.dataset.selectionRevealProgress = String(routeReveal);
     if (flying) this.requestDraw();
-    else if (settling || highlighting || flowing) this.requestDraw(false, true);
+    else if (settling || highlighting || flowing || revealingTerritories || selectionReveal) this.requestDraw(false, true);
   }
 
   publishStatus(drawStats) {
@@ -929,27 +976,68 @@ export class AtlasGraph {
     this.available = available;
   }
 
-  paintRegions(ctx) {
+  paintRegions(ctx, time) {
+    let reveal = this.territoryReveal;
+    if (reveal && (time >= reveal.started + reveal.duration || this.paused || this.motion.matches)) { this.territoryReveal = null; reveal = null; }
+    const trace = (points, progress = 1) => {
+      const count = points.length, length = count * progress, first = this.anchor(points[0]);
+      ctx.moveTo(first.x, first.y);
+      for (let i = 1; i <= Math.floor(length); i++) { const point = this.anchor(points[i % count]); ctx.lineTo(point.x, point.y); }
+      if (progress < 1) {
+        const index = Math.floor(length), a = points[index % count], b = points[(index + 1) % count], amount = length - index;
+        const point = this.anchor({ x: a.x + (b.x - a.x) * amount, y: a.y + (b.y - a.y) * amount }); ctx.lineTo(point.x, point.y);
+      } else ctx.closePath();
+    };
     for (const region of this.regions) {
-      if (region.count === 0) continue;
-      if (![region.x, region.y, region.radiusX, region.radiusY].every(Number.isFinite)) continue;
-      const anchor = this.anchor(region);
-      const selected = this.regionSelectionMeta.id === region.id || this.regionSelectionMeta.id === region.themeId;
-      // A small fixed number of overlapping illustrative bands, never derived record membership.
-      for (const band of [1, 0.94, 0.88]) {
-        ctx.beginPath(); ctx.ellipse(anchor.x, anchor.y, Math.abs(region.radiusX * this.scale * band), Math.abs(region.radiusY * this.scale * band), 0, 0, Math.PI * 2);
-        ctx.fillStyle = regionRGBA(region.color, selected ? 0.025 : 0.013); ctx.fill();
-        ctx.strokeStyle = regionRGBA(region.color, band === 1 ? selected ? 0.58 : 0.25 : 0.05); ctx.lineWidth = selected && band === 1 ? 1.5 : 1; ctx.setLineDash(band === 1 ? [4, 7] : []); ctx.stroke();
+      const territory = region.territory;
+      if (!territory) continue;
+      const bounds = territory.bounds;
+      if (bounds.right * this.scale + this.pan.x < -12 || bounds.left * this.scale + this.pan.x > this.width + 12 || bounds.bottom * this.scale + this.pan.y < -12 || bounds.top * this.scale + this.pan.y > this.height + 12) continue;
+      const selected = this.regionSelectionMeta.id === region.id || this.regionSelectionMeta.id === region.themeId || this.selected === region.id || region.members.has(this.selected);
+      const rawProgress = reveal?.ids.has(region.id) ? clamp((time - reveal.started) / reveal.duration, 0, 1) : 1;
+      const progress = 1 - (1 - rawProgress) ** 3, opacity = 0.35 + progress * 0.65;
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      for (const loop of territory.outer) trace(loop.points);
+      ctx.fillStyle = regionRGBA(region.color, (selected ? 0.105 : 0.075) * opacity); ctx.fill('evenodd');
+      ctx.beginPath();
+      for (const loop of territory.outer) trace(loop.points, progress);
+      // Layered narrow strokes soften the rim without a per-frame blur/filter.
+      ctx.strokeStyle = regionRGBA(region.color, (selected ? 0.065 : 0.035) * opacity); ctx.lineWidth = selected ? 10 : 7; ctx.stroke();
+      ctx.strokeStyle = regionRGBA(region.color, (selected ? 0.17 : 0.09) * opacity); ctx.lineWidth = 3; ctx.stroke();
+      ctx.strokeStyle = regionRGBA(region.color, (selected ? 0.77 : 0.55) * opacity); ctx.lineWidth = selected ? 1.25 : 0.85; ctx.stroke();
+      ctx.beginPath();
+      for (const loop of territory.outer) {
+        const count = loop.points.length;
+        trace(loop.rim, progress);
+        for (let i = 0; i < Math.floor(count * progress); i += 4) {
+          const a = this.anchor(loop.points[i]), b = this.anchor(loop.rim[i]), c = this.anchor(loop.points[(i + 4) % count]);
+          ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.lineTo(c.x, c.y);
+        }
       }
+      ctx.strokeStyle = regionRGBA(region.color, (selected ? 0.26 : 0.17) * opacity); ctx.lineWidth = 0.6; ctx.stroke();
+      ctx.beginPath();
+      for (const loop of territory.inner) trace(loop.points, progress);
+      ctx.strokeStyle = regionRGBA(region.color, (selected ? 0.16 : 0.075) * opacity); ctx.lineWidth = 0.65; ctx.stroke();
     }
     ctx.setLineDash([]);
+    return Boolean(reveal);
   }
 
-  edgePath(ctx, a, b, edge) {
+  edgePath(ctx, a, b, edge, progress = 1, originId = edge.from) {
     const route = this.renderer.routeFor(edge);
-    ctx.moveTo(a.sx, a.sy);
-    if (route) for (let i = 1; i < route.points.length; i++) { const anchor = this.anchor(route.points[i]); ctx.lineTo(anchor.x, anchor.y); }
-    else ctx.lineTo(b.sx, b.sy);
+    const reversed = originId === edge.to, start = reversed ? b : a, end = reversed ? a : b;
+    ctx.moveTo(start.sx, start.sy);
+    if (route) {
+      const points = reversed ? [...route.points].reverse() : route.points;
+      let remaining = route.length * progress;
+      for (let i = 1; i < points.length; i++) {
+        const from = points[i - 1], to = points[i], length = Math.hypot(to.x - from.x, to.y - from.y), fraction = length ? Math.min(1, remaining / length) : 1;
+        const anchor = this.anchor({ x: from.x + (to.x - from.x) * fraction, y: from.y + (to.y - from.y) * fraction }); ctx.lineTo(anchor.x, anchor.y);
+        remaining -= length;
+        if (remaining <= 0) break;
+      }
+    } else ctx.lineTo(start.sx + (end.sx - start.sx) * progress, start.sy + (end.sy - start.sy) * progress);
   }
 
   labelExclusions() {
@@ -1079,6 +1167,6 @@ export class AtlasGraph {
     this.adjacency.clear();
     this.spatial = new SpatialGrid();
     this.focusOrder = []; this.labelOrder = { item: [], hub: [] };
-    this.regionNodes = []; this.regions = []; this.regionSelection = null; this.regionSelectionMeta = {};
+    this.regionNodes = []; this.regions = []; this.territoryReveal = null; this.regionSelection = null; this.regionSelectionMeta = {};
   }
 }

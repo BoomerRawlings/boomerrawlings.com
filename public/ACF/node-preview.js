@@ -1,9 +1,10 @@
-import { previewInfo, previewPlacement } from './preview-data.js?v=futures-20261012';
+import { previewInfo, previewPlacement } from './preview-data.js?v=territories-20261012';
 
 /** One accessible card shared by pointer, touch and keyboard exploration. */
 export class NodePreview {
-  constructor(stage, canvas, getIndex, onOpen, { onPanStart, onZoom } = {}) {
+  constructor(stage, canvas, getIndex, onOpen, { onPanStart, onZoom, onReveal, onDismiss } = {}) {
     this.stage = stage; this.canvas = canvas; this.getIndex = getIndex; this.onOpen = onOpen;
+    this.onReveal = onReveal; this.onDismiss = onDismiss;
     this.card = stage.querySelector('#node-preview');
     this.announcement = stage.querySelector('#preview-announcement');
     this.fields = Object.fromEntries(['kind', 'title', 'collection', 'meta', 'context', 'open'].map(key => [key, stage.querySelector('#preview-' + key)]));
@@ -36,6 +37,7 @@ export class NodePreview {
     }
     if (this.restoringFocus || (this.pinned && reason === 'hover')) return;
     this.cancelHide();
+    const changed = this.card.hidden || this.node?.id !== node.id || (!this.pinned && reason !== 'hover');
     if (this.node?.id !== node.id) this.card.scrollTop = 0;
     this.node = node;
     this.pinned = reason === 'select' || reason === 'keyboard';
@@ -50,9 +52,11 @@ export class NodePreview {
     const position = previewPlacement({ x: (anchor?.x ?? canvas.width / 2) + canvas.left - stage.left, y: (anchor?.y ?? canvas.height / 2) + canvas.top - stage.top }, this.card.getBoundingClientRect(), stage);
     this.card.style.left = position.x + 'px';
     this.card.style.top = position.y + 'px';
+    if (changed) this.onReveal?.(this.card, Object.values(this.fields));
     if (reason !== 'hover') this.announcement.textContent = [info.title, info.collection, info.meta, info.context].filter(Boolean).join('. ');
   }
   close(restoreFocus = false) {
+    this.onDismiss?.(this.card);
     this.cancelHide(); this.card.hidden = true; this.node = null; this.pinned = false; this.overCard = false;
     this.announcement.textContent = '';
     if (restoreFocus) {

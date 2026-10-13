@@ -1,6 +1,17 @@
 # Project state
 
-## Futuristic entrance and flowing routes — active
+## Organic subject territories and interface motion — active
+
+- Mode: continuation. User requests amorphous translucent subject regions like supplied reference and coordinated futuristic line/data reveals for UI changes and selections. Existing publishing scope continues.
+- Baseline9d07d49 verified equal to origin/main. Preserve prior final checkpoint and all catalog data/coordinates.
+- Plan: cached member-derived irregular territory contours with overlapping translucent fill/mesh; bounded boundary tracing on selection. Coordinated panel, metadata, list, dialog and view reveals; immediate access and cancellable transitions.
+- Decisions: shapes illustrate existing title-keyword memberships, not literal exclusive borders; full field and exact selection masks stay intact. Respect reduced motion, pause, visibility, focus, scrolling and drag interruption. No per-frame geometry construction or character-by-character DOM churn.
+- Implemented: cached density contours, disconnected islands, translucent fill/rim/mesh;920ms territory traces and620ms selected routes/acquisition rings. UI traces and staged fields finish within573ms; semantic dedup/cancellation, fulltext and stationary controls preserved. Cache territories-20261012.
+- Validation:105/105 ACF groups including61 entrance,49 graph and10 UI-motion cases;47-page build/static pass. Independent review clear. Real1280/320 browser checks: region/facet replacement, scroll/focus, dialogs, pause, click→drag interruption,25sample route/text reveal, Canvas fullfield and completeList33945. GPUdata/buffer proof retained in sibling .acf-qa/territories-browser-proof.md/.json; no source/data changes.
+- Next: one scoped production push, LinuxCI/Pages, livehash and cached/fresh browser verification. Canvas remains slower; CPUsubmission/viewport tests do not establish GPUFPS or physical-device performance.
+
+
+## Futuristic entrance and flowing routes — complete
 
 - Mode: continuation. User requests unified full-title logo, typed ATLAS → loose constellation → smoothly revealed universe, smooth click panning and angular flowing connections colored by type with faster documented/slower inferred travel. Screenshot is visual reference.
 - Baseline 90c64ec verified equal to origin/main; previous completion checkpoint preserved. Same authorized public /ACF/ scope; data and other routes unchanged.
@@ -8,7 +19,9 @@
 - Decisions: flow speed represents recorded vs inferred categories, not invented numerical probabilities or causal direction. Preserve all 33,945 record positions and independent layer controls. Canvas keeps bounded flow work because fallback is slower.
 - Validation: ACF90/90 groups including61 entrance cases, graph45/45 and renderer7/7;47-page build/static verifier pass. Actual1280/390/320 entrance, camera interruption, popup panning, layout/nooverflow, pause and Canvas/List checks completed.
 - Evidence: sibling .acf-qa/futures-entry-proof.md/.json verifies42 identical GPU/overlay samples and14 monotonic reveal samples; futures-gpu-proof.md/.json verifies every33945record and73320enabled angular routes, preserved geometry/buffers, four colors/speeds, camera center error effectively0. Finalselected overlay bounded48paths/12flowing highlights; pause verified at320. Canvas remains slower; CPU submission evidence is not GPU FPS or physical-device performance.
-- Next: one scoped publish, Linux CI/Pages, live hash and cached/fresh browser verification. Local QA evidence/probes remain unshipped.
+- Live: release9d07d49ee2bb9cf86f00d6f79b5a866a5b92eb0f; Pages38344600040 full Linux CI/build/deploy passed. All12live JS/CSS hashes match canonical Git/tested build text; neutral title, no probes and LEO200 verified.
+- Live browser:17snapshots at1280/390/320; cachedstars→futures reload and fresh entrance; typed/constellation/blended reveal screenshots; intermediate camera movement then arrival; selected48paths/12flow highlights; preview-header panning, pause and nooverflow. No console errors. Evidence: .acf-qa/futures-release-report.md, futures-live-browser.json, futures-live-verification.json and futures-pages-run.json; clean final screenshot futures-live-connections.jpg.
+- Next: none required. QA server stopped, temporary tabs closed, viewport reset; live map retained. Final checkpoint local to avoid another production push.
 
 ## Star centering, panning and distant views — complete
 

@@ -3,6 +3,7 @@ import { test } from 'node:test';
 import { AtlasGraph } from '../public/ACF/graph.js';
 import { routeOpacity } from '../public/ACF/graph-renderer.js';
 import { routeStyle, routePointAt } from '../public/ACF/route-style.js';
+import { buildTerritory } from '../public/ACF/territory-geometry.js';
 
 function fakeGL() {
   let id = 0, buffer = null, program = null;
@@ -142,6 +143,126 @@ function fixture(count = 500) {
   const edges = nodes.slice(1).map((node, i) => ({ from: nodes[0].id, to: node.id, inferred: i % 3 === 0 }));
   return { nodes, edges };
 }
+
+function territoryFixture() {
+  const nodes = [];
+  for (const [lobe, cx, cy, radius] of [[0, -145, -35, 85], [1, 135, 0, 105], [2, 20, 145, 65]]) {
+    for (let i = 0; i < 90; i++) {
+      const angle = i * 2.39996, distance = Math.sqrt((i + 1) / 90) * radius;
+      nodes.push({ id: `member-${lobe}-${i}`, kind: 'item', label: `Publication ${lobe}-${i}`, x: cx + Math.cos(angle) * distance, y: cy + Math.sin(angle) * distance });
+    }
+  }
+  for (let i = 0; i < 50; i++) nodes.push({ id: `bridge-${i}`, kind: 'item', label: `Bridge ${i}`, x: -145 + i * 5.7, y: Math.sin(i) * 24 });
+  nodes.push({ id: '@theme:organic', kind: 'hub', label: 'Organic subject', x: 0, y: 0, count: 320 });
+  const memberIds = nodes.filter(node => node.kind === 'item').map(node => node.id);
+  return { nodes, edges: nodes.slice(0, 12).map(node => ({ from: '@theme:organic', to: node.id, inferred: true, type: 'theme' })), regions: [{ id: '@theme:organic', themeId: 'organic', label: 'Organic subject', x: 0, y: 0, count: memberIds.length, memberIds }] };
+}
+
+test('territories follow actual lobes, retain disconnected islands and are stable under member order', () => {
+  const data = territoryFixture(), before = JSON.stringify(data), byId = new Map(data.nodes.map(node => [node.id, node]));
+  const region = data.regions[0], territory = buildTerritory(region, byId);
+  assert.equal(territory.memberCount, 320);
+  assert.ok(territory.gridCells <= 67 * 67, 'density work is bounded independently of the record count');
+  assert.ok(territory.outer.length && territory.inner.length, 'both membrane and density contours exist');
+  const points = territory.outer[0].points;
+  let positive = 0, negative = 0;
+  for (let i = 0; i < points.length; i++) {
+    const a = points[i], b = points[(i + 1) % points.length], c = points[(i + 2) % points.length];
+    const cross = (b.x - a.x) * (c.y - b.y) - (b.y - a.y) * (c.x - b.x);
+    if (cross > 1e-6) positive++;
+    if (cross < -1e-6) negative++;
+  }
+  assert.ok(positive > 4 && negative > 4, 'a lobed member distribution produces a concave contour, not an ellipse');
+  assert.deepEqual(buildTerritory({ ...region, memberIds: [...region.memberIds].reverse().concat(region.memberIds[0]) }, byId), territory, 'ordering/duplicate member IDs cannot change the shape');
+  for (const loop of [...territory.outer, ...territory.inner]) {
+    assert.ok(loop.points.length >= 24 && loop.points.length <= 240, 'cached paths have bounded drawing cost');
+    assert.equal(loop.rim.length, loop.points.length);
+    for (const point of [...loop.points, ...loop.rim]) {
+      assert.ok(Number.isFinite(point.x) && Number.isFinite(point.y));
+      assert.ok(point.x >= territory.bounds.left && point.x <= territory.bounds.right && point.y >= territory.bounds.top && point.y <= territory.bounds.bottom);
+    }
+  }
+  const sparse = new Map([['a', { id: 'a', kind: 'item', x: -500, y: 0 }], ['b', { id: 'b', kind: 'item', x: 500, y: 0 }]]);
+  assert.equal(buildTerritory({ memberIds: ['a', 'b'] }, sparse).outer.length, 2, 'distant sparse clusters remain separate islands');
+  assert.equal(buildTerritory({ memberIds: ['a'] }, sparse).outer.length, 1, 'one actual member has a finite local bubble');
+  assert.equal(buildTerritory({ memberIds: [] }, sparse), null);
+  assert.equal(buildTerritory({ memberIds: ['missing', '@theme:organic'] }, byId), null, 'missing IDs and hub/name records never contribute density');
+  assert.equal(JSON.stringify(data), before, 'building territories never mutates input records, membership or coordinates');
+  const shifted = new Map(data.nodes.map(node => [node.id, { ...node, x: node.x + 300, y: node.y - 120 }]));
+  const shiftedPoints = buildTerritory(region, shifted).outer[0].points;
+  assert.equal(shiftedPoints.length, points.length);
+  for (let i = 0; i < points.length; i++) assert.ok(Math.hypot(shiftedPoints[i].x - points[i].x - 300, shiftedPoints[i].y - points[i].y + 120) < 1e-8, 'contours track member positions, not generic theme anchors');
+});
+
+test('territory geometry is cached across camera, exact membership masks and Canvas/GPU paints', t => {
+  const h = harness(t, { gpu: true, reducedMotion: true, layers: { labels: false } }), data = territoryFixture();
+  h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  const territory = h.graph.regions[0].territory, members = [...h.graph.regions[0].members], geometry = h.graph.renderer.pointGroups.find(group => group.kind === 'item').values;
+  const coordinates = h.graph.nodes.map(({ id, x, y }) => ({ id, x, y })), uploads = h.gl.uploads.length;
+  assert.equal(h.canvas.dataset.territoryCount, '1');
+  // Rendering must consume the cache, even if the original input becomes unreadable.
+  data.regions[0].memberIds[Symbol.iterator] = () => { throw new Error('membership was traversed during paint'); };
+  h.graph.zoomBy(1.7); h.tick(0);
+  h.graph.setRegionSelection(new Set(members.slice(0, 20)), { id: 'organic', total: 320 }); h.tick(0);
+  h.graph.setLayers({ regions: false }); h.tick(0); h.graph.setLayers({ regions: true }); h.tick(0);
+  assert.equal(h.gl.uploads.length, uploads + 1, 'only the exact selection mask uploads; contour drawing never uploads/replaces point geometry');
+  assert.equal(h.graph.renderer.pointGroups.find(group => group.kind === 'item').values, geometry);
+  assert.equal(h.canvas.dataset.submittedRecords, '320');
+  h.gl.lost = true; h.gpuCanvas.dispatchEvent(new Event('webglcontextlost', { cancelable: true })); h.tick(0);
+  assert.equal(h.canvas.dataset.backend, 'canvas2d');
+  assert.equal(h.graph.regions[0].territory, territory, 'the fallback consumes exactly the same contours');
+  assert.deepEqual([...h.graph.regions[0].members], members);
+  assert.deepEqual(h.graph.nodes.map(({ id, x, y }) => ({ id, x, y })), coordinates);
+  assert.equal(h.frames.size, 0);
+});
+
+test('territory growth completes, respects static motion and cancels on layer, hidden or inactive changes', t => {
+  const h = harness(t, { layers: { labels: false } }); h.graph.setData(territoryFixture()); h.graph.setActive(true); h.tick(0);
+  assert.equal(h.canvas.dataset.territoriesRevealing, 'true');
+  const geometry = h.graph.regions[0].territory;
+  h.tick(400); assert.ok(h.graph.territoryReveal);
+  h.tick(600); assert.equal(h.graph.territoryReveal, null); assert.equal(h.frames.size, 0, 'intro membrane growth returns to idle');
+  h.graph.setRegionSelection(new Set(['member-0-0']), { id: 'organic', total: 320 }); h.tick(0);
+  assert.deepEqual([...h.graph.territoryReveal.ids], ['@theme:organic']);
+  h.graph.toggleMotion(); h.tick(0); assert.equal(h.graph.territoryReveal, null); assert.equal(h.frames.size, 0);
+  h.graph.setRegionSelection(new Set(['member-0-1']), { id: 'organic', total: 320 }); h.tick(0); assert.equal(h.graph.territoryReveal, null);
+  h.graph.toggleMotion(); h.tick(0);
+  h.graph.setLayers({ regions: false }); h.tick(0); h.graph.setLayers({ regions: true }); h.tick(0); assert.ok(h.graph.territoryReveal);
+  h.media.matches = true; h.media.dispatchEvent(new Event('change')); h.tick(0); assert.equal(h.graph.territoryReveal, null); assert.equal(h.frames.size, 0);
+  h.media.matches = false; h.media.dispatchEvent(new Event('change')); h.tick(0);
+  h.graph.startTerritoryReveal(); h.tick(0); h.doc.hidden = true; h.doc.dispatchEvent(new Event('visibilitychange'));
+  assert.equal(h.graph.territoryReveal, null); assert.equal(h.frames.size, 0);
+  h.doc.hidden = false; h.doc.dispatchEvent(new Event('visibilitychange')); h.tick(0); assert.equal(h.frames.size, 0, 'returning to a tab never replays an obsolete reveal');
+  h.graph.startTerritoryReveal(); h.graph.setLayers({ regions: false }); h.tick(0); assert.equal(h.graph.territoryReveal, null); assert.equal(h.frames.size, 0);
+  h.graph.setLayers({ regions: true }); h.graph.setActive(false); assert.equal(h.graph.territoryReveal, null); assert.equal(h.frames.size, 0);
+  assert.equal(h.graph.regions[0].territory, geometry);
+});
+
+test('ordinary selection traces grow from either endpoint after arrival and cancel cleanly', t => {
+  const h = harness(t, { layers: { labels: false } }); h.graph.setData(fixture(30)); h.graph.setActive(true); h.tick(0);
+  const node = h.graph.byId.get('work-20'); h.graph.select(node); h.tick(300);
+  assert.equal(h.graph.selectionReveal, null, 'selection artwork waits for the camera, preserving stable preview hit areas');
+  h.tick(300); assert.equal(h.graph.selectionReveal.nodeId, node.id); assert.equal(h.canvas.dataset.selectionRevealing, 'true');
+  assert.equal(h.canvas.dataset.selectionRevealProgress, '0');
+  h.tick(310); assert.equal(Number(h.canvas.dataset.selectionRevealProgress), 0.875);
+  const edge = h.graph.adjacency.get(node.id)[0], a = h.graph.byId.get(edge.from), b = h.graph.byId.get(edge.to), route = h.graph.renderer.routeFor(edge), path = [];
+  const ctx = { moveTo: (x, y) => path.push({ x, y }), lineTo: (x, y) => path.push({ x, y }) };
+  for (const endpoint of [edge.from, edge.to]) {
+    path.length = 0; h.graph.edgePath(ctx, { sx: h.graph.anchor(a).x, sy: h.graph.anchor(a).y }, { sx: h.graph.anchor(b).x, sy: h.graph.anchor(b).y }, edge, 0.4, endpoint);
+    assert.deepEqual(path[0], h.graph.anchor(h.graph.byId.get(endpoint)), 'activation starts at the selected end regardless of stored edge direction');
+    const expected = h.graph.anchor(routePointAt(route, endpoint === edge.from ? 0.4 : 0.6));
+    assert.ok(Math.hypot(path.at(-1).x - expected.x, path.at(-1).y - expected.y) < 1e-8, 'trace advances along cached angular segments, not a straight chord');
+  }
+  h.tick(400); assert.equal(h.graph.selectionReveal, null); assert.equal(h.frames.size, 0);
+  h.graph.select(node); h.tick(0); assert.ok(h.graph.selectionReveal);
+  h.pointer('pointerdown', 1, 800, 400); h.pointer('pointermove', 1, 835, 420); h.pointer('pointerup', 1, 835, 420); h.tick(0);
+  assert.equal(h.graph.selectionReveal, null, 'dragging cancels stale selected artwork');
+  h.graph.select(h.graph.byId.get('work-0')); h.tick(600); assert.equal(h.graph.selectionReveal.nodeId, 'work-0', 'source names get the same acquisition treatment');
+  h.graph.toggleMotion(); h.tick(0); assert.equal(h.graph.selectionReveal, null); assert.equal(h.frames.size, 0);
+  h.graph.select(node); h.tick(0); assert.equal(h.graph.selectionReveal, null, 'paused selections show final static state immediately');
+  h.graph.toggleMotion(); h.media.matches = true; h.media.dispatchEvent(new Event('change')); h.graph.select(node); h.tick(0);
+  assert.equal(h.graph.selectionReveal, null); assert.equal(h.frames.size, 0);
+});
 
 function assertReadableOverview(h) {
   const compact = h.canvas.rect.width < 500;
