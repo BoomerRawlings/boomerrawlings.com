@@ -19,7 +19,7 @@ function harness(t, gpu = true) {
     uploads: [], draws: [],
     createShader: () => ({}), shaderSource() {}, compileShader() {}, getShaderParameter: () => true, deleteShader() {},
     createProgram: () => ({}), attachShader() {}, linkProgram() {}, getProgramParameter: () => true, deleteProgram() {},
-    getAttribLocation: (_, name) => ({ a_position: 0, a_size: 1, a_distance: 1, a_color: 2, a_selected: 3, a_progress: 4, a_destination: 5, a_viewPosition: 4, a_viewFrom: 5, a_viewTo: 6 })[name],
+    getAttribLocation: (_, name) => ({ a_position: 0, a_size: 1, a_distance: 1, a_color: 2, a_selected: 3, a_progress: 4, a_destination: 5, a_viewPosition: 4, a_viewFrom: 5, a_viewTo: 6, a_style: 7 })[name],
     getUniformLocation: (_, name) => name,
     useProgram: value => { program = value; }, uniform1f: (name, value) => uniforms.set(name, value), uniform2f() {}, uniform3f: (name, ...values) => uniforms.set(name, values),
     createBuffer: () => ({}), bindBuffer: (_, value) => { currentBuffer = value; },
@@ -83,7 +83,9 @@ test('every distance submits all 33,945 original vertices with only uniform chan
     assert.equal(draw.count, 33945);
     assert.equal(draw.mode, gl.POINTS);
     assert.equal(draw.uniforms.get('u_detail'), starAppearance(zoom).detail);
-    assert.equal(draw.uniforms.get('u_alpha'), starAppearance(zoom).alpha);
+    assert.equal(draw.uniforms.get('u_alpha'), 0.42, 'mixed item batches retain a fixed normalization');
+    assert.equal(draw.uniforms.get('u_workZoomBrightness'), starAppearance(zoom).alpha / 0.42);
+    assert.ok(Math.abs(draw.uniforms.get('u_alpha') * draw.uniforms.get('u_workZoomBrightness') - starAppearance(zoom).alpha) < 1e-12, 'work-only distance curve retains its original opacity');
     assert.equal(draw.uniforms.get('u_zoom'), zoom);
     assert.equal(gl.uploads.length, initialUploads, 'camera changes never replace or reupload coordinates');
   }
@@ -97,6 +99,7 @@ test('every distance submits all 33,945 original vertices with only uniform chan
     const draw = gl.draws.at(-1);
     assert.equal(draw.count, 33945);
     assert.equal(draw.uniforms.get('u_alpha'), 0.42);
+    assert.equal(draw.uniforms.get('u_workZoomBrightness'), 1, 'selection keeps the same fixed region contrast at every distance');
     assert.equal(draw.uniforms.get('u_hasSelection'), 1);
   }
   renderer.setRegionSelection(null);
@@ -119,7 +122,7 @@ test('Canvas fallback retains every supplied in-view record and the same distant
   fills.length = 0;
   renderer.draw(camera(0.4), layers, nodes);
   assert.equal(fills.reduce((sum, fill) => sum + fill.arcs, 0), 33945);
-  assert.ok(fills.some(fill => fill.alpha === 0.16 && fill.arcs === 33944), 'all nonmembers still rendered');
+  assert.ok(fills.some(fill => Math.abs(fill.alpha - 0.16) < 0.002 && fill.arcs === 33944), 'all nonmembers still rendered');
 });
 
 test('route categories distinguish source credits, recorded relationships and two inferred bases honestly', () => {

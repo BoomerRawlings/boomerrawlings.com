@@ -1,3 +1,5 @@
+import { nodeIdentity } from './node-identity.js?v=glyphs-20261013';
+
 // Public metadata only. Identity is local to each catalog, never inferred from a name.
 export const THEMES = [
   ['minds', 'Minds & machines', /\b(ai|artificial intelligence|robot\w*|conscious\w*|cognit\w*|mind\w*|machine\w*)\b/i],
@@ -190,7 +192,7 @@ function fullGraph(index) {
   const members = new Map(THEMES.map(([id]) => [id, []]));
   const addNode = node => { nodes.push(node); byId.set(node.id, node); adjacency.set(node.id, []); };
   for (const item of index.items) {
-    addNode({ id: item.id, label: item.title, kind: 'item', catalogId: item.catalogId, ...itemPosition(item), size: 2.5, color: '#a9c9db', themes: item.themes });
+    addNode({ id: item.id, label: item.title, kind: 'item', catalogId: item.catalogId, ...nodeIdentity({ kind: 'item', type: item.type }), ...itemPosition(item), size: 2.5, color: '#a9c9db', themes: item.themes });
     for (const theme of item.themes) members.get(theme).push(item.id);
   }
   let orphanPeople = 0;
@@ -198,10 +200,10 @@ function fullGraph(index) {
     const count = new Set((index.byPerson.get(person.id) || []).map(credit => credit.itemId)).size;
     const angle = hash('person-angle:' + person.id) * Math.PI * 2, radius = .5 + Math.sqrt(hash('person-radius:' + person.id)) * .5;
     if (!count) orphanPeople++;
-    addNode({ id: person.id, label: person.name, kind: 'person', catalogId: person.catalogId, scope: { kind: 'person', id: person.id }, count, orphan: count === 0, x: Math.cos(angle) * radius * 1240, y: Math.sin(angle) * radius * 920, size: 4, color: '#d89976' });
+    addNode({ id: person.id, label: person.name, kind: 'person', catalogId: person.catalogId, entityStatus: person.entityStatus, ...nodeIdentity({ kind: 'person', catalogId: person.catalogId, label: person.name, entityStatus: person.entityStatus }), scope: { kind: 'person', id: person.id }, count, orphan: count === 0, x: Math.cos(angle) * radius * 1240, y: Math.sin(angle) * radius * 920, size: 4, color: '#d89976' });
   }
   const regions = themeRegions.map(region => ({ ...region, memberIds: members.get(region.themeId), count: members.get(region.themeId).length, totalCount: members.get(region.themeId).length }));
-  if (index.items.length) for (const region of regions) addNode({ id: region.id, label: region.label, kind: 'hub', scope: { kind: 'theme', id: region.themeId }, count: region.count, x: region.x, y: region.y, size: 7, color: region.color, inferred: true });
+  if (index.items.length) for (const region of regions) addNode({ id: region.id, label: region.label, kind: 'hub', ...nodeIdentity({ kind: 'hub' }), scope: { kind: 'theme', id: region.themeId }, count: region.count, x: region.x, y: region.y, size: 7, color: region.color, inferred: true });
   const addEdge = edge => {
     if (!byId.has(edge.from) || !byId.has(edge.to)) throw new Error('Graph relationship references an unknown endpoint.');
     edges.push(edge); adjacency.get(edge.from).push(edge);

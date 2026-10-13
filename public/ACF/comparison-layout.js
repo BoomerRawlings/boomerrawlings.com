@@ -1,3 +1,5 @@
+import { connectionCounts, clearNodeSpace } from './node-layout.js?v=glyphs-20261013';
+
 function unit(value) {
   let hash = 2166136261;
   for (const c of value) hash = Math.imul(hash ^ c.charCodeAt(0), 16777619);
@@ -5,8 +7,8 @@ function unit(value) {
 }
 
 /** A temporary explanatory arrangement; never changes source or model positions. */
-export function comparisonLayout(config, byId, vertical = false) {
-  const targets = new Map(), visible = new Set(), leftPeople = new Set(), rightPeople = new Set();
+export function comparisonLayout(config, byId, vertical = false, { pixelScale = 1, zoom = 1 } = {}) {
+  const targets = new Map(), visible = new Set(), leftPeople = new Set(), rightPeople = new Set(), sides = new Map();
   const transform = (x, y) => vertical ? { x: y, y: x } : { x, y };
   const left = config.left.memberIds, right = config.right.memberIds;
   for (const edge of config.edges) {
@@ -31,7 +33,9 @@ export function comparisonLayout(config, byId, vertical = false) {
       y = Math.sin(angle) * radius * 285;
     }
     const color = side < 0 ? config.left.color : side > 0 ? config.right.color : '#f2d5aa';
-    targets.set(id, { ...transform(x, y), color, opacity: kind === 'person' ? 1.45 : 1.7 }); visible.add(id);
+    // Leave headroom for degree-based brightness; boosting source/name glyphs
+    // above one would clip every well-connected account to the same intensity.
+    targets.set(id, { x, y, color, opacity: kind === 'item' && node.visualType !== 'source' ? 1.35 : 1 }); visible.add(id); sides.set(id, side);
   };
   for (const id of config.memberIds) put(id, config.shared.has(id) ? 0 : left.has(id) ? -1 : 1, 'item');
   for (const id of config.personIds) put(id, config.bridgePersonIds.has(id) || (leftPeople.has(id) && rightPeople.has(id)) ? 0 : leftPeople.has(id) ? -1 : 1, 'person');
@@ -41,6 +45,16 @@ export function comparisonLayout(config, byId, vertical = false) {
   }
   // Only source-supplied edges, and every endpoint must be in this actual view.
   const edges = config.edges.filter(edge => visible.has(edge.from) && visible.has(edge.to));
+  const horizontalBounds = { left: -865, right: 865, top: -365, bottom: 365 };
+  const copies = [...targets].map(([id, target]) => {
+    const side = sides.get(id);
+    const layoutBounds = { left: side < 0 ? -840 : side > 0 ? 145 : -122,
+      right: side < 0 ? -145 : side > 0 ? 840 : 122, top: -350, bottom: 350 };
+    return { ...byId.get(id), ...target, layoutBounds };
+  });
+  const counts = connectionCounts(copies, edges);
+  const cleared = clearNodeSpace(copies, counts, horizontalBounds, { pixelScale, zoom });
+  for (const [id, point] of cleared) targets.set(id, { ...targets.get(id), ...transform(point.x, point.y) });
   const bounds = vertical ? { left: -365, right: 365, top: -865, bottom: 865 } : { left: -865, right: 865, top: -365, bottom: 365 };
-  return { targets, visible, edges, bounds, vertical };
+  return { targets, visible, edges, bounds, vertical, connectionCounts: counts };
 }

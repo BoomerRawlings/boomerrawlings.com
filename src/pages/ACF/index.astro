@@ -8,11 +8,11 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'" />
     <link rel="canonical" href="https://boomerrawlings.com/ACF/" />
     <title>A question of futures</title>
-    <link rel="icon" href="/ACF/icon.svg?v=reading-20261013" type="image/svg+xml" />
-    <link rel="stylesheet" href="/ACF/style.css?v=reading-20261013" />
-    <link rel="stylesheet" href="/ACF/entry-effects.css?v=reading-20261013" />
-    <script is:inline src="/ACF/entry.js?v=reading-20261013" defer></script>
-    <script is:inline type="module" src="/ACF/app.js?v=reading-20261013"></script>
+    <link rel="icon" href="/ACF/icon.svg?v=glyphs-20261013" type="image/svg+xml" />
+    <link rel="stylesheet" href="/ACF/style.css?v=glyphs-20261013" />
+    <link rel="stylesheet" href="/ACF/entry-effects.css?v=glyphs-20261013" />
+    <script is:inline src="/ACF/entry.js?v=glyphs-20261013" defer></script>
+    <script is:inline type="module" src="/ACF/app.js?v=glyphs-20261013"></script>
   </head>
   <body class="entry-pending" data-view="map">
     <a class="skip-link" href="#search">Skip to collection search</a>
@@ -90,7 +90,7 @@
           <summary>Map layers <span>Every record has a point</span></summary>
           <div class="layer-options" role="group" aria-label="Map layers">
             <label><input id="labels-toggle" type="checkbox" checked />Record/name labels</label>
-            <label><input id="names-toggle" type="checkbox" />Catalog-local names</label>
+            <label><input id="names-toggle" type="checkbox" checked />Authors &amp; source names</label>
             <label><input id="relationships-toggle" type="checkbox" />Source credits &amp; record links</label>
             <label><input id="themes-toggle" type="checkbox" />Inferred routes</label>
             <label><input id="regions-toggle" type="checkbox" checked />Subject territories</label>
@@ -145,6 +145,15 @@
         </div>
         <section id="map-reading" class="map-reading" aria-labelledby="map-reading-heading">
           <header class="map-reading-header"><div><p class="eyebrow">A key to the field</p><h2 id="map-reading-heading" tabindex="-1">Read this map</h2></div><button id="map-evidence" class="text-button" type="button" hidden aria-controls="region-panel" aria-expanded="false">Follow the source trails ↓</button></header>
+          <div class="node-glyph-key" role="group" aria-label="Map symbols" aria-describedby="node-glyph-note">
+            <ul class="node-glyph-list">
+              <li class="glyph-source"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M17 10 13.5 16.1 6.5 16.1 3 10 6.5 3.9 13.5 3.9Z"/><path class="glyph-core" d="m10 7.8 2.2 2.2-2.2 2.2-2.2-2.2Z"/></svg><span>Institutions / publications</span></li>
+              <li class="glyph-person"><svg viewBox="0 0 20 20" aria-hidden="true"><path class="glyph-core" d="m10 3 7 7-7 7-7-7Z"/></svg><span>Authors &amp; credited names</span></li>
+              <li class="glyph-work"><svg viewBox="0 0 20 20" aria-hidden="true"><circle class="glyph-core" cx="10" cy="10" r="3"/></svg><span>Works / source records</span></li>
+              <li class="glyph-theme"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6"/></svg><span>Inferred subjects</span></li>
+            </ul>
+            <p id="node-glyph-note"></p>
+          </div>
           <p id="map-reading-caption" class="map-reading-caption"></p>
           <div id="map-reading-cards" class="map-reading-cards"></div>
           <div id="map-reading-routes" class="map-reading-routes" aria-label="Connection colors and meanings"></div>

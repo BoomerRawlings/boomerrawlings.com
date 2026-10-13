@@ -103,7 +103,33 @@ test('reading adds no classification or source mutation and does not require a g
   assert.equal(index.graph, undefined);
   assert.equal(JSON.stringify(index.items), before);
   assert(reading.routes.every(route => route.count === null));
-  assert.match(card(reading, 'junctions').body, /not a publication/);
+  assert.match(card(reading, 'junctions').body, /Hexagonal beacons identify known source or group labels/);
+  assert.match(card(reading, 'junctions').body, /Diamonds represent authors and other credited names/);
+  assert.match(card(reading, 'junctions').body, /Hollow rings mark inferred title subjects/);
+});
+
+test('glyph explanation distinguishes bounded connection emphasis from reach and grouping', () => {
+  const index = fixture();
+  for (const comparison of [null, compareTerritories(index, 'minds', 'planet')]) {
+    const reading = mapReading(index, { records: index.items, comparison });
+    assert.doesNotMatch(JSON.stringify(reading), /subject suns/i);
+    assert.match(reading.nodeNote, /Within each type/);
+    assert.match(reading.nodeNote, /unique linked neighbors in the current view/);
+    assert.match(reading.nodeNote, /Size is bounded/);
+    assert.match(reading.nodeNote, /Title-group spokes are excluded/);
+    assert.match(reading.nodeNote, /does not measure readership or influence/);
+  }
+});
+
+test('built map includes four labeled glyphs and visible names as the resettable initial state', () => {
+  const html = readFileSync(new URL('../src/pages/ACF/index.astro', import.meta.url), 'utf8');
+  const legend = html.slice(html.indexOf('<div class="node-glyph-key"'), html.indexOf('<p id="map-reading-caption"'));
+  assert(html.indexOf('<section id="map-reading"') > html.indexOf('<canvas id="network"'), 'key follows the map');
+  assert.equal((legend.match(/<li class="glyph-/g) || []).length, 4);
+  assert.equal((legend.match(/<svg[^>]*aria-hidden="true"/g) || []).length, 4);
+  for (const label of ['Institutions / publications', 'Authors &amp; credited names', 'Works / source records', 'Inferred subjects']) assert(legend.includes(label));
+  assert.match(html, /id="names-toggle"[^>]*\bchecked\b/);
+  assert.match(html, /aria-describedby="node-glyph-note"/);
 });
 
 const appSource = readFileSync(new URL('../public/ACF/app.js', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
@@ -113,6 +139,28 @@ function appFunction(name) {
   const rest = appSource.slice(start), line = rest.slice(0, rest.indexOf('\n'));
   return line.endsWith('}') ? line : rest.slice(0, rest.indexOf('\n}') + 2);
 }
+
+test('graph metadata honors supplied source/name roles while retaining work type and collection', () => {
+  const work = { id: 'work', type: 'paper', catalogId: 'catalog' }, source = { id: 'source', catalogId: 'catalog' }, author = { id: 'author', catalogId: 'catalog' };
+  const index = { byId: new Map([['work', work]]), people: new Map([['source', source], ['author', author]]), catalogById: new Map([['catalog', { label: 'Public collection' }]]) };
+  const data = { nodes: [
+    { id: 'work', visualType: 'work', roleLabel: 'Source record' },
+    { id: 'source', visualType: 'source', roleLabel: 'Source or group' },
+    { id: 'author', visualType: 'person', roleLabel: 'Credited name' },
+    { id: 'theme', visualType: 'theme', roleLabel: 'Inferred subject' },
+  ] };
+  let submitted;
+  runInNewContext(`let preparedIndex, preparedFilters, scope = null, records = [work], active = true; ${appFunction('renderGraph')} renderGraph();`, {
+    index, work, $: () => ({ value: '' }), subjectScope: () => false, filters: () => ({}), graphData: () => data,
+    label: value => value === 'paper' ? 'Paper' : value, document: { body: { dataset: { view: 'map' } } },
+    graph: { setData: value => { submitted = value; }, setActive() {} }, applyRegionSelection() {}, applyLayers() {},
+  });
+  assert.equal(submitted, data);
+  assert.deepEqual(data.nodes.map(node => node.typeLabel), ['Paper', 'Source or group', 'Credited name', 'Inferred subject']);
+  assert.equal(data.nodes[0].metaLabel, 'Paper · Public collection');
+  assert.equal(data.nodes[1].collectionLabel, 'Public collection');
+  assert.equal(data.nodes[1].metaLabel, 'Source or group');
+});
 
 // Execute the production handlers with controlled layout offsets. No re-created
 // handler logic: these checks cover navigation from the newly inline content.
@@ -154,8 +202,8 @@ function inlineHarness({ view = 'map', scope = null, trailsOpen = false, paused 
     const regionScope = () => scope?.kind === 'theme';
     const comparisonScope = () => scope?.kind === 'compare';
     const subjectScope = () => regionScope() || comparisonScope();
-    ${['scrollToBubble', 'openDetail', 'closeDetail', 'closeRecordDetails', 'renderMapReading', 'showItem'].map(appFunction).join('\n')}
-    ({ scrollToBubble, openDetail, closeDetail, closeRecordDetails, renderMapReading, showItem,
+    ${['scrollToBubble', 'openDetail', 'closeDetail', 'closeRecordDetails', 'renderMapReading', 'showItem', 'showPerson'].map(appFunction).join('\n')}
+    ({ scrollToBubble, openDetail, closeDetail, closeRecordDetails, renderMapReading, showItem, showPerson,
        state: () => ({ scope, comparisonDetailsOpen, selection }) });
   `, sandbox);
   return { ...api, node, events, index, document: sandbox.document };
@@ -172,6 +220,17 @@ test('reading follows disabled subject-anchor layers and stays available in List
   assert.match(amber.children[1].textContent, /This layer is off/);
   const cyan = h.node('map-reading-routes').children.find(child => child.className === 'route-bubble route-credit');
   assert.doesNotMatch(cyan.children[1].textContent, /This layer is off/);
+  assert.match(h.node('node-glyph-note').textContent, /unique linked neighbors/);
+});
+
+test('inline credited-label detail uses the model role without changing the credit action', () => {
+  const h = inlineHarness(), id = 'one:person:bridge';
+  h.index.graph = { byId: new Map([[id, { roleLabel: 'Source or group', visualType: 'source' }]]) };
+  h.showPerson(id);
+  assert.equal(h.node('detail-content').children[0].textContent, 'Source or group / First catalog');
+  assert.equal(h.node('detail-content').children[1].textContent, 'Same Name');
+  assert.equal(h.state().selection, id);
+  assert.equal(h.node('detail').hidden, false);
 });
 
 test('inline record details keep source-trail expansion state synchronized', () => {

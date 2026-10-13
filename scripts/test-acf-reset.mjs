@@ -6,7 +6,7 @@ import { parseFragment } from 'parse5';
 
 const source = readFileSync(new URL('../public/ACF/app.js', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const markup = readFileSync(new URL('../src/pages/ACF/index.astro', import.meta.url), 'utf8');
-const defaults = { 'names-toggle': false, 'labels-toggle': true, 'relationships-toggle': false, 'regions-toggle': true, 'themes-toggle': false };
+const defaults = { 'names-toggle': true, 'labels-toggle': true, 'relationships-toggle': false, 'regions-toggle': true, 'themes-toggle': false };
 const plain = value => JSON.parse(JSON.stringify(value));
 const flush = () => new Promise(setImmediate);
 
@@ -212,7 +212,7 @@ test('Reset closes transient UI and restores initial layers with comparison cont
     assert.equal(h.$(id).checked, value, id);
     assert.equal(h.$(id).disabled, false, `${id} no longer locked by comparison`);
   }
-  assert.deepEqual(h.graph.layers, { names: false, labels: true, relationships: false, regions: true, inferred: false });
+  assert.deepEqual(h.graph.layers, { names: true, labels: true, relationships: false, regions: true, inferred: false });
   assert.equal(h.$('connections-toggle').disabled, false);
   assert.equal(h.graph.paused, true, 'Explicit motion preference is preserved');
 });

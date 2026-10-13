@@ -1,4 +1,4 @@
-import { previewInfo, previewPlacement } from './preview-data.js?v=reading-20261013';
+import { previewInfo, previewPlacement } from './preview-data.js?v=glyphs-20261013';
 
 /** One accessible card shared by pointer, touch and keyboard exploration. */
 export class NodePreview {
@@ -42,7 +42,7 @@ export class NodePreview {
     this.node = node;
     this.pinned = reason === 'select' || reason === 'keyboard';
     const info = previewInfo(node, this.getIndex());
-    this.fields.kind.textContent = info.kind === 'person' ? 'Credited name' : info.kind === 'theme' ? 'Inferred theme' : 'Publication / record';
+    this.fields.kind.textContent = info.kind === 'person' ? node.roleLabel || 'Credited name' : info.kind === 'theme' ? 'Inferred subject' : 'Publication / record';
     for (const key of ['title', 'collection', 'meta', 'context']) this.fields[key].textContent = info[key];
     this.fields.open.textContent = info.actionLabel + ' ↗';
     this.card.hidden = false;

@@ -1,8 +1,10 @@
-import { SpatialGrid } from './graph-spatial.js?v=reading-20261013';
-import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=reading-20261013';
-import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=reading-20261013';
-import { buildTerritory } from './territory-geometry.js?v=reading-20261013';
-import { comparisonLayout } from './comparison-layout.js?v=reading-20261013';
+import { SpatialGrid } from './graph-spatial.js?v=glyphs-20261013';
+import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=glyphs-20261013';
+import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=glyphs-20261013';
+import { buildTerritory } from './territory-geometry.js?v=glyphs-20261013';
+import { comparisonLayout } from './comparison-layout.js?v=glyphs-20261013';
+import { nodeAppearance, nodeEndpointAppearance, drawNodeGlyph } from './node-style.js?v=glyphs-20261013';
+import { connectionCounts, clearNodeSpace } from './node-layout.js?v=glyphs-20261013';
 
 const COLORS = { hub: '#d89976', item: '#a9c9db', person: '#aaa4d0' };
 const REGION_COLORS = ['#90c2d1', '#c5a5cc', '#d6ac7f', '#9ebd92', '#94a8d3', '#c7bb82'];
@@ -158,6 +160,15 @@ export class AtlasGraph {
     this.edgeSourceMap = new Map();
     this.edges = edges.filter(edge => edge && this.byId.has(String(edge.from)) && this.byId.has(String(edge.to)))
       .map(edge => { const normalized = { ...edge, from: String(edge.from), to: String(edge.to) }; this.edgeSourceMap.set(edge, normalized); return normalized; });
+    const counts = connectionCounts(this.nodes, this.edges);
+    const spacingBounds = bounds || this.nodes.reduce((box, node) => ({ left: Math.min(box.left, node.x - 96), right: Math.max(box.right, node.x + 96), top: Math.min(box.top, node.y - 96), bottom: Math.max(box.bottom, node.y + 96) }), { left: 0, right: 0, top: 0, bottom: 0 });
+    const spacingFrame = this.viewportFrame();
+    const overviewScale = Math.max(0.000001, Math.min(Math.max(50, this.width - spacingFrame.left - spacingFrame.right) / Math.max(240, spacingBounds.right - spacingBounds.left), Math.max(50, this.height - spacingFrame.top - spacingFrame.bottom) / Math.max(180, spacingBounds.bottom - spacingBounds.top), 1.35));
+    const positions = clearNodeSpace(this.nodes, counts, spacingBounds, { pixelScale: overviewScale * 0.4, zoom: 0.4 });
+    for (const node of this.nodes) {
+      node.connectionCount = counts.get(node.id) || 0;
+      Object.assign(node, positions.get(node.id));
+    }
     this.regions = regions.map((region, i) => ({ ...region, color: REGION_COLORS[i % REGION_COLORS.length], members: new Set(region.memberIds || []), territory: buildTerritory(region, this.byId) }));
     this.territoryReveal = null;
     this.selectionReveal = null;
@@ -170,8 +181,8 @@ export class AtlasGraph {
     for (const edge of this.edges) { this.adjacency.get(edge.from).push(edge); if (edge.to !== edge.from) this.adjacency.get(edge.to).push(edge); }
     this.focusOrder = [...this.nodes].sort((a, b) => a.id.localeCompare(b.id));
     this.labelOrder = {
-      item: this.nodes.filter(node => node.kind === 'item').sort((a, b) => a.seed - b.seed),
-      hub: this.nodes.filter(node => node.kind !== 'item').sort((a, b) => (b.count || 0) - (a.count || 0) || a.seed - b.seed),
+      item: this.nodes.filter(node => node.kind === 'item').sort((a, b) => b.connectionCount - a.connectionCount || a.seed - b.seed),
+      hub: this.nodes.filter(node => node.kind !== 'item').sort((a, b) => b.connectionCount - a.connectionCount || a.seed - b.seed),
     };
     this.recordCount = this.nodes.filter(node => node.kind === 'item').length;
     this.nameCount = this.nodes.filter(node => node.kind === 'person').length;
@@ -236,7 +247,9 @@ export class AtlasGraph {
     const previous = this.comparison;
     const edgeSet = new Set(this.edges);
     const normalized = config && { ...config, edges: config.edges.map(edge => this.edgeSourceMap.get(edge) || (edgeSet.has(edge) ? edge : null)).filter(Boolean) };
-    const layout = config ? comparisonLayout(normalized, this.byId, this.width < 650) : previous.layout;
+    const frame = this.viewportFrame(), center = this.viewportCenter(), vertical = this.width < 650;
+    const comparisonFit = Math.min(Math.max(50, this.width - frame.left - frame.right) / (vertical ? 730 : 1730), Math.max(50, this.height - frame.top - frame.bottom) / (vertical ? 1730 : 730));
+    const layout = config ? comparisonLayout(normalized, this.byId, vertical, { pixelScale: comparisonFit, zoom: comparisonFit / this.baseScale }) : previous.layout;
     if (config && !layout.visible.size) return;
     const points = new Map(), progress = previous?.progress || 0;
     for (const node of this.nodes) {
@@ -244,10 +257,17 @@ export class AtlasGraph {
       const normalVisible = node.kind === 'item' || (node.kind === 'person' ? this.layers.names : this.layers.regions);
       const from = prior ? { ...position, color: this.mixColor(prior.from.color, prior.to.color, progress), opacity: prior.from.opacity + (prior.to.opacity - prior.from.opacity) * progress } : { x: node.x, y: node.y, color: node.color || COLORS[node.kind], opacity: normalVisible ? 1 : 0 };
       const to = config ? layout.targets.get(node.id) || { x: node.x, y: node.y, color: node.color || COLORS[node.kind], opacity: node.kind === 'item' ? 0.018 : 0 } : { x: node.x, y: node.y, color: node.color || COLORS[node.kind], opacity: normalVisible ? 1 : 0 };
+      from.connectionCount = prior ? prior.from.connectionCount + (prior.to.connectionCount - prior.from.connectionCount) * progress : node.connectionCount;
+      if (prior) {
+        const a = nodeEndpointAppearance(node, prior.from), b = nodeEndpointAppearance(node, prior.to);
+        from.baseRadius = a.baseRadius + (b.baseRadius - a.baseRadius) * progress;
+        from.brightness = from.opacity > 0 ? (a.brightness * prior.from.opacity + (b.brightness * prior.to.opacity - a.brightness * prior.from.opacity) * progress) / from.opacity : 0;
+      }
+      to.connectionCount = config ? layout.connectionCounts.get(node.id) || 0 : node.connectionCount;
       points.set(node.id, { from, to });
     }
     if (!this.comparisonRestore) this.comparisonRestore = { scale: this.scale, pan: { ...this.pan }, baseScale: this.baseScale, center: this.viewportCenter() };
-    const frame = this.viewportFrame(), center = this.viewportCenter(), bounds = layout.bounds;
+    const bounds = layout.bounds;
     const fit = Math.min(Math.max(50, this.width - frame.left - frame.right) / (bounds.right - bounds.left), Math.max(50, this.height - frame.top - frame.bottom) / (bounds.bottom - bounds.top));
     const targetCamera = config ? { scale: fit, pan: { x: center.x, y: center.y } } : this.comparisonRestore;
     const edges = config ? layout.edges : previous.edges;
@@ -272,6 +292,7 @@ export class AtlasGraph {
     }) : previous.regions;
     this.dismissPreview('layout'); this.territoryReveal = null;
     this.comparison = { key: config?.key || previous.key, config: config || previous.config, layout, points, edges, edgeSet: new Set(edges), regions, labelCounts, pickNodes: [...layout.visible].map(id => this.byId.get(id)), labelOrder: { item: this.labelOrder.item.filter(node => layout.visible.has(node.id)), hub: this.labelOrder.hub.filter(node => layout.visible.has(node.id)) }, started: performance.now(), duration: 800, progress: 0, exiting: !config, fromCamera: { scale: this.scale, pan: { ...this.pan } }, targetCamera, cameraFollowing: true, spatial: null };
+    for (const order of Object.values(this.comparison.labelOrder)) order.sort((a, b) => (layout.connectionCounts.get(b.id) || 0) - (layout.connectionCounts.get(a.id) || 0) || a.seed - b.seed);
     this.renderer.setComparison({ points, edges, exiting: !config });
     this.enabledNodes = this.nodes.filter(node => this.nodeEnabled(node)); this.enabledFocus = this.focusOrder.filter(node => this.nodeEnabled(node));
     this.screenKey = ''; this.flowClock = null;
@@ -945,7 +966,15 @@ export class AtlasGraph {
     return this.enabledNodes || [];
   }
 
-  radius(node) { return clamp(node.size * Math.sqrt(this.scale / this.baseScale), 0.6, 18); }
+  radius(node) {
+    const zoom = this.scale / this.baseScale, point = this.comparison?.points.get(node.id);
+    if (!point) return nodeAppearance(node, zoom, { selected: node.kind === 'item' && Boolean(this.regionSelection?.has(node.id)) }).radius;
+    const from = nodeEndpointAppearance(node, point.from).radius;
+    const to = nodeEndpointAppearance(node, point.to).radius;
+    return clamp((from + (to - from) * this.comparison.progress) * Math.sqrt(zoom), 0.6, 18);
+  }
+
+  connectionCount(node) { return this.comparison?.layout.connectionCounts.get(node.id) ?? node.connectionCount ?? 0; }
 
   project(node, route = false) {
     if (!node || !(route ? this.routeNodeEnabled(node) : this.nodeEnabled(node))) return null;
@@ -1074,7 +1103,7 @@ export class AtlasGraph {
       for (const id of endpoints) {
         const node = points.get(id); if (!node) continue;
         const color = this.comparison?.layout.targets.get(id)?.color || node.color || COLORS[node.kind];
-        ctx.fillStyle = color; ctx.beginPath(); ctx.arc(node.sx, node.sy, Math.max(1.2, Math.min(2.2, node.radius)), 0, Math.PI * 2); ctx.fill();
+        drawNodeGlyph(ctx, node, { x: node.sx, y: node.sy, radius: Math.max(1.2, node.radius), color, opacity: routeReveal });
         ctx.strokeStyle = regionRGBA(color, 0.42 * routeReveal); ctx.lineWidth = 0.65;
         ctx.beginPath(); ctx.arc(node.sx, node.sy, Math.max(3, node.radius + 1.5), 0, Math.PI * 2); ctx.stroke();
       }
@@ -1087,7 +1116,7 @@ export class AtlasGraph {
       const highlighted = true;
       const color = this.comparison?.layout.targets.get(node.id)?.color || node.color || COLORS[node.kind];
       if (node.kind !== 'item' || highlighted) {
-        const glowSize = node.radius * (highlighted ? 5 : 3.6) + settle * 3;
+        const glowSize = Math.min(18, node.radius + 6 + settle * 2);
         const glow = ctx.createRadialGradient(node.sx, node.sy, 0, node.sx, node.sy, glowSize);
         glow.addColorStop(0, highlighted ? 'rgba(216,153,118,0.26)' : 'rgba(169,201,219,0.13)');
         glow.addColorStop(1, 'rgba(169,201,219,0)');
@@ -1096,12 +1125,7 @@ export class AtlasGraph {
         ctx.arc(node.sx, node.sy, glowSize, 0, Math.PI * 2);
         ctx.fill();
       }
-      ctx.globalAlpha = node.kind === 'item' && !highlighted ? 0.78 : 1;
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.arc(node.sx, node.sy, node.radius, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.globalAlpha = 1;
+      drawNodeGlyph(ctx, node, { x: node.sx, y: node.sy, radius: node.radius, color });
       if (node.kind !== 'item' || highlighted) {
         ctx.strokeStyle = highlighted ? '#f0cfba' : 'rgba(216,153,118,0.48)';
         ctx.lineWidth = 0.75;
@@ -1133,6 +1157,9 @@ export class AtlasGraph {
       if (layers.regions && !this.comparison) for (const node of this.regionNodes) if (node.id !== emphasis && points.has(node.id) && this.nodeEnabled(node)) this.placeLabel(ctx, points.get(node.id), false);
       const hubs = layers.labels ? this.screenLabelOrder.hub.filter(node => node.kind !== 'hub' && node.id !== emphasis) : [];
       const items = layers.labels ? this.screenLabelOrder.item.filter(node => node.id !== emphasis) : [];
+      // A source account must not disappear behind the top credited individuals.
+      const sourceIndex = hubs.findIndex(node => nodeAppearance(node).type === 'source');
+      if (sourceIndex > 0) hubs.unshift(...hubs.splice(sourceIndex, 1));
       // Give both records and source labels space, including results with no people.
       let itemCount = 0, hubCount = 0;
       while ((itemCount < (compact ? 2 : 4) && items.length) || (hubCount < (compact ? 2 : 4) && hubs.length)) {
@@ -1338,14 +1365,14 @@ export class AtlasGraph {
     ctx.font = font;
     const lines = this.titleLines(ctx, node.label, maximum);
     const comparedCount = this.comparison?.labelCounts.get(node.id);
-    const count = comparedCount != null ? `${new Intl.NumberFormat().format(comparedCount)} records in this view` : node.kind !== 'item' && node.count != null ? `${new Intl.NumberFormat().format(finite(node.count))} records` : '';
-    const meta = node.metaLabel || [node.typeLabel, node.collectionLabel].filter(Boolean).join(' · ');
-    const sublabel = count ? [count, meta].filter(Boolean).join(' · ') : meta || (node.kind === 'item' ? 'Record' : node.kind === 'person' ? 'Source name label' : 'Theme');
+    const degree = this.connectionCount(node), number = value => new Intl.NumberFormat().format(value);
+    const count = node.kind === 'hub' ? `${number(comparedCount ?? finite(node.count))} title matches` : `${number(degree)} connections`;
+    const meta = node.kind === 'hub' ? 'Inferred subject' : node.kind === 'item' ? node.metaLabel || [node.typeLabel, node.collectionLabel].filter(Boolean).join(' · ') || 'Work' : node.roleLabel || 'Credited name';
     const titleWidth = Math.max(...lines.map(line => ctx.measureText(line).width));
     ctx.font = '11px system-ui, sans-serif';
-    const sub = this.fitText(ctx, sublabel, maximum);
-    const width = Math.min(maximum, Math.max(titleWidth, ctx.measureText(sub).width)) + 16;
-    const height = lines.length * 16 + 25;
+    const sub = this.fitText(ctx, meta, maximum);
+    const width = Math.min(maximum, Math.max(titleWidth, ctx.measureText(sub).width, ctx.measureText(count).width)) + 16;
+    const height = lines.length * 16 + 39;
     const outward = node.sx < this.viewportCenter().x ? -1 : 1;
     const candidates = [];
     const previous = this.previousLabelBoxes?.get(node.id);
@@ -1359,7 +1386,11 @@ export class AtlasGraph {
         candidates.push({ id: node.id, x: node.sx + dx * distance - (dx < 0 ? width : dx === 0 ? width / 2 : 0), y: node.sy + dy * distance - (dy < 0 ? height : dy === 0 ? height / 2 : 0), width, height });
       }
     }
-    const valid = box => box.x >= 8 && box.y >= 8 && box.x + box.width <= this.width - 8 && box.y + box.height <= this.height - 8 && !this.labelExclusions().some(other => this.overlaps(box, other, 3)) && !this.labelBoxes.some(other => this.overlaps(box, other)) && !this.comparisonLabelPlans.some(other => this.overlaps(box, other.box, 3));
+    const significant = [...this.screenLabelOrder.hub, ...this.screenLabelOrder.item.slice(0, 32)].filter(other => other.id !== node.id && (other.kind === 'hub' || other.visualType === 'source' || this.connectionCount(other) >= 12));
+    const valid = box => box.x >= 8 && box.y >= 8 && box.x + box.width <= this.width - 8 && box.y + box.height <= this.height - 8 && !this.labelExclusions().some(other => this.overlaps(box, other, 3)) && !this.labelBoxes.some(other => this.overlaps(box, other)) && !this.comparisonLabelPlans.some(other => this.overlaps(box, other.box, 3)) && !significant.some(other => {
+      const padding = other.radius + 4;
+      return other.sx > box.x - padding && other.sx < box.x + box.width + padding && other.sy > box.y - padding && other.sy < box.y + box.height + padding;
+    });
     let box = candidates.find(valid);
     if (!box && highlighted) {
       // Selected records retain their title even when controls leave very little space.
@@ -1370,11 +1401,11 @@ export class AtlasGraph {
     }
     if (!box) return false;
     this.labelBoxes.push(box);
-    this.labelPlans.push({ node, highlighted, box, lines, sub, font });
+    this.labelPlans.push({ node, highlighted, box, lines, sub, count, font });
     return true;
   }
 
-  paintLabel(ctx, { node, highlighted, box, lines, sub, font }) {
+  paintLabel(ctx, { node, highlighted, box, lines, sub, count, font }) {
     ctx.beginPath();
     ctx.moveTo(node.sx, node.sy);
     ctx.lineTo(clamp(node.sx, box.x + 4, box.x + box.width - 4), clamp(node.sy, box.y + 4, box.y + box.height - 4));
@@ -1391,6 +1422,8 @@ export class AtlasGraph {
     ctx.font = '11px system-ui, sans-serif';
     ctx.fillStyle = node.kind === 'hub' ? node.color || '#d89976' : node.kind === 'item' ? '#a9c9db' : '#d89976';
     ctx.fillText(sub, box.x + 8, box.y + 16 + lines.length * 16);
+    ctx.fillStyle = '#aebacb';
+    ctx.fillText(count, box.x + 8, box.y + 30 + lines.length * 16);
   }
 
   drawCrosshair(ctx) {

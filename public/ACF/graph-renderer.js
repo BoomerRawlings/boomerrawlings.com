@@ -1,9 +1,11 @@
-import { routeGeometry, routeStyle } from './route-style.js?v=reading-20261013';
+import { routeGeometry, routeStyle } from './route-style.js?v=glyphs-20261013';
+import { nodeAppearance, nodeEndpointAppearance, appendNodeGlyph } from './node-style.js?v=glyphs-20261013';
 
 const PALETTE = { item: '#a9c9db', person: '#aaa4d0', hub: '#d89976' };
 const enabled = (kind, layers) => kind === 'item' || (kind === 'person' ? layers.names : layers.regions);
 const routeEndpointEnabled = enabled;
 const rgb = value => /^#[\da-f]{6}$/i.test(value || '') ? [1, 3, 5].map(start => parseInt(value.slice(start, start + 2), 16) / 255) : [0.66, 0.79, 0.86];
+const batchBrightness = kind => kind === 'item' ? 0.42 : kind === 'person' ? 0.48 : 0.72;
 export function routeOpacity(inferred, zoom, edgeCount = 0, focused = false) {
   const detail = Math.min(1, Math.max(0, Math.log2(Math.max(1, zoom)) / 4));
   // Dense catalogs retain every route, but their combined backdrop must not cover the stars.
@@ -22,31 +24,54 @@ export function starAppearance(zoom, selected = false) {
 const POINT_VERTEX = `
 attribute vec2 a_position; attribute float a_size; attribute vec3 a_color; attribute float a_selected;
 attribute vec4 a_viewPosition; attribute vec4 a_viewFrom; attribute vec4 a_viewTo;
+attribute vec4 a_style;
 uniform vec2 u_viewport; uniform vec2 u_pan; uniform float u_scale; uniform float u_dpr; uniform float u_zoom;
 uniform float u_hasSelection; varying vec3 v_color; varying float v_opacity;
 uniform float u_viewActive; uniform float u_viewProgress;
+varying float v_glyph;
 void main() {
   vec2 position = mix(a_position, mix(a_viewPosition.xy, a_viewPosition.zw, u_viewProgress), u_viewActive);
   vec2 screen = position * u_scale + u_pan;
   gl_Position = vec4(screen.x / u_viewport.x * 2.0 - 1.0, 1.0 - screen.y / u_viewport.y * 2.0, 0.0, 1.0);
   float selected = a_selected * u_hasSelection;
-  gl_PointSize = clamp(a_size * sqrt(u_zoom) * (1.0 + selected * 0.65), 0.6, 18.0) * 2.0 * u_dpr;
+  float radius = mix(a_size, mix(a_style.z, a_style.w, u_viewProgress), u_viewActive);
+  gl_PointSize = clamp(radius * sqrt(u_zoom) * (1.0 + selected * 0.65), 0.6, 18.0) * 2.0 * u_dpr;
   v_color = mix(a_color, vec3(1.0, 0.82, 0.57), selected);
-  v_opacity = mix(1.0, mix(0.38, 2.24, a_selected), u_hasSelection);
+  v_opacity = a_style.y * mix(1.0, mix(0.38, 2.24, a_selected), u_hasSelection);
   vec4 viewStyle = mix(a_viewFrom, a_viewTo, u_viewProgress);
   v_color = mix(v_color, viewStyle.rgb, u_viewActive);
   v_opacity = mix(v_opacity, viewStyle.a, u_viewActive);
+  v_glyph = a_style.x;
 }`;
 const POINT_FRAGMENT = `
 precision mediump float; varying vec3 v_color; varying float v_opacity; uniform float u_alpha; uniform float u_detail;
+uniform float u_workZoomBrightness;
+varying float v_glyph;
 void main() {
-  float d = length(gl_PointCoord - vec2(0.5)) * 2.0;
+  vec2 p = abs(gl_PointCoord - vec2(0.5)) * 2.0;
+  float d = length(p);
+  float shape;
+  if (v_glyph > 2.5) {
+    shape = (1.0 - smoothstep(0.88, 1.0, d)) * smoothstep(0.65, 0.78, d);
+    gl_FragColor = vec4(v_color, clamp(u_alpha * v_opacity, 0.0, 0.96) * shape); return;
+  }
+  if (v_glyph > 1.5) {
+    float hex = max(p.x * 0.8660254 + p.y * 0.5, p.y) / 0.8660254;
+    float outline = (1.0 - smoothstep(0.88, 1.0, hex)) * smoothstep(0.65, 0.78, hex);
+    float beacon = 1.0 - smoothstep(0.12, 0.23, p.x + p.y);
+    gl_FragColor = vec4(v_color, clamp(u_alpha * v_opacity, 0.0, 0.96) * max(outline, beacon)); return;
+  }
+  if (v_glyph > 0.5) {
+    float diamond = p.x + p.y;
+    shape = 1.0 - smoothstep(0.7, 1.0, diamond);
+    gl_FragColor = vec4(v_color, clamp(u_alpha * v_opacity, 0.0, 0.96) * shape); return;
+  }
   if (d > 1.0) discard;
   float core = 1.0 - smoothstep(0.0, 0.38, d);
   float halo = (1.0 - d) * (1.0 - d);
-  float shape = mix(1.0 - smoothstep(0.55, 1.0, d), core * 0.7 + halo * 0.3, u_detail);
+  shape = mix(1.0 - smoothstep(0.55, 1.0, d), core * 0.7 + halo * 0.3, u_detail);
   vec3 color = mix(v_color, vec3(1.0), core * u_detail * 0.42);
-  gl_FragColor = vec4(color, u_alpha * v_opacity * shape);
+  gl_FragColor = vec4(color, clamp(u_alpha * v_opacity * u_workZoomBrightness, 0.0, 0.96) * shape);
 }
 `;
 const LINE_VERTEX = `
@@ -124,7 +149,7 @@ export class GraphRenderer {
         attributes: Object.fromEntries(attributes.map(name => [name, gl.getAttribLocation(program, name)])),
         uniforms: Object.fromEntries(uniforms.map(name => [name, gl.getUniformLocation(program, name)])),
       });
-      this.pointLocations = locations(this.pointsProgram, ['a_position', 'a_size', 'a_color', 'a_selected', 'a_viewPosition', 'a_viewFrom', 'a_viewTo'], ['u_viewport', 'u_pan', 'u_scale', 'u_dpr', 'u_zoom', 'u_alpha', 'u_detail', 'u_hasSelection', 'u_viewActive', 'u_viewProgress']);
+      this.pointLocations = locations(this.pointsProgram, ['a_position', 'a_size', 'a_color', 'a_selected', 'a_viewPosition', 'a_viewFrom', 'a_viewTo', 'a_style'], ['u_viewport', 'u_pan', 'u_scale', 'u_dpr', 'u_zoom', 'u_alpha', 'u_detail', 'u_workZoomBrightness', 'u_hasSelection', 'u_viewActive', 'u_viewProgress']);
       this.lineLocations = locations(this.linesProgram, ['a_position', 'a_progress', 'a_destination'], ['u_viewport', 'u_pan', 'u_scale', 'u_inferred', 'u_alpha', 'u_color', 'u_time', 'u_speed', 'u_flow', 'u_viewActive', 'u_viewProgress']);
       gl.enable(gl.BLEND); gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
       this.backend = 'webgl'; this.gpuCanvas.style.visibility = 'visible';
@@ -139,6 +164,7 @@ export class GraphRenderer {
     if (!gl) return;
     for (const group of [...this.pointGroups, ...this.edgeGroups]) if (group.buffer) gl.deleteBuffer(group.buffer);
     for (const group of this.pointGroups) if (group.selectionBuffer) gl.deleteBuffer(group.selectionBuffer);
+    for (const group of this.pointGroups) if (group.styleBuffer) gl.deleteBuffer(group.styleBuffer);
     this.releaseComparison();
     if (this.pointsProgram) gl.deleteProgram(this.pointsProgram);
     if (this.linesProgram) gl.deleteProgram(this.linesProgram);
@@ -148,11 +174,16 @@ export class GraphRenderer {
     this.setComparison(null);
     if (this.gl) for (const group of [...this.pointGroups, ...this.edgeGroups]) if (group.buffer) this.gl.deleteBuffer(group.buffer);
     if (this.gl) for (const group of this.pointGroups) if (group.selectionBuffer) this.gl.deleteBuffer(group.selectionBuffer);
+    if (this.gl) for (const group of this.pointGroups) if (group.styleBuffer) this.gl.deleteBuffer(group.styleBuffer);
     this.nodes = nodes; this.edges = edges; this.byId = byId;
     this.pointGroups = ['item', 'person', 'hub'].map(kind => {
-      const members = nodes.filter(node => node.kind === kind), values = new Float32Array(members.length * 6);
-      members.forEach((node, i) => values.set([node.x, node.y, node.size, ...rgb(node.color || PALETTE[kind])], i * 6));
-      return { kind, count: members.length, values, members };
+      const members = nodes.filter(node => node.kind === kind), values = new Float32Array(members.length * 6), styleValues = new Float32Array(members.length * 4);
+      members.forEach((node, i) => {
+        const style = nodeAppearance(node);
+        values.set([node.x, node.y, style.radius, ...rgb(node.color || PALETTE[kind])], i * 6);
+        styleValues.set([style.glyph, style.brightness / batchBrightness(kind), style.radius, style.radius], i * 4);
+      });
+      return { kind, count: members.length, values, styleValues, members };
     });
     const groups = new Map(); this.routes = new Map();
     for (const edge of edges) {
@@ -197,8 +228,11 @@ export class GraphRenderer {
       group.comparisonValues = new Float32Array(group.count * 12);
       group.members.forEach((node, i) => {
         const { from, to } = comparison.points.get(node.id);
-        group.comparisonValues.set([from.x, from.y, to.x, to.y, ...rgb(from.color), from.opacity, ...rgb(to.color), to.opacity], i * 12);
+        const fromStyle = nodeEndpointAppearance(node, from), toStyle = nodeEndpointAppearance(node, to);
+        group.styleValues[i * 4 + 2] = fromStyle.radius; group.styleValues[i * 4 + 3] = toStyle.radius;
+        group.comparisonValues.set([from.x, from.y, to.x, to.y, ...rgb(from.color), from.opacity * fromStyle.brightness / batchBrightness(group.kind), ...rgb(to.color), to.opacity * toStyle.brightness / batchBrightness(group.kind)], i * 12);
       });
+      this.uploadStyle(group);
     }
     if (comparison) {
       const groups = new Map();
@@ -246,6 +280,11 @@ export class GraphRenderer {
     gl.bindBuffer(gl.ARRAY_BUFFER, group.selectionBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, group.selectionValues, gl.DYNAMIC_DRAW);
   }
+  uploadStyle(group) {
+    if (!this.gl || !group.styleValues) return;
+    const gl = this.gl; group.styleBuffer ||= gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, group.styleBuffer); gl.bufferData(gl.ARRAY_BUFFER, group.styleValues, gl.STATIC_DRAW);
+  }
   upload() {
     if (!this.gl) return;
     const gl = this.gl;
@@ -254,6 +293,7 @@ export class GraphRenderer {
     }
     // A restored context needs a new mask buffer as well as the original geometry.
     for (const group of this.pointGroups) if (group.selectionValues) { group.selectionBuffer = null; this.uploadSelection(group); }
+    for (const group of this.pointGroups) { group.styleBuffer = null; this.uploadStyle(group); }
     this.uploadComparison();
   }
   camera(locations, camera) {
@@ -280,7 +320,8 @@ export class GraphRenderer {
         const view = group.comparisonValues, vi = i * 2, progress = this.comparisonProgress;
         if (this.comparison && group.kind !== 'item' && view[vi + 7] + (view[vi + 11] - view[vi + 7]) * progress <= 0.001) continue;
         const wx = this.comparison ? view[vi] + (view[vi + 2] - view[vi]) * progress : values[i], wy = this.comparison ? view[vi + 1] + (view[vi + 3] - view[vi + 1]) * progress : values[i + 1];
-        const x = wx * scale + px, y = wy * scale + py, radius = Math.min(18, Math.max(0.6, values[i + 2] * growth));
+        const si = (i / 6) * 4, baseRadius = this.comparison ? group.styleValues[si + 2] + (group.styleValues[si + 3] - group.styleValues[si + 2]) * progress : values[i + 2];
+        const x = wx * scale + px, y = wy * scale + py, radius = Math.min(18, Math.max(0.6, baseRadius * growth));
         if (x + radius >= 0 && x - radius <= width && y + radius >= 0 && y - radius <= height) count++;
       }
       counts.inViewCount += count;
@@ -326,11 +367,15 @@ export class GraphRenderer {
       const locations = this.pointLocations; this.camera(locations, camera);
       gl.uniform1f(locations.uniforms.u_dpr, camera.dpr); gl.uniform1f(locations.uniforms.u_zoom, camera.scale / camera.baseScale);
       gl.uniform1f(locations.uniforms.u_detail, appearance.detail);
+      // An item batch can contain publication/source glyphs as well as work dots.
+      // Apply the distance curve only to the work fragment branch, not its peers.
+      gl.uniform1f(locations.uniforms.u_workZoomBrightness, appearance.alpha / 0.42);
       gl.uniform1f(locations.uniforms.u_viewActive, this.comparison ? 1 : 0); gl.uniform1f(locations.uniforms.u_viewProgress, this.comparisonProgress);
       for (const group of this.pointGroups) {
         if (!enabled(group.kind, layers) || !group.count) continue;
         gl.bindBuffer(gl.ARRAY_BUFFER, group.buffer);
         this.attribute(locations.attributes.a_position, 2, 24, 0); this.attribute(locations.attributes.a_size, 1, 24, 8); this.attribute(locations.attributes.a_color, 3, 24, 12);
+        gl.bindBuffer(gl.ARRAY_BUFFER, group.styleBuffer); this.attribute(locations.attributes.a_style, 4, 16, 0);
         if (this.comparison) {
           gl.bindBuffer(gl.ARRAY_BUFFER, group.comparisonBuffer);
           this.attribute(locations.attributes.a_viewPosition, 4, 48, 0); this.attribute(locations.attributes.a_viewFrom, 4, 48, 16); this.attribute(locations.attributes.a_viewTo, 4, 48, 32);
@@ -343,7 +388,7 @@ export class GraphRenderer {
           gl.disableVertexAttribArray(locations.attributes.a_selected); this.activeAttributes.delete(locations.attributes.a_selected);
           gl.vertexAttrib1f(locations.attributes.a_selected, 0);
         }
-        gl.uniform1f(locations.uniforms.u_alpha, group.kind === 'item' ? appearance.alpha : group.kind === 'person' ? 0.48 : 0.72);
+        gl.uniform1f(locations.uniforms.u_alpha, batchBrightness(group.kind));
         gl.drawArrays(gl.POINTS, 0, group.count); stats.drawnPoints += group.count;
         if (group.kind === 'item') stats.submittedRecords += group.count;
         if (group.kind === 'person') stats.submittedNames += group.count;
@@ -358,20 +403,29 @@ export class GraphRenderer {
       for (const node of screen) {
         const selected = !this.comparison && node.kind === 'item' && this.selection?.has(node.id);
         const transition = this.comparison?.points.get(node.id), progress = this.comparisonProgress;
+        const zoom = camera.scale / camera.baseScale, style = nodeAppearance(node, zoom, { selected });
+        const fromStyle = transition ? nodeEndpointAppearance(node, transition.from) : style;
+        const toStyle = transition ? nodeEndpointAppearance(node, transition.to) : style;
+        const radius = transition ? Math.min(18, Math.max(0.6, (fromStyle.radius + (toStyle.radius - fromStyle.radius) * progress) * Math.sqrt(zoom))) : style.radius;
         const fromColor = transition ? rgb(transition.from.color) : null, toColor = transition ? rgb(transition.to.color) : null;
         const color = transition ? `rgb(${fromColor.map((value, i) => Math.round((value + (toColor[i] - value) * progress) * 255)).join(',')})` : selected ? '#ffd192' : node.color || PALETTE[node.kind];
-        const alpha = (node.kind === 'item' ? (!this.comparison && this.selection ? selected ? 0.94 : 0.16 : appearance.alpha) : node.kind === 'person' ? 0.48 : 0.72) * (transition ? transition.from.opacity + (transition.to.opacity - transition.from.opacity) * progress : 1);
-        const key = `${color}:${alpha}`;
-        if (!groups.has(key)) groups.set(key, { color, alpha, growth: selected ? 1.65 : 1, nodes: [] });
-        groups.get(key).nodes.push(node);
+        const zoomBrightness = style.type === 'work' ? appearance.alpha / 0.42 : 1;
+        const brightness = transition ? (fromStyle.brightness * transition.from.opacity + (toStyle.brightness * transition.to.opacity - fromStyle.brightness * transition.from.opacity) * progress) * zoomBrightness : (!this.comparison && node.kind === 'item' && this.selection ? nodeAppearance(node).brightness * (selected ? 2.24 : 0.38) : style.brightness);
+        const alpha = Math.min(0.96, brightness), key = `${style.type}:${color}:${alpha}`;
+        if (!groups.has(key)) groups.set(key, { type: style.type, color, alpha, nodes: [], radii: [] });
+        const group = groups.get(key); group.nodes.push(node); group.radii.push(radius);
         if (node.kind === 'item') stats.submittedRecords++;
         if (node.kind === 'person') stats.submittedNames++;
       }
-      for (const { color, alpha, growth, nodes } of groups.values()) {
+      for (const { type, color, alpha, nodes, radii } of groups.values()) {
         ctx.globalAlpha = alpha;
-        ctx.fillStyle = color; ctx.beginPath();
-        for (const node of nodes) { const radius = Math.min(18, node.radius * growth); ctx.moveTo(node.sx + radius, node.sy); ctx.arc(node.sx, node.sy, radius, 0, Math.PI * 2); }
-        ctx.fill(); stats.drawnPoints += nodes.length;
+        ctx.fillStyle = color; ctx.strokeStyle = color; ctx.lineWidth = Math.max(0.8, radii[0] * 0.13); ctx.beginPath();
+        nodes.forEach((node, i) => appendNodeGlyph(ctx, type, node.sx, node.sy, radii[i]));
+        if (type === 'source' || type === 'theme') ctx.stroke(); else ctx.fill();
+        if (type === 'source') {
+          ctx.beginPath(); nodes.forEach((node, i) => appendNodeGlyph(ctx, 'person', node.sx, node.sy, Math.max(0.55, radii[i] * 0.18))); ctx.fill();
+        }
+        stats.drawnPoints += nodes.length;
       }
       ctx.globalAlpha = 1;
     }

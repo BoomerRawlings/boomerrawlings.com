@@ -4,6 +4,7 @@ import { AtlasGraph } from '../public/ACF/graph.js';
 import { routeOpacity } from '../public/ACF/graph-renderer.js';
 import { routeStyle, routePointAt } from '../public/ACF/route-style.js';
 import { buildTerritory } from '../public/ACF/territory-geometry.js';
+import { nodeAppearance } from '../public/ACF/node-style.js';
 
 function fakeGL() {
   let id = 0, buffer = null, program = null;
@@ -15,7 +16,7 @@ function fakeGL() {
     createShader: () => ({ id: ++id }), shaderSource() {}, compileShader() {}, getShaderParameter: () => true, deleteShader() {},
     createProgram: () => ({ id: ++id }), attachShader() {}, linkProgram() {}, getProgramParameter: () => true,
     deleteProgram: value => gl.deletedPrograms.push(value),
-    getAttribLocation: (_, name) => ({ a_position: 0, a_size: 1, a_distance: 1, a_color: 2, a_selected: 3, a_progress: 4, a_destination: 5, a_viewPosition: 4, a_viewFrom: 5, a_viewTo: 6 })[name],
+    getAttribLocation: (_, name) => ({ a_position: 0, a_size: 1, a_distance: 1, a_color: 2, a_selected: 3, a_progress: 4, a_destination: 5, a_viewPosition: 4, a_viewFrom: 5, a_viewTo: 6, a_style: 7 })[name],
     getUniformLocation: (_, name) => name, useProgram: value => { program = value; }, uniform1f: (name, value) => gl.uniforms.push({ program, name, value }), uniform2f() {}, uniform3f() {},
     createBuffer: () => ({ id: ++id }), bindBuffer: (_, value) => { buffer = value; },
     bufferData: (_, values) => { buffers.set(buffer, values); gl.uploads.push({ buffer, values }); },
@@ -158,6 +159,7 @@ for (const dense of [false, true]) test(`entrance targets cover real visible rec
     { id: 'offscreen', kind: 'item', x: -10000, y: -10000 }, { id: 'outside-margin', kind: 'item', x: (5 - camera.pan.x) / camera.scale, y: 250 });
   const canonical = nodes.map(({ id, x, y }) => ({ id, x, y }));
   h.graph.setData({ nodes, edges: [] }); h.graph.setActive(true);
+  const cleared = h.graph.nodes.map(({ id, x, y }) => ({ id, x, y }));
   h.graph.scale = camera.scale; h.graph.pan = { ...camera.pan }; h.tick(0);
   const groups = h.graph.renderer.pointGroups.map(group => ({ values: group.values, buffer: group.buffer, bytes: [...group.values] }));
   const uploads = h.gl.uploads.length, targets = h.graph.entranceTargets();
@@ -173,7 +175,7 @@ for (const dense of [false, true]) test(`entrance targets cover real visible rec
     assert(target.radius > 0 && Number.isFinite(target.radius)); assert.equal(target.color, '#aaccee');
   }
   assert.deepEqual(h.graph.entranceTargets(), targets, 'The same field has stable IDs and destinations');
-  assert.deepEqual(h.graph.nodes.map(({ id, x, y }) => ({ id, x, y })), canonical);
+  assert.deepEqual(h.graph.nodes.map(({ id, x, y }) => ({ id, x, y })), cleared);
   assert.deepEqual(nodes.map(({ id, x, y }) => ({ id, x, y })), canonical);
   h.graph.renderer.pointGroups.forEach((group, i) => {
     assert.equal(group.values, groups[i].values); assert.equal(group.buffer, groups[i].buffer);
@@ -261,7 +263,7 @@ test('comparison name labels count distinct displayed credit records, retaining 
   assert.equal(h.previews.at(-1).node.id, node.id);
   assert.equal(h.graph.comparison.labelCounts.get(node.id), 2, 'Two roles on the same record do not inflate displayed count');
   assert.equal(node.count, 1699, 'Original catalog-wide metadata stays intact');
-  assert(h.graph.labelPlans.find(plan => plan.node.id === node.id)?.sub.startsWith('2 records in this view'));
+  assert.equal(h.graph.labelPlans.find(plan => plan.node.id === node.id)?.count, '2 connections');
   assert.equal(h.graph.comparison.labelCounts.get('@theme:left'), 45, 'A hovered theme counts all selected theme members, including shared records');
 });
 
@@ -577,10 +579,10 @@ function assertReadableOverview(h) {
   const items = named.filter(node => node.kind === 'item');
   assert.ok(people.length >= (compact ? 2 : 3) && people.length <= (compact ? 2 : 4), 'overview reserves readable person labels');
   assert.ok(items.length >= (compact ? 2 : 3) && items.length <= (compact ? 2 : 4), 'overview shows representative publication titles');
-  assert.ok(people.some(person => person.label === 'Name 11'), 'highest-count person retains priority');
+  assert.ok(people.some(person => person.label === 'Name 0'), 'most connected person retains priority over catalog-wide counts');
   for (const person of people) {
     assert.ok(h.labels.includes(person.label));
-    assert.ok(h.labels.some(value => value.startsWith(`${person.count} records`)), 'visible person includes its count');
+    assert.ok(h.labels.includes(`${person.connectionCount} connections`), 'visible person includes its unique-neighbor count');
   }
   assert.ok(h.labels.includes('Article · IEET'), 'records expose their type and source collection');
   assert.ok(h.graph.labelPlans.filter(plan => plan.node.kind === 'item').every(plan => plan.lines.length === 2), 'representative titles use two readable lines');
@@ -643,7 +645,7 @@ test('desktop and compact views reveal every person through keyboard navigation 
       assert.equal(h.selected.at(-1).id, person.id, 'pointer selection reaches the person callback');
       h.labels.length = 0; h.labelBoxes.length = 0; h.tick(0);
       assert.ok(h.labels.includes(person.label), 'selected person label is always painted');
-      assert.ok(h.labels.some(value => value.startsWith(`${person.count} records`)), 'selected person count is always painted');
+      assert.ok(h.labels.includes(`${person.connectionCount} connections`), 'selected person connection count is always painted');
       h.send('pointerleave');
       const priorSelections = h.selected.length;
       h.send('keydown', { key: 'Enter' });
@@ -651,7 +653,7 @@ test('desktop and compact views reveal every person through keyboard navigation 
       assert.equal(h.selected.at(-1).id, person.id, 'keyboard retains the focused person after pointer departure');
       h.labels.length = 0; h.labelBoxes.length = 0; h.tick(0);
       assert.ok(h.labels.includes(person.label), 'keyboard-selected person label remains painted');
-      assert.ok(h.labels.some(value => value.startsWith(`${person.count} records`)), 'keyboard-selected person count remains painted');
+      assert.ok(h.labels.some(value => value === `${person.connectionCount} connections`), 'keyboard-selected person count remains painted');
     }
   }
 });
@@ -1272,8 +1274,8 @@ test('GPU submits all 33,945 record vertices with exact buffer parity; camera an
   assert.equal(records.count, 33945);
   assert.equal(records.values.length, 33945 * 6);
   for (let i = 0; i < records.count; i++) {
-    assert.equal(records.values[i * 6], data.nodes[i].x);
-    assert.equal(records.values[i * 6 + 1], data.nodes[i].y);
+    assert.equal(records.values[i * 6], Math.fround(h.graph.byId.get(data.nodes[i].id).x));
+    assert.equal(records.values[i * 6 + 1], Math.fround(h.graph.byId.get(data.nodes[i].id).y));
   }
   assert.equal(h.canvas.dataset.recordIdCount, '33945');
   assert.equal(h.canvas.dataset.submittedRecords, '33945');
@@ -1524,7 +1526,7 @@ test('overview names and routes stay faint while zoom strengthens routes without
   h.graph.setData(fullScaleData()); h.graph.setActive(true); h.tick(0);
   const renderer = h.graph.renderer, nameBatch = renderer.pointGroups.find(group => group.kind === 'person');
   assert.equal(nameBatch.count, 7361);
-  for (let i = 2; i < nameBatch.values.length; i += 6) assert.ok(Math.abs(nameBatch.values[i] - 0.9) < 1e-6);
+  for (let i = 0; i < nameBatch.count; i++) assert.ok(Math.abs(nameBatch.values[i * 6 + 2] - nodeAppearance(nameBatch.members[i]).radius) < 1e-6);
   assert.ok(h.gl.uniforms.some(call => call.program === renderer.pointsProgram && call.name === 'u_alpha' && call.value === 0.48));
   assert.deepEqual(h.gl.blendFactors, [h.gl.SRC_ALPHA, h.gl.ONE_MINUS_SRC_ALPHA, h.gl.ONE, h.gl.ONE_MINUS_SRC_ALPHA], 'transparent compositing preserves source alpha rather than squaring it');
   for (const inferred of [false, true]) {
@@ -1670,7 +1672,7 @@ test('Canvas selection paints only exact member IDs bright while surrounding rec
   ctx.fill = () => batches.push({ color: ctx.fillStyle, alpha: ctx.globalAlpha, arcs });
   h.graph.setRegionSelection(new Set(['record-1', 'record-7', 'record-19']), { id: 'unmatched' }); h.tick(0);
   const bright = batches.find(batch => batch.color === '#ffd192'), dim = batches.find(batch => batch.color === '#a9c9db');
-  assert.equal(bright.alpha, 0.94); assert.equal(dim.alpha, 0.16);
+  assert.ok(Math.abs(bright.alpha - 0.94) < 0.002); assert.ok(Math.abs(dim.alpha - 0.16) < 0.002);
   assert.deepEqual(bright.arcs, ['record-1', 'record-7', 'record-19'].map(id => h.graph.anchor(h.graph.byId.get(id))));
   assert.equal(dim.arcs.length, 17); assert.equal(h.canvas.dataset.submittedRecords, '20');
   assert.equal(h.frames.size, 0, 'selection is static under reduced motion');

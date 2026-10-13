@@ -1,10 +1,10 @@
-import { AtlasGraph } from './graph.js?v=reading-20261013';
-import { NodePreview } from './node-preview.js?v=reading-20261013';
-import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=reading-20261013';
-import { getRegions, regionFacets } from './regions.js?v=reading-20261013';
-import { UIMotion } from './ui-motion.js?v=reading-20261013';
-import { compareTerritories } from './comparison.js?v=reading-20261013';
-import { mapReading } from './map-reading.js?v=reading-20261013';
+import { AtlasGraph } from './graph.js?v=glyphs-20261013';
+import { NodePreview } from './node-preview.js?v=glyphs-20261013';
+import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=glyphs-20261013';
+import { getRegions, regionFacets } from './regions.js?v=glyphs-20261013';
+import { UIMotion } from './ui-motion.js?v=glyphs-20261013';
+import { compareTerritories } from './comparison.js?v=glyphs-20261013';
+import { mapReading } from './map-reading.js?v=glyphs-20261013';
 
 const $ = id => document.getElementById(id);
 const number = n => n.toLocaleString();
@@ -205,7 +205,7 @@ function renderGraph() {
   for (const node of data.nodes) {
     if (node.typeLabel) continue;
     const item = index.byId.get(node.id), person = index.people.get(node.id);
-    node.typeLabel = item ? label(item.type) : person ? 'Catalog-local name' : 'Inferred theme';
+    node.typeLabel = item ? label(item.type) : node.roleLabel || (node.visualType === 'source' ? 'Source or group' : person ? 'Credited name' : 'Inferred subject');
     node.collectionLabel = index.catalogById.get((item || person)?.catalogId)?.label || 'Loaded collections';
     node.metaLabel = item ? node.typeLabel + ' · ' + node.collectionLabel : node.typeLabel;
   }
@@ -256,6 +256,7 @@ function renderMapReading() {
     return bubble;
   }));
   $('map-reading-note').textContent = data.note;
+  $('node-glyph-note').textContent = data.nodeNote;
   uiMotion.reveal(guide, { key: data.key, fields: [...$('map-reading-cards').children], mode: 'view' });
 }
 function renderRegionNavigation() {
@@ -627,7 +628,8 @@ function showItem(item) {
 function showPerson(id) {
   uiMotion.cancel($('detail'));
   selection = id; openDetail(); const person = index.people.get(id), credits = index.byPerson.get(id) || [];
-  $('detail-content').replaceChildren(el('p', 'detail-kicker', 'Credited name / ' + index.catalogById.get(person.catalogId).label), el('h2', 'detail-title', person.name), el('p', 'detail-note', `${label(person.entityStatus)}. This name label is kept separate from matching names in other catalogs.`), el('p', 'detail-meta', `${number(new Set(credits.map(c => c.itemId)).size)} records with documented credits.`));
+  const roleLabel = index.graph?.byId.get(id)?.roleLabel || 'Credited name';
+  $('detail-content').replaceChildren(el('p', 'detail-kicker', roleLabel + ' / ' + index.catalogById.get(person.catalogId).label), el('h2', 'detail-title', person.name), el('p', 'detail-note', `${label(person.entityStatus)}. This name label is kept separate from matching names in other catalogs.`), el('p', 'detail-meta', `${number(new Set(credits.map(c => c.itemId)).size)} records with documented credits.`));
   $('detail-content').append(detailSection('Roles in this snapshot', [el('p', 'detail-note', [...new Set(credits.map(c => label(c.role)))].join(' · '))]), detailSection('Credit evidence', sourceLinks(credits.flatMap(c => c.sourceUrls || []).slice(0, 15))));
   const affiliations = index.affiliations.get(id) || [];
   if (affiliations.length) $('detail-content').append(detailSection('Documented affiliation assertions', affiliations.map(a => { const row = el('div'); row.append(el('p', '', [a.organization, a.role, a.temporalStatus].filter(Boolean).join(' · ')), ...sourceLinks(a.sourceUrls || [])); return row; })));

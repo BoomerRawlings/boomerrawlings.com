@@ -1,5 +1,5 @@
-import { THEMES } from './model.js?v=reading-20261013';
-import { ROUTE_STYLES, routeStyle } from './route-style.js?v=reading-20261013';
+import { THEMES } from './model.js?v=glyphs-20261013';
+import { ROUTE_STYLES, routeStyle } from './route-style.js?v=glyphs-20261013';
 
 const number = value => Number(value).toLocaleString('en-US');
 const recordCount = (count, qualifier = '') => `${number(count)} ${qualifier}${count === 1 ? 'record' : 'records'}`;
@@ -61,9 +61,9 @@ export function mapReading(index, { comparison = null, region = null, records = 
       body: `Titles match both selected subjects. Each shared record appears once. Separately, ${number(documented)} recorded and ${number(inferred)} inferred record links cross the exclusive sides or pass through a shared record.`,
       terms: matchedTerms(comparison.sharedRecords, [comparison.left.id, comparison.right.id]),
     }, group(comparison.right, comparison.rightOnly), {
-      id: 'junctions', eyebrow: 'Read the bright junctions', title: 'Subject suns & credited names',
+      id: 'junctions', eyebrow: 'Read the junctions', title: 'Sources, names & subject anchors',
       value: `${number(comparison.sharedPeople.length)} names credited in both territories`,
-      body: `Subject suns are grouping anchors, not publications. Names between clusters have source credits in both territories; ${number(comparison.bridgePersonIds.size)} have credits on distinct records in both exclusive sides. Shared records alone can also bring a name into the middle. Names stay separate across catalogs.`,
+      body: `Hollow subject anchors mark title-keyword groups. Hexagonal source accounts and diamond name labels carry source credits. Names between clusters have credits in both territories; ${number(comparison.bridgePersonIds.size)} have credits on distinct records in both exclusive sides. Shared records alone can also bring a name into the middle. Names stay separate across catalogs.`,
     });
     caption = `${recordCount(comparison.memberIds.size, 'unique ')} · title words define the groups. “Only” means within this selected pair; it does not mean a record has no other subjects.`;
   } else {
@@ -90,12 +90,13 @@ export function mapReading(index, { comparison = null, region = null, records = 
         body: 'Literal title keywords determine membership. A record can match several groups, or none. The soft shapes illustrate the layout; distance and overlap are not evidence of a relationship.' });
       caption = 'Read the map through records, title-word groups and source connections. Select two subject territories for a separated comparison.';
     }
-    cards.push({ id: 'junctions', eyebrow: 'Read the bright junctions', title: 'Subject suns & credited names', value: 'Two different kinds of anchor',
-      body: 'A subject sun gathers title matches; it is not a publication. A name point gathers source-listed credits and may represent a person, group or publishing account. Follow the colored routes to tell them apart.' });
+    cards.push({ id: 'junctions', eyebrow: 'Read the junctions', title: 'Sources, names & subject anchors', value: 'Different shapes, different roles',
+      body: 'Hexagonal beacons identify known source or group labels. Diamonds represent authors and other credited names, including unresolved labels. Hollow rings mark inferred title subjects. Names stay separate across catalogs.' });
   }
   const routes = routeKey(comparison, layers);
   const note = (comparison ? 'Route counts cover this whole comparison, including links inside each cluster; they are not counts of links crossing between clusters. ' : '')
     + 'Flow speed distinguishes evidence categories; it is not a confidence score or a measure of influence. Matched-word counts use unique records in each group.';
-  const model = { caption, cards, routes, note };
+  const nodeNote = 'Within each type, brighter and larger points have more unique linked neighbors in the current view. Size is bounded. Hexagons also include publishing accounts; catalog-local names stay separate. Title-group spokes are excluded; brightness does not measure readership or influence.';
+  const model = { caption, cards, routes, note, nodeNote };
   return { key: JSON.stringify(model), ...model };
 }

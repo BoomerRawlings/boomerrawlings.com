@@ -12,6 +12,13 @@ import { mapReading } from '../public/ACF/map-reading.js';
 const source = readFileSync(new URL('../public/ACF/entry.js', import.meta.url), 'utf8');
 const appSource = readFileSync(new URL('../public/ACF/app.js', import.meta.url), 'utf8');
 const markup = readFileSync(new URL('../src/pages/ACF/index.astro', import.meta.url), 'utf8');
+// Reuse immutable fixture bytes, never parsed catalogs, model indexes or VMs.
+// Each simulated response still exercises the application's real JSON parse.
+const catalogSourceTexts = new Map();
+function catalogSource(file) {
+  if (!catalogSourceTexts.has(file)) catalogSourceTexts.set(file, readFileSync(new URL('../public/ACF/data/' + file, import.meta.url), 'utf8'));
+  return catalogSourceTexts.get(file);
+}
 const flush = () => new Promise(setImmediate);
 const event = (type, properties = {}) => Object.assign(new Event(type, { cancelable: true }), properties);
 
@@ -34,8 +41,10 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
   document.hidden = false;
   document.timeline = { get currentTime() { return timelineClock ? now - timelineLag : null; } };
   document.title = markup.match(/<title>(.*?)<\/title>/)[1];
+  // Reports outlive each harness. Nested VM objects retain their realm, including
+  // its complete app index; copy diagnostic values without retaining that realm.
   const record = (event, detail = {}) => trace.push({ at: now, task, event, activeAnimations: activeAnimations.size,
-    entranceAnimations: [...activeAnimations.values()].filter(target => /^(entry-|atlas-letter-|atlas-gpu-points$|network$)/.test(target)).length, ...detail });
+    entranceAnimations: [...activeAnimations.values()].filter(target => /^(entry-|atlas-letter-|atlas-gpu-points$|network$)/.test(target)).length, ...structuredClone(detail) });
   const schedule = (callback, delay = 0) => {
     const id = ++timerId;
     timers.set(id, { at: now + delay, callback });
@@ -207,8 +216,8 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
     click(id) { $(id).dispatchEvent(event('click')); },
     loadApp({ fetchDelay = 0, directoryDelay = fetchDelay, bodyDelay = 0, failPath = null, networkFailPath = null, corruptPath = null } = {}) {
       hasApp = true;
-      const directory = JSON.parse(readFileSync(new URL('../public/ACF/data/index.json', import.meta.url), 'utf8'));
-      const data = new Map(directory.catalogs.map(entry => ['/ACF/data/' + entry.file, readFileSync(new URL('../public/ACF/data/' + entry.file, import.meta.url), 'utf8')]));
+      const directory = JSON.parse(catalogSource('index.json'));
+      const data = new Map(directory.catalogs.map(entry => ['/ACF/data/' + entry.file, catalogSource(entry.file)]));
       const body = path => path === corruptPath ? '{invalid json' : path.endsWith('/index.json') ? JSON.stringify(directory) : data.get(path);
       class Graph {
         constructor(_canvas, options = {}) { currentGraph = this; this.ctx = {}; this.onStatus = options.onStatus; this.onSelect = options.onSelect; record('graph:construct'); }
@@ -825,6 +834,10 @@ for (const reduced of [false, true]) for (const fetchDelay of [0, 800]) {
   assertNoModelMotionOverlap(h);
   const fetches = h.trace.filter(step => step.event === 'fetch:start');
   assert.equal(fetches.length, 10);
+  const layersSnapshot = h.trace.find(step => step.event === 'graph:setLayers').layers;
+  const regionSnapshot = h.trace.find(step => step.event === 'graph:setRegionSelection').meta;
+  assert.equal(Object.getPrototypeOf(layersSnapshot), Object.prototype, 'Retained layer diagnostics cannot keep a complete VM/app realm alive');
+  assert.equal(Object.getPrototypeOf(regionSnapshot), Object.prototype, 'Retained region diagnostics must also be detached values');
   loadSequences.push({ reduced, fetchDelay, readyAt: ready[0].at, trace: h.trace.map(step => ({ ...step })) });
   h.click('return-entry'); h.type('atlas'); h.submit(); await h.settle(); usable(h, 2);
   assert.equal(h.trace.filter(step => step.event === 'fetch:start').length, 10, 'Reentry uses the actual application cache');
