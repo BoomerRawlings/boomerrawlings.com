@@ -221,6 +221,50 @@ function comparisonFixture() {
   return { data: { nodes, edges }, config };
 }
 
+for (const vertical of [false, true]) test(`comparison captions explain exclusive clouds and the shared middle at ${vertical ? 'phone' : 'desktop'} overview without entering hit indexes`, t => {
+  const h = harness(t, { gpu: true, reducedMotion: true }), { data, config } = comparisonFixture();
+  if (vertical) { h.canvas.rect = { ...h.canvas.rect, width: 320, height: 520 }; h.graph.measure(); }
+  h.graph.setData(data); h.graph.setActive(true); h.graph.setComparison(config); h.tick(0);
+  const plans = h.graph.comparisonLabelPlans;
+  assert.equal(plans.length, 3, 'Every membership group has a persistent caption');
+  assert.deepEqual(plans.map(plan => plan.key), ['left', 'shared', 'right']);
+  assert.equal(plans[0].title.join(' '), 'Left territory');
+  assert.equal(plans[2].title.join(' '), 'Right territory');
+  assert.deepEqual(plans[0].lines, ['35 records', 'Only this side']);
+  assert.equal(plans[1].lines[0], '10 records');
+  assert.equal(plans[1].lines[1], '2 name hubs', 'Middle includes a name credited only to shared records; it is not necessarily an exclusive-side bridge');
+  for (const plan of plans) {
+    const { box } = plan;
+    assert(box.x >= 0 && box.x + box.width <= h.graph.width && box.y >= 0 && box.y + box.height <= h.graph.height);
+    assert(h.graph.labelBoxes.every(label => label !== box && !h.graph.overlaps(label, box, 3)), 'Record hover boxes and spatial captions do not overlap');
+    assert(h.labelReports.at(-1).every(label => label.id !== plan.key), 'Decorative captions are never reported as selectable records');
+  }
+  if (vertical) assert(plans[0].box.y < plans[1].box.y && plans[1].box.y < plans[2].box.y);
+  else assert(plans[0].box.x < plans[1].box.x && plans[1].box.x < plans[2].box.x);
+  const canonical = h.graph.nodes.map(({ id, x, y }) => ({ id, x, y })), uploads = h.gl.uploads.length;
+  h.graph.requestDraw(); h.tick(0);
+  assert.equal(h.gl.uploads.length, uploads, 'Caption drawing does not rebuild graph buffers');
+  assert.deepEqual(h.graph.nodes.map(({ id, x, y }) => ({ id, x, y })), canonical);
+  h.graph.setComparison(null); h.tick(0);
+  assert.deepEqual(h.graph.comparisonLabelPlans, [], 'Caption geometry clears with comparison');
+});
+
+test('comparison name labels count distinct displayed credit records, retaining ordinary hover and catalog-wide source counts', t => {
+  const h = harness(t, { gpu: true, reducedMotion: true }), { data, config } = comparisonFixture();
+  const person = data.nodes.find(node => node.id === 'p-2'); person.count = 1699;
+  data.edges.push({ from: 'p-2', to: 'r-1', type: 'credit', role: 'Editor' });
+  h.graph.setData(data); h.graph.setActive(true); h.graph.setComparison(config); h.tick(0);
+  const node = h.graph.byId.get('p-2'), anchor = h.graph.anchor(node);
+  h.graph.labelBoxes = [];
+  h.pointer('pointermove', 1, anchor.x, anchor.y, 'mouse'); h.tick(0);
+  assert.equal(h.graph.hovered, node.id);
+  assert.equal(h.previews.at(-1).node.id, node.id);
+  assert.equal(h.graph.comparison.labelCounts.get(node.id), 2, 'Two roles on the same record do not inflate displayed count');
+  assert.equal(node.count, 1699, 'Original catalog-wide metadata stays intact');
+  assert(h.graph.labelPlans.find(plan => plan.node.id === node.id)?.sub.startsWith('2 records in this view'));
+  assert.equal(h.graph.comparison.labelCounts.get('@theme:left'), 45, 'A hovered theme counts all selected theme members, including shared records');
+});
+
 test('full Atlas reset glides from close-up to overview without reopening a selected record', t => {
   const h = harness(t), data = fixture();
   h.graph.setData(data); h.graph.setActive(true); h.tick(0);

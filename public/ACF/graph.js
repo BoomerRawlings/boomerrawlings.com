@@ -1,8 +1,8 @@
-import { SpatialGrid } from './graph-spatial.js?v=reset-20261013';
-import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=reset-20261013';
-import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=reset-20261013';
-import { buildTerritory } from './territory-geometry.js?v=reset-20261013';
-import { comparisonLayout } from './comparison-layout.js?v=reset-20261013';
+import { SpatialGrid } from './graph-spatial.js?v=reading-20261013';
+import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=reading-20261013';
+import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=reading-20261013';
+import { buildTerritory } from './territory-geometry.js?v=reading-20261013';
+import { comparisonLayout } from './comparison-layout.js?v=reading-20261013';
 
 const COLORS = { hub: '#d89976', item: '#a9c9db', person: '#aaa4d0' };
 const REGION_COLORS = ['#90c2d1', '#c5a5cc', '#d6ac7f', '#9ebd92', '#94a8d3', '#c7bb82'];
@@ -84,6 +84,7 @@ export class AtlasGraph {
     this.lastStatus = '';
     this.labelBoxes = [];
     this.labelPlans = [];
+    this.comparisonLabelPlans = [];
     this.labelsDirty = true;
     this.previewId = null;
     this.previewAnchor = { x: 0, y: 0 };
@@ -250,13 +251,27 @@ export class AtlasGraph {
     const fit = Math.min(Math.max(50, this.width - frame.left - frame.right) / (bounds.right - bounds.left), Math.max(50, this.height - frame.top - frame.bottom) / (bounds.bottom - bounds.top));
     const targetCamera = config ? { scale: fit, pan: { x: center.x, y: center.y } } : this.comparisonRestore;
     const edges = config ? layout.edges : previous.edges;
+    // Counts in a comparison describe the displayed evidence, not the person's
+    // catalog-wide total. Multiple role assertions still count one record once.
+    const creditedRecords = new Map();
+    for (const edge of edges) {
+      if (edge.type !== 'credit') continue;
+      const a = this.byId.get(edge.from), b = this.byId.get(edge.to);
+      const person = a?.kind === 'person' ? a : b?.kind === 'person' ? b : null;
+      const item = a?.kind === 'item' ? a : b?.kind === 'item' ? b : null;
+      if (!person || !item) continue;
+      if (!creditedRecords.has(person.id)) creditedRecords.set(person.id, new Set());
+      creditedRecords.get(person.id).add(item.id);
+    }
+    const labelCounts = new Map([...creditedRecords].map(([id, records]) => [id, records.size]));
+    for (const side of [config?.left || previous.config.left, config?.right || previous.config.right]) labelCounts.set(this.byId.has(side.id) ? side.id : `@theme:${side.id}`, side.memberIds.size);
     const regions = config ? [config.left, config.right].map(region => {
       const hubId = this.byId.has(region.id) ? region.id : `@theme:${region.id}`, hub = layout.targets.get(hubId) || { x: 0, y: 0 };
       const targetNodes = new Map([...layout.targets].map(([id, point]) => [id, { ...this.byId.get(id), ...point }]));
       return { ...region, id: hubId, themeId: region.id, ...hub, members: new Set(region.memberIds), territory: buildTerritory(region, targetNodes) };
     }) : previous.regions;
     this.dismissPreview('layout'); this.territoryReveal = null;
-    this.comparison = { key: config?.key || previous.key, config: config || previous.config, layout, points, edges, edgeSet: new Set(edges), regions, pickNodes: [...layout.visible].map(id => this.byId.get(id)), labelOrder: { item: this.labelOrder.item.filter(node => layout.visible.has(node.id)), hub: this.labelOrder.hub.filter(node => layout.visible.has(node.id)) }, started: performance.now(), duration: 800, progress: 0, exiting: !config, fromCamera: { scale: this.scale, pan: { ...this.pan } }, targetCamera, cameraFollowing: true, spatial: null };
+    this.comparison = { key: config?.key || previous.key, config: config || previous.config, layout, points, edges, edgeSet: new Set(edges), regions, labelCounts, pickNodes: [...layout.visible].map(id => this.byId.get(id)), labelOrder: { item: this.labelOrder.item.filter(node => layout.visible.has(node.id)), hub: this.labelOrder.hub.filter(node => layout.visible.has(node.id)) }, started: performance.now(), duration: 800, progress: 0, exiting: !config, fromCamera: { scale: this.scale, pan: { ...this.pan } }, targetCamera, cameraFollowing: true, spatial: null };
     this.renderer.setComparison({ points, edges, exiting: !config });
     this.enabledNodes = this.nodes.filter(node => this.nodeEnabled(node)); this.enabledFocus = this.focusOrder.filter(node => this.nodeEnabled(node));
     this.screenKey = ''; this.flowClock = null;
@@ -1110,10 +1125,12 @@ export class AtlasGraph {
       this.previousLabelBoxes = new Map(this.labelBoxes.map(box => [box.id, box]));
       this.labelBoxes = [];
       this.labelPlans = [];
+      this.comparisonLabelPlans = [];
       const compact = this.width < 500;
       if (points.has(emphasis)) this.placeLabel(ctx, points.get(emphasis), true);
+      this.placeComparisonLabels(ctx);
       // Regions explain the field independently of optional record/name labels or route lines.
-      if (layers.regions) for (const node of this.regionNodes) if (node.id !== emphasis && points.has(node.id) && this.nodeEnabled(node)) this.placeLabel(ctx, points.get(node.id), false);
+      if (layers.regions && !this.comparison) for (const node of this.regionNodes) if (node.id !== emphasis && points.has(node.id) && this.nodeEnabled(node)) this.placeLabel(ctx, points.get(node.id), false);
       const hubs = layers.labels ? this.screenLabelOrder.hub.filter(node => node.kind !== 'hub' && node.id !== emphasis) : [];
       const items = layers.labels ? this.screenLabelOrder.item.filter(node => node.id !== emphasis) : [];
       // Give both records and source labels space, including results with no people.
@@ -1125,6 +1142,7 @@ export class AtlasGraph {
       this.labelsDirty = false;
       this.onLabels(this.labelBoxes.map(box => ({ ...box })));
     }
+    this.paintComparisonLabels(ctx);
     for (const plan of this.labelPlans) this.paintLabel(ctx, plan);
     if (document.activeElement === this.canvas) this.drawCrosshair(ctx);
     drawStats.visibleEdges = this.renderer.backend === 'webgl' ? null : displayedEdges.length;
@@ -1263,13 +1281,64 @@ export class AtlasGraph {
     return [first, ...(words.length ? [this.fitText(ctx, words.join(' '), maximum)] : [])];
   }
 
+  placeComparisonLabels(ctx) {
+    const view = this.comparison;
+    if (!view) return;
+    const { config, layout } = view, format = value => new Intl.NumberFormat().format(value);
+    const middleNames = config.sharedPeople?.length ?? [...config.personIds].filter(id => {
+      const point = layout.targets.get(id);
+      return point && Math.abs(layout.vertical ? point.y : point.x) < 120;
+    }).length;
+    const specs = [
+      { key: 'left', title: config.left.label, color: config.left.color, lines: [`${format(config.leftOnly.size)} records`, 'Only this side'], point: layout.vertical ? { x: 0, y: -820 } : { x: -490, y: -330 } },
+      { key: 'shared', title: 'Shared middle', color: '#f2d5aa', lines: [`${format(config.shared.size)} records`, `${format(middleNames)} name hubs`], point: layout.vertical ? { x: 0, y: -80 } : { x: 0, y: -390 } },
+      { key: 'right', title: config.right.label, color: config.right.color, lines: [`${format(config.rightOnly.size)} records`, 'Only this side'], point: layout.vertical ? { x: 0, y: 170 } : { x: 490, y: -330 } },
+    ];
+    const maximum = layout.vertical ? Math.min(238, this.width - 40) : Math.min(236, Math.max(128, this.scale * 420));
+    for (const spec of specs) {
+      const point = this.anchor(spec.point);
+      // These are spatial captions: don't pin an offscreen cloud's label to an
+      // unrelated patch of sky after the reader zooms or pans into a record.
+      if (point.x < -maximum / 2 || point.x > this.width + maximum / 2 || point.y < -72 || point.y > this.height) continue;
+      ctx.font = '500 12px system-ui, sans-serif';
+      const title = this.titleLines(ctx, spec.title, maximum - 20);
+      ctx.font = '11px system-ui, sans-serif';
+      const lines = spec.lines.map(line => this.fitText(ctx, line, maximum - 20));
+      const width = maximum, height = 15 * (title.length + lines.length) + 20;
+      const x = clamp(point.x - width / 2, 8, this.width - width - 8);
+      const valid = box => box.y >= 8 && box.y + height <= this.height - 8 && !this.labelExclusions().some(other => this.overlaps(box, other, 2)) && !this.labelBoxes.some(other => this.overlaps(box, other, 3)) && !this.comparisonLabelPlans.some(other => this.overlaps(box, other.box, 3));
+      const box = [0, 28, 56, -28, -56, 84].map(offset => ({ x, y: point.y + offset, width, height })).find(valid);
+      if (box) this.comparisonLabelPlans.push({ ...spec, box, title, lines });
+    }
+  }
+
+  paintComparisonLabels(ctx) {
+    const view = this.comparison;
+    if (!view) return;
+    ctx.save();
+    ctx.globalAlpha = view.exiting ? 1 - view.progress : clamp((view.progress - 0.3) / 0.7, 0, 1);
+    for (const { box, title, lines, color } of this.comparisonLabelPlans) {
+      ctx.beginPath(); ctx.roundRect(box.x, box.y, box.width, box.height, 13);
+      ctx.fillStyle = 'rgba(12,16,28,0.72)'; ctx.fill();
+      ctx.beginPath(); ctx.moveTo(box.x + 14, box.y + 1); ctx.lineTo(box.x + box.width - 14, box.y + 1);
+      ctx.strokeStyle = regionRGBA(color, 0.7); ctx.lineWidth = 0.8; ctx.stroke();
+      ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+      ctx.font = '500 12px system-ui, sans-serif'; ctx.fillStyle = '#e6e4ec';
+      title.forEach((line, i) => ctx.fillText(line, box.x + box.width / 2, box.y + 18 + i * 15));
+      ctx.font = '11px system-ui, sans-serif'; ctx.fillStyle = color;
+      lines.forEach((line, i) => ctx.fillText(line, box.x + box.width / 2, box.y + 18 + (title.length + i) * 15));
+    }
+    ctx.restore();
+  }
+
   placeLabel(ctx, node, highlighted) {
     const compact = this.width < 500;
     const maximum = Math.min(compact ? 154 : 214, this.width - 36);
     const font = `500 ${compact ? 12 : 13}px system-ui, sans-serif`;
     ctx.font = font;
     const lines = this.titleLines(ctx, node.label, maximum);
-    const count = node.kind !== 'item' && node.count != null ? `${new Intl.NumberFormat().format(finite(node.count))} records` : '';
+    const comparedCount = this.comparison?.labelCounts.get(node.id);
+    const count = comparedCount != null ? `${new Intl.NumberFormat().format(comparedCount)} records in this view` : node.kind !== 'item' && node.count != null ? `${new Intl.NumberFormat().format(finite(node.count))} records` : '';
     const meta = node.metaLabel || [node.typeLabel, node.collectionLabel].filter(Boolean).join(' · ');
     const sublabel = count ? [count, meta].filter(Boolean).join(' · ') : meta || (node.kind === 'item' ? 'Record' : node.kind === 'person' ? 'Source name label' : 'Theme');
     const titleWidth = Math.max(...lines.map(line => ctx.measureText(line).width));
@@ -1290,7 +1359,7 @@ export class AtlasGraph {
         candidates.push({ id: node.id, x: node.sx + dx * distance - (dx < 0 ? width : dx === 0 ? width / 2 : 0), y: node.sy + dy * distance - (dy < 0 ? height : dy === 0 ? height / 2 : 0), width, height });
       }
     }
-    const valid = box => box.x >= 8 && box.y >= 8 && box.x + box.width <= this.width - 8 && box.y + box.height <= this.height - 8 && !this.labelExclusions().some(other => this.overlaps(box, other, 3)) && !this.labelBoxes.some(other => this.overlaps(box, other));
+    const valid = box => box.x >= 8 && box.y >= 8 && box.x + box.width <= this.width - 8 && box.y + box.height <= this.height - 8 && !this.labelExclusions().some(other => this.overlaps(box, other, 3)) && !this.labelBoxes.some(other => this.overlaps(box, other)) && !this.comparisonLabelPlans.some(other => this.overlaps(box, other.box, 3));
     let box = candidates.find(valid);
     if (!box && highlighted) {
       // Selected records retain their title even when controls leave very little space.

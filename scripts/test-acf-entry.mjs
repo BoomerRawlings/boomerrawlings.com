@@ -7,6 +7,7 @@ import * as regions from '../public/ACF/regions.js';
 import { compareTerritories } from '../public/ACF/comparison.js';
 import { previewInfo } from '../public/ACF/preview-data.js';
 import { UIMotion } from '../public/ACF/ui-motion.js';
+import { mapReading } from '../public/ACF/map-reading.js';
 
 const source = readFileSync(new URL('../public/ACF/entry.js', import.meta.url), 'utf8');
 const appSource = readFileSync(new URL('../public/ACF/app.js', import.meta.url), 'utf8');
@@ -221,7 +222,7 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
       }
       class Preview { constructor() { this.card = new Element(); } close() {} }
       const moduleGlobals = {
-        ...globals, ...model, ...regions, compareTerritories, AtlasGraph: Graph, NodePreview: Preview, previewInfo, UIMotion,
+        ...globals, ...model, ...regions, compareTerritories, AtlasGraph: Graph, NodePreview: Preview, previewInfo, UIMotion, mapReading,
         URL, URLSearchParams, location, history,
         addEventListener: window.addEventListener.bind(window), performance: { now: () => now },
         AbortSignal: { timeout: () => undefined },
@@ -808,6 +809,9 @@ for (const reduced of [false, true]) for (const fetchDelay of [0, 800]) {
   h.type('atlas'); h.submit(); await h.settle(); usable(h);
   const ready = h.trace.filter(step => step.event === 'acf:ready');
   assert.equal(ready.length, 1, 'Actual application reaches a usable catalog');
+  const readingCards = h.$('map-reading-cards').children;
+  assert.equal(readingCards.length, 3, 'The actual reading model renders record, territory and junction explanations on first entry');
+  assert.equal(readingCards.find(card => card.dataset.readingId === 'field').querySelector('.map-bubble-value').textContent, '33,945 records in this view');
   assert(h.trace.some(step => step.event === 'model:createIndex' && step.records === 33945), 'Every real catalog reaches actual model indexing');
   assert(h.trace.some(step => step.event === 'graph:setData' && step.nodes > 0), 'Actual application renders prepared graph data');
   const transfers = h.trace.filter(step => step.event === 'animation:start' && step.target.startsWith('entry-transfer-star-'));
@@ -925,7 +929,21 @@ for (const reduced of [false, true]) {
   };
   // Keep this existing suite on single-region facets. Sequential selections are
   // exercised below as the new comparison journey.
-  const chooseRegion = id => { h.$('breadcrumbs').children[0].dispatchEvent(event('click')); const choice = h.$('region-memberships').children.find(button => button.dataset.regionId === id); assert(choice, id + ' accessible region button'); choice.dispatchEvent(event('click')); };
+  const chooseRegion = id => {
+    h.$('breadcrumbs').children[0].dispatchEvent(event('click'));
+    const choice = h.$('region-memberships').children.find(button => button.dataset.regionId === id);
+    assert(choice, id + ' accessible region button'); choice.dispatchEvent(event('click'));
+    assert.equal(h.$('region-panel').hidden, true, 'Choosing a territory keeps its detailed trails folded beneath the map');
+    assert.equal(h.document.activeElement, h.$('comparison-details'), 'Territory selection offers the map-reading shortcut');
+    const bubble = h.$('map-reading-cards').children.find(card => card.dataset.readingId === 'territory');
+    assert(bubble, 'The selected territory has an immediate explanation bubble');
+    assert.equal(bubble.querySelector('.map-bubble-value').textContent, `${h.graph.regionSelection.size.toLocaleString()} selected records`);
+    h.click('comparison-details');
+    assert.equal(h.document.activeElement, h.$('map-reading-heading'), 'Read this map focuses the explanation heading');
+    assert.equal(h.$('region-panel').hidden, true, 'Reading the explanation does not unfold the evidence trail');
+    h.click('map-evidence');
+    assert.equal(h.$('map-evidence').getAttribute('aria-expanded'), 'true');
+  };
   const descendants = node => node.children.flatMap(child => [child, ...descendants(child)]);
   const openFacets = () => {
     const controls = h.$('region-content').querySelector('.region-filters'); assert(controls);
@@ -940,7 +958,7 @@ for (const reduced of [false, true]) {
   for (const id of [...model.THEMES.map(([id]) => id), 'unmatched']) {
     chooseRegion(id);
     assertField(oracle.items.filter(item => id === 'unmatched' ? item.themes.length === 0 : item.themes.includes(id)));
-    assert.equal(h.document.activeElement, h.$('region-close'), 'Region selection moves focus to its accessible panel');
+    assert.equal(h.document.activeElement, h.$('region-close'), 'Opening source trails moves focus to its fold control');
     assert.equal(h.$('region-panel').hidden, false);
     assert.equal(descendants(h.$('region-content')).filter(node => node.tagName === 'SELECT').length, 1, 'Closed facets create only the sort selector, not all name/term options');
     assert.equal(h.$('region-content').querySelector('.region-filters').open, false);
@@ -1008,7 +1026,8 @@ for (const reduced of [false, true]) {
   h.history.go(-1); assertField(minds); assert.equal(h.$('region-panel').hidden, false, 'Back restores region drilldown');
   h.$('region-close').focus(); h.document.dispatchEvent(event('keydown', { key: 'Escape' }));
   assert.equal(h.$('region-panel').hidden, true, 'Escape closes region details');
-  assert.equal(h.document.activeElement, h.$('comparison-details'), 'Escape restores focus to the always-visible Evidence control');
+  assert.equal(h.document.activeElement, h.$('map-evidence'), 'Escape restores focus to the source-trails trigger below the map');
+  assert.equal(h.$('map-evidence').getAttribute('aria-expanded'), 'false');
   for (let node = h.document.activeElement; node; node = node.parentElement) assert.equal(node.hidden, false, 'Restored focus has no hidden ancestor');
   chooseRegion('minds'); assertField(minds);
   h.$('breadcrumbs').children[0].dispatchEvent(event('click'));
@@ -1040,10 +1059,16 @@ for (const reduced of [false, true]) {
   assert.equal(h.graph.comparison.shared.size, 108); assert.equal(h.graph.comparison.memberIds.size, 4006);
   assert.equal(h.$('region-panel').hidden, true, 'second selection exposes both clusters');
   assert.equal(h.document.activeElement, h.$('comparison-details'));
-  h.click('comparison-details'); assert.equal(h.$('region-panel').hidden, false);
+  h.click('comparison-details');
+  assert.equal(h.document.activeElement, h.$('map-reading-heading'));
+  assert.equal(h.$('region-panel').hidden, true, 'Comparison explanations stay separate from the optional source trail');
+  assert.deepEqual(h.$('map-reading-cards').children.map(card => card.dataset.readingId), ['left', 'shared', 'right', 'junctions']);
+  h.click('map-evidence'); assert.equal(h.$('region-panel').hidden, false);
+  assert.equal(h.$('map-evidence').getAttribute('aria-expanded'), 'true');
   assert.equal(h.$('region-panel').dataset.selectedCount, '4006');
   h.click('region-close'); assert.equal(h.$('region-panel').hidden, true);
-  assert.equal(h.document.activeElement, h.$('comparison-details'));
+  assert.equal(h.document.activeElement, h.$('map-evidence'));
+  assert.equal(h.$('map-evidence').getAttribute('aria-expanded'), 'false');
   choose('planet'); assertComparison('minds', 'planet');
   h.history.go(-1); assertComparison('minds', 'bodies');
   h.history.go(1); assertComparison('minds', 'planet');

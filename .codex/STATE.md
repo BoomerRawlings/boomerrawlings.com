@@ -1,128 +1,18 @@
 # Project state
 
-## Full Atlas reset and cohesive emblem — verified locally
+## Map explanations — verified; ready to publish
 
-- Mode: continuation. Add obvious full-view reset and unify logo; isolated UI release from live7c6b227. Ongoing collection audit stays in parent workspace.
-- Implemented: persistent header Reset Atlas; restore every public catalog and inactive session import, clear filters/territories/comparison/selection/hash, close overlays, restore default layers and Map. Preserve entrance/session data and motion preference. Failed catalog loads retain exploration; stale collection callbacks cannot overwrite reset.
-- Camera:800ms overview flight with comparison exit, current-size retarget on resize, immediate reduced/paused motion. Original coordinates retained. Unified closed celestial ring, meridians and aligned copper bearing shared by header/favicon. Cache reset-20261013.
-- Verified: final ACF145/145 groups, including96 entrance cases,19 reset and66 graph cases. Parent browser QA: desktop8-catalog filtered List→all9/33945 Map; comparison4006 expanded→full33945;320px reset44px reachable, no overflow, cohesive title/mark, full map visible after reset.
-- Next: parent runs full build/review and publishes UI commit. No audit data, dossiers or deployment in this worktree task.
+- Mode: continuation. Explain cluster membership and connections with small bubbles below the map; preserve mouse-over and panning. Based on live aa0c051. UI only; unpublished collection audit remains in parent workspace.
+- Implemented: persistent exclusive/shared comparison captions; exact distinct credited-record counts; title-word evidence and unique-record counts; shared records versus credited-name bridges; four route colors and categorical speeds. Source and record details expand inline below map, with smooth scroll and visible focus targets. Original metadata, coordinates and hover/picking unchanged. Cache reading-20261013.
+- Verified: full npm test,47-page build and159 ACF tests pass, including96 entrance cases,69 graph cases,11 guide/interaction cases. Browser desktop/320px: Planet/Culture3219 unique=614/48/2557; source→record→Locate returns map; List record close focus works; preview header drag pans; Reset restores33945/all9; no overflow/errors. Evidence in parent .acf-qa/map-reading-*.
+- Next: one UI commit/push; verify Pages and canonical live assets/browser; merge into dirty audit preview while preserving every audit/source file.
+- Limits: title-keyword grouping is inference; route speed is evidence category, not numeric confidence. Names remain catalog-local. No audit dossiers, source data or collection expansion published.
 
-## Continuous Atlas entrance and emblem — verified locally
+## Existing release behavior
 
-- Mode: continuation. Replace final shrink/fade with continuous constellation-to-map handoff; new unique emblem. Then return to ongoing collection audit in parent workspace.
-- Baseline/live94787fa verified. Isolated worktree keeps unpublished research dossiers out of this release.
-- Implemented: retained5s ATLAS formation, then3.2s handoff to at most60 real visible record positions. Five soft apertures grow with stars;18 bounded angular tracings. Actual map remains stationary at final scale. Fresh shared clock starts after preparation. List/empty fallback1.1s; Skip/reduced/cancellation immediate.
-- Emblem: fractured celestial shell supported by asymmetric copper bearing; matching favicon, unified title retained. Cache continuum-20261013.
-- Verified: full npm test passes,47-page build,ACF118 groups; additional comparison destination test gives graph59/59. Entrance91 cases check masks/endpoints/timing/cancellation. Independent production review clear. Real1280/390/320 browser checks show all33945 records, comparison4006 preserved, List/Skip/resize cleanup, no overflow/errors. Map transform stays none during handoff.
-- Evidence: sibling .acf-qa/entry-polish-full-tests.log,entry-polish-graph-review-tests.log,continuum-cached screenshots and continuum-phone.png. Viewport/API proof, not physical-device FPS.
-- Next: one scoped production push, CI/live verification; integrate into audit checkout without publishing dossiers; resume collection audit.
-
-## Atlas riddle and extended formation — active
-
-- Mode: continuation. User asks slightly clearer Atlas-bearing-world clue and longer restrained entrance evolving typed ATLAS into actual full starfield.
-- Baseline72aa5a4 deployed/verified. Riddle references worlds upon shoulders and viewer choosing futures.
-- Decision:5s typing/word hold/glyph-to-anchor/branching constellation; still honest loading;2.6s synchronized retreat into prepared map. Skip/reduced/interruption immediate. No graph/data changes.
-- Implemented:32 bounded formation tracks, fresh execution-time shared reveal clock and narrow Map scroll to visible field. Fixed stale document/RAF timestamps shortening reveal. Skip/reduced/resize cancellation and List/desktop/fixed-layout scroll preserved. Cache formation-20261012.
-- Verified:1280/320 actual-browser proof,39/40 reveal samples, exact2.6s shared clocks/styles/bounds, progressive stars/paths and all33945 canonical IDs/coordinates retained. Skip,List replay,comparison and390→320 interrupt pass; no overflow/errors. Final114/114 ACF groups including88 entrance cases;47-page build/static pass. Evidence sibling .acf-qa/formation-entry-proof.md/.json and formation-desktop/phone screenshots.
-- Next: scoped production push, Linux CI/Pages and live cached/fresh verification.
-
-## Two-territory comparison and route endpoints — complete
-
-- Mode: continuation. User requests sequential territory selection to create two distinct animated clusters, fade the rest, explain connections; investigate source-route fans without visible endpoints.
-- Baseline7bde18d verified equal to origin/main; previous local completion checkpoint preserved. Public /ACF/ publishing scope continues; no catalog changes.
-- Design: reversible temporary layout; exclusive records left/right, overlapping records once in shared bridge. Show real credit/name and record-link endpoints; distinguish direct links, shared credits, and inferred title membership. Persistent comparison controls; evidence panel opt-in so map remains visible. Third territory replaces second; selecting a chosen territory removes it.
-- Discovery:60,431 source edges =43,213 role-credit assertions +17,218 recorded item relationships;6,716 are editorial related-article cards, not body citations. Inferred12,889 =130 tentative item links +12,759 title-keyword memberships. Hidden region hubs could retain inferred lines; dense fans can also obscure tiny valid endpoints.
-- Implementing: comparison.js exact-membership/evidence helper; graph/renderer temporary interpolation and visible endpoint fix; app/history/list/filter and evidence UI. Preserve canonical IDs/positions, reduced motion, drag interruption, Canvas and accessible controls.
-- Implemented:800ms GPU/Canvas comparison interpolation, two exclusive clusters plus shared-record bridge, reversible original camera/geometry, faint rest, real evidence endpoints and hidden-hub route suppression. Persistent orientation-neutral controls, pair/detail URLs, filters, evidence and unique-record List. Cache comparison-20261012.
-- Verified:114/114 ACF groups,62 entrance cases,54 graph+7 renderer;47-page build/static verifier pass. Independent15-pair audit and14 actual-browser snapshots preserve33945 IDs/coordinates.55184 route endpoints checked:zero mismatches; Canvas/GPU recovery, pause,320/390 layout, List, late repeated clear and click-during-layout pass. Evidence sibling .acf-qa/comparison-gpu-proof.md/.json; user-facing report in docs/codex/user-facing-tests/2026-10-12__user-facing-flow-test__territory-comparison.md.
-- Live: release72aa5a48954e52c18b580fdece1f54daa2a1a7aa; Pages38349723392 full Linux CI/build/deploy passed. All16 live JS/CSS hashes match canonical Git/tested build. Cached territories→comparison refresh verifies Minds/Bodies4006 unique records,108 shared,8444 visible routes;33945 submitted records retained, no overflow/errors. Evidence sibling .acf-qa/comparison-live-verification.json and comparison-live-browser.json.
-- Next: none for comparison. Canvas remains slower; viewport/API submission evidence is not GPU FPS or physical-device performance.
-
-
-## Organic subject territories and interface motion — complete
-
-- Mode: continuation. User requests amorphous translucent subject regions like supplied reference and coordinated futuristic line/data reveals for UI changes and selections. Existing publishing scope continues.
-- Baseline9d07d49 verified equal to origin/main. Preserve prior final checkpoint and all catalog data/coordinates.
-- Plan: cached member-derived irregular territory contours with overlapping translucent fill/mesh; bounded boundary tracing on selection. Coordinated panel, metadata, list, dialog and view reveals; immediate access and cancellable transitions.
-- Decisions: shapes illustrate existing title-keyword memberships, not literal exclusive borders; full field and exact selection masks stay intact. Respect reduced motion, pause, visibility, focus, scrolling and drag interruption. No per-frame geometry construction or character-by-character DOM churn.
-- Implemented: cached density contours, disconnected islands, translucent fill/rim/mesh;920ms territory traces and620ms selected routes/acquisition rings. UI traces and staged fields finish within573ms; semantic dedup/cancellation, fulltext and stationary controls preserved. Cache territories-20261012.
-- Validation:105/105 ACF groups including61 entrance,49 graph and10 UI-motion cases;47-page build/static pass. Independent review clear. Real1280/320 browser checks: region/facet replacement, scroll/focus, dialogs, pause, click→drag interruption,25sample route/text reveal, Canvas fullfield and completeList33945. GPUdata/buffer proof retained in sibling .acf-qa/territories-browser-proof.md/.json; no source/data changes.
-- Live: release7bde18df120dd1540ef51d34f4b4280ecbc233d3; Pages38346622664 full Linux CI/build/deploy passed. All14 live JS/CSS hashes match canonical Git/tested build text; neutral entrance, no probes and LEO200 verified.
-- Live browser: cached futures→territories refresh and fresh entrance;1280/320 layouts, camera in-flight/arrival, territory/preview/panel reveals and exact2530/1584/662 selections pass. No overflow or console errors. Evidence: sibling .acf-qa/territories-live-browser.json, territories-live-verification.json, territories-pages-run.json; clean screenshot territories-live-overview.jpg.
-- Next: none required. Temporary QA servers/tabs stopped; viewport reset; live map retained. Final checkpoint local to avoid another production push. Canvas remains slower; CPUsubmission/viewport tests do not establish GPUFPS or physical-device performance.
-
-
-## Futuristic entrance and flowing routes — complete
-
-- Mode: continuation. User requests unified full-title logo, typed ATLAS → loose constellation → smoothly revealed universe, smooth click panning and angular flowing connections colored by type with faster documented/slower inferred travel. Screenshot is visual reference.
-- Baseline 90c64ec verified equal to origin/main; previous completion checkpoint preserved. Same authorized public /ACF/ scope; data and other routes unchanged.
-- Implemented: unified full-title wordmark; 1,500ms typing → angular constellation → 820ms GPU/overlay crossfade; 600ms interruptible camera flight; cached angular routes, four colors/speeds, visible Show connections and pause control. Cache futures-20261012.
-- Decisions: flow speed represents recorded vs inferred categories, not invented numerical probabilities or causal direction. Preserve all 33,945 record positions and independent layer controls. Canvas keeps bounded flow work because fallback is slower.
-- Validation: ACF90/90 groups including61 entrance cases, graph45/45 and renderer7/7;47-page build/static verifier pass. Actual1280/390/320 entrance, camera interruption, popup panning, layout/nooverflow, pause and Canvas/List checks completed.
-- Evidence: sibling .acf-qa/futures-entry-proof.md/.json verifies42 identical GPU/overlay samples and14 monotonic reveal samples; futures-gpu-proof.md/.json verifies every33945record and73320enabled angular routes, preserved geometry/buffers, four colors/speeds, camera center error effectively0. Finalselected overlay bounded48paths/12flowing highlights; pause verified at320. Canvas remains slower; CPU submission evidence is not GPU FPS or physical-device performance.
-- Live: release9d07d49ee2bb9cf86f00d6f79b5a866a5b92eb0f; Pages38344600040 full Linux CI/build/deploy passed. All12live JS/CSS hashes match canonical Git/tested build text; neutral title, no probes and LEO200 verified.
-- Live browser:17snapshots at1280/390/320; cachedstars→futures reload and fresh entrance; typed/constellation/blended reveal screenshots; intermediate camera movement then arrival; selected48paths/12flow highlights; preview-header panning, pause and nooverflow. No console errors. Evidence: .acf-qa/futures-release-report.md, futures-live-browser.json, futures-live-verification.json and futures-pages-run.json; clean final screenshot futures-live-connections.jpg.
-- Next: none required. QA server stopped, temporary tabs closed, viewport reset; live map retained. Final checkpoint local to avoid another production push.
-
-## Star centering, panning and distant views — complete
-
-- Mode: continuation; click centers, drag pans through selected stars/previews, richer dynamic stars and useful distant views. Baseline 164c60c verified equal to origin/main; earlier work preserved. User clarified no photos; no media/catalog changes.
-- Completed: current-zoom centering, press-target/final-release drag fixes, preview body/header panning and hover click-through; wider region labels, zoom-derived star cores/halos, Overview/Nearby/Close, slider, Expand map and empty-sky recovery. Cache stars-20261012.
-- Final local validation: ACF 80/80; 47-page build/static verifier pass. Actual 320/390/1280 browser clicks, keyboard, popup drags, region scroll/focus and Canvas/List pass; no console errors/overflow.
-- Independent GPU proof: 702 actual draws each retain 33,945 records; 15 snapshots preserve IDs, original Float32 coordinates, CPU/GPU base buffers and exact masks. Center error below 0.000000001px; phone popup drag +50,+43. Idle revision unchanged for 72.3s.
-- Instrumented CPU draw p95: 390 expanded 14.3ms; 1280 standard 5.1ms; input-to-CPU-draw 20.0/12.6ms. Different layouts, viewport emulation, no comparative speedup or physical-device/GPU-FPS claim. Startup 1196.7ms with 339/192/398ms long tasks.
-- Evidence: sibling .acf-qa/stars-final-gpu-proof.json/.md, region-browser-stars-final.json, region-browser-stars-canvas.json, star-acf-final.log, star-build-final.log and star-static-final.log.
-- Live: 90c64ecca5cf9b5f5b0ca77a82cf646a50c057ce; Pages 38323824576 full Linux CI/build/deploy passed. All 11 live JS/CSS hashes match canonical Git/tested text; neutral entrance, no diagnostics and LEO 200 verified.
-- Live browser: 14 snapshots across cached 1280 and fresh 390/320; click centering, popup body/header panning, 0.4x/4x/12x controls, expansion, keyboard and complete List pass. All 33,945 point IDs retained; no overflow or console errors; six clean screenshots. Evidence: .acf-qa/stars-release-report.md, stars-live-browser.json, stars-live-verification.json and stars-pages-run.json.
-- Canvas retains all records but CPU draw p95 84.7ms/input 87.6ms at 390 expanded; slower fallback and List guidance remain. See stars-canvas-proof.md for counter-based limits.
-- Next: none required. Temporary QA server/tabs cleaned up, viewport reset, live map retained. Final state checkpoint local to avoid an unnecessary production push.
-## Region-switch scroll correction — complete
-
-- Mode: continuation; scoped correction under existing public region update authorization. Live164c60cfdadeaec253ba9e8b0b9c601dfee08e1c; Pages38320406093 fullLinuxCI/build/deploy passed; cache regions-20261012d.
-- Confirmed baseline defect:320x700 retained3367px→newregion focusedClose top-2995.8125;390x844 retained2957px→Close top-2475.71875. Fixed resetafterrender onlyonregion-IDchange. Same-regionfacet expansion/scroll/focus preserved.
-- Local/live320/390 pointer+keyboard allfourregionchanges reset0; Close bounds371.19–409.19 at320 and481.28–519.28 at390, headingalsoinsidepanel. All preserves707/472px; focusedClear1008/713px. Sixteenlivesnapshots nooverflow/consoleerrors; eightcleanJPGs. Fresh/cachedversiond confirmed.
-- GPUproof:23 actualPOINTSdraws of33945records;11snapshots retain originalID/Float32SHA andsamebasebuffers. Exactmasks1584/662/22614; mask-onlyuploads135780bytes; nonmemberalpha0.1596.
-- Validation:47pagebuild, ACF68/68, staticverification andfullLinuxCI pass. All11liveassetSHA match canonicalGit/testedtext; neutralHTML/noprobes/LEO200. Renderer/data/entrance andpriorperformanceclaims untouched.
-- Evidence:.acf-qa/region-scroll-report.md, region-scroll-gpu-proof.json/.md, region-scroll-live-browser.json, region-live-verification.json, region-scroll-pages-run.json; priorbefore/local evidence preserved.
-- Next:none required. QAserver stopped, temporarytabsclosed, viewportreset, currentlivemap retained. Finalstatecheckpoint local toavoid unnecessaryproductionpush. Viewport/API-submissionevidence only; nophysical-phone/GPU-FPSclaim.
-## Atlas region update — complete
-
-- Mode: continuation; approved public update at /ACF/ complete. Final9999eef3976afb9ed8752cdd5fb34133716db15b; Pages38319063995 full Linux test/build/deploy passed. Initialregionrelease1c3f12a and requestedclarityfollowupfa23a90 also passed; finalcache regions-20261012c.
-- Delivered: six named/count regions plus unmatched, default distinct soft boundaries, source-backed facets/records/credits/neighbors; exact separate masks retain all33945points and coordinates. Neutralentrance, completeList, independentlayers, history/session/import behavior preserved.
-- Counts: uniqueunion11331 + unmatched22614 =33945; memberships12759 overlap. Theme counts1584/2530/2678/662/2605/2700. All432source/collector and12publiccatalog/adapterfiles unchanged.
-- GPUproof:903 actual33945item POINTSdraws;41snapshots/27exactsource-maskchecks. Basebuffers retained withincontext; only intentionalrestore reuploads. Nonmemberalpha0.1596. IndependentIEET controls74/19/8/4 match supplied SHA256 exactly; noIDconversion.
-- Validation:52requiredcommands validated; finalACF68/68groups with51entrancecases, finalbuild/static pass. Actualcontextloss/recovery, CanvascompleteList, staticidle, source/facet/history/name-reload and320/390/768/1280 checks pass.
-- Finalaccessibility: named facetselects; visibleEscape focus; lastfacetAll keepscontrolsopen/selectfocused; clearall keepsbuttonfocused. StaticCanvas guidance changesvisibility onlyonbackendtransition andhidesonrecovery; Record/name labels wordingexplicit.
-- Live:11applicationasset hashes match canonicalGit/testedtext; neutralHTML/LEO200. Freshandformerlycached versionc;10finalDOMsnapshots/11cleanJPGs plus priorfullregionjourney evidence. Full33945points, sourcefacet4, phonekeyboardclearing, repeatSkip, nooverflow/consoleerrors.
-- Performance: desktopCPUdraw p95initial/selected/alllayers3.8/3.8/11.4ms;390viewport10.6/9.4ms;Canvas1280 67.9/62.5ms. Desktopstartup1156.4ms/maxblock418;unmatchedaction85.1ms sync. Slowerobservations disclosed; differentviewport/instrumentation precludes controlled attribution. No physicaldevice/GPUFPS claim.
-- Evidence:.acf-qa/region-release-report.md, region-live-verification.json, region-live-browser.json, region-independent-controls.json, region-gpu-proof.json, region-performance-summary.json, region-pages-run.json, region-keyboard-browser.json/logs.
-- Next:none required. Pre-existing cameraDOMexclusion invalidation remains optionalprofilingcandidate; no provennewforced-layoutregression. QAserverstopped, temporarytabsclosed, viewportreset, onelivemapretained. Finalcheckpoint local toavoid anotherproductionpush.
-## Atlas of Contested Futures — current task
-
-- Mode: continuation; full-record renderer and public deployment explicitly approved by Boomer through parent chat transcript. Baseline6a7ee8e verified equal to origin/main; preserve existing local final checkpoint and all unrelated routes/catalogs.
-- Objective: draw every33945 record point initially, separate7361 name layer; stable geometry, spatial picking, cached adjacency, optional evidenced routes/regions, full-record fallback, bounded motion/accessibility.
-- Status: complete; release1e1e2ee live. Pages38294370674 full Linux test/build/deploy passed. Local52commands validated, finalACF57/57 with49 entrance cases. Full submission/ID/coordinate parity33945records,7361optional names,6hubs,73320enabled edges;432sourcefiles and12publiccatalog/adapterfiles unchanged.
-- New approved correction: neutral pre-answer page/browser/accessibility title; no answer branding before entry. Letters collapse into five-point constellation; still loading hold after1680ms letter motion;420/460ms spread/fade reveals prepared map. Reentry restores neutral title. Skip/error/reduced/interruption remain usable.
-- Verified: bounded desktop pan/zoom CPU draw p95 3.3ms points/3.4ms all layers after typed-array counts and bounded labels; input-to-draw p95 12.2ms, picking p95 .7ms. Four source/inferred combinations independently draw0/60431/12889/73320edges. Actual context loss/restoration retains33945records/7361names/73320enabled routes. Names/routes reduced overview opacity without dropping vertices. Evidence sibling .acf-qa/full-map-browser-desktop-final.json and full-map-layer-checks.json.
-- Startup: index/layout/upload now separate tasks. Final guarded browser startup1342.6ms, residual391/161/476ms blocks, no letter overlap. Delayed directory/body replay races reproduced then fixed: new fetches, explicit JSON parsing and error UI wait for active entry; in-flight bodies may finish reading. Neutral/repeated entrance verified. Physical-device/GPU-presented FPS unverified.
-- Browser QA: responsive320/390/768/1280, search/detail/locate/keyboard, local import retention, region evidence and idle List pass. Context loss/restoration preserves all counts. Final desktop CPU draw p95 2.6ms points/5.2ms all layers;390px WebGL3.2ms;2D51.6ms. Canvas fallback slower, complete List retained. Chrome155/Windows/DPR1, unthrottled viewport tests only; full evidence includes startup, heap, callbacks and input.
-- Implemented integration: all9 atomic startup; layer toggles; exact matched title evidence; graph preparation cache on unchanged filters; persistent inactive import options and cumulative limits; phone-visible failure Retry; cache keeps empty collection selection. Diagnostics/probes local only.
-- Live verified:10changedassets match canonical Git bytes and tested text; neutralHTML and LEO/ead200. Formerly cached letters-version tab reloads fullmap version. Fresh390px and cached1280px both submit33945records/hash539dedf5; four route combinations0/60431/12889/73320 preserveallpoints. Search/source evidence, wrong/tolerant answer, neutral return, Skip→List/searchfocus, nooverflow and noerrors pass. Screenshots and full-map-live-verification/browser/layers JSON saved in QA directory.
-- Visual follow-up complete:19 clean live JPGs and live-visual-evidence.md/json in sibling .acf-qa. Neutral1280/390 entrance; actual letters→constellation→loading progression, theme/source/inferred detail, live768/320 interactions/nooverflow, literal neutral-title return and no console errors verified. No animation alterations, production edits, deployment or full-suite repeat. Viewport evidence only; no physical-device/FPS claim.
-- Next:none for this update. QA server stopped, temporary tabs closed, viewport reset; one live map retained. Final state checkpoint stays local to avoid another production push. Performance/physical-device limits documented; full-map-performance-summary.json, full-map-acf-retry.json/log and fullmap-catalog-integrity.json preserve evidence.
-
-### Previous entrance release
-
-- Mode: continuation; user requested visible LEO-like letter intro restored and entrance hint/public-information note removed. Scoped public update approved.
-- Status: complete; release6a7ee8e live. Pages38278679038 build/deploy passed. Scoped update from verified baseline83a16e2; prior state preserved.
-- Built: five copper ATLAS letters rise/spread/grow, settle, then lift/fade; transform/opacity only. Five1440ms tracks stagger60ms plus180ms promptfade,1680ms total; await all letters before hiding gate/loading. Linear timeline plus per-segment easing preserves307ms common hold. No waves/clipping/shadows/timers. Hint/control and publicnote removed from entrance only; wrong-answer feedback and explorer disclosures retained.
-- Verified:52-command fullsite suite;42ACFgroups including33entrycases. All three mutations reject unawaited finalletter, early catalogwork and global-easing compressedhold. Actual browser2desktop+2phone-viewport runs: everyletter visiblymoves>80px, all5opaque/settled near951ms; actual finish events precedeacf:enter. Entry1685–1688ms, RAFmax12.4–15.1ms/no>34ms. NophysicalFPSclaim; no supportedCPU/network/reduced-motion browser emulation. Reducedmotionbranch tested in real-script harness.
-- Browser QA:1280/768/390/320, wrong/mixedcase/whitespaceanswer, keyboardSkip, resizeinterruption, complete repeatintro, focus, nooverflow; rise/assembled/departure screenshots. Public data loadorder/singleprep and hiddenListreentry retained.
-- Preserved:graph/depth/previews, all33,945records/7,361catalog-local labels, credits/provenance/inference/sampling semantics; LEO/allother routes/catalogs/collectors unchanged. Cacheversion letters-20261012 shared byentry/style/app/dependencies.
-- Live verified: six public asset hashes match tested release; shared letters-20261012 version reaches fresh and formerly cached tabs. Actual phone letter samples show movement then all five opaque/settled while entrance remains visible. Desktop/390px entrance, wrong/tolerant answer, repeat, search focus, no overflow or console errors pass. IEET10467 and all9collections33945 load; graph preview works; LEO returns200.
-- Evidence: sibling .acf-qa/letter-live-verification.json, letter-live-phone-samples.json, atlas-letters-live-phone-assembled.jpg and atlas-letter-entrance-live-phone.jpg; prior render-validation, load-sequence, full-suite, proof/timing files retained. Diagnostic servers stopped; probes unshipped; temporary browser viewport reset.
-- Next: none for scoped entrance update. Final deployment checkpoint remains local; no extra production push needed.
+- Full reset restores all public catalogs and retained session imports; clears filters/comparison/selection/hash and restores default layers/Map while preserving motion preferences. Async restoration guards prevent stale updates.
+- Unified globe/bearing mark; riddle→typed ATLAS→constellation→real starfield uses continuous fixed-scale reveal. Reduced motion, Skip and interruption supported.
+- Public catalogs:33945 records across9 catalogs. Comparison uses temporary reversible geometry and real source endpoints; original IDs/coordinates retained. Source credits, recorded record links and inferred title memberships remain distinct.
 
 ## SCADS research collection — 2026-10-07
 

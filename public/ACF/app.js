@@ -1,9 +1,10 @@
-import { AtlasGraph } from './graph.js?v=reset-20261013';
-import { NodePreview } from './node-preview.js?v=reset-20261013';
-import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=reset-20261013';
-import { getRegions, regionFacets } from './regions.js?v=reset-20261013';
-import { UIMotion } from './ui-motion.js?v=reset-20261013';
-import { compareTerritories } from './comparison.js?v=reset-20261013';
+import { AtlasGraph } from './graph.js?v=reading-20261013';
+import { NodePreview } from './node-preview.js?v=reading-20261013';
+import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=reading-20261013';
+import { getRegions, regionFacets } from './regions.js?v=reading-20261013';
+import { UIMotion } from './ui-motion.js?v=reading-20261013';
+import { compareTerritories } from './comparison.js?v=reading-20261013';
+import { mapReading } from './map-reading.js?v=reading-20261013';
 
 const $ = id => document.getElementById(id);
 const number = n => n.toLocaleString();
@@ -28,7 +29,27 @@ document.addEventListener('acf:entry-targets', event => {
   if (document.body.dataset.view !== 'list') event.detail.points = graph?.entranceTargets() || [];
 });
 const uiMotion = new UIMotion(document, { active: false });
-const revealPanel = (panel, content) => uiMotion.reveal($(panel), { fields: [...$(content).children].filter(node => !node.classList.contains('region-records')) });
+const revealPanel = (panel, content) => {
+  uiMotion.reveal($(panel), { fields: [...$(content).children].filter(node => !node.classList.contains('region-records')) });
+  if (panel === 'detail') scrollToBubble(panel);
+};
+function scrollToBubble(id) {
+  const target = $(id), main = $('main');
+  if (!target || target.hidden) return;
+  const top = Math.max(0, main.scrollTop + target.getBoundingClientRect().top - main.getBoundingClientRect().top - 12);
+  main.scrollTo({ top, behavior: uiMotion.paused || matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+}
+let previewCountKey, previewCounts = new Map();
+function explainedNode(node) {
+  if (!node || !comparisonResult || node.kind === 'item') return node;
+  if (previewCountKey !== comparisonResult) { previewCountKey = comparisonResult; previewCounts = new Map(); }
+  if (!previewCounts.has(node.id)) {
+    const side = [comparisonResult.left, comparisonResult.right].find(region => region.id === node.scope?.id);
+    const count = side ? side.memberIds.size : new Set((index.byPerson.get(node.id) || []).filter(credit => comparisonResult.memberIds.has(credit.itemId)).map(credit => credit.itemId)).size;
+    previewCounts.set(node.id, count);
+  }
+  return { ...node, count: previewCounts.get(node.id) };
+}
 const preview = new NodePreview($('graph-stage'), $('network'), () => index, node => node.scope?.kind === 'theme' ? selectTerritory(node.scope.id) : node.scope ? navigate('scope', node.scope) : navigate('item', node.id), {
   onPanStart: event => graph?.pointerDown(event, { panOnly: true }),
   onZoom: node => graph?.focusRecord(node.id),
@@ -38,8 +59,8 @@ const preview = new NodePreview($('graph-stage'), $('network'), () => index, nod
 try {
   graph = new AtlasGraph($('network'), {
     onZoom: zoom => { $('map-zoom').value = String(Math.log2(zoom)); $('map-zoom').setAttribute('aria-valuetext', zoom.toFixed(1) + ' times overview'); $('map-zoom-value').textContent = zoom.toFixed(1) + '×'; },
-    onSelect: (node, anchor) => node?.scope?.kind === 'theme' ? selectTerritory(node.scope.id) : preview.update(node, anchor, 'select'),
-    onPreview: (node, anchor, reason) => { if (node?.scope?.kind !== 'theme' || reason !== 'select') preview.update(node, anchor, reason); },
+    onSelect: (node, anchor) => node?.scope?.kind === 'theme' ? selectTerritory(node.scope.id) : preview.update(explainedNode(node), anchor, 'select'),
+    onPreview: (node, anchor, reason) => { if (node?.scope?.kind !== 'theme' || reason !== 'select') preview.update(explainedNode(node), anchor, reason); },
     onStatus: stats => {
       const empty = stats.recordCount > 0 && stats.inViewRecords === 0;
       if ($('empty-map').hidden === empty) $('empty-map').hidden = !empty;
@@ -167,7 +188,8 @@ function refresh() {
   records = comparisonResult ? comparisonResult.records : regionResult ? regionResult.records : filterItems(index, filters()); pageSize = 40; regionPageSize = 20;
   document.body.dataset.comparison = String(Boolean(comparisonResult));
   renderList(); renderBreadcrumbs(); renderGraph(); renderRegionNavigation();
-  if (regionScope()) renderRegionPanel(); else if (comparisonResult && comparisonDetailsOpen) renderComparisonPanel(); else { uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; }
+  if (regionScope() && comparisonDetailsOpen) renderRegionPanel(); else if (comparisonResult && comparisonDetailsOpen) renderComparisonPanel(); else { uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; }
+  renderMapReading();
   $('graph-subtitle').textContent = comparisonResult ? 'Two territories, shared records once in the middle. Credits and record links retain their source evidence; other records stay dimmed.' : regionScope() ? 'Territories trace clusters of title matches; borders are illustrative. Exact membership is shown by the selection.' : scope?.kind === 'person' ? 'Documented credits. Names may refer to people, groups or publishing accounts.' : 'Explore overlapping subject territories. Shapes trace clusters of title matches; exact membership appears on selection.';
   $('graph-heading').textContent = subjectScope() ? scopeLabel() : scope?.kind === 'person' ? 'Credits for ' + scopeLabel() : 'A field of possible futures';
   uiMotion.reveal($('graph-heading'), { fields: [], mode: 'view' });
@@ -205,6 +227,37 @@ function applyLayers() {
   for (const id of ['names-toggle', 'labels-toggle', 'relationships-toggle', 'regions-toggle', 'themes-toggle']) $(id).disabled = comparisonScope();
   uiMotion.reveal($('connections-toggle'), { key: comparisonScope() ? 'comparison' : String(connected), fields: [] });
 }
+function renderMapReading() {
+  const guide = $('map-reading');
+  const data = mapReading(index, { comparison: comparisonResult, region: regionScope() ? getRegions(index).byId.get(scope.id) : null, records, scope,
+    layers: { names: $('names-toggle').checked, relationships: $('relationships-toggle').checked, inferred: $('themes-toggle').checked, regions: $('regions-toggle').checked } });
+  $('map-evidence').hidden = !subjectScope();
+  $('map-evidence').setAttribute('aria-expanded', String(comparisonDetailsOpen && !$('region-panel').hidden));
+  if (guide.dataset.readingKey === data.key) return;
+  uiMotion.cancel(guide); guide.dataset.readingKey = data.key;
+  $('map-reading-caption').textContent = data.caption;
+  $('map-reading-cards').replaceChildren(...data.cards.map(card => {
+    const bubble = el('article', 'map-bubble' + (card.regionId ? ' region-' + card.regionId : ''));
+    bubble.dataset.readingId = card.id;
+    bubble.append(el('p', 'map-bubble-eyebrow', card.eyebrow), el('h3', '', card.title), el('p', 'map-bubble-value', card.value), el('p', 'map-bubble-copy', card.body));
+    if (card.terms?.length) {
+      const terms = el('p', 'map-bubble-terms');
+      terms.append(el('span', '', 'Matched title words '));
+      for (const term of card.terms) terms.append(el('span', 'map-term', `“${term.term}” · ${number(term.count)}`));
+      bubble.append(terms);
+    }
+    return bubble;
+  }));
+  $('map-reading-routes').replaceChildren(...data.routes.map(route => {
+    const bubble = el('details', 'route-bubble route-' + route.id), summary = el('summary');
+    summary.append(el('i'), el('span', '', route.label), el('span', 'route-bubble-count', route.count === null ? 'Read key' : number(route.count)));
+    bubble.append(summary, el('p', '', route.body));
+    bubble.addEventListener('toggle', () => { if (bubble.open) uiMotion.reveal(bubble, { fields: [...bubble.children].slice(1) }); else uiMotion.cancel(bubble); });
+    return bubble;
+  }));
+  $('map-reading-note').textContent = data.note;
+  uiMotion.reveal(guide, { key: data.key, fields: [...$('map-reading-cards').children], mode: 'view' });
+}
 function renderRegionNavigation() {
   const data = getRegions(index);
   if (regionNavigationIndex !== index) {
@@ -237,7 +290,7 @@ function renderRegionNavigation() {
   $('comparison-picker').value = '';
   $('comparison-clear').hidden = !ids.length;
   $('comparison-details').hidden = !ids.length;
-  $('comparison-hint').textContent = comparisonResult ? `${number(comparisonResult.leftOnly.size)} first only · ${number(comparisonResult.shared.size)} shared once · ${number(comparisonResult.rightOnly.size)} second only. Source trails: Evidence.` : ids.length ? 'Select a second territory to compare. Select the current territory again to return to the universe.' : 'Select one territory, then another, to separate their clusters and inspect what connects them.';
+  $('comparison-hint').textContent = comparisonResult ? `${number(comparisonResult.leftOnly.size)} first only · ${number(comparisonResult.shared.size)} shared once · ${number(comparisonResult.rightOnly.size)} second only. Group and connection explanations sit below the map.` : ids.length ? 'Select a second territory to compare. Read how this territory is grouped below the map.' : 'Select one territory, then another, to separate their clusters and inspect what connects them.';
   uiMotion.reveal($('comparison-hint'), { key: comparisonResult?.key || ids.join(','), fields: [], mode: 'view' });
 }
 function setRegionFacet(key, value) {
@@ -508,9 +561,9 @@ function navigate(kind, value) {
   history.replaceState(viewContext(), '', location.href);
   const sameRegion = kind === 'scope' && value.kind === 'theme' && regionScope() && value.id === scope.id;
   const params = kind === 'item' ? new URLSearchParams({ item: value, ...(comparisonScope() ? { compare: scope.ids.join(',') } : {}) }) : new URLSearchParams(value.kind === 'compare' ? { compare: value.ids.join(',') } : { [value.kind]: value.id, ...(sameRegion ? regionFilters : {}) });
-  if (kind === 'scope' && value.kind === 'compare' && (!comparisonScope() || value.ids.join(',') !== scope.ids.join(','))) comparisonDetailsOpen = false;
+  if (kind === 'scope' && !sameRegion && (value.kind !== 'compare' || !comparisonScope() || value.ids.join(',') !== scope.ids.join(','))) comparisonDetailsOpen = false;
   history.pushState(viewContext(), '', '#' + params); readLocation();
-  if (kind === 'scope' && value.kind === 'theme') { $('region-close').focus({ preventScroll: true }); if (matchMedia('(max-width: 680px)').matches) $('region-panel').scrollIntoView?.({ block: 'end', behavior: 'instant' }); }
+  if (kind === 'scope' && value.kind === 'theme') $('comparison-details').focus({ preventScroll: true });
   if (kind === 'scope' && value.kind === 'compare') { $('comparison-details').focus({ preventScroll: true }); $('territory-comparison').scrollIntoView?.({ block: 'nearest', behavior: 'instant' }); }
 }
 function readLocation() {
@@ -525,13 +578,18 @@ function readLocation() {
     else if (index.items.length) { openDetail(); $('detail-content').replaceChildren(el('h2', 'detail-title', 'Collection not loaded'), el('p', 'detail-note', 'Load this record’s collection, then reopen the link. Imported records exist only in their original browser session.')); revealPanel('detail', 'detail-content'); }
   } else if (comparison) { comparisonDetailsOpen = Boolean(history.state?.comparisonDetailsOpen); scope = comparison; regionFilters = {}; closeDetail(); refresh(); }
   else if (!themeId && personId && index.people.has(personId)) { scope = { kind: 'person', id: personId }; refresh(); showPerson(personId); }
-  else if (themeId && getRegions(index).byId.has(themeId)) { scope = { kind: 'theme', id: themeId }; regionFilters = Object.fromEntries(regionKeys.filter(key => params.has(key)).map(key => [key, params.get(key)])); closeDetail(); refresh(); }
+  else if (themeId && getRegions(index).byId.has(themeId)) { comparisonDetailsOpen = Boolean(history.state?.comparisonDetailsOpen); scope = { kind: 'theme', id: themeId }; regionFilters = Object.fromEntries(regionKeys.filter(key => params.has(key)).map(key => [key, params.get(key)])); closeDetail(); refresh(); }
   else { scope = null; regionFilters = {}; closeDetail(); refresh(); }
 }
-function openDetail() { preview.close(); uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; $('detail').hidden = false; }
-function closeDetail() { uiMotion.cancel($('detail')); $('detail').hidden = true; selection = null; $('region-panel').hidden = !(regionScope() || (comparisonScope() && comparisonDetailsOpen)); }
-function closeRegionDetails() { uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; if (comparisonScope()) comparisonDetailsOpen = false; const trigger = subjectScope() ? $('comparison-details') : $('search'); trigger.focus({ preventScroll: true }); trigger.scrollIntoView?.({ block: 'nearest', behavior: 'instant' }); uiMotion.reveal(trigger, { fields: [] }); }
-function closeRecordDetails() { closeDetail(); (!$('region-panel').hidden ? $('region-close') : subjectScope() ? $('comparison-details') : $('search')).focus({ preventScroll: true }); if (!$('region-panel').hidden) revealPanel('region-panel', 'region-content'); else uiMotion.reveal($('graph-heading'), { fields: [], mode: 'view' }); }
+function openDetail() { preview.close(); uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; $('map-evidence').setAttribute('aria-expanded', 'false'); $('detail').hidden = false; }
+function closeDetail() { uiMotion.cancel($('detail')); $('detail').hidden = true; selection = null; $('region-panel').hidden = !(subjectScope() && comparisonDetailsOpen); $('map-evidence').setAttribute('aria-expanded', String(!$('region-panel').hidden)); }
+function closeRegionDetails() { uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; comparisonDetailsOpen = false; $('map-evidence').setAttribute('aria-expanded', 'false'); $('map-evidence').focus({ preventScroll: true }); scrollToBubble('map-reading'); }
+function closeRecordDetails() {
+  closeDetail();
+  const trails = !$('region-panel').hidden, list = document.body.dataset.view === 'list';
+  (trails ? $('region-close') : list ? $('results-heading') : $('network')).focus({ preventScroll: true });
+  scrollToBubble(trails ? 'region-panel' : list ? 'results-heading' : 'graph-stage');
+}
 function detailSection(title, content) { const section = el('section', 'detail-section'); section.append(el('h3', '', title), ...content); return section; }
 function sourceLinks(urls) { return [...new Set(urls.filter(safeUrl))].slice(0, 30).map((u, i) => link(`${i ? 'Evidence' : 'Open source'} · ${new URL(u).hostname} ↗`, u)); }
 function showItem(item) {
@@ -549,7 +607,7 @@ function showItem(item) {
     if (comparisonScope()) { comparisonDetailsOpen = false; closeDetail(); }
     else { for (const id of ['search', 'type-filter', 'year-from', 'year-to']) $(id).value = ''; scope = null; regionFilters = {}; closeDetail(); refresh(); }
     document.body.dataset.view = 'map'; $('map-view').setAttribute('aria-pressed', 'true'); $('list-view').setAttribute('aria-pressed', 'false');
-    graph?.setActive(active); graph?.focusRecord?.(item.id); $('network').focus({ preventScroll: true });
+    graph?.setActive(active); graph?.focusRecord?.(item.id); $('network').focus({ preventScroll: true }); scrollToBubble('graph-stage');
   }, 'locate-record'));
   const credits = index.byItem.get(item.id) || [];
   content.append(detailSection('Source credits', credits.length ? credits.map(c => button(`${index.people.get(c.personId)?.name || 'Unresolved name'} · ${label(c.role)}`, () => navigate('scope', { kind: 'person', id: c.personId }), 'credit-chip')) : [el('p', 'detail-note', 'No usable byline in this snapshot. No author has been inferred.')]));
@@ -643,7 +701,7 @@ $('import-file').addEventListener('change', async event => {
 let debounce;
 for (const id of ['search', 'year-from', 'year-to']) $(id).addEventListener('input', () => { clearTimeout(debounce); debounce = setTimeout(refresh, 160); });
 for (const id of ['type-filter', 'year-from', 'year-to']) $(id).addEventListener('change', () => { clearTimeout(debounce); refresh(); });
-for (const id of ['names-toggle', 'labels-toggle', 'relationships-toggle', 'regions-toggle', 'themes-toggle']) $(id).addEventListener('change', event => { applyLayers(); uiMotion.reveal(event.currentTarget.closest('label'), { fields: [] }); });
+for (const id of ['names-toggle', 'labels-toggle', 'relationships-toggle', 'regions-toggle', 'themes-toggle']) $(id).addEventListener('change', event => { applyLayers(); renderMapReading(); uiMotion.reveal(event.currentTarget.closest('label'), { fields: [] }); });
 const layerControls = document.querySelector('.map-layers');
 layerControls?.addEventListener('toggle', () => {
   if (layerControls.open) uiMotion.reveal(layerControls, { fields: [...layerControls.children].slice(1) });
@@ -655,11 +713,17 @@ $('region-close').addEventListener('click', closeRegionDetails);
 $('comparison-picker').addEventListener('change', () => { if ($('comparison-picker').value) selectTerritory($('comparison-picker').value); });
 $('comparison-clear').addEventListener('click', () => { clearFilters(); $('comparison-picker').focus({ preventScroll: true }); });
 $('comparison-details').addEventListener('click', () => {
+  scrollToBubble('map-reading'); $('map-reading-heading').focus({ preventScroll: true });
+});
+$('map-evidence').addEventListener('click', () => {
+  if (comparisonDetailsOpen && !$('region-panel').hidden) { closeRegionDetails(); return; }
   preview.close(); uiMotion.cancel($('detail')); $('detail').hidden = true; selection = null;
-  if (comparisonScope()) { comparisonDetailsOpen = true; renderComparisonPanel(); }
+  comparisonDetailsOpen = true;
+  if (comparisonScope()) renderComparisonPanel();
   else if (regionScope()) renderRegionPanel();
+  $('map-evidence').setAttribute('aria-expanded', 'true');
   $('region-close').focus({ preventScroll: true });
-  if (matchMedia('(max-width: 680px)').matches) $('region-panel').scrollIntoView?.({ block: 'end', behavior: 'instant' });
+  scrollToBubble('region-panel');
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !document.querySelector('dialog[open]')) { preview.close(preview.card.contains(document.activeElement)); if (!$('detail').hidden) closeRecordDetails(); else if (!$('region-panel').hidden) closeRegionDetails(); } });
 $('preview-prev').addEventListener('click', () => graph?.stepPreview(-1));
@@ -674,6 +738,7 @@ $('connections-toggle').addEventListener('click', () => {
   $('relationships-toggle').checked = $('themes-toggle').checked = enabled;
   if (enabled) $('names-toggle').checked = true;
   applyLayers();
+  renderMapReading();
 });
 for (const [id, ratio] of [['view-nearby', 4], ['view-close', 12]]) $(id).addEventListener('click', () => graph?.setPerspective?.(ratio));
 $('empty-map').addEventListener('click', () => graph?.reset());

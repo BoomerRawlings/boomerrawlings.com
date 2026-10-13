@@ -8,11 +8,11 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'" />
     <link rel="canonical" href="https://boomerrawlings.com/ACF/" />
     <title>A question of futures</title>
-    <link rel="icon" href="/ACF/icon.svg?v=reset-20261013" type="image/svg+xml" />
-    <link rel="stylesheet" href="/ACF/style.css?v=reset-20261013" />
-    <link rel="stylesheet" href="/ACF/entry-effects.css?v=reset-20261013" />
-    <script is:inline src="/ACF/entry.js?v=reset-20261013" defer></script>
-    <script is:inline type="module" src="/ACF/app.js?v=reset-20261013"></script>
+    <link rel="icon" href="/ACF/icon.svg?v=reading-20261013" type="image/svg+xml" />
+    <link rel="stylesheet" href="/ACF/style.css?v=reading-20261013" />
+    <link rel="stylesheet" href="/ACF/entry-effects.css?v=reading-20261013" />
+    <script is:inline src="/ACF/entry.js?v=reading-20261013" defer></script>
+    <script is:inline type="module" src="/ACF/app.js?v=reading-20261013"></script>
   </head>
   <body class="entry-pending" data-view="map">
     <a class="skip-link" href="#search">Skip to collection search</a>
@@ -105,7 +105,7 @@
         <section id="territory-comparison" class="territory-comparison" aria-label="Choose and compare territories">
           <label class="comparison-picker" for="comparison-picker"><span id="comparison-picker-label">Choose a territory</span><select id="comparison-picker" aria-describedby="comparison-hint"><option value="">Choose a subject</option></select></label>
           <div id="comparison-selected" class="comparison-selected" role="group" aria-label="Selected territories; activate to remove"></div>
-          <div class="comparison-actions"><button id="comparison-details" type="button" hidden>Evidence</button><button id="comparison-clear" type="button" hidden>Back to universe</button></div>
+          <div class="comparison-actions"><button id="comparison-details" type="button" hidden aria-controls="map-reading">Read this map ↓</button><button id="comparison-clear" type="button" hidden>Back to universe</button></div>
           <p id="comparison-hint" class="comparison-hint">Select one territory, then another, to inspect what connects them.</p>
         </section>
         <div class="atlas-panels">
@@ -136,14 +136,23 @@
           </section>
 
           <aside class="records-panel" aria-labelledby="results-heading">
-            <header class="records-header"><div><p class="eyebrow">The reading room</p><h2 id="results-heading">Explore the collection</h2></div><span id="results-count" class="count-pill">…</span></header>
+            <header class="records-header"><div><p class="eyebrow">The reading room</p><h2 id="results-heading" tabindex="-1">Explore the collection</h2></div><span id="results-count" class="count-pill">…</span></header>
             <div id="results" class="results"></div>
             <div class="load-more-wrap"><button id="load-more" class="load-more" type="button">More from the collection <span aria-hidden="true">↓</span></button></div>
             <p class="records-footnote">Metadata, people, and paths back to the source.</p>
           </aside>
 
-          <aside id="region-panel" class="detail-panel region-panel" aria-label="Selected region" hidden><button id="region-close" class="detail-close" type="button" aria-label="Close region details">Close <span aria-hidden="true">×</span></button><div id="region-content"></div></aside>
-          <aside id="detail" class="detail-panel" aria-label="Selected record" hidden><button id="detail-close" class="detail-close" type="button" aria-label="Close selected record">Close <span aria-hidden="true">×</span></button><div id="detail-content"></div></aside>
+        </div>
+        <section id="map-reading" class="map-reading" aria-labelledby="map-reading-heading">
+          <header class="map-reading-header"><div><p class="eyebrow">A key to the field</p><h2 id="map-reading-heading" tabindex="-1">Read this map</h2></div><button id="map-evidence" class="text-button" type="button" hidden aria-controls="region-panel" aria-expanded="false">Follow the source trails ↓</button></header>
+          <p id="map-reading-caption" class="map-reading-caption"></p>
+          <div id="map-reading-cards" class="map-reading-cards"></div>
+          <div id="map-reading-routes" class="map-reading-routes" aria-label="Connection colors and meanings"></div>
+          <p id="map-reading-note" class="map-reading-note"></p>
+        </section>
+        <div class="map-evidence-bubbles">
+          <aside id="region-panel" class="detail-panel region-panel" aria-label="Selected region" hidden><button id="region-close" class="detail-close" type="button" aria-label="Close region details">Fold source trails <span aria-hidden="true">×</span></button><div id="region-content"></div></aside>
+          <aside id="detail" class="detail-panel" aria-label="Selected record" hidden><button id="detail-close" class="detail-close" type="button" aria-label="Close selected record">Fold record <span aria-hidden="true">×</span></button><div id="detail-content"></div></aside>
         </div>
       </main>
       <footer class="atlas-footer"><span>A living map, an incomplete territory.</span><a href="/">Boomer Rawlings <span aria-hidden="true">↗</span></a></footer>

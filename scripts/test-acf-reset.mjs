@@ -116,6 +116,7 @@ function harness({ delayed = false, unavailable = false, initialized = true, pre
     let resetting = false, collectionGeneration = 0;
     const comparisonScope = () => scope?.kind === 'compare';
     const regionScope = () => scope?.kind === 'theme';
+    const subjectScope = () => regionScope() || comparisonScope();
     function refresh() {
       records = [...index.items]; regionResult = null; comparisonResult = null;
       pageSize = 40; regionPageSize = 20; document.body.dataset.comparison = 'false';
