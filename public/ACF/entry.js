@@ -69,7 +69,7 @@
     enter();
     $('search').focus({ preventScroll: true });
   }
-  function revealMapViewport() {
+  function revealMapViewport({ smooth = false } = {}) {
     if (document.body.dataset.view === 'list' || document.body.dataset.mapExpanded === 'true' || document.body.dataset.comparison === 'true' || !matchMedia('(max-width: 680px)').matches) return;
     const main = $('main'), stage = $('graph-stage');
     if (!main || !stage || main.scrollHeight <= main.clientHeight) return;
@@ -78,7 +78,9 @@
     // Only the workspace scroller moves. Reserve the sticky subject picker so
     // the ready field, not the controls above it, receives the constellation.
     const controls = $('territory-comparison')?.getBoundingClientRect().height || 0;
-    main.scrollTop = Math.max(0, main.scrollTop + field.top - frame.top - controls);
+    const top = Math.max(0, main.scrollTop + field.top - frame.top - controls);
+    if (smooth && !reduced.matches && main.scrollTo) main.scrollTo({ top, behavior: 'smooth' });
+    else main.scrollTop = top;
   }
   async function reveal() {
     if (phase !== 'loading') return;
@@ -269,6 +271,7 @@
   $('return-entry').addEventListener('click', returnToEntry);
   document.addEventListener('acf:exit-request', returnToEntry);
   document.addEventListener('acf:ready', () => { if (phase === 'open') revealMapViewport(); reveal().catch(finish); });
+  document.addEventListener('acf:reveal-map', event => { if (phase === 'open') revealMapViewport({ smooth: Boolean(event.detail?.smooth) }); });
   document.addEventListener('acf:load-error', finish);
   reduced.addEventListener('change', () => { if (reduced.matches) finish(); });
   document.addEventListener('visibilitychange', () => { if (document.hidden) finish(); });

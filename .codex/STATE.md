@@ -1,5 +1,13 @@
 # Project state
 
+## Full Atlas reset and cohesive emblem — verified locally
+
+- Mode: continuation. Add obvious full-view reset and unify logo; isolated UI release from live7c6b227. Ongoing collection audit stays in parent workspace.
+- Implemented: persistent header Reset Atlas; restore every public catalog and inactive session import, clear filters/territories/comparison/selection/hash, close overlays, restore default layers and Map. Preserve entrance/session data and motion preference. Failed catalog loads retain exploration; stale collection callbacks cannot overwrite reset.
+- Camera:800ms overview flight with comparison exit, current-size retarget on resize, immediate reduced/paused motion. Original coordinates retained. Unified closed celestial ring, meridians and aligned copper bearing shared by header/favicon. Cache reset-20261013.
+- Verified: final ACF145/145 groups, including96 entrance cases,19 reset and66 graph cases. Parent browser QA: desktop8-catalog filtered List→all9/33945 Map; comparison4006 expanded→full33945;320px reset44px reachable, no overflow, cohesive title/mark, full map visible after reset.
+- Next: parent runs full build/review and publishes UI commit. No audit data, dossiers or deployment in this worktree task.
+
 ## Continuous Atlas entrance and emblem — verified locally
 
 - Mode: continuation. Replace final shrink/fade with continuous constellation-to-map handoff; new unique emblem. Then return to ongoing collection audit in parent workspace.

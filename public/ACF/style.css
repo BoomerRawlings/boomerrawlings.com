@@ -195,7 +195,15 @@ body[data-comparison=true] #connections-toggle:disabled{cursor:default;opacity:1
 @media(max-width:680px){body[data-comparison=true] .atlas-main{display:flex;overflow:hidden}body[data-comparison=true] .atlas-panels{height:auto;min-height:0;flex:1}body[data-comparison=true] .territory-comparison{position:relative;top:auto}body[data-comparison=true] .graph-intro{display:none}body[data-comparison=true] .map-perspectives{top:8px}body[data-comparison=true][data-view=list] .records-panel{min-height:0}body[data-comparison=true] .comparison-hint{font-size:9px;line-height:1.4}.comparison-chip{min-width:0;overflow-wrap:anywhere}}
 @media(max-width:680px){body[data-comparison=true] .map-perspectives{display:flex;align-items:center;gap:8px;max-width:none;padding:3px 6px}body[data-comparison=true] .perspective-presets{display:contents}body[data-comparison=true] #view-overview{flex:0 0 64px;min-height:36px;border:0}body[data-comparison=true] #view-nearby,body[data-comparison=true] #view-close,body[data-comparison=true] #expand-map{display:none}body[data-comparison=true] .perspective-scale{flex:1;min-width:0}body[data-comparison=true] .perspective-scale input{width:70px}}
 
-/* A fractured celestial shell, borne by an asymmetric map frame. */
+/* One celestial ring and meridian, held on the bearing's shared centerline. */
 .atlas-emblem{width:47px;height:47px;color:#9fcdd7;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round}
-.atlas-emblem .emblem-shell{stroke:#c1dfe5;stroke-width:1.7}.atlas-emblem .emblem-meridian{stroke:#7a9da8;stroke-width:.85;opacity:.75}.atlas-emblem .emblem-bearing{stroke:#c9a089;stroke-width:1.7}.atlas-emblem .emblem-fault{stroke:#10111f;stroke-width:3.6}.atlas-emblem .emblem-pole{fill:#c1dfe5;stroke:#10111f;stroke-width:.8}.atlas-emblem .emblem-joint{fill:#e3b594;stroke:#10111f;stroke-width:1}.atlas-emblem .emblem-orbit{fill:#10111f;stroke:#b6dbe2;stroke-width:1.25}
+.atlas-emblem .emblem-shell{stroke:#c1dfe5;stroke-width:1.7}.atlas-emblem .emblem-meridian{stroke:#7a9da8;stroke-width:.9}.atlas-emblem .emblem-bearing{stroke:#c9a089;stroke-width:1.9}.atlas-emblem .emblem-pole{fill:#c1dfe5;stroke:#10111f;stroke-width:.8}.atlas-emblem .emblem-joint{fill:#e3b594;stroke:#10111f;stroke-width:1}
 @media(max-width:680px){.atlas-emblem{width:38px;height:38px}.atlas-header .header-right{padding-left:48px}}
+
+/* Full reset lives above every map/list panel, including the expanded map. */
+.reset-atlas{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:9px 13px;flex:none;border:1px solid #c9a08980;border-radius:4px;background:#c9a08910;color:var(--ice);font:11px var(--mono);white-space:nowrap}
+.reset-atlas svg{width:16px;height:16px;stroke:var(--copper);fill:none;stroke-width:1.4}
+.reset-atlas:hover{background:#c9a08920;border-color:var(--copper)}.reset-atlas:disabled{opacity:.55;cursor:wait}
+.atlas-header .header-right{gap:16px}.atlas-header .dataset-status{max-width:190px}
+@media(max-width:980px) and (min-width:681px){.atlas-header{gap:15px}.atlas-header .header-right{gap:12px}.atlas-header .dataset-status{max-width:135px;font-size:9px}.atlas-brand{font-size:18px}}
+@media(max-width:680px){.atlas-header .header-right{padding-left:0;gap:10px;margin-top:8px}.atlas-header .dataset-status{flex:1;max-width:none}.reset-atlas{padding:8px 10px;font-size:10px;gap:6px}.atlas-header .quiet-button{min-height:44px}}

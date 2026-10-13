@@ -745,6 +745,34 @@ async function assertRevealScroll({ compact = true, view = 'map', expanded = fal
 for (const layout of [{}, { compact: false }, { view: 'list' }, { expanded: true }, { comparison: true }, { completion: 'skip' }, { completion: 'reduced' }, { view: 'list', completion: 'skip' }, { view: 'list', completion: 'reduced' }]) {
   await assertRevealScroll(layout); cases++;
 }
+for (const { compact = true, view = 'map', smooth = true, reduced = false } of [{}, { smooth: false }, { reduced: true }, { compact: false }, { view: 'list' }]) {
+  let h;
+  const mainBox = { left: 0, top: 190, width: compact ? 390 : 1280, height: 620 };
+  const graphBox = () => ({ left: 0, top: 960 - h.$('main').scrollTop, width: mainBox.width, height: 420 });
+  h = harness({ compact, reduced, bounds: { main: mainBox, 'graph-stage': graphBox, network: graphBox, 'territory-comparison': { left: 0, top: 350, width: mainBox.width, height: 96 } } });
+  h.document.body.dataset.view = view;
+  const main = h.$('main'), smoothCalls = [];
+  main.clientHeight = mainBox.height; main.scrollHeight = 1900; main.scrollTop = 83;
+  main.scrollTo = options => { smoothCalls.push(options); main.scrollTop = options.top; };
+  const revealMap = () => h.document.dispatchEvent(new CustomEvent('acf:reveal-map', { detail: { smooth } }));
+  revealMap(); assert.equal(main.scrollTop, 83, 'Reset reveal event cannot scroll the closed riddle');
+  h.type('atlas'); h.submit(); await h.settle(); usable(h);
+  main.scrollTop = 83; smoothCalls.length = 0;
+  const before = h.trace.length;
+  revealMap();
+  const shouldScroll = compact && view === 'map';
+  if (shouldScroll) {
+    const box = graphBox();
+    assert(box.top >= mainBox.top + 96, 'Reset puts the map below sticky subject controls');
+    assert(box.top + box.height <= mainBox.top + mainBox.height, 'Reset map fits inside the phone workspace viewport');
+    assert.equal(smoothCalls.length, Number(smooth && !reduced), 'Only allowed motion uses smooth scroll');
+    if (smoothCalls.length) assert.equal(smoothCalls[0].behavior, 'smooth');
+  } else { assert.equal(main.scrollTop, 83); assert.equal(smoothCalls.length, 0); }
+  assert(h.trace.slice(before).filter(step => step.event === 'element:scroll').every(step => step.target === 'main'), 'Reset reveal never scrolls the page or reading panels');
+  h.click('return-entry'); main.scrollTop = 83; revealMap();
+  assert.equal(main.scrollTop, 83, 'Late reset reveal cannot scroll after leaving the workspace');
+  cases++;
+}
 if (process.argv.includes('--probe-reveal-scroll')) process.exit(0);
 
 const loadSequences = [];

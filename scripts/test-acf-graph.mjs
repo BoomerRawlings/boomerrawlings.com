@@ -221,6 +221,84 @@ function comparisonFixture() {
   return { data: { nodes, edges }, config };
 }
 
+test('full Atlas reset glides from close-up to overview without reopening a selected record', t => {
+  const h = harness(t), data = fixture();
+  h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  const overview = { scale: h.graph.scale, pan: { ...h.graph.pan } };
+  const canonical = h.graph.nodes.map(({ id, x, y }) => ({ id, x, y }));
+  h.graph.focusRecord('work-40'); h.tick(600);
+  const selectedCount = h.selected.length, closeScale = h.graph.scale, closePan = { ...h.graph.pan };
+  h.graph.reset({ smooth: true, universe: true });
+  assert.equal(h.graph.scale, closeScale, 'Reset starts at the visible camera');
+  assert.deepEqual(h.graph.pan, closePan);
+  assert(h.graph.cameraFlight);
+  assert.equal(h.graph.selected, null);
+  assert.equal(h.graph.regionSelection, null);
+  h.tick(400);
+  assert(h.graph.scale < closeScale && h.graph.scale > overview.scale, 'Intermediate frame has genuine continuous zoom');
+  h.tick(400);
+  assert.equal(h.graph.cameraFlight, null);
+  assert.equal(h.graph.scale, overview.scale);
+  assert.deepEqual(h.graph.pan, overview.pan);
+  assert.equal(h.selected.length, selectedCount, 'Overview arrival emits no item selection');
+  assert.deepEqual(h.graph.nodes.map(({ id, x, y }) => ({ id, x, y })), canonical);
+});
+
+test('full Atlas reset exits comparison to universe, overriding the saved close-up camera', t => {
+  const h = harness(t, { gpu: true }), { data, config } = comparisonFixture();
+  h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  const overview = { scale: h.graph.scale, pan: { ...h.graph.pan } };
+  const canonical = h.graph.nodes.map(({ id, x, y }) => ({ id, x, y }));
+  h.graph.zoomBy(7); h.graph.setComparison(config); h.tick(800);
+  h.graph.reset({ smooth: true, universe: true });
+  assert.equal(h.graph.comparison.exiting, true);
+  assert.equal(h.graph.comparison.cameraFollowing, false, 'Comparison exit cannot overwrite overview flight');
+  h.tick(400); assert(h.graph.comparison);
+  h.tick(400);
+  assert.equal(h.graph.comparison, null);
+  assert.equal(h.graph.renderer.comparison, null);
+  assert.equal(h.graph.scale, overview.scale);
+  assert.deepEqual(h.graph.pan, overview.pan);
+  h.tick(1600);
+  assert.equal(h.graph.scale, overview.scale, 'No late close-up restoration');
+  assert.deepEqual(h.graph.pan, overview.pan);
+  assert.deepEqual(h.graph.nodes.map(({ id, x, y }) => ({ id, x, y })), canonical);
+});
+
+test('full Atlas reset remains an overview when the viewport resizes during comparison exit', t => {
+  const h = harness(t, { gpu: true }), { data, config } = comparisonFixture();
+  h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  h.graph.zoomBy(7); h.graph.setComparison(config); h.tick(800);
+  h.graph.reset({ smooth: true, universe: true }); h.tick(200);
+  Object.assign(h.canvas.rect, { width: 390, height: 844 });
+  h.graph.measure(); h.tick(1200);
+  assert.equal(h.graph.comparison, null);
+  assert.equal(h.graph.cameraFlight, null);
+  assert.equal(h.graph.scale, h.graph.baseScale, 'Reset remains at overview scale after resize');
+  const frame = h.graph.viewportFrame(), points = h.graph.nodes.map(node => h.graph.anchor(node));
+  assert(Math.min(...points.map(point => point.x)) >= frame.left - 1e-8);
+  assert(Math.max(...points.map(point => point.x)) <= h.graph.width - frame.right + 1e-8);
+  assert(Math.min(...points.map(point => point.y)) >= frame.top - 1e-8);
+  assert(Math.max(...points.map(point => point.y)) <= h.graph.height - frame.bottom + 1e-8);
+});
+
+for (const mode of ['reduced motion', 'paused', 'hidden', 'inactive']) {
+  test(`full Atlas reset settles immediately when ${mode}`, t => {
+    const h = harness(t, { reducedMotion: mode === 'reduced motion' });
+    h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+    const overview = { scale: h.graph.scale, pan: { ...h.graph.pan } };
+    h.graph.zoomBy(8);
+    if (mode === 'paused') h.graph.toggleMotion();
+    if (mode === 'hidden') h.doc.hidden = true;
+    if (mode === 'inactive') h.graph.setActive(false);
+    h.graph.reset({ smooth: true, universe: true });
+    assert.equal(h.graph.cameraFlight, null);
+    assert.equal(h.graph.scale, overview.scale);
+    assert.deepEqual(h.graph.pan, overview.pan);
+    assert.equal(h.graph.selected, null);
+  });
+}
+
 test('entrance target handoff settles comparison positions and excludes faded background records', t => {
   const h = harness(t, { gpu: true }), { data, config } = comparisonFixture();
   config.left.memberIds = new Set(['r-0']); config.right.memberIds = new Set(['r-60']);

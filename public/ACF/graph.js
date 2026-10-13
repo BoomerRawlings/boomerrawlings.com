@@ -1,8 +1,8 @@
-import { SpatialGrid } from './graph-spatial.js?v=continuum-20261013';
-import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=continuum-20261013';
-import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=continuum-20261013';
-import { buildTerritory } from './territory-geometry.js?v=continuum-20261013';
-import { comparisonLayout } from './comparison-layout.js?v=continuum-20261013';
+import { SpatialGrid } from './graph-spatial.js?v=reset-20261013';
+import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=reset-20261013';
+import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=reset-20261013';
+import { buildTerritory } from './territory-geometry.js?v=reset-20261013';
+import { comparisonLayout } from './comparison-layout.js?v=reset-20261013';
 
 const COLORS = { hub: '#d89976', item: '#a9c9db', person: '#aaa4d0' };
 const REGION_COLORS = ['#90c2d1', '#c5a5cc', '#d6ac7f', '#9ebd92', '#94a8d3', '#c7bb82'];
@@ -400,6 +400,7 @@ export class AtlasGraph {
     this.dpr = dpr;
     this.canvas.width = Math.round(width * dpr);
     this.canvas.height = Math.round(height * dpr);
+    if (this.cameraFlight?.overview) { this.reset({ smooth: true, universe: true }); return; }
     if (this.comparison?.exiting) { this.resizeComparisonRestore(oldCenter); this.advanceComparison(Infinity); this.requestDraw(); return; }
     const comparisonConfig = this.comparison && !this.comparison.exiting ? this.comparison.config : null;
     if (comparisonConfig) {
@@ -433,8 +434,12 @@ export class AtlasGraph {
     return { x: (this.width + left - right) / 2, y: (this.height + top - bottom) / 2 };
   }
 
-  reset() {
+  reset({ smooth = false, universe = false } = {}) {
     if (this.destroyed) return;
+    if (universe) {
+      this.setComparison(null);
+      this.setRegionSelection(null);
+    }
     if (this.comparison && !this.comparison.exiting) {
       const config = this.comparison.config; this.comparison.key = ''; this.setComparison(config); return;
     }
@@ -455,15 +460,25 @@ export class AtlasGraph {
       Math.max(50, this.height - top - bottom) / Math.max(180, bounds.bottom - bounds.top),
       1.35,
     );
-    this.scale = Math.max(0.000001, scale);
-    this.baseScale = this.scale;
-    this.pan = {
-      x: center.x - (bounds.left + bounds.right) / 2 * this.scale,
-      y: center.y - (bounds.top + bounds.bottom) / 2 * this.scale,
-    };
-    this.depthOrigin = { ...this.pan };
+    const target = { scale: Math.max(0.000001, scale), pan: {
+      x: center.x - (bounds.left + bounds.right) / 2 * scale,
+      y: center.y - (bounds.top + bounds.bottom) / 2 * scale,
+    } };
+    this.baseScale = target.scale;
+    this.depthOrigin = { ...target.pan };
     this.initialized = true;
-    this.onZoom(1);
+    if (this.comparison?.exiting) {
+      // An exit must not restore its old close-up after a full-universe reset.
+      this.comparison.cameraFollowing = false;
+      this.comparisonRestore = { ...target, baseScale: target.scale, center };
+    }
+    if (smooth && this.active && this.ctx && !document.hidden && !this.paused && !this.motion.matches) {
+      this.cameraFlight = { started: performance.now(), duration: 800, fromScale: this.scale, fromPan: { ...this.pan }, target, overview: true };
+      this.onZoom(this.scale / this.baseScale);
+    } else {
+      this.scale = target.scale; this.pan = target.pan;
+      this.onZoom(1);
+    }
     this.requestDraw(true);
   }
 

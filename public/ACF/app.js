@@ -1,9 +1,9 @@
-import { AtlasGraph } from './graph.js?v=continuum-20261013';
-import { NodePreview } from './node-preview.js?v=continuum-20261013';
-import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=continuum-20261013';
-import { getRegions, regionFacets } from './regions.js?v=continuum-20261013';
-import { UIMotion } from './ui-motion.js?v=continuum-20261013';
-import { compareTerritories } from './comparison.js?v=continuum-20261013';
+import { AtlasGraph } from './graph.js?v=reset-20261013';
+import { NodePreview } from './node-preview.js?v=reset-20261013';
+import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=reset-20261013';
+import { getRegions, regionFacets } from './regions.js?v=reset-20261013';
+import { UIMotion } from './ui-motion.js?v=reset-20261013';
+import { compareTerritories } from './comparison.js?v=reset-20261013';
 
 const $ = id => document.getElementById(id);
 const number = n => n.toLocaleString();
@@ -18,6 +18,7 @@ let preparedIndex, preparedFilters;
 let resumePreparation;
 let regionFilters = {}, regionResult = null, regionPageSize = 20, regionNavigationIndex;
 let comparisonResult = null, comparisonDetailsOpen = false;
+let collectionGeneration = 0, resetting = false;
 const regionKeys = ['term', 'overlap', 'collection', 'type', 'year', 'person', 'role', 'sort'];
 const regionScope = () => scope?.kind === 'theme';
 const comparisonScope = () => scope?.kind === 'compare';
@@ -109,6 +110,7 @@ async function start() {
       renderCollections(); readLocation();
       initialized = true;
       $('import-file').disabled = false;
+      $('reset-atlas').disabled = false;
       $('atlas-workspace').dataset.loadMs = (performance.now() - began).toFixed(1);
       document.dispatchEvent(new CustomEvent('acf:ready'));
     } catch (error) {
@@ -434,6 +436,56 @@ function renderList(revealFrom = 0) {
   uiMotion.reveal($('results'), { fields: [...$('results').children].slice(revealFrom) });
 }
 function clearFilters() { for (const id of ['search', 'type-filter', 'year-from', 'year-to']) $(id).value = ''; scope = null; regionFilters = {}; selection = null; comparisonDetailsOpen = false; closeDetail(); history.pushState(viewContext(), '', location.pathname); refresh(); }
+async function resetAtlas() {
+  if (!initialized || preparationPending || resetting) return;
+  resetting = true;
+  ++collectionGeneration;
+  clearTimeout(debounce);
+  const control = $('reset-atlas');
+  control.disabled = true;
+  control.setAttribute('aria-busy', 'true');
+  $('reset-status').textContent = 'Restoring the full Atlas…';
+  try {
+    // Resolve every catalog before touching the current exploration. A failed
+    // fetch leaves its records, filters, URL and camera intact for a retry.
+    const allData = await Promise.all(directory.catalogs.map(catalogData));
+    for (const data of allData) catalogs.set(data.catalog.id, data);
+    for (const { data } of sessionImports.values()) catalogs.set(data.catalog.id, data);
+    clearTimeout(debounce);
+    for (const id of ['search', 'type-filter', 'year-from', 'year-to']) $(id).value = '';
+    scope = null; regionFilters = {}; selection = null;
+    regionResult = null; comparisonResult = null; comparisonDetailsOpen = false;
+    preview.close(); closeDetail();
+    for (const name of ['collections', 'about']) {
+      const dialog = $(name + '-dialog');
+      uiMotion.cancel(dialog);
+      if (dialog.open) dialog.close();
+    }
+    $('map-layers').open = false;
+    for (const id of ['names-toggle', 'labels-toggle', 'relationships-toggle', 'regions-toggle', 'themes-toggle']) $(id).checked = $(id).defaultChecked;
+    history.replaceState(viewContext(), '', location.pathname + location.search);
+    const changed = index.catalogById.size !== catalogs.size;
+    // Reuse the prepared full field when all catalogs were already present;
+    // comparison stars can then glide back into their original positions.
+    if (changed) rebuild(false);
+    renderCollections();
+    expandMap(false);
+    setView(graph?.available === false || !graph ? 'list' : 'map');
+    refresh();
+    if (document.body.dataset.view === 'list' || !matchMedia('(max-width: 680px)').matches) $('main').scrollTop = 0;
+    else document.dispatchEvent(new CustomEvent('acf:reveal-map', { detail: { smooth: !uiMotion.paused } }));
+    graph?.measure?.();
+    graph?.reset({ smooth: true, universe: true });
+    $('dataset-status').textContent = `${number(index.items.length)} records · ${number(catalogs.size)} collections`;
+    $('reset-status').textContent = `Atlas reset. ${number(index.items.length)} records across all ${number(catalogs.size)} collections.`;
+  } catch {
+    $('dataset-status').textContent = 'Reset unavailable — current view preserved. Try again.';
+    $('reset-status').textContent = 'Unable to restore all collections. Your current view is preserved. Try Reset Atlas again.';
+  } finally {
+    resetting = false; control.disabled = false; control.setAttribute('aria-busy', 'false');
+    if (active) control.focus({ preventScroll: true });
+  }
+}
 function scopeLabel() { return comparisonScope() ? scope.ids.map(id => getRegions(index).byId.get(id)?.label || 'Territory').join(' ↔ ') : scope?.kind === 'person' ? index.people.get(scope.id)?.name || 'Name not loaded' : regionScope() ? getRegions(index).byId.get(scope.id)?.label || 'Theme' : label(scope?.id); }
 function renderBreadcrumbs() {
   $('breadcrumbs').replaceChildren(button('All connections', clearFilters));
@@ -530,12 +582,15 @@ function renderCollections() {
   const total = directory?.catalogs.reduce((sum, entry) => sum + entry.itemCount, 0) || 0;
   if (!$('load-all-collections') && directory) {
     const all = button(`Load all ${number(total)} records`, async () => {
+      if (resetting) return;
+      const generation = collectionGeneration;
       all.disabled = true; $('import-status').textContent = 'Opening all collections…';
       try {
         const allData = await Promise.all(directory.catalogs.map(catalogData));
+        if (generation !== collectionGeneration) return;
         for (const data of allData) catalogs.set(data.catalog.id, data);
         rebuild(); renderCollections(); $('import-status').textContent = `${number(index.items.length)} records searchable. Names remain separate across collections.`;
-      } catch { $('import-status').textContent = 'Some collections could not load. Your current view is preserved; try again.'; }
+      } catch { if (generation === collectionGeneration) $('import-status').textContent = 'Some collections could not load. Your current view is preserved; try again.'; }
       finally { all.disabled = false; uiMotion.reveal($('import-status'), { mode: 'view', fields: [] }); }
     }, 'load-more');
     all.id = 'load-all-collections'; $('collection-options').before(all);
@@ -546,12 +601,19 @@ function renderCollections() {
     const copy = el('span'); copy.append(el('strong', 'collection-name', entry.label), el('span', 'collection-meta', `${number(entry.itemCount)} records · ${entry.coverageSummary || 'Public metadata snapshot'}`));
     row.append(check, copy);
     check.addEventListener('change', async () => {
+      if (resetting) { check.checked = catalogs.has(entry.id); return; }
+      const generation = collectionGeneration;
       check.disabled = true;
       try {
-        if (check.checked) { $('import-status').textContent = `Loading ${entry.label}…`; catalogs.set(entry.id, await catalogData(entry)); }
+        if (check.checked) {
+          $('import-status').textContent = `Loading ${entry.label}…`;
+          const data = await catalogData(entry);
+          if (generation !== collectionGeneration) return;
+          catalogs.set(entry.id, data);
+        }
         else catalogs.delete(entry.id);
         rebuild(); $('import-status').textContent = `${number(index.items.length)} records available.`;
-      } catch { check.checked = false; $('import-status').textContent = 'Unable to load that collection. Check your connection and try again.'; }
+      } catch { if (generation === collectionGeneration) { check.checked = false; $('import-status').textContent = 'Unable to load that collection. Check your connection and try again.'; } }
       finally { check.disabled = false; uiMotion.reveal(row); uiMotion.reveal($('import-status'), { mode: 'view', fields: [] }); }
     });
     return row;
@@ -605,6 +667,7 @@ $('preview-next').addEventListener('click', () => graph?.stepPreview(1));
 $('zoom-in').addEventListener('click', () => graph?.zoomBy(1.3));
 $('zoom-out').addEventListener('click', () => graph?.zoomBy(1 / 1.3));
 $('reset-view').addEventListener('click', () => graph?.reset());
+$('reset-atlas').addEventListener('click', resetAtlas);
 $('view-overview').addEventListener('click', () => graph?.reset());
 $('connections-toggle').addEventListener('click', () => {
   const enabled = !$('relationships-toggle').checked && !$('themes-toggle').checked;
@@ -624,14 +687,15 @@ function expandMap(expanded) {
 }
 $('expand-map').addEventListener('click', () => expandMap(document.body.dataset.mapExpanded !== 'true'));
 $('motion-toggle').addEventListener('click', () => { const paused = graph ? graph.toggleMotion() : !uiMotion.paused; uiMotion.setPaused(paused); $('motion-toggle').setAttribute('aria-pressed', String(Boolean(paused))); $('motion-toggle').setAttribute('aria-label', paused ? 'Resume motion' : 'Pause motion'); });
-for (const view of ['map', 'list']) $(view + '-view').addEventListener('click', () => {
+function setView(view) {
   if (view === 'list') { expandMap(false); uiMotion.cancel($('graph-stage')); }
   else uiMotion.cancel($('results'));
   document.body.dataset.view = view;
   for (const v of ['map', 'list']) $(v + '-view').setAttribute('aria-pressed', String(v === view));
   graph?.setActive(active && view === 'map');
   uiMotion.reveal(view === 'list' ? $('results') : $('graph-stage'), { ...(view === 'map' ? { fields: [] } : {}), mode: 'view' });
-});
+}
+for (const view of ['map', 'list']) $(view + '-view').addEventListener('click', () => setView(view));
 for (const name of ['collections', 'about']) {
   $(name + '-open').addEventListener('click', () => { preview.close(); $(name + '-dialog').showModal(); uiMotion.reveal($(name + '-dialog')); });
   $(name + '-dialog').addEventListener('close', () => { uiMotion.cancel($(name + '-dialog')); uiMotion.reveal($(name + '-open'), { fields: [] }); });
