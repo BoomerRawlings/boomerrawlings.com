@@ -2,11 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
+import {fileURLToPath} from 'node:url';
 import {build} from 'esbuild';
 
 // Run the complete production companion against a small window/DOM adapter.
 // No copied lifecycle logic: navigation invalidates the real update/open path.
-const compiled=await build({entryPoints:[new URL('../src/scripts/brain/lectures/speaker-console.ts',import.meta.url).pathname.replace(/^\/([A-Za-z]:)/,'$1')],bundle:true,platform:'node',format:'cjs',write:false});const code=compiled.outputFiles[0].text;
+const compiled=await build({entryPoints:[fileURLToPath(new URL('../src/scripts/brain/lectures/speaker-console.ts',import.meta.url))],bundle:true,platform:'node',format:'cjs',write:false});const code=compiled.outputFiles[0].text;
 class Element{
   constructor(tag){this.tagName=tag;this.children=[];this.attributes=new Map();this.events=new Map();this.hidden=false;this.disabled=false;this.textContent='';this.dataset={};this.style={setProperty(){}};}
   append(...children){this.children.push(...children);}

@@ -1,5 +1,15 @@
 # Project state
 
+## Continuous Atlas entrance and emblem — verified locally
+
+- Mode: continuation. Replace final shrink/fade with continuous constellation-to-map handoff; new unique emblem. Then return to ongoing collection audit in parent workspace.
+- Baseline/live94787fa verified. Isolated worktree keeps unpublished research dossiers out of this release.
+- Implemented: retained5s ATLAS formation, then3.2s handoff to at most60 real visible record positions. Five soft apertures grow with stars;18 bounded angular tracings. Actual map remains stationary at final scale. Fresh shared clock starts after preparation. List/empty fallback1.1s; Skip/reduced/cancellation immediate.
+- Emblem: fractured celestial shell supported by asymmetric copper bearing; matching favicon, unified title retained. Cache continuum-20261013.
+- Verified: full npm test passes,47-page build,ACF118 groups; additional comparison destination test gives graph59/59. Entrance91 cases check masks/endpoints/timing/cancellation. Independent production review clear. Real1280/390/320 browser checks show all33945 records, comparison4006 preserved, List/Skip/resize cleanup, no overflow/errors. Map transform stays none during handoff.
+- Evidence: sibling .acf-qa/entry-polish-full-tests.log,entry-polish-graph-review-tests.log,continuum-cached screenshots and continuum-phone.png. Viewport/API proof, not physical-device FPS.
+- Next: one scoped production push, CI/live verification; integrate into audit checkout without publishing dossiers; resume collection audit.
+
 ## Atlas riddle and extended formation — active
 
 - Mode: continuation. User asks slightly clearer Atlas-bearing-world clue and longer restrained entrance evolving typed ATLAS into actual full starfield.

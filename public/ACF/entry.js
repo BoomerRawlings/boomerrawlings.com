@@ -14,7 +14,7 @@
   const neutralTitle = document.title;
   const running = new Set();
   let phase = 'idle', cycle = 0, attempts = 0, entered = false;
-  let cancelFrameWait;
+  let cancelFrameWait, transfer;
 
   function animate(node, frames, options, sharedStart) {
     if (!node?.animate) return Promise.resolve();
@@ -30,6 +30,7 @@
     cancelFrameWait?.();
     running.forEach(animation => animation.cancel());
     running.clear();
+    transfer?.remove(); transfer = null;
   }
   function freshRevealFrame() {
     if (typeof requestAnimationFrame !== 'function') return Promise.resolve(undefined);
@@ -75,7 +76,7 @@
     const frame = main.getBoundingClientRect(), field = stage.getBoundingClientRect();
     if (!frame.height || !field.height) return;
     // Only the workspace scroller moves. Reserve the sticky subject picker so
-    // the ready field, not the controls above it, receives the final retreat.
+    // the ready field, not the controls above it, receives the constellation.
     const controls = $('territory-comparison')?.getBoundingClientRect().height || 0;
     main.scrollTop = Math.max(0, main.scrollTop + field.top - frame.top - controls);
   }
@@ -85,32 +86,95 @@
     if (reduced.matches || !screen.animate) { finish(); return; }
     phase = 'revealing';
     const activeCycle = cycle;
+    const playTransfer = prepareTransfer();
     const sharedStart = await freshRevealFrame();
     if (phase !== 'revealing' || cycle !== activeCycle) return;
     loading.hidden = true;
     document.body.classList.add('entry-revealing');
-    // Both fields retreat toward the same viewport center. The decorative
-    // constellation recedes while every prepared record becomes visible.
-    const word = $('entry-word').getBoundingClientRect(), map = $('network').getBoundingClientRect();
-    const dx = map.width ? map.left + map.width / 2 - word.left - word.width / 2 : 0;
-    const dy = map.height ? map.top + map.height / 2 - word.top - word.height / 2 : 0;
-    const surfaces = [$('network'), $('graph-stage').querySelector('.atlas-gpu-points')].filter(Boolean);
-    const retreat = { duration: 2600, easing: 'cubic-bezier(.2,.55,.25,1)' };
-    await Promise.all([
-      animate(sequence, [
-        { opacity: 1, transform: 'translate(0, 0) scale(1)' },
-        { opacity: .9, offset: .25 },
-        { opacity: .42, offset: .7 },
-        { opacity: 0, transform: `translate(${dx}px, ${dy}px) scale(.48)` },
-      ], retreat, sharedStart),
-      animate(screen, [{ opacity: 1 }, { opacity: 1, offset: .15 }, { opacity: .64, offset: .4 }, { opacity: 0 }], { duration: 2600, easing: 'ease-in-out' }, sharedStart),
-      ...surfaces.map(surface => animate(surface, [
-        { opacity: .25, transform: `translate(${-dx}px, ${-dy}px) scale(2.05)` },
-        { opacity: .65, offset: .4 },
-        { opacity: 1, transform: 'translate(0px, 0px) scale(1)' },
-      ], retreat, sharedStart)),
-    ]);
+    transfer.removeAttribute('hidden');
+    await playTransfer(sharedStart);
     if (phase === 'revealing' && cycle === activeCycle) finish();
+  }
+
+  function prepareTransfer() {
+    const word = $('entry-word').getBoundingClientRect(), map = $('network').getBoundingClientRect();
+    const viewport = screen.getBoundingClientRect(), width = viewport.width, height = viewport.height;
+    const origins = [...stars, ...satellites.flatMap(group => [...group.children])].map(node => ({
+      x: word.left + Number(node.getAttribute('cx')) / 400 * word.width,
+      y: word.top + Number(node.getAttribute('cy')) / 250 * word.height,
+    }));
+    const detail = { points: [] };
+    document.dispatchEvent(new CustomEvent('acf:entry-targets', { detail }));
+    const pool = detail.points.filter(point => Number.isFinite(point.x) && Number.isFinite(point.y)).slice(0, 60).map(point => ({ ...point, x: map.left + point.x, y: map.top + point.y }));
+    const destinations = [];
+    for (const [u, v] of [[.14, .53], [.31, .24], [.49, .62], [.7, .34], [.86, .67]]) {
+      if (!pool.length) break;
+      const target = { x: map.left + map.width * u, y: map.top + map.height * v };
+      pool.sort((a, b) => Math.hypot(a.x - target.x, a.y - target.y) - Math.hypot(b.x - target.x, b.y - target.y));
+      destinations.push(pool.shift());
+    }
+    destinations.push(...pool);
+    const duration = destinations.length ? 3200 : 1100;
+    const svg = (tag, attributes = {}) => {
+      const node = document.createElementNS('http://www.w3.org/2000/svg', tag);
+      for (const [key, value] of Object.entries(attributes)) node.setAttribute(key, String(value));
+      return node;
+    };
+    transfer = svg('svg', { id: 'entry-transfer', viewBox: `0 0 ${width} ${height}`, 'aria-hidden': 'true' });
+    transfer.setAttribute('hidden', '');
+    const defs = svg('defs'), mask = svg('mask', { id: 'entry-apertures', maskUnits: 'userSpaceOnUse', x: 0, y: 0, width, height });
+    const feather = svg('radialGradient', { id: 'entry-feather' });
+    feather.append(svg('stop', { offset: '0', 'stop-color': 'black' }), svg('stop', { offset: '.38', 'stop-color': 'black' }), svg('stop', { offset: '1', 'stop-color': 'black', 'stop-opacity': '0' }));
+    defs.append(feather);
+    mask.append(svg('rect', { x: 0, y: 0, width, height, fill: 'white' }));
+    defs.append(mask); transfer.append(defs);
+    transfer.append(svg('rect', { x: 0, y: 0, width, height, fill: '#10111f', mask: 'url(#entry-apertures)' }));
+    const tracings = svg('g', { class: 'entry-transfer-tracings' }), points = svg('g', { class: 'entry-transfer-points' });
+    transfer.append(tracings, points); screen.prepend(transfer);
+    const tracks = [];
+    const plan = (node, frames, options) => tracks.push({ node, frames, options });
+    plan(sequence, [{ opacity: 1 }, { opacity: 0 }], { duration: 560, easing: 'ease-out' });
+    const transform = (point, scale = 1) => `translate(${point.x}px, ${point.y}px) scale(${scale})`;
+    // Five growing windows follow the original five stars. The real field
+    // stays at its final scale throughout: no zoomed bitmap or scene crossfade.
+    for (let i = 0; i < 5; i++) {
+      const origin = origins[i], destination = destinations[i] || origin;
+      const aperture = svg('circle', { id: 'entry-aperture-' + i, cx: 0, cy: 0, r: 1, fill: 'url(#entry-feather)' });
+      mask.append(aperture);
+      const reach = Math.hypot(width, height) * 3;
+      plan(aperture, [
+        { offset: 0, transform: transform(origin, .01) },
+        { offset: .16, transform: transform(origin, 2) },
+        { offset: .51, transform: transform(destination, reach * .11) },
+        { offset: 1, transform: transform(destination, reach) },
+      ], { duration, easing: 'cubic-bezier(.48,0,.2,1)' });
+    }
+    destinations.forEach((destination, i) => {
+      const origin = origins[i % origins.length], delay = i < 5 ? i * 50 : 180 + (i % 9) * 65;
+      const span = duration - delay, arrival = i < 5 ? .56 : .68;
+      const bend = { x: origin.x + (destination.x - origin.x) * .58, y: origin.y + (destination.y - origin.y) * .25 };
+      const radius = Math.max(.7, Math.min(2.5, destination.radius || 1));
+      const point = svg('circle', { id: 'entry-transfer-star-' + i, cx: 0, cy: 0, r: radius, fill: destination.color || '#c6dff1', 'data-record-id': destination.id });
+      points.append(point);
+      plan(point, [
+        { offset: 0, opacity: i < 5 ? 1 : .55, transform: transform(origin, i < 5 ? 2.5 * word.width / 400 / radius : 1) },
+        { offset: arrival * .42, opacity: 1, transform: transform(bend) },
+        { offset: arrival, opacity: 1, transform: transform(destination) },
+        { offset: .91, opacity: .65, transform: transform(destination) },
+        { offset: 1, opacity: 0, transform: transform(destination) },
+      ], { delay, duration: span, easing: 'cubic-bezier(.22,.65,.3,1)' });
+      if (i < 18) {
+        const path = svg('path', { id: 'entry-transfer-route-' + i, d: `M${origin.x} ${origin.y} L${bend.x} ${bend.y} L${destination.x} ${destination.y}`, pathLength: 1000, stroke: i % 4 === 0 ? '#d6ac7f' : '#90c2d1' });
+        tracings.append(path);
+        plan(path, [
+          { offset: 0, strokeDashoffset: '1000', opacity: 0 },
+          { offset: .18, opacity: .3 },
+          { offset: arrival, strokeDashoffset: '0', opacity: .28 },
+          { offset: 1, strokeDashoffset: '-1000', opacity: 0 },
+        ], { delay, duration: span, easing: 'ease-in-out' });
+      }
+    });
+    return sharedStart => Promise.all(tracks.map(track => animate(track.node, track.frames, track.options, sharedStart)));
   }
   function prepare() {
     if (phase !== 'opening') return;

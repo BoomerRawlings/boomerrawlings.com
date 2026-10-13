@@ -1,9 +1,9 @@
-import { AtlasGraph } from './graph.js?v=formation-20261012';
-import { NodePreview } from './node-preview.js?v=formation-20261012';
-import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=formation-20261012';
-import { getRegions, regionFacets } from './regions.js?v=formation-20261012';
-import { UIMotion } from './ui-motion.js?v=formation-20261012';
-import { compareTerritories } from './comparison.js?v=formation-20261012';
+import { AtlasGraph } from './graph.js?v=continuum-20261013';
+import { NodePreview } from './node-preview.js?v=continuum-20261013';
+import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=continuum-20261013';
+import { getRegions, regionFacets } from './regions.js?v=continuum-20261013';
+import { UIMotion } from './ui-motion.js?v=continuum-20261013';
+import { compareTerritories } from './comparison.js?v=continuum-20261013';
 
 const $ = id => document.getElementById(id);
 const number = n => n.toLocaleString();
@@ -23,6 +23,9 @@ const regionScope = () => scope?.kind === 'theme';
 const comparisonScope = () => scope?.kind === 'compare';
 const subjectScope = () => regionScope() || comparisonScope();
 const selectedTerritories = () => comparisonScope() ? scope.ids : regionScope() ? [scope.id] : [];
+document.addEventListener('acf:entry-targets', event => {
+  if (document.body.dataset.view !== 'list') event.detail.points = graph?.entranceTargets() || [];
+});
 const uiMotion = new UIMotion(document, { active: false });
 const revealPanel = (panel, content) => uiMotion.reveal($(panel), { fields: [...$(content).children].filter(node => !node.classList.contains('region-records')) });
 const preview = new NodePreview($('graph-stage'), $('network'), () => index, node => node.scope?.kind === 'theme' ? selectTerritory(node.scope.id) : node.scope ? navigate('scope', node.scope) : navigate('item', node.id), {

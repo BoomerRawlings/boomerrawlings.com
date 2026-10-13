@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile, mkdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
+import { fileURLToPath } from 'node:url';
 import { build } from 'esbuild';
 import * as THREE from 'three';
 import { topics } from '../public/brain/curriculum.js';
@@ -75,7 +76,7 @@ for(const h of ['left','right']){
 // by a generic sphere, misnamed source target, or disconnected fake relay graph.
 await mkdir(new URL('../.astro/',import.meta.url),{recursive:true});
 const output=new URL('../.astro/brain-regions-check.mjs',import.meta.url);
-await build({entryPoints:[new URL('../src/scripts/brain/scenes-macro.ts',import.meta.url).pathname.replace(/^\/([A-Za-z]:)/,'$1')],outfile:output.pathname.replace(/^\/([A-Za-z]:)/,'$1'),bundle:true,platform:'node',format:'esm',packages:'external',logLevel:'silent'});
+await build({entryPoints:[fileURLToPath(new URL('../src/scripts/brain/scenes-macro.ts',import.meta.url))],outfile:fileURLToPath(output),bundle:true,platform:'node',format:'esm',packages:'external',logLevel:'silent'});
 const {buildMacroScene}=await import(output.href);
 const originalFetch=globalThis.fetch;
 globalThis.fetch=async url=>new Response(await readFile(new URL(String(url).replace(/^\//,''),publicRoot)),{status:200});

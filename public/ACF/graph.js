@@ -1,8 +1,8 @@
-import { SpatialGrid } from './graph-spatial.js?v=formation-20261012';
-import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=formation-20261012';
-import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=formation-20261012';
-import { buildTerritory } from './territory-geometry.js?v=formation-20261012';
-import { comparisonLayout } from './comparison-layout.js?v=formation-20261012';
+import { SpatialGrid } from './graph-spatial.js?v=continuum-20261013';
+import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=continuum-20261013';
+import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=continuum-20261013';
+import { buildTerritory } from './territory-geometry.js?v=continuum-20261013';
+import { comparisonLayout } from './comparison-layout.js?v=continuum-20261013';
 
 const COLORS = { hub: '#d89976', item: '#a9c9db', person: '#aaa4d0' };
 const REGION_COLORS = ['#90c2d1', '#c5a5cc', '#d6ac7f', '#9ebd92', '#94a8d3', '#c7bb82'];
@@ -765,6 +765,32 @@ export class AtlasGraph {
   anchor(node) {
     const point = this.displayPosition(node);
     return { x: point.x * this.scale + this.pan.x, y: point.y * this.scale + this.pan.y };
+  }
+
+  entranceTargets() {
+    // One representative real record per screen cell; never manufacture nodes,
+    // change graph geometry, or use an unpopulated territory center as a star.
+    this.advanceCamera(Infinity);
+    this.advanceComparison(Infinity);
+    const cells = new Map(), columns = 10, rows = 6, visible = [];
+    if (!this.width || !this.height || !this.available) return [];
+    let left = Infinity, top = Infinity, right = -Infinity, bottom = -Infinity;
+    for (const node of this.nodes) {
+      if (node.kind !== 'item' || !this.nodeEnabled(node)) continue;
+      const point = this.anchor(node);
+      if (point.x < 12 || point.y < 12 || point.x > this.width - 12 || point.y > this.height - 12) continue;
+      visible.push({ node, point });
+      left = Math.min(left, point.x); right = Math.max(right, point.x); top = Math.min(top, point.y); bottom = Math.max(bottom, point.y);
+    }
+    const width = Math.max(1, right - left), height = Math.max(1, bottom - top);
+    for (const { node, point } of visible) {
+      const col = Math.min(columns - 1, Math.floor((point.x - left) / width * columns));
+      const row = Math.min(rows - 1, Math.floor((point.y - top) / height * rows));
+      const distance = Math.hypot(point.x - left - (col + .5) * width / columns, point.y - top - (row + .5) * height / rows);
+      const key = row * columns + col;
+      if (!cells.has(key) || distance < cells.get(key).distance) cells.set(key, { id: node.id, x: point.x, y: point.y, radius: this.radius(node), color: node.color || COLORS.item, distance });
+    }
+    return [...cells.entries()].sort((a, b) => a[0] - b[0]).map(([, point]) => point);
   }
 
   emitPreview(node, reason) {

@@ -16,7 +16,7 @@ const event = (type, properties = {}) => Object.assign(new Event(type, { cancela
 
 // Exercise the real script against the real markup. This deliberately models only
 // the DOM APIs used by the entrance; rendered geometry belongs to browser checks.
-function harness({ reduced = false, animationAPI = true, entrySource = source, autoReady = true, bounds = {}, gpuCanvas = true, animationStartSkew = 0, timelineClock = true, timelineLag = 0, frameTimestampLag = 0, frameMode = 'normal', rejectAnimationClock = false, compact = false } = {}) {
+function harness({ reduced = false, animationAPI = true, entrySource = source, autoReady = true, bounds = {}, gpuCanvas = true, animationStartSkew = 0, timelineClock = true, timelineLag = 0, frameTimestampLag = 0, frameMode = 'normal', rejectAnimationClock = false, compact = false, targetCount = 60, targetPreparationTime = 0 } = {}) {
   let hasApp = false, currentGraph;
   let now = 0, timerId = 0, animations = 0, enters = 0, exits = 0, task = 0;
   const timers = new Map(), ids = new Map(), activeAnimations = new Map(), trace = [];
@@ -69,9 +69,9 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
       Object.defineProperty(this, 'className', { get: () => [...classes].join(' '), set: value => { classes.clear(); String(value).split(/\s+/).filter(Boolean).forEach(name => classes.add(name)); } });
       if (!animationAPI) this.animate = undefined;
     }
-    setAttribute(name, value) { this.attributes.set(name, String(value)); }
+    setAttribute(name, value) { this.attributes.set(name, String(value)); if (name === 'id') ids.set(String(value), this); if (name === 'hidden') this.hidden = true; }
     getAttribute(name) { return this.attributes.get(name) ?? null; }
-    removeAttribute(name) { this.attributes.delete(name); }
+    removeAttribute(name) { this.attributes.delete(name); if (name === 'hidden') this.hidden = false; }
     focus() { document.activeElement = this; this.focusCount++; }
     blur() { if (document.activeElement === this) document.activeElement = null; }
     select() { this.selectCount++; }
@@ -120,7 +120,7 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
       let visible = true;
       for (let node = this; node; node = node.parentElement) if (node.hidden) visible = false;
       let startTime = now + (animationId - 1) * animationStartSkew;
-      record('animation:start', { target, startTime, duration: options.duration || 0, delay: options.delay || 0, easing: options.easing || 'linear', properties, visible, keyframes: Array.isArray(frames) ? Array.from(frames, frame => ({ ...frame })) : frames });
+      record('animation:start', { target, recordId: this.getAttribute('data-record-id'), startTime, duration: options.duration || 0, delay: options.delay || 0, easing: options.easing || 'linear', properties, visible, keyframes: Array.isArray(frames) ? Array.from(frames, frame => ({ ...frame })) : frames });
       const started = trace.at(-1);
       let resolve, reject;
       const finished = new Promise((yes, no) => { resolve = yes; reject = no; });
@@ -151,7 +151,11 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
   // The renderer creates this sibling canvas at runtime. Exercise the entrance
   // against both that WebGL surface and the overlay-only Canvas fallback.
   if (gpuCanvas) $('graph-stage').append(new Element('canvas', [{ name: 'class', value: 'atlas-gpu-points' }]));
-  document.getElementById = id => ids.get(id) || null;
+  document.getElementById = id => {
+    const node = ids.get(id);
+    for (let parent = node; parent; parent = parent.parentElement) if (parent === root) return node;
+    return null;
+  };
   document.createElement = tag => { record('element:create', { tag }); return new Element(tag); };
   document.createElementNS = (_namespace, tag) => new Element(tag);
   document.querySelectorAll = selector => {
@@ -163,6 +167,14 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
   };
   document.querySelector = selector => document.querySelectorAll(selector)[0] || null;
   const motion = new EventTarget(); motion.matches = reduced;
+  const entranceTargets = () => {
+    const map = $('network').getBoundingClientRect();
+    if (!map.width || !map.height || document.body.dataset.view === 'list') return [];
+    const records = hasApp ? (currentGraph?.data?.nodes || []).filter(node => node.kind === 'item').slice(0, targetCount) : null;
+    return Array.from({ length: records ? records.length : targetCount }, (_, i) => ({ id: records ? records[i].id : `actual-record-${i}`, x: ((i % 10) + .5) / 10 * map.width,
+      y: ((Math.floor(i / 10) % 6) + .5) / 6 * map.height, radius: .8 + (i % 4) * .2, color: '#c6dff1' }));
+  };
+  document.addEventListener('acf:entry-targets', e => { if (!hasApp) { now += targetPreparationTime; e.detail.points = entranceTargets(); } record('acf:entry-targets'); });
   document.addEventListener('acf:enter', () => { enters++; record('acf:enter', { workspaceHidden: $('atlas-workspace').hidden, workspaceInert: $('atlas-workspace').inert }); if (!hasApp && autoReady) document.dispatchEvent(new CustomEvent('acf:ready')); });
   document.addEventListener('acf:exit', () => { exits++; record('acf:exit'); });
   document.addEventListener('acf:ready', () => record('acf:ready'));
@@ -185,7 +197,7 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
   document.defaultView = { matchMedia: globals.matchMedia };
   runInNewContext(entrySource, globals, { filename: 'public/ACF/entry.js' });
   return {
-    $, document, window, motion, trace, history, location,
+    $, document, window, motion, trace, history, location, entranceTargets,
     get graph() { return currentGraph; },
     get enters() { return enters; }, get exits() { return exits; },
     get animations() { return animations; }, get pendingTimers() { return timers.size; },
@@ -205,6 +217,7 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
         setActive(active) { record('graph:setActive', { active }); }
         setLayers(layers) { record('graph:setLayers', { layers }); }
         focusRecord(id) { record('graph:focusRecord', { id }); return true; }
+        entranceTargets() { return entranceTargets(); }
       }
       class Preview { constructor() { this.card = new Element(); } close() {} }
       const moduleGlobals = {
@@ -242,7 +255,7 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
     },
     async settle() {
       await flush();
-      for (let i = 0; timers.size && i < 160; i++) await this.tick();
+      for (let i = 0; timers.size && i < 240; i++) await this.tick();
       assert.equal(timers.size, 0, 'No orphaned animation/timer'); await flush();
     },
   };
@@ -263,6 +276,7 @@ function usable(h, expectedEntries = 1) {
   assert.equal(h.$('entry-sequence').hidden, true, 'The usable workspace has no visible letter sequence');
   assert.equal(h.document.body.classList.contains('entry-pending'), false);
   assert.equal(h.document.body.classList.contains('entry-revealing'), false);
+  assert.equal(h.document.getElementById('entry-transfer'), null, 'Opening removes the temporary mask, copies and tracings');
   assert.equal(h.document.activeElement, h.$('search'), 'Focus enters the usable search control');
   assert.equal(h.pendingTimers, 0, 'Opening cancels remaining motion');
   assert.equal(h.document.title, 'The Atlas of Contested Futures', 'Successful entry reveals the collection title');
@@ -547,14 +561,71 @@ for (const completion of ['ready', 'error', 'skip', 'resize', 'hidden', 'reduced
   const h = harness({ autoReady: false }); h.type('atlas'); h.submit(); await h.settle();
   h.document.dispatchEvent(event('acf:ready'));
   await h.tick();
-  assert.equal(h.animations, 36, 'Constellation, screen and both map surfaces get bounded reveal tracks');
+  assert.equal(h.animations, 116, 'Five apertures, sixty real-star copies and eighteen tracings bound the handoff');
   h.click('skip-animation'); usable(h);
   h.click('return-entry'); await h.settle(); closed(h, 1); cases++;
+}
+function translation(frame) {
+  const match = frame.transform?.match(/^translate\(([-\d.e]+)px, ([-\d.e]+)px\) scale\(([-\d.e]+)\)$/);
+  assert(match, 'Transfer transform retains a finite, explicit destination');
+  return { x: Number(match[1]), y: Number(match[2]), scale: Number(match[3]) };
+}
+function assertTransfer(h, reveal, map) {
+  assert(!reveal.some(step => ['network', 'atlas-gpu-points', 'entry-screen'].includes(step.target)), 'The field and full screen remain stationary; neither is scaled or faded');
+  const transfer = h.document.getElementById('entry-transfer'), mask = h.document.getElementById('entry-apertures');
+  assert(transfer && mask && transfer.contains(mask), 'The real map is revealed through a connected SVG aperture mask');
+  assert.equal(transfer.getAttribute('hidden'), null, 'The transfer is visible when its synchronized animations begin');
+  const covering = transfer.children.find(node => node.tagName === 'RECT');
+  assert.equal(covering?.getAttribute('mask'), 'url(#entry-apertures)', 'The mask actually controls the covering surface');
+  assert.equal(mask.children[0].getAttribute('fill'), 'white', 'An opaque initial covering has genuine cutout holes');
+  const apertures = reveal.filter(step => step.target.startsWith('entry-aperture-'));
+  const copies = reveal.filter(step => step.target.startsWith('entry-transfer-star-'));
+  const routes = reveal.filter(step => step.target.startsWith('entry-transfer-route-'));
+  const expected = h.entranceTargets().slice(0, 60);
+  assert.equal(apertures.length, 5, 'Exactly five originating stars open the field');
+  assert.equal(mask.children.filter(node => node.tagName === 'CIRCLE').length, 5, 'All animated apertures belong to the covering mask');
+  assert.equal(copies.length, expected.length, 'Each bounded target receives one temporary star');
+  assert(copies.length <= 60 && routes.length <= 18, 'Copies and tracings stay bounded independently of collection size');
+  assert.equal(routes.length, Math.min(18, copies.length));
+  const ids = new Set();
+  const expectedById = new Map(expected.map(point => [point.id, point]));
+  for (const copy of copies) {
+    const point = h.document.getElementById(copy.target), id = point?.getAttribute('data-record-id');
+    assert(expectedById.has(id) && !ids.has(id), 'Every transferred star identifies a distinct actual record'); ids.add(id);
+    const target = expectedById.get(id), destination = translation(copy.keyframes.at(-1));
+    assert.equal(destination.x, map.left + target.x, 'Every star lands on the actual screen x coordinate of its record');
+    assert.equal(destination.y, map.top + target.y, 'Every star lands on the actual screen y coordinate of its record');
+    assert.equal(destination.scale, 1);
+    const arrival = copy.keyframes.find(frame => frame.opacity === 1 && frame.transform === copy.keyframes.at(-1).transform);
+    assert(arrival && arrival.offset < .9, 'A transferred star reaches its real endpoint before relinquishing its temporary copy');
+    const route = h.document.getElementById(copy.target.replace('star-', 'route-'));
+    if (route) assert(route.getAttribute('d').endsWith(`L${destination.x} ${destination.y}`), 'Angular tracing ends at the same real star');
+  }
+  const viewport = h.$('entry-screen').getBoundingClientRect();
+  const feather = h.document.getElementById('entry-feather');
+  assert(feather && transfer.contains(feather), 'A connected radial gradient softens the growing apertures');
+  const opaqueStops = feather.children.filter(node => node.getAttribute('stop-color') === 'black' && Number(node.getAttribute('stop-opacity') ?? 1) === 1);
+  assert(opaqueStops.length >= 2 && opaqueStops.some(node => Number(node.getAttribute('offset')) === 0));
+  const opaqueRadius = Math.max(...opaqueStops.map(node => Number(node.getAttribute('offset'))));
+  const outerStop = feather.children.at(-1);
+  assert.equal(Number(outerStop.getAttribute('offset')), 1);
+  assert.equal(Number(outerStop.getAttribute('stop-opacity')), 0, 'The outer aperture edge is transparent, not a hard circle');
+  for (const aperture of apertures) {
+    const node = h.document.getElementById(aperture.target), end = translation(aperture.keyframes.at(-1));
+    assert.equal(node.getAttribute('fill'), 'url(#entry-feather)');
+    assert(translation(aperture.keyframes[0]).scale < 1, 'Cutouts begin as points, not an already uncovered screen');
+    assert([[0, 0], [viewport.width, 0], [0, viewport.height], [viewport.width, viewport.height]].every(([x, y]) => Math.hypot(x - end.x, y - end.y) <= end.scale * opaqueRadius), 'Completed mask fully reveals every viewport corner inside its opaque cutout');
+  }
+  for (const track of [...apertures, ...copies, ...routes]) {
+    assert.equal(track.delay + track.duration, expected.length ? 3200 : 1100, 'Every spatial track ends at the same bounded handoff time');
+  }
+  const sequence = reveal.find(step => step.target === 'entry-sequence');
+  assert(sequence && sequence.duration <= 600 && !sequence.properties.includes('transform'), 'Only the outgoing constellation releases briefly; it never shrinks as a whole');
 }
 for (const gpuCanvas of [true, false]) for (const [width, height] of [[1280, 900], [390, 844], [320, 700]]) {
   const word = { left: width / 2 - 180, top: height * .46 - 110, width: 360, height: 220 };
   const map = { left: 0, top: height * .35, width: width > 600 ? width - 354 : width, height: height * .55 };
-  const h = harness({ autoReady: false, bounds: { 'entry-word': word, network: map }, gpuCanvas });
+  const h = harness({ autoReady: false, bounds: { 'entry-word': word, network: map, 'entry-screen': { left: 0, top: 0, width, height } }, gpuCanvas });
   h.type('atlas'); h.submit(); await h.settle();
   assert.equal(h.trace.find(step => step.event === 'acf:enter').at, 5000, 'The typing/constellation phase has a fixed 5s budget');
   assert(!h.trace.some(step => step.target === 'network'), 'The actual map does not animate before it is ready');
@@ -563,18 +634,7 @@ for (const gpuCanvas of [true, false]) for (const [width, height] of [[1280, 900
   await h.tick();
   assert(h.document.body.classList.contains('entry-revealing'), 'Reveal marks the short compositor lifetime');
   const reveal = h.trace.slice(beforeReady).filter(step => step.event === 'animation:start');
-  assert.deepEqual(reveal.map(step => step.target), ['entry-sequence', 'entry-screen', 'network', ...(gpuCanvas ? ['atlas-gpu-points'] : [])]);
-  assert(reveal.every(step => step.duration === 2600), 'Every reveal track shares one bounded duration');
-  const dx = map.left + map.width / 2 - word.left - word.width / 2;
-  const dy = map.top + map.height / 2 - word.top - word.height / 2;
-  assert.equal(reveal[0].keyframes.at(-1).transform, `translate(${dx}px, ${dy}px) scale(.48)`, 'Constellation recedes toward the measured map center at every width');
-  assert.equal(reveal[2].keyframes[0].transform, `translate(${-dx}px, ${-dy}px) scale(2.05)`, 'Actual field begins at the same focal center as the constellation');
-  assert.equal(reveal[2].keyframes.at(-1).transform, 'translate(0px, 0px) scale(1)', 'Universe settles at its real overview scale');
-  if (gpuCanvas) {
-    assert.deepEqual(reveal[2].keyframes, reveal[3].keyframes, 'All stars and their label/region overlay use identical reveal frames');
-    assert.equal(reveal[2].at, reveal[3].at, 'Both rendering surfaces start together');
-    assert.equal(reveal[2].easing, reveal[3].easing, 'Both rendering surfaces share easing');
-  }
+  assertTransfer(h, reveal, map);
   assert.equal(h.$('atlas-workspace').inert, true, 'Inputs wait until visual settling finishes');
   await h.settle(); usable(h); cases++;
 }
@@ -592,22 +652,25 @@ for (const interruption of ['resize', 'hidden', 'reduced-motion', 'error']) {
 async function assertSharedRevealClock(entrySource = source) {
   // Deliberately offset implicit animation launches. Explicit common startTime
   // must remove that skew instead of merely issuing consecutive animate calls.
-  const h = harness({ entrySource, autoReady: false, animationStartSkew: .25, timelineLag: 904, frameTimestampLag: 976 });
+  const h = harness({ entrySource, autoReady: false, animationStartSkew: .25, timelineLag: 904, frameTimestampLag: 976, targetPreparationTime: 1350 });
   h.type('atlas'); h.submit(); await h.settle();
   const beforeReady = h.trace.length;
   h.document.dispatchEvent(event('acf:ready'));
   assert.equal(h.$('entry-loading').hidden, false, 'The still loading constellation remains visible while waiting for a fresh frame');
   assert.equal(h.trace.slice(beforeReady).filter(step => step.event === 'animation:start').length, 0, 'No reveal starts from a potentially stale document timeline');
+  assert.notEqual(h.document.getElementById('entry-transfer')?.getAttribute('hidden') ?? null, null, 'The prepared transfer stays hidden until a fresh frame can begin it');
   await h.tick();
   const reveal = h.trace.slice(beforeReady).filter(step => step.event === 'animation:start');
-  assert.equal(reveal.length, 4);
+  assert.equal(reveal.length, 84);
   assert.equal(new Set(reveal.map(step => step.startTime)).size, 1, 'All reveal layers use one explicit document timeline clock');
   const freshFrame = h.trace.slice(beforeReady).find(step => step.event === 'frame:callback');
   assert(freshFrame && reveal.every(step => step.startTime === freshFrame.currentTime), 'The reveal clock comes from fresh frame execution time even when document.timeline and RAF timestamp are stale');
-  assert.deepEqual(reveal[2].keyframes, reveal[3].keyframes, 'GPU and label overlay retain identical frames under launch skew');
+  assert(reveal.every(step => step.at === freshFrame.currentTime), 'Expensive target preparation cannot consume the fresh frame execution time before launch');
+  assertTransfer(h, reveal, h.$('network').getBoundingClientRect());
   await h.settle(); usable(h);
   const finishes = h.trace.slice(beforeReady).filter(step => step.event === 'animation:finish');
-  assert(finishes.every(step => step.at === freshFrame.currentTime + 2600), 'Every reveal layer receives the full 2600ms after its fresh frame');
+  assert.equal(finishes.find(step => step.target === 'entry-sequence').at, freshFrame.currentTime + 560);
+  assert(finishes.filter(step => step.target !== 'entry-sequence').every(step => step.at === freshFrame.currentTime + 3200), 'Every spatial track receives its full shared interval after the fresh frame');
 }
 await assertSharedRevealClock(); cases++;
 for (const unavailableClock of [{ frameMode: 'unavailable' }, { frameMode: 'stalled' }, { rejectAnimationClock: true }]) {
@@ -618,7 +681,7 @@ for (const unavailableClock of [{ frameMode: 'unavailable' }, { frameMode: 'stal
 }
 {
   const h = harness({ timelineClock: false }); h.type('atlas'); h.submit(); await h.settle(); usable(h);
-  assert.equal(h.trace.filter(step => step.event === 'animation:clock').length, 4, 'A frame timestamp synchronizes the reveal without document.timeline');
+  assert.equal(h.trace.filter(step => step.event === 'animation:clock').length, 84, 'A fresh frame synchronizes every transfer track without document.timeline');
   cases++;
 }
 for (const interruption of ['skip', 'resize', 'hidden', 'reduced-motion', 'error']) {
@@ -642,7 +705,7 @@ async function assertRevealScroll({ compact = true, view = 'map', expanded = fal
   const graphBox = () => ({ left: 0, top: 960 - h.$('main').scrollTop, width: mainBox.width, height: 420 });
   const word = { left: mainBox.width / 2 - 108, top: 280, width: 216, height: 135 };
   h = harness({ entrySource, compact, reduced: completion === 'reduced', autoReady: false, animationStartSkew: .25, bounds: {
-    main: mainBox, 'entry-word': word, 'graph-stage': graphBox,
+    main: mainBox, 'entry-word': word, 'graph-stage': graphBox, 'entry-screen': { left: 0, top: 0, width: mainBox.width, height: 1400 },
     network: () => view === 'list' ? { left: 0, top: 0, width: 0, height: 0 } : graphBox(),
     'territory-comparison': { left: 0, top: 350, width: mainBox.width, height: stickyHeight },
   } });
@@ -674,10 +737,7 @@ async function assertRevealScroll({ compact = true, view = 'map', expanded = fal
   assert(revealTrace.filter(step => step.event === 'element:scroll').every(step => step.target === 'main'), 'Reveal scroll is confined to the workspace, never the page or reading panels');
   if (completion === 'animated') {
     const box = view === 'list' ? { left: 0, top: 0, width: 0, height: 0 } : graphBox();
-    const dx = box.width ? box.left + box.width / 2 - word.left - word.width / 2 : 0;
-    const dy = box.height ? box.top + box.height / 2 - word.top - word.height / 2 : 0;
-    assert.equal(reveal[0].keyframes.at(-1).transform, `translate(${dx}px, ${dy}px) scale(.48)`, 'Constellation destination uses the final scrolled map rectangle');
-    assert.deepEqual(reveal[2].keyframes, reveal[3].keyframes, 'Scrolling keeps the actual field and overlay transforms identical');
+    assertTransfer(h, reveal, box);
     assert.equal(new Set(reveal.map(step => step.startTime)).size, 1, 'Scrolling preserves the shared reveal clock');
   } else assert.equal(reveal.length, 0, 'Ready after Skip/reduced motion brings the field into view without restarting motion');
   await h.settle(); usable(h);
@@ -722,6 +782,10 @@ for (const reduced of [false, true]) for (const fetchDelay of [0, 800]) {
   assert.equal(ready.length, 1, 'Actual application reaches a usable catalog');
   assert(h.trace.some(step => step.event === 'model:createIndex' && step.records === 33945), 'Every real catalog reaches actual model indexing');
   assert(h.trace.some(step => step.event === 'graph:setData' && step.nodes > 0), 'Actual application renders prepared graph data');
+  const transfers = h.trace.filter(step => step.event === 'animation:start' && step.target.startsWith('entry-transfer-star-'));
+  assert.equal(transfers.length, reduced ? 0 : 60, 'The actual app supplies prepared record targets to the entrance event');
+  const realIds = new Set(h.graph.data.nodes.filter(node => node.kind === 'item').map(node => node.id));
+  assert(transfers.every(step => realIds.has(step.recordId)), 'The app bridge passes real canonical record IDs to temporary stars');
   if (process.argv.includes('--profile-motion') && !reduced && fetchDelay === 0) console.log(JSON.stringify({ motionProfile: h.trace.filter(step => step.event === 'animation:start') }));
   assert.equal(graphPreparations(h).length, 1, 'Initial catalog load prepares the graph exactly once');
   assert.equal(h.trace.filter(step => step.event === 'graph:setData').length, 1, 'Initial catalog load installs graph data exactly once');
@@ -759,6 +823,7 @@ for (const reduced of [false, true]) {
   const reentryActivation = h.trace.slice(afterExit).filter(step => step.event === 'graph:setActive');
   assert(reentryActivation.length > 0, 'Cached reentry runs the actual graph-activation branch');
   assert(reentryActivation.every(step => step.active === false), 'Cached List reentry must not activate the hidden graph');
+  assert(!h.trace.slice(afterExit).some(step => step.event === 'animation:start' && step.target.startsWith('entry-transfer-star-')), 'List reentry opens its reading view without flying to hidden graph targets');
   assert.equal(h.trace.filter(step => step.event === 'fetch:start').length, 10, 'List reentry keeps cached metadata');
   assert.equal(graphPreparations(h).length, 1, 'List reentry does not prepare hidden graph data');
   h.click('map-view');
@@ -1006,7 +1071,7 @@ const shortHold = harness({ entrySource: quietHoldSource }); shortHold.type('atl
 assert.throws(() => assertLetterMotion(shortHold), /quiet readable hold/, 'The motion guard rejects a rushed complete-word hold');
 await shortHold.settle(); cases++;
 
-const pathJumpSource = source.replace("strokeDashoffset: '1000'", "strokeDashoffset: '0'");
+const pathJumpSource = source.replace("{ strokeDashoffset: '1000', opacity: .2 }", "{ strokeDashoffset: '0', opacity: .2 }");
 assert.notEqual(pathJumpSource, source, 'Path mutation reaches a real route drawing track');
 const pathJump = harness({ entrySource: pathJumpSource }); pathJump.type('atlas'); pathJump.submit();
 assert.throws(() => assertConstellationMotion(pathJump), /fully undrawn/, 'The route guard rejects an already-drawn path masquerading as a trace');
@@ -1020,7 +1085,7 @@ await omittedField.settle(); cases++;
 
 const splitClockSource = source.replace('animation.startTime = sharedStart', 'animation.startTime = animation.startTime');
 assert.notEqual(splitClockSource, source, 'Clock mutation reaches the explicit synchronization assignment');
-await assert.rejects(assertSharedRevealClock(splitClockSource), /one explicit document timeline clock/, 'The synchronization guard rejects separate implicit GPU/overlay clocks');
+await assert.rejects(assertSharedRevealClock(splitClockSource), /one explicit document timeline clock/, 'The synchronization guard rejects separately launched aperture/star/route clocks');
 cases++;
 
 const staleClockSource = source.replace('const sharedStart = await freshRevealFrame();', 'const sharedStart = document.timeline.currentTime; await freshRevealFrame();');
@@ -1037,6 +1102,24 @@ const offscreenMapSource = source.replace('    revealMapViewport();', '    // Mu
 assert.notEqual(offscreenMapSource, source, 'Scroll mutation reaches the normal reveal preparation');
 await assert.rejects(assertRevealScroll({}, offscreenMapSource), /Mobile map receives/, 'The viewport guard rejects a reveal aimed below the visible mobile workspace');
 cases++;
+
+async function assertTransferMutation(entrySource, options = {}) {
+  const h = harness({ entrySource, autoReady: false, ...options });
+  h.type('atlas'); h.submit(); await h.settle();
+  const beforeReady = h.trace.length;
+  h.document.dispatchEvent(event('acf:ready')); await h.tick();
+  try { assertTransfer(h, h.trace.slice(beforeReady).filter(step => step.event === 'animation:start'), h.$('network').getBoundingClientRect()); }
+  finally { h.click('skip-animation'); await h.settle(); }
+}
+const unmaskedSource = source.replace("mask: 'url(#entry-apertures)'", "mask: 'none'");
+assert.notEqual(unmaskedSource, source, 'Mask mutation disconnects the actual covering mask');
+await assert.rejects(assertTransferMutation(unmaskedSource), /mask actually controls/, 'The mask guard rejects decorative apertures that never reveal the real field'); cases++;
+const unboundedSource = source.replace('.slice(0, 60)', '.slice(0, 100)');
+assert.notEqual(unboundedSource, source, 'Bound mutation permits too many transfer stars');
+await assert.rejects(assertTransferMutation(unboundedSource, { targetCount: 90 }), /bounded target|stay bounded/, 'The transfer guard rejects unbounded copies from a large target provider'); cases++;
+const displacedTargetSource = source.replace('x: map.left + point.x', 'x: map.left + point.x + 19');
+assert.notEqual(displacedTargetSource, source, 'Endpoint mutation displaces the visible copy from its true record');
+await assert.rejects(assertTransferMutation(displacedTargetSource), /actual screen x coordinate/, 'The coordinate guard rejects an attractive flight that lands beside its actual record'); cases++;
 
 const reportFlag = process.argv.indexOf('--load-sequence-report');
 if (reportFlag >= 0) {

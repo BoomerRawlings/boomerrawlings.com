@@ -14,7 +14,12 @@
 #entry-links path{stroke-opacity:.7}
 #entry-links .entry-link-secondary{stroke:#b39986;stroke-opacity:.46;stroke-width:.65}
 #entry-field path{stroke-opacity:.25;stroke-width:.65}#entry-field circle{fill:#bdcfd8;stroke:none;opacity:.7}
-body.entry-revealing #network,body.entry-revealing .atlas-gpu-points{transform-origin:50% 50%;will-change:transform,opacity}
+body.entry-revealing #entry-screen{background:transparent}
+#entry-transfer{position:fixed;inset:0;width:100%;height:100%;overflow:hidden;pointer-events:none;z-index:0}
+#entry-transfer circle,#entry-transfer rect{stroke:none;transform-origin:0 0;transform-box:view-box}
+.entry-transfer-tracings path{fill:none;stroke-width:.65;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:1000;stroke-dashoffset:1000}
+.entry-transfer-points circle{stroke:none}
+body.entry-revealing #entry-sequence{z-index:1}
 #entry-loading{position:fixed;left:20px;right:20px;top:calc(50% + 115px);margin:0;text-align:center;color:var(--muted);font:11px/1.6 var(--mono);letter-spacing:.025em;pointer-events:none}
 @media(max-width:600px){#entry-loading{top:calc(50% + 85px);font-size:10px}.entry-coordinate{font-size:7px;letter-spacing:.06em}.riddle{margin-top:0}}
 @media(max-height:400px){#entry-sequence{font-size:54px;padding-bottom:0;transform-origin:50% 50%}#entry-loading{top:auto;bottom:60px}#entry-screen{padding-top:18px;padding-bottom:18px}.riddle{margin-top:0;margin-bottom:15px}}

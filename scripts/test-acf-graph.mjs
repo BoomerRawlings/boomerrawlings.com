@@ -144,6 +144,59 @@ function fixture(count = 500) {
   return { nodes, edges };
 }
 
+for (const dense of [false, true]) test(`entrance targets cover real visible records at ${dense ? 'dense' : 'wide'} overview without altering geometry or GPU buffers`, t => {
+  const h = harness(t, { gpu: true, reducedMotion: true });
+  const camera = { scale: .8, pan: { x: 65, y: 35 } };
+  const nodes = [];
+  for (let row = 0; row < 6; row++) for (let col = 0; col < 10; col++) for (let copy = 0; copy < 3; copy++) {
+    const sx = dense ? 430 + col * 14 + copy : 40 + col * 95 + copy;
+    const sy = dense ? 290 + row * 16 + copy : 35 + row * 120 + copy;
+    nodes.push({ id: `record-${row}-${col}-${copy}`, kind: 'item', label: 'A real publication', color: '#aaccee',
+      x: (sx - camera.pan.x) / camera.scale, y: (sy - camera.pan.y) / camera.scale });
+  }
+  nodes.push({ id: 'name-only', kind: 'person', x: 400, y: 350 }, { id: '@theme:empty', kind: 'hub', x: 500, y: 350 },
+    { id: 'offscreen', kind: 'item', x: -10000, y: -10000 }, { id: 'outside-margin', kind: 'item', x: (5 - camera.pan.x) / camera.scale, y: 250 });
+  const canonical = nodes.map(({ id, x, y }) => ({ id, x, y }));
+  h.graph.setData({ nodes, edges: [] }); h.graph.setActive(true);
+  h.graph.scale = camera.scale; h.graph.pan = { ...camera.pan }; h.tick(0);
+  const groups = h.graph.renderer.pointGroups.map(group => ({ values: group.values, buffer: group.buffer, bytes: [...group.values] }));
+  const uploads = h.gl.uploads.length, targets = h.graph.entranceTargets();
+  assert.equal(targets.length, 60, 'Both broad and compact fields produce a geographically spread bounded sample');
+  assert.equal(new Set(targets.map(point => point.id)).size, 60);
+  assert.equal(new Set(targets.map(point => point.id.split('-').slice(0, 3).join('-'))).size, 60, 'Every occupied test area contributes, rather than selecting one dense corner');
+  for (const target of targets) {
+    const node = h.graph.byId.get(target.id);
+    assert.equal(node.kind, 'item', 'Names and empty territory centers never become transfer stars');
+    assert.equal(target.x, node.x * camera.scale + camera.pan.x);
+    assert.equal(target.y, node.y * camera.scale + camera.pan.y);
+    assert(target.x >= 12 && target.x <= h.graph.width - 12 && target.y >= 12 && target.y <= h.graph.height - 12);
+    assert(target.radius > 0 && Number.isFinite(target.radius)); assert.equal(target.color, '#aaccee');
+  }
+  assert.deepEqual(h.graph.entranceTargets(), targets, 'The same field has stable IDs and destinations');
+  assert.deepEqual(h.graph.nodes.map(({ id, x, y }) => ({ id, x, y })), canonical);
+  assert.deepEqual(nodes.map(({ id, x, y }) => ({ id, x, y })), canonical);
+  h.graph.renderer.pointGroups.forEach((group, i) => {
+    assert.equal(group.values, groups[i].values); assert.equal(group.buffer, groups[i].buffer);
+    assert.deepEqual([...group.values], groups[i].bytes);
+  });
+  assert.equal(h.gl.uploads.length, uploads, 'Sampling targets uploads no replacement geometry');
+  assert.deepEqual(h.graph.pan, camera.pan); assert.equal(h.graph.scale, camera.scale);
+});
+
+for (const noCanvas of [false, true]) test(`entrance targets handle ${noCanvas ? 'unavailable graphics' : 'empty and offscreen fields'} without inventing records`, t => {
+  const h = harness(t, { noCanvas, reducedMotion: true });
+  assert.deepEqual(h.graph.entranceTargets(), []);
+  h.graph.setData({ nodes: [{ id: 'item', kind: 'item', x: 0, y: 0 }, { id: 'name', kind: 'person', x: 2, y: 2 }], edges: [] });
+  h.graph.setActive(true); h.tick(0);
+  if (noCanvas) assert.deepEqual(h.graph.entranceTargets(), []);
+  else {
+    assert.deepEqual(h.graph.entranceTargets().map(point => point.id), ['item']);
+    h.graph.pan = { x: -10000, y: -10000 };
+    assert.deepEqual(h.graph.entranceTargets(), []);
+    h.graph.width = 0; assert.deepEqual(h.graph.entranceTargets(), []);
+  }
+});
+
 function territoryFixture() {
   const nodes = [];
   for (const [lobe, cx, cy, radius] of [[0, -145, -35, 85], [1, 135, 0, 105], [2, 20, 145, 65]]) {
@@ -167,6 +220,28 @@ function comparisonFixture() {
   const config = { key: 'left+right', left: { id: 'left', label: 'Left territory', color: '#90c2d1', memberIds: leftIds }, right: { id: 'right', label: 'Right territory', color: '#c5a5cc', memberIds: rightIds }, leftOnly: new Set([...leftIds].filter(id => !shared.has(id))), rightOnly: new Set([...rightIds].filter(id => !shared.has(id))), shared, memberIds: new Set([...leftIds, ...rightIds]), personIds: new Set(['p-0', 'p-1', 'p-2', 'p-3']), bridgePersonIds: new Set(['p-2']), edges };
   return { data: { nodes, edges }, config };
 }
+
+test('entrance target handoff settles comparison positions and excludes faded background records', t => {
+  const h = harness(t, { gpu: true }), { data, config } = comparisonFixture();
+  config.left.memberIds = new Set(['r-0']); config.right.memberIds = new Set(['r-60']);
+  config.leftOnly = config.left.memberIds; config.rightOnly = config.right.memberIds;
+  config.shared = new Set(); config.memberIds = new Set(['r-0', 'r-60']);
+  config.personIds = new Set(); config.bridgePersonIds = new Set(); config.edges = [];
+  h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  const canonical = h.graph.nodes.map(({ id, x, y }) => ({ id, x, y }));
+  const baseBuffers = h.graph.renderer.pointGroups.map(group => group.buffer);
+  h.graph.setComparison(config); h.tick(180);
+  assert(h.graph.comparison.progress > 0 && h.graph.comparison.progress < 1, 'The handoff begins during an actual layout transition');
+  const targets = h.graph.entranceTargets();
+  assert.equal(h.graph.comparison.progress, 1, 'Handoff records the settled temporary layout');
+  assert.deepEqual(new Set(targets.map(point => point.id)), config.memberIds, 'Only the two active subject records become destinations; background stars remain faded');
+  for (const target of targets) {
+    const expected = h.graph.anchor(h.graph.byId.get(target.id));
+    assert.equal(target.x, expected.x); assert.equal(target.y, expected.y);
+  }
+  assert.deepEqual(h.graph.nodes.map(({ id, x, y }) => ({ id, x, y })), canonical);
+  h.graph.renderer.pointGroups.forEach((group, i) => assert.equal(group.buffer, baseBuffers[i]));
+});
 
 test('comparison interpolates cached GPU attributes and truthful routes, with exact reversible model positions', t => {
   const h = harness(t, { gpu: true, layers: { names: false, regions: false, relationships: false, inferred: false, labels: false } }), { data, config } = comparisonFixture();
