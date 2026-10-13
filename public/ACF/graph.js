@@ -1,7 +1,8 @@
-import { SpatialGrid } from './graph-spatial.js?v=territories-20261012';
-import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=territories-20261012';
-import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=territories-20261012';
-import { buildTerritory } from './territory-geometry.js?v=territories-20261012';
+import { SpatialGrid } from './graph-spatial.js?v=comparison-20261012';
+import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=comparison-20261012';
+import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=comparison-20261012';
+import { buildTerritory } from './territory-geometry.js?v=comparison-20261012';
+import { comparisonLayout } from './comparison-layout.js?v=comparison-20261012';
 
 const COLORS = { hub: '#d89976', item: '#a9c9db', person: '#aaa4d0' };
 const REGION_COLORS = ['#90c2d1', '#c5a5cc', '#d6ac7f', '#9ebd92', '#94a8d3', '#c7bb82'];
@@ -65,6 +66,8 @@ export class AtlasGraph {
     this.territoryReveal = null;
     this.selectionReveal = null;
     this.cameraFlight = null;
+    this.comparison = null;
+    this.comparisonRestore = null;
     this.flowTime = 0;
     this.flowClock = null;
     this.lastDrawTime = -Infinity;
@@ -113,11 +116,12 @@ export class AtlasGraph {
     }, { signal });
     canvas.addEventListener('blur', () => this.requestDraw(), { signal });
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) { this.dismissPreview('layout'); this.animationUntil = 0; this.territoryReveal = null; this.flowClock = null; this.cancelFrame(); }
+      if (document.hidden) { this.advanceComparison(Infinity); this.dismissPreview('layout'); this.animationUntil = 0; this.territoryReveal = null; this.flowClock = null; this.cancelFrame(); }
       else this.requestDraw();
     }, { signal });
     this.motion.addEventListener('change', () => {
       if (this.motion.matches) this.advanceCamera(Infinity);
+      if (this.motion.matches) this.advanceComparison(Infinity);
       this.animationUntil = 0;
       this.connectionPulse = null;
       this.territoryReveal = null;
@@ -133,6 +137,7 @@ export class AtlasGraph {
 
   setData({ nodes = [], edges = [], regions = [], bounds = null } = {}) {
     if (this.destroyed) return;
+    this.comparison = null; this.comparisonRestore = null;
     this.byId = new Map();
     for (const node of nodes) {
       if (node?.id == null || this.byId.has(String(node.id))) continue;
@@ -149,8 +154,9 @@ export class AtlasGraph {
       this.byId.set(clean.id, clean);
     }
     this.nodes = [...this.byId.values()];
+    this.edgeSourceMap = new Map();
     this.edges = edges.filter(edge => edge && this.byId.has(String(edge.from)) && this.byId.has(String(edge.to)))
-      .map(edge => ({ ...edge, from: String(edge.from), to: String(edge.to) }));
+      .map(edge => { const normalized = { ...edge, from: String(edge.from), to: String(edge.to) }; this.edgeSourceMap.set(edge, normalized); return normalized; });
     this.regions = regions.map((region, i) => ({ ...region, color: REGION_COLORS[i % REGION_COLORS.length], members: new Set(region.memberIds || []), territory: buildTerritory(region, this.byId) }));
     this.territoryReveal = null;
     this.selectionReveal = null;
@@ -194,9 +200,107 @@ export class AtlasGraph {
     }
   }
 
-  nodeEnabled(node) { return node.kind === 'item' || (node.kind === 'person' ? this.layers.names : this.layers.regions); }
-  routeNodeEnabled(node) { return node.kind !== 'person' || this.layers.names; }
-  edgeEnabled(edge) { return edge.inferred ? this.layers.inferred : this.layers.relationships; }
+  effectiveLayers() { return this.comparison ? { names: true, labels: true, regions: true, relationships: true, inferred: true } : this.layers; }
+  nodeEnabled(node) { return Boolean(node) && (this.comparison ? this.comparison.layout.visible.has(node.id) : node.kind === 'item' || (node.kind === 'person' ? this.layers.names : this.layers.regions)); }
+  routeNodeEnabled(node) { return this.nodeEnabled(node); }
+  edgeEnabled(edge) { return this.comparison ? this.comparison.edgeSet.has(edge) : edge.inferred ? this.layers.inferred : this.layers.relationships; }
+
+  displayPosition(node) {
+    const point = node?.id && this.comparison?.points.get(node.id);
+    if (!point) return node;
+    const progress = this.comparison.progress;
+    return { x: point.from.x + (point.to.x - point.from.x) * progress, y: point.from.y + (point.to.y - point.from.y) * progress };
+  }
+
+  querySpatial(left, top, right, bottom) {
+    if (!this.comparison) return this.spatial.query(left, top, right, bottom);
+    if (this.comparison.spatial) return this.comparison.spatial.query(left, top, right, bottom).map(node => this.byId.get(node.id));
+    return this.comparison.pickNodes.filter(node => { const point = this.displayPosition(node); return point.x >= left && point.x <= right && point.y >= top && point.y <= bottom; });
+  }
+
+  setComparison(config) {
+    if (this.destroyed || (!config && !this.comparison) || (config && !this.comparison?.exiting && this.comparison?.key === config.key)) return;
+    if (config && !this.comparisonRestore) this.comparisonRestore = { scale: this.scale, pan: { ...this.pan }, baseScale: this.baseScale, center: this.viewportCenter() };
+    // UI comparison controls can resize the stage before ResizeObserver fires.
+    // Read its dimensions now, retaining the current camera as the animation's start.
+    const rect = this.canvas.getBoundingClientRect(), width = Math.round(rect.width), height = Math.round(rect.height);
+    if (width > 0 && height > 0 && (width !== this.width || height !== this.height)) {
+      const oldCenter = this.viewportCenter();
+      this.width = width; this.height = height;
+      this.canvas.width = Math.round(width * this.dpr); this.canvas.height = Math.round(height * this.dpr); this.exclusions = null;
+      this.resizeComparisonRestore(oldCenter);
+    }
+    this.advanceComparison(performance.now());
+    if (!config && !this.comparison) return;
+    const previous = this.comparison;
+    const edgeSet = new Set(this.edges);
+    const normalized = config && { ...config, edges: config.edges.map(edge => this.edgeSourceMap.get(edge) || (edgeSet.has(edge) ? edge : null)).filter(Boolean) };
+    const layout = config ? comparisonLayout(normalized, this.byId, this.width < 650) : previous.layout;
+    if (config && !layout.visible.size) return;
+    const points = new Map(), progress = previous?.progress || 0;
+    for (const node of this.nodes) {
+      const prior = previous?.points.get(node.id), position = this.displayPosition(node);
+      const normalVisible = node.kind === 'item' || (node.kind === 'person' ? this.layers.names : this.layers.regions);
+      const from = prior ? { ...position, color: this.mixColor(prior.from.color, prior.to.color, progress), opacity: prior.from.opacity + (prior.to.opacity - prior.from.opacity) * progress } : { x: node.x, y: node.y, color: node.color || COLORS[node.kind], opacity: normalVisible ? 1 : 0 };
+      const to = config ? layout.targets.get(node.id) || { x: node.x, y: node.y, color: node.color || COLORS[node.kind], opacity: node.kind === 'item' ? 0.018 : 0 } : { x: node.x, y: node.y, color: node.color || COLORS[node.kind], opacity: normalVisible ? 1 : 0 };
+      points.set(node.id, { from, to });
+    }
+    if (!this.comparisonRestore) this.comparisonRestore = { scale: this.scale, pan: { ...this.pan }, baseScale: this.baseScale, center: this.viewportCenter() };
+    const frame = this.viewportFrame(), center = this.viewportCenter(), bounds = layout.bounds;
+    const fit = Math.min(Math.max(50, this.width - frame.left - frame.right) / (bounds.right - bounds.left), Math.max(50, this.height - frame.top - frame.bottom) / (bounds.bottom - bounds.top));
+    const targetCamera = config ? { scale: fit, pan: { x: center.x, y: center.y } } : this.comparisonRestore;
+    const edges = config ? layout.edges : previous.edges;
+    const regions = config ? [config.left, config.right].map(region => {
+      const hubId = this.byId.has(region.id) ? region.id : `@theme:${region.id}`, hub = layout.targets.get(hubId) || { x: 0, y: 0 };
+      const targetNodes = new Map([...layout.targets].map(([id, point]) => [id, { ...this.byId.get(id), ...point }]));
+      return { ...region, id: hubId, themeId: region.id, ...hub, members: new Set(region.memberIds), territory: buildTerritory(region, targetNodes) };
+    }) : previous.regions;
+    this.dismissPreview('layout'); this.territoryReveal = null;
+    this.comparison = { key: config?.key || previous.key, config: config || previous.config, layout, points, edges, edgeSet: new Set(edges), regions, pickNodes: [...layout.visible].map(id => this.byId.get(id)), labelOrder: { item: this.labelOrder.item.filter(node => layout.visible.has(node.id)), hub: this.labelOrder.hub.filter(node => layout.visible.has(node.id)) }, started: performance.now(), duration: 800, progress: 0, exiting: !config, fromCamera: { scale: this.scale, pan: { ...this.pan } }, targetCamera, cameraFollowing: true, spatial: null };
+    this.renderer.setComparison({ points, edges, exiting: !config });
+    this.enabledNodes = this.nodes.filter(node => this.nodeEnabled(node)); this.enabledFocus = this.focusOrder.filter(node => this.nodeEnabled(node));
+    this.screenKey = ''; this.flowClock = null;
+    if (!this.active || document.hidden || this.paused || this.motion.matches || !this.ctx) this.advanceComparison(Infinity);
+    this.requestDraw();
+  }
+
+  mixColor(a, b, fraction) {
+    const channel = (color, offset) => parseInt((color || '#a9c9db').slice(offset, offset + 2), 16);
+    return '#' + [1, 3, 5].map(offset => Math.round(channel(a, offset) + (channel(b, offset) - channel(a, offset)) * fraction).toString(16).padStart(2, '0')).join('');
+  }
+
+  resizeComparisonRestore(oldCenter) {
+    const restore = this.comparisonRestore;
+    if (!restore) return;
+    const origin = restore.center || oldCenter;
+    const world = { x: (origin.x - restore.pan.x) / restore.scale, y: (origin.y - restore.pan.y) / restore.scale }, zoom = restore.scale / restore.baseScale;
+    const bounds = this.fixedBounds || this.nodes.reduce((box, node) => ({ left: Math.min(box.left, node.x), right: Math.max(box.right, node.x), top: Math.min(box.top, node.y), bottom: Math.max(box.bottom, node.y) }), { left: Infinity, right: -Infinity, top: Infinity, bottom: -Infinity });
+    const frame = this.viewportFrame(), center = this.viewportCenter();
+    const base = Math.max(0.000001, Math.min(Math.max(50, this.width - frame.left - frame.right) / Math.max(240, bounds.right - bounds.left), Math.max(50, this.height - frame.top - frame.bottom) / Math.max(180, bounds.bottom - bounds.top), 1.35));
+    this.baseScale = base; restore.baseScale = base; restore.scale = base * zoom;
+    restore.pan = { x: center.x - world.x * restore.scale, y: center.y - world.y * restore.scale };
+    restore.center = center;
+  }
+
+  advanceComparison(time) {
+    const view = this.comparison;
+    if (!view || view.progress === 1) return false;
+    const progress = clamp((time - view.started) / view.duration, 0, 1), eased = progress * progress * (3 - 2 * progress);
+    view.progress = eased; this.renderer.comparisonProgress = eased;
+    if (view.cameraFollowing) {
+      this.scale = Math.exp(Math.log(view.fromCamera.scale) + Math.log(view.targetCamera.scale / view.fromCamera.scale) * eased);
+      for (const axis of ['x', 'y']) this.pan[axis] = view.fromCamera.pan[axis] + (view.targetCamera.pan[axis] - view.fromCamera.pan[axis]) * eased;
+      this.onZoom(this.scale / this.baseScale);
+    }
+    this.screenKey = ''; this.labelsDirty = true;
+    if (progress < 1) return true;
+    if (view.exiting) {
+      this.comparison = null; this.comparisonRestore = null; this.renderer.setComparison(null);
+      this.enabledNodes = this.nodes.filter(node => this.nodeEnabled(node)); this.enabledFocus = this.focusOrder.filter(node => this.nodeEnabled(node));
+      this.startTerritoryReveal();
+    } else view.spatial = new SpatialGrid(view.pickNodes.map(node => ({ id: node.id, ...this.displayPosition(node) })));
+    return false;
+  }
 
   setRegionSelection(memberIds, { id = '', label = '', total = memberIds?.size || 0 } = {}) {
     if (this.destroyed) return;
@@ -229,8 +333,8 @@ export class AtlasGraph {
   focusRecord(id) {
     const node = this.byId.get(String(id));
     if (!node || this.destroyed) return false;
-    if (node.kind === 'person' && !this.layers.names) this.setLayers({ names: true });
-    if (node.kind === 'hub' && !this.layers.regions) this.setLayers({ regions: true });
+    if (!this.comparison && node.kind === 'person' && !this.layers.names) this.setLayers({ names: true });
+    if (!this.comparison && node.kind === 'hub' && !this.layers.regions) this.setLayers({ regions: true });
     this.dismissPreview('layout');
     this.select(node, 'keyboard', Math.max(this.scale, this.baseScale * 5));
     return true;
@@ -247,8 +351,8 @@ export class AtlasGraph {
       // An explicit perspective change must find a record even after the camera
       // has been panned outside the cloud. Screen projection would discard it.
       for (const candidate of this.nodes) {
-        if (candidate.kind !== 'item') continue;
-        const next = Math.hypot(candidate.x - x, candidate.y - y);
+        if (candidate.kind !== 'item' || !this.nodeEnabled(candidate)) continue;
+        const position = this.displayPosition(candidate), next = Math.hypot(position.x - x, position.y - y);
         if (next < distance) { node = candidate; distance = next; }
       }
     }
@@ -268,6 +372,7 @@ export class AtlasGraph {
       if (!wasActive) { this.startConnectionPulse(); this.startTerritoryReveal(); }
       this.requestDraw(true);
     } else {
+      this.advanceComparison(Infinity);
       this.cancelFrame();
       this.animationUntil = 0;
       this.territoryReveal = null;
@@ -295,6 +400,14 @@ export class AtlasGraph {
     this.dpr = dpr;
     this.canvas.width = Math.round(width * dpr);
     this.canvas.height = Math.round(height * dpr);
+    if (this.comparison?.exiting) { this.resizeComparisonRestore(oldCenter); this.advanceComparison(Infinity); this.requestDraw(); return; }
+    const comparisonConfig = this.comparison && !this.comparison.exiting ? this.comparison.config : null;
+    if (comparisonConfig) {
+      this.resizeComparisonRestore(oldCenter);
+      this.comparison.key = '';
+      this.setComparison(comparisonConfig);
+      return;
+    }
     this.reset();
     if (wasInitialized) {
       const center = this.viewportCenter();
@@ -322,6 +435,9 @@ export class AtlasGraph {
 
   reset() {
     if (this.destroyed) return;
+    if (this.comparison && !this.comparison.exiting) {
+      const config = this.comparison.config; this.comparison.key = ''; this.setComparison(config); return;
+    }
     this.dismissPreview('layout');
     if (!this.width || !this.height) {
       this.initialized = false;
@@ -354,6 +470,7 @@ export class AtlasGraph {
   zoomBy(factor, anchor = this.viewportCenter()) {
     if (this.destroyed || !Number.isFinite(factor) || factor <= 0) return;
     this.dismissPreview('layout');
+    if (this.comparison) this.comparison.cameraFollowing = false;
     const next = clamp(this.scale * factor, this.baseScale * 0.4, this.baseScale * 64);
     const ratio = next / this.scale;
     this.pan.x = anchor.x - (anchor.x - this.pan.x) * ratio;
@@ -366,6 +483,7 @@ export class AtlasGraph {
   toggleMotion() {
     this.paused = !this.paused;
     if (this.paused) this.advanceCamera(Infinity);
+    if (this.paused) this.advanceComparison(Infinity);
     this.animationUntil = 0;
     this.connectionPulse = null;
     this.territoryReveal = null;
@@ -385,6 +503,7 @@ export class AtlasGraph {
     if (!this.active || event.button !== 0) return;
     event.preventDefault();
     this.cameraFlight = null;
+    if (this.comparison) this.comparison.cameraFollowing = false;
     const point = this.point(event);
     if (!this.pointers.size) {
       this.start = point;
@@ -508,7 +627,7 @@ export class AtlasGraph {
     let best = Infinity;
     for (let radius = 32; radius <= Math.max(this.width, this.height) * 4; radius *= 2) {
       const range = radius / this.scale;
-      const candidates = this.spatial.query(current.x - range, current.y - range, current.x + range, current.y + range);
+      const currentPosition = this.displayPosition(current), candidates = this.querySpatial(currentPosition.x - range, currentPosition.y - range, currentPosition.x + range, currentPosition.y + range);
       for (const node of candidates) {
         const candidate = this.project(node); if (!candidate) continue;
         const x = candidate.sx - origin.x, y = candidate.sy - origin.y;
@@ -530,7 +649,7 @@ export class AtlasGraph {
     const index = current < 0 ? (direction > 0 ? 0 : candidates.length - 1) : (current + direction + candidates.length) % candidates.length;
     const node = candidates[index], point = this.anchor(node);
     if (point.x < 8 || point.x > this.width - 8 || point.y < 8 || point.y > this.height - 8) {
-      const center = this.viewportCenter(); this.pan = { x: center.x - node.x * this.scale, y: center.y - node.y * this.scale };
+      const center = this.viewportCenter(), position = this.displayPosition(node); this.pan = { x: center.x - position.x * this.scale, y: center.y - position.y * this.scale };
       this.dismissPreview('layout');
     }
     this.focusNode(node);
@@ -548,7 +667,7 @@ export class AtlasGraph {
     const x = (center.x - this.pan.x) / this.scale, y = (center.y - this.pan.y) / this.scale;
     for (let radius = 16; radius <= Math.max(this.width, this.height) * 4; radius *= 2) {
       const range = radius / this.scale;
-      for (const value of this.spatial.query(x - range, y - range, x + range, y + range)) {
+      for (const value of this.querySpatial(x - range, y - range, x + range, y + range)) {
         const node = this.project(value); if (!node) continue;
         const candidate = (node.sx - center.x) ** 2 + (node.sy - center.y) ** 2;
         if (candidate < distance) { distance = candidate; nearest = node; }
@@ -565,7 +684,7 @@ export class AtlasGraph {
     let result = null;
     let closest = Infinity;
     const x = (point.x - this.pan.x) / this.scale, y = (point.y - this.pan.y) / this.scale, range = 26 / this.scale;
-    for (const node of this.spatial.query(x - range, y - range, x + range, y + range)) {
+    for (const node of this.querySpatial(x - range, y - range, x + range, y + range)) {
       if (!this.nodeEnabled(node)) continue;
       const anchor = this.anchor(node), distance = Math.hypot(point.x - anchor.x, point.y - anchor.y);
       if (distance <= Math.max(8, this.radius(node) + 4) && (distance < closest || (distance === closest && node.id < result.id))) { result = node; closest = distance; }
@@ -584,6 +703,7 @@ export class AtlasGraph {
 
   select(node, reason = 'keyboard', targetScale = this.scale) {
     if (!node) { this.dismissPreview('dismiss'); this.requestDraw(); return; }
+    if (this.comparison) { this.advanceComparison(performance.now()); if (this.comparison) this.comparison.cameraFollowing = false; }
     const center = this.viewportCenter();
     this.cameraFlight = null;
     this.selectionReveal = null;
@@ -593,12 +713,14 @@ export class AtlasGraph {
     this.exclusions = null;
     this.selected = node.id;
     this.keyboardId = node.id;
-    const target = { scale: targetScale, pan: { x: center.x - node.x * targetScale, y: center.y - node.y * targetScale } };
+    const position = this.comparison && this.comparison.progress < 1 ? this.comparison.points.get(node.id)?.to || this.displayPosition(node) : this.displayPosition(node);
+    const target = { scale: targetScale, pan: { x: center.x - position.x * targetScale, y: center.y - position.y * targetScale } };
     const distance = Math.hypot(target.pan.x - this.pan.x, target.pan.y - this.pan.y);
     if (this.active && this.ctx && !document.hidden && !this.paused && !this.motion.matches && (distance > 0.5 || Math.abs(targetScale - this.scale) > 1e-8)) {
       // Delay the card until arrival: its hit area must not slide under a user's pointer.
       this.emitPreview(null, 'layout');
-      this.cameraFlight = { started: performance.now(), duration: 600, fromScale: this.scale, fromPan: { ...this.pan }, target, nodeId: node.id, reason };
+      const layoutRemaining = this.comparison && this.comparison.progress < 1 ? this.comparison.started + this.comparison.duration - performance.now() : 0;
+      this.cameraFlight = { started: performance.now(), duration: Math.max(600, layoutRemaining), fromScale: this.scale, fromPan: { ...this.pan }, target, nodeId: node.id, reason };
       this.requestDraw(true);
       return;
     }
@@ -641,7 +763,8 @@ export class AtlasGraph {
   }
 
   anchor(node) {
-    return { x: node.x * this.scale + this.pan.x, y: node.y * this.scale + this.pan.y };
+    const point = this.displayPosition(node);
+    return { x: point.x * this.scale + this.pan.x, y: point.y * this.scale + this.pan.y };
   }
 
   emitPreview(node, reason) {
@@ -669,7 +792,8 @@ export class AtlasGraph {
 
   startConnectionPulse(nodeId = null) {
     this.connectionPulse = null;
-    if (!nodeId || !this.active || this.destroyed || document.hidden || this.paused || this.motion.matches || (!this.layers.relationships && !this.layers.inferred)) return;
+    const layers = this.effectiveLayers();
+    if (!nodeId || !this.active || this.destroyed || document.hidden || this.paused || this.motion.matches || (!layers.relationships && !layers.inferred)) return;
     const edges = [];
     for (const edge of nodeId ? this.adjacency.get(nodeId) || [] : this.edges) {
       if (!this.edgeEnabled(edge) || !this.routeNodeEnabled(this.byId.get(edge.from)) || !this.routeNodeEnabled(this.byId.get(edge.to))) continue;
@@ -682,7 +806,7 @@ export class AtlasGraph {
 
   startTerritoryReveal(nodeId = null) {
     this.territoryReveal = null;
-    if (!this.active || this.destroyed || document.hidden || this.paused || this.motion.matches || !this.layers.regions) return;
+    if (this.comparison || !this.active || this.destroyed || document.hidden || this.paused || this.motion.matches || !this.layers.regions) return;
     const ids = this.regions.filter(region => region.territory && (nodeId === null || region.id === nodeId || region.themeId === nodeId || region.members.has(nodeId))).map(region => region.id);
     if (!ids.length) return;
     this.territoryReveal = { ids: new Set(ids), started: performance.now(), duration: 920 };
@@ -738,8 +862,9 @@ export class AtlasGraph {
   }
 
   routesFlowing() {
-    return !this.paused && !this.motion.matches && this.renderer.backend === 'webgl' && this.renderer.edgeGroups.some(group => group.count &&
-      (group.inferred ? this.layers.inferred : this.layers.relationships) && (this.layers.names || (group.fromKind !== 'person' && group.toKind !== 'person')));
+    const layers = this.effectiveLayers();
+    return !this.paused && !this.motion.matches && this.renderer.backend === 'webgl' && (this.comparison ? this.renderer.comparisonEdgeGroups : this.renderer.edgeGroups).some(group => group.count &&
+      (group.inferred ? layers.inferred : layers.relationships) && (layers.names || (group.fromKind !== 'person' && group.toKind !== 'person')) && (layers.regions || (group.fromKind !== 'hub' && group.toKind !== 'hub')));
   }
 
   requestDraw(animate = false, flowOnly = false) {
@@ -768,30 +893,31 @@ export class AtlasGraph {
 
   project(node, route = false) {
     if (!node || !(route ? this.routeNodeEnabled(node) : this.nodeEnabled(node))) return null;
-    const x = node.x * this.scale + this.pan.x, y = node.y * this.scale + this.pan.y, radius = this.radius(node);
+    const position = this.anchor(node), x = position.x, y = position.y, radius = this.radius(node);
     if (x + radius < 0 || x - radius > this.width || y + radius < 0 || y - radius > this.height) return null;
     node.sx = x; node.sy = y; node.radius = radius; return node;
   }
 
   updateScreen() {
-    const key = `${this.dataRevision}:${this.renderer.backend}:${this.layers.names}:${this.layers.regions}:${this.layers.inferred}:${this.layers.relationships}:${this.width}:${this.height}:${this.pan.x}:${this.pan.y}:${this.scale}`;
+    const layers = this.effectiveLayers(), order = this.comparison?.labelOrder || this.labelOrder;
+    const key = `${this.dataRevision}:${this.comparison?.key}:${this.comparison?.progress}:${this.renderer.backend}:${layers.names}:${layers.regions}:${layers.inferred}:${layers.relationships}:${this.width}:${this.height}:${this.pan.x}:${this.pan.y}:${this.scale}`;
     if (key === this.screenKey) return;
     this.screenKey = key;
     this.visible = this.chooseVisible();
     if (this.renderer.backend === 'webgl') {
-      Object.assign(this, this.renderer.countInView(this, this.layers));
+      Object.assign(this, this.renderer.countInView(this, layers));
       this.screenLabelOrder = { item: [], hub: [] };
       const points = new Map();
       for (const node of this.regionNodes) { const point = this.project(node); if (point) points.set(node.id, point); }
       for (const kind of ['item', 'hub']) {
-        for (const node of this.labelOrder[kind].slice(0, 512)) {
+        for (const node of order[kind].slice(0, 512)) {
           const point = this.project(node);
           if (point) { points.set(node.id, point); this.screenLabelOrder[kind].push(point); }
           if (this.screenLabelOrder[kind].length === 160) break;
         }
       }
       if (this.screenLabelOrder.item.length < 8) {
-        const local = this.spatial.query(-this.pan.x / this.scale, -this.pan.y / this.scale, (this.width - this.pan.x) / this.scale, (this.height - this.pan.y) / this.scale);
+        const local = this.querySpatial(-this.pan.x / this.scale, -this.pan.y / this.scale, (this.width - this.pan.x) / this.scale, (this.height - this.pan.y) / this.scale);
         for (const node of local) if (node.kind === 'item' && !points.has(node.id)) {
           const point = this.project(node); if (point) { points.set(node.id, point); this.screenLabelOrder.item.push(point); }
           if (this.screenLabelOrder.item.length === 32) break;
@@ -801,21 +927,20 @@ export class AtlasGraph {
       this.visibleEdges = []; this.displayedEdges = [];
       this.labelsDirty = true; return;
     }
-    this.screen = this.spatial.query((-24 - this.pan.x) / this.scale, (-24 - this.pan.y) / this.scale, (this.width + 24 - this.pan.x) / this.scale, (this.height + 24 - this.pan.y) / this.scale).filter(node => this.nodeEnabled(node)).map(node => {
-      node.sx = node.x * this.scale + this.pan.x; node.sy = node.y * this.scale + this.pan.y; node.radius = this.radius(node); return node;
+    this.screen = (this.comparison ? this.nodes : this.spatial.query((-24 - this.pan.x) / this.scale, (-24 - this.pan.y) / this.scale, (this.width + 24 - this.pan.x) / this.scale, (this.height + 24 - this.pan.y) / this.scale)).filter(node => this.comparison || this.nodeEnabled(node)).map(node => {
+      const point = this.anchor(node); node.sx = point.x; node.sy = point.y; node.radius = this.radius(node); return node;
     }).filter(node => node.sx + node.radius >= 0 && node.sx - node.radius <= this.width && node.sy + node.radius >= 0 && node.sy - node.radius <= this.height);
     this.screenPoints = new Map(this.screen.map(node => [node.id, node]));
     this.routePoints = new Map(this.screenPoints);
-    if (this.layers.inferred && !this.layers.regions) for (const node of this.regionNodes) { const point = this.project(node, true); if (point) this.routePoints.set(node.id, point); }
-    this.visibleEdges = this.edges.filter(edge => this.edgeEnabled(edge) && this.routePoints.has(edge.from) && this.routePoints.has(edge.to));
-    this.displayedEdges = this.visibleEdges.filter(edge => edge.inferred ? this.layers.inferred : this.layers.relationships);
+    this.visibleEdges = (this.comparison?.edges || this.edges).filter(edge => this.edgeEnabled(edge) && this.routeNodeEnabled(this.byId.get(edge.from)) && this.routeNodeEnabled(this.byId.get(edge.to)) && this.routePoints.has(edge.from) && this.routePoints.has(edge.to));
+    this.displayedEdges = this.visibleEdges;
     this.inViewRecords = this.screen.filter(node => node.kind === 'item').length;
     this.inViewNames = this.screen.filter(node => node.kind === 'person').length;
     this.inViewCount = this.screen.length;
     this.screenLabelOrder = {};
     for (const kind of ['item', 'hub']) {
       const candidates = [];
-      for (const node of this.labelOrder[kind]) if (this.screenPoints.has(node.id)) { candidates.push(node); if (candidates.length === 160) break; }
+      for (const node of order[kind]) if (this.screenPoints.has(node.id)) { candidates.push(node); if (candidates.length === 160) break; }
       this.screenLabelOrder[kind] = candidates;
     }
     this.labelsDirty = true;
@@ -825,6 +950,7 @@ export class AtlasGraph {
     if (!this.active || this.destroyed || document.hidden || !this.ctx || !this.width || !this.height) return;
     const start = performance.now();
     this.lastDrawTime = time;
+    const comparing = this.advanceComparison(time), layers = this.effectiveLayers();
     const flying = this.advanceCamera(time);
     const flowing = this.routesFlowing();
     if (flowing && this.flowClock !== null) this.flowTime += Math.max(0, time - this.flowClock) / 1000;
@@ -844,7 +970,7 @@ export class AtlasGraph {
     const routeReveal = selectionReveal?.nodeId === emphasis ? 1 - (1 - acquisition) ** 3 : 1;
     const focusPoint = this.project(this.byId.get(emphasis)); if (focusPoint) points.set(emphasis, focusPoint);
     const selectedEdges = [];
-    if (emphasis && (this.layers.relationships || this.layers.inferred)) for (const edge of this.adjacency.get(emphasis) || []) {
+    if (emphasis && (layers.relationships || layers.inferred)) for (const edge of this.adjacency.get(emphasis) || []) {
       if (!this.edgeEnabled(edge)) continue;
       const a = this.project(this.byId.get(edge.from), true), b = this.project(this.byId.get(edge.to), true);
       if (a && b) { points.set(a.id, a); points.set(b.id, b); selectedEdges.push(edge); }
@@ -854,13 +980,13 @@ export class AtlasGraph {
       const a = this.project(this.byId.get(edge.from), true), b = this.project(this.byId.get(edge.to), true);
       if (a && b) { points.set(a.id, a); points.set(b.id, b); }
     }
-    const revealingTerritories = this.layers.regions && this.paintRegions(ctx, time);
+    const revealingTerritories = layers.regions && this.paintRegions(ctx, time);
     ctx.lineCap = 'round';
     const displayedEdges = this.displayedEdges;
-    if (this.renderer.backend !== 'webgl' && (this.layers.relationships || this.layers.inferred)) {
+    if (this.renderer.backend !== 'webgl' && (layers.relationships || layers.inferred)) {
       for (const style of Object.values(ROUTE_STYLES)) {
         ctx.beginPath();
-        const opacity = routeOpacity(style.inferred, this.scale / this.baseScale, displayedEdges.length, Boolean(emphasis));
+        const opacity = routeOpacity(style.inferred, this.scale / this.baseScale, displayedEdges.length, Boolean(emphasis)) * (this.comparison ? 2.8 * (this.comparison.exiting ? 1 - this.comparison.progress : 1) : 1);
         ctx.strokeStyle = regionRGBA(style.color, opacity);
         ctx.lineWidth = style.inferred ? 0.65 : 0.7;
         ctx.setLineDash(style.inferred ? [2, 5] : []);
@@ -872,7 +998,7 @@ export class AtlasGraph {
       }
     }
     ctx.setLineDash([]);
-    const drawStats = this.renderer.draw(this, this.layers, this.screen, { flowTime: this.flowTime, animateRoutes: flowing });
+    const drawStats = this.renderer.draw(this, layers, this.screen, { flowTime: this.flowTime, animateRoutes: flowing });
     if (drawStats.backend === 'canvas2d') drawStats.submittedEdges = drawStats.drawnEdges = displayedEdges.length;
     if (emphasis) {
       for (const style of Object.values(ROUTE_STYLES)) {
@@ -884,6 +1010,18 @@ export class AtlasGraph {
         ctx.stroke();
       }
       ctx.setLineDash([]);
+      // A bounded endpoint ring makes a selected evidence fan terminate at
+      // visible stars; these are the same real nodes used by hit testing.
+      const endpoints = new Set();
+      for (const edge of selectedEdges) { endpoints.add(edge.from); endpoints.add(edge.to); }
+      endpoints.delete(emphasis);
+      for (const id of endpoints) {
+        const node = points.get(id); if (!node) continue;
+        const color = this.comparison?.layout.targets.get(id)?.color || node.color || COLORS[node.kind];
+        ctx.fillStyle = color; ctx.beginPath(); ctx.arc(node.sx, node.sy, Math.max(1.2, Math.min(2.2, node.radius)), 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = regionRGBA(color, 0.42 * routeReveal); ctx.lineWidth = 0.65;
+        ctx.beginPath(); ctx.arc(node.sx, node.sy, Math.max(3, node.radius + 1.5), 0, Math.PI * 2); ctx.stroke();
+      }
     }
     const highlighting = this.paintConnectionPulse(ctx, points, time);
     const settling = !this.paused && !this.motion.matches && time < this.animationUntil;
@@ -891,7 +1029,7 @@ export class AtlasGraph {
     const focus = points.get(emphasis);
     for (const node of focus ? [focus] : []) {
       const highlighted = true;
-      const color = node.color || COLORS[node.kind];
+      const color = this.comparison?.layout.targets.get(node.id)?.color || node.color || COLORS[node.kind];
       if (node.kind !== 'item' || highlighted) {
         const glowSize = node.radius * (highlighted ? 5 : 3.6) + settle * 3;
         const glow = ctx.createRadialGradient(node.sx, node.sy, 0, node.sx, node.sy, glowSize);
@@ -934,9 +1072,9 @@ export class AtlasGraph {
       const compact = this.width < 500;
       if (points.has(emphasis)) this.placeLabel(ctx, points.get(emphasis), true);
       // Regions explain the field independently of optional record/name labels or route lines.
-      if (this.layers.regions) for (const node of this.regionNodes) if (node.id !== emphasis && points.has(node.id)) this.placeLabel(ctx, points.get(node.id), false);
-      const hubs = this.layers.labels ? this.screenLabelOrder.hub.filter(node => node.kind !== 'hub' && node.id !== emphasis) : [];
-      const items = this.layers.labels ? this.screenLabelOrder.item.filter(node => node.id !== emphasis) : [];
+      if (layers.regions) for (const node of this.regionNodes) if (node.id !== emphasis && points.has(node.id) && this.nodeEnabled(node)) this.placeLabel(ctx, points.get(node.id), false);
+      const hubs = layers.labels ? this.screenLabelOrder.hub.filter(node => node.kind !== 'hub' && node.id !== emphasis) : [];
+      const items = layers.labels ? this.screenLabelOrder.item.filter(node => node.id !== emphasis) : [];
       // Give both records and source labels space, including results with no people.
       let itemCount = 0, hubCount = 0;
       while ((itemCount < (compact ? 2 : 4) && items.length) || (hubCount < (compact ? 2 : 4) && hubs.length)) {
@@ -959,7 +1097,14 @@ export class AtlasGraph {
     this.canvas.dataset.territoriesRevealing = String(Boolean(revealingTerritories));
     this.canvas.dataset.selectionRevealing = String(Boolean(selectionReveal));
     this.canvas.dataset.selectionRevealProgress = String(routeReveal);
-    if (flying) this.requestDraw();
+    this.canvas.dataset.comparisonKey = this.comparison?.key || '';
+    this.canvas.dataset.comparisonProgress = String(this.comparison?.progress ?? 1);
+    this.canvas.dataset.comparisonRecords = String(this.comparison?.config.memberIds.size || 0);
+    this.canvas.dataset.comparisonNames = String(this.comparison?.config.personIds.size || 0);
+    this.canvas.dataset.comparisonEdges = String(this.comparison?.edges.length || 0);
+    this.canvas.dataset.comparisonShared = String(this.comparison?.config.shared.size || 0);
+    this.canvas.dataset.comparisonExiting = String(Boolean(this.comparison?.exiting));
+    if (flying || comparing) this.requestDraw();
     else if (settling || highlighting || flowing || revealingTerritories || selectionReveal) this.requestDraw(false, true);
   }
 
@@ -988,14 +1133,14 @@ export class AtlasGraph {
         const point = this.anchor({ x: a.x + (b.x - a.x) * amount, y: a.y + (b.y - a.y) * amount }); ctx.lineTo(point.x, point.y);
       } else ctx.closePath();
     };
-    for (const region of this.regions) {
+    for (const region of this.comparison?.regions || this.regions) {
       const territory = region.territory;
       if (!territory) continue;
       const bounds = territory.bounds;
       if (bounds.right * this.scale + this.pan.x < -12 || bounds.left * this.scale + this.pan.x > this.width + 12 || bounds.bottom * this.scale + this.pan.y < -12 || bounds.top * this.scale + this.pan.y > this.height + 12) continue;
       const selected = this.regionSelectionMeta.id === region.id || this.regionSelectionMeta.id === region.themeId || this.selected === region.id || region.members.has(this.selected);
       const rawProgress = reveal?.ids.has(region.id) ? clamp((time - reveal.started) / reveal.duration, 0, 1) : 1;
-      const progress = 1 - (1 - rawProgress) ** 3, opacity = 0.35 + progress * 0.65;
+      const progress = 1 - (1 - rawProgress) ** 3, opacity = (0.35 + progress * 0.65) * (this.comparison ? this.comparison.exiting ? 1 - this.comparison.progress : this.comparison.progress : 1);
       ctx.setLineDash([]);
       ctx.beginPath();
       for (const loop of territory.outer) trace(loop.points);
@@ -1168,5 +1313,6 @@ export class AtlasGraph {
     this.spatial = new SpatialGrid();
     this.focusOrder = []; this.labelOrder = { item: [], hub: [] };
     this.regionNodes = []; this.regions = []; this.territoryReveal = null; this.regionSelection = null; this.regionSelectionMeta = {};
+    this.comparison = null; this.comparisonRestore = null; this.edgeSourceMap?.clear();
   }
 }

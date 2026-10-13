@@ -19,7 +19,7 @@ function harness(t, gpu = true) {
     uploads: [], draws: [],
     createShader: () => ({}), shaderSource() {}, compileShader() {}, getShaderParameter: () => true, deleteShader() {},
     createProgram: () => ({}), attachShader() {}, linkProgram() {}, getProgramParameter: () => true, deleteProgram() {},
-    getAttribLocation: (_, name) => ({ a_position: 0, a_size: 1, a_distance: 1, a_color: 2, a_selected: 3, a_progress: 4 })[name],
+    getAttribLocation: (_, name) => ({ a_position: 0, a_size: 1, a_distance: 1, a_color: 2, a_selected: 3, a_progress: 4, a_destination: 5, a_viewPosition: 4, a_viewFrom: 5, a_viewTo: 6 })[name],
     getUniformLocation: (_, name) => name,
     useProgram: value => { program = value; }, uniform1f: (name, value) => uniforms.set(name, value), uniform2f() {}, uniform3f: (name, ...values) => uniforms.set(name, values),
     createBuffer: () => ({}), bindBuffer: (_, value) => { currentBuffer = value; },
@@ -196,9 +196,9 @@ test('animated route groups retain every enabled edge and all 33,945 records usi
       assert.equal(group.values[end + 1], Math.fround(route.points[3].y));
     });
   }
-  for (const [names, relationships, inferred, count] of [[false, false, false, 0], [false, true, false, 400], [false, false, true, 800], [true, true, true, 1600]]) {
+  for (const [names, relationships, inferred, regions, count] of [[false, false, false, false, 0], [false, true, false, false, 400], [false, false, true, false, 400], [false, false, true, true, 800], [true, true, true, false, 1200], [true, true, true, true, 1600]]) {
     const before = gl.draws.length;
-    const stats = renderer.draw(camera(4), { ...layers, names, relationships, inferred }, [], { flowTime: 27.25, animateRoutes: true });
+    const stats = renderer.draw(camera(4), { ...layers, names, relationships, inferred, regions }, [], { flowTime: 27.25, animateRoutes: true });
     assert.equal(stats.submittedEdges, count); assert.equal(stats.drawnEdges, count); assert.equal(stats.submittedRecords, 33945);
     const lines = gl.draws.slice(before).filter(draw => draw.mode === gl.LINES);
     assert.equal(lines.reduce((sum, draw) => sum + draw.count, 0), count * 6);
@@ -209,7 +209,7 @@ test('animated route groups retain every enabled edge and all 33,945 records usi
       assert.equal(draw.uniforms.get('u_alpha'), routeOpacity(style.inferred, 4, count));
     }
   }
-  const all = { ...layers, names: true, relationships: true, inferred: true };
+  const all = { ...layers, names: true, relationships: true, inferred: true, regions: true };
   for (let frame = 0; frame < 100; frame++) renderer.draw(camera(frame % 2 ? 0.4 : 64), all, [], { flowTime: frame / 60, animateRoutes: true });
   renderer.draw(camera(4), all, [], { flowTime: Infinity, animateRoutes: false });
   const frozen = gl.draws.filter(draw => draw.mode === gl.LINES).slice(-renderer.edgeGroups.length);

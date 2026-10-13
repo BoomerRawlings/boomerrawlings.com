@@ -1,8 +1,9 @@
-import { AtlasGraph } from './graph.js?v=territories-20261012';
-import { NodePreview } from './node-preview.js?v=territories-20261012';
-import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=territories-20261012';
-import { getRegions, regionFacets } from './regions.js?v=territories-20261012';
-import { UIMotion } from './ui-motion.js?v=territories-20261012';
+import { AtlasGraph } from './graph.js?v=comparison-20261012';
+import { NodePreview } from './node-preview.js?v=comparison-20261012';
+import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=comparison-20261012';
+import { getRegions, regionFacets } from './regions.js?v=comparison-20261012';
+import { UIMotion } from './ui-motion.js?v=comparison-20261012';
+import { compareTerritories } from './comparison.js?v=comparison-20261012';
 
 const $ = id => document.getElementById(id);
 const number = n => n.toLocaleString();
@@ -16,11 +17,15 @@ let graph, graphBackend;
 let preparedIndex, preparedFilters;
 let resumePreparation;
 let regionFilters = {}, regionResult = null, regionPageSize = 20, regionNavigationIndex;
+let comparisonResult = null, comparisonDetailsOpen = false;
 const regionKeys = ['term', 'overlap', 'collection', 'type', 'year', 'person', 'role', 'sort'];
 const regionScope = () => scope?.kind === 'theme';
+const comparisonScope = () => scope?.kind === 'compare';
+const subjectScope = () => regionScope() || comparisonScope();
+const selectedTerritories = () => comparisonScope() ? scope.ids : regionScope() ? [scope.id] : [];
 const uiMotion = new UIMotion(document, { active: false });
 const revealPanel = (panel, content) => uiMotion.reveal($(panel), { fields: [...$(content).children].filter(node => !node.classList.contains('region-records')) });
-const preview = new NodePreview($('graph-stage'), $('network'), () => index, node => node.scope ? navigate('scope', node.scope) : navigate('item', node.id), {
+const preview = new NodePreview($('graph-stage'), $('network'), () => index, node => node.scope?.kind === 'theme' ? selectTerritory(node.scope.id) : node.scope ? navigate('scope', node.scope) : navigate('item', node.id), {
   onPanStart: event => graph?.pointerDown(event, { panOnly: true }),
   onZoom: node => graph?.focusRecord(node.id),
   onReveal: (card, fields) => uiMotion.reveal(card, { fields }),
@@ -29,8 +34,8 @@ const preview = new NodePreview($('graph-stage'), $('network'), () => index, nod
 try {
   graph = new AtlasGraph($('network'), {
     onZoom: zoom => { $('map-zoom').value = String(Math.log2(zoom)); $('map-zoom').setAttribute('aria-valuetext', zoom.toFixed(1) + ' times overview'); $('map-zoom-value').textContent = zoom.toFixed(1) + '×'; },
-    onSelect: (node, anchor) => preview.update(node, anchor, 'select'),
-    onPreview: (node, anchor, reason) => preview.update(node, anchor, reason),
+    onSelect: (node, anchor) => node?.scope?.kind === 'theme' ? selectTerritory(node.scope.id) : preview.update(node, anchor, 'select'),
+    onPreview: (node, anchor, reason) => { if (node?.scope?.kind !== 'theme' || reason !== 'select') preview.update(node, anchor, reason); },
     onStatus: stats => {
       const empty = stats.recordCount > 0 && stats.inViewRecords === 0;
       if ($('empty-map').hidden === empty) $('empty-map').hidden = !empty;
@@ -39,8 +44,9 @@ try {
         $('graph-fallback-note').hidden = graphBackend !== 'canvas2d';
       }
       const fallback = stats.backend === 'canvas2d' ? 'Canvas 2D fallback · ' : stats.backend === 'unavailable' ? 'Graphics unavailable · ' : '';
-      const selected = regionScope() ? `${number(records.length)} selected / ${number(regionResult?.total || 0)} region members. ` : '';
-      $('graph-status').textContent = `${selected}${fallback}${number(stats.submittedRecords || 0)} of ${number(stats.recordCount || index.items.length)} record points submitted · ${number(stats.inViewRecords || 0)} in view. ${number(stats.submittedNames || 0)} name points on; ${number(stats.nameCount || 0)} catalog-local labels available. Overlapping points remain separate records.`;
+      const selected = comparisonScope() ? `${number(records.length)} unique comparison records. ` : regionScope() ? `${number(records.length)} selected / ${number(regionResult?.total || 0)} region members. ` : '';
+      const nameSummary = comparisonScope() ? `${number(stats.comparisonNames ?? comparisonResult?.personIds.size ?? 0)} credited-name endpoints in comparison` : `${number(stats.submittedNames || 0)} name points on`;
+      $('graph-status').textContent = `${selected}${fallback}${number(stats.submittedRecords || 0)} of ${number(stats.recordCount || index.items.length)} record points submitted · ${number(stats.inViewRecords || 0)} in view. ${nameSummary}; ${number(stats.nameCount || 0)} catalog-local labels available. Overlapping points remain separate records.`;
     },
   });
   if (graph.available === false) throw new Error('Graphics unavailable');
@@ -151,18 +157,21 @@ function filters() { return { query: $('search').value, type: $('type-filter').v
 function refresh() {
   if (preparationPending) return;
   const began = performance.now();
+  comparisonResult = comparisonScope() ? compareTerritories(index, scope.ids[0], scope.ids[1], filters()) : null;
   regionResult = regionScope() ? regionFacets(index, scope.id, { ...regionFilters, query: $('search').value, from: $('year-from').value, to: $('year-to').value, globalType: $('type-filter').value }) : null;
-  records = regionResult ? regionResult.records : filterItems(index, filters()); pageSize = 40; regionPageSize = 20;
+  records = comparisonResult ? comparisonResult.records : regionResult ? regionResult.records : filterItems(index, filters()); pageSize = 40; regionPageSize = 20;
+  document.body.dataset.comparison = String(Boolean(comparisonResult));
   renderList(); renderBreadcrumbs(); renderGraph(); renderRegionNavigation();
-  if (regionScope()) renderRegionPanel(); else { uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; }
-  $('graph-subtitle').textContent = regionScope() ? 'Territories trace clusters of title matches; borders are illustrative. Exact membership is shown by the selection.' : scope?.kind === 'person' ? 'Documented credits. Names may refer to people, groups or publishing accounts.' : 'Explore overlapping subject territories. Shapes trace clusters of title matches; exact membership appears on selection.';
+  if (regionScope()) renderRegionPanel(); else if (comparisonResult && comparisonDetailsOpen) renderComparisonPanel(); else { uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; }
+  $('graph-subtitle').textContent = comparisonResult ? 'Two territories, shared records once in the middle. Credits and record links retain their source evidence; other records stay dimmed.' : regionScope() ? 'Territories trace clusters of title matches; borders are illustrative. Exact membership is shown by the selection.' : scope?.kind === 'person' ? 'Documented credits. Names may refer to people, groups or publishing accounts.' : 'Explore overlapping subject territories. Shapes trace clusters of title matches; exact membership appears on selection.';
+  $('graph-heading').textContent = subjectScope() ? scopeLabel() : scope?.kind === 'person' ? 'Credits for ' + scopeLabel() : 'A field of possible futures';
   uiMotion.reveal($('graph-heading'), { fields: [], mode: 'view' });
   $('atlas-workspace').dataset.updateMs = (performance.now() - began).toFixed(1);
 }
 function renderGraph() {
   // Region drilling changes a membership mask only: every original point and
   // position stays in the surrounding field, including unmatched records.
-  const fullField = regionScope() || (!scope && !$('search').value && !$('type-filter').value && !$('year-from').value && !$('year-to').value);
+  const fullField = subjectScope() || (!scope && !$('search').value && !$('type-filter').value && !$('year-from').value && !$('year-to').value);
   const key = fullField ? 'full-field' : JSON.stringify(filters());
   if (preparedIndex === index && preparedFilters === key) { applyRegionSelection(); applyLayers(); graph?.setActive(active && document.body.dataset.view !== 'list'); return; }
   const data = graphData(index, fullField ? index.items : records, true);
@@ -175,36 +184,56 @@ function renderGraph() {
   }
   graph?.setData(data); applyRegionSelection(); applyLayers(); graph?.setActive(active && document.body.dataset.view !== 'list');
   preparedIndex = index; preparedFilters = key;
-  if (!records.length && !regionScope()) $('graph-status').textContent = 'No records in this view. Try fewer filters.';
+  if (!records.length && !subjectScope()) $('graph-status').textContent = 'No records in this view. Try fewer filters.';
 }
 function applyRegionSelection() {
+  if (!comparisonScope()) graph?.setComparison?.(null);
   graph?.setRegionSelection?.(regionScope() ? new Set(records.map(item => item.id)) : null, { id: scope?.id, label: scopeLabel(), total: regionResult?.total || 0 });
+  if (comparisonScope()) graph?.setComparison?.(comparisonResult);
 }
 function applyLayers() {
   graph?.setLayers({ names: $('names-toggle').checked, labels: $('labels-toggle').checked, relationships: $('relationships-toggle').checked, regions: $('regions-toggle').checked, inferred: $('themes-toggle').checked });
   const connected = $('relationships-toggle').checked || $('themes-toggle').checked;
-  $('connections-toggle').setAttribute('aria-pressed', String(connected));
-  $('connections-toggle').textContent = connected ? 'Hide connections' : 'Show connections';
-  uiMotion.reveal($('connections-toggle'), { key: String(connected), fields: [] });
+  $('connections-toggle').setAttribute('aria-pressed', String(comparisonScope() || connected));
+  $('connections-toggle').textContent = comparisonScope() ? 'Comparison routes on' : connected ? 'Hide connections' : 'Show connections';
+  $('connections-toggle').disabled = comparisonScope();
+  for (const id of ['names-toggle', 'labels-toggle', 'relationships-toggle', 'regions-toggle', 'themes-toggle']) $(id).disabled = comparisonScope();
+  uiMotion.reveal($('connections-toggle'), { key: comparisonScope() ? 'comparison' : String(connected), fields: [] });
 }
 function renderRegionNavigation() {
   const data = getRegions(index);
   if (regionNavigationIndex !== index) {
     $('region-memberships').replaceChildren(...data.regions.map(region => {
-      const b = button('', () => navigate('scope', { kind: 'theme', id: region.id }), 'region-choice region-' + region.id);
+      const b = button('', () => selectTerritory(region.id), 'region-choice region-' + region.id);
       b.dataset.regionId = region.id;
       b.append(el('span', 'region-name', region.label), el('span', 'region-count', number(region.memberIds.size)));
       return b;
     }));
     $('region-union').textContent = `${number(data.unionIds.size)} unique title-matched · ${number(data.unmatchedIds.size)} unmatched. Memberships overlap; counts are unique records within each group.`;
+    const placeholder = el('option', '', 'Choose a territory'); placeholder.value = '';
+    $('comparison-picker').replaceChildren(placeholder, ...data.regions.map(region => { const option = el('option', '', region.label); option.value = region.id; return option; }));
     regionNavigationIndex = index;
   }
+  const ids = selectedTerritories();
   for (const b of $('region-memberships').children) {
-    const selected = regionScope() && scope.id === b.dataset.regionId;
+    const selected = ids.includes(b.dataset.regionId);
     const changed = b.getAttribute('aria-pressed') !== String(Boolean(selected));
     b.setAttribute('aria-pressed', String(Boolean(selected)));
     if (selected && changed) uiMotion.reveal(b);
   }
+  $('comparison-selected').replaceChildren(...ids.map(id => {
+    const region = data.byId.get(id), chip = button(region.label + ' ×', () => selectTerritory(id), 'comparison-chip region-' + id);
+    chip.setAttribute('aria-label', 'Remove ' + region.label + ' from selection'); return chip;
+  }));
+  uiMotion.reveal($('comparison-selected'), { key: ids.join(',') });
+  $('comparison-picker-label').textContent = ids.length === 2 ? 'Replace second territory' : ids.length === 1 ? 'Compare with' : 'Choose a territory';
+  $('comparison-picker').options[0].textContent = ids.length === 2 ? 'Choose another subject' : ids.length === 1 ? 'Add a second subject' : 'Choose a subject';
+  for (const option of $('comparison-picker').options) option.disabled = ids.includes(option.value);
+  $('comparison-picker').value = '';
+  $('comparison-clear').hidden = !ids.length;
+  $('comparison-details').hidden = !ids.length;
+  $('comparison-hint').textContent = comparisonResult ? `${number(comparisonResult.leftOnly.size)} first only · ${number(comparisonResult.shared.size)} shared once · ${number(comparisonResult.rightOnly.size)} second only. Source trails: Evidence.` : ids.length ? 'Select a second territory to compare. Select the current territory again to return to the universe.' : 'Select one territory, then another, to separate their clusters and inspect what connects them.';
+  uiMotion.reveal($('comparison-hint'), { key: comparisonResult?.key || ids.join(','), fields: [], mode: 'view' });
 }
 function setRegionFacet(key, value) {
   history.replaceState(viewContext(), '', location.href);
@@ -268,6 +297,7 @@ function renderRegionPanel() {
   $('region-panel').dataset.regionId = region.id;
   $('region-panel').dataset.memberCount = String(data.total);
   $('region-panel').dataset.selectedCount = String(records.length);
+  $('region-panel').setAttribute('aria-label', 'Selected territory');
   content.replaceChildren(el('p', 'detail-kicker', region.id === 'unmatched' ? 'Unmatched titles · preserved' : 'Title-word region · inferred'), el('h2', 'detail-title', region.label));
   content.append(el('p', 'region-total', `${number(records.length)} selected of ${number(data.total)} unique region records. ${number(index.items.length)} record points remain in the field.`));
   content.append(el('p', 'detail-note', region.id === 'unmatched' ? 'No current English title-keyword match. This includes titles in other languages and ambiguous or missing titles; it does not mean these records lack a theme.' : 'Territories trace clusters of title matches; borders are illustrative. Exact membership is shown by the selection. Literal title words determine membership, which may overlap; shapes establish no objective taxonomy, affiliation, agreement, citation or influence.'));
@@ -332,6 +362,52 @@ function renderRegionPanel() {
   if (regionChanged) $('region-panel').scrollTop = 0;
   revealPanel('region-panel', 'region-content');
 }
+function renderComparisonPanel() {
+  const data = comparisonResult, panel = $('region-panel'), content = $('region-content');
+  if (!data) return;
+  const changed = panel.dataset.regionId !== 'compare:' + data.key;
+  uiMotion.cancel(panel); panel.hidden = false;
+  panel.dataset.regionId = 'compare:' + data.key;
+  panel.dataset.memberCount = panel.dataset.selectedCount = String(data.memberIds.size);
+  panel.setAttribute('aria-label', 'Territory comparison evidence');
+  content.replaceChildren(el('p', 'detail-kicker', 'Two territories · source evidence'), el('h2', 'detail-title', data.left.label + ' ↔ ' + data.right.label));
+  const counts = el('div', 'comparison-counts');
+  for (const [count, text] of [[data.leftOnly.size, data.left.label + ' only'], [data.shared.size, 'Shared · shown once'], [data.rightOnly.size, data.right.label + ' only']]) {
+    const cell = el('div'); cell.append(el('strong', '', number(count)), el('span', '', text)); counts.append(cell);
+  }
+  content.append(counts, el('p', 'region-note', 'This is a temporary comparison layout. Shared records appear once between the two clusters; other records remain dimmed. Search, type, year and collection filters apply to both sides.'), el('p', 'region-total', `${number(data.counts.documentedRelationships)} documented cross-territory record links · ${number(data.counts.inferredRelationships)} inferred links.`), el('p', 'region-note', `${number(data.counts.directRelationships)} links join exclusive sides; ${number(data.counts.viaSharedRelationships)} pass through shared records. Source-recorded links include editorial related-article cards; they are not necessarily citations, agreement or influence.`), el('p', 'region-total', `${number(data.sharedPeople.length)} catalog-local names credited in both territories.`), el('p', 'region-note', `${number(data.counts.creditBridges)} names have credits on distinct records in both exclusive sides. Other shared names may be credited only on overlapping records. Names are kept separate across catalogs; a shared label does not establish verified identity.`));
+  const recordSection = (title, rows) => lazyRegionSection(title + ' · ' + number(rows.length), section => {
+    if (!rows.length) section.append(el('p', 'region-note', 'No records match this part of the comparison.'));
+    else regionPagedRows(section, rows, recordCard);
+  });
+  content.append(recordSection('Shared records in the bridge', data.sharedRecords), recordSection(data.left.label + ' only', data.records.filter(item => data.leftOnly.has(item.id))), recordSection(data.right.label + ' only', data.records.filter(item => data.rightOnly.has(item.id))));
+  content.append(lazyRegionSection('Credits in both territories · ' + number(data.sharedPeople.length) + ' catalog-local names', section => {
+    if (!data.sharedPeople.length) section.append(el('p', 'region-note', 'No catalog-local name has source credits in both selections.'));
+    regionPagedRows(section, data.sharedPeople, person => {
+      const row = el('div', 'region-person');
+      row.append(el('strong', '', person.label + ' / ' + person.catalogLabel), el('p', 'region-note', `${data.left.label}: ${number(person.leftCount)} records; ${data.right.label}: ${number(person.rightCount)}. ${number(person.sharedCount)} shared records count in both totals.`), el('p', 'region-note', `Exclusive-side records: ${number(person.leftExclusiveCount)} first, ${number(person.rightExclusiveCount)} second.`));
+      row.append(lazyRegionSection('Inspect source roles and records', evidence => {
+        const credits = [...new Map([...person.leftCredits, ...person.rightCredits].map(credit => [credit.itemId + '\u0000' + credit.role, credit])).values()];
+        regionPagedRows(evidence, credits, credit => {
+          const item = index.byId.get(credit.itemId), block = el('div', 'region-relation');
+          const side = data.shared.has(credit.itemId) ? 'Shared record' : data.leftOnly.has(credit.itemId) ? data.left.label : data.right.label;
+          block.append(button(item?.title || 'Source record', () => item && navigate('item', item.id), 'related-record'), el('p', 'region-note', side + ' · ' + label(credit.role)), ...sourceLinks(credit.sourceUrls || [])); return block;
+        }, 6);
+      }));
+      return row;
+    }, 6);
+  }));
+  content.append(lazyRegionSection('Cross-territory record links & their source basis · ' + number(data.relationships.length), section => {
+    if (!data.relationships.length) section.append(el('p', 'region-note', 'No source-recorded or inferred record links cross these selections in the loaded metadata. Shared title words alone do not create a record-to-record link.'));
+    regionPagedRows(section, data.relationships, relation => {
+      const row = el('div', 'region-relation'), from = index.byId.get(relation.from), to = index.byId.get(relation.to);
+      row.append(el('p', 'detail-kicker', (relation.inferred ? 'Inferred' : 'Source recorded') + ' · ' + (relation.bridgeType === 'direct' ? 'Exclusive sides' : 'Through shared record')), button(from?.title || 'Source record', () => from && navigate('item', from.id), 'related-record'), el('p', 'region-note', '→ ' + label(relation.kind)), button(to?.title || 'Related record', () => to && navigate('item', to.id), 'related-record'), el('p', 'detail-note', 'Basis: ' + (relation.basis || 'Unspecified in source metadata.')), ...sourceLinks(relation.sourceUrls || []));
+      return row;
+    }, 8);
+  }));
+  if (changed) panel.scrollTop = 0;
+  revealPanel('region-panel', 'region-content');
+}
 function recordCard(item) {
   const card = button('', () => navigate('item', item.id), 'record-card');
   card.dataset.recordId = item.id;
@@ -354,37 +430,53 @@ function renderList(revealFrom = 0) {
   $('load-more').textContent = `Show ${Math.min(40, Math.max(0, records.length - pageSize))} more records ↓`;
   uiMotion.reveal($('results'), { fields: [...$('results').children].slice(revealFrom) });
 }
-function clearFilters() { for (const id of ['search', 'type-filter', 'year-from', 'year-to']) $(id).value = ''; scope = null; regionFilters = {}; selection = null; closeDetail(); history.pushState(viewContext(), '', location.pathname); refresh(); }
-function scopeLabel() { return scope?.kind === 'person' ? index.people.get(scope.id)?.name || 'Name not loaded' : regionScope() ? getRegions(index).byId.get(scope.id)?.label || 'Theme' : label(scope?.id); }
+function clearFilters() { for (const id of ['search', 'type-filter', 'year-from', 'year-to']) $(id).value = ''; scope = null; regionFilters = {}; selection = null; comparisonDetailsOpen = false; closeDetail(); history.pushState(viewContext(), '', location.pathname); refresh(); }
+function scopeLabel() { return comparisonScope() ? scope.ids.map(id => getRegions(index).byId.get(id)?.label || 'Territory').join(' ↔ ') : scope?.kind === 'person' ? index.people.get(scope.id)?.name || 'Name not loaded' : regionScope() ? getRegions(index).byId.get(scope.id)?.label || 'Theme' : label(scope?.id); }
 function renderBreadcrumbs() {
   $('breadcrumbs').replaceChildren(button('All connections', clearFilters));
   if (scope) $('breadcrumbs').append(el('span', '', ' / ' + scopeLabel()));
   uiMotion.reveal($('breadcrumbs'));
 }
-function viewContext() { return { scope, regionFilters: { ...regionFilters }, fields: Object.fromEntries(['search', 'type-filter', 'year-from', 'year-to'].map(id => [id, $(id).value])) }; }
+function viewContext() { return { scope, regionFilters: { ...regionFilters }, comparisonDetailsOpen, fields: Object.fromEntries(['search', 'type-filter', 'year-from', 'year-to'].map(id => [id, $(id).value])) }; }
+function selectTerritory(id) {
+  if (!getRegions(index).byId.has(id)) return;
+  preview.close();
+  const ids = selectedTerritories();
+  if (ids.includes(id)) {
+    const remaining = ids.filter(value => value !== id);
+    if (!remaining.length) { clearFilters(); $('comparison-picker').focus({ preventScroll: true }); return; }
+    navigate('scope', { kind: 'theme', id: remaining[0] });
+  } else if (ids.length) navigate('scope', { kind: 'compare', ids: [ids[0], id] });
+  else navigate('scope', { kind: 'theme', id });
+}
 function navigate(kind, value) {
   history.replaceState(viewContext(), '', location.href);
   const sameRegion = kind === 'scope' && value.kind === 'theme' && regionScope() && value.id === scope.id;
-  const params = kind === 'item' ? new URLSearchParams({ item: value }) : new URLSearchParams({ [value.kind]: value.id, ...(sameRegion ? regionFilters : {}) });
+  const params = kind === 'item' ? new URLSearchParams({ item: value, ...(comparisonScope() ? { compare: scope.ids.join(',') } : {}) }) : new URLSearchParams(value.kind === 'compare' ? { compare: value.ids.join(',') } : { [value.kind]: value.id, ...(sameRegion ? regionFilters : {}) });
+  if (kind === 'scope' && value.kind === 'compare' && (!comparisonScope() || value.ids.join(',') !== scope.ids.join(','))) comparisonDetailsOpen = false;
   history.pushState(viewContext(), '', '#' + params); readLocation();
   if (kind === 'scope' && value.kind === 'theme') { $('region-close').focus({ preventScroll: true }); if (matchMedia('(max-width: 680px)').matches) $('region-panel').scrollIntoView?.({ block: 'end', behavior: 'instant' }); }
+  if (kind === 'scope' && value.kind === 'compare') { $('comparison-details').focus({ preventScroll: true }); $('territory-comparison').scrollIntoView?.({ block: 'nearest', behavior: 'instant' }); }
 }
 function readLocation() {
   const params = new URLSearchParams(location.hash.slice(1));
   const itemId = params.get('item'), personId = params.get('person'), themeId = params.get('theme');
+  const compareIds = [...new Set((params.get('compare') || '').split(','))].filter(id => getRegions(index).byId.has(id));
+  const comparison = compareIds.length === 2 ? { kind: 'compare', ids: compareIds } : null;
   if (history.state?.fields) for (const [id, value] of Object.entries(history.state.fields)) if (['search', 'type-filter', 'year-from', 'year-to'].includes(id)) $(id).value = value;
   if (itemId) {
-    scope = history.state?.scope || null; regionFilters = history.state?.regionFilters || {}; refresh();
+    scope = comparison || history.state?.scope || null; regionFilters = history.state?.regionFilters || {}; comparisonDetailsOpen = Boolean(history.state?.comparisonDetailsOpen); refresh();
     if (index.byId.has(itemId)) showItem(index.byId.get(itemId));
     else if (index.items.length) { openDetail(); $('detail-content').replaceChildren(el('h2', 'detail-title', 'Collection not loaded'), el('p', 'detail-note', 'Load this record’s collection, then reopen the link. Imported records exist only in their original browser session.')); revealPanel('detail', 'detail-content'); }
-  } else if (!themeId && personId && index.people.has(personId)) { scope = { kind: 'person', id: personId }; refresh(); showPerson(personId); }
+  } else if (comparison) { comparisonDetailsOpen = Boolean(history.state?.comparisonDetailsOpen); scope = comparison; regionFilters = {}; closeDetail(); refresh(); }
+  else if (!themeId && personId && index.people.has(personId)) { scope = { kind: 'person', id: personId }; refresh(); showPerson(personId); }
   else if (themeId && getRegions(index).byId.has(themeId)) { scope = { kind: 'theme', id: themeId }; regionFilters = Object.fromEntries(regionKeys.filter(key => params.has(key)).map(key => [key, params.get(key)])); closeDetail(); refresh(); }
   else { scope = null; regionFilters = {}; closeDetail(); refresh(); }
 }
 function openDetail() { preview.close(); uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; $('detail').hidden = false; }
-function closeDetail() { uiMotion.cancel($('detail')); $('detail').hidden = true; selection = null; $('region-panel').hidden = !regionScope(); }
-function closeRegionDetails() { uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; const trigger = $('region-memberships').querySelector('[aria-pressed="true"]') || $('search'); trigger.focus({ preventScroll: true }); trigger.scrollIntoView?.({ block: 'nearest', behavior: 'instant' }); uiMotion.reveal(trigger, { fields: [] }); }
-function closeRecordDetails() { closeDetail(); (regionScope() ? $('region-close') : $('search')).focus({ preventScroll: true }); if (regionScope()) revealPanel('region-panel', 'region-content'); else uiMotion.reveal($('graph-heading'), { fields: [], mode: 'view' }); }
+function closeDetail() { uiMotion.cancel($('detail')); $('detail').hidden = true; selection = null; $('region-panel').hidden = !(regionScope() || (comparisonScope() && comparisonDetailsOpen)); }
+function closeRegionDetails() { uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; if (comparisonScope()) comparisonDetailsOpen = false; const trigger = subjectScope() ? $('comparison-details') : $('search'); trigger.focus({ preventScroll: true }); trigger.scrollIntoView?.({ block: 'nearest', behavior: 'instant' }); uiMotion.reveal(trigger, { fields: [] }); }
+function closeRecordDetails() { closeDetail(); (!$('region-panel').hidden ? $('region-close') : subjectScope() ? $('comparison-details') : $('search')).focus({ preventScroll: true }); if (!$('region-panel').hidden) revealPanel('region-panel', 'region-content'); else uiMotion.reveal($('graph-heading'), { fields: [], mode: 'view' }); }
 function detailSection(title, content) { const section = el('section', 'detail-section'); section.append(el('h3', '', title), ...content); return section; }
 function sourceLinks(urls) { return [...new Set(urls.filter(safeUrl))].slice(0, 30).map((u, i) => link(`${i ? 'Evidence' : 'Open source'} · ${new URL(u).hostname} ↗`, u)); }
 function showItem(item) {
@@ -395,12 +487,12 @@ function showItem(item) {
   const content = $('detail-content');
   const catalog = index.catalogById.get(item.catalogId);
   content.replaceChildren(el('p', 'detail-kicker', label(item.type) + ' / ' + catalog.label), el('h2', 'detail-title', item.title));
-  if (regionScope()) content.prepend(button('Back to ' + scopeLabel(), () => navigate('scope', scope), 'credit-chip'));
+  if (subjectScope()) content.prepend(button('Back to ' + scopeLabel(), () => navigate('scope', scope), 'credit-chip'));
   const metadata = [item.date || item.dateRaw || 'Date unknown', item.dateKind ? label(item.dateKind) : '', item.datePrecision ? `${item.datePrecision} precision` : '', item.journal, item.publisher, item.doi ? `DOI: ${item.doi}` : '', item.isbn ? `ISBN: ${item.isbn}` : '', item.publicationStatus ? `Publication: ${label(item.publicationStatus)}` : '', item.eventStatus ? `Event: ${label(item.eventStatus)}` : ''].filter(Boolean);
   content.append(el('p', 'detail-meta', metadata.join(' · ')));
   content.append(button('Locate this record on the map', () => {
-    for (const id of ['search', 'type-filter', 'year-from', 'year-to']) $(id).value = '';
-    scope = null; regionFilters = {}; closeDetail(); refresh();
+    if (comparisonScope()) { comparisonDetailsOpen = false; closeDetail(); }
+    else { for (const id of ['search', 'type-filter', 'year-from', 'year-to']) $(id).value = ''; scope = null; regionFilters = {}; closeDetail(); refresh(); }
     document.body.dataset.view = 'map'; $('map-view').setAttribute('aria-pressed', 'true'); $('list-view').setAttribute('aria-pressed', 'false');
     graph?.setActive(active); graph?.focusRecord?.(item.id); $('network').focus({ preventScroll: true });
   }, 'locate-record'));
@@ -411,7 +503,7 @@ function showItem(item) {
   if (relations.length) content.append(detailSection('Relationships & their basis', relations.map(r => { const outgoing = r.from === item.id; const target = index.byId.get(outgoing ? r.to : r.from); const block = el('div'); block.append(button(`${inferredRelationship(r) ? 'Inferred' : 'Documented'} · ${target?.title || 'Related record'}`, () => target && navigate('item', target.id), 'related-record'), el('p', 'detail-note', `${outgoing ? 'This record → related record' : 'Related record → this record'}: ${label(r.kind)}. Basis: ${label(r.basis)}.`), ...sourceLinks(r.sourceUrls || [])); return block; })));
   if (item.themes.length) content.append(detailSection('Possible themes · inferred', [el('p', 'detail-note', 'Title keyword matches, not source-assigned subjects or evidence of agreement.'), ...item.themeEvidence.map(evidence => {
     const row = el('div');
-    row.append(button(THEMES.find(t => t[0] === evidence.themeId)[1], () => navigate('scope', { kind: 'theme', id: evidence.themeId }), 'credit-chip'), el('p', 'detail-note', `Matched title text: ${evidence.terms.map(term => '“' + term + '”').join(', ')}.`), ...sourceLinks(evidence.sourceUrls));
+    row.append(button(THEMES.find(t => t[0] === evidence.themeId)[1], () => selectTerritory(evidence.themeId), 'credit-chip'), el('p', 'detail-note', `Matched title text: ${evidence.terms.map(term => '“' + term + '”').join(', ')}.`), ...sourceLinks(evidence.sourceUrls));
     return row;
   })]));
   if (item.qualityFlags?.length) content.append(detailSection('Metadata cautions', [el('p', 'detail-note', item.qualityFlags.map(label).join(' · '))]));
@@ -495,6 +587,15 @@ layerControls?.addEventListener('toggle', () => {
 $('load-more').addEventListener('click', () => { const previous = pageSize; pageSize += 40; renderList(previous); $('results').children[previous]?.focus({ preventScroll: true }); });
 $('detail-close').addEventListener('click', closeRecordDetails);
 $('region-close').addEventListener('click', closeRegionDetails);
+$('comparison-picker').addEventListener('change', () => { if ($('comparison-picker').value) selectTerritory($('comparison-picker').value); });
+$('comparison-clear').addEventListener('click', () => { clearFilters(); $('comparison-picker').focus({ preventScroll: true }); });
+$('comparison-details').addEventListener('click', () => {
+  preview.close(); uiMotion.cancel($('detail')); $('detail').hidden = true; selection = null;
+  if (comparisonScope()) { comparisonDetailsOpen = true; renderComparisonPanel(); }
+  else if (regionScope()) renderRegionPanel();
+  $('region-close').focus({ preventScroll: true });
+  if (matchMedia('(max-width: 680px)').matches) $('region-panel').scrollIntoView?.({ block: 'end', behavior: 'instant' });
+});
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !document.querySelector('dialog[open]')) { preview.close(preview.card.contains(document.activeElement)); if (!$('detail').hidden) closeRecordDetails(); else if (!$('region-panel').hidden) closeRegionDetails(); } });
 $('preview-prev').addEventListener('click', () => graph?.stepPreview(-1));
 $('preview-next').addEventListener('click', () => graph?.stepPreview(1));

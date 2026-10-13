@@ -15,7 +15,7 @@ function fakeGL() {
     createShader: () => ({ id: ++id }), shaderSource() {}, compileShader() {}, getShaderParameter: () => true, deleteShader() {},
     createProgram: () => ({ id: ++id }), attachShader() {}, linkProgram() {}, getProgramParameter: () => true,
     deleteProgram: value => gl.deletedPrograms.push(value),
-    getAttribLocation: (_, name) => ({ a_position: 0, a_size: 1, a_distance: 1, a_color: 2, a_selected: 3, a_progress: 4 })[name],
+    getAttribLocation: (_, name) => ({ a_position: 0, a_size: 1, a_distance: 1, a_color: 2, a_selected: 3, a_progress: 4, a_destination: 5, a_viewPosition: 4, a_viewFrom: 5, a_viewTo: 6 })[name],
     getUniformLocation: (_, name) => name, useProgram: value => { program = value; }, uniform1f: (name, value) => gl.uniforms.push({ program, name, value }), uniform2f() {}, uniform3f() {},
     createBuffer: () => ({ id: ++id }), bindBuffer: (_, value) => { buffer = value; },
     bufferData: (_, values) => { buffers.set(buffer, values); gl.uploads.push({ buffer, values }); },
@@ -130,7 +130,7 @@ function harness(t, { reducedMotion = false, noCanvas = false, gpu = false, laye
   const pointer = (type, id, x, y, pointerType = 'touch') => send(type, {
     pointerId: id, pointerType, button: 0, clientX: x, clientY: y,
   });
-  return { graph, canvas, gpuCanvas, gl, frames, labels, labelBoxes, dashes, status, selected, selectedAnchors, previews, labelReports, zooms, media, doc, tick, send, pointer };
+  return { graph, canvas, gpuCanvas, gl, frames, labels, labelBoxes, dashes, status, selected, selectedAnchors, previews, labelReports, zooms, media, doc, tick, elapse: milliseconds => { time += milliseconds; }, send, pointer };
 }
 
 function fixture(count = 500) {
@@ -157,6 +157,115 @@ function territoryFixture() {
   const memberIds = nodes.filter(node => node.kind === 'item').map(node => node.id);
   return { nodes, edges: nodes.slice(0, 12).map(node => ({ from: '@theme:organic', to: node.id, inferred: true, type: 'theme' })), regions: [{ id: '@theme:organic', themeId: 'organic', label: 'Organic subject', x: 0, y: 0, count: memberIds.length, memberIds }] };
 }
+
+function comparisonFixture() {
+  const nodes = Array.from({ length: 100 }, (_, i) => ({ id: `r-${i}`, kind: 'item', label: `Record ${i}`, x: Math.cos(i * 2.4) * 550, y: Math.sin(i * 2.4) * 430 }));
+  nodes.push(...Array.from({ length: 4 }, (_, i) => ({ id: `p-${i}`, kind: 'person', label: `Source name ${i}`, x: 750, y: -240 + i * 160 })));
+  nodes.push({ id: '@theme:left', kind: 'hub', label: 'Left territory', x: -400, y: 0 }, { id: '@theme:right', kind: 'hub', label: 'Right territory', x: 400, y: 0 });
+  const leftIds = new Set(nodes.slice(0, 45).map(node => node.id)), rightIds = new Set(nodes.slice(35, 80).map(node => node.id)), shared = new Set(nodes.slice(35, 45).map(node => node.id));
+  const edges = [{ from: 'p-0', to: 'r-0', type: 'credit', role: 'Author' }, { from: 'p-1', to: 'r-60', type: 'credit', role: 'Editor' }, { from: 'p-2', to: 'r-1', type: 'credit', role: 'Author' }, { from: 'p-2', to: 'r-61', type: 'credit', role: 'Author' }, { from: 'p-3', to: 'r-40', type: 'credit', role: 'Author' }, { from: 'r-4', to: 'r-62', type: 'relationship', kind: 'related_article', inferred: false }, { from: 'r-2', to: 'r-63', type: 'relationship', inferred: true }, { from: '@theme:left', to: 'r-0', type: 'theme', inferred: true }, { from: '@theme:right', to: 'r-60', type: 'theme', inferred: true }];
+  const config = { key: 'left+right', left: { id: 'left', label: 'Left territory', color: '#90c2d1', memberIds: leftIds }, right: { id: 'right', label: 'Right territory', color: '#c5a5cc', memberIds: rightIds }, leftOnly: new Set([...leftIds].filter(id => !shared.has(id))), rightOnly: new Set([...rightIds].filter(id => !shared.has(id))), shared, memberIds: new Set([...leftIds, ...rightIds]), personIds: new Set(['p-0', 'p-1', 'p-2', 'p-3']), bridgePersonIds: new Set(['p-2']), edges };
+  return { data: { nodes, edges }, config };
+}
+
+test('comparison interpolates cached GPU attributes and truthful routes, with exact reversible model positions', t => {
+  const h = harness(t, { gpu: true, layers: { names: false, regions: false, relationships: false, inferred: false, labels: false } }), { data, config } = comparisonFixture();
+  h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  const before = h.graph.nodes.map(({ id, x, y }) => ({ id, x, y })), baseGroups = h.graph.renderer.pointGroups.map(group => ({ values: group.values, buffer: group.buffer })), camera = { scale: h.graph.scale, pan: { ...h.graph.pan } };
+  h.graph.setComparison(config); h.tick(0);
+  const uploads = h.gl.uploads.length, point = h.graph.byId.get('r-0'), original = { x: point.x, y: point.y }, target = h.graph.comparison.layout.targets.get(point.id);
+  assert.deepEqual(h.graph.displayPosition(point), original);
+  h.tick(400); assert.equal(h.canvas.dataset.comparisonProgress, '0.5');
+  assert.ok(Math.hypot(h.graph.displayPosition(point).x - (original.x + target.x) / 2, h.graph.displayPosition(point).y - (original.y + target.y) / 2) < 1e-10);
+  assert.equal(h.gl.uploads.length, uploads, 'intermediate frames change only progress/camera uniforms');
+  for (const edge of h.graph.comparison.edges) {
+    const route = h.graph.renderer.routeFor(edge);
+    assert.deepEqual(route.points[0], h.graph.displayPosition(h.graph.byId.get(edge.from)));
+    assert.deepEqual(route.points.at(-1), h.graph.displayPosition(h.graph.byId.get(edge.to)));
+    assert.ok(h.graph.nodeEnabled(h.graph.byId.get(edge.from)) && h.graph.nodeEnabled(h.graph.byId.get(edge.to)), 'every displayed evidence route has two actual enabled endpoints');
+  }
+  h.tick(400); assert.equal(h.canvas.dataset.comparisonProgress, '1');
+  assert.equal(h.canvas.dataset.comparisonRecords, '80'); assert.equal(h.canvas.dataset.comparisonNames, '4'); assert.equal(h.canvas.dataset.comparisonShared, '10'); assert.equal(h.canvas.dataset.comparisonEdges, '9');
+  assert.equal(h.canvas.dataset.submittedRecords, '100', 'unrelated records stay in the complete point buffer');
+  assert.equal(h.canvas.dataset.submittedEdges, '9', 'only supplied, actual comparison assertions are drawn');
+  assert.deepEqual(h.graph.layers, { names: false, labels: false, regions: false, relationships: false, inferred: false }, 'comparison visibility never overwrites user layer preferences');
+  assert.ok(h.graph.comparison.points.get('r-99').to.opacity < 0.02); assert.equal(h.graph.nodeEnabled(h.graph.byId.get('r-99')), false, 'unrelated ghosts do not steal picks');
+  for (const [id, expected] of [['r-0', -1], ['r-60', 1], ['r-40', 0], ['p-2', 0], ['p-3', 0]]) {
+    const position = h.graph.displayPosition(h.graph.byId.get(id));
+    assert.ok(expected === 0 ? Math.abs(position.x) < 115 : position.x * expected > 180, `${id} occupies the correct cluster or shared lane`);
+  }
+  h.graph.labelBoxes = []; const selected = h.graph.anchor(point); assert.equal(h.graph.hit(selected)?.id, point.id, 'temporary positions are truly pickable');
+  h.graph.setComparison(null); h.tick(400); assert.ok(h.graph.comparison.exiting); h.tick(400);
+  assert.equal(h.graph.comparison, null); assert.equal(h.graph.renderer.comparison, null); assert.equal(h.canvas.dataset.comparisonKey, '');
+  assert.deepEqual(h.graph.nodes.map(({ id, x, y }) => ({ id, x, y })), before);
+  assert.deepEqual(h.graph.displayPosition(point), point, 'clearing restores canonical coordinates');
+  assert.ok(Math.abs(h.graph.scale - camera.scale) < 1e-12); assert.deepEqual(h.graph.pan, camera.pan);
+  baseGroups.forEach((group, i) => { assert.equal(h.graph.renderer.pointGroups[i].values, group.values); assert.equal(h.graph.renderer.pointGroups[i].buffer, group.buffer); });
+  assert.equal(h.canvas.dataset.submittedEdges, '0'); assert.equal(h.frames.size, 0);
+});
+
+test('comparison switching, drag, static motion, hidden state and phone orientation preserve a coherent current layout', t => {
+  const h = harness(t, { gpu: true, layers: { labels: false } }), { data, config } = comparisonFixture(); h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  const initialCenter = h.graph.viewportCenter(), initialWorld = { x: (initialCenter.x - h.graph.pan.x) / h.graph.scale, y: (initialCenter.y - h.graph.pan.y) / h.graph.scale }, initialZoom = h.graph.scale / h.graph.baseScale;
+  h.graph.setComparison(config); h.tick(240);
+  const before = h.graph.displayPosition(h.graph.byId.get('r-0'));
+  const reversed = { ...config, key: 'right+left', left: config.right, right: config.left, leftOnly: config.rightOnly, rightOnly: config.leftOnly };
+  h.graph.setComparison(reversed); assert.deepEqual(h.graph.displayPosition(h.graph.byId.get('r-0')), before, 'replacement starts from current interpolated positions');
+  h.tick(200); const pan = { ...h.graph.pan };
+  h.pointer('pointerdown', 1, 900, 500); h.pointer('pointermove', 1, 925, 530); h.pointer('pointerup', 1, 925, 530); h.tick(600);
+  assert.deepEqual(h.graph.pan, { x: pan.x + 25, y: pan.y + 30 }, 'drag interrupts auto-framing, never snaps back when layout completes');
+  h.graph.select(h.graph.byId.get('r-60')); h.tick(600);
+  assert.deepEqual(h.graph.anchor(h.graph.byId.get('r-60')), h.graph.viewportCenter(), 'click centers the temporary, not canonical, star location');
+  h.graph.setComparison(config); h.tick(180); h.graph.toggleMotion(); h.tick(0);
+  assert.equal(h.graph.comparison.progress, 1); assert.equal(h.frames.size, 0, 'pause settles comparison and stops flow');
+  h.graph.setComparison(reversed); h.tick(0); assert.equal(h.graph.comparison.progress, 1, 'paused changes render their final state directly');
+  h.graph.toggleMotion(); h.graph.setComparison(config); h.tick(160); h.doc.hidden = true; h.doc.dispatchEvent(new Event('visibilitychange'));
+  assert.equal(h.graph.comparison.progress, 1); assert.equal(h.frames.size, 0);
+  h.doc.hidden = false; h.doc.dispatchEvent(new Event('visibilitychange')); h.tick(0);
+  h.media.matches = true; h.media.dispatchEvent(new Event('change'));
+  Object.assign(h.canvas.rect, { width: 390, height: 844 }); h.graph.measure(); h.tick(0);
+  assert.equal(h.graph.comparison.layout.vertical, true);
+  assert.ok(h.graph.displayPosition(h.graph.byId.get('r-0')).y < -180 && h.graph.displayPosition(h.graph.byId.get('r-60')).y > 180, 'phone places both clusters vertically');
+  assert.ok(Math.abs(h.graph.displayPosition(h.graph.byId.get('r-40')).y) < 36, 'shared records remain in the narrow middle bridge');
+  const uploads = h.gl.uploads.length; h.graph.setComparison(config); h.tick(0); assert.equal(h.gl.uploads.length, uploads, 'same pair refresh reuses layout/buffers');
+  h.gl.lost = true; h.gpuCanvas.dispatchEvent(new Event('webglcontextlost', { cancelable: true })); h.tick(0);
+  assert.equal(h.canvas.dataset.backend, 'canvas2d'); assert.equal(h.canvas.dataset.comparisonRecords, '80');
+  for (const node of h.graph.screen) assert.deepEqual({ x: node.sx, y: node.sy }, h.graph.anchor(node), 'fallback and picking share shader-equivalent positions');
+  h.gl.lost = false; h.gpuCanvas.dispatchEvent(new Event('webglcontextrestored')); h.tick(0);
+  assert.equal(h.canvas.dataset.backend, 'webgl'); assert.equal(h.canvas.dataset.submittedEdges, '9');
+  h.graph.setComparison(null); h.tick(0); assert.equal(h.graph.comparison, null); assert.equal(h.frames.size, 0);
+  const restoredCenter = h.graph.viewportCenter();
+  assert.ok(Math.hypot((restoredCenter.x - h.graph.pan.x) / h.graph.scale - initialWorld.x, (restoredCenter.y - h.graph.pan.y) / h.graph.scale - initialWorld.y) < 1e-10, 'clearing after phone resize restores the original world center in the new viewport');
+  assert.ok(Math.abs(h.graph.scale / h.graph.baseScale - initialZoom) < 1e-12);
+});
+
+test('delayed repeated comparison clearing and UI stage resizing restore safely without replay', t => {
+  const h = harness(t, { gpu: true, layers: { labels: false, relationships: false, inferred: false } }), { data, config } = comparisonFixture(); h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  const center = h.graph.viewportCenter(), originalWorld = { x: (center.x - h.graph.pan.x) / h.graph.scale, y: (center.y - h.graph.pan.y) / h.graph.scale }, originalZoom = h.graph.scale / h.graph.baseScale;
+  Object.assign(h.canvas.rect, { width: 1000, height: 1000 });
+  h.graph.setComparison(config); h.tick(800);
+  assert.equal(h.graph.height, 1000, 'comparison observes the new UI stage before ResizeObserver delivery');
+  Object.assign(h.canvas.rect, { width: 1000, height: 700 });
+  h.graph.setComparison(null); h.elapse(900);
+  assert.doesNotThrow(() => h.graph.setComparison(null), 'a late repeat clear can complete the prior exit during advanceComparison');
+  h.tick(0); assert.equal(h.graph.comparison, null); assert.equal(h.graph.renderer.comparison, null);
+  const restored = h.graph.viewportCenter();
+  assert.ok(Math.hypot((restored.x - h.graph.pan.x) / h.graph.scale - originalWorld.x, (restored.y - h.graph.pan.y) / h.graph.scale - originalWorld.y) < 1e-10);
+  assert.ok(Math.abs(h.graph.scale / h.graph.baseScale - originalZoom) < 1e-12);
+  assert.equal(h.frames.size, 0); assert.equal(h.canvas.dataset.comparisonKey, '');
+});
+
+test('clicking during comparison flies to the moving star without snapping its remaining layout', t => {
+  const h = harness(t, { gpu: true, layers: { labels: false } }), { data, config } = comparisonFixture(); h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  h.graph.setComparison(config); h.tick(120);
+  const node = h.graph.byId.get('r-0'), before = h.graph.displayPosition(node), progress = h.graph.comparison.progress;
+  h.graph.select(node);
+  assert.equal(h.graph.comparison.progress, progress); assert.deepEqual(h.graph.displayPosition(node), before, 'selection preserves the currently displayed interpolated location');
+  assert.equal(h.graph.cameraFlight.duration, 680);
+  h.tick(340); assert.ok(h.graph.comparison.progress < 1 && h.graph.cameraFlight);
+  h.tick(340); assert.equal(h.graph.comparison.progress, 1); assert.equal(h.graph.cameraFlight, null);
+  const star = h.graph.anchor(node), center = h.graph.viewportCenter(); assert.ok(Math.hypot(star.x - center.x, star.y - center.y) < 1e-10);
+});
 
 test('territories follow actual lobes, retain disconnected islands and are stable under member order', () => {
   const data = territoryFixture(), before = JSON.stringify(data), byId = new Map(data.nodes.map(node => [node.id, node]));
@@ -929,6 +1038,33 @@ function fullScaleData() {
   return { nodes: [...records, ...names, ...hubs], edges, bounds: { left: -1400, right: 1400, top: -1100, bottom: 1100 } };
 }
 
+test('full comparison retains all 33,945 original GPU records while isolated attributes animate and restore', t => {
+  const h = harness(t, { gpu: true, layers: { names: true, relationships: true, inferred: true } }), data = fullScaleData();
+  h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  const records = h.graph.renderer.pointGroups.find(group => group.kind === 'item'), geometry = records.values, bytes = geometry.slice(), buffer = records.buffer, originalNodes = h.graph.nodes.map(node => [node.id, node.x, node.y]);
+  const ids = data.nodes.filter(node => node.kind === 'item').map(node => node.id), left = new Set(ids.slice(0, 2200)), right = new Set(ids.slice(1700, 4000)), memberIds = new Set([...left, ...right]), shared = new Set(ids.slice(1700, 2200));
+  const edges = data.edges.filter(edge => memberIds.has(edge.to) && (edge.from.startsWith('name-') || edge.from === '@theme:0' || edge.from === '@theme:1'));
+  const config = { key: 'full-pair', left: { id: '0', label: 'First territory', color: '#90c2d1', memberIds: left }, right: { id: '1', label: 'Second territory', color: '#c5a5cc', memberIds: right }, leftOnly: new Set([...left].filter(id => !shared.has(id))), rightOnly: new Set([...right].filter(id => !shared.has(id))), memberIds, shared, personIds: new Set(edges.filter(edge => edge.from.startsWith('name-')).map(edge => edge.from)), bridgePersonIds: new Set(), edges };
+  h.graph.setComparison(config); h.tick(0);
+  const uploads = h.gl.uploads.length, comparisonValues = records.comparisonValues, comparisonBuffer = records.comparisonBuffer;
+  assert.notEqual(comparisonBuffer, buffer); assert.equal(comparisonValues.length, 33945 * 12);
+  for (let i = 0; i < records.count; i++) {
+    assert.equal(comparisonValues[i * 12], bytes[i * 6]); assert.equal(comparisonValues[i * 12 + 1], bytes[i * 6 + 1]);
+    const point = h.graph.comparison.points.get(records.members[i].id).to;
+    assert.equal(comparisonValues[i * 12 + 2], Math.fround(point.x)); assert.equal(comparisonValues[i * 12 + 3], Math.fround(point.y));
+  }
+  for (let i = 0; i < 20; i++) { h.tick(40); assert.equal(h.canvas.dataset.submittedRecords, '33945'); }
+  assert.equal(h.gl.uploads.length, uploads); assert.equal(h.graph.comparison.progress, 1);
+  assert.equal(h.canvas.dataset.comparisonRecords, '4000'); assert.equal(h.canvas.dataset.comparisonShared, '500');
+  assert.equal(Number(h.canvas.dataset.submittedEdges), edges.length); assert.equal(Number(h.canvas.dataset.inViewNames), config.personIds.size, 'transparent unrelated names never inflate visible-name counts');
+  assert.equal(records.values, geometry); assert.equal(records.buffer, buffer); assert.deepEqual(records.values, bytes);
+  assert.deepEqual(h.graph.nodes.map(node => [node.id, node.x, node.y]), originalNodes);
+  h.graph.setComparison(null); h.tick(800);
+  assert.equal(h.graph.comparison, null); assert.equal(records.comparisonValues, null); assert.equal(records.comparisonBuffer, null);
+  assert.equal(records.values, geometry); assert.equal(records.buffer, buffer); assert.deepEqual(records.values, bytes);
+  assert.equal(h.canvas.dataset.submittedRecords, '33945'); assert.equal(Number(h.canvas.dataset.submittedEdges), data.edges.length);
+});
+
 test('GPU submits all 33,945 record vertices with exact buffer parity; camera and layers never resample', t => {
   const h = harness(t, { gpu: true, layers: {}, reducedMotion: true });
   const data = fullScaleData();
@@ -1238,7 +1374,7 @@ test('region selection highlights exact unique record membership without replaci
   assert.equal(records.buffer, buffer); assert.equal(h.gl.uploads.length, initialUploads + 1);
   h.graph.zoomBy(2); h.graph.setLayers({ regions: false, inferred: true, names: true }); h.tick(0);
   assert.equal(h.gl.uploads.length, initialUploads + 1, 'camera and independent layers upload nothing');
-  assert.equal(h.canvas.dataset.submittedRecords, '33945'); assert.equal(h.canvas.dataset.submittedEdges, '3000');
+  assert.equal(h.canvas.dataset.submittedRecords, '33945'); assert.equal(h.canvas.dataset.submittedEdges, '0', 'hidden territory hubs cannot leave phantom route endpoints');
   h.graph.setRegionSelection(new Set(['record-00000', 'record-00001']), { id: 'unmatched', label: 'No current title-keyword match', total: 20000 }); h.tick(0);
   assert.equal(records.selectionBuffer, selectionBuffer); assert.equal(records.buffer, buffer); assert.equal(records.values, geometry);
   assert.deepEqual([...records.selectionValues.keys()].filter(i => records.selectionValues[i]), [0, 1]);
@@ -1261,7 +1397,7 @@ test('all six region labels and hub picking work without inferred routes or reco
   assert.equal(h.canvas.dataset.submittedEdges, '0');
   for (const box of regionLabels) assert.equal(h.graph.hit({ x: box.x + 4, y: box.y + 4 }).id, box.id);
   h.graph.setLayers({ inferred: true, regions: false }); h.tick(0);
-  assert.equal(h.canvas.dataset.submittedEdges, '3000', 'route lines remain available when region shapes/hubs are off');
+  assert.equal(h.canvas.dataset.submittedEdges, '0', 'routes to hidden hubs disappear with their endpoints');
   assert.equal(h.canvas.dataset.drawnPoints, '33945');
   assert.equal(h.graph.labelBoxes.length, 0);
   h.graph.focusRecord('@theme:2'); h.tick(0);
@@ -1316,13 +1452,15 @@ test('selection survives graphics loss/restoration, empty facets and stale recor
   assert.equal(h.graph.renderer.pointGroups[0].selectionValues.length, 100);
 });
 
-test('Canvas fallback keeps region routes independent and highlights all selected visible records', t => {
+test('Canvas fallback hides phantom region routes and highlights all selected visible records', t => {
   const h = harness(t, { reducedMotion: true, layers: { names: false, labels: false, regions: false, inferred: true, relationships: false } });
   const data = fullScaleData(); h.graph.setData(data); h.graph.setActive(true); h.tick(0);
   h.graph.setRegionSelection(new Set(data.nodes.filter(node => node.kind === 'item').map(node => node.id)), { id: 'unmatched' }); h.tick(0);
   assert.equal(h.canvas.dataset.backend, 'canvas2d'); assert.equal(h.canvas.dataset.selectedRecords, '33945');
   assert.equal(h.canvas.dataset.drawnPoints, '33945'); assert.equal(h.canvas.dataset.submittedRecords, '33945');
-  assert.equal(h.canvas.dataset.submittedEdges, '3000'); assert.equal(h.frames.size, 0);
+  assert.equal(h.canvas.dataset.submittedEdges, '0'); assert.equal(h.frames.size, 0);
+  h.graph.setLayers({ regions: true }); h.tick(0);
+  assert.equal(h.canvas.dataset.submittedEdges, '3000', 'showing real hub endpoints restores their routes');
 });
 
 test('Canvas selection paints only exact member IDs bright while surrounding records stay visible', t => {

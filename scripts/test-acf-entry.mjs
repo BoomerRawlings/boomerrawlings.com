@@ -4,6 +4,7 @@ import { runInNewContext } from 'node:vm';
 import { parse } from 'parse5';
 import * as model from '../public/ACF/model.js';
 import * as regions from '../public/ACF/regions.js';
+import { compareTerritories } from '../public/ACF/comparison.js';
 import { previewInfo } from '../public/ACF/preview-data.js';
 import { UIMotion } from '../public/ACF/ui-motion.js';
 
@@ -170,16 +171,17 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
       const data = new Map(directory.catalogs.map(entry => ['/ACF/data/' + entry.file, readFileSync(new URL('../public/ACF/data/' + entry.file, import.meta.url), 'utf8')]));
       const body = path => path === corruptPath ? '{invalid json' : path.endsWith('/index.json') ? JSON.stringify(directory) : data.get(path);
       class Graph {
-        constructor(_canvas, options = {}) { currentGraph = this; this.ctx = {}; this.onStatus = options.onStatus; record('graph:construct'); }
+        constructor(_canvas, options = {}) { currentGraph = this; this.ctx = {}; this.onStatus = options.onStatus; this.onSelect = options.onSelect; record('graph:construct'); }
         setData(graph) { this.data = graph; record('graph:setData', { nodes: graph.nodes.length, records: graph.nodes.filter(node => node.kind === 'item').length }); }
         setRegionSelection(ids, meta) { this.regionSelection = ids; this.regionSelectionMeta = meta; record('graph:setRegionSelection', { selected: ids === null ? null : ids.size, meta }); }
+        setComparison(value) { this.comparison = value; record('graph:setComparison', { key: value?.key || null }); }
         setActive(active) { record('graph:setActive', { active }); }
         setLayers(layers) { record('graph:setLayers', { layers }); }
         focusRecord(id) { record('graph:focusRecord', { id }); return true; }
       }
       class Preview { constructor() { this.card = new Element(); } close() {} }
       const moduleGlobals = {
-        ...globals, ...model, ...regions, AtlasGraph: Graph, NodePreview: Preview, previewInfo, UIMotion,
+        ...globals, ...model, ...regions, compareTerritories, AtlasGraph: Graph, NodePreview: Preview, previewInfo, UIMotion,
         URL, URLSearchParams, location, history,
         addEventListener: window.addEventListener.bind(window), performance: { now: () => now },
         AbortSignal: { timeout: () => undefined },
@@ -654,7 +656,9 @@ for (const reduced of [false, true]) {
     assert.equal(h.$('region-panel').dataset.selectedCount, String(expected.length));
     assert.equal(h.$('results-count').textContent, expected.length.toLocaleString());
   };
-  const chooseRegion = id => { const choice = h.$('region-memberships').children.find(button => button.dataset.regionId === id); assert(choice, id + ' accessible region button'); choice.dispatchEvent(event('click')); };
+  // Keep this existing suite on single-region facets. Sequential selections are
+  // exercised below as the new comparison journey.
+  const chooseRegion = id => { h.$('breadcrumbs').children[0].dispatchEvent(event('click')); const choice = h.$('region-memberships').children.find(button => button.dataset.regionId === id); assert(choice, id + ' accessible region button'); choice.dispatchEvent(event('click')); };
   const descendants = node => node.children.flatMap(child => [child, ...descendants(child)]);
   const openFacets = () => {
     const controls = h.$('region-content').querySelector('.region-filters'); assert(controls);
@@ -737,8 +741,7 @@ for (const reduced of [false, true]) {
   h.history.go(-1); assertField(minds); assert.equal(h.$('region-panel').hidden, false, 'Back restores region drilldown');
   h.$('region-close').focus(); h.document.dispatchEvent(event('keydown', { key: 'Escape' }));
   assert.equal(h.$('region-panel').hidden, true, 'Escape closes region details');
-  const pressedRegion = h.$('region-memberships').children.find(choice => choice.dataset.regionId === 'minds');
-  assert.equal(h.document.activeElement, pressedRegion, 'Escape restores focus to the selected region choice');
+  assert.equal(h.document.activeElement, h.$('comparison-details'), 'Escape restores focus to the always-visible Evidence control');
   for (let node = h.document.activeElement; node; node = node.parentElement) assert.equal(node.hidden, false, 'Restored focus has no hidden ancestor');
   chooseRegion('minds'); assertField(minds);
   h.$('breadcrumbs').children[0].dispatchEvent(event('click'));
@@ -748,6 +751,52 @@ for (const reduced of [false, true]) {
   assert.equal(h.$('region-panel').hidden, true);
   chooseRegion('minds'); h.click('return-entry'); h.type('atlas'); h.submit(); await h.settle(); usable(h, 2);
   assertField(minds); assert.equal(h.trace.filter(step => step.event === 'fetch:start').length, 10, 'Region survives cached reentry without new fetches');
+  cases++;
+}
+
+// Sequential subject selections, evidence drilldown, history and filtering use
+// the real app and all catalogs; the graph unit suite covers the animated layout.
+{
+  const h = harness({ reduced: true }); h.loadApp(); h.type('atlas'); h.submit(); await h.settle(); usable(h);
+  const original = h.graph.data, coordinates = JSON.stringify(original.nodes.map(n => [n.id, n.x, n.y]));
+  const choose = id => h.$('region-memberships').children.find(b => b.dataset.regionId === id).dispatchEvent(event('click'));
+  const assertComparison = (left, right) => {
+    assert(h.graph.comparison); assert.equal(h.graph.comparison.left.id, left); assert.equal(h.graph.comparison.right.id, right);
+    assert.equal(h.graph.data, original, 'comparison retains full canonical field');
+    assert.equal(JSON.stringify(original.nodes.map(n => [n.id, n.x, n.y])), coordinates);
+    assert.equal(h.$('results-count').textContent, h.graph.comparison.memberIds.size.toLocaleString());
+    assert.equal(h.$('comparison-selected').children.length, 2);
+  };
+  choose('minds'); assert.equal(h.graph.comparison, null);
+  choose('bodies'); assertComparison('minds', 'bodies');
+  assert.match(h.location.hash, /compare=minds%2Cbodies/);
+  assert.equal(h.graph.comparison.shared.size, 108); assert.equal(h.graph.comparison.memberIds.size, 4006);
+  assert.equal(h.$('region-panel').hidden, true, 'second selection exposes both clusters');
+  assert.equal(h.document.activeElement, h.$('comparison-details'));
+  h.click('comparison-details'); assert.equal(h.$('region-panel').hidden, false);
+  assert.equal(h.$('region-panel').dataset.selectedCount, '4006');
+  h.click('region-close'); assert.equal(h.$('region-panel').hidden, true);
+  assert.equal(h.document.activeElement, h.$('comparison-details'));
+  choose('planet'); assertComparison('minds', 'planet');
+  h.history.go(-1); assertComparison('minds', 'bodies');
+  h.history.go(1); assertComparison('minds', 'planet');
+  choose('minds'); assert.equal(h.graph.comparison, null);
+  assert.equal(h.graph.regionSelectionMeta.id, 'planet', 'remove one side retains other');
+  h.graph.onSelect(original.nodes.find(n => n.id === '@theme:power'), {x:10,y:10});
+  assertComparison('planet', 'power');
+  h.$('search').value = 'no such comparison record 998877'; h.$('search').dispatchEvent(event('input')); await h.settle();
+  assertComparison('planet', 'power'); assert.equal(h.graph.comparison.memberIds.size, 0);
+  h.$('search').value = ''; h.$('search').dispatchEvent(event('input')); await h.settle();
+  assertComparison('planet', 'power');
+  const first = h.$('results').children[0]; first.dispatchEvent(event('click'));
+  assert.equal(h.$('detail').hidden, false); assert.match(h.location.hash, /item=.*compare=planet%2Cpower/);
+  assertComparison('planet', 'power');
+  h.history.go(-1); assertComparison('planet', 'power');
+  h.click('return-entry'); h.type('atlas'); h.submit(); await h.settle(); usable(h, 2);
+  assertComparison('planet', 'power');
+  h.click('comparison-clear'); assert.equal(h.graph.comparison, null);
+  assert.equal(h.graph.regionSelection, null); assert.equal(h.$('results-count').textContent, '33,945');
+  assert.equal(h.graph.data, original); assert.equal(JSON.stringify(original.nodes.map(n => [n.id, n.x, n.y])), coordinates);
   cases++;
 }
 

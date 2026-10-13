@@ -1,6 +1,18 @@
 # Project state
 
-## Organic subject territories and interface motion — active
+## Two-territory comparison and route endpoints — active
+
+- Mode: continuation. User requests sequential territory selection to create two distinct animated clusters, fade the rest, explain connections; investigate source-route fans without visible endpoints.
+- Baseline7bde18d verified equal to origin/main; previous local completion checkpoint preserved. Public /ACF/ publishing scope continues; no catalog changes.
+- Design: reversible temporary layout; exclusive records left/right, overlapping records once in shared bridge. Show real credit/name and record-link endpoints; distinguish direct links, shared credits, and inferred title membership. Persistent comparison controls; evidence panel opt-in so map remains visible. Third territory replaces second; selecting a chosen territory removes it.
+- Discovery:60,431 source edges =43,213 role-credit assertions +17,218 recorded item relationships;6,716 are editorial related-article cards, not body citations. Inferred12,889 =130 tentative item links +12,759 title-keyword memberships. Hidden region hubs could retain inferred lines; dense fans can also obscure tiny valid endpoints.
+- Implementing: comparison.js exact-membership/evidence helper; graph/renderer temporary interpolation and visible endpoint fix; app/history/list/filter and evidence UI. Preserve canonical IDs/positions, reduced motion, drag interruption, Canvas and accessible controls.
+- Implemented:800ms GPU/Canvas comparison interpolation, two exclusive clusters plus shared-record bridge, reversible original camera/geometry, faint rest, real evidence endpoints and hidden-hub route suppression. Persistent orientation-neutral controls, pair/detail URLs, filters, evidence and unique-record List. Cache comparison-20261012.
+- Verified:114/114 ACF groups,62 entrance cases,54 graph+7 renderer;47-page build/static verifier pass. Independent15-pair audit and14 actual-browser snapshots preserve33945 IDs/coordinates.55184 route endpoints checked:zero mismatches; Canvas/GPU recovery, pause,320/390 layout, List, late repeated clear and click-during-layout pass. Evidence sibling .acf-qa/comparison-gpu-proof.md/.json; user-facing report in docs/codex/user-facing-tests/2026-10-12__user-facing-flow-test__territory-comparison.md.
+- Next: one scoped production push, Linux CI/Pages, live asset hashes and cached/fresh browser checks. Canvas remains slower; viewport/API submission evidence is not GPU FPS or physical-device performance.
+
+
+## Organic subject territories and interface motion — complete
 
 - Mode: continuation. User requests amorphous translucent subject regions like supplied reference and coordinated futuristic line/data reveals for UI changes and selections. Existing publishing scope continues.
 - Baseline9d07d49 verified equal to origin/main. Preserve prior final checkpoint and all catalog data/coordinates.
@@ -8,7 +20,9 @@
 - Decisions: shapes illustrate existing title-keyword memberships, not literal exclusive borders; full field and exact selection masks stay intact. Respect reduced motion, pause, visibility, focus, scrolling and drag interruption. No per-frame geometry construction or character-by-character DOM churn.
 - Implemented: cached density contours, disconnected islands, translucent fill/rim/mesh;920ms territory traces and620ms selected routes/acquisition rings. UI traces and staged fields finish within573ms; semantic dedup/cancellation, fulltext and stationary controls preserved. Cache territories-20261012.
 - Validation:105/105 ACF groups including61 entrance,49 graph and10 UI-motion cases;47-page build/static pass. Independent review clear. Real1280/320 browser checks: region/facet replacement, scroll/focus, dialogs, pause, click→drag interruption,25sample route/text reveal, Canvas fullfield and completeList33945. GPUdata/buffer proof retained in sibling .acf-qa/territories-browser-proof.md/.json; no source/data changes.
-- Next: one scoped production push, LinuxCI/Pages, livehash and cached/fresh browser verification. Canvas remains slower; CPUsubmission/viewport tests do not establish GPUFPS or physical-device performance.
+- Live: release7bde18df120dd1540ef51d34f4b4280ecbc233d3; Pages38346622664 full Linux CI/build/deploy passed. All14 live JS/CSS hashes match canonical Git/tested build text; neutral entrance, no probes and LEO200 verified.
+- Live browser: cached futures→territories refresh and fresh entrance;1280/320 layouts, camera in-flight/arrival, territory/preview/panel reveals and exact2530/1584/662 selections pass. No overflow or console errors. Evidence: sibling .acf-qa/territories-live-browser.json, territories-live-verification.json, territories-pages-run.json; clean screenshot territories-live-overview.jpg.
+- Next: none required. Temporary QA servers/tabs stopped; viewport reset; live map retained. Final checkpoint local to avoid another production push. Canvas remains slower; CPUsubmission/viewport tests do not establish GPUFPS or physical-device performance.
 
 
 ## Futuristic entrance and flowing routes — complete
