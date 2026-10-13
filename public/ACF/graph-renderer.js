@@ -1,4 +1,4 @@
-import { routeGeometry, routeStyle } from './route-style.js?v=comparison-20261012';
+import { routeGeometry, routeStyle } from './route-style.js?v=formation-20261012';
 
 const PALETTE = { item: '#a9c9db', person: '#aaa4d0', hub: '#d89976' };
 const enabled = (kind, layers) => kind === 'item' || (kind === 'person' ? layers.names : layers.regions);

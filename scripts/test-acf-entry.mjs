@@ -16,7 +16,7 @@ const event = (type, properties = {}) => Object.assign(new Event(type, { cancela
 
 // Exercise the real script against the real markup. This deliberately models only
 // the DOM APIs used by the entrance; rendered geometry belongs to browser checks.
-function harness({ reduced = false, animationAPI = true, entrySource = source, autoReady = true, bounds = {}, gpuCanvas = true } = {}) {
+function harness({ reduced = false, animationAPI = true, entrySource = source, autoReady = true, bounds = {}, gpuCanvas = true, animationStartSkew = 0, timelineClock = true, timelineLag = 0, frameTimestampLag = 0, frameMode = 'normal', rejectAnimationClock = false, compact = false } = {}) {
   let hasApp = false, currentGraph;
   let now = 0, timerId = 0, animations = 0, enters = 0, exits = 0, task = 0;
   const timers = new Map(), ids = new Map(), activeAnimations = new Map(), trace = [];
@@ -31,6 +31,7 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
     go(delta) { const next = historyPosition + delta; if (next < 0 || next >= historyEntries.length) return; historyPosition = next; setLocation(historyEntries[next].url); window.dispatchEvent(event('popstate')); },
   };
   document.hidden = false;
+  document.timeline = { get currentTime() { return timelineClock ? now - timelineLag : null; } };
   document.title = markup.match(/<title>(.*?)<\/title>/)[1];
   const record = (event, detail = {}) => trace.push({ at: now, task, event, activeAnimations: activeAnimations.size,
     entranceAnimations: [...activeAnimations.values()].filter(target => /^(entry-|atlas-letter-|atlas-gpu-points$|network$)/.test(target)).length, ...detail });
@@ -49,7 +50,13 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
       this.hidden = this.attributes.has('hidden'); this.inert = this.attributes.has('inert');
       this.open = this.attributes.has('open'); this.readOnly = false; this.disabled = false;
       this.checked = this.attributes.has('checked');
-      this.value = ''; this.textContent = ''; this.innerHTML = ''; this.scrollTop = 0;
+      this.value = ''; this.textContent = ''; this.innerHTML = '';
+      let scrollTop = 0;
+      Object.defineProperty(this, 'scrollTop', { get: () => scrollTop, set: value => {
+        scrollTop = Math.max(0, Number(value));
+        if (Number.isFinite(this.scrollHeight) && Number.isFinite(this.clientHeight)) scrollTop = Math.min(scrollTop, Math.max(0, this.scrollHeight - this.clientHeight));
+        record('element:scroll', { target: this.id, top: scrollTop });
+      } });
       this.focusCount = 0; this.selectCount = 0;
       this.dataset = Object.fromEntries(attributes.filter(a => a.name.startsWith('data-')).map(a => [a.name.slice(5), a.value]));
       this.style = {};
@@ -98,7 +105,13 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
       return descendants.find(n => n.getAttribute(attribute[1]) === attribute[2]) || null;
     }
     contains(node) { return node === this || this.children.some(child => child.contains(node)); }
-    getBoundingClientRect() { return bounds[this.id] || { left: 0, top: 0, width: 400, height: 250 }; }
+    getBoundingClientRect() {
+      const supplied = bounds[this.id];
+      const box = (typeof supplied === 'function' ? supplied(this) : supplied) || { left: 0, top: 0, width: 400, height: 250 };
+      record('geometry:measure', { target: this.id, top: box.top, height: box.height });
+      return { ...box, right: box.right ?? box.left + box.width, bottom: box.bottom ?? box.top + box.height };
+    }
+    scrollTo(options) { this.scrollTop = options.top; }
     animate(frames, options = {}) {
       animations++;
       const animationId = animations, target = this.id || this.className || this.attributes.get('class') || this.tagName;
@@ -106,11 +119,19 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
       const properties = [...new Set((Array.isArray(frames) ? frames : [frames]).flatMap(frame => Object.keys(frame)))].filter(key => !['offset', 'easing', 'composite'].includes(key));
       let visible = true;
       for (let node = this; node; node = node.parentElement) if (node.hidden) visible = false;
-      record('animation:start', { target, duration: options.duration || 0, delay: options.delay || 0, easing: options.easing || 'linear', properties, visible, keyframes: Array.isArray(frames) ? Array.from(frames, frame => ({ ...frame })) : frames });
+      let startTime = now + (animationId - 1) * animationStartSkew;
+      record('animation:start', { target, startTime, duration: options.duration || 0, delay: options.delay || 0, easing: options.easing || 'linear', properties, visible, keyframes: Array.isArray(frames) ? Array.from(frames, frame => ({ ...frame })) : frames });
+      const started = trace.at(-1);
       let resolve, reject;
       const finished = new Promise((yes, no) => { resolve = yes; reject = no; });
-      const timer = schedule(() => { activeAnimations.delete(animationId); record('animation:finish', { target }); resolve(); }, (options.duration || 0) + (options.delay || 0));
-      return { finished, cancel() { clear(timer); if (activeAnimations.delete(animationId)) record('animation:cancel', { target }); reject(new Error('Animation cancelled')); } };
+      const completion = () => { activeAnimations.delete(animationId); record('animation:finish', { target }); resolve(); };
+      let timer = schedule(completion, startTime - now + (options.duration || 0) + (options.delay || 0));
+      return {
+        finished,
+        get startTime() { return startTime; },
+        set startTime(value) { if (rejectAnimationClock) throw new Error('Animation clock unavailable'); assert(Number.isFinite(value), 'An explicit animation clock must be finite'); startTime = value; started.startTime = value; clear(timer); timer = schedule(completion, Math.max(0, value - now + (options.duration || 0) + (options.delay || 0))); record('animation:clock', { target, startTime: value }); },
+        cancel() { clear(timer); if (activeAnimations.delete(animationId)) record('animation:cancel', { target }); reject(new Error('Animation cancelled')); },
+      };
     }
   }
   const root = new Element('document');
@@ -147,13 +168,19 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
   document.addEventListener('acf:ready', () => record('acf:ready'));
   document.addEventListener('acf:load-error', () => record('acf:load-error'));
   const globals = {
-    document, window, Event, CustomEvent,
+    document, window, Event, CustomEvent, performance: { now: () => now },
     matchMedia: query => {
       if (query === '(prefers-reduced-motion: reduce)') return motion;
       assert.equal(query, '(max-width: 680px)');
-      return { matches: false }; // This lifecycle harness uses the desktop layout.
+      return { matches: compact };
     },
     setTimeout: (callback, delay) => { record('timer:schedule', { delay: delay || 0 }); return schedule(callback, delay); }, clearTimeout: clear,
+    requestAnimationFrame: frameMode === 'unavailable' ? undefined : callback => {
+      record('frame:request');
+      if (frameMode === 'stalled') return ++timerId;
+      return schedule(() => { record('frame:callback', { timestamp: now - frameTimestampLag, currentTime: now }); callback(now - frameTimestampLag); }, 16);
+    },
+    cancelAnimationFrame: id => { clear(id); record('frame:cancel'); },
   };
   document.defaultView = { matchMedia: globals.matchMedia };
   runInNewContext(entrySource, globals, { filename: 'public/ACF/entry.js' });
@@ -215,7 +242,7 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
     },
     async settle() {
       await flush();
-      for (let i = 0; timers.size && i < 80; i++) await this.tick();
+      for (let i = 0; timers.size && i < 160; i++) await this.tick();
       assert.equal(timers.size, 0, 'No orphaned animation/timer'); await flush();
     },
   };
@@ -337,9 +364,9 @@ function assertNoModelMotionOverlap(h) {
 
 function assertLetterMotion(h) {
   const animations = h.trace.filter(step => step.event === 'animation:start');
-  assert.equal(animations.length, 14, 'Normal opening animates the prompt, typed letters/cursor, five stars, links and distant field');
+  assert.equal(animations.length, 32, 'Normal opening animates letters/stars, caption, fourteen angular paths and three satellite groups');
   const prompt = animations.find(step => step.target === 'entry-prompt');
-  assert(prompt && prompt.duration <= 180, 'Prompt fade clears room for the letters');
+  assert(prompt && prompt.duration <= 300, 'Prompt fade clears room for the letters');
   assert.deepEqual(prompt.properties, ['opacity']);
   const letters = Array.from({ length: 5 }, (_, i) => animations.find(step => step.target === `atlas-letter-${i}`));
   assert(letters.every(Boolean), 'All five ATLAS letter targets animate');
@@ -350,29 +377,73 @@ function assertLetterMotion(h) {
     assert(letter.visible, 'Animated letters must not have a hidden DOM ancestor');
     assert.deepEqual([...letter.properties].sort(), ['opacity', 'transform'], 'Letters use composited transform and opacity only');
     assert.equal(letter.easing, 'linear', 'The letter timeline remains linear so the shared hold uses elapsed time; ease individual keyframe segments instead');
-    assert(letter.duration > 0 && letter.duration <= 1500, 'Each letter has a bounded type, hold and constellation sequence');
-    assert(i === 0 ? letter.delay >= prompt.duration : letter.delay > letters[i - 1].delay && letter.delay - letters[i - 1].delay <= 100, 'Letters type in an ordered cadence after the prompt clears');
+    assert(letter.duration > 0 && letter.duration <= 3000, 'Each letter has a bounded type, hold and constellation sequence');
+    assert(i === 0 ? letter.delay >= prompt.duration : letter.delay - letters[i - 1].delay >= 150 && letter.delay - letters[i - 1].delay <= 300, 'Letters type in an ordered readable cadence after the prompt clears');
     assert.equal(letter.keyframes.length, 5, 'Letter motion includes typed appearance, settled hold and star conversion');
     assert.equal(letter.keyframes[0].transform, letter.keyframes[2].transform, 'Typed letters remain aligned instead of tumbling');
     assert.equal(letter.keyframes[0].easing, 'steps(1, end)', 'Characters appear with a discrete typing step');
     assert.equal(letter.keyframes[2].opacity, 1, 'The ATLAS word becomes fully visible');
-    assert.equal(letter.keyframes[3].opacity, 1, 'The assembled letters remain visible during the hold');
-    assert.equal(letter.keyframes[2].transform, letter.keyframes[3].transform, 'Each letter has a settled hold before its exit');
+    assert.equal(letter.keyframes[1].opacity, 1, 'Typed letters immediately reach their readable state');
+    assert.equal(letter.keyframes[1].transform, letter.keyframes[2].transform, 'Each letter has a settled hold before its exit');
+    assert(letter.keyframes[3].opacity > 0 && letter.keyframes[3].opacity < 1, 'Each shrinking glyph remains visible during its conversion');
     assert.equal(letter.keyframes.at(-1).opacity, 0, 'Letters fade out before the workspace opens');
     assert.notEqual(letter.keyframes[3].transform, letter.keyframes.at(-1).transform, 'Each letter travels into its constellation point');
   }
-  const holdStart = Math.max(...letters.map(letter => letter.at + letter.delay + letter.duration * letter.keyframes[2].offset));
-  const holdEnd = Math.min(...letters.map(letter => letter.at + letter.delay + letter.duration * letter.keyframes[3].offset));
-  assert(holdEnd - holdStart >= 250, 'The complete ATLAS word holds together visibly for at least 250ms');
-  assert(Math.max(...letters.map(letter => letter.duration + letter.delay)) <= 1800, 'The letter entrance finishes within its bounded motion budget');
+  const holdStart = Math.max(...letters.map(letter => letter.at + letter.delay + letter.duration * letter.keyframes[1].offset));
+  const holdEnd = Math.min(...letters.map(letter => letter.at + letter.delay + letter.duration * letter.keyframes[2].offset));
+  assert(holdEnd - holdStart >= 700, 'The complete ATLAS word has a quiet readable hold of at least 700ms');
+  assert(Math.max(...letters.map(letter => letter.duration + letter.delay)) <= 3300, 'The letter entrance finishes within its bounded motion budget');
   const cursor = animations.find(step => step.target === 'entry-cursor');
-  assert(cursor && cursor.keyframes.some(frame => frame.easing === 'steps(5, end)'), 'The cursor advances with the five typed characters');
+  assert(cursor && cursor.keyframes.some(frame => frame.easing === 'steps(4, end)'), 'The cursor advances four times after the first typed character');
   assert.equal(cursor.keyframes.at(-1).opacity, 0, 'Cursor disappears before the constellation holds');
+  const decorative = animations.filter(step => /^(entry-star-|entry-route-|entry-branch-|entry-satellites-)/.test(step.target));
+  assert(decorative.every(step => step.delay >= holdEnd), 'The quiet full-word hold is not interrupted by constellation activity');
   assert.equal(h.trace.filter(step => step.event === 'timer:schedule').length, 0, 'Opening creates no custom timers');
   assert.equal(h.trace.filter(step => step.event === 'element:create').length, 0, 'Opening creates no transient wave/overlay nodes');
 }
+function assertConstellationMotion(h) {
+  const animations = h.trace.filter(step => step.event === 'animation:start');
+  const anchorCoordinates = Array.from({ length: 5 }, (_, i) => ['cx', 'cy'].map(name => Number(h.$(`entry-star-${i}`).getAttribute(name))).join(','));
+  const paths = animations.filter(step => /^entry-(route|branch)-/.test(step.target));
+  assert.equal(paths.length, 14, 'All six routes and eight branches actually trace');
+  for (const path of paths) {
+    assert(path.visible, 'Traced paths have no hidden ancestor');
+    assert.deepEqual([...path.properties].sort(), ['opacity', 'strokeDashoffset'], 'Paths reveal their geometry without moving endpoints');
+    assert.equal(Number(path.keyframes[0].strokeDashoffset), 1000, 'A route starts fully undrawn');
+    assert.equal(Number(path.keyframes.at(-1).strokeDashoffset), 0, 'A route finishes completely drawn');
+    assert.equal(path.keyframes.at(-1).opacity, 1, 'A completed route matches its resting opacity');
+    const node = h.$(path.target), geometry = node.getAttribute('d');
+    assert.equal(node.tagName, 'PATH');
+    assert.equal(node.getAttribute('pathLength'), '1000', 'Different path lengths share normalized drawing progress');
+    assert(!/[ACQST]/i.test(geometry), 'Constellation routes use angular segments, not curves');
+    const coordinates = geometry.match(/-?\d+(?:\.\d+)?/g).map(Number);
+    assert(coordinates.length >= 6 && coordinates.length % 2 === 0, 'Each path has a start, bend and endpoint');
+    assert(anchorCoordinates.includes(coordinates.slice(0, 2).join(',')), 'Branches originate at an actual decorative anchor');
+    let bends = 0;
+    for (let i = 2; i < coordinates.length - 2; i += 2) {
+      const ax = coordinates[i] - coordinates[i - 2], ay = coordinates[i + 1] - coordinates[i - 1];
+      const bx = coordinates[i + 2] - coordinates[i], by = coordinates[i + 3] - coordinates[i + 1];
+      if (ax * by !== ay * bx) bends++;
+    }
+    assert(bends > 0, 'An angular route visibly changes direction');
+    if (path.target.startsWith('entry-route-')) assert(anchorCoordinates.includes(coordinates.slice(-2).join(',')), 'Core routes terminate at a decorative anchor');
+  }
+  for (const prefix of ['entry-route-', 'entry-branch-', 'entry-satellites-']) {
+    const group = animations.filter(step => step.target.startsWith(prefix));
+    for (let i = 1; i < group.length; i++) assert(group[i].delay > group[i - 1].delay, `${prefix} unfolds in distinct stages`);
+    assert(group.every(step => step.duration > 0 && step.duration <= 1600), 'Each individual draw remains bounded');
+  }
+  const satellites = animations.filter(step => step.target.startsWith('entry-satellites-'));
+  assert.equal(satellites.length, 3);
+  for (const satellite of satellites) {
+    assert.deepEqual(satellite.properties, ['opacity']);
+    assert.equal(satellite.keyframes[0].opacity, 0);
+    assert.equal(satellite.keyframes.at(-1).opacity, 1);
+  }
+}
 async function assertLetterProgress(h) {
   assertLetterMotion(h);
+  assertConstellationMotion(h);
   assert.equal(h.$('entry-sequence').hidden, false, 'The letter sequence is displayed during normal opening');
   closed(h);
   // Exercise every actual finished promise before the static loading hold.
@@ -383,8 +454,10 @@ async function assertLetterProgress(h) {
   }
   assert.equal(h.$('atlas-workspace').hidden, false, 'Prepared workspace can lay out beneath the still constellation');
   assert.equal(h.$('atlas-workspace').inert, true, 'The covered workspace remains inert until the reveal completes');
-  const letterFinishes = h.trace.filter(step => step.event === 'animation:start' && step.target.startsWith('atlas-letter-')).map(step => step.at + step.duration + step.delay);
-  assert.equal(h.trace.find(step => step.event === 'acf:enter').at, Math.max(...letterFinishes), 'Data work waits for the final staggered letter');
+  const formationFinishes = h.trace.filter(step => step.event === 'animation:start' && step.at < h.trace.find(step => step.event === 'acf:enter').at).map(step => step.startTime + step.duration + step.delay);
+  assert.equal(h.trace.find(step => step.event === 'acf:enter').at, Math.max(...formationFinishes), 'Data work waits for the complete letter and angular constellation formation');
+  const completed = new Set(h.trace.filter(step => step.event === 'animation:finish').map(step => step.target));
+  assert(h.trace.filter(step => step.event === 'animation:start' && step.at < h.trace.find(step => step.event === 'acf:enter').at).every(step => completed.has(step.target)), 'Every decorative formation track finishes before entry; none is cut short');
   await h.settle(); usable(h);
   assert.equal(h.$('entry-sequence').hidden, true);
 
@@ -458,7 +531,7 @@ for (const completion of ['ready', 'error', 'skip', 'resize', 'hidden', 'reduced
   assert.equal(h.$('atlas-workspace').hidden, false, 'The graph can measure its eventual viewport');
   assert.equal(h.$('atlas-workspace').inert, true);
   assert.equal(h.trace.find(step => step.event === 'acf:enter').activeAnimations, 0, 'No entrance animation runs while indexing starts');
-  assert.equal(h.animations, 14, 'The loading hold adds no ambient animations');
+  assert.equal(h.animations, 32, 'The loading hold adds no ambient animations');
   if (completion === 'ready') h.document.dispatchEvent(event('acf:ready'));
   else if (completion === 'error') h.document.dispatchEvent(event('acf:load-error'));
   else if (completion === 'skip') h.click('skip-animation');
@@ -473,7 +546,8 @@ for (const completion of ['ready', 'error', 'skip', 'resize', 'hidden', 'reduced
 {
   const h = harness({ autoReady: false }); h.type('atlas'); h.submit(); await h.settle();
   h.document.dispatchEvent(event('acf:ready'));
-  assert.equal(h.animations, 18, 'Constellation, screen and both map surfaces get bounded reveal tracks');
+  await h.tick();
+  assert.equal(h.animations, 36, 'Constellation, screen and both map surfaces get bounded reveal tracks');
   h.click('skip-animation'); usable(h);
   h.click('return-entry'); await h.settle(); closed(h, 1); cases++;
 }
@@ -482,18 +556,20 @@ for (const gpuCanvas of [true, false]) for (const [width, height] of [[1280, 900
   const map = { left: 0, top: height * .35, width: width > 600 ? width - 354 : width, height: height * .55 };
   const h = harness({ autoReady: false, bounds: { 'entry-word': word, network: map }, gpuCanvas });
   h.type('atlas'); h.submit(); await h.settle();
-  assert.equal(h.trace.find(step => step.event === 'acf:enter').at, 1500, 'The typing/constellation phase has a fixed 1.5s budget');
+  assert.equal(h.trace.find(step => step.event === 'acf:enter').at, 5000, 'The typing/constellation phase has a fixed 5s budget');
   assert(!h.trace.some(step => step.target === 'network'), 'The actual map does not animate before it is ready');
   const beforeReady = h.trace.length;
   h.document.dispatchEvent(event('acf:ready'));
+  await h.tick();
   assert(h.document.body.classList.contains('entry-revealing'), 'Reveal marks the short compositor lifetime');
   const reveal = h.trace.slice(beforeReady).filter(step => step.event === 'animation:start');
   assert.deepEqual(reveal.map(step => step.target), ['entry-sequence', 'entry-screen', 'network', ...(gpuCanvas ? ['atlas-gpu-points'] : [])]);
-  assert(reveal.every(step => step.duration === 820), 'Every reveal track shares one bounded duration');
+  assert(reveal.every(step => step.duration === 2600), 'Every reveal track shares one bounded duration');
   const dx = map.left + map.width / 2 - word.left - word.width / 2;
   const dy = map.top + map.height / 2 - word.top - word.height / 2;
-  assert.equal(reveal[0].keyframes.at(-1).transform, `translate(${dx}px, ${dy}px) scale(2.4)`, 'Constellation joins the measured map center at every width');
-  assert.equal(reveal[2].keyframes.at(-1).transform, 'scale(1)', 'Universe settles at its real overview scale');
+  assert.equal(reveal[0].keyframes.at(-1).transform, `translate(${dx}px, ${dy}px) scale(.48)`, 'Constellation recedes toward the measured map center at every width');
+  assert.equal(reveal[2].keyframes[0].transform, `translate(${-dx}px, ${-dy}px) scale(2.05)`, 'Actual field begins at the same focal center as the constellation');
+  assert.equal(reveal[2].keyframes.at(-1).transform, 'translate(0px, 0px) scale(1)', 'Universe settles at its real overview scale');
   if (gpuCanvas) {
     assert.deepEqual(reveal[2].keyframes, reveal[3].keyframes, 'All stars and their label/region overlay use identical reveal frames');
     assert.equal(reveal[2].at, reveal[3].at, 'Both rendering surfaces start together');
@@ -505,6 +581,7 @@ for (const gpuCanvas of [true, false]) for (const [width, height] of [[1280, 900
 for (const interruption of ['resize', 'hidden', 'reduced-motion', 'error']) {
   const h = harness({ autoReady: false }); h.type('atlas'); h.submit(); await h.settle();
   h.document.dispatchEvent(event('acf:ready'));
+  await h.tick();
   if (interruption === 'resize') h.window.dispatchEvent(event('resize'));
   else if (interruption === 'hidden') { h.document.hidden = true; h.document.dispatchEvent(event('visibilitychange')); }
   else if (interruption === 'error') h.document.dispatchEvent(event('acf:load-error'));
@@ -512,6 +589,103 @@ for (const interruption of ['resize', 'hidden', 'reduced-motion', 'error']) {
   usable(h);
   h.click('return-entry'); await h.settle(); closed(h, 1); cases++;
 }
+async function assertSharedRevealClock(entrySource = source) {
+  // Deliberately offset implicit animation launches. Explicit common startTime
+  // must remove that skew instead of merely issuing consecutive animate calls.
+  const h = harness({ entrySource, autoReady: false, animationStartSkew: .25, timelineLag: 904, frameTimestampLag: 976 });
+  h.type('atlas'); h.submit(); await h.settle();
+  const beforeReady = h.trace.length;
+  h.document.dispatchEvent(event('acf:ready'));
+  assert.equal(h.$('entry-loading').hidden, false, 'The still loading constellation remains visible while waiting for a fresh frame');
+  assert.equal(h.trace.slice(beforeReady).filter(step => step.event === 'animation:start').length, 0, 'No reveal starts from a potentially stale document timeline');
+  await h.tick();
+  const reveal = h.trace.slice(beforeReady).filter(step => step.event === 'animation:start');
+  assert.equal(reveal.length, 4);
+  assert.equal(new Set(reveal.map(step => step.startTime)).size, 1, 'All reveal layers use one explicit document timeline clock');
+  const freshFrame = h.trace.slice(beforeReady).find(step => step.event === 'frame:callback');
+  assert(freshFrame && reveal.every(step => step.startTime === freshFrame.currentTime), 'The reveal clock comes from fresh frame execution time even when document.timeline and RAF timestamp are stale');
+  assert.deepEqual(reveal[2].keyframes, reveal[3].keyframes, 'GPU and label overlay retain identical frames under launch skew');
+  await h.settle(); usable(h);
+  const finishes = h.trace.slice(beforeReady).filter(step => step.event === 'animation:finish');
+  assert(finishes.every(step => step.at === freshFrame.currentTime + 2600), 'Every reveal layer receives the full 2600ms after its fresh frame');
+}
+await assertSharedRevealClock(); cases++;
+for (const unavailableClock of [{ frameMode: 'unavailable' }, { frameMode: 'stalled' }, { rejectAnimationClock: true }]) {
+  const h = harness({ ...unavailableClock, animationStartSkew: .25 });
+  h.type('atlas'); h.submit(); await h.settle(); usable(h);
+  assert.equal(h.trace.filter(step => step.event === 'animation:clock').length, 0, 'An unavailable explicit clock uses the safe implicit timeline');
+  cases++;
+}
+{
+  const h = harness({ timelineClock: false }); h.type('atlas'); h.submit(); await h.settle(); usable(h);
+  assert.equal(h.trace.filter(step => step.event === 'animation:clock').length, 4, 'A frame timestamp synchronizes the reveal without document.timeline');
+  cases++;
+}
+for (const interruption of ['skip', 'resize', 'hidden', 'reduced-motion', 'error']) {
+  const h = harness({ autoReady: false }); h.type('atlas'); h.submit(); await h.settle();
+  const beforeReady = h.trace.length;
+  h.document.dispatchEvent(event('acf:ready'));
+  assert(h.trace.slice(beforeReady).some(step => step.event === 'frame:request'), 'A fresh frame is pending');
+  if (interruption === 'skip') h.click('skip-animation');
+  else if (interruption === 'resize') h.window.dispatchEvent(event('resize'));
+  else if (interruption === 'hidden') { h.document.hidden = true; h.document.dispatchEvent(event('visibilitychange')); }
+  else if (interruption === 'error') h.document.dispatchEvent(event('acf:load-error'));
+  else { h.motion.matches = true; h.motion.dispatchEvent(event('change')); }
+  usable(h); h.click('return-entry'); await h.settle(); closed(h, 1);
+  assert.equal(h.trace.slice(beforeReady).filter(step => step.event === 'animation:start').length, 0, 'A cancelled frame wait cannot resurrect reveal tracks after returning to the riddle');
+  cases++;
+}
+async function assertRevealScroll({ compact = true, view = 'map', expanded = false, comparison = false, completion = 'animated' } = {}, entrySource = source) {
+  let h;
+  const mainBox = { left: 0, top: 190, width: compact ? 390 : 1280, height: 620 };
+  const stickyHeight = 96;
+  const graphBox = () => ({ left: 0, top: 960 - h.$('main').scrollTop, width: mainBox.width, height: 420 });
+  const word = { left: mainBox.width / 2 - 108, top: 280, width: 216, height: 135 };
+  h = harness({ entrySource, compact, reduced: completion === 'reduced', autoReady: false, animationStartSkew: .25, bounds: {
+    main: mainBox, 'entry-word': word, 'graph-stage': graphBox,
+    network: () => view === 'list' ? { left: 0, top: 0, width: 0, height: 0 } : graphBox(),
+    'territory-comparison': { left: 0, top: 350, width: mainBox.width, height: stickyHeight },
+  } });
+  h.document.body.dataset.view = view;
+  h.document.body.dataset.mapExpanded = String(expanded);
+  h.document.body.dataset.comparison = String(comparison);
+  const main = h.$('main'); main.clientHeight = mainBox.height; main.scrollHeight = 1900; main.scrollTop = 83;
+  h.type('atlas'); h.submit();
+  if (completion === 'skip') h.click('skip-animation');
+  await h.settle();
+  assert.equal(main.scrollTop, 83, 'Typing and static loading do not move the reading position');
+  const beforeReady = h.trace.length;
+  h.document.dispatchEvent(event('acf:ready'));
+  if (completion === 'animated') await h.tick();
+  const revealTrace = h.trace.slice(beforeReady), reveal = revealTrace.filter(step => step.event === 'animation:start');
+  const scrollIndex = revealTrace.findIndex(step => step.event === 'element:scroll' && step.target === 'main');
+  const firstMapMeasure = revealTrace.findIndex(step => step.event === 'geometry:measure' && step.target === 'network');
+  const shouldScroll = compact && view === 'map' && !expanded && !comparison;
+  if (shouldScroll) {
+    assert(scrollIndex >= 0, 'Mobile map receives the prepared field');
+    if (completion === 'animated') assert(scrollIndex < firstMapMeasure, 'Mobile map scroll precedes reveal measurement');
+    const box = graphBox();
+    assert(box.top >= mainBox.top + stickyHeight, 'The revealed graph clears the sticky comparison controls');
+    assert(box.top + box.height <= mainBox.top + mainBox.height, 'The mobile target is visible inside the actual scrolling viewport');
+  } else {
+    assert.equal(scrollIndex, -1, 'Desktop, List and fixed map layouts preserve scroll position');
+    assert.equal(main.scrollTop, 83);
+  }
+  assert(revealTrace.filter(step => step.event === 'element:scroll').every(step => step.target === 'main'), 'Reveal scroll is confined to the workspace, never the page or reading panels');
+  if (completion === 'animated') {
+    const box = view === 'list' ? { left: 0, top: 0, width: 0, height: 0 } : graphBox();
+    const dx = box.width ? box.left + box.width / 2 - word.left - word.width / 2 : 0;
+    const dy = box.height ? box.top + box.height / 2 - word.top - word.height / 2 : 0;
+    assert.equal(reveal[0].keyframes.at(-1).transform, `translate(${dx}px, ${dy}px) scale(.48)`, 'Constellation destination uses the final scrolled map rectangle');
+    assert.deepEqual(reveal[2].keyframes, reveal[3].keyframes, 'Scrolling keeps the actual field and overlay transforms identical');
+    assert.equal(new Set(reveal.map(step => step.startTime)).size, 1, 'Scrolling preserves the shared reveal clock');
+  } else assert.equal(reveal.length, 0, 'Ready after Skip/reduced motion brings the field into view without restarting motion');
+  await h.settle(); usable(h);
+}
+for (const layout of [{}, { compact: false }, { view: 'list' }, { expanded: true }, { comparison: true }, { completion: 'skip' }, { completion: 'reduced' }, { view: 'list', completion: 'skip' }, { view: 'list', completion: 'reduced' }]) {
+  await assertRevealScroll(layout); cases++;
+}
+if (process.argv.includes('--probe-reveal-scroll')) process.exit(0);
 
 const loadSequences = [];
 for (const kind of ['directory', 'body']) { await assertFetchBoundary(kind); cases++; }
@@ -813,7 +987,7 @@ if (process.argv.includes('--probe-early-load')) assertNoModelMotionOverlap(earl
 const unawaitedSource = source.replace('await Promise.all([fade,', 'Promise.all([fade,');
 assert.notEqual(unawaitedSource, source, 'The premature-finish mutation must reach the actual letter await');
 const unawaited = harness({ entrySource: unawaitedSource }); unawaited.type('atlas'); unawaited.submit();
-await assert.rejects(assertLetterProgress(unawaited), /Normal opening animates|letter sequence is displayed|Expected values to be strictly equal|One entry event/, 'The progress guard catches opening without awaiting the letters');
+await assert.rejects(assertLetterProgress(unawaited), /Normal opening animates|letter sequence is displayed|Expected values to be strictly equal|One entry event|Opening creates no custom timers/, 'The progress guard catches opening without awaiting the letters');
 await unawaited.settle();
 cases++;
 if (process.argv.includes('--probe-unawaited-letters')) await assertLetterProgress(unawaited);
@@ -825,6 +999,44 @@ assert.throws(() => assertLetterMotion(globalEasing), /letter timeline remains l
 await globalEasing.settle();
 cases++;
 if (process.argv.includes('--probe-global-easing')) assertLetterMotion(globalEasing);
+
+const quietHoldSource = source.replace('(2000 - delay)', '(1300 - delay)');
+assert.notEqual(quietHoldSource, source, 'Quiet-hold mutation reaches the real letter hold');
+const shortHold = harness({ entrySource: quietHoldSource }); shortHold.type('atlas'); shortHold.submit();
+assert.throws(() => assertLetterMotion(shortHold), /quiet readable hold/, 'The motion guard rejects a rushed complete-word hold');
+await shortHold.settle(); cases++;
+
+const pathJumpSource = source.replace("strokeDashoffset: '1000'", "strokeDashoffset: '0'");
+assert.notEqual(pathJumpSource, source, 'Path mutation reaches a real route drawing track');
+const pathJump = harness({ entrySource: pathJumpSource }); pathJump.type('atlas'); pathJump.submit();
+assert.throws(() => assertConstellationMotion(pathJump), /fully undrawn/, 'The route guard rejects an already-drawn path masquerading as a trace');
+await pathJump.settle(); cases++;
+
+const omittedFieldSource = source.replace('...tracings, field, ...branching, ...expanding, cursor', '...tracings, cursor');
+assert.notEqual(omittedFieldSource, source, 'Formation mutation removes only awaiting the field, branches and satellites');
+const omittedField = harness({ entrySource: omittedFieldSource }); omittedField.type('atlas'); omittedField.submit();
+await assert.rejects(assertLetterProgress(omittedField), /Data work waits|Every decorative formation/, 'The ordering guard rejects loading while outer branches are still drawing');
+await omittedField.settle(); cases++;
+
+const splitClockSource = source.replace('animation.startTime = sharedStart', 'animation.startTime = animation.startTime');
+assert.notEqual(splitClockSource, source, 'Clock mutation reaches the explicit synchronization assignment');
+await assert.rejects(assertSharedRevealClock(splitClockSource), /one explicit document timeline clock/, 'The synchronization guard rejects separate implicit GPU/overlay clocks');
+cases++;
+
+const staleClockSource = source.replace('const sharedStart = await freshRevealFrame();', 'const sharedStart = document.timeline.currentTime; await freshRevealFrame();');
+assert.notEqual(staleClockSource, source, 'Stale-clock mutation reaches the reveal timestamp acquisition');
+await assert.rejects(assertSharedRevealClock(staleClockSource), /fresh frame execution time/, 'The clock guard catches a stale document timestamp that silently shortens the visible reveal');
+cases++;
+
+const staleFrameSource = source.replace('requestAnimationFrame(() => complete(performance.now()))', 'requestAnimationFrame(complete)');
+assert.notEqual(staleFrameSource, source, 'Stale-frame mutation reaches the frame callback timestamp');
+await assert.rejects(assertSharedRevealClock(staleFrameSource), /fresh frame execution time/, 'The clock guard catches a stale RAF timestamp even after awaiting the frame');
+cases++;
+
+const offscreenMapSource = source.replace('    revealMapViewport();', '    // Mutant leaves the prepared map below the viewport.');
+assert.notEqual(offscreenMapSource, source, 'Scroll mutation reaches the normal reveal preparation');
+await assert.rejects(assertRevealScroll({}, offscreenMapSource), /Mobile map receives/, 'The viewport guard rejects a reveal aimed below the visible mobile workspace');
+cases++;
 
 const reportFlag = process.argv.indexOf('--load-sequence-report');
 if (reportFlag >= 0) {

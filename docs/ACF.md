@@ -55,11 +55,11 @@ Three faint decorative depth layers contain 66 points outside the record model, 
 
 ## Neutral entrance and loading sequence
 
-Before the answer, the page/browser title is “A question of futures”; the opening heading and accessibility text do not disclose the answer. The original riddle, answer form, feedback and back link remain. There is no separate hint control or public-information blurb. The form accepts case/whitespace variation. The Atlas title appears after a correct answer; return restores the neutral title.
+Before the answer, the page/browser title is “A question of futures”; the opening heading and accessibility text do not disclose the answer. The riddle hints at worlds borne on shoulders while preserving the map/futures interpretation; the answer form, feedback and back link remain. There is no separate hint control or public-information blurb. The form accepts case/whitespace variation. The Atlas title appears after a correct answer; return restores the neutral title.
 
-Five letters rise, spread and settle into ATLAS, then shrink into a decorative five-point constellation. Each letter uses a 1,440 ms transform/opacity track, staggered by 60 ms, for 1,680 ms total. A linear timeline with segment easing preserves the common settled hold. Prompt, letter, star and link animations are awaited before catalog work starts. There are no animated layout properties or timer-driven entrance loops.
+ATLAS types at a 220ms cadence, holds for about 800ms, and resolves into five stars. Six angular routes trace between the anchors; eight branches and 41 secondary points spread into a wider constellation. Formation lasts 5,000ms. All 32 tracks finish before catalog work starts. Letter transforms/opacity and normalized SVG stroke reveals run through Web Animations; no timer-driven entrance loops or transient DOM.
 
-The constellation then holds still while catalogs load and the full graph prepares. It is decoration, not a preview of catalog relationships. The workspace is inert during this loading phase. `acf:ready` triggers the constellation's 420 ms spread and the screen's 460 ms fade, then enables the explorer. Load failure exposes the retry interface. Skip, resize/visibility interruption, reduced motion and missing animation APIs can complete immediately; these paths do not promise a visible loading hold. Return/reentry resets motion and reuses loaded data without activating a hidden List-view map.
+The constellation then holds still while catalogs load and the full graph prepares. It is decoration, not a preview of catalog relationships. The workspace is inert during this loading phase. `acf:ready` begins a 2,600ms retreat from the constellation into the complete prepared map. GPU stars and Canvas overlay share exact keyframes, timing and a common document-timeline start. The opaque cover holds through the first map draw; completion enables the explorer. On narrow Map layouts, the workspace scrolls beneath that cover so the finished starfield appears below the sticky subject picker; List, desktop, comparison and expanded views retain their positions. Load failure exposes the retry interface. Skip, resize/visibility interruption, reduced motion and missing animation APIs can complete immediately; these paths do not promise a visible loading hold. Return/reentry resets motion and reuses loaded data without activating a hidden List-view map.
 
 ## Updating and importing
 
@@ -69,7 +69,7 @@ Regenerate the allowlisted public projection with:
 node scripts/build-acf-catalogs.mjs --source-root <completed-collection-root> --output public/ACF/data
 ```
 
-The adapter reads completed catalogs without modifying collectors. Its nine bundles are deterministic; review regenerated public files before committing. Source catalogs remain unchanged by the map. HTML script/stylesheet URLs and module dependencies share a release query version, currently `territories-20261012`. Bump the entry, styles, app, model, preview, graph, spatial-index and renderer dependencies together; regression checks prevent mixed cached releases.
+The adapter reads completed catalogs without modifying collectors. Its nine bundles are deterministic; review regenerated public files before committing. Source catalogs remain unchanged by the map. HTML script/stylesheet URLs and module dependencies share a release query version, currently `formation-20261012`. Bump the entry, styles, app, model, preview, graph, spatial-index and renderer dependencies together; regression checks prevent mixed cached releases.
 
 The browser accepts `/ACF/import-format.json`, compatible catalog objects and item-only JSON/JSONL. Imports stay in memory, with no upload or persistence. Validation namespaces IDs, requires public source evidence, rejects malformed references and preserves supported literal roles/temporal assertions. Explicitly unknown source titles stay untitled. Only allowed metadata fields survive: abstracts, notes, contact and account fields are discarded. Links must pass the public HTTP(S) URL filter, which excludes local/IP destinations, embedded credentials and recognized credential query parameters. Imported provenance is supplied by the importer, not independently verified.
 
@@ -136,7 +136,7 @@ Distant stars use softer density opacity; close views reveal bright cores and co
 
 ## Futuristic entrance, camera flights and connection flow
 
-The full title is one prominent wordmark. After the answer, a 1,500ms monospaced typing sequence becomes a loose angular constellation. Collection preparation runs beneath a still opaque constellation; the prepared map and constellation then share an 820ms expansion/crossfade. Both GPU stars and the overlay receive the same transforms. Skip, reduced motion, re-entry and interrupted transitions remain usable.
+The full title is one prominent wordmark. After the answer, a 5,000ms monospaced typing and branching sequence becomes a loose angular constellation. Collection preparation runs beneath a still opaque constellation; a 2,600ms synchronized retreat reveals the actual universe. Both GPU stars and the overlay receive identical transforms and a common start time. Skip, reduced motion, re-entry and interrupted transitions remain usable.
 
 Star selection pans at the current zoom over a 600ms eased flight; the preview appears on arrival. Dragging interrupts immediately from the current camera position. Nearby, Close and direct star zoom also ease to their destinations. Reduced or paused motion applies the final camera position immediately.
 

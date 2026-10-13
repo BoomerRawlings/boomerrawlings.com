@@ -1,6 +1,15 @@
 # Project state
 
-## Two-territory comparison and route endpoints — active
+## Atlas riddle and extended formation — active
+
+- Mode: continuation. User asks slightly clearer Atlas-bearing-world clue and longer restrained entrance evolving typed ATLAS into actual full starfield.
+- Baseline72aa5a4 deployed/verified. Riddle references worlds upon shoulders and viewer choosing futures.
+- Decision:5s typing/word hold/glyph-to-anchor/branching constellation; still honest loading;2.6s synchronized retreat into prepared map. Skip/reduced/interruption immediate. No graph/data changes.
+- Implemented:32 bounded formation tracks, fresh execution-time shared reveal clock and narrow Map scroll to visible field. Fixed stale document/RAF timestamps shortening reveal. Skip/reduced/resize cancellation and List/desktop/fixed-layout scroll preserved. Cache formation-20261012.
+- Verified:1280/320 actual-browser proof,39/40 reveal samples, exact2.6s shared clocks/styles/bounds, progressive stars/paths and all33945 canonical IDs/coordinates retained. Skip,List replay,comparison and390→320 interrupt pass; no overflow/errors. Final114/114 ACF groups including88 entrance cases;47-page build/static pass. Evidence sibling .acf-qa/formation-entry-proof.md/.json and formation-desktop/phone screenshots.
+- Next: scoped production push, Linux CI/Pages and live cached/fresh verification.
+
+## Two-territory comparison and route endpoints — complete
 
 - Mode: continuation. User requests sequential territory selection to create two distinct animated clusters, fade the rest, explain connections; investigate source-route fans without visible endpoints.
 - Baseline7bde18d verified equal to origin/main; previous local completion checkpoint preserved. Public /ACF/ publishing scope continues; no catalog changes.
@@ -9,7 +18,8 @@
 - Implementing: comparison.js exact-membership/evidence helper; graph/renderer temporary interpolation and visible endpoint fix; app/history/list/filter and evidence UI. Preserve canonical IDs/positions, reduced motion, drag interruption, Canvas and accessible controls.
 - Implemented:800ms GPU/Canvas comparison interpolation, two exclusive clusters plus shared-record bridge, reversible original camera/geometry, faint rest, real evidence endpoints and hidden-hub route suppression. Persistent orientation-neutral controls, pair/detail URLs, filters, evidence and unique-record List. Cache comparison-20261012.
 - Verified:114/114 ACF groups,62 entrance cases,54 graph+7 renderer;47-page build/static verifier pass. Independent15-pair audit and14 actual-browser snapshots preserve33945 IDs/coordinates.55184 route endpoints checked:zero mismatches; Canvas/GPU recovery, pause,320/390 layout, List, late repeated clear and click-during-layout pass. Evidence sibling .acf-qa/comparison-gpu-proof.md/.json; user-facing report in docs/codex/user-facing-tests/2026-10-12__user-facing-flow-test__territory-comparison.md.
-- Next: one scoped production push, Linux CI/Pages, live asset hashes and cached/fresh browser checks. Canvas remains slower; viewport/API submission evidence is not GPU FPS or physical-device performance.
+- Live: release72aa5a48954e52c18b580fdece1f54daa2a1a7aa; Pages38349723392 full Linux CI/build/deploy passed. All16 live JS/CSS hashes match canonical Git/tested build. Cached territories→comparison refresh verifies Minds/Bodies4006 unique records,108 shared,8444 visible routes;33945 submitted records retained, no overflow/errors. Evidence sibling .acf-qa/comparison-live-verification.json and comparison-live-browser.json.
+- Next: none for comparison. Canvas remains slower; viewport/API submission evidence is not GPU FPS or physical-device performance.
 
 
 ## Organic subject territories and interface motion — complete

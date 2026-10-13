@@ -1,9 +1,9 @@
-import { AtlasGraph } from './graph.js?v=comparison-20261012';
-import { NodePreview } from './node-preview.js?v=comparison-20261012';
-import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=comparison-20261012';
-import { getRegions, regionFacets } from './regions.js?v=comparison-20261012';
-import { UIMotion } from './ui-motion.js?v=comparison-20261012';
-import { compareTerritories } from './comparison.js?v=comparison-20261012';
+import { AtlasGraph } from './graph.js?v=formation-20261012';
+import { NodePreview } from './node-preview.js?v=formation-20261012';
+import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=formation-20261012';
+import { getRegions, regionFacets } from './regions.js?v=formation-20261012';
+import { UIMotion } from './ui-motion.js?v=formation-20261012';
+import { compareTerritories } from './comparison.js?v=formation-20261012';
 
 const $ = id => document.getElementById(id);
 const number = n => n.toLocaleString();

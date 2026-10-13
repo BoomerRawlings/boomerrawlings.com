@@ -1,8 +1,8 @@
-import { SpatialGrid } from './graph-spatial.js?v=comparison-20261012';
-import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=comparison-20261012';
-import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=comparison-20261012';
-import { buildTerritory } from './territory-geometry.js?v=comparison-20261012';
-import { comparisonLayout } from './comparison-layout.js?v=comparison-20261012';
+import { SpatialGrid } from './graph-spatial.js?v=formation-20261012';
+import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=formation-20261012';
+import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=formation-20261012';
+import { buildTerritory } from './territory-geometry.js?v=formation-20261012';
+import { comparisonLayout } from './comparison-layout.js?v=formation-20261012';
 
 const COLORS = { hub: '#d89976', item: '#a9c9db', person: '#aaa4d0' };
 const REGION_COLORS = ['#90c2d1', '#c5a5cc', '#d6ac7f', '#9ebd92', '#94a8d3', '#c7bb82'];
