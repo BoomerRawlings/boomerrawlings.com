@@ -1,5 +1,5 @@
-import { routeGeometry, routeStyle } from './route-style.js?v=glyphs-20261013';
-import { nodeAppearance, nodeEndpointAppearance, appendNodeGlyph } from './node-style.js?v=glyphs-20261013';
+import { routeGeometry, routeStyle } from './route-style.js?v=mapfirst-20261015';
+import { nodeAppearance, nodeEndpointAppearance, appendNodeGlyph } from './node-style.js?v=mapfirst-20261015';
 
 const PALETTE = { item: '#a9c9db', person: '#aaa4d0', hub: '#d89976' };
 const enabled = (kind, layers) => kind === 'item' || (kind === 'person' ? layers.names : layers.regions);

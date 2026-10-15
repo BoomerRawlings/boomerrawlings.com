@@ -1,10 +1,11 @@
-import { AtlasGraph } from './graph.js?v=glyphs-20261013';
-import { NodePreview } from './node-preview.js?v=glyphs-20261013';
-import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=glyphs-20261013';
-import { getRegions, regionFacets } from './regions.js?v=glyphs-20261013';
-import { UIMotion } from './ui-motion.js?v=glyphs-20261013';
-import { compareTerritories } from './comparison.js?v=glyphs-20261013';
-import { mapReading } from './map-reading.js?v=glyphs-20261013';
+import { AtlasGraph } from './graph.js?v=mapfirst-20261015';
+import { NodePreview } from './node-preview.js?v=mapfirst-20261015';
+import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=mapfirst-20261015';
+import { getRegions, regionFacets } from './regions.js?v=mapfirst-20261015';
+import { UIMotion } from './ui-motion.js?v=mapfirst-20261015';
+import { compareTerritories } from './comparison.js?v=mapfirst-20261015';
+import { mapReading } from './map-reading.js?v=mapfirst-20261015';
+import { territoryGuide } from './territory-guide.js?v=mapfirst-20261015';
 
 const $ = id => document.getElementById(id);
 const number = n => n.toLocaleString();
@@ -190,6 +191,9 @@ function refresh() {
   renderList(); renderBreadcrumbs(); renderGraph(); renderRegionNavigation();
   if (regionScope() && comparisonDetailsOpen) renderRegionPanel(); else if (comparisonResult && comparisonDetailsOpen) renderComparisonPanel(); else { uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; }
   renderMapReading();
+  const filterCount = ['search', 'type-filter', 'year-from', 'year-to'].filter(id => $(id).value).length;
+  $('filter-count').hidden = !filterCount;
+  $('filter-count').textContent = String(filterCount);
   $('graph-subtitle').textContent = comparisonResult ? 'Two territories, shared records once in the middle. Credits and record links retain their source evidence; other records stay dimmed.' : regionScope() ? 'Territories trace clusters of title matches; borders are illustrative. Exact membership is shown by the selection.' : scope?.kind === 'person' ? 'Documented credits. Names may refer to people, groups or publishing accounts.' : 'Explore overlapping subject territories. Shapes trace clusters of title matches; exact membership appears on selection.';
   $('graph-heading').textContent = subjectScope() ? scopeLabel() : scope?.kind === 'person' ? 'Credits for ' + scopeLabel() : 'A field of possible futures';
   uiMotion.reveal($('graph-heading'), { fields: [], mode: 'view' });
@@ -274,6 +278,11 @@ function renderRegionNavigation() {
     regionNavigationIndex = index;
   }
   const ids = selectedTerritories();
+  const guide = territoryGuide({ selectedIds: ids, byId: data.byId, comparison: comparisonResult });
+  $('territory-comparison').dataset.phase = guide.phase;
+  $('territory-guide-title').textContent = guide.title;
+  $('territory-guide-body').textContent = guide.body;
+  uiMotion.reveal($('territory-guide-title'), { key: guide.title, fields: [], mode: 'view' });
   for (const b of $('region-memberships').children) {
     const selected = ids.includes(b.dataset.regionId);
     const changed = b.getAttribute('aria-pressed') !== String(Boolean(selected));
@@ -285,12 +294,13 @@ function renderRegionNavigation() {
     chip.setAttribute('aria-label', 'Remove ' + region.label + ' from selection'); return chip;
   }));
   uiMotion.reveal($('comparison-selected'), { key: ids.join(',') });
-  $('comparison-picker-label').textContent = ids.length === 2 ? 'Replace second territory' : ids.length === 1 ? 'Compare with' : 'Choose a territory';
-  $('comparison-picker').options[0].textContent = ids.length === 2 ? 'Choose another subject' : ids.length === 1 ? 'Add a second subject' : 'Choose a subject';
+  $('comparison-picker-label').textContent = guide.pickerLabel;
+  $('comparison-picker').options[0].textContent = guide.pickerPlaceholder;
   for (const option of $('comparison-picker').options) option.disabled = ids.includes(option.value);
   $('comparison-picker').value = '';
   $('comparison-clear').hidden = !ids.length;
-  $('comparison-details').hidden = !ids.length;
+  $('comparison-details').hidden = false;
+  $('comparison-example').hidden = Boolean(ids.length);
   $('comparison-hint').textContent = comparisonResult ? `${number(comparisonResult.leftOnly.size)} first only · ${number(comparisonResult.shared.size)} shared once · ${number(comparisonResult.rightOnly.size)} second only. Group and connection explanations sit below the map.` : ids.length ? 'Select a second territory to compare. Read how this territory is grouped below the map.' : 'Select one territory, then another, to separate their clusters and inspect what connects them.';
   uiMotion.reveal($('comparison-hint'), { key: comparisonResult?.key || ids.join(','), fields: [], mode: 'view' });
 }
@@ -516,6 +526,8 @@ async function resetAtlas() {
       if (dialog.open) dialog.close();
     }
     $('map-layers').open = false;
+    $('explore-tools').open = false;
+    $('map-perspectives').open = false;
     for (const id of ['names-toggle', 'labels-toggle', 'relationships-toggle', 'regions-toggle', 'themes-toggle']) $(id).checked = $(id).defaultChecked;
     history.replaceState(viewContext(), '', location.pathname + location.search);
     const changed = index.catalogById.size !== catalogs.size;
@@ -564,8 +576,11 @@ function navigate(kind, value) {
   const params = kind === 'item' ? new URLSearchParams({ item: value, ...(comparisonScope() ? { compare: scope.ids.join(',') } : {}) }) : new URLSearchParams(value.kind === 'compare' ? { compare: value.ids.join(',') } : { [value.kind]: value.id, ...(sameRegion ? regionFilters : {}) });
   if (kind === 'scope' && !sameRegion && (value.kind !== 'compare' || !comparisonScope() || value.ids.join(',') !== scope.ids.join(','))) comparisonDetailsOpen = false;
   history.pushState(viewContext(), '', '#' + params); readLocation();
-  if (kind === 'scope' && value.kind === 'theme') $('comparison-details').focus({ preventScroll: true });
-  if (kind === 'scope' && value.kind === 'compare') { $('comparison-details').focus({ preventScroll: true }); $('territory-comparison').scrollIntoView?.({ block: 'nearest', behavior: 'instant' }); }
+  if (kind === 'scope' && ['theme', 'compare'].includes(value.kind)) {
+    $('explore-tools').open = false;
+    $('comparison-picker').focus({ preventScroll: true });
+    scrollToBubble('map-surface');
+  }
 }
 function readLocation() {
   const params = new URLSearchParams(location.hash.slice(1));
@@ -713,6 +728,37 @@ $('load-more').addEventListener('click', () => { const previous = pageSize; page
 $('detail-close').addEventListener('click', closeRecordDetails);
 $('region-close').addEventListener('click', closeRegionDetails);
 $('comparison-picker').addEventListener('change', () => { if ($('comparison-picker').value) selectTerritory($('comparison-picker').value); });
+$('comparison-example').addEventListener('click', () => navigate('scope', { kind: 'compare', ids: ['minds', 'power'] }));
+$('return-map').addEventListener('click', () => {
+  setView(graph?.available === false || !graph ? 'list' : 'map');
+  scrollToBubble('map-surface');
+  (document.body.dataset.view === 'list' ? $('results-heading') : $('network')).focus({ preventScroll: true });
+});
+$('clear-search-filters').addEventListener('click', () => {
+  history.replaceState(viewContext(), '', location.href);
+  for (const id of ['search', 'type-filter', 'year-from', 'year-to']) $(id).value = '';
+  clearTimeout(debounce); regionFilters = {};
+  const params = new URLSearchParams(location.hash.slice(1));
+  for (const key of regionKeys) params.delete(key);
+  history.pushState(viewContext(), '', location.pathname + location.search + (params.size ? '#' + params : ''));
+  refresh();
+});
+$('explore-tools-close').addEventListener('click', () => { $('explore-tools').open = false; $('explore-tools-toggle').focus({ preventScroll: true }); });
+for (const id of ['explore-tools', 'map-perspectives']) $(id).addEventListener('toggle', () => {
+  const control = $(id);
+  if (control.open) {
+    uiMotion.reveal(control.lastElementChild, { mode: 'view' });
+    if (id === 'explore-tools') $('search').focus({ preventScroll: true });
+  } else uiMotion.cancel(control);
+  graph?.refreshOverlayLayout?.();
+});
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape' || document.querySelector('dialog[open]')) return;
+  for (const id of ['explore-tools', 'map-perspectives']) if ($(id).open) {
+    $(id).open = false; $(id + '-toggle').focus({ preventScroll: true });
+    event.stopImmediatePropagation(); break;
+  }
+});
 $('comparison-clear').addEventListener('click', () => { clearFilters(); $('comparison-picker').focus({ preventScroll: true }); });
 $('comparison-details').addEventListener('click', () => {
   scrollToBubble('map-reading'); $('map-reading-heading').focus({ preventScroll: true });

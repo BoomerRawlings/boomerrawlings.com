@@ -1,12 +1,13 @@
 # Project state
 
-## Map explanations — verified; ready to publish
+## Map-first entry — verified; publishing
 
-- Mode: continuation. Explain cluster membership and connections with small bubbles below the map; preserve mouse-over and panning. Based on live aa0c051. UI only; unpublished collection audit remains in parent workspace.
-- Implemented: persistent exclusive/shared comparison captions; exact distinct credited-record counts; title-word evidence and unique-record counts; shared records versus credited-name bridges; four route colors and categorical speeds. Source and record details expand inline below map, with smooth scroll and visible focus targets. Original metadata, coordinates and hover/picking unchanged. Cache reading-20261013.
-- Verified: full npm test,47-page build and159 ACF tests pass, including96 entrance cases,69 graph cases,11 guide/interaction cases. Browser desktop/320px: Planet/Culture3219 unique=614/48/2557; source→record→Locate returns map; List record close focus works; preview header drag pans; Reset restores33945/all9; no overflow/errors. Evidence in parent .acf-qa/map-reading-*.
-- Next: one UI commit/push; verify Pages and canonical live assets/browser; merge into dirty audit preview while preserving every audit/source file.
-- Limits: title-keyword grouping is inference; route speed is evidence category, not numeric confidence. Names remain catalog-local. No audit dossiers, source data or collection expansion published.
+- Mode: continuation. Objective: make first-entry exploration obvious and give the map most of the viewport. UI only; preserve unfinished private collection audit in parent workspace.
+- Baseline: e5648b5 matched origin/main before work. Previous map explanations/reset/glyph releases already published; old ready-to-publish note was stale.
+- Implemented: compact header, guided first/second subject picker, one-click Minds/Power example; search/filters/layers in native disclosure; map fills remaining viewport with inline key/details below. Existing hover, source evidence, entrance and reset retained. Smaller renderer margins use new canvas space.
+- Verified: full npm test and 47-page build pass; 182 Atlas groups, including 97 entrance cases and 71 graph cases. Guide/example, filters and history, Map/List return, reset and focus covered. CSS/HTML parse clean; IDs and ARIA references resolve. Browser control inventory empty; in-app/Chrome unavailable. Visible-flow test explicitly blocked.
+- Next: single verified UI push; verify Pages and live asset parity. Browser follow-up documented in docs/codex/user-facing-tests/2026-10-15__user-facing-flow-test__atlas-map-first.md.
+- Boundary: no collection/audit data changes. Existing private audit remains paused; its DB finalizer completion needs checking before any future audit continuation.
 
 ## Existing release behavior
 

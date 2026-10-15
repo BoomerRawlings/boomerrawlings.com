@@ -1,4 +1,4 @@
-import { connectionCounts, clearNodeSpace } from './node-layout.js?v=glyphs-20261013';
+import { connectionCounts, clearNodeSpace } from './node-layout.js?v=mapfirst-20261015';
 
 function unit(value) {
   let hash = 2166136261;

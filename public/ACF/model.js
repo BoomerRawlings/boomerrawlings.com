@@ -1,4 +1,4 @@
-import { nodeIdentity } from './node-identity.js?v=glyphs-20261013';
+import { nodeIdentity } from './node-identity.js?v=mapfirst-20261015';
 
 // Public metadata only. Identity is local to each catalog, never inferred from a name.
 export const THEMES = [

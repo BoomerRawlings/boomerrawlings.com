@@ -1,4 +1,4 @@
-import { nodeAppearance } from './node-style.js?v=glyphs-20261013';
+import { nodeAppearance } from './node-style.js?v=mapfirst-20261015';
 
 const clamp = (value, low, high) => Math.min(high, Math.max(low, value));
 const finite = (value, fallback = 0) => Number.isFinite(value) ? value : fallback;

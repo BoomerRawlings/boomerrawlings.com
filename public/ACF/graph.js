@@ -1,10 +1,10 @@
-import { SpatialGrid } from './graph-spatial.js?v=glyphs-20261013';
-import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=glyphs-20261013';
-import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=glyphs-20261013';
-import { buildTerritory } from './territory-geometry.js?v=glyphs-20261013';
-import { comparisonLayout } from './comparison-layout.js?v=glyphs-20261013';
-import { nodeAppearance, nodeEndpointAppearance, drawNodeGlyph } from './node-style.js?v=glyphs-20261013';
-import { connectionCounts, clearNodeSpace } from './node-layout.js?v=glyphs-20261013';
+import { SpatialGrid } from './graph-spatial.js?v=mapfirst-20261015';
+import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=mapfirst-20261015';
+import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=mapfirst-20261015';
+import { buildTerritory } from './territory-geometry.js?v=mapfirst-20261015';
+import { comparisonLayout } from './comparison-layout.js?v=mapfirst-20261015';
+import { nodeAppearance, nodeEndpointAppearance, drawNodeGlyph } from './node-style.js?v=mapfirst-20261015';
+import { connectionCounts, clearNodeSpace } from './node-layout.js?v=mapfirst-20261015';
 
 const COLORS = { hub: '#d89976', item: '#a9c9db', person: '#aaa4d0' };
 const REGION_COLORS = ['#90c2d1', '#c5a5cc', '#d6ac7f', '#9ebd92', '#94a8d3', '#c7bb82'];
@@ -455,13 +455,21 @@ export class AtlasGraph {
     }
   }
 
+  refreshOverlayLayout() {
+    if (this.destroyed) return;
+    this.exclusions = null;
+    this.labelsDirty = true;
+    this.requestDraw();
+  }
+
   viewportFrame() {
     const compact = this.width < 500;
-    // The heading occupies the upper left; controls and the legend occupy the bottom.
-    const left = compact ? 32 : clamp(this.width * 0.15, 64, 112);
-    const right = compact ? 32 : 64;
-    const top = compact ? 54 : clamp(this.height * 0.25, 70, 160);
-    const bottom = compact ? 124 : clamp(this.height * 0.14, 56, 90);
+    // The subject guide and reading key sit outside the canvas. Keep only a
+    // narrow rim for map controls; labels avoid their actual overlay bounds.
+    const left = compact ? 28 : 48;
+    const right = compact ? 28 : 48;
+    const top = compact ? 40 : 38;
+    const bottom = 60;
     return { left, right, top, bottom };
   }
 
@@ -1274,7 +1282,7 @@ export class AtlasGraph {
   labelExclusions() {
     if (this.exclusions) return this.exclusions;
     const canvas = this.canvas.getBoundingClientRect();
-    const elements = this.canvas.parentElement?.querySelectorAll?.('.graph-intro, .graph-controls, .theme-control, .region-controls, .region-bar, .graph-bottom, .graph-instructions, .preview-navigation, .map-layers, .map-perspectives') || [];
+    const elements = this.canvas.parentElement?.querySelectorAll?.('.graph-intro, .graph-controls, .theme-control, .region-controls, .region-bar, .graph-bottom, .graph-instructions, .preview-navigation, .map-layers, .map-perspectives, .perspective-options') || [];
     this.exclusions = [...elements].map(element => {
       const rect = element.getBoundingClientRect();
       return { x: rect.left - canvas.left - 6, y: rect.top - canvas.top - 6, width: rect.width + 12, height: rect.height + 12 };
@@ -1282,8 +1290,8 @@ export class AtlasGraph {
     if (!this.exclusions.length) {
       const compact = this.width < 500;
       this.exclusions = [
-        { x: 0, y: 0, width: compact ? this.width : Math.min(310, this.width * 0.5), height: compact ? 42 : Math.min(150, this.height * 0.27) },
-        { x: 0, y: this.height - (compact ? 112 : 54), width: this.width, height: compact ? 112 : 54 },
+        { x: 0, y: 0, width: compact ? this.width : Math.min(310, this.width * 0.5), height: 38 },
+        { x: 0, y: this.height - 60, width: this.width, height: 60 },
       ];
     }
     return this.exclusions;

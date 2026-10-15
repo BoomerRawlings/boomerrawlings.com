@@ -8,14 +8,14 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'" />
     <link rel="canonical" href="https://boomerrawlings.com/ACF/" />
     <title>A question of futures</title>
-    <link rel="icon" href="/ACF/icon.svg?v=glyphs-20261013" type="image/svg+xml" />
-    <link rel="stylesheet" href="/ACF/style.css?v=glyphs-20261013" />
-    <link rel="stylesheet" href="/ACF/entry-effects.css?v=glyphs-20261013" />
-    <script is:inline src="/ACF/entry.js?v=glyphs-20261013" defer></script>
-    <script is:inline type="module" src="/ACF/app.js?v=glyphs-20261013"></script>
+    <link rel="icon" href="/ACF/icon.svg?v=mapfirst-20261015" type="image/svg+xml" />
+    <link rel="stylesheet" href="/ACF/style.css?v=mapfirst-20261015" />
+    <link rel="stylesheet" href="/ACF/entry-effects.css?v=mapfirst-20261015" />
+    <script is:inline src="/ACF/entry.js?v=mapfirst-20261015" defer></script>
+    <script is:inline type="module" src="/ACF/app.js?v=mapfirst-20261015"></script>
   </head>
   <body class="entry-pending" data-view="map">
-    <a class="skip-link" href="#search">Skip to collection search</a>
+    <a class="skip-link" href="#comparison-picker">Skip to subject comparison</a>
 
     <section id="entry-screen" aria-labelledby="entry-heading">
       <div class="entry-prompt" id="entry-prompt">
@@ -67,11 +67,10 @@
     <div id="atlas-workspace" hidden inert>
       <header class="atlas-header">
         <button id="return-entry" class="atlas-brand" type="button" aria-label="The Atlas of Contested Futures — return to the opening riddle"><svg class="atlas-emblem" viewBox="0 0 64 64" aria-hidden="true"><path class="emblem-shell" d="M32 6a20 20 0 1 1 0 40 20 20 0 0 1 0-40Z"/><path class="emblem-meridian" d="M32 6c-12 10-12 30 0 40M32 6c12 10 12 30 0 40M12 26c10-9 30-9 40 0M12 26c10 9 30 9 40 0"/><path class="emblem-bearing" d="M11 57 32 26 53 57M20 44h24"/><circle class="emblem-pole" cx="32" cy="6" r="2"/><circle class="emblem-joint" cx="32" cy="26" r="2.3"/></svg><span class="brand-title">The Atlas of Contested Futures</span></button>
-        <div class="header-right"><p id="dataset-status" class="dataset-status"><span class="status-dot" aria-hidden="true"></span>Preparing the collection</p><button id="reset-atlas" class="reset-atlas" type="button" disabled title="Restore all collections, clear filters and return to the full map"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 7a7 7 0 1 1-1 6M4 2v5h5"/></svg>Reset Atlas</button><button id="about-open" class="quiet-button" type="button">About <span aria-hidden="true">↗</span></button></div>
-        <p id="reset-status" class="sr-only" role="status" aria-live="polite"></p>
-      </header>
-
-      <div class="explore-toolbar" role="search" aria-label="Explore the collection">
+        <div class="header-right"><button id="reset-atlas" class="reset-atlas" type="button" disabled title="Restore all collections, clear filters and return to the full map"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 7a7 7 0 1 1-1 6M4 2v5h5"/></svg>Reset Atlas</button><div class="view-switch" role="group" aria-label="Display"><button id="map-view" type="button" aria-pressed="true">Map</button><button id="list-view" type="button" aria-pressed="false">List</button></div>
+          <details id="explore-tools" class="explore-tools"><summary id="explore-tools-toggle">Search &amp; filters<span id="filter-count" hidden></span></summary>
+            <div class="explore-panel">
+<div class="explore-toolbar" role="search" aria-label="Explore the collection">
         <label class="search-field" for="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><span class="sr-only">Search titles, authors and topics</span><input id="search" type="search" placeholder="Find an idea, a person, a possible future…" autocomplete="off" /></label>
         <div class="toolbar-filters">
           <label class="filter-field" for="type-filter"><span>Show</span><select id="type-filter"><option value="">All types</option></select></label>
@@ -79,14 +78,9 @@
           <button id="collections-open" class="collection-button" type="button"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2 8 4-8 4-8-4 8-4Zm-8 8 8 4 8-4M2 14l8 4 8-4"/></svg>Collections</button>
         </div>
       </div>
-
-      <main id="main" class="atlas-main" tabindex="-1">
-        <section id="catalog-scale" class="catalog-scale" aria-label="Full collection by record type">
-          <div class="scale-copy"><p id="scale-total">The full collection</p><p id="scale-legend">Every loaded record, across all types</p></div>
-          <svg id="scale-bar" viewBox="0 0 1000 8" preserveAspectRatio="none" role="img" aria-label="Record type distribution across every loaded record" width="100%" height="8"></svg>
-        </section>
-        <div class="exploration-bar"><nav id="breadcrumbs" aria-label="Current exploration"><span>All connections</span></nav><div class="view-switch" role="group" aria-label="Display"><button id="map-view" type="button" aria-pressed="true">Map</button><button id="list-view" type="button" aria-pressed="false">List</button></div></div>
-        <details id="map-layers" class="map-layers">
+<div class="tool-panel-actions"><button id="clear-search-filters" type="button">Clear search &amp; filters</button><button id="explore-tools-close" type="button">Close controls ×</button></div>
+<nav id="breadcrumbs" aria-label="Current exploration"><span>All connections</span></nav>
+<details id="map-layers" class="map-layers">
           <summary>Map layers <span>Every record has a point</span></summary>
           <div class="layer-options" role="group" aria-label="Map layers">
             <label><input id="labels-toggle" type="checkbox" checked />Record/name labels</label>
@@ -97,29 +91,44 @@
           </div>
           <p class="layer-explanation">Labels are limited for readability. Point and route data are not sampled; overlapping points remain separate records. Credits join catalog-local name labels to records. Record links include source-listed relationships and editorial related-article cards, not necessarily body citations. Dashed routes show inferred matches. A comparison automatically shows its selected evidence and name endpoints. Routes do not establish influence or agreement.</p>
           <div id="region-evidence"><p>Translucent territories trace clusters of English title-keyword matches. They overlap; their borders are illustrative and may exclude outlying members. Select a subject to highlight its exact membership and inspect literal matches, dates, credits and relationships. Positions do not establish a taxonomy, affiliation, agreement, citation or influence. Collections identify provenance.</p></div>
-        </details>
         <section class="region-navigation" aria-label="Subject territories">
           <div class="region-navigation-heading"><span>Subject territories · inferred</span><p id="region-union">Unique record memberships; overlapping groups.</p></div>
           <div id="region-memberships" role="group" aria-label="Explore a region"></div>
         </section>
+        </details>
+<section id="catalog-scale" class="catalog-scale" aria-label="Full collection by record type">
+          <div class="scale-copy"><p id="scale-total">The full collection</p><p id="scale-legend">Every loaded record, across all types</p></div>
+          <svg id="scale-bar" viewBox="0 0 1000 8" preserveAspectRatio="none" role="img" aria-label="Record type distribution across every loaded record" width="100%" height="8"></svg>
+        </section>
+<div class="tool-panel-actions"><p id="dataset-status" class="dataset-status"><span class="status-dot" aria-hidden="true"></span>Preparing the collection</p><button id="about-open" class="quiet-button" type="button">About <span aria-hidden="true">↗</span></button></div>
+            </div>
+          </details>
+        </div>
+        <p id="reset-status" class="sr-only" role="status" aria-live="polite"></p>
+      </header>
+
+      <main id="main" class="atlas-main" tabindex="-1">
+        <div id="map-surface" class="map-surface">
         <section id="territory-comparison" class="territory-comparison" aria-label="Choose and compare territories">
-          <label class="comparison-picker" for="comparison-picker"><span id="comparison-picker-label">Choose a territory</span><select id="comparison-picker" aria-describedby="comparison-hint"><option value="">Choose a subject</option></select></label>
+          <div class="territory-guide" aria-live="polite" aria-atomic="true"><h1 id="territory-guide-title">Start with two subjects</h1><p id="territory-guide-body">Choose a subject, then another to see what connects them.</p></div>
+          <label class="comparison-picker" for="comparison-picker"><span id="comparison-picker-label">1 · First subject</span><select id="comparison-picker" aria-describedby="territory-guide-body comparison-hint"><option value="">Choose your first subject</option></select></label>
           <div id="comparison-selected" class="comparison-selected" role="group" aria-label="Selected territories; activate to remove"></div>
-          <div class="comparison-actions"><button id="comparison-details" type="button" hidden aria-controls="map-reading">Read this map ↓</button><button id="comparison-clear" type="button" hidden>Back to universe</button></div>
-          <p id="comparison-hint" class="comparison-hint">Select one territory, then another, to inspect what connects them.</p>
+          <div class="comparison-actions"><button id="comparison-example" type="button" title="Compare Minds &amp; machines with Power &amp; justice">Try an example ↗</button><button id="comparison-details" type="button" aria-controls="map-reading">Read this map ↓</button><button id="comparison-clear" type="button" hidden>Back to universe</button></div>
+          <p id="comparison-hint" class="comparison-hint sr-only">Select one territory, then another, to inspect what connects them.</p>
         </section>
         <div class="atlas-panels">
           <section id="graph-stage" class="graph-stage" aria-labelledby="graph-heading">
-            <div class="graph-intro"><h1 id="graph-heading">A field of possible futures</h1><p id="graph-subtitle">Every record has a point. Follow one back to its source.</p></div>
+            <div class="graph-intro sr-only"><h2 id="graph-heading">A field of possible futures</h2><p id="graph-subtitle">Every record has a point. Follow one back to its source.</p></div>
             <canvas id="network" tabindex="0" aria-label="Interactive publication network. Click or tap a star to center it." aria-describedby="graph-instructions graph-keyboard-instructions"></canvas>
             <button id="empty-map" class="empty-map-note" type="button" hidden>No stars in view · Return to overview ↗</button>
             <p id="graph-instructions" class="graph-instructions">Click to center · Drag to pan · Scroll or pinch to zoom</p>
             <p id="graph-keyboard-instructions" class="sr-only">Arrow keys preview stars; Enter or Space centers a record and pins its preview. Selecting a territory chooses it directly; select another to compare. Shift plus arrows pans. Escape dismisses. Use Overview, Nearby and Close view, or the zoom slider, to change scale. Drag a preview header to pan; touch its body to scroll metadata. Previous node and Next node also browse previews.</p>
-            <div class="map-perspectives" role="group" aria-label="Map perspectives">
+            <details id="map-perspectives" class="map-perspectives"><summary id="map-perspectives-toggle">View &amp; motion</summary><div id="map-perspective-options" class="perspective-options" role="group" aria-label="Map perspectives">
               <div class="perspective-presets"><button id="view-overview" type="button">Overview</button><button id="view-nearby" type="button">Nearby</button><button id="view-close" type="button">Close view</button></div>
               <div class="perspective-scale"><label for="map-zoom" class="sr-only">Map zoom</label><input id="map-zoom" type="range" min="-1.3219280948873622" max="6" step="any" value="0" /><output id="map-zoom-value" for="map-zoom">1.0×</output><button id="expand-map" type="button" aria-pressed="false">Expand map</button></div>
               <div class="connection-tools"><button id="connections-toggle" type="button" aria-pressed="false">Show connections</button><span>Fast: documented<br />Slow: inferred</span></div>
             </div>
+            </details>
             <aside id="node-preview" class="node-preview" aria-label="Node preview" hidden>
               <div class="preview-header" title="Drag here to pan the map"><p id="preview-kind" class="preview-kind"></p><span class="preview-drag-hint" aria-hidden="true">⠿</span><button id="preview-close" class="preview-close" type="button" aria-label="Close node preview">×</button></div>
               <h2 id="preview-title"></h2>
@@ -132,7 +141,7 @@
             <p id="preview-announcement" class="sr-only" role="status" aria-live="polite"></p>
             <div class="graph-controls"><button id="zoom-in" type="button" aria-label="Zoom in">+</button><button id="zoom-out" type="button" aria-label="Zoom out">−</button><button id="reset-view" type="button" aria-label="Reset map view"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 7a7 7 0 1 1-1 6M4 2v5h5"/></svg></button><span class="control-divider" aria-hidden="true"></span><button id="motion-toggle" type="button" aria-pressed="false" aria-label="Pause motion"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 4v12M15 4v12"/></svg></button></div>
             <div id="preview-navigation" class="preview-navigation" role="group" aria-label="Browse node previews"><button id="preview-prev" type="button" aria-label="Previous node"><span aria-hidden="true">←</span><span class="preview-nav-label">Previous node</span></button><button id="preview-next" type="button" aria-label="Next node"><span class="preview-nav-label">Next node</span><span aria-hidden="true">→</span></button></div>
-            <div class="graph-bottom"><div class="graph-summary"><p id="graph-status" aria-live="off">Loading public metadata…</p><p id="graph-fallback-note" hidden>Canvas fallback retains the full record field but may be slower. Use List for faster browsing.</p></div><div class="graph-legend" aria-label="Connection types. Faster flow: documented; slower flow: inferred. Speed is an evidence category, not a probability or causal direction."><span><i class="credit-line" aria-hidden="true"></i>Source credit</span><span><i class="recorded-line" aria-hidden="true"></i>Recorded link</span><span><i class="inferred-line" aria-hidden="true"></i>Inferred match</span><span><i class="theme-line" aria-hidden="true"></i>Title theme</span></div></div>
+
           </section>
 
           <aside class="records-panel" aria-labelledby="results-heading">
@@ -143,8 +152,9 @@
           </aside>
 
         </div>
+        </div>
         <section id="map-reading" class="map-reading" aria-labelledby="map-reading-heading">
-          <header class="map-reading-header"><div><p class="eyebrow">A key to the field</p><h2 id="map-reading-heading" tabindex="-1">Read this map</h2></div><button id="map-evidence" class="text-button" type="button" hidden aria-controls="region-panel" aria-expanded="false">Follow the source trails ↓</button></header>
+          <header class="map-reading-header"><button id="return-map" class="text-button" type="button">↑ Back to map</button><div><p class="eyebrow">A key to the field</p><h2 id="map-reading-heading" tabindex="-1">Read this map</h2></div><button id="map-evidence" class="text-button" type="button" hidden aria-controls="region-panel" aria-expanded="false">Follow the source trails ↓</button></header>
           <div class="node-glyph-key" role="group" aria-label="Map symbols" aria-describedby="node-glyph-note">
             <ul class="node-glyph-list">
               <li class="glyph-source"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M17 10 13.5 16.1 6.5 16.1 3 10 6.5 3.9 13.5 3.9Z"/><path class="glyph-core" d="m10 7.8 2.2 2.2-2.2 2.2-2.2-2.2Z"/></svg><span>Institutions / publications</span></li>
@@ -158,13 +168,14 @@
           <div id="map-reading-cards" class="map-reading-cards"></div>
           <div id="map-reading-routes" class="map-reading-routes" aria-label="Connection colors and meanings"></div>
           <p id="map-reading-note" class="map-reading-note"></p>
+          <div class="graph-bottom"><div class="graph-summary"><p id="graph-status" aria-live="off">Loading public metadata…</p><p id="graph-fallback-note" hidden>Canvas fallback retains the full record field but may be slower. Use List for faster browsing.</p></div><div class="graph-legend" aria-label="Connection types. Faster flow: documented; slower flow: inferred. Speed is an evidence category, not a probability or causal direction."><span><i class="credit-line" aria-hidden="true"></i>Source credit</span><span><i class="recorded-line" aria-hidden="true"></i>Recorded link</span><span><i class="inferred-line" aria-hidden="true"></i>Inferred match</span><span><i class="theme-line" aria-hidden="true"></i>Title theme</span></div></div>
         </section>
         <div class="map-evidence-bubbles">
           <aside id="region-panel" class="detail-panel region-panel" aria-label="Selected region" hidden><button id="region-close" class="detail-close" type="button" aria-label="Close region details">Fold source trails <span aria-hidden="true">×</span></button><div id="region-content"></div></aside>
           <aside id="detail" class="detail-panel" aria-label="Selected record" hidden><button id="detail-close" class="detail-close" type="button" aria-label="Close selected record">Fold record <span aria-hidden="true">×</span></button><div id="detail-content"></div></aside>
         </div>
-      </main>
       <footer class="atlas-footer"><span>A living map, an incomplete territory.</span><a href="/">Boomer Rawlings <span aria-hidden="true">↗</span></a></footer>
+      </main>
     </div>
 
     <dialog id="collections-dialog" aria-labelledby="collections-heading"><div class="dialog-heading"><div><p class="eyebrow">Shape your atlas</p><h2 id="collections-heading">Collections</h2></div><form method="dialog"><button class="dialog-close" aria-label="Close collections">×</button></form></div><p class="dialog-intro">All nine public catalogs open together. Choose which collections to display, or add compatible metadata. Names remain separate within each catalog.</p><div id="collection-options"></div><div class="import-box"><label for="import-file">Bring another collection</label><p>Import a metadata catalog in JSON or JSONL format. Imports stay in this browser session; no upload.</p><input id="import-file" type="file" disabled accept=".json,.jsonl,application/json,application/x-ndjson" /><p id="import-status" role="status" aria-live="polite"></p><a href="/ACF/import-format.json" target="_blank" rel="noopener">View import format <span aria-hidden="true">↗</span></a></div></dialog>

@@ -8,6 +8,7 @@ import { compareTerritories } from '../public/ACF/comparison.js';
 import { previewInfo } from '../public/ACF/preview-data.js';
 import { UIMotion } from '../public/ACF/ui-motion.js';
 import { mapReading } from '../public/ACF/map-reading.js';
+import { territoryGuide } from '../public/ACF/territory-guide.js';
 
 const source = readFileSync(new URL('../public/ACF/entry.js', import.meta.url), 'utf8');
 const appSource = readFileSync(new URL('../public/ACF/app.js', import.meta.url), 'utf8');
@@ -29,9 +30,9 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
   let now = 0, timerId = 0, animations = 0, enters = 0, exits = 0, task = 0;
   const timers = new Map(), ids = new Map(), activeAnimations = new Map(), trace = [];
   const document = new EventTarget(), window = new EventTarget();
-  const location = { hash: '', pathname: '/ACF/', href: 'https://atlas.example/ACF/' };
+  const location = { hash: '', search: '', pathname: '/ACF/', href: 'https://atlas.example/ACF/' };
   const historyEntries = [{ state: null, url: location.href }]; let historyPosition = 0;
-  const setLocation = url => { const parsed = new URL(url, location.href); location.href = parsed.href; location.hash = parsed.hash; location.pathname = parsed.pathname; };
+  const setLocation = url => { const parsed = new URL(url, location.href); location.href = parsed.href; location.hash = parsed.hash; location.search = parsed.search; location.pathname = parsed.pathname; };
   const history = {
     get state() { return historyEntries[historyPosition].state; },
     pushState(state, _unused, url) { setLocation(url); historyEntries.splice(++historyPosition); historyEntries.push({ state: structuredClone(state), url: location.href }); },
@@ -60,6 +61,7 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
       this.hidden = this.attributes.has('hidden'); this.inert = this.attributes.has('inert');
       this.open = this.attributes.has('open'); this.readOnly = false; this.disabled = false;
       this.checked = this.attributes.has('checked');
+      this.defaultChecked = this.checked;
       this.value = ''; this.textContent = ''; this.innerHTML = '';
       let scrollTop = 0;
       Object.defineProperty(this, 'scrollTop', { get: () => scrollTop, set: value => {
@@ -88,6 +90,7 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
     get id() { return this.attributes.get('id') || ''; }
     set id(value) { this.attributes.set('id', value); ids.set(value, this); }
     get options() { return this.children; }
+    get lastElementChild() { return this.children.at(-1) || null; }
     append(...children) { for (const child of children) { this.children.push(child); child.parentElement = this; } }
     prepend(...children) { for (const child of children) child.parentElement = this; this.children.unshift(...children); }
     replaceChildren(...children) { this.children = []; this.append(...children); }
@@ -227,11 +230,12 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
         setActive(active) { record('graph:setActive', { active }); }
         setLayers(layers) { record('graph:setLayers', { layers }); }
         focusRecord(id) { record('graph:focusRecord', { id }); return true; }
+        reset(options) { record('graph:reset', options); }
         entranceTargets() { return entranceTargets(); }
       }
       class Preview { constructor() { this.card = new Element(); } close() {} }
       const moduleGlobals = {
-        ...globals, ...model, ...regions, compareTerritories, AtlasGraph: Graph, NodePreview: Preview, previewInfo, UIMotion, mapReading,
+        ...globals, ...model, ...regions, compareTerritories, AtlasGraph: Graph, NodePreview: Preview, previewInfo, UIMotion, mapReading, territoryGuide,
         URL, URLSearchParams, location, history,
         addEventListener: window.addEventListener.bind(window), performance: { now: () => now },
         AbortSignal: { timeout: () => undefined },
@@ -287,7 +291,7 @@ function usable(h, expectedEntries = 1) {
   assert.equal(h.document.body.classList.contains('entry-pending'), false);
   assert.equal(h.document.body.classList.contains('entry-revealing'), false);
   assert.equal(h.document.getElementById('entry-transfer'), null, 'Opening removes the temporary mask, copies and tracings');
-  assert.equal(h.document.activeElement, h.$('search'), 'Focus enters the usable search control');
+  assert.equal(h.document.activeElement, h.$(h.document.body.dataset.view === 'list' ? 'results-heading' : 'comparison-picker'), 'Focus enters the visible first action, never the collapsed search tools');
   assert.equal(h.pendingTimers, 0, 'Opening cancels remaining motion');
   assert.equal(h.document.title, 'The Atlas of Contested Futures', 'Successful entry reveals the collection title');
 }
@@ -711,13 +715,14 @@ for (const interruption of ['skip', 'resize', 'hidden', 'reduced-motion', 'error
 async function assertRevealScroll({ compact = true, view = 'map', expanded = false, comparison = false, completion = 'animated' } = {}, entrySource = source) {
   let h;
   const mainBox = { left: 0, top: 190, width: compact ? 390 : 1280, height: 620 };
-  const stickyHeight = 96;
+  const guideHeight = 96;
+  const surfaceBox = () => ({ left: 0, top: 864 - h.$('main').scrollTop, width: mainBox.width, height: 516 });
   const graphBox = () => ({ left: 0, top: 960 - h.$('main').scrollTop, width: mainBox.width, height: 420 });
   const word = { left: mainBox.width / 2 - 108, top: 280, width: 216, height: 135 };
   h = harness({ entrySource, compact, reduced: completion === 'reduced', autoReady: false, animationStartSkew: .25, bounds: {
-    main: mainBox, 'entry-word': word, 'graph-stage': graphBox, 'entry-screen': { left: 0, top: 0, width: mainBox.width, height: 1400 },
+    main: mainBox, 'map-surface': surfaceBox, 'entry-word': word, 'graph-stage': graphBox, 'entry-screen': { left: 0, top: 0, width: mainBox.width, height: 1400 },
     network: () => view === 'list' ? { left: 0, top: 0, width: 0, height: 0 } : graphBox(),
-    'territory-comparison': { left: 0, top: 350, width: mainBox.width, height: stickyHeight },
+    'territory-comparison': () => ({ ...surfaceBox(), height: guideHeight }),
   } });
   h.document.body.dataset.view = view;
   h.document.body.dataset.mapExpanded = String(expanded);
@@ -733,15 +738,16 @@ async function assertRevealScroll({ compact = true, view = 'map', expanded = fal
   const revealTrace = h.trace.slice(beforeReady), reveal = revealTrace.filter(step => step.event === 'animation:start');
   const scrollIndex = revealTrace.findIndex(step => step.event === 'element:scroll' && step.target === 'main');
   const firstMapMeasure = revealTrace.findIndex(step => step.event === 'geometry:measure' && step.target === 'network');
-  const shouldScroll = compact && view === 'map' && !expanded && !comparison;
+  const shouldScroll = compact && view === 'map';
   if (shouldScroll) {
     assert(scrollIndex >= 0, 'Mobile map receives the prepared field');
     if (completion === 'animated') assert(scrollIndex < firstMapMeasure, 'Mobile map scroll precedes reveal measurement');
     const box = graphBox();
-    assert(box.top >= mainBox.top + stickyHeight, 'The revealed graph clears the sticky comparison controls');
+    assert.equal(surfaceBox().top, mainBox.top, 'The first action remains visible at the top of the phone map');
+    assert.equal(box.top, mainBox.top + guideHeight, 'The graph follows the comparison guide without scrolling past it');
     assert(box.top + box.height <= mainBox.top + mainBox.height, 'The mobile target is visible inside the actual scrolling viewport');
   } else {
-    assert.equal(scrollIndex, -1, 'Desktop, List and fixed map layouts preserve scroll position');
+    assert.equal(scrollIndex, -1, 'Desktop and List layouts preserve scroll position');
     assert.equal(main.scrollTop, 83);
   }
   assert(revealTrace.filter(step => step.event === 'element:scroll').every(step => step.target === 'main'), 'Reveal scroll is confined to the workspace, never the page or reading panels');
@@ -758,8 +764,9 @@ for (const layout of [{}, { compact: false }, { view: 'list' }, { expanded: true
 for (const { compact = true, view = 'map', smooth = true, reduced = false } of [{}, { smooth: false }, { reduced: true }, { compact: false }, { view: 'list' }]) {
   let h;
   const mainBox = { left: 0, top: 190, width: compact ? 390 : 1280, height: 620 };
+  const surfaceBox = () => ({ left: 0, top: 864 - h.$('main').scrollTop, width: mainBox.width, height: 516 });
   const graphBox = () => ({ left: 0, top: 960 - h.$('main').scrollTop, width: mainBox.width, height: 420 });
-  h = harness({ compact, reduced, bounds: { main: mainBox, 'graph-stage': graphBox, network: graphBox, 'territory-comparison': { left: 0, top: 350, width: mainBox.width, height: 96 } } });
+  h = harness({ compact, reduced, bounds: { main: mainBox, 'map-surface': surfaceBox, 'graph-stage': graphBox, network: graphBox, 'territory-comparison': () => ({ ...surfaceBox(), height: 96 }) } });
   h.document.body.dataset.view = view;
   const main = h.$('main'), smoothCalls = [];
   main.clientHeight = mainBox.height; main.scrollHeight = 1900; main.scrollTop = 83;
@@ -773,7 +780,8 @@ for (const { compact = true, view = 'map', smooth = true, reduced = false } of [
   const shouldScroll = compact && view === 'map';
   if (shouldScroll) {
     const box = graphBox();
-    assert(box.top >= mainBox.top + 96, 'Reset puts the map below sticky subject controls');
+    assert.equal(surfaceBox().top, mainBox.top, 'Reset restores the visible comparison invitation with the map');
+    assert.equal(box.top, mainBox.top + 96, 'Reset preserves the guide above the canvas');
     assert(box.top + box.height <= mainBox.top + mainBox.height, 'Reset map fits inside the phone workspace viewport');
     assert.equal(smoothCalls.length, Number(smooth && !reduced), 'Only allowed motion uses smooth scroll');
     if (smoothCalls.length) assert.equal(smoothCalls[0].behavior, 'smooth');
@@ -947,7 +955,7 @@ for (const reduced of [false, true]) {
     const choice = h.$('region-memberships').children.find(button => button.dataset.regionId === id);
     assert(choice, id + ' accessible region button'); choice.dispatchEvent(event('click'));
     assert.equal(h.$('region-panel').hidden, true, 'Choosing a territory keeps its detailed trails folded beneath the map');
-    assert.equal(h.document.activeElement, h.$('comparison-details'), 'Territory selection offers the map-reading shortcut');
+    assert.equal(h.document.activeElement, h.$('comparison-picker'), 'Territory selection offers the second subject without opening an evidence panel');
     const bubble = h.$('map-reading-cards').children.find(card => card.dataset.readingId === 'territory');
     assert(bubble, 'The selected territory has an immediate explanation bubble');
     assert.equal(bubble.querySelector('.map-bubble-value').textContent, `${h.graph.regionSelection.size.toLocaleString()} selected records`);
@@ -1071,7 +1079,7 @@ for (const reduced of [false, true]) {
   assert.match(h.location.hash, /compare=minds%2Cbodies/);
   assert.equal(h.graph.comparison.shared.size, 108); assert.equal(h.graph.comparison.memberIds.size, 4006);
   assert.equal(h.$('region-panel').hidden, true, 'second selection exposes both clusters');
-  assert.equal(h.document.activeElement, h.$('comparison-details'));
+  assert.equal(h.document.activeElement, h.$('comparison-picker'));
   h.click('comparison-details');
   assert.equal(h.document.activeElement, h.$('map-reading-heading'));
   assert.equal(h.$('region-panel').hidden, true, 'Comparison explanations stay separate from the optional source trail');
@@ -1102,6 +1110,87 @@ for (const reduced of [false, true]) {
   h.click('comparison-clear'); assert.equal(h.graph.comparison, null);
   assert.equal(h.graph.regionSelection, null); assert.equal(h.$('results-count').textContent, '33,945');
   assert.equal(h.graph.data, original); assert.equal(JSON.stringify(original.nodes.map(n => [n.id, n.x, n.y])), coordinates);
+  cases++;
+}
+
+// Real controls must make comparison discoverable, preserve its selection while
+// clearing filters, and return keyboard focus to a visible surface.
+{
+  const h = harness({ reduced: true }); h.loadApp(); h.type('atlas'); h.submit(); await h.settle(); usable(h);
+  const choose = id => { h.$('comparison-picker').value = id; h.$('comparison-picker').dispatchEvent(event('change')); };
+  const toggle = (id, open) => { h.$(id).open = open; h.$(id).dispatchEvent(event('toggle')); };
+  assert.equal(h.$('territory-comparison').dataset.phase, 'first');
+  assert.equal(h.$('comparison-example').hidden, false);
+  assert.equal(h.$('explore-tools').open, false);
+  toggle('explore-tools', true); assert.equal(h.document.activeElement, h.$('search'));
+  h.document.dispatchEvent(event('keydown', { key: 'Escape' }));
+  assert.equal(h.$('explore-tools').open, false);
+  assert.equal(h.document.activeElement, h.$('explore-tools-toggle'));
+  toggle('map-perspectives', true);
+  h.document.dispatchEvent(event('keydown', { key: 'Escape' }));
+  assert.equal(h.$('map-perspectives').open, false);
+  assert.equal(h.document.activeElement, h.$('map-perspectives-toggle'));
+  toggle('explore-tools', true);
+  choose('minds');
+  assert.equal(h.$('explore-tools').open, false);
+  assert.equal(h.document.activeElement, h.$('comparison-picker'));
+  assert.equal(h.$('territory-comparison').dataset.phase, 'second');
+  assert.equal(h.$('comparison-example').hidden, true);
+  choose('planet');
+  assert.equal(h.$('territory-comparison').dataset.phase, 'compare');
+  assert.equal(h.graph.comparison.left.id, 'minds'); assert.equal(h.graph.comparison.right.id, 'planet');
+  h.$('search').value = 'unfindable 998877'; h.$('search').dispatchEvent(event('input')); await h.settle();
+  assert.equal(h.graph.comparison.memberIds.size, 0); assert.equal(h.$('filter-count').textContent, '1');
+  h.click('clear-search-filters');
+  assert(h.graph.comparison.memberIds.size > 0, 'Clearing filters restores the chosen comparison');
+  assert.equal(h.graph.comparison.left.id, 'minds'); assert.equal(h.graph.comparison.right.id, 'planet');
+  assert.equal(h.$('filter-count').hidden, true);
+  h.history.go(-1);
+  assert.equal(h.$('search').value, 'unfindable 998877'); assert.equal(h.graph.comparison.memberIds.size, 0);
+  h.history.go(1);
+  assert.equal(h.$('search').value, ''); assert(h.graph.comparison.memberIds.size > 0);
+  assert.equal(h.graph.comparison.left.id, 'minds'); assert.equal(h.graph.comparison.right.id, 'planet');
+  h.click('comparison-details'); assert.equal(h.document.activeElement, h.$('map-reading-heading'));
+  assert.equal(h.$('region-panel').hidden, true, 'The key does not open detailed evidence');
+  h.click('return-map'); assert.equal(h.document.activeElement, h.$('network'));
+  h.click('list-view'); h.click('comparison-details'); h.click('return-map');
+  assert.equal(h.document.body.dataset.view, 'map');
+  assert.equal(h.document.activeElement, h.$('network'), 'Back to map leaves List and focuses the canvas');
+  h.graph.available = false; h.click('return-map');
+  assert.equal(h.document.body.dataset.view, 'list');
+  assert.equal(h.document.activeElement, h.$('results-heading'), 'Unavailable graphics retain a visible List fallback');
+  delete h.graph.available;
+  h.click('map-view'); h.click('comparison-clear'); h.click('comparison-example');
+  assert.equal(h.graph.comparison.left.id, 'minds'); assert.equal(h.graph.comparison.right.id, 'power');
+  assert.equal(h.document.activeElement, h.$('comparison-picker'));
+  h.$('comparison-selected').children[1].dispatchEvent(event('click'));
+  assert.equal(h.graph.comparison, null); assert.equal(h.graph.regionSelectionMeta.id, 'minds');
+  assert.equal(h.$('territory-comparison').dataset.phase, 'second');
+  assert.equal(h.document.activeElement, h.$('comparison-picker'));
+  const fullRegionCount = h.graph.regionSelection.size;
+  h.click('map-evidence');
+  const facets = h.$('region-content').querySelector('.region-filters'); facets.open = true; facets.dispatchEvent(event('toggle'));
+  const term = h.$('region-facet-term'), word = term.options.find(option => option.value).value;
+  term.value = word; term.dispatchEvent(event('change'));
+  const filteredCount = h.graph.regionSelection.size;
+  assert.equal(new URLSearchParams(h.location.hash.slice(1)).get('term'), word);
+  h.click('clear-search-filters');
+  assert.equal(new URLSearchParams(h.location.hash.slice(1)).get('theme'), 'minds');
+  assert.equal(new URLSearchParams(h.location.hash.slice(1)).has('term'), false);
+  assert.equal(h.graph.regionSelection.size, fullRegionCount);
+  h.history.go(-1); assert.equal(h.graph.regionSelection.size, filteredCount);
+  assert.equal(new URLSearchParams(h.location.hash.slice(1)).get('term'), word);
+  h.history.go(1); assert.equal(h.graph.regionSelection.size, fullRegionCount);
+  // Reparse the shareable route without history state, as a fresh page does.
+  h.history.replaceState(null, '', h.location.href); h.window.dispatchEvent(event('popstate'));
+  assert.equal(h.graph.regionSelectionMeta.id, 'minds'); assert.equal(h.graph.regionSelection.size, fullRegionCount);
+  toggle('explore-tools', true); toggle('map-perspectives', true);
+  h.click('reset-atlas'); await h.settle();
+  assert.equal(h.graph.comparison, null); assert.equal(h.$('territory-comparison').dataset.phase, 'first');
+  assert.equal(h.$('comparison-example').hidden, false); assert.equal(h.$('results-count').textContent, '33,945');
+  assert.equal(h.$('explore-tools').open, false); assert.equal(h.$('map-perspectives').open, false);
+  assert.equal(h.document.activeElement, h.$('reset-atlas')); assert.equal(h.location.hash, '');
+  assert(h.trace.some(step => step.event === 'graph:reset' && step.universe), 'Full reset restores the universe camera');
   cases++;
 }
 

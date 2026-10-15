@@ -414,7 +414,8 @@ test('comparison switching, drag, static motion, hidden state and phone orientat
   h.pointer('pointerdown', 1, 900, 500); h.pointer('pointermove', 1, 925, 530); h.pointer('pointerup', 1, 925, 530); h.tick(600);
   assert.deepEqual(h.graph.pan, { x: pan.x + 25, y: pan.y + 30 }, 'drag interrupts auto-framing, never snaps back when layout completes');
   h.graph.select(h.graph.byId.get('r-60')); h.tick(600);
-  assert.deepEqual(h.graph.anchor(h.graph.byId.get('r-60')), h.graph.viewportCenter(), 'click centers the temporary, not canonical, star location');
+  const centered = h.graph.anchor(h.graph.byId.get('r-60')), center = h.graph.viewportCenter();
+  assert.ok(Math.hypot(centered.x - center.x, centered.y - center.y) < 1e-8, 'click centers the temporary, not canonical, star location');
   h.graph.setComparison(config); h.tick(180); h.graph.toggleMotion(); h.tick(0);
   assert.equal(h.graph.comparison.progress, 1); assert.equal(h.frames.size, 0, 'pause settles comparison and stops flow');
   h.graph.setComparison(reversed); h.tick(0); assert.equal(h.graph.comparison.progress, 1, 'paused changes render their final state directly');
@@ -890,8 +891,8 @@ test('camera flights ease between real positions, preserve zoom on click and set
   assert.ok(Math.abs(distance(middle) - distance(start) / 2) < 1e-7, 'halfway travel has an intermediate view');
   assert.notDeepEqual(h.graph.pan, from); assert.equal(h.graph.scale, scale);
   h.tick(300);
-  assert.deepEqual(h.graph.anchor(node), center); assert.equal(h.graph.cameraFlight, null);
-  assert.equal(h.selected.length, 1); assert.deepEqual(h.selectedAnchors[0], center);
+  assert.ok(distance(h.graph.anchor(node)) < 1e-8); assert.equal(h.graph.cameraFlight, null);
+  assert.equal(h.selected.length, 1); assert.ok(distance(h.selectedAnchors[0]) < 1e-8);
   assert.equal(h.gl.uploads.length, uploads, 'flight changes camera uniforms only');
   h.tick(710); assert.equal(h.frames.size, 0, 'routes-off map stops after the finite camera/selection motion');
   h.tick(5000); assert.equal(h.selected.length, 1, 'arrival callback is never replayed');
@@ -964,11 +965,57 @@ test('GPU route flow is capped at30Hz, preserves full buffers, pauses and stops 
   h.tick(5000); assert.equal(h.gl.uploads.length, uploads); assert.deepEqual(records.values, coordinates);
 });
 
+test('map-first overview uses the available field on desktop and phones', t => {
+  const h = harness(t, { reducedMotion: true });
+  h.graph.setData({ nodes: [
+    { id: 'left', kind: 'item', label: 'Left', x: -500, y: -400 },
+    { id: 'right', kind: 'item', label: 'Right', x: 500, y: 400 },
+  ], edges: [], bounds: { left: -500, right: 500, top: -400, bottom: 400 } });
+  h.graph.setActive(true);
+  for (const [width, height] of [[1280, 720], [390, 600], [320, 400]]) {
+    Object.assign(h.canvas.rect, { width, height }); h.graph.measure(); h.graph.reset(); h.tick(0);
+    const frame = h.graph.viewportFrame();
+    assert.ok(frame.top + frame.bottom <= 100, 'The external guide and reading key no longer shrink the field');
+    assert.ok(frame.left + frame.right <= width * 0.18, 'Overview retains most of the horizontal canvas');
+    for (const node of h.graph.nodes) {
+      const point = h.graph.anchor(node);
+      assert.ok(point.x >= frame.left - 1e-8 && point.x <= width - frame.right + 1e-8);
+      assert.ok(point.y >= frame.top - 1e-8 && point.y <= height - frame.bottom + 1e-8);
+    }
+  }
+});
+
+test('opening map options refreshes label exclusions without changing the camera, selection or graph buffers', t => {
+  const h = harness(t, { gpu: true, reducedMotion: true });
+  let open = false;
+  h.canvas.parentElement.querySelectorAll = selector => {
+    assert.ok(selector.includes('.perspective-options'), 'The actual dropdown panel participates in label avoidance');
+    return [
+      { getBoundingClientRect: () => ({ left: 840, top: 8, width: 150, height: 38 }) },
+      { getBoundingClientRect: () => open ? { left: 720, top: 48, width: 270, height: 220 } : { left: 0, top: 0, width: 0, height: 0 } },
+    ];
+  };
+  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  h.graph.focusRecord('work-50'); h.tick(0);
+  const camera = { scale: h.graph.scale, pan: { ...h.graph.pan } }, uploads = h.gl.uploads.length;
+  const before = h.graph.labelExclusions();
+  assert.equal(before.length, 1, 'Closed native details content excludes no map space');
+  open = true; h.graph.refreshOverlayLayout(); h.tick(0);
+  assert.equal(h.graph.labelExclusions().length, 2);
+  assert.equal(h.graph.labelExclusions().some(box => box.width === 282 && box.height === 232), true);
+  assert.deepEqual({ scale: h.graph.scale, pan: h.graph.pan }, camera);
+  assert.equal(h.graph.selected, 'work-50');
+  assert.equal(h.gl.uploads.length, uploads);
+  open = false; h.graph.refreshOverlayLayout(); h.tick(0);
+  assert.equal(h.graph.labelExclusions().length, 1);
+  assert.equal(h.frames.size, 0, 'Overlay changes do not start a permanent render loop');
+});
+
 test('responsive fit preserves world center and relative zoom', t => {
   const h = harness(t, { reducedMotion: true });
   h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
-  assert.ok(h.graph.viewportCenter().x > h.canvas.rect.width / 2);
-  assert.ok(h.graph.viewportCenter().y > h.canvas.rect.height / 2);
+  assert.equal(h.graph.viewportCenter().x, h.canvas.rect.width / 2, 'The removed introduction no longer shifts the field sideways');
+  assert.ok(Math.abs(h.graph.viewportCenter().y - h.canvas.rect.height / 2) <= 12, 'Only the small control rim offsets vertical framing');
   h.graph.zoomBy(1.7);
   const oldCenter = h.graph.viewportCenter();
   const oldWorld = { x: (oldCenter.x - h.graph.pan.x) / h.graph.scale, y: (oldCenter.y - h.graph.pan.y) / h.graph.scale };

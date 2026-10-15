@@ -67,18 +67,17 @@
     document.body.classList.remove('entry-pending');
     document.body.classList.remove('entry-revealing');
     enter();
-    $('search').focus({ preventScroll: true });
+    $(document.body.dataset.view === 'list' ? 'results-heading' : 'comparison-picker').focus({ preventScroll: true });
   }
   function revealMapViewport({ smooth = false } = {}) {
-    if (document.body.dataset.view === 'list' || document.body.dataset.mapExpanded === 'true' || document.body.dataset.comparison === 'true' || !matchMedia('(max-width: 680px)').matches) return;
-    const main = $('main'), stage = $('graph-stage');
-    if (!main || !stage || main.scrollHeight <= main.clientHeight) return;
-    const frame = main.getBoundingClientRect(), field = stage.getBoundingClientRect();
+    if (document.body.dataset.view === 'list' || !matchMedia('(max-width: 680px)').matches) return;
+    const main = $('main'), surface = $('map-surface');
+    if (!main || !surface || main.scrollHeight <= main.clientHeight) return;
+    const frame = main.getBoundingClientRect(), field = surface.getBoundingClientRect();
     if (!frame.height || !field.height) return;
-    // Only the workspace scroller moves. Reserve the sticky subject picker so
-    // the ready field, not the controls above it, receives the constellation.
-    const controls = $('territory-comparison')?.getBoundingClientRect().height || 0;
-    const top = Math.max(0, main.scrollTop + field.top - frame.top - controls);
+    // The guide belongs to the map surface: reveal both together instead of
+    // scrolling past the first action when the constellation reaches the field.
+    const top = Math.max(0, main.scrollTop + field.top - frame.top);
     if (smooth && !reduced.matches && main.scrollTo) main.scrollTo({ top, behavior: 'smooth' });
     else main.scrollTop = top;
   }

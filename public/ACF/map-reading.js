@@ -1,5 +1,5 @@
-import { THEMES } from './model.js?v=glyphs-20261013';
-import { ROUTE_STYLES, routeStyle } from './route-style.js?v=glyphs-20261013';
+import { THEMES } from './model.js?v=mapfirst-20261015';
+import { ROUTE_STYLES, routeStyle } from './route-style.js?v=mapfirst-20261015';
 
 const number = value => Number(value).toLocaleString('en-US');
 const recordCount = (count, qualifier = '') => `${number(count)} ${qualifier}${count === 1 ? 'record' : 'records'}`;

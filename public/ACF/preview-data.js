@@ -1,4 +1,4 @@
-import { label, THEMES } from './model.js?v=glyphs-20261013';
+import { label, THEMES } from './model.js?v=mapfirst-20261015';
 
 const value = input => typeof input === 'string' ? input.trim() : '';
 const count = input => Number.isFinite(input) && input >= 0 ? Math.floor(input) : null;
