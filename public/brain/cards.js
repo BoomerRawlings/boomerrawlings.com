@@ -6,7 +6,7 @@ import { topics } from './curriculum.js';
 const cardsByTopic = {
   'brain-overview': {
     recall: ['A fiber carries information into the thalamus. What directional term describes it relative to the thalamus?', 'It is afferent to the thalamus.'],
-    mechanism: ['How do sagittal, coronal and axial planes divide the brain?', 'Sagittal separates left and right; coronal separates front and back; axial separates upper and lower.', 'These planes provide a shared reference when comparing anatomical views.'],
+    mechanism: ['How do sagittal, coronal and axial planes divide the brain?', 'Sagittal separates anatomical left and right; coronal separates anterior and posterior; axial separates superior and inferior.', 'These planes stay fixed when the view rotates. In the cerebrum, dorsal means superior and ventral means inferior; in the brainstem, dorsal means posterior and ventral means anterior.'],
     apply: ['A CNS structure contains a cluster of neuronal cell bodies; another contains axons connecting locations. What anatomical terms distinguish them?', 'The cell-body cluster is a nucleus; the connecting axon bundle is a tract.', 'A ganglion usually names a PNS cell-body cluster, with “basal ganglia” as a historical exception.'],
   },
   'cerebral-cortex': {

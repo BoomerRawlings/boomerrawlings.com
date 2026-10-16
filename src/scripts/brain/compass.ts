@@ -1,11 +1,12 @@
 import { Quaternion, Vector3 } from 'three';
 import type { Camera } from 'three';
 
-// Allen RAS and HCP data are displayed as X=right, Y=superior, Z=anterior.
+// Atlas files store right/superior/anterior. The macro scene reflects X once
+// to restore a right-handed display: X=left, Y=superior, Z=anterior.
 // Cellular and molecular teaching scenes have model axes, not patient axes.
 export const compassAxes = [
-  { vector:[1,0,0], anatomy:'R', name:'Right', model:'+X', color:'#e6a28c' },
-  { vector:[-1,0,0], anatomy:'L', name:'Left', model:'−X', color:'#e6a28c' },
+  { vector:[-1,0,0], anatomy:'R', name:'Anatomical right', model:'-X', color:'#e6a28c' },
+  { vector:[1,0,0], anatomy:'L', name:'Anatomical left', model:'+X', color:'#e6a28c' },
   { vector:[0,1,0], anatomy:'S', name:'Superior', model:'+Y', color:'#aadba7' },
   { vector:[0,-1,0], anatomy:'I', name:'Inferior', model:'−Y', color:'#aadba7' },
   { vector:[0,0,1], anatomy:'A', name:'Anterior', model:'+Z', color:'#94c6ef' },
@@ -27,7 +28,7 @@ export function createCompass(host:HTMLElement,onView:(direction:Vector3)=>void)
   const entries=compassAxes.map(axis=>{
     const line=document.createElementNS(ns,'line');line.setAttribute('x1','56');line.setAttribute('y1','56');line.setAttribute('stroke',axis.color);svg.prepend(line);
     const button=document.createElement('button');button.type='button';button.style.setProperty('--axis-color',axis.color);
-    button.addEventListener('click',()=>{const direction=new Vector3(...axis.vector);if(Math.abs(direction.y)===1)direction.z=.001;onView(direction.normalize());});
+    button.addEventListener('click',()=>{const direction=new Vector3(...axis.vector);if(Math.abs(direction.y)===1)direction.z=-direction.y*.001;onView(direction.normalize());});
     stage.append(button);return{axis,line,button};
   });
   element.append(stage,title);host.append(element);let previousMode:boolean|undefined;

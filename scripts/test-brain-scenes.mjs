@@ -203,6 +203,21 @@ try {
     const { ctx, registry } = instrument();
     try {
       await (['brain', 'tracts'].includes(topic.scene) ? buildMacroScene : buildMicroScene)(topic, ctx);
+      ctx.root.updateMatrixWorld(true);
+      if(['brain','tracts'].includes(topic.scene)){
+        assert.equal(ctx.root.scale.x,-1,'Atlas R,S,A storage needs X reflection for a right-handed display');
+        const anterior=new THREE.PerspectiveCamera(37,1,.1,1000);anterior.position.set(0,0,300);anterior.lookAt(0,0,0);anterior.updateMatrixWorld(true);
+        for(const {object,spec}of registry.picks){
+          const hemisphere=spec.id.match(/-(left|right)$/)?.[1];
+          if(!hemisphere)continue;
+          const center=new THREE.Box3().setFromObject(object).getCenter(vector()).project(anterior);
+          assert(hemisphere==='right'?center.x<0:center.x>0,`${topic.id}/${spec.id}: hemisphere label must project on the specimen's side in anterior view`);
+        }
+        for(const {object,spec}of registry.representations){
+          if(spec.id==='axon')assert(object.matrixWorld.determinant()>0,'Schematic axon must retain its model axes');
+          else assert(spec.viewDirection?.[0]<=0,'Anatomical camera must follow the converted source view direction');
+        }
+      }else assert.equal(ctx.root.scale.x,1,'Micro scenes must retain their model axes');
       const defaultNarrative = inspectRegistry(ctx.root, registry, !['brain', 'tracts'].includes(topic.scene));
       if(['brain-overview','cerebral-cortex'].includes(topic.id)){
         const measured=registry.representations.find(r=>r.spec.id==='measured');assert(measured,'Opaque cortex needs its measured representation');

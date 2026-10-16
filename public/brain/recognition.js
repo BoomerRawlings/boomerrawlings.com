@@ -93,7 +93,7 @@ export const recognition = {
     title: 'Hypothalamic landmarks',
     view: 'Midsagittal and coronal diencephalic sections',
     landmarks: [
-      'It forms the lower lateral walls and floor of the third ventricle.',
+      'It forms the inferior portions of the lateral walls and the floor of the third ventricle.',
       'Locate it below the thalamus, between the optic-chiasm region and mammillary bodies.',
       'The infundibulum projects inferiorly toward the pituitary.',
     ],

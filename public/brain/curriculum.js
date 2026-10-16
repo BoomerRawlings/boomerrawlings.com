@@ -435,7 +435,7 @@ export const topics = [
     "mechanism": {
       "summary": "Anatomical directions provide a shared coordinate system for comparing views.",
       "bullets": [
-        "Sagittal: left and right. Coronal: front and back. Axial: upper and lower.",
+        "Sagittal separates anatomical left and right; coronal separates anterior and posterior; axial separates superior and inferior. In the cerebrum, dorsal means superior and ventral means inferior.",
         "Afferent means arriving at a reference structure; efferent means leaving it."
       ]
     },
@@ -581,7 +581,7 @@ export const topics = [
     "essentials": {
       "summary": "The hypothalamus coordinates homeostasis through autonomic, endocrine, and behavioral responses.",
       "bullets": [
-        "It lies around the lower part of the third ventricle.",
+        "It forms the inferior portions of the lateral walls and the floor of the third ventricle.",
         "Its nuclei participate in temperature, fluid balance, feeding, and biological rhythms."
       ]
     },

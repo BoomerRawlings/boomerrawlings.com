@@ -135,17 +135,17 @@ for(const aspect of [.4,.7,1,16/9,2.5])for(const dimensions of [[12,.6,8],[.3,7,
  geometry.dispose();material.dispose();
 }
 
-// Source axes are anatomical world axes; the compass must project them through
+// Right-handed display axes are left/superior/anterior; project them through
 // the inverse camera orientation without changing that orientation.
 assert.deepEqual(module.compassAxes.map(axis=>[axis.anatomy,...axis.vector]),[
-  ['R',1,0,0],['L',-1,0,0],['S',0,1,0],['I',0,-1,0],['A',0,0,1],['P',0,0,-1],
+  ['R',-1,0,0],['L',1,0,0],['S',0,1,0],['I',0,-1,0],['A',0,0,1],['P',0,0,-1],
 ]);
 let compassCases=0;
 for(const [position,up,expected] of[
-  [[0,0,1],[0,1,0],[[1,0,0],[0,1,0],[0,0,1]]],
-  [[1,0,0],[0,1,0],[[0,0,1],[0,1,0],[-1,0,0]]],
-  [[-1,0,0],[0,1,0],[[0,0,-1],[0,1,0],[1,0,0]]],
-  [[0,1,0],[0,0,-1],[[1,0,0],[0,0,1],[0,-1,0]]],
+  [[0,0,1],[0,1,0],[[-1,0,0],[0,1,0],[0,0,1]]],
+  [[1,0,0],[0,1,0],[[0,0,-1],[0,1,0],[-1,0,0]]],
+  [[-1,0,0],[0,1,0],[[0,0,1],[0,1,0],[1,0,0]]],
+  [[0,1,0],[0,0,-1],[[-1,0,0],[0,0,1],[0,-1,0]]],
 ]){
   const camera=new THREE.PerspectiveCamera();camera.position.fromArray(position);camera.up.fromArray(up);camera.lookAt(0,0,0);
   const orientation=camera.quaternion.clone();
@@ -155,6 +155,29 @@ for(const [position,up,expected] of[
     assert(module.compassProjection(module.compassAxes[axis+1].vector,camera.quaternion).add(projected).length()<1e-9,'Opposite anatomical axes must stay opposite');compassCases++;
   }
   assert(camera.quaternion.equals(orientation),'Compass projection must not mutate camera orientation');
+}
+
+// Every compass model-axis name must still match its world direction.
+for(const axis of module.compassAxes){
+  const index='XYZ'.indexOf(axis.model.slice(-1)),sign=axis.model[0]==='+'?1:-1;
+  assert.equal(axis.vector[index],sign,'Anatomical correction must not reverse model-axis controls');
+}
+const viewDriver=new Function('THREE','scene','representationId',`
+  const V=(...v)=>new THREE.Vector3(...v),home=V(),current={scene},camera={position:V(0,0,10)},controls={target:V()};
+  let direction;function clearFocus(){}function setCamera(_,__,value){direction=value;}
+  ${actualFunction('setView')}
+  return view=>{setView(view);return direction;};
+`);
+for(const scene of ['brain','tracts','neuron','molecule'])for(const representation of ['measured','axon']){
+  const view=viewDriver(THREE,scene,representation),anatomical=['brain','tracts'].includes(scene)&&representation!=='axon';
+  assert.equal(view('lateral').x,anatomical?-1:1);
+  assert.equal(view('left-lateral').x,anatomical?1:-1);
+  assert(view('superior').y>.999&&view('inferior').y<-.999);
+  assert.equal(view('anterior').z,1);assert.equal(view('posterior').z,-1);
+  for(const pole of ['superior','inferior']){
+    const camera=new THREE.PerspectiveCamera();camera.position.copy(view(pole));camera.lookAt(0,0,0);
+    assert(module.compassProjection([0,0,1],camera.quaternion).y>.999,'Anterior must point toward the top in superior/inferior views');
+  }
 }
 
 function assertVisibleFits(root,camera,label){

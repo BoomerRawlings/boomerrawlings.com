@@ -12,6 +12,9 @@ type ReferenceMRI={metadata:{template:string};planes:ReferencePlane[]};
 type LandmarkAtlas={meshes:(AtlasMesh&{topicIds:string[];atlasStructureIds:number[]})[]};
 const SCALE=.045;
 const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z);
+// Source R,S,A axes swap two RAS axes. Reflect X for a right-handed world;
+// use the same conversion for cameras so hemisphere names remain anatomical.
+const anatomicalView=([x,y,z]:readonly number[]):[number,number,number]=>[-x,y,z];
 const palette=[0xd9b6ab,0xc1c7ab,0xadafcf,0xa2c4c9,0xd2b19b,0xc2abbf];
 const tissueColors:Record<string,number>={hippocampus:0xe5be6b,amygdala:0xe49b90,thalamus:0x9bc6dd,hypothalamus:0xebba7a,caudate:0xa6cbb9,putamen:0xb0c99b,'globus-pallidus':0xc4b998,cerebellum:0xb8cad5,midbrain:0x90b8c0,pons:0xaac3ba,medulla:0xbacdb5,'corpus-callosum':0xefdfa1,fornix:0xc7b9e9,'cerebellar-peduncles':0x8bd3bd,'white-matter-left':0xd6e2db,'white-matter-right':0xd6e2db,ventricles:0x6da9c6};
 const tractColors:Record<string,number>={commissural:0xe9cf86,projection:0x98c7ed,sensory:0xceade4,association:0x81d4bf,limbic:0xe5af94,cerebellar:0x98c8b5};
@@ -192,9 +195,9 @@ async function fibers(topic:BrainTopic,ctx:SceneContext):Promise<string>{
 function orientation(group:THREE.Group,ctx:SceneContext,bounds:THREE.Box3,axes:'sagittal'|'coronal'|'axial'='sagittal'):void{
   const middle=bounds.getCenter(V()),gap=.32;
   const labels: [string,THREE.Vector3][] = axes==='axial'
-    ? [['Anterior',V(middle.x,middle.y,bounds.max.z+gap)],['Posterior',V(middle.x,middle.y,bounds.min.z-gap)],['Right',V(bounds.max.x+gap,middle.y,middle.z)]]
+    ? [['Anterior',V(middle.x,middle.y,bounds.max.z+gap)],['Posterior',V(middle.x,middle.y,bounds.min.z-gap)],['Anatomical right',V(bounds.max.x+gap,middle.y,middle.z)],['Anatomical left',V(bounds.min.x-gap,middle.y,middle.z)]]
     : axes==='coronal'
-      ? [['Superior',V(middle.x,bounds.max.y+gap,middle.z)],['Inferior',V(middle.x,bounds.min.y-gap,middle.z)],['Right',V(bounds.max.x+gap,middle.y,middle.z)]]
+      ? [['Superior',V(middle.x,bounds.max.y+gap,middle.z)],['Inferior',V(middle.x,bounds.min.y-gap,middle.z)],['Anatomical right',V(bounds.max.x+gap,middle.y,middle.z)],['Anatomical left',V(bounds.min.x-gap,middle.y,middle.z)]]
       : [['Anterior',V(middle.x,middle.y,bounds.max.z+gap)],['Posterior',V(middle.x,middle.y,bounds.min.z-gap)],['Superior',V(middle.x,bounds.max.y+gap,middle.z)]];
   for(const [text,point]of labels)ctx.label(text,group,point,{minDetail:0,maxDetail:3,priority:1});
 }
@@ -223,7 +226,7 @@ function contextualAnatomy(atlas:Atlas,landmarks:LandmarkAtlas,topic:BrainTopic,
   cortical.userData.atlasRegion={id:'context-hemisphere-left',sourceName:shell.name};
   cortical.userData.anatomicalContext={template:'Allen 2020 / ICBM2009b symmetric',sourceId:shell.id};
   ctx.separable(cortical,V(-2.6,1.8,-2.2));
-  ctx.pick(cortical,{id:'context-hemisphere-left',label:'Left cerebral hemisphere · cutaway context',description:'Source-derived left cerebral surface at its original location in the assembled view. The right cerebral exterior is removed to expose the highlighted deep anatomy. Separate uses illustrative display translations; this surface is never mirrored.',topicId:'cerebral-cortex',level:0,maxLevel:3,kind:'anatomical landmark',priority:0});
+  ctx.pick(cortical,{id:'context-hemisphere-left',label:'Left cerebral hemisphere · medial surface context',description:'The medial surface faces the midline. The right cerebral exterior is removed to expose the left hemisphere and highlighted deep anatomy at their source locations. Separate uses illustrative display translations; anatomical hemisphere identity stays fixed.',topicId:'cerebral-cortex',level:0,maxLevel:3,kind:'anatomical landmark',priority:0});
   const neighborIds=contextNeighbors[topic.id]||['thalamus','midbrain','pons','medulla'];
   for(const id of neighborIds){
     const item=atlas.meshes.find(m=>m.id===id);if(!item)continue;
@@ -387,7 +390,7 @@ export async function buildMacroScene(topic:BrainTopic,ctx:SceneContext):Promise
   const rightOblique:[number,number,number]=[1,.18,.3];
   const regionalView:[number,number,number]=['thalamus','hypothalamus','dorsal-column'].includes(topic.id)?[.15,.12,1]:topic.id==='cerebellum'?[.35,.18,-1]:rightOblique;
   const guide=regionalGuides[topic.id];
-  const registerRegions=()=>ctx.representation(regions,{id:'regions',label:dorsal?'Relay anatomy':guide.label,description:dorsal?'Measured VPL thalamic nuclei and postcentral gyri locate the thalamic relay and cortical destination. The spinal pathway is not supplied.':guide.description,status:dorsal?'Allen reference anatomy · VPL relay and postcentral gyri · no invented spinal tract, crossing or continuous axon through the relay.':`Allen Human Reference Atlas 2020 · ${guide.label.toLowerCase()} · assembled positions retain source anatomy; Separate uses illustrative spacing to expose each measured part.`,scale:'Reference anatomy · mm',narrative:null,viewDirection:regionalView});
+  const registerRegions=()=>ctx.representation(regions,{id:'regions',label:dorsal?'Relay anatomy':guide.label,description:dorsal?'Measured VPL thalamic nuclei and postcentral gyri locate the thalamic relay and cortical destination. The spinal pathway is not supplied.':guide.description,status:dorsal?'Allen reference anatomy · VPL relay and postcentral gyri · no invented spinal tract, crossing or continuous axon through the relay.':`Allen Human Reference Atlas 2020 · ${guide.label.toLowerCase()} · assembled positions retain source anatomy; Separate uses illustrative spacing to expose each measured part.`,scale:'Reference anatomy · mm',narrative:null,viewDirection:anatomicalView(regionalView)});
   if(topic.scene==='tracts'&&!dorsal){
     const reference=await load<ReferenceMRI>('/brain/models/tracts/reference-mri.json');if(!ctx.isCurrent())return;
     const context=new THREE.Group();ctx.root.add(context);
@@ -397,21 +400,24 @@ export async function buildMacroScene(topic:BrainTopic,ctx:SceneContext):Promise
     for(const child of [...ctx.root.children])if(!before.has(child))context.add(child);
     const axis=addMRIReference(reference,topic,context,ctx);
     const viewDirection=tractDirection(topic.id);
-    ctx.representation(context,{id:'context',label:'Tracts in MRI',description:`Estimated pathways against a ${axis} T1 reference section from the same ICBM2009a asymmetric template. Rotate to see the native three-dimensional relationships.`,status:`HCP1065 pathways + ICBM2009a asymmetric ${axis} T1 section · assembled source coordinates retained; separated pathways use illustrative translations. MRI sampled at 2 mm. Streamlines remain estimates, not individual axons.`,scale:'Reference anatomy · mm',narrative:null,viewDirection});
+    ctx.representation(context,{id:'context',label:'Tracts in MRI',description:`Estimated pathways against a ${axis} T1 reference section from the same ICBM2009a asymmetric template. Rotate to see the native three-dimensional relationships.`,status:`HCP1065 pathways + ICBM2009a asymmetric ${axis} T1 section · assembled source coordinates retained; separated pathways use illustrative translations. MRI sampled at 2 mm. Streamlines remain estimates, not individual axons.`,scale:'Reference anatomy · mm',narrative:null,viewDirection:anatomicalView(viewDirection)});
   }else if(!['brain-overview','cerebral-cortex'].includes(topic.id)){
     const landmarks=await load<LandmarkAtlas>('/brain/models/atlas-landmarks.json');if(!ctx.isCurrent())return;
     const context=contextualAnatomy(atlas,landmarks,topic,ctx,dorsal?regionalAnatomy(details,atlas,topic,ctx):undefined);
-    ctx.representation(context,{id:'context',label:dorsal?'Relay in context':'Anatomical context',description:'Right cerebral exterior removed; measured target and neighboring anatomy shown against the remaining left hemisphere. Assembled structures retain their original atlas locations and relative scale. Separate uses illustrative display translations.',status:'Allen Human Reference Atlas 2020 · source-derived anatomical cutaway · right cerebral exterior removed to reveal the highlighted anatomy; source shape and size retained; positions are anatomical when assembled and illustratively displaced when separated.',scale:'Reference anatomy · mm',narrative:null,viewDirection:rightOblique});
+    ctx.representation(context,{id:'context',label:dorsal?'Relay in context':'Anatomical context',description:'Right cerebral exterior removed; measured target and neighboring anatomy shown against the remaining left hemisphere. Assembled structures retain their original atlas locations and relative scale. Separate uses illustrative display translations.',status:'Allen Human Reference Atlas 2020 · source-derived anatomical cutaway · right cerebral exterior removed to reveal the highlighted anatomy; source shape and size retained; positions are anatomical when assembled and illustratively displaced when separated.',scale:'Reference anatomy · mm',narrative:null,viewDirection:anatomicalView(rightOblique)});
   }else{
     measured.updateMatrixWorld(true);orientation(measured,ctx,new THREE.Box3().setFromObject(measured));
   }
   // The HCP ML entry contains a cortical continuation. Accurate named relay
   // regions are the default; the composite estimate is an explicit alternative.
   if(dorsal)registerRegions();
-  ctx.representation(measured,{id:'measured',label:dorsal?'Composite tract estimate':topic.scene==='tracts'?'Tractography':['brain-overview','cerebral-cortex'].includes(topic.id)?'Anatomy':'Isolated anatomy',description:dorsal?'Composite estimated ascending somatosensory streamlines from the HCP ML source label. Includes cortical continuation; not exact medial-lemniscus anatomy or an uninterrupted axon through VPL.':topic.scene==='tracts'?'Estimated white-matter pathways from HCP1065 diffusion MRI. Streamlines are not individual axons.':'Measured reference parcellations from Allen Human Reference Atlas 2020.',status:measuredStatus,narrative:null,viewDirection:topic.scene==='tracts'?tractDirection(topic.id):topic.id==='cerebellum'?[.35,.18,-1]:rightOblique});
+  ctx.representation(measured,{id:'measured',label:dorsal?'Composite tract estimate':topic.scene==='tracts'?'Tractography':['brain-overview','cerebral-cortex'].includes(topic.id)?'Anatomy':'Isolated anatomy',description:dorsal?'Composite estimated ascending somatosensory streamlines from the HCP ML source label. Includes cortical continuation; not exact medial-lemniscus anatomy or an uninterrupted axon through VPL.':topic.scene==='tracts'?'Estimated white-matter pathways from HCP1065 diffusion MRI. Streamlines are not individual axons.':'Measured reference parcellations from Allen Human Reference Atlas 2020.',status:measuredStatus,narrative:null,viewDirection:anatomicalView(topic.scene==='tracts'?tractDirection(topic.id):topic.id==='cerebellum'?[.35,.18,-1]:rightOblique)});
   if(!dorsal)registerRegions();
   if(topic.scene==='tracts'){
-    const axon=axonInset(topic,ctx);
+    const axon=axonInset(topic,ctx);axon.scale.x=-1; // Cancel anatomical reflection for this model-axis schematic.
     ctx.representation(axon,{id:'axon',label:'Axon & myelin',description:'White-matter tracts contain axons. This enlarged teaching model explains myelin internodes and nodes of Ranvier; it is not reconstructed from a displayed streamline.',status:'White-matter microstructure · enlarged schematic axon, myelin and nodes of Ranvier. This is a separate teaching scale, not a traced continuation of an MRI streamline.',scale:'Schematic',narrative:null});
   }
+  // Apply after source-space bounds, label anchors and separation offsets exist.
+  // MRI, tracts and anatomy share this transform; source vertices stay unchanged.
+  ctx.root.scale.x=-1;
 }

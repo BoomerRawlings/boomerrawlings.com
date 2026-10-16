@@ -156,7 +156,11 @@ try{
    const measured=views.find(v=>v.spec.id==='measured').object,families=[];measured.traverse(o=>{if(o.userData.tractFamily)families.push(o);});
    if(families.length>1)assert(families.every(o=>separations.some(s=>s.object===o)),`${topic.id}: named tract families must separate intact`);
    const measuredDirection=new THREE.Vector3(...views.find(v=>v.spec.id==='measured').spec.viewDirection).normalize();
-   for(const part of separations.filter(s=>within(s.object,measured)))assert(measuredDirection.distanceTo(new THREE.Vector3(...part.object.userData.explodedLayout.direction))<1e-9,`${topic.id}: measured view must match tract-separation projection`);
+   for(const part of separations.filter(s=>within(s.object,measured))){
+    part.object.parent.updateWorldMatrix(true,false);
+    const worldDirection=new THREE.Vector3(...part.object.userData.explodedLayout.direction).transformDirection(part.object.parent.matrixWorld);
+    assert(measuredDirection.distanceTo(worldDirection)<1e-9,`${topic.id}: measured view must match tract-separation projection in display coordinates`);
+   }
    if(topic.id!=='dorsal-column')assert.deepEqual(context.spec.viewDirection,views.find(v=>v.spec.id==='measured').spec.viewDirection,`${topic.id}: context and tractography should use the same conventional plane`);
    assert(views.find(v=>v.spec.id==='axon').spec.description.includes('not reconstructed'),'Tract axon teaching model must explain its separate scale');
   }

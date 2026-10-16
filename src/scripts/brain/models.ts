@@ -6,10 +6,11 @@ import { buildMacroScene } from './scenes-macro';
 import { cameraBlend, detailOpacity, wheelZoomFactor, zoomDetailLevel } from './zoom';
 import type { BrainTopic, LabelOptions, Narrative, PickSpec, RepresentationSpec, SceneContext } from './scene-types';
 export type { BrainTopic } from './scene-types';
+export type BrainView='lateral'|'left-lateral'|'superior'|'inferior'|'anterior'|'posterior';
 export type BrainViewer = {
   setTopic(topic:BrainTopic):void; setMode(scene:string,target?:string):void;
   setExploded(value:boolean):void; setLabels(value:boolean):void; setPlaying(value:boolean):void;
-  setView(view:'lateral'|'superior'|'anterior'):void; setDetail(level:number):void; setRepresentation(id:string):void;
+  setView(view:BrainView):void; setDetail(level:number):void; setRepresentation(id:string):void;
   focusPart(id:string):void; enter():void; back():void; zoom(direction:number):void;
   seek(fraction:number):void; reset():void; resize():void; dispose():void;
 };
@@ -124,6 +125,12 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
   function setCamera(target:THREE.Vector3,distance:number,direction=camera.position.clone().sub(controls.target).normalize(),instant=false){
     targetGoal.copy(target);cameraGoal.copy(target).addScaledVector(direction,distance);
     if(instant||reduced.matches){camera.position.copy(cameraGoal);controls.target.copy(targetGoal);moving=false;controls.update();updateDetail();}else moving=true;dirty=true;
+  }
+  function setView(view:BrainView){
+    clearFocus();
+    const anatomical=(current.scene==='brain'||current.scene==='tracts')&&representationId!=='axon',right=anatomical?-1:1;
+    const directions={lateral:V(right,0,0),'left-lateral':V(-right,0,0),superior:V(0,1,-.001),inferior:V(0,-1,.001),anterior:V(0,0,1),posterior:V(0,0,-1)};
+    setCamera(home,camera.position.distanceTo(controls.target),directions[view].normalize());
   }
   function topicDirection(){
     const view=representations.find(r=>r.spec.id===representationId)?.spec.viewDirection;
@@ -263,7 +270,7 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
   }
   resize();frame=requestAnimationFrame(tick);
   return{setTopic(topic){void setTopic(topic);},setMode(scene,target){void setTopic({...current,scene,modelTarget:target});},setExploded(value){if(exploded===value)return;exploded=value;container.dataset.separating='true';setHover(null);clearFocus();if(ready)fit(false,true);dirty=true;},setLabels(value){showLabels=value;dirty=true;},setPlaying(value){playing=value;dirty=true;},
-    setView(view){clearFocus();setCamera(home,camera.position.distanceTo(controls.target),view==='lateral'?V(1,0,0):view==='superior'?V(.001,1,0):V(0,0,1));},setDetail(level){requestedDetail=Math.max(0,Math.min(3,Math.round(level)));if(ready)setCamera(controls.target,baseDistance*[1,.73,.52,.32][requestedDetail]);},setRepresentation,focusPart(id){const part=available().find(p=>p.spec.id===id);if(part)focus(part);},enter,back(){clearFocus();setCamera(home,baseDistance);},zoom,seek(fraction){if(narrative){time=THREE.MathUtils.clamp(fraction,0,.9999)*narrative.duration;lastUi=0;dirty=true;}},reset(){clearFocus();setCamera(home,baseDistance,topicDirection());},resize,
+    setView,setDetail(level){requestedDetail=Math.max(0,Math.min(3,Math.round(level)));if(ready)setCamera(controls.target,baseDistance*[1,.73,.52,.32][requestedDetail]);},setRepresentation,focusPart(id){const part=available().find(p=>p.spec.id===id);if(part)focus(part);},enter,back(){clearFocus();setCamera(home,baseDistance);},zoom,seek(fraction){if(narrative){time=THREE.MathUtils.clamp(fraction,0,.9999)*narrative.duration;lastUi=0;dirty=true;}},reset(){clearFocus();setCamera(home,baseDistance,topicDirection());},resize,
     dispose(){disposed=true;generation++;clearTimeout(representationTimer);cancelAnimationFrame(frame);resizeObserver.disconnect();viewportObserver.disconnect();controls.dispose();canvas.removeEventListener('pointermove',onMove);canvas.removeEventListener('pointerleave',onLeave);canvas.removeEventListener('pointerdown',onDown);canvas.removeEventListener('pointerup',onUp);canvas.removeEventListener('wheel',onWheel,true);canvas.removeEventListener('keydown',onKey);disposeRoot();renderer.dispose();renderer.forceContextLoss();canvas.remove();labelLayer.remove();compass?.dispose();}
   };
 }

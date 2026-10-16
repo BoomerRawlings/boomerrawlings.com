@@ -1,6 +1,6 @@
 import { categories, topics as rawTopics, sources as rawSources } from '../../../public/brain/curriculum.js';
 import { journeys, makeRound, cleanProgress } from '../../../public/brain/study.js';
-import type { createBrainViewer } from './models';
+import type { BrainView, createBrainViewer } from './models';
 import { initializePractice } from './practice';
 import { initializeLectures } from './lectures';
 import { createStructurePicker } from './structure-picker';
@@ -91,7 +91,12 @@ function renderJourney(){
   $<HTMLButtonElement>('journey-next').disabled=index===activeJourney.ids.length-1;
 }
 
-function setCameraLabels(anatomical:boolean){const select=$<HTMLSelectElement>('model-view');['Default view',...(anatomical?['Right lateral','Superior','Anterior']:['From +X','From +Y','From +Z'])].forEach((label,i)=>select.options[i].textContent=label);}
+function setCameraLabels(anatomical:boolean){
+  const brainstem=selected.id==='brainstem';
+  const labels=anatomical?['Right lateral','Left lateral',...(brainstem?['Rostral (superior)','Caudal (inferior)','Ventral (anterior)','Dorsal (posterior)']:['Dorsal (superior)','Ventral (inferior)','Anterior (front)','Posterior (back)'])]:['From +X','From -X','From +Y','From -Y','From +Z','From -Z'];
+  const select=$<HTMLSelectElement>('model-view');['Default view',...labels].forEach((label,i)=>select.options[i].textContent=label);
+  $('anatomical-directions').hidden=!anatomical;
+}
 
 function setTopic(id:string,updateHash=true,focus=false){
   const next=byId.get(id);if(!next)return;if(!inCourse(id))courseController?.selectCourse('all');structurePicker.reset();
@@ -242,7 +247,7 @@ $('recall-explore').addEventListener('click',()=>{setMode('explore');setTopic(ro
 $('recall-scope').addEventListener('change',()=>{round=[];$('recall-quiz').hidden=true;$('recall-result').hidden=true;$('recall-start').hidden=false;});
 
 $('model-reset').addEventListener('click',()=>{separated=false;viewer?.setExploded(false);viewer?.reset();$('model-explode').setAttribute('aria-pressed','false');$('model-explode').innerHTML='<span aria-hidden="true">⌘</span> Separate';$('separation-note').hidden=true;$<HTMLSelectElement>('model-view').value='perspective';});
-$('model-view').addEventListener('change',()=>{const view=$<HTMLSelectElement>('model-view').value;if(view==='perspective')$('model-reset').click();else viewer?.setView(view as 'lateral'|'superior'|'anterior');});
+$('model-view').addEventListener('change',()=>{const view=$<HTMLSelectElement>('model-view').value;if(view==='perspective')$('model-reset').click();else viewer?.setView(view as BrainView);});
 $('model-explode').addEventListener('click',()=>{separated=!separated;viewer?.setExploded(separated);$('model-explode').setAttribute('aria-pressed',String(separated));$('model-explode').innerHTML=separated?'<span aria-hidden="true">⌘</span> Reassemble':'<span aria-hidden="true">⌘</span> Separate';$('separation-note').hidden=!separated;});
 $('model-labels').addEventListener('click',()=>{labels=!labels;viewer?.setLabels(labels);$('model-labels').setAttribute('aria-pressed',String(labels));});
 $('model-motion').setAttribute('aria-pressed',String(playing));
