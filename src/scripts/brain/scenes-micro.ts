@@ -14,6 +14,18 @@ const pick = (ctx: SceneContext, object: THREE.Object3D, id: string, label: stri
 function caption(ctx: SceneContext, name: string, object: THREE.Object3D, p = V(), level = 0, priority = 2) { ctx.label(name, object, p, { minDetail: level, priority }); }
 function narrative(ctx: SceneContext, steps: [number, string, string][], duration = 16) { const value = { duration, steps: steps.map(([at, label, description]) => ({ at, label, description })) }; ctx.narrative(value); return value; }
 
+/** Display-only lateral row: source geometry, vertical position and depth stay intact. */
+function separateLaterally(ctx:SceneContext,objects:THREE.Object3D[],gap=.4){
+  if(objects.length<2)return[];
+  const parent=objects[0].parent!;parent.updateWorldMatrix(true,true);
+  const inverse=new THREE.Matrix4().copy(parent.matrixWorld).invert();
+  const items=objects.map(object=>{const box=new THREE.Box3().setFromObject(object).applyMatrix4(inverse);return{object,box,center:box.getCenter(V()).x,width:box.max.x-box.min.x};}).sort((a,b)=>a.center-b.center);
+  const left=Math.min(...items.map(item=>item.box.min.x)),right=Math.max(...items.map(item=>item.box.max.x));
+  const width=items.reduce((sum,item)=>sum+item.width,0)+gap*(items.length-1);
+  let cursor=(left+right-width)/2;
+  return items.map(item=>{const offset=V(cursor+item.width/2-item.center,0,0);ctx.separable(item.object,offset);cursor+=item.width+gap;return{object:item.object,base:item.object.position.clone(),offset};});
+}
+
 /** Tapered organic branch, with a smooth centerline and decreasing radius. */
 function branch(ctx: SceneContext, points: THREE.Vector3[], radius: number, color: number, parent = ctx.root, tip = .015) {
   const curve = new THREE.CatmullRomCurve3(points), segments = Math.max(10, Math.min(48, points.length * 7)), sides = 7;
@@ -273,7 +285,7 @@ function buildMyelin(ctx:SceneContext){
       const mat=ctx.material(layer%2?C.pearl:C.teal);mat.side=THREE.DoubleSide;
       const shell=ctx.mesh(new THREE.LatheGeometry(profile,40,.28,Math.PI*1.63),mat,g);shell.rotation.z=Math.PI/2;shell.userData.myelinLamella={length:half*2,axonRadius:.14,outerRadius:r};const detail=layer===0||layer===8?0:1;ctx.detail(shell,detail);pick(ctx,shell,`lamella-${i}-${layer}`,'Compact myelin lamella','Membrane wraps taper down toward paranodal contacts. A wedge is removed to expose the continuous axon; layer spacing and node length are enlarged for visibility.','myelin',detail);
       if(layer===8){const compact=ctx.mesh(new THREE.LatheGeometry(profile,40),ctx.material(C.teal),closed);compact.rotation.z=Math.PI/2;compact.userData.recognitionFeature='compact-myelin-sheath';pick(ctx,compact,`compact-internode-${i}`,'Compact myelin internode','A complete insulating glial wrap surrounds this continuous axon. Tapered paranodal ends flank short exposed nodes; select Cutaway to inspect internal wraps.','myelin');}
-    }ctx.separable(g,V(0,i%2?.35:-.35,.2));ctx.separable(closed,V(0,i%2?.35:-.35,.2));
+    }const offset=V((i-1.5)*.65,0,0);ctx.separable(g,offset);ctx.separable(closed,offset);
     for(const end of [-1,1])for(let j=0;j<5;j++){const ring=ctx.mesh(new THREE.TorusGeometry(.155+j*.002,.008,8,28),ctx.material(C.violet),g);ring.rotation.y=Math.PI/2;ring.position.x=end*(.71-j*.014);ctx.detail(ring,1);}
   }
   for(const x of nodeXs){
@@ -363,7 +375,6 @@ function activeSynapse(ctx:SceneContext,parent:THREE.Object3D,p:THREE.Vector3,si
   for(const [parentBody,rx,rz,color]of [[pre,2,1.3,C.pink],[post,1.8125,1.275,C.pearl]] as [THREE.Object3D,number,number,number][])ctx.tube(Array.from({length:41},(_,i)=>V(Math.cos(i/40*Math.PI*2)*rx,0,Math.sin(i/40*Math.PI*2)*rz)),.032,color,parentBody,1,48);
   const preLipids=lipidSheet(ctx,pre,V(),4.2,2.25,0,[{x:0,z:.3,radius:.26},{x:-.82,z:.24,radius:.45}]),postLipids=lipidSheet(ctx,post,V(),4.2,2.25,0,Array.from({length:5},(_,i)=>({x:(i-2)*.65,z:.16,radius:.35})));ctx.detail(preLipids,2);ctx.detail(postLipids,2);
   synapticMembraneFace(ctx,pre,V(),2,1.3,C.pink,[{x:0,z:.3,radius:.26},{x:-.82,z:.24,radius:.45}]);synapticMembraneFace(ctx,post,V(),1.8125,1.275,C.pearl,Array.from({length:5},(_,i)=>({x:(i-2)*.65,z:.16,radius:.29})));
-  ctx.separable(pre,V(0,.75,0));ctx.separable(post,V(0,-.75,0));
   const pool=group(pre);const vesicles=Array.from({length:9},(_,i)=>vesicle(ctx,pool,V((i%3-1)*.95,.65+Math.floor(i/3)*.4,Math.sin(i*1.8)*.48),.25));
   const docked=vesicle(ctx,pre,V(0,.49,.30),.32);snare(ctx,pre,V(-.16,.08,.27));snare(ctx,pre,V(.16,.08,.27));
   const pore=ctx.mesh(new THREE.TorusGeometry(.19,.045,9,36),ctx.material(C.teal),pre);pore.rotation.x=Math.PI/2;pore.position.set(0,0,.3);
@@ -383,14 +394,15 @@ function activeSynapse(ctx:SceneContext,parent:THREE.Object3D,p:THREE.Vector3,si
   });
   for(let i=-2;i<=2;i++)train(ctx,new THREE.LineCurve3(V(i*.65,-.50,.16),V(i*.65,-1.8,.16)),C.amber,2,g,{start:paired?6:7,end:paired?8:11,duration:cycleLength,radius:.041});
   caption(ctx,'Axonal bouton',pre,V(-1.1,1.65,.3),0,4);caption(ctx,'Dendritic spine',post,V(-1.35,-1.1,.3),0,4);caption(ctx,'Postsynaptic density',density,V(0,-.2,.3),1,3);caption(ctx,'Synaptic cleft',g,V(-2.1,.0,.2),0,4);
-  return{group:g,pre,post,vesicles,docked,receptors,released};
+  const separation=separateLaterally(ctx,[pre,post],.65);
+  return{group:g,pre,post,vesicles,docked,receptors,released,separation};
 }
 
 function buildSynapse(topic:BrainTopic,ctx:SceneContext){
   if(topic.id==='electrical-synapses'){
     const membranes=group(ctx.root),channelsOnly=group(ctx.root);
     const sites=Array.from({length:7},(_,n)=>({x:(n%4-1.5)*1.2,z:Math.floor(n/4)*.95-.45,radius:.33}));
-    const upper=lipidSheet(ctx,membranes,V(0,.46),6,3,0,sites),lower=lipidSheet(ctx,membranes,V(0,-.46),6,3,0,sites);ctx.separable(upper,V(0,.6));ctx.separable(lower,V(0,-.6));
+    const upper=lipidSheet(ctx,membranes,V(0,.46),6,3,0,sites),lower=lipidSheet(ctx,membranes,V(0,-.46),6,3,0,sites);separateLaterally(ctx,[upper,lower],.65);
     for(let n=0;n<7;n++){const {x,z}=sites[n],g=group(ctx.root,V(x,0,z));for(const side of[-1,1]){const hemichannel=group(g,V(0,side*.46));for(let j=0;j<6;j++){const a=j/6*Math.PI*2,d=helicalProtein(ctx,hemichannel,V(Math.cos(a)*.2,0,Math.sin(a)*.2),side>0?C.teal:C.blue,.32,'connexin',.24);d.group.quaternion.setFromAxisAngle(V(0,1),-a);if(side>0)d.group.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(V(1,0),Math.PI));}pick(ctx,hemichannel,`connexon-${n}-${side}`,'Connexon · six connexins','Six four-transmembrane connexins form each hemichannel. Opposing extracellular loops dock in the gap, creating a continuous intercellular pore.',undefined,1);}
       pick(ctx,g,`gap-junction-${n}`,'Gap junction channel','Ions and selected small molecules can pass directly between cytoplasms. Many electrical synapses are bidirectional; some rectify.','electrical-synapses');
       const inward=train(ctx,new THREE.LineCurve3(V(x,1.6,z),V(x,-1.6,z)),C.amber,2,ctx.root,{start:0,end:7,radius:.065}),outward=train(ctx,new THREE.LineCurve3(V(x,-1.6,z),V(x,1.6,z)),C.pink,2,ctx.root,{start:8,end:15,radius:.065});
@@ -411,14 +423,23 @@ function buildSynapse(topic:BrainTopic,ctx:SceneContext){
   if(topic.id==='short-term-plasticity'){
     const panels=[activeSynapse(ctx,ctx.root,V(-2.05,.2),.72,'facilitation'),activeSynapse(ctx,ctx.root,V(2.05,.2),.72,'depression')];
     panels.forEach((panel,i)=>{caption(ctx,i?'Depression · limited vesicle availability':'Facilitation · residual Ca²⁺',panel.group,V(0,3.3),0,5);panel.vesicles.forEach((v,j)=>ctx.animate(t=>{const p=phase(t);v.group.visible=i===0||p<5||j<3||p>13;}));const residual=group(panel.pre);for(let j=0;j<12;j++){const ion=ctx.ball(V((noise(j)-.5)*1.3,.25+noise(j+8)*.65,(noise(j+15)-.5)*.8),.043,C.violet,residual);ctx.animate(t=>{ion.visible=i===0&&phase(t)>3&&phase(t)<12;});}});
+    // Compare the complete expanded panels, not only each panel's pre/post pair.
+    const nested=panels.flatMap(panel=>panel.separation);
+    nested.forEach(part=>part.object.position.copy(part.base).add(part.offset));
+    separateLaterally(ctx,panels.map(panel=>panel.group),.85);
+    nested.forEach(part=>part.object.position.copy(part.base));ctx.root.updateWorldMatrix(true,true);
     ctx.status('Original paired-pulse comparison · facilitation and depression are illustrative possibilities, not universal responses or measured rates.');narrative(ctx,[[0,'First pulse','Both boutons begin with an available release pool.'],[4,'Residual calcium versus depletion','Calcium persists at one bouton while the other has fewer readily releasable vesicles.'],[8,'Second pulse','The illustrative second release is larger with facilitation and smaller with depression.'],[14,'Recovery','Calcium clearance and vesicle replenishment restore baseline conditions.']]);return;
   }
   const main=activeSynapse(ctx,ctx.root,V(),1,topic.id);
   if(topic.id==='transmitter-clearance'){
-    const sheath=branch(ctx,[V(2.8,-1.8),V(2.75,-.6),V(2.65,.8),V(2.5,1.9)],.32,C.teal,ctx.root,.19);pick(ctx,sheath.mesh,'astrocytic-sheath','Perisynaptic astrocyte process','Transporters on astrocytes contribute strongly to glutamate clearance.','astrocytes');
-    for(let i=0;i<4;i++){const transporter=helicalProtein(ctx,ctx.root,V(2.46,-.75+i*.5,.2),C.teal,.47,'eaat');transporter.group.rotation.z=Math.PI/2;pick(ctx,transporter.group,`EAAT-${i}`,'Glutamate transporter · trimer','Each protomer has eight transmembrane helices and two opposite reentrant hairpins. Substrate follows a peripheral transport domain, rather than an open shared central pore.',undefined,1);const routeY=-.75+i*.5+.25*.47,path=new THREE.CatmullRomCurve3([V((i-1.5)*.4,.1,.2),V(1.9,routeY,.2),V(2.9,routeY,.2)]);transporter.group.userData.transportPath=path;train(ctx,path,C.amber,3,ctx.root,{start:9,end:15,radius:.045});}
-    caption(ctx,'Transport into astrocyte',ctx.root,V(2.7,2.3),0,4);
-    const ache=group(ctx.root,V(-2.75,-1.65,.35));const enzyme=ctx.ball(V(),.28,C.violet,ache);enzyme.scale.set(1.25,1,.8);pick(ctx,enzyme,'acetylcholinesterase','A different route: acetylcholinesterase','Acetylcholine is hydrolyzed by acetylcholinesterase; this is not the glutamate-clearance mechanism.','acetylcholine',1);caption(ctx,'AChE: enzymatic route',ache,V(0,-.4),1,3);ctx.detail(ache,1);
+    const context=group(ctx.root);
+    const sheath=branch(ctx,[V(2.8,-1.8),V(2.75,-.6),V(2.65,.8),V(2.5,1.9)],.32,C.teal,context,.19);pick(ctx,sheath.mesh,'astrocytic-sheath','Perisynaptic astrocyte process','Transporters on astrocytes contribute strongly to glutamate clearance.','astrocytes');
+    for(let i=0;i<4;i++){const transporter=helicalProtein(ctx,context,V(2.46,-.75+i*.5,.2),C.teal,.47,'eaat');transporter.group.rotation.z=Math.PI/2;pick(ctx,transporter.group,`EAAT-${i}`,'Glutamate transporter · trimer','Each protomer has eight transmembrane helices and two opposite reentrant hairpins. Substrate follows a peripheral transport domain, rather than an open shared central pore.',undefined,1);const routeY=-.75+i*.5+.25*.47,path=new THREE.CatmullRomCurve3([V((i-1.5)*.4,.1,.2),V(1.9,routeY,.2),V(2.9,routeY,.2)]);transporter.group.userData.transportPath=path;train(ctx,path,C.amber,3,context,{start:9,end:15,radius:.045});}
+    caption(ctx,'Transport into astrocyte',context,V(2.7,2.3),0,4);
+    const ache=group(main.group,V(-2.75,-1.65,.35));const enzyme=ctx.ball(V(),.28,C.violet,ache);enzyme.scale.set(1.25,1,.8);pick(ctx,enzyme,'acetylcholinesterase','A different route: acetylcholinesterase','Acetylcholine is hydrolyzed by acetylcholinesterase; this is not the glutamate-clearance mechanism.','acetylcholine',1);caption(ctx,'AChE: enzymatic route',ache,V(0,-.4),1,3);ctx.detail(ache,1);
+    main.separation.forEach(part=>part.object.position.copy(part.base).add(part.offset));
+    separateLaterally(ctx,[main.group,context],.85);
+    main.separation.forEach(part=>part.object.position.copy(part.base));ctx.root.updateWorldMatrix(true,true);
     ctx.status('Original clearance scene · glutamate uptake is the main pathway shown; AChE inset illustrates a separate acetylcholine mechanism.');
     narrative(ctx,[[0,'Release + receptor binding','Transmitter crosses the cleft and can bind receptors.'],[8,'Transporter access','Unbound glutamate reaches uptake proteins on surrounding membranes.'],[11,'Recycling routes','Imported molecules enter cellular metabolic and recycling pathways.'],[14,'Other transmitters, other routes','Acetylcholine also has a dedicated extracellular enzymatic clearance mechanism.']]);
   }else{
@@ -508,7 +529,8 @@ async function buildChannel(topic:BrainTopic,ctx:SceneContext){
     const rotation=new THREE.Matrix3().set(...orientation.entries[data.pdb||'6D6T'].rotation as [number,number,number,number,number,number,number,number,number]);
     const oriented=(p:number[])=>V(...p as[number,number,number]).applyMatrix3(rotation);
     const protein=group(ctx.root),points=data.chains.flatMap(c=>c.segments?.flat()||c.points||[]),box=new THREE.Box3().setFromPoints(points.map(oriented)),center=box.getCenter(V()),size=box.getSize(V()),scale=5.3/Math.max(size.x,size.y,size.z);
-    data.chains.forEach((chain,i)=>{const chainGroup=group(protein),color=colors[i%colors.length];let sequenceIndex=0;
+    const chainGroups:THREE.Group[]=[];
+    data.chains.forEach((chain,i)=>{const chainGroup=group(protein),color=colors[i%colors.length];chainGroups.push(chainGroup);let sequenceIndex=0;
       for(const segment of chain.segments||[chain.points||[]]){if(segment.length<2){sequenceIndex+=segment.length;continue;}const coords=segment.map(p=>oriented(p).sub(center).multiplyScalar(scale));
         const ranges=secondary.entries[data.pdb||'6D6T'],auth=chain.id.split('.')[0],residues=chain.residues||chain.residueNumbers||[];
         const types=coords.map((_,j)=>{const residue=residues[sequenceIndex+j];return ranges?.helices.some(r=>r.chain===auth&&residue>=r.start&&residue<=r.end)?'helix':ranges?.sheets.some(r=>r.chain===auth&&residue>=r.start&&residue<=r.end)?'sheet':'coil';});
@@ -521,8 +543,11 @@ async function buildChannel(topic:BrainTopic,ctx:SceneContext){
         chainGroup.add(ca);for(const mesh of backbone)mesh.userData.residueCloud=ca;ctx.detail(ca,2);pick(ctx,ca,`alpha-carbons-${chain.id}-${sequenceIndex}`,`Cα positions · chain ${chain.id} · residues ${residues[sequenceIndex]}–${residues[sequenceIndex+coords.length-1]}`,'Each small bead marks one modeled amino-acid alpha carbon; side-chain atoms are not included in this representation.',undefined,2);sequenceIndex+=coords.length;
       }
       pick(ctx,chainGroup,`experimental-chain-${chain.id}`,chain.name||`Protein chain ${chain.id}`,`PDB ${data.pdb||'6D6T'} · ribbons follow experimental Cα coordinates with deposited helix/sheet annotations. Unresolved residues remain gaps.`,undefined,0);
-      const localBox=new THREE.Box3().setFromObject(chainGroup),centroid=localBox.getCenter(V());ctx.separable(chainGroup,centroid.clone().normalize().multiplyScalar(.65));if(i<5)caption(ctx,chain.name?chain.name.slice(0,52):`Chain ${chain.id}`,chainGroup,centroid,1,1);
+      const localBox=new THREE.Box3().setFromObject(chainGroup),centroid=localBox.getCenter(V());if(!(sodium||calcium||potassium))ctx.separable(chainGroup,centroid.clone().normalize().multiplyScalar(.65));if(i<5)caption(ctx,chain.name?chain.name.slice(0,52):`Chain ${chain.id}`,chainGroup,centroid,1,1);
     });
+    // Auxiliary voltage-channel chains lie above/below the pore: avoid turning
+    // that source arrangement into a predominantly vertical display split.
+    if(sodium||calcium||potassium)separateLaterally(ctx,chainGroups);
     caption(ctx,`${data.pdb||'6D6T'} · experimental ribbon`,protein,V(0,3.05),0,6);
     const construct={sodium:'toxin-bound human Nav1.7 construct + auxiliary β subunits',potassium:'rat Kv1.2/Kv2.1 paddle chimera + β subunits',calcium:'human CaV2.2 complex',ampa:'rat GluA2 homomer, antagonist-bound construct',nmda:'rat GluN1a/GluN2B construct',gabaa:'human α1β2γ2 GABA-A receptor'}[key];
     ctx.representation(protein,{id:'experimental',label:'Protein structure',description:`PDB ${data.pdb||'6D6T'} · ${construct}; experimental ribbon with helix/sheet annotations.`,scale:'Ångström coordinates',viewDirection:[.18,.07,1],status:`Experimental ${data.pdb||'6D6T'} · ${construct} · ribbons from Cα + deposited secondary structure${data.resolution?` (${data.resolution} Å)`:''}; rigid OPM membrane orientation; one fixed conformation; chain colors, not element colors.`,narrative:null});

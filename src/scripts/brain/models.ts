@@ -167,6 +167,8 @@ export async function createBrainViewer(container:HTMLElement,options:Options={}
       for(const point of corners){const corner=point.sub(home),near=corner.dot(forward);distance=Math.max(distance,near+Math.abs(corner.dot(right))/tanX,near+Math.abs(corner.dot(up))/tanY);}
       baseDistance=Math.max(distance*1.18,.75);
     }
+    // A wide separated atlas can require a distant camera on a narrow screen.
+    camera.far=Math.max(500,baseDistance*4,camera.position.distanceTo(home)*2);camera.updateProjectionMatrix();
     controls.minDistance=baseDistance*.12;controls.maxDistance=Math.max(baseDistance*1.65,camera.position.distanceTo(controls.target));
     setCamera(preserveView?previousTarget:home,baseDistance*(preserveView?ratio:1),preserveView||fitSeparated?direction:topicDirection(),!fitSeparated);updateDetail(true);
   }

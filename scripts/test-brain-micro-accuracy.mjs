@@ -30,7 +30,7 @@ globalThis.fetch=async url=>{assert(String(url).startsWith('/brain/models/'));re
 const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z);
 const near=(a,b,message)=>assert(a.distanceTo(b)<1e-5,message);
 function instrument(){
-  const root=new THREE.Group(),picks=[],animations=[],representations=[],labels=[],details=[];
+  const root=new THREE.Group(),picks=[],animations=[],representations=[],labels=[],details=[],parts=[];
   const material=(color=0xcbdcdd,opacity=1,emissive=0)=>new THREE.MeshStandardMaterial({color,opacity,transparent:opacity<1,emissive:color,emissiveIntensity:emissive});
   const mesh=(geometry,mat,parent=root)=>{const object=new THREE.Mesh(geometry,mat);parent.add(object);return object;};
   const ctx={root,material,mesh,
@@ -38,10 +38,10 @@ function instrument(){
     tube(points,r,color,parent=root,opacity=1,segments=48){const curve=new THREE.CatmullRomCurve3(points);return{mesh:mesh(new THREE.TubeGeometry(curve,segments,r,7,false),material(color,opacity),parent),curve};},
     link(a,b,r,color,parent=root,opacity=1){const delta=b.clone().sub(a),o=mesh(new THREE.CylinderGeometry(r,r,delta.length(),8),material(color,opacity),parent);o.position.copy(a).add(b).multiplyScalar(.5);o.quaternion.setFromUnitVectors(V(0,1),delta.normalize());return o;},
     pick(object,spec){picks.push({object,spec});},label(text,object,point,options){labels.push({text,object,point,options});},
-    animate(fn){animations.push(fn);},detail(object,min,max=3){details.push({object,min,max});},separable(){},layout(){},status(){},narrative(){},isCurrent(){return true;},
+    animate(fn){animations.push(fn);},detail(object,min,max=3){details.push({object,min,max});},separable(object,offset){parts.push({object,base:object.position.clone(),offset:offset.clone()});},layout(){},status(){},narrative(){},isCurrent(){return true;},
     representation(object,spec){representations.push({object,spec});}
   };
-  return{ctx,root,picks,animations,representations,labels,details,
+  return{ctx,root,picks,animations,representations,labels,details,parts,
     find(id){const value=picks.find(p=>p.spec.id===id);assert(value,`Missing anatomical structure ${id}`);return value;},
     matching(pattern){return picks.filter(p=>pattern.test(p.spec.id));},
     frame(t){animations.forEach(fn=>fn(t,1/60));root.updateMatrixWorld(true);},
@@ -52,6 +52,18 @@ function inside(object,parent){for(let o=object;o;o=o.parent)if(o===parent)retur
 function point(pick,u=.5){return pick.object.localToWorld(pick.object.geometry.parameters.path.getPointAt(u));}
 function rho(p){return Math.hypot(p.x,p.z);}
 function descendants(root,predicate){const list=[];root.traverse(o=>{if(predicate(o))list.push(o);});return list;}
+function lateralSeparation(s,parts,label,{gap=.1,overlappingRepresentations=false}={}){
+  assert(parts.length>1,`${label}: multiple pieces must support separation`);
+  assert(parts.every(p=>p.offset.y===0&&p.offset.z===0),`${label}: separate pieces horizontally, without vertical/depth displacement`);
+  assert(parts.some(p=>p.offset.x<0)&&parts.some(p=>p.offset.x>0),`${label}: pieces must spread to both sides`);
+  const before=parts.map(p=>({position:p.object.position.clone(),rotation:p.object.quaternion.clone(),scale:p.object.scale.clone()}));
+  for(const amount of[.5,1,0]){
+    parts.forEach(p=>p.object.position.copy(p.base).addScaledVector(p.offset,amount));s.root.updateMatrixWorld(true);
+    parts.forEach((p,i)=>{assert.equal(p.object.position.y,before[i].position.y);assert.equal(p.object.position.z,before[i].position.z);assert(p.object.quaternion.equals(before[i].rotation)&&p.object.scale.equals(before[i].scale),`${label}: rigid translations preserve orientation and scale`);});
+    if(amount===1&&!overlappingRepresentations){const boxes=parts.map(p=>new THREE.Box3().setFromObject(p.object)).sort((a,b)=>a.min.x-b.min.x);for(let i=1;i<boxes.length;i++)assert(boxes[i].min.x-boxes[i-1].max.x>gap,`${label}: separated parts need visible horizontal gaps`);}
+    if(amount===0)parts.forEach((p,i)=>assert(p.object.position.equals(before[i].position),`${label}: reassembly restores exact source position`));
+  }
+}
 function membraneClearance(s,protein,radius){
   const center=protein.getWorldPosition(V()),scale=protein.parent.getWorldScale(V()).x;
   for(const heads of descendants(s.root,o=>o.userData.lipidHeads))for(let i=0;i<heads.count;i++){const m=new THREE.Matrix4();heads.getMatrixAt(i,m);const p=heads.localToWorld(V().setFromMatrixPosition(m));if(Math.abs(p.y-center.y)<.31*scale)assert(Math.hypot(p.x-center.x,p.z-center.z)>radius*scale,'Integral protein footprint must have a matching lipid cutout');}
@@ -133,6 +145,9 @@ try{
       assert.equal(s.find('projection-3').object.userData.circuitEdge.sign,'inhibit','Purkinje output must be inhibitory');
     }
     if(topic.id==='myelin'){
+      assert.equal(s.parts.length,8,'Both representations retain four independently separable internodes');
+      for(const representation of s.representations)lateralSeparation(s,s.parts.filter(p=>inside(p.object,representation.object)),`Myelin ${representation.spec.id}`);
+      for(let i=0;i<4;i++)assert(s.parts[i*2].offset.equals(s.parts[i*2+1].offset),'Whole and cutaway sheath separation must agree');
       assert.deepEqual(s.representations.map(r=>r.spec.id),['whole-fiber','cutaway'],'Whole fiber and internal cutaway are explicit views; zoom must not replace the silhouette');
       assert.equal(s.matching(/^compact-internode-/).length,4,'Whole fiber needs four closed insulating sheaths');
       for(const shell of s.matching(/^compact-internode-/))assert.equal(shell.object.geometry.parameters.phiLength,Math.PI*2,'Default compact sheath must completely surround axon');
@@ -176,6 +191,14 @@ try{
       else{assert(s.matching(/^glial-tip-/).every(p=>p.spec.label==='Surveying microglial process'));assert(!s.matching(/^endfoot-/).length);assert.equal(leaflets.length,0,'Ramified microglia must not inherit astrocyte spongiform leaflets');}
     }
     if(['synaptic-release','transmitter-clearance','short-term-plasticity'].includes(topic.id)){
+      for(const parent of new Set(s.parts.map(p=>p.object.parent)))lateralSeparation(s,s.parts.filter(p=>p.object.parent===parent),`${topic.id} pre/post compartments`,{gap:.1});
+      if(topic.id==='short-term-plasticity'){
+        const panels=s.root.children.filter(o=>o.isGroup&&s.picks.some(p=>p.spec.id==='presynaptic-bouton'&&inside(p.object,o)));
+        assert.equal(panels.length,2,'Facilitation and depression keep separate comparison panels');
+        const before=s.parts.map(p=>p.object.position.clone());
+        for(const t of[0,4,8,12]){s.frame(t);s.parts.forEach(p=>p.object.position.copy(p.base).add(p.offset));s.root.updateMatrixWorld(true);const boxes=panels.map(p=>new THREE.Box3().setFromObject(p)).sort((a,b)=>a.min.x-b.min.x);assert(boxes[1].min.x-boxes[0].max.x>.7,'Expanded facilitation/depression panels must not overlap across their pre/post compartments');}
+        s.parts.forEach((p,i)=>p.object.position.copy(p.base));s.frame(0);s.parts.forEach((p,i)=>assert(p.object.position.equals(before[i]),'Nested comparison separation must reassemble exactly'));
+      }
       const boutons=s.matching(/^presynaptic-bouton$/),heads=s.matching(/^postsynaptic-spine$/);assert(boutons.length&&heads.length);
       for(const head of heads){const container=head.object.parent,neck=s.matching(/^postsynaptic-spine-neck$/).find(p=>p.object.parent===container),shaft=s.matching(/^postsynaptic-dendritic-shaft$/).find(p=>p.object.parent===container);assert(neck&&shaft,'A receiving spine must retain its neck and parent shaft');assert(head.object.material.opacity>.9&&head.object.geometry.parameters.phiLength===Math.PI,'The head needs an opaque longitudinal cutaway silhouette');}
       assert.equal(s.matching(/^terminal-axon$/).length,boutons.length,'Every bouton must join an incoming axon');
@@ -204,7 +227,16 @@ try{
     if(topic.id==='transmitter-clearance')for(const eaat of s.matching(/^EAAT-/)){
       const path=eaat.object.userData.transportPath,center=eaat.object.getWorldPosition(V());let closest=null,d=Infinity;for(let i=0;i<=200;i++){const p=path.getPointAt(i/200);if(Math.abs(p.x-center.x)<d){closest=p;d=Math.abs(p.x-center.x);}}assert(closest&&closest.y>center.y+.07,'EAAT substrate must traverse a peripheral protomer, not a shared central pore');assert(V(0,1).applyQuaternion(eaat.object.quaternion).x<-.999,'EAAT extracellular face must point toward the cleft');
     }
+    if(topic.id==='transmitter-clearance'){
+      const context=s.find('astrocytic-sheath').object.parent,synapse=s.find('postsynaptic-spine').object.parent.parent;
+      assert(context!==s.root,'Clearance context must separate as a coordinated group');
+      assert(s.matching(/^EAAT-/).every(p=>p.object.parent===context),'EAAT transporters must remain attached to their separated astrocytic context');
+      const transports=context.children.filter(o=>o.isGroup&&o.children.some(m=>m.geometry?.type==='SphereGeometry'&&m.geometry.parameters.radius===.045));assert.equal(transports.length,4,'Uptake animation paths move with the associated membrane transporters');
+      for(const t of[0,9,11,14]){s.frame(t);s.parts.forEach(p=>p.object.position.copy(p.base).add(p.offset));s.root.updateMatrixWorld(true);const synapseBox=new THREE.Box3().setFromObject(synapse),contextBox=new THREE.Box3().setFromObject(context);assert(contextBox.min.x-synapseBox.max.x>.1,'Separated spine and uptake context must not intersect, including animated uptake particles');}
+      s.parts.forEach(p=>p.object.position.copy(p.base));s.frame(0);s.parts.forEach(p=>assert(p.object.position.equals(p.base),'Clearance reassembly restores exact source positions'));
+    }
     if(topic.id==='electrical-synapses'){
+      lateralSeparation(s,s.parts,'Electrical synapse membranes');
       const connexons=s.matching(/^connexon-/);assert.equal(connexons.length,14);
       for(const c of connexons){const center=c.object.getWorldPosition(V());membraneClearance(s,c.object,.32);
         for(const d of c.object.children){const radial=d.position.clone().normalize(),tm1=descendants(d,o=>o.userData.proteinHelix?.tm===1)[0];const p=point({object:tm1},.5).sub(center);assert(Math.hypot(p.x,p.z)<.20,'Connexin TM1 must face the channel lumen, with protomers arranged around the ring');const n=V(0,1).applyQuaternion(d.quaternion);assert(n.y*Math.sign(center.y)<-.999,'Connexin extracellular face must point toward the shared gap');assert(radial.length()>.99);}
@@ -231,6 +263,8 @@ try{
       const ions=s.matching(/^permeant-ion-/);assert.deepEqual([...new Set(ions.map(p=>p.spec.label.split(' · ')[0]))].sort(),expectedSpecies.sort());
       s.frame(6);const before=ions.map(p=>p.object.position.y);s.frame(6.1);for(const[p,i]of ions.map((p,i)=>[p,i])){const delta=p.object.position.y-before[i];if(Math.abs(delta)<1)assert(p.spec.label.startsWith('K⁺')?delta>0:delta<0,'Ion direction must match its illustrated electrochemical gradient');}
       const experimental=s.representations.find(r=>r.spec.id==='experimental');assert(experimental,'Experimental assembly remains available');assert.match(experimental.spec.status,/human|rat/i,'Source species/construct must be explicit');assert.equal(experimental.spec.narrative,null);
+      if(voltage)lateralSeparation(s,s.parts.filter(p=>inside(p.object,experimental.object)),`${topic.id} source chains`);
+      const gating=s.parts.filter(p=>!inside(p.object,experimental.object));assert(gating.every(p=>p.offset.y===0&&Math.abs(p.offset.length()-.7)<1e-8),'Gating domains preserve their horizontal radial separation');
     }
     if(topic.id==='ltp'){
       const kinases=s.matching(/^CaMKII-kinase-/);assert.equal(kinases.length,12,'CaMKII example must retain twelve kinase subunits');const ys=kinases.map(p=>p.object.position.y);assert.equal(new Set(ys).size,2,'CaMKII subunits form two apposed sixfold rings, not one twelvefold ring');for(const y of new Set(ys))assert.equal(ys.filter(value=>value===y).length,6);

@@ -104,9 +104,30 @@ try{
   }
   const within=(object,parent)=>{for(let p=object;p;p=p.parent)if(p===parent)return true;return false;};
   assert.equal(new Set(separations.map(s=>s.object)).size,separations.length,'Part must receive exactly one rigid separation offset');
+  // Actual world transforms include the anatomical handedness reflection.
+  // Separation must stay lateral in its intended view, even for tall thin regions.
+  for(const part of separations.filter(s=>s.object.userData.explodedLayout)){
+   part.object.parent.updateWorldMatrix(true,false);
+   const matrix=part.object.parent.matrixWorld,worldOffset=part.offset.clone().applyMatrix3(new THREE.Matrix3().setFromMatrix4(matrix));
+   const direction=new THREE.Vector3(...part.object.userData.explodedLayout.direction).transformDirection(matrix);
+   const right=new THREE.Vector3().crossVectors(new THREE.Vector3(0,1,0),direction).normalize();
+   const up=new THREE.Vector3().crossVectors(direction,right).normalize();
+   assert(Math.abs(worldOffset.dot(up))<1e-9,`${topic.id}: Separate must not stack pieces vertically`);
+   assert(Math.abs(worldOffset.dot(direction))<1e-9,`${topic.id}: lateral separation must not push pieces toward camera`);
+  }
   const context=views.find(v=>v.spec.id==='context');
   if(context){
    assert(context.spec.viewDirection?.length===3,'Context needs a consistent anatomical view');
+   const contextDirection=new THREE.Vector3(...context.spec.viewDirection).normalize();
+   const contextRight=new THREE.Vector3().crossVectors(new THREE.Vector3(0,1,0),contextDirection).normalize();
+   const contextUp=new THREE.Vector3().crossVectors(contextDirection,contextRight).normalize();
+   for(const part of separations.filter(s=>within(s.object,context.object))){
+    part.object.parent.updateWorldMatrix(true,false);
+    const worldOffset=part.offset.clone().applyMatrix3(new THREE.Matrix3().setFromMatrix4(part.object.parent.matrixWorld));
+    assert(Math.abs(worldOffset.dot(contextUp))<1e-9,`${topic.id}: context separation must stay horizontal in the active context view`);
+    assert(Math.abs(worldOffset.dot(contextDirection))<1e-9,`${topic.id}: context separation must retain depth in the active context view`);
+    if(topic.id==='dorsal-column')assert.equal(part.object.parent,context.object,'Relay regions and context landmarks must share one lateral layout, without nested offsets');
+   }
    if(topic.scene==='tracts'&&topic.id!=='dorsal-column'){
     let references=0;context.object.traverse(o=>{if(o.isMesh){assert(o.userData.mriReference,'Only source-matched MRI may accompany HCP streamlines');assert.equal(o.userData.mriReference.template,mri.metadata.template);references++;}});
     assert.equal(references,1);
