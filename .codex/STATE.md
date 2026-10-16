@@ -2,7 +2,7 @@
 
 ## Horizontal separation — 2026-10-16
 
-- Mode: continuation. Objective: Separate spreads model pieces sideways rather than stacking slices vertically. Status: final visual checks before release.
+- Mode: continuation. Objective: Separate spreads model pieces sideways rather than stacking slices vertically. Status: complete; live.
 - Baseline: clean checkout fast-forwarded to current main685fabb; preserve its anatomical handedness and orientation correction.
 - Cause: atlas layout magnified vertical spacing and resolved overlaps along the cheaper axis. New layout retains source heights, packs overlapping bounds horizontally, then recenters the group.
 - Scope: atlas regions/tract families/context, lateral microscopic compartments, and distant-camera clipping on narrow displays. Source geometry untouched; assembled coordinates restored exactly.
@@ -10,7 +10,8 @@
 - Review: one offset per part and active-view lateral alignment verified. Comparison panels and clearance context use their expanded bounds to avoid overlaps.36-scene micro tests, continuity and strict TypeScript pass after final corrections; final47-page build and publication verification pass.
 - Responsive:390px separated atlas fits without clipping or page overflow; many parts make the overview small, with structure focus/zoom available. Desktop structure selection works while separated.
 - Final corrected-scene captures pass: dorsal relay context, paired plasticity and clearance context fit with distinct separated parts.
-- Next: one verified release, live check, stop task preview.
+- Release:c37391c on main; Actions38977032507 passed full CI and deployment. Live HTML/app/CSS/models match final local hashes. Independent comparison confirms corrected synapse scenes retain identical assembled geometry, world transforms and animation visibility versus baseline at five timestamps.
+- Task preview stopped; temporary QA tabs closed. Live cortex page retained for the user. No remaining implementation work.
 
 ## Subject overview, publication comparisons and URL casing — verified; publishing
 
