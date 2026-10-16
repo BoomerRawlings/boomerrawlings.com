@@ -1,4 +1,4 @@
-import { previewInfo, previewPlacement } from './preview-data.js?v=mapfirst-20261015';
+import { previewInfo, previewPlacement } from './preview-data.js?v=sources-20261015';
 
 /** One accessible card shared by pointer, touch and keyboard exploration. */
 export class NodePreview {

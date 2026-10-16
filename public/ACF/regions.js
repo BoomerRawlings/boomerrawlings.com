@@ -1,4 +1,4 @@
-import { THEMES, label } from './model.js?v=mapfirst-20261015';
+import { THEMES, label } from './model.js?v=sources-20261015';
 
 // Titles supply these groups. A region, proximity or overlapping boundary is
 // never evidence of affiliation, agreement, citation or influence.

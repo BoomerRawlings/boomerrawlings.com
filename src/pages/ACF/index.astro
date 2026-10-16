@@ -8,11 +8,11 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'" />
     <link rel="canonical" href="https://boomerrawlings.com/ACF/" />
     <title>A question of futures</title>
-    <link rel="icon" href="/ACF/icon.svg?v=mapfirst-20261015" type="image/svg+xml" />
-    <link rel="stylesheet" href="/ACF/style.css?v=mapfirst-20261015" />
-    <link rel="stylesheet" href="/ACF/entry-effects.css?v=mapfirst-20261015" />
-    <script is:inline src="/ACF/entry.js?v=mapfirst-20261015" defer></script>
-    <script is:inline type="module" src="/ACF/app.js?v=mapfirst-20261015"></script>
+    <link rel="icon" href="/ACF/icon.svg?v=sources-20261015" type="image/svg+xml" />
+    <link rel="stylesheet" href="/ACF/style.css?v=sources-20261015" />
+    <link rel="stylesheet" href="/ACF/entry-effects.css?v=sources-20261015" />
+    <script is:inline src="/ACF/entry.js?v=sources-20261015" defer></script>
+    <script is:inline type="module" src="/ACF/app.js?v=sources-20261015"></script>
   </head>
   <body class="entry-pending" data-view="map">
     <a class="skip-link" href="#comparison-picker">Skip to subject comparison</a>
@@ -121,8 +121,8 @@
             <div class="graph-intro sr-only"><h2 id="graph-heading">A field of possible futures</h2><p id="graph-subtitle">Every record has a point. Follow one back to its source.</p></div>
             <canvas id="network" tabindex="0" aria-label="Interactive publication network. Click or tap a star to center it." aria-describedby="graph-instructions graph-keyboard-instructions"></canvas>
             <button id="empty-map" class="empty-map-note" type="button" hidden>No stars in view · Return to overview ↗</button>
-            <p id="graph-instructions" class="graph-instructions">Click to center · Drag to pan · Scroll or pinch to zoom</p>
-            <p id="graph-keyboard-instructions" class="sr-only">Arrow keys preview stars; Enter or Space centers a record and pins its preview. Selecting a territory chooses it directly; select another to compare. Shift plus arrows pans. Escape dismisses. Use Overview, Nearby and Close view, or the zoom slider, to change scale. Drag a preview header to pan; touch its body to scroll metadata. Previous node and Next node also browse previews.</p>
+            <p id="graph-instructions" class="graph-instructions">Subjects only · Select a territory, or zoom in for authors &amp; works</p>
+            <p id="graph-keyboard-instructions" class="sr-only">At overview scale, only inferred subjects are interactive. Zoom past 2 times overview to explore authors and records; comparison mode always shows its detail. Arrow keys preview stars; Enter or Space centers a record and pins its preview. Selecting a territory chooses it directly; select another to compare. Shift plus arrows pans. Escape dismisses. Use Overview, Nearby and Close view, or the zoom slider, to change scale. Drag a preview header to pan; touch its body to scroll metadata. Previous node and Next node also browse previews.</p>
             <details id="map-perspectives" class="map-perspectives"><summary id="map-perspectives-toggle">View &amp; motion</summary><div id="map-perspective-options" class="perspective-options" role="group" aria-label="Map perspectives">
               <div class="perspective-presets"><button id="view-overview" type="button">Overview</button><button id="view-nearby" type="button">Nearby</button><button id="view-close" type="button">Close view</button></div>
               <div class="perspective-scale"><label for="map-zoom" class="sr-only">Map zoom</label><input id="map-zoom" type="range" min="-1.3219280948873622" max="6" step="any" value="0" /><output id="map-zoom-value" for="map-zoom">1.0×</output><button id="expand-map" type="button" aria-pressed="false">Expand map</button></div>
@@ -176,6 +176,11 @@
         </div>
       <footer class="atlas-footer"><span>A living map, an incomplete territory.</span><a href="/">Boomer Rawlings <span aria-hidden="true">↗</span></a></footer>
       </main>
+      <section class="publication-dock" aria-label="Quick publication filters">
+        <div class="publication-dock-label"><strong>Publications</strong><span id="publication-count">Loading…</span><div><button id="publications-all" type="button" disabled>All</button><button id="publications-none" type="button" disabled>None</button></div></div>
+        <div id="publication-filters" class="publication-filters" role="group" aria-label="Enabled publications"></div>
+        <div class="publication-dock-actions"><button id="publication-compare" type="button" aria-pressed="false" disabled>Compare publications</button><p id="publication-status" role="status" aria-live="polite">Preparing source filters…</p></div>
+      </section>
     </div>
 
     <dialog id="collections-dialog" aria-labelledby="collections-heading"><div class="dialog-heading"><div><p class="eyebrow">Shape your atlas</p><h2 id="collections-heading">Collections</h2></div><form method="dialog"><button class="dialog-close" aria-label="Close collections">×</button></form></div><p class="dialog-intro">All nine public catalogs open together. Choose which collections to display, or add compatible metadata. Names remain separate within each catalog.</p><div id="collection-options"></div><div class="import-box"><label for="import-file">Bring another collection</label><p>Import a metadata catalog in JSON or JSONL format. Imports stay in this browser session; no upload.</p><input id="import-file" type="file" disabled accept=".json,.jsonl,application/json,application/x-ndjson" /><p id="import-status" role="status" aria-live="polite"></p><a href="/ACF/import-format.json" target="_blank" rel="noopener">View import format <span aria-hidden="true">↗</span></a></div></dialog>

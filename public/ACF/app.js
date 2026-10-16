@@ -1,11 +1,12 @@
-import { AtlasGraph } from './graph.js?v=mapfirst-20261015';
-import { NodePreview } from './node-preview.js?v=mapfirst-20261015';
-import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=mapfirst-20261015';
-import { getRegions, regionFacets } from './regions.js?v=mapfirst-20261015';
-import { UIMotion } from './ui-motion.js?v=mapfirst-20261015';
-import { compareTerritories } from './comparison.js?v=mapfirst-20261015';
-import { mapReading } from './map-reading.js?v=mapfirst-20261015';
-import { territoryGuide } from './territory-guide.js?v=mapfirst-20261015';
+import { AtlasGraph } from './graph.js?v=sources-20261015';
+import { NodePreview } from './node-preview.js?v=sources-20261015';
+import { createIndex, filterItems, graphData, normalizeImport, validateSessionImport, inferredRelationship, label, safeUrl, THEMES } from './model.js?v=sources-20261015';
+import { getRegions, regionFacets } from './regions.js?v=sources-20261015';
+import { UIMotion } from './ui-motion.js?v=sources-20261015';
+import { compareTerritories } from './comparison.js?v=sources-20261015';
+import { mapReading } from './map-reading.js?v=sources-20261015';
+import { territoryGuide } from './territory-guide.js?v=sources-20261015';
+import { comparePublications } from './publication-comparison.js?v=sources-20261015';
 
 const $ = id => document.getElementById(id);
 const number = n => n.toLocaleString();
@@ -13,6 +14,7 @@ const el = (tag, className, value) => { const n = document.createElement(tag); i
 const button = (value, action, className = 'text-button') => { const b = el('button', className, value); b.type = 'button'; b.addEventListener('click', action); return b; };
 const link = (value, url) => { const a = el('a', 'source-link', value); a.href = safeUrl(url); a.target = '_blank'; a.rel = 'noopener noreferrer'; return a; };
 const catalogs = new Map(), cache = new Map();
+const loadedCatalogs = new Map(), pendingCatalogs = new Set();
 const sessionImports = new Map();
 let directory, index = createIndex([]), records = [], scope = null, selection = null, pageSize = 40, loading, active = false, initialized = false, preparationPending = false, importNumber = 0;
 let graph, graphBackend;
@@ -20,12 +22,13 @@ let preparedIndex, preparedFilters;
 let resumePreparation;
 let regionFilters = {}, regionResult = null, regionPageSize = 20, regionNavigationIndex;
 let comparisonResult = null, comparisonDetailsOpen = false;
-let collectionGeneration = 0, resetting = false;
+let collectionGeneration = 0, collectionRevision = 0, resetting = false;
 const regionKeys = ['term', 'overlap', 'collection', 'type', 'year', 'person', 'role', 'sort'];
 const regionScope = () => scope?.kind === 'theme';
-const comparisonScope = () => scope?.kind === 'compare';
-const subjectScope = () => regionScope() || comparisonScope();
-const selectedTerritories = () => comparisonScope() ? scope.ids : regionScope() ? [scope.id] : [];
+const publicationScope = () => scope?.kind === 'publications';
+const comparisonScope = () => scope?.kind === 'compare' || publicationScope();
+const subjectScope = () => regionScope() || scope?.kind === 'compare';
+const selectedTerritories = () => scope?.kind === 'compare' ? scope.ids : regionScope() ? [scope.id] : [];
 document.addEventListener('acf:entry-targets', event => {
   if (document.body.dataset.view !== 'list') event.detail.points = graph?.entranceTargets() || [];
 });
@@ -45,7 +48,7 @@ function explainedNode(node) {
   if (!node || !comparisonResult || node.kind === 'item') return node;
   if (previewCountKey !== comparisonResult) { previewCountKey = comparisonResult; previewCounts = new Map(); }
   if (!previewCounts.has(node.id)) {
-    const side = [comparisonResult.left, comparisonResult.right].find(region => region.id === node.scope?.id);
+    const side = (comparisonResult.groups || [comparisonResult.left, comparisonResult.right]).find(region => region.id === node.scope?.id);
     const count = side ? side.memberIds.size : new Set((index.byPerson.get(node.id) || []).filter(credit => comparisonResult.memberIds.has(credit.itemId)).map(credit => credit.itemId)).size;
     previewCounts.set(node.id, count);
   }
@@ -63,6 +66,10 @@ try {
     onSelect: (node, anchor) => node?.scope?.kind === 'theme' ? selectTerritory(node.scope.id) : preview.update(explainedNode(node), anchor, 'select'),
     onPreview: (node, anchor, reason) => { if (node?.scope?.kind !== 'theme' || reason !== 'select') preview.update(explainedNode(node), anchor, reason); },
     onStatus: stats => {
+      $('graph-instructions').textContent = stats.overviewSubjectsOnly
+        ? `Subjects only · Select a territory, or zoom past ${stats.overviewDetailThreshold || 2}× for authors & works`
+        : 'Click to center · Drag to pan · Scroll or pinch to zoom';
+      $('preview-navigation').setAttribute('aria-label', stats.overviewSubjectsOnly ? 'Browse inferred subject territories' : 'Browse node previews');
       const empty = stats.recordCount > 0 && stats.inViewRecords === 0;
       if ($('empty-map').hidden === empty) $('empty-map').hidden = !empty;
       if (stats.backend !== graphBackend) {
@@ -89,7 +96,7 @@ async function fetchJSON(path) {
   return JSON.parse(contents);
 }
 async function catalogData(entry) {
-  if (!cache.has(entry.id)) cache.set(entry.id, fetchJSON('/ACF/data/' + entry.file).catch(error => { cache.delete(entry.id); throw error; }));
+  if (!cache.has(entry.id)) cache.set(entry.id, fetchJSON('/ACF/data/' + entry.file).then(data => { loadedCatalogs.set(entry.id, data); return data; }).catch(error => { cache.delete(entry.id); throw error; }));
   return cache.get(entry.id);
 }
 async function waitForActive() {
@@ -130,7 +137,7 @@ async function start() {
       await yieldPreparation();
       preparationPending = false;
       renderCollections(); readLocation();
-      initialized = true;
+      initialized = true; renderPublicationControls();
       $('import-file').disabled = false;
       $('reset-atlas').disabled = false;
       $('atlas-workspace').dataset.loadMs = (performance.now() - began).toFixed(1);
@@ -184,25 +191,26 @@ function filters() { return { query: $('search').value, type: $('type-filter').v
 function refresh() {
   if (preparationPending) return;
   const began = performance.now();
-  comparisonResult = comparisonScope() ? compareTerritories(index, scope.ids[0], scope.ids[1], filters()) : null;
+  comparisonResult = publicationScope() ? comparePublications(index, scope.ids, filters()) : comparisonScope() ? compareTerritories(index, scope.ids[0], scope.ids[1], filters()) : null;
   regionResult = regionScope() ? regionFacets(index, scope.id, { ...regionFilters, query: $('search').value, from: $('year-from').value, to: $('year-to').value, globalType: $('type-filter').value }) : null;
   records = comparisonResult ? comparisonResult.records : regionResult ? regionResult.records : filterItems(index, filters()); pageSize = 40; regionPageSize = 20;
   document.body.dataset.comparison = String(Boolean(comparisonResult));
   renderList(); renderBreadcrumbs(); renderGraph(); renderRegionNavigation();
   if (regionScope() && comparisonDetailsOpen) renderRegionPanel(); else if (comparisonResult && comparisonDetailsOpen) renderComparisonPanel(); else { uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; }
   renderMapReading();
+  renderPublicationControls();
   const filterCount = ['search', 'type-filter', 'year-from', 'year-to'].filter(id => $(id).value).length;
   $('filter-count').hidden = !filterCount;
   $('filter-count').textContent = String(filterCount);
-  $('graph-subtitle').textContent = comparisonResult ? 'Two territories, shared records once in the middle. Credits and record links retain their source evidence; other records stay dimmed.' : regionScope() ? 'Territories trace clusters of title matches; borders are illustrative. Exact membership is shown by the selection.' : scope?.kind === 'person' ? 'Documented credits. Names may refer to people, groups or publishing accounts.' : 'Explore overlapping subject territories. Shapes trace clusters of title matches; exact membership appears on selection.';
-  $('graph-heading').textContent = subjectScope() ? scopeLabel() : scope?.kind === 'person' ? 'Credits for ' + scopeLabel() : 'A field of possible futures';
+  $('graph-subtitle').textContent = publicationScope() ? 'One cluster per source catalog. Only recorded or explicitly inferred connections are shown; names remain separate across catalogs.' : comparisonResult ? 'Two territories, shared records once in the middle. Credits and record links retain their source evidence; other records stay dimmed.' : regionScope() ? 'Territories trace clusters of title matches; borders are illustrative. Exact membership is shown by the selection.' : scope?.kind === 'person' ? 'Documented credits. Names may refer to people, groups or publishing accounts.' : 'Explore overlapping subject territories. Shapes trace clusters of title matches; exact membership appears on selection.';
+  $('graph-heading').textContent = publicationScope() ? 'Publication comparison' : subjectScope() ? scopeLabel() : scope?.kind === 'person' ? 'Credits for ' + scopeLabel() : 'A field of possible futures';
   uiMotion.reveal($('graph-heading'), { fields: [], mode: 'view' });
   $('atlas-workspace').dataset.updateMs = (performance.now() - began).toFixed(1);
 }
 function renderGraph() {
   // Region drilling changes a membership mask only: every original point and
   // position stays in the surrounding field, including unmatched records.
-  const fullField = subjectScope() || (!scope && !$('search').value && !$('type-filter').value && !$('year-from').value && !$('year-to').value);
+  const fullField = subjectScope() || publicationScope() || (!scope && !$('search').value && !$('type-filter').value && !$('year-from').value && !$('year-to').value);
   const key = fullField ? 'full-field' : JSON.stringify(filters());
   if (preparedIndex === index && preparedFilters === key) { applyRegionSelection(); applyLayers(); graph?.setActive(active && document.body.dataset.view !== 'list'); return; }
   const data = graphData(index, fullField ? index.items : records, true);
@@ -235,7 +243,7 @@ function renderMapReading() {
   const guide = $('map-reading');
   const data = mapReading(index, { comparison: comparisonResult, region: regionScope() ? getRegions(index).byId.get(scope.id) : null, records, scope,
     layers: { names: $('names-toggle').checked, relationships: $('relationships-toggle').checked, inferred: $('themes-toggle').checked, regions: $('regions-toggle').checked } });
-  $('map-evidence').hidden = !subjectScope();
+  $('map-evidence').hidden = !(subjectScope() || publicationScope());
   $('map-evidence').setAttribute('aria-expanded', String(comparisonDetailsOpen && !$('region-panel').hidden));
   if (guide.dataset.readingKey === data.key) return;
   uiMotion.cancel(guide); guide.dataset.readingKey = data.key;
@@ -278,7 +286,7 @@ function renderRegionNavigation() {
     regionNavigationIndex = index;
   }
   const ids = selectedTerritories();
-  const guide = territoryGuide({ selectedIds: ids, byId: data.byId, comparison: comparisonResult });
+  const guide = publicationScope() ? { phase: 'publications', title: `Comparing ${scope.ids.length} publications`, body: 'Each cluster is a source catalog. Use the bottom toggles to change the comparison; select a star to follow its evidence.', pickerLabel: 'Switch to subjects', pickerPlaceholder: 'Choose your first subject' } : territoryGuide({ selectedIds: ids, byId: data.byId, comparison: comparisonResult });
   $('territory-comparison').dataset.phase = guide.phase;
   $('territory-guide-title').textContent = guide.title;
   $('territory-guide-body').textContent = guide.body;
@@ -300,14 +308,15 @@ function renderRegionNavigation() {
   $('comparison-picker').value = '';
   $('comparison-clear').hidden = !ids.length;
   $('comparison-details').hidden = false;
-  $('comparison-example').hidden = Boolean(ids.length);
-  $('comparison-hint').textContent = comparisonResult ? `${number(comparisonResult.leftOnly.size)} first only · ${number(comparisonResult.shared.size)} shared once · ${number(comparisonResult.rightOnly.size)} second only. Group and connection explanations sit below the map.` : ids.length ? 'Select a second territory to compare. Read how this territory is grouped below the map.' : 'Select one territory, then another, to separate their clusters and inspect what connects them.';
+  $('comparison-example').hidden = Boolean(ids.length) || publicationScope();
+  $('comparison-hint').textContent = publicationScope() ? guide.body : comparisonResult ? `${number(comparisonResult.leftOnly.size)} first only · ${number(comparisonResult.shared.size)} shared once · ${number(comparisonResult.rightOnly.size)} second only. Group and connection explanations sit below the map.` : ids.length ? 'Select a second territory to compare. Read how this territory is grouped below the map.' : 'Select one territory, then another, to separate their clusters and inspect what connects them.';
   uiMotion.reveal($('comparison-hint'), { key: comparisonResult?.key || ids.join(','), fields: [], mode: 'view' });
 }
 function setRegionFacet(key, value) {
   history.replaceState(viewContext(), '', location.href);
   if (value) regionFilters[key] = value; else delete regionFilters[key];
   const params = new URLSearchParams({ theme: scope.id, ...regionFilters });
+  appendSourceParams(params);
   history.pushState(viewContext(), '', '#' + params); closeDetail(); refresh();
   $('region-facet-' + key)?.focus({ preventScroll: true });
 }
@@ -434,6 +443,7 @@ function renderRegionPanel() {
 function renderComparisonPanel() {
   const data = comparisonResult, panel = $('region-panel'), content = $('region-content');
   if (!data) return;
+  if (data.kind === 'publications') { renderPublicationEvidence(data); return; }
   const changed = panel.dataset.regionId !== 'compare:' + data.key;
   uiMotion.cancel(panel); panel.hidden = false;
   panel.dataset.regionId = 'compare:' + data.key;
@@ -499,11 +509,12 @@ function renderList(revealFrom = 0) {
   $('load-more').textContent = `Show ${Math.min(40, Math.max(0, records.length - pageSize))} more records ↓`;
   uiMotion.reveal($('results'), { fields: [...$('results').children].slice(revealFrom) });
 }
-function clearFilters() { for (const id of ['search', 'type-filter', 'year-from', 'year-to']) $(id).value = ''; scope = null; regionFilters = {}; selection = null; comparisonDetailsOpen = false; closeDetail(); history.pushState(viewContext(), '', location.pathname); refresh(); }
+function clearFilters() { for (const id of ['search', 'type-filter', 'year-from', 'year-to']) $(id).value = ''; scope = null; regionFilters = {}; selection = null; comparisonDetailsOpen = false; closeDetail(); writeViewLocation(); refresh(); }
 async function resetAtlas() {
   if (!initialized || preparationPending || resetting) return;
   resetting = true;
   ++collectionGeneration;
+  renderPublicationControls(); renderCollections();
   clearTimeout(debounce);
   const control = $('reset-atlas');
   control.disabled = true;
@@ -549,16 +560,42 @@ async function resetAtlas() {
     $('reset-status').textContent = 'Unable to restore all collections. Your current view is preserved. Try Reset Atlas again.';
   } finally {
     resetting = false; control.disabled = false; control.setAttribute('aria-busy', 'false');
+    renderPublicationControls(); renderCollections();
     if (active) control.focus({ preventScroll: true });
   }
 }
-function scopeLabel() { return comparisonScope() ? scope.ids.map(id => getRegions(index).byId.get(id)?.label || 'Territory').join(' ↔ ') : scope?.kind === 'person' ? index.people.get(scope.id)?.name || 'Name not loaded' : regionScope() ? getRegions(index).byId.get(scope.id)?.label || 'Theme' : label(scope?.id); }
+function scopeLabel() { return publicationScope() ? scope.ids.map(id => index.catalogById.get(id)?.label || id).join(' ↔ ') : comparisonScope() ? scope.ids.map(id => getRegions(index).byId.get(id)?.label || 'Territory').join(' ↔ ') : scope?.kind === 'person' ? index.people.get(scope.id)?.name || 'Name not loaded' : regionScope() ? getRegions(index).byId.get(scope.id)?.label || 'Theme' : label(scope?.id); }
 function renderBreadcrumbs() {
   $('breadcrumbs').replaceChildren(button('All connections', clearFilters));
   if (scope) $('breadcrumbs').append(el('span', '', ' / ' + scopeLabel()));
   uiMotion.reveal($('breadcrumbs'));
 }
-function viewContext() { return { scope, regionFilters: { ...regionFilters }, comparisonDetailsOpen, fields: Object.fromEntries(['search', 'type-filter', 'year-from', 'year-to'].map(id => [id, $(id).value])) }; }
+function catalogEntries() { return [...(directory?.catalogs || []), ...[...sessionImports.values()].map(({ data }) => ({ id: data.catalog.id, label: data.catalog.label, itemCount: data.items.length, coverageSummary: data.catalog.coverage.summary }))]; }
+function appendSourceParams(params) {
+  const enabled = [...catalogs.keys()];
+  if (!params.has('publications') && (enabled.length !== catalogEntries().length || params.has('sources'))) params.set('sources', enabled.join(','));
+  return params;
+}
+function writeViewLocation() {
+  const params = new URLSearchParams();
+  if (scope?.kind === 'publications') params.set('publications', scope.ids.join(','));
+  else if (scope?.kind === 'compare') params.set('compare', scope.ids.join(','));
+  else if (scope) params.set(scope.kind, scope.id);
+  if (regionScope()) for (const [key, value] of Object.entries(regionFilters)) if (value) params.set(key, value);
+  appendSourceParams(params);
+  history.pushState(viewContext(), '', location.pathname + location.search + (params.size ? '#' + params : ''));
+}
+function restoreSourceLocation(params) {
+  const entries = catalogEntries();
+  const requested = params.has('publications') ? params.get('publications').split(',') : params.has('sources') ? params.get('sources').split(',') : history.state?.catalogIds || entries.map(entry => entry.id);
+  const ids = [...new Set(requested)].filter(id => loadedCatalogs.has(id) || sessionImports.has(id));
+  if (ids.length === catalogs.size && ids.every(id => catalogs.has(id))) return;
+  ++collectionGeneration;
+  catalogs.clear();
+  for (const id of ids) catalogs.set(id, loadedCatalogs.get(id) || sessionImports.get(id).data);
+  rebuild(false); renderCollections();
+}
+function viewContext() { return { scope, catalogIds: [...catalogs.keys()], regionFilters: { ...regionFilters }, comparisonDetailsOpen, fields: Object.fromEntries(['search', 'type-filter', 'year-from', 'year-to'].map(id => [id, $(id).value])) }; }
 function selectTerritory(id) {
   if (!getRegions(index).byId.has(id)) return;
   preview.close();
@@ -573,7 +610,8 @@ function selectTerritory(id) {
 function navigate(kind, value) {
   history.replaceState(viewContext(), '', location.href);
   const sameRegion = kind === 'scope' && value.kind === 'theme' && regionScope() && value.id === scope.id;
-  const params = kind === 'item' ? new URLSearchParams({ item: value, ...(comparisonScope() ? { compare: scope.ids.join(',') } : {}) }) : new URLSearchParams(value.kind === 'compare' ? { compare: value.ids.join(',') } : { [value.kind]: value.id, ...(sameRegion ? regionFilters : {}) });
+  const params = kind === 'item' ? new URLSearchParams({ item: value, ...(comparisonScope() ? { [publicationScope() ? 'publications' : 'compare']: scope.ids.join(',') } : {}) }) : new URLSearchParams(['compare', 'publications'].includes(value.kind) ? { [value.kind === 'publications' ? 'publications' : 'compare']: value.ids.join(',') } : { [value.kind]: value.id, ...(sameRegion ? regionFilters : {}) });
+  appendSourceParams(params);
   if (kind === 'scope' && !sameRegion && (value.kind !== 'compare' || !comparisonScope() || value.ids.join(',') !== scope.ids.join(','))) comparisonDetailsOpen = false;
   history.pushState(viewContext(), '', '#' + params); readLocation();
   if (kind === 'scope' && ['theme', 'compare'].includes(value.kind)) {
@@ -584,9 +622,11 @@ function navigate(kind, value) {
 }
 function readLocation() {
   const params = new URLSearchParams(location.hash.slice(1));
+  restoreSourceLocation(params);
   const itemId = params.get('item'), personId = params.get('person'), themeId = params.get('theme');
   const compareIds = [...new Set((params.get('compare') || '').split(','))].filter(id => getRegions(index).byId.has(id));
-  const comparison = compareIds.length === 2 ? { kind: 'compare', ids: compareIds } : null;
+  const publicationIds = [...new Set((params.get('publications') || '').split(','))].filter(id => catalogs.has(id));
+  const comparison = publicationIds.length >= 2 ? { kind: 'publications', ids: publicationIds } : compareIds.length === 2 ? { kind: 'compare', ids: compareIds } : null;
   if (history.state?.fields) for (const [id, value] of Object.entries(history.state.fields)) if (['search', 'type-filter', 'year-from', 'year-to'].includes(id)) $(id).value = value;
   if (itemId) {
     scope = comparison || history.state?.scope || null; regionFilters = history.state?.regionFilters || {}; comparisonDetailsOpen = Boolean(history.state?.comparisonDetailsOpen); refresh();
@@ -598,7 +638,7 @@ function readLocation() {
   else { scope = null; regionFilters = {}; closeDetail(); refresh(); }
 }
 function openDetail() { preview.close(); uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; $('map-evidence').setAttribute('aria-expanded', 'false'); $('detail').hidden = false; }
-function closeDetail() { uiMotion.cancel($('detail')); $('detail').hidden = true; selection = null; $('region-panel').hidden = !(subjectScope() && comparisonDetailsOpen); $('map-evidence').setAttribute('aria-expanded', String(!$('region-panel').hidden)); }
+function closeDetail() { uiMotion.cancel($('detail')); $('detail').hidden = true; selection = null; $('region-panel').hidden = !((subjectScope() || publicationScope()) && comparisonDetailsOpen); $('map-evidence').setAttribute('aria-expanded', String(!$('region-panel').hidden)); }
 function closeRegionDetails() { uiMotion.cancel($('region-panel')); $('region-panel').hidden = true; comparisonDetailsOpen = false; $('map-evidence').setAttribute('aria-expanded', 'false'); $('map-evidence').focus({ preventScroll: true }); scrollToBubble('map-reading'); }
 function closeRecordDetails() {
   closeDetail();
@@ -652,45 +692,119 @@ function showPerson(id) {
   $('detail-close').focus({ preventScroll: true });
   revealPanel('detail', 'detail-content');
 }
+function applyCatalogSelection(ids) {
+  ++collectionRevision;
+  history.replaceState(viewContext(), '', location.href);
+  preview.close(); comparisonDetailsOpen = false; closeDetail();
+  catalogs.clear();
+  for (const id of ids) {
+    const data = loadedCatalogs.get(id) || sessionImports.get(id)?.data;
+    if (data) catalogs.set(id, data);
+  }
+  if (publicationScope()) scope = catalogs.size >= 2 ? { kind: 'publications', ids: [...catalogs.keys()] } : null;
+  rebuild(false); writeViewLocation(); refresh(); renderCollections();
+}
+async function setCatalogEnabled(entry, enabled) {
+  if (resetting || pendingCatalogs.has(entry.id)) return;
+  ++collectionRevision;
+  const generation = collectionGeneration;
+  const fromDialog = $('collections-dialog').open;
+  let failure = '';
+  pendingCatalogs.add(entry.id); renderPublicationControls();
+  $('publication-status').textContent = `Updating ${entry.label}…`;
+  try {
+    if (enabled) loadedCatalogs.set(entry.id, await catalogData(entry));
+    if (generation !== collectionGeneration) return;
+    const ids = new Set(catalogs.keys());
+    if (enabled) ids.add(entry.id); else ids.delete(entry.id);
+    applyCatalogSelection(ids);
+    $('import-status').textContent = `${number(index.items.length)} records available.`;
+  } catch {
+    if (generation === collectionGeneration) failure = `Could not load ${entry.label}. Current selection preserved.`;
+  } finally {
+    pendingCatalogs.delete(entry.id);
+    renderPublicationControls(); renderCollections();
+    if (failure) { $('publication-status').textContent = failure; $('import-status').textContent = failure; }
+    if (active && generation === collectionGeneration) {
+      const check = fromDialog && $('collections-dialog').open ? [...$('collection-options').children].map(row => row.querySelector('input')).find(input => input?.value === entry.id) : null;
+      (check || $('publication-' + entry.id))?.focus({ preventScroll: true });
+    }
+  }
+}
+function renderPublicationControls() {
+  const entries = catalogEntries(), selected = entries.filter(entry => catalogs.has(entry.id));
+  const short = { 'posthuman-studies': 'Posthuman Studies', 'futures-studies': 'Futures Studies', 'network-cultures': 'Network Cultures', c4ss: 'C4SS' };
+  $('publication-filters').replaceChildren(...entries.map(entry => {
+    const control = button(short[entry.id] || entry.label, () => setCatalogEnabled(entry, !catalogs.has(entry.id)), 'publication-toggle');
+    control.id = 'publication-' + entry.id;
+    control.setAttribute('aria-pressed', String(catalogs.has(entry.id)));
+    control.setAttribute('aria-label', entry.label);
+    control.title = `${entry.label} · ${number(entry.itemCount)} source records`;
+    control.disabled = !initialized || resetting || pendingCatalogs.has(entry.id);
+    return control;
+  }));
+  $('publication-count').textContent = `${selected.length}/${entries.length} on`;
+  $('publication-compare').setAttribute('aria-pressed', String(publicationScope()));
+  $('publication-compare').textContent = publicationScope() ? 'Exit comparison' : `Compare ${selected.length} publications`;
+  $('publication-compare').disabled = !initialized || resetting || pendingCatalogs.size > 0 || (!publicationScope() && selected.length < 2);
+  for (const id of ['publications-all', 'publications-none']) $(id).disabled = !initialized || resetting;
+  if (!pendingCatalogs.size) $('publication-status').textContent = !selected.length ? 'No publications enabled. Choose a publication.' : selected.length < 2 ? 'Enable at least two publications to compare.' : publicationScope() ? 'Comparison mode · toggles update the clusters.' : 'Toggle sources · compare the enabled publications.';
+}
+function renderPublicationEvidence(data) {
+  const panel = $('region-panel'), content = $('region-content');
+  uiMotion.cancel(panel); panel.hidden = false;
+  panel.dataset.regionId = 'publications:' + data.key;
+  panel.dataset.memberCount = panel.dataset.selectedCount = String(data.memberIds.size);
+  panel.setAttribute('aria-label', 'Publication comparison evidence');
+  content.replaceChildren(el('p', 'detail-kicker', `${data.groups.length} source catalogs`), el('h2', 'detail-title', 'Publication comparison'),
+    el('p', 'region-note', 'Each cluster follows the catalog that supplied its records. Names and records remain separate across catalogs; similar names or titles do not create a connection.'),
+    el('p', 'region-total', `${number(data.relationships.length)} cross-publication record links in the loaded metadata.`));
+  if (!data.relationships.length) content.append(el('p', 'detail-note', 'No cross-publication record links are recorded in these catalogs. The separate clusters still show each source’s works and credits; an empty bridge does not prove there is no real-world connection.'));
+  for (const group of data.groups) content.append(lazyRegionSection(`${group.label} · ${number(group.memberIds.size)} records`, section => {
+    regionPagedRows(section, data.records.filter(item => group.memberIds.has(item.id)), recordCard);
+    if (!group.memberIds.size) section.append(el('p', 'region-note', 'No records match the current search and filters.'));
+  }));
+  content.append(lazyRegionSection('Cross-publication links & evidence', section => {
+    if (!data.relationships.length) section.append(el('p', 'region-note', 'No cross-publication links are recorded in this view.'));
+    regionPagedRows(section, data.relationships, relation => {
+      const row = el('div', 'region-relation'), from = index.byId.get(relation.from), to = index.byId.get(relation.to);
+      row.append(button(from?.title || 'Source record', () => from && navigate('item', from.id), 'related-record'),
+        el('p', 'region-note', `→ ${label(relation.kind)} · ${relation.inferred ? 'Inferred' : 'Source recorded'}`),
+        button(to?.title || 'Related record', () => to && navigate('item', to.id), 'related-record'),
+        el('p', 'detail-note', relation.basis || 'Relationship basis not specified.'), ...sourceLinks(relation.sourceUrls || []));
+      return row;
+    });
+  }));
+  revealPanel('region-panel', 'region-content');
+}
 function renderCollections() {
   uiMotion.cancel($('collection-options'));
   const total = directory?.catalogs.reduce((sum, entry) => sum + entry.itemCount, 0) || 0;
   if (!$('load-all-collections') && directory) {
     const all = button(`Load all ${number(total)} records`, async () => {
       if (resetting) return;
-      const generation = collectionGeneration;
+      const generation = ++collectionGeneration;
+      const revision = ++collectionRevision;
+      pendingCatalogs.add('@all'); renderPublicationControls();
       all.disabled = true; $('import-status').textContent = 'Opening all collections…';
       try {
         const allData = await Promise.all(directory.catalogs.map(catalogData));
-        if (generation !== collectionGeneration) return;
-        for (const data of allData) catalogs.set(data.catalog.id, data);
-        rebuild(); renderCollections(); $('import-status').textContent = `${number(index.items.length)} records searchable. Names remain separate across collections.`;
-      } catch { if (generation === collectionGeneration) $('import-status').textContent = 'Some collections could not load. Your current view is preserved; try again.'; }
-      finally { all.disabled = false; uiMotion.reveal($('import-status'), { mode: 'view', fields: [] }); }
+        if (generation !== collectionGeneration || revision !== collectionRevision) return;
+        for (const data of allData) loadedCatalogs.set(data.catalog.id, data);
+        applyCatalogSelection(new Set([...catalogs.keys(), ...allData.map(data => data.catalog.id)]));
+        $('import-status').textContent = `${number(index.items.length)} records searchable. Names remain separate across collections.`;
+      } catch { if (generation === collectionGeneration && revision === collectionRevision) $('import-status').textContent = 'Some collections could not load. Your current view is preserved; try again.'; }
+      finally { pendingCatalogs.delete('@all'); all.disabled = false; renderPublicationControls(); uiMotion.reveal($('import-status'), { mode: 'view', fields: [] }); }
     }, 'load-more');
     all.id = 'load-all-collections'; $('collection-options').before(all);
   }
-  const entries = [...(directory?.catalogs || []), ...[...sessionImports.values()].map(({ data: c }) => ({ id: c.catalog.id, label: c.catalog.label, itemCount: c.items.length, coverageSummary: c.catalog.coverage.summary }))];
+  const entries = catalogEntries();
   $('collection-options').replaceChildren(...entries.map(entry => {
     const row = el('label', 'collection-option'), check = el('input'); check.type = 'checkbox'; check.checked = catalogs.has(entry.id); check.value = entry.id;
     const copy = el('span'); copy.append(el('strong', 'collection-name', entry.label), el('span', 'collection-meta', `${number(entry.itemCount)} records · ${entry.coverageSummary || 'Public metadata snapshot'}`));
     row.append(check, copy);
-    check.addEventListener('change', async () => {
-      if (resetting) { check.checked = catalogs.has(entry.id); return; }
-      const generation = collectionGeneration;
-      check.disabled = true;
-      try {
-        if (check.checked) {
-          $('import-status').textContent = `Loading ${entry.label}…`;
-          const data = await catalogData(entry);
-          if (generation !== collectionGeneration) return;
-          catalogs.set(entry.id, data);
-        }
-        else catalogs.delete(entry.id);
-        rebuild(); $('import-status').textContent = `${number(index.items.length)} records available.`;
-      } catch { if (generation === collectionGeneration) { check.checked = false; $('import-status').textContent = 'Unable to load that collection. Check your connection and try again.'; } }
-      finally { check.disabled = false; uiMotion.reveal(row); uiMotion.reveal($('import-status'), { mode: 'view', fields: [] }); }
-    });
+    check.disabled = resetting || pendingCatalogs.has(entry.id);
+    check.addEventListener('change', () => setCatalogEnabled(entry, check.checked));
     return row;
   }));
   uiMotion.reveal($('collection-options'));
@@ -708,7 +822,9 @@ $('import-file').addEventListener('change', async event => {
     // including inactive imports, so toggling collections cannot bypass limits.
     validateSessionImport(data, file.size, { publicRecords: directory.catalogs.reduce((sum, row) => sum + row.itemCount, 0), imports: sessionImports.values() });
     sessionImports.set(data.catalog.id, { data, bytes: file.size });
-    catalogs.set(data.catalog.id, data); cache.set(data.catalog.id, Promise.resolve(data)); rebuild(); renderCollections();
+    loadedCatalogs.set(data.catalog.id, data); catalogs.set(data.catalog.id, data); cache.set(data.catalog.id, Promise.resolve(data));
+    if (publicationScope()) scope = { kind: 'publications', ids: [...catalogs.keys()] };
+    rebuild(); writeViewLocation(); renderCollections();
     $('import-status').textContent = `${number(data.items.length)} records added. Stored in memory for this session only.`;
   } catch (error) { $('import-status').textContent = error instanceof SyntaxError ? 'The file is not valid JSON. Use the example format below.' : error.message; }
   event.target.value = '';
@@ -728,6 +844,20 @@ $('load-more').addEventListener('click', () => { const previous = pageSize; page
 $('detail-close').addEventListener('click', closeRecordDetails);
 $('region-close').addEventListener('click', closeRegionDetails);
 $('comparison-picker').addEventListener('change', () => { if ($('comparison-picker').value) selectTerritory($('comparison-picker').value); });
+for (const [id, all] of [['publications-all', true], ['publications-none', false]]) $(id).addEventListener('click', () => {
+  if (!initialized || resetting) return;
+  ++collectionGeneration;
+  applyCatalogSelection(all ? catalogEntries().map(entry => entry.id) : []);
+});
+$('publication-compare').addEventListener('click', () => {
+  if (!initialized || resetting || pendingCatalogs.size || (!publicationScope() && catalogs.size < 2)) return;
+  history.replaceState(viewContext(), '', location.href);
+  preview.close(); comparisonDetailsOpen = false; closeDetail(); regionFilters = {};
+  scope = publicationScope() ? null : { kind: 'publications', ids: [...catalogs.keys()] };
+  writeViewLocation();
+  setView(graph?.available === false || !graph ? 'list' : 'map');
+  refresh(); scrollToBubble('map-surface');
+});
 $('comparison-example').addEventListener('click', () => navigate('scope', { kind: 'compare', ids: ['minds', 'power'] }));
 $('return-map').addEventListener('click', () => {
   setView(graph?.available === false || !graph ? 'list' : 'map');

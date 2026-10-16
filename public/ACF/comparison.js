@@ -1,5 +1,5 @@
-import { filterItems, graphData } from './model.js?v=mapfirst-20261015';
-import { getRegions } from './regions.js?v=mapfirst-20261015';
+import { filterItems, graphData } from './model.js?v=sources-20261015';
+import { getRegions } from './regions.js?v=sources-20261015';
 
 const caches = new WeakMap();
 const compare = (a, b) => String(a).localeCompare(String(b), 'en');

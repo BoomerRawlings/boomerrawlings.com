@@ -1,16 +1,17 @@
-import { SpatialGrid } from './graph-spatial.js?v=mapfirst-20261015';
-import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=mapfirst-20261015';
-import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=mapfirst-20261015';
-import { buildTerritory } from './territory-geometry.js?v=mapfirst-20261015';
-import { comparisonLayout } from './comparison-layout.js?v=mapfirst-20261015';
-import { nodeAppearance, nodeEndpointAppearance, drawNodeGlyph } from './node-style.js?v=mapfirst-20261015';
-import { connectionCounts, clearNodeSpace } from './node-layout.js?v=mapfirst-20261015';
+import { SpatialGrid } from './graph-spatial.js?v=sources-20261015';
+import { GraphRenderer, routeOpacity } from './graph-renderer.js?v=sources-20261015';
+import { ROUTE_STYLES, routeStyle, routePointAt } from './route-style.js?v=sources-20261015';
+import { buildTerritory } from './territory-geometry.js?v=sources-20261015';
+import { comparisonLayout, comparisonBounds } from './comparison-layout.js?v=sources-20261015';
+import { nodeAppearance, nodeEndpointAppearance, drawNodeGlyph } from './node-style.js?v=sources-20261015';
+import { connectionCounts, clearNodeSpace } from './node-layout.js?v=sources-20261015';
 
 const COLORS = { hub: '#d89976', item: '#a9c9db', person: '#aaa4d0' };
 const REGION_COLORS = ['#90c2d1', '#c5a5cc', '#d6ac7f', '#9ebd92', '#94a8d3', '#c7bb82'];
 const regionRGBA = (color, alpha) => `rgba(${[1, 3, 5].map(start => parseInt(color.slice(start, start + 2), 16)).join(',')},${alpha})`;
 const clamp = (value, low, high) => Math.min(high, Math.max(low, value));
 const finite = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
+const OVERVIEW_DETAIL_THRESHOLD = 2;
 
 function hash(value) {
   let result = 2166136261;
@@ -212,10 +213,20 @@ export class AtlasGraph {
     }
   }
 
-  effectiveLayers() { return this.comparison ? { names: true, labels: true, regions: true, relationships: true, inferred: true } : this.layers; }
+  overviewSubjectsOnly(scale = this.scale) { return !this.comparison && scale / this.baseScale < OVERVIEW_DETAIL_THRESHOLD; }
+  detailOpacity() {
+    if (this.comparison) return 1;
+    const progress = clamp((this.scale / this.baseScale - OVERVIEW_DETAIL_THRESHOLD) / 1.2, 0, 1);
+    return progress * progress * (3 - 2 * progress);
+  }
+  effectiveLayers() { return this.comparison ? { names: true, labels: true, regions: true, relationships: true, inferred: true } : this.overviewSubjectsOnly() ? { ...this.layers, names: false, labels: false, relationships: false, inferred: false } : this.layers; }
   nodeEnabled(node) { return Boolean(node) && (this.comparison ? this.comparison.layout.visible.has(node.id) : node.kind === 'item' || (node.kind === 'person' ? this.layers.names : this.layers.regions)); }
+  interactiveNode(node, scale = this.scale) {
+    const visible = node && (this.comparison ? this.nodeEnabled(node) : node.kind === 'item' || (node.kind === 'person' ? this.layers.names : this.layers.regions));
+    return Boolean(visible) && (!this.overviewSubjectsOnly(scale) || node.kind === 'hub');
+  }
   routeNodeEnabled(node) { return this.nodeEnabled(node); }
-  edgeEnabled(edge) { return this.comparison ? this.comparison.edgeSet.has(edge) : edge.inferred ? this.layers.inferred : this.layers.relationships; }
+  edgeEnabled(edge) { const layers = this.effectiveLayers(); return this.comparison ? this.comparison.edgeSet.has(edge) : edge.inferred ? layers.inferred : layers.relationships; }
 
   displayPosition(node) {
     const point = node?.id && this.comparison?.points.get(node.id);
@@ -248,15 +259,22 @@ export class AtlasGraph {
     const edgeSet = new Set(this.edges);
     const normalized = config && { ...config, edges: config.edges.map(edge => this.edgeSourceMap.get(edge) || (edgeSet.has(edge) ? edge : null)).filter(Boolean) };
     const frame = this.viewportFrame(), center = this.viewportCenter(), vertical = this.width < 650;
-    const comparisonFit = Math.min(Math.max(50, this.width - frame.left - frame.right) / (vertical ? 730 : 1730), Math.max(50, this.height - frame.top - frame.bottom) / (vertical ? 1730 : 730));
+    const plannedBounds = comparisonBounds(normalized || previous.config, vertical);
+    const comparisonFit = Math.min(Math.max(50, this.width - frame.left - frame.right) / (plannedBounds.right - plannedBounds.left), Math.max(50, this.height - frame.top - frame.bottom) / (plannedBounds.bottom - plannedBounds.top));
     const layout = config ? comparisonLayout(normalized, this.byId, vertical, { pixelScale: comparisonFit, zoom: comparisonFit / this.baseScale }) : previous.layout;
-    if (config && !layout.visible.size) return;
+    if (config && !layout.visible.size && config.kind !== 'publications') return;
     const points = new Map(), progress = previous?.progress || 0;
+    const normalZoom = (config ? this.scale : this.comparisonRestore?.scale || this.scale) / this.baseScale;
+    const normalProgress = clamp((normalZoom - OVERVIEW_DETAIL_THRESHOLD) / 1.2, 0, 1);
+    const normalDetail = normalProgress * normalProgress * (3 - 2 * normalProgress);
     for (const node of this.nodes) {
       const prior = previous?.points.get(node.id), position = this.displayPosition(node);
-      const normalVisible = node.kind === 'item' || (node.kind === 'person' ? this.layers.names : this.layers.regions);
-      const from = prior ? { ...position, color: this.mixColor(prior.from.color, prior.to.color, progress), opacity: prior.from.opacity + (prior.to.opacity - prior.from.opacity) * progress } : { x: node.x, y: node.y, color: node.color || COLORS[node.kind], opacity: normalVisible ? 1 : 0 };
-      const to = config ? layout.targets.get(node.id) || { x: node.x, y: node.y, color: node.color || COLORS[node.kind], opacity: node.kind === 'item' ? 0.018 : 0 } : { x: node.x, y: node.y, color: node.color || COLORS[node.kind], opacity: normalVisible ? 1 : 0 };
+      const normalVisible = node.kind === 'item' || (node.kind === 'person' ? this.layers.names && normalZoom >= OVERVIEW_DETAIL_THRESHOLD : this.layers.regions);
+      const style = nodeAppearance(node), reveal = node.kind === 'hub' ? 1 : normalDetail;
+      const normal = { x: node.x, y: node.y, color: node.color || COLORS[node.kind], opacity: normalVisible ? 1 : 0,
+        baseRadius: Math.min(style.baseRadius, 0.75) * (1 - reveal) + style.baseRadius * reveal, brightness: style.brightness * (0.52 + reveal * 0.48) };
+      const from = prior ? { ...position, color: this.mixColor(prior.from.color, prior.to.color, progress), opacity: prior.from.opacity + (prior.to.opacity - prior.from.opacity) * progress } : { ...normal };
+      const to = config ? layout.targets.get(node.id) || { x: node.x, y: node.y, color: node.color || COLORS[node.kind], opacity: node.kind === 'item' ? 0.018 : 0 } : { ...normal };
       from.connectionCount = prior ? prior.from.connectionCount + (prior.to.connectionCount - prior.from.connectionCount) * progress : node.connectionCount;
       if (prior) {
         const a = nodeEndpointAppearance(node, prior.from), b = nodeEndpointAppearance(node, prior.to);
@@ -284,8 +302,13 @@ export class AtlasGraph {
       creditedRecords.get(person.id).add(item.id);
     }
     const labelCounts = new Map([...creditedRecords].map(([id, records]) => [id, records.size]));
-    for (const side of [config?.left || previous.config.left, config?.right || previous.config.right]) labelCounts.set(this.byId.has(side.id) ? side.id : `@theme:${side.id}`, side.memberIds.size);
-    const regions = config ? [config.left, config.right].map(region => {
+    const currentConfig = config || previous.config;
+    if (currentConfig.kind !== 'publications') for (const side of [currentConfig.left, currentConfig.right]) labelCounts.set(this.byId.has(side.id) ? side.id : `@theme:${side.id}`, side.memberIds.size);
+    const regions = config ? (config.kind === 'publications' ? layout.groups : [config.left, config.right]).map(region => {
+      if (config.kind === 'publications') {
+        const targetNodes = new Map([...layout.targets].map(([id, point]) => [id, { ...this.byId.get(id), ...point }]));
+        return { ...region, members: new Set(region.memberIds), territory: buildTerritory(region, targetNodes) };
+      }
       const hubId = this.byId.has(region.id) ? region.id : `@theme:${region.id}`, hub = layout.targets.get(hubId) || { x: 0, y: 0 };
       const targetNodes = new Map([...layout.targets].map(([id, point]) => [id, { ...this.byId.get(id), ...point }]));
       return { ...region, id: hubId, themeId: region.id, ...hub, members: new Set(region.memberIds), territory: buildTerritory(region, targetNodes) };
@@ -393,7 +416,7 @@ export class AtlasGraph {
       }
     }
     if (!node) return false;
-    this.select(node, 'keyboard', this.baseScale * clamp(ratio, 0.4, 64));
+    this.select(node, 'perspective', this.baseScale * clamp(ratio, 0.4, 64));
     return true;
   }
 
@@ -663,7 +686,7 @@ export class AtlasGraph {
   }
 
   focusNode(node) {
-    if (!node) return;
+    if (!this.interactiveNode(node)) return;
     if (this.cameraFlight?.nodeId === node.id) return;
     this.cameraFlight = null;
     this.keyboardId = node.id;
@@ -674,7 +697,7 @@ export class AtlasGraph {
 
   focusCandidates() {
     this.updateScreen();
-    return this.screen.filter(node => node.sx >= 8 && node.sx <= this.width - 8 && node.sy >= 8 && node.sy <= this.height - 8);
+    return this.screen.filter(node => this.interactiveNode(node) && node.sx >= 8 && node.sx <= this.width - 8 && node.sy >= 8 && node.sy <= this.height - 8);
   }
 
   directionalFocus(key) {
@@ -688,6 +711,7 @@ export class AtlasGraph {
       const range = radius / this.scale;
       const currentPosition = this.displayPosition(current), candidates = this.querySpatial(currentPosition.x - range, currentPosition.y - range, currentPosition.x + range, currentPosition.y + range);
       for (const node of candidates) {
+        if (!this.interactiveNode(node)) continue;
         const candidate = this.project(node); if (!candidate) continue;
         const x = candidate.sx - origin.x, y = candidate.sy - origin.y;
         const forward = x * dx + y * dy;
@@ -702,7 +726,7 @@ export class AtlasGraph {
   }
 
   cycleFocus(direction) {
-    const candidates = this.enabledFocus || [];
+    const candidates = this.focusOrder.filter(node => this.interactiveNode(node));
     if (!candidates.length) return;
     const current = candidates.findIndex(node => node.id === (this.keyboardId || this.hovered));
     const index = current < 0 ? (direction > 0 ? 0 : candidates.length - 1) : (current + direction + candidates.length) % candidates.length;
@@ -727,6 +751,7 @@ export class AtlasGraph {
     for (let radius = 16; radius <= Math.max(this.width, this.height) * 4; radius *= 2) {
       const range = radius / this.scale;
       for (const value of this.querySpatial(x - range, y - range, x + range, y + range)) {
+        if (!this.interactiveNode(value)) continue;
         const node = this.project(value); if (!node) continue;
         const candidate = (node.sx - center.x) ** 2 + (node.sy - center.y) ** 2;
         if (candidate < distance) { distance = candidate; nearest = node; }
@@ -738,13 +763,13 @@ export class AtlasGraph {
 
   hit(point) {
     // Opaque title cards are painted above dots, so their hit regions must win too.
-    const label = this.labelBoxes.find(box => point.x >= box.x && point.x <= box.x + box.width && point.y >= box.y && point.y <= box.y + box.height);
+    const label = this.labelBoxes.find(box => this.interactiveNode(this.byId.get(box.id)) && point.x >= box.x && point.x <= box.x + box.width && point.y >= box.y && point.y <= box.y + box.height);
     if (label) return this.byId.get(label.id);
     let result = null;
     let closest = Infinity;
     const x = (point.x - this.pan.x) / this.scale, y = (point.y - this.pan.y) / this.scale, range = 26 / this.scale;
     for (const node of this.querySpatial(x - range, y - range, x + range, y + range)) {
-      if (!this.nodeEnabled(node)) continue;
+      if (!this.interactiveNode(node)) continue;
       const anchor = this.anchor(node), distance = Math.hypot(point.x - anchor.x, point.y - anchor.y);
       if (distance <= Math.max(8, this.radius(node) + 4) && (distance < closest || (distance === closest && node.id < result.id))) { result = node; closest = distance; }
     }
@@ -753,6 +778,7 @@ export class AtlasGraph {
 
   setHovered(id, force = false) {
     if (this.cameraFlight) return;
+    if (id && !this.interactiveNode(this.byId.get(id))) id = null;
     if (id === this.hovered && !force) return;
     this.hovered = id;
     this.canvas.style.cursor = id ? 'pointer' : 'grab';
@@ -761,6 +787,7 @@ export class AtlasGraph {
   }
 
   select(node, reason = 'keyboard', targetScale = this.scale) {
+    if (node && reason !== 'perspective' && !this.interactiveNode(node, targetScale)) return;
     if (!node) { this.dismissPreview('dismiss'); this.requestDraw(); return; }
     if (this.comparison) { this.advanceComparison(performance.now()); if (this.comparison) this.comparison.cameraFollowing = false; }
     const center = this.viewportCenter();
@@ -790,6 +817,7 @@ export class AtlasGraph {
   }
 
   finishSelection(node, reason) {
+    if (!this.interactiveNode(node)) { this.dismissPreview('layout'); this.requestDraw(); return; }
     this.emitPreview(node, reason);
     this.startConnectionPulse(node.id);
     this.startTerritoryReveal(node.id);
@@ -853,6 +881,7 @@ export class AtlasGraph {
   }
 
   emitPreview(node, reason) {
+    if (node && !this.interactiveNode(node)) node = null;
     this.labelsDirty = true;
     this.previewId = node?.id || null;
     if (node) this.previewAnchor = this.anchor(node);
@@ -992,6 +1021,7 @@ export class AtlasGraph {
   }
 
   updateScreen() {
+    if (this.overviewSubjectsOnly() && !this.cameraFlight && [this.selected, this.hovered, this.keyboardId, this.previewId].some(id => id && this.byId.get(id)?.kind !== 'hub')) this.dismissPreview('layout');
     const layers = this.effectiveLayers(), order = this.comparison?.labelOrder || this.labelOrder;
     const key = `${this.dataRevision}:${this.comparison?.key}:${this.comparison?.progress}:${this.renderer.backend}:${layers.names}:${layers.regions}:${layers.inferred}:${layers.relationships}:${this.width}:${this.height}:${this.pan.x}:${this.pan.y}:${this.scale}`;
     if (key === this.screenKey) return;
@@ -1002,14 +1032,14 @@ export class AtlasGraph {
       this.screenLabelOrder = { item: [], hub: [] };
       const points = new Map();
       for (const node of this.regionNodes) { const point = this.project(node); if (point) points.set(node.id, point); }
-      for (const kind of ['item', 'hub']) {
+      if (layers.labels) for (const kind of ['item', 'hub']) {
         for (const node of order[kind].slice(0, 512)) {
           const point = this.project(node);
           if (point) { points.set(node.id, point); this.screenLabelOrder[kind].push(point); }
           if (this.screenLabelOrder[kind].length === 160) break;
         }
       }
-      if (this.screenLabelOrder.item.length < 8) {
+      if (layers.labels && this.screenLabelOrder.item.length < 8) {
         const local = this.querySpatial(-this.pan.x / this.scale, -this.pan.y / this.scale, (this.width - this.pan.x) / this.scale, (this.height - this.pan.y) / this.scale);
         for (const node of local) if (node.kind === 'item' && !points.has(node.id)) {
           const point = this.project(node); if (point) { points.set(node.id, point); this.screenLabelOrder.item.push(point); }
@@ -1020,7 +1050,7 @@ export class AtlasGraph {
       this.visibleEdges = []; this.displayedEdges = [];
       this.labelsDirty = true; return;
     }
-    this.screen = (this.comparison ? this.nodes : this.spatial.query((-24 - this.pan.x) / this.scale, (-24 - this.pan.y) / this.scale, (this.width + 24 - this.pan.x) / this.scale, (this.height + 24 - this.pan.y) / this.scale)).filter(node => this.comparison || this.nodeEnabled(node)).map(node => {
+    this.screen = (this.comparison ? this.nodes : this.spatial.query((-24 - this.pan.x) / this.scale, (-24 - this.pan.y) / this.scale, (this.width + 24 - this.pan.x) / this.scale, (this.height + 24 - this.pan.y) / this.scale)).filter(node => this.comparison || (this.nodeEnabled(node) && (node.kind !== 'person' || layers.names))).map(node => {
       const point = this.anchor(node); node.sx = point.x; node.sy = point.y; node.radius = this.radius(node); return node;
     }).filter(node => node.sx + node.radius >= 0 && node.sx - node.radius <= this.width && node.sy + node.radius >= 0 && node.sy - node.radius <= this.height);
     this.screenPoints = new Map(this.screen.map(node => [node.id, node]));
@@ -1043,8 +1073,9 @@ export class AtlasGraph {
     if (!this.active || this.destroyed || document.hidden || !this.ctx || !this.width || !this.height) return;
     const start = performance.now();
     this.lastDrawTime = time;
-    const comparing = this.advanceComparison(time), layers = this.effectiveLayers();
+    const comparing = this.advanceComparison(time);
     const flying = this.advanceCamera(time);
+    const layers = this.effectiveLayers(), detailOpacity = this.detailOpacity();
     const flowing = this.routesFlowing();
     if (flowing && this.flowClock !== null) this.flowTime += Math.max(0, time - this.flowClock) / 1000;
     this.flowClock = flowing ? time : null;
@@ -1056,7 +1087,8 @@ export class AtlasGraph {
     this.updateScreen();
     const points = this.renderer.backend === 'webgl' ? new Map(this.screenPoints) : this.routePoints;
     const edges = this.visibleEdges;
-    const emphasis = this.hovered || this.keyboardId || this.selected;
+    const emphasizedId = this.hovered || this.keyboardId || this.selected;
+    const emphasis = this.interactiveNode(this.byId.get(emphasizedId)) ? emphasizedId : null;
     let selectionReveal = this.selectionReveal;
     if (selectionReveal && (time >= selectionReveal.started + selectionReveal.duration || this.paused || this.motion.matches || selectionReveal.nodeId !== this.selected)) { this.selectionReveal = null; selectionReveal = null; }
     const acquisition = selectionReveal ? clamp((time - selectionReveal.started) / selectionReveal.duration, 0, 1) : 1;
@@ -1079,7 +1111,7 @@ export class AtlasGraph {
     if (this.renderer.backend !== 'webgl' && (layers.relationships || layers.inferred)) {
       for (const style of Object.values(ROUTE_STYLES)) {
         ctx.beginPath();
-        const opacity = routeOpacity(style.inferred, this.scale / this.baseScale, displayedEdges.length, Boolean(emphasis)) * (this.comparison ? 2.8 * (this.comparison.exiting ? 1 - this.comparison.progress : 1) : 1);
+        const opacity = routeOpacity(style.inferred, this.scale / this.baseScale, displayedEdges.length, Boolean(emphasis)) * (this.comparison ? 2.8 * (this.comparison.exiting ? 1 - this.comparison.progress : 1) : detailOpacity);
         ctx.strokeStyle = regionRGBA(style.color, opacity);
         ctx.lineWidth = style.inferred ? 0.65 : 0.7;
         ctx.setLineDash(style.inferred ? [2, 5] : []);
@@ -1178,7 +1210,11 @@ export class AtlasGraph {
       this.onLabels(this.labelBoxes.map(box => ({ ...box })));
     }
     this.paintComparisonLabels(ctx);
-    for (const plan of this.labelPlans) this.paintLabel(ctx, plan);
+    for (const plan of this.labelPlans) {
+      ctx.save();
+      if (plan.node.kind !== 'hub') ctx.globalAlpha = detailOpacity;
+      this.paintLabel(ctx, plan); ctx.restore();
+    }
     if (document.activeElement === this.canvas) this.drawCrosshair(ctx);
     drawStats.visibleEdges = this.renderer.backend === 'webgl' ? null : displayedEdges.length;
     drawStats.selectedEdges = selectedEdges.length;
@@ -1198,6 +1234,7 @@ export class AtlasGraph {
     this.canvas.dataset.comparisonEdges = String(this.comparison?.edges.length || 0);
     this.canvas.dataset.comparisonShared = String(this.comparison?.config.shared.size || 0);
     this.canvas.dataset.comparisonExiting = String(Boolean(this.comparison?.exiting));
+    this.canvas.dataset.comparisonKind = this.comparison?.config.kind || (this.comparison ? 'subjects' : '');
     if (flying || comparing) this.requestDraw();
     else if (settling || highlighting || flowing || revealingTerritories || selectionReveal) this.requestDraw(false, true);
   }
@@ -1208,6 +1245,7 @@ export class AtlasGraph {
       visibleEdges: drawStats.visibleEdges || 0, recordCount: this.recordCount || 0, nameCount: this.nameCount || 0,
       selectedRecords: this.regionSelection?.size || 0, regionId: this.regionSelectionMeta.id || '', regionLabel: this.regionSelectionMeta.label || '', regionMemberTotal: this.regionSelectionMeta.total || 0,
       inViewRecords: available ? this.inViewRecords || 0 : 0, inViewNames: available ? this.inViewNames || 0 : 0, ...drawStats };
+    Object.assign(status, { overviewSubjectsOnly: this.overviewSubjectsOnly(), overviewDetailThreshold: OVERVIEW_DETAIL_THRESHOLD, detailOpacity: this.detailOpacity() });
     const statusKey = JSON.stringify(status);
     if (statusKey !== this.lastStatus) { this.lastStatus = statusKey; this.onStatus(status); }
     for (const [key, value] of Object.entries(status)) this.canvas.dataset[key] = String(value);
@@ -1319,6 +1357,7 @@ export class AtlasGraph {
   placeComparisonLabels(ctx) {
     const view = this.comparison;
     if (!view) return;
+    if (view.config.kind === 'publications') { this.placePublicationLabels(ctx); return; }
     const { config, layout } = view, format = value => new Intl.NumberFormat().format(value);
     const middleNames = config.sharedPeople?.length ?? [...config.personIds].filter(id => {
       const point = layout.targets.get(id);
@@ -1347,21 +1386,71 @@ export class AtlasGraph {
     }
   }
 
+  placePublicationLabels(ctx) {
+    const { layout } = this.comparison;
+    const groups = new Map(layout.groups.map(group => [group.id, group]));
+    const bounds = layout.groups.map(group => {
+      const topLeft = this.anchor({ x: group.bounds.left, y: group.bounds.top });
+      return { id: group.id, x: topLeft.x, y: topLeft.y, width: (group.bounds.right - group.bounds.left) * this.scale, height: (group.bounds.bottom - group.bounds.top) * this.scale };
+    });
+    const shortNames = { ieet: 'IEET', transhumanity: 'Transh.', technophany: 'Techno.', 'posthuman-studies': 'JPS', 'futures-studies': 'JFS', 'network-cultures': 'INC', 'aft-technoprog': 'AFT', 'biopolitical-times': 'BioPol', c4ss: 'C4SS' };
+    let columnSpacing = Infinity, rowSpacing = Infinity;
+    for (const a of layout.groups) for (const b of layout.groups) {
+      if (a === b) continue;
+      if (a.y === b.y) columnSpacing = Math.min(columnSpacing, Math.abs(a.x - b.x) * this.scale);
+      if (a.x === b.x) rowSpacing = Math.min(rowSpacing, Math.abs(a.y - b.y) * this.scale);
+    }
+    const exclusions = this.labelExclusions();
+    for (const spec of layout.annotations) {
+      const group = groups.get(spec.key), field = bounds.find(box => box.id === spec.key), point = this.anchor(spec.point);
+      // A publication caption fits the projected space between source clusters.
+      // The complete names/counts remain in the accessible reading key below.
+      const width = Math.min(236, this.width - 16, Math.max(18, columnSpacing - 8));
+      if (point.x < -width / 2 || point.x > this.width + width / 2 || point.y < -72 || point.y > this.height) continue;
+      const compact = width < 170 || rowSpacing < 110, tiny = width < 95 || rowSpacing < 65;
+      const titleFont = compact ? '500 11px system-ui, sans-serif' : '500 12px system-ui, sans-serif';
+      const detailFont = '11px system-ui, sans-serif';
+      const lineHeight = compact ? 13 : 15, inset = compact ? 4 : 10, maximum = width - inset * 2;
+      ctx.font = titleFont;
+      let name = spec.title;
+      if (compact && ctx.measureText(name).width > maximum) {
+        const words = name.match(/[\p{L}\p{N}]+/gu) || [];
+        name = shortNames[spec.key] || (words.length > 1 ? words.map(word => /^\d/.test(word) ? word : word[0]).join('') : name);
+      }
+      const title = compact ? [this.fitText(ctx, name, maximum)] : this.titleLines(ctx, name, maximum);
+      ctx.font = detailFont;
+      const lines = tiny ? [] : compact ? [this.fitText(ctx, `${new Intl.NumberFormat().format(group.memberIds.size)} records`, maximum)] : spec.lines.map(line => this.fitText(ctx, line, maximum));
+      const height = lineHeight * (title.length + lines.length) + inset * 2;
+      const x = clamp(point.x - width / 2, 8, this.width - width - 8);
+      const valid = box => box.y >= 8 && box.y + height <= this.height - 8 &&
+        !bounds.some(other => other.id !== spec.key && this.overlaps(box, other, 1)) &&
+        !exclusions.some(other => this.overlaps(box, other, 2)) &&
+        !this.labelBoxes.some(other => this.overlaps(box, other, 3)) &&
+        !this.comparisonLabelPlans.some(other => this.overlaps(box, other.box, 3));
+      const limit = Math.min(96, Math.max(48, field.height * 1.3));
+      const candidates = [point.y];
+      for (let offset = 8; offset <= limit; offset += 8) candidates.push(point.y + offset, point.y - offset);
+      for (const other of exclusions) candidates.push(other.y + other.height + 3, other.y - height - 3);
+      const box = candidates.filter(y => Math.abs(y - point.y) <= limit).map(y => ({ x, y, width, height })).find(valid);
+      if (box) this.comparisonLabelPlans.push({ ...spec, box, title, lines, titleFont, detailFont, lineHeight, inset });
+    }
+  }
+
   paintComparisonLabels(ctx) {
     const view = this.comparison;
     if (!view) return;
     ctx.save();
     ctx.globalAlpha = view.exiting ? 1 - view.progress : clamp((view.progress - 0.3) / 0.7, 0, 1);
-    for (const { box, title, lines, color } of this.comparisonLabelPlans) {
-      ctx.beginPath(); ctx.roundRect(box.x, box.y, box.width, box.height, 13);
+    for (const { box, title, lines, color, titleFont = '500 12px system-ui, sans-serif', detailFont = '11px system-ui, sans-serif', lineHeight = 15, inset = 10 } of this.comparisonLabelPlans) {
+      ctx.beginPath(); ctx.roundRect(box.x, box.y, box.width, box.height, Math.min(13, box.height / 3));
       ctx.fillStyle = 'rgba(12,16,28,0.72)'; ctx.fill();
-      ctx.beginPath(); ctx.moveTo(box.x + 14, box.y + 1); ctx.lineTo(box.x + box.width - 14, box.y + 1);
+      ctx.beginPath(); ctx.moveTo(box.x + inset + 4, box.y + 1); ctx.lineTo(box.x + box.width - inset - 4, box.y + 1);
       ctx.strokeStyle = regionRGBA(color, 0.7); ctx.lineWidth = 0.8; ctx.stroke();
       ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
-      ctx.font = '500 12px system-ui, sans-serif'; ctx.fillStyle = '#e6e4ec';
-      title.forEach((line, i) => ctx.fillText(line, box.x + box.width / 2, box.y + 18 + i * 15));
-      ctx.font = '11px system-ui, sans-serif'; ctx.fillStyle = color;
-      lines.forEach((line, i) => ctx.fillText(line, box.x + box.width / 2, box.y + 18 + (title.length + i) * 15));
+      ctx.font = titleFont; ctx.fillStyle = '#e6e4ec';
+      title.forEach((line, i) => ctx.fillText(line, box.x + box.width / 2, box.y + inset + lineHeight - 7 + i * lineHeight));
+      ctx.font = detailFont; ctx.fillStyle = color;
+      lines.forEach((line, i) => ctx.fillText(line, box.x + box.width / 2, box.y + inset + lineHeight - 7 + (title.length + i) * lineHeight));
     }
     ctx.restore();
   }

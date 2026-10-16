@@ -21,12 +21,20 @@ function functionSource(name) {
   return rest.slice(0, rest.indexOf('\n'));
 }
 
+function publicationHandlers() {
+  const start = source.indexOf("for (const [id, all] of [['publications-all', true]");
+  const end = source.indexOf("$('comparison-example').addEventListener", start);
+  assert(start >= 0 && end > start, 'Missing production publication controls');
+  return source.slice(start, end);
+}
+
 function harness({ delayed = false, unavailable = false, initialized = true, preparationPending = false, collectionControls = false, compact = false, paused = true } = {}) {
   const events = [], frames = [], pendingCatalogs = [], ids = new Map();
   const publicData = ['public-one', 'public-two'].map(id => ({ catalog: { id }, items: [{ id: `${id}:record` }] }));
   const localData = { catalog: { id: 'local-one', label: 'Local', coverage: {} }, items: [{ id: 'local-one:record' }] };
   const sessionImports = new Map([[localData.catalog.id, { data: localData, bytes: 150 }]]);
   const catalogs = new Map([[publicData[0].catalog.id, publicData[0]]]);
+  const loadedCatalogs = new Map(publicData.map(data => [data.catalog.id, data]));
   const $ = id => {
     if (collectionControls && id === 'load-all-collections' && !ids.has(id)) return null;
     if (!ids.has(id)) ids.set(id, {
@@ -35,6 +43,7 @@ function harness({ delayed = false, unavailable = false, initialized = true, pre
       attributes: new Map(),
       children: [], listeners: new Map(),
       append(...children) { this.children.push(...children); },
+      querySelector(selector) { return this.children.find(node => node.tagName?.toLowerCase() === selector) ?? null; },
       replaceChildren(...children) { this.children = children; },
       before(node) { ids.set(node.id, node); },
       addEventListener(type, callback) { this.listeners.set(type, callback); },
@@ -52,7 +61,12 @@ function harness({ delayed = false, unavailable = false, initialized = true, pre
   for (const id of ['collections-dialog', 'about-dialog', 'detail', 'region-panel', 'reset-atlas']) $(id);
   const layers = $('map-layers'); layers.open = true; layers.children = [];
   let elementNumber = 0;
-  const el = (tag, className, value) => Object.assign($(`fixture-${++elementNumber}`), { tagName: tag.toUpperCase(), className, textContent: value ?? '' });
+  const el = (tag, className, value) => {
+    const node = Object.assign($(`fixture-${++elementNumber}`), { tagName: tag.toUpperCase(), className, textContent: value ?? '' });
+    let id = node.id;
+    Object.defineProperty(node, 'id', { get: () => id, set(value) { id = value; ids.set(value, node); }, configurable: true });
+    return node;
+  };
   const button = (value, action, className) => { const node = el('button', className, value); node.addEventListener('click', action); return node; };
   const document = {
     body: { dataset: { view: 'list', mapExpanded: 'true', comparison: 'true' } },
@@ -86,7 +100,8 @@ function harness({ delayed = false, unavailable = false, initialized = true, pre
     setPaused(value) { this.paused = value; events.push(['motion:paused', value]); },
   };
   const sandbox = {
-    $, el, button, document, location, history, graph, uiMotion, catalogs, sessionImports,
+    $, el, button, document, location, history, graph, uiMotion, catalogs, loadedCatalogs, sessionImports,
+    pendingCatalogs: new Set(), URLSearchParams,
     directory: { catalogs: publicData.map(data => ({ id: data.catalog.id, label: data.catalog.id, itemCount: 1 })) },
     cache: new Map(publicData.map(data => [data.catalog.id, Promise.resolve(data)])),
     preview: { close() { events.push(['preview:close']); } },
@@ -101,6 +116,8 @@ function harness({ delayed = false, unavailable = false, initialized = true, pre
       return new Promise((resolve, reject) => pendingCatalogs.push({ resolve: () => resolve(data), reject }));
     },
     renderCollections() { events.push(['collections:render']); },
+    renderPublicationControls() { events.push(['publications:render']); },
+    scrollToBubble(id) { events.push(['scroll:bubble', id]); },
     onRebuild() { events.push(['index:rebuild']); },
     localStorage: { setItem() { assert.fail('Reset must preserve saved data'); }, removeItem() { assert.fail('Reset must preserve saved data'); }, clear() { assert.fail('Reset must preserve saved data'); } },
     sessionStorage: { setItem() { assert.fail('Reset must preserve entrance state'); }, removeItem() { assert.fail('Reset must preserve entrance state'); }, clear() { assert.fail('Reset must preserve entrance state'); } },
@@ -113,14 +130,16 @@ function harness({ delayed = false, unavailable = false, initialized = true, pre
     let regionFilters = { term: 'filtered', sort: 'year' }, comparisonDetailsOpen = true;
     let regionResult = {}, comparisonResult = {}, pageSize = 120, regionPageSize = 60;
     let index = { catalogById: new Map(catalogs), items: [...catalogs.values()].flatMap(data => data.items) }, records = [...index.items];
-    let resetting = false, collectionGeneration = 0;
-    const comparisonScope = () => scope?.kind === 'compare';
+    let resetting = false, collectionGeneration = 0, collectionRevision = 0;
+    const publicationScope = () => scope?.kind === 'publications';
+    const comparisonScope = () => scope?.kind === 'compare' || publicationScope();
     const regionScope = () => scope?.kind === 'theme';
-    const subjectScope = () => regionScope() || comparisonScope();
+    const subjectScope = () => regionScope() || scope?.kind === 'compare';
     function refresh() {
       records = [...index.items]; regionResult = null; comparisonResult = null;
       pageSize = 40; regionPageSize = 20; document.body.dataset.comparison = 'false';
       graph?.setComparison(null); graph?.setRegionSelection(null); applyLayers();
+      renderPublicationControls();
     }
     function rebuild(refreshView = true) {
       onRebuild();
@@ -132,11 +151,19 @@ function harness({ delayed = false, unavailable = false, initialized = true, pre
     ${functionSource('applyLayers')}
     ${functionSource('expandMap')}
     ${functionSource('setView')}
-    ${collectionControls ? functionSource('renderCollections') : ''}
+    ${functionSource('catalogEntries')}
+    ${functionSource('appendSourceParams')}
+    ${functionSource('writeViewLocation')}
+    ${functionSource('applyCatalogSelection')}
+    ${functionSource('setCatalogEnabled')}
+    ${collectionControls ? functionSource('renderPublicationControls') + '\n' + functionSource('renderCollections') : ''}
+    ${collectionControls ? publicationHandlers() : ''}
     ${functionSource('resetAtlas')}
-    ({ resetAtlas, renderCollections, snapshot: () => ({ scope, selection, regionFilters, comparisonDetailsOpen, regionResult, comparisonResult, pageSize, regionPageSize, active, initialized, records: records.map(row => row.id) }) });
+    ({ resetAtlas, renderCollections, renderPublicationControls, setCatalogEnabled, applyCatalogSelection,
+       snapshot: () => ({ scope, selection, regionFilters, comparisonDetailsOpen, regionResult, comparisonResult, pageSize, regionPageSize, active, initialized, records: records.map(row => row.id) }) });
   `, sandbox, { filename: 'public/ACF/app.js reset harness' });
-  return { ...context, $, events, frames, pendingCatalogs, catalogs, sessionImports, localData, graph, document, history, location, layers, uiMotion,
+  return { ...context, $, events, frames, pendingCatalogs, catalogs, loadedCatalogs, sessionImports, localData, graph, document, history, location, layers, uiMotion,
+    publicEntries: sandbox.directory.catalogs,
     async frame() { frames.shift()?.(100); await flush(); },
   };
 }
@@ -345,14 +372,17 @@ test('Collection changes are ignored while reset is restoring the full map', asy
   h.renderCollections();
   const check = h.$('collection-options').children[0].children[0];
   const reset = h.resetAtlas();
+  const visible = h.$('collection-options').children[0].children[0];
+  assert.equal(visible.disabled, true, 'Controls immediately show restoration is busy');
+  assert.equal(visible.checked, true);
   check.checked = false;
   await check.emit('change');
-  assert.equal(check.checked, true);
   assert(h.catalogs.has('public-one'));
   assert.equal(h.pendingCatalogs.length, 2);
   for (const pending of h.pendingCatalogs) pending.resolve();
   await reset;
   assert.equal(h.catalogs.size, 3);
+  assert(h.$('collection-options').children.every(row => row.children[0].checked && !row.children[0].disabled));
 });
 
 test('An old Load all callback cannot rebuild after Reset has restored the full map', async () => {
@@ -372,3 +402,123 @@ test('An old Load all callback cannot rebuild after Reset has restored the full 
   assert.equal(h.$('load-all-collections').disabled, false);
   assert.equal(h.catalogs.size, 3);
 });
+
+test('Concurrent publication toggles merge without duplicate pending requests or lost selection', async () => {
+  const h = harness({ delayed: true, collectionControls: true });
+  h.applyCatalogSelection([]);
+  const first = h.setCatalogEnabled(h.publicEntries[0], true);
+  const second = h.setCatalogEnabled(h.publicEntries[1], true);
+  await h.setCatalogEnabled(h.publicEntries[0], false);
+  assert.equal(h.pendingCatalogs.length, 2, 'A disabled pending control cannot queue a competing write');
+  assert.equal(h.$('publication-public-one').disabled, true);
+  h.pendingCatalogs[1].resolve();
+  await second;
+  assert.deepEqual([...h.catalogs.keys()], ['public-two']);
+  h.pendingCatalogs[0].resolve();
+  await first;
+  assert.deepEqual([...h.catalogs.keys()].sort(), ['public-one', 'public-two']);
+  assert.equal(h.$('publication-public-one').disabled, false);
+  assert.equal(h.$('publication-public-two').disabled, false);
+  assert.equal(h.$('publication-compare').disabled, false);
+  assert.equal(h.$('publication-count').textContent, '2/3 on');
+});
+
+test('Comparison waits for pending publications, then uses the enabled catalogs and follows toggles', async () => {
+  const h = harness({ delayed: true, collectionControls: true });
+  h.applyCatalogSelection(['public-one', 'local-one']);
+  const pending = h.setCatalogEnabled(h.publicEntries[1], true);
+  const before = plain(h.snapshot()), hash = h.location.hash;
+  assert.equal(h.$('publication-compare').disabled, true);
+  h.$('publication-compare').emit('click');
+  assert.deepEqual(plain(h.snapshot()), before);
+  assert.equal(h.location.hash, hash, 'A pending comparison makes no URL or view change');
+  h.pendingCatalogs[0].resolve();
+  await pending;
+  assert.equal(h.$('publication-compare').disabled, false);
+  h.$('publication-compare').emit('click');
+  assert.deepEqual(plain(h.snapshot()).scope, { kind: 'publications', ids: ['public-one', 'local-one', 'public-two'] });
+  assert.deepEqual(new URLSearchParams(h.location.hash.slice(1)).get('publications')?.split(','), ['public-one', 'local-one', 'public-two']);
+  assert.equal(h.document.body.dataset.view, 'map');
+  assert.equal(h.$('publication-compare').getAttribute('aria-pressed'), 'true');
+  await h.setCatalogEnabled(h.publicEntries[0], false);
+  assert.deepEqual(plain(h.snapshot()).scope, { kind: 'publications', ids: ['local-one', 'public-two'] });
+  await h.setCatalogEnabled({ id: 'local-one', label: 'Local' }, false);
+  assert.equal(plain(h.snapshot()).scope, null, 'One remaining catalog returns to ordinary exploration');
+  assert.equal(new URLSearchParams(h.location.hash.slice(1)).get('sources'), 'public-two');
+  assert.equal(h.$('publication-compare').disabled, true);
+});
+
+test('A failed publication toggle preserves selection and keeps its actionable error visible', async () => {
+  const h = harness({ delayed: true, collectionControls: true });
+  h.renderCollections();
+  const original = plain(h.snapshot()), hash = h.location.hash;
+  const pending = h.setCatalogEnabled(h.publicEntries[1], true);
+  h.pendingCatalogs[0].reject(new Error('Offline'));
+  await pending;
+  assert.deepEqual(plain(h.snapshot()), original);
+  assert.equal(h.location.hash, hash);
+  assert.deepEqual([...h.catalogs.keys()], ['public-one']);
+  assert.match(h.$('publication-status').textContent, /Could not load public-two\. Current selection preserved\./);
+  assert.equal(h.$('import-status').textContent, h.$('publication-status').textContent);
+  assert.equal(h.$('publication-public-two').disabled, false, 'Retry becomes available');
+});
+
+test('A late Load all result does not undo a newer publication selection', async () => {
+  const h = harness({ delayed: true, collectionControls: true });
+  h.renderCollections();
+  const pending = h.$('load-all-collections').emit('click');
+  assert.equal(h.$('publication-compare').disabled, true);
+  await h.setCatalogEnabled(h.publicEntries[0], false);
+  const before = plain(h.snapshot()), hash = h.location.hash;
+  for (const request of h.pendingCatalogs) request.resolve();
+  await pending;
+  assert.deepEqual(plain(h.snapshot()), before);
+  assert.equal(h.location.hash, hash);
+  assert.equal(h.catalogs.size, 0, 'A later explicit toggle wins over the older batch load');
+  assert.equal(h.$('load-all-collections').disabled, false);
+});
+
+test('A newer Load all request wins over an earlier pending single-publication toggle', async () => {
+  const h = harness({ delayed: true, collectionControls: true });
+  h.applyCatalogSelection([]);
+  const earlier = h.setCatalogEnabled(h.publicEntries[0], true);
+  const latest = h.$('load-all-collections').emit('click');
+  h.pendingCatalogs[0].resolve();
+  await earlier;
+  for (const request of h.pendingCatalogs.slice(1)) request.resolve();
+  await latest;
+  assert.deepEqual([...h.catalogs.keys()].sort(), ['public-one', 'public-two'], 'Latest bulk intent restores both public catalogs');
+});
+
+test('None supersedes pending publication additions without resurrecting their catalogs', async () => {
+  const h = harness({ delayed: true, collectionControls: true });
+  const pending = h.setCatalogEnabled(h.publicEntries[1], true);
+  h.$('publications-none').emit('click');
+  assert.equal(h.catalogs.size, 0);
+  const before = plain(h.snapshot()), hash = h.location.hash;
+  h.pendingCatalogs[0].resolve();
+  await pending;
+  assert.deepEqual(plain(h.snapshot()), before);
+  assert.equal(h.location.hash, hash);
+  assert.equal(h.catalogs.size, 0);
+  assert.equal(h.$('publication-public-two').disabled, false);
+  assert.match(h.$('publication-status').textContent, /No publications enabled/);
+});
+
+for (const failure of [false, true]) {
+  test(`Publication and dialog controls recover after reset ${failure ? 'failure' : 'success'}`, async () => {
+    const h = harness({ delayed: true, collectionControls: true });
+    h.renderCollections(); h.renderPublicationControls();
+    const pending = h.resetAtlas();
+    assert.equal(h.$('publication-public-one').disabled, true);
+    if (failure) h.pendingCatalogs[0].reject(new Error('Offline'));
+    else h.pendingCatalogs[0].resolve();
+    for (const request of h.pendingCatalogs.slice(1)) request.resolve();
+    await pending;
+    assert.equal(h.$('publication-public-one').disabled, false);
+    assert.equal(h.$('publications-all').disabled, false);
+    assert.equal(h.$('publications-none').disabled, false);
+    assert(h.$('collection-options').children.every(row => !row.children[0].disabled));
+    assert.equal(h.catalogs.size, failure ? 1 : 3);
+  });
+}

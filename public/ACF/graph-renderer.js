@@ -1,5 +1,5 @@
-import { routeGeometry, routeStyle } from './route-style.js?v=mapfirst-20261015';
-import { nodeAppearance, nodeEndpointAppearance, appendNodeGlyph } from './node-style.js?v=mapfirst-20261015';
+import { routeGeometry, routeStyle } from './route-style.js?v=sources-20261015';
+import { nodeAppearance, nodeEndpointAppearance, appendNodeGlyph } from './node-style.js?v=sources-20261015';
 
 const PALETTE = { item: '#a9c9db', person: '#aaa4d0', hub: '#d89976' };
 const enabled = (kind, layers) => kind === 'item' || (kind === 'person' ? layers.names : layers.regions);
@@ -28,6 +28,7 @@ attribute vec4 a_style;
 uniform vec2 u_viewport; uniform vec2 u_pan; uniform float u_scale; uniform float u_dpr; uniform float u_zoom;
 uniform float u_hasSelection; varying vec3 v_color; varying float v_opacity;
 uniform float u_viewActive; uniform float u_viewProgress;
+uniform float u_detailReveal;
 varying float v_glyph;
 void main() {
   vec2 position = mix(a_position, mix(a_viewPosition.xy, a_viewPosition.zw, u_viewProgress), u_viewActive);
@@ -35,12 +36,15 @@ void main() {
   gl_Position = vec4(screen.x / u_viewport.x * 2.0 - 1.0, 1.0 - screen.y / u_viewport.y * 2.0, 0.0, 1.0);
   float selected = a_selected * u_hasSelection;
   float radius = mix(a_size, mix(a_style.z, a_style.w, u_viewProgress), u_viewActive);
+  float reveal = a_style.x > 2.5 ? 1.0 : u_detailReveal;
+  radius = mix(min(radius, 0.75), radius, reveal);
   gl_PointSize = clamp(radius * sqrt(u_zoom) * (1.0 + selected * 0.65), 0.6, 18.0) * 2.0 * u_dpr;
   v_color = mix(a_color, vec3(1.0, 0.82, 0.57), selected);
   v_opacity = a_style.y * mix(1.0, mix(0.38, 2.24, a_selected), u_hasSelection);
   vec4 viewStyle = mix(a_viewFrom, a_viewTo, u_viewProgress);
   v_color = mix(v_color, viewStyle.rgb, u_viewActive);
   v_opacity = mix(v_opacity, viewStyle.a, u_viewActive);
+  v_opacity *= mix(0.52, 1.0, reveal);
   v_glyph = a_style.x;
 }`;
 const POINT_FRAGMENT = `
@@ -149,7 +153,7 @@ export class GraphRenderer {
         attributes: Object.fromEntries(attributes.map(name => [name, gl.getAttribLocation(program, name)])),
         uniforms: Object.fromEntries(uniforms.map(name => [name, gl.getUniformLocation(program, name)])),
       });
-      this.pointLocations = locations(this.pointsProgram, ['a_position', 'a_size', 'a_color', 'a_selected', 'a_viewPosition', 'a_viewFrom', 'a_viewTo', 'a_style'], ['u_viewport', 'u_pan', 'u_scale', 'u_dpr', 'u_zoom', 'u_alpha', 'u_detail', 'u_workZoomBrightness', 'u_hasSelection', 'u_viewActive', 'u_viewProgress']);
+      this.pointLocations = locations(this.pointsProgram, ['a_position', 'a_size', 'a_color', 'a_selected', 'a_viewPosition', 'a_viewFrom', 'a_viewTo', 'a_style'], ['u_viewport', 'u_pan', 'u_scale', 'u_dpr', 'u_zoom', 'u_alpha', 'u_detail', 'u_detailReveal', 'u_workZoomBrightness', 'u_hasSelection', 'u_viewActive', 'u_viewProgress']);
       this.lineLocations = locations(this.linesProgram, ['a_position', 'a_progress', 'a_destination'], ['u_viewport', 'u_pan', 'u_scale', 'u_inferred', 'u_alpha', 'u_color', 'u_time', 'u_speed', 'u_flow', 'u_viewActive', 'u_viewProgress']);
       gl.enable(gl.BLEND); gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
       this.backend = 'webgl'; this.gpuCanvas.style.visibility = 'visible';
@@ -335,6 +339,7 @@ export class GraphRenderer {
     if (this.backend === 'unavailable') return stats;
     this.checkContext();
     const appearance = starAppearance(camera.scale / camera.baseScale, this.selection !== null);
+    const detailReveal = camera.detailOpacity?.() ?? 1;
     if (this.gl) {
       const gl = this.gl;
       const pixelWidth = Math.round(camera.width * camera.dpr), pixelHeight = Math.round(camera.height * camera.dpr);
@@ -359,7 +364,7 @@ export class GraphRenderer {
           gl.uniform3f(locations.uniforms.u_color, ...group.style.rgb);
           gl.uniform1f(locations.uniforms.u_speed, group.style.speed);
           const comparisonFade = this.comparison?.exiting ? 1 - this.comparisonProgress : 1;
-          gl.uniform1f(locations.uniforms.u_alpha, routeOpacity(group.inferred, camera.scale / camera.baseScale, edgeCount, focused) * (this.comparison ? 2.8 * comparisonFade : 1));
+          gl.uniform1f(locations.uniforms.u_alpha, routeOpacity(group.inferred, camera.scale / camera.baseScale, edgeCount, focused) * (this.comparison ? 2.8 * comparisonFade : detailReveal));
           gl.drawArrays(gl.LINES, 0, group.count * 6);
           stats.submittedEdges += group.count;
         }
@@ -367,6 +372,7 @@ export class GraphRenderer {
       const locations = this.pointLocations; this.camera(locations, camera);
       gl.uniform1f(locations.uniforms.u_dpr, camera.dpr); gl.uniform1f(locations.uniforms.u_zoom, camera.scale / camera.baseScale);
       gl.uniform1f(locations.uniforms.u_detail, appearance.detail);
+      gl.uniform1f(locations.uniforms.u_detailReveal, detailReveal);
       // An item batch can contain publication/source glyphs as well as work dots.
       // Apply the distance curve only to the work fragment branch, not its peers.
       gl.uniform1f(locations.uniforms.u_workZoomBrightness, appearance.alpha / 0.42);
@@ -406,12 +412,14 @@ export class GraphRenderer {
         const zoom = camera.scale / camera.baseScale, style = nodeAppearance(node, zoom, { selected });
         const fromStyle = transition ? nodeEndpointAppearance(node, transition.from) : style;
         const toStyle = transition ? nodeEndpointAppearance(node, transition.to) : style;
-        const radius = transition ? Math.min(18, Math.max(0.6, (fromStyle.radius + (toStyle.radius - fromStyle.radius) * progress) * Math.sqrt(zoom))) : style.radius;
+        const detail = node.kind === 'hub' ? 1 : detailReveal;
+        const rawRadius = transition ? Math.min(18, Math.max(0.6, (fromStyle.radius + (toStyle.radius - fromStyle.radius) * progress) * Math.sqrt(zoom))) : style.radius;
+        const radius = Math.min(rawRadius, 0.75 * Math.sqrt(zoom)) * (1 - detail) + rawRadius * detail;
         const fromColor = transition ? rgb(transition.from.color) : null, toColor = transition ? rgb(transition.to.color) : null;
         const color = transition ? `rgb(${fromColor.map((value, i) => Math.round((value + (toColor[i] - value) * progress) * 255)).join(',')})` : selected ? '#ffd192' : node.color || PALETTE[node.kind];
         const zoomBrightness = style.type === 'work' ? appearance.alpha / 0.42 : 1;
         const brightness = transition ? (fromStyle.brightness * transition.from.opacity + (toStyle.brightness * transition.to.opacity - fromStyle.brightness * transition.from.opacity) * progress) * zoomBrightness : (!this.comparison && node.kind === 'item' && this.selection ? nodeAppearance(node).brightness * (selected ? 2.24 : 0.38) : style.brightness);
-        const alpha = Math.min(0.96, brightness), key = `${style.type}:${color}:${alpha}`;
+        const alpha = Math.min(0.96, brightness) * (0.52 + detail * 0.48), key = `${style.type}:${color}:${alpha}`;
         if (!groups.has(key)) groups.set(key, { type: style.type, color, alpha, nodes: [], radii: [] });
         const group = groups.get(key); group.nodes.push(node); group.radii.push(radius);
         if (node.kind === 'item') stats.submittedRecords++;

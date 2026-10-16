@@ -19,6 +19,7 @@ const htmlFragmentPaths = new Set([join('ead', 'workspace.html')]);
 const verificationFile = 'google2d4dfdd31b0a0b0c.html';
 const htmlFiles = files.filter((file) => extname(file) === '.html'
   && !htmlFragmentPaths.has(relative(output, file))
+  && relative(output, file) !== '404.html'
   && relative(output, file) !== verificationFile);
 if (htmlFiles.length === 0) throw new Error('build produced no HTML');
 

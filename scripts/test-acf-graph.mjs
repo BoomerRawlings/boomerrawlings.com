@@ -145,6 +145,95 @@ function fixture(count = 500) {
   return { nodes, edges };
 }
 
+for (const gpu of [false, true]) test(`distant subject gate covers mouse, keyboard, stale labels and previews (${gpu ? 'GPU' : 'Canvas'})`, t => {
+  const h = harness(t, { gpu, reducedMotion: true });
+  h.graph.setData({ nodes: [
+    { id: '@theme:a', kind: 'hub', label: 'Minds & machines', x: -350, y: -120 },
+    { id: '@theme:b', kind: 'hub', label: 'Power & justice', x: 350, y: -120 },
+    { id: 'work', kind: 'item', label: 'Individual work', x: -40, y: 40 },
+    { id: 'source', kind: 'item', visualType: 'source', label: 'Publication account', x: 40, y: 40 },
+    { id: 'person', kind: 'person', label: 'Credited author', x: 0, y: 110 },
+  ], edges: [{ from: 'person', to: 'work', type: 'credit' }, { from: '@theme:a', to: 'work', type: 'theme', inferred: true }],
+  bounds: { left: -1200, right: 1200, top: -800, bottom: 800 } });
+  h.graph.setActive(true); h.tick(0);
+  const original = h.graph.nodes.map(({ id, x, y }) => ({ id, x, y }));
+  const uploads = h.gl?.uploads.length;
+  assert.equal(h.status.at(-1).overviewSubjectsOnly, true);
+  assert.equal(h.status.at(-1).overviewDetailThreshold, 2);
+  assert.equal(h.status.at(-1).detailOpacity, 0);
+  assert.equal(h.canvas.dataset.submittedRecords, '2', 'real record vertices remain the background starfield');
+  assert.equal(h.canvas.dataset.submittedNames, '0'); assert.equal(h.canvas.dataset.submittedEdges, '0');
+  assert.equal(h.graph.labelBoxes.length, 2);
+  assert.ok(h.graph.labelBoxes.every(box => h.graph.byId.get(box.id).kind === 'hub'));
+  for (const id of ['work', 'source', 'person']) {
+    const node = h.graph.byId.get(id);
+    assert.notEqual(h.graph.hit(h.graph.anchor(node))?.id, id);
+    h.graph.focusNode(node); h.graph.select(node); h.graph.setHovered(id);
+    assert.notEqual(h.graph.keyboardId, id); assert.notEqual(h.graph.selected, id); assert.notEqual(h.graph.previewId, id);
+  }
+  h.canvas.focus();
+  for (let i = 0; i < 6; i++) { h.graph.stepPreview(1); assert.equal(h.previews.at(-1).node.kind, 'hub'); }
+  const subject = h.graph.byId.get('@theme:a'); h.graph.select(subject);
+  assert.equal(h.selected.at(-1).id, subject.id, 'subject selection remains useful at the distant overview');
+  h.graph.reset(); h.graph.zoomBy(2.6); h.tick(0);
+  assert.equal(h.status.at(-1).overviewSubjectsOnly, false);
+  assert.ok(Math.abs(h.status.at(-1).detailOpacity - 0.5) < 1e-12, 'details reveal continuously over a zoom band');
+  assert.equal(h.canvas.dataset.submittedNames, '1'); assert.ok(Number(h.canvas.dataset.submittedEdges) > 0);
+  assert.ok(h.graph.labelBoxes.some(box => h.graph.byId.get(box.id).kind !== 'hub'));
+  if (gpu) assert.ok(h.gl.uniforms.some(call => call.name === 'u_detailReveal' && Math.abs(call.value - 0.5) < 1e-12));
+  h.graph.focusRecord('work'); h.tick(0);
+  assert.equal(h.previews.at(-1).node.id, 'work');
+  const stale = h.graph.labelBoxes.find(box => box.id === 'work');
+  h.graph.zoomBy(0.2);
+  // Before the next animation frame, stale labels and dots must already be ineligible.
+  if (stale) h.graph.labelBoxes.push(stale);
+  assert.notEqual(h.graph.hit(h.graph.anchor(h.graph.byId.get('work')))?.id, 'work');
+  h.graph.focusNode(h.graph.byId.get('work')); assert.notEqual(h.graph.keyboardId, 'work');
+  h.tick(0); assert.equal(h.previews.at(-1).node, null); assert.equal(h.status.at(-1).overviewSubjectsOnly, true);
+  assert.ok(h.graph.labelBoxes.every(box => h.graph.byId.get(box.id).kind === 'hub'));
+  assert.deepEqual(h.graph.nodes.map(({ id, x, y }) => ({ id, x, y })), original);
+  if (gpu) assert.equal(h.gl.uploads.length, uploads, 'zoom changes uniforms only, never source geometry');
+});
+
+test('an explicit record flight reveals its preview only after crossing into detail', t => {
+  const h = harness(t, { gpu: true, layers: {} });
+  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  h.graph.focusRecord('work-200'); h.tick(0);
+  assert.equal(h.canvas.dataset.overviewSubjectsOnly, 'true');
+  assert.equal(h.graph.labelBoxes.length, 0); assert.equal(h.previews.at(-1).node, null);
+  h.tick(600);
+  assert.equal(h.canvas.dataset.overviewSubjectsOnly, 'false'); assert.equal(h.previews.at(-1).node.id, 'work-200');
+});
+
+for (const gpu of [false, true]) test(`publication clusters stay interactive at overview and replace stale views when empty (${gpu ? 'GPU' : 'Canvas'})`, t => {
+  const h = harness(t, { gpu, reducedMotion: true, layers: {} });
+  const { data } = comparisonFixture();
+  const groups = ['one', 'two', 'three'].map((id, i) => ({ id, label: `Publication ${i + 1}`, color: ['#90c2d1', '#c5a5cc', '#d6ac7f'][i], total: 30,
+    memberIds: new Set(Array.from({ length: 30 }, (_, n) => `r-${i * 30 + n}`)), personIds: new Set(i === 0 ? ['p-0', 'p-2'] : i === 2 ? ['p-1'] : ['p-3']) }));
+  const memberIds = new Set(groups.flatMap(group => [...group.memberIds])), personIds = new Set(['p-0', 'p-1', 'p-2', 'p-3']);
+  const edges = data.edges.filter(edge => !edge.inferred && !edge.from.startsWith('@theme:'));
+  const config = { kind: 'publications', key: 'publications:three', groups, memberIds, personIds, shared: new Set(), sharedPeople: [], bridgePersonIds: new Set(), edges };
+  h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  h.graph.setComparison(config); h.tick(0);
+  assert.equal(h.canvas.dataset.comparisonKind, 'publications');
+  assert.equal(h.graph.comparison.regions.length, 3); assert.equal(h.graph.comparison.layout.annotations.length, 3);
+  assert.ok(h.graph.comparison.regions.every(region => !region.id.startsWith('@theme:')), 'catalog group outlines do not manufacture subject nodes');
+  assert.equal(h.canvas.dataset.overviewSubjectsOnly, 'false'); assert.equal(h.canvas.dataset.detailOpacity, '1');
+  assert.ok(h.graph.comparisonLabelPlans.some(plan => plan.title.join(' ').startsWith('Publication')));
+  assert.ok(h.graph.comparisonLabelPlans.every(plan => !plan.title.includes('Shared middle')));
+  h.graph.zoomBy(0.1); h.tick(0);
+  assert.ok(h.graph.scale / h.graph.baseScale < 2); assert.equal(h.canvas.dataset.overviewSubjectsOnly, 'false');
+  assert.equal(h.graph.interactiveNode(h.graph.byId.get('r-0')), true);
+  h.graph.select(h.graph.byId.get('r-0')); assert.equal(h.selected.at(-1).id, 'r-0');
+  assert.equal(h.graph.interactiveNode(h.graph.byId.get('@theme:left')), false);
+  h.graph.setComparison({ ...config, key: 'publications:empty', memberIds: new Set(), personIds: new Set(), edges: [], groups: groups.map(group => ({ ...group, memberIds: new Set(), personIds: new Set() })) }); h.tick(0);
+  assert.equal(h.graph.comparison.key, 'publications:empty'); assert.equal(h.graph.comparison.layout.visible.size, 0);
+  assert.equal(h.canvas.dataset.comparisonRecords, '0'); assert.equal(h.canvas.dataset.submittedEdges, '0');
+  assert.equal(h.graph.comparison.layout.annotations.length, 3, 'empty selected sources retain their explanatory group captions');
+  h.graph.setComparison(null); h.tick(0);
+  assert.equal(h.canvas.dataset.overviewSubjectsOnly, 'true'); assert.equal(h.canvas.dataset.comparisonKind, '');
+});
+
 for (const dense of [false, true]) test(`entrance targets cover real visible records at ${dense ? 'dense' : 'wide'} overview without altering geometry or GPU buffers`, t => {
   const h = harness(t, { gpu: true, reducedMotion: true });
   const camera = { scale: .8, pan: { x: 65, y: 35 } };
@@ -183,6 +272,42 @@ for (const dense of [false, true]) test(`entrance targets cover real visible rec
   });
   assert.equal(h.gl.uploads.length, uploads, 'Sampling targets uploads no replacement geometry');
   assert.deepEqual(h.graph.pan, camera.pan); assert.equal(h.graph.scale, camera.scale);
+});
+
+for (const [width, height] of [[320, 300], [320, 360], [320, 520], [320, 600], [1000, 700]]) test(`all nine publication captions fit their clusters and clear map controls at ${width}×${height}`, t => {
+  const h = harness(t, { gpu: true, reducedMotion: true, layers: {} });
+  const sources = [['ieet', 'IEET'], ['transhumanity', 'Transhumanity'], ['technophany', 'Technophany'], ['posthuman-studies', 'Journal of Posthuman Studies'], ['futures-studies', 'Journal of Futures Studies'], ['network-cultures', 'Institute of Network Cultures'], ['aft-technoprog', 'AFT–Technoprog'], ['biopolitical-times', 'Biopolitical Times'], ['c4ss', 'Center for a Stateless Society']];
+  h.canvas.rect = { left: 0, top: 0, width, height }; h.graph.measure();
+  const overlays = width === 320 ? [
+    { left: 12, top: 16, width: 158, height: 41 }, { left: 178, top: 8, width: 132, height: 38 },
+    { left: 10, top: height - 50, width: 80, height: 40 }, { left: 160, top: height - 50, width: 150, height: 40 },
+  ] : [
+    { left: 18, top: 17, width: 450, height: 16 }, { left: width - 176, top: 12, width: 160, height: 38 },
+    { left: 16, top: height - 50, width: 180, height: 36 }, { left: width - 200, top: height - 50, width: 184, height: 36 },
+  ];
+  h.canvas.parentElement.querySelectorAll = () => overlays.map(rect => ({ getBoundingClientRect: () => rect }));
+  const groups = sources.map(([id, label], i) => ({ id, label, color: '#90c2d1', memberIds: new Set([`record-${i}`]), personIds: new Set(), total: 1 }));
+  const nodes = groups.map((group, i) => ({ id: `record-${i}`, kind: 'item', label: `Work from ${group.label}`, x: (i % 3 - 1) * 200, y: (Math.floor(i / 3) - 1) * 200 }));
+  const config = { kind: 'publications', key: 'nine-source-captions', groups, memberIds: new Set(nodes.map(node => node.id)), personIds: new Set(), shared: new Set(), sharedPeople: [], bridgePersonIds: new Set(), edges: [] };
+  h.graph.setData({ nodes, edges: [] }); h.graph.setActive(true); h.graph.setComparison(config); h.tick(0);
+  const plans = h.graph.comparisonLabelPlans;
+  assert.equal(plans.length, 9, 'every selected source retains a visible group identity');
+  assert.equal(new Set(plans.map(plan => plan.title.join(' '))).size, 9, 'short captions remain distinguishable');
+  assert.ok(plans.some(plan => plan.title.join(' ') === 'IEET'));
+  assert.ok(plans.some(plan => plan.key === 'c4ss' && ['C4SS', 'Center for a Stateless Society'].includes(plan.title.join(' '))));
+  for (const plan of plans) {
+    assert.ok(plan.box.x >= 8 && plan.box.x + plan.box.width <= width - 8);
+    assert.ok(plan.box.y >= 8 && plan.box.y + plan.box.height <= height - 8);
+    assert.ok(h.graph.labelExclusions().every(other => !h.graph.overlaps(plan.box, other, 2)), 'captions clear the real control footprints');
+    assert.ok(plans.every(other => plan === other || !h.graph.overlaps(plan.box, other.box, 3)));
+    for (const group of h.graph.comparison.layout.groups) {
+      if (group.id === plan.key) continue;
+      const point = h.graph.anchor({ x: group.bounds.left, y: group.bounds.top });
+      const field = { ...point, width: (group.bounds.right - group.bounds.left) * h.graph.scale, height: (group.bounds.bottom - group.bounds.top) * h.graph.scale };
+      assert.equal(h.graph.overlaps(plan.box, field, 1), false, 'one source caption never covers another source cluster');
+    }
+  }
+  assert.deepEqual(h.graph.comparison.layout.annotations.map(spec => spec.title), sources.map(([, label]) => label), 'full source names remain intact for the accessible reading key');
 });
 
 for (const noCanvas of [false, true]) test(`entrance targets handle ${noCanvas ? 'unavailable graphics' : 'empty and offscreen fields'} without inventing records`, t => {
@@ -548,7 +673,7 @@ test('territory growth completes, respects static motion and cancels on layer, h
 });
 
 test('ordinary selection traces grow from either endpoint after arrival and cancel cleanly', t => {
-  const h = harness(t, { layers: { labels: false } }); h.graph.setData(fixture(30)); h.graph.setActive(true); h.tick(0);
+  const h = harness(t, { layers: { labels: false, names: true } }); h.graph.setData(fixture(30)); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   const node = h.graph.byId.get('work-20'); h.graph.select(node); h.tick(300);
   assert.equal(h.graph.selectionReveal, null, 'selection artwork waits for the camera, preserving stable preview hit areas');
   h.tick(300); assert.equal(h.graph.selectionReveal.nodeId, node.id); assert.equal(h.canvas.dataset.selectionRevealing, 'true');
@@ -600,7 +725,7 @@ function assertReadableOverview(h) {
   }
 }
 
-test('overview contains every enabled point, labels avoid collisions, and settling stops at idle', t => {
+test('overview preserves the record field and defers detailed labels and routes until zooming in', t => {
   const h = harness(t);
   h.graph.setData(fixture());
   assert.equal(h.frames.size, 0, 'closed workspace must not schedule frames');
@@ -609,6 +734,11 @@ test('overview contains every enabled point, labels avoid collisions, and settli
   assert.equal(h.graph.chooseVisible().length, 500);
   assert.equal(h.canvas.width, 2000, 'DPR capped at two');
   assert.equal(h.canvas.dataset.totalNodes, '500');
+  assert.equal(h.canvas.dataset.submittedRecords, '488');
+  assert.equal(h.canvas.dataset.submittedNames, '0');
+  assert.equal(h.graph.labelBoxes.length, 0, 'this record-only fixture has no subject labels to show');
+  assert.equal(h.canvas.dataset.submittedEdges, '0');
+  h.graph.zoomBy(3.2); h.tick(0);
   assertReadableOverview(h);
   assert.ok(h.dashes.some(value => value.join(',') === '2,5'), 'inferred edges remain dashed');
   assert.equal(h.status.at(-1).visibleNodes, Number(h.canvas.dataset.visibleNodes));
@@ -628,7 +758,7 @@ test('desktop and compact views reveal every person through keyboard navigation 
     Object.assign(h.canvas.rect, viewport);
     h.graph.measure();
     h.graph.setData({ nodes: [], edges: [] });
-    h.graph.setData(fixture());
+    h.graph.setData(fixture()); h.graph.zoomBy(3.2);
     h.labels.length = 0; h.labelBoxes.length = 0; h.tick(0);
     assertReadableOverview(h);
     for (let i = 0; i < 12; i++) {
@@ -661,7 +791,7 @@ test('desktop and compact views reveal every person through keyboard navigation 
 
 test('keyboard previews on focus, navigates directionally, cycles, pans with Shift and pins with Enter', t => {
   const h = harness(t, { reducedMotion: true });
-  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(fixture()); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   const base = h.graph.scale;
   h.canvas.focus();
   assert.equal(h.previews.at(-1).reason, 'keyboard');
@@ -676,7 +806,9 @@ test('keyboard previews on focus, navigates directionally, cycles, pans with Shi
   h.send('keydown', { key: 'ArrowRight', shiftKey: true });
   assert.equal(h.graph.pan.x, x - 48);
   h.send('keydown', { key: 'Home' }); h.tick(0);
-  assert.equal(h.graph.scale, base);
+  assert.equal(h.graph.scale, h.graph.baseScale);
+  assert.equal(h.graph.nearestCenter(), null, 'overview has no interactive targets in this record-only fixture');
+  h.graph.zoomBy(3.2); h.tick(0);
   const expected = h.graph.nearestCenter().id;
   h.send('keydown', { key: 'Enter' });
   assert.equal(h.selected.at(-1).id, expected);
@@ -698,7 +830,7 @@ test('keyboard previews on focus, navigates directionally, cycles, pans with Shi
 
 test('pointer click selects, drag pans, and touch pinch zooms without selecting', t => {
   const h = harness(t, { reducedMotion: true });
-  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(fixture()); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   const node = h.graph.screen[0];
   h.pointer('pointerdown', 1, node.sx, node.sy, 'mouse');
   h.pointer('pointerup', 1, node.sx, node.sy, 'mouse');
@@ -727,7 +859,7 @@ test('pointer click selects, drag pans, and touch pinch zooms without selecting'
 
 test('dragging a selected star or title pans the whole camera, including release-only motion', t => {
   const h = harness(t, { reducedMotion: true });
-  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(fixture()); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   const node = h.graph.byId.get('work-0'), coordinates = h.graph.nodes.map(({ id, x, y }) => ({ id, x, y }));
   for (const pointerType of ['mouse', 'touch', 'pen']) for (const surface of ['star', 'title']) {
     h.graph.select(node); h.tick(0);
@@ -760,9 +892,9 @@ test('dragging a selected star or title pans the whole camera, including release
 test('small click jitter selects the pressed star; cancel and lost capture cannot select', t => {
   const h = harness(t, { reducedMotion: true });
   h.graph.setData({ nodes: [
-    { id: 'pressed', kind: 'item', x: 0, y: 0 }, { id: 'nearby', kind: 'item', x: 3, y: 0 },
+    { id: 'pressed', kind: 'item', x: 0, y: 0 }, { id: 'nearby', kind: 'item', x: 1, y: 0 },
   ], bounds: { left: -250, right: 250, top: -250, bottom: 250 } });
-  h.graph.setActive(true); h.tick(0); h.graph.zoomBy(1);
+  h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0); h.graph.zoomBy(1);
   const press = h.graph.anchor(h.graph.byId.get('pressed')), release = h.graph.anchor(h.graph.byId.get('nearby'));
   assert.ok(release.x - press.x < 5);
   h.pointer('pointerdown', 1, press.x, press.y, 'mouse');
@@ -784,7 +916,7 @@ test('small click jitter selects the pressed star; cancel and lost capture canno
 
 test('forwarded preview gestures capture the canvas, pan only after movement and never select', t => {
   const h = harness(t, { reducedMotion: true });
-  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(fixture()); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   h.graph.select(h.graph.byId.get('work-0')); h.tick(0);
   const pan = { ...h.graph.pan }, selected = h.graph.selected, selections = h.selected.length;
   const press = () => {
@@ -814,7 +946,7 @@ for (const reducedMotion of [false, true]) test(`star activation centers without
   for (const width of [320, 390, 1000]) {
     Object.assign(h.canvas.rect, { width, height: 700, left: 43, top: 87 }); h.graph.measure();
     for (const node of h.graph.nodes) for (const input of ['mouse', 'touch', 'Enter', ' ']) {
-      h.graph.reset(); h.graph.zoomBy(1.6);
+      h.graph.reset(); h.graph.zoomBy(2.1);
       const scale = h.graph.scale, pan = { ...h.graph.pan }, anchor = h.graph.anchor(node), center = h.graph.viewportCenter();
       assert.ok(Math.hypot(anchor.x - center.x, anchor.y - center.y) > 20, 'fixture activates an off-center star');
       if (input === 'mouse' || input === 'touch') {
@@ -876,7 +1008,7 @@ test('reduced motion, pause, hidden tabs and destruction suppress animation', t 
 
 test('camera flights ease between real positions, preserve zoom on click and settle exactly once', t => {
   const h = harness(t, { gpu: true, layers: {} });
-  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(fixture()); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   const node = h.graph.byId.get('work-200'), start = h.graph.anchor(node), center = h.graph.viewportCenter();
   const scale = h.graph.scale, uploads = h.gl.uploads.length;
   h.graph.select(node); const from = { ...h.graph.pan };
@@ -889,7 +1021,7 @@ test('camera flights ease between real positions, preserve zoom on click and set
   h.tick(200);
   const middle = h.graph.anchor(node);
   assert.ok(Math.abs(distance(middle) - distance(start) / 2) < 1e-7, 'halfway travel has an intermediate view');
-  assert.notDeepEqual(h.graph.pan, from); assert.equal(h.graph.scale, scale);
+  assert.notDeepEqual(h.graph.pan, from); assert.ok(Math.abs(h.graph.scale - scale) < 1e-12);
   h.tick(300);
   assert.ok(distance(h.graph.anchor(node)) < 1e-8); assert.equal(h.graph.cameraFlight, null);
   assert.equal(h.selected.length, 1); assert.ok(distance(h.selectedAnchors[0]) < 1e-8);
@@ -900,7 +1032,7 @@ test('camera flights ease between real positions, preserve zoom on click and set
 
 test('drag and wheel interrupt in-flight camera at its current position without a delayed snap', t => {
   const h = harness(t, { gpu: true, layers: {} });
-  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(fixture()); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   const node = h.graph.byId.get('work-200');
   h.graph.select(node); h.tick(230);
   const current = { ...h.graph.pan };
@@ -919,7 +1051,7 @@ test('drag and wheel interrupt in-flight camera at its current position without 
 
 test('replacement flights, resize, hidden state and static motion never replay an obsolete target', t => {
   const h = harness(t, { gpu: true, layers: {} });
-  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(fixture()); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   const a = h.graph.byId.get('work-200'), b = h.graph.byId.get('work-210');
   h.graph.select(a); h.tick(200); const current = { ...h.graph.pan };
   h.graph.select(b); assert.deepEqual(h.graph.pan, current, 'new flight starts at the actual intermediate view');
@@ -942,7 +1074,7 @@ test('replacement flights, resize, hidden state and static motion never replay a
 
 test('GPU route flow is capped at30Hz, preserves full buffers, pauses and stops when layers are off', t => {
   const h = harness(t, { gpu: true, layers: {} });
-  h.graph.setData(fullScaleData()); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(fullScaleData()); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   const records = h.graph.renderer.pointGroups.find(group => group.kind === 'item');
   const coordinates = records.values.slice(), values = records.values, buffer = records.buffer, uploads = h.gl.uploads.length;
   h.graph.setLayers({ relationships:true, inferred:true, names:true }); h.tick(0);
@@ -1025,7 +1157,7 @@ test('responsive fit preserves world center and relative zoom', t => {
   assert.ok(Math.abs((center.x - h.graph.pan.x) / h.graph.scale - oldWorld.x) < 1e-8);
   assert.ok(Math.abs((center.y - h.graph.pan.y) / h.graph.scale - oldWorld.y) < 1e-8);
   h.graph.reset(); h.tick(0);
-  assert.equal(h.canvas.dataset.visibleNodes, '500');
+  assert.equal(h.canvas.dataset.visibleNodes, '488', 'overview keeps all work dots while withholding name glyphs');
 });
 
 test('empty data and unavailable canvas report useful zero-visible status', t => {
@@ -1034,14 +1166,14 @@ test('empty data and unavailable canvas report useful zero-visible status', t =>
   h.graph.setActive(true);
   assert.equal(h.graph.edges.length, 0);
   assert.equal(h.canvas.dataset.graphUnavailable, 'true');
-  assert.deepEqual(h.status.at(-1), { visibleNodes: 0, totalNodes: 0, visibleEdges: 0, recordCount: 0, nameCount: 0, selectedRecords: 0, regionId: '', regionLabel: '', regionMemberTotal: 0, inViewRecords: 0, inViewNames: 0, backend: 'unavailable', submittedRecords: 0, submittedNames: 0, drawnPoints: 0, submittedEdges: 0, drawnEdges: 0 });
+  assert.deepEqual(h.status.at(-1), { visibleNodes: 0, totalNodes: 0, visibleEdges: 0, recordCount: 0, nameCount: 0, selectedRecords: 0, regionId: '', regionLabel: '', regionMemberTotal: 0, inViewRecords: 0, inViewNames: 0, backend: 'unavailable', submittedRecords: 0, submittedNames: 0, drawnPoints: 0, submittedEdges: 0, drawnEdges: 0, overviewSubjectsOnly: true, overviewDetailThreshold: 2, detailOpacity: 0 });
   assert.equal(h.frames.size, 0);
 });
 
 test('hover uses canvas-local anchors with page offsets and stays accurate across zoom levels', t => {
   const h = harness(t, { reducedMotion: true });
   Object.assign(h.canvas.rect, { left: 83, top: 121 });
-  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(fixture()); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   const target = h.graph.byId.get('work-0');
   for (const factor of [1, 1.6, 0.65]) {
     h.graph.zoomBy(factor);
@@ -1063,7 +1195,7 @@ test('hover uses canvas-local anchors with page offsets and stays accurate acros
 
 test('touch pinning, empty-space dismissal and layout changes have distinct preview lifecycles', t => {
   const h = harness(t, { reducedMotion: true });
-  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(fixture()); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   const node = h.graph.byId.get('work-0');
   const anchor = h.graph.anchor(node);
   h.pointer('pointerdown', 1, anchor.x, anchor.y);
@@ -1100,7 +1232,7 @@ test('item-only results retain readable titles and avoid measured overlay contro
   ];
   h.canvas.parentElement = { querySelectorAll(value) { selector = value; return overlays.map(rect => ({ getBoundingClientRect: () => rect })); } };
   const data = fixture(); data.nodes = data.nodes.filter(node => node.kind === 'item'); data.edges = [];
-  h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(data); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   assert.ok(selector.includes('.preview-navigation'));
   assert.ok(selector.includes('.map-perspectives'), 'zoom and expanded-view controls are excluded from labels');
   assert.equal(h.graph.labelBoxes.length, 2, 'compact item-only search still shows two real publication titles');
@@ -1115,7 +1247,7 @@ test('item-only results retain readable titles and avoid measured overlay contro
 
 test('painted title boxes preview their records and retain position while hovered', t => {
   const h = harness(t, { reducedMotion: true });
-  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(fixture()); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   const box = h.graph.labelBoxes.find(box => h.graph.byId.get(box.id).kind === 'item');
   const samples = [
     { x: box.x + 7, y: box.y + 7 }, { x: box.x + box.width - 7, y: box.y + 7 },
@@ -1132,7 +1264,7 @@ test('painted title boxes preview their records and retain position while hovere
 
 test('an opaque publication title wins over a different dot hidden underneath it', t => {
   const h = harness(t, { reducedMotion: true });
-  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(fixture()); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   let overlap;
   for (const box of h.graph.labelBoxes) {
     if (h.graph.byId.get(box.id).kind !== 'item') continue;
@@ -1163,7 +1295,7 @@ test('selected routes use bounded paired flow with evidence colors and speeds', 
   const h = harness(t);
   const data = fixture();
   data.edges.push({ from: 'work-2', to: 'work-3', inferred: false });
-  h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(data); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   h.graph.select(h.graph.byId.get('work-0')); h.tick(600); h.tick(400);
   const pulse = h.graph.connectionPulse;
   assert.ok(pulse && pulse.edges.length > 0 && pulse.edges.length <= 12, 'at most24 paired markers');
@@ -1186,7 +1318,7 @@ test('selected routes use bounded paired flow with evidence colors and speeds', 
 
 test('selected GPU markers continue beyond the Canvas burst and resume only when motion is enabled', t => {
   const h = harness(t, { gpu:true });
-  h.graph.setData(fixture()); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(fixture()); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   h.graph.select(h.graph.byId.get('work-0')); h.tick(600); h.tick(3400);
   assert.ok(h.graph.connectionPulse, 'selected GPU markers remain available after2.6s');
   assert.equal(h.canvas.dataset.highlightedEdges, '12'); assert.equal(h.frames.size, 1);
@@ -1205,7 +1337,7 @@ test('selected GPU markers continue beyond the Canvas burst and resume only when
 
 test('data changes, zoom, hidden state and exit cancel obsolete flow and flights', t => {
   const h = harness(t);
-  h.graph.setData(fixture(8)); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(fixture(8)); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   h.graph.select(h.graph.byId.get('work-6')); h.tick(600);
   assert.ok(h.graph.connectionPulse);
   const replacement = fixture(8);
@@ -1232,7 +1364,7 @@ test('data changes, zoom, hidden state and exit cancel obsolete flow and flights
 test('reduced and paused motion keep selected relationships static with no replay loop', t => {
   const h = harness(t, { reducedMotion: true });
   const painted = recordEdgePaints(h);
-  h.graph.setData(fixture(8)); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(fixture(8)); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   const assertStaticSelection = () => {
     painted.length = 0;
     h.graph.select(h.graph.byId.get('work-0')); h.tick(0);
@@ -1258,7 +1390,7 @@ test('decorative depth is deterministic, responds to camera changes and never be
   const positions = points.map(point => h.graph.depthPosition(point));
   assert.ok(positions.every(point => point.x >= 0 && point.x < h.graph.width && point.y >= 0 && point.y < h.graph.height));
   for (const point of positions) assert.equal(h.graph.hit(point), null, 'a background point is never a selectable record');
-  assert.deepEqual(h.status.at(-1), { visibleNodes: 0, totalNodes: 0, visibleEdges: 0, recordCount: 0, nameCount: 0, selectedRecords: 0, regionId: '', regionLabel: '', regionMemberTotal: 0, inViewRecords: 0, inViewNames: 0, backend: 'canvas2d', submittedRecords: 0, submittedNames: 0, drawnPoints: 0, submittedEdges: 0, drawnEdges: 0, selectedEdges: 0 });
+  assert.deepEqual(h.status.at(-1), { visibleNodes: 0, totalNodes: 0, visibleEdges: 0, recordCount: 0, nameCount: 0, selectedRecords: 0, regionId: '', regionLabel: '', regionMemberTotal: 0, inViewRecords: 0, inViewNames: 0, backend: 'canvas2d', submittedRecords: 0, submittedNames: 0, drawnPoints: 0, submittedEdges: 0, drawnEdges: 0, selectedEdges: 0, overviewSubjectsOnly: true, overviewDetailThreshold: 2, detailOpacity: 0 });
   h.graph.zoomBy(2); h.tick(0);
   const zoomed = points.map(point => h.graph.depthPosition(point));
   assert.ok(zoomed.some((point, i) => Math.hypot(point.x - positions[i].x, point.y - positions[i].y) > 1), 'zoom creates decorative depth');
@@ -1308,7 +1440,8 @@ test('full comparison retains all 33,945 original GPU records while isolated att
   h.graph.setComparison(null); h.tick(800);
   assert.equal(h.graph.comparison, null); assert.equal(records.comparisonValues, null); assert.equal(records.comparisonBuffer, null);
   assert.equal(records.values, geometry); assert.equal(records.buffer, buffer); assert.deepEqual(records.values, bytes);
-  assert.equal(h.canvas.dataset.submittedRecords, '33945'); assert.equal(Number(h.canvas.dataset.submittedEdges), data.edges.length);
+  assert.equal(h.canvas.dataset.submittedRecords, '33945'); assert.equal(Number(h.canvas.dataset.submittedEdges), 0, 'returning to overview hides routes without removing their stored data');
+  assert.equal(h.graph.edges.length, data.edges.length);
 });
 
 test('GPU submits all 33,945 record vertices with exact buffer parity; camera and layers never resample', t => {
@@ -1401,7 +1534,8 @@ test('perspectives recover a real record from empty sky at the requested zoom wi
     assert.ok(Math.hypot(anchor.x - center.x, anchor.y - center.y) < 1e-8);
     assert.equal(h.graph.scale, h.graph.baseScale * expectedRatio);
     assert.equal(h.selected.at(-1).id, target.id, 'subsequent perspectives retain the chosen star');
-    assert.deepEqual(h.selectedAnchors.at(-1), anchor); assert.equal(h.previews.at(-1).node.id, target.id);
+    assert.deepEqual(h.selectedAnchors.at(-1), anchor);
+    assert.equal(h.previews.at(-1).node?.id || null, expectedRatio < 2 ? null : target.id, 'returning to overview clears the record preview');
     assert.ok(Number(h.canvas.dataset.inViewRecords) > 0);
     assert.equal(h.canvas.dataset.submittedRecords, '33945'); assert.equal(h.canvas.dataset.recordIdHash, idHash);
     assert.equal(records.values, values); assert.equal(records.buffer, buffer); assert.deepEqual(values, coordinates);
@@ -1507,8 +1641,8 @@ test('all four route-toggle combinations govern both base routes and selected em
     { id: 'b', label: 'Record B', kind: 'item', x: 60, y: 0 },
     { id: 'theme', label: 'Inferred theme', kind: 'hub', x: 0, y: -60 },
   ];
-  h.graph.setData({ nodes, edges: [{ from: 'a', to: 'b', inferred: false }, { from: 'theme', to: 'a', inferred: true }] });
-  h.graph.setActive(true); h.tick(0);
+  h.graph.setData({ nodes, bounds: { left: -500, right: 500, top: -500, bottom: 500 }, edges: [{ from: 'a', to: 'b', inferred: false }, { from: 'theme', to: 'a', inferred: true }] });
+  h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   const painted = recordEdgePaints(h);
   for (const relationships of [false, true]) for (const inferred of [false, true]) {
     h.graph.setLayers({ relationships, inferred }); h.tick(0);
@@ -1525,7 +1659,7 @@ test('all four route-toggle combinations govern both base routes and selected em
 test('high-degree stars highlight48 routes while every enabled base route remains submitted', t => {
   const h = harness(t, { gpu:true, reducedMotion:true });
   const data = fixture(500);
-  h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  h.graph.setData(data); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   const values = h.graph.renderer.edgeGroups.map(group => group.values), uploads = h.gl.uploads.length;
   const painted = recordEdgePaints(h);
   h.graph.select(h.graph.byId.get('work-0')); h.tick(0);
@@ -1568,24 +1702,26 @@ test('fractional device pixel ratios resize the GPU backing store once, not on e
   assert.equal(writes, 1, 'pan/zoom must not repeatedly reset the GPU drawing buffer');
 });
 
-test('overview names and routes stay faint while zoom strengthens routes without dropping vertices or edges', t => {
+test('overview names and routes wait for zoom while geometry remains intact', t => {
   const h = harness(t, { gpu: true, reducedMotion: true });
   h.graph.setData(fullScaleData()); h.graph.setActive(true); h.tick(0);
   const renderer = h.graph.renderer, nameBatch = renderer.pointGroups.find(group => group.kind === 'person');
   assert.equal(nameBatch.count, 7361);
   for (let i = 0; i < nameBatch.count; i++) assert.ok(Math.abs(nameBatch.values[i * 6 + 2] - nodeAppearance(nameBatch.members[i]).radius) < 1e-6);
-  assert.ok(h.gl.uniforms.some(call => call.program === renderer.pointsProgram && call.name === 'u_alpha' && call.value === 0.48));
+  assert.equal(h.canvas.dataset.submittedNames, '0');
+  assert.equal(h.canvas.dataset.submittedEdges, '0');
+  assert.ok(!h.gl.uniforms.some(call => call.program === renderer.pointsProgram && call.name === 'u_alpha' && call.value === 0.48));
   assert.deepEqual(h.gl.blendFactors, [h.gl.SRC_ALPHA, h.gl.ONE_MINUS_SRC_ALPHA, h.gl.ONE, h.gl.ONE_MINUS_SRC_ALPHA], 'transparent compositing preserves source alpha rather than squaring it');
   for (const inferred of [false, true]) {
     const samples = [1, 2, 4, 8, 16, 64].map(zoom => routeOpacity(inferred, zoom));
     assert.equal(samples[0], inferred ? 0.006 : 0.008);
     assert.ok(samples.slice(1).every((value, i) => value >= samples[i]));
     assert.ok(samples.every(value => value <= (inferred ? 0.100001 : 0.080001)));
-    const expected = routeOpacity(inferred, 1, Number(h.canvas.dataset.submittedEdges), false);
+    const expected = routeOpacity(inferred, 1, h.graph.edges.length, false);
     assert.ok(expected < samples[0], 'dense full-catalog routes retain a subdued backdrop');
-    assert.ok(h.gl.uniforms.some(call => call.program === renderer.linesProgram && call.name === 'u_alpha' && call.value === expected));
+    assert.ok(!h.gl.uniforms.some(call => call.program === renderer.linesProgram && call.name === 'u_alpha'), 'no credit or inferred route is painted at overview');
   }
-  const uploads = h.gl.uploads.length, edges = h.canvas.dataset.submittedEdges;
+  const uploads = h.gl.uploads.length, edges = String(h.graph.edges.length);
   h.graph.zoomBy(16); h.tick(0);
   assert.equal(h.canvas.dataset.submittedRecords, '33945');
   assert.equal(h.canvas.dataset.submittedNames, '7361');
@@ -1700,7 +1836,9 @@ test('selection survives graphics loss/restoration, empty facets and stale recor
 
 test('Canvas fallback hides phantom region routes and highlights all selected visible records', t => {
   const h = harness(t, { reducedMotion: true, layers: { names: false, labels: false, regions: false, inferred: true, relationships: false } });
-  const data = fullScaleData(); h.graph.setData(data); h.graph.setActive(true); h.tick(0);
+  const data = fullScaleData();
+  data.bounds = Object.fromEntries(Object.entries(data.bounds).map(([key, value]) => [key, value * 4]));
+  h.graph.setData(data); h.graph.setActive(true); h.graph.zoomBy(4); h.tick(0);
   h.graph.setRegionSelection(new Set(data.nodes.filter(node => node.kind === 'item').map(node => node.id)), { id: 'unmatched' }); h.tick(0);
   assert.equal(h.canvas.dataset.backend, 'canvas2d'); assert.equal(h.canvas.dataset.selectedRecords, '33945');
   assert.equal(h.canvas.dataset.drawnPoints, '33945'); assert.equal(h.canvas.dataset.submittedRecords, '33945');
@@ -1712,7 +1850,7 @@ test('Canvas fallback hides phantom region routes and highlights all selected vi
 test('Canvas selection paints only exact member IDs bright while surrounding records stay visible', t => {
   const h = harness(t, { reducedMotion: true, layers: { labels: false, names: false, inferred: false, relationships: false } });
   const nodes = Array.from({ length: 20 }, (_, i) => ({ id: `record-${i}`, label: `Record ${i}`, kind: 'item', x: i * 30, y: i % 2 * 50 }));
-  h.graph.setData({ nodes, edges: [] }); h.graph.setActive(true); h.tick(0);
+  h.graph.setData({ nodes, edges: [], bounds: { left: -1200, right: 1600, top: -700, bottom: 700 } }); h.graph.setActive(true); h.graph.zoomBy(3.2); h.tick(0);
   const ctx = h.graph.ctx, batches = []; let arcs = [];
   ctx.beginPath = () => { arcs = []; };
   ctx.arc = (x, y) => arcs.push({ x, y });

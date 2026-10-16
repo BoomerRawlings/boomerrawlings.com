@@ -1,5 +1,5 @@
-import { THEMES } from './model.js?v=mapfirst-20261015';
-import { ROUTE_STYLES, routeStyle } from './route-style.js?v=mapfirst-20261015';
+import { THEMES } from './model.js?v=sources-20261015';
+import { ROUTE_STYLES, routeStyle } from './route-style.js?v=sources-20261015';
 
 const number = value => Number(value).toLocaleString('en-US');
 const recordCount = (count, qualifier = '') => `${number(count)} ${qualifier}${count === 1 ? 'record' : 'records'}`;
@@ -45,7 +45,20 @@ function routeKey(comparison, layers) {
 export function mapReading(index, { comparison = null, region = null, records = [], scope = null, layers = {} } = {}) {
   const cards = [], selected = uniqueRecords(records);
   let caption;
-  if (comparison) {
+  if (comparison?.kind === 'publications') {
+    for (const group of comparison.groups) cards.push({ id: `publication:${group.id}`, eyebrow: 'Grouped by source catalog',
+      title: group.label, value: recordCount(group.memberIds.size),
+      body: `These records come from this catalog. ${number(group.personIds.size)} source-credited names connect to them. Catalog membership describes provenance; it does not establish that this publication authored or endorsed every record.` });
+    cards.push({ id: 'cross-publication', eyebrow: 'Between source clusters', title: 'Cross-catalog evidence',
+      value: `${number(comparison.counts.documentedRelationships)} recorded links · ${number(comparison.counts.inferredRelationships)} inferred links`,
+      body: comparison.relationships.length
+        ? 'Only relationships with explicit record endpoints in different selected catalogs cross the clusters. Recorded links may include editorial related links; inferred links retain their stated basis.'
+        : 'The loaded records contain no cross-catalog record links for this selection. Similar titles, subjects and names do not create a bridge. Lines inside each cluster still show its recorded relationships and credits.' },
+    { id: 'junctions', eyebrow: 'Read the junctions', title: 'Catalog-local names',
+      value: `${number(comparison.sharedPeople.length)} names explicitly credited across catalogs`,
+      body: 'Each credited name keeps its source identity. Matching labels in different catalogs stay separate. Hexagonal source accounts and diamond name labels connect only through their supplied credits. Cluster captions are labels, not additional evidence nodes.' });
+    caption = `${recordCount(comparison.memberIds.size, 'unique ')} across ${number(comparison.groups.length)} selected source catalogs. Each record appears in its source cluster once. These groups use catalog provenance, not inferred title subjects.`;
+  } else if (comparison) {
     const group = (side, ids) => {
       const rows = comparison.records.filter(record => ids.has(record.id));
       return { id: side === comparison.left ? 'left' : 'right', eyebrow: 'Matches one of this pair',
@@ -85,7 +98,7 @@ export function mapReading(index, { comparison = null, region = null, records = 
       caption = 'This view follows a source-listed name and its credited records. Hover keeps the individual record and source context available.';
     } else {
       cards.push({ id: 'field', eyebrow: 'Every small star', title: 'A source record', value: `${recordCount(selected.length)} in this view`,
-        body: 'Stars represent catalog records: articles, papers, books, events and other material. Hover for the record; select it to follow its sources.' },
+        body: 'Stars represent catalog records: articles, papers, books, events and other material. At the overview, select an inferred subject. Zoom in to hover over a record or select it to follow its sources.' },
       { id: 'territories', eyebrow: 'Why subjects cluster', title: 'Overlapping title-word territories', value: `${THEMES.length} subject groups`,
         body: 'Literal title keywords determine membership. A record can match several groups, or none. The soft shapes illustrate the layout; distance and overlap are not evidence of a relationship.' });
       caption = 'Read the map through records, title-word groups and source connections. Select two subject territories for a separated comparison.';
@@ -95,7 +108,8 @@ export function mapReading(index, { comparison = null, region = null, records = 
   }
   const routes = routeKey(comparison, layers);
   const note = (comparison ? 'Route counts cover this whole comparison, including links inside each cluster; they are not counts of links crossing between clusters. ' : '')
-    + 'Flow speed distinguishes evidence categories; it is not a confidence score or a measure of influence. Matched-word counts use unique records in each group.';
+    + 'Flow speed distinguishes evidence categories; it is not a confidence score or a measure of influence. '
+    + (comparison?.kind === 'publications' ? 'Title-subject spokes are omitted from publication comparison.' : 'Matched-word counts use unique records in each group.');
   const nodeNote = 'Within each type, brighter and larger points have more unique linked neighbors in the current view. Size is bounded. Hexagons also include publishing accounts; catalog-local names stay separate. Title-group spokes are excluded; brightness does not measure readership or influence.';
   const model = { caption, cards, routes, note, nodeNote };
   return { key: JSON.stringify(model), ...model };

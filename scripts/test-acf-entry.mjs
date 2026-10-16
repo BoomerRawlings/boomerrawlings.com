@@ -5,6 +5,7 @@ import { parse } from 'parse5';
 import * as model from '../public/ACF/model.js';
 import * as regions from '../public/ACF/regions.js';
 import { compareTerritories } from '../public/ACF/comparison.js';
+import { comparePublications } from '../public/ACF/publication-comparison.js';
 import { previewInfo } from '../public/ACF/preview-data.js';
 import { UIMotion } from '../public/ACF/ui-motion.js';
 import { mapReading } from '../public/ACF/map-reading.js';
@@ -235,7 +236,7 @@ function harness({ reduced = false, animationAPI = true, entrySource = source, a
       }
       class Preview { constructor() { this.card = new Element(); } close() {} }
       const moduleGlobals = {
-        ...globals, ...model, ...regions, compareTerritories, AtlasGraph: Graph, NodePreview: Preview, previewInfo, UIMotion, mapReading, territoryGuide,
+        ...globals, ...model, ...regions, compareTerritories, comparePublications, AtlasGraph: Graph, NodePreview: Preview, previewInfo, UIMotion, mapReading, territoryGuide,
         URL, URLSearchParams, location, history,
         addEventListener: window.addEventListener.bind(window), performance: { now: () => now },
         AbortSignal: { timeout: () => undefined },
@@ -1191,6 +1192,117 @@ for (const reduced of [false, true]) {
   assert.equal(h.$('explore-tools').open, false); assert.equal(h.$('map-perspectives').open, false);
   assert.equal(h.document.activeElement, h.$('reset-atlas')); assert.equal(h.location.hash, '');
   assert(h.trace.some(step => step.event === 'graph:reset' && step.universe), 'Full reset restores the universe camera');
+  cases++;
+}
+
+// Execute publication controls and shareable routes against the real app/data.
+// Rendering/layout remains covered separately; this checks IDs and state changes.
+{
+  const h = harness({ reduced: true }); h.loadApp(); h.type('atlas'); h.submit(); await h.settle(); usable(h);
+  const selected = () => h.$('publication-filters').children.filter(control => control.getAttribute('aria-pressed') === 'true').map(control => control.id.replace('publication-', '')).sort();
+  const sources = () => [...new Set(h.graph.data.nodes.filter(node => node.kind === 'item').map(node => node.catalogId))].sort();
+  const text = node => [node.textContent, ...node.children.map(text)].join(' ');
+  const select = async id => { h.click('publication-' + id); await h.settle(); };
+  const assertComparison = expected => {
+    assert.equal(h.graph.comparison?.kind, 'publications');
+    assert.deepEqual(Array.from(h.graph.comparison.groups, group => group.id).sort(), [...expected].sort());
+    assert.deepEqual(selected(), [...expected].sort());
+    assert.deepEqual(sources(), [...expected].sort());
+    assert.equal(h.$('publication-compare').getAttribute('aria-pressed'), 'true');
+    assert.equal(h.$('publication-compare').disabled, false);
+    assert.equal(h.document.body.dataset.comparison, 'true');
+    assert.equal(h.graph.comparison.records.length, h.graph.comparison.memberIds.size);
+    assert.equal(h.graph.comparison.relationships.length, 0, 'This public snapshot has no cross-catalog endpoint links');
+  };
+  assert.equal(selected().length, 9);
+  assert.equal(h.$('publication-count').textContent, '9/9 on');
+  assert.equal(h.$('publication-compare').disabled, false);
+  assert.equal(h.$('publication-compare').textContent, 'Compare 9 publications');
+  h.click('publications-none');
+  assert.deepEqual(selected(), []); assert.deepEqual(sources(), []);
+  assert.equal(h.$('results-count').textContent, '0');
+  assert.equal(h.$('publication-compare').disabled, true);
+  assert.equal(new URLSearchParams(h.location.hash.slice(1)).get('sources'), '');
+  assert.match(h.$('publication-status').textContent, /No publications enabled/);
+  h.click('publication-compare'); assert.equal(h.graph.comparison, null, 'Disabled comparison action also has a handler guard');
+  await select('ieet');
+  assert.deepEqual(selected(), ['ieet']); assert.deepEqual(sources(), ['ieet']);
+  assert.equal(h.$('results-count').textContent, '10,467');
+  assert.equal(h.$('publication-compare').disabled, true);
+  await select('c4ss');
+  assert.deepEqual(selected(), ['c4ss', 'ieet']);
+  assert.equal(h.$('results-count').textContent, '19,151');
+  assert.equal(h.$('publication-compare').disabled, false);
+  assert.equal(h.document.activeElement, h.$('publication-c4ss'), 'Re-rendered toggle retains keyboard focus');
+  h.click('publication-compare'); assertComparison(['ieet', 'c4ss']);
+  assert.equal(h.$('territory-guide-title').textContent, 'Comparing 2 publications');
+  assert.match(text(h.$('map-reading-cards')), /Grouped by source catalog/);
+  assert.match(text(h.$('map-reading-cards')), /no cross-catalog record links/);
+  assert.doesNotMatch(text(h.$('map-reading-cards')), /Matches one of this pair|Shared records/);
+  h.click('map-evidence');
+  assert.equal(h.$('region-panel').hidden, false);
+  assert.equal(h.$('region-panel').getAttribute('aria-label'), 'Publication comparison evidence');
+  assert.match(text(h.$('region-content')), /0 cross-publication record links/);
+  assert.match(text(h.$('region-content')), /source catalogs/);
+  assert.match(text(h.$('region-content')), /similar names or titles do not create a connection/);
+  cases++;
+
+  await select('network-cultures'); assertComparison(['ieet', 'c4ss', 'network-cultures']);
+  assert.equal(h.$('region-panel').hidden, true, 'Changing source selection dismisses stale evidence');
+  h.history.go(-1); assertComparison(['ieet', 'c4ss']);
+  h.history.go(1); assertComparison(['ieet', 'c4ss', 'network-cultures']);
+  await select('ieet'); assertComparison(['c4ss', 'network-cultures']);
+  await select('network-cultures');
+  assert.equal(h.graph.comparison, null);
+  assert.equal(h.document.body.dataset.comparison, 'false');
+  assert.equal(h.$('publication-compare').disabled, true);
+  assert.equal(h.$('publication-compare').getAttribute('aria-pressed'), 'false');
+  assert.deepEqual(selected(), ['c4ss']); assert.deepEqual(sources(), ['c4ss']);
+  assert.equal(new URLSearchParams(h.location.hash.slice(1)).get('sources'), 'c4ss');
+  assert.equal(new URLSearchParams(h.location.hash.slice(1)).has('publications'), false);
+  h.$('comparison-picker').value = 'minds'; h.$('comparison-picker').dispatchEvent(event('change'));
+  assert.equal(h.graph.regionSelectionMeta.id, 'minds');
+  h.$('comparison-picker').value = 'power'; h.$('comparison-picker').dispatchEvent(event('change'));
+  assert.equal(h.graph.comparison.left.id, 'minds'); assert.equal(h.graph.comparison.right.id, 'power');
+  assert(h.graph.comparison.records.every(item => item.catalogId === 'c4ss'), 'Subject comparison honors the bottom source filters');
+  assert.equal(h.$('publication-compare').getAttribute('aria-pressed'), 'false');
+  cases++;
+
+  h.history.replaceState(null, '', '/ACF/#sources=ieet,technophany&compare=minds,planet'); h.window.dispatchEvent(event('popstate'));
+  assert.deepEqual(selected(), ['ieet', 'technophany']); assert.deepEqual(sources(), ['ieet', 'technophany']);
+  assert.equal(h.graph.comparison.left.id, 'minds'); assert.equal(h.graph.comparison.right.id, 'planet');
+  assert(h.graph.comparison.records.every(item => ['ieet', 'technophany'].includes(item.catalogId)));
+  h.history.replaceState(null, '', '/ACF/#publications=c4ss,ieet'); h.window.dispatchEvent(event('popstate'));
+  assertComparison(['c4ss', 'ieet']);
+  assert.equal(h.$('publication-compare').textContent, 'Exit comparison');
+  h.click('publication-compare');
+  assert.equal(h.graph.comparison, null); assert.deepEqual(selected(), ['c4ss', 'ieet']);
+  assert.equal(new URLSearchParams(h.location.hash.slice(1)).get('sources'), 'c4ss,ieet');
+  h.history.go(-1); assertComparison(['c4ss', 'ieet']);
+  h.history.go(1); assert.equal(h.graph.comparison, null); assert.deepEqual(selected(), ['c4ss', 'ieet']);
+  cases++;
+
+  h.click('publications-none');
+  h.history.replaceState(null, '', h.location.href); h.window.dispatchEvent(event('popstate'));
+  assert.deepEqual(selected(), []); assert.equal(h.$('results-count').textContent, '0');
+  h.click('publications-all');
+  assert.equal(selected().length, 9); assert.equal(h.$('results-count').textContent, '33,945');
+  assert.equal(h.$('publication-compare').disabled, false);
+  h.click('publication-compare'); assert.equal(h.graph.comparison.groups.length, 9);
+  assert.equal(h.graph.comparison.records.length, 33945);
+  h.click('reset-atlas'); await h.settle();
+  assert.equal(h.graph.comparison, null); assert.equal(selected().length, 9);
+  assert.equal(h.$('results-count').textContent, '33,945'); assert.equal(h.location.hash, '');
+  assert.equal(h.$('publication-compare').getAttribute('aria-pressed'), 'false');
+  assert.equal(h.$('publication-compare').disabled, false, 'Reset leaves publication comparison usable');
+  assert(h.$('publication-filters').children.every(control => !control.disabled), 'Reset re-enables every quick toggle');
+  assert(h.$('collection-options').children.every(row => !row.children[0].disabled), 'Reset re-enables the collection dialog too');
+  assert.equal(h.$('publications-all').disabled, false); assert.equal(h.$('publications-none').disabled, false);
+  h.click('publications-none'); assert.equal(h.$('results-count').textContent, '0');
+  h.click('reset-atlas'); await h.settle();
+  assert.equal(h.$('results-count').textContent, '33,945'); assert.equal(selected().length, 9);
+  assert.equal(h.$('publication-compare').disabled, false);
+  assert.equal(h.trace.filter(step => step.event === 'fetch:start').length, 10, 'All/None/toggles/reset reuse loaded public metadata');
   cases++;
 }
 

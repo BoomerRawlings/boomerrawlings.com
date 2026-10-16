@@ -1,12 +1,23 @@
 # Project state
 
-## Map-first entry — verified; publishing
+## Subject overview, publication comparisons and URL casing — verified; publishing
+
+- Mode: continuation. Baseline f2b2cdf verified equal to origin/main. Preserve private audit and dirty sibling checkout.
+- Objective: subject-only interaction at distant zoom; bottom source toggles and comparison of enabled publications; capitalization-insensitive page navigation.
+- Implemented: below2x only subject labels/picking/keyboard previews; details reveal to3.2x. Source selection/history/deep links, 2–9-source clusters and truthful evidence. Reset/async selection races covered. Generated hashed route lookup and custom404 canonicalizer; no hosting changes.
+- Decisions: publications mean source catalogs. Current public records provide zero cross-catalog record links; equal names/titles do not imply links. Data unchanged. Wrong-case page addresses first return404, then browser JavaScript redirects to canonical200.
+- Verified: full npm test/47-page build passed; 207 Atlas groups (final rerun),101 entrance/app cases,27 reset/loading cases,7 routing groups. HTML/CSS and ID/ARIA parsing pass; asset versions consistent. Final caption refinement:81 graph cases plus7 route cases pass; all nine source captions placed at320px canvas heights300/360/520/600 and1000×700 without overlap. Final rebuild and markup preflight pass.
+- Limit: browser inventory empty; visible animation/layout and actual browser redirect unobserved. Evidence report: docs/codex/user-facing-tests/2026-10-15__user-facing-flow-test__atlas-sources.md.
+- Next: one verified push, then live assets/route checks.
+
+## Map-first entry — complete; live
 
 - Mode: continuation. Objective: make first-entry exploration obvious and give the map most of the viewport. UI only; preserve unfinished private collection audit in parent workspace.
 - Baseline: e5648b5 matched origin/main before work. Previous map explanations/reset/glyph releases already published; old ready-to-publish note was stale.
 - Implemented: compact header, guided first/second subject picker, one-click Minds/Power example; search/filters/layers in native disclosure; map fills remaining viewport with inline key/details below. Existing hover, source evidence, entrance and reset retained. Smaller renderer margins use new canvas space.
 - Verified: full npm test and 47-page build pass; 182 Atlas groups, including 97 entrance cases and 71 graph cases. Guide/example, filters and history, Map/List return, reset and focus covered. CSS/HTML parse clean; IDs and ARIA references resolve. Browser control inventory empty; in-app/Chrome unavailable. Visible-flow test explicitly blocked.
-- Next: single verified UI push; verify Pages and live asset parity. Browser follow-up documented in docs/codex/user-facing-tests/2026-10-15__user-facing-flow-test__atlas-map-first.md.
+- Published: f2b2cdf; Pages run38792935433 build/deploy succeeded. Canonical /ACF/ serves new shell; all14 changed public assets match committed bytes. Evidence: tmp/mapfirst-live-verification.json. Local dev server stopped.
+- Next: no implementation work pending. Browser follow-up remains unverified, documented in docs/codex/user-facing-tests/2026-10-15__user-facing-flow-test__atlas-map-first.md.
 - Boundary: no collection/audit data changes. Existing private audit remains paused; its DB finalizer completion needs checking before any future audit continuation.
 
 ## Existing release behavior

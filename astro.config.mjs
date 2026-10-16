@@ -3,6 +3,16 @@ import sitemap from '@astrojs/sitemap';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import { unified } from '@astrojs/markdown-remark';
+import casePageRoutes from './scripts/case-page-routes.mjs';
+
+const redirects = {
+  '/data-analysis': '/writing/data-analysis/',
+  '/data-analysis/crime-and-heat': '/writing/data-analysis/crime-and-heat/',
+  '/archive': '/all/',
+  '/work/horizonos': '/work/horizon/',
+  '/work/icloud-media-archive': '/work/organizing-icloud-media/',
+  '/work/personal-archive': '/work/organizing-icloud-media/',
+};
 
 export default defineConfig({
   site: 'https://boomerrawlings.com',
@@ -13,15 +23,9 @@ export default defineConfig({
       rehypePlugins: [[rehypeKatex, {strict: 'error', trust: false}]],
     }),
   },
-  redirects: {
-    '/data-analysis': '/writing/data-analysis/',
-    '/data-analysis/crime-and-heat': '/writing/data-analysis/crime-and-heat/',
-    '/archive': '/all/',
-    '/work/horizonos': '/work/horizon/',
-    '/work/icloud-media-archive': '/work/organizing-icloud-media/',
-    '/work/personal-archive': '/work/organizing-icloud-media/',
-  },
+  redirects,
   integrations: [
+    casePageRoutes(redirects),
     sitemap({
       filter: (page) =>
         page !== 'https://boomerrawlings.com/photography/' &&

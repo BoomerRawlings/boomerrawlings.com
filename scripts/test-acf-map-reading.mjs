@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import { createIndex, normalizeImport } from '../public/ACF/model.js';
 import { compareTerritories } from '../public/ACF/comparison.js';
+import { comparePublications } from '../public/ACF/publication-comparison.js';
 import { mapReading } from '../public/ACF/map-reading.js';
 import { getRegions } from '../public/ACF/regions.js';
 
@@ -30,6 +31,38 @@ function fixture() {
   }, 'two')]);
 }
 const card = (reading, id) => reading.cards.find(entry => entry.id === id);
+
+test('publication reading explains every source cluster without implying subject overlap or identity', () => {
+  const index = fixture(), comparison = comparePublications(index, ['one', 'two']);
+  const reading = mapReading(index, { comparison });
+  assert.deepEqual(reading.cards.map(entry => entry.id), ['publication:one', 'publication:two', 'cross-publication', 'junctions']);
+  assert.equal(card(reading, 'publication:one').value, '5 records');
+  assert.equal(card(reading, 'publication:two').value, '1 record');
+  assert.match(card(reading, 'publication:one').body, /provenance/);
+  assert.match(card(reading, 'publication:one').body, /does not establish.*authored or endorsed/);
+  assert.match(reading.caption, /^6 unique records across 2 selected source catalogs/);
+  assert.equal(card(reading, 'cross-publication').value, '0 recorded links · 0 inferred links');
+  assert.match(card(reading, 'cross-publication').body, /no cross-catalog record links/);
+  assert.match(card(reading, 'cross-publication').body, /Similar titles, subjects and names do not create a bridge/);
+  assert.equal(card(reading, 'junctions').value, '0 names explicitly credited across catalogs');
+  assert.match(card(reading, 'junctions').body, /Matching labels in different catalogs stay separate/);
+  assert.deepEqual(reading.routes.map(route => [route.id, route.count]), [['credit', 5], ['relationship', 2], ['inferred', 1], ['theme', 0]]);
+  assert.match(reading.note, /Title-subject spokes are omitted/);
+  assert(reading.cards.every(entry => !entry.regionId && !entry.terms));
+});
+
+test('publication reading distinguishes actual cross-source links and keeps empty groups explicit', () => {
+  const index = fixture();
+  index.relationships.push({ from: 'one:left', to: 'two:left', kind: 'links_to', basis: 'Source link', sourceUrls: [url] });
+  const reading = mapReading(index, { comparison: comparePublications(index, ['one', 'two']) });
+  assert.equal(card(reading, 'cross-publication').value, '1 recorded links · 0 inferred links');
+  assert.match(card(reading, 'cross-publication').body, /explicit record endpoints/);
+  const empty = mapReading(index, { comparison: comparePublications(index, ['one', 'two'], { query: 'absent-word' }) });
+  assert.equal(card(empty, 'publication:one').value, '0 records');
+  assert.equal(card(empty, 'publication:two').value, '0 records');
+  assert.match(empty.caption, /^0 unique records across 2/);
+  assert(empty.routes.every(route => route.count === 0));
+});
 
 test('comparison explains the exact partition without conflating roles, overlap or name identity', () => {
   const index = fixture(), comparison = compareTerritories(index, 'minds', 'planet');
@@ -106,6 +139,8 @@ test('reading adds no classification or source mutation and does not require a g
   assert.match(card(reading, 'junctions').body, /Hexagonal beacons identify known source or group labels/);
   assert.match(card(reading, 'junctions').body, /Diamonds represent authors and other credited names/);
   assert.match(card(reading, 'junctions').body, /Hollow rings mark inferred title subjects/);
+  assert.match(card(reading, 'field').body, /At the overview, select an inferred subject/);
+  assert.match(card(reading, 'field').body, /Zoom in to hover over a record/);
 });
 
 test('glyph explanation distinguishes bounded connection emphasis from reach and grouping', () => {
@@ -151,7 +186,7 @@ test('graph metadata honors supplied source/name roles while retaining work type
   ] };
   let submitted;
   runInNewContext(`let preparedIndex, preparedFilters, scope = null, records = [work], active = true; ${appFunction('renderGraph')} renderGraph();`, {
-    index, work, $: () => ({ value: '' }), subjectScope: () => false, filters: () => ({}), graphData: () => data,
+    index, work, $: () => ({ value: '' }), subjectScope: () => false, publicationScope: () => false, filters: () => ({}), graphData: () => data,
     label: value => value === 'paper' ? 'Paper' : value, document: { body: { dataset: { view: 'map' } } },
     graph: { setData: value => { submitted = value; }, setActive() {} }, applyRegionSelection() {}, applyLayers() {},
   });
@@ -200,8 +235,9 @@ function inlineHarness({ view = 'map', scope = null, trailsOpen = false, paused 
     let scope = scopeInput, comparisonDetailsOpen = trailsInput, selection = 'selected';
     let comparisonResult = null, regionFilters = {}, records = index.items, active = true;
     const regionScope = () => scope?.kind === 'theme';
-    const comparisonScope = () => scope?.kind === 'compare';
-    const subjectScope = () => regionScope() || comparisonScope();
+    const publicationScope = () => scope?.kind === 'publications';
+    const comparisonScope = () => scope?.kind === 'compare' || publicationScope();
+    const subjectScope = () => regionScope() || scope?.kind === 'compare';
     ${['scrollToBubble', 'openDetail', 'closeDetail', 'closeRecordDetails', 'renderMapReading', 'showItem', 'showPerson'].map(appFunction).join('\n')}
     ({ scrollToBubble, openDetail, closeDetail, closeRecordDetails, renderMapReading, showItem, showPerson,
        state: () => ({ scope, comparisonDetailsOpen, selection }) });
@@ -264,7 +300,7 @@ test('closing inline records returns focus and scroll to the visible Map, List o
 });
 
 test('Locate from an inline record returns to the actual map viewport and preserves comparison scope', () => {
-  for (const scope of [null, { kind: 'compare', ids: ['minds', 'planet'] }]) {
+  for (const scope of [null, { kind: 'compare', ids: ['minds', 'planet'] }, { kind: 'publications', ids: ['one', 'two'] }]) {
     const h = inlineHarness({ view: 'list', scope, trailsOpen: Boolean(scope) });
     const item = { ...h.index.byId.get('one:unmatched'), themes: [] };
     h.showItem(item);
