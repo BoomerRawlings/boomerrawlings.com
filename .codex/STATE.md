@@ -617,3 +617,4 @@
 - Status: full suite and phone checks in progress; not published yet.
 - Source audit passes. Desktop/320/390 visual checks confirm clear quote/emphasis labels, workflow/flashcard context, same-page practice-source links and no overflow/console errors. Decorative rail-note overlap removed. Final full suite/build/publication checks pending.
 - Verification: full npm test passes; final rebuilt output passes publication/CHEM checks. Four exact-quote source checks and independent paraphrase audit passed. Ready to publish.
+- Complete: releasee8d3c59 live; Pages39073156957 build/deploy passed. Live purple/gold colors, exact quote/source label and19workflow foundation callouts verified after reload; console clear. No required work remains.
