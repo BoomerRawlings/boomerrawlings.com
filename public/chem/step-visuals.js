@@ -16,7 +16,7 @@ export function stepVisual(lesson,index){
  if(id==='liquid'&&index<4){const v=Number(lesson.given.split(' ')[0]),g=v*1000,n=g/18.02;const rows=[[v,'L','1000','mL','1'],[number(g),'mL','1.00','g H₂O','1'],[number(g),'g H₂O','1','mol H₂O','18.02'],[number(n),'mol H₂O',number(NA),'H₂O molecules','1']];return cancel(...rows[index],last);}
  if(id==='instrument'){
  const scenes=[
- pair(55,115)+pair(99,115)+arrow(150,85)+pair(240,40)+pair(300,115)+text(90,150,'liquid')+text(285,150,'gas: spread apart'),
+ pair(45,115)+pair(90,65)+arrow(150,85)+pair(240,40)+pair(300,115)+text(90,150,'liquid')+text(285,150,'gas: spread apart'),
  pair(55,80)+text(100,28,'fast electron →')+arrow(120,80)+atom(210,80,'O','+')+atom(270,80,'O')+atom(340,45,'e','−')+text(205,130,'ion +')+text(325,118,'neutral')+text(200,150,'O₂ breakup'),
  atom(55,80,'ion','+')+arrow(90,80,58)+atom(200,80,'ion','+')+arrow(238,80,125)+text(200,28,'Electric field speeds ions up')+text(200,145,'Same charge + voltage → same KE'),
  '<rect x="130" y="15" width="210" height="120" rx="10" class="field"/>'+text(235,40,'MAGNETIC FIELD')+'<path d="M20 115H140Q210 115 210 65 M140 115Q300 115 300 65" class="arrow"/>'+atom(210,64,'L','+')+atom(300,64,'H','+')+text(210,115,'lighter')+text(300,115,'heavier')+text(200,154,'Equal charge & KE'),
