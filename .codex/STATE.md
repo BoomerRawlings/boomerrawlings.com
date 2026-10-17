@@ -9,7 +9,8 @@
 - Boundary: publish original explanatory material only, no raw course PDFs/transcripts or student exam scans/identifiers. Unlisted/noindex, sitemap excluded. Existing Pages deployment retained; no DNS changes.
 - Status: source audit complete; reverse water default and average-vs-isotope mass distinction corrected. Desktop/390/320 browser interactions pass without page overflow or console errors. Full npm test passes; final rebuild/publication/CHEM checks pass.
 - Evidence: docs/codex/user-facing-tests/2026-10-17__chem-study-desk.md.
-- Next: one production push, CI and live verification.
+- Complete; release03b0711 live. Pages39068852097 build/deploy passed. Live page and conversion/deflection/Cl2 controls verified; no browser warnings/errors.
+- No required implementation work remains. Add Oct20 lecture/Activities7-8 when supplied; do not infer unavailable exam scope.
 
 ## Horizontal separation — 2026-10-16
 
