@@ -56,6 +56,7 @@ for(const id of ['method','conversions','mass-spec','spectrum','formulas','activ
 assert.equal(tags.filter(t=>t==='h1').length,1);
 assert.ok(file.includes('type="module" src="/chem/study.js"')||file.includes('src="/chem/study.js" type="module"'));
 assert.ok(file.includes('noindex,nofollow,noarchive,noimageindex'));
-assert.ok(!/200460190|C:[\\/]|OneDrive|AppData|codex-clipboard/.test(file),'private identifier or machine path');
+assert.ok(!/C:[\\/]|OneDrive|AppData|codex-clipboard/.test(file),'private identifier or machine path');
+assert.ok(!/student\s*(?:id|number)\s*[:#]?\s*\d{6,}/i.test(file),'student identifier must not appear in the page');
 assert.ok(!readFileSync('dist/sitemap-0.xml','utf8').includes('/chem/'));
 console.log('CHEM: 8 unit chains, reverse round trips, invalid inputs, isotope ratios, guide anchors and publication boundary pass.');
