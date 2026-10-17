@@ -1,4 +1,5 @@
-import {mountWorkflow} from './workflow-renderer.js?v=20261017-simple';
+import {replaceDropdowns} from './choice-path.js';
+import {mountWorkflow} from './workflow-renderer.js?v=20261017-visuals';
 import {foundationPlan,randomPlans,quizPlans,problemPlan,practiceConcepts,practiceDependencies} from './workflow-data.js';
 import {questions} from './retrieval-data.js';
 import {currentProblems} from './random-practice.js?v=20261017-highlights';
@@ -36,6 +37,7 @@ function choose(group,id,focus=true){
   display.setPlans(collections[group]);
   activeId=id??collections[group][0].id;
   display.open(activeId,{focus});
+  collection.dispatchEvent(new Event('choice-sync'));
 }
 function reveal(group,id){
   $('chem-workflow-panel').hidden=false;
@@ -74,3 +76,5 @@ for(let i=1;i<=6;i++){
 for(const question of questions){
   const button=document.createElement('button');button.type='button';button.textContent='Show workflow';button.dataset.workflowQuiz=question.id;$(`qa-${question.id}`).append(button);
 }
+
+replaceDropdowns(root);

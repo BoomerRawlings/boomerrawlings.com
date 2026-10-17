@@ -5,8 +5,8 @@ const lessons=makeLessons(),lesson=lessons[0],first=lesson.steps[0];
 <section id="start" class="simple-study">
   <p class="eyebrow">CHEM 004 · Learning Check 2</p>
   <h1>Chemistry, one step at a time.</h1>
-  <p class="simple-intro">Pick a topic. Follow one example. Try one question.</p>
-  <label class="simple-topic-label">What would you like help with?<select id="simple-topic">{lessons.map(item=><option value={item.id} selected={item.id===lesson.id}>{item.title}</option>)}</select></label>
+  <p class="simple-intro">Look. Follow the steps. Try one question.</p>
+  <nav class="lesson-path" aria-label="Lesson path"><button id="lesson-back" type="button" disabled>← Previous lesson</button><span id="lesson-count">Lesson 1 of 10</span><button id="lesson-forward" type="button">Next lesson →</button></nav>
   <div class="simple-lesson" aria-labelledby="simple-title">
     <h2 id="simple-title">{lesson.title.replace(/^\d+\. /,'')}</h2>
     <div class="simple-scenario"><p><span>YOU HAVE</span><strong id="simple-given">{lesson.given}</strong></p><p><span>YOU WANT</span><strong id="simple-wanted">{lesson.wanted}</strong></p></div>
@@ -15,6 +15,7 @@ const lessons=makeLessons(),lesson=lessons[0],first=lesson.steps[0];
       <h3 id="simple-step-title" tabindex="-1">{first.title}</h3>
       <p id="simple-why">{first.why}</p>
       <figure id="simple-sketch" hidden></figure>
+      <p id="simple-notation" class="notation-key" hidden></p>
       <pre id="simple-work" aria-label="Worked step">{first.work}</pre>
     </div>
     <div id="simple-quiz" hidden>

@@ -624,3 +624,9 @@
 - Source review passed all ten lessons/calculation branches. Browser, full tests and publication pending. Baseline8f867af verified against remote.
 - Verification: full npm test passes; final build, publication/CHEM checks and diff check pass. All ten lessons independently source-reviewed; desktop/320 browser traversal, feedback, optional reference and workflow detour/return pass. Ready to publish.
 - Complete: released ddb0514; Pages39076170058 build/deploy passed. Live default lesson, Next/restart and closed reference verified; console clear. Full npm test, final rebuild/publication/CHEM checks pass. No required implementation work remains.
+
+## Visual CHEM steps
+- Continuation: requested visuals at every step, no dropdowns, clear notation. Adding source-bounded SVG diagrams and unit cancellation; sequential lesson navigation and one-choice controls for legacy tools. Verification pending.
+- Implemented46 step visuals: paired canceled-unit fractions, particles, linear spectrum, isotope mean, gas/formula routes, energy curves and five instrument stages. Topic dropdown replaced by previous/next lessons; legacy/workflow menus replaced by one-choice navigation. Dynamic formulas use subscripts; contextual notation keys explain counts/powers/charge.
+- Independent source audit corrected CO₂ bonds and spectrum spacing; final audit passed. Browser46-step traversal, phone320 text-fit corrections, unit fractions and workflow selectors pass. Full npm test passes; final rebuild/publication check pending.
+- Final build/publication/CHEM visual checks passed; no remaining science corrections. Ready to publish.

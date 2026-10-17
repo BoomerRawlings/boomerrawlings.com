@@ -8,9 +8,10 @@ import {fundamentals,foundationPlan,randomPlans,quizPlans,problemPlan,practiceCo
 import {lectureHighlights,annotateGuide,highlightHTML} from '../public/chem/lecture-highlights.js';
 
 const {makeLessons,number}=await import('../public/chem/simple-lessons.js');
+const {stepVisual,notationHelp}=await import('../public/chem/step-visuals.js');
 for(const random of [()=>0,()=>.5,()=>.999]){
  const lessons=makeLessons(random);assert.equal(lessons.length,10);assert.equal(new Set(lessons.map(l=>l.id)).size,10);
- for(const lesson of lessons){assert.ok(lesson.steps.length>=4&&lesson.steps.length<=5);assert.ok(lectureHighlights.some(h=>h.id===lesson.signal));assert.equal(lesson.quiz.options.length,3);assert.ok(lesson.quiz.options[lesson.quiz.correct]);for(const s of lesson.steps)assert.ok(s.title&&s.why&&s.work&&!/NaN|undefined/.test(s.work));}
+ for(const lesson of lessons){assert.ok(lesson.steps.length>=4&&lesson.steps.length<=5);assert.ok(lectureHighlights.some(h=>h.id===lesson.signal));assert.equal(lesson.quiz.options.length,3);assert.ok(lesson.quiz.options[lesson.quiz.correct]);for(const [i,s] of lesson.steps.entries()){assert.ok(s.title&&s.why&&s.work&&!/NaN|undefined/.test(s.work));const visual=stepVisual(lesson,i);assert.ok(visual.includes('role="img"')&&!/NaN|undefined/.test(visual));}}
  const mass=Number(lessons[1].given.split(' ')[0]);assert.ok(lessons[1].steps[3].work.includes(number(mass/32*NA*2)));assert.ok(lessons[2].steps[2].work.includes(mass+' g O₂'));
 }
 assert.equal(lectureHighlights.length,10);
@@ -119,6 +120,10 @@ const file=readFileSync('dist/chem/index.html','utf8');
 assert.match(file,/<details id="full-study-guide">/,'long reference stays closed on first visit');
 assert.match(file,/Chemistry, one step at a time/);
 assert.match(file,/simple-study.js/);
+assert.ok(!file.includes('id="simple-topic"'),'beginner view has no topic dropdown');
+assert.ok(notationHelp('O₂ 10²³ CH₃O⁺').includes('electric charge'));
+assert.ok(stepVisual(makeLessons()[1],1).includes('<del>g O₂</del>'));
+assert.ok(stepVisual(makeLessons()[2],0).includes(number(makeLessons()[2].values.atoms)));
 
 const ids=new Set(),refs=[],tags=[];
 function walk(n){

@@ -1,6 +1,7 @@
 import {NA} from './model.js';
 const superscript=n=>String(n).replace(/[-\d]/g,c=>({'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'}[c]));
 export const number=n=>Math.abs(n)>=1e6?Number(n.toExponential(3).split('e')[0])+' × 10'+superscript(Number(n.toExponential(3).split('e')[1])):String(Number(n.toPrecision(4)));
+const sub=n=>String(n).replace(/\d/g,c=>'₀₁₂₃₄₅₆₇₈₉'[c]);
 const step=(title,why,work)=>({title,why,work});
 const quiz=(prompt,options,correct,why)=>({prompt,options,correct,why});
 export function makeLessons(random=()=>.5){
@@ -8,7 +9,7 @@ export function makeLessons(random=()=>.5){
   const mass=pick([8,16,32,64]),mol=mass/32,molecules=mol*NA,atoms=molecules*2;
   const water=pick([.01802,.1802,1.802,18.02]),waterGrams=water*1000,waterMol=waterGrams/18.02;
   const gasMol=pick([.25,.5,1,2]),gasVolume=gasMol*.0821*300;
-  const k=pick([2,3,6]),formula=`C${k}H${2*k}O${k}`;
+  const k=pick([2,3,6]),formula=`C${sub(k)}H${sub(2*k)}O${sub(k)}`;
   return [
     {id:'count',title:'1. Atoms, molecules & moles',given:'One O₂ molecule',wanted:'Know what each word counts',source:'particles',signal:'names-entities',terms:'Atom: one unit of an element. Molecule: bonded atoms. Mole: a counting unit, like a dozen but much larger.',steps:[
       step('Read the small number','The subscript tells you how many atoms are in ONE molecule.','O₂ = O—O = 2 oxygen atoms in 1 molecule'),
@@ -23,7 +24,7 @@ export function makeLessons(random=()=>.5){
       step('Turn molecules into atoms','Multiply by the number of O atoms in each molecule.',`${number(molecules)} molecules O₂ × (2 O atoms / 1 molecule O₂)\n= ${number(atoms)} O atoms`),
       step('Check what you counted','The answer must say O atoms. Stopping at molecules misses a factor of two.',`${mass} g O₂ → ${number(mol)} mol O₂\n→ ${number(molecules)} molecules O₂ → ${number(atoms)} O atoms`),
     ],quiz:quiz('What converts O₂ molecules into O atoms?',['Multiply by 2','Divide by 2','Multiply by 32'],0,'Two O atoms belong to every O₂ molecule. The 32 is molar mass, not atoms per molecule.')},
-    {id:'count-mass',title:'3. Atoms → molecules → grams',given:`${number(atoms)} O atoms contained in O₂`,wanted:'Grams of O₂',source:'conversions',signal:'reverse',terms:'Read the given carefully: an atom count is not a molecule count. H₂,N₂,O₂,F₂,Cl₂,Br₂,I₂ each contain two atoms per molecule.',steps:[
+    {id:'count-mass',values:{mass,mol,molecules,atoms},title:'3. Atoms → molecules → grams',given:`${number(atoms)} O atoms contained in O₂`,wanted:'Grams of O₂',source:'conversions',signal:'reverse',terms:'Read the given carefully: an atom count is not a molecule count. H₂,N₂,O₂,F₂,Cl₂,Br₂,I₂ each contain two atoms per molecule.',steps:[
       step('Turn atoms into molecules','Two O atoms make one O₂ molecule. Divide by two.',`${number(atoms)} O atoms × (1 molecule O₂ / 2 O atoms)\n≈ ${number(molecules)} molecules O₂`),
       step('Turn molecules into moles','Divide by Avogadro’s number because you are undoing the counting step.',`${number(molecules)} molecules O₂ × (1 mol O₂ / ${number(NA)} molecules O₂)\n≈ ${number(mol)} mol O₂`),
       step('Turn moles into grams','Each mole of O₂ has mass 32.00 g.',`${number(mol)} mol O₂ × (32.00 g O₂ / 1 mol O₂)\n≈ ${mass} g O₂`),

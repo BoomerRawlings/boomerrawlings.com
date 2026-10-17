@@ -1,14 +1,15 @@
+import {stepVisual,notationHelp} from './step-visuals.js';
+import {replaceDropdowns} from './choice-path.js';
 import {makeLessons} from './simple-lessons.js';
 import {lectureHighlights,highlightHTML} from './lecture-highlights.js';
 const $=id=>document.getElementById(id);
 let lessons=makeLessons(),lessonIndex=0,position=0;
 const make=(tag,text,className)=>{const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(className)el.className=className;return el;};
-function spectrumSketch(){
-  return '<svg viewBox="0 0 360 125" role="img" aria-label="Illustrative methanol spectrum. Fragment at 31 is taller than intact ion at 32. Heights are relative signal, not measured data."><path d="M 30 12 V 100 H 345" fill="none" stroke="currentColor"/><path d="M 90 100 V 79 M 255 100 V 20 M 285 100 V 56" stroke="currentColor" stroke-width="7"/><g fill="currentColor" font-size="12" text-anchor="middle"><text x="90" y="117">15</text><text x="255" y="117">31</text><text x="285" y="117">32</text><text x="325" y="117">m/z</text><text x="257" y="12">tallest</text></g></svg>';
-}
-function render(){
+function render(follow=true){
   const lesson=lessons[lessonIndex],isQuiz=position===lesson.steps.length;
-  $('simple-topic').value=lesson.id;
+  $('lesson-count').textContent=`Lesson ${lessonIndex+1} of ${lessons.length}`;
+  $('lesson-back').disabled=lessonIndex===0;
+  $('lesson-forward').disabled=lessonIndex===lessons.length-1;
   $('simple-title').textContent=lesson.title.replace(/^\d+\. /,'');
   $('simple-given').textContent=lesson.given;$('simple-wanted').textContent=lesson.wanted;
   $('simple-progress').textContent=isQuiz?'Your turn':`Step ${position+1} of ${lesson.steps.length}`;
@@ -30,14 +31,10 @@ function render(){
     $('simple-step-title').textContent=current.title;
     $('simple-why').textContent=current.why;
     $('simple-work').textContent=current.work;
-    if(lesson.id==='spectrum'){
-      sketch.hidden=false;sketch.innerHTML=spectrumSketch();
-      sketch.append(make('figcaption','Teaching sketch · relative signal; not measured data.'));
-    }
-    if(lesson.id==='instrument'){
-      sketch.hidden=false;const track=make('ol',undefined,'simple-instrument');
-      ['Vaporize','Ionize','Accelerate','Deflect','Detect'].forEach((name,i)=>{const li=make('li',`${i+1}. ${name}`);if(i===position)li.setAttribute('aria-current','step');track.append(li);});sketch.append(track);
-    }
+    sketch.hidden=false;sketch.innerHTML=stepVisual(lesson,position);
+    const hint=notationHelp([lesson.given,current.work,lesson.id==='instrument'?'⁺⁻':''].join(' '));
+    $('simple-notation').textContent=hint;$('simple-notation').hidden=!hint;
+    $('simple-work').hidden=!!sketch.querySelector('.unit-picture')&&!sketch.querySelector('.gas-units');
   }else{
     $('simple-question').textContent=lesson.quiz.prompt;
     $('simple-options').replaceChildren(...lesson.quiz.options.map((option,i)=>{
@@ -48,13 +45,11 @@ function render(){
     $('simple-feedback').hidden=true;
     $('simple-next-topic').textContent=lessonIndex===lessons.length-1?'Back to the first topic':'Next topic →';
   }
-  $(isQuiz?'simple-question':'simple-step-title').focus({preventScroll:true});
+  const heading=$(isQuiz?'simple-question':'simple-step-title');heading.focus({preventScroll:true});if(follow)heading.scrollIntoView({block:'start',behavior:'instant'});
 }
 function changeLesson(index){lessonIndex=index;position=0;render();history.replaceState(null,'',`#learn-${lessons[lessonIndex].id}`);}
-$('simple-topic').addEventListener('change',()=>{
-  changeLesson(lessons.findIndex(l=>l.id===$('simple-topic').value));
-  history.replaceState(null,'',`#learn-${lessons[lessonIndex].id}`);
-});
+$('lesson-back').addEventListener('click',()=>changeLesson(Math.max(0,lessonIndex-1)));
+$('lesson-forward').addEventListener('click',()=>changeLesson(Math.min(lessons.length-1,lessonIndex+1)));
 $('simple-prev').addEventListener('click',()=>{if(position>0){position--;render();}});
 $('simple-next').addEventListener('click',()=>{position++;render();});
 $('simple-check').addEventListener('click',()=>{
@@ -85,4 +80,4 @@ document.addEventListener('click',event=>{
   if(link)revealReference($(link.hash.slice(1)));
 });
 window.addEventListener('hashchange',hashTarget);
-render();hashTarget();
+render(false);hashTarget();replaceDropdowns(document);
