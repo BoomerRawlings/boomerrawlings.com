@@ -608,3 +608,4 @@
 - Dynamic regeneration updates current problem workflows. Sources/official-scope limits retained; no claim of predicted exam content.
 - Status: source audit passes after serial-dependency correction; browser/content/schema verification in progress.
 - Verification: all37problem plans and19foundation/integration pairs pass data checks and browser collections, current-value sync, search/trace/collapse/keyboard/source-link checks. Desktop/320/390 no overflow or console faults. Full npm test and final build/publication/CHEM checks pass. Reduced-motion branches retained; OS mode not visually simulated. Ready for one production push.
+- Complete: release8f391f3 live; Pages39072539368 build/deploy passed. Live top button, foundation workflow, random-value sync, dependency trace and paired cards verified after reload; no console warnings/errors. Skill baseline32tests also pass. No required feature work remains.
