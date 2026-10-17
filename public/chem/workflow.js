@@ -1,7 +1,7 @@
-import {mountWorkflow} from './workflow-renderer.js';
+import {mountWorkflow} from './workflow-renderer.js?v=20261017-highlights';
 import {foundationPlan,randomPlans,quizPlans,problemPlan,practiceConcepts,practiceDependencies} from './workflow-data.js';
 import {questions} from './retrieval-data.js';
-import {currentProblems} from './random-practice.js?v=20261017-workflow';
+import {currentProblems} from './random-practice.js?v=20261017-highlights';
 
 const $=id=>document.getElementById(id);
 const host=$('chem-workflow-host');

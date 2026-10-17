@@ -1,4 +1,5 @@
 import {NA,routes,convert} from './model.js';
+import {practiceBadge} from './lecture-highlights.js';
 
 const fmt=n=>Number(n.toPrecision(4)).toString();
 export let currentProblems=[];
@@ -100,7 +101,8 @@ if(typeof document!=='undefined'){
       row.steps.forEach(step=>{const li=document.createElement('li');li.textContent=step;list.append(li);});
       const link=document.createElement('a');link.href=`#${row.source}`;link.textContent='Review source topic ↑';
       const workflow=document.createElement('button');workflow.type='button';workflow.textContent='Show workflow';workflow.dataset.workflowRandom=String(index+1);
-      detail.append(summary,list,link);article.append(heading,prompt,workflow,detail);return article;
+      detail.append(summary,list,link);article.append(heading,prompt,workflow,detail);
+      const badge=practiceBadge(row.source);if(badge)article.insertBefore(badge,prompt);return article;
     }));
     document.getElementById('random-status').textContent=`Set ${++batch}: ${rows.length} problems. New values and scenarios; all answers hidden.`;
     document.dispatchEvent(new CustomEvent('chem-practice-generated',{detail:rows}));

@@ -5,6 +5,17 @@ import {convert,routes,spectra,NA} from '../public/chem/model.js';
 import {flashcards,questions,shuffle} from '../public/chem/retrieval-data.js';
 import {generatePractice} from '../public/chem/random-practice.js';
 import {fundamentals,foundationPlan,randomPlans,quizPlans,problemPlan,practiceConcepts,practiceDependencies} from '../public/chem/workflow-data.js';
+import {lectureHighlights,annotateGuide,highlightHTML} from '../public/chem/lecture-highlights.js';
+
+assert.equal(lectureHighlights.length,10);
+assert.equal(lectureHighlights.filter(h=>h.kind==='quote').length,4);
+const annotated=annotateGuide(readFileSync('src/data/chem-content.html','utf8'));
+assert.equal((annotated.match(/id="lecture-/g)||[]).length,10);
+assert.equal((annotated.match(/<blockquote>/g)||[]).length,4,'only verified excerpts become quotations');
+for(const item of lectureHighlights){assert.ok(item.lines[0]<=item.lines[1]&&item.lines[0]>0);assert.ok(item.text&&item.source&&item.concepts.length);}
+assert.ok(!highlightHTML(lectureHighlights,{compact:true}).includes('id="lecture-'),'repeated cards must not duplicate source anchors');
+const escapedQuote=highlightHTML([{...lectureHighlights[0],text:'<script>alert("test")</script> & quoted text'}]);
+assert.ok(!escapedQuote.includes('<script>')&&escapedQuote.includes('&lt;script&gt;'));
 
 function checkPlan(plan){
   const ids=new Set(plan.steps.map(s=>s.id));
@@ -108,6 +119,7 @@ function walk(n){
   for(const child of n.childNodes??[])walk(child);
 }
 walk(parse(file));
+for(const h of lectureHighlights){assert.ok(ids.has(`lecture-${h.id}`));assert.ok(ids.has(h.source));}
 for(const id of ['workflow-toggle','chem-workflow-panel','chem-workflow-host','chem-workflow-template'])assert.ok(ids.has(id));
 for(const step of foundationPlan.steps){for(const resource of step.resources??[])assert.ok(ids.has(new URL(resource.url).hash.slice(1)));}
 for(const source of generatedSources)assert.ok(ids.has(source),`missing generated source ${source}`);

@@ -1,4 +1,5 @@
 import {flashcards,questions,shuffle} from './retrieval-data.js';
+import {highlightsForSection,insertHighlights,practiceBadge} from './lecture-highlights.js';
 
 const $=id=>document.getElementById(id);
 let deck=[...flashcards],position=0;
@@ -8,6 +9,9 @@ function renderCard(){
   $('flash-progress').textContent=`Card ${position+1} of ${deck.length}`;
   $('flash-prompt').textContent=card.prompt;
   $('flash-response').textContent=card.answer;
+  let context=$('flash-lecture-context');
+  if(!context){context=document.createElement('div');context.id='flash-lecture-context';$('flash-answer').append(context);}
+  context.replaceChildren();insertHighlights(context,highlightsForSection(card.source),{compact:true});
   $('flash-source').setAttribute('href',`#${card.source}`);
   $('flash-answer').hidden=true;
   $('flash-flip').setAttribute('aria-expanded','false');
@@ -33,6 +37,7 @@ function renderScore(){
 }
 for(const question of questions){
   const article=$(`qa-${question.id}`);
+  const badge=practiceBadge(question.source);if(badge)article.querySelector('.qa-solution').append(badge);
   const options=article.querySelector('.qa-options');
   shuffle([...options.children]).forEach(label=>options.append(label));
   article.querySelector('[data-check]').addEventListener('click',()=>{
@@ -50,6 +55,7 @@ for(const question of questions){
     results.delete(question.id);$(`feedback-${question.id}`).hidden=true;renderScore();
   }));
 }
+renderCard();
 $('qa-topic').addEventListener('change',()=>{
   document.querySelectorAll('[data-qa]').forEach(article=>{
     article.hidden=$('qa-topic').value!=='all'&&article.dataset.topic!==$('qa-topic').value;

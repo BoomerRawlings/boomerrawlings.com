@@ -26,3 +26,9 @@
 - Rapid jump during unfolding now finishes prior layout animation before navigation; settled destination verified. Reduced-motion CSS/runtime branches retained from skill; OS reduced-motion visual emulation unavailable in browser tools, so that mode was not visually simulated.
 - Full npm test passes; final rebuilt output/publication/CHEM checks pass. Production release pending.
 - Production verified:8f391f3, Pages39072539368 succeeded. Live top Show workflow,19foundation/integration pairs, current-random-value synchronization and four-path molar-mass dependency trace pass; no console warnings/errors. Packaged skill baseline32tests pass. Same /chem/ path retained.
+
+### Lecture provenance highlighting
+- Four verbatim quotes verified locally against their exact retained transcript-line ranges; independent source audit passes all six emphasis/worked-method paraphrases. Ten source-specific guide callouts. Original study prompts explicitly labeled paraphrases; generated practice never marked as a direct quote.
+- Purple quote blocks and gold emphasis/worked-method blocks use thick borders, text labels/icons and citation links. Same registry inside workflow foundation cards and flashcard answer context; related-practice badges link to the highlighted source topic. Static guide highlights work without JavaScript; workflow cards avoid duplicate IDs.
+- Desktop/320/390: prominent colors/readable wrapped text, no page-wide overflow. Flashcard reveal/navigation hides answers correctly; Q&A solution badge and regenerated practice badges work; source link stays /chem/. Workflow highlighting preserves dependency tracing and console remains clear. Removed decorative rail note that overlapped sticky navigation after longer content.
+- Exact quote labeling, safe text escaping, unique anchors and citation-target checks added to CHEM suite. Print rules retain text labels and colors; physical/printed output not visually verified.

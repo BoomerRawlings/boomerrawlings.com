@@ -609,3 +609,11 @@
 - Status: source audit passes after serial-dependency correction; browser/content/schema verification in progress.
 - Verification: all37problem plans and19foundation/integration pairs pass data checks and browser collections, current-value sync, search/trace/collapse/keyboard/source-link checks. Desktop/320/390 no overflow or console faults. Full npm test and final build/publication/CHEM checks pass. Reduced-motion branches retained; OS mode not visually simulated. Ready for one production push.
 - Complete: release8f391f3 live; Pages39072539368 build/deploy passed. Live top button, foundation workflow, random-value sync, dependency trace and paired cards verified after reload; no console warnings/errors. Skill baseline32tests also pass. No required feature work remains.
+
+## Lecture provenance highlights — 2026-10-17
+- Continuation: user requested unmistakable colors for direct quotes and lecture emphasis.
+- Four exact excerpts verified in cited transcript lines; six source-audited emphasis/worked-method paraphrases. Purple quote blocks and gold paraphrase blocks have explicit labels, thick borders and source links; original study/practice wording stays distinct.
+- Shared registry drives ten static guide callouts, workflow foundation cards, flashcard answer context and related-practice links. Source audit passes; initial desktop/browser interaction checks pass.
+- Status: full suite and phone checks in progress; not published yet.
+- Source audit passes. Desktop/320/390 visual checks confirm clear quote/emphasis labels, workflow/flashcard context, same-page practice-source links and no overflow/console errors. Decorative rail-note overlap removed. Final full suite/build/publication checks pending.
+- Verification: full npm test passes; final rebuilt output passes publication/CHEM checks. Four exact-quote source checks and independent paraphrase audit passed. Ready to publish.
