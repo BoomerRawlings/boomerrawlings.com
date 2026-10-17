@@ -1,6 +1,7 @@
 import {NA,routes,convert} from './model.js';
 
 const fmt=n=>Number(n.toPrecision(4)).toString();
+export let currentProblems=[];
 export function generatePractice(random=Math.random){
   const pick=a=>a[Math.floor(random()*a.length)];
   const integer=(a,b)=>a+Math.floor(random()*(b-a+1));
@@ -88,6 +89,7 @@ if(typeof document!=='undefined'){
   let batch=0;
   function render(){
     const rows=generatePractice();
+    currentProblems=rows;
     container.replaceChildren(...rows.map((row,index)=>{
       const article=document.createElement('article');article.className='qa-item';
       const heading=document.createElement('h3');heading.textContent=`${index+1}. ${row.topic}`;
@@ -97,9 +99,11 @@ if(typeof document!=='undefined'){
       const list=document.createElement('ol');
       row.steps.forEach(step=>{const li=document.createElement('li');li.textContent=step;list.append(li);});
       const link=document.createElement('a');link.href=`#${row.source}`;link.textContent='Review source topic ↑';
-      detail.append(summary,list,link);article.append(heading,prompt,detail);return article;
+      const workflow=document.createElement('button');workflow.type='button';workflow.textContent='Show workflow';workflow.dataset.workflowRandom=String(index+1);
+      detail.append(summary,list,link);article.append(heading,prompt,workflow,detail);return article;
     }));
     document.getElementById('random-status').textContent=`Set ${++batch}: ${rows.length} problems. New values and scenarios; all answers hidden.`;
+    document.dispatchEvent(new CustomEvent('chem-practice-generated',{detail:rows}));
   }
   document.getElementById('random-new').addEventListener('click',render);render();
 }

@@ -17,3 +17,11 @@
 
 ### Randomized practice
 13 source-linked generated multipart prompts per set, same /chem/ route. Fresh values/scenarios; native worked-answer disclosures reset on regeneration. Independently audited science,300 seeded sets and seven diatomic answer branches. Local browser set1→set2,13articles, opened answer then zero open on refresh;320px layout no page overflow, no errors/warnings.
+
+### Workflow Display integration
+- Reused packaged workflow-display skill renderer/schema, MIT license preserved. Same-page shadow-root mount; top Show workflow and37per-problem launchers.
+- Four collections:19foundation/integration pairs;13current randomized workflows;6multipart practice workflows;18Q&A workflows. Original answers reused; numerical values track regeneration.
+- Independent source audit verified examples and original-answer grouping; corrected false serial prerequisites. Explicit dependency tests cover independent speed comparison and amount reused by gas computation.
+- Browser: all37problem plans render; six fixed a–f groups retain complete continuation paragraphs; exact random prompt matches before/after regeneration. Search empty/clear, collapse/reopen, locked traces, Escape and Enter, same-page source anchors pass. Desktop and320/390 pairing/no-overflow checks pass; no warnings/errors.
+- Rapid jump during unfolding now finishes prior layout animation before navigation; settled destination verified. Reduced-motion CSS/runtime branches retained from skill; OS reduced-motion visual emulation unavailable in browser tools, so that mode was not visually simulated.
+- Full npm test passes; final rebuilt output/publication/CHEM checks pass. Production release pending.

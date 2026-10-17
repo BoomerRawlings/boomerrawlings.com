@@ -600,3 +600,11 @@
 - Independent audit resolved molecular-valence families, pressure-direction explanation and PE wording.300 seeded sets verify diatomic answers, finite results, unique topics and source anchors. Phone320 no overflow; regeneration hides solutions; console clear.
 - Status: final full suite in progress; publication pending. Existing unavailable-source limits retained.
 - Verification: full npm test passes; final rebuilt output passes publication and CHEM generator checks. Ready to publish.
+- Complete: release b88a0e4 live; Pages39071658402 succeeded. Live set1→set2,13prompts and full-unit diatomic answer verified after reload; console clear. No required work remains.
+
+## CHEM workflow display — 2026-10-17
+- Continuation: user invoked workflow-display; top Show workflow plus per-problem launchers, all on /chem/.
+- Reused MIT skill renderer with native same-page shadow-root isolation. Four collections: foundations/integration,13 current generated problems,6 multipart practice problems and18Q&A. Declared dependencies distinguish genuine prerequisites from reading order; exact solutions reused.
+- Dynamic regeneration updates current problem workflows. Sources/official-scope limits retained; no claim of predicted exam content.
+- Status: source audit passes after serial-dependency correction; browser/content/schema verification in progress.
+- Verification: all37problem plans and19foundation/integration pairs pass data checks and browser collections, current-value sync, search/trace/collapse/keyboard/source-link checks. Desktop/320/390 no overflow or console faults. Full npm test and final build/publication/CHEM checks pass. Reduced-motion branches retained; OS mode not visually simulated. Ready for one production push.

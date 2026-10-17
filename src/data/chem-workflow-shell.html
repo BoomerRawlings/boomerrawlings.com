@@ -1,0 +1,47 @@
+  <div class="workspace">
+    <header class="page-heading">
+      <p id="page-eyebrow" class="eyebrow">WORKFLOW DISPLAY</p>
+      <h2 id="page-title">Chemistry workflow</h2>
+      <p id="page-description"></p>
+    </header>
+    <section class="plan-launcher" aria-labelledby="plans-title">
+      <h2 id="plans-title">Choose a workflow</h2>
+      <p class="plan-intro">Choose a problem. Read the fundamentals first, then follow the worked steps and their dependencies. Opening a workflow reveals its solution.</p>
+      <div class="workflow-selectors">
+        <label>Problem collection<select id="workflow-collection"><option value="foundations">Fundamentals & connections</option><option value="random">Current randomized set</option><option value="practice">Six practice-check problems</option><option value="quiz">18 Q&A questions</option></select></label>
+        <label>Choose a workflow<select id="workflow-problem"></select></label>
+      </div>
+      <button id="workflow-close-plan" type="button">Open steps</button>
+
+    </section>
+    <div id="plan-reveal" class="plan-reveal" inert aria-hidden="true">
+      <div class="plan-reveal-inner">
+        <section id="workflow-guide" aria-labelledby="guide-title">
+          <header class="guide-heading">
+            <div><p class="eyebrow">WORKFLOW / PAIRED GUIDE</p><h2 id="guide-title" tabindex="-1"></h2><p id="guide-summary"></p></div>
+            <button id="download-guide" type="button">Download guide <span aria-hidden="true">↓</span></button>
+          </header>
+          <div class="guide-onramp">
+            <p><strong>Read across each pair</strong><span>Purpose and checkpoint on the left. The matching equation, example, or worked answer on the right.</span></p>
+            <p><strong>Follow a connection</strong><span>Hover or focus to preview. Click a heading to lock. Dashed arrows point to other steps this step depends on.</span></p>
+          </div>
+          <div class="search-row">
+            <label class="search"><span class="sr-only">Search steps in this workflow</span><span aria-hidden="true">⌕</span><input id="step-search" type="search" autocomplete="off" placeholder="Find a step, phrase, or implementation" aria-describedby="search-help"></label>
+            <button id="clear-search" type="button" hidden>Clear search</button>
+          </div>
+          <p id="search-help" class="sr-only">Search filters whole explanation and implementation pairs. Clear search to show all dependencies.</p>
+          <nav id="step-index" class="step-index" aria-label="Workflow steps"></nav>
+          <div class="guide-controls"><p id="trace-summary">Select a heading to keep its connections highlighted.</p><div><span id="step-count"></span><button id="clear-trace" type="button" hidden>Unlock step</button></div></div>
+          <div class="column-head" aria-hidden="true"><span>01 / EXPLANATION</span><span>↔</span><span>02 / WORKED COMPONENT</span></div>
+          <div id="workflow-board" class="workflow-board"><svg id="connection-lines" aria-hidden="true" focusable="false"></svg><div id="step-rows"></div></div>
+          <div id="empty-result" class="empty-result" hidden><p>No steps match this search.</p><button id="show-all" type="button">Show all steps</button></div>
+          <p class="connection-legend"><span>Solid line: matching pair.</span><span>Dashed arrow: explanation → required implementation.</span><span>Dependencies are also listed on every card.</span></p>
+          <p id="guide-end" class="guide-end"></p>
+        </section>
+      </div>
+    </div>
+    <p id="workflow-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+    <p id="load-error" class="empty-result" role="alert" hidden>Workflow unavailable. Refresh the page; the worked answer key below is still available.</p>
+    <footer id="page-footer"></footer>
+    <noscript><p class="empty-result">Enable JavaScript to open the paired workflow guides. This page runs locally without an account or network connection.</p></noscript>
+  </div>

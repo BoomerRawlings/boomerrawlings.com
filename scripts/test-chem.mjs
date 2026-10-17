@@ -4,6 +4,35 @@ import {parse} from 'parse5';
 import {convert,routes,spectra,NA} from '../public/chem/model.js';
 import {flashcards,questions,shuffle} from '../public/chem/retrieval-data.js';
 import {generatePractice} from '../public/chem/random-practice.js';
+import {fundamentals,foundationPlan,randomPlans,quizPlans,problemPlan,practiceConcepts,practiceDependencies} from '../public/chem/workflow-data.js';
+
+function checkPlan(plan){
+  const ids=new Set(plan.steps.map(s=>s.id));
+  assert.equal(ids.size,plan.steps.length);
+  for(const step of plan.steps){
+    assert.ok(step.title&&step.description&&step.artifact.code&&step.checkpoint);
+    for(const dependency of step.related??[]){assert.ok(ids.has(dependency),`missing ${dependency} in ${plan.id}`);assert.notEqual(dependency,step.id);}
+  }
+}
+checkPlan(foundationPlan);
+assert.equal(fundamentals.length,18);
+for(const plan of quizPlans(questions))checkPlan(plan);
+for(const random of [()=>0,()=>.49,()=>.99]){
+  const rows=generatePractice(random),plans=randomPlans(rows);
+  assert.equal(plans.length,13);
+  for(const [i,plan] of plans.entries()){
+    checkPlan(plan);
+    assert.equal(plan.summary,rows[i].prompt);
+    assert.deepEqual(plan.steps.filter(s=>s.id.startsWith('solve-')).map(s=>s.artifact.code),rows[i].steps,'workflow must use exact current values/solutions');
+  }
+}
+for(let i=0;i<6;i++){
+  const deps=practiceDependencies[i];
+  const plan=problemPlan({id:`test-${i}`,title:'Practice',prompt:'Given and wanted',answers:deps.map((_,j)=>`Worked part${j}`),concepts:practiceConcepts[i],decisions:deps.map(()=> 'Explain the requested part'),dependencies:deps.map(d=>['read-problem',...d]),source:`q${i+1}`});
+  checkPlan(plan);
+}
+assert.ok(!practiceDependencies[0][4].includes('solve-4'),'speed comparison does not require pressure result');
+assert.ok(practiceDependencies[5][3].includes('solve-2'),'gas calculation reuses inferred amount');
 
 let seed=271828;
 const rng=()=>{seed=(1664525*seed+1013904223)>>>0;return seed/4294967296;};
@@ -79,6 +108,8 @@ function walk(n){
   for(const child of n.childNodes??[])walk(child);
 }
 walk(parse(file));
+for(const id of ['workflow-toggle','chem-workflow-panel','chem-workflow-host','chem-workflow-template'])assert.ok(ids.has(id));
+for(const step of foundationPlan.steps){for(const resource of step.resources??[])assert.ok(ids.has(new URL(resource.url).hash.slice(1)));}
 for(const source of generatedSources)assert.ok(ids.has(source),`missing generated source ${source}`);
 for(const id of ['random-practice','random-new','random-status','random-problems'])assert.ok(ids.has(id));
 for(const id of refs)assert.ok(ids.has(id),`missing anchor ${id}`);
