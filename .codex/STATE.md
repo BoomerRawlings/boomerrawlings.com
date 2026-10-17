@@ -623,3 +623,4 @@
 - Continuation; simplify for classmates. Ten short lessons, one visible step and one check each; original reference/tools in closed disclosure. Workflow defaults to one explanation/artifact pair; full map optional.
 - Source review passed all ten lessons/calculation branches. Browser, full tests and publication pending. Baseline8f867af verified against remote.
 - Verification: full npm test passes; final build, publication/CHEM checks and diff check pass. All ten lessons independently source-reviewed; desktop/320 browser traversal, feedback, optional reference and workflow detour/return pass. Ready to publish.
+- Complete: released ddb0514; Pages39076170058 build/deploy passed. Live default lesson, Next/restart and closed reference verified; console clear. Full npm test, final rebuild/publication/CHEM checks pass. No required implementation work remains.
