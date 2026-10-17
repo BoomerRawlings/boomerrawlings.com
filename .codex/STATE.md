@@ -636,3 +636,4 @@
 - Continuation: display lecture notes directly, including workflow/flashcard context; flatten repeated panels and replace promotional headings with course topics. Preserve source labels and purple/gold provenance colors.
 - Research: InterfaceKit article on generic structure/copy, unnecessary decoration and incomplete states informed changes; visual conventions do not prove AI authorship. Verification/publication pending.
 - Verification: clean full npm test passed (initial run collided with an overlapping rebuild; no overlap on rerun). Final publication/CHEM checks and desktop/320 quote, workflow and flashcard visibility checks pass; source text unchanged. Ready to publish.
+- Complete: release530c01a live; Pages39078419455 build/deploy passed. Live direct quote, plain headings, worksheet layout and step navigation verified; console clear. Clean full suite/publication/CHEM checks pass. No required implementation work remains.
