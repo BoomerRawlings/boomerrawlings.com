@@ -1,0 +1,37 @@
+---
+import content from '../data/chem-content.html?raw';
+import '../styles/chem.css';
+const sections = [
+  ['method', '01', 'Show the work'], ['particles', '02', 'Count the right thing'],
+  ['conversions', '03', 'Conversion workbench'], ['gases', '04', 'Gas reasoning'],
+  ['isotopes', '05', 'Isotopes & averages'], ['mass-spec', '06', 'The spectrometer'],
+  ['spectrum', '07', 'Read a spectrum'], ['formulas', '08', 'Determine a formula'],
+  ['connections', '09', 'Supporting concepts'], ['practice', '10', 'Practice check'],
+  ['answers', '11', 'Worked answer key'], ['activity-check', '12', 'Activity cross-check'],
+  ['ready', '13', 'Readiness check'], ['sources', '14', 'Sources & limits'],
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow,noarchive,noimageindex" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="description" content="CHEM 004 Learning Check 2 study desk: complete conversion chains, mass spectrometry, isotopes, gas reasoning, formulas, and original practice with worked answers." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'" />
+    <link rel="canonical" href="https://boomerrawlings.com/chem/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>CHEM · Learning Check 2 Study Desk</title>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to study guide</a>
+    <header class="masthead"><a class="brand" href="#start"><span class="brand-icon">C<span>04</span></span><span>CHEM <b>Study desk</b></span></a><div><span class="exam-label">THU 10.22.26</span><a href="/">Boomer Rawlings ↗</a></div></header>
+    <div class="page-layout">
+      <aside><nav aria-label="Study guide sections"><p class="eyebrow">The study route</p>{sections.map(([id, number, title]) => <a href={`#${id}`}><span>{number}</span>{title}</a>)}</nav><p class="rail-note">Understand the chain.<br>Run it backward.<br>Explain why it works.</p></aside>
+      <main id="main" set:html={content} />
+    </div>
+    <footer><a href="#start">Back to top ↑</a><p>CHEM 004 · October 22, 2026 · Independent study notes</p><a href="/">boomerrawlings.com</a></footer>
+    <script src="/chem/study.js" type="module" is:inline></script>
+  </body>
+</html>

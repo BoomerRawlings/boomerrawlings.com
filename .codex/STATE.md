@@ -1,5 +1,16 @@
 # Project state
 
+## CHEM Learning Check 2 study desk — 2026-10-17
+
+- Mode: new task; user authorized one integrated study webpage at /chem/ for October22.
+- Baseline: isolated clean checkout of canonical main9d0cb9f. Existing work preserved.
+- Scope: Module3-4 reasoning; full unit chains both directions; spectrometer/fragmentation/spectra; formulas; supporting gas/energy review; six original multipart questions with separate worked key.
+- Sources: Lectures1-7, notes1-4, Activities3-6. Check1 sets difficulty only. Missing Oct20 lecture/Activities7-8; exact official scope unconfirmed.
+- Boundary: publish original explanatory material only, no raw course PDFs/transcripts or student exam scans/identifiers. Unlisted/noindex, sitemap excluded. Existing Pages deployment retained; no DNS changes.
+- Status: source audit complete; reverse water default and average-vs-isotope mass distinction corrected. Desktop/390/320 browser interactions pass without page overflow or console errors. Full npm test passes; final rebuild/publication/CHEM checks pass.
+- Evidence: docs/codex/user-facing-tests/2026-10-17__chem-study-desk.md.
+- Next: one production push, CI and live verification.
+
 ## Horizontal separation — 2026-10-16
 
 - Mode: continuation. Objective: Separate spreads model pieces sideways rather than stacking slices vertically. Status: complete; live.

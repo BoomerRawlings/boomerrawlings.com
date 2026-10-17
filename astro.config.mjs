@@ -32,6 +32,7 @@ export default defineConfig({
         page !== 'https://boomerrawlings.com/aristotter/' &&
         page !== 'https://boomerrawlings.com/deckle/' &&
         page !== 'https://boomerrawlings.com/swc/' &&
+        page !== 'https://boomerrawlings.com/chem/' &&
         !page.startsWith('https://boomerrawlings.com/psyc/') &&
         !page.startsWith('https://boomerrawlings.com/brain/') &&
         !page.startsWith('https://boomerrawlings.com/ead/') &&
