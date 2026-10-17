@@ -11,12 +11,12 @@ export const lectureHighlights=[
   {id:'formula-method',kind:'worked',section:'formulas',concepts:['empirical','molecular'],lecture:7,lines:[1180,1217],source:'source-l7',title:'Mass percentages → moles → simplest whole-number ratio',text:'Convert each element’s mass to moles, divide by the smallest mole value, and interpret the resulting atom ratio. The lecture reaches CH, then compares its mass with 78.1 g/mol to show that CH is not the final molecular formula.',note:'The lecturer defers the completed molecular-formula step to the next class; this guide’s completed method is supported by M4 notes.'},
   {id:'heating-curves',kind:'emphasis',section:'connections',concepts:['energy','phase'],lecture:2,lines:[646,666],source:'source-m2',title:'Interpret the graph—and reconstruct the other representation',text:'Move between time–temperature heating curves and temperature–energy representations. Be able to sketch and interpret them, including where energy is added while temperature stays constant.'},
 ];
-const labels={quote:'DIRECT QUOTE',emphasis:'LECTURER EMPHASIS',worked:'LECTURE WORKED METHOD'};
+const labels={quote:'Lecture quote',emphasis:'Lecture emphasis',worked:'Lecture example'};
 const escape=text=>String(text).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const highlightsForSection=section=>lectureHighlights.filter(item=>item.section===section);
 export const highlightsForConcept=id=>lectureHighlights.filter(item=>item.concepts.includes(id));
 export function highlightHTML(items,{anchors=false,compact=false}={}){
-  return items.map(item=>`<div role="note" ${anchors?`id="lecture-${escape(item.id)}" `:''}class="lecture-highlight lecture-${item.kind}${compact?' lecture-compact':''}" aria-label="${labels[item.kind]}: ${escape(item.title)}"><p class="lecture-signal">${item.kind==='quote'?'“':'★'} ${labels[item.kind]}${item.kind!=='quote'?' · PARAPHRASED':''}</p><h3 class="lecture-title">${escape(item.title)}</h3>${item.kind==='quote'?`<blockquote><p>“${escape(item.text)}”</p></blockquote>`:`<p class="lecture-statement">${escape(item.text)}</p>`}${item.note?`<p class="lecture-context"><strong>Study context:</strong> ${escape(item.note)}</p>`:''}<p class="lecture-evidence"><a href="#${escape(item.source)}">Lecture ${item.lecture} · transcript lines ${item.lines[0]}–${item.lines[1]}</a>${item.kind==='quote'?' · Exact supplied transcript wording':' · Source-based summary, not a quotation'}</p></div>`).join('');
+  return items.map(item=>`<div role="note" ${anchors?`id="lecture-${escape(item.id)}" `:''}class="lecture-highlight lecture-${item.kind}${compact?' lecture-compact':''}" aria-label="${labels[item.kind]}: ${escape(item.title)}"><p class="lecture-signal">${labels[item.kind]}${item.kind!=='quote'?' · paraphrased':''}</p><h3 class="lecture-title">${escape(item.title)}</h3>${item.kind==='quote'?`<blockquote><p>“${escape(item.text)}”</p></blockquote>`:`<p class="lecture-statement">${escape(item.text)}</p>`}${item.note?`<p class="lecture-context"><strong>Study context:</strong> ${escape(item.note)}</p>`:''}<p class="lecture-evidence"><a href="#${escape(item.source)}">Lecture ${item.lecture} · transcript lines ${item.lines[0]}–${item.lines[1]}</a>${item.kind==='quote'?' · Exact supplied transcript wording':' · Source-based summary, not a quotation'}</p></div>`).join('');
 }
 export function annotateGuide(html){
   return html.replace(/(<section id="([^"]+)"[^>]*><div class="section-head">[\s\S]*?<\/div>)/g,(opening,id,section)=>opening+highlightHTML(highlightsForSection(section),{anchors:true}));
@@ -29,6 +29,6 @@ export function practiceBadge(section){
   const items=highlightsForSection(section);
   if(!items.length)return null;
   const link=document.createElement('a');link.className='lecture-practice-badge';link.href=`#lecture-${items[0].id}`;
-  link.textContent='★ Practices a lecture-highlighted topic · see the source';
+  link.textContent='Related lecture note';
   return link;
 }

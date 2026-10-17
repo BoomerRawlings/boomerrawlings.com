@@ -118,8 +118,9 @@ near(spectra.chlorine.peaks[2][1],.24*.24/(.76*.76)*100);
 
 const file=readFileSync('dist/chem/index.html','utf8');
 assert.match(file,/<details id="full-study-guide">/,'long reference stays closed on first visit');
-assert.match(file,/Chemistry, one step at a time/);
+assert.match(file,/CHEM 004 study notes/);
 assert.match(file,/simple-study.js/);
+assert.ok(!file.includes('id="simple-lecture-detail"'),'lecture note has no collapse control');
 assert.ok(!file.includes('id="simple-topic"'),'beginner view has no topic dropdown');
 assert.ok(notationHelp('O₂ 10²³ CH₃O⁺').includes('electric charge'));
 assert.ok(stepVisual(makeLessons()[1],1).includes('<del>g O₂</del>'));

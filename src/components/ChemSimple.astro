@@ -3,13 +3,13 @@ import {makeLessons} from '../../public/chem/simple-lessons.js';
 const lessons=makeLessons(),lesson=lessons[0],first=lesson.steps[0];
 ---
 <section id="start" class="simple-study">
-  <p class="eyebrow">CHEM 004 · Learning Check 2</p>
-  <h1>Chemistry, one step at a time.</h1>
-  <p class="simple-intro">Look. Follow the steps. Try one question.</p>
+
+  <h1>CHEM 004 study notes</h1>
+  <p class="simple-intro">Learning Check 2 · Thursday, October 22</p>
   <nav class="lesson-path" aria-label="Lesson path"><button id="lesson-back" type="button" disabled>← Previous lesson</button><span id="lesson-count">Lesson 1 of 10</span><button id="lesson-forward" type="button">Next lesson →</button></nav>
   <div class="simple-lesson" aria-labelledby="simple-title">
     <h2 id="simple-title">{lesson.title.replace(/^\d+\. /,'')}</h2>
-    <div class="simple-scenario"><p><span>YOU HAVE</span><strong id="simple-given">{lesson.given}</strong></p><p><span>YOU WANT</span><strong id="simple-wanted">{lesson.wanted}</strong></p></div>
+    <div class="simple-scenario"><p><span>Given</span><strong id="simple-given">{lesson.given}</strong></p><p><span>Find</span><strong id="simple-wanted">{lesson.wanted}</strong></p></div>
     <p id="simple-progress" class="simple-progress" role="status">Step 1 of {lesson.steps.length}</p>
     <div id="simple-step">
       <h3 id="simple-step-title" tabindex="-1">{first.title}</h3>
@@ -26,9 +26,9 @@ const lessons=makeLessons(),lesson=lessons[0],first=lesson.steps[0];
     </div>
     <div class="simple-actions"><button type="button" id="simple-prev" disabled>← Back</button><button type="button" id="simple-next" class="primary">Next step →</button></div>
     <details id="simple-terms-detail"><summary>What do these words mean?</summary><p id="simple-terms">{lesson.terms}</p></details>
-    <details id="simple-lecture-detail" class="simple-note-emphasis"><summary id="simple-lecture-label">Gold · lecture emphasis / method</summary><div id="simple-lecture-content"></div></details>
-    <div class="simple-secondary"><button type="button" id="simple-restart">Restart this example</button><button type="button" id="simple-new-example">New example values</button><a id="simple-reference" href="#particles">More detail, when you need it →</a></div>
+    <div id="simple-lecture-content" aria-label="Lecture note"></div>
+    <div class="simple-secondary"><button type="button" id="simple-restart">Restart this example</button><button type="button" id="simple-new-example">New example values</button><a id="simple-reference" href="#particles">Full explanation</a></div>
   </div>
-  <details class="simple-scope"><summary>What does this cover?</summary><p>Based on supplied Lectures 1–7, notes 1–4 and Activities 3–6. Your exam is Thursday, October 22. October 20’s lecture and Activities 7–8 were not supplied. This is an independent study guide; the instructor’s official scope takes priority.</p><p>Purple means an exact transcript quote. Gold means a paraphrase of lecture emphasis or a worked method. Open the lecture note to see the source.</p></details>
+  <details class="simple-scope"><summary>What does this cover?</summary><p>Based on supplied Lectures 1–7, notes 1–4 and Activities 3–6. Your exam is Thursday, October 22. October 20’s lecture and Activities 7–8 were not supplied. This is an independent study guide; the instructor’s official scope takes priority.</p><p>Purple means an exact transcript quote. Gold means a paraphrase of lecture emphasis or a worked method. Each lecture note links to its source.</p></details>
   <noscript><p>Step buttons need JavaScript. Open the full reference below for the complete worked examples.</p></noscript>
 </section>

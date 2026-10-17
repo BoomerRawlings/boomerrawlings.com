@@ -1,8 +1,8 @@
 import {replaceDropdowns} from './choice-path.js';
-import {mountWorkflow} from './workflow-renderer.js?v=20261017-visuals';
+import {mountWorkflow} from './workflow-renderer.js?v=20261017-notes';
 import {foundationPlan,randomPlans,quizPlans,problemPlan,practiceConcepts,practiceDependencies} from './workflow-data.js';
 import {questions} from './retrieval-data.js';
-import {currentProblems} from './random-practice.js?v=20261017-highlights';
+import {currentProblems} from './random-practice.js?v=20261017-notes';
 
 const $=id=>document.getElementById(id);
 const host=$('chem-workflow-host');

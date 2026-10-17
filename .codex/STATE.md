@@ -631,3 +631,8 @@
 - Independent source audit corrected CO₂ bonds and spectrum spacing; final audit passed. Browser46-step traversal, phone320 text-fit corrections, unit fractions and workflow selectors pass. Full npm test passes; final rebuild/publication check pending.
 - Final build/publication/CHEM visual checks passed; no remaining science corrections. Ready to publish.
 - Complete: final release31f55a8 live; Pages39076930810 build/deploy passed. Live cancellation fractions, lesson navigation, deflection diagram and zero visible dropdowns verified; console clear. Full suite/source audit/final publication checks pass. No required feature work remains.
+
+## Lecture visibility and course-note design
+- Continuation: display lecture notes directly, including workflow/flashcard context; flatten repeated panels and replace promotional headings with course topics. Preserve source labels and purple/gold provenance colors.
+- Research: InterfaceKit article on generic structure/copy, unnecessary decoration and incomplete states informed changes; visual conventions do not prove AI authorship. Verification/publication pending.
+- Verification: clean full npm test passed (initial run collided with an overlapping rebuild; no overlap on rerun). Final publication/CHEM checks and desktop/320 quote, workflow and flashcard visibility checks pass; source text unchanged. Ready to publish.

@@ -1,7 +1,7 @@
 import {stepVisual,notationHelp} from './step-visuals.js';
 import {replaceDropdowns} from './choice-path.js';
 import {makeLessons} from './simple-lessons.js';
-import {lectureHighlights,highlightHTML} from './lecture-highlights.js';
+import {lectureHighlights,highlightHTML} from './lecture-highlights.js?v=20261017-notes';
 const $=id=>document.getElementById(id);
 let lessons=makeLessons(),lessonIndex=0,position=0;
 const make=(tag,text,className)=>{const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(className)el.className=className;return el;};
@@ -12,19 +12,17 @@ function render(follow=true){
   $('lesson-forward').disabled=lessonIndex===lessons.length-1;
   $('simple-title').textContent=lesson.title.replace(/^\d+\. /,'');
   $('simple-given').textContent=lesson.given;$('simple-wanted').textContent=lesson.wanted;
-  $('simple-progress').textContent=isQuiz?'Your turn':`Step ${position+1} of ${lesson.steps.length}`;
+  $('simple-progress').textContent=isQuiz?'Practice question':`Step ${position+1} of ${lesson.steps.length}`;
   $('simple-step').hidden=isQuiz;$('simple-quiz').hidden=!isQuiz;
   $('simple-prev').disabled=position===0;
   $('simple-next').hidden=isQuiz;
-  $('simple-next').textContent=position===lesson.steps.length-1?'Try one question →':'Next step →';
+  $('simple-next').textContent=position===lesson.steps.length-1?'Practice question →':'Next step →';
   $('simple-terms').textContent=lesson.terms;
-  $('simple-terms-detail').open=false;$('simple-lecture-detail').open=false;
+  $('simple-terms-detail').open=false;
   $('simple-new-example').hidden=!['mass-count','count-mass','liquid','gas','formula'].includes(lesson.id);
   $('simple-reference').href=`#${lesson.source}`;
   const note=lectureHighlights.find(h=>h.id===lesson.signal);
   $('simple-lecture-content').innerHTML=highlightHTML([note],{compact:true});
-  $('simple-lecture-label').textContent=note.kind==='quote'?'Purple · instructor’s exact words':'Gold · lecture emphasis / method';
-  $('simple-lecture-detail').className=note.kind==='quote'?'simple-note-quote':'simple-note-emphasis';
   const sketch=$('simple-sketch');sketch.replaceChildren();sketch.hidden=true;
   if(!isQuiz){
     const current=lesson.steps[position];
@@ -58,7 +56,7 @@ $('simple-check').addEventListener('click',()=>{
   if(!selected){feedback.textContent='Choose an answer first.';return;}
   const q=lessons[lessonIndex].quiz,correct=Number(selected.value)===q.correct;
   feedback.dataset.correct=String(correct);
-  feedback.textContent=`${correct?'Yes.':'Let’s check it.'} ${q.why}`;
+  feedback.textContent=`${correct?'Correct.':'Incorrect.'} ${q.why}`;
 });
 $('simple-next-topic').addEventListener('click',()=>changeLesson((lessonIndex+1)%lessons.length));
 $('simple-restart').addEventListener('click',()=>{position=0;render();});

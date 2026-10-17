@@ -1,5 +1,5 @@
 import {flashcards,questions,shuffle} from './retrieval-data.js';
-import {highlightsForSection,insertHighlights,practiceBadge} from './lecture-highlights.js';
+import {highlightsForSection,insertHighlights,practiceBadge} from './lecture-highlights.js?v=20261017-notes';
 
 const $=id=>document.getElementById(id);
 let deck=[...flashcards],position=0;
@@ -10,7 +10,7 @@ function renderCard(){
   $('flash-prompt').textContent=card.prompt;
   $('flash-response').textContent=card.answer;
   let context=$('flash-lecture-context');
-  if(!context){context=document.createElement('div');context.id='flash-lecture-context';$('flash-answer').append(context);}
+  if(!context){context=document.createElement('div');context.id='flash-lecture-context';$('flash-answer').after(context);}
   context.replaceChildren();insertHighlights(context,highlightsForSection(card.source),{compact:true});
   $('flash-source').setAttribute('href',`#${card.source}`);
   $('flash-answer').hidden=true;

@@ -1,6 +1,6 @@
 /* Adapted from Boomer Rawlings workflow-display, MIT. See workflow-LICENSE.txt. */
 /* Workflow Display: data stays text; connections are a view of declared dependencies. */
-import {highlightsForConcept,insertHighlights} from './lecture-highlights.js';
+import {highlightsForConcept,insertHighlights} from './lecture-highlights.js?v=20261017-notes';
 export function mountWorkflow(root, initialData) {
   'use strict';
   const $ = id => root.getElementById(id);
@@ -212,7 +212,7 @@ export function mountWorkflow(root, initialData) {
     if (side === 'plain') {
       card.append(make('p',step.description,'card-description'));
       const help=make('details',undefined,'workflow-help');help.append(make('summary','Why this works · prerequisites & lecture notes'));
-      insertHighlights(help,highlightsForConcept(step.id),{compact:true});
+      insertHighlights(card,highlightsForConcept(step.id),{compact:true});
       if (step.checkpoint) {
         const checkpoint = make('div',undefined,'checkpoint');
         checkpoint.append(make('span','CHECKPOINT'),make('p',step.checkpoint));
