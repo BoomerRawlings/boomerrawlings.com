@@ -7,3 +7,10 @@
 - Automated: full `npm test` passed. Final content/layout changes additionally passed rebuild, publication verifier and CHEM checks: route-factor continuity, reverse round trips, invalid inputs, isotope ratios, unique IDs/anchors, no private identifier/path and sitemap exclusion. Existing unrelated suites unchanged.
 - Print: dedicated print stylesheet and native print button expand disclosures for printing and restore their prior state afterward. Physical printing and an exported PDF were not tested.
 - Publication: preserve existing GitHub Pages workflow and site navigation; no DNS or hosting-provider changes. This page is publicly accessible by URL, not authenticated.
+
+## Same-page retrieval update
+
+- Added 37 original flashcards and 18 multiple-choice Q&A items, all within `/chem/`. Existing guide, conversion workbench and multipart practice retained. Independent source/answer review corrected one atomic-mass versus molar-mass wording issue; all answer indices and arithmetic pass.
+- Browser: reveal/hide, next, previous wrapping, topic change and shuffle tested. Navigation hides the preceding answer. Quiz empty selection, wrong choice, correction, repeated checks, topic filter and reset pass. All 18 correct choices produce 18/18; changing a checked choice removes its old result until rechecked. Score explicitly reflects latest choices rather than first attempts.
+- Default desktop, 390 and 320 widths inspected; no horizontal page overflow or console warnings/errors. Keyboard-accessible native radios, buttons and disclosures; all card content and Q&A solutions server-rendered for browse/print fallback. No new routes, dependencies, accounts or storage.
+- Regression checks validate card/question uniqueness, option/answer schema, source anchors and nonmutating shuffle/permutation. Full-site tests and final-build checks recorded in task state.

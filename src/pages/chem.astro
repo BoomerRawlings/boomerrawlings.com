@@ -1,6 +1,9 @@
 ---
 import content from '../data/chem-content.html?raw';
 import '../styles/chem.css';
+import {flashcards,questions} from '../../public/chem/retrieval-data.js';
+const [guideStart,guideEnd] = content.split('<section id="practice">');
+const topics = [...new Set(flashcards.map(card=>card.topic))];
 const sections = [
   ['method', '01', 'Show the work'], ['particles', '02', 'Count the right thing'],
   ['conversions', '03', 'Conversion workbench'], ['gases', '04', 'Gas reasoning'],
@@ -10,6 +13,7 @@ const sections = [
   ['answers', '11', 'Worked answer key'], ['activity-check', '12', 'Activity cross-check'],
   ['ready', '13', 'Readiness check'], ['sources', '14', 'Sources & limits'],
 ];
+sections.splice(9,0,['flashcards','09a','Flashcards'],['quick-quiz','09b','Q&A quiz']);
 ---
 <!doctype html>
 <html lang="en">
@@ -29,9 +33,42 @@ const sections = [
     <header class="masthead"><a class="brand" href="#start"><span class="brand-icon">C<span>04</span></span><span>CHEM <b>Study desk</b></span></a><div><span class="exam-label">THU 10.22.26</span><a href="/">Boomer Rawlings ↗</a></div></header>
     <div class="page-layout">
       <aside><nav aria-label="Study guide sections"><p class="eyebrow">The study route</p>{sections.map(([id, number, title]) => <a href={`#${id}`}><span>{number}</span>{title}</a>)}</nav><p class="rail-note">Understand the chain.<br>Run it backward.<br>Explain why it works.</p></aside>
-      <main id="main" set:html={content} />
+      <main id="main">
+        <Fragment set:html={guideStart} />
+        <section id="flashcards">
+          <div class="section-head"><span>09a / Active recall</span><h2>Say it before you reveal it.</h2></div>
+          <p class="lede">{flashcards.length} flashcards: methods, distinctions, and reasoning traps—not just definitions. Answer aloud or on paper, then reveal the explanation.</p>
+          <div class="controls"><label>Flashcard topic<select id="flash-topic"><option value="all">All topics</option>{topics.map(topic=><option value={topic}>{topic}</option>)}</select></label><button type="button" id="flash-shuffle">Shuffle cards</button></div>
+          <div class="flashcard" aria-label="Flashcard study area">
+            <div class="flash-meta"><p class="eyebrow" id="flash-category">{flashcards[0].topic}</p><p id="flash-progress" aria-live="polite">Card 1 of {flashcards.length}</p></div>
+            <h3 id="flash-prompt">{flashcards[0].prompt}</h3>
+            <button type="button" id="flash-flip" aria-expanded="false" aria-controls="flash-answer">Show answer</button>
+            <div id="flash-answer" hidden><p id="flash-response">{flashcards[0].answer}</p><a id="flash-source" href={`#${flashcards[0].source}`}>Review the explanation ↑</a></div>
+          </div>
+          <div class="flash-navigation"><button type="button" id="flash-prev">← Previous card</button><button type="button" id="flash-next">Next card →</button></div>
+          <p class="small">Changing cards hides the answer again. Topic filters and shuffle stay on this page. Progress is for this visit.</p>
+          <details class="card-bank"><summary>Browse all {flashcards.length} flashcards / print list</summary><dl>{flashcards.map(card=><div><dt>{card.prompt}</dt><dd>{card.answer} <a href={`#${card.source}`}>Review topic ↑</a></dd></div>)}</dl></details>
+        </section>
+        <section id="quick-quiz">
+          <div class="section-head"><span>09b / Q&A practice</span><h2>Choose, check, understand why.</h2></div>
+          <p class="lede">{questions.length} original questions with immediate feedback and explained answers. Work out each answer before choosing. Everything stays on this page.</p>
+          <div class="controls"><label>Q&A topic<select id="qa-topic"><option value="all">All topics</option>{topics.map(topic=><option value={topic}>{topic}</option>)}</select></label><button type="button" id="qa-reset">Reset quiz answers</button></div>
+          <p id="qa-score" class="quiz-score" role="status">Current answers: 0 correct / 0 checked. {questions.length} questions available.</p>
+          <p class="small">The score reflects your latest checked choices, including corrections. It is self-study feedback, not a graded exam. Option order is shuffled for each visit.</p>
+          <noscript><p>Select an answer on paper, then open “Answer & explanation.” Automatic checks require JavaScript.</p></noscript>
+          {questions.map((question,index)=><article class="qa-item" id={`qa-${question.id}`} data-qa={question.id} data-topic={question.topic}>
+            <p class="eyebrow">Q{index+1} · {question.topic}</p>
+            <fieldset><legend>{question.prompt}</legend><div class="qa-options">{question.options.map((option,i)=><label><input type="radio" name={`qa-${question.id}`} value={i} /><span>{option}</span></label>)}</div></fieldset>
+            <button type="button" class="qa-check" data-check={question.id}>Check answer</button>
+            <p class="qa-feedback" id={`feedback-${question.id}`} aria-live="polite" hidden></p>
+            <details class="qa-solution"><summary>Answer & explanation</summary><p><strong>Answer:</strong> {question.options[question.correct]}</p><p>{question.explanation} <a href={`#${question.source}`}>Review topic ↑</a></p></details>
+          </article>)}
+        </section>
+        <Fragment set:html={'<section id="practice">'+guideEnd} />
+      </main>
     </div>
     <footer><a href="#start">Back to top ↑</a><p>CHEM 004 · October 22, 2026 · Independent study notes</p><a href="/">boomerrawlings.com</a></footer>
     <script src="/chem/study.js" type="module" is:inline></script>
+    <script src="/chem/retrieval.js" type="module" is:inline></script>
   </body>
 </html>

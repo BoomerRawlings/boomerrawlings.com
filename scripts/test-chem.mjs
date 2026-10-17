@@ -2,6 +2,23 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {parse} from 'parse5';
 import {convert,routes,spectra,NA} from '../public/chem/model.js';
+import {flashcards,questions,shuffle} from '../public/chem/retrieval-data.js';
+
+assert.equal(flashcards.length,37);
+assert.equal(questions.length,18);
+assert.equal(new Set(flashcards.map(card=>card.id)).size,flashcards.length);
+assert.equal(new Set(questions.map(question=>question.id)).size,questions.length);
+for(const card of flashcards)assert.ok(card.prompt&&card.answer&&card.topic&&card.source);
+for(const q of questions){
+  assert.equal(q.options.length,4);
+  assert.equal(new Set(q.options).size,4);
+  assert.ok(Number.isInteger(q.correct)&&q.correct>=0&&q.correct<4&&q.explanation.length>30);
+}
+const initial=flashcards.map(card=>card.id);
+const shuffled=shuffle(flashcards,()=>0);
+assert.deepEqual(flashcards.map(card=>card.id),initial,'shuffle mutated source cards');
+assert.deepEqual(shuffled.map(card=>card.id).sort(),[...initial].sort());
+assert.notDeepEqual(shuffled.map(card=>card.id),initial);
 
 const near=(a,b)=>assert.ok(Math.abs(a-b)<=1e-9*Math.max(1,Math.abs(b)),`${a} != ${b}`);
 near(convert('ethanol-forward',11.5).value,11.5/46.07*NA*6);
@@ -32,6 +49,9 @@ function walk(n){
 }
 walk(parse(file));
 for(const id of refs)assert.ok(ids.has(id),`missing anchor ${id}`);
+for(const entry of [...flashcards,...questions])assert.ok(ids.has(entry.source),`missing retrieval source ${entry.id}`);
+for(const id of ['flashcards','quick-quiz','flash-topic','flash-prompt','flash-answer','qa-score',...questions.map(q=>`qa-${q.id}`)])assert.ok(ids.has(id));
+assert.ok(file.includes('/chem/retrieval.js'));
 for(const id of ['method','conversions','mass-spec','spectrum','formulas','activity-check','sources',...Array.from({length:6},(_,i)=>`q${i+1}`),...Array.from({length:6},(_,i)=>`a${i+1}`)])assert.ok(ids.has(id));
 assert.equal(tags.filter(t=>t==='h1').length,1);
 assert.ok(file.includes('type="module" src="/chem/study.js"')||file.includes('src="/chem/study.js" type="module"'));

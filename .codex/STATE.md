@@ -1,5 +1,13 @@
 # Project state
 
+## CHEM flashcards and Q&A — 2026-10-17
+
+- Mode: continuation; user explicitly requested same-page flashcards and Quizlet-style Q&A.
+- Implemented:37 source-based cards with reveal/previous/next/shuffle/topic filter and full browse list;18 original multiple-choice questions with explained feedback, correction-aware score, filters/reset and native answer disclosures.
+- All content remains /chem/; existing guide and multipart exam practice retained. No new dependencies, accounts or storage.
+- Status:37 cards/18 questions independently reviewed; atomic/molar-mass wording corrected. Desktop/390/320 QA passes: card reveal/navigation/filter/shuffle; quiz empty/wrong/correct/changed/repeated answers, all18 keys, filters/reset. No overflow or console errors. Full npm test and final rebuild/publication/CHEM checks pass. Existing source gaps remain disclosed.
+- Next: one production push, CI and live check.
+
 ## CHEM Learning Check 2 study desk — 2026-10-17
 
 - Mode: new task; user authorized one integrated study webpage at /chem/ for October22.
