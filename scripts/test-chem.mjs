@@ -7,6 +7,12 @@ import {generatePractice} from '../public/chem/random-practice.js';
 import {fundamentals,foundationPlan,randomPlans,quizPlans,problemPlan,practiceConcepts,practiceDependencies} from '../public/chem/workflow-data.js';
 import {lectureHighlights,annotateGuide,highlightHTML} from '../public/chem/lecture-highlights.js';
 
+const {makeLessons,number}=await import('../public/chem/simple-lessons.js');
+for(const random of [()=>0,()=>.5,()=>.999]){
+ const lessons=makeLessons(random);assert.equal(lessons.length,10);assert.equal(new Set(lessons.map(l=>l.id)).size,10);
+ for(const lesson of lessons){assert.ok(lesson.steps.length>=4&&lesson.steps.length<=5);assert.ok(lectureHighlights.some(h=>h.id===lesson.signal));assert.equal(lesson.quiz.options.length,3);assert.ok(lesson.quiz.options[lesson.quiz.correct]);for(const s of lesson.steps)assert.ok(s.title&&s.why&&s.work&&!/NaN|undefined/.test(s.work));}
+ const mass=Number(lessons[1].given.split(' ')[0]);assert.ok(lessons[1].steps[3].work.includes(number(mass/32*NA*2)));assert.ok(lessons[2].steps[2].work.includes(mass+' g O₂'));
+}
 assert.equal(lectureHighlights.length,10);
 assert.equal(lectureHighlights.filter(h=>h.kind==='quote').length,4);
 const annotated=annotateGuide(readFileSync('src/data/chem-content.html','utf8'));
@@ -110,6 +116,10 @@ near(spectra.chlorine.peaks[1][1],2*.76*.24/(.76*.76)*100);
 near(spectra.chlorine.peaks[2][1],.24*.24/(.76*.76)*100);
 
 const file=readFileSync('dist/chem/index.html','utf8');
+assert.match(file,/<details id="full-study-guide">/,'long reference stays closed on first visit');
+assert.match(file,/Chemistry, one step at a time/);
+assert.match(file,/simple-study.js/);
+
 const ids=new Set(),refs=[],tags=[];
 function walk(n){
   const attr=Object.fromEntries((n.attrs??[]).map(a=>[a.name,a.value]));

@@ -1,4 +1,4 @@
-import {mountWorkflow} from './workflow-renderer.js?v=20261017-highlights';
+import {mountWorkflow} from './workflow-renderer.js?v=20261017-simple';
 import {foundationPlan,randomPlans,quizPlans,problemPlan,practiceConcepts,practiceDependencies} from './workflow-data.js';
 import {questions} from './retrieval-data.js';
 import {currentProblems} from './random-practice.js?v=20261017-highlights';
@@ -28,7 +28,7 @@ for(let i=1;i<=6;i++){
     prompt:[question.querySelector('p:not(.eyebrow)').textContent,...requests.map((request,j)=>`${String.fromCharCode(97+j)}. ${request}`)].join('\n'),
     answers:groups,concepts:practiceConcepts[i-1],decisions:requests,source:`q${i}`,dependencies:practiceDependencies[i-1].map(ids=>['read-problem',...ids])}));
 }
-const display=mountWorkflow(root,{title:'From fundamentals to the full solution',description:'Read each explanation beside its concrete equation, model or answer. Follow the dependency arrows to reconstruct the reasoning. Solutions use the current randomized values. Opening a workflow reveals worked answers.',eyebrow:'CHEM / WORKFLOW DISPLAY',footer:'Based on supplied Lectures1–7, notes1–4 and Activities3–6. Exact exam scope unconfirmed; missing October20 lecture and Activities7–8 are excluded.',plans:collections.foundations});
+const display=mountWorkflow(root,{title:'Work through one step',description:'Choose a problem. Follow one pair at a time. Open a prerequisite only when you need it.',eyebrow:'CHEM / WORKFLOW DISPLAY',footer:'Based on supplied Lectures1–7, notes1–4 and Activities3–6. Exact exam scope unconfirmed; missing October20 lecture and Activities7–8 are excluded.',plans:collections.foundations});
 const collection=root.getElementById('workflow-collection');
 let activeCollection='foundations',activeId='foundations';
 function choose(group,id,focus=true){

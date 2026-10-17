@@ -618,3 +618,8 @@
 - Source audit passes. Desktop/320/390 visual checks confirm clear quote/emphasis labels, workflow/flashcard context, same-page practice-source links and no overflow/console errors. Decorative rail-note overlap removed. Final full suite/build/publication checks pending.
 - Verification: full npm test passes; final rebuilt output passes publication/CHEM checks. Four exact-quote source checks and independent paraphrase audit passed. Ready to publish.
 - Complete: releasee8d3c59 live; Pages39073156957 build/deploy passed. Live purple/gold colors, exact quote/source label and19workflow foundation callouts verified after reload; console clear. No required work remains.
+
+## Beginner CHEM walkthrough — 2026-10-17
+- Continuation; simplify for classmates. Ten short lessons, one visible step and one check each; original reference/tools in closed disclosure. Workflow defaults to one explanation/artifact pair; full map optional.
+- Source review passed all ten lessons/calculation branches. Browser, full tests and publication pending. Baseline8f867af verified against remote.
+- Verification: full npm test passes; final build, publication/CHEM checks and diff check pass. All ten lessons independently source-reviewed; desktop/320 browser traversal, feedback, optional reference and workflow detour/return pass. Ready to publish.

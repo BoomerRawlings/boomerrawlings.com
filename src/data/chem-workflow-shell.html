@@ -6,7 +6,7 @@
     </header>
     <section class="plan-launcher" aria-labelledby="plans-title">
       <h2 id="plans-title">Choose a workflow</h2>
-      <p class="plan-intro">Choose a problem. Read the fundamentals first, then follow the worked steps and their dependencies. Opening a workflow reveals its solution.</p>
+      <p class="plan-intro">One explanation beside one worked step. Use Next to continue.</p>
       <div class="workflow-selectors">
         <label>Problem collection<select id="workflow-collection"><option value="foundations">Fundamentals & connections</option><option value="random">Current randomized set</option><option value="practice">Six practice-check problems</option><option value="quiz">18 Q&A questions</option></select></label>
         <label>Choose a workflow<select id="workflow-problem"></select></label>
@@ -18,9 +18,11 @@
       <div class="plan-reveal-inner">
         <section id="workflow-guide" aria-labelledby="guide-title">
           <header class="guide-heading">
-            <div><p class="eyebrow">WORKFLOW / PAIRED GUIDE</p><h2 id="guide-title" tabindex="-1"></h2><p id="guide-summary"></p></div>
+            <div><p class="eyebrow">WORKFLOW / PAIRED GUIDE</p><h2 id="guide-title" tabindex="-1"></h2><details class="workflow-question"><summary>Read the problem</summary><p id="guide-summary"></p></details></div>
             <button id="download-guide" type="button">Download guide <span aria-hidden="true">↓</span></button>
           </header>
+          <div class="workflow-stepper"><button id="workflow-prev" type="button">← Back</button><span id="workflow-progress" role="status"></span><button id="workflow-next" type="button">Next →</button></div>
+          <div class="workflow-simple-tools"><button id="workflow-return" type="button" hidden>Return to my step</button><button id="workflow-all" type="button" aria-pressed="false">Show all connected steps</button></div>
           <div class="guide-onramp">
             <p><strong>Read across each pair</strong><span>Purpose and checkpoint on the left. The matching equation, example, or worked answer on the right.</span></p>
             <p><strong>Follow a connection</strong><span>Hover or focus to preview. Click a heading to lock. Dashed arrows point to other steps this step depends on.</span></p>

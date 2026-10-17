@@ -25,6 +25,7 @@ export function mountWorkflow(root, initialData) {
   const cards = new Map(), rows = new Map(), indexes = new Map();
   const reveal = $('plan-reveal'), guide = $('workflow-guide'), svg = $('connection-lines');
   let data, plan, expanded = false, pinned = null, active = null, drawFrame = 0;
+  let guided=true,activeStep=0,returnStep=null,matchedSteps=[];
   let focusTimer, layoutTimer, switchAnimation, fadeAnimation, navigation = 0;
 
   function related(step) {
@@ -123,7 +124,7 @@ export function mountWorkflow(root, initialData) {
       if (!origin) { announce('Connections unlocked. Hover or focus a card to preview.'); return; }
       const linked = pairs.map(([a,b]) => stepLabel(origin.side === 'plain' ? b : a)).join('; ');
       const hidden = pairs.filter(([a,b]) => rows.get(a).hidden || rows.get(b).hidden).length;
-      announce(`Locked ${stepLabel(origin.id)}. ${origin.side === 'plain' ? 'Connected implementations' : 'Used by explanations'}: ${linked}.${hidden ? ' Some dependencies are hidden by search. Clear search to show them.' : ''} Press Escape or Unlock step to release.`);
+      announce(`Locked ${stepLabel(origin.id)}. ${origin.side === 'plain' ? 'Connected implementations' : 'Used by explanations'}: ${linked}.${hidden ? (guided ? ' Open a prerequisite to review it, then return to this step.' : ' Some dependencies are hidden by search. Clear search to show them.') : ''} Press Escape or Unlock step to release.`);
     }
   }
   function hold(side, id, toggle = false) {
@@ -132,6 +133,11 @@ export function mountWorkflow(root, initialData) {
     else { pinned = {side,id}; trace(pinned, true); }
   }
   function jump(side, id) {
+    if(guided){
+      const destination=plan.steps.findIndex(step=>step.id===id);
+      if(destination!==activeStep){returnStep=activeStep;activeStep=destination;}
+      $('step-search').value='';filterSteps(false);
+    }
     if (rows.get(id).hidden) {
       $('step-search').value = '';
       filterSteps(false);
@@ -205,11 +211,12 @@ export function mountWorkflow(root, initialData) {
     title.append(pin); heading.append(title); card.append(heading);
     if (side === 'plain') {
       card.append(make('p',step.description,'card-description'));
-      insertHighlights(card,highlightsForConcept(step.id),{compact:true});
+      const help=make('details',undefined,'workflow-help');help.append(make('summary','Why this works · prerequisites & lecture notes'));
+      insertHighlights(help,highlightsForConcept(step.id),{compact:true});
       if (step.checkpoint) {
         const checkpoint = make('div',undefined,'checkpoint');
         checkpoint.append(make('span','CHECKPOINT'),make('p',step.checkpoint));
-        card.append(checkpoint);
+        help.append(checkpoint);
       }
       if (step.resources?.length) {
         const resources = make('div',undefined,'resources');
@@ -224,8 +231,9 @@ export function mountWorkflow(root, initialData) {
             resources.append(link);
           } catch { /* Invalid links are not made interactive. */ }
         });
-        card.append(resources);
+        help.append(resources);
       }
+      help.append(relationList(step,side));card.append(help);
     } else {
       const tools = make('div',undefined,'code-tools');
       const pre = make('pre',undefined,'is-wrapped'), code = make('code',step.artifact.code);
@@ -245,7 +253,7 @@ export function mountWorkflow(root, initialData) {
       card.append(tools,pre);
       if (step.artifact.note) card.append(make('p',step.artifact.note,'artifact-note'));
     }
-    card.append(relationList(step,side));
+    if(side==='artifact'){const help=make('details',undefined,'workflow-help');help.append(make('summary','Where this is used'),relationList(step,side));card.append(help);}
     bindTrace(card,side,step); cards.set(key(side,step.id),card);
     return card;
   }
@@ -254,13 +262,19 @@ export function mountWorkflow(root, initialData) {
     const query = normalize($('step-search').value).trim();
     const words = query.split(/\s+/).filter(Boolean);
     pinned = null; active = undefined;
-    let count = 0;
-    plan.steps.forEach(step => {
+    matchedSteps=[];
+    plan.steps.forEach((step,index) => {
       const text = normalize([step.title,step.description,step.checkpoint,step.artifact.title,step.artifact.code,step.artifact.note,...(step.resources || []).map(item=>item.label)].join(' '));
       const visible = words.every(word => text.includes(word));
-      rows.get(step.id).hidden = !visible; indexes.get(step.id).hidden = !visible;
-      if (visible) count++;
+      indexes.get(step.id).hidden = !visible;
+      if (visible) matchedSteps.push(index);
     });
+    if(!matchedSteps.includes(activeStep)&&matchedSteps.length)activeStep=matchedSteps[0];
+    plan.steps.forEach((step,index)=>rows.get(step.id).hidden=!matchedSteps.includes(index)||(guided&&index!==activeStep));
+    const count=matchedSteps.length,position=matchedSteps.indexOf(activeStep);
+    $('workflow-progress').textContent=count?`Step ${position+1} of ${count}`:'No matching steps';
+    $('workflow-prev').disabled=position<=0;$('workflow-next').disabled=position>=count-1||!count;
+    $('workflow-return').hidden=returnStep===null;
     $('step-count').textContent = `${count} / ${plan.steps.length} steps`;
     $('empty-result').hidden = count !== 0;
     $('clear-search').hidden = !$('step-search').value;
@@ -270,6 +284,7 @@ export function mountWorkflow(root, initialData) {
   function renderPlan() {
     cards.clear(); rows.clear(); indexes.clear(); pinned = null; active = null;
     $('step-search').value = '';
+    activeStep=Math.max(0,plan.steps.findIndex(step=>step.id==='read-problem'));returnStep=null;
     $('guide-title').textContent = plan.title;
     $('guide-summary').textContent = plan.summary;
     $('guide-end').textContent = 'Use the checkpoints to review your work. Connections show the dependencies declared in this guide.';
@@ -379,6 +394,20 @@ export function mountWorkflow(root, initialData) {
     $('step-search').addEventListener('input',()=>filterSteps());
     $('clear-search').addEventListener('click',clearSearch);
     $('show-all').addEventListener('click',clearSearch);
+    function move(direction){
+      const position=matchedSteps.indexOf(activeStep),next=matchedSteps[position+direction];
+      if(next===undefined)return;
+      activeStep=next;returnStep=null;filterSteps(false);
+      jump('plain',plan.steps[activeStep].id);
+    }
+    $('workflow-prev').addEventListener('click',()=>move(-1));
+    $('workflow-next').addEventListener('click',()=>move(1));
+    $('workflow-return').addEventListener('click',()=>{const destination=returnStep;if(destination===null)return;activeStep=destination;returnStep=null;filterSteps(false);jump('plain',plan.steps[activeStep].id);});
+    $('workflow-all').addEventListener('click',()=>{
+      guided=!guided;root.querySelector('.workspace').classList.toggle('all-steps',!guided);
+      $('workflow-all').setAttribute('aria-pressed',String(!guided));$('workflow-all').textContent=guided?'Show all connected steps':'One step at a time';
+      filterSteps(false);
+    });
     $('clear-trace').addEventListener('click',()=>{
       const previous = pinned; pinned = null;
       if (previous) cards.get(key(previous.side,previous.id))?.querySelector('.card-title').focus({preventScroll:true});
