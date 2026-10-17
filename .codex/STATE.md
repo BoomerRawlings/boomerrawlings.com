@@ -593,3 +593,10 @@
 - Poem: one continuous serif article. Original opening/body wording remains exact; approved rhyming ending has the latest user correction.39 paragraphs,58 lines,2 thematic breaks. Independent frozen-prefix hash and exact-ending regression checks pass; revised ending visually verified. Build, loader11cases and unlisted release checks pass. Entry/deferred asset version20260930-poem-2. Publication in progress.
 
 - Previous release1006cba published; Pages36769531456 succeeded with full CI suite. All24 live asset/data/privacy checks and original-poem exact-text hash passed. Only approved ending and associated cache version/integrity test change in this release; unrelated website content preserved.
+
+## CHEM randomized practice — 2026-10-17
+- Continuation: requested fresh numbers across supplied lecture scope on same page.
+- Added13 generated multipart prompts: classification/naming, eight conversion routes, seven diatomic elements and reverse atom counts, gases, isotope normalization/counts, Cl2 pairing, fragmentation, instrument/charge/deflection, formulas, density, phase/energy/particle models.
+- Independent audit resolved molecular-valence families, pressure-direction explanation and PE wording.300 seeded sets verify diatomic answers, finite results, unique topics and source anchors. Phone320 no overflow; regeneration hides solutions; console clear.
+- Status: final full suite in progress; publication pending. Existing unavailable-source limits retained.
+- Verification: full npm test passes; final rebuilt output passes publication and CHEM generator checks. Ready to publish.

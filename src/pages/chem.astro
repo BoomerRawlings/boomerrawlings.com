@@ -14,6 +14,7 @@ const sections = [
   ['ready', '13', 'Readiness check'], ['sources', '14', 'Sources & limits'],
 ];
 sections.splice(9,0,['flashcards','09a','Flashcards'],['quick-quiz','09b','Q&A quiz']);
+sections.splice(9,0,['random-practice','09c','Randomized practice']);
 ---
 <!doctype html>
 <html lang="en">
@@ -35,6 +36,15 @@ sections.splice(9,0,['flashcards','09a','Flashcards'],['quick-quiz','09b','Q&A q
       <aside><nav aria-label="Study guide sections"><p class="eyebrow">The study route</p>{sections.map(([id, number, title]) => <a href={`#${id}`}><span>{number}</span>{title}</a>)}</nav><p class="rail-note">Understand the chain.<br>Run it backward.<br>Explain why it works.</p></aside>
       <main id="main">
         <Fragment set:html={guideStart} />
+        <section id="random-practice">
+          <div class="section-head"><span>09c / Fresh problems</span><h2>New numbers. Same reasoning.</h2></div>
+          <p class="lede">Generate a mixed set across the supplied lectures and notes: conversions in both directions, all seven diatomic elements, gases, isotopes, fragmentation, spectra, formulas, matter, phases, and energy.</p>
+          <button type="button" id="random-new">New randomized practice ↻</button>
+          <p id="random-status" role="status"></p>
+          <p class="small">Original hypothetical practice, not predicted exam questions. Work on paper, showing units; reveal each worked answer afterward. The button replaces this set and hides its answers. Answers use unrounded intermediate values, displayed to about four significant figures. Includes supporting earlier material; unavailable October 20 lecture and Activities 7–8 remain outside coverage.</p>
+          <noscript>Enable JavaScript to generate fresh practice; the fixed practice and worked answer key below remain available.</noscript>
+          <div id="random-problems"></div>
+        </section>
         <section id="flashcards">
           <div class="section-head"><span>09a / Active recall</span><h2>Say it before you reveal it.</h2></div>
           <p class="lede">{flashcards.length} flashcards: methods, distinctions, and reasoning traps—not just definitions. Answer aloud or on paper, then reveal the explanation.</p>
@@ -70,5 +80,6 @@ sections.splice(9,0,['flashcards','09a','Flashcards'],['quick-quiz','09b','Q&A q
     <footer><a href="#start">Back to top ↑</a><p>CHEM 004 · October 22, 2026 · Independent study notes</p><a href="/">boomerrawlings.com</a></footer>
     <script src="/chem/study.js" type="module" is:inline></script>
     <script src="/chem/retrieval.js" type="module" is:inline></script>
+    <script src="/chem/random-practice.js?v=20261017" type="module" is:inline></script>
   </body>
 </html>

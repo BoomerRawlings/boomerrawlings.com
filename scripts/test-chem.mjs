@@ -3,6 +3,37 @@ import {readFileSync} from 'node:fs';
 import {parse} from 'parse5';
 import {convert,routes,spectra,NA} from '../public/chem/model.js';
 import {flashcards,questions,shuffle} from '../public/chem/retrieval-data.js';
+import {generatePractice} from '../public/chem/random-practice.js';
+
+let seed=271828;
+const rng=()=>{seed=(1664525*seed+1013904223)>>>0;return seed/4294967296;};
+const generatedSources=new Set();
+const diatomics=new Set();
+for(let trial=0;trial<300;trial++){
+  const batch=generatePractice(rng);
+  assert.equal(batch.length,13);
+  assert.equal(new Set(batch.map(q=>q.topic)).size,13);
+  for(const q of batch){
+    assert.ok(q.prompt.length>30&&q.steps.length>=2&&q.steps.every(s=>s.length>20));
+    assert.ok(!/NaN|Infinity|undefined/.test([q.prompt,...q.steps].join(' ')));
+    generatedSources.add(q.source);
+  }
+  const d=batch.find(q=>q.topic==='Diatomic molecules'),symbol=d.prompt.match(/(H|N|O|F|Cl|Br|I)₂/)[1];diatomics.add(symbol);
+  const reverse=d.prompt.includes('(not molecules)');
+  const count=Number(d.prompt.match(reverse?/contains ([\de.+-]+) /:/For ([\de.+-]+) g/)[1]);
+  const atomic={H:1.008,N:14.01,O:16,F:19,Cl:35.45,Br:79.90,I:126.90}[symbol];
+  const expected=reverse?count/2/NA*(2*atomic):count/(2*atomic)*NA*2;
+  const answer=Number(d.steps[reverse?0:2].match(/= ([\de.+-]+) /)[1]);
+  assert.ok(Math.abs(answer-expected)/expected<.001,'diatomic answer mismatch');
+}
+assert.equal(diatomics.size,7);
+assert.notDeepEqual(generatePractice(()=>0),generatePractice(()=>.99));
+const zeroBatch=generatePractice(()=>0);
+const answerFor=topic=>zeroBatch.find(q=>q.topic===topic).steps.join(' ');
+assert.match(answerFor('Gas laws'),/= 2\.64 L/);
+assert.match(answerFor('Isotopes & graph heights'),/=20\.18 u/);
+assert.match(answerFor('Diatomic isotope spectrum'),/42\.25%.*45\.5%.*12\.25%/);
+assert.match(answerFor('Composition → formulas'),/C2H4O2/);
 
 assert.equal(flashcards.length,37);
 assert.equal(questions.length,18);
@@ -48,6 +79,8 @@ function walk(n){
   for(const child of n.childNodes??[])walk(child);
 }
 walk(parse(file));
+for(const source of generatedSources)assert.ok(ids.has(source),`missing generated source ${source}`);
+for(const id of ['random-practice','random-new','random-status','random-problems'])assert.ok(ids.has(id));
 for(const id of refs)assert.ok(ids.has(id),`missing anchor ${id}`);
 for(const entry of [...flashcards,...questions])assert.ok(ids.has(entry.source),`missing retrieval source ${entry.id}`);
 for(const id of ['flashcards','quick-quiz','flash-topic','flash-prompt','flash-answer','qa-score',...questions.map(q=>`qa-${q.id}`)])assert.ok(ids.has(id));
