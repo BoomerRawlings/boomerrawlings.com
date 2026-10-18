@@ -273,21 +273,21 @@ button.portal-answer:hover:not(:disabled) { border-color: #a5c3d6; background: r
 @media (min-width: 1400px) { .portal-stage[data-view='home'] { padding-top: 30px; } .portal-clouds { margin-top: max(64px,8svh); row-gap: 48px; } }
 @media (min-width: 761px) and (max-height: 760px) { .portal-stage[data-view='home'] { height: max(525px,calc(100svh - 145px)); min-height: 525px; } .portal-clouds { margin-top: 39px; grid-template-rows: 138px 138px; gap: 34px 16px; } .portal-cloud { min-height: 130px; } .portal-stage { padding-top: 15px; } .portal-core-label { top: 459px; } }
 @media (max-width: 1000px) and (min-width: 761px) { .portal-clouds { grid-template-columns: minmax(205px,250px) minmax(135px,230px) minmax(205px,250px); gap: 40px 10px; } .portal-stage { padding-left: 50px; padding-right: 50px; } .portal-cloud { padding: 21px 19px; } #brain-portal .cloud-label { font-size: 25px; } #brain-portal .cloud-note { font-size: 11px; } }
-@media (max-width: 760px) {
+@media (max-width: 760px), (max-width: 1000px) and (max-height: 600px) {
   .portal-header { height: 74px; padding: 18px 24px; } .portal-brand { font-size: 14px; gap: 10px; } .portal-brand small { font-size: 6px; } .portal-brand-mark { width: 29px; height: 32px; font-size: 25px; }
   .portal-utility { font-size: 11px; gap: 16px; } .portal-utility #portal-motion span { display: none; }
   .portal-frame { inset: 85px 10px 56px; } .portal-frame span { display: none; }
-  .portal-stage { min-height: calc(100svh - 133px); padding: 27px 26px 36px; }
-  .portal-stage[data-view='home'] { height: auto; min-height: 645px; padding: 20px 27px 18px; }
+  .portal-stage { justify-content: flex-start; min-height: calc(100svh - 133px); padding: 27px 26px 36px; }
+  .portal-stage[data-view='home'] { height: auto; min-height: calc(100svh - 133px); padding: 20px 27px 18px; }
   .portal-title, .portal-stage[data-view='home'] .portal-title { font-size: 39px; }
   .portal-eyebrow { font-size: 8px; letter-spacing: .2em; margin-bottom: 10px !important; }
   .portal-subtitle { font-size: 12px; margin-top: 10px !important; max-width: 320px; }
-  .portal-clouds { grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: auto auto; gap: 20px 20px; margin-top: 239px; width: 100%; max-width: 560px; }
+  .portal-clouds { grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: auto auto; gap: 20px 20px; width: 100%; max-width: 560px; }
   .portal-clouds > :nth-child(1) { grid-area: 1 / 1; } .portal-clouds > :nth-child(2) { grid-area: 1 / 2; } .portal-clouds > :nth-child(3) { grid-area: 2 / 1; } .portal-clouds > :nth-child(4) { grid-area: 2 / 2; }
   .portal-cloud { min-height: 118px; padding: 17px 16px 23px; gap: 5px; grid-template-columns: 1fr; rotate: none !important; }
   #brain-portal .cloud-icon { display: none; } #brain-portal .cloud-meta { font-size: 7px; letter-spacing: .11em; } #brain-portal .cloud-label { font-size: 25px; } #brain-portal .cloud-note { font-size: 10px; max-width: 170px; } #brain-portal .cloud-arrow { font-size: 12px; right: 9px; bottom: 6px; }
   .portal-practice-link { font-size: 10px !important; padding: 8px 0 5px; margin-top: 1px; white-space: nowrap; }
-  .portal-core-label { top: 310px; width: 230px; } .portal-core-label span { font-size: 8px; } .portal-core-label small { display: none; }
+  .portal-core-label span { font-size: 8px; } .portal-core-label small { display: none; }
   .portal-choice-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 22px; margin-top: 38px; max-width: 540px; }
   .portal-choice-grid .portal-cloud { min-height: 180px; padding: 20px 17px; }
   .portal-choice-grid .cloud-label { font-size: 24px !important; }
@@ -299,7 +299,7 @@ button.portal-answer:hover:not(:disabled) { border-color: #a5c3d6; background: r
   .portal-header { padding: 17px 21px; } .portal-brand small { display: none; } .portal-utility { gap: 14px; }
   .portal-stage { padding: 24px 23px 35px; } .portal-stage[data-view='home'] { padding: 18px 25px 14px; }
   .portal-title, .portal-stage[data-view='home'] .portal-title { font-size: 36px; }
-  .portal-clouds { gap: 19px 17px; margin-top: 236px; } .portal-cloud { padding: 16px 13px 22px; min-height: 114px; }
+  .portal-clouds { gap: 19px 17px; } .portal-cloud { padding: 16px 13px 22px; min-height: 114px; }
   #brain-portal .cloud-label { font-size: 23px; } #brain-portal .cloud-note { font-size: 10px; }
   .portal-choice-grid { grid-template-columns: 1fr; gap: 23px; max-width: 310px; } .portal-choice-grid .portal-cloud { min-height: 135px; padding: 23px; }
   .portal-panel { padding: 23px 18px; } .portal-answer { padding: 14px; font-size: 13px; } .portal-flashcard { padding: 26px 23px; min-height: 330px; }
@@ -373,10 +373,26 @@ button.portal-answer:hover:not(:disabled) { border-color: #a5c3d6; background: r
 .portal-stage[data-view='home'] .portal-explore-stack .portal-cloud { animation-delay: .16s,-2s; }
 .portal-stage[data-view='home'] .portal-clouds > .portal-cloud:nth-child(4) { animation-delay: .24s,-5s; }
 @keyframes portal-materialize { from { opacity: 0; filter: blur(5px); } to { opacity: 1; filter: blur(0); } }
-@media (max-width: 760px) { .portal-stage[data-view='home'] .portal-clouds { margin-top: 315px; } }
+/* Reserve actual document space for the mobile hologram. The scene uses this
+   element's measured bounds, so scrolling, font loads, and browser chrome cannot
+   move the brain through the menu. The label remains below its orbit envelope. */
+@media (max-width: 760px), (max-width: 1000px) and (max-height: 600px) {
+  .portal-stage[data-view='home'] .portal-home-heading { order: 0; }
+  .portal-stage[data-view='home'] .portal-core-label {
+    order: 1; position: relative; inset: auto; transform: none;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+    flex: 0 0 clamp(222px,33svh,276px); width: min(560px,100%);
+    margin: 8px 0 0; padding: 0 0 6px;
+  }
+  .portal-stage[data-view='home'] .portal-clouds { order: 2; margin-top: 22px; }
+  .portal-header { gap: 12px; }
+  .portal-brand, .portal-utility { flex-shrink: 0; }
+  .portal-choice-grid, .portal-scope-grid, .portal-study-mount { min-width: 0; }
+  .portal-question-title, .portal-flashcard-text, .portal-choice-title { overflow-wrap: anywhere; }
+}
 .portal-motion-paused .portal-atmosphere::before { animation-play-state: paused; }
 .portal-motion-paused .portal-cloud { animation: none; transform: none; will-change: auto; }
-@media (max-width: 760px) {
+@media (max-width: 760px), (max-width: 1000px) and (max-height: 600px) {
   .portal-scope-grid { gap: 21px 18px; margin-top: 30px; }
   .portal-scope-grid .portal-cloud { min-height: 155px; padding: 20px 16px 30px; }
   .portal-scope-grid .cloud-label { font-size: 26px !important; }

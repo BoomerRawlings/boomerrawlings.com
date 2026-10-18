@@ -1798,7 +1798,11 @@
         "topic": "Neuroanatomy: tissue and tracts",
         "kind": "mcq",
         "difficulty": "foundation",
-        "prompt": "A fiber bundle connects left frontal cortex with left parietal cortex. It is best classified as:",
+        "prompt": "The yellow connection links left frontal cortex with left parietal cortex. It is best classified as:",
+        "visual": {
+          "kind": "tract",
+          "tract": "association"
+        },
         "explanation": "Association fibers connect cortical regions within one hemisphere. Crossing hemispheres would indicate commissural fibers.",
         "choices": [
           "A commissural tract.",
@@ -2072,7 +2076,11 @@
         "topic": "Neuroanatomy: tissue and tracts",
         "kind": "short",
         "difficulty": "foundation",
-        "prompt": "Complete both blanks: The ______ connects the two cerebral hemispheres and is a ______ tract.",
+        "prompt": "The yellow path illustrates a connection between the two cerebral hemispheres. Complete both blanks: The ______ is the major bundle connecting the hemispheres and is a ______ tract.",
+        "visual": {
+          "kind": "tract",
+          "tract": "commissural"
+        },
         "explanation": "Corpus callosum; commissural. It connects the hemispheres rather than merely two cortical sites within one hemisphere.",
         "rubric": [
           "Corpus callosum",
@@ -2387,7 +2395,11 @@
         "topic": "Neuroanatomy: tissue and tracts",
         "kind": "short",
         "difficulty": "application",
-        "prompt": "Describe association, commissural, and projection pathways by their cortex/hemisphere/subcortex endpoints. Give one example of each and explain why 'projection' does not mean 'crosses hemispheres.'",
+        "prompt": "Use the yellow cortex-to-lower-CNS path as one example. Describe association, commissural, and projection pathways by their cortex/hemisphere/subcortex endpoints. Give one example of each and explain why 'projection' does not mean 'crosses hemispheres.'",
+        "visual": {
+          "kind": "tract",
+          "tract": "projection"
+        },
         "explanation": "Association: cortex to cortex within a hemisphere; SLF is an example. Commissural: between hemispheres; corpus callosum is an example. Projection: cortex with subcortical/spinal levels; corticospinal tract is an example. The class depends on which levels/regions it connects; projection pathways can have crossings, but crossing hemispheres is not their defining property.",
         "rubric": [
           "Association: cortex to cortex within a hemisphere; SLF is an example.",
@@ -2405,7 +2417,11 @@
         "topic": "Neuroanatomy: tissue and tracts",
         "kind": "short",
         "difficulty": "application",
-        "prompt": "Classify four hypothetical bundles: left temporal to left frontal cortex; left cortex to right cortex; cortex to spinal cord; neighboring cortical gyri within one hemisphere. Justify each.",
+        "prompt": "The yellow path illustrates a cortex-to-lower-CNS connection. Classify four hypothetical bundles: left temporal to left frontal cortex; left cortex to right cortex; cortex to spinal cord; neighboring cortical gyri within one hemisphere. Justify each.",
+        "visual": {
+          "kind": "tract",
+          "tract": "projection"
+        },
         "explanation": "Left temporal-frontal: association. Left-right cortical connection: commissural. Cortex-spinal connection: projection. Neighboring same-hemisphere cortical gyri: short association/U-fibers. Endpoint relationships, not length alone, determine the main class.",
         "rubric": [
           "Left temporal-frontal: association.",
@@ -3279,7 +3295,11 @@
       {
         "id": "108-f008",
         "topic": "Neuroanatomy: tissue and tracts",
-        "question": "Compare association, commissural, and projection tracts.",
+        "question": "Which tract class does the yellow cortex-to-lower-CNS path illustrate? Compare its endpoints with association and commissural tracts.",
+        "visual": {
+          "kind": "tract",
+          "tract": "projection"
+        },
         "answer": "Association fibers connect cortex within one hemisphere, such as the SLF or short U-fibers. Commissural fibers connect hemispheres, such as the corpus callosum, the large arching white-matter bundle at the midline. Projection fibers link cortex with subcortical/spinal levels, such as corticospinal pathways."
       },
       {

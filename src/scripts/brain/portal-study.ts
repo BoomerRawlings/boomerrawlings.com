@@ -1,28 +1,22 @@
 import { courseScopeNote, scopeLabel, type Course, type StudyScope } from './course-catalog';
-type Difficulty = 'mixed' | 'foundation' | 'application' | 'challenge';
-type Question = {
-  id: string; topic: string; kind: 'mcq' | 'truefalse' | 'short';
-  difficulty: Exclude<Difficulty, 'mixed'>; prompt: string; explanation: string;
-  choices?: string[]; correctIndex?: number; rubric?: string[]; visual?: 'lobes';
-  choiceExplanations?: string[]; commonMistakes?: string[];
-};
-type Flashcard = { id: string; topic: string; question: string; answer: string };
-type CourseBank = { title: string; scope: string; questions: Question[]; flashcards: Flashcard[] };
+import { selectStudyBank, studyAvailability, flashcardProgressKey, type CourseBank, type Question, type Difficulty, type StudyFocus, type StudyLength } from './study-bank';
+import { mountStudyVisual } from './study-visuals';
+import '../../styles/brain-study-visuals.css';
 type Answer = { selected?: number; written?: string; revealed?: boolean; rating?: 'needs' | 'partly' | 'got' };
 type Totals = { objective: number; correct: number; recall: number; got: number; partly: number; needs: number; unanswered: number };
 type Summary = Totals & { topics: (Totals & { topic: string })[]; reviewIds: string[] };
 type Engine = {
   shuffle: <T>(items: T[]) => T[];
   shuffleChoices: (question: Question) => Question;
-  selectQuestions: (questions: Question[], options: { length: number; difficulty: Difficulty }) => { questions: Question[]; requested: number; available: number; capped: boolean };
+  selectQuestions: (questions: Question[], options: { length: StudyLength; difficulty: Difficulty }) => { questions: Question[]; requested: number; available: number; capped: boolean };
   summarize: (questions: Question[], answers: Record<string, Answer>) => Summary;
 };
 export type StudyOptions = {
-  course: Course; scope: StudyScope; mode: 'quiz' | 'flashcards'; length: 10 | 25 | 40 | 80;
-  difficulty: Difficulty; container: HTMLElement; onBack: () => void;
+  course: Course; scope: StudyScope; mode: 'quiz' | 'flashcards'; length: StudyLength;
+  difficulty: Difficulty; focus: StudyFocus; container: HTMLElement; onBack: () => void; onFocusChange: (focus: StudyFocus) => void;
 };
 
-let bankPromise: Promise<Record<Course, CourseBank>> | undefined;
+let bankPromise: Promise<{ standard: Record<Course, CourseBank>; visual: Record<Course, CourseBank> }> | undefined;
 const activeViews = new WeakMap<HTMLElement, symbol>();
 
 function node<K extends keyof HTMLElementTagNameMap>(tag: K, className = '', text = ''): HTMLElementTagNameMap[K] {
@@ -61,7 +55,8 @@ function progress(current: number, max: number, label: string): HTMLElement {
   wrapper.append(node('span', '', label), bar);
   return wrapper;
 }
-function sourceNote(course: Course, scope: StudyScope): HTMLElement {
+function sourceNote(course: Course, scope: StudyScope, focus: StudyFocus = 'all'): HTMLElement {
+  if (focus === 'visual') return node('p', 'portal-subtitle portal-source-note', 'Wireframe basics: guide-listed regions and directions plus supporting spatial vocabulary. Each item identifies its scope. Supporting items are extra foundations, not a claim that they appear on your exam.');
   const source = course === '105'
     ? 'Scope: 105 Study Guide, Modules 1–10, and Exam 1 Review. Original practice questions based on these materials.'
     : 'Scope: PSYC 108 Midterm 1 Study Guide and review materials. Original practice questions based on these materials.';
@@ -100,18 +95,26 @@ function lobesDiagram(): HTMLElement {
   return wrapper;
 }
 
-async function loadBank(): Promise<Record<Course, CourseBank>> {
-  if (!bankPromise) bankPromise = fetch('/brain/midterm-bank.json?v=2').then(async (response) => {
+async function loadBank(): Promise<{ standard: Record<Course, CourseBank>; visual: Record<Course, CourseBank> }> {
+  if (!bankPromise) bankPromise = Promise.all(['/brain/midterm-bank.json?v=3', '/brain/visual-study-bank.json?v=1'].map(async (url) => {
+    const response = await fetch(url);
     if (!response.ok) throw new Error('Study material could not be loaded.');
     const bank = await response.json();
-    if (!bank['105']?.questions?.length || !bank['108']?.flashcards?.length) throw new Error('Study material is unavailable.');
-    for (const course of ['105', '108']) for (const q of bank[course].questions) {
-      const explanations = q.kind === 'short' ? q.commonMistakes : q.choiceExplanations;
-      if (!Array.isArray(explanations) || !explanations.length || explanations.some((text: unknown) => typeof text !== 'string' || !text.trim()) || (q.choices && explanations.length !== q.choices.length)) throw new Error('Complete answer explanations are unavailable.');
+    for (const course of ['105', '108']) {
+      if (!bank[course]?.questions?.length || !bank[course]?.flashcards?.length) throw new Error('Study material is unavailable.');
+      for (const q of bank[course].questions) {
+        const explanations = q.kind === 'short' ? q.commonMistakes : q.choiceExplanations;
+        if (!Array.isArray(explanations) || !explanations.length || explanations.some((text: unknown) => typeof text !== 'string' || !text.trim()) || (q.choices && explanations.length !== q.choices.length)) throw new Error('Complete answer explanations are unavailable.');
+      }
     }
-    return bank;
-  }).catch((error) => { bankPromise = undefined; throw error; });
+    return bank as Record<Course, CourseBank>;
+  })).then(([standard, visual]) => ({ standard, visual })).catch((error) => { bankPromise = undefined; throw error; });
   return bankPromise;
+}
+
+export async function getStudyAvailability(course: Course, focus: StudyFocus): Promise<Record<Difficulty, number>> {
+  const banks = await loadBank();
+  return studyAvailability(selectStudyBank(banks.standard[course], banks.visual[course], focus));
 }
 
 export async function showStudy(options: StudyOptions): Promise<void> {
@@ -127,12 +130,12 @@ export async function showStudy(options: StudyOptions): Promise<void> {
   host.append(loading);
   container.replaceChildren(host);
   try {
-    const engineUrl = '/brain/midterm-engine.js?v=2';
-    const [bank, engine] = await Promise.all([loadBank(), import(/* @vite-ignore */ engineUrl) as Promise<Engine>]);
+    const engineUrl = '/brain/midterm-engine.js?v=3';
+    const [banks, engine] = await Promise.all([loadBank(), import(/* @vite-ignore */ engineUrl) as Promise<Engine>]);
     if (!current()) return;
     // The current course bank contains Midterm 1 only. General grows with future authored banks;
     // exam-specific sessions remain limited to the selected assessment's material.
-    const data = { ...bank[course], title: `PSYC ${course} · ${scopeLabel(options.scope)}` };
+    const data = { ...selectStudyBank(banks.standard[course], banks.visual[course], options.focus), title: `PSYC ${course} · ${scopeLabel(options.scope)}` };
     if (options.mode === 'flashcards') showFlashcards(data, engine, { ...options, container: host, onBack: back }, current);
     else showQuiz(data, engine, { ...options, container: host, onBack: back }, current);
   } catch (error) {
@@ -154,11 +157,13 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
   let reviewing = false;
   let resultsSaved = false;
   let retryRound = false;
+  let disposeVisual: (() => void) | undefined;
   const { container, course, onBack } = options;
   const complete = (question: Question) => question.kind === 'short' ? Boolean(answers[question.id]?.rating) : Boolean(answers[question.id]?.revealed);
 
   function render(focus: 'question' | 'feedback' = 'question'): void {
     if (!current()) return;
+    disposeVisual?.(); disposeVisual = undefined;
     if (!questions.length) { renderEmpty(); return; }
     const q = questions[index];
     const answer = answers[q.id] ||= {};
@@ -174,6 +179,12 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
     metadata.append(node('span', 'portal-topic-chip', q.topic), node('span', 'portal-topic-chip', q.difficulty), node('span', 'portal-topic-chip', q.kind === 'short' ? 'Written recall · self-rated' : 'Auto-checked'));
     panel.append(metadata, node('h2', 'portal-question-title', q.prompt));
     if (q.visual === 'lobes') panel.append(lobesDiagram());
+    else if (q.visual) {
+      metadata.append(node('span', 'portal-topic-chip', q.grounding === 'supporting' ? 'Supporting visual vocabulary' : 'From your study guide'));
+      const visual = node('div', 'portal-visual-slot'); panel.append(visual);
+      disposeVisual = mountStudyVisual(visual, q.visual, { revealed: Boolean(answer.revealed) });
+      if (q.sourceNote && answer.revealed) panel.append(node('p', 'portal-subtitle portal-item-source', q.sourceNote));
+    }
 
     if (q.kind === 'short') {
       const label = node('label', 'portal-subtitle', 'Recall it in your own words, then compare with the rubric.');
@@ -288,7 +299,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
       if (index === questions.length - 1) renderResults();
       else { index += 1; render(); }
     });
-    next.disabled = !complete(q); navigation.append(next); panel.append(navigation, sourceNote(course, options.scope));
+    next.disabled = !complete(q); navigation.append(next); panel.append(navigation, sourceNote(course, options.scope, options.focus));
     container.replaceChildren(panel);
     const feedbackHeading = panel.querySelector<HTMLElement>('.portal-feedback h3');
     if (focus === 'feedback' && feedbackHeading) focusElement(feedbackHeading, true);
@@ -296,6 +307,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
   }
 
   function renderEmpty(): void {
+    disposeVisual?.(); disposeVisual = undefined;
     const panel = node('section', 'portal-panel');
     panel.append(node('h2', 'portal-title', 'No questions at this difficulty'), button('Choose study options', 'portal-generate', onBack));
     container.replaceChildren(panel); focusHeading(panel);
@@ -303,11 +315,12 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
 
   function renderResults(): void {
     if (!current()) return;
+    disposeVisual?.(); disposeVisual = undefined;
     const result = engine.summarize(questions, answers);
     if (!resultsSaved) {
       const stored = readSaved<unknown>('brain-midterm-results-v1', []);
       const history = Array.isArray(stored) ? stored : [];
-      save('brain-midterm-results-v1', [{ course, scope: options.scope, at: new Date().toISOString(), difficulty: options.difficulty, count: questions.length, retry: retryRound, ...result }, ...history].slice(0, 20));
+      save('brain-midterm-results-v1', [{ course, scope: options.scope, focus: options.focus, at: new Date().toISOString(), difficulty: options.difficulty, count: questions.length, retry: retryRound, ...result }, ...history].slice(0, 20));
       resultsSaved = true;
     }
     const panel = node('section', 'portal-panel portal-results');
@@ -338,7 +351,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
       answers = {}; index = 0; reviewing = false; retryRound = true; resultsSaved = false; render();
     }));
     actions.append(button('Review all answers', 'portal-pill', () => { reviewing = true; index = 0; render(); }), button('New study session', 'portal-pill', onBack));
-    panel.append(actions, node('p', 'portal-subtitle', 'Your recent session summary is saved in this browser when local storage is available.'), sourceNote(course, options.scope));
+    panel.append(actions, node('p', 'portal-subtitle', 'Your recent session summary is saved in this browser when local storage is available.'), sourceNote(course, options.scope, options.focus));
     container.replaceChildren(panel); focusHeading(panel);
   }
   render();
@@ -346,7 +359,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
 
 function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions, current: () => boolean): void {
   const { container, course, onBack } = options;
-  const key = options.scope === 'general' ? `brain-general-flashcards-${course}-v1` : `brain-midterm-flashcards-${course}-v1`;
+  const key = flashcardProgressKey(course, options.scope, options.focus);
   const cards = new Map(data.flashcards.map((card) => [card.id, card]));
   const saved = readSaved<{ queue?: string[]; mastered?: string[]; reviews?: number }>(key, {});
   const safeIds = (value: unknown): string[] => Array.isArray(value) ? [...new Set(value.filter((id): id is string => typeof id === 'string' && cards.has(id)))] : [];
@@ -357,6 +370,7 @@ function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions,
   let reviews = Number.isFinite(saved.reviews) ? Number(saved.reviews) : 0;
   let flipped = false;
   let lastAction = '';
+  let disposeVisual: (() => void) | undefined;
   const persist = () => save(key, { queue, mastered: [...mastered], reviews });
 
   function restart(): void {
@@ -371,18 +385,38 @@ function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions,
   }
   function render(focusCard = false, animateFlip = false): void {
     if (!current()) return;
+    disposeVisual?.(); disposeVisual = undefined;
     const panel = node('section', 'portal-panel portal-flashcards');
     panel.append(button('← Study options', 'portal-pill portal-study-back', onBack), node('p', 'portal-eyebrow', `${data.title} · Flashcards`));
+    const focusChoices = node('div', 'portal-actions portal-focus-choices');
+    focusChoices.setAttribute('role', 'group'); focusChoices.setAttribute('aria-label', 'Flashcard focus');
+    for (const [value, label] of [['all', 'All course topics'], ['visual', 'Wireframe basics']] as const) {
+      const choice = button(label, 'portal-pill', () => { if (value !== options.focus) options.onFocusChange(value); });
+      choice.setAttribute('aria-pressed', String(options.focus === value)); focusChoices.append(choice);
+    }
+    panel.append(focusChoices);
     panel.append(progress(mastered.size, cards.size, `${mastered.size} of ${cards.size} marked Got it · ${queue.length} remaining`));
     if (!queue.length) {
       panel.append(node('h2', 'portal-title', 'Every card, one more connection.'), node('p', 'portal-subtitle', `You have marked all ${cards.size} cards Got it after ${reviews} reviews. This reflects your own recall ratings.`));
       const actions = node('div', 'portal-actions'); actions.append(button('Shuffle & restart', 'portal-generate', restart), button('Study options', 'portal-pill', onBack));
-      panel.append(actions, sourceNote(course, options.scope)); container.replaceChildren(panel); focusHeading(panel); return;
+      panel.append(actions, sourceNote(course, options.scope, options.focus)); container.replaceChildren(panel); focusHeading(panel); return;
     }
     const card = cards.get(queue[0])!;
     panel.append(node('span', 'portal-topic-chip', card.topic), node('h2', 'portal-question-title', 'Bring it back to mind.'));
     const surface = node('div', 'portal-card');
+    if (card.visual && card.visual !== 'lobes') {
+      surface.classList.add('portal-card-visual');
+      panel.append(node('span', 'portal-topic-chip', card.grounding === 'supporting' ? 'Supporting visual vocabulary' : 'From your study guide'));
+      const visual = node('div', 'portal-visual-slot'); surface.append(visual);
+      disposeVisual = mountStudyVisual(visual, card.visual, { revealed: flipped });
+      if (card.sourceNote && flipped) panel.append(node('p', 'portal-subtitle portal-item-source', card.sourceNote));
+    }
     const flip = button('', `portal-flashcard${animateFlip ? ' is-flipping' : ''}`, () => { flipped = !flipped; render(true, true); });
+    if (card.visual && card.visual !== 'lobes') surface.addEventListener('click', event => {
+      // Extend the flip button's pointer target across the illustration while
+      // keeping its keyboard behavior and the source links independent.
+      if (event.target instanceof Element && !event.target.closest('button, a')) flip.click();
+    });
     const side = node('span', 'portal-eyebrow', flipped ? 'Answer' : 'Question');
     const content = node('span', 'portal-flashcard-text', flipped ? card.answer : card.question);
     const hint = node('span', 'portal-subtitle', flipped ? 'Click or press Enter to see the question' : 'Recall first. Click or press Enter to reveal.');
@@ -403,7 +437,7 @@ function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions,
     const secondary = node('div', 'portal-actions');
     secondary.append(button('Shuffle remaining', 'portal-pill', () => { queue = engine.shuffle(queue); flipped = false; persist(); render(true); }));
     if (mastered.size || reviews) secondary.append(button('Restart deck', 'portal-pill', restart));
-    panel.append(secondary, sourceNote(course, options.scope)); container.replaceChildren(panel);
+    panel.append(secondary, sourceNote(course, options.scope, options.focus)); container.replaceChildren(panel);
     if (focusCard) focusElement(flip, true);
     else focusHeading(panel, true);
   }

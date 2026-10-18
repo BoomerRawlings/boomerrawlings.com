@@ -1,0 +1,92 @@
+.portal-visual-slot { width: 100%; min-width: 0; }
+.portal-card-visual .portal-study-visual-graphic { cursor: pointer; }
+
+.portal-study-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-width: 43rem;
+  margin: 1rem auto 1.15rem;
+  text-align: center;
+  color: #b5d1dc;
+}
+
+.portal-study-visual-graphic {
+  position: relative;
+  min-width: 0;
+  width: 100%;
+  aspect-ratio: 640 / 390;
+  overflow: hidden;
+  border: 1px solid #8bd8ea20;
+  border-radius: 1.1rem;
+  background: radial-gradient(ellipse at 50% 45%, #173a4b65, #07131fbd 74%);
+  contain: layout paint;
+}
+
+.portal-study-visual .study-wireframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.portal-study-visual figcaption {
+  max-width: 36rem;
+  margin: .6rem auto 0;
+  font-size: .75rem;
+  line-height: 1.5;
+  letter-spacing: .015em;
+}
+
+.portal-study-visual-credit {
+  align-self: center;
+  margin-top: .35rem;
+  color: #8bb4c4;
+  font-size: .63rem;
+  line-height: 1.6;
+  text-decoration: none;
+  text-underline-offset: .2em;
+}
+
+.portal-study-visual-credit:hover,
+.portal-study-visual-credit:focus-visible { color: #ecfaff; text-decoration: underline; }
+
+.portal-study-visual-status {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  margin: 0;
+  padding: 1.5rem;
+  font-size: .85rem;
+}
+
+.portal-study-visual-status.is-error { color: #ffe1ab; }
+
+.portal-focus-choices .portal-pill[aria-pressed='true'] {
+  color: #eafaff;
+  border-color: #a3e5f5;
+  background: rgba(48, 113, 135, .24);
+  box-shadow: inset 0 -3px #b1edff, 0 0 24px rgba(111, 202, 227, .05);
+}
+
+.portal-item-source {
+  max-width: 100%;
+  margin: .75rem 0 0;
+  color: #9ab7c7;
+  font-size: .72rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.portal-card-visual .portal-flashcard {
+  min-height: 150px;
+  gap: 16px;
+  padding: 24px;
+}
+
+@media (max-width: 600px) {
+  .portal-study-visual { margin: .7rem auto .85rem; }
+  .portal-study-visual-graphic { border-radius: .75rem; }
+  .portal-study-visual figcaption { font-size: .7rem; }
+}

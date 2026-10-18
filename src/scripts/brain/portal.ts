@@ -1,9 +1,9 @@
 import { initializePortalScene } from './portal-scene';
-import { showStudy } from './portal-study';
+import { showStudy, getStudyAvailability } from './portal-study';
 import { claimStudyToolsReload } from './portal-load-recovery';
 import { COURSE_CATALOG, courseScopeNote, resolveStudyScope, scopeLabel, type Course, type StudyScope } from './course-catalog';
+import type { Difficulty, StudyFocus, StudyLength } from './study-bank';
 
-type Difficulty = 'mixed' | 'foundation' | 'application' | 'challenge';
 const portal = document.getElementById('brain-portal')!;
 const stage = document.getElementById('portal-stage')!;
 const legacy = document.getElementById('brain-legacy')!;
@@ -15,7 +15,7 @@ let scene: ReturnType<typeof initializePortalScene> | undefined;
 let legacyReady: Promise<typeof import('./app')> | undefined;
 let unlocked = false;
 let routeVersion = 0;
-let length: 10 | 25 | 40 | 80 = 25;
+let length: StudyLength = 25;
 let difficulty: Difficulty = 'mixed';
 let returnTo = '#portal';
 let moving = !matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -110,25 +110,49 @@ function courseMenu(course: Course, scope: StudyScope) {
   grid.append(cloud('Practice quizzes', 'Choose your pace. Test your understanding.', 'quiz', () => go(studyHash(course, scope, 'setup')), 'cloud-primary'), cloud('Flashcards', 'Retrieve. Reveal. Remember.', 'cards', () => go(studyHash(course, scope, 'cards')), 'cloud-primary'));
   stage.append(grid);
 }
-function setup(course: Course, scope: StudyScope) {
+function setup(course: Course, scope: StudyScope, focus: StudyFocus) {
   returnTo = studyHash(course, scope); stage.dataset.view = 'setup';
-  heading(`PSYC ${course} · ${scopeLabel(scope).toUpperCase()} · PRACTICE QUIZZES`, 'Make room for a challenge.', courseScopeNote(course, scope));
+  heading(`PSYC ${course} · ${scopeLabel(scope).toUpperCase()} · PRACTICE QUIZZES`, focus === 'visual' ? 'Start with the basics.' : 'Make room for a challenge.', courseScopeNote(course, scope));
   const config = document.createElement('div'); config.className = 'portal-config';
   const countNote = document.createElement('p'); countNote.className = 'portal-subtitle'; countNote.id = 'portal-count-note'; countNote.setAttribute('aria-live','polite');
-  const update = () => { const count = Math.min(length, difficulty === 'mixed' ? 80 : difficulty === 'application' ? 40 : 20); countNote.textContent = `${count} unique questions · ${difficulty === 'mixed' ? 'All difficulty levels' : difficulty === 'foundation' ? 'Foundational knowledge' : difficulty === 'application' ? 'Applied understanding' : 'Deeper reasoning'}${count < length ? ` · This level has ${count} questions` : ''}. Every answer includes an explanation. Written answers include a rubric for self-checking.`; };
+  let available: Record<Difficulty, number> | undefined;
+  const update = () => {
+    if (!available) { countNote.textContent = 'Loading available questions…'; return; }
+    const level = focus === 'visual' ? 'foundation' : difficulty;
+    const count = length === 'all' ? available[level] : Math.min(length, available[level]);
+    countNote.textContent = `${count} unique questions · ${focus === 'visual' ? 'Very basic visual identification' : level === 'mixed' ? 'All difficulty levels' : level === 'foundation' ? 'Foundational knowledge' : level === 'application' ? 'Applied understanding' : 'Deeper reasoning'}${length !== 'all' && count < length ? ` · This selection has ${count} questions` : ''}. Every answer includes an explanation.`;
+  };
   const group = (name: string) => { const node = document.createElement('fieldset'); node.className = 'portal-option-group'; const legend = document.createElement('legend'); legend.textContent = name; node.append(legend); config.append(node); return node; };
-  const lengths = group('01 / Choose a length');
-  for (const [n, label] of [[10,'10 · Quick orbit'],[25,'25 · Focus session'],[40,'40 · Deep dive'],[80,'80 · Complete bank']] as const) {
+  const focusChoices = group('01 / Choose a focus');
+  for (const [value, label] of [['all', 'All course topics'], ['visual', 'Wireframe basics']] as const) {
+    const choice = button(label, () => go(`${studyHash(course, scope, 'setup')}&focus=${value}`));
+    choice.setAttribute('aria-pressed', String(focus === value)); focusChoices.append(choice);
+  }
+  if (focus === 'visual') {
+    const note = document.createElement('p'); note.className = 'portal-subtitle';
+    note.textContent = 'Identify highlighted regions, follow direction arrows and yellow tract connections, and distinguish surface views from section planes. Includes clearly marked supporting visual vocabulary.'; config.append(note);
+  }
+  const lengths = group('02 / Choose a length');
+  for (const [n, label] of [[10,'10 · Quick orbit'],[25,'25 · Focus session'],[40,'40 · Deep dive'],['all','All · Complete bank']] as const) {
     const choice = button(label, () => { length = n; lengths.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed', String(b === choice))); update(); });
     choice.setAttribute('aria-pressed', String(length === n)); lengths.append(choice);
   }
-  const levels = group('02 / Choose a difficulty');
+  const levels = group('03 / Choose a difficulty');
+  levels.hidden = focus === 'visual';
   for (const [value, label] of [['mixed','Mixed'],['foundation','Foundation'],['application','Application'],['challenge','Challenge']] as const) {
     const choice = button(label, () => { difficulty = value; levels.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed', String(b === choice))); update(); });
     choice.setAttribute('aria-pressed', String(difficulty === value)); levels.append(choice);
   }
-  update(); config.append(countNote, button('Generate quiz →', () => go(`${studyHash(course, scope, 'quiz')}&length=${length}&difficulty=${difficulty}`), 'portal-generate'));
+  const generate = button('Generate quiz →', () => go(`${studyHash(course, scope, 'quiz')}&length=${length}&difficulty=${focus === 'visual' ? 'foundation' : difficulty}&focus=${focus}`), 'portal-generate');
+  generate.disabled = true; update(); config.append(countNote, generate);
   stage.append(config);
+  void getStudyAvailability(course, focus).then(counts => {
+    if (!config.isConnected) return;
+    available = counts; update(); generate.disabled = false;
+  }).catch(() => {
+    if (!config.isConnected) return;
+    countNote.textContent = 'Question counts could not load. Generate a quiz to try loading your study material again.'; generate.disabled = false;
+  });
 }
 async function showLegacy(version: number) {
   const params = new URLSearchParams(location.hash.slice(1)); params.set('view','atlas'); history.replaceState(null,'',`#${params}`);
@@ -162,6 +186,7 @@ async function route() {
   resetCloudMotion();
   const params = new URLSearchParams(location.hash.slice(1));
   const course = params.get('study');
+  const focus: StudyFocus = params.get('focus') === 'visual' ? 'visual' : 'all';
   if (!course && (params.get('view') === 'atlas' || ['mode','topic','depth'].some(key=>params.has(key)))) { await showLegacy(version); return; }
   portal.hidden = false; legacy.hidden = true; legacy.inert = true; document.body.classList.add('brain-portal-active');
   if(legacyReady) void legacyReady.then(app=>{ if (legacy.hidden) app.suspendLegacy(); }).catch(()=>{});
@@ -177,15 +202,15 @@ async function route() {
       history.replaceState(null, '', `#study=${course}`);
       scopeMenu(course, true);
     } else if (!scope) scopeMenu(course);
-    else if(step === 'setup') setup(course, scope);
+    else if(step === 'setup') setup(course, scope, focus);
     else if(step === 'cards' || step === 'quiz') {
-      returnTo = studyHash(course, scope, step === 'quiz' ? 'setup' : undefined); stage.dataset.view = step;
+      returnTo = `${studyHash(course, scope, step === 'quiz' ? 'setup' : undefined)}${step === 'quiz' ? `&focus=${focus}` : ''}`; stage.dataset.view = step;
       const n = Number(params.get('length')); const d = params.get('difficulty');
-      const validLength = ([10,25,40,80].includes(n) ? n : length) as typeof length;
-      const validDifficulty = (['mixed','foundation','application','challenge'].includes(d || '') ? d : difficulty) as Difficulty;
+      const validLength = (params.get('length') === 'all' ? 'all' : [10,25,40,80].includes(n) ? n : length) as StudyLength;
+      const validDifficulty = (focus === 'visual' ? 'foundation' : ['mixed','foundation','application','challenge'].includes(d || '') ? d : difficulty) as Difficulty;
       const mount = document.createElement('div'); mount.className = 'portal-study-mount'; stage.append(mount);
       const studyBack = returnTo;
-      await showStudy({course,scope,mode:step === 'cards' ? 'flashcards' : 'quiz',length:validLength,difficulty:validDifficulty,container:mount,onBack:()=>go(studyBack)});
+      await showStudy({course,scope,focus,mode:step === 'cards' ? 'flashcards' : 'quiz',length:validLength,difficulty:validDifficulty,container:mount,onBack:()=>go(studyBack),onFocusChange:value=>go(`${studyHash(course, scope, step)}&focus=${value}`)});
     } else courseMenu(course, scope);
   } else home();
   if(version !== routeVersion) return;

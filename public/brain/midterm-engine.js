@@ -21,7 +21,7 @@ export function shuffleChoices(question, random = Math.random) {
 
 export function selectQuestions(bank, { length = 25, difficulty = 'mixed' } = {}, random = Math.random) {
   const eligible = bank.filter((question) => difficulty === 'mixed' || question.difficulty === difficulty);
-  const requested = Math.max(1, Math.floor(Number(length) || 25));
+  const requested = length === 'all' ? eligible.length : Math.max(1, Math.floor(Number(length) || 25));
   const count = Math.min(requested, eligible.length);
   const groups = new Map();
   for (const question of shuffle(eligible, random)) {

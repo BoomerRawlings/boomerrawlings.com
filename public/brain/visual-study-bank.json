@@ -1,0 +1,2146 @@
+{
+  "105": {
+    "title": "PSYC 105 Wireframe Basics",
+    "scope": "Module 2 neuroanatomy plus clearly marked supporting visual vocabulary; no Modules 11+ content.",
+    "sourceNotes": {
+      "direct": [
+        "PSYC 105 Study Guide, Module 2, page 1: identify the four cerebral lobes and their broad functions."
+      ],
+      "supporting": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+      "conventions": "Directions describe the human forebrain, not the spinal cord. Surface views and section planes are different concepts. Yellow pathways are schematic connections, not individual measured tracts; their endpoints determine the tract class. Highlighted shapes are teaching representations, not diagnostic images.",
+      "references": [
+        {
+          "title": "UTHealth Neuroanatomy Online: Planes of Section",
+          "url": "https://nba.uth.tmc.edu/neuroanatomy/L1/Lab01p03_index.html"
+        },
+        {
+          "title": "UTHealth Neuroscience Online: Overview of the Nervous System",
+          "url": "https://nba.uth.tmc.edu/neuroscience/s2/chapter01.html"
+        }
+      ]
+    },
+    "questions": [
+      {
+        "id": "105-visual-q-regions-frontal",
+        "topic": "M2 Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "frontal",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 105 Study Guide, Module 2, page 1: identify the four cerebral lobes and their broad functions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which brain region is highlighted in the wireframe?",
+        "explanation": "The highlighted region occupies the front of the cerebral hemisphere, ahead of the central sulcus. Look for the front of the hemisphere. The frontal lobe lies anterior to the central sulcus.",
+        "choices": [
+          "Frontal lobe",
+          "Parietal lobe",
+          "Temporal lobe",
+          "Occipital lobe"
+        ],
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "The highlighted region occupies the front of the cerebral hemisphere, ahead of the central sulcus. Look for the front of the hemisphere. The frontal lobe lies anterior to the central sulcus.",
+          "The parietal lobe lies behind the central sulcus and above the temporal lobe. That upper cortical territory is not the highlighted structure.",
+          "The temporal lobe lies along the lower side of the cerebrum, below the lateral sulcus. The highlight identifies a different region.",
+          "The occipital lobe occupies the back of the cerebral cortex. It is different from the highlighted region and is not the cerebellum beneath it."
+        ]
+      },
+      {
+        "id": "105-visual-q-regions-parietal",
+        "topic": "M2 Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "parietal",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 105 Study Guide, Module 2, page 1: identify the four cerebral lobes and their broad functions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which brain region is highlighted in the wireframe?",
+        "explanation": "The highlighted region is the upper, rearward part of the cerebrum, behind the central sulcus and above the temporal lobe. Look behind the central sulcus and above the temporal lobe. This is the parietal lobe.",
+        "choices": [
+          "Frontal lobe",
+          "Temporal lobe",
+          "Occipital lobe",
+          "Parietal lobe"
+        ],
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "The frontal lobe is the front portion of the cerebral cortex, anterior to the central sulcus. That is a different location from the highlighted region.",
+          "The temporal lobe lies along the lower side of the cerebrum, below the lateral sulcus. The highlight identifies a different region.",
+          "The occipital lobe occupies the back of the cerebral cortex. It is different from the highlighted region and is not the cerebellum beneath it.",
+          "The highlighted region is the upper, rearward part of the cerebrum, behind the central sulcus and above the temporal lobe. Look behind the central sulcus and above the temporal lobe. This is the parietal lobe."
+        ]
+      },
+      {
+        "id": "105-visual-q-regions-temporal",
+        "topic": "M2 Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "temporal",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 105 Study Guide, Module 2, page 1: identify the four cerebral lobes and their broad functions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which brain region is highlighted in the wireframe?",
+        "explanation": "The highlighted region lies along the lower side of the cerebral hemisphere, below the lateral sulcus. Look along the lower side of the hemisphere. The temporal lobe lies below the lateral sulcus.",
+        "choices": [
+          "Parietal lobe",
+          "Occipital lobe",
+          "Temporal lobe",
+          "Frontal lobe"
+        ],
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "The parietal lobe lies behind the central sulcus and above the temporal lobe. That upper cortical territory is not the highlighted structure.",
+          "The occipital lobe occupies the back of the cerebral cortex. It is different from the highlighted region and is not the cerebellum beneath it.",
+          "The highlighted region lies along the lower side of the cerebral hemisphere, below the lateral sulcus. Look along the lower side of the hemisphere. The temporal lobe lies below the lateral sulcus.",
+          "The frontal lobe is the front portion of the cerebral cortex, anterior to the central sulcus. That is a different location from the highlighted region."
+        ]
+      },
+      {
+        "id": "105-visual-q-regions-occipital",
+        "topic": "M2 Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "occipital",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 105 Study Guide, Module 2, page 1: identify the four cerebral lobes and their broad functions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which brain region is highlighted in the wireframe?",
+        "explanation": "The highlighted region is at the back of the cerebral hemisphere, behind the parietal and temporal regions. Find the rear of the cerebrum. That posterior cortical region is the occipital lobe.",
+        "choices": [
+          "Temporal lobe",
+          "Occipital lobe",
+          "Frontal lobe",
+          "Parietal lobe"
+        ],
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "The temporal lobe lies along the lower side of the cerebrum, below the lateral sulcus. The highlight identifies a different region.",
+          "The highlighted region is at the back of the cerebral hemisphere, behind the parietal and temporal regions. Find the rear of the cerebrum. That posterior cortical region is the occipital lobe.",
+          "The frontal lobe is the front portion of the cerebral cortex, anterior to the central sulcus. That is a different location from the highlighted region.",
+          "The parietal lobe lies behind the central sulcus and above the temporal lobe. That upper cortical territory is not the highlighted structure."
+        ]
+      },
+      {
+        "id": "105-visual-q-regions-cerebellum",
+        "topic": "M2 Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "cerebellum",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 108 Midterm 1 Review, page 11. This structure is not separately named in the supplied PSYC 105 study guide.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which brain region is highlighted in the wireframe?",
+        "explanation": "The highlighted structure sits below the rear of the cerebrum. It is separate from the four cerebral lobes. Find the smaller structure tucked beneath the back of the cerebrum. This is the cerebellum.",
+        "choices": [
+          "Cerebellum",
+          "Basal ganglia",
+          "Temporal lobe",
+          "Occipital lobe"
+        ],
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "The highlighted structure sits below the rear of the cerebrum. It is separate from the four cerebral lobes. Find the smaller structure tucked beneath the back of the cerebrum. This is the cerebellum.",
+          "The basal ganglia are deep structures within the cerebral hemispheres. They are not the separate highlighted structure below the rear of the cerebrum.",
+          "The temporal lobe lies along the lower side of the cerebrum, below the lateral sulcus. The highlight identifies a different region.",
+          "The occipital lobe occupies the back of the cerebral cortex. It is different from the highlighted region and is not the cerebellum beneath it."
+        ]
+      },
+      {
+        "id": "105-visual-q-regions-basal-ganglia",
+        "topic": "M2 Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "basal-ganglia",
+          "view": "oblique"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 108 Midterm 1 Review, page 11. This structure is not separately named in the supplied PSYC 105 study guide.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which brain region is highlighted in the wireframe?",
+        "explanation": "The highlight marks a group of structures deep inside the cerebral hemispheres, beneath the cortical surface. These highlighted structures are deep within the cerebrum. The basal ganglia include the caudate, putamen, and globus pallidus emphasized in the 108 review.",
+        "choices": [
+          "Cerebellum",
+          "Frontal lobe",
+          "Parietal lobe",
+          "Basal ganglia"
+        ],
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "The cerebellum is the smaller structure below the back of the cerebrum. It is not the highlighted group deep inside the cerebral hemispheres.",
+          "The frontal lobe is the front portion of the cerebral cortex, anterior to the central sulcus. That is a different location from the highlighted region.",
+          "The parietal lobe lies behind the central sulcus and above the temporal lobe. That upper cortical territory is not the highlighted structure.",
+          "The highlight marks a group of structures deep inside the cerebral hemispheres, beneath the cortical surface. These highlighted structures are deep within the cerebrum. The basal ganglia include the caudate, putamen, and globus pallidus emphasized in the 108 review."
+        ]
+      },
+      {
+        "id": "105-visual-q-directions-dorsal",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "dorsal",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: directional pairs appear in PSYC 108 Midterm 1 Review, page 6. Included as supporting orientation for PSYC 105 Module 2, not a separately listed 105 exam objective.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Dorsal points toward the top of the human forebrain; in this diagram it matches superior. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Rostral",
+          "Caudal",
+          "Dorsal",
+          "Ventral"
+        ],
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "Rostral points toward the front, or nose end, of the human forebrain; here it matches anterior. It does not name the direction indicated by this arrow.",
+          "Caudal points toward the rear of the human forebrain; in this diagram it matches posterior. It does not name the direction indicated by this arrow.",
+          "Dorsal points toward the top of the human forebrain; in this diagram it matches superior. Follow the arrow relative to the brain, not relative to your screen.",
+          "Ventral points toward the bottom of the human forebrain; in this diagram it matches inferior. It does not name the direction indicated by this arrow."
+        ]
+      },
+      {
+        "id": "105-visual-q-directions-ventral",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "ventral",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: directional pairs appear in PSYC 108 Midterm 1 Review, page 6. Included as supporting orientation for PSYC 105 Module 2, not a separately listed 105 exam objective.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Ventral points toward the bottom of the human forebrain; in this diagram it matches inferior. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Caudal",
+          "Ventral",
+          "Dorsal",
+          "Rostral"
+        ],
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "Caudal points toward the rear of the human forebrain; in this diagram it matches posterior. It does not name the direction indicated by this arrow.",
+          "Ventral points toward the bottom of the human forebrain; in this diagram it matches inferior. Follow the arrow relative to the brain, not relative to your screen.",
+          "Dorsal points toward the top of the human forebrain; in this diagram it matches superior. It does not name the direction indicated by this arrow.",
+          "Rostral points toward the front, or nose end, of the human forebrain; here it matches anterior. It does not name the direction indicated by this arrow."
+        ]
+      },
+      {
+        "id": "105-visual-q-directions-rostral",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "rostral",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: directional pairs appear in PSYC 108 Midterm 1 Review, page 6. Included as supporting orientation for PSYC 105 Module 2, not a separately listed 105 exam objective.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Rostral points toward the front, or nose end, of the human forebrain; here it matches anterior. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Rostral",
+          "Caudal",
+          "Dorsal",
+          "Ventral"
+        ],
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "Rostral points toward the front, or nose end, of the human forebrain; here it matches anterior. Follow the arrow relative to the brain, not relative to your screen.",
+          "Caudal points toward the rear of the human forebrain; in this diagram it matches posterior. It does not name the direction indicated by this arrow.",
+          "Dorsal points toward the top of the human forebrain; in this diagram it matches superior. It does not name the direction indicated by this arrow.",
+          "Ventral points toward the bottom of the human forebrain; in this diagram it matches inferior. It does not name the direction indicated by this arrow."
+        ]
+      },
+      {
+        "id": "105-visual-q-directions-caudal",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "caudal",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: directional pairs appear in PSYC 108 Midterm 1 Review, page 6. Included as supporting orientation for PSYC 105 Module 2, not a separately listed 105 exam objective.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Caudal points toward the rear of the human forebrain; in this diagram it matches posterior. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Rostral",
+          "Dorsal",
+          "Ventral",
+          "Caudal"
+        ],
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "Rostral points toward the front, or nose end, of the human forebrain; here it matches anterior. It does not name the direction indicated by this arrow.",
+          "Dorsal points toward the top of the human forebrain; in this diagram it matches superior. It does not name the direction indicated by this arrow.",
+          "Ventral points toward the bottom of the human forebrain; in this diagram it matches inferior. It does not name the direction indicated by this arrow.",
+          "Caudal points toward the rear of the human forebrain; in this diagram it matches posterior. Follow the arrow relative to the brain, not relative to your screen."
+        ]
+      },
+      {
+        "id": "105-visual-q-directions-superior",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "superior",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: directional pairs appear in PSYC 108 Midterm 1 Review, page 6. Included as supporting orientation for PSYC 105 Module 2, not a separately listed 105 exam objective.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Superior points toward the top of the human forebrain; in this diagram it matches dorsal. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Anterior",
+          "Posterior",
+          "Superior",
+          "Inferior"
+        ],
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "Anterior points toward the front, or nose end, of the human forebrain; here it matches rostral. It does not name the direction indicated by this arrow.",
+          "Posterior points toward the back of the human forebrain; in this diagram it matches caudal. It does not name the direction indicated by this arrow.",
+          "Superior points toward the top of the human forebrain; in this diagram it matches dorsal. Follow the arrow relative to the brain, not relative to your screen.",
+          "Inferior points toward the bottom of the human forebrain; in this diagram it matches ventral. It does not name the direction indicated by this arrow."
+        ]
+      },
+      {
+        "id": "105-visual-q-directions-inferior",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "inferior",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: directional pairs appear in PSYC 108 Midterm 1 Review, page 6. Included as supporting orientation for PSYC 105 Module 2, not a separately listed 105 exam objective.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Inferior points toward the bottom of the human forebrain; in this diagram it matches ventral. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Posterior",
+          "Inferior",
+          "Superior",
+          "Anterior"
+        ],
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "Posterior points toward the back of the human forebrain; in this diagram it matches caudal. It does not name the direction indicated by this arrow.",
+          "Inferior points toward the bottom of the human forebrain; in this diagram it matches ventral. Follow the arrow relative to the brain, not relative to your screen.",
+          "Superior points toward the top of the human forebrain; in this diagram it matches dorsal. It does not name the direction indicated by this arrow.",
+          "Anterior points toward the front, or nose end, of the human forebrain; here it matches rostral. It does not name the direction indicated by this arrow."
+        ]
+      },
+      {
+        "id": "105-visual-q-directions-anterior",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "anterior",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: directional pairs appear in PSYC 108 Midterm 1 Review, page 6. Included as supporting orientation for PSYC 105 Module 2, not a separately listed 105 exam objective.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Anterior points toward the front, or nose end, of the human forebrain; here it matches rostral. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Anterior",
+          "Posterior",
+          "Superior",
+          "Inferior"
+        ],
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "Anterior points toward the front, or nose end, of the human forebrain; here it matches rostral. Follow the arrow relative to the brain, not relative to your screen.",
+          "Posterior points toward the back of the human forebrain; in this diagram it matches caudal. It does not name the direction indicated by this arrow.",
+          "Superior points toward the top of the human forebrain; in this diagram it matches dorsal. It does not name the direction indicated by this arrow.",
+          "Inferior points toward the bottom of the human forebrain; in this diagram it matches ventral. It does not name the direction indicated by this arrow."
+        ]
+      },
+      {
+        "id": "105-visual-q-directions-posterior",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "posterior",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: directional pairs appear in PSYC 108 Midterm 1 Review, page 6. Included as supporting orientation for PSYC 105 Module 2, not a separately listed 105 exam objective.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Posterior points toward the back of the human forebrain; in this diagram it matches caudal. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Anterior",
+          "Superior",
+          "Inferior",
+          "Posterior"
+        ],
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "Anterior points toward the front, or nose end, of the human forebrain; here it matches rostral. It does not name the direction indicated by this arrow.",
+          "Superior points toward the top of the human forebrain; in this diagram it matches dorsal. It does not name the direction indicated by this arrow.",
+          "Inferior points toward the bottom of the human forebrain; in this diagram it matches ventral. It does not name the direction indicated by this arrow.",
+          "Posterior points toward the back of the human forebrain; in this diagram it matches caudal. Follow the arrow relative to the brain, not relative to your screen."
+        ]
+      },
+      {
+        "id": "105-visual-q-directions-medial",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "medial",
+          "view": "superior"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Medial points toward the midline that separates the left and right cerebral hemispheres. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Anterior",
+          "Posterior",
+          "Medial",
+          "Lateral"
+        ],
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "Anterior points toward the front, or nose end, of the human forebrain; here it matches rostral. It does not name the direction indicated by this arrow.",
+          "Posterior points toward the back of the human forebrain; in this diagram it matches caudal. It does not name the direction indicated by this arrow.",
+          "Medial points toward the midline that separates the left and right cerebral hemispheres. Follow the arrow relative to the brain, not relative to your screen.",
+          "Lateral points away from the midline, toward the outer side of a cerebral hemisphere. It does not name the direction indicated by this arrow."
+        ]
+      },
+      {
+        "id": "105-visual-q-directions-lateral",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "lateral",
+          "view": "superior"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Lateral points away from the midline, toward the outer side of a cerebral hemisphere. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Posterior",
+          "Lateral",
+          "Medial",
+          "Anterior"
+        ],
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "Posterior points toward the back of the human forebrain; in this diagram it matches caudal. It does not name the direction indicated by this arrow.",
+          "Lateral points away from the midline, toward the outer side of a cerebral hemisphere. Follow the arrow relative to the brain, not relative to your screen.",
+          "Medial points toward the midline that separates the left and right cerebral hemispheres. It does not name the direction indicated by this arrow.",
+          "Anterior points toward the front, or nose end, of the human forebrain; here it matches rostral. It does not name the direction indicated by this arrow."
+        ]
+      },
+      {
+        "id": "105-visual-q-views-lateral",
+        "topic": "M2 Neuroanatomy: visual views",
+        "visual": {
+          "kind": "view",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which surface view of the brain is shown?",
+        "explanation": "You are looking at the outer side of a cerebral hemisphere. This is a lateral surface view, not a cut through the brain.",
+        "choices": [
+          "Lateral view",
+          "Medial view",
+          "Superior view",
+          "Inferior view"
+        ],
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "You are looking at the outer side of a cerebral hemisphere. This is a lateral surface view, not a cut through the brain.",
+          "A medial view looks at the inner face of a hemisphere along the midline. That requires exposing the inner surface, not simply viewing the outside.",
+          "A superior view looks down at the top of the brain from above. That is a different viewing position from the one shown here.",
+          "An inferior view looks up at the underside of the brain from below. That is a different viewing position from the one shown here."
+        ]
+      },
+      {
+        "id": "105-visual-q-views-medial",
+        "topic": "M2 Neuroanatomy: visual views",
+        "visual": {
+          "kind": "view",
+          "view": "medial"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which surface view of the brain is shown?",
+        "explanation": "You are looking at the inner surface of a cerebral hemisphere, facing the midline. The other hemisphere is removed to expose that surface.",
+        "choices": [
+          "Lateral view",
+          "Superior view",
+          "Inferior view",
+          "Medial view"
+        ],
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "A lateral view looks at the outer side of a cerebral hemisphere. It does not show the inner midline surface, the top, or the underside.",
+          "A superior view looks down at the top of the brain from above. That is a different viewing position from the one shown here.",
+          "An inferior view looks up at the underside of the brain from below. That is a different viewing position from the one shown here.",
+          "You are looking at the inner surface of a cerebral hemisphere, facing the midline. The other hemisphere is removed to expose that surface."
+        ]
+      },
+      {
+        "id": "105-visual-q-views-superior",
+        "topic": "M2 Neuroanatomy: visual views",
+        "visual": {
+          "kind": "view",
+          "view": "superior"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which surface view of the brain is shown?",
+        "explanation": "You are looking down onto the brain from above. This is a superior, or dorsal, surface view of the human forebrain.",
+        "choices": [
+          "Lateral view",
+          "Medial view",
+          "Superior view",
+          "Inferior view"
+        ],
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "A lateral view looks at the outer side of a cerebral hemisphere. It does not show the inner midline surface, the top, or the underside.",
+          "A medial view looks at the inner face of a hemisphere along the midline. That requires exposing the inner surface, not simply viewing the outside.",
+          "You are looking down onto the brain from above. This is a superior, or dorsal, surface view of the human forebrain.",
+          "An inferior view looks up at the underside of the brain from below. That is a different viewing position from the one shown here."
+        ]
+      },
+      {
+        "id": "105-visual-q-views-inferior",
+        "topic": "M2 Neuroanatomy: visual views",
+        "visual": {
+          "kind": "view",
+          "view": "inferior"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which surface view of the brain is shown?",
+        "explanation": "You are looking up at the underside of the brain from below. This is an inferior, or ventral, surface view of the human forebrain.",
+        "choices": [
+          "Medial view",
+          "Inferior view",
+          "Superior view",
+          "Lateral view"
+        ],
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "A medial view looks at the inner face of a hemisphere along the midline. That requires exposing the inner surface, not simply viewing the outside.",
+          "You are looking up at the underside of the brain from below. This is an inferior, or ventral, surface view of the human forebrain.",
+          "A superior view looks down at the top of the brain from above. That is a different viewing position from the one shown here.",
+          "A lateral view looks at the outer side of a cerebral hemisphere. It does not show the inner midline surface, the top, or the underside."
+        ]
+      },
+      {
+        "id": "105-visual-q-planes-sagittal",
+        "topic": "M2 Neuroanatomy: visual planes",
+        "visual": {
+          "kind": "plane",
+          "plane": "sagittal"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which anatomical section plane is highlighted through the wireframe?",
+        "explanation": "The highlighted plane separates left and right portions of the brain. At the exact midline, it is specifically a midsagittal plane.",
+        "choices": [
+          "Sagittal plane",
+          "Coronal plane",
+          "Horizontal plane",
+          "No section plane: external surface view only"
+        ],
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "The highlighted plane separates left and right portions of the brain. At the exact midline, it is specifically a midsagittal plane.",
+          "A coronal plane separates anterior and posterior portions of the brain. The highlighted sheet has a different orientation.",
+          "A horizontal plane separates superior and inferior portions of the brain. The highlighted sheet has a different orientation.",
+          "The highlighted sheet passes through the brain and represents a section plane. It is not merely a viewing position outside the brain."
+        ]
+      },
+      {
+        "id": "105-visual-q-planes-coronal",
+        "topic": "M2 Neuroanatomy: visual planes",
+        "visual": {
+          "kind": "plane",
+          "plane": "coronal"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which anatomical section plane is highlighted through the wireframe?",
+        "explanation": "The highlighted plane separates front and back portions of the brain. Coronal is also called frontal; it is a section plane, not a cerebral lobe.",
+        "choices": [
+          "Sagittal plane",
+          "Horizontal plane",
+          "No section plane: external surface view only",
+          "Coronal plane"
+        ],
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "A sagittal plane separates left and right portions of the brain. The highlighted sheet has a different orientation.",
+          "A horizontal plane separates superior and inferior portions of the brain. The highlighted sheet has a different orientation.",
+          "The highlighted sheet passes through the brain and represents a section plane. It is not merely a viewing position outside the brain.",
+          "The highlighted plane separates front and back portions of the brain. Coronal is also called frontal; it is a section plane, not a cerebral lobe."
+        ]
+      },
+      {
+        "id": "105-visual-q-planes-horizontal",
+        "topic": "M2 Neuroanatomy: visual planes",
+        "visual": {
+          "kind": "plane",
+          "plane": "horizontal"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which anatomical section plane is highlighted through the wireframe?",
+        "explanation": "The highlighted plane separates upper and lower portions of the brain. For these forebrain images, horizontal is also called axial.",
+        "choices": [
+          "Coronal plane",
+          "No section plane: external surface view only",
+          "Horizontal plane",
+          "Sagittal plane"
+        ],
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "A coronal plane separates anterior and posterior portions of the brain. The highlighted sheet has a different orientation.",
+          "The highlighted sheet passes through the brain and represents a section plane. It is not merely a viewing position outside the brain.",
+          "The highlighted plane separates upper and lower portions of the brain. For these forebrain images, horizontal is also called axial.",
+          "A sagittal plane separates left and right portions of the brain. The highlighted sheet has a different orientation."
+        ]
+      },
+      {
+        "id": "105-visual-q-tracts-association",
+        "topic": "M2 Neuroanatomy: visual tracts",
+        "visual": {
+          "kind": "tract",
+          "tract": "association"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 108 Midterm 1 Study Guide, page 1, and Review, page 10. White-matter tract classes are supporting material, not separately listed PSYC 105 Module 2 objectives.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which white-matter tract class matches the endpoints of the yellow connection?",
+        "explanation": "The yellow path joins two cortical areas within the same hemisphere. That endpoint pattern defines an association tract.",
+        "choices": [
+          "Ventricle",
+          "Association tract",
+          "Commissural tract",
+          "Projection tract"
+        ],
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "A ventricle is a space containing cerebrospinal fluid. The yellow line represents a connection between neural regions, not a fluid-filled cavity.",
+          "The yellow path joins two cortical areas within the same hemisphere. That endpoint pattern defines an association tract.",
+          "Commissural tracts connect the two cerebral hemispheres. The yellow path does not show that cortex-to-cortex connection across the midline.",
+          "Projection tracts link cortex with subcortical or spinal levels. A connection between two cortical areas does not have that endpoint pattern."
+        ]
+      },
+      {
+        "id": "105-visual-q-tracts-commissural",
+        "topic": "M2 Neuroanatomy: visual tracts",
+        "visual": {
+          "kind": "tract",
+          "tract": "commissural"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 108 Midterm 1 Study Guide, page 1, and Review, page 10. White-matter tract classes are supporting material, not separately listed PSYC 105 Module 2 objectives.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which white-matter tract class matches the endpoints of the yellow connection?",
+        "explanation": "The yellow path links cortex in one hemisphere with cortex in the other hemisphere. That left-right connection defines a commissural tract.",
+        "choices": [
+          "Commissural tract",
+          "Association tract",
+          "Projection tract",
+          "Ventricle"
+        ],
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "The yellow path links cortex in one hemisphere with cortex in the other hemisphere. That left-right connection defines a commissural tract.",
+          "Association tracts join cortical regions within one hemisphere. The shown endpoints do not match that same-hemisphere, cortex-to-cortex pattern.",
+          "Projection tracts link cortex with subcortical or spinal levels. A connection between two cortical areas does not have that endpoint pattern.",
+          "A ventricle is a space containing cerebrospinal fluid. The yellow line represents a connection between neural regions, not a fluid-filled cavity."
+        ]
+      },
+      {
+        "id": "105-visual-q-tracts-projection",
+        "topic": "M2 Neuroanatomy: visual tracts",
+        "visual": {
+          "kind": "tract",
+          "tract": "projection"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 108 Midterm 1 Study Guide, page 1, and Review, page 10. White-matter tract classes are supporting material, not separately listed PSYC 105 Module 2 objectives.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which white-matter tract class matches the endpoints of the yellow connection?",
+        "explanation": "The yellow path links the cortex with a lower central nervous system level. Cortex-to-subcortical or spinal connections are projection pathways.",
+        "choices": [
+          "Association tract",
+          "Commissural tract",
+          "Ventricle",
+          "Projection tract"
+        ],
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "Association tracts join cortical regions within one hemisphere. The shown endpoints do not match that same-hemisphere, cortex-to-cortex pattern.",
+          "Commissural tracts connect the two cerebral hemispheres. The yellow path does not show that cortex-to-cortex connection across the midline.",
+          "A ventricle is a space containing cerebrospinal fluid. The yellow line represents a connection between neural regions, not a fluid-filled cavity.",
+          "The yellow path links the cortex with a lower central nervous system level. Cortex-to-subcortical or spinal connections are projection pathways."
+        ]
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "105-visual-f-regions-frontal",
+        "topic": "M2 Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "frontal",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 105 Study Guide, Module 2, page 1: identify the four cerebral lobes and their broad functions.",
+        "question": "Which brain region is highlighted in the wireframe?",
+        "answer": "Frontal lobe. The highlighted region occupies the front of the cerebral hemisphere, ahead of the central sulcus. Look for the front of the hemisphere. The frontal lobe lies anterior to the central sulcus."
+      },
+      {
+        "id": "105-visual-f-regions-parietal",
+        "topic": "M2 Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "parietal",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 105 Study Guide, Module 2, page 1: identify the four cerebral lobes and their broad functions.",
+        "question": "Which brain region is highlighted in the wireframe?",
+        "answer": "Parietal lobe. The highlighted region is the upper, rearward part of the cerebrum, behind the central sulcus and above the temporal lobe. Look behind the central sulcus and above the temporal lobe. This is the parietal lobe."
+      },
+      {
+        "id": "105-visual-f-regions-temporal",
+        "topic": "M2 Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "temporal",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 105 Study Guide, Module 2, page 1: identify the four cerebral lobes and their broad functions.",
+        "question": "Which brain region is highlighted in the wireframe?",
+        "answer": "Temporal lobe. The highlighted region lies along the lower side of the cerebral hemisphere, below the lateral sulcus. Look along the lower side of the hemisphere. The temporal lobe lies below the lateral sulcus."
+      },
+      {
+        "id": "105-visual-f-regions-occipital",
+        "topic": "M2 Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "occipital",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 105 Study Guide, Module 2, page 1: identify the four cerebral lobes and their broad functions.",
+        "question": "Which brain region is highlighted in the wireframe?",
+        "answer": "Occipital lobe. The highlighted region is at the back of the cerebral hemisphere, behind the parietal and temporal regions. Find the rear of the cerebrum. That posterior cortical region is the occipital lobe."
+      },
+      {
+        "id": "105-visual-f-regions-cerebellum",
+        "topic": "M2 Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "cerebellum",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 108 Midterm 1 Review, page 11. This structure is not separately named in the supplied PSYC 105 study guide.",
+        "question": "Which brain region is highlighted in the wireframe?",
+        "answer": "Cerebellum. The highlighted structure sits below the rear of the cerebrum. It is separate from the four cerebral lobes. Find the smaller structure tucked beneath the back of the cerebrum. This is the cerebellum."
+      },
+      {
+        "id": "105-visual-f-regions-basal-ganglia",
+        "topic": "M2 Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "basal-ganglia",
+          "view": "oblique"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 108 Midterm 1 Review, page 11. This structure is not separately named in the supplied PSYC 105 study guide.",
+        "question": "Which brain region is highlighted in the wireframe?",
+        "answer": "Basal ganglia. The highlight marks a group of structures deep inside the cerebral hemispheres, beneath the cortical surface. These highlighted structures are deep within the cerebrum. The basal ganglia include the caudate, putamen, and globus pallidus emphasized in the 108 review."
+      },
+      {
+        "id": "105-visual-f-directions-dorsal",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "dorsal",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: directional pairs appear in PSYC 108 Midterm 1 Review, page 6. Included as supporting orientation for PSYC 105 Module 2, not a separately listed 105 exam objective.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Dorsal. Dorsal points toward the top of the human forebrain; in this diagram it matches superior. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "105-visual-f-directions-ventral",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "ventral",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: directional pairs appear in PSYC 108 Midterm 1 Review, page 6. Included as supporting orientation for PSYC 105 Module 2, not a separately listed 105 exam objective.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Ventral. Ventral points toward the bottom of the human forebrain; in this diagram it matches inferior. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "105-visual-f-directions-rostral",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "rostral",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: directional pairs appear in PSYC 108 Midterm 1 Review, page 6. Included as supporting orientation for PSYC 105 Module 2, not a separately listed 105 exam objective.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Rostral. Rostral points toward the front, or nose end, of the human forebrain; here it matches anterior. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "105-visual-f-directions-caudal",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "caudal",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: directional pairs appear in PSYC 108 Midterm 1 Review, page 6. Included as supporting orientation for PSYC 105 Module 2, not a separately listed 105 exam objective.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Caudal. Caudal points toward the rear of the human forebrain; in this diagram it matches posterior. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "105-visual-f-directions-superior",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "superior",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: directional pairs appear in PSYC 108 Midterm 1 Review, page 6. Included as supporting orientation for PSYC 105 Module 2, not a separately listed 105 exam objective.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Superior. Superior points toward the top of the human forebrain; in this diagram it matches dorsal. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "105-visual-f-directions-inferior",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "inferior",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: directional pairs appear in PSYC 108 Midterm 1 Review, page 6. Included as supporting orientation for PSYC 105 Module 2, not a separately listed 105 exam objective.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Inferior. Inferior points toward the bottom of the human forebrain; in this diagram it matches ventral. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "105-visual-f-directions-anterior",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "anterior",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: directional pairs appear in PSYC 108 Midterm 1 Review, page 6. Included as supporting orientation for PSYC 105 Module 2, not a separately listed 105 exam objective.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Anterior. Anterior points toward the front, or nose end, of the human forebrain; here it matches rostral. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "105-visual-f-directions-posterior",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "posterior",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: directional pairs appear in PSYC 108 Midterm 1 Review, page 6. Included as supporting orientation for PSYC 105 Module 2, not a separately listed 105 exam objective.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Posterior. Posterior points toward the back of the human forebrain; in this diagram it matches caudal. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "105-visual-f-directions-medial",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "medial",
+          "view": "superior"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Medial. Medial points toward the midline that separates the left and right cerebral hemispheres. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "105-visual-f-directions-lateral",
+        "topic": "M2 Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "lateral",
+          "view": "superior"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Lateral. Lateral points away from the midline, toward the outer side of a cerebral hemisphere. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "105-visual-f-views-lateral",
+        "topic": "M2 Neuroanatomy: visual views",
+        "visual": {
+          "kind": "view",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "Which surface view of the brain is shown?",
+        "answer": "Lateral view. You are looking at the outer side of a cerebral hemisphere. This is a lateral surface view, not a cut through the brain."
+      },
+      {
+        "id": "105-visual-f-views-medial",
+        "topic": "M2 Neuroanatomy: visual views",
+        "visual": {
+          "kind": "view",
+          "view": "medial"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "Which surface view of the brain is shown?",
+        "answer": "Medial view. You are looking at the inner surface of a cerebral hemisphere, facing the midline. The other hemisphere is removed to expose that surface."
+      },
+      {
+        "id": "105-visual-f-views-superior",
+        "topic": "M2 Neuroanatomy: visual views",
+        "visual": {
+          "kind": "view",
+          "view": "superior"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "Which surface view of the brain is shown?",
+        "answer": "Superior view. You are looking down onto the brain from above. This is a superior, or dorsal, surface view of the human forebrain."
+      },
+      {
+        "id": "105-visual-f-views-inferior",
+        "topic": "M2 Neuroanatomy: visual views",
+        "visual": {
+          "kind": "view",
+          "view": "inferior"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "Which surface view of the brain is shown?",
+        "answer": "Inferior view. You are looking up at the underside of the brain from below. This is an inferior, or ventral, surface view of the human forebrain."
+      },
+      {
+        "id": "105-visual-f-planes-sagittal",
+        "topic": "M2 Neuroanatomy: visual planes",
+        "visual": {
+          "kind": "plane",
+          "plane": "sagittal"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "Which anatomical section plane is highlighted through the wireframe?",
+        "answer": "Sagittal plane. The highlighted plane separates left and right portions of the brain. At the exact midline, it is specifically a midsagittal plane."
+      },
+      {
+        "id": "105-visual-f-planes-coronal",
+        "topic": "M2 Neuroanatomy: visual planes",
+        "visual": {
+          "kind": "plane",
+          "plane": "coronal"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "Which anatomical section plane is highlighted through the wireframe?",
+        "answer": "Coronal plane. The highlighted plane separates front and back portions of the brain. Coronal is also called frontal; it is a section plane, not a cerebral lobe."
+      },
+      {
+        "id": "105-visual-f-planes-horizontal",
+        "topic": "M2 Neuroanatomy: visual planes",
+        "visual": {
+          "kind": "plane",
+          "plane": "horizontal"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "Which anatomical section plane is highlighted through the wireframe?",
+        "answer": "Horizontal plane. The highlighted plane separates upper and lower portions of the brain. For these forebrain images, horizontal is also called axial."
+      },
+      {
+        "id": "105-visual-f-tracts-association",
+        "topic": "M2 Neuroanatomy: visual tracts",
+        "visual": {
+          "kind": "tract",
+          "tract": "association"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 108 Midterm 1 Study Guide, page 1, and Review, page 10. White-matter tract classes are supporting material, not separately listed PSYC 105 Module 2 objectives.",
+        "question": "Which white-matter tract class matches the endpoints of the yellow connection?",
+        "answer": "Association tract. The yellow path joins two cortical areas within the same hemisphere. That endpoint pattern defines an association tract."
+      },
+      {
+        "id": "105-visual-f-tracts-commissural",
+        "topic": "M2 Neuroanatomy: visual tracts",
+        "visual": {
+          "kind": "tract",
+          "tract": "commissural"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 108 Midterm 1 Study Guide, page 1, and Review, page 10. White-matter tract classes are supporting material, not separately listed PSYC 105 Module 2 objectives.",
+        "question": "Which white-matter tract class matches the endpoints of the yellow connection?",
+        "answer": "Commissural tract. The yellow path links cortex in one hemisphere with cortex in the other hemisphere. That left-right connection defines a commissural tract."
+      },
+      {
+        "id": "105-visual-f-tracts-projection",
+        "topic": "M2 Neuroanatomy: visual tracts",
+        "visual": {
+          "kind": "tract",
+          "tract": "projection"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 108 Midterm 1 Study Guide, page 1, and Review, page 10. White-matter tract classes are supporting material, not separately listed PSYC 105 Module 2 objectives.",
+        "question": "Which white-matter tract class matches the endpoints of the yellow connection?",
+        "answer": "Projection tract. The yellow path links the cortex with a lower central nervous system level. Cortex-to-subcortical or spinal connections are projection pathways."
+      }
+    ]
+  },
+  "108": {
+    "title": "PSYC 108 Wireframe Basics",
+    "scope": "Midterm 1 neuroanatomy plus clearly marked supporting visual vocabulary.",
+    "sourceNotes": {
+      "direct": [
+        "PSYC 108 Midterm 1 Study Guide, page 1, and Midterm 1 Review, page 11: basal ganglia and cerebellum.",
+        "PSYC 108 Midterm 1 Review, page 6: dorsal/superior, ventral/inferior, rostral/anterior, and caudal/posterior.",
+        "PSYC 108 Midterm 1 Study Guide, page 1, and Midterm 1 Review, page 10: association, commissural, and projection fibers."
+      ],
+      "supporting": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+      "conventions": "Directions describe the human forebrain, not the spinal cord. Surface views and section planes are different concepts. Yellow pathways are schematic connections, not individual measured tracts; their endpoints determine the tract class. Highlighted shapes are teaching representations, not diagnostic images.",
+      "references": [
+        {
+          "title": "UTHealth Neuroanatomy Online: Planes of Section",
+          "url": "https://nba.uth.tmc.edu/neuroanatomy/L1/Lab01p03_index.html"
+        },
+        {
+          "title": "UTHealth Neuroscience Online: Overview of the Nervous System",
+          "url": "https://nba.uth.tmc.edu/neuroscience/s2/chapter01.html"
+        }
+      ]
+    },
+    "questions": [
+      {
+        "id": "108-visual-q-regions-frontal",
+        "topic": "Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "frontal",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 105 Study Guide, Module 2, page 1. Four-lobe identification supports cortical orientation but is not separately listed in the supplied PSYC 108 guide.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which brain region is highlighted in the wireframe?",
+        "explanation": "The highlighted region occupies the front of the cerebral hemisphere, ahead of the central sulcus. Look for the front of the hemisphere. The frontal lobe lies anterior to the central sulcus.",
+        "choices": [
+          "Frontal lobe",
+          "Parietal lobe",
+          "Temporal lobe",
+          "Occipital lobe"
+        ],
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "The highlighted region occupies the front of the cerebral hemisphere, ahead of the central sulcus. Look for the front of the hemisphere. The frontal lobe lies anterior to the central sulcus.",
+          "The parietal lobe lies behind the central sulcus and above the temporal lobe. That upper cortical territory is not the highlighted structure.",
+          "The temporal lobe lies along the lower side of the cerebrum, below the lateral sulcus. The highlight identifies a different region.",
+          "The occipital lobe occupies the back of the cerebral cortex. It is different from the highlighted region and is not the cerebellum beneath it."
+        ]
+      },
+      {
+        "id": "108-visual-q-regions-parietal",
+        "topic": "Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "parietal",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 105 Study Guide, Module 2, page 1. Four-lobe identification supports cortical orientation but is not separately listed in the supplied PSYC 108 guide.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which brain region is highlighted in the wireframe?",
+        "explanation": "The highlighted region is the upper, rearward part of the cerebrum, behind the central sulcus and above the temporal lobe. Look behind the central sulcus and above the temporal lobe. This is the parietal lobe.",
+        "choices": [
+          "Frontal lobe",
+          "Temporal lobe",
+          "Occipital lobe",
+          "Parietal lobe"
+        ],
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "The frontal lobe is the front portion of the cerebral cortex, anterior to the central sulcus. That is a different location from the highlighted region.",
+          "The temporal lobe lies along the lower side of the cerebrum, below the lateral sulcus. The highlight identifies a different region.",
+          "The occipital lobe occupies the back of the cerebral cortex. It is different from the highlighted region and is not the cerebellum beneath it.",
+          "The highlighted region is the upper, rearward part of the cerebrum, behind the central sulcus and above the temporal lobe. Look behind the central sulcus and above the temporal lobe. This is the parietal lobe."
+        ]
+      },
+      {
+        "id": "108-visual-q-regions-temporal",
+        "topic": "Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "temporal",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 105 Study Guide, Module 2, page 1. Four-lobe identification supports cortical orientation but is not separately listed in the supplied PSYC 108 guide.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which brain region is highlighted in the wireframe?",
+        "explanation": "The highlighted region lies along the lower side of the cerebral hemisphere, below the lateral sulcus. Look along the lower side of the hemisphere. The temporal lobe lies below the lateral sulcus.",
+        "choices": [
+          "Parietal lobe",
+          "Occipital lobe",
+          "Temporal lobe",
+          "Frontal lobe"
+        ],
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "The parietal lobe lies behind the central sulcus and above the temporal lobe. That upper cortical territory is not the highlighted structure.",
+          "The occipital lobe occupies the back of the cerebral cortex. It is different from the highlighted region and is not the cerebellum beneath it.",
+          "The highlighted region lies along the lower side of the cerebral hemisphere, below the lateral sulcus. Look along the lower side of the hemisphere. The temporal lobe lies below the lateral sulcus.",
+          "The frontal lobe is the front portion of the cerebral cortex, anterior to the central sulcus. That is a different location from the highlighted region."
+        ]
+      },
+      {
+        "id": "108-visual-q-regions-occipital",
+        "topic": "Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "occipital",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 105 Study Guide, Module 2, page 1. Four-lobe identification supports cortical orientation but is not separately listed in the supplied PSYC 108 guide.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which brain region is highlighted in the wireframe?",
+        "explanation": "The highlighted region is at the back of the cerebral hemisphere, behind the parietal and temporal regions. Find the rear of the cerebrum. That posterior cortical region is the occipital lobe.",
+        "choices": [
+          "Temporal lobe",
+          "Occipital lobe",
+          "Frontal lobe",
+          "Parietal lobe"
+        ],
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "The temporal lobe lies along the lower side of the cerebrum, below the lateral sulcus. The highlight identifies a different region.",
+          "The highlighted region is at the back of the cerebral hemisphere, behind the parietal and temporal regions. Find the rear of the cerebrum. That posterior cortical region is the occipital lobe.",
+          "The frontal lobe is the front portion of the cerebral cortex, anterior to the central sulcus. That is a different location from the highlighted region.",
+          "The parietal lobe lies behind the central sulcus and above the temporal lobe. That upper cortical territory is not the highlighted structure."
+        ]
+      },
+      {
+        "id": "108-visual-q-regions-cerebellum",
+        "topic": "Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "cerebellum",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Study Guide, page 1, and Midterm 1 Review, page 11: basal ganglia and cerebellum.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which brain region is highlighted in the wireframe?",
+        "explanation": "The highlighted structure sits below the rear of the cerebrum. It is separate from the four cerebral lobes. Find the smaller structure tucked beneath the back of the cerebrum. This is the cerebellum.",
+        "choices": [
+          "Cerebellum",
+          "Basal ganglia",
+          "Temporal lobe",
+          "Occipital lobe"
+        ],
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "The highlighted structure sits below the rear of the cerebrum. It is separate from the four cerebral lobes. Find the smaller structure tucked beneath the back of the cerebrum. This is the cerebellum.",
+          "The basal ganglia are deep structures within the cerebral hemispheres. They are not the separate highlighted structure below the rear of the cerebrum.",
+          "The temporal lobe lies along the lower side of the cerebrum, below the lateral sulcus. The highlight identifies a different region.",
+          "The occipital lobe occupies the back of the cerebral cortex. It is different from the highlighted region and is not the cerebellum beneath it."
+        ]
+      },
+      {
+        "id": "108-visual-q-regions-basal-ganglia",
+        "topic": "Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "basal-ganglia",
+          "view": "oblique"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Study Guide, page 1, and Midterm 1 Review, page 11: basal ganglia and cerebellum.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which brain region is highlighted in the wireframe?",
+        "explanation": "The highlight marks a group of structures deep inside the cerebral hemispheres, beneath the cortical surface. These highlighted structures are deep within the cerebrum. The basal ganglia include the caudate, putamen, and globus pallidus emphasized in the 108 review.",
+        "choices": [
+          "Cerebellum",
+          "Frontal lobe",
+          "Parietal lobe",
+          "Basal ganglia"
+        ],
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "The cerebellum is the smaller structure below the back of the cerebrum. It is not the highlighted group deep inside the cerebral hemispheres.",
+          "The frontal lobe is the front portion of the cerebral cortex, anterior to the central sulcus. That is a different location from the highlighted region.",
+          "The parietal lobe lies behind the central sulcus and above the temporal lobe. That upper cortical territory is not the highlighted structure.",
+          "The highlight marks a group of structures deep inside the cerebral hemispheres, beneath the cortical surface. These highlighted structures are deep within the cerebrum. The basal ganglia include the caudate, putamen, and globus pallidus emphasized in the 108 review."
+        ]
+      },
+      {
+        "id": "108-visual-q-directions-dorsal",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "dorsal",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Review, page 6: dorsal/superior, ventral/inferior, rostral/anterior, and caudal/posterior.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Dorsal points toward the top of the human forebrain; in this diagram it matches superior. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Rostral",
+          "Caudal",
+          "Dorsal",
+          "Ventral"
+        ],
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "Rostral points toward the front, or nose end, of the human forebrain; here it matches anterior. It does not name the direction indicated by this arrow.",
+          "Caudal points toward the rear of the human forebrain; in this diagram it matches posterior. It does not name the direction indicated by this arrow.",
+          "Dorsal points toward the top of the human forebrain; in this diagram it matches superior. Follow the arrow relative to the brain, not relative to your screen.",
+          "Ventral points toward the bottom of the human forebrain; in this diagram it matches inferior. It does not name the direction indicated by this arrow."
+        ]
+      },
+      {
+        "id": "108-visual-q-directions-ventral",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "ventral",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Review, page 6: dorsal/superior, ventral/inferior, rostral/anterior, and caudal/posterior.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Ventral points toward the bottom of the human forebrain; in this diagram it matches inferior. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Caudal",
+          "Ventral",
+          "Dorsal",
+          "Rostral"
+        ],
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "Caudal points toward the rear of the human forebrain; in this diagram it matches posterior. It does not name the direction indicated by this arrow.",
+          "Ventral points toward the bottom of the human forebrain; in this diagram it matches inferior. Follow the arrow relative to the brain, not relative to your screen.",
+          "Dorsal points toward the top of the human forebrain; in this diagram it matches superior. It does not name the direction indicated by this arrow.",
+          "Rostral points toward the front, or nose end, of the human forebrain; here it matches anterior. It does not name the direction indicated by this arrow."
+        ]
+      },
+      {
+        "id": "108-visual-q-directions-rostral",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "rostral",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Review, page 6: dorsal/superior, ventral/inferior, rostral/anterior, and caudal/posterior.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Rostral points toward the front, or nose end, of the human forebrain; here it matches anterior. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Rostral",
+          "Caudal",
+          "Dorsal",
+          "Ventral"
+        ],
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "Rostral points toward the front, or nose end, of the human forebrain; here it matches anterior. Follow the arrow relative to the brain, not relative to your screen.",
+          "Caudal points toward the rear of the human forebrain; in this diagram it matches posterior. It does not name the direction indicated by this arrow.",
+          "Dorsal points toward the top of the human forebrain; in this diagram it matches superior. It does not name the direction indicated by this arrow.",
+          "Ventral points toward the bottom of the human forebrain; in this diagram it matches inferior. It does not name the direction indicated by this arrow."
+        ]
+      },
+      {
+        "id": "108-visual-q-directions-caudal",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "caudal",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Review, page 6: dorsal/superior, ventral/inferior, rostral/anterior, and caudal/posterior.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Caudal points toward the rear of the human forebrain; in this diagram it matches posterior. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Rostral",
+          "Dorsal",
+          "Ventral",
+          "Caudal"
+        ],
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "Rostral points toward the front, or nose end, of the human forebrain; here it matches anterior. It does not name the direction indicated by this arrow.",
+          "Dorsal points toward the top of the human forebrain; in this diagram it matches superior. It does not name the direction indicated by this arrow.",
+          "Ventral points toward the bottom of the human forebrain; in this diagram it matches inferior. It does not name the direction indicated by this arrow.",
+          "Caudal points toward the rear of the human forebrain; in this diagram it matches posterior. Follow the arrow relative to the brain, not relative to your screen."
+        ]
+      },
+      {
+        "id": "108-visual-q-directions-superior",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "superior",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Review, page 6: dorsal/superior, ventral/inferior, rostral/anterior, and caudal/posterior.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Superior points toward the top of the human forebrain; in this diagram it matches dorsal. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Anterior",
+          "Posterior",
+          "Superior",
+          "Inferior"
+        ],
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "Anterior points toward the front, or nose end, of the human forebrain; here it matches rostral. It does not name the direction indicated by this arrow.",
+          "Posterior points toward the back of the human forebrain; in this diagram it matches caudal. It does not name the direction indicated by this arrow.",
+          "Superior points toward the top of the human forebrain; in this diagram it matches dorsal. Follow the arrow relative to the brain, not relative to your screen.",
+          "Inferior points toward the bottom of the human forebrain; in this diagram it matches ventral. It does not name the direction indicated by this arrow."
+        ]
+      },
+      {
+        "id": "108-visual-q-directions-inferior",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "inferior",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Review, page 6: dorsal/superior, ventral/inferior, rostral/anterior, and caudal/posterior.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Inferior points toward the bottom of the human forebrain; in this diagram it matches ventral. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Posterior",
+          "Inferior",
+          "Superior",
+          "Anterior"
+        ],
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "Posterior points toward the back of the human forebrain; in this diagram it matches caudal. It does not name the direction indicated by this arrow.",
+          "Inferior points toward the bottom of the human forebrain; in this diagram it matches ventral. Follow the arrow relative to the brain, not relative to your screen.",
+          "Superior points toward the top of the human forebrain; in this diagram it matches dorsal. It does not name the direction indicated by this arrow.",
+          "Anterior points toward the front, or nose end, of the human forebrain; here it matches rostral. It does not name the direction indicated by this arrow."
+        ]
+      },
+      {
+        "id": "108-visual-q-directions-anterior",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "anterior",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Review, page 6: dorsal/superior, ventral/inferior, rostral/anterior, and caudal/posterior.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Anterior points toward the front, or nose end, of the human forebrain; here it matches rostral. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Anterior",
+          "Posterior",
+          "Superior",
+          "Inferior"
+        ],
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "Anterior points toward the front, or nose end, of the human forebrain; here it matches rostral. Follow the arrow relative to the brain, not relative to your screen.",
+          "Posterior points toward the back of the human forebrain; in this diagram it matches caudal. It does not name the direction indicated by this arrow.",
+          "Superior points toward the top of the human forebrain; in this diagram it matches dorsal. It does not name the direction indicated by this arrow.",
+          "Inferior points toward the bottom of the human forebrain; in this diagram it matches ventral. It does not name the direction indicated by this arrow."
+        ]
+      },
+      {
+        "id": "108-visual-q-directions-posterior",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "posterior",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Review, page 6: dorsal/superior, ventral/inferior, rostral/anterior, and caudal/posterior.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Posterior points toward the back of the human forebrain; in this diagram it matches caudal. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Anterior",
+          "Superior",
+          "Inferior",
+          "Posterior"
+        ],
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "Anterior points toward the front, or nose end, of the human forebrain; here it matches rostral. It does not name the direction indicated by this arrow.",
+          "Superior points toward the top of the human forebrain; in this diagram it matches dorsal. It does not name the direction indicated by this arrow.",
+          "Inferior points toward the bottom of the human forebrain; in this diagram it matches ventral. It does not name the direction indicated by this arrow.",
+          "Posterior points toward the back of the human forebrain; in this diagram it matches caudal. Follow the arrow relative to the brain, not relative to your screen."
+        ]
+      },
+      {
+        "id": "108-visual-q-directions-medial",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "medial",
+          "view": "superior"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Medial points toward the midline that separates the left and right cerebral hemispheres. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Anterior",
+          "Posterior",
+          "Medial",
+          "Lateral"
+        ],
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "Anterior points toward the front, or nose end, of the human forebrain; here it matches rostral. It does not name the direction indicated by this arrow.",
+          "Posterior points toward the back of the human forebrain; in this diagram it matches caudal. It does not name the direction indicated by this arrow.",
+          "Medial points toward the midline that separates the left and right cerebral hemispheres. Follow the arrow relative to the brain, not relative to your screen.",
+          "Lateral points away from the midline, toward the outer side of a cerebral hemisphere. It does not name the direction indicated by this arrow."
+        ]
+      },
+      {
+        "id": "108-visual-q-directions-lateral",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "lateral",
+          "view": "superior"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "For this human forebrain, which term names the direction shown by the arrow?",
+        "explanation": "Lateral points away from the midline, toward the outer side of a cerebral hemisphere. Follow the arrow relative to the brain, not relative to your screen.",
+        "choices": [
+          "Posterior",
+          "Lateral",
+          "Medial",
+          "Anterior"
+        ],
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "Posterior points toward the back of the human forebrain; in this diagram it matches caudal. It does not name the direction indicated by this arrow.",
+          "Lateral points away from the midline, toward the outer side of a cerebral hemisphere. Follow the arrow relative to the brain, not relative to your screen.",
+          "Medial points toward the midline that separates the left and right cerebral hemispheres. It does not name the direction indicated by this arrow.",
+          "Anterior points toward the front, or nose end, of the human forebrain; here it matches rostral. It does not name the direction indicated by this arrow."
+        ]
+      },
+      {
+        "id": "108-visual-q-views-lateral",
+        "topic": "Neuroanatomy: visual views",
+        "visual": {
+          "kind": "view",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which surface view of the brain is shown?",
+        "explanation": "You are looking at the outer side of a cerebral hemisphere. This is a lateral surface view, not a cut through the brain.",
+        "choices": [
+          "Lateral view",
+          "Medial view",
+          "Superior view",
+          "Inferior view"
+        ],
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "You are looking at the outer side of a cerebral hemisphere. This is a lateral surface view, not a cut through the brain.",
+          "A medial view looks at the inner face of a hemisphere along the midline. That requires exposing the inner surface, not simply viewing the outside.",
+          "A superior view looks down at the top of the brain from above. That is a different viewing position from the one shown here.",
+          "An inferior view looks up at the underside of the brain from below. That is a different viewing position from the one shown here."
+        ]
+      },
+      {
+        "id": "108-visual-q-views-medial",
+        "topic": "Neuroanatomy: visual views",
+        "visual": {
+          "kind": "view",
+          "view": "medial"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which surface view of the brain is shown?",
+        "explanation": "You are looking at the inner surface of a cerebral hemisphere, facing the midline. The other hemisphere is removed to expose that surface.",
+        "choices": [
+          "Lateral view",
+          "Superior view",
+          "Inferior view",
+          "Medial view"
+        ],
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "A lateral view looks at the outer side of a cerebral hemisphere. It does not show the inner midline surface, the top, or the underside.",
+          "A superior view looks down at the top of the brain from above. That is a different viewing position from the one shown here.",
+          "An inferior view looks up at the underside of the brain from below. That is a different viewing position from the one shown here.",
+          "You are looking at the inner surface of a cerebral hemisphere, facing the midline. The other hemisphere is removed to expose that surface."
+        ]
+      },
+      {
+        "id": "108-visual-q-views-superior",
+        "topic": "Neuroanatomy: visual views",
+        "visual": {
+          "kind": "view",
+          "view": "superior"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which surface view of the brain is shown?",
+        "explanation": "You are looking down onto the brain from above. This is a superior, or dorsal, surface view of the human forebrain.",
+        "choices": [
+          "Lateral view",
+          "Medial view",
+          "Superior view",
+          "Inferior view"
+        ],
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "A lateral view looks at the outer side of a cerebral hemisphere. It does not show the inner midline surface, the top, or the underside.",
+          "A medial view looks at the inner face of a hemisphere along the midline. That requires exposing the inner surface, not simply viewing the outside.",
+          "You are looking down onto the brain from above. This is a superior, or dorsal, surface view of the human forebrain.",
+          "An inferior view looks up at the underside of the brain from below. That is a different viewing position from the one shown here."
+        ]
+      },
+      {
+        "id": "108-visual-q-views-inferior",
+        "topic": "Neuroanatomy: visual views",
+        "visual": {
+          "kind": "view",
+          "view": "inferior"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which surface view of the brain is shown?",
+        "explanation": "You are looking up at the underside of the brain from below. This is an inferior, or ventral, surface view of the human forebrain.",
+        "choices": [
+          "Medial view",
+          "Inferior view",
+          "Superior view",
+          "Lateral view"
+        ],
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "A medial view looks at the inner face of a hemisphere along the midline. That requires exposing the inner surface, not simply viewing the outside.",
+          "You are looking up at the underside of the brain from below. This is an inferior, or ventral, surface view of the human forebrain.",
+          "A superior view looks down at the top of the brain from above. That is a different viewing position from the one shown here.",
+          "A lateral view looks at the outer side of a cerebral hemisphere. It does not show the inner midline surface, the top, or the underside."
+        ]
+      },
+      {
+        "id": "108-visual-q-planes-sagittal",
+        "topic": "Neuroanatomy: visual planes",
+        "visual": {
+          "kind": "plane",
+          "plane": "sagittal"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which anatomical section plane is highlighted through the wireframe?",
+        "explanation": "The highlighted plane separates left and right portions of the brain. At the exact midline, it is specifically a midsagittal plane.",
+        "choices": [
+          "Sagittal plane",
+          "Coronal plane",
+          "Horizontal plane",
+          "No section plane: external surface view only"
+        ],
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "The highlighted plane separates left and right portions of the brain. At the exact midline, it is specifically a midsagittal plane.",
+          "A coronal plane separates anterior and posterior portions of the brain. The highlighted sheet has a different orientation.",
+          "A horizontal plane separates superior and inferior portions of the brain. The highlighted sheet has a different orientation.",
+          "The highlighted sheet passes through the brain and represents a section plane. It is not merely a viewing position outside the brain."
+        ]
+      },
+      {
+        "id": "108-visual-q-planes-coronal",
+        "topic": "Neuroanatomy: visual planes",
+        "visual": {
+          "kind": "plane",
+          "plane": "coronal"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which anatomical section plane is highlighted through the wireframe?",
+        "explanation": "The highlighted plane separates front and back portions of the brain. Coronal is also called frontal; it is a section plane, not a cerebral lobe.",
+        "choices": [
+          "Sagittal plane",
+          "Horizontal plane",
+          "No section plane: external surface view only",
+          "Coronal plane"
+        ],
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "A sagittal plane separates left and right portions of the brain. The highlighted sheet has a different orientation.",
+          "A horizontal plane separates superior and inferior portions of the brain. The highlighted sheet has a different orientation.",
+          "The highlighted sheet passes through the brain and represents a section plane. It is not merely a viewing position outside the brain.",
+          "The highlighted plane separates front and back portions of the brain. Coronal is also called frontal; it is a section plane, not a cerebral lobe."
+        ]
+      },
+      {
+        "id": "108-visual-q-planes-horizontal",
+        "topic": "Neuroanatomy: visual planes",
+        "visual": {
+          "kind": "plane",
+          "plane": "horizontal"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which anatomical section plane is highlighted through the wireframe?",
+        "explanation": "The highlighted plane separates upper and lower portions of the brain. For these forebrain images, horizontal is also called axial.",
+        "choices": [
+          "Coronal plane",
+          "No section plane: external surface view only",
+          "Horizontal plane",
+          "Sagittal plane"
+        ],
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "A coronal plane separates anterior and posterior portions of the brain. The highlighted sheet has a different orientation.",
+          "The highlighted sheet passes through the brain and represents a section plane. It is not merely a viewing position outside the brain.",
+          "The highlighted plane separates upper and lower portions of the brain. For these forebrain images, horizontal is also called axial.",
+          "A sagittal plane separates left and right portions of the brain. The highlighted sheet has a different orientation."
+        ]
+      },
+      {
+        "id": "108-visual-q-tracts-association",
+        "topic": "Neuroanatomy: visual tracts",
+        "visual": {
+          "kind": "tract",
+          "tract": "association"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Study Guide, page 1, and Midterm 1 Review, page 10: association, commissural, and projection fibers.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which white-matter tract class matches the endpoints of the yellow connection?",
+        "explanation": "The yellow path joins two cortical areas within the same hemisphere. That endpoint pattern defines an association tract.",
+        "choices": [
+          "Ventricle",
+          "Association tract",
+          "Commissural tract",
+          "Projection tract"
+        ],
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "A ventricle is a space containing cerebrospinal fluid. The yellow line represents a connection between neural regions, not a fluid-filled cavity.",
+          "The yellow path joins two cortical areas within the same hemisphere. That endpoint pattern defines an association tract.",
+          "Commissural tracts connect the two cerebral hemispheres. The yellow path does not show that cortex-to-cortex connection across the midline.",
+          "Projection tracts link cortex with subcortical or spinal levels. A connection between two cortical areas does not have that endpoint pattern."
+        ]
+      },
+      {
+        "id": "108-visual-q-tracts-commissural",
+        "topic": "Neuroanatomy: visual tracts",
+        "visual": {
+          "kind": "tract",
+          "tract": "commissural"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Study Guide, page 1, and Midterm 1 Review, page 10: association, commissural, and projection fibers.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which white-matter tract class matches the endpoints of the yellow connection?",
+        "explanation": "The yellow path links cortex in one hemisphere with cortex in the other hemisphere. That left-right connection defines a commissural tract.",
+        "choices": [
+          "Commissural tract",
+          "Association tract",
+          "Projection tract",
+          "Ventricle"
+        ],
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "The yellow path links cortex in one hemisphere with cortex in the other hemisphere. That left-right connection defines a commissural tract.",
+          "Association tracts join cortical regions within one hemisphere. The shown endpoints do not match that same-hemisphere, cortex-to-cortex pattern.",
+          "Projection tracts link cortex with subcortical or spinal levels. A connection between two cortical areas does not have that endpoint pattern.",
+          "A ventricle is a space containing cerebrospinal fluid. The yellow line represents a connection between neural regions, not a fluid-filled cavity."
+        ]
+      },
+      {
+        "id": "108-visual-q-tracts-projection",
+        "topic": "Neuroanatomy: visual tracts",
+        "visual": {
+          "kind": "tract",
+          "tract": "projection"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Study Guide, page 1, and Midterm 1 Review, page 10: association, commissural, and projection fibers.",
+        "kind": "mcq",
+        "difficulty": "foundation",
+        "prompt": "Which white-matter tract class matches the endpoints of the yellow connection?",
+        "explanation": "The yellow path links the cortex with a lower central nervous system level. Cortex-to-subcortical or spinal connections are projection pathways.",
+        "choices": [
+          "Association tract",
+          "Commissural tract",
+          "Ventricle",
+          "Projection tract"
+        ],
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "Association tracts join cortical regions within one hemisphere. The shown endpoints do not match that same-hemisphere, cortex-to-cortex pattern.",
+          "Commissural tracts connect the two cerebral hemispheres. The yellow path does not show that cortex-to-cortex connection across the midline.",
+          "A ventricle is a space containing cerebrospinal fluid. The yellow line represents a connection between neural regions, not a fluid-filled cavity.",
+          "The yellow path links the cortex with a lower central nervous system level. Cortex-to-subcortical or spinal connections are projection pathways."
+        ]
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "108-visual-f-regions-frontal",
+        "topic": "Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "frontal",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 105 Study Guide, Module 2, page 1. Four-lobe identification supports cortical orientation but is not separately listed in the supplied PSYC 108 guide.",
+        "question": "Which brain region is highlighted in the wireframe?",
+        "answer": "Frontal lobe. The highlighted region occupies the front of the cerebral hemisphere, ahead of the central sulcus. Look for the front of the hemisphere. The frontal lobe lies anterior to the central sulcus."
+      },
+      {
+        "id": "108-visual-f-regions-parietal",
+        "topic": "Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "parietal",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 105 Study Guide, Module 2, page 1. Four-lobe identification supports cortical orientation but is not separately listed in the supplied PSYC 108 guide.",
+        "question": "Which brain region is highlighted in the wireframe?",
+        "answer": "Parietal lobe. The highlighted region is the upper, rearward part of the cerebrum, behind the central sulcus and above the temporal lobe. Look behind the central sulcus and above the temporal lobe. This is the parietal lobe."
+      },
+      {
+        "id": "108-visual-f-regions-temporal",
+        "topic": "Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "temporal",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 105 Study Guide, Module 2, page 1. Four-lobe identification supports cortical orientation but is not separately listed in the supplied PSYC 108 guide.",
+        "question": "Which brain region is highlighted in the wireframe?",
+        "answer": "Temporal lobe. The highlighted region lies along the lower side of the cerebral hemisphere, below the lateral sulcus. Look along the lower side of the hemisphere. The temporal lobe lies below the lateral sulcus."
+      },
+      {
+        "id": "108-visual-f-regions-occipital",
+        "topic": "Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "occipital",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Shared visual foundation: PSYC 105 Study Guide, Module 2, page 1. Four-lobe identification supports cortical orientation but is not separately listed in the supplied PSYC 108 guide.",
+        "question": "Which brain region is highlighted in the wireframe?",
+        "answer": "Occipital lobe. The highlighted region is at the back of the cerebral hemisphere, behind the parietal and temporal regions. Find the rear of the cerebrum. That posterior cortical region is the occipital lobe."
+      },
+      {
+        "id": "108-visual-f-regions-cerebellum",
+        "topic": "Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "cerebellum",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Study Guide, page 1, and Midterm 1 Review, page 11: basal ganglia and cerebellum.",
+        "question": "Which brain region is highlighted in the wireframe?",
+        "answer": "Cerebellum. The highlighted structure sits below the rear of the cerebrum. It is separate from the four cerebral lobes. Find the smaller structure tucked beneath the back of the cerebrum. This is the cerebellum."
+      },
+      {
+        "id": "108-visual-f-regions-basal-ganglia",
+        "topic": "Neuroanatomy: visual regions",
+        "visual": {
+          "kind": "region",
+          "region": "basal-ganglia",
+          "view": "oblique"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Study Guide, page 1, and Midterm 1 Review, page 11: basal ganglia and cerebellum.",
+        "question": "Which brain region is highlighted in the wireframe?",
+        "answer": "Basal ganglia. The highlight marks a group of structures deep inside the cerebral hemispheres, beneath the cortical surface. These highlighted structures are deep within the cerebrum. The basal ganglia include the caudate, putamen, and globus pallidus emphasized in the 108 review."
+      },
+      {
+        "id": "108-visual-f-directions-dorsal",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "dorsal",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Review, page 6: dorsal/superior, ventral/inferior, rostral/anterior, and caudal/posterior.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Dorsal. Dorsal points toward the top of the human forebrain; in this diagram it matches superior. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "108-visual-f-directions-ventral",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "ventral",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Review, page 6: dorsal/superior, ventral/inferior, rostral/anterior, and caudal/posterior.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Ventral. Ventral points toward the bottom of the human forebrain; in this diagram it matches inferior. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "108-visual-f-directions-rostral",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "rostral",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Review, page 6: dorsal/superior, ventral/inferior, rostral/anterior, and caudal/posterior.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Rostral. Rostral points toward the front, or nose end, of the human forebrain; here it matches anterior. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "108-visual-f-directions-caudal",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "caudal",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Review, page 6: dorsal/superior, ventral/inferior, rostral/anterior, and caudal/posterior.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Caudal. Caudal points toward the rear of the human forebrain; in this diagram it matches posterior. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "108-visual-f-directions-superior",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "superior",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Review, page 6: dorsal/superior, ventral/inferior, rostral/anterior, and caudal/posterior.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Superior. Superior points toward the top of the human forebrain; in this diagram it matches dorsal. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "108-visual-f-directions-inferior",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "inferior",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Review, page 6: dorsal/superior, ventral/inferior, rostral/anterior, and caudal/posterior.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Inferior. Inferior points toward the bottom of the human forebrain; in this diagram it matches ventral. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "108-visual-f-directions-anterior",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "anterior",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Review, page 6: dorsal/superior, ventral/inferior, rostral/anterior, and caudal/posterior.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Anterior. Anterior points toward the front, or nose end, of the human forebrain; here it matches rostral. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "108-visual-f-directions-posterior",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "posterior",
+          "view": "lateral"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Review, page 6: dorsal/superior, ventral/inferior, rostral/anterior, and caudal/posterior.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Posterior. Posterior points toward the back of the human forebrain; in this diagram it matches caudal. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "108-visual-f-directions-medial",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "medial",
+          "view": "superior"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Medial. Medial points toward the midline that separates the left and right cerebral hemispheres. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "108-visual-f-directions-lateral",
+        "topic": "Neuroanatomy: visual directions",
+        "visual": {
+          "kind": "direction",
+          "direction": "lateral",
+          "view": "superior"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "For this human forebrain, which term names the direction shown by the arrow?",
+        "answer": "Lateral. Lateral points away from the midline, toward the outer side of a cerebral hemisphere. Follow the arrow relative to the brain, not relative to your screen."
+      },
+      {
+        "id": "108-visual-f-views-lateral",
+        "topic": "Neuroanatomy: visual views",
+        "visual": {
+          "kind": "view",
+          "view": "lateral"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "Which surface view of the brain is shown?",
+        "answer": "Lateral view. You are looking at the outer side of a cerebral hemisphere. This is a lateral surface view, not a cut through the brain."
+      },
+      {
+        "id": "108-visual-f-views-medial",
+        "topic": "Neuroanatomy: visual views",
+        "visual": {
+          "kind": "view",
+          "view": "medial"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "Which surface view of the brain is shown?",
+        "answer": "Medial view. You are looking at the inner surface of a cerebral hemisphere, facing the midline. The other hemisphere is removed to expose that surface."
+      },
+      {
+        "id": "108-visual-f-views-superior",
+        "topic": "Neuroanatomy: visual views",
+        "visual": {
+          "kind": "view",
+          "view": "superior"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "Which surface view of the brain is shown?",
+        "answer": "Superior view. You are looking down onto the brain from above. This is a superior, or dorsal, surface view of the human forebrain."
+      },
+      {
+        "id": "108-visual-f-views-inferior",
+        "topic": "Neuroanatomy: visual views",
+        "visual": {
+          "kind": "view",
+          "view": "inferior"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "Which surface view of the brain is shown?",
+        "answer": "Inferior view. You are looking up at the underside of the brain from below. This is an inferior, or ventral, surface view of the human forebrain."
+      },
+      {
+        "id": "108-visual-f-planes-sagittal",
+        "topic": "Neuroanatomy: visual planes",
+        "visual": {
+          "kind": "plane",
+          "plane": "sagittal"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "Which anatomical section plane is highlighted through the wireframe?",
+        "answer": "Sagittal plane. The highlighted plane separates left and right portions of the brain. At the exact midline, it is specifically a midsagittal plane."
+      },
+      {
+        "id": "108-visual-f-planes-coronal",
+        "topic": "Neuroanatomy: visual planes",
+        "visual": {
+          "kind": "plane",
+          "plane": "coronal"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "Which anatomical section plane is highlighted through the wireframe?",
+        "answer": "Coronal plane. The highlighted plane separates front and back portions of the brain. Coronal is also called frontal; it is a section plane, not a cerebral lobe."
+      },
+      {
+        "id": "108-visual-f-planes-horizontal",
+        "topic": "Neuroanatomy: visual planes",
+        "visual": {
+          "kind": "plane",
+          "plane": "horizontal"
+        },
+        "grounding": "supporting",
+        "sourceNote": "Supporting visual vocabulary requested for this study tool; not an explicitly listed objective in the supplied course study guide. Forebrain directions and section planes follow standard anatomical conventions.",
+        "question": "Which anatomical section plane is highlighted through the wireframe?",
+        "answer": "Horizontal plane. The highlighted plane separates upper and lower portions of the brain. For these forebrain images, horizontal is also called axial."
+      },
+      {
+        "id": "108-visual-f-tracts-association",
+        "topic": "Neuroanatomy: visual tracts",
+        "visual": {
+          "kind": "tract",
+          "tract": "association"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Study Guide, page 1, and Midterm 1 Review, page 10: association, commissural, and projection fibers.",
+        "question": "Which white-matter tract class matches the endpoints of the yellow connection?",
+        "answer": "Association tract. The yellow path joins two cortical areas within the same hemisphere. That endpoint pattern defines an association tract."
+      },
+      {
+        "id": "108-visual-f-tracts-commissural",
+        "topic": "Neuroanatomy: visual tracts",
+        "visual": {
+          "kind": "tract",
+          "tract": "commissural"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Study Guide, page 1, and Midterm 1 Review, page 10: association, commissural, and projection fibers.",
+        "question": "Which white-matter tract class matches the endpoints of the yellow connection?",
+        "answer": "Commissural tract. The yellow path links cortex in one hemisphere with cortex in the other hemisphere. That left-right connection defines a commissural tract."
+      },
+      {
+        "id": "108-visual-f-tracts-projection",
+        "topic": "Neuroanatomy: visual tracts",
+        "visual": {
+          "kind": "tract",
+          "tract": "projection"
+        },
+        "grounding": "direct",
+        "sourceNote": "PSYC 108 Midterm 1 Study Guide, page 1, and Midterm 1 Review, page 10: association, commissural, and projection fibers.",
+        "question": "Which white-matter tract class matches the endpoints of the yellow connection?",
+        "answer": "Projection tract. The yellow path links the cortex with a lower central nervous system level. Cortex-to-subcortical or spinal connections are projection pathways."
+      }
+    ]
+  }
+}

@@ -39,6 +39,8 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
   core.add(anatomy); scene.add(core);
   const targetPosition = new THREE.Vector3();
   let targetScale = 1, targetAlpha = 1, alpha = 1;
+  let connectorRevealAt = 0, lastScrollY = window.scrollY;
+  const compactLayout = () => width <= 760 || (width <= 1000 && height <= 600);
   const geometries: THREE.BufferGeometry[] = [];
   const materials: THREE.Material[] = [];
   const geometry = <T extends THREE.BufferGeometry>(g: T): T => { geometries.push(g); return g; };
@@ -411,30 +413,47 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
   };
   const updateLayout = () => {
     view = loading ? 'home' : stage?.dataset.view || 'home';
-    const mobile = width < 720, home = view === 'home';
-    const x = home ? width * .5 : width * (mobile ? 1.05 : .91);
-    const y = home ? (mobile ? Math.min(300, height * .39) : height * .56) : height * .56;
+    const compact = compactLayout(), home = view === 'home';
+    const zone = compact && home && !loading ? stage?.querySelector('.portal-core-label')?.getBoundingClientRect() : undefined;
+    const hasZone = Boolean(zone && zone.width && zone.height);
+    const x = hasZone ? zone!.left + zone!.width / 2 : home ? width * .5 : width * (compact ? 1.05 : .91);
+    const y = hasZone ? zone!.top + (zone!.height - 28) / 2 : home ? (compact ? Math.min(300, height * .39) : height * .56) : height * .56;
     screenToWorld(x, y, targetPosition);
     const viewHeight = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * focalDistance;
-    const pixels = home ? (mobile ? 165 : Math.min(290, height * .39, width * .26)) : (mobile ? 200 : 315);
+    const pixels = hasZone ? Math.min(165, (zone!.height - 40) * .66, (zone!.width - 24) * .6)
+      : home ? (compact ? 165 : Math.min(290, height * .39, width * .26)) : (compact ? 200 : 315);
     targetScale = pixels / height * viewHeight / 2.4;
     targetAlpha = home ? 1 : (view === 'course' || view === 'scope' || view === 'setup' ? .17 : .065);
+    // Small study screens give the question its own clear visual field. The
+    // ambient grid remains, but the decorative brain does not pass behind text.
+    core.visible = loading || !compact || home;
   };
   const connectorEnd = new THREE.Vector3(), connectorStart = new THREE.Vector3(), elbow = new THREE.Vector3(), packet = new THREE.Vector3();
   const updateConnectors = () => {
-    const buttons = view === 'home' && !loading ? Array.from(stage?.querySelectorAll<HTMLElement>('.portal-cloud') || []).slice(0, 4) : [];
+    const compact = compactLayout();
+    const ready = view === 'home' && !loading && performance.now() >= connectorRevealAt
+      && !stage?.classList.contains('portal-transitioning') && core.position.distanceTo(targetPosition) < .035;
+    // Mobile cards sit in two rows. Connecting the lower row through the upper
+    // row crosses its labels, so the compact hub links only to the first row.
+    const buttons = ready ? Array.from(stage?.querySelectorAll<HTMLElement>('.portal-cloud') || []).slice(0, compact ? 2 : 4) : [];
     let count = 0, active = false;
     for (const button of buttons) {
       const box = button.getBoundingClientRect();
       if (!box.width || !box.height || box.top > height) continue;
       const center = box.left + box.width / 2;
-      const x = center < width / 2 ? box.right + 7 : box.left - 7;
-      screenToWorld(x, box.top + box.height / 2, connectorEnd);
+      const x = compact ? center : center < width / 2 ? box.right + 7 : box.left - 7;
+      screenToWorld(x, compact ? box.top - 10 : box.top + box.height / 2, connectorEnd);
       connectorStart.copy(core.position);
       const direction = Math.sign(connectorEnd.x - core.position.x) || 1;
-      connectorStart.x += direction * .95 * core.scale.x;
-      connectorStart.y += (connectorEnd.y - core.position.y) * .27;
-      elbow.copy(connectorStart).lerp(connectorEnd, .47); elbow.y = connectorEnd.y;
+      if (compact) {
+        connectorStart.x += direction * .25 * core.scale.x;
+        connectorStart.y -= 1.62 * core.scale.x;
+        elbow.copy(connectorEnd); elbow.y = connectorStart.y;
+      } else {
+        connectorStart.x += direction * .95 * core.scale.x;
+        connectorStart.y += (connectorEnd.y - core.position.y) * .27;
+        elbow.copy(connectorStart).lerp(connectorEnd, .47); elbow.y = connectorEnd.y;
+      }
       connectorStart.toArray(connectorPositions, count * 12); elbow.toArray(connectorPositions, count * 12 + 3);
       elbow.toArray(connectorPositions, count * 12 + 6); connectorEnd.toArray(connectorPositions, count * 12 + 9);
       const firstDistance = connectorStart.distanceTo(elbow), secondDistance = elbow.distanceTo(connectorEnd);
@@ -494,7 +513,11 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
     anatomy.rotation.y = rotationAngle;
     updateLayout();
     const blend = moving ? 1 - Math.exp(-5 * dt) : 1;
-    core.position.lerp(targetPosition, blend);
+    // Follow document scrolling exactly; easing here would drag the hologram
+    // over the moving cards. Route changes retain the smooth glide.
+    if (compactLayout() && window.scrollY !== lastScrollY) core.position.copy(targetPosition);
+    else core.position.lerp(targetPosition, blend);
+    lastScrollY = window.scrollY;
     core.scale.setScalar(THREE.MathUtils.lerp(core.scale.x, targetScale, blend));
     alpha = THREE.MathUtils.lerp(alpha, targetAlpha, blend);
     const introOpacity = loading ? (moving && textReady ? THREE.MathUtils.smoothstep(introTime, 0, .3) : 0) : 1;
@@ -534,7 +557,10 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
   const pointerLeave = () => cursor.set(0, 0);
   const contextLost = (event: Event) => { event.preventDefault(); contextAvailable = false; cancelAnimationFrame(frame); canvas.style.opacity = '0'; portal?.classList.remove('portal-wiretext-ready'); };
   const contextRestored = () => { contextAvailable = true; canvas.style.opacity = ''; requestRender(); };
-  const observer = new MutationObserver(() => {
+  const observer = new MutationObserver(records => {
+    if (records.some(record => record.target === stage) && stage?.dataset.view === 'home') {
+      connectorRevealAt = performance.now() + (moving ? 950 : 0);
+    }
     const nextLoading = portal?.classList.contains('portal-loading') ?? false;
     if (nextLoading && !loading) {
       assemblyStart = performance.now(); rotationAngle = 0; anatomy.rotation.y = 0; sampleIntroText();
