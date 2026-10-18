@@ -623,26 +623,31 @@
         "topic": "M2 Neuroanatomy",
         "kind": "short",
         "difficulty": "foundation",
-        "prompt": "Identify regions 1-4 on the schematic and give one broad function for each. State front/back before identifying them.",
-        "explanation": "Region 1 is frontal: voluntary movement, planning, attention, or inhibition. Region 2 is parietal: somatosensation or spatial processing. Region 3 is temporal: hearing, aspects of recognition/language, or memory systems. Region 4 is occipital: visual processing. Front is at left, back at right in this schematic; functions are broad, not exclusive.",
+        "prompt": "Identify regions 1–4 on the brain model and give one broad function for each. First orient yourself: which side is front, and which is back?",
+        "explanation": "Region 1 is frontal: voluntary movement, planning, attention, or inhibition. Region 2 is parietal: somatosensation or spatial processing. Region 3 is temporal: hearing, aspects of recognition/language, or memory systems. Region 4 is occipital: visual processing. Front is at left, back at right in this lateral view; functions are broad, not exclusive.",
         "rubric": [
           "Region 1 is frontal: voluntary movement, planning, attention, or inhibition.",
           "Region 2 is parietal: somatosensation or spatial processing.",
           "Region 3 is temporal: hearing, aspects of recognition/language, or memory systems.",
-          "Region 4 is occipital: visual processing. Front is at left, back at right in this schematic; functions are broad, not exclusive."
+          "Region 4 is occipital: visual processing. Front is at left, back at right in this lateral view; functions are broad, not exclusive."
         ],
         "selfGraded": true,
-        "visual": "lobes",
+        "visual": {
+          "kind": "cortex",
+          "labels": "lobes"
+        },
         "commonMistakes": [
           "Do not identify a lobe by its drawing color or treat one broad function as its exclusive job. First orient front and back, then use the central/lateral sulci and relative positions to locate the lobes."
-        ]
+        ],
+        "grounding": "direct",
+        "sourceNote": "PSYC 105 Study Guide, Module 2: lobes, broad functions, and major sulci. The model uses the site’s Allen atlas; lobe-boundary guides approximate sulcal locations."
       },
       {
         "id": "105-q032",
         "topic": "M2 Neuroanatomy",
         "kind": "short",
         "difficulty": "foundation",
-        "prompt": "Using the lateral brain schematic, name landmarks 5 and 6. Locate primary motor and somatosensory cortex relative to landmark 5. Explain why location matters more than diagram color.",
+        "prompt": "Name the two landmarks marked 5 and 6 on the brain model. Which side of landmark 5 contains primary motor cortex, and which side contains primary somatosensory cortex?",
         "explanation": "Landmark 5 marks the central sulcus. Landmark 6 marks the lateral sulcus/fissure. Primary motor cortex is anterior to the central sulcus; primary somatosensory cortex is posterior. Color is an illustration convention; spatial landmarks and anatomical relationships determine identity.",
         "rubric": [
           "Landmark 5 marks the central sulcus.",
@@ -651,10 +656,15 @@
           "Color is an illustration convention; spatial landmarks and anatomical relationships determine identity."
         ],
         "selfGraded": true,
-        "visual": "lobes",
+        "visual": {
+          "kind": "cortex",
+          "labels": "sulci"
+        },
         "commonMistakes": [
           "Swapping precentral and postcentral cortex reverses the motor-sensory relationship. The central sulcus separates frontal from parietal cortex; the lateral sulcus is a different landmark associated with the temporal boundary."
-        ]
+        ],
+        "grounding": "direct",
+        "sourceNote": "PSYC 105 Study Guide, Module 2: lobes, broad functions, and major sulci. The model uses the site’s Allen atlas; lobe-boundary guides approximate sulcal locations."
       },
       {
         "id": "105-q033",
@@ -2270,7 +2280,7 @@
         "topic": "Neuroanatomy: organization and cortex",
         "kind": "short",
         "difficulty": "foundation",
-        "prompt": "On the lateral schematic, identify regions 1-4 and one broad function of each. Use front/back and the sulci rather than memorized illustration colors.",
+        "prompt": "Identify regions 1–4 on the brain model and give one broad function for each. Use their positions, rather than memorized illustration colors.",
         "explanation": "1 frontal: voluntary motor/executive functions. 2 parietal: somatosensory/spatial processing. 3 temporal: hearing/recognition and related functions. 4 occipital: visual processing. This gross-anatomy drill supplements the guide's cortex category; left of image is anterior.",
         "rubric": [
           "1 frontal: voluntary motor/executive functions.",
@@ -2279,10 +2289,15 @@
           "4 occipital: visual processing. This gross-anatomy drill supplements the guide's cortex category; left of image is anterior."
         ],
         "selfGraded": true,
-        "visual": "lobes",
+        "visual": {
+          "kind": "cortex",
+          "labels": "lobes"
+        },
         "commonMistakes": [
           "Lobe colors are arbitrary and can change between illustrations. Orient anterior/posterior and use sulci and adjacency; broad lobe functions are useful labels rather than exclusive storage locations for whole behaviors."
-        ]
+        ],
+        "grounding": "supporting",
+        "sourceNote": "Supporting gross-anatomy practice for the PSYC 108 guide’s cortex category. Broad lobe functions are not exclusive assignments."
       },
       {
         "id": "108-q028",

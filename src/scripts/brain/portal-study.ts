@@ -63,40 +63,8 @@ function sourceNote(course: Course, scope: StudyScope, focus: StudyFocus = 'all'
   return node('p', 'portal-subtitle portal-source-note', `${scope === 'general' ? `${courseScopeNote(course, scope)} ` : ''}${source} Visual basics are mixed in, including clearly marked supporting spatial vocabulary.`);
 }
 
-/** A broad lateral-cortex schematic: anterior is left; numbered landmarks match the authored bank. */
-function lobesDiagram(): HTMLElement {
-  const wrapper = node('figure', 'portal-diagram');
-  // The SVG is fixed authored markup. User-entered recall is rendered exclusively as text.
-  wrapper.innerHTML = `<svg viewBox="0 0 600 340" role="img" aria-labelledby="portal-lobes-title portal-lobes-desc" xmlns="http://www.w3.org/2000/svg">
-    <title id="portal-lobes-title">Numbered lateral view of a cerebral hemisphere</title>
-    <desc id="portal-lobes-desc">Anterior is on the left. Identify the four numbered cortical lobes and the two numbered major sulci. The broad diagram is schematic and not to scale.</desc>
-    <defs><clipPath id="portal-cortex-clip"><path d="M91 240 C43 187 64 111 115 86 C177 44 241 54 290 68 C365 42 439 75 481 118 C534 140 554 187 525 222 C497 270 426 283 367 271 C297 314 216 302 177 266 C135 271 107 258 91 240Z"/></clipPath></defs>
-    <g clip-path="url(#portal-cortex-clip)">
-      <path d="M45 35H290L275 113L292 138L274 165L284 181L148 199L122 276H45Z" fill="#a3d8ea"/>
-      <path d="M290 35H438L441 166L399 224L376 211Q330 182 284 181L274 165L292 138L275 113Z" fill="#c3c7ef"/>
-      <path d="M438 35H580V295H399L399 224L441 166Z" fill="#edc7a6"/>
-      <path d="M148 199Q220 184 284 181Q330 182 376 211L399 224V330H122V276Z" fill="#e9dca7"/>
-    </g>
-    <path d="M91 240 C43 187 64 111 115 86 C177 44 241 54 290 68 C365 42 439 75 481 118 C534 140 554 187 525 222 C497 270 426 283 367 271 C297 314 216 302 177 266 C135 271 107 258 91 240Z" fill="none" stroke="#22364c" stroke-width="3"/>
-    <path d="M290 68L275 113L292 138L274 165L284 181M148 199Q220 184 284 181Q330 182 376 211" fill="none" stroke="#22364c" stroke-width="5" stroke-linecap="round"/>
-    <path d="M441 107L441 166L399 224" fill="none" stroke="#22364c" stroke-width="2" stroke-dasharray="5 5"/>
-    <path d="M277 34L278 92M78 188L147 198" fill="none" stroke="#dcecf5" stroke-width="2"/>
-    <g fill="#122334" font-family="system-ui,sans-serif" font-size="24" font-weight="700" text-anchor="middle">
-      <circle cx="180" cy="136" r="20" fill="#fff"/><text x="180" y="144">1</text>
-      <circle cx="360" cy="135" r="20" fill="#fff"/><text x="360" y="143">2</text>
-      <circle cx="288" cy="247" r="20" fill="#fff"/><text x="288" y="255">3</text>
-      <circle cx="486" cy="187" r="20" fill="#fff"/><text x="486" y="195">4</text>
-      <circle cx="277" cy="23" r="20" fill="#fff"/><text x="277" y="31">5</text>
-      <circle cx="62" cy="185" r="20" fill="#fff"/><text x="62" y="193">6</text>
-    </g>
-    <g fill="#dcecf5" font-family="system-ui,sans-serif" font-size="14"><text x="70" y="328">← Anterior / front</text><text x="395" y="328">Posterior / back →</text></g>
-  </svg>`;
-  wrapper.append(node('figcaption', 'portal-subtitle', 'Lateral cortical surface • schematic, not to scale. Dashed boundary is approximate.'));
-  return wrapper;
-}
-
 async function loadBank(): Promise<{ standard: Record<Course, CourseBank>; visual: Record<Course, CourseBank> }> {
-  if (!bankPromise) bankPromise = Promise.all(['/brain/midterm-bank.json?v=4', '/brain/visual-study-bank.json?v=1'].map(async (url) => {
+  if (!bankPromise) bankPromise = Promise.all(['/brain/midterm-bank.json?v=5', '/brain/visual-study-bank.json?v=1'].map(async (url) => {
     const response = await fetch(url);
     if (!response.ok) throw new Error('Study material could not be loaded.');
     const bank = await response.json();
@@ -178,8 +146,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
     const metadata = node('div', 'portal-actions');
     metadata.append(node('span', 'portal-topic-chip', q.topic), node('span', 'portal-topic-chip', q.difficulty), node('span', 'portal-topic-chip', q.kind === 'short' ? 'Written recall · self-rated' : 'Auto-checked'));
     panel.append(metadata, node('h2', 'portal-question-title', q.prompt));
-    if (q.visual === 'lobes') panel.append(lobesDiagram());
-    else if (q.visual) {
+    if (q.visual) {
       metadata.append(node('span', 'portal-topic-chip', q.grounding === 'supporting' ? 'Supporting visual vocabulary' : 'From your study guide'));
       const visual = node('div', 'portal-visual-slot'); panel.append(visual);
       disposeVisual = mountStudyVisual(visual, q.visual, { revealed: Boolean(answer.revealed) });
@@ -411,7 +378,7 @@ function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions,
     const card = cards.get(queue[0])!;
     panel.append(node('span', 'portal-topic-chip', card.topic), node('h2', 'portal-question-title', 'Bring it back to mind.'));
     const surface = node('div', 'portal-card');
-    if (card.visual && card.visual !== 'lobes') {
+    if (card.visual) {
       surface.classList.add('portal-card-visual');
       panel.append(node('span', 'portal-topic-chip', card.grounding === 'supporting' ? 'Supporting visual vocabulary' : 'From your study guide'));
       const visual = node('div', 'portal-visual-slot'); surface.append(visual);
@@ -419,7 +386,7 @@ function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions,
       if (card.sourceNote && flipped) panel.append(node('p', 'portal-subtitle portal-item-source', card.sourceNote));
     }
     const flip = button('', `portal-flashcard${animateFlip ? ' is-flipping' : ''}`, () => { flipped = !flipped; render(true, true); });
-    if (card.visual && card.visual !== 'lobes') surface.addEventListener('click', event => {
+    if (card.visual) surface.addEventListener('click', event => {
       // Extend the flip button's pointer target across the illustration while
       // keeping its keyboard behavior and the source links independent.
       if (event.target instanceof Element && !event.target.closest('button, a')) flip.click();

@@ -1,5 +1,5 @@
-/** Fixed anatomical illustrations for retrieval practice. No WebGL contexts,
- * animation loops, or screen-dependent changes to the answer's orientation. */
+/** Fixed anatomical views with the intro's animated brain and teaching overlays.
+ * Camera orientation never changes while an answer is being assessed. */
 export type StudyView = 'lateral' | 'medial' | 'superior' | 'inferior' | 'anterior' | 'posterior' | 'oblique';
 export type StudyRegion = 'frontal' | 'parietal' | 'temporal' | 'occipital' | 'cerebellum' | 'basal-ganglia';
 export type StudyDirection = 'anterior' | 'posterior' | 'superior' | 'inferior' | 'dorsal' | 'ventral' | 'rostral' | 'caudal' | 'medial' | 'lateral';
@@ -9,6 +9,7 @@ export type StudyVisualSpec =
   | { kind: 'direction'; direction: StudyDirection; view?: StudyView }
   | { kind: 'view'; view: StudyView }
   | { kind: 'tract'; tract: StudyTract; view?: StudyView }
+  | { kind: 'cortex'; labels: 'lobes' | 'sulci'; view?: 'lateral' }
   | { kind: 'plane'; plane: 'sagittal' | 'coronal' | 'horizontal' };
 type Vec3 = readonly [number, number, number];
 type StudyMesh = { id: string; kind: string; hemisphere: string; positions: string; triangles: string; faceRegions?: string; regions?: string[] };
@@ -89,10 +90,12 @@ function visualView(spec: StudyVisualSpec): StudyView {
   return 'lateral';
 }
 function answerLabel(spec: StudyVisualSpec): string {
+  if (spec.kind === 'cortex') return spec.labels === 'lobes' ? '1 Frontal · 2 Parietal · 3 Temporal · 4 Occipital' : '5 Central sulcus · 6 Lateral sulcus';
   return spec.kind === 'region' ? names[spec.region] : spec.kind === 'direction' ? names[spec.direction] : spec.kind === 'plane' ? names[spec.plane] : spec.kind === 'tract' ? names[spec.tract] : `${names[spec.view]} view`;
 }
 function description(spec: StudyVisualSpec, revealed: boolean): string {
   if (revealed) return `Wireframe illustration: ${answerLabel(spec)}.`;
+  if (spec.kind === 'cortex') return spec.labels === 'lobes' ? 'Left lateral brain model with numbered markers 1 through 4 on four cortical regions. Front is left; back is right. Identify each region.' : 'Left lateral brain model with two approximate surface boundary guides, numbered 5 and 6. Front is left; back is right. Identify the two landmarks.';
   if (spec.kind === 'region') return 'An unlabeled brain region is brighter, filled and outlined within a dim wireframe brain. Identify the highlighted region.';
   if (spec.kind === 'direction') return 'A bright arrow crosses a fixed wireframe brain. Identify the anatomical direction toward the arrowhead.';
   if (spec.kind === 'plane') return 'A translucent flat marker intersects a whole wireframe brain. Identify the anatomical section plane.';
@@ -102,6 +105,90 @@ function description(spec: StudyVisualSpec, revealed: boolean): string {
 const format = (n: number) => n.toFixed(1);
 const pointText = (p: readonly number[]) => `${format(p[0])},${format(p[1])}`;
 const pathTag = (d: string, className: string) => d ? `<path class="${className}" d="${d}"/>` : '';
+
+type CortexAnnotations = {
+  regions: { number: number; region: string; point: Vec3; face: number }[];
+  landmarks: { number: number; name: string; segments: [Vec3, Vec3][]; point: Vec3 }[];
+};
+const cortexCache = new WeakMap<StudyAtlas, CortexAnnotations>();
+
+/** Numbering comes from the same atlas's cortical face labels. Sulcus guides
+ * follow approximate lobe boundaries; they are not invented anatomical curves. */
+export function getCortexStudyAnnotations(atlas: StudyAtlas): CortexAnnotations {
+  const cached = cortexCache.get(atlas); if (cached) return cached;
+  const mesh = decodeAtlas(atlas).find(item => item.id === 'hemisphere-left');
+  if (!mesh) throw new Error('Missing cortical surface');
+  const faces: { face: number; region: string; points: Vec3[]; center: Vec3; area: number }[] = [];
+  const edges = new Map<string, { a: number; b: number; regions: Set<string> }>();
+  for (let i = 0; i < mesh.triangles.length; i += 3) {
+    const ids = mesh.triangles.slice(i, i + 3), points = ids.map(id => mesh.points[id]);
+    const region = mesh.regions[mesh.faceRegions[i / 3]].replace('-left', '');
+    const normal = cross(sub(points[1], points[0]), sub(points[2], points[0]));
+    const center = [0, 1, 2].map(axis => points.reduce((sum, point) => sum + point[axis], 0) / 3) as unknown as Vec3;
+    if (normal[0] < 0 && center[0] < -20) faces.push({ face: i / 3, region, points, center, area: -normal[0] / 2 });
+    for (const [a, b] of [[ids[0], ids[1]], [ids[1], ids[2]], [ids[2], ids[0]]]) {
+      const key = a < b ? `${a}:${b}` : `${b}:${a}`;
+      if (!edges.has(key)) edges.set(key, { a, b, regions: new Set() });
+      edges.get(key)!.regions.add(region);
+    }
+  }
+  // A projected marker must hit the near surface, not a hidden fold or lobe.
+  const exposed = (face: typeof faces[number]) => !faces.some(other => {
+    if (other === face) return false;
+    const [a, b, c] = other.points, p = face.center;
+    const d = (b[2] - c[2]) * (a[1] - c[1]) + (c[1] - b[1]) * (a[2] - c[2]);
+    if (Math.abs(d) < 1e-7) return false;
+    const u = ((b[2] - c[2]) * (p[1] - c[1]) + (c[1] - b[1]) * (p[2] - c[2])) / d;
+    const v = ((c[2] - a[2]) * (p[1] - c[1]) + (a[1] - c[1]) * (p[2] - c[2])) / d;
+    return u >= 0 && v >= 0 && u + v <= 1 && u * a[0] + v * b[0] + (1 - u - v) * c[0] < p[0] - .1;
+  });
+  const regions = ['frontal', 'parietal', 'temporal', 'occipital'].map((region, index) => {
+    const candidates = faces.filter(face => face.region === region);
+    const area = candidates.reduce((sum, face) => sum + face.area, 0);
+    const center = [0, 1, 2].map(axis => candidates.reduce((sum, face) => sum + face.center[axis] * face.area, 0) / area);
+    candidates.sort((a, b) => Math.hypot(a.center[1] - center[1], a.center[2] - center[2]) - Math.hypot(b.center[1] - center[1], b.center[2] - center[2]));
+    const selected = candidates.find(exposed);
+    if (!selected) throw new Error(`No visible ${region} surface`);
+    return { number: index + 1, region, point: selected.center, face: selected.face };
+  });
+  const landmarks = [
+    { number: 5, name: 'Central sulcus', matches: (r: Set<string>) => r.has('frontal') && r.has('parietal') },
+    { number: 6, name: 'Lateral sulcus', matches: (r: Set<string>) => r.has('temporal') && (r.has('frontal') || r.has('parietal')) },
+  ].map(landmark => {
+    const matching = [...edges.values()].filter(edge => landmark.matches(edge.regions) && [edge.a, edge.b].every(id => mesh.points[id][0] < -24));
+    // Ignore detached label islands; retain the longest connected boundary.
+    const remaining = new Set(matching), components: typeof matching[] = [];
+    while (remaining.size) {
+      const first = remaining.values().next().value!; remaining.delete(first);
+      const component = [first], vertices = new Set([first.a, first.b]);
+      let grew = true;
+      while (grew) { grew = false; for (const edge of remaining) if (vertices.has(edge.a) || vertices.has(edge.b)) { remaining.delete(edge); component.push(edge); vertices.add(edge.a); vertices.add(edge.b); grew = true; } }
+      components.push(component);
+    }
+    const length = (component: typeof matching) => component.reduce((sum, edge) => sum + Math.hypot(...sub(mesh.points[edge.a], mesh.points[edge.b])), 0);
+    components.sort((a, b) => length(b) - length(a));
+    const segments = (components[0] || []).map(edge => [mesh.points[edge.a], mesh.points[edge.b]] as [Vec3, Vec3]);
+    if (!segments.length) throw new Error('Missing cortical boundary');
+    const points = segments.flat();
+    const center = [0, 1, 2].map(axis => points.reduce((sum, point) => sum + point[axis], 0) / points.length);
+    const point = points.reduce((nearest, candidate) => Math.hypot(candidate[1] - center[1], candidate[2] - center[2]) < Math.hypot(nearest[1] - center[1], nearest[2] - center[2]) ? candidate : nearest);
+    return { number: landmark.number, name: landmark.name, segments, point };
+  });
+  const result = { regions, landmarks }; cortexCache.set(atlas, result); return result;
+}
+
+function cortexOverlay(spec: Extract<StudyVisualSpec, { kind: 'cortex' }>, atlas: StudyAtlas, project: Projection): string {
+  const annotations = getCortexStudyAnnotations(atlas);
+  const marker = (number: number, x: number, y: number) => `<g class="study-cortex-marker"><circle cx="${format(x)}" cy="${format(y)}" r="20"/><text x="${format(x)}" y="${format(y + 9)}" text-anchor="middle">${number}</text></g>`;
+  let markup = '<text class="study-cortex-orientation" x="80" y="27">FRONT</text><text class="study-cortex-orientation" x="560" y="27" text-anchor="end">BACK</text>';
+  if (spec.labels === 'lobes') for (const region of annotations.regions) { const p = project(region.point); markup += marker(region.number, p[0], p[1]); }
+  else for (const landmark of annotations.landmarks) {
+    const path = landmark.segments.map(segment => `M${pointText(project(segment[0]))}L${pointText(project(segment[1]))}`).join('');
+    const p = project(landmark.point), x = Math.max(48, Math.min(592, p[0] - (landmark.number === 5 ? 52 : 120))), y = Math.max(60, Math.min(325, p[1] + (landmark.number === 5 ? -85 : 64)));
+    markup += pathTag(path, 'study-sulcus-shadow') + pathTag(path, 'study-sulcus-guide') + pathTag(`M${format(x)},${format(y)}L${pointText(p)}`, 'study-cortex-leader') + `<circle class="study-cortex-target" cx="${format(p[0])}" cy="${format(p[1])}" r="4"/>` + marker(landmark.number, x, y);
+  }
+  return markup;
+}
 
 /** Pure renderer: suitable for static verification and snapshots without a
  * browser or GPU. Unrevealed markup deliberately contains no answer label. */
@@ -202,13 +289,15 @@ function buildAnatomyVisual(spec: StudyVisualSpec, atlas: StudyAtlas, options: R
     const face = project([-38, -7, 82]);
     body += `<text class="study-landmark" x="${format(face[0] - 24)}" y="${format(face[1])}" text-anchor="end">FACE</text><path class="study-landmark-line" d="M${format(face[0] - 19)},${format(face[1] - 4)}L${format(face[0] - 4)},${format(face[1] - 4)}"/>`;
   }
+  if (spec.kind === 'cortex') body += cortexOverlay(spec, atlas, project);
   if (options.overlay) body += options.overlay(project);
   const desc = options.description ?? description(spec, !!options.revealed);
-  const label = options.label ?? (options.revealed ? answerLabel(spec) : spec.kind === 'region' ? 'IDENTIFY THE HIGHLIGHT' : spec.kind === 'direction' ? 'FOLLOW THE ARROWHEAD' : spec.kind === 'plane' ? 'IDENTIFY THE PLANE' : spec.kind === 'tract' ? 'TRACE THE CONNECTION' : 'IDENTIFY THE VIEW');
+  const label = options.label ?? (spec.kind === 'cortex' ? (options.revealed ? 'COMPARE WITH THE EXPLANATION BELOW' : spec.labels === 'lobes' ? 'IDENTIFY REGIONS 1–4' : 'IDENTIFY LANDMARKS 5 + 6') : options.revealed ? answerLabel(spec) : spec.kind === 'region' ? 'IDENTIFY THE HIGHLIGHT' : spec.kind === 'direction' ? 'FOLLOW THE ARROWHEAD' : spec.kind === 'plane' ? 'IDENTIFY THE PLANE' : spec.kind === 'tract' ? 'TRACE THE CONNECTION' : 'IDENTIFY THE VIEW');
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${WIDTH} ${HEIGHT}" role="img" aria-label="${desc}" class="study-wireframe${options.companion ? ' study-wireframe-companion' : ''}${deep ? ' study-wireframe-deep' : ''}${spec.kind === 'view' || spec.kind === 'tract' && view === 'superior' ? ' study-wireframe-surface' : ''}"><title>${desc}</title><style>
     .study-mesh{fill:#102a35;fill-opacity:.16;stroke:#66cadf;stroke-width:.55;stroke-opacity:.34;stroke-linejoin:round}.study-silhouette{fill:none;stroke:#b7f1fa;stroke-width:1.1;stroke-opacity:.62}.study-highlight{fill:#efbf78;fill-opacity:.24;stroke:#ffe6b9;stroke-width:.85;stroke-opacity:.94;stroke-linejoin:round}.study-highlight-edge{fill:none;stroke:#fff0cf;stroke-width:1.9;stroke-linejoin:round}.study-wireframe-deep .study-mesh{fill:none;stroke-opacity:.16}.study-wireframe-deep .study-silhouette{stroke-opacity:.28}.study-wireframe-deep .study-highlight{fill-opacity:.48;stroke-width:.9}.study-plane{fill:#ffd28a;fill-opacity:.16;stroke:#ffe0a7;stroke-width:1.9;stroke-dasharray:9 5}.study-section{fill:none;stroke:#fff0cc;stroke-width:1.8;stroke-linejoin:round}.study-arrow-shadow{fill:none;stroke:#03101b;stroke-width:12;stroke-linecap:round}.study-arrow{fill:none;stroke:#ffe7b5;stroke-width:5;stroke-linecap:round}.study-arrowhead{fill:none;stroke:#fff3d5;stroke-width:5;stroke-linejoin:round;stroke-linecap:round}.study-arrow-origin{fill:#071724;stroke:#ffe7b5;stroke-width:2}.study-midline{fill:none;stroke:#c4e9f2;stroke-width:1.4;stroke-dasharray:4 5}.study-landmark,.study-visual-label{fill:#bed9e4;font:500 12px ui-monospace,monospace;letter-spacing:1.4px}.study-landmark-line{stroke:#bed9e4;stroke-width:1}.study-visual-label{fill:#e7f7fb;font-size:13px;letter-spacing:2px}.study-frame{fill:none;stroke:#67bdce;stroke-width:.8;stroke-opacity:.3}
     .study-wireframe-surface .study-mesh{fill:#081923;fill-opacity:1;stroke-opacity:.52}.study-tract-shadow{fill:none;stroke:#03101b;stroke-width:13;stroke-linecap:round}.study-tract-glow{fill:none;stroke:#ffe066;stroke-width:16;stroke-opacity:.16;stroke-linecap:round}.study-tract{fill:none;stroke:#ffe066;stroke-width:7;stroke-linecap:round}.study-tract-core{fill:none;stroke:#fff6cf;stroke-width:2;stroke-linecap:round}.study-tract-endpoint{fill:#fff6cf;stroke:#07131f;stroke-width:2}
     .study-wireframe-companion .study-landmark{font-size:20px;letter-spacing:.9px;paint-order:stroke;stroke:#07131f;stroke-width:3px;stroke-linejoin:round}.study-wireframe-companion .study-visual-label{font-size:20px;letter-spacing:1.2px}
+    .study-cortex-marker circle{fill:#07131f;stroke:#e1f7ff;stroke-width:2.5}.study-cortex-marker text{fill:#f0fbff;font:700 28px ui-monospace,monospace}.study-cortex-orientation{fill:#bed9e4;font:500 20px ui-monospace,monospace;letter-spacing:2px}.study-cortex-leader{fill:none;stroke:#f7d698;stroke-width:2}.study-cortex-target{fill:#fff0cb;stroke:#07131f;stroke-width:2}.study-sulcus-shadow{fill:none;stroke:#07131f;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}.study-sulcus-guide{fill:none;stroke:#ffda89;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:7 4}
     </style><path class="study-frame" d="M25 52V30H47 M593 30H615V52 M25 338V360H47 M593 360H615V338"/>${body}<text class="study-visual-label" x="320" y="378" text-anchor="middle">${label}</text></svg>`;
 }
 
@@ -288,7 +377,7 @@ function createStudyGraphic(graphic: HTMLElement, atlas: StudyAtlas) {
   const modelOptions = (current: StudyVisualSpec) => ({
     atlas,
     deep: current.kind === 'region' && current.region === 'basal-ganglia',
-    surface: current.kind === 'view' || current.kind === 'tract' && visualView(current) === 'superior',
+    surface: current.kind === 'view' || current.kind === 'cortex' || current.kind === 'tract' && visualView(current) === 'superior',
     onAvailabilityChange: (available: boolean) => { if (!disposed) graphic.classList.toggle('portal-study-model-active', available); },
   });
   void import('./study-model').then(({ mountStudyModel }) => {
@@ -381,6 +470,7 @@ export function mountStudyVisual(container: HTMLElement, spec: StudyVisualSpec, 
   caption.textContent = spec.kind === 'region' && spec.region === 'basal-ganglia' ? 'Outer brain shown transparently to reveal the highlighted deep structures.' : spec.kind === 'view' && spec.view === 'medial' ? 'Opposite hemisphere removed to expose the surface facing the midline.' : spec.kind === 'plane' ? 'A flat marker passes through the whole brain. The line follows its surface intersection.' : spec.kind === 'direction' ? 'Fixed view. Read the direction toward the arrowhead; terms apply to the cerebrum.' : 'Fixed anatomical view. Identify the brighter, filled region with the pale outline.';
   if (spec.kind === 'view' && spec.view !== 'medial') caption.textContent = 'Fixed anatomical view. Use the visible surfaces and the shape of the brain.';
   if (spec.kind === 'tract') caption.textContent = 'Simplified connection path, not a measured individual tract. Pale dots mark the connected regions; no signaling direction is implied.';
+  if (spec.kind === 'cortex') caption.textContent = `${options.revealed ? answerLabel(spec) + '. ' : ''}${spec.labels === 'lobes' ? 'Numbered locations on the left outer surface. Use position to identify each lobe.' : 'Dashed guides follow approximate atlas boundaries. They indicate sulcal locations; individual sulcal shapes vary.'}`;
   const credit = document.createElement('a'); credit.textContent = 'Allen atlas · CC BY 4.0'; credit.className = 'portal-study-visual-credit';
   credit.href = '/brain/models/credits.json'; credit.target = '_blank'; credit.rel = 'noopener';
   credit.title = 'Allen Institute / Ding et al. (2020), Allen Human Reference Atlas – 3D. Geometry simplified from the site atlas; CC BY 4.0.';

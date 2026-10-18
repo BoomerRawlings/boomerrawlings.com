@@ -3,7 +3,7 @@ import type { StudyVisualSpec } from './study-visuals';
 export type Difficulty = 'mixed' | 'foundation' | 'application' | 'challenge';
 export type StudyFocus = 'all' | 'visual';
 export type StudyLength = 10 | 25 | 40 | 80 | 'all';
-type VisualContent = { visual?: 'lobes' | StudyVisualSpec; companion?: 'forebrain-directions'; grounding?: 'direct' | 'supporting'; sourceNote?: string };
+type VisualContent = { visual?: StudyVisualSpec; companion?: 'forebrain-directions'; grounding?: 'direct' | 'supporting'; sourceNote?: string };
 export type Question = VisualContent & {
   id: string; topic: string; kind: 'mcq' | 'truefalse' | 'short';
   difficulty: Exclude<Difficulty, 'mixed'>; prompt: string; explanation: string;

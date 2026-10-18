@@ -12,10 +12,10 @@ const visual = await readJson('../public/brain/visual-study-bank.json');
 const bankSource = (await transform(await readFile(new URL('../src/scripts/brain/study-bank.ts', import.meta.url), 'utf8'), { loader: 'ts', target: 'es2022' })).code;
 const { selectStudyBank, studyAvailability, flashcardProgressKey, mergeFlashcardQueue } = await import(`data:text/javascript;base64,${Buffer.from(bankSource).toString('base64')}`);
 const rendererSource = (await transform(await readFile(new URL('../src/scripts/brain/study-visuals.ts', import.meta.url), 'utf8'), { loader: 'ts', target: 'es2022' })).code;
-const { buildStudyVisual, projectStudyPoint, getStudyDirectionArrow, getStudyTractPath, buildDirectionCompanionVisual, getStudySideComparison, getStudyVisualFrame } = await import(`data:text/javascript;base64,${Buffer.from(rendererSource).toString('base64')}`);
+const { buildStudyVisual, projectStudyPoint, getStudyDirectionArrow, getStudyTractPath, buildDirectionCompanionVisual, getStudySideComparison, getStudyVisualFrame, getCortexStudyAnnotations } = await import(`data:text/javascript;base64,${Buffer.from(rendererSource).toString('base64')}`);
 const atlas = await readJson('../public/brain/models/study-wireframe.json');
 const seeded = (seed = 9127) => { let state = seed; return () => ((state = (state * 16807) % 2147483647) - 1) / 2147483646; };
-const labelFor = spec => spec.kind === 'region'
+const labelFor = spec => spec.kind === 'cortex' ? (spec.labels === 'lobes' ? '1 Frontal · 2 Parietal · 3 Temporal · 4 Occipital' : '5 Central sulcus · 6 Lateral sulcus') : spec.kind === 'region'
   ? ({ frontal: 'Frontal lobe', parietal: 'Parietal lobe', temporal: 'Temporal lobe', occipital: 'Occipital lobe', cerebellum: 'Cerebellum', 'basal-ganglia': 'Basal ganglia' })[spec.region]
   : spec.kind === 'direction' ? spec.direction[0].toUpperCase() + spec.direction.slice(1)
     : spec.kind === 'tract' ? `${spec.tract[0].toUpperCase()}${spec.tract.slice(1)} tract`
@@ -425,4 +425,53 @@ test('every authored visual renders finite target geometry without printing the 
   }
   const invalidAxes = { ...atlas, metadata: { ...atlas.metadata, coordinates: { ...atlas.metadata.coordinates, y: 'anterior', z: 'superior' } } };
   assert.throws(() => buildStudyVisual({ kind: 'view', view: 'lateral' }, invalidAxes), /coordinates/, 'do not silently swap superior and anterior');
+});
+
+test('original numbered anatomy questions share the model renderer and retain their question identities', async () => {
+  const numbered = Object.values(standard).flatMap(bank => bank.questions).filter(item => item.visual?.kind === 'cortex');
+  assert.deepEqual(numbered.map(item => [item.id, item.visual.labels]), [['105-q031', 'lobes'], ['105-q032', 'sulci'], ['108-q027', 'lobes']]);
+  assert.ok(Object.values(standard).flatMap(bank => [...bank.questions, ...bank.flashcards]).every(item => !item.visual || typeof item.visual === 'object'));
+  const source = await readFile(new URL('../src/scripts/brain/portal-study.ts', import.meta.url), 'utf8');
+  assert.doesNotMatch(source, /lobesDiagram|portal-cortex-clip|visual\s*===\s*'lobes'/, 'no question may use the old cartoon renderer');
+  for (const item of numbered) {
+    const hidden = buildStudyVisual(item.visual, atlas), revealed = buildStudyVisual(item.visual, atlas, { revealed: true });
+    assert.doesNotMatch(hidden, /\b(frontal|parietal|temporal|occipital|central sulcus|lateral sulcus)\b/i);
+    const numbers = [...hidden.matchAll(/<g class="study-cortex-marker">[\s\S]*?<text[^>]+>(\d)<\/text>/g)].map(match => Number(match[1]));
+    assert.deepEqual(numbers, item.visual.labels === 'lobes' ? [1, 2, 3, 4] : [5, 6]);
+    assert.ok(revealed.includes(labelFor(item.visual)));
+  }
+});
+
+test('numbered cortex anchors lie on source-labeled visible faces and sulcus guides use adjacent atlas edges', () => {
+  const mesh = atlas.meshes.find(mesh => mesh.id === 'hemisphere-left');
+  const bytes = Buffer.from(mesh.positions, 'base64'), indexes = Buffer.from(mesh.triangles, 'base64'), labels = Buffer.from(mesh.faceRegions, 'base64');
+  const points = Array.from({ length: bytes.length / 6 }, (_, i) => [0, 1, 2].map(axis => bytes.readInt16LE(i * 6 + axis * 2) / 100));
+  const annotations = getCortexStudyAnnotations(atlas);
+  assert.deepEqual(annotations.regions.map(item => item.region), ['frontal', 'parietal', 'temporal', 'occipital']);
+  const screen = annotations.regions.map(item => projectStudyPoint(item.point, 'lateral'));
+  assert.ok(screen[0][0] < screen[1][0] && screen[1][0] < screen[3][0], 'frontal, parietal and occipital must run front to back');
+  assert.ok(screen[2][1] < screen[0][1] && screen[2][1] < screen[1][1], 'temporal marker must lie below frontal and parietal markers');
+  for (const item of annotations.regions) {
+    assert.equal(mesh.regions[labels[item.face]], `${item.region}-left`);
+    const vertices = [0, 1, 2].map(i => points[indexes.readUInt16LE(item.face * 6 + i * 2)]);
+    for (let axis = 0; axis < 3; axis++) assert.ok(Math.abs(item.point[axis] - vertices.reduce((sum, point) => sum + point[axis], 0) / 3) < 1e-9);
+  }
+  const nativeEdges = new Map();
+  for (let face = 0; face < labels.length; face++) {
+    const ids = [0, 1, 2].map(i => indexes.readUInt16LE(face * 6 + i * 2));
+    for (const [a, b] of [[ids[0], ids[1]], [ids[1], ids[2]], [ids[2], ids[0]]]) {
+      const key = [points[a].join(','), points[b].join(',')].sort().join('|');
+      if (!nativeEdges.has(key)) nativeEdges.set(key, new Set());
+      nativeEdges.get(key).add(mesh.regions[labels[face]]);
+    }
+  }
+  for (const landmark of annotations.landmarks) {
+    assert.ok(landmark.segments.length >= 5, 'guide must follow a real surface boundary');
+    for (const segment of landmark.segments) {
+      const adjacent = nativeEdges.get(segment.map(point => point.join(',')).sort().join('|'));
+      assert.ok(adjacent, 'guides must use measured mesh edges');
+      if (landmark.number === 5) assert.ok(adjacent.has('frontal-left') && adjacent.has('parietal-left'));
+      else assert.ok(adjacent.has('temporal-left') && (adjacent.has('frontal-left') || adjacent.has('parietal-left')));
+    }
+  }
 });
