@@ -369,7 +369,7 @@ function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions,
     else { mastered.add(id); lastAction = 'Marked Got it.'; }
     reviews += 1; flipped = false; persist(); render(true);
   }
-  function render(focusCard = false): void {
+  function render(focusCard = false, animateFlip = false): void {
     if (!current()) return;
     const panel = node('section', 'portal-panel portal-flashcards');
     panel.append(button('← Study options', 'portal-pill portal-study-back', onBack), node('p', 'portal-eyebrow', `${data.title} · Flashcards`));
@@ -382,7 +382,7 @@ function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions,
     const card = cards.get(queue[0])!;
     panel.append(node('span', 'portal-topic-chip', card.topic), node('h2', 'portal-question-title', 'Bring it back to mind.'));
     const surface = node('div', 'portal-card');
-    const flip = button('', 'portal-flashcard', () => { flipped = !flipped; render(true); });
+    const flip = button('', `portal-flashcard${animateFlip ? ' is-flipping' : ''}`, () => { flipped = !flipped; render(true, true); });
     const side = node('span', 'portal-eyebrow', flipped ? 'Answer' : 'Question');
     const content = node('span', 'portal-flashcard-text', flipped ? card.answer : card.question);
     const hint = node('span', 'portal-subtitle', flipped ? 'Click or press Enter to see the question' : 'Recall first. Click or press Enter to reveal.');

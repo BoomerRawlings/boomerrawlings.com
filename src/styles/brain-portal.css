@@ -138,6 +138,54 @@ button.portal-answer:hover:not(:disabled) { border-color: #a5c3d6; background: r
 .portal-flashcard .portal-eyebrow, .portal-flashcard .portal-subtitle { margin: 0 !important; }
 .portal-flashcard .portal-subtitle { font-size: 10px; }
 .portal-flashcard .portal-flashcard-hint { color: #85a5bd; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+
+/* A short signal handoff on an intentional flip; the settled card stays crisp. */
+#brain-portal .portal-flashcard { position: relative; isolation: isolate; overflow: hidden; }
+#brain-portal .portal-flashcard.is-flipping { animation: portal-card-glitch 380ms linear; }
+#brain-portal .portal-flashcard.is-flipping .portal-flashcard-text { animation: portal-card-signal 380ms linear; }
+#brain-portal .portal-flashcard.is-flipping::before,
+#brain-portal .portal-flashcard.is-flipping::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0; }
+#brain-portal .portal-flashcard.is-flipping::before { background: linear-gradient(90deg,transparent,rgba(131,226,247,.25) 30%,rgba(131,226,247,.08) 75%,transparent); animation: portal-card-slice 380ms steps(1,end); }
+#brain-portal .portal-flashcard.is-flipping::after { background: repeating-linear-gradient(0deg,transparent 0 8px,rgba(130,221,242,.09) 8px 9px,transparent 9px 14px); animation: portal-card-scan 380ms linear; }
+@keyframes portal-card-glitch {
+  0%,100% { translate: 0 0; }
+  12% { translate: 2px 0; }
+  24% { translate: -3px 0; }
+  38% { translate: 2px 0; }
+  52% { translate: -1px 0; }
+  68% { translate: 0 0; }
+}
+@keyframes portal-card-signal {
+  0% { opacity: .3; transform: translateX(-2px) skewX(-.7deg); text-shadow: 3px 0 rgba(126,225,249,.8),-3px 0 rgba(235,186,116,.7); }
+  22% { opacity: .65; transform: translateX(3px) skewX(.7deg); text-shadow: -3px 0 rgba(126,225,249,.7),2px 0 rgba(235,186,116,.6); }
+  42% { opacity: .8; transform: translateX(-1px); text-shadow: 2px 0 rgba(126,225,249,.5),-2px 0 rgba(235,186,116,.35); }
+  65% { opacity: 1; transform: none; text-shadow: 1px 0 rgba(126,225,249,.2); }
+  100% { opacity: 1; transform: none; text-shadow: none; }
+}
+@keyframes portal-card-slice {
+  0% { opacity: 0; clip-path: inset(18% 0 78%); }
+  10% { opacity: .8; clip-path: inset(18% 0 78%); translate: -3px 0; }
+  24% { opacity: .65; clip-path: inset(61% 0 35%); translate: 3px 0; }
+  40% { opacity: .5; clip-path: inset(39% 0 59%); translate: -2px 0; }
+  56% { opacity: .3; clip-path: inset(76% 0 22%); translate: 1px 0; }
+  72%,100% { opacity: 0; translate: 0 0; }
+}
+@keyframes portal-card-scan {
+  0% { opacity: 0; transform: translateY(-8px); }
+  22% { opacity: .8; }
+  60% { opacity: .3; }
+  100% { opacity: 0; transform: translateY(8px); }
+}
+#brain-portal.portal-motion-paused .portal-flashcard.is-flipping,
+#brain-portal.portal-motion-paused .portal-flashcard.is-flipping .portal-flashcard-text { animation: none; }
+#brain-portal.portal-motion-paused .portal-flashcard.is-flipping::before,
+#brain-portal.portal-motion-paused .portal-flashcard.is-flipping::after { display: none; animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  #brain-portal .portal-flashcard.is-flipping,
+  #brain-portal .portal-flashcard.is-flipping .portal-flashcard-text { animation: none !important; }
+  #brain-portal .portal-flashcard.is-flipping::before,
+  #brain-portal .portal-flashcard.is-flipping::after { display: none; animation: none !important; }
+}
 .portal-results { width: min(790px, 100%); text-align: center; }
 .portal-results .portal-panel { text-align: left; margin-top: 25px; }
 .portal-results h2 { font-size: 35px; font-weight: 400; letter-spacing: -.025em; }
