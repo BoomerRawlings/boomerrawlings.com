@@ -66,6 +66,51 @@ for (const mesh of atlas.meshes) {
   if (mesh.hemisphere === 'right') assert.ok(mesh.bounds[0][0] >= -.6, `${mesh.id}: hemisphere is flipped`);
 }
 for (const id of ['hippocampus', 'amygdala', 'thalamus', 'hypothalamus', 'corpus-callosum', 'fornix', 'cerebellum', 'midbrain', 'pons', 'medulla']) assert.ok(ids.has(id));
+
+// The decorative portal must remain a compact derivative of measured exterior
+// anatomy, including the cerebellum and brainstem in their original coordinates.
+const portalFile = new URL('../src/data/brain/portal-brain.json', import.meta.url);
+const portal = JSON.parse(readFileSync(portalFile, 'utf8'));
+const exteriorIds = ['hemisphere-left', 'hemisphere-right', 'cerebellum', 'midbrain', 'pons', 'medulla'];
+assert.deepEqual(portal.meshes.map(mesh => mesh.id).sort(), [...exteriorIds].sort());
+assert.equal(portal.version, 1);
+for (const key of ['source', 'license', 'licenseUrl', 'credit', 'citation']) assert.equal(portal.metadata[key], atlas.metadata[key], `Portal lost ${key} provenance`);
+assert.equal(portal.metadata.parentAsset, '/brain/models/atlas.json');
+assert.match(portal.metadata.portalDerivation, /original surface vertex/);
+assert.deepEqual(portal.metadata.coordinates, atlas.metadata.coordinates);
+assert.match(portal.encoding.positions, /little-endian int16 xyz \/ 100/);
+assert.match(portal.encoding.normals, /int8 xyz \/ 127/);
+assert.match(portal.encoding.edges, /little-endian uint16 index pairs/);
+let portalVertices = 0;
+for (const mesh of portal.meshes) {
+  const source = atlas.meshes.find(item => item.id === mesh.id);
+  assert.equal(mesh.kind, source.kind);
+  const positions = Buffer.from(mesh.positions, 'base64'), normals = Buffer.from(mesh.normals, 'base64'), edges = Buffer.from(mesh.edges, 'base64');
+  for (const [name, buffer] of [['positions', positions], ['normals', normals], ['edges', edges]]) assert.equal(buffer.toString('base64'), mesh[name], `${mesh.id}: invalid ${name} encoding`);
+  assert.equal(positions.length % 6, 0); assert.equal(edges.length % 4, 0);
+  assert.equal(normals.length, positions.length / 2);
+  const count = positions.length / 6;
+  assert.ok(count > 200 && count < source.positions.length / 3, `${mesh.id}: invalid exterior sampling budget`);
+  const originalVertices = new Set();
+  for (let i = 0; i < source.positions.length; i += 3) originalVertices.add(source.positions.slice(i, i + 3).map(value => Math.round(value * 100)).join(','));
+  for (let i = 0; i < count; i++) {
+    const position = [0, 1, 2].map(axis => positions.readInt16LE(i * 6 + axis * 2));
+    assert.ok(position.every(Number.isFinite));
+    assert.ok(originalVertices.has(position.join(',')), `${mesh.id}: decorative vertex is not on the measured source surface`);
+    const length = Math.hypot(...[0, 1, 2].map(axis => normals.readInt8(i * 3 + axis) / 127));
+    assert.ok(length > .98 && length < 1.02, `${mesh.id}: invalid source normal`);
+  }
+  const uniqueEdges = new Set();
+  for (let i = 0; i < edges.length; i += 4) {
+    const a = edges.readUInt16LE(i), b = edges.readUInt16LE(i + 2);
+    assert.ok(a < count && b < count && a < b, `${mesh.id}: invalid wireframe index`);
+    const edge = `${a},${b}`; assert.ok(!uniqueEdges.has(edge), `${mesh.id}: repeated wireframe edge`); uniqueEdges.add(edge);
+  }
+  portalVertices += count;
+}
+assert.ok(portalVertices > 8_000 && portalVertices < 15_000);
+assert.ok(statSync(portalFile).size < 400_000, 'Decorative portal surface exceeds its compact payload budget');
+
 assert.equal(receptor.metadata.pdbId, '6D6T');
 assert.equal(receptor.metadata.license, 'CC0 1.0');
 assert.deepEqual(receptor.chains.map(chain => chain.id), ['A', 'B', 'C', 'D', 'E']);

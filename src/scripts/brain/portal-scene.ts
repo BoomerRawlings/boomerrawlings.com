@@ -1,7 +1,9 @@
 import * as THREE from 'three';
+import portalAtlas from '../../data/brain/portal-brain.json';
 
 type SceneOptions = { moving?: boolean };
 type PortalScene = { dispose(): void; setMotion(moving: boolean): void };
+type PortalAtlas = { meshes: { id: string; kind: string; positions: string; normals: string; edges: string }[] };
 
 /** Decorative neural HUD. Interactive targets and study content remain accessible HTML. */
 export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneOptions = {}): PortalScene {
@@ -26,6 +28,7 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
   let moving = options.moving ?? !preference.matches;
   let disposed = false, contextAvailable = true, frame = 0, width = 1, height = 1;
   let elapsed = 0, previous = performance.now(), assemblyStart = previous;
+  let textReady = false, atlasReady = false;
   let loading = portal?.classList.contains('portal-loading') ?? false;
   let view = stage?.dataset.view || 'home';
   const cursor = new THREE.Vector2();
@@ -43,26 +46,37 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
   let seed = 1986;
   const random = () => { seed = seed * 16807 % 2147483647; return (seed - 1) / 2147483646; };
   const shared = {
-    uTime: { value: 0 }, uAssembly: { value: 1 }, uDisperse: { value: 1 },
+    uTime: { value: 0 }, uAssembly: { value: 1 }, uName: { value: 1 },
     uOpacity: { value: 1 }, uWire: { value: 1 },
-    uSize: { value: 2.2 * Math.min(window.devicePixelRatio || 1, 1.5) },
+    uSize: { value: 1.35 * Math.min(window.devicePixelRatio || 1, 1.5) },
   };
   const vertexShader = `
     attribute vec3 aScatter;
+    attribute vec3 aWord;
     attribute vec3 aText;
+    attribute vec3 aNormal;
+    attribute vec2 aTextWeight;
     attribute vec3 color;
     uniform float uAssembly;
-    uniform float uDisperse;
+    uniform float uName;
     uniform float uTime;
     uniform float uSize;
     varying vec3 vColor;
     varying float vScan;
+    varying float vInk;
+    varying float vFacing;
     void main() {
       float gather = smoothstep(0.0, 1.0, uAssembly);
-      vec3 p = mix(mix(aText, aScatter, smoothstep(0.0, 1.0, uDisperse)), position, gather);
-      float stream = sin(uDisperse * 3.14159265) * (1.0 - gather);
-      p.x += sin(aScatter.y * 1.8 + uTime * 1.1) * stream * 0.35;
-      p.y += cos(aScatter.x * 1.5 + uTime * 0.8) * stream * 0.2;
+      float name = smoothstep(0.0, 1.0, uName);
+      vec3 lettering = mix(aWord, aText, name);
+      vec3 p = mix(lettering, position, gather);
+      float stream = sin(gather * 3.14159265);
+      p.x += sin(lettering.y * 1.3 + aScatter.x) * stream * 0.18;
+      p.y += cos(lettering.x * 1.2 + aScatter.y) * stream * 0.12;
+      p.z += sin(lettering.x * 0.9 + aScatter.z) * stream * 0.42;
+      vec3 normal = normalize(mat3(modelViewMatrix) * aNormal);
+      vFacing = mix(1.0, 0.16 + 0.84 * smoothstep(-0.2, 0.7, normal.z), gather);
+      vInk = mix(mix(aTextWeight.x, aTextWeight.y, name), 1.0, gather);
       float scan = mod(uTime * 0.34, 3.4) - 1.7;
       vScan = exp(-pow((position.y - scan) * 15.0, 2.0)) * gather;
       vColor = color;
@@ -78,9 +92,11 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
       uniform float uWire;
       varying vec3 vColor;
       varying float vScan;
+      varying float vInk;
+      varying float vFacing;
       void main() {
         vec3 ink = mix(vColor, vec3(0.88, 0.98, 1.0), vScan);
-        gl_FragColor = vec4(ink, (0.19 + vScan * 0.5) * uOpacity * uWire);
+        gl_FragColor = vec4(ink, (0.2 + vScan * 0.4) * uOpacity * uWire * vInk * vFacing);
       }
     `,
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
@@ -91,77 +107,46 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
       uniform float uOpacity;
       varying vec3 vColor;
       varying float vScan;
+      varying float vInk;
+      varying float vFacing;
       void main() {
         vec2 p = gl_PointCoord * 2.0 - 1.0;
         if (abs(p.x) + abs(p.y) > 1.0) discard;
-        gl_FragColor = vec4(mix(vColor, vec3(0.95,1.0,1.0),vScan), (0.61 + vScan * 0.35) * uOpacity);
+        gl_FragColor = vec4(mix(vColor, vec3(0.95,1.0,1.0),vScan), (0.43 + vScan * 0.3) * uOpacity * vInk * vFacing);
       }
     `,
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
   }));
 
-  // Folded bilateral form with a medial fissure: a cortical abstraction,
-  // never the anatomical diagram used by identification questions.
-  const points: THREE.Vector3[] = [], scattered: THREE.Vector3[] = [];
-  const textGeometries: { geometry: THREE.BufferGeometry; indices: number[] }[] = [];
+  // Bundled measured exterior data is decoded before the first frame. Its same
+  // connected edges form both wordmarks and the final anatomical surface.
+  const points: THREE.Vector3[] = [], scattered: THREE.Vector3[] = [], normals: THREE.Vector3[] = [];
+  const textGeometries: { geometry: THREE.BufferGeometry; indices: number[]; kind: 'wire' | 'points' }[] = [];
   const colors: THREE.Color[] = [], edges: number[] = [];
-  const rows = 35, columns = 49;
-  for (const side of [-1, 1]) {
-    const base = points.length;
-    for (let i = 0; i <= rows; i++) {
-      const u = .035 + (Math.PI - .07) * i / rows;
-      for (let j = 0; j <= columns; j++) {
-        const v = -Math.PI / 2 + Math.PI * j / columns;
-        const fold = 1 + .047 * Math.sin(u * 17 + Math.sin(v * 5) * 2) + .034 * Math.cos(v * 19 + u * 5);
-        const dome = Math.sin(u);
-        const crown = Math.max(0, Math.cos(u));
-        const medialNotch = .085 * Math.pow(crown, 4);
-        const p = new THREE.Vector3(
-          side * (.11 + .97 * dome * Math.cos(v) * fold),
-          1.18 * Math.cos(u) * fold + .09 * Math.sin(v) * dome - medialNotch + .07 * dome * Math.cos(v) * crown,
-          .81 * dome * Math.sin(v) * fold,
-        );
-        points.push(p);
-        scattered.push(p.clone().addScaledVector(p.clone().normalize(), 1.7 + random() * 2.8).add(new THREE.Vector3((random() - .5) * 2, (random() - .5) * 2, (random() - .5) * 2)));
-        colors.push(new THREE.Color().setRGB(.26 + random() * .25, .67 + random() * .25, .91 + random() * .09));
-        const index = base + i * (columns + 1) + j;
-        if (j < columns) edges.push(index, index + 1);
-        if (i < rows) edges.push(index, index + columns + 1);
-        if (i < rows && j < columns && (i + j) % 3 === 0) edges.push(index, index + columns + 2);
-      }
-    }
-  }
-  const buildGeometry = (indices: number[]) => {
+  const buildGeometry = (indices: number[], kind: 'wire' | 'points' = 'wire') => {
     const positions = new Float32Array(indices.length * 3);
     const displacement = new Float32Array(indices.length * 3);
     const color = new Float32Array(indices.length * 3);
+    const normal = new Float32Array(indices.length * 3);
     indices.forEach((index, i) => {
       points[index].toArray(positions, i * 3);
       scattered[index].toArray(displacement, i * 3);
       colors[index].toArray(color, i * 3);
+      normals[index].toArray(normal, i * 3);
     });
     const g = geometry(new THREE.BufferGeometry());
     g.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     g.setAttribute('aScatter', new THREE.BufferAttribute(displacement, 3));
+    g.setAttribute('aWord', new THREE.BufferAttribute(new Float32Array(positions), 3));
     g.setAttribute('aText', new THREE.BufferAttribute(new Float32Array(positions), 3));
+    g.setAttribute('aNormal', new THREE.BufferAttribute(normal, 3));
+    g.setAttribute('aTextWeight', new THREE.BufferAttribute(new Float32Array(indices.length * 2).fill(1), 2));
     g.setAttribute('color', new THREE.BufferAttribute(color, 3));
     g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 8);
-    textGeometries.push({ geometry: g, indices });
+    textGeometries.push({ geometry: g, indices, kind });
     return g;
   };
-  anatomy.add(new THREE.LineSegments(buildGeometry(edges), networkMaterial));
-  anatomy.add(new THREE.Points(buildGeometry(points.map((_, i) => i)), pointMaterial));
-  anatomy.rotation.set(.13, -.1, -.055);
-  const deepEdges: number[] = [];
-  for (let n = 0; n < 90; n++) {
-    const first = Math.floor(random() * points.length);
-    let second = Math.floor(random() * points.length);
-    if (points[first].distanceTo(points[second]) > 1.7) second = Math.min(points.length - 1, first + 100);
-    deepEdges.push(first, second);
-  }
-  const deepMaterial = material(networkMaterial.clone());
-  deepMaterial.uniforms = { ...shared, uOpacity: { value: .17 } };
-  anatomy.add(new THREE.LineSegments(buildGeometry(deepEdges), deepMaterial));
+  anatomy.rotation.set(.16, -1.04, -.035);
 
   const orbitMaterials: THREE.LineBasicMaterial[] = [], orbits: THREE.Group[] = [];
   const orbitTracers: THREE.Points[] = [];
@@ -322,48 +307,112 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
   };
   const sampleIntroText = () => {
     if (disposed) return;
-    const textCanvas = document.createElement('canvas');
     const resolution = Math.min(1, 1400 / width);
-    textCanvas.width = Math.ceil(width * resolution); textCanvas.height = Math.ceil(height * resolution);
-    const context = textCanvas.getContext('2d', { willReadFrequently: true });
-    if (!context) return;
-    context.scale(resolution, resolution); context.fillStyle = '#fff';
-    const lines = Array.from(document.querySelectorAll<HTMLElement>('#intro-expansion .intro-expansion-line'));
-    let drawn = false;
-    for (const line of lines) {
-      const box = line.getBoundingClientRect(), style = getComputedStyle(line);
-      if (!box.width || !box.height || !line.textContent?.trim()) continue;
-      context.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-      context.textAlign = 'center'; context.textBaseline = 'alphabetic';
-      if ('letterSpacing' in context) context.letterSpacing = style.letterSpacing === 'normal' ? '0px' : style.letterSpacing;
-      const label = line.textContent.trim(), metrics = context.measureText(label);
-      const baseline = box.top + (box.height + metrics.actualBoundingBoxAscent - metrics.actualBoundingBoxDescent) / 2;
-      context.fillText(label, box.left + box.width / 2, baseline); drawn = true;
-    }
-    if (!drawn) {
-      context.font = `500 ${Math.min(width * .15, 110)}px "Source Sans 3", sans-serif`;
-      context.textAlign = 'center'; context.textBaseline = 'middle'; context.fillText('BRAIN', width / 2, height * .48);
-    }
-    const pixels = context.getImageData(0, 0, textCanvas.width, textCanvas.height).data;
-    const samples: number[] = [];
-    for (let y = 0; y < textCanvas.height; y += 2) {
-      for (let x = 0; x < textCanvas.width; x += 2) {
-        if (pixels[(y * textCanvas.width + x) * 4 + 3] > 100) samples.push(x / resolution, y / resolution);
+    const rasterize = (lines: HTMLElement[]) => {
+      const textCanvas = document.createElement('canvas');
+      textCanvas.width = Math.ceil(width * resolution); textCanvas.height = Math.ceil(height * resolution);
+      const context = textCanvas.getContext('2d', { willReadFrequently: true });
+      if (!context || !lines.length) return null;
+      context.scale(resolution, resolution); context.fillStyle = '#fff';
+      for (const line of lines) {
+        const box = line.getBoundingClientRect(), style = getComputedStyle(line);
+        if (!box.width || !box.height || !line.textContent?.trim()) continue;
+        context.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+        context.textAlign = 'center'; context.textBaseline = 'alphabetic';
+        if ('letterSpacing' in context) context.letterSpacing = style.letterSpacing === 'normal' ? '0px' : style.letterSpacing;
+        const label = line.textContent.trim(), metrics = context.measureText(label);
+        const baseline = box.top + (box.height + metrics.actualBoundingBoxAscent - metrics.actualBoundingBoxDescent) / 2;
+        context.fillText(label, box.left + box.width / 2, baseline);
       }
-    }
-    if (!samples.length) return;
-    const textPositions = new Float32Array(points.length * 3), world = new THREE.Vector3();
-    for (let n = 0; n < points.length; n++) {
-      const sample = Math.floor(random() * samples.length / 2) * 2;
-      screenToWorld(samples[sample], samples[sample + 1], world);
-      world.sub(core.position).divideScalar(core.scale.x);
-      world.z += (random() - .5) * .018;
-      world.toArray(textPositions, n * 3);
-    }
+      const pixels = context.getImageData(0, 0, textCanvas.width, textCanvas.height).data;
+      const samples: THREE.Vector3[] = [], segments: number[] = [], cells = new Map<string, number>();
+      const step = width < 720 ? 2 : 3;
+      for (let y = 0; y < textCanvas.height; y += step) {
+        for (let x = 0; x < textCanvas.width; x += step) {
+          if (pixels[(y * textCanvas.width + x) * 4 + 3] < 105) continue;
+          const point = screenToWorld(x / resolution, y / resolution, new THREE.Vector3()).sub(core.position).divideScalar(core.scale.x);
+          const index = samples.length; samples.push(point); cells.set(`${x},${y}`, index);
+          for (const [dx, dy] of [[-step, 0], [0, -step], [-step, -step]]) {
+            const neighbor = cells.get(`${x + dx},${y + dy}`);
+            if (neighbor !== undefined) segments.push(neighbor, index);
+          }
+        }
+      }
+      return samples.length && segments.length ? { samples, segments } : null;
+    };
+    const word = document.querySelector<HTMLElement>('.intro-wordmark-text');
+    const wordShape = rasterize(word ? [word] : []);
+    const nameShape = rasterize(Array.from(document.querySelectorAll<HTMLElement>('#intro-expansion .intro-expansion-line')));
+    if (!wordShape || !nameShape) { textReady = false; return; }
     for (const entry of textGeometries) {
-      const attribute = entry.geometry.getAttribute('aText') as THREE.BufferAttribute;
-      entry.indices.forEach((index, n) => attribute.setXYZ(n, textPositions[index * 3], textPositions[index * 3 + 1], textPositions[index * 3 + 2]));
-      attribute.needsUpdate = true;
+      const weights = entry.geometry.getAttribute('aTextWeight') as THREE.BufferAttribute;
+      for (const [shape, attributeName, axis] of [[wordShape, 'aWord', 0], [nameShape, 'aText', 1]] as const) {
+        const attribute = entry.geometry.getAttribute(attributeName) as THREE.BufferAttribute;
+        const targetCount = entry.kind === 'wire' ? entry.indices.length / 2 : entry.indices.length;
+        const sourceCount = entry.kind === 'wire' ? shape.segments.length / 2 : shape.samples.length;
+        const weight = Math.min(1.5, sourceCount / Math.max(1, targetCount)) * (entry.kind === 'wire' ? 2 : .24);
+        for (let n = 0; n < targetCount; n++) {
+          const sourceIndex = Math.floor(n / targetCount * sourceCount);
+          if (entry.kind === 'wire') {
+            for (let end = 0; end < 2; end++) {
+              const p = shape.samples[shape.segments[sourceIndex * 2 + end]];
+              attribute.setXYZ(n * 2 + end, p.x, p.y, p.z);
+              weights.setComponent(n * 2 + end, axis, weight);
+            }
+          } else {
+            const p = shape.samples[sourceIndex]; attribute.setXYZ(n, p.x, p.y, p.z);
+            weights.setComponent(n, axis, weight);
+          }
+        }
+        attribute.needsUpdate = true;
+      }
+      weights.needsUpdate = true;
+    }
+    textReady = document.fonts.status === 'loaded';
+  };
+  const installMeasuredBrain = () => {
+    try {
+      const atlas = portalAtlas as PortalAtlas;
+      const bytes = (encoded: string) => Uint8Array.from(atob(encoded), character => character.charCodeAt(0));
+      const signedWords = (encoded: string) => {
+        const data = bytes(encoded), view = new DataView(data.buffer);
+        return Array.from({ length: data.length / 2 }, (_, index) => view.getInt16(index * 2, true));
+      };
+      const unsignedWords = (encoded: string) => {
+        const data = bytes(encoded), view = new DataView(data.buffer);
+        return Array.from({ length: data.length / 2 }, (_, index) => view.getUint16(index * 2, true));
+      };
+      const sourcePoints: THREE.Vector3[] = [], sourceNormals: THREE.Vector3[] = [], sourceColors: THREE.Color[] = [], sourceEdges: number[] = [];
+      for (const item of atlas.meshes) {
+        const positions = signedWords(item.positions), normalData = new Int8Array(bytes(item.normals).buffer), meshEdges = unsignedWords(item.edges);
+        if (positions.length % 3 || normalData.length !== positions.length || meshEdges.length % 2) throw new Error('Invalid reference surface');
+        const offset = sourcePoints.length;
+        for (let n = 0; n < positions.length; n += 3) {
+          // Same anatomical reflection as the detailed atlas: R,S,A -> a right-handed scene.
+          sourcePoints.push(new THREE.Vector3(-positions[n] / 100, positions[n + 1] / 100, positions[n + 2] / 100));
+          sourceNormals.push(new THREE.Vector3(-normalData[n] / 127, normalData[n + 1] / 127, normalData[n + 2] / 127).normalize());
+          sourceColors.push(new THREE.Color(item.kind === 'cerebellum' ? 0x6ed1e5 : item.kind === 'brainstem' ? 0x9be5ed : 0x74d9ef));
+        }
+        meshEdges.forEach(index => sourceEdges.push(offset + index));
+      }
+      if (sourcePoints.length < 1000) throw new Error('Incomplete reference surface');
+      const bounds = new THREE.Box3().setFromPoints(sourcePoints), center = bounds.getCenter(new THREE.Vector3()), size = bounds.getSize(new THREE.Vector3());
+      const scale = 2.4 / Math.max(size.x, size.y, size.z);
+      anatomy.clear();
+      for (const entry of textGeometries) {
+        entry.geometry.dispose(); const index = geometries.indexOf(entry.geometry); if (index >= 0) geometries.splice(index, 1);
+      }
+      textGeometries.length = 0; points.length = 0; normals.length = 0; scattered.length = 0; colors.length = 0; edges.length = 0;
+      sourcePoints.forEach((point, index) => {
+        point.sub(center).multiplyScalar(scale); points.push(point); normals.push(sourceNormals[index]); colors.push(sourceColors[index]);
+        scattered.push(new THREE.Vector3(random() * 2 - 1, random() * 2 - 1, random() * 2 - 1));
+      });
+      edges.push(...sourceEdges);
+      anatomy.add(new THREE.LineSegments(buildGeometry(edges), networkMaterial));
+      anatomy.add(new THREE.Points(buildGeometry(points.map((_, index) => index), 'points'), pointMaterial));
+      atlasReady = true;
+    } catch (error) {
+      console.warn('Brain portal reference surface could not be decoded.', error);
     }
   };
   const updateLayout = () => {
@@ -418,18 +467,15 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
     if (disposed || !contextAvailable || document.hidden || portal?.hidden) return;
     const dt = Math.min((now - previous) / 1000, .04); previous = now;
     const introTime = Math.max(0, (now - assemblyStart) / 1000);
-    const assembly = loading ? THREE.MathUtils.clamp((introTime - 4) / 2.35, 0, 1) : 1;
+    const assembly = atlasReady ? (loading ? THREE.MathUtils.clamp((introTime - 3.8) / 2.55, 0, 1) : 1) : 0;
     if (moving) {
       elapsed += dt;
       for (const axis of ['x', 'y'] as const) {
-        cameraVelocity[axis] += (cursor[axis] * .16 - cameraOffset[axis]) * 16 * dt;
+        cameraVelocity[axis] += ((loading ? 0 : cursor[axis] * .16) - cameraOffset[axis]) * 16 * dt;
         cameraVelocity[axis] *= Math.exp(-6 * dt); cameraOffset[axis] += cameraVelocity[axis] * dt;
       }
       camera.position.x = cameraOffset.x; camera.position.y = cameraOffset.y;
       camera.lookAt(lookAt); camera.updateMatrixWorld();
-      anatomy.rotation.x = .13 * assembly;
-      anatomy.rotation.y = (-.1 + Math.sin(elapsed * .12) * .13) * assembly;
-      anatomy.rotation.z = (-.055 + Math.sin(elapsed * .15) * .035) * assembly;
       orbits[0].rotation.z = .23 + elapsed * .025;
       orbits[1].rotation.z = -.1 - elapsed * .018;
       orbits[2].rotation.z = .25 + elapsed * .012;
@@ -448,17 +494,21 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
       shared.uTime.value = elapsed;
       currentUniforms.uTime.value = elapsed;
     }
+    // The orientation follows the intro state even when ambient motion is paused.
+    anatomy.rotation.x = .16 * assembly;
+    anatomy.rotation.y = (-1.04 + Math.sin(elapsed * .12) * .18) * assembly;
+    anatomy.rotation.z = (-.035 + Math.sin(elapsed * .15) * .025) * assembly;
     updateLayout();
     const blend = moving ? 1 - Math.exp(-5 * dt) : 1;
     core.position.lerp(targetPosition, blend);
     core.scale.setScalar(THREE.MathUtils.lerp(core.scale.x, targetScale, blend));
     alpha = THREE.MathUtils.lerp(alpha, targetAlpha, blend);
-    const introOpacity = loading ? (moving ? THREE.MathUtils.smoothstep(introTime, 3.35, 3.8) : 0) : 1;
+    const introOpacity = loading ? (moving && textReady ? THREE.MathUtils.smoothstep(introTime, 0, .3) : 0) : 1;
+    anatomy.visible = loading ? textReady : atlasReady;
     shared.uOpacity.value = alpha * introOpacity;
     shared.uAssembly.value = assembly;
-    shared.uDisperse.value = loading ? THREE.MathUtils.clamp((introTime - 3.65) / 1.25, 0, 1) : 1;
-    shared.uWire.value = THREE.MathUtils.smoothstep(assembly, .15, .8);
-    deepMaterial.uniforms.uOpacity.value = alpha * .15 * introOpacity;
+    shared.uName.value = loading ? THREE.MathUtils.clamp((introTime - 1.1) / 1.2, 0, 1) : 1;
+    shared.uWire.value = 1;
     orbitMaterials.forEach((m, index) => { m.opacity = alpha * (index === 2 ? .35 : .26) * assembly * introOpacity; });
     tracerMaterial.opacity = alpha * .78 * assembly * introOpacity;
     const ambient = loading ? .35 : view === 'home' ? 1 : view === 'quiz' || view === 'cards' ? .25 : .6;
@@ -466,6 +516,8 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
     shardMaterial.opacity = ambient * .22;
     currentUniforms.uOpacity.value = ambient * .68;
     updateConnectors(); renderer.render(scene, camera);
+    const wiretextVisible = Boolean(loading && moving && textReady && introOpacity > .95);
+    if (portal?.classList.contains('portal-wiretext-ready') !== wiretextVisible) portal?.classList.toggle('portal-wiretext-ready', wiretextVisible);
     if (moving) frame = requestAnimationFrame(render);
   };
   const requestRender = () => {
@@ -484,7 +536,7 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
     if (event.pointerType !== 'touch') cursor.set((event.clientX / width - .5) * 2, (.5 - event.clientY / height) * 2);
   };
   const pointerLeave = () => cursor.set(0, 0);
-  const contextLost = (event: Event) => { event.preventDefault(); contextAvailable = false; cancelAnimationFrame(frame); canvas.style.opacity = '0'; };
+  const contextLost = (event: Event) => { event.preventDefault(); contextAvailable = false; cancelAnimationFrame(frame); canvas.style.opacity = '0'; portal?.classList.remove('portal-wiretext-ready'); };
   const contextRestored = () => { contextAvailable = true; canvas.style.opacity = ''; requestRender(); };
   const observer = new MutationObserver(() => {
     const nextLoading = portal?.classList.contains('portal-loading') ?? false;
@@ -500,12 +552,14 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
   document.addEventListener('visibilitychange', requestRender);
   canvas.addEventListener('webglcontextlost', contextLost);
   canvas.addEventListener('webglcontextrestored', contextRestored);
+  installMeasuredBrain();
+  previous = assemblyStart = performance.now();
   resize();
   void document.fonts.ready.then(() => { if (!disposed && loading) { sampleIntroText(); requestRender(); } });
   return {
-    setMotion(value: boolean) { moving = value; requestRender(); },
+    setMotion(value: boolean) { moving = value; if (!moving) portal?.classList.remove('portal-wiretext-ready'); requestRender(); },
     dispose() {
-      disposed = true; cancelAnimationFrame(frame); observer.disconnect();
+      disposed = true; cancelAnimationFrame(frame); observer.disconnect(); portal?.classList.remove('portal-wiretext-ready');
       window.removeEventListener('resize', resize);
       window.removeEventListener('scroll', requestRender);
       window.removeEventListener('pointermove', pointerMove);

@@ -36,6 +36,7 @@ let viewer:Awaited<ReturnType<typeof createBrainViewer>>=null;
 let separated=false;
 let labels=true;
 let playing=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+let ambientMoving=!matchMedia('(prefers-reduced-motion: reduce)').matches&&!document.getElementById('brain-portal')?.classList.contains('portal-motion-paused');
 let expanded=false;
 let round:typeof topics=[];
 let roundIndex=0;
@@ -54,6 +55,21 @@ function save(){try{localStorage.setItem(storageKey,JSON.stringify(progress));}c
 function announce(message:string){$('announcement').textContent=message;}
 function button(text:string,action:()=>void,className=''){const element=document.createElement('button');element.type='button';element.textContent=text;element.className=className;element.addEventListener('click',action);return element;}
 function externalLink(text:string,url:string){const element=document.createElement('a');element.textContent=text;element.href=url;element.target='_blank';element.rel='noopener noreferrer';return element;}
+
+function setLegacyMotion(moving:boolean,notify=false){
+  ambientMoving=moving;
+  $('brain-legacy').classList.toggle('legacy-motion-paused',!moving);
+  const control=$<HTMLButtonElement>('legacy-motion');
+  if(control){control.setAttribute('aria-pressed',String(moving));control.setAttribute('aria-label',moving?'Pause ambient motion':'Resume ambient motion');control.innerHTML=moving?'Ⅱ <span>Motion</span>':'▷ <span>Motion</span>';}
+  if(notify)window.dispatchEvent(new CustomEvent('brain-motion-change',{detail:{moving}}));
+}
+function syncLegacyMotion(){
+  const portal=document.getElementById('brain-portal');
+  setLegacyMotion(portal?!portal.classList.contains('portal-motion-paused'):!matchMedia('(prefers-reduced-motion: reduce)').matches);
+}
+document.getElementById('legacy-motion')?.addEventListener('click',()=>setLegacyMotion(!ambientMoving,true));
+matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',syncLegacyMotion);
+setLegacyMotion(ambientMoving);
 
 function renderProgress(){
   const pool=courseTopics(),understoodCount=pool.filter(t=>progress.understood.includes(t.id)).length;
@@ -91,11 +107,30 @@ function renderJourney(){
   $<HTMLButtonElement>('journey-next').disabled=index===activeJourney.ids.length-1;
 }
 
+function syncCameraControls(){
+  const select=$<HTMLSelectElement>('model-view');
+  let group=document.getElementById('camera-view-options');
+  if(!group){
+    group=document.createElement('div');group.id='camera-view-options';group.className='camera-view-options';
+    group.setAttribute('role','group');group.setAttribute('aria-label','Camera view');
+    for(const option of Array.from(select.options)){
+      const item=button(option.textContent||option.label,()=>{select.value=option.value;select.dispatchEvent(new Event('change',{bubbles:true}));});
+      item.dataset.cameraView=option.value;group.append(item);
+    }
+    select.insertAdjacentElement('afterend',group);select.hidden=true;
+  }
+  group.querySelectorAll<HTMLButtonElement>('button[data-camera-view]').forEach(item=>{
+    const option=Array.from(select.options).find(option=>option.value===item.dataset.cameraView);
+    if(!option)return;
+    item.textContent=option.textContent||option.label;item.setAttribute('aria-pressed',String(item.dataset.cameraView===select.value));item.disabled=select.disabled||option.disabled;
+  });
+}
 function setCameraLabels(anatomical:boolean){
   const brainstem=selected.id==='brainstem';
   const labels=anatomical?['Right lateral','Left lateral',...(brainstem?['Rostral (superior)','Caudal (inferior)','Ventral (anterior)','Dorsal (posterior)']:['Dorsal (superior)','Ventral (inferior)','Anterior (front)','Posterior (back)'])]:['From +X','From -X','From +Y','From -Y','From +Z','From -Z'];
   const select=$<HTMLSelectElement>('model-view');['Default view',...labels].forEach((label,i)=>select.options[i].textContent=label);
   $('anatomical-directions').hidden=!anatomical;
+  syncCameraControls();
 }
 
 function setTopic(id:string,updateHash=true,focus=false){
@@ -125,6 +160,7 @@ function setTopic(id:string,updateHash=true,focus=false){
   $('topic-sources').replaceChildren(...selected.sources.map(id=>{const source=sources[id];const item=document.createElement('li');if(source)item.append(externalLink(`${source.title} ↗`,source.url));return item;}));
   renderRecognition(id);renderDepth();renderProgress();renderJourney();
   $<HTMLSelectElement>('model-view').value='perspective';
+  syncCameraControls();
   if(viewer){viewer.setTopic(selected);}
   if(updateHash){const params=new URLSearchParams(location.hash.slice(1));params.set('topic',id);params.set('depth',depth);history.replaceState(null,'',`#${params}`);}
   if(focus){$('topic-title').focus({preventScroll:true});if(innerWidth<=620)document.querySelector('.viewer-column')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});}
@@ -148,6 +184,9 @@ function filterTopics(){
 
 function setMode(nextMode:string){
   structurePicker.close();mode=nextMode;
+  const introCopy=mode==='paths'?['Connect the ideas.','Move through anatomy and mechanisms in a guided sequence.']:mode==='recall'?['Make it stick.','Practice retrieval, examine the explanation, and return to what needs work.']:mode==='lectures'?['Enter the lecture room.','Unlock your private course sessions.']:['Explore the atlas.','Follow a structure. Find a connection. See how it works.'];
+  $('page-title').textContent=introCopy[0];
+  const introDescription=document.getElementById('legacy-intro-description');if(introDescription)introDescription.textContent=introCopy[1];
   all<HTMLButtonElement>('[data-mode]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.mode===mode)));
   $('paths-panel').hidden=mode!=='paths';$('recall-panel').hidden=mode!=='recall';
   document.body.classList.toggle('recall-mode',mode==='recall');
@@ -247,8 +286,8 @@ $('recall-next').addEventListener('click',()=>{if(!answered)return;if(roundIndex
 $('recall-explore').addEventListener('click',()=>{setMode('explore');setTopic(round[roundIndex].id,true,true);});
 $('recall-scope').addEventListener('change',()=>{round=[];$('recall-quiz').hidden=true;$('recall-result').hidden=true;$('recall-start').hidden=false;});
 
-$('model-reset').addEventListener('click',()=>{separated=false;viewer?.setExploded(false);viewer?.reset();$('model-explode').setAttribute('aria-pressed','false');$('model-explode').innerHTML='<span aria-hidden="true">⌘</span> Separate';$('separation-note').hidden=true;$<HTMLSelectElement>('model-view').value='perspective';});
-$('model-view').addEventListener('change',()=>{const view=$<HTMLSelectElement>('model-view').value;if(view==='perspective')$('model-reset').click();else viewer?.setView(view as BrainView);});
+$('model-reset').addEventListener('click',()=>{separated=false;viewer?.setExploded(false);viewer?.reset();$('model-explode').setAttribute('aria-pressed','false');$('model-explode').innerHTML='<span aria-hidden="true">⌘</span> Separate';$('separation-note').hidden=true;$<HTMLSelectElement>('model-view').value='perspective';syncCameraControls();});
+$('model-view').addEventListener('change',()=>{const view=$<HTMLSelectElement>('model-view').value;if(view==='perspective')$('model-reset').click();else viewer?.setView(view as BrainView);syncCameraControls();});
 $('model-explode').addEventListener('click',()=>{separated=!separated;viewer?.setExploded(separated);$('model-explode').setAttribute('aria-pressed',String(separated));$('model-explode').innerHTML=separated?'<span aria-hidden="true">⌘</span> Reassemble':'<span aria-hidden="true">⌘</span> Separate';$('separation-note').hidden=!separated;});
 $('model-labels').addEventListener('click',()=>{labels=!labels;viewer?.setLabels(labels);$('model-labels').setAttribute('aria-pressed',String(labels));});
 $('model-motion').setAttribute('aria-pressed',String(playing));
@@ -298,7 +337,7 @@ window.addEventListener('hashchange',()=>{const params=new URLSearchParams(locat
 readLocation();
 
 export function suspendLegacy(){practice?.setActive(false);lectureController.setActive(false);viewer?.setPlaying(false);}
-export function resumeLegacy(){readLocation();viewer?.setPlaying(playing);}
+export function resumeLegacy(){syncLegacyMotion();readLocation();viewer?.setPlaying(playing);}
 
 async function initializeViewer(){
   try{
@@ -314,9 +353,10 @@ async function initializeViewer(){
       onRepresentations:(views:RepresentationSpec[],active:string)=>{
         const group=$('model-representations');group.hidden=views.length<2;
         const existing=Array.from(group.querySelectorAll<HTMLButtonElement>('button'));
-        if(existing.length!==views.length||existing.some((item,i)=>item.dataset.representation!==views[i].id))group.replaceChildren(...views.map(view=>{const item=button(view.label,()=>{structurePicker.reset();viewer?.setRepresentation(view.id);setCameraLabels((selected.scene==='brain'||selected.scene==='tracts')&&view.id!=='axon');$<HTMLSelectElement>('model-view').value='perspective';});item.dataset.representation=view.id;item.title=view.description;return item;}));
+        if(existing.length!==views.length||existing.some((item,i)=>item.dataset.representation!==views[i].id))group.replaceChildren(...views.map(view=>{const item=button(view.label,()=>{structurePicker.reset();viewer?.setRepresentation(view.id);setCameraLabels((selected.scene==='brain'||selected.scene==='tracts')&&view.id!=='axon');$<HTMLSelectElement>('model-view').value='perspective';syncCameraControls();});item.dataset.representation=view.id;item.title=view.description;return item;}));
         group.querySelectorAll<HTMLButtonElement>('button').forEach((item,i)=>{item.textContent=views[i].label;item.title=views[i].description;item.setAttribute('aria-pressed',String(item.dataset.representation===active));});
         const chosen=views.find(view=>view.id===active);if(chosen)$('model-kind').textContent=chosen.label;$('scale-badge').textContent=chosen?.scale||selected.scale;
+        setCameraLabels((selected.scene==='brain'||selected.scene==='tracts')&&active!=='axon');
       },
       onNarrative:setNarrative,
       onTime:(fraction,step)=>{if(!animation)return;$<HTMLInputElement>('animation-scrub').value=String(Math.round(fraction*1000));const currentStep=animation.steps[step];$('animation-step').textContent=currentStep?.label||'';$('animation-description').textContent=currentStep?.description||'';$('animation-time').textContent=`${Math.round(fraction*100)}%`;all('#animation-steps button').forEach((el,i)=>el.setAttribute('aria-current',String(i===step)));}

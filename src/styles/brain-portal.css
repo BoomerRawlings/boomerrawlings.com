@@ -295,12 +295,12 @@ button.portal-answer:hover:not(:disabled) { border-color: #a5c3d6; background: r
 @keyframes portal-field-drift { from { transform: translate(-3%,-2%) rotate(-4deg); opacity: .65; } to { transform: translate(5%,4%) rotate(7deg); opacity: 1; } }
 
 /* BRAIN -> its full name -> the sampled letter particles -> cortical structure. */
-.intro-wordmark { position: absolute; top: 48%; left: 50%; transform: translate(-50%,-50%); font: 400 clamp(76px,13vw,154px)/1 Teko,sans-serif; letter-spacing: .19em; padding-left: .19em; color: #e7faff; text-shadow: 0 0 32px rgba(126,219,244,.24); text-align: center; animation: portal-name-seed 1.1s ease both; }
-.intro-wordmark span { display: block; white-space: nowrap; margin-top: 20px; font: 8px/1.6 Consolas,monospace; letter-spacing: .15em; color: #8bb8c5; }
-#intro-expansion { position: absolute; top: 48%; left: 50%; transform: translate(-50%,-50%); width: min(90vw,850px); text-align: center; font: 400 clamp(24px,4vw,42px)/1.4 'Source Sans 3',sans-serif; letter-spacing: -.025em; color: #d8f4fc; animation: portal-name-dissolve 6.5s linear both; }
-.intro-expansion-line { display: block; width: max-content; max-width: 100%; margin: 0 auto; animation: portal-name-print .7s steps(21,end) .85s both; }
-.intro-expansion-line:nth-child(2) { animation-delay: 1.5s; }
-.intro-expansion-line:nth-child(3) { animation-delay: 2.15s; color: #a4e6f6; }
+.intro-wordmark { position: absolute; top: 48%; left: 50%; transform: translate(-50%,-50%); font: 400 clamp(86px,14vw,166px)/1 Teko,sans-serif; letter-spacing: .16em; padding-left: .16em; color: rgba(117,224,249,.08); -webkit-text-stroke: 1px #b9effb; text-shadow: 0 0 22px rgba(126,219,244,.12); text-align: center; animation: portal-wire-seed 6.5s linear both; }
+.intro-wordmark small { -webkit-text-stroke: 0; display: block; white-space: nowrap; margin-top: 20px; font: 8px/1.6 Consolas,monospace; letter-spacing: .15em; color: #8bb8c5; }
+#intro-expansion { position: absolute; top: 48%; left: 50%; transform: translate(-50%,-50%); width: min(90vw,850px); text-align: center; font: 400 clamp(32px,5.8vw,64px)/1.08 Teko,sans-serif; letter-spacing: .045em; color: rgba(117,224,249,.06); -webkit-text-stroke: .8px #b9effb; animation: portal-wire-name 6.5s linear both; }
+.intro-expansion-line { display: block; width: max-content; max-width: 100%; margin: 0 auto; text-shadow: 0 0 22px rgba(145,221,242,.15); }
+
+.intro-expansion-line:nth-child(3) { color: rgba(117,224,249,.1); }
 .intro-reticle { animation-duration: 6.5s; opacity: .4; }
 .intro-progress::after { animation-duration: 6.5s; }
 .intro-status span { animation-duration: 2.167s; }
@@ -310,6 +310,22 @@ button.portal-answer:hover:not(:disabled) { border-color: #a5c3d6; background: r
 @keyframes portal-name-seed { 0% { opacity: 0; letter-spacing: .28em; } 25%,65% { opacity: 1; } 100% { opacity: 0; letter-spacing: .36em; filter: blur(4px); } }
 @keyframes portal-name-print { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes portal-name-dissolve { 0%,52% { opacity: 1; } 60%,100% { opacity: 0; } }
+@keyframes portal-wire-seed { 0% { opacity: 0; } 7%,17% { opacity: 1; } 34%,100% { opacity: 0; } }
+@keyframes portal-wire-name { 0%,18% { opacity: 0; } 35%,58% { opacity: 1; } 72%,100% { opacity: 0; } }
+.intro-wordmark-text { display: inline-block; }
+.portal-wiretext-ready .intro-wordmark,.portal-wiretext-ready #intro-expansion { visibility: hidden; }
+#brain-portal .portal-visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.portal-home-heading { min-height: 15px; }
+.portal-atlas-credit a { text-decoration: none; }
+.portal-atlas-credit a:hover { color: #c6f3ff !important; }
+.portal-atlas-credit small { display: block; font-size: 7px; letter-spacing: .12em; text-transform: uppercase; color: #6d95a3; }
+.portal-stage[data-view='home'] .portal-clouds { margin-top: 106px; }
+.portal-stage[data-view='home'] .portal-cloud { animation: portal-materialize .85s ease both,portal-hoverfield 9s ease-in-out infinite; }
+.portal-stage[data-view='home'] .portal-clouds > .portal-cloud:nth-child(2) { animation-delay: .08s,-4s; }
+.portal-stage[data-view='home'] .portal-explore-stack .portal-cloud { animation-delay: .16s,-2s; }
+.portal-stage[data-view='home'] .portal-clouds > .portal-cloud:nth-child(4) { animation-delay: .24s,-5s; }
+@keyframes portal-materialize { from { opacity: 0; filter: blur(5px); } to { opacity: 1; filter: blur(0); } }
+@media (max-width: 760px) { .portal-stage[data-view='home'] .portal-clouds { margin-top: 315px; } }
 .portal-motion-paused .portal-atmosphere::before { animation-play-state: paused; }
 .portal-motion-paused .portal-cloud { animation: none; transform: none; will-change: auto; }
 @media (max-width: 760px) {
@@ -324,12 +340,12 @@ button.portal-answer:hover:not(:disabled) { border-color: #a5c3d6; background: r
   .portal-scope-grid { grid-template-columns: 1fr; max-width: 335px; gap: 18px; }
   .portal-scope-grid .portal-cloud { min-height: 122px; padding: 22px; }
   .portal-scope-grid .cloud-locked { min-height: 116px; padding-bottom: 35px; }
-  .intro-wordmark span { font-size: 6px; }
+  .intro-wordmark small { font-size: 6px; }
 }
 @media (prefers-reduced-motion: reduce) {
   #brain-portal .portal-cloud, #brain-portal .portal-atmosphere::before { animation: none !important; transform: none; will-change: auto; }
   #brain-portal .intro-wordmark { animation: none !important; opacity: 0; }
-  #brain-portal #intro-expansion { animation: portal-name-dissolve 6.5s linear both !important; }
+  #brain-portal #intro-expansion { animation: portal-name-dissolve 6.5s linear both !important; color: #cff3ff; -webkit-text-stroke: 0; }
   #brain-portal .intro-expansion-line { animation: none !important; clip-path: none; }
   #brain-portal .intro-progress::after { animation: portal-intro-progress 6.5s linear both !important; }
 }

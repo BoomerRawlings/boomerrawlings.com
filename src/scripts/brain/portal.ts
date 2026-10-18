@@ -43,6 +43,7 @@ function heading(eyebrow: string, title: string, subtitle = '') {
   wrap.append(eye, h);
   if (subtitle) { const p = document.createElement('p'); p.className = 'portal-subtitle'; p.textContent = subtitle; wrap.append(p); }
   stage.append(wrap);
+  return wrap;
 }
 function cloud(label: string, note: string, icon: keyof typeof icons, action: () => void, style = '', metaLabel?: string) {
   const node = button('', action, `portal-cloud ${style}`);
@@ -58,7 +59,9 @@ function cloud(label: string, note: string, icon: keyof typeof icons, action: ()
 }
 function home() {
   returnTo = '#portal'; back.hidden = true; stage.dataset.view = 'home';
-  heading('NEURAL STUDY INTERFACE', 'Enter your mind.', 'Select a destination. Build a deeper understanding.');
+  const homeHeading = heading('NEURAL STUDY INTERFACE', 'Choose your destination.');
+  homeHeading.classList.add('portal-home-heading');
+  homeHeading.querySelector('.portal-title')!.classList.add('portal-visually-hidden');
   const clouds = document.createElement('div'); clouds.className = 'portal-clouds';
   clouds.append(cloud('PSYC 105', 'Choose your study path', 'mind', () => go('#study=105'), 'cloud-primary'));
   clouds.append(cloud('PSYC 108', 'Choose your study path', 'orbit', () => go('#study=108'), 'cloud-primary'));
@@ -218,8 +221,12 @@ function updateMotion() {
   portal.classList.toggle('portal-motion-paused',!moving); motion.setAttribute('aria-pressed',String(moving)); motion.setAttribute('aria-label', moving ? 'Pause ambient motion' : 'Resume ambient motion');
   motion.innerHTML = moving ? 'Ⅱ <span>Motion</span>' : '▷ <span>Motion</span>';
   if(scene) scene.setMotion(moving);
-  else { try { scene = initializePortalScene(document.getElementById('portal-canvas') as HTMLCanvasElement, {moving}); } catch {} }
+  else if (!portal.hidden) { try { scene = initializePortalScene(document.getElementById('portal-canvas') as HTMLCanvasElement, {moving}); } catch {} }
 }
+window.addEventListener('brain-motion-change', event => {
+  const value = (event as CustomEvent<{ moving?: boolean }>).detail?.moving;
+  if (typeof value === 'boolean') { moving = value; updateMotion(); }
+});
 motion.addEventListener('click',()=>{moving = !moving; updateMotion();});
 matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{moving = !event.matches; updateMotion();});
 window.addEventListener('hashchange',()=>void route());

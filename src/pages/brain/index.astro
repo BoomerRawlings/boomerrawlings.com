@@ -13,6 +13,7 @@ import '../../styles/brain-lecture-demos.css';
 import '../../styles/brain-lecture-room.css';
 import '../../styles/brain-expanded.css';
 import '../../styles/brain-figure-interactions.css';
+import '../../styles/brain-legacy-hud.css';
 import BrainStructurePicker from '../../components/BrainStructurePicker.astro';
 import BrainFlashcards from '../../components/BrainFlashcards.astro';
 import BrainPortal from '../../components/BrainPortal.astro';
@@ -34,14 +35,15 @@ import BrainPortal from '../../components/BrainPortal.astro';
 <body class="brain-portal-active">
   <BrainPortal />
   <div id="brain-legacy" hidden>
+  <div class="legacy-atmosphere" aria-hidden="true"><i></i><i></i><i></i></div>
   <a class="skip-link" href="#workspace">Skip to explorer</a>
   <header class="site-header">
-    <a class="wordmark" href="/brain/" aria-label="Brain home"><svg class="brain-mark" viewBox="0 0 44 44" aria-hidden="true"><g class="logo-orbit logo-orbit-a"><ellipse cx="22" cy="22" rx="18" ry="9"/><circle class="logo-electron" cx="40" cy="22" r="2"/></g><g class="logo-orbit logo-orbit-b"><ellipse cx="22" cy="22" rx="18" ry="9"/><circle class="logo-electron" cx="4" cy="22" r="1.6"/></g><circle class="logo-core" cx="22" cy="22" r="3"/></svg><span>BRAIN<span class="wordmark-sub">Neuroscience atlas</span></span></a>
+    <a class="wordmark" href="#portal" aria-label="Brain study home"><span class="legacy-brand-mark" aria-hidden="true">B</span><span>BRAIN<span class="wordmark-sub">Neural study interface</span></span></a>
     <nav class="main-nav" aria-label="Study modes"><button data-mode="explore" aria-pressed="true">Explore <span>01</span></button><button data-mode="paths" aria-pressed="false">Study sequences <span>02</span></button><button data-mode="recall" aria-pressed="false">Practice <span>03</span></button><button data-mode="lectures" aria-pressed="false">Lectures <span>04</span></button></nav>
-    <a class="owner-link" href="/">Boomer Rawlings <span aria-hidden="true">↗</span></a>
+    <div class="legacy-utilities"><button id="legacy-motion" aria-pressed="true" aria-label="Pause ambient motion">Ⅱ <span>Motion</span></button><a class="legacy-home" href="#portal">Study home <span aria-hidden="true">↗</span></a></div>
   </header>
   <main>
-    <section class="intro" aria-labelledby="page-title"><h1 id="page-title">Neuroscience study guide</h1></section>
+    <section class="intro legacy-intro" aria-labelledby="page-title"><div><span class="eyebrow">EXPLORATION / ANATOMY / CONNECTIONS</span><h1 id="page-title">Explore the atlas.</h1><p id="legacy-intro-description">Follow a structure. Find a connection. See how it works.</p></div><span class="legacy-intro-index" aria-hidden="true">FROM BRAIN TO SYNAPSE<span>INTERACTIVE MODEL LIBRARY</span></span></section>
     <section id="brain-courses" aria-label="Course study materials"></section>
     <section id="lectures-panel" aria-labelledby="lectures-heading" tabindex="-1" hidden></section>
     <section id="paths-panel" class="mode-panel" hidden aria-labelledby="paths-heading"><div class="section-heading"><div><h2 id="paths-heading">Study sequences</h2></div><p>Ordered topics covering anatomy and mechanisms. Progress is saved in this browser.</p></div><div id="journey-cards" class="journey-cards"></div></section>

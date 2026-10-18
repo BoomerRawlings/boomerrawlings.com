@@ -81,12 +81,44 @@ const appSource = (await transform(await readFile(path.join(project, 'src/script
 const representationCallback = /onRepresentations:\s*\([^)]*\)\s*=>\s*\{/.exec(appSource);
 assert(representationCallback, 'Representation UI callback must be instrumentable');
 const callbackBody = representationCallback.index + representationCallback[0].length - 1;
-const renderRepresentations = new Function('views','active','$','button','viewer','selected',appSource.slice(callbackBody + 1,closingBrace(appSource,callbackBody)));
+const renderRepresentations = new Function('views','active','$','button','viewer','selected','setCameraLabels','syncCameraControls','structurePicker',appSource.slice(callbackBody + 1,closingBrace(appSource,callbackBody)));
 let activeElement = null;
-const group = { hidden:false, children:[], querySelectorAll(){return [...this.children];},replaceChildren(...children){if(activeElement&&!children.includes(activeElement))activeElement=null;this.children=children;} };
-const elements = { 'model-representations':group,'model-kind':{},'scale-badge':{},'model-view':{} };
-const createButton = label => ({textContent:label,dataset:{},title:'',attributes:{},setAttribute(name,value){this.attributes[name]=value;},focus(){activeElement=this;}});
-const renderControls = (views,id) => renderRepresentations(views,id,key=>elements[key],createButton,null,{scale:'Centimeters'});
+class Control {
+  constructor(){this.hidden=false;this.disabled=false;this.children=[];this.dataset={};this.attributes={};this.handlers={};}
+  querySelectorAll(){return [...this.children];}
+  replaceChildren(...children){if(activeElement&&!children.includes(activeElement))activeElement=null;this.children=children;}
+  append(item){this.children.push(item);}
+  insertAdjacentElement(_,item){elements[item.id]=item;}
+  setAttribute(name,value){this.attributes[name]=value;}
+  focus(){activeElement=this;}
+  addEventListener(name,callback){this.handlers[name]=callback;}
+  dispatchEvent(event){this.handlers[event.type]?.(event);}
+  click(){if(!this.disabled)this.dispatchEvent(new Event('click'));}
+}
+const group = new Control();
+const elements = Object.fromEntries(['model-kind','scale-badge','model-view','model-reset','model-explode','separation-note','anatomical-directions'].map(id=>[id,new Control()]));
+elements['model-representations']=group;
+const select=elements['model-view'];select.value='perspective';
+select.options=['perspective','lateral','left-lateral','superior','inferior','anterior','posterior'].map((value,i)=>({value,textContent:['Default view','Right lateral','Left lateral','Dorsal (superior)','Ventral (inferior)','Anterior (front)','Posterior (back)'][i],disabled:false}));
+const createButton = (label,action) => {const item=new Control();item.textContent=label;item.addEventListener('click',action);return item;};
+const selectedTopic={id:'brain-overview',scene:'brain',scale:'Centimeters'};
+const cameraCalls=[];
+const cameraViewer={setView:value=>cameraCalls.push(['view',value]),setExploded:value=>cameraCalls.push(['explode',value]),reset:()=>cameraCalls.push(['reset']),setRepresentation:value=>cameraCalls.push(['representation',value])};
+function actualAppFunction(name){
+  const start=appSource.indexOf(`function ${name}(`);assert(start>=0,`Camera control helper ${name} must be instrumentable`);
+  const body=appSource.indexOf('{',start);return appSource.slice(start,closingBrace(appSource,body)+1);
+}
+const cameraHandlersStart=appSource.indexOf('$("model-reset").addEventListener');
+const cameraHandlersEnd=appSource.indexOf('$("model-explode").addEventListener',cameraHandlersStart);
+assert(cameraHandlersStart>=0&&cameraHandlersEnd>cameraHandlersStart,'Actual reset and view handlers must be instrumentable');
+const cameraControls=new Function('$','document','button','viewer','selected',`
+  let separated=true;
+  ${actualAppFunction('syncCameraControls')}
+  ${actualAppFunction('setCameraLabels')}
+  ${appSource.slice(cameraHandlersStart,cameraHandlersEnd)}
+  return {sync:syncCameraControls,labels:setCameraLabels};
+`)(key=>elements[key],{getElementById:key=>elements[key],createElement:()=>new Control()},createButton,cameraViewer,selectedTopic);
+const renderControls = (views,id) => renderRepresentations(views,id,key=>elements[key],createButton,cameraViewer,selectedTopic,cameraControls.labels,cameraControls.sync,{reset(){}});
 const views = [{id:'measured',label:'Anatomy',description:'Measured regional anatomy',scale:'Centimeters'},{id:'axon',label:'Axon schematic',description:'Teaching model of an axon',scale:'Schematic'}];
 renderControls(views,'measured');
 const focusedButton=group.children[1];focusedButton.focus();renderControls(views,'axon');
@@ -94,10 +126,41 @@ assert.equal(group.children[1],focusedButton,'Changing representation must retai
 assert.equal(activeElement,focusedButton,'Changing representation must retain keyboard focus');
 assert.equal(focusedButton.attributes['aria-pressed'],'true');
 assert.equal(elements['scale-badge'].textContent,'Schematic','Representation scale must override topic scale');
+assert.equal(elements['camera-view-options'].children[1].textContent,'From +X','Axon representation must switch camera labels to model axes');
 const nextTopicViews=views.map(view=>view.id==='measured'?{...view,label:'Tractography',description:'Measured population streamlines'}:view);
 renderControls(nextTopicViews,'measured');
 assert.equal(group.children[0].textContent,'Tractography','Reused representation controls must refresh labels across topics');
 assert.equal(group.children[0].title,'Measured population streamlines','Reused representation controls must refresh descriptions across topics');
+assert.equal(elements['camera-view-options'].children[1].textContent,'Right lateral','Anatomical representation must restore camera labels');
+
+// Execute the real camera button helper and existing reset/change handlers.
+// Labels, selected state and camera behavior must agree across representation changes.
+const cameraGroup=elements['camera-view-options'];
+assert.equal(cameraGroup.attributes.role,'group');assert.equal(cameraGroup.attributes['aria-label'],'Camera view');
+assert.equal(select.hidden,true,'The backing dropdown is hidden only after the replacement controls exist');
+assert.equal(cameraGroup.children.length,select.options.length,'Every camera view remains available');
+const cameraButtons=[...cameraGroup.children];
+cameraButtons[1].focus();cameraButtons[1].click();
+assert.equal(select.value,'lateral');assert.deepEqual(cameraCalls.at(-1),['view','lateral'],'Directional buttons must call the actual viewer view handler');
+assert.equal(cameraButtons[1].attributes['aria-pressed'],'true');assert.equal(cameraButtons[0].attributes['aria-pressed'],'false');
+assert.equal(activeElement,cameraButtons[1],'Updating camera state must retain keyboard focus');
+cameraButtons[0].click();
+assert.deepEqual(cameraCalls.slice(-2),[['explode',false],['reset']],'Default view must use the complete reset path, including separation');
+assert.equal(select.value,'perspective');assert.equal(cameraButtons[0].attributes['aria-pressed'],'true');
+cameraButtons[3].click();elements['model-reset'].click();
+assert.equal(cameraButtons[3].attributes['aria-pressed'],'false');assert.equal(cameraButtons[0].attributes['aria-pressed'],'true','Reset control must update the selected camera button');
+selectedTopic.id='brainstem';cameraControls.labels(true);
+assert.equal(cameraButtons[3].textContent,'Rostral (superior)');assert.equal(cameraButtons[4].textContent,'Caudal (inferior)','Brainstem directional labels must remain anatomically accurate');
+selectedTopic.id='brain-overview';cameraControls.labels(false);
+assert.equal(cameraButtons[3].textContent,'From +Y');assert.equal(elements['anatomical-directions'].hidden,true);
+cameraControls.labels(true);assert.equal(elements['anatomical-directions'].hidden,false);
+cameraButtons[6].click();group.children[1].click();
+assert.deepEqual(cameraCalls.at(-1),['representation','axon']);assert.equal(select.value,'perspective');assert.equal(cameraButtons[0].attributes['aria-pressed'],'true','Representation changes must reset camera selection');
+assert.equal(cameraButtons[1].textContent,'From +X','Representation click must update camera axis labels');
+select.disabled=true;cameraControls.sync();assert(cameraButtons.every(item=>item.disabled),'Unavailable viewer disables every replacement camera control');
+select.disabled=false;select.options[2].disabled=true;cameraControls.sync();
+assert.equal(cameraButtons[2].disabled,true);assert.equal(cameraButtons[1].disabled,false,'Individual unavailable camera options must retain their disabled state');
+assert.deepEqual(cameraGroup.children,cameraButtons,'Repeated sync must preserve camera button nodes and avoid duplicate controls');
 
 // Actual fitting code, projected against real oblique geometry. This catches
 // depth-axis clipping that an axis-aligned width/height heuristic misses.
@@ -354,4 +417,4 @@ try {
 } finally { globalThis.fetch = originalFetch; }
 for (const failure of failures) console.error(`FAIL ${failure}`);
 assert.equal(failures.length, 0, `${failures.length} zoom-continuity regressions. Details: .astro/brain-continuity-report.json`);
-console.log(`PASS ${cases.length} adjacent-zoom checks plus full-range sweeps across ${topics.length} real scenes; ${wheelCases.length} wheel/trackpad cases; ${switchCases.length} representation timer cases; focused controls retained; ${fitCases} oblique camera fits; ${separatedFitCases} separated/nested camera fits; ${compassCases} anatomical compass projections; ${focusCases} selected-structure fits.`);
+console.log(`PASS ${cases.length} adjacent-zoom checks plus full-range sweeps across ${topics.length} real scenes; ${wheelCases.length} wheel/trackpad cases; ${switchCases.length} representation timer cases; focused controls retained; camera button selection, reset, labels and availability; ${fitCases} oblique camera fits; ${separatedFitCases} separated/nested camera fits; ${compassCases} anatomical compass projections; ${focusCases} selected-structure fits.`);
