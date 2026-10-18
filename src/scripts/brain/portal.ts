@@ -131,6 +131,9 @@ function setup(course: Course, scope: StudyScope, focus: StudyFocus) {
   if (focus === 'visual') {
     const note = document.createElement('p'); note.className = 'portal-subtitle';
     note.textContent = 'Identify highlighted regions, follow direction arrows and yellow tract connections, and distinguish surface views from section planes. Includes clearly marked supporting visual vocabulary.'; config.append(note);
+  } else {
+    const note = document.createElement('p'); note.className = 'portal-subtitle';
+    note.textContent = 'Visual brain questions can appear in Mixed and Foundation quizzes. Choose Wireframe basics for a visual-only session.'; config.append(note);
   }
   const lengths = group('02 / Choose a length');
   for (const [n, label] of [[10,'10 · Quick orbit'],[25,'25 · Focus session'],[40,'40 · Deep dive'],['all','All · Complete bank']] as const) {

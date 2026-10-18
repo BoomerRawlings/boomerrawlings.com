@@ -1,6 +1,6 @@
 import { courseScopeNote, scopeLabel, type Course, type StudyScope } from './course-catalog';
-import { selectStudyBank, studyAvailability, flashcardProgressKey, type CourseBank, type Question, type Difficulty, type StudyFocus, type StudyLength } from './study-bank';
-import { mountStudyVisual } from './study-visuals';
+import { selectStudyBank, studyAvailability, flashcardProgressKey, mergeFlashcardQueue, type CourseBank, type Question, type Difficulty, type StudyFocus, type StudyLength } from './study-bank';
+import { mountStudyVisual, mountDirectionCompanion } from './study-visuals';
 import '../../styles/brain-study-visuals.css';
 type Answer = { selected?: number; written?: string; revealed?: boolean; rating?: 'needs' | 'partly' | 'got' };
 type Totals = { objective: number; correct: number; recall: number; got: number; partly: number; needs: number; unanswered: number };
@@ -60,7 +60,7 @@ function sourceNote(course: Course, scope: StudyScope, focus: StudyFocus = 'all'
   const source = course === '105'
     ? 'Scope: 105 Study Guide, Modules 1–10, and Exam 1 Review. Original practice questions based on these materials.'
     : 'Scope: PSYC 108 Midterm 1 Study Guide and review materials. Original practice questions based on these materials.';
-  return node('p', 'portal-subtitle portal-source-note', `${scope === 'general' ? `${courseScopeNote(course, scope)} ` : ''}${source}`);
+  return node('p', 'portal-subtitle portal-source-note', `${scope === 'general' ? `${courseScopeNote(course, scope)} ` : ''}${source} Visual basics are mixed in, including clearly marked supporting spatial vocabulary.`);
 }
 
 /** A broad lateral-cortex schematic: anterior is left; numbered landmarks match the authored bank. */
@@ -96,7 +96,7 @@ function lobesDiagram(): HTMLElement {
 }
 
 async function loadBank(): Promise<{ standard: Record<Course, CourseBank>; visual: Record<Course, CourseBank> }> {
-  if (!bankPromise) bankPromise = Promise.all(['/brain/midterm-bank.json?v=3', '/brain/visual-study-bank.json?v=1'].map(async (url) => {
+  if (!bankPromise) bankPromise = Promise.all(['/brain/midterm-bank.json?v=4', '/brain/visual-study-bank.json?v=1'].map(async (url) => {
     const response = await fetch(url);
     if (!response.ok) throw new Error('Study material could not be loaded.');
     const bank = await response.json();
@@ -237,7 +237,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
       const correct = answer.selected === q.correctIndex;
       const feedback = node('section', 'portal-feedback');
       feedback.dataset.state = isRecall ? (answer.rating || 'self-check') : correct ? 'correct' : 'incorrect';
-      const ratingLabels = {needs:'Self-rated: Needs review', partly:'Self-rated: Partly recalled', got:'Self-rated: Recalled well'};
+      const ratingLabels = {needs:'↻ Self-rated: Needs review', partly:'◐ Self-rated: Partly recalled', got:'✓ Self-rated: Recalled well'};
       const feedbackHeading = node('h3', 'portal-feedback-heading', isRecall ? (answer.rating ? ratingLabels[answer.rating] : 'Written answer — self-check') : correct ? '✓ Correct' : '✕ Incorrect');
       feedbackHeading.tabIndex = -1;
       feedback.append(feedbackHeading);
@@ -267,7 +267,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
         q.commonMistakes!.forEach(mistake => mistakes.append(node('li', '', mistake)));
         feedback.append(mistakes, node('p', 'portal-feedback-guide', 'Rate the ideas and reasoning you recalled before revealing the answer.'));
         const ratings = node('div', 'portal-actions');
-        for (const [value, label] of [['needs', 'Needs review'], ['partly', 'Partly'], ['got', 'Got it']] as const) {
+        for (const [value, label] of [['needs', '↻ Needs review'], ['partly', '◐ Partly'], ['got', '✓ Got it']] as const) {
           const rating = button(label, 'portal-pill', () => {
             answer.rating = value;
             feedback.dataset.state = value; feedbackHeading.textContent = ratingLabels[value];
@@ -281,14 +281,23 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
             const next = panel.querySelector<HTMLButtonElement>('.portal-question-navigation .portal-generate');
             if (next) next.disabled = false;
           });
+          rating.dataset.rating = value;
           rating.setAttribute('aria-pressed', String(answer.rating === value));
           ratings.append(rating);
         }
         feedback.append(ratings);
       }
+      if (q.companion === 'forebrain-directions') {
+        panel.classList.add('portal-panel-companion');
+        const layout = node('div', 'portal-companion-layout portal-companion-feedback');
+        const model = node('aside', 'portal-companion-slot');
+        model.setAttribute('aria-label', 'Interactive explanation of forebrain directions');
+        layout.append(feedback, model); panel.append(layout);
+        disposeVisual = mountDirectionCompanion(model, { revealed: true });
+      }
       const choiceList = panel.querySelector('.portal-answers');
       if (choiceList) panel.insertBefore(feedback, choiceList);
-      else panel.append(feedback);
+      else if (!q.companion) panel.append(feedback);
     }
     const navigation = node('div', 'portal-actions portal-question-navigation');
     const previous = button('← Previous', 'portal-pill', () => { index -= 1; render(); }); previous.disabled = index === 0;
@@ -362,11 +371,9 @@ function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions,
   const key = flashcardProgressKey(course, options.scope, options.focus);
   const cards = new Map(data.flashcards.map((card) => [card.id, card]));
   const saved = readSaved<{ queue?: string[]; mastered?: string[]; reviews?: number }>(key, {});
-  const safeIds = (value: unknown): string[] => Array.isArray(value) ? [...new Set(value.filter((id): id is string => typeof id === 'string' && cards.has(id)))] : [];
-  let mastered = new Set(safeIds(saved.mastered));
-  let queue = safeIds(saved.queue).filter((id) => !mastered.has(id));
-  // Add newly authored cards and recover from incomplete stored progress without losing mastered cards.
-  for (const id of engine.shuffle([...cards.keys()])) if (!mastered.has(id) && !queue.includes(id)) queue.push(id);
+  const restored = mergeFlashcardQueue(saved, [...cards.keys()]);
+  let mastered = new Set(restored.mastered);
+  let queue = restored.queue;
   let reviews = Number.isFinite(saved.reviews) ? Number(saved.reviews) : 0;
   let flipped = false;
   let lastAction = '';
@@ -426,10 +433,20 @@ function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions,
     flip.setAttribute('aria-expanded', String(flipped));
     flip.dataset.flipped = String(flipped);
     flip.append(side, content, hint);
-    surface.append(flip); panel.append(surface);
+    surface.append(flip);
+    if (card.companion === 'forebrain-directions') {
+      panel.classList.add('portal-panel-companion');
+      surface.classList.add('portal-companion-layout');
+      const model = node('aside', 'portal-companion-slot');
+      model.setAttribute('aria-label', flipped ? 'Interactive explanation of forebrain directions' : 'Companion brain model');
+      surface.append(model);
+      disposeVisual = mountDirectionCompanion(model, { revealed: flipped });
+    }
+    panel.append(surface);
     const actions = node('div', 'portal-actions');
-    const again = button('Again', 'portal-pill', () => rate(true));
-    const got = button('Got it', 'portal-generate', () => rate(false));
+    const again = button('↻ Again', 'portal-pill', () => rate(true));
+    const got = button('✓ Got it', 'portal-generate', () => rate(false));
+    again.dataset.rating = 'needs'; got.dataset.rating = 'got';
     again.disabled = !flipped; got.disabled = !flipped; actions.append(again, got);
     panel.append(actions);
     const notice = node('p', 'portal-subtitle', lastAction || '“Again” returns the card later in this deck. “Got it” saves your progress in this browser.');

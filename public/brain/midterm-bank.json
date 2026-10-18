@@ -780,7 +780,8 @@
         "selfGraded": true,
         "commonMistakes": [
           "Left/right and medial/lateral are not equivalent: either hemisphere has medial and lateral locations. Also do not apply a forebrain top-bottom convention unchanged to every part of the bent neuraxis."
-        ]
+        ],
+        "companion": "forebrain-directions"
       },
       {
         "id": "105-q040",
@@ -1560,7 +1561,8 @@
         "id": "105-f006",
         "topic": "M2 Neuroanatomy",
         "question": "What do the main forebrain direction terms mean?",
-        "answer": "Dorsal = top; ventral = bottom. Anterior/rostral = front; posterior/caudal = back. Medial = toward the midline; lateral = away. Ipsilateral = same side; contralateral = opposite side."
+        "answer": "Dorsal = top; ventral = bottom. Anterior/rostral = front; posterior/caudal = back. Medial = toward the midline; lateral = away. Ipsilateral = same side; contralateral = opposite side.",
+        "companion": "forebrain-directions"
       },
       {
         "id": "105-f007",
@@ -2298,7 +2300,8 @@
         "selfGraded": true,
         "commonMistakes": [
           "Medial does not mean left and lateral does not mean right. Both sides of the brain have medial and lateral locations, and directional conventions must specify the relevant part of the bent neuraxis."
-        ]
+        ],
+        "companion": "forebrain-directions"
       },
       {
         "id": "108-q029",
@@ -3266,7 +3269,8 @@
         "id": "108-f003",
         "topic": "Neuroanatomy: organization and cortex",
         "question": "Define the six forebrain direction terms.",
-        "answer": "Dorsal = superior/top; ventral = inferior/bottom; rostral = anterior/front; caudal = posterior/back; medial = toward midline; lateral = away. The neuraxis bends, so specify forebrain orientation."
+        "answer": "Dorsal = superior/top; ventral = inferior/bottom; rostral = anterior/front; caudal = posterior/back; medial = toward midline; lateral = away. The neuraxis bends, so specify forebrain orientation.",
+        "companion": "forebrain-directions"
       },
       {
         "id": "108-f004",

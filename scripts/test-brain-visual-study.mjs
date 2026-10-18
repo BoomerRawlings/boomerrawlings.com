@@ -1,18 +1,20 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
-import { transform } from 'esbuild';
+import { fileURLToPath } from 'node:url';
+import { build, transform } from 'esbuild';
+import { OrthographicCamera, Vector3 } from 'three';
 import { selectQuestions, shuffleChoices } from '../public/brain/midterm-engine.js';
 
 const readJson = async path => JSON.parse(await readFile(new URL(path, import.meta.url), 'utf8'));
 const standard = await readJson('../public/brain/midterm-bank.json');
 const visual = await readJson('../public/brain/visual-study-bank.json');
 const bankSource = (await transform(await readFile(new URL('../src/scripts/brain/study-bank.ts', import.meta.url), 'utf8'), { loader: 'ts', target: 'es2022' })).code;
-const { selectStudyBank, studyAvailability, flashcardProgressKey } = await import(`data:text/javascript;base64,${Buffer.from(bankSource).toString('base64')}`);
+const { selectStudyBank, studyAvailability, flashcardProgressKey, mergeFlashcardQueue } = await import(`data:text/javascript;base64,${Buffer.from(bankSource).toString('base64')}`);
 const rendererSource = (await transform(await readFile(new URL('../src/scripts/brain/study-visuals.ts', import.meta.url), 'utf8'), { loader: 'ts', target: 'es2022' })).code;
-const { buildStudyVisual, projectStudyPoint, getStudyDirectionArrow, getStudyTractPath } = await import(`data:text/javascript;base64,${Buffer.from(rendererSource).toString('base64')}`);
+const { buildStudyVisual, projectStudyPoint, getStudyDirectionArrow, getStudyTractPath, buildDirectionCompanionVisual, getStudySideComparison, getStudyVisualFrame } = await import(`data:text/javascript;base64,${Buffer.from(rendererSource).toString('base64')}`);
 const atlas = await readJson('../public/brain/models/study-wireframe.json');
-const seeded = () => { let state = 9127; return () => ((state = (state * 16807) % 2147483647) - 1) / 2147483646; };
+const seeded = (seed = 9127) => { let state = seed; return () => ((state = (state * 16807) % 2147483647) - 1) / 2147483646; };
 const labelFor = spec => spec.kind === 'region'
   ? ({ frontal: 'Frontal lobe', parietal: 'Parietal lobe', temporal: 'Temporal lobe', occipital: 'Occipital lobe', cerebellum: 'Cerebellum', 'basal-ganglia': 'Basal ganglia' })[spec.region]
   : spec.kind === 'direction' ? spec.direction[0].toUpperCase() + spec.direction.slice(1)
@@ -61,18 +63,27 @@ for (const course of ['105', '108']) {
     }
   });
 
-  test(`${course}: ordinary study excludes supporting vocabulary; wireframe focus includes the full visual deck`, () => {
+  test(`${course}: course review includes all visual foundations and preserves the separate wireframe deck`, () => {
     const before = JSON.stringify({ standard: standard[course], visual: visual[course] });
     const mixed = selectStudyBank(standard[course], visual[course], 'all');
     const focused = selectStudyBank(standard[course], visual[course], 'visual');
     for (const field of ['questions', 'flashcards']) {
-      assert.deepEqual(mixed[field].map(item => item.id), [...standard[course][field], ...visual[course][field].filter(item => item.grounding === 'direct')].map(item => item.id));
+      assert.deepEqual(mixed[field].map(item => item.id), [...standard[course][field], ...visual[course][field]].map(item => item.id));
       assert.deepEqual(focused[field].map(item => item.id), visual[course][field].map(item => item.id));
-      assert.equal(mixed[field].some(item => item.grounding === 'supporting'), false);
+      assert.ok(mixed[field].some(item => item.grounding === 'supporting'));
       assert.ok(focused[field].some(item => item.grounding === 'supporting'));
+      for (const item of visual[course][field]) {
+        const included = mixed[field].find(candidate => candidate.id === item.id);
+        assert.equal(included.grounding, item.grounding, `${item.id}: course review must retain source scope`);
+        assert.equal(included.sourceNote, item.sourceNote, `${item.id}: course review must retain the source explanation`);
+      }
       assert.equal(new Set(mixed[field].map(item => item.id)).size, mixed[field].length);
       assert.notEqual(focused[field], visual[course][field]);
     }
+    assert.equal(mixed.questions.length, 106);
+    assert.equal(mixed.flashcards.length, 66);
+    const baseCounts = studyAvailability(standard[course]);
+    assert.deepEqual(studyAvailability(mixed), { ...baseCounts, mixed: baseCounts.mixed + 26, foundation: baseCounts.foundation + 26 });
     const counts = studyAvailability(focused);
     assert.deepEqual(counts, { mixed: focused.questions.length, foundation: focused.questions.length, application: 0, challenge: 0 });
     for (const difficulty of ['mixed', 'foundation', 'application', 'challenge']) {
@@ -88,6 +99,44 @@ for (const course of ['105', '108']) {
     assert.equal(capped.questions.length, focused.questions.length);
     assert.equal(capped.capped, true);
     assert.equal(JSON.stringify({ standard: standard[course], visual: visual[course] }), before, 'selection must not mutate authored source banks');
+  });
+
+  test(`${course}: ordinary random review gives every visual item a chance while respecting difficulty`, () => {
+    const mixed = selectStudyBank(standard[course], visual[course], 'all');
+    const visualIds = new Set(visual[course].questions.map(item => item.id));
+    for (const difficulty of ['mixed', 'foundation']) {
+      const seen = new Set();
+      for (let seed = 1; seed <= 128; seed++) {
+        const session = selectQuestions(mixed.questions, { length: 10, difficulty }, seeded(seed * 7919));
+        assert.equal(session.questions.length, 10);
+        if (difficulty === 'foundation') assert.ok(session.questions.every(item => item.difficulty === 'foundation'));
+        session.questions.filter(item => visualIds.has(item.id)).forEach(item => seen.add(item.id));
+      }
+      assert.deepEqual(seen, visualIds, `${difficulty}: some visual items cannot be drawn in ordinary review`);
+    }
+    for (const difficulty of ['application', 'challenge']) {
+      const session = selectQuestions(mixed.questions, { length: 'all', difficulty }, seeded());
+      assert.equal(session.questions.some(item => visualIds.has(item.id)), false, 'foundation visual items must not override the selected difficulty');
+    }
+  });
+
+  test(`${course}: newly available visual cards mix into an existing queue without losing mastered progress`, () => {
+    const mixed = selectStudyBank(standard[course], visual[course], 'all');
+    const allIds = mixed.flashcards.map(item => item.id);
+    const mastered = standard[course].flashcards.slice(0, 4).map(item => item.id);
+    const oldQueue = [...standard[course].flashcards.slice(4), ...visual[course].flashcards.filter(item => item.grounding === 'direct')].map(item => item.id);
+    const saved = { queue: oldQueue, mastered };
+    const before = JSON.stringify(saved);
+    const restored = mergeFlashcardQueue(saved, allIds, () => 0);
+    const oldIds = new Set(oldQueue);
+    assert.deepEqual(restored.mastered, mastered);
+    assert.deepEqual(restored.queue.filter(id => oldIds.has(id)), oldQueue, 'insertions must preserve existing review order');
+    assert.deepEqual(new Set([...restored.queue, ...restored.mastered]), new Set(allIds));
+    assert.equal(restored.queue.length + restored.mastered.length, allIds.length, 'every card must be queued or mastered exactly once');
+    assert.equal(restored.queue.some(id => mastered.includes(id)), false);
+    assert.ok(!oldIds.has(restored.queue[0]), 'a new visual card must be able to appear before the previous queue ends');
+    assert.equal(JSON.stringify(saved), before, 'restoring progress must not mutate saved values');
+    assert.deepEqual(mergeFlashcardQueue(restored, allIds, () => { throw new Error('no new cards should require randomization'); }), restored, 'reloading without new cards must retain the current queue');
   });
 
   test(`${course}: visual targets, source scope, correct answers and option feedback survive shuffles and retries`, () => {
@@ -120,6 +169,41 @@ test('flashcard progress preserves existing course/scope decks and isolates focu
   assert.equal(new Set(keys).size, keys.length, 'course, scope and focus cannot overwrite another deck’s progress');
 });
 
+test('flashcard restoration recovers incomplete data and never resurrects completed cards', () => {
+  const allIds = ['a', 'b', 'c', 'd'];
+  const restored = mergeFlashcardQueue({ queue: ['a', 'a', 'missing', 10, 'b'], mastered: ['b', 'b', 'missing', null] }, allIds, seeded());
+  assert.deepEqual(restored.mastered, ['b']);
+  assert.deepEqual(new Set(restored.queue), new Set(['a', 'c', 'd']));
+  assert.equal(restored.queue.length, 3);
+  assert.deepEqual(mergeFlashcardQueue({ queue: [], mastered: allIds }, allIds), { queue: [], mastered: allIds });
+  const fresh = mergeFlashcardQueue({ queue: 'invalid', mastered: {} }, allIds, seeded());
+  assert.deepEqual(new Set(fresh.queue), new Set(allIds));
+  assert.deepEqual(fresh.mastered, []);
+});
+
+test('forebrain companions enrich the four existing direction items without replacing retrieval-practice identities', () => {
+  const expectedIds = ['105-f006', '105-q039', '108-f003', '108-q028'];
+  const companionItems = Object.values(standard)
+    .flatMap(bank => [...bank.questions, ...bank.flashcards])
+    .filter(item => item.companion);
+  assert.deepEqual(companionItems.map(item => item.id).sort(), expectedIds);
+  for (const item of companionItems) {
+    assert.equal(item.companion, 'forebrain-directions');
+    assert.match(item.prompt || item.question, /forebrain/);
+    const course = item.id.slice(0, 3);
+    const field = item.id.includes('-f') ? 'flashcards' : 'questions';
+    const selected = selectStudyBank(standard[course], visual[course], 'all')[field];
+    assert.equal(selected.filter(candidate => candidate.id === item.id).length, 1);
+    assert.deepEqual(selected.find(candidate => candidate.id === item.id), item, 'selection must preserve the authored explanation and companion metadata');
+    if (field === 'questions') {
+      const session = selectQuestions(standard[course].questions, { length: 'all', difficulty: 'mixed' }, seeded());
+      assert.equal(session.questions.find(candidate => candidate.id === item.id)?.companion, 'forebrain-directions');
+    } else {
+      assert.equal(flashcardProgressKey(course, 'midterm-1', 'all'), `brain-midterm-flashcards-${course}-v1`);
+    }
+  }
+});
+
 test('all-question sessions include every eligible question even beyond the old 80-question maximum', () => {
   const questions = Array.from({ length: 103 }, (_, index) => ({ id: `q${index}`, topic: `Topic ${index % 7}`, difficulty: index % 3 === 0 ? 'challenge' : 'foundation', choices: ['A', 'B'], correctIndex: 0 }));
   const all = selectQuestions(questions, { length: 'all', difficulty: 'mixed' }, seeded());
@@ -148,6 +232,45 @@ test('anatomical cameras preserve geometry and show expected orientation from ea
   assert.ok(projectStudyPoint(anatomicalRight, 'inferior')[0] < 0, 'looking from below reverses the left/right screen mapping');
   assert.ok(projectStudyPoint(anatomicalRight, 'anterior')[0] < 0, 'front view faces the observer');
   assert.ok(projectStudyPoint(anatomicalRight, 'posterior')[0] > 0);
+});
+
+test('the 3D study camera registers the exact intro anatomy with SVG overlays in every view and section plane', async () => {
+  const bundled = await build({
+    entryPoints: [fileURLToPath(new URL('../src/scripts/brain/study-model.ts', import.meta.url))],
+    bundle: true, write: false, format: 'esm', platform: 'node', target: 'es2022', metafile: true, logLevel: 'silent',
+  });
+  const { configureStudyModelCamera } = await import(`data:text/javascript;base64,${Buffer.from(bundled.outputFiles[0].text).toString('base64')}`);
+  const dependencies = Object.keys(bundled.metafile.inputs).map(path => path.replaceAll('\\', '/'));
+  assert.ok(dependencies.some(path => path.endsWith('/data/brain/portal-brain.json')), 'study models must reuse the exact intro geometry asset');
+  const portal = await readJson('../src/data/brain/portal-brain.json');
+  const source = await readJson('../public/brain/models/atlas.json');
+  assert.deepEqual(portal.metadata.coordinates, atlas.metadata.coordinates, 'intro anatomy and teaching overlays must share a registered coordinate system');
+  assert.equal(portal.metadata.source, atlas.metadata.source);
+  assert.deepEqual(portal.metadata.sha256, source.metadata.sha256, 'reused model must preserve the source atlas hashes');
+  const points = [[0, 0, 0], [17, 31, 59], [-17, -31, -59], [1, 0, 0], [0, 1, 0], [0, 0, 1]];
+  for (const mesh of portal.meshes) {
+    const packed = Buffer.from(mesh.positions, 'base64');
+    for (let index = 0; index < packed.length; index += 6) points.push([0, 2, 4].map(offset => packed.readInt16LE(index + offset) / 100));
+  }
+  const specs = [
+    ...['lateral', 'medial', 'superior', 'inferior', 'anterior', 'posterior', 'oblique'].map(view => ({ kind: 'view', view })),
+    ...['sagittal', 'coronal', 'horizontal'].map(plane => ({ kind: 'plane', plane })),
+  ];
+  const camera = new OrthographicCamera(), projected = new Vector3();
+  for (const spec of specs) {
+    const frame = getStudyVisualFrame(spec, atlas);
+    configureStudyModelCamera(camera, frame);
+    for (const point of points) {
+      projected.set(-point[0], point[1], point[2]).project(camera);
+      const actualX = (projected.x + 1) * frame.width / 2;
+      const actualY = (1 - projected.y) * frame.height / 2;
+      const svg = projectStudyPoint(point, frame.view);
+      const expectedX = frame.width / 2 + (svg[0] - frame.centerX) * frame.scale;
+      const expectedY = frame.height / 2 - (svg[1] - frame.centerY) * frame.scale;
+      assert.ok(Math.abs(actualX - expectedX) < 1e-6 && Math.abs(actualY - expectedY) < 1e-6, `${spec.view || spec.plane}: 3D anatomy and SVG annotations diverge at ${point}`);
+      assert.ok(projected.z > -1 && projected.z < 1, `${spec.view || spec.plane}: measured anatomy falls outside the camera depth range`);
+    }
+  }
 });
 
 test('arrows follow human forebrain conventions and medial arrows approach the actual midline', () => {
@@ -192,6 +315,55 @@ test('tract illustrations preserve the endpoint relationships that define each c
     assert.ok(question.explanation.toLowerCase().includes(tract), `${id}: picture must support the authored explanation`);
   }
   assert.deepEqual(standard['108'].flashcards.find(item => item.id === '108-f008').visual, { kind: 'tract', tract: 'projection' });
+});
+
+test('direction companions conceal teaching labels until reveal and explain all forebrain term pairs', () => {
+  const terms = {
+    superior: [/dorsal\s*\/\s*superior/i, /top of the forebrain/i],
+    inferior: [/ventral\s*\/\s*inferior/i, /bottom of the forebrain/i],
+    anterior: [/anterior\s*\/\s*rostral/i, /front of the forebrain/i],
+    posterior: [/posterior\s*\/\s*caudal/i, /back of the forebrain/i],
+    medial: [/medial/i, /toward the midline/i],
+    lateral: [/lateral/i, /away from the midline/i],
+    ipsilateral: [/ipsilateral/i, /same side/i],
+    contralateral: [/contralateral/i, /opposite side/i],
+  };
+  const hiddenPictures = new Set();
+  for (const [term, expected] of Object.entries(terms)) {
+    const hidden = buildDirectionCompanionVisual(term, atlas);
+    const revealed = buildDirectionCompanionVisual(term, atlas, { revealed: true });
+    for (const svg of [hidden, revealed]) {
+      assert.match(svg, /<svg[^>]+role="img"/);
+      assert.match(svg, /aria-label="[^"]+"/);
+      assert.doesNotMatch(svg, /NaN|Infinity|undefined/);
+      assert.match(svg, /<path class="study-mesh" d="M[^"]+"/, `${term}: companion must contain the atlas brain`);
+    }
+    assert.doesNotMatch(hidden, /\b(?:dorsal|superior|ventral|inferior|rostral|anterior|caudal|posterior|medial|lateral|ipsilateral|contralateral)\b/i, `${term}: recall-side visual leaks a direction label`);
+    assert.doesNotMatch(hidden, /(?:toward|away from) the (?:top|bottom|front|back|midline)|(?:same|opposite) side/i, `${term}: recall-side visual leaks a definition`);
+    assert.doesNotMatch(hidden, /<path[^>]+class="study-arrow(?:head)?"/, `${term}: neutral recall model must not reveal a selected direction`);
+    const accessibleExplanation = revealed.match(/<title>([^<]+)<\/title>/)?.[1];
+    assert.ok(accessibleExplanation, `${term}: diagram needs an accessible explanation`);
+    for (const pattern of expected) assert.match(accessibleExplanation, pattern, `${term}: revealed diagram must name and explain the selected relationship`);
+    hiddenPictures.add(hidden);
+  }
+  assert.equal(hiddenPictures.size, 1, 'the selected teaching term must not alter the neutral recall-side diagram');
+});
+
+test('ipsilateral and contralateral companions compare locations rather than claiming a tract connection', () => {
+  const ipsilateral = getStudySideComparison('ipsilateral');
+  const contralateral = getStudySideComparison('contralateral');
+  assert.deepEqual(ipsilateral.reference, contralateral.reference, 'changing relationship should retain the reference location');
+  for (const [relation, points] of Object.entries({ ipsilateral, contralateral })) {
+    for (const point of Object.values(points)) assert.ok(point.length === 3 && point.every(Number.isFinite));
+    assert.notDeepEqual(points.reference, points.comparison, 'the two markers must identify separate locations');
+    assert.ok(points.reference[0] < 0, 'the explanation places reference A in the left hemisphere');
+    assert.ok(relation === 'ipsilateral' ? points.comparison[0] < 0 : points.comparison[0] > 0, `${relation}: comparison B must lie on the stated side of the midline`);
+    const svg = buildDirectionCompanionVisual(relation, atlas, { revealed: true });
+    assert.match(svg, /<text\b[^>]*>A<\/text>/, 'reference marker should be visibly named');
+    assert.match(svg, /<text\b[^>]*>B<\/text>/, 'comparison marker should be visibly named');
+    assert.doesNotMatch(svg, /<(?:path|circle)\b[^>]*class="[^"]*\bstudy-tract(?:-[\w-]+)?\b/, 'laterality markers must not be rendered as a pathway');
+    assert.doesNotMatch(svg, /<path\b[^>]*class="study-arrow(?:head)?"/, 'laterality is a spatial relationship rather than a signal direction');
+  }
 });
 
 test('compressed atlas has valid mesh indexes and labeled cortical regions in both hemispheres', () => {

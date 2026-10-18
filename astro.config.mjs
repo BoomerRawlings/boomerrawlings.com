@@ -24,7 +24,12 @@ export default defineConfig({
           codeSplitting: {
             // The portal and lazy atlas share Three. Keep it independent so
             // changing the intro does not invalidate the atlas import graph.
-            groups: [{ name: 'three-vendor', test: /node_modules[\\/]three[\\/]/ }],
+            groups: [
+              { name: 'three-vendor', test: /node_modules[\\/]three[\\/]/ },
+              // Study models reuse the intro anatomy without importing the
+              // page entry module back into their lazy rendering chunk.
+              { name: 'portal-brain-data', test: /src[\\/]data[\\/]brain[\\/]portal-brain\.json$/ },
+            ],
           },
         },
       },
