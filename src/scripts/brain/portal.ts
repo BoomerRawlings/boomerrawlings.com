@@ -1,5 +1,6 @@
 import { initializePortalScene } from './portal-scene';
 import { showStudy } from './portal-study';
+import { claimStudyToolsReload } from './portal-load-recovery';
 import { COURSE_CATALOG, courseScopeNote, resolveStudyScope, scopeLabel, type Course, type StudyScope } from './course-catalog';
 
 type Difficulty = 'mixed' | 'foundation' | 'application' | 'challenge';
@@ -129,12 +130,28 @@ function setup(course: Course, scope: StudyScope) {
   update(); config.append(countNote, button('Generate quiz →', () => go(`${studyHash(course, scope, 'quiz')}&length=${length}&difficulty=${difficulty}`), 'portal-generate'));
   stage.append(config);
 }
-async function showLegacy() {
+async function showLegacy(version: number) {
   const params = new URLSearchParams(location.hash.slice(1)); params.set('view','atlas'); history.replaceState(null,'',`#${params}`);
   portal.hidden = true; legacy.hidden = false; legacy.inert = false; document.body.classList.remove('brain-portal-active');
-  scene?.dispose(); scene = undefined;
-  try { legacyReady ||= import('./app'); const app = await legacyReady; app.resumeLegacy(); window.dispatchEvent(new Event('resize')); }
-  catch { legacyReady = undefined; portal.hidden = false; legacy.hidden = true; legacy.inert = true; document.body.classList.add('brain-portal-active'); stage.replaceChildren(); heading('CONNECTION INTERRUPTED', 'The atlas could not open.', 'Try again to load the existing study tools.'); stage.append(button('Try again',()=>void route()), button('Study home',()=>go('#portal'))); }
+  try {
+    scene?.dispose(); scene = undefined;
+    legacyReady ||= import('./app');
+    const app = await legacyReady;
+    if (version !== routeVersion) { if (legacy.hidden) app.suspendLegacy(); return; }
+    app.resumeLegacy(); window.dispatchEvent(new Event('resize'));
+  } catch (error) {
+    if (version !== routeVersion) return;
+    legacyReady = undefined;
+    console.error('Unable to open study tools.', error);
+    if (claimStudyToolsReload(error, () => sessionStorage)) { location.reload(); return; }
+    portal.hidden = false; legacy.hidden = true; legacy.inert = true;
+    document.body.classList.add('brain-portal-active');
+    stage.classList.remove('portal-transitioning'); stage.dataset.view = 'error';
+    returnTo = '#portal'; back.hidden = false; stage.replaceChildren();
+    heading('CONNECTION INTERRUPTED', 'Study tools could not open.', 'Reload to get the latest version, then try Explore or Lectures again.');
+    stage.append(button('Reload study tools', () => location.reload()), button('Study home', () => go('#portal')));
+    updateMotion(); stage.querySelector<HTMLElement>('.portal-title')?.focus({preventScroll:true});
+  }
 }
 async function route() {
   if (!unlocked) return;
@@ -145,9 +162,9 @@ async function route() {
   resetCloudMotion();
   const params = new URLSearchParams(location.hash.slice(1));
   const course = params.get('study');
-  if (!course && (params.get('view') === 'atlas' || ['mode','topic','depth'].some(key=>params.has(key)))) { await showLegacy(); return; }
+  if (!course && (params.get('view') === 'atlas' || ['mode','topic','depth'].some(key=>params.has(key)))) { await showLegacy(version); return; }
   portal.hidden = false; legacy.hidden = true; legacy.inert = true; document.body.classList.add('brain-portal-active');
-  if(legacyReady) void legacyReady.then(app=>app.suspendLegacy());
+  if(legacyReady) void legacyReady.then(app=>{ if (legacy.hidden) app.suspendLegacy(); }).catch(()=>{});
   if(!scene) updateMotion();
   stage.classList.add('portal-transitioning');
   await new Promise(resolve=>setTimeout(resolve, moving ? 180 : 0));

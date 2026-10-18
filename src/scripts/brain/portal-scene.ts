@@ -464,7 +464,7 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
     const assembly = atlasReady ? (loading ? THREE.MathUtils.clamp((introTime - 3.8) / 2.55, 0, 1) : 1) : 0;
     if (moving) {
       elapsed += dt;
-      if (assembly === 1) rotationAngle = (rotationAngle + dt * .055) % (Math.PI * 2);
+      if (assembly === 1) rotationAngle = (rotationAngle + dt * (Math.PI * 2 / 30)) % (Math.PI * 2);
       for (const axis of ['x', 'y'] as const) {
         cameraVelocity[axis] += ((loading ? 0 : cursor[axis] * .16) - cameraOffset[axis]) * 16 * dt;
         cameraVelocity[axis] *= Math.exp(-6 * dt); cameraOffset[axis] += cameraVelocity[axis] * dt;

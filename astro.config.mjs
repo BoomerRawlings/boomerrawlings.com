@@ -17,6 +17,19 @@ const redirects = {
 export default defineConfig({
   site: 'https://boomerrawlings.com',
   trailingSlash: 'always',
+  vite: {
+    build: {
+      rolldownOptions: {
+        output: {
+          codeSplitting: {
+            // The portal and lazy atlas share Three. Keep it independent so
+            // changing the intro does not invalidate the atlas import graph.
+            groups: [{ name: 'three-vendor', test: /node_modules[\\/]three[\\/]/ }],
+          },
+        },
+      },
+    },
+  },
   markdown: {
     processor: unified({
       remarkPlugins: [remarkMath],

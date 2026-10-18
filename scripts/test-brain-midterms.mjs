@@ -8,6 +8,25 @@ const bank = JSON.parse(await readFile(new URL('../public/brain/midterm-bank.jso
 const seeded = () => { let state = 5341; return () => ((state = (state * 16807) % 2147483647) - 1) / 2147483646; };
 const catalogSource = (await transform(await readFile(new URL('../src/scripts/brain/course-catalog.ts', import.meta.url), 'utf8'), { loader: 'ts', target: 'es2022' })).code;
 const { COURSE_CATALOG, courseScopeNote, resolveStudyScope } = await import(`data:text/javascript;base64,${Buffer.from(catalogSource).toString('base64')}`);
+const recoverySource = (await transform(await readFile(new URL('../src/scripts/brain/portal-load-recovery.ts', import.meta.url), 'utf8'), { loader: 'ts', target: 'es2022' })).code;
+const { claimStudyToolsReload } = await import(`data:text/javascript;base64,${Buffer.from(recoverySource).toString('base64')}`);
+
+test('stale study chunks recover once and cannot create an automatic reload loop', () => {
+  const values = new Map();
+  const storage = { getItem: key => values.get(key) ?? null, setItem: (key, value) => values.set(key, value) };
+  assert.equal(claimStudyToolsReload(new TypeError('Failed to fetch dynamically imported module: /_astro/app.old.js'), () => storage, 100_000), true);
+  assert.equal(claimStudyToolsReload(new TypeError('Importing a module script failed.'), () => storage, 100_100), false);
+  assert.equal(claimStudyToolsReload(new Error('Unable to preload CSS for /_astro/app.old.css'), () => storage, 161_000), true);
+  assert.equal(claimStudyToolsReload(new Error('Load failed'), () => storage, 160_000), false);
+});
+
+test('study recovery does not refresh on application bugs or without a safe reload guard', () => {
+  const unexpectedStorage = () => { throw new Error('Storage should not be accessed'); };
+  assert.equal(claimStudyToolsReload(new TypeError("Cannot read properties of null (reading 'addEventListener')"), unexpectedStorage), false);
+  assert.equal(claimStudyToolsReload({ message: 'Load failed' }, unexpectedStorage), false);
+  assert.equal(claimStudyToolsReload(new Error('Failed to load module script'), unexpectedStorage), false);
+  assert.equal(claimStudyToolsReload('Load failed', () => ({ getItem: () => null, setItem: () => { throw new Error('Quota exceeded'); } })), false);
+});
 
 test('both syllabus frameworks expose only available study scopes and retain their distinct exam dates', () => {
   for (const course of ['105', '108']) {

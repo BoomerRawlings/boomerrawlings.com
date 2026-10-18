@@ -332,12 +332,12 @@ courseController=initCourses($('brain-courses'),{
 });
 
 courseReady=true;
-export function readLocation(){const params=new URLSearchParams(location.hash.slice(1));const topic=params.get('topic');const nextDepth=params.get('depth');if(nextDepth&&['essentials','mechanism','advanced'].includes(nextDepth))depth=nextDepth as Depth;if(topic&&byId.has(topic))setTopic(topic,false);else if(courseTopics().length)setTopic(inCourse(selected.id)?selected.id:courseTopics()[0].id,false);const requestedMode=params.get('mode');setMode(requestedMode==='practice'?'recall':requestedMode==='paths'?'paths':requestedMode==='lectures'?'lectures':'explore');}
+export function readLocation(){if($('brain-legacy').hidden)return;const params=new URLSearchParams(location.hash.slice(1));const topic=params.get('topic');const nextDepth=params.get('depth');if(nextDepth&&['essentials','mechanism','advanced'].includes(nextDepth))depth=nextDepth as Depth;if(topic&&byId.has(topic))setTopic(topic,false);else if(courseTopics().length)setTopic(inCourse(selected.id)?selected.id:courseTopics()[0].id,false);const requestedMode=params.get('mode');setMode(requestedMode==='practice'?'recall':requestedMode==='paths'?'paths':requestedMode==='lectures'?'lectures':'explore');}
 window.addEventListener('hashchange',()=>{const params=new URLSearchParams(location.hash.slice(1));if(params.has('topic')||params.has('mode')||params.has('depth'))readLocation();});
 readLocation();
 
 export function suspendLegacy(){practice?.setActive(false);lectureController.setActive(false);viewer?.setPlaying(false);}
-export function resumeLegacy(){syncLegacyMotion();readLocation();viewer?.setPlaying(playing);}
+export function resumeLegacy(){if($('brain-legacy').hidden)return;syncLegacyMotion();readLocation();viewer?.setPlaying(playing);}
 
 async function initializeViewer(){
   try{
@@ -362,7 +362,7 @@ async function initializeViewer(){
       onTime:(fraction,step)=>{if(!animation)return;$<HTMLInputElement>('animation-scrub').value=String(Math.round(fraction*1000));const currentStep=animation.steps[step];$('animation-step').textContent=currentStep?.label||'';$('animation-description').textContent=currentStep?.description||'';$('animation-time').textContent=`${Math.round(fraction*100)}%`;all('#animation-steps button').forEach((el,i)=>el.setAttribute('aria-current',String(i===step)));}
     });
     if(!viewer)throw new Error('3D unavailable');
-    viewer.setPlaying(playing);viewer.setLabels(labels);viewer.setTopic(selected);
+    viewer.setPlaying(!$('brain-legacy').hidden&&playing);viewer.setLabels(labels);viewer.setTopic(selected);
   }catch{ $('model-fallback').hidden=false;$('model-provenance').textContent='Written guide available. 3D rendering could not initialize.';all<HTMLButtonElement|HTMLSelectElement>('.viewer-controls button,.viewer-controls select').forEach(el=>el.disabled=true); }
   finally{if(!viewer)$('viewer-loading').hidden=true;}
 }
