@@ -27,7 +27,7 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
   const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
   let moving = options.moving ?? !preference.matches;
   let disposed = false, contextAvailable = true, frame = 0, width = 1, height = 1;
-  let elapsed = 0, previous = performance.now(), assemblyStart = previous;
+  let elapsed = 0, rotationAngle = 0, previous = performance.now(), assemblyStart = previous;
   let textReady = false, atlasReady = false;
   let loading = portal?.classList.contains('portal-loading') ?? false;
   let view = stage?.dataset.view || 'home';
@@ -51,7 +51,6 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
     uSize: { value: 1.35 * Math.min(window.devicePixelRatio || 1, 1.5) },
   };
   const vertexShader = `
-    attribute vec3 aScatter;
     attribute vec3 aWord;
     attribute vec3 aText;
     attribute vec3 aNormal;
@@ -70,13 +69,9 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
       float name = smoothstep(0.0, 1.0, uName);
       vec3 lettering = mix(aWord, aText, name);
       vec3 p = mix(lettering, position, gather);
-      float stream = sin(gather * 3.14159265);
-      p.x += sin(lettering.y * 1.3 + aScatter.x) * stream * 0.18;
-      p.y += cos(lettering.x * 1.2 + aScatter.y) * stream * 0.12;
-      p.z += sin(lettering.x * 0.9 + aScatter.z) * stream * 0.42;
       vec3 normal = normalize(mat3(modelViewMatrix) * aNormal);
       vFacing = mix(1.0, 0.16 + 0.84 * smoothstep(-0.2, 0.7, normal.z), gather);
-      vInk = mix(mix(aTextWeight.x, aTextWeight.y, name), 1.0, gather);
+      vInk = mix(mix(aTextWeight.x, aTextWeight.y, name), 1.0, smoothstep(0.6, 1.0, gather));
       float scan = mod(uTime * 0.34, 3.4) - 1.7;
       vScan = exp(-pow((position.y - scan) * 15.0, 2.0)) * gather;
       vColor = color;
@@ -120,23 +115,20 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
 
   // Bundled measured exterior data is decoded before the first frame. Its same
   // connected edges form both wordmarks and the final anatomical surface.
-  const points: THREE.Vector3[] = [], scattered: THREE.Vector3[] = [], normals: THREE.Vector3[] = [];
+  const points: THREE.Vector3[] = [], normals: THREE.Vector3[] = [];
   const textGeometries: { geometry: THREE.BufferGeometry; indices: number[]; kind: 'wire' | 'points' }[] = [];
   const colors: THREE.Color[] = [], edges: number[] = [];
   const buildGeometry = (indices: number[], kind: 'wire' | 'points' = 'wire') => {
     const positions = new Float32Array(indices.length * 3);
-    const displacement = new Float32Array(indices.length * 3);
     const color = new Float32Array(indices.length * 3);
     const normal = new Float32Array(indices.length * 3);
     indices.forEach((index, i) => {
       points[index].toArray(positions, i * 3);
-      scattered[index].toArray(displacement, i * 3);
       colors[index].toArray(color, i * 3);
       normals[index].toArray(normal, i * 3);
     });
     const g = geometry(new THREE.BufferGeometry());
     g.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    g.setAttribute('aScatter', new THREE.BufferAttribute(displacement, 3));
     g.setAttribute('aWord', new THREE.BufferAttribute(new Float32Array(positions), 3));
     g.setAttribute('aText', new THREE.BufferAttribute(new Float32Array(positions), 3));
     g.setAttribute('aNormal', new THREE.BufferAttribute(normal, 3));
@@ -146,7 +138,7 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
     textGeometries.push({ geometry: g, indices, kind });
     return g;
   };
-  anatomy.rotation.set(.16, -1.04, -.035);
+  const restingOrientation = new THREE.Quaternion().setFromEuler(new THREE.Euler(.16, -1.04, -.035));
 
   const orbitMaterials: THREE.LineBasicMaterial[] = [], orbits: THREE.Group[] = [];
   const orbitTracers: THREE.Points[] = [];
@@ -402,10 +394,12 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
       for (const entry of textGeometries) {
         entry.geometry.dispose(); const index = geometries.indexOf(entry.geometry); if (index >= 0) geometries.splice(index, 1);
       }
-      textGeometries.length = 0; points.length = 0; normals.length = 0; scattered.length = 0; colors.length = 0; edges.length = 0;
+      textGeometries.length = 0; points.length = 0; normals.length = 0; colors.length = 0; edges.length = 0;
       sourcePoints.forEach((point, index) => {
-        point.sub(center).multiplyScalar(scale); points.push(point); normals.push(sourceNormals[index]); colors.push(sourceColors[index]);
-        scattered.push(new THREE.Vector3(random() * 2 - 1, random() * 2 - 1, random() * 2 - 1));
+        // Assemble directly into the resting view instead of turning the text
+        // while its vertices gather. Normals use the same rigid transform.
+        point.sub(center).multiplyScalar(scale).applyQuaternion(restingOrientation);
+        points.push(point); normals.push(sourceNormals[index].applyQuaternion(restingOrientation)); colors.push(sourceColors[index]);
       });
       edges.push(...sourceEdges);
       anatomy.add(new THREE.LineSegments(buildGeometry(edges), networkMaterial));
@@ -470,6 +464,7 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
     const assembly = atlasReady ? (loading ? THREE.MathUtils.clamp((introTime - 3.8) / 2.55, 0, 1) : 1) : 0;
     if (moving) {
       elapsed += dt;
+      if (assembly === 1) rotationAngle = (rotationAngle + dt * .055) % (Math.PI * 2);
       for (const axis of ['x', 'y'] as const) {
         cameraVelocity[axis] += ((loading ? 0 : cursor[axis] * .16) - cameraOffset[axis]) * 16 * dt;
         cameraVelocity[axis] *= Math.exp(-6 * dt); cameraOffset[axis] += cameraVelocity[axis] * dt;
@@ -494,10 +489,9 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
       shared.uTime.value = elapsed;
       currentUniforms.uTime.value = elapsed;
     }
-    // The orientation follows the intro state even when ambient motion is paused.
-    anatomy.rotation.x = .16 * assembly;
-    anatomy.rotation.y = (-1.04 + Math.sin(elapsed * .12) * .18) * assembly;
-    anatomy.rotation.z = (-.035 + Math.sin(elapsed * .15) * .025) * assembly;
+    // Gentle continuous rotation begins only once the anatomical form is settled.
+    // Its accumulated angle stays fixed when motion or rendering is paused.
+    anatomy.rotation.y = rotationAngle;
     updateLayout();
     const blend = moving ? 1 - Math.exp(-5 * dt) : 1;
     core.position.lerp(targetPosition, blend);
@@ -508,7 +502,9 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
     shared.uOpacity.value = alpha * introOpacity;
     shared.uAssembly.value = assembly;
     shared.uName.value = loading ? THREE.MathUtils.clamp((introTime - 1.1) / 1.2, 0, 1) : 1;
-    shared.uWire.value = 1;
+    // Keep a faint connected mesh through the transition, then bring its
+    // detail back after the dense text vertices have reached the surface.
+    shared.uWire.value = .16 + .84 * (1 - THREE.MathUtils.smoothstep(assembly, .03, .3) + THREE.MathUtils.smoothstep(assembly, .62, .98));
     orbitMaterials.forEach((m, index) => { m.opacity = alpha * (index === 2 ? .35 : .26) * assembly * introOpacity; });
     tracerMaterial.opacity = alpha * .78 * assembly * introOpacity;
     const ambient = loading ? .35 : view === 'home' ? 1 : view === 'quiz' || view === 'cards' ? .25 : .6;
@@ -540,7 +536,9 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
   const contextRestored = () => { contextAvailable = true; canvas.style.opacity = ''; requestRender(); };
   const observer = new MutationObserver(() => {
     const nextLoading = portal?.classList.contains('portal-loading') ?? false;
-    if (nextLoading && !loading) { assemblyStart = performance.now(); sampleIntroText(); }
+    if (nextLoading && !loading) {
+      assemblyStart = performance.now(); rotationAngle = 0; anatomy.rotation.y = 0; sampleIntroText();
+    }
     loading = nextLoading; requestRender();
   });
   if (stage) observer.observe(stage, { attributes: true, attributeFilter: ['data-view'], childList: true });
