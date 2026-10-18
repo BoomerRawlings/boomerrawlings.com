@@ -1,5 +1,5 @@
 import { courseScopeNote, scopeLabel, type Course, type StudyScope } from './course-catalog';
-import { selectStudyBank, studyAvailability, flashcardProgressKey, mergeFlashcardQueue, type CourseBank, type Question, type Difficulty, type StudyFocus, type StudyLength } from './study-bank';
+import { selectStudyBank, selectQuizQuestions, studyAvailability, flashcardProgressKey, mergeFlashcardQueue, type CourseBank, type Question, type Difficulty, type StudyFocus, type StudyLength } from './study-bank';
 import { mountStudyVisual, mountDirectionCompanion } from './study-visuals';
 import '../../styles/brain-study-visuals.css';
 type Answer = { selected?: number; written?: string; revealed?: boolean; rating?: 'needs' | 'partly' | 'got' };
@@ -13,7 +13,7 @@ type Engine = {
 };
 export type StudyOptions = {
   course: Course; scope: StudyScope; mode: 'quiz' | 'flashcards'; length: StudyLength;
-  difficulty: Difficulty; focus: StudyFocus; container: HTMLElement; onBack: () => void; onFocusChange: (focus: StudyFocus) => void;
+  difficulty: Difficulty; focus: StudyFocus; includeShortAnswer: boolean; container: HTMLElement; onBack: () => void; onFocusChange: (focus: StudyFocus) => void;
 };
 
 let bankPromise: Promise<{ standard: Record<Course, CourseBank>; visual: Record<Course, CourseBank> }> | undefined;
@@ -64,7 +64,7 @@ function sourceNote(course: Course, scope: StudyScope, focus: StudyFocus = 'all'
 }
 
 async function loadBank(): Promise<{ standard: Record<Course, CourseBank>; visual: Record<Course, CourseBank> }> {
-  if (!bankPromise) bankPromise = Promise.all(['/brain/midterm-bank.json?v=5', '/brain/visual-study-bank.json?v=1'].map(async (url) => {
+  if (!bankPromise) bankPromise = Promise.all(['/brain/midterm-bank.json?v=6', '/brain/visual-study-bank.json?v=1'].map(async (url) => {
     const response = await fetch(url);
     if (!response.ok) throw new Error('Study material could not be loaded.');
     const bank = await response.json();
@@ -80,9 +80,10 @@ async function loadBank(): Promise<{ standard: Record<Course, CourseBank>; visua
   return bankPromise;
 }
 
-export async function getStudyAvailability(course: Course, focus: StudyFocus): Promise<Record<Difficulty, number>> {
+export async function getStudyAvailability(course: Course, focus: StudyFocus, includeShortAnswer = false): Promise<Record<Difficulty, number>> {
   const banks = await loadBank();
-  return studyAvailability(selectStudyBank(banks.standard[course], banks.visual[course], focus));
+  const bank = selectStudyBank(banks.standard[course], banks.visual[course], focus);
+  return studyAvailability({ ...bank, questions: selectQuizQuestions(bank.questions, includeShortAnswer) });
 }
 
 export async function showStudy(options: StudyOptions): Promise<void> {
@@ -118,7 +119,7 @@ export async function showStudy(options: StudyOptions): Promise<void> {
 }
 
 function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, current: () => boolean): void {
-  const selection = engine.selectQuestions(data.questions, options);
+  const selection = engine.selectQuestions(selectQuizQuestions(data.questions, options.includeShortAnswer), options);
   let questions = selection.questions;
   let answers: Record<string, Answer> = {};
   let index = 0;
@@ -285,7 +286,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
   function renderEmpty(): void {
     disposeVisual?.(); disposeVisual = undefined;
     const panel = node('section', 'portal-panel');
-    panel.append(node('h2', 'portal-title', 'No questions at this difficulty'), button('Choose study options', 'portal-generate', onBack));
+    panel.append(node('h2', 'portal-title', 'No questions at this difficulty'), node('p', 'portal-subtitle', options.includeShortAnswer ? 'Choose another difficulty or focus.' : 'Turn on Short answer in study options, or choose another difficulty.'), button('Choose study options', 'portal-generate', onBack));
     container.replaceChildren(panel); focusHeading(panel);
   }
 

@@ -80,7 +80,7 @@ for (const course of ['105', '108']) {
       assert.equal(new Set(mixed[field].map(item => item.id)).size, mixed[field].length);
       assert.notEqual(focused[field], visual[course][field]);
     }
-    assert.equal(mixed.questions.length, 106);
+    assert.equal(mixed.questions.length, 212);
     assert.equal(mixed.flashcards.length, 66);
     const baseCounts = studyAvailability(standard[course]);
     assert.deepEqual(studyAvailability(mixed), { ...baseCounts, mixed: baseCounts.mixed + 26, foundation: baseCounts.foundation + 26 });

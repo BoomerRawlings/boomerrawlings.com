@@ -5,6 +5,9 @@ import { transform } from 'esbuild';
 import { selectQuestions, shuffleChoices, summarize } from '../public/brain/midterm-engine.js';
 
 const bank = JSON.parse(await readFile(new URL('../public/brain/midterm-bank.json', import.meta.url), 'utf8'));
+const visualBank = JSON.parse(await readFile(new URL('../public/brain/visual-study-bank.json', import.meta.url), 'utf8'));
+const studyBankSource = (await transform(await readFile(new URL('../src/scripts/brain/study-bank.ts', import.meta.url), 'utf8'), { loader: 'ts', target: 'es2022' })).code;
+const { selectStudyBank, selectQuizQuestions, studyAvailability } = await import(`data:text/javascript;base64,${Buffer.from(studyBankSource).toString('base64')}`);
 const seeded = () => { let state = 5341; return () => ((state = (state * 16807) % 2147483647) - 1) / 2147483646; };
 const catalogSource = (await transform(await readFile(new URL('../src/scripts/brain/course-catalog.ts', import.meta.url), 'utf8'), { loader: 'ts', target: 'es2022' })).code;
 const { COURSE_CATALOG, courseScopeNote, resolveStudyScope } = await import(`data:text/javascript;base64,${Buffer.from(catalogSource).toString('base64')}`);
@@ -52,11 +55,70 @@ test('study routing blocks locked deep links, preserves old sessions and separat
 });
 
 for (const course of ['105', '108']) {
+  test(`${course}: quiz formats default to objective choices and add written recall only when enabled`, () => {
+    const data = selectStudyBank(bank[course], visualBank[course], 'all');
+    const before = JSON.stringify(data);
+    const expectedObjective = data.questions.filter(question => question.kind !== 'short');
+    for (const questions of [selectQuizQuestions(data.questions), selectQuizQuestions(data.questions, false)]) {
+      assert.deepEqual(questions.map(question => question.id), expectedObjective.map(question => question.id));
+      assert.ok(questions.every(question => question.kind === 'mcq' || question.kind === 'truefalse'));
+      for (const visual of visualBank[course].questions) assert.ok(questions.some(question => question.id === visual.id), `${visual.id}: visual basics must remain in default review`);
+      for (const question of data.questions.filter(question => question.kind === 'truefalse')) {
+        assert.ok(questions.some(candidate => candidate.id === question.id), `${question.id}: two-choice true/false remains available`);
+      }
+    }
+    const withRecall = selectQuizQuestions(data.questions, true);
+    assert.deepEqual(withRecall.map(question => question.id), data.questions.map(question => question.id));
+    assert.ok(withRecall.some(question => question.kind === 'short'));
+    assert.equal(JSON.stringify(data), before, 'format selection must not alter question content or ordering');
+  });
+
+  test(`${course}: format-aware availability matches generated counts and caps across all difficulties`, () => {
+    const data = selectStudyBank(bank[course], visualBank[course], 'all');
+    const before = JSON.stringify(data);
+    const expectedCounts = course === '105'
+      ? { mixed: 157, foundation: 77, application: 54, challenge: 26 }
+      : { mixed: 147, foundation: 75, application: 46, challenge: 26 };
+    assert.deepEqual(studyAvailability({ ...data, questions: selectQuizQuestions(data.questions) }), expectedCounts);
+    for (const includeShortAnswer of [false, true]) {
+      const questions = selectQuizQuestions(data.questions, includeShortAnswer);
+      const counts = studyAvailability({ ...data, questions });
+      for (const difficulty of ['mixed', 'foundation', 'application', 'challenge']) {
+        const eligible = data.questions.filter(question => (includeShortAnswer || question.kind !== 'short') && (difficulty === 'mixed' || question.difficulty === difficulty));
+        assert.equal(counts[difficulty], eligible.length);
+        for (const length of [10, 25, 40, 'all']) {
+          const result = selectQuestions(questions, { length, difficulty }, seeded());
+          const requested = length === 'all' ? eligible.length : length;
+          assert.equal(result.available, counts[difficulty]);
+          assert.equal(result.requested, requested);
+          assert.equal(result.questions.length, Math.min(requested, eligible.length));
+          assert.equal(result.capped, requested > eligible.length);
+          assert.equal(new Set(result.questions.map(question => question.id)).size, result.questions.length);
+          assert.ok(result.questions.every(question => eligible.some(candidate => candidate.id === question.id)));
+        }
+      }
+    }
+    assert.equal(selectQuestions(selectQuizQuestions(data.questions), { length: 'all', difficulty: 'challenge' }, seeded()).questions.length, 26);
+    assert.equal(selectQuestions(selectQuizQuestions(data.questions, true), { length: 'all', difficulty: 'challenge' }, seeded()).questions.length, 46);
+    assert.equal(JSON.stringify(data), before, 'generation must not mutate the authored question pool');
+  });
+
+  test(`${course}: visual-only quizzes keep all 26 multiple-choice questions with either format setting`, () => {
+    const data = selectStudyBank(bank[course], visualBank[course], 'visual');
+    for (const includeShortAnswer of [false, true]) {
+      const questions = selectQuizQuestions(data.questions, includeShortAnswer);
+      const result = selectQuestions(questions, { length: 'all', difficulty: 'foundation' }, seeded());
+      assert.equal(result.questions.length, 26);
+      assert.deepEqual(new Set(result.questions.map(question => question.id)), new Set(visualBank[course].questions.map(question => question.id)));
+      assert.ok(result.questions.every(question => question.kind === 'mcq' && question.visual));
+    }
+  });
+
   test(`${course}: authored bank has valid answers, scope and unique question/card identities`, () => {
     const data = bank[course];
-    assert.equal(data.questions.length, 80);
+    assert.equal(data.questions.length, 186);
     assert.equal(data.flashcards.length, 40);
-    assert.equal(new Set(data.questions.map((q) => q.id)).size, 80);
+    assert.equal(new Set(data.questions.map((q) => q.id)).size, 186);
     assert.equal(new Set(data.flashcards.map((q) => q.id)).size, 40);
     for (const q of data.questions) {
       assert.ok(q.prompt && q.explanation && q.topic);
@@ -79,13 +141,40 @@ for (const course of ['105', '108']) {
     }
   });
 
+  test(`${course}: expansion adds 106 distinct, grounded multiple-choice questions with complete option feedback`, () => {
+    const expectedIds = new Set(Array.from({ length: 106 }, (_, index) => `${course}-q${String(index + 81).padStart(3, '0')}`));
+    const additions = bank[course].questions.filter(question => expectedIds.has(question.id));
+    assert.equal(additions.length, 106);
+    assert.deepEqual(new Set(additions.map(question => question.id)), expectedIds);
+    const normalize = text => text.trim().toLowerCase().replace(/\s+/g, ' ');
+    const allPrompts = [...bank[course].questions, ...visualBank[course].questions].map(question => normalize(question.prompt));
+    assert.deepEqual(Object.fromEntries(['foundation', 'application', 'challenge'].map(difficulty => [difficulty, additions.filter(question => question.difficulty === difficulty).length])), { foundation: 40, application: 40, challenge: 26 });
+    for (const question of additions) {
+      assert.equal(allPrompts.filter(prompt => prompt === normalize(question.prompt)).length, 1, `${question.id}: new questions must not repeat another prompt`);
+      assert.equal(question.kind, 'mcq', `${question.id}: newly authored questions must be multiple choice`);
+      assert.equal(question.choices?.length, 4, `${question.id}: requires four answer options`);
+      assert.ok(question.choices.every(choice => typeof choice === 'string' && choice.trim()), `${question.id}: answer options cannot be blank`);
+      assert.equal(new Set(question.choices.map(normalize)).size, 4, `${question.id}: answer options must differ`);
+      assert.ok(Number.isInteger(question.correctIndex) && question.correctIndex >= 0 && question.correctIndex < 4, `${question.id}: invalid correct option`);
+      assert.equal(question.choiceExplanations?.length, 4, `${question.id}: must explain every answer option`);
+      assert.ok(question.choiceExplanations.every(explanation => typeof explanation === 'string' && explanation.trim().length >= 60), `${question.id}: every option needs substantive feedback`);
+      assert.equal(new Set(question.choiceExplanations.map(normalize)).size, 4, `${question.id}: explanations must distinguish the options`);
+      assert.ok(['direct', 'supporting'].includes(question.grounding), `${question.id}: missing source scope`);
+      assert.ok(typeof question.sourceNote === 'string' && question.sourceNote.trim().length > 30, `${question.id}: missing source explanation`);
+      if (course === '105') {
+        const module = Number(question.topic.match(/^M(\d+)\b/)?.[1]);
+        assert.ok(module >= 1 && module <= 10, `${question.id}: outside the covered Modules 1-10`);
+      }
+    }
+  });
+
   test(`${course}: filtered sessions cap honestly without duplicates, preserve answers and cover topics`, () => {
     for (const difficulty of ['foundation', 'application', 'challenge', 'mixed']) {
       const result = selectQuestions(bank[course].questions, { length: 80, difficulty }, seeded());
       const eligible = bank[course].questions.filter((q) => difficulty === 'mixed' || q.difficulty === difficulty);
-      assert.equal(result.questions.length, eligible.length);
+      assert.equal(result.questions.length, Math.min(80, eligible.length));
       assert.equal(result.capped, eligible.length < 80);
-      assert.equal(new Set(result.questions.map((q) => q.id)).size, eligible.length);
+      assert.equal(new Set(result.questions.map((q) => q.id)).size, result.questions.length);
       for (const q of result.questions) {
         const original = eligible.find((item) => item.id === q.id);
         assert.ok(original);
@@ -143,4 +232,17 @@ test('scores keep machine-marked answers separate from recall self-ratings and r
 test('unknown filter and empty bank return an empty session instead of looping', () => {
   assert.equal(selectQuestions([], { length: 80 }).questions.length, 0);
   assert.equal(selectQuestions(bank['105'].questions, { difficulty: 'invalid' }).questions.length, 0);
+});
+
+test('a written-only difficulty remains empty until Short Answer is enabled', () => {
+  const questions = [
+    { id: 'choice', kind: 'mcq', topic: 'Example', difficulty: 'foundation', choices: ['A', 'B'], correctIndex: 0 },
+    { id: 'written', kind: 'short', topic: 'Example', difficulty: 'challenge' },
+  ];
+  const choicesOnly = selectQuizQuestions(questions);
+  assert.equal(studyAvailability({ questions: choicesOnly }).challenge, 0);
+  assert.equal(selectQuestions(choicesOnly, { length: 10, difficulty: 'challenge' }, seeded()).questions.length, 0);
+  const withRecall = selectQuizQuestions(questions, true);
+  assert.equal(studyAvailability({ questions: withRecall }).challenge, 1);
+  assert.deepEqual(selectQuestions(withRecall, { length: 10, difficulty: 'challenge' }, seeded()).questions.map(question => question.id), ['written']);
 });

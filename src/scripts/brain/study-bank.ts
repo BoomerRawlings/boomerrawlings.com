@@ -13,6 +13,11 @@ export type Question = VisualContent & {
 export type Flashcard = VisualContent & { id: string; topic: string; question: string; answer: string };
 export type CourseBank = { title: string; scope: string; questions: Question[]; flashcards: Flashcard[] };
 
+/** Choice questions include two-choice true/false items. Written recall is opt-in. */
+export function selectQuizQuestions(questions: Question[], includeShortAnswer = false): Question[] {
+  return questions.filter(question => question.kind !== 'short' || includeShortAnswer);
+}
+
 /** Mix the requested visual foundations into course review while retaining
  * each item's source scope. The separate focus remains a visual-only deck. */
 export function selectStudyBank(base: CourseBank, visual: CourseBank, focus: StudyFocus = 'all'): CourseBank {
