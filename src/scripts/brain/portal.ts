@@ -1,7 +1,7 @@
 import { initializePortalScene } from './portal-scene';
 import { showStudy } from './portal-study';
+import { COURSE_CATALOG, courseScopeNote, resolveStudyScope, scopeLabel, type Course, type StudyScope } from './course-catalog';
 
-type Course = '105' | '108';
 type Difficulty = 'mixed' | 'foundation' | 'application' | 'challenge';
 const portal = document.getElementById('brain-portal')!;
 const stage = document.getElementById('portal-stage')!;
@@ -19,6 +19,9 @@ let difficulty: Difficulty = 'mixed';
 let returnTo = '#portal';
 let moving = !matchMedia('(prefers-reduced-motion: reduce)').matches;
 let introTimer: ReturnType<typeof setTimeout>;
+let hoverFrame = 0;
+let hoverCloud: HTMLElement | null = null;
+let hoverX = 0, hoverY = 0, targetX = 0, targetY = 0, velocityX = 0, velocityY = 0;
 
 const icons = {
   mind: '<svg viewBox="0 0 80 80" fill="none" aria-hidden="true"><path d="M39 16C24 10 13 24 18 35 7 46 21 65 35 59M41 16C56 10 67 24 62 35 73 46 59 65 45 59M40 18V62M22 28Q38 26 29 40M18 45Q30 38 33 52M58 28Q42 26 51 40M62 45Q50 38 47 52"/><circle cx="40" cy="40" r="32" stroke-dasharray="2 8"/></svg>',
@@ -41,11 +44,11 @@ function heading(eyebrow: string, title: string, subtitle = '') {
   if (subtitle) { const p = document.createElement('p'); p.className = 'portal-subtitle'; p.textContent = subtitle; wrap.append(p); }
   stage.append(wrap);
 }
-function cloud(label: string, note: string, icon: keyof typeof icons, action: () => void, style = '') {
+function cloud(label: string, note: string, icon: keyof typeof icons, action: () => void, style = '', metaLabel?: string) {
   const node = button('', action, `portal-cloud ${style}`);
   node.dataset.node = icon;
   const meta = document.createElement('span'); meta.className = 'cloud-meta';
-  meta.textContent = ({mind:'01 / STUDY',orbit:'02 / STUDY',explore:'03 / DISCOVER',lecture:'04 / PRIVATE',quiz:'01 / TEST YOURSELF',cards:'02 / ACTIVE RECALL'})[icon];
+  meta.textContent = metaLabel || ({mind:'01 / STUDY',orbit:'02 / STUDY',explore:'03 / DISCOVER',lecture:'04 / PRIVATE',quiz:'01 / TEST YOURSELF',cards:'02 / ACTIVE RECALL'})[icon];
   meta.setAttribute('aria-hidden', 'true');
   const graphic = document.createElement('span'); graphic.className = 'cloud-icon'; graphic.innerHTML = icons[icon];
   const title = document.createElement('span'); title.className = 'cloud-label'; title.textContent = label;
@@ -57,8 +60,8 @@ function home() {
   returnTo = '#portal'; back.hidden = true; stage.dataset.view = 'home';
   heading('NEURAL STUDY INTERFACE', 'Enter your mind.', 'Select a destination. Build a deeper understanding.');
   const clouds = document.createElement('div'); clouds.className = 'portal-clouds';
-  clouds.append(cloud('PSYC 105', 'Midterm 1 Study · Modules 1–10', 'mind', () => go('#study=105'), 'cloud-primary'));
-  clouds.append(cloud('PSYC 108', 'Midterm 1 Study', 'orbit', () => go('#study=108'), 'cloud-primary'));
+  clouds.append(cloud('PSYC 105', 'Choose your study path', 'mind', () => go('#study=105'), 'cloud-primary'));
+  clouds.append(cloud('PSYC 108', 'Choose your study path', 'orbit', () => go('#study=108'), 'cloud-primary'));
   const explore = document.createElement('div'); explore.className = 'portal-explore-stack';
   explore.append(cloud('Explore', 'Step inside the models', 'explore', () => go('#mode=explore'), 'cloud-secondary'));
   explore.append(button('Practice with the atlas ↗', () => go('#mode=practice'), 'portal-practice-link'));
@@ -67,19 +70,48 @@ function home() {
   const coreLabel = document.createElement('div'); coreLabel.className = 'portal-core-label'; coreLabel.setAttribute('aria-hidden','true');
   coreLabel.innerHTML = '<span>NEURAL FIELD</span><small>EXPLORE · CONNECT · RECALL</small>'; stage.append(coreLabel);
 }
-function courseMenu(course: Course) {
-  returnTo = '#portal'; stage.dataset.view = 'course';
-  heading(`PSYC ${course} · MIDTERM 1`, 'How would you like to study?', course === '105' ? 'Modules 1–10. One concept at a time.' : 'From neural structures to the evidence behind them.');
+function studyHash(course: Course, scope: StudyScope, step?: string): string {
+  return `#study=${course}&scope=${scope}${step ? `&step=${step}` : ''}`;
+}
+function scopeMenu(course: Course, blocked = false) {
+  returnTo = '#portal'; stage.dataset.view = 'scope';
+  heading(`PSYC ${course}`, 'Choose your study path.', 'Build across the course, or focus on the next exam.');
+  const grid = document.createElement('div'); grid.className = 'portal-scope-grid';
+  const general = cloud('General study', `All available topics · ${COURSE_CATALOG[course].availableCoverage} currently`, 'mind', () => go(studyHash(course, 'general')), 'cloud-primary', '01 / COURSE LIBRARY');
+  general.dataset.scope = 'general'; grid.append(general);
+  COURSE_CATALOG[course].assessments.forEach((assessment, index) => {
+    const option = cloud(assessment.title, `${assessment.dateLabel} · ${assessment.coverage}`, assessment.id === 'final' ? 'orbit' : 'quiz', () => { if (assessment.available && assessment.id === 'midterm-1') go(studyHash(course, assessment.id)); }, `cloud-primary${assessment.available ? '' : ' cloud-locked'}`, `${String(index + 2).padStart(2, '0')} / ${assessment.available ? 'READY TO STUDY' : 'LOCKED'}`);
+    option.dataset.scope = assessment.id;
+    if (!assessment.available) {
+      option.disabled = true;
+      const lock = document.createElement('span'); lock.className = 'cloud-lock'; lock.textContent = 'Locked';
+      option.append(lock);
+    }
+    grid.append(option);
+  });
+  stage.append(grid);
+  const note = document.createElement('p'); note.className = 'portal-subtitle portal-scope-note';
+  note.textContent = 'Fall 2026 syllabus · 2 midterms + 1 cumulative final. Dates may change with course announcements. General study currently contains the same available material as Midterm 1.';
+  stage.append(note);
+  if (blocked) {
+    const notice = document.createElement('p'); notice.className = 'portal-subtitle portal-scope-notice'; notice.setAttribute('role', 'status');
+    notice.textContent = 'That study section is not available yet. Choose General study or Midterm 1 to begin.';
+    stage.append(notice);
+  }
+}
+function courseMenu(course: Course, scope: StudyScope) {
+  returnTo = `#study=${course}`; stage.dataset.view = 'course';
+  heading(`PSYC ${course} · ${scopeLabel(scope).toUpperCase()}`, 'How would you like to study?', courseScopeNote(course, scope));
   const grid = document.createElement('div'); grid.className = 'portal-choice-grid';
-  grid.append(cloud('Practice quizzes', 'Choose your pace. Test your understanding.', 'quiz', () => go(`#study=${course}&step=setup`), 'cloud-primary'), cloud('Flashcards', 'Retrieve. Reveal. Remember.', 'cards', () => go(`#study=${course}&step=cards`), 'cloud-primary'));
+  grid.append(cloud('Practice quizzes', 'Choose your pace. Test your understanding.', 'quiz', () => go(studyHash(course, scope, 'setup')), 'cloud-primary'), cloud('Flashcards', 'Retrieve. Reveal. Remember.', 'cards', () => go(studyHash(course, scope, 'cards')), 'cloud-primary'));
   stage.append(grid);
 }
-function setup(course: Course) {
-  returnTo = `#study=${course}`; stage.dataset.view = 'setup';
-  heading(`PSYC ${course} · PRACTICE QUIZZES`, 'Make room for a challenge.', 'A fresh mix of recall, explanation, and application.');
+function setup(course: Course, scope: StudyScope) {
+  returnTo = studyHash(course, scope); stage.dataset.view = 'setup';
+  heading(`PSYC ${course} · ${scopeLabel(scope).toUpperCase()} · PRACTICE QUIZZES`, 'Make room for a challenge.', courseScopeNote(course, scope));
   const config = document.createElement('div'); config.className = 'portal-config';
   const countNote = document.createElement('p'); countNote.className = 'portal-subtitle'; countNote.id = 'portal-count-note'; countNote.setAttribute('aria-live','polite');
-  const update = () => { const count = Math.min(length, difficulty === 'mixed' ? 80 : difficulty === 'application' ? 40 : 20); countNote.textContent = `${count} unique questions · ${difficulty === 'mixed' ? 'All difficulty levels' : difficulty === 'foundation' ? 'Foundational knowledge' : difficulty === 'application' ? 'Applied understanding' : 'Deeper reasoning'}${count < length ? ` · This level has ${count} questions` : ''}. Written answers include a rubric for self-checking.`; };
+  const update = () => { const count = Math.min(length, difficulty === 'mixed' ? 80 : difficulty === 'application' ? 40 : 20); countNote.textContent = `${count} unique questions · ${difficulty === 'mixed' ? 'All difficulty levels' : difficulty === 'foundation' ? 'Foundational knowledge' : difficulty === 'application' ? 'Applied understanding' : 'Deeper reasoning'}${count < length ? ` · This level has ${count} questions` : ''}. Every answer includes an explanation. Written answers include a rubric for self-checking.`; };
   const group = (name: string) => { const node = document.createElement('fieldset'); node.className = 'portal-option-group'; const legend = document.createElement('legend'); legend.textContent = name; node.append(legend); config.append(node); return node; };
   const lengths = group('01 / Choose a length');
   for (const [n, label] of [[10,'10 · Quick orbit'],[25,'25 · Focus session'],[40,'40 · Deep dive'],[80,'80 · Complete bank']] as const) {
@@ -91,7 +123,7 @@ function setup(course: Course) {
     const choice = button(label, () => { difficulty = value; levels.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed', String(b === choice))); update(); });
     choice.setAttribute('aria-pressed', String(difficulty === value)); levels.append(choice);
   }
-  update(); config.append(countNote, button('Generate quiz ↗', () => go(`#study=${course}&step=quiz&length=${length}&difficulty=${difficulty}`), 'portal-generate'));
+  update(); config.append(countNote, button('Generate quiz →', () => go(`${studyHash(course, scope, 'quiz')}&length=${length}&difficulty=${difficulty}`), 'portal-generate'));
   stage.append(config);
 }
 async function showLegacy() {
@@ -107,6 +139,7 @@ async function route() {
   const anchor = document.getElementById(location.hash.slice(1));
   if (!legacy.hidden && anchor?.closest('#brain-legacy')) return;
   const version = ++routeVersion;
+  resetCloudMotion();
   const params = new URLSearchParams(location.hash.slice(1));
   const course = params.get('study');
   if (!course && (params.get('view') === 'atlas' || ['mode','topic','depth'].some(key=>params.has(key)))) { await showLegacy(); return; }
@@ -119,15 +152,21 @@ async function route() {
   stage.replaceChildren(); stage.classList.remove('portal-transitioning'); back.hidden = false;
   if(course === '105' || course === '108') {
     const step = params.get('step');
-    if(step === 'setup') setup(course);
+    const { scope, blocked } = resolveStudyScope(params.get('scope'), step);
+    if (blocked) {
+      history.replaceState(null, '', `#study=${course}`);
+      scopeMenu(course, true);
+    } else if (!scope) scopeMenu(course);
+    else if(step === 'setup') setup(course, scope);
     else if(step === 'cards' || step === 'quiz') {
-      returnTo = `#study=${course}${step === 'quiz' ? '&step=setup' : ''}`; stage.dataset.view = step;
+      returnTo = studyHash(course, scope, step === 'quiz' ? 'setup' : undefined); stage.dataset.view = step;
       const n = Number(params.get('length')); const d = params.get('difficulty');
       const validLength = ([10,25,40,80].includes(n) ? n : length) as typeof length;
       const validDifficulty = (['mixed','foundation','application','challenge'].includes(d || '') ? d : difficulty) as Difficulty;
       const mount = document.createElement('div'); mount.className = 'portal-study-mount'; stage.append(mount);
-      await showStudy({course,mode:step === 'cards' ? 'flashcards' : 'quiz',length:validLength,difficulty:validDifficulty,container:mount,onBack:()=>go(returnTo)});
-    } else courseMenu(course);
+      const studyBack = returnTo;
+      await showStudy({course,scope,mode:step === 'cards' ? 'flashcards' : 'quiz',length:validLength,difficulty:validDifficulty,container:mount,onBack:()=>go(studyBack)});
+    } else courseMenu(course, scope);
   } else home();
   if(version !== routeVersion) return;
   stage.querySelector<HTMLElement>('.portal-title')?.focus({preventScroll:true}); window.scrollTo({top:0,behavior:'instant'});
@@ -136,13 +175,46 @@ function runIntro() {
   unlocked = false; portal.hidden = false; legacy.hidden = true; legacy.inert = true;
   stage.inert = true; header.inert = true; intro.hidden = false; intro.classList.remove('is-complete');
   document.body.classList.add('brain-portal-active');
+  // A fresh visit (including the back-forward cache) replays the full type-to-brain sequence.
+  portal.classList.remove('portal-loading');
+  void intro.offsetWidth;
   portal.classList.add('portal-loading');
   clearTimeout(introTimer);
-  introTimer = setTimeout(() => { intro.classList.add('is-complete'); portal.classList.remove('portal-loading'); introTimer = setTimeout(()=>{intro.hidden = true; stage.inert = false; header.inert = false; unlocked = true; void route();},500); },3300);
+  introTimer = setTimeout(() => { intro.classList.add('is-complete'); portal.classList.remove('portal-loading'); introTimer = setTimeout(()=>{intro.hidden = true; stage.inert = false; header.inert = false; unlocked = true; void route();},500); },6500);
 }
 back.addEventListener('click',()=>go(returnTo));
 document.getElementById('portal-home')!.addEventListener('click',()=>go('#portal'));
+function resetCloudMotion() {
+  cancelAnimationFrame(hoverFrame); hoverFrame = 0;
+  if (hoverCloud) for (const name of ['--cloud-x', '--cloud-y', '--cloud-tilt-x', '--cloud-tilt-y']) hoverCloud.style.removeProperty(name);
+  hoverCloud = null; hoverX = hoverY = targetX = targetY = velocityX = velocityY = 0;
+}
+function animateCloud() {
+  hoverFrame = 0;
+  if (!moving || !hoverCloud?.isConnected) { resetCloudMotion(); return; }
+  // A damped spring lets each option catch up to the pointer instead of snapping flat.
+  velocityX = (velocityX + (targetX - hoverX) * .13) * .68;
+  velocityY = (velocityY + (targetY - hoverY) * .13) * .68;
+  hoverX += velocityX; hoverY += velocityY;
+  hoverCloud.style.setProperty('--cloud-x', `${50 + hoverX * 45}%`);
+  hoverCloud.style.setProperty('--cloud-y', `${50 + hoverY * 45}%`);
+  hoverCloud.style.setProperty('--cloud-tilt-x', `${-hoverY * 5}deg`);
+  hoverCloud.style.setProperty('--cloud-tilt-y', `${hoverX * 7}deg`);
+  if (Math.abs(targetX - hoverX) + Math.abs(targetY - hoverY) + Math.abs(velocityX) + Math.abs(velocityY) > .002) hoverFrame = requestAnimationFrame(animateCloud);
+}
+stage.addEventListener('pointermove', event => {
+  if (!moving || event.pointerType !== 'mouse') return;
+  const option = event.target instanceof Element ? event.target.closest<HTMLElement>('.portal-cloud:not(:disabled)') : null;
+  if (!option) { if (hoverCloud) { targetX = targetY = 0; if (!hoverFrame) hoverFrame = requestAnimationFrame(animateCloud); } return; }
+  if (option !== hoverCloud) { resetCloudMotion(); hoverCloud = option; }
+  const bounds = option.getBoundingClientRect();
+  targetX = Math.max(-1, Math.min(1, ((event.clientX - bounds.left) / bounds.width) * 2 - 1));
+  targetY = Math.max(-1, Math.min(1, ((event.clientY - bounds.top) / bounds.height) * 2 - 1));
+  if (!hoverFrame) hoverFrame = requestAnimationFrame(animateCloud);
+});
+stage.addEventListener('pointerleave', () => { targetX = targetY = 0; if (hoverCloud && !hoverFrame) hoverFrame = requestAnimationFrame(animateCloud); });
 function updateMotion() {
+  if (!moving) resetCloudMotion();
   portal.classList.toggle('portal-motion-paused',!moving); motion.setAttribute('aria-pressed',String(moving)); motion.setAttribute('aria-label', moving ? 'Pause ambient motion' : 'Resume ambient motion');
   motion.innerHTML = moving ? 'Ⅱ <span>Motion</span>' : '▷ <span>Motion</span>';
   if(scene) scene.setMotion(moving);
@@ -152,5 +224,5 @@ motion.addEventListener('click',()=>{moving = !moving; updateMotion();});
 matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{moving = !event.matches; updateMotion();});
 window.addEventListener('hashchange',()=>void route());
 window.addEventListener('pageshow',event=>{if(event.persisted){runIntro();updateMotion();}});
-window.addEventListener('pagehide',()=>{clearTimeout(introTimer);scene?.dispose();scene=undefined;});
+window.addEventListener('pagehide',()=>{clearTimeout(introTimer);resetCloudMotion();scene?.dispose();scene=undefined;});
 updateMotion(); runIntro();

@@ -1,10 +1,36 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
+import { transform } from 'esbuild';
 import { selectQuestions, shuffleChoices, summarize } from '../public/brain/midterm-engine.js';
 
 const bank = JSON.parse(await readFile(new URL('../public/brain/midterm-bank.json', import.meta.url), 'utf8'));
 const seeded = () => { let state = 5341; return () => ((state = (state * 16807) % 2147483647) - 1) / 2147483646; };
+const catalogSource = (await transform(await readFile(new URL('../src/scripts/brain/course-catalog.ts', import.meta.url), 'utf8'), { loader: 'ts', target: 'es2022' })).code;
+const { COURSE_CATALOG, courseScopeNote, resolveStudyScope } = await import(`data:text/javascript;base64,${Buffer.from(catalogSource).toString('base64')}`);
+
+test('both syllabus frameworks expose only available study scopes and retain their distinct exam dates', () => {
+  for (const course of ['105', '108']) {
+    assert.deepEqual(COURSE_CATALOG[course].assessments.map(item => item.id), ['midterm-1', 'midterm-2', 'final']);
+    assert.deepEqual(COURSE_CATALOG[course].assessments.filter(item => item.available).map(item => item.id), ['midterm-1']);
+    assert.equal(COURSE_CATALOG[course].assessments[0].date, '2026-10-19');
+    assert.equal(COURSE_CATALOG[course].assessments[2].coverage, 'Cumulative');
+    assert.match(courseScopeNote(course, 'general'), /currently covers Midterm 1/);
+  }
+  assert.equal(COURSE_CATALOG['105'].assessments[1].date, '2026-11-16');
+  assert.equal(COURSE_CATALOG['108'].assessments[1].date, '2026-11-20');
+  assert.match(COURSE_CATALOG['105'].assessments[2].dateLabel, /3–6 p.m./);
+  assert.match(COURSE_CATALOG['108'].assessments[2].dateLabel, /8–10 a.m./);
+});
+
+test('study routing blocks locked deep links, preserves old sessions and separates the course chooser', () => {
+  assert.deepEqual(resolveStudyScope(null, null), { scope: null, blocked: false });
+  for (const step of ['setup', 'quiz', 'cards']) {
+    assert.deepEqual(resolveStudyScope(null, step), { scope: 'midterm-1', blocked: false });
+    for (const scope of ['general', 'midterm-1']) assert.deepEqual(resolveStudyScope(scope, step), { scope, blocked: false });
+    for (const locked of ['midterm-2', 'final', 'midterm-3', '']) assert.deepEqual(resolveStudyScope(locked, step), { scope: null, blocked: true });
+  }
+});
 
 for (const course of ['105', '108']) {
   test(`${course}: authored bank has valid answers, scope and unique question/card identities`, () => {

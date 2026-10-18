@@ -1,4 +1,4 @@
-type Course = '105' | '108';
+import { courseScopeNote, scopeLabel, type Course, type StudyScope } from './course-catalog';
 type Difficulty = 'mixed' | 'foundation' | 'application' | 'challenge';
 type Question = {
   id: string; topic: string; kind: 'mcq' | 'truefalse' | 'short';
@@ -18,7 +18,7 @@ type Engine = {
   summarize: (questions: Question[], answers: Record<string, Answer>) => Summary;
 };
 export type StudyOptions = {
-  course: Course; mode: 'quiz' | 'flashcards'; length: 10 | 25 | 40 | 80;
+  course: Course; scope: StudyScope; mode: 'quiz' | 'flashcards'; length: 10 | 25 | 40 | 80;
   difficulty: Difficulty; container: HTMLElement; onBack: () => void;
 };
 
@@ -61,10 +61,11 @@ function progress(current: number, max: number, label: string): HTMLElement {
   wrapper.append(node('span', '', label), bar);
   return wrapper;
 }
-function sourceNote(course: Course): HTMLElement {
-  return node('p', 'portal-subtitle portal-source-note', course === '105'
+function sourceNote(course: Course, scope: StudyScope): HTMLElement {
+  const source = course === '105'
     ? 'Scope: 105 Study Guide, Modules 1–10, and Exam 1 Review. Original practice questions based on these materials.'
-    : 'Scope: PSYC 108 Midterm 1 Study Guide and review materials. Original practice questions based on these materials.');
+    : 'Scope: PSYC 108 Midterm 1 Study Guide and review materials. Original practice questions based on these materials.';
+  return node('p', 'portal-subtitle portal-source-note', `${scope === 'general' ? `${courseScopeNote(course, scope)} ` : ''}${source}`);
 }
 
 /** A broad lateral-cortex schematic: anterior is left; numbered landmarks match the authored bank. */
@@ -129,7 +130,9 @@ export async function showStudy(options: StudyOptions): Promise<void> {
     const engineUrl = '/brain/midterm-engine.js?v=2';
     const [bank, engine] = await Promise.all([loadBank(), import(/* @vite-ignore */ engineUrl) as Promise<Engine>]);
     if (!current()) return;
-    const data = bank[course];
+    // The current course bank contains Midterm 1 only. General grows with future authored banks;
+    // exam-specific sessions remain limited to the selected assessment's material.
+    const data = { ...bank[course], title: `PSYC ${course} · ${scopeLabel(options.scope)}` };
     if (options.mode === 'flashcards') showFlashcards(data, engine, { ...options, container: host, onBack: back }, current);
     else showQuiz(data, engine, { ...options, container: host, onBack: back }, current);
   } catch (error) {
@@ -285,7 +288,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
       if (index === questions.length - 1) renderResults();
       else { index += 1; render(); }
     });
-    next.disabled = !complete(q); navigation.append(next); panel.append(navigation, sourceNote(course));
+    next.disabled = !complete(q); navigation.append(next); panel.append(navigation, sourceNote(course, options.scope));
     container.replaceChildren(panel);
     const feedbackHeading = panel.querySelector<HTMLElement>('.portal-feedback h3');
     if (focus === 'feedback' && feedbackHeading) focusElement(feedbackHeading, true);
@@ -304,7 +307,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
     if (!resultsSaved) {
       const stored = readSaved<unknown>('brain-midterm-results-v1', []);
       const history = Array.isArray(stored) ? stored : [];
-      save('brain-midterm-results-v1', [{ course, at: new Date().toISOString(), difficulty: options.difficulty, count: questions.length, retry: retryRound, ...result }, ...history].slice(0, 20));
+      save('brain-midterm-results-v1', [{ course, scope: options.scope, at: new Date().toISOString(), difficulty: options.difficulty, count: questions.length, retry: retryRound, ...result }, ...history].slice(0, 20));
       resultsSaved = true;
     }
     const panel = node('section', 'portal-panel portal-results');
@@ -335,7 +338,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
       answers = {}; index = 0; reviewing = false; retryRound = true; resultsSaved = false; render();
     }));
     actions.append(button('Review all answers', 'portal-pill', () => { reviewing = true; index = 0; render(); }), button('New study session', 'portal-pill', onBack));
-    panel.append(actions, node('p', 'portal-subtitle', 'Your recent session summary is saved in this browser when local storage is available.'), sourceNote(course));
+    panel.append(actions, node('p', 'portal-subtitle', 'Your recent session summary is saved in this browser when local storage is available.'), sourceNote(course, options.scope));
     container.replaceChildren(panel); focusHeading(panel);
   }
   render();
@@ -343,7 +346,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
 
 function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions, current: () => boolean): void {
   const { container, course, onBack } = options;
-  const key = `brain-midterm-flashcards-${course}-v1`;
+  const key = options.scope === 'general' ? `brain-general-flashcards-${course}-v1` : `brain-midterm-flashcards-${course}-v1`;
   const cards = new Map(data.flashcards.map((card) => [card.id, card]));
   const saved = readSaved<{ queue?: string[]; mastered?: string[]; reviews?: number }>(key, {});
   const safeIds = (value: unknown): string[] => Array.isArray(value) ? [...new Set(value.filter((id): id is string => typeof id === 'string' && cards.has(id)))] : [];
@@ -374,7 +377,7 @@ function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions,
     if (!queue.length) {
       panel.append(node('h2', 'portal-title', 'Every card, one more connection.'), node('p', 'portal-subtitle', `You have marked all ${cards.size} cards Got it after ${reviews} reviews. This reflects your own recall ratings.`));
       const actions = node('div', 'portal-actions'); actions.append(button('Shuffle & restart', 'portal-generate', restart), button('Study options', 'portal-pill', onBack));
-      panel.append(actions, sourceNote(course)); container.replaceChildren(panel); focusHeading(panel); return;
+      panel.append(actions, sourceNote(course, options.scope)); container.replaceChildren(panel); focusHeading(panel); return;
     }
     const card = cards.get(queue[0])!;
     panel.append(node('span', 'portal-topic-chip', card.topic), node('h2', 'portal-question-title', 'Bring it back to mind.'));
@@ -400,7 +403,7 @@ function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions,
     const secondary = node('div', 'portal-actions');
     secondary.append(button('Shuffle remaining', 'portal-pill', () => { queue = engine.shuffle(queue); flipped = false; persist(); render(true); }));
     if (mastered.size || reviews) secondary.append(button('Restart deck', 'portal-pill', restart));
-    panel.append(secondary, sourceNote(course)); container.replaceChildren(panel);
+    panel.append(secondary, sourceNote(course, options.scope)); container.replaceChildren(panel);
     if (focusCard) focusElement(flip, true);
     else focusHeading(panel, true);
   }

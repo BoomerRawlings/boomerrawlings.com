@@ -43,21 +43,28 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
   let seed = 1986;
   const random = () => { seed = seed * 16807 % 2147483647; return (seed - 1) / 2147483646; };
   const shared = {
-    uTime: { value: 0 }, uAssembly: { value: 1 }, uOpacity: { value: 1 },
+    uTime: { value: 0 }, uAssembly: { value: 1 }, uDisperse: { value: 1 },
+    uOpacity: { value: 1 }, uWire: { value: 1 },
     uSize: { value: 2.2 * Math.min(window.devicePixelRatio || 1, 1.5) },
   };
   const vertexShader = `
     attribute vec3 aScatter;
+    attribute vec3 aText;
     attribute vec3 color;
     uniform float uAssembly;
+    uniform float uDisperse;
     uniform float uTime;
     uniform float uSize;
     varying vec3 vColor;
     varying float vScan;
     void main() {
-      vec3 p = mix(aScatter, position, smoothstep(0.0, 1.0, uAssembly));
+      float gather = smoothstep(0.0, 1.0, uAssembly);
+      vec3 p = mix(mix(aText, aScatter, smoothstep(0.0, 1.0, uDisperse)), position, gather);
+      float stream = sin(uDisperse * 3.14159265) * (1.0 - gather);
+      p.x += sin(aScatter.y * 1.8 + uTime * 1.1) * stream * 0.35;
+      p.y += cos(aScatter.x * 1.5 + uTime * 0.8) * stream * 0.2;
       float scan = mod(uTime * 0.34, 3.4) - 1.7;
-      vScan = exp(-pow((position.y - scan) * 15.0, 2.0));
+      vScan = exp(-pow((position.y - scan) * 15.0, 2.0)) * gather;
       vColor = color;
       vec4 mv = modelViewMatrix * vec4(p, 1.0);
       gl_Position = projectionMatrix * mv;
@@ -68,11 +75,12 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
     uniforms: shared, vertexShader,
     fragmentShader: `
       uniform float uOpacity;
+      uniform float uWire;
       varying vec3 vColor;
       varying float vScan;
       void main() {
         vec3 ink = mix(vColor, vec3(0.88, 0.98, 1.0), vScan);
-        gl_FragColor = vec4(ink, (0.19 + vScan * 0.5) * uOpacity);
+        gl_FragColor = vec4(ink, (0.19 + vScan * 0.5) * uOpacity * uWire);
       }
     `,
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
@@ -95,6 +103,7 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
   // Folded bilateral form with a medial fissure: a cortical abstraction,
   // never the anatomical diagram used by identification questions.
   const points: THREE.Vector3[] = [], scattered: THREE.Vector3[] = [];
+  const textGeometries: { geometry: THREE.BufferGeometry; indices: number[] }[] = [];
   const colors: THREE.Color[] = [], edges: number[] = [];
   const rows = 35, columns = 49;
   for (const side of [-1, 1]) {
@@ -134,8 +143,10 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
     const g = geometry(new THREE.BufferGeometry());
     g.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     g.setAttribute('aScatter', new THREE.BufferAttribute(displacement, 3));
+    g.setAttribute('aText', new THREE.BufferAttribute(new Float32Array(positions), 3));
     g.setAttribute('color', new THREE.BufferAttribute(color, 3));
     g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 8);
+    textGeometries.push({ geometry: g, indices });
     return g;
   };
   anatomy.add(new THREE.LineSegments(buildGeometry(edges), networkMaterial));
@@ -153,6 +164,8 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
   anatomy.add(new THREE.LineSegments(buildGeometry(deepEdges), deepMaterial));
 
   const orbitMaterials: THREE.LineBasicMaterial[] = [], orbits: THREE.Group[] = [];
+  const orbitTracers: THREE.Points[] = [];
+  const tracerMaterial = material(new THREE.PointsMaterial({ color: 0xc8f6ff, size: 3.5, sizeAttenuation: false, transparent: true, opacity: .8, depthWrite: false, blending: THREE.AdditiveBlending }));
   const makeOrbit = (radius: number, rotation: THREE.Euler, amber = false) => {
     const group = new THREE.Group(), positions: number[] = [];
     const steps = 210;
@@ -167,6 +180,10 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
     const m = material(new THREE.LineBasicMaterial({ color: amber ? 0xf0be79 : 0x8de5f4, transparent: true, opacity: amber ? .38 : .28, depthWrite: false, blending: THREE.AdditiveBlending }));
     orbitMaterials.push(m);
     group.add(new THREE.LineSegments(g, m));
+    const tracerGeometry = geometry(new THREE.BufferGeometry());
+    tracerGeometry.setAttribute('position', new THREE.Float32BufferAttribute([radius, 0, 0], 3));
+    const tracer = new THREE.Points(tracerGeometry, tracerMaterial);
+    tracer.userData.radius = radius; group.add(tracer); orbitTracers.push(tracer);
     group.rotation.copy(rotation); core.add(group); orbits.push(group);
   };
   makeOrbit(1.4, new THREE.Euler(1.12, -.25, .23));
@@ -184,7 +201,84 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
   gridGeometry.setAttribute('position', new THREE.Float32BufferAttribute(gridPositions, 3));
   gridGeometry.setAttribute('color', new THREE.Float32BufferAttribute(gridColors, 3));
   const gridMaterial = material(new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: .1, depthWrite: false }));
-  scene.add(new THREE.LineSegments(gridGeometry, gridMaterial));
+  const grid = new THREE.LineSegments(gridGeometry, gridMaterial); scene.add(grid);
+
+  // Several depth planes share a slow current. Sparse links and drifting points
+  // make the space move continuously without competing with reading surfaces.
+  const currentUniforms = { uTime: { value: 0 }, uOpacity: { value: 1 }, uLinked: { value: 0 } };
+  const currentVertex = `
+    attribute float aPhase;
+    uniform float uTime;
+    uniform float uLinked;
+    varying float vPhase;
+    varying float vDepth;
+    void main() {
+      vec3 p = position;
+      float rise = uTime * (0.045 + aPhase * 0.04);
+      float loop = mod(p.y + 6.0 + rise, 12.0) - 6.0;
+      float linkedLoop = p.y + mod(rise + aPhase * 12.0, 12.0) - aPhase * 12.0;
+      p.y = mix(loop, linkedLoop, uLinked);
+      p.x += sin(uTime * 0.13 + p.y * 0.6 + aPhase * 6.28) * 0.23;
+      p.z += sin(uTime * 0.08 + aPhase * 6.28) * 0.2;
+      vec4 mv = modelViewMatrix * vec4(p, 1.0);
+      gl_Position = projectionMatrix * mv;
+      gl_PointSize = clamp((1.5 + aPhase * 2.5) * 8.4 / -mv.z, 0.8, 3.0);
+      vPhase = aPhase;
+      vDepth = clamp(1.0 - (-mv.z - 5.0) / 20.0, 0.08, 1.0);
+    }
+  `;
+  const currentMaterial = material(new THREE.ShaderMaterial({
+    uniforms: currentUniforms, vertexShader: currentVertex,
+    fragmentShader: `
+      uniform float uTime;
+      uniform float uOpacity;
+      varying float vPhase;
+      varying float vDepth;
+      void main() {
+        float d = length(gl_PointCoord - 0.5) * 2.0;
+        if (d > 1.0) discard;
+        float pulse = 0.55 + 0.3 * sin(uTime * 0.55 + vPhase * 6.28);
+        gl_FragColor = vec4(mix(vec3(0.3,0.67,0.78),vec3(0.75,0.95,1.0),vPhase), (1.0-d*d) * pulse * vDepth * uOpacity);
+      }
+    `,
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+  }));
+  const currentPositions: number[] = [], currentPhases: number[] = [];
+  const currentCount = window.innerWidth < 720 ? 220 : 520;
+  for (let n = 0; n < currentCount; n++) {
+    currentPositions.push((random() - .5) * 24, (random() - .5) * 12, -1.5 - random() * 15);
+    currentPhases.push(random());
+  }
+  const currentGeometry = geometry(new THREE.BufferGeometry());
+  currentGeometry.setAttribute('position', new THREE.Float32BufferAttribute(currentPositions, 3));
+  currentGeometry.setAttribute('aPhase', new THREE.Float32BufferAttribute(currentPhases, 1));
+  const current = new THREE.Points(currentGeometry, currentMaterial); current.frustumCulled = false; scene.add(current);
+
+  const currentLinkPositions: number[] = [], currentLinkPhases: number[] = [];
+  // Local pairs use a shared phase so links remain short while they drift.
+  for (let n = 0; n < 70; n++) {
+    const x = (random() - .5) * 22, y = (random() - .5) * 10, z = -4 - random() * 12, phase = random();
+    currentLinkPositions.push(x, y, z, x + .18 + random() * .7, y + .1 + random() * .45, z - random() * .5);
+    currentLinkPhases.push(phase, phase);
+  }
+  const currentLinkGeometry = geometry(new THREE.BufferGeometry());
+  currentLinkGeometry.setAttribute('position', new THREE.Float32BufferAttribute(currentLinkPositions, 3));
+  currentLinkGeometry.setAttribute('aPhase', new THREE.Float32BufferAttribute(currentLinkPhases, 1));
+  const currentLinkMaterial = material(new THREE.ShaderMaterial({
+    uniforms: { ...currentUniforms, uLinked: { value: 1 } }, vertexShader: currentVertex,
+    fragmentShader: `
+      uniform float uTime;
+      uniform float uOpacity;
+      varying float vPhase;
+      varying float vDepth;
+      void main() {
+        float pulse = 0.05 + 0.09 * pow(0.5 + 0.5 * sin(uTime * 0.6 + vPhase * 6.28), 3.0);
+        gl_FragColor = vec4(0.3,0.68,0.8,pulse * vDepth * uOpacity);
+      }
+    `,
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+  }));
+  const currentLinks = new THREE.LineSegments(currentLinkGeometry, currentLinkMaterial); currentLinks.frustumCulled = false; scene.add(currentLinks);
 
   const fragments = new THREE.Group();
   const shardShape = geometry(new THREE.TetrahedronGeometry(.06));
@@ -194,6 +288,8 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
     const shard = new THREE.LineSegments(shardGeometry, shardMaterial);
     shard.position.set((random() - .5) * 16, (random() - .5) * 10, -2 - random() * 12);
     shard.rotation.set(random() * Math.PI, random() * Math.PI, random() * Math.PI);
+    shard.userData.phase = random() * Math.PI * 2;
+    shard.userData.baseY = shard.position.y;
     shard.scale.setScalar(.4 + random() * 1.5); fragments.add(shard);
   }
   scene.add(fragments);
@@ -212,11 +308,63 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
   const endpointMaterial = material(new THREE.PointsMaterial({ color: 0xdaeff5, size: 3, sizeAttenuation: false, transparent: true, opacity: .8, depthWrite: false }));
   const endpoints = new THREE.Points(endpointGeometry, endpointMaterial);
   endpoints.frustumCulled = false; scene.add(endpoints);
+  const packetGeometry = geometry(new THREE.BufferGeometry());
+  const packetPositions = new Float32Array(4 * 2 * 3);
+  packetGeometry.setAttribute('position', new THREE.BufferAttribute(packetPositions, 3).setUsage(THREE.DynamicDrawUsage));
+  packetGeometry.setDrawRange(0, 0);
+  const packetMaterial = material(new THREE.PointsMaterial({ color: 0xd6f8ff, size: 3, sizeAttenuation: false, transparent: true, opacity: .8, depthWrite: false, blending: THREE.AdditiveBlending }));
+  const packets = new THREE.Points(packetGeometry, packetMaterial); packets.frustumCulled = false; scene.add(packets);
   const projected = new THREE.Vector3(), ray = new THREE.Vector3();
   const screenToWorld = (x: number, y: number, out: THREE.Vector3) => {
     projected.set(x / width * 2 - 1, 1 - y / height * 2, .5).unproject(camera);
     ray.copy(projected).sub(camera.position).normalize();
     return out.copy(camera.position).addScaledVector(ray, -camera.position.z / ray.z);
+  };
+  const sampleIntroText = () => {
+    if (disposed) return;
+    const textCanvas = document.createElement('canvas');
+    const resolution = Math.min(1, 1400 / width);
+    textCanvas.width = Math.ceil(width * resolution); textCanvas.height = Math.ceil(height * resolution);
+    const context = textCanvas.getContext('2d', { willReadFrequently: true });
+    if (!context) return;
+    context.scale(resolution, resolution); context.fillStyle = '#fff';
+    const lines = Array.from(document.querySelectorAll<HTMLElement>('#intro-expansion .intro-expansion-line'));
+    let drawn = false;
+    for (const line of lines) {
+      const box = line.getBoundingClientRect(), style = getComputedStyle(line);
+      if (!box.width || !box.height || !line.textContent?.trim()) continue;
+      context.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+      context.textAlign = 'center'; context.textBaseline = 'alphabetic';
+      if ('letterSpacing' in context) context.letterSpacing = style.letterSpacing === 'normal' ? '0px' : style.letterSpacing;
+      const label = line.textContent.trim(), metrics = context.measureText(label);
+      const baseline = box.top + (box.height + metrics.actualBoundingBoxAscent - metrics.actualBoundingBoxDescent) / 2;
+      context.fillText(label, box.left + box.width / 2, baseline); drawn = true;
+    }
+    if (!drawn) {
+      context.font = `500 ${Math.min(width * .15, 110)}px "Source Sans 3", sans-serif`;
+      context.textAlign = 'center'; context.textBaseline = 'middle'; context.fillText('BRAIN', width / 2, height * .48);
+    }
+    const pixels = context.getImageData(0, 0, textCanvas.width, textCanvas.height).data;
+    const samples: number[] = [];
+    for (let y = 0; y < textCanvas.height; y += 2) {
+      for (let x = 0; x < textCanvas.width; x += 2) {
+        if (pixels[(y * textCanvas.width + x) * 4 + 3] > 100) samples.push(x / resolution, y / resolution);
+      }
+    }
+    if (!samples.length) return;
+    const textPositions = new Float32Array(points.length * 3), world = new THREE.Vector3();
+    for (let n = 0; n < points.length; n++) {
+      const sample = Math.floor(random() * samples.length / 2) * 2;
+      screenToWorld(samples[sample], samples[sample + 1], world);
+      world.sub(core.position).divideScalar(core.scale.x);
+      world.z += (random() - .5) * .018;
+      world.toArray(textPositions, n * 3);
+    }
+    for (const entry of textGeometries) {
+      const attribute = entry.geometry.getAttribute('aText') as THREE.BufferAttribute;
+      entry.indices.forEach((index, n) => attribute.setXYZ(n, textPositions[index * 3], textPositions[index * 3 + 1], textPositions[index * 3 + 2]));
+      attribute.needsUpdate = true;
+    }
   };
   const updateLayout = () => {
     view = loading ? 'home' : stage?.dataset.view || 'home';
@@ -227,12 +375,12 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
     const viewHeight = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * focalDistance;
     const pixels = home ? (mobile ? 165 : Math.min(290, height * .39, width * .26)) : (mobile ? 200 : 315);
     targetScale = pixels / height * viewHeight / 2.4;
-    targetAlpha = home ? 1 : (view === 'course' || view === 'setup' ? .17 : .065);
+    targetAlpha = home ? 1 : (view === 'course' || view === 'scope' || view === 'setup' ? .17 : .065);
   };
-  const connectorEnd = new THREE.Vector3(), connectorStart = new THREE.Vector3(), elbow = new THREE.Vector3();
+  const connectorEnd = new THREE.Vector3(), connectorStart = new THREE.Vector3(), elbow = new THREE.Vector3(), packet = new THREE.Vector3();
   const updateConnectors = () => {
     const buttons = view === 'home' && !loading ? Array.from(stage?.querySelectorAll<HTMLElement>('.portal-cloud') || []).slice(0, 4) : [];
-    let count = 0;
+    let count = 0, active = false;
     for (const button of buttons) {
       const box = button.getBoundingClientRect();
       if (!box.width || !box.height || box.top > height) continue;
@@ -246,16 +394,31 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
       elbow.copy(connectorStart).lerp(connectorEnd, .47); elbow.y = connectorEnd.y;
       connectorStart.toArray(connectorPositions, count * 12); elbow.toArray(connectorPositions, count * 12 + 3);
       elbow.toArray(connectorPositions, count * 12 + 6); connectorEnd.toArray(connectorPositions, count * 12 + 9);
+      const firstDistance = connectorStart.distanceTo(elbow), secondDistance = elbow.distanceTo(connectorEnd);
+      const bend = firstDistance / Math.max(.001, firstDistance + secondDistance);
+      for (let pulse = 0; pulse < 2; pulse++) {
+        const progress = (elapsed * .21 + count * .19 + pulse * .5) % 1;
+        if (progress < bend) packet.copy(connectorStart).lerp(elbow, progress / Math.max(.001, bend));
+        else packet.copy(elbow).lerp(connectorEnd, (progress - bend) / Math.max(.001, 1 - bend));
+        packet.toArray(packetPositions, (count * 2 + pulse) * 3);
+      }
+      active ||= button.matches(':hover, :focus-visible');
       connectorEnd.toArray(endpointPositions, count * 3); count++;
     }
     connectorsGeometry.setDrawRange(0, count * 4); endpointGeometry.setDrawRange(0, count);
+    packetGeometry.setDrawRange(0, count * 2);
+    connectorMaterial.opacity = active ? .48 : .25 + Math.sin(elapsed * .7) * .035;
+    endpointMaterial.opacity = active ? .95 : .65;
     connectorsGeometry.attributes.position.needsUpdate = true;
     endpointGeometry.attributes.position.needsUpdate = true;
+    packetGeometry.attributes.position.needsUpdate = true;
   };
 
   const render = (now: number) => {
     if (disposed || !contextAvailable || document.hidden || portal?.hidden) return;
     const dt = Math.min((now - previous) / 1000, .04); previous = now;
+    const introTime = Math.max(0, (now - assemblyStart) / 1000);
+    const assembly = loading ? THREE.MathUtils.clamp((introTime - 4) / 2.35, 0, 1) : 1;
     if (moving) {
       elapsed += dt;
       for (const axis of ['x', 'y'] as const) {
@@ -264,25 +427,44 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
       }
       camera.position.x = cameraOffset.x; camera.position.y = cameraOffset.y;
       camera.lookAt(lookAt); camera.updateMatrixWorld();
-      anatomy.rotation.y = -.1 + Math.sin(elapsed * .12) * .1;
-      anatomy.rotation.z = -.055 + Math.sin(elapsed * .15) * .025;
+      anatomy.rotation.x = .13 * assembly;
+      anatomy.rotation.y = (-.1 + Math.sin(elapsed * .12) * .13) * assembly;
+      anatomy.rotation.z = (-.055 + Math.sin(elapsed * .15) * .035) * assembly;
       orbits[0].rotation.z = .23 + elapsed * .025;
       orbits[1].rotation.z = -.1 - elapsed * .018;
       orbits[2].rotation.z = .25 + elapsed * .012;
       fragments.rotation.y = Math.sin(elapsed * .04) * .06;
+      fragments.children.forEach((shard, index) => {
+        shard.rotation.x += dt * (.025 + index % 3 * .012);
+        shard.rotation.z += dt * (index % 2 ? .035 : -.025);
+        shard.position.y = shard.userData.baseY + Math.sin(elapsed * .16 + shard.userData.phase) * .24;
+      });
+      grid.position.z = elapsed * .065 % .85;
+      orbitTracers.forEach((tracer, index) => {
+        const radius = tracer.userData.radius, angle = elapsed * (.15 + index * .045) + index * 2;
+        const attribute = tracer.geometry.getAttribute('position') as THREE.BufferAttribute;
+        attribute.setXYZ(0, Math.cos(angle) * radius, Math.sin(angle) * radius, 0); attribute.needsUpdate = true;
+      });
       shared.uTime.value = elapsed;
+      currentUniforms.uTime.value = elapsed;
     }
     updateLayout();
     const blend = moving ? 1 - Math.exp(-5 * dt) : 1;
     core.position.lerp(targetPosition, blend);
     core.scale.setScalar(THREE.MathUtils.lerp(core.scale.x, targetScale, blend));
     alpha = THREE.MathUtils.lerp(alpha, targetAlpha, blend);
-    shared.uOpacity.value = alpha;
-    shared.uAssembly.value = loading && moving ? Math.min(1, Math.max(0, (now - assemblyStart) / 2900)) : 1;
-    deepMaterial.uniforms.uOpacity.value = alpha * .15;
-    orbitMaterials.forEach((m, index) => { m.opacity = alpha * (index === 2 ? .35 : .26) * shared.uAssembly.value; });
-    gridMaterial.opacity = view === 'home' ? .1 : .045;
-    shardMaterial.opacity = view === 'home' ? .16 : .065;
+    const introOpacity = loading ? (moving ? THREE.MathUtils.smoothstep(introTime, 3.35, 3.8) : 0) : 1;
+    shared.uOpacity.value = alpha * introOpacity;
+    shared.uAssembly.value = assembly;
+    shared.uDisperse.value = loading ? THREE.MathUtils.clamp((introTime - 3.65) / 1.25, 0, 1) : 1;
+    shared.uWire.value = THREE.MathUtils.smoothstep(assembly, .15, .8);
+    deepMaterial.uniforms.uOpacity.value = alpha * .15 * introOpacity;
+    orbitMaterials.forEach((m, index) => { m.opacity = alpha * (index === 2 ? .35 : .26) * assembly * introOpacity; });
+    tracerMaterial.opacity = alpha * .78 * assembly * introOpacity;
+    const ambient = loading ? .35 : view === 'home' ? 1 : view === 'quiz' || view === 'cards' ? .25 : .6;
+    gridMaterial.opacity = ambient * .13;
+    shardMaterial.opacity = ambient * .22;
+    currentUniforms.uOpacity.value = ambient * .68;
     updateConnectors(); renderer.render(scene, camera);
     if (moving) frame = requestAnimationFrame(render);
   };
@@ -295,7 +477,8 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
     width = Math.max(1, window.innerWidth); height = Math.max(1, window.innerHeight);
     camera.aspect = width / height; camera.updateProjectionMatrix(); camera.updateMatrixWorld();
     renderer.setSize(width, height, false); updateLayout();
-    core.position.copy(targetPosition); core.scale.setScalar(targetScale); requestRender();
+    core.position.copy(targetPosition); core.scale.setScalar(targetScale);
+    if (loading) sampleIntroText(); requestRender();
   };
   const pointerMove = (event: PointerEvent) => {
     if (event.pointerType !== 'touch') cursor.set((event.clientX / width - .5) * 2, (.5 - event.clientY / height) * 2);
@@ -305,7 +488,7 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
   const contextRestored = () => { contextAvailable = true; canvas.style.opacity = ''; requestRender(); };
   const observer = new MutationObserver(() => {
     const nextLoading = portal?.classList.contains('portal-loading') ?? false;
-    if (nextLoading && !loading) assemblyStart = performance.now();
+    if (nextLoading && !loading) { assemblyStart = performance.now(); sampleIntroText(); }
     loading = nextLoading; requestRender();
   });
   if (stage) observer.observe(stage, { attributes: true, attributeFilter: ['data-view'], childList: true });
@@ -318,6 +501,7 @@ export function initializePortalScene(canvas: HTMLCanvasElement, options: SceneO
   canvas.addEventListener('webglcontextlost', contextLost);
   canvas.addEventListener('webglcontextrestored', contextRestored);
   resize();
+  void document.fonts.ready.then(() => { if (!disposed && loading) { sampleIntroText(); requestRender(); } });
   return {
     setMotion(value: boolean) { moving = value; requestRender(); },
     dispose() {
