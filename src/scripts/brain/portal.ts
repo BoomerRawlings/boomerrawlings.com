@@ -43,15 +43,19 @@ function heading(eyebrow: string, title: string, subtitle = '') {
 }
 function cloud(label: string, note: string, icon: keyof typeof icons, action: () => void, style = '') {
   const node = button('', action, `portal-cloud ${style}`);
+  node.dataset.node = icon;
+  const meta = document.createElement('span'); meta.className = 'cloud-meta';
+  meta.textContent = ({mind:'01 / STUDY',orbit:'02 / STUDY',explore:'03 / DISCOVER',lecture:'04 / PRIVATE',quiz:'01 / TEST YOURSELF',cards:'02 / ACTIVE RECALL'})[icon];
+  meta.setAttribute('aria-hidden', 'true');
   const graphic = document.createElement('span'); graphic.className = 'cloud-icon'; graphic.innerHTML = icons[icon];
   const title = document.createElement('span'); title.className = 'cloud-label'; title.textContent = label;
   const description = document.createElement('span'); description.className = 'cloud-note'; description.textContent = note;
   const arrow = document.createElement('span'); arrow.className = 'cloud-arrow'; arrow.textContent = '↗'; arrow.setAttribute('aria-hidden','true');
-  node.append(graphic, title, description, arrow); return node;
+  node.append(meta, graphic, title, description, arrow); return node;
 }
 function home() {
   returnTo = '#portal'; back.hidden = true; stage.dataset.view = 'home';
-  heading('YOUR NEUROSCIENCE SPACE', 'A little space. A deeper understanding.', 'Choose a cloud. Follow your curiosity.');
+  heading('NEURAL STUDY INTERFACE', 'Enter your mind.', 'Select a destination. Build a deeper understanding.');
   const clouds = document.createElement('div'); clouds.className = 'portal-clouds';
   clouds.append(cloud('PSYC 105', 'Midterm 1 Study · Modules 1–10', 'mind', () => go('#study=105'), 'cloud-primary'));
   clouds.append(cloud('PSYC 108', 'Midterm 1 Study', 'orbit', () => go('#study=108'), 'cloud-primary'));
@@ -60,6 +64,8 @@ function home() {
   explore.append(button('Practice with the atlas ↗', () => go('#mode=practice'), 'portal-practice-link'));
   clouds.append(explore, cloud('Lectures', 'Your private lecture room · Locked', 'lecture', () => go('#mode=lectures'), 'cloud-secondary'));
   stage.append(clouds);
+  const coreLabel = document.createElement('div'); coreLabel.className = 'portal-core-label'; coreLabel.setAttribute('aria-hidden','true');
+  coreLabel.innerHTML = '<span>NEURAL FIELD</span><small>EXPLORE · CONNECT · RECALL</small>'; stage.append(coreLabel);
 }
 function courseMenu(course: Course) {
   returnTo = '#portal'; stage.dataset.view = 'course';
@@ -97,13 +103,16 @@ async function showLegacy() {
 }
 async function route() {
   if (!unlocked) return;
+  // Native atlas anchors keep their normal scroll/focus behavior.
+  const anchor = document.getElementById(location.hash.slice(1));
+  if (!legacy.hidden && anchor?.closest('#brain-legacy')) return;
   const version = ++routeVersion;
   const params = new URLSearchParams(location.hash.slice(1));
   const course = params.get('study');
   if (!course && (params.get('view') === 'atlas' || ['mode','topic','depth'].some(key=>params.has(key)))) { await showLegacy(); return; }
   portal.hidden = false; legacy.hidden = true; legacy.inert = true; document.body.classList.add('brain-portal-active');
   if(legacyReady) void legacyReady.then(app=>app.suspendLegacy());
-  if(moving && !scene) updateMotion();
+  if(!scene) updateMotion();
   stage.classList.add('portal-transitioning');
   await new Promise(resolve=>setTimeout(resolve, moving ? 180 : 0));
   if(version !== routeVersion) return;
@@ -127,17 +136,20 @@ function runIntro() {
   unlocked = false; portal.hidden = false; legacy.hidden = true; legacy.inert = true;
   stage.inert = true; header.inert = true; intro.hidden = false; intro.classList.remove('is-complete');
   document.body.classList.add('brain-portal-active');
+  portal.classList.add('portal-loading');
   clearTimeout(introTimer);
-  introTimer = setTimeout(() => { intro.classList.add('is-complete'); introTimer = setTimeout(()=>{intro.hidden = true; stage.inert = false; header.inert = false; unlocked = true; void route();},500); },3300);
+  introTimer = setTimeout(() => { intro.classList.add('is-complete'); portal.classList.remove('portal-loading'); introTimer = setTimeout(()=>{intro.hidden = true; stage.inert = false; header.inert = false; unlocked = true; void route();},500); },3300);
 }
 back.addEventListener('click',()=>go(returnTo));
 document.getElementById('portal-home')!.addEventListener('click',()=>go('#portal'));
 function updateMotion() {
   portal.classList.toggle('portal-motion-paused',!moving); motion.setAttribute('aria-pressed',String(moving)); motion.setAttribute('aria-label', moving ? 'Pause ambient motion' : 'Resume ambient motion');
-  scene?.dispose(); scene = undefined;
-  if(moving) { try { scene = initializePortalScene(document.getElementById('portal-canvas') as HTMLCanvasElement); } catch {} }
+  motion.innerHTML = moving ? 'Ⅱ <span>Motion</span>' : '▷ <span>Motion</span>';
+  if(scene) scene.setMotion(moving);
+  else { try { scene = initializePortalScene(document.getElementById('portal-canvas') as HTMLCanvasElement, {moving}); } catch {} }
 }
 motion.addEventListener('click',()=>{moving = !moving; updateMotion();});
+matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{moving = !event.matches; updateMotion();});
 window.addEventListener('hashchange',()=>void route());
 window.addEventListener('pageshow',event=>{if(event.persisted){runIntro();updateMotion();}});
 window.addEventListener('pagehide',()=>{clearTimeout(introTimer);scene?.dispose();scene=undefined;});

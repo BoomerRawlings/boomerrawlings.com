@@ -42,9 +42,16 @@ function readSaved<T>(key: string, fallback: T): T {
 function save(key: string, value: unknown): void {
   try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* Study works when storage is unavailable. */ }
 }
-function focusHeading(panel: HTMLElement): void {
+function focusElement(element: HTMLElement, scroll = false): void {
+  requestAnimationFrame(() => {
+    if (!element.isConnected) return;
+    element.focus({ preventScroll: true });
+    if (scroll) element.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+  });
+}
+function focusHeading(panel: HTMLElement, scroll = false): void {
   const heading = panel.querySelector<HTMLElement>('h2');
-  if (heading) { heading.tabIndex = -1; requestAnimationFrame(() => { if (heading.isConnected) heading.focus({ preventScroll: true }); }); }
+  if (heading) { heading.tabIndex = -1; focusElement(heading, scroll); }
 }
 function progress(current: number, max: number, label: string): HTMLElement {
   const wrapper = node('div', 'portal-progress');
@@ -141,7 +148,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
   const { container, course, onBack } = options;
   const complete = (question: Question) => question.kind === 'short' ? Boolean(answers[question.id]?.rating) : Boolean(answers[question.id]?.revealed);
 
-  function render(): void {
+  function render(focus: 'question' | 'feedback' = 'question'): void {
     if (!current()) return;
     if (!questions.length) { renderEmpty(); return; }
     const q = questions[index];
@@ -167,7 +174,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
       input.readOnly = Boolean(answer.revealed);
       input.addEventListener('input', () => { answer.written = input.value; });
       panel.append(label, input);
-      if (!answer.revealed) panel.append(button('Reveal answer & rubric', 'portal-generate', () => { answer.revealed = true; render(); }));
+      if (!answer.revealed) panel.append(button('Reveal answer & rubric', 'portal-generate', () => { answer.revealed = true; render('feedback'); }));
     } else {
       const choices = node('div', 'portal-answers');
       choices.setAttribute('role', 'group'); choices.setAttribute('aria-label', 'Answer choices');
@@ -189,15 +196,16 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
       });
       panel.append(choices);
       if (!answer.revealed) {
-        check = button('Check answer', 'portal-generate', () => { if (answer.selected !== undefined) { answer.revealed = true; render(); } });
+        check = button('Check answer', 'portal-generate', () => { if (answer.selected !== undefined) { answer.revealed = true; render('feedback'); } });
         check.disabled = answer.selected === undefined; panel.append(check);
       }
     }
 
     if (answer.revealed) {
       const feedback = node('div', 'portal-feedback');
-      feedback.setAttribute('role', 'status');
-      feedback.append(node('h3', '', q.kind === 'short' ? 'Compare your answer' : answer.selected === q.correctIndex ? 'Correct' : 'A useful one to revisit'));
+      const feedbackHeading = node('h3', '', q.kind === 'short' ? 'Compare your answer' : answer.selected === q.correctIndex ? 'Correct' : 'A useful one to revisit');
+      feedbackHeading.tabIndex = -1;
+      feedback.append(feedbackHeading);
       if(q.kind !== 'short' || !q.rubric?.length) feedback.append(node('p', '', q.explanation));
       if (q.kind === 'short') {
         if (q.rubric?.length) {
@@ -206,7 +214,18 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
         feedback.append(node('p', 'portal-subtitle', 'This answer is self-rated. Compare the key ideas, then choose how well you recalled them.'));
         const ratings = node('div', 'portal-actions');
         for (const [value, label] of [['needs', 'Needs review'], ['partly', 'Partly'], ['got', 'Got it']] as const) {
-          const rating = button(label, 'portal-pill', () => { answer.rating = value; render(); });
+          const rating = button(label, 'portal-pill', () => {
+            answer.rating = value;
+            for (const choice of ratings.querySelectorAll('button')) choice.setAttribute('aria-pressed', String(choice === rating));
+            const finished = questions.filter(complete).length;
+            const progressLabel = `Question ${index + 1} of ${questions.length} \u00b7 ${finished} answered`;
+            const progressText = panel.querySelector<HTMLElement>('.portal-progress > span');
+            const progressBar = panel.querySelector<HTMLProgressElement>('.portal-progress > progress');
+            if (progressText) progressText.textContent = progressLabel;
+            if (progressBar) { progressBar.value = finished; progressBar.setAttribute('aria-label', progressLabel); }
+            const next = panel.querySelector<HTMLButtonElement>('.portal-question-navigation .portal-generate');
+            if (next) next.disabled = false;
+          });
           rating.setAttribute('aria-pressed', String(answer.rating === value));
           ratings.append(rating);
         }
@@ -224,7 +243,10 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
       else { index += 1; render(); }
     });
     next.disabled = !complete(q); navigation.append(next); panel.append(navigation, sourceNote(course));
-    container.replaceChildren(panel); focusHeading(panel);
+    container.replaceChildren(panel);
+    const feedbackHeading = panel.querySelector<HTMLElement>('.portal-feedback h3');
+    if (focus === 'feedback' && feedbackHeading) focusElement(feedbackHeading, true);
+    else focusHeading(panel, true);
   }
 
   function renderEmpty(): void {
@@ -292,16 +314,16 @@ function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions,
   const persist = () => save(key, { queue, mastered: [...mastered], reviews });
 
   function restart(): void {
-    queue = engine.shuffle([...cards.keys()]); mastered = new Set(); reviews = 0; flipped = false; lastAction = ''; persist(); render();
+    queue = engine.shuffle([...cards.keys()]); mastered = new Set(); reviews = 0; flipped = false; lastAction = ''; persist(); render(true);
   }
   function rate(again: boolean): void {
     const id = queue.shift();
     if (!id) return;
     if (again) { queue.push(id); lastAction = 'Queued for another look.'; }
     else { mastered.add(id); lastAction = 'Marked Got it.'; }
-    reviews += 1; flipped = false; persist(); render();
+    reviews += 1; flipped = false; persist(); render(true);
   }
-  function render(): void {
+  function render(focusCard = false): void {
     if (!current()) return;
     const panel = node('section', 'portal-panel portal-flashcards');
     panel.append(button('← Study options', 'portal-pill portal-study-back', onBack), node('p', 'portal-eyebrow', `${data.title} · Flashcards`));
@@ -314,11 +336,16 @@ function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions,
     const card = cards.get(queue[0])!;
     panel.append(node('span', 'portal-topic-chip', card.topic), node('h2', 'portal-question-title', 'Bring it back to mind.'));
     const surface = node('div', 'portal-card');
-    const flip = button('', 'portal-flashcard', () => { flipped = !flipped; render(); requestAnimationFrame(()=>container.querySelector<HTMLButtonElement>('.portal-flashcard')?.focus({preventScroll:true})); });
-    flip.setAttribute('aria-label', flipped ? 'Answer shown. Show question' : 'Question shown. Reveal answer');
+    const flip = button('', 'portal-flashcard', () => { flipped = !flipped; render(true); });
+    const side = node('span', 'portal-eyebrow', flipped ? 'Answer' : 'Question');
+    const content = node('span', 'portal-flashcard-text', flipped ? card.answer : card.question);
+    const hint = node('span', 'portal-subtitle', flipped ? 'Click or press Enter to see the question' : 'Recall first. Click or press Enter to reveal.');
+    side.id = `portal-card-side-${course}`; content.id = `portal-card-content-${course}`; hint.id = `portal-card-hint-${course}`;
+    flip.setAttribute('aria-labelledby', `${side.id} ${content.id}`);
+    flip.setAttribute('aria-describedby', hint.id);
     flip.setAttribute('aria-expanded', String(flipped));
     flip.dataset.flipped = String(flipped);
-    flip.append(node('span', 'portal-eyebrow', flipped ? 'Answer' : 'Question'), node('span', 'portal-flashcard-text', flipped ? card.answer : card.question), node('span', 'portal-subtitle', flipped ? 'Click or press Enter to see the question' : 'Recall first. Click or press Enter to reveal.'));
+    flip.append(side, content, hint);
     surface.append(flip); panel.append(surface);
     const actions = node('div', 'portal-actions');
     const again = button('Again', 'portal-pill', () => rate(true));
@@ -328,9 +355,11 @@ function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions,
     const notice = node('p', 'portal-subtitle', lastAction || '“Again” returns the card later in this deck. “Got it” saves your progress in this browser.');
     notice.setAttribute('aria-live', 'polite'); panel.append(notice);
     const secondary = node('div', 'portal-actions');
-    secondary.append(button('Shuffle remaining', 'portal-pill', () => { queue = engine.shuffle(queue); flipped = false; persist(); render(); }));
+    secondary.append(button('Shuffle remaining', 'portal-pill', () => { queue = engine.shuffle(queue); flipped = false; persist(); render(true); }));
     if (mastered.size || reviews) secondary.append(button('Restart deck', 'portal-pill', restart));
-    panel.append(secondary, sourceNote(course)); container.replaceChildren(panel); focusHeading(panel);
+    panel.append(secondary, sourceNote(course)); container.replaceChildren(panel);
+    if (focusCard) focusElement(flip, true);
+    else focusHeading(panel, true);
   }
   render();
 }
