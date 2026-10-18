@@ -16,7 +16,13 @@
           "Angular difference changes the number of neurons in the brain.",
           "Behavior alone establishes the exact brain region responsible."
         ],
-        "correctIndex": 0
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "A larger angular difference taking longer fits a process that passes through intermediate orientations. Response-time differences provide indirect evidence for a mental transformation.",
+          "The researcher measured responses, not thoughts directly. Mental rotation is an explanation inferred from the pattern of behavior.",
+          "The manipulation changes the objects' relative orientations. Nothing in these response-time data measures a change in neuron number.",
+          "Behavior can constrain a process account, but it cannot by itself locate that process in a particular brain region."
+        ]
       },
       {
         "id": "105-q002",
@@ -31,7 +37,13 @@
           "Behaviorism studies only brain scans.",
           "Cognitive psychology rejects experimental evidence."
         ],
-        "correctIndex": 1
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "Cognitive psychology does not depend only on private reports. Controlled response times, accuracy, and other observable behavior provide evidence about internal processes.",
+          "This preserves objective measurement while allowing hypotheses about representations and operations that cannot be observed directly.",
+          "Strict behaviorism emphasizes observable stimulus-response relations. Brain scanning is neither its defining method nor its only subject.",
+          "Cognitive accounts must make predictions that experiments can test. Explaining internal processes does not mean rejecting empirical evidence."
+        ]
       },
       {
         "id": "105-q003",
@@ -46,7 +58,13 @@
           "Association-level processing may be impaired despite some preserved early visual processing.",
           "The optic nerve must be completely severed."
         ],
-        "correctIndex": 2
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "Preserved detection of individual lines is evidence that some visual processing remains. A recognition deficit is not equivalent to losing all sensation.",
+          "The hypothalamus is associated with homeostatic and endocrine regulation. The vignette does not specifically implicate it or uniquely locate any injury.",
+          "Detecting features and recognizing their configuration place different demands on visual processing. Their separation supports a possible higher-level recognition impairment.",
+          "Complete loss of the relevant optic-nerve input would not explain preserved visual detection of the lines. The description does not establish optic-nerve damage."
+        ]
       },
       {
         "id": "105-q004",
@@ -61,7 +79,13 @@
           "Hippocampus: myelin formation; amygdala: CSF production.",
           "Precentral cortex: primary motor function; postcentral cortex: primary somatosensory function."
         ],
-        "correctIndex": 3
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "The hypothalamus, not the thalamus, is the key endocrine/homeostatic comparison. Visual edge processing involves visual pathways and cortex rather than being assigned to all hypothalamic activity.",
+          "Primary motor cortex lies in frontal cortex. Occipital cortex supports vision, and the frontal lobe has many functions beyond hearing.",
+          "The hippocampus supports learning and memory rather than producing myelin. The amygdala contributes to emotional processing rather than producing cerebrospinal fluid.",
+          "Precentral cortex lies just anterior to the central sulcus and includes primary motor cortex; postcentral cortex lies posterior and includes primary somatosensory cortex."
+        ]
       },
       {
         "id": "105-q005",
@@ -76,7 +100,13 @@
           "A feature-net error.",
           "A sensory neuron receiving hormones."
         ],
-        "correctIndex": 0
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "The left cortical site and right-hand deficit are on opposite sides. This is the relevant meaning of contralateral organization in the motor example.",
+          "A commissural tract connects hemispheres. The observation instead concerns the relationship between a motor region and the opposite side of the body.",
+          "A feature net is a recognition model involving activation among detectors. It does not describe the side relationship in a motor deficit.",
+          "The vignette concerns a cortical motor injury and movement, not a sensory neuron's hormonal input. That description does not explain the opposite-side pattern."
+        ]
       },
       {
         "id": "105-q006",
@@ -91,7 +121,13 @@
           "Neurotransmitters become electrical wires.",
           "The axon changes from an output structure to an input structure."
         ],
-        "correctIndex": 1
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "Once an action potential is generated, its amplitude is approximately stereotyped. Greater stimulus intensity is not normally encoded by making each spike proportionally taller.",
+          "In a basic rate code, stronger input can increase the number of spikes per unit time while each spike retains a similar amplitude. Rate changes have physiological limits.",
+          "Neurotransmitters remain chemical signals acting at receptors. Stronger input does not convert them into physical electrical wires.",
+          "Stimulus intensity does not reverse the neuron's input-output organization. Axons typically conduct output toward terminals."
+        ]
       },
       {
         "id": "105-q007",
@@ -106,7 +142,13 @@
           "Receptor type and its downstream effects determine the postsynaptic response.",
           "The presynaptic neuron sends a larger action potential to inhibitory cells."
         ],
-        "correctIndex": 2
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "Transmitter binding can increase or decrease firing probability. Assuming that every transmitter always excites ignores receptor and conductance differences.",
+          "Postsynaptic receptors are precisely what allow a transmitter to affect the receiving cell. Removing them would prevent the proposed receptor-mediated response.",
+          "Different receptors and their downstream effects can produce different changes in membrane conductance and firing probability, even for the same transmitter.",
+          "Action potentials are not made larger simply because the target is inhibitory. The postsynaptic response depends on receptors and cellular conditions."
+        ]
       },
       {
         "id": "105-q008",
@@ -121,7 +163,13 @@
           "A control condition is needed to interpret the contrast.",
           "That activation proves fear is the only process occurring and the region is necessary for it."
         ],
-        "correctIndex": 3
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "A measured contrast between fearful-face and comparison conditions can support a difference in the recorded signal, assuming the analysis and experiment are sound.",
+          "Task-related activation supports an association between the condition and the signal. Association alone makes a more limited claim than causation or exclusivity.",
+          "The interpretation depends on what the comparison holds constant. Differences in vision, attention, decisions, or responses could otherwise explain the contrast.",
+          "This is the claim that exceeds the evidence: activity does not identify fear as the only possible process, and observing activity does not show that the region is necessary."
+        ]
       },
       {
         "id": "105-q009",
@@ -136,7 +184,13 @@
           "A questionnaire about head size.",
           "Uncontrolled comparison of two activation maps."
         ],
-        "correctIndex": 0
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "TMS can perturb an accessible cortical site at selected times. Comparing behavior with sham, control-site, or control-time conditions tests a causal contribution.",
+          "Structural MRI shows anatomy. A structural image alone neither disrupts the site nor tests whether disruption changes performance at a particular moment.",
+          "A head-size questionnaire supplies neither a localized neural intervention nor precise timing of a processing stage.",
+          "Uncontrolled activation maps provide observational contrasts. They do not isolate the effects of disrupting a site and cannot exclude basic confounds."
+        ]
       },
       {
         "id": "105-q010",
@@ -151,7 +205,13 @@
           "fMRI measures individual action potentials with millisecond resolution.",
           "All methods directly measure the same neuronal event."
         ],
-        "correctIndex": 1
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "EEG measures electrical population activity at the scalp and faces a difficult source-localization problem. Structural MRI generally gives finer anatomical detail.",
+          "EEG can track millisecond-scale changes, whereas MRI provides detailed anatomy and fMRI generally localizes task-related changes more finely in space. Their strengths differ.",
+          "fMRI measures a delayed hemodynamic signal, not individual action potentials. Fast image sampling does not turn that signal into millisecond spike recording.",
+          "These methods measure different things: electrical activity, tissue structure, or blood-related changes. Their signals and limitations are not interchangeable."
+        ]
       },
       {
         "id": "105-q011",
@@ -166,7 +226,13 @@
           "Rod/cone -> bipolar -> ganglion -> optic nerve -> LGN -> V1.",
           "LGN -> optic nerve -> rod/cone -> V1."
         ],
-        "correctIndex": 2
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "Photoreceptors transduce light before bipolar and ganglion-cell stages. This order incorrectly places ganglion cells before the photoreceptors.",
+          "Bipolar cells relay before ganglion cells in the main retinal sequence. The LGN also precedes V1 in the main retino-geniculo-cortical pathway.",
+          "Rods and cones transduce light, bipolar cells relay within the retina, and ganglion-cell axons form the optic nerve. The main thalamic relay is LGN before V1.",
+          "This reverses the input sequence. Light is transduced in retinal photoreceptors, and retinal signals travel toward LGN and cortex rather than starting in LGN."
+        ]
       },
       {
         "id": "105-q012",
@@ -181,7 +247,13 @@
           "No light anywhere necessarily causes its maximum response.",
           "Light confined to its center with a dark surround."
         ],
-        "correctIndex": 3
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "Illuminating only the OFF surround opposes the ON-center cell's response. It would tend to suppress firing relative to its baseline rather than maximize excitation.",
+          "Center excitation and surround inhibition partly cancel under uniform illumination. The response is typically smaller than with isolated center illumination.",
+          "An ON-center cell is excited by light in its center. Darkness everywhere does not provide that center-surround contrast and need not maximize firing.",
+          "This stimulates the excitatory center without illuminating the antagonistic surround. It therefore predicts the strongest response among these choices in the simple model."
+        ]
       },
       {
         "id": "105-q013",
@@ -196,7 +268,13 @@
           "That its receptive field is the entire retina.",
           "That it has no spontaneous activity."
         ],
-        "correctIndex": 0
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "Firing varies with the bar's orientation and peaks near a preferred angle. That relationship is orientation tuning.",
+          "The stimuli are oriented bars, not whole faces. A response preference for a bar orientation does not establish face selectivity.",
+          "Orientation tuning describes which feature values change firing. It does not establish the spatial extent of the receptive field, much less the entire retina.",
+          "The tuning result compares responses to stimuli. Without a baseline measurement, it says nothing about whether the neuron fires spontaneously."
+        ]
       },
       {
         "id": "105-q014",
@@ -211,7 +289,13 @@
           "Rods versus microglia.",
           "Early selection versus attenuation."
         ],
-        "correctIndex": 1
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "Sympathetic and parasympathetic divisions concern autonomic regulation. They are not the main distinction between identifying an object and guiding a reach visually.",
+          "Ventral-stream processing emphasizes identity, while dorsal-stream processing emphasizes space and visually guided action. Differential impairment is consistent with those broad contributions.",
+          "Rods are photoreceptors and microglia are immune-related glia. This contrast does not explain preserved identity judgments with impaired visually guided action.",
+          "Early selection and attenuation concern attentional selection of input. They do not directly name the visual identity-versus-action distinction tested here."
+        ]
       },
       {
         "id": "105-q015",
@@ -226,7 +310,13 @@
           "Top-down influence on interpretation of the same input.",
           "The absence of bottom-up processing."
         ],
-        "correctIndex": 2
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "The same visual input receives different interpretations depending on context. Retinal sensitivity alone cannot explain why a word versus number sequence changes the interpretation.",
+          "Contralateral motor control concerns opposite-side movement organization. The example concerns perception of an ambiguous character rather than a motor pathway.",
+          "Knowledge of the surrounding word or number sequence biases interpretation. That is a top-down influence acting on the same sensory shape.",
+          "Bottom-up features are still present and constrain possible readings. A contextual influence does not imply that sensory evidence has stopped contributing."
+        ]
       },
       {
         "id": "105-q016",
@@ -241,7 +331,13 @@
           "Texture gradient.",
           "Binocular disparity."
         ],
-        "correctIndex": 3
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "Linear perspective uses the projected convergence of lines with distance. That pattern can be seen in a single eye's image.",
+          "Interposition uses one object's occlusion of another. A single eye can register the occlusion, so eye-to-eye comparison is unnecessary.",
+          "Texture gradient uses changes in the size or density of projected texture. These changes can be available to one eye.",
+          "The two eyes view a scene from slightly different positions. Comparing those image differences provides binocular disparity, which requires both views."
+        ]
       },
       {
         "id": "105-q017",
@@ -256,7 +352,13 @@
           "Feature detectors cannot make errors.",
           "Only an exact stored photograph can support recognition."
         ],
-        "correctIndex": 0
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "Residual feature evidence can combine with contextual support to activate a letter candidate sufficiently for recognition. Perfect visibility is not required in this account.",
+          "Familiarity does not cause the displayed word to deliver more photons to the retina. The proposed benefit is in processing and interpretation of the available input.",
+          "Thresholded, evidence-weighted recognition can select a plausible but wrong candidate. Feature nets can explain errors as well as successful recognition.",
+          "A feature net uses combinations of features and candidate activation rather than requiring a perfect stored photograph to match every view."
+        ]
       },
       {
         "id": "105-q018",
@@ -271,7 +373,13 @@
           "Only the object's color.",
           "Only the observer's current viewpoint."
         ],
-        "correctIndex": 1
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "RBC does not require a unique unit for every exact retinal image. It proposes reusable volumetric components and relations that can support recognition across views.",
+          "RBC emphasizes geons and how those components are arranged. Both component identity and spatial relations help distinguish objects.",
+          "Color can be useful in recognition, but color alone is not RBC's defining structural account. Different objects can share the same color.",
+          "RBC predicts useful robustness across views that preserve diagnostic structure. It does not reduce recognition to the observer's current viewpoint alone."
+        ]
       },
       {
         "id": "105-q019",
@@ -286,7 +394,13 @@
           "Inversion disproportionately disrupts face recognition relative to many ordinary objects.",
           "Recognizing a face uses no features."
         ],
-        "correctIndex": 2
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "Perfect recognition is not a prediction required by configural processing. Faces can be misidentified, and this claim supplies no evidence about relations among parts.",
+          "A lack of inversion effects would not provide the proposed evidence that normal face processing relies strongly on its usual configuration.",
+          "A disproportionate inversion cost is consistent with disruption of the usual use of facial-part relationships. It supports configural contributions without proving an exclusive face-only mechanism.",
+          "Configural processing concerns relationships among features; it does not eliminate the features themselves. Both parts and their arrangement can contribute."
+        ]
       },
       {
         "id": "105-q020",
@@ -301,7 +415,13 @@
           "Only after long-term memory retrieval.",
           "On the basis of physical characteristics before full semantic processing."
         ],
-        "correctIndex": 3
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "Filtering after complete meaning analysis is the late-selection alternative. Strict early selection places filtering before full semantic processing.",
+          "A spoken response occurs after substantial processing and response preparation. It is not the early, physical-channel filter proposed by this model.",
+          "Long-term retrieval is not the defining selection boundary. The strict account selects by physical properties before full semantic analysis of unattended input.",
+          "The strict early account uses physical/channel characteristics to select input before full meaning analysis. Unattended semantic effects are important challenges to this version."
+        ]
       },
       {
         "id": "105-q021",
@@ -316,7 +436,13 @@
           "Every unattended word receives full conscious attention.",
           "The auditory nerve reverses direction."
         ],
-        "correctIndex": 0
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "Attenuation weakens unattended input rather than deleting it. An especially low-threshold item, such as one's name, can occasionally reach recognition despite the weakened signal.",
+          "Complete erasure would leave no unattended name signal to exceed a threshold. That makes occasional breakthrough difficult for a strict all-or-none filter.",
+          "Occasional detection of a salient item does not establish full conscious attention to every unattended word. Unequal thresholds allow selective breakthrough.",
+          "The auditory nerve does not need to reverse its direction for name detection. The explanation concerns signal strength and recognition thresholds."
+        ]
       },
       {
         "id": "105-q022",
@@ -331,7 +457,13 @@
           "A larger action potential on valid trials.",
           "That expectations cannot affect perception."
         ],
-        "correctIndex": 1
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "A purely cost-free facilitation account can explain valid-trial benefits but not the added disadvantage on invalid trials relative to neutral.",
+          "Preparing for a likely target improves expected processing while leaving unexpected input disadvantaged. Both valid benefits and invalid costs fit limited-resource expectation-based allocation.",
+          "The result concerns behavioral response time. It neither measures spike amplitude nor requires larger action potentials to explain the benefit.",
+          "Performance changes systematically with predictive cues. That pattern is evidence that expectations can affect processing, subject to appropriate controls."
+        ]
       },
       {
         "id": "105-q023",
@@ -346,7 +478,13 @@
           "Separate feature maps support feature search; conjunctions require binding features at locations with attention.",
           "The first search necessarily involves identifying every item serially."
         ],
-        "correctIndex": 2
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "Classic FIT assigns an important role to attention in binding conjunctions at locations. The growing conjunction-search cost is inconsistent with assuming neither search needs attention.",
+          "The target is defined by a combination of color and shape, not brightness alone. The distractors share each individual target feature.",
+          "A unique feature can stand out in a feature map. A conjunction requires assigning features to the same item/location, accounting for the classic greater set-size cost.",
+          "A small feature-search slope does not require serial identification of every distractor. Efficient feature search is the contrast with the more demanding conjunction search."
+        ]
       },
       {
         "id": "105-q024",
@@ -361,7 +499,13 @@
           "An association tract.",
           "An illusory conjunction."
         ],
-        "correctIndex": 3
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "An action potential is a neural electrical event. It does not name the perceptual error of combining the color of one item with the shape of another.",
+          "Size constancy concerns perceived object size despite changes in retinal size or distance. No such size-distance change is described here.",
+          "An association tract is a same-hemisphere cortical connection. It does not name the mistaken assignment of detected visual features.",
+          "Red and X were present, but on different objects. Reporting a red X incorrectly binds available features, making this an illusory conjunction."
+        ]
       },
       {
         "id": "105-q025",
@@ -376,7 +520,13 @@
           "Practice increases resource demand on every task.",
           "Two equally difficult verbal tasks never compete."
         ],
-        "correctIndex": 0
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "Different sensory modalities can reduce competition for modality-specific resources, yet both tasks may still need a shared response-selection or executive stage.",
+          "Separate modalities do not guarantee separate control and response resources. A task-general bottleneck can still cause cross-modal interference.",
+          "Practice can reduce attention demands or improve coordination; it does not inherently increase every task's resource demand.",
+          "Two demanding verbal tasks are likely to overlap in task-specific resources. The claim that they never compete contradicts the task-specific-pool account."
+        ]
       },
       {
         "id": "105-q026",
@@ -391,7 +541,10 @@
           "Regional activation identifies a physical correlate without uniquely specifying the computation.",
           "Behavioral tasks and competing predictions are needed to distinguish explanations; brain and behavioral evidence complement one another."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Naming a region is not the same as specifying an operation. A location may participate in several computations; explain what information changes and how the task tests that proposed process."
+        ]
       },
       {
         "id": "105-q027",
@@ -406,7 +559,10 @@
           "Cognitive psychology uses objective behavior to infer internal representations/processes.",
           "Private reports are difficult to verify independently and do not reveal all unconscious processing."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Do not equate cognitive psychology with introspection or claim that behaviorists measured nothing. Cognitive psychology also measures behavior, but uses it to test internal-process explanations; private reports alone are not independently verifiable."
+        ]
       },
       {
         "id": "105-q028",
@@ -421,7 +577,10 @@
           "The transcendental method works backward from observable effects to infer hidden processes capable of producing them. The response-time pattern supports an internal transformation such as mental rotation.",
           "Alternative mechanisms and confounds must be compared. Inferring a process from its consequences is not direct observation or proof that it is the only possible explanation."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Angular disparity is the manipulated variable, not response time. The slope is 300 ms divided by 120 degrees, not 800 divided by 120; an intercept includes processing that occurs even at zero disparity."
+        ]
       },
       {
         "id": "105-q029",
@@ -436,7 +595,10 @@
           "Cognitive neuroscience relates recognition processes to neural systems.",
           "AI/modeling implements candidate recognition procedures and compares outputs with behavior; matching accuracy alone does not prove human mechanism equivalence."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Matching a computer model's accuracy to a person's does not establish identical mechanisms. Different procedures can produce the same output, so compare process-sensitive predictions as well as overall success."
+        ]
       },
       {
         "id": "105-q030",
@@ -451,7 +613,10 @@
           "An expectation account predicts valid benefits and invalid costs, whereas a strictly cost-free facilitation account lacks invalid costs.",
           "Include a neutral-cue baseline and comparable sensory/motor demands. Other coherent designs earn credit."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "A study in which both explanations predict the same result does not distinguish them. Without neutral cues, a valid-invalid gap also cannot separate facilitation from a cost to unexpected targets."
+        ]
       },
       {
         "id": "105-q031",
@@ -467,7 +632,10 @@
           "Region 4 is occipital: visual processing. Front is at left, back at right in this schematic; functions are broad, not exclusive."
         ],
         "selfGraded": true,
-        "visual": "lobes"
+        "visual": "lobes",
+        "commonMistakes": [
+          "Do not identify a lobe by its drawing color or treat one broad function as its exclusive job. First orient front and back, then use the central/lateral sulci and relative positions to locate the lobes."
+        ]
       },
       {
         "id": "105-q032",
@@ -483,7 +651,10 @@
           "Color is an illustration convention; spatial landmarks and anatomical relationships determine identity."
         ],
         "selfGraded": true,
-        "visual": "lobes"
+        "visual": "lobes",
+        "commonMistakes": [
+          "Swapping precentral and postcentral cortex reverses the motor-sensory relationship. The central sulcus separates frontal from parietal cortex; the lateral sulcus is a different landmark associated with the temporal boundary."
+        ]
       },
       {
         "id": "105-q033",
@@ -498,7 +669,10 @@
           "Somatic pathways serve bodily sensation and skeletal muscle control.",
           "Autonomic pathways regulate organs/glands; sympathetic arousal and parasympathetic recovery are useful broad subdivisions."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Afferent and efferent are directions relative to a reference, not synonyms for excitatory and inhibitory. Here, sensory input travels toward CNS and motor output away; autonomic activity is not limited to conscious skeletal movement."
+        ]
       },
       {
         "id": "105-q034",
@@ -513,7 +687,10 @@
           "Amygdala lies in anterior medial temporal regions and contributes to threat and other emotional processing, not fear alone.",
           "Hippocampus lies in medial temporal regions, posterior to amygdala, and supports new learning/memory formation. The introductory grouping is a course convention; limbic-system boundaries vary."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "The thalamus and hypothalamus are not interchangeable: sensory relaying differs from endocrine/homeostatic regulation. Likewise, calling the hippocampus all memory or the amygdala only fear overstates their roles within larger systems."
+        ]
       },
       {
         "id": "105-q035",
@@ -528,7 +705,10 @@
           "Primary visual cortex is in the occipital lobe; primary auditory cortex is in the temporal lobe. Association cortex integrates/interprets information and supports complex cognition.",
           "Cortical territory reflects sensory sensitivity or motor precision, not simply body-part size. A large hand representation does not mean the hand is the largest body part."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "The cortical body map is not a scale drawing of body size. Disproportionate hand territory reflects fine motor control or sensory processing demands; primary sensory/motor areas also differ from association cortex."
+        ]
       },
       {
         "id": "105-q036",
@@ -543,7 +723,10 @@
           "Aphasia: impaired language, such as difficulty producing or understanding speech.",
           "Neglect: failing to attend/respond to contralesional space, such as omitting the left half of a drawing."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "A symptom label must describe the impaired operation, not just any poor performance. Weakness alone is not apraxia, basic blindness alone is not agnosia, and neglect is an attentional deficit rather than automatically a sensory field loss."
+        ]
       },
       {
         "id": "105-q037",
@@ -558,7 +741,10 @@
           "The deficit concerns attention/representation of space, not necessarily loss of basic visual input.",
           "Preserved detection when cued helps distinguish it from a primary visual field loss; clinical testing is needed and both conditions can coexist."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Failing to report left-side items is not enough to diagnose blindness. Preserved detection with prompting supports an attentional account; right-hemisphere injury is common for left neglect, but the vignette cannot uniquely locate a lesion."
+        ]
       },
       {
         "id": "105-q038",
@@ -573,7 +759,10 @@
           "Switching goals and inhibiting the old rule are impaired.",
           "Verify preserved number discrimination and rule comprehension before attributing errors to executive control."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Continuing the old rule is perseveration, not automatically inability to perceive the new sorting feature. Check whether numbers are visible and the new rule understood before concluding that executive switching is impaired."
+        ]
       },
       {
         "id": "105-q039",
@@ -588,7 +777,10 @@
           "Medial is toward the midline; lateral is away.",
           "Contralateral is opposite side; ipsilateral is same side. Example: hypothalamus is ventral to thalamus. Direction conventions change along the bent neuraxis; this prompt specifies forebrain."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Left/right and medial/lateral are not equivalent: either hemisphere has medial and lateral locations. Also do not apply a forebrain top-bottom convention unchanged to every part of the bent neuraxis."
+        ]
       },
       {
         "id": "105-q040",
@@ -603,7 +795,10 @@
           "Action potentials propagate along the axon; myelin promotes efficient rapid conduction.",
           "Terminals release transmitter onto the next cell. A correct description must preserve this input-integration-output organization."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Do not reverse dendrites and axon terminals or describe myelin as the chemical messenger. Inputs are integrated before an action potential propagates toward terminals; transmitter release is the typical output to another cell."
+        ]
       },
       {
         "id": "105-q041",
@@ -618,7 +813,10 @@
           "Terminal depolarization triggers transmitter release from vesicles into the synaptic cleft.",
           "Transmitter binds B's receptors and changes ion-channel activity/postsynaptic potential. Calcium coupling and clearance add useful detail but are not separate required points here."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "An action potential does not physically leap across a typical chemical synaptic cleft. Electrical propagation triggers chemical release, and receptor binding in the next cell produces a new electrical influence that may or may not reach threshold."
+        ]
       },
       {
         "id": "105-q042",
@@ -633,7 +831,10 @@
           "APs regenerate along axons rather than fading like passive graded potentials.",
           "Increasing input usually changes firing probability/rate rather than AP height."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Summation applies to graded postsynaptic potentials, not to adding the heights of ordinary action potentials. Stronger input usually affects spike probability or rate, while regenerating spikes do not simply fade along the axon."
+        ]
       },
       {
         "id": "105-q043",
@@ -648,7 +849,10 @@
           "Combined inputs determine the net effect; excitation does not guarantee an AP.",
           "Receptor type, ion channels, and ionic conditions determine the effect of transmitter binding."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "One excitatory input does not guarantee a spike, and a transmitter name alone does not fix the response. Competing inputs and receptor-dependent conductances determine whether the receiving cell reaches threshold."
+        ]
       },
       {
         "id": "105-q044",
@@ -663,7 +867,10 @@
           "Stimulus strength can be encoded by firing frequency/recruitment, not taller APs.",
           "Postsynaptic effects can be excitatory or inhibitory, depending on receptors/conductances."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Repair all three errors rather than only one: chemical transmission uses receptor binding across the cleft, stronger stimuli need not make taller spikes, and postsynaptic effects can decrease as well as increase firing probability."
+        ]
       },
       {
         "id": "105-q045",
@@ -681,7 +888,10 @@
           "Single-unit recording samples spikes from individual neurons with excellent spatial and temporal specificity. It is invasive and samples limited cells/regions.",
           "TMS induces cortical electrical currents to perturb activity. Controlled changes in performance can test causal contribution, but conventional targeting is mainly superficial and needs sham/site/time and nonspecific-effect controls."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Do not merge structural MRI with functional BOLD or call EEG a blood-flow measure. Also separate observation from intervention: recording task-related activity alone does not establish necessity, whereas controlled TMS can test causal contribution."
+        ]
       },
       {
         "id": "105-q046",
@@ -696,7 +906,10 @@
           "Selectivity/base rates and alternatives are needed to assess the inference.",
           "Necessity is a separate causal claim: observing activity does not show that disrupting R would impair the task."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "If fear can activate R, it does not follow that every activation of R means fear. Even a highly selective association would leave the separate causal question of whether the function depends on R."
+        ]
       },
       {
         "id": "105-q047",
@@ -711,7 +924,10 @@
           "It supports at least partially distinct resources rather than one fixed ordering of task difficulty.",
           "It does not prove completely independent modules; sensory demands, lesion extent, baseline ability, and network effects need evaluation."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "One patient alone could reflect unequal task difficulty. The opposite pattern in a second patient challenges a simple fixed ordering, but it still does not demonstrate completely independent face and object modules."
+        ]
       },
       {
         "id": "105-q048",
@@ -726,7 +942,10 @@
           "It does not show either region is exclusively sufficient or necessary for recognition.",
           "Lesion evidence or a feasible controlled perturbation can test causal contributions, with matched visual/task controls."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "A crossed activation preference is not proof that either area is necessary or exclusively devoted to its preferred category. A causal follow-up must alter or examine damage to the system and control alternative task demands."
+        ]
       },
       {
         "id": "105-q049",
@@ -741,7 +960,10 @@
           "Measure attention performance while controlling nonspecific effects and basic vision/motor demands.",
           "A selective disruption supports a causal contribution under those conditions, not a sole brain location for all attention."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "A performance drop after stimulation could reflect sound, discomfort, distraction, or motor effects. Site, timing, sham/control conditions, and matched tasks are needed before attributing the change specifically to attention processing."
+        ]
       },
       {
         "id": "105-q050",
@@ -756,7 +978,10 @@
           "V1 supplies downstream ventral temporal identity and dorsal parietal spatial/action processing.",
           "Representations progress from local contrast/edges toward more complex properties, often with larger receptive fields; the system also has feedback and parallel paths."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Do not place ganglion cells before bipolar cells or V1 before the main thalamic relay. Dorsal and ventral processing are downstream broad streams, not a claim that the whole visual system is strictly linear and has no feedback."
+        ]
       },
       {
         "id": "105-q051",
@@ -771,7 +996,10 @@
           "Identify excitatory/inhibitory locations and response pattern.",
           "A tuning curve then varies a feature such as orientation while holding location/other variables controlled."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "A receptive field describes where stimulation changes the response; a tuning curve describes sensitivity to a feature value such as orientation. Varying location and orientation together confounds those two measurements."
+        ]
       },
       {
         "id": "105-q052",
@@ -786,7 +1014,10 @@
           "Uniform light produces opposing effects/partial cancellation and typically less response than isolated center illumination.",
           "An OFF-center/ON-surround cell has reversed polarity and responds strongly to a dark center against an illuminated surround."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "ON-center does not mean every light anywhere increases firing. The surround has the opposing effect, and reversing ON/OFF polarity reverses which center-surround contrast is preferred; suppression is relative to baseline, not negative spike counts."
+        ]
       },
       {
         "id": "105-q053",
@@ -801,7 +1032,10 @@
           "Near an edge, center and surround can sample different luminances.",
           "Unequal excitation/inhibition creates a response pattern emphasizing contrast rather than merely total light."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "More total light does not necessarily yield a stronger contrast response. The important comparison is the luminance reaching center versus surround, so a uniformly bright area can evoke less response than a boundary."
+        ]
       },
       {
         "id": "105-q054",
@@ -816,7 +1050,10 @@
           "It also responds to other tested orientations; preference does not imply exclusivity.",
           "The data alone do not establish identity of an entire perceived object, the cell's anatomical location, or responses to untested orientations."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "The maximum tested response at 60 degrees is a preference, not proof of an exclusive detector. Positive responses at other tested orientations and untested angles rule out claiming that the cell responds only at 60 degrees."
+        ]
       },
       {
         "id": "105-q055",
@@ -831,7 +1068,10 @@
           "Preserved identification with impaired visually guided reaching, or the reverse pattern, supports differentiated contributions.",
           "They interact and tasks recruit broader systems; labels are useful simplifications."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Dorsal is not the identity stream and ventral is not the main action/spatial comparison. A behavioral dissociation supports differentiated contributions without showing that the two streams never communicate or share processing."
+        ]
       },
       {
         "id": "105-q056",
@@ -846,7 +1086,10 @@
           "A unified percept requires linking this redness, motion, and shape to the same car.",
           "Attention/spatial correspondence and interactions among representations help constrain binding; one feature detector alone cannot solve object assignment."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Listing separate color, motion, and shape detectors only restates the problem. Binding must explain why these features belong to this car rather than to other simultaneously visible objects."
+        ]
       },
       {
         "id": "105-q057",
@@ -861,7 +1104,10 @@
           "Downstream populations can represent more complex shapes/objects and broader receptive fields.",
           "Population/sparse codes can combine selective responses; selective firing does not imply one unique neuron exclusively stores each object."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Increasing feature complexity does not require a unique neuron that stores each whole object alone. Selective neurons can contribute to overlapping sparse or population patterns, so selectivity does not establish exclusivity or necessity."
+        ]
       },
       {
         "id": "105-q058",
@@ -876,7 +1122,10 @@
           "An ambiguous letter/digit can be resolved differently in word versus number context despite identical shape.",
           "Expectations can bias errors and remain constrained by sensory evidence; they are not proof that perception ignores the world."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Top-down influence does not make sensory input irrelevant. Context can bias an ambiguous shape, but the remaining bottom-up evidence constrains which readings are plausible and can sometimes override an expectation."
+        ]
       },
       {
         "id": "105-q059",
@@ -891,7 +1140,10 @@
           "Smoothly aligned segments group as a continuing contour.",
           "Incomplete contours may be perceived as closed figures. Accurate examples earn credit; grouping principles describe tendencies, not guarantees."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Keep the grouping cues distinct: proximity is spatial nearness, similarity is shared appearance, continuation is smooth alignment, and closure bridges incomplete boundaries. A single example should illustrate the intended cue rather than relabel a different one."
+        ]
       },
       {
         "id": "105-q060",
@@ -906,7 +1158,10 @@
           "Coordinated movement of visible animal patches supports a single object.",
           "Assigning contours/regions to animal versus foliage supports segmentation even when input is incomplete."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Common fate concerns coordinated motion, not simply similar color. Figure-ground organization concerns assigning regions and borders to object versus background; neither requires every part of the animal to be visible."
+        ]
       },
       {
         "id": "105-q061",
@@ -921,7 +1176,10 @@
           "Linear perspective is monocular: parallel lines project toward convergence with distance.",
           "Motion parallax is monocular over movement: nearer objects change visual position more rapidly than distant objects relative to the observer."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Motion parallax uses changes over observer movement and does not require comparing two eyes. Binocular disparity is the two-eye comparison; perspective, occlusion, and texture information can be available in a single view."
+        ]
       },
       {
         "id": "105-q062",
@@ -936,7 +1194,10 @@
           "The rotating door changes its retinal projection.",
           "Shape constancy supports a stable interpretation of the object's shape despite viewpoint change. Constancy is approximate and can fail in misleading contexts."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Constancy does not mean the retinal image stays unchanged. It means perceived object properties remain relatively stable despite image changes; misleading depth or context can make that compensation inaccurate."
+        ]
       },
       {
         "id": "105-q063",
@@ -951,7 +1212,10 @@
           "Multiple compatible features/candidates can contribute converging evidence; frequent/primed detectors can be easier to activate.",
           "Partial input can therefore yield recognition, with a risk of a plausible but wrong winner."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "A recognition threshold is not a requirement for a perfect image. Accumulated, partly matching evidence can activate a candidate, and that same tolerance explains how a plausible incorrect candidate can win."
+        ]
       },
       {
         "id": "105-q064",
@@ -966,7 +1230,10 @@
           "Recent exposure or expectation can preactivate relevant detectors/lower effective recognition demands.",
           "Errors reveal constructive, evidence-weighted inference rather than literal copying of the retinal image."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "An error is not proof that no features were processed. Feature evidence, prior activation, and context can jointly favor the wrong familiar candidate; that pattern is informative about how recognition is constructed."
+        ]
       },
       {
         "id": "105-q065",
@@ -981,7 +1248,10 @@
           "Both accounts build complex recognition from combinations of simpler elements.",
           "RBC emphasizes three-dimensional component structure and relations rather than only a simple feature-to-letter/word hierarchy."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Geons are volumetric components, not merely any flat letter feature. Listing parts without their relations cannot distinguish objects made from the same components arranged differently."
+        ]
       },
       {
         "id": "105-q066",
@@ -996,7 +1266,10 @@
           "RBC predicts relative robustness across views preserving diagnostic components/relations.",
           "Views that hide diagnostic geons can harm RBC too; viewpoint effects alone do not establish one universal recognition mechanism."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Novel-view costs alone do not automatically disprove RBC. If a view hides diagnostic components, even a structural account predicts difficulty; preserve or manipulate component visibility to separate the predictions."
+        ]
       },
       {
         "id": "105-q067",
@@ -1011,7 +1284,10 @@
           "Prosopagnosia can impair familiar face recognition despite some preserved other visual abilities.",
           "Faces still share visual features/resources with objects, and expertise/task demands matter; a dissociation does not establish zero overlap."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Configural processing does not mean faces have no features. Inversion and prosopagnosia support differentiated processing, but neither establishes zero overlap between face and object recognition or eliminates expertise-related alternatives."
+        ]
       },
       {
         "id": "105-q068",
@@ -1027,7 +1303,10 @@
           "A semantic effect from nominally unattended material, such as meaning-dependent interference or own-name detection, challenges complete exclusion before meaning analysis.",
           "Such an effect is compatible with later selection but can also reflect attenuation or a brief attention shift. A stronger test controls attention shifts and separates semantic processing from conscious report."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Name detection does not uniquely prove that every unattended word underwent full late selection. Attenuation with low thresholds or a brief attention shift can also produce meaningful breakthrough and require separate controls."
+        ]
       },
       {
         "id": "105-q069",
@@ -1042,7 +1321,10 @@
           "Detection of a meaningful name challenges complete presemantic exclusion.",
           "Attenuation/threshold differences or occasional attention shifts must be distinguished experimentally; name detection alone does not prove full semantic processing of every unattended word."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Poor later recall of unattended words is not proof of absolutely no processing, and noticing one's name is not proof of full conscious processing of every word. Distinguish physical-change detection, semantic influence, and report."
+        ]
       },
       {
         "id": "105-q070",
@@ -1057,7 +1339,10 @@
           "In the course model, expectation-based preparation uses limited resources/effort and depends on cue predictiveness.",
           "Stimulus-driven facilitation is described as cost-free, whereas misallocated expectation can impair unexpected items relative to neutral baseline."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Both forms can speed responses, so a benefit alone does not identify expectation. In the course account, cue predictiveness and costs to unexpected stimuli help distinguish resource-demanding preparation from cost-free stimulus-driven facilitation."
+        ]
       },
       {
         "id": "105-q071",
@@ -1072,7 +1357,10 @@
           "High-validity benefit is 80 ms and invalid cost is 550-500 = 50 ms.",
           "Facilitation without cost fits stimulus-driven priming; added benefit plus invalid cost fits expectation-based allocation. Data are hypothetical, not the original lecture graph."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Calculate each effect against its own neutral baseline: benefit is neutral minus valid, cost is invalid minus neutral. The 130 ms high-validity valid-invalid gap combines an 80 ms benefit and a 50 ms cost."
+        ]
       },
       {
         "id": "105-q072",
@@ -1087,7 +1375,10 @@
           "Invalid slower than neutral indicates cost.",
           "A 60 ms valid-invalid gap could reflect benefit alone, cost alone, or both; compare both conditions to neutral and consider accuracy trade-offs."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "A valid-invalid difference is not automatically all a benefit or all a cost. Without neutral trials, the same gap can arise from faster valid responses, slower invalid responses, or both."
+        ]
       },
       {
         "id": "105-q073",
@@ -1102,7 +1393,10 @@
           "Attention can operate covertly and flexibly rather than being a literal beam with fixed borders.",
           "A same-object advantage at equal spatial distance shows selection follows object structure as well as coordinates."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "The spotlight is an analogy, not a literal beam or a requirement to move the eyes. A same-object advantage at equal distance adds an object-based constraint without eliminating spatial attention."
+        ]
       },
       {
         "id": "105-q074",
@@ -1117,7 +1411,10 @@
           "This supports object-based prioritization beyond a distance-only account.",
           "It does not show spatial attention is absent; stimulus geometry, eye position, and response demands must also be controlled."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Do not attribute the 40 ms same-object advantage simply to a shorter cue-target distance; that distance is matched. The result challenges a distance-only account but still permits spatial and object-based attention to coexist."
+        ]
       },
       {
         "id": "105-q075",
@@ -1132,7 +1429,10 @@
           "The larger conjunction cost fits attention-demanding feature binding/search in classic FIT.",
           "Reduced attention should increase incorrect feature combinations under brief exposure; slopes alone do not prove a strictly serial mechanism in all tasks."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Divide change in RT by change in set size, not RT by total set size. The resulting 2.5 versus 25 ms/item slopes support the classic contrast but do not prove that every conjunction search uses an invariant serial process."
+        ]
       },
       {
         "id": "105-q076",
@@ -1147,7 +1447,10 @@
           "Illusory conjunctions show feature detection can be preserved while binding fails.",
           "Together they motivate attentional roles in selecting locations/objects and binding features, but they are distinct behaviors/mechanisms."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Neglect and illusory conjunctions are not the same error: one concerns which space is attended, the other which object receives a detected feature. Preserved features can coexist with either attentional problem."
+        ]
       },
       {
         "id": "105-q077",
@@ -1162,7 +1465,10 @@
           "Cross-modal interference in response selection/executive control supports task-general limitations.",
           "A hybrid explains reduced overlap costs without assuming different modalities eliminate all competition."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Different modalities do not guarantee no interference, and interference alone does not identify a single universal pool. Similarity effects support specific resources, while cross-modal response/control costs motivate a shared limitation."
+        ]
       },
       {
         "id": "105-q078",
@@ -1177,7 +1483,10 @@
           "Practice can reduce resource demands and improve coordination.",
           "The practiced cross-modal pair may interfere less but can still share response-selection/executive bottlenecks; actual task demands matter."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Practice does not guarantee zero interference. Similarity, difficulty, and overlapping response/control demands all matter; compare dual-task performance with each task's own single-task baseline."
+        ]
       },
       {
         "id": "105-q079",
@@ -1192,7 +1501,10 @@
           "Practice can shift performance toward automaticity but does not guarantee no resource use.",
           "Automatic habits can intrude after a rule change; controlled inhibition/switching may be needed, as in perseveration/Stroop-like conflict."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Automatic is not synonymous with infallible or completely resource-free. A learned response can intrude when goals change, whereas controlled processing is more flexible but demands limited attention."
+        ]
       },
       {
         "id": "105-q080",
@@ -1207,7 +1519,10 @@
           "Predict larger costs for similar/unpracticed combinations and reduced costs after practice.",
           "Match baseline difficulty or account for it, counterbalance order, and avoid interpreting a speed-accuracy trade-off as improvement. One suitable control suffices for the final point."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Two conditions alone are not a full 2 x 2 design. Cross both similarity levels with both practice levels, and measure costs relative to single-task baselines so easier tasks or speed-accuracy trade-offs do not mimic a practice benefit."
+        ]
       }
     ],
     "flashcards": [
@@ -1470,7 +1785,13 @@
           "Only the shape of the skull.",
           "Only computer performance without human evidence."
         ],
-        "correctIndex": 0
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "Cognitive neuroscience links questions about cognition to the brain systems and neural mechanisms that support it, using behavioral and neural evidence.",
+          "Introspection can provide reports, but it is not the field's sole evidence. Neural measurements, behavior, and causal interventions also contribute.",
+          "Skull shape does not specify the field's subject or validly identify cognitive functions. The relevant relationship concerns brain systems and mental processes.",
+          "Computational models can test candidate mechanisms, but computer performance alone is not the whole of cognitive neuroscience or sufficient evidence about humans."
+        ]
       },
       {
         "id": "108-q002",
@@ -1485,7 +1806,13 @@
           "A projection tract.",
           "A ventricle."
         ],
-        "correctIndex": 1
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "Commissural fibers connect the hemispheres. Both endpoints here are in the left hemisphere, so this is not the defining commissural arrangement.",
+          "An association tract connects cortical regions within the same hemisphere. Left frontal and left parietal cortex meet both parts of that definition.",
+          "Projection pathways connect cortex with subcortical or spinal levels. This example instead has two cortical endpoints in one hemisphere.",
+          "A ventricle is a CSF-filled cavity, not a bundle of axons connecting cortical regions."
+        ]
       },
       {
         "id": "108-q003",
@@ -1500,7 +1827,13 @@
           "Hypothalamus.",
           "Corpus callosum."
         ],
-        "correctIndex": 2
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "The hippocampus is important for new learning and memory. It is not the best match for the endocrine/homeostatic regulation described.",
+          "Occipital cortex is broadly associated with visual processing. Hunger, thirst, temperature, and endocrine regulation point to a different system.",
+          "The hypothalamus links neural and endocrine regulation and helps maintain bodily conditions, making it the best fit for this collection of functions.",
+          "The corpus callosum is a commissural connection between cerebral hemispheres. It is not the principal homeostatic/endocrine regulator."
+        ]
       },
       {
         "id": "108-q004",
@@ -1515,7 +1848,13 @@
           "Both are simply primary visual cortex.",
           "Basal ganglia contribute to action regulation and habit/reward learning; cerebellum contributes to coordination and sensory-feedback integration."
         ],
-        "correctIndex": 3
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "Movement depends on many interacting systems. The basal ganglia do not produce all movement, and the cerebellum is not merely a word-storage structure.",
+          "The cerebellum is neural tissue rather than a CSF cavity. Basal ganglia include deep gray-matter nuclei, not simply white-matter tracts.",
+          "Primary visual cortex is cortical tissue in occipital regions. Neither the basal ganglia nor the cerebellum is another name for it.",
+          "This distinguishes broad contributions to action regulation and learning from coordination and feedback integration. Both participate in broader motor networks."
+        ]
       },
       {
         "id": "108-q005",
@@ -1530,7 +1869,13 @@
           "A static image of axon anatomy.",
           "One action potential from every neuron separately."
         ],
-        "correctIndex": 0
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "Scalp potentials largely reflect summed postsynaptic activity from suitably aligned populations, especially cortical pyramidal cells. EEG is a population electrical measurement.",
+          "Blood-oxygenation changes are hemodynamic measurements, associated with methods such as fMRI. EEG records scalp voltages rather than oxygenation only in deep nuclei.",
+          "A static anatomical image characterizes structure. EEG instead records a changing electrical signal over time.",
+          "Scalp EEG mixes contributions from many sources. It does not isolate a separate spike trace from every individual neuron."
+        ]
       },
       {
         "id": "108-q006",
@@ -1545,7 +1890,13 @@
           "EEG is always surgically invasive.",
           "fMRI directly records every neuron's spike timing."
         ],
-        "correctIndex": 1
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "fMRI uses a hemodynamic signal and EEG uses electrical population activity. Different signal sources give them different temporal and spatial limitations.",
+          "fMRI generally provides finer spatial localization, whereas EEG follows electrical changes on millisecond scales. The slow vascular response limits fMRI's neural timing.",
+          "Standard scalp EEG is noninvasive and does not require surgery. Intracranial recordings are a different acquisition context.",
+          "BOLD is an indirect blood-related signal. fMRI does not directly resolve every neuron's action potentials or their precise spike times."
+        ]
       },
       {
         "id": "108-q007",
@@ -1560,7 +1911,13 @@
           "A sampled neuron can be part of a larger sparse population, and untested stimuli/neurons remain unknown.",
           "The studies used only structural MRI."
         ],
-        "correctIndex": 2
+        "correctIndex": 2,
+        "choiceExplanations": [
+          "A selective firing response does carry information about tested stimuli. The limitation is the stronger claim of unique, exclusive storage, not an absence of information.",
+          "Population coding allows cells to respond differently. It does not require all cells to fire equally for every concept.",
+          "Selectivity in one sampled cell is compatible with a sparse ensemble. Limited sampling cannot establish that no other cell represents the concept or no untested stimulus activates this one.",
+          "The concept-cell evidence involves invasive single-neuron recordings, not only structural MRI. Mistaking the method does not address the inference limit."
+        ]
       },
       {
         "id": "108-q008",
@@ -1575,7 +1932,13 @@
           "A behavioral survey with no brain recording.",
           "Single-neuron recordings from implanted electrodes in epilepsy patients viewing stimuli."
         ],
-        "correctIndex": 3
+        "correctIndex": 3,
+        "choiceExplanations": [
+          "The reviewed study used clinical implanted-electrode access in epilepsy patients. Scalp EEG in healthy infants would not be the same population or single-neuron method.",
+          "fNIRS estimates blood-related changes with near-infrared light. It does not provide the single-neuron recordings used in this study.",
+          "Behavioral surveys do not measure individual neuronal firing. The distinctive evidence here came from actual intracranial neural recordings.",
+          "Clinical electrodes allowed researchers to record individual neuronal responses while epilepsy patients viewed stimuli. That access also introduces clinical and sampling limitations."
+        ]
       },
       {
         "id": "108-q009",
@@ -1590,7 +1953,13 @@
           "The necessity of one isolated cell for all recognition.",
           "The absence of identity information in populations."
         ],
-        "correctIndex": 0
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "The reviewed work links hippocampal identity information across faces and voices, examining individual neurons and populations. This tests generalization across sensory modalities.",
+          "Retinal color sensitivity concerns early visual processing. It does not explain a hippocampal representation that can relate faces and voices to identity.",
+          "Recording selectivity or decoding information is not a test of necessity. Establishing that one cell is required would need causal evidence beyond these responses.",
+          "The reviewed population analyses found identity information rather than its absence. Single-cell and population evidence can coexist."
+        ]
       },
       {
         "id": "108-q010",
@@ -1605,7 +1974,13 @@
           "It proves every cortical region is identical.",
           "It eliminates all difficulty differences automatically."
         ],
-        "correctIndex": 1
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "A selective impairment does not make the tasks unmeasurable. The question is which resource explanation can generate their different measured outcomes.",
+          "If A needs more of a shared resource, a reduction can impair A while leaving enough capacity for B. A single dissociation therefore does not force separate modules.",
+          "The result concerns two tasks and does not show that every cortical region has the same structure or function.",
+          "Difficulty differences are a potential explanation that must be tested. Observing a dissociation does not automatically control or remove them."
+        ]
       },
       {
         "id": "108-q011",
@@ -1618,7 +1993,11 @@
           "True",
           "False"
         ],
-        "correctIndex": 1
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "The word \"only\" makes this false: subcortical nuclei also contain gray matter. Gray matter is not restricted to the outer cerebral sheet.",
+          "Gray matter includes cerebral cortex and subcortical nuclei. Its presence below cortex is enough to reject the statement's absolute restriction."
+        ]
       },
       {
         "id": "108-q012",
@@ -1631,7 +2010,11 @@
           "True",
           "False"
         ],
-        "correctIndex": 0
+        "correctIndex": 0,
+        "choiceExplanations": [
+          "Aligning EEG epochs to the same event and averaging corresponding time points emphasizes consistent event-locked activity relative to non-time-locked background.",
+          "Rejecting the statement would miss the defining ERP procedure. Averaging does not guarantee perfect source localization, but alignment and averaging are how ERPs are derived."
+        ]
       },
       {
         "id": "108-q013",
@@ -1644,7 +2027,11 @@
           "True",
           "False"
         ],
-        "correctIndex": 1
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "Both methods concern hemodynamics, but their measurement physics differ. fNIRS uses light absorption rather than magnetic-resonance BOLD acquisition.",
+          "fNIRS estimates oxy/deoxyhemoglobin-related changes using near-infrared light; fMRI uses magnetic-resonance contrast related to blood oxygenation. Similar physiological targets do not make their signals identical."
+        ]
       },
       {
         "id": "108-q014",
@@ -1657,7 +2044,11 @@
           "True",
           "False"
         ],
-        "correctIndex": 1
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "Conventional focal TMS mainly reaches accessible superficial cortex. A deep structure such as the hippocampus is not targeted as directly and focally in the same way.",
+          "Deep structures can be influenced through connected networks, but indirect network effects differ from direct superficial targeting. That depth limitation makes the statement false."
+        ]
       },
       {
         "id": "108-q015",
@@ -1670,7 +2061,11 @@
           "True",
           "False"
         ],
-        "correctIndex": 1
+        "correctIndex": 1,
+        "choiceExplanations": [
+          "Opposite selective impairments support differentiated contributions. They do not establish zero shared resources, interactions, or overlapping processing stages.",
+          "The claim is too strong because partial specialization can coexist with shared resources. A double dissociation challenges a simple fixed difficulty ordering without proving complete independence."
+        ]
       },
       {
         "id": "108-q016",
@@ -1683,7 +2078,10 @@
           "Corpus callosum",
           "commissural. It connects the hemispheres rather than merely two cortical sites within one hemisphere."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "An association tract connects cortical sites within one hemisphere, so that label does not fit the corpus callosum's left-right connection. Projection describes cortical-subcortical/spinal endpoints rather than this commissural arrangement."
+        ]
       },
       {
         "id": "108-q017",
@@ -1696,7 +2094,10 @@
           "Relay",
           "olfaction/smell. This exception does not mean the thalamus never participates in any olfactory processing."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "The olfactory exception concerns an obligatory initial thalamic relay to primary olfactory cortex. Extending it to \"smell never involves thalamus\" incorrectly rules out later olfactory participation."
+        ]
       },
       {
         "id": "108-q018",
@@ -1709,7 +2110,10 @@
           "Six layers",
           "about 3 mm. This is an approximate teaching value, not uniform thickness across every cortical region."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Six layers describe microscopic organization through neocortical depth, not six surface folds. About 3 mm is a course approximation rather than a constant thickness at every point or a statement about every type of cortex."
+        ]
       },
       {
         "id": "108-q019",
@@ -1722,7 +2126,10 @@
           "Oligodendrocytes",
           "microglia."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Microglia do not make CNS myelin; oligodendrocytes do. Microglia's immune/phagocytic role differs from myelination, and astrocytes' support roles do not make them interchangeable with either cell type."
+        ]
       },
       {
         "id": "108-q020",
@@ -1735,7 +2142,10 @@
           "All-or-none / stereotyped",
           "sum / combine spatially or temporally."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Do not describe ordinary action potentials as graded simply because firing rate changes. Graded postsynaptic potentials can combine before threshold; action-potential amplitude is approximately stereotyped once triggered."
+        ]
       },
       {
         "id": "108-q021",
@@ -1750,7 +2160,10 @@
           "Similar behavior can arise from other sensory/motor pathway problems.",
           "A behavioral vignette cannot uniquely localize a lesion without neurological/anatomical evidence."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "A coordination problem is not automatically a loss of muscle strength or definitive proof of one cerebellar lesion. Sensory feedback and other motor pathways can also affect trajectory, so the candidate needs anatomical and clinical testing."
+        ]
       },
       {
         "id": "108-q022",
@@ -1765,7 +2178,10 @@
           "Signal is averaged event-related electrical population activity; the review places P300 roughly 250-500 ms after onset.",
           "Scalp localization is limited and a P300 is not a unique readout of a single mental state."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "fMRI's slow hemodynamics are poorly suited to separating neural events around 300 ms. A P300-family response is not a unique thought detector and need not peak at precisely 300 ms or reveal one exact source."
+        ]
       },
       {
         "id": "108-q023",
@@ -1780,7 +2196,10 @@
           "Fully distributed coding represents concepts across much or all of a population's activity pattern.",
           "One selective recorded cell cannot distinguish strict one-cell-only storage from its participation in a sparse ensemble."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "One highly selective cell does not tell you how many other cells carry the concept. Sparse coding can include very selective units, so selectivity alone cannot distinguish a sparse ensemble from a literal unique grandmother cell."
+        ]
       },
       {
         "id": "108-q024",
@@ -1795,7 +2214,10 @@
           "It challenges a simple single-resource account in which one task is always harder.",
           "Performance baselines, perceptual demands, lesion variation, and network effects still require controls."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Do not collapse the two opposite impairments into a single dissociation or claim that they prove zero shared resources. The reversal challenges a simple fixed task-difficulty ordering while still allowing interaction and overlap."
+        ]
       },
       {
         "id": "108-q025",
@@ -1810,7 +2232,10 @@
           "Measurement alone is correlational; controlled perturbation changes the system.",
           "Selective behavioral disruption supports a causal contribution/conditional necessity, with control-site, sham, timing, and nonspecific effects considered."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Observing greater activity during a task does not show that the task requires the region. Perturbation is a different evidential step, and its behavioral effects still need controls for nonspecific stimulation effects."
+        ]
       },
       {
         "id": "108-q026",
@@ -1825,7 +2250,10 @@
           "Cerebellum is a distinct posterior/inferior brain structure.",
           "Cerebral cortex is the outer cerebral gray-matter sheet, not the entire cerebrum or entire brain."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "The cerebellum is part of the brain but is not the cerebrum. The cerebral cortex is only the outer cerebral sheet; substituting \"cortex\" for the whole brain leaves out deeper and noncerebral structures."
+        ]
       },
       {
         "id": "108-q027",
@@ -1841,7 +2269,10 @@
           "4 occipital: visual processing. This gross-anatomy drill supplements the guide's cortex category; left of image is anterior."
         ],
         "selfGraded": true,
-        "visual": "lobes"
+        "visual": "lobes",
+        "commonMistakes": [
+          "Lobe colors are arbitrary and can change between illustrations. Orient anterior/posterior and use sulci and adjacency; broad lobe functions are useful labels rather than exclusive storage locations for whole behaviors."
+        ]
       },
       {
         "id": "108-q028",
@@ -1856,7 +2287,10 @@
           "Medial is toward midline; lateral is away from it.",
           "Two accurate examples, such as hypothalamus ventral to thalamus and frontal cortex rostral to occipital cortex. Specify orientation because the neuraxis bends."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Medial does not mean left and lateral does not mean right. Both sides of the brain have medial and lateral locations, and directional conventions must specify the relevant part of the bent neuraxis."
+        ]
       },
       {
         "id": "108-q029",
@@ -1871,7 +2305,10 @@
           "Primary motor cortex is just anterior to central sulcus.",
           "Primary somatosensory cortex is just posterior; the boundary helps orient functional anatomy but complex functions extend beyond one ridge."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Gyri are ridges and sulci are grooves, not the reverse. Primary motor and somatosensory cortex lie on opposite sides of the central sulcus, so confusing its banks reverses this functional landmark."
+        ]
       },
       {
         "id": "108-q030",
@@ -1886,7 +2323,10 @@
           "Columns/minicolumns are vertically organized circuits spanning layers.",
           "Gyri/sulci are larger-scale folds of the sheet, not the microscopic layering or column structure."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Layers, columns, and folds occur at different scales. Layers run through cortical depth, columns span layers, and gyri/sulci fold the entire sheet; none is just another name for the others."
+        ]
       },
       {
         "id": "108-q031",
@@ -1901,7 +2341,10 @@
           "Function: response or behavioral role, as in primary visual cortex.",
           "Connectivity: patterns of inputs/outputs to other areas. The schemes need not yield identical boundaries."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Brodmann classification is based on cytoarchitecture, not directly on a complete behavioral test. Surface landmarks, cell organization, response/function, and connectivity provide different evidence and need not produce identical boundaries."
+        ]
       },
       {
         "id": "108-q032",
@@ -1916,7 +2359,10 @@
           "Outputs determine which other systems can use/transmit its results.",
           "Functional evidence and connectivity complement microstructure; no one classification alone exhausts what an area does."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "A similar-looking cellular arrangement does not specify every input, output, or computation. Connectivity matters because it constrains the information an area receives and which other systems can use its processing."
+        ]
       },
       {
         "id": "108-q033",
@@ -1931,7 +2377,10 @@
           "White matter contains axons, often myelinated, and supporting glia; it is not a collection of whole neurons only.",
           "Ventricles are internal CSF-filled spaces, not another neural tissue type."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Gray matter is not restricted to cortex, and white matter is not just a pile of complete neuronal cell bodies. Subcortical nuclei are gray matter; ventricles are fluid-filled spaces rather than another neural tissue category."
+        ]
       },
       {
         "id": "108-q034",
@@ -1946,7 +2395,10 @@
           "Projection: cortex with subcortical/spinal levels; corticospinal tract is an example.",
           "The class depends on which levels/regions it connects; projection pathways can have crossings, but crossing hemispheres is not their defining property."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Classify pathways by their endpoints, not by the word \"projection\" or by any crossing alone. Association is within-hemisphere cortex-to-cortex; commissural links hemispheres; projection links cortex with subcortical/spinal levels."
+        ]
       },
       {
         "id": "108-q035",
@@ -1961,7 +2413,10 @@
           "Cortex-spinal connection: projection.",
           "Neighboring same-hemisphere cortical gyri: short association/U-fibers. Endpoint relationships, not length alone, determine the main class."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "A very short connection between neighboring gyri is still an association pathway. Length alone does not make a tract a projection tract; cortex-to-spinal endpoints do."
+        ]
       },
       {
         "id": "108-q036",
@@ -1976,7 +2431,10 @@
           "Direct cortical damage can disrupt processing at a node itself.",
           "The same behavioral deficit can therefore reflect node or connection damage; a simple location-to-function inference can miss network disconnection."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Preserved cell bodies do not guarantee an intact functioning network. Damaged connecting axons can prevent regions from exchanging information even when local gray matter remains viable."
+        ]
       },
       {
         "id": "108-q037",
@@ -1991,7 +2449,10 @@
           "CSF contributes to stable conditions, waste clearance, and pressure regulation.",
           "A fluid-filled space is not an axon bundle or a neuron cluster."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "CSF is a fluid and ventricles are spaces containing it; neither is an association tract or a gray-matter nucleus. Mechanical protection and homeostatic roles do not make CSF a substitute for neuronal signaling."
+        ]
       },
       {
         "id": "108-q038",
@@ -2006,7 +2467,10 @@
           "They contribute to regulating, selecting/planning, and terminating actions, and to reward, skill, and habit learning.",
           "The cerebellum emphasizes coordination and sensory-feedback integration. Both contribute to movement, but their broad roles differ."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Do not describe basal ganglia as a single white-matter cable or claim the three course-listed structures exhaust every broader definition. Action regulation and habit/reward learning also differ from the cerebellar emphasis on coordination and feedback."
+        ]
       },
       {
         "id": "108-q039",
@@ -2021,7 +2485,10 @@
           "A new-memory deficit versus altered emotional/threat response motivates different candidate systems.",
           "Neither label captures all functions or isolates all memory/emotion in one site; interaction and other structures matter."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "\"Memory center\" and \"fear center\" are incomplete labels. Memory and emotion involve interacting systems, and the hippocampus and amygdala are medial temporal structures with different broad contributions rather than one interchangeable site."
+        ]
       },
       {
         "id": "108-q040",
@@ -2036,7 +2503,10 @@
           "Temperature regulation is one hypothalamic example.",
           "Hunger, thirst, sexual activity, or caregiving regulation provides a second example. Their similar names do not imply the same function."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "The similar names do not imply the same function. Thalamus is the major sensory-relay comparison; hypothalamus lies below it and links bodily regulation with endocrine control. Both are in the diencephalon, not different names for the cerebellum."
+        ]
       },
       {
         "id": "108-q041",
@@ -2051,7 +2521,10 @@
           "Olfactory bulbs are early smell-processing structures.",
           "Their sensory input contributes to detection and connections with mood/memory; thalamus has a broader relay role."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Bypassing an obligatory initial thalamic relay does not mean smell has no later thalamic processing. Olfactory bulbs are early olfactory structures, not renamed thalamic nuclei."
+        ]
       },
       {
         "id": "108-q042",
@@ -2066,7 +2539,10 @@
           "Smell can be important for stimulus detection, mood, and memory.",
           "These are additional limbic-related labels in the review; the one-page guide emphasizes hippocampus/amygdala, and the cingulate gyrus is cortical rather than literally a subcortical nucleus."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Calling every limbic-related structure a subcortical nucleus misclassifies the cingulate gyrus, which is cortex. Olfactory bulbs concern smell processing, not the same conflict-related role assigned to cingulate cortex in the review."
+        ]
       },
       {
         "id": "108-q043",
@@ -2081,7 +2557,10 @@
           "Comparing/integrating action plans and sensory feedback supports smooth corrections.",
           "Coordination can fail despite adequate force; strength and movement organization are different aspects of performance."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Adequate force does not guarantee well-timed, accurate movement. A person can have strength while impaired feedback integration and coordination disrupt posture, trajectory, and corrective movements."
+        ]
       },
       {
         "id": "108-q044",
@@ -2096,7 +2575,10 @@
           "Axon conducts and terminals provide synaptic output.",
           "The review gives about 86 billion brain neurons and about 19% of CNS neurons in cerebral cortex; a large cortical volume does not imply a majority of neuron count."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "A large cortical volume is not the same as a majority of neurons. Keep the approximate brain count and the review's cortical proportion separate, and preserve the neuron's input-integration-axon-output sequence."
+        ]
       },
       {
         "id": "108-q045",
@@ -2111,7 +2593,10 @@
           "Postsynaptic inputs sum across time/locations to influence threshold.",
           "AP rate can influence transmitter release and the postsynaptic response, but one incoming AP does not guarantee an outgoing AP."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Postsynaptic inputs can sum without necessarily producing a spike. Do not add spike heights to explain intensity or assume that every presynaptic spike makes the next neuron fire."
+        ]
       },
       {
         "id": "108-q046",
@@ -2126,7 +2611,10 @@
           "Chemical transmitter crosses the cleft and binds postsynaptic receptors.",
           "Receptor effects change ionic conductances/postsynaptic electrical signals, which contribute to the next firing decision."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "In a chemical synapse the same electrical impulse does not cross an empty gap into the next cell. The sequence changes from electrical conduction to chemical receptor signaling and back to a postsynaptic electrical influence."
+        ]
       },
       {
         "id": "108-q047",
@@ -2141,7 +2629,10 @@
           "Astrocytes support synaptic function and BBB regulation/maintenance.",
           "Endothelial tight junctions form the principal physical barrier; astrocytes are important supporting participants, not the entire barrier by themselves."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Astrocytes help regulate and maintain the BBB but do not alone make its principal physical seal; endothelial tight junctions do. Distinguish that support role from oligodendrocyte myelination and microglial immune functions."
+        ]
       },
       {
         "id": "108-q048",
@@ -2156,7 +2647,10 @@
           "AP amplitude remains stereotyped where an AP is successfully regenerated; failure/latency is not simply a smaller encoded spike.",
           "Rate/population patterns can encode intensity; conduction reliability is a different issue."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Demyelination concerns the speed and reliability of conduction, including possible block. It is not a simple analog volume control that makes every successfully regenerated action potential half-sized."
+        ]
       },
       {
         "id": "108-q049",
@@ -2174,7 +2668,10 @@
           "Organic lesions: acquired damage rather than a researcher-assigned invasive procedure; can reveal causal dependence of behavior on affected systems; lesion variability, unknown premorbid ability, secondary effects, and reorganization complicate inference.",
           "TMS: induced currents perturb cortical firing; nonsurgical/noninvasive stimulation; permits site/time and within-person causal tests; mainly superficial targeting, broad network effects, sound/sensation, and need for suitable controls."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Do not group every method under \"brain activity.\" Structural imaging, electrical recording, hemodynamic recording, acquired injury, and controlled stimulation supply different evidence; noninvasive also does not mean free of artifacts or interpretive limits."
+        ]
       },
       {
         "id": "108-q050",
@@ -2189,7 +2686,10 @@
           "It measures action potentials with very fine spatial/temporal specificity.",
           "Invasive access and sparse, region-limited sampling constrain generalization/network conclusions; human clinical sampling adds selection issues."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "An electrode near sampled cells does not record every neuron in a region or read a whole thought. Unit isolation, baselines, repeated controlled stimuli, and regional/clinical sampling limits matter to interpreting spike responses."
+        ]
       },
       {
         "id": "108-q051",
@@ -2204,7 +2704,10 @@
           "Volume conduction blurs/mixes signals across the head.",
           "Multiple possible source arrangements can explain similar scalp patterns, limiting unique localization without assumptions/additional evidence."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "An electrode's scalp position is not an exact label for the neural source below it. Mixed, volume-conducted signals permit multiple source explanations; excellent timing does not remove the inverse problem."
+        ]
       },
       {
         "id": "108-q052",
@@ -2219,7 +2722,10 @@
           "Non-event-locked background tends to average down, revealing consistent components.",
           "A P300-family response to rare/task-relevant targets does not uniquely identify a thought or a single source and need not peak at exactly 300 ms."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "ERP averaging preserves consistent event-locked components rather than removing every source of noise. Time zero is a chosen event, not the moment a thought starts, and \"P300\" does not promise an exact 300 ms peak."
+        ]
       },
       {
         "id": "108-q053",
@@ -2234,7 +2740,10 @@
           "Diffusion information can help characterize white-matter organization, with modeling limits.",
           "Neither is direct millisecond task-related spike recording; inferred tracts do not automatically establish synapses or direction of communication."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Diffusion-based tract inference does not directly show individual synapses, axonal direction, or moment-to-moment spike transmission. T1 contrast and diffusion sensitivity are different MR contrasts, not interchangeable direct recordings of cognition."
+        ]
       },
       {
         "id": "108-q054",
@@ -2249,7 +2758,10 @@
           "Compare a task/condition with an appropriate baseline/control rather than interpreting raw signal as a unique process.",
           "Hemodynamic responses are delayed/slow; 1-2 s sampling does not give millisecond neural timing."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Image sampling every second or two does not make the vascular response that fast or recover individual spikes. Also, raw BOLD amplitude without a suitable comparison cannot uniquely identify a mental operation."
+        ]
       },
       {
         "id": "108-q055",
@@ -2264,7 +2776,10 @@
           "It is comparatively portable/movement-tolerant but mainly samples superficial cortex, with scalp/systemic contamination concerns.",
           "Its hemodynamic timing is slow relative to EEG and its spatial/depth coverage is generally poorer than fMRI."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "fNIRS uses light absorption, not magnetic resonance or direct electrical recording. Portability and movement tolerance do not eliminate scalp/physiological contamination, and superficial coverage is not equivalent to whole-brain depth coverage."
+        ]
       },
       {
         "id": "108-q056",
@@ -2279,7 +2794,10 @@
           "Conventional stimulation is mainly superficial and affects a region/network rather than a single neuron, with roughly centimeter-scale localization in the review.",
           "Sham/control-site/control-time comparisons help separate task disruption from sound, sensation, or nonspecific effects."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "A \"virtual lesion\" is a perturbation, not permanent surgical removal or a perfectly isolated single-cell lesion. Apparent task effects can come from sound or sensation unless controls separate them from the intended cortical contribution."
+        ]
       },
       {
         "id": "108-q057",
@@ -2295,7 +2813,10 @@
           "fMRI provides whole-brain task-related BOLD contrasts indicating involvement.",
           "Electrocorticography (ECoG) is invasive, using electrodes on the cortical surface. Magnetoencephalography (MEG) is noninvasive, measuring magnetic fields outside the head."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Do not choose structural MRI to measure spike timing or call ECoG noninvasive. ECoG needs cortical-surface electrode access, whereas MEG measures magnetic fields outside the head; they are not the same method."
+        ]
       },
       {
         "id": "108-q058",
@@ -2310,7 +2831,10 @@
           "fMRI has fine spatial localization (roughly 1–2 mm in the review) but slow hemodynamic timing. A 1–2 s image-sampling interval does not mean millisecond neural timing. Structural MRI provides fine anatomy without a task time series.",
           "fNIRS is superficial, generally centimeter-scale/slower; TMS is a temporally precise intervention with broader spatial effect. Do not call MRI universally best when single-unit spatial specificity is in the comparison."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "\"Best resolution\" needs an explicit dimension and method set. fMRI's spatial advantage over scalp EEG does not make it finer than a sampled single neuron or give it EEG's temporal precision."
+        ]
       },
       {
         "id": "108-q059",
@@ -2325,7 +2849,10 @@
           "fNIRS can be more portable and movement-tolerant with superficial coverage.",
           "Optode/electrode movement and physiological changes still contaminate signals, requiring careful design and analysis."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Movement-tolerant is not artifact-free. Motion can alter electrode/optode contact or the measured physiology, while a child's ability to tolerate a scanner also limits what usable MRI data can be obtained."
+        ]
       },
       {
         "id": "108-q060",
@@ -2340,7 +2867,10 @@
           "Use a matched non-face object judgment/control with comparable difficulty and motor demands.",
           "Selectivity still indicates involvement rather than necessity; perturbation/lesion evidence addresses a different claim."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Face judgments and rest differ in more than face recognition. Visual input, attention, decisions, and motor responses must be matched before attributing a contrast specifically to face-related processing."
+        ]
       },
       {
         "id": "108-q061",
@@ -2355,7 +2885,10 @@
           "Sufficiency: activating an appropriate system can produce the relevant outcome under specified conditions; this is stronger/different than task activation.",
           "Neither a scan correlation nor a simple impairment establishes all three or proves R acts alone."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Involvement, necessity, and sufficiency are not a ladder automatically completed by one scan. A region can covary with a task without being necessary, and an impairment does not prove that activating that region alone produces the function."
+        ]
       },
       {
         "id": "108-q062",
@@ -2370,7 +2903,10 @@
           "TMS permits within-person site/time controls but has depth/spatial and stimulation-effect limitations.",
           "Both require cautious generalization because injury populations and experimental perturbations differ from ordinary intact processing."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "An organic lesion is acquired damage, not a randomly assigned laboratory intervention. TMS improves control of site and timing but has its own depth/network effects; neither approach automatically removes compensation or generalizability concerns."
+        ]
       },
       {
         "id": "108-q063",
@@ -2385,7 +2921,10 @@
           "fMRI could identify candidate regions with corresponding task selectivity.",
           "Complementary correlations can constrain a mechanism but remain nonperturbational; a controlled lesion/TMS design is needed to test causal necessity/contribution."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Combining two correlations does not turn them into an intervention. Complementary where/when evidence narrows candidate mechanisms, but causal dependence still needs an appropriate perturbation or lesion argument with controls."
+        ]
       },
       {
         "id": "108-q064",
@@ -2400,7 +2939,10 @@
           "Include matched object discrimination and sham/control-site conditions.",
           "Check eye movements, stimulation sensation, basic visibility, response demands, and speed-accuracy trade-offs; selective impairment supports a causal role under those conditions."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "A drop on every task could reflect distraction or motor effects rather than a selective face contribution. Match control-task demands and compare stimulation sites/times, while measuring both accuracy and speed."
+        ]
       },
       {
         "id": "108-q065",
@@ -2415,7 +2957,10 @@
           "A selective response to tested examples cannot rule out untested preferred concepts or other cells carrying the same information.",
           "Necessity of that unique cell would require causal evidence; recording alone provides selectivity, not sole storage."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "A selective response to the tested actor images does not establish uniqueness across all neurons or exclusivity across all possible stimuli. Recording also does not show that destroying this cell would erase that concept."
+        ]
       },
       {
         "id": "108-q066",
@@ -2430,7 +2975,10 @@
           "Fully distributed: representation depends on activity spread across most/all units.",
           "Different concepts have different units/subsets or population activity patterns; code type concerns patterns, not merely the total number of neurons in the brain."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Sparse does not mean only a few neurons exist in the brain, and distributed does not require equal firing everywhere. The distinction concerns how a concept is represented across a defined population and how its pattern changes across concepts."
+        ]
       },
       {
         "id": "108-q067",
@@ -2445,7 +2993,10 @@
           "Shared/overlapping features support generalization, categorization, and learning flexibility.",
           "Activating a small subset can be metabolically economical compared with widespread activation, but this is a conceptual argument rather than direct energy measurement in the reviewed experiments."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "These advantages motivate sparse representations but are not all directly measured by the reviewed experiments. In particular, a conceptual energy-efficiency argument must not be reported as if the studies measured metabolic savings."
+        ]
       },
       {
         "id": "108-q068",
@@ -2460,7 +3011,10 @@
           "It is unjustified to infer no untested concept could activate it.",
           "It is unjustified to infer it is the only/necessary cell representing that actor."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Selectivity compares the actor with tested alternatives; invariance compares different images of the same actor. Neither comparison proves how the cell responds to every untested concept or how many other cells carry the actor's identity."
+        ]
       },
       {
         "id": "108-q069",
@@ -2475,7 +3029,10 @@
           "Present varied images of faces, landmarks, objects, and animals in controlled/pseudorandom order, about one second each in the review.",
           "Record single-unit firing; clinical access permits invasive human sampling unavailable in ordinary healthy volunteers."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Do not substitute scalp EEG, healthy volunteers, or marmosets for the reviewed Quiroga design. The opportunity came from clinical intracranial access in human epilepsy patients, with electrode placement constrained by clinical needs."
+        ]
       },
       {
         "id": "108-q070",
@@ -2490,7 +3047,10 @@
           "Epilepsy patients and clinically determined electrode sites are selective samples.",
           "Limited tested stimuli/neurons and correlational recording constrain exclusivity, population, and necessity claims."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Finding abstract or invariant responses is stronger than finding nothing, but weaker than proving a unique grandmother cell. Limited stimuli, recorded neurons, clinical participants, and electrode sites restrict exclusivity and generalization claims."
+        ]
       },
       {
         "id": "108-q071",
@@ -2505,7 +3065,10 @@
           "Analyses examine single-neuron responses and population activity.",
           "The question is whether identity is represented across sensory modalities rather than only through one particular image or sound."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Do not confuse the species and modality manipulation with Quiroga's human visual-image study. The reviewed Tyree design used marmoset hippocampal recordings with faces, voices, and audiovisual presentations to examine identity across modalities."
+        ]
       },
       {
         "id": "108-q072",
@@ -2520,7 +3083,10 @@
           "Population activity also contains identity information.",
           "These results support cross-modal representations but do not prove one exclusive necessary cell or that all neurons respond identically."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Separate face and voice responses do not automatically show that the same identity code generalizes across them. The review's approximate 9% is a subset estimate, not a claim that every hippocampal neuron responds identically or is necessary for recognition."
+        ]
       },
       {
         "id": "108-q073",
@@ -2535,7 +3101,10 @@
           "Both use invasive single-neuron evidence in medial-temporal/hippocampal systems, with population analysis emphasized for Tyree.",
           "Both support selective high-level identity/concept representations compatible with sparse/population coding; neither establishes sole-cell necessity."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "The studies are not identical replications: human clinical visual-image invariance and marmoset cross-modal identity address different manipulations. Their shared selectivity evidence remains compatible with sparse/population coding rather than unique-cell necessity."
+        ]
       },
       {
         "id": "108-q074",
@@ -2550,7 +3119,10 @@
           "Use held-out data and controls for stimulus familiarity/task/motor effects.",
           "Decodability means information is present in measured activity, not that this population is uniquely used or necessary for behavior. This is an application extension, not a claim about every analysis in Tyree."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Success on separate face-only and voice-only classifiers does not by itself demonstrate a shared cross-modal pattern. Cross-modal testing must use held-out data; even successful decoding shows available information, not unique behavioral necessity."
+        ]
       },
       {
         "id": "108-q075",
@@ -2565,7 +3137,10 @@
           "The harder task requires more of it and falls below its performance threshold after damage.",
           "The easier task remains above threshold; this is a task-resource/difficulty explanation rather than evidence compelling separate systems."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "A selective deficit on the harder task does not compel two separate modules. The same reduced resource can leave enough capacity for an easy task while the harder one falls below its requirement."
+        ]
       },
       {
         "id": "108-q076",
@@ -2580,7 +3155,10 @@
           "A single fixed resource with one task always more demanding cannot readily explain both opposite patterns.",
           "It supports differentiated resources but not complete independence; measure reliability, task comparability, and lesion/network differences matter."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Opposite selective deficits challenge a simple shared resource with one fixed difficulty ordering. They do not imply that the tasks never share any processing or that lesion extent and measurement reliability can be ignored."
+        ]
       },
       {
         "id": "108-q077",
@@ -2595,7 +3173,10 @@
           "Establish whether impairment relative to the appropriate baseline differs across tasks, with uncertainty/reliability considered.",
           "Preserve comparable sensory/motor demands and enough trials to avoid mistaking noisy or ceiling/floor data for a dissociation."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Raw percentages can have different baselines, chance levels, and reliabilities. Compare each task with suitable controls before interpreting a difference as selective impairment rather than unequal difficulty or measurement noise."
+        ]
       },
       {
         "id": "108-q078",
@@ -2610,7 +3191,10 @@
           "Time since injury allows reorganization/compensation.",
           "Secondary effects such as depression, fatigue, medication, or broader impairment can affect performance. A single case can still strongly constrain a universal theory."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "A post-injury score is not a direct measure of lost ability when the pre-injury baseline is unknown. Lesion extent, compensation, fatigue, and other secondary effects can also change performance without mapping neatly onto one isolated function."
+        ]
       },
       {
         "id": "108-q079",
@@ -2625,7 +3209,10 @@
           "The first primarily supports differentiated involvement; the second provides evidence about causal dependence with lesion confounds.",
           "Neither alone establishes exclusive isolated modules; the evidence types and controls differ."
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "A crossed activation preference does not disrupt anything, whereas lesion evidence concerns performance after damage. Sharing the phrase \"double dissociation\" does not give an activation contrast the same causal force as a controlled impairment argument."
+        ]
       },
       {
         "id": "108-q080",
@@ -2640,7 +3227,10 @@
           "Actor selectivity/invariance is consistent with participation in a sparse ensemble, not unique exclusive storage.",
           "A follow-up can test more stimuli/neurons and population generalization or a justified causal intervention. State evidence limits rather than replacing all conclusions with 'nothing is known.'"
         ],
-        "selfGraded": true
+        "selfGraded": true,
+        "commonMistakes": [
+          "Avoid both overclaiming and dismissing the evidence entirely. Double dissociations constrain shared-resource accounts, and selective cells constrain coding accounts, but stronger claims of complete independence or unique storage need additional targeted tests."
+        ]
       }
     ],
     "flashcards": [

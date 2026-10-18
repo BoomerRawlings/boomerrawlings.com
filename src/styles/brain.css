@@ -34,3 +34,15 @@
 
 .anatomical-directions{margin:8px 14px;color:#9bb2bc;font-size:11px;line-height:1.5;flex-shrink:0;max-height:180px;overflow:auto}.anatomical-directions summary{cursor:pointer;color:var(--mint)}.anatomical-directions p{margin:8px 0}.anatomical-directions a{text-decoration:underline}
 @media(max-width:900px){.viewer-column:not(.is-expanded):has(.anatomical-directions[open]){height:auto;min-height:740px}}
+
+/* Answer outcomes remain distinct without relying on red/green. */
+#recall-feedback[data-state='correct']{border-left:4px solid #8dddf4;background:#102d39}
+#recall-feedback[data-state='incorrect']{border-left:4px solid #e7b475;background:#30291f}
+#recall-feedback>.answer-verdict{font-size:24px;line-height:1.3;font-weight:600;color:#b4edff;margin-bottom:12px}
+#recall-feedback[data-state='incorrect']>.answer-verdict{color:#ffd39a}
+#recall-answers button.correct{border-color:#8dddf4;background:#163b4a}
+#recall-answers button.incorrect{border-color:#e7b475;background:#3c3021}
+#recall-feedback .answer-comparison li[data-correct='true']{border-left:3px solid #8dddf4;padding-left:14px}
+#recall-feedback .answer-comparison li[data-correct='true'] strong{color:#b4edff}
+#recall-feedback .answer-comparison li[data-correct='false']{border-left:3px solid #ad885b;padding-left:14px}
+#recall-feedback .answer-comparison li[data-correct='false'] strong{color:#f0cca1}

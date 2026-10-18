@@ -19,7 +19,14 @@ for (const course of ['105', '108']) {
       if (q.kind !== 'short') {
         assert.ok(Number.isInteger(q.correctIndex) && q.correctIndex >= 0 && q.correctIndex < q.choices.length);
         assert.equal(new Set(q.choices).size, q.choices.length);
-      } else assert.ok(q.rubric?.length, `${q.id} needs a self-assessment rubric`);
+        assert.equal(q.choiceExplanations?.length, q.choices.length, `${q.id} must explain every option`);
+        assert.equal(new Set(q.choiceExplanations).size, q.choices.length, `${q.id} needs distinct option explanations`);
+        for (const explanation of q.choiceExplanations) assert.ok(typeof explanation === 'string' && explanation.trim().length >= 60, `${q.id} has missing or superficial option feedback`);
+      } else {
+        assert.ok(q.rubric?.length, `${q.id} needs a self-assessment rubric`);
+        assert.ok(q.commonMistakes?.length, `${q.id} needs corrective feedback for written recall`);
+        for (const mistake of q.commonMistakes) assert.ok(typeof mistake === 'string' && mistake.trim().length >= 60, `${q.id} needs a concrete misconception and correction`);
+      }
     }
     if (course === '105') {
       assert.match(data.scope, /1[\u2013-]10/);
@@ -37,7 +44,10 @@ for (const course of ['105', '108']) {
       for (const q of result.questions) {
         const original = eligible.find((item) => item.id === q.id);
         assert.ok(original);
-        if (q.choices) assert.equal(q.choices[q.correctIndex], original.choices[original.correctIndex]);
+        if (q.choices) {
+          assert.equal(q.choices[q.correctIndex], original.choices[original.correctIndex]);
+          q.choices.forEach((choice, index) => assert.equal(q.choiceExplanations[index], original.choiceExplanations[original.choices.indexOf(choice)], `${q.id}: explanation drifted from its option`));
+        }
       }
     }
     const topics = new Set(bank[course].questions.map((q) => q.topic));
@@ -47,12 +57,28 @@ for (const course of ['105', '108']) {
 }
 
 test('choice randomization does not mutate the canonical bank or lose its answer', () => {
-  const q = { id: 'q', choices: ['A', 'B', 'C', 'D'], correctIndex: 2 };
+  const q = { id: 'q', choices: ['A', 'B', 'C', 'D'], choiceExplanations: ['Why A', 'Why B', 'Why C', 'Why D'], correctIndex: 2 };
   const output = shuffleChoices(q, () => 0);
   assert.deepEqual(q.choices, ['A', 'B', 'C', 'D']);
   assert.equal(q.correctIndex, 2);
   assert.notDeepEqual(output.choices, q.choices);
   assert.equal(output.choices[output.correctIndex], 'C');
+  assert.deepEqual(q.choiceExplanations, ['Why A', 'Why B', 'Why C', 'Why D']);
+  output.choices.forEach((choice, i) => assert.equal(output.choiceExplanations[i], `Why ${choice}`));
+  const retry = shuffleChoices(output, seeded());
+  retry.choices.forEach((choice, i) => assert.equal(retry.choiceExplanations[i], `Why ${choice}`));
+});
+
+test('every objective item retains all option reasoning through repeated shuffles and retries', () => {
+  for (const data of Object.values(bank)) for (const q of data.questions.filter(q => q.kind !== 'short')) {
+    let shuffled = q;
+    const random = seeded();
+    for (let pass = 0; pass < 20; pass++) {
+      shuffled = shuffleChoices(shuffled, random);
+      assert.equal(shuffled.choices[shuffled.correctIndex], q.choices[q.correctIndex]);
+      shuffled.choices.forEach((choice, i) => assert.equal(shuffled.choiceExplanations[i], q.choiceExplanations[q.choices.indexOf(choice)], `${q.id}, pass ${pass}`));
+    }
+  }
 });
 
 test('scores keep machine-marked answers separate from recall self-ratings and review all weak items', () => {

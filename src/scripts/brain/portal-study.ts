@@ -4,6 +4,7 @@ type Question = {
   id: string; topic: string; kind: 'mcq' | 'truefalse' | 'short';
   difficulty: Exclude<Difficulty, 'mixed'>; prompt: string; explanation: string;
   choices?: string[]; correctIndex?: number; rubric?: string[]; visual?: 'lobes';
+  choiceExplanations?: string[]; commonMistakes?: string[];
 };
 type Flashcard = { id: string; topic: string; question: string; answer: string };
 type CourseBank = { title: string; scope: string; questions: Question[]; flashcards: Flashcard[] };
@@ -99,10 +100,14 @@ function lobesDiagram(): HTMLElement {
 }
 
 async function loadBank(): Promise<Record<Course, CourseBank>> {
-  if (!bankPromise) bankPromise = fetch('/brain/midterm-bank.json').then(async (response) => {
+  if (!bankPromise) bankPromise = fetch('/brain/midterm-bank.json?v=2').then(async (response) => {
     if (!response.ok) throw new Error('Study material could not be loaded.');
     const bank = await response.json();
     if (!bank['105']?.questions?.length || !bank['108']?.flashcards?.length) throw new Error('Study material is unavailable.');
+    for (const course of ['105', '108']) for (const q of bank[course].questions) {
+      const explanations = q.kind === 'short' ? q.commonMistakes : q.choiceExplanations;
+      if (!Array.isArray(explanations) || !explanations.length || explanations.some((text: unknown) => typeof text !== 'string' || !text.trim()) || (q.choices && explanations.length !== q.choices.length)) throw new Error('Complete answer explanations are unavailable.');
+    }
     return bank;
   }).catch((error) => { bankPromise = undefined; throw error; });
   return bankPromise;
@@ -121,13 +126,14 @@ export async function showStudy(options: StudyOptions): Promise<void> {
   host.append(loading);
   container.replaceChildren(host);
   try {
-    const engineUrl = '/brain/midterm-engine.js';
+    const engineUrl = '/brain/midterm-engine.js?v=2';
     const [bank, engine] = await Promise.all([loadBank(), import(/* @vite-ignore */ engineUrl) as Promise<Engine>]);
     if (!current()) return;
     const data = bank[course];
     if (options.mode === 'flashcards') showFlashcards(data, engine, { ...options, container: host, onBack: back }, current);
     else showQuiz(data, engine, { ...options, container: host, onBack: back }, current);
-  } catch {
+  } catch (error) {
+    console.error('Unable to open study material.', error);
     if (!current()) return;
     const panel = node('section', 'portal-panel');
     panel.append(node('h2', 'portal-title', 'Let’s reconnect.'), node('p', 'portal-subtitle', 'The study material did not load. Your browser may be offline. Try again when you are connected.'));
@@ -180,18 +186,29 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
       choices.setAttribute('role', 'group'); choices.setAttribute('aria-label', 'Answer choices');
       let check: HTMLButtonElement | undefined;
       q.choices!.forEach((choice, choiceIndex) => {
-        const option = button(`${String.fromCharCode(65 + choiceIndex)}. ${choice}`, 'portal-answer', () => {
+        const choose = () => {
           if (answer.revealed) return;
           answer.selected = choiceIndex;
           for (const other of choices.querySelectorAll<HTMLButtonElement>('button')) other.setAttribute('aria-pressed', String(other === option));
           if (check) check.disabled = false;
-        });
-        option.setAttribute('aria-pressed', String(answer.selected === choiceIndex));
+        };
+        const option = answer.revealed ? node('div', 'portal-answer portal-answer-explained') : button('', 'portal-answer', choose);
+        const content = node('div', 'portal-choice-content');
+        const title = node('span', 'portal-choice-title', choice);
+        title.id = `choice-${q.id}-${choiceIndex}`;
+        content.append(title);
+        option.append(node('span', 'portal-answer-letter', String.fromCharCode(65 + choiceIndex)), content);
         if (answer.revealed) {
-          option.disabled = true;
-          if (choiceIndex === q.correctIndex) { option.dataset.state = 'correct'; option.append(node('strong', '', ' · Correct answer')); }
-          else if (choiceIndex === answer.selected) { option.dataset.state = 'incorrect'; option.append(node('strong', '', ' · Your answer')); }
-        }
+          const correct = choiceIndex === q.correctIndex;
+          option.dataset.state = correct ? 'correct' : 'incorrect';
+          option.dataset.selected = String(choiceIndex === answer.selected);
+          option.setAttribute('role', 'group'); option.setAttribute('aria-labelledby', title.id);
+          const badges = node('div', 'portal-choice-badges');
+          badges.append(node('span', 'portal-choice-badge', correct ? '✓ Correct option' : '✕ Incorrect option'));
+          if (choiceIndex === answer.selected) badges.append(node('span', 'portal-choice-badge portal-your-choice', 'Your answer'));
+          content.prepend(badges);
+          content.append(node('p', 'portal-choice-explanation', q.choiceExplanations![choiceIndex]));
+        } else option.setAttribute('aria-pressed', String(answer.selected === choiceIndex));
         choices.append(option);
       });
       panel.append(choices);
@@ -202,23 +219,47 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
     }
 
     if (answer.revealed) {
-      const feedback = node('div', 'portal-feedback');
-      const feedbackHeading = node('h3', '', q.kind === 'short' ? 'Compare your answer' : answer.selected === q.correctIndex ? 'Correct' : 'A useful one to revisit');
+      const isRecall = q.kind === 'short';
+      const correct = answer.selected === q.correctIndex;
+      const feedback = node('section', 'portal-feedback');
+      feedback.dataset.state = isRecall ? (answer.rating || 'self-check') : correct ? 'correct' : 'incorrect';
+      const ratingLabels = {needs:'Self-rated: Needs review', partly:'Self-rated: Partly recalled', got:'Self-rated: Recalled well'};
+      const feedbackHeading = node('h3', 'portal-feedback-heading', isRecall ? (answer.rating ? ratingLabels[answer.rating] : 'Written answer — self-check') : correct ? '✓ Correct' : '✕ Incorrect');
       feedbackHeading.tabIndex = -1;
       feedback.append(feedbackHeading);
-      if(q.kind !== 'short' || !q.rubric?.length) feedback.append(node('p', '', q.explanation));
-      if (q.kind === 'short') {
-        if (q.rubric?.length) {
-          const rubric = node('ul'); q.rubric.forEach((point) => rubric.append(node('li', '', point))); feedback.append(rubric);
+      if (!isRecall) {
+        const selectedLetter = String.fromCharCode(65 + answer.selected!);
+        const correctLetter = String.fromCharCode(65 + q.correctIndex!);
+        const summary = node('p', 'portal-feedback-summary', `Your answer: ${selectedLetter}. ${q.choices![answer.selected!]}`);
+        summary.id = `feedback-summary-${q.id}`;
+        feedbackHeading.setAttribute('aria-describedby', summary.id);
+        feedback.append(summary);
+        if (!correct) feedback.append(node('p', 'portal-correct-answer', `Correct answer: ${correctLetter}. ${q.choices![q.correctIndex!]}`));
+        feedback.append(node('h4', 'portal-reason-label', 'Why this is the correct answer'), node('p', '', q.explanation), node('p', 'portal-feedback-guide', 'Every option is explained below.'));
+      } else {
+        feedback.append(node('p', 'portal-feedback-guide', 'Written responses are not automatically graded. Compare your reasoning with the model answer, then rate your recall.'), node('h4', 'portal-reason-label', 'Model answer and key reasoning'));
+        const normalized = (value: string) => value.replace(/\s+/g, ' ').trim();
+        if (q.rubric?.length && normalized(q.rubric.join(' ')) === normalized(q.explanation)) {
+          const rubric = node('ol', 'portal-rubric'); q.rubric.forEach((point) => rubric.append(node('li', '', point))); feedback.append(rubric);
+        } else {
+          feedback.append(node('p', '', q.explanation));
+          if (q.rubric?.length) {
+            feedback.append(node('h4', 'portal-reason-label', 'Self-check: key points to include'));
+            const rubric = node('ol', 'portal-rubric'); q.rubric.forEach((point) => rubric.append(node('li', '', point))); feedback.append(rubric);
+          }
         }
-        feedback.append(node('p', 'portal-subtitle', 'This answer is self-rated. Compare the key ideas, then choose how well you recalled them.'));
+        feedback.append(node('h4', 'portal-reason-label', 'Common mistakes — and why they are wrong'));
+        const mistakes = node('ul', 'portal-common-mistakes');
+        q.commonMistakes!.forEach(mistake => mistakes.append(node('li', '', mistake)));
+        feedback.append(mistakes, node('p', 'portal-feedback-guide', 'Rate the ideas and reasoning you recalled before revealing the answer.'));
         const ratings = node('div', 'portal-actions');
         for (const [value, label] of [['needs', 'Needs review'], ['partly', 'Partly'], ['got', 'Got it']] as const) {
           const rating = button(label, 'portal-pill', () => {
             answer.rating = value;
+            feedback.dataset.state = value; feedbackHeading.textContent = ratingLabels[value];
             for (const choice of ratings.querySelectorAll('button')) choice.setAttribute('aria-pressed', String(choice === rating));
             const finished = questions.filter(complete).length;
-            const progressLabel = `Question ${index + 1} of ${questions.length} \u00b7 ${finished} answered`;
+            const progressLabel = `Question ${index + 1} of ${questions.length} · ${finished} answered`;
             const progressText = panel.querySelector<HTMLElement>('.portal-progress > span');
             const progressBar = panel.querySelector<HTMLProgressElement>('.portal-progress > progress');
             if (progressText) progressText.textContent = progressLabel;
@@ -231,7 +272,9 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
         }
         feedback.append(ratings);
       }
-      panel.append(feedback);
+      const choiceList = panel.querySelector('.portal-answers');
+      if (choiceList) panel.insertBefore(feedback, choiceList);
+      else panel.append(feedback);
     }
     const navigation = node('div', 'portal-actions portal-question-navigation');
     const previous = button('← Previous', 'portal-pill', () => { index -= 1; render(); }); previous.disabled = index === 0;

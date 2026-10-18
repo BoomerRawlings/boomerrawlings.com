@@ -215,15 +215,16 @@ function answerQuestion(index:number){
   save();renderProgress();
   all<HTMLButtonElement>('#recall-answers button').forEach((el,i)=>{el.disabled=true;if(choiceOrder[i]===topic.question.answer)el.classList.add('correct');if(choiceOrder[i]===index&&!correct)el.classList.add('incorrect');});
   const feedback=questionFeedback[topic.id as keyof typeof questionFeedback];
-  const verdict=document.createElement('strong');verdict.textContent=correct?'Correct.':'Correction';
+  const verdict=document.createElement('strong');verdict.className='answer-verdict';verdict.textContent=correct?'✓ Correct':'✕ Incorrect';
+  $('recall-feedback').dataset.state=correct?'correct':'incorrect';
   const explanation=document.createElement('p');explanation.textContent=topic.question.explanation;
   const nodes:HTMLElement[]=[verdict];
   if(!correct){const correction=document.createElement('p');correction.className='correction-prompt';correction.textContent=feedback.choices[index].correction||feedback.choices[index].explanation;nodes.push(correction);}
   nodes.push(explanation);
   const comparison=document.createElement('details'),summary=document.createElement('summary'),list=document.createElement('ol');summary.textContent='Why each answer is right or wrong';list.className='answer-comparison';
-  choiceOrder.forEach((choiceIndex,position)=>{const item=document.createElement('li'),title=document.createElement('strong'),why=document.createElement('p');const isCorrect=choiceIndex===topic.question.answer;item.dataset.correct=String(isCorrect);title.textContent=`${position+1}. ${topic.question.choices[choiceIndex]} — ${isCorrect?'Correct answer':choiceIndex===index?'Your answer':'Incorrect'}`;why.textContent=feedback.choices[choiceIndex].explanation;item.append(title,why);list.append(item);});
-  comparison.append(summary,list);nodes.push(comparison);
-  all<HTMLButtonElement>('#recall-answers button').forEach((el,position)=>{const original=choiceOrder[position];if(original===topic.question.answer||original===index){const label=document.createElement('span');label.className='answer-result';label.textContent=original===topic.question.answer?'Correct answer':'Your answer';el.append(label);}});
+  choiceOrder.forEach((choiceIndex,position)=>{const item=document.createElement('li'),title=document.createElement('strong'),why=document.createElement('p');const isCorrect=choiceIndex===topic.question.answer;item.dataset.correct=String(isCorrect);title.textContent=`${position+1}. ${topic.question.choices[choiceIndex]} — ${isCorrect?'✓ Correct answer'+(choiceIndex===index?' — Your answer':''):choiceIndex===index?'✕ Incorrect — Your answer':'✕ Incorrect option'}`;why.textContent=feedback.choices[choiceIndex].explanation;item.append(title,why);list.append(item);});
+  comparison.open=true;comparison.append(summary,list);nodes.push(comparison);
+  all<HTMLButtonElement>('#recall-answers button').forEach((el,position)=>{const original=choiceOrder[position];if(original===topic.question.answer||original===index){const label=document.createElement('span');label.className='answer-result';label.textContent=original===topic.question.answer?'✓ Correct answer'+(original===index?' — Your answer':''):'✕ Incorrect — Your answer';el.append(label);}});
   $('recall-feedback').replaceChildren(...nodes);$('recall-feedback').hidden=false;
   $('recall-score').textContent=`${roundCorrect} correct`;
   $<HTMLProgressElement>('recall-progress').value=roundIndex+1;

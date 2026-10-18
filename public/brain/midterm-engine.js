@@ -10,10 +10,11 @@ export function shuffle(items, random = Math.random) {
 
 export function shuffleChoices(question, random = Math.random) {
   if (!question.choices || !Number.isInteger(question.correctIndex)) return { ...question };
-  const choices = shuffle(question.choices.map((text, index) => ({ text, index })), random);
+  const choices = shuffle(question.choices.map((text, index) => ({ text, index, explanation: question.choiceExplanations?.[index] })), random);
   return {
     ...question,
     choices: choices.map((choice) => choice.text),
+    ...(question.choiceExplanations ? { choiceExplanations: choices.map((choice) => choice.explanation) } : {}),
     correctIndex: choices.findIndex((choice) => choice.index === question.correctIndex),
   };
 }

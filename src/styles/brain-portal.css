@@ -101,7 +101,7 @@
 .portal-question-note { margin-top: 10px !important; color: #9fb6c7; font-size: 12px; }
 .portal-answers { display: grid; gap: 10px; margin: 25px 0 0; }
 .portal-answer { display: flex; align-items: center; gap: 14px; width: 100%; padding: 16px 19px; text-align: left; line-height: 1.5; font-size: 14px; font-weight: 400; color: #d1dfe8; border: 1px solid rgba(169,204,225,.16); border-radius: 18px; background: rgba(19,47,69,.32); transition: background .2s, border-color .2s, transform .2s; }
-.portal-answer:hover:not(:disabled) { border-color: #a5c3d6; background: rgba(97,143,174,.15); transform: translateX(3px); }
+button.portal-answer:hover:not(:disabled) { border-color: #a5c3d6; background: rgba(97,143,174,.15); transform: translateX(3px); }
 .portal-answer[aria-pressed="true"], .portal-answer.is-selected { border-color: #bfd8e6; background: rgba(132,180,206,.17); }
 .portal-answer[data-state="correct"] { color: #e0f8ff; border-color: #9cdeed; background: rgba(93,170,192,.20); opacity: 1 !important; }
 .portal-answer[data-state="incorrect"] { color: #ffe5bf; border-color: #dab991; background: rgba(161,126,84,.18); opacity: 1 !important; }
@@ -154,6 +154,41 @@
 .portal-empty { max-width: 450px; padding: 30px; text-align: center; color: #adbfcc; }
 .portal-back { display: inline-flex; align-items: center; gap: 8px; border: 0; background: transparent; color: #a7c1d2; padding: 10px; margin-bottom: 12px; font-size: 12px; }
 .portal-back:hover { color: white; }
+
+/* Every checked answer has a textual outcome, selection marker, and reasoning. */
+.portal-choice-content { flex: 1; min-width: 0; }
+.portal-choice-title { display: block; color: #eaf5fa; font-size: 15px; line-height: 1.6; }
+.portal-answer-explained { align-items: flex-start; padding: 19px 20px; opacity: 1; }
+.portal-answer-explained .portal-answer-letter { margin-top: 3px; }
+.portal-answer-explained[data-state='correct'] { border-color: #8dddf4; border-left-width: 4px; background: rgba(64,144,176,.16); }
+.portal-answer-explained[data-state='incorrect'] { border-color: rgba(225,177,112,.35); background: rgba(112,81,43,.10); color: #e1d2bf; }
+.portal-answer-explained[data-selected='true'] { outline: 1px solid #e7eef3; outline-offset: 3px; margin: 4px 0; }
+.portal-choice-badges { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 9px; }
+.portal-choice-badge { display: inline-block; color: #ffd7a1; font-size: 11px; font-weight: 600; letter-spacing: .015em; }
+[data-state='correct'] .portal-choice-badge { color: #a8ebff; }
+#brain-portal .portal-your-choice { border: 1px solid #b8cad4; border-radius: 2px; padding: 1px 7px; color: #f1f7fa; font-size: 10px; }
+#brain-portal p.portal-choice-explanation { margin-top: 9px; color: #bed1dc; font-size: 14px; line-height: 1.75; }
+.portal-feedback[data-state] { margin-top: 26px; padding: 23px 25px; border-left-width: 4px; background: rgba(90,143,169,.09); }
+.portal-feedback[data-state='correct'], .portal-feedback[data-state='got'] { border-color: #8dddf4; background: rgba(60,139,172,.15); }
+.portal-feedback[data-state='incorrect'], .portal-feedback[data-state='needs'] { border-color: #e7b475; background: rgba(149,99,38,.14); }
+#brain-portal .portal-feedback-heading { margin: 0 0 10px; color: #edf6fc; font-size: 26px; line-height: 1.3; font-weight: 600; letter-spacing: -.02em; }
+#brain-portal .portal-feedback[data-state='correct'] .portal-feedback-heading, #brain-portal .portal-feedback[data-state='got'] .portal-feedback-heading { color: #b4edff; }
+#brain-portal .portal-feedback[data-state='incorrect'] .portal-feedback-heading, #brain-portal .portal-feedback[data-state='needs'] .portal-feedback-heading { color: #ffd39a; }
+.portal-feedback-summary, .portal-correct-answer { font-size: 14px; line-height: 1.65; }
+.portal-correct-answer { color: #b4edff; font-weight: 600; }
+.portal-reason-label { margin: 22px 0 9px; color: #e9f3f9; font-size: 13px; line-height: 1.5; font-weight: 600; letter-spacing: .02em; }
+.portal-feedback-guide { color: #a9c1ce; font-size: 12px; line-height: 1.7; }
+#brain-portal .portal-feedback .portal-feedback-guide { margin-top: 14px; }
+.portal-feedback ol.portal-rubric { padding-left: 22px; margin: 10px 0 0; }
+.portal-rubric li + li { margin-top: 9px; }
+.portal-common-mistakes { padding: 14px 17px 14px 30px !important; border: 1px solid rgba(231,180,117,.25); background: rgba(134,90,40,.08); color: #e0d2be; }
+@media (max-width: 600px) {
+  .portal-answer-explained { padding: 17px 14px; gap: 10px; }
+  .portal-choice-title { font-size: 14px; }
+  #brain-portal p.portal-choice-explanation { font-size: 13px; }
+  .portal-feedback[data-state] { padding: 19px 17px; }
+  #brain-portal .portal-feedback-heading { font-size: 24px; }
+}
 
 /* Reading surfaces inherit the same fine-line instrument language. */
 .portal-panel { border-radius: 3px; border-color: rgba(111,193,214,.28); background: linear-gradient(120deg,rgba(13,36,47,.94),rgba(5,19,29,.96)); box-shadow: 0 14px 70px rgba(0,0,0,.2),inset 0 2px rgba(131,221,243,.16); }
