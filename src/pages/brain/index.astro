@@ -15,6 +15,7 @@ import '../../styles/brain-expanded.css';
 import '../../styles/brain-figure-interactions.css';
 import BrainStructurePicker from '../../components/BrainStructurePicker.astro';
 import BrainFlashcards from '../../components/BrainFlashcards.astro';
+import BrainPortal from '../../components/BrainPortal.astro';
 ---
 <!doctype html>
 <html lang="en">
@@ -30,7 +31,9 @@ import BrainFlashcards from '../../components/BrainFlashcards.astro';
   <meta name="theme-color" content="#080e16" />
   <title>Brain — Neuroscience study guide · Boomer Rawlings</title>
 </head>
-<body>
+<body class="brain-portal-active">
+  <BrainPortal />
+  <div id="brain-legacy" hidden>
   <a class="skip-link" href="#workspace">Skip to explorer</a>
   <header class="site-header">
     <a class="wordmark" href="/brain/" aria-label="Brain home"><svg class="brain-mark" viewBox="0 0 44 44" aria-hidden="true"><g class="logo-orbit logo-orbit-a"><ellipse cx="22" cy="22" rx="18" ry="9"/><circle class="logo-electron" cx="40" cy="22" r="2"/></g><g class="logo-orbit logo-orbit-b"><ellipse cx="22" cy="22" rx="18" ry="9"/><circle class="logo-electron" cx="4" cy="22" r="1.6"/></g><circle class="logo-core" cx="22" cy="22" r="3"/></svg><span>BRAIN<span class="wordmark-sub">Neuroscience atlas</span></span></a>
@@ -59,6 +62,7 @@ import BrainFlashcards from '../../components/BrainFlashcards.astro';
   </main>
   <footer class="site-footer"><a href="/">Boomer Rawlings</a><a href="#sources">Sources & model credits ↗</a></footer>
   <div id="announcement" class="sr-only" role="status" aria-live="polite"></div>
-  <script>import '../../scripts/brain/app';</script>
+  </div>
+  <script>import '../../scripts/brain/portal';</script>
 </body>
 </html>

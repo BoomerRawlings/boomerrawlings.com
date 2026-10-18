@@ -1,0 +1,17 @@
+---
+import '../styles/brain-portal.css';
+---
+<section id="brain-portal" aria-label="Brain study space">
+  <canvas id="portal-canvas" aria-hidden="true"></canvas>
+  <div class="portal-atmosphere" aria-hidden="true"></div>
+  <header class="portal-header" inert>
+    <button class="portal-brand" id="portal-home" aria-label="Brain study home"><span class="portal-brand-mark" aria-hidden="true">◌</span><span>BRAIN<small>A SPACE TO UNDERSTAND</small></span></button>
+    <div class="portal-utility"><button id="portal-back" hidden>← Back</button><button id="portal-motion" aria-pressed="true" aria-label="Pause ambient motion">Ⅱ <span>Motion</span></button><a href="/" aria-label="Boomer Rawlings home">BR ↗</a></div>
+  </header>
+  <div id="portal-stage" class="portal-stage" inert aria-live="off"></div>
+  <footer class="portal-footer"><span>LET CURIOSITY TAKE SHAPE.</span><span>BOOMER RAWLINGS · NEUROSCIENCE</span></footer>
+  <div id="portal-intro" role="status" aria-label="Entering Brain. The study space opens shortly.">
+    <div class="intro-rings" aria-hidden="true"><i></i><i></i><i></i></div><div class="intro-orb" aria-hidden="true"></div><p class="intro-label">BRAIN<span>MAKE ROOM FOR UNDERSTANDING</span></p><div class="intro-progress" aria-hidden="true"></div>
+  </div>
+</section>
+<noscript><style>#brain-portal {display:none!important} #brain-legacy {display:block!important}</style></noscript>
