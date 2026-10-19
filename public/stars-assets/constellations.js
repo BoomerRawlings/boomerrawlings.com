@@ -144,7 +144,7 @@
    var clear=bounds(c.targets,c.label,radius);c.clearance={hull:hull(c.targets),label:rectangle(clear.label),box:clear.box,outer:expand(clear.box,40)};
    // The shared sweep begins at the clock; this group locks when it reaches its area.
    var scan=170+clamp((c.reservation.y+c.reservation.h*.5)/h,0,1)*620+clamp((c.reservation.x+c.reservation.w*.5)/w,0,1)*70;
-   var approach=Math.max(14000,Math.min(32000,c.maxDisplacement/8*1000));
+   var approach=cadence?cadence*1000:Math.max(14000,Math.min(32000,c.maxDisplacement/8*1000));
    // Browser cadence spaces actual locks, rather than batching them on30-second scans.
    var snapEpoch=cadence?Math.max(frame.now+approach,lastLock===null?0:lastLock+cadence*1000)-scan:Math.ceil((frame.now+between(approach,approach+8000))/30000)*30000;
    lastLock=snapEpoch+scan;

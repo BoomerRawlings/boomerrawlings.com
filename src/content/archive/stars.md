@@ -12,52 +12,73 @@ tags:
   - astronomy
   - ambient interfaces
 curatorNotes:
-  - "Stars is meant to become quiet after you set it up. Choose what belongs on your screen, then let the settings disappear. Move your pointer or press S to bring them back."
+  - "Jump in starts the sky with constellations every 10 seconds and reminders every 5 minutes. You can adjust the pace and visible instruments in settings."
   - "The constellations use catalog positions and explicitly sourced connections. Nearby dots take on a temporary display pose while their original wandering paths keep running underneath. The lines retract before the dots drift away."
-  - "The walkthrough below pairs each development decision with its actual artifact. The Scripps panels are optional: changing the display time zone does not move the sun, moon, or wave forecast to another location."
+  - "Read through the three layers, then trace the ten implementation steps. Each code sample includes a note explaining how its variables contribute to the picture."
 nextExhibit:
   href: /stars/
   label: Open Stars
 ---
 
-[Configure and enter Stars →](/stars/)
+[Open Stars →](/stars/)
 
-Stars turns a browser window into a quiet ambient display. Small points drift and make passing connections. Occasionally, a nearby arrangement resolves into one of 88 named constellation figures. A directional blue-and-gold glitch marks the lock; the name and a single underline appear together. After 15–20 readable seconds, the lines draw back into their endpoint stars and the wandering resumes.
+Stars is an ambient browser display built from drifting points, recognizable constellations, and small optional instruments for time and the coast. A constellation takes shape, its name appears with a short blue-and-gold scan, and its connections later retract into the stars. The points keep wandering throughout.
 
-## Choose your screen
+## Start with the sky
 
-The [settings screen](/stars/) offers a 12-hour clock, a 24-hour clock, or no clock; optional quarter-size seconds; and a time zone that follows the device unless changed. Scripps offshore waves and sunrise, sunset, and moon phase can be enabled independently. A reminder slider selects every 5, 10, 15, 20, 30, or 60 minutes, or disabled. Each reminder lasts 30 seconds and works even with the clock removed. A separate constellation slider targets a new lock every 10–60 seconds, defaulting to 10. Dots gather before the first lock; poor fits or crowded layouts can delay or skip a formation.
+The prominent **Jump in** button starts the defaults: a clock in the device's time zone, seconds, Scripps waves and astronomy, constellations every 10 seconds, and a self-care reminder every 5 minutes. Or adjust the two frequency sliders and choose the information you want. Reminders stay for 30 seconds; constellations hold for 15–20 seconds. Up to five figures can share the screen.
 
-Confirming settings clears the interface. Controls fade after inactivity and return with pointer movement, a tap, or keyboard interaction. Press S or Esc to change settings. Fullscreen is optional; a supported browser can keep the screen awake while the page is visible. Preferences are stored only in that browser.
+The clock supports 12-hour, 24-hour, or off. Seconds are one quarter of the main numeral size. The time zone follows the device unless changed. The wave panel, sunrise/sunset and moon phase are independent options. Move the pointer or tap to reveal controls; S or Esc opens settings. Choices are remembered in this browser.
 
-## The movement behind the picture
+## Three layers, one picture
 
-The points retain their own continuously running positions and headings. A fitting pass assigns nearby, unclaimed points to a rigid constellation shape. Only the display pose changes: the underlying paths continue throughout the lock. Connections stay hidden during the approach, so a complete figure does not sit waiting for its name. After the exit sweep and line retraction, display positions gradually converge with the live paths.
+| Layer | Code | What it contributes |
+| --- | --- | --- |
+| Data | `constellation-data.js` | Catalog points and connections for88 figures. |
+| Animation | `constellations.js` | Particle assignment, display poses, figure timing and line retraction. |
+| Scene and controls | `stars.js` + `model.js` | Canvas drawing, gentle drift, settings, time, reminders and wave data. |
 
-The selected interval controls the pace of new locks. Five is the safety cap, including gathering and departing figures. Poor fits are skipped. Prominent northern figures, zodiac constellations, and mythological figures receive more weight; two- and three-star figures remain possible but much rarer. Recent selections have a cooldown. These are illustrative figures, not a live map of the sky overhead.
+A constellation is stored as normalized two-dimensional points and an array of edges. Each edge contains two indices into the point array. A single scale-and-rotation transform places the figure in the scene while retaining its proportions. The name and underline are measured as part of the same composition.
 
-The full figure, label, and underline must fit onscreen and avoid the clock, reminders, sky/wave panel, and other figures. Unrelated points inside a locked figure are strongly dimmed; ambient connections crossing it disappear until it releases. Smaller screens may offer fewer safe opportunities.
+## How the motion works
 
-## Time, sky, and water
+Each particle has a position, direction and speed. The renderer advances it using elapsed seconds, so motion has the same pace across different refresh rates. A nearby constellation fit assigns those particles to catalog points. Their original paths continue beneath a temporary display pose.
 
-Sun and moon calculations use Scripps Pier in San Diego. Daytime shows sunset and the remaining time. At night, the phase stays visible while the countdown follows that night's moon peak, then sunrise. Major transitions wait for the next shared glitch. The time-zone setting changes how event times are written, not the location of those events.
+The key interpolation in `constellations.js` is:
 
-The waves panel fetches an Open-Meteo offshore model estimate after it is enabled. It displays wave height and period, explicitly distinguished from breaking surf height. It refreshes while visible; stale or unavailable data is shown as unavailable. Disabling waves prevents further forecast requests. No microphone or geolocation permission is requested. The operating system's reduced-motion setting freezes the ambient movement and removes glitch animation.
+```js
+return {
+  x: p.x + (q.x - p.x) * t,
+  y: p.y + (q.y - p.y) * t
+};
+```
 
-## Development, with the artifacts
+Here `p` is the live particle, `q` is its target star position, and `t` is an eased blend from 0 to 1. At 0, the point follows its live path. At 1, it occupies the constellation. A smooth easing curve makes the approach feel continuous. The line drawing uses the same display coordinates, so the figure and its stars stay connected.
 
-This is a curated walkthrough of the actual work, not a verbatim chat transcript or a claim about development hours. All ten steps appear below, from the figure database through the browser display. Each explanation stays paired with its data, decision, or code; select a heading to inspect its dependencies.
+A separate motion-time state tracks approach, hold and release. The frequency control supplies the interval for new formations, independent of the clock's visual scan. During release, each edge becomes two segments anchored at its endpoint stars. Shortening both segments draws the connection back into the dots before they continue across the scene.
+
+## Small instruments
+
+Clock formatting uses the browser's `Intl.DateTimeFormat` with the selected time zone. A shared settings model supplies both the form values and the renderer, keeping each panel independent.
+
+The reminder scheduler converts local time into minutes since midnight. `minute % interval` gives progress through a reminder cycle; `Math.floor(minute / 5)` selects one of 288 time-aware messages. Its first 30 seconds form the visible portion of the cycle.
+
+SunCalc supplies sunrise, sunset, moon transit and phase at Scripps Pier in San Diego. Daytime shows sunset and its countdown. At night, the moon phase remains visible as the countdown moves from moon peak to sunrise. The chosen timezone controls the written event times.
+
+The waves panel uses Open-Meteo's offshore model near Scripps Pier. Its height arrives in metres and is converted to feet; height also informs the animated wave. The label distinguishes this estimate from breaking surf height.
+
+## Explore the code
+
+The complete ten-step walkthrough is below. Each explanation sits beside its actual data or implementation, with notes explaining the important variables and functions. Select a heading to follow its connections to related steps.
 
 <iframe data-stars-workflow src="/stars-assets/workflow.html?embed=1" title="Full Stars development workflow with paired explanations and artifacts" loading="lazy" style="display:block;width:100%;height:780px;border:1px solid #3c505c;background:#080e13"></iframe>
 
 <script src="/stars-assets/workflow-embed.js" defer></script>
 
-[Open the workflow full size](/stars-assets/workflow.html) · [Editable workflow JSON](/stars-assets/workflow.json)
+[Workflow full size](/stars-assets/workflow.html) · [Editable workflow JSON](/stars-assets/workflow.json)
 
-## Sources and inspectable code
+## Data and source
 
-The figure database has 88 audited entries, with 747 unique catalog stars and 753 explicitly sourced connections. Constellation boundaries and recognizable stick figures are different things: the IAU defines sky regions, while line traditions vary. The database records which published figure supplied each star and segment; surrounding chart stars are not silently added.
+The figure database contains 88 audited constellations, 747 unique catalog stars and 753 connections. Each point and edge records its published figure source. These are recognizable line figures rather than a live map of the sky overhead.
 
-[Figure database and provenance](/stars-assets/constellations.json) · [Motion and fitting source](/stars-assets/constellations.js) · [Browser renderer](/stars-assets/stars.js) · [Settings and timing logic](/stars-assets/model.js) · [Source credits and licenses](/stars-assets/credits.txt)
-
-Astronomical calculations use SunCalc. The figure sources, catalog credits, and retained license notices are listed separately. The browser renderer and configuration logic are published as inspectable source alongside the display.
+[Figure data](/stars-assets/constellations.json) · [Constellation animation](/stars-assets/constellations.js) · [Browser renderer](/stars-assets/stars.js) · [Settings and timing](/stars-assets/model.js) · [Credits and licenses](/stars-assets/credits.txt)

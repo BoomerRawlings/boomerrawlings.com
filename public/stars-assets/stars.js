@@ -1,5 +1,5 @@
 // Browser-native Stars renderer © 2026 Boomer Rawlings. GPL-3.0-or-later.
-import {normalize,zone,clock,reminder,tipOpacity,countdown,marine,intervals,tipsLabel,constellationOptions} from './model.js?v=20261019-sliders';
+import {normalize,defaults,zone,clock,reminder,tipOpacity,countdown,marine,intervals,tipsLabel,constellationOptions} from './model.js?v=20261019-ambient-settings';
 const canvas=document.querySelector('#stars'),ctx=canvas.getContext('2d'),dialog=document.querySelector('#settings'),form=document.querySelector('#settings-form'),controls=document.querySelector('#controls'),error=document.querySelector('#settings-error');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)'),storageKey='boomer-stars-v1';
 let settings=normalize(),running=false,w=innerWidth,h=innerHeight,last=0,motion=0,idleTimer,skyDisplay,skyPending,skyDue=0,skyLast=0,waves=null,lastFetch=0,fetching=false,wake=null,hiddenSince=null;
@@ -15,19 +15,23 @@ document.querySelector('#zone-help').prepend('Current system zone: '+systemZone+
 try{for(const name of Intl.supportedValuesOf('timeZone')){const option=document.createElement('option');option.value=name;document.querySelector('#timezones').append(option);}}catch{}
 form.elements.clock.addEventListener('change',()=>{form.elements.seconds.disabled=form.elements.clock.value==='off';});
 function reveal(){if(!running)return;document.body.classList.remove('idle');clearTimeout(idleTimer);idleTimer=setTimeout(()=>document.body.classList.add('idle'),2500);}
-function edit(){clearTimeout(idleTimer);document.body.classList.remove('idle');writeForm();error.textContent='';if(!dialog.open)dialog.showModal();form.elements.clock.focus();}
+function edit(){clearTimeout(idleTimer);document.body.classList.remove('idle');writeForm();error.textContent='';if(!dialog.open)dialog.showModal();dialog.scrollTop=0;document.querySelector('#jump-in').focus({preventScroll:true});}
 document.querySelector('#edit').addEventListener('click',edit);
 window.addEventListener('pointermove',reveal,{passive:true});window.addEventListener('pointerdown',reveal,{passive:true});window.addEventListener('keydown',e=>{if(!dialog.open&&['s','S','Escape'].includes(e.key)){e.preventDefault();edit();}else reveal();});
 dialog.addEventListener('cancel',e=>{if(!running)e.preventDefault();});
 async function fullscreen(){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{document.querySelector('#screen-status').textContent='Fullscreen is unavailable. The stars still work in this window.';}}
 document.querySelector('#fullscreen').addEventListener('click',fullscreen);
 async function keepAwake(){if(!running||document.hidden||!navigator.wakeLock)return;try{wake=await navigator.wakeLock.request('screen');wake.addEventListener('release',()=>{wake=null;});}catch{}}
+function enterStars(value,wantFullscreen=false){
+ settings=normalize(value);try{localStorage.setItem(storageKey,JSON.stringify(settings));}catch{}
+ running=true;skyDisplay=skyPending=null;window.ScrippsConstellations=window.ScrippsConstellationSystem.create(constellationOptions(settings));dialog.close();controls.hidden=false;document.body.classList.add('running');
+ if(wantFullscreen&&!document.fullscreenElement)fullscreen();keepAwake();reveal();if(settings.surf)loadWaves();canvas.focus({preventScroll:true});
+}
+document.querySelector('#jump-in').addEventListener('click',()=>enterStars(defaults()));
 form.addEventListener('submit',e=>{
  e.preventDefault();const raw={clock:form.elements.clock.value,zone:form.elements.zone.value.trim()||'system',seconds:form.elements.seconds.checked,surf:form.elements.surf.checked,sky:form.elements.sky.checked,tips:intervals[Number(form.elements.tips.value)],constellationInterval:Number(form.elements.constellationInterval.value)};
  try{zone(raw.zone);}catch{error.textContent='Enter a valid IANA time zone, or use system.';form.elements.zone.focus();return;}
- settings=normalize(raw);try{localStorage.setItem(storageKey,JSON.stringify(settings));}catch{}
- const wantFullscreen=form.elements.fullscreen.checked;running=true;skyDisplay=skyPending=null;window.ScrippsConstellations=window.ScrippsConstellationSystem.create(constellationOptions(settings));dialog.close();controls.hidden=false;document.body.classList.add('running');
- if(wantFullscreen&&!document.fullscreenElement)fullscreen();keepAwake();reveal();if(settings.surf)loadWaves();canvas.focus({preventScroll:true});
+ enterStars(raw,form.elements.fullscreen.checked);
 });
 document.addEventListener('visibilitychange',()=>{if(document.hidden){hiddenSince=Date.now();wake?.release();}else{last=0;skyDisplay=skyPending=null;window.ScrippsConstellations.reset();hiddenSince=null;keepAwake();}});
 window.addEventListener('pagehide',()=>wake?.release());
