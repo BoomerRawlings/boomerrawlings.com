@@ -1,11 +1,13 @@
 ---
+const {directEntry=false}=Astro.props;
+const canonical='https://boomerrawlings.com/stars/'+(directEntry?'jumpin/':'');
 const title='Stars — an ambient constellation screensaver';
 ---
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>{title} | Boomer Rawlings</title><meta name="description" content="Gently drifting stars occasionally resolve into 88 audited constellation figures. Choose a clock, Scripps surf and sky, and quiet reminders."/><link rel="canonical" href="https://boomerrawlings.com/stars/"/><link rel="stylesheet" href="/stars-assets/stars.css?v=20261019-ambient-settings"/></head>
-<body>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>{title} | Boomer Rawlings</title><meta name="description" content="Gently drifting stars occasionally resolve into 88 audited constellation figures. Choose a clock, Scripps surf and sky, and quiet reminders."/><link rel="canonical" href={canonical}/><link rel="stylesheet" href="/stars-assets/stars.css?v=20261019-ambient-settings"/></head>
+<body data-direct-entry={directEntry ? "jumpin" : undefined}>
  <canvas id="stars" tabindex="-1" aria-label="Ambient stars and occasional named constellations"></canvas>
- <dialog id="settings" open aria-labelledby="stars-title">
+ <dialog id="settings" open={!directEntry} aria-labelledby="stars-title">
   <div class="eyebrow">BOOMER RAWLINGS / AMBIENT DISPLAY</div><div class="settings-heading"><h1 id="stars-title">Stars</h1><div class="jump-start"><button id="jump-in" class="jump-in" type="button">Jump in <span aria-hidden="true">↗</span></button><p>10-second constellations · 5-minute reminders</p></div></div>
 
   <p class="intro">Drifting points, familiar figures, a little sense of time. Jump straight in, or choose what stays on your screen.</p>
@@ -31,5 +33,5 @@ const title='Stars — an ambient constellation screensaver';
  </dialog>
  <nav id="controls" aria-label="Screensaver controls" hidden><button id="edit" type="button">Settings <kbd>S</kbd></button><button id="fullscreen" type="button">Fullscreen</button><a href="/work/stars/">Project</a></nav>
  <p id="screen-status" class="sr-only" role="status"></p>
- <script is:inline src="/stars-assets/suncalc.js" defer></script><script is:inline src="/stars-assets/sky.js" defer></script><script is:inline src="/stars-assets/effects.js" defer></script><script is:inline src="/stars-assets/reminder-messages.js" defer></script><script is:inline src="/stars-assets/constellation-data.js" defer></script><script is:inline src="/stars-assets/constellations.js?v=20261019-ambient-settings" defer></script><script is:inline type="module" src="/stars-assets/stars.js?v=20261019-ambient-settings"></script>
+ <script is:inline src="/stars-assets/suncalc.js" defer></script><script is:inline src="/stars-assets/sky.js" defer></script><script is:inline src="/stars-assets/effects.js" defer></script><script is:inline src="/stars-assets/reminder-messages.js" defer></script><script is:inline src="/stars-assets/constellation-data.js" defer></script><script is:inline src="/stars-assets/constellations.js?v=20261019-ambient-settings" defer></script><script is:inline type="module" src="/stars-assets/stars.js?v=20261019-jumpin"></script>
 </body></html>

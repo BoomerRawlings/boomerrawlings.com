@@ -46,7 +46,7 @@ const unlistedContentPaths = new Set([
   join('writing', 'data-analysis', 'sex-and-the-moon', 'index.html'),
 ]);
 // Portable examples own their document shell; portfolio metadata/Pip rules stay unchanged.
-const standaloneContentPaths = new Set([join('workflow-display', 'index.html'), join('documents', 'scads-2026', 'workflow.html'), join('ACF', 'index.html'), join('stars', 'index.html'), join('stars-assets', 'workflow.html')]);
+const standaloneContentPaths = new Set([join('workflow-display', 'index.html'), join('documents', 'scads-2026', 'workflow.html'), join('ACF', 'index.html'), join('stars', 'index.html'), join('stars', 'jumpin', 'index.html'), join('stars-assets', 'workflow.html')]);
 const contentHtmlFiles = htmlFiles.filter(
   (file) => {
     const path = relative(output, file);
@@ -59,9 +59,9 @@ const unlistedHtmlFiles = htmlFiles.filter(
 const standaloneHtmlFiles = htmlFiles.filter(
   (file) => standaloneContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 36 || standaloneHtmlFiles.length !== 5 || unlistedHtmlFiles.length !== 12 || htmlFiles.length !== 59) {
+if (contentHtmlFiles.length !== 36 || standaloneHtmlFiles.length !== 6 || unlistedHtmlFiles.length !== 12 || htmlFiles.length !== 60) {
   throw new Error(
-    `expected 36 portfolio pages, 5 standalone pages, 12 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 36 portfolio pages, 6 standalone pages, 12 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
@@ -636,6 +636,7 @@ const schemaByPage = new Map();
 const expectedSitemapUrls = new Set();
 expectedSitemapUrls.add('https://boomerrawlings.com/ACF/');
 expectedSitemapUrls.add('https://boomerrawlings.com/stars/');
+expectedSitemapUrls.add('https://boomerrawlings.com/stars/jumpin/');
 
 function readImageMetadata(path) {
   const source = readFileSync(path);

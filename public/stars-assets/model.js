@@ -9,6 +9,7 @@ export function zone(value='system'){
  if(!validZones.has(name)){new Intl.DateTimeFormat('en',{timeZone:name}).format();validZones.add(name);}return name;
 }
 export function defaults(){return {clock:Intl.DateTimeFormat(undefined,{hour:'numeric'}).resolvedOptions().hour12?'12':'24',seconds:true,zone:'system',surf:true,sky:true,tips:5,constellationInterval:10};}
+export function jumpinSettings(){return {clock:'24',seconds:false,zone:'system',surf:false,sky:true,tips:5,constellationInterval:10};}
 export function normalize(raw={}){
  const d=defaults(),v={...d,...raw};v.clock=['12','24','off'].includes(v.clock)?v.clock:d.clock;
  v.seconds=typeof v.seconds==='boolean'?v.seconds:d.seconds;v.surf=typeof v.surf==='boolean'?v.surf:d.surf;v.sky=typeof v.sky==='boolean'?v.sky:d.sky;

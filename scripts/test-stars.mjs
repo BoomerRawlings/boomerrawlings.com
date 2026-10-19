@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
-import {clock,normalize,zone,intervals,reminder,tipOpacity,marine,countdown,tipsLabel,constellationOptions} from '../public/stars-assets/model.js';
+import {clock,jumpinSettings,normalize,zone,intervals,reminder,tipOpacity,marine,countdown,tipsLabel,constellationOptions} from '../public/stars-assets/model.js';
 const root={};vm.runInNewContext(readFileSync('public/stars-assets/reminder-messages.js','utf8'),{window:root});const messages=root.ScrippsReminderMessages;
 test('system default, valid custom zones and invalid persisted settings',()=>{
  assert.equal(normalize().zone,'system');assert.equal(zone('system'),Intl.DateTimeFormat().resolvedOptions().timeZone);assert.equal(zone('Asia/Kathmandu'),'Asia/Kathmandu');assert.throws(()=>zone('No/Zone'));
@@ -75,4 +75,12 @@ test('inline frame sizing accepts only its same-origin child and bounded numeric
  const event={origin:'https://example.test',source:frame.contentWindow,data:{type:'stars-workflow-height',height:6432}};
  for(const change of [{origin:'https://other.test'},{source:{}},{data:{type:'stars-workflow-height',height:Infinity}},{data:{type:'stars-workflow-height',height:'900'}},{data:{type:'stars-workflow-height',height:90000}}]){listeners.message({...event,...change});assert.equal(frame.style.height,undefined);}
  listeners.message(event);assert.equal(frame.style.height,'6432px');listeners.message({...event,data:{...event.data,height:800}});assert.equal(frame.style.height,'800px','shrinks again when search filters pairs');
+});
+
+test('jumpin skips settings with fixed preset and does not persist shortcut values',()=>{
+ assert.deepEqual(jumpinSettings(),{clock:'24',seconds:false,zone:'system',surf:false,sky:true,tips:5,constellationInterval:10});
+ const direct=readFileSync('dist/stars/jumpin/index.html','utf8'),normal=readFileSync('dist/stars/index.html','utf8');
+ assert.match(direct,/data-direct-entry="jumpin"/);assert.doesNotMatch(direct,/<dialog[^>]*\sopen(?:[\s=>])/);
+ assert.match(normal,/<dialog[^>]*\sopen(?:[\s=>])/);assert.ok(direct.includes('https://boomerrawlings.com/stars/jumpin/'));
+ const runtime=readFileSync('public/stars-assets/stars.js','utf8');assert.ok(runtime.includes('enterStars(jumpinSettings(),false,false)'));assert.ok(runtime.includes('if(persist)try{localStorage.setItem'));
 });

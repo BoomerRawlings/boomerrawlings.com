@@ -1,5 +1,5 @@
 // Browser-native Stars renderer © 2026 Boomer Rawlings. GPL-3.0-or-later.
-import {normalize,defaults,zone,clock,reminder,tipOpacity,countdown,marine,intervals,tipsLabel,constellationOptions} from './model.js?v=20261019-ambient-settings';
+import {normalize,defaults,jumpinSettings,zone,clock,reminder,tipOpacity,countdown,marine,intervals,tipsLabel,constellationOptions} from './model.js?v=20261019-jumpin';
 const canvas=document.querySelector('#stars'),ctx=canvas.getContext('2d'),dialog=document.querySelector('#settings'),form=document.querySelector('#settings-form'),controls=document.querySelector('#controls'),error=document.querySelector('#settings-error');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)'),storageKey='boomer-stars-v1';
 let settings=normalize(),running=false,w=innerWidth,h=innerHeight,last=0,motion=0,idleTimer,skyDisplay,skyPending,skyDue=0,skyLast=0,waves=null,lastFetch=0,fetching=false,wake=null,hiddenSince=null;
@@ -22,8 +22,8 @@ dialog.addEventListener('cancel',e=>{if(!running)e.preventDefault();});
 async function fullscreen(){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{document.querySelector('#screen-status').textContent='Fullscreen is unavailable. The stars still work in this window.';}}
 document.querySelector('#fullscreen').addEventListener('click',fullscreen);
 async function keepAwake(){if(!running||document.hidden||!navigator.wakeLock)return;try{wake=await navigator.wakeLock.request('screen');wake.addEventListener('release',()=>{wake=null;});}catch{}}
-function enterStars(value,wantFullscreen=false){
- settings=normalize(value);try{localStorage.setItem(storageKey,JSON.stringify(settings));}catch{}
+function enterStars(value,wantFullscreen=false,persist=true){
+ settings=normalize(value);if(persist)try{localStorage.setItem(storageKey,JSON.stringify(settings));}catch{}
  running=true;skyDisplay=skyPending=null;window.ScrippsConstellations=window.ScrippsConstellationSystem.create(constellationOptions(settings));dialog.close();controls.hidden=false;document.body.classList.add('running');
  if(wantFullscreen&&!document.fullscreenElement)fullscreen();keepAwake();reveal();if(settings.surf)loadWaves();canvas.focus({preventScroll:true});
 }
@@ -113,3 +113,5 @@ function animate(time){
 reduced.addEventListener('change',()=>{window.ScrippsConstellations.reset();last=0;});requestAnimationFrame(animate);
 // Compact read-only diagnostics for reproducible QA; no telemetry is transmitted.
 window.StarsDebug={get settings(){return {...settings};},get running(){return running;},get waves(){return waves;},get hiddenSince(){return hiddenSince;},snapshot:()=>window.ScrippsConstellations.snapshot()};
+
+if(document.body.dataset.directEntry==='jumpin')enterStars(jumpinSettings(),false,false);
