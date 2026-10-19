@@ -1,0 +1,21 @@
+{
+  "ford": {
+    "repo": "dcf21/constellation-stick-figures",
+    "commit": "75d29c207bbd752023c447ddd1f9f4ff0eb47538"
+  },
+  "stellarium": {
+    "repo": "Stellarium/stellarium",
+    "commit": "b076780a66fdb2ddf7f34c7f52d5869f73934e73"
+  },
+  "files": {
+    "chart-index.json": "8eba38fa7c3e29357621e54f1d76bec328c8012d5b1e9d0de0caaf0f6ab3b753",
+    "Ford-COPYING.txt": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+    "Hipparcos-ReadMe.txt": "7a7d54903d16460a76c240f07c41b019d57becfd27b5dfa2908e828f52f90c27",
+    "hip_main.dat": "58ceabb104d647160d9437ce6e513a02a036bb4ad9f8879a5a22fd52943616e0",
+    "hygdata_v40.csv.gz": "8e3ff9e67445e558a759b117910850cff1b1d4d492f45f715c2ee2db3d869bac",
+    "iau-lines.dat": "e7b9b064c967a53913ef1862626aa3385094cf6b6784e98ba67558af763193fc",
+    "iau-page.html": "2e01b83ed2b2316f9ad6c99f155b13b34687affb9128294feea25743bcab51a7",
+    "stellarium-description.md": "4b58344f63168d7c816fdfef405103b5770fda2e1f4a4bf5c8871041ce042586",
+    "stellarium-modern.json": "1f2f5ffd6c9e25a7d0dcfdbf1f756e2db03dd3b8ed4ec016a2839b09f6b0fe1e"
+  }
+}

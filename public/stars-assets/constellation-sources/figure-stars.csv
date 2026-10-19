@@ -1,0 +1,758 @@
+figure,name,hip,designation_secondary,catalog_region_secondary,outside_catalog_region,explicit_source_locations
+And,Andromeda,9640,Gam-1 And,And,False,iau-lines.dat:48
+And,Andromeda,5447,Bet And,And,False,iau-lines.dat:48; iau-lines.dat:49
+And,Andromeda,3092,Del And,And,False,iau-lines.dat:48; iau-lines.dat:49
+And,Andromeda,3031,Eps And,And,False,iau-lines.dat:48
+And,Andromeda,3693,Zet And,And,False,iau-lines.dat:48
+And,Andromeda,4463,Eta And,And,False,iau-lines.dat:48
+And,Andromeda,677,Alp And,And,False,iau-lines.dat:49
+And,Andromeda,2912,Pi And,And,False,iau-lines.dat:49; iau-lines.dat:50
+And,Andromeda,4436,Mu And,And,False,iau-lines.dat:49
+And,Andromeda,3881,Nu And,And,False,iau-lines.dat:49
+And,Andromeda,5434,Phi And,And,False,iau-lines.dat:49
+And,Andromeda,7607,And,And,False,iau-lines.dat:49
+And,Andromeda,116631,Iot And,And,False,iau-lines.dat:50; iau-lines.dat:51
+And,Andromeda,116584,Lam And,And,False,iau-lines.dat:51
+And,Andromeda,116805,Kap And,And,False,iau-lines.dat:51
+And,Andromeda,113726,Omi And,And,False,iau-lines.dat:51
+Ant,Antlia,53502,Iot Ant,Ant,False,iau-lines.dat:55
+Ant,Antlia,51172,Alp Ant,Ant,False,iau-lines.dat:55
+Ant,Antlia,46515,Eps Ant,Ant,False,iau-lines.dat:55
+Aps,Apus,81065,Gam Aps,Aps,False,iau-lines.dat:59
+Aps,Apus,81852,Bet Aps,Aps,False,iau-lines.dat:59
+Aps,Apus,80047,Del-1 Aps,Aps,False,iau-lines.dat:59
+Aps,Apus,72370,Alp Aps,Aps,False,iau-lines.dat:59
+Aqr,Aquarius,109074,Alp Aqr,Aqr,False,iau-lines.dat:63; iau-lines.dat:66
+Aqr,Aquarius,110395,Gam Aqr,Aqr,False,iau-lines.dat:63
+Aqr,Aquarius,110960,Zet-1 Aqr,Aqr,False,iau-lines.dat:63; iau-lines.dat:64
+Aqr,Aquarius,110672,Pi Aqr,Aqr,False,iau-lines.dat:63
+Aqr,Aquarius,106278,Bet Aqr,Aqr,False,iau-lines.dat:63; iau-lines.dat:65
+Aqr,Aquarius,102618,Eps Aqr,Aqr,False,iau-lines.dat:63
+Aqr,Aquarius,111497,Eta Aqr,Aqr,False,iau-lines.dat:64
+Aqr,Aquarius,109139,Iot Aqr,Aqr,False,iau-lines.dat:65
+Aqr,Aquarius,110003,The Aqr,Aqr,False,iau-lines.dat:66
+Aqr,Aquarius,112961,Lam Aqr,Aqr,False,iau-lines.dat:66; iau-lines.dat:67
+Aqr,Aquarius,114724,Phi Aqr,Aqr,False,iau-lines.dat:66
+Aqr,Aquarius,114855,Psi-1 Aqr,Aqr,False,iau-lines.dat:66; iau-lines.dat:67
+Aqr,Aquarius,115438,Aqr,Aqr,False,iau-lines.dat:66
+Aqr,Aquarius,112716,Tau-2 Aqr,Aqr,False,iau-lines.dat:67
+Aqr,Aquarius,113136,Del Aqr,Aqr,False,iau-lines.dat:67
+Aqr,Aquarius,114341,Aqr,Aqr,False,iau-lines.dat:67
+Aql,Aquila,98036,Bet Aql,Aql,False,iau-lines.dat:71
+Aql,Aquila,97649,Alp Aql,Aql,False,iau-lines.dat:71
+Aql,Aquila,97278,Gam Aql,Aql,False,iau-lines.dat:71
+Aql,Aquila,95501,Del Aql,Aql,False,iau-lines.dat:71; iau-lines.dat:72
+Aql,Aquila,93747,Zet Aql,Aql,False,iau-lines.dat:71; iau-lines.dat:73
+Aql,Aquila,93244,Eps Aql,Aql,False,iau-lines.dat:71
+Aql,Aquila,99473,The Aql,Aql,False,iau-lines.dat:72; iau-lines.dat:73
+Aql,Aquila,97804,Eta Aql,Aql,False,iau-lines.dat:72
+Aql,Aquila,93805,Lam Aql,Aql,False,iau-lines.dat:72; iau-lines.dat:73
+Aql,Aquila,93429,Aql,Aql,False,iau-lines.dat:72
+Aql,Aquila,96468,Iot Aql,Aql,False,iau-lines.dat:73
+Ara,Ara,88714,The Ara,Ara,False,iau-lines.dat:77
+Ara,Ara,85792,Alp Ara,Ara,False,iau-lines.dat:77; iau-lines.dat:78
+Ara,Ara,83153,Eps-1 Ara,Ara,False,iau-lines.dat:77
+Ara,Ara,83081,Zet Ara,Ara,False,iau-lines.dat:77
+Ara,Ara,82363,Eta Ara,Ara,False,iau-lines.dat:77
+Ara,Ara,85727,Del Ara,Ara,False,iau-lines.dat:77
+Ara,Ara,85267,Gam Ara,Ara,False,iau-lines.dat:77
+Ara,Ara,85258,Bet Ara,Ara,False,iau-lines.dat:78
+Ari,Aries,13209,Ari,Ari,False,iau-lines.dat:82
+Ari,Aries,9884,Alp Ari,Ari,False,iau-lines.dat:82
+Ari,Aries,8903,Bet Ari,Ari,False,iau-lines.dat:82
+Ari,Aries,8832,Gam-2 Ari,Ari,False,iau-lines.dat:82
+Aur,Auriga,23015,Iot Aur,Aur,False,iau-lines.dat:86
+Aur,Auriga,25428,Bet Tau,Tau,True,iau-lines.dat:86
+Aur,Auriga,28380,The Aur,Aur,False,iau-lines.dat:86
+Aur,Auriga,28360,Bet Aur,Aur,False,iau-lines.dat:86; iau-lines.dat:87
+Aur,Auriga,28358,Del Aur,Aur,False,iau-lines.dat:86
+Aur,Auriga,24608,Alp Aur,Aur,False,iau-lines.dat:86; iau-lines.dat:87
+Aur,Auriga,23767,Eta Aur,Aur,False,iau-lines.dat:86
+Aur,Auriga,23416,Eps Aur,Aur,False,iau-lines.dat:87
+Aur,Auriga,23453,Zet Aur,Aur,False,iau-lines.dat:87
+Boo,Boötes,67275,Tau Boo,Boo,False,iau-lines.dat:91
+Boo,Boötes,67927,Eta Boo,Boo,False,iau-lines.dat:91
+Boo,Boötes,69673,Alp Boo,Boo,False,iau-lines.dat:91; iau-lines.dat:92
+Boo,Boötes,71053,Rho Boo,Boo,False,iau-lines.dat:91
+Boo,Boötes,71075,Gam Boo,Boo,False,iau-lines.dat:91; iau-lines.dat:92
+Boo,Boötes,69732,Lam Boo,Boo,False,iau-lines.dat:91
+Boo,Boötes,69483,Kap-2 Boo,Boo,False,iau-lines.dat:91
+Boo,Boötes,70497,The Boo,Boo,False,iau-lines.dat:91
+Boo,Boötes,73555,Bet Boo,Boo,False,iau-lines.dat:92
+Boo,Boötes,74666,Del Boo,Boo,False,iau-lines.dat:92
+Boo,Boötes,72105,Eps Boo,Boo,False,iau-lines.dat:92
+Boo,Boötes,71795,Zet Boo,Boo,False,iau-lines.dat:92
+Cae,Caelum,23595,Gam-1 Cae,Cae,False,iau-lines.dat:96
+Cae,Caelum,21861,Bet Cae,Cae,False,iau-lines.dat:96
+Cae,Caelum,21770,Alp Cae,Cae,False,iau-lines.dat:96
+Cae,Caelum,21060,Del Cae,Cae,False,iau-lines.dat:96
+Cam,Camelopardalis,33694,Cam,Cam,False,iau-lines.dat:100
+Cam,Camelopardalis,29997,Cam,Cam,False,iau-lines.dat:100
+Cam,Camelopardalis,22783,Alp Cam,Cam,False,iau-lines.dat:100; iau-lines.dat:101
+Cam,Camelopardalis,23522,Bet Cam,Cam,False,iau-lines.dat:100
+Cam,Camelopardalis,23040,Cam,Cam,False,iau-lines.dat:100
+Cam,Camelopardalis,17959,Gam Cam,Cam,False,iau-lines.dat:101
+Cam,Camelopardalis,17884,Cam,Cam,False,iau-lines.dat:101
+Cam,Camelopardalis,16228,Cam,Cam,False,iau-lines.dat:101
+Cnc,Cancer,44066,Alp Cnc,Cnc,False,iau-lines.dat:105
+Cnc,Cancer,42911,Del Cnc,Cnc,False,iau-lines.dat:105; iau-lines.dat:106
+Cnc,Cancer,42806,Gam Cnc,Cnc,False,iau-lines.dat:105
+Cnc,Cancer,43103,Iot Cnc,Cnc,False,iau-lines.dat:105
+Cnc,Cancer,40526,Bet Cnc,Cnc,False,iau-lines.dat:106
+CVn,Canes Venatici,61317,Bet CVn,CVn,False,iau-lines.dat:110
+CVn,Canes Venatici,63125,Alp-2 CVn,CVn,False,iau-lines.dat:110
+CMa,Canis Major,35904,Eta CMa,CMa,False,iau-lines.dat:114
+CMa,Canis Major,34444,Del CMa,CMa,False,iau-lines.dat:114; iau-lines.dat:115
+CMa,Canis Major,33579,Eps CMa,CMa,False,iau-lines.dat:114
+CMa,Canis Major,33152,Omi-1 CMa,CMa,False,iau-lines.dat:114
+CMa,Canis Major,31592,Nu-2 CMa,CMa,False,iau-lines.dat:114
+CMa,Canis Major,30324,Bet CMa,CMa,False,iau-lines.dat:114
+CMa,Canis Major,32349,Alp CMa,CMa,False,iau-lines.dat:114; iau-lines.dat:115
+CMa,Canis Major,33347,Iot CMa,CMa,False,iau-lines.dat:114
+CMa,Canis Major,34045,Gam CMa,CMa,False,iau-lines.dat:114
+CMa,Canis Major,33160,The CMa,CMa,False,iau-lines.dat:114
+CMi,Canis Minor,37279,Alp CMi,CMi,False,iau-lines.dat:119
+CMi,Canis Minor,36188,Bet CMi,CMi,False,iau-lines.dat:119
+Cap,Capricornus,107556,Del Cap,Cap,False,iau-lines.dat:123
+Cap,Capricornus,106985,Gam Cap,Cap,False,iau-lines.dat:123
+Cap,Capricornus,104139,The Cap,Cap,False,iau-lines.dat:123
+Cap,Capricornus,100064,Alp-2 Cap,Cap,False,iau-lines.dat:123
+Cap,Capricornus,100345,Bet Cap,Cap,False,iau-lines.dat:123
+Cap,Capricornus,102485,Psi Cap,Cap,False,iau-lines.dat:123
+Cap,Capricornus,102978,Ome Cap,Cap,False,iau-lines.dat:123
+Cap,Capricornus,105881,Zet Cap,Cap,False,iau-lines.dat:123
+Car,Carina,52419,The Car,Car,False,iau-lines.dat:127
+Car,Carina,54301,Car,Car,False,iau-lines.dat:127
+Car,Carina,54751,Car,Car,False,iau-lines.dat:127
+Car,Carina,54463,Car,Car,False,iau-lines.dat:127
+Car,Carina,53253,Car,Car,False,iau-lines.dat:127
+Car,Carina,52468,Car,Car,False,iau-lines.dat:127
+Car,Carina,51576,Car,Car,False,iau-lines.dat:127; iau-lines.dat:128
+Car,Carina,50099,Ome Car,Car,False,iau-lines.dat:127
+Car,Carina,45238,Bet Car,Car,False,iau-lines.dat:127
+Car,Carina,30438,Alp Car,Car,False,iau-lines.dat:127
+Car,Carina,45556,Iot Car,Car,False,iau-lines.dat:128; iau-lines.dat:129
+Car,Carina,42913,Del Vel,Vel,True,iau-lines.dat:128
+Car,Carina,41037,Eps Car,Car,False,iau-lines.dat:129
+Car,Carina,38827,Chi Car,Car,False,iau-lines.dat:129
+Car,Carina,38089,Pup,Pup,True,iau-lines.dat:129
+Cas,Cassiopeia,8886,Eps Cas,Cas,False,iau-lines.dat:133
+Cas,Cassiopeia,6686,Del Cas,Cas,False,iau-lines.dat:133
+Cas,Cassiopeia,4427,Gam Cas,Cas,False,iau-lines.dat:133
+Cas,Cassiopeia,3179,Alp Cas,Cas,False,iau-lines.dat:133
+Cas,Cassiopeia,746,Bet Cas,Cas,False,iau-lines.dat:133
+Cen,Centaurus,71683,Alp-1 Cen,Cen,False,iau-lines.dat:137
+Cen,Centaurus,68702,Bet Cen,Cen,False,iau-lines.dat:137
+Cen,Centaurus,66657,Eps Cen,Cen,False,iau-lines.dat:137; iau-lines.dat:139
+Cen,Centaurus,61932,Gam Cen,Cen,False,iau-lines.dat:137; iau-lines.dat:139
+Cen,Centaurus,60823,Sig Cen,Cen,False,iau-lines.dat:137; iau-lines.dat:138
+Cen,Centaurus,56250,Omi-2 Cen,Cen,False,iau-lines.dat:138
+Cen,Centaurus,59449,Rho Cen,Cen,False,iau-lines.dat:138
+Cen,Centaurus,59196,Del Cen,Cen,False,iau-lines.dat:138
+Cen,Centaurus,56480,Cen,Cen,False,iau-lines.dat:138
+Cen,Centaurus,68002,Zet Cen,Cen,False,iau-lines.dat:139; iau-lines.dat:140; iau-lines.dat:141
+Cen,Centaurus,67472,Mu Cen,Cen,False,iau-lines.dat:140
+Cen,Centaurus,67464,Nu Cen,Cen,False,iau-lines.dat:140; iau-lines.dat:141
+Cen,Centaurus,65936,Cen,Cen,False,iau-lines.dat:140
+Cen,Centaurus,65109,Iot Cen,Cen,False,iau-lines.dat:140
+Cen,Centaurus,61789,Cen,Cen,False,iau-lines.dat:140
+Cen,Centaurus,68933,The Cen,Cen,False,iau-lines.dat:141
+Cen,Centaurus,70090,Psi Cen,Cen,False,iau-lines.dat:141
+Cen,Centaurus,68862,Chi Cen,Cen,False,iau-lines.dat:141
+Cen,Centaurus,68245,Phi Cen,Cen,False,iau-lines.dat:141; iau-lines.dat:142
+Cen,Centaurus,68282,Ups-1 Cen,Cen,False,iau-lines.dat:141
+Cen,Centaurus,71352,Eta Cen,Cen,False,iau-lines.dat:142
+Cen,Centaurus,73334,Kap Cen,Cen,False,iau-lines.dat:142
+Cep,Cepheus,101093,The Cep,Cep,False,iau-lines.dat:146
+Cep,Cepheus,102422,Eta Cep,Cep,False,iau-lines.dat:146
+Cep,Cepheus,105199,Alp Cep,Cep,False,iau-lines.dat:146
+Cep,Cepheus,107259,Mu Cep,Cep,False,iau-lines.dat:146
+Cep,Cepheus,109857,Eps Cep,Cep,False,iau-lines.dat:146
+Cep,Cepheus,109492,Zet Cep,Cep,False,iau-lines.dat:146
+Cep,Cepheus,110991,Del Cep,Cep,False,iau-lines.dat:146
+Cep,Cepheus,112724,Iot Cep,Cep,False,iau-lines.dat:146; iau-lines.dat:147
+Cep,Cepheus,106032,Bet Cep,Cep,False,iau-lines.dat:146; iau-lines.dat:147
+Cep,Cepheus,116727,Gam Cep,Cep,False,iau-lines.dat:147
+Cet,Cetus,12706,Gam Cet,Cet,False,iau-lines.dat:151
+Cet,Cetus,14135,Alp Cet,Cet,False,iau-lines.dat:151
+Cet,Cetus,13954,Lam Cet,Cet,False,iau-lines.dat:151
+Cet,Cetus,12828,Mu Cet,Cet,False,iau-lines.dat:151
+Cet,Cetus,11484,Xi-2 Cet,Cet,False,iau-lines.dat:151
+Cet,Cetus,12387,Del Cet,Cet,False,iau-lines.dat:151
+Cet,Cetus,10826,Omi Cet,Cet,False,iau-lines.dat:151
+Cet,Cetus,8645,Zet Cet,Cet,False,iau-lines.dat:151
+Cet,Cetus,6537,The Cet,Cet,False,iau-lines.dat:151
+Cet,Cetus,5364,Eta Cet,Cet,False,iau-lines.dat:151
+Cet,Cetus,1562,Iot Cet,Cet,False,iau-lines.dat:151
+Cet,Cetus,3419,Bet Cet,Cet,False,iau-lines.dat:151
+Cet,Cetus,8102,Tau Cet,Cet,False,iau-lines.dat:151
+Cha,Chamaeleon,51839,Gam Cha,Cha,False,iau-lines.dat:155
+Cha,Chamaeleon,52633,Del-2 Cha,Cha,False,iau-lines.dat:155
+Cha,Chamaeleon,60000,Bet Cha,Cha,False,iau-lines.dat:155
+Cha,Chamaeleon,58484,Eps Cha,Cha,False,iau-lines.dat:155
+Cha,Chamaeleon,40702,Alp Cha,Cha,False,iau-lines.dat:155
+Cir,Circinus,74824,Bet Cir,Cir,False,iau-lines.dat:159
+Cir,Circinus,71908,Alp Cir,Cir,False,iau-lines.dat:159
+Cir,Circinus,75323,Gam Cir,Cir,False,iau-lines.dat:159
+Col,Columba,30277,Del Col,Col,False,iau-lines.dat:163
+Col,Columba,27628,Bet Col,Col,False,iau-lines.dat:163; iau-lines.dat:164
+Col,Columba,28328,Eta Col,Col,False,iau-lines.dat:163
+Col,Columba,26634,Alp Col,Col,False,iau-lines.dat:164
+Col,Columba,25859,Eps Col,Col,False,iau-lines.dat:164
+Com,Coma Berenices,64241,Alp Com,Com,False,iau-lines.dat:168
+Com,Coma Berenices,64394,Bet Com,Com,False,iau-lines.dat:168
+Com,Coma Berenices,60742,Gam Com,Com,False,iau-lines.dat:168
+CrA,Corona Australis,90982,The CrA,CrA,False,iau-lines.dat:172
+CrA,Corona Australis,94005,Del CrA,CrA,False,iau-lines.dat:172
+CrA,Corona Australis,94160,Bet CrA,CrA,False,iau-lines.dat:172
+CrA,Corona Australis,94114,Alp CrA,CrA,False,iau-lines.dat:172
+CrA,Corona Australis,93825,Gam CrA,CrA,False,iau-lines.dat:172
+CrB,Corona Borealis,76127,The CrB,CrB,False,iau-lines.dat:176
+CrB,Corona Borealis,75695,Bet CrB,CrB,False,iau-lines.dat:176
+CrB,Corona Borealis,76267,Alp CrB,CrB,False,iau-lines.dat:176
+CrB,Corona Borealis,76952,Gam CrB,CrB,False,iau-lines.dat:176
+CrB,Corona Borealis,77512,Del CrB,CrB,False,iau-lines.dat:176
+CrB,Corona Borealis,78159,Eps CrB,CrB,False,iau-lines.dat:176
+CrB,Corona Borealis,78493,Iot CrB,CrB,False,iau-lines.dat:176
+Crv,Corvus,59199,Alp Crv,Crv,False,iau-lines.dat:180
+Crv,Corvus,59316,Eps Crv,Crv,False,iau-lines.dat:180
+Crv,Corvus,59803,Gam Crv,Crv,False,iau-lines.dat:180
+Crv,Corvus,60965,Del Crv,Crv,False,iau-lines.dat:180
+Crv,Corvus,61359,Bet Crv,Crv,False,iau-lines.dat:180
+Crt,Crater,58188,Eta Crt,Crt,False,iau-lines.dat:184
+Crt,Crater,57283,Zet Crt,Crt,False,iau-lines.dat:184
+Crt,Crater,55705,Gam Crt,Crt,False,iau-lines.dat:184; iau-lines.dat:185
+Crt,Crater,54682,Bet Crt,Crt,False,iau-lines.dat:184
+Crt,Crater,53740,Alp Crt,Crt,False,iau-lines.dat:184
+Crt,Crater,55282,Del Crt,Crt,False,iau-lines.dat:184; iau-lines.dat:185
+Crt,Crater,55687,Eps Crt,Crt,False,iau-lines.dat:184
+Crt,Crater,56633,The Crt,Crt,False,iau-lines.dat:184
+Cru,Crux,60718,Alp-1 Cru,Cru,False,iau-lines.dat:189
+Cru,Crux,61084,Gam Cru,Cru,False,iau-lines.dat:189
+Cru,Crux,59747,Del Cru,Cru,False,iau-lines.dat:190
+Cru,Crux,62434,Bet Cru,Cru,False,iau-lines.dat:190
+Cyg,Cygnus,95947,Bet-1 Cyg,Cyg,False,iau-lines.dat:194
+Cyg,Cygnus,96683,Phi Cyg,Cyg,False,iau-lines.dat:194
+Cyg,Cygnus,98110,Eta Cyg,Cyg,False,iau-lines.dat:194
+Cyg,Cygnus,100453,Gam Cyg,Cyg,False,iau-lines.dat:194; iau-lines.dat:196
+Cyg,Cygnus,97165,Del Cyg,Cyg,False,iau-lines.dat:194
+Cyg,Cygnus,95853,Iot-2 Cyg,Cyg,False,iau-lines.dat:194; iau-lines.dat:195
+Cyg,Cygnus,99848,Cyg,Cyg,False,iau-lines.dat:194
+Cyg,Cygnus,102098,Alp Cyg,Cyg,False,iau-lines.dat:194; iau-lines.dat:196
+Cyg,Cygnus,94779,Kap Cyg,Cyg,False,iau-lines.dat:195
+Cyg,Cygnus,103413,Nu Cyg,Cyg,False,iau-lines.dat:196
+Cyg,Cygnus,104732,Zet Cyg,Cyg,False,iau-lines.dat:196
+Cyg,Cygnus,102488,Eps Cyg,Cyg,False,iau-lines.dat:196
+Del,Delphinus,101421,Eps Del,Del,False,iau-lines.dat:200
+Del,Delphinus,101483,Eta Del,Del,False,iau-lines.dat:200
+Del,Delphinus,101769,Bet Del,Del,False,iau-lines.dat:200
+Del,Delphinus,101958,Alp Del,Del,False,iau-lines.dat:200
+Del,Delphinus,102532,Gam-2 Del,Del,False,iau-lines.dat:200
+Del,Delphinus,102281,Del Del,Del,False,iau-lines.dat:200
+Dor,Dorado,19893,Gam Dor,Dor,False,iau-lines.dat:204
+Dor,Dorado,21281,Alp Dor,Dor,False,iau-lines.dat:204
+Dor,Dorado,23693,Zet Dor,Dor,False,iau-lines.dat:204
+Dor,Dorado,26069,Bet Dor,Dor,False,iau-lines.dat:204
+Dor,Dorado,27100,Del Dor,Dor,False,iau-lines.dat:204
+Dor,Dorado,27890,Dor,Dor,False,iau-lines.dat:204
+Dra,Draco,87585,Xi Dra,Dra,False,iau-lines.dat:208
+Dra,Draco,87833,Gam Dra,Dra,False,iau-lines.dat:208
+Dra,Draco,85670,Bet Dra,Dra,False,iau-lines.dat:208
+Dra,Draco,85829,Nu-2 Dra,Dra,False,iau-lines.dat:208
+Dra,Draco,94376,Del Dra,Dra,False,iau-lines.dat:208; iau-lines.dat:209
+Dra,Draco,97433,Eps Dra,Dra,False,iau-lines.dat:208
+Dra,Draco,89908,Phi Dra,Dra,False,iau-lines.dat:209
+Dra,Draco,83895,Zet Dra,Dra,False,iau-lines.dat:209
+Dra,Draco,80331,Eta Dra,Dra,False,iau-lines.dat:209
+Dra,Draco,78527,The Dra,Dra,False,iau-lines.dat:209
+Dra,Draco,75458,Iot Dra,Dra,False,iau-lines.dat:209
+Dra,Draco,68756,Alp Dra,Dra,False,iau-lines.dat:209
+Dra,Draco,61281,Kap Dra,Dra,False,iau-lines.dat:209
+Dra,Draco,56211,Lam Dra,Dra,False,iau-lines.dat:209
+Equ,Equuleus,104987,Alp Equ,Equ,False,iau-lines.dat:213
+Equ,Equuleus,104858,Del Equ,Equ,False,iau-lines.dat:213
+Eri,Eridanus,23875,Bet Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,22109,Mu Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,21444,Nu Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,19587,Omi-1 Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,18543,Gam Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,17378,Del Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,16537,Eps Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,13701,Eta Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,12770,Pi Cet,Cet,True,iau-lines.dat:217
+Eri,Eridanus,12843,Tau-1 Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,14146,Tau-3 Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,15474,Tau-4 Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,16611,Tau-5 Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,17651,Tau-6 Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,18216,Tau-8 Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,18673,Tau-9 Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,21248,Ups-1 Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,21393,Ups-2 Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,20535,Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,20042,Ups-4 Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,17874,Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,16870,Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,15510,Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,13847,The-1 Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,12486,Iot Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,12413,Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,11407,Kap Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,9007,Chi Eri,Eri,False,iau-lines.dat:217
+Eri,Eridanus,7588,Alp Eri,Eri,False,iau-lines.dat:217
+For,Fornax,14879,Alp For,For,False,iau-lines.dat:221
+For,Fornax,13147,Bet For,For,False,iau-lines.dat:221
+For,Fornax,9677,Nu For,For,False,iau-lines.dat:221
+Gem,Gemini,37826,Bet Gem,Gem,False,iau-lines.dat:225
+Gem,Gemini,36962,Ups Gem,Gem,False,iau-lines.dat:225; iau-lines.dat:229
+Gem,Gemini,37740,Kap Gem,Gem,False,iau-lines.dat:225
+Gem,Gemini,36850,Alp Gem,Gem,False,iau-lines.dat:226
+Gem,Gemini,34693,Tau Gem,Gem,False,iau-lines.dat:226; iau-lines.dat:229
+Gem,Gemini,33018,The Gem,Gem,False,iau-lines.dat:226
+Gem,Gemini,28734,Gem,Gem,False,iau-lines.dat:227
+Gem,Gemini,29655,Eta Gem,Gem,False,iau-lines.dat:227
+Gem,Gemini,30343,Mu Gem,Gem,False,iau-lines.dat:227
+Gem,Gemini,32246,Eps Gem,Gem,False,iau-lines.dat:227; iau-lines.dat:229
+Gem,Gemini,32362,Xi Gem,Gem,False,iau-lines.dat:228
+Gem,Gemini,35350,Lam Gem,Gem,False,iau-lines.dat:228
+Gem,Gemini,35550,Del Gem,Gem,False,iau-lines.dat:228; iau-lines.dat:229
+Gem,Gemini,31681,Gam Gem,Gem,False,iau-lines.dat:229
+Gem,Gemini,34088,Zet Gem,Gem,False,iau-lines.dat:229
+Gem,Gemini,36046,Iot Gem,Gem,False,iau-lines.dat:229
+Gem,Gemini,30883,Nu Gem,Gem,False,iau-lines.dat:229
+Gru,Grus,113638,Zet Gru,Gru,False,iau-lines.dat:233
+Gru,Grus,112623,Eps Gru,Gru,False,iau-lines.dat:233
+Gru,Grus,112122,Bet Gru,Gru,False,iau-lines.dat:233; iau-lines.dat:234
+Gru,Grus,110997,Del-1 Gru,Gru,False,iau-lines.dat:233; iau-lines.dat:234
+Gru,Grus,109908,Mu-1 Gru,Gru,False,iau-lines.dat:233
+Gru,Grus,109111,Lam Gru,Gru,False,iau-lines.dat:233
+Gru,Grus,108085,Gam Gru,Gru,False,iau-lines.dat:233
+Gru,Grus,109268,Alp Gru,Gru,False,iau-lines.dat:234
+Her,Hercules,86414,Iot Her,Her,False,iau-lines.dat:238
+Her,Hercules,87808,The Her,Her,False,iau-lines.dat:238
+Her,Hercules,85112,Rho Her,Her,False,iau-lines.dat:238
+Her,Hercules,84380,Pi Her,Her,False,iau-lines.dat:238; iau-lines.dat:240
+Her,Hercules,81833,Eta Her,Her,False,iau-lines.dat:238; iau-lines.dat:239
+Her,Hercules,81126,Sig Her,Her,False,iau-lines.dat:238
+Her,Hercules,79992,Tau Her,Her,False,iau-lines.dat:238
+Her,Hercules,79101,Phi Her,Her,False,iau-lines.dat:238
+Her,Hercules,77760,Chi Her,Her,False,iau-lines.dat:238
+Her,Hercules,81693,Zet Her,Her,False,iau-lines.dat:239; iau-lines.dat:240
+Her,Hercules,80816,Bet Her,Her,False,iau-lines.dat:239; iau-lines.dat:242
+Her,Hercules,80170,Gam Her,Her,False,iau-lines.dat:239
+Her,Hercules,80463,Ome Her,Her,False,iau-lines.dat:239
+Her,Hercules,81008,Her,Her,False,iau-lines.dat:239
+Her,Hercules,83207,Eps Her,Her,False,iau-lines.dat:240; iau-lines.dat:242
+Her,Hercules,88794,Omi Her,Her,False,iau-lines.dat:241
+Her,Hercules,87933,Xi Her,Her,False,iau-lines.dat:241
+Her,Hercules,86974,Mu Her,Her,False,iau-lines.dat:241
+Her,Hercules,85693,Lam Her,Her,False,iau-lines.dat:241
+Her,Hercules,84379,Del Her,Her,False,iau-lines.dat:241; iau-lines.dat:242
+Her,Hercules,84345,Alp-1 Her,Her,False,iau-lines.dat:242
+Hor,Horologium,19747,Alp Hor,Hor,False,iau-lines.dat:246
+Hor,Horologium,12653,Iot Hor,Hor,False,iau-lines.dat:246
+Hor,Horologium,12225,Eta Hor,Hor,False,iau-lines.dat:246
+Hor,Horologium,12484,Zet Hor,Hor,False,iau-lines.dat:246
+Hor,Horologium,14240,Mu Hor,Hor,False,iau-lines.dat:246
+Hor,Horologium,13884,Bet Hor,Hor,False,iau-lines.dat:246
+Hya,Hydra,43109,Eps Hya,Hya,False,iau-lines.dat:250
+Hya,Hydra,43234,Rho Hya,Hya,False,iau-lines.dat:250
+Hya,Hydra,42799,Eta Hya,Hya,False,iau-lines.dat:250
+Hya,Hydra,42402,Sig Hya,Hya,False,iau-lines.dat:250
+Hya,Hydra,42313,Del Hya,Hya,False,iau-lines.dat:250
+Hya,Hydra,43813,Zet Hya,Hya,False,iau-lines.dat:250
+Hya,Hydra,45336,The Hya,Hya,False,iau-lines.dat:250
+Hya,Hydra,47431,Iot Hya,Hya,False,iau-lines.dat:250
+Hya,Hydra,46390,Alp Hya,Hya,False,iau-lines.dat:250
+Hya,Hydra,48356,Ups-1 Hya,Hya,False,iau-lines.dat:250
+Hya,Hydra,49402,Ups-2 Hya,Hya,False,iau-lines.dat:250
+Hya,Hydra,49841,Lam Hya,Hya,False,iau-lines.dat:250
+Hya,Hydra,51069,Mu Hya,Hya,False,iau-lines.dat:250
+Hya,Hydra,52943,Nu Hya,Hya,False,iau-lines.dat:250
+Hya,Hydra,53740,Alp Crt,Crt,True,iau-lines.dat:250
+Hya,Hydra,54682,Bet Crt,Crt,True,iau-lines.dat:251
+Hya,Hydra,56343,Xi Hya,Hya,False,iau-lines.dat:251
+Hya,Hydra,57936,Bet Hya,Hya,False,iau-lines.dat:251
+Hya,Hydra,64962,Gam Hya,Hya,False,iau-lines.dat:251
+Hya,Hydra,68895,Pi Hya,Hya,False,iau-lines.dat:251
+Hya,Hydra,72571,Hya,Hya,False,iau-lines.dat:251
+Hyi,Hydrus,2021,Bet Hyi,Hyi,False,iau-lines.dat:255
+Hyi,Hydrus,17678,Gam Hyi,Hyi,False,iau-lines.dat:255
+Hyi,Hydrus,9236,Alp Hyi,Hyi,False,iau-lines.dat:255
+Ind,Indus,101772,Alp Ind,Ind,False,iau-lines.dat:259
+Ind,Indus,103227,Bet Ind,Ind,False,iau-lines.dat:259
+Ind,Indus,108431,Del Ind,Ind,False,iau-lines.dat:259
+Ind,Indus,105319,The Ind,Ind,False,iau-lines.dat:259
+Lac,Lacerta,109937,Lac,Lac,False,iau-lines.dat:263
+Lac,Lacerta,109754,Lac,Lac,False,iau-lines.dat:263
+Lac,Lacerta,111104,Lac,Lac,False,iau-lines.dat:263
+Lac,Lacerta,111944,Lac,Lac,False,iau-lines.dat:263
+Lac,Lacerta,111022,Lac,Lac,False,iau-lines.dat:263
+Lac,Lacerta,111169,Alp Lac,Lac,False,iau-lines.dat:263
+Lac,Lacerta,110538,Bet Lac,Lac,False,iau-lines.dat:263
+Lac,Lacerta,110609,Lac,Lac,False,iau-lines.dat:263
+Lac,Lacerta,110351,Lac,Lac,False,iau-lines.dat:263
+Leo,Leo,55434,Sig Leo,Leo,False,iau-lines.dat:267
+Leo,Leo,55642,Iot Leo,Leo,False,iau-lines.dat:267
+Leo,Leo,54879,The Leo,Leo,False,iau-lines.dat:267
+Leo,Leo,54872,Del Leo,Leo,False,iau-lines.dat:267
+Leo,Leo,57632,Bet Leo,Leo,False,iau-lines.dat:267
+Leo,Leo,49583,Eta Leo,Leo,False,iau-lines.dat:267; iau-lines.dat:268; iau-lines.dat:269
+Leo,Leo,50583,Gam-1 Leo,Leo,False,iau-lines.dat:267; iau-lines.dat:269
+Leo,Leo,53954,Leo,Leo,False,iau-lines.dat:267
+Leo,Leo,49669,Alp Leo,Leo,False,iau-lines.dat:268
+Leo,Leo,47908,Eps Leo,Leo,False,iau-lines.dat:269; iau-lines.dat:270
+Leo,Leo,46750,Lam Leo,Leo,False,iau-lines.dat:269
+Leo,Leo,46146,Kap Leo,Leo,False,iau-lines.dat:269
+Leo,Leo,48455,Mu Leo,Leo,False,iau-lines.dat:269; iau-lines.dat:270
+Leo,Leo,50335,Zet Leo,Leo,False,iau-lines.dat:269
+LMi,Leo Minor,46952,LMi,LMi,False,iau-lines.dat:274
+LMi,Leo Minor,49593,LMi,LMi,False,iau-lines.dat:274
+LMi,Leo Minor,51056,LMi,LMi,False,iau-lines.dat:274
+LMi,Leo Minor,53229,LMi,LMi,False,iau-lines.dat:274
+LMi,Leo Minor,51233,Bet LMi,LMi,False,iau-lines.dat:274
+Lep,Lepus,24327,Kap Lep,Lep,False,iau-lines.dat:278
+Lep,Lepus,24305,Mu Lep,Lep,False,iau-lines.dat:278; iau-lines.dat:279
+Lep,Lepus,23685,Eps Lep,Lep,False,iau-lines.dat:278
+Lep,Lepus,25606,Bet Lep,Lep,False,iau-lines.dat:278; iau-lines.dat:279
+Lep,Lepus,25985,Alp Lep,Lep,False,iau-lines.dat:278; iau-lines.dat:279
+Lep,Lepus,24845,Lam Lep,Lep,False,iau-lines.dat:279
+Lep,Lepus,27288,Zet Lep,Lep,False,iau-lines.dat:279
+Lep,Lepus,28103,Eta Lep,Lep,False,iau-lines.dat:279
+Lep,Lepus,28910,The Lep,Lep,False,iau-lines.dat:279
+Lep,Lepus,27654,Del Lep,Lep,False,iau-lines.dat:279
+Lep,Lepus,27072,Gam Lep,Lep,False,iau-lines.dat:279
+Lib,Libra,76600,Tau Lib,Lib,False,iau-lines.dat:283
+Lib,Libra,76470,Ups Lib,Lib,False,iau-lines.dat:283
+Lib,Libra,76333,Gam Lib,Lib,False,iau-lines.dat:283
+Lib,Libra,74785,Bet Lib,Lib,False,iau-lines.dat:283
+Lib,Libra,72622,Alp-2 Lib,Lib,False,iau-lines.dat:283; iau-lines.dat:284
+Lib,Libra,73714,Sig Lib,Lib,False,iau-lines.dat:284
+Lup,Lupus,78384,Eta Lup,Lup,False,iau-lines.dat:288
+Lup,Lupus,75177,Phi-1 Lup,Lup,False,iau-lines.dat:288
+Lup,Lupus,77634,Chi Lup,Lup,False,iau-lines.dat:288
+Lup,Lupus,76829,Lup,Lup,False,iau-lines.dat:288
+Lup,Lupus,74395,Zet Lup,Lup,False,iau-lines.dat:288; iau-lines.dat:290
+Lup,Lupus,75264,Eps Lup,Lup,False,iau-lines.dat:288
+Lup,Lupus,76297,Gam Lup,Lup,False,iau-lines.dat:288; iau-lines.dat:289
+Lup,Lupus,75141,Del Lup,Lup,False,iau-lines.dat:289
+Lup,Lupus,73273,Bet Lup,Lup,False,iau-lines.dat:289
+Lup,Lupus,71860,Alp Lup,Lup,False,iau-lines.dat:290
+Lyn,Lynx,45860,Alp Lyn,Lyn,False,iau-lines.dat:294
+Lyn,Lynx,45688,Lyn,Lyn,False,iau-lines.dat:294
+Lyn,Lynx,44700,Lyn,Lyn,False,iau-lines.dat:294
+Lyn,Lynx,44248,Lyn,Lyn,False,iau-lines.dat:294
+Lyn,Lynx,41075,Lyn,Lyn,False,iau-lines.dat:294
+Lyn,Lynx,36145,Lyn,Lyn,False,iau-lines.dat:294
+Lyn,Lynx,33449,Lyn,Lyn,False,iau-lines.dat:294
+Lyn,Lynx,30060,Lyn,Lyn,False,iau-lines.dat:294
+Lyr,Lyra,91971,Zet-1 Lyr,Lyr,False,iau-lines.dat:298
+Lyr,Lyra,91262,Alp Lyr,Lyr,False,iau-lines.dat:298
+Lyr,Lyra,91926,Eps-2 Lyr,Lyr,False,iau-lines.dat:298
+Lyr,Lyra,92420,Bet Lyr,Lyr,False,iau-lines.dat:298
+Lyr,Lyra,93194,Gam Lyr,Lyr,False,iau-lines.dat:298
+Lyr,Lyra,92791,Del-2 Lyr,Lyr,False,iau-lines.dat:298
+Men,Mensa,25918,Gam Men,Men,False,stellarium-modern.json:/constellations/79/lines/0
+Men,Mensa,21949,Mu Men,Men,False,stellarium-modern.json:/constellations/79/lines/0
+Mic,Microscopium,105140,Eps Mic,Mic,False,stellarium-modern.json:/constellations/54/lines/0
+Mic,Microscopium,103738,Gam Mic,Mic,False,stellarium-modern.json:/constellations/54/lines/0
+Mic,Microscopium,102831,Alp Mic,Mic,False,stellarium-modern.json:/constellations/54/lines/0
+Mon,Monoceros,31978,Mon,Mon,False,iau-lines.dat:310
+Mon,Monoceros,31216,Mon,Mon,False,iau-lines.dat:310
+Mon,Monoceros,30419,Eps Mon,Mon,False,iau-lines.dat:310
+Mon,Monoceros,32578,Mon,Mon,False,iau-lines.dat:310; iau-lines.dat:311
+Mon,Monoceros,34769,Del Mon,Mon,False,iau-lines.dat:311; iau-lines.dat:312
+Mon,Monoceros,30867,Bet Mon,Mon,False,iau-lines.dat:311
+Mon,Monoceros,29651,Gam Mon,Mon,False,iau-lines.dat:311
+Mon,Monoceros,39863,Zet Mon,Mon,False,iau-lines.dat:312
+Mon,Monoceros,37447,Alp Mon,Mon,False,iau-lines.dat:312
+Mus,Musca,61585,Alp Mus,Mus,False,iau-lines.dat:316
+Mus,Musca,62322,Bet Mus,Mus,False,iau-lines.dat:316
+Mus,Musca,63613,Del Mus,Mus,False,iau-lines.dat:316
+Mus,Musca,61199,Gam Mus,Mus,False,iau-lines.dat:316
+Mus,Musca,59929,Eps Mus,Mus,False,iau-lines.dat:316
+Mus,Musca,57363,Lam Mus,Mus,False,iau-lines.dat:316
+Nor,Norma,80000,Gam-2 Nor,Nor,False,iau-lines.dat:320
+Nor,Norma,78639,Eta Nor,Nor,False,iau-lines.dat:320
+Nor,Norma,78914,Del Nor,Nor,False,iau-lines.dat:320
+Nor,Norma,80582,Eps Nor,Nor,False,iau-lines.dat:320
+Oct,Octans,107089,Nu Oct,Oct,False,iau-lines.dat:324
+Oct,Octans,112405,Bet Oct,Oct,False,iau-lines.dat:324
+Oct,Octans,70638,Del Oct,Oct,False,iau-lines.dat:324
+Oph,Ophiuchus,88048,Nu Oph,Oph,False,iau-lines.dat:328
+Oph,Ophiuchus,87108,Gam Oph,Oph,False,iau-lines.dat:328
+Oph,Ophiuchus,86742,Bet Oph,Oph,False,iau-lines.dat:328
+Oph,Ophiuchus,86032,Alp Oph,Oph,False,iau-lines.dat:328
+Oph,Ophiuchus,83000,Kap Oph,Oph,False,iau-lines.dat:328; iau-lines.dat:330
+Oph,Ophiuchus,80883,Lam Oph,Oph,False,iau-lines.dat:328
+Oph,Ophiuchus,79593,Del Oph,Oph,False,iau-lines.dat:328
+Oph,Ophiuchus,79882,Eps Oph,Oph,False,iau-lines.dat:328
+Oph,Ophiuchus,80628,Ups Oph,Oph,False,iau-lines.dat:328
+Oph,Ophiuchus,81377,Zet Oph,Oph,False,iau-lines.dat:328; iau-lines.dat:330
+Oph,Ophiuchus,84012,Eta Oph,Oph,False,iau-lines.dat:328; iau-lines.dat:329
+Oph,Ophiuchus,84970,The Oph,Oph,False,iau-lines.dat:329
+Oph,Ophiuchus,85423,Oph,Oph,False,iau-lines.dat:329
+Oph,Ophiuchus,80894,Phi Oph,Oph,False,iau-lines.dat:330
+Oph,Ophiuchus,80569,Chi Oph,Oph,False,iau-lines.dat:330
+Oph,Ophiuchus,80343,Psi Oph,Oph,False,iau-lines.dat:330
+Oph,Ophiuchus,80473,Rho Oph,Oph,False,iau-lines.dat:330
+Ori,Orion,23607,Ori,Ori,False,iau-lines.dat:334
+Ori,Orion,22957,Omi-2 Ori,Ori,False,iau-lines.dat:334
+Ori,Orion,22845,Pi-1 Ori,Ori,False,iau-lines.dat:334
+Ori,Orion,22509,Pi-2 Ori,Ori,False,iau-lines.dat:334
+Ori,Orion,22449,Pi-3 Ori,Ori,False,iau-lines.dat:334; iau-lines.dat:335
+Ori,Orion,22549,Pi-4 Ori,Ori,False,iau-lines.dat:334
+Ori,Orion,22797,Pi-5 Ori,Ori,False,iau-lines.dat:334
+Ori,Orion,23123,Pi-6 Ori,Ori,False,iau-lines.dat:334
+Ori,Orion,25336,Gam Ori,Ori,False,iau-lines.dat:335; iau-lines.dat:336; iau-lines.dat:337
+Ori,Orion,26207,Lam Ori,Ori,False,iau-lines.dat:335
+Ori,Orion,27989,Alp Ori,Ori,False,iau-lines.dat:335; iau-lines.dat:336; iau-lines.dat:337
+Ori,Orion,28614,Mu Ori,Ori,False,iau-lines.dat:336
+Ori,Orion,29038,Nu Ori,Ori,False,iau-lines.dat:336
+Ori,Orion,27913,Chi-1 Ori,Ori,False,iau-lines.dat:336
+Ori,Orion,28716,Chi-2 Ori,Ori,False,iau-lines.dat:336
+Ori,Orion,29426,Xi Ori,Ori,False,iau-lines.dat:336
+Ori,Orion,26727,Zet Ori,Ori,False,iau-lines.dat:337; iau-lines.dat:338
+Ori,Orion,26311,Eps Ori,Ori,False,iau-lines.dat:337
+Ori,Orion,25930,Del Ori,Ori,False,iau-lines.dat:337; iau-lines.dat:339
+Ori,Orion,27366,Kap Ori,Ori,False,iau-lines.dat:338
+Ori,Orion,25281,Eta Ori,Ori,False,iau-lines.dat:339
+Ori,Orion,24436,Bet Ori,Ori,False,iau-lines.dat:339
+Pav,Pavo,99240,Del Pav,Pav,False,iau-lines.dat:343; iau-lines.dat:344
+Pav,Pavo,102395,Bet Pav,Pav,False,iau-lines.dat:343
+Pav,Pavo,105858,Gam Pav,Pav,False,iau-lines.dat:343
+Pav,Pavo,100751,Alp Pav,Pav,False,iau-lines.dat:343
+Pav,Pavo,92609,Lam Pav,Pav,False,iau-lines.dat:343
+Pav,Pavo,90098,Xi Pav,Pav,False,iau-lines.dat:343
+Pav,Pavo,88866,Pi Pav,Pav,False,iau-lines.dat:343; iau-lines.dat:345
+Pav,Pavo,93015,Kap Pav,Pav,False,iau-lines.dat:343
+Pav,Pavo,98495,Eps Pav,Pav,False,iau-lines.dat:343
+Pav,Pavo,91792,Zet Pav,Pav,False,iau-lines.dat:344
+Pav,Pavo,86929,Eta Pav,Pav,False,iau-lines.dat:345
+Peg,Pegasus,677,Alp And,And,True,iau-lines.dat:349
+Peg,Pegasus,1067,Gam Peg,Peg,False,iau-lines.dat:349
+Peg,Pegasus,113963,Alp Peg,Peg,False,iau-lines.dat:349; iau-lines.dat:352
+Peg,Pegasus,113881,Bet Peg,Peg,False,iau-lines.dat:349; iau-lines.dat:350; iau-lines.dat:351
+Peg,Pegasus,112158,Eta Peg,Peg,False,iau-lines.dat:350
+Peg,Pegasus,109410,Pi-2 Peg,Peg,False,iau-lines.dat:350
+Peg,Pegasus,112748,Mu Peg,Peg,False,iau-lines.dat:351
+Peg,Pegasus,112440,Lam Peg,Peg,False,iau-lines.dat:351
+Peg,Pegasus,109176,Iot Peg,Peg,False,iau-lines.dat:351
+Peg,Pegasus,107354,Kap Peg,Peg,False,iau-lines.dat:351
+Peg,Pegasus,112029,Zet Peg,Peg,False,iau-lines.dat:352
+Peg,Pegasus,109427,The Peg,Peg,False,iau-lines.dat:352
+Peg,Pegasus,107315,Eps Peg,Peg,False,iau-lines.dat:352
+Per,Perseus,17448,Omi Per,Per,False,iau-lines.dat:356
+Per,Perseus,18246,Zet Per,Per,False,iau-lines.dat:356
+Per,Perseus,18614,Xi Per,Per,False,iau-lines.dat:356
+Per,Perseus,18532,Eps Per,Per,False,iau-lines.dat:356; iau-lines.dat:358
+Per,Perseus,14576,Bet Per,Per,False,iau-lines.dat:356; iau-lines.dat:357
+Per,Perseus,14354,Rho Per,Per,False,iau-lines.dat:356
+Per,Perseus,14668,Kap Per,Per,False,iau-lines.dat:357
+Per,Perseus,14632,Iot Per,Per,False,iau-lines.dat:357; iau-lines.dat:359
+Per,Perseus,12777,The Per,Per,False,iau-lines.dat:357
+Per,Perseus,8068,Phi Per,Per,False,iau-lines.dat:357
+Per,Perseus,17358,Del Per,Per,False,iau-lines.dat:358; iau-lines.dat:359
+Per,Perseus,19167,Lam Per,Per,False,iau-lines.dat:359
+Per,Perseus,20070,Per,Per,False,iau-lines.dat:359
+Per,Perseus,19812,Mu Per,Per,False,iau-lines.dat:359
+Per,Perseus,19343,Per,Per,False,iau-lines.dat:359
+Per,Perseus,15863,Alp Per,Per,False,iau-lines.dat:359; iau-lines.dat:360
+Per,Perseus,13531,Tau Per,Per,False,iau-lines.dat:359
+Per,Perseus,13268,Eta Per,Per,False,iau-lines.dat:359
+Per,Perseus,14328,Gam Per,Per,False,iau-lines.dat:359; iau-lines.dat:360
+Phe,Phoenix,5165,Bet Phe,Phe,False,iau-lines.dat:364
+Phe,Phoenix,6867,Gam Phe,Phe,False,iau-lines.dat:364
+Phe,Phoenix,7083,Del Phe,Phe,False,iau-lines.dat:364
+Phe,Phoenix,5348,Zet Phe,Phe,False,iau-lines.dat:364
+Phe,Phoenix,2081,Alp Phe,Phe,False,iau-lines.dat:364
+Phe,Phoenix,765,Eps Phe,Phe,False,iau-lines.dat:364
+Pic,Pictor,27321,Bet Pic,Pic,False,iau-lines.dat:368
+Pic,Pictor,27530,Gam Pic,Pic,False,iau-lines.dat:368
+Pic,Pictor,32607,Alp Pic,Pic,False,iau-lines.dat:368
+Psc,Pisces,116771,Iot Psc,Psc,False,iau-lines.dat:372
+Psc,Pisces,115830,The Psc,Psc,False,iau-lines.dat:372
+Psc,Pisces,114971,Gam Psc,Psc,False,iau-lines.dat:372
+Psc,Pisces,115738,Kap Psc,Psc,False,iau-lines.dat:372
+Psc,Pisces,116928,Lam Psc,Psc,False,iau-lines.dat:372
+Psc,Pisces,118268,Ome Psc,Psc,False,iau-lines.dat:372
+Psc,Pisces,3786,Del Psc,Psc,False,iau-lines.dat:372
+Psc,Pisces,4906,Eps Psc,Psc,False,iau-lines.dat:372
+Psc,Pisces,5737,Zet Psc,Psc,False,iau-lines.dat:372
+Psc,Pisces,7007,Mu Psc,Psc,False,iau-lines.dat:372
+Psc,Pisces,7884,Nu Psc,Psc,False,iau-lines.dat:372
+Psc,Pisces,9487,Alp Psc,Psc,False,iau-lines.dat:372
+Psc,Pisces,8198,Omi Psc,Psc,False,iau-lines.dat:372
+Psc,Pisces,7097,Eta Psc,Psc,False,iau-lines.dat:372
+Psc,Pisces,5742,Phi Psc,Psc,False,iau-lines.dat:372
+Psc,Pisces,5586,Tau Psc,Psc,False,iau-lines.dat:372
+Psc,Pisces,6193,Ups Psc,Psc,False,iau-lines.dat:372
+PsA,Piscis Austrinus,113368,Alp PsA,PsA,False,iau-lines.dat:376
+PsA,Piscis Austrinus,113246,Del PsA,PsA,False,iau-lines.dat:376
+PsA,Piscis Austrinus,112948,Gam PsA,PsA,False,iau-lines.dat:376
+PsA,Piscis Austrinus,111188,Bet PsA,PsA,False,iau-lines.dat:376
+PsA,Piscis Austrinus,109422,Tau PsA,PsA,False,iau-lines.dat:376
+PsA,Piscis Austrinus,107380,Iot PsA,PsA,False,iau-lines.dat:376
+PsA,Piscis Austrinus,107608,The PsA,PsA,False,iau-lines.dat:376
+PsA,Piscis Austrinus,111954,Eps PsA,PsA,False,iau-lines.dat:376
+Pup,Puppis,39953,Gam-2 Vel,Vel,True,iau-lines.dat:380
+Pup,Puppis,39429,Zet Pup,Pup,False,iau-lines.dat:380
+Pup,Puppis,39757,Rho Pup,Pup,False,iau-lines.dat:380
+Pup,Puppis,38170,Xi Pup,Pup,False,iau-lines.dat:380
+Pup,Puppis,37229,Pup,Pup,False,iau-lines.dat:380
+Pup,Puppis,36917,Pup,Pup,False,iau-lines.dat:380; iau-lines.dat:381
+Pup,Puppis,37677,Pup,Pup,False,iau-lines.dat:380
+Pup,Puppis,38070,Omi Pup,Pup,False,iau-lines.dat:380
+Pup,Puppis,35264,Pi Pup,Pup,False,iau-lines.dat:381
+Pup,Puppis,31685,Nu Pup,Pup,False,iau-lines.dat:381
+Pup,Puppis,30438,Alp Car,Car,True,iau-lines.dat:381
+Pyx,Pyxis,43409,Gam Pyx,Pyx,False,iau-lines.dat:385
+Pyx,Pyxis,42828,Alp Pyx,Pyx,False,iau-lines.dat:385
+Pyx,Pyxis,42515,Bet Pyx,Pyx,False,iau-lines.dat:385
+Pyx,Pyxis,39429,Zet Pup,Pup,True,iau-lines.dat:385
+Ret,Reticulum,19921,Eps Ret,Ret,False,iau-lines.dat:389
+Ret,Reticulum,19780,Alp Ret,Ret,False,iau-lines.dat:389
+Ret,Reticulum,17440,Bet Ret,Ret,False,iau-lines.dat:389
+Ret,Reticulum,18597,Del Ret,Ret,False,iau-lines.dat:389
+Sge,Sagitta,96837,Bet Sge,Sge,False,iau-lines.dat:393
+Sge,Sagitta,97365,Del Sge,Sge,False,iau-lines.dat:393; iau-lines.dat:394
+Sge,Sagitta,96757,Alp Sge,Sge,False,iau-lines.dat:393
+Sge,Sagitta,98337,Gam Sge,Sge,False,iau-lines.dat:394
+Sgr,Sagittarius,89341,Mu Sgr,Sgr,False,iau-lines.dat:398
+Sgr,Sagittarius,90496,Lam Sgr,Sgr,False,iau-lines.dat:398
+Sgr,Sagittarius,92041,Phi Sgr,Sgr,False,iau-lines.dat:398; iau-lines.dat:399
+Sgr,Sagittarius,92855,Sig Sgr,Sgr,False,iau-lines.dat:398
+Sgr,Sagittarius,93864,Tau Sgr,Sgr,False,iau-lines.dat:398
+Sgr,Sagittarius,93506,Zet Sgr,Sgr,False,iau-lines.dat:398; iau-lines.dat:399
+Sgr,Sagittarius,90185,Eps Sgr,Sgr,False,iau-lines.dat:398; iau-lines.dat:399
+Sgr,Sagittarius,88635,Gam-2 Sgr,Sgr,False,iau-lines.dat:398
+Sgr,Sagittarius,89931,Del Sgr,Sgr,False,iau-lines.dat:398; iau-lines.dat:399
+Sgr,Sagittarius,89642,Eta Sgr,Sgr,False,iau-lines.dat:399
+Sco,Scorpius,87261,Sco,Sco,False,iau-lines.dat:403
+Sco,Scorpius,85927,Lam Sco,Sco,False,iau-lines.dat:403
+Sco,Scorpius,85696,Ups Sco,Sco,False,iau-lines.dat:403
+Sco,Scorpius,86670,Kap Sco,Sco,False,iau-lines.dat:403
+Sco,Scorpius,87073,Iot-1 Sco,Sco,False,iau-lines.dat:403
+Sco,Scorpius,86228,The Sco,Sco,False,iau-lines.dat:403
+Sco,Scorpius,84143,Eta Sco,Sco,False,iau-lines.dat:403
+Sco,Scorpius,82729,Zet-2 Sco,Sco,False,iau-lines.dat:403
+Sco,Scorpius,82514,Mu-1 Sco,Sco,False,iau-lines.dat:403
+Sco,Scorpius,82396,Eps Sco,Sco,False,iau-lines.dat:403
+Sco,Scorpius,81266,Tau Sco,Sco,False,iau-lines.dat:403
+Sco,Scorpius,80763,Alp Sco,Sco,False,iau-lines.dat:403
+Sco,Scorpius,80112,Sig Sco,Sco,False,iau-lines.dat:403
+Sco,Scorpius,78401,Del Sco,Sco,False,iau-lines.dat:403; iau-lines.dat:404
+Sco,Scorpius,78820,Bet-1 Sco,Sco,False,iau-lines.dat:403
+Sco,Scorpius,79374,Nu Sco,Sco,False,iau-lines.dat:403
+Sco,Scorpius,78265,Pi Sco,Sco,False,iau-lines.dat:404
+Sco,Scorpius,78104,Rho Sco,Sco,False,iau-lines.dat:404
+Scl,Sculptor,4577,Alp Scl,Scl,False,iau-lines.dat:408
+Scl,Sculptor,117452,Del Scl,Scl,False,iau-lines.dat:408
+Scl,Sculptor,115102,Gam Scl,Scl,False,iau-lines.dat:408
+Scl,Sculptor,116231,Bet Scl,Scl,False,iau-lines.dat:408
+Sct,Scutum,91726,Del Sct,Sct,False,iau-lines.dat:412
+Sct,Scutum,92175,Bet Sct,Sct,False,iau-lines.dat:412
+Sct,Scutum,91117,Alp Sct,Sct,False,iau-lines.dat:412
+Sct,Scutum,90595,Gam Sct,Sct,False,iau-lines.dat:412
+Ser,Serpens,84012,Eta Oph,Oph,True,iau-lines.dat:416
+Ser,Serpens,86263,Xi Ser,Ser,False,iau-lines.dat:416
+Ser,Serpens,88048,Nu Oph,Oph,True,iau-lines.dat:416
+Ser,Serpens,89962,Eta Ser,Ser,False,iau-lines.dat:416
+Ser,Serpens,92946,The-1 Ser,Ser,False,iau-lines.dat:416
+Ser,Serpens,79195,Ser,Ser,False,iau-lines.dat:420
+Ser,Serpens,77516,Mu Ser,Ser,False,iau-lines.dat:420
+Ser,Serpens,77622,Eps Ser,Ser,False,iau-lines.dat:420
+Ser,Serpens,77070,Alp Ser,Ser,False,iau-lines.dat:420
+Ser,Serpens,76276,Del Ser,Ser,False,iau-lines.dat:420
+Ser,Serpens,77233,Bet Ser,Ser,False,iau-lines.dat:420
+Ser,Serpens,76852,Iot Ser,Ser,False,iau-lines.dat:420
+Ser,Serpens,77450,Kap Ser,Ser,False,iau-lines.dat:420
+Ser,Serpens,78072,Gam Ser,Ser,False,iau-lines.dat:420
+Sex,Sextans,51362,Del Sex,Sex,False,iau-lines.dat:424
+Sex,Sextans,51437,Bet Sex,Sex,False,iau-lines.dat:424
+Sex,Sextans,49641,Alp Sex,Sex,False,iau-lines.dat:424
+Sex,Sextans,48437,Gam Sex,Sex,False,iau-lines.dat:424
+Tau,Taurus,18907,Nu Tau,Tau,False,iau-lines.dat:428
+Tau,Taurus,16083,Xi Tau,Tau,False,iau-lines.dat:428
+Tau,Taurus,18724,Lam Tau,Tau,False,iau-lines.dat:428
+Tau,Taurus,20205,Gam Tau,Tau,False,iau-lines.dat:428; iau-lines.dat:429
+Tau,Taurus,20894,The-2 Tau,Tau,False,iau-lines.dat:428
+Tau,Taurus,21421,Alp Tau,Tau,False,iau-lines.dat:428
+Tau,Taurus,26451,Zet Tau,Tau,False,iau-lines.dat:428
+Tau,Taurus,20455,Del-1 Tau,Tau,False,iau-lines.dat:429
+Tau,Taurus,20889,Eps Tau,Tau,False,iau-lines.dat:429
+Tau,Taurus,21881,Tau Tau,Tau,False,iau-lines.dat:429
+Tau,Taurus,25428,Bet Tau,Tau,False,iau-lines.dat:429
+Tau,Taurus,15900,Omi Tau,Tau,False,iau-lines.dat:430
+Tau,Taurus,16852,Tau,Tau,False,iau-lines.dat:430
+Tel,Telescopium,90568,Zet Tel,Tel,False,iau-lines.dat:434
+Tel,Telescopium,90422,Alp Tel,Tel,False,iau-lines.dat:434
+Tel,Telescopium,89112,Eps Tel,Tel,False,iau-lines.dat:434
+Tri,Triangulum,10670,Gam Tri,Tri,False,iau-lines.dat:438
+Tri,Triangulum,8796,Alp Tri,Tri,False,iau-lines.dat:438
+Tri,Triangulum,10064,Bet Tri,Tri,False,iau-lines.dat:438
+TrA,Triangulum Australe,82273,Alp TrA,TrA,False,iau-lines.dat:442
+TrA,Triangulum Australe,77952,Bet TrA,TrA,False,iau-lines.dat:442
+TrA,Triangulum Australe,76440,Eps TrA,TrA,False,iau-lines.dat:442
+TrA,Triangulum Australe,74946,Gam TrA,TrA,False,iau-lines.dat:442
+Tuc,Tucana,114996,Gam Tuc,Tuc,False,iau-lines.dat:446
+Tuc,Tucana,2484,Bet-1 Tuc,Tuc,False,iau-lines.dat:446
+Tuc,Tucana,1599,Zet Tuc,Tuc,False,iau-lines.dat:446
+Tuc,Tucana,118322,Eps Tuc,Tuc,False,iau-lines.dat:446
+Tuc,Tucana,110838,Del Tuc,Tuc,False,iau-lines.dat:446
+Tuc,Tucana,110130,Alp Tuc,Tuc,False,iau-lines.dat:446
+UMa,Ursa Major,67301,Eta UMa,UMa,False,iau-lines.dat:450
+UMa,Ursa Major,65378,Zet UMa,UMa,False,iau-lines.dat:450
+UMa,Ursa Major,62956,Eps UMa,UMa,False,iau-lines.dat:450
+UMa,Ursa Major,59774,Del UMa,UMa,False,iau-lines.dat:450; iau-lines.dat:452
+UMa,Ursa Major,58001,Gam UMa,UMa,False,iau-lines.dat:450; iau-lines.dat:452
+UMa,Ursa Major,57399,Chi UMa,UMa,False,iau-lines.dat:450; iau-lines.dat:451
+UMa,Ursa Major,55219,Nu UMa,UMa,False,iau-lines.dat:450
+UMa,Ursa Major,55203,,,False,iau-lines.dat:450
+UMa,Ursa Major,54539,Psi UMa,UMa,False,iau-lines.dat:451
+UMa,Ursa Major,50801,Mu UMa,UMa,False,iau-lines.dat:451
+UMa,Ursa Major,50372,Lam UMa,UMa,False,iau-lines.dat:451
+UMa,Ursa Major,54061,Alp UMa,UMa,False,iau-lines.dat:452; iau-lines.dat:453
+UMa,Ursa Major,53910,Bet UMa,UMa,False,iau-lines.dat:452; iau-lines.dat:453
+UMa,Ursa Major,46733,UMa,UMa,False,iau-lines.dat:453; iau-lines.dat:454
+UMa,Ursa Major,41704,Omi UMa,UMa,False,iau-lines.dat:453
+UMa,Ursa Major,48319,Ups UMa,UMa,False,iau-lines.dat:453; iau-lines.dat:454
+UMa,Ursa Major,46853,The UMa,UMa,False,iau-lines.dat:454
+UMa,Ursa Major,44127,Iot UMa,UMa,False,iau-lines.dat:454
+UMa,Ursa Major,44471,Kap UMa,UMa,False,iau-lines.dat:454
+UMi,Ursa Minor,77055,Zet UMi,UMi,False,iau-lines.dat:458
+UMi,Ursa Minor,79822,Eta UMi,UMi,False,iau-lines.dat:458
+UMi,Ursa Minor,75097,Gam UMi,UMi,False,iau-lines.dat:458
+UMi,Ursa Minor,72607,Bet UMi,UMi,False,iau-lines.dat:458
+UMi,Ursa Minor,82080,Eps UMi,UMi,False,iau-lines.dat:458
+UMi,Ursa Minor,85822,Del UMi,UMi,False,iau-lines.dat:458
+UMi,Ursa Minor,11767,Alp UMi,UMi,False,iau-lines.dat:458
+Vel,Vela,39953,Gam-2 Vel,Vel,False,iau-lines.dat:462
+Vel,Vela,44816,Lam Vel,Vel,False,iau-lines.dat:462
+Vel,Vela,46651,Psi Vel,Vel,False,iau-lines.dat:462
+Vel,Vela,50191,Vel,Vel,False,iau-lines.dat:462
+Vel,Vela,52727,Mu Vel,Vel,False,iau-lines.dat:462
+Vel,Vela,48774,Phi Vel,Vel,False,iau-lines.dat:462
+Vel,Vela,45941,Kap Vel,Vel,False,iau-lines.dat:462
+Vel,Vela,42913,Del Vel,Vel,False,iau-lines.dat:462
+Vir,Virgo,72220,Vir,Vir,False,iau-lines.dat:466
+Vir,Virgo,68520,Tau Vir,Vir,False,iau-lines.dat:466
+Vir,Virgo,66249,Zet Vir,Vir,False,iau-lines.dat:466; iau-lines.dat:467
+Vir,Virgo,69701,Iot Vir,Vir,False,iau-lines.dat:466
+Vir,Virgo,71957,Mu Vir,Vir,False,iau-lines.dat:466
+Vir,Virgo,61941,Gam Vir,Vir,False,iau-lines.dat:467; iau-lines.dat:468
+Vir,Virgo,60129,Eta Vir,Vir,False,iau-lines.dat:467
+Vir,Virgo,57757,Bet Vir,Vir,False,iau-lines.dat:467
+Vir,Virgo,57380,Nu Vir,Vir,False,iau-lines.dat:467
+Vir,Virgo,58948,Omi Vir,Vir,False,iau-lines.dat:467
+Vir,Virgo,63608,Eps Vir,Vir,False,iau-lines.dat:468
+Vir,Virgo,63090,Del Vir,Vir,False,iau-lines.dat:468
+Vir,Virgo,64238,The Vir,Vir,False,iau-lines.dat:468
+Vir,Virgo,65474,Alp Vir,Vir,False,iau-lines.dat:468
+Vol,Volans,44382,Alp Vol,Vol,False,iau-lines.dat:472
+Vol,Volans,41312,Bet Vol,Vol,False,iau-lines.dat:472
+Vol,Volans,39794,Eps Vol,Vol,False,iau-lines.dat:472
+Vol,Volans,35228,Del Vol,Vol,False,iau-lines.dat:472
+Vol,Volans,34481,Gam-2 Vol,Vol,False,iau-lines.dat:472
+Vul,Vulpecula,97886,Vul,Vul,False,iau-lines.dat:476
+Vul,Vulpecula,95771,Alp Vul,Vul,False,iau-lines.dat:476

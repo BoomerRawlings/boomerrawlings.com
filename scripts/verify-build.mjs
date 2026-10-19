@@ -46,7 +46,7 @@ const unlistedContentPaths = new Set([
   join('writing', 'data-analysis', 'sex-and-the-moon', 'index.html'),
 ]);
 // Portable examples own their document shell; portfolio metadata/Pip rules stay unchanged.
-const standaloneContentPaths = new Set([join('workflow-display', 'index.html'), join('documents', 'scads-2026', 'workflow.html'), join('ACF', 'index.html')]);
+const standaloneContentPaths = new Set([join('workflow-display', 'index.html'), join('documents', 'scads-2026', 'workflow.html'), join('ACF', 'index.html'), join('stars', 'index.html'), join('stars-assets', 'workflow.html')]);
 const contentHtmlFiles = htmlFiles.filter(
   (file) => {
     const path = relative(output, file);
@@ -59,9 +59,9 @@ const unlistedHtmlFiles = htmlFiles.filter(
 const standaloneHtmlFiles = htmlFiles.filter(
   (file) => standaloneContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 35 || standaloneHtmlFiles.length !== 3 || unlistedHtmlFiles.length !== 12 || htmlFiles.length !== 56) {
+if (contentHtmlFiles.length !== 36 || standaloneHtmlFiles.length !== 5 || unlistedHtmlFiles.length !== 12 || htmlFiles.length !== 59) {
   throw new Error(
-    `expected 35 portfolio pages, 3 standalone pages, 12 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 36 portfolio pages, 5 standalone pages, 12 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
@@ -635,6 +635,7 @@ const metadataValues = {
 const schemaByPage = new Map();
 const expectedSitemapUrls = new Set();
 expectedSitemapUrls.add('https://boomerrawlings.com/ACF/');
+expectedSitemapUrls.add('https://boomerrawlings.com/stars/');
 
 function readImageMetadata(path) {
   const source = readFileSync(path);
@@ -1759,7 +1760,7 @@ for (const [label, href] of [
 if (homeContents.includes('href="/research/"')
   || homeContents.includes('href="/about/"')
   || !homeContents.includes('>Overview</span>')
-  || !homeContents.includes('aria-label="11 published projects"')) {
+  || !homeContents.includes('aria-label="12 published projects"')) {
   failures.push('home contents: section overview is stale or project count is missing');
 }
 const homeGuideOffset = homeHtml.indexOf('data-pip-guide');

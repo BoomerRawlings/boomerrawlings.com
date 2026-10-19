@@ -1,0 +1,33 @@
+---
+const title='Stars — an ambient constellation screensaver';
+---
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>{title} | Boomer Rawlings</title><meta name="description" content="Gently drifting stars occasionally resolve into 88 audited constellation figures. Choose a clock, Scripps surf and sky, and quiet reminders."/><link rel="canonical" href="https://boomerrawlings.com/stars/"/><link rel="stylesheet" href="/stars-assets/stars.css"/></head>
+<body>
+ <canvas id="stars" tabindex="-1" aria-label="Ambient stars and occasional named constellations"></canvas>
+ <dialog id="settings" open aria-labelledby="stars-title">
+  <div class="eyebrow"><span class="signal" aria-hidden="true">· ─── ·</span> BOOMER RAWLINGS / STARS</div>
+  <h1 id="stars-title">A little room for the sky.</h1>
+  <p class="intro">Gently drifting dots occasionally find their way into one of 88 constellations. A brief blue-and-gold glitch locks the figure and its name, then the lines draw back into the stars and the wandering continues.</p>
+  <form id="settings-form">
+   <div class="settings-grid">
+    <label>Clock<select name="clock"><option value="12">12 hour · AM / PM</option><option value="24">24 hour</option><option value="off">No clock</option></select></label>
+    <label>Time zone<input name="zone" list="timezones" value="system" autocomplete="off" spellcheck="false" aria-describedby="zone-help"/><datalist id="timezones"><option value="system">System time zone</option><option value="America/Los_Angeles"/><option value="America/New_York"/><option value="Europe/London"/><option value="Asia/Tokyo"/><option value="Australia/Sydney"/><option value="UTC"/></datalist></label>
+    <label class="check"><input name="seconds" type="checkbox" checked/><span>Include seconds</span></label>
+    <label class="check"><input name="surf" type="checkbox" checked/><span>Scripps offshore waves</span></label>
+    <label class="check"><input name="sky" type="checkbox" checked/><span>Sunrise, sunset &amp; moon phase</span></label>
+    <label>Self-care reminders<select name="tips"><option value="5">Every 5 minutes</option><option value="10">Every 10 minutes</option><option value="15" selected>Every 15 minutes</option><option value="20">Every 20 minutes</option><option value="30">Every 30 minutes</option><option value="60">Once an hour</option><option value="0">Disabled</option></select></label>
+   </div>
+   <p id="zone-help" class="note">“system” follows your device. Or enter an IANA time zone, such as Europe/Paris. Sun and moon events stay at Scripps Pier, San Diego. Waves are an offshore model estimate from Open-Meteo, not breaking surf height.</p>
+   <p class="note">Reminders appear for 30 seconds on the selected interval. Preferences stay in this browser. No microphone or location access.</p>
+   <label class="check fullscreen-choice"><input name="fullscreen" type="checkbox"/><span>Start in fullscreen</span></label>
+   <p id="settings-error" role="alert"></p>
+   <div class="actions"><button class="primary" type="submit">Enter the stars <span aria-hidden="true">↗</span></button><a href="/work/stars/">About the project</a></div>
+  </form>
+  <p class="hint">Move your pointer or tap to reveal controls. Press S or Esc for settings.</p>
+  <noscript><p>JavaScript is needed to animate the stars and save these settings.</p></noscript>
+ </dialog>
+ <nav id="controls" aria-label="Screensaver controls" hidden><button id="edit" type="button">Settings <kbd>S</kbd></button><button id="fullscreen" type="button">Fullscreen</button><a href="/work/stars/">Project</a></nav>
+ <p id="screen-status" class="sr-only" role="status"></p>
+ <script is:inline src="/stars-assets/suncalc.js" defer></script><script is:inline src="/stars-assets/sky.js" defer></script><script is:inline src="/stars-assets/effects.js" defer></script><script is:inline src="/stars-assets/reminder-messages.js" defer></script><script is:inline src="/stars-assets/constellation-data.js" defer></script><script is:inline src="/stars-assets/constellations.js" defer></script><script is:inline type="module" src="/stars-assets/stars.js"></script>
+</body></html>

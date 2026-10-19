@@ -1,0 +1,682 @@
+<!doctype html>
+<!--
+MIT License
+
+Copyright (c) 2026 Boomer Rawlings
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Stars development workflow | Boomer Rawlings</title><meta name="description" content="Stars development decisions paired with catalog data and actual implementation."/><link rel="canonical" href="https://boomerrawlings.com/stars-assets/workflow.html"/>
+  <style>/* Change these tokens to fit your site. Pairing and motion do not depend on color. */
+:root {
+  color-scheme: dark;
+  --wf-background: #111417;
+  --wf-surface: #181d21;
+  --wf-surface-raised: #222a2f;
+  --wf-code: #101417;
+  --wf-text: #e2e8eb;
+  --wf-muted: #a6b3bb;
+  --wf-subtle: #83959f;
+  --wf-border: #3c4a52;
+  --wf-accent: #b5d4df;
+  --wf-dependency: #c9b88e;
+  --wf-connected: #202d33;
+  --wf-focus: #d1ebf5;
+  --wf-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --wf-mono: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  --wf-ease: cubic-bezier(.22, 1, .36, 1);
+  --wf-duration: 360ms;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--wf-background); color: var(--wf-text); font: 16px/1.6 var(--wf-sans); }
+[hidden] { display: none !important; }
+h1, h2, h3, p { margin: 0; }
+button, input { font: inherit; color: inherit; }
+button, a, input { touch-action: manipulation; }
+button { cursor: pointer; background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: 4px; padding: 9px 13px; }
+button:hover { background: var(--wf-surface-raised); border-color: var(--wf-accent); }
+button:focus-visible, a:focus-visible, input:focus-visible, pre:focus-visible { outline: 2px solid var(--wf-focus); outline-offset: 4px; }
+a { color: var(--wf-accent); text-underline-offset: 4px; }
+button, a { -webkit-tap-highlight-color: transparent; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.skip-link { position: fixed; top: -100px; left: 20px; z-index: 10; padding: 12px; background: var(--wf-surface); }
+.skip-link:focus { top: 12px; }
+.workspace { max-width: 1440px; margin: auto; padding: 0 28px; }
+.page-heading { padding: 48px 0 30px; border-bottom: 1px solid var(--wf-border); }
+.eyebrow { font: 10px/1.5 var(--wf-mono); color: var(--wf-subtle); letter-spacing: .14em; }
+.page-heading h1 { margin: 13px 0 12px; font-size: clamp(28px, 3.2vw, 44px); font-weight: 500; line-height: 1.2; letter-spacing: -.035em; overflow-wrap: anywhere; }
+.page-heading > p:last-child { max-width: 850px; color: var(--wf-muted); font-size: 15px; }
+.plan-launcher { padding: 30px 0 26px; }
+.plan-launcher h2 { font-size: clamp(23px, 2.2vw, 31px); line-height: 1.3; font-weight: 500; letter-spacing: -.02em; }
+.plan-intro { margin: 8px 0 23px; color: var(--wf-muted); font-size: 14px; }
+.plan-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px,100%),1fr)); gap: 12px; }
+.plan-choice { display: grid; grid-template-columns: 7px minmax(0,1fr) 14px; gap: 11px; align-items: start; min-width: 0; min-height: 184px; padding: 25px 20px; border-radius: 30px; text-align: left; transition: background .2s, border-color .2s; }
+.plan-choice.is-selected { background: var(--wf-connected); border-color: var(--wf-accent); }
+.plan-choice-dot { width: 7px; height: 7px; margin-top: 8px; border: 1px solid var(--wf-subtle); border-radius: 50%; }
+.plan-choice.is-selected .plan-choice-dot { background: var(--wf-accent); border-color: var(--wf-accent); }
+.plan-choice-text { display: flex; flex-direction: column; gap: 9px; height: 100%; min-width: 0; }
+.plan-choice-title { font-size: 15px; font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
+.plan-choice-purpose { color: var(--wf-muted); font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.plan-choice-meta { font: 10px/1.6 var(--wf-mono); color: var(--wf-subtle); margin-top: auto; }
+.plan-choice-action { color: var(--wf-accent); font: 11px/1.5 var(--wf-mono); padding-top: 3px; }
+.plan-choice-arrow { color: var(--wf-subtle); font: 19px/1 var(--wf-mono); margin-top: 3px; transition: transform .25s; }
+.plan-choice.is-selected .plan-choice-arrow { transform: rotate(180deg); }
+.plan-reveal { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows var(--wf-duration) var(--wf-ease), opacity .22s ease; }
+.plan-reveal.is-expanded { grid-template-rows: 1fr; opacity: 1; }
+.plan-reveal-inner { min-height: 0; overflow: hidden; visibility: hidden; transition: visibility 0s var(--wf-duration); }
+.plan-reveal.is-expanded > .plan-reveal-inner { visibility: visible; transition-delay: 0s; }
+.guide-heading { display: flex; align-items: center; justify-content: space-between; gap: 25px; padding: 30px 0 24px; }
+.guide-heading h2 { margin: 11px 0; font-size: clamp(25px,2.5vw,37px); font-weight: 500; line-height: 1.25; letter-spacing: -.03em; overflow-wrap: anywhere; scroll-margin-top: 24px; }
+.guide-heading h2:focus { outline: none; }
+.guide-heading p:not(.eyebrow) { color: var(--wf-muted); font-size: 14px; max-width: 850px; }
+.guide-heading > button { flex-shrink: 0; font: 11px var(--wf-mono); min-height: 44px; }
+.guide-heading > button span { margin-left: 8px; }
+.guide-onramp { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; border-top: 1px solid var(--wf-border); padding: 19px 0 22px; }
+.guide-onramp p { display: grid; gap: 7px; color: var(--wf-muted); font-size: 13px; line-height: 1.65; }
+.guide-onramp strong { color: var(--wf-text); font-weight: 500; }
+.search-row { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+.search { display: flex; align-items: center; gap: 10px; width: min(100%,440px); border: 1px solid var(--wf-border); border-radius: 4px; padding: 9px 12px; background: var(--wf-surface); }
+.search:focus-within { outline: 2px solid var(--wf-focus); outline-offset: 3px; }
+.search > span[aria-hidden] { font: 22px/1 var(--wf-sans); }
+.search input { width: 100%; min-width: 0; border: 0; outline: none; background: transparent; font-size: 13px; }
+.search input::placeholder { color: var(--wf-subtle); opacity: 1; }
+.search-row > button { min-height: 42px; font: 11px var(--wf-mono); white-space: nowrap; }
+.step-index { display: grid; grid-template-columns: repeat(var(--step-count,4),minmax(0,1fr)); border-top: 1px solid var(--wf-border); border-left: 1px solid var(--wf-border); background: var(--wf-surface); }
+.step-index button { border: 0; border-right: 1px solid var(--wf-border); border-bottom: 1px solid var(--wf-border); border-radius: 0; text-align: left; min-width: 0; padding: 14px 13px; background: transparent; transition: background .2s, box-shadow .2s; }
+.step-index button > span:first-child { display: block; color: var(--wf-subtle); font: 10px var(--wf-mono); margin-bottom: 8px; }
+.step-index button > span:last-child { display: block; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.step-index button.is-related { background: var(--wf-connected); box-shadow: inset 0 -2px var(--wf-border); }
+.step-index button.is-traced { background: var(--wf-surface-raised); box-shadow: inset 0 -3px var(--wf-accent); }
+.step-index button[aria-pressed="true"] > span:first-child::after { content: ' / LOCKED'; color: var(--wf-accent); font-size: 8px; }
+.guide-controls { display: flex; justify-content: space-between; align-items: center; gap: 15px; min-height: 76px; padding: 14px 0; }
+.guide-controls > p { color: var(--wf-muted); font-size: 12px; line-height: 1.6; border-left: 2px solid var(--wf-border); padding-left: 12px; }
+.guide-controls > p.is-locked { border-color: var(--wf-accent); color: var(--wf-text); }
+.guide-controls > div { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+.guide-controls span, .guide-controls button { font: 10px/1.5 var(--wf-mono); }
+.guide-controls span { color: var(--wf-subtle); }
+.guide-controls button { min-height: 36px; }
+.column-head, .workflow-row { display: grid; grid-template-columns: minmax(0,.9fr) 100px minmax(0,1.1fr); }
+.column-head { padding-bottom: 16px; color: var(--wf-muted); font: 10px/1.5 var(--wf-mono); letter-spacing: .1em; }
+.column-head > span:nth-child(2) { text-align: center; }
+.workflow-board { position: relative; }
+#connection-lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; z-index: 2; }
+.connection-wire { fill: none; stroke: var(--wf-border); stroke-width: 1.25; }
+.connection-wire.is-active { stroke: var(--wf-accent); stroke-width: 1.75; }
+.connection-wire.is-dependency { stroke: var(--wf-dependency); stroke-dasharray: 5 5; }
+.connection-tracer { fill: none; stroke: var(--wf-focus); stroke-width: 3.5; stroke-linecap: round; }
+.connection-port { fill: var(--wf-subtle); }
+.connection-port.is-active { fill: var(--wf-accent); }
+.dependency-arrow { fill: var(--wf-dependency); }
+.workflow-row { margin-bottom: 28px; align-items: stretch; }
+.workflow-card { min-width: 0; border: 1px solid var(--wf-border); background: var(--wf-surface); scroll-margin-top: 24px; transition: background .26s, border-color .26s, box-shadow .26s; }
+.workflow-card.is-connected { background: var(--wf-connected); border-color: var(--wf-accent); }
+.workflow-card.is-origin { box-shadow: inset 3px 0 var(--wf-accent); }
+.workflow-card.is-pinned { border-width: 2px; margin: -1px; }
+.plain-card { grid-column: 1; display: flex; flex-direction: column; }
+.artifact-card { grid-column: 3; }
+.workflow-card h3 { font: 400 17px/1.4 var(--wf-sans); }
+.artifact-card h3 { font: 12px/1.5 var(--wf-mono); }
+.card-title { width: 100%; display: flex; align-items: baseline; gap: 16px; text-align: left; padding: 24px 24px 18px; border: 0; border-radius: 0; background: transparent; }
+.card-title:hover { background: transparent; }
+.card-title:focus-visible { outline-offset: -5px; }
+.card-title > span:nth-child(2) { min-width: 0; overflow-wrap: anywhere; }
+.step-number { flex-shrink: 0; color: var(--wf-accent); font: 11px var(--wf-mono); }
+.pin-label { margin-left: auto; flex-shrink: 0; padding: 4px 6px; border: 1px solid var(--wf-accent); border-radius: 3px; color: var(--wf-accent); font: 9px/1 var(--wf-mono); }
+.card-description { padding: 0 24px 26px; font-size: 15px; line-height: 1.85; color: var(--wf-muted); overflow-wrap: anywhere; }
+.checkpoint { margin: auto 24px 22px; padding-left: 13px; border-left: 2px solid var(--wf-accent); }
+.checkpoint > span, .resources > span { font: 9px/1.5 var(--wf-mono); letter-spacing: .09em; color: var(--wf-accent); }
+.checkpoint p { margin-top: 7px; font-size: 13px; line-height: 1.7; color: var(--wf-text); overflow-wrap: anywhere; }
+.resources { padding: 14px 24px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; border-top: 1px solid var(--wf-border); }
+.resources a { font-size: 11px; overflow-wrap: anywhere; }
+.code-tools { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 0 24px 12px; }
+.code-tools > span { font: 9px/1.5 var(--wf-mono); color: var(--wf-subtle); letter-spacing: .08em; overflow-wrap: anywhere; }
+.copy-button { min-height: 34px; font: 10px var(--wf-mono); padding: 6px 10px; }
+.code-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.code-actions [aria-pressed="true"] { border-color: var(--wf-accent); background: var(--wf-connected); }
+.artifact-card pre { margin: 0; padding: 18px 24px; max-height: 270px; overflow: auto; white-space: pre; overflow-wrap: normal; background: var(--wf-code); border-top: 1px solid var(--wf-border); border-bottom: 1px solid var(--wf-border); scrollbar-width: thin; scrollbar-color: var(--wf-border) var(--wf-code); }
+.artifact-card pre.is-wrapped { white-space: pre-wrap; overflow-wrap: anywhere; }
+.artifact-card code { font: 12px/1.8 var(--wf-mono); }
+.artifact-note { padding: 16px 24px; font-size: 12px; line-height: 1.7; color: var(--wf-muted); overflow-wrap: anywhere; }
+.card-relations { padding: 0 24px 16px; font: 10px/1.8 var(--wf-mono); color: var(--wf-muted); }
+.plain-card .card-relations { margin-top: auto; }
+.artifact-card pre + .card-relations { padding-top: 16px; }
+.relation-link { color: var(--wf-accent); font: inherit; border: 0; border-bottom: 1px dotted var(--wf-subtle); border-radius: 0; padding: 3px 1px; background: transparent; text-align: left; }
+.relation-link:hover { background: transparent; border-color: var(--wf-accent); }
+.empty-result { padding: 30px 20px; text-align: center; border: 1px solid var(--wf-border); }
+.empty-result button { margin-top: 14px; font: 12px var(--wf-mono); }
+.connection-legend { display: flex; flex-wrap: wrap; gap: 5px 22px; margin: 6px 0 22px; font: 10px/1.7 var(--wf-mono); color: var(--wf-subtle); }
+.guide-end { border-top: 1px solid var(--wf-border); padding: 22px 0 12px; color: var(--wf-muted); font-size: 13px; }
+footer { padding: 28px 0; color: var(--wf-subtle); font: 11px/1.8 var(--wf-mono); }
+@media (max-width: 1100px) {
+  .column-head, .workflow-row { grid-template-columns: minmax(0,.9fr) 65px minmax(0,1.1fr); }
+  .step-index { grid-template-columns: repeat(var(--step-count-medium,4),minmax(0,1fr)); }
+  .card-title { padding-left: 18px; padding-right: 18px; gap: 12px; }
+  .card-description, .resources, .code-tools, .artifact-card pre, .artifact-note, .card-relations { padding-left: 18px; padding-right: 18px; }
+  .checkpoint { margin-left: 18px; margin-right: 18px; }
+}
+@media (max-width: 760px) {
+  .workspace { padding: 0 20px; }
+  .page-heading { padding-top: 30px; }
+  .guide-heading { display: block; padding-top: 23px; }
+  .guide-heading > button { margin-top: 18px; }
+  .guide-onramp { grid-template-columns: 1fr; gap: 14px; }
+  .search-row { flex-wrap: wrap; gap: 9px; }
+  .search { width: 100%; }
+  .step-index button { padding: 11px 8px; }
+  .step-index button > span:last-child { font-size: 11px; }
+  .guide-controls { display: block; }
+  .guide-controls > div { margin-top: 13px; flex-wrap: wrap; }
+  .column-head { display: none; }
+  .workflow-row { display: grid; grid-template-columns: minmax(0,1fr); gap: 22px; margin-bottom: 38px; position: relative; }
+  .plain-card, .artifact-card { grid-column: 1; position: relative; }
+  .plain-card::before, .artifact-card::before { display: block; padding: 16px 18px 0; color: var(--wf-subtle); font: 9px/1.5 var(--wf-mono); letter-spacing: .12em; }
+  .plain-card::before { content: 'EXPLANATION'; }
+  .artifact-card::before { content: 'MATCHING IMPLEMENTATION'; }
+  .artifact-card::after { content: ''; position: absolute; left: 30px; bottom: 100%; height: 24px; border-left: 1px solid var(--wf-accent); }
+  .card-title { padding-top: 13px; }
+  .workflow-card h3 { font-size: 16px; }
+  .artifact-card h3 { font-size: 12px; }
+  .card-description { font-size: 14px; }
+  .artifact-card code { font-size: 11px; }
+  #connection-lines { display: none; }
+}
+@media (max-width: 520px) {
+  .plan-options { grid-template-columns: 1fr; gap: 9px; }
+  .plan-choice { min-height: 148px; padding: 22px; border-radius: 26px; }
+  .step-index { grid-template-columns: repeat(var(--step-count-small,3),minmax(0,1fr)); }
+  .pin-label { font-size: 8px; padding: 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+@media print {
+  :root { --wf-background: white; --wf-surface: white; --wf-code: #f5f5f5; --wf-text: #111; --wf-muted: #333; --wf-subtle: #444; --wf-border: #aaa; --wf-accent: #222; --wf-connected: white; }
+  .workspace { max-width: none; padding: 0; }
+  .plan-launcher, .search-row, .step-index, .guide-controls, .guide-onramp, .guide-heading > button, .copy-button, .pin-label, .skip-link, #connection-lines { display: none; }
+  .plan-reveal:not(.is-expanded) { display: none; }
+  .plan-reveal.is-expanded, .plan-reveal-inner { display: block; overflow: visible; opacity: 1; visibility: visible; }
+  .column-head, .workflow-row { grid-template-columns: minmax(0,1fr) 20px minmax(0,1fr); }
+  .workflow-row { break-inside: avoid; }
+  .plain-card { grid-column: 1; }
+  .artifact-card { grid-column: 3; }
+  .artifact-card pre { max-height: none; overflow: visible; }
+  .plain-card::before, .artifact-card::before, .artifact-card::after { display: none; }
+}
+
+:root{--wf-background:#080e13;--wf-surface:#0f1920;--wf-accent:#7eb7d4;--wf-dependency:#e6cf82;--wf-border:#3c505c}.plan-choice{border-radius:2px}.workspace{max-width:1200px}
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to workflows</a>
+  <main id="main" class="workspace">
+    <header class="page-heading">
+      <p id="page-eyebrow" class="eyebrow">WORKFLOW DISPLAY</p>
+      <h1 id="page-title">Workflow Display</h1>
+      <p id="page-description"></p>
+    </header>
+    <section class="plan-launcher" aria-labelledby="plans-title">
+      <h2 id="plans-title">Choose a workflow</h2>
+      <p class="plan-intro">Open a plan to follow each explanation beside its implementation.</p>
+      <div id="plan-options" class="plan-options" role="group" aria-labelledby="plans-title"></div>
+    </section>
+    <div id="plan-reveal" class="plan-reveal" inert aria-hidden="true">
+      <div class="plan-reveal-inner">
+        <section id="workflow-guide" aria-labelledby="guide-title">
+          <header class="guide-heading">
+            <div><p class="eyebrow">WORKFLOW / PAIRED GUIDE</p><h2 id="guide-title" tabindex="-1"></h2><p id="guide-summary"></p></div>
+            <button id="download-guide" type="button">Download guide <span aria-hidden="true">↓</span></button>
+          </header>
+          <div class="guide-onramp">
+            <p><strong>Read across each pair</strong><span>Purpose and checkpoint on the left. The matching prompt, code, or instructions on the right.</span></p>
+            <p><strong>Follow a connection</strong><span>Hover or focus to preview. Click a heading to lock. Dashed arrows point to other steps this step depends on.</span></p>
+          </div>
+          <div class="search-row">
+            <label class="search"><span class="sr-only">Search steps in this workflow</span><span aria-hidden="true">⌕</span><input id="step-search" type="search" autocomplete="off" placeholder="Find a step, phrase, or implementation" aria-describedby="search-help"></label>
+            <button id="clear-search" type="button" hidden>Clear search</button>
+          </div>
+          <p id="search-help" class="sr-only">Search filters whole explanation and implementation pairs. Clear search to show all dependencies.</p>
+          <nav id="step-index" class="step-index" aria-label="Workflow steps"></nav>
+          <div class="guide-controls"><p id="trace-summary">Select a heading to keep its connections highlighted.</p><div><span id="step-count"></span><button id="clear-trace" type="button" hidden>Unlock step</button></div></div>
+          <div class="column-head" aria-hidden="true"><span>01 / EXPLANATION</span><span>↔</span><span>02 / IMPLEMENTATION</span></div>
+          <div id="workflow-board" class="workflow-board"><svg id="connection-lines" aria-hidden="true" focusable="false"></svg><div id="step-rows"></div></div>
+          <div id="empty-result" class="empty-result" hidden><p>No steps match this search.</p><button id="show-all" type="button">Show all steps</button></div>
+          <p class="connection-legend"><span>Solid line: matching pair.</span><span>Dashed arrow: explanation → required implementation.</span><span>Dependencies are also listed on every card.</span></p>
+          <p id="guide-end" class="guide-end"></p>
+        </section>
+      </div>
+    </div>
+    <p id="workflow-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+    <p id="load-error" class="empty-result" role="alert" hidden>Workflow data could not be read. Check the source JSON and regenerate this page.</p>
+    <footer id="page-footer"></footer>
+    <noscript><p class="empty-result">Enable JavaScript to open the paired workflow guides. This page runs locally without an account or network connection.</p></noscript>
+  </main>
+  <script type="application/json" id="workflow-data">{"title":"Stars: from drifting points to a quiet screen","eyebrow":"BOOMER RAWLINGS / DEVELOPMENT","description":"Actual design decisions paired with their data and implementation. A curated account of the work, not a verbatim session transcript.","footer":"Figure provenance and software licenses: /stars-assets/credits.txt. The display illustrates constellation figures; it is not a live sky chart.","plans":[{"id":"development","title":"Build the constellation behavior","summary":"Source the figures, preserve the wandering, then refine the lock and release.","steps":[{"id":"sources","title":"Separate the figure from the surrounding sky","description":"Transcribe explicit figure membership and catalog coordinates. Chart regions contain many background stars; they must not become part of the recognizable figure by accident.","artifact":{"title":"Audited catalog record: Hercules","language":"JSON","code":"{\n  \"id\": \"Her\",\n  \"name\": \"Hercules\",\n  \"source\": \"IAU / Sky & Telescope (MacRobert), Ford transcription\",\n  \"chart\": \"https://iauarchive.eso.org/static/public/constellations/gif/HER.gif\",\n  \"sourcePaths\": [\n    {\n      \"sourceFile\": \"iau-lines.dat\",\n      \"line\": 238,\n      \"sourcePattern\": \"Hercules\",\n      \"hip\": [\n        \"86414\",\n        \"87808\",\n        \"85112\",\n        \"84380\",\n        \"81833\",\n        \"81126\",\n        \"79992\",\n        \"79101\",\n        \"77760\"\n      ]\n    },\n    {\n      \"sourceFile\": \"iau-lines.dat\",\n      \"line\": 239,\n      \"sourcePattern\": \"Hercules\",\n      \"hip\": [\n        \"81833\",\n        \"81693\",\n        \"80816\",\n        \"80170\",\n        \"80463\",\n        \"81008\"\n      ]\n    },\n    {\n      \"sourceFile\": \"iau-lines.dat\",\n      \"line\": 240,\n      \"sourcePattern\": \"Hercules\",\n      \"hip\": [\n        \"81693\",\n        \"83207\",\n        \"84380\"\n      ]\n    },\n    {\n      \"sourceFile\": \"iau-lines.dat\",\n      \"line\": 241,\n      \"sourcePattern\": \"Hercules\",\n      \"hip\": [\n        \"88794\",\n        \"87933\",\n        \"86974\",\n        \"85693\",\n        \"84379\"\n      ]\n    },\n    {\n      \"sourceFile\": \"iau-lines.dat\",\n      \"line\": 242,\n      \"sourcePattern\": \"Hercules\",\n      \"hip\": [\n        \"83207\",\n        \"84379\",\n        \"84345\",\n        \"80816\"\n      ]\n    }\n  ],\n  \"center\": {\n    \"ra\": 255.32407314989229,\n    \"dec\": 31.417352865271248\n  },\n  \"stars\": [\n    {\n      \"hip\": 86414,\n      \"ra\": 264.86619337986116,\n      \"dec\": 46.00633180930556,\n      \"mag\": 3.82,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Iot Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": -0.165176114,\n      \"y\": -0.489325825\n    },\n    {\n      \"hip\": 87808,\n      \"ra\": 269.0632522565221,\n      \"dec\": 37.25053917722222,\n      \"mag\": 3.86,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"The Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": -0.284887505,\n      \"y\": -0.250714501\n    },\n    {\n      \"hip\": 85112,\n      \"ra\": 260.92060269004094,\n      \"dec\": 37.145946296805555,\n      \"mag\": 4.15,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Rho Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": -0.101241209,\n      \"y\": -0.230136131\n    },\n    {\n      \"hip\": 84380,\n      \"ra\": 258.7618097913527,\n      \"dec\": 36.809161832499996,\n      \"mag\": 3.16,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Pi Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": -0.052779586,\n      \"y\": -0.218418497\n    },\n    {\n      \"hip\": 81833,\n      \"ra\": 250.72402183618192,\n      \"dec\": 38.92225448138889,\n      \"mag\": 3.48,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Eta Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": 0.126859053,\n      \"y\": -0.279404485\n    },\n    {\n      \"hip\": 81126,\n      \"ra\": 248.52575889112055,\n      \"dec\": 42.43704099722222,\n      \"mag\": 4.2,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Sig Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": 0.168403588,\n      \"y\": -0.382230051\n    },\n    {\n      \"hip\": 79992,\n      \"ra\": 244.93515330648867,\n      \"dec\": 46.31336638513889,\n      \"mag\": 3.91,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Tau Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": 0.231487685,\n      \"y\": -0.5\n    },\n    {\n      \"hip\": 79101,\n      \"ra\": 242.19240794972492,\n      \"dec\": 44.93490598972222,\n      \"mag\": 4.23,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Phi Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": 0.291588614,\n      \"y\": -0.467630634\n    },\n    {\n      \"hip\": 77760,\n      \"ra\": 238.16892282053183,\n      \"dec\": 42.45151804333334,\n      \"mag\": 4.6,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Chi Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": 0.386224669,\n      \"y\": -0.410382477\n    },\n    {\n      \"hip\": 81693,\n      \"ra\": 250.32150123826412,\n      \"dec\": 31.602725613194444,\n      \"mag\": 2.81,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Zet Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": 0.145719119,\n      \"y\": -0.072518751\n    },\n    {\n      \"hip\": 80816,\n      \"ra\": 247.55499985688138,\n      \"dec\": 21.48961328125,\n      \"mag\": 2.78,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Bet Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": 0.231308624,\n      \"y\": 0.210651014\n    },\n    {\n      \"hip\": 80170,\n      \"ra\": 245.48005996777522,\n      \"dec\": 19.15313027708333,\n      \"mag\": 3.74,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Gam Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": 0.29150423,\n      \"y\": 0.273752478\n    },\n    {\n      \"hip\": 80463,\n      \"ra\": 246.35397192488594,\n      \"dec\": 14.033269574027779,\n      \"mag\": 4.57,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Ome Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": 0.277334093,\n      \"y\": 0.423126849\n    },\n    {\n      \"hip\": 81008,\n      \"ra\": 248.15121699376718,\n      \"dec\": 11.488041507222222,\n      \"mag\": 4.84,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": 0.230281793,\n      \"y\": 0.5\n    },\n    {\n      \"hip\": 83207,\n      \"ra\": 255.07239072439882,\n      \"dec\": 30.926404617638887,\n      \"mag\": 3.92,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Eps Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": 0.031329127,\n      \"y\": -0.050650039\n    },\n    {\n      \"hip\": 88794,\n      \"ra\": 271.88562776865155,\n      \"dec\": 28.762488503472223,\n      \"mag\": 3.84,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Omi Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": -0.386224669,\n      \"y\": -0.019470914\n    },\n    {\n      \"hip\": 87933,\n      \"ra\": 269.4411904061282,\n      \"dec\": 29.247879745694444,\n      \"mag\": 3.7,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Xi Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": -0.323612119,\n      \"y\": -0.024989227\n    },\n    {\n      \"hip\": 86974,\n      \"ra\": 266.61469536768493,\n      \"dec\": 27.720676253333334,\n      \"mag\": 3.42,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Mu Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": -0.257939503,\n      \"y\": 0.026222697\n    },\n    {\n      \"hip\": 85693,\n      \"ra\": 262.6846248279487,\n      \"dec\": 26.110645284722224,\n      \"mag\": 4.41,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Lam Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": -0.162150853,\n      \"y\": 0.079835035\n    },\n    {\n      \"hip\": 84379,\n      \"ra\": 258.7579607299944,\n      \"dec\": 24.83920414,\n      \"mag\": 3.12,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Del Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": -0.063194093,\n      \"y\": 0.1204394\n    },\n    {\n      \"hip\": 84345,\n      \"ra\": 258.6619100327099,\n      \"dec\": 14.390332813611112,\n      \"mag\": 2.78,\n      \"catalogConstellation\": \"Her\",\n      \"catalogDesignation\": \"Alp-1 Her\",\n      \"outsideCatalogRegion\": false,\n      \"sourceMarkedNeighbor\": false,\n      \"x\": -0.068262486,\n      \"y\": 0.419455306\n    }\n  ],\n  \"edges\": [\n    [\n      0,\n      1\n    ],\n    [\n      1,\n      2\n    ],\n    [\n      2,\n      3\n    ],\n    [\n      3,\n      4\n    ],\n    [\n      3,\n      14\n    ],\n    [\n      4,\n      5\n    ],\n    [\n      4,\n      9\n    ],\n    [\n      5,\n      6\n    ],\n    [\n      6,\n      7\n    ],\n    [\n      7,\n      8\n    ],\n    [\n      9,\n      10\n    ],\n    [\n      9,\n      14\n    ],\n    [\n      10,\n      11\n    ],\n    [\n      10,\n      20\n    ],\n    [\n      11,\n      12\n    ],\n    [\n      12,\n      13\n    ],\n    [\n      14,\n      19\n    ],\n    [\n      15,\n      16\n    ],\n    [\n      16,\n      17\n    ],\n    [\n      17,\n      18\n    ],\n    [\n      18,\n      19\n    ],\n    [\n      19,\n      20\n    ]\n  ]\n}"},"resources":[{"label":"Full figure database","url":"https://boomerrawlings.com/stars-assets/constellations.json"}]},{"id":"fit","title":"Borrow a display pose, preserve the live path","description":"Assign existing nearby dots to a rigid shape. The running particle state is not rewritten, so it remains available when the constellation releases.","artifact":{"title":"Actual assignment and safety checks","language":"JavaScript","code":"function candidate(pattern,particles,w,h,ctx,proposal){\n   if(!pattern||pattern.stars.length\u003c2)return null;\n   var n=pattern.stars.length,size=proposal?proposal.size:Math.min(Math.min(w,h)*0.80,150+n*27)*between(.88,1.12);\n   if(size\u003c100)return null;\n   var pool=poolFor(particles,9,w,h);if(pool.length\u003cn+6)return null;\n   var point=pool[Math.floor(random()*pool.length)],cx=proposal?proposal.x:point.x,cy=proposal?proposal.y:point.y,angle=proposal?proposal.angle:between(-Math.PI,Math.PI);\n   var label=labelInfo(pattern,ctx),ui=obstacles(),targets,indices;\n   if(!proposal){\n    var local=bounds(transform(pattern,size,angle,0,0),label,6).box,clear=false;\n    for(var trial=0;trial\u003c8;trial++){\n     point=pool[Math.floor(random()*pool.length)];cx=clamp(point.x,padding-local.x,w-padding-local.x-local.w);cy=clamp(point.y,padding-local.y,h-padding-local.y-local.h);\n     if(safe({x:cx+local.x,y:cy+local.y,w:local.w,h:local.h},w,h,ui,others())){clear=true;break;}\n    }\n    if(!clear)return null;\n   }\n   targets=transform(pattern,size,angle,cx,cy);\n   for(var pass=0;pass\u003c3;pass++){indices=assign(targets,pool);if(!indices)return null;if(pass\u003c2)targets=refine(pattern,pool,indices,size*.9,size*1.1);}\n   var current=indices.map(function(i){var p=particles[pool[i].index];return {x:p.x,y:p.y};});\n   var radius=Math.max.apply(null,indices.map(function(i){return particles[pool[i].index].radius||3;}));\n   var end=bounds(targets,label,radius),start=bounds(current,label,radius),reservation=union(start.box,end.box);\n   if(!safe(reservation,w,h,ui,others()))return null;\n   var sum=0,max=0,startMax=0;indices.forEach(function(i,k){var d=Math.hypot(targets[k].x-pool[i].x,targets[k].y-pool[i].y);sum+=d*d;max=Math.max(max,d);startMax=Math.max(startMax,Math.hypot(targets[k].x-current[k].x,targets[k].y-current[k].y));});\n   var rms=Math.sqrt(sum/n);\n   if(max>Math.min(210,45+n*6)||rms>Math.min(115,22+n*3.2)||startMax>260)return null;\n   return {pattern:pattern,indices:indices.map(function(i){return pool[i].index;}),targets:targets,label:label,reservation:reservation,fitRms:rms,maxDisplacement:startMax};\n  }"},"related":["sources"]},{"id":"lock","title":"Make the visible figure and its name arrive together","description":"Hercules exposed a polish problem: catalog lines could finish appearing before the shared named lock. Keep explicit lines and contrast hidden during gathering. Reserve a 15–20 second readable hold after the lock sweep.","artifact":{"title":"Actual lock and reveal code","language":"JavaScript","code":"var until=g.snapMotion-frame.motion,after=frame.motion-g.snapMotion,exit=after-g.hold;\n    if(exit>=exitTime){tail(g,particles,points);stats.completed++;return;}\n    var t=smooth((frame.motion-g.start)/Math.max(.1,g.snapMotion-g.start));\n    g.phase=until>0?'gather':exit>0?'exit':'hold';g.visible=until>0?0:1-smooth((exit-.82)/.18);\n    g.labelAlpha=after\u003c0?0:smooth(after/.18)*(1-smooth((exit-.45)/.2));\n\nc.start=frame.motion;c.snapMotion=frame.motion+(snapEpoch+scan-frame.now)/1000;c.snapEpoch=snapEpoch;c.hold=between(15,20)+lockTime;c.id=++serial;c.radius=radius;c.phase='gather';c.visible=0;"},"related":["fit"]},{"id":"release","title":"Retract connections before returning to drift","description":"Each edge splits at its center and shortens into both endpoint stars. A cardinal sweep staggers the retraction; stars remain fixed until their lines clear.","artifact":{"title":"Actual edge retraction","language":"JavaScript","code":"function pieces(g,a,b){\n  if(g.phase!=='exit')return [[a,b]];\n  var began=arrival(g,(a.x+b.x)/2,(a.y+b.y)/2,g.exitDirection),t=smooth((g.exitAge-began)/400);if(t>=1)return [];\n  var f=(1-t)*.5;return [[a,{x:a.x+(b.x-a.x)*f,y:a.y+(b.y-a.y)*f}],[b,{x:b.x+(a.x-b.x)*f,y:b.y+(a.y-b.y)*f}]];\n }"},"related":["lock"]},{"id":"clearance","title":"Reject a cramped or misleading result","description":"The complete source figure and name must fit on the screen and avoid clock, reminders, surf and other figures. Five is a maximum, not a demand to fill the screen.","artifact":{"title":"Actual bounds and overlap rule","language":"JavaScript","code":"function safe(r,w,h,ui,others){\n  return r.x>=padding&&r.y>=padding&&r.x+r.w\u003c=w-padding&&r.y+r.h\u003c=h-padding&&\n   !ui.some(function(o){return overlap(r,o);})&&!others.some(function(o){return overlap(r,o,30);});\n }"},"related":["fit"]}]},{"id":"browser","title":"Make it a browser screensaver","summary":"Give the visitor control, then remove the interface and keep the display honest.","steps":[{"id":"settings","title":"Start with the device, then allow a choice","description":"Normalize persisted settings, validate IANA zones, and keep optional panels independent. Preferences stay in local browser storage.","artifact":{"title":"Actual settings model","language":"JavaScript","code":"export const intervals=[0,5,10,15,20,30,60];\nconst validZones=new Set(),formatters=new Map();let systemName,systemChecked=0;\nexport function zone(value='system'){\n if(value==='system'&&(!systemName||Date.now()-systemChecked>60000)){systemName=Intl.DateTimeFormat().resolvedOptions().timeZone;systemChecked=Date.now();}\n const name=value==='system'?systemName:value;\n if(!validZones.has(name)){new Intl.DateTimeFormat('en',{timeZone:name}).format();validZones.add(name);}return name;\n}\nexport function defaults(){return {clock:Intl.DateTimeFormat(undefined,{hour:'numeric'}).resolvedOptions().hour12?'12':'24',seconds:true,zone:'system',surf:true,sky:true,tips:15};}\nexport function normalize(raw={}){\n const d=defaults(),v={...d,...raw};v.clock=['12','24','off'].includes(v.clock)?v.clock:d.clock;\n v.seconds=typeof v.seconds==='boolean'?v.seconds:d.seconds;v.surf=typeof v.surf==='boolean'?v.surf:d.surf;v.sky=typeof v.sky==='boolean'?v.sky:d.sky;\n v.tips=intervals.includes(Number(v.tips))?Number(v.tips):d.tips;\n try{zone(v.zone);}catch{v.zone='system';}return v;\n}"}},{"id":"tips","title":"Schedule tips in the selected local time","description":"Use local wall-clock boundaries. Show a message for 30 seconds, then glitch it out. Never replay missed reminders after a backgrounded tab resumes.","artifact":{"title":"Actual reminder schedule","language":"JavaScript","code":"export function reminder(now,settings,messages){\n if(!settings.tips)return null;const p=parts(now,settings.zone),minute=Number(p.hour)*60+Number(p.minute),age=(minute%settings.tips)*60000+Number(p.second)*1000+((now%1000)+1000)%1000;\n return age\u003c30150?{text:messages[Math.floor(minute/5)],age,slot:Math.floor(minute/5)}:null;\n}\nexport function tipOpacity(age,x=0){const smooth=v=>{v=Math.max(0,Math.min(1,v));return v*v*(3-2*v);},delay=Math.max(0,Math.min(1,x))*55;return age\u003c30000?smooth((age-delay)/95):1-smooth((age-30000-delay)/95);}"},"related":["settings"]},{"id":"water","title":"Distinguish a wave model from observed surf","description":"Request offshore wave height and period only after waves are enabled. Validate timestamps and numeric ranges; unavailable data must not look current.","artifact":{"title":"Actual forecast validation","language":"JavaScript","code":"export function marine(data,now=Date.now()){\n const c=data?.current,t=Number(c?.time)*1000;\n if(!Number.isFinite(c?.wave_height)||c.wave_height\u003c0||c.wave_height>30||!Number.isFinite(t)||Math.abs(now-t)>3*3600000)return null;\n return {feet:c.wave_height*3.28084,period:Number.isFinite(c.wave_period)?c.wave_period:null,time:t};\n}"},"related":["settings"]},{"id":"quiet","title":"Leave only the configured display","description":"After confirmation, remove the settings, fade controls after inactivity, support fullscreen, and pause work in background tabs. Reduced motion keeps the ambient scene still.","artifact":{"title":"Actual idle-control behavior","language":"JavaScript","code":"function reveal(){if(!running)return;document.body.classList.remove('idle');clearTimeout(idleTimer);idleTimer=setTimeout(()=>document.body.classList.add('idle'),2500);}\nfunction edit(){clearTimeout(idleTimer);document.body.classList.remove('idle');writeForm();error.textContent='';if(!dialog.open)dialog.showModal();form.elements.clock.focus();}"},"related":["settings"]},{"id":"checks","title":"Check the behavior, then publish","description":"The desktop constellation work passed 150 database, geometry, timing and overlay checks. The browser adaptation adds focused model and page tests plus the existing website build. Browser layout and interactions are checked separately.","artifact":{"title":"Reproducible checks","language":"shell","code":"node scripts/build-stars-workflow.mjs\nnode --test scripts/test-stars.mjs\nnpm test"},"related":["tips","water","quiet"]}]}]}</script>
+  <script>/* Workflow Display: data stays text; connections are a view of declared dependencies. */
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const make = (tag, text, className) => {
+    const node = document.createElement(tag);
+    if (text !== undefined) node.textContent = text;
+    if (className) node.className = className;
+    return node;
+  };
+  const control = (text, action, className) => {
+    const node = make('button', text, className);
+    node.type = 'button';
+    node.addEventListener('click', action);
+    return node;
+  };
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const phone = matchMedia('(max-width: 760px)');
+  const normalize = text => String(text ?? '').normalize('NFKD').toLowerCase();
+  const announce = text => { $('workflow-status').textContent = text; };
+  const key = (side, id) => `${side}:${id}`;
+  const number = index => String(index + 1).padStart(2, '0');
+  const cards = new Map(), rows = new Map(), indexes = new Map(), planButtons = new Map();
+  const reveal = $('plan-reveal'), guide = $('workflow-guide'), svg = $('connection-lines');
+  let data, plan, expanded = false, pinned = null, active = null, drawFrame = 0;
+  let focusTimer, layoutTimer, switchAnimation, fadeAnimation, navigation = 0;
+
+  function related(step) {
+    return (step.related || []).filter(id => id !== step.id && rows.has(id));
+  }
+  function pairsFor(origin) {
+    if (!origin || !plan) return [];
+    return plan.steps.flatMap(step => [step.id, ...related(step)]
+      .filter(target => origin.side === 'plain' ? step.id === origin.id : target === origin.id)
+      .map(target => [step.id, target]));
+  }
+  function stepLabel(id) {
+    const index = plan.steps.findIndex(step => step.id === id);
+    return `${number(index)} · ${plan.steps[index]?.title || id}`;
+  }
+  function svgNode(tag, attributes) {
+    const node = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    Object.entries(attributes).forEach(([name, value]) => node.setAttribute(name, String(value)));
+    return node;
+  }
+  function drawConnections(animate = false) {
+    svg.replaceChildren();
+    if (!plan || !expanded || phone.matches) return;
+    const board = $('workflow-board').getBoundingClientRect();
+    if (!board.width || !board.height) return;
+    svg.setAttribute('viewBox', `0 0 ${board.width} ${board.height}`);
+    const defs = svgNode('defs', {});
+    const marker = svgNode('marker', {id: 'dependency-arrow', viewBox: '0 0 8 8', refX: 7, refY: 4, markerWidth: 6, markerHeight: 6, orient: 'auto'});
+    marker.append(svgNode('path', {d: 'M1 1 L7 4 L1 7 Z', class: 'dependency-arrow'}));
+    defs.append(marker); svg.append(defs);
+    const pairs = active ? pairsFor(active) : plan.steps.map(step => [step.id, step.id]);
+    pairs.forEach(([left, right]) => {
+      if (rows.get(left).hidden || rows.get(right).hidden) return;
+      const a = cards.get(key('plain', left)), b = cards.get(key('artifact', right));
+      const aRect = a.getBoundingClientRect(), bRect = b.getBoundingClientRect();
+      const aTitle = a.querySelector('.card-title').getBoundingClientRect();
+      const bTitle = b.querySelector('.card-title').getBoundingClientRect();
+      const x1 = aRect.right - board.left, y1 = aTitle.top + aTitle.height / 2 - board.top;
+      const x2 = bRect.left - board.left, y2 = bTitle.top + bTitle.height / 2 - board.top;
+      const mid = (x1 + x2) / 2;
+      const dependency = left !== right;
+      const path = svgNode('path', {
+        d: `M${x1},${y1} C${mid},${y1} ${mid},${y2} ${x2},${y2}`,
+        class: `connection-wire${active ? ' is-active' : ''}${dependency ? ' is-dependency' : ''}`,
+      });
+      if (dependency) path.setAttribute('marker-end', 'url(#dependency-arrow)');
+      svg.append(path);
+      for (const [x, y] of [[x1, y1], [x2, y2]]) {
+        svg.append(svgNode('circle', {cx: x, cy: y, r: active ? 3 : 2, class: `connection-port${active ? ' is-active' : ''}`}));
+      }
+      if (animate && active && !reduced.matches && path.animate) {
+        // Animate a bright moving pulse above the stable dashed/solid relationship.
+        // Its direction follows the user's reading direction; arrowheads retain dependency meaning.
+        const length = path.getTotalLength();
+        const pulse = Math.min(30,length * .25);
+        const tracer = svgNode('path', {d: path.getAttribute('d'), class: 'connection-tracer', 'stroke-dasharray': `${pulse} ${length + pulse * 2}`});
+        svg.append(tracer);
+        const motion = tracer.animate([
+          {strokeDashoffset: active.side === 'plain' ? pulse : -length},
+          {strokeDashoffset: active.side === 'plain' ? -length : pulse},
+        ], {duration: 650, easing: 'cubic-bezier(.22,1,.36,1)'});
+        motion.onfinish = () => tracer.remove();
+      }
+    });
+  }
+  function scheduleDraw() {
+    cancelAnimationFrame(drawFrame);
+    drawFrame = requestAnimationFrame(() => drawConnections());
+  }
+  function trace(origin, notify = false, force = false) {
+    if (!plan) return;
+    origin = pinned || origin;
+    const changed = active?.id !== origin?.id || active?.side !== origin?.side;
+    if (!changed && !notify && !force) return;
+    active = origin;
+    const pairs = pairsFor(origin);
+    const connected = new Set(pairs.flatMap(([a,b]) => [key('plain',a),key('artifact',b)]));
+    cards.forEach((card, id) => {
+      const locked = Boolean(pinned && id === key(pinned.side,pinned.id));
+      card.classList.toggle('is-connected', connected.has(id));
+      card.classList.toggle('is-origin', Boolean(origin && id === key(origin.side,origin.id)));
+      card.classList.toggle('is-pinned', locked);
+      card.querySelector('.pin-label').hidden = !locked;
+      card.querySelector('.card-title').setAttribute('aria-pressed', String(locked));
+    });
+    indexes.forEach((button,id) => {
+      button.classList.toggle('is-traced', origin?.id === id);
+      button.classList.toggle('is-related', connected.has(key('plain',id)) || connected.has(key('artifact',id)));
+      button.setAttribute('aria-pressed', String(pinned?.id === id));
+    });
+    $('trace-summary').textContent = origin ? `${pinned ? 'Locked' : 'Preview'} · ${stepLabel(origin.id)}` : 'Select a heading to keep its connections highlighted.';
+    $('trace-summary').classList.toggle('is-locked', Boolean(pinned));
+    $('clear-trace').hidden = !pinned;
+    drawConnections(changed);
+    if (notify) {
+      if (!origin) { announce('Connections unlocked. Hover or focus a card to preview.'); return; }
+      const linked = pairs.map(([a,b]) => stepLabel(origin.side === 'plain' ? b : a)).join('; ');
+      const hidden = pairs.filter(([a,b]) => rows.get(a).hidden || rows.get(b).hidden).length;
+      announce(`Locked ${stepLabel(origin.id)}. ${origin.side === 'plain' ? 'Connected implementations' : 'Used by explanations'}: ${linked}.${hidden ? ' Some dependencies are hidden by search. Clear search to show them.' : ''} Press Escape or Unlock step to release.`);
+    }
+  }
+  function hold(side, id, toggle = false) {
+    if (toggle && pinned?.side === side && pinned.id === id) { pinned = null; trace(null, true); }
+    else { pinned = {side,id}; trace(pinned, true); }
+  }
+  function jump(side, id) {
+    if (rows.get(id).hidden) {
+      $('step-search').value = '';
+      filterSteps(false);
+    }
+    hold(side,id);
+    const card = cards.get(key(side,id));
+    card.scrollIntoView({block: 'start', behavior: reduced.matches ? 'auto' : 'smooth'});
+    card.querySelector('.card-title').focus({preventScroll: true});
+  }
+  function bindTrace(card, side, step) {
+    card.addEventListener('pointerenter', event => {
+      if (event.pointerType !== 'touch') trace({side,id:step.id});
+    });
+    card.addEventListener('pointerleave', () => {
+      const focused = document.activeElement?.closest('.workflow-card');
+      trace(focused ? {side:focused.dataset.side,id:focused.dataset.step} : null);
+    });
+    card.addEventListener('focusin', () => trace({side,id:step.id}));
+    card.addEventListener('focusout', event => {
+      if (card.contains(event.relatedTarget)) return;
+      const next = event.relatedTarget?.closest?.('.workflow-card');
+      trace(next ? {side:next.dataset.side,id:next.dataset.step} : null);
+    });
+    card.addEventListener('click', event => {
+      if (event.target.closest('button,a,pre,input,textarea,select,summary') || !window.getSelection()?.isCollapsed) return;
+      hold(side,step.id);
+    });
+  }
+  async function copyArtifact(step, button, code) {
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(step.artifact.code);
+      button.textContent = 'Copied';
+      announce(`${step.artifact.title} copied.`);
+      setTimeout(() => { if (button.isConnected) button.textContent = 'Copy'; }, 1800);
+    } catch {
+      const range = document.createRange();
+      range.selectNodeContents(code);
+      const selection = window.getSelection();
+      selection.removeAllRanges(); selection.addRange(range);
+      code.parentElement.focus({preventScroll:true});
+      announce('Clipboard unavailable. Text selected; use your system copy command.');
+    }
+  }
+  function relationList(step, side) {
+    const node = make('p', undefined, 'card-relations');
+    node.append(make('span', side === 'plain' ? `Matching implementation: ${step.artifact.title}. ` : `Explains step ${stepLabel(step.id)}. `));
+    const ids = side === 'plain' ? (step.related || []) : plan.steps.filter(candidate => (candidate.related || []).includes(step.id)).map(candidate => candidate.id);
+    node.append(make('span', ids.length ? (side === 'plain' ? 'Depends on: ' : 'Required by: ') : (side === 'plain' ? 'No other steps required.' : 'No other steps depend on this.')));
+    ids.forEach((id,index) => {
+      if (index) node.append(document.createTextNode(', '));
+      const button = control(stepLabel(id), () => jump(side === 'plain' ? 'artifact' : 'plain', id), 'relation-link');
+      button.setAttribute('aria-label', `Show ${side === 'plain' ? 'required implementation' : 'dependent explanation'} ${stepLabel(id)}`);
+      node.append(button);
+    });
+    return node;
+  }
+  function createCard(step, index, side) {
+    const card = make('article', undefined, `workflow-card ${side}-card`);
+    card.dataset.side = side; card.dataset.step = step.id;
+    const heading = make('h3');
+    const title = control('', () => hold(side,step.id,true), 'card-title');
+    title.id = `card-${side}-${index}`;
+    title.setAttribute('aria-pressed', 'false');
+    card.setAttribute('aria-labelledby', title.id);
+    title.append(make('span', number(index), 'step-number'), make('span', side === 'plain' ? step.title : step.artifact.title));
+    const pin = make('span', 'Locked', 'pin-label'); pin.hidden = true; pin.setAttribute('aria-hidden','true');
+    title.append(pin); heading.append(title); card.append(heading);
+    if (side === 'plain') {
+      card.append(make('p',step.description,'card-description'));
+      if (step.checkpoint) {
+        const checkpoint = make('div',undefined,'checkpoint');
+        checkpoint.append(make('span','CHECKPOINT'),make('p',step.checkpoint));
+        card.append(checkpoint);
+      }
+      if (step.resources?.length) {
+        const resources = make('div',undefined,'resources');
+        resources.append(make('span','RESOURCES'));
+        step.resources.forEach(resource => {
+          try {
+            const url = new URL(resource.url);
+            if (!['https:','http:'].includes(url.protocol)) return;
+            const link = make('a',resource.label);
+            link.href = url.href; link.target = '_blank'; link.rel = 'noopener noreferrer';
+            resources.append(link);
+          } catch { /* Invalid links are not made interactive. */ }
+        });
+        card.append(resources);
+      }
+    } else {
+      const tools = make('div',undefined,'code-tools');
+      const pre = make('pre'), code = make('code',step.artifact.code);
+      pre.tabIndex = 0; pre.setAttribute('aria-label',step.artifact.title); pre.append(code);
+      const copy = control('Copy',() => copyArtifact(step,copy,code),'copy-button');
+      copy.setAttribute('aria-label',`Copy ${step.artifact.title}`);
+      const wrap = control('Wrap', () => {
+        const wrapped = pre.classList.toggle('is-wrapped');
+        wrap.setAttribute('aria-pressed',String(wrapped));
+        scheduleDraw();
+      },'copy-button');
+      wrap.setAttribute('aria-label',`Wrap lines in ${step.artifact.title}`);
+      wrap.setAttribute('aria-pressed','false');
+      const actions = make('div',undefined,'code-actions');
+      actions.append(wrap,copy);
+      tools.append(make('span',step.artifact.language ? step.artifact.language.toUpperCase() : 'IMPLEMENTATION'),actions);
+      card.append(tools,pre);
+      if (step.artifact.note) card.append(make('p',step.artifact.note,'artifact-note'));
+    }
+    card.append(relationList(step,side));
+    bindTrace(card,side,step); cards.set(key(side,step.id),card);
+    return card;
+  }
+  function filterSteps(notify = true) {
+    if (!plan) return;
+    const query = normalize($('step-search').value).trim();
+    const words = query.split(/\s+/).filter(Boolean);
+    pinned = null; active = undefined;
+    let count = 0;
+    plan.steps.forEach(step => {
+      const text = normalize([step.title,step.description,step.checkpoint,step.artifact.title,step.artifact.code,step.artifact.note,...(step.resources || []).map(item=>item.label)].join(' '));
+      const visible = words.every(word => text.includes(word));
+      rows.get(step.id).hidden = !visible; indexes.get(step.id).hidden = !visible;
+      if (visible) count++;
+    });
+    $('step-count').textContent = `${count} / ${plan.steps.length} steps`;
+    $('empty-result').hidden = count !== 0;
+    $('clear-search').hidden = !$('step-search').value;
+    trace(null,false,true); scheduleDraw();
+    if (notify) announce(`${count} of ${plan.steps.length} step pairs shown.${query ? ' Clear search to restore all dependencies.' : ''}`);
+  }
+  function renderPlan() {
+    cards.clear(); rows.clear(); indexes.clear(); pinned = null; active = null;
+    $('step-search').value = '';
+    $('guide-title').textContent = plan.title;
+    $('guide-summary').textContent = plan.summary;
+    $('guide-end').textContent = 'Use the checkpoints to review your work. Connections show the dependencies declared in this guide.';
+    $('step-rows').replaceChildren(); $('step-index').replaceChildren();
+    $('step-index').style.setProperty('--step-count', Math.min(8, plan.steps.length));
+    $('step-index').style.setProperty('--step-count-medium', Math.min(4, plan.steps.length));
+    $('step-index').style.setProperty('--step-count-small', Math.min(3, plan.steps.length));
+    plan.steps.forEach((step,index) => {
+      const row = make('div',undefined,'workflow-row');
+      row.setAttribute('role','group'); row.setAttribute('aria-label',`Step ${index+1}: ${step.title}`);
+      row.append(createCard(step,index,'plain'),createCard(step,index,'artifact'));
+      rows.set(step.id,row); $('step-rows').append(row);
+      const button = control('',() => jump('plain',step.id));
+      button.append(make('span',number(index)),make('span',step.title));
+      button.setAttribute('aria-label',`Step ${index+1}: ${step.title}`);
+      button.setAttribute('aria-pressed','false');
+      indexes.set(step.id,button); $('step-index').append(button);
+    });
+    filterSteps(false);
+  }
+  function setExpanded(open) {
+    if (!open && guide.contains(document.activeElement)) planButtons.get(plan.id)?.focus();
+    expanded = open;
+    reveal.classList.toggle('is-expanded',open);
+    reveal.inert = !open;
+    reveal.setAttribute('aria-hidden',String(!open));
+    planButtons.forEach((button,id) => {
+      const selected = id === plan?.id && open;
+      button.classList.toggle('is-selected',selected);
+      button.setAttribute('aria-expanded',String(selected));
+      button.setAttribute('aria-pressed',String(selected));
+      button.querySelector('.plan-choice-action').textContent = selected ? 'Close plan' : 'Open plan';
+    });
+    if (open) scheduleDraw();
+    clearTimeout(layoutTimer);
+    layoutTimer = setTimeout(scheduleDraw, reduced.matches ? 0 : 380);
+  }
+  function selectPlan(id) {
+    const next = data.plans.find(item => item.id === id);
+    if (!next) return;
+    const changed = plan?.id !== id, wasOpen = expanded;
+    const oldHeight = reveal.getBoundingClientRect().height;
+    const request = ++navigation;
+    clearTimeout(focusTimer); switchAnimation?.cancel(); fadeAnimation?.cancel();
+    plan = next;
+    if (changed) renderPlan();
+    const open = changed || !expanded;
+    setExpanded(open);
+    if (open && wasOpen && changed && !reduced.matches && reveal.animate) {
+      const newHeight = reveal.getBoundingClientRect().height;
+      switchAnimation = reveal.animate([{height:`${oldHeight}px`},{height:`${newHeight}px`}], {duration:360,easing:'cubic-bezier(.22,1,.36,1)'});
+      fadeAnimation = guide.animate([{opacity:.25},{opacity:1}], {duration:260,easing:'ease-out'});
+      switchAnimation.onfinish = scheduleDraw;
+    }
+    announce(`${plan.title} ${open ? 'opened' : 'collapsed'}.${open ? ` ${plan.steps.length} step pairs.` : ''}`);
+    if (open) focusTimer = setTimeout(() => {
+      if (request !== navigation || !expanded) return;
+      $('guide-title').focus({preventScroll:true});
+      $('guide-title').scrollIntoView({block:'start',behavior:reduced.matches?'auto':'smooth'});
+      scheduleDraw();
+    }, reduced.matches ? 0 : 380);
+  }
+  function exportGuide() {
+    if (!plan) return;
+    const lines = [`# ${plan.title}`,'',plan.summary,''];
+    plan.steps.forEach((step,index) => {
+      lines.push(`## ${index+1}. ${step.title}`,'',step.description,'');
+      if (step.checkpoint) lines.push(`Checkpoint: ${step.checkpoint}`,'');
+      lines.push(`### ${step.artifact.title}`,'');
+      const matches = step.artifact.code.match(/`+/g) || [];
+      const fence = '`'.repeat(Math.max(3,...matches.map(item=>item.length+1)));
+      lines.push(fence,step.artifact.code,fence,'');
+      if (step.artifact.note) lines.push(step.artifact.note,'');
+      if (step.related?.length) lines.push(`Depends on: ${step.related.map(stepLabel).join('; ')}.`,'');
+      if (step.resources?.length) lines.push('Resources:',...step.resources.map(item=>`- ${item.label}: ${item.url}`),'');
+    });
+    const url = URL.createObjectURL(new Blob([lines.join('\n')],{type:'text/markdown;charset=utf-8'}));
+    const link = make('a'); link.href = url; link.download = `${plan.id}-guide.md`;
+    document.body.append(link); link.click(); link.remove();
+    setTimeout(() => URL.revokeObjectURL(url),1000);
+    announce(`${plan.title} guide downloaded.`);
+  }
+  function clearSearch() {
+    $('step-search').value = ''; filterSteps(); $('step-search').focus({preventScroll:true});
+  }
+  try {
+    data = JSON.parse($('workflow-data').textContent);
+    if (!Array.isArray(data.plans) || !data.plans.length) throw new Error('Missing plans');
+    document.title = data.title;
+    $('page-title').textContent = data.title;
+    $('page-description').textContent = data.description;
+    $('page-eyebrow').textContent = data.eyebrow || 'WORKFLOW DISPLAY';
+    $('page-footer').textContent = data.footer || 'Workflow Display · Read the purpose. Inspect the implementation. Follow the connection.';
+    data.plans.forEach(item => {
+      const button = control('',()=>selectPlan(item.id),'plan-choice');
+      button.setAttribute('aria-controls','workflow-guide');
+      button.setAttribute('aria-pressed','false'); button.setAttribute('aria-expanded','false');
+      const dot = make('span',undefined,'plan-choice-dot'); dot.setAttribute('aria-hidden','true');
+      const text = make('span',undefined,'plan-choice-text');
+      text.append(make('span',item.title,'plan-choice-title'),make('span',item.summary,'plan-choice-purpose'),make('span',`${item.status ? item.status + ' · ' : ''}${item.steps.length} steps`,'plan-choice-meta'),make('span','Open plan','plan-choice-action'));
+      const arrow = make('span','⌄','plan-choice-arrow'); arrow.setAttribute('aria-hidden','true');
+      button.append(dot,text,arrow); planButtons.set(item.id,button); $('plan-options').append(button);
+    });
+    $('plan-options').addEventListener('keydown',event => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+      const buttons = [...planButtons.values()], index = buttons.indexOf(event.target);
+      if (index < 0) return;
+      const destination = {ArrowRight:(index+1)%buttons.length,ArrowLeft:(index-1+buttons.length)%buttons.length,Home:0,End:buttons.length-1}[event.key];
+      if (destination === undefined) return;
+      event.preventDefault(); buttons[destination].focus();
+    });
+    $('step-search').addEventListener('input',()=>filterSteps());
+    $('clear-search').addEventListener('click',clearSearch);
+    $('show-all').addEventListener('click',clearSearch);
+    $('clear-trace').addEventListener('click',()=>{
+      const previous = pinned; pinned = null;
+      if (previous) cards.get(key(previous.side,previous.id))?.querySelector('.card-title').focus({preventScroll:true});
+      trace(null,true);
+    });
+    $('download-guide').addEventListener('click',exportGuide);
+    document.addEventListener('keydown',event=>{
+      if (event.key === 'Escape' && expanded && pinned) { pinned = null; trace(null,true); }
+    });
+    reveal.addEventListener('transitionend',event => {
+      if (event.target === reveal && event.propertyName === 'grid-template-rows') scheduleDraw();
+    });
+    new ResizeObserver(scheduleDraw).observe($('workflow-board'));
+    window.addEventListener('resize',scheduleDraw);
+    phone.addEventListener('change',scheduleDraw);
+    reduced.addEventListener('change',()=>{
+      switchAnimation?.cancel(); fadeAnimation?.cancel();
+      svg.getAnimations({subtree:true}).forEach(animation=>animation.finish());
+      scheduleDraw();
+    });
+    document.fonts?.ready.then(scheduleDraw);
+  } catch {
+    $('load-error').hidden = false;
+  }
+})();
+</script>
+</body>
+</html>

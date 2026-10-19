@@ -1,0 +1,31 @@
+STARS — Boomer Rawlings, 2026
+
+Browser renderer, settings model and constellation motion code: GPL-3.0-or-later.
+Complete license: constellation-sources/Ford-COPYING.txt.
+Corresponding source is served alongside this file: stars.js, model.js,
+constellations.js, effects.js, sky.js, reminder-messages.js and stars.css.
+Page source: https://github.com/BoomerRawlings/boomerrawlings.com/tree/main/src/pages/stars.astro
+
+FIGURES AND CATALOGS
+See Constellation-SOURCES.txt, constellations.json and constellation-sources/.
+Dominic Ford's transcription of Alan MacRobert / Sky & Telescope figures,
+published by the IAU: GPL-3.0-or-later; original iau-lines.dat and full license retained.
+Stellarium Modern figures for Mensa/Microscopium: CC BY-SA 4.0; original JSON
+and description retained. https://stellarium.org/
+ESA Hipparcos, CDS I/239: catalog positions, CC BY-NC 3.0 IGO; original ReadMe retained.
+https://cdsarc.cds.unistra.fr/viz-bin/cat/I/239
+HYG v4, David Nash: independent coordinate cross-check, CC BY-SA 4.0.
+https://github.com/astronexus/HYG-Database
+
+ASTRONOMY
+SunCalc 2.1.1: MIT; complete notice in SunCalc-LICENSE.txt.
+
+OFFSHORE WAVES
+Open-Meteo Marine API and its contributing forecast models; CC BY 4.0 data.
+https://open-meteo.com/en/docs/marine-weather-api
+Model estimate, not breaking surf height. Queries are sent directly from the
+visitor's browser only when the wave panel is enabled; no private location is sent.
+
+WORKFLOW DISPLAY
+Boomer Rawlings Workflow Display, MIT. Full notice retained in workflow.html.
+https://github.com/BoomerRawlings/Skills

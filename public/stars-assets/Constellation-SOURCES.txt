@@ -1,0 +1,12 @@
+Constellation database v2 - explicit figure membership
+
+86 figures: Alan MacRobert / Sky & Telescope charts published by IAU; Dominic Ford transcription.
+Original source header is GPL-3.0-or-later; retained verbatim with full license in constellation-sources/.
+IAU chart images: credit IAU and Sky & Telescope, CC BY4.0; source URLs per record.
+Mensa and Microscopium: Stellarium Modern data, Stellarium team, CC BY-SA4.0. Exact source and license notice retained.
+Coordinates: ESA1997 Hipparcos catalog, CDS I/239. Archive states CC-BY-NC3.0 IGO; original ReadMe retained.
+Secondary cross-check: HYGv4.0 by David Nash, CC BY-SA4.0; not used to replace primary positions.
+Pinned revisions, file hashes, projection and exceptions: constellations.json.
+Each figure retains sourcePaths with exact source-file lines or JSON pointers. No chart-context stars or inferred cross-figure segments are allowed.
+
+The audited database drives constellations.js. See Constellation-AUDIT.md for source review and runtime verification.

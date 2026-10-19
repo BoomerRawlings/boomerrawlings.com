@@ -637,3 +637,11 @@
 - Research: InterfaceKit article on generic structure/copy, unnecessary decoration and incomplete states informed changes; visual conventions do not prove AI authorship. Verification/publication pending.
 - Verification: clean full npm test passed (initial run collided with an overlapping rebuild; no overlap on rerun). Final publication/CHEM checks and desktop/320 quote, workflow and flashcard visibility checks pass; source text unchanged. Ready to publish.
 - Complete: release530c01a live; Pages39078419455 build/deploy passed. Live direct quote, plain headings, worksheet layout and step navigation verified; console clear. Clean full suite/publication/CHEM checks pass. No required implementation work remains.
+
+## Stars browser screensaver — 2026-10-19
+- New task; website implementation/publication authorized. Baseline6b69b5f fetched and fast-forwarded from clean checkout. Preserve other completed/paused work.
+- Objective: configurable /stars/ screensaver and navigable project page with Pip and Workflow Display. Browser-native renderer; reuse audited88-figure system/data with retained source licenses. System timezone default; Scripps astronomy location explicit. Settings local-only. Usually1, cap5,15–20second hold retained.
+- In progress: build, focused browser/model tests, full site checks, one production push and live verification.
+
+- Implemented /stars/ and archive /work/stars/ with3 Pip notes; paired Workflow Display generated from current code on build. All requested settings, local persistence, idle controls, optional fullscreen/wake lock, reduced-motion/background pause. Open-Meteo offshore model replaces desktop-only surf updater; explicitly labeled, no requests before enabled confirmation.
+- Verified: full npm test passed incl6 new all-day/zone/DST/data/page groups; desktop/390/320 browser entry/edit, invalid zone, 24hour/no seconds, all-off, live forecast, Pip3notes and workflow switching/search/pairs/connections. Console clean. Source licenses retained. Evidence: docs/codex/user-facing-tests/2026-10-19__stars.md. Final publication pending.
