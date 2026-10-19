@@ -2,7 +2,7 @@
 const title='Stars — an ambient constellation screensaver';
 ---
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>{title} | Boomer Rawlings</title><meta name="description" content="Gently drifting stars occasionally resolve into 88 audited constellation figures. Choose a clock, Scripps surf and sky, and quiet reminders."/><link rel="canonical" href="https://boomerrawlings.com/stars/"/><link rel="stylesheet" href="/stars-assets/stars.css"/></head>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>{title} | Boomer Rawlings</title><meta name="description" content="Gently drifting stars occasionally resolve into 88 audited constellation figures. Choose a clock, Scripps surf and sky, and quiet reminders."/><link rel="canonical" href="https://boomerrawlings.com/stars/"/><link rel="stylesheet" href="/stars-assets/stars.css?v=20261019-sliders"/></head>
 <body>
  <canvas id="stars" tabindex="-1" aria-label="Ambient stars and occasional named constellations"></canvas>
  <dialog id="settings" open aria-labelledby="stars-title">
@@ -16,10 +16,12 @@ const title='Stars — an ambient constellation screensaver';
     <label class="check"><input name="seconds" type="checkbox" checked/><span>Include seconds</span></label>
     <label class="check"><input name="surf" type="checkbox" checked/><span>Scripps offshore waves</span></label>
     <label class="check"><input name="sky" type="checkbox" checked/><span>Sunrise, sunset &amp; moon phase</span></label>
-    <label>Self-care reminders<select name="tips"><option value="5">Every 5 minutes</option><option value="10">Every 10 minutes</option><option value="15" selected>Every 15 minutes</option><option value="20">Every 20 minutes</option><option value="30">Every 30 minutes</option><option value="60">Once an hour</option><option value="0">Disabled</option></select></label>
+    <label class="slider-setting" for="tips"><span id="tips-label">Self-care reminders</span><output id="tips-value" for="tips">Every 15 minutes</output><input id="tips" name="tips" type="range" min="0" max="6" step="1" value="3" aria-labelledby="tips-label" aria-valuetext="Every 15 minutes"/><span class="slider-ends"><span>Off</span><span>Hourly</span></span></label>
+    <label class="slider-setting" for="constellation-interval"><span id="constellation-label">Constellation frequency</span><output id="constellation-value" for="constellation-interval">Every 10 seconds</output><input id="constellation-interval" name="constellationInterval" type="range" min="10" max="60" step="5" value="10" aria-labelledby="constellation-label" aria-valuetext="Every 10 seconds" aria-describedby="constellation-help"/><span class="slider-ends"><span>10 seconds</span><span>1 minute</span></span></label>
    </div>
    <p id="zone-help" class="note">“system” follows your device. Or enter an IANA time zone, such as Europe/Paris. Sun and moon events stay at Scripps Pier, San Diego. Waves are an offshore model estimate from Open-Meteo, not breaking surf height.</p>
    <p class="note">Reminders appear for 30 seconds on the selected interval. Preferences stay in this browser. No microphone or location access.</p>
+   <p id="constellation-help" class="note">Constellation interval is a target between locks. Dots gather first; crowded layouts may skip a formation. Five can be active at most.</p>
    <label class="check fullscreen-choice"><input name="fullscreen" type="checkbox"/><span>Start in fullscreen</span></label>
    <p id="settings-error" role="alert"></p>
    <div class="actions"><button class="primary" type="submit">Enter the stars <span aria-hidden="true">↗</span></button><a href="/work/stars/">About the project</a></div>
@@ -29,5 +31,5 @@ const title='Stars — an ambient constellation screensaver';
  </dialog>
  <nav id="controls" aria-label="Screensaver controls" hidden><button id="edit" type="button">Settings <kbd>S</kbd></button><button id="fullscreen" type="button">Fullscreen</button><a href="/work/stars/">Project</a></nav>
  <p id="screen-status" class="sr-only" role="status"></p>
- <script is:inline src="/stars-assets/suncalc.js" defer></script><script is:inline src="/stars-assets/sky.js" defer></script><script is:inline src="/stars-assets/effects.js" defer></script><script is:inline src="/stars-assets/reminder-messages.js" defer></script><script is:inline src="/stars-assets/constellation-data.js" defer></script><script is:inline src="/stars-assets/constellations.js" defer></script><script is:inline type="module" src="/stars-assets/stars.js"></script>
+ <script is:inline src="/stars-assets/suncalc.js" defer></script><script is:inline src="/stars-assets/sky.js" defer></script><script is:inline src="/stars-assets/effects.js" defer></script><script is:inline src="/stars-assets/reminder-messages.js" defer></script><script is:inline src="/stars-assets/constellation-data.js" defer></script><script is:inline src="/stars-assets/constellations.js?v=20261019-sliders" defer></script><script is:inline type="module" src="/stars-assets/stars.js?v=20261019-sliders"></script>
 </body></html>

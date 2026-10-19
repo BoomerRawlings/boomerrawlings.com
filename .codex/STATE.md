@@ -650,3 +650,9 @@
 - Continuation: requested complete workflow inside project page and homepage highlight. Implemented merged10-step embedded view, auto-open and same-origin height synchronization for normal page scrolling; standalone2-plan view retained. Stars leads Selected work. Verification/publication pending.
 
 - Follow-up verified: full npm test passed incl8 Stars groups. Browser DOM confirms10/10 open pairs, frame expands7709px and shrinks1521px with search, phone390 full workflow9749px with341px content/scroll width (no overflow). Home Stars first highlight verified. Browser screenshot capture repeatedly timed out; layout/interaction verified through DOM/AX and dimensions, console clean. Publishing pending.
+
+- Follow-up complete/live:84466f6; Pages39229715214 build/deploy succeeded. Homepage first highlight, embedded mode URL/loader and both exact asset bytes verified live. No remaining required work; local server stopped.
+
+- Continuation: reminder slider replaces dropdown; new10–60second constellation target slider defaults10, including saved preferences missing the new field. Homepage target remains /work/stars/. Browser scheduler now spaces actual locks, disables burst arrivals for selected cadence and retains gathering/cap5/safety; desktop source untouched. Verification/publication pending.
+
+- Slider follow-up verified: full npm test and final build/publication/10 Stars groups pass;18 original constellation animation checks pass against browser module. Keyboard End/Home/ArrowRight, hourly/off/5min labels,60second/10second endpoints, confirmation/reopen persistence and390px no-overflow verified; console clean. Cadence fixtures verify actual10/30/60second lock spacing with no random burst, settings migration defaults10. Cache versions added for changed runtime/model/styles. Ready to publish.

@@ -1,13 +1,15 @@
 // Browser-native Stars renderer © 2026 Boomer Rawlings. GPL-3.0-or-later.
-import {normalize,zone,clock,reminder,tipOpacity,countdown,marine} from './model.js';
+import {normalize,zone,clock,reminder,tipOpacity,countdown,marine,intervals,tipsLabel,constellationOptions} from './model.js?v=20261019-sliders';
 const canvas=document.querySelector('#stars'),ctx=canvas.getContext('2d'),dialog=document.querySelector('#settings'),form=document.querySelector('#settings-form'),controls=document.querySelector('#controls'),error=document.querySelector('#settings-error');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)'),storageKey='boomer-stars-v1';
 let settings=normalize(),running=false,w=innerWidth,h=innerHeight,last=0,motion=0,idleTimer,skyDisplay,skyPending,skyDue=0,skyLast=0,waves=null,lastFetch=0,fetching=false,wake=null,hiddenSince=null;
 let eventFormat,eventFormatKey;
 try{settings=normalize(JSON.parse(localStorage.getItem(storageKey)||'{}'));}catch{}
 const stars=Array.from({length:Math.max(56,Math.min(144,Math.round(w*h/17000)))},(_,i)=>{const a=Math.random()*Math.PI*2;return {x:Math.random()*w,y:Math.random()*h,dx:Math.cos(a),dy:Math.sin(a),speed:3+Math.random()*4,radius:.9+Math.random()*.8,alpha:.48+Math.random()*.4,color:'#d3d8d6',phase:i*2.39996};});
-function writeForm(){for(const key of ['clock','zone','seconds','surf','sky','tips']){const el=form.elements.namedItem(key);if(el.type==='checkbox')el.checked=settings[key];else el.value=String(settings[key]);}form.elements.seconds.disabled=form.elements.clock.value==='off';}
+function sliderLabels(){const tips=intervals[Number(form.elements.tips.value)],seconds=Number(form.elements.constellationInterval.value),tip=tipsLabel(tips),cadence='Every '+seconds+' seconds';document.querySelector('#tips-value').textContent=tip;form.elements.tips.setAttribute('aria-valuetext',tip);document.querySelector('#constellation-value').textContent=cadence;form.elements.constellationInterval.setAttribute('aria-valuetext',cadence);}
+function writeForm(){for(const key of ['clock','zone','seconds','surf','sky','tips','constellationInterval']){const el=form.elements.namedItem(key);if(el.type==='checkbox')el.checked=settings[key];else el.value=String(key==='tips'?intervals.indexOf(settings.tips):settings[key]);}form.elements.seconds.disabled=form.elements.clock.value==='off';sliderLabels();}
 writeForm();
+form.elements.tips.addEventListener('input',sliderLabels);form.elements.constellationInterval.addEventListener('input',sliderLabels);
 const systemZone=Intl.DateTimeFormat().resolvedOptions().timeZone;
 document.querySelector('#zone-help').prepend('Current system zone: '+systemZone+'. ');
 try{for(const name of Intl.supportedValuesOf('timeZone')){const option=document.createElement('option');option.value=name;document.querySelector('#timezones').append(option);}}catch{}
@@ -21,10 +23,10 @@ async function fullscreen(){try{if(document.fullscreenElement)await document.exi
 document.querySelector('#fullscreen').addEventListener('click',fullscreen);
 async function keepAwake(){if(!running||document.hidden||!navigator.wakeLock)return;try{wake=await navigator.wakeLock.request('screen');wake.addEventListener('release',()=>{wake=null;});}catch{}}
 form.addEventListener('submit',e=>{
- e.preventDefault();const raw={clock:form.elements.clock.value,zone:form.elements.zone.value.trim()||'system',seconds:form.elements.seconds.checked,surf:form.elements.surf.checked,sky:form.elements.sky.checked,tips:Number(form.elements.tips.value)};
+ e.preventDefault();const raw={clock:form.elements.clock.value,zone:form.elements.zone.value.trim()||'system',seconds:form.elements.seconds.checked,surf:form.elements.surf.checked,sky:form.elements.sky.checked,tips:intervals[Number(form.elements.tips.value)],constellationInterval:Number(form.elements.constellationInterval.value)};
  try{zone(raw.zone);}catch{error.textContent='Enter a valid IANA time zone, or use system.';form.elements.zone.focus();return;}
  settings=normalize(raw);try{localStorage.setItem(storageKey,JSON.stringify(settings));}catch{}
- const wantFullscreen=form.elements.fullscreen.checked;running=true;skyDisplay=skyPending=null;window.ScrippsConstellations.reset();dialog.close();controls.hidden=false;document.body.classList.add('running');
+ const wantFullscreen=form.elements.fullscreen.checked;running=true;skyDisplay=skyPending=null;window.ScrippsConstellations=window.ScrippsConstellationSystem.create(constellationOptions(settings));dialog.close();controls.hidden=false;document.body.classList.add('running');
  if(wantFullscreen&&!document.fullscreenElement)fullscreen();keepAwake();reveal();if(settings.surf)loadWaves();canvas.focus({preventScroll:true});
 });
 document.addEventListener('visibilitychange',()=>{if(document.hidden){hiddenSince=Date.now();wake?.release();}else{last=0;skyDisplay=skyPending=null;window.ScrippsConstellations.reset();hiddenSince=null;keepAwake();}});

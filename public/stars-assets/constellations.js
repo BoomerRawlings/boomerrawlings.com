@@ -98,6 +98,7 @@
   options=options||{};var data=options.data||root.ScrippsConstellationData||[],random=options.random||Math.random;
   var active=[],tails=[],recent=[],next=null,job=null,lastMotion=null,lastNow=null,viewport='',enabled=true,serial=0;
   var stats={attempts:0,accepted:0,completed:0,safetyDismissals:0,maxActive:0},range=options.interval||[60,180];
+  var cadence=Number.isFinite(options.cadence)?clamp(options.cadence,10,60):null,lastLock=null;
   function between(a,b){return a+(b-a)*random();}
   function pick(){var allowed=data.filter(function(p){return recent.indexOf(p.id)<0&&!active.some(function(g){return g.pattern.id===p.id;});});
    if(!allowed.length)return null;var total=allowed.reduce(function(s,p){return s+weight(p);},0),r=random()*total;
@@ -144,14 +145,16 @@
    // The shared sweep begins at the clock; this group locks when it reaches its area.
    var scan=170+clamp((c.reservation.y+c.reservation.h*.5)/h,0,1)*620+clamp((c.reservation.x+c.reservation.w*.5)/w,0,1)*70;
    var approach=Math.max(14000,Math.min(32000,c.maxDisplacement/8*1000));
-   var snapEpoch=Math.ceil((frame.now+between(approach,approach+8000))/30000)*30000;
+   // Browser cadence spaces actual locks, rather than batching them on30-second scans.
+   var snapEpoch=cadence?Math.max(frame.now+approach,lastLock===null?0:lastLock+cadence*1000)-scan:Math.ceil((frame.now+between(approach,approach+8000))/30000)*30000;
+   lastLock=snapEpoch+scan;
    c.start=frame.motion;c.snapMotion=frame.motion+(snapEpoch+scan-frame.now)/1000;c.snapEpoch=snapEpoch;c.hold=between(15,20)+lockTime;c.id=++serial;c.radius=radius;c.phase='gather';c.visible=0;
    c.entryDirection=Math.floor(random()*4);c.exitDirection=Math.floor(random()*4);
    active.push(c);recent.push(c.pattern.id);if(recent.length>8)recent.shift();stats.accepted++;stats.maxActive=Math.max(stats.maxActive,active.length);
-   next=frame.motion+(active.length<maxActive&&random()<.14?between(8,16):between(range[0],range[1]));job=null;return true;
+   next=frame.motion+(cadence|| (active.length<maxActive&&random()<.14?between(8,16):between(range[0],range[1])));job=null;return true;
   }
   function tail(g,particles,points){g.indices.forEach(function(index,i){var p=particles[index],q=g.display?g.display[i]:g.targets[i];tails.push({index:index,x:q.x,y:q.y,bx:p.x,by:p.y,age:0});if(points){points[index].x=q.x;points[index].y=q.y;points[index].link=0;}});}
-  function reset(){active=[];tails=[];job=null;next=null;lastMotion=lastNow=null;viewport='';}
+  function reset(){active=[];tails=[];job=null;next=null;lastMotion=lastNow=null;lastLock=null;viewport='';}
   function prepare(particles,frame,w,h,ctx){
    var dt=clamp(frame.dt||0,0,.1),key=w+'x'+h;
    if(viewport&&viewport!==key)reset();viewport=key;
@@ -186,7 +189,7 @@
    if(frame.motion>=next&&active.length<maxActive&&particles.length>=16){
     if(!job)job={tries:0,next:frame.motion,pattern:pick()};
     if(frame.motion>=job.next){stats.attempts++;var c=candidate(job.pattern,particles,w,h,ctx);
-     if(c&&admit(c,particles,frame,w,h,ctx)){}else{job.tries++;job.next=frame.motion+.2;if(job.tries%4===0)job.pattern=pick();if(job.tries>=24){job=null;next=frame.motion+between(8,18);}}}
+     if(c&&admit(c,particles,frame,w,h,ctx)){}else{job.tries++;job.next=frame.motion+.2;if(job.tries%4===0)job.pattern=pick();if(job.tries>=24){job=null;next=frame.motion+(cadence?Math.min(3,cadence/4):between(8,18));}}}
    }
    return points;
   }

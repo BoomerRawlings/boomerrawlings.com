@@ -26,7 +26,7 @@ Stars turns a browser window into a quiet ambient display. Small points drift an
 
 ## Choose your screen
 
-The [settings screen](/stars/) offers a 12-hour clock, a 24-hour clock, or no clock; optional quarter-size seconds; and a time zone that follows the device unless changed. Scripps offshore waves and sunrise, sunset, and moon phase can be enabled independently. Self-care reminders can appear every 5, 10, 15, 20, 30, or 60 minutes, or be disabled. Each lasts 30 seconds. Reminders work even with the clock removed.
+The [settings screen](/stars/) offers a 12-hour clock, a 24-hour clock, or no clock; optional quarter-size seconds; and a time zone that follows the device unless changed. Scripps offshore waves and sunrise, sunset, and moon phase can be enabled independently. A reminder slider selects every 5, 10, 15, 20, 30, or 60 minutes, or disabled. Each reminder lasts 30 seconds and works even with the clock removed. A separate constellation slider targets a new lock every 10–60 seconds, defaulting to 10. Dots gather before the first lock; poor fits or crowded layouts can delay or skip a formation.
 
 Confirming settings clears the interface. Controls fade after inactivity and return with pointer movement, a tap, or keyboard interaction. Press S or Esc to change settings. Fullscreen is optional; a supported browser can keep the screen awake while the page is visible. Preferences are stored only in that browser.
 
@@ -34,7 +34,7 @@ Confirming settings clears the interface. Controls fade after inactivity and ret
 
 The points retain their own continuously running positions and headings. A fitting pass assigns nearby, unclaimed points to a rigid constellation shape. Only the display pose changes: the underlying paths continue throughout the lock. Connections stay hidden during the approach, so a complete figure does not sit waiting for its name. After the exit sweep and line retraction, display positions gradually converge with the live paths.
 
-Usually one constellation is visible. Five is the safety cap, including gathering and departing figures. Poor fits are skipped. Prominent northern figures, zodiac constellations, and mythological figures receive more weight; two- and three-star figures remain possible but much rarer. Recent selections have a cooldown. These are illustrative figures, not a live map of the sky overhead.
+The selected interval controls the pace of new locks. Five is the safety cap, including gathering and departing figures. Poor fits are skipped. Prominent northern figures, zodiac constellations, and mythological figures receive more weight; two- and three-star figures remain possible but much rarer. Recent selections have a cooldown. These are illustrative figures, not a live map of the sky overhead.
 
 The full figure, label, and underline must fit onscreen and avoid the clock, reminders, sky/wave panel, and other figures. Unrelated points inside a locked figure are strongly dimmed; ambient connections crossing it disappear until it releases. Smaller screens may offer fewer safe opportunities.
 

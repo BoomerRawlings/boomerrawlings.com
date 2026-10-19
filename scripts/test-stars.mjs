@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
-import {clock,normalize,zone,intervals,reminder,tipOpacity,marine,countdown} from '../public/stars-assets/model.js';
+import {clock,normalize,zone,intervals,reminder,tipOpacity,marine,countdown,tipsLabel,constellationOptions} from '../public/stars-assets/model.js';
 const root={};vm.runInNewContext(readFileSync('public/stars-assets/reminder-messages.js','utf8'),{window:root});const messages=root.ScrippsReminderMessages;
 test('system default, valid custom zones and invalid persisted settings',()=>{
  assert.equal(normalize().zone,'system');assert.equal(zone('system'),Intl.DateTimeFormat().resolvedOptions().timeZone);assert.equal(zone('Asia/Kathmandu'),'Asia/Kathmandu');assert.throws(()=>zone('No/Zone'));
@@ -33,11 +33,31 @@ test('marine model rejects missing, malformed and stale data; countdown never ne
 test('88 catalog figures and release limits retained; browser entry and project linked',()=>{
  const data=JSON.parse(readFileSync('public/stars-assets/constellations.json','utf8'));assert.equal(data.constellations.length,88);
  const js=readFileSync('public/stars-assets/constellations.js','utf8');assert.ok(js.includes('maxActive=5'));assert.ok(js.includes('between(15,20)+lockTime'));assert.ok(js.includes('g.visible=until>0?0:'));
- const page=readFileSync('dist/stars/index.html','utf8'),project=readFileSync('dist/work/stars/index.html','utf8');for(const name of ['clock','zone','seconds','surf','sky','tips'])assert.ok(page.includes('name="'+name+'"'));
+ const page=readFileSync('dist/stars/index.html','utf8'),project=readFileSync('dist/work/stars/index.html','utf8');for(const name of ['clock','zone','seconds','surf','sky','tips','constellationInterval'])assert.ok(page.includes('name="'+name+'"'));
+ assert.equal((page.match(/type="range"/g)||[]).length,2);assert.ok(!page.includes('<select name="tips"'));
  assert.ok(project.includes('data-pip-guide'));assert.ok(project.includes('/stars-assets/workflow.html'));assert.ok(project.includes('/stars/'));
  for(const path of ['dist/work/index.html','dist/all/index.html'])assert.ok(readFileSync(path,'utf8').includes('/work/stars/'));
  const home=readFileSync('dist/index.html','utf8').match(/<ul\b[^>]*class="ledger-list"[^>]*>([\s\S]*?)<\/ul>/)[1];assert.ok(home.indexOf('/work/stars/')<home.indexOf('/work/scads-2026/'),'Stars leads homepage highlights');
  assert.ok(project.includes('/stars-assets/workflow.html?embed=1'));assert.ok(project.includes('/stars-assets/workflow-embed.js'));
+});
+test('frequency sliders preserve reminder choices; constellation defaults10 and spans10–60',()=>{
+ assert.equal(normalize({tips:60}).constellationInterval,10,'old saved settings migrate');assert.equal(tipsLabel(0),'Disabled');assert.equal(tipsLabel(60),'Once an hour');assert.equal(tipsLabel(5),'Every 5 minutes');
+ for(let n=10;n<=60;n+=5){assert.equal(normalize({constellationInterval:n}).constellationInterval,n);assert.deepEqual(constellationOptions({constellationInterval:n}),{interval:[n,n],initialDelay:[0,0],cadence:n});}
+ for(const n of [-1,0,9,61,Infinity,'bad'])assert.equal(normalize({constellationInterval:n}).constellationInterval,10);
+});
+test('selected cadence spaces actual lock times without30second batching or burst arrivals',()=>{
+ const data=JSON.parse(readFileSync('public/stars-assets/constellations.json','utf8')).constellations,source=readFileSync('public/stars-assets/constellations.js','utf8');
+ for(const cadence of [10,30,60]){
+  const root={ScrippsConstellationData:data};vm.runInNewContext(source,{window:root,Math,Set,Float64Array,Int32Array,Uint8Array,Number});const sys=root.ScrippsConstellationSystem.create({...constellationOptions({constellationInterval:cadence}),random:()=>.7}),ctx={font:'',measureText:s=>({width:s.length*6.2})};
+  const ps=Array.from({length:96},(_,i)=>({x:300+i%12*120,y:100+Math.floor(i/12)*110,dx:1,dy:0,speed:0,radius:2,alpha:.7}));let previous,offset=0;
+  for(const [id,x,y,t]of [['Ari',500,200,0],['CMi',1000,500,cadence],['Tri',1500,800,cadence*2]]){
+   const p=data.find(p=>p.id===id);root.ScrippsConstellationSystem.transform(p,140,0,x,y).forEach((q,i)=>Object.assign(ps[offset+i],q));offset+=p.stars.length;
+   const c=sys.candidate(p,ps,1920,1080,ctx,{x,y,size:140,angle:0});assert.ok(c);assert.ok(sys.admit(c,ps,{motion:t,now:1000+t*1000,dt:0},1920,1080,ctx));
+   if(previous!==undefined)assert.ok(Math.abs(c.snapMotion-previous-cadence)<1e-8,'actual locks follow selected interval');previous=c.snapMotion;
+   assert.equal(sys.snapshot().next,t+cadence,'no closer random burst');assert.ok(c.hold>=15.56&&c.hold<=20.56);
+  }
+  assert.equal(sys.snapshot().stats.maxActive,3);assert.ok(previous%30!==0||cadence===30,'not tied to30second shared UI scan');
+ }
 });
 test('embedded workflow combines all ten steps; standalone keeps both plans',()=>{
  const html=readFileSync('public/stars-assets/workflow.html','utf8'),bootstrap=html.match(/<script>([\s\S]*?)\/\* Workflow Display:/)[1],original=JSON.parse(readFileSync('public/stars-assets/workflow.json','utf8'));
