@@ -652,3 +652,8 @@
 ## Stars direct entry
 - Continuation: /stars/jumpin/ skips settings; fixed system-zone24h clock without seconds, surf off, sky on,10sec constellations,5min reminders. Does not persist shortcut values. Shared page route/runtime preset implemented; verification/publication pending.
 - Verified: rebuilt60 routes/publication checks and11 Stars tests pass. Local browser direct startup/preset and saved UTC/12h preferences surviving shortcut navigation pass; no console errors. Earlier full suite passed all unrelated checks; initial new-route test ran against pre-edit build, corrected by final rebuild. Ready for production CI.
+- Complete/live: b1cdee3; Pages39233469930 full npm test and deployment successful. Live slashless /stars/jumpin redirects correctly and starts scene with no settings; reopening verifies24h/no seconds/no surf/sky/system zone/10sec constellations/5min reminders. Console clear; local dev stopped. No blockers.
+
+## Desktop wallpaper download
+- Continuation: active desktop ScrippsSurfClock Constellations packaged; project defaults match active install (no saved overrides),60FPS app setting. Public ZIP includes full source/credits, readable settings snapshot and installation/surf-updater instructions. Small download link at end of /work/stars/. Active files untouched. Verification/publication pending.
+- Verified: ZIP363744 bytes;32 original files hash-identical,2 portable install/settings additions. Build/publication and11 Stars tests pass; rendered work page includes final download anchor. Ready for production CI.

@@ -82,3 +82,5 @@ The complete ten-step walkthrough is below. Each explanation sits beside its act
 The figure database contains 88 audited constellations, 747 unique catalog stars and 753 connections. Each point and edge records its published figure source. These are recognizable line figures rather than a live map of the sky overhead.
 
 [Figure data](/stars-assets/constellations.json) · [Constellation animation](/stars-assets/constellations.js) · [Browser renderer](/stars-assets/stars.js) · [Settings and timing](/stars-assets/model.js) · [Credits and licenses](/stars-assets/credits.txt)
+
+<a href="/downloads/stars-wallpaper-engine.zip" download>Wallpaper Engine download (.zip)</a>
