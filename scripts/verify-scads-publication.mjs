@@ -56,11 +56,12 @@ for (const [index, slug] of slugs.entries()) {
 const home = parse(read(''));
 const ledger = nodes(home, n => hasClass(n, 'ledger-list'))[0];
 const rows = nodes(ledger, n => n.tagName === 'a');
-assert.equal(rows.length, 8);
-assert.equal(attr(rows[0], 'href'), '/work/scads-2026/');
+assert.equal(rows.length, 9);
+assert.equal(attr(rows[0], 'href'), '/work/stars/');
+assert.equal(attr(rows[1], 'href'), '/work/scads-2026/');
 assert(!rows.some(n => attr(n, 'href') === '/work/triton-tidepool/'));
 assert(hrefs(read('work')).includes('/work/triton-tidepool/'), 'Triton remains in the project archive');
-const months = ['2026-10', '2026-10', '2026-09', '2026-09', '2026-08', '2026-08', '2026-08', '2026-08'];
+const months = ['2026-10', '2026-10', '2026-10', '2026-09', '2026-09', '2026-08', '2026-08', '2026-08', '2026-08'];
 rows.forEach((row, i) => {
   const date = nodes(row, n => n.tagName === 'time' && hasClass(n, 'ledger-date'));
   assert.equal(date.length, 1, 'Every selected item needs a publication date');

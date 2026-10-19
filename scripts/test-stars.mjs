@@ -36,4 +36,20 @@ test('88 catalog figures and release limits retained; browser entry and project 
  const page=readFileSync('dist/stars/index.html','utf8'),project=readFileSync('dist/work/stars/index.html','utf8');for(const name of ['clock','zone','seconds','surf','sky','tips'])assert.ok(page.includes('name="'+name+'"'));
  assert.ok(project.includes('data-pip-guide'));assert.ok(project.includes('/stars-assets/workflow.html'));assert.ok(project.includes('/stars/'));
  for(const path of ['dist/work/index.html','dist/all/index.html'])assert.ok(readFileSync(path,'utf8').includes('/work/stars/'));
+ const home=readFileSync('dist/index.html','utf8').match(/<ul\b[^>]*class="ledger-list"[^>]*>([\s\S]*?)<\/ul>/)[1];assert.ok(home.indexOf('/work/stars/')<home.indexOf('/work/scads-2026/'),'Stars leads homepage highlights');
+ assert.ok(project.includes('/stars-assets/workflow.html?embed=1'));assert.ok(project.includes('/stars-assets/workflow-embed.js'));
+});
+test('embedded workflow combines all ten steps; standalone keeps both plans',()=>{
+ const html=readFileSync('public/stars-assets/workflow.html','utf8'),bootstrap=html.match(/<script>([\s\S]*?)\/\* Workflow Display:/)[1],original=JSON.parse(readFileSync('public/stars-assets/workflow.json','utf8'));
+ for(const search of ['','?embed=1']){const node={textContent:JSON.stringify(original)},classes=[];
+  vm.runInNewContext(bootstrap,{URLSearchParams,location:{search},document:{documentElement:{classList:{add:c=>classes.push(c)}},getElementById:()=>node},window:{addEventListener(){}}});
+  const data=JSON.parse(node.textContent);assert.equal(data.plans.length,search?1:2);if(search){assert.equal(data.plans[0].steps.length,10);assert.equal(new Set(data.plans[0].steps.map(s=>s.id)).size,10);assert.deepEqual(classes,['embedded']);}
+ }
+});
+test('inline frame sizing accepts only its same-origin child and bounded numeric height',()=>{
+ const listeners={},frame={style:{},contentWindow:{postMessage(){}},addEventListener(){}},source=readFileSync('public/stars-assets/workflow-embed.js','utf8');
+ vm.runInNewContext(source,{document:{querySelector:()=>frame},location:{origin:'https://example.test'},window:{addEventListener:(name,fn)=>listeners[name]=fn}});
+ const event={origin:'https://example.test',source:frame.contentWindow,data:{type:'stars-workflow-height',height:6432}};
+ for(const change of [{origin:'https://other.test'},{source:{}},{data:{type:'stars-workflow-height',height:Infinity}},{data:{type:'stars-workflow-height',height:'900'}},{data:{type:'stars-workflow-height',height:90000}}]){listeners.message({...event,...change});assert.equal(frame.style.height,undefined);}
+ listeners.message(event);assert.equal(frame.style.height,'6432px');listeners.message({...event,data:{...event.data,height:800}});assert.equal(frame.style.height,'800px','shrinks again when search filters pairs');
 });

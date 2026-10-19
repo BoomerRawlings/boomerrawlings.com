@@ -1594,6 +1594,7 @@ if (publicHtml.includes('Interactive Systems')) {
 }
 
 const featuredWork = [
+  ['/work/stars/', 'Project'],
   ['/work/scads-2026/', 'Project'],
   ['/brain/', 'Project'],
   ['/writing/data-analysis/crime-and-heat/', 'Data analysis'],
@@ -1606,7 +1607,7 @@ const featuredWork = [
 const homeLedger = homeHtml.match(/<ul\b[^>]*class="ledger-list"[^>]*>([\s\S]*?)<\/ul>/)?.[1] ?? '';
 const featuredRows = [...homeLedger.matchAll(/<li\b[^>]*>\s*<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>\s*<\/li>/g)];
 if (featuredRows.length !== featuredWork.length || !homeHtml.includes('>Selected work</h2>')) {
-  failures.push('index.html: selected work must contain exactly eight highlights');
+  failures.push('index.html: selected work must contain exactly nine highlights');
 }
 featuredWork.forEach(([href, type], index) => {
   const row = featuredRows[index];

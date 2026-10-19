@@ -6,6 +6,7 @@ import { formatMonthYear, isoMonth } from '../lib/dates';
 
 const publishedEntries = await getCollection('archive', ({ data }) => data.status === 'published');
 const highlightOrder = [
+  'stars',
   'scads-2026',
   'brain-study-guide',
   'crime-and-heat',

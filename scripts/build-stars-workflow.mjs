@@ -22,5 +22,24 @@ const data={title:'Stars: from drifting points to a quiet screen',eyebrow:'BOOME
 writeFileSync(dir+'workflow.json',JSON.stringify(data,null,2)+'\n');
 let html=await renderWorkflow(data);html=html.replace('<title>Workflow Display</title>','<title>Stars development workflow | Boomer Rawlings</title><meta name="description" content="Stars development decisions paired with catalog data and actual implementation."/><link rel="canonical" href="https://boomerrawlings.com/stars-assets/workflow.html"/>');
 html=html.replace('</style>','\n:root{--wf-background:#080e13;--wf-surface:#0f1920;--wf-accent:#7eb7d4;--wf-dependency:#e6cf82;--wf-border:#3c505c}.plan-choice{border-radius:2px}.workspace{max-width:1200px}\n</style>');
+const embedded=`
+if(new URLSearchParams(location.search).has('embed')){
+ document.documentElement.classList.add('embedded');
+ const node=document.getElementById('workflow-data'),all=JSON.parse(node.textContent);
+ all.plans=[{id:'full',title:'The complete Stars workflow',summary:'Ten connected steps: audited figures, motion, lock, release, clearance, settings, reminders, wave data, quiet controls and verification.',steps:all.plans.flatMap(p=>p.steps)}];
+ node.textContent=JSON.stringify(all);
+ window.addEventListener('load',()=>{
+  document.querySelector('.plan-choice').click();
+  let last=0;
+  const report=()=>{const height=Math.max(320,Math.ceil(document.body.getBoundingClientRect().height+2));if(height!==last){last=height;parent.postMessage({type:'stars-workflow-height',height},location.origin);}};
+  new ResizeObserver(report).observe(document.body);
+  window.addEventListener('message',e=>{if(e.origin===location.origin&&e.source===parent&&e.data?.type==='stars-workflow-measure'){last=0;report();}});
+  report();
+ });
+}
+`;
+html=html.replace('<script>',`<script>${embedded}`)
+ .replace('if (open) focusTimer =','if (open && !document.documentElement.classList.contains("embedded")) focusTimer =')
+ .replace('</style>','\n.embedded{overflow:hidden}.embedded .page-heading,.embedded .plan-launcher{display:none}.embedded .workspace{padding:0 20px}.embedded .guide-heading{padding-top:24px}\n</style>');
 writeFileSync(dir+'workflow.html',html);
 console.log('Stars workflow built from current source.');

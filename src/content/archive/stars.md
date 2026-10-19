@@ -6,7 +6,7 @@ date: "2026-10"
 type: work
 description: An ambient browser screensaver where drifting dots briefly resolve into audited constellation figures, with an optional clock, Scripps sky and waves, and quiet reminders.
 status: published
-featured: false
+featured: true
 tags:
   - creative coding
   - astronomy
@@ -46,9 +46,11 @@ The waves panel fetches an Open-Meteo offshore model estimate after it is enable
 
 ## Development, with the artifacts
 
-This is a curated walkthrough of the actual work, not a verbatim chat transcript or a claim about development hours. Each explanation stays paired with its data, decision, or code. Open either workflow to inspect its dependencies.
+This is a curated walkthrough of the actual work, not a verbatim chat transcript or a claim about development hours. All ten steps appear below, from the figure database through the browser display. Each explanation stays paired with its data, decision, or code; select a heading to inspect its dependencies.
 
-<iframe src="/stars-assets/workflow.html" title="Stars development workflow with paired explanations and artifacts" loading="lazy" style="width:100%;height:780px;border:1px solid #3c505c;background:#080e13"></iframe>
+<iframe data-stars-workflow src="/stars-assets/workflow.html?embed=1" title="Full Stars development workflow with paired explanations and artifacts" loading="lazy" style="display:block;width:100%;height:780px;border:1px solid #3c505c;background:#080e13"></iframe>
+
+<script src="/stars-assets/workflow-embed.js" defer></script>
 
 [Open the workflow full size](/stars-assets/workflow.html) · [Editable workflow JSON](/stars-assets/workflow.json)
 
