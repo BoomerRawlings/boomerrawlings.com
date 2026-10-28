@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "subs-dataset-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-27",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "boomerrawlings.com/subs/api/*", "zone_name": "boomerrawlings.com" }],
+  "observability": { "enabled": true, "head_sampling_rate": 0.1 },
+  "vars": { "ALLOWED_ORIGINS": "https://boomerrawlings.com", "BASE_MONTHLY_USD": "5", "COLLECTION_STOP_USD": "40", "MONTHLY_LIMIT_USD": "50" },
+  "d1_databases": [{ "binding": "DB", "database_name": "subs-catalog", "database_id": "4aa19ccc-0a2c-4f12-97dc-bc2633ad1243", "migrations_dir": "migrations" }],
+  "r2_buckets": [{ "binding": "ASSETS", "bucket_name": "subs-dataset" }]
+}

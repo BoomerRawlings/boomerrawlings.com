@@ -1,0 +1,18 @@
+{
+  "name": "subs-dataset-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "test": "node --test test/*.test.mjs",
+    "types": "wrangler types",
+    "check": "node --check src/index.js && node --check src/releases.js && node --check src/validation.js && node --check src/image-header.js && node --check src/openapi.js",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20261028.1",
+    "miniflare": "5.20261023.1-beta",
+    "typescript": "^5.9.3",
+    "wrangler": "4.154.0"
+  }
+}
