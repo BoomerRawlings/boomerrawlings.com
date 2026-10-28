@@ -21,6 +21,22 @@ jobs:
     steps:
       - name: Check out the repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Set up Node for SUBS checks
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+      - name: Verify SUBS API
+        working-directory: workers/subs
+        run: |
+          npm ci
+          npm test
+          npm run check
+      - name: Verify SUBS dataset toolkit
+        run: |
+          python3 -m venv .venv
+          .venv/bin/python -m pip install -r tools/subs/requirements.txt
+          .venv/bin/python -m unittest discover -s tools/subs/tests -v
+          .venv/bin/python tools/subs/tests/run_worker_proof.py --output tmp/subs-worker-proof-ci
       - name: Install, verify, and upload the site
         uses: withastro/action@e84f40bd8d2caa9e768ec82ad30dd81f0b280853 # v6
         with:

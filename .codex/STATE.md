@@ -1,5 +1,21 @@
 # Project state
 
+## SUBS training dataset — 2026-10-27
+- Mode: continuation; implementation of user-approved dataset/workspace plan. Baseline clean codex/subs; historical catalog live at 90d0f98.
+- Objective: active military class recognition dataset, 400 accepted unique camera originals/class; satellite supplemental; Python ingestion proof, no model training.
+- Decisions: dated initial commissioned-fleet snapshot only; class plus variant tags; historical catalog preserved. Camera minimum 1200px image/400px subject; satellite 200px subject and <=0.5m/pixel. Original plus crop; no duplicate/derivative quota padding.
+- Rights: broad discovery, cleared downloads/exports; commercial and research tiers separate; redistribution permission independent. Riddle retained; published cleared data unlisted/public; owner edit key and scoped agent credentials protect mutations/restricted assets. Full sign-in deferred.
+- Releases: provisional before human audit; 20 samples/class after publication. Balanced camera subsets per tier for >=2 classes with >=100 each; cap400; group-safe 80/10/10. Scarce classes retain deficits.
+- Architecture: Astro/Pages retained, Worker API at /subs/api/*, D1 metadata, private R2; on-demand Python processing. Budget $50/month, stop new collection at projected$40. Existing domain proxy verified; no DNS replacement needed.
+- Implemented: Worker/D1/private R2 API, review workspace, resumable Python toolkit and release/loader contract. API deployed from tracked source5c52033 to narrow/subs/api/* route; versiondad7ae0a. Both D1 migrations applied. Scoped credentials outside repository/synced workspace; private R2 public-dev access disabled.
+- Roster: 67 sourced class records; uncertain service cases and incomplete operator coverage explicitly tracked in docs/subs/ROSTER.md. Historical 659 entries/337 sources preserved. Snapshot is provisional, not certified globally exhaustive.
+- Pilot: bounded discovery403 candidates/297 preliminary size-license matches, not approvals. Five independently reviewed qualifying originals prepared; conflicting contractor-credit Virginia file held, replaced with Navy photographer original. No balanced release eligible; deficits399/pilot class. Evidence in docs/subs/PILOT.md.
+- Verified: full repository suite passed including67-class/historical/unlisted checks and10 workspace behavior tests.14 Python tests pass. Fresh Python environment downloaded400 assets from an actual local Worker200-image synthetic release, checked metadata/image hashes, decoded200 correctly labeled RGB images, and resumed downloads. Synthetic fixtures remain test-only.
+- Budget: user explicitly deferred provider billing alerts; application projected$40 stop remains required. No recurring/paid collection configured.
+- Live API verified:67 classes,5 accepted originals/15 assets; pending metadata/bytes404 before independent approval; collector approval403; allfive original downloads match hashes/native dimensions. No release eligible. Pilot job completed; projected monthlycost$5.0002 includes conservative$5 baseline, not actual provider invoice.
+- Next: publish verified website source, import metadata-only discovery queue, confirm CI/live UI and update final checkpoint. No images/credentials in Git.
+- Assumptions/risks: 400 eligible originals for every class not guaranteed; exact active coverage requires research. Provider availability/auth and image permissions must be verified, not inferred.
+
 ## SUBS catalog and sources — 2026-10-27
 - Mode: continuation. Objective: add top-right Sources view with raw hyperlinks; populate historical/global submarine type + country catalog.
 - Baseline verified: local d69766f includes launch checkpoint; production main remains 84bbb1b, clean task branch before work.

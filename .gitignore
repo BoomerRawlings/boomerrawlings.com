@@ -10,3 +10,11 @@ Thumbs.db
 *.log
 .codex/qa/
 tmp/
+.wrangler/
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+.venv/
+__pycache__/
+*.pyc
+.subs-data/

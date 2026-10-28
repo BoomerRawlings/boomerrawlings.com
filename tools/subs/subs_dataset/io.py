@@ -1,0 +1,220 @@
+"""Bounded, resumable transfers and safe local paths. No credentials in manifests."""
+
+from __future__ import annotations
+
+import hashlib
+import ipaddress
+import json
+import os
+import re
+import socket
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+from pathlib import Path, PurePosixPath
+
+MAX_BYTES = 64 * 1024 * 1024
+USER_AGENT = "SUBS-Dataset/1.0 (original-image research; source permissions required)"
+
+
+class DatasetError(ValueError):
+    """An actionable validation/transfer failure, without request credentials."""
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def safe_path(root: Path, relative: str) -> Path:
+    if not isinstance(relative, str) or not relative or "\\" in relative or ":" in relative:
+        raise DatasetError("Expected a portable relative file path")
+    parsed = PurePosixPath(relative)
+    if parsed.is_absolute() or any(part in ("..", ".") for part in relative.split("/")):
+        raise DatasetError("Unsafe relative file path")
+    target = root.joinpath(*parsed.parts).resolve()
+    if not target.is_relative_to(root.resolve()):
+        raise DatasetError("Path escapes dataset directory")
+    return target
+
+
+def write_json(path: Path, value) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    replace_with_retry(temporary, path)
+
+
+def replace_with_retry(source: Path, target: Path) -> None:
+    """Bounded retry for Windows sync/antivirus locks; never copy a half-published release."""
+    for attempt in range(7):
+        try:
+            source.replace(target)
+            return
+        except PermissionError:
+            if attempt == 6:
+                raise DatasetError("Atomic publish blocked by a file lock; completed staging data retained. Retry after the sync/antivirus lock clears.") from None
+            time.sleep(min(0.1 * 2 ** attempt, 2))
+
+
+def read_jsonl(path: Path) -> list[dict]:
+    rows = []
+    with path.open(encoding="utf-8-sig") as stream:
+        for number, line in enumerate(stream, 1):
+            if line.strip():
+                try:
+                    row = json.loads(line)
+                except json.JSONDecodeError as exc:
+                    raise DatasetError(f"Invalid JSONL at line {number}") from exc
+                if not isinstance(row, dict):
+                    raise DatasetError(f"JSONL line {number} must be an object")
+                rows.append(row)
+    return rows
+
+
+def write_jsonl(path: Path, rows: list[dict]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="\n") as stream:
+        for row in rows:
+            stream.write(json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\n")
+
+
+def checksum_entries(payload: dict) -> dict[str, str]:
+    """Read the actual Worker checksum schema, plus local flat checksum maps."""
+    if not isinstance(payload, dict):
+        raise DatasetError("Malformed checksum manifest")
+    if "algorithm" in payload or "files" in payload:
+        if payload.get("algorithm") != "sha256" or not isinstance(payload.get("files"), list):
+            raise DatasetError("Unsupported checksum manifest format")
+        entries = {}
+        for record in payload["files"]:
+            if not isinstance(record, dict) or not isinstance(record.get("filename"), str):
+                raise DatasetError("Malformed checksum file entry")
+            filename = record["filename"]
+            if filename in entries:
+                raise DatasetError("Duplicate checksum file entry")
+            entries[filename] = record.get("sha256")
+    else:
+        entries = payload
+    if not entries or any(not isinstance(key, str) or not isinstance(value, str) or not re.fullmatch(r"[0-9a-f]{64}", value) for key, value in entries.items()):
+        raise DatasetError("Checksum manifest must contain named SHA-256 digests")
+    return entries
+
+
+def check_url(url: str, allow_localhost: bool = False) -> None:
+    parts = urllib.parse.urlsplit(url)
+    if parts.username or parts.password or parts.fragment or not parts.hostname:
+        raise DatasetError("URL must have a host and no credentials or fragment")
+    loopback_name = parts.hostname in {"localhost", "127.0.0.1", "::1"}
+    if parts.scheme != "https" and not (allow_localhost and loopback_name and parts.scheme == "http"):
+        raise DatasetError("Downloads require HTTPS (loopback HTTP is test-only)")
+    try:
+        addresses = socket.getaddrinfo(parts.hostname, parts.port or (443 if parts.scheme == "https" else 80))
+    except OSError as exc:
+        raise DatasetError("Download host could not be resolved") from exc
+    for address in addresses:
+        ip = ipaddress.ip_address(address[4][0])
+        if not ip.is_global and not (allow_localhost and ip.is_loopback):
+            raise DatasetError("Private-network download destinations are not allowed")
+
+
+class SafeRedirect(urllib.request.HTTPRedirectHandler):
+    def __init__(self, allow_localhost: bool, credential_origin: str | None):
+        self.allow_localhost = allow_localhost
+        self.credential_origin = credential_origin
+
+    def redirect_request(self, request, response, code, message, headers, new_url):
+        check_url(new_url, self.allow_localhost)
+        redirected = super().redirect_request(request, response, code, message, headers, new_url)
+        if redirected is not None:
+            old = urllib.parse.urlsplit(request.full_url)
+            new = urllib.parse.urlsplit(new_url)
+            if (old.scheme, old.netloc) != (new.scheme, new.netloc):
+                redirected.remove_header("Authorization")
+        return redirected
+
+
+def download(url: str, target: Path, *, expected_sha256: str | None = None,
+             max_bytes: int = MAX_BYTES, retries: int = 3, token: str | None = None,
+             allow_localhost: bool = False, on_request=None) -> Path:
+    """Resume partial bytes; a changed representation restarts, never appends corrupt data."""
+    check_url(url, allow_localhost)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    if target.exists():
+        if target.stat().st_size > max_bytes:
+            raise DatasetError("Existing file exceeds byte limit")
+        if expected_sha256 and sha256_file(target) == expected_sha256:
+            return target
+        if not expected_sha256:
+            return target
+        target.unlink()
+    partial = target.with_suffix(target.suffix + ".part")
+    resume_meta = partial.with_suffix(partial.suffix + ".json")
+    opener = urllib.request.build_opener(SafeRedirect(allow_localhost, urllib.parse.urlsplit(url).netloc))
+    for attempt in range(retries + 1):
+        try:
+            offset = partial.stat().st_size if partial.exists() else 0
+            if offset > max_bytes:
+                raise DatasetError("Partial download exceeds byte limit")
+            headers = {"User-Agent": USER_AGENT, "Accept-Encoding": "identity"}
+            if token:
+                headers["Authorization"] = "Bearer " + token
+            if offset:
+                headers["Range"] = f"bytes={offset}-"
+                if resume_meta.exists():
+                    validator = json.loads(resume_meta.read_text(encoding="utf-8")).get("validator")
+                    if validator:
+                        headers["If-Range"] = validator
+            if on_request:
+                on_request()
+            with opener.open(urllib.request.Request(url, headers=headers), timeout=45) as response:
+                check_url(response.url, allow_localhost)
+                append = offset > 0 and response.status == 206
+                if append and not response.headers.get("Content-Range", "").startswith(f"bytes {offset}-"):
+                    raise DatasetError("Invalid partial response offset")
+                if not append:
+                    offset = 0
+                length_header = response.headers.get("Content-Length")
+                expected_length = int(length_header) if length_header else None
+                if expected_length is not None and expected_length + offset > max_bytes:
+                    raise DatasetError("Download exceeds byte limit")
+                encoding = response.headers.get("Content-Encoding", "identity")
+                if encoding not in ("identity", ""):
+                    raise DatasetError("Unexpected transfer encoding; original bytes required")
+                validator = response.headers.get("ETag") or response.headers.get("Last-Modified")
+                write_json(resume_meta, {"validator": validator})
+                received = 0
+                with partial.open("ab" if append else "wb") as stream:
+                    while chunk := response.read(256 * 1024):
+                        received += len(chunk)
+                        if offset + received > max_bytes:
+                            raise DatasetError("Download exceeds byte limit")
+                        stream.write(chunk)
+                if expected_length is not None and received != expected_length:
+                    raise OSError("Incomplete response")
+            if expected_sha256 and sha256_file(partial) != expected_sha256:
+                partial.unlink(missing_ok=True)
+                resume_meta.unlink(missing_ok=True)
+                raise DatasetError("Downloaded checksum mismatch")
+            replace_with_retry(partial, target)
+            resume_meta.unlink(missing_ok=True)
+            return target
+        except urllib.error.HTTPError as exc:
+            if exc.code == 416 and expected_sha256 and partial.exists() and sha256_file(partial) == expected_sha256:
+                replace_with_retry(partial, target)
+                resume_meta.unlink(missing_ok=True)
+                return target
+            if exc.code < 500 and exc.code not in (408, 429):
+                raise DatasetError(f"Download refused (HTTP {exc.code})") from None
+            if attempt == retries:
+                raise DatasetError(f"Download unavailable (HTTP {exc.code})") from None
+        except (OSError, TimeoutError, urllib.error.URLError) as exc:
+            if attempt == retries:
+                raise DatasetError("Download failed after retries; partial bytes retained") from None
+        if attempt < retries:
+            time.sleep(min(2 ** attempt, 8))
+    raise DatasetError("Download failed")

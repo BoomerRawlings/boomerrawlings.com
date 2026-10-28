@@ -36,4 +36,6 @@ await response.arrayBuffer(); await mkdir(`${root}.wrangler`, { recursive: true 
 console.log('READY http://127.0.0.1:8788/subs/api/v1 — synthetic fixture-r1, 200 records; credentials in ignored .wrangler/fixture-credentials.json');
 let stopping = false; async function stop() { if (stopping) return; stopping = true; await mf.dispose(); process.exit(0); }
 process.on('SIGINT', stop); process.on('SIGTERM', stop);
+process.stdin.setEncoding('utf8');
+process.stdin.on('data', chunk => { if (chunk.trim() === 'stop') void stop(); });
 await new Promise(() => {});

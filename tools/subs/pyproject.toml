@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "subs-dataset"
+version = "1.0.0"
+description = "Original-first submarine image datasets and portable class-recognition releases"
+requires-python = ">=3.11"
+dependencies = ["Pillow>=12.1,<13"]
+
+[project.scripts]
+subs-dataset = "subs_dataset.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["subs_dataset*"]

@@ -1,0 +1,7 @@
+{
+  "collector": "replace-with-collector-identity",
+  "verified_by": "replace-with-independent-verifier-identity",
+  "verified_at": "REPLACE_WITH_ISO_UTC_TIMESTAMP",
+  "decision": "hold",
+  "class_evidence": []
+}

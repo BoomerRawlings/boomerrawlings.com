@@ -1,8 +1,11 @@
 ---
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { catalog, countries, sources } from '../../data/subs/catalog.mjs';
 const version = (file: string) => createHash('sha256').update(readFileSync(`public/subs/${file}`)).digest('hex').slice(0, 12);
+const rosterPath = 'src/data/subs/active.json';
+const roster = existsSync(rosterPath) ? JSON.parse(readFileSync(rosterPath, 'utf8')) : { snapshot_date: null, classes: [] };
+const rosterJSON = JSON.stringify(roster).replace(/</g, '\\u003c');
 ---
 <!doctype html>
 <html lang="en">
@@ -11,13 +14,15 @@ const version = (file: string) => createHash('sha256').update(readFileSync(`publ
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex,nofollow,noarchive,noimageindex">
     <meta name="referrer" content="no-referrer">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
     <meta name="theme-color" content="#087442">
     <title>SUBS — The secret menu</title>
     <link rel="icon" href="/subs/icon.svg" type="image/svg+xml">
     <link rel="stylesheet" href={`/subs/style.css?v=${version('style.css')}`}>
+    <link rel="stylesheet" href={`/subs/workspace.css?v=${version('workspace.css')}`}>
     <script is:inline src={`/subs/entry.js?v=${version('entry.js')}`} defer></script>
     <script is:inline src={`/subs/catalog.js?v=${version('catalog.js')}`} defer></script>
+    <script is:inline type="module" src={`/subs/workspace.js?v=${version('workspace.js')}`}></script>
   </head>
   <body data-stage="counter">
     <section id="counter" aria-label="The sandwich counter">
@@ -82,13 +87,14 @@ const version = (file: string) => createHash('sha256').update(readFileSync(`publ
     <div id="workspace" hidden inert>
       <header class="archive-header">
         <button id="return-counter" class="archive-brand" type="button" aria-label="SUBS — return to the sandwich counter"><svg viewBox="0 0 40 28" aria-hidden="true"><path d="M8 12H29Q35 12 38 18Q35 24 29 24H8Q3 24 3 18Q3 12 8 12ZM17 12V6H23L27 12M20 6V2H25"/></svg><span>SUBS</span></button>
-        <span class="archive-descriptor">SUBMARINE ARCHIVE</span>
+        <span class="archive-descriptor">SUBMARINE IMAGE DATASET</span>
+        <button type="button" id="owner-open" class="dataset-owner-button">Owner edit mode</button>
         <a class="sources-link" id="open-sources" href="#sources" aria-haspopup="dialog">Sources <span aria-hidden="true">↗</span></a>
       </header>
       <main class="archive-main">
-        <div class="archive-topline mono"><span><i></i> BELOW THE SURFACE</span><span>CATALOG / {catalog.length} DESIGNS</span></div>
+        <div class="archive-topline mono"><span><i></i> BELOW THE SURFACE</span><span>ORIGINALS FIRST / CLASS RECOGNITION</span></div>
         <section class="archive-hero" aria-labelledby="archive-title">
-          <div><p class="mono eyebrow">THE UNDERSEA INDEX</p><h1 id="archive-title" tabindex="-1">Submarine<br><em>catalog.</em></h1><p class="archive-intro">Military classes and unique prototypes.<br>Historical and contemporary, from around the world.</p></div>
+          <div><p class="mono eyebrow">THE UNDERSEA INDEX</p><h1 id="archive-title" tabindex="-1">Submarine<br><em>image archive.</em></h1><p class="archive-intro">A collection built for class recognition.<br>Original photographs. Evidence-backed labels.</p><a class="dataset-agent-link" href="/subs/agent.md">Agent instructions <span aria-hidden="true">↗</span></a></div>
           <figure class="blueprint">
             <svg viewBox="0 0 640 330" role="img" aria-label="Stylized submarine profile, an illustration rather than a specific vessel">
               <defs><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#263831" stroke-width=".6"/></pattern></defs>
@@ -101,8 +107,56 @@ const version = (file: string) => createHash('sha256').update(readFileSync(`publ
             <figcaption class="mono"><span>FIG. 01 — BENEATH THE WATERLINE</span><span>SCHEMATIC / NOT TO SCALE</span></figcaption>
           </figure>
         </section>
-        <section class="collection" aria-labelledby="collection-title">
-          <div class="collection-heading"><h2 id="collection-title">The collection</h2><span class="mono">{catalog.length} TYPES / {countries.length} ORIGINS</span></div>
+        <nav class="dataset-tabs" role="tablist" aria-label="Dataset workspace">
+          <button type="button" role="tab" id="tab-active" data-tab="active" aria-controls="panel-active" aria-selected="true">Active classes</button>
+          <button type="button" role="tab" id="tab-gallery" data-tab="gallery" aria-controls="panel-gallery" aria-selected="false" tabindex="-1">Photographs</button>
+          <button type="button" role="tab" id="tab-releases" data-tab="releases" aria-controls="panel-releases" aria-selected="false" tabindex="-1">Dataset releases</button>
+          <button type="button" role="tab" id="tab-history" data-tab="history" aria-controls="panel-history" aria-selected="false" tabindex="-1">Historical catalog</button>
+        </nav>
+        <div class="dataset-connection"><p id="dataset-status" role="status" aria-live="polite">Connecting to the collection…</p><button type="button" id="dataset-refresh" class="dataset-button">Refresh</button></div>
+        <section id="panel-active" role="tabpanel" aria-labelledby="tab-active" data-panel="active">
+          <div class="dataset-stats" aria-label="Collection progress">
+            <div><span class="mono">FLEET SNAPSHOT</span><strong id="stat-classes">{roster.classes.length || '—'}</strong><p id="snapshot-date">{roster.snapshot_date ? `As of ${roster.snapshot_date}` : 'Verification in progress'}</p></div>
+            <div><span class="mono">CAMERA ORIGINALS</span><strong id="stat-camera">—</strong><p>Approved, unique photographs</p></div>
+            <div><span class="mono">SATELLITE ORIGINALS</span><strong id="stat-satellite">—</strong><p>Supplemental collection</p></div>
+            <div><span class="mono">PER CLASS / CAMERA</span><strong>400<span class="dataset-unit">originals</span></strong><p id="stat-candidates">Candidates awaiting verification</p></div>
+          </div>
+          <div class="dataset-section-heading"><div><h2>The active collection</h2><p>Commissioned military classes and in-service rescue or special-purpose craft at the snapshot date. Counts reflect accepted originals; crops and previews do not add photographs.</p>{roster.coverage_status === 'in_review' && <p>Initial global coverage remains under review. Operator lists include verified examples and may be incomplete.</p>}</div><span class="dataset-pill">{roster.coverage_status === 'in_review' ? 'SNAPSHOT / IN REVIEW' : 'INITIAL SNAPSHOT'}</span></div>
+          <div class="dataset-filters dataset-active-filters">
+            <label>Find a class<input id="active-search" type="search" placeholder="Name, alias, country…" autocomplete="off"></label>
+            <label>Design origin<select id="active-origin"><option value="">All origins</option></select></label>
+            <label class="dataset-check"><input id="active-pilot" type="checkbox">Pilot classes only</label>
+          </div>
+          <p class="dataset-count mono" id="active-count" role="status" aria-live="polite"></p>
+          <div id="active-classes" class="dataset-class-grid"></div>
+          <p id="active-empty" class="dataset-empty" hidden>No matching classes. Clear a filter to widen the collection.</p>
+          <div class="dataset-standard"><span class="mono">WHAT QUALIFIES</span><p>Camera: ≥1,200 px image long edge and ≥400 px along the submarine. Satellite: ≥200 native subject pixels at ≤0.5 m/pixel. Original resolution, usable sharpness, supported identification, and documented permissions are required.</p></div>
+        </section>
+        <section id="panel-gallery" role="tabpanel" aria-labelledby="tab-gallery" data-panel="gallery" hidden>
+          <div class="dataset-section-heading"><div><h2>Originals, with context</h2><p>Previews load here. Inspect a photograph to open its original, provenance, quality checks, and target crop.</p></div></div>
+          <form id="gallery-filters" class="dataset-filters dataset-gallery-filters">
+            <label>Search<input id="photo-search" name="q" type="search" placeholder="Photo, hull, source…" autocomplete="off"></label>
+            <label>Class<select id="photo-class" name="class_id"><option value="">All classes</option></select></label>
+            <label>Domain<select id="photo-domain" name="domain"><option value="">Camera + satellite</option><option value="camera">Camera</option><option value="satellite">Satellite</option></select></label>
+            <label>Rights tier<select id="photo-rights" name="rights_tier"><option value="">Both tiers</option><option value="commercial">Commercial-capable</option><option value="research">Research-only</option></select></label>
+            <label>Variant<input id="photo-variant" name="variant" type="search" list="variant-options" placeholder="Any variant · or Unknown" autocomplete="off"><datalist id="variant-options"></datalist></label>
+            <label>Design origin<select id="photo-origin" name="origin_country"><option value="">All origins</option></select></label>
+            <label>Operator<input id="photo-operator" name="operator_country" type="search" list="operator-options" placeholder="Any country · or Unknown" autocomplete="off"><datalist id="operator-options"></datalist></label>
+            <label>Review status<select id="photo-status" name="status" disabled><option value="">Public accepted photos</option><option value="accepted">Accepted</option><option value="candidate">Candidate</option><option value="held">Held</option><option value="rejected">Rejected</option><option value="quarantined">Quarantined</option></select></label>
+            <div class="dataset-filter-actions"><button type="submit" class="dataset-button">Apply filters</button><button type="button" id="gallery-clear" class="dataset-button dataset-button-quiet">Clear</button></div>
+          </form>
+          <div class="dataset-gallery-heading"><p class="dataset-count mono" id="gallery-count" role="status" aria-live="polite">Open this tab to load photographs.</p><div id="gallery-selection" hidden><label class="dataset-check"><input id="select-page" type="checkbox">Select page</label><button type="button" id="batch-open" class="dataset-button" disabled>Edit selected <span id="selected-count">0</span></button></div></div>
+          <div id="gallery" class="dataset-gallery"></div>
+          <div id="gallery-empty" class="dataset-empty" hidden><h3>No eligible photographs in this view.</h3><p>Collection counts grow only after originals pass rights, quality, duplicate, and identification checks.</p></div>
+          <nav class="dataset-pagination" aria-label="Photograph pages"><button type="button" id="gallery-previous" class="dataset-button" disabled>← Previous</button><span id="gallery-page" class="mono">Page 1</span><button type="button" id="gallery-next" class="dataset-button" disabled>Next →</button></nav>
+        </section>
+        <section id="panel-releases" role="tabpanel" aria-labelledby="tab-releases" data-panel="releases" hidden>
+          <div class="dataset-section-heading"><div><h2>Made for another agent</h2><p>Frozen, machine-readable releases. Camera sets balance eligible classes with 100+ originals per rights tier; satellite sets stay separate. Releases publish provisionally, then receive sample audits.</p></div><a href="/subs/agent.md" class="dataset-button">Read the ingestion guide ↗</a></div>
+          <p id="release-status" class="dataset-count mono" role="status" aria-live="polite"></p><div id="release-list" class="dataset-releases"></div>
+          <button id="releases-more" type="button" class="dataset-button" hidden>Load more releases</button>
+        </section>
+        <section class="collection" id="panel-history" role="tabpanel" aria-labelledby="tab-history" data-panel="history" hidden>
+          <div class="collection-heading"><h2 id="collection-title">The historical catalog</h2><span class="mono">{catalog.length} TYPES / {countries.length} ORIGINS</span></div>
           <p class="catalog-scope">Military classes and unique prototypes that reached construction. Countries identify design origin, not every operating navy. Historical coverage is provisional; civilian craft and paper-only proposals are excluded.</p>
           <div class="catalog-tools">
             <div class="catalog-search"><label for="catalog-search">Find a submarine</label><input id="catalog-search" type="search" placeholder="Search type or country…" autocomplete="off" spellcheck="false"></div>
@@ -118,12 +172,22 @@ const version = (file: string) => createHash('sha256').update(readFileSync(`publ
           <div class="catalog-empty" id="catalog-empty" hidden><h3>No matching designs.</h3><p>Try another name or clear the filters.</p></div>
           <nav class="catalog-pagination" aria-label="Catalog pages"><button id="catalog-previous" type="button">← Previous</button><span id="catalog-page" class="mono"></span><button id="catalog-next" type="button">Next →</button></nav>
         </section>
-        <footer class="archive-footer mono"><span>SUBS / AN UNDERSEA INDEX</span><span>YOU ORDERED WELL.</span></footer>
+        <footer class="archive-footer mono"><span>SUBS / AN UNDERSEA INDEX</span><span>ORIGINALS PRESERVED. SHORTFALLS VISIBLE.</span></footer>
       </main>
       <dialog id="sources" aria-labelledby="sources-title">
         <div class="sources-heading"><h2 id="sources-title">Sources</h2><button id="close-sources" type="button" aria-label="Close sources">Close <span aria-hidden="true">×</span></button></div>
         <ul class="source-urls">{sources.map(url => <li><a href={url} target="_blank" rel="noopener noreferrer">{url}</a></li>)}</ul>
+        <ul class="source-urls" id="dataset-source-urls"></ul><div class="dataset-source-footer"><p id="dataset-source-status" role="status"></p><button type="button" id="sources-more" class="dataset-button">Load dataset sources</button></div>
       </dialog>
+      <dialog id="owner-dialog" class="dataset-dialog dataset-small-dialog" aria-labelledby="owner-title"><div class="dataset-dialog-heading"><h2 id="owner-title">Owner edit mode</h2><button type="button" class="dataset-button" data-close="owner-dialog">Close ×</button></div><form id="owner-form" class="dataset-dialog-body"><p>The edit key authorizes changes and restricted collection reads. It is kept in memory for this session only.</p><label>Owner key<input id="owner-key" type="password" autocomplete="off" spellcheck="false" required></label><button type="submit" class="dataset-button">Enable edit mode</button><button type="button" id="owner-clear" class="dataset-button dataset-button-quiet" hidden>Clear key and leave edit mode</button><p id="owner-status" role="status" aria-live="polite"></p></form></dialog>
+      <dialog id="photo-dialog" class="dataset-dialog dataset-photo-dialog" aria-labelledby="photo-title">
+        <div class="dataset-dialog-heading"><div><p class="mono" id="photo-subtitle"></p><h2 id="photo-title">Photograph</h2></div><button type="button" class="dataset-button" data-close="photo-dialog">Close ×</button></div>
+        <div class="dataset-photo-layout"><div class="dataset-photo-main"><div class="dataset-image-stage" id="photo-stage"><div class="dataset-image-wrap"><img id="inspect-image" alt="Selected submarine photograph"><svg id="crop-overlay" aria-label="Target crop; drag to select a new region in edit mode"><rect id="crop-rectangle" x="0" y="0" width="0" height="0"></rect></svg></div></div><div class="dataset-photo-actions"><button type="button" id="load-original" class="dataset-button">Inspect full-resolution original</button><button type="button" id="native-size" class="dataset-button" aria-pressed="false" disabled>Actual pixels</button><button type="button" id="download-original" class="dataset-button">Download original</button></div><p id="original-status" class="dataset-help" role="status"></p><p id="quality-summary" class="dataset-help"></p><div id="duplicate-panel" class="dataset-duplicates" hidden><h3>Possible duplicates</h3><p class="dataset-help">Compare originals and provenance before resolving a group.</p><div id="duplicate-list"></div></div></div>
+          <aside class="dataset-photo-details"><div id="photo-badges" class="dataset-badges"></div><dl id="photo-metadata" class="dataset-metadata"></dl><div id="photo-evidence" class="dataset-evidence"></div><form id="photo-edit-form" hidden><h3>Correct this record</h3><p class="dataset-help">Corrections return the photograph to verification. A changed crop must be regenerated by the ingestion toolkit.</p><label>Class<select id="edit-class"></select></label><label>Variant<input id="edit-variant" type="text" maxlength="160"></label><label>Operator country<input id="edit-operator" type="text" maxlength="160"></label><label>Hull / vessel<input id="edit-hull" type="text" maxlength="160"></label><label>Capture date<input id="edit-date" type="text" placeholder="YYYY-MM-DD, if known" maxlength="40"></label><label>Viewpoint<input id="edit-viewpoint" type="text" maxlength="120"></label><label>Condition<input id="edit-condition" type="text" placeholder="Surfaced, drydock, museum…" maxlength="120"></label><fieldset class="dataset-crop-fields"><legend>Target crop · original pixels</legend><label>X<input id="crop-x" type="number" min="0" step="1" required></label><label>Y<input id="crop-y" type="number" min="0" step="1" required></label><label>Width<input id="crop-width" type="number" min="1" step="1" required></label><label>Height<input id="crop-height" type="number" min="1" step="1" required></label></fieldset><label>Correction reason<textarea id="edit-reason" rows="2" maxlength="1000" required></textarea></label><button class="dataset-button" type="submit">Save correction</button><div class="dataset-review-actions"><button class="dataset-button dataset-button-quiet" type="button" id="photo-reject">Reject</button><button class="dataset-button dataset-button-quiet" type="button" id="photo-quarantine">Quarantine</button></div></form><p id="photo-action-status" role="status" aria-live="polite"></p></aside></div>
+      </dialog>
+      <dialog id="batch-dialog" class="dataset-dialog dataset-small-dialog" aria-labelledby="batch-title"><div class="dataset-dialog-heading"><h2 id="batch-title">Edit selected photos</h2><button type="button" class="dataset-button" data-close="batch-dialog">Close ×</button></div><form id="batch-form" class="dataset-dialog-body"><p id="batch-summary"></p><label>Action<select id="batch-field"><option value="variant">Set variant</option><option value="operator_country">Set operator country</option><option value="viewpoint">Set viewpoint</option><option value="condition">Set condition</option><option value="reject">Reject photographs</option><option value="quarantine">Quarantine photographs</option></select></label><label id="batch-value-label">Value<input id="batch-value" type="text" maxlength="160"></label><label>Reason<textarea id="batch-reason" rows="3" maxlength="1000" required></textarea></label><p class="dataset-help">Changes use each record’s revision. Conflicting edits are left untouched; corrected records require verification again.</p><button type="submit" class="dataset-button">Apply corrections</button><p id="batch-status" role="status" aria-live="polite"></p></form></dialog>
+      <dialog id="release-dialog" class="dataset-dialog" aria-labelledby="release-title"><div class="dataset-dialog-heading"><h2 id="release-title">Dataset release</h2><button type="button" class="dataset-button" data-close="release-dialog">Close ×</button></div><div class="dataset-dialog-body"><p id="release-description"></p><div id="release-files" class="dataset-release-files"></div><h3>Post-release sample audit</h3><p id="audit-summary" class="dataset-help"></p><div id="audit-item" hidden><p id="audit-item-title"></p><button id="audit-inspect" type="button" class="dataset-button">Inspect sample photograph</button><form id="audit-form"><label>Audit note<textarea id="audit-reason" rows="2" maxlength="1000"></textarea></label><div class="dataset-review-actions"><button type="submit" name="result" value="pass" class="dataset-button">Pass sample</button><button type="submit" name="result" value="fail" class="dataset-button dataset-button-quiet">Fail and quarantine</button></div></form><div class="dataset-pagination"><button id="audit-previous" type="button" class="dataset-button">← Previous sample</button><span id="audit-position" class="mono"></span><button id="audit-next" type="button" class="dataset-button">Next sample →</button></div></div><p id="release-action-status" role="status" aria-live="polite"></p></div></dialog>
+      <script is:inline type="application/json" id="subs-roster" set:html={rosterJSON}></script>
     </div>
   </body>
 </html>

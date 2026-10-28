@@ -1,0 +1,1727 @@
+{
+  "snapshot_date": "2026-10-27",
+  "scope": "Military classes with at least one commissioned boat; operationally inducted military rescue and special-purpose crewed submersibles included. Initial dated evidence snapshot, not a live readiness assessment. Historical entries are separate. Operator lists include only verified evidence and are not exhaustive hull inventories.",
+  "coverage_status": "in_review",
+  "classes": [
+    {
+      "id": "virginia",
+      "name": "Virginia class",
+      "aliases": [],
+      "variants": [
+        "Block I",
+        "Block II",
+        "Block III",
+        "Block IV",
+        "Block V"
+      ],
+      "origin_countries": [
+        "United States"
+      ],
+      "operators": [
+        "United States"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.navy.mil/Resources/Fact-Files/Display-FactFiles/Article/2169558/attack-submarines-ssn/"
+        ]
+      },
+      "historical_types": [
+        "Virginia class"
+      ],
+      "pilot": true
+    },
+    {
+      "id": "los-angeles",
+      "name": "Los Angeles class",
+      "aliases": [],
+      "variants": [
+        "688",
+        "688 VLS",
+        "688i"
+      ],
+      "origin_countries": [
+        "United States"
+      ],
+      "operators": [
+        "United States"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.navy.mil/Resources/Fact-Files/Display-FactFiles/Article/2169558/attack-submarines-ssn/"
+        ]
+      },
+      "historical_types": [
+        "Los Angeles class"
+      ],
+      "pilot": true
+    },
+    {
+      "id": "seawolf",
+      "name": "Seawolf class",
+      "aliases": [],
+      "variants": [
+        "Standard",
+        "Jimmy Carter multi-mission"
+      ],
+      "origin_countries": [
+        "United States"
+      ],
+      "operators": [
+        "United States"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.navy.mil/Resources/Fact-Files/Display-FactFiles/Article/2169558/attack-submarines-ssn/"
+        ]
+      },
+      "historical_types": [
+        "Seawolf class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "ohio",
+      "name": "Ohio class",
+      "aliases": [],
+      "variants": [
+        "SSBN",
+        "SSGN"
+      ],
+      "origin_countries": [
+        "United States"
+      ],
+      "operators": [
+        "United States"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.history.navy.mil/browse-by-topic/communities/submarines.html"
+        ]
+      },
+      "historical_types": [
+        "Ohio class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "astute",
+      "name": "Astute class",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "United Kingdom"
+      ],
+      "operators": [
+        "United Kingdom"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.gov.uk/government/publications/defence-nuclear-enterprise-2026-annual-update-to-parliament/defence-nuclear-enterprise-2026-annual-update-to-parliament"
+        ]
+      },
+      "historical_types": [
+        "Astute class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "vanguard",
+      "name": "Vanguard class",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "United Kingdom"
+      ],
+      "operators": [
+        "United Kingdom"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.gov.uk/government/publications/defence-nuclear-enterprise-2026-annual-update-to-parliament/defence-nuclear-enterprise-2026-annual-update-to-parliament"
+        ]
+      },
+      "historical_types": [
+        "Vanguard class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "type-212a",
+      "name": "Type 212A / Todaro class",
+      "aliases": [],
+      "variants": [
+        "German Batch 1",
+        "German Batch 2",
+        "Todaro"
+      ],
+      "origin_countries": [
+        "Germany",
+        "Italy"
+      ],
+      "operators": [
+        "Germany",
+        "Italy"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.bundeswehr.de/de/organisation/marine/struktur/einsatzflottille-1/1-ubootgeschwader",
+          "https://www.marina.difesa.it/il-tuo-futuro-e-il-mare/carriere/per-professione/Pagine/sommergibilisti_mezzi_su_cui_opererai.aspx"
+        ]
+      },
+      "historical_types": [
+        "Type 212A / Todaro class"
+      ],
+      "pilot": true
+    },
+    {
+      "id": "sauro",
+      "name": "Sauro class",
+      "aliases": [],
+      "variants": [
+        "Series III",
+        "Series IV"
+      ],
+      "origin_countries": [
+        "Italy"
+      ],
+      "operators": [
+        "Italy"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.marina.difesa.it/il-tuo-futuro-e-il-mare/carriere/per-professione/Pagine/sommergibilisti_mezzi_su_cui_opererai.aspx"
+        ]
+      },
+      "historical_types": [
+        "Nazario Sauro class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "rubis",
+      "name": "Rubis class",
+      "aliases": [],
+      "variants": [
+        "AMETHYSTE"
+      ],
+      "origin_countries": [
+        "France"
+      ],
+      "operators": [
+        "France"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000054441250",
+          "https://www.colsbleus.defense.gouv.fr/fr/chesapeake-catherine-vautrin-prend-la-parole"
+        ]
+      },
+      "historical_types": [
+        "Rubis class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "suffren",
+      "name": "Suffren / Barracuda class",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "France"
+      ],
+      "operators": [
+        "France"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.defense.gouv.fr/dga/actualites/dga-livre-marin-nucleaire-dattaque-grasse-marine-nationale-0"
+        ]
+      },
+      "historical_types": [
+        "Suffren / Barracuda class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "triomphant",
+      "name": "Triomphant class",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "France"
+      ],
+      "operators": [
+        "France"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.senat.fr/rap/r25-950/r25-95013.html"
+        ]
+      },
+      "historical_types": [
+        "Le Triomphant class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "oyashio",
+      "name": "Oyashio class",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "Japan"
+      ],
+      "operators": [
+        "Japan"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.mod.go.jp/msdf/en/equipment/",
+          "https://www.mod.go.jp/msdf/sbf/subordinate/index.html"
+        ]
+      },
+      "historical_types": [
+        "Oyashio (1998)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "soryu",
+      "name": "Sōryū class",
+      "aliases": [],
+      "variants": [
+        "Stirling AIP",
+        "Lithium-ion battery"
+      ],
+      "origin_countries": [
+        "Japan"
+      ],
+      "operators": [
+        "Japan"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.mod.go.jp/msdf/en/equipment/",
+          "https://www.mod.go.jp/msdf/sbf/subordinate/index.html"
+        ]
+      },
+      "historical_types": [
+        "Soryu"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "taigei",
+      "name": "Taigei class",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "Japan"
+      ],
+      "operators": [
+        "Japan"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.mod.go.jp/msdf/en/equipment/",
+          "https://www.mod.go.jp/msdf/sbf/subordinate/index.html"
+        ]
+      },
+      "historical_types": [
+        "Taigei"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "collins",
+      "name": "Collins class",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "Australia",
+        "Sweden"
+      ],
+      "operators": [
+        "Australia"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.navy.gov.au/capabilities/ships-boats-and-submarines/hmas-collins"
+        ]
+      },
+      "historical_types": [
+        "Collins (Type 471)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "victoria",
+      "name": "Victoria / Upholder class",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "United Kingdom"
+      ],
+      "operators": [
+        "Canada"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.canada.ca/en/navy/corporate/fleet-units/submarines/victoria-class.html"
+        ]
+      },
+      "historical_types": [
+        "Upholder / Victoria class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "gotland",
+      "name": "Gotland class",
+      "aliases": [],
+      "variants": [
+        "Original",
+        "Mid-life upgrade"
+      ],
+      "origin_countries": [
+        "Sweden"
+      ],
+      "operators": [
+        "Sweden"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.forsvarsmakten.se/om-forsvarsmakten/organisation/forsvarsgrenar-och-forband/marinen/var-vi-finns/forsta-ubatsflottiljen/om-forsta-ubatsflottiljen/ubatar/"
+        ]
+      },
+      "historical_types": [
+        "Gotland class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "sodermanland",
+      "name": "Södermanland class",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "Sweden"
+      ],
+      "operators": [
+        "Sweden"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.forsvarsmakten.se/siteassets/5-organisation/forsta-ubatsflj/forsta-ubatsflottiljen/ubat-typ-sodermanland.pdf"
+        ]
+      },
+      "historical_types": [
+        "Södermanland class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "kilo-877",
+      "name": "Project 877 Paltus / Kilo",
+      "aliases": [],
+      "variants": [
+        "877",
+        "877EKM"
+      ],
+      "origin_countries": [
+        "Soviet Union"
+      ],
+      "operators": [
+        "India",
+        "Russia"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1555672&lang=2&reg=3",
+          "https://seapower.navy.gov.au/publications-and-research/moscows-pacific-trident-submarine-arm-russian-pacific-fleet-early-2025-2030"
+        ]
+      },
+      "historical_types": [
+        "Project 877 Paltus (Kilo)"
+      ],
+      "pilot": true
+    },
+    {
+      "id": "yuan",
+      "name": "Type 039A/B/C / Yuan",
+      "aliases": [],
+      "variants": [
+        "Type 039A",
+        "Type 039B",
+        "Type 039C"
+      ],
+      "origin_countries": [
+        "China"
+      ],
+      "operators": [
+        "China"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://media.defense.gov/2025/Dec/23/2003849070/-1/-1/1/ANNUAL-REPORT-TO-CONGRESS-MILITARY-AND-SECURITY-DEVELOPMENTS-INVOLVING-THE-PEOPLES-REPUBLIC-OF-CHINA-2025.PDF",
+          "https://www.navalnews.com/naval-news/2026/01/chinese-navy-annual-review-2025-part-ii-subs-logistics-rd/"
+        ]
+      },
+      "historical_types": [
+        "Type 039A/B/C (Yuan)"
+      ],
+      "pilot": true
+    },
+    {
+      "id": "ula",
+      "name": "Ula / Type 210",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "Germany",
+        "Norway"
+      ],
+      "operators": [
+        "Norway"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.forsvaret.no/aktuelt-og-presse/aktuelt/ubatprogram-forsvaret"
+        ]
+      },
+      "historical_types": [
+        "Type 210 / Ula class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "s80",
+      "name": "S-80 Plus / Isaac Peral",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "Spain"
+      ],
+      "operators": [
+        "Spain"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.defensa.gob.es/gabinete/notasPrensa/2026/07/DGC-260731-visita-navantia-cartagena.html"
+        ]
+      },
+      "historical_types": [
+        "S-80 Plus / Isaac Peral class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "agosta",
+      "name": "Agosta / Galerna / Hashmat",
+      "aliases": [],
+      "variants": [
+        "Galerna",
+        "Hashmat"
+      ],
+      "origin_countries": [
+        "France"
+      ],
+      "operators": [
+        "Spain",
+        "Pakistan"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://armada.defensa.gob.es/ArmadaPortal/page/Portal/ArmadaEspannola/buquessubmarinos/prefLang-es/03s70--01galerna-s-71"
+        ]
+      },
+      "historical_types": [
+        "Agosta class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "agosta-90b",
+      "name": "Agosta 90B / Khalid",
+      "aliases": [],
+      "variants": [
+        "MESMA AIP",
+        "Modernized"
+      ],
+      "origin_countries": [
+        "France"
+      ],
+      "operators": [
+        "Pakistan"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.navalnews.com/naval-news/2026/09/pakistan-navys-first-hangor-class-submarine-performs-first-live-firing-in-north-arabian-sea/"
+        ]
+      },
+      "historical_types": [
+        "Agosta 90B / Khalid class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "hangor",
+      "name": "Hangor / S26",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "China"
+      ],
+      "operators": [
+        "Pakistan"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.navalnews.com/naval-news/2026/09/pakistan-navys-first-hangor-class-submarine-performs-first-live-firing-in-north-arabian-sea/",
+          "https://www.radio.gov.pk/11-06-2026/first-hangor-class-submarine-pnsm-hangor-arrives-in-karachi"
+        ]
+      },
+      "historical_types": [
+        "Hangor (2024 Chinese export design)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "scorpene",
+      "name": "Scorpène class",
+      "aliases": [],
+      "variants": [
+        "Chilean",
+        "Malaysian",
+        "Kalvari"
+      ],
+      "origin_countries": [
+        "France",
+        "Spain"
+      ],
+      "operators": [
+        "Chile",
+        "Malaysia",
+        "India"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.naval-group.com/sites/default/files/2024-06/Yearbook%20Naval%20Group%202023-2024%20EN_0.pdf"
+        ]
+      },
+      "historical_types": [
+        "Scorpène class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "riachuelo",
+      "name": "Riachuelo class",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "France",
+        "Brazil"
+      ],
+      "operators": [
+        "Brazil"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.naval-group.com/sites/default/files/2025-11/20251127_Delivery%20SBR3%20and%20launching%20SBR4.pdf"
+        ]
+      },
+      "historical_types": [
+        "Riachuelo class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "walrus",
+      "name": "Walrus class",
+      "aliases": [],
+      "variants": [
+        "Original",
+        "Life extension"
+      ],
+      "origin_countries": [
+        "Netherlands"
+      ],
+      "operators": [
+        "Netherlands"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.defensie.nl/onderwerpen/m/materieel/schepen/onderzeeboten"
+        ]
+      },
+      "historical_types": [
+        "Walrus class (1985)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "type-206a",
+      "name": "Type 206A",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "Germany"
+      ],
+      "operators": [
+        "Colombia"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://cimcon.armada.mil.co/sites/default/files/sites/default/files/descargas/pdf/DERROTERO%2017%20V1_compressed.pdf"
+        ]
+      },
+      "historical_types": [
+        "Type 206A"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "type-209",
+      "name": "Type 209",
+      "aliases": [],
+      "variants": [
+        "1100",
+        "1200",
+        "1300",
+        "1400",
+        "1500",
+        "Shishumar",
+        "Jang Bogo",
+        "Cakra"
+      ],
+      "origin_countries": [
+        "Germany"
+      ],
+      "operators": [
+        "Colombia",
+        "Indonesia",
+        "South Korea",
+        "India"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.armada.mil.co/es/node/65041",
+          "https://www.nti.org/analysis/articles/indonesia-submarine-capabilities/",
+          "https://www.nti.org/analysis/articles/south-korea-submarine-capabilities/",
+          "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1555672&lang=2&reg=3"
+        ]
+      },
+      "historical_types": [
+        "Type 209"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "type-214",
+      "name": "Type 214",
+      "aliases": [],
+      "variants": [
+        "Papanikolis",
+        "Son Won-il",
+        "Tridente",
+        "Reis"
+      ],
+      "origin_countries": [
+        "Germany"
+      ],
+      "operators": [
+        "Greece",
+        "South Korea",
+        "Portugal",
+        "Turkey"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.tkmsgroup.com/fileadmin/website/downloads/20250929_TKMS_CMD_Presentation_UPLOAD_vF.pdf"
+        ]
+      },
+      "historical_types": [
+        "Type 214"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "invincible",
+      "name": "Type 218SG / Invincible",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "Germany",
+        "Singapore"
+      ],
+      "operators": [
+        "Singapore"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.mindef.gov.sg/news-and-events/latest-releases/8may25_nr/"
+        ]
+      },
+      "historical_types": [
+        "Type 218SG / Invincible class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "archer",
+      "name": "Archer class",
+      "aliases": [],
+      "variants": [
+        "Tropicalized AIP conversion"
+      ],
+      "origin_countries": [
+        "Sweden"
+      ],
+      "operators": [
+        "Singapore"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.navy.gov.sg/our-forces/submarines/"
+        ]
+      },
+      "historical_types": [
+        "Västergötland class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "kss-iii",
+      "name": "Dosan Ahn Chang-ho / KSS-III",
+      "aliases": [],
+      "variants": [
+        "Batch I",
+        "Batch II"
+      ],
+      "origin_countries": [
+        "South Korea"
+      ],
+      "operators": [
+        "South Korea"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://kookbang.dema.mil.kr/newsWeb/20261007/1/ATCE_CTGR_0010040000/view.do"
+        ]
+      },
+      "historical_types": [
+        "Dosan Ahn Chang-ho (KSS-III)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "nagapasa",
+      "name": "Nagapasa / DSME 1400",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "South Korea"
+      ],
+      "operators": [
+        "Indonesia"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://tnial.mil.id/assets/majalah/PDF-20240913-153619.pdf"
+        ]
+      },
+      "historical_types": [
+        "Nagapasa / DSME 1400 class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "arihant",
+      "name": "Arihant class",
+      "aliases": [],
+      "variants": [
+        "Arihant",
+        "Arighaat",
+        "Enlarged"
+      ],
+      "origin_countries": [
+        "India"
+      ],
+      "operators": [
+        "India"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2049870&lang=2&reg=3"
+        ]
+      },
+      "historical_types": [
+        "Arihant"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "hai-lung",
+      "name": "Hai Lung / Chien Lung",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "Netherlands"
+      ],
+      "operators": [
+        "Taiwan"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.nti.org/analysis/articles/taiwan-submarine-capabilities/"
+        ]
+      },
+      "historical_types": [
+        "Hai Lung / Chien Lung class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "tench",
+      "name": "Tench / Hai Shih",
+      "aliases": [],
+      "variants": [
+        "GUPPY II",
+        "Training"
+      ],
+      "origin_countries": [
+        "United States"
+      ],
+      "operators": [
+        "Taiwan"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.taipeitimes.com/News/taiwan/archives/2026/05/11/2003857122"
+        ]
+      },
+      "historical_types": [
+        "Tench class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "dolphin-i",
+      "name": "Dolphin I",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "Germany",
+        "Israel"
+      ],
+      "operators": [
+        "Israel"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.nti.org/analysis/articles/israel-nuclear-disarmament/"
+        ]
+      },
+      "historical_types": [
+        "Dolphin I class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "dolphin-ii",
+      "name": "Dolphin II",
+      "aliases": [],
+      "variants": [
+        "Tanin",
+        "Drakon"
+      ],
+      "origin_countries": [
+        "Germany",
+        "Israel"
+      ],
+      "operators": [
+        "Israel"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.nti.org/analysis/articles/israel-nuclear-disarmament/"
+        ]
+      },
+      "historical_types": [
+        "Dolphin II class"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "borei",
+      "name": "Project 955 / Borei",
+      "aliases": [],
+      "variants": [
+        "955",
+        "955A"
+      ],
+      "origin_countries": [
+        "Russia"
+      ],
+      "operators": [
+        "Russia"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.naval-review.com/news-views/russian-navy-submarine-force-in-2026/"
+        ]
+      },
+      "historical_types": [
+        "Project 955 Borei"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "delta-iv",
+      "name": "Project 667BDRM / Delta IV",
+      "aliases": [],
+      "variants": [
+        "SSBN",
+        "09787 special-purpose conversion"
+      ],
+      "origin_countries": [
+        "Soviet Union"
+      ],
+      "operators": [
+        "Russia"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.naval-review.com/news-views/russian-navy-submarine-force-in-2026/"
+        ]
+      },
+      "historical_types": [
+        "Project 667BDRM Delfin (Delta IV)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "yasen",
+      "name": "Project 885 / Yasen",
+      "aliases": [],
+      "variants": [
+        "885",
+        "885M"
+      ],
+      "origin_countries": [
+        "Russia"
+      ],
+      "operators": [
+        "Russia"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.naval-review.com/news-views/russian-navy-submarine-force-in-2026/"
+        ]
+      },
+      "historical_types": [
+        "Project 885 Yasen"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "oscar-ii",
+      "name": "Project 949A / Oscar II",
+      "aliases": [],
+      "variants": [
+        "949A",
+        "949AM"
+      ],
+      "origin_countries": [
+        "Soviet Union"
+      ],
+      "operators": [
+        "Russia"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.naval-review.com/news-views/russian-navy-submarine-force-in-2026/"
+        ]
+      },
+      "historical_types": [
+        "Project 949A Antey (Oscar II)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "akula",
+      "name": "Project 971 / Akula",
+      "aliases": [],
+      "variants": [
+        "971",
+        "971M"
+      ],
+      "origin_countries": [
+        "Soviet Union"
+      ],
+      "operators": [
+        "Russia"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.naval-review.com/news-views/russian-navy-submarine-force-in-2026/"
+        ]
+      },
+      "historical_types": [
+        "Project 971 Shchuka-B (Akula)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "sierra-ii",
+      "name": "Project 945A / Sierra II",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "Soviet Union"
+      ],
+      "operators": [
+        "Russia"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.naval-review.com/news-views/russian-navy-submarine-force-in-2026/"
+        ]
+      },
+      "historical_types": [
+        "Project 945A Kondor (Sierra II)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "victor-iii",
+      "name": "Project 671RTM / Victor III",
+      "aliases": [],
+      "variants": [
+        "671RTM",
+        "671RTMK"
+      ],
+      "origin_countries": [
+        "Soviet Union"
+      ],
+      "operators": [
+        "Russia"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.naval-review.com/news-views/russian-navy-submarine-force-in-2026/"
+        ]
+      },
+      "historical_types": [
+        "Project 671RTM / RTMK Shchuka (Victor III)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "kilo-636",
+      "name": "Project 636 / Improved Kilo",
+      "aliases": [],
+      "variants": [
+        "636",
+        "636M",
+        "636.3"
+      ],
+      "origin_countries": [
+        "Soviet Union",
+        "Russia"
+      ],
+      "operators": [
+        "Russia",
+        "China"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.naval-review.com/news-views/russian-navy-submarine-force-in-2026/",
+          "https://www.navalnews.com/naval-news/2026/01/chinese-navy-annual-review-2025-part-ii-subs-logistics-rd/"
+        ]
+      },
+      "historical_types": [
+        "Project 636 Varshavyanka (Improved Kilo)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "lada",
+      "name": "Project 677 / Lada",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "Russia"
+      ],
+      "operators": [
+        "Russia"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.naval-review.com/news-views/russian-navy-submarine-force-in-2026/"
+        ]
+      },
+      "historical_types": [
+        "Project 677 Lada"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "belgorod",
+      "name": "Project 09852 / Belgorod",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "Russia"
+      ],
+      "operators": [
+        "Russia"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://thebulletin.org/premium/2026-05/russian-nuclear-weapons-2026/"
+        ]
+      },
+      "historical_types": [
+        "Project 09852 Belgorod"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "jin",
+      "name": "Type 094 / Jin",
+      "aliases": [],
+      "variants": [
+        "094",
+        "094A"
+      ],
+      "origin_countries": [
+        "China"
+      ],
+      "operators": [
+        "China"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.navalnews.com/naval-news/2026/01/chinese-navy-annual-review-2025-part-ii-subs-logistics-rd/"
+        ]
+      },
+      "historical_types": [
+        "Type 094 (Jin)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "shang",
+      "name": "Type 093 / Shang",
+      "aliases": [],
+      "variants": [
+        "093",
+        "093A",
+        "093B"
+      ],
+      "origin_countries": [
+        "China"
+      ],
+      "operators": [
+        "China"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.navalnews.com/naval-news/2026/01/chinese-navy-annual-review-2025-part-ii-subs-logistics-rd/"
+        ]
+      },
+      "historical_types": [
+        "Type 093 (Shang)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "song",
+      "name": "Type 039 / Song",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "China"
+      ],
+      "operators": [
+        "China"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.navalnews.com/naval-news/2026/01/chinese-navy-annual-review-2025-part-ii-subs-logistics-rd/"
+        ]
+      },
+      "historical_types": [
+        "Type 039 (Song)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "sang-o",
+      "name": "Sang-O",
+      "aliases": [],
+      "variants": [
+        "Sang-O",
+        "Sang-O II"
+      ],
+      "origin_countries": [
+        "North Korea"
+      ],
+      "operators": [
+        "North Korea"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.nti.org/analysis/articles/north-korea-submarine-capabilities/"
+        ]
+      },
+      "historical_types": [
+        "Sang-O"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "yugo",
+      "name": "Yugo",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "North Korea"
+      ],
+      "operators": [
+        "North Korea"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.nti.org/analysis/articles/north-korea-submarine-capabilities/"
+        ]
+      },
+      "historical_types": [
+        "Yugo"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "yono",
+      "name": "Yono",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "North Korea"
+      ],
+      "operators": [
+        "North Korea"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.nti.org/analysis/articles/north-korea-submarine-capabilities/"
+        ]
+      },
+      "historical_types": [
+        "Yono"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "gorae",
+      "name": "Gorae / Sinpo-B",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "North Korea"
+      ],
+      "operators": [
+        "North Korea"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.nti.org/analysis/articles/north-korea-submarine-capabilities/"
+        ]
+      },
+      "historical_types": [
+        "Gorae / Sinpo-B"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "romeo",
+      "name": "Project 633 / Type 033 / Romeo",
+      "aliases": [],
+      "variants": [
+        "Project 633",
+        "Type 033"
+      ],
+      "origin_countries": [
+        "Soviet Union",
+        "China"
+      ],
+      "operators": [
+        "North Korea"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.nti.org/analysis/articles/north-korea-submarine-capabilities/"
+        ]
+      },
+      "historical_types": [
+        "Project 633 (Romeo)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "sinpo-c",
+      "name": "Sinpo-C / Hero Kim Kun Ok",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "North Korea"
+      ],
+      "operators": [
+        "North Korea"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.nti.org/analysis/articles/north-korea-submarine-capabilities/"
+        ]
+      },
+      "historical_types": [
+        "Sinpo-C / Hero Kim Kun Ok"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "nsrs",
+      "name": "NATO Submarine Rescue System / Nemo",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "United Kingdom"
+      ],
+      "operators": [
+        "United Kingdom",
+        "France",
+        "Norway"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.royalnavy.mod.uk/news/2026/april/02/20260402-royal-navy-completes-submarine-trials"
+        ]
+      },
+      "historical_types": [
+        "Nemo (NATO Submarine Rescue System)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "ming",
+      "name": "Type 035 (Ming)",
+      "aliases": [
+        "Ming class",
+        "Type 035G"
+      ],
+      "variants": [
+        "Type 035G"
+      ],
+      "origin_countries": [
+        "China"
+      ],
+      "operators": [
+        "Bangladesh"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://joinnavy.navy.mil.bd/",
+          "https://joinnavy.navy.mil.bd/Platforms/"
+        ]
+      },
+      "historical_types": [
+        "Type 035 (Ming)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "urf",
+      "name": "URF rescue submersible",
+      "aliases": [
+        "Ubatsraddningsfarkost"
+      ],
+      "variants": [],
+      "origin_countries": [
+        "Sweden"
+      ],
+      "operators": [
+        "Sweden"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.fmv.se/aktuellt--press/aktuella-handelser/urf-ater-i-beredskap-efter-omfattande-modifieringar/"
+        ]
+      },
+      "historical_types": [
+        "URF rescue submersible"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "jfd-india-dsrv",
+      "name": "JFD third-generation rescue submersible",
+      "aliases": [
+        "India DSRV",
+        "Tiger X"
+      ],
+      "variants": [],
+      "origin_countries": [
+        "United Kingdom"
+      ],
+      "operators": [
+        "India"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2173604&lang=2&reg=48",
+          "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1551790&lang=2&reg=48"
+        ]
+      },
+      "historical_types": [
+        "JFD third-generation rescue submersible (India DSRV)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "kawasaki-dsrv",
+      "name": "Kawasaki DSRV",
+      "aliases": [
+        "JMSDF rescue submersible"
+      ],
+      "variants": [],
+      "origin_countries": [
+        "Japan"
+      ],
+      "operators": [
+        "Japan"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.mod.go.jp/msdf/equipment/ships/asr/chiyoda/",
+          "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2173604&lang=2&reg=48",
+          "https://www.khi.co.jp/mobility/marine/ships/submarine.html"
+        ]
+      },
+      "historical_types": [
+        "Kawasaki DSRV (JMSDF rescue submersible)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "dsar-500",
+      "name": "DSAR 500 rescue submersible",
+      "aliases": [
+        "Deep Search and Rescue Six",
+        "DSAR 6"
+      ],
+      "variants": [
+        "DSAR 6"
+      ],
+      "origin_countries": [
+        "United Kingdom"
+      ],
+      "operators": [
+        "Singapore"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.mindef.gov.sg/news-and-events/latest-releases/22sep25-nr/",
+          "https://www.navy.gov.sg/our-forces/ships/",
+          "https://www.james-fisher.com/media/wpso1ms3/singapore_subrescue_capability_rv-1.pdf"
+        ]
+      },
+      "historical_types": [
+        "DSAR 500 class rescue submersible"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "dry-combat-submersible",
+      "name": "Dry Combat Submersible",
+      "aliases": [
+        "DCS"
+      ],
+      "variants": [],
+      "origin_countries": [
+        "United States",
+        "United Kingdom"
+      ],
+      "operators": [
+        "United States"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://www.dote.osd.mil/Portals/97/pub/reports/FY2025/ussocom/2025dcs.pdf?ver=Yt68BQfcDlqoSpQIxpHCMw%3D%3D",
+          "https://files.gao.gov/reports/GAO-26-108036/index.html"
+        ]
+      },
+      "historical_types": [
+        "Dry Combat Submersible (DCS)"
+      ],
+      "pilot": false
+    },
+    {
+      "id": "lr5",
+      "name": "LR5 rescue submersible",
+      "aliases": [],
+      "variants": [],
+      "origin_countries": [
+        "United Kingdom"
+      ],
+      "operators": [
+        "Australia"
+      ],
+      "service": {
+        "as_of": "2026-10-27",
+        "status": "commissioned",
+        "evidence": [
+          "https://content.james-fisher.com/news-and-insights/case-studies/submarine-rescue-services-for-the-royal-australian-navy-ran/",
+          "https://www.defence.gov.au/news-events/news/2023-03-07/teamwork-key-submarine-rescue-exercise"
+        ]
+      },
+      "historical_types": [
+        "LR5 rescue submersible"
+      ],
+      "pilot": false
+    }
+  ]
+}
