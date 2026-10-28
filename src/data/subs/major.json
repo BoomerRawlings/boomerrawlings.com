@@ -1,0 +1,2175 @@
+[
+  {
+    "type": "Alligator (1862)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/USS_Alligator_(1862)"
+    ]
+  },
+  {
+    "type": "Holland (SS-1)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/USS_Holland_(SS-1)"
+    ]
+  },
+  {
+    "type": "Plunger class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Plunger-class_submarine"
+    ]
+  },
+  {
+    "type": "B class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/United_States_B-class_submarine"
+    ]
+  },
+  {
+    "type": "C class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/United_States_C-class_submarine"
+    ]
+  },
+  {
+    "type": "D class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/United_States_D-class_submarine"
+    ]
+  },
+  {
+    "type": "E class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/United_States_E-class_submarine"
+    ]
+  },
+  {
+    "type": "F class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/United_States_F-class_submarine"
+    ]
+  },
+  {
+    "type": "G class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/United_States_G-class_submarine"
+    ]
+  },
+  {
+    "type": "H class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/United_States_H-class_submarine"
+    ]
+  },
+  {
+    "type": "K class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/United_States_K-class_submarine"
+    ]
+  },
+  {
+    "type": "L class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/United_States_L-class_submarine"
+    ]
+  },
+  {
+    "type": "M-1",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/USS_M-1"
+    ]
+  },
+  {
+    "type": "N class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/United_States_N-class_submarine"
+    ]
+  },
+  {
+    "type": "O class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/United_States_O-class_submarine"
+    ]
+  },
+  {
+    "type": "AA-1 class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/AA-1-class_submarine"
+    ]
+  },
+  {
+    "type": "R class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/United_States_R-class_submarine"
+    ]
+  },
+  {
+    "type": "R-21 class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/United_States_R-21-class_submarine"
+    ]
+  },
+  {
+    "type": "S class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/United_States_S-class_submarine"
+    ]
+  },
+  {
+    "type": "Barracuda class (1924)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/V-boat#V-1_through_V-3—the_Barracudas"
+    ]
+  },
+  {
+    "type": "Argonaut (SM-1)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/USS_Argonaut_(SM-1)"
+    ]
+  },
+  {
+    "type": "Narwhal class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Narwhal-class_submarine"
+    ]
+  },
+  {
+    "type": "Dolphin (SS-169)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/USS_Dolphin_(SS-169)"
+    ]
+  },
+  {
+    "type": "Cachalot class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Cachalot-class_submarine"
+    ]
+  },
+  {
+    "type": "Porpoise class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/United_States_Porpoise-class_submarine"
+    ]
+  },
+  {
+    "type": "Salmon class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Salmon-class_submarine"
+    ]
+  },
+  {
+    "type": "Sargo class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Sargo-class_submarine"
+    ]
+  },
+  {
+    "type": "Tambor class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Tambor-class_submarine"
+    ]
+  },
+  {
+    "type": "Mackerel class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Mackerel-class_submarine"
+    ]
+  },
+  {
+    "type": "Gato class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Gato-class_submarine"
+    ]
+  },
+  {
+    "type": "Balao class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Balao-class_submarine"
+    ]
+  },
+  {
+    "type": "Tench class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Tench-class_submarine"
+    ]
+  },
+  {
+    "type": "Barracuda class (1951)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/United_States_Barracuda-class_submarine_(1951)"
+    ]
+  },
+  {
+    "type": "Tang class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Tang-class_submarine"
+    ]
+  },
+  {
+    "type": "Grayback class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Grayback-class_submarine"
+    ]
+  },
+  {
+    "type": "Darter (SS-576)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/USS_Darter_(SS-576)"
+    ]
+  },
+  {
+    "type": "Barbel class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Barbel-class_submarine"
+    ]
+  },
+  {
+    "type": "Nautilus (SSN-571)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/USS_Nautilus_(SSN-571)"
+    ]
+  },
+  {
+    "type": "Seawolf (SSN-575)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/USS_Seawolf_(SSN-575)"
+    ]
+  },
+  {
+    "type": "Skate class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Skate-class_submarine"
+    ]
+  },
+  {
+    "type": "Skipjack class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Skipjack-class_submarine"
+    ]
+  },
+  {
+    "type": "Thresher/Permit class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Thresher/Permit-class_submarine"
+    ]
+  },
+  {
+    "type": "Tullibee (SSN-597)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/USS_Tullibee_(SSN-597)"
+    ]
+  },
+  {
+    "type": "Sturgeon class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Sturgeon-class_submarine"
+    ]
+  },
+  {
+    "type": "Narwhal (SSN-671)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/USS_Narwhal_(SSN-671)"
+    ]
+  },
+  {
+    "type": "Glenard P. Lipscomb",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/USS_Glenard_P._Lipscomb"
+    ]
+  },
+  {
+    "type": "Los Angeles class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Los_Angeles-class_submarine",
+      "https://www.navy.mil/Resources/Fact-Files/Display-FactFiles/Article/2169558/attack-submarines-ssn/"
+    ]
+  },
+  {
+    "type": "Seawolf class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Seawolf-class_submarine",
+      "https://www.navy.mil/Resources/Fact-Files/Display-FactFiles/Article/2169558/attack-submarines-ssn/"
+    ]
+  },
+  {
+    "type": "Halibut (SSGN-587)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/USS_Halibut_(SSGN-587)"
+    ]
+  },
+  {
+    "type": "George Washington class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/George_Washington-class_submarine"
+    ]
+  },
+  {
+    "type": "Ethan Allen class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Ethan_Allen-class_submarine"
+    ]
+  },
+  {
+    "type": "Lafayette class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Lafayette-class_submarine"
+    ]
+  },
+  {
+    "type": "James Madison class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/James_Madison-class_submarine"
+    ]
+  },
+  {
+    "type": "Benjamin Franklin class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Benjamin_Franklin-class_submarine"
+    ]
+  },
+  {
+    "type": "Ohio class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Ohio-class_submarine"
+    ]
+  },
+  {
+    "type": "NR-1",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/American_submarine_NR-1"
+    ]
+  },
+  {
+    "type": "Albacore (AGSS-569)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/USS_Albacore_(AGSS-569)"
+    ]
+  },
+  {
+    "type": "T-1 class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/T-1-class_submarine"
+    ]
+  },
+  {
+    "type": "Sailfish class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Sailfish-class_submarine"
+    ]
+  },
+  {
+    "type": "Triton (SSRN-586)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/USS_Triton_(SSRN-586)"
+    ]
+  },
+  {
+    "type": "Dolphin (AGSS-555)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/USS_Dolphin_(AGSS-555)"
+    ]
+  },
+  {
+    "type": "Virginia class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Virginia-class_submarine",
+      "https://www.navy.mil/Resources/Fact-Files/Display-FactFiles/Article/2169558/attack-submarines-ssn/"
+    ]
+  },
+  {
+    "type": "Columbia class",
+    "country": "United States",
+    "status": "under construction",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_United_States_Navy",
+      "https://en.wikipedia.org/wiki/Columbia-class_submarine"
+    ]
+  },
+  {
+    "type": "Holland class (Royal Navy)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Holland-class_submarine"
+    ]
+  },
+  {
+    "type": "A class (1903)",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/A-class_submarine_(1903)"
+    ]
+  },
+  {
+    "type": "B class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_B-class_submarine"
+    ]
+  },
+  {
+    "type": "C class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_C-class_submarine"
+    ]
+  },
+  {
+    "type": "D class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_D-class_submarine"
+    ]
+  },
+  {
+    "type": "E class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_E-class_submarine"
+    ]
+  },
+  {
+    "type": "F class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_F-class_submarine"
+    ]
+  },
+  {
+    "type": "S class (1914)",
+    "country": "Italy / United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_S-class_submarine_(1914)"
+    ]
+  },
+  {
+    "type": "V class (1914)",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_V-class_submarine_(1914)"
+    ]
+  },
+  {
+    "type": "W class",
+    "country": "France / United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_W-class_submarine"
+    ]
+  },
+  {
+    "type": "G class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_G-class_submarine"
+    ]
+  },
+  {
+    "type": "H class (Royal Navy, Holland 602)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_H-class_submarine"
+    ]
+  },
+  {
+    "type": "J class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_J-class_submarine"
+    ]
+  },
+  {
+    "type": "L class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_L-class_submarine"
+    ]
+  },
+  {
+    "type": "M class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_M-class_submarine"
+    ]
+  },
+  {
+    "type": "Nautilus (1914)",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/HMS_Nautilus_(1914)"
+    ]
+  },
+  {
+    "type": "R class (1918)",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_R-class_submarine"
+    ]
+  },
+  {
+    "type": "X1 cruiser submarine",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/HMS_X1"
+    ]
+  },
+  {
+    "type": "Odin / O class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Odin-class_submarine"
+    ]
+  },
+  {
+    "type": "Parthian class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Parthian-class_submarine"
+    ]
+  },
+  {
+    "type": "Rainbow class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Rainbow-class_submarine"
+    ]
+  },
+  {
+    "type": "S class (1931)",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_S-class_submarine_(1931)"
+    ]
+  },
+  {
+    "type": "River / Thames class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/River-class_submarine"
+    ]
+  },
+  {
+    "type": "Grampus class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Grampus-class_submarine"
+    ]
+  },
+  {
+    "type": "T class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_T-class_submarine"
+    ]
+  },
+  {
+    "type": "U class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_U-class_submarine"
+    ]
+  },
+  {
+    "type": "Oruç Reis / P611 class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Oruç_Reis-class_submarine"
+    ]
+  },
+  {
+    "type": "V class (1943)",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_V-class_submarine"
+    ]
+  },
+  {
+    "type": "Amphion / A class (1945)",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Amphion-class_submarine"
+    ]
+  },
+  {
+    "type": "Explorer class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Explorer-class_submarine"
+    ]
+  },
+  {
+    "type": "Stickleback / X51 class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Stickleback-class_submarine"
+    ]
+  },
+  {
+    "type": "Porpoise class (1956)",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_Porpoise-class_submarine"
+    ]
+  },
+  {
+    "type": "Oberon class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Oberon-class_submarine"
+    ]
+  },
+  {
+    "type": "Upholder / Victoria class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Upholder-class_submarine"
+    ]
+  },
+  {
+    "type": "X class midget",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/X-class_submarine"
+    ]
+  },
+  {
+    "type": "XE class midget",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/XE-class_submarine"
+    ]
+  },
+  {
+    "type": "LR5 rescue submersible",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/LR5"
+    ]
+  },
+  {
+    "type": "Swordfish (1916)",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/HMS_Swordfish_(1916)"
+    ]
+  },
+  {
+    "type": "K class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/British_K-class_submarine"
+    ]
+  },
+  {
+    "type": "Dreadnought (S101)",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/HMS_Dreadnought_(S101)"
+    ]
+  },
+  {
+    "type": "Valiant class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Valiant-class_submarine"
+    ]
+  },
+  {
+    "type": "Churchill class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Churchill-class_submarine"
+    ]
+  },
+  {
+    "type": "Swiftsure class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Swiftsure-class_submarine"
+    ]
+  },
+  {
+    "type": "Trafalgar class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Trafalgar-class_submarine"
+    ]
+  },
+  {
+    "type": "Astute class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Astute-class_submarine"
+    ]
+  },
+  {
+    "type": "Resolution class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Resolution-class_submarine"
+    ]
+  },
+  {
+    "type": "Vanguard class",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Vanguard-class_submarine"
+    ]
+  },
+  {
+    "type": "Dreadnought class (SSBN)",
+    "country": "United Kingdom",
+    "status": "under construction",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes_of_the_Royal_Navy",
+      "https://en.wikipedia.org/wiki/Dreadnought-class_submarine"
+    ]
+  },
+  {
+    "type": "Delfin (1902)",
+    "country": "Russian Empire",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Kasatka class",
+    "country": "Russian Empire",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Som class (Holland type VII)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes",
+      "https://en.wikipedia.org/wiki/Som-class_submarine"
+    ]
+  },
+  {
+    "type": "Osetr / Protector class",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes",
+      "https://en.wikipedia.org/wiki/Osetr-class_submarine"
+    ]
+  },
+  {
+    "type": "Pochtovy",
+    "country": "Russian Empire",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Minoga",
+    "country": "Russian Empire",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Akula (1908)",
+    "country": "Russian Empire",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Kaiman class",
+    "country": "United States / Russian Empire",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes",
+      "https://en.wikipedia.org/wiki/Kaiman-class_submarine"
+    ]
+  },
+  {
+    "type": "Morzh class",
+    "country": "Russian Empire",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Narval class (Holland 31A)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes",
+      "https://en.wikipedia.org/wiki/Russian_Narval-class_submarine"
+    ]
+  },
+  {
+    "type": "Krab minelayer",
+    "country": "Russian Empire",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Bars class",
+    "country": "Russian Empire",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Dekabrist / D class (Series I)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Leninets / L class (Series II, XI, XIII)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Shchuka / Shch class (Series III, V, X)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Pravda / P class (Series IV)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Malyutka / M class (Series VI, VI-bis, XII, XV)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Srednyaya / S class (Series IX, IX-bis)",
+    "country": "Germany / Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Katyusha / K class (Series XIV)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 611 (Zulu)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 613 (Whiskey)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 615 / A615 (Quebec)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 617 (Whale)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 633 (Romeo)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 641 (Foxtrot)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 641B Som (Tango)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 690 Kefal (Bravo)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 877 Paltus (Kilo)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 636 Varshavyanka (Improved Kilo)",
+    "country": "Soviet Union / Russia",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 677 Lada",
+    "country": "Soviet Union / Russia",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 865 Piranha (Losos)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project P613 (Whiskey Single Cylinder)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 644 (Whiskey Twin Cylinder)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 665 (Whiskey Long Bin)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 651 (Juliett)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project V611 / AV611 (Zulu ballistic-missile conversion)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 629 (Golf I)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 629A (Golf II)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 601 (Golf III)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 605 (Golf IV)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 619 (Golf V)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 940 Lenok (India)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 1710 Makrel (Beluga)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 1840 (Lima)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 627 / 627A Kit (November)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 645 Kit-ZhMT",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 671 Yorsh (Victor I)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 671RT Syomga (Victor II)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 671RTM / RTMK Shchuka (Victor III)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 705 / 705K Lira (Alfa)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 945 Barrakuda (Sierra I)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 945A Kondor (Sierra II)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 685 Plavnik (Mike)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 971 Shchuka-B (Akula)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 885 Yasen",
+    "country": "Soviet Union / Russia",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 659 (Echo I)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 675 (Echo II)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 661 Anchar (Papa)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 667AT Grusha (Yankee Notch)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 667M Andromeda (Yankee Sidecar)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 670 Skat (Charlie I)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 670M Skat-M (Charlie II)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 949 Granit (Oscar I)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 949A Antey (Oscar II)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 658 / 658M (Hotel I / II)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 701 (Hotel III)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 667A / 667AU Navaga (Yankee I)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 667AM Navaga-M (Yankee II)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 667B Murena (Delta I)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 667BD Murena-M (Delta II)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 667BDR Kalmar (Delta III)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 667BDRM Delfin (Delta IV)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 941 Akula (Typhoon)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 955 Borei",
+    "country": "Soviet Union / Russia",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 955A Borei-A",
+    "country": "Russia",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 1910 Kashalot (Uniform)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 09780 Akson-2 (Yankee Big Nose)",
+    "country": "Soviet Union / Russia",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Project 20120 Sarov",
+    "country": "Soviet Union / Russia",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_Soviet_and_Russian_submarine_classes"
+    ]
+  },
+  {
+    "type": "Turtle (1775)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://www.history.navy.mil/research/histories/ship-histories/danfs/t/turtle-i.html"
+    ]
+  },
+  {
+    "type": "Pioneer (1862)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://www.hunley.org/naval-innovation/"
+    ]
+  },
+  {
+    "type": "American Diver (1863)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://www.hunley.org/naval-innovation/"
+    ]
+  },
+  {
+    "type": "H. L. Hunley (1863)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://www.hunley.org/the-hunley-is-born/"
+    ]
+  },
+  {
+    "type": "Intelligent Whale",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://www.history.navy.mil/research/histories/ship-histories/danfs/i/intelligent-whale-sub.html"
+    ]
+  },
+  {
+    "type": "Holland I",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Holland_I"
+    ]
+  },
+  {
+    "type": "Fenian Ram (Holland II)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Fenian_Ram"
+    ]
+  },
+  {
+    "type": "Holland III",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Holland_III"
+    ]
+  },
+  {
+    "type": "Zalinski Boat (Holland IV)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Zalinski_Boat"
+    ]
+  },
+  {
+    "type": "Plunger (Holland V, 1897)",
+    "country": "United States",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/USS_Plunger_(1897)"
+    ]
+  },
+  {
+    "type": "Resurgam I (1878)",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Resurgam"
+    ]
+  },
+  {
+    "type": "Resurgam II (1879)",
+    "country": "United Kingdom",
+    "status": "built",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Resurgam"
+    ]
+  },
+  {
+    "type": "Project 95 (M-401)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_95.htm"
+    ]
+  },
+  {
+    "type": "Project 907 Triton-1M",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_907.htm"
+    ]
+  },
+  {
+    "type": "Project 908 Triton-2",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_908.htm"
+    ]
+  },
+  {
+    "type": "Project 1832 Poisk-2",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_1832.htm"
+    ]
+  },
+  {
+    "type": "Project 1837 rescue submersible",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_1837.htm"
+    ]
+  },
+  {
+    "type": "Project 1839 underwater-work submersible",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_1839.htm"
+    ]
+  },
+  {
+    "type": "Project 1855 Priz rescue submersible",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_1855.htm"
+    ]
+  },
+  {
+    "type": "Project 1906 Poisk-6",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_1906.htm"
+    ]
+  },
+  {
+    "type": "Project 1851 Almaz / Nelma (X-ray)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_1851.htm"
+    ]
+  },
+  {
+    "type": "Project 18511 Paltus (Norsub)",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_1851.htm"
+    ]
+  },
+  {
+    "type": "Project 648 transport submarine",
+    "country": "Soviet Union",
+    "status": "construction canceled",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_648.htm"
+    ]
+  },
+  {
+    "type": "Project 664 transport / minelaying submarine",
+    "country": "Soviet Union",
+    "status": "construction canceled",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_664.htm"
+    ]
+  },
+  {
+    "type": "Project 10831 Losharik",
+    "country": "Soviet Union / Russia",
+    "status": "built",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_10831.htm"
+    ]
+  },
+  {
+    "type": "Project 16810 Rus",
+    "country": "Russia",
+    "status": "built",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_16810.htm"
+    ]
+  },
+  {
+    "type": "Project 16811 Consul",
+    "country": "Russia",
+    "status": "built",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_16810.htm"
+    ]
+  },
+  {
+    "type": "Project 18270 Bester rescue submersible",
+    "country": "Soviet Union / Russia",
+    "status": "built",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_18270.htm"
+    ]
+  },
+  {
+    "type": "Project 18271 Bester-1 rescue submersible",
+    "country": "Russia",
+    "status": "built",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_18270.htm"
+    ]
+  },
+  {
+    "type": "Project 21310 Triton-NN",
+    "country": "Russia",
+    "status": "built",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_triton_nn.htm"
+    ]
+  },
+  {
+    "type": "Project 09851 Khabarovsk",
+    "country": "Russia",
+    "status": "under construction",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_09851.htm"
+    ]
+  },
+  {
+    "type": "Project 18200 Sergey Bavilin",
+    "country": "Russia",
+    "status": "under construction",
+    "sources": [
+      "https://russianships.info/eng/submarines/",
+      "https://russianships.info/eng/submarines/project_18200.htm",
+      "https://admship.ru/press/news/ao-admiralteyskie-verfi-zalozhili-avtonomnyy-glubokovodnyy-apparat-sergey-bavilin/"
+    ]
+  },
+  {
+    "type": "Flach (1866)",
+    "country": "Chile",
+    "sources": [
+      "https://www.armada.cl/noticias-navales/armada-inicio-busqueda-del-submarino-flach"
+    ],
+    "status": "built"
+  },
+  {
+    "type": "Toro Submarino (1879)",
+    "country": "Peru",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Toro_Submarino"
+    ],
+    "status": "built"
+  },
+  {
+    "type": "Hipopotamo (1838)",
+    "country": "Ecuador",
+    "sources": [
+      "https://ventanillavirtual.armada.mil.co/sites/default/files/fuerza_submarina_2.pdf"
+    ],
+    "status": "built"
+  },
+  {
+    "type": "Tikuna class",
+    "country": "Germany / Brazil",
+    "sources": [
+      "https://www.marinha.mil.br/prosub/sites/www.marinha.mil.br.prosub/files/livro_submarino.pdf"
+    ],
+    "status": "built"
+  },
+  {
+    "type": "Riachuelo class",
+    "country": "France / Brazil",
+    "sources": [
+      "https://www.gov.br/mme/pt-br/assuntos/orgaos-vinculados/nuclep/produtos-e-servicos/setor-de-defesa"
+    ],
+    "status": "built"
+  },
+  {
+    "type": "Delfin (Cuban midget submarine)",
+    "country": "Cuba (disputed)",
+    "sources": [
+      "https://news.usni.org/2021/05/17/new-photos-reveal-details-of-cubas-tiny-lethal-attack-submarine",
+      "https://navypedia.org/ships/cuba/cub_ss_delfin.htm"
+    ],
+    "note": "Origin disputed: USNI describes a Cuban design; Navypedia attributes a North Korean design built in Cuba.",
+    "status": "built"
+  },
+  {
+    "type": "Mystic class (DSRV)",
+    "country": "United States",
+    "sources": [
+      "https://www.history.navy.mil/content/history/museums/nmusn/explore/photography/underwater-search-and-recovery-equipment/mystic-dsrv-1.html",
+      "https://www.navsource.net/archives/08/08545.htm"
+    ],
+    "status": "built"
+  },
+  {
+    "type": "Advanced SEAL Delivery System (ASDS)",
+    "country": "United States",
+    "sources": [
+      "https://www.gao.gov/assets/a261269.html"
+    ],
+    "status": "built"
+  },
+  {
+    "type": "Mark 7 SEAL Delivery Vehicle",
+    "country": "United States",
+    "sources": [
+      "https://www.navysealmuseum.org/exhibits/seal-delivery-vehicles-sdv-manned-submersibles-for-special-operations",
+      "https://navalunderseamuseum.org/mk7-sdv/"
+    ],
+    "status": "built"
+  },
+  {
+    "type": "Mark 8 SEAL Delivery Vehicle",
+    "country": "United States",
+    "sources": [
+      "https://www.navysealmuseum.org/exhibits/seal-delivery-vehicles-sdv-manned-submersibles-for-special-operations"
+    ],
+    "status": "built"
+  },
+  {
+    "type": "Mark 9 SEAL Delivery Vehicle",
+    "country": "United States",
+    "sources": [
+      "https://www.navysealmuseum.org/exhibits/seal-delivery-vehicles-sdv-manned-submersibles-for-special-operations"
+    ],
+    "status": "built"
+  },
+  {
+    "type": "Mark 11 Shallow Water Combat Submersible",
+    "country": "United States",
+    "sources": [
+      "https://www.socom.mil/SOF-ATL/Documents/vSOFIC-2020/1530-1630_PEO_Maritime_Overview_CAPT_Dolloff.pdf"
+    ],
+    "status": "built"
+  },
+  {
+    "type": "Dry Combat Submersible (DCS)",
+    "country": "United States / United Kingdom",
+    "sources": [
+      "https://news.lockheedmartin.com/2023-07-24-US-SOCOM-Declares-Initial-Operational-Capability-for-Lockheed-Martins-New-Dry-Combat-Submersible",
+      "https://www.lockheedmartin.com/en-us/products/manned-combat-submersible.html",
+      "https://www.janes.com/defence-intelligence-insights/defence-news/industry/ussocom-declares-ioc-for-new-dry-combat-submersible"
+    ],
+    "status": "built"
+  },
+  {
+    "type": "Remora submarine rescue vehicle",
+    "country": "Canada",
+    "sources": [
+      "https://oceanworks.com/our-business/military/military-project-samples/",
+      "https://www.anao.gov.au/work/performance-audit/management-collins-class-operations-sustainment"
+    ],
+    "status": "built"
+  },
+  {
+    "type": "Falcon pressurized rescue module (PRMS)",
+    "country": "Canada / United States",
+    "sources": [
+      "https://oceanworks.com/our-business/military/military-project-samples/",
+      "https://ismerlo.org/rescue-systems/usa-rescue-systems/"
+    ],
+    "status": "built"
+  },
+  {
+    "type": "LR7 rescue submersible",
+    "country": "United Kingdom",
+    "sources": [
+      "https://www.81.mil.cn/yw_208727/16437400.html"
+    ],
+    "status": "built"
+  },
+  {
+    "type": "DSAR 500 class rescue submersible",
+    "country": "United Kingdom",
+    "sources": [
+      "https://www.investegate.co.uk/announcement/rns/fisher-james-sons--fsj/re-singaporean-rescue-submers/1741067",
+      "https://www.james-fisher.com/media/wpso1ms3/singapore_subrescue_capability_rv-1.pdf"
+    ],
+    "status": "built"
+  },
+  {
+    "status": "built",
+    "type": "CC class (Holland 19E / 19B)",
+    "country": "United States",
+    "sources": [
+      "https://www.gwpda.org/naval/hpatsubs.htm",
+      "https://en.wikipedia.org/wiki/CC-class_submarine"
+    ]
+  },
+  {
+    "status": "built",
+    "type": "Nikonov's secret vessel (1724)",
+    "country": "Russian Empire",
+    "sources": [
+      "https://navalmuseum.ru/filials/narodovolec/news?id=2771",
+      "https://eng.navalmuseum.ru/filials/baltic_fleet/4"
+    ]
+  },
+  {
+    "status": "built",
+    "type": "Schilder submarine (1834)",
+    "country": "Russian Empire",
+    "sources": [
+      "https://ar.culture.ru/en/subject/podvodnaya-lodka-konstrukcii-k-a-shildera",
+      "https://eng.navalmuseum.ru/filials/baltic_fleet/4"
+    ]
+  },
+  {
+    "status": "built",
+    "type": "Aleksandrovsky submarine (1865)",
+    "country": "Russian Empire",
+    "sources": [
+      "https://www.smtu.ru/file/pages/170/zkv_01_2559_jan_2017_web.pdf",
+      "https://rgakfd.ru/funds/145/stroitelstvo-podvodnyh-lodok"
+    ]
+  },
+  {
+    "status": "built",
+    "type": "Dzhevetsky submarines (1881)",
+    "country": "Russian Empire",
+    "sources": [
+      "https://special.navalmuseum.ru/collection/ship/modeli?id=1210"
+    ]
+  },
+  {
+    "status": "construction canceled",
+    "type": "Project 945AB Mars (Sierra III)",
+    "country": "Soviet Union",
+    "sources": [
+      "https://russianships.info/eng/submarines/project_945.htm"
+    ]
+  },
+  {
+    "status": "built",
+    "type": "Project 885M / 08851 Yasen-M",
+    "country": "Russia",
+    "sources": [
+      "https://russianships.info/eng/submarines/project_885.htm",
+      "https://www.sevmash.ru/download/GO%20Sevmash_2017.pdf"
+    ]
+  },
+  {
+    "status": "built",
+    "type": "Project 09852 Belgorod",
+    "country": "Russia",
+    "sources": [
+      "https://russianships.info/eng/submarines/project_949.htm",
+      "https://www.sevmash.ru/download/GO%20Sevmash_2017.pdf"
+    ]
+  },
+  {
+    "status": "built",
+    "type": "Nemo (NATO Submarine Rescue System)",
+    "country": "United Kingdom",
+    "sources": [
+      "https://www.royalnavy.mod.uk/news/2025/march/07/250307-submarine-rescuers-practise-critical-skills",
+      "https://en.wikipedia.org/wiki/NATO_Submarine_Rescue_System"
+    ]
+  },
+  {
+    "status": "built",
+    "type": "JFD third-generation rescue submersible (India DSRV)",
+    "country": "United Kingdom",
+    "sources": [
+      "https://content.james-fisher.com/news-and-insights/case-studies/world-leading-submarine-rescue-capability-for-the-indian-navy/"
+    ]
+  },
+  {
+    "type": "Drebbel submarine prototypes (1620)",
+    "country": "England",
+    "status": "built",
+    "sources": [
+      "https://utmsi.utexas.edu/science-and-the-sea/radio-program/first-submarine/"
+    ]
+  },
+  {
+    "type": "APSS experimental midget submarine",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://admship.ru/production/archive/spravochnik-proektov-podvodnykh-lodok-postroennykh-na-admiralteyskikh-verfyakh/proekt-ostekhbyuro/",
+      "https://aokmp.ru/wp-content/uploads/2023/06/1_2023_light-1.pdf"
+    ]
+  },
+  {
+    "type": "Pygmy / Pigmei experimental midget submarine",
+    "country": "Soviet Union",
+    "status": "built",
+    "sources": [
+      "https://admship.ru/production/archive/spravochnik-proektov-podvodnykh-lodok-postroennykh-na-admiralteyskikh-verfyakh/proekt-ostekhbyuro/",
+      "https://aokmp.ru/wp-content/uploads/2023/06/1_2023_light-1.pdf"
+    ]
+  },
+  {
+    "type": "Matros Pyotr Koshka (experimental midget)",
+    "country": "Russian Empire",
+    "sources": [
+      "https://www.navypedia.org/ships/russia/ru_ss_matros_pyotr_koshka.htm"
+    ],
+    "note": "Physical Kolbasyev military prototype completed but not commissioned; source dates completion to 1904."
+  }
+]

@@ -1,0 +1,809 @@
+[
+  {
+    "type": "Kaichu I (Ro-11)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kaichu II (Ro-13)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kaichu III (Ro-16)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kaichu IV (Ro-26)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kaichu V / Toku-Chu (Ro-29)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kaichu VI (Ro-33)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kaichu VII (Ro-35)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kaidai I / KD1 (I-51)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kaidai II / KD2 (I-152)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kaidai IIIa / KD3a (I-153)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kaidai IIIb / KD3b (I-156)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kaidai IV / KD4 (I-162)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kaidai V / KD5 (I-165)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kaidai VIa / KD6a (I-168)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kaidai VIb / KD6b (I-174)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kaidai VII / KD7 (I-176)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Junsen I / J1 (I-1)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Junsen I Modified / J1M (I-5)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Junsen II / J2 (I-6)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Junsen III / J3 (I-7)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Type A1 (I-9)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Type A2 (I-12)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Type AM (I-13)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Type B1 (I-15)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Type B2 (I-40)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Type B3 (I-54)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Type C1 (I-16)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Type C2 (I-46)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Type C3 (I-52)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Type D1 / Sen-Yu (I-361)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Type D2 (I-373)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kiraisen / KRS (I-121)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Sen-Ho (I-351)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Sen-Toku (I-400)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Sen-Taka (I-201)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kaisho / Type KS (Ro-100)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Sen-Yu-Ko (Ha-101)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Sen-Taka-Ko (Ha-201)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Ko-Hyoteki Type A",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Ko-Hyoteki Type B (Ha-53)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Ko-Hyoteki Type C",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Koryu / Ko-Hyoteki Type D",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "Kairyu",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy",
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/j/japanese-naval-shipbuilding.html"
+    ]
+  },
+  {
+    "type": "No. 71 (high-speed experimental submarine)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarine_No.71",
+      "https://navypedia.org/ships/japan/jap_ss_71.htm"
+    ]
+  },
+  {
+    "type": "Vickers-Kawasaki (Ha-6 / No. 13)",
+    "country": "Japan",
+    "sources": [
+      "https://navypedia.org/ships/japan/jap_ss_vickers_kawasaki.htm",
+      "https://naval-encyclopedia.com/ww1/japan/submersibles.php"
+    ],
+    "note": "Japanese experimental derivative of the British C-type design; distinct from imported/licensed C-class boats."
+  },
+  {
+    "type": "Yu I / Type 3 transport submarine (Maru Yu)",
+    "country": "Japan",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Japanese_submarine_Yu_1",
+      "https://navypedia.org/ships/japan/jap_submarines.htm"
+    ],
+    "note": "Builder-numbered Yu 1, Yu 1001, Yu 2001 and Yu 3001 series grouped as the Army Type 3 transport family."
+  },
+  {
+    "type": "M-Kanamono (experimental minelayer)",
+    "country": "Japan",
+    "sources": [
+      "https://navypedia.org/ships/japan/jap_aux_m_kanamono.htm"
+    ],
+    "note": "One physical experimental boat reported; no operational service claimed."
+  },
+  {
+    "type": "Oyashio (SS-511, 1960)",
+    "country": "Japan",
+    "sources": [
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.mod.go.jp/msdf/equipment/ships/index3.html",
+      "https://global.kawasaki.com/en/history/business/ship.html",
+      "https://www.mod.go.jp/atla/research/dts2012/R2-2p.pdf"
+    ]
+  },
+  {
+    "type": "Hayashio",
+    "country": "Japan",
+    "sources": [
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.mod.go.jp/msdf/equipment/ships/index3.html",
+      "https://global.kawasaki.com/en/history/business/ship.html",
+      "https://www.mod.go.jp/atla/research/dts2012/R2-2p.pdf"
+    ]
+  },
+  {
+    "type": "Natsushio",
+    "country": "Japan",
+    "sources": [
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.mod.go.jp/msdf/equipment/ships/index3.html",
+      "https://global.kawasaki.com/en/history/business/ship.html",
+      "https://www.mod.go.jp/atla/research/dts2012/R2-2p.pdf"
+    ]
+  },
+  {
+    "type": "Oshio",
+    "country": "Japan",
+    "sources": [
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.mod.go.jp/msdf/equipment/ships/index3.html",
+      "https://global.kawasaki.com/en/history/business/ship.html",
+      "https://www.mod.go.jp/atla/research/dts2012/R2-2p.pdf"
+    ]
+  },
+  {
+    "type": "Asashio (1966)",
+    "country": "Japan",
+    "sources": [
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.mod.go.jp/msdf/equipment/ships/index3.html",
+      "https://global.kawasaki.com/en/history/business/ship.html",
+      "https://en.wikipedia.org/wiki/Asashio-class_submarine",
+      "https://www.mod.go.jp/atla/research/dts2012/R2-2p.pdf"
+    ]
+  },
+  {
+    "type": "Uzushio",
+    "country": "Japan",
+    "sources": [
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.mod.go.jp/msdf/equipment/ships/index3.html",
+      "https://global.kawasaki.com/en/history/business/ship.html",
+      "https://www.mod.go.jp/atla/research/dts2012/R2-2p.pdf"
+    ]
+  },
+  {
+    "type": "Yushio",
+    "country": "Japan",
+    "sources": [
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.mod.go.jp/msdf/equipment/ships/index3.html",
+      "https://global.kawasaki.com/en/history/business/ship.html",
+      "https://www.mod.go.jp/atla/research/dts2012/R2-2p.pdf"
+    ]
+  },
+  {
+    "type": "Harushio",
+    "country": "Japan",
+    "sources": [
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.mod.go.jp/msdf/equipment/ships/index3.html",
+      "https://global.kawasaki.com/en/history/business/ship.html",
+      "https://www.mod.go.jp/atla/research/dts2012/R2-2p.pdf"
+    ]
+  },
+  {
+    "type": "Oyashio (1998)",
+    "country": "Japan",
+    "sources": [
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.mod.go.jp/msdf/equipment/ships/index3.html",
+      "https://global.kawasaki.com/en/history/business/ship.html",
+      "https://www.mod.go.jp/atla/research/dts2012/R2-2p.pdf"
+    ]
+  },
+  {
+    "type": "Soryu",
+    "country": "Japan",
+    "sources": [
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.mod.go.jp/msdf/equipment/ships/index3.html",
+      "https://global.kawasaki.com/en/history/business/ship.html",
+      "https://www.mod.go.jp/atla/research/dts2012/R2-2p.pdf"
+    ]
+  },
+  {
+    "type": "Taigei",
+    "country": "Japan",
+    "sources": [
+      "https://navypedia.org/ships/japan/jap_submarines.htm",
+      "https://www.mod.go.jp/msdf/equipment/ships/index3.html",
+      "https://global.kawasaki.com/en/history/business/ship.html"
+    ]
+  },
+  {
+    "type": "Kawasaki DSRV (JMSDF rescue submersible)",
+    "country": "Japan",
+    "sources": [
+      "https://www.khi.co.jp/mobility/marine/ships/submarine.html",
+      "https://www.khi.co.jp/history/pdf/100history_02.pdf"
+    ],
+    "note": "Three successive rescue craft grouped as the manufacturer’s DSRV family; not three separate classes."
+  },
+  {
+    "type": "Type 035 (Ming)",
+    "country": "China",
+    "sources": [
+      "https://www.govinfo.gov/content/pkg/GOVPUB-D208-PURL-gpo245980/pdf/GOVPUB-D208-PURL-gpo245980.pdf",
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes"
+    ]
+  },
+  {
+    "type": "Type 039 (Song)",
+    "country": "China",
+    "sources": [
+      "https://www.govinfo.gov/content/pkg/GOVPUB-D208-PURL-gpo245980/pdf/GOVPUB-D208-PURL-gpo245980.pdf",
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes"
+    ]
+  },
+  {
+    "type": "Type 039A/B/C (Yuan)",
+    "country": "China",
+    "sources": [
+      "https://www.govinfo.gov/content/pkg/GOVPUB-D208-PURL-gpo245980/pdf/GOVPUB-D208-PURL-gpo245980.pdf",
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes"
+    ]
+  },
+  {
+    "type": "Type 091 (Han)",
+    "country": "China",
+    "sources": [
+      "https://www.govinfo.gov/content/pkg/GOVPUB-D208-PURL-gpo245980/pdf/GOVPUB-D208-PURL-gpo245980.pdf",
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes"
+    ]
+  },
+  {
+    "type": "Type 092 (Xia)",
+    "country": "China",
+    "sources": [
+      "https://www.govinfo.gov/content/pkg/GOVPUB-D208-PURL-gpo245980/pdf/GOVPUB-D208-PURL-gpo245980.pdf",
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes"
+    ]
+  },
+  {
+    "type": "Type 093 (Shang)",
+    "country": "China",
+    "sources": [
+      "https://www.govinfo.gov/content/pkg/GOVPUB-D208-PURL-gpo245980/pdf/GOVPUB-D208-PURL-gpo245980.pdf",
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes"
+    ]
+  },
+  {
+    "type": "Type 094 (Jin)",
+    "country": "China",
+    "sources": [
+      "https://www.govinfo.gov/content/pkg/GOVPUB-D208-PURL-gpo245980/pdf/GOVPUB-D208-PURL-gpo245980.pdf",
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes"
+    ]
+  },
+  {
+    "type": "Type 032 (Qing)",
+    "country": "China",
+    "sources": [
+      "https://www.govinfo.gov/content/pkg/GOVPUB-D208-PURL-gpo245980/pdf/GOVPUB-D208-PURL-gpo245980.pdf",
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes"
+    ]
+  },
+  {
+    "type": "Type 033G (Wuhan)",
+    "country": "China",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Type_033_submarine"
+    ],
+    "note": "Chinese missile-submarine conversion of the Soviet-origin Romeo design. Ordinary Type 033 licensed copies remain covered by the Soviet Romeo entry."
+  },
+  {
+    "type": "Type 7103 rescue submersible",
+    "country": "China",
+    "sources": [
+      "https://link.springer.com/article/10.1007/s11804-018-00062-6",
+      "https://mtsociety.memberclicks.net/assets/docs/Journals/MTS52-5-WEB.pdf"
+    ]
+  },
+  {
+    "type": "Sang-O",
+    "country": "North Korea",
+    "sources": [
+      "https://www.nti.org/analysis/articles/north-korea-submarine-capabilities/"
+    ]
+  },
+  {
+    "type": "Sang-O II (K-300)",
+    "country": "North Korea",
+    "sources": [
+      "https://www.nti.org/analysis/articles/north-korea-submarine-capabilities/"
+    ]
+  },
+  {
+    "type": "Yono",
+    "country": "North Korea",
+    "sources": [
+      "https://www.nti.org/analysis/articles/north-korea-submarine-capabilities/"
+    ]
+  },
+  {
+    "type": "Gorae / Sinpo-B",
+    "country": "North Korea",
+    "sources": [
+      "https://www.nti.org/analysis/articles/north-korea-submarine-capabilities/"
+    ]
+  },
+  {
+    "type": "Sinpo-C / Hero Kim Kun Ok",
+    "country": "North Korea",
+    "sources": [
+      "https://www.nti.org/analysis/articles/north-korea-submarine-capabilities/",
+      "https://www.globalsecurity.org/wmd/library/news/dprk/2023/dprk-230908-kcna01.htm"
+    ]
+  },
+  {
+    "type": "Yugo",
+    "country": "North Korea",
+    "sources": [
+      "https://www.nti.org/analysis/articles/north-korea-submarine-capabilities/"
+    ],
+    "note": "North Korean development based on Yugoslav designs; origin of the design basis retained here rather than implying a wholly independent design."
+  },
+  {
+    "type": "Dolgorae",
+    "country": "South Korea",
+    "sources": [
+      "https://info.publicintelligence.net/MCIA-SouthKoreaHandbook.pdf",
+      "https://en.wikipedia.org/wiki/Dolgorae-class_submarine"
+    ]
+  },
+  {
+    "type": "Dosan Ahn Chang-ho (KSS-III)",
+    "country": "South Korea",
+    "sources": [
+      "https://www.dapa.go.kr/dapa/doc/selectDoc.do?bbsSeq=326&docSeq=8090&menuSeq=3069",
+      "https://www.hanwhaaerospace.com/eng/media/newsroom/view.do?seq=433"
+    ],
+    "note": "Includes Batch I and Batch II of the indigenous KSS-III design family."
+  },
+  {
+    "type": "Arihant",
+    "country": "India",
+    "sources": [
+      "https://www.pib.gov.in/newsite/erelcontent.aspx?lang=2&reg=48&relid=50976",
+      "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2049870&lang=2&reg=3",
+      "https://www.iiss.org/online-analysis/military-balance/2026/05/deepening-deterrence-indias-expanding-ssbn-capability/"
+    ],
+    "note": "Includes the enlarged S4/S4* follow-on boats within the Arihant design family."
+  },
+  {
+    "type": "Ghadir",
+    "country": "Iran",
+    "sources": [
+      "https://www.oni.navy.mil/Portals/12/Intel%20agencies/iran/Iran%20022217SP.pdf?ver=2017-02-28-082634-643",
+      "https://www.nti.org/analysis/articles/iran-submarine-capabilities/"
+    ]
+  },
+  {
+    "type": "Fateh",
+    "country": "Iran",
+    "sources": [
+      "https://www.oni.navy.mil/Portals/12/Intel%20agencies/iran/Iran%20022217SP.pdf?ver=2017-02-28-082634-643",
+      "https://www.nti.org/analysis/articles/iran-submarine-capabilities/"
+    ]
+  },
+  {
+    "type": "Nahang",
+    "country": "Iran",
+    "sources": [
+      "https://www.oni.navy.mil/Portals/12/Intel%20agencies/iran/Iran%20022217SP.pdf?ver=2017-02-28-082634-643",
+      "https://www.nti.org/analysis/articles/iran-submarine-capabilities/"
+    ]
+  },
+  {
+    "type": "Al-Sabehat 15 (swimmer delivery vehicle)",
+    "country": "Iran",
+    "sources": [
+      "https://www.nti.org/analysis/articles/iran-submarine-capabilities/"
+    ],
+    "note": "Designed at the Esfahan Underwater Research Center; crewed special-operations submersible."
+  },
+  {
+    "type": "Hai Kun (Indigenous Defense Submarine)",
+    "country": "Taiwan",
+    "sources": [
+      "https://indsr.org.tw/uploads/enindsr/files/202312/917830dc-2254-43d0-bba4-bd7e6b04d129.pdf",
+      "https://www.ocac.gov.tw/OCAC/SubSites/Pages/Detail.aspx?nodeid=1958&pid=83318031&site=cac08b4d-90f6-42ea-a535-18713f0724a4"
+    ]
+  },
+  {
+    "type": "Collins (Type 471)",
+    "country": "Sweden",
+    "sources": [
+      "https://www.anao.gov.au/sites/default/files/anao_report_1997-98_34.pdf",
+      "https://www.saab.com/markets/australia/submarine/saabs-commitment-to-australia"
+    ],
+    "note": "Designed by Kockums in Sweden for Australian requirements, built in Australia. Country tracks design origin."
+  },
+  {
+    "type": "Shinkai / 9-Kanamono (1944 midget prototype)",
+    "country": "Japan",
+    "sources": [
+      "https://navypedia.org/ships/japan/jap_aux_shinkai.htm"
+    ],
+    "note": "A physical 1944 military prototype, unrelated to the later civilian Shinkai research craft."
+  },
+  {
+    "type": "S-Kanamono (Kairyu prototype)",
+    "country": "Japan",
+    "sources": [
+      "https://navypedia.org/ships/japan/jap_aux_s_kanamono.htm"
+    ]
+  },
+  {
+    "type": "Maru-Se (rocket-propelled experimental submersible)",
+    "country": "Japan",
+    "sources": [
+      "https://navypedia.org/ships/japan/jap_aux_maru_se.htm"
+    ]
+  },
+  {
+    "type": "Zhou-class prototype (reported designation)",
+    "country": "China",
+    "sources": [
+      "https://apnews.com/article/3c68bba0882fe81b3ace6da6c39e771b",
+      "https://www.navalnews.com/naval-news/2026/01/chinese-navy-annual-review-2025-part-ii-subs-logistics-rd/"
+    ],
+    "note": "Physical prototype reported at Wuhan in 2024. Zhou is a reported external designation; Chinese type number and propulsion remain uncertain."
+  },
+  {
+    "type": "Nuclear-submarine prototype (revealed 2025)",
+    "country": "North Korea",
+    "sources": [
+      "https://opendata.mofa.go.kr/mofapub/resource/Publication/14475.page",
+      "https://www.csis.org/analysis/north-korea-announces-nuclear-powered-submarine-development"
+    ],
+    "note": "Hull shown under construction in 2025; descriptive label because no verified official class name. Nuclear propulsion is the announced purpose, not a verified operational capability."
+  },
+  {
+    "type": "Hangor (2024 Chinese export design)",
+    "country": "China",
+    "sources": [
+      "https://www.paknavy.gov.pk/PRshipyard.pdf",
+      "https://en.wikipedia.org/wiki/Hangor-class_submarine"
+    ],
+    "note": "Chinese-origin export derivative built for Pakistan; distinct from the 1971 French-origin Daphne boat named Hangor."
+  },
+  {
+    "type": "Kaigun-Holland / Japanese Type 6 (1906)",
+    "country": "United States",
+    "sources": [
+      "https://www.mod.go.jp/msdf/stc/museum_report_3.html",
+      "https://navypedia.org/ships/japan/jap_ss_kaigun_holland.htm"
+    ],
+    "note": "Distinct modified Holland export design, completed in Japan. JMSDF history attributes its starting drawings to Holland; construction country is not used as design origin."
+  },
+  {
+    "type": "Nagapasa / DSME 1400 class",
+    "country": "South Korea",
+    "sources": [
+      "https://tnial.mil.id/assets/majalah/PDF-20240913-153619.pdf",
+      "https://www.kemhan.go.id/itjen/2017/08/03/tni-punya-kapal-selam-canggih-buatan-korsel-kri-nagapasa.html"
+    ],
+    "note": "DSME-developed Indonesian export derivative of the German Type 209; new Korean modifications are distinguished from the German parent family."
+  }
+]

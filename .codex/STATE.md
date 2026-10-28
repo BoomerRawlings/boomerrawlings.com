@@ -1,5 +1,15 @@
 # Project state
 
+## SUBS catalog and sources — 2026-10-27
+- Mode: continuation. Objective: add top-right Sources view with raw hyperlinks; populate historical/global submarine type + country catalog.
+- Baseline verified: local d69766f includes launch checkpoint; production main remains 84bbb1b, clean task branch before work.
+- Decisions: one entry per class/design or unique prototype, no per-hull duplication; country means design origin, not every operator. Only type/country shown in rows. Source provenance retained in data.
+- Scope confirmed: military classes and unique prototypes only. Include construction begun/physical prototypes; exclude civilian/tourist craft and paper-only proposals. Parallel regional research underway; no unsupported exhaustive claim.
+- Implemented: top-right Sources dialog containing raw URLs only; plain type/origin rows; search, country filtering and 50-row pagination. Gate unchanged. UI behavior tests pass.
+- Inventory: 659 military classes/prototypes, 32 country/historical-origin labels, 337 source URLs. Regional evidence and taxonomy in docs/subs; source-backed early prototype/export gaps filled. Uncertain origin/name labels visible where needed.
+- Verified: full npm test passed; every rendered type/country and raw source link matches data. Browser search/composed filters/empty-clear, pagination/final partial page, source modal/Escape/focus return, 320px and desktop overflow checks pass. No catalog application errors; a stopped dev-toolbar request is unrelated.
+- Status: ready for one production push and live verification. Coverage provisional, not certified exhaustive; minor variant/obscure prototype boundaries documented.
+
 ## SUBS entry and catalog foundation — 2026-10-27
 - Mode: new task; implementing an unlisted /subs/ route on the canonical website. Existing unfinished work below preserved.
 - Baseline: main 901c08f; GitHub Pages production workflow verified. No hosting or DNS changes.

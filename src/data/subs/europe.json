@@ -1,0 +1,2289 @@
+[
+  {
+    "type": "Ægir class",
+    "country": "Austria-Hungary",
+    "sources": [
+      "https://www.navypedia.org/ships/denmark/dk_ss.htm",
+      "https://www.navypedia.org/ships/denmark/dk_ss_aegir.htm"
+    ],
+    "note": "Whitehead design built for Denmark."
+  },
+  {
+    "type": "Havmanden class (1911)",
+    "country": "Austria-Hungary",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Havmanden-class_submarine_(1911)"
+    ]
+  },
+  {
+    "type": "K I",
+    "country": "Austria-Hungary",
+    "sources": [
+      "https://en.wikipedia.org/wiki/HNLMS_K_I"
+    ],
+    "note": "Hay-Whitehead design."
+  },
+  {
+    "type": "K II",
+    "country": "Austria-Hungary",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Netherlands",
+      "https://naval-encyclopedia.com/ww2/netherlands/dutch-submarines.php"
+    ],
+    "note": "Hay-Whitehead design, Dutch construction."
+  },
+  {
+    "type": "O 2 class",
+    "country": "Austria-Hungary",
+    "sources": [
+      "https://s36124.pcdn.co/wp-content/uploads/1992/Summer/1992-July-OCRw.pdf"
+    ],
+    "note": "Whitehead design."
+  },
+  {
+    "type": "U-20 class (Austria-Hungary)",
+    "country": "Austria-Hungary",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Austro-Hungarian_U-boat_classes"
+    ],
+    "note": "Whitehead-designed development of the Havmanden class."
+  },
+  {
+    "type": "U-52 class",
+    "country": "Austria-Hungary",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Austro-Hungarian_U-boat_classes"
+    ],
+    "note": "Austro-Hungarian design; construction began but no boats completed."
+  },
+  {
+    "type": "U-101 class",
+    "country": "Austria-Hungary",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Austro-Hungarian_U-boat_classes"
+    ],
+    "note": "Austro-Hungarian design; construction began but no boats completed."
+  },
+  {
+    "type": "Velebit (modified Una)",
+    "country": "Croatia",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Croatian_submarine_Velebit"
+    ],
+    "note": "Lengthened and diesel-fitted Croatian rebuild."
+  },
+  {
+    "type": "Daphne class (1925)",
+    "country": "Denmark",
+    "sources": [
+      "https://www.navypedia.org/ships/denmark/dk_ss.htm"
+    ]
+  },
+  {
+    "type": "Delfinen class (1958)",
+    "country": "Denmark",
+    "sources": [
+      "https://www.navypedia.org/ships/denmark/dk_ss.htm"
+    ]
+  },
+  {
+    "type": "Havmanden class (1937)",
+    "country": "Denmark",
+    "sources": [
+      "https://www.navypedia.org/ships/denmark/dk_ss.htm"
+    ]
+  },
+  {
+    "type": "Rota class",
+    "country": "Denmark",
+    "sources": [
+      "https://www.navypedia.org/ships/denmark/dk_ss.htm"
+    ]
+  },
+  {
+    "type": "Agosta 90B / Khalid class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Agosta-class_submarine"
+    ]
+  },
+  {
+    "type": "Agosta class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Aigrette class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Amiral Bourgois",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Amphitrite class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Archimède (1909)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Aréthuse class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Argonaute (1905)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Argonaute class (1929)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Ariane class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Armide class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Aurore class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Bellone class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Brumaire class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Charles Brun",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Circé class (1907)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Circé class (1925)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Clorinde class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Daphné class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Delfin class (1912)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Greek_submarine_Delfin_(1912)"
+    ]
+  },
+  {
+    "type": "Diane class (1916)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Diane class (1930)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Dupuy de Lôme class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Émeraude class (1906)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Farfadet class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Français class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Guêpe class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Gustave Zédé (1893)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Gustave Zédé class (1913)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Gymnote (1888)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Gymnote (1964)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Joessel class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Katsonis class (1927)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Katsonis-class_submarine"
+    ]
+  },
+  {
+    "type": "L’Invincible / SNLE 3G class",
+    "country": "France",
+    "sources": [
+      "https://www.technicatome.com/realisations/snle-3g/"
+    ],
+    "note": "First steel cut March 2024."
+  },
+  {
+    "type": "Lagrange class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Le Redoutable class (1967)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Le Triomphant class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Mariotte",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Maurice Callot",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Minerve class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Morse (1899)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Naïade class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Narval (1900)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Narval class (1954)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Nautilus (Fulton; 1800)",
+    "country": "France",
+    "sources": [
+      "https://www.usni.org/magazines/proceedings/2001/february/nautilus-whats-name"
+    ],
+    "note": "American inventor Robert Fulton; French-funded naval prototype built in France."
+  },
+  {
+    "type": "O’Byrne class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Orion class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Osvetnik / Smeli class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Osvetnik-class_submarine"
+    ]
+  },
+  {
+    "type": "Pierre Chailley",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Plongeur (1863)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Pluviôse class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Protefs class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Protefs-class_submarine"
+    ]
+  },
+  {
+    "type": "Q-244 nuclear prototype",
+    "country": "France",
+    "sources": [
+      "https://www.colsbleus.defense.gouv.fr/sites/default/files/2021-05/CB3088.pdf",
+      "https://www.servicehistorique.sga.defense.gouv.fr/sites/default/files/2020-02/SHDAA_REP_5I_NO_661_1773_1976.pdf"
+    ],
+    "note": "Construction abandoned; hull sections reused in Gymnote (1964)."
+  },
+  {
+    "type": "Redoutable class (1928)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Requin class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Roland Morillot class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ],
+    "note": "Construction began on three boats; class canceled without completion."
+  },
+  {
+    "type": "Ronis class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Ronis-class_submarine"
+    ]
+  },
+  {
+    "type": "Rubis class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Saphir class (1928)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Sirène class (1901)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Sirène class (1925)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Suffren / Barracuda class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Surcouf",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Wilk class",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Wilk-class_submarine"
+    ]
+  },
+  {
+    "type": "X / Dauphin (1904)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Y (1905)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Z (1904)",
+    "country": "France",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_France"
+    ]
+  },
+  {
+    "type": "Scorpène class",
+    "country": "France / Spain",
+    "sources": [
+      "https://fr.wikipedia.org/wiki/Classe_Scorp%C3%A8ne"
+    ],
+    "note": "Original joint programme; Naval Group design authority."
+  },
+  {
+    "type": "Atropo (1911)",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Italian_submarine_Atropo"
+    ],
+    "note": "Germaniawerft design built for Italy, not an Italian-origin design."
+  },
+  {
+    "type": "Ay class (1938)",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Turkish_Navy"
+    ],
+    "note": "German export development of Type IX, including Batiray / UA."
+  },
+  {
+    "type": "Biber",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/midget.htm"
+    ]
+  },
+  {
+    "type": "Birinci İnönü class",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Birinci_%C4%B0n%C3%B6n%C3%BC-class_submarine"
+    ],
+    "note": "IvS design built in the Netherlands for Turkey."
+  },
+  {
+    "type": "Brandtaucher (1850)",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Brandtaucher"
+    ]
+  },
+  {
+    "type": "Dakar class",
+    "country": "Germany",
+    "sources": [
+      "https://www.defense.gouv.fr/sites/default/files/dga/Industrial%20Calepin%202025%20English%20version.pdf"
+    ],
+    "note": "Construction started November 2024."
+  },
+  {
+    "type": "Delphin (1944)",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/midget.htm"
+    ]
+  },
+  {
+    "type": "Dolphin I class",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes"
+    ]
+  },
+  {
+    "type": "Dolphin II class",
+    "country": "Germany",
+    "sources": [
+      "https://www.defense.gouv.fr/sites/default/files/dga/Industrial%20Calepin%202025%20English%20version.pdf"
+    ]
+  },
+  {
+    "type": "E1 / Gür / Pu111",
+    "country": "Germany",
+    "sources": [
+      "https://naval-encyclopedia.com/ww2/turkey/tcg-gur.php",
+      "https://uboat.net/articles/59.html"
+    ],
+    "note": "IvS design built in Spain; later Turkish service."
+  },
+  {
+    "type": "Foca class (Spain; 1954)",
+    "country": "Germany",
+    "sources": [
+      "https://armada.defensa.gob.es/archivo/rgm/2006/200605.pdf"
+    ],
+    "note": "German design built in Spain."
+  },
+  {
+    "type": "Forelle / Forel (1903)",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Russian_submarine_Forel"
+    ]
+  },
+  {
+    "type": "Gal / Type 540 class",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Gal-class_submarine"
+    ]
+  },
+  {
+    "type": "Hecht / Type XXVIIA",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/midget.htm"
+    ]
+  },
+  {
+    "type": "Karp class",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Karp-class_submarine"
+    ]
+  },
+  {
+    "type": "Kobben / A-1 (1909)",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/HNoMS_Kobben_(1909)"
+    ]
+  },
+  {
+    "type": "Marsuinul (S-2)",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/NMS_Marsuinul"
+    ],
+    "note": "IvS/German design, built abroad."
+  },
+  {
+    "type": "Molch",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/midget.htm"
+    ]
+  },
+  {
+    "type": "Rechinul (S-1)",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/NMS_Rechinul"
+    ],
+    "note": "IvS/German design, built abroad."
+  },
+  {
+    "type": "Saukko / Pu110",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Finnish_submarine_Saukko"
+    ],
+    "note": "IvS/German design, built abroad."
+  },
+  {
+    "type": "Schwertwal",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/midget.htm"
+    ]
+  },
+  {
+    "type": "Seehund / Type XXVIIB",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/midget.htm"
+    ]
+  },
+  {
+    "type": "Seeteufel (1944)",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/midget.htm"
+    ]
+  },
+  {
+    "type": "Tiburón class",
+    "country": "Germany",
+    "sources": [
+      "https://armada.defensa.gob.es/archivo/rgm/2006/200605.pdf"
+    ],
+    "note": "German design built in Spain."
+  },
+  {
+    "type": "TR-1700 / Santa Cruz class",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/TR-1700-class_submarine"
+    ]
+  },
+  {
+    "type": "Type 201",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_German_Navy_ship_classes"
+    ]
+  },
+  {
+    "type": "Type 202",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_German_Navy_ship_classes"
+    ]
+  },
+  {
+    "type": "Type 205",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_German_Navy_ship_classes"
+    ]
+  },
+  {
+    "type": "Type 206",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_German_Navy_ship_classes"
+    ]
+  },
+  {
+    "type": "Type 206A",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_German_Navy_ship_classes"
+    ]
+  },
+  {
+    "type": "Type 207 / Kobben class",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_German_Navy_ship_classes"
+    ]
+  },
+  {
+    "type": "Type 209",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_German_Navy_ship_classes"
+    ]
+  },
+  {
+    "type": "Type 210 / Ula class",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_German_Navy_ship_classes"
+    ]
+  },
+  {
+    "type": "Type 214",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_German_Navy_ship_classes"
+    ]
+  },
+  {
+    "type": "Type 218SG / Invincible class",
+    "country": "Germany",
+    "sources": [
+      "https://www.tkmsgroup.com/news/article/tkms-and-stengineering-sign-mou-in-singapore"
+    ]
+  },
+  {
+    "type": "Type IA",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type IIA",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type IIB",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type IIC",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type IID",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type IXA",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type IXB",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type IXC",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type IXC/40",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type IXD/42",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_U-boat_types"
+    ]
+  },
+  {
+    "type": "Type IXD1",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_U-boat_types"
+    ]
+  },
+  {
+    "type": "Type IXD2",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_U-boat_types"
+    ]
+  },
+  {
+    "type": "Type Large MS / U 135",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Germany"
+    ]
+  },
+  {
+    "type": "Type U 1 (1906)",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 2",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 3",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 5",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 9",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 13",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 16",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 17",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 19",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 23",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 27",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 31",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 43",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 51",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 57",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 63",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 66 (UD)",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 81",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 87",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 93",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 115",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/SM_U-115"
+    ],
+    "note": "Laid down 1916; unfinished at armistice."
+  },
+  {
+    "type": "Type U 127",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_U-boat_types",
+      "https://en.wikipedia.org/wiki/SM_U-127"
+    ],
+    "note": "Construction started; one hull launched before the 1918 armistice."
+  },
+  {
+    "type": "Type U 139",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 142",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 151",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type U 158",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/SM_U-158"
+    ],
+    "note": "First World War class; unfinished."
+  },
+  {
+    "type": "Type UA",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type UB I",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type UB II",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type UB III",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type UC I",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type UC II",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type UC III",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type UE I",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type UE II",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/wwi/types/"
+    ]
+  },
+  {
+    "type": "Type VIIA",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type VIIB",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type VIIC",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type VIIC/41",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type VIID",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type VIIF",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type XB",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type XIV",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type XVIIA",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type XVIIB",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type XX",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_U-boat_types",
+      "https://uboat.net/types/projects.htm"
+    ],
+    "note": "Construction on three boats continued into 1945; none completed."
+  },
+  {
+    "type": "Type XXI",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type XXIII",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Type XXVI",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_U-boat_types",
+      "https://en.wikipedia.org/wiki/German_Type_XXVI_submarine"
+    ],
+    "note": "Four boats began construction; none completed."
+  },
+  {
+    "type": "U-3 class (Austria-Hungary)",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Austro-Hungarian_U-boat_classes"
+    ],
+    "note": "German design supplied to Austria-Hungary."
+  },
+  {
+    "type": "U-48 class (Project 800)",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Austro-Hungarian_U-boat_classes"
+    ],
+    "note": "German design supplied to Austria-Hungary; U-48/U-50 never completed."
+  },
+  {
+    "type": "U-50 class (Project 835)",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Austro-Hungarian_U-boat_classes"
+    ],
+    "note": "German design supplied to Austria-Hungary; U-48/U-50 never completed."
+  },
+  {
+    "type": "U-Flak conversion",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "V 80",
+    "country": "Germany",
+    "sources": [
+      "https://uboat.net/types/"
+    ]
+  },
+  {
+    "type": "Vesikko / CV 707",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Finnish_submarine_Vesikko"
+    ],
+    "note": "IvS/German design, built abroad."
+  },
+  {
+    "type": "Vetehinen class",
+    "country": "Germany",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Vetehinen-class_submarine"
+    ],
+    "note": "IvS/German design, built abroad."
+  },
+  {
+    "type": "U-27 class (Austria-Hungary)",
+    "country": "Germany / Austria-Hungary",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Austro-Hungarian_U-boat_classes"
+    ],
+    "note": "Distinct Austro-Hungarian adaptations of German designs."
+  },
+  {
+    "type": "U-107 class",
+    "country": "Germany / Austria-Hungary",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Austro-Hungarian_U-boat_classes"
+    ],
+    "note": "Distinct Austro-Hungarian adaptations of German designs."
+  },
+  {
+    "type": "Type 212A / Todaro class",
+    "country": "Germany / Italy",
+    "sources": [
+      "https://www.bundeswehr.de/de/organisation/marine/struktur/einsatzflottille-1/1-ubootgeschwader",
+      "https://www.marina.difesa.it/media-cultura/editoria/notiziario/Documents/speciali/2021_09_speciale_sommergibili_delfini.pdf"
+    ],
+    "note": "Joint German-Italian programme."
+  },
+  {
+    "type": "Type 212CD",
+    "country": "Germany / Norway",
+    "sources": [
+      "https://www.kongsberg.com/what-we-do/defence-and-security/naval-systems/submarine-systems/"
+    ]
+  },
+  {
+    "type": "Hajen class (1917)",
+    "country": "Germany / Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy",
+      "https://naval-encyclopedia.com/ww2/sweden/hajen-class.php"
+    ],
+    "note": "German UB III licence modified by Kockums."
+  },
+  {
+    "type": "A class (1915 midget)",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Acciaio class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Adua class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Alfa class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Archimede class (1933)",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Argo class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Argonauta (1914)",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Argonauta class (1931)",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "B class (1915 midget)",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Balilla (1915)",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Balilla class (1925)",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Bandiera class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Barbarigo class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Bragadin class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Brin class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "CA class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Cagni class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Calvi class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "CB class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "CM class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Delfino (1890)",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Delfinul (1930)",
+    "country": "Italy",
+    "sources": [
+      "https://www.navypedia.org/ships/romania/ro_ss_delfinul.htm",
+      "https://www.navy.ro/despre/istoric/istoric_index_en.php"
+    ]
+  },
+  {
+    "type": "Dumlupınar (1931)",
+    "country": "Italy",
+    "sources": [
+      "https://naval-encyclopedia.com/ww2/turkey/birinci-inonu.php"
+    ],
+    "note": "Modified Vettor Pisani design."
+  },
+  {
+    "type": "Dykkeren (1909)",
+    "country": "Italy",
+    "sources": [
+      "https://www.forsvaret.dk/da/nyhedsarkiv/marinestaben/2009/dyk-ned-i-historien/"
+    ]
+  },
+  {
+    "type": "Enrico Toti class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Espadarte (1913)",
+    "country": "Italy",
+    "sources": [
+      "https://academia.marinha.pt/pt/edicoes/historiadamarinha/Livro%20VIAGENS%20E%20OPERAC%CC%A7O%CC%83ES%20NAVAIS%201824-1974%20Final.pdf"
+    ]
+  },
+  {
+    "type": "Ettore Fieramosca",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "F class (1915)",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Flutto / Tritone class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Foca (1908)",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Foca class (1937)",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Foca class (Portugal; 1917)",
+    "country": "Italy",
+    "sources": [
+      "https://www.marinha.pt/pt/media-center/efemerides/Paginas/Efemeride-Chegada-ao-Tejo-dos-submersiveis-Foca-Golfinho-e-Hidra-.aspx"
+    ]
+  },
+  {
+    "type": "Glauco class (1903)",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Glauco class (1935)",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Hvalen (1909)",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/HSwMS_Hvalen"
+    ]
+  },
+  {
+    "type": "Liuzzi class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Mameli class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Marcello class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Marconi class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Medusa class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "MG-110 / Cosmos class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Cosmos-class_submarine"
+    ],
+    "note": "Italian design assembled in Pakistan."
+  },
+  {
+    "type": "N class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Nautilus class (1911)",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Nazario Sauro class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Pacinotti class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Perla class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Pietro Micca (1935)",
+    "country": "Italy",
+    "sources": [
+      "https://www.marina.difesa.it/media-cultura/Notiziario-online/Pagine/20230914_80esimo_anniversario_smg_pietro_venuti_rende_omaggio_ai_caduti.aspx"
+    ]
+  },
+  {
+    "type": "Pietro Micca class (1915)",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Pullino class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "R / Romolo class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Sakarya (1931)",
+    "country": "Italy",
+    "sources": [
+      "https://www.navypedia.org/ships/turkey/tu_ss_sakarya.htm"
+    ]
+  },
+  {
+    "type": "Settembrini class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Sirena class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Squalo class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "SX-404",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/SX-404-class_submarine",
+      "https://www.marina.difesa.it/media-cultura/editoria/marivista/Documents/2020/Rivista_Marittima_Aprile_2020.pdf"
+    ]
+  },
+  {
+    "type": "SX-506",
+    "country": "Italy",
+    "sources": [
+      "https://es.wikipedia.org/wiki/Cosmos_SX_506"
+    ]
+  },
+  {
+    "type": "SX-756",
+    "country": "Italy",
+    "sources": [
+      "https://www.globalsecurity.org/military/world/rok/dolphin.htm"
+    ]
+  },
+  {
+    "type": "Tarantinos / Santa Fe class (1933)",
+    "country": "Italy",
+    "sources": [
+      "https://www.histarmar.com.ar/archivo/Armada%20Argentina/Submarinos%20Argentinos/Submarinos.htm"
+    ]
+  },
+  {
+    "type": "Type F1 / Ro-1 class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy"
+    ],
+    "note": "Fiat-Laurenti design built for Japan."
+  },
+  {
+    "type": "Type F2 / Ro-3 class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Submarines_of_the_Imperial_Japanese_Navy"
+    ],
+    "note": "Fiat-Laurenti design built for Japan."
+  },
+  {
+    "type": "U212 NFS / Goffredo Mameli class",
+    "country": "Italy",
+    "sources": [
+      "https://occar.int/our-work/programmes/u212-nfs",
+      "https://occar.int/news/first-u212-nfs-submarine-keel-laying-ceremony"
+    ],
+    "note": "Italian redesign of U212A; construction underway."
+  },
+  {
+    "type": "Vettor Pisani class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "X2 class",
+    "country": "Italy",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_Italy"
+    ]
+  },
+  {
+    "type": "Svärdfisken class (1914)",
+    "country": "Italy / Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy",
+      "https://naval-encyclopedia.com/ww1/swedish-navy.php?amp=1"
+    ],
+    "note": "Fiat-Laurenti licence modified by Kockums."
+  },
+  {
+    "type": "Dolfijn class (1959)",
+    "country": "Netherlands",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Netherlands"
+    ]
+  },
+  {
+    "type": "Hai Lung / Chien Lung class",
+    "country": "Netherlands",
+    "sources": [
+      "https://navy.mnd.gov.tw/AboutUs/Other_Info.aspx?AID=30032&ID=1",
+      "https://en.wikipedia.org/wiki/Hai_Lung-class_submarine"
+    ],
+    "note": "Modified Zwaardvis export design built in the Netherlands for Taiwan; distinct machinery isolation arrangement."
+  },
+  {
+    "type": "K XI class",
+    "country": "Netherlands",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Netherlands"
+    ]
+  },
+  {
+    "type": "K XIV class",
+    "country": "Netherlands",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Netherlands"
+    ]
+  },
+  {
+    "type": "O 9 class",
+    "country": "Netherlands",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Netherlands"
+    ]
+  },
+  {
+    "type": "O 12 class",
+    "country": "Netherlands",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Netherlands"
+    ]
+  },
+  {
+    "type": "O 16",
+    "country": "Netherlands",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Netherlands"
+    ]
+  },
+  {
+    "type": "O 19 class",
+    "country": "Netherlands",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Netherlands"
+    ]
+  },
+  {
+    "type": "O 21 class",
+    "country": "Netherlands",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Netherlands"
+    ]
+  },
+  {
+    "type": "Potvis class",
+    "country": "Netherlands",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Netherlands"
+    ]
+  },
+  {
+    "type": "Walrus class (1985)",
+    "country": "Netherlands",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Netherlands"
+    ]
+  },
+  {
+    "type": "Zwaardvis class (1970)",
+    "country": "Netherlands",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Netherlands"
+    ]
+  },
+  {
+    "type": "Orzeł class",
+    "country": "Netherlands / Poland",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Orze%C5%82-class_submarine"
+    ],
+    "note": "Joint design with Polish Navy team."
+  },
+  {
+    "type": "Seeteufel (1856)",
+    "country": "Russia",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Seeteufel_(1856)"
+    ],
+    "note": "Wilhelm Bauer design developed and built under Russian contract; inventor nationality alone does not determine country."
+  },
+  {
+    "type": "D class (Spain)",
+    "country": "Spain",
+    "sources": [
+      "https://armada.defensa.gob.es/archivo/mardigitalrevistas/cuadernosihcn/71cuaderno/CM71.pdf"
+    ]
+  },
+  {
+    "type": "Peral (1888)",
+    "country": "Spain",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Spanish_Navy"
+    ]
+  },
+  {
+    "type": "S-80 Plus / Isaac Peral class",
+    "country": "Spain",
+    "sources": [
+      "https://www.navantia.es/en/product/s80/"
+    ]
+  },
+  {
+    "type": "Abborren class (1916)",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "Bävern class (1921)",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "Blekinge class (A26)",
+    "country": "Sweden",
+    "sources": [
+      "https://www.saab.com/products/oceanic"
+    ]
+  },
+  {
+    "type": "Delfinen (1914)",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "Delfinen class (1934)",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "Draken class (1926)",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "Draken class (1960)",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "Gotland class",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "Hajen (1904)",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "Hajen class (1954)",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "Laxen class (1914)",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "Näcken class",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "Neptun class (1942)",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "Sjölejonet class",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "Sjöormen class",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "Södermanland class",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "U1 class (1941)",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "URF rescue submersible",
+    "country": "Sweden",
+    "sources": [
+      "https://www.forsvarsmakten.se/siteassets/5-organisation/forsta-ubatsflj/forsta-ubatsflottiljen/ubatsraddningsfarkost.pdf",
+      "https://www.varvshistoria.com/category/ubat/"
+    ]
+  },
+  {
+    "type": "Valen (1925)",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "Västergötland class",
+    "country": "Sweden",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Swedish_Navy"
+    ]
+  },
+  {
+    "type": "Nordenfelt I",
+    "country": "Sweden / United Kingdom",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Nordenfelt_submarine"
+    ],
+    "note": "Nordenfelt-Garrett collaboration."
+  },
+  {
+    "type": "Nordenfelt II / III",
+    "country": "Sweden / United Kingdom",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Nordenfelt_submarine"
+    ],
+    "note": "Nordenfelt-Garrett collaboration."
+  },
+  {
+    "type": "Nordenfelt IV",
+    "country": "Sweden / United Kingdom",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Nordenfelt_submarine"
+    ],
+    "note": "Nordenfelt-Garrett collaboration."
+  },
+  {
+    "type": "MİLDEN",
+    "country": "Turkey",
+    "sources": [
+      "https://www.msb.gov.tr/SlaytHaber/94c5e0a1b2ed42ef9cb76078e3dea700"
+    ],
+    "note": "First test-block construction confirmed by Ministry of Defence in 2025."
+  },
+  {
+    "type": "STM500",
+    "country": "Turkey",
+    "sources": [
+      "https://www.stm.com.tr/en/press-releases/first-stage-stm500-test-production-pressure-hull-begins"
+    ],
+    "note": "Pressure-hull test prototype production began 2022."
+  },
+  {
+    "type": "Delfim class (1934)",
+    "country": "United Kingdom",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Delfim-class_submarine"
+    ]
+  },
+  {
+    "type": "Hrabri class",
+    "country": "United Kingdom",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Hrabri-class_submarine"
+    ]
+  },
+  {
+    "type": "K V class",
+    "country": "United Kingdom",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Netherlands",
+      "https://naval-encyclopedia.com/ww2/netherlands/kv-class-submarine.php"
+    ],
+    "note": "Denny-Hay design, Dutch construction."
+  },
+  {
+    "type": "Kalev class",
+    "country": "United Kingdom",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Kalev-class_submarine",
+      "https://news.err.ee/99938/museum-discovers-original-designs-of-the-lembit-in-uk"
+    ]
+  },
+  {
+    "type": "O 7",
+    "country": "United Kingdom",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Netherlands",
+      "https://www.netherlandsnavy.nl/O7.htm"
+    ],
+    "note": "Denny-Hay design, Dutch construction."
+  },
+  {
+    "type": "B class (Norway)",
+    "country": "United States",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes"
+    ],
+    "note": "Holland design built in Norway."
+  },
+  {
+    "type": "B class (Spain; Holland F-105)",
+    "country": "United States",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes"
+    ]
+  },
+  {
+    "type": "C class (Spain; Holland F-105F)",
+    "country": "United States",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarine_classes"
+    ]
+  },
+  {
+    "type": "Isaac Peral / A-0 (1916)",
+    "country": "United States",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Spanish_Navy"
+    ],
+    "note": "Electric Boat design built in Quincy for Spain."
+  },
+  {
+    "type": "K III class",
+    "country": "United States",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Netherlands",
+      "https://en.wikipedia.org/wiki/K_III-class_submarine"
+    ],
+    "note": "Electric Boat design."
+  },
+  {
+    "type": "K VIII class",
+    "country": "United States",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Netherlands",
+      "https://en.wikipedia.org/wiki/K_VIII-class_submarine"
+    ],
+    "note": "Holland design, Dutch construction."
+  },
+  {
+    "type": "O 1 / Luctor et Emergo",
+    "country": "United States",
+    "sources": [
+      "https://marineschepen.nl/schepen/o1.html"
+    ],
+    "note": "Holland design."
+  },
+  {
+    "type": "O 6",
+    "country": "United States",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_submarines_of_the_Netherlands",
+      "https://assets.nmm.nl/app/uploads/2022/10/Jaargang-2-nummer-1.pdf"
+    ],
+    "note": "Electric Boat design, Dutch construction."
+  },
+  {
+    "type": "U-1 class (Austria-Hungary)",
+    "country": "United States",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Austro-Hungarian_U-boat_classes"
+    ],
+    "note": "Simon Lake design built in Austria-Hungary."
+  },
+  {
+    "type": "U-5 class (Austria-Hungary)",
+    "country": "United States",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Austro-Hungarian_U-boat_classes"
+    ],
+    "note": "Holland design built wholly or partly in Austria-Hungary."
+  },
+  {
+    "type": "Heroj class",
+    "country": "Yugoslavia",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_ships_of_the_Yugoslav_Navy"
+    ]
+  },
+  {
+    "type": "Sava class (1977)",
+    "country": "Yugoslavia",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_ships_of_the_Yugoslav_Navy"
+    ]
+  },
+  {
+    "type": "Sutjeska class",
+    "country": "Yugoslavia",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_ships_of_the_Yugoslav_Navy"
+    ]
+  },
+  {
+    "type": "Una class",
+    "country": "Yugoslavia",
+    "sources": [
+      "https://en.wikipedia.org/wiki/List_of_ships_of_the_Yugoslav_Navy"
+    ]
+  }
+]

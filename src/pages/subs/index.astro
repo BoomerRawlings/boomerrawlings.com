@@ -1,6 +1,7 @@
 ---
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
+import { catalog, countries, sources } from '../../data/subs/catalog.mjs';
 const version = (file: string) => createHash('sha256').update(readFileSync(`public/subs/${file}`)).digest('hex').slice(0, 12);
 ---
 <!doctype html>
@@ -16,6 +17,7 @@ const version = (file: string) => createHash('sha256').update(readFileSync(`publ
     <link rel="icon" href="/subs/icon.svg" type="image/svg+xml">
     <link rel="stylesheet" href={`/subs/style.css?v=${version('style.css')}`}>
     <script is:inline src={`/subs/entry.js?v=${version('entry.js')}`} defer></script>
+    <script is:inline src={`/subs/catalog.js?v=${version('catalog.js')}`} defer></script>
   </head>
   <body data-stage="counter">
     <section id="counter" aria-label="The sandwich counter">
@@ -81,12 +83,12 @@ const version = (file: string) => createHash('sha256').update(readFileSync(`publ
       <header class="archive-header">
         <button id="return-counter" class="archive-brand" type="button" aria-label="SUBS — return to the sandwich counter"><svg viewBox="0 0 40 28" aria-hidden="true"><path d="M8 12H29Q35 12 38 18Q35 24 29 24H8Q3 24 3 18Q3 12 8 12ZM17 12V6H23L27 12M20 6V2H25"/></svg><span>SUBS</span></button>
         <span class="archive-descriptor">SUBMARINE ARCHIVE</span>
-        <span class="archive-edition">VOL. 001 <span> / </span> THE BEGINNING</span>
+        <a class="sources-link" id="open-sources" href="#sources" aria-haspopup="dialog">Sources <span aria-hidden="true">↗</span></a>
       </header>
       <main class="archive-main">
-        <div class="archive-topline mono"><span><i></i> BELOW THE SURFACE</span><span>CATALOG / 000 RECORDS</span></div>
+        <div class="archive-topline mono"><span><i></i> BELOW THE SURFACE</span><span>CATALOG / {catalog.length} DESIGNS</span></div>
         <section class="archive-hero" aria-labelledby="archive-title">
-          <div><p class="mono eyebrow">A DIFFERENT KIND OF SUB.</p><h1 id="archive-title" tabindex="-1">Below the<br><em>surface.</em></h1><p class="archive-intro">A place for the vessels, engineering, and stories<br class="desktop-break"> of the world beneath the waterline.</p></div>
+          <div><p class="mono eyebrow">THE UNDERSEA INDEX</p><h1 id="archive-title" tabindex="-1">Submarine<br><em>catalog.</em></h1><p class="archive-intro">Military classes and unique prototypes.<br>Historical and contemporary, from around the world.</p></div>
           <figure class="blueprint">
             <svg viewBox="0 0 640 330" role="img" aria-label="Stylized submarine profile, an illustration rather than a specific vessel">
               <defs><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#263831" stroke-width=".6"/></pattern></defs>
@@ -100,12 +102,28 @@ const version = (file: string) => createHash('sha256').update(readFileSync(`publ
           </figure>
         </section>
         <section class="collection" aria-labelledby="collection-title">
-          <div class="collection-heading"><h2 id="collection-title">The collection</h2><span class="mono">000 ENTRIES</span></div>
-          <div class="collection-columns mono" aria-hidden="true"><span>VESSEL / CLASS</span><span>ORIGIN</span><span>ERA</span><span>RECORD</span></div>
-          <div class="collection-empty"><span class="empty-marker" aria-hidden="true">[ — ]</span><div><h3>Uncharted. For now.</h3><p>The archive is ready for its first entry.<br>Vessel records and reference material will live here.</p></div><span class="mono collection-status">COLLECTION IN PREPARATION</span></div>
+          <div class="collection-heading"><h2 id="collection-title">The collection</h2><span class="mono">{catalog.length} TYPES / {countries.length} ORIGINS</span></div>
+          <p class="catalog-scope">Military classes and unique prototypes that reached construction. Countries identify design origin, not every operating navy. Historical coverage is provisional; civilian craft and paper-only proposals are excluded.</p>
+          <div class="catalog-tools">
+            <div class="catalog-search"><label for="catalog-search">Find a submarine</label><input id="catalog-search" type="search" placeholder="Search type or country…" autocomplete="off" spellcheck="false"></div>
+            <div class="catalog-filter"><label for="catalog-country">Country of origin</label><select id="catalog-country"><option value="">All countries</option>{countries.map(country => <option value={country}>{country}</option>)}</select></div>
+            <button type="button" id="catalog-clear">Clear filters</button>
+          </div>
+          <div class="catalog-results mono" id="catalog-results" role="status" aria-live="polite">{catalog.length} designs</div>
+          <table class="catalog-table">
+            <caption class="sr-only">Submarine types and countries of design origin</caption>
+            <thead><tr><th scope="col">TYPE / DESIGN</th><th scope="col">COUNTRY OF ORIGIN</th></tr></thead>
+            <tbody id="catalog-rows">{catalog.map(entry => <tr data-type={entry.type} data-country={entry.country}><td>{entry.type}</td><td>{entry.country}</td></tr>)}</tbody>
+          </table>
+          <div class="catalog-empty" id="catalog-empty" hidden><h3>No matching designs.</h3><p>Try another name or clear the filters.</p></div>
+          <nav class="catalog-pagination" aria-label="Catalog pages"><button id="catalog-previous" type="button">← Previous</button><span id="catalog-page" class="mono"></span><button id="catalog-next" type="button">Next →</button></nav>
         </section>
         <footer class="archive-footer mono"><span>SUBS / AN UNDERSEA INDEX</span><span>YOU ORDERED WELL.</span></footer>
       </main>
+      <dialog id="sources" aria-labelledby="sources-title">
+        <div class="sources-heading"><h2 id="sources-title">Sources</h2><button id="close-sources" type="button" aria-label="Close sources">Close <span aria-hidden="true">×</span></button></div>
+        <ul class="source-urls">{sources.map(url => <li><a href={url} target="_blank" rel="noopener noreferrer">{url}</a></li>)}</ul>
+      </dialog>
     </div>
   </body>
 </html>
