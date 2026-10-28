@@ -1,5 +1,14 @@
 # Project state
 
+## SUBS entry and catalog foundation — 2026-10-27
+- Mode: new task; implementing an unlisted /subs/ route on the canonical website. Existing unfinished work below preserved.
+- Baseline: main 901c08f; GitHub Pages production workflow verified. No hosting or DNS changes.
+- Scope: sandwich-shop riddle gate, submarine answer, animated dive reveal, EAD-inspired catalog foundation; catalog details await user input.
+- Decisions: cosmetic gate like EAD, fresh entry each visit, no stored login. No public navigation/archive/sitemap links; noindex metadata. No invented vessels or active catalog controls.
+- Implemented: green/yellow sandwich counter and riddle; normalized answer; rising-water/letter/submarine reveal; skip, reduced motion and background interruption; dark schematic/empty archive; logo resets entry.
+- Verified: full npm test passed; final rebuild/publication checks and six new gate behavior tests passed. Browser wrong/correct answers, Enter, skip, replay, fresh reload and 320px/narrow/desktop layouts pass; no page overflow or production-preview console warnings/errors.
+- Status: ready for production push and live verification. Catalog functionality/content awaits user details; current shell has no records or storage.
+
 ## CHEM flashcards and Q&A — 2026-10-17
 
 - Mode: continuation; user explicitly requested same-page flashcards and Quizlet-style Q&A.

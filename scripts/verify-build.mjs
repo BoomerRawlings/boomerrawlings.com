@@ -36,6 +36,7 @@ const unlistedContentPaths = new Set([
   join('deckle', 'index.html'),
   join('swc', 'index.html'),
   join('ead', 'index.html'),
+  join('subs', 'index.html'),
   join('psyc', 'index.html'),
   join('brain', 'index.html'),
   join('chem', 'index.html'),
@@ -59,9 +60,9 @@ const unlistedHtmlFiles = htmlFiles.filter(
 const standaloneHtmlFiles = htmlFiles.filter(
   (file) => standaloneContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 36 || standaloneHtmlFiles.length !== 6 || unlistedHtmlFiles.length !== 12 || htmlFiles.length !== 60) {
+if (contentHtmlFiles.length !== 36 || standaloneHtmlFiles.length !== 6 || unlistedHtmlFiles.length !== 13 || htmlFiles.length !== 61) {
   throw new Error(
-    `expected 36 portfolio pages, 6 standalone pages, 12 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 36 portfolio pages, 6 standalone pages, 13 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
@@ -538,7 +539,7 @@ if (!existsSync(decklePath)) {
   if (deckleHtml.includes('Open Deckle directly')) failures.push('deckle/index.html: confusing direct-link overlay must remain absent');
 }
 // Deckle owns its button inside the proxied app, not the legacy iframe wrapper.
-for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => file !== decklePath && file !== karmaPath && file !== join(output, 'BoomerKarma', 'Kemberton', 'index.html') && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html') && file !== join(output, 'ead', 'index.html') && file !== join(output, 'psyc', 'index.html') && file !== join(output, 'brain', 'index.html') && file !== join(output, 'chem', 'index.html'))) {
+for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => file !== decklePath && file !== karmaPath && file !== join(output, 'BoomerKarma', 'Kemberton', 'index.html') && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html') && file !== join(output, 'ead', 'index.html') && file !== join(output, 'subs', 'index.html') && file !== join(output, 'psyc', 'index.html') && file !== join(output, 'brain', 'index.html') && file !== join(output, 'chem', 'index.html'))) {
   const html = readFileSync(file, 'utf8');
   const count = (html.match(/class="support-coffee"/g) ?? []).length;
   if (html.includes('class="analysis-research"')) {
@@ -569,6 +570,9 @@ for (const file of [...contentHtmlFiles, ...standaloneHtmlFiles]) {
   }
   if (/href=["'][^"']*\/ead(?:\/[^"']*)?(?:[?#][^"']*)?["']/i.test(html)) {
     failures.push(`${label}: public page links to the unlisted EAD route`);
+  }
+  if (/href=["'][^"']*\/subs(?:\/[^"']*)?(?:[?#][^"']*)?["']/i.test(html)) {
+    failures.push(`${label}: public page links to the unlisted Subs route`);
   }
 }
 

@@ -1,0 +1,111 @@
+---
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+const version = (file: string) => createHash('sha256').update(readFileSync(`public/subs/${file}`)).digest('hex').slice(0, 12);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow,noarchive,noimageindex">
+    <meta name="referrer" content="no-referrer">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+    <meta name="theme-color" content="#087442">
+    <title>SUBS — The secret menu</title>
+    <link rel="icon" href="/subs/icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href={`/subs/style.css?v=${version('style.css')}`}>
+    <script is:inline src={`/subs/entry.js?v=${version('entry.js')}`} defer></script>
+  </head>
+  <body data-stage="counter">
+    <section id="counter" aria-label="The sandwich counter">
+      <header class="shop-header">
+        <div class="shop-logo" aria-label="Subs"><span>SUB</span><span>S</span><span class="logo-arrow" aria-hidden="true">↗</span></div>
+        <p>Freshly made.<br><strong>Suspiciously secret.</strong></p>
+        <span class="shop-stamp">THE SECRET MENU</span>
+      </header>
+      <main class="counter-main">
+        <div class="sandwich-pitch">
+          <p class="shop-eyebrow">BIG SUB ENERGY. ZERO EXPLANATION.</p>
+          <h1>A little bread.<br>A lot of <em>mystery.</em></h1>
+          <p class="pitch-copy">You look like someone who knows<br> what to order.</p>
+          <div class="sandwich-art">
+            <div class="fresh-sticker" aria-hidden="true">100%<br><strong>SUB</strong><br>STANCE</div>
+            <svg class="sandwich" viewBox="0 0 620 260" role="img" aria-label="An extravagantly overfilled sandwich">
+              <ellipse cx="314" cy="233" rx="244" ry="15" fill="#173e25" opacity=".12"/>
+              <path d="M65 170Q53 220 126 226H490Q554 226 552 174Z" fill="#d99131" stroke="#68451c" stroke-width="3"/>
+              <path d="M65 171Q125 187 190 177T320 180T450 177T551 172L546 196Q324 221 76 198Z" fill="#efb94f"/>
+              <path d="M64 162L97 144L129 156L168 139L206 157L247 145L280 159L320 142L363 155L401 143L446 155L483 139L521 155L557 151L549 178L517 172L483 190L449 176L413 191L376 174L332 189L295 177L251 191L214 176L171 188L135 175L97 185L63 175Z" fill="#29873e" stroke="#195a2a" stroke-width="3"/>
+              <path d="M83 148Q160 115 242 149T403 145T544 145L535 164Q463 144 390 169T232 166T80 165Z" fill="#c35e45" stroke="#8d4130" stroke-width="3"/>
+              <path d="M88 134L214 122L263 160L357 122L435 153L531 129L531 143L438 173L353 141L258 180L204 143L88 149Z" fill="#ffdf56" stroke="#d5a332" stroke-width="2"/>
+              <path d="M74 125Q165 95 252 125T421 121T546 122L548 137Q459 116 387 143T222 143T74 143Z" fill="#81a84c" stroke="#355b30" stroke-width="3"/>
+              <path d="M63 122C65 54 133 33 199 37L430 43C491 42 543 63 555 118Q557 133 537 135L79 139Q60 138 63 122Z" fill="#efbd5c" stroke="#68451c" stroke-width="3"/>
+              <path d="M79 115C95 58 155 50 214 52L427 57Q511 59 536 112" fill="none" stroke="#ffdb87" stroke-width="11" stroke-linecap="round"/>
+              <g fill="none" stroke="#b9792e" stroke-width="6" stroke-linecap="round"><path d="M185 55L162 90"/><path d="M278 58L255 95"/><path d="M370 61L347 98"/><path d="M460 69L437 103"/></g>
+              <g fill="#fff0bd"><ellipse cx="124" cy="100" rx="4" ry="2"/><ellipse cx="209" cy="111" rx="4" ry="2"/><ellipse cx="303" cy="80" rx="4" ry="2"/><ellipse cx="392" cy="112" rx="4" ry="2"/><ellipse cx="485" cy="101" rx="4" ry="2"/></g>
+            </svg>
+            <p class="art-caption">FULLY LOADED. NAME WITHHELD.</p>
+          </div>
+        </div>
+        <div class="order-card">
+          <span class="ticket-top">ORDER NO. 001 <span>OFF THE MENU</span></span>
+          <p class="card-kicker">A riddle, with everything on it.</p>
+          <h2>Know your sub?</h2>
+          <p class="riddle" id="riddle">My name is shortened at the deli.<br>I'm long and packed inside.<br>But say it all, and suddenly<br>I'm built to take a dive.</p>
+          <form id="entry-form" novalidate>
+            <label for="entry-input">What's my full name?</label>
+            <div class="order-input"><input id="entry-input" name="answer" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="80" placeholder="Your secret order…" aria-describedby="riddle entry-feedback" enterkeyhint="go"><span aria-hidden="true">?</span></div>
+            <button class="order-button" id="entry-submit" type="submit">That's my order <span aria-hidden="true">↗</span></button>
+            <p id="entry-feedback" role="status" aria-live="polite"></p>
+          </form>
+          <p class="receipt-note">No account. Just good taste.</p>
+          <noscript><p class="no-script">Enable JavaScript to solve the riddle and enter.</p></noscript>
+        </div>
+      </main>
+      <footer class="shop-footer"><span>TOASTED? OPTIONAL.</span><span>THE PLOT? THICKENING.</span><span>EXTRA CHEESE? ALWAYS.</span></footer>
+      <div class="shop-stripe" aria-hidden="true"></div>
+    </section>
+
+    <section id="descent" hidden aria-label="Descending below the surface">
+      <div class="depth-scale" aria-hidden="true"><span>000</span><span>050</span><span>100</span><span>150</span><span>200</span></div>
+      <div class="descent-center">
+        <p class="mono">ORDER RECEIVED. HOLD THE BREAD.</p>
+        <div class="dive-word" aria-hidden="true"><span>SUB</span><span class="marine">MARINE</span></div>
+        <svg class="dive-vessel" viewBox="0 0 640 200" aria-hidden="true"><path d="M95 95H503Q560 95 583 126Q557 155 503 155H95Q65 155 65 126Q65 95 95 95Z"/><path d="M258 95V63H327L347 95M282 63V35H307M81 106L47 80V170L82 143M125 119H536M380 96V155M146 96V155"/></svg>
+        <p class="descent-caption">Taking your order a little deeper.</p>
+      </div>
+      <button id="skip-dive" class="quiet-button" type="button">Skip descent <span aria-hidden="true">↓</span></button>
+    </section>
+
+    <div id="workspace" hidden inert>
+      <header class="archive-header">
+        <button id="return-counter" class="archive-brand" type="button" aria-label="SUBS — return to the sandwich counter"><svg viewBox="0 0 40 28" aria-hidden="true"><path d="M8 12H29Q35 12 38 18Q35 24 29 24H8Q3 24 3 18Q3 12 8 12ZM17 12V6H23L27 12M20 6V2H25"/></svg><span>SUBS</span></button>
+        <span class="archive-descriptor">SUBMARINE ARCHIVE</span>
+        <span class="archive-edition">VOL. 001 <span> / </span> THE BEGINNING</span>
+      </header>
+      <main class="archive-main">
+        <div class="archive-topline mono"><span><i></i> BELOW THE SURFACE</span><span>CATALOG / 000 RECORDS</span></div>
+        <section class="archive-hero" aria-labelledby="archive-title">
+          <div><p class="mono eyebrow">A DIFFERENT KIND OF SUB.</p><h1 id="archive-title" tabindex="-1">Below the<br><em>surface.</em></h1><p class="archive-intro">A place for the vessels, engineering, and stories<br class="desktop-break"> of the world beneath the waterline.</p></div>
+          <figure class="blueprint">
+            <svg viewBox="0 0 640 330" role="img" aria-label="Stylized submarine profile, an illustration rather than a specific vessel">
+              <defs><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#263831" stroke-width=".6"/></pattern></defs>
+              <path fill="url(#grid)" d="M0 0H640V330H0Z"/>
+              <g class="draft-guides"><path d="M24 188H618M105 58V282M550 58V282M60 260H584M60 253V267M584 253V267"/><circle cx="329" cy="165" r="116"/><circle cx="329" cy="165" r="142"/></g>
+              <g class="draft-hull"><path d="M111 151H486C535 151 559 166 580 188C553 211 535 225 486 225H111C87 225 70 211 70 188S87 151 111 151Z"/><path d="M253 151V111Q254 101 267 101H307L328 151M270 101V72H293M294 101V83M115 151V225M393 151V225M70 176L39 144V233L70 201M167 187H510M446 151L465 138H503L519 154"/><path d="M571 173V204M585 168V209"/><circle cx="349" cy="188" r="7"/></g>
+              <g class="draft-detail"><path d="M194 129L168 96H91M427 238L452 283H535M322 58H435"/><circle cx="194" cy="129" r="3"/><circle cx="427" cy="238" r="3"/></g>
+              <g class="draft-label"><text x="88" y="85">PROFILE / 001</text><text x="453" y="302">UNDERSEA ARCHIVE</text><text x="437" y="61">SUBS</text></g>
+            </svg>
+            <figcaption class="mono"><span>FIG. 01 — BENEATH THE WATERLINE</span><span>SCHEMATIC / NOT TO SCALE</span></figcaption>
+          </figure>
+        </section>
+        <section class="collection" aria-labelledby="collection-title">
+          <div class="collection-heading"><h2 id="collection-title">The collection</h2><span class="mono">000 ENTRIES</span></div>
+          <div class="collection-columns mono" aria-hidden="true"><span>VESSEL / CLASS</span><span>ORIGIN</span><span>ERA</span><span>RECORD</span></div>
+          <div class="collection-empty"><span class="empty-marker" aria-hidden="true">[ — ]</span><div><h3>Uncharted. For now.</h3><p>The archive is ready for its first entry.<br>Vessel records and reference material will live here.</p></div><span class="mono collection-status">COLLECTION IN PREPARATION</span></div>
+        </section>
+        <footer class="archive-footer mono"><span>SUBS / AN UNDERSEA INDEX</span><span>YOU ORDERED WELL.</span></footer>
+      </main>
+    </div>
+  </body>
+</html>
