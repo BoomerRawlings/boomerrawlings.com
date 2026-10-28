@@ -7,7 +7,8 @@
 - Decisions: cosmetic gate like EAD, fresh entry each visit, no stored login. No public navigation/archive/sitemap links; noindex metadata. No invented vessels or active catalog controls.
 - Implemented: green/yellow sandwich counter and riddle; normalized answer; rising-water/letter/submarine reveal; skip, reduced motion and background interruption; dark schematic/empty archive; logo resets entry.
 - Verified: full npm test passed; final rebuild/publication checks and six new gate behavior tests passed. Browser wrong/correct answers, Enter, skip, replay, fresh reload and 320px/narrow/desktop layouts pass; no page overflow or production-preview console warnings/errors.
-- Status: ready for production push and live verification. Catalog functionality/content awaits user details; current shell has no records or storage.
+- Complete/live: release 84bbb1b; Pages 40624250827 full build/deployment succeeded. Slashless /subs redirects to /subs/ with HTTP 200; all three assets byte-match tested build; homepage, All Work and sitemap have no SUBS link. Live gate/reveal/archive/reset verified; console clear.
+- Next: await user catalog requirements. Current shell has no records or storage. No remaining initial-launch work or blockers.
 
 ## CHEM flashcards and Q&A — 2026-10-17
 
