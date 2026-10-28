@@ -10,7 +10,7 @@ from pathlib import Path
 
 from .client import ApiClient
 from .discovery import discover_commons
-from .io import DatasetError, read_jsonl, write_jsonl
+from .io import DatasetError, RateLimitedError, read_jsonl, write_jsonl
 from .pipeline import Store, inspect
 from .releases import choose_release, export_release, validate_release
 
@@ -114,7 +114,8 @@ def run(args):
                 if requests > args.max_requests:
                     raise DatasetError("Batch request ceiling reached")
 
-            for candidate in read_jsonl(args.manifest):
+            candidates = read_jsonl(args.manifest)
+            for index, candidate in enumerate(candidates):
                 if args.command == "discover":
                     results.append({"candidate_id": store.discover(candidate)})
                 else:
@@ -122,6 +123,11 @@ def run(args):
                         record = store.ingest(candidate, allow_localhost=args.allow_localhost,
                                               max_requests=args.max_requests, on_request=charge_request)
                         results.append({key: record[key] for key in ("id", "candidate_id", "status", "held_reasons", "unchanged") if key in record})
+                    except RateLimitedError as exc:
+                        results.append({"class_id": candidate.get("class_id"), "status": "held", "error": str(exc)})
+                        return {"results": results, "requests": requests, "deferred": True,
+                                "retry_at": exc.retry_at, "retry_after_seconds": exc.retry_after_seconds,
+                                "remaining_candidates": len(candidates) - index - 1}
                     except DatasetError as exc:
                         results.append({"class_id": candidate.get("class_id"), "status": "held", "error": str(exc)})
             return {"results": results, "requests": requests}

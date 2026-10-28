@@ -298,9 +298,13 @@ class Store:
                        "duplicate_group": "original-" + details["pixel_sha256"], "assets": assets})
         record.setdefault("source", {})["retrieved_at"] = now()
         quality = record.setdefault("quality", {})
+        # Keep the collector's judgment separate from the computed result. None
+        # records that no explicit visual judgment was supplied on this import.
+        visual_sharpness_ok = quality.get("sharpness_ok") if isinstance(quality.get("sharpness_ok"), bool) else None
         quality.update({"original_width": image.width, "original_height": image.height,
                         "sharpness_score": details["sharpness_score"],
-                        "sharpness_ok": details["sharpness_score"] >= SHARPNESS_FLOOR})
+                        "visual_sharpness_ok": visual_sharpness_ok,
+                        "sharpness_ok": visual_sharpness_ok is not False and details["sharpness_score"] >= SHARPNESS_FLOOR})
         for other in self.rows():
             exact = other.get("pixel_sha256") == record["pixel_sha256"]
             near = hash_distance(other["phash"], record["phash"]) <= NEAR_DUPLICATE_DISTANCE
@@ -374,8 +378,13 @@ class Store:
             raise DatasetError("Corrected crop exceeds64MiB")
         record["assets"]["crop"] = {"file_name": relative, "sha256": sha256_file(cropped), "bytes": cropped.stat().st_size, "content_type": "image/png"}
         score = sharpness(target)
+        # Older records do not distinguish visual vetoes from metric failures;
+        # preserve a prior failure when its provenance is unknown.
+        quality = record["quality"]
+        visual_sharpness_ok = quality.get("visual_sharpness_ok", False if quality.get("sharpness_ok") is False else None)
         record["quality"].update({"original_width": image.width, "original_height": image.height,
-                                  "sharpness_score": score, "sharpness_ok": score >= SHARPNESS_FLOOR})
+                                  "sharpness_score": score, "visual_sharpness_ok": visual_sharpness_ok,
+                                  "sharpness_ok": visual_sharpness_ok is not False and score >= SHARPNESS_FLOOR})
         record["target_phash"] = phash(target)
         record.pop("verification", None)
         record["status"] = "held"

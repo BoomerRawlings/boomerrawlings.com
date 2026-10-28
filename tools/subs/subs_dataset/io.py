@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import ipaddress
 import json
+import math
 import os
 import re
 import socket
@@ -12,6 +13,8 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from pathlib import Path, PurePosixPath
 
 MAX_BYTES = 64 * 1024 * 1024
@@ -20,6 +23,34 @@ USER_AGENT = "SUBS-Dataset/1.0 (original-image research; source permissions requ
 
 class DatasetError(ValueError):
     """An actionable validation/transfer failure, without request credentials."""
+
+
+class RateLimitedError(DatasetError):
+    """A deferred transfer. Callers must pause collection from the affected source."""
+
+    def __init__(self, retry_after: str | None):
+        current = time.time()
+        seconds = 60
+        if retry_after:
+            try:
+                value = retry_after.strip()
+                if value.isdecimal():
+                    seconds = int(value)
+                else:
+                    deadline = parsedate_to_datetime(value)
+                    if deadline.tzinfo is None:
+                        deadline = deadline.replace(tzinfo=timezone.utc)
+                    seconds = math.ceil(deadline.timestamp() - current)
+            except (ValueError, TypeError, OverflowError):
+                pass
+        # Even a past/zero header is deferred to the caller, never immediately retried.
+        self.retry_after_seconds = max(1, seconds)
+        try:
+            self.retry_at = datetime.fromtimestamp(math.ceil(current + self.retry_after_seconds), timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+        except (ValueError, OverflowError, OSError):
+            self.retry_at = None
+        timing = self.retry_at or f"after {self.retry_after_seconds} seconds"
+        super().__init__(f"Download deferred (HTTP 429); retry no earlier than {timing}. Pause this source; partial bytes retained.")
 
 
 def sha256_file(path: Path) -> str:
@@ -204,11 +235,15 @@ def download(url: str, target: Path, *, expected_sha256: str | None = None,
             resume_meta.unlink(missing_ok=True)
             return target
         except urllib.error.HTTPError as exc:
+            if exc.code == 429:
+                deferred = RateLimitedError(exc.headers.get("Retry-After"))
+                exc.close()
+                raise deferred from None
             if exc.code == 416 and expected_sha256 and partial.exists() and sha256_file(partial) == expected_sha256:
                 replace_with_retry(partial, target)
                 resume_meta.unlink(missing_ok=True)
                 return target
-            if exc.code < 500 and exc.code not in (408, 429):
+            if exc.code < 500 and exc.code != 408:
                 raise DatasetError(f"Download refused (HTTP {exc.code})") from None
             if attempt == retries:
                 raise DatasetError(f"Download unavailable (HTTP {exc.code})") from None

@@ -13,6 +13,8 @@ import sys
 import tempfile
 import threading
 import unittest
+from datetime import datetime, timezone
+from email.utils import format_datetime
 from unittest.mock import Mock, patch
 from pathlib import Path
 
@@ -21,8 +23,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from PIL import Image, ImageDraw, ImageFilter
 
 from subs_dataset.discovery import license_policy
+from subs_dataset.__main__ import parser as cli_parser, run as run_cli
 from subs_dataset.client import ApiClient
-from subs_dataset.io import DatasetError, checksum_entries, download, read_jsonl, replace_with_retry, safe_path, sha256_file, write_json
+from subs_dataset.io import DatasetError, RateLimitedError, checksum_entries, download, read_jsonl, replace_with_retry, safe_path, sha256_file, write_json
 from subs_dataset.loader import batches
 from subs_dataset.pipeline import Store, eligibility_errors, inspect
 from subs_dataset.releases import choose_release, export_release, split_records, validate_release, validate_splits
@@ -127,6 +130,65 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(result["status"], "held")
         self.assertTrue(any("independent" in reason for reason in result["held_reasons"]))
 
+    def test_visual_quality_failure_stays_held_despite_high_metric_and_acceptance(self):
+        row = candidate(self.path)
+        row["quality"]["sharpness_ok"] = False
+        self.assertGreater(inspect(self.path, row["target_bbox"])["sharpness_score"], 8)
+        result = self.store.ingest(row)
+        self.assertGreater(result["quality"]["sharpness_score"], 8)
+        self.assertFalse(result["quality"]["sharpness_ok"])
+        self.assertIs(result["quality"]["visual_sharpness_ok"], False)
+        self.assertEqual(result["status"], "held")
+        self.assertIn("quality.sharpness_ok not established", result["held_reasons"])
+        corrected = self.store.correct(result["id"], {
+            "changes": {"target_bbox": [200, 200, 1000, 500]},
+            "reason": "Crop adjustment does not resolve the visual quality failure"})
+        self.assertGreater(corrected["quality"]["sharpness_score"], 8)
+        self.assertFalse(corrected["quality"]["sharpness_ok"])
+        verified = self.store.verify(result["id"], row["verification"])
+        self.assertEqual(verified["status"], "held")
+        self.assertIn("quality.sharpness_ok not established", eligibility_errors(verified))
+
+    def test_recrop_recovers_metric_only_failure_but_requires_reverification(self):
+        # The first annotation mistakenly targets a flat area; the corrected
+        # native crop selects fine detail in the same unchanged original.
+        image = Image.new("RGB", (1600, 1200), "white")
+        draw = ImageDraw.Draw(image)
+        for x in range(0, 1600, 20):
+            for y in range(600, 1200, 20):
+                draw.rectangle((x, y, x + 9, y + 9), fill="black")
+        image.save(self.path)
+        row = candidate(self.path)
+        row["target_bbox"] = [100, 50, 1200, 500]
+        self.assertNotIn("sharpness_ok", row["quality"])
+        original = self.store.ingest(row)
+        self.assertEqual(original["quality"]["sharpness_score"], 0)
+        self.assertIsNone(original["quality"]["visual_sharpness_ok"])
+        self.assertEqual(original["status"], "held")
+        corrected = self.store.correct(original["id"], {
+            "changes": {"target_bbox": [100, 650, 1200, 500]},
+            "reason": "Move mistakenly placed annotation onto detailed target"})
+        self.assertGreater(corrected["quality"]["sharpness_score"], 8)
+        self.assertTrue(corrected["quality"]["sharpness_ok"])
+        self.assertEqual(corrected["sha256"], original["sha256"])
+        self.assertEqual(corrected["status"], "held")
+        self.assertNotIn("verification", corrected)
+        self.assertEqual(self.store.verify(original["id"], row["verification"])["status"], "accepted")
+
+    def test_legacy_false_with_unknown_review_provenance_stays_failed(self):
+        row = candidate(self.path)
+        row["quality"]["sharpness_ok"] = False
+        legacy = self.store.ingest(row)
+        legacy["quality"].pop("visual_sharpness_ok")
+        self.store.save(legacy) # Simulate a record written before provenance was stored.
+        corrected = self.store.correct(legacy["id"], {
+            "changes": {"target_bbox": [200, 200, 1000, 500]},
+            "reason": "Correct annotation on legacy original"})
+        self.assertGreater(corrected["quality"]["sharpness_score"], 8)
+        self.assertIs(corrected["quality"]["visual_sharpness_ok"], False)
+        self.assertFalse(corrected["quality"]["sharpness_ok"])
+        self.assertEqual(self.store.verify(legacy["id"], row["verification"])["status"], "held")
+
     def test_recompression_and_pixel_copy_are_not_new_originals(self):
         first = self.store.ingest(candidate(self.path))
         recompressed = self.root / "recompressed.jpg"
@@ -163,6 +225,72 @@ class PipelineTests(unittest.TestCase):
 
 
 class DownloadTests(unittest.TestCase):
+    def test_429_defers_first_response_and_preserves_resume_bytes(self):
+        requests = []
+
+        class Handler(http.server.BaseHTTPRequestHandler):
+            def do_GET(self):
+                requests.append(self.headers.get("Range"))
+                self.send_response(429)
+                self.send_header("Retry-After", "180")
+                self.send_header("Content-Length", "0")
+                self.end_headers()
+
+            def log_message(self, *_):
+                pass
+
+        with socketserver.TCPServer(("127.0.0.1", 0), Handler) as server, tempfile.TemporaryDirectory() as temporary:
+            thread = threading.Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            try:
+                target = Path(temporary) / "original.jpg"
+                partial = target.with_suffix(".jpg.part")
+                partial.write_bytes(b"existing-original-prefix")
+                resume = target.with_suffix(".jpg.part.json")
+                write_json(resume, {"validator": '"same-original"'})
+                callback = Mock()
+                with patch("subs_dataset.io.time.sleep") as sleep, self.assertRaises(RateLimitedError) as caught:
+                    download(f"http://127.0.0.1:{server.server_address[1]}/image", target,
+                             allow_localhost=True, retries=9, on_request=callback)
+                self.assertIsInstance(caught.exception, DatasetError)
+                self.assertEqual(caught.exception.retry_after_seconds, 180)
+                self.assertTrue(caught.exception.retry_at.endswith("Z"))
+                self.assertEqual(requests, ["bytes=24-"])
+                self.assertEqual(callback.call_count, 1)
+                sleep.assert_not_called()
+                self.assertEqual(partial.read_bytes(), b"existing-original-prefix")
+                self.assertEqual(json.loads(resume.read_text(encoding="utf-8")), {"validator": '"same-original"'})
+                self.assertFalse(target.exists())
+                # A batch must not hammer the same source through the next candidate URL.
+                manifest = Path(temporary) / "batch.jsonl"
+                rows = [candidate(Path("unused"), source=name) for name in ("one.jpg", "two.jpg")]
+                for row in rows:
+                    row.pop("local_file")
+                    row["download_url"] = f"http://127.0.0.1:{server.server_address[1]}/image"
+                manifest.write_text("\n".join(json.dumps(row) for row in rows), encoding="utf-8")
+                result = run_cli(cli_parser().parse_args(["ingest", str(manifest), "--store", str(Path(temporary) / "store"), "--allow-localhost"]))
+                self.assertTrue(result["deferred"])
+                self.assertEqual(result["retry_after_seconds"], 180)
+                self.assertEqual(result["remaining_candidates"], 1)
+                self.assertEqual(result["requests"], 1)
+                self.assertEqual(len(requests), 2) # one direct transfer + one batch attempt
+            finally:
+                server.shutdown()
+
+    def test_retry_after_http_date_and_missing_or_invalid_headers(self):
+        current = 1800000000
+        future = format_datetime(datetime.fromtimestamp(current + 600, timezone.utc), usegmt=True)
+        with patch("subs_dataset.io.time.time", return_value=current):
+            deferred = RateLimitedError(future)
+            self.assertEqual(deferred.retry_after_seconds, 600)
+            self.assertEqual(deferred.retry_at, "2027-01-15T08:10:00Z")
+            for header in (None, "", "not-a-date", "-2"):
+                self.assertEqual(RateLimitedError(header).retry_after_seconds, 60)
+            for header in ("0", format_datetime(datetime.fromtimestamp(current - 60, timezone.utc), usegmt=True)):
+                self.assertEqual(RateLimitedError(header).retry_after_seconds, 1)
+        with patch("subs_dataset.io.time.time", return_value=current + 0.9):
+            self.assertEqual(RateLimitedError("600").retry_at, "2027-01-15T08:10:01Z")
+
     def test_worker_checksum_schema_is_strict_and_existing_releases_cannot_mix(self):
         digest = "a" * 64
         self.assertEqual(checksum_entries({"algorithm": "sha256", "files": [{"filename": "images.jsonl", "sha256": digest, "bytes": 12}]}), {"images.jsonl": digest})
