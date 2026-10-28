@@ -1,7 +1,7 @@
 # Project state
 
 ## SUBS training dataset — 2026-10-27
-- Mode: continuation; implementation of user-approved dataset/workspace plan. Baseline clean codex/subs; historical catalog live at 90d0f98.
+- Mode: continuation; approved collection/review system implemented and live. Dataset population remains open; historical baseline90d0f98 preserved.
 - Objective: active military class recognition dataset, 400 accepted unique camera originals/class; satellite supplemental; Python ingestion proof, no model training.
 - Decisions: dated initial commissioned-fleet snapshot only; class plus variant tags; historical catalog preserved. Camera minimum 1200px image/400px subject; satellite 200px subject and <=0.5m/pixel. Original plus crop; no duplicate/derivative quota padding.
 - Rights: broad discovery, cleared downloads/exports; commercial and research tiers separate; redistribution permission independent. Riddle retained; published cleared data unlisted/public; owner edit key and scoped agent credentials protect mutations/restricted assets. Full sign-in deferred.
@@ -10,10 +10,12 @@
 - Implemented: Worker/D1/private R2 API, review workspace, resumable Python toolkit and release/loader contract. API deployed from tracked source5c52033 to narrow/subs/api/* route; versiondad7ae0a. Both D1 migrations applied. Scoped credentials outside repository/synced workspace; private R2 public-dev access disabled.
 - Roster: 67 sourced class records; uncertain service cases and incomplete operator coverage explicitly tracked in docs/subs/ROSTER.md. Historical 659 entries/337 sources preserved. Snapshot is provisional, not certified globally exhaustive.
 - Pilot: bounded discovery403 candidates/297 preliminary size-license matches, not approvals. Five independently reviewed qualifying originals prepared; conflicting contractor-credit Virginia file held, replaced with Navy photographer original. No balanced release eligible; deficits399/pilot class. Evidence in docs/subs/PILOT.md.
-- Verified: full repository suite passed including67-class/historical/unlisted checks and10 workspace behavior tests.14 Python tests pass. Fresh Python environment downloaded400 assets from an actual local Worker200-image synthetic release, checked metadata/image hashes, decoded200 correctly labeled RGB images, and resumed downloads. Synthetic fixtures remain test-only.
+- Verified: full repository suite passed including67-class/historical/unlisted checks and10 workspace behavior tests;8 API integration tests and15 Python tests pass. Fresh Python environment downloaded400 assets from an actual local Worker200-image synthetic release, checked metadata/image hashes, decoded200 correctly labeled RGB images, and resumed downloads. Synthetic fixtures remain test-only; automated proof also passed in CI.
 - Budget: user explicitly deferred provider billing alerts; application projected$40 stop remains required. No recurring/paid collection configured.
 - Live API verified:67 classes,5 accepted originals/15 assets; pending metadata/bytes404 before independent approval; collector approval403; allfive original downloads match hashes/native dimensions. No release eligible. Pilot job completed; projected monthlycost$5.0002 includes conservative$5 baseline, not actual provider invoice.
-- Next: publish verified website source, import metadata-only discovery queue, confirm CI/live UI and update final checkpoint. No images/credentials in Git.
+- Complete/live: website5d2aacb; Pages40639052728 build/deploy succeeded. Live scripts/styles/roster/agent instructions match source bytes; noindex/sitemap exclusion verified. Live riddle, gallery5, original2100x1500 decode,392 raw Sources links, honest no-release state and320px layout pass; browser errors empty. Owner/crop/batch/audit/conflict/logout behaviors tested against actual local Worker. Task development servers stopped.
+- Collection:5 accepted camera originals,347 private metadata-only candidates,0 satellite,0 eligible releases. All candidate permission flags false; no candidate bytes uploaded. Repeated pilot sync uploads0 and skips5, counts unchanged. Both bounded collection jobs completed. No images/credentials in Git.
+- Next on-demand work: review347 candidates, expand source diversity and independently verified originals in five pilot classes; reconcile unresolved roster cases before claiming exhaustive global coverage. Release only when >=2 classes reach100 eligible originals/tier;400/class target remains open. Provider alerts deferred by user.
 - Assumptions/risks: 400 eligible originals for every class not guaranteed; exact active coverage requires research. Provider availability/auth and image permissions must be verified, not inferred.
 
 ## SUBS catalog and sources — 2026-10-27
