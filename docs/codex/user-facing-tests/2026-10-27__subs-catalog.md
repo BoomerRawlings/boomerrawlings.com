@@ -8,3 +8,4 @@
 - Browser on final build: Virginia → one US result; Germany filter combined with Virginia → no results; Clear restores all. Japan → 62 results; next page → remaining12. Sources raw URLs, Escape/close focus return, desktop top-right position and 320px table/dialog no-overflow verified. Riddle still required on fresh reload; skip/return behavior retained.
 - No production-preview catalog script errors. One historical Astro dev-toolbar fetch error occurred after the separate dev server stopped; not included in published output.
 - Source evidence is broad but not a certified census of every historical/secret prototype; no exhaustive claim published.
+- Live release `90d0f98`, Pages `40629173806`: full CI and deployment passed. All659 rows/337 raw links/noindex confirmed; JS bytes identical and CSS identical after CRLF normalization. Live gate, Nautilus search, clear, Sources/Escape and focus return passed; no live application errors. Sitemap still excludes route.

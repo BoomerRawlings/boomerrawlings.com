@@ -8,7 +8,8 @@
 - Implemented: top-right Sources dialog containing raw URLs only; plain type/origin rows; search, country filtering and 50-row pagination. Gate unchanged. UI behavior tests pass.
 - Inventory: 659 military classes/prototypes, 32 country/historical-origin labels, 337 source URLs. Regional evidence and taxonomy in docs/subs; source-backed early prototype/export gaps filled. Uncertain origin/name labels visible where needed.
 - Verified: full npm test passed; every rendered type/country and raw source link matches data. Browser search/composed filters/empty-clear, pagination/final partial page, source modal/Escape/focus return, 320px and desktop overflow checks pass. No catalog application errors; a stopped dev-toolbar request is unrelated.
-- Status: ready for one production push and live verification. Coverage provisional, not certified exhaustive; minor variant/obscure prototype boundaries documented.
+- Complete/live: release 90d0f98; Pages 40629173806 full build/deploy succeeded. Live 659 rows/337 raw links/noindex and sitemap exclusion verified; script bytes match and CSS matches after Git line-ending normalization. Live gate/search/clear/Sources/Escape verified; no live app errors.
+- Next: user catalog refinements. Coverage remains provisional, not certified exhaustive; minor variant/obscure prototype boundaries documented. No launch blocker.
 
 ## SUBS entry and catalog foundation — 2026-10-27
 - Mode: new task; implementing an unlisted /subs/ route on the canonical website. Existing unfinished work below preserved.
