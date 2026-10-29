@@ -14,6 +14,18 @@ This is a tool-checked shared-account usage guard, not an exact token counter or
 
 The heartbeat wakes every five minutes when available. Run consecutive bounded batches during a pass, with concurrent independent reviews and one paced download queue per provider. Respect provider cooldowns even when that leaves workers idle. Persist API/source retry times privately; do not repeat requests during a known cooldown. For D1 daily exhaustion, wait until the stated UTC reset or a confirmed plan upgrade. User approved Workers Paid within the existing infrastructure budget; billing alerts remain deferred.
 
+## Parallel collection
+
+The user authorized separate collection chats. Provider lanes may run concurrently: Commons in the coordinating chat, NARA archival exports and DVIDS originals in dedicated chats. Each lane independently checks the **same account allowance** before batches and every five minutes; multiple chats do not create separate budgets. The private `parallel-lanes.json` registry identifies current chats and checkpoint folders. Read their status before repeating source work.
+
+Source lanes own separate ignored folders, source locks, evidence and resumable queues. They must not mutate the canonical repository or publish records. Central review retains the global duplicate index, independent verification and production publication. This prevents simultaneous import races and duplicate approvals. A blocked provider must record its exact prerequisite/cooldown while other providers continue legally; no alternate URLs or identities to evade a limit.
+
+Batch exact-source metadata requests where supported, retain the raw response once, and charge each request once. Reviewers can inspect multiple native images in a bounded packet; each photograph still needs its own crop, longitudinal measurement, rights/class evidence and independent decision. Report approved originals/hour, duplicate/hold rates and class coverage, rather than candidate totals alone. Film/master scans remain eligible when their original provenance and detail are supported.
+
+Commons' previous65-second spacing is a local workaround after observed429s, not a published requirement. Its [media policy](https://wikitech.wikimedia.org/wiki/Robot_policy#Media_API_rules) permits at most two concurrent requests and25Mbps over10-second intervals; our queue remains serial. Use a truthful contact User-Agent and conservative bandwidth limiter before any faster bounded benchmark. A successful short benchmark is not evidence of sustained throughput. Persist backoff and never silently promote a faster default.
+
+Initial four-file benchmark:6,388,972 original bytes in92seconds, all source hashes matching, no throttling. Serial30-second spacing,16Mbps rolling limiter,64MiB batch cap, shared eight-attempt/ten-minute window and600-second process timeout. This proves one bounded acquisition only; it does not establish sustained throughput or approvals/hour. Default65-second spacing remains until further controlled evidence supports promotion.
+
 ## Resume instead of restarting
 
 1. Read `.codex/STATE.md`; compare repository, live API counts and the last private batch checkpoint. Never re-import the same photograph as a new record.

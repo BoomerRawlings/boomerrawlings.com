@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import http.client
 import ipaddress
 import json
 import math
@@ -18,7 +19,7 @@ from email.utils import parsedate_to_datetime
 from pathlib import Path, PurePosixPath
 
 MAX_BYTES = 64 * 1024 * 1024
-USER_AGENT = "SUBS-Dataset/1.0 (original-image research; source permissions required)"
+USER_AGENT = "SUBS-DatasetBot/1.0 (https://boomerrawlings.com/; original-image research)"
 
 
 class DatasetError(ValueError):
@@ -28,7 +29,8 @@ class DatasetError(ValueError):
 class RateLimitedError(DatasetError):
     """A deferred transfer. Callers must pause collection from the affected source."""
 
-    def __init__(self, retry_after: str | None):
+    def __init__(self, retry_after: str | None, *, http_status: int = 429):
+        self.http_status = http_status
         current = time.time()
         seconds = 60
         if retry_after:
@@ -50,7 +52,57 @@ class RateLimitedError(DatasetError):
         except (ValueError, OverflowError, OSError):
             self.retry_at = None
         timing = self.retry_at or f"after {self.retry_after_seconds} seconds"
-        super().__init__(f"Download deferred (HTTP 429); retry no earlier than {timing}. Pause this source; partial bytes retained.")
+        super().__init__(f"Download deferred (HTTP {http_status}); retry no earlier than {timing}. Pause this source; partial bytes retained.")
+
+
+class RollingBandwidthLimiter:
+    """Conservative16Mbps: <=20,000,000 body bytes in any rolling10 seconds.
+
+    One serialized source queue must own this limiter. A caller may persist its
+    small event list under its provider lock to preserve limits across processes.
+    Reserve before reading; charge at receipt, even if validation later fails.
+    """
+    window_seconds = 10
+    window_bytes = 20_000_000
+
+    def __init__(self, events=None, *, save=None, clock=None, sleep=None):
+        if events is not None and not isinstance(events, list):
+            raise DatasetError("Malformed persisted bandwidth history")
+        self.events = list(events or [])
+        if any(not isinstance(e, (list, tuple)) or len(e) != 2 or type(e[0]) not in (int, float)
+               or not math.isfinite(e[0]) or type(e[1]) is not int or e[1] <= 0 for e in self.events):
+            raise DatasetError("Malformed persisted bandwidth history")
+        self.save = save
+        self.clock = clock or time.time
+        self.sleep = sleep or time.sleep
+
+    def wait_for(self, size, *, deadline=None):
+        if not 0 < size <= self.window_bytes:
+            raise DatasetError("Invalid bandwidth reservation")
+        while True:
+            current = self.clock()
+            self.events = [e for e in self.events if e[0] > current - self.window_seconds]
+            if sum(e[1] for e in self.events) + size <= self.window_bytes:
+                return
+            delay = max(0.001, min(e[0] for e in self.events) + self.window_seconds - current)
+            if deadline is not None and time.monotonic() + delay >= deadline:
+                raise DatasetError("Transfer deadline reached while pacing; partial bytes retained")
+            self.sleep(min(delay, 1))
+
+    def charge(self, size):
+        self.events.append([self.clock(), size])
+        if self.save:
+            self.save(self.events)
+
+
+_COMMONS_BANDWIDTH = RollingBandwidthLimiter()
+
+
+def remaining_timeout(deadline):
+    remaining = 45 if deadline is None else min(45, deadline - time.monotonic())
+    if remaining <= 0:
+        raise DatasetError("Transfer deadline reached; partial bytes retained")
+    return remaining
 
 
 def sha256_file(path: Path) -> str:
@@ -169,11 +221,26 @@ class SafeRedirect(urllib.request.HTTPRedirectHandler):
         return redirected
 
 
+class OriginalRedirect(SafeRedirect):
+    def redirect_request(self, request, response, code, message, headers, new_url):
+        if any(urllib.parse.urlsplit(url).hostname == "upload.wikimedia.org" for url in (request.full_url, new_url)):
+            raise DatasetError("Unexpected original-file redirect; resolve source identity before another request")
+        return super().redirect_request(request, response, code, message, headers, new_url)
+
+
 def download(url: str, target: Path, *, expected_sha256: str | None = None,
              max_bytes: int = MAX_BYTES, retries: int = 3, token: str | None = None,
-             allow_localhost: bool = False, on_request=None) -> Path:
+             allow_localhost: bool = False, on_request=None, on_bytes=None,
+             max_transfer_bytes: int | None = None, bandwidth_limiter=None, deadline=None) -> Path:
     """Resume partial bytes; a changed representation restarts, never appends corrupt data."""
+    remaining_timeout(deadline)
     check_url(url, allow_localhost)
+    if max_transfer_bytes is not None and (type(max_transfer_bytes) is not int or max_transfer_bytes < 0):
+        raise DatasetError("Invalid transfer byte budget")
+    transfer_bytes = 0
+    limiter = bandwidth_limiter
+    if urllib.parse.urlsplit(url).hostname == "upload.wikimedia.org" and limiter is None:
+        limiter = _COMMONS_BANDWIDTH
     target.parent.mkdir(parents=True, exist_ok=True)
     if target.exists():
         if target.stat().st_size > max_bytes:
@@ -185,7 +252,7 @@ def download(url: str, target: Path, *, expected_sha256: str | None = None,
         target.unlink()
     partial = target.with_suffix(target.suffix + ".part")
     resume_meta = partial.with_suffix(partial.suffix + ".json")
-    opener = urllib.request.build_opener(SafeRedirect(allow_localhost, urllib.parse.urlsplit(url).netloc))
+    opener = urllib.request.build_opener(OriginalRedirect(allow_localhost, urllib.parse.urlsplit(url).netloc))
     for attempt in range(retries + 1):
         try:
             offset = partial.stat().st_size if partial.exists() else 0
@@ -200,9 +267,12 @@ def download(url: str, target: Path, *, expected_sha256: str | None = None,
                     validator = json.loads(resume_meta.read_text(encoding="utf-8")).get("validator")
                     if validator:
                         headers["If-Range"] = validator
+            remaining_timeout(deadline)
+            if max_transfer_bytes is not None and transfer_bytes >= max_transfer_bytes:
+                raise DatasetError("Transfer byte budget exhausted; partial bytes retained")
             if on_request:
                 on_request()
-            with opener.open(urllib.request.Request(url, headers=headers), timeout=45) as response:
+            with opener.open(urllib.request.Request(url, headers=headers), timeout=remaining_timeout(deadline)) as response:
                 check_url(response.url, allow_localhost)
                 append = offset > 0 and response.status == 206
                 if append and not response.headers.get("Content-Range", "").startswith(f"bytes {offset}-"):
@@ -213,6 +283,8 @@ def download(url: str, target: Path, *, expected_sha256: str | None = None,
                 expected_length = int(length_header) if length_header else None
                 if expected_length is not None and expected_length + offset > max_bytes:
                     raise DatasetError("Download exceeds byte limit")
+                if expected_length is not None and max_transfer_bytes is not None and transfer_bytes + expected_length > max_transfer_bytes:
+                    raise DatasetError("Response exceeds remaining transfer budget; no body downloaded")
                 encoding = response.headers.get("Content-Encoding", "identity")
                 if encoding not in ("identity", ""):
                     raise DatasetError("Unexpected transfer encoding; original bytes required")
@@ -220,11 +292,39 @@ def download(url: str, target: Path, *, expected_sha256: str | None = None,
                 write_json(resume_meta, {"validator": validator})
                 received = 0
                 with partial.open("ab" if append else "wb") as stream:
-                    while chunk := response.read(256 * 1024):
+                    while expected_length is None or received < expected_length:
+                        remaining_timeout(deadline)
+                        size = min(256 * 1024, max_bytes - offset - received)
+                        if max_transfer_bytes is not None:
+                            size = min(size, max_transfer_bytes - transfer_bytes)
+                        if expected_length is not None:
+                            size = min(size, expected_length - received)
+                        if size <= 0:
+                            raise DatasetError("Transfer/file byte budget exhausted; partial bytes retained")
+                        if limiter:
+                            limiter.wait_for(size, deadline=deadline)
+                        # read1 returns available bytes without waiting to fill the entire chunk.
+                        incomplete = False
+                        try:
+                            chunk = response.read1(size) if hasattr(response, "read1") else response.read(size)
+                        except http.client.IncompleteRead as exc:
+                            chunk, incomplete = exc.partial, True
+                        if not chunk:
+                            if incomplete:
+                                raise OSError("Incomplete response")
+                            break
+                        transfer_bytes += len(chunk)
+                        if limiter:
+                            limiter.charge(len(chunk))
+                        if on_bytes:
+                            on_bytes(len(chunk))
                         received += len(chunk)
                         if offset + received > max_bytes:
                             raise DatasetError("Download exceeds byte limit")
                         stream.write(chunk)
+                        remaining_timeout(deadline)
+                        if incomplete:
+                            raise OSError("Incomplete response")
                 if expected_length is not None and received != expected_length:
                     raise OSError("Incomplete response")
             if expected_sha256 and sha256_file(partial) != expected_sha256:
@@ -235,8 +335,8 @@ def download(url: str, target: Path, *, expected_sha256: str | None = None,
             resume_meta.unlink(missing_ok=True)
             return target
         except urllib.error.HTTPError as exc:
-            if exc.code == 429:
-                deferred = RateLimitedError(exc.headers.get("Retry-After"))
+            if exc.code in {429, 503}:
+                deferred = RateLimitedError(exc.headers.get("Retry-After") if exc.headers else None, http_status=exc.code)
                 exc.close()
                 raise deferred from None
             if exc.code == 416 and expected_sha256 and partial.exists() and sha256_file(partial) == expected_sha256:
@@ -251,5 +351,8 @@ def download(url: str, target: Path, *, expected_sha256: str | None = None,
             if attempt == retries:
                 raise DatasetError("Download failed after retries; partial bytes retained") from None
         if attempt < retries:
-            time.sleep(min(2 ** attempt, 8))
+            delay = min(2 ** attempt, 8)
+            if deadline is not None and time.monotonic() + delay >= deadline:
+                raise DatasetError("Transfer deadline reached before retry; partial bytes retained")
+            time.sleep(delay)
     raise DatasetError("Download failed")
