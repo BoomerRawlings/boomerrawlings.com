@@ -6,6 +6,7 @@ import { createHash } from 'node:crypto';
 import { deflateSync } from 'node:zlib';
 import { Miniflare, convertV4MiniflareOptions } from 'miniflare';
 import { validateRelease, hamming } from '../src/validation.js';
+import { imageList } from '../src/index.js';
 
 const ROOT = fileURLToPath(new URL('../', import.meta.url)), BASE = 'https://boomerrawlings.com/subs/api/v1';
 const tokens = Object.fromEntries(['owner', 'collector', 'verifier', 'reader'].map(role => [role, `synthetic-test-only-${role}-credential-0123456789`]));
@@ -138,6 +139,94 @@ test('balanced releases are immutable, stream checksummed manifests, sample audi
 test('source URLs carrying credentials cannot enter the collection', async () => {
   await addClass(); const data = metadata('url-secret', png(1600, 1000)); data.rights.evidence_url = 'https://example.org/photo?token=secret';
   await expect(await call('/images/url-secret', { role: 'collector', method: 'PUT', data }), 400);
+});
+
+async function seedListingImages() {
+  await addClass();
+  await expect(await call('/classes/class-b', { method: 'PUT', role: 'owner', data: { ...klass('class-b'), name: 'Other Navy Design', origin_countries: ['Other'] } }), 201);
+  const fixtures = [
+    ['public-a', 'accepted', true, '2026-10-28', { variant: 'alpha', operator_country: 'Canada', event_group: 'event-a', duplicate_group: 'group-a' }],
+    ['public-b', 'accepted', true, '2026-10-28', { variant: null, operator_country: null }],
+    ['public-c', 'accepted', true, '2026-10-27', { class_id: 'class-b', domain: 'satellite' }],
+    ['restricted', 'accepted', false, '2026-10-29', {}],
+    ['held', 'held', true, '2026-10-30', {}],
+    ['pending', 'candidate', true, '2026-10-31', {}],
+  ];
+  for (const [id, status, publicDelivery, updated, extra] of fixtures) {
+    const data = metadata(id, Buffer.from(id), { ...extra, status });
+    data.rights.redistribution_allowed = publicDelivery;
+    if (id === 'public-c') data.rights.tier = 'research';
+    await db.prepare('INSERT INTO images(id,class_id,domain,status,rights_tier,public_delivery,duplicate_group,event_group,data,revision,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?)').bind(id, data.class_id, data.domain, status, data.rights.tier, +publicDelivery, data.duplicate_group ?? null, data.event_group ?? null, JSON.stringify(data), 7, updated).run();
+    await db.prepare('INSERT INTO assets(image_id,kind,object_key,sha256,bytes,content_type) VALUES(?,?,?,?,?,?)').bind(id, 'original', `test/${id}`, sha(id), 123, 'image/jpeg').run();
+  }
+}
+
+test('bounded image IDs preserve privacy, missing-ID behavior and complete record fields', async () => {
+  await seedListingImages();
+  const ids = 'pending,restricted,public-c,missing,public-b,held,public-a,public-a';
+  const publicPage = await expect(await call(`/images?ids=${ids}`), 200);
+  assert.equal(publicPage.total, 3);
+  assert.deepEqual(publicPage.items.map(row => row.id), ['public-a', 'public-b', 'public-c']);
+  for (const row of publicPage.items) assert.deepEqual(row, await expect(await call(`/images/${row.id}`), 200));
+  for (const role of ['owner', 'collector', 'verifier', 'reader']) {
+    const page = await expect(await call(`/images?ids=${ids}`, { role }), 200);
+    assert.equal(page.total, 6);
+    assert.deepEqual(page.items.map(row => row.id), ['pending', 'held', 'restricted', 'public-a', 'public-b', 'public-c']);
+  }
+  for (const query of ['ids=restricted,pending,held', `ids=${ids}&status=candidate`, `ids=${ids}&status=held`]) {
+    const page = await expect(await call(`/images?${query}`), 200);
+    assert.equal(page.total, 0); assert.deepEqual(page.items, []);
+  }
+});
+
+test('image IDs reject malformed or unbounded input and compose with paging and existing filters', async () => {
+  await seedListingImages();
+  for (const ids of ['', ',', 'public-a,', ',public-a', 'public-a,,public-b', 'UPPER', 'has space', 'a/b', 'x'.repeat(97), Array(51).fill('public-a').join(',')]) {
+    await expect(await call(`/images?ids=${encodeURIComponent(ids)}`), 400);
+  }
+  await expect(await call('/images?ids=public-a&ids=public-b'), 400);
+  const missing = Array.from({ length: 50 }, (_, index) => `missing-${index}`).join(',');
+  assert.equal((await expect(await call(`/images?ids=${missing}`), 200)).total, 0);
+  const paged = await expect(await call('/images?ids=public-c,public-b,public-a&limit=1&offset=1'), 200);
+  assert.equal(paged.total, 3); assert.equal(paged.limit, 1); assert.equal(paged.offset, 1); assert.deepEqual(paged.items.map(row => row.id), ['public-b']);
+  const ids = 'public-a,public-b,public-c';
+  const cases = [
+    ['class_id=class-a&variant=alpha&operator_country=Canada&event_group=event-a&duplicate_group=group-a', ['public-a']],
+    ['variant=__unknown__&operator_country=__unknown__&class_id=class-a', ['public-b']],
+    ['status=accepted&domain=satellite&rights_tier=research', ['public-c']],
+    ['q=Other%20Navy%20Design&origin_country=Other', ['public-c']],
+    ['q=Test%20class-a&origin_country=Example', ['public-a', 'public-b']],
+    ['q=Other%20Navy%20Design&origin_country=Example', []],
+  ];
+  for (const [filters, expected] of cases) {
+    const page = await expect(await call(`/images?ids=${ids}&${filters}`), 200);
+    assert.deepEqual(page.items.map(row => row.id), expected); assert.equal(page.total, expected.length);
+  }
+  const schema = await expect(await call('/openapi.json'), 200), parameter = schema.paths['/images'].get.parameters.find(item => item.name === 'ids');
+  assert.equal(parameter.explode, false); assert.equal(parameter.schema.maxItems, 50); assert.equal(parameter.schema.minItems, 1);
+});
+
+test('image list query plans use ordering and ID indexes without unnecessary class joins', async () => {
+  await seedListingImages();
+  async function queriesFor(role, query) {
+    const queries = [];
+    const env = { DB: { prepare(sql) { return { bind(...args) { queries.push({ sql, args }); return db.prepare(sql).bind(...args); } }; } } };
+    await expect(await imageList(env, role, new URLSearchParams(query)), 200);
+    for (const query of queries) query.plan = (await db.prepare(`EXPLAIN QUERY PLAN ${query.sql}`).bind(...query.args).all()).results.map(row => row.detail).join('\n');
+    return queries;
+  }
+  for (const [role, index] of [['reader', 'images_updated'], ['public', 'images_public_updated']]) {
+    const queries = await queriesFor(role, 'limit=1');
+    assert.equal(queries.length, 2);
+    assert.ok(queries.every(query => !query.sql.includes('JOIN classes')));
+    assert.match(queries[1].plan, new RegExp(index)); assert.doesNotMatch(queries[1].plan, /TEMP B-TREE/);
+  }
+  for (const role of ['reader', 'public']) {
+    const targeted = await queriesFor(role, 'ids=public-a,missing&limit=50');
+    for (const query of targeted) assert.match(query.plan, /sqlite_autoindex_images_1 \(id=\?\)/);
+  }
+  const filtered = await queriesFor('public', 'q=Other&origin_country=Other');
+  assert.ok(filtered.every(query => query.sql.includes('JOIN classes')));
 });
 
 test('release validator rejects leakage, insufficient samples and duplicate groups; satellite has independent domain', () => {

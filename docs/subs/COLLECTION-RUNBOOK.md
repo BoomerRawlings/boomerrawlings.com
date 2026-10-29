@@ -4,13 +4,15 @@ Goal: 400 independently approved camera originals for **each eligible class in t
 
 ## Codex usage gate
 
-The user authorized continuing collection with **Codex interface usage** as the work limit. Use `get_usage_limits` at the start, before each bounded collection/review batch, and at least every ten minutes during active work. Use `rateLimitsByLimitId` when available; inspect the applicable Codex primary/secondary windows. Remaining percentage is `100 - usedPercent`. Null windows are unavailable, not zero usage; at least one applicable window must be readable.
+The user authorized maximum collection pace with **Codex interface usage** as the work limit and at least20% remaining. Use a25% stop buffer for meter latency and shutdown work. Use `get_usage_limits` at the start, before each bounded collection/review batch or agent dispatch, and at least every five minutes during active work. Use `rateLimitsByLimitId` when available; inspect the applicable Codex primary/secondary windows. Remaining percentage is `100 - usedPercent`. Null windows are unavailable, not zero usage; at least one applicable window must be readable.
 
-- If any applicable window has **less than20% remaining**, or ordinary usage is disallowed: start no new work, stop collection workers and subagents, checkpoint, and pause this chat's SUBS heartbeat. Notify the user once with remaining usage and the reported reset time. Do not restart after reset without the user's instruction.
+- If any applicable window has **25% remaining or less**, or ordinary usage is disallowed: start no new work, stop collection workers and subagents, checkpoint, and pause this chat's SUBS heartbeat. Notify the user once with remaining usage and the reported reset time. Do not restart after reset without the user's instruction.
 - If usage cannot be read: do not start collection; pause the heartbeat and report the unavailable meter. Never invent a token balance.
 - Check again before dispatching another agent or batch. Keep source-download batches to eight originals or ten minutes, whichever occurs first; smaller batches near the threshold.
 
-This is a tool-checked account usage guard, not an exact token counter or provider-enforced hard cap. Python cannot read Codex account limits. Do not add a paid model API or purchase credits. Existing infrastructure limits remain in place independently of the Codex work budget.
+This is a tool-checked shared-account usage guard, not an exact token counter or provider-enforced hard cap. Python cannot read Codex account limits; other chats also consume allowance. Do not add a paid model API or purchase credits. Existing infrastructure limits remain in place independently of the Codex work budget.
+
+The heartbeat wakes every five minutes when available. Run consecutive bounded batches during a pass, with concurrent independent reviews and one paced download queue per provider. Respect provider cooldowns even when that leaves workers idle. Persist API/source retry times privately; do not repeat requests during a known cooldown. For D1 daily exhaustion, wait until the stated UTC reset or a confirmed plan upgrade. User approved Workers Paid within the existing infrastructure budget; billing alerts remain deferred.
 
 ## Resume instead of restarting
 

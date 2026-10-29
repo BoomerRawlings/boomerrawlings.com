@@ -60,14 +60,23 @@ async function putClass(request, env, role, id) {
   else await changed(env, env.DB.prepare('INSERT OR IGNORE INTO classes(id,name,data) VALUES(?,?,?)').bind(id, data.name, JSON.stringify(data)), role, 'class.create', id);
   return json({ ...data, revision: (row?.revision ?? 0) + 1 }, row ? 200 : 201);
 }
-async function imageList(env, role, params) {
+export async function imageList(env, role, params) {
   const { limit, offset } = page(params), clauses = [], args = [];
+  let selectedIds;
   if (role === 'public') clauses.push("i.status='accepted' AND i.public_delivery=1");
+  if (params.has('ids')) {
+    requireValue(params.getAll('ids').length === 1, 'Supply ids once as a comma-separated list.');
+    const ids = params.get('ids').split(',');
+    requireValue(ids.length <= 50, 'At most 50 image identifiers are allowed.');
+    selectedIds = [...new Set(ids.map(identifier))]; args.push(...selectedIds);
+  }
   for (const key of ['class_id', 'domain', 'status', 'rights_tier', 'duplicate_group', 'event_group']) if (params.get(key)) { clauses.push(`i.${key}=?`); args.push(params.get(key)); }
   for (const key of ['variant', 'operator_country']) if (params.get(key)) { if (params.get(key) === '__unknown__') clauses.push(`COALESCE(json_extract(i.data,'$.${key}'),'')=''`); else { clauses.push(`json_extract(i.data,'$.${key}')=?`); args.push(params.get(key)); } }
   if (params.get('origin_country')) { clauses.push("EXISTS(SELECT 1 FROM json_each(c.data,'$.origin_countries') WHERE value=?)"); args.push(params.get('origin_country')); }
   if (params.get('q')) { clauses.push('(c.name LIKE ? OR i.id LIKE ? OR i.data LIKE ?)'); args.push(...Array(3).fill(`%${params.get('q')}%`)); }
-  const where = clauses.length ? `WHERE ${clauses.join(' AND ')}` : '', from = 'FROM images i JOIN classes c ON c.id=i.class_id';
+  // Drive targeted reads from at most50 IDs; a status index can otherwise turn IN into a public-row scan.
+  const imageFrom = selectedIds ? `FROM (VALUES ${selectedIds.map(() => '(?)').join(',')}) requested CROSS JOIN images i ON i.id=requested.column1` : 'FROM images i';
+  const where = clauses.length ? `WHERE ${clauses.join(' AND ')}` : '', from = `${imageFrom}${params.get('q') || params.get('origin_country') ? ' JOIN classes c ON c.id=i.class_id' : ''}`;
   const total = (await first(env, `SELECT COUNT(*) n ${from} ${where}`, args)).n;
   const records = await rows(env, `SELECT i.*, (SELECT json_group_object(a.kind,json_object('key',a.object_key,'sha256',a.sha256,'bytes',a.bytes,'content_type',a.content_type)) FROM assets a WHERE a.image_id=i.id) asset_data ${from} ${where} ORDER BY i.updated_at DESC,i.id LIMIT ? OFFSET ?`, [...args, limit, offset]);
   const items = records.map(row => { const assets = JSON.parse(row.asset_data); for (const [kind, asset] of Object.entries(assets)) asset.download_url = `${BASE}/images/${row.id}/assets/${kind}`; return { ...JSON.parse(row.data), id: row.id, status: row.status, revision: row.revision, updated_at: row.updated_at, assets }; });
@@ -243,6 +252,19 @@ async function dispatch(request, env, role) {
   }
   throw new Problem(404, 'not_found', 'Endpoint not found.');
 }
+export function d1DailyLimit(error, at = new Date()) {
+  const seen = new Set(); let current = error;
+  while (current && !seen.has(current) && seen.size < 5) {
+    seen.add(current);
+    const message = typeof current.message === 'string' ? current.message : '';
+    if (/\bD1(?:_ERROR)?\b/i.test(message) && /daily (?:row )?(?:read|write)s? limit/i.test(message) && /exceed/i.test(message)) {
+      const retryAt = new Date(Date.UTC(at.getUTCFullYear(), at.getUTCMonth(), at.getUTCDate() + 1));
+      return { retry_at: retryAt.toISOString(), retry_after: Math.max(1, Math.ceil((retryAt - at) / 1000)) };
+    }
+    current = current.cause;
+  }
+  return null;
+}
 export default {
   async fetch(request, env) {
     let response;
@@ -255,9 +277,15 @@ export default {
       if (origin && permitted.includes(origin)) response.headers.set('Access-Control-Allow-Origin', origin);
     } catch (error) {
       if (error instanceof Problem) response = json({ error: { code: error.code, message: error.message, ...(error.details ? { details: error.details } : {}) } }, error.status);
-      else { console.error(JSON.stringify({ event: 'request_failed', name: error?.name ?? 'Error' })); response = json({ error: { code: 'internal_error', message: 'Request failed. Retry or contact the collection owner.' } }, 500); }
+      else {
+        const quota = d1DailyLimit(error);
+        if (quota) {
+          response = json({ error: { code: 'provider_daily_limit', message: 'Database daily allowance exhausted. Collection is paused until the provider resets or the owner upgrades the plan.', retry_at: quota.retry_at } }, 503);
+          response.headers.set('Retry-After', String(quota.retry_after));
+        } else { console.error(JSON.stringify({ event: 'request_failed', name: error?.name ?? 'Error' })); response = json({ error: { code: 'internal_error', message: 'Request failed. Retry or contact the collection owner.' } }, 500); }
+      }
     }
-    response.headers.set('Cache-Control', 'no-store'); response.headers.set('X-Content-Type-Options', 'nosniff'); response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive, noimageindex'); response.headers.set('Referrer-Policy', 'no-referrer'); response.headers.set('Vary', 'Origin, Authorization'); response.headers.set('Access-Control-Expose-Headers', 'ETag, X-Content-SHA256, Content-Length, Content-Range');
+    response.headers.set('Cache-Control', 'no-store'); response.headers.set('X-Content-Type-Options', 'nosniff'); response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive, noimageindex'); response.headers.set('Referrer-Policy', 'no-referrer'); response.headers.set('Vary', 'Origin, Authorization'); response.headers.set('Access-Control-Expose-Headers', 'ETag, X-Content-SHA256, Content-Length, Content-Range, Retry-After');
     return response;
   },
 };

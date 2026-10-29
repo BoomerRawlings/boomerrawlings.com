@@ -34,7 +34,7 @@ export default {
     '/stats': { get: operation('Read aggregate coverage without revealing restricted metadata') },
     '/classes': { get: operation('List dated classes and coverage', listing('Class'), { parameters: [...paginated, query('q'), query('pilot')] }) },
     '/classes/{id}': { put: operation('Owner creates/corrects class record', ref('Class'), { private: true, body: ref('Class'), parameters: [keyParam('id'), { ...match, required: false }] }) },
-    '/images': { get: operation('List visible image records', listing('Image'), { parameters: [...paginated, ...['class_id', 'domain', 'status', 'rights_tier', 'variant', 'operator_country', 'origin_country', 'duplicate_group', 'event_group', 'q'].map(query)] }) },
+    '/images': { get: operation('List visible image records', listing('Image'), { parameters: [...paginated, { name: 'ids', in: 'query', style: 'form', explode: false, schema: { type: 'array', items: id, minItems: 1, maxItems: 50 }, description: 'Comma-separated image identifiers, supplied once. Missing or inaccessible IDs are omitted; duplicates return once. Other filters and updated_at descending/id ascending order still apply. Empty or invalid entries and more than50 entries return400.' }, ...['class_id', 'domain', 'status', 'rights_tier', 'variant', 'operator_country', 'origin_country', 'duplicate_group', 'event_group', 'q'].map(query)] }) },
     '/images/{id}': {
       get: operation('Read visible image and asset metadata', ref('Image'), { parameters: [keyParam('id')] }),
       put: operation('Owner/collector creates or replaces candidate; server owns asset references and status', ref('Image'), { private: true, body: ref('Image'), parameters: [keyParam('id'), { ...match, required: false }] }),

@@ -9,9 +9,10 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from collections.abc import Iterable
 from pathlib import Path
 
-from .io import DatasetError, MAX_BYTES, SafeRedirect, USER_AGENT, check_url, checksum_entries, download, read_jsonl, safe_path, sha256_file, write_json
+from .io import DatasetError, MAX_BYTES, RateLimitedError, SafeRedirect, USER_AGENT, check_url, checksum_entries, download, read_jsonl, safe_path, sha256_file, write_json
 from .pipeline import Store, check_id
 
 
@@ -54,7 +55,16 @@ class ApiClient:
                         raise DatasetError("API response exceeds8MiB")
                     return json.loads(value) if value else {}
             except urllib.error.HTTPError as exc:
-                transient = exc.code in {408, 429} or exc.code >= 500
+                if exc.code in {429, 503}:
+                    deferred = RateLimitedError(exc.headers.get("Retry-After") if exc.headers else None)
+                    deferred.http_status = exc.code
+                    # Reuse the shared Retry-After parser; its download-specific message does not describe API503.
+                    deferred.args = (f"API request deferred (HTTP {exc.code}); retry no earlier than "
+                                     f"{deferred.retry_at or str(deferred.retry_after_seconds) + ' seconds'}.",)
+                    exc.close()
+                    raise deferred from None
+                transient = exc.code == 408 or exc.code >= 500
+                exc.close()
                 if not transient or attempt == attempts - 1:
                     # Error bodies can contain third-party data; never echo them or request headers.
                     raise DatasetError(f"API request failed (HTTP {exc.code}, {method} {path.split('?')[0]})") from None
@@ -77,19 +87,52 @@ class ApiClient:
             if not items or offset >= page.get("total", offset):
                 return result
 
+    def list_images_by_ids(self, image_ids: Iterable[str]) -> list[dict]:
+        """Fetch only selected IDs; missing/private records stay absent, with no broader fallback."""
+        if isinstance(image_ids, (str, bytes)):
+            raise DatasetError("Expected a collection of stable image identifiers")
+        selected = list(dict.fromkeys(check_id(value) for value in image_ids))
+        result, seen = [], set()
+        for start in range(0, len(selected), 50):
+            batch = selected[start:start + 50]
+            allowed = set(batch)
+            offset = 0
+            while True:
+                query = urllib.parse.urlencode({"ids": ",".join(batch), "offset": offset, "limit": 50})
+                page = self.request("GET", "images?" + query)
+                if not isinstance(page, dict) or not isinstance(page.get("items"), list):
+                    raise DatasetError("Selected-image response malformed")
+                items, total = page["items"], page.get("total")
+                if type(total) is not int or not 0 <= total <= len(batch) or offset + len(items) > total:
+                    raise DatasetError("Selected-image pagination malformed")
+                for row in items:
+                    ident = row.get("id") if isinstance(row, dict) else None
+                    if not isinstance(ident, str) or ident not in allowed or ident in seen:
+                        raise DatasetError("Selected-image response contains unexpected or duplicate identifiers")
+                    seen.add(ident)
+                    result.append(row)
+                offset += len(items)
+                if offset >= total:
+                    break
+                if not items:
+                    raise DatasetError("Selected-image pagination stopped before its declared total")
+        return result
+
     def sync(self, store: Store, job_id: str, *, max_requests: int = 1000, max_bytes: int = 1024 ** 3,
              estimated_cost_usd: float = 0, update_metadata: bool = False) -> dict:
         check_id(job_id)
         records = store.rows()
+        candidates = store.candidates()
         existing_jobs = self.list("jobs")
         if not any(job.get("id") == job_id for job in existing_jobs):
             self.request("POST", "jobs", {"id": job_id, "classes": sorted({row["class_id"] for row in records}),
                          "max_requests": max_requests, "max_bytes": max_bytes, "estimated_cost_usd": estimated_cost_usd})
-        remote_rows = {row["id"]: row for row in self.list("images")}
+        selected_ids = [row["id"] for row in records] + [row["id"] for row in candidates]
+        remote_rows = {row["id"]: row for row in self.list_images_by_ids(selected_ids)}
         uploaded = skipped = 0
         processed_ids = {row["id"] for row in records}
         discovered = 0
-        for candidate in store.candidates():
+        for candidate in candidates:
             if candidate["id"] in processed_ids or candidate["id"] in remote_rows:
                 continue
             payload = {key: copy.deepcopy(value) for key, value in candidate.items()
