@@ -11,17 +11,14 @@ import shutil
 import sqlite3
 import struct
 import urllib.parse
-import warnings
 from datetime import datetime, timezone
 from pathlib import Path
 
-from PIL import Image, ImageFilter, ImageOps, ImageStat, UnidentifiedImageError
+from PIL import Image, ImageFilter, ImageStat
 
 from .io import DatasetError, MAX_BYTES, download, safe_path, sha256_file, write_json
+from .image_decode import FORMATS, decode_original
 
-Image.MAX_IMAGE_PIXELS = 80_000_000
-FORMATS = {"JPEG": ("jpg", "image/jpeg"), "PNG": ("png", "image/png"),
-           "WEBP": ("webp", "image/webp"), "TIFF": ("tif", "image/tiff")}
 ID_PATTERN = re.compile(r"^[a-z0-9][a-z0-9_-]{0,95}$")
 SHARPNESS_FLOOR = 8.0
 NEAR_DUPLICATE_DISTANCE = 6
@@ -49,25 +46,9 @@ def evidence_url(value) -> bool:
         return False
 
 
-def open_original(path: Path) -> tuple[Image.Image, str]:
-    try:
-        with warnings.catch_warnings():
-            warnings.simplefilter("error", Image.DecompressionBombWarning)
-            with Image.open(path) as source:
-                image_format = source.format
-                if image_format not in FORMATS:
-                    raise DatasetError("Only JPEG, PNG, WebP, or TIFF originals are supported")
-                if getattr(source, "n_frames", 1) != 1:
-                    raise DatasetError("Animated/multi-page images need an explicitly selected original scene")
-                source.load()
-                oriented = ImageOps.exif_transpose(source)
-                if "A" in oriented.getbands():
-                    background = Image.new("RGB", oriented.size, "white")
-                    background.paste(oriented, mask=oriented.getchannel("A"))
-                    return background, image_format
-                return oriented.convert("RGB"), image_format
-    except (UnidentifiedImageError, OSError, Image.DecompressionBombError, Image.DecompressionBombWarning) as exc:
-        raise DatasetError("Invalid, corrupt, or excessively large original image") from exc
+def open_original(path: Path, *, decoding=None, require_declared=False) -> tuple[Image.Image, str]:
+    image, image_format, _ = decode_original(path, expected_decoding=decoding, require_declared=require_declared)
+    return image, image_format
 
 
 def phash(image: Image.Image) -> str:
@@ -118,12 +99,13 @@ def sharpness(image: Image.Image) -> float:
 def inspect(path: Path, bbox=None) -> dict:
     if path.stat().st_size > MAX_BYTES:
         raise DatasetError("Original exceeds 64 MiB limit")
-    image, image_format = open_original(path)
+    image, image_format, decoding = decode_original(path)
     target = image.crop(crop_box(bbox, *image.size)) if bbox else image
     digest = hashlib.sha256(struct.pack(">II", *image.size) + image.tobytes()).hexdigest()
     return {"width": image.width, "height": image.height, "format": image_format,
             "bytes": path.stat().st_size, "sha256": sha256_file(path), "pixel_sha256": digest,
-            "phash": phash(image), "target_phash": phash(target), "sharpness_score": sharpness(target)}
+            "phash": phash(image), "target_phash": phash(target), "sharpness_score": sharpness(target),
+            **({"original_decoding": decoding} if decoding else {})}
 
 
 def eligibility_errors(record: dict, *, require_verification: bool = True) -> list[str]:
@@ -306,6 +288,10 @@ class Store:
         record.update({"id": image_id, "sha256": details["sha256"], "pixel_sha256": details["pixel_sha256"],
                        "phash": details["phash"], "target_phash": details["target_phash"], "target_bbox": bbox,
                        "duplicate_group": "original-" + details["pixel_sha256"], "assets": assets})
+        # Container selection is measured, never accepted from a candidate claim.
+        record.pop("original_decoding", None)
+        if details.get("original_decoding"):
+            record["original_decoding"] = details["original_decoding"]
         record.setdefault("source", {})["retrieved_at"] = now()
         quality = record.setdefault("quality", {})
         # Keep the collector's judgment separate from the computed result. None
@@ -376,7 +362,7 @@ class Store:
         original_path = safe_path(self.root, original_asset["file_name"])
         if sha256_file(original_path) != record["sha256"]:
             raise DatasetError("Original checksum mismatch; correction canceled")
-        image, _ = open_original(original_path)
+        image, _ = open_original(original_path, decoding=record.get("original_decoding"), require_declared=True)
         box = crop_box(record.get("target_bbox"), *image.size)
         target = image.crop(box)
         annotation_hash = hashlib.sha256(json.dumps(record["target_bbox"]).encode()).hexdigest()[:16]

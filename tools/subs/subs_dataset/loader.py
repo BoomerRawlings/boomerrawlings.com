@@ -4,8 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from PIL import Image, ImageOps
-
+from .image_decode import decode_original
 from .io import DatasetError, read_jsonl, safe_path, sha256_file
 from .releases import require_complete
 
@@ -27,9 +26,10 @@ def batches(path: str | Path, *, split: str | None = "train", batch_size: int = 
         image_path = safe_path(root, asset["file_name"])
         if verify and sha256_file(image_path) != asset["sha256"]:
             raise DatasetError("Image bytes do not match the release checksum")
-        with Image.open(image_path) as original:
-            original.load()
-            images.append(ImageOps.exif_transpose(original).convert("RGB"))
+        decoded, _, _ = decode_original(image_path,
+                                        expected_decoding=record.get("original_decoding") if view == "original" else None,
+                                        require_declared=True)
+        images.append(decoded)
         labels.append(record["class_id"])
         if len(images) == batch_size:
             yield images, labels

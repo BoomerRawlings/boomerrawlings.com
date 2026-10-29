@@ -194,7 +194,7 @@ def export_release(collection: Path, records: list[dict], classes: list[dict], o
             if kind == "original":
                 if asset["sha256"] != row.get("sha256"):
                     raise DatasetError("Record's original identity disagrees with actual asset")
-                decoded, _ = open_original(source)
+                decoded, _ = open_original(source, decoding=row.get("original_decoding"), require_declared=True)
                 if decoded.size != (row["quality"]["original_width"], row["quality"]["original_height"]):
                     raise DatasetError("Record native dimensions disagree with actual original")
             else:
@@ -272,8 +272,10 @@ def validate_release(root: Path) -> dict:
             path = safe_path(root, asset["file_name"])
             if sha256_file(path) != asset["sha256"]:
                 raise DatasetError("Image checksum mismatch")
-            with Image.open(path) as source:
-                source.verify()
+            decoded, _ = open_original(path, decoding=row.get("original_decoding") if kind == "original" else None,
+                                       require_declared=True)
+            if kind == "original" and decoded.size != (row["quality"]["original_width"], row["quality"]["original_height"]):
+                raise DatasetError("Record native dimensions disagree with actual original")
     return {"files": len(checksums), "images": len(records), "valid": True}
 
 

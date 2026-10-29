@@ -60,6 +60,8 @@ Camera floor: ≥1200px frame long edge, ≥400px visible subject. Satellite flo
 
 SHA-256 identifies file bytes; canonical EXIF-oriented pixel hashes catch metadata-only copies; DCT hashes catch recompression/resizes and target crops. Near matches (Hamming distance≤6) are held for owner review, not silently declared unique. Different originals from the same event retain separate identity but stay in one dataset split. Crops and previews never add to the quota.
 
+The decoder also supports narrowly validated camera MPO containers: one primary JPEG plus one or two explicitly dependent VGA/FullHD thumbnails. It validates every declared JPEG range, dependency and bounded thumbnail, and checks the thumbnails depict the primary scene. Malformed/stale MPF, stereo, additional full-resolution scenes, unknown entry types and corrupt frames fail closed. No primary-JPEG fallback, repair or re-encoding is used. The complete original remains unchanged as `.jpg`/`image/jpeg`, with measured `original_decoding:{container:"MPO",primary_frame:0,frame_count:2|3,policy:"mpf-primary-thumbnails-v1"}` metadata. Exactly one photograph is counted. Inspection, corrections, release validation and original-view loading share this policy; an MPO release without matching selection metadata is rejected. Native detail, source-original provenance, rights, class identification and independent review still require their ordinary evidence. The derived PNG crop view remains compatible with standard image loaders; original-view consumers should use this toolkit's validated decoder.
+
 ## Verification and API sync
 
 ```sh

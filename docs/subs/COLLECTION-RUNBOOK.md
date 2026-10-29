@@ -59,3 +59,9 @@ Prioritize existing named-hull queries with repeated `--query-id ID` arguments a
 Private candidate metadata may be synced to the review API in bounded, idempotent passes, with all permission flags false. These records affect candidate totals only; no media or approvals accompany them. Refresh known IDs/source URLs first, preserving already reviewed records. Keep full class-claim/discovery evidence in the private checkpoint.
 
 Inspect source file history and embedded capture dimensions during selection. A largest-available download may still be a source crop or resized export. Recover the camera original or hold unresolved provenance. Source-page previews can cheaply reject unsuitable framing, but never establish native quality or count toward the quota.
+
+## Camera MPO files
+
+The toolkit supports a narrowly validated camera MPO container: one primary photograph and one or two smaller dependent thumbnails of the same scene. It preserves the complete original bytes and records the measured `original_decoding` policy. Import, correction, export validation and training loaders use the same decoder. Invalid offsets, stale indexes, ambiguous scenes, corrupt frames and excessive dimensions remain held; never extract or re-encode the first JPEG as a workaround. Embedded previews never add photographs.
+
+An earlier format hold may be reviewed again using its existing stable image ID and cached source bytes. Preserve the prior record/evidence, verify source checksums, refresh independent quality/class/rights and global duplicate checks, and record the correction. Do not redownload or charge a reused source request. Format support alone never approves an image.
