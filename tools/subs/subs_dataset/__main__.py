@@ -39,6 +39,8 @@ def parser():
     campaign_run.add_argument("--max-candidates", type=int, default=1000)
     campaign_run.add_argument("--interval-seconds", type=float, default=10)
     campaign_run.add_argument("--max-metadata-bytes", type=int, default=256 * 1024 ** 2)
+    campaign_run.add_argument("--query-id", dest="query_ids", action="append", type=int,
+                              help="Resume only this existing positive query ID; repeat to select several")
     campaign_status = commands.add_parser("campaign-status", help="Show per-class coverage, pending discovery and source cooldown")
     campaign_status.add_argument("--campaign", type=Path, required=True)
     campaign_export = commands.add_parser("campaign-export", help="Export unverified discovery candidates for rights/native review")
@@ -116,7 +118,7 @@ def run(args):
         if args.command == "campaign-discover":
             return run_discovery(args.campaign, max_requests=args.max_requests,
                                  max_candidates=args.max_candidates, interval_seconds=args.interval_seconds,
-                                 max_metadata_bytes=args.max_metadata_bytes)
+                                 max_metadata_bytes=args.max_metadata_bytes, query_ids=args.query_ids)
         if args.command == "campaign-export":
             return export_candidates(args.campaign, args.output)
         return status(args.campaign)

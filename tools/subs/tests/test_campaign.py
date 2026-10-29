@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import json
+import sqlite3
 import sys
 import tempfile
 import unittest
+from contextlib import closing
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from subs_dataset.campaign import commons_page, export_candidates, plan_campaign, run_discovery, status, _lock
@@ -50,6 +52,89 @@ class CampaignTests(unittest.TestCase):
         def sleep(seconds): self.tick += seconds
         return run_discovery(self.path, fetch_page=fetch, source_state_dir=self.source,
                              clock=lambda:self.tick, sleep=sleep, **kwargs)
+
+    def query_rows(self):
+        with closing(sqlite3.connect(self.path/'campaign.sqlite3')) as db:
+            db.row_factory = sqlite3.Row
+            return {row['id']: dict(row) for row in db.execute('SELECT * FROM queries ORDER BY id')}
+
+    def test_selected_queries_keep_scheduler_order_and_unselected_rows(self):
+        plan_campaign([klass('alpha', ['Other alpha']), klass('beta')], [], self.path)
+        before = self.query_rows()
+        calls = []
+        def fetch(query, cursor):
+            calls.append((query, cursor))
+            return payload(page(len(calls)))
+        result = self.run_batch(fetch, query_ids=[3, 2, 3])
+        self.assertEqual(calls, [('"Beta class" submarine', {}), ('"Other alpha" submarine', {})])
+        self.assertEqual(result['run']['requests'], 2)
+        self.assertEqual(result['run']['new_candidates'], 2)
+        self.assertEqual(self.query_rows()[1], before[1])
+        completed = self.query_rows()
+        result = self.run_batch(fetch, query_ids=[2, 3, 2])
+        self.assertEqual(result['run']['requests'], 0)
+        self.assertEqual(self.query_rows(), completed)
+        self.run_batch(fetch)
+        self.assertEqual(calls[-1], ('"Alpha class" submarine', {}))
+        self.assertEqual(status(self.path)['queries_complete'], 3)
+
+    def test_selected_queries_resume_buffers_and_cursors_without_touching_others(self):
+        plan_campaign([klass('alpha'), klass('beta')], [], self.path)
+        calls = []
+        continuation = {'continue': 'gsroffset||', 'gsroffset': 50}
+        def fetch(query, cursor):
+            calls.append((query, cursor))
+            if query == '"Beta class" submarine':
+                return payload(page(4))
+            return payload(page(5)) if cursor else payload(page(1), page(2), page(3), continuation=continuation)
+        self.run_batch(fetch, query_ids=[1], max_candidates=1)
+        buffered = self.query_rows()[1]
+        self.assertEqual(buffered['position'], 1)
+        self.run_batch(fetch, query_ids=[2])
+        self.assertEqual(self.query_rows()[1], buffered)
+        other = self.query_rows()[2]
+        result = self.run_batch(fetch, query_ids=[1, 1], max_candidates=2)
+        self.assertEqual(result['run']['requests'], 0)
+        self.assertEqual(result['run']['new_candidates'], 2)
+        self.assertEqual(json.loads(self.query_rows()[1]['cursor']), continuation)
+        self.assertEqual(self.query_rows()[2], other)
+        result = self.run_batch(fetch, query_ids=[1])
+        self.assertEqual(calls, [('"Alpha class" submarine', {}), ('"Beta class" submarine', {}),
+                                 ('"Alpha class" submarine', continuation)])
+        self.assertEqual(result['cumulative']['requests'], 3)
+        self.assertEqual(result['cumulative']['response_bytes'], 300)
+        self.assertEqual(result['cumulative']['unique_source_candidates'], 5)
+        self.assertEqual(self.query_rows()[2], other)
+
+    def test_invalid_or_missing_query_selection_fails_before_http_and_state_changes(self):
+        plan_campaign([klass('alpha')], [], self.path)
+        before_rows, before_status = self.query_rows(), status(self.path)
+        fetch = Mock(side_effect=AssertionError('Invalid selection attempted HTTP'))
+        for selection in ([], [0], [-1], ['1'], [1.0], [True], [None], [1, 99], [10**100]):
+            with self.subTest(selection=selection), self.assertRaises(DatasetError):
+                self.run_batch(fetch, query_ids=selection)
+            self.assertEqual(self.query_rows(), before_rows)
+            self.assertEqual(status(self.path), before_status)
+        fetch.assert_not_called()
+
+    def test_selected_queries_obey_shared_source_cooldown_and_lock(self):
+        plan_campaign([klass('alpha'), klass('beta')], [], self.path)
+        self.run_batch(lambda q, c: (_ for _ in ()).throw(RateLimitedError('600')), query_ids=[1])
+        before = self.query_rows()[2]
+        fetch = Mock(side_effect=AssertionError('Shared provider gate ignored'))
+        result = self.run_batch(fetch, query_ids=[2])
+        self.assertEqual(result['run']['stop_reason'], 'source_cooldown')
+        self.assertEqual(result['run']['requests'], 0)
+        self.assertEqual(self.query_rows()[2], before)
+        with _lock(self.source), self.assertRaises(DatasetError):
+            self.run_batch(fetch, query_ids=[2])
+        fetch.assert_not_called()
+
+    def test_cli_passes_repeated_query_ids_and_defaults_to_full_worklist(self):
+        for arguments, expected in (([], None), (['--query-id', '3', '--query-id', '2', '--query-id', '3'], [3, 2, 3])):
+            with self.subTest(arguments=arguments), patch('subs_dataset.campaign.run_discovery', return_value={}) as discover:
+                cli.run(cli.parser().parse_args(['campaign-discover', '--campaign', str(self.path)] + arguments))
+                self.assertEqual(discover.call_args.kwargs['query_ids'], expected)
 
     def test_frozen_roster_breadth_and_deficits(self):
         roster={'snapshot_date':'2026-10-27','classes':[klass('alpha',['Other alpha']),klass('beta',['Other beta']),klass('uncertain',service='uncertain')]}

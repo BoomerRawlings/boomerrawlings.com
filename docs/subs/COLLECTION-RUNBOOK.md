@@ -54,6 +54,8 @@ python tools/subs/subs.py campaign-export --campaign .subs-data/campaign/global-
 
 The campaign saves source cursors and deduplicates existing/previously discovered original URLs. A repeated hit for another class is an unverified class claim, not a new photograph. All permission flags stay false until exact-source review. Campaign discovery downloads metadata only; it does not approve images or inflate the live dashboard. Keep SQLite, downloaded media, source evidence and private manifests out of Git.
 
+Prioritize existing named-hull queries with repeated `--query-id ID` arguments after checking their IDs in the saved campaign. Selection keeps the usual scheduling order within that subset, preserves cursors and deduplication, and leaves other query rows untouched. Completed queries stay complete; unknown IDs fail before source requests. Omit the option to resume the whole worklist. The same usage checks, request ceilings and shared provider queue apply.
+
 Private candidate metadata may be synced to the review API in bounded, idempotent passes, with all permission flags false. These records affect candidate totals only; no media or approvals accompany them. Refresh known IDs/source URLs first, preserving already reviewed records. Keep full class-claim/discovery evidence in the private checkpoint.
 
 Inspect source file history and embedded capture dimensions during selection. A largest-available download may still be a source crop or resized export. Recover the camera original or hold unresolved provenance. Source-page previews can cheaply reject unsuitable framing, but never establish native quality or count toward the quota.

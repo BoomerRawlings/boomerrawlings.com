@@ -25,6 +25,8 @@ python tools/subs/subs.py campaign-status --campaign .subs-data/campaign/global-
 
 Planning again is refused; use discovery to resume existing progress. Search results for another class become unverified claims on the same photograph. Candidate totals never increase approved counts. Campaign outputs cannot be placed under `public/`.
 
+To resume selected existing queries, add repeated positive IDs, for example `--query-id 105 --query-id 107`. IDs must exist in that campaign; duplicates are ignored and completed queries stay complete. Selection preserves the normal buffer/request/ID scheduling order within that subset, existing cursors, deduplication and shared source limits. Unselected query rows remain unchanged. Omit `--query-id` for the normal full worklist; this option never adds or replans queries.
+
 Explicit image IDs survive ingestion and class corrections. An existing ID cannot be rebound to a different source URL. When no ID is supplied, legacy deterministic IDs remain unchanged. Correct an ingested label through `correct-local` and independent reverification; rediscovery does not silently relabel an accepted original.
 
 ```sh

@@ -275,20 +275,34 @@ def _candidate(page, class_id, query):
 
 
 def run_discovery(path, *, max_requests=25, max_candidates=1000, interval_seconds=10,
-                  max_metadata_bytes=256 * 1024 * 1024, source_state_dir=None, fetch_page=None, clock=None, sleep=None):
+                  max_metadata_bytes=256 * 1024 * 1024, query_ids=None,
+                  source_state_dir=None, fetch_page=None, clock=None, sleep=None):
     """Run bounded metadata work; buffered pages survive caps/crashes without loss."""
     if not 1 <= max_requests <= 1000 or not 1 <= max_candidates <= 50000:
         raise DatasetError("Require 1–1000 requests and 1–50000 new candidates/run")
     if interval_seconds < 1 or not PAGE_LIMIT <= max_metadata_bytes <= 1024 ** 3:
         raise DatasetError("Require >=1 second spacing and 16 MiB–1 GiB metadata ceiling")
+    if query_ids is not None:
+        query_ids = tuple(query_ids)
+        if not query_ids or any(type(identifier) is not int or identifier < 1 for identifier in query_ids):
+            raise DatasetError("Require one or more positive integer query IDs")
+        query_ids = tuple(sorted(set(query_ids)))
     fetch_page, clock, sleep = fetch_page or commons_page, clock or time.time, sleep or time.sleep
     request_count = added = response_bytes = 0
     stop_reason, retry_at = "complete", None
     with _lock(source_state_dir or DEFAULT_SOURCE_STATE) as source_file:
         source = json.loads(source_file.read_text()) if source_file.exists() else {}
         with _db(path) as db:
+            selection = ""
+            if query_ids is not None:
+                known_ids = {row[0] for row in db.execute("SELECT id FROM queries")}
+                if set(query_ids) - known_ids:
+                    raise DatasetError("Selected query IDs do not exist in this campaign")
+                selection = " AND id IN (" + ",".join("?" for _ in query_ids) + ")"
             while added < max_candidates:
-                q = db.execute("SELECT * FROM queries WHERE done=0 ORDER BY CASE WHEN buffer IS NULL THEN 1 ELSE 0 END,requests,id LIMIT 1").fetchone()
+                q = db.execute("SELECT * FROM queries WHERE done=0" + selection
+                               + " ORDER BY CASE WHEN buffer IS NULL THEN 1 ELSE 0 END,requests,id LIMIT 1",
+                               query_ids or ()).fetchone()
                 if q is None:
                     break
                 if q["buffer"] is None:
