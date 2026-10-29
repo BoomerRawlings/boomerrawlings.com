@@ -2,6 +2,8 @@
 
 Original-image collection, evidence-backed verification, immutable exports, and a standard Python loader. Requires Python3.11+ and Pillow. No paid services or scheduled collector starts automatically.
 
+For the user-authorized hourly campaign, follow [COLLECTION-RUNBOOK.md](../../docs/subs/COLLECTION-RUNBOOK.md). The supervising Codex chat checks account usage before every bounded batch and pauses below20% remaining. This percentage is account allowance, not an exact token balance; the Python process cannot read it. Infrastructure safeguards remain separate.
+
 ```powershell
 py -3.14 -m venv tools/subs/.venv
 tools/subs/.venv/Scripts/python.exe -m pip install -r tools/subs/requirements.txt
@@ -11,6 +13,19 @@ tools/subs/.venv/Scripts/python.exe tools/subs/subs.py --help
 On macOS/Linux, use `python3 -m venv` and `.venv/bin/python`. The examples below use `python`; on Windows use the actual venv executable above. Store media under a git-ignored directory such as `.subs-data/` or `tmp/subs-data/`; never commit images, API tokens, local SQLite databases, or private collection manifests.
 
 ## Discovery and originals
+
+All-class discovery uses a frozen worklist, durable source cursors, original-URL deduplication, and a shared source cooldown. Explicit hull/category queries supplement capped class/alias queries. It retrieves metadata only; all permissions and labels await review. Keep an authenticated, all-status API snapshot in `live-images.json`, so held/rejected photographs are not repeatedly rediscovered.
+
+```sh
+python tools/subs/subs.py campaign-plan --classes public/subs/active.json --existing .subs-data/campaign/live-images.json --campaign .subs-data/campaign/global-20261027-v2 --extra-queries .subs-data/campaign/source-research/extra-queries.json
+python tools/subs/subs.py campaign-discover --campaign .subs-data/campaign/global-20261027-v2 --max-requests 25 --max-candidates 1000 --interval-seconds 10
+python tools/subs/subs.py campaign-export --campaign .subs-data/campaign/global-20261027-v2 --output .subs-data/campaign/candidates.jsonl
+python tools/subs/subs.py campaign-status --campaign .subs-data/campaign/global-20261027-v2
+```
+
+Planning again is refused; use discovery to resume existing progress. Search results for another class become unverified claims on the same photograph. Candidate totals never increase approved counts. Campaign outputs cannot be placed under `public/`.
+
+Explicit image IDs survive ingestion and class corrections. An existing ID cannot be rebound to a different source URL. When no ID is supplied, legacy deterministic IDs remain unchanged. Correct an ingested label through `correct-local` and independent reverification; rediscovery does not silently relabel an accepted original.
 
 ```sh
 python tools/subs/subs.py discover-commons --class-id virginia --query 'Virginia class submarine' --limit 100 --output .subs-data/virginia-candidates.jsonl

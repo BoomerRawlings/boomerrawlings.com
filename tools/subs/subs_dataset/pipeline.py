@@ -215,10 +215,20 @@ class Store:
         self.db.commit()
 
     def discover(self, candidate: dict) -> str:
+        from .discovery import durable_url
+
         source_url = candidate.get("source", {}).get("original_url") or candidate.get("source", {}).get("page_url")
         if not evidence_url(source_url):
             raise DatasetError("Candidate needs a non-secret HTTPS source URL")
-        identifier = "image-" + hashlib.sha256((candidate.get("class_id", "") + "|" + source_url).encode()).hexdigest()[:32]
+        identifier = (check_id(candidate["id"]) if "id" in candidate else
+                      "image-" + hashlib.sha256((candidate.get("class_id", "") + "|" + source_url).encode()).hexdigest()[:32])
+        prior_candidate = self.db.execute("SELECT data FROM candidates WHERE id=?", (identifier,)).fetchone()
+        for previous in (json.loads(prior_candidate[0]) if prior_candidate else None, self.get(identifier)):
+            if previous is None:
+                continue
+            previous_url = previous.get("source", {}).get("original_url") or previous.get("source", {}).get("page_url")
+            if previous_url and durable_url(previous_url) != durable_url(source_url):
+                raise DatasetError("Stable image identifier already belongs to a different source URL")
         public_record = copy.deepcopy(candidate)
         public_record.pop("download_url", None)
         public_record.pop("local_file", None)

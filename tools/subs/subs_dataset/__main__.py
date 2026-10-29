@@ -27,6 +27,23 @@ def parser():
     commons.add_argument("--output", type=Path, required=True)
     commons.add_argument("--limit", type=int, default=100)
     commons.add_argument("--max-requests", type=int, default=10)
+    campaign_plan = commands.add_parser("campaign-plan", help="Freeze an all-class discovery worklist; never approve search results")
+    campaign_plan.add_argument("--classes", type=Path, default=Path("public/subs/active.json"))
+    campaign_plan.add_argument("--existing", type=Path, required=True, help="Current API image records as JSON or JSONL")
+    campaign_plan.add_argument("--campaign", type=Path, required=True)
+    campaign_plan.add_argument("--extra-queries", type=Path, help="JSON mapping of class IDs to exact source/hull queries")
+    campaign_plan.add_argument("--max-queries-per-class", type=int, default=5)
+    campaign_run = commands.add_parser("campaign-discover", help="Resume bounded original-file metadata discovery; no image downloads or approvals")
+    campaign_run.add_argument("--campaign", type=Path, required=True)
+    campaign_run.add_argument("--max-requests", type=int, default=25)
+    campaign_run.add_argument("--max-candidates", type=int, default=1000)
+    campaign_run.add_argument("--interval-seconds", type=float, default=10)
+    campaign_run.add_argument("--max-metadata-bytes", type=int, default=256 * 1024 ** 2)
+    campaign_status = commands.add_parser("campaign-status", help="Show per-class coverage, pending discovery and source cooldown")
+    campaign_status.add_argument("--campaign", type=Path, required=True)
+    campaign_export = commands.add_parser("campaign-export", help="Export unverified discovery candidates for rights/native review")
+    campaign_export.add_argument("--campaign", type=Path, required=True)
+    campaign_export.add_argument("--output", type=Path, required=True)
     for command in ("discover", "ingest"):
         sub = commands.add_parser(command)
         sub.add_argument("manifest", type=Path)
@@ -83,6 +100,26 @@ def parser():
 
 
 def run(args):
+    if args.command.startswith("campaign-"):
+        from .campaign import export_candidates, plan_campaign, run_discovery, status
+        public_root = Path(__file__).resolve().parents[3] / "public"
+        for path in (args.campaign, getattr(args, "output", None)):
+            if path is not None and path.resolve().is_relative_to(public_root.resolve()):
+                raise DatasetError("Campaign data must stay outside public/; use ignored .subs-data storage")
+        if args.command == "campaign-plan":
+            classes = json.loads(args.classes.read_text(encoding="utf-8-sig"))
+            existing = (read_jsonl(args.existing) if args.existing.suffix.lower() == ".jsonl"
+                        else json.loads(args.existing.read_text(encoding="utf-8-sig")))
+            extra = json.loads(args.extra_queries.read_text(encoding="utf-8-sig")) if args.extra_queries else None
+            return plan_campaign(classes, existing, args.campaign,
+                                 max_queries_per_class=args.max_queries_per_class, extra_queries=extra)
+        if args.command == "campaign-discover":
+            return run_discovery(args.campaign, max_requests=args.max_requests,
+                                 max_candidates=args.max_candidates, interval_seconds=args.interval_seconds,
+                                 max_metadata_bytes=args.max_metadata_bytes)
+        if args.command == "campaign-export":
+            return export_candidates(args.campaign, args.output)
+        return status(args.campaign)
     if args.command == "inspect":
         return inspect(args.file, args.bbox)
     if args.command == "discover-commons":

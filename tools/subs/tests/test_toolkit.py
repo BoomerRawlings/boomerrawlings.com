@@ -83,6 +83,60 @@ class PipelineTests(unittest.TestCase):
         self.assertTrue(again["unchanged"])
         self.assertEqual(len(self.store.rows()), 1)
 
+    def test_explicit_image_id_survives_encoded_source_ingestion_and_class_correction(self):
+        proposal = candidate(self.path, source="Boat_%28Example%29.jpg")
+        proposal["id"] = "image-stable-campaign-id"
+        self.assertEqual(self.store.discover(proposal), proposal["id"])
+        ingested = self.store.ingest(proposal)
+        self.assertEqual(ingested["id"], proposal["id"])
+        original_asset = ingested["assets"]["original"]
+        corrected = self.store.correct(ingested["id"], {"changes": {"class_id": "class-b"}, "reason": "Independent label correction"})
+        self.assertEqual(corrected["id"], proposal["id"])
+        self.assertEqual(corrected["class_id"], "class-b")
+        self.assertEqual(corrected["assets"]["original"], original_asset)
+        self.assertEqual(corrected["status"], "held")
+        proposal["class_id"] = "class-b"
+        repeated = self.store.ingest(proposal)
+        self.assertEqual(repeated["id"], proposal["id"])
+        self.assertEqual(repeated["class_id"], "class-b")
+        self.assertEqual(len(self.store.rows()), 1)
+
+    def test_explicit_id_reassignment_rejected_before_candidate_or_record_mutation(self):
+        proposal = candidate(self.path)
+        proposal["id"] = "image-protected-id"
+        self.store.discover(proposal)
+        candidate_before = self.store.db.execute("SELECT data FROM candidates WHERE id=?", (proposal["id"],)).fetchone()[0]
+        conflicting = copy.deepcopy(proposal)
+        conflicting["source"]["original_url"] = "https://example.org/different-original.jpg"
+        with self.assertRaisesRegex(DatasetError, "different source URL"):
+            self.store.discover(conflicting)
+        self.assertEqual(self.store.db.execute("SELECT data FROM candidates WHERE id=?", (proposal["id"],)).fetchone()[0], candidate_before)
+        record = self.store.ingest(proposal)
+        saved = (self.store.root / "records" / (proposal["id"] + ".json")).read_bytes()
+        with self.assertRaisesRegex(DatasetError, "different source URL"):
+            self.store.ingest(conflicting)
+        self.assertEqual(self.store.get(proposal["id"]), record)
+        self.assertEqual(self.store.db.execute("SELECT data FROM candidates WHERE id=?", (proposal["id"],)).fetchone()[0], candidate_before)
+        self.assertEqual((self.store.root / "records" / (proposal["id"] + ".json")).read_bytes(), saved)
+        self.store.db.execute("DELETE FROM candidates WHERE id=?", (proposal["id"],))
+        self.store.db.commit()
+        with self.assertRaisesRegex(DatasetError, "different source URL"):
+            self.store.discover(conflicting)
+        self.assertEqual(self.store.get(proposal["id"]), record)
+        self.assertIsNone(self.store.db.execute("SELECT data FROM candidates WHERE id=?", (proposal["id"],)).fetchone())
+
+    def test_explicit_id_validation_and_legacy_generated_ids(self):
+        proposal = candidate(self.path)
+        expected = "image-" + hashlib.sha256((proposal["class_id"] + "|" + proposal["source"]["original_url"]).encode()).hexdigest()[:32]
+        self.assertEqual(self.store.discover(proposal), expected)
+        for invalid in (None, "", "../unsafe", "has spaces"):
+            with self.subTest(identifier=invalid), self.assertRaises(DatasetError):
+                self.store.discover(proposal | {"id": invalid})
+        changed_tracking = copy.deepcopy(proposal)
+        changed_tracking["id"] = expected
+        changed_tracking["source"]["original_url"] += "?utm_source=review#ignored"
+        self.assertEqual(self.store.discover(changed_tracking), expected)
+
     def test_unicode_source_and_class_text_roundtrips(self):
         record = candidate(self.path)
         record["source"]["author"] = "張三 — Marine française"
