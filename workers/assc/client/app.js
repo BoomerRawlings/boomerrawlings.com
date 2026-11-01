@@ -223,7 +223,7 @@ function transcriptQuery() {
 
 function updateOptions(select, values, firstLabel) {
   const selected = select.value;
-  select.replaceChildren(element('option', { value: '' }, firstLabel), [...new Set(asArray(values).map(value => typeof value === 'string' ? value : value.name || value.label || value.value).filter(Boolean))].sort().map(value => element('option', { value }, value)));
+  select.replaceChildren(element('option', { value: '' }, firstLabel), ...[...new Set(asArray(values).map(value => typeof value === 'string' ? value : value.name || value.label || value.value).filter(Boolean))].sort().map(value => element('option', { value }, value)));
   if ([...select.options].some(option => option.value === selected)) select.value = selected;
 }
 
@@ -247,7 +247,7 @@ async function loadTranscripts() {
     if (payload.sources) {
       const select = $('#transcript-filters [name=source]');
       const selected = select.value;
-      select.replaceChildren(element('option', { value: '' }, 'Every source'), payload.sources.map(source => element('option', { value: source.id }, source.title)));
+      select.replaceChildren(element('option', { value: '' }, 'Every source'), ...payload.sources.map(source => element('option', { value: source.id }, source.title)));
       if ([...select.options].some(option => option.value === selected)) select.value = selected;
     }
     $('#transcript-status').textContent = `${number(total)} ${total === 1 ? 'transcript' : 'transcripts'}${total > pageSize ? ` · page ${page}` : ''}`;
