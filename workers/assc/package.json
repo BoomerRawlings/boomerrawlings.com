@@ -1,0 +1,23 @@
+{
+  "name": "assc-private-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test test/*.test.mjs",
+    "check": "node scripts/check.mjs",
+    "build": "node scripts/package-assets.mjs"
+  },
+  "devDependencies": {
+    "miniflare": "5.20261023.1-beta",
+    "wrangler": "4.154.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "workerd@1.20261023.1": true
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "assc-private-room",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-10-30",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "version_metadata": { "binding": "CF_VERSION_METADATA" },
+  "routes": [
+    { "pattern": "boomerrawlings.com/ASSC", "zone_name": "boomerrawlings.com" },
+    { "pattern": "boomerrawlings.com/ASSC/*", "zone_name": "boomerrawlings.com" }
+  ],
+  "assets": {
+    "directory": ".build/assets",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "html_handling": "none",
+    "not_found_handling": "none"
+  },
+  "durable_objects": { "bindings": [{ "name": "ASSC_AUTH", "class_name": "AuthStore" }] },
+  "migrations": [{ "tag": "assc-auth-v1", "new_sqlite_classes": ["AuthStore"] }],
+  "observability": { "enabled": true, "head_sampling_rate": 0.01, "logs": { "enabled": true, "invocation_logs": false } }
+}

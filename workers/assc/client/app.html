@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive,noimageindex">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#101217">
+  <meta name="assc-name" content="AntiSnarkerSnarkerClub">
+  <title>AntiSnarkerSnarkerClub · The research desk</title>
+  <link rel="stylesheet" href="/ASSC/client/app.css">
+  <script type="module" src="/ASSC/client/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to workspace</a>
+  <header class="masthead">
+    <a class="wordmark" href="#brief" aria-label="AntiSnarkerSnarkerClub research desk"><span class="mark" aria-hidden="true">a<span>·</span>s</span><span class="wordmark-copy"><span class="wordmark-wave"><span>A</span><span>S</span><span>S</span><span>C</span></span><small>RESEARCH DESK</small></span></a>
+    <nav class="primary-nav" aria-label="Research sections">
+      <a href="#brief" data-route="brief"><span>01</span>BRIEF</a>
+      <a href="#bios" data-route="bios"><span>02</span>BIOS</a>
+      <a href="#sources" data-route="sources"><span>03</span>SOURCES</a>
+      <a href="#connections" data-route="connections"><span>04</span>CONNECTIONS</a>
+      <a href="#timeline" data-route="timeline"><span>05</span>TIMELINE</a>
+    </nav>
+    <button id="logout" class="lock-button" type="button" title="End this session"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="5" y="9" width="10" height="8" rx="1.5"/><path d="M7 9V6a3 3 0 0 1 6 0v3"/></svg><span>Lock desk</span></button>
+  </header>
+  <main id="main" tabindex="-1">
+    <div id="loading" class="loading-state" role="status"><span class="loading-dot"></span>Opening the research desk…</div>
+    <section id="brief" class="page brief-page" hidden aria-labelledby="brief-title"></section>
+    <section id="bios" class="page" hidden aria-labelledby="bios-title">
+      <div class="section-heading"><div><p class="eyebrow">02 / THE PEOPLE</p><h1 id="bios-title">Names in the record.</h1><p class="section-intro">Public roles, recurring work, and the sources that connect them.</p></div><span id="people-count" class="large-count"></span></div>
+      <div class="filter-bar"><label class="search-control"><span class="sr-only">Search people</span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="8" r="5"/><path d="m12 12 5 5"/></svg><input id="people-search" type="search" placeholder="Find a name, role, or alias" autocomplete="off"></label><label class="select-control"><span>Order</span><select id="people-sort"><option value="name">Name, A–Z</option><option value="sources">Most linked sources</option></select></label></div>
+      <div id="people-grid" class="people-grid"></div>
+    </section>
+    <section id="sources" class="page" hidden aria-labelledby="sources-title">
+      <div class="section-heading"><div><p class="eyebrow">03 / THE READING ROOM</p><h1 id="sources-title">Back to the source.</h1><p class="section-intro">A traceable library. Every record keeps its origin.</p></div><span id="source-count" class="large-count"></span></div>
+      <nav class="subnav" aria-label="Source library"><a href="#sources/index" data-source-tab="index">Source index <span id="index-count"></span></a><a href="#sources/transcripts" data-source-tab="transcripts">Transcripts <span id="transcript-count"></span></a></nav>
+      <div id="source-index"><div class="filter-bar"><label class="search-control"><span class="sr-only">Search sources</span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="8" r="5"/><path d="m12 12 5 5"/></svg><input id="source-search" type="search" placeholder="Search titles, publishers, and records" autocomplete="off"></label><label class="select-control"><span>Type</span><select id="source-kind"><option value="">Every source</option></select></label><label class="select-control"><span>Order</span><select id="source-sort"><option value="date-desc">Newest first</option><option value="date-asc">Oldest first</option><option value="title">Title, A–Z</option></select></label></div><div id="source-list" class="source-list"></div></div>
+      <div id="transcript-library" hidden>
+        <form id="transcript-filters" class="transcript-filters" role="search" aria-label="Search transcript library">
+          <label class="search-control"><span class="sr-only">Search transcripts and passages</span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="8" r="5"/><path d="m12 12 5 5"/></svg><input name="query" type="search" placeholder="Search a phrase, title, or passage" autocomplete="off"></label>
+          <label class="select-control"><span>Speaker</span><select name="speaker"><option value="">Everyone</option></select></label>
+          <label class="select-control"><span>Topic</span><select name="topic"><option value="">All topics</option></select></label>
+          <label class="select-control"><span>Source</span><select name="source"><option value="">Every source</option></select></label>
+          <label class="select-control"><span>Order</span><select name="sort"><option value="date-desc">Newest first</option><option value="date-asc">Oldest first</option><option value="title">Title, A–Z</option><option value="speaker">Speaker, A–Z</option><option value="source">Source, A–Z</option></select></label>
+          <details class="date-filter"><summary>Date range</summary><div><label>From<input name="from" type="date"></label><label>Through<input name="to" type="date"></label></div></details>
+          <button class="button" type="submit">Search <span aria-hidden="true">↗</span></button>
+        </form>
+        <div class="library-caption"><p id="transcript-status" role="status">Opening the transcript index…</p><button id="transcript-clear" class="text-button" type="button">Clear filters</button></div>
+        <div id="transcript-results" class="transcript-results"></div>
+        <nav id="transcript-pagination" class="pagination" aria-label="Transcript result pages"></nav>
+      </div>
+      <div id="transcript-reader" hidden></div>
+    </section>
+    <section id="connections" class="page map-page" hidden aria-labelledby="connections-title">
+      <div class="section-heading"><div><p class="eyebrow">04 / THE RELATIONSHIP ATLAS</p><h1 id="connections-title">Follow the threads.</h1><p class="section-intro">Explore a person, trace a link, open its evidence.</p></div><p class="map-heading-note">A living index of relationships<br><span>Scale follows the record, not a power score.</span></p></div>
+      <div id="graph-host"></div>
+    </section>
+    <section id="timeline" class="page timeline-page" hidden aria-labelledby="timeline-title">
+      <div class="section-heading"><div><p class="eyebrow">05 / CHRONOLOGY</p><h1 id="timeline-title">How the record unfolds.</h1><p class="section-intro">Events beside their evidence. Open a moment to follow its trail.</p></div></div>
+      <div id="timeline-host"></div>
+    </section>
+  </main>
+  <footer class="desk-footer"><span>ASSC <span class="footer-dot">·</span> PRIVATE RESEARCH DESK</span><span id="revision-note">A living collection</span><a href="#sources">Read the record <span aria-hidden="true">↗</span></a></footer>
+  <dialog id="detail-dialog" class="detail-dialog"><button id="detail-close" class="dialog-close" type="button" aria-label="Close record">×</button><div id="detail-content"></div></dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>

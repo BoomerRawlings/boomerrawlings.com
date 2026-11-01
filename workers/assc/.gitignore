@@ -1,0 +1,8 @@
+.private/
+.build/
+.dev.vars*
+.wrangler/
+node_modules/
+*.log
+test-output/
+.env*
