@@ -36,6 +36,16 @@ test('wrong answer never issues cookie; correct answer rotates random HttpOnly s
   assert.equal((await f.request('portraits/person.jpg',authenticated)).status,200);
   const bad=await f.request('api/corpus',{headers:{Cookie:cookie+'x'}});assert.equal(bad.status,401);
 });
+
+test('only the approved logo is public; image paths do not widen private access',async()=>{
+  const f=fixture();
+  await f.request('assc-logo.png');
+  assert.deepEqual(f.reads,['client/assc-logo.png']);
+  for(const path of ['client/assc-logo.png','other.png','portraits/person.jpg']) {
+    assert.equal((await f.request(path)).status,401);
+  }
+  assert.deepEqual(f.reads,['client/assc-logo.png']);
+});
 test('logout revokes session server-side, including copied cookie; expiry enforced',async()=>{
   let now=0;const f=fixture({store:new MemoryAuthStore({now:()=>now})});
   const cookie=(await f.login()).headers.get('set-cookie').split(';')[0];

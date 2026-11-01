@@ -1,6 +1,6 @@
 import { COOKIE_NAME, cookieToken, digest, randomToken, sessionCookie, validAnswer } from './auth.mjs';
 const CLIENT_FILES = new Set(['app.html','app.js','app.css','graph.js','graph.css','timeline.js','timeline.css']);
-const ENTRY_FILES = new Set(['gate.css','gate.js']);
+const ENTRY_FILES = new Set(['gate.css','gate.js','assc-logo.png']);
 const JSON_HEADERS = {'Content-Type':'application/json; charset=utf-8'};
 export const securityHeaders = {
   'Cache-Control':'no-store, private, max-age=0', 'Pragma':'no-cache',

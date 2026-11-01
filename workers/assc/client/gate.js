@@ -16,9 +16,15 @@
   for (const line of gate.querySelectorAll('.gate-riddle-line')) {
     const label = line.textContent; line.replaceChildren();
     const accessible = document.createElement('span'); accessible.className = 'gate-sr-only'; accessible.textContent = label; line.append(accessible);
-    for (const character of label) {
-      const span = document.createElement('span'); span.className = 'gate-riddle-letter'; span.textContent = character; span.setAttribute('aria-hidden', 'true');
-      line.append(span); characters.push(span);
+    for (const word of label.split(/(\s+)/)) {
+      const group = document.createElement('span'); group.setAttribute('aria-hidden', 'true');
+      if (/^\s+$/.test(word)) { group.textContent = word; line.append(group); continue; }
+      group.className = 'gate-riddle-word';
+      for (const character of word) {
+        const span = document.createElement('span'); span.className = 'gate-riddle-letter'; span.textContent = character;
+        group.append(span); characters.push(span);
+      }
+      line.append(group);
     }
   }
   function updateWave() {
@@ -26,6 +32,7 @@
     waveFrame = requestAnimationFrame(() => {
       const length = input.value.length;
       const amplitude = reduced.matches || !length ? 0 : Math.min(3.2, .85 + length * .28);
+      gate.style.setProperty('--logo-tilt', `${reduced.matches ? 0 : Math.sin(length * .65) * 1.2}deg`);
       characters.forEach((span, index) => {
         const offset = Math.sin(index * .43 - length * .83) * amplitude;
         span.style.setProperty('--letter-y', `${offset.toFixed(2)}px`); span.style.setProperty('--letter-r', `${(offset * .17).toFixed(2)}deg`);
@@ -42,20 +49,9 @@
   }
   function revealName(name) {
     reveal.replaceChildren();
-    const mark = document.createElement('div'); mark.className = 'gate-reveal-name';
-    // This name comes from the authenticated document, never from a public data bundle.
-    const words = String(name || 'ASSC').match(/[A-Z][a-z]+|[A-Z]+(?![a-z])|[a-z]+/g) || ['ASSC'];
-    const lines = words.length > 3 ? [words[0], words[1], words.slice(2).join(' ')] : words;
-    let count = 0;
-    for (const word of lines) {
-      const line = document.createElement('span'); line.className = 'gate-reveal-line';
-      for (const character of word) {
-        const span = document.createElement('span'); span.className = 'gate-reveal-letter'; span.textContent = character === ' ' ? '\u00a0' : character;
-        span.style.setProperty('--reveal-y', `${(Math.sin(count * .7) * 6).toFixed(2)}px`); span.style.setProperty('--reveal-r', `${(Math.cos(count * .6) * 2).toFixed(2)}deg`);
-        line.append(span); count++;
-      }
-      mark.append(line);
-    }
+    const mark = document.createElement('img'); mark.className = 'gate-reveal-logo';
+    mark.src = '/ASSC/assc-logo.png'; mark.alt = name || 'AntiSnarkerSnarkerClub';
+    mark.width = 1254; mark.height = 1254;
     const subtitle = document.createElement('p'); subtitle.className = 'gate-reveal-subtitle'; subtitle.textContent = 'Follow the thread. Keep the record.';
     const trace = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); trace.setAttribute('class', 'gate-reveal-thread'); trace.setAttribute('viewBox', '0 0 600 35');
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path'); path.setAttribute('d', 'M0 20 C100 -3 160 38 260 19 S430 2 600 16'); trace.append(path);

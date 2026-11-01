@@ -27,7 +27,7 @@ async function copy(name) {
   const bytes = await readFile(destination);
   manifest.push({ path: name, bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex') });
 }
-for (const name of ['gate.html','gate.css','gate.js','app.html','app.css','app.js','graph.js','graph.css','timeline.js','timeline.css']) await copy(`client/${name}`);
+for (const name of ['gate.html','gate.css','gate.js','assc-logo.png','app.html','app.css','app.js','graph.js','graph.css','timeline.js','timeline.css']) await copy(`client/${name}`);
 for (const name of ['corpus.json','transcripts.json']) await copy(`.private/${name}`);
 for (const [directory, pattern] of [
   ['portraits', /^[a-zA-Z0-9_-]+\.(jpg|jpeg|png|webp)$/],
