@@ -259,6 +259,12 @@ export function characterPacket(state, editorId) {
   const articles = [...articlesAt(state, window.startAt).values()];
   const ranked = articles.map(article => ({ article, score: relevance(editor, `${article.title} ${article.body}`) + seeded(state.seed, `${window.id}:${editorId}:${article.id}`) * 4 })).sort((a, b) => b.score - a.score);
   const target = ranked[0]?.article;
+  const reactionDraw = stage => seeded(state.seed, `${window.id}:${editorId}:${target?.revisionId}:${stage}`);
+  const noticesOverreach = reactionDraw('notice') < 0.55;
+  const challengesOverreach = noticesOverreach && reactionDraw('challenge') < 0.7;
+  const measured = ['ellis47', 'cwhitmore', 'bluemonday'].includes(editorId);
+  const correctionStyle = reactionDraw('response') < (measured ? 0.8 : 0.35)
+    ? 'quiet correction' : 'overcorrection';
   const recent = state.events.filter(event => event.timestamp <= window.startAt && event.action !== 'join').map(event => ({ event, score: relevance(editor, `${event.title} ${event.summary}`) + (event.articleId === target?.id ? 3 : 0) + (event.editorId === editorId ? 1 : 0) + ms(event.timestamp) / 1e12 })).sort((a, b) => b.score - a.score).slice(0, 5).map(({ event }) => ({ id: event.id, timestamp: event.timestamp, editorId: event.editorId, action: event.action, articleId: event.articleId, title: event.title, summary: event.summary, body: ['comment', 'policy'].includes(event.action) ? event.body : undefined }));
   const knownEvents = new Set(recent.map(event => event.id));
   const publicIds = new Set(state.events.filter(event => event.timestamp <= window.startAt).map(event => event.id));
@@ -278,6 +284,11 @@ export function characterPacket(state, editorId) {
       dispositions: editor.dispositions, temporary: editor.temporary,
     },
     editorialDirection: {
+      dispute: !noticesOverreach
+        ? 'Follow your usual editorial priorities. Do not go looking for a dispute this turn.'
+        : !challengesOverreach
+          ? 'You may notice a conspicuously extreme or unsupported claim, but let it pass this turn.'
+          : `If the observed text genuinely contains a conspicuously extreme or unsupported claim, you may disagree and favor a ${correctionStyle}. For quiet correction, narrow the claim in place and leave a factual edit summary without opening a dispute. For overcorrection, push the qualification too far or narrow the scope more than warranted. Do not invent evidence, fabricate a bad claim to react to, or force an edit.`,
       voice: 'Write in the character’s own register. Cut throat-clearing, generic synthesis, stock contrasts, tidy three-part lists and repetitive caveats. Vary paragraph and sentence length according to the material. Keep other editors’ prose outside the chosen edit.',
       choice: 'Favor the preferred action when it fits. Other actions and abstention remain valid. Notice specific errors by other editors in the supplied article. Correct one when it matters and the revision is available, or raise it on the discussion page if uncertain.',
       roughness: seeded(state.seed, `roughness:${window.id}:${editor.id}`) < 0.18
