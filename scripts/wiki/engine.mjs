@@ -435,7 +435,7 @@ export function completeCycle(state, { proof, now = new Date().toISOString() } =
     const proposal = record.proposal, eventId = `${window.id}-${proposal.editorId}`;
     let outcome = 'accepted', explanation = 'Published the proposed action.';
     if (proposal.action === 'abstain') { outcome = 'abstained'; explanation = 'No public action was taken.'; }
-    else if (proposal.action === 'create' && current.has(proposal.articleId)) { outcome = 'conflict'; explanation = 'Not published: another article with that identity was created earlier in this window.'; }
+    else if (proposal.action === 'create' && (current.has(proposal.articleId) || state.events.some(event => event.cycleId === 'manual' && event.articleId === proposal.articleId))) { outcome = 'conflict'; explanation = 'Not published: an article with that identity already exists.'; }
     else if (REVISION_ACTIONS.has(proposal.action) && proposal.action !== 'create' && current.get(proposal.articleId)?.revisionId !== proposal.baseRevisionId) { outcome = 'conflict'; explanation = 'Not published: the article changed earlier in this window; reconsider it next turn.'; }
     if (outcome === 'accepted') {
       const event = { id: eventId, cycleId: window.id, timestamp: proposal.timestamp, editorId: proposal.editorId, action: proposal.action, articleId: proposal.articleId, title: proposal.title, summary: proposal.summary, revisionId: REVISION_ACTIONS.has(proposal.action) ? eventId : null, baseRevisionId: proposal.baseRevisionId, body: proposal.body, categories: [...proposal.categories], principleIds: [...proposal.principleIds], references: [...proposal.references] };
@@ -487,7 +487,8 @@ export function releasedEditorNotes(state, at) {
 export function exportPublic(state, { proof, now = new Date().toISOString() } = {}) {
   const usage = checkUsage(proof, now); assert(usage.allowed, `publication gated: ${usage.reason}`);
   assert(state.foundingComplete, 'no completed founding content to export');
-  const at = state.latestCompletedAt;
+  const at = state.events.reduce((cutoff, event) =>
+    event.cycleId === 'manual' && event.timestamp > cutoff ? event.timestamp : cutoff, state.latestCompletedAt);
   return {
     schemaVersion: 1,
     meta: { title: 'The Encyclopedia of the Human Condition', foundingAt: FOUNDING_AT, latestCompletedAt: at, generatedAt: iso(now), cycleCount: state.cycles.length, disclosure: 'The editors and editorial activity are fictional and simulated. The initial history was generated retrospectively; later cycles continue the same experiment.' },
