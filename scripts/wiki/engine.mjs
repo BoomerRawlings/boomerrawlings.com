@@ -53,6 +53,15 @@ function validateMarkup(text, maxWords = 10000) {
   assert(!stripped.includes('[[') && !stripped.includes(']]'), 'malformed article link');
   assert(wordCount(text) <= maxWords, `body exceeds ${maxWords} words`);
 }
+const editorialProfiles = {
+  bluemonday: ['revise', 'Short paragraphs. Begin with a distinction in ordinary words. Keep a little of the original phrasing even when it is uneven.', 'Sometimes assumes a distinction introduced on another page is already familiar.'],
+  ellis47: ['revise', 'Use literal definitions and short qualifiers beside the claim they qualify. Prefer a small correction to a rewritten paragraph.', 'Sometimes leaves an exception in an awkward parenthesis.'],
+  norab: ['create', 'Start from an ordinary scene with a specific object or gesture. Use direct sentences and leave the example room to speak.', 'Sometimes draws a broader conclusion than one example warrants.'],
+  drowan: ['expand', 'Build one substantial section around a concrete institutional rule and who applies it. Allow longer sentences when tracing consequences.', 'Sometimes treats a local practice as a general rule.'],
+  cwhitmore: ['organize', 'Use consistent headings, explicit cross-references, and short procedural edit summaries.', 'Sometimes files an example under a category that is too narrow.'],
+  paulm: ['comment', 'Use plain words, a pointed counterexample, and occasional dry understatement. A short question can carry a whole comment.', 'Sometimes jumps to a conclusion without spelling out the middle step.'],
+};
+
 function editorProfile(id, name, interests, description, style, joinedAt, activity = 0.7) {
   return { id, name, interests, description, style, joinedAt, activity, dispositions: { curiosity: 0.7, conscientiousness: 0.7, cooperation: 0.6 }, temporary: { frustration: 0, enthusiasm: 0.5 }, memory: [], longTermMemory: [], memorySummary: '', lastActedCycle: 0 };
 }
@@ -261,7 +270,21 @@ export function characterPacket(state, editorId) {
   if (target) knownEvents.add(target.revisionId);
   const targetWords = target?.body.split(/\s+/) ?? [];
   const packet = {
-    character: { id: editor.id, name: editor.name, interests: editor.interests, description: editor.description, writingStyle: editor.style, dispositions: editor.dispositions, temporary: editor.temporary },
+    character: {
+      id: editor.id, name: editor.name, interests: editor.interests, description: editor.description,
+      writingStyle: editorialProfiles[editor.id]?.[1] ?? editor.style,
+      preferredAction: editorialProfiles[editor.id]?.[0] ??
+        ['create', 'expand', 'revise', 'organize', 'comment'][Math.floor(seeded(state.seed, `preference:${editor.id}`) * 5)],
+      dispositions: editor.dispositions, temporary: editor.temporary,
+    },
+    editorialDirection: {
+      voice: 'Write in the character’s own register. Cut throat-clearing, generic synthesis, stock contrasts, tidy three-part lists and repetitive caveats. Vary paragraph and sentence length according to the material. Keep other editors’ prose outside the chosen edit.',
+      choice: 'Favor the preferred action when it fits. Other actions and abstention remain valid. Notice specific errors by other editors in the supplied article. Correct one when it matters and the revision is available, or raise it on the discussion page if uncertain.',
+      roughness: seeded(state.seed, `roughness:${window.id}:${editor.id}`) < 0.18
+        ? editorialProfiles[editor.id]?.[2] ?? 'A small punctuation lapse or an example placed under the wrong heading can occur in this contribution.'
+        : 'Write normally for this character.',
+      limits: 'When the roughness cue fits an edit you would actually make, allow one mild flaw. Do not announce it, fabricate evidence, or add false factual claims to manufacture conflict.',
+    },
     window: { id: window.id, startAt: window.startAt, endAt: window.endAt },
     principles: state.principles,
     personalMemory: { summary: memorySummary(retained), summaryReferences, important: memories },

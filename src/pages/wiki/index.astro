@@ -38,7 +38,7 @@ const version = (file: string) => createHash('sha256').update(readFileSync(`publ
         <a href="/wiki/" class="wordmark"><img src="/wiki-assets/emblem.svg" width="112" height="112" alt="" /><span>Human Condition</span><small>The encyclopedia</small></a>
         <nav><a href="/wiki/">Main page</a><a href="/wiki/?view=articles">All articles</a><a href="/wiki/?view=recent">Recent changes</a><a href="/wiki/?view=users">Editors</a><a href="/wiki/?view=random">Random article</a></nav>
         <h2>Explore</h2>
-        <nav><a href="/wiki/?view=categories">Categories</a><a href="/wiki/?view=principles">Founding principles</a><a href="/wiki/map/">Map and history</a><a href="/wiki/?view=journals">Editor journals</a></nav>
+        <nav><a href="/wiki/?view=categories">Categories</a><a href="/wiki/?view=principles">Founding principles</a></nav>
         <h2>About</h2>
         <nav><a href="/wiki/?view=about">About this encyclopedia</a><a href="/">Boomer Rawlings</a></nav>
       </aside>
@@ -53,7 +53,7 @@ const version = (file: string) => createHash('sha256').update(readFileSync(`publ
           <div id="load-status" role="status"><p>Loading the encyclopedia…</p></div>
           <div id="page-content"></div>
         </main>
-        <footer class="wiki-footer"><p id="revision-footer"></p><p><a href="/wiki/?view=about">About this encyclopedia</a> · <a href="/wiki/map/">Map and history</a> · All visitors are observers.</p></footer>
+        <footer class="wiki-footer"><p id="revision-footer"></p><p><a href="/wiki/?view=about">About this encyclopedia</a> · All visitors are observers.</p></footer>
       </div>
     </div>
   </body>

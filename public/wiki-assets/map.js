@@ -1,4 +1,4 @@
-import {REVISION_ACTIONS, esc, stamp, number, dateText, dayKey, pacificDayEnd, href, articleLink, userLink, snapshot, stablePositions, safeSessionGet, safeSessionSet, loadData, installGate, titleFromId} from './shared.js';
+import {REVISION_ACTIONS, esc, stamp, number, dateText, dayKey, pacificDayEnd, href, articleLink, userLink, markup, snapshot, stablePositions, safeSessionGet, safeSessionSet, loadData, installGate, titleFromId} from './shared.js';
 
 let data, state, current, earliest, latest, view='articles', selected=null, positions, editorPositions, boundaries=[], growth=[];
 let playing=false, frame=0, lastPaint=0, animationStart=0, animationFrom=0, animationTo=0, animationDuration=10000;
@@ -123,7 +123,7 @@ function detailView() {
     if(!editor){details.innerHTML='<h2>Not yet joined</h2><p>This editor had not arrived at the selected moment.</p>';return;}
     const events=state.events.filter(e=>e.editorId===editor.id&&e.action!=='join'),revisions=events.filter(e=>REVISION_ACTIONS.has(e.action));
     const relationships=state.relationships.filter(r=>r.from===editor.id||r.to===editor.id);
-    details.innerHTML=`<h2>${userLink(editor.id,at())}</h2><p>${esc(editor.description||'An editor of the encyclopedia.')}</p><dl class="metadata-list"><dt>Joined</dt><dd>${esc(dateText(editor.joinedAt,true))}</dd><dt>Contributions</dt><dd>${number(events.length)}</dd><dt>Revisions</dt><dd>${number(revisions.length)}</dd><dt>Released journals</dt><dd>${number(state.journals.filter(j=>j.editorId===editor.id).length)}</dd></dl><p><a href="${esc(contextHref({view:'user',user:editor.id}))}">Contribution history</a> · <a href="${esc(contextHref({view:'journals',user:editor.id}))}">Read journals</a></p><h3>Recorded relationships</h3>${relationships.length?`<ul>${relationships.map(r=>`<li>${selectButton(`${r.from}|${r.to}`,'relationship',`${r.from} → ${r.to}`)}</li>`).join('')}</ul>`:'<p class="small muted">No recorded attitudes yet.</p>'}`;
+    details.innerHTML=`<h2>${userLink(editor.id,at())}</h2><p>${esc(editor.description||'An editor of the encyclopedia.')}</p><dl class="metadata-list"><dt>Joined</dt><dd>${esc(dateText(editor.joinedAt,true))}</dd><dt>Contributions</dt><dd>${number(events.length)}</dd><dt>Revisions</dt><dd>${number(revisions.length)}</dd><dt>Released journals</dt><dd>${number(state.journals.filter(j=>j.editorId===editor.id).length)}</dd></dl><p><a href="${esc(contextHref({view:'user',user:editor.id}))}">Contribution history</a> · <a href="${esc(href({view:'journals',user:editor.id,at:at()},'/wiki/map/'))}">Read journals</a></p><h3>Recorded relationships</h3>${relationships.length?`<ul>${relationships.map(r=>`<li>${selectButton(`${r.from}|${r.to}`,'relationship',`${r.from} → ${r.to}`)}</li>`).join('')}</ul>`:'<p class="small muted">No recorded attitudes yet.</p>'}`;
   } else if(selected.type==='principle') {
     const principle=(data.principles||[]).find(p=>p.id===selected.id);
     if(!principle){details.innerHTML='<h2>Principle unavailable</h2>';return;}
@@ -163,9 +163,25 @@ function activityView() {
 function render() {
   state=snapshot(data,new Date(current).toISOString());
   renderTimeline();categoryOptions();
-  const activity=view==='activity';$('map-explorer').hidden=activity;$('activity-view').hidden=!activity;
-  if(activity)activityView();else{drawNetwork();detailView();}
-  recordView();
+  const activity = view === 'activity';
+  const journals = view === 'journals';
+  $('map-explorer').hidden = activity || journals;
+  $('activity-view').hidden = !activity;
+  $('journal-view').hidden = !journals;
+  $('map-records').hidden = journals;
+  if (journals) {
+    const editor = selected?.type === 'editor' ? selected.id : null;
+    const entries = state.journals.filter(entry => !editor || entry.editorId === editor).reverse();
+    const journalLink = (label, user) => '<a href="' + esc(href({view:'journals',user,at:at()},'/wiki/map/')) + '">' + esc(label) + '</a>';
+    $('journal-view').innerHTML = '<h2>Editor journals</h2><p>Entries appear after 48 simulated hours.</p><p>' +
+      [journalLink('All editors'), ...state.editors.map(person => journalLink(person.name, person.id))].join(' · ') +
+      '</p>' + (entries.length ? entries.map(entry => '<article class="journal-entry"><h3>' +
+        esc(entry.editorId) + ' · ' + esc(dateText(entry.timestamp)) + '</h3>' +
+        markup(entry.body,state.articles,at()) + (entry.outcome ? '<p class="journal-meta">Outcome: ' + esc(entry.outcome) + '</p>' : '') +
+        '</article>').join('') : '<p>No journal entries have been released at this moment.</p>');
+  }
+  if(activity)activityView();else if(!journals){drawNetwork();detailView();}
+  if(!journals)recordView();
   for(const link of document.querySelectorAll('.wiki-sidebar a, .wiki-footer a, .wiki-navigation a')) {
     const url=new URL(link.href,location.href);
     if(url.origin===location.origin&&url.pathname.startsWith('/wiki/')) {
@@ -235,7 +251,7 @@ installGate('map',async fresh=>{
   data=await loadData();earliest=stamp(data.meta.foundingAt);latest=stamp(data.meta.latestCompletedAt);
   const query=new URLSearchParams(location.search),requested=stamp(query.get('at'));
   current=requested?Math.max(earliest,Math.min(latest,requested)):latest;
-  view=['articles','principles','relationships','activity'].includes(query.get('view'))?query.get('view'):'articles';
+  view=['articles','principles','relationships','activity','journals'].includes(query.get('view'))?query.get('view'):'articles';
   if(query.has('article'))selected={id:query.get('article'),type:'article'};
   else if(query.has('user'))selected={id:query.get('user'),type:'editor'};
   else if(query.has('principle'))selected={id:query.get('principle'),type:'principle'};

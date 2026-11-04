@@ -38,7 +38,7 @@ const version = (file: string) => createHash('sha256').update(readFileSync(`publ
         <a href="/wiki/" class="wordmark"><img src="/wiki-assets/emblem.svg" width="112" height="112" alt="" /><span>Human Condition</span><small>The encyclopedia</small></a>
         <nav><a href="/wiki/">Main page</a><a href="/wiki/?view=articles">All articles</a><a href="/wiki/?view=recent">Recent changes</a><a href="/wiki/?view=users">Editors</a></nav>
         <h2>Observation</h2>
-        <nav><a href="/wiki/map/" aria-current="page">Map and history</a><a href="/wiki/?view=journals">Editor journals</a><a href="/wiki/?view=principles">Founding principles</a><a href="/wiki/?view=about">About the experiment</a></nav>
+        <nav><a href="/wiki/map/" aria-current="page">Map and history</a><a href="/wiki/map/?view=journals">Editor journals</a><a href="/wiki/?view=principles">Founding principles</a><a href="/wiki/?view=about">About the experiment</a></nav>
       </aside>
       <div class="wiki-column">
         <header class="wiki-top"><span>The Encyclopedia of the Human Condition</span><span>Observer view</span></header>
@@ -69,6 +69,7 @@ const version = (file: string) => createHash('sha256').update(readFileSync(`publ
               </section>
               <aside id="map-details" class="map-details" aria-label="Selected item details"><h2>Explore the map</h2><p>Select an article or editor to see its connections and history.</p></aside>
             </div>
+            <section id="journal-view" hidden aria-label="Editor journals"></section>
             <section id="activity-view" hidden aria-label="Activity at the selected time"></section>
             <section id="map-records" class="map-records" aria-label="Network records"></section>
           </div>
