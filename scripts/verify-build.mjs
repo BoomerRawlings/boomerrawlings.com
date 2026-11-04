@@ -47,7 +47,7 @@ const unlistedContentPaths = new Set([
   join('writing', 'data-analysis', 'sex-and-the-moon', 'index.html'),
 ]);
 // Portable examples own their document shell; portfolio metadata/Pip rules stay unchanged.
-const standaloneContentPaths = new Set([join('workflow-display', 'index.html'), join('documents', 'scads-2026', 'workflow.html'), join('ACF', 'index.html'), join('stars', 'index.html'), join('stars', 'jumpin', 'index.html'), join('stars-assets', 'workflow.html')]);
+const standaloneContentPaths = new Set([join('workflow-display', 'index.html'), join('documents', 'scads-2026', 'workflow.html'), join('ACF', 'index.html'), join('stars', 'index.html'), join('stars', 'jumpin', 'index.html'), join('stars-assets', 'workflow.html'), join('wiki', 'index.html'), join('wiki', 'map', 'index.html')]);
 const contentHtmlFiles = htmlFiles.filter(
   (file) => {
     const path = relative(output, file);
@@ -60,9 +60,9 @@ const unlistedHtmlFiles = htmlFiles.filter(
 const standaloneHtmlFiles = htmlFiles.filter(
   (file) => standaloneContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 36 || standaloneHtmlFiles.length !== 6 || unlistedHtmlFiles.length !== 13 || htmlFiles.length !== 61) {
+if (contentHtmlFiles.length !== 36 || standaloneHtmlFiles.length !== 8 || unlistedHtmlFiles.length !== 13 || htmlFiles.length !== 63) {
   throw new Error(
-    `expected 36 portfolio pages, 6 standalone pages, 13 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 36 portfolio pages, 8 standalone pages, 13 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 

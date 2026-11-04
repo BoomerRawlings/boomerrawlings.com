@@ -55,6 +55,7 @@ export default defineConfig({
         !page.startsWith('https://boomerrawlings.com/brain/') &&
         !page.startsWith('https://boomerrawlings.com/ead/') &&
         !page.startsWith('https://boomerrawlings.com/subs/') &&
+        !page.startsWith('https://boomerrawlings.com/wiki/') &&
         !page.startsWith('https://boomerrawlings.com/BoomerKarma/') &&
         page !== 'https://boomerrawlings.com/writing/data-analysis/sex-and-the-moon/' &&
         !page.startsWith('https://boomerrawlings.com/cbs8/'),
