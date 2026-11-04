@@ -104,6 +104,41 @@ function relationshipLabel(reading) {
   return '<strong class="relationship-' + reading.tone + '">' + reading.tone[0].toUpperCase() + reading.tone.slice(1) +
     '</strong> · ' + reading.intensity + ' (' + reading.signed + ')';
 }
+function relationshipSummary(record) {
+  const reading = relationshipReading(record);
+  const supporting = new Set(record.evidenceIds);
+  const latest = state.events.filter(event => supporting.has(event.id)).at(-1);
+  const reason = latest?.summary || latest?.title;
+  return reading.intensity + ' ' + reading.tone + ' (' + reading.signed + '). Trust ' +
+    record.trust + ', grievance ' + record.grievance + '. ' +
+    (reason ? 'Latest supporting event: ' + reason : 'No supporting event is recorded.');
+}
+function relationshipHistory(from, to) {
+  const pair = (a,b) => (a === from && b === to) || (a === to && b === from);
+  const records = (data.relationships || []).filter(record => pair(record.from, record.to) && stamp(record.timestamp) <= state.time)
+    .sort((a,b) => stamp(a.timestamp) - stamp(b.timestamp));
+  const evidenceIds = new Set(records.flatMap(record => record.evidenceIds || []));
+  const byId = new Map(state.events.flatMap(event => [[event.id,event], ...(event.revisionId ? [[event.revisionId,event]] : [])]));
+  const interactions = state.events.filter(event => evidenceIds.has(event.id) ||
+    [...(event.references || []), event.baseRevisionId].some(id => {
+      const related = byId.get(id);
+      return related && pair(event.editorId, related.editorId);
+    }));
+  const editorName = id => state.editors.find(editor => editor.id === id)?.name || id;
+  return '<h3>Attitude history</h3><p>Both directions, through the selected date.</p>' +
+    '<ol class="relationship-timeline">' + records.map(record => {
+      const links = (record.evidenceIds || []).map(id => byId.get(id)).filter(Boolean).map(eventLink);
+      return '<li><strong>' + esc(editorName(record.from)) + ' → ' + esc(editorName(record.to)) +
+        '</strong> · ' + esc(dateText(record.timestamp)) + '<br>' + relationshipLabel(relationshipReading(record)) +
+        '<br>Trust ' + esc(record.trust) + ' · Grievance ' + esc(record.grievance) +
+        (links.length ? '<br>Evidence: ' + links.join(' · ') : '') + '</li>';
+    }).join('') + '</ol><h3>Recorded interactions (' + interactions.length + ')</h3>' +
+    '<p>Includes evidence, direct references, and edits based on the other editor’s revision.</p>' +
+    (interactions.length ? '<ol class="relationship-timeline">' + interactions.map(event =>
+      '<li>' + esc(dateText(event.timestamp)) + '<br><strong>' + esc(editorName(event.editorId)) +
+      ' · ' + esc(event.action) + '</strong> · ' + eventLink(event) + '</li>').join('') + '</ol>'
+      : '<p>No linked public interactions at this moment.</p>');
+}
 function drawNetwork() {
   const {nodes,edges}=buildNetwork();lastGraphNodes=nodes;
   const byId=new Map(nodes.map(node=>[node.id,node]));
@@ -129,16 +164,17 @@ function drawNetwork() {
     const reading = relationshipReading(edge.relationship);
     const selectedEdge = selected?.type === 'relationship' && selected.id === edge.source + '|' + edge.target;
     const width = 1.6 + 4 * Math.sqrt(reading.magnitude / 100);
-    return '<line class="relationship-edge' + (selectedEdge ? ' selected-relationship' : '') + '"' + coordinates +
+    const summary = label + ' · ' + esc(relationshipSummary(edge.relationship));
+    return '<g class="relationship-control" data-node-type="relationship" data-node-id="' + esc(edge.source + '|' + edge.target) + '" tabindex="0" role="button" aria-label="' + summary + '"><title>' + summary + '</title><line class="relationship-hit"' + coordinates + '/><line class="relationship-edge' + (selectedEdge ? ' selected-relationship' : '') + '"' + coordinates +
       ' stroke="' + relationshipColors[reading.tone] + '" stroke-width="' + width +
       '" marker-end="url(#relationship-arrow-' + reading.tone + ')"' +
       (reading.tone === 'negative' ? ' stroke-dasharray="7 4"' : reading.tone === 'neutral' ? ' stroke-dasharray="2 4"' : '') +
-      '><title>' + label + ' · ' + reading.tone + ' · ' + reading.intensity + ' (' + reading.signed + ')</title></line>';
+      '/></g>';
   }).join('');
   const markers = Object.entries(relationshipColors).map(([tone, color]) =>
     '<marker id="relationship-arrow-' + tone + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="' + color + '"/></marker>'
   ).join('');
-  $('network').innerHTML=`<defs>${markers}</defs><g aria-hidden="true">${edgeHtml}</g><g>${nodes.map(node=>`<g class="node ${node.type}${node.id===selectedId?' selected':''}" transform="translate(${node.x} ${node.y})" data-node-id="${esc(node.realId||node.id)}" data-node-type="${node.type}" tabindex="0" role="button" aria-label="${esc(node.label)}${node.words!==undefined?`, ${number(node.words)} words`:''}. Inspect connections."><title>${esc(node.label)}${node.words!==undefined?` — ${number(node.words)} words`:''}</title>${node.type==='principle'?`<rect x="-${node.radius}" y="-${node.radius}" width="${node.radius*2}" height="${node.radius*2}"/>`:`<circle r="${node.radius}"/>`}<text y="${node.radius+16}" text-anchor="middle">${esc(short(node.label))}</text></g>`).join('')}</g>`;
+  $('network').innerHTML=`<defs>${markers}</defs><g>${edgeHtml}</g><g>${nodes.map(node=>`<g class="node ${node.type}${node.id===selectedId?' selected':''}" transform="translate(${node.x} ${node.y})" data-node-id="${esc(node.realId||node.id)}" data-node-type="${node.type}" tabindex="0" role="button" aria-label="${esc(node.label)}${node.words!==undefined?`, ${number(node.words)} words`:''}. Inspect connections."><title>${esc(node.label)}${node.words!==undefined?` — ${number(node.words)} words`:''}</title>${node.type==='principle'?`<rect x="-${node.radius}" y="-${node.radius}" width="${node.radius*2}" height="${node.radius*2}"/>`:`<circle r="${node.radius}"/>`}<text y="${node.radius+16}" text-anchor="middle">${esc(short(node.label))}</text></g>`).join('')}</g>`;
   $('network').setAttribute('aria-label',`${view==='relationships'?'Editor':view==='principles'?'Principle and article':'Article'} network at ${dateText(current)}. ${nodes.length} visible nodes.`);
   $('network-empty').hidden=nodes.length>0;
   $('network-empty').textContent=currentQuery||currentCategory?'No matches at this moment. Try a different search or category.':'No articles had been written at this moment.';
@@ -173,7 +209,7 @@ function detailView() {
   } else if(selected.type==='relationship') {
     const [from,to]=selected.id.split('|'),relationship=state.relationships.find(r=>r.from===from&&r.to===to);
     if(!relationship){details.innerHTML='<h2>No relationship record</h2><p>This attitude had not been recorded at the selected moment.</p>';return;}
-    details.innerHTML=`<h2>${esc(from)} → ${esc(to)}</h2><p>This is ${userLink(from,at())}'s recorded attitude toward ${userLink(to,at())}.</p><p>${relationshipLabel(relationshipReading(relationship))}</p><dl class="metadata-list"><dt>Trust</dt><dd>${esc(relationship.trust)}</dd><dt>Grievance</dt><dd>${esc(relationship.grievance)}</dd><dt>Recorded</dt><dd>${esc(dateText(relationship.timestamp))}</dd></dl><p class="small muted">Scores describe fictional character state. The reverse relationship may differ.</p><h3>Supporting events</h3>${evidence(relationship.evidenceIds)}`;
+    details.innerHTML=`<h2>${esc(from)} → ${esc(to)}</h2><p>This is ${userLink(from,at())}'s recorded attitude toward ${userLink(to,at())}.</p><p>${relationshipLabel(relationshipReading(relationship))}</p><dl class="metadata-list"><dt>Trust</dt><dd>${esc(relationship.trust)}</dd><dt>Grievance</dt><dd>${esc(relationship.grievance)}</dd><dt>Recorded</dt><dd>${esc(dateText(relationship.timestamp))}</dd></dl><p class="small muted">Scores describe fictional character state. The reverse relationship may differ.</p>${relationshipHistory(from,to)}`;
   }
 }
 function recordView() {
@@ -308,8 +344,16 @@ $('map-search').addEventListener('input',event=>{currentQuery=event.target.value
 $('map-category').addEventListener('change',event=>{currentCategory=event.target.value;render();});
 for(const button of document.querySelectorAll('[data-map-view]'))button.addEventListener('click',()=>switchView(button.dataset.mapView));
 document.addEventListener('click',event=>{const button=event.target.closest('[data-select-id]');if(button)select(button.dataset.selectId,button.dataset.selectType);const growthButton=event.target.closest('[data-growth]');if(growthButton){growthMetric=growthButton.dataset.growth;activityView();}});
-$('network').addEventListener('click',event=>{const node=event.target.closest('[data-node-id]');if(node&&!dragged)select(node.dataset.nodeId,node.dataset.nodeType);});
-$('network').addEventListener('keydown',event=>{const node=event.target.closest('[data-node-id]');if(node&&(event.key==='Enter'||event.key===' ')){event.preventDefault();select(node.dataset.nodeId,node.dataset.nodeType);}});
+$('network').addEventListener('click',event=>{const node=event.target.closest('[data-node-id]');if(node&&!dragged)inspectNetworkItem(node);});
+$('network').addEventListener('keydown',event=>{const node=event.target.closest('[data-node-id]');if(node&&(event.key==='Enter'||event.key===' ')){event.preventDefault();inspectNetworkItem(node);}});
+function inspectNetworkItem(node) {
+  select(node.dataset.nodeId,node.dataset.nodeType);
+  if (node.dataset.nodeType === 'relationship') {
+    const details = $('map-details');
+    details.tabIndex = -1;
+    details.focus();
+  }
+}
 function zoom(factor) {const width=viewport.width*factor,height=viewport.height*factor;if(width<100||width>12000)return;viewport={x:viewport.x+(viewport.width-width)/2,y:viewport.y+(viewport.height-height)/2,width,height};applyViewport();}
 $('zoom-in').addEventListener('click',()=>zoom(.75));$('zoom-out').addEventListener('click',()=>zoom(1/.75));$('zoom-fit').addEventListener('click',()=>fitNetwork());
 new ResizeObserver(()=>{if(data)fitNetwork();}).observe($('network'));

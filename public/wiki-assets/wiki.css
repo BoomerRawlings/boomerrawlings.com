@@ -10,3 +10,5 @@
 .attribution-highlight { background: #eaf3ff; border-left-color: #36c; }
 
 .relationship-positive{color:#167052}.relationship-neutral{color:#62676d}.relationship-negative{color:#a62c38}
+
+.relationship-control{cursor:pointer}.relationship-hit{stroke:transparent;stroke-width:10;pointer-events:stroke}.relationship-control:hover .relationship-edge,.relationship-control:focus-visible .relationship-edge{filter:drop-shadow(0 0 2px #202122)}.relationship-timeline li{margin-bottom:.8rem;overflow-wrap:anywhere}
