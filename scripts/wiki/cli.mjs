@@ -26,14 +26,36 @@ function save(path, value) {
   if (existsSync(path)) copyFileSync(path, `${path}.bak`);
   renameSync(temporary, path);
 }
-function transaction(fn) {
+const production = directory === resolve(repo, '.wiki-private') && !flags.now && !flags.historical;
+const suggestionEndpoint = 'https://boomerrawlings.com/wiki/api/suggestions/review';
+async function suggestionRequest(ids) {
+  const key = readFileSync(resolve(directory, 'suggestions-key'), 'utf8').trim();
+  if (!key) throw Error('Suggestion review key is missing');
+  const response = await fetch(suggestionEndpoint, {
+    method: ids ? 'POST' : 'GET',
+    headers: { Authorization: `Bearer ${key}`, ...(ids ? {'Content-Type':'application/json'} : {}) },
+    body: ids ? JSON.stringify({ids}) : undefined,
+    signal: AbortSignal.timeout(8000),
+  });
+  if (!response.ok) throw Error(`Suggestion queue returned HTTP ${response.status}`);
+  return response.json();
+}
+async function pendingSuggestions(state) {
+  const {suggestions} = await suggestionRequest();
+  if (!Array.isArray(suggestions) || suggestions.length > 3) throw Error('Invalid suggestion queue response');
+  const reviewed = new Set(state.cycles.flatMap(cycle => (cycle.suggestionReviews ?? []).map(review => review.id)));
+  const completed = suggestions.filter(item => reviewed.has(item.id)).map(item => item.id);
+  if (completed.length) await suggestionRequest(completed);
+  return suggestions.filter(item => !reviewed.has(item.id));
+}
+async function transaction(fn) {
   mkdirSync(directory, { recursive: true });
   let descriptor;
   try { descriptor = openSync(lockFile, 'wx'); } catch { throw new Error('wiki state is locked; inspect the owning process before recovering a stale state.lock'); }
   writeFileSync(descriptor, JSON.stringify({ pid: process.pid, acquiredAt: new Date().toISOString() })); closeSync(descriptor);
   try {
     const state = existsSync(stateFile) ? readJson(stateFile) : null;
-    const result = fn(state);
+    const result = await fn(state);
     if (result.state) save(stateFile, result.state);
     print(result.output);
     if (result.output?.ok === false) process.exitCode = 2;
@@ -42,14 +64,14 @@ function transaction(fn) {
 try {
   if (command === 'help') {
     print({ commands: ['init [--seed value]', 'status', 'usage --usage proof.json', 'found --file founding.json --usage proof.json', 'begin --usage proof.json [--historical]', 'packet --editor id [--out packet.json]', 'propose --file proposal.json --usage proof.json', 'complete --usage proof.json', 'export --out public/wiki-assets/data.json --usage proof.json', 'skip --reason text [--usage proof.json]', 'recruit --file profile.json --usage proof.json', 'validate --file public-data.json', 'published --commit sha --url url --usage proof.json'], common: ['--private path (default ignored .wiki-private)', '--now ISO (deterministic tests only)'], note: 'Codex produces character decisions. This program never calls a model or schedules itself.' });
-  } else if (command === 'init') transaction(state => ({ state: state ?? engine.createState({ seed: flags.seed, now }), output: { ok: true, existed: Boolean(state), privateDirectory: directory } }));
+  } else if (command === 'init') await transaction(state => ({ state: state ?? engine.createState({ seed: flags.seed, now }), output: { ok: true, existed: Boolean(state), privateDirectory: directory } }));
   else if (command === 'validate') print(engine.validatePublic(input()));
   else if (command === 'status') print(engine.status(readJson(stateFile), now));
   else if (command === 'packet') {
     const packet = engine.characterPacket(readJson(stateFile), flags.editor);
     if (flags.out) { const out = resolve(flags.out); mkdirSync(dirname(out), { recursive: true }); writeFileSync(out, `${JSON.stringify(packet, null, 2)}\n`); print({ ok: true, packet: out, editorId: flags.editor }); }
     else print(packet);
-  } else if (command === 'export') transaction(state => {
+  } else if (command === 'export') await transaction(state => {
     if (!state) throw new Error('run init first');
     if (!flags.out) throw new Error('--out is required; exporting is deliberate');
     const data = engine.exportPublic(state, { proof: proof(), now });
@@ -60,14 +82,30 @@ try {
     state.lastExport = { at: now, latestCompletedAt: state.latestCompletedAt, sha256: hash };
     return { state, output: { ok: true, output: target, ...verification, sha256: hash } };
   });
-  else transaction(state => {
+  else await transaction(async state => {
     if (!state) throw new Error('run init first');
     let output;
     if (command === 'usage') { const usage = engine.checkUsage(proof(), now); state.lastUsage = usage; output = { ok: usage.allowed, ...usage }; }
     else if (command === 'found') output = engine.found(state, input(), { proof: proof(), now });
-    else if (command === 'begin') output = engine.beginCycle(state, { proof: proof(), now, historical: flags.historical === true });
+    else if (command === 'begin') {
+      const receipt = proof();
+      const shouldImport = production && !state.pending && engine.status(state, now).nextWindow.due && engine.checkUsage(receipt, now).allowed;
+      const suggestions = shouldImport ? await pendingSuggestions(state) : [];
+      output = engine.beginCycle(state, { proof: receipt, now, historical: flags.historical === true, suggestions });
+    }
     else if (command === 'propose') output = engine.propose(state, input(), { proof: proof(), now });
-    else if (command === 'complete') output = engine.completeCycle(state, { proof: proof(), now });
+    else if (command === 'complete') {
+      output = engine.completeCycle(state, { proof: proof(), now });
+      const ids = output.ok ? output.cycle?.suggestionReviews?.map(review => review.id) : null;
+      if (production && ids?.length) {
+        save(stateFile, state);
+        try { await suggestionRequest(ids); }
+        catch { output.suggestionReceiptPending = true; }
+        const {suggestionReviews, ...cycle} = output.cycle;
+        output.cycle = {...cycle, suggestionsReviewed:suggestionReviews.length};
+        return {output};
+      }
+    }
     else if (command === 'skip') output = { ok: true, note: engine.recordSkip(state, { reason: flags.reason, usage: flags.usage ? engine.checkUsage(proof(), now) : null, now }) };
     else if (command === 'recruit') output = engine.recruit(state, input(), { proof: proof(), now });
     else if (command === 'published') {

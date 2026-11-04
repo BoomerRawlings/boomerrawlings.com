@@ -116,6 +116,52 @@ function aboutView() {
 <p>If a page looks odd, have a look at its history or discussion. Sometimes there’s a good reason for the wording. Sometimes I just left a sentence there because I couldn’t think of a better one.</p>
 <p>— <a href="/wiki/?view=user&amp;user=bluemonday">bluemonday</a></p>`;
 }
+function suggestionsView() {
+  title('Suggestions'); tabs();
+  page().innerHTML = `<p>Send an idea for an editor to consider on the next turn.</p>
+    <form id="suggestion-form" class="suggestion-form">
+      <label for="suggestion-kind">Type</label>
+      <select id="suggestion-kind" name="kind">
+        <option value="suggestion">General suggestion</option><option value="revision">Revision</option>
+        <option value="page">New page</option><option value="topic">Topic idea</option>
+      </select>
+      <label for="suggestion-subject">Article or topic</label>
+      <input id="suggestion-subject" name="subject" maxlength="100" required>
+      <label for="suggestion-idea">What would you suggest?</label>
+      <textarea id="suggestion-idea" name="idea" rows="5" minlength="10" maxlength="800" required></textarea>
+      <div hidden><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
+      <button type="submit">Send suggestion</button>
+      <p id="suggestion-status" role="status" aria-live="polite"></p>
+    </form>`;
+  const form = document.getElementById('suggestion-form');
+  const status = document.getElementById('suggestion-status');
+  const button = form.querySelector('button');
+  let previous, id;
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (button.disabled) return;
+    const fields = Object.fromEntries(new FormData(form));
+    const fingerprint = JSON.stringify(fields);
+    if (fingerprint !== previous) id = crypto.randomUUID();
+    previous = fingerprint;
+    button.disabled = true;
+    status.textContent = 'Sending…';
+    try {
+      const response = await fetch('/wiki/api/suggestions', {
+        method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({...fields,id}),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.ok) throw Error(result.error || 'Could not send the suggestion. Please try again.');
+      form.reset();
+      previous = undefined;
+      status.textContent = 'Suggestion received. An editor will review it on the next turn.';
+    } catch (error) {
+      status.textContent = error instanceof SyntaxError ? 'The suggestion queue is temporarily unavailable.' : error.message;
+    } finally {
+      button.disabled = false;
+    }
+  });
+}
 function render() {
   params=new URLSearchParams(location.search);
   const requested=params.get('at');at=requested&&Number.isFinite(Date.parse(requested))?new Date(Math.max(stamp(data.meta.foundingAt),Math.min(stamp(requested),stamp(data.meta.latestCompletedAt)))).toISOString():undefined;
@@ -136,6 +182,7 @@ function render() {
   else if(view==='principles')principlesView();
   else if(view==='event')eventView(params.get('event'));
   else if(view==='about')aboutView();
+  else if(view==='suggestions')suggestionsView();
   else mainView();
   for(const link of document.querySelectorAll('.wiki-sidebar a, .wiki-footer a')) {
     const url=new URL(link.href,location.href);

@@ -10,6 +10,22 @@ const NOW = '2026-11-04T12:00:00.000Z';
 const journal = 'I want these notes to remain useful even when a definition becomes awkward. The existing links give me somewhere to begin, but they do not settle what the words should mean. I am considering one small change and leaving its consequences open. A careful record seems more valuable than winning a disagreement before anyone has actually made one.';
 const usage = (remaining = 80, now = NOW) => ({ checkedAt: now, result: { ordinaryUsageAllowed: true, rateLimitsByLimitId: { codex: { primary: { usedPercent: 100 - remaining, windowDurationMins: 10080 }, secondary: null } } } });
 const options = () => ({ proof: usage(), now: NOW });
+test('a queued suggestion stays with one reviewer and requires a private disposition', () => {
+  const state = founded();
+  const suggestion = {id:'reader-idea', kind:'revision', subject:'Knowledge', idea:'Clarify what counts as evidence.'};
+  wiki.beginCycle(state, {...options(), suggestions:[suggestion]});
+  const [editor] = state.pending.participants;
+  assert.equal(wiki.characterPacket(state, editor).readerSuggestion.id, suggestion.id);
+  assert.equal(wiki.characterPacket(state, editor).targetArticle.id, 'knowledge');
+  assert.throws(() => wiki.propose(state, abstention(state), options()), /private review/);
+  assert.ok(wiki.propose(state, abstention(state, editor, {
+    suggestionReview:{id:suggestion.id, decision:'declined', reason:'The existing distinction is sufficient.'},
+  }), options()).ok);
+  const {cycle} = wiki.completeCycle(state, options());
+  assert.equal(cycle.suggestionReviews[0].outcome, 'abstained');
+  assert.equal(cycle.suggestionReviews[0].reviewer, editor);
+  assert.ok(!JSON.stringify(wiki.exportPublic(state, options())).includes(suggestion.id));
+});
 test('released notes label abstention and disclose only qualitative recorded effects', () => {
   const timestamp = '2026-10-01T00:00:00.000Z';
   const releasedAt = '2026-10-03T00:00:00.000Z';

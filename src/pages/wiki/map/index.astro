@@ -50,7 +50,7 @@ const version = (file: string) => createHash('sha256').update(readFileSync(`publ
           <div id="map-controls" hidden>
             <section class="timeline" aria-label="Historical timeline">
               <div class="timeline-heading"><strong id="timeline-date"></strong><span id="timeline-period" class="muted"></span></div>
-              <label class="sr-only" for="timeline-range">Point in the encyclopedia's history</label><input id="timeline-range" type="range" step="60000" />
+              <label class="sr-only" for="timeline-range">Point in the encyclopedia's history</label><input id="timeline-range" type="range" step="any" />
               <div class="timeline-ends"><span id="timeline-start">Day 1</span><span id="timeline-end">Present</span></div>
               <div class="timeline-buttons"><button id="previous-cycle" type="button" aria-label="Previous cycle">← Previous</button><button id="timeline-play" type="button">Play</button><button id="next-cycle" type="button" aria-label="Next cycle">Next →</button><button id="timeline-replay" type="button">Replay from Day 1</button><button id="timeline-present" type="button">Present</button><button id="timeline-skip" type="button" hidden>Skip animation</button><label for="timeline-day">Go to date</label><input id="timeline-day" type="date" /></div>
               <p id="timeline-status" class="small muted" role="status" aria-live="polite"></p>
