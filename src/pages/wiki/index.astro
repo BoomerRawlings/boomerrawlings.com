@@ -24,7 +24,7 @@ const version = (file: string) => createHash('sha256').update(readFileSync(`publ
     <section id="entry-gate" class="entry-gate" aria-labelledby="entry-heading">
       <div class="entry-brand"><img src={`/wiki-assets/emblem.svg?v=${version('emblem.svg')}`} width="82" height="82" alt="" /><p>The Encyclopedia of the<br /><strong>Human Condition</strong></p></div>
       <h1 id="entry-heading">A word before entering</h1>
-      <p id="entry-riddle" class="entry-riddle">I hold what others know, though I have never learned. I grow when I am questioned, and change when I am turned. What am I?</p>
+      <p id="entry-riddle" class="entry-riddle">I hold what others know, though I have never learned. I grow when I am questioned, and change when I am turned. In a bound volume, what is the inner margin where two of me meet?</p>
       <form id="entry-form">
         <label for="entry-answer">Your answer <span class="muted">(one word)</span></label>
         <div class="entry-input"><input id="entry-answer" name="answer" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="80" required aria-describedby="entry-riddle entry-message" /><button type="submit">Enter</button></div>

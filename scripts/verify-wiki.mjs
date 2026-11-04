@@ -53,7 +53,8 @@ for (let index=0;index<source.cycles.length;index++) {
   assert.equal(stamp(cycle.endAt)-stamp(cycle.startAt),12*3600000);
   if(index) assert.equal(cycle.startAt,source.cycles[index-1].endAt,'No skipped simulation windows in published history');
   const population=source.editors.filter(editor=>stamp(editor.joinedAt)<=stamp(cycle.startAt)).length;
-  assert.ok(cycle.participants.length>=Math.min(3,population) && cycle.participants.length<=Math.min(20,population));
+  const [minimum,maximum] = index < 76 ? [3,20] : [4,24];
+  assert.ok(cycle.participants.length>=Math.min(minimum,population) && cycle.participants.length<=Math.min(maximum,population));
   assert.equal(new Set(cycle.participants).size,cycle.participants.length);
 }
 for(const entry of source.journals){
@@ -72,8 +73,8 @@ const visited=new Set();const queue=[current.articles.keys().next().value];
 while(queue.length){const id=queue.pop();if(visited.has(id))continue;visited.add(id);queue.push(...adjacency.get(id));}
 assert.equal(visited.size,current.articles.size,'Published articles must remain connected');
 for(const [route,answer,riddle] of [
-  ['wiki','PAGE','I hold what others know, though I have never learned. I grow when I am questioned, and change when I am turned. What am I?'],
-  ['wiki/map','MAP','I show you every connection, but understand not one. I reveal where all roads lead, though I travel on none. What am I?'],
+  ['wiki','GUTTER','I hold what others know, though I have never learned. I grow when I am questioned, and change when I am turned. In a bound volume, what is the inner margin where two of me meet?'],
+  ['wiki/map','LEGEND','I show you every connection, but understand not one. I reveal where all roads lead, though I travel on none. What part of me teaches you which marks stand for which things?'],
 ]){
   const html=readFileSync(`dist/${route}/index.html`,'utf8');
   assert.ok(html.includes(riddle),`${route}: exact riddle`);

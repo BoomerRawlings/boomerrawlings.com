@@ -28,23 +28,31 @@ function save(path, value) {
 }
 const production = directory === resolve(repo, '.wiki-private') && !flags.now && !flags.historical;
 const suggestionEndpoint = 'https://boomerrawlings.com/wiki/api/suggestions/review';
-async function suggestionRequest(ids) {
+async function suggestionRequest(reviews) {
   const key = readFileSync(resolve(directory, 'suggestions-key'), 'utf8').trim();
   if (!key) throw Error('Suggestion review key is missing');
   const response = await fetch(suggestionEndpoint, {
-    method: ids ? 'POST' : 'GET',
-    headers: { Authorization: `Bearer ${key}`, ...(ids ? {'Content-Type':'application/json'} : {}) },
-    body: ids ? JSON.stringify({ids}) : undefined,
+    method: reviews ? 'POST' : 'GET',
+    headers: { Authorization: `Bearer ${key}`, ...(reviews ? {'Content-Type':'application/json'} : {}) },
+    body: reviews ? JSON.stringify({reviews}) : undefined,
     signal: AbortSignal.timeout(8000),
   });
   if (!response.ok) throw Error(`Suggestion queue returned HTTP ${response.status}`);
   return response.json();
 }
+function terminalReview(review) {
+  if (review.decision === 'rejected') return {id:review.id, resolution:'rejected', note:review.publicNote};
+  if (review.decision === 'adopted' && review.outcome === 'accepted') return {id:review.id, resolution:'adopted'};
+  return null;
+}
 async function pendingSuggestions(state) {
   const {suggestions} = await suggestionRequest();
   if (!Array.isArray(suggestions) || suggestions.length > 3) throw Error('Invalid suggestion queue response');
-  const reviewed = new Set(state.cycles.flatMap(cycle => (cycle.suggestionReviews ?? []).map(review => review.id)));
-  const completed = suggestions.filter(item => reviewed.has(item.id)).map(item => item.id);
+  const reviewed = new Map(state.cycles.flatMap(cycle => (cycle.suggestionReviews ?? []).flatMap(review => {
+    const terminal = terminalReview(review);
+    return terminal ? [[review.id, terminal]] : [];
+  })));
+  const completed = suggestions.flatMap(item => reviewed.has(item.id) ? [reviewed.get(item.id)] : []);
   if (completed.length) await suggestionRequest(completed);
   return suggestions.filter(item => !reviewed.has(item.id));
 }
@@ -96,10 +104,10 @@ try {
     else if (command === 'propose') output = engine.propose(state, input(), { proof: proof(), now });
     else if (command === 'complete') {
       output = engine.completeCycle(state, { proof: proof(), now });
-      const ids = output.ok ? output.cycle?.suggestionReviews?.map(review => review.id) : null;
-      if (production && ids?.length) {
+      if (production && output.ok && output.cycle?.suggestionReviews?.length) {
+        const receipts = output.cycle.suggestionReviews.map(terminalReview).filter(Boolean);
         save(stateFile, state);
-        try { await suggestionRequest(ids); }
+        try { if (receipts.length) await suggestionRequest(receipts); }
         catch { output.suggestionReceiptPending = true; }
         const {suggestionReviews, ...cycle} = output.cycle;
         output.cycle = {...cycle, suggestionsReviewed:suggestionReviews.length};

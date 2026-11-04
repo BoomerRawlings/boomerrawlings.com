@@ -13,3 +13,6 @@
 
 .relationship-control{cursor:pointer}.relationship-hit{stroke:transparent;stroke-width:10;pointer-events:stroke}.relationship-control:hover .relationship-edge,.relationship-control:focus-visible .relationship-edge{filter:drop-shadow(0 0 2px #202122)}.relationship-timeline li{margin-bottom:.8rem;overflow-wrap:anywhere}
 .suggestion-form{display:grid;gap:.5rem;max-width:34rem}.suggestion-form label{font-weight:bold}.suggestion-form textarea{font:inherit;padding:.4rem;border:1px solid #a2a9b1;resize:vertical}.suggestion-form button{justify-self:start}.suggestion-form p{margin:0}
+.suggestion-entry{padding:.7rem 0;border-bottom:1px solid #eaecf0}.suggestion-entry h3,.suggestion-entry p{margin:.35rem 0}.suggestion-copy{white-space:pre-wrap;overflow-wrap:anywhere}
+
+.profile-summary > p,.editor-bio{white-space:pre-line}

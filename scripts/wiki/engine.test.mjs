@@ -26,6 +26,27 @@ test('a queued suggestion stays with one reviewer and requires a private disposi
   assert.equal(cycle.suggestionReviews[0].reviewer, editor);
   assert.ok(!JSON.stringify(wiki.exportPublic(state, options())).includes(suggestion.id));
 });
+test('a preferred reviewer can pass the idea to someone else and rejection needs a public explanation', () => {
+  const state = founded();
+  state.cycles = Array.from({length:76}, (_, index) => ({...wiki.cycleWindow(index + 1), mode:'historical'}));
+  state.latestCompletedAt = state.cycles.at(-1).endAt;
+  const suggestion = {id:'reader-idea', kind:'revision', subject:'Knowledge', idea:'Clarify what counts as evidence.', preferredEditor:'ellis47'};
+  const first = '2026-11-04T20:01:00.000Z';
+  const second = '2026-11-05T08:01:00.000Z';
+  wiki.beginCycle(state, {now:first, proof:usage(80,first), suggestions:[suggestion]});
+  assert.equal(state.pending.suggestions[0].reviewer, 'ellis47');
+  for (const editor of state.pending.participants) {
+    const review = editor === 'ellis47' ? {suggestionReview:{id:suggestion.id, decision:'declined', reason:'Another editor may have a better example.'}} : {};
+    wiki.propose(state, abstention(state, editor, review), {now:first, proof:usage(80,first)});
+  }
+  wiki.completeCycle(state, {now:first, proof:usage(80,first)});
+  wiki.beginCycle(state, {now:second, proof:usage(80,second), suggestions:[suggestion]});
+  const reviewer = state.pending.suggestions[0].reviewer;
+  assert.notEqual(reviewer,'ellis47');
+  const review = {id:suggestion.id, decision:'rejected', reason:'The suggestion is already covered.'};
+  assert.throws(() => wiki.propose(state, abstention(state, reviewer, {suggestionReview:review}), {now:second, proof:usage(80,second)}), /public note/);
+  assert.ok(wiki.propose(state, abstention(state, reviewer, {suggestionReview:{...review, publicNote:'The existing examples already cover this distinction.'}}), {now:second, proof:usage(80,second)}).ok);
+});
 test('released notes label abstention and disclose only qualitative recorded effects', () => {
   const timestamp = '2026-10-01T00:00:00.000Z';
   const releasedAt = '2026-10-03T00:00:00.000Z';
@@ -105,17 +126,18 @@ test('founding is validated atomically and duplicate input is idempotent', () =>
   assert.throws(() => wiki.found(state, different, options()), /different content/);
 });
 
-test('cohorts are probabilistic 3–20, with founder exception and no ten-account cap', () => {
+test('cohorts preserve historical bounds and use 4–24 for later turns', () => {
   const editors = Array.from({ length: 35 }, (_, index) => ({ id: `editor-${index}`, joinedAt: wiki.FOUNDING_AT, activity: 0.5 + (index % 5) / 10, lastActedCycle: 0 }));
   const sizes = new Set();
   for (let i = 1; i <= 150; i++) {
     const window = wiki.cycleWindow(i), cohort = wiki.selectCohort(editors, window, 'test');
-    assert.ok(cohort.length >= 3 && cohort.length <= 20);
+    const [minimum, maximum] = i <= 76 ? [3,20] : [4,24];
+    assert.ok(cohort.length >= minimum && cohort.length <= maximum);
     assert.equal(new Set(cohort).size, cohort.length);
     assert.deepEqual(cohort, wiki.selectCohort(editors, window, 'test'));
     sizes.add(cohort.length);
   }
-  assert.ok(sizes.has(3) && sizes.has(20) && sizes.size > 10);
+  assert.ok(sizes.has(3) && sizes.has(24) && sizes.size > 10);
   assert.equal(wiki.selectCohort(editors.slice(0, 1), wiki.cycleWindow(1), 'test').length, 1);
   assert.equal(wiki.selectCohort(editors.slice(0, 2), wiki.cycleWindow(1), 'test').length, 2);
   assert.equal(wiki.selectCohort([{ ...editors[0], joinedAt: wiki.cycleWindow(1).endAt }], wiki.cycleWindow(1), 'test').length, 0);

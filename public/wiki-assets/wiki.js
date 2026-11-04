@@ -1,4 +1,4 @@
-import {REVISION_ACTIONS, esc, stamp, number, dateText, dayKey, href, articleLink, userLink, markup, headingsIn, snapshot, lineDiff, loadData, installGate, titleFromId} from './shared.js';
+import {REVISION_ACTIONS, esc, stamp, number, dateText, dayKey, href, articleLink, userLink, markup, headingsIn, snapshot, lineDiff, loadData, installGate, titleFromId} from './shared.js?v=2';
 
 let data, state, params, at;
 const page = () => document.getElementById('page-content');
@@ -118,13 +118,17 @@ function aboutView() {
 }
 function suggestionsView() {
   title('Suggestions'); tabs();
-  page().innerHTML = `<p>Send an idea for an editor to consider on the next turn.</p>
+  const editors = new Map(data.editors.map(editor => [editor.id, editor.name || editor.id]));
+  const names = [...editors].map(([id, name]) => `<option value="${esc(id)}">${esc(name)}</option>`).join('');
+  page().innerHTML = `<p>Send an idea for an editor to consider. Your submission will appear in the queue below.</p>
     <form id="suggestion-form" class="suggestion-form">
       <label for="suggestion-kind">Type</label>
       <select id="suggestion-kind" name="kind">
         <option value="suggestion">General suggestion</option><option value="revision">Revision</option>
         <option value="page">New page</option><option value="topic">Topic idea</option>
       </select>
+      <label for="suggestion-editor">Preferred editor (optional)</label>
+      <select id="suggestion-editor" name="preferredEditor"><option value="">Any editor</option>${names}</select>
       <label for="suggestion-subject">Article or topic</label>
       <input id="suggestion-subject" name="subject" maxlength="100" required>
       <label for="suggestion-idea">What would you suggest?</label>
@@ -132,10 +136,29 @@ function suggestionsView() {
       <div hidden><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
       <button type="submit">Send suggestion</button>
       <p id="suggestion-status" role="status" aria-live="polite"></p>
-    </form>`;
+    </form>
+    <h2>Suggestion queue</h2>
+    <p>Ideas stay here when an editor passes. Another editor can pick them up later.</p>
+    <div id="suggestion-queue" aria-live="polite">Loading suggestions…</div>`;
   const form = document.getElementById('suggestion-form');
   const status = document.getElementById('suggestion-status');
   const button = form.querySelector('button');
+  const queue = document.getElementById('suggestion-queue');
+  async function refreshQueue() {
+    try {
+      const response = await fetch('/wiki/api/suggestions', {cache:'no-store'});
+      if (!response.ok) throw Error('Queue unavailable');
+      const {suggestions} = await response.json();
+      const type = {suggestion:'Suggestion', revision:'Revision', page:'New page', topic:'Topic idea'};
+      const status = {queued:'In queue', adopted:'Adopted', rejected:'Rejected'};
+      queue.innerHTML = suggestions.length ? suggestions.map(item =>
+        `<section class="suggestion-entry"><h3>${esc(item.subject)}</h3><p class="small muted">${esc(type[item.kind])} · ${esc(status[item.status])}${item.preferredEditor ? ' · Preferred editor: ' + esc(editors.get(item.preferredEditor) || item.preferredEditor) : ''}</p><p class="suggestion-copy">${esc(item.idea)}</p>${item.rejectionNote ? '<p><strong>Reason for rejection:</strong> ' + esc(item.rejectionNote) + '</p>' : ''}</section>`
+      ).join('') : '<p>No suggestions yet.</p>';
+    } catch {
+      queue.textContent = 'The queue is temporarily unavailable.';
+    }
+  }
+  refreshQueue();
   let previous, id;
   form.addEventListener('submit', async event => {
     event.preventDefault();
@@ -148,13 +171,14 @@ function suggestionsView() {
     status.textContent = 'Sending…';
     try {
       const response = await fetch('/wiki/api/suggestions', {
-        method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({...fields,id}),
+        method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({...fields,id,publishToQueue:true}),
       });
       const result = await response.json();
       if (!response.ok || !result.ok) throw Error(result.error || 'Could not send the suggestion. Please try again.');
       form.reset();
       previous = undefined;
-      status.textContent = 'Suggestion received. An editor will review it on the next turn.';
+      status.textContent = 'Suggestion received. It will be reviewed on the next unopened turn.';
+      await refreshQueue();
     } catch (error) {
       status.textContent = error instanceof SyntaxError ? 'The suggestion queue is temporarily unavailable.' : error.message;
     } finally {

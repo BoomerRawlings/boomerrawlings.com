@@ -143,7 +143,7 @@ export async function loadData() {
 }
 export function installGate(kind, onUnlock) {
   const gate=document.getElementById('entry-gate'), workspace=document.getElementById('wiki-workspace'), form=document.getElementById('entry-form'), input=document.getElementById('entry-answer'), message=document.getElementById('entry-message');
-  const key=`human-condition.${kind}.unlocked.v1`;
+  const key=`human-condition.${kind}.unlocked.v2`;
   let opened=false;
   async function open(fresh) {
     if(opened) return;
@@ -153,7 +153,7 @@ export function installGate(kind, onUnlock) {
   }
   form.addEventListener('submit', event => {
     event.preventDefault();
-    if(input.value.trim().toUpperCase() !== (kind==='map'?'MAP':'PAGE')) { message.textContent='Not quite. Try another word.';input.setAttribute('aria-invalid','true');input.focus();input.select();return; }
+    if(input.value.trim().toUpperCase() !== (kind==='map'?'LEGEND':'GUTTER')) { message.textContent='Not quite. Try another word.';input.setAttribute('aria-invalid','true');input.focus();input.select();return; }
     input.removeAttribute('aria-invalid');message.textContent='';safeSessionSet(key,'yes');open(true);
   });
   input.addEventListener('input',()=>{input.removeAttribute('aria-invalid');message.textContent='';});
