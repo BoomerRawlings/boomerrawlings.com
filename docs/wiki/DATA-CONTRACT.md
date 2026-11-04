@@ -21,7 +21,7 @@ Public export: `/wiki-assets/data.json`. Version 1. Only public editorial record
   }],
   cycles: [{ id, startAt, endAt, participants: [], actionCount }],
   relationships: [{ timestamp, from, to, trust, grievance, evidenceIds: [] }],
-  journals: [{ id, editorId, eventId, timestamp, releasedAt, body, outcome }]
+  journals: [{ id, editorId, eventId, timestamp, releasedAt, body, outcome, action?, response? }]
 }
 ```
 
@@ -31,6 +31,6 @@ Article markup is deliberately small: plain paragraphs, `## Heading`, unordered 
 
 Article state is the most recent revision event through the selected time. Article-created time is its first create event. Word count excludes markup syntax. Graph links are actual wikilinks between existing articles, not arbitrary inferred edges. Backlinks derived from those links. No separate public current-articles payload is required.
 
-Only accepted public actions are exported. Rejected attempts, abstention reasoning, raw actor memory, generation prompts, usage samples, and operator errors remain private. Journals only contain authored character reflections and actual outcome, never hidden reasoning traces.
+The encyclopedia event feed contains accepted public actions. The map shows released editor notes, including the reasons editors give for acting or holding back and the actual outcome. Optional `action` identifies the attempted action, and `response` lists qualitative changes the editor recorded in frustration or enthusiasm. The static export is publicly fetchable. It excludes unreleased notes, raw actor memory, raw mood values, generation prompts, hidden reasoning traces, usage samples, and operator errors.
 
 The root agent owns this contract. Coordinate schema changes before implementation divergence.

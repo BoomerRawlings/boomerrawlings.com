@@ -282,11 +282,12 @@ function render() {
     const editor = selected?.type === 'editor' ? selected.id : null;
     const entries = state.journals.filter(entry => !editor || entry.editorId === editor).reverse();
     const journalLink = (label, user) => '<a href="' + esc(href({view:'journals',user,at:at()},'/wiki/map/')) + '">' + esc(label) + '</a>';
-    $('journal-view').innerHTML = '<h2>Editor journals</h2><p>Entries appear after 48 simulated hours.</p><p>' +
+    $('journal-view').innerHTML = '<h2>Editor notes</h2><p>Decisions and reasons, including turns when an editor held back. Notes appear after 48 simulated hours.</p><p>' +
       [journalLink('All editors'), ...state.editors.map(person => journalLink(person.name, person.id))].join(' · ') +
       '</p>' + (entries.length ? entries.map(entry => '<article class="journal-entry"><h3>' +
         esc(entry.editorId) + ' · ' + esc(dateText(entry.timestamp)) + '</h3>' +
-        markup(entry.body,state.articles,at()) + (entry.outcome ? '<p class="journal-meta">Outcome: ' + esc(entry.outcome) + '</p>' : '') +
+        (entry.action ? '<p class="journal-meta">Decision: ' + esc(entry.action === 'abstain' ? 'Held back' : entry.action) + '</p>' : '') +
+        markup(entry.body,state.articles,at()) + (entry.response?.length ? '<p class="journal-meta">Recorded effect: ' + esc(entry.response.join(' · ')) + '</p>' : '') + (entry.outcome ? '<p class="journal-meta">Outcome: ' + esc(entry.outcome) + '</p>' : '') +
         '</article>').join('') : '<p>No journal entries have been released at this moment.</p>');
   }
   if(activity)activityView();else if(!journals){drawNetwork();detailView();}

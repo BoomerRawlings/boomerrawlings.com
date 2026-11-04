@@ -13,7 +13,7 @@ assert.equal(source.meta.cycleCount, source.cycles.length);
 assert.ok(stamp(source.meta.latestCompletedAt) >= stamp('2026-11-04T08:00:00Z'));
 const eventKeys = new Set(['id','cycleId','timestamp','editorId','action','articleId','title','summary','revisionId','baseRevisionId','body','categories','principleIds','references']);
 const editorKeys = new Set(['id','name','joinedAt','interests','description']);
-const journalKeys = new Set(['id','editorId','eventId','timestamp','releasedAt','body','outcome']);
+const journalKeys = new Set(['id','editorId','eventId','timestamp','releasedAt','body','outcome','action','response']);
 const relationKeys = new Set(['timestamp','from','to','trust','grievance','evidenceIds']);
 for (const [records, keys] of [[source.events,eventKeys],[source.editors,editorKeys],[source.journals,journalKeys],[source.relationships,relationKeys]]) {
   for (const row of records) assert.ok(Object.keys(row).every(key => keys.has(key)), 'Public records must not expose working memory or private metadata');
@@ -57,6 +57,8 @@ for (let index=0;index<source.cycles.length;index++) {
   assert.equal(new Set(cycle.participants).size,cycle.participants.length);
 }
 for(const entry of source.journals){
+  if (entry.action !== undefined) assert.ok(['create','revise','expand','organize','revert','comment','policy','abstain'].includes(entry.action));
+  if (entry.response !== undefined) assert.ok(Array.isArray(entry.response) && entry.response.every(value => ['More frustrated','Less frustrated','More enthusiastic','Less enthusiastic'].includes(value)));
   assert.ok(stamp(entry.releasedAt)>=stamp(entry.timestamp)+48*3600000);
   assert.ok(stamp(entry.releasedAt)<=stamp(source.meta.latestCompletedAt),'Unreleased journal leaked');
   assert.ok(users.has(entry.editorId));

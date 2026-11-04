@@ -10,6 +10,21 @@ const NOW = '2026-11-04T12:00:00.000Z';
 const journal = 'I want these notes to remain useful even when a definition becomes awkward. The existing links give me somewhere to begin, but they do not settle what the words should mean. I am considering one small change and leaving its consequences open. A careful record seems more valuable than winning a disagreement before anyone has actually made one.';
 const usage = (remaining = 80, now = NOW) => ({ checkedAt: now, result: { ordinaryUsageAllowed: true, rateLimitsByLimitId: { codex: { primary: { usedPercent: 100 - remaining, windowDurationMins: 10080 }, secondary: null } } } });
 const options = () => ({ proof: usage(), now: NOW });
+test('released notes label abstention and disclose only qualitative recorded effects', () => {
+  const timestamp = '2026-10-01T00:00:00.000Z';
+  const releasedAt = '2026-10-03T00:00:00.000Z';
+  const state = {
+    cycles: [{id:'cycle-1', outcomes:[{editorId:'editor', action:'abstain', stateUpdate:{frustrationDelta:0.02, evidenceIds:['private-reference']}}]}],
+    events: [],
+    journals: [{id:'journal-cycle-1-editor', editorId:'editor', eventId:null, timestamp, releasedAt, body:journal, outcome:'No public action was taken.', generatedAt:NOW}],
+  };
+  assert.deepEqual(wiki.releasedEditorNotes(state, timestamp), []);
+  const [note] = wiki.releasedEditorNotes(state, releasedAt);
+  assert.equal(note.action, 'abstain');
+  assert.deepEqual(note.response, ['More frustrated']);
+  assert.equal(note.stateUpdate, undefined);
+  assert.equal(note.generatedAt, undefined);
+});
 const seed = () => ({ articles: wiki.FOUNDING_IDS.map((id, i, ids) => ({ articleId: id, title: id.replaceAll('-', ' '), timestamp: new Date(Date.parse(wiki.FOUNDING_AT) + (i + 1) * 600000).toISOString(), body: `## Starting point\n\nThis short entry considers ${id.replaceAll('-', ' ')}. Its scope is connected with [[${ids[(i + 1) % ids.length]}|the next subject]]. The connection is a starting point rather than a final explanation.`, categories: ['Foundations'], summary: 'Added an initial connected entry.', principleIds: ['comprehensiveness'], journal })) });
 function founded() { const state = wiki.createState({ now: NOW }); wiki.found(state, seed(), options()); return state; }
 function open(state = founded()) { wiki.beginCycle(state, { ...options(), historical: true }); return state; }

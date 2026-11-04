@@ -135,8 +135,17 @@ export function articlesAt(state, at = state.latestCompletedAt ?? FOUNDING_END) 
   }
   return articles;
 }
+const publicBios = {
+  "bluemonday": "I started this because my notes were getting hard to find. Mostly I work on the broad pages and try to keep them from saying more than they can support.",
+  "ellis47": "Usually here to check the sentence everybody else has read past. I spend a lot of time on testimony and evidence. If I ask where a claim came from, I really do want to know.",
+  "norab": "I write about things people do every day and rarely bother to name. Lately that’s been care, waiting, and what gets lost when somebody takes over a job halfway through.",
+  "drowan": "I tend to follow the paperwork. Who wrote the rule, who has to apply it, and what happens when someone asks for an exception.",
+  "cwhitmore": "Mostly categories, headings and links. If two pages use the same word for different things, I’ll probably leave a note.",
+  "paulm": "I came here for Significance and somehow stayed. Mostly I turn up on talk pages with an example that doesn’t quite fit."
+};
+
 function publicEditor(editor) {
-  return { id: editor.id, name: editor.name, joinedAt: editor.joinedAt, interests: [...editor.interests], description: editor.description };
+  return { id: editor.id, name: editor.name, joinedAt: editor.joinedAt, interests: [...editor.interests], description: Object.hasOwn(publicBios, editor.id) ? publicBios[editor.id] : editor.description };
 }
 function joinEvent(editor, cycleId) {
   return { id: `join-${editor.id}`, cycleId, timestamp: editor.joinedAt, editorId: editor.id, action: 'join', articleId: null, title: editor.name, summary: 'Joined the encyclopedia.', revisionId: null, baseRevisionId: null, body: '', categories: [], principleIds: [], references: [] };
@@ -305,7 +314,7 @@ export function characterPacket(state, editorId) {
     recentEvents: recent,
     knownEventIds: [...knownEvents],
     relationships: state.relationships.filter(relation => relation.from === editorId && relation.timestamp <= window.startAt).reduce((list, relation) => { const index = list.findIndex(item => item.to === relation.to); if (index >= 0) list[index] = relation; else list.push(relation); return list; }, []),
-    responseRules: { actions: [...ACTIONS], onePublicAction: true, maxChangedWords: 300, maxCommentWords: 150, journalWords: [50, 100], instruction: 'Choose one action, or abstain. Supply one plausible posting time inside this window. Describe observations and intention in the journal, not an assumed publication success. Use only this packet. Article edits supply the complete resulting body and baseRevisionId. If bodyComplete is false, do not replace the article: discuss, abstain, or create a linked entry instead. Do not invent sources or future events. Optional stateUpdate contains frustrationDelta and enthusiasmDelta (each within ±0.08) plus nonempty observed evidenceIds. Optional longTermMemory replaces retained observations with at most three entries of at most 40 words, each with text and nonempty observed references. Neither update may assume this proposal succeeds.' },
+    responseRules: { actions: [...ACTIONS], onePublicAction: true, maxChangedWords: 300, maxCommentWords: 150, journalWords: [50, 100], instruction: 'Choose one action, or abstain. Supply one plausible posting time inside this window. In the journal, always explain what you considered and why you acted or held back. Describe whether it changed what you want to pursue, how you feel, or what you think of another editor, if it did. Abstention can still change memory, mood or relationships. Keep that reasoning in the journal rather than in public copy. Describe an intention, not an assumed publication success. Use only this packet. Article edits supply the complete resulting body and baseRevisionId. If bodyComplete is false, do not replace the article: discuss, abstain, or create a linked entry instead. Do not invent sources or future events. Optional stateUpdate contains frustrationDelta and enthusiasmDelta (each within ±0.08) plus nonempty observed evidenceIds. Optional longTermMemory replaces retained observations with at most three entries of at most 40 words, each with text and nonempty observed references. Neither update may assume this proposal succeeds.' },
   };
   return packet;
 }
@@ -458,6 +467,23 @@ export function completeCycle(state, { proof, now = new Date().toISOString() } =
   state.operations.push({ type: 'cycle-complete', cycleId: cycle.id, at: iso(now), accepted: accepted.length });
   return { ok: true, cycle, latestCompletedAt: state.latestCompletedAt };
 }
+export function releasedEditorNotes(state, at) {
+  const decisions = new Map(state.cycles.flatMap(cycle => (cycle.outcomes ?? []).map(outcome =>
+    [`journal-${cycle.id}-${outcome.editorId}`, outcome])));
+  const events = new Map(state.events.map(event => [event.id, event]));
+  return state.journals.filter(entry => entry.releasedAt <= at).map(entry => {
+    const {id, editorId, eventId, timestamp, releasedAt, body, outcome} = entry;
+    const decision = decisions.get(id);
+    const action = decision?.action ?? events.get(eventId)?.action;
+    const response = [];
+    if (decision?.stateUpdate?.frustrationDelta > 0) response.push('More frustrated');
+    if (decision?.stateUpdate?.frustrationDelta < 0) response.push('Less frustrated');
+    if (decision?.stateUpdate?.enthusiasmDelta > 0) response.push('More enthusiastic');
+    if (decision?.stateUpdate?.enthusiasmDelta < 0) response.push('Less enthusiastic');
+    return {id, editorId, eventId, timestamp, releasedAt, body, outcome,
+      ...(action ? {action} : {}), ...(response.length ? {response} : {})};
+  });
+}
 export function exportPublic(state, { proof, now = new Date().toISOString() } = {}) {
   const usage = checkUsage(proof, now); assert(usage.allowed, `publication gated: ${usage.reason}`);
   assert(state.foundingComplete, 'no completed founding content to export');
@@ -470,7 +496,7 @@ export function exportPublic(state, { proof, now = new Date().toISOString() } = 
     events: clone(sortEvents(state.events.filter(event => event.timestamp <= at))),
     cycles: state.cycles.map(({ id, startAt, endAt, participants, actionCount }) => ({ id, startAt, endAt, participants: [...participants], actionCount })),
     relationships: clone(state.relationships.filter(relation => relation.timestamp <= at)),
-    journals: state.journals.filter(entry => entry.releasedAt <= at).map(({ id, editorId, eventId, timestamp, releasedAt, body, outcome }) => ({ id, editorId, eventId, timestamp, releasedAt, body, outcome })),
+    journals: releasedEditorNotes(state, at),
   };
 }
 export function validatePublic(data) {
@@ -499,7 +525,7 @@ export function recruitmentOpportunity(state, now = new Date().toISOString()) {
   const articleCount = articlesAt(state).size;
   const chance = Math.min(0.18, 0.025 + articleCount / 1500);
   if (seeded(state.seed, `recruit:${state.cycles.length}`) >= chance) return null;
-  return { afterCycle: state.cycles.length, joinedAt: iso(ms(state.latestCompletedAt) + seeded(state.seed, `recruit-time:${state.cycles.length}`) * WINDOW_MS), topics: [...articlesAt(state).values()].slice(-8).map(article => ({ id: article.id, title: article.title })), instruction: 'Supply an ordinary username, compact public description, two or three interests, and a writing style. Give a plausible reason to join from these existing topics. Do not assign enemies or a future plot.' };
+  return { afterCycle: state.cycles.length, joinedAt: iso(ms(state.latestCompletedAt) + seeded(state.seed, `recruit-time:${state.cycles.length}`) * WINDOW_MS), topics: [...articlesAt(state).values()].slice(-8).map(article => ({ id: article.id, title: article.title })), instruction: 'Supply an ordinary username, a compact first-person public bio in the editor’s own voice, two or three interests, and a writing style. Give a plausible reason to join from these existing topics. Do not assign enemies or a future plot.' };
 }
 export function recruit(state, profile, { proof, now = new Date().toISOString() } = {}) {
   const denied = requireUsage(state, proof, now); if (denied) return denied;
