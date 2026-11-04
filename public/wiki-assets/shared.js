@@ -113,6 +113,20 @@ export function lineDiff(before, after) {
   }
   return result;
 }
+export function attributedLines(revisions) {
+  let lines = [];
+  for (const revision of revisions) {
+    const before = lines.map(line => line.text).join('\n');
+    lines = lines.length
+      ? lineDiff(before, revision.body).flatMap(line => {
+          if (line.type === 'remove') return [];
+          if (line.type === 'same') return [lines[line.oldLine - 1]];
+          return [{text: line.text, revision}];
+        })
+      : revision.body.split('\n').map(text => ({text, revision}));
+  }
+  return lines;
+}
 export function stablePositions(items) {
   const map = new Map();
   items.forEach((item,index) => { const angle=index*2.399963229728653, radius=index ? 70*Math.sqrt(index) : 0; map.set(item.id,{x:500+Math.cos(angle)*radius,y:350+Math.sin(angle)*radius}); });

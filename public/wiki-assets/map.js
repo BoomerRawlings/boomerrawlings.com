@@ -1,4 +1,4 @@
-import {REVISION_ACTIONS, esc, stamp, number, dateText, dayKey, pacificDayEnd, href, articleLink, userLink, markup, snapshot, stablePositions, safeSessionGet, safeSessionSet, loadData, installGate, titleFromId} from './shared.js';
+import {REVISION_ACTIONS, esc, stamp, number, dateText, dayKey, pacificDayEnd, href, articleLink, userLink, markup, attributedLines, snapshot, stablePositions, safeSessionGet, safeSessionSet, loadData, installGate, titleFromId} from './shared.js';
 
 let data, state, current, earliest, latest, view='articles', selected=null, positions, editorPositions, boundaries=[], growth=[];
 let playing=false, frame=0, lastPaint=0, animationStart=0, animationFrom=0, animationTo=0, animationDuration=10000;
@@ -117,7 +117,7 @@ function detailView() {
     const outgoing=state.links.filter(link=>link.source===article.id).map(link=>link.target),incoming=state.backlinks.get(article.id)||[];
     const revisions=state.events.filter(event=>event.articleId===article.id&&REVISION_ACTIONS.has(event.action));
     const editors=[...new Set(revisions.map(event=>event.editorId))];
-    details.innerHTML=`<h2>${articleLink(article.id,article.title,at())}</h2><dl class="metadata-list"><dt>Words</dt><dd>${number(article.words)}</dd><dt>Revisions</dt><dd>${number(article.revisions)}</dd><dt>Created</dt><dd>${esc(dateText(article.createdAt,true))}</dd><dt>Last changed</dt><dd>${esc(dateText(article.updatedAt))}</dd></dl><p><a href="${esc(contextHref({article:article.id}))}">Read article</a> · <a href="${esc(contextHref({view:'history',article:article.id}))}">Revision history</a> · <a href="${esc(contextHref({view:'discussion',article:article.id}))}">Discussion</a></p><h3>Links to</h3>${outgoing.length?`<ul>${outgoing.map(id=>`<li>${selectButton(id,'article',state.articles.get(id).title)}</li>`).join('')}</ul>`:'<p class="small muted">No outgoing article links.</p>'}<h3>Linked from</h3>${incoming.length?`<ul>${incoming.map(id=>`<li>${selectButton(id,'article',state.articles.get(id).title)}</li>`).join('')}</ul>`:'<p class="small muted">No incoming links yet.</p>'}<h3>Contributors</h3><p>${editors.map(id=>userLink(id,at())).join(', ')}</p>`;
+    details.innerHTML=`<h2>${articleLink(article.id,article.title,at())}</h2><dl class="metadata-list"><dt>Words</dt><dd>${number(article.words)}</dd><dt>Revisions</dt><dd>${number(article.revisions)}</dd><dt>Created</dt><dd>${esc(dateText(article.createdAt,true))}</dd><dt>Last changed</dt><dd>${esc(dateText(article.updatedAt))}</dd></dl><p><a href="${esc(contextHref({article:article.id}))}">Read article</a> · <a href="${esc(contextHref({view:'history',article:article.id}))}">Revision history</a> · <a href="#article-attribution">Who wrote what</a> · <a href="${esc(contextHref({view:'discussion',article:article.id}))}">Discussion</a></p><h3>Links to</h3>${outgoing.length?`<ul>${outgoing.map(id=>`<li>${selectButton(id,'article',state.articles.get(id).title)}</li>`).join('')}</ul>`:'<p class="small muted">No outgoing article links.</p>'}<h3>Linked from</h3>${incoming.length?`<ul>${incoming.map(id=>`<li>${selectButton(id,'article',state.articles.get(id).title)}</li>`).join('')}</ul>`:'<p class="small muted">No incoming links yet.</p>'}<h3>Contributors</h3><p>${editors.map(id=>userLink(id,at())).join(', ')}</p>`;
   } else if(selected.type==='editor') {
     const editor=state.editors.find(e=>e.id===selected.id);
     if(!editor){details.innerHTML='<h2>Not yet joined</h2><p>This editor had not arrived at the selected moment.</p>';return;}
@@ -160,6 +160,38 @@ function activityView() {
   $('activity-view').innerHTML=`<h2>Growth</h2><div class="view-buttons" role="group" aria-label="Growth measure"><button type="button" data-growth="words" aria-pressed="${growthMetric==='words'}">Words</button><button type="button" data-growth="articles" aria-pressed="${growthMetric==='articles'}">Articles</button></div>${growthChart()}<p class="small muted">Recorded history only. Quiet periods remain flat.</p><div class="activity-columns"><section><h2>Longest articles</h2>${rows(['Article','Words','Revisions'],articles.sort((a,b)=>b.words-a.words).slice(0,12).map(article=>[articleLink(article.id,article.title,at()),number(article.words),number(article.revisions)]))}</section><section><h2>Revisions by editor</h2>${rows(['Editor','Revisions','Discussion entries'],editors.map(item=>[userLink(item.editor.id,at()),number(item.revisions),number(item.comments)]))}</section></div><h2>Discussion and reversions</h2><p class="small muted">Activity signals, not a judgment about who was right. A discussion entry is counted separately from an article revision.</p>${disputes.length?rows(['Article','Discussion entries','Reversions'],disputes.slice(0,20).map(item=>[articleLink(item.article.id,item.article.title,at()),number(item.comments),number(item.reverts)])):'<p class="empty-state">No discussion or reversions yet.</p>'}<h2>Recent events at this moment</h2><ul class="change-list">${state.events.slice(-15).reverse().map(event=>`<li><span class="change-date">${esc(dateText(event.timestamp))}</span> · ${userLink(event.editorId,at())} · ${eventLink(event)}</li>`).join('')}</ul>`;
   $('map-legend').textContent='Counts and growth are reconstructed from the public event history at the selected time.';
 }
+let highlightedEditor = '';
+function renderAttribution() {
+  const panel = $('article-attribution');
+  const article = selected?.type === 'article' && view === 'articles' ? state.articles.get(selected.id) : null;
+  panel.hidden = !article;
+  if (!article) return;
+  const revisions = state.events.filter(event => event.articleId === article.id && REVISION_ACTIONS.has(event.action));
+  const name = id => state.editors.find(editor => editor.id === id)?.name ?? id;
+  const editors = [...new Set(revisions.map(revision => revision.editorId))];
+  const passages = attributedLines(revisions).filter(line => line.text.trim());
+  const options = editors.map(id => '<option value="' + esc(id) + '">' + esc(name(id)) + '</option>').join('');
+  panel.innerHTML = '<h2>Who wrote what · ' + esc(article.title) + '</h2>' +
+    '<p>Each passage credits the editor who last changed that line. Unchanged lines keep their earlier credit. The revision log shows removed text and recorded reasons.</p>' +
+    '<label for="attribution-editor">Highlight an editor</label> <select id="attribution-editor"><option value="">All editors</option>' + options + '</select>' +
+    passages.map(({text, revision}) => '<div class="attribution-passage" data-credit="' + esc(revision.editorId) + '">' +
+      '<small>' + esc(name(revision.editorId)) + ' · ' + esc(dateText(revision.timestamp)) + '</small>' +
+      markup(text, state.articles, at()) + '</div>').join('') +
+    '<h3>Revision log</h3>' + rows(['Date', 'Editor', 'Action', 'Recorded reason', 'Changes'], revisions.map((event, index) => [
+      esc(dateText(event.timestamp)), esc(name(event.editorId)), esc(event.action), esc(event.summary || 'No reason recorded'),
+      '<a href="' + esc(contextHref({view:'history', article:article.id, from:revisions[index - 1]?.revisionId || 'empty', to:event.revisionId})) + '">Compare</a>',
+    ]).reverse());
+  const filter = $('attribution-editor');
+  filter.value = editors.includes(highlightedEditor) ? highlightedEditor : '';
+  const highlight = () => {
+    highlightedEditor = filter.value;
+    for (const passage of panel.querySelectorAll('[data-credit]')) {
+      passage.classList.toggle('attribution-highlight', Boolean(filter.value) && passage.dataset.credit === filter.value);
+    }
+  };
+  filter.addEventListener('change', highlight);
+  highlight();
+}
 function render() {
   state=snapshot(data,new Date(current).toISOString());
   renderTimeline();categoryOptions();
@@ -182,6 +214,7 @@ function render() {
   }
   if(activity)activityView();else if(!journals){drawNetwork();detailView();}
   if(!journals)recordView();
+  renderAttribution();
   for(const link of document.querySelectorAll('.wiki-sidebar a, .wiki-footer a, .wiki-navigation a')) {
     const url=new URL(link.href,location.href);
     if(url.origin===location.origin&&url.pathname.startsWith('/wiki/')) {

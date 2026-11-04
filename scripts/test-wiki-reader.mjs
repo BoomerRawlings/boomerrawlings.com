@@ -1,6 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { snapshot, markup, linksIn, pacificDayEnd, lineDiff, stablePositions } from '../public/wiki-assets/shared.js';
+import { snapshot, markup, linksIn, pacificDayEnd, lineDiff, attributedLines, stablePositions } from '../public/wiki-assets/shared.js';
+
+test('attribution preserves unchanged lines and credits the revision that replaces a line', () => {
+ const first = {editorId:'a', body:'Keep this.\nReplace this.\nRemove this.'};
+ const second = {editorId:'b', body:'Keep this.\nNew wording.'};
+ const third = {editorId:'c', body:second.body};
+ assert.deepEqual(attributedLines([first, second, third]), [
+   {text:'Keep this.', revision:first},
+   {text:'New wording.', revision:second},
+ ]);
+});
 
 test('historical reader excludes future revisions, users, cycles, attitudes and journals',()=>{
  const data={meta:{latestCompletedAt:'2026-11-04T08:00:00Z'},editors:[{id:'a',joinedAt:'2026-09-23T23:00:00Z'},{id:'b',joinedAt:'2026-10-02T19:00:00Z'}],events:[{id:'e1',timestamp:'2026-09-23T23:10:00Z',editorId:'a',action:'create',articleId:'x',body:'Original [[y|Other]].',revisionId:'r1'},{id:'e2',timestamp:'2026-10-02T20:00:00Z',editorId:'b',action:'revise',articleId:'x',body:'Changed.',revisionId:'r2'}],cycles:[{id:'c1',endAt:'2026-09-27T20:00:00Z'},{id:'c2',endAt:'2026-10-03T08:00:00Z'}],relationships:[{timestamp:'2026-10-02T22:00:00Z',from:'a',to:'b',trust:0.5}],journals:[{timestamp:'2026-09-23T23:10:00Z',releasedAt:'2026-09-25T23:10:00Z',body:'Reflection'}]};
