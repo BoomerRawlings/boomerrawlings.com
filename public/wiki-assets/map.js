@@ -76,7 +76,7 @@ function buildNetwork() {
     nodes=state.editors.filter(editor=>!currentQuery||`${editor.name} ${editor.id} ${(editor.interests||[]).join(' ')}`.toLowerCase().includes(currentQuery.toLowerCase())).map(editor=>({id:editor.id,type:'editor',label:editor.name||editor.id,...editorPositions.get(editor.id),radius:10+Math.sqrt(state.contributions.get(editor.id)||0)*2}));
     const ids=new Set(nodes.map(node=>node.id));
     edges=state.relationships.filter(relationship=>ids.has(relationship.from)&&ids.has(relationship.to)).map(relationship=>({source:relationship.from,target:relationship.to,relationship}));
-    $('map-legend').innerHTML='<span class="legend-node"></span> Editor size = public contributions <span class="legend-line"></span> Arrow = a recorded attitude toward another editor. Attitudes can differ in each direction.';
+    $('map-legend').innerHTML='<span class="legend-node"></span> Editor size = public contributions. <strong class="relationship-positive">Positive</strong> solid · <strong class="relationship-neutral">Neutral</strong> dotted · <strong class="relationship-negative">Negative</strong> dashed. Thicker arrows indicate stronger attitudes. Read each arrow from its source to its target.';
   }
   return {nodes,edges};
 }
@@ -91,13 +91,54 @@ function fitNetwork(nodes=lastGraphNodes) {
   if(width/height<aspect)width=height*aspect;else height=width/aspect;
   viewport={x:(minX+maxX-width)/2,y:(minY+maxY-height)/2,width,height};applyViewport();
 }
+const relationshipColors = {positive:'#167052', neutral:'#62676d', negative:'#a62c38'};
+function relationshipReading(relationship) {
+  const trust = (relationship.trust - 0.5) * 2;
+  const score = Math.round(100 * (Math.max(0, trust) - Math.max(0, -trust, relationship.grievance)));
+  const tone = score > 0 ? 'positive' : score < 0 ? 'negative' : 'neutral';
+  const magnitude = Math.abs(score);
+  const intensity = magnitude === 0 ? 'None' : magnitude <= 20 ? 'Mild' : magnitude <= 50 ? 'Moderate' : magnitude <= 80 ? 'Strong' : 'Extreme';
+  return {tone, intensity, magnitude, signed: score > 0 ? '+' + score : String(score)};
+}
+function relationshipLabel(reading) {
+  return '<strong class="relationship-' + reading.tone + '">' + reading.tone[0].toUpperCase() + reading.tone.slice(1) +
+    '</strong> · ' + reading.intensity + ' (' + reading.signed + ')';
+}
 function drawNetwork() {
   const {nodes,edges}=buildNetwork();lastGraphNodes=nodes;
   const byId=new Map(nodes.map(node=>[node.id,node]));
   const focused=document.activeElement?.closest?.('[data-node-id]')?.dataset.nodeId;
   const selectedId=selected?.type==='principle'?`principle:${selected.id}`:selected?.id;
-  const edgeHtml=edges.map(edge=>{const from=byId.get(edge.source),to=byId.get(edge.target);if(!from||!to)return '';const angle=Math.atan2(to.y-from.y,to.x-from.x),r1=from.radius+2,r2=to.radius+5;const x1=from.x+Math.cos(angle)*r1,y1=from.y+Math.sin(angle)*r1,x2=to.x-Math.cos(angle)*r2,y2=to.y-Math.sin(angle)*r2;const highlight=edge.source===selectedId||edge.target===selectedId;return `<line class="${edge.relationship?'relationship-edge':'network-edge'}${highlight?' highlighted':''}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"${edge.relationship?' marker-end="url(#relationship-arrow)"':''}><title>${esc(from.label)} → ${esc(to.label)}</title></line>`;}).join('');
-  $('network').innerHTML=`<defs><marker id="relationship-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#72777d"/></marker></defs><g aria-hidden="true">${edgeHtml}</g><g>${nodes.map(node=>`<g class="node ${node.type}${node.id===selectedId?' selected':''}" transform="translate(${node.x} ${node.y})" data-node-id="${esc(node.realId||node.id)}" data-node-type="${node.type}" tabindex="0" role="button" aria-label="${esc(node.label)}${node.words!==undefined?`, ${number(node.words)} words`:''}. Inspect connections."><title>${esc(node.label)}${node.words!==undefined?` — ${number(node.words)} words`:''}</title>${node.type==='principle'?`<rect x="-${node.radius}" y="-${node.radius}" width="${node.radius*2}" height="${node.radius*2}"/>`:`<circle r="${node.radius}"/>`}<text y="${node.radius+16}" text-anchor="middle">${esc(short(node.label))}</text></g>`).join('')}</g>`;
+  const directions = new Set(edges.filter(edge => edge.relationship).map(edge => edge.source + '|' + edge.target));
+  const edgeHtml = edges.map(edge => {
+    const from = byId.get(edge.source), to = byId.get(edge.target);
+    if (!from || !to) return '';
+    const angle = Math.atan2(to.y - from.y, to.x - from.x);
+    const dx = Math.cos(angle), dy = Math.sin(angle);
+    const offset = edge.relationship && directions.has(edge.target + '|' + edge.source) ? 5 : 0;
+    const x1 = from.x + dx * (from.radius + 2) - dy * offset;
+    const y1 = from.y + dy * (from.radius + 2) + dx * offset;
+    const x2 = to.x - dx * (to.radius + 5) - dy * offset;
+    const y2 = to.y - dy * (to.radius + 5) + dx * offset;
+    const coordinates = ' x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"';
+    const label = esc(from.label) + ' → ' + esc(to.label);
+    if (!edge.relationship) {
+      const highlighted = edge.source === selectedId || edge.target === selectedId;
+      return '<line class="network-edge' + (highlighted ? ' highlighted' : '') + '"' + coordinates + '><title>' + label + '</title></line>';
+    }
+    const reading = relationshipReading(edge.relationship);
+    const selectedEdge = selected?.type === 'relationship' && selected.id === edge.source + '|' + edge.target;
+    const width = 1.6 + 4 * Math.sqrt(reading.magnitude / 100);
+    return '<line class="relationship-edge' + (selectedEdge ? ' selected-relationship' : '') + '"' + coordinates +
+      ' stroke="' + relationshipColors[reading.tone] + '" stroke-width="' + width +
+      '" marker-end="url(#relationship-arrow-' + reading.tone + ')"' +
+      (reading.tone === 'negative' ? ' stroke-dasharray="7 4"' : reading.tone === 'neutral' ? ' stroke-dasharray="2 4"' : '') +
+      '><title>' + label + ' · ' + reading.tone + ' · ' + reading.intensity + ' (' + reading.signed + ')</title></line>';
+  }).join('');
+  const markers = Object.entries(relationshipColors).map(([tone, color]) =>
+    '<marker id="relationship-arrow-' + tone + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="' + color + '"/></marker>'
+  ).join('');
+  $('network').innerHTML=`<defs>${markers}</defs><g aria-hidden="true">${edgeHtml}</g><g>${nodes.map(node=>`<g class="node ${node.type}${node.id===selectedId?' selected':''}" transform="translate(${node.x} ${node.y})" data-node-id="${esc(node.realId||node.id)}" data-node-type="${node.type}" tabindex="0" role="button" aria-label="${esc(node.label)}${node.words!==undefined?`, ${number(node.words)} words`:''}. Inspect connections."><title>${esc(node.label)}${node.words!==undefined?` — ${number(node.words)} words`:''}</title>${node.type==='principle'?`<rect x="-${node.radius}" y="-${node.radius}" width="${node.radius*2}" height="${node.radius*2}"/>`:`<circle r="${node.radius}"/>`}<text y="${node.radius+16}" text-anchor="middle">${esc(short(node.label))}</text></g>`).join('')}</g>`;
   $('network').setAttribute('aria-label',`${view==='relationships'?'Editor':view==='principles'?'Principle and article':'Article'} network at ${dateText(current)}. ${nodes.length} visible nodes.`);
   $('network-empty').hidden=nodes.length>0;
   $('network-empty').textContent=currentQuery||currentCategory?'No matches at this moment. Try a different search or category.':'No articles had been written at this moment.';
@@ -132,7 +173,7 @@ function detailView() {
   } else if(selected.type==='relationship') {
     const [from,to]=selected.id.split('|'),relationship=state.relationships.find(r=>r.from===from&&r.to===to);
     if(!relationship){details.innerHTML='<h2>No relationship record</h2><p>This attitude had not been recorded at the selected moment.</p>';return;}
-    details.innerHTML=`<h2>${esc(from)} → ${esc(to)}</h2><p>This is ${userLink(from,at())}'s recorded attitude toward ${userLink(to,at())}.</p><dl class="metadata-list"><dt>Trust</dt><dd>${esc(relationship.trust)}</dd><dt>Grievance</dt><dd>${esc(relationship.grievance)}</dd><dt>Recorded</dt><dd>${esc(dateText(relationship.timestamp))}</dd></dl><p class="small muted">Scores describe fictional character state. The reverse relationship may differ.</p><h3>Supporting events</h3>${evidence(relationship.evidenceIds)}`;
+    details.innerHTML=`<h2>${esc(from)} → ${esc(to)}</h2><p>This is ${userLink(from,at())}'s recorded attitude toward ${userLink(to,at())}.</p><p>${relationshipLabel(relationshipReading(relationship))}</p><dl class="metadata-list"><dt>Trust</dt><dd>${esc(relationship.trust)}</dd><dt>Grievance</dt><dd>${esc(relationship.grievance)}</dd><dt>Recorded</dt><dd>${esc(dateText(relationship.timestamp))}</dd></dl><p class="small muted">Scores describe fictional character state. The reverse relationship may differ.</p><h3>Supporting events</h3>${evidence(relationship.evidenceIds)}`;
   }
 }
 function recordView() {
@@ -141,7 +182,7 @@ function recordView() {
     const list=filteredArticles().sort((a,b)=>b.words-a.words||a.title.localeCompare(b.title));
     target.innerHTML=`<h2>Articles at this moment</h2><p class="filter-count">${number(list.length)} of ${number(state.articles.size)} articles shown. Select an article to inspect its connections.</p>${rows(['Article','Words','Revisions','Links out','Links in'],list.map(article=>[selectButton(article.id,'article',article.title),number(article.words),number(article.revisions),number(state.links.filter(link=>link.source===article.id).length),number((state.backlinks.get(article.id)||[]).length)]))}`;
   } else if(view==='relationships') {
-    target.innerHTML=`<h2>Directed relationships</h2><p class="small muted">These records are subjective, may be asymmetric, and are linked to public evidence. They are not measures of real people's feelings.</p>${state.relationships.length?rows(['Relationship','Trust','Grievance','Last recorded'],state.relationships.filter(r=>!currentQuery||`${r.from} ${r.to}`.toLowerCase().includes(currentQuery.toLowerCase())).map(r=>[selectButton(`${r.from}|${r.to}`,'relationship',`${r.from} → ${r.to}`),esc(r.trust),esc(r.grievance),esc(dateText(r.timestamp,true))])):'<p class="empty-state">No relationships had been recorded at this moment.</p>'}<h2>Editors</h2>${rows(['Editor','Joined','Contributions'],state.editors.map(editor=>[selectButton(editor.id,'editor',editor.name||editor.id),esc(dateText(editor.joinedAt,true)),number(state.contributions.get(editor.id)||0)]))}`;
+    target.innerHTML=`<h2>Directed relationships</h2><p class="small muted">The signed score runs from −100 to +100. Trust above 0.50 adds positive weight. Distrust below 0.50 or grievance adds negative weight, using whichever is stronger. The table lists the strongest attitudes first. Each direction has its own record.</p>${state.relationships.length?rows(['Relationship','Attitude and intensity','Trust','Grievance','Last recorded'],state.relationships.filter(r=>!currentQuery||`${r.from} ${r.to}`.toLowerCase().includes(currentQuery.toLowerCase())).sort((a,b)=>relationshipReading(b).magnitude-relationshipReading(a).magnitude).map(r=>[selectButton(`${r.from}|${r.to}`,'relationship',`${r.from} → ${r.to}`),relationshipLabel(relationshipReading(r)),esc(r.trust),esc(r.grievance),esc(dateText(r.timestamp,true))])):'<p class="empty-state">No relationships had been recorded at this moment.</p>'}<h2>Editors</h2>${rows(['Editor','Joined','Contributions'],state.editors.map(editor=>[selectButton(editor.id,'editor',editor.name||editor.id),esc(dateText(editor.joinedAt,true)),number(state.contributions.get(editor.id)||0)]))}`;
   } else if(view==='principles') {
     target.innerHTML=`<h2>Principles and public records</h2>${rows(['Principle','Meaning','Associated records'],(data.principles||[]).map(principle=>[selectButton(principle.id,'principle',principle.title),esc(principle.description),number(state.events.filter(event=>(event.principleIds||[]).includes(principle.id)).length)]))}`;
   } else target.innerHTML='';
