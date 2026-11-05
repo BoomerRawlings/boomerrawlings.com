@@ -14,6 +14,7 @@ export function mountObservatoryDoor(
   if (!field || !rule || !register) return () => {};
 
   const reduced = browser.matchMedia('(prefers-reduced-motion: reduce)');
+  link.setAttribute('data-observatory-ready', 'true');
   let active = false;
   let navigating = false;
   let generation = 0;
@@ -43,7 +44,11 @@ export function mountObservatoryDoor(
       || link.hasAttribute('download') || (link.target && link.target !== '_self')) return;
     if (active) { event.preventDefault(); return; }
     // Keep ordinary anchor navigation for reduced motion and unsupported browsers.
-    if (reduced.matches || typeof field!.animate !== 'function') { clearMarker(); return; }
+    if (reduced.matches || typeof field!.animate !== 'function') {
+      clearMarker();
+      if (status) status.textContent = 'Opening the Observatory.';
+      return;
+    }
     event.preventDefault();
     reset();
     active = true;
@@ -63,10 +68,17 @@ export function mountObservatoryDoor(
       if (!active || navigating || current !== generation) return;
       navigating = true;
       browser.clearTimeout(deadline);
-      try { browser.sessionStorage.setItem(ARRIVAL_KEY, JSON.stringify({ at: Date.now() })); } catch { /* The gate still works without the entrance animation. */ }
+      let destination = link.href;
+      try { browser.sessionStorage.setItem(ARRIVAL_KEY, JSON.stringify({ at: Date.now() })); }
+      catch {
+        // This non-secret fragment is consumed before either entrance renders.
+        const fallback = new URL(destination);
+        fallback.hash = 'arrival';
+        destination = fallback.href;
+      }
       // A cancelled navigation or offline browser must not trap the homepage.
       watchdog = browser.setTimeout(() => reset(true, true), 2200);
-      try { browser.location.assign(link.href); } catch { reset(true, true); }
+      try { browser.location.assign(destination); } catch { reset(true, true); }
     };
     deadline = browser.setTimeout(navigate, 800);
     try {
@@ -105,6 +117,7 @@ export function mountObservatoryDoor(
   reduced.addEventListener('change', motionChange);
   return () => {
     reset();
+    link.removeAttribute('data-observatory-ready');
     link.removeEventListener('click', click);
     browser.removeEventListener('keydown', keydown);
     browser.removeEventListener('pagehide', pagehide);

@@ -1,6 +1,42 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import { resolve, relative, isAbsolute } from 'node:path';
+import { parse } from 'parse5';
 import { mountObservatoryDoor, ARRIVAL_KEY } from '../src/lib/observatory-transition.ts';
+
+test('the built homepage loads its Observatory controller as an external module allowed by its strict CSP', async () => {
+  const dist = fileURLToPath(new URL('../dist/', import.meta.url));
+  const html = parse(await readFile(resolve(dist, 'index.html'), 'utf8'));
+  const nodes = [];
+  const visit = node => { nodes.push(node); for (const child of node.childNodes || []) visit(child); };
+  visit(html);
+  const attribute = (node, name) => node.attrs?.find(attr => attr.name === name)?.value;
+  const policy = nodes.find(node => node.tagName === 'meta' && attribute(node, 'http-equiv')?.toLowerCase() === 'content-security-policy');
+  const scriptPolicy = attribute(policy, 'content')?.split(';').map(part => part.trim()).find(part => /^script-src\s/.test(part));
+  assert.equal(scriptPolicy, "script-src 'self'", 'fix script delivery without weakening the homepage CSP');
+
+  const origin = 'https://boomerrawlings.com';
+  const modules = [];
+  for (const script of nodes.filter(node => node.tagName === 'script')) {
+    const type = attribute(script, 'type')?.toLowerCase() || '';
+    if (['application/ld+json', 'application/json'].includes(type)) continue;
+    const src = attribute(script, 'src');
+    assert.ok(src, 'executable homepage scripts must not be inlined behind script-src self');
+    assert.equal((script.childNodes || []).map(child => child.value || '').join('').trim(), '', 'external scripts must not conceal inline code');
+    const url = new URL(src, `${origin}/`);
+    assert.equal(url.origin, origin, 'homepage scripts must load from the same origin');
+    const assetPath = resolve(dist, `.${decodeURIComponent(url.pathname)}`);
+    const assetRelative = relative(dist, assetPath);
+    assert.ok(assetRelative && !assetRelative.startsWith('..') && !isAbsolute(assetRelative), 'script assets must resolve inside dist');
+    const code = await readFile(assetPath, 'utf8');
+    if (type === 'module') modules.push({ src, code });
+  }
+  const controller = modules.filter(({ code }) => code.includes(ARRIVAL_KEY) && code.includes('[data-observatory-door]'));
+  assert.equal(controller.length, 1, 'the actual bundled doorway controller must be linked from the homepage');
+  assert.match(controller[0].code, /\.animate\(/, 'the external module must contain the transition, not an empty loader');
+});
 
 class Target {
   listeners = new Map();
@@ -60,6 +96,7 @@ const settle = () => new Promise(resolve => setImmediate(resolve));
 
 test('ordinary and keyboard activation reveal the aperture and navigate only once after completion', async () => {
   const f = fixture();
+  assert.equal(f.attrs.get('data-observatory-ready'), 'true');
   assert.equal(f.link.fire('click', { detail: 0 }).defaultPrevented, true);
   assert.equal(f.overlay.hidden, false);
   assert.equal(f.attrs.get('aria-busy'), 'true');
@@ -73,6 +110,7 @@ test('ordinary and keyboard activation reveal the aperture and navigate only onc
   f.link.fire('click'); f.tick(800); await settle();
   assert.equal(f.navigations.length, 1);
   f.dispose();
+  assert.equal(f.attrs.has('data-observatory-ready'), false);
 });
 
 test('modified clicks, non-primary buttons and new-tab targets keep native anchor behavior', () => {
@@ -93,6 +131,7 @@ test('reduced motion and unsupported animation navigate immediately through the 
     assert.equal(f.link.fire('click').defaultPrevented, false);
     assert.equal(f.overlay.hidden, true); assert.equal(f.animations.length, 0); assert.equal(f.timers.size, 0);
     assert.equal(f.storage.has(ARRIVAL_KEY), false);
+    assert.equal(f.status.textContent, 'Opening the Observatory.');
     f.dispose();
   }
 });
@@ -140,7 +179,9 @@ test('an unfinished animation has a bounded navigation fallback and a cancelled 
   const f = fixture({ storageThrows: true });
   f.link.fire('click'); f.tick(799);
   assert.equal(f.navigations.length, 0);
-  f.tick(1); assert.equal(f.navigations.length, 1);
+  f.tick(1);
+  assert.deepEqual(f.navigations, ['https://boomerrawlings.com/observatory/#arrival'], 'blocked storage uses only the non-secret arrival fragment');
+  assert.equal(f.storage.size, 0);
   f.tick(2200); await settle();
   assert.equal(f.overlay.hidden, true); assert.equal(f.attrs.has('aria-busy'), false); assert.equal(f.link.focusCount, 1);
   f.dispose();

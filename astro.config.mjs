@@ -19,6 +19,9 @@ export default defineConfig({
   trailingSlash: 'always',
   vite: {
     build: {
+      // Keep executable scripts external: the site's strict CSP permits only 'self'.
+      // Preserve Vite's default inlining behavior for fonts, styles, and other assets.
+      assetsInlineLimit: (filePath) => /\.js$/i.test(filePath) ? false : undefined,
       rolldownOptions: {
         output: {
           codeSplitting: {

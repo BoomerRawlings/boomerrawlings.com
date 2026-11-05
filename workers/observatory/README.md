@@ -54,13 +54,22 @@ in the protected catalog. Symbol modules and styles require authentication.
 Missing symbols use a neutral directory illustration. Each illustration has an
 accessible description, and selection replaces the previous scene.
 
-The homepage doorway uses a 640 ms departure transition. Only a short-lived
-`observatory:arrival` timestamp crosses pages through session storage; it never
-stores an answer, a destination, or authenticated content and never prefetches
-private resources. A parser-blocking external `arrival.js` runs before the gate's
-styles and fonts, consumes the marker once, and accepts only timestamps from the
-past five seconds. The arrival overlay opens over 480 ms, with a 700 ms release
-fallback. Direct visits and blocked storage still open the ordinary gate.
+The homepage doorway uses a 640 ms departure transition. Its compiled controller
+must remain an external same-origin module: production keeps `script-src 'self'`
+and does not permit inline executable scripts. The build disables JavaScript
+inlining while preserving the default treatment of other assets.
+
+Only a short-lived `observatory:arrival` timestamp crosses pages through session
+storage. If storage is denied, navigation adds the nonsecret `#arrival` fragment.
+Neither handoff contains an answer, a destination, or authenticated content, and
+the doorway never prefetches private resources. The same parser-blocking external
+`arrival.js` runs before styles and fonts on both the gate and authenticated index.
+Before paint, it consumes the marker once, accepts only timestamps from the past
+five seconds, and removes the exact fallback fragment while preserving the path,
+query, and history state. A handoff that cannot be consumed leaves an ordinary
+entrance. The shared overlay opens over 480 ms, with a 650 ms release fallback
+installed by the bootstrap itself, independent of page modules or font loading.
+Direct visits without a handoff open the appropriate page without the effect.
 
 Reduced motion preserves navigation without the departure or arrival effects and
 renders static illustrations. The index also offers a motion pause control.
@@ -84,6 +93,13 @@ rotation, logout, expiry, password changes, cross-site writes, host restrictions
 input bounds, deliberate riddle normalization, legacy compatibility, and concurrent
 persistent rate limits. `check` verifies JavaScript
 syntax and HTML privacy metadata. `types` generates Cloudflare's binding declarations.
+
+The repository-root `npm test` builds the portfolio before running
+`scripts/test-observatory-transition.mjs`. Its compiled-output regression checks
+the homepage's actual CSP and script tags, resolves their emitted files, and verifies
+that the doorway controller is present in an external module. Arrival tests cover
+both page shells, blocked storage, fragment consumption, interruption, and release
+without waiting for page modules.
 
 `build` copies an explicit allowlist of generic interface files and local fonts into
 ignored `.build/assets`. It never packages private configuration and can run in
