@@ -341,6 +341,9 @@ export function characterPacket(state, editorId) {
     },
     window: { id: window.id, startAt: window.startAt, endAt: window.endAt },
     principles: state.principles,
+    adoptedPolicies: (state.policySessions ?? []).filter(session => session.result === 'adopted' && session.closedAt <= window.startAt)
+      .map(session => state.events.find(event => event.id === session.id))
+      .filter(Boolean).map(({id,title,body}) => ({id,title,body})),
     personalMemory: { summary: memorySummary(retained), summaryReferences, important: memories },
     community: state.editors.filter(other => other.joinedAt <= window.startAt).map(publicEditor),
     articleIndex: ranked.slice(0, 40).map(({ article }) => ({ id: article.id, title: article.title, revisionId: article.revisionId, categories: article.categories })),
@@ -348,7 +351,7 @@ export function characterPacket(state, editorId) {
     recentEvents: recent,
     knownEventIds: [...knownEvents],
     relationships: state.relationships.filter(relation => relation.from === editorId && relation.timestamp <= window.startAt).reduce((list, relation) => { const index = list.findIndex(item => item.to === relation.to); if (index >= 0) list[index] = relation; else list.push(relation); return list; }, []),
-    responseRules: { actions: [...ACTIONS], onePublicAction: true, maxChangedWords: window.index <= 76 ? 300 : 400, maxCommentWords: 150, journalWords: [50, 100], instruction: 'Choose one action, or abstain. Supply one plausible posting time inside this window. In the journal, always explain what you considered and why you acted or held back. Describe whether it changed what you want to pursue, how you feel, or what you think of another editor, if it did. Abstention can still change memory, mood or relationships. Keep that reasoning in the journal rather than in public copy. Describe an intention, not an assumed publication success. Use only this packet. Article edits supply the complete resulting body and baseRevisionId. If bodyComplete is false, do not replace the article: discuss, abstain, or create a linked entry instead. Do not invent sources or future events. Optional stateUpdate contains frustrationDelta and enthusiasmDelta (each within ±0.08) plus nonempty observed evidenceIds. Optional longTermMemory replaces retained observations with at most three entries of at most 40 words, each with text and nonempty observed references. Neither update may assume this proposal succeeds.' },
+    responseRules: { actions: [...ACTIONS], onePublicAction: true, maxChangedWords: window.index <= 76 ? 300 : 400, maxCommentWords: 150, journalWords: [50, 100], instruction: 'Choose one action, or abstain. Follow adopted editorial policies when applicable. Supply one plausible posting time inside this window. In the journal, always explain what you considered and why you acted or held back. Describe whether it changed what you want to pursue, how you feel, or what you think of another editor, if it did. Abstention can still change memory, mood or relationships. Keep that reasoning in the journal rather than in public copy. Describe an intention, not an assumed publication success. Use only this packet. Article edits supply the complete resulting body and baseRevisionId. If bodyComplete is false, do not replace the article: discuss, abstain, or create a linked entry instead. Do not invent sources or future events. Optional stateUpdate contains frustrationDelta and enthusiasmDelta (each within ±0.08) plus nonempty observed evidenceIds. Optional longTermMemory replaces retained observations with at most three entries of at most 40 words, each with text and nonempty observed references. Neither update may assume this proposal succeeds.' },
   };
   return packet;
 }
@@ -541,11 +544,17 @@ export function releasedEditorNotes(state, at) {
 export function exportPublic(state, { proof, now = new Date().toISOString() } = {}) {
   const usage = checkUsage(proof, now); assert(usage.allowed, `publication gated: ${usage.reason}`);
   assert(state.foundingComplete, 'no completed founding content to export');
-  const at = state.events.reduce((cutoff, event) =>
+  let at = state.events.reduce((cutoff, event) =>
     event.cycleId === 'manual' && event.timestamp > cutoff ? event.timestamp : cutoff, state.latestCompletedAt);
+  const policySessions = (state.policySessions ?? []).map(({id,openedAt,eligible,discussion,votingAt,closedAt,result,ballots}) =>
+    ({id,openedAt,eligible,discussion,votingAt,closedAt,result,ballots:closedAt ? ballots : []}));
+  for (const session of policySessions) {
+    const last = session.closedAt ?? session.votingAt ?? session.discussion.at(-1)?.timestamp ?? session.openedAt;
+    if (last > at) at = last;
+  }
   return {
     schemaVersion: 1,
-    meta: { title: 'The Encyclopedia of the Human Condition', foundingAt: FOUNDING_AT, latestCompletedAt: at, generatedAt: iso(now), cycleCount: state.cycles.length, disclosure: 'The editors and editorial activity are fictional and simulated. The initial history was generated retrospectively; later cycles continue the same experiment.' },
+    meta: { title: 'The Encyclopedia of the Human Condition', foundingAt: FOUNDING_AT, latestCompletedAt: at, generatedAt: iso(now), cycleCount: state.cycles.length, disclosure: 'The editors and editorial activity are fictional and simulated. The initial history was generated retrospectively; later cycles continue the same experiment.', ...(policySessions.length ? {policySessions:clone(policySessions)} : {}) },
     editors: state.editors.filter(editor => editor.joinedAt <= at).map(publicEditor),
     principles: clone(state.principles),
     events: clone(sortEvents(state.events.filter(event => event.timestamp <= at))),

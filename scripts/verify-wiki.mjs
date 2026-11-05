@@ -19,6 +19,29 @@ for (const [records, keys] of [[source.events,eventKeys],[source.editors,editorK
   for (const row of records) assert.ok(Object.keys(row).every(key => keys.has(key)), 'Public records must not expose working memory or private metadata');
 }
 const users = new Map(source.editors.map(user => [user.id, user]));
+const policyIds = new Set();
+for (const session of source.meta.policySessions ?? []) {
+  const proposal = source.events.find(event => event.id === session.id && event.action === 'policy');
+  assert.ok(proposal && !policyIds.has(session.id));
+  policyIds.add(session.id);
+  assert.ok(stamp(proposal.timestamp) <= stamp(session.openedAt) && stamp(session.openedAt) <= stamp(source.meta.latestCompletedAt));
+  assert.ok(session.eligible.length && new Set(session.eligible).size === session.eligible.length);
+  assert.ok(session.eligible.every(id => users.has(id) && stamp(users.get(id).joinedAt) <= stamp(session.openedAt)));
+  for (const [entries,start,end] of [
+    [session.discussion,session.openedAt,session.votingAt ?? source.meta.latestCompletedAt],
+    [session.ballots,session.votingAt,session.closedAt],
+  ]) {
+    assert.equal(new Set(entries.map(entry => entry.editorId)).size, entries.length);
+    assert.ok(entries.every(entry => session.eligible.includes(entry.editorId) && stamp(entry.timestamp) >= stamp(start) && stamp(entry.timestamp) <= stamp(end)));
+  }
+  if (session.votingAt) assert.equal(session.discussion.length,session.eligible.length);
+  if (session.closedAt) {
+    assert.ok(stamp(session.closedAt) <= stamp(source.meta.latestCompletedAt));
+    assert.equal(session.ballots.length,session.eligible.length);
+    assert.ok(session.ballots.every(entry => ['support','oppose','abstain'].includes(entry.vote)));
+    assert.equal(session.result,session.ballots.filter(entry => entry.vote === 'support').length > session.eligible.length / 2 ? 'adopted' : 'rejected');
+  } else assert.equal(session.ballots.length,0,'Ballots remain private until the vote closes');
+}
 assert.ok(users.has('bluemonday') && users.has('ellis47'));
 assert.ok(users.get('ellis47').joinedAt.startsWith('2026-10-02') || users.get('ellis47').joinedAt.startsWith('2026-10-03'));
 const eventIds = new Set(), perTurn = new Set(), revisions = new Map(), cycles = new Map(source.cycles.map(c => [c.id,c]));

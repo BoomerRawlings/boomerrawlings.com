@@ -97,13 +97,46 @@ function userView(id) {
   const articleIds=[...new Set(contributions.map(event=>event.articleId).filter(articleId=>state.articles.has(articleId)))];
   page().innerHTML=`${historicalNotice()}<div class="profile-summary"><p>${esc(editor.description||'An editor of the Encyclopedia of the Human Condition.')}</p><dl class="metadata-list"><dt>Joined</dt><dd>${esc(dateText(editor.joinedAt))}</dd><dt>Interests</dt><dd>${esc((editor.interests||[]).join(', '))}</dd><dt>Public contributions</dt><dd>${number(contributions.length)}</dd></dl></div><h2>Articles contributed to</h2><ul class="inline-links">${articleIds.map(articleId=>`<li>${articleLink(articleId,state.articles.get(articleId).title,at)}</li>`).join('')}</ul><h2>Contributions</h2>${recentList(contributions,200)}`;
 }
+function policySession(id) {
+  return (data.meta.policySessions ?? []).find(session => session.id === id && stamp(session.openedAt) <= state.time);
+}
+function policyStatus(session) {
+  if (!session) return 'Proposed';
+  if (session.closedAt && stamp(session.closedAt) <= state.time) return session.result === 'adopted' ? 'Adopted' : 'Rejected';
+  return session.votingAt && stamp(session.votingAt) <= state.time ? 'Voting open' : 'Under discussion';
+}
+function policyPanel(event) {
+  const session = policySession(event.id);
+  const status = policyStatus(session);
+  if (!session) return '<h2>Policy status</h2><p>Proposed</p>';
+  const visibleDiscussion = session.discussion.filter(entry => stamp(entry.timestamp) <= state.time);
+  const closed = status === 'Adopted' || status === 'Rejected';
+  const threshold = Math.floor(session.eligible.length / 2) + 1;
+  const entries = (items, ballots = false) => items.map(item =>
+    `<section class="discussion-entry"><h3>${userLink(item.editorId,at)}${ballots ? ' · ' + esc(item.vote) : ''}</h3><p class="small muted">${esc(dateText(item.timestamp))}</p><p>${esc(item.body)}</p></section>`
+  ).join('');
+  const count = vote => session.ballots.filter(ballot => ballot.vote === vote).length;
+  return `<h2>Policy status</h2><p><strong>${status}</strong>${closed ? ' on ' + esc(dateText(session.closedAt)) : ''}. Adoption requires ${threshold} of ${session.eligible.length} eligible editors.</p>
+    <h2>Discussion</h2>${entries(visibleDiscussion) || '<p>No discussion yet.</p>'}
+    <h2>Ballots</h2>${closed ? `<p>${count('support')} support · ${count('oppose')} oppose · ${count('abstain')} abstain</p>${entries(session.ballots,true)}` : '<p>Ballots are published together when voting closes.</p>'}`;
+}
 function principlesView() {
   title('Founding principles');tabs();
-  page().innerHTML=`${historicalNotice()}<p class="principle-description">The encyclopedia began with three principles. Their meaning, application, and relative importance can become matters of editorial disagreement.</p>${(data.principles||[]).map(principle=>{const records=state.events.filter(event=>(event.principleIds||[]).includes(principle.id));return `<section id="${esc(principle.id)}"><h2>${esc(principle.title)}</h2><p>${esc(principle.description)}</p>${records.length?recentList([...records].reverse(),8):'<p class="small muted">No associated public records yet.</p>'}</section>`;}).join('')}<h2>Editorial policy proposals</h2>${recentList(state.events.filter(event=>event.action==='policy').reverse(),30)}`;
+  const proposals = state.events.filter(event => event.action === 'policy').reverse();
+  const policyLinks = items => `<ul>${items.map(event =>
+    `<li><a href="${esc(contextHref({view:'event',event:event.id}))}">${esc(event.title)}</a> · ${policyStatus(policySession(event.id))}</li>`
+  ).join('')}</ul>`;
+  const adopted = proposals.filter(event => policyStatus(policySession(event.id)) === 'Adopted');
+  page().innerHTML=`${historicalNotice()}<p class="principle-description">The encyclopedia began with three principles. Their meaning, application, and relative importance can become matters of editorial disagreement.</p>${(data.principles||[]).map(principle=>{const records=state.events.filter(event=>(event.principleIds||[]).includes(principle.id));return `<section id="${esc(principle.id)}"><h2>${esc(principle.title)}</h2><p>${esc(principle.description)}</p>${records.length?recentList([...records].reverse(),8):'<p class="small muted">No associated public records yet.</p>'}</section>`;}).join('')}<h2>Adopted editorial policies</h2>${adopted.length ? policyLinks(adopted) : '<p>No policies have been adopted yet.</p>'}<h2>Editorial policy proposals</h2>${policyLinks(proposals)}`;
 }
 function eventView(id) {
   const event=state.events.find(item=>item.id===id);title('Event record');tabs(event?.articleId);
   if(!event){page().innerHTML=historicalNotice()+'<p>This event is unavailable at the selected moment.</p>';return;}
+  if (event.action === 'policy') {
+    title(event.title);
+    page().innerHTML = `${historicalNotice()}<p>Proposed by ${userLink(event.editorId,at)} on ${esc(dateText(event.timestamp))}.</p><h2>Proposal</h2>${markup(event.body,state.articles,at)}${evidenceLinks(event.references)}${policyPanel(event)}`;
+    return;
+  }
   page().innerHTML=`${historicalNotice()}<dl class="metadata-list"><dt>Recorded</dt><dd>${esc(dateText(event.timestamp))}</dd><dt>Editor</dt><dd>${userLink(event.editorId,at)}</dd><dt>Action</dt><dd>${esc(actionName(event.action))}</dd>${event.articleId?`<dt>Article</dt><dd>${articleLink(event.articleId,event.title,at)}</dd>`:''}<dt>Summary</dt><dd>${esc(event.summary||'—')}</dd></dl>${event.body?`<h2>${REVISION_ACTIONS.has(event.action)?'Article after this revision':'Discussion'}</h2>${markup(event.body,state.articles,at)}`:''}${evidenceLinks(event.references)}${event.articleId&&event.revisionId?`<p><a href="${esc(contextHref({view:'history',article:event.articleId,to:event.revisionId}))}">Compare this revision</a></p>`:''}`;
 }
 function aboutView() {

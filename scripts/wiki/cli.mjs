@@ -4,6 +4,7 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import * as engine from './engine.mjs';
+import {openPolicy, policyPacket, recordPolicyDecision, advancePolicy} from './policy.mjs';
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const args = process.argv.slice(2), command = args.shift() ?? 'help';
@@ -75,7 +76,11 @@ try {
   } else if (command === 'init') await transaction(state => ({ state: state ?? engine.createState({ seed: flags.seed, now }), output: { ok: true, existed: Boolean(state), privateDirectory: directory } }));
   else if (command === 'validate') print(engine.validatePublic(input()));
   else if (command === 'status') print(engine.status(readJson(stateFile), now));
-  else if (command === 'packet') {
+  else if (command === 'policy-packet') {
+    const packet = policyPacket(readJson(stateFile), flags.id, flags.editor);
+    if (flags.out) { save(resolve(flags.out), packet); print({ok:true, phase:packet.phase}); }
+    else print(packet);
+  } else if (command === 'packet') {
     const packet = engine.characterPacket(readJson(stateFile), flags.editor);
     if (flags.out) { const out = resolve(flags.out); mkdirSync(dirname(out), { recursive: true }); writeFileSync(out, `${JSON.stringify(packet, null, 2)}\n`); print({ ok: true, packet: out, editorId: flags.editor }); }
     else print(packet);
@@ -93,6 +98,14 @@ try {
   else await transaction(async state => {
     if (!state) throw new Error('run init first');
     let output;
+    if (['policy-open','policy-record','policy-advance'].includes(command)) {
+      const usage = engine.checkUsage(proof(), now);
+      if (!usage.allowed) return {output:{ok:false,usage}};
+      const result = command === 'policy-open' ? openPolicy(state, flags.id, now)
+        : command === 'policy-record' ? recordPolicyDecision(state, input(), now)
+          : advancePolicy(state, flags.id, now);
+      return {state, output:{ok:true,result}};
+    }
     if (command === 'usage') { const usage = engine.checkUsage(proof(), now); state.lastUsage = usage; output = { ok: usage.allowed, ...usage }; }
     else if (command === 'found') output = engine.found(state, input(), { proof: proof(), now });
     else if (command === 'begin') {
