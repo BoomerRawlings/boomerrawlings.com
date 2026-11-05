@@ -24,7 +24,7 @@ class Target {
     const event = { defaultPrevented: false, preventDefault() { this.defaultPrevented = true; }, ...properties };
     const entries = this.listeners.get(type) || [];
     if (entries.length) this.listeners.set(type, entries.filter(entry => !entry.once));
-    for (const entry of entries) entry.handler(event);
+    for (const entry of entries) { entry.handler(event); this.checkpoint?.(); }
     return event;
   }
 }
@@ -98,7 +98,7 @@ function fallbackFixture({ native = true, ready = 'loading', helper = true } = {
   const window = new Target(), document = new Target(), main = new Target();
   document.readyState = ready; document.querySelector = selector => selector === '#main' ? main : null;
   if (native) window.onpagereveal = null;
-  const reveals = [], microtasks = [];
+  const reveals = [], microtasks = [], tasks = [];
   let helperSuspended = false;
   const installHelper = () => {
     window.SiteMotion = { revealScreen: (element, options) => {
@@ -107,13 +107,17 @@ function fallbackFixture({ native = true, ready = 'loading', helper = true } = {
     } };
   };
   if (helper) installHelper();
-  vm.runInNewContext(fallbackSource, { window, document, queueMicrotask: fn => microtasks.push(fn) }, { filename: 'portfolio-motion.js' });
+  vm.runInNewContext(fallbackSource, {
+    window, document, queueMicrotask: fn => microtasks.push(fn),
+    setTimeout: (fn, delay) => { tasks.push({ fn, delay }); return tasks.length; },
+  }, { filename: 'portfolio-motion.js' });
   // The real helper is deferred and registers these after the early controller.
   window.addEventListener('pagehide', () => { helperSuspended = true; });
   window.addEventListener('pageshow', () => { helperSuspended = false; });
   const flush = () => { while (microtasks.length) microtasks.shift()(); };
+  const flushTasks = () => { while (tasks.length) { tasks.shift().fn(); flush(); } };
   const domReady = () => { document.readyState = 'interactive'; document.fire('DOMContentLoaded'); };
-  return { window, document, main, reveals, installHelper, flush, domReady };
+  return { window, document, main, reveals, installHelper, flush, tasks, flushTasks, domReady };
 }
 
 test('successful native arrivals never stack the DOM fallback, before or after DOM readiness', () => {
@@ -171,9 +175,17 @@ test('pagehide cancels queued entrance work and restored pages wait for their ow
   assert.equal(f.reveals.length, 1);
 });
 
-test('unsupported history restores reveal after the later helper pageshow listener has resumed', () => {
+test('unsupported history restores wait through microtask checkpoints between pageshow listeners', () => {
   const f = fallbackFixture({ native: false, ready: 'complete' });
   f.flush(); assert.equal(f.reveals.length, 1);
-  f.window.fire('pagehide'); f.window.fire('pageshow', { persisted: true }); f.flush();
+  // Browser-dispatched events can flush microtasks after each listener.
+  f.window.checkpoint = f.flush;
+  f.window.fire('pagehide'); f.window.fire('pageshow', { persisted: true });
+  assert.equal(f.reveals.length, 1, 'the reveal must wait for the complete event dispatch');
+  assert.equal(f.tasks.length, 1); assert.equal(f.tasks[0].delay, 0);
+  f.flushTasks();
   assert.equal(f.reveals.length, 2);
+  f.window.fire('pagehide'); f.window.fire('pageshow', { persisted: true });
+  f.window.fire('pagehide'); f.flushTasks();
+  assert.equal(f.reveals.length, 2, 'a second departure invalidates a queued restore');
 });

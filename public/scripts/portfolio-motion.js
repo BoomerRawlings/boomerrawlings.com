@@ -13,7 +13,7 @@
     window.SiteMotion.revealScreen(main, { kind: 'portfolio' });
   }
 
-  // Deferred helpers and all pageshow listeners finish before this attempt.
+  // Retry the initial reveal once parsing and deferred helpers are ready.
   const schedule = () => queueMicrotask(reveal);
   window.addEventListener('pagereveal', event => {
     suspended = false;
@@ -29,7 +29,8 @@
   window.addEventListener('pageshow', event => {
     if (!event.persisted) return;
     suspended = false;
-    if (!hasPageReveal) schedule();
+    // A task waits through microtask checkpoints between pageshow listeners.
+    if (!hasPageReveal) setTimeout(reveal, 0);
   });
   if (document.readyState !== 'loading') schedule();
 })();
