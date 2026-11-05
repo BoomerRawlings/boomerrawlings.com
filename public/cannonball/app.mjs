@@ -74,7 +74,7 @@ $('enter').addEventListener('click',()=>{
 function selectDivision(value) {
   if(!divisions.includes(value))return;
   picked=true;
-  if(value===selected&&!animating)return;
+  if(value===selected&&!animating){renderBoard();return;}
   const reverse=divisions.indexOf(value)<divisions.indexOf(selected);
   void slide(()=>{selected=value;renderBoard();},reverse);
 }
@@ -118,6 +118,12 @@ function renderBoard(){
     :feed==='loading'?'Loading verified runs…':board.length?'':'No verified '+selected.toLowerCase()+' finishes yet.';
   say('standings-state',status);hidden($('standings-state'),!status);hidden($('retry'),feed!=='error');
   hidden($('public-sheet'),!lastSuccess);
+  const openingHandle=$('opening-handle')?.textContent?.trim().toLowerCase();
+  const opening=$('opening-post');
+  const showOpeningFirst=Boolean(opening)&&!rows.length&&!picked;
+  hidden($('verified-record'),showOpeningFirst);
+  opening?.classList.toggle('is-leading',showOpeningFirst);
+  hidden(opening,rows.some(run=>run.handle.toLowerCase()===openingHandle));
 }
 async function getRuns(){
   if(feed==='loading')return;

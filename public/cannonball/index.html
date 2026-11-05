@@ -5,18 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://docs.google.com https://*.googleusercontent.com; object-src 'none'; base-uri 'none'; form-action 'none'">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="./assets/mark.svg" type="image/svg+xml">
   <meta name="theme-color" content="#101f34">
   <meta name="description" content="The independent UCSD Cannonball campus time trial. See verified runs from North Point to Gilman Gateway, read the rules, and submit a time.">
   <link rel="canonical" href="https://boomerrawlings.com/cannonball/">
-  <title>UCSD Cannonball — Campus Time Trial | Boomer Rawlings</title>
-  <link rel="stylesheet" href="./cannonball.css">
+  <title>UCSD Cannonball — Campus Time Trial</title>
+  <link rel="stylesheet" href="./cannonball.css?v=course-3">
   <script type="module" src="./app.mjs"></script>
 </head>
 <body>
   <header class="mast shell">
-    <a class="publisher" href="/" aria-label="Boomer Rawlings, home"><span class="speed-mark" aria-hidden="true"><i></i><i></i><i></i></span>Boomer Rawlings</a>
-    <span class="edition"><span class="location-dot" aria-hidden="true"></span> La Jolla, CA</span>
+    <a class="publisher" href="/cannonball/" aria-label="Cannonball home"><span class="speed-mark" aria-hidden="true"><i></i><i></i><i></i></span>Cannonball</a>
   </header>
 
   <main id="gate" class="gate shell">
@@ -31,12 +30,14 @@
       </div>
       <aside class="gate-art" aria-label="Course landmarks">
         <div class="art-top"><span>Course file</span><span>01 / SD</span></div>
-        <img src="./assets/gate-map.webp" width="1110" height="780" alt="Course map: A starts at North Point, northwest of the finish at Gilman Gateway. The dashed line marks 1.05 miles between the two points.">
+        <picture class="gate-route-map">
+          <source media="(max-width:700px) and (orientation:portrait)" srcset="./assets/gate-map-mobile.webp" width="850" height="895">
+          <img src="./assets/gate-map.webp" width="1110" height="780" alt="Course map: A starts at North Point, northwest of the finish at Gilman Gateway. The dashed line marks 1.05 miles between the two points.">
+        </picture>
         <div class="art-caption"><div class="gate-points"><span class="endpoint">A</span><span>North Point</span><span class="rail"></span></div><div class="gate-points"><span class="endpoint">B</span><span>Gilman Gateway</span></div></div>
         <div class="art-corner" aria-hidden="true"></div>
       </aside>
     </div>
-    <footer class="page-foot"><span>Independent campus time trial</span><span>San Diego, California</span></footer>
   </main>
 
   <main id="app" class="app shell" hidden>
@@ -48,10 +49,14 @@
       <div class="view-title"><div><p class="eyebrow muted">Timing board</p><h1 id="board-heading" tabindex="-1">Leaderboard</h1></div>
         <div class="divisions" role="group" aria-label="Competition division"><button type="button" data-division="Motorized" aria-pressed="true">Motorized</button><button type="button" data-division="Human-powered" aria-pressed="false">Human-powered</button></div>
       </div>
-      <section class="record" aria-labelledby="record-label"><div class="record-portrait" aria-hidden="true"></div><div class="record-copy">
+      <section class="record" id="verified-record" aria-labelledby="record-label"><div class="record-portrait" aria-hidden="true"></div><div class="record-copy">
         <h2 class="eyebrow" id="record-label">Fastest verified run</h2>
         <p id="record-time" class="record-time">—</p><p id="record-handle" class="record-handle"></p><p id="record-completed" class="record-completed"><span id="record-date"></span><span id="record-clock"></span></p>
       </div><span aria-hidden="true" class="record-checks"></span></section>
+      <aside id="opening-post" class="opening-post" aria-label="First time submitted">
+        <div><p class="eyebrow">First time submitted</p><strong id="opening-handle">boomer</strong></div>
+        <div><b>4:16:43</b><small>Self-reported · pending verification</small></div>
+      </aside>
       <div class="section-line"><h2>Standings</h2><span class="eyebrow muted">Pacific time</span></div>
       <div class="table-frame"><table><caption class="sr-only">Verified runs in this division, ordered by elapsed time</caption><thead><tr><th scope="col">Rank</th><th scope="col">Handle</th><th scope="col">Elapsed</th><th scope="col">Completed</th></tr></thead><tbody id="standings-body"></tbody></table>
         <div class="board-status"><p id="standings-state" role="status" aria-live="polite">Loading verified runs…</p><button type="button" class="text-button" id="retry" hidden>Retry standings <span aria-hidden="true">↻</span></button></div>
@@ -62,11 +67,14 @@
     <section id="submit" class="view" aria-labelledby="submit-heading" hidden>
       <div class="view-title"><div><p class="eyebrow muted">Run verification</p><h1 id="submit-heading" tabindex="-1">Submit a run</h1></div></div>
       <div class="info-grid"><article class="text-panel"><p class="eyebrow accent">Submission criteria</p><h2>Record your run</h2>
-        <ol class="criteria"><li><strong>Time your run from the arch to the bollards.</strong><p>Start timing as you pass under the arch at the North Point Visitor Information Center. Stop timing as you pass between the bollards at the intersection of Gilman Drive and Pepper Canyon Drive.</p></li>
-        <li><strong>Record one continuous GPS activity.</strong><p>Start recording in Strava or a similar tracker before you reach the arch. Keep recording until you clear the bollards. Submit the elapsed time between those two crossings, including any stops along the way. Choose a legal route and yield to pedestrians.</p></li>
-        <li><strong>Send your time and proof.</strong><p>Choose a public handle. Use Motorized if you had any motor assistance during the run. Use Human-powered for running, cycling, skating, or other unpowered travel. Enter your elapsed time and the date and time you finished in Pacific time. Include a reviewer-accessible activity link and any optional notes.</p></li></ol>
+        <ol class="criteria">
+          <li><strong>Pick your line.</strong><p>Use any route and any means necessary to get from point A to point B as quickly as possible.</p></li>
+          <li><strong>Start at the arch. Finish at the bollards.</strong><p>Your time starts as you pass under the arch at the North Point Visitor Information Center. It ends as you pass between the bollards at Gilman Drive and Pepper Canyon Drive.</p></li>
+          <li><strong>Record the whole run.</strong><p>Start Strava or another GPS tracker before the arch. Stop recording after the bollards. Count every second between the two crossings, including stops.</p></li>
+          <li><strong>Send in your time.</strong><p>Enter your handle, elapsed time, and the date and time you finished in San Diego. If you used motor power at any point, pick Motorized. Otherwise, pick Human-powered.</p></li>
+        </ol>
         <a class="inline-link" href="#about">See course coordinates and rules <span aria-hidden="true">→</span></a>
-      </article><aside class="paper-panel"><p class="eyebrow">Submission privacy</p><h2>Your route stays with the reviewer.</h2><p>We keep your GPS link, route, notes, and personal information private. We publish your chosen handle, division, elapsed time, and finish date and time after verification.</p><p>Your activity app controls who can see the original recording. Use its limited-access sharing option when available and make sure the reviewer can open the link.</p><div class="form-area"><p id="form-state" role="status">Checking submission availability…</p><button id="form-retry" type="button" class="text-button" hidden>Check again <span aria-hidden="true">↻</span></button><a id="form-link" class="action" hidden>Continue to Google Form <span aria-hidden="true">↗</span></a></div></aside></div>
+      </article><aside class="paper-panel"><p class="eyebrow">Submission privacy</p><h2>Who sees my route?</h2><p>Send a GPS link the reviewer can open. Your route and optional notes stay private here. The board shows your handle, division, elapsed time, and when you finished.</p><p>Keep the link working until your time is verified. Then you can delete the GPS recording or turn off link sharing.</p><div class="form-area"><p id="form-state" role="status">Checking submission availability…</p><button id="form-retry" type="button" class="text-button" hidden>Check again <span aria-hidden="true">↻</span></button><a id="form-link" class="action" hidden>Continue to Google Form <span aria-hidden="true">↗</span></a></div></aside></div>
     </section>
 
     <section id="about" class="view" aria-labelledby="about-heading" hidden>
@@ -85,10 +93,10 @@
         </svg></figure>
       <figure class="landmark"><img src="./assets/north-point.webp" width="482" height="279" alt="North Point Visitor Information Center" loading="lazy"><figcaption><p class="eyebrow accent">Point A / Start</p><h2>North Point</h2><p>Visitor Information Center</p><span class="coords">32.888620, −117.240829</span></figcaption></figure>
       <figure class="landmark"><img src="./assets/gilman-gateway.webp" width="479" height="279" alt="Gilman Gateway at the campus entrance" loading="lazy"><figcaption><p class="eyebrow accent">Point B / Finish</p><h2>Gilman Gateway</h2><p>Gilman Dr × Pepper Canyon Dr</p><span class="coords">32.876339, −117.230046</span></figcaption></figure></div>
-      <article class="history"><div><p class="eyebrow muted">Where it started</p><h2>The original Cannonball</h2></div><div><p>In 1971, Brock Yates and a handful of other drivers set out from New York for Redondo Beach, California. Word of the unsanctioned coast-to-coast run spread among drivers who thought they could beat the clock.</p><p>Our version fits between two campus landmarks. Part of the fun is finding a line of your own and seeing how fast you can cover it safely. Know a friend who could beat the best? Tell them where the clock starts.</p><a class="inline-link" href="https://www.caranddriver.com/features/columns/a15143608/the-cannonball-baker-sea-to-shining-sea-memorial-trophy-dash-archived-feature/">Brock Yates’s account in Car and Driver <span aria-hidden="true">↗</span></a></div></article>
+      <article class="history"><div><p class="eyebrow muted">Where it started</p><h2>The original Cannonball</h2></div><div><p>In November 1971, the Cannonball field set off from a Manhattan parking garage for the Portofino Inn in Redondo Beach. Brock Yates and Dan Gurney made it in 35 hours and 54 minutes.</p><p>Ours starts under an arch and ends between a row of bollards. Part of the fun is comparing times with someone who took a completely different way across campus. Know a friend who could beat the record? Send them the time.</p><a class="inline-link" href="https://www.caranddriver.com/features/columns/a15143608/the-cannonball-baker-sea-to-shining-sea-memorial-trophy-dash-archived-feature/">Brock Yates’s account in Car and Driver <span aria-hidden="true">↗</span></a></div></article>
     </section>
-    <footer class="page-foot"><span>Independent campus time trial</span><span>San Diego, California</span></footer>
   </main>
+  <footer class="page-foot shell"><span>Independent campus time trial</span><span>La Jolla, California</span></footer>
   <div id="wipe" aria-hidden="true"></div>
 </body>
 </html>

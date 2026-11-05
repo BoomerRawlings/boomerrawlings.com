@@ -70,6 +70,9 @@ test('Pacific completion dates cross UTC midnight and adjust for daylight saving
   assert.match(summer.date, /Jul(?:y)?\s+0?1,?\s+2026/i);
   assert.match(summer.time, /11:15\s*PM/i);
   assert.equal(formatTime(89.17), '1:29.17');
+  assert.equal(formatTime(256.043), '4:16.043');
+  assert.equal(formatTime(256.43), '4:16.43');
+  assert.equal(readStandings([standingsHeader, ['runner', 'Human-powered', '256.043', '2026-11-04T15:15:00Z']])[0].seconds, 256.043);
 });
 
 test('zero and malformed times or unknown divisions cannot establish a record', () => {

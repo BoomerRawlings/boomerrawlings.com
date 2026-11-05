@@ -30,9 +30,9 @@ export function readStandings(rows) {
   for (const row of data) {
     const [handle,division,duration,completed] = row.slice(0,4).map(value => String(value ?? '').trim());
     if (!handle || handle.length > 64 || !divisions.includes(division)) continue;
-    if (!/^\d+(?:\.\d{1,2})?$/.test(duration)) continue;
+    if (!/^\d+(?:\.\d{1,3})?$/.test(duration)) continue;
     const seconds=Number(duration);
-    if (seconds <= 0 || !Number.isSafeInteger(Math.round(seconds*100))) continue;
+    if (seconds <= 0 || !Number.isSafeInteger(Math.round(seconds*1000))) continue;
     if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,3})?)?(?:Z|[+-]\d{2}:\d{2})$/.test(completed) || !Number.isFinite(Date.parse(completed))) continue;
     runs.push({handle,division,seconds,completed});
   }
@@ -56,8 +56,9 @@ export function pacificStamp(iso) {
   return {date:dateFormat.format(date), time:clockFormat.format(date)};
 }
 export function formatTime(seconds) {
-  const centis=Math.round(seconds*100);
-  return Math.floor(centis/6000)+':'+String(Math.floor(centis/100)%60).padStart(2,'0')+'.'+String(centis%100).padStart(2,'0');
+  const millis=Math.round(seconds*1000);
+  const fraction=String(millis%1000).padStart(3,'0');
+  return Math.floor(millis/60000)+':'+String(Math.floor(millis/1000)%60).padStart(2,'0')+'.'+(millis%10 ? fraction : fraction.slice(0,2));
 }
 
 export function readFormUrl(rows) {
