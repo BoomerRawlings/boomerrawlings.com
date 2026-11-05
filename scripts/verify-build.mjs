@@ -1974,7 +1974,7 @@ if (!builtCss.includes('pip-transfer-settle')
 if (!builtCss.includes('portfolio-content-out')
   || !builtCss.includes('portfolio-content-in')
   || !builtCss.includes('view-transition-name:portfolio-content')
-  || !builtCss.includes('navigation:none')) {
+  || !/@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{\s*@view-transition\s*\{\s*navigation:\s*none/.test(homeHtml)) {
   failures.push('Portfolio pages are missing content continuity or reduced-motion native opt-out');
 }
 if (!builtCss.includes('pip-feature-idle')

@@ -1,4 +1,6 @@
 ---
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import '@fontsource/source-sans-3/latin-400.css';
 import '@fontsource/source-sans-3/latin-400-italic.css';
 import '@fontsource/source-sans-3/latin-600.css';
@@ -59,6 +61,7 @@ const socialImage = new URL(image.src, Astro.site).toString();
 const isHome = Astro.url.pathname === '/';
 const isAnalysis = Astro.url.pathname.startsWith('/writing/data-analysis/');
 const isAbout = Astro.url.pathname === '/about/';
+const portfolioMotionRevision = createHash('sha256').update(readFileSync('public/scripts/portfolio-motion.js')).digest('hex').slice(0, 12);
 const pageId = `${canonical}#webpage`;
 const personSchema = {
   '@type': 'Person',
@@ -140,6 +143,13 @@ const isCurrent = (href: string) =>
       http-equiv="Content-Security-Policy"
       content="default-src 'self'; img-src 'self' data:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'"
     />
+    <!-- Keep navigation opt-in active before external styles are applied at pagereveal. -->
+    <style is:inline data-portfolio-navigation>
+      @view-transition { navigation: auto; }
+      @media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }
+    </style>
+    <!-- pagereveal requires an early classic listener; module/defer can miss it. -->
+    <script is:inline src={`/scripts/portfolio-motion.js?v=${portfolioMotionRevision}`}></script>
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="description" content={description} />
     <meta name="author" content={siteName} />
@@ -178,18 +188,6 @@ const isCurrent = (href: string) =>
     <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': schemaGraph })}></script>
     <title>{pageTitle}</title>
     <ScreenMotion />
-    <script>
-      // Native document transitions preserve ordinary links, history and focus.
-      // Unsupported browsers get only a short reveal of the incoming document.
-      if (!('onpagereveal' in window)) {
-        const reveal = () => {
-          const main = document.querySelector('#main');
-          if (main) Reflect.get(window, 'SiteMotion')?.revealScreen(main, { kind: 'portfolio' });
-        };
-        if (document.readyState === 'complete') reveal();
-        else document.addEventListener('DOMContentLoaded', reveal, { once: true });
-      }
-    </script>
   </head>
   <body class:list={{ 'home-page': isHome, 'analysis-research': isAnalysis }}>
     <a class="skip-link" href="#main">Skip to content</a>

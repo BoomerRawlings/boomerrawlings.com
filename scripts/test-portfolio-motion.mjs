@@ -4,9 +4,7 @@ import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 
 const pipSource = await readFile(new URL('../public/scripts/pip.js', import.meta.url), 'utf8');
-const layout = await readFile(new URL('../src/layouts/BaseLayout.astro', import.meta.url), 'utf8');
-const fallbackSource = layout.match(/<script>([\s\S]*?)<\/script>/)?.[1];
-assert.ok(fallbackSource, 'the shared layout must provide the unsupported-browser entrance');
+const fallbackSource = await readFile(new URL('../public/scripts/portfolio-motion.js', import.meta.url), 'utf8');
 
 class Target {
   listeners = new Map();
@@ -96,30 +94,86 @@ test('Pip Back and browser history restore notes, while terminal tours cannot na
   assert.equal(terminal.form.fire('submit').defaultPrevented, true);
 });
 
-function fallbackFixture({ native = false, ready = 'loading', helper = true } = {}) {
+function fallbackFixture({ native = true, ready = 'loading', helper = true } = {}) {
   const window = new Target(), document = new Target(), main = new Target();
   document.readyState = ready; document.querySelector = selector => selector === '#main' ? main : null;
   if (native) window.onpagereveal = null;
-  const reveals = [];
-  if (helper) window.SiteMotion = { revealScreen: (element, options) => reveals.push({ element, kind: options.kind }) };
-  vm.runInNewContext(fallbackSource, { window, document, Reflect }, { filename: 'portfolio-fallback.js' });
-  return { window, document, main, reveals };
+  const reveals = [], microtasks = [];
+  let helperSuspended = false;
+  const installHelper = () => {
+    window.SiteMotion = { revealScreen: (element, options) => {
+      assert.equal(helperSuspended, false, 'the later shared helper must resume before the fallback');
+      reveals.push({ element, kind: options.kind });
+    } };
+  };
+  if (helper) installHelper();
+  vm.runInNewContext(fallbackSource, { window, document, queueMicrotask: fn => microtasks.push(fn) }, { filename: 'portfolio-motion.js' });
+  // The real helper is deferred and registers these after the early controller.
+  window.addEventListener('pagehide', () => { helperSuspended = true; });
+  window.addEventListener('pageshow', () => { helperSuspended = false; });
+  const flush = () => { while (microtasks.length) microtasks.shift()(); };
+  const domReady = () => { document.readyState = 'interactive'; document.fire('DOMContentLoaded'); };
+  return { window, document, main, reveals, installHelper, flush, domReady };
 }
 
-test('native document transitions do not stack with the DOM entrance fallback', () => {
-  const f = fallbackFixture({ native: true });
-  f.document.fire('DOMContentLoaded'); f.window.fire('pageshow', { persisted: true });
-  assert.deepEqual(f.reveals, []);
-  assert.equal(f.document.listeners.size, 0);
+test('successful native arrivals never stack the DOM fallback, before or after DOM readiness', () => {
+  for (const eventFirst of [true, false]) {
+    const f = fallbackFixture();
+    if (!eventFirst) { f.domReady(); f.flush(); }
+    f.window.fire('pagereveal', { viewTransition: {} }); f.flush();
+    f.domReady(); f.flush();
+    assert.deepEqual(f.reveals, []);
+  }
 });
 
-test('unsupported browsers reveal only the incoming main once after deferred helpers are ready', () => {
+test('a direct or protected-to-portfolio arrival reveals main even when pagereveal is supported', () => {
   const f = fallbackFixture();
+  f.domReady(); f.flush();
   assert.deepEqual(f.reveals, []);
-  f.document.fire('DOMContentLoaded'); f.document.fire('DOMContentLoaded');
-  f.window.fire('pageshow', { persisted: true });
+  f.window.fire('pagereveal', { viewTransition: null }); f.flush();
+  f.window.fire('pagereveal', { viewTransition: null }); f.domReady(); f.flush();
   assert.equal(f.reveals.length, 1); assert.equal(f.reveals[0].element, f.main);
   assert.equal(f.reveals[0].kind, 'portfolio');
-  assert.equal(fallbackFixture({ ready: 'complete' }).reveals.length, 1);
-  assert.doesNotThrow(() => fallbackFixture({ ready: 'complete', helper: false }));
+});
+
+test('an early null pagereveal waits for the deferred helper and parsed incoming content', () => {
+  const f = fallbackFixture({ helper: false });
+  f.window.fire('pagereveal', { viewTransition: null }); f.flush();
+  assert.deepEqual(f.reveals, []);
+  f.installHelper(); f.domReady(); f.flush();
+  assert.equal(f.reveals.length, 1);
+  const missing = fallbackFixture({ ready: 'complete', helper: false });
+  missing.window.fire('pagereveal', { viewTransition: null });
+  assert.doesNotThrow(missing.flush);
+});
+
+test('unsupported browsers reveal once after readiness without intercepting links or creating snapshots', () => {
+  const f = fallbackFixture({ native: false });
+  f.domReady(); f.domReady(); f.flush();
+  assert.equal(f.reveals.length, 1);
+  const complete = fallbackFixture({ native: false, ready: 'complete' });
+  complete.flush(); assert.equal(complete.reveals.length, 1);
+  assert.equal(f.window.listeners.has('click'), false); assert.equal(f.document.listeners.has('click'), false);
+  assert.doesNotMatch(fallbackSource, /startViewTransition|preventDefault|sessionStorage|localStorage|location\.|fetch\(/);
+});
+
+test('pagehide cancels queued entrance work and restored pages wait for their own native decision', () => {
+  const f = fallbackFixture({ ready: 'complete' });
+  f.window.fire('pagereveal', { viewTransition: null });
+  f.window.fire('pagehide'); f.flush();
+  assert.deepEqual(f.reveals, []);
+  f.window.fire('pageshow', { persisted: true }); f.flush();
+  assert.deepEqual(f.reveals, []);
+  f.window.fire('pagereveal', { viewTransition: {} }); f.flush();
+  assert.deepEqual(f.reveals, []);
+  f.window.fire('pagehide'); f.window.fire('pageshow', { persisted: true });
+  f.window.fire('pagereveal', { viewTransition: null }); f.flush();
+  assert.equal(f.reveals.length, 1);
+});
+
+test('unsupported history restores reveal after the later helper pageshow listener has resumed', () => {
+  const f = fallbackFixture({ native: false, ready: 'complete' });
+  f.flush(); assert.equal(f.reveals.length, 1);
+  f.window.fire('pagehide'); f.window.fire('pageshow', { persisted: true }); f.flush();
+  assert.equal(f.reveals.length, 2);
 });

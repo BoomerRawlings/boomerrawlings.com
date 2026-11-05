@@ -20,10 +20,6 @@
   --motion-nav: 180ms;
 }
 
-@view-transition {
-  navigation: auto;
-}
-
 ::view-transition-group(portfolio-wordmark) {
   animation-duration: 220ms;
   animation-timing-function: var(--ease-ui);
@@ -3645,8 +3641,6 @@ main {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  @view-transition { navigation: none; }
-
   *,
   *::before,
   *::after {
