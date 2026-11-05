@@ -6,6 +6,7 @@ import '@fontsource/source-sans-3/latin-600.css';
 import report from '../../data/boomer-karma.json';
 import KarmaApplication from '../../components/KarmaApplication.astro';
 import KarmaBureau from '../../components/KarmaBureau.astro';
+import ScreenMotion from '../../components/ScreenMotion.astro';
 import '../../styles/boomer-karma.css';
 
 if (!Number.isSafeInteger(report.openingBalance) || !Array.isArray(report.entries)
@@ -27,6 +28,7 @@ const scriptUrl = (name: string) => `/scripts/${name}?v=${createHash('sha256').u
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; script-src 'self'; connect-src 'self' https://formsubmit.co; base-uri 'none'; form-action 'none'" />
+    <ScreenMotion />
     <meta name="robots" content="noindex,nofollow,noarchive,noimageindex" />
     <meta name="referrer" content="no-referrer" />
     <meta name="description" content="BoomerKarma. Free connection scores. Unnecessarily complicated reports. Entirely vibes." />

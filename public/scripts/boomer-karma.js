@@ -9,9 +9,15 @@ const checkStatus = document.querySelector('#check-status');
 
 opener.hidden = false;
 checkButton.hidden = false;
-opener.addEventListener('click', () => dialog.showModal());
+opener.addEventListener('click', () => {
+  dialog.showModal();
+  window.SiteMotion?.revealScreen(form.hidden ? result : form, {kind: 'paper', direction: 1});
+});
 document.querySelector('#close-appeal').addEventListener('click', () => dialog.close());
-dialog.addEventListener('close', () => opener.focus());
+dialog.addEventListener('close', () => {
+  window.SiteMotion?.cancelScreen(form); window.SiteMotion?.cancelScreen(result);
+  opener.focus();
+});
 
 let appealSending = false;
 const appealSupplements = document.querySelector('#appeal-supplements');
@@ -100,10 +106,12 @@ form.addEventListener('submit', async (event) => {
       'Additional paperwork': appealPaperwork(),
     });
     if (delivered !== true) throw new Error('Delivery not confirmed');
+    window.SiteMotion?.cancelScreen(form);
     form.hidden = true;
     result.hidden = false;
     copyStatus.textContent = '';
     document.querySelector('#receipt-heading').focus();
+    window.SiteMotion?.revealScreen(result, {kind: 'paper', direction: 1});
   } catch {
     sendStatus.textContent = 'Your appeal could not be sent. Your statement is still here. Please try again.';
   } finally {
@@ -114,10 +122,12 @@ form.addEventListener('submit', async (event) => {
 });
 document.querySelector('#appeal-statement').addEventListener('input', (event) => event.target.setCustomValidity(''));
 document.querySelector('#edit-appeal').addEventListener('click', () => {
+  window.SiteMotion?.cancelScreen(result);
   result.hidden = true;
   form.hidden = false;
   document.querySelector('#appeal-send-status').textContent = '';
   document.querySelector('#appeal-statement').focus();
+  window.SiteMotion?.revealScreen(form, {kind: 'paper', direction: -1});
 });
 document.querySelector('#copy-appeal').addEventListener('click', async () => {
   try {

@@ -19,6 +19,11 @@ export type StudyOptions = {
 let bankPromise: Promise<{ standard: Record<Course, CourseBank>; visual: Record<Course, CourseBank> }> | undefined;
 const activeViews = new WeakMap<HTMLElement, symbol>();
 
+function revealStudyScreen(element:HTMLElement):void {
+  if(document.getElementById('brain-portal')?.classList.contains('portal-motion-paused'))return;
+  (window as Window & {SiteMotion?:{revealScreen:(target:Element,options:{kind:string})=>unknown}}).SiteMotion?.revealScreen(element,{kind:'instrument'});
+}
+
 function node<K extends keyof HTMLElementTagNameMap>(tag: K, className = '', text = ''): HTMLElementTagNameMap[K] {
   const element = document.createElement(tag);
   if (className) element.className = className;
@@ -128,6 +133,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
   let retryRound = false;
   let disposeVisual: (() => void) | undefined;
   const { container, course, onBack } = options;
+  let presentedQuestion:string|null|undefined;
   const complete = (question: Question) => question.kind === 'short' ? Boolean(answers[question.id]?.rating) : Boolean(answers[question.id]?.revealed);
 
   function render(focus: 'question' | 'feedback' = 'question'): void {
@@ -135,6 +141,8 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
     disposeVisual?.(); disposeVisual = undefined;
     if (!questions.length) { renderEmpty(); return; }
     const q = questions[index];
+    const changed=presentedQuestion!==undefined&&presentedQuestion!==q.id;
+    presentedQuestion=q.id;
     const answer = answers[q.id] ||= {};
     const panel = node('section', 'portal-panel portal-quiz');
     panel.append(button('← Study options', 'portal-pill portal-study-back', onBack));
@@ -278,6 +286,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
     });
     next.disabled = !complete(q); navigation.append(next); panel.append(navigation, sourceNote(course, options.scope, options.focus));
     container.replaceChildren(panel);
+    if(changed)revealStudyScreen(panel);
     const feedbackHeading = panel.querySelector<HTMLElement>('.portal-feedback h3');
     if (focus === 'feedback' && feedbackHeading) focusElement(feedbackHeading, true);
     else focusHeading(panel, true);
@@ -292,6 +301,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
 
   function renderResults(): void {
     if (!current()) return;
+    presentedQuestion=null;
     disposeVisual?.(); disposeVisual = undefined;
     const result = engine.summarize(questions, answers);
     if (!resultsSaved) {
@@ -329,7 +339,7 @@ function showQuiz(data: CourseBank, engine: Engine, options: StudyOptions, curre
     }));
     actions.append(button('Review all answers', 'portal-pill', () => { reviewing = true; index = 0; render(); }), button('New study session', 'portal-pill', onBack));
     panel.append(actions, node('p', 'portal-subtitle', 'Your recent session summary is saved in this browser when local storage is available.'), sourceNote(course, options.scope, options.focus));
-    container.replaceChildren(panel); focusHeading(panel);
+    container.replaceChildren(panel); revealStudyScreen(panel); focusHeading(panel);
   }
   render();
 }
@@ -374,7 +384,7 @@ function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions,
     if (!queue.length) {
       panel.append(node('h2', 'portal-title', 'Every card, one more connection.'), node('p', 'portal-subtitle', `You have marked all ${cards.size} cards Got it after ${reviews} reviews. This reflects your own recall ratings.`));
       const actions = node('div', 'portal-actions'); actions.append(button('Shuffle & restart', 'portal-generate', restart), button('Study options', 'portal-pill', onBack));
-      panel.append(actions, sourceNote(course, options.scope, options.focus)); container.replaceChildren(panel); focusHeading(panel); return;
+      panel.append(actions, sourceNote(course, options.scope, options.focus)); container.replaceChildren(panel); if(focusCard)revealStudyScreen(panel); focusHeading(panel); return;
     }
     const card = cards.get(queue[0])!;
     panel.append(node('span', 'portal-topic-chip', card.topic), node('h2', 'portal-question-title', 'Bring it back to mind.'));
@@ -423,6 +433,8 @@ function showFlashcards(data: CourseBank, engine: Engine, options: StudyOptions,
     secondary.append(button('Shuffle remaining', 'portal-pill', () => { queue = engine.shuffle(queue); flipped = false; persist(); render(true); }));
     if (mastered.size || reviews) secondary.append(button('Restart deck', 'portal-pill', restart));
     panel.append(secondary, sourceNote(course, options.scope, options.focus)); container.replaceChildren(panel);
+    // Flips already have their own signal animation; new cards enter separately.
+    if(focusCard&&!animateFlip)revealStudyScreen(surface);
     if (focusCard) focusElement(flip, true);
     else focusHeading(panel, true);
   }

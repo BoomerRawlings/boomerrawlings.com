@@ -1,5 +1,6 @@
 ---
 import CoffeeButton from '../../components/CoffeeButton.astro';
+import ScreenMotion from '../../components/ScreenMotion.astro';
 import DocumentPreview from '../../components/DocumentPreview.astro';
 import PdfPreviewDialog from '../../components/PdfPreviewDialog.astro';
 import { councilChairs, departmentChairGroups } from '../../data/swcChairs';
@@ -102,6 +103,7 @@ const officialLinks = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'" />
+    <ScreenMotion kind="paper" target="main" />
     <meta name="referrer" content="no-referrer" />
     <meta name="robots" content="noindex,nofollow,noarchive,noimageindex" />
     <meta name="description" content={description} />

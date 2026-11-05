@@ -111,7 +111,16 @@ export function initWorkspace() {
 
   function closeDialog(id) { if ($(id).open) $(id).close(); }
   document.querySelectorAll('[data-close]').forEach(node => node.addEventListener('click', () => closeDialog(node.dataset.close)));
-  function dialog(id) { if (!$(id).open) $(id).showModal(); }
+  function dialog(id) {
+    const node = $(id);
+    if (node.open) return;
+    node.showModal();
+    window.SiteMotion?.revealScreen(node, { kind: 'instrument' });
+  }
+  for (const id of ['owner-dialog', 'photo-dialog', 'batch-dialog', 'release-dialog']) {
+    const node = $(id);
+    node.addEventListener('close', () => window.SiteMotion?.cancelScreen(node));
+  }
   function revokeObject(url) { if (state.objectURLs.has(url)) { URL.revokeObjectURL(url); state.objectURLs.delete(url); } }
   function clearObjects(group) { [...state.objectURLs].forEach(([url, category]) => { if (!group || group === category) revokeObject(url); }); }
   async function imageURL(record, kind, group = 'gallery') {
@@ -202,11 +211,19 @@ export function initWorkspace() {
     } finally { if (run === state.classRun) $('dataset-refresh').disabled = false; }
   }
   function switchTab(name, focus = false) {
+    const changed = state.tab !== name;
     state.tab = name;
     document.querySelectorAll('[data-tab]').forEach(tab => { const selected = tab.dataset.tab === name; tab.setAttribute('aria-selected', String(selected)); tab.tabIndex = selected ? 0 : -1; if (selected && focus) tab.focus(); });
-    document.querySelectorAll('[data-panel]').forEach(panel => { panel.hidden = panel.dataset.panel !== name; });
+    let selectedPanel;
+    document.querySelectorAll('[data-panel]').forEach(panel => {
+      const selected = panel.dataset.panel === name;
+      if (!selected) window.SiteMotion?.cancelScreen(panel);
+      panel.hidden = !selected;
+      if (selected) selectedPanel = panel;
+    });
     if (name === 'gallery') loadGallery();
     if (name === 'releases') loadReleases(true);
+    if (changed) window.SiteMotion?.revealScreen(selectedPanel, { kind: 'instrument' });
   }
   const tabs = [...document.querySelectorAll('[data-tab]')];
   tabs.forEach((tab, index) => {

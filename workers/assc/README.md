@@ -6,6 +6,8 @@ An owner-curated research room at `/ASSC`, with a sparse riddle entrance, editor
 
 Node 24 is required. Install with `npm ci`, run `node scripts/configure-local.mjs` to enter the chosen passcode privately, then `npm start`. The preview listens on `127.0.0.1:4317` only. Private research belongs in `.private/corpus.json` and `.private/transcripts.json`; no sample dossiers are checked in. See `docs/transcripts.md` for importing authorized source files without altering originals.
 
+The current workspace also requires its owner-held profile/forum assets and `.private/presentation.json`. The latter contains workspace-specific identities, labels, and notes; it loads through the authenticated API and must never enter public source. Generic fixtures in `test/presentation.test.mjs` document its schema. Restore the established private package for local review and verify existing asset checksums before deployment; do not replace curated data with fixtures.
+
 ## Checks
 
 `npm test` runs authentication, ingestion, and real workerd/SQLite tests. `npm run check` validates JavaScript syntax and document privacy metadata. `npm run build` packages the owner’s private corpus and an explicit asset allowlist for the protected Worker. The private build is deliberately not a GitHub Pages artifact.
@@ -23,3 +25,5 @@ Corpus content is separate from the interface. Each edge explains its relationsh
 ## Motion
 
 The entrance uses original flowing typography. Its wordmark is revealed only after authentication, then dissolves directly into the workspace. Reduced motion keeps the same state changes without the animation. The timeline adapts the paired explanation/artifact behavior from the user's Workflow Display skill.
+
+Meaningful internal screen changes use the shared incoming-surface helper, copied into the protected Worker package during the build. Filter, passage, node, and event changes retain native focus behavior. Leaving the page or ending its session cancels motion and delayed work, clears private views and settings, and requires a fresh server check on history restoration.

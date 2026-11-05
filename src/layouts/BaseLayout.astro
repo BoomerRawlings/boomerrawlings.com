@@ -6,6 +6,7 @@ import '@fontsource/teko/latin-500.css';
 import '@fontsource/teko/latin-600.css';
 import '../styles/global.css';
 import CoffeeButton from '../components/CoffeeButton.astro';
+import ScreenMotion from '../components/ScreenMotion.astro';
 
 interface SeoImage {
   src: string;
@@ -130,7 +131,7 @@ const isCurrent = (href: string) =>
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-motion-family="portfolio">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -176,6 +177,19 @@ const isCurrent = (href: string) =>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': schemaGraph })}></script>
     <title>{pageTitle}</title>
+    <ScreenMotion />
+    <script>
+      // Native document transitions preserve ordinary links, history and focus.
+      // Unsupported browsers get only a short reveal of the incoming document.
+      if (!('onpagereveal' in window)) {
+        const reveal = () => {
+          const main = document.querySelector('#main');
+          if (main) Reflect.get(window, 'SiteMotion')?.revealScreen(main, { kind: 'portfolio' });
+        };
+        if (document.readyState === 'complete') reveal();
+        else document.addEventListener('DOMContentLoaded', reveal, { once: true });
+      }
+    </script>
   </head>
   <body class:list={{ 'home-page': isHome, 'analysis-research': isAnalysis }}>
     <a class="skip-link" href="#main">Skip to content</a>

@@ -81,6 +81,8 @@ function updateButtons() {
   back.hidden = step === 0;
 }
 function showStep(index) {
+  const direction = index < step ? -1 : 1;
+  window.SiteMotion?.cancelScreen(steps[step]);
   if (step === 3 && index !== 3) stopCamera();
   step = index;
   steps.forEach((section, index) => { section.hidden = index !== step; section.disabled = index !== step; });
@@ -98,6 +100,7 @@ function showStep(index) {
     }
   }
   steps[step].querySelector('legend')?.focus();
+  window.SiteMotion?.revealScreen(steps[step], {kind: 'paper', direction});
 }
 function stopCamera() {
   if (stream) stream.getTracks().forEach(track => track.stop());
@@ -257,9 +260,12 @@ function validateStep() {
   }
   return true;
 }
-function revealReport() {
+function revealReport(animate = false) {
+  window.SiteMotion?.cancelScreen(steps[step]);
   document.querySelector('#kem-gate').hidden = true;
-  document.querySelector('#kem-report').hidden = false;
+  const report = document.querySelector('#kem-report');
+  report.hidden = false;
+  if (animate) window.SiteMotion?.revealScreen(report, {kind: 'paper', direction: 1});
 }
 try { if (sessionStorage.getItem(storageKey) === 'true') revealReport(); } catch { /* Optional convenience, never stores a photo. */ }
 document.querySelector('#kem-request-again')?.addEventListener('click', () => {
@@ -267,6 +273,7 @@ document.querySelector('#kem-request-again')?.addEventListener('click', () => {
   ++generation; stopCamera(); clearPortrait(); form.reset();
   supplementalRequirements = []; supplements.replaceChildren(); supplements.hidden = true;
   photoStatus.textContent = ''; status.textContent = '';
+  window.SiteMotion?.cancelScreen(document.querySelector('#kem-report'));
   document.querySelector('#kem-report').hidden = true;
   document.querySelector('#kem-gate').hidden = false;
   const returnToIssued = document.querySelector('#kem-return-issued');
@@ -278,7 +285,7 @@ document.querySelector('#kem-return-issued')?.addEventListener('click', () => {
   const interrupted = processing;
   ++generation; stopCamera(); processing = false;
   if (interrupted) { clearPortrait(); input.value = ''; }
-  updateButtons(); revealReport();
+  updateButtons(); revealReport(true);
   document.querySelector('#kem-report-heading').focus();
 });
 back.addEventListener('click', () => { if (!processing && !sending && step > 0) showStep(step - 1); });
@@ -323,7 +330,7 @@ form.addEventListener('submit', async event => {
   sending = true; updateButtons(); status.textContent = 'Sending the applicant’s file and portrait to Boomer…';
   try {
     if (await window.BoomerKarmaDelivery.send('cat-report', answers, {attachment: photo.file}) !== true) throw new Error('Delivery not confirmed');
-    revealReport();
+    revealReport(true);
     try { sessionStorage.setItem(storageKey, 'true'); } catch { /* Do not block issued reports. */ }
     stopCamera(); clearPortrait(); form.reset();
     const heading = document.querySelector('#kem-report-heading'); heading.focus(); heading.scrollIntoView({block: 'start'});

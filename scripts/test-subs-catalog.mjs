@@ -4,8 +4,9 @@ import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 
 const script = readFileSync(new URL('../public/subs/catalog.js', import.meta.url), 'utf8');
-function setup(records) {
+function setup(records, motion = true) {
   let focused = '';
+  const reveals = [], cancelled = [];
   function element(id) {
     const listeners = new Map();
     return {
@@ -13,14 +14,15 @@ function setup(records) {
       addEventListener: (type, callback) => listeners.set(type, callback),
       fire(type) { listeners.get(type)?.({ preventDefault() {} }); },
       focus() { focused = id; }, scrollIntoView() {},
-      showModal() { this.open = true; }, close() { this.open = false; },
+      showModal() { this.open = true; }, close() { this.open = false; this.fire('close'); },
     };
   }
   const ids = ['catalog-search', 'catalog-country', 'catalog-clear', 'catalog-previous', 'catalog-next', 'catalog-results', 'catalog-page', 'catalog-empty', 'sources', 'open-sources', 'close-sources'];
   const nodes = Object.fromEntries(ids.map(id => [id, element(id)]));
   const rows = records.map(record => ({ ...element('row'), dataset: record }));
-  runInNewContext(script, { document: { getElementById: id => nodes[id], querySelectorAll: () => rows } });
-  return { nodes, rows, visible: () => rows.filter(row => !row.hidden), focus: () => focused };
+  const window = motion ? { SiteMotion: { revealScreen(node, options) { reveals.push({ node, kind: options.kind, open: node.open }); }, cancelScreen(node) { cancelled.push(node); } } } : {};
+  runInNewContext(script, { document: { getElementById: id => nodes[id], querySelectorAll: () => rows }, window });
+  return { nodes, rows, reveals, cancelled, visible: () => rows.filter(row => !row.hidden), focus: () => focused };
 }
 const fixtures = Array.from({ length: 113 }, (_, i) => ({ type: `Design ${i}`, country: i % 2 ? 'United Kingdom' : 'United States' }));
 
@@ -80,4 +82,18 @@ test('Sources opens and closes the raw-link dialog independently of filtering', 
   ui.nodes['close-sources'].fire('click');
   assert.equal(ui.nodes.sources.open, false);
   assert.equal(ui.visible().length, 50);
+  assert.deepEqual(ui.reveals, [{ node: ui.nodes.sources, kind: 'instrument', open: true }]);
+  assert.deepEqual(ui.cancelled, [ui.nodes.sources]);
+});
+
+test('catalog motion runs only on a new dialog opening, not pagination or filtering, and remains optional', () => {
+  const ui = setup(fixtures);
+  ui.nodes['catalog-next'].fire('click');
+  ui.nodes['catalog-search'].value = 'design'; ui.nodes['catalog-search'].fire('input');
+  assert.equal(ui.reveals.length, 0);
+  ui.nodes['open-sources'].fire('click'); ui.nodes['open-sources'].fire('click');
+  assert.equal(ui.reveals.length, 1);
+  const plain = setup(fixtures, false);
+  plain.nodes['open-sources'].fire('click'); plain.nodes['close-sources'].fire('click');
+  assert.equal(plain.nodes.sources.open, false);
 });

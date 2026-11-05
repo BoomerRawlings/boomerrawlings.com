@@ -1,6 +1,4 @@
 const SOUND_KEY = 'pip-sound';
-const TRANSITION_KEY = 'pip-transition';
-const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 let pipAudioContext;
 
 function readStorage(storage, key) {
@@ -75,20 +73,6 @@ function animatePip(guide) {
   window.setTimeout(() => guide.classList.remove('is-speaking'), 760);
 }
 
-function animatePipDeparture(guide) {
-  guide.classList.remove('is-speaking', 'is-arriving');
-  void guide.offsetWidth;
-  guide.classList.add('is-departing');
-  writeStorage(window.sessionStorage, TRANSITION_KEY, 'pending');
-}
-
-function animatePipArrival(guide) {
-  guide.classList.remove('is-departing');
-  void guide.offsetWidth;
-  guide.classList.add('is-arriving');
-  window.setTimeout(() => guide.classList.remove('is-arriving'), 460);
-}
-
 document.querySelectorAll('[data-pip-guide]').forEach((guide) => {
   if (guide.dataset.pipEnhanced === 'true') return;
   guide.dataset.pipEnhanced = 'true';
@@ -159,23 +143,11 @@ document.querySelectorAll('[data-pip-guide]').forEach((guide) => {
   syncSoundPreference();
   updateStep();
 
-  if (!reducedMotionQuery.matches && readStorage(window.sessionStorage, TRANSITION_KEY) === 'pending') {
-    removeStorage(window.sessionStorage, TRANSITION_KEY);
-    animatePipArrival(guide);
-  }
-
-  window.addEventListener('pageshow', (event) => {
+  window.addEventListener('pageshow', () => {
     syncSoundPreference();
-    delete form.dataset.pipNavigating;
-    delete guide.dataset.pipNavigating;
     guide.classList.remove('is-departing');
     step = 0;
     updateStep();
-
-    if (event.persisted) {
-      removeStorage(window.sessionStorage, TRANSITION_KEY);
-      if (!reducedMotionQuery.matches) animatePipArrival(guide);
-    }
   });
   window.addEventListener('storage', (event) => {
     if (event.key === SOUND_KEY) syncSoundPreference();
@@ -235,62 +207,8 @@ document.querySelectorAll('[data-pip-guide]').forEach((guide) => {
       return;
     }
 
-    if (form.dataset.pipNavigating === 'true') {
-      event.preventDefault();
-      return;
-    }
-
-    form.dataset.pipNavigating = 'true';
-    event.preventDefault();
-    const useFallbackMotion = !reducedMotionQuery.matches;
-    if (useFallbackMotion) animatePipDeparture(guide);
-    else animatePip(guide);
-    const navigationDelay = useFallbackMotion ? 300 : soundEnabled ? 190 : 0;
-    try {
-      if (soundEnabled) playPipSound(true);
-    } finally {
-      window.setTimeout(() => window.location.assign(destination), navigationDelay);
-    }
+    // The final step is an ordinary GET submission. Native document motion owns
+    // the handoff, so navigation never waits for Pip's sound or animation.
+    if (soundEnabled) playPipSound(true);
   });
 });
-
-if (document.documentElement.dataset.pipNavigationEnhanced !== 'true') {
-  document.documentElement.dataset.pipNavigationEnhanced = 'true';
-  document.documentElement.dataset.pipTransitionMode = reducedMotionQuery.matches ? 'reduced' : 'enhanced';
-
-  document.querySelectorAll('a[href]').forEach((clicked) => {
-    if (clicked.dataset.pipTransitionBound === 'true') return;
-    clicked.dataset.pipTransitionBound = 'true';
-
-    clicked.addEventListener('click', (event) => {
-      if (
-        reducedMotionQuery.matches
-        || event.button !== 0
-        || event.metaKey
-        || event.ctrlKey
-        || event.shiftKey
-        || event.altKey
-        || clicked.hasAttribute('data-pip-direct')
-        || clicked.hasAttribute('download')
-        || (clicked.target && clicked.target !== '_self')
-      ) return;
-
-      const destination = new URL(clicked.href, window.location.href);
-      if (destination.origin !== window.location.origin || !['http:', 'https:'].includes(destination.protocol)) return;
-      if (
-        destination.pathname === window.location.pathname
-        && destination.search === window.location.search
-        && destination.hash
-      ) return;
-      if (destination.href === window.location.href) return;
-
-      const guide = document.querySelector('[data-pip-guide]');
-      if (!guide || guide.dataset.pipNavigating === 'true') return;
-
-      event.preventDefault();
-      guide.dataset.pipNavigating = 'true';
-      animatePipDeparture(guide);
-      window.setTimeout(() => window.location.assign(destination.href), 300);
-    }, { capture: true });
-  });
-}

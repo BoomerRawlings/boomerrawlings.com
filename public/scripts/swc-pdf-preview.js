@@ -18,10 +18,12 @@ if (dialog && gallery && heading && original && typeof dialog.showModal === 'fun
       gallery.replaceChildren(pages.content.cloneNode(true));
       dialog.showModal();
       gallery.scrollTop = 0;
+      window.SiteMotion?.revealScreen(dialog, {kind: 'paper', direction: 1});
     });
   });
   dialog.querySelector('[data-pdf-close]')?.addEventListener('click', () => dialog.close());
   dialog.addEventListener('close', () => {
+    window.SiteMotion?.cancelScreen(dialog);
     gallery.replaceChildren();
     trigger?.focus({ preventScroll: true });
   });

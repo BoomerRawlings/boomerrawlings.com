@@ -1,5 +1,6 @@
 ---
 import initial from '../../../public/cbs8/progress.json';
+import ScreenMotion from '../../components/ScreenMotion.astro';
 const source = 'https://sandiego.nextrequest.com/requests?department_ids=223&search_term=911+call&sort_field=id';
 ---
 <!doctype html>
@@ -11,6 +12,7 @@ const source = 'https://sandiego.nextrequest.com/requests?department_ids=223&sea
   <meta name="referrer" content="no-referrer" />
   <meta name="description" content="Public audio attachments in San Diego’s 911-call records search." />
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://raw.githubusercontent.com; img-src 'self'; base-uri 'none'; form-action 'none'" />
+  <ScreenMotion kind="terminal" target="main" />
   <link rel="canonical" href="https://boomerrawlings.com/cbs8/" />
   <title>CBS8 — Audio attachments</title>
 </head>

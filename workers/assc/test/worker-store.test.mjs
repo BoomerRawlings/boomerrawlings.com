@@ -19,6 +19,8 @@ const privateFiles={
   '/_protected/client/gate.js':'/* gate script */',
   '/_protected/client/app.html':'private-workspace-shell',
   '/_protected/client/app.js':'/* private application module */',
+  '/_protected/client/screen-motion.js':'/* generic incoming motion */',
+  '/_protected/private/presentation.json':JSON.stringify({fixture:'protected presentation marker'}),
   '/_protected/private/corpus.json':JSON.stringify({meta:{title:'private corpus marker'},people:[],sources:[{id:'source-one',title:'Private source'}],nodes:[],edges:[],events:[]}),
   '/_protected/private/transcripts.json':JSON.stringify({records:[record,{...record,id:'malicious-original',originalFilename:'../../auth.json'},{...record,id:'malicious-document',documentFile:'../../auth.json'}]}),
   '/_protected/private/originals/sample.txt':'private original bytes',
@@ -137,7 +139,7 @@ test('Worker config requires interception of every asset with no alternate publi
 test('actual Worker login unlocks shell aliases, corpus, transcript, original and portrait only after authentication',async()=>{
   await authenticatedStore.expire();reads.length=0;
   const gate=await call();assert.equal(gate.status,200);assert.equal(await gate.text(),'gate-only');
-  for(const path of ['app.js','client/app.js','api/corpus','api/transcripts','api/transcripts/sample','api/transcripts/sample/original','portraits/person.jpg']) {
+  for(const path of ['app.js','client/app.js','screen-motion.js','client/screen-motion.js','api/presentation','api/corpus','api/transcripts','api/transcripts/sample','api/transcripts/sample/original','portraits/person.jpg']) {
     const result=await call(path);assert.equal(result.status,401,path);assert.doesNotMatch(await result.text(),/private corpus|private transcript|private portrait|private original|private application/);
   }
   assert.deepEqual(reads,['/_protected/client/gate.html']);
@@ -147,6 +149,8 @@ test('actual Worker login unlocks shell aliases, corpus, transcript, original an
   const Cookie=session(correct), headers={Cookie};
   assert.equal(await(await call('',{headers})).text(),'private-workspace-shell');
   for(const path of ['app.js','client/app.js'])assert.equal(await(await call(path,{headers})).text(),'/* private application module */');
+  for(const path of ['screen-motion.js','client/screen-motion.js'])assert.equal(await(await call(path,{headers})).text(),'/* generic incoming motion */');
+  assert.equal((await(await call('api/presentation',{headers})).json()).fixture,'protected presentation marker');
   const corpus=await call('api/corpus',{headers});assert.equal(corpus.status,200);assert.equal((await corpus.json()).meta.title,'private corpus marker');
   assert.equal((await(await call('api/transcripts/sample',{headers})).json()).turns[0].text,'private transcript text');
   assert.equal(await(await call('api/transcripts/sample/original',{headers})).text(),'private original bytes');

@@ -1,7 +1,15 @@
+import {createProfileController} from './profiles.js';
+import {configurePresentation} from './presentation.js';
+let profileController;let rosterPage=0;
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-const state = { corpus: null, graph: null, timeline: null, transcriptPage: 1, transcriptRequest: 0, readerRequest: 0, reader: null, readerVersion: 'reading', readerFilter: '', readerTurnPage: 1, totalTranscripts: null, route: '', dialogReturnRoute: '' };
-const pageNames = ['brief', 'bios', 'sources', 'connections', 'timeline'];
+const state = { corpus: null, graph: null, timeline: null, transcriptPage: 1, transcriptRequest: 0, readerRequest: 0, reader: null, readerVersion: 'reading', readerFilter: '', readerTurnPage: 1, totalTranscripts: null, route: '', dialogReturnRoute: '', routeRequest: 0, lifecycleEpoch: 0, suspended: false, motionRoute: '' };
+const pageNames = ['brief', 'bios', 'sources', 'connections', 'timeline', 'kf'];
+const pendingFeatures = new Map(), activeFrames = new Set(), privateObservers = new Set();
+// Direct loads use the deferred script in app.html. The authenticated gate imports
+// this module after removing shell scripts, so enhancement also loads on that path.
+// It is optional: a missing motion helper must never hold up the research desk.
+if (!window.SiteMotion) void import('/ASSC/client/screen-motion.js').catch(() => {});
 const asArray = value => Array.isArray(value) ? value : [];
 const str = value => value == null ? '' : String(value);
 const textOf = value => typeof value === 'string' ? value : value?.text || value?.summary || value?.description || '';
@@ -69,13 +77,44 @@ function emptyState(title, copy, glyph = '◌') {
 }
 
 async function api(path) {
+  const epoch = state.lifecycleEpoch;
+  if (state.suspended) throw new DOMException('The page is no longer active.', 'AbortError');
   const response = await fetch(`/ASSC/api/${path}`, { credentials: 'same-origin', cache: 'no-store', headers: { Accept: 'application/json' } });
-  if (response.status === 401 || response.status === 403) { location.assign('/ASSC/'); throw new Error('The session ended.'); }
+  if (state.suspended || epoch !== state.lifecycleEpoch) throw new DOMException('The page is no longer active.', 'AbortError');
+  if (response.status === 401 || response.status === 403) { suspendPrivateView(); location.assign('/ASSC/'); throw new Error('The session ended.'); }
   if (!response.ok) throw new Error(`The record could not be loaded (${response.status}).`);
-  return response.json();
+  const payload = await response.json();
+  if (state.suspended || epoch !== state.lifecycleEpoch) throw new DOMException('The page is no longer active.', 'AbortError');
+  return payload;
+}
+
+function afterActiveFrame(callback) {
+  if (state.suspended) return;
+  const epoch = state.lifecycleEpoch;
+  const frame = requestAnimationFrame(() => {
+    activeFrames.delete(frame);
+    if (!state.suspended && epoch === state.lifecycleEpoch) callback();
+  });
+  activeFrames.add(frame);
+}
+
+function stopWatching(observer) {
+  observer?.disconnect();
+  privateObservers.delete(observer);
+}
+
+function watchPrivate(target, options, callback) {
+  if (state.suspended || !target) return null;
+  const observer = new MutationObserver(() => {
+    if (!state.suspended && target.isConnected) callback(observer);
+  });
+  observer.observe(target, options);
+  privateObservers.add(observer);
+  return observer;
 }
 
 function toast(message) {
+  if (state.suspended) return;
   const target = $('#toast'); target.textContent = message; target.hidden = false;
   clearTimeout(toast.timer); toast.timer = setTimeout(() => { target.hidden = true; }, 3500);
 }
@@ -96,7 +135,7 @@ function transcriptLinks(refs) {
 
 function renderBrief() {
   const { meta, people, sources, edges, events, questions } = state.corpus;
-  const title = element('h1', { id: 'brief-title' }, 'Follow the record.', element('br'), element('em', {}, 'Find the pattern.'));
+  const title = element('h1', {}, 'Research desk');
   const summary = meta.summary || 'An evolving research desk for the public record: people, organizations, statements, and the connections between them.';
   const stats = [
     { count: people.length, label: 'Names in the record', route: 'bios' },
@@ -119,7 +158,7 @@ function renderBrief() {
     element('div', { class: 'brief-stats' }, stats.map(stat => element('a', { class: 'brief-stat', href: `#${stat.route}` }, element('strong', {}, number(stat.count)), element('span', {}, stat.label)))),
     readingPaths(),
     element('div', { class: 'brief-grid' }, element('article', {}, element('h2', { class: 'brief-section-title' }, element('span', {}, 'I.'), 'THE CURRENT EDITION'), element('p', { class: 'lead-note' }, meta.lead || 'The story begins with the record. The connections are where we look closer.'), notes, element('p', { class: 'editorial-status' }, element('span', {}, element('strong', {}, 'The synthesis is taking shape. '), 'This edition opens the research desk; the finished long-form brief will live here.'))), element('aside', {}, element('h2', { class: 'brief-section-title' }, element('span', {}, 'II.'), 'LINES OF INQUIRY'), questionList)),
-    element('a', { class: 'brief-route', href: '#sources/transcripts' }, element('span', { class: 'route-symbol', 'aria-hidden': true }, '“'), element('div', { class: 'route-copy' }, element('h2', {}, 'The words, in context.'), element('p', {}, 'A transcript library built around speakers, timestamps, and source passages.')), element('span', { class: 'route-arrow', 'aria-hidden': true }, '↗')),
+    element('a', { class: 'brief-route', href: '#sources/transcripts' }, element('span', { class: 'route-symbol', 'aria-hidden': true }, '“'), element('div', { class: 'route-copy' }, element('h2', {}, 'Transcript library'), element('p', {}, 'A transcript library built around speakers, timestamps, and source passages.')), element('span', { class: 'route-arrow', 'aria-hidden': true }, '↗')),
   );
 }
 
@@ -130,19 +169,24 @@ function readingPaths() {
     if (!steps.length) return null;
     return element('article', { class: 'reading-path' }, element('div', { class: 'path-top' }, element('span', { class: 'path-number' }, String(index + 1).padStart(2, '0')), element('span', { class: 'path-glyph', 'aria-hidden': true }, index === 0 ? '⌁' : index === 1 ? '↗' : '¶')), element('h3', {}, path.title), element('p', {}, path.copy), element('ol', {}, steps.map(step => element('li', {}, element('a', { href: step.href }, step.label, element('span', { 'aria-hidden': true }, '↗'))))));
   }).filter(Boolean);
-  return cards.length ? element('section', { class: 'reading-paths', 'aria-labelledby': 'reading-paths-title' }, element('div', { class: 'reading-paths-heading' }, element('h2', { id: 'reading-paths-title' }, 'A few ways into the whole.'), element('p', {}, 'READING PATHS / OVERVIEW → EVIDENCE → PASSAGE')), element('div', { class: 'reading-path-grid' }, cards)) : null;
+  return cards.length ? element('section', { class: 'reading-paths', 'aria-labelledby': 'reading-paths-title' }, element('div', { class: 'reading-paths-heading' }, element('h2', { id: 'reading-paths-title' }, 'Reading routes'), element('p', {}, 'READING PATHS / OVERVIEW → EVIDENCE → PASSAGE')), element('div', { class: 'reading-path-grid' }, cards)) : null;
 }
 
 function renderPeople() {
+  let kind=document.querySelector('#people-kind');if(!kind){kind=element('select',{id:'people-kind','aria-label':'Directory records'},element('option',{value:'people'},'People & accounts'),element('option',{value:'organizations'},'Organizations'),element('option',{value:'all'},'All records'));const label=element('label',{class:'select-control'},element('span',{},'Show'),kind);document.querySelector('#bios .filter-bar').append(label);kind.addEventListener('change',()=>{rosterPage=0;renderPeople();});}
+  const directoryRecords=new Map((state.profileIndex||[]).map(p=>[p.id,p]));
+  const eligible=p=>kind.value==='all'||(kind.value==='organizations'?['organization','public committee record','community'].includes(directoryRecords.get(p.id)?.role):['public creator','public handle','public person','public account','account'].includes(directoryRecords.get(p.id)?.role));
   const query = $('#people-search').value.trim().toLowerCase();
-  let people = state.corpus.people.filter(person => [person.name, person.role, person.bio, ...asArray(person.aliases)].join(' ').toLowerCase().includes(query));
+  let people = state.corpus.people.filter(eligible).filter(person => [person.name, person.role, person.bio, ...asArray(person.aliases)].join(' ').toLowerCase().includes(query));
   people = [...people].sort((a, b) => $('#people-sort').value === 'sources' ? (asArray(b.sourceIds).length - asArray(a.sourceIds).length || a.name.localeCompare(b.name)) : a.name.localeCompare(b.name));
-  $('#people-count').replaceChildren(number(state.corpus.people.length), element('small', {}, 'PROFILES'));
-  $('#people-grid').replaceChildren(...people.map((person, index) => element('a', { class: 'person-card', href: `#bios/${idPart(person.id)}` },
+  rosterPage=Math.min(rosterPage,Math.max(0,Math.ceil(people.length/50)-1));
+  $('#people-count').replaceChildren(number(people.length), element('small', {}, 'matching records'));
+  $('#people-grid').replaceChildren(...people.slice(rosterPage*50,(rosterPage+1)*50).map((person, index) => element('a', { class: 'person-card', href: `#profile/${idPart(person.id)}` },
     element('div', { class: 'person-card-top' }, portrait(person), element('span', { class: 'person-number' }, String(index + 1).padStart(2, '0'))),
-    element('h2', {}, person.name), element('p', { class: 'person-role' }, person.role || 'Subject in the public record'), element('p', { class: 'bio-excerpt' }, person.bio || 'A profile awaiting its first source-linked account.'),
-    element('div', { class: 'person-card-foot' }, element('span', {}, `${number(asArray(person.sourceIds).length)} SOURCE ${asArray(person.sourceIds).length === 1 ? 'RECORD' : 'RECORDS'}`), element('span', { 'aria-hidden': true }, '↗')),
+    element('h2', {}, person.name), element('p', { class: 'person-role' }, person.role || 'Subject in the public record'), element('p', { class: 'bio-excerpt' }, person.bio || ''),
+    element('div', { class: 'person-card-foot' }, element('span', {}, directoryRecords.get(person.id)?.forumPosts!=null?number(directoryRecords.get(person.id).forumPosts)+' captured posts':asArray(person.sourceIds).length?number(asArray(person.sourceIds).length)+' linked sources':'Open record'), element('span', { 'aria-hidden': true }, '↗')),
   )));
+  let pager=$('#profile-roster-pages');if(!pager){pager=element('nav',{id:'profile-roster-pages',class:'pagination','aria-label':'Profile roster pages'});$('#people-grid').after(pager);}pager.replaceChildren(element('button',{type:'button',disabled:rosterPage===0,onclick:()=>{rosterPage--;renderPeople();}},'Previous'),element('span',{},(rosterPage+1)+' / '+Math.max(1,Math.ceil(people.length/50))),element('button',{type:'button',disabled:(rosterPage+1)*50>=people.length,onclick:()=>{rosterPage++;renderPeople();}},'Next'));
   if (!people.length) $('#people-grid').append(emptyState('No matching names.', 'Try another name, alias, or public role.'));
 }
 
@@ -193,7 +237,7 @@ function showSource(id) {
   content.replaceChildren(element('p', { class: 'eyebrow' }, humanize(source.kind || 'SOURCE RECORD')), element('h2', {}, source.title), element('p', { class: 'reader-byline' }, [source.publisher, source.date && formatDate(source.date)].filter(Boolean).join(' · ')), element('p', { class: 'detail-body' }, source.summary || 'This record preserves its original source link and index metadata.'));
   if (source.provenance) content.append(element('section', { class: 'detail-section' }, element('h3', {}, 'PROVENANCE'), element('p', { class: 'detail-body' }, textOf(source.provenance))));
   const people = state.corpus.people.filter(person => asArray(person.sourceIds).includes(id));
-  if (people.length) content.append(element('section', { class: 'detail-section' }, element('h3', {}, 'INDEXED PROFILES'), people.map(person => element('a', { class: 'detail-source', href: `#bios/${idPart(person.id)}` }, person.name, '↗'))));
+  if (people.length) content.append(element('section', { class: 'detail-section' }, element('h3', {}, 'INDEXED PROFILES'), people.map(person => element('a', { class: 'detail-source', href: `#profile/${idPart(person.id)}` }, person.name, '↗'))));
   const refs = transcriptLinks(source.transcriptRefs);
   if (refs.length) content.append(element('section', { class: 'detail-section' }, element('h3', {}, 'TRANSCRIPT PASSAGES'), refs));
   if (sourceURL(source)) content.append(element('div', { class: 'detail-actions' }, link(source.url, ['Open original source ', '↗'], { class: 'button' })));
@@ -228,6 +272,7 @@ function updateOptions(select, values, firstLabel) {
 }
 
 async function loadTranscripts() {
+  if (state.suspended) return;
   const request = ++state.transcriptRequest;
   $('#transcript-status').textContent = 'Searching the transcript index…';
   $('#transcript-results').setAttribute('aria-busy', 'true');
@@ -287,6 +332,7 @@ function sourceAtTime(url, seconds) {
 }
 
 async function openTranscript(id, turnId) {
+  if (state.suspended) return;
   const request = ++state.readerRequest;
   const container = $('#transcript-reader');
   if (state.reader?.id !== id) {
@@ -314,9 +360,10 @@ function renderReader(turnId) {
   const sidebar = element('aside', { class: 'reader-sidebar' });
   sidebar.append(element('section', {}, element('h3', {}, 'PARTICIPANT INDEX'), participants.length ? participants.map(speaker => {
     const name = typeof speaker === 'string' ? speaker : speaker.name;
-    const person = state.corpus.people.find(candidate => candidate.id === speaker.personId || candidate.name.toLowerCase() === str(name).toLowerCase() || asArray(candidate.aliases).some(alias => alias.toLowerCase() === str(name).toLowerCase()));
-    return person ? element('a', { class: 'participant', href: `#bios/${idPart(person.id)}` }, name, ' ↗') : element('span', { class: 'participant' }, name);
+    const person = typeof speaker==='object' && speaker.personId ? personById(speaker.personId) : null;
+    return person ? element('a', { class: 'participant', href: `#profile/${idPart(person.id)}` }, name, ' ↗') : element('span', { class: 'participant' }, name);
   }) : element('p', {}, 'Participants have not been indexed.')));
+  const mentioned=(state.profileIndex||[]).filter(p=>p.transcriptIds?.includes(record.id));if(mentioned.length)sidebar.append(element('section',{},element('h3',{},'CAPTION MENTIONS'),mentioned.map(p=>element('a',{href:'#profile/'+idPart(p.id),class:'participant'},p.name))));
   if (asArray(record.topics).length) sidebar.append(element('section', {}, element('h3', {}, 'TOPICS'), record.topics.map(topic => element('span', { class: 'tag' }, topic))));
   sidebar.append(element('section', {}, element('h3', {}, 'PROVENANCE'), element('p', {}, source?.publisher || record.publisher || 'Source-linked record'), source ? element('a', { class: 'detail-source', href: `#sources/index/${idPart(source.id)}` }, source.title, '↗') : null, record.provenance ? element('p', {}, textOf(record.provenance)) : null, sourceURL(source) || safeURL(record.url) ? link(source?.url || record.url, 'Open original ↗') : null));
   if (record.rights) sidebar.append(element('section', {}, element('h3', {}, 'TEXT RECORD'), element('p', {}, typeof record.rights === 'string' ? humanize(record.rights) : record.rights.note || record.rights.status || 'Authorized source material')));
@@ -330,7 +377,8 @@ function renderReader(turnId) {
   const turnsRoot = element('div', { id: 'transcript-turns' }); main.append(turnsRoot);
   reader.replaceChildren(element('a', { class: 'reader-back', href: '#sources/transcripts' }, '← Back to transcripts'), element('header', { class: 'reader-header' }, element('p', { class: 'eyebrow' }, 'TRANSCRIPT / READING ROOM'), element('h2', {}, record.title || 'Transcript record'), element('p', { class: 'reader-byline' }, [record.date && formatDate(record.date), source?.publisher, `${number(asArray(record.turns).length)} indexed turns`].filter(Boolean).join(' · '))), element('div', { class: 'reader-layout' }, main, sidebar));
   renderTurns(turnsRoot, turnId);
-  if (turnId) requestAnimationFrame(() => {
+  if (turnId) afterActiveFrame(() => {
+    if (!turnsRoot.isConnected) return;
     const target = [...turnsRoot.children].find(node => node.dataset.turnId === turnId);
     if (target) { target.classList.add('is-highlighted'); target.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); }
     else toast('That passage is not in the current text.');
@@ -379,32 +427,104 @@ async function copyLink(value) {
 }
 
 const integrations = {
-  onPerson: id => { location.hash = `#bios/${idPart(id)}`; },
+  onPerson: id => { profileController.navigate(id); },
   onSource: id => { location.hash = `#sources/index/${idPart(id)}`; },
   onTranscript: (id, turn) => { location.hash = `#sources/transcripts/${idPart(id)}${turn ? `/${idPart(turn)}` : ''}`; },
 };
 
+async function loadFeatureModule(name) { return import(`./${name}.js`); }
+
 async function mountFeature(name) {
+  if (state.suspended) return null;
   if (state[name]) return state[name];
-  const container = $(`#${name === 'graph' ? 'graph' : 'timeline'}-host`);
-  try {
-    const module = await import(`./${name}.js`);
-    const mount = module[name === 'graph' ? 'mountGraph' : 'mountTimeline'] || module.default;
-    state[name] = await mount(container, state.corpus, integrations) || { mounted: true };
-    return state[name];
-  } catch (error) {
-    container.replaceChildren(emptyState(name === 'graph' ? 'The map did not open.' : 'The chronology did not open.', 'Reload the desk to try again. Source records remain available in the reading room.'));
-    console.error(`Unable to open ${name}:`, error);
-    return null;
+  if (pendingFeatures.has(name)) return pendingFeatures.get(name);
+  const container = $(`#${name}-host`);
+  const epoch = state.lifecycleEpoch;
+  const pending = (async () => {
+    try {
+      const module = await loadFeatureModule(name);
+      if (state.suspended || epoch !== state.lifecycleEpoch) return null;
+      const mount = module[{ graph: 'mountGraph', timeline: 'mountTimeline', kf: 'mountKF' }[name]] || module.default;
+      const feature = await mount(container, name === 'kf' ? { api, onProfile: id => profileController.navigate(id) } : state.corpus, integrations) || { mounted: true };
+      if (state.suspended || epoch !== state.lifecycleEpoch) { feature.destroy?.(); return null; }
+      state[name] = feature;
+      return feature;
+    } catch (error) {
+      if (state.suspended || epoch !== state.lifecycleEpoch) return null;
+      const title = { graph: 'The map did not open.', timeline: 'The chronology did not open.', kf: 'The activity view did not open.' }[name];
+      container.replaceChildren(emptyState(title, 'Reload the desk to try again. Source records remain available in the reading room.'));
+      console.error(`Unable to open ${name}:`, error);
+      return null;
+    } finally {
+      if (pendingFeatures.get(name) === pending) pendingFeatures.delete(name);
+    }
+  })();
+  pendingFeatures.set(name, pending);
+  return pending;
+}
+
+function screenForRoute(raw) {
+  if (!raw) return null;
+  let parts;
+  try { parts = raw.split('?')[0].split('/').map(decodeURIComponent); } catch { parts = ['brief']; }
+  const [requested, subpage, recordId] = parts;
+  if (requested === 'profile' || (requested === 'bios' && subpage)) return { key: `profile/${subpage}`, selector: '.assc-profile .ap-body', kind: 'panel', rank: 1.5 };
+  const page = pageNames.includes(requested) ? requested : 'brief';
+  if (page === 'sources') {
+    if (subpage === 'transcripts') return recordId
+      ? { key: `sources/transcripts/${recordId}`, selector: '#transcript-reader', kind: 'paper', rank: 2.5 }
+      : { key: 'sources/transcripts', selector: '#transcript-library', kind: 'paper', rank: 2.25 };
+    if (recordId) return { key: `sources/index/${recordId}`, selector: '#detail-content', kind: 'panel', rank: 2.125 };
+    return { key: 'sources/index', selector: '#source-index', kind: 'paper', rank: 2 };
   }
+  return { key: page, selector: `#${page}`, kind: page === 'connections' ? 'atlas' : ['timeline', 'kf'].includes(page) ? 'instrument' : 'paper', rank: pageNames.indexOf(page) };
+}
+
+function suspendPrivateView() {
+  state.suspended = true;
+  configurePresentation(null);
+  state.lifecycleEpoch++; state.routeRequest++; state.transcriptRequest++; state.readerRequest++;
+  for (const frame of activeFrames) cancelAnimationFrame(frame);
+  activeFrames.clear();
+  for (const observer of privateObservers) observer.disconnect();
+  privateObservers.clear(); pendingFeatures.clear();
+  window.SiteMotion?.cancelAll();
+  // Conceal synchronously before history can retain a rendered private screen.
+  // A restored page reloads through the server gate; this document never resumes.
+  document.body.hidden = true; document.body.inert = true;
+  state.graph?.destroy?.(); state.timeline?.destroy?.(); state.kf?.destroy?.(); profileController?.destroy?.();
+  state.graph = null; state.timeline = null; state.kf = null; state.corpus = null; state.reader = null; state.profileIndex = null;
+  $$('.page').forEach(section => { section.hidden = true; section.replaceChildren(); });
+  const dialog = $('#detail-dialog'); if (dialog?.open) dialog.close();
+  $('#detail-content')?.replaceChildren();
+  $('.console-results')?.replaceChildren();
+  const search = $('.console-search input'); if (search) search.value = '';
+  const toastNode = $('#toast'); if (toastNode) { toastNode.hidden = true; toastNode.textContent = ''; }
+  clearTimeout(toast.timer);
 }
 
 async function route() {
-  if (!state.corpus) return;
+  if (state.suspended || !state.corpus) return;
   const raw = location.hash.slice(1) || 'brief';
+  if(raw===state.route&&!profileController?.isOpen())return;
+  const request = ++state.routeRequest;
+  const previousScreen = screenForRoute(state.motionRoute || state.route), nextScreen = screenForRoute(raw);
+  const changedScreen = previousScreen && previousScreen.key !== nextScreen.key;
+  state.motionRoute = raw;
+  if (changedScreen) window.SiteMotion?.cancelAll();
+  state.transcriptRequest++; state.readerRequest++;
+  const current = () => !state.suspended && request === state.routeRequest;
+  const reveal = () => {
+    if (current() && changedScreen && !document.body.classList.contains('gate-body')) {
+      window.SiteMotion?.revealScreen($(nextScreen.selector), { kind: nextScreen.kind, direction: nextScreen.rank < previousScreen.rank ? -1 : 1 });
+    }
+  };
   let parts;
-  try { parts = raw.split('/').map(decodeURIComponent); } catch { parts = ['brief']; }
+  try { parts = raw.split('?')[0].split('/').map(decodeURIComponent); } catch { parts = ['brief']; }
   const [requestedPage, subpage, recordId, turnId] = parts;
+  if(requestedPage==='profile'){if(!state.route){$('#bios').hidden=false;renderPeople();}await profileController.open(subpage);reveal();return;}
+  if(requestedPage==='bios'&&subpage){history.replaceState(null,'','#profile/'+idPart(subpage)+'?back=bios');await profileController.open(subpage);reveal();return;}
+  const returningFromProfile=profileController.closeForRoute();
   const page = pageNames.includes(requestedPage) ? requestedPage : 'brief';
   const detailRoute = (page === 'bios' && subpage) || (page === 'sources' && subpage !== 'transcripts' && recordId);
   const previousDetail = /^(bios\/[^/]+|sources\/index\/[^/]+)$/.test(state.route);
@@ -427,27 +547,40 @@ async function route() {
   }
   if (page === 'connections') {
     const graph = await mountFeature('graph');
-    graph?.resize?.();
-    if (subpage && state.route === raw) { if (graph?.focusNode) graph.focusNode(subpage); else $('#graph-host').dispatchEvent(new CustomEvent('focus-node', { detail: { id: subpage } })); }
+    if (!current()) return;
+    arrangeNetworkConsole();
+    if(!returningFromProfile)graph?.resize?.();
+    if (subpage && state.route === raw && !returningFromProfile) { if (graph?.focusNode) graph.focusNode(subpage); else $('#graph-host').dispatchEvent(new CustomEvent('focus-node', { detail: { id: subpage } })); }
+  }
+  if (page === 'kf') {
+    await mountFeature('kf');
   }
   if (page === 'timeline') {
     const timeline = await mountFeature('timeline');
-    timeline?.resize?.();
-    if (subpage && state.route === raw) timeline?.focusEvent?.(subpage);
+    if (!current()) return;
+    if(!returningFromProfile)timeline?.resize?.();
+    if (subpage && state.route === raw && !returningFromProfile) timeline?.focusEvent?.(subpage);
   }
+  reveal();
 }
 
 async function init() {
   try {
+    configurePresentation(await api('presentation'));
     const corpus = await api('corpus');
     state.corpus = { ...corpus, meta: corpus.meta || {}, people: asArray(corpus.people), sources: asArray(corpus.sources), nodes: asArray(corpus.nodes), edges: asArray(corpus.edges), events: asArray(corpus.events), questions: asArray(corpus.questions) };
-    renderBrief(); renderPeople();
+    profileController=createProfileController({api});
+    const profileIndex=await api('profiles');state.profileIndex=profileIndex.records;
+    const existingIds=new Set(state.corpus.people.map(p=>p.id));state.corpus.people.push(...profileIndex.records.filter(p=>!existingIds.has(p.id)));
+    renderBrief(); renderPeople(); installResearchConsole();
     [...new Set(state.corpus.sources.map(source => source.kind).filter(Boolean))].sort().forEach(kind => $('#source-kind').append(element('option', { value: kind }, humanize(kind))));
     renderSources();
     $('#revision-note').textContent = corpus.meta?.updated ? `RECORD UPDATED ${formatDate(corpus.meta.updated).toUpperCase()}` : 'A LIVING COLLECTION';
     $('#loading').hidden = true;
-    await route();
+    await route();if(state.suspended)return;document.documentElement.dataset.asscReady='true';document.dispatchEvent(new CustomEvent('assc-ready',{detail:{ok:true}}));
   } catch (error) {
+    if (state.suspended) return;
+    document.dispatchEvent(new CustomEvent('assc-ready',{detail:{ok:false,message:error.message}}));
     $('#loading').replaceChildren(emptyState('The desk did not open.', error.message), element('button', { class: 'button secondary', type: 'button', onclick: () => location.reload() }, 'Try again'));
   }
 }
@@ -464,13 +597,67 @@ $('#detail-close').addEventListener('click', () => closeDialog());
 $('#detail-dialog').addEventListener('cancel', event => { event.preventDefault(); closeDialog(); });
 $('#detail-dialog').addEventListener('click', event => { if (event.target === $('#detail-dialog')) { const rect = event.target.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) closeDialog(); } });
 $('#logout').addEventListener('click', async () => {
+  if (state.suspended) return;
+  const epoch = state.lifecycleEpoch;
+  window.SiteMotion?.cancelAll();
   const button = $('#logout'); button.disabled = true;
   try {
     const response = await fetch('/ASSC/logout', { method: 'POST', credentials: 'same-origin', cache: 'no-store' });
+    if (state.suspended || epoch !== state.lifecycleEpoch) return;
     if (!response.ok) throw new Error('The session could not be closed.');
+    suspendPrivateView();
     location.replace('/ASSC/');
-  } catch (error) { button.disabled = false; toast(error.message); }
+  } catch (error) { if (!state.suspended) { button.disabled = false; toast(error.message); } }
 });
 window.addEventListener('hashchange', route);
+window.addEventListener('popstate', route);
+window.addEventListener('pagehide', suspendPrivateView);
 window.addEventListener('pageshow', event => { if (event.persisted) location.reload(); });
 init();
+
+function installResearchConsole() {
+  const names={brief:'Overview',bios:'People & accounts',sources:'Sources',connections:'Network',timeline:'Timeline',kf:'KF threads'};
+  const header=document.querySelector('.masthead');
+  const search=element('form',{class:'console-search',role:'search'},element('label',{class:'sr-only',for:'console-query'},'Search accounts, sources and passages'),element('input',{id:'console-query',type:'search',placeholder:'Search accounts, sources, passages…',autocomplete:'off'}),element('button',{type:'submit'},'Search'));
+  header.insertBefore(search,document.querySelector('#logout'));
+  const rail=element('aside',{class:'console-rail','aria-label':'Workspace navigation'});
+  const original=document.querySelector('.primary-nav');
+  for(const a of original.querySelectorAll('a')){const copy=a.cloneNode(true);copy.textContent=names[a.dataset.route];if(a.dataset.route==='kf')copy.addEventListener('click',()=>copy.href=a.href);rail.append(copy);}
+  function openNotes(){const show=()=>{if(state.suspended)return false;const n=[...document.querySelectorAll('#kf-host details')].find(d=>d.querySelector('summary')?.textContent==='Research notes');if(!n)return false;n.open=true;n.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'center'});return true;};afterActiveFrame(()=>{if(show())return;const obs=watchPrivate(document.querySelector('#kf-host'),{childList:true,subtree:true},observer=>{if(show())stopWatching(observer);});if(obs)setTimeout(()=>stopWatching(obs),10000);});}
+  rail.append(element('div',{class:'console-nav-divider'}),element('a',{href:'#sources/transcripts'},'Transcripts'),element('a',{href:'#kf',onclick:ev=>ev.currentTarget.href=original.querySelector('[data-route=kf]').href},'Export metrics'),element('a',{href:'#kf',onclick:openNotes},'Notes'));
+  header.after(rail);
+  document.querySelector('#main').before(original);
+  for(const a of original.querySelectorAll('a'))a.textContent={brief:'Overview',bios:'People',sources:'Evidence',connections:'Network',timeline:'Timeline',kf:'KF activity'}[a.dataset.route];
+  const results=element('div',{class:'console-results',hidden:true,'aria-label':'Search results'});search.after(results);
+  function runSearch(){if(state.suspended)return;const q=search.querySelector('input').value.trim().toLowerCase();results.replaceChildren();results.hidden=!q;if(!q)return;
+    const people=state.corpus.people.filter(p=>[p.name,...(p.aliases||[])].join(' ').toLowerCase().includes(q)).slice(0,6);
+    const sources=state.corpus.sources.filter(p=>[p.title,p.publisher].join(' ').toLowerCase().includes(q)).slice(0,4);
+    results.append(element('p',{class:'console-label'},'MATCHING RECORDS'));
+    if(!people.length&&!sources.length)results.append(element('p',{role:'status',class:'console-empty-search'},'No matching names or sources.'));
+    for(const p of people)results.append(element('a',{href:'#profile/'+idPart(p.id),onclick:()=>results.hidden=true},element('span',{},p.name),element('small',{},p.type||'Record')));
+    for(const s of sources)results.append(element('a',{href:'#sources/index/'+idPart(s.id),onclick:()=>results.hidden=true},element('span',{},s.title),element('small',{},'Source')));
+    results.append(element('a',{href:'#sources/transcripts',onclick:()=>{if(state.suspended)return;results.hidden=true;const input=document.querySelector('#transcript-filters input[name=query]');if(input)input.value=search.querySelector('input').value;afterActiveFrame(()=>document.querySelector('#transcript-filters')?.requestSubmit());}},'Search this phrase in transcripts'));
+  }
+  search.addEventListener('submit',ev=>{ev.preventDefault();runSearch();});search.querySelector('input').addEventListener('input',runSearch);search.addEventListener('keydown',ev=>{if(ev.key==='Escape')results.hidden=true;});document.addEventListener('click',ev=>{if(!header.contains(ev.target))results.hidden=true;});
+  search.querySelector('input').addEventListener('keydown',ev=>{if(ev.key==='ArrowDown'&&!results.hidden){ev.preventDefault();results.querySelector('a')?.focus();}});
+  results.addEventListener('keydown',ev=>{const links=[...results.querySelectorAll('a')],i=links.indexOf(document.activeElement);if(ev.key==='Escape'){results.hidden=true;search.querySelector('input').focus();}else if(['ArrowDown','ArrowUp'].includes(ev.key)){ev.preventDefault();const next=i+(ev.key==='ArrowDown'?1:-1);if(next<0)search.querySelector('input').focus();else links[Math.min(next,links.length-1)]?.focus();}});
+  document.addEventListener('keydown',ev=>{if(!state.suspended&&(ev.metaKey||ev.ctrlKey)&&ev.key==='k'){ev.preventDefault();search.querySelector('input').focus();}});
+  const sync=()=>{if(state.suspended)return;const page=(location.hash.slice(1)||'brief').split(/[/?]/)[0];for(const a of rail.querySelectorAll('[data-route]')){a.toggleAttribute('aria-current',a.dataset.route===page);if(a.dataset.route===page)a.setAttribute('aria-current','page');}document.body.dataset.workspace=page;};window.addEventListener('hashchange',sync);sync();
+}
+
+function arrangeNetworkConsole(){
+  const host=document.querySelector('#graph-host'),root=host.querySelector('.assc-graph');if(!root||root.querySelector('.console-network-grid'))return;
+  const stage=root.querySelector('.ag-stage'),detail=root.querySelector('.ag-detail');
+  const grid=element('div',{class:'console-network-grid'}),side=element('aside',{class:'console-inspector','aria-label':'Network inspector'}),summary=element('div',{class:'console-case-summary'});
+  summary.append(element('h2',{},'In this map'),element('p',{class:'console-selection-hint'},'Select a name or connection for details.'));
+  for(const n of state.corpus.nodes.filter(n=>n.type==='person'||n.type==='organization'))summary.append(element('button',{type:'button',onclick:()=>profileController.navigate(n.id)},n.label||n.name));
+  stage.before(grid);grid.append(stage,side);side.append(summary,detail);watchPrivate(detail,{attributes:true,attributeFilter:['hidden']},()=>{summary.hidden=!detail.hidden;});summary.hidden=!detail.hidden;
+  const deck=element('div',{class:'console-support'});
+  const archive=element('details',{class:'console-archive'}),metrics=element('div',{class:'console-archive-links'});archive.append(element('summary',{},'Browse the archive'),metrics);
+  for(const [n,label,href]of [[state.corpus.people.length,'People & accounts','#bios'],[state.corpus.sources.length,'Source records','#sources'],[state.corpus.edges.length,'Mapped connections','#connections'],[state.corpus.events.length,'Dated events','#timeline']])metrics.append(element('a',{class:'console-metric',href},element('span',{},label),element('strong',{},number(n))));
+  const chronology=element('section',{class:'console-panel'},element('header',{},element('h2',{},'Timeline'),element('a',{href:'#timeline'},'All events')));
+  for(const event of [...state.corpus.events].sort((a,b)=>str(b.date).localeCompare(str(a.date))).slice(0,3))chronology.append(element('a',{class:'console-event',href:'#timeline/'+idPart(event.id)},element('time',{},formatDate(event.date)),element('span',{},event.title||event.label)));
+  const evidence=element('section',{class:'console-panel'},element('header',{},element('h2',{},'Sources'),element('a',{href:'#sources'},'All sources')));
+  for(const s of [...state.corpus.sources].sort((a,b)=>str(b.date).localeCompare(str(a.date))).slice(0,4))evidence.append(element('a',{class:'console-source',href:'#sources/index/'+idPart(s.id)},element('span',{},s.title),element('small',{},humanize(s.kind||'Source'))));
+  deck.append(chronology,evidence);host.append(deck,archive);state.graph?.resize?.();state.graph?.fit?.();
+}

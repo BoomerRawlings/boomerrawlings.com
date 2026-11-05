@@ -15,7 +15,7 @@ document.querySelector('#zone-help').prepend('Current system zone: '+systemZone+
 try{for(const name of Intl.supportedValuesOf('timeZone')){const option=document.createElement('option');option.value=name;document.querySelector('#timezones').append(option);}}catch{}
 form.elements.clock.addEventListener('change',()=>{form.elements.seconds.disabled=form.elements.clock.value==='off';});
 function reveal(){if(!running)return;document.body.classList.remove('idle');clearTimeout(idleTimer);idleTimer=setTimeout(()=>document.body.classList.add('idle'),2500);}
-function edit(){clearTimeout(idleTimer);document.body.classList.remove('idle');writeForm();error.textContent='';if(!dialog.open)dialog.showModal();dialog.scrollTop=0;document.querySelector('#jump-in').focus({preventScroll:true});}
+function edit(){clearTimeout(idleTimer);document.body.classList.remove('idle');writeForm();error.textContent='';if(!dialog.open){dialog.showModal();window.SiteMotion?.revealScreen(dialog,{kind:'panel'});}dialog.scrollTop=0;document.querySelector('#jump-in').focus({preventScroll:true});}
 document.querySelector('#edit').addEventListener('click',edit);
 window.addEventListener('pointermove',reveal,{passive:true});window.addEventListener('pointerdown',reveal,{passive:true});window.addEventListener('keydown',e=>{if(!dialog.open&&['s','S','Escape'].includes(e.key)){e.preventDefault();edit();}else reveal();});
 dialog.addEventListener('cancel',e=>{if(!running)e.preventDefault();});
@@ -115,3 +115,4 @@ reduced.addEventListener('change',()=>{window.ScrippsConstellations.reset();last
 window.StarsDebug={get settings(){return {...settings};},get running(){return running;},get waves(){return waves;},get hiddenSince(){return hiddenSince;},snapshot:()=>window.ScrippsConstellations.snapshot()};
 
 if(document.body.dataset.directEntry==='jumpin')enterStars(jumpinSettings(),false,false);
+else window.SiteMotion?.revealScreen(dialog,{kind:'panel'});

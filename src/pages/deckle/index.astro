@@ -61,6 +61,15 @@ const description = 'An unlisted reading-diary prototype for tracking books, rev
     position: relative;
   }
 
+  /* Only the local frame receives motion; the embedded reader owns its screens. */
+  @media (prefers-reduced-motion: no-preference) {
+    main { animation: reader-arrive 240ms cubic-bezier(.2,.7,.2,1); }
+  }
+  @keyframes reader-arrive {
+    from { opacity: .5; translate: 0 6px; }
+    to { opacity: 1; translate: 0 0; }
+  }
+
   iframe {
     background: #f6f2e9;
     border: 0;

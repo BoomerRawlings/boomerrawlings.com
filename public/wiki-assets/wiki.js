@@ -249,6 +249,7 @@ function render() {
     }
   }
   document.getElementById('load-status').hidden=true;
+  window.SiteMotion?.revealScreen(document.getElementById('wiki-content'), {kind:'paper'});
   if(location.hash) {const anchor=document.getElementById(decodeURIComponent(location.hash.slice(1)));anchor?.scrollIntoView();}
 }
 

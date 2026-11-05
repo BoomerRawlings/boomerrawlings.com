@@ -10,3 +10,25 @@ html{background:#101217;color-scheme:dark}.gate-body{margin:0;background:#101217
 @media(max-height:600px){.gate-logo{width:120px;margin-bottom:1rem}.gate-riddle{margin-bottom:1.3rem;font-size:1rem;line-height:1.6}.gate-riddle em{margin-top:.6rem}.gate-prompt{padding-block:0}}
 @media(prefers-reduced-motion:reduce){.gate-logo{transform:none!important}}
 .gate-riddle-word{display:inline-block;white-space:nowrap}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Same ASSC palette and focus treatment; preserve the approved entrance sequence. */
+html,.gate-body,#gate{background:#101110;color:#e8e5db}.gate-riddle{color:#d8dccd}.gate-riddle em{color:#b4bea3}.gate-answer-line{border-color:#7d8968}#answer{color:#eee7d5}#answer::placeholder{color:#969d89}.gate-answer-line:focus-within{border-color:#eee2bd}#entry-submit{color:#ded7c4;min-width:48px;min-height:48px}#entry-submit:focus-visible,#answer:focus-visible,#entry-retry:focus-visible{outline:2px solid #eee2bd;outline-offset:6px}#feedback{font:12px/1.7 Arial;color:#d2c5a5}.gate-reveal-line:nth-child(1),.gate-reveal-line:nth-child(3){color:#ded7c4}.gate-reveal-subtitle{color:#a6b091}#entry-retry{font:12px Arial;min-height:44px}.gate-workspace{background:#101110}.gate-logo{max-width:min(72vw,290px)}
+@media(max-width:540px){.gate-logo{max-width:min(65vw,240px)}.gate-riddle{font-size:17px;line-height:1.8}.gate-riddle em{font-size:14px}}
+/* The entrance is deliberately unnamed. The submitted word becomes the approved mark. */
+#gate::before{display:none}.gate-prompt{width:min(100%,460px)}.gate-riddle{font:400 clamp(19px,2.2vw,26px)/1.8 Arial,Helvetica,sans-serif;letter-spacing:-.015em;text-align:center;margin-bottom:36px;color:#d9d8ce}.gate-riddle em{display:block;font:12px Arial;font-style:normal;color:#aaa99d;margin-top:22px}.gate-riddle-line{display:block}.gate-answer-line{max-width:350px;margin:auto}.gate-answer-line input{font:400 22px Arial;letter-spacing:.12em;text-align:center;text-transform:none}.gate-answer-line input::placeholder{font:12px Arial;letter-spacing:0;text-transform:none}.gate-answer-wave{opacity:.35}#feedback{min-height:28px;text-align:center;margin-top:20px}#entry-retry{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);background:none;border:0;border-bottom:1px solid #8b917d;color:#ded7c4;padding:12px}
+#gate-reveal[data-morph]{position:fixed;inset:auto;transform:none;opacity:1;max-width:none;z-index:100;pointer-events:none;display:flex;align-items:center;justify-content:center;will-change:left,top,width,height}.gate-morph-word{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;white-space:nowrap;font-family:Arial,Helvetica,sans-serif;font-weight:500;color:#e9e3d2;line-height:1}.gate-morph-logo{display:block;width:100%;height:100%;object-fit:contain;opacity:0}.gate-workspace{transition:none;min-height:100svh}.gate-opening .gate-prompt{transition:opacity 230ms ease-out;opacity:0;transform:none;filter:none}
+@media(prefers-reduced-motion:reduce){#gate-reveal[data-morph]{display:none}.gate-opening .gate-prompt{transition:none}}
+@media(max-width:540px){.gate-prompt{width:min(100%,330px)}.gate-riddle{font-size:19px;line-height:1.7}.gate-riddle em{margin-top:20px}.gate-answer-line{max-width:290px}}
+#gate-reveal[data-morph]{transition:none!important;transform:none!important}

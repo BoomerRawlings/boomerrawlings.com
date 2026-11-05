@@ -1,3 +1,4 @@
+import { presentation } from './presentation.js';
 const NS = 'http://www.w3.org/2000/svg';
 const TYPE_LABELS = { person: 'People', organization: 'Organizations', channel: 'Channels', source: 'Sources', account: 'Accounts', event: 'Events', publication: 'Publications' };
 const EDGE_LABELS = { observed: 'Observed', reported: 'Reported', hypothesis: 'Hypothesis' };
@@ -27,6 +28,7 @@ export function mountGraph(host, corpus, callbacks = {}) {
   host.replaceChildren();
   const abort = new AbortController();
   const listen = (target, event, fn, options = {}) => target.addEventListener(event, fn, { ...options, signal: abort.signal });
+  const alignmentRecords=corpus.alignments||[];let alignmentDate=new Date().toISOString().slice(0,10);
   const allNodes = (corpus.nodes || []).map((node, index) => ({ ...node, index, type: node.type || 'source', label: node.label || node.name || node.id }));
   const byId = new Map(allNodes.map(node => [node.id, node]));
   const allEdges = (corpus.edges || []).filter(edge => byId.has(edge.from) && byId.has(edge.to)).map((edge, index) => ({ ...edge, index, type: EDGE_LABELS[edge.type] ? edge.type : 'hypothesis' }));
@@ -34,6 +36,7 @@ export function mountGraph(host, corpus, callbacks = {}) {
   const people = new Map((corpus.people || []).map(person => [person.id, person]));
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const state = { type: '', evidence: '', query: '', selected: null, preview: null, paused: reduced.matches, view: 'map', x: 0, y: 0, scale: 1, width: 1000, height: 650, initialized: false };
+  state.alignment='';
   let currentNodes = [], currentEdges = [], neighbors = new Map(), nodeElements = new Map(), edgeElements = new Map();
   let previewTimer = 0, observer, destroyed = false, dragDistance = 0;
   const pointers = new Map();
@@ -60,6 +63,15 @@ export function mountGraph(host, corpus, callbacks = {}) {
   const expandButton = el('button', 'ag-expand-button', 'Expand map'); expandButton.type = 'button'; expandButton.hidden = !root.requestFullscreen; expandButton.setAttribute('aria-label', 'Expand the connections map to full screen');
   toolbar.append(searchWrap, typeLabel, evidenceLabel, expandButton, viewButton);
 
+  const alignmentWrap=el('div','ag-alignments');alignmentWrap.setAttribute('aria-label',presentation.text.text12);
+  const alignmentSelect=el('select');alignmentSelect.setAttribute('aria-label',presentation.text.text12);
+  for(const [value,label]of [['','All relationships'],['ally','Allies'],['enemy','Enemies'],['mixed','Mixed / changed'],['unclassified','Unclassified']])alignmentSelect.append(new Option(label,value));
+  const dateLabel=el('label','ag-alignment-date','As of '),date=el('input');date.type='date';date.value=alignmentDate;date.setAttribute('aria-label','Relationship date');dateLabel.append(date);
+  const centerButton=el('button','',presentation.text.text13);centerButton.type='button';
+  const alignmentInfo=el('details','ag-alignment-info');alignmentInfo.append(el('summary','','Relationship key'),el('p','',presentation.text.text14));
+  const alignmentResult=el('p','ag-alignment-result');alignmentResult.setAttribute('role','status');alignmentResult.hidden=true;alignmentWrap.append(alignmentSelect,dateLabel,centerButton,alignmentInfo,alignmentResult);toolbar.after(alignmentWrap);
+  listen(alignmentSelect,'change',()=>{state.alignment=alignmentSelect.value;render();fit();});listen(date,'change',()=>{if(!date.value)return;alignmentDate=date.value;document.dispatchEvent(new CustomEvent('assc-alignment-date',{detail:alignmentDate}));applyLayout();render();fit();});
+  listen(centerButton,'click',()=>{state.query='';state.type='';state.evidence='';state.alignment='';search.value='';typeSelect.value='';evidenceSelect.value='';alignmentSelect.value='';render();fit();});
   const stage = el('div', 'ag-stage');
   const svg = svgEl('svg', { class: 'ag-canvas', role: 'group', 'aria-label': 'Interactive relationship map', tabindex: '0' });
   const instructionsId = `ag-help-${Math.random().toString(36).slice(2, 8)}`;
@@ -73,7 +85,7 @@ export function mountGraph(host, corpus, callbacks = {}) {
   const nodeLayer = svgEl('g', { class: 'ag-nodes' });
   world.append(edgeLayer, nodeLayer); svg.append(world);
   const mapCaption = el('div', 'ag-map-caption');
-  mapCaption.append(el('span', 'ag-kicker', 'THE RELATIONSHIP FIELD'), el('span', 'ag-caption-line', 'Follow the line. Read the evidence.'));
+  mapCaption.append(el('span', 'ag-kicker', 'THE RELATIONSHIP FIELD'), el('span', 'ag-caption-line', 'Relationship network'));
   const status = el('p', 'ag-map-status'); status.setAttribute('aria-live', 'polite');
   const empty = el('div', 'ag-empty'); empty.hidden = true;
   empty.append(el('strong', '', 'No matching paths'), el('p', '', 'Try another name, or clear the filters.'));
@@ -94,23 +106,10 @@ export function mountGraph(host, corpus, callbacks = {}) {
   for (const [type, label] of Object.entries(EDGE_LABELS)) { const item = el('span'); item.append(el('i', `ag-line-key ag-${type}`), document.createTextNode(label)); legend.append(item); }
   const metric = el('p', 'ag-metric', 'Node size = distinct linked records in this view. Position is for reading.');
   foot.append(legend, metric);
-  root.append(toolbar, stage, list, foot); host.append(root);
+  root.append(toolbar, alignmentWrap, stage, list, foot); host.append(root);
 
-  // A deterministic radial layout; supplied coordinates take precedence.
-  const groups = [...new Set(allNodes.map(node => node.type || 'source'))];
-  for (const [groupIndex, type] of groups.entries()) {
-    const group = allNodes.filter(node => (node.type || 'source') === type);
-    const theta = groupIndex / Math.max(groups.length, 1) * Math.PI * 2 - Math.PI / 2;
-    const centerX = groups.length === 1 ? 600 : 600 + Math.cos(theta) * 295;
-    const centerY = groups.length === 1 ? 370 : 370 + Math.sin(theta) * 190;
-    group.forEach((node, i) => {
-      const angle = i / Math.max(group.length, 1) * Math.PI * 2 + theta / 2;
-      const radius = group.length < 2 ? 0 : Math.max(100, Math.sqrt(group.length) * 48);
-      node.x = Number.isFinite(node.x) ? node.x : centerX + Math.cos(angle) * radius;
-      node.y = Number.isFinite(node.y) ? node.y : centerY + Math.sin(angle) * radius;
-    });
-  }
-
+  function applyLayout(){const layout=subjectLayout(allNodes,alignmentRecords,corpus.sources||[],alignmentDate);for(const n of layout)Object.assign(byId.get(n.id),n);}
+  applyLayout();
   function applyCamera() {
     world.setAttribute('transform', `translate(${state.x} ${state.y}) scale(${state.scale})`);
     // Preserve readable portraits and labels as positions move farther apart or closer together.
@@ -130,8 +129,8 @@ export function mountGraph(host, corpus, callbacks = {}) {
     state.scale = clamp(Math.min((state.width - 160) / Math.max(250, maxX - minX), (state.height - 195) / Math.max(250, maxY - minY)), .18, 1.65);
     // Small screens open at a reading distance; Overview always retains the complete field.
     if (readable && state.width < 650) state.scale = Math.max(.67, state.scale);
-    state.x = state.width / 2 - (minX + maxX) / 2 * state.scale;
-    state.y = state.height / 2 - 5 - (minY + maxY) / 2 * state.scale;
+    state.x = state.width / 2 - (currentNodes.some(n=>n.id===presentation.subjectId)?byId.get(presentation.subjectId).x:(minX+maxX)/2) * state.scale;
+    state.y = state.height / 2 - (currentNodes.some(n=>n.id===presentation.subjectId)?byId.get(presentation.subjectId).y:(minY+maxY)/2) * state.scale;
     applyCamera();
   }
   function zoom(factor, px = state.width / 2, py = state.height / 2) {
@@ -140,7 +139,7 @@ export function mountGraph(host, corpus, callbacks = {}) {
     state.x = px - (px - state.x) * ratio; state.y = py - (py - state.y) * ratio; state.scale = next; applyCamera();
   }
   function localPoint(event) { const rect = svg.getBoundingClientRect(); return { x: event.clientX - rect.left, y: event.clientY - rect.top }; }
-  function radius(node) { return 25 + Math.min(14, Math.sqrt(neighbors.get(node.id)?.size || 0) * 5); }
+  function radius(node) { if(node.id===presentation.subjectId)return 40;return 25 + Math.min(14, Math.sqrt(neighbors.get(node.id)?.size || 0) * 5); }
   function edgeCurve(edge) {
     const a = byId.get(edge.from), b = byId.get(edge.to);
     const dx = b.x - a.x, dy = b.y - a.y, length = Math.hypot(dx, dy) || 1;
@@ -196,11 +195,12 @@ export function mountGraph(host, corpus, callbacks = {}) {
       const title = el('div'); title.append(el('span', 'ag-kicker', node.type || 'Record'), el('h3', '', node.label)); identity.append(title); detail.append(identity);
       if (person?.role) detail.append(el('p', 'ag-detail-role', person.role));
       detail.append(el('p', 'ag-detail-copy', node.bio || person?.bio || 'Follow the source trail for this record.'));
+      if(node.type==='person'&&node.id!==presentation.subjectId){const a=node.alignment;detail.append(el('p','ag-alignment-label',alignmentLabels[a.stance]+(a.asOf?' · '+a.asOf:'')));for(const r of a.records){detail.append(el('p','ag-detail-copy',r.statement),el('small','',r.locator));sourceButtons(r.sourceIds,detail);}}
       const degree = neighbors.get(id)?.size || 0;
       detail.append(el('p', 'ag-degree', `${degree} distinct linked ${degree === 1 ? 'record' : 'records'} in this view`));
       const actions = el('div', 'ag-detail-actions');
       const focus = el('button', '', 'Focus this record ↗'); focus.type = 'button'; listen(focus, 'click', () => focusNode(id)); actions.append(focus);
-      if (person && callbacks.onPerson) { const bio = el('button', '', 'Open biography →'); bio.type = 'button'; listen(bio, 'click', () => callbacks.onPerson(id)); actions.append(bio); }
+      if (callbacks.onPerson) { const bio = el('button', '', 'Open profile →'); bio.type = 'button'; listen(bio, 'click', () => callbacks.onPerson(id)); actions.append(bio); }
       detail.append(actions); sourceButtons(node.sourceIds || person?.sourceIds, detail);
     } else {
       const edge = allEdges.find(item => item.id === id); if (!edge) return;
@@ -236,9 +236,11 @@ export function mountGraph(host, corpus, callbacks = {}) {
     if (!currentNodes.length) list.append(el('p', 'ag-list-empty', 'No records match the current filters.'));
   }
   function render() {
+    alignmentResult.hidden=!state.alignment;const matching=allNodes.filter(n=>n.alignment.stance===state.alignment).length;alignmentResult.textContent=state.alignment?(matching?matching+' '+({ally:'reviewed allies',enemy:'reviewed enemies',mixed:'mixed relationships',unclassified:'unclassified people'})[state.alignment]:'No reviewed '+({ally:'allies',enemy:'enemies',mixed:'mixed relationships',unclassified:'unclassified people'})[state.alignment]+presentation.text.text15):'';
     clearSelection();
+    for(const option of alignmentSelect.options){const value=option.value;if(value)option.textContent=({ally:'Allies',enemy:'Enemies',mixed:'Mixed / changed',unclassified:'Unclassified'})[value]+' · '+allNodes.filter(n=>n.alignment.stance===value).length;}
     const query = state.query.trim().toLowerCase();
-    currentNodes = allNodes.filter(node => (!state.type || node.type === state.type) && (!query || [node.label, node.bio, ...(people.get(node.id)?.aliases || [])].filter(Boolean).join(' ').toLowerCase().includes(query)));
+    currentNodes = allNodes.filter(node => (!state.alignment||node.id===presentation.subjectId||node.alignment.stance===state.alignment) && (!state.type || node.type === state.type) && (!query || [node.label, node.bio, ...(people.get(node.id)?.aliases || [])].filter(Boolean).join(' ').toLowerCase().includes(query)));
     const ids = new Set(currentNodes.map(node => node.id));
     currentEdges = allEdges.filter(edge => ids.has(edge.from) && ids.has(edge.to) && (!state.evidence || edge.type === state.evidence));
     neighbors = new Map(currentNodes.map(node => [node.id, new Set()]));
@@ -257,7 +259,7 @@ export function mountGraph(host, corpus, callbacks = {}) {
       edgeLayer.append(group); edgeElements.set(edge.id, group);
     }
     for (const node of currentNodes) {
-      const r = radius(node); const group = svgEl('g', { class: `ag-node ag-node-${node.type || 'source'}`, transform: `translate(${node.x} ${node.y})`, tabindex: '0', role: 'button', 'aria-label': `${node.label}, ${node.type || 'record'}, ${neighbors.get(node.id).size} linked records. Open detail.` });
+      const r = radius(node); const group = svgEl('g', { class: `ag-node ag-node-${node.type || 'source'} ag-alignment-${node.alignment.stance}`, transform: `translate(${node.x} ${node.y})`, tabindex: '0', role: 'button', 'aria-label': `${node.label}, ${node.type || 'record'}, ${neighbors.get(node.id).size} linked records. Open detail.` });
       const portrait = portraitPath(node.portrait || people.get(node.id)?.portrait);
       group.append(svgEl('circle', { class: 'ag-node-halo', r: r + 9 }), svgEl('circle', { class: 'ag-node-ring', r: r + 3 }), svgEl('circle', { class: 'ag-node-core', r }));
       if (portrait) {
@@ -273,9 +275,9 @@ export function mountGraph(host, corpus, callbacks = {}) {
       group.append(svgEl('text', { class: 'ag-node-kind', y: r + 38 + (lines.length - 1) * 14, 'text-anchor': 'middle' }, (node.type || 'record').toUpperCase()));
       listen(group, 'pointerenter', () => select('node', node.id)); listen(group, 'pointerleave', leavePreview);
       listen(group, 'focus', () => select('node', node.id)); listen(group, 'blur', leavePreview);
-      listen(group, 'click', () => { if (dragDistance < 6) select('node', node.id, true); });
+      listen(group, 'click', () => { if (dragDistance < 6) {select('node', node.id, true);callbacks.onPerson?.(node.id);} });
       listen(group, 'dblclick', event => { event.preventDefault(); focusNode(node.id); });
-      listen(group, 'keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); select('node', node.id, true); } });
+      listen(group, 'keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); select('node', node.id, true);callbacks.onPerson?.(node.id); } });
       nodeLayer.append(group); nodeElements.set(node.id, group);
     }
     status.textContent = `${String(currentNodes.length).padStart(2, '0')} RECORDS / ${String(currentEdges.length).padStart(2, '0')} CONNECTIONS`;
@@ -289,21 +291,23 @@ export function mountGraph(host, corpus, callbacks = {}) {
     const oldW = state.width, oldH = state.height;
     state.width = rect.width; state.height = rect.height;
     svg.setAttribute('viewBox', `0 0 ${rect.width} ${rect.height}`);
-    if (!state.initialized || rect.width !== oldW || rect.height !== oldH) { fit(true); state.initialized = true; }
-    else applyCamera();
+    if (!state.initialized) { fit(true); state.initialized = true; }
+    else { state.x += (rect.width-oldW)/2; state.y += (rect.height-oldH)/2; applyCamera(); }
   }
   function focusNode(id) {
+    const previous={x:state.x,y:state.y,scale:state.scale};
     const node = byId.get(id); if (!node) return;
-    if (!currentNodes.includes(node)) { state.type = ''; state.evidence = ''; state.query = ''; search.value = ''; typeSelect.value = ''; evidenceSelect.value = ''; render(); }
+    if (!currentNodes.includes(node)) { state.type = ''; state.evidence = ''; state.query = ''; state.alignment='';alignmentSelect.value='';search.value = ''; typeSelect.value = ''; evidenceSelect.value = ''; render(); }
     state.scale = Math.max(1.15, state.scale);
     state.x = state.width * (state.width > 700 ? .38 : .5) - node.x * state.scale;
     state.y = state.height * .46 - node.y * state.scale; applyCamera(); select('node', id, true);
+    if(!reduced.matches)world.animate([{transform:`translate(${previous.x}px,${previous.y}px) scale(${previous.scale})`},{transform:`translate(${state.x}px,${state.y}px) scale(${state.scale})`}],{duration:220,easing:'ease-out'});
   }
   function setMotion() { root.classList.toggle('ag-motion-paused', state.paused); motionButton.setAttribute('aria-pressed', String(state.paused)); motionButton.textContent = state.paused ? '▷' : 'Ⅱ'; motionButton.setAttribute('aria-label', state.paused ? 'Resume map motion' : 'Pause map motion'); }
   listen(search, 'input', () => { state.query = search.value; render(); });
   listen(typeSelect, 'change', () => { state.type = typeSelect.value; render(); });
   listen(evidenceSelect, 'change', () => { state.evidence = evidenceSelect.value; render(); });
-  listen(clearButton, 'click', () => { state.query = ''; state.type = ''; state.evidence = ''; search.value = ''; typeSelect.value = ''; evidenceSelect.value = ''; render(); });
+  listen(clearButton, 'click', () => { state.query = ''; state.type = ''; state.evidence = '';state.alignment='';alignmentSelect.value=''; search.value = ''; typeSelect.value = ''; evidenceSelect.value = ''; render(); });
   listen(viewButton, 'click', () => { state.view = state.view === 'map' ? 'list' : 'map'; stage.hidden = state.view !== 'map'; list.hidden = state.view !== 'list'; viewButton.textContent = state.view === 'map' ? 'List view' : 'Map view'; viewButton.setAttribute('aria-pressed', String(state.view === 'list')); resize(); });
   listen(expandButton, 'click', async () => {
     try { if (document.fullscreenElement === root) await document.exitFullscreen(); else await root.requestFullscreen(); }
@@ -359,5 +363,31 @@ export function mountGraph(host, corpus, callbacks = {}) {
   listen(svg, 'click', event => { if (dragDistance < 6 && !event.target.closest('.ag-node, .ag-edge')) clearSelection(); });
   render(); setMotion(); resize();
   observer = new ResizeObserver(resize); observer.observe(stage);
-  return { resize, focusNode, destroy() { destroyed = true; abort.abort(); observer?.disconnect(); clearTimeout(previewTimer); host.replaceChildren(); } };
+  return { resize, fit:()=>fit(true), focusNode, destroy() { destroyed = true; abort.abort(); observer?.disconnect(); clearTimeout(previewTimer); host.replaceChildren(); } };
+}
+
+const alignmentLabels={ally:'Ally',enemy:'Enemy',mixed:'Mixed / changed',unclassified:'Unclassified',context:'Context record',subject:'Central subject'};
+function validAlignmentDate(value){return /^\d{4}-\d{2}-\d{2}$/.test(value||'')&&Number.isFinite(Date.parse(value))&&new Date(value).toISOString().slice(0,10)===value;}
+function reviewedAlignment(id,records,sources,asOf='9999-12-31'){
+  if(id===presentation.subjectId)return {stance:'subject',records:[]};
+  const sourceIds=new Set(sources.map(s=>s.id));
+  const valid=(records||[]).filter(r=>r.subjectId===presentation.subjectId&&r.personId===id&&['ally','enemy','mixed'].includes(r.stance)&&r.status==='reviewed'&&validAlignmentDate(r.asOf)&&r.asOf<=asOf&&r.statement?.trim()&&r.sourceIds?.length&&r.sourceIds.every(s=>sourceIds.has(s))&&r.locator?.trim());
+  if(!valid.length)return {stance:'unclassified',records:[]};
+  const date=valid.map(r=>r.asOf).sort().at(-1),latest=valid.filter(r=>r.asOf===date);
+  return {stance:new Set(latest.map(r=>r.stance)).size===1?latest[0].stance:'mixed',asOf:date,records:latest};
+}
+function subjectLayout(nodes,records=[],sources=[],asOf){
+  const center={x:600,y:450};
+  const groups={ally:[],enemy:[],mixed:[],unclassified:[],context:[]};
+  const result=nodes.map(n=>({...n,alignment:n.id===presentation.subjectId?{stance:'subject',records:[]}:n.type==='person'?reviewedAlignment(n.id,records,sources,asOf):{stance:'context',records:[]}}));
+  for(const n of result)if(n.id===presentation.subjectId)Object.assign(n,center);else groups[n.alignment.stance].push(n);
+  for(const [stance,list]of Object.entries(groups)){
+    list.sort((a,b)=>a.id.localeCompare(b.id));
+    list.forEach((n,i)=>{const ring=Math.floor(i/10),slot=i%10,count=Math.min(10,list.length-ring*10),radius=stance==='context'?540+ring*170:300+ring*150;
+      const start=stance==='ally'?Math.PI*.62:stance==='enemy'?-Math.PI*.38:stance==='mixed'?Math.PI*.15:-Math.PI/2;
+      const sweep=['ally','enemy','mixed'].includes(stance)?Math.PI*.65:Math.PI*2;
+      const angle=start+(i%10+.5)/count*sweep;n.x=center.x+Math.cos(angle)*radius;n.y=center.y+Math.sin(angle)*radius;
+    });
+  }
+  return result;
 }

@@ -3,6 +3,7 @@ import content from '../data/chem-content.html?raw';
 import '../styles/chem.css';
 import '../styles/chem-simple.css';
 import ChemSimple from '../components/ChemSimple.astro';
+import ScreenMotion from '../components/ScreenMotion.astro';
 import {flashcards,questions} from '../../public/chem/retrieval-data.js';
 import workflowShell from '../data/chem-workflow-shell.html?raw';
 import {annotateGuide} from '../../public/chem/lecture-highlights.js';
@@ -24,6 +25,7 @@ sections.splice(9,0,['random-practice','09c','Randomized practice']);
 <!doctype html>
 <html lang="en">
   <head>
+    <ScreenMotion kind="paper" target="#main" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex,nofollow,noarchive,noimageindex" />

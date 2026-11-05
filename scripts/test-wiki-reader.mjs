@@ -1,5 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import vm from 'node:vm';
+import * as wikiShared from '../public/wiki-assets/shared.js';
 import { snapshot, markup, linksIn, pacificDayEnd, lineDiff, attributedLines, stablePositions } from '../public/wiki-assets/shared.js';
 
 test('attribution preserves unchanged lines and credits the revision that replaces a line', () => {
@@ -34,4 +37,77 @@ test('layout positions remain stable as articles arrive',()=>{
 test('revision diff includes actual additions and removals with escaped markup',()=>{
  const diff=lineDiff('Old sentence.\nKeep.','New sentence <script>.\nKeep.');
  assert.ok(JSON.stringify(diff).includes('Old sentence'));assert.ok(JSON.stringify(diff).includes('New sentence'));
+});
+
+function screenFixture(file, motion = true) {
+ const nodes = new Map(), reveals = [], cancelled = [], handlers = new Map();
+ function node(id) {
+   if (!nodes.has(id)) {
+     const listeners = new Map(), attributes = new Map();
+     nodes.set(id, {
+       id, hidden:false, value:'', textContent:'', innerHTML:'', dataset:{}, isConnected:true,
+       classList:{add(){},remove(){},toggle(){}},
+       addEventListener(type, fn) { const list=listeners.get(type)||[];list.push(fn);listeners.set(type,list); },
+       async emit(type, values={}) { for(const fn of listeners.get(type)||[])await fn({target:this,currentTarget:this,preventDefault(){},...values}); },
+       setAttribute(name,value){attributes.set(name,value);},getAttribute(name){return attributes.get(name);},
+       removeAttribute(name){attributes.delete(name);},querySelectorAll(){return [];},
+       focus(){this.focused=true;},scrollIntoView(){this.scrolled=true;},
+       getBoundingClientRect(){return {width:1000,height:700};},
+     });
+   }
+   return nodes.get(id);
+ }
+ const views=['articles','principles','relationships','activity'].map(name=>{const button=node(`view-${name}`);button.dataset.mapView=name;return button;});
+ const document={getElementById:node,querySelector:selector=>node(selector),querySelectorAll:selector=>selector==='[data-map-view]'?views:[],addEventListener(){},activeElement:null,hidden:false};
+ const window={matchMedia:()=>({matches:false,addEventListener(){}})};
+ if(motion)window.SiteMotion={revealScreen(target, options){reveals.push({id:target.id,kind:options.kind,hidden:target.hidden});},cancelScreen(target){cancelled.push(target.id);}};
+ const fixture={meta:{foundingAt:'2026-01-01T00:00:00Z',latestCompletedAt:'2026-01-02T00:00:00Z'},events:[],editors:[],cycles:[],relationships:[],journals:[],principles:[]};
+ const context=vm.createContext({
+   ...wikiShared,document,window,URL,URLSearchParams,
+   location:{search:'',hash:'',href:'https://example.invalid/wiki/',origin:'https://example.invalid',pathname:'/wiki/'},
+   history:{replaceState(){}},ResizeObserver:class{observe(){}},
+   requestAnimationFrame:()=>1,cancelAnimationFrame(){},setTimeout,
+   loadData:async()=>fixture,safeSessionGet:()=> 'yes',safeSessionSet(){},
+   installGate:(kind,unlock)=>handlers.set(kind,unlock),
+ });
+ const source=readFileSync(new URL(`../public/wiki-assets/${file}`,import.meta.url),'utf8');
+ vm.runInContext(source.replace(/^import[^\n]+\n/,''),context,{filename:file});
+ return {node,views,reveals,cancelled,context,unlock:async fresh=>handlers.get(file==='wiki.js'?'wiki':'map')(fresh)};
+}
+
+test('reader reveals the completed page only after unlock and preserves its focus and anchor navigation',async()=>{
+ const ui=screenFixture('wiki.js');
+ assert.deepEqual(ui.reveals,[]);
+ ui.context.location.hash='#fixture-heading';
+ await ui.unlock(true);
+ assert.deepEqual(ui.reveals,[{id:'wiki-content',kind:'paper',hidden:false}]);
+ assert.equal(ui.node('load-status').hidden,true);
+ assert.equal(ui.node('wiki-content').focused,true);
+ assert.equal(ui.node('fixture-heading').scrolled,true);
+ const noMotion=screenFixture('wiki.js',false);
+ await noMotion.unlock(true);
+ assert.equal(noMotion.node('wiki-content').focused,true,'the reader remains usable when the enhancement is unavailable');
+});
+
+test('map reveals entry and intentional view changes without animating filters, time scrubbing or record selection',async()=>{
+ const ui=screenFixture('map.js');
+ assert.deepEqual(ui.reveals,[]);
+ await ui.unlock(false);
+ assert.deepEqual(ui.reveals.map(item=>item.id),['map-controls']);
+ await ui.node('view-activity').emit('click');
+ assert.deepEqual(ui.reveals.map(item=>item.id),['map-controls','activity-view']);
+ assert.equal(ui.reveals.at(-1).hidden,false);
+ assert.equal(ui.node('view-activity').getAttribute('aria-pressed'),'true');
+ assert.ok(ui.cancelled.includes('map-controls'),'switching immediately cancels the parent entrance reveal');
+ await ui.node('view-activity').emit('click');
+ await ui.node('map-search').emit('input');
+ await ui.node('map-category').emit('change');
+ vm.runInContext("setTime(earliest); select('fixture-record','article');",ui.context);
+ assert.equal(ui.reveals.length,2,'continuous data and selection updates must not restart screen motion');
+ await ui.node('view-relationships').emit('click');
+ assert.equal(ui.reveals.at(-1).id,'map-explorer');
+ assert.equal(ui.reveals.at(-1).kind,'paper');
+ const noMotion=screenFixture('map.js',false);
+ await noMotion.unlock(false);await noMotion.node('view-activity').emit('click');
+ assert.equal(noMotion.node('activity-view').hidden,false);
 });

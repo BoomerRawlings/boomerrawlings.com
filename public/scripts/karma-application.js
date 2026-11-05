@@ -100,6 +100,8 @@
   }
 
   function showStep(index, moveFocus = true) {
+    const direction = index < current ? -1 : 1;
+    window.SiteMotion?.cancelScreen(steps[current]);
     current = index;
     steps.forEach((step, position) => {
       step.hidden = position !== current;
@@ -116,6 +118,7 @@
     if (moveFocus) {
       dialog.scrollTop = 0;
       steps[current].querySelector('legend').focus();
+      window.SiteMotion?.revealScreen(steps[current], {kind: 'paper', direction});
     }
   }
 
@@ -149,11 +152,12 @@
     return true;
   }
 
-  function revealReport() {
+  function revealReport(animate = false) {
     const report = document.querySelector('#report');
     const gate = document.querySelector('#report-gate');
     if (report) report.hidden = false;
     if (gate) gate.hidden = true;
+    if (animate && report) window.SiteMotion?.revealScreen(report, {kind: 'paper', direction: 1});
   }
 
   function focusReport() {
@@ -204,6 +208,8 @@
 
   dialog.querySelector('#application-close').addEventListener('click', () => dialog.close());
   dialog.addEventListener('close', () => {
+    window.SiteMotion?.cancelScreen(steps[current]);
+    window.SiteMotion?.cancelScreen(finalPanel);
     if (issued) focusReport();
     else if (opener?.isConnected) opener.focus();
   });
@@ -233,6 +239,7 @@
       finalCheck.disabled = false;
       next.textContent = 'Send paperwork & release my report';
       finalCheck.focus();
+      window.SiteMotion?.revealScreen(finalPanel, {kind: 'paper', direction: 1});
       return;
     }
     sending = true;
@@ -246,7 +253,7 @@
       const delivered = await window.BoomerKarmaDelivery.send('report', completedPaperwork());
       if (delivered !== true) throw new Error('Delivery not confirmed');
       issued = true;
-      revealReport();
+      revealReport(true);
       try {
         sessionStorage.setItem(storageKey, 'true');
       } catch {

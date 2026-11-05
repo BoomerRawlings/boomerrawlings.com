@@ -9,11 +9,13 @@ function fixture() {
     return {
       addEventListener(type, callback) { if (!listeners.has(type)) listeners.set(type, new Set()); listeners.get(type).add(callback); },
       removeEventListener(type, callback) { listeners.get(type)?.delete(callback); },
-      emit(type) { for (const listener of listeners.get(type) || []) listener(); },
+      emit(type, event = {}) { for (const listener of listeners.get(type) || []) listener(event); },
+      listenerCount(type) { return listeners.get(type)?.size || 0; },
     };
   };
   const media = { ...eventTarget(), matches: false };
-  const document = { ...eventTarget(), hidden: false, defaultView: { matchMedia: () => media }, activeElement: null };
+  const window = { ...eventTarget(), matchMedia: () => media };
+  const document = { ...eventTarget(), hidden: false, defaultView: window, activeElement: null };
   const make = (tag = 'div', textContent = '') => {
     const node = {
       tagName: tag.toUpperCase(), textContent, children: [], attributes: {}, dataset: {}, hidden: false, scrollTop: 172,
@@ -40,7 +42,7 @@ function fixture() {
   panel.append(title); panel.append(paragraph); panel.append(control);
   document.body.append(panel); document.activeElement = control;
   const motion = new UIMotion(document);
-  return { document, media, make, panel, title, paragraph, control, motion, animations };
+  return { document, window, media, make, panel, title, paragraph, control, motion, animations };
 }
 const settle = async () => { await Promise.resolve(); await Promise.resolve(); await Promise.resolve(); };
 
@@ -107,6 +109,34 @@ test('a long result list has bounded work and finishes under 700ms', () => {
   assert.ok(ui.animations.every(animation => animation.options.duration + (animation.options.delay || 0) <= 700));
   assert.ok(ui.animations.every(animation => !animation.options.iterations || animation.options.iterations === 1));
   ui.motion.stop();
+});
+
+test('page navigation cancels reveals and blocks late work until a restored page receives a new user change', async () => {
+  const ui = fixture();
+  ui.motion.reveal(ui.panel, { key: 'before-navigation' });
+  const oldAnimations = [...ui.animations];
+  ui.window.emit('pagehide');
+  await settle();
+  assert.equal(ui.document.hidden, false, 'pagehide must work independently of visibility events');
+  assert.equal(ui.motion.running.size, 0);
+  assert.equal(ui.panel.children.length, 3);
+  assert.ok(oldAnimations.every(animation => animation.cancelled));
+
+  const count = ui.animations.length;
+  ui.motion.reveal(ui.panel, { key: 'late-result' });
+  assert.equal(ui.animations.length, count, 'late results must not restart motion during navigation');
+  ui.window.emit('pageshow', { persisted: true });
+  await settle();
+  assert.equal(ui.animations.length, count, 'restoring history must not replay an unfinished reveal');
+  assert.equal(ui.document.activeElement, ui.control);
+  assert.equal(ui.panel.scrollTop, 172);
+  ui.motion.reveal(ui.panel, { key: 'new-selection' });
+  assert.ok(ui.animations.length > count, 'new interactions can animate after restoration');
+  ui.motion.destroy();
+  assert.equal(ui.window.listenerCount('pagehide'), 0);
+  assert.equal(ui.window.listenerCount('pageshow'), 0);
+  assert.equal(ui.document.listenerCount('visibilitychange'), 0);
+  assert.equal(ui.media.listenerCount('change'), 0);
 });
 
 test('the entrance owns startup animation until the workspace is revealed', () => {

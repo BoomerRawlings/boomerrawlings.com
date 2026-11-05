@@ -20,6 +20,4 @@
 .model-selection{right:138px;margin:0;max-width:360px}
 @media(max-width:620px){.model-selection{right:112px;left:15px}}
 
-/* Match the portfolio’s cross-document opt-in for clean native navigation. */
-@view-transition{navigation:auto}
-@media(prefers-reduced-motion:reduce){@view-transition{navigation:none}}
+/* Protected lecture content stays out of cross-document navigation snapshots. */

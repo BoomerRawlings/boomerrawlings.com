@@ -2,15 +2,21 @@
 export class UIMotion {
   constructor(document, { active = true } = {}) {
     this.document = document;
+    this.window = document.defaultView;
     this.active = active;
     this.paused = false;
+    this.suspended = false;
     this.running = new Map();
     this.keys = new WeakMap();
     this.media = document.defaultView?.matchMedia?.('(prefers-reduced-motion: reduce)');
     this.onVisibility = () => { if (document.hidden) this.stop(); };
     this.onPreference = () => { if (this.media.matches) this.stop(); };
+    this.onPageHide = () => { this.suspended = true; this.stop(); };
+    this.onPageShow = event => { this.suspended = false; if (event.persisted) this.stop(); };
     document.addEventListener('visibilitychange', this.onVisibility);
     this.media?.addEventListener('change', this.onPreference);
+    this.window?.addEventListener?.('pagehide', this.onPageHide);
+    this.window?.addEventListener?.('pageshow', this.onPageShow);
   }
 
   setActive(active) { this.active = Boolean(active); if (!this.active) this.stop(); }
@@ -19,7 +25,7 @@ export class UIMotion {
     this.document.body?.setAttribute('data-ui-motion-paused', String(this.paused));
     if (this.paused) this.stop();
   }
-  allowed() { return this.active && !this.paused && !this.document.hidden && !this.media?.matches && !this.document.body?.classList?.contains('entry-pending'); }
+  allowed() { return this.active && !this.paused && !this.suspended && !this.document.hidden && !this.media?.matches && !this.document.body?.classList?.contains('entry-pending'); }
 
   reveal(surface, { key, fields, mode = 'panel' } = {}) {
     if (!surface || (key !== undefined && this.keys.get(surface) === key)) return;
@@ -86,5 +92,7 @@ export class UIMotion {
     this.stop();
     this.document.removeEventListener('visibilitychange', this.onVisibility);
     this.media?.removeEventListener('change', this.onPreference);
+    this.window?.removeEventListener?.('pagehide', this.onPageHide);
+    this.window?.removeEventListener?.('pageshow', this.onPageShow);
   }
 }

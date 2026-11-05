@@ -1,5 +1,5 @@
 import { COOKIE_NAME, cookieToken, digest, randomToken, sessionCookie, validAnswer } from './auth.mjs';
-const CLIENT_FILES = new Set(['app.html','app.js','app.css','graph.js','graph.css','timeline.js','timeline.css']);
+const CLIENT_FILES = new Set(['app.html','app.js','app.css','graph.js','graph.css','timeline.js','timeline.css','kf.js','kf-model.js','kf.css','kf-state.js','profiles.js','screen-motion.js','presentation.js']);
 const ENTRY_FILES = new Set(['gate.css','gate.js','assc-logo.png']);
 const JSON_HEADERS = {'Content-Type':'application/json; charset=utf-8'};
 export const securityHeaders = {
@@ -53,6 +53,10 @@ export function createHandler({read,repository,store,authConfig,origin,secure=tr
     if (ENTRY_FILES.has(path)) return read(`client/${path}`);
     if (!authenticated) return json({error:'Sign in to continue.'},401,token ? {'Set-Cookie':sessionCookie('',secure,true)} : {});
     if (path === 'api/session') return json({authenticated:true,revision});
+    if (path === 'api/presentation') return read('.private/presentation.json');
+    if(path==='api/profiles')return read('.private/profile-index.json');
+    const profile=/^api\/profiles\/([a-zA-Z0-9][a-zA-Z0-9_-]{0,120})$/.exec(path);if(profile)return read('.private/profiles/'+profile[1]+'.json');
+    if (path === 'api/kf') return read('.private/kf.json');
     if (path === 'api/corpus') return json(await repository.corpus());
     if (path === 'api/transcripts') return json(await repository.search(url.searchParams));
     const transcript = /^api\/transcripts\/([a-zA-Z0-9_.-]+)(\/original)?$/.exec(path);

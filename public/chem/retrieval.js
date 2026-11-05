@@ -3,7 +3,7 @@ import {highlightsForSection,insertHighlights,practiceBadge} from './lecture-hig
 
 const $=id=>document.getElementById(id);
 let deck=[...flashcards],position=0;
-function renderCard(){
+function renderCard(animate=true){
   const card=deck[position];
   $('flash-category').textContent=card.topic;
   $('flash-progress').textContent=`Card ${position+1} of ${deck.length}`;
@@ -16,12 +16,14 @@ function renderCard(){
   $('flash-answer').hidden=true;
   $('flash-flip').setAttribute('aria-expanded','false');
   $('flash-flip').textContent='Show answer';
+  if(animate)window.SiteMotion?.revealScreen($('flash-prompt'),{kind:'paper'});
 }
 $('flash-flip').addEventListener('click',()=>{
   const hidden=!$('flash-answer').hidden;
   $('flash-answer').hidden=hidden;
   $('flash-flip').setAttribute('aria-expanded',String(!hidden));
   $('flash-flip').textContent=hidden?'Show answer':'Hide answer';
+  if(!hidden)window.SiteMotion?.revealScreen($('flash-answer'),{kind:'paper'});
 });
 $('flash-next').addEventListener('click',()=>{position=(position+1)%deck.length;renderCard();});
 $('flash-prev').addEventListener('click',()=>{position=(position-1+deck.length)%deck.length;renderCard();});
@@ -55,7 +57,7 @@ for(const question of questions){
     results.delete(question.id);$(`feedback-${question.id}`).hidden=true;renderScore();
   }));
 }
-renderCard();
+renderCard(false);
 $('qa-topic').addEventListener('change',()=>{
   document.querySelectorAll('[data-qa]').forEach(article=>{
     article.hidden=$('qa-topic').value!=='all'&&article.dataset.topic!==$('qa-topic').value;

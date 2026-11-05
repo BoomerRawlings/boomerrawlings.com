@@ -9,6 +9,10 @@ import { createHandler } from './handler.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.jpg':'image/jpeg','.png':'image/png','.webp':'image/webp','.txt':'text/plain; charset=utf-8'};
 export async function readLocal(name,base=root) {
+  if (name === 'client/screen-motion.js') {
+    try { return new Response(await readFile(path.resolve(root, '../../public/scripts/screen-motion.js')), { headers: { 'Content-Type': types['.js'] } }); }
+    catch { return new Response('Not found', { status: 404 }); }
+  }
   const target=path.resolve(base,name);
   if(!target.startsWith(path.resolve(base)+path.sep)) return new Response('Not found',{status:404});
   try{return new Response(await readFile(target),{headers:{'Content-Type':types[path.extname(target)] || 'application/octet-stream'}});}

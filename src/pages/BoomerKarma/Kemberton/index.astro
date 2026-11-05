@@ -5,6 +5,7 @@ import '@fontsource/source-sans-3/latin-400.css';
 import '@fontsource/source-sans-3/latin-600.css';
 import report from '../../../data/kem-karma.json';
 import KarmaBureau from '../../../components/KarmaBureau.astro';
+import ScreenMotion from '../../../components/ScreenMotion.astro';
 import '../../../styles/boomer-karma.css';
 import '../../../styles/kem-karma.css';
 
@@ -27,6 +28,7 @@ const deliveryScript = scriptUrl('boomer-karma-delivery.js');
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; script-src 'self'; connect-src 'self' https://formsubmit.co; base-uri 'none'; form-action 'none'" />
+    <ScreenMotion />
     <meta name="robots" content="noindex,nofollow,noarchive,noimageindex" />
     <meta name="referrer" content="no-referrer" />
     <meta name="description" content="BoomerKarma Feline Division. Request Kemberton’s entirely unofficial connection report." />

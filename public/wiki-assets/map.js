@@ -328,7 +328,10 @@ function select(id,type) {
 }
 function updateViewButtons() {for(const button of document.querySelectorAll('[data-map-view]'))button.setAttribute('aria-pressed',String(button.dataset.mapView===view));}
 function switchView(next) {
+  const changed=view!==next;
+  if(changed)for(const id of ['map-controls','map-explorer','activity-view','journal-view'])window.SiteMotion?.cancelScreen($(id));
   view=next;selected=null;currentQuery='';$('map-search').value='';updateViewButtons();render();fitNetwork();updateAddress();
+  if(changed)window.SiteMotion?.revealScreen($(view==='activity'?'activity-view':view==='journals'?'journal-view':'map-explorer'), {kind:'paper'});
 }
 
 $('timeline-range').addEventListener('input',event=>{stopPlayback();setTime(event.target.value);});
@@ -383,6 +386,7 @@ installGate('map',async fresh=>{
   $('timeline-range').min=String(earliest);$('timeline-range').max=String(latest);$('timeline-day').min=dayKey(earliest);$('timeline-day').max=dayKey(latest);
   $('timeline-start').textContent=`Day 1 · ${dateText(earliest,true)}`;$('timeline-end').textContent=`Present · ${dateText(latest,true)}`;
   $('load-status').hidden=true;$('map-controls').hidden=false;updateViewButtons();render();fitNetwork();
+  window.SiteMotion?.revealScreen($('map-controls'), {kind:'paper'});
   if(fresh)document.querySelector('.map-content').focus({preventScroll:true});
   const replayKey='human-condition.map.replayed.v1';
   if(fresh||safeSessionGet(replayKey)!=='yes'){safeSessionSet(replayKey,'yes');startPlayback(earliest,current);}

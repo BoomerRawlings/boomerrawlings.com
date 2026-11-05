@@ -65,6 +65,7 @@ function render() {
   photo.src = `/psyc/images/${visual.file}`;
   if (photo.complete && photo.naturalWidth) photo.onload();
   stats();
+  window.SiteMotion?.revealScreen($('quiz'), { kind: 'instrument' });
   $('question').focus({ preventScroll: true });
   if ($('question').getBoundingClientRect().top < 0) $('question').scrollIntoView({ block: 'start' });
 }
@@ -105,6 +106,7 @@ function finish() {
   $('result-note').textContent = round.missed.length ? `${round.missed.length} to revisit. Best streak: ${round.best}.` : `All correct. Best streak: ${round.best}.`;
   $('review').hidden = round.missed.length === 0;
   $('review').textContent = `Retry ${round.missed.length} missed`;
+  window.SiteMotion?.revealScreen($('summary'), { kind: 'panel' });
   $('summary-title').focus({ preventScroll: true });
 }
 buttons.forEach(button => button.addEventListener('click', () => {

@@ -53,6 +53,10 @@ const structurePicker=createStructurePicker(id=>viewer?.focusPart(id));
 
 function save(){try{localStorage.setItem(storageKey,JSON.stringify(progress));}catch{}}
 function announce(message:string){$('announcement').textContent=message;}
+function revealScreen(element:HTMLElement){
+  if(!ambientMoving)return;
+  (window as Window & {SiteMotion?:{revealScreen:(target:Element,options:{kind:string})=>unknown}}).SiteMotion?.revealScreen(element,{kind:'instrument'});
+}
 function button(text:string,action:()=>void,className=''){const element=document.createElement('button');element.type='button';element.textContent=text;element.className=className;element.addEventListener('click',action);return element;}
 function externalLink(text:string,url:string){const element=document.createElement('a');element.textContent=text;element.href=url;element.target='_blank';element.rel='noopener noreferrer';return element;}
 
@@ -183,6 +187,7 @@ function filterTopics(){
 }
 
 function setMode(nextMode:string){
+  const changed=nextMode!==mode;
   structurePicker.close();mode=nextMode;
   const introCopy=mode==='paths'?['Connect the ideas.','Move through anatomy and mechanisms in a guided sequence.']:mode==='recall'?['Make it stick.','Practice retrieval, examine the explanation, and return to what needs work.']:mode==='lectures'?['Enter the lecture room.','Unlock your private course sessions.']:['Explore the atlas.','Follow a structure. Find a connection. See how it works.'];
   $('page-title').textContent=introCopy[0];
@@ -197,6 +202,8 @@ function setMode(nextMode:string){
   practice?.setActive(mode==='recall');
   const params=new URLSearchParams(location.hash.slice(1));if(mode==='explore')params.delete('mode');else params.set('mode',mode==='recall'?'practice':mode);history.replaceState(null,'',`#${params}`);
   if(mode!=='recall')requestAnimationFrame(()=>viewer?.resize());
+  // The model owns its camera motion; only the newly selected reading pane enters.
+  if(changed)revealScreen(mode==='explore'?document.querySelector<HTMLElement>('.reader')! : $(mode==='paths'?'paths-panel':mode==='recall'?'recall-panel':'lectures-panel'));
 }
 
 const lectureController=initializeLectures($('lectures-panel'));
@@ -245,6 +252,7 @@ function renderQuestion(){
   $('recall-feedback').hidden=true;$('recall-next').hidden=true;$('recall-explore').hidden=true;
   choiceOrder=makeRound(topic.question.choices.map((_,i)=>i),topic.question.choices.length);
   $('recall-answers').replaceChildren(...choiceOrder.map((choiceIndex,index)=>{const answer=button('',()=>answerQuestion(choiceIndex));const key=document.createElement('b');key.textContent=String(index+1);const text=document.createElement('span');text.textContent=topic.question.choices[choiceIndex];answer.append(key,text);return answer;}));
+  revealScreen($('recall-quiz'));
   $('recall-question').focus({preventScroll:true});
 }
 function answerQuestion(index:number){
@@ -277,6 +285,7 @@ function finishRound(){
   const again=button('New round ↗',()=>startRound(scopedTopics()),'primary');
   $('recall-result').replaceChildren(title,message,again);
   if(roundMissed.length)$('recall-result').append(button('Retry this round’s misses',()=>startRound(roundMissed.map(id=>byId.get(id)!)),'subtle'));
+  revealScreen($('recall-result'));
   title.tabIndex=-1;title.focus({preventScroll:true});announce(title.textContent||'Round complete.');
 }
 function scopedTopics(){const scope=$<HTMLSelectElement>('recall-scope').value;return courseTopics().filter(t=>scope==='all'||t.category===scope);}

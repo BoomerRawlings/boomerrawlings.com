@@ -1,0 +1,11 @@
+---
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+interface Props {
+  kind?: 'portfolio' | 'paper' | 'atlas' | 'instrument' | 'terminal' | 'panel';
+  target?: string;
+}
+const { kind, target } = Astro.props;
+const revision = createHash('sha256').update(readFileSync('public/scripts/screen-motion.js')).digest('hex').slice(0, 12);
+---
+<script is:inline src={`/scripts/screen-motion.js?v=${revision}`} defer data-page-motion={kind} data-motion-target={target}></script>

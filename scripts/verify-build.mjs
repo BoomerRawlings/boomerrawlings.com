@@ -1925,7 +1925,7 @@ if (!existsSync(pipScriptPath)) {
   failures.push('Pip interaction script is missing from the build');
 } else {
   const pipScript = readFileSync(pipScriptPath, 'utf8');
-  for (const behavior of ['AudioContext', 'sessionStorage', 'localStorage', 'pageshow', 'is-speaking', 'is-departing', 'is-arriving', 'prefers-reduced-motion', 'window.location.assign']) {
+  for (const behavior of ['AudioContext', 'sessionStorage', 'localStorage', 'pageshow', 'is-speaking']) {
     if (!pipScript.includes(behavior)) failures.push(`Pip interaction script: missing ${behavior}`);
   }
   if (!pipScript.includes('step = 0') || pipScript.includes('writeStorage(window.sessionStorage, stepKey')) {
@@ -1944,12 +1944,10 @@ if (!existsSync(pipScriptPath)) {
     || !pipScript.includes('step += 1;\n      updateStep();\n      animatePip(guide)')) {
     failures.push('Pip interaction script: Next does not advance the note with a speaking response');
   }
-  if (!pipScript.includes("window.addEventListener('pageshow', (event) =>")
-    || !pipScript.includes('delete form.dataset.pipNavigating')
-    || !pipScript.includes('delete guide.dataset.pipNavigating')
-    || !pipScript.includes("guide.classList.remove('is-departing')")
-    || !pipScript.includes('if (event.persisted)')) {
-    failures.push('Pip interaction script: browser history can restore a hidden or navigation-locked guide');
+  if (!pipScript.includes("window.addEventListener('pageshow', () =>")
+    || pipScript.includes('pipNavigating') || pipScript.includes('window.location.assign')
+    || pipScript.includes("querySelectorAll('a[href]')")) {
+    failures.push('Pip interaction script: ordinary links and final tour submissions must keep immediate native navigation');
   }
   if (!pipScript.includes('submitButton.disabled = isTerminal && atLastStep')
     || !pipScript.includes("nextLabel.textContent = 'Tour complete'")
@@ -1966,20 +1964,18 @@ const builtCss = files
 if (!builtCss.includes('view-transition-name:pip-curator')) {
   failures.push('Pip does not persist visually between guided pages');
 }
-if (!builtCss.includes('pip-transfer-squish')
+if (!builtCss.includes('pip-transfer-settle')
   || !builtCss.includes('view-transition-group(pip-curator)')
   || !builtCss.includes('view-transition-image-pair(pip-curator)')
   || !builtCss.includes('view-transition-old(pip-curator)')
   || !builtCss.includes('view-transition-new(pip-curator)')) {
-  failures.push('Pip is missing the cross-page squish/glitch transition');
+  failures.push('Pip is missing its short native cross-page handoff');
 }
-if (!builtCss.includes('page-transfer-scan-out')
-  || !builtCss.includes('page-transfer-scan-in')
-  || !builtCss.includes('clip-path:inset(100% 0 0)')) {
-  failures.push('Pages are missing the fast directional scan transition');
-}
-if (!builtCss.includes('pip-fallback-depart') || !builtCss.includes('pip-feature-arrive')) {
-  failures.push('Pip is missing the fallback departure or feature-level arrival motion');
+if (!builtCss.includes('portfolio-content-out')
+  || !builtCss.includes('portfolio-content-in')
+  || !builtCss.includes('view-transition-name:portfolio-content')
+  || !builtCss.includes('navigation:none')) {
+  failures.push('Portfolio pages are missing content continuity or reduced-motion native opt-out');
 }
 if (!builtCss.includes('pip-feature-idle')
   || !builtCss.includes('pip-feature-talk')

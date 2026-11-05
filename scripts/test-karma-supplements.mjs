@@ -74,7 +74,7 @@ function documentFrom(html) {
 }
 
 const requirement = id => ({id, title: `Form ${id}`, prompt: 'Explain the administrative interest', options: ['Here for the vibes', 'Just checking'], attestation: `I acknowledge ${id} adds zero points.`});
-function application(division, required = []) {
+function application(division, required = [], {restored = false} = {}) {
   const feline = division === 'feline';
   const appeal = division === 'appeal';
   const filename = feline ? '../src/pages/BoomerKarma/Kemberton/index.astro' : appeal ? '../src/pages/BoomerKarma/index.astro' : '../src/components/KarmaApplication.astro';
@@ -82,9 +82,15 @@ function application(division, required = []) {
   const score = new Element('span'); score.id = 'karma-score'; score.textContent = '20'; document.append(score);
   const report = new Element('div'); report.id = 'report'; document.append(report);
   const inspections = [], deliveries = [], stored = new Map();
+  const reveals = [], cancellations = [];
+  if (restored) stored.set(feline ? 'boomerkarma-kemberton-issued-v1' : 'boomerkarma-report-issued-v1', 'true');
   let requirements = required;
   let delivery = async () => true;
   const window = Object.assign(new Element(), {
+    SiteMotion: {
+      revealScreen: (element, options) => reveals.push({element, ...options, hidden: element.hidden, disabled: element.disabled}),
+      cancelScreen: element => cancellations.push(element),
+    },
     BoomerKarmaBureau: {inspect: (...args) => inspections.push(args), requirements: () => requirements},
     BoomerKarmaDelivery: {send: async (...args) => { deliveries.push(args); return delivery(...args); }},
   });
@@ -95,7 +101,7 @@ function application(division, required = []) {
   runInContext(source, context);
   const form = document.querySelector(feline ? '#kem-form' : appeal ? '#appeal-form' : '#application-form');
   return {
-    document, window, context, form, deliveries, inspections, stored,
+    document, window, context, form, deliveries, inspections, stored, reveals, cancellations,
     node: selector => document.querySelector(selector),
     requirements: value => { requirements = value; }, delivery: value => { delivery = value; },
     step: index => feline ? runInContext(`showStep(${index})`, context) : window.harness.showStep(index),
@@ -110,6 +116,68 @@ test('first ordinary human report requires no supplemental paperwork', () => {
   assert.equal(page.node('#application-supplements').hidden, true);
   assert.equal(page.document.querySelectorAll('.bureau-supplements select').length, 0);
   assert.equal(page.inspections[0][2], 'human');
+});
+
+test('human and feline paperwork switch immediately, cancel the former sheet, and show the correct reading direction', () => {
+  for (const division of ['human', 'feline']) {
+    const page = application(division);
+    assert.equal(page.reveals.length, 0, 'initial render stays still');
+    const stepClass = division === 'human' ? '.application-step' : '.kem-step';
+    const steps = page.form.querySelectorAll(stepClass);
+    page.step(1);
+    assert.equal(page.current(), 1);
+    assert.equal(steps[0].hidden, true); assert.equal(steps[0].disabled, true);
+    assert.equal(steps[1].hidden, false); assert.equal(steps[1].disabled, false);
+    assert.equal(page.cancellations.at(-1), steps[0]);
+    assert.equal(page.reveals.at(-1).element, steps[1]);
+    assert.equal(page.reveals.at(-1).kind, 'paper'); assert.equal(page.reveals.at(-1).direction, 1);
+    assert.equal(page.reveals.at(-1).hidden, false); assert.equal(page.reveals.at(-1).disabled, false);
+    page.step(0);
+    assert.equal(page.cancellations.at(-1), steps[1]);
+    assert.equal(page.reveals.at(-1).direction, -1);
+    assert.equal(steps[0].querySelector('legend').focused, true);
+    delete page.window.SiteMotion;
+    page.step(1);
+    assert.equal(page.current(), 1, 'an absent helper does not prevent navigation');
+  }
+});
+
+test('restored reports stay still; returning to an issued feline report is an explicit paper reveal', async () => {
+  for (const division of ['human', 'feline']) {
+    const page = application(division, [], {restored: true});
+    assert.equal(page.reveals.length, 0);
+    assert.equal(page.node(division === 'human' ? '#report' : '#kem-report').hidden, false);
+  }
+  const page = application('feline', [], {restored: true});
+  await page.node('#kem-request-again').dispatch('click');
+  assert.ok(page.cancellations.includes(page.node('#kem-report')));
+  await page.node('#kem-return-issued').dispatch('click');
+  assert.equal(page.node('#kem-report').hidden, false);
+  assert.equal(page.node('#kem-gate').hidden, true);
+  assert.equal(page.reveals.at(-1).element, page.node('#kem-report'));
+  assert.equal(page.reveals.at(-1).kind, 'paper');
+  assert.equal(page.deliveries.length, 0);
+});
+
+test('appeal receipt motion begins only after confirmed delivery, and follow-up reverses to the form immediately', async () => {
+  const page = application('appeal');
+  page.node('#appeal-reason').value = 'Please reconsider.';
+  page.node('#appeal-statement').value = 'A perfectly ordinary appeal.';
+  page.node('#appeal-points').value = '2';
+  page.form.querySelector('input[type="checkbox"]').checked = true;
+  page.delivery(async () => { throw new Error('Offline fixture'); });
+  await page.submit();
+  assert.equal(page.reveals.length, 0); assert.equal(page.form.hidden, false);
+  page.delivery(async () => true);
+  await page.submit();
+  assert.equal(page.form.hidden, true); assert.equal(page.node('#appeal-result').hidden, false);
+  assert.equal(page.reveals.at(-1).element, page.node('#appeal-result'));
+  assert.equal(page.reveals.at(-1).hidden, false); assert.equal(page.reveals.at(-1).direction, 1);
+  await page.node('#edit-appeal').dispatch('click');
+  assert.equal(page.form.hidden, false); assert.equal(page.node('#appeal-result').hidden, true);
+  assert.equal(page.cancellations.at(-1), page.node('#appeal-result'));
+  assert.equal(page.reveals.at(-1).element, page.form); assert.equal(page.reveals.at(-1).direction, -1);
+  assert.equal(page.node('#appeal-statement').focused, true);
 });
 
 test('human supplements block incomplete answers and retain answers on back navigation', async () => {

@@ -251,6 +251,7 @@ export function mountTimeline(host, corpus = {}, callbacks = {}) {
     eventHeading.setAttribute('aria-pressed', 'false');
     const eventHeadingShell = element('h4'); eventHeadingShell.append(eventHeading);
     eventCard.append(eventHeadingShell, element('p', 'assc-tl-summary', event.summary || 'The source record accompanies this event.'));
+    const sourceRecords=(corpus.nodes||[]).filter(n=>(n.sourceIds||[]).some(id=>(event.sourceIds||[]).includes(id))).slice(0,6);if(sourceRecords.length&&callbacks.onPerson){const people=element('div','assc-tl-relations');people.append(element('span','assc-tl-mini-label','SOURCE-LINKED RECORDS'));for(const record of sourceRecords)people.append(button('assc-tl-source-link',record.label,()=>callbacks.onPerson(record.id)));eventCard.append(people);}
     const related = relatedIds(event);
     if (related.length) {
       const links = element('div', 'assc-tl-relations');

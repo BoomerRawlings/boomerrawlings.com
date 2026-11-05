@@ -43,6 +43,7 @@ function render(follow=true){
     $('simple-feedback').hidden=true;
     $('simple-next-topic').textContent=lessonIndex===lessons.length-1?'Back to the first topic':'Next topic →';
   }
+  if(follow)window.SiteMotion?.revealScreen($(isQuiz?'simple-quiz':'simple-step'),{kind:'paper'});
   const heading=$(isQuiz?'simple-question':'simple-step-title');heading.focus({preventScroll:true});if(follow)heading.scrollIntoView({block:'start',behavior:'instant'});
 }
 function changeLesson(index){lessonIndex=index;position=0;render();history.replaceState(null,'',`#learn-${lessons[lessonIndex].id}`);}

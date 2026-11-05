@@ -493,6 +493,7 @@ main {
   background: var(--sand);
   flex: 1;
   width: 100%;
+  view-transition-name: portfolio-content;
 }
 
 .home-page main {
@@ -3112,73 +3113,33 @@ main {
   }
 }
 
-@keyframes page-transfer-scan-out {
-  0% {
-    clip-path: inset(0);
-    filter: none;
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  38% {
-    clip-path: inset(38% 0 0 0);
-    filter: brightness(1.012) contrast(1.008) saturate(1.05);
-    opacity: 1;
-    transform: translateX(1px);
-  }
-
-  62% {
-    clip-path: inset(62% 0 0 0);
-    filter: brightness(1.008) contrast(1.006) saturate(1.035);
-    opacity: 1;
-    transform: translateX(-1px);
-  }
-
-  100% {
-    clip-path: inset(100% 0 0 0);
-    filter: none;
-    opacity: 1;
-    transform: translateX(0);
-  }
+@keyframes portfolio-content-out {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-6px); }
 }
 
-@keyframes page-transfer-scan-in {
-  0% {
-    clip-path: inset(0 0 100% 0);
-    filter: none;
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  38% {
-    clip-path: inset(0 0 62% 0);
-    filter: brightness(1.012) contrast(1.008) saturate(1.05);
-    opacity: 1;
-    transform: translateX(-1px);
-  }
-
-  62% {
-    clip-path: inset(0 0 38% 0);
-    filter: brightness(1.008) contrast(1.006) saturate(1.035);
-    opacity: 1;
-    transform: translateX(1px);
-  }
-
-  100% {
-    clip-path: inset(0);
-    filter: none;
-    opacity: 1;
-    transform: translateX(0);
-  }
+@keyframes portfolio-content-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-::view-transition-old(root) {
-  animation: page-transfer-scan-out 165ms linear both;
+@keyframes portfolio-surface-out { to { opacity: 0; } }
+@keyframes portfolio-surface-in { from { opacity: 0; } }
+@keyframes pip-transfer-settle {
+  from { transform: scale(.97); }
+  to { transform: scale(1); }
 }
 
-::view-transition-new(root) {
-  animation: page-transfer-scan-in 165ms linear both;
+::view-transition-group(root),
+::view-transition-group(portfolio-content) {
+  animation-duration: 240ms;
+  animation-timing-function: var(--ease-ui);
 }
+
+::view-transition-old(root) { animation: portfolio-surface-out 160ms ease-out both; }
+::view-transition-new(root) { animation: portfolio-surface-in 240ms ease-out both; }
+::view-transition-old(portfolio-content) { animation: portfolio-content-out 160ms ease-out both; }
+::view-transition-new(portfolio-content) { animation: portfolio-content-in 240ms var(--ease-ui) both; }
 
 ::view-transition-group(active-nav-indicator) {
   animation-duration: var(--motion-nav);
@@ -3186,23 +3147,23 @@ main {
 }
 
 ::view-transition-group(pip-curator) {
-  animation-duration: 460ms;
+  animation-duration: 240ms;
   animation-timing-function: var(--ease-ui);
   z-index: 3;
 }
 
 ::view-transition-image-pair(pip-curator) {
-  animation: pip-transfer-squish 460ms cubic-bezier(0.22, 0.82, 0.22, 1) both;
+  animation: pip-transfer-settle 240ms var(--ease-ui) both;
   overflow: visible;
   transform-origin: center;
 }
 
 ::view-transition-old(pip-curator) {
-  animation: pip-transfer-old 460ms linear both;
+  animation: portfolio-surface-out 160ms ease-out both;
 }
 
 ::view-transition-new(pip-curator) {
-  animation: pip-transfer-new 460ms linear both;
+  animation: portfolio-surface-in 240ms ease-out both;
 }
 
 @media (max-width: 70rem) {
@@ -3684,6 +3645,8 @@ main {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+
   *,
   *::before,
   *::after {
@@ -3704,11 +3667,14 @@ main {
   }
 
   ::view-transition-group(active-nav-indicator),
+  ::view-transition-group(portfolio-content),
   ::view-transition-group(portfolio-wordmark),
   ::view-transition-group(pip-curator),
   ::view-transition-image-pair(pip-curator),
   ::view-transition-old(root),
+  ::view-transition-old(portfolio-content),
   ::view-transition-new(root),
+  ::view-transition-new(portfolio-content),
   ::view-transition-old(active-nav-indicator),
   ::view-transition-new(active-nav-indicator),
   ::view-transition-old(portfolio-wordmark),

@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { runInNewContext } from 'node:vm';
 import { ApiClient, ApiError, applyBatch, filterClasses, galleryQuery, validateCrop, cropFromDrag, rightsLabel } from '../public/subs/workspace.js';
 
 const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
@@ -117,4 +119,80 @@ test('protected asset downloads retain exact bytes and request private reads wit
   assert.equal(blob.type, 'image/jpeg');
   assert.equal(options.headers.get('Authorization'), 'Bearer read-test');
   assert.equal(options.cache, 'no-store');
+});
+
+function workspaceMotionFixture(withMotion = true) {
+  const nodes = new Map(), reveals = [], cancelled = [];
+  let focused;
+  function node(id) {
+    if (!nodes.has(id)) {
+      const events = new Map(), attributes = new Map();
+      nodes.set(id, {
+        id, dataset: {}, hidden: false, open: false, value: '', textContent: '', children: [], checked: false,
+        addEventListener(type, fn) { const list = events.get(type) || []; list.push(fn); events.set(type, list); },
+        async emit(type, values = {}) { const event = { target: this, currentTarget: this, preventDefault() {}, ...values }; for (const fn of events.get(type) || []) await fn(event); },
+        setAttribute(name, value) { attributes.set(name, value); }, getAttribute(name) { return attributes.get(name); }, removeAttribute(name) { attributes.delete(name); },
+        append(...children) { this.children.push(...children); }, replaceChildren(...children) { this.children = children; }, get firstChild() { return this.children[0]; },
+        querySelectorAll() { return []; }, querySelector(selector) { return node(`${id} ${selector}`); },
+        focus() { focused = id; }, showModal() { this.open = true; }, close() { this.open = false; void this.emit('close'); },
+      });
+    }
+    return nodes.get(id);
+  }
+  const names = ['active', 'gallery', 'releases', 'history'];
+  const tabs = names.map(name => { const item = node(`tab-${name}`); item.dataset.tab = name; return item; });
+  const panels = names.map(name => { const item = node(`panel-${name}`); item.dataset.panel = name; item.hidden = name !== 'active'; return item; });
+  node('subs-roster').textContent = '{"classes":[]}';
+  let created = 0;
+  const document = {
+    getElementById: node, createElement: tag => node(`${tag}-${++created}`),
+    querySelectorAll: selector => selector === '[data-tab]' ? tabs : selector === '[data-panel]' ? panels : [],
+  };
+  const window = { addEventListener() {} };
+  if (withMotion) window.SiteMotion = {
+    revealScreen(target, options) { reveals.push({ id: target.id, kind: options.kind, hidden: target.hidden, open: target.open }); },
+    cancelScreen(target) { cancelled.push(target.id); },
+  };
+  const source = readFileSync(new URL('../public/subs/workspace.js', import.meta.url), 'utf8').replace(/^export /gm, '');
+  runInNewContext(source, {
+    document, window, URL, URLSearchParams, Headers, Blob, AbortController, queueMicrotask,
+    fetch: async () => json({ items: [], total: 0 }),
+    FormData: class { *[Symbol.iterator]() {} }, setTimeout: () => 0, clearTimeout() {},
+  }, { filename: 'subs-workspace.js' });
+  return { node, reveals, cancelled, get focused() { return focused; } };
+}
+
+test('workspace reveals changed tabs after selection while filters and repeated tabs remain still', async () => {
+  const ui = workspaceMotionFixture();
+  await new Promise(resolve => setImmediate(resolve));
+  assert.deepEqual(ui.reveals, [], 'initial data loading must not animate the hidden workspace');
+  await ui.node('tab-gallery').emit('click');
+  assert.deepEqual(ui.reveals.map(item => [item.id, item.kind, item.hidden]), [['panel-gallery', 'instrument', false]]);
+  assert.equal(ui.node('tab-gallery').getAttribute('aria-selected'), 'true');
+  assert.equal(ui.node('panel-active').hidden, true);
+  await ui.node('tab-gallery').emit('click');
+  await ui.node('active-search').emit('input');
+  await ui.node('gallery-filters').emit('submit');
+  assert.equal(ui.reveals.length, 1, 'refreshing a panel must not restart its reveal');
+  await ui.node('tab-gallery').emit('keydown', { key: 'ArrowRight' });
+  assert.equal(ui.focused, 'tab-releases');
+  assert.equal(ui.reveals.at(-1).id, 'panel-releases');
+  assert.ok(ui.cancelled.includes('panel-gallery'), 'hidden panels release any in-flight effect');
+});
+
+test('workspace dialogs reveal once after opening and cancel on native close; missing motion never blocks navigation', async () => {
+  const ui = workspaceMotionFixture();
+  await ui.node('owner-open').emit('click');
+  await ui.node('owner-open').emit('click');
+  assert.deepEqual(ui.reveals.map(item => [item.id, item.kind, item.open]), [['owner-dialog', 'instrument', true]]);
+  assert.equal(ui.focused, 'owner-key');
+  ui.node('owner-dialog').close();
+  assert.ok(ui.cancelled.includes('owner-dialog'));
+  await ui.node('owner-open').emit('click');
+  assert.equal(ui.reveals.length, 2);
+  const plain = workspaceMotionFixture(false);
+  await plain.node('tab-history').emit('click');
+  await plain.node('owner-open').emit('click');
+  assert.equal(plain.node('panel-history').hidden, false);
+  assert.equal(plain.node('owner-dialog').open, true);
 });

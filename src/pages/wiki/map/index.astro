@@ -1,6 +1,7 @@
 ---
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
+import ScreenMotion from '../../../components/ScreenMotion.astro';
 const version = (file: string) => createHash('sha256').update(readFileSync(`public/wiki-assets/${file}`)).digest('hex').slice(0, 12);
 ---
 <!doctype html>
@@ -17,6 +18,7 @@ const version = (file: string) => createHash('sha256').update(readFileSync(`publ
     <link rel="icon" href={`/wiki-assets/emblem.svg?v=${version('emblem.svg')}`} type="image/svg+xml" />
     <link rel="stylesheet" href={`/wiki-assets/wiki.css?v=${version('wiki.css')}`} />
     <title>Map and history — The Encyclopedia of the Human Condition</title>
+    <ScreenMotion kind="paper" target="#entry-gate" />
     <script is:inline type="module" src={`/wiki-assets/map.js?v=${version('map.js')}`}></script>
   </head>
   <body class="map-page">

@@ -1,6 +1,7 @@
 ---
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
+import ScreenMotion from '../../components/ScreenMotion.astro';
 import { catalog, countries, sources } from '../../data/subs/catalog.mjs';
 const version = (file: string) => createHash('sha256').update(readFileSync(`public/subs/${file}`)).digest('hex').slice(0, 12);
 const rosterPath = 'src/data/subs/active.json';
@@ -20,6 +21,7 @@ const rosterJSON = JSON.stringify(roster).replace(/</g, '\\u003c');
     <link rel="icon" href="/subs/icon.svg" type="image/svg+xml">
     <link rel="stylesheet" href={`/subs/style.css?v=${version('style.css')}`}>
     <link rel="stylesheet" href={`/subs/workspace.css?v=${version('workspace.css')}`}>
+    <ScreenMotion kind="instrument" target="#counter" />
     <script is:inline src={`/subs/entry.js?v=${version('entry.js')}`} defer></script>
     <script is:inline src={`/subs/catalog.js?v=${version('catalog.js')}`} defer></script>
     <script is:inline type="module" src={`/subs/workspace.js?v=${version('workspace.js')}`}></script>

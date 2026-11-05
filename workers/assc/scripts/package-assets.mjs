@@ -5,19 +5,21 @@ import { createHash } from 'node:crypto';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const output = resolve(root, '.build/assets');
+const sharedMotion = resolve(root, '../../public/scripts/screen-motion.js');
+const corpus = JSON.parse(await readFile(resolve(root, '.private/corpus.json'), 'utf8'));
+await lstat(sharedMotion);
 if (relative(root, output) !== `.build${sep}assets`) throw new Error('Unexpected build target');
 // The checked absolute target is confined to this app's generated assets.
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 const manifest = [];
-const corpus = JSON.parse(await readFile(resolve(root, '.private/corpus.json'), 'utf8'));
 const portraitNames = new Set([...(corpus.people || []), ...(corpus.nodes || [])].map(row => typeof row.portrait === 'string' ? row.portrait : row.portrait?.url).filter(Boolean).map(url => {
   if (!/^\/ASSC\/portraits\/[a-zA-Z0-9_-]+\.(jpg|jpeg|png|webp)$/.test(url)) throw new Error('Invalid protected portrait path');
   return url.split('/').pop();
 }));
 async function copy(name) {
-  const source = resolve(root, name), local = relative(root, source);
-  if (local.startsWith('..') || local.split(sep).includes('auth.json')) throw new Error('Disallowed asset');
+  const source = name === 'client/screen-motion.js' ? sharedMotion : resolve(root, name), local = relative(root, source);
+  if ((source !== sharedMotion && local.startsWith('..')) || local.split(sep).includes('auth.json')) throw new Error('Disallowed asset');
   const stat = await lstat(source);
   if (!stat.isFile() || stat.isSymbolicLink()) throw new Error(`Asset is not a regular file: ${name}`);
   if (stat.size > 24 * 1024 * 1024) throw new Error(`Asset exceeds Worker asset limit: ${name}`);
@@ -27,11 +29,12 @@ async function copy(name) {
   const bytes = await readFile(destination);
   manifest.push({ path: name, bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex') });
 }
-for (const name of ['gate.html','gate.css','gate.js','assc-logo.png','app.html','app.css','app.js','graph.js','graph.css','timeline.js','timeline.css']) await copy(`client/${name}`);
-for (const name of ['corpus.json','transcripts.json']) await copy(`.private/${name}`);
+for (const name of ['gate.html','gate.css','gate.js','assc-logo.png','app.html','app.css','app.js','graph.js','graph.css','timeline.js','timeline.css','kf.js','kf-model.js','kf.css','kf-state.js','profiles.js','screen-motion.js','presentation.js']) await copy(`client/${name}`);
+for (const name of ['corpus.json','transcripts.json','kf.json','profile-index.json','presentation.json']) await copy(`.private/${name}`);
 for (const [directory, pattern] of [
   ['portraits', /^[a-zA-Z0-9_-]+\.(jpg|jpeg|png|webp)$/],
   ['originals', /^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,160}$/],
+  ['profiles', /^[a-zA-Z0-9][a-zA-Z0-9_-]{0,120}\.json$/],
   ['transcripts', /^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,160}\.json$/]
 ]) {
   let entries;

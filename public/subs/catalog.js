@@ -41,7 +41,13 @@
   next.addEventListener('click', () => { if (!next.disabled) { page++; render(); results.scrollIntoView({ block: 'start' }); } });
 
   const sources = document.getElementById('sources');
-  document.getElementById('open-sources').addEventListener('click', event => { event.preventDefault(); sources.showModal(); });
+  document.getElementById('open-sources').addEventListener('click', event => {
+    event.preventDefault();
+    if (sources.open) return;
+    sources.showModal();
+    window.SiteMotion?.revealScreen(sources, { kind: 'instrument' });
+  });
   document.getElementById('close-sources').addEventListener('click', () => sources.close());
+  sources.addEventListener('close', () => window.SiteMotion?.cancelScreen(sources));
   render();
 })();

@@ -291,7 +291,10 @@ stage.addEventListener('pointermove', event => {
 });
 stage.addEventListener('pointerleave', () => { targetX = targetY = 0; if (hoverCloud && !hoverFrame) hoverFrame = requestAnimationFrame(animateCloud); });
 function updateMotion() {
-  if (!moving) resetCloudMotion();
+  if (!moving) {
+    resetCloudMotion();
+    (window as Window & {SiteMotion?:{cancelAll:()=>void}}).SiteMotion?.cancelAll();
+  }
   portal.classList.toggle('portal-motion-paused',!moving); motion.setAttribute('aria-pressed',String(moving)); motion.setAttribute('aria-label', moving ? 'Pause ambient motion' : 'Resume ambient motion');
   motion.innerHTML = moving ? 'Ⅱ <span>Motion</span>' : '▷ <span>Motion</span>';
   if(scene) scene.setMotion(moving);
