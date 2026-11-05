@@ -24,6 +24,7 @@ const htmlFiles = files.filter((file) => extname(file) === '.html'
 if (htmlFiles.length === 0) throw new Error('build produced no HTML');
 
 const redirectTargets = new Map([
+  [join('cannonball', 'index.html'), 'https://ucsdcannonball.com/'],
   [join('data-analysis', 'index.html'), '/writing/data-analysis/'],
   [join('data-analysis', 'crime-and-heat', 'index.html'), '/writing/data-analysis/crime-and-heat/'],
   [join('archive', 'index.html'), '/all/'],
@@ -47,7 +48,7 @@ const unlistedContentPaths = new Set([
   join('writing', 'data-analysis', 'sex-and-the-moon', 'index.html'),
 ]);
 // Portable examples own their document shell; portfolio metadata/Pip rules stay unchanged.
-const standaloneContentPaths = new Set([join('cannonball', 'index.html'), join('workflow-display', 'index.html'), join('documents', 'scads-2026', 'workflow.html'), join('ACF', 'index.html'), join('stars', 'index.html'), join('stars', 'jumpin', 'index.html'), join('stars-assets', 'workflow.html'), join('wiki', 'index.html'), join('wiki', 'map', 'index.html')]);
+const standaloneContentPaths = new Set([join('workflow-display', 'index.html'), join('documents', 'scads-2026', 'workflow.html'), join('ACF', 'index.html'), join('stars', 'index.html'), join('stars', 'jumpin', 'index.html'), join('stars-assets', 'workflow.html'), join('wiki', 'index.html'), join('wiki', 'map', 'index.html')]);
 const contentHtmlFiles = htmlFiles.filter(
   (file) => {
     const path = relative(output, file);
@@ -60,9 +61,9 @@ const unlistedHtmlFiles = htmlFiles.filter(
 const standaloneHtmlFiles = htmlFiles.filter(
   (file) => standaloneContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 36 || standaloneHtmlFiles.length !== 9 || unlistedHtmlFiles.length !== 13 || htmlFiles.length !== 64) {
+if (contentHtmlFiles.length !== 36 || standaloneHtmlFiles.length !== 8 || unlistedHtmlFiles.length !== 13 || htmlFiles.length !== 64) {
   throw new Error(
-    `expected 36 portfolio pages, 9 standalone pages, 13 unlisted pages, and 6 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 36 portfolio pages, 8 standalone pages, 13 unlisted pages, and 7 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
@@ -621,7 +622,7 @@ for (const [path, target] of redirectTargets) {
   const html = readFileSync(file, 'utf8');
   if (!html.includes(`http-equiv="refresh" content="0;url=${target}"`)
     || !html.includes(`href="${target}"`)
-    || !html.includes(`href="https://boomerrawlings.com${target}"`)) {
+    || !html.includes(`href="${new URL(target, 'https://boomerrawlings.com').href}"`)) {
     failures.push(`${path}: does not redirect and canonicalize to ${target}`);
   }
 }
