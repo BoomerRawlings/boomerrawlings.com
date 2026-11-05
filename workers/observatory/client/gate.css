@@ -2,3 +2,5 @@ body{display:flex;flex-direction:column}main{width:100%;max-width:1600px;margin:
 @media(max-width:900px){.entrance-layout{gap:5vw;min-height:600px}h1{font-size:9vw}.riddle{font-size:22px}.door-study{margin-top:40px}}
 @media(max-width:680px){main{padding:0 6vw}.chapter{padding-top:22px}.edition{font-size:8px}.entrance-layout{grid-template-columns:1fr;padding:35px 0 38px;gap:35px;min-height:0}h1{font-size:clamp(65px,15vw,95px)}.short-rule{margin-bottom:22px}.entrance-title>p{font-size:18px;margin-top:19px}.door-study{max-width:330px;margin:20px 0 0}.riddle-panel{padding-top:16px}.riddle{padding:27px 0;font-size:23px}.riddle p+p{margin-top:14px}.input-row button{padding:15px 22px}.message{min-height:38px}}
 @media(prefers-reduced-motion:reduce){#arrival-screen{display:none!important}}
+
+@media(max-width:360px){h1{font-size:58px}}
