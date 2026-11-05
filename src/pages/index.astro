@@ -80,7 +80,7 @@ const contents = [
     <section class="contents" aria-labelledby="contents-heading">
       <div class="contents-heading">
         <h2 id="contents-heading">Contents</h2>
-        <span>Overview</span>
+        <span class="contents-overview"><span>Overview</span><a class="observatory-door" href="/observatory/" data-pip-direct rel="nofollow" aria-label="Enter the Observatory, password required" title="The Observatory"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><ellipse cx="12" cy="12" rx="4" ry="10" transform="rotate(35 12 12)"/><path d="M12 7v10M7 12h10"/></svg><span class="door-label">The Observatory</span></a></span>
       </div>
       <ul>
         {contents.map(({ key, label, href, detail, detailLabel }) => (
@@ -130,6 +130,13 @@ const contents = [
 </BaseLayout>
 
 <style is:global>
+  .contents-overview { display: flex; align-items: center; gap: .8rem; }
+  .observatory-door { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: var(--muted); position: relative; text-decoration: none; }
+  .observatory-door svg { stroke: currentColor; stroke-width: .9; transition: transform 350ms ease, color 200ms ease; }
+  .observatory-door:hover svg, .observatory-door:focus-visible svg { transform: rotate(35deg); color: var(--blue); }
+  .door-label { position: absolute; right: 0; top: 100%; width: max-content; padding: .45rem .6rem; font: .65rem var(--mono); background: var(--navy); color: var(--sand); opacity: 0; pointer-events: none; z-index: 3; }
+  .observatory-door:hover .door-label, .observatory-door:focus-visible .door-label { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .observatory-door svg { transition: none; } }
   .project-ledger .ledger-columns, .project-ledger .ledger-list a { grid-template-columns: 7.1rem 5.6rem minmax(9rem, .85fr) minmax(15rem, 1.7fr); gap: 1rem; }
   .ledger-date { align-self: center; font: .74rem/1.6 var(--mono); color: var(--muted); }
   @media (max-width: 70rem) {

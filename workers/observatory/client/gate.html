@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
+  <meta name="description" content="A quiet door into the Observatory.">
+  <title>The Observatory — Boomer Rawlings</title>
+  <link rel="stylesheet" href="/observatory/gate.css"><script type="module" src="/observatory/gate.js"></script>
+</head>
+<body>
+  <a class="skip" href="#entrance">Skip to entrance</a>
+  <header class="masthead"><a href="/" class="home-link">BR<span> / </span>Return to the surface</a><span class="eyebrow">A place between worlds</span></header>
+  <main id="entrance">
+    <div class="threshold-art" aria-hidden="true">
+      <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div>
+      <div class="axis axis-one"></div><div class="axis axis-two"></div>
+      <div class="portal"><div class="portal-core"></div><span class="portal-star">✦</span></div>
+      <span class="coordinate coordinate-north">N · 00</span><span class="coordinate coordinate-south">THE SPACE IN BETWEEN</span>
+      <span class="coordinate coordinate-west">−</span><span class="coordinate coordinate-east">+</span>
+    </div>
+    <section class="invitation" aria-labelledby="title">
+      <p class="eyebrow"><span class="status-dot"></span> The Observatory</p>
+      <h1 id="title">Some doors<br>open <em>inward.</em></h1>
+      <p class="intro">You found one.<br>A small passage to the worlds beneath the surface.</p>
+      <form id="entry-form" action="/observatory/api/login" method="post">
+        <label for="password">The password opens the door.</label>
+        <div class="input-row"><input id="password" name="password" type="password" autocomplete="current-password" required maxlength="128" aria-describedby="entry-message"><button type="submit"><span>Enter</span><span aria-hidden="true">↗</span></button></div>
+        <p id="entry-message" class="message" role="status" aria-live="polite"></p>
+      </form>
+      <noscript><p class="message">Please enable JavaScript to open the Observatory.</p></noscript>
+      <p class="footnote">For those who know where to look.</p>
+    </section>
+  </main>
+  <footer><span>BOOMER RAWLINGS</span><span>Beyond the ordinary index <span aria-hidden="true">↗</span></span><span>00 / THRESHOLD</span></footer>
+</body>
+</html>

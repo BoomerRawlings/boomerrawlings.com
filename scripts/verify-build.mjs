@@ -68,6 +68,42 @@ if (contentHtmlFiles.length !== 36 || standaloneHtmlFiles.length !== 8 || unlist
 
 const failures = [];
 
+// The sole public doorway is served by a separate authenticated Worker.
+// Keep its directory and assets entirely outside the GitHub Pages artifact.
+const observatoryPath = '/observatory/';
+const observatoryConfig = JSON.parse(readFileSync(join('workers', 'observatory', 'wrangler.jsonc'), 'utf8'));
+const observatoryRoutes = observatoryConfig.routes?.map((route) => route.pattern).sort();
+if (JSON.stringify(observatoryRoutes) !== JSON.stringify(['boomerrawlings.com/observatory', 'boomerrawlings.com/observatory/*'])
+  || observatoryConfig.assets?.run_worker_first !== true
+  || observatoryConfig.workers_dev !== false || observatoryConfig.preview_urls !== false) {
+  failures.push('Observatory: the doorway must use only its exact authenticated Worker routes');
+}
+if (files.some((file) => /(?:^|[\\/])(?:observatory|_protected|\.private)(?:[\\/]|$)/i.test(relative(output, file)))) {
+  failures.push('Observatory: protected Worker assets or private data entered the public Pages build');
+}
+const pageCaseManifest = JSON.parse(readFileSync(join(output, 'page-case-routes.json'), 'utf8'));
+const observatoryRouteKey = createHash('sha256').update(observatoryPath).digest('hex');
+if (Object.hasOwn(pageCaseManifest.routes ?? {}, observatoryRouteKey)) {
+  failures.push('Observatory: the private Worker route must not enter the public page-case lookup');
+}
+for (const file of htmlFiles) {
+  const links = [...readFileSync(file, 'utf8').matchAll(/<a\b[^>]*\bhref=["'](?:https:\/\/boomerrawlings\.com)?\/observatory(?:[\/"'?#])[^>]*>/gi)];
+  const isHome = relative(output, file) === 'index.html';
+  if (links.length !== (isHome ? 1 : 0)) {
+    failures.push(`${relative(output, file)}: expected ${isHome ? 'one' : 'no'} Observatory discovery link`);
+  }
+  if (isHome && links.length === 1) {
+    const link = links[0][0];
+    if (!/\bhref="\/observatory\/"/.test(link)
+      || !/\bdata-pip-direct(?:\s|=|>)/.test(link)
+      || !/\brel="[^"]*\bnofollow\b[^"]*"/.test(link)
+      || !/\baria-label="[^"]*\bobservatory\b[^"]*"/i.test(link)
+      || /\b(?:tabindex="-1"|aria-hidden="true"|hidden(?:\s|=|>))/.test(link)) {
+      failures.push('Observatory: the home doorway must be a named, keyboard-accessible, nofollow link directly to its gate');
+    }
+  }
+}
+
 const verificationPath = join(output, verificationFile);
 if (!existsSync(verificationPath)
   || readFileSync(verificationPath, 'utf8').trim() !== `google-site-verification: ${verificationFile}`) {
@@ -792,6 +828,7 @@ for (const file of contentHtmlFiles) {
 
   for (const [, href] of html.matchAll(/href="(\/[^"#?]*)"/g)) {
     if (href.startsWith('/_astro/') || href === '/favicon.svg') continue;
+    if (label === 'index.html' && href === observatoryPath) continue;
     const target = href.endsWith('/') ? join(output, href, 'index.html') : join(output, href);
     if (!existsSync(target)) failures.push(label + ': broken local link ' + href);
   }
@@ -905,6 +942,9 @@ if (!existsSync(sitemapPath)) {
 } else {
   const sitemapXml = readFileSync(sitemapPath, 'utf8');
   const sitemapUrls = new Set([...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]));
+  if ([...sitemapUrls].some((url) => new URL(url).pathname.toLowerCase().startsWith(observatoryPath))) {
+    failures.push('Observatory: the private doorway must not appear in the public sitemap');
+  }
   const missingUrls = [...expectedSitemapUrls].filter((url) => !sitemapUrls.has(url));
   const extraUrls = [...sitemapUrls].filter((url) => !expectedSitemapUrls.has(url));
   if (missingUrls.length || extraUrls.length) {

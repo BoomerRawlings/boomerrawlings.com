@@ -1,0 +1,25 @@
+{
+  "name": "private-observatory",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "configure": "node scripts/configure-local.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "node --test test/*.test.mjs",
+    "build": "node scripts/package-assets.mjs",
+    "types": "wrangler types --config wrangler.jsonc"
+  },
+  "devDependencies": {
+    "miniflare": "5.20261103.0-beta",
+    "wrangler": "4.157.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "workerd@1.20261103.1": true
+  }
+}
