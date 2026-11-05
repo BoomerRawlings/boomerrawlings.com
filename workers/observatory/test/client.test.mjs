@@ -2,8 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
+import { renderSymbol, symbolDescriptions } from '../client/symbols.js';
 
-const source = await readFile(new URL('../client/app.js', import.meta.url), 'utf8');
+const source = (await readFile(new URL('../client/app.js', import.meta.url), 'utf8')).replace(/^import .*symbols\.js';\r?\n/, '');
 const catalog = { destinations: [{ id: 'fixture', title: 'Synthetic hidden room', kicker: 'Fictional signal', description: 'A test-only description.', href: '/fictional-room/', accent: '#d6b77c' }] };
 const okCatalog = (value = catalog) => ({ status: 200, ok: true, json: async () => value });
 const settle = () => new Promise(resolve => setImmediate(resolve));
@@ -37,11 +38,12 @@ class Element {
 
 async function fixture() {
   const elements = new Map();
-  const get = selector => { if (!elements.has(selector)) elements.set(selector, new Element()); return elements.get(selector); };
+  const get = selector => { if (!elements.has(selector)) elements.set(selector, Object.assign(new Element(), { ownerDocument: document })); return elements.get(selector); };
   const document = new Element();
   document.documentElement = new Element(); document.body = new Element(); document.visibilityState = 'visible';
   document.querySelector = get;
   document.createElement = () => new Element();
+  document.createElementNS = () => Object.assign(new Element(), { ownerDocument: document });
   document.querySelectorAll = () => [...get('#world-list').children, ...get('#orbital-selectors').children];
   const window = new Element();
   const media = new Element(); media.matches = false;
@@ -51,7 +53,7 @@ async function fixture() {
   const calls = [];
   const fetch = (path, options) => { calls.push({ path, options }); return responder(path, options); };
   await vm.runInNewContext(`(async () => {\n${source}\n})()`, {
-    document, window, fetch, location: { replace: path => navigations.push(path) },
+    document, window, fetch, renderSymbol, symbolDescriptions, location: { replace: path => navigations.push(path) },
   }, { filename: 'observatory-client.js' });
   assert.equal(get('#destination-title').textContent, catalog.destinations[0].title);
   assert.equal(get('#enter-world').href, catalog.destinations[0].href);

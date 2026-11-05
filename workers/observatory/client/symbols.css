@@ -1,0 +1,94 @@
+/* Six illustrative subjects, drawn with the portfolio's ink and rule language. */
+.observatory-symbol {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  fill: none;
+  stroke: var(--ink, #f5f0e6);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: symbol-arrive 340ms cubic-bezier(.2,.8,.2,1) both;
+}
+.observatory-symbol .symbol-paper,
+.observatory-symbol .symbol-hull { fill: var(--navy, #182b49); stroke: var(--yellow, #ffcd00); }
+.observatory-symbol .symbol-gold { stroke: var(--yellow, #ffcd00); }
+.observatory-symbol .symbol-cyan { stroke: var(--turquoise, #00c6d7); }
+.observatory-symbol .symbol-ink { stroke: var(--ink, #f5f0e6); }
+.observatory-symbol .symbol-faint { stroke: var(--ink, #f5f0e6); opacity: .34; stroke-width: 1.15; }
+.observatory-symbol .symbol-hairline { stroke: var(--ink, #f5f0e6); opacity: .2; stroke-width: .8; }
+.observatory-symbol .symbol-node { fill: var(--navy, #182b49); }
+.observatory-symbol .symbol-contour { stroke: var(--ink, #f5f0e6); stroke-width: .8; opacity: .14; }
+
+/* A passage is spoken; its connection resolves into the next speaker's turn. */
+.dialogue-turn { animation: dialogue-turn 7.2s ease-in-out infinite; opacity: .18; }
+.dialogue-turn-b { animation-delay: 2.4s; }
+.dialogue-turn-c { animation-delay: 4.8s; }
+.dialogue-reply { stroke-dasharray: 1; stroke-dashoffset: 1; animation: dialogue-reply 7.2s ease-in-out infinite; }
+.dialogue-reply-b { animation-delay: 3.6s; }
+@keyframes dialogue-turn { 0%, 4%, 34%, 100% { opacity: .18; } 12%, 25% { opacity: 1; } }
+@keyframes dialogue-reply { 0%, 12% { stroke-dashoffset: 1; opacity: 0; } 16% { opacity: 1; } 28%, 37% { stroke-dashoffset: 0; opacity: 1; } 46%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+
+/* The same origin supports alternatives; the diagram does not declare a winner. */
+.future-path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: future-consider 8.4s cubic-bezier(.25,.6,.3,1) infinite; }
+.future-end { animation: future-end 8.4s ease-in-out infinite; opacity: .3; }
+.future-b { animation-delay: 2.8s; }
+.future-c { animation-delay: 5.6s; }
+@keyframes future-consider { 0% { stroke-dashoffset: 1; opacity: 0; } 4% { opacity: 1; } 18%, 27% { stroke-dashoffset: 0; opacity: 1; } 36%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes future-end { 0%, 12%, 36%, 100% { opacity: .3; } 20%, 27% { opacity: 1; } }
+
+/* A physical leaf pivots around the binding; the index tabs remain fixed. */
+.symbol-leaf { fill: var(--navy, #182b49); stroke: var(--yellow, #ffcd00); }
+.folio-leaf { transform-origin: 150px 150px; animation: folio-turn 8s cubic-bezier(.3,.05,.25,1) infinite; }
+@keyframes folio-turn { 0%, 20% { transform: scaleX(1); opacity: 1; } 46% { transform: scaleX(-1); opacity: 1; } 70% { transform: scaleX(-1); opacity: 1; } 77% { transform: scaleX(-1); opacity: 0; } 78% { transform: scaleX(1); opacity: 0; } 88%, 100% { transform: scaleX(1); opacity: 1; } }
+
+/* A reader follows a connected route, highlighting each reached entry. */
+.atlas-route { stroke-width: 2.2; stroke-dasharray: 1; stroke-dashoffset: 1; animation: atlas-route 7.5s linear infinite; }
+.atlas-node { animation: atlas-node 7.5s linear infinite; }
+.atlas-node-b { animation-delay: .9s; }
+.atlas-node-c { animation-delay: 2s; }
+.atlas-node-d { animation-delay: 3.1s; }
+.atlas-node-e { animation-delay: 4.5s; }
+@keyframes atlas-route { 0%, 8% { stroke-dashoffset: 1; opacity: 1; } 73%, 88% { stroke-dashoffset: 0; opacity: 1; } 98%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes atlas-node { 0%, 8%, 28%, 100% { fill: var(--navy, #182b49); } 12%, 22% { fill: var(--yellow, #ffcd00); } }
+
+/* A scan reads the hull section by section; a return travels away from the bow. */
+.symbol-waterline { stroke: var(--turquoise, #00c6d7); stroke-width: 1; stroke-dasharray: 5 7; opacity: .45; }
+.symbol-depth { stroke: var(--ink, #f5f0e6); stroke-width: 1; opacity: .45; }
+.vessel-scan { animation: vessel-read 6s ease-in-out infinite; opacity: .7; }
+.symbol-sonar { stroke: var(--turquoise, #00c6d7); stroke-width: 1.4; opacity: .12; animation: vessel-return 3s ease-out infinite; }
+.sonar-b { animation-delay: .22s; }
+.sonar-c { animation-delay: .44s; }
+@keyframes vessel-read { 0%, 12% { transform: translateY(-26px); opacity: 0; } 18% { opacity: .65; } 73% { transform: translateY(64px); opacity: .65; } 88%, 100% { transform: translateY(64px); opacity: 0; } }
+@keyframes vessel-return { 0%, 7%, 70%, 100% { opacity: .08; } 21% { opacity: .9; } 46% { opacity: .35; } }
+
+/* Directional propagation follows the dendrite and axon, then reaches terminals. */
+.symbol-dendrite { stroke: var(--ink, #f5f0e6); opacity: .55; }
+.symbol-axon { stroke: var(--yellow, #ffcd00); opacity: .5; }
+.symbol-myelin { stroke: var(--ink, #f5f0e6); stroke-width: 8; opacity: .16; }
+.symbol-soma { fill: var(--navy, #182b49); stroke: var(--yellow, #ffcd00); }
+.symbol-nucleus { stroke: var(--yellow, #ffcd00); stroke-width: 1; opacity: .5; }
+.symbol-impulse { stroke: var(--turquoise, #00c6d7); stroke-width: 3; stroke-dasharray: .06 .94; stroke-dashoffset: 1; animation: neuron-signal 4.6s linear infinite; }
+.symbol-terminal { fill: var(--navy, #182b49); stroke: var(--turquoise, #00c6d7); animation: neuron-terminal 4.6s ease-in-out infinite; }
+.terminal-a { animation-delay: -.2s; }
+.terminal-c { animation-delay: .2s; }
+.symbol-synapse { stroke: var(--turquoise, #00c6d7); opacity: .25; animation: neuron-terminal 4.6s ease-in-out infinite; }
+@keyframes neuron-signal { 0%, 12% { stroke-dashoffset: 1; opacity: 0; } 14% { opacity: 1; } 72% { stroke-dashoffset: 0; opacity: 1; } 75%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes neuron-terminal { 0%, 61%, 87%, 100% { fill: var(--navy, #182b49); opacity: .5; } 70%, 77% { fill: var(--turquoise, #00c6d7); opacity: 1; } }
+
+@keyframes symbol-arrive { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+.motion-paused .observatory-symbol { animation: none !important; }
+.motion-paused .observatory-symbol * { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) {
+  .observatory-symbol,
+  .observatory-symbol * { animation: none !important; transition: none !important; }
+  .dialogue-turn { opacity: .75; }
+  .dialogue-reply { stroke-dashoffset: 0; opacity: .6; }
+  .future-path { stroke-dashoffset: 0; opacity: .65; }
+  .future-end { opacity: 1; }
+  .atlas-route { stroke-dashoffset: 0; opacity: .7; }
+  .vessel-scan { transform: translateY(22px); opacity: .3; }
+  .symbol-sonar { opacity: .45; }
+  .symbol-impulse { stroke-dasharray: none; stroke-dashoffset: 0; opacity: .35; }
+}

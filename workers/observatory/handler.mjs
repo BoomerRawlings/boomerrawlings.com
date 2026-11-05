@@ -1,7 +1,7 @@
 import { cookieToken, digest, randomToken, sessionCookie, validPassword } from './auth.mjs';
 
-const ENTRY_FILES = new Set(['gate.css', 'gate.js']);
-const PRIVATE_FILES = new Set(['app.html', 'app.css', 'app.js']);
+const ENTRY_FILES = new Set(['gate.css', 'gate.js', 'arrival.js', 'theme.css', 'font-source-sans.woff2', 'font-teko.woff2']);
+const PRIVATE_FILES = new Set(['app.html', 'app.css', 'app.js', 'symbols.js', 'symbols.css']);
 export const securityHeaders = {
   'Cache-Control': 'no-store, private, max-age=0',
   'Pragma': 'no-cache',
@@ -52,7 +52,7 @@ export function createHandler({ read, store, authConfig, catalog, origin, secure
       let password;
       try { password = JSON.parse(await boundedBody(request)).password; }
       catch { return json({ error: 'Invalid request.' }, 400); }
-      if (typeof password !== 'string' || password.length > 128 || !await validPassword(password, authConfig)) return json({ error: 'That password does not open this door.' }, 401);
+      if (typeof password !== 'string' || password.length > 128 || !await validPassword(password, authConfig)) return json({ error: 'That answer does not open this door.' }, 401);
       const prior = cookieToken(request);
       if (prior) await store.revoke(await digest(prior));
       const token = randomToken();

@@ -5,6 +5,7 @@ export const SESSION_SECONDS = 8 * 60 * 60;
 export const COOKIE_NAME = 'observatory_session';
 export const HASH = /^[a-f0-9]{64}$/;
 const ITERATIONS = 100000;
+export const RIDDLE_NORMALIZATION = 'nfkc-trim-lower-ascii-word-v1';
 const hex = bytes => Array.from(new Uint8Array(bytes), byte => byte.toString(16).padStart(2, '0')).join('');
 export const randomToken = () => hex(crypto.getRandomValues(new Uint8Array(32)));
 export async function digest(value) {
@@ -14,22 +15,38 @@ async function derive(password, salt) {
   const key = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveBits']);
   return hex(await crypto.subtle.deriveBits({ name: 'PBKDF2', salt: encoder.encode(salt), iterations: ITERATIONS, hash: 'SHA-256' }, key, 256));
 }
-export async function createAuthConfig(password) {
-  if (typeof password !== 'string' || password.length < 12 || password.length > 128) throw new Error('Use a password between 12 and 128 characters.');
+export function normalizeRiddleAnswer(value) {
+  if (typeof value !== 'string' || value.length > 128) return null;
+  const answer = value.normalize('NFKC').trim().toLowerCase();
+  return /^[a-z]{3,40}$/.test(answer) ? answer : null;
+}
+export async function createAuthConfig(password, { mode = 'exact' } = {}) {
+  if (!['exact', 'riddle'].includes(mode)) throw new Error('Unknown authentication mode.');
+  const value = mode === 'riddle' ? normalizeRiddleAnswer(password) : password;
+  if (mode === 'riddle' && value === null) throw new Error('Use one answer of 3-40 letters, without spaces or punctuation.');
+  if (mode === 'exact' && (typeof value !== 'string' || value.length < 12 || value.length > 128)) throw new Error('Use a password between 12 and 128 characters.');
   const salt = randomToken();
-  return { version: 1, salt, verifier: await derive(password, salt) };
+  const verifier = await derive(value, salt);
+  return mode === 'riddle'
+    ? { version: 2, normalization: RIDDLE_NORMALIZATION, salt, verifier }
+    : { version: 1, salt, verifier };
 }
 export function configuredAuth(value) {
   try {
     if (typeof value !== 'string' || value.length > 1024) return null;
     const parsed = JSON.parse(value);
-    return parsed?.version === 1 && HASH.test(parsed.salt) && HASH.test(parsed.verifier)
-      ? { version: 1, salt: parsed.salt, verifier: parsed.verifier } : null;
+    if (!parsed || typeof parsed.salt !== 'string' || typeof parsed.verifier !== 'string' || !HASH.test(parsed.salt) || !HASH.test(parsed.verifier)) return null;
+    if (parsed.version === 1) return { version: 1, salt: parsed.salt, verifier: parsed.verifier };
+    if (parsed.version === 2 && parsed.normalization === RIDDLE_NORMALIZATION) return { version: 2, normalization: RIDDLE_NORMALIZATION, salt: parsed.salt, verifier: parsed.verifier };
+    return null;
   } catch { return null; }
 }
 export async function validPassword(password, config) {
-  if (!config || !HASH.test(config.salt) || !HASH.test(config.verifier)) return false;
-  return timingSafeEqual(encoder.encode(await derive(password, config.salt)), encoder.encode(config.verifier));
+  if (typeof password !== 'string' || password.length > 128 || !config || !HASH.test(config.salt) || !HASH.test(config.verifier)) return false;
+  const value = config.version === 1 ? password
+    : config.version === 2 && config.normalization === RIDDLE_NORMALIZATION ? normalizeRiddleAnswer(password) : null;
+  if (value === null) return false;
+  return timingSafeEqual(encoder.encode(await derive(value, config.salt)), encoder.encode(config.verifier));
 }
 export function cookieToken(request) {
   const tokens = (request.headers.get('cookie') || '').split(';').map(item => item.trim()).filter(item => item.startsWith(`${COOKIE_NAME}=`));

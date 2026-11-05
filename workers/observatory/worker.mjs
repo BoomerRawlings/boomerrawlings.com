@@ -5,6 +5,7 @@ import { createHandler, securityHeaders } from './handler.mjs';
 
 const ORIGIN = 'https://boomerrawlings.com';
 const WINDOW_MS = 15 * 60 * 1000;
+const CLIENT_FILES = new Set(['gate.html', 'gate.css', 'gate.js', 'arrival.js', 'theme.css', 'font-source-sans.woff2', 'font-teko.woff2', 'app.html', 'app.css', 'app.js', 'symbols.js', 'symbols.css']);
 
 // One password scope is the coordination atom. This namespace never shares sessions
 // with other applications. Only authentication state reaches this object.
@@ -99,7 +100,7 @@ export default {
       const catalog = configuredCatalog(env.OBSERVATORY_CATALOG);
       const store = authConfig && catalog ? env.OBSERVATORY_AUTH.getByName(await storeName(authConfig)) : { get: async () => false, revoke: async () => {} };
       const read = name => {
-        if (!/^client\/(?:gate|app)\.(?:html|css|js)$/.test(name)) return new Response('Not found', { status: 404 });
+        if (!name.startsWith('client/') || !CLIENT_FILES.has(name.slice(7))) return new Response('Not found', { status: 404 });
         return env.ASSETS.fetch(new Request(`${ORIGIN}/_protected/${name}`, { method: 'GET' }));
       };
       return await createHandler({

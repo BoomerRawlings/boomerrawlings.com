@@ -1,4 +1,4 @@
-const root = document.documentElement;
+import { renderSymbol, symbolDescriptions } from './symbols.js';
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 const status = document.querySelector('#status');
 const instrument = document.querySelector('.instrument');
@@ -7,6 +7,8 @@ const list = document.querySelector('#world-list');
 const selectors = document.querySelector('#orbital-selectors');
 const motionButton = document.querySelector('#motion');
 const logoutButton = document.querySelector('#logout');
+const symbolStage = document.querySelector('#selected-symbol');
+const symbolCaption = document.querySelector('#symbol-caption');
 let worlds = [];
 let selected = -1;
 let paused = reduced.matches;
@@ -28,12 +30,14 @@ function selectWorld(index, animate = true) {
   selected = index;
   const world = worlds[index];
   const number = String(index + 1).padStart(2, '0');
-  root.style.setProperty('--accent', /^#[a-f0-9]{6}$/i.test(world.accent || '') ? world.accent : '#d6b77c');
+  const kind = renderSymbol(symbolStage, world.symbol);
+  symbolStage.setAttribute('aria-label', symbolDescriptions[kind]);
+  symbolCaption.textContent = world.kicker;
   document.querySelector('#destination-number').textContent = number;
   document.querySelector('#destination-kicker').textContent = world.kicker;
   document.querySelector('#destination-title').textContent = world.title;
   document.querySelector('#destination-description').textContent = world.description;
-  document.querySelector('#coordinate').textContent = `SIGNAL ${number} / CONNECTED`;
+  document.querySelector('#coordinate').textContent = `FIG. ${number} / SELECTED`;
   const enter = document.querySelector('#enter-world');
   enter.href = world.href;
   enter.setAttribute('aria-label', `Enter ${world.title}`);
@@ -41,6 +45,9 @@ function selectWorld(index, animate = true) {
   document.querySelector('#destination-note').hidden = false;
   for (const button of document.querySelectorAll('[data-world]')) button.setAttribute('aria-pressed', String(Number(button.dataset.world) === index));
   if (animate && !reduced.matches && !paused) {
+    symbolStage.classList.remove('symbol-changing');
+    void symbolStage.offsetWidth;
+    symbolStage.classList.add('symbol-changing');
     destination.classList.remove('changing');
     void destination.offsetWidth;
     destination.classList.add('changing');
@@ -82,7 +89,8 @@ function makeButton(world, index, orbital) {
 function clearPrivateView() {
   catalogRequest++;
   worlds = []; selected = -1; list.replaceChildren(); selectors.replaceChildren();
-  document.querySelector('#destination-title').textContent = 'The door is closed.';
+  symbolStage.replaceChildren(); symbolStage.setAttribute('aria-label', 'Destination illustration'); symbolCaption.textContent = '';
+  document.querySelector('#destination-title').textContent = 'Loading destinations';
   document.querySelector('#destination-description').textContent = '';
   document.querySelector('#destination-kicker').textContent = '';
   document.querySelector('#enter-world').removeAttribute('href');
@@ -111,14 +119,6 @@ async function loadWorlds() {
     if (requestId === catalogRequest && !loggingOut) status.textContent = 'The signals are quiet. Reload to try again.';
   }
 }
-
-instrument.addEventListener('pointermove', (event) => {
-  if (reduced.matches || paused || event.pointerType !== 'mouse') return;
-  const box = instrument.getBoundingClientRect();
-  instrument.style.setProperty('--tilt-y', `${(event.clientX - box.left - box.width / 2) / box.width * 7}deg`);
-  instrument.style.setProperty('--tilt-x', `${-(event.clientY - box.top - box.height / 2) / box.height * 7}deg`);
-});
-instrument.addEventListener('pointerleave', () => { instrument.style.setProperty('--tilt-x', '0deg'); instrument.style.setProperty('--tilt-y', '0deg'); });
 
 logoutButton.addEventListener('click', async () => {
   if (loggingOut) return;

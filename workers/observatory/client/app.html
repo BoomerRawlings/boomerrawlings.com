@@ -4,42 +4,31 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
   <title>The Observatory — Boomer Rawlings</title>
-  <link rel="stylesheet" href="/observatory/app.css"><script type="module" src="/observatory/app.js"></script>
+  <link rel="preload" as="font" type="font/woff2" href="/observatory/font-teko.woff2" crossorigin>
+  <link rel="stylesheet" href="/observatory/theme.css"><link rel="stylesheet" href="/observatory/app.css"><link rel="stylesheet" href="/observatory/symbols.css"><script type="module" src="/observatory/app.js"></script>
 </head>
 <body>
-  <a class="skip" href="#worlds">Skip to worlds</a>
-  <header class="masthead">
-    <a class="wordmark" href="/" aria-label="Boomer Rawlings homepage"><span class="brand-star" aria-hidden="true">✦</span> BR <span class="wordmark-detail">/ THE OTHER SIDE</span></a>
-    <div class="mast-actions"><button id="motion" type="button" aria-pressed="false">Pause motion</button><button id="logout" type="button">Close the door <span aria-hidden="true">↗</span></button></div>
-  </header>
+  <a class="skip" href="#worlds">Skip to destinations</a>
+  <header class="masthead"><a class="wordmark" href="/" aria-label="Boomer Rawlings homepage">Boomer Rawlings</a><div class="mast-actions"><button id="motion" type="button" aria-pressed="false">Pause motion</button><button id="logout" type="button">Close the index <span aria-hidden="true">↗</span></button></div></header>
   <main>
-    <div class="chapter"><span class="eyebrow"><span class="status-dot"></span> A private collection of worlds</span><span class="edition">FIELD GUIDE / <span id="world-count">—</span> DESTINATIONS</span></div>
+    <div class="chapter"><span class="eyebrow">Portfolio / Private index</span><span class="edition"><span id="world-count">—</span> destinations</span></div>
     <section class="observatory" aria-labelledby="observatory-title">
-      <div class="intro"><h1 id="observatory-title">The<br><em>Observatory.</em></h1><p>Curiosity has a hidden geography.<br>Choose a signal. Follow it somewhere.</p></div>
-      <div class="instrument" aria-label="Choose a world" role="group">
-        <div class="instrument-field" aria-hidden="true">
-          <div class="starfield"></div><div class="crosshair crosshair-h"></div><div class="crosshair crosshair-v"></div>
-          <div class="outer-scale"></div><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div><div class="orbit orbit-d"></div>
-          <svg class="orbital-lines" viewBox="0 0 600 600"><ellipse cx="300" cy="300" rx="250" ry="95" transform="rotate(-35 300 300)"/><ellipse cx="300" cy="300" rx="250" ry="95" transform="rotate(35 300 300)"/><ellipse cx="300" cy="300" rx="95" ry="250"/></svg>
-          <div class="celestial-body"><div class="body-latitude"></div><div class="body-longitude"></div><span class="core-symbol">✦</span></div>
-          <span class="instrument-north">N</span><span class="instrument-south">S</span><span class="instrument-east">E</span><span class="instrument-west">W</span>
-        </div>
+      <div class="intro"><span class="short-rule" aria-hidden="true"></span><h1 id="observatory-title">The<br><span>Observatory</span></h1><p>Research, maps, and other experiments.<br>Select a destination to begin.</p></div>
+      <div class="instrument" aria-label="Choose a destination" role="group">
+        <div class="instrument-field" aria-hidden="true"><div class="crosshair crosshair-h"></div><div class="crosshair crosshair-v"></div><div class="outer-scale"></div><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><span class="instrument-top">INDEX / 01</span><span class="instrument-bottom">SELECT TO INSPECT</span></div>
+        <div id="selected-symbol" class="symbol-stage" role="img" aria-label="Destination illustration"></div>
         <div id="orbital-selectors" class="orbital-selectors"></div>
-        <div class="instrument-caption" aria-hidden="true"><span>INSTRUMENT / 01</span><span id="coordinate">AWAITING SIGNAL</span></div>
+        <div class="instrument-caption"><span id="coordinate">LOADING INDEX</span><span id="symbol-caption"></span></div>
       </div>
       <section class="destination" aria-labelledby="destination-title" aria-live="polite" aria-atomic="true">
-        <p class="destination-kicker"><span id="destination-number">00</span><span class="kicker-line"></span><span id="destination-kicker">Tuning in</span></p>
-        <h2 id="destination-title">Finding the<br>constellation.</h2>
-        <p id="destination-description">A moment while the worlds come into view.</p>
-        <a id="enter-world" class="enter-world" hidden><span>Enter this world</span><span aria-hidden="true">↗</span></a>
-        <p class="destination-note" id="destination-note" hidden>Each world keeps its own key.</p>
+        <p class="destination-kicker"><span id="destination-number">00</span><span class="kicker-line"></span><span id="destination-kicker">Private index</span></p>
+        <h2 id="destination-title">Loading destinations</h2><p id="destination-description"></p>
+        <a id="enter-world" class="enter-world" hidden><span>Open destination</span><span aria-hidden="true">↗</span></a><p class="destination-note" id="destination-note" hidden>This destination has its own entrance.</p>
       </section>
-      <div class="instrument-note"><span class="tiny-star" aria-hidden="true">✧</span><p>Not everything belongs<br>on the main map.</p><span class="note-rule"></span></div>
     </section>
-    <nav id="worlds" class="worlds" aria-label="World directory"><div class="directory-heading"><span>THE CONSTELLATION</span><span>Select to explore <span aria-hidden="true">↓</span></span></div><div id="world-list" class="world-list"></div></nav>
-    <p id="status" class="status" role="status" aria-live="polite"></p>
-    <noscript><p class="status">Please enable JavaScript to explore the Observatory.</p></noscript>
+    <nav id="worlds" class="worlds" aria-label="Destination directory"><div class="directory-heading"><span>Contents</span><span>Choose a destination <span aria-hidden="true">↓</span></span></div><div id="world-list" class="world-list"></div></nav>
+    <p id="status" class="status" role="status" aria-live="polite"></p><noscript><p class="status">Please enable JavaScript to open the directory.</p></noscript>
   </main>
-  <footer><span>BOOMER RAWLINGS <span class="footer-divider">/</span> THE OBSERVATORY</span><span>A few things worth getting lost in.</span><span aria-hidden="true">✦</span></footer>
+  <footer><span>Boomer Rawlings <span class="footer-divider">/</span> Observatory</span><span>A private index of ongoing experiments</span><span id="footer-index">01 / Index</span></footer>
 </body>
 </html>

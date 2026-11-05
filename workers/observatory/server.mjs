@@ -8,9 +8,10 @@ import { configuredCatalog } from './catalog.mjs';
 import { createHandler } from './handler.mjs';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
-const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8' };
+const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.woff2': 'font/woff2' };
+const CLIENT_FILES = new Set(['gate.html', 'gate.css', 'gate.js', 'arrival.js', 'theme.css', 'font-source-sans.woff2', 'font-teko.woff2', 'app.html', 'app.css', 'app.js', 'symbols.js', 'symbols.css']);
 export async function readLocal(name, base = root) {
-  if (!/^client\/(?:gate|app)\.(?:html|css|js)$/.test(name)) return new Response('Not found', { status: 404 });
+  if (!name.startsWith('client/') || !CLIENT_FILES.has(name.slice(7))) return new Response('Not found', { status: 404 });
   try { return new Response(await readFile(path.join(base, name)), { headers: { 'Content-Type': types[path.extname(name)] } }); }
   catch { return new Response('Not found', { status: 404 }); }
 }
@@ -36,7 +37,11 @@ export async function startServer({ port = 8788, authConfig, catalog, base = roo
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   let authConfig;
-  if (process.env.OBSERVATORY_PASSWORD) {
+  if ('OBSERVATORY_RIDDLE_ANSWER' in process.env) {
+    authConfig = await createAuthConfig(process.env.OBSERVATORY_RIDDLE_ANSWER, { mode: 'riddle' });
+    delete process.env.OBSERVATORY_RIDDLE_ANSWER;
+    delete process.env.OBSERVATORY_PASSWORD;
+  } else if (process.env.OBSERVATORY_PASSWORD) {
     authConfig = await createAuthConfig(process.env.OBSERVATORY_PASSWORD);
     delete process.env.OBSERVATORY_PASSWORD;
   } else {

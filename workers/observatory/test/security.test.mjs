@@ -1,14 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHandler } from '../handler.mjs';
-import { MemoryAuthStore, createAuthConfig, configuredAuth, COOKIE_NAME } from '../auth.mjs';
+import { MemoryAuthStore, createAuthConfig, configuredAuth, normalizeRiddleAnswer, validPassword, RIDDLE_NORMALIZATION, COOKIE_NAME } from '../auth.mjs';
 import { configuredCatalog } from '../catalog.mjs';
 
 const origin = 'https://boomerrawlings.com';
 const password = 'Testing-only-observatory-password';
 const authConfig = await createAuthConfig(password);
 const catalog = { destinations: [{ id: 'fixture', title: 'Private fixture title', kicker: 'A fictional doorway', description: 'Synthetic test directory content.', href: '/fictional-room/#mode=sample&view=map', accent: '#aabbcc' }] };
-const files = { 'client/gate.html': 'gate only', 'client/gate.css': 'gate style', 'client/gate.js': 'gate script', 'client/app.html': 'protected shell', 'client/app.css': 'protected style', 'client/app.js': 'protected script' };
+const files = {
+  'client/gate.html': 'gate only', 'client/gate.css': 'gate style', 'client/gate.js': 'gate script', 'client/arrival.js': 'public arrival bootstrap',
+  'client/theme.css': 'public theme', 'client/font-source-sans.woff2': 'public font', 'client/font-teko.woff2': 'public font',
+  'client/app.html': 'protected shell', 'client/app.css': 'protected style', 'client/app.js': 'protected script',
+  'client/symbols.js': 'protected symbols', 'client/symbols.css': 'protected symbol styles'
+};
 function fixture(options = {}) {
   const reads = [];
   const store = options.store || new MemoryAuthStore();
@@ -22,16 +27,62 @@ function fixture(options = {}) {
 }
 const cookie = response => response.headers.get('set-cookie')?.split(';')[0];
 
+test('riddle answers use one explicit normalization without guessing punctuation or internal spaces', async () => {
+  const config = await createAuthConfig(' Fixtureword ', { mode: 'riddle' });
+  assert.equal(config.version, 2);
+  assert.equal(config.normalization, RIDDLE_NORMALIZATION);
+  assert.deepEqual(configuredAuth(JSON.stringify(config)), config);
+  assert.equal(JSON.stringify(config).includes('fixtureword'), false);
+  for (const answer of ['fixtureword', 'FIXTUREWORD', ' \tFixtureWord\n', '\uff26\uff29\uff38\uff34\uff35\uff32\uff25\uff37\uff2f\uff32\uff24']) {
+    assert.equal(normalizeRiddleAnswer(answer), 'fixtureword');
+    const f = fixture({ authConfig: config });
+    const response = await f.login(answer);
+    assert.equal(response.status, 200);
+    assert.equal((await f.call('api/catalog', { headers: { Cookie: cookie(response) } })).status, 200);
+  }
+  for (const answer of ['fixturewords', 'fixture word', 'fixture-word', 'fixtureword!', 'fixtureword1', 'f\u00edxtureword', 'fixture\u200bword', '', 'x'.repeat(129), null]) {
+    assert.equal((await fixture({ authConfig: config }).login(answer)).status, 401);
+  }
+  for (const answer of ['ab', 'x'.repeat(41), 'two words', 'word!', '\u03bb\u03ad\u03be\u03b7']) {
+    await assert.rejects(createAuthConfig(answer, { mode: 'riddle' }), /one answer/);
+  }
+});
+
+test('riddle verifier format is explicit and legacy exact verifiers do not acquire normalization', async () => {
+  const config = await createAuthConfig('fixtureword', { mode: 'riddle' });
+  for (const invalid of [
+    { ...config, normalization: undefined }, { ...config, normalization: 'guess-anything' },
+    { ...config, version: 3 }, { ...config, salt: [] }, { ...config, verifier: 'a'.repeat(63) }
+  ]) {
+    assert.equal(configuredAuth(JSON.stringify(invalid)), null);
+  }
+  assert.equal(await validPassword('fixtureword', { ...config, normalization: 'guess-anything' }), false);
+  assert.equal(await validPassword(password, authConfig), true);
+  assert.equal(await validPassword(` ${password} `, authConfig), false);
+  assert.equal(await validPassword(password.toLowerCase(), authConfig), false);
+  await assert.rejects(createAuthConfig('fixtureword', { mode: 'unknown' }), /Unknown/);
+});
+
+test('short riddle answers retain the same persistent-style attempt budget before verification', async () => {
+  const config = await createAuthConfig('fixtureword', { mode: 'riddle' });
+  const f = fixture({ authConfig: config });
+  for (const answer of ['wrong', 'WRONG', ' wrong ', 'wrong!', 'two words']) assert.equal((await f.login(answer)).status, 401);
+  const response = await f.login('FIXTUREWORD');
+  assert.equal(response.status, 429);
+  assert.equal(cookie(response), undefined);
+  assert.ok(Number(response.headers.get('retry-after')) > 0);
+});
+
 test('unauthenticated page and direct requests disclose no private application or directory', async () => {
   const f = fixture();
   assert.equal(await (await f.call()).text(), 'gate only');
-  for (const path of ['app.html', 'app.css', 'app.js', 'api/catalog', 'api/session', 'client/app.js', '.private/catalog.json', '.private/auth.json', '_protected/client/app.html', 'worker.mjs', 'gate.js.map']) {
+  for (const path of ['app.html', 'app.css', 'app.js', 'symbols.js', 'symbols.css', 'api/catalog', 'api/session', 'client/app.js', '.private/catalog.json', '.private/auth.json', '_protected/client/app.html', 'worker.mjs', 'gate.js.map']) {
     const response = await f.call(path);
     assert.equal(response.status, 401, path);
     assert.doesNotMatch(await response.text(), /protected|Private fixture|fictional-room|Synthetic/);
   }
   assert.deepEqual(f.reads, ['client/gate.html']);
-  for (const path of ['gate.js', 'gate.css']) assert.equal((await f.call(path)).status, 200);
+  for (const path of ['gate.js', 'gate.css', 'arrival.js', 'theme.css', 'font-source-sans.woff2', 'font-teko.woff2']) assert.equal((await f.call(path)).status, 200);
 });
 
 test('password is case-sensitive and exact; cookie is random, scoped, Secure and HttpOnly', async () => {
@@ -51,7 +102,7 @@ test('password is case-sensitive and exact; cookie is random, scoped, Secure and
   const headers = { Cookie: cookie(response) };
   assert.equal(await (await f.call('', { headers })).text(), 'protected shell');
   assert.deepEqual(await (await f.call('api/catalog', { headers })).json(), catalog);
-  for (const path of ['app.html', 'app.css', 'app.js']) assert.equal((await f.call(path, { headers })).status, 200);
+  for (const path of ['app.html', 'app.css', 'app.js', 'symbols.js', 'symbols.css']) assert.equal((await f.call(path, { headers })).status, 200);
 });
 
 test('login rotates prior sessions; logout and expiry invalidate copied tokens', async () => {

@@ -13,7 +13,9 @@ export function configuredCatalog(value) {
       }
       if (typeof item.href !== 'string' || item.href.length > 300 || !/^\/[A-Za-z0-9/_-]+(?:#[A-Za-z0-9=&_%-]+)?$/.test(item.href) || item.href.startsWith('//')) throw new Error('Invalid catalog');
       if (typeof item.accent !== 'string' || !/^#[a-fA-F0-9]{6}$/.test(item.accent)) throw new Error('Invalid catalog');
-      return { id: item.id, title: item.title, kicker: item.kicker, description: item.description, href: item.href, accent: item.accent };
+      const allowedSymbols = ['dialogue', 'futures', 'folio', 'atlas', 'vessel', 'neuron'];
+      if (item.symbol !== undefined && !allowedSymbols.includes(item.symbol)) throw new Error('Invalid symbol');
+      return { id: item.id, title: item.title, kicker: item.kicker, description: item.description, href: item.href, accent: item.accent, ...(item.symbol ? { symbol: item.symbol } : {}) };
     });
     return { destinations };
   } catch { return null; }

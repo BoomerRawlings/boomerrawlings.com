@@ -1,0 +1,103 @@
+<a
+  class="observatory-door"
+  href="/observatory/"
+  data-observatory-door
+  data-pip-direct
+  rel="nofollow"
+  aria-label="Enter the Observatory, password required"
+  title="The Observatory"
+>
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path class="door-bracket door-bracket-left" d="M8 4H4v16h4" />
+    <path class="door-bracket door-bracket-right" d="M16 4h4v16h-4" />
+    <path class="door-rule" d="M8 12h8" />
+    <path class="door-index" d="M12 8v2m0 4v2" />
+  </svg>
+  <span class="door-label">The Observatory</span>
+</a>
+<span class="observatory-transfer" data-observatory-transfer hidden aria-hidden="true">
+  <span class="transfer-field" data-transfer-field></span>
+  <span class="transfer-rule" data-transfer-rule></span>
+  <span class="transfer-register" data-transfer-register></span>
+</span>
+<span class="sr-only" data-observatory-status role="status"></span>
+
+<script>
+  import { mountObservatoryDoor } from '../lib/observatory-transition';
+  const door = document.querySelector<HTMLAnchorElement>('[data-observatory-door]');
+  const transfer = document.querySelector<HTMLElement>('[data-observatory-transfer]');
+  const status = document.querySelector<HTMLElement>('[data-observatory-status]');
+  if (door && transfer) mountObservatoryDoor(door, transfer, status);
+</script>
+
+<style>
+  .observatory-door {
+    align-items: center;
+    color: #a1adbb;
+    display: inline-flex;
+    height: 44px;
+    justify-content: center;
+    position: relative;
+    text-decoration: none;
+    width: 44px;
+  }
+  .observatory-door svg { overflow: visible; stroke: currentColor; stroke-width: 1; }
+  .door-rule { stroke: var(--yellow, #ffcd00); }
+  .door-index { stroke: var(--turquoise, #00c6d7); opacity: .65; }
+  .door-bracket { transition: transform 220ms cubic-bezier(.2,.8,.2,1), stroke 220ms; }
+  .observatory-door:hover, .observatory-door:focus-visible { color: var(--yellow, #ffcd00); }
+  .observatory-door:hover .door-bracket-left, .observatory-door:focus-visible .door-bracket-left { transform: translateX(-2px); }
+  .observatory-door:hover .door-bracket-right, .observatory-door:focus-visible .door-bracket-right { transform: translateX(2px); }
+  .observatory-door:focus-visible { outline: 2px solid var(--yellow, #ffcd00); outline-offset: 2px; }
+  .door-label {
+    background: var(--navy, #182b49);
+    border: 1px solid #ffcd0060;
+    color: var(--sand, #f5f0e6);
+    font: .65rem/1.4 var(--mono, monospace);
+    letter-spacing: .03em;
+    opacity: 0;
+    padding: .45rem .6rem;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    width: max-content;
+    z-index: 3;
+  }
+  .observatory-door:hover .door-label, .observatory-door:focus-visible .door-label { opacity: 1; }
+  .observatory-transfer[hidden] { display: none; }
+  .observatory-transfer {
+    display: block;
+    inset: 0;
+    isolation: isolate;
+    overflow: hidden;
+    position: fixed;
+    touch-action: none;
+    z-index: 1000;
+  }
+  .transfer-field { background: #182b49; display: block; inset: 0; position: absolute; }
+  .transfer-rule {
+    background: #ffcd00;
+    display: block;
+    height: 1px;
+    left: 0;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+  }
+  .transfer-register { display: block; inset: 0; position: absolute; }
+  .transfer-register:before, .transfer-register:after {
+    background: #00c6d7;
+    content: '';
+    height: 18px;
+    position: absolute;
+    top: calc(50% - 9px);
+    width: 1px;
+  }
+  .transfer-register:before { left: 5vw; }
+  .transfer-register:after { right: 5vw; }
+  @media (prefers-reduced-motion: reduce) {
+    .door-bracket { transition: none; }
+    .observatory-transfer { display: none !important; }
+  }
+</style>

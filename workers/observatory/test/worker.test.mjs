@@ -9,15 +9,18 @@ const origin = 'https://boomerrawlings.com';
 const password = 'Runtime-test-observatory-password';
 const catalog = { destinations: [{ id: 'fixture', title: 'Restricted fixture directory', kicker: 'Fictional destination', description: 'Runtime test content.', href: '/fictional-room/', accent: '#abcdef' }] };
 const files = {
-  '/_protected/client/gate.html': 'gate only', '/_protected/client/gate.css': 'gate style', '/_protected/client/gate.js': 'gate script',
-  '/_protected/client/app.html': 'protected shell', '/_protected/client/app.css': 'protected style', '/_protected/client/app.js': 'protected script'
+  '/_protected/client/gate.html': 'gate only', '/_protected/client/gate.css': 'gate style', '/_protected/client/gate.js': 'gate script', '/_protected/client/arrival.js': 'public arrival bootstrap',
+  '/_protected/client/theme.css': 'public theme', '/_protected/client/font-source-sans.woff2': 'public font', '/_protected/client/font-teko.woff2': 'public font',
+  '/_protected/client/app.html': 'protected shell', '/_protected/client/app.css': 'protected style', '/_protected/client/app.js': 'protected script',
+  '/_protected/client/symbols.js': 'protected symbols', '/_protected/client/symbols.css': 'protected symbol styles'
 };
-let runtime, unconfigured, namespace, sessionStore, config;
+let runtime, unconfigured, namespace, sessionStore, riddleStore, config;
 const reads = [];
 before(async () => {
   const { Miniflare, convertV4MiniflareOptions } = await import('miniflare');
   config = await createAuthConfig(password);
   const rotated = await createAuthConfig('Rotated-test-password-only');
+  const riddleConfig = await createAuthConfig('fixtureword', { mode: 'riddle' });
   const harness = `
     import worker, { ObservatoryAuthStore } from './worker.mjs';
     export class TestAuthStore extends ObservatoryAuthStore {
@@ -33,6 +36,7 @@ before(async () => {
     }
     export default { fetch(request,env) {
       if(request.headers.has('x-test-rotate')) env={...env,OBSERVATORY_AUTH_CONFIG:${JSON.stringify(JSON.stringify(rotated))}};
+      if(request.headers.has('x-test-riddle')) env={...env,OBSERVATORY_AUTH_CONFIG:${JSON.stringify(JSON.stringify(riddleConfig))}};
       return worker.fetch(request,env);
     }};
   `;
@@ -53,28 +57,48 @@ before(async () => {
   unconfigured = new Miniflare(normalize({ ...options, name: 'observatory-unconfigured-test' }));
   namespace = await runtime.getDurableObjectNamespace('OBSERVATORY_AUTH');
   sessionStore = namespace.getByName(`observatory-v1-${await digest(`${config.salt}:${config.verifier}`)}`);
+  riddleStore = namespace.getByName(`observatory-v1-${await digest(`${riddleConfig.salt}:${riddleConfig.verifier}`)}`);
 });
 after(async () => { await Promise.all([runtime?.dispose(), unconfigured?.dispose()]); });
 const call = (path = '', options = {}) => runtime.dispatchFetch(`${origin}/observatory/${path}`, options);
 const login = (value = password, headers = {}) => call('api/login', { method: 'POST', headers: { Origin: origin, 'Content-Type': 'application/json', ...headers }, body: JSON.stringify({ password: value }) });
 const cookie = response => response.headers.get('set-cookie')?.split(';')[0];
 
+test('actual Worker transitions from the exact credential to a normalized riddle without accepting old sessions', async () => {
+  await sessionStore.expire(); await riddleStore.expire();
+  const previousCookie = cookie(await login());
+  assert.equal((await call('api/catalog', { headers: { Cookie: previousCookie, 'x-test-riddle': 'yes' } })).status, 401);
+  assert.equal((await login(password, { 'x-test-riddle': 'yes' })).status, 401);
+  assert.equal((await login('fixture-word', { 'x-test-riddle': 'yes' })).status, 401);
+  const response = await login(' \uff26\uff29\uff38\uff34\uff35\uff32\uff25\uff37\uff2f\uff32\uff24 ', { 'x-test-riddle': 'yes' });
+  assert.equal(response.status, 200);
+  const Cookie = cookie(response);
+  assert.equal((await call('api/catalog', { headers: { Cookie, 'x-test-riddle': 'yes' } })).status, 200);
+  assert.equal((await call('api/catalog', { headers: { Cookie } })).status, 401);
+  const logout = await call('api/logout', { method: 'POST', headers: { Origin: origin, Cookie, 'x-test-riddle': 'yes' } });
+  assert.equal(logout.status, 200);
+  assert.equal((await call('api/catalog', { headers: { Cookie, 'x-test-riddle': 'yes' } })).status, 401);
+  await riddleStore.expire();
+  for (let i = 0; i < 5; i++) assert.equal((await login('wrong', { 'x-test-riddle': 'yes' })).status, 401);
+  assert.equal((await login('fixtureword', { 'x-test-riddle': 'yes' })).status, 429);
+});
+
 test('actual Worker gates all private paths; only generic entrance assets can be requested directly', async () => {
   await sessionStore.expire(); reads.length = 0;
   assert.equal(await (await call()).text(), 'gate only');
-  for (const path of ['api/catalog', 'app.html', 'app.css', 'app.js', 'client/app.html', '.private/catalog.json']) {
+  for (const path of ['api/catalog', 'app.html', 'app.css', 'app.js', 'symbols.js', 'symbols.css', 'client/app.html', '.private/catalog.json']) {
     const response = await call(path);
     assert.equal(response.status, 401, path);
     assert.doesNotMatch(await response.text(), /Restricted fixture|protected shell|fictional-room/);
   }
   assert.deepEqual(reads, ['/_protected/client/gate.html']);
-  for (const path of ['gate.css', 'gate.js']) assert.equal((await call(path)).status, 200);
+  for (const path of ['gate.css', 'gate.js', 'arrival.js', 'theme.css', 'font-source-sans.woff2', 'font-teko.woff2']) assert.equal((await call(path)).status, 200);
   const bad = await login('wrong'); assert.equal(bad.status, 401); assert.equal(cookie(bad), undefined);
   const good = await login(); assert.equal(good.status, 200);
   const headers = { Cookie: cookie(good) };
   assert.equal(await (await call('', { headers })).text(), 'protected shell');
   assert.deepEqual(await (await call('api/catalog', { headers })).json(), catalog);
-  for (const path of ['app.html', 'app.css', 'app.js']) assert.equal((await call(path, { headers })).status, 200);
+  for (const path of ['app.html', 'app.css', 'app.js', 'symbols.js', 'symbols.css']) assert.equal((await call(path, { headers })).status, 200);
   const head = await call('api/catalog', { method: 'HEAD', headers }); assert.equal(head.status, 200); assert.equal(await head.text(), '');
   const cached = await call('app.js', { headers: { ...headers, 'If-None-Match': 'fixture' } });
   assert.equal(cached.status, 200); assert.equal(cached.headers.get('etag'), null); assert.match(cached.headers.get('cache-control'), /no-store/);
@@ -116,7 +140,7 @@ test('actual Worker refuses cross-site writes, alternate hosts and internal asse
 
 test('missing runtime secrets serve only gate and never bypass authentication', async () => {
   assert.equal(await (await unconfigured.dispatchFetch(`${origin}/observatory/`)).text(), 'gate only');
-  for (const path of ['app.html', 'app.js', 'api/catalog', '_protected/client/app.html']) {
+  for (const path of ['app.html', 'app.js', 'symbols.js', 'symbols.css', 'api/catalog', '_protected/client/app.html']) {
     const response = await unconfigured.dispatchFetch(`${origin}/observatory/${path}`);
     assert.equal(response.status, 401);
     assert.doesNotMatch(await response.text(), /protected|Restricted fixture/);
