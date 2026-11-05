@@ -20,7 +20,7 @@ function descendants(node) { return [node, ...node.children.flatMap(descendants)
 test('switching subjects replaces the former diagram instead of accumulating animated scenes', () => {
   const target = stage();
   const signatures = new Set();
-  for (const kind of ['dialogue', 'futures', 'folio', 'atlas', 'vessel', 'neuron']) {
+  for (const kind of ['dialogue', 'futures', 'folio', 'atlas', 'vessel', 'neuron', 'race']) {
     assert.equal(renderSymbol(target, kind), kind);
     assert.equal(target.children.length, 1);
     const svg = target.children[0];
@@ -30,7 +30,7 @@ test('switching subjects replaces the former diagram instead of accumulating ani
     assert.equal(target.dataset.symbol, kind);
     signatures.add(JSON.stringify(descendants(svg).map(({ tag, attributes }) => ({ tag, attributes }))));
   }
-  assert.equal(signatures.size, 6);
+  assert.equal(signatures.size, 7);
 });
 
 test('catalog-supplied kind cannot create markup, external resources, event handlers, or prototype lookups', () => {

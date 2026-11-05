@@ -5,7 +5,7 @@ import { createHandler, securityHeaders } from './handler.mjs';
 
 const ORIGIN = 'https://boomerrawlings.com';
 const WINDOW_MS = 15 * 60 * 1000;
-const CLIENT_FILES = new Set(['gate.html', 'gate.css', 'gate.js', 'arrival.js', 'theme.css', 'font-source-sans.woff2', 'font-teko.woff2', 'app.html', 'app.css', 'app.js', 'symbols.js', 'symbols.css']);
+const CLIENT_FILES = new Set(['gate.html', 'gate.css', 'gate.js', 'arrival.js', 'theme.css', 'font-source-sans.woff2', 'font-teko.woff2', 'app.html', 'app.css', 'app.js', 'departure.js', 'symbols.js', 'symbols.css']);
 
 // One password scope is the coordination atom. This namespace never shares sessions
 // with other applications. Only authentication state reaches this object.

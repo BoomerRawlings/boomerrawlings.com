@@ -11,7 +11,7 @@ const catalog = { destinations: [{ id: 'fixture', title: 'Restricted fixture dir
 const files = {
   '/_protected/client/gate.html': 'gate only', '/_protected/client/gate.css': 'gate style', '/_protected/client/gate.js': 'gate script', '/_protected/client/arrival.js': 'public arrival bootstrap',
   '/_protected/client/theme.css': 'public theme', '/_protected/client/font-source-sans.woff2': 'public font', '/_protected/client/font-teko.woff2': 'public font',
-  '/_protected/client/app.html': 'protected shell', '/_protected/client/app.css': 'protected style', '/_protected/client/app.js': 'protected script',
+  '/_protected/client/app.html': 'protected shell', '/_protected/client/app.css': 'protected style', '/_protected/client/app.js': 'protected script', '/_protected/client/departure.js': 'protected departure',
   '/_protected/client/symbols.js': 'protected symbols', '/_protected/client/symbols.css': 'protected symbol styles'
 };
 let runtime, unconfigured, namespace, sessionStore, riddleStore, config;
@@ -86,7 +86,7 @@ test('actual Worker transitions from the exact credential to a normalized riddle
 test('actual Worker gates all private paths; only generic entrance assets can be requested directly', async () => {
   await sessionStore.expire(); reads.length = 0;
   assert.equal(await (await call()).text(), 'gate only');
-  for (const path of ['api/catalog', 'app.html', 'app.css', 'app.js', 'symbols.js', 'symbols.css', 'client/app.html', '.private/catalog.json']) {
+  for (const path of ['api/catalog', 'app.html', 'app.css', 'app.js', 'departure.js', 'symbols.js', 'symbols.css', 'client/app.html', '.private/catalog.json']) {
     const response = await call(path);
     assert.equal(response.status, 401, path);
     assert.doesNotMatch(await response.text(), /Restricted fixture|protected shell|fictional-room/);
@@ -98,7 +98,7 @@ test('actual Worker gates all private paths; only generic entrance assets can be
   const headers = { Cookie: cookie(good) };
   assert.equal(await (await call('', { headers })).text(), 'protected shell');
   assert.deepEqual(await (await call('api/catalog', { headers })).json(), catalog);
-  for (const path of ['app.html', 'app.css', 'app.js', 'symbols.js', 'symbols.css']) assert.equal((await call(path, { headers })).status, 200);
+  for (const path of ['app.html', 'app.css', 'app.js', 'departure.js', 'symbols.js', 'symbols.css']) assert.equal((await call(path, { headers })).status, 200);
   const head = await call('api/catalog', { method: 'HEAD', headers }); assert.equal(head.status, 200); assert.equal(await head.text(), '');
   const cached = await call('app.js', { headers: { ...headers, 'If-None-Match': 'fixture' } });
   assert.equal(cached.status, 200); assert.equal(cached.headers.get('etag'), null); assert.match(cached.headers.get('cache-control'), /no-store/);

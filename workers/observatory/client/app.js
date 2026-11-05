@@ -1,4 +1,5 @@
 import { renderSymbol, symbolDescriptions } from './symbols.js';
+import { mountRaceDeparture } from './departure.js';
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 const status = document.querySelector('#status');
 const instrument = document.querySelector('.instrument');
@@ -14,8 +15,10 @@ let selected = -1;
 let paused = reduced.matches;
 let loggingOut = false;
 let catalogRequest = 0;
+const departure = mountRaceDeparture(document.querySelector('#enter-world'), document.querySelector('#departure-screen'), status, window, () => paused);
 
 function applyMotion() {
+  if (paused) departure.cancel();
   document.body.classList.toggle('motion-paused', paused);
   motionButton.textContent = paused ? 'Resume motion' : 'Pause motion';
   motionButton.setAttribute('aria-pressed', String(paused));
@@ -27,6 +30,7 @@ motionButton.addEventListener('click', () => { paused = !paused; applyMotion(); 
 
 function selectWorld(index, animate = true) {
   if (!worlds[index] || selected === index) return;
+  departure.cancel();
   selected = index;
   const world = worlds[index];
   const number = String(index + 1).padStart(2, '0');
@@ -87,6 +91,7 @@ function makeButton(world, index, orbital) {
 }
 
 function clearPrivateView() {
+  departure.cancel();
   catalogRequest++;
   worlds = []; selected = -1; list.replaceChildren(); selectors.replaceChildren();
   symbolStage.replaceChildren(); symbolStage.setAttribute('aria-label', 'Destination illustration'); symbolCaption.textContent = '';

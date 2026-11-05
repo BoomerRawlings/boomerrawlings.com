@@ -9,7 +9,7 @@ import { createHandler } from './handler.mjs';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
 const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.woff2': 'font/woff2' };
-const CLIENT_FILES = new Set(['gate.html', 'gate.css', 'gate.js', 'arrival.js', 'theme.css', 'font-source-sans.woff2', 'font-teko.woff2', 'app.html', 'app.css', 'app.js', 'symbols.js', 'symbols.css']);
+const CLIENT_FILES = new Set(['gate.html', 'gate.css', 'gate.js', 'arrival.js', 'theme.css', 'font-source-sans.woff2', 'font-teko.woff2', 'app.html', 'app.css', 'app.js', 'departure.js', 'symbols.js', 'symbols.css']);
 export async function readLocal(name, base = root) {
   if (!name.startsWith('client/') || !CLIENT_FILES.has(name.slice(7))) return new Response('Not found', { status: 404 });
   try { return new Response(await readFile(path.join(base, name)), { headers: { 'Content-Type': types[path.extname(name)] } }); }

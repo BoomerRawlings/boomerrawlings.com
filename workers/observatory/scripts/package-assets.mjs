@@ -7,7 +7,7 @@ const output = resolve(root, '.build/assets');
 if (relative(root, output) !== `.build${sep}assets`) throw new Error('Unexpected build target');
 // The resolved deletion target is confined to this app's generated output.
 await rm(output, { recursive: true, force: true });
-for (const name of ['gate.html', 'gate.css', 'gate.js', 'arrival.js', 'theme.css', 'font-source-sans.woff2', 'font-teko.woff2', 'FONT-LICENSE-source-sans.txt', 'FONT-LICENSE-teko.txt', 'app.html', 'app.css', 'app.js', 'symbols.js', 'symbols.css']) {
+for (const name of ['gate.html', 'gate.css', 'gate.js', 'arrival.js', 'theme.css', 'font-source-sans.woff2', 'font-teko.woff2', 'FONT-LICENSE-source-sans.txt', 'FONT-LICENSE-teko.txt', 'app.html', 'app.css', 'app.js', 'departure.js', 'symbols.js', 'symbols.css']) {
   const source = resolve(root, 'client', name);
   const stat = await lstat(source);
   if (!stat.isFile() || stat.isSymbolicLink() || stat.size > 1024 * 1024) throw new Error('Unexpected client asset');

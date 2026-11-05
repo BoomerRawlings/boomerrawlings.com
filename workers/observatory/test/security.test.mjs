@@ -11,7 +11,7 @@ const catalog = { destinations: [{ id: 'fixture', title: 'Private fixture title'
 const files = {
   'client/gate.html': 'gate only', 'client/gate.css': 'gate style', 'client/gate.js': 'gate script', 'client/arrival.js': 'public arrival bootstrap',
   'client/theme.css': 'public theme', 'client/font-source-sans.woff2': 'public font', 'client/font-teko.woff2': 'public font',
-  'client/app.html': 'protected shell', 'client/app.css': 'protected style', 'client/app.js': 'protected script',
+  'client/app.html': 'protected shell', 'client/app.css': 'protected style', 'client/app.js': 'protected script', 'client/departure.js': 'protected departure',
   'client/symbols.js': 'protected symbols', 'client/symbols.css': 'protected symbol styles'
 };
 function fixture(options = {}) {
@@ -76,7 +76,7 @@ test('short riddle answers retain the same persistent-style attempt budget befor
 test('unauthenticated page and direct requests disclose no private application or directory', async () => {
   const f = fixture();
   assert.equal(await (await f.call()).text(), 'gate only');
-  for (const path of ['app.html', 'app.css', 'app.js', 'symbols.js', 'symbols.css', 'api/catalog', 'api/session', 'client/app.js', '.private/catalog.json', '.private/auth.json', '_protected/client/app.html', 'worker.mjs', 'gate.js.map']) {
+  for (const path of ['app.html', 'app.css', 'app.js', 'departure.js', 'symbols.js', 'symbols.css', 'api/catalog', 'api/session', 'client/app.js', '.private/catalog.json', '.private/auth.json', '_protected/client/app.html', 'worker.mjs', 'gate.js.map']) {
     const response = await f.call(path);
     assert.equal(response.status, 401, path);
     assert.doesNotMatch(await response.text(), /protected|Private fixture|fictional-room|Synthetic/);
@@ -102,7 +102,7 @@ test('password is case-sensitive and exact; cookie is random, scoped, Secure and
   const headers = { Cookie: cookie(response) };
   assert.equal(await (await f.call('', { headers })).text(), 'protected shell');
   assert.deepEqual(await (await f.call('api/catalog', { headers })).json(), catalog);
-  for (const path of ['app.html', 'app.css', 'app.js', 'symbols.js', 'symbols.css']) assert.equal((await f.call(path, { headers })).status, 200);
+  for (const path of ['app.html', 'app.css', 'app.js', 'departure.js', 'symbols.js', 'symbols.css']) assert.equal((await f.call(path, { headers })).status, 200);
 });
 
 test('login rotates prior sessions; logout and expiry invalidate copied tokens', async () => {
@@ -205,9 +205,14 @@ test('login input is bounded and rejects unsupported media types or malformed JS
   }
 });
 
-test('directory parser accepts only bounded same-origin destinations and strips unknown fields', () => {
+test('directory parser permits only bounded local paths or the exact Cannonball homepage and strips unknown fields', () => {
   assert.deepEqual(configuredCatalog(JSON.stringify(catalog)), catalog);
-  for (const href of ['https://external.example/', '//external.example/', '/../../secret/', '/path\\escape/', '/x?secret=1', 'javascript:alert(1)']) {
+  const external = { ...catalog.destinations[0], href: 'https://ucsdcannonball.com/', symbol: 'race' };
+  assert.deepEqual(configuredCatalog(JSON.stringify({ destinations: [external] })), { destinations: [external] });
+  for (const href of ['https://external.example/', '//external.example/', '/../../secret/', '/path\\escape/', '/x?secret=1', 'javascript:alert(1)',
+    'http://ucsdcannonball.com/', 'https://ucsdcannonball.com.evil.example/', 'https://ucsdcannonball.com@evil.example/',
+    'https://user@ucsdcannonball.com/', 'https://ucsdcannonball.com:443/', 'https://www.ucsdcannonball.com/',
+    'https://ucsdcannonball.com/?catalog=private', 'https://ucsdcannonball.com/#arrival', 'https://ucsdcannonball.com/other']) {
     assert.equal(configuredCatalog(JSON.stringify({ destinations: [{ ...catalog.destinations[0], href }] })), null);
   }
   for (const value of ['{}', 'null', '{', JSON.stringify({ destinations: [] }), JSON.stringify({ destinations: [catalog.destinations[0], catalog.destinations[0]] })]) assert.equal(configuredCatalog(value), null);

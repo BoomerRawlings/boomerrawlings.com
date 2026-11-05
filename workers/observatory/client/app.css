@@ -7,3 +7,15 @@ main{padding:0 5vw;max-width:1720px;margin:auto}.chapter{display:flex;justify-co
 @media(max-width:360px){h1{font-size:58px}}
 
 @media(max-width:360px){.world-list{grid-template-columns:repeat(2,minmax(0,1fr))}.world-button:nth-child(4){border-left:1px solid var(--rule);padding-left:12px}.world-button:nth-child(4):after{left:12px}.world-button:nth-child(odd){border-left:0;padding-left:0}.world-button:nth-child(odd):after{left:0}}
+
+/* A fast course-line handoff, using the same navy field and calibrated rules. */
+#departure-screen{position:fixed;inset:0;z-index:40;pointer-events:none;overflow:hidden}
+.race-transfer-field{position:absolute;inset:0;background:var(--navy);clip-path:inset(46% 100% 46% 0);overflow:hidden}
+.race-transfer-lane{position:absolute;inset:calc(50% - 42px) -10vw auto;height:84px;border-block:1px solid var(--rule);transform:skewX(-16deg)}
+.race-transfer-lane:before,.race-transfer-lane:after{content:'';position:absolute;left:0;right:0;height:1px;background:var(--yellow);top:50%}
+.race-transfer-lane:after{top:calc(50% + 7px);background:var(--turquoise);opacity:.45}
+.race-transfer-lane i{position:absolute;top:0;bottom:0;width:1px;background:var(--rule);left:30%}
+.race-transfer-lane i:nth-child(2){left:50%}.race-transfer-lane i:nth-child(3){left:70%}
+.race-transfer-marker{position:absolute;top:calc(50% - 3px);left:0;width:9vw;min-width:40px;height:6px;background:var(--yellow);box-shadow:-24px 0 0 -2px var(--turquoise)}
+.race-transfer-register{position:absolute;top:calc(50% - 15px);right:6vw;width:15px;height:30px;background:repeating-conic-gradient(var(--sand) 0% 25%,transparent 0% 50%) 0 0/10px 10px;opacity:.65}
+@media(prefers-reduced-motion:reduce){#departure-screen{display:none!important}}

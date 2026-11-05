@@ -1,7 +1,7 @@
 import { cookieToken, digest, randomToken, sessionCookie, validPassword } from './auth.mjs';
 
 const ENTRY_FILES = new Set(['gate.css', 'gate.js', 'arrival.js', 'theme.css', 'font-source-sans.woff2', 'font-teko.woff2']);
-const PRIVATE_FILES = new Set(['app.html', 'app.css', 'app.js', 'symbols.js', 'symbols.css']);
+const PRIVATE_FILES = new Set(['app.html', 'app.css', 'app.js', 'departure.js', 'symbols.js', 'symbols.css']);
 export const securityHeaders = {
   'Cache-Control': 'no-store, private, max-age=0',
   'Pragma': 'no-cache',

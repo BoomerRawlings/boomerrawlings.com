@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 import { renderSymbol, symbolDescriptions } from '../client/symbols.js';
+import { mountRaceDeparture } from '../client/departure.js';
 
-const source = (await readFile(new URL('../client/app.js', import.meta.url), 'utf8')).replace(/^import .*symbols\.js';\r?\n/, '');
+const source = (await readFile(new URL('../client/app.js', import.meta.url), 'utf8')).replace(/^import .*from '\.\/(?:symbols|departure)\.js';\r?\n/gm, '');
 const catalog = { destinations: [{ id: 'fixture', title: 'Synthetic hidden room', kicker: 'Fictional signal', description: 'A test-only description.', href: '/fictional-room/', accent: '#d6b77c' }] };
 const okCatalog = (value = catalog) => ({ status: 200, ok: true, json: async () => value });
 const settle = () => new Promise(resolve => setImmediate(resolve));
@@ -27,7 +28,9 @@ class Element {
     callbacks.push(callback); this.listeners.set(type, callbacks);
   }
   emit(type, event = {}) { return Promise.all((this.listeners.get(type) || []).map(callback => callback(event))); }
+  removeEventListener(type, callback) { this.listeners.set(type, (this.listeners.get(type) || []).filter(fn => fn !== callback)); }
   setAttribute(name, value) { this.attributes.set(name, value); }
+  hasAttribute(name) { return this.attributes.has(name); }
   removeAttribute(name) { this.attributes.delete(name); if (name === 'href') this.href = ''; }
   append(...children) { for (const child of children) { child.parentElement = this; this.children.push(child); } }
   replaceChildren(...children) { this.children = []; this.append(...children); }
@@ -36,7 +39,7 @@ class Element {
   getBoundingClientRect() { return { left: 0, top: 0, width: 600, height: 600 }; }
 }
 
-async function fixture() {
+async function fixture(initialCatalog = catalog) {
   const elements = new Map();
   const get = selector => { if (!elements.has(selector)) elements.set(selector, Object.assign(new Element(), { ownerDocument: document })); return elements.get(selector); };
   const document = new Element();
@@ -46,18 +49,34 @@ async function fixture() {
   document.createElementNS = () => Object.assign(new Element(), { ownerDocument: document });
   document.querySelectorAll = () => [...get('#world-list').children, ...get('#orbital-selectors').children];
   const window = new Element();
+  window.document = document;
   const media = new Element(); media.matches = false;
   window.matchMedia = () => media;
   const navigations = [];
-  let responder = async path => path.endsWith('/api/catalog') ? okCatalog() : { status: 200, ok: true };
+  window.location = { assign: path => navigations.push(path) };
+  let now = 0, timerId = 0;
+  const timers = new Map();
+  window.setTimeout = (fn, delay) => { const id = ++timerId; timers.set(id, { fn, at: now + delay }); return id; };
+  window.clearTimeout = id => timers.delete(id);
+  const tick = ms => { now += ms; for (const [id, timer] of [...timers]) if (timer.at <= now) { timers.delete(id); timer.fn(); } };
+  const animations = [];
+  const parts = new Map(['field', 'lane', 'marker'].map(name => [`[data-race-${name}]`, { animate() {
+    let finish, fail;
+    const finished = new Promise((resolve, reject) => { finish = resolve; fail = reject; });
+    const animation = { finished, finish, cancel() { fail(new Error('cancelled')); } };
+    animations.push(animation); return animation;
+  } }]));
+  get('#departure-screen').querySelector = name => parts.get(name);
+  get('#departure-screen').hidden = true;
+  let responder = async path => path.endsWith('/api/catalog') ? okCatalog(initialCatalog) : { status: 200, ok: true };
   const calls = [];
   const fetch = (path, options) => { calls.push({ path, options }); return responder(path, options); };
   await vm.runInNewContext(`(async () => {\n${source}\n})()`, {
-    document, window, fetch, renderSymbol, symbolDescriptions, location: { replace: path => navigations.push(path) },
+    document, window, fetch, renderSymbol, symbolDescriptions, mountRaceDeparture, location: { replace: path => navigations.push(path) },
   }, { filename: 'observatory-client.js' });
-  assert.equal(get('#destination-title').textContent, catalog.destinations[0].title);
-  assert.equal(get('#enter-world').href, catalog.destinations[0].href);
-  return { get, document, window, navigations, calls, respond: callback => { responder = callback; } };
+  assert.equal(get('#destination-title').textContent, initialCatalog.destinations[0].title);
+  assert.equal(get('#enter-world').href, initialCatalog.destinations[0].href);
+  return { get, document, window, navigations, calls, animations, tick, respond: callback => { responder = callback; } };
 }
 
 function assertClosed(f) {
@@ -133,4 +152,40 @@ test('restored history revalidates and redirects an expired session without rest
   await settle();
   assertClosed(f);
   assert.deepEqual(f.navigations, ['/observatory/']);
+});
+
+const racingCatalog = { destinations: [
+  { ...catalog.destinations[0], id: 'racing-fixture', title: 'Racing fixture', href: 'https://ucsdcannonball.com/', symbol: 'race' },
+  catalog.destinations[0],
+] };
+const activate = f => f.get('#enter-world').emit('click', { button: 0, preventDefault() {} });
+
+test('the authenticated racing selection navigates directly without prefetching or changing other links', async () => {
+  const f = await fixture(racingCatalog);
+  assert.equal(f.get('#selected-symbol').dataset.symbol, 'race');
+  await activate(f);
+  assert.equal(f.get('#departure-screen').hidden, false);
+  f.animations.forEach(animation => animation.finish()); await settle();
+  assert.deepEqual(f.navigations, ['https://ucsdcannonball.com/']);
+  assert.deepEqual(f.calls.map(call => call.path), ['/observatory/api/catalog']);
+  await f.window.emit('pagehide');
+  assertClosed(f);
+});
+
+test('selection, pause, revalidation, logout and history discard a pending race departure in the real client', async () => {
+  for (const interrupt of [
+    f => f.get('#world-list').children[1].emit('click'),
+    f => f.get('#motion').emit('click'),
+    f => f.document.emit('visibilitychange'),
+    f => f.get('#logout').emit('click'),
+    f => f.window.emit('pagehide'),
+    f => f.window.emit('pageshow', { persisted: true }),
+  ]) {
+    const f = await fixture(racingCatalog); await activate(f);
+    assert.equal(f.get('#departure-screen').hidden, false);
+    await interrupt(f);
+    f.animations.forEach(animation => animation.finish()); await settle(); f.tick(4000);
+    assert.equal(f.get('#departure-screen').hidden, true);
+    assert.equal(f.navigations.includes('https://ucsdcannonball.com/'), false);
+  }
 });

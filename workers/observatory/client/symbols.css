@@ -1,4 +1,4 @@
-/* Six illustrative subjects, drawn with the portfolio's ink and rule language. */
+/* Illustrative subjects, drawn with the portfolio's ink and rule language. */
 .observatory-symbol {
   display: block;
   width: 100%;
@@ -77,6 +77,16 @@
 @keyframes neuron-signal { 0%, 12% { stroke-dashoffset: 1; opacity: 0; } 14% { opacity: 1; } 72% { stroke-dashoffset: 0; opacity: 1; } 75%, 100% { stroke-dashoffset: 0; opacity: 0; } }
 @keyframes neuron-terminal { 0%, 61%, 87%, 100% { fill: var(--navy, #182b49); opacity: .5; } 70%, 77% { fill: var(--turquoise, #00c6d7); opacity: 1; } }
 
+/* A course and chronograph keep racing independent of any particular vehicle. */
+.race-course { stroke-width: 1.1; opacity: .35; stroke-dasharray: .015 .035; }
+.race-run { stroke-width: 3.5; stroke-dasharray: .065 .935; stroke-dashoffset: 1; animation: race-split 3.8s cubic-bezier(.4,0,.2,1) infinite; }
+.race-clock { transform-origin: 73px 84px; animation: race-clock 7.6s linear infinite; }
+.race-check { fill: var(--yellow, #ffcd00); stroke: none; }
+.race-speed { animation: race-speed 3.8s ease-out infinite; }
+@keyframes race-split { 0%, 8% { stroke-dashoffset: 1; opacity: 0; } 14% { opacity: 1; } 82% { stroke-dashoffset: 0; opacity: 1; } 92%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes race-clock { to { transform: rotate(360deg); } }
+@keyframes race-speed { 0%, 18%, 100% { transform: translateX(0); opacity: .2; } 48% { transform: translateX(8px); opacity: .8; } 78% { transform: translateX(20px); opacity: 0; } }
+
 @keyframes symbol-arrive { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 .motion-paused .observatory-symbol { animation: none !important; }
 .motion-paused .observatory-symbol * { animation-play-state: paused !important; }
@@ -91,4 +101,5 @@
   .vessel-scan { transform: translateY(22px); opacity: .3; }
   .symbol-sonar { opacity: .45; }
   .symbol-impulse { stroke-dasharray: none; stroke-dashoffset: 0; opacity: .35; }
+  .race-run { stroke-dashoffset: .48; opacity: 1; }
 }

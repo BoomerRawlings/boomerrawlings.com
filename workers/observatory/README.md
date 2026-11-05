@@ -33,7 +33,8 @@ sessions; it does not affect another destination's credentials or sessions.
 Put the approved directory in ignored `.private/catalog.json`. The object has a
 `destinations` array of 1–12 records. Each record contains `id`, `title`, `kicker`,
 `description`, `href`, and `accent`. IDs are unique lowercase slugs. Links must be
-same-origin absolute paths with optional fragments; accents are six-digit hex colors.
+same-origin absolute paths with optional fragments, except for the exact approved
+public address `https://ucsdcannonball.com/`; accents are six-digit hex colors.
 Do not commit the real catalog or put it in `public`, `src`, client code, or test fixtures.
 
 The preview binds only `127.0.0.1:8788`. Missing or invalid configuration leaves
@@ -46,9 +47,9 @@ The interface follows the actual homepage's palette, typography, and editorial
 rules: navy, yellow, turquoise, Source Sans 3, and Teko. Fonts are served locally
 with their licenses. The shared theme contains no destination data.
 
-An optional catalog `symbol` selects one of six generic animated illustrations:
-`dialogue`, `futures`, `folio`, `atlas`, `vessel`, or `neuron`. These illustrate
-conversation, alternatives, a book, a map, a vessel, and a signal respectively;
+An optional catalog `symbol` selects one of seven generic animated illustrations:
+`dialogue`, `futures`, `folio`, `atlas`, `vessel`, `neuron`, or `race`. These illustrate
+conversation, alternatives, a book, a map, a vessel, a signal, and a timed course respectively;
 they are not previews or measurements of private records. The real mapping stays
 in the protected catalog. Symbol modules and styles require authentication.
 Missing symbols use a neutral directory illustration. Each illustration has an
@@ -78,6 +79,15 @@ motion preference can cancel a pending departure. History restoration removes
 unfinished overlays and revalidates the session before displaying the directory.
 Late requests cannot restore content after logout or a newer revalidation.
 
+Cannonball has a 620 ms departure: a navy field opens along a gold course line,
+with a turquoise split and checkered finish register. Its illustrated course and
+chronograph are independent of any vehicle. Navigation goes directly to the public
+Cannonball domain, without prefetching or carrying an arrival marker, directory
+data, or session information. A 760 ms deadline prevents a stalled animation from
+blocking navigation, and a 2.2 second watchdog releases a cancelled navigation.
+Reselecting a destination, pausing motion, logout, and catalog revalidation also
+cancel this departure. Unrelated links retain ordinary anchor behavior.
+
 ## Verification
 
 ```text
@@ -105,6 +115,14 @@ without waiting for page modules.
 ignored `.build/assets`. It never packages private configuration and can run in
 public CI without secrets. Only the gate, arrival bootstrap, shared theme, and fonts are public;
 application and symbol modules/styles remain behind the authenticated handler.
+
+To prepare the requested catalog change locally, create the ignored `.private`
+directory and run `node scripts/update-cannonball-catalog.mjs --input PATH --output
+.private/catalog-cannonball.json`. This replaces only the `brain` identifier in a
+validated source catalog, keeps other entries and their order, and refuses to
+overwrite an output. It prints no directory contents and performs no remote update.
+Compare the source with the live catalog before applying it. The production update
+must preserve the existing authentication secret and all unrelated configuration.
 
 ## Production configuration
 

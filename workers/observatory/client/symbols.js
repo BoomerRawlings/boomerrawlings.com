@@ -15,6 +15,7 @@ export const symbolDescriptions = Object.freeze({
   atlas: 'A route is traced between linked entries in a changing map.',
   vessel: 'A submarine profile is read by a moving depth scan and a sonar return.',
   neuron: 'A signal travels from a branching dendrite through a neuron to its terminals.',
+  race: 'A timed course curves from its starting mark to a checkered finish as a split marker advances.',
   directory: 'Six entries arranged around a central index.',
 });
 
@@ -100,6 +101,23 @@ const diagrams = Object.freeze({
     circle(105, 152, 9, 'symbol-nucleus'),
     circle(251, 121, 3.5, 'symbol-terminal terminal-a'), circle(249, 179, 3.5, 'symbol-terminal terminal-b'), circle(248, 216, 3.5, 'symbol-terminal terminal-c'),
     path('M260 116L267 111 M260 179H269 M257 220L265 225', 'symbol-synapse'),
+  ],
+  race: () => [
+    path('M36 233H66C105 233 107 187 128 153S165 97 211 97H264 M36 205H61C85 205 86 167 105 138S156 69 211 69H264', 'symbol-faint'),
+    path('M41 247V191 M47 247V191 M250 56V110 M256 56V110', 'symbol-hairline'),
+    trace('M40 219H63C95 219 96 177 117 145S160 83 211 83H260', 'symbol-gold race-course'),
+    trace('M40 219H63C95 219 96 177 117 145S160 83 211 83H260', 'symbol-cyan race-run'),
+    circle(41, 219, 5, 'symbol-node symbol-gold'),
+    group('race-finish',
+      rect(244, 61, 24, 44, 'symbol-paper'),
+      ...[[244, 61], [256, 72], [244, 83], [256, 94]].map(([x, y]) => rect(x, y, 12, 11, 'race-check')),
+    ),
+    circle(73, 84, 29, 'symbol-faint'),
+    path('M73 49V43 M67 43H79 M97 60L102 55 M73 59V63 M98 84H94 M73 109V105 M48 84H52', 'symbol-hairline'),
+    group('race-clock', line(73, 84, 73, 64, 'symbol-cyan')),
+    circle(73, 84, 3, 'symbol-node symbol-gold'),
+    group('race-speed', path('M165 177H198 M152 190H219 M168 203H205', 'symbol-hairline')),
+    path('M134 243H254 M134 239V247 M164 241V245 M194 239V247 M224 241V245 M254 239V247', 'symbol-hairline'),
   ],
   directory: () => [
     path('M150 78V124 M84 112L128 138 M216 112L172 138 M84 198L128 162 M216 198L172 162 M150 222V176', 'symbol-faint'),
