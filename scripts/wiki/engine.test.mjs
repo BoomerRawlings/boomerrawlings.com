@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import * as wiki from './engine.mjs';
+import {setupCommunity} from './community.mjs';
 
 const NOW = '2026-11-04T12:00:00.000Z';
 const journal = 'I want these notes to remain useful even when a definition becomes awkward. The existing links give me somewhere to begin, but they do not settle what the words should mean. I am considering one small change and leaving its consequences open. A careful record seems more valuable than winning a disagreement before anyone has actually made one.';
@@ -427,4 +428,46 @@ test('new recruits accept bounded dispositions without changing existing profile
   wiki.recruit(state, profile, options());
   assert.deepEqual(state.editors.slice(0, -1).map(editor => editor.dispositions), before);
   assert.deepEqual(state.editors.at(-1).dispositions, { curiosity: 0.8, conscientiousness: 0.7, cooperation: 0.4 });
+});
+
+test("personal relationships remain directional, evidenced and delayed", () => {
+  const state = founded();
+  state.cycles = Array.from({length:85}, (_, i) => ({...wiki.cycleWindow(i+1), participants:[], actionCount:0}));
+  state.latestCompletedAt = wiki.cycleWindow(85).endAt;
+  const now = "2026-11-09T09:00:00.000Z", opt = {now, proof:usage(80, now)};
+  for (const editor of state.editors) editor.personalContext = {adult:true};
+  wiki.beginCycle(state, opt);
+  const from = state.pending.participants[0], to = state.editors.find(e=>e.id!==from).id;
+  const evidenceIds = [wiki.characterPacket(state,from).knownEventIds[0]];
+  const reaction = {to, attractionDelta:0.04, affectionDelta:0.03, boundariesDelta:0.02, explanation:"I liked the care taken with that correction, but want time to myself.", evidenceIds};
+  assert.throws(()=>wiki.propose(state,abstention(state,from,{reactions:[{...reaction,evidenceIds:["invented"]}]}),opt),/observed/);
+  assert.throws(()=>wiki.propose(state,abstention(state,from,{reactions:[{...reaction,explanation:""}]}),opt),/explanation/);
+  for (const id of state.pending.participants) wiki.propose(state,abstention(state,id,id===from?{reactions:[reaction]}:{}),opt);
+  wiki.completeCycle(state,opt);
+  assert.equal(state.relationships.at(-1).attraction,0.04);
+  assert.ok(!state.relationships.some(r=>r.from===to && r.to===from));
+  let data=wiki.exportPublic(state,opt);
+  assert.equal(data.relationships.at(-1).attraction,undefined);
+  assert.ok(!JSON.stringify(data).includes(reaction.explanation));
+  state.latestCompletedAt = state.relationships.at(-1).releasedAt;
+  data=wiki.exportPublic(state,opt);
+  assert.equal(data.relationships.at(-1).attraction,0.04);
+  assert.equal(data.relationships.at(-1).explanation,reaction.explanation);
+  wiki.validatePublic(data);
+  data.relationships.at(-1).releasedAt="2099-01-01T00:00:00.000Z";
+  assert.throws(()=>wiki.validatePublic(data),/unreleased personal/);
+});
+test("outside input decisions persist privately without entering reader reviews", () => {
+  const state=founded(), now="2026-11-09T09:00:00.000Z", opt={now,proof:usage(80,now)};
+  state.cycles=Array.from({length:85},(_,i)=>({...wiki.cycleWindow(i+1),participants:[],actionCount:0}));
+  state.latestCompletedAt=wiki.cycleWindow(85).endAt;
+  setupCommunity(state,now);wiki.beginCycle(state,opt);
+  const id=state.pending.participants.find(id=>wiki.characterPacket(state,id).outsideInputs.length);
+  const packet=wiki.characterPacket(state,id), reference=packet.knownOutsideInputIds[0];
+  assert.throws(()=>wiki.propose(state,abstention(state,id,{references:[reference]}),opt),/reference not present/);
+  for(const actor of state.pending.participants) wiki.propose(state,abstention(state,actor,actor===id?{outsideReferences:[reference]}:{}),opt);
+  const {cycle}=wiki.completeCycle(state,opt);
+  assert.deepEqual(cycle.outcomes.find(x=>x.editorId===id).outsideReferences,[reference]);
+  assert.equal(cycle.suggestionReviews,undefined);
+  assert.ok(!JSON.stringify(wiki.exportPublic(state,opt)).includes(reference));
 });

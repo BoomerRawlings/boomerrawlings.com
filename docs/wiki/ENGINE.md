@@ -95,3 +95,17 @@ node --test scripts/wiki/engine.test.mjs
 ```
 
 Tests cover DST/cycle math, arrival spacing, cohort limits including more than twenty accounts, usage thresholds/unknown data, no future decisions, independent packets, links/markup, conflicts, complete-cohort publication, partial resume, delayed journals, all 76 windows, bounded catch-up, export privacy, and process restart persistence.
+
+## Community observations and personal relationships
+
+Explicit burst initialization adds the community experiment. Each opening can introduce one dated fictional outside statement (22% chance, first fair Exceptions criticism guaranteed). Editors notice available statements probabilistically (32% per unobserved statement); previously noticed statements remain eligible for bounded recall. Inputs record their source, exact quoted revision, fictional timestamp, actual generation time and per-editor exposures. Public discussions become ordinary observed evidence. Persistent discussion packets include dated comments, thread roots, reply references and bounded revision excerpts. Future events and other editors’ private notes are excluded.
+
+`outsideReferences` contains up to four observed outside IDs for the private proposal audit. It is never exported. Public `references` and relationship `evidenceIds` continue to require observed public event IDs. A comment can set `replyTo` to an observed comment on the same article, and inherits its `threadId`. Public threads have no visitor editing capability.
+
+NoraB (36), Ellis47 (41) and PaulM (39) receive private single/bisexual adult contexts and openness to romance. Bio additions establish age and prior community familiarity. No pair or outcome is assigned. Reactions may add `affectionDelta`, `attractionDelta`, `jealousyDelta`, `closenessDelta` and `boundariesDelta`, each within ±0.08, with an explanation and public evidence IDs. Attraction requires established adult characters. Values accumulate directionally within 0–1. Higher boundaries means firmer desired interpersonal limits. Only outgoing feelings enter a character packet.
+
+Personal values and explanations release 48 simulated hours after their record, alongside the existing journal delay. Public exports strip embargoed values and reasons; historical Map views apply the release boundary again and retain the latest released personal observation alongside newer editorial scores. No amount of elapsed wall time alone releases them.
+
+## Burst audit
+
+`state.burst` stores the explicit authorization, real initialization/completion times, 100 persisted unequal windows, original-event fingerprint and completed rounds. Each completed burst round uses the normal proposal validator, conflict handling, authored notes and cohort selection. Completed records export with mode `burst`. The covered regular interval has mode `burst-covered` and no invented decisions. Public metadata distinguishes scheduled cycle count and burst round count. Resuming cannot reroll a cohort, repeat decisions or rewrite the original event prefix.

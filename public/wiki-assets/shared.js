@@ -67,6 +67,15 @@ export function markup(body, articles = new Map(), at) {
   flushParagraph(); flushList();
   return out;
 }
+export const PERSONAL_RELATIONSHIP_FIELDS = ['affection', 'attraction', 'jealousy', 'closeness', 'boundaries'];
+export function relationshipAt(record, time) {
+  const visible = {...record};
+  // Personal notes share the journal embargo, including when scrubbing older exports.
+  if (!Number.isFinite(Date.parse(record.releasedAt)) || stamp(record.releasedAt) > time) {
+    for (const field of [...PERSONAL_RELATIONSHIP_FIELDS, 'explanation']) delete visible[field];
+  }
+  return visible;
+}
 export function snapshot(data, cutoff = data.meta.latestCompletedAt) {
   const time = Math.min(stamp(cutoff), stamp(data.meta.latestCompletedAt));
   const events = (data.events || []).filter(event => stamp(event.timestamp) <= time).sort((a,b) => stamp(a.timestamp)-stamp(b.timestamp) || a.id.localeCompare(b.id));
@@ -91,7 +100,13 @@ export function snapshot(data, cutoff = data.meta.latestCompletedAt) {
     }
   }
   const relationships = new Map();
-  for (const relationship of data.relationships || []) if (stamp(relationship.timestamp) <= time && editors.some(e=>e.id===relationship.from) && editors.some(e=>e.id===relationship.to)) relationships.set(`${relationship.from}\0${relationship.to}`, relationship);
+  for (const relationship of [...(data.relationships || [])].sort((a,b)=>stamp(a.timestamp)-stamp(b.timestamp))) {
+    if (stamp(relationship.timestamp) > time || !editors.some(e=>e.id===relationship.from) || !editors.some(e=>e.id===relationship.to)) continue;
+    const key = `${relationship.from}\0${relationship.to}`, visible = relationshipAt(relationship, time);
+    const previous = relationships.get(key) || {};
+    const personal = PERSONAL_RELATIONSHIP_FIELDS.some(field=>Number.isFinite(visible[field]));
+    relationships.set(key, {...previous, ...visible, ...(personal ? {personalRecordedAt:relationship.timestamp, personalReleasedAt:relationship.releasedAt, personalEvidenceIds:relationship.evidenceIds || []} : {})});
+  }
   return {time, events, editors, articles, links, backlinks, revisionCounts, contributions,
     cycles:(data.cycles || []).filter(cycle => stamp(cycle.endAt) <= time),
     relationships:[...relationships.values()],

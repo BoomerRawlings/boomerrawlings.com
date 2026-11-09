@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import * as engine from './engine.mjs';
 import {openPolicy, policyPacket, recordPolicyDecision, advancePolicy} from './policy.mjs';
+import {initializeBurst, beginBurstRound, completeBurstRound} from './burst.mjs';
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const args = process.argv.slice(2), command = args.shift() ?? 'help';
@@ -110,13 +111,19 @@ try {
     else if (command === 'found') output = engine.found(state, input(), { proof: proof(), now });
     else if (command === 'begin') {
       const receipt = proof();
-      const shouldImport = production && !state.pending && engine.status(state, now).nextWindow.due && engine.checkUsage(receipt, now).allowed;
+      const shouldImport = production && !state.pending && (!state.burst || state.burst.completedAt)
+        && engine.status(state, now).nextWindow.due && engine.checkUsage(receipt, now).allowed;
       const suggestions = shouldImport ? await pendingSuggestions(state) : [];
       output = engine.beginCycle(state, { proof: receipt, now, historical: flags.historical === true, suggestions });
     }
+    else if (command === 'burst-init') output = initializeBurst(state, {authorization:flags.authorization, proof:proof(), now});
+    else if (command === 'burst-begin') output = beginBurstRound(state, {proof:proof(), now});
+    else if (command === 'burst-complete') output = completeBurstRound(state, {proof:proof(), now});
     else if (command === 'propose') output = engine.propose(state, input(), { proof: proof(), now });
     else if (command === 'complete') {
-      output = engine.completeCycle(state, { proof: proof(), now });
+      output = state.pending?.mode === 'burst' || (!state.pending && state.burst && !state.burst.completedAt)
+        ? completeBurstRound(state, {proof:proof(), now})
+        : engine.completeCycle(state, { proof: proof(), now });
       if (production && output.ok && output.cycle?.suggestionReviews?.length) {
         const receipts = output.cycle.suggestionReviews.map(terminalReview).filter(Boolean);
         save(stateFile, state);
@@ -133,7 +140,7 @@ try {
       const usage = engine.checkUsage(proof(), now); if (!usage.allowed) output = { ok: false, usage };
       else {
         if (!/^[a-f0-9]{7,40}$/.test(flags.commit ?? '') || !/^https:\/\//.test(flags.url ?? '')) throw new Error('published requires verified --commit and --url');
-        state.published = { commit: flags.commit, url: flags.url, at: now, latestCompletedAt: state.lastExport?.latestCompletedAt, sha256: state.lastExport?.sha256 }; output = { ok: true, published: state.published };
+        state.published = { commit: flags.commit, url: flags.url, at: now, latestCompletedAt: state.lastExport?.latestCompletedAt, sha256: state.lastExport?.sha256, ...(state.burst ? {burstId:state.burst.id, burstRounds:state.burst.rounds.length} : {}) }; output = { ok: true, published: state.published };
       }
     } else throw new Error(`unknown command ${command}`);
     return { state, output };

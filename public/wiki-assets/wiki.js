@@ -1,4 +1,4 @@
-import {REVISION_ACTIONS, esc, stamp, number, dateText, dayKey, href, articleLink, userLink, markup, headingsIn, snapshot, lineDiff, loadData, installGate, titleFromId} from './shared.js?v=2';
+import {REVISION_ACTIONS, esc, stamp, number, dateText, dayKey, href, articleLink, userLink, markup, headingsIn, snapshot, lineDiff, loadData, installGate, titleFromId} from './shared.js?v=3';
 
 let data, state, params, at;
 const page = () => document.getElementById('page-content');

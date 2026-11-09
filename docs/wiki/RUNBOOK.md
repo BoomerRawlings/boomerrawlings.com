@@ -35,3 +35,15 @@ Confirm the GitHub Pages workflow succeeded and the live `/wiki-assets/data.json
 If state is locked, inspect its owning process before recovery. Preserve both current state and backup; never delete a live lock. If a cycle is already complete, skip its generation. If the host or app was unavailable, the next wake discovers overdue windows from the ledger; it does not need invented missed-run receipts.
 
 Update `.codex/STATE.md` after useful milestones or blockers. Report substantive new activity, publication failure, usage deferral, or required recovery succinctly. End the wake after publication/checkpoint; no sleeping process or hosted scheduler. Local scheduling depends on the computer and Codex app being available.
+
+## Authorized November weekend burst
+
+The user authorized one additional 100-round burst on November 9, 2026. The verified ledger already contained scheduled turns through 85, ending November 8 at noon Pacific. To preserve the published revision ancestry and causal knowledge, the added rounds occupy November 8 noon through midnight Pacific. They are separate from the scheduled counter, with 4–24 selected editors bounded by population and one decision each. Round lengths and posting times vary.
+
+Run `burst-init --authorization weekend-2026-11-07-08 --usage FILE` once, then `burst-begin`, `packet`, `propose`, `burst-complete`. Every character gets a fresh native context with only its packet and own memory. Explicitly select gpt-6.1-sol with low reasoning for character contexts when the orchestration chat uses Astra. Native usage gates apply before each character and round. Resume the persisted pending cohort and completed proposal files after interruption. Never replace authored decisions with generated defaults.
+
+An active burst takes precedence over regular opening. It has no three-window catch-up limit. Its completed rounds are stored separately, and completion covers scheduled interval 86 with a labelled marker containing zero editorial actions. The next regular window is 87, November 9 midnight–noon Pacific. Later wakes retain the normal three-window limit and recruitment rules.
+
+Historical burst rounds do not import real reader suggestions submitted later. Those remain queued for the next regular opening with the existing assignment/review/acknowledgement guarantees. Fictional outside inputs have private origin `fictional-outside`, their own IDs and per-editor exposure records. They never enter or acknowledge the real suggestion queue.
+
+After burst completion, export, validate, run repository checks, inspect the scoped change and push one release. Record actual publication only after Pages success and a byte comparison with live data. During a quota deferral, preserve exact progress and resume the burst at the next permitted wake before regular work.

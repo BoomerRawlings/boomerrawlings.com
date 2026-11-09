@@ -1,4 +1,4 @@
-import {REVISION_ACTIONS, esc, stamp, number, dateText, dayKey, pacificDayEnd, href, articleLink, userLink, markup, attributedLines, snapshot, stablePositions, safeSessionGet, safeSessionSet, loadData, installGate, titleFromId} from './shared.js?v=2';
+import {REVISION_ACTIONS, esc, stamp, number, dateText, dayKey, pacificDayEnd, href, articleLink, userLink, markup, attributedLines, snapshot, relationshipAt, PERSONAL_RELATIONSHIP_FIELDS, stablePositions, safeSessionGet, safeSessionSet, loadData, installGate, titleFromId} from './shared.js?v=3';
 
 let data, state, current, earliest, latest, view='articles', selected=null, positions, editorPositions, boundaries=[], growth=[];
 let playing=false, frame=0, lastPaint=0, animationStart=0, animationFrom=0, animationTo=0, animationDuration=10000;
@@ -26,6 +26,8 @@ function cycleLabel() {
     const firstStart=stamp(data.cycles?.[0]?.startAt);
     return firstStart&&current<firstStart ? (dayKey(current)===dayKey(earliest)?'Founding session':'Before regular cycles') : 'Before the first completed cycle';
   }
+  const burst=state.cycles.filter(cycle=>cycle.mode==='burst').length;
+  if(burst) return `${number(state.cycles.filter(cycle=>!cycle.mode).length)} regular cycles · ${number(burst)} weekend rounds`;
   return `${number(completed)} completed ${completed===1?'cycle':'cycles'}`;
 }
 function renderTimeline() {
@@ -76,7 +78,7 @@ function buildNetwork() {
     nodes=state.editors.filter(editor=>!currentQuery||`${editor.name} ${editor.id} ${(editor.interests||[]).join(' ')}`.toLowerCase().includes(currentQuery.toLowerCase())).map(editor=>({id:editor.id,type:'editor',label:editor.name||editor.id,...editorPositions.get(editor.id),radius:10+Math.sqrt(state.contributions.get(editor.id)||0)*2}));
     const ids=new Set(nodes.map(node=>node.id));
     edges=state.relationships.filter(relationship=>ids.has(relationship.from)&&ids.has(relationship.to)).map(relationship=>({source:relationship.from,target:relationship.to,relationship}));
-    $('map-legend').innerHTML='<span class="legend-node"></span> Editor size = public contributions. <strong class="relationship-positive">Positive</strong> solid · <strong class="relationship-neutral">Neutral</strong> dotted · <strong class="relationship-negative">Negative</strong> dashed. Thicker arrows indicate stronger attitudes. Read each arrow from its source to its target.';
+    $('map-legend').innerHTML='<span class="legend-node"></span> Editor size = public contributions. <strong class="relationship-positive">Positive</strong> solid · <strong class="relationship-neutral">Neutral</strong> dotted · <strong class="relationship-negative">Negative</strong> dashed. Thicker arrows indicate stronger attitudes. Read each arrow from its source to its target. Hover or select an arrow for released personal notes.';
   }
   return {nodes,edges};
 }
@@ -104,6 +106,18 @@ function relationshipLabel(reading) {
   return '<strong class="relationship-' + reading.tone + '">' + reading.tone[0].toUpperCase() + reading.tone.slice(1) +
     '</strong> · ' + reading.intensity + ' (' + reading.signed + ')';
 }
+function personalSummary(record) {
+  return PERSONAL_RELATIONSHIP_FIELDS.filter(field=>Number.isFinite(record[field]))
+    .map(field=>field[0].toUpperCase() + field.slice(1) + ' ' + Math.round(record[field] * 100) + '/100').join(' · ');
+}
+function personalDetails(record) {
+  const summary = personalSummary(record);
+  if (!summary) return '<p class="small muted">No personal feelings released at this moment.</p>';
+  return '<h3>Released personal notes</h3><p>' + esc(summary) + '</p>' +
+    (record.explanation ? '<p>' + esc(record.explanation) + '</p>' : '') +
+    '<p class="small muted">Recorded ' + esc(dateText(record.personalRecordedAt || record.timestamp)) +
+    '. Higher boundaries means firmer desired limits. Feelings and editorial disagreement can coexist.</p>';
+}
 function relationshipSummary(record) {
   const reading = relationshipReading(record);
   const supporting = new Set(record.evidenceIds);
@@ -111,12 +125,14 @@ function relationshipSummary(record) {
   const reason = latest?.summary || latest?.title;
   return reading.intensity + ' ' + reading.tone + ' (' + reading.signed + '). Trust ' +
     record.trust + ', grievance ' + record.grievance + '. ' +
+    (personalSummary(record) ? personalSummary(record) + '. ' : '') +
+    (record.explanation ? record.explanation.slice(0,160) + (record.explanation.length>160?'…':'') + ' ' : '') +
     (reason ? 'Latest supporting event: ' + reason : 'No supporting event is recorded.');
 }
 function relationshipHistory(from, to) {
   const pair = (a,b) => (a === from && b === to) || (a === to && b === from);
   const records = (data.relationships || []).filter(record => pair(record.from, record.to) && stamp(record.timestamp) <= state.time)
-    .sort((a,b) => stamp(a.timestamp) - stamp(b.timestamp));
+    .sort((a,b) => stamp(a.timestamp) - stamp(b.timestamp)).map(record=>relationshipAt(record,state.time));
   const evidenceIds = new Set(records.flatMap(record => record.evidenceIds || []));
   const byId = new Map(state.events.flatMap(event => [[event.id,event], ...(event.revisionId ? [[event.revisionId,event]] : [])]));
   const interactions = state.events.filter(event => evidenceIds.has(event.id) ||
@@ -131,6 +147,8 @@ function relationshipHistory(from, to) {
       return '<li><strong>' + esc(editorName(record.from)) + ' → ' + esc(editorName(record.to)) +
         '</strong> · ' + esc(dateText(record.timestamp)) + '<br>' + relationshipLabel(relationshipReading(record)) +
         '<br>Trust ' + esc(record.trust) + ' · Grievance ' + esc(record.grievance) +
+        (personalSummary(record) ? '<br>' + esc(personalSummary(record)) : '') +
+        (record.explanation ? '<p>' + esc(record.explanation) + '</p>' : '') +
         (links.length ? '<br>Evidence: ' + links.join(' · ') : '') + '</li>';
     }).join('') + '</ol><h3>Recorded interactions (' + interactions.length + ')</h3>' +
     '<p>Includes evidence, direct references, and edits based on the other editor’s revision.</p>' +
@@ -209,7 +227,7 @@ function detailView() {
   } else if(selected.type==='relationship') {
     const [from,to]=selected.id.split('|'),relationship=state.relationships.find(r=>r.from===from&&r.to===to);
     if(!relationship){details.innerHTML='<h2>No relationship record</h2><p>This attitude had not been recorded at the selected moment.</p>';return;}
-    details.innerHTML=`<h2>${esc(from)} → ${esc(to)}</h2><p>This is ${userLink(from,at())}'s recorded attitude toward ${userLink(to,at())}.</p><p>${relationshipLabel(relationshipReading(relationship))}</p><dl class="metadata-list"><dt>Trust</dt><dd>${esc(relationship.trust)}</dd><dt>Grievance</dt><dd>${esc(relationship.grievance)}</dd><dt>Recorded</dt><dd>${esc(dateText(relationship.timestamp))}</dd></dl><p class="small muted">Scores describe fictional character state. The reverse relationship may differ.</p>${relationshipHistory(from,to)}`;
+    details.innerHTML=`<h2>${esc(from)} → ${esc(to)}</h2><p>This is ${userLink(from,at())}'s recorded attitude toward ${userLink(to,at())}.</p><p>${relationshipLabel(relationshipReading(relationship))}</p><dl class="metadata-list"><dt>Trust</dt><dd>${esc(relationship.trust)}</dd><dt>Grievance</dt><dd>${esc(relationship.grievance)}</dd><dt>Recorded</dt><dd>${esc(dateText(relationship.timestamp))}</dd></dl><p class="small muted">Scores describe fictional character state. The reverse relationship may differ.</p>${personalDetails(relationship)}${relationshipHistory(from,to)}`;
   }
 }
 function recordView() {
@@ -218,7 +236,7 @@ function recordView() {
     const list=filteredArticles().sort((a,b)=>b.words-a.words||a.title.localeCompare(b.title));
     target.innerHTML=`<h2>Articles at this moment</h2><p class="filter-count">${number(list.length)} of ${number(state.articles.size)} articles shown. Select an article to inspect its connections.</p>${rows(['Article','Words','Revisions','Links out','Links in'],list.map(article=>[selectButton(article.id,'article',article.title),number(article.words),number(article.revisions),number(state.links.filter(link=>link.source===article.id).length),number((state.backlinks.get(article.id)||[]).length)]))}`;
   } else if(view==='relationships') {
-    target.innerHTML=`<h2>Directed relationships</h2><p class="small muted">The signed score runs from −100 to +100. Trust above 0.50 adds positive weight. Distrust below 0.50 or grievance adds negative weight, using whichever is stronger. The table lists the strongest attitudes first. Each direction has its own record.</p>${state.relationships.length?rows(['Relationship','Attitude and intensity','Trust','Grievance','Last recorded'],state.relationships.filter(r=>!currentQuery||`${r.from} ${r.to}`.toLowerCase().includes(currentQuery.toLowerCase())).sort((a,b)=>relationshipReading(b).magnitude-relationshipReading(a).magnitude).map(r=>[selectButton(`${r.from}|${r.to}`,'relationship',`${r.from} → ${r.to}`),relationshipLabel(relationshipReading(r)),esc(r.trust),esc(r.grievance),esc(dateText(r.timestamp,true))])):'<p class="empty-state">No relationships had been recorded at this moment.</p>'}<h2>Editors</h2>${rows(['Editor','Joined','Contributions'],state.editors.map(editor=>[selectButton(editor.id,'editor',editor.name||editor.id),esc(dateText(editor.joinedAt,true)),number(state.contributions.get(editor.id)||0)]))}`;
+    target.innerHTML=`<h2>Directed relationships</h2><p class="small muted">The signed score runs from −100 to +100. Trust above 0.50 adds positive weight. Distrust below 0.50 or grievance adds negative weight, using whichever is stronger. The table lists the strongest attitudes first. Each direction has its own record. Personal feelings use separate 0–100 scales and appear after the same 48-hour delay as journals.</p>${state.relationships.length?rows(['Relationship','Editorial attitude','Trust','Grievance','Released personal feelings','Last recorded'],state.relationships.filter(r=>!currentQuery||`${r.from} ${r.to}`.toLowerCase().includes(currentQuery.toLowerCase())).sort((a,b)=>relationshipReading(b).magnitude-relationshipReading(a).magnitude).map(r=>[selectButton(`${r.from}|${r.to}`,'relationship',`${r.from} → ${r.to}`),relationshipLabel(relationshipReading(r)),esc(r.trust),esc(r.grievance),esc(personalSummary(r)||'No released record'),esc(dateText(r.timestamp,true))])):'<p class="empty-state">No relationships had been recorded at this moment.</p>'}<h2>Editors</h2>${rows(['Editor','Joined','Contributions'],state.editors.map(editor=>[selectButton(editor.id,'editor',editor.name||editor.id),esc(dateText(editor.joinedAt,true)),number(state.contributions.get(editor.id)||0)]))}`;
   } else if(view==='principles') {
     target.innerHTML=`<h2>Principles and public records</h2>${rows(['Principle','Meaning','Associated records'],(data.principles||[]).map(principle=>[selectButton(principle.id,'principle',principle.title),esc(principle.description),number(state.events.filter(event=>(event.principleIds||[]).includes(principle.id)).length)]))}`;
   } else target.innerHTML='';

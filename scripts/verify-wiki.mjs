@@ -11,10 +11,10 @@ assert.equal(source.meta.foundingAt, '2026-09-23T23:00:00.000Z');
 assert.ok(source.cycles.length >= 76, 'The requested historical opening must be complete before publication');
 assert.equal(source.meta.cycleCount, source.cycles.length);
 assert.ok(stamp(source.meta.latestCompletedAt) >= stamp('2026-11-04T08:00:00Z'));
-const eventKeys = new Set(['id','cycleId','timestamp','editorId','action','articleId','title','summary','revisionId','baseRevisionId','body','categories','principleIds','references']);
+const eventKeys = new Set(['id','cycleId','timestamp','editorId','action','articleId','title','summary','revisionId','baseRevisionId','body','categories','principleIds','references','replyTo','threadId']);
 const editorKeys = new Set(['id','name','joinedAt','interests','description']);
 const journalKeys = new Set(['id','editorId','eventId','timestamp','releasedAt','body','outcome','action','response']);
-const relationKeys = new Set(['timestamp','from','to','trust','grievance','evidenceIds']);
+const relationKeys = new Set(['timestamp','from','to','trust','grievance','evidenceIds','affection','attraction','jealousy','closeness','boundaries','explanation','releasedAt']);
 for (const [records, keys] of [[source.events,eventKeys],[source.editors,editorKeys],[source.journals,journalKeys],[source.relationships,relationKeys]]) {
   for (const row of records) assert.ok(Object.keys(row).every(key => keys.has(key)), 'Public records must not expose working memory or private metadata');
 }
@@ -71,14 +71,44 @@ for (const event of source.events) {
   }
   eventIds.add(event.id);priorTimestamp=stamp(event.timestamp);
 }
-for (let index=0;index<source.cycles.length;index++) {
-  const cycle=source.cycles[index];
+const scheduledCycles = source.cycles.filter(cycle => cycle.mode !== 'burst');
+const burstRounds = source.cycles.filter(cycle => cycle.mode === 'burst');
+if (source.meta.scheduledCycleCount !== undefined) assert.equal(source.meta.scheduledCycleCount, scheduledCycles.length);
+if (source.meta.burstRoundCount !== undefined) assert.equal(source.meta.burstRoundCount, burstRounds.length);
+for (let index=0;index<scheduledCycles.length;index++) {
+  const cycle=scheduledCycles[index];
   assert.equal(stamp(cycle.endAt)-stamp(cycle.startAt),12*3600000);
-  if(index) assert.equal(cycle.startAt,source.cycles[index-1].endAt,'No skipped simulation windows in published history');
+  if(index) assert.equal(cycle.startAt,scheduledCycles[index-1].endAt,'No skipped simulation windows in published history');
+  if (cycle.mode === 'burst-covered') {
+    assert.equal(cycle.id, 'cycle-0086');
+    assert.equal(cycle.coveredBy, 'weekend-2026-11-07-08');
+    assert.equal(cycle.participants.length, 0);
+    assert.equal(cycle.actionCount, 0);
+    assert.equal(burstRounds.length, 100, 'A covered slot requires all authorized rounds');
+    continue;
+  }
   const population=source.editors.filter(editor=>stamp(editor.joinedAt)<=stamp(cycle.startAt)).length;
   const [minimum,maximum] = index < 76 ? [3,20] : [4,24];
   assert.ok(cycle.participants.length>=Math.min(minimum,population) && cycle.participants.length<=Math.min(maximum,population));
   assert.equal(new Set(cycle.participants).size,cycle.participants.length);
+}
+assert.ok(burstRounds.length <= 100, 'Only 100 extra rounds are authorized');
+for (const [index, round] of burstRounds.entries()) {
+  assert.equal(round.id, `weekend-2026-11-07-08-round-${String(index + 1).padStart(3, '0')}`);
+  assert.equal(round.startAt, index ? burstRounds[index - 1].endAt : '2026-11-08T20:00:00.000Z');
+  assert.ok(stamp(round.endAt) > stamp(round.startAt));
+  assert.ok(stamp(round.endAt) <= stamp('2026-11-09T08:00:00Z'));
+  assert.ok(stamp(round.endAt) <= stamp(source.meta.latestCompletedAt));
+  const population = source.editors.filter(editor => editor.joinedAt <= round.startAt).length;
+  assert.ok(round.participants.length >= Math.min(4, population) && round.participants.length <= Math.min(24, population));
+  assert.equal(new Set(round.participants).size, round.participants.length);
+}
+if (burstRounds.length === 100) assert.equal(burstRounds.at(-1).endAt, '2026-11-09T08:00:00.000Z');
+for (const relation of source.relationships) {
+  if (['affection','attraction','jealousy','closeness','boundaries','explanation'].some(key => key in relation)) {
+    assert.ok(stamp(relation.releasedAt) >= stamp(relation.timestamp) + 48 * 3600000);
+    assert.ok(stamp(relation.releasedAt) <= stamp(source.meta.latestCompletedAt), 'Private personal relationship leaked');
+  }
 }
 for(const entry of source.journals){
   if (entry.action !== undefined) assert.ok(['create','revise','expand','organize','revert','comment','policy','abstain'].includes(entry.action));

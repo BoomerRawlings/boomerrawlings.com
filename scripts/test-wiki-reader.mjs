@@ -26,6 +26,27 @@ test('markup escapes executable content and link attribute injection',()=>{
  assert.ok(!html.includes('<script>')&&!html.includes('<img')&&!html.includes('<b>'));assert.ok(html.includes('&lt;script&gt;'));assert.ok(!/href="[^"]*" onclick=/.test(html));assert.ok(html.includes('<strong>bold</strong>'));
  assert.deepEqual(linksIn('[[one|One]] [[one]] [[two]]'),['one','two']);
 });
+test('relationship feelings respect release dates and remain directional through later editorial updates',()=>{
+ const data={meta:{latestCompletedAt:'2026-11-12T00:00:00Z'},events:[],cycles:[],journals:[],editors:[{id:'a',joinedAt:'2026-11-01T00:00:00Z'},{id:'b',joinedAt:'2026-11-01T00:00:00Z'}],relationships:[
+  {from:'a',to:'b',timestamp:'2026-11-07T01:00:00Z',releasedAt:'2026-11-09T01:00:00Z',trust:0.4,grievance:0.1,attraction:0.6,affection:0.4,closeness:0.2,jealousy:0.1,boundaries:0.3,explanation:'I liked the question despite disagreeing.',evidenceIds:[]},
+  {from:'b',to:'a',timestamp:'2026-11-07T02:00:00Z',releasedAt:'2026-11-09T02:00:00Z',trust:0.7,grievance:0,attraction:0.05,affection:0.2,explanation:'Friendly, nothing further.',evidenceIds:[]},
+  {from:'a',to:'b',timestamp:'2026-11-09T01:30:00Z',releasedAt:'2026-11-11T01:30:00Z',trust:0.35,grievance:0.15,attraction:0.8,explanation:'Later private feeling.',evidenceIds:[]},
+ ]};
+ const early=snapshot(data,'2026-11-08T00:00:00Z');
+ assert.equal(early.relationships[0].trust,0.4);
+ assert.equal(early.relationships[0].attraction,undefined);
+ assert.equal(early.relationships[0].explanation,undefined);
+ const partial=snapshot(data,'2026-11-09T03:00:00Z');
+ assert.equal(partial.relationships[0].trust,0.35);
+ assert.equal(partial.relationships[0].attraction,0.6,'retain the most recent released personal observation');
+ assert.equal(partial.relationships[0].personalRecordedAt,'2026-11-07T01:00:00Z');
+ assert.equal(partial.relationships[1].attraction,0.05);
+ assert.ok(!JSON.stringify(partial).includes('Later private feeling'));
+ const latest=snapshot(data);
+ assert.equal(latest.relationships[0].attraction,0.8);
+ assert.equal(wikiShared.relationshipAt({...data.relationships[0],releasedAt:undefined},latest.time).attraction,undefined);
+ assert.equal(wikiShared.relationshipAt({...data.relationships[0],releasedAt:'invalid'},latest.time).explanation,undefined);
+});
 test('Pacific day scrubber handles fallback without losing an hour',()=>{
  assert.equal(new Date(pacificDayEnd('2026-10-31')).toISOString(),'2026-11-01T06:59:59.000Z');
  assert.equal(new Date(pacificDayEnd('2026-11-01')).toISOString(),'2026-11-02T07:59:59.000Z');
@@ -110,4 +131,22 @@ test('map reveals entry and intentional view changes without animating filters, 
  const noMotion=screenFixture('map.js',false);
  await noMotion.unlock(false);await noMotion.node('view-activity').emit('click');
  assert.equal(noMotion.node('activity-view').hidden,false);
+});
+test('relationship detail and hover explain released feelings while historical views exclude private notes',async()=>{
+ const ui=screenFixture('map.js');
+ await ui.unlock(false);
+ vm.runInContext(`
+ data={meta:{latestCompletedAt:'2026-11-10T00:00:00Z'},events:[],cycles:[],journals:[],editors:[{id:'a',joinedAt:'2026-11-01T00:00:00Z'},{id:'b',joinedAt:'2026-11-01T00:00:00Z'}],relationships:[{from:'a',to:'b',timestamp:'2026-11-07T01:00:00Z',releasedAt:'2026-11-09T01:00:00Z',trust:0.4,grievance:0.1,attraction:0.6,affection:0.4,boundaries:0.3,explanation:'Private <feeling>',evidenceIds:[]}]};
+ current=Date.parse('2026-11-08T00:00:00Z');state=snapshot(data,new Date(current).toISOString());
+ `,ui.context);
+ assert.ok(!vm.runInContext("relationshipHistory('a','b')",ui.context).includes('Private'));
+ assert.ok(!vm.runInContext('relationshipSummary(state.relationships[0])',ui.context).includes('Attraction'));
+ vm.runInContext("current=Date.parse('2026-11-10T00:00:00Z');state=snapshot(data);",ui.context);
+ const summary=vm.runInContext('relationshipSummary(state.relationships[0])',ui.context);
+ assert.match(summary,/Attraction 60\/100/);
+ assert.match(summary,/negative/,'intellectual disagreement coexists with attraction');
+ const history=vm.runInContext("relationshipHistory('a','b')",ui.context);
+ assert.match(history,/Private &lt;feeling&gt;/);
+ assert.ok(!history.includes('<feeling>'));
+ assert.match(vm.runInContext('personalDetails(state.relationships[0])',ui.context),/firmer desired limits/);
 });

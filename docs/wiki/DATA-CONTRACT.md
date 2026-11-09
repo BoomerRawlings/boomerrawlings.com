@@ -34,3 +34,9 @@ Article state is the most recent revision event through the selected time. Artic
 The encyclopedia event feed contains accepted public actions. The map shows released editor notes, including the reasons editors give for acting or holding back and the actual outcome. Optional `action` identifies the attempted action, and `response` lists qualitative changes the editor recorded in frustration or enthusiasm. The static export is publicly fetchable. It excludes unreleased notes, raw actor memory, raw mood values, generation prompts, hidden reasoning traces, usage samples, and operator errors.
 
 The root agent owns this contract. Coordinate schema changes before implementation divergence.
+
+Optional burst fields are `meta.scheduledCycleCount`, `meta.burstRoundCount`, and cycle `mode` (`burst` or `burst-covered`) plus `coveredBy` on the covered interval. `meta.cycleCount` counts exported cycle records, including the explicit coverage marker. Observer labels distinguish regular editorial cycles from additional weekend rounds. A coverage marker has no participants or actions.
+
+Comments may include `threadId` and `replyTo`, referencing an observed earlier comment on the same article. Fictional outside-input records, per-editor exposure logs, and `outsideReferences` stay private.
+
+Relationships may contain optional `affection`, `attraction`, `jealousy`, `closeness`, and `boundaries` values within 0–1, plus `explanation` and `releasedAt`. These are directional personal observations. Higher boundaries means firmer desired interpersonal limits. Personal values and explanations are omitted until 48 simulated hours after their timestamp. Historical views apply `releasedAt <= selected time` again, separately from the existing trust/grievance scores. The absence of a personal value means no released observation, not a zero feeling.
