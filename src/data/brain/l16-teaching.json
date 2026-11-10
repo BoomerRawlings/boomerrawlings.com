@@ -1,0 +1,466 @@
+{
+  "module": 16,
+  "title": "Memory at the synapse",
+  "course": "PSYC 108",
+  "sourceScope": "Supplied slides and spoken transcripts only",
+  "downloadBundle": "psyc108-l16-gifs.zip",
+  "assets": [
+    {
+      "id": "chemical-synapse",
+      "title": "Chemical synapses",
+      "type": "master",
+      "concept": "From action potential to postsynaptic effect",
+      "slides": [
+        4,
+        5,
+        6
+      ],
+      "duration": 57,
+      "width": 1280,
+      "height": 720,
+      "gif": "chemical-synapse.gif",
+      "video": "chemical-synapse.mp4",
+      "poster": "chemical-synapse.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Ready"
+        },
+        {
+          "time": 5,
+          "title": "Ca²⁺ entry"
+        },
+        {
+          "time": 11,
+          "title": "Release"
+        },
+        {
+          "time": 17,
+          "title": "Binding"
+        },
+        {
+          "time": 23,
+          "title": "EPSP"
+        },
+        {
+          "time": 31,
+          "title": "IPSP"
+        },
+        {
+          "time": 39,
+          "title": "Cascade"
+        },
+        {
+          "time": 47,
+          "title": "Firing"
+        },
+        {
+          "time": 53,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L16 Memory at Synapse F26-1.pdf · pages 4, 5, 6",
+        "Lecture 17 transcript · Chemical transmission, efficacy, LTP/LTD and Hebbian explanation"
+      ]
+    },
+    {
+      "id": "epsp",
+      "title": "Excitatory postsynaptic potential",
+      "type": "breakdown",
+      "concept": "EPSP and depolarization",
+      "slides": [
+        4,
+        5,
+        6
+      ],
+      "duration": 41,
+      "width": 1280,
+      "height": 720,
+      "gif": "epsp.gif",
+      "video": "epsp.mp4",
+      "poster": "epsp.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Ready"
+        },
+        {
+          "time": 5,
+          "title": "Ca²⁺ entry"
+        },
+        {
+          "time": 11,
+          "title": "Release"
+        },
+        {
+          "time": 17,
+          "title": "Binding"
+        },
+        {
+          "time": 23,
+          "title": "Postsynaptic effect"
+        },
+        {
+          "time": 31,
+          "title": "Context"
+        },
+        {
+          "time": 37,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L16 Memory at Synapse F26-1.pdf · pages 4, 5, 6",
+        "Lecture 17 transcript · Chemical transmission, efficacy, LTP/LTD and Hebbian explanation"
+      ]
+    },
+    {
+      "id": "ipsp",
+      "title": "Inhibitory postsynaptic potential",
+      "type": "breakdown",
+      "concept": "IPSP and hyperpolarization",
+      "slides": [
+        4,
+        5
+      ],
+      "duration": 41,
+      "width": 1280,
+      "height": 720,
+      "gif": "ipsp.gif",
+      "video": "ipsp.mp4",
+      "poster": "ipsp.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Ready"
+        },
+        {
+          "time": 5,
+          "title": "Ca²⁺ entry"
+        },
+        {
+          "time": 11,
+          "title": "Release"
+        },
+        {
+          "time": 17,
+          "title": "Binding"
+        },
+        {
+          "time": 23,
+          "title": "Postsynaptic effect"
+        },
+        {
+          "time": 31,
+          "title": "Context"
+        },
+        {
+          "time": 37,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L16 Memory at Synapse F26-1.pdf · pages 4, 5",
+        "Lecture 17 transcript · Chemical transmission, efficacy, LTP/LTD and Hebbian explanation"
+      ]
+    },
+    {
+      "id": "second-messengers",
+      "title": "Receptors and second messengers",
+      "type": "breakdown",
+      "concept": "Intracellular signaling cascades",
+      "slides": [
+        4,
+        5,
+        14,
+        15
+      ],
+      "duration": 41,
+      "width": 1280,
+      "height": 720,
+      "gif": "second-messengers.gif",
+      "video": "second-messengers.mp4",
+      "poster": "second-messengers.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Ready"
+        },
+        {
+          "time": 5,
+          "title": "Ca²⁺ entry"
+        },
+        {
+          "time": 11,
+          "title": "Release"
+        },
+        {
+          "time": 17,
+          "title": "Binding"
+        },
+        {
+          "time": 23,
+          "title": "Postsynaptic effect"
+        },
+        {
+          "time": 31,
+          "title": "Context"
+        },
+        {
+          "time": 37,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L16 Memory at Synapse F26-1.pdf · pages 4, 5, 14, 15",
+        "Lecture 17 transcript · Chemical transmission, efficacy, LTP/LTD and Hebbian explanation"
+      ]
+    },
+    {
+      "id": "synaptic-plasticity",
+      "title": "Synaptic plasticity · LTP and LTD",
+      "type": "master",
+      "concept": "Lasting changes in synaptic strength",
+      "slides": [
+        6,
+        7,
+        8,
+        10
+      ],
+      "duration": 71,
+      "width": 1280,
+      "height": 720,
+      "gif": "synaptic-plasticity.gif",
+      "video": "synaptic-plasticity.mp4",
+      "poster": "synaptic-plasticity.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Reference"
+        },
+        {
+          "time": 5,
+          "title": "Reference test"
+        },
+        {
+          "time": 12,
+          "title": "LTP induction"
+        },
+        {
+          "time": 20,
+          "title": "After LTP"
+        },
+        {
+          "time": 28,
+          "title": "Possible changes"
+        },
+        {
+          "time": 35,
+          "title": "Hebbian learning"
+        },
+        {
+          "time": 41,
+          "title": "Reset illustration"
+        },
+        {
+          "time": 45,
+          "title": "LTD induction"
+        },
+        {
+          "time": 53,
+          "title": "After LTD"
+        },
+        {
+          "time": 61,
+          "title": "Normal process"
+        },
+        {
+          "time": 67,
+          "title": "Reset illustration"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L16 Memory at Synapse F26-1.pdf · pages 6, 7, 8, 10",
+        "Lecture 17 transcript · Chemical transmission, efficacy, LTP/LTD and Hebbian explanation"
+      ]
+    },
+    {
+      "id": "ltp",
+      "title": "Long-term potentiation · LTP",
+      "type": "breakdown",
+      "concept": "Stronger response to the same test input",
+      "slides": [
+        6,
+        7,
+        8
+      ],
+      "duration": 45,
+      "width": 1280,
+      "height": 720,
+      "gif": "ltp.gif",
+      "video": "ltp.mp4",
+      "poster": "ltp.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Reference"
+        },
+        {
+          "time": 5,
+          "title": "Reference test"
+        },
+        {
+          "time": 12,
+          "title": "LTP induction"
+        },
+        {
+          "time": 20,
+          "title": "After LTP"
+        },
+        {
+          "time": 28,
+          "title": "Possible changes"
+        },
+        {
+          "time": 35,
+          "title": "Hebbian learning"
+        },
+        {
+          "time": 41,
+          "title": "Reset illustration"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L16 Memory at Synapse F26-1.pdf · pages 6, 7, 8",
+        "Lecture 17 transcript · Chemical transmission, efficacy, LTP/LTD and Hebbian explanation"
+      ]
+    },
+    {
+      "id": "ltd",
+      "title": "Long-term depression · LTD",
+      "type": "breakdown",
+      "concept": "Weaker response to the same test input",
+      "slides": [
+        6,
+        10
+      ],
+      "duration": 38,
+      "width": 1280,
+      "height": 720,
+      "gif": "ltd.gif",
+      "video": "ltd.mp4",
+      "poster": "ltd.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Reference"
+        },
+        {
+          "time": 5,
+          "title": "Reference test"
+        },
+        {
+          "time": 12,
+          "title": "LTD induction"
+        },
+        {
+          "time": 20,
+          "title": "After LTD"
+        },
+        {
+          "time": 28,
+          "title": "Normal process"
+        },
+        {
+          "time": 34,
+          "title": "Reset illustration"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L16 Memory at Synapse F26-1.pdf · pages 6, 10",
+        "Lecture 17 transcript · Chemical transmission, efficacy, LTP/LTD and Hebbian explanation"
+      ]
+    },
+    {
+      "id": "go-no-go-plasticity",
+      "title": "Go / No-Go plasticity example",
+      "type": "breakdown",
+      "concept": "Learning strengthens or weakens cortical input",
+      "slides": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "duration": 60,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Starting state"
+        },
+        {
+          "time": 4,
+          "title": "Strum guitar"
+        },
+        {
+          "time": 8,
+          "title": "Dopamine burst"
+        },
+        {
+          "time": 13,
+          "title": "Learning"
+        },
+        {
+          "time": 20,
+          "title": "Learned bias"
+        },
+        {
+          "time": 26,
+          "title": "Reset illustration"
+        },
+        {
+          "time": 30,
+          "title": "Starting state"
+        },
+        {
+          "time": 34,
+          "title": "Strum guitar"
+        },
+        {
+          "time": 38,
+          "title": "Dopamine dip"
+        },
+        {
+          "time": 43,
+          "title": "Learning"
+        },
+        {
+          "time": 50,
+          "title": "Learned bias"
+        },
+        {
+          "time": 56,
+          "title": "Reset illustration"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "go-no-go-plasticity.gif",
+      "video": "go-no-go-plasticity.mp4",
+      "poster": "go-no-go-plasticity.png",
+      "sources": [
+        "PSYC 108 L16 Memory at Synapse F26-1.pdf · pages 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23",
+        "Lecture 17 transcript · Go LTP / Go LTD and No-Go LTP; lines415–610"
+      ]
+    }
+  ]
+}

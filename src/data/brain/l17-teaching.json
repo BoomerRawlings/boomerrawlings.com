@@ -1,0 +1,481 @@
+{
+  "module": 17,
+  "title": "Types of memory",
+  "course": "PSYC 108",
+  "sourceScope": "Supplied lecture slides and spoken transcripts only",
+  "downloadBundle": "psyc108-l17-gifs.zip",
+  "assets": [
+    {
+      "id": "parkinsons-master",
+      "title": "Parkinson's disease: circuit & context",
+      "type": "master",
+      "concept": "Dopamine loss and treatment context",
+      "slides": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "duration": 84,
+      "width": 1280,
+      "height": 720,
+      "gif": "parkinsons-master.gif",
+      "video": "parkinsons-master.mp4",
+      "poster": "parkinsons-master.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Reference"
+        },
+        {
+          "time": 6,
+          "title": "SNc loss"
+        },
+        {
+          "time": 13,
+          "title": "Go fires less"
+        },
+        {
+          "time": 20,
+          "title": "GPi fires more"
+        },
+        {
+          "time": 27,
+          "title": "No-Go → GPe"
+        },
+        {
+          "time": 35,
+          "title": "STN → GPi"
+        },
+        {
+          "time": 43,
+          "title": "Reduced return"
+        },
+        {
+          "time": 51,
+          "title": "Symptoms"
+        },
+        {
+          "time": 60,
+          "title": "Treatment context"
+        },
+        {
+          "time": 69,
+          "title": "Beyond movement"
+        },
+        {
+          "time": 77,
+          "title": "Reset illustration"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L17 Types of memory F26.pdf · pages 4, 5, 6, 7, 8, 9, 10, 11",
+        "Lecture 18 transcript · lines 22–404 · Parkinson's mechanisms/treatment context"
+      ]
+    },
+    {
+      "id": "direct-dopamine-loss",
+      "title": "Dopamine loss: direct pathway",
+      "type": "breakdown",
+      "concept": "Reduced Go support",
+      "slides": [
+        5,
+        6
+      ],
+      "duration": 41,
+      "width": 1280,
+      "height": 720,
+      "gif": "direct-dopamine-loss.gif",
+      "video": "direct-dopamine-loss.mp4",
+      "poster": "direct-dopamine-loss.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Reference"
+        },
+        {
+          "time": 6,
+          "title": "SNc loss"
+        },
+        {
+          "time": 13,
+          "title": "Go fires less"
+        },
+        {
+          "time": 20,
+          "title": "GPi fires more"
+        },
+        {
+          "time": 27,
+          "title": "Return falls"
+        },
+        {
+          "time": 34,
+          "title": "Reset illustration"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L17 Types of memory F26.pdf · pages 5, 6",
+        "Lecture 18 transcript · lines 50–130 · Parkinson's mechanisms/treatment context"
+      ]
+    },
+    {
+      "id": "indirect-dopamine-loss",
+      "title": "Dopamine loss: indirect pathway",
+      "type": "breakdown",
+      "concept": "Increased No-Go activity",
+      "slides": [
+        5,
+        6
+      ],
+      "duration": 48,
+      "width": 1280,
+      "height": 720,
+      "gif": "indirect-dopamine-loss.gif",
+      "video": "indirect-dopamine-loss.mp4",
+      "poster": "indirect-dopamine-loss.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Reference"
+        },
+        {
+          "time": 6,
+          "title": "SNc loss"
+        },
+        {
+          "time": 13,
+          "title": "No-Go rises"
+        },
+        {
+          "time": 20,
+          "title": "GPe falls"
+        },
+        {
+          "time": 27,
+          "title": "STN rises"
+        },
+        {
+          "time": 34,
+          "title": "Brake increases"
+        },
+        {
+          "time": 41,
+          "title": "Reset illustration"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L17 Types of memory F26.pdf · pages 5, 6",
+        "Lecture 18 transcript · lines 50–160 · Parkinson's mechanisms/treatment context"
+      ]
+    },
+    {
+      "id": "levodopa",
+      "title": "L-DOPA: replacement and context",
+      "type": "breakdown",
+      "concept": "L-DOPA and possible side effects",
+      "slides": [
+        7
+      ],
+      "duration": 44,
+      "width": 1280,
+      "height": 720,
+      "gif": "levodopa.gif",
+      "video": "levodopa.mp4",
+      "poster": "levodopa.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Precursor"
+        },
+        {
+          "time": 7,
+          "title": "Cross the barrier"
+        },
+        {
+          "time": 14,
+          "title": "Conversion"
+        },
+        {
+          "time": 21,
+          "title": "Functional support"
+        },
+        {
+          "time": 28,
+          "title": "Possible effects"
+        },
+        {
+          "time": 37,
+          "title": "Keep the distinction"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L17 Types of memory F26.pdf · pages 7",
+        "Lecture 18 transcript · lines 243–261 · Parkinson's mechanisms/treatment context"
+      ]
+    },
+    {
+      "id": "dbs-feedback",
+      "title": "DBS and adaptive feedback",
+      "type": "breakdown",
+      "concept": "Deep brain stimulation",
+      "slides": [
+        8,
+        9,
+        10
+      ],
+      "duration": 42,
+      "width": 1280,
+      "height": 720,
+      "gif": "dbs-feedback.gif",
+      "video": "dbs-feedback.mp4",
+      "poster": "dbs-feedback.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Pulse generator"
+        },
+        {
+          "time": 7,
+          "title": "Target region"
+        },
+        {
+          "time": 14,
+          "title": "Circuit effect"
+        },
+        {
+          "time": 21,
+          "title": "Adaptive feedback"
+        },
+        {
+          "time": 28,
+          "title": "Adjustment"
+        },
+        {
+          "time": 35,
+          "title": "Separate treatment"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L17 Types of memory F26.pdf · pages 8, 9, 10",
+        "Lecture 18 transcript · lines 265–342 · Parkinson's mechanisms/treatment context"
+      ]
+    },
+    {
+      "id": "hm-master",
+      "title": "Patient HM: different memory systems",
+      "type": "master",
+      "concept": "HM and the memory dissociation",
+      "slides": [
+        12,
+        14,
+        15,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "duration": 85,
+      "width": 1280,
+      "height": 720,
+      "gif": "hm-master.gif",
+      "video": "hm-master.mp4",
+      "poster": "hm-master.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Both hemispheres"
+        },
+        {
+          "time": 7,
+          "title": "Bilateral damage"
+        },
+        {
+          "time": 14,
+          "title": "Input lost"
+        },
+        {
+          "time": 21,
+          "title": "After: anterograde"
+        },
+        {
+          "time": 28,
+          "title": "Before: retrograde"
+        },
+        {
+          "time": 35,
+          "title": "Preserved functions"
+        },
+        {
+          "time": 43,
+          "title": "Mirror-only view"
+        },
+        {
+          "time": 50,
+          "title": "Tracing rule"
+        },
+        {
+          "time": 57,
+          "title": "Practice design"
+        },
+        {
+          "time": 64,
+          "title": "Errors decrease"
+        },
+        {
+          "time": 71,
+          "title": "Recollection"
+        },
+        {
+          "time": 78,
+          "title": "Dissociation"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L17 Types of memory F26.pdf · pages 12, 14, 15, 18, 19, 20, 21, 22, 23",
+        "Lecture 18 transcript · lines 436–678 · HM anatomy, amnesia, preserved functions and memory systems",
+        "Lecture 19 transcript · lines 59–102 · Mirror-only tracing, three days × ten attempts, learning despite impaired recollection"
+      ]
+    },
+    {
+      "id": "bilateral-mtl",
+      "title": "HM: bilateral medial-temporal damage",
+      "type": "breakdown",
+      "concept": "Hippocampus and entorhinal input",
+      "slides": [
+        14,
+        15
+      ],
+      "duration": 35,
+      "width": 1280,
+      "height": 720,
+      "gif": "bilateral-mtl.gif",
+      "video": "bilateral-mtl.mp4",
+      "poster": "bilateral-mtl.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Both hemispheres"
+        },
+        {
+          "time": 7,
+          "title": "Two structures"
+        },
+        {
+          "time": 14,
+          "title": "Bilateral damage"
+        },
+        {
+          "time": 21,
+          "title": "Input lost"
+        },
+        {
+          "time": 28,
+          "title": "Memory consequence"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L17 Types of memory F26.pdf · pages 14, 15",
+        "Lecture 18 transcript · lines 436–505 · HM anatomy, amnesia, preserved functions and memory systems"
+      ]
+    },
+    {
+      "id": "amnesia-timeline",
+      "title": "Anterograde & retrograde amnesia",
+      "type": "breakdown",
+      "concept": "Memory before and after injury",
+      "slides": [
+        18,
+        19,
+        20,
+        21
+      ],
+      "duration": 35,
+      "width": 1280,
+      "height": 720,
+      "gif": "amnesia-timeline.gif",
+      "video": "amnesia-timeline.mp4",
+      "poster": "amnesia-timeline.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Surgery marker"
+        },
+        {
+          "time": 7,
+          "title": "After: anterograde"
+        },
+        {
+          "time": 14,
+          "title": "Before: retrograde"
+        },
+        {
+          "time": 21,
+          "title": "Both patterns"
+        },
+        {
+          "time": 28,
+          "title": "Working memory"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L17 Types of memory F26.pdf · pages 18, 19, 20, 21",
+        "Lecture 18 transcript · lines 573–636 · HM anatomy, amnesia, preserved functions and memory systems"
+      ]
+    },
+    {
+      "id": "mirror-tracing",
+      "title": "HM: learning without recollection",
+      "type": "breakdown",
+      "concept": "Preserved procedural skill learning",
+      "slides": [
+        21,
+        22,
+        23
+      ],
+      "duration": 42,
+      "width": 1280,
+      "height": 720,
+      "gif": "mirror-tracing.gif",
+      "video": "mirror-tracing.mp4",
+      "poster": "mirror-tracing.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Mirror-only view"
+        },
+        {
+          "time": 7,
+          "title": "Tracing rule"
+        },
+        {
+          "time": 14,
+          "title": "Practice design"
+        },
+        {
+          "time": 21,
+          "title": "Errors decrease"
+        },
+        {
+          "time": 28,
+          "title": "Recollection"
+        },
+        {
+          "time": 35,
+          "title": "Dissociation"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L17 Types of memory F26.pdf · pages 21, 22, 23",
+        "Lecture 18 transcript · lines 658–678 · HM anatomy, amnesia, preserved functions and memory systems",
+        "Lecture 19 transcript · lines 59–102 · Mirror-only tracing, three days × ten attempts, learning despite impaired recollection"
+      ]
+    }
+  ]
+}

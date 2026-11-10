@@ -1,4 +1,6 @@
 import { beginTrial, displayedStrength, initialLearningState, markerScale, MAX_TRIALS, moveTrial, type Outcome } from './guitar-learning-model';
+import {initParietalAttention,initRepresentationalNeglect,initSalienceSelection} from './attention-illustrations';
+import {initStepIllustrations} from './step-illustrations';
 
 document.querySelector<HTMLButtonElement>('[data-expand-modules]')?.addEventListener('click', event => {
   const modules = [...document.querySelectorAll<HTMLDetailsElement>('[data-module]')];
@@ -16,6 +18,13 @@ document.querySelector<HTMLButtonElement>('[data-copy-link]')?.addEventListener(
 });
 const clock = (value: number) => `${Math.floor(value / 60)}:${String(Math.floor(value % 60)).padStart(2, '0')}`;
 const presentationBackground = new Map<HTMLElement, boolean>();
+let nativePresentationButton:HTMLButtonElement|null=null;
+document.addEventListener('fullscreenchange',()=>{
+  if(!document.fullscreenElement&&nativePresentationButton){
+    nativePresentationButton.textContent=nativePresentationButton.dataset.presentationLabel||'⛶ Fullscreen';
+    nativePresentationButton=null;
+  }
+});
 function leavePresentation() {
   document.querySelectorAll<HTMLElement>('.is-presenting').forEach(surface => surface.classList.remove('is-presenting'));
   document.querySelectorAll<HTMLButtonElement>('[data-presentation-label]').forEach(button => button.textContent = button.dataset.presentationLabel!);
@@ -26,6 +35,9 @@ async function present(surface: HTMLElement, button: HTMLButtonElement) {
   if (document.fullscreenElement) { await document.exitFullscreen(); return; }
   if (surface.classList.contains('is-presenting')) { leavePresentation(); return; }
   try { await surface.requestFullscreen?.(); } catch { /* Embedded browsers can disallow native fullscreen. */ }
+  if(document.fullscreenElement){
+    nativePresentationButton=button;button.dataset.presentationLabel=button.textContent||'⛶ Fullscreen';button.textContent='✕ Exit fullscreen';
+  }
   if (!document.fullscreenElement) {
     button.dataset.presentationLabel = button.textContent || '⛶ Fullscreen';
     surface.classList.add('is-presenting'); document.body.classList.add('teaching-presenting');
@@ -41,7 +53,7 @@ document.addEventListener('keydown', event => {
   if (event.key === 'Escape') leavePresentation();
   if (event.key !== 'Tab') return;
   const surface = document.querySelector<HTMLElement>('.is-presenting'); if (!surface) return;
-  const focusable = [...surface.querySelectorAll<HTMLElement>('button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled)')].filter(node => node.getClientRects().length);
+  const focusable = [...surface.querySelectorAll<HTMLElement | SVGElement>('button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled),[tabindex]')].filter(node => node.tabIndex >= 0 && node.getClientRects().length && !node.matches(':disabled'));
   const first=focusable[0],last=focusable.at(-1);
   if(event.shiftKey && document.activeElement===first){event.preventDefault();last?.focus();}
   else if(!event.shiftKey && document.activeElement===last){event.preventDefault();first?.focus();}
@@ -132,3 +144,7 @@ if (learning) {
   get('[data-learning-fullscreen]').addEventListener('click', event => { void present(learning,event.currentTarget as HTMLButtonElement); });
   render();
 }
+initParietalAttention(present);
+initRepresentationalNeglect(present);
+initSalienceSelection(present);
+initStepIllustrations(present);

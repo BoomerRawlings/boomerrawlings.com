@@ -1,0 +1,329 @@
+{
+  "module": 13,
+  "title": "Attention networks & hemispheres",
+  "course": "PSYC 108",
+  "sourceScope": "Supplied lecture slides and spoken transcripts only",
+  "downloadBundle": "psyc108-l13-gifs.zip",
+  "assets": [
+    {
+      "id": "network-master",
+      "title": "Dorsal & ventral attention networks",
+      "type": "master",
+      "concept": "Orienting and reorienting attention",
+      "slides": [
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13,
+        15
+      ],
+      "duration": 45,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Networks"
+        },
+        {
+          "time": 7,
+          "title": "Cue"
+        },
+        {
+          "time": 13,
+          "title": "Priming"
+        },
+        {
+          "time": 20,
+          "title": "Unexpected target"
+        },
+        {
+          "time": 26,
+          "title": "Reorient"
+        },
+        {
+          "time": 34,
+          "title": "Cooperate"
+        },
+        {
+          "time": 41,
+          "title": "Reset illustration"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "network-master.gif",
+      "video": "network-master.mp4",
+      "poster": "network-master.png",
+      "sources": [
+        "PSYC 108 L13 Attention F26-4.pdf · pages 6, 7, 9, 10, 11, 12, 13, 15",
+        "en-Lecture 14 - October 26th 2026 - PSYC 108 - LE [001-000-LE].txt · Lines 188–258,351–399,440–452: networks; 488–610: hemispheric coverage and pseudoneglect."
+      ]
+    },
+    {
+      "id": "dorsal-priming",
+      "title": "Dorsal network · attentional priming",
+      "type": "breakdown",
+      "concept": "Preparing attention before a target",
+      "slides": [
+        6,
+        9,
+        10,
+        13,
+        15
+      ],
+      "duration": 38,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Networks"
+        },
+        {
+          "time": 6,
+          "title": "Cue"
+        },
+        {
+          "time": 12,
+          "title": "Priming"
+        },
+        {
+          "time": 19,
+          "title": "Passive viewing"
+        },
+        {
+          "time": 27,
+          "title": "Compare"
+        },
+        {
+          "time": 34,
+          "title": "Reset illustration"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "dorsal-priming.gif",
+      "video": "dorsal-priming.mp4",
+      "poster": "dorsal-priming.png",
+      "sources": [
+        "PSYC 108 L13 Attention F26-4.pdf · pages 6, 9, 10, 13, 15",
+        "en-Lecture 14 - October 26th 2026 - PSYC 108 - LE [001-000-LE].txt · Lines 188–258,351–399,440–452: networks; 488–610: hemispheric coverage and pseudoneglect."
+      ]
+    },
+    {
+      "id": "ventral-reorienting",
+      "title": "Ventral network · reorienting attention",
+      "type": "breakdown",
+      "concept": "Responding outside the current focus",
+      "slides": [
+        6,
+        11,
+        12,
+        13,
+        15
+      ],
+      "duration": 37,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Networks"
+        },
+        {
+          "time": 6,
+          "title": "Attend right"
+        },
+        {
+          "time": 12,
+          "title": "Unexpected target"
+        },
+        {
+          "time": 18,
+          "title": "Reorient"
+        },
+        {
+          "time": 26,
+          "title": "Updated focus"
+        },
+        {
+          "time": 33,
+          "title": "Reset illustration"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "ventral-reorienting.gif",
+      "video": "ventral-reorienting.mp4",
+      "poster": "ventral-reorienting.png",
+      "sources": [
+        "PSYC 108 L13 Attention F26-4.pdf · pages 6, 11, 12, 13, 15",
+        "en-Lecture 14 - October 26th 2026 - PSYC 108 - LE [001-000-LE].txt · Lines 188–258,351–399,440–452: networks; 488–610: hemispheric coverage and pseudoneglect."
+      ]
+    },
+    {
+      "id": "hemispheric-coverage-master",
+      "title": "Hemispheres & spatial attention",
+      "type": "master",
+      "concept": "Coverage, lesions, and compensation",
+      "slides": [
+        15,
+        16
+      ],
+      "duration": 45,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Typical coverage"
+        },
+        {
+          "time": 8,
+          "title": "Left lesion"
+        },
+        {
+          "time": 15,
+          "title": "Compensation"
+        },
+        {
+          "time": 22,
+          "title": "Restore reference"
+        },
+        {
+          "time": 26,
+          "title": "Right lesion"
+        },
+        {
+          "time": 33,
+          "title": "Left-side deficit"
+        },
+        {
+          "time": 41,
+          "title": "Reset illustration"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "hemispheric-coverage-master.gif",
+      "video": "hemispheric-coverage-master.mp4",
+      "poster": "hemispheric-coverage-master.png",
+      "sources": [
+        "PSYC 108 L13 Attention F26-4.pdf · pages 15, 16",
+        "en-Lecture 14 - October 26th 2026 - PSYC 108 - LE [001-000-LE].txt · Lines 188–258,351–399,440–452: networks; 488–610: hemispheric coverage and pseudoneglect."
+      ]
+    },
+    {
+      "id": "left-parietal-lesion",
+      "title": "Left parietal lesion · compensation",
+      "type": "breakdown",
+      "concept": "Remaining right-hemisphere coverage",
+      "slides": [
+        16
+      ],
+      "duration": 28,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Typical coverage"
+        },
+        {
+          "time": 8,
+          "title": "Left lesion"
+        },
+        {
+          "time": 16,
+          "title": "Remaining support"
+        },
+        {
+          "time": 24,
+          "title": "Reset illustration"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "left-parietal-lesion.gif",
+      "video": "left-parietal-lesion.mp4",
+      "poster": "left-parietal-lesion.png",
+      "sources": [
+        "PSYC 108 L13 Attention F26-4.pdf · pages 16",
+        "en-Lecture 14 - October 26th 2026 - PSYC 108 - LE [001-000-LE].txt · Lines 188–258,351–399,440–452: networks; 488–610: hemispheric coverage and pseudoneglect."
+      ]
+    },
+    {
+      "id": "right-parietal-lesion",
+      "title": "Right parietal lesion · left-side deficit",
+      "type": "breakdown",
+      "concept": "Asymmetric loss of attentional coverage",
+      "slides": [
+        16
+      ],
+      "duration": 28,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Typical coverage"
+        },
+        {
+          "time": 8,
+          "title": "Right lesion"
+        },
+        {
+          "time": 16,
+          "title": "Remaining support"
+        },
+        {
+          "time": 24,
+          "title": "Reset illustration"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "right-parietal-lesion.gif",
+      "video": "right-parietal-lesion.mp4",
+      "poster": "right-parietal-lesion.png",
+      "sources": [
+        "PSYC 108 L13 Attention F26-4.pdf · pages 16",
+        "en-Lecture 14 - October 26th 2026 - PSYC 108 - LE [001-000-LE].txt · Lines 188–258,351–399,440–452: networks; 488–610: hemispheric coverage and pseudoneglect."
+      ]
+    },
+    {
+      "id": "pseudoneglect",
+      "title": "Pseudoneglect · a slight leftward bias",
+      "type": "breakdown",
+      "concept": "Typical spatial-attention bias",
+      "slides": [
+        16,
+        17
+      ],
+      "duration": 31,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Typical coverage"
+        },
+        {
+          "time": 7,
+          "title": "Bisect a line"
+        },
+        {
+          "time": 13,
+          "title": "Small left bias"
+        },
+        {
+          "time": 20,
+          "title": "Compare midpoint"
+        },
+        {
+          "time": 27,
+          "title": "Reset illustration"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "pseudoneglect.gif",
+      "video": "pseudoneglect.mp4",
+      "poster": "pseudoneglect.png",
+      "sources": [
+        "PSYC 108 L13 Attention F26-4.pdf · pages 16, 17",
+        "en-Lecture 14 - October 26th 2026 - PSYC 108 - LE [001-000-LE].txt · Lines 188–258,351–399,440–452: networks; 488–610: hemispheric coverage and pseudoneglect."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,169 @@
+{
+  "id": "parkinsons-illustration",
+  "title": "Dopamine support and treatment context",
+  "note": "Qualitative circuit illustration. Settings are not clinical stages, percentages of neuron loss, or predicted treatment responses.",
+  "modes": [
+    {
+      "id": "typical",
+      "title": "Typical dopamine support",
+      "group": "dopamine",
+      "steps": [
+        {
+          "title": "Reference",
+          "caption": "Dopamine supports D1 / Go and restrains D2 / No-Go. GPi continuously inhibits the thalamus; GPe inhibits STN.",
+          "poster": "interactive-typical-01.png"
+        },
+        {
+          "title": "SNc dopamine",
+          "caption": "SNc supplies dopamine to the striatum. Typical support is retained in this reference condition.",
+          "poster": "interactive-typical-02.png"
+        },
+        {
+          "title": "Direct pathway",
+          "caption": "Dopamine supports D1 / Go activity, helping release the thalamic brake for a selected movement.",
+          "poster": "interactive-typical-03.png"
+        },
+        {
+          "title": "Indirect pathway",
+          "caption": "Dopamine restrains D2 / No-Go activity. GPe inhibits STN, keeping the indirect pathway at reference.",
+          "poster": "interactive-typical-04.png"
+        },
+        {
+          "title": "Combined result",
+          "caption": "Typical dopamine support favors movement through its different effects on Go and No-Go. This is a qualitative reference.",
+          "poster": "interactive-typical-05.png"
+        }
+      ]
+    },
+    {
+      "id": "reduced",
+      "title": "Reduced support",
+      "group": "dopamine",
+      "steps": [
+        {
+          "title": "Reference",
+          "caption": "Dopamine supports D1 / Go and restrains D2 / No-Go. GPi continuously inhibits the thalamus; GPe inhibits STN.",
+          "poster": "interactive-reduced-01.png"
+        },
+        {
+          "title": "SNc dopamine",
+          "caption": "Loss of dopamine-producing neurons in SNc reduces dopamine signaling to the striatum. Both pathways are affected.",
+          "poster": "interactive-reduced-02.png"
+        },
+        {
+          "title": "Direct pathway",
+          "caption": "Less D1 support means less Go inhibition of GPi. The direct route therefore increases the thalamic brake.",
+          "poster": "interactive-reduced-03.png"
+        },
+        {
+          "title": "Indirect pathway",
+          "caption": "Less D2 restraint raises No-Go activity. GPe falls; STN excites GPi more; the indirect route strengthens the brake.",
+          "poster": "interactive-reduced-04.png"
+        },
+        {
+          "title": "Combined result",
+          "caption": "Both routes increase GPi inhibition of the thalamus. Less excitation returns to cortex. This setting is qualitative, not a clinical stage.",
+          "poster": "interactive-reduced-05.png"
+        }
+      ]
+    },
+    {
+      "id": "greater-reduction",
+      "title": "Greater reduction",
+      "group": "dopamine",
+      "steps": [
+        {
+          "title": "Reference",
+          "caption": "Dopamine supports D1 / Go and restrains D2 / No-Go. GPi continuously inhibits the thalamus; GPe inhibits STN.",
+          "poster": "interactive-greater-reduction-01.png"
+        },
+        {
+          "title": "SNc dopamine",
+          "caption": "Loss of dopamine-producing neurons in SNc reduces dopamine signaling to the striatum. Both pathways are affected.",
+          "poster": "interactive-greater-reduction-02.png"
+        },
+        {
+          "title": "Direct pathway",
+          "caption": "Less D1 support means less Go inhibition of GPi. The direct route therefore increases the thalamic brake.",
+          "poster": "interactive-greater-reduction-03.png"
+        },
+        {
+          "title": "Indirect pathway",
+          "caption": "Less D2 restraint raises No-Go activity. GPe falls; STN excites GPi more; the indirect route strengthens the brake.",
+          "poster": "interactive-greater-reduction-04.png"
+        },
+        {
+          "title": "Combined result",
+          "caption": "Both routes increase GPi inhibition of the thalamus. Less excitation returns to cortex. This setting is qualitative, not a clinical stage.",
+          "poster": "interactive-greater-reduction-05.png"
+        }
+      ]
+    },
+    {
+      "id": "ldopa",
+      "title": "L-DOPA",
+      "group": "treatment",
+      "steps": [
+        {
+          "title": "Precursor",
+          "caption": "L-DOPA is a precursor used for dopamine replacement. It can cross the blood-brain barrier.",
+          "poster": "interactive-ldopa-01.png"
+        },
+        {
+          "title": "Conversion",
+          "caption": "In the brain, L-DOPA is converted into dopamine, supporting dopamine signaling.",
+          "poster": "interactive-ldopa-02.png"
+        },
+        {
+          "title": "Possible effects",
+          "caption": "Possible side effects include drug-induced hyperkinesia and cognitive impairment from effects on other dopamine pathways.",
+          "poster": "interactive-ldopa-03.png"
+        }
+      ]
+    },
+    {
+      "id": "dbs",
+      "title": "DBS",
+      "group": "treatment",
+      "steps": [
+        {
+          "title": "Pulse generator",
+          "caption": "Deep brain stimulation uses an implanted electrode connected to a pulse generator.",
+          "poster": "interactive-dbs-01.png"
+        },
+        {
+          "title": "Target region",
+          "caption": "A common target in this lecture is STN: the subthalamic nucleus. Globus pallidus and thalamus are alternatives.",
+          "poster": "interactive-dbs-02.png"
+        },
+        {
+          "title": "Circuit effect",
+          "caption": "Stimulation changes activity in the target region and wider circuit. The lecture describes reducing abnormal STN activity.",
+          "poster": "interactive-dbs-03.png"
+        }
+      ]
+    },
+    {
+      "id": "adaptive-dbs",
+      "title": "Adaptive DBS",
+      "group": "treatment",
+      "steps": [
+        {
+          "title": "Circuit effect",
+          "caption": "Stimulation changes activity in the target region and wider circuit. The lecture describes reducing abnormal STN activity.",
+          "poster": "interactive-adaptive-dbs-01.png"
+        },
+        {
+          "title": "Adaptive feedback",
+          "caption": "Adaptive DBS adds feedback about the current context, instead of keeping stimulation constant.",
+          "poster": "interactive-adaptive-dbs-02.png"
+        },
+        {
+          "title": "Adjustment",
+          "caption": "Feedback about the current context informs an adjustment to stimulation. The circuit then supplies further feedback.",
+          "poster": "interactive-adaptive-dbs-03.png"
+        }
+      ]
+    }
+  ]
+}

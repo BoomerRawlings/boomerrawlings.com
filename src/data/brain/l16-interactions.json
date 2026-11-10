@@ -1,0 +1,99 @@
+{
+  "id": "synapse-effects",
+  "title": "Explore postsynaptic effects",
+  "modes": [
+    {
+      "id": "epsp",
+      "title": "EPSP",
+      "steps": [
+        {
+          "title": "Ready",
+          "caption": "The presynaptic terminal and postsynaptic cell are separated by a synaptic cleft.",
+          "poster": "interactive-epsp-1.png"
+        },
+        {
+          "title": "Action potential",
+          "caption": "An action potential reaches the axon terminal and opens voltage-gated calcium channels.",
+          "poster": "interactive-epsp-2.png"
+        },
+        {
+          "title": "Release",
+          "caption": "Calcium entry triggers vesicle fusion and neurotransmitter release into the synaptic cleft.",
+          "poster": "interactive-epsp-3.png"
+        },
+        {
+          "title": "Receptor binding",
+          "caption": "Neurotransmitter crosses the cleft and binds a receptor on the postsynaptic membrane.",
+          "poster": "interactive-epsp-4.png"
+        },
+        {
+          "title": "Postsynaptic effect",
+          "caption": "An excitatory postsynaptic potential depolarizes the membrane: the inside becomes less negative.",
+          "poster": "interactive-epsp-5.png"
+        }
+      ]
+    },
+    {
+      "id": "ipsp",
+      "title": "IPSP",
+      "steps": [
+        {
+          "title": "Ready",
+          "caption": "The presynaptic terminal and postsynaptic cell are separated by a synaptic cleft.",
+          "poster": "interactive-ipsp-1.png"
+        },
+        {
+          "title": "Action potential",
+          "caption": "An action potential reaches the axon terminal and opens voltage-gated calcium channels.",
+          "poster": "interactive-ipsp-2.png"
+        },
+        {
+          "title": "Release",
+          "caption": "Calcium entry triggers vesicle fusion and neurotransmitter release into the synaptic cleft.",
+          "poster": "interactive-ipsp-3.png"
+        },
+        {
+          "title": "Receptor binding",
+          "caption": "Neurotransmitter crosses the cleft and binds a receptor on the postsynaptic membrane.",
+          "poster": "interactive-ipsp-4.png"
+        },
+        {
+          "title": "Postsynaptic effect",
+          "caption": "An inhibitory postsynaptic potential hyperpolarizes the membrane: the inside becomes more negative.",
+          "poster": "interactive-ipsp-5.png"
+        }
+      ]
+    },
+    {
+      "id": "second-messenger",
+      "title": "Second messenger",
+      "steps": [
+        {
+          "title": "Ready",
+          "caption": "The presynaptic terminal and postsynaptic cell are separated by a synaptic cleft.",
+          "poster": "interactive-second-messenger-1.png"
+        },
+        {
+          "title": "Action potential",
+          "caption": "An action potential reaches the axon terminal and opens voltage-gated calcium channels.",
+          "poster": "interactive-second-messenger-2.png"
+        },
+        {
+          "title": "Release",
+          "caption": "Calcium entry triggers vesicle fusion and neurotransmitter release into the synaptic cleft.",
+          "poster": "interactive-second-messenger-3.png"
+        },
+        {
+          "title": "Receptor binding",
+          "caption": "Neurotransmitter crosses the cleft and binds a receptor on the postsynaptic membrane.",
+          "poster": "interactive-second-messenger-4.png"
+        },
+        {
+          "title": "Postsynaptic effect",
+          "caption": "Some receptors trigger a signaling cascade inside the cell instead of directly opening an ion channel.",
+          "poster": "interactive-second-messenger-5.png"
+        }
+      ]
+    }
+  ]
+}

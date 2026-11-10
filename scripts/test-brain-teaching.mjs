@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
-import { transformSync } from 'esbuild';
+import { transformSync, buildSync } from 'esbuild';
+import { createHash } from 'node:crypto';
 const source = readFileSync('src/scripts/brain/guitar-learning-model.ts','utf8');
 const {code} = transformSync(source,{loader:'ts',format:'esm'});
 const model = await import(`data:text/javascript;base64,${Buffer.from(code).toString('base64')}`);
@@ -25,20 +26,36 @@ for(let pattern=0;pattern<8;pattern++){
   assert.equal(model.beginTrial(state,'good'),state,'Fourth trial is blocked');checks++;
   assert.deepEqual(model.initialLearningState().strength,{go:0,nogo:0});checks++;
 }
-const manifest=JSON.parse(readFileSync('src/data/brain/l15-teaching.json','utf8'));
-assert.equal(manifest.assets.length,9,'Complete L15 package includes9 GIF assets');checks++;
-for(const asset of manifest.assets){
+const registry=buildSync({entryPoints:['src/data/brain/teaching-library.ts'],bundle:true,write:false,platform:'node',format:'esm'}).outputFiles[0].text;
+const {modules}=await import(`data:text/javascript;base64,${Buffer.from(registry).toString('base64')}`);
+assert.equal(modules.find(module=>module.id==='l15').assets.filter(asset=>asset.type!=='interactive').length,9,'Complete L15 package includes9 GIF assets');checks++;
+for(const module of modules){
+ assert.ok(existsSync(`public/brain/teaching/${module.id}/${module.downloadBundle}`),'Complete module GIF bundle exists');checks++;
+ for(const asset of module.assets){
+  const page=readFileSync(`dist/brain/psyc108/${module.id}/${asset.id}/index.html`,'utf8');
   assert.ok(asset.slides.length && asset.sources.length,`Missing source mapping: ${asset.id}`);checks++;
+  assert.ok(page.includes('noindex')&&!page.includes('portal-intro'));checks++;
+  if(asset.type==='interactive'){
+    assert.ok(!page.includes('download-gif'),'No GIF download for interactable');checks++;continue;
+  }
   for(const kind of ['gif','video','poster']){
-    const file=`public/brain/teaching/l15/${asset[kind].split(/[\\/]/).pop()}`;
+    const file=`public/brain/teaching/${module.id}/${asset[kind].split(/[\\/]/).pop()}`;
     assert.ok(existsSync(file),`Missing ${file}`);checks++;
   }
-  const page=readFileSync(`dist/brain/psyc108/l15/${asset.id}/index.html`,'utf8');
-  assert.ok(page.includes('noindex') && page.includes('data-teaching-video') && !page.includes('portal-intro'));
+  const gif=readFileSync(`public/brain/teaching/${module.id}/${asset.gif}`);
+  assert.equal(gif.subarray(0,6).toString(),'GIF89a');assert.equal(gif.readUInt16LE(6),1280);assert.equal(gif.readUInt16LE(8),720);assert.ok(gif.includes(Buffer.from('NETSCAPE2.0')));checks+=4;
+  assert.ok(page.includes('data-teaching-video'));
   assert.ok(!/<video\b[^>]*\bautoplay/.test(page),'Direct entry starts paused');checks+=2;
   assert.ok(page.includes('download') && page.includes('.gif'),'GIF download exposed');checks++;
+ }
 }
-const interaction=readFileSync('dist/brain/psyc108/l15/guitar-learning/index.html','utf8');
-assert.ok(!interaction.includes('download-gif'),'No GIF download for interactable');checks++;
-assert.ok(interaction.includes('noindex') && !interaction.includes('portal-intro'));checks++;
+assert.equal(createHash('sha256').update(readFileSync('public/brain/teaching/l15/circuit-master.gif')).digest('hex'),'b4e2806ad6585b137761551af1aa4c4a8ecdcf7d63290ad2c230289b3b5e6b28','Approved master remains byte-identical');checks++;
+for(const id of ['l16','l17']){
+ const config=JSON.parse(readFileSync(`src/data/brain/${id}-interactions.json`,'utf8'));
+ assert.ok(modules.find(module=>module.id===id).assets.some(asset=>asset.id===config.id&&asset.type==='interactive'),'Step illustration has a published route');checks++;
+ for(const mode of config.modes)for(const step of mode.steps){
+  const png=readFileSync(`public/brain/teaching/${id}/${step.poster}`);
+  assert.equal(png.subarray(1,4).toString(),'PNG');assert.equal(png.readUInt32BE(16),1280);assert.equal(png.readUInt32BE(20),720);assert.ok(step.title&&step.caption);checks+=4;
+ }
+}
 console.log(`Brain teaching: ${checks} content, finite-state, route and artifact checks passed.`);

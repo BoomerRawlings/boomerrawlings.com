@@ -1,0 +1,225 @@
+{
+  "module": 12,
+  "title": "Attention",
+  "course": "PSYC 108",
+  "sourceScope": "Supplied lecture slides and spoken transcripts only",
+  "downloadBundle": "psyc108-l12-gifs.zip",
+  "assets": [
+    {
+      "id": "posner-master",
+      "title": "Posner cueing task",
+      "type": "master",
+      "concept": "Posner cueing and covert attention",
+      "slides": [
+        12
+      ],
+      "duration": 93,
+      "width": 1280,
+      "height": 720,
+      "gif": "posner-master.gif",
+      "video": "posner-master.mp4",
+      "poster": "posner-master.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Fixation & attention"
+        },
+        {
+          "time": 6,
+          "title": "Valid · Fixation"
+        },
+        {
+          "time": 9,
+          "title": "Valid · Cue"
+        },
+        {
+          "time": 15,
+          "title": "Valid · Target"
+        },
+        {
+          "time": 21,
+          "title": "Valid · Response"
+        },
+        {
+          "time": 28,
+          "title": "Neutral · Fixation"
+        },
+        {
+          "time": 31,
+          "title": "Neutral · Cue"
+        },
+        {
+          "time": 37,
+          "title": "Neutral · Target"
+        },
+        {
+          "time": 43,
+          "title": "Neutral · Response"
+        },
+        {
+          "time": 50,
+          "title": "Invalid · Fixation"
+        },
+        {
+          "time": 53,
+          "title": "Invalid · Cue"
+        },
+        {
+          "time": 59,
+          "title": "Invalid · Target"
+        },
+        {
+          "time": 65,
+          "title": "Invalid · Reorient"
+        },
+        {
+          "time": 71,
+          "title": "Invalid · Response"
+        },
+        {
+          "time": 78,
+          "title": "Compare the conditions"
+        },
+        {
+          "time": 88,
+          "title": "Return to fixation"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L12 Attention F26-1.pdf · pages 10, 11, 12",
+        "Lecture 13 transcript · lines 486–550 · Fixation, informative and neutral cues, valid/invalid outcomes, detection-speed comparison",
+        "Lecture 14 transcript · lines 188–208 · Recap of cue validity"
+      ]
+    },
+    {
+      "id": "valid-cue",
+      "title": "Valid cue · Posner task",
+      "type": "breakdown",
+      "concept": "Posner cueing and covert attention",
+      "slides": [
+        12
+      ],
+      "duration": 30,
+      "width": 1280,
+      "height": 720,
+      "gif": "valid-cue.gif",
+      "video": "valid-cue.mp4",
+      "poster": "valid-cue.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Fixation"
+        },
+        {
+          "time": 6,
+          "title": "Cue"
+        },
+        {
+          "time": 12,
+          "title": "Target"
+        },
+        {
+          "time": 18,
+          "title": "Response"
+        },
+        {
+          "time": 25,
+          "title": "Return to fixation"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L12 Attention F26-1.pdf · pages 10, 11, 12",
+        "Lecture 13 transcript · lines 486–550 · Fixation, informative and neutral cues, valid/invalid outcomes, detection-speed comparison",
+        "Lecture 14 transcript · lines 188–208 · Recap of cue validity"
+      ]
+    },
+    {
+      "id": "neutral-cue",
+      "title": "Neutral cue · Posner task",
+      "type": "breakdown",
+      "concept": "Posner cueing and covert attention",
+      "slides": [
+        12
+      ],
+      "duration": 30,
+      "width": 1280,
+      "height": 720,
+      "gif": "neutral-cue.gif",
+      "video": "neutral-cue.mp4",
+      "poster": "neutral-cue.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Fixation"
+        },
+        {
+          "time": 6,
+          "title": "Cue"
+        },
+        {
+          "time": 12,
+          "title": "Target"
+        },
+        {
+          "time": 18,
+          "title": "Response"
+        },
+        {
+          "time": 25,
+          "title": "Return to fixation"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L12 Attention F26-1.pdf · pages 10, 11, 12",
+        "Lecture 13 transcript · lines 486–550 · Fixation, informative and neutral cues, valid/invalid outcomes, detection-speed comparison",
+        "Lecture 14 transcript · lines 188–208 · Recap of cue validity"
+      ]
+    },
+    {
+      "id": "invalid-cue",
+      "title": "Invalid cue · Posner task",
+      "type": "breakdown",
+      "concept": "Posner cueing and covert attention",
+      "slides": [
+        12
+      ],
+      "duration": 36,
+      "width": 1280,
+      "height": 720,
+      "gif": "invalid-cue.gif",
+      "video": "invalid-cue.mp4",
+      "poster": "invalid-cue.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Fixation"
+        },
+        {
+          "time": 6,
+          "title": "Cue"
+        },
+        {
+          "time": 12,
+          "title": "Target"
+        },
+        {
+          "time": 18,
+          "title": "Reorient"
+        },
+        {
+          "time": 24,
+          "title": "Response"
+        },
+        {
+          "time": 31,
+          "title": "Return to fixation"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L12 Attention F26-1.pdf · pages 10, 11, 12",
+        "Lecture 13 transcript · lines 486–550 · Fixation, informative and neutral cues, valid/invalid outcomes, detection-speed comparison",
+        "Lecture 14 transcript · lines 188–208 · Recap of cue validity"
+      ]
+    }
+  ]
+}

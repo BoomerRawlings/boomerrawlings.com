@@ -2,16 +2,26 @@
 import TeachingShell from '../../../../layouts/TeachingShell.astro';
 import TeachingSidebar from '../../../../components/TeachingSidebar.astro';
 import GuitarLearning from '../../../../components/GuitarLearning.astro';
+import ParietalAttention from '../../../../components/ParietalAttention.astro';
+import RepresentationalNeglect from '../../../../components/RepresentationalNeglect.astro';
+import SalienceSelection from '../../../../components/SalienceSelection.astro';
+import StepIllustration from '../../../../components/StepIllustration.astro';
+import synapse from '../../../../data/brain/l16-interactions.json';
+import parkinsons from '../../../../data/brain/l17-interactions.json';
 import { modules, kindLabels, mediaUrl, slideLabel } from '../../../../data/brain/teaching-library';
 export function getStaticPaths() { return modules.flatMap(module => module.assets.map(asset => ({ params: { lecture: module.id, asset: asset.id }, props: { module, asset } }))); }
 const { module, asset } = Astro.props;
+const interactiveComponents:Record<string,typeof GuitarLearning>={'guitar-learning':GuitarLearning,'parietal-attention':ParietalAttention,'representational-neglect':RepresentationalNeglect,'salience-selection':SalienceSelection};
+const Interactive=interactiveComponents[asset.id];
+const stepConfig=asset.id===synapse.id?synapse:asset.id===parkinsons.id?parkinsons:null;
+if(asset.type==='interactive'&&!Interactive&&!stepConfig)throw new Error(`Missing interactive renderer: ${asset.id}`);
 ---
 <TeachingShell title={`${asset.title} · PSYC 108`}>
   <div class="teaching-workspace">
     <TeachingSidebar activeId={asset.id} activeModule={module.id} />
     <main id="teaching-main" class="lesson-view">
       <header class="lesson-heading"><div><p class="teaching-eyebrow">MODULE {module.number} / {asset.concept}</p><h1>{asset.title}</h1><p class="lesson-meta"><span class={`asset-type kind-${asset.type}`}>{kindLabels[asset.type]}</span><span>{slideLabel(asset.slides)}</span></p></div><button class="copy-link" type="button" data-copy-link>Copy lesson link</button></header>
-      {asset.type === 'interactive' ? <GuitarLearning /> : <section class="animation-view" data-animation data-chapter-offset={asset.id === 'circuit-master' ? 0 : 0.3} aria-label={asset.title}>
+      {asset.type === 'interactive' ? (stepConfig ? <StepIllustration moduleId={module.id} illustration={stepConfig} parkinson={asset.id===parkinsons.id} /> : <Interactive />) : <section class="animation-view" data-animation data-chapter-offset={asset.id === 'circuit-master' ? 0 : 0.3} aria-label={asset.title}>
         <div class="animation-screen" data-fullscreen-surface>
           <video playsinline preload="none" poster={mediaUrl(asset.poster,module.id)} width="1280" height="720" aria-label={asset.title} data-teaching-video loop>
             <source src={mediaUrl(asset.video,module.id)} type="video/mp4" />

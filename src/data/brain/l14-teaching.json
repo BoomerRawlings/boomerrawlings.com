@@ -1,0 +1,383 @@
+{
+  "module": 14,
+  "title": "Representational neglect & salience",
+  "course": "PSYC 108",
+  "sourceScope": "Supplied lecture slides and spoken transcripts only",
+  "downloadBundle": "psyc108-l14-gifs.zip",
+  "assets": [
+    {
+      "id": "representational-neglect-master",
+      "title": "Neglect in imagined space",
+      "type": "master",
+      "concept": "Representational neglect across viewpoints",
+      "slides": [
+        11,
+        12
+      ],
+      "duration": 45,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Square"
+        },
+        {
+          "time": 7,
+          "title": "Face Duomo"
+        },
+        {
+          "time": 14,
+          "title": "First report"
+        },
+        {
+          "time": 21,
+          "title": "Turn viewpoint"
+        },
+        {
+          "time": 28,
+          "title": "New report"
+        },
+        {
+          "time": 35,
+          "title": "Combine"
+        },
+        {
+          "time": 42,
+          "title": "Reset"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "representational-neglect-master.gif",
+      "video": "representational-neglect-master.mp4",
+      "poster": "representational-neglect-master.png",
+      "sources": [
+        "PSYC 108 L14 Attention F26-1.pdf · pages 11, 12",
+        "en-Lecture 15 - October 28th 2026 - PSYC 108 - LE [001-000-LE].txt · Lines 403–464: two imagined viewpoints, report reversals, and available spatial knowledge."
+      ]
+    },
+    {
+      "id": "facing-duomo",
+      "title": "Imagined viewpoint · facing the Duomo",
+      "type": "breakdown",
+      "concept": "Reports from the first imagined viewpoint",
+      "slides": [
+        11,
+        12
+      ],
+      "duration": 31,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Square"
+        },
+        {
+          "time": 7,
+          "title": "Face Duomo"
+        },
+        {
+          "time": 14,
+          "title": "Report right"
+        },
+        {
+          "time": 21,
+          "title": "Mental access"
+        },
+        {
+          "time": 28,
+          "title": "Reset"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "facing-duomo.gif",
+      "video": "facing-duomo.mp4",
+      "poster": "facing-duomo.png",
+      "sources": [
+        "PSYC 108 L14 Attention F26-1.pdf · pages 11, 12",
+        "en-Lecture 15 - October 28th 2026 - PSYC 108 - LE [001-000-LE].txt · Lines 403–464: two imagined viewpoints, report reversals, and available spatial knowledge."
+      ]
+    },
+    {
+      "id": "facing-away",
+      "title": "Imagined viewpoint · facing away",
+      "type": "breakdown",
+      "concept": "Previously omitted landmarks become accessible",
+      "slides": [
+        11,
+        12
+      ],
+      "duration": 31,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "First report"
+        },
+        {
+          "time": 7,
+          "title": "Turn viewpoint"
+        },
+        {
+          "time": 14,
+          "title": "New report"
+        },
+        {
+          "time": 21,
+          "title": "Compare"
+        },
+        {
+          "time": 28,
+          "title": "Reset"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "facing-away.gif",
+      "video": "facing-away.mp4",
+      "poster": "facing-away.png",
+      "sources": [
+        "PSYC 108 L14 Attention F26-1.pdf · pages 11, 12",
+        "en-Lecture 15 - October 28th 2026 - PSYC 108 - LE [001-000-LE].txt · Lines 403–464: two imagined viewpoints, report reversals, and available spatial knowledge."
+      ]
+    },
+    {
+      "id": "compare-viewpoints",
+      "title": "Two viewpoints · one spatial memory",
+      "type": "breakdown",
+      "concept": "Available knowledge versus access",
+      "slides": [
+        11,
+        12
+      ],
+      "duration": 38,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Face Duomo"
+        },
+        {
+          "time": 7,
+          "title": "Turn viewpoint"
+        },
+        {
+          "time": 14,
+          "title": "Face away"
+        },
+        {
+          "time": 21,
+          "title": "Combine"
+        },
+        {
+          "time": 28,
+          "title": "Interpret"
+        },
+        {
+          "time": 35,
+          "title": "Reset"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "compare-viewpoints.gif",
+      "video": "compare-viewpoints.mp4",
+      "poster": "compare-viewpoints.png",
+      "sources": [
+        "PSYC 108 L14 Attention F26-1.pdf · pages 11, 12",
+        "en-Lecture 15 - October 28th 2026 - PSYC 108 - LE [001-000-LE].txt · Lines 403–464: two imagined viewpoints, report reversals, and available spatial knowledge."
+      ]
+    },
+    {
+      "id": "salience-selection-master",
+      "title": "Salience-based selection & PPC",
+      "type": "master",
+      "concept": "Bias, task, and TMS comparisons",
+      "slides": [
+        14,
+        15,
+        16
+      ],
+      "duration": 52,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Letter levels"
+        },
+        {
+          "time": 7,
+          "title": "Visual bias"
+        },
+        {
+          "time": 14,
+          "title": "Task"
+        },
+        {
+          "time": 21,
+          "title": "Pre-TMS"
+        },
+        {
+          "time": 28,
+          "title": "Right PPC"
+        },
+        {
+          "time": 35,
+          "title": "Left PPC"
+        },
+        {
+          "time": 42,
+          "title": "Compare"
+        },
+        {
+          "time": 49,
+          "title": "Reset"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "salience-selection-master.gif",
+      "video": "salience-selection-master.mp4",
+      "poster": "salience-selection-master.png",
+      "sources": [
+        "PSYC 108 L14 Attention F26-1.pdf · pages 14, 15, 16",
+        "en-Lecture 15 - October 28th 2026 - PSYC 108 - LE [001-000-LE].txt · Lines 483–585: bias, task, and pre/left/right PPC TMS; 603–645: outcomes, nonsignificant contrast, and task-bounded conclusion."
+      ]
+    },
+    {
+      "id": "bias-manipulation",
+      "title": "Visual bias · global versus local",
+      "type": "breakdown",
+      "concept": "Separating letter scale from salience",
+      "slides": [
+        14
+      ],
+      "duration": 38,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Letter levels"
+        },
+        {
+          "time": 7,
+          "title": "Global bias"
+        },
+        {
+          "time": 14,
+          "title": "Local bias"
+        },
+        {
+          "time": 21,
+          "title": "Task matters"
+        },
+        {
+          "time": 28,
+          "title": "Compare"
+        },
+        {
+          "time": 35,
+          "title": "Reset"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "bias-manipulation.gif",
+      "video": "bias-manipulation.mp4",
+      "poster": "bias-manipulation.png",
+      "sources": [
+        "PSYC 108 L14 Attention F26-1.pdf · pages 14",
+        "en-Lecture 15 - October 28th 2026 - PSYC 108 - LE [001-000-LE].txt · Lines 483–585: bias, task, and pre/left/right PPC TMS; 603–645: outcomes, nonsignificant contrast, and task-bounded conclusion."
+      ]
+    },
+    {
+      "id": "more-salient-selection",
+      "title": "Selecting the more-salient target",
+      "type": "breakdown",
+      "concept": "Right PPC and salient selection",
+      "slides": [
+        14,
+        15,
+        16
+      ],
+      "duration": 38,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Bias & task"
+        },
+        {
+          "time": 7,
+          "title": "Pre-TMS"
+        },
+        {
+          "time": 14,
+          "title": "Right PPC"
+        },
+        {
+          "time": 21,
+          "title": "Left PPC"
+        },
+        {
+          "time": 28,
+          "title": "Interpret"
+        },
+        {
+          "time": 35,
+          "title": "Reset"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "more-salient-selection.gif",
+      "video": "more-salient-selection.mp4",
+      "poster": "more-salient-selection.png",
+      "sources": [
+        "PSYC 108 L14 Attention F26-1.pdf · pages 14, 15, 16",
+        "en-Lecture 15 - October 28th 2026 - PSYC 108 - LE [001-000-LE].txt · Lines 483–585: bias, task, and pre/left/right PPC TMS; 603–645: outcomes, nonsignificant contrast, and task-bounded conclusion."
+      ]
+    },
+    {
+      "id": "less-salient-selection",
+      "title": "Selecting the less-salient target",
+      "type": "breakdown",
+      "concept": "Left PPC and selection against a distractor",
+      "slides": [
+        14,
+        15,
+        16
+      ],
+      "duration": 38,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Bias & task"
+        },
+        {
+          "time": 7,
+          "title": "Pre-TMS"
+        },
+        {
+          "time": 14,
+          "title": "Left PPC"
+        },
+        {
+          "time": 21,
+          "title": "Right PPC"
+        },
+        {
+          "time": 28,
+          "title": "Interpret"
+        },
+        {
+          "time": 35,
+          "title": "Reset"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "less-salient-selection.gif",
+      "video": "less-salient-selection.mp4",
+      "poster": "less-salient-selection.png",
+      "sources": [
+        "PSYC 108 L14 Attention F26-1.pdf · pages 14, 15, 16",
+        "en-Lecture 15 - October 28th 2026 - PSYC 108 - LE [001-000-LE].txt · Lines 483–585: bias, task, and pre/left/right PPC TMS; 603–645: outcomes, nonsignificant contrast, and task-bounded conclusion."
+      ]
+    }
+  ]
+}

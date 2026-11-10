@@ -1,0 +1,25 @@
+---
+import {mediaUrl} from '../data/brain/teaching-library';
+interface Step {title:string;caption:string;poster:string}
+interface Mode {id:string;title:string;steps:Step[]}
+interface Props {moduleId:string;illustration:{id:string;title:string;modes:Mode[]};parkinson?:boolean}
+const {moduleId,illustration,parkinson=false}=Astro.props;
+const first=illustration.modes[0];
+const prepared=illustration.modes.map(mode=>({...mode,steps:mode.steps.map(step=>({...step,poster:mediaUrl(step.poster,moduleId)}))}));
+---
+<section class="guitar-learning finite-illustration" data-step-illustration data-step-config={JSON.stringify(prepared)} aria-label={illustration.title}>
+  <div class="guitar-actions"><div><h2>{illustration.title}</h2><p>Choose a setting, then follow the explanation one step at a time.</p></div>
+    {parkinson ? <div class="finite-presets"><button type="button" data-circuit-mode aria-pressed="true">Circuit</button><label>Treatment context<select data-treatment-mode><option value="">Choose context</option>{illustration.modes.slice(3).map(mode=><option value={mode.id}>{mode.title}</option>)}</select></label></div> : <label class="finite-mode">Postsynaptic effect<select data-illustration-mode>{illustration.modes.map(mode=><option value={mode.id}>{mode.title}</option>)}</select></label>}
+  </div>
+  {parkinson&&<div class="dopamine-settings"><label for="dopamine-support">Dopamine support · qualitative illustration</label><input id="dopamine-support" type="range" min="0" max="2" step="1" value="0" data-dopamine-setting aria-valuetext={first.title}/><div>{illustration.modes.slice(0,3).map(mode=><span>{mode.title}</span>)}</div><p>These settings are illustrations, not clinical stages or measured neuron loss.</p></div>}
+  <div class="learning-screen finite-screen">
+    <img src={prepared[0].steps[0].poster} width="1280" height="720" alt={first.steps[0].caption} data-illustration-image decoding="async" />
+    <div class="learning-caption" aria-live="polite"><span data-illustration-stage>1 / {first.steps.length} · {first.steps[0].title}</span><p data-illustration-caption>{first.steps[0].caption}</p></div>
+  </div>
+  <div class="learning-controls"><button type="button" data-illustration-prev disabled>← Previous step</button><button type="button" data-illustration-next>Next step →</button><button type="button" data-illustration-replay>↺ Replay steps</button><button type="button" data-illustration-reset>Reset all</button><button type="button" data-illustration-fullscreen>⛶ Fullscreen</button></div>
+  <p class="learning-limit">A finite lecture illustration. Each setting follows a fixed explanatory sequence.</p>
+</section>
+<style>
+  .finite-mode,.finite-presets label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:#b6ced8}.finite-mode select,.finite-presets select{background:#102735;color:#eafaff;border:1px solid #365563;border-radius:3px;padding:8px;max-width:100%}.finite-presets{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}.finite-screen img{display:block;width:100%;height:auto;background:#fcfcf9}.finite-screen[aria-busy=true] img{opacity:.6}.finite-screen img{transition:opacity .15s}.dopamine-settings{max-width:790px;margin:0 auto 20px}.dopamine-settings>label{font-size:13px;color:#bfd5dc}.dopamine-settings input{display:block;width:100%;accent-color:#bf85bb;margin:12px 0}.dopamine-settings>div{display:flex;justify-content:space-between;gap:16px;font-size:12px;color:#ccdce2}.dopamine-settings>div>span{width:33%;text-align:center}.dopamine-settings>div>span:first-child{text-align:left}.dopamine-settings>div>span:last-child{text-align:right}.dopamine-settings>p{font-size:11px;color:#8eabb8;margin-top:10px}.finite-illustration:is(:fullscreen,.is-presenting) .finite-screen{flex:1;min-height:0}.finite-illustration:is(:fullscreen,.is-presenting) .finite-screen img{height:calc(100% - 40px);min-height:0;object-fit:contain}
+.finite-illustration:is(:fullscreen,.is-presenting) .learning-caption{min-height:0;padding:10px 20px}.finite-illustration:is(:fullscreen,.is-presenting) .learning-caption p{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+</style>

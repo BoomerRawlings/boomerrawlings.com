@@ -6,7 +6,7 @@ const { activeId = '', activeModule = '' } = Astro.props;
   <a class="sidebar-course" href="/brain/psyc108/">← PSYC 108 library</a>
   <p class="teaching-eyebrow">LECTURE MODULES</p>
   <nav aria-label="Modules and concepts">
-    {modules.map(module => <details class="sidebar-module" open>
+    {modules.map(module => <details class="sidebar-module" open={module.id === activeModule}>
       <summary><span class="module-number">{module.number}</span><span>{module.title}</span><span class="disclosure-icon" aria-hidden="true">+</span></summary>
       <div class="sidebar-assets">{module.assets.map(asset => <a href={assetUrl(module.id, asset.id)} class={`sidebar-asset kind-${asset.type}`} aria-current={activeModule === module.id && activeId === asset.id ? 'page' : undefined}>
         <span class="type-indicator" aria-hidden="true"></span><span><small>{kindLabels[asset.type]} · {slideLabel(asset.slides)}</small><strong>{asset.title}</strong></span>

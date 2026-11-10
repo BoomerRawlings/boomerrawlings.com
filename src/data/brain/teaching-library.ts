@@ -1,4 +1,9 @@
 import l15 from './l15-teaching.json';
+import l12 from './l12-teaching.json';
+import l13 from './l13-teaching.json';
+import l14 from './l14-teaching.json';
+import l16 from './l16-teaching.json';
+import l17 from './l17-teaching.json';
 
 export type AssetKind = 'master' | 'breakdown' | 'interactive';
 export interface TeachingAsset {
@@ -15,7 +20,22 @@ export const l15Assets: TeachingAsset[] = [
     'Lecture 16 transcript: guitar example; Lecture 17 transcript: LTP/LTD explanation and correction.'
   ] }
 ];
-export const modules = [{ id: 'l15', number: 15, title: 'Basal ganglia', subtitle: 'Movement selection and learning from outcomes', assets: l15Assets, downloadBundle: l15.downloadBundle }];
+export interface TeachingModule {id:string;number:number;title:string;subtitle:string;assets:TeachingAsset[];downloadBundle:string}
+const l13Assets:TeachingAsset[]=[...(l13.assets as TeachingAsset[]),{id:'parietal-attention',title:'Compare parietal contributions',type:'interactive',concept:'Hemispheric specialization and lesions',slides:[15,16,17],sources:['L13 slides15–17: hemispheric contributions and pseudoneglect.','Lecture14 transcript: graded right-hemisphere coverage, primarily rightward left-hemisphere attention, and lesion comparisons.']}];
+const l14Assets:TeachingAsset[]=[...(l14.assets as TeachingAsset[]),
+  {id:'representational-neglect',title:'Turn the imagined viewpoint',type:'interactive',concept:'Neglect in imagined space',slides:[11,12],sources:['L14 slides11–12; Lecture15 transcript: Bisiach and Luzzatti’s imagined Milan square and opposite viewpoints.']},
+  {id:'salience-selection',title:'Compare salience and parietal stimulation',type:'interactive',concept:'Selecting salient information',slides:[14,15,16],sources:['L14 slides14–16; Lecture15 transcript: global/local bias and left/right PPC stimulation comparisons.']}
+];
+const l16Assets:TeachingAsset[]=[...(l16.assets as TeachingAsset[]),{id:'synapse-effects',title:'Explore postsynaptic effects',type:'interactive',concept:'Chemical signaling across a synapse',slides:[4,5,6],sources:['L16 slides4–6; Lecture17 transcript: transmitter release, excitatory and inhibitory postsynaptic potentials, and second messengers.']}];
+const l17Assets:TeachingAsset[]=[...(l17.assets as TeachingAsset[]),{id:'parkinsons-illustration',title:'Dopamine support and treatment context',type:'interactive',concept:'Parkinson’s circuit and treatments',slides:[4,5,6,7,8,9,10,11],sources:['L17 slides4–11; Lecture18 transcript: dopamine loss, Go/No-Go balance, L-DOPA, and deep brain stimulation.']}];
+export const modules:TeachingModule[] = [
+  {id:'l12',number:12,title:'Attention',subtitle:'Posner cueing and covert attention',assets:l12.assets as TeachingAsset[],downloadBundle:l12.downloadBundle},
+  {id:'l13',number:13,title:'Attention networks',subtitle:'Orienting, reorienting, and hemispheric contributions',assets:l13Assets,downloadBundle:l13.downloadBundle},
+  {id:'l14',number:14,title:'Attention and neglect',subtitle:'Imagined space and salience-based selection',assets:l14Assets,downloadBundle:l14.downloadBundle},
+  {id:'l15',number:15,title:'Basal ganglia',subtitle:'Movement selection and learning from outcomes',assets:l15Assets,downloadBundle:l15.downloadBundle},
+  {id:'l16',number:16,title:'Memory at the synapse',subtitle:'Synaptic signaling, LTP, and LTD',assets:l16Assets,downloadBundle:l16.downloadBundle},
+  {id:'l17',number:17,title:'Types of memory',subtitle:'Parkinson’s circuits, H.M., and distinct memory systems',assets:l17Assets,downloadBundle:l17.downloadBundle}
+];
 export function assetUrl(moduleId: string, assetId: string) { return `/brain/psyc108/${moduleId}/${assetId}/`; }
 export function mediaUrl(file: string | undefined, moduleId = 'l15') { return file ? `/brain/teaching/${moduleId}/${file.split(/[\\/]/).pop()}` : ''; }
 export function slideLabel(slides: number[]) {

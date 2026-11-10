@@ -1,0 +1,46 @@
+<section class="guitar-learning parietal-illustration" data-parietal-attention data-lesion="none" aria-label="Parietal attention illustration">
+  <div class="guitar-actions"><div><h2>Explore each lobe's contribution</h2><p data-parietal-hint>Hover over a lobe to fade it. Click to place a lesion; click it again to remove the lesion.</p></div></div>
+  <div class="learning-screen">
+    <svg class="learning-circuit attention-circuit" viewBox="0 0 1280 690" role="group" aria-labelledby="parietal-title parietal-desc">
+      <title id="parietal-title">Parietal lobes and the space attended above them</title><desc id="parietal-desc">Schematic view from above: left hemisphere on the left, right hemisphere on the right. Attention projects upward into the person's space. Hover or focus either lobe to preview its contribution. Click or press Enter to toggle a lesion; selecting the other lobe moves the lesion.</desc>
+      <defs><marker id="attention-left-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0L10 5L0 10z" fill="#447c9b"/></marker><marker id="attention-right-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0L10 5L0 10z" fill="#9a692d"/></marker></defs>
+      <text x="48" y="32" class="diagram-eyebrow">SPATIAL ATTENTION</text><text x="48" y="77" class="diagram-heading">Parietal contributions to attention</text><text x="48" y="112" class="diagram-note">View from above · left and right match the person's hemispheres and space</text>
+      <rect x="100" y="145" width="1080" height="104" rx="5" fill="#f4f0e5" stroke="#b9c4b9"/>
+      <g data-space-side="left"><circle cx="260" cy="179" r="13" fill="#1d3552"/><text x="260" y="225" text-anchor="middle" class="attention-region">Left space</text></g>
+      <g><circle cx="640" cy="179" r="13" fill="#1d3552"/><text x="640" y="225" text-anchor="middle" class="attention-region">Center</text></g>
+      <g data-space-side="right"><circle cx="1020" cy="179" r="13" fill="#1d3552"/><text x="1020" y="225" text-anchor="middle" class="attention-region">Right space</text></g>
+      <g class="attention-contribution" data-parietal-side="left"><path d="M590 314C590 284 1000 308 1000 257" fill="none" stroke="#447c9b" stroke-width="9" marker-end="url(#attention-left-arrow)"/></g>
+      <g class="attention-contribution" data-parietal-side="right"><path d="M690 314C690 283 260 307 260 257" fill="none" stroke="#9a692d" stroke-width="11" marker-end="url(#attention-right-arrow)"/><path d="M702 314C702 289 640 286 640 257" fill="none" stroke="#9a692d" stroke-width="6" marker-end="url(#attention-right-arrow)"/><path d="M714 314C955 309 1080 294 1080 257" fill="none" stroke="#9a692d" stroke-width="3" marker-end="url(#attention-right-arrow)"/></g>
+      <!-- Dorsal view: anterior above, posterior below; folded hemispheres flank the midline. -->
+      <defs>
+        <linearGradient id="cortical-gray" x1="0" x2="1"><stop offset="0" stop-color="#e1e2df"/><stop offset=".55" stop-color="#f4f4f1"/><stop offset="1" stop-color="#d9dcda"/></linearGradient>
+        <g id="parietal-hemisphere" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M624 310C606 298 587 310 584 328C563 316 543 336 544 355C520 351 500 374 501 396C478 402 470 425 477 446C457 462 464 489 476 500C465 520 477 544 493 551C490 574 509 590 528 593C535 617 561 625 579 614C596 624 617 606 620 588C628 559 622 531 624 500C626 472 621 443 625 416C626 389 619 371 625 347C630 332 631 319 624 310Z" fill="url(#cortical-gray)" stroke="#969e9e" stroke-width="2.8"/>
+          <path d="M600 326C582 340 602 357 587 372C574 383 554 373 542 389C530 403 543 417 530 429C518 440 492 426 486 447M613 362C598 376 615 392 603 408C591 420 570 410 562 427C555 444 570 455 556 467C539 479 518 462 508 479C497 495 508 508 492 522M599 435C587 448 602 467 587 482C575 496 549 485 541 504C534 522 556 532 543 548C531 560 509 547 509 571M609 507C594 518 610 535 595 549C580 563 562 552 560 575C559 592 581 594 581 609M527 374C518 389 534 397 527 409M487 465C501 457 508 444 503 434M575 339C562 351 575 359 568 370M603 581C592 573 580 578 583 591" stroke="#abb2af" stroke-width="6"/>
+          <path d="M601 326C583 340 603 357 588 372C575 383 555 373 543 389C531 403 544 417 531 429C519 440 493 426 487 447M614 362C599 376 616 392 604 408C592 420 571 410 563 427C556 444 571 455 557 467C540 479 519 462 509 479C498 495 509 508 493 522M600 435C588 448 603 467 588 482C576 496 550 485 542 504C535 522 557 532 544 548C532 560 510 547 510 571M610 507C595 518 611 535 596 549C581 563 563 552 561 575C560 592 582 594 582 609" stroke="#f9f9f6" stroke-width="2.5"/>
+        </g>
+      </defs>
+      <g class="parietal-lobe" data-parietal-lobe="left" role="button" tabindex="0" aria-label="Toggle lesion in left parietal lobe" aria-pressed="false">
+        <g class="lobe-tissue"><use href="#parietal-hemisphere"/><path class="parietal-patch" d="M488 463Q541 440 612 464L611 535Q553 550 497 523Q480 499 488 463Z" fill="#cde2e9" fill-opacity=".72" stroke="#447c9b" stroke-width="2.5"/></g>
+        <text x="552" y="492" text-anchor="middle" fill="#1d3552" font-size="19" font-weight="600" pointer-events="none">Left parietal</text>
+        <g class="lesion-mark" aria-hidden="true"><path d="M534 510L570 546M570 510L534 546" fill="none" stroke="#b64c3f" stroke-width="5"/><text x="552" y="576" text-anchor="middle" fill="#a54438">LESION</text></g>
+      </g>
+      <g class="parietal-lobe" data-parietal-lobe="right" role="button" tabindex="0" aria-label="Toggle lesion in right parietal lobe" aria-pressed="false">
+        <g class="lobe-tissue"><use href="#parietal-hemisphere" transform="translate(1280 0) scale(-1 1)"/><path class="parietal-patch" d="M792 463Q739 440 668 464L669 535Q727 550 783 523Q800 499 792 463Z" fill="#eddcc0" fill-opacity=".72" stroke="#9a692d" stroke-width="2.5"/></g>
+        <text x="728" y="492" text-anchor="middle" fill="#1d3552" font-size="19" font-weight="600" pointer-events="none">Right parietal</text>
+        <g class="lesion-mark" aria-hidden="true"><path d="M710 510L746 546M746 510L710 546" fill="none" stroke="#b64c3f" stroke-width="5"/><text x="728" y="576" text-anchor="middle" fill="#a54438">LESION</text></g>
+      </g>
+      <text x="320" y="631" text-anchor="middle" class="diagram-note">Mainly supports right space</text><text x="945" y="631" text-anchor="middle" class="diagram-note">Supports both sides; favors the left</text>
+      <text x="48" y="674" class="diagram-note">Arrow weight = relative attentional support · schematic, not measured neural tracts</text>
+    </svg>
+    <div class="learning-caption" aria-live="polite"><span data-parietal-stage>BOTH CONTRIBUTIONS AVAILABLE</span><p data-parietal-caption>Right parietal attention covers both sides, favoring the left. Left parietal attention mainly supports the right.</p></div>
+  </div>
+  <div class="learning-controls"><button type="button" data-parietal-reset>↺ Clear lesion</button><button type="button" data-illustration-fullscreen>⛶ Fullscreen</button></div>
+  <p class="learning-limit">One illustrative lesion at a time. Actual neglect and compensation vary. Removing the marker resets the illustration.</p>
+</section>
+<style>
+  .attention-region{fill:#1d3552;font-size:25px;font-weight:600}.attention-contribution,.lobe-tissue,[data-space-side]{transition:opacity .3s ease}.hemisphere-outline{fill:#f4f0e5;stroke:#617381;stroke-width:2.5}.hemisphere-grooves{fill:none;stroke:#c5cdc2;stroke-width:2}.parietal-patch{stroke-width:2}.patch-left{fill:#dcebf3;stroke:#447c9b}.patch-right{fill:#f0e2cc;stroke:#9a692d}.parietal-lobe{cursor:pointer;touch-action:manipulation;outline:none}.parietal-lobe:focus-visible .parietal-patch{stroke:#a37b20;stroke-width:5}.lobe-name{fill:#1d3552;font-size:19px;font-weight:600;pointer-events:none}.lesion-mark{opacity:0;pointer-events:none;transition:opacity .2s}.lesion-mark path{stroke:#b64c3f;stroke-width:5}.lesion-mark text{fill:#a54438;font-size:15px;font-weight:600;letter-spacing:2px}
+  [data-preview=left] [data-parietal-lobe=left] .lobe-tissue,[data-preview=right] [data-parietal-lobe=right] .lobe-tissue,[data-preview=left] [data-parietal-side=left],[data-preview=right] [data-parietal-side=right]{opacity:.46}
+  [data-lesion=left] [data-parietal-lobe=left] .lobe-tissue,[data-lesion=right] [data-parietal-lobe=right] .lobe-tissue,[data-lesion=left] [data-parietal-side=left],[data-lesion=right] [data-parietal-side=right]{opacity:.16}
+  [data-lesion=left] [data-parietal-lobe=left] .lesion-mark,[data-lesion=right] [data-parietal-lobe=right] .lesion-mark{opacity:1}[data-lesion=right] [data-space-side=left]{opacity:.45}
+</style>
