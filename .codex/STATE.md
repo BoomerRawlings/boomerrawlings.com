@@ -7,7 +7,8 @@
 - L13 COMPLETE/live1703189 / Pages42786339557 fullCI/deploy.7GIFs+parietalinteraction;7,400frames/868checks.7pages/22versionedmedia hashes match; actuallive86s/56.1snetworkchapter and survivoropacity1 verified. Evidence course Packages/L13/audit/source-revision/.
 - Strum refinement live e3d1090 / Pages42783650358: smoother boxfill/stroke/width; circle scale .6/.68/.8/1/1.22/1.42/1.58. Both3trialcaps/pause/reset/maxlabels local review and actuallive cycle/styles verified. Evidence Packages/L15/audit/strum-emphasis/.
 - L12/L15/L19 already live. L19 source correction a69254f:114/62/68/66s guided originalfigures;6,200frames; exactversionedmedia/livebrowser. L12Posner106s originaltask+graph. Approved BG master untouched SHA256b4e2806ad6585b137761551af1aa4c4a8ecdcf7d63290ad2c230289b3b5e6b28.
-- Next release L14, then L16/L17/L18 + L12three breakdown reset/title and L19two clips prose/clutter; optional L15wording. Other modules remain unavailable until reviewed. Course BUILD_COMPLETION.md authoritative checklist.
+- L14 commit1cffd72 fullCI42789021135 passed; GitHubPages deployment timed out after10min syncing_files. Fresh state commit retries release; live verification pending. No hosting changes.
+- Next finish L14 deployment, then L16/L17/L18 + L12three breakdown reset/title and L19two clips prose/clutter; optional L15wording. L16 originalfigure prototypes now source/static/motion reviewed; variants rendering privately. Course BUILD_COMPLETION.md authoritative checklist.
 - Preserve intro/portal and unlisted password /brain/lectures/. Directassets noindex, skipintro/startpaused;GIF downloads only. Content-hashed mediaURLs prevent stalevideo/newchapters. Verify actual browser after deploy. GitHubPages only; noDNS/hosting change. Preserve unrelated work below.
 - Usage41%→43%weekly account-wide during currentbatch; rounded/not exacttask attribution. No userselected hard ceiling. Deadline TuesdayNovember10 endofday Pacific.
 
