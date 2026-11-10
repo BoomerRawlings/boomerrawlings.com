@@ -125,7 +125,7 @@
         6,
         8
       ],
-      "duration": 45,
+      "duration": 58,
       "width": 1280,
       "height": 720,
       "gif": "place-cells.gif",
@@ -134,23 +134,23 @@
       "chapters": [
         {
           "time": 0,
-          "title": "Fixed fields"
-        },
-        {
-          "time": 6,
-          "title": "Outside the fields"
+          "title": "One cell, many recorded locations"
         },
         {
           "time": 12,
-          "title": "A → B → C"
+          "title": "Gray paths trace exploration"
         },
         {
-          "time": 30,
-          "title": "Spatial selectivity"
+          "time": 26,
+          "title": "Firing clusters in one part of the environment"
         },
         {
-          "time": 38,
-          "title": "Teaching reset"
+          "time": 40,
+          "title": "A record of activity across exploration"
+        },
+        {
+          "time": 52,
+          "title": "Return to overview"
         }
       ],
       "sources": [
@@ -260,7 +260,7 @@
         10,
         22
       ],
-      "duration": 52,
+      "duration": 76,
       "width": 1280,
       "height": 720,
       "gif": "sleep-context.gif",
@@ -269,31 +269,27 @@
       "chapters": [
         {
           "time": 0,
-          "title": "Two memory systems"
+          "title": "Sleep cycles through different stages"
         },
         {
-          "time": 7,
-          "title": "Distinct rhythms"
+          "time": 12,
+          "title": "N3 supports declarative-memory consolidation"
         },
         {
-          "time": 15,
-          "title": "Disruption"
+          "time": 26,
+          "title": "Sleep rhythms occur at different time scales"
         },
         {
-          "time": 22,
-          "title": "Procedural replay"
+          "time": 42,
+          "title": "Disrupting sleep rhythms can impair memory"
         },
         {
-          "time": 30,
-          "title": "Lesion evidence"
+          "time": 56,
+          "title": "Procedural replay: a separate system"
         },
         {
-          "time": 38,
-          "title": "Keep both in view"
-        },
-        {
-          "time": 45,
-          "title": "Teaching reset"
+          "time": 70,
+          "title": "Return to overview"
         }
       ],
       "sources": [
