@@ -10,10 +10,10 @@
 - Release isolation: onlyL15 registry entries receive routes/navigation.152 public files forL12/L13/L14/L16/L17 removed after SHA256-identical canonical package verification; drafts/source/manifests retained. Tests assert held public routes/media absent. All other modules remain quality-held.
 - Draft parietal repair: equal-width upward coverage arrows; no unsupported strength/necessity ranking; leftlesion retains RH rightward coverage and visible scene. Direct lobe hover/click/move/remove remains. Not released.
 - Scope: preserved intro/portal; PSYC108/PSYC105/clickable WIP Explore. Existing practice unlisted/password-gated `/brain/lectures/`. Fast public/noindex direct assets bypass intro; animation GIF downloads; no interactable downloads. PSYC105 coming-soon accepted.
-- Status: repairedL15 synced; full npmtest passed (319teaching checks +18attention cases; existing-site suite passed). Root source/visual/motion review closed forL15; other modules held. Build605,784,709bytes; L15 only. Not yet pushed/liveverified.
-- Deployment history:2ff72d6 Pages42727046491 build passed, sync timed out; retry cancelled.5d73320 wider-release run42731450450 confirmed cancelled before deployment. Lastconfirmedlive521d152b. Pages timeout20min; no hosting/DNS migration.
-- Next: complete fullsuite; scoped commit/push; verify live lesson/interactive and ZIP/master hashes. Do not resume held bulk generation before representative prototype review.
-- Sources remain in separate course workspace; no lecture originals published. Usage began at account-wide30%weekly; report end delta.
+- Status: repairedL15 synced; full npmtest passed (319teaching checks +18attention cases; existing-site suite passed). Root source/visual/motion review closed forL15; other modules held. Build605,784,709bytes; L15 only. Released4254067; Pages42737460625 build/deploy succeeded. Live12pages200/noindex,2held URLs404,8key media hashes match. Browser directentry/coldchapter/fullscreen/retained guitar learning passed.
+- Deployment history:2ff72d6 Pages42727046491 build passed, sync timed out; retry cancelled.5d73320 wider-release run42731450450 confirmed cancelled before deployment. Superseded by successful4254067; L15 now live. Pages timeout20min; no hosting/DNS migration.
+- Next: L15 complete. Review one representative held prototype against source/interpretation/motion before variants; other modules remain unavailable.
+- Sources remain in separate course workspace; no lecture originals published. Usage30%→31%weekly account-wide for this bounded batch; not exact chat attribution.
 
 
 ## SUBS training dataset — 2026-10-29
