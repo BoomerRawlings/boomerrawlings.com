@@ -11,8 +11,8 @@
 - Prior releases: L12 9dafbb1 / Pages42741867262,4animations; L15 4254067 / Pages42737460625,9animations+finite guitar interactable. Their live hashes/route/browser checks passed; files unchanged this batch. Approved basal-ganglia master immutable b4e2806ad6585b137761551af1aa4c4a8ecdcf7d63290ad2c230289b3b5e6b28.
 - Product: preserved intro; PSYC108/PSYC105/clickable WIP Explore. Old practice unlisted/password-gated `/brain/lectures/`. Public/noindex direct assets bypass intro and start paused; GIF downloads only. No lecture originals published.
 - Held: L13/L14/L16/L17/L18 remain unavailable. Draft source/manifests/components retained, canonical course packages preserved. Parietal arrows equal-weight coverage, not strength/necessity; retain surviving coverage and visible space.
-- Next: commit/push reviewed L19, await full CI/deploy, verify live8pages/19media hashes/held404/browser, then checkpoint complete. No other module work active.
-- Infrastructure: canonical GitHub main + GitHub Pages,20min deploy timeout; no hosting/DNS change. Preserve unrelated website work below.
+- Release6b79794 / Pages42748803539 full CI/tests/build passed; attempt1 timed out syncing_files. Attempt2 reused canceled SHA deployment ID and returned blank status throughout, then timed out. Fresh commit/run will test a new deployment ID; reviewed media unchanged. Next: await fresh CI/deploy then live8pages/19media hashes/held404/browser.
+- Infrastructure: canonical GitHub main + GitHub Pages. Timeout corrected to supported600000ms; previous1200000 was silently capped with warning. Artifact369,224,938bytes compressed /620,730,197uncompressed, only2.83%over prior successful release and below1GB. No deletion/hosting/DNS change. Preserve unrelated website work below.
 - Usage:L19 began32%weekly account-wide; currently34%. L12 31→32%; L15 30→31%. Not exact chat attribution. One producer+bounded reviewer, targeted local checks + mandatory fullCI.
 
 ## SUBS training dataset — 2026-10-29
