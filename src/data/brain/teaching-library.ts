@@ -4,6 +4,7 @@ import l13 from './l13-teaching.json';
 import l14 from './l14-teaching.json';
 import l16 from './l16-teaching.json';
 import l17 from './l17-teaching.json';
+import l19 from './l19-teaching.json';
 
 export type AssetKind = 'master' | 'breakdown' | 'interactive';
 export interface TeachingAsset {
@@ -34,11 +35,12 @@ const catalog:TeachingModule[] = [
   {id:'l14',number:14,title:'Attention and neglect',subtitle:'Imagined space and salience-based selection',assets:l14Assets,downloadBundle:l14.downloadBundle},
   {id:'l15',number:15,title:'Basal ganglia',subtitle:'Movement selection and learning from outcomes',assets:l15Assets,downloadBundle:l15.downloadBundle},
   {id:'l16',number:16,title:'Memory at the synapse',subtitle:'Synaptic signaling, LTP, and LTD',assets:l16Assets,downloadBundle:l16.downloadBundle},
-  {id:'l17',number:17,title:'Types of memory',subtitle:'Parkinson’s circuits, H.M., and distinct memory systems',assets:l17Assets,downloadBundle:l17.downloadBundle}
+  {id:'l17',number:17,title:'Types of memory',subtitle:'Parkinson’s circuits, H.M., and distinct memory systems',assets:l17Assets,downloadBundle:l17.downloadBundle},
+  {id:'l19',number:19,title:'Sleep and memory',subtitle:'Place cells, coordinated replay, and lasting consolidation',assets:l19.assets as TeachingAsset[],downloadBundle:l19.downloadBundle}
 ];
 // Only reviewed modules receive routes, navigation, or downloadable public media.
 // Other catalog entries remain drafts until source, visual, and motion review pass.
-export const modules = catalog.filter(module => ['l12', 'l15'].includes(module.id));
+export const modules = catalog.filter(module => ['l12', 'l15', 'l19'].includes(module.id));
 export function assetUrl(moduleId: string, assetId: string) { return `/brain/psyc108/${moduleId}/${assetId}/`; }
 export function mediaUrl(file: string | undefined, moduleId = 'l15') { return file ? `/brain/teaching/${moduleId}/${file.split(/[\\/]/).pop()}` : ''; }
 export function slideLabel(slides: number[]) {

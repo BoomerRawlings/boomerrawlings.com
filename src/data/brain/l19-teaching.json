@@ -1,0 +1,334 @@
+{
+  "module": 19,
+  "title": "Sleep and memory",
+  "course": "PSYC 108",
+  "sourceScope": "Supplied lecture slides and narration only",
+  "downloadBundle": "psyc108-l19-gifs.zip",
+  "assets": [
+    {
+      "id": "sleep-master",
+      "title": "Sleep, replay & memory consolidation",
+      "type": "master",
+      "concept": "Sleep and neural replay",
+      "slides": [
+        5,
+        6,
+        8,
+        9,
+        10,
+        22
+      ],
+      "duration": 81,
+      "width": 1280,
+      "height": 720,
+      "gif": "sleep-master.gif",
+      "video": "sleep-master.mp4",
+      "poster": "sleep-master.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Two-stage model"
+        },
+        {
+          "time": 6,
+          "title": "Outside the fields"
+        },
+        {
+          "time": 12,
+          "title": "Encode A → B → C"
+        },
+        {
+          "time": 30,
+          "title": "The rat sleeps"
+        },
+        {
+          "time": 33,
+          "title": "Coordinated replay"
+        },
+        {
+          "time": 41,
+          "title": "Connections strengthen"
+        },
+        {
+          "time": 51,
+          "title": "Strength persists"
+        },
+        {
+          "time": 59,
+          "title": "N3 context"
+        },
+        {
+          "time": 66,
+          "title": "Procedural replay"
+        },
+        {
+          "time": 74,
+          "title": "Teaching reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L19 Sleep and memory F26-1.pdf · pages 5, 6, 8, 9, 10, 22",
+        "Lecture 20 transcript · lines 151–403"
+      ]
+    },
+    {
+      "id": "two-stage-model",
+      "title": "Two-stage consolidation during sleep",
+      "type": "breakdown",
+      "concept": "Fast and slow learning stores",
+      "slides": [
+        5,
+        6,
+        8,
+        22
+      ],
+      "duration": 59,
+      "width": 1280,
+      "height": 720,
+      "gif": "two-stage-model.gif",
+      "video": "two-stage-model.mp4",
+      "poster": "two-stage-model.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Two stores"
+        },
+        {
+          "time": 6,
+          "title": "Approach"
+        },
+        {
+          "time": 10,
+          "title": "Encode in both"
+        },
+        {
+          "time": 24,
+          "title": "Sleep"
+        },
+        {
+          "time": 27,
+          "title": "Coordinated replay"
+        },
+        {
+          "time": 35,
+          "title": "Strengthen"
+        },
+        {
+          "time": 44,
+          "title": "Strength persists"
+        },
+        {
+          "time": 52,
+          "title": "Teaching reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L19 Sleep and memory F26-1.pdf · pages 5, 6, 8, 22",
+        "Lecture 20 transcript · lines 151–191",
+        "Lecture 20 transcript · lines 310–362 · Coordinated replay and strengthening",
+        "Lecture 20 transcript · lines 210–229 · Place-field encoding example"
+      ]
+    },
+    {
+      "id": "place-cells",
+      "title": "Place cells: location and activity",
+      "type": "breakdown",
+      "concept": "Spatially selective hippocampal cells",
+      "slides": [
+        5,
+        6,
+        8
+      ],
+      "duration": 45,
+      "width": 1280,
+      "height": 720,
+      "gif": "place-cells.gif",
+      "video": "place-cells.mp4",
+      "poster": "place-cells.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Fixed fields"
+        },
+        {
+          "time": 6,
+          "title": "Outside the fields"
+        },
+        {
+          "time": 12,
+          "title": "A → B → C"
+        },
+        {
+          "time": 30,
+          "title": "Spatial selectivity"
+        },
+        {
+          "time": 38,
+          "title": "Teaching reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L19 Sleep and memory F26-1.pdf · pages 5, 6, 8",
+        "Lecture 20 transcript · lines 210–295"
+      ]
+    },
+    {
+      "id": "awake-sleep-replay",
+      "title": "Awake sequence & sleeping replay",
+      "type": "breakdown",
+      "concept": "Same order on a shorter time scale",
+      "slides": [
+        5,
+        6,
+        8
+      ],
+      "duration": 50,
+      "width": 1280,
+      "height": 720,
+      "gif": "awake-sleep-replay.gif",
+      "video": "awake-sleep-replay.mp4",
+      "poster": "awake-sleep-replay.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Complete reference"
+        },
+        {
+          "time": 6,
+          "title": "Approach"
+        },
+        {
+          "time": 10,
+          "title": "Awake sequence"
+        },
+        {
+          "time": 24,
+          "title": "Sleep"
+        },
+        {
+          "time": 27,
+          "title": "Coordinated replay"
+        },
+        {
+          "time": 35,
+          "title": "Compare histories"
+        },
+        {
+          "time": 43,
+          "title": "Teaching reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L19 Sleep and memory F26-1.pdf · pages 5, 6, 8",
+        "Lecture 20 transcript · lines 282–318"
+      ]
+    },
+    {
+      "id": "cortical-strengthening",
+      "title": "Replay & lasting connection strength",
+      "type": "breakdown",
+      "concept": "Coordinated replay and LTP",
+      "slides": [
+        5,
+        6,
+        8,
+        22
+      ],
+      "duration": 60,
+      "width": 1280,
+      "height": 720,
+      "gif": "cortical-strengthening.gif",
+      "video": "cortical-strengthening.mp4",
+      "poster": "cortical-strengthening.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Reference links"
+        },
+        {
+          "time": 6,
+          "title": "Approach"
+        },
+        {
+          "time": 10,
+          "title": "Encode in both"
+        },
+        {
+          "time": 24,
+          "title": "Sleep"
+        },
+        {
+          "time": 27,
+          "title": "Coordinated replay"
+        },
+        {
+          "time": 35,
+          "title": "Lasting change"
+        },
+        {
+          "time": 45,
+          "title": "Activity ends"
+        },
+        {
+          "time": 53,
+          "title": "Teaching reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L19 Sleep and memory F26-1.pdf · pages 5, 6, 8, 22",
+        "Lecture 20 transcript · lines 151–362"
+      ]
+    },
+    {
+      "id": "sleep-context",
+      "title": "N3 & complementary replay systems",
+      "type": "breakdown",
+      "concept": "Declarative and procedural replay context",
+      "slides": [
+        9,
+        10,
+        22
+      ],
+      "duration": 52,
+      "width": 1280,
+      "height": 720,
+      "gif": "sleep-context.gif",
+      "video": "sleep-context.mp4",
+      "poster": "sleep-context.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Two memory systems"
+        },
+        {
+          "time": 7,
+          "title": "Distinct rhythms"
+        },
+        {
+          "time": 15,
+          "title": "Disruption"
+        },
+        {
+          "time": 22,
+          "title": "Procedural replay"
+        },
+        {
+          "time": 30,
+          "title": "Lesion evidence"
+        },
+        {
+          "time": 38,
+          "title": "Keep both in view"
+        },
+        {
+          "time": 45,
+          "title": "Teaching reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L19 Sleep and memory F26-1.pdf · pages 9, 10, 22",
+        "Lecture 20 transcript · lines 329–403"
+      ]
+    }
+  ]
+}
