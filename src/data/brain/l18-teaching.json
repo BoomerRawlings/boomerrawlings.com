@@ -1,0 +1,714 @@
+{
+  "module": 18,
+  "title": "Memory systems and consolidation",
+  "course": "PSYC 108",
+  "sourceScope": "Supplied slides and spoken transcripts only",
+  "downloadBundle": "psyc108-l18-gifs.zip",
+  "assets": [
+    {
+      "id": "memory-tree",
+      "title": "The memory systems tree",
+      "type": "master",
+      "concept": "A hierarchy of memory systems",
+      "slides": [
+        15,
+        18,
+        20,
+        22,
+        23
+      ],
+      "duration": 150,
+      "width": 1280,
+      "height": 720,
+      "gif": "memory-tree.gif",
+      "video": "memory-tree.mp4",
+      "poster": "memory-tree.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Overview"
+        },
+        {
+          "time": 12,
+          "title": "Short-term"
+        },
+        {
+          "time": 24,
+          "title": "Long-term"
+        },
+        {
+          "time": 36,
+          "title": "Explicit"
+        },
+        {
+          "time": 48,
+          "title": "Events"
+        },
+        {
+          "time": 60,
+          "title": "Facts"
+        },
+        {
+          "time": 72,
+          "title": "Implicit"
+        },
+        {
+          "time": 84,
+          "title": "Skills"
+        },
+        {
+          "time": 96,
+          "title": "Priming"
+        },
+        {
+          "time": 108,
+          "title": "Conditioning"
+        },
+        {
+          "time": 120,
+          "title": "Non-assoc."
+        },
+        {
+          "time": 132,
+          "title": "HM context"
+        },
+        {
+          "time": 144,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L18 Memory consolidation F26-1.pdf · pages 15, 18, 20, 22, 23",
+        "Lecture 19 transcript · Memory systems, consolidation, and retrieval; mapped source passages in package guide"
+      ]
+    },
+    {
+      "id": "declarative-memory",
+      "title": "Declarative memory · events and facts",
+      "type": "breakdown",
+      "concept": "Episodic and semantic memory",
+      "slides": [
+        15,
+        22,
+        23
+      ],
+      "duration": 66,
+      "width": 1280,
+      "height": 720,
+      "gif": "declarative-memory.gif",
+      "video": "declarative-memory.mp4",
+      "poster": "declarative-memory.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Overview"
+        },
+        {
+          "time": 12,
+          "title": "Explicit"
+        },
+        {
+          "time": 24,
+          "title": "Events"
+        },
+        {
+          "time": 36,
+          "title": "Facts"
+        },
+        {
+          "time": 48,
+          "title": "MTL context"
+        },
+        {
+          "time": 60,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L18 Memory consolidation F26-1.pdf · pages 15, 22, 23",
+        "Lecture 19 transcript · Memory systems, consolidation, and retrieval; mapped source passages in package guide"
+      ]
+    },
+    {
+      "id": "nondeclarative-memory",
+      "title": "Non-declarative memory · implicit learning",
+      "type": "breakdown",
+      "concept": "The four implicit memory branches",
+      "slides": [
+        16,
+        17,
+        19,
+        21,
+        22,
+        23
+      ],
+      "duration": 90,
+      "width": 1280,
+      "height": 720,
+      "gif": "nondeclarative-memory.gif",
+      "video": "nondeclarative-memory.mp4",
+      "poster": "nondeclarative-memory.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Overview"
+        },
+        {
+          "time": 12,
+          "title": "Implicit"
+        },
+        {
+          "time": 24,
+          "title": "Skills"
+        },
+        {
+          "time": 36,
+          "title": "Priming"
+        },
+        {
+          "time": 48,
+          "title": "Conditioning"
+        },
+        {
+          "time": 60,
+          "title": "Non-assoc."
+        },
+        {
+          "time": 72,
+          "title": "HM context"
+        },
+        {
+          "time": 84,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L18 Memory consolidation F26-1.pdf · pages 16, 17, 19, 21, 22, 23",
+        "Lecture 19 transcript · Memory systems, consolidation, and retrieval; mapped source passages in package guide"
+      ]
+    },
+    {
+      "id": "perceptual-priming-study",
+      "title": "Gollin’s perceptual-memory test",
+      "type": "breakdown",
+      "concept": "Learning from fragmented drawings",
+      "slides": [
+        16,
+        17
+      ],
+      "duration": 74,
+      "width": 1280,
+      "height": 720,
+      "gif": "perceptual-priming-study.gif",
+      "video": "perceptual-priming-study.mp4",
+      "poster": "perceptual-priming-study.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Task"
+        },
+        {
+          "time": 12,
+          "title": "Five levels"
+        },
+        {
+          "time": 24,
+          "title": "One hour"
+        },
+        {
+          "time": 36,
+          "title": "Retest"
+        },
+        {
+          "time": 52,
+          "title": "Finding"
+        },
+        {
+          "time": 68,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L18 Memory consolidation F26-1.pdf · pages 16, 17",
+        "Lecture 19 transcript · Memory systems, consolidation, and retrieval; mapped source passages in package guide"
+      ]
+    },
+    {
+      "id": "classical-conditioning",
+      "title": "Classical conditioning",
+      "type": "breakdown",
+      "concept": "A neutral stimulus becomes a conditioned stimulus",
+      "slides": [
+        19,
+        22
+      ],
+      "duration": 54,
+      "width": 1280,
+      "height": 720,
+      "gif": "classical-conditioning.gif",
+      "video": "classical-conditioning.mp4",
+      "poster": "classical-conditioning.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Before"
+        },
+        {
+          "time": 12,
+          "title": "Pairing"
+        },
+        {
+          "time": 24,
+          "title": "After"
+        },
+        {
+          "time": 36,
+          "title": "Terms"
+        },
+        {
+          "time": 48,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L18 Memory consolidation F26-1.pdf · pages 19, 22",
+        "Lecture 19 transcript · Memory systems, consolidation, and retrieval; mapped source passages in package guide"
+      ]
+    },
+    {
+      "id": "habituation-sensitization",
+      "title": "Habituation and sensitization",
+      "type": "breakdown",
+      "concept": "Different changes in responsiveness",
+      "slides": [
+        21,
+        22
+      ],
+      "duration": 66,
+      "width": 1280,
+      "height": 720,
+      "gif": "habituation-sensitization.gif",
+      "video": "habituation-sensitization.mp4",
+      "poster": "habituation-sensitization.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Two forms"
+        },
+        {
+          "time": 12,
+          "title": "First exposure"
+        },
+        {
+          "time": 24,
+          "title": "Habituation"
+        },
+        {
+          "time": 36,
+          "title": "Threat"
+        },
+        {
+          "time": 48,
+          "title": "Sensitization"
+        },
+        {
+          "time": 60,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L18 Memory consolidation F26-1.pdf · pages 21, 22",
+        "Lecture 19 transcript · Memory systems, consolidation, and retrieval; mapped source passages in package guide"
+      ]
+    },
+    {
+      "id": "consolidation-intro",
+      "title": "Consolidation · from activity to lasting change",
+      "type": "breakdown",
+      "concept": "Transient activity and persistent memory",
+      "slides": [
+        25,
+        31
+      ],
+      "duration": 66,
+      "width": 1280,
+      "height": 720,
+      "gif": "consolidation-intro.gif",
+      "video": "consolidation-intro.mp4",
+      "poster": "consolidation-intro.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Overview"
+        },
+        {
+          "time": 12,
+          "title": "Experience"
+        },
+        {
+          "time": 24,
+          "title": "Rehearsal"
+        },
+        {
+          "time": 36,
+          "title": "Lasting change"
+        },
+        {
+          "time": 48,
+          "title": "Activity subsides"
+        },
+        {
+          "time": 60,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L18 Memory consolidation F26-1.pdf · pages 25, 31",
+        "Lecture 19 transcript · Memory systems, consolidation, and retrieval; mapped source passages in package guide"
+      ]
+    },
+    {
+      "id": "two-stores",
+      "title": "Ribot’s law and two memory stores",
+      "type": "breakdown",
+      "concept": "Temporary storage of long-term memories",
+      "slides": [
+        26,
+        27,
+        31
+      ],
+      "duration": 78,
+      "width": 1280,
+      "height": 720,
+      "gif": "two-stores.gif",
+      "video": "two-stores.mp4",
+      "poster": "two-stores.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Temporal gradient"
+        },
+        {
+          "time": 12,
+          "title": "Two stores"
+        },
+        {
+          "time": 24,
+          "title": "PZ before"
+        },
+        {
+          "time": 36,
+          "title": "PZ after"
+        },
+        {
+          "time": 48,
+          "title": "PZ result"
+        },
+        {
+          "time": 60,
+          "title": "Distinction"
+        },
+        {
+          "time": 72,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L18 Memory consolidation F26-1.pdf · pages 26, 27, 31",
+        "Lecture 19 transcript · Memory systems, consolidation, and retrieval; mapped source passages in package guide"
+      ]
+    },
+    {
+      "id": "standard-consolidation",
+      "title": "Standard consolidation model",
+      "type": "master",
+      "concept": "Changing hippocampal and cortical dependence",
+      "slides": [
+        31,
+        33
+      ],
+      "duration": 102,
+      "width": 1280,
+      "height": 720,
+      "gif": "standard-consolidation.gif",
+      "video": "standard-consolidation.mp4",
+      "poster": "standard-consolidation.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Components"
+        },
+        {
+          "time": 12,
+          "title": "Binding"
+        },
+        {
+          "time": 24,
+          "title": "Early cue"
+        },
+        {
+          "time": 36,
+          "title": "Early recall"
+        },
+        {
+          "time": 48,
+          "title": "Reactivate"
+        },
+        {
+          "time": 60,
+          "title": "Lasting links"
+        },
+        {
+          "time": 72,
+          "title": "Later recall"
+        },
+        {
+          "time": 84,
+          "title": "Model context"
+        },
+        {
+          "time": 96,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L18 Memory consolidation F26-1.pdf · pages 31, 33",
+        "Lecture 19 transcript · Memory systems, consolidation, and retrieval; mapped source passages in package guide"
+      ]
+    },
+    {
+      "id": "early-retrieval",
+      "title": "Early retrieval · hippocampal binding",
+      "type": "breakdown",
+      "concept": "Reconstructing an episode from a cue",
+      "slides": [
+        31,
+        33
+      ],
+      "duration": 66,
+      "width": 1280,
+      "height": 720,
+      "gif": "early-retrieval.gif",
+      "video": "early-retrieval.mp4",
+      "poster": "early-retrieval.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Components"
+        },
+        {
+          "time": 12,
+          "title": "Binding"
+        },
+        {
+          "time": 24,
+          "title": "Early cue"
+        },
+        {
+          "time": 36,
+          "title": "Early recall"
+        },
+        {
+          "time": 48,
+          "title": "Dependence"
+        },
+        {
+          "time": 60,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L18 Memory consolidation F26-1.pdf · pages 31, 33",
+        "Lecture 19 transcript · Memory systems, consolidation, and retrieval; mapped source passages in package guide"
+      ]
+    },
+    {
+      "id": "later-retrieval",
+      "title": "Later retrieval · stronger cortical links",
+      "type": "breakdown",
+      "concept": "Reduced hippocampal dependence",
+      "slides": [
+        31,
+        33
+      ],
+      "duration": 54,
+      "width": 1280,
+      "height": 720,
+      "gif": "later-retrieval.gif",
+      "video": "later-retrieval.mp4",
+      "poster": "later-retrieval.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Consolidated"
+        },
+        {
+          "time": 12,
+          "title": "Later recall"
+        },
+        {
+          "time": 24,
+          "title": "Lasting links"
+        },
+        {
+          "time": 36,
+          "title": "Model context"
+        },
+        {
+          "time": 48,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L18 Memory consolidation F26-1.pdf · pages 31, 33",
+        "Lecture 19 transcript · Memory systems, consolidation, and retrieval; mapped source passages in package guide"
+      ]
+    },
+    {
+      "id": "repeated-reactivation",
+      "title": "Reactivation strengthens cortical links",
+      "type": "breakdown",
+      "concept": "Activity and lasting connection strength",
+      "slides": [
+        31,
+        33
+      ],
+      "duration": 66,
+      "width": 1280,
+      "height": 720,
+      "gif": "repeated-reactivation.gif",
+      "video": "repeated-reactivation.mp4",
+      "poster": "repeated-reactivation.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Components"
+        },
+        {
+          "time": 12,
+          "title": "Binding"
+        },
+        {
+          "time": 24,
+          "title": "Reactivate"
+        },
+        {
+          "time": 36,
+          "title": "Lasting links"
+        },
+        {
+          "time": 48,
+          "title": "Model context"
+        },
+        {
+          "time": 60,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L18 Memory consolidation F26-1.pdf · pages 31, 33",
+        "Lecture 19 transcript · Memory systems, consolidation, and retrieval; mapped source passages in package guide"
+      ]
+    },
+    {
+      "id": "news-events-study",
+      "title": "Memory age and brain activity",
+      "type": "breakdown",
+      "concept": "The News Events fMRI study",
+      "slides": [
+        28,
+        29,
+        30
+      ],
+      "duration": 90,
+      "width": 1280,
+      "height": 720,
+      "gif": "news-events-study.gif",
+      "video": "news-events-study.mp4",
+      "poster": "news-events-study.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Task"
+        },
+        {
+          "time": 12,
+          "title": "Scanning"
+        },
+        {
+          "time": 24,
+          "title": "Verify answers"
+        },
+        {
+          "time": 36,
+          "title": "Medial temporal results"
+        },
+        {
+          "time": 52,
+          "title": "Frontal cortical results"
+        },
+        {
+          "time": 68,
+          "title": "Other cortical results"
+        },
+        {
+          "time": 84,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L18 Memory consolidation F26-1.pdf · pages 28, 29, 30",
+        "Lecture 19 transcript · Memory systems, consolidation, and retrieval; mapped source passages in package guide"
+      ]
+    },
+    {
+      "id": "modality-specific-retrieval",
+      "title": "Retrieval reactivates sensory cortex",
+      "type": "breakdown",
+      "concept": "Perception and remembering compared",
+      "slides": [
+        32
+      ],
+      "duration": 90,
+      "width": 1280,
+      "height": 720,
+      "gif": "modality-specific-retrieval.gif",
+      "video": "modality-specific-retrieval.mp4",
+      "poster": "modality-specific-retrieval.png",
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Day 1"
+        },
+        {
+          "time": 12,
+          "title": "Perception"
+        },
+        {
+          "time": 24,
+          "title": "Retrieval"
+        },
+        {
+          "time": 36,
+          "title": "Remembering pictures"
+        },
+        {
+          "time": 52,
+          "title": "Remembering sounds"
+        },
+        {
+          "time": 68,
+          "title": "Higher sensory"
+        },
+        {
+          "time": 84,
+          "title": "Reset"
+        }
+      ],
+      "sources": [
+        "PSYC 108 L18 Memory consolidation F26-1.pdf · pages 32",
+        "Lecture 19 transcript · Memory systems, consolidation, and retrieval; mapped source passages in package guide"
+      ]
+    }
+  ]
+}
