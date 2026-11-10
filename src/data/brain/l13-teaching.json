@@ -20,35 +20,35 @@
         13,
         15
       ],
-      "duration": 45,
+      "duration": 86,
       "chapters": [
         {
           "time": 0,
-          "title": "Networks"
+          "title": "Dorsal and ventral attention networks"
         },
         {
-          "time": 7,
-          "title": "Cue"
-        },
-        {
-          "time": 13,
-          "title": "Priming"
-        },
-        {
-          "time": 20,
-          "title": "Unexpected target"
+          "time": 12,
+          "title": "The cue directs attention before the target"
         },
         {
           "time": 26,
-          "title": "Reorient"
+          "title": "Dorsal activity prepares the attentional focus"
         },
         {
-          "time": 34,
-          "title": "Cooperate"
+          "time": 40,
+          "title": "An invalid target requires reorientation"
         },
         {
-          "time": 41,
-          "title": "Reset illustration"
+          "time": 54,
+          "title": "Ventral activity helps redirect attention"
+        },
+        {
+          "time": 68,
+          "title": "The networks work together"
+        },
+        {
+          "time": 80,
+          "title": "Return to overview"
         }
       ],
       "width": 1280,
@@ -73,31 +73,31 @@
         13,
         15
       ],
-      "duration": 38,
+      "duration": 72,
       "chapters": [
         {
           "time": 0,
-          "title": "Networks"
-        },
-        {
-          "time": 6,
-          "title": "Cue"
+          "title": "Dorsal and ventral attention networks"
         },
         {
           "time": 12,
-          "title": "Priming"
+          "title": "The cue directs attention before the target"
         },
         {
-          "time": 19,
-          "title": "Passive viewing"
+          "time": 26,
+          "title": "Dorsal activity prepares the attentional focus"
         },
         {
-          "time": 27,
-          "title": "Compare"
+          "time": 40,
+          "title": "Same cue, different instruction"
         },
         {
-          "time": 34,
-          "title": "Reset illustration"
+          "time": 54,
+          "title": "Attention prepares the sensory system"
+        },
+        {
+          "time": 66,
+          "title": "Return to overview"
         }
       ],
       "width": 1280,
@@ -117,36 +117,37 @@
       "concept": "Responding outside the current focus",
       "slides": [
         6,
+        9,
         11,
         12,
         13,
         15
       ],
-      "duration": 37,
+      "duration": 72,
       "chapters": [
         {
           "time": 0,
-          "title": "Networks"
-        },
-        {
-          "time": 6,
-          "title": "Attend right"
+          "title": "Dorsal and ventral attention networks"
         },
         {
           "time": 12,
-          "title": "Unexpected target"
-        },
-        {
-          "time": 18,
-          "title": "Reorient"
+          "title": "The cue directs attention before the target"
         },
         {
           "time": 26,
-          "title": "Updated focus"
+          "title": "An invalid target requires reorientation"
         },
         {
-          "time": 33,
-          "title": "Reset illustration"
+          "time": 40,
+          "title": "Ventral activity helps redirect attention"
+        },
+        {
+          "time": 54,
+          "title": "The networks work together"
+        },
+        {
+          "time": 66,
+          "title": "Return to overview"
         }
       ],
       "width": 1280,
@@ -155,7 +156,7 @@
       "video": "ventral-reorienting.mp4",
       "poster": "ventral-reorienting.png",
       "sources": [
-        "PSYC 108 L13 Attention F26-4.pdf · pages 6, 11, 12, 13, 15",
+        "PSYC 108 L13 Attention F26-4.pdf · pages 6, 9, 11, 12, 13, 15",
         "en-Lecture 14 - October 26th 2026 - PSYC 108 - LE [001-000-LE].txt · Lines 188–258,351–399,440–452: networks; 488–610: hemispheric coverage and pseudoneglect."
       ]
     },
@@ -168,7 +169,7 @@
         15,
         16
       ],
-      "duration": 45,
+      "duration": 47,
       "chapters": [
         {
           "time": 0,
@@ -184,7 +185,7 @@
         },
         {
           "time": 22,
-          "title": "Restore reference"
+          "title": "Compare sides"
         },
         {
           "time": 26,
@@ -196,7 +197,7 @@
         },
         {
           "time": 41,
-          "title": "Reset illustration"
+          "title": "Return to overview"
         }
       ],
       "width": 1280,
@@ -217,7 +218,7 @@
       "slides": [
         16
       ],
-      "duration": 28,
+      "duration": 30,
       "chapters": [
         {
           "time": 0,
@@ -233,7 +234,7 @@
         },
         {
           "time": 24,
-          "title": "Reset illustration"
+          "title": "Return to overview"
         }
       ],
       "width": 1280,
@@ -254,7 +255,7 @@
       "slides": [
         16
       ],
-      "duration": 28,
+      "duration": 30,
       "chapters": [
         {
           "time": 0,
@@ -270,7 +271,7 @@
         },
         {
           "time": 24,
-          "title": "Reset illustration"
+          "title": "Return to overview"
         }
       ],
       "width": 1280,
@@ -292,7 +293,7 @@
         16,
         17
       ],
-      "duration": 31,
+      "duration": 33,
       "chapters": [
         {
           "time": 0,
@@ -312,7 +313,7 @@
         },
         {
           "time": 27,
-          "title": "Reset illustration"
+          "title": "Return to overview"
         }
       ],
       "width": 1280,

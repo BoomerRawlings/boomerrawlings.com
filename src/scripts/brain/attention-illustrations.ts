@@ -12,7 +12,7 @@ export function initParietalAttention(present: (surface: HTMLElement, button: HT
     right:'With the right contribution reduced, the remaining left parietal lobe mainly supports right space. Left-side attention is more affected; the environment is still present.'
   };
   const hint=()=>{
-    root.dataset.preview=preview||'none';
+    root.dataset.preview=lesion?'none':preview||'none';
     get('[data-parietal-hint]').textContent=!preview?'Hover over a lobe to fade it. Click to place a lesion; click it again to remove the lesion.':lesion===preview?'Click this lobe again to remove the lesion marker.':lesion?`Click to move the lesion to the ${preview} parietal lobe.`:`Click to place a lesion in the ${preview} parietal lobe.`;
   };
   const render=()=>{
