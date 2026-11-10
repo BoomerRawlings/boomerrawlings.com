@@ -1,15 +1,15 @@
 # Project state
 
-## Brain professor teaching library — 2026-11-09
+## Brain professor teaching library — 2026-11-10
 
-- Mode: continuation; L19 original-figure correction local-complete, publishing. Four revised clips: master114s, two-stage62s, awake/sleep68s, strengthening66s. Original p5/p8/p10 figures; overview→steps→evidence; one reading target. Exact-spike copying removed; original different counts/order/time axes retained. Procedural scene switches to its own striatum/NREM+REM study context.
+- Mode: continuation; L19 original-figure correction COMPLETE/live a69254fa32ccce28a8c640f7333901a0d83e3bfe; Pages42778832154 fullCI+deploy success.8live pages/19versioned media hashes match;2held404; live68s replay at50.1s original axes/cold chapter verified. Four revised clips: master114s, two-stage62s, awake/sleep68s, strengthening66s. Original p5/p8/p10 figures; overview→steps→evidence; one reading target. Exact-spike copying removed; original different counts/order/time axes retained. Procedural scene switches to its own striatum/NREM+REM study context.
 - Source/static prototype gates + root actual encoded stage/transition/reset/browser review pass.6,200revised frames decoded, exact loops/MP4 durations/source-color checks. Full-size palette sampling protects thin source spikes. Local build/routes/748teaching checks pass. Cold chapter96.1s/114s duration/fullscreen/reset110.1s pass;2.1s chapter offset clears all fades.
 - All6L19 assets packaged; ZIP16,846,050bytes. Place-cells/sleep-context GIF/MP4/posters byte-identical. Their minor prose/clutter findings remain. Evidence in course `Packages/L19/audit/original-figure-revision/`; source/provenance retained privately. Full lecture decks/transcripts not published.
 - User's standard: supplied lecture slides+narration only; original figures preferred; few moving parts; one module per lecture. Immutable approved basal-ganglia master SHA256b4e2806ad6585b137761551af1aa4c4a8ecdcf7d63290ad2c230289b3b5e6b28 unchanged. OnlyL12/L15/L19 live; L13/L14/L16/L17/L18 remain held.
 - Prior release66460ec/cachefixba221cc / Pages42774620248:106s original-figure Posner +30s automatic guitar. Build-time content hashes on all media URLs prevent stale cached videos under new chapters. Verify live browser actual duration/picture after every media release.
-- Remaining polish: L12three breakdown reset/title; L19two unchanged clips' prose/clutter. Current four L19 content holds resolved locally; release/live verification pending. No new held-module production.
+- Remaining polish: L12three breakdown reset/title; L19two unchanged clips' prose/clutter. Current four L19 content holds resolved and live-verified. No new held-module production.
 - Preserve intro/portal, PSYC108/PSYC105/clickable WIP Explore; unlisted password `/brain/lectures/`. Direct assets public/noindex, skip intro/start paused; GIF downloads only. No hosting/DNS changes.
-- Usage40%→40%weekly account-wide through local correction; not exact chat attribution. One producer/bounded reviewer; mandatory fullCI on release. Preserve unrelated work below.
+- Usage40%→40%weekly account-wide through final live verification (rounded meter, not zero usage); not exact chat attribution. One producer/bounded reviewer; mandatory fullCI on release. Preserve unrelated work below.
 
 ## SUBS training dataset — 2026-10-29
 - Mode: continuation; collection/review system live. Frozen2026-10-27 roster67classes, target26,800 camera originals.123approved across29classes;26,677remaining. Global population open; no eligible release. Do not automatically refresh fleet status; roster remains in_review, not certified exhaustive.
