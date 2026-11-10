@@ -67,7 +67,7 @@ for(const module of modules){
   const gif=readFileSync(`public/brain/teaching/${module.id}/${asset.gif}`);
   assert.equal(gif.subarray(0,6).toString(),'GIF89a');assert.equal(gif.readUInt16LE(6),1280);assert.equal(gif.readUInt16LE(8),720);assert.ok(gif.includes(Buffer.from('NETSCAPE2.0')));checks+=4;
   assert.ok(page.includes('data-teaching-video'));
-  if(module.id==='l13'||module.id==='l19'&&['sleep-master','two-stage-model','awake-sleep-replay','cortical-strengthening'].includes(asset.id)){
+  if(module.id==='l13'||module.id==='l16'&&asset.id!=='go-no-go-plasticity'||module.id==='l19'&&['sleep-master','two-stage-model','awake-sleep-replay','cortical-strengthening'].includes(asset.id)){
     assert.ok(page.includes('data-chapter-offset="2.1"'),'Source-figure chapters, including reset, open after their readable fades');checks++;
   }
   if(module.id==='l14'){assert.ok(page.includes('data-chapter-offset="2.6"'),'Paused viewpoint chapters finish the turn');checks++;}

@@ -15,7 +15,7 @@
         5,
         6
       ],
-      "duration": 57,
+      "duration": 108,
       "width": 1280,
       "height": 720,
       "gif": "chemical-synapse.gif",
@@ -27,35 +27,35 @@
           "title": "Ready"
         },
         {
-          "time": 5,
+          "time": 12,
           "title": "Ca²⁺ entry"
         },
         {
-          "time": 11,
+          "time": 24,
           "title": "Release"
         },
         {
-          "time": 17,
+          "time": 36,
           "title": "Binding"
         },
         {
-          "time": 23,
+          "time": 48,
           "title": "EPSP"
         },
         {
-          "time": 31,
+          "time": 62,
           "title": "IPSP"
         },
         {
-          "time": 39,
+          "time": 76,
           "title": "Cascade"
         },
         {
-          "time": 47,
+          "time": 90,
           "title": "Firing"
         },
         {
-          "time": 53,
+          "time": 102,
           "title": "Reset"
         }
       ],
@@ -74,7 +74,7 @@
         5,
         6
       ],
-      "duration": 41,
+      "duration": 80,
       "width": 1280,
       "height": 720,
       "gif": "epsp.gif",
@@ -86,27 +86,27 @@
           "title": "Ready"
         },
         {
-          "time": 5,
+          "time": 12,
           "title": "Ca²⁺ entry"
         },
         {
-          "time": 11,
+          "time": 24,
           "title": "Release"
         },
         {
-          "time": 17,
+          "time": 36,
           "title": "Binding"
         },
         {
-          "time": 23,
+          "time": 48,
           "title": "Postsynaptic effect"
         },
         {
-          "time": 31,
+          "time": 62,
           "title": "Context"
         },
         {
-          "time": 37,
+          "time": 74,
           "title": "Reset"
         }
       ],
@@ -124,7 +124,7 @@
         4,
         5
       ],
-      "duration": 41,
+      "duration": 80,
       "width": 1280,
       "height": 720,
       "gif": "ipsp.gif",
@@ -136,27 +136,27 @@
           "title": "Ready"
         },
         {
-          "time": 5,
+          "time": 12,
           "title": "Ca²⁺ entry"
         },
         {
-          "time": 11,
+          "time": 24,
           "title": "Release"
         },
         {
-          "time": 17,
+          "time": 36,
           "title": "Binding"
         },
         {
-          "time": 23,
+          "time": 48,
           "title": "Postsynaptic effect"
         },
         {
-          "time": 31,
+          "time": 62,
           "title": "Context"
         },
         {
-          "time": 37,
+          "time": 74,
           "title": "Reset"
         }
       ],
@@ -176,7 +176,7 @@
         14,
         15
       ],
-      "duration": 41,
+      "duration": 80,
       "width": 1280,
       "height": 720,
       "gif": "second-messengers.gif",
@@ -188,27 +188,27 @@
           "title": "Ready"
         },
         {
-          "time": 5,
+          "time": 12,
           "title": "Ca²⁺ entry"
         },
         {
-          "time": 11,
+          "time": 24,
           "title": "Release"
         },
         {
-          "time": 17,
+          "time": 36,
           "title": "Binding"
         },
         {
-          "time": 23,
+          "time": 48,
           "title": "Postsynaptic effect"
         },
         {
-          "time": 31,
+          "time": 62,
           "title": "Context"
         },
         {
-          "time": 37,
+          "time": 74,
           "title": "Reset"
         }
       ],
@@ -228,7 +228,7 @@
         8,
         10
       ],
-      "duration": 71,
+      "duration": 122,
       "width": 1280,
       "height": 720,
       "gif": "synaptic-plasticity.gif",
@@ -240,43 +240,43 @@
           "title": "Reference"
         },
         {
-          "time": 5,
+          "time": 12,
           "title": "Reference test"
         },
         {
-          "time": 12,
+          "time": 24,
           "title": "LTP induction"
         },
         {
-          "time": 20,
+          "time": 36,
           "title": "After LTP"
         },
         {
-          "time": 28,
+          "time": 48,
           "title": "Possible changes"
         },
         {
-          "time": 35,
+          "time": 62,
           "title": "Hebbian learning"
         },
         {
-          "time": 41,
+          "time": 74,
           "title": "Reset illustration"
         },
         {
-          "time": 45,
+          "time": 80,
           "title": "LTD induction"
         },
         {
-          "time": 53,
+          "time": 92,
           "title": "After LTD"
         },
         {
-          "time": 61,
+          "time": 104,
           "title": "Normal process"
         },
         {
-          "time": 67,
+          "time": 116,
           "title": "Reset illustration"
         }
       ],
@@ -295,7 +295,7 @@
         7,
         8
       ],
-      "duration": 45,
+      "duration": 80,
       "width": 1280,
       "height": 720,
       "gif": "ltp.gif",
@@ -307,27 +307,27 @@
           "title": "Reference"
         },
         {
-          "time": 5,
+          "time": 12,
           "title": "Reference test"
         },
         {
-          "time": 12,
+          "time": 24,
           "title": "LTP induction"
         },
         {
-          "time": 20,
+          "time": 36,
           "title": "After LTP"
         },
         {
-          "time": 28,
+          "time": 48,
           "title": "Possible changes"
         },
         {
-          "time": 35,
+          "time": 62,
           "title": "Hebbian learning"
         },
         {
-          "time": 41,
+          "time": 74,
           "title": "Reset illustration"
         }
       ],
@@ -345,7 +345,7 @@
         6,
         10
       ],
-      "duration": 38,
+      "duration": 66,
       "width": 1280,
       "height": 720,
       "gif": "ltd.gif",
@@ -357,23 +357,23 @@
           "title": "Reference"
         },
         {
-          "time": 5,
+          "time": 12,
           "title": "Reference test"
         },
         {
-          "time": 12,
+          "time": 24,
           "title": "LTD induction"
         },
         {
-          "time": 20,
+          "time": 36,
           "title": "After LTD"
         },
         {
-          "time": 28,
+          "time": 48,
           "title": "Normal process"
         },
         {
-          "time": 34,
+          "time": 60,
           "title": "Reset illustration"
         }
       ],
