@@ -61,6 +61,9 @@ for(const module of modules){
   const gif=readFileSync(`public/brain/teaching/${module.id}/${asset.gif}`);
   assert.equal(gif.subarray(0,6).toString(),'GIF89a');assert.equal(gif.readUInt16LE(6),1280);assert.equal(gif.readUInt16LE(8),720);assert.ok(gif.includes(Buffer.from('NETSCAPE2.0')));checks+=4;
   assert.ok(page.includes('data-teaching-video'));
+  if(module.id==='l19'&&['sleep-master','two-stage-model','awake-sleep-replay','cortical-strengthening'].includes(asset.id)){
+    assert.ok(page.includes('data-chapter-offset="2.1"'),'Source-figure chapters, including reset, open after their readable fades');checks++;
+  }
   assert.ok(!/<video\b[^>]*\bautoplay/.test(page),'Direct entry starts paused');checks+=2;
   assert.ok(page.includes('download') && page.includes('.gif'),'GIF download exposed');checks++;
  }

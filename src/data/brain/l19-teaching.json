@@ -12,13 +12,12 @@
       "concept": "Sleep and neural replay",
       "slides": [
         5,
-        6,
         8,
         9,
         10,
         22
       ],
-      "duration": 81,
+      "duration": 114,
       "width": 1280,
       "height": 720,
       "gif": "sleep-master.gif",
@@ -27,47 +26,47 @@
       "chapters": [
         {
           "time": 0,
-          "title": "Two-stage model"
+          "title": "Two stores support a new memory"
         },
         {
-          "time": 6,
-          "title": "Outside the fields"
+          "time": 8,
+          "title": "New memories are encoded in both stores"
         },
         {
-          "time": 12,
-          "title": "Encode A → B → C"
+          "time": 18,
+          "title": "Awake: cells fire in a particular order"
         },
         {
-          "time": 30,
-          "title": "The rat sleeps"
+          "time": 32,
+          "title": "Asleep: the cell sequence reappears"
         },
         {
-          "time": 33,
-          "title": "Coordinated replay"
+          "time": 46,
+          "title": "Replay unfolds over a shorter interval"
         },
         {
-          "time": 41,
-          "title": "Connections strengthen"
+          "time": 60,
+          "title": "Replay links hippocampus and cortex"
         },
         {
-          "time": 51,
-          "title": "Strength persists"
+          "time": 72,
+          "title": "Reactivation can strengthen connections"
         },
         {
-          "time": 59,
-          "title": "N3 context"
+          "time": 84,
+          "title": "Sleep context: declarative memory"
         },
         {
-          "time": 66,
-          "title": "Procedural replay"
+          "time": 94,
+          "title": "Procedural memory: a separate replay system"
         },
         {
-          "time": 74,
-          "title": "Teaching reset"
+          "time": 108,
+          "title": "Return to overview"
         }
       ],
       "sources": [
-        "PSYC 108 L19 Sleep and memory F26-1.pdf · pages 5, 6, 8, 9, 10, 22",
+        "PSYC 108 L19 Sleep and memory F26-1.pdf · pages 5, 8, 9, 10, 22",
         "Lecture 20 transcript · lines 151–403"
       ]
     },
@@ -77,12 +76,9 @@
       "type": "breakdown",
       "concept": "Fast and slow learning stores",
       "slides": [
-        5,
-        6,
-        8,
-        22
+        5
       ],
-      "duration": 59,
+      "duration": 62,
       "width": 1280,
       "height": 720,
       "gif": "two-stage-model.gif",
@@ -91,42 +87,32 @@
       "chapters": [
         {
           "time": 0,
-          "title": "Two stores"
+          "title": "Two stores support a new memory"
         },
         {
-          "time": 6,
-          "title": "Approach"
+          "time": 8,
+          "title": "New memories are encoded in both stores"
         },
         {
-          "time": 10,
-          "title": "Encode in both"
+          "time": 18,
+          "title": "Sleep repeatedly reactivates new memories"
         },
         {
-          "time": 24,
-          "title": "Sleep"
-        },
-        {
-          "time": 27,
-          "title": "Coordinated replay"
-        },
-        {
-          "time": 35,
-          "title": "Strengthen"
+          "time": 32,
+          "title": "The cortical representation becomes more stable"
         },
         {
           "time": 44,
-          "title": "Strength persists"
+          "title": "Fast learning supports slower consolidation"
         },
         {
-          "time": 52,
-          "title": "Teaching reset"
+          "time": 56,
+          "title": "Return to overview"
         }
       ],
       "sources": [
-        "PSYC 108 L19 Sleep and memory F26-1.pdf · pages 5, 6, 8, 22",
-        "Lecture 20 transcript · lines 151–191",
-        "Lecture 20 transcript · lines 310–362 · Coordinated replay and strengthening",
-        "Lecture 20 transcript · lines 210–229 · Place-field encoding example"
+        "PSYC 108 L19 Sleep and memory F26-1.pdf · pages 5",
+        "Lecture 20 transcript · lines 151–191"
       ]
     },
     {
@@ -178,11 +164,9 @@
       "type": "breakdown",
       "concept": "Same order on a shorter time scale",
       "slides": [
-        5,
-        6,
         8
       ],
-      "duration": 50,
+      "duration": 68,
       "width": 1280,
       "height": 720,
       "gif": "awake-sleep-replay.gif",
@@ -191,35 +175,31 @@
       "chapters": [
         {
           "time": 0,
-          "title": "Complete reference"
+          "title": "Learning activity can replay during sleep"
         },
         {
-          "time": 6,
-          "title": "Approach"
+          "time": 8,
+          "title": "Awake: cells fire in a particular order"
         },
         {
-          "time": 10,
-          "title": "Awake sequence"
+          "time": 22,
+          "title": "Asleep: the cell sequence reappears"
         },
         {
-          "time": 24,
-          "title": "Sleep"
+          "time": 36,
+          "title": "Same cell order, different spike counts"
         },
         {
-          "time": 27,
-          "title": "Coordinated replay"
+          "time": 48,
+          "title": "Replay unfolds over a shorter interval"
         },
         {
-          "time": 35,
-          "title": "Compare histories"
-        },
-        {
-          "time": 43,
-          "title": "Teaching reset"
+          "time": 62,
+          "title": "Return to overview"
         }
       ],
       "sources": [
-        "PSYC 108 L19 Sleep and memory F26-1.pdf · pages 5, 6, 8",
+        "PSYC 108 L19 Sleep and memory F26-1.pdf · pages 8",
         "Lecture 20 transcript · lines 282–318"
       ]
     },
@@ -230,11 +210,10 @@
       "concept": "Coordinated replay and LTP",
       "slides": [
         5,
-        6,
         8,
         22
       ],
-      "duration": 60,
+      "duration": 66,
       "width": 1280,
       "height": 720,
       "gif": "cortical-strengthening.gif",
@@ -243,39 +222,31 @@
       "chapters": [
         {
           "time": 0,
-          "title": "Reference links"
+          "title": "Two stores support a new memory"
         },
         {
-          "time": 6,
-          "title": "Approach"
+          "time": 8,
+          "title": "Sleep reactivates an earlier activity sequence"
         },
         {
-          "time": 10,
-          "title": "Encode in both"
+          "time": 22,
+          "title": "Replay links hippocampus and cortex"
         },
         {
-          "time": 24,
-          "title": "Sleep"
+          "time": 34,
+          "title": "Reactivation can strengthen connections"
         },
         {
-          "time": 27,
-          "title": "Coordinated replay"
+          "time": 46,
+          "title": "Repeated reactivation supports lasting memory"
         },
         {
-          "time": 35,
-          "title": "Lasting change"
-        },
-        {
-          "time": 45,
-          "title": "Activity ends"
-        },
-        {
-          "time": 53,
-          "title": "Teaching reset"
+          "time": 60,
+          "title": "Return to overview"
         }
       ],
       "sources": [
-        "PSYC 108 L19 Sleep and memory F26-1.pdf · pages 5, 6, 8, 22",
+        "PSYC 108 L19 Sleep and memory F26-1.pdf · pages 5, 8, 22",
         "Lecture 20 transcript · lines 151–362"
       ]
     },
