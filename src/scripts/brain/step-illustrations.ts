@@ -9,7 +9,7 @@ export function initStepIllustrations(present:(surface:HTMLElement,button:HTMLBu
     const image=get<HTMLImageElement>('[data-illustration-image]');
     const screen=get<HTMLElement>('.finite-screen');
     image.addEventListener('load',()=>screen.setAttribute('aria-busy','false'));
-    image.addEventListener('error',()=>{screen.setAttribute('aria-busy','false');get('[data-illustration-caption]').textContent='This step could not load. Select Replay steps to try again.';});
+    image.addEventListener('error',()=>{screen.setAttribute('aria-busy','false');get('[data-illustration-stage]').textContent='Image unavailable · Replay to retry';get('[data-illustration-caption]').textContent='This step could not load. Select Replay steps to try again.';});
     const render=()=>{
       const current=mode.steps[step];
       if(image.getAttribute('src')!==current.poster){screen.setAttribute('aria-busy','true');image.src=current.poster;}

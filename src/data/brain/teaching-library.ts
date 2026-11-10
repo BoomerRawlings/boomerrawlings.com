@@ -28,7 +28,7 @@ const l14Assets:TeachingAsset[]=[...(l14.assets as TeachingAsset[]),
 ];
 const l16Assets:TeachingAsset[]=[...(l16.assets as TeachingAsset[]),{id:'synapse-effects',title:'Explore postsynaptic effects',type:'interactive',concept:'Chemical signaling across a synapse',slides:[4,5,6],sources:['L16 slides4–6; Lecture17 transcript: transmitter release, excitatory and inhibitory postsynaptic potentials, and second messengers.']}];
 const l17Assets:TeachingAsset[]=[...(l17.assets as TeachingAsset[]),{id:'parkinsons-illustration',title:'Dopamine support and treatment context',type:'interactive',concept:'Parkinson’s circuit and treatments',slides:[4,5,6,7,8,9,10,11],sources:['L17 slides4–11; Lecture18 transcript: dopamine loss, Go/No-Go balance, L-DOPA, and deep brain stimulation.']}];
-export const modules:TeachingModule[] = [
+const catalog:TeachingModule[] = [
   {id:'l12',number:12,title:'Attention',subtitle:'Posner cueing and covert attention',assets:l12.assets as TeachingAsset[],downloadBundle:l12.downloadBundle},
   {id:'l13',number:13,title:'Attention networks',subtitle:'Orienting, reorienting, and hemispheric contributions',assets:l13Assets,downloadBundle:l13.downloadBundle},
   {id:'l14',number:14,title:'Attention and neglect',subtitle:'Imagined space and salience-based selection',assets:l14Assets,downloadBundle:l14.downloadBundle},
@@ -36,6 +36,9 @@ export const modules:TeachingModule[] = [
   {id:'l16',number:16,title:'Memory at the synapse',subtitle:'Synaptic signaling, LTP, and LTD',assets:l16Assets,downloadBundle:l16.downloadBundle},
   {id:'l17',number:17,title:'Types of memory',subtitle:'Parkinson’s circuits, H.M., and distinct memory systems',assets:l17Assets,downloadBundle:l17.downloadBundle}
 ];
+// Only reviewed modules receive routes, navigation, or downloadable public media.
+// Other catalog entries remain drafts until source, visual, and motion review pass.
+export const modules = catalog.filter(module => module.id === 'l15');
 export function assetUrl(moduleId: string, assetId: string) { return `/brain/psyc108/${moduleId}/${assetId}/`; }
 export function mediaUrl(file: string | undefined, moduleId = 'l15') { return file ? `/brain/teaching/${moduleId}/${file.split(/[\\/]/).pop()}` : ''; }
 export function slideLabel(slides: number[]) {

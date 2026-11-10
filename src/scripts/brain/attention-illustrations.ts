@@ -8,7 +8,7 @@ export function initParietalAttention(present: (surface: HTMLElement, button: HT
   let lesion:ParietalSide|null=null,preview:ParietalSide|null=null;
   const captions={
     none:'Right parietal attention covers both sides, favoring the left. Left parietal attention mainly supports the right.',
-    left:'With the left contribution reduced, the right parietal lobe still supports both sides. This allows substantial compensation, though some deficits can remain.',
+    left:'With the left contribution reduced, the right parietal lobe still covers right space as well as left space. Substantial compensation is possible; some deficits can remain.',
     right:'With the right contribution reduced, the remaining left parietal lobe mainly supports right space. Left-side attention is more affected; the environment is still present.'
   };
   const hint=()=>{

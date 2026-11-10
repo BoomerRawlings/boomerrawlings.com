@@ -2,16 +2,18 @@
 
 ## Brain professor teaching library — 2026-11-09
 
-- Mode: new implementation within existing website; preserves unrelated ongoing objectives below.
-- Objective: professor-ready PSYC108 lecture packages, light approved circuit style, strict supplied slides/transcripts, L15 first. Deadline end of Tuesday November10 Pacific. User confirms module-by-module publication of complete audited packages.
-- Scope/decisions: PSYC108/PSYC105/clickable WIP Explore portal; existing intro aesthetics preserved; private Lectures path houses old course/atlas practice; new assets public/noindex and bypass intro; GIF downloads only for animations; finite3-trial guitar illustration.
-- Status: L15 complete:9animations/1interactable. Full npmtest passed2026-11-09, including250teachingchecks andlegacygate regressions. Commit2ff72d6 pushed; Pages42727046491 timed out syncing files after successful build. Retry issued; liveverification pending.
-- Release prepared: L12–L17 complete,45animations+6interactables. Full npmtest passed; final build/routes/artifact checks passed (908teachingchecks+18attentioncases). Allnewinteractionflows browserverified; parietalclick/move/remove/keyboard and source-shaped anatomy corrected. Pagespolltimeout extended20min after10minsync timeout; siteartifact724MB below1GB.
-- Prior integration context: L12fouranimations andL13sevenanimations integrated/source+encodedchecked. Parietalinteractable uses direct lobe hover/click, upward attention, gray folded hemispheres matchingS13p16; click/move/remove/reset/keyboard/presentation browserverified. Registrytests nowgenericwithapprovedmasterhashguard. Sidebaropensactivelecture. Remainingattention/finitePNGinterface drafts notintegrated; do notpublishunuseddrafts prematurely.
-- Sources: user-supplied course batch retained in separate course project; original lecture PDFs/transcripts not published. Approved master hash b4e2806ad6585b137761551af1aa4c4a8ecdcf7d63290ad2c230289b3b5e6b28 remains immutable.
-- Latest visual refinement: prominent red NO/green YES circles within striatum, like lecture slides25–26; explicitD2No-Go/D1Go labels. Reciprocal growth/shrink during learning, retained afterward. GIFs andinteractable verified. Paused chapter navigation seeks after caption fade.
-- Next: publish prepared L12–L17 release and verify live routes/downloads. L18/L19 source-audited packages being encoded in course workspace; integrate only after complete.
-- Risks: whole site has active unrelated projects; only scoped teaching changes should be committed. Production branch main remains canonical; no hosting/DNS migration.
+- Mode: continuation; bounded L15-only release after user quality/usage concerns. Preserve unrelated objectives below.
+- Objective: professor-ready lecture modules, light readable figures, supplied slides/transcripts only. L15 first; deadline end of Tuesday November10 Pacific.
+- Quality gates: source comparison, visual implications, actual transitions/reset/loop. Source labels or successful encoding do not establish teaching quality. Course workspace AGENTS/TEACHING_QUALITY_RULES and VISUAL_REBUILD_PLAN retain lessons and holds.
+- L15:9animations/1interactable, finite3-trial guitar with red NO/green YES circles matching slides. Circle size is learned input strength; reciprocal change persists after dopamine returns to baseline. Approved master immutable: b4e2806ad6585b137761551af1aa4c4a8ecdcf7d63290ad2c230289b3b5e6b28.
+- Repaired direct-go/indirect-no-go/Parkinson exports:3.3s true baseline hold clears scrolling trace history beforeloop;1,610frames decoded. Root reviewed actual first/last frames and local player/fullscreen/restart/loop. ZIP hash e418c50b31b55388f4cdde217d8422b33b2e5b23c2a4204c5291639938ce7a0c.
+- Release isolation: onlyL15 registry entries receive routes/navigation.152 public files forL12/L13/L14/L16/L17 removed after SHA256-identical canonical package verification; drafts/source/manifests retained. Tests assert held public routes/media absent. All other modules remain quality-held.
+- Draft parietal repair: equal-width upward coverage arrows; no unsupported strength/necessity ranking; leftlesion retains RH rightward coverage and visible scene. Direct lobe hover/click/move/remove remains. Not released.
+- Scope: preserved intro/portal; PSYC108/PSYC105/clickable WIP Explore. Existing practice unlisted/password-gated `/brain/lectures/`. Fast public/noindex direct assets bypass intro; animation GIF downloads; no interactable downloads. PSYC105 coming-soon accepted.
+- Status: repairedL15 synced; full npmtest passed (319teaching checks +18attention cases; existing-site suite passed). Root source/visual/motion review closed forL15; other modules held. Build605,784,709bytes; L15 only. Not yet pushed/liveverified.
+- Deployment history:2ff72d6 Pages42727046491 build passed, sync timed out; retry cancelled.5d73320 wider-release run42731450450 confirmed cancelled before deployment. Lastconfirmedlive521d152b. Pages timeout20min; no hosting/DNS migration.
+- Next: complete fullsuite; scoped commit/push; verify live lesson/interactive and ZIP/master hashes. Do not resume held bulk generation before representative prototype review.
+- Sources remain in separate course workspace; no lecture originals published. Usage began at account-wide30%weekly; report end delta.
 
 
 ## SUBS training dataset — 2026-10-29

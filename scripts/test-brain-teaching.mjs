@@ -51,11 +51,18 @@ for(const module of modules){
 }
 assert.equal(createHash('sha256').update(readFileSync('public/brain/teaching/l15/circuit-master.gif')).digest('hex'),'b4e2806ad6585b137761551af1aa4c4a8ecdcf7d63290ad2c230289b3b5e6b28','Approved master remains byte-identical');checks++;
 for(const id of ['l16','l17']){
+ if(!modules.some(module=>module.id===id))continue;
  const config=JSON.parse(readFileSync(`src/data/brain/${id}-interactions.json`,'utf8'));
  assert.ok(modules.find(module=>module.id===id).assets.some(asset=>asset.id===config.id&&asset.type==='interactive'),'Step illustration has a published route');checks++;
  for(const mode of config.modes)for(const step of mode.steps){
   const png=readFileSync(`public/brain/teaching/${id}/${step.poster}`);
   assert.equal(png.subarray(1,4).toString(),'PNG');assert.equal(png.readUInt32BE(16),1280);assert.equal(png.readUInt32BE(20),720);assert.ok(step.title&&step.caption);checks+=4;
+ }
+}
+for(const id of ['l12','l13','l14','l16','l17','l18','l19']){
+ if(modules.some(module=>module.id===id))continue;
+ for(const path of [`public/brain/teaching/${id}`,`dist/brain/teaching/${id}`,`dist/brain/psyc108/${id}`]){
+  assert.ok(!existsSync(path),`Unreleased module must remain unavailable: ${path}`);checks++;
  }
 }
 console.log(`Brain teaching: ${checks} content, finite-state, route and artifact checks passed.`);
