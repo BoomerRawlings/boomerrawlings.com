@@ -70,6 +70,7 @@ for(const module of modules){
   if(module.id==='l13'||module.id==='l19'&&['sleep-master','two-stage-model','awake-sleep-replay','cortical-strengthening'].includes(asset.id)){
     assert.ok(page.includes('data-chapter-offset="2.1"'),'Source-figure chapters, including reset, open after their readable fades');checks++;
   }
+  if(module.id==='l14'){assert.ok(page.includes('data-chapter-offset="2.6"'),'Paused viewpoint chapters finish the turn');checks++;}
   assert.ok(!/<video\b[^>]*\bautoplay/.test(page),'Direct entry starts paused');checks+=2;
   assert.ok(page.includes('download') && page.includes('.gif'),'GIF download exposed');checks++;
  }

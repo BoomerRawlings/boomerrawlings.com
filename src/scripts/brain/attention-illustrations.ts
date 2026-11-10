@@ -37,38 +37,15 @@ export function initParietalAttention(present: (surface: HTMLElement, button: HT
 
 export function initRepresentationalNeglect(present: (surface: HTMLElement, button: HTMLButtonElement) => Promise<void>) {
   const root=document.querySelector<HTMLElement>('[data-representational-neglect]');if(!root)return;
-  const get=<T extends Element=HTMLElement>(selector:string)=>root.querySelector<T>(selector)!;
-  type Viewpoint='duomo'|'away'|'compare';let viewpoint:Viewpoint='duomo';let step=0;
+  let viewpoint='duomo';
   const controls=[...root.querySelectorAll<HTMLButtonElement>('[data-viewpoint]')];
-  const captions:Record<Viewpoint,string[]>={
-    duomo:['Imagine standing in the square, facing the Duomo. The building symbols mark the spatial knowledge available to describe.','From this imagined viewpoint, patients reported buildings to their right and omitted those to their left. Here, D, E, and F represent the reported group.','The omitted buildings stay in the map. Switch to the opposite viewpoint to see whether that knowledge can enter the report.'],
-    away:['Now imagine standing at the Duomo, facing back across the same square. The buildings have not moved.','The imagined right is now the screen’s left: A, B, and C are reported. The new imagined left, D, E, and F, is omitted.','Previously omitted landmarks are now described. What is accessed changes with imagined attention; the spatial knowledge was not erased.'],
-    compare:['Compare the two reports from the same remembered square. Each viewpoint supplies a different set of landmarks.','Green marks the report while facing the Duomo; purple marks the report while facing away. Together the reports include both sides.','The patients had access to the spatial knowledge across viewpoints. The finding concerns neglect within imagined space, not simply loss of the stored landmarks.']
-  };
   const render=()=>{
-    const revealed=step>0;
-    root.querySelectorAll<SVGGElement>('[data-landmark]').forEach(building=>{
-      const side=building.dataset.worldSide;
-      const reported=revealed&&(viewpoint==='compare'||side===(viewpoint==='duomo'?'right':'left'));
-      building.classList.toggle('is-unreported',revealed&&!reported);
-      building.classList.toggle('report-duomo',reported&&side==='right');
-      building.classList.toggle('report-away',reported&&side==='left');
-    });
-    const observer=get<SVGGElement>('[data-square-observer]');
-    observer.style.opacity=viewpoint==='compare'?'.25':'1';
-    observer.setAttribute('transform',viewpoint==='away'?'translate(595 220) rotate(180)':'translate(595 555)');
-    get('[data-square-facing]').textContent=viewpoint==='compare'?'Both reports':viewpoint==='duomo'?'Facing the Duomo':'Facing away from the Duomo';
-    get('[data-square-report]').textContent=!revealed?'Reveal the report':viewpoint==='compare'?'A · B · C + D · E · F':viewpoint==='duomo'?'Reported: D · E · F':'Reported: A · B · C';
-    get('[data-square-caption]').textContent=captions[viewpoint][step];
-    get('[data-square-stage]').textContent=`${step+1} / 3 · ${['VIEWPOINT','REPORT','INTERPRETATION'][step]}`;
-    get<HTMLButtonElement>('[data-square-prev]').disabled=step===0;get<HTMLButtonElement>('[data-square-next]').disabled=step===2;
+    root.querySelectorAll<HTMLImageElement>('[data-square-scene]').forEach(img=>{img.hidden=img.dataset.squareScene!==viewpoint;});
     controls.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.viewpoint===viewpoint)));
   };
-  controls.forEach(button=>button.addEventListener('click',()=>{viewpoint=button.dataset.viewpoint as Viewpoint;step=0;render();}));
-  get('[data-square-prev]').addEventListener('click',()=>{step=Math.max(0,step-1);render();});
-  get('[data-square-next]').addEventListener('click',()=>{step=Math.min(2,step+1);render();});
-  get('[data-square-reset]').addEventListener('click',()=>{viewpoint='duomo';step=0;render();});
-  get('[data-illustration-fullscreen]').addEventListener('click',event=>{void present(root,event.currentTarget as HTMLButtonElement);});
+  controls.forEach(button=>button.addEventListener('click',()=>{viewpoint=button.dataset.viewpoint!;render();}));
+  root.querySelector('[data-square-reset]')!.addEventListener('click',()=>{viewpoint='duomo';render();});
+  root.querySelector('[data-illustration-fullscreen]')!.addEventListener('click',event=>{void present(root,event.currentTarget as HTMLButtonElement);});
   render();
 }
 
@@ -87,11 +64,16 @@ export function initSalienceSelection(present: (surface: HTMLElement, button: HT
     const target=get<HTMLSelectElement>('[data-salience-target]').value as Scale;
     const condition=get<HTMLSelectElement>('[data-salience-condition]').value as Stimulation;
     const result=salienceResult(bias,target,condition);
-    const letters=get<SVGGElement>('[data-salience-letters]');letters.classList.toggle('global-bias',bias==='global');letters.classList.toggle('local-bias',bias==='local');
+    root.querySelectorAll<SVGImageElement>('[data-salience-stimulus]').forEach(image=>image.setAttribute('visibility',image.dataset.salienceStimulus===bias?'visible':'hidden'));
+    get('[data-salience-setup]').setAttribute('display',revealed?'none':'inline');
+    get('[data-salience-evidence]').setAttribute('display',revealed?'inline':'none');
+    get('[data-salience-heading]').textContent=revealed?'Read the original study result':'Set the task and comparison';
+    get('[data-salience-evidence-target]').textContent=result.salient?'More-salient target':'Less-salient target';
+    get('[data-salience-evidence-condition]').textContent={pre:'Pre-TMS reference',left:'Left PPC vs. pre-TMS',right:'Right PPC vs. pre-TMS'}[condition];
     get('[data-salience-task]').textContent=target==='global'?'Name the global letter: H':'Name the local letter: S';
     get('[data-salience-level]').textContent=result.salient?'More salient':'Less salient';
     get('[data-salience-comparison]').textContent={pre:'Pre-TMS reference',left:'Left PPC TMS vs. pre-TMS',right:'Right PPC TMS vs. pre-TMS'}[condition];
-    get('[data-salience-result]').textContent=!revealed?'Reveal after setting the comparison':result.reference?'Reference performance':result.impaired?'Worse performance':'No significant change reported';
+    get('[data-salience-result]').textContent=!revealed?'Reveal after setting the comparison':result.reference?'Reference performance':result.impaired?'Worse performance':'No significant change';
     get('[data-salience-stage]').textContent=revealed?'REPORTED STUDY RESULT':'SETUP';
     const setup=bias==='global'?'Blurring the small S letters favors the global H.':'Alternating the small letters’ colors favors local S.';
     get('[data-salience-caption]').textContent=!revealed?`${setup} Naming ${target==='global'?'H':'S'} selects the ${result.salient?'more':'less'} salient information.`:result.reference?'Pre-TMS performance is the reference for the stimulation comparison. Keep the bias and task fixed when comparing stimulation conditions.':result.impaired?`${condition==='right'?'Right':'Left'} PPC TMS impaired selection of the ${result.salient?'more':'less'} salient target in this task.`:`For this target, ${condition==='right'?'right':'left'} PPC TMS produced no significant change. The result does not establish an improvement.`;

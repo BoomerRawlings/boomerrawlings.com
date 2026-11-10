@@ -1,5 +1,5 @@
 ---
-const letters=Array.from({length:7},(_,row)=>Array.from({length:5},(_,col)=>({row,col}))).flat().filter(({row,col})=>col===0||col===4||row===3);
+import {mediaUrl} from '../data/brain/teaching-library';
 ---
 <section class="guitar-learning" data-salience-selection aria-label="Salience and posterior parietal stimulation">
   <div class="salience-choices">
@@ -8,22 +8,30 @@ const letters=Array.from({length:7},(_,row)=>Array.from({length:5},(_,col)=>({ro
     <label>Comparison condition<select data-salience-condition><option value="pre">Pre-TMS</option><option value="left">Left PPC TMS</option><option value="right">Right PPC TMS</option></select></label>
   </div>
   <div class="learning-screen">
-    <svg class="learning-circuit salience-diagram" viewBox="0 0 1280 620" role="img" aria-labelledby="salience-title salience-desc">
-      <title id="salience-title">Selecting more or less salient information</title><desc id="salience-desc">A large H is made from small S letters. Stimulus bias determines which level stands out; the task determines which level to name. Compare the reported effect of left or right posterior parietal TMS with pre-TMS performance.</desc>
-      <text x="48" y="32" class="diagram-eyebrow">SALIENCE-BASED SELECTION</text><text x="48" y="76" class="diagram-heading">Which level stands out?</text><text x="48" y="112" class="diagram-note">Global / local describes scale. More / less salient describes what stands out.</text>
-      <rect x="48" y="148" width="480" height="420" fill="#f4f0e5" stroke="#c5cec1"/>
-      <g data-salience-letters class="global-bias">{letters.map(({row,col},i)=><text x={140+col*73} y={209+row*51} class:list={['local-letter',i%2===0?'alternate-a':'alternate-b']}>S</text>)}</g>
-      <text x="576" y="181" class="salience-key">TASK</text><text x="576" y="222" class="salience-value" data-salience-task>Name the global letter: H</text>
-      <text x="576" y="281" class="salience-key">TARGET SALIENCE</text><text x="576" y="322" class="salience-value" data-salience-level>More salient</text>
-      <text x="576" y="381" class="salience-key">COMPARISON</text><text x="576" y="422" class="salience-value" data-salience-comparison>Pre-TMS reference</text>
-      <rect x="565" y="455" width="660" height="110" rx="4" fill="#edf0e9" stroke="#b5c3ad"/><text x="586" y="493" class="salience-key">REPORTED RESULT</text><text x="586" y="534" class="salience-result" data-salience-result>Reveal after setting the comparison</text>
-      <text x="48" y="603" class="diagram-note">PPC = posterior parietal cortex · TMS temporarily interferes with regional function.</text>
+    <svg class="learning-circuit salience-diagram" viewBox="0 0 1280 650" role="img" aria-labelledby="salience-title salience-desc">
+      <title id="salience-title">Selecting more or less salient information</title><desc id="salience-desc">The original lecture stimulus and results graph. Global or local selects letter scale; bias determines which stands out. Higher mean interference indicates worse performance.</desc>
+      <text x="48" y="32" class="diagram-eyebrow">SALIENCE-BASED SELECTION · L14</text><text x="48" y="77" class="diagram-heading" data-salience-heading>Set the task and comparison</text>
+      <g data-salience-setup>
+        <image data-salience-stimulus="global" href={mediaUrl('interaction-global-bias.png','l14')} x="140" y="122" width="390" height="470"/>
+        <image data-salience-stimulus="local" href={mediaUrl('interaction-local-bias.png','l14')} x="140" y="122" width="390" height="470" visibility="hidden"/>
+        <text x="660" y="185" class="salience-key">TASK</text><text x="660" y="227" class="salience-value" data-salience-task>Name the global letter: H</text>
+        <text x="660" y="301" class="salience-key">TARGET SALIENCE</text><text x="660" y="343" class="salience-value" data-salience-level>More salient</text>
+        <text x="660" y="417" class="salience-key">COMPARISON</text><text x="660" y="459" class="salience-value" data-salience-comparison>Pre-TMS reference</text>
+      </g>
+      <g data-salience-evidence display="none">
+        <image href={mediaUrl('interaction-salience-results.png','l14')} x="48" y="118" width="632" height="480"/>
+        <text x="725" y="193" class="salience-key" data-salience-evidence-target>More-salient target</text>
+        <text x="725" y="244" class="salience-value" data-salience-evidence-condition>Pre-TMS reference</text>
+        <text x="725" y="321" class="salience-result" data-salience-result>Reference performance</text>
+        <text x="725" y="437" class="salience-note">Higher interference = worse</text><text x="725" y="474" class="salience-note">Read the matching group of bars.</text>
+      </g>
+      <text x="48" y="632" class="diagram-note">PPC = posterior parietal cortex · TMS temporarily interferes with regional function.</text>
     </svg>
-    <div class="learning-caption" aria-live="polite"><span data-salience-stage>SETUP</span><p data-salience-caption>Blurring the small S letters favors the global H. The instruction determines which level to select.</p></div>
+    <div class="learning-caption" aria-live="polite"><span data-salience-stage>SETUP</span><p data-salience-caption>Choose the stimulus bias, task and comparison; then reveal the study result.</p></div>
   </div>
   <div class="learning-controls"><button type="button" data-salience-reveal>Reveal study result</button><button type="button" data-salience-reset>↺ Reset</button><button type="button" data-illustration-fullscreen>⛶ Fullscreen</button></div>
-  <p class="learning-limit">Twelve finite study conditions. Results are qualitative comparisons from this task, not measured performance of the viewer.</p>
+  <p class="learning-limit">Findings apply to this study’s task. The graph shows the original evidence, not a measurement of the viewer’s performance.</p>
 </section>
 <style>
-  .salience-choices{display:flex;gap:18px;flex-wrap:wrap;margin:0 0 18px}.salience-choices label{font-size:12px;color:#a9c2cc;display:flex;flex-direction:column;gap:5px}.salience-choices select{background:#102735;color:#eafaff;border:1px solid #365563;border-radius:3px;padding:8px;max-width:100%}.local-letter{font-size:43px;font-weight:600;fill:#1d3552;text-anchor:middle}.global-bias{filter:blur(2px)}.local-bias .alternate-a{fill:#bd4b96}.local-bias .alternate-b{fill:#2d718f}.salience-key{font-size:17px;font-weight:600;fill:#536373;letter-spacing:.8px}.salience-value{font-size:29px;font-weight:600;fill:#1d3552}.salience-result{font-size:23px;fill:#1d3552}
+  .salience-choices{display:flex;gap:18px;flex-wrap:wrap;margin:0 0 18px}.salience-choices label{font-size:12px;color:#a9c2cc;display:flex;flex-direction:column;gap:5px}.salience-choices select{background:#102735;color:#eafaff;border:1px solid #365563;border-radius:3px;padding:8px;max-width:100%}.salience-key{font-size:22px;font-weight:600;fill:#536373}.salience-value{font-size:28px;font-weight:600;fill:#1d3552}.salience-result{font-size:25px;fill:#1d3552}.salience-note{font-size:22px;fill:#536373}
 </style>

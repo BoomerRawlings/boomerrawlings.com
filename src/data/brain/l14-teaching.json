@@ -14,35 +14,35 @@
         11,
         12
       ],
-      "duration": 45,
+      "duration": 78,
       "chapters": [
         {
           "time": 0,
-          "title": "Square"
+          "title": "Two patients imagine the same town square"
         },
         {
-          "time": 7,
-          "title": "Face Duomo"
+          "time": 12,
+          "title": "Imagine facing the Duomo"
         },
         {
-          "time": 14,
-          "title": "First report"
+          "time": 24,
+          "title": "Report from the first imagined viewpoint"
         },
         {
-          "time": 21,
-          "title": "Turn viewpoint"
+          "time": 36,
+          "title": "Turn the imagined viewpoint"
         },
         {
-          "time": 28,
-          "title": "New report"
+          "time": 48,
+          "title": "Previously omitted buildings are now reported"
         },
         {
-          "time": 35,
-          "title": "Combine"
+          "time": 60,
+          "title": "Compare both imagined reports"
         },
         {
-          "time": 42,
-          "title": "Reset"
+          "time": 72,
+          "title": "Return to overview"
         }
       ],
       "width": 1280,
@@ -64,27 +64,27 @@
         11,
         12
       ],
-      "duration": 31,
+      "duration": 54,
       "chapters": [
         {
           "time": 0,
-          "title": "Square"
+          "title": "Two patients imagine the same town square"
         },
         {
-          "time": 7,
-          "title": "Face Duomo"
+          "time": 12,
+          "title": "Imagine facing the Duomo"
         },
         {
-          "time": 14,
-          "title": "Report right"
+          "time": 24,
+          "title": "Report from the first imagined viewpoint"
         },
         {
-          "time": 21,
-          "title": "Mental access"
+          "time": 36,
+          "title": "Report from the first imagined viewpoint"
         },
         {
-          "time": 28,
-          "title": "Reset"
+          "time": 48,
+          "title": "Return to overview"
         }
       ],
       "width": 1280,
@@ -106,27 +106,27 @@
         11,
         12
       ],
-      "duration": 31,
+      "duration": 54,
       "chapters": [
         {
           "time": 0,
-          "title": "First report"
+          "title": "Report from the first imagined viewpoint"
         },
         {
-          "time": 7,
-          "title": "Turn viewpoint"
+          "time": 12,
+          "title": "Turn the imagined viewpoint"
         },
         {
-          "time": 14,
-          "title": "New report"
+          "time": 24,
+          "title": "Previously omitted buildings are now reported"
         },
         {
-          "time": 21,
-          "title": "Compare"
+          "time": 36,
+          "title": "Compare both imagined reports"
         },
         {
-          "time": 28,
-          "title": "Reset"
+          "time": 48,
+          "title": "Return to overview"
         }
       ],
       "width": 1280,
@@ -148,31 +148,31 @@
         11,
         12
       ],
-      "duration": 38,
+      "duration": 66,
       "chapters": [
         {
           "time": 0,
-          "title": "Face Duomo"
+          "title": "Report from the first imagined viewpoint"
         },
         {
-          "time": 7,
-          "title": "Turn viewpoint"
+          "time": 12,
+          "title": "Turn the imagined viewpoint"
         },
         {
-          "time": 14,
-          "title": "Face away"
+          "time": 24,
+          "title": "Previously omitted buildings are now reported"
         },
         {
-          "time": 21,
-          "title": "Combine"
+          "time": 36,
+          "title": "Compare both imagined reports"
         },
         {
-          "time": 28,
-          "title": "Interpret"
+          "time": 48,
+          "title": "Compare both imagined reports"
         },
         {
-          "time": 35,
-          "title": "Reset"
+          "time": 60,
+          "title": "Return to overview"
         }
       ],
       "width": 1280,
@@ -195,39 +195,39 @@
         15,
         16
       ],
-      "duration": 52,
+      "duration": 98,
       "chapters": [
         {
           "time": 0,
-          "title": "Letter levels"
+          "title": "Global and local are different letter scales"
         },
         {
-          "time": 7,
-          "title": "Visual bias"
+          "time": 12,
+          "title": "Change which level stands out"
         },
         {
-          "time": 14,
-          "title": "Task"
+          "time": 24,
+          "title": "The instruction selects global or local"
         },
         {
-          "time": 21,
-          "title": "Pre-TMS"
+          "time": 36,
+          "title": "Read the original results"
         },
         {
-          "time": 28,
-          "title": "Right PPC"
+          "time": 50,
+          "title": "Right PPC and salient selection"
         },
         {
-          "time": 35,
-          "title": "Left PPC"
+          "time": 64,
+          "title": "Left PPC and less-salient selection"
         },
         {
-          "time": 42,
-          "title": "Compare"
+          "time": 78,
+          "title": "Different contributions in this task"
         },
         {
-          "time": 49,
-          "title": "Reset"
+          "time": 92,
+          "title": "Return to overview"
         }
       ],
       "width": 1280,
@@ -248,31 +248,31 @@
       "slides": [
         14
       ],
-      "duration": 38,
+      "duration": 66,
       "chapters": [
         {
           "time": 0,
-          "title": "Letter levels"
+          "title": "Global and local are different letter scales"
         },
         {
-          "time": 7,
-          "title": "Global bias"
+          "time": 12,
+          "title": "Global bias makes H more salient"
         },
         {
-          "time": 14,
-          "title": "Local bias"
+          "time": 24,
+          "title": "Local bias makes S more salient"
         },
         {
-          "time": 21,
-          "title": "Task matters"
+          "time": 36,
+          "title": "The instruction selects global or local"
         },
         {
-          "time": 28,
-          "title": "Compare"
+          "time": 48,
+          "title": "The instruction selects global or local"
         },
         {
-          "time": 35,
-          "title": "Reset"
+          "time": 60,
+          "title": "Return to overview"
         }
       ],
       "width": 1280,
@@ -295,31 +295,31 @@
         15,
         16
       ],
-      "duration": 38,
+      "duration": 74,
       "chapters": [
         {
           "time": 0,
-          "title": "Bias & task"
+          "title": "Select the more-salient letter"
         },
         {
-          "time": 7,
-          "title": "Pre-TMS"
+          "time": 12,
+          "title": "Read the original results"
         },
         {
-          "time": 14,
-          "title": "Right PPC"
+          "time": 26,
+          "title": "Right PPC and salient selection"
         },
         {
-          "time": 21,
-          "title": "Left PPC"
+          "time": 40,
+          "title": "Left PPC and less-salient selection"
         },
         {
-          "time": 28,
-          "title": "Interpret"
+          "time": 54,
+          "title": "Different contributions in this task"
         },
         {
-          "time": 35,
-          "title": "Reset"
+          "time": 68,
+          "title": "Return to overview"
         }
       ],
       "width": 1280,
@@ -342,31 +342,31 @@
         15,
         16
       ],
-      "duration": 38,
+      "duration": 74,
       "chapters": [
         {
           "time": 0,
-          "title": "Bias & task"
+          "title": "Select the less-salient letter"
         },
         {
-          "time": 7,
-          "title": "Pre-TMS"
+          "time": 12,
+          "title": "Read the original results"
         },
         {
-          "time": 14,
-          "title": "Left PPC"
+          "time": 26,
+          "title": "Left PPC and less-salient selection"
         },
         {
-          "time": 21,
-          "title": "Right PPC"
+          "time": 40,
+          "title": "Right PPC and salient selection"
         },
         {
-          "time": 28,
-          "title": "Interpret"
+          "time": 54,
+          "title": "Different contributions in this task"
         },
         {
-          "time": 35,
-          "title": "Reset"
+          "time": 68,
+          "title": "Return to overview"
         }
       ],
       "width": 1280,
