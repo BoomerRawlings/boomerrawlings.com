@@ -1,6 +1,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { extname, join, relative } from 'node:path';
 import { createHash } from 'node:crypto';
+import { buildSync } from 'esbuild';
 
 const output = 'dist';
 if (!existsSync(output)) throw new Error('dist/ does not exist; run the build first');
@@ -32,7 +33,15 @@ const redirectTargets = new Map([
   [join('work', 'icloud-media-archive', 'index.html'), '/work/organizing-icloud-media/'],
   [join('work', 'personal-archive', 'index.html'), '/work/organizing-icloud-media/'],
 ]);
+const teachingRegistry = buildSync({entryPoints:['src/data/brain/teaching-library.ts'],bundle:true,write:false,platform:'node',format:'esm'}).outputFiles[0].text;
+const {modules: teachingModules} = await import(`data:text/javascript;base64,${Buffer.from(teachingRegistry).toString('base64')}`);
+const brainTeachingPaths = new Set([
+  join('brain','lectures','index.html'),
+  join('brain','psyc108','index.html'),
+  ...teachingModules.flatMap(module=>module.assets.map(asset=>join('brain','psyc108',module.id,asset.id,'index.html'))),
+]);
 const unlistedContentPaths = new Set([
+  ...brainTeachingPaths,
   join('aristotter', 'index.html'),
   join('deckle', 'index.html'),
   join('swc', 'index.html'),
@@ -61,13 +70,21 @@ const unlistedHtmlFiles = htmlFiles.filter(
 const standaloneHtmlFiles = htmlFiles.filter(
   (file) => standaloneContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 36 || standaloneHtmlFiles.length !== 8 || unlistedHtmlFiles.length !== 13 || htmlFiles.length !== 64) {
+if (contentHtmlFiles.length !== 36 || standaloneHtmlFiles.length !== 8 || unlistedHtmlFiles.length !== unlistedContentPaths.size || htmlFiles.length !== 51 + unlistedContentPaths.size) {
   throw new Error(
-    `expected 36 portfolio pages, 8 standalone pages, 13 unlisted pages, and 7 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 36 portfolio pages, 8 standalone pages, ${unlistedContentPaths.size} unlisted pages, and 7 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
 const failures = [];
+for (const path of brainTeachingPaths) {
+  const html = readFileSync(join(output,path),'utf8');
+  if(!html.includes('<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">'))failures.push(`${path}: teaching/lecture route must remain unindexed`);
+  for(const [,href] of html.matchAll(/href="(\/[^"#?]*)"/g)) {
+    const target=href.endsWith('/')?join(output,href,'index.html'):join(output,href);
+    if(!existsSync(target))failures.push(`${path}: broken teaching link ${href}`);
+  }
+}
 
 // The sole public doorway is served by a separate authenticated Worker.
 // Keep its directory and assets entirely outside the GitHub Pages artifact.
@@ -576,7 +593,7 @@ if (!existsSync(decklePath)) {
   if (deckleHtml.includes('Open Deckle directly')) failures.push('deckle/index.html: confusing direct-link overlay must remain absent');
 }
 // Deckle owns its button inside the proxied app, not the legacy iframe wrapper.
-for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => file !== decklePath && file !== karmaPath && file !== join(output, 'BoomerKarma', 'Kemberton', 'index.html') && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html') && file !== join(output, 'ead', 'index.html') && file !== join(output, 'subs', 'index.html') && file !== join(output, 'psyc', 'index.html') && file !== join(output, 'brain', 'index.html') && file !== join(output, 'chem', 'index.html'))) {
+for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => !brainTeachingPaths.has(relative(output, file)) && file !== decklePath && file !== karmaPath && file !== join(output, 'BoomerKarma', 'Kemberton', 'index.html') && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html') && file !== join(output, 'ead', 'index.html') && file !== join(output, 'subs', 'index.html') && file !== join(output, 'psyc', 'index.html') && file !== join(output, 'brain', 'index.html') && file !== join(output, 'chem', 'index.html'))) {
   const html = readFileSync(file, 'utf8');
   const count = (html.match(/class="support-coffee"/g) ?? []).length;
   if (html.includes('class="analysis-research"')) {

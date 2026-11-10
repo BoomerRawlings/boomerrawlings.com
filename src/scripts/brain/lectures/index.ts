@@ -1,6 +1,7 @@
 import { unlockLectures, LectureAccessError } from './access';
 import { createLecturePresenter } from './presenter';
 import type { LectureCourse, Lecture, LectureResource } from './types';
+import { isLectureRoom, setLectureAccess } from '../legacy-access';
 
 function el<K extends keyof HTMLElementTagNameMap>(tag:K,text='',className=''){
   const node=document.createElement(tag);node.textContent=text;if(className)node.className=className;return node;
@@ -9,6 +10,7 @@ function button(text:string,action:()=>void,className=''){const node=el('button'
 function link(text:string,url:string){const node=el('a',text);node.href=url;node.target='_blank';node.rel='noopener noreferrer';return node;}
 
 export function initializeLectures(host:HTMLElement){
+  host.replaceChildren();
   const content=el('div','','lecture-content'),playerHost=el('div');host.append(content,playerHost);
   const status=el('p','','lecture-announcement');status.setAttribute('role','status');host.append(status);
   let course:LectureCourse|null=null,active=false,request:AbortController|null=null,generation=0;
@@ -39,7 +41,7 @@ export function initializeLectures(host:HTMLElement){
       const current=++generation;request=new AbortController();input.disabled=true;submit.disabled=true;submit.textContent='Opening…';cancel.hidden=false;error.textContent='';input.removeAttribute('aria-invalid');form.setAttribute('aria-busy','true');
       try{
         const next=await unlockLectures(password,request.signal);
-        if(current!==generation||!active)return;course=next;renderMap();announce(`${next.title} opened.`);content.querySelector<HTMLElement>('h2')?.focus({preventScroll:true});
+        if(current!==generation||!active)return;course=next;renderMap();setLectureAccess(true);announce(`${next.title} opened.`);content.querySelector<HTMLElement>('h2')?.focus({preventScroll:true});
       }catch(errorValue){
         if(current!==generation)return;
         if(errorValue instanceof DOMException&&errorValue.name==='AbortError')return;
@@ -50,7 +52,7 @@ export function initializeLectures(host:HTMLElement){
     section.append(form,el('p','Your collection stays open in this tab until you lock it or reload.','lecture-gate-footnote'));shell.append(illustration,section);content.append(shell);
   }
 
-  function lock(){request?.abort();request=null;generation++;presenter.close();course=null;opener=null;gate();announce('Lectures locked.');if(active)content.querySelector<HTMLInputElement>('input')?.focus();}
+  function lock(){request?.abort();request=null;generation++;presenter.close();course=null;opener=null;gate();setLectureAccess(false);announce('Lectures locked.');if(active)content.querySelector<HTMLInputElement>('input')?.focus();}
   function present(lecture:Lecture){
     if(!course)return;opener=document.activeElement instanceof HTMLElement?document.activeElement:null;
     if(!lecture.slides.length){showPending(lecture);return;}
@@ -118,13 +120,24 @@ export function initializeLectures(host:HTMLElement){
     const conceptual=course.connections.filter(c=>c.kind==='concept');for(const edge of conceptual){const from=course.lectures.find(l=>l.id===edge.from),to=course.lectures.find(l=>l.id===edge.to);if(!from||!to)continue;const row=el('div','','lecture-concept-edge');row.append(button(`L${from.number}`,()=>present(from)),el('span',`— ${edge.label} →`),button(`L${to.number}`,()=>present(to)));relations.append(row);}
     relations.append(el('p','Lines describe study relationships; slide order follows the supplied lectures.','lecture-small'));
     aside.append(guide,relations);if(course.preview.slides.length){aside.append(button('Presenter preview ↗',()=>{if(!course)return;opener=document.activeElement as HTMLElement;presenter.open({title:course.preview.title,subtitle:course.preview.description,slides:course.preview.slides,preview:true});},'lecture-text-button'));}
-    layout.append(road,aside);content.append(headingRow,description,layout);
+    layout.append(road,aside);content.append(headingRow,description);
+    if (isLectureRoom()) {
+      const archived = el('section', '', 'lecture-archived-tools');
+      archived.setAttribute('aria-label', 'Study and practice collections');
+      archived.append(el('p', 'STUDY & PRACTICE', 'lecture-eyebrow'));
+      const choices = el('div');
+      for (const [label, hash] of [['PSYC 105 quizzes & flashcards', '#study=105'], ['PSYC 108 quizzes & flashcards', '#study=108'], ['Atlas practice', '#mode=practice']]) {
+        const entry = el('a', label, 'lecture-text-button'); entry.href = hash; choices.append(entry);
+      }
+      archived.append(choices); content.append(archived);
+    }
+    content.append(layout);
   }
   gate();
   const pagehide=()=>{lock();};window.addEventListener('pagehide',pagehide);
   return{
     setActive(value:boolean){active=value;if(!value){request?.abort();request=null;generation++;presenter.close();if(!course)gate();}else if(!course)queueMicrotask(()=>{if(active)content.querySelector<HTMLInputElement>('input')?.focus({preventScroll:true});});},
     lock,
-    destroy(){active=false;request?.abort();request=null;generation++;course=null;opener=null;presenter.destroy();content.replaceChildren();playerHost.replaceChildren();status.replaceChildren();window.removeEventListener('pagehide',pagehide);host.replaceChildren();},
+    destroy(){active=false;request?.abort();request=null;generation++;course=null;opener=null;setLectureAccess(false);presenter.destroy();content.replaceChildren();playerHost.replaceChildren();status.replaceChildren();window.removeEventListener('pagehide',pagehide);host.replaceChildren();},
   };
 }

@@ -1,5 +1,17 @@
 # Project state
 
+## Brain professor teaching library — 2026-11-09
+
+- Mode: new implementation within existing website; preserves unrelated ongoing objectives below.
+- Objective: professor-ready PSYC108 lecture packages, light approved circuit style, strict supplied slides/transcripts, L15 first. Deadline end of Tuesday November10 Pacific. User confirms module-by-module publication of complete audited packages.
+- Scope/decisions: PSYC108/PSYC105/clickable WIP Explore portal; existing intro aesthetics preserved; private Lectures path houses old course/atlas practice; new assets public/noindex and bypass intro; GIF downloads only for animations; finite3-trial guitar illustration.
+- Status: L15 complete locally:9animations/1interactable, allGIF/MP4/posters andGIFZIP integrated. Browser controls/directentry/circlelearning/presentation checked. Full npmtest passed2026-11-09, including250teaching checks and legacygate regressions. Ready for canonical production push/live verification.
+- Sources: user-supplied course batch retained in separate course project; original lecture PDFs/transcripts not published. Approved master hash b4e2806ad6585b137761551af1aa4c4a8ecdcf7d63290ad2c230289b3b5e6b28 remains immutable.
+- Latest visual refinement: prominent red NO/green YES circles within striatum, like lecture slides25–26; explicitD2No-Go/D1Go labels. Reciprocal growth/shrink during learning, retained afterward. GIFs andinteractable verified. Paused chapter navigation seeks after caption fade.
+- Next: canonical production push/live verification; then remaining minimum lectures. Unintegrated attention-interaction drafts remain outside this release.
+- Risks: whole site has active unrelated projects; only scoped teaching changes should be committed. Production branch main remains canonical; no hosting/DNS migration.
+
+
 ## SUBS training dataset — 2026-10-29
 - Mode: continuation; collection/review system live. Frozen2026-10-27 roster67classes, target26,800 camera originals.123approved across29classes;26,677remaining. Global population open; no eligible release. Do not automatically refresh fleet status; roster remains in_review, not certified exhaustive.
 - Usage guard: maximum pace with20% user floor; operational stop25%. Call get_usage_limits before every batch/agent and every5min. At<=25% remaining in any applicable window, ordinary usage disallowed or no readable meter: stop workers/subagents, checkpoint, pause heartbeat and notify once with reset. No automatic restart, paid model APIs or credits. Latest49% remaining2026-10-29T10:20Z; secondary unavailable. Sampled account allowance, not exact tokens or hard account-wide cap.

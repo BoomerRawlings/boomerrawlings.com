@@ -1,0 +1,454 @@
+{
+  "module": 15,
+  "title": "Basal ganglia",
+  "course": "PSYC 108",
+  "sourceScope": "Supplied lecture slides and spoken transcripts only",
+  "downloadBundle": "psyc108-l15-gifs.zip",
+  "assets": [
+    {
+      "id": "circuit-master",
+      "title": "Direct & Indirect Pathways",
+      "type": "master",
+      "concept": "The complete basal ganglia circuit",
+      "slides": [
+        16,
+        17,
+        18,
+        19,
+        22,
+        28,
+        29,
+        30,
+        32,
+        33
+      ],
+      "duration": 83,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Baseline"
+        },
+        {
+          "time": 8,
+          "title": "Movement Initiation"
+        },
+        {
+          "time": 24,
+          "title": "Movement Inhibition"
+        },
+        {
+          "time": 44,
+          "title": "Basal Ganglia Overview"
+        },
+        {
+          "time": 54,
+          "title": "Parkinson’s"
+        },
+        {
+          "time": 76,
+          "title": "Return to Baseline"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "circuit-master.gif",
+      "video": "circuit-master.mp4",
+      "poster": "circuit-master.png",
+      "sources": [
+        "PSYC 108 L15 Basal ganglia F26.pdf · pages 16, 17, 18, 19, 22, 28, 29, 30, 32, 33",
+        "Lecture 16 transcript · Circuit and guitar example",
+        "Lecture 17 transcript · LTP/LTD clarification and dopamine receptor explanation"
+      ]
+    },
+    {
+      "id": "baseline-brake",
+      "title": "The baseline brake",
+      "type": "breakdown",
+      "concept": "Baseline circuit",
+      "slides": [
+        16
+      ],
+      "duration": 18,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Circuit"
+        },
+        {
+          "time": 4,
+          "title": "GPi → thalamus"
+        },
+        {
+          "time": 9,
+          "title": "GPe → STN"
+        },
+        {
+          "time": 14,
+          "title": "Baseline"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "baseline-brake.gif",
+      "video": "baseline-brake.mp4",
+      "poster": "baseline-brake.png",
+      "sources": [
+        "PSYC 108 L15 Basal ganglia F26.pdf · pages 16",
+        "Lecture 16 transcript · Circuit and guitar example",
+        "Lecture 17 transcript · LTP/LTD clarification and dopamine receptor explanation"
+      ]
+    },
+    {
+      "id": "direct-go",
+      "title": "Direct pathway · Go",
+      "type": "breakdown",
+      "concept": "Movement initiation",
+      "slides": [
+        17,
+        28
+      ],
+      "duration": 23,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Baseline"
+        },
+        {
+          "time": 4,
+          "title": "Cortical input"
+        },
+        {
+          "time": 8,
+          "title": "Go inhibits GPi"
+        },
+        {
+          "time": 12,
+          "title": "Thalamus released"
+        },
+        {
+          "time": 17,
+          "title": "Return"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "direct-go.gif",
+      "video": "direct-go.mp4",
+      "poster": "direct-go.png",
+      "sources": [
+        "PSYC 108 L15 Basal ganglia F26.pdf · pages 17, 28",
+        "Lecture 16 transcript · Circuit and guitar example",
+        "Lecture 17 transcript · LTP/LTD clarification and dopamine receptor explanation"
+      ]
+    },
+    {
+      "id": "indirect-no-go",
+      "title": "Indirect pathway · No-Go",
+      "type": "breakdown",
+      "concept": "Movement inhibition",
+      "slides": [
+        18,
+        19,
+        29
+      ],
+      "duration": 26.5,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Baseline"
+        },
+        {
+          "time": 4,
+          "title": "Cortical input"
+        },
+        {
+          "time": 7.5,
+          "title": "GPe inhibited"
+        },
+        {
+          "time": 11.5,
+          "title": "STN excites GPi"
+        },
+        {
+          "time": 15.5,
+          "title": "Thalamus inhibited"
+        },
+        {
+          "time": 20.5,
+          "title": "Return"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "indirect-no-go.gif",
+      "video": "indirect-no-go.mp4",
+      "poster": "indirect-no-go.png",
+      "sources": [
+        "PSYC 108 L15 Basal ganglia F26.pdf · pages 18, 19, 29",
+        "Lecture 16 transcript · Circuit and guitar example",
+        "Lecture 17 transcript · LTP/LTD clarification and dopamine receptor explanation"
+      ]
+    },
+    {
+      "id": "dopamine-modulation",
+      "title": "Dopamine modulates both pathways",
+      "type": "breakdown",
+      "concept": "Dopamine and receptors",
+      "slides": [
+        22,
+        28,
+        29,
+        30
+      ],
+      "duration": 23,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "SNc"
+        },
+        {
+          "time": 5,
+          "title": "D1 · Go"
+        },
+        {
+          "time": 10,
+          "title": "D2 · No-Go"
+        },
+        {
+          "time": 15,
+          "title": "Together"
+        },
+        {
+          "time": 20,
+          "title": "Baseline"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "dopamine-modulation.gif",
+      "video": "dopamine-modulation.mp4",
+      "poster": "dopamine-modulation.png",
+      "sources": [
+        "PSYC 108 L15 Basal ganglia F26.pdf · pages 22, 28, 29, 30",
+        "Lecture 16 transcript · Circuit and guitar example",
+        "Lecture 17 transcript · LTP/LTD clarification and dopamine receptor explanation"
+      ]
+    },
+    {
+      "id": "parkinsons-circuit",
+      "title": "Dopamine loss · Parkinson’s",
+      "type": "breakdown",
+      "concept": "Dopamine loss",
+      "slides": [
+        32,
+        33
+      ],
+      "duration": 31,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Baseline"
+        },
+        {
+          "time": 4,
+          "title": "SNc loss"
+        },
+        {
+          "time": 9,
+          "title": "Go ↓ · No-Go ↑"
+        },
+        {
+          "time": 14,
+          "title": "More GPi output"
+        },
+        {
+          "time": 19,
+          "title": "Less movement"
+        },
+        {
+          "time": 24,
+          "title": "Reset illustration"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "parkinsons-circuit.gif",
+      "video": "parkinsons-circuit.mp4",
+      "poster": "parkinsons-circuit.png",
+      "sources": [
+        "PSYC 108 L15 Basal ganglia F26.pdf · pages 32, 33",
+        "Lecture 16 transcript · Circuit and guitar example",
+        "Lecture 17 transcript · LTP/LTD clarification and dopamine receptor explanation"
+      ]
+    },
+    {
+      "id": "successful-strum",
+      "title": "Learning from a successful strum",
+      "type": "breakdown",
+      "concept": "Successful movement",
+      "slides": [
+        25,
+        27
+      ],
+      "duration": 30,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Starting state"
+        },
+        {
+          "time": 4,
+          "title": "Strum guitar"
+        },
+        {
+          "time": 8,
+          "title": "Dopamine burst"
+        },
+        {
+          "time": 13,
+          "title": "Learning"
+        },
+        {
+          "time": 20,
+          "title": "Learned bias"
+        },
+        {
+          "time": 26,
+          "title": "Reset illustration"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "successful-strum.gif",
+      "video": "successful-strum.mp4",
+      "poster": "successful-strum.png",
+      "sources": [
+        "PSYC 108 L15 Basal ganglia F26.pdf · pages 25, 27",
+        "Lecture 16 transcript · Circuit and guitar example",
+        "Lecture 17 transcript · LTP/LTD clarification and dopamine receptor explanation"
+      ]
+    },
+    {
+      "id": "unsuccessful-strum",
+      "title": "Learning from an unsuccessful strum",
+      "type": "breakdown",
+      "concept": "Unsuccessful movement",
+      "slides": [
+        26,
+        27
+      ],
+      "duration": 30,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Starting state"
+        },
+        {
+          "time": 4,
+          "title": "Strum guitar"
+        },
+        {
+          "time": 8,
+          "title": "Dopamine dip"
+        },
+        {
+          "time": 13,
+          "title": "Learning"
+        },
+        {
+          "time": 20,
+          "title": "Learned bias"
+        },
+        {
+          "time": 26,
+          "title": "Reset illustration"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "unsuccessful-strum.gif",
+      "video": "unsuccessful-strum.mp4",
+      "poster": "unsuccessful-strum.png",
+      "sources": [
+        "PSYC 108 L15 Basal ganglia F26.pdf · pages 26, 27",
+        "Lecture 16 transcript · Circuit and guitar example",
+        "Lecture 17 transcript · LTP/LTD clarification and dopamine receptor explanation"
+      ]
+    },
+    {
+      "id": "learning-master",
+      "title": "Learning from movement outcomes",
+      "type": "master",
+      "concept": "Dopamine and movement learning",
+      "slides": [
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ],
+      "duration": 60,
+      "chapters": [
+        {
+          "time": 0,
+          "title": "Starting state"
+        },
+        {
+          "time": 4,
+          "title": "Strum guitar"
+        },
+        {
+          "time": 8,
+          "title": "Dopamine burst"
+        },
+        {
+          "time": 13,
+          "title": "Learning"
+        },
+        {
+          "time": 20,
+          "title": "Learned bias"
+        },
+        {
+          "time": 26,
+          "title": "Reset illustration"
+        },
+        {
+          "time": 30,
+          "title": "Starting state"
+        },
+        {
+          "time": 34,
+          "title": "Strum guitar"
+        },
+        {
+          "time": 38,
+          "title": "Dopamine dip"
+        },
+        {
+          "time": 43,
+          "title": "Learning"
+        },
+        {
+          "time": 50,
+          "title": "Learned bias"
+        },
+        {
+          "time": 56,
+          "title": "Reset illustration"
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "gif": "learning-master.gif",
+      "video": "learning-master.mp4",
+      "poster": "learning-master.png",
+      "sources": [
+        "PSYC 108 L15 Basal ganglia F26.pdf · pages 22, 23, 24, 25, 26, 27",
+        "Lecture 16 transcript · Circuit and guitar example",
+        "Lecture 17 transcript · LTP/LTD clarification and dopamine receptor explanation"
+      ]
+    }
+  ]
+}

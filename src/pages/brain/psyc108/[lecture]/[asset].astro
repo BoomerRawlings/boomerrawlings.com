@@ -1,0 +1,37 @@
+---
+import TeachingShell from '../../../../layouts/TeachingShell.astro';
+import TeachingSidebar from '../../../../components/TeachingSidebar.astro';
+import GuitarLearning from '../../../../components/GuitarLearning.astro';
+import { modules, kindLabels, mediaUrl, slideLabel } from '../../../../data/brain/teaching-library';
+export function getStaticPaths() { return modules.flatMap(module => module.assets.map(asset => ({ params: { lecture: module.id, asset: asset.id }, props: { module, asset } }))); }
+const { module, asset } = Astro.props;
+---
+<TeachingShell title={`${asset.title} · PSYC 108`}>
+  <div class="teaching-workspace">
+    <TeachingSidebar activeId={asset.id} activeModule={module.id} />
+    <main id="teaching-main" class="lesson-view">
+      <header class="lesson-heading"><div><p class="teaching-eyebrow">MODULE {module.number} / {asset.concept}</p><h1>{asset.title}</h1><p class="lesson-meta"><span class={`asset-type kind-${asset.type}`}>{kindLabels[asset.type]}</span><span>{slideLabel(asset.slides)}</span></p></div><button class="copy-link" type="button" data-copy-link>Copy lesson link</button></header>
+      {asset.type === 'interactive' ? <GuitarLearning /> : <section class="animation-view" data-animation data-chapter-offset={asset.id === 'circuit-master' ? 0 : 0.3} aria-label={asset.title}>
+        <div class="animation-screen" data-fullscreen-surface>
+          <video playsinline preload="none" poster={mediaUrl(asset.poster,module.id)} width="1280" height="720" aria-label={asset.title} data-teaching-video loop>
+            <source src={mediaUrl(asset.video,module.id)} type="video/mp4" />
+            Your browser cannot play this animation. Use the GIF download below.
+          </video>
+          <div class="video-controls">
+            <button type="button" data-video-play aria-label="Play animation">▶ Play</button>
+            <button type="button" data-video-prev aria-label="Previous step">← Step</button>
+            <button type="button" data-video-next aria-label="Next step">Step →</button>
+            <button type="button" data-video-reset>↺ Restart</button>
+            <label class="speed-control">Speed<select data-video-speed><option value="0.5">0.5×</option><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option></select></label>
+            <button type="button" data-video-fullscreen>⛶ Fullscreen</button>
+          </div>
+          <label class="video-seek"><span data-video-time>0:00</span><input type="range" min="0" max={asset.duration || 1} step="0.05" value="0" aria-label="Animation position" data-video-seek /><span>{Math.floor((asset.duration || 0) / 60)}:{String(Math.floor((asset.duration || 0) % 60)).padStart(2, '0')}</span></label>
+        </div>
+        <nav class="chapter-list" aria-label="Animation steps">{asset.chapters?.map((chapter, i) => <button type="button" data-chapter-time={chapter.time} aria-current={i === 0 ? 'step' : undefined}><span>{String(i + 1).padStart(2,'0')}</span>{chapter.title}</button>)}</nav>
+        <div class="download-row"><p>Pause or step through the explanation. Download the GIF to insert into a slide.</p><a class="download-gif" href={mediaUrl(asset.gif,module.id)} download>↓ Download GIF</a></div>
+      </section>}
+      <details class="lesson-sources"><summary>Lecture sources</summary><ul>{asset.sources.map(source => <li>{source}</li>)}</ul><p>Based on the lecture slides and spoken explanation. Diagram activity and learning increments are qualitative.</p></details>
+      <p class="copy-status" role="status" data-copy-status></p>
+    </main>
+  </div>
+</TeachingShell>

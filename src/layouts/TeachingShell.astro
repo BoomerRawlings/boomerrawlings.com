@@ -1,0 +1,30 @@
+---
+import '@fontsource/source-sans-3/latin-400.css';
+import '@fontsource/source-sans-3/latin-600.css';
+import '@fontsource/teko/latin-500.css';
+import '../styles/brain-teaching.css';
+const { title = 'PSYC 108 · Concept library' } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow,noarchive,noimageindex" />
+  <meta name="referrer" content="no-referrer" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; connect-src 'self'; font-src 'self'; base-uri 'none'; object-src 'none'; form-action 'none'" />
+  <meta name="theme-color" content="#07161e" />
+  <link rel="canonical" href={`https://boomerrawlings.com${Astro.url.pathname}`} />
+  <link rel="icon" href="/brain/favicon.svg" type="image/svg+xml" />
+  <title>{title} · BRAIN</title>
+</head>
+<body class="teaching-shell">
+  <a class="teaching-skip" href="#teaching-main">Skip to lesson</a>
+  <header class="teaching-header">
+    <a class="teaching-brand" href="/brain/#portal"><span class="teaching-brand-mark">B</span><span>BRAIN<small>NEURAL STUDY INTERFACE</small></span></a>
+    <nav aria-label="Course navigation"><a href="/brain/psyc108/">PSYC 108</a><a href="/brain/#portal">Portal ↗</a></nav>
+  </header>
+  <slot />
+  <footer class="teaching-footer"><span>PSYC 108 · Cognitive neuroscience</span><span>Explore the mechanism. Follow each step.</span></footer>
+  <script>import '../scripts/brain/teaching-library';</script>
+</body>
+</html>

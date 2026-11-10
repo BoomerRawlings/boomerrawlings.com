@@ -65,6 +65,16 @@
 .portal-cloud:hover .cloud-arrow { transform: translate(2px,-2px); opacity: 1; }
 .portal-explore-stack { position: relative; display: flex; flex-direction: column; align-items: start; width: 100%; }
 .portal-explore-stack .portal-cloud { animation-delay: -2s; }
+.portal-cloud.cloud-wip { --node-accent: #91a0a6; filter: saturate(.08); color: #c5cdd0; border-color: rgba(141,157,164,.26); }
+#brain-portal .cloud-wip .cloud-icon, #brain-portal .cloud-wip .cloud-note { color: #9ca9af; }
+.cloud-wip-note { position: absolute; left: 20px; right: 20px; bottom: -32px; opacity: 0; transform: translateY(-4px); transition: opacity .2s,transform .2s; color: #c4cdd1; font: 10px/1.5 Consolas,monospace; letter-spacing: .06em; }
+.cloud-wip:hover .cloud-wip-note, .cloud-wip:focus-visible .cloud-wip-note { opacity: 1; transform: translateY(0); }
+.portal-stage[data-view='course'] > .portal-pill { margin-top: 30px; }
+.lecture-archived-tools { margin: 24px 0 35px; padding: 20px 24px; border: 1px solid rgba(110,190,210,.25); background: rgba(13,35,46,.35); }
+.lecture-archived-tools > div { display: flex; flex-wrap: wrap; gap: 16px 24px; }
+.lecture-archived-tools a { display: inline-block; color: #c4e6f1; text-decoration: none; padding: 9px 0; }
+.lecture-archived-tools a:hover { text-decoration: underline; }
+@media (hover: none) { .cloud-wip-note { opacity: 1; transform: none; } }
 .portal-practice-link { color: #9fbbc6; border: 0; background: transparent; font-size: 11px !important; padding: 9px 0 7px 23px; margin-top: 5px; text-align: left; }
 .portal-practice-link:hover { color: #e2faff; }
 .portal-core-label { position: absolute; top: calc(54svh - 88px + 170px); left: 50%; transform: translateX(-50%); width: 280px; text-align: center; pointer-events: none; }

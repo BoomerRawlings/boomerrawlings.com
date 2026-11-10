@@ -8,6 +8,7 @@ import { renderRecognition } from './recognition';
 import { initCourses, type CourseScope } from './courses';
 import { questionFeedback } from '../../../public/brain/question-feedback.js';
 import type { Narrative, PickSpec, RepresentationSpec } from './scene-types';
+import { hasLectureAccess, isLectureRoom, privateStudyMode } from './legacy-access';
 
 type Depth='essentials'|'mechanism'|'advanced';
 type Lesson={summary:string;bullets:string[]};
@@ -33,6 +34,7 @@ const courseTopics=()=>topics.filter(topic=>inCourse(topic.id));
 let savedOnly=false;
 let activeJourney:typeof journeys[number]|null=null;
 let viewer:Awaited<ReturnType<typeof createBrainViewer>>=null;
+let viewerInitialization:Promise<void>|null=null;
 let separated=false;
 let labels=true;
 let playing=!matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -187,6 +189,11 @@ function filterTopics(){
 }
 
 function setMode(nextMode:string){
+  if (!isLectureRoom() && privateStudyMode(nextMode)) {
+    location.assign(`/brain/lectures/#mode=${nextMode === 'recall' ? 'practice' : nextMode}`); return;
+  }
+  if (isLectureRoom() && !hasLectureAccess()) nextMode = 'lectures';
+  $('brain-courses').hidden = !isLectureRoom() || !hasLectureAccess();
   const changed=nextMode!==mode;
   structurePicker.close();mode=nextMode;
   const introCopy=mode==='paths'?['Connect the ideas.','Move through anatomy and mechanisms in a guided sequence.']:mode==='recall'?['Make it stick.','Practice retrieval, examine the explanation, and return to what needs work.']:mode==='lectures'?['Enter the lecture room.','Unlock your private course sessions.']:['Explore the atlas.','Follow a structure. Find a connection. See how it works.'];
@@ -204,6 +211,8 @@ function setMode(nextMode:string){
   if(mode!=='recall')requestAnimationFrame(()=>viewer?.resize());
   // The model owns its camera motion; only the newly selected reading pane enters.
   if(changed)revealScreen(mode==='explore'?document.querySelector<HTMLElement>('.reader')! : $(mode==='paths'?'paths-panel':mode==='recall'?'recall-panel':'lectures-panel'));
+  if (mode === 'explore') void ensureViewer();
+  viewer?.setPlaying(mode === 'explore' && playing && !$('brain-legacy').hidden);
 }
 
 const lectureController=initializeLectures($('lectures-panel'));
@@ -328,7 +337,8 @@ courseController=initCourses($('brain-courses'),{
   onTopic:id=>{setMode('explore');setTopic(id,true,true);$('workspace').scrollIntoView({behavior:'smooth',block:'start'});},
   onPractice:(ids,label)=>{setMode('recall');practice?.startForTopics(ids,label);$('recall-panel').scrollIntoView({behavior:'smooth',block:'start'});},
   onScopeChange:scope=>{
-    courseScope=scope;$('workspace').hidden=scope.topicIds?.length===0;activeJourney=null;round=[];answered=false;
+    courseScope=isLectureRoom()?scope:{courseId:'all',chapterId:null,topicIds:null,label:'All topics'};
+    $('workspace').hidden=courseScope.topicIds?.length===0;activeJourney=null;round=[];answered=false;
     $('recall-start').hidden=false;$('recall-quiz').hidden=true;$('recall-result').hidden=true;
     $<HTMLSelectElement>('recall-scope').value='all';
     all<HTMLOptionElement>('#recall-scope option').forEach(option=>{option.hidden=option.value!=='all'&&!courseTopics().some(t=>t.category===option.value);});
@@ -346,7 +356,9 @@ window.addEventListener('hashchange',()=>{const params=new URLSearchParams(locat
 readLocation();
 
 export function suspendLegacy(){practice?.setActive(false);lectureController.setActive(false);viewer?.setPlaying(false);}
-export function resumeLegacy(){if($('brain-legacy').hidden)return;syncLegacyMotion();readLocation();viewer?.setPlaying(playing);}
+export function resumeLegacy(){if($('brain-legacy').hidden)return;syncLegacyMotion();readLocation();viewer?.setPlaying(mode==='explore'&&playing);}
+
+function ensureViewer():Promise<void>{return viewerInitialization ||= initializeViewer();}
 
 async function initializeViewer(){
   try{
@@ -371,9 +383,8 @@ async function initializeViewer(){
       onTime:(fraction,step)=>{if(!animation)return;$<HTMLInputElement>('animation-scrub').value=String(Math.round(fraction*1000));const currentStep=animation.steps[step];$('animation-step').textContent=currentStep?.label||'';$('animation-description').textContent=currentStep?.description||'';$('animation-time').textContent=`${Math.round(fraction*100)}%`;all('#animation-steps button').forEach((el,i)=>el.setAttribute('aria-current',String(i===step)));}
     });
     if(!viewer)throw new Error('3D unavailable');
-    viewer.setPlaying(!$('brain-legacy').hidden&&playing);viewer.setLabels(labels);viewer.setTopic(selected);
+    viewer.setPlaying(mode==='explore'&&!$('brain-legacy').hidden&&playing);viewer.setLabels(labels);viewer.setTopic(selected);
   }catch{ $('model-fallback').hidden=false;$('model-provenance').textContent='Written guide available. 3D rendering could not initialize.';all<HTMLButtonElement|HTMLSelectElement>('.viewer-controls button,.viewer-controls select').forEach(el=>el.disabled=true); }
   finally{if(!viewer)$('viewer-loading').hidden=true;}
 }
-initializeViewer();
 window.addEventListener('pagehide',event=>{if(!event.persisted)viewer?.dispose();});

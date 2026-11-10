@@ -3,6 +3,7 @@ import { showStudy, getStudyAvailability } from './portal-study';
 import { claimStudyToolsReload } from './portal-load-recovery';
 import { COURSE_CATALOG, courseScopeNote, resolveStudyScope, scopeLabel, type Course, type StudyScope } from './course-catalog';
 import type { Difficulty, StudyFocus, StudyLength } from './study-bank';
+import { hasLectureAccess, isLectureRoom, privateStudyMode } from './legacy-access';
 
 const portal = document.getElementById('brain-portal')!;
 const stage = document.getElementById('portal-stage')!;
@@ -23,6 +24,7 @@ let introTimer: ReturnType<typeof setTimeout>;
 let hoverFrame = 0;
 let hoverCloud: HTMLElement | null = null;
 let hoverX = 0, hoverY = 0, targetX = 0, targetY = 0, velocityX = 0, velocityY = 0;
+let pendingPrivateHash = '';
 
 const icons = {
   mind: '<svg viewBox="0 0 80 80" fill="none" aria-hidden="true"><path d="M39 16C24 10 13 24 18 35 7 46 21 65 35 59M41 16C56 10 67 24 62 35 73 46 59 65 45 59M40 18V62M22 28Q38 26 29 40M18 45Q30 38 33 52M58 28Q42 26 51 40M62 45Q50 38 47 52"/><circle cx="40" cy="40" r="32" stroke-dasharray="2 8"/></svg>',
@@ -64,15 +66,27 @@ function home() {
   homeHeading.classList.add('portal-home-heading');
   homeHeading.querySelector('.portal-title')!.classList.add('portal-visually-hidden');
   const clouds = document.createElement('div'); clouds.className = 'portal-clouds';
-  clouds.append(cloud('PSYC 105', 'Choose your study path', 'mind', () => go('#study=105'), 'cloud-primary'));
-  clouds.append(cloud('PSYC 108', 'Choose your study path', 'orbit', () => go('#study=108'), 'cloud-primary'));
+  clouds.append(cloud('PSYC 108', 'Concepts, animations & illustrations', 'orbit', () => openCourseLibrary(), 'cloud-primary', '01 / COURSE LIBRARY'));
+  clouds.append(cloud('PSYC 105', 'A new course collection', 'mind', () => go('#course=105'), 'cloud-primary', '02 / COURSE LIBRARY'));
   const explore = document.createElement('div'); explore.className = 'portal-explore-stack';
-  explore.append(cloud('Explore', 'Step inside the models', 'explore', () => go('#mode=explore'), 'cloud-secondary'));
-  explore.append(button('Practice with the atlas ↗', () => go('#mode=practice'), 'portal-practice-link'));
-  clouds.append(explore, cloud('Lectures', 'Your private lecture room · Locked', 'lecture', () => go('#mode=lectures'), 'cloud-secondary'));
+  const atlas = cloud('Explore', 'Step inside the models', 'explore', () => go('#mode=explore'), 'cloud-secondary cloud-wip');
+  atlas.title = 'WIP · Explore remains available';
+  atlas.setAttribute('aria-describedby', 'portal-explore-wip');
+  const workInProgress = document.createElement('span'); workInProgress.className = 'cloud-wip-note';
+  workInProgress.id = 'portal-explore-wip'; workInProgress.textContent = 'WIP · Work in progress';
+  atlas.append(workInProgress); explore.append(atlas); clouds.append(explore);
   stage.append(clouds);
   const coreLabel = document.createElement('div'); coreLabel.className = 'portal-core-label'; coreLabel.setAttribute('aria-hidden','true');
   coreLabel.innerHTML = '<span>NEURAL FIELD</span><small>EXPLORE · CONNECT · RECALL</small>'; stage.append(coreLabel);
+}
+function openCourseLibrary() {
+  stage.classList.add('portal-transitioning');
+  setTimeout(() => location.assign('/brain/psyc108/'), moving ? 180 : 0);
+}
+function comingSoon() {
+  returnTo = '#portal'; stage.dataset.view = 'course';
+  heading('PSYC 105', 'Materials coming soon.', 'A dedicated collection of clear, step-by-step teaching illustrations.');
+  stage.append(button('Back to Brain', () => go('#portal')));
 }
 function studyHash(course: Course, scope: StudyScope, step?: string): string {
   return `#study=${course}&scope=${scope}${step ? `&step=${step}` : ''}`;
@@ -81,7 +95,7 @@ function quizHash(course: Course, scope: StudyScope, step: 'setup' | 'quiz', foc
   return `${studyHash(course, scope, step)}&length=${selectedLength}&difficulty=${selectedDifficulty}&focus=${focus}&shortAnswer=${includeShortAnswer ? '1' : '0'}`;
 }
 function scopeMenu(course: Course, blocked = false) {
-  returnTo = '#portal'; stage.dataset.view = 'scope';
+  returnTo = '#mode=lectures'; stage.dataset.view = 'scope';
   heading(`PSYC ${course}`, 'Choose your study path.', 'Build across the course, or focus on the next exam.');
   const grid = document.createElement('div'); grid.className = 'portal-scope-grid';
   const general = cloud('General study', `All available topics · ${COURSE_CATALOG[course].availableCoverage} currently`, 'mind', () => go(studyHash(course, 'general')), 'cloud-primary', '01 / COURSE LIBRARY');
@@ -211,6 +225,20 @@ async function route() {
   resetCloudMotion();
   const params = new URLSearchParams(location.hash.slice(1));
   const course = params.get('study');
+  const requestedMode = params.get('mode') || '';
+  if (!isLectureRoom() && (course || privateStudyMode(requestedMode))) {
+    location.replace(`/brain/lectures/${location.hash}`); return;
+  }
+  if (isLectureRoom()) {
+    if (!location.hash || location.hash === '#portal') {
+      history.replaceState(null, '', '#mode=lectures'); params.set('mode', 'lectures');
+    }
+    if (!hasLectureAccess() && (course || params.get('mode') !== 'lectures')) {
+      pendingPrivateHash = location.hash;
+      history.replaceState(null, '', '#mode=lectures');
+      await showLegacy(version); return;
+    }
+  }
   const focus: StudyFocus = params.get('focus') === 'visual' ? 'visual' : 'all';
   const includeShortAnswer = params.get('shortAnswer') === '1';
   if (!course && (params.get('view') === 'atlas' || ['mode','topic','depth'].some(key=>params.has(key)))) { await showLegacy(version); return; }
@@ -244,7 +272,8 @@ async function route() {
       const studyBack = returnTo;
       await showStudy({course,scope,focus,includeShortAnswer,mode:step === 'cards' ? 'flashcards' : 'quiz',length:validLength,difficulty:validDifficulty,container:mount,onBack:()=>go(studyBack),onFocusChange:value=>go(step === 'quiz' ? quizHash(course, scope, 'quiz', value, includeShortAnswer, validLength, validDifficulty) : `${studyHash(course, scope, step)}&focus=${value}`)});
     } else courseMenu(course, scope);
-  } else home();
+  } else if (params.get('course') === '105') comingSoon();
+  else home();
   if(version !== routeVersion) return;
   stage.querySelector<HTMLElement>('.portal-title')?.focus({preventScroll:true}); window.scrollTo({top:0,behavior:'instant'});
 }
@@ -260,7 +289,9 @@ function runIntro() {
   introTimer = setTimeout(() => { intro.classList.add('is-complete'); portal.classList.remove('portal-loading'); introTimer = setTimeout(()=>{intro.hidden = true; stage.inert = false; header.inert = false; unlocked = true; void route();},500); },6500);
 }
 back.addEventListener('click',()=>go(returnTo));
-document.getElementById('portal-home')!.addEventListener('click',()=>go('#portal'));
+document.getElementById('portal-home')!.addEventListener('click',()=>{
+  if (isLectureRoom()) go('#mode=lectures'); else go('#portal');
+});
 function resetCloudMotion() {
   cancelAnimationFrame(hoverFrame); hoverFrame = 0;
   if (hoverCloud) for (const name of ['--cloud-x', '--cloud-y', '--cloud-tilt-x', '--cloud-tilt-y']) hoverCloud.style.removeProperty(name);
@@ -307,6 +338,17 @@ window.addEventListener('brain-motion-change', event => {
 motion.addEventListener('click',()=>{moving = !moving; updateMotion();});
 matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{moving = !event.matches; updateMotion();});
 window.addEventListener('hashchange',()=>void route());
-window.addEventListener('pageshow',event=>{if(event.persisted){runIntro();updateMotion();}});
+window.addEventListener('brain-lecture-access', event => {
+  if (!isLectureRoom()) return;
+  const granted = (event as CustomEvent<{ unlocked: boolean }>).detail.unlocked;
+  if (granted && pendingPrivateHash) { const destination = pendingPrivateHash; pendingPrivateHash = ''; go(destination); }
+  else if (!granted) { pendingPrivateHash = ''; go('#mode=lectures'); }
+});
+function start() {
+  if (!isLectureRoom()) { runIntro(); return; }
+  clearTimeout(introTimer); intro.hidden = true; portal.classList.remove('portal-loading');
+  stage.inert = false; header.inert = false; unlocked = true; void route();
+}
+window.addEventListener('pageshow',event=>{if(event.persisted){start();updateMotion();}});
 window.addEventListener('pagehide',()=>{clearTimeout(introTimer);resetCloudMotion();scene?.dispose();scene=undefined;});
-updateMotion(); runIntro();
+start(); updateMotion();

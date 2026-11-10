@@ -1,0 +1,17 @@
+---
+import TeachingShell from '../../../layouts/TeachingShell.astro';
+import { modules, assetUrl, mediaUrl, kindLabels, slideLabel } from '../../../data/brain/teaching-library';
+---
+<TeachingShell>
+  <main id="teaching-main" class="course-library">
+    <div class="library-intro"><p class="teaching-eyebrow">PSYC 108 / CONCEPT LIBRARY</p><h1>See each connection.</h1><p>Clear overviews, step-by-step animations, and focused illustrations. Choose a lecture to begin.</p></div>
+    <div class="library-toolbar"><div class="type-key"><span class="kind-master">Overview / master</span><span class="kind-breakdown">Breakdown</span><span class="kind-interactive">Interactable</span></div><button type="button" data-expand-modules>Expand all</button></div>
+    <div class="module-collection">{modules.map(module => <details class="course-module" data-module>
+      <summary><span class="module-number">{module.number}</span><span class="module-heading"><small>MODULE {module.number}</small><strong>{module.title}</strong><span>{module.subtitle}</span></span><span class="module-count">{module.assets.length} assets</span><span class="disclosure-icon" aria-hidden="true">+</span></summary>
+      <div class="module-assets">{module.assets.map(asset => <a class={`asset-row kind-${asset.type}`} href={assetUrl(module.id, asset.id)}>
+        <span class="asset-type">{kindLabels[asset.type]}</span><span class="asset-row-text"><strong>{asset.title}</strong><small>Module {module.number} · Concept: {asset.concept} · {slideLabel(asset.slides)}</small></span><span aria-hidden="true">↗</span>
+      </a>)}<div class="download-row"><p>All animations from this module, ready for lecture slides.</p><a class="download-gif" href={mediaUrl(module.downloadBundle,module.id)} download>↓ Module {module.number} GIF package</a></div></div>
+    </details>)}</div>
+    <p class="library-footnote">Each animation opens ready to present, with a looping GIF available to download for slides.</p>
+  </main>
+</TeachingShell>
