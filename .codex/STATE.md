@@ -7,13 +7,13 @@
 - L12 reviewed: persistent source cue→target comparisons, fixed gaze with separate covert-attention halo, ordinal average reaction-time result without invented values/effect sizes. Original93/30/30/36s durations/chapters preserved. Independent source/static review; root actual motion, reset and encoded samples passed.
 - L12 validation:3,780GIFframes decoded; fixed-gaze/target-visibility checks;240continuous reorientation frames; identical first/last teaching canvas. GIF palette initially mapped result red to attention gold: fixed master-only palette and added semantic-color assertion. Always inspect actual GIF, not just PNG/MP4.
 - L12 bundle615,175bytes; SHA2560a64ba6a8ff1570edc3531a653c87c9bf919ea50b69af1820a39ea54f28d0dec. FourGIFs+README. Source references restricted to slide12/context10–11 and corresponding Lecture13 narration486–550.
-- Local L12 integration: build+verify-build+365teaching checks passed.70pages/29unlisted. Browser paused directentry, coldchapter78.3s, fullscreen and sidebar passed. Only L12 media/manifest/registry changes; fullsite suite will run in required CI before deployment. Not pushed/liveverified yet.
+- Local L12 integration: build+verify-build+365teaching checks passed.70pages/29unlisted. Browser paused directentry, coldchapter78.3s, fullscreen and sidebar passed. Only L12 media/manifest/registry changes; fullsite suite passed in required CI before deployment. Released9dafbb1; Pages42741867262 fulltests/build/deploy succeeded. Live6pages200/noindex,13L12media hashes exact,2held URLs404. Browser directentry/coldchapter/fullscreen passed.
 - L15 live:4254067 / Pages42737460625 success;9animations+finite guitar interaction. Approved master immutable b4e2806ad6585b137761551af1aa4c4a8ecdcf7d63290ad2c230289b3b5e6b28. L15 three reset-history defects fixed; GIFZIP e418c50b31b55388f4cdde217d8422b33b2e5b23c2a4204c5291639938ce7a0c. Twelve livepages and8keymedia hashes verified.
 - Scope: preserved intro; PSYC108/PSYC105/clickable WIP Explore. Existing practice unlisted/password-gated `/brain/lectures/`. Public/noindex assets bypass intro; GIF downloads only for animations. PSYC105 coming-soon accepted. No lecture originals published.
 - Held: L13/L14/L16/L17 public media removed after canonical package hash verification; L18/L19 not integrated. Draft source/manifests/components retained. Parietal arrows equal-weight coverage, not strength/necessity; selected patch/projections fade, space remains visible. Do not publish held assets by merely adding registry entries.
-- Next: push scoped L12 release; await full CI and deployment; verify live4pages/13media, preserve L15; checkpoint. No broader generation authorized in this batch.
+- Next: L12 request complete; await next module selection. Other held modules require source/prototype/interpretation/motion review before variants. L15 unchanged.
 - Infrastructure: canonical GitHub main + GitHub Pages,20min deploy timeout. No hosting/DNS change. Preserve unrelated website work below.
-- Usage: L12 batch began31%weekly account-wide; midpoint32%. PriorL15 batch30%→31%. Report end delta, not chat attribution.
+- Usage: L12 batch began31%weekly account-wide; ended32% (+1point account-wide). PriorL15 batch30%→31%. Not exact chat attribution.
 
 
 ## SUBS training dataset — 2026-10-29
