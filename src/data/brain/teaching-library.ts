@@ -4,6 +4,7 @@ import l13 from './l13-teaching.json';
 import l14 from './l14-teaching.json';
 import l16 from './l16-teaching.json';
 import l17 from './l17-teaching.json';
+import downloads from './teaching-downloads.json';
 import l19 from './l19-teaching.json';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -47,6 +48,10 @@ export function assetUrl(moduleId: string, assetId: string) { return `/brain/psy
 const mediaVersions = new Map<string,string>();
 export function mediaUrl(file: string | undefined, moduleId = 'l15') {
   if(!file)return '';
+  if(file.endsWith('.zip')){
+    const entry=(downloads as Record<string,{file:string;url:string}>)[moduleId];
+    if(entry?.file===file)return entry.url;
+  }
   const path=`/brain/teaching/${moduleId}/${file.split(/[\\/]/).pop()}`;
   // Static generation: a changed file must not reuse an older browser media cache.
   if(!mediaVersions.has(path))mediaVersions.set(path,createHash('sha256').update(readFileSync(`public${path}`)).digest('hex').slice(0,12));

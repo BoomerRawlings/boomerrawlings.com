@@ -2,6 +2,9 @@
 
 ## Brain professor teaching library — 2026-11-10
 
+- L14 COMPLETE/live369ae9b/Pages42791290690;8pages/31versionedmedia exact; live98s38.6s pausedgraph andbothinteractions pass. L16 COMPLETE/liveb5db668/Pages42792106977;8pages/40mediaexact; live122s38.1s LTP andIPSPstep5cap pass.
+- Hosting: six reviewed GIF ZIPs uploaded/download-verified to publicrepo release psyc108-teaching withsha12filenames. teaching-downloads.json maps file/url/SHA/bytes; mediaUrl resolvesZIPs there. IndividualGIF/MP4/PNGs remain onsite. Futurepackage workflow: publish-teaching-bundle BEFOREsync-teaching-package. CanonicalZIPs retainedoutsideSite; sixduplicates removedfrompublic. Build762,685,483bytes vs951,994,869;1,213checks.1GBbuildguard. Hostingchange publicationpending; nextL17/L18 + L12/L19polish.
+
 - ACTIVE user scope: finish all65GIFs/6finiteinteractables, publish each reviewed complete module. Remaining L16/L17/L18 and released-module polish. One producer/bounded review; source/static/meaning/motion/encoded/browser gates. Source slides+narration only; original figures preferred; full decks private.
 - L14 ready for release:8GIFs+2interactions. Originalstreetpair/p14biaspanels/p15graph; source/static/meaning/motion/encoded/browser gates pass.11,280frames, exactloops/palette/MP4/ZIP checks;33canonical files incl6interactionPNGs.1,000teaching checks/routes/12salience/6lesion pass. Actual UI all12salience +3viewpoints/reset; exact productionpreview layout/fullscreen and78s cold38.6s chapter pass.2.6s chapteroffset. Evidence course Packages/L14/audit/source-revision/. Devserver4321 retainedoldCSS; use productionpreview4322 forreleaseaudits.
 - L13 COMPLETE/live1703189 / Pages42786339557 fullCI/deploy.7GIFs+parietalinteraction;7,400frames/868checks.7pages/22versionedmedia hashes match; actuallive86s/56.1snetworkchapter and survivoropacity1 verified. Evidence course Packages/L13/audit/source-revision/.

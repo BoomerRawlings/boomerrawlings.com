@@ -1,0 +1,38 @@
+{
+  "l12": {
+    "file": "psyc108-l12-gifs.zip",
+    "url": "https://github.com/BoomerRawlings/boomerrawlings.com/releases/download/psyc108-teaching/psyc108-l12-gifs-eb7459eb71b2.zip",
+    "sha256": "eb7459eb71b2aa9afd47f237c6005d620d3ad2c10e0429390a450cf2c6d59bd4",
+    "bytes": 1780130
+  },
+  "l13": {
+    "file": "psyc108-l13-gifs.zip",
+    "url": "https://github.com/BoomerRawlings/boomerrawlings.com/releases/download/psyc108-teaching/psyc108-l13-gifs-b8fe84e6c316.zip",
+    "sha256": "b8fe84e6c316c9d52042fd0dd7f94af5af91e99251d3479f913cc274e2a7cea7",
+    "bytes": 31134341
+  },
+  "l14": {
+    "file": "psyc108-l14-gifs.zip",
+    "url": "https://github.com/BoomerRawlings/boomerrawlings.com/releases/download/psyc108-teaching/psyc108-l14-gifs-fcc5f8277b0d.zip",
+    "sha256": "fcc5f8277b0d766cdd98b3615a2b8158cfc00bf638d9d7bb5bc947daa1ecbeb3",
+    "bytes": 37320448
+  },
+  "l15": {
+    "file": "psyc108-l15-gifs.zip",
+    "url": "https://github.com/BoomerRawlings/boomerrawlings.com/releases/download/psyc108-teaching/psyc108-l15-gifs-e418c50b31b5.zip",
+    "sha256": "e418c50b31b55388f4cdde217d8422b33b2e5b23c2a4204c5291639938ce7a0c",
+    "bytes": 43748739
+  },
+  "l16": {
+    "file": "psyc108-l16-gifs.zip",
+    "url": "https://github.com/BoomerRawlings/boomerrawlings.com/releases/download/psyc108-teaching/psyc108-l16-gifs-d30ff075d27d.zip",
+    "sha256": "d30ff075d27d3744b9f8f49f511cf82a8bf97d563043479dee789f887a3f3b39",
+    "bytes": 58480074
+  },
+  "l19": {
+    "file": "psyc108-l19-gifs.zip",
+    "url": "https://github.com/BoomerRawlings/boomerrawlings.com/releases/download/psyc108-teaching/psyc108-l19-gifs-4f845ca40aee.zip",
+    "sha256": "4f845ca40aee84213fc4ed1001a1bd15d9671dbed4d89d133a50b785dada112a",
+    "bytes": 16846050
+  }
+}

@@ -77,6 +77,8 @@ if (contentHtmlFiles.length !== 36 || standaloneHtmlFiles.length !== 8 || unlist
 }
 
 const failures = [];
+const publishedBytes=files.reduce((total,file)=>total+statSync(file).size,0);
+if(publishedBytes>1_000_000_000)failures.push(`Pages build exceeds 1 GB: ${publishedBytes} bytes`);
 for (const path of brainTeachingPaths) {
   const html = readFileSync(join(output,path),'utf8');
   if(!html.includes('<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">'))failures.push(`${path}: teaching/lecture route must remain unindexed`);

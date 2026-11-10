@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync, statSync } from 'node:fs';
 import { resolve, basename, join } from 'node:path';
+import {createHash} from 'node:crypto';
 const source = resolve(process.argv[2] || '../Packages/L15');
 const manifest = JSON.parse(readFileSync(join(source,'manifest.json'),'utf8'));
 if(!Number.isInteger(manifest.module) || manifest.module < 12 || manifest.module > 19) throw new Error('Expected a reviewed lecture12–19 package.');
@@ -25,7 +26,10 @@ if (!webOnly && manifest.downloadBundle) {
   const bundle = manifest.downloadBundle;
   if (bundle !== basename(bundle) || bundle !== `psyc108-${moduleId}-gifs.zip`) throw new Error('Unexpected bundle name.');
   if (statSync(join(source,bundle)).size === 0) throw new Error('Incomplete GIF bundle.');
-  copyFileSync(join(source,bundle),join(target,bundle));
+  const downloads=JSON.parse(readFileSync('src/data/brain/teaching-downloads.json','utf8'));
+  const record=downloads[moduleId];
+  const sha=createHash('sha256').update(readFileSync(join(source,bundle))).digest('hex');
+  if(!record||record.file!==bundle||record.sha256!==sha)throw Error('Publish the reviewed ZIP with scripts/publish-teaching-bundle.mjs before syncing.');
 }
 writeFileSync(`src/data/brain/${moduleId}-teaching.json`,JSON.stringify(normalized,null,2)+'\n');
 console.log(`Integrated ${normalized.assets.length} reviewed ${moduleId.toUpperCase()} animations${webOnly ? ' (web preview only)' : ' and GIF package'}.`);

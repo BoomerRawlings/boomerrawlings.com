@@ -47,10 +47,16 @@ for(let pattern=0;pattern<8;pattern++){
   assert.deepEqual(model.initialLearningState().strength,{go:0,nogo:0});checks++;
 }
 const registry=buildSync({entryPoints:['src/data/brain/teaching-library.ts'],bundle:true,write:false,platform:'node',format:'esm'}).outputFiles[0].text;
-const {modules}=await import(`data:text/javascript;base64,${Buffer.from(registry).toString('base64')}`);
+const {modules,mediaUrl}=await import(`data:text/javascript;base64,${Buffer.from(registry).toString('base64')}`);
+const downloads=JSON.parse(readFileSync('src/data/brain/teaching-downloads.json','utf8'));
 assert.equal(modules.find(module=>module.id==='l15').assets.filter(asset=>asset.type!=='interactive').length,9,'Complete L15 package includes9 GIF assets');checks++;
 for(const module of modules){
- assert.ok(existsSync(`public/brain/teaching/${module.id}/${module.downloadBundle}`),'Complete module GIF bundle exists');checks++;
+ const bundle=downloads[module.id];
+ assert.ok(bundle&&bundle.file===module.downloadBundle&&/^[a-f0-9]{64}$/.test(bundle.sha256)&&bundle.bytes>0,'Verified release bundle metadata');checks++;
+ assert.equal(bundle.url,`https://github.com/BoomerRawlings/boomerrawlings.com/releases/download/psyc108-teaching/${bundle.file.replace('.zip',`-${bundle.sha256.slice(0,12)}.zip`)}`);checks++;
+ assert.equal(mediaUrl(module.downloadBundle,module.id),bundle.url);checks++;
+ assert.ok(!existsSync(`public/brain/teaching/${module.id}/${module.downloadBundle}`),'ZIP is not duplicated in Pages');checks++;
+ assert.ok(readFileSync('dist/brain/psyc108/index.html','utf8').includes(bundle.url),'Library links to versioned release ZIP');checks++;
  for(const asset of module.assets){
   const page=readFileSync(`dist/brain/psyc108/${module.id}/${asset.id}/index.html`,'utf8');
   assert.ok(asset.slides.length && asset.sources.length,`Missing source mapping: ${asset.id}`);checks++;
