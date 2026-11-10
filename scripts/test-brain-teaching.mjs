@@ -8,6 +8,12 @@ const model = await import(`data:text/javascript;base64,${Buffer.from(code).toSt
 let checks=0;
 const motionCode=buildSync({entryPoints:['src/scripts/brain/guitar-learning-motion.ts'],bundle:true,write:false,platform:'node',format:'esm'}).outputFiles[0].text;
 const motion=await import(`data:text/javascript;base64,${Buffer.from(motionCode).toString('base64')}`);
+for(const key of ['cortex','gpi','thalamus','snc']){
+ let prior=0;
+ for(let t=0;t<=30;t+=.05){const q=motion.focusAt(t)[key];assert.ok(q>=0&&q<=1&&Math.abs(q-prior)<.08,'Box emphasis fades continuously');prior=q;}
+ assert.equal(motion.focusAt(30)[key],0);checks++;
+}
+assert.equal(model.markerScale(0),1);assert.equal(model.markerScale(3),1.58);assert.equal(model.markerScale(-3),.6);checks+=3;
 for(const outcome of ['good','poor']){
   const before={go:0,nogo:0},after={go:outcome==='good'?1:-1,nogo:outcome==='good'?-1:1};
   assert.deepEqual(motion.cycleFrame(17.9,outcome,before,after).strength,before,'No growth before dopamine feedback');checks++;

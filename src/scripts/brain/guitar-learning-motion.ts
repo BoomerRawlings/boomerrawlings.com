@@ -4,6 +4,11 @@ export const CYCLE_SECONDS = 30;
 export const smooth = (value: number) => { const q=Math.max(0,Math.min(1,value)); return q*q*(3-2*q); };
 const rise = (t:number,start:number,end:number) => smooth((t-start)/(end-start));
 const pulse = (t:number,start:number,peak:number,fall:number,end:number) => rise(t,start,peak)*(1-rise(t,fall,end));
+export function focusAt(t:number) {
+  // The cycle clock also drives emphasis: pausing freezes every transition.
+  return {cortex:pulse(t,0,1.1,2.2,3.5),gpi:pulse(t,4,5.2,8,9.3),
+    thalamus:pulse(t,6,7.2,11,12.3),snc:pulse(t,15,16.4,24.5,26)};
+}
 
 // Qualitative teaching sequence, not measured conduction or dopamine timing.
 export function activityAt(t:number,outcome:Outcome) {

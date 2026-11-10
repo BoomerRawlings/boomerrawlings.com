@@ -1,5 +1,5 @@
 import { beginTrial, initialLearningState, markerScale, MAX_TRIALS, moveTrial, type Outcome } from './guitar-learning-model';
-import { cycleFrame, CYCLE_SECONDS, signalClock, signalEvents, type ActivityKey } from './guitar-learning-motion';
+import { cycleFrame, CYCLE_SECONDS, focusAt, signalClock, signalEvents, type ActivityKey } from './guitar-learning-motion';
 
 export function initGuitarLearning(present:(surface:HTMLElement,button:HTMLButtonElement)=>Promise<void>) {
   const root=document.querySelector<HTMLElement>('[data-guitar-learning]');if(!root)return;
@@ -21,7 +21,7 @@ export function initGuitarLearning(present:(surface:HTMLElement,button:HTMLButto
     });
     return {path,key,particles,length:path.getTotalLength(),events:{good:signalEvents('good',key),poor:signalEvents('poor',key)}};
   });
-  const tracePositions:[ActivityKey,number,number,number][]=[['input',421,172,170],['return',741,172,170],['dopamine',76,307,158],['nogo',373,413,145],['go',578,413,145],['gpe',377,508,143],['stn',234,603,145],['gpi',613,607,145],['thalamus',1003,422,194]];
+  const tracePositions:[ActivityKey,number,number,number][]=[['input',421,172,170],['return',741,172,170],['dopamine',76,307,158],['nogo',373,416,145],['go',578,416,145],['gpe',377,508,143],['stn',234,603,145],['gpi',613,607,145],['thalamus',1003,422,194]];
   const traces=tracePositions.map(([key,x,y,width])=>{
     const path=document.createElementNS(ns,'path');path.setAttribute('fill','none');path.setAttribute('stroke','#1d3552');path.setAttribute('stroke-width','1.5');get('[data-rate-layer]').append(path);
     return {key,x,y,width,path,events:{good:signalEvents('good',key),poor:signalEvents('poor',key)}};
@@ -50,7 +50,15 @@ export function initGuitarLearning(present:(surface:HTMLElement,button:HTMLButto
     const dopamine=trial&&time>=15&&time<26;
     get('[data-dopamine-label]').textContent=dopamine?(outcome==='good'?'Dopamine burst':'Dopamine dip'):'Dopamine baseline';
     get('[data-learning-summary]').textContent=trial&&time>=18?'Learned input strength persists after dopamine returns to baseline.':'GPi provides the ongoing inhibitory brake on the thalamus.';
-    for(const [selector,on] of [['[data-cortex]',!!trial&&time<3],['[data-gpi]',!!trial&&time>=4&&time<9],['[data-thalamus]',!!trial&&time>=6&&time<12],['[data-snc]',!!trial&&dopamine]] as const)get(selector).classList.toggle('node-focused',on);
+    const focus=focusAt(trial?time:0);
+    const mix=(a:number[],b:number[],q:number)=>`rgb(${a.map((v,i)=>Math.round(v+(b[i]-v)*q)).join(' ')})`;
+    for(const key of ['cortex','gpi','thalamus','snc'] as const){
+      const rect=get<SVGRectElement>(`[data-${key}] rect`),q=focus[key];
+      rect.style.transition='none';
+      rect.style.fill=mix([244,240,229],[242,229,184],q);
+      rect.style.stroke=mix([29,53,82],[182,138,34],q);
+      rect.style.strokeWidth=String(2+2*q);
+    }
     const signal=signalClock(trial?time:0),clock=signal.time;
     layer.style.opacity=String(signal.opacity);get<SVGGElement>('[data-rate-layer]').style.opacity=String(signal.opacity);
     for(const flow of flows){

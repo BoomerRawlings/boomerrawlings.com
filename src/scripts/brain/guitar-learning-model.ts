@@ -23,4 +23,9 @@ export function moveTrial(state: LearningState, direction: -1 | 1): LearningStat
 export function displayedStrength(state: LearningState): Strength {
   return state.trial ? (state.trial.step >= 3 ? state.trial.after : state.trial.before) : state.strength;
 }
-export function markerScale(value: number) { return 1 + Math.max(-3, Math.min(3, value)) * 0.13; }
+export function markerScale(value: number) {
+  // Larger first changes; bounded endpoints keep labels and firing traces clear.
+  const sizes=[.6,.68,.8,1,1.22,1.42,1.58];
+  const position=Math.max(0,Math.min(6,value+3)),index=Math.min(5,Math.floor(position));
+  return sizes[index]+(sizes[index+1]-sizes[index])*(position-index);
+}
