@@ -4,6 +4,7 @@ import '@fontsource/source-sans-3/latin-600.css';
 import '@fontsource/teko/latin-500.css';
 import '../../styles/brain-teaching.css';
 import '../../styles/roomie-booking.css';
+import '../../styles/roomie-branding.css';
 import { roomies, catalogUpdatedAt, type CatalogCourse, type CourseMeeting, type CourseSection } from '../../data/roomie-booking';
 
 const dateLabel = (value: string | null) => {
@@ -73,21 +74,39 @@ const missingDetailsNote = (course: CatalogCourse) => {
     <meta name="robots" content="noindex,nofollow,noarchive,noimageindex" />
     <meta name="referrer" content="no-referrer" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; base-uri 'none'; object-src 'none'; form-action 'none'" />
-    <meta name="theme-color" content="#07161e" />
+    <meta name="theme-color" content="#0f1d30" />
     <meta name="description" content="Winter 2027 course booking shortcuts for 0311." />
     <link rel="canonical" href="https://boomerrawlings.com/0311/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Boomer's Better Booking" />
+    <meta property="og:title" content="Boomer's Better Booking" />
+    <meta property="og:description" content="Winter 2027 course booking shortcuts for 0311." />
+    <meta property="og:url" content="https://boomerrawlings.com/0311/" />
+    <meta property="og:image" content="https://boomerrawlings.com/0311/social-preview-v1.png" />
+    <meta property="og:image:secure_url" content="https://boomerrawlings.com/0311/social-preview-v1.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Boomer's Better Booking in cream and gold on navy. 0311 / Winter 2027." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Boomer's Better Booking" />
+    <meta name="twitter:description" content="Winter 2027 course booking shortcuts for 0311." />
+    <meta name="twitter:image" content="https://boomerrawlings.com/0311/social-preview-v1.png" />
+    <meta name="twitter:image:alt" content="Boomer's Better Booking in cream and gold on navy. 0311 / Winter 2027." />
     <title>Boomer's Better Booking</title>
   </head>
   <body class="teaching-shell roomie-shell">
     <a class="teaching-skip" href="#roomie-main">Skip to courses</a>
     <main id="roomie-main" class="course-library roomie-library">
       <div class="library-intro">
-        <p class="teaching-eyebrow">0311 / WINTER 2027</p>
-        <h1>Boomer's Better Booking</h1>
-        <div class="booking-steps">
-          <p>Step One: <a href="https://sis.ucsd.edu/" target="_blank" rel="noopener noreferrer">Log in to TSS</a> in another tab on this browser</p>
-          <p>Step Two: Click <span class="tss-book-inner tss-book-example">Book</span> below.</p>
-          <p>Step Three: Feel good about not dealing with TSS.</p>
+        <div class="booking-brand">
+          <p class="teaching-eyebrow"><span class="booking-speed-mark" aria-hidden="true"><i></i><i></i><i></i></span>0311 / WINTER 2027</p>
+          <h1><span class="booking-owner">Boomer's</span> <span>Better Booking</span></h1>
+        </div>
+        <div class="booking-steps" aria-label="How to book">
+          <p><span class="booking-step-number" aria-hidden="true">01</span><span><span class="visually-hidden">Step One: </span><a href="https://sis.ucsd.edu/" target="_blank" rel="noopener noreferrer">Log in to TSS</a> in another tab on this browser</span></p>
+          <p><span class="booking-step-number" aria-hidden="true">02</span><span><span class="visually-hidden">Step Two: </span>Click <span class="tss-book-inner tss-book-example">Book</span> below.</span></p>
+          <p><span class="booking-step-number" aria-hidden="true">03</span><span><span class="visually-hidden">Step Three: </span>Feel good about not dealing with TSS.</span></p>
         </div>
       </div>
 
@@ -208,3 +227,4 @@ const missingDetailsNote = (course: CatalogCourse) => {
     <script>import '../../scripts/roomie-booking';</script>
   </body>
 </html>
+

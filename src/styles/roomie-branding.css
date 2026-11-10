@@ -1,0 +1,175 @@
+/* Cannonball-inspired presentation only. TSS buttons retain their native CSS. */
+@font-face {
+  font-family: 'Booking Race';
+  src: url('/0311/fonts/race.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Booking Panel';
+  src: url('/0311/fonts/panel.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Booking Instrument';
+  src: url('/0311/fonts/instrument.ttf') format('truetype');
+  font-weight: 650;
+  font-display: swap;
+}
+
+body.roomie-shell {
+  --booking-navy: #0f1d30;
+  --booking-gold: #ffcd00;
+  --booking-cream: #f7f2e6;
+  --teach-ink: var(--booking-cream);
+  --teach-muted: #b5c5d3;
+  --teach-line: #41536a;
+  --teach-master: #ffcd00;
+  --teach-breakdown: #8cdedb;
+  --teach-interactive: #d0bfdc;
+  background: radial-gradient(ellipse at 95% 0%, #233955 0%, transparent 48rem), var(--booking-navy);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.5;
+}
+.roomie-shell::before { display: none; }
+.roomie-shell ::selection { background: var(--booking-gold); color: var(--booking-navy); }
+.roomie-library { max-width: 1200px; padding: 36px 32px 64px; }
+.roomie-library .library-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, .85fr);
+  align-items: center;
+  gap: 36px;
+  max-width: none;
+  margin-bottom: 30px;
+  padding: 24px 0 32px;
+  border-top: 1px solid var(--teach-line);
+  border-bottom: 1px solid var(--teach-line);
+}
+.roomie-shell .teaching-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--teach-muted);
+  font: 600 11px/1.5 'Booking Panel', sans-serif;
+  letter-spacing: .15em;
+}
+.booking-speed-mark { display: inline-flex; align-items: center; gap: 4px; transform: skewX(-18deg); }
+.booking-speed-mark i { display: block; height: 13px; width: 7px; background: var(--booking-gold); }
+.booking-speed-mark i:first-child { width: 3px; }
+.booking-speed-mark i:nth-child(2) { width: 5px; }
+.roomie-library .library-intro h1 {
+  margin: 22px 0 0;
+  font: italic 700 clamp(58px, 7.1vw, 88px)/.92 'Booking Race', 'Arial Narrow', sans-serif;
+  letter-spacing: -.025em;
+  text-transform: uppercase;
+}
+.roomie-library h1 > span { display: block; }
+.roomie-library h1 .booking-owner { color: var(--booking-gold); font-size: .56em; margin-bottom: 9px; letter-spacing: 0; }
+.roomie-shell .booking-steps {
+  margin: 0;
+  gap: 0;
+  border-top: 4px solid var(--booking-gold);
+  padding: 8px 20px;
+  background: var(--booking-cream);
+  color: var(--booking-navy);
+  font-size: 14px;
+  box-shadow: 6px 6px 0 #08162466;
+}
+.booking-steps > p { display: grid; grid-template-columns: 25px minmax(0, 1fr); gap: 12px; align-items: baseline; padding: 12px 0; }
+.booking-steps > p + p { border-top: 1px solid #c8c8be; }
+.booking-step-number { color: #526176; font: 650 13px/1.5 'Booking Instrument', sans-serif; }
+.booking-steps a { font-weight: 650; text-decoration-thickness: 1px; }
+.booking-steps a:hover { text-decoration-thickness: 2px; }
+.booking-steps a:focus-visible { outline-color: var(--booking-navy); }
+.roomie-toolbar { gap: 14px; margin-bottom: 16px; }
+.roomie-filter label { font: 600 12px/1.5 'Booking Panel', sans-serif; text-transform: uppercase; letter-spacing: .08em; }
+.roomie-filter select {
+  min-height: 44px;
+  padding-block: 10px;
+  border-radius: 0;
+  background-color: var(--booking-navy);
+  font: 600 14px/1.5 'Booking Panel', sans-serif;
+}
+.roomie-toolbar > button {
+  min-height: 44px;
+  padding: 10px 16px;
+  border-radius: 0;
+  border-color: var(--booking-gold);
+  background: var(--booking-gold);
+  color: var(--booking-navy);
+  font: 600 14px/1.5 'Booking Panel', sans-serif;
+}
+.roomie-toolbar > button:hover { border-color: #ffda48; background: #ffda48; }
+.roomie-card {
+  position: relative;
+  border-radius: 0;
+  border-color: var(--teach-line);
+  border-left: 4px solid var(--booking-gold);
+  background: #172a41;
+  margin-bottom: 12px;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+.roomie-card:hover, .roomie-card[open] { border-color: #7b8a99; border-left-color: var(--booking-gold); }
+.roomie-card > summary { min-height: 108px; gap: 24px; padding: 21px 24px; transition: background 160ms ease; }
+.roomie-card > summary:hover { background: #20364e; }
+.roomie-card .module-number { min-width: 52px; font: 650 30px/1 'Booking Instrument', sans-serif; letter-spacing: -.04em; color: var(--booking-gold); }
+.roomie-card .module-heading small { color: var(--teach-muted); font: 600 10px/1.5 'Booking Panel', sans-serif; letter-spacing: .12em; }
+.roomie-card .module-heading strong { color: var(--booking-cream); font-size: 27px; font-weight: 650; letter-spacing: -.035em; }
+.roomie-card .module-count { display: block; font: 600 12px/1.5 'Booking Panel', sans-serif; color: var(--teach-muted); }
+.roomie-card .disclosure-icon { color: var(--booking-gold); transition: transform 180ms ease; }
+.roomie-card .module-assets { padding: 0 24px 20px; animation: booking-unfold 180ms ease-out; }
+.roomie-card .asset-row { border-top-color: var(--teach-line); padding-block: 18px; }
+.roomie-card .asset-row:hover { background: #ffffff05; }
+.roomie-card .asset-type { font: 600 10px/1.4 'Booking Panel', sans-serif; border-radius: 0; }
+.roomie-card .asset-row-text strong { font-size: 17px; letter-spacing: -.015em; }
+.roomie-card .booking-option { background: #102036; border-radius: 0; border-color: var(--teach-line); border-top: 2px solid #8a7b38; }
+.roomie-card .option-number { color: var(--booking-gold); font-family: 'Booking Panel', sans-serif; }
+.roomie-card .option-section-codes, .roomie-card .option-section-heading h3 span { color: #b5c5d3; }
+.roomie-card .option-section + .option-section, .roomie-card .option-exams { border-top-color: var(--teach-line); }
+.roomie-card .option-exams > summary { min-height: 34px; display: flex; align-items: center; gap: 4px; color: #d7dfdf; }
+.roomie-card .option-exams[open] .exam-meetings { animation: booking-unfold 180ms ease-out; }
+.roomie-card .course-options[open] > .course-options-content { animation: booking-unfold 180ms ease-out; }
+.roomie-card .course-detail-link { min-height: 40px; display: inline-flex; align-items: center; color: var(--booking-gold); }
+.roomie-shell .library-footnote { border-top: 1px solid var(--teach-line); padding-top: 20px; margin-top: 26px; font: 600 12px/1.6 'Booking Panel', sans-serif; }
+.roomie-shell :is(summary, select, [data-expand-roomies]):focus-visible { outline: 3px solid #8cdedb; outline-offset: 4px; }
+.roomie-shell .roomie-card > summary:focus-visible { outline-offset: -5px; }
+
+@keyframes booking-unfold { from { opacity: .65; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes booking-arrive { from { opacity: .6; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: no-preference) {
+  .booking-brand { animation: booking-arrive 260ms ease-out; }
+}
+@media (max-width: 900px) {
+  .roomie-library .library-intro { gap: 24px; grid-template-columns: minmax(0, 1.15fr) minmax(250px, 1fr); }
+  .roomie-library .library-intro h1 { font-size: clamp(54px, 8vw, 72px); }
+}
+@media (max-width: 700px) {
+  .roomie-library { padding: 20px 18px 40px; }
+  .roomie-library .library-intro { grid-template-columns: minmax(0, 1fr); gap: 23px; padding: 20px 0 24px; margin-bottom: 20px; }
+  .roomie-library .library-intro h1 { font-size: clamp(47px, 12vw, 78px); margin-top: 16px; }
+  .roomie-library h1 .booking-owner { font-size: .61em; margin-bottom: 7px; }
+  .roomie-shell .booking-steps { font-size: 14px; padding: 3px 15px; box-shadow: 4px 4px 0 #08162466; }
+  .booking-steps > p { padding: 9px 0; }
+  .roomie-card > summary { min-height: 98px; gap: 14px; padding: 18px 14px; }
+  .roomie-card .module-number { min-width: 44px; font-size: 25px; }
+  .roomie-card .module-heading strong { font-size: 23px; }
+  .roomie-card .module-heading small { font-size: 9px; letter-spacing: .07em; }
+  .roomie-card .module-count { font-size: 11px; }
+  .roomie-card .module-assets { padding: 0 12px 14px; }
+  .roomie-card .course-row { gap: 8px 12px; padding-inline: 6px; }
+}
+@media (max-width: 420px) {
+  .roomie-library { padding-inline: 14px; }
+  .roomie-toolbar { gap: 10px; }
+  .roomie-toolbar > button { padding-inline: 12px; }
+  .roomie-card > summary { display: grid; grid-template-columns: 42px minmax(0, 1fr) 16px; column-gap: 12px; row-gap: 3px; }
+  .roomie-card > summary .module-number { grid-column: 1; grid-row: 1 / 3; }
+  .roomie-card > summary .module-heading { grid-column: 2; grid-row: 1; }
+  .roomie-card > summary .module-count { grid-column: 2; grid-row: 2; }
+  .roomie-card > summary .disclosure-icon { grid-column: 3; grid-row: 1 / 3; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .roomie-shell *, .roomie-shell *::before, .roomie-shell *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
