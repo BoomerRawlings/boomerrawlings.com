@@ -38,7 +38,7 @@ const catalog:TeachingModule[] = [
 ];
 // Only reviewed modules receive routes, navigation, or downloadable public media.
 // Other catalog entries remain drafts until source, visual, and motion review pass.
-export const modules = catalog.filter(module => module.id === 'l15');
+export const modules = catalog.filter(module => ['l12', 'l15'].includes(module.id));
 export function assetUrl(moduleId: string, assetId: string) { return `/brain/psyc108/${moduleId}/${assetId}/`; }
 export function mediaUrl(file: string | undefined, moduleId = 'l15') { return file ? `/brain/teaching/${moduleId}/${file.split(/[\\/]/).pop()}` : ''; }
 export function slideLabel(slides: number[]) {
