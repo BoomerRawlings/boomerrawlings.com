@@ -49,6 +49,7 @@ export default defineConfig({
     casePageRoutes(redirects),
     sitemap({
       filter: (page) =>
+        !page.startsWith('https://boomerrawlings.com/0311/') &&
         page !== 'https://boomerrawlings.com/photography/' &&
         page !== 'https://boomerrawlings.com/aristotter/' &&
         page !== 'https://boomerrawlings.com/deckle/' &&

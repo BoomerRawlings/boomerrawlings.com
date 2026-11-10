@@ -1,0 +1,1179 @@
+{
+  "term": "WI27",
+  "updatedAt": "2026-11-10T22:56:57.955Z",
+  "courses": {
+    "ECON-100A": {
+      "code": "ECON-100A",
+      "title": "Microeconomics A",
+      "category": "Economics",
+      "categoryStyle": "economics",
+      "sectionCount": 6,
+      "options": [
+        {
+          "packageId": "167237",
+          "label": "001-000-LE + 001-001-DI",
+          "bookingUrl": "https://tss.ucsd.edu/fiori#ZUSModule-display?TileType=MYMOD&/Detail/EventPackage/SM/14499/00000000/0/0/0/00000000-0000-0000-0000-000000000000/167237/2026/3/?",
+          "sections": [
+            {
+              "id": "E 00007898",
+              "code": "001-000-LE",
+              "type": "lecture",
+              "instructors": [
+                "Aram Grigoryan"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "R",
+                  "date": null,
+                  "startTime": "8:00am",
+                  "endTime": "9:20am",
+                  "location": "Solis Hall Room 107",
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "class",
+                  "day": "T",
+                  "date": null,
+                  "startTime": "8:00am",
+                  "endTime": "9:20am",
+                  "location": "Solis Hall Room 107",
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "final",
+                  "day": "S",
+                  "date": "2027-03-13",
+                  "startTime": "8:00am",
+                  "endTime": "10:59am",
+                  "location": "Solis Hall Room 107",
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "midterm",
+                  "day": "M",
+                  "date": "2027-03-08",
+                  "startTime": "8:00pm",
+                  "endTime": "9:50pm",
+                  "location": "Solis Hall Room 107",
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "midterm",
+                  "day": "M",
+                  "date": "2027-03-01",
+                  "startTime": "8:00pm",
+                  "endTime": "9:50pm",
+                  "location": "Solis Hall Room 107",
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 281
+            },
+            {
+              "id": "E 00007923",
+              "code": "001-001-DI",
+              "type": "discussion",
+              "instructors": [
+                "Aram Grigoryan"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "T",
+                  "date": null,
+                  "startTime": "5:00pm",
+                  "endTime": "5:50pm",
+                  "location": "Center Hall Room 214",
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 131
+            }
+          ]
+        },
+        {
+          "packageId": "167238",
+          "label": "001-000-LE + 001-002-DI",
+          "bookingUrl": "https://tss.ucsd.edu/fiori#ZUSModule-display?TileType=MYMOD&/Detail/EventPackage/SM/14499/00000000/0/0/0/00000000-0000-0000-0000-000000000000/167238/2026/3/?",
+          "sections": [
+            {
+              "id": "E 00007898",
+              "code": "001-000-LE",
+              "type": "lecture",
+              "instructors": [
+                "Aram Grigoryan"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "R",
+                  "date": null,
+                  "startTime": "8:00am",
+                  "endTime": "9:20am",
+                  "location": "Solis Hall Room 107",
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "class",
+                  "day": "T",
+                  "date": null,
+                  "startTime": "8:00am",
+                  "endTime": "9:20am",
+                  "location": "Solis Hall Room 107",
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "final",
+                  "day": "S",
+                  "date": "2027-03-13",
+                  "startTime": "8:00am",
+                  "endTime": "10:59am",
+                  "location": "Solis Hall Room 107",
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "midterm",
+                  "day": "M",
+                  "date": "2027-03-08",
+                  "startTime": "8:00pm",
+                  "endTime": "9:50pm",
+                  "location": "Solis Hall Room 107",
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "midterm",
+                  "day": "M",
+                  "date": "2027-03-01",
+                  "startTime": "8:00pm",
+                  "endTime": "9:50pm",
+                  "location": "Solis Hall Room 107",
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 281
+            },
+            {
+              "id": "E 00007924",
+              "code": "001-002-DI",
+              "type": "discussion",
+              "instructors": [
+                "Aram Grigoryan"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "T",
+                  "date": null,
+                  "startTime": "6:00pm",
+                  "endTime": "6:50pm",
+                  "location": "Center Hall Room 214",
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 145
+            }
+          ]
+        },
+        {
+          "packageId": "167239",
+          "label": "002-000-LE + 002-001-DI",
+          "bookingUrl": "https://tss.ucsd.edu/fiori#ZUSModule-display?TileType=MYMOD&/Detail/EventPackage/SM/14499/00000000/0/0/0/00000000-0000-0000-0000-000000000000/167239/2026/3/?",
+          "sections": [
+            {
+              "id": "E 00007899",
+              "code": "002-000-LE",
+              "type": "lecture",
+              "instructors": [
+                "Aram Grigoryan"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "R",
+                  "date": null,
+                  "startTime": "11:00am",
+                  "endTime": "12:20pm",
+                  "location": "Center Hall Room 101",
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "class",
+                  "day": "T",
+                  "date": null,
+                  "startTime": "11:00am",
+                  "endTime": "12:20pm",
+                  "location": "Center Hall Room 101",
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "final",
+                  "day": "S",
+                  "date": "2027-03-13",
+                  "startTime": "8:00am",
+                  "endTime": "10:59am",
+                  "location": "Center Hall Room 101",
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "midterm",
+                  "day": "M",
+                  "date": "2027-03-01",
+                  "startTime": "8:00pm",
+                  "endTime": "9:50pm",
+                  "location": "Center Hall Room 101",
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "midterm",
+                  "day": "M",
+                  "date": "2027-03-08",
+                  "startTime": "8:00pm",
+                  "endTime": "9:50pm",
+                  "location": "Center Hall Room 101",
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 222
+            },
+            {
+              "id": "E 00007926",
+              "code": "002-001-DI",
+              "type": "discussion",
+              "instructors": [
+                "Aram Grigoryan"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "T",
+                  "date": null,
+                  "startTime": "7:00pm",
+                  "endTime": "7:50pm",
+                  "location": "Center Hall Room 214",
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 79
+            }
+          ]
+        },
+        {
+          "packageId": "167240",
+          "label": "002-000-LE + 002-002-DI",
+          "bookingUrl": "https://tss.ucsd.edu/fiori#ZUSModule-display?TileType=MYMOD&/Detail/EventPackage/SM/14499/00000000/0/0/0/00000000-0000-0000-0000-000000000000/167240/2026/3/?",
+          "sections": [
+            {
+              "id": "E 00007899",
+              "code": "002-000-LE",
+              "type": "lecture",
+              "instructors": [
+                "Aram Grigoryan"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "R",
+                  "date": null,
+                  "startTime": "11:00am",
+                  "endTime": "12:20pm",
+                  "location": "Center Hall Room 101",
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "class",
+                  "day": "T",
+                  "date": null,
+                  "startTime": "11:00am",
+                  "endTime": "12:20pm",
+                  "location": "Center Hall Room 101",
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "final",
+                  "day": "S",
+                  "date": "2027-03-13",
+                  "startTime": "8:00am",
+                  "endTime": "10:59am",
+                  "location": "Center Hall Room 101",
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "midterm",
+                  "day": "M",
+                  "date": "2027-03-01",
+                  "startTime": "8:00pm",
+                  "endTime": "9:50pm",
+                  "location": "Center Hall Room 101",
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "midterm",
+                  "day": "M",
+                  "date": "2027-03-08",
+                  "startTime": "8:00pm",
+                  "endTime": "9:50pm",
+                  "location": "Center Hall Room 101",
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 222
+            },
+            {
+              "id": "E 00007925",
+              "code": "002-002-DI",
+              "type": "discussion",
+              "instructors": [
+                "Aram Grigoryan"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "T",
+                  "date": null,
+                  "startTime": "8:00pm",
+                  "endTime": "8:50pm",
+                  "location": "Center Hall Room 214",
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 136
+            }
+          ]
+        }
+      ],
+      "unassignedSections": [],
+      "courseUrl": "https://tss.ucsd.edu/fiori#YSchedule-view&/YUCSD_CON_MODULE(AcademicYear='2026',AcademicPeriod='3',ModuleID='14499')?layout=MidColumnFullScreen"
+    },
+    "ECON-120A": {
+      "code": "ECON-120A",
+      "title": "Econometrics A",
+      "category": "Economics",
+      "categoryStyle": "economics",
+      "sectionCount": 12,
+      "options": [
+        {
+          "packageId": "167365",
+          "label": "001-000-LE + 001-001-DI",
+          "bookingUrl": null,
+          "sections": [
+            {
+              "id": "E 00007961",
+              "code": "001-000-LE",
+              "type": "lecture",
+              "instructors": [
+                "Sara Esfahani"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "R",
+                  "date": null,
+                  "startTime": "5:00pm",
+                  "endTime": "7:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "final",
+                  "day": "R",
+                  "date": "2027-03-18",
+                  "startTime": "7:00pm",
+                  "endTime": "9:59pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 98
+            },
+            {
+              "id": "E 00007938",
+              "code": "001-001-DI",
+              "type": "discussion",
+              "instructors": [
+                "Sara Esfahani"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "T",
+                  "date": null,
+                  "startTime": "6:00pm",
+                  "endTime": "6:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 44
+            }
+          ]
+        },
+        {
+          "packageId": "167366",
+          "label": "001-000-LE + 001-002-DI",
+          "bookingUrl": null,
+          "sections": [
+            {
+              "id": "E 00007961",
+              "code": "001-000-LE",
+              "type": "lecture",
+              "instructors": [
+                "Sara Esfahani"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "R",
+                  "date": null,
+                  "startTime": "5:00pm",
+                  "endTime": "7:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "final",
+                  "day": "R",
+                  "date": "2027-03-18",
+                  "startTime": "7:00pm",
+                  "endTime": "9:59pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 98
+            },
+            {
+              "id": "E 00007939",
+              "code": "001-002-DI",
+              "type": "discussion",
+              "instructors": [
+                "Sara Esfahani"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "T",
+                  "date": null,
+                  "startTime": "7:00pm",
+                  "endTime": "7:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 71
+            }
+          ]
+        },
+        {
+          "packageId": "167367",
+          "label": "002-000-LE + 002-001-DI",
+          "bookingUrl": null,
+          "sections": [
+            {
+              "id": "E 00007962",
+              "code": "002-000-LE",
+              "type": "lecture",
+              "instructors": [
+                "Maria Candido"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "F",
+                  "date": null,
+                  "startTime": "2:00pm",
+                  "endTime": "2:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "class",
+                  "day": "M",
+                  "date": null,
+                  "startTime": "2:00pm",
+                  "endTime": "2:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "class",
+                  "day": "W",
+                  "date": null,
+                  "startTime": "2:00pm",
+                  "endTime": "2:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "final",
+                  "day": "S",
+                  "date": "2027-03-13",
+                  "startTime": "11:30am",
+                  "endTime": "2:29pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "midterm",
+                  "day": "F",
+                  "date": "2027-02-26",
+                  "startTime": "7:00pm",
+                  "endTime": "8:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "midterm",
+                  "day": "F",
+                  "date": "2027-02-05",
+                  "startTime": "7:00pm",
+                  "endTime": "8:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 160
+            },
+            {
+              "id": "E 00007940",
+              "code": "002-001-DI",
+              "type": "discussion",
+              "instructors": [
+                "Maria Candido"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "M",
+                  "date": null,
+                  "startTime": "4:00pm",
+                  "endTime": "4:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 69
+            }
+          ]
+        },
+        {
+          "packageId": "167368",
+          "label": "002-000-LE + 002-002-DI",
+          "bookingUrl": null,
+          "sections": [
+            {
+              "id": "E 00007962",
+              "code": "002-000-LE",
+              "type": "lecture",
+              "instructors": [
+                "Maria Candido"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "F",
+                  "date": null,
+                  "startTime": "2:00pm",
+                  "endTime": "2:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "class",
+                  "day": "M",
+                  "date": null,
+                  "startTime": "2:00pm",
+                  "endTime": "2:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "class",
+                  "day": "W",
+                  "date": null,
+                  "startTime": "2:00pm",
+                  "endTime": "2:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "final",
+                  "day": "S",
+                  "date": "2027-03-13",
+                  "startTime": "11:30am",
+                  "endTime": "2:29pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "midterm",
+                  "day": "F",
+                  "date": "2027-02-26",
+                  "startTime": "7:00pm",
+                  "endTime": "8:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "midterm",
+                  "day": "F",
+                  "date": "2027-02-05",
+                  "startTime": "7:00pm",
+                  "endTime": "8:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 160
+            },
+            {
+              "id": "E 00007964",
+              "code": "002-002-DI",
+              "type": "discussion",
+              "instructors": [
+                "Maria Candido"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "M",
+                  "date": null,
+                  "startTime": "5:00pm",
+                  "endTime": "5:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 91
+            }
+          ]
+        },
+        {
+          "packageId": "167369",
+          "label": "003-000-LE + 003-001-DI",
+          "bookingUrl": null,
+          "sections": [
+            {
+              "id": "E 00007963",
+              "code": "003-000-LE",
+              "type": "lecture",
+              "instructors": [
+                "Maria Candido"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "F",
+                  "date": null,
+                  "startTime": "1:00pm",
+                  "endTime": "1:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "class",
+                  "day": "M",
+                  "date": null,
+                  "startTime": "1:00pm",
+                  "endTime": "1:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "class",
+                  "day": "W",
+                  "date": null,
+                  "startTime": "1:00pm",
+                  "endTime": "1:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "final",
+                  "day": "S",
+                  "date": "2027-03-13",
+                  "startTime": "11:30am",
+                  "endTime": "2:29pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "midterm",
+                  "day": "F",
+                  "date": "2027-02-05",
+                  "startTime": "7:00pm",
+                  "endTime": "8:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "midterm",
+                  "day": "F",
+                  "date": "2027-02-26",
+                  "startTime": "7:00pm",
+                  "endTime": "8:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 178
+            },
+            {
+              "id": "E 00007965",
+              "code": "003-001-DI",
+              "type": "discussion",
+              "instructors": [
+                "Maria Candido"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "M",
+                  "date": null,
+                  "startTime": "6:00pm",
+                  "endTime": "6:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 86
+            }
+          ]
+        },
+        {
+          "packageId": "167370",
+          "label": "003-000-LE + 003-002-DI",
+          "bookingUrl": null,
+          "sections": [
+            {
+              "id": "E 00007963",
+              "code": "003-000-LE",
+              "type": "lecture",
+              "instructors": [
+                "Maria Candido"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "F",
+                  "date": null,
+                  "startTime": "1:00pm",
+                  "endTime": "1:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "class",
+                  "day": "M",
+                  "date": null,
+                  "startTime": "1:00pm",
+                  "endTime": "1:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "class",
+                  "day": "W",
+                  "date": null,
+                  "startTime": "1:00pm",
+                  "endTime": "1:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "final",
+                  "day": "S",
+                  "date": "2027-03-13",
+                  "startTime": "11:30am",
+                  "endTime": "2:29pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "midterm",
+                  "day": "F",
+                  "date": "2027-02-05",
+                  "startTime": "7:00pm",
+                  "endTime": "8:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "midterm",
+                  "day": "F",
+                  "date": "2027-02-26",
+                  "startTime": "7:00pm",
+                  "endTime": "8:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 178
+            },
+            {
+              "id": "E 00007966",
+              "code": "003-002-DI",
+              "type": "discussion",
+              "instructors": [
+                "Maria Candido"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "M",
+                  "date": null,
+                  "startTime": "7:00pm",
+                  "endTime": "7:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 95
+            }
+          ]
+        },
+        {
+          "packageId": "167371",
+          "label": "004-000-LE + 004-001-DI",
+          "bookingUrl": null,
+          "sections": [
+            {
+              "id": "E 00007937",
+              "code": "004-000-LE",
+              "type": "lecture",
+              "instructors": [
+                "Katarina Fedorov"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "R",
+                  "date": null,
+                  "startTime": "8:00am",
+                  "endTime": "9:20am",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "class",
+                  "day": "T",
+                  "date": null,
+                  "startTime": "8:00am",
+                  "endTime": "9:20am",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "final",
+                  "day": "R",
+                  "date": "2027-03-18",
+                  "startTime": "8:00am",
+                  "endTime": "10:59am",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 187
+            },
+            {
+              "id": "E 00007967",
+              "code": "004-001-DI",
+              "type": "discussion",
+              "instructors": [
+                "Katarina Fedorov"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "R",
+                  "date": null,
+                  "startTime": "6:00pm",
+                  "endTime": "6:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 93
+            }
+          ]
+        },
+        {
+          "packageId": "167372",
+          "label": "004-000-LE + 004-002-DI",
+          "bookingUrl": null,
+          "sections": [
+            {
+              "id": "E 00007937",
+              "code": "004-000-LE",
+              "type": "lecture",
+              "instructors": [
+                "Katarina Fedorov"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "R",
+                  "date": null,
+                  "startTime": "8:00am",
+                  "endTime": "9:20am",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "class",
+                  "day": "T",
+                  "date": null,
+                  "startTime": "8:00am",
+                  "endTime": "9:20am",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "final",
+                  "day": "R",
+                  "date": "2027-03-18",
+                  "startTime": "8:00am",
+                  "endTime": "10:59am",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 187
+            },
+            {
+              "id": "E 00007941",
+              "code": "004-002-DI",
+              "type": "discussion",
+              "instructors": [
+                "Katarina Fedorov"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "R",
+                  "date": null,
+                  "startTime": "7:00pm",
+                  "endTime": "7:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 94
+            }
+          ]
+        }
+      ],
+      "unassignedSections": [],
+      "courseUrl": null
+    },
+    "MGT-162": {
+      "code": "MGT-162",
+      "title": "Negotiations",
+      "category": "Management",
+      "categoryStyle": "management",
+      "sectionCount": 4,
+      "options": [
+        {
+          "packageId": "164325",
+          "label": "001-000-LE",
+          "bookingUrl": null,
+          "sections": [
+            {
+              "id": "E 00013721",
+              "code": "001-000-LE",
+              "type": "lecture",
+              "instructors": [
+                "Burt De Mill"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "M",
+                  "date": null,
+                  "startTime": "9:30am",
+                  "endTime": "10:50am",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "class",
+                  "day": "W",
+                  "date": null,
+                  "startTime": "9:30am",
+                  "endTime": "10:50am",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 91
+            }
+          ]
+        },
+        {
+          "packageId": "164326",
+          "label": "002-000-LE",
+          "bookingUrl": null,
+          "sections": [
+            {
+              "id": "E 00013723",
+              "code": "002-000-LE",
+              "type": "lecture",
+              "instructors": [
+                "Burt De Mill"
+              ],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "M",
+                  "date": null,
+                  "startTime": "12:30pm",
+                  "endTime": "1:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "class",
+                  "day": "W",
+                  "date": null,
+                  "startTime": "12:30pm",
+                  "endTime": "1:50pm",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 83
+            }
+          ]
+        },
+        {
+          "packageId": "164327",
+          "label": "003-000-LE",
+          "bookingUrl": null,
+          "sections": [
+            {
+              "id": "E 00013727",
+              "code": "003-000-LE",
+              "type": "lecture",
+              "instructors": [],
+              "meetings": [
+                {
+                  "kind": "class",
+                  "day": "R",
+                  "date": null,
+                  "startTime": "9:30am",
+                  "endTime": "10:50am",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                },
+                {
+                  "kind": "class",
+                  "day": "T",
+                  "date": null,
+                  "startTime": "9:30am",
+                  "endTime": "10:50am",
+                  "location": null,
+                  "startDate": null,
+                  "endDate": null
+                }
+              ],
+              "seatsAvailable": 94
+            }
+          ]
+        }
+      ],
+      "unassignedSections": [
+        {
+          "id": "EL00005146",
+          "code": "004-000-LE",
+          "type": "lecture",
+          "instructors": [],
+          "meetings": [
+            {
+              "kind": "class",
+              "day": null,
+              "date": null,
+              "startTime": null,
+              "endTime": null,
+              "location": null,
+              "startDate": null,
+              "endDate": null
+            }
+          ],
+          "seatsAvailable": 98
+        }
+      ],
+      "courseUrl": null
+    }
+  }
+}

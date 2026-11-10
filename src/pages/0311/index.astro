@@ -1,0 +1,210 @@
+---
+import '@fontsource/source-sans-3/latin-400.css';
+import '@fontsource/source-sans-3/latin-600.css';
+import '@fontsource/teko/latin-500.css';
+import '../../styles/brain-teaching.css';
+import '../../styles/roomie-booking.css';
+import { roomies, catalogUpdatedAt, type CatalogCourse, type CourseMeeting, type CourseSection } from '../../data/roomie-booking';
+
+const dateLabel = (value: string | null) => {
+  if (!value) return '';
+  const date = new Date(`${value.slice(0, 10)}T12:00:00Z`);
+  return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+};
+const timeLabel = (value: string | null) => {
+  if (!value) return 'TBA';
+  const match = value.match(/^(\d{1,2}):(\d{2})(?::\d{2})?\s*(am|pm)?$/i);
+  if (!match) return value;
+  const hours = Number(match[1]);
+  return `${hours % 12 || 12}:${match[2]} ${match[3]?.toUpperCase() || (hours >= 12 ? 'PM' : 'AM')}`;
+};
+const dayLabel = (value: string | null) => value ? ({ M: 'Monday', T: 'Tuesday', W: 'Wednesday', R: 'Thursday', F: 'Friday', S: 'Saturday', U: 'Sunday' }[value] || value) : '';
+const kindLabel = (value: string) => ({ class: 'Class', lecture: 'Lecture', discussion: 'Discussion', lab: 'Lab', seminar: 'Seminar', final: 'Final exam', midterm: 'Midterm', exam: 'Exam', ot: 'Other meeting' }[value.toLowerCase()] || value);
+const isExam = (meeting: CourseMeeting) => /exam|midterm|final/i.test(meeting.kind);
+const weekdayOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const classMeetings = (section: CourseSection) => {
+  const groups = new Map<string, CourseMeeting & { days: string[] }>();
+  for (const meeting of section.meetings.filter(meeting => !isExam(meeting))) {
+    const key = JSON.stringify([meeting.kind, meeting.date, meeting.startTime, meeting.endTime, meeting.location, meeting.startDate, meeting.endDate]);
+    let group = groups.get(key);
+    if (!group) {
+      group = { ...meeting, days: [] };
+      groups.set(key, group);
+    }
+    const day = dayLabel(meeting.day);
+    if (day && !group.days.includes(day)) group.days.push(day);
+  }
+  return [...groups.values()].map(meeting => ({
+    ...meeting,
+    days: meeting.days.sort((a, b) => weekdayOrder.indexOf(a) - weekdayOrder.indexOf(b)),
+  }));
+};
+const examMeetings = (sections: CourseSection[]) => {
+  const exams = new Map<string, CourseMeeting & { sectionCodes: string[] }>();
+  for (const section of sections) {
+    for (const meeting of section.meetings.filter(isExam)) {
+      const key = JSON.stringify([meeting.kind, meeting.date, meeting.day, meeting.startTime, meeting.endTime, meeting.location, meeting.startDate, meeting.endDate]);
+      const existing = exams.get(key);
+      if (existing) {
+        if (!existing.sectionCodes.includes(section.code)) existing.sectionCodes.push(section.code);
+      } else exams.set(key, { ...meeting, sectionCodes: [section.code] });
+    }
+  }
+  return [...exams.values()].sort((a, b) => (a.date || '').localeCompare(b.date || '') || (a.startTime || '').localeCompare(b.startTime || ''));
+};
+const groupsForCourse = (course: CatalogCourse) => [
+  ...course.options.map((option, index) => ({ ...option, key: String(index), unassigned: false })),
+  ...(course.unassignedSections.length ? [{ key: 'unassigned', label: 'Other listed sections', bookingUrl: null, sections: course.unassignedSections, unassigned: true }] : []),
+];
+const missingDetailsNote = (course: CatalogCourse) => {
+  const meetings = groupsForCourse(course).flatMap(group => group.sections.flatMap(section => section.meetings));
+  const gaps = [
+    meetings.some(meeting => !meeting.location) ? 'locations' : '',
+    meetings.some(meeting => meeting.kind === 'class' && (!meeting.startDate || !meeting.endDate)) ? 'class date ranges' : '',
+  ].filter(Boolean);
+  return gaps.length ? `The public catalog does not list all ${gaps.join(' or ')}. Available exam dates appear below.` : '';
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow,noarchive,noimageindex" />
+    <meta name="referrer" content="no-referrer" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; base-uri 'none'; object-src 'none'; form-action 'none'" />
+    <meta name="theme-color" content="#07161e" />
+    <meta name="description" content="Winter 2027 course booking shortcuts for 0311." />
+    <link rel="canonical" href="https://boomerrawlings.com/0311/" />
+    <title>Boomer's Better Booking</title>
+  </head>
+  <body class="teaching-shell roomie-shell">
+    <a class="teaching-skip" href="#roomie-main">Skip to courses</a>
+    <main id="roomie-main" class="course-library roomie-library">
+      <div class="library-intro">
+        <p class="teaching-eyebrow">0311 / WINTER 2027</p>
+        <h1>Boomer's Better Booking</h1>
+        <div class="booking-steps">
+          <p>Step One: <a href="https://sis.ucsd.edu/" target="_blank" rel="noopener noreferrer">Log in to TSS</a> in another tab on this browser</p>
+          <p>Step Two: Click <span class="tss-book-inner tss-book-example">Book</span> below.</p>
+          <p>Step Three: Feel good about not dealing with TSS.</p>
+        </div>
+      </div>
+
+      <div class="library-toolbar roomie-toolbar">
+        <div class="roomie-filter">
+          <label for="roomie-select">Roomie</label>
+          <select id="roomie-select" aria-controls="roomie-collection" data-roomie-filter>
+            <option value="all">All roomies</option>
+            {roomies.map(roomie => <option value={roomie.room}>{roomie.room} · {roomie.name}</option>)}
+          </select>
+        </div>
+        <button type="button" data-expand-roomies aria-controls="roomie-collection">Expand all</button>
+      </div>
+      <p class="visually-hidden" role="status" aria-live="polite" data-roomie-status>Showing all {roomies.length} roomies.</p>
+
+      <div id="roomie-collection" class="module-collection">
+        {roomies.map(roomie => (
+          <details id={`room-${roomie.room}`} class="course-module roomie-card" data-roomie-card data-room-number={roomie.room}>
+            <summary>
+              <span class="module-number" aria-label={`Room ${roomie.room}`}>{roomie.room}</span>
+              <span class="module-heading">
+                <small>{roomie.major || 'Major pending'}</small>
+                <strong>{roomie.name}</strong>
+              </span>
+              <span class="module-count">{roomie.courses.length} {roomie.courses.length === 1 ? 'course' : 'courses'}</span>
+              <span class="disclosure-icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="module-assets">
+              {roomie.courses.some(course => course.kind === 'options') && <p class="catalog-updated">Course details updated {dateLabel(catalogUpdatedAt)} · Times shown in Pacific time</p>}
+              {roomie.courses.length > 0 ? roomie.courses.map(course => course.kind === 'selected' ? (
+                <div class={`asset-row course-row category-${course.categoryStyle}`}>
+                  <span class="asset-type">{course.category}</span>
+                  <span class="asset-row-text">
+                    <strong>{course.title}</strong>
+                    <small>{course.code} · {course.sections.length === 1 ? 'Section' : 'Sections'} {course.sections.join(' · ')}</small>
+                  </span>
+                  <a class="tss-book" href={course.bookingUrl} aria-label={`Book ${course.title} in TSS`}>
+                    <span class="tss-book-inner">Book</span>
+                  </a>
+                </div>
+              ) : (
+                <details class={`course-options category-${course.categoryStyle}`} data-course-options>
+                  <summary class="asset-row course-row">
+                    <span class="asset-type">{course.category}</span>
+                    <span class="asset-row-text">
+                      <strong>{course.title}</strong>
+                      <small>{course.code} · {course.options.length} {course.options.length === 1 ? 'booking option' : 'booking options'}</small>
+                    </span>
+                    <span class="disclosure-icon" aria-hidden="true">+</span>
+                  </summary>
+                  <div class="course-options-content">
+                    {missingDetailsNote(course) && <p class="course-details-note">{missingDetailsNote(course)}</p>}
+                    {groupsForCourse(course).map(group => (
+                      <section class:list={['booking-option', { 'booking-option-unassigned': group.unassigned }]} aria-labelledby={`option-${roomie.room}-${course.code}-${group.key}`}>
+                        <div class="booking-option-heading">
+                          <h2 id={`option-${roomie.room}-${course.code}-${group.key}`}>{group.unassigned ? group.label : <><span class="option-number">Option {Number(group.key) + 1}</span><span class="option-section-codes">{group.label}</span></>}</h2>
+                          {!group.unassigned && (group.bookingUrl ? (
+                            <a class="tss-book" href={group.bookingUrl} aria-label={`Book ${course.code}, ${group.label} in TSS`}><span class="tss-book-inner">Book</span></a>
+                          ) : (
+                            <button class="tss-book" type="button" disabled aria-label={`Booking link unavailable for ${course.code}, ${group.label}`} title="Booking link not available for this option"><span class="tss-book-inner">Book</span></button>
+                          ))}
+                        </div>
+                        {group.unassigned && <p class="option-note">These sections are not linked to a complete booking option.</p>}
+                        {!group.unassigned && !group.bookingUrl && <p class="option-note">Booking link not available yet.</p>}
+                        {group.sections.map(section => (
+                          <div class="option-section">
+                            <div class="option-section-heading">
+                              <h3>{kindLabel(section.type)} <span>{section.code}</span></h3>
+                              <p>{section.instructors.length ? section.instructors.join(', ') : 'Instructor TBA'}</p>
+                            </div>
+                            <div class="section-meetings" role="list" aria-label={`${section.code} meetings`}>
+                              {classMeetings(section).length ? classMeetings(section).map(meeting => (
+                                <div class="section-meeting" role="listitem">
+                                  <div class="meeting-when">
+                                    <strong>{meeting.date ? [meeting.days.join(', '), dateLabel(meeting.date)].filter(Boolean).join(' · ') : meeting.days.join(', ') || 'Day TBA'}</strong>
+                                    <span>{meeting.startTime ? `${timeLabel(meeting.startTime)}${meeting.endTime ? `–${timeLabel(meeting.endTime)}` : ''}` : 'Time TBA'}</span>
+                                    {(meeting.startDate || meeting.endDate) && <small>{meeting.startDate && dateLabel(meeting.startDate)}{meeting.startDate && meeting.endDate && '–'}{meeting.endDate && dateLabel(meeting.endDate)}</small>}
+                                  </div>
+                                  <div class="meeting-location"><span>Location</span><strong>{meeting.location || 'Not listed'}</strong></div>
+                                </div>
+                              )) : (
+                                <div class="section-meeting" role="listitem"><div class="meeting-when"><strong>Day TBA</strong><span>Time TBA</span></div><div class="meeting-location"><span>Location</span><strong>Not listed</strong></div></div>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                        {examMeetings(group.sections).length > 0 && (
+                          <details class="option-exams">
+                            <summary>{examMeetings(group.sections).length} {examMeetings(group.sections).length === 1 ? 'exam date' : 'exam dates'}</summary>
+                            <div class="exam-meetings" role="list" aria-label={`${group.label} exam dates`}>
+                              {examMeetings(group.sections).map(meeting => (
+                                <div class="section-meeting exam-meeting" role="listitem">
+                                  <div class="meeting-when">
+                                    <strong>{kindLabel(meeting.kind)} · {meeting.date ? [dayLabel(meeting.day), dateLabel(meeting.date)].filter(Boolean).join(', ') : 'Date TBA'}</strong>
+                                    <span>{meeting.startTime ? `${timeLabel(meeting.startTime)}${meeting.endTime ? `–${timeLabel(meeting.endTime)}` : ''}` : 'Time TBA'}</span>
+                                    <small>{meeting.sectionCodes.join(' · ')}</small>
+                                    {(meeting.startDate || meeting.endDate) && <small>{meeting.startDate && dateLabel(meeting.startDate)}{meeting.startDate && meeting.endDate && '–'}{meeting.endDate && dateLabel(meeting.endDate)}</small>}
+                                  </div>
+                                  <div class="meeting-location"><span>Location</span><strong>{meeting.location || 'Not listed'}</strong></div>
+                                </div>
+                              ))}
+                            </div>
+                          </details>
+                        )}
+                      </section>
+                    ))}
+                    {!course.options.length && !course.unassignedSections.length && <p class="roomie-empty">Sections not listed yet.</p>}
+                    {course.courseUrl && <a class="course-detail-link" href={course.courseUrl}>View {course.code} in TSS</a>}
+                  </div>
+                </details>
+              )) : <p class="roomie-empty">Courses not added yet.</p>}
+            </div>
+          </details>
+        ))}
+      </div>
+      <p class="library-footnote">Opens TSS. Review your section and finish booking there.</p>
+    </main>
+    <script>import '../../scripts/roomie-booking';</script>
+  </body>
+</html>

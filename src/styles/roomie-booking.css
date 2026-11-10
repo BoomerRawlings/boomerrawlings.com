@@ -1,0 +1,146 @@
+@font-face {
+  font-family: 'TSS 72 Semibold';
+  src: url('/0311/fonts/72-SemiboldDuplex.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.roomie-library { min-height: 100svh; }
+.booking-steps { display: grid; gap: 6px; margin-top: 20px; color: var(--teach-muted); font-size: 19px; }
+.booking-steps a { text-underline-offset: 3px; }
+.tss-book-example { vertical-align: middle; margin: 0 3px; }
+.roomie-filter { display: flex; align-items: center; gap: 12px; }
+.roomie-filter label { color: var(--teach-muted); font-size: 13px; }
+.roomie-filter select {
+  min-width: 220px;
+  max-width: 100%;
+  padding: 8px 34px 8px 12px;
+  border: 1px solid var(--teach-line);
+  border-radius: 3px;
+  color: var(--teach-ink);
+  background-color: #07161e;
+  font-size: 13px;
+  cursor: pointer;
+}
+.roomie-card[hidden] { display: none; }
+.roomie-card > summary { min-height: 128px; }
+.roomie-card .module-heading { min-width: 0; }
+.roomie-card .module-heading small { text-transform: uppercase; }
+.roomie-card .module-heading strong { overflow-wrap: anywhere; }
+.course-row { cursor: default; --asset-color: var(--teach-breakdown); }
+.course-row .asset-type { flex: 0 0 110px; white-space: normal; }
+.course-row .asset-row-text { min-width: 0; }
+.course-row .asset-row-text strong { overflow-wrap: anywhere; }
+.category-psychology { --asset-color: var(--teach-breakdown); }
+.category-philosophy { --asset-color: var(--teach-master); }
+.category-computer-science { --asset-color: var(--teach-interactive); }
+.category-economics, .category-economics .course-row { --asset-color: var(--teach-master); }
+.category-management, .category-management .course-row { --asset-color: var(--teach-interactive); }
+.catalog-updated { padding: 0 12px 14px; color: var(--teach-muted); font-size: 12px; }
+.course-options > summary { cursor: pointer; }
+.course-options-content { padding: 0 12px 20px; }
+.course-details-note { margin: 0 0 14px; color: var(--teach-muted); font-size: 12px; }
+.booking-option { padding: 12px 16px; margin: 0 0 12px; border: 1px solid var(--teach-line); border-radius: 3px; background: rgba(7,23,32,.4); }
+.booking-option-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 6px; }
+.booking-option-heading h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 12px; min-width: 0; font-size: 16px; font-weight: 600; line-height: 1.35; overflow-wrap: anywhere; }
+.option-number { white-space: nowrap; }
+.option-section-codes { font: 11px/1.5 Consolas, monospace; color: #a2bdc8; }
+.option-note { font-size: 11px; color: var(--teach-muted); margin: 0 0 5px; }
+.option-section + .option-section { margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(110,210,230,.12); }
+.option-section-heading { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 18px; margin-bottom: 2px; }
+.option-section-heading h3 { font-size: 14px; font-weight: 600; }
+.option-section-heading h3 span { margin-left: 7px; font: 11px/1.5 Consolas, monospace; color: #a2bdc8; }
+.option-section-heading p { font-size: 13px; color: var(--teach-muted); }
+.section-meeting { display: grid; grid-template-columns: minmax(0, 1fr) minmax(130px, .6fr); gap: 4px 18px; padding: 1px 0; font-size: 13px; }
+.section-meeting + .section-meeting { border-top: 1px solid rgba(110,210,230,.08); }
+.meeting-when, .meeting-location { display: flex; flex-wrap: wrap; gap: 3px 12px; align-content: flex-start; }
+.meeting-when strong, .meeting-location strong { font-weight: 400; }
+.meeting-when small { width: 100%; font-size: 11px; color: var(--teach-muted); }
+.meeting-location { overflow-wrap: anywhere; }
+.meeting-location > span { color: var(--teach-muted); }
+.option-exams { margin-top: 8px; padding-top: 6px; border-top: 1px solid rgba(110,210,230,.12); font-size: 12px; color: var(--teach-muted); }
+.option-exams > summary { width: fit-content; padding: 0 2px; color: #b1cfda; }
+.option-exams > summary::before { content: '+ '; }
+.option-exams[open] > summary::before { content: '− '; }
+.exam-meetings { padding-top: 6px; color: var(--teach-ink); }
+.exam-meeting { padding: 6px 0; }
+.course-detail-link { display: inline-block; color: var(--teach-muted); font-size: 12px; text-underline-offset: 3px; }
+.roomie-empty {
+  padding: 22px 12px 10px;
+  border-top: 1px solid rgba(110,210,230,.15);
+  color: var(--teach-muted);
+  font-size: 14px;
+}
+
+/* The saved TSS compact Horizon button's final CSS cascade. */
+.tss-book {
+  display: inline-flex;
+  flex: none;
+  height: 32px;
+  padding: 3px 0;
+  border: 0;
+  background: transparent;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: top;
+  -webkit-tap-highlight-color: transparent;
+}
+.tss-book-inner {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  height: 26px;
+  min-width: 32px;
+  padding: 0 7px;
+  border: 1px solid #27367b;
+  border-radius: 8px;
+  background: #27367b;
+  color: #fff;
+  font-family: 'TSS 72 Semibold', Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+  text-shadow: none;
+}
+.roomie-shell button.tss-book { background: transparent; border: 0; padding: 3px 0; }
+.roomie-shell button.tss-book:disabled { opacity: .4; cursor: default; }
+.tss-book:not(:disabled):hover .tss-book-inner { border-color: #212d68; background: #212d68; }
+.tss-book:not(:disabled):active .tss-book-inner { border-color: #27367b; background: #fff; color: #27367b; font-weight: 700; }
+.tss-book:focus-visible { outline: none; }
+.tss-book:focus-visible .tss-book-inner::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  pointer-events: none;
+}
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+@media (max-width: 760px) {
+  .roomie-toolbar { align-items: center; }
+  .roomie-filter { min-width: 0; flex: 1; gap: 8px; }
+  .roomie-filter select { width: 100%; min-width: 0; }
+  .roomie-toolbar > button { flex: none; }
+  .roomie-card > summary { min-height: 108px; }
+  .course-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 14px; row-gap: 8px; }
+  .course-row .asset-type { width: auto; max-width: 170px; justify-self: start; grid-column: 1; }
+  .course-row .asset-row-text { grid-column: 1; }
+  .course-row .tss-book { grid-column: 2; grid-row: 1 / 3; align-self: center; }
+  .course-row .asset-row-text small { font-size: 12px; }
+  .course-options > summary .disclosure-icon { grid-column: 2; grid-row: 1 / 3; align-self: center; }
+  .catalog-updated { padding: 0 6px 12px; }
+  .course-options-content { padding: 0 2px 16px; }
+  .booking-option { padding: 12px; }
+  .section-meeting { grid-template-columns: minmax(0, 1fr); }
+  .meeting-location { grid-column: 1; font-size: 12px; }
+  .booking-option-heading h2 { font-size: 15px; }
+}
+
+@media (max-width: 420px) {
+  .roomie-filter { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .roomie-toolbar > button { align-self: flex-end; }
+  .roomie-card .module-heading strong { font-size: 22px; }
+}

@@ -42,6 +42,7 @@ const brainTeachingPaths = new Set([
 ]);
 const unlistedContentPaths = new Set([
   ...brainTeachingPaths,
+  join('0311', 'index.html'),
   join('aristotter', 'index.html'),
   join('deckle', 'index.html'),
   join('swc', 'index.html'),
@@ -79,6 +80,12 @@ if (contentHtmlFiles.length !== 36 || standaloneHtmlFiles.length !== 8 || unlist
 const failures = [];
 const publishedBytes=files.reduce((total,file)=>total+statSync(file).size,0);
 if(publishedBytes>1_000_000_000)failures.push(`Pages build exceeds 1 GB: ${publishedBytes} bytes`);
+const roomiePath = join(output, '0311', 'index.html');
+const roomieHtml = readFileSync(roomiePath, 'utf8');
+if (!roomieHtml.includes('<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">')
+  || !roomieHtml.includes('<meta name="referrer" content="no-referrer">')) {
+  failures.push('0311/index.html: unlisted booking page metadata is incomplete');
+}
 for (const path of brainTeachingPaths) {
   const html = readFileSync(join(output,path),'utf8');
   if(!html.includes('<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">'))failures.push(`${path}: teaching/lecture route must remain unindexed`);
@@ -595,7 +602,7 @@ if (!existsSync(decklePath)) {
   if (deckleHtml.includes('Open Deckle directly')) failures.push('deckle/index.html: confusing direct-link overlay must remain absent');
 }
 // Deckle owns its button inside the proxied app, not the legacy iframe wrapper.
-for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => !brainTeachingPaths.has(relative(output, file)) && file !== decklePath && file !== karmaPath && file !== join(output, 'BoomerKarma', 'Kemberton', 'index.html') && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html') && file !== join(output, 'ead', 'index.html') && file !== join(output, 'subs', 'index.html') && file !== join(output, 'psyc', 'index.html') && file !== join(output, 'brain', 'index.html') && file !== join(output, 'chem', 'index.html'))) {
+for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => !brainTeachingPaths.has(relative(output, file)) && file !== roomiePath && file !== decklePath && file !== karmaPath && file !== join(output, 'BoomerKarma', 'Kemberton', 'index.html') && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html') && file !== join(output, 'ead', 'index.html') && file !== join(output, 'subs', 'index.html') && file !== join(output, 'psyc', 'index.html') && file !== join(output, 'brain', 'index.html') && file !== join(output, 'chem', 'index.html'))) {
   const html = readFileSync(file, 'utf8');
   const count = (html.match(/class="support-coffee"/g) ?? []).length;
   if (html.includes('class="analysis-research"')) {
@@ -612,6 +619,9 @@ for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => !b
 for (const file of [...contentHtmlFiles, ...standaloneHtmlFiles]) {
   const html = readFileSync(file, 'utf8');
   const label = relative(output, file);
+  if (/href=["'][^"']*\/0311(?:\/[^"']*)?(?:[?#][^"']*)?["']/i.test(html)) {
+    failures.push(`${label}: public page links to the unlisted 0311 route`);
+  }
   if (/href=["'][^"']*\/aristotter\/?(?:[?#][^"']*)?["']/i.test(html)) {
     failures.push(`${label}: public page links to the unlisted Aristotter route`);
   }

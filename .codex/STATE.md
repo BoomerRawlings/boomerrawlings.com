@@ -1,5 +1,20 @@
 # Project state
 
+## Roommate booking launcher — 2026-11-10
+
+- Mode: new task in existing site. Objective: `/0311/` using concept-library styling, room-number accordions, major/name headings, and TSS-styled course links. Status: implementation.
+- Verified: canonical GitHub Pages workflow serves domain; older Netlify project is not current origin. Existing `brain-teaching.css`, Source Sans 3 and Teko match supplied reference.
+- Booking links use saved TSS Detail/EventPackage route; navigation only. Package associations checked against public UCSD catalog; live destination/eligibility not verified.
+- Data: names/numbers and all majors explicitly supplied for page. Remaining course selections requested; keep empty rather than infer. No emails published.
+- Source: `src/pages/0311/`, `src/data/roomie-booking.ts`, `src/styles/roomie-booking.css`, `src/scripts/roomie-booking.ts`. SAP72 font from official SAP repository with license.
+- Current: eight cards and initial five selected routes; three additional courses render 15 complete combinations plus one TBA section. Header/title and three steps follow latest user copy, retaining the small term label and styled Book sample. Ready for production push.
+- Reusable public importer, metadata overrides and roommate course-code references implemented; `docs/0311-course-updates.md` documents updates. Independent review matched all section/package associations, instructors and 14 exam meetings to official public data; seven deterministic importer tests pass.
+- Decision: user accepted public-only details, then supplied saved ECON100A page. It confirms four packages, module ID 14499, and rooms; four exact links enabled. Other unknown IDs/locations/date ranges stay unknown; 11 unavailable Book controls disabled. User declined the proposed 503 workaround; retain same-tab links. Chrome not connected to tab tools; desktop untouched.
+- UX correction: repeated weekday/exam rows made four combinations look like many sections. Condensing shared times, explicitly numbering options and collapsing exams; public component-section counts removed from course headings.
+- Checks: final full npm test passed; nine importer tests pass. Independent data/route/display review passed. Desktop fonts/buttons/reference comparison, four compact options, exams, TBA, dropdown, expand/collapse-all, no overflow at 1205/390/320 and clear console verified. `design-qa.md` passed. Live TSS session/eligibility untested.
+- Next: one verified production push and follow Pages deployment; verify live route. Remaining authenticated fields may be enriched later from authoritative evidence.
+- Preserve unrelated unfinished work below. No DNS or hosting migration.
+
 ## Brain professor teaching library — 2026-11-10
 
 - COMPLETE/live:65 GIFs,6 finite interactables,8 lecture ZIPs across L12–L19. All source/interpretation/motion/export/browser/CI/live gates closed. Final content6c37f385ee8fa52e2752e10078365bd631209dc6 / Pages42803655958 passed.1,691 teaching checks;89,650frames;195 canonical-public animation media matches.

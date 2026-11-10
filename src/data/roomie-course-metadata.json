@@ -1,0 +1,215 @@
+{
+  "term": "WI27",
+  "academicYear": "2026",
+  "academicPeriod": "3",
+  "sources": [
+    {
+      "url": "https://classplanner.apps.ucsd.edu/search",
+      "observedAt": "2026-11-10",
+      "note": "Public catalog supplies sections, package associations, instructors, days, times and exam dates. It omits module IDs, rooms and recurring date ranges."
+    },
+    {
+      "url": "https://tss.ucsd.edu/fiori",
+      "observedAt": "2026-11-10",
+      "note": "Saved official planner links establish Detail/EventPackage route and WI27 academic year 2026 / period 3. New course module IDs require observation."
+    }
+  ],
+  "overrideFormat": {
+    "sectionKey": "Exact catalog section_id, including E/EL prefix and leading zeros",
+    "sectionFields": [
+      "location",
+      "startDate",
+      "endDate",
+      "sources",
+      "meetings"
+    ],
+    "meetingKey": "meeting_kind|day_code|specific_date|start_time_display|end_time_display; null fields become empty strings",
+    "meetingFields": [
+      "location",
+      "startDate",
+      "endDate",
+      "sources"
+    ],
+    "note": "Section-level room/date overrides apply to class meetings only. Override exams by their exact meeting key. Record authoritative source for every manual enrichment."
+  },
+  "courses": {
+    "ECON-100A": {
+      "moduleId": "14499",
+      "category": "Economics",
+      "categoryStyle": "economics",
+      "sources": [
+        {
+          "archive": "ECON100A_files.zip",
+          "entry": "ECON100A.html",
+          "url": "https://tss.ucsd.edu/fiori#YSchedule-view&/YUCSD_CON_MODULE(AcademicYear='2026',AcademicPeriod='3',ModuleID='14499')?layout=TwoColumnsMidExpanded",
+          "observedAt": "2026-11-10",
+          "note": "Saved Schedule of Classes page: four Go To Booking packages. Module ID from saved URL; rooms and exam rooms explicitly displayed beside each section meeting. No recurring start/end dates displayed."
+        }
+      ],
+      "sections": {
+        "E 00007898": {
+          "location": "Solis Hall Room 107",
+          "sources": [
+            {
+              "archive": "ECON100A_files.zip",
+              "entry": "ECON100A.html",
+              "url": "https://tss.ucsd.edu/fiori#YSchedule-view&/YUCSD_CON_MODULE(AcademicYear='2026',AcademicPeriod='3',ModuleID='14499')?layout=TwoColumnsMidExpanded",
+              "observedAt": "2026-11-10",
+              "note": "Saved Schedule of Classes page: four Go To Booking packages. Module ID from saved URL; rooms and exam rooms explicitly displayed beside each section meeting. No recurring start/end dates displayed."
+            }
+          ],
+          "meetings": {
+            "final|S|2027-03-13|8:00am|10:59am": {
+              "location": "Solis Hall Room 107",
+              "sources": [
+                {
+                  "archive": "ECON100A_files.zip",
+                  "entry": "ECON100A.html",
+                  "url": "https://tss.ucsd.edu/fiori#YSchedule-view&/YUCSD_CON_MODULE(AcademicYear='2026',AcademicPeriod='3',ModuleID='14499')?layout=TwoColumnsMidExpanded",
+                  "observedAt": "2026-11-10",
+                  "note": "Saved Schedule of Classes page: four Go To Booking packages. Module ID from saved URL; rooms and exam rooms explicitly displayed beside each section meeting. No recurring start/end dates displayed."
+                }
+              ]
+            },
+            "midterm|M|2027-03-08|8:00pm|9:50pm": {
+              "location": "Solis Hall Room 107",
+              "sources": [
+                {
+                  "archive": "ECON100A_files.zip",
+                  "entry": "ECON100A.html",
+                  "url": "https://tss.ucsd.edu/fiori#YSchedule-view&/YUCSD_CON_MODULE(AcademicYear='2026',AcademicPeriod='3',ModuleID='14499')?layout=TwoColumnsMidExpanded",
+                  "observedAt": "2026-11-10",
+                  "note": "Saved Schedule of Classes page: four Go To Booking packages. Module ID from saved URL; rooms and exam rooms explicitly displayed beside each section meeting. No recurring start/end dates displayed."
+                }
+              ]
+            },
+            "midterm|M|2027-03-01|8:00pm|9:50pm": {
+              "location": "Solis Hall Room 107",
+              "sources": [
+                {
+                  "archive": "ECON100A_files.zip",
+                  "entry": "ECON100A.html",
+                  "url": "https://tss.ucsd.edu/fiori#YSchedule-view&/YUCSD_CON_MODULE(AcademicYear='2026',AcademicPeriod='3',ModuleID='14499')?layout=TwoColumnsMidExpanded",
+                  "observedAt": "2026-11-10",
+                  "note": "Saved Schedule of Classes page: four Go To Booking packages. Module ID from saved URL; rooms and exam rooms explicitly displayed beside each section meeting. No recurring start/end dates displayed."
+                }
+              ]
+            }
+          }
+        },
+        "E 00007923": {
+          "location": "Center Hall Room 214",
+          "sources": [
+            {
+              "archive": "ECON100A_files.zip",
+              "entry": "ECON100A.html",
+              "url": "https://tss.ucsd.edu/fiori#YSchedule-view&/YUCSD_CON_MODULE(AcademicYear='2026',AcademicPeriod='3',ModuleID='14499')?layout=TwoColumnsMidExpanded",
+              "observedAt": "2026-11-10",
+              "note": "Saved Schedule of Classes page: four Go To Booking packages. Module ID from saved URL; rooms and exam rooms explicitly displayed beside each section meeting. No recurring start/end dates displayed."
+            }
+          ]
+        },
+        "E 00007924": {
+          "location": "Center Hall Room 214",
+          "sources": [
+            {
+              "archive": "ECON100A_files.zip",
+              "entry": "ECON100A.html",
+              "url": "https://tss.ucsd.edu/fiori#YSchedule-view&/YUCSD_CON_MODULE(AcademicYear='2026',AcademicPeriod='3',ModuleID='14499')?layout=TwoColumnsMidExpanded",
+              "observedAt": "2026-11-10",
+              "note": "Saved Schedule of Classes page: four Go To Booking packages. Module ID from saved URL; rooms and exam rooms explicitly displayed beside each section meeting. No recurring start/end dates displayed."
+            }
+          ]
+        },
+        "E 00007899": {
+          "location": "Center Hall Room 101",
+          "sources": [
+            {
+              "archive": "ECON100A_files.zip",
+              "entry": "ECON100A.html",
+              "url": "https://tss.ucsd.edu/fiori#YSchedule-view&/YUCSD_CON_MODULE(AcademicYear='2026',AcademicPeriod='3',ModuleID='14499')?layout=TwoColumnsMidExpanded",
+              "observedAt": "2026-11-10",
+              "note": "Saved Schedule of Classes page: four Go To Booking packages. Module ID from saved URL; rooms and exam rooms explicitly displayed beside each section meeting. No recurring start/end dates displayed."
+            }
+          ],
+          "meetings": {
+            "final|S|2027-03-13|8:00am|10:59am": {
+              "location": "Center Hall Room 101",
+              "sources": [
+                {
+                  "archive": "ECON100A_files.zip",
+                  "entry": "ECON100A.html",
+                  "url": "https://tss.ucsd.edu/fiori#YSchedule-view&/YUCSD_CON_MODULE(AcademicYear='2026',AcademicPeriod='3',ModuleID='14499')?layout=TwoColumnsMidExpanded",
+                  "observedAt": "2026-11-10",
+                  "note": "Saved Schedule of Classes page: four Go To Booking packages. Module ID from saved URL; rooms and exam rooms explicitly displayed beside each section meeting. No recurring start/end dates displayed."
+                }
+              ]
+            },
+            "midterm|M|2027-03-01|8:00pm|9:50pm": {
+              "location": "Center Hall Room 101",
+              "sources": [
+                {
+                  "archive": "ECON100A_files.zip",
+                  "entry": "ECON100A.html",
+                  "url": "https://tss.ucsd.edu/fiori#YSchedule-view&/YUCSD_CON_MODULE(AcademicYear='2026',AcademicPeriod='3',ModuleID='14499')?layout=TwoColumnsMidExpanded",
+                  "observedAt": "2026-11-10",
+                  "note": "Saved Schedule of Classes page: four Go To Booking packages. Module ID from saved URL; rooms and exam rooms explicitly displayed beside each section meeting. No recurring start/end dates displayed."
+                }
+              ]
+            },
+            "midterm|M|2027-03-08|8:00pm|9:50pm": {
+              "location": "Center Hall Room 101",
+              "sources": [
+                {
+                  "archive": "ECON100A_files.zip",
+                  "entry": "ECON100A.html",
+                  "url": "https://tss.ucsd.edu/fiori#YSchedule-view&/YUCSD_CON_MODULE(AcademicYear='2026',AcademicPeriod='3',ModuleID='14499')?layout=TwoColumnsMidExpanded",
+                  "observedAt": "2026-11-10",
+                  "note": "Saved Schedule of Classes page: four Go To Booking packages. Module ID from saved URL; rooms and exam rooms explicitly displayed beside each section meeting. No recurring start/end dates displayed."
+                }
+              ]
+            }
+          }
+        },
+        "E 00007926": {
+          "location": "Center Hall Room 214",
+          "sources": [
+            {
+              "archive": "ECON100A_files.zip",
+              "entry": "ECON100A.html",
+              "url": "https://tss.ucsd.edu/fiori#YSchedule-view&/YUCSD_CON_MODULE(AcademicYear='2026',AcademicPeriod='3',ModuleID='14499')?layout=TwoColumnsMidExpanded",
+              "observedAt": "2026-11-10",
+              "note": "Saved Schedule of Classes page: four Go To Booking packages. Module ID from saved URL; rooms and exam rooms explicitly displayed beside each section meeting. No recurring start/end dates displayed."
+            }
+          ]
+        },
+        "E 00007925": {
+          "location": "Center Hall Room 214",
+          "sources": [
+            {
+              "archive": "ECON100A_files.zip",
+              "entry": "ECON100A.html",
+              "url": "https://tss.ucsd.edu/fiori#YSchedule-view&/YUCSD_CON_MODULE(AcademicYear='2026',AcademicPeriod='3',ModuleID='14499')?layout=TwoColumnsMidExpanded",
+              "observedAt": "2026-11-10",
+              "note": "Saved Schedule of Classes page: four Go To Booking packages. Module ID from saved URL; rooms and exam rooms explicitly displayed beside each section meeting. No recurring start/end dates displayed."
+            }
+          ]
+        }
+      }
+    },
+    "ECON-120A": {
+      "moduleId": null,
+      "category": "Economics",
+      "categoryStyle": "economics",
+      "sources": [],
+      "sections": {}
+    },
+    "MGT-162": {
+      "moduleId": null,
+      "category": "Management",
+      "categoryStyle": "management",
+      "sources": [],
+      "sections": {}
+    }
+  }
+}
