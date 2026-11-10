@@ -13,7 +13,7 @@
       "slides": [
         12
       ],
-      "duration": 93,
+      "duration": 106,
       "width": 1280,
       "height": 720,
       "gif": "posner-master.gif",
@@ -22,67 +22,47 @@
       "chapters": [
         {
           "time": 0,
-          "title": "Fixation & attention"
+          "title": "Valid · The task"
         },
         {
-          "time": 6,
-          "title": "Valid · Fixation"
-        },
-        {
-          "time": 9,
+          "time": 8,
           "title": "Valid · Cue"
         },
         {
-          "time": 15,
+          "time": 16,
           "title": "Valid · Target"
         },
         {
-          "time": 21,
-          "title": "Valid · Response"
-        },
-        {
-          "time": 28,
-          "title": "Neutral · Fixation"
-        },
-        {
-          "time": 31,
-          "title": "Neutral · Cue"
-        },
-        {
-          "time": 37,
-          "title": "Neutral · Target"
-        },
-        {
-          "time": 43,
-          "title": "Neutral · Response"
-        },
-        {
-          "time": 50,
-          "title": "Invalid · Fixation"
-        },
-        {
-          "time": 53,
+          "time": 26,
           "title": "Invalid · Cue"
         },
         {
-          "time": 59,
+          "time": 34,
           "title": "Invalid · Target"
         },
         {
-          "time": 65,
-          "title": "Invalid · Reorient"
+          "time": 46,
+          "title": "Neutral · Cue"
         },
         {
-          "time": 71,
-          "title": "Invalid · Response"
+          "time": 54,
+          "title": "Neutral · Target"
         },
         {
-          "time": 78,
-          "title": "Compare the conditions"
+          "time": 64,
+          "title": "Read the original graph"
+        },
+        {
+          "time": 76,
+          "title": "Benefit of a valid cue"
         },
         {
           "time": 88,
-          "title": "Return to fixation"
+          "title": "Cost of an invalid cue"
+        },
+        {
+          "time": 100,
+          "title": "Valid · Trial reset"
         }
       ],
       "sources": [

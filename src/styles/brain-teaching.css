@@ -21,3 +21,6 @@ button,input,select{font:inherit}button,a,input,select{touch-action:manipulation
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
 .teaching-presenting{overflow:hidden}.is-presenting{position:fixed!important;inset:0!important;z-index:1000!important;width:100vw!important;height:100dvh!important;margin:0!important}
+
+/* Circle growth follows the shared cycle clock, including pause and reset. */
+.guitar-learning .strength-marker{transition:none}

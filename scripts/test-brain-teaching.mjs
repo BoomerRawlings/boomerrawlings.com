@@ -6,6 +6,20 @@ const source = readFileSync('src/scripts/brain/guitar-learning-model.ts','utf8')
 const {code} = transformSync(source,{loader:'ts',format:'esm'});
 const model = await import(`data:text/javascript;base64,${Buffer.from(code).toString('base64')}`);
 let checks=0;
+const motionCode=buildSync({entryPoints:['src/scripts/brain/guitar-learning-motion.ts'],bundle:true,write:false,platform:'node',format:'esm'}).outputFiles[0].text;
+const motion=await import(`data:text/javascript;base64,${Buffer.from(motionCode).toString('base64')}`);
+for(const outcome of ['good','poor']){
+  const before={go:0,nogo:0},after={go:outcome==='good'?1:-1,nogo:outcome==='good'?-1:1};
+  assert.deepEqual(motion.cycleFrame(17.9,outcome,before,after).strength,before,'No growth before dopamine feedback');checks++;
+  let previous=0;
+  for(let t=18;t<24;t+=.05){const frame=motion.cycleFrame(t,outcome,before,after);assert.ok(frame.growth>=previous&&frame.growth-previous<.02,'Growth is gradual and monotone');previous=frame.growth;checks++;}
+  assert.deepEqual(motion.cycleFrame(motion.CYCLE_SECONDS,outcome,before,after).strength,after,'Learned strength persists when motion stops');checks++;
+  assert.deepEqual(motion.activityAt(motion.CYCLE_SECONDS,outcome),motion.activityAt(0,outcome),'Firing returns to baseline');checks++;
+  assert.deepEqual(motion.signalClock(motion.CYCLE_SECONDS),motion.signalClock(0),'Rest and next click show identical signal positions');checks++;
+  assert.equal(motion.signalClock(29).opacity,0,'Signal phase reset is invisible');checks++;
+}
+assert.ok(motion.activityAt(5,'good').go>1&&motion.activityAt(7,'good').gpi<1&&motion.activityAt(9,'good').thalamus>1,'Direct movement has the correct inhibitory signs');checks++;
+assert.ok(motion.activityAt(20,'good').dopamine>1&&motion.activityAt(20,'poor').dopamine<1,'Outcome controls burst versus dip');checks++;
 for(let pattern=0;pattern<8;pattern++){
   let state=model.initialLearningState();
   for(let trial=0;trial<3;trial++){
