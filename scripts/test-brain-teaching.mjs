@@ -77,6 +77,7 @@ for(const module of modules){
     assert.ok(page.includes('data-chapter-offset="2.1"'),'Source-figure chapters, including reset, open after their readable fades');checks++;
   }
   if(module.id==='l14'){assert.ok(page.includes('data-chapter-offset="2.6"'),'Paused viewpoint chapters finish the turn');checks++;}
+  if(module.id==='l17'){assert.ok(page.includes(`data-chapter-offset="${asset.id==='parkinsons-master'?'3.6':'2.1'}"`),'Parkinson rates settle and source captions finish fading before paused chapter entry');checks++;}
   assert.ok(!/<video\b[^>]*\bautoplay/.test(page),'Direct entry starts paused');checks+=2;
   assert.ok(page.includes('download') && page.includes('.gif'),'GIF download exposed');checks++;
  }

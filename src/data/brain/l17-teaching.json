@@ -20,7 +20,7 @@
         10,
         11
       ],
-      "duration": 84,
+      "duration": 125,
       "width": 1280,
       "height": 720,
       "gif": "parkinsons-master.gif",
@@ -32,43 +32,51 @@
           "title": "Reference"
         },
         {
-          "time": 6,
+          "time": 9,
           "title": "SNc loss"
         },
         {
-          "time": 13,
-          "title": "Go fires less"
-        },
-        {
-          "time": 20,
-          "title": "GPi fires more"
+          "time": 18,
+          "title": "D1 and D2 respond"
         },
         {
           "time": 27,
-          "title": "No-Go → GPe"
+          "title": "Direct contribution"
         },
         {
-          "time": 35,
-          "title": "STN → GPi"
+          "time": 36,
+          "title": "GPe falls"
         },
         {
-          "time": 43,
-          "title": "Reduced return"
+          "time": 45,
+          "title": "STN rises"
         },
         {
-          "time": 51,
+          "time": 54,
+          "title": "Both routes converge"
+        },
+        {
+          "time": 63,
+          "title": "Thalamus fires less"
+        },
+        {
+          "time": 72,
+          "title": "Reduced cortical return"
+        },
+        {
+          "time": 81,
           "title": "Symptoms"
         },
         {
-          "time": 60,
+          "time": 93,
           "title": "Treatment context"
         },
         {
-          "time": 69,
+          "time": 105,
           "title": "Beyond movement"
         },
         {
-          "time": 77,
+          "time": 117,
           "title": "Reset illustration"
         }
       ],
@@ -86,7 +94,7 @@
         5,
         6
       ],
-      "duration": 41,
+      "duration": 60,
       "width": 1280,
       "height": 720,
       "gif": "direct-dopamine-loss.gif",
@@ -95,27 +103,31 @@
       "chapters": [
         {
           "time": 0,
-          "title": "Reference"
+          "title": "Full affected circuit"
         },
         {
-          "time": 6,
+          "time": 9,
           "title": "SNc loss"
         },
         {
-          "time": 13,
+          "time": 18,
           "title": "Go fires less"
         },
         {
-          "time": 20,
+          "time": 27,
           "title": "GPi fires more"
         },
         {
-          "time": 27,
-          "title": "Return falls"
+          "time": 36,
+          "title": "Thalamic brake"
         },
         {
-          "time": 34,
-          "title": "Reset illustration"
+          "time": 45,
+          "title": "Reduced return"
+        },
+        {
+          "time": 54,
+          "title": "Return to overview"
         }
       ],
       "sources": [
@@ -132,7 +144,7 @@
         5,
         6
       ],
-      "duration": 48,
+      "duration": 69,
       "width": 1280,
       "height": 720,
       "gif": "indirect-dopamine-loss.gif",
@@ -141,31 +153,35 @@
       "chapters": [
         {
           "time": 0,
-          "title": "Reference"
+          "title": "Full affected circuit"
         },
         {
-          "time": 6,
+          "time": 9,
           "title": "SNc loss"
         },
         {
-          "time": 13,
+          "time": 18,
           "title": "No-Go rises"
         },
         {
-          "time": 20,
+          "time": 27,
           "title": "GPe falls"
         },
         {
-          "time": 27,
+          "time": 36,
           "title": "STN rises"
         },
         {
-          "time": 34,
-          "title": "Brake increases"
+          "time": 45,
+          "title": "GPi output rises"
         },
         {
-          "time": 41,
-          "title": "Reset illustration"
+          "time": 54,
+          "title": "Reduced return"
+        },
+        {
+          "time": 63,
+          "title": "Return to overview"
         }
       ],
       "sources": [
@@ -181,7 +197,7 @@
       "slides": [
         7
       ],
-      "duration": 44,
+      "duration": 78,
       "width": 1280,
       "height": 720,
       "gif": "levodopa.gif",
@@ -193,24 +209,28 @@
           "title": "Precursor"
         },
         {
-          "time": 7,
+          "time": 12,
           "title": "Cross the barrier"
         },
         {
-          "time": 14,
+          "time": 24,
           "title": "Conversion"
         },
         {
-          "time": 21,
+          "time": 36,
           "title": "Functional support"
         },
         {
-          "time": 28,
+          "time": 48,
           "title": "Possible effects"
         },
         {
-          "time": 37,
+          "time": 60,
           "title": "Keep the distinction"
+        },
+        {
+          "time": 72,
+          "title": "Return to overview"
         }
       ],
       "sources": [
@@ -228,7 +248,7 @@
         9,
         10
       ],
-      "duration": 42,
+      "duration": 78,
       "width": 1280,
       "height": 720,
       "gif": "dbs-feedback.gif",
@@ -240,24 +260,28 @@
           "title": "Pulse generator"
         },
         {
-          "time": 7,
+          "time": 12,
           "title": "Target region"
         },
         {
-          "time": 14,
+          "time": 24,
           "title": "Circuit effect"
         },
         {
-          "time": 21,
+          "time": 36,
           "title": "Adaptive feedback"
         },
         {
-          "time": 28,
+          "time": 48,
           "title": "Adjustment"
         },
         {
-          "time": 35,
+          "time": 60,
           "title": "Separate treatment"
+        },
+        {
+          "time": 72,
+          "title": "Return to overview"
         }
       ],
       "sources": [
@@ -281,7 +305,7 @@
         22,
         23
       ],
-      "duration": 85,
+      "duration": 160,
       "width": 1280,
       "height": 720,
       "gif": "hm-master.gif",
@@ -293,48 +317,52 @@
           "title": "Both hemispheres"
         },
         {
-          "time": 7,
+          "time": 12,
           "title": "Bilateral damage"
         },
         {
-          "time": 14,
+          "time": 24,
           "title": "Input lost"
         },
         {
-          "time": 21,
+          "time": 36,
           "title": "After: anterograde"
         },
         {
-          "time": 28,
+          "time": 48,
           "title": "Before: retrograde"
         },
         {
-          "time": 35,
+          "time": 60,
           "title": "Preserved functions"
         },
         {
-          "time": 43,
+          "time": 72,
           "title": "Mirror-only view"
         },
         {
-          "time": 50,
+          "time": 84,
           "title": "Tracing rule"
         },
         {
-          "time": 57,
+          "time": 98,
           "title": "Practice design"
         },
         {
-          "time": 64,
+          "time": 112,
           "title": "Errors decrease"
         },
         {
-          "time": 71,
+          "time": 126,
           "title": "Recollection"
         },
         {
-          "time": 78,
+          "time": 140,
           "title": "Dissociation"
+        },
+        {
+          "time": 154,
+          "title": "Return to overview"
         }
       ],
       "sources": [
@@ -352,7 +380,7 @@
         14,
         15
       ],
-      "duration": 35,
+      "duration": 66,
       "width": 1280,
       "height": 720,
       "gif": "bilateral-mtl.gif",
@@ -364,20 +392,24 @@
           "title": "Both hemispheres"
         },
         {
-          "time": 7,
+          "time": 12,
           "title": "Two structures"
         },
         {
-          "time": 14,
+          "time": 24,
           "title": "Bilateral damage"
         },
         {
-          "time": 21,
+          "time": 36,
           "title": "Input lost"
         },
         {
-          "time": 28,
+          "time": 48,
           "title": "Memory consequence"
+        },
+        {
+          "time": 60,
+          "title": "Return to overview"
         }
       ],
       "sources": [
@@ -396,7 +428,7 @@
         20,
         21
       ],
-      "duration": 35,
+      "duration": 66,
       "width": 1280,
       "height": 720,
       "gif": "amnesia-timeline.gif",
@@ -408,20 +440,24 @@
           "title": "Surgery marker"
         },
         {
-          "time": 7,
+          "time": 12,
           "title": "After: anterograde"
         },
         {
-          "time": 14,
+          "time": 24,
           "title": "Before: retrograde"
         },
         {
-          "time": 21,
+          "time": 36,
           "title": "Both patterns"
         },
         {
-          "time": 28,
+          "time": 48,
           "title": "Working memory"
+        },
+        {
+          "time": 60,
+          "title": "Return to overview"
         }
       ],
       "sources": [
@@ -439,7 +475,7 @@
         22,
         23
       ],
-      "duration": 42,
+      "duration": 88,
       "width": 1280,
       "height": 720,
       "gif": "mirror-tracing.gif",
@@ -451,24 +487,28 @@
           "title": "Mirror-only view"
         },
         {
-          "time": 7,
+          "time": 12,
           "title": "Tracing rule"
         },
         {
-          "time": 14,
+          "time": 26,
           "title": "Practice design"
         },
         {
-          "time": 21,
+          "time": 40,
           "title": "Errors decrease"
         },
         {
-          "time": 28,
+          "time": 54,
           "title": "Recollection"
         },
         {
-          "time": 35,
+          "time": 68,
           "title": "Dissociation"
+        },
+        {
+          "time": 82,
+          "title": "Return to overview"
         }
       ],
       "sources": [

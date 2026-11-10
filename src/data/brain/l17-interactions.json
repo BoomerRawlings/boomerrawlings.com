@@ -9,7 +9,7 @@
       "group": "dopamine",
       "steps": [
         {
-          "title": "Reference",
+          "title": "Complete circuit",
           "caption": "Dopamine supports D1 / Go and restrains D2 / No-Go. GPi continuously inhibits the thalamus; GPe inhibits STN.",
           "poster": "interactive-typical-01.png"
         },
@@ -41,8 +41,8 @@
       "group": "dopamine",
       "steps": [
         {
-          "title": "Reference",
-          "caption": "Dopamine supports D1 / Go and restrains D2 / No-Go. GPi continuously inhibits the thalamus; GPe inhibits STN.",
+          "title": "Complete circuit",
+          "caption": "Both pathways are affected by reduced dopamine. This complete circuit stays in that state while we follow one causal route.",
           "poster": "interactive-reduced-01.png"
         },
         {
@@ -52,7 +52,7 @@
         },
         {
           "title": "Direct pathway",
-          "caption": "Less D1 support means less Go inhibition of GPi. The direct route therefore increases the thalamic brake.",
+          "caption": "Less D1 support means less Go inhibition of GPi. The direct route therefore contributes to an increased thalamic brake.",
           "poster": "interactive-reduced-03.png"
         },
         {
@@ -73,8 +73,8 @@
       "group": "dopamine",
       "steps": [
         {
-          "title": "Reference",
-          "caption": "Dopamine supports D1 / Go and restrains D2 / No-Go. GPi continuously inhibits the thalamus; GPe inhibits STN.",
+          "title": "Complete circuit",
+          "caption": "Both pathways are affected by reduced dopamine. This complete circuit stays in that state while we follow one causal route.",
           "poster": "interactive-greater-reduction-01.png"
         },
         {
@@ -84,7 +84,7 @@
         },
         {
           "title": "Direct pathway",
-          "caption": "Less D1 support means less Go inhibition of GPi. The direct route therefore increases the thalamic brake.",
+          "caption": "Less D1 support means less Go inhibition of GPi. The direct route therefore contributes to an increased thalamic brake.",
           "poster": "interactive-greater-reduction-03.png"
         },
         {

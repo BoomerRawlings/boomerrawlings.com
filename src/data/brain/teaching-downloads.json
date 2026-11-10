@@ -34,5 +34,11 @@
     "url": "https://github.com/BoomerRawlings/boomerrawlings.com/releases/download/psyc108-teaching/psyc108-l19-gifs-4f845ca40aee.zip",
     "sha256": "4f845ca40aee84213fc4ed1001a1bd15d9671dbed4d89d133a50b785dada112a",
     "bytes": 16846050
+  },
+  "l17": {
+    "file": "psyc108-l17-gifs.zip",
+    "url": "https://github.com/BoomerRawlings/boomerrawlings.com/releases/download/psyc108-teaching/psyc108-l17-gifs-b3296d1f09cb.zip",
+    "sha256": "b3296d1f09cba89b4398400ff9c1ba75a64f79c775f30986277e912dd01834c0",
+    "bytes": 82690103
   }
 }
