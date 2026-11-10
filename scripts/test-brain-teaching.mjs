@@ -76,6 +76,7 @@ for(const module of modules){
   if(['l13','l18'].includes(module.id)||module.id==='l16'&&asset.id!=='go-no-go-plasticity'||module.id==='l19'&&['sleep-master','two-stage-model','awake-sleep-replay','cortical-strengthening'].includes(asset.id)){
     assert.ok(page.includes('data-chapter-offset="2.1"'),'Source-figure chapters, including reset, open after their readable fades');checks++;
   }
+  if(module.id==='l12'){assert.ok(page.includes('data-chapter-offset="1.3"'),'Cue reset finishes before paused chapter entry');checks++;}
   if(module.id==='l14'){assert.ok(page.includes('data-chapter-offset="2.6"'),'Paused viewpoint chapters finish the turn');checks++;}
   if(module.id==='l17'){assert.ok(page.includes(`data-chapter-offset="${asset.id==='parkinsons-master'?'3.6':'2.1'}"`),'Parkinson rates settle and source captions finish fading before paused chapter entry');checks++;}
   assert.ok(!/<video\b[^>]*\bautoplay/.test(page),'Direct entry starts paused');checks+=2;
