@@ -55,6 +55,8 @@ for(const module of modules){
   for(const kind of ['gif','video','poster']){
     const file=`public/brain/teaching/${module.id}/${asset[kind].split(/[\\/]/).pop()}`;
     assert.ok(existsSync(file),`Missing ${file}`);checks++;
+    const version=createHash('sha256').update(readFileSync(file)).digest('hex').slice(0,12);
+    assert.ok(page.includes(`/brain/teaching/${module.id}/${asset[kind]}?v=${version}`),`Unversioned or stale ${kind}: ${asset.id}`);checks++;
   }
   const gif=readFileSync(`public/brain/teaching/${module.id}/${asset.gif}`);
   assert.equal(gif.subarray(0,6).toString(),'GIF89a');assert.equal(gif.readUInt16LE(6),1280);assert.equal(gif.readUInt16LE(8),720);assert.ok(gif.includes(Buffer.from('NETSCAPE2.0')));checks+=4;

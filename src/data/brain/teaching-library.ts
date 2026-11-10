@@ -5,6 +5,8 @@ import l14 from './l14-teaching.json';
 import l16 from './l16-teaching.json';
 import l17 from './l17-teaching.json';
 import l19 from './l19-teaching.json';
+import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 
 export type AssetKind = 'master' | 'breakdown' | 'interactive';
 export interface TeachingAsset {
@@ -42,7 +44,14 @@ const catalog:TeachingModule[] = [
 // Other catalog entries remain drafts until source, visual, and motion review pass.
 export const modules = catalog.filter(module => ['l12', 'l15', 'l19'].includes(module.id));
 export function assetUrl(moduleId: string, assetId: string) { return `/brain/psyc108/${moduleId}/${assetId}/`; }
-export function mediaUrl(file: string | undefined, moduleId = 'l15') { return file ? `/brain/teaching/${moduleId}/${file.split(/[\\/]/).pop()}` : ''; }
+const mediaVersions = new Map<string,string>();
+export function mediaUrl(file: string | undefined, moduleId = 'l15') {
+  if(!file)return '';
+  const path=`/brain/teaching/${moduleId}/${file.split(/[\\/]/).pop()}`;
+  // Static generation: a changed file must not reuse an older browser media cache.
+  if(!mediaVersions.has(path))mediaVersions.set(path,createHash('sha256').update(readFileSync(`public${path}`)).digest('hex').slice(0,12));
+  return `${path}?v=${mediaVersions.get(path)}`;
+}
 export function slideLabel(slides: number[]) {
   if (!slides.length) return 'Lecture context';
   const groups: string[] = []; let first = slides[0], last = first;
