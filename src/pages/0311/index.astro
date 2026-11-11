@@ -6,7 +6,6 @@ import '../../styles/brain-teaching.css';
 import '../../styles/roomie-booking.css';
 import '../../styles/roomie-branding.css';
 import { roomies, catalogUpdatedAt, type CatalogCourse, type CourseMeeting, type CourseSection } from '../../data/roomie-booking';
-import { tssBookmarkletUrl } from '../../data/tss-bookmarklet';
 
 const dateLabel = (value: string | null) => {
   if (!value) return '';
@@ -105,20 +104,20 @@ const missingDetailsNote = (course: CatalogCourse) => {
           <h1><span class="booking-owner">Boomer's</span> <span>Better Booking</span></h1>
         </div>
         <div class="booking-steps" aria-label="How to book">
-          <p><span class="booking-step-number" aria-hidden="true">01</span><span><span class="visually-hidden">Step One: </span><a href="https://sis.ucsd.edu/" target="_blank" rel="noopener noreferrer">Log in to TSS</a> in another tab on this browser</span></p>
-          <p><span class="booking-step-number" aria-hidden="true">02</span><span><span class="visually-hidden">Step Two: </span>Use <span class="tss-book-inner tss-book-example">Book</span> when connected, or <strong>Go to booking</strong> to finish in TSS.</span></p>
+          <p><span class="booking-step-number" aria-hidden="true">01</span><span><span class="visually-hidden">Step One: </span><button class="tss-login-button" type="button" data-tss-login disabled>Sign in with UCSD</button></span></p>
+          <p><span class="booking-step-number" aria-hidden="true">02</span><span><span class="visually-hidden">Step Two: </span>Click <span class="tss-book-inner tss-book-example">Book</span> below.</span></p>
           <p><span class="booking-step-number" aria-hidden="true">03</span><span><span class="visually-hidden">Step Three: </span>Feel good about not dealing with TSS.</span></p>
         </div>
-        <div class="tss-connection" data-tss-connection data-state="disconnected">
-          <div class="tss-connection-line">
-            <span class="tss-connection-status" role="status" aria-live="polite" data-tss-connection-status>TSS not connected</span>
-            <button type="button" class="tss-setup-button" data-tss-setup>Connect TSS</button>
-            <button type="button" class="tss-disconnect-button" data-tss-disconnect hidden>Disconnect</button>
+        <div class="tss-session" data-tss-session data-state="checking">
+          <div class="tss-session-line">
+            <span class="tss-session-status" role="status" aria-live="polite" data-tss-session-status>Checking sign-in…</span>
+            <button type="button" data-tss-logout hidden>Sign out</button>
+            <button type="button" data-tss-inspect hidden>Check session</button>
           </div>
-          <p class="tss-account-note">Uses the account signed in to TSS.</p>
-          <p class="tss-account-note">Choose Go to booking below to open the course in TSS. No connection needed.</p>
+          <p class="tss-account-note">UCSD sign-in opens in a private Cloudflare-hosted browser session. Sign out when you finish.</p>
+          <p class="tss-probe-note" data-tss-probe-note>Login test — booking unavailable.</p>
           <p class="tss-job-status" role="status" aria-live="polite" data-tss-job-status></p>
-          <button type="button" class="tss-focus-button" data-tss-focus hidden>Open TSS</button>
+          <button type="button" data-tss-review hidden>Review in TSS</button>
         </div>
       </div>
 
@@ -240,31 +239,8 @@ const missingDetailsNote = (course: CatalogCourse) => {
           </details>
         ))}
       </div>
-      <p class="library-footnote">Book sends the request through your connected TSS tab. Check TSS to confirm enrollment.</p>
+      <p class="library-footnote">Book uses your signed-in UCSD account. Check TSS to confirm enrollment.</p>
     </main>
-    <dialog class="tss-connect-dialog" aria-labelledby="tss-connect-title" aria-describedby="tss-connect-description" data-tss-dialog>
-      <form method="dialog" class="tss-dialog-heading">
-        <h2 id="tss-connect-title">Connect TSS once this session</h2>
-        <button type="submit" class="tss-dialog-close" aria-label="Close connection setup">Close</button>
-      </form>
-      <p id="tss-connect-description">Connect your signed-in TSS tab before using Book. No extension needed.</p>
-      <ol class="tss-setup-steps">
-        <li>Drag <a class="tss-bookmarklet" href={tssBookmarkletUrl} draggable="true" data-tss-bookmarklet>Connect TSS</a> to your bookmarks bar.</li>
-        <li>Open your logged-in TSS tab and click that bookmark.</li>
-        <li>Use Book in the connected booking page that opens.</li>
-      </ol>
-      <p class="tss-account-note">Uses the account signed in to TSS. Reloading or closing either tab requires reconnecting.</p>
-      <div class="tss-code-actions">
-        <button type="button" data-tss-copy-code>Copy bookmark code</button>
-        <button type="button" data-tss-show-code>Show code</button>
-      </div>
-      <p class="tss-copy-status" role="status" aria-live="polite" data-tss-copy-status></p>
-      <div class="tss-code-field" data-tss-code-field hidden>
-        <label for="tss-bookmark-code">Bookmark URL</label>
-        <textarea id="tss-bookmark-code" readonly rows="4" spellcheck="false" data-tss-bookmark-code>{tssBookmarkletUrl}</textarea>
-        <p>Create a bookmark named Connect TSS, then paste this code into its URL field.</p>
-      </div>
-    </dialog>
     <script>import '../../scripts/roomie-booking';</script>
     <script>import '../../scripts/roomie-tss-bridge';</script>
   </body>

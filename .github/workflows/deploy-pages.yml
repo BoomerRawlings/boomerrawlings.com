@@ -31,6 +31,13 @@ jobs:
           npm ci
           npm test
           npm run check
+      - name: Verify booking service
+        working-directory: workers/booking
+        run: |
+          npm ci
+          npm test
+          npm run check
+          npx wrangler deploy --dry-run --outdir ../../tmp/booking-worker-build
       - name: Verify SUBS dataset toolkit
         run: |
           python3 -m venv .venv

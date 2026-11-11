@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "bbb-booking-service",
+  "main": "src/index.mjs",
+  "compatibility_date": "2026-11-10",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "boomerrawlings.com/0311/api/*", "zone_name": "boomerrawlings.com" }],
+  "browser": { "binding": "BROWSER" },
+  "durable_objects": { "bindings": [
+    { "name": "SESSIONS", "class_name": "BookingSession" },
+    { "name": "QUOTA", "class_name": "BookingQuota" }
+  ] },
+  "migrations": [{ "tag": "booking-v1", "new_sqlite_classes": ["BookingSession", "BookingQuota"] }],
+  "vars": {
+    "APP_ORIGIN": "https://boomerrawlings.com",
+    "PROBE_ONLY": "true",
+    "MAX_BROWSER_SESSIONS": "1",
+    "MAX_SESSION_MINUTES": "15",
+    "MONTHLY_BROWSER_MINUTES": "90"
+  },
+  "observability": { "enabled": false }
+}

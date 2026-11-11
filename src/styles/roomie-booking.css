@@ -15,45 +15,21 @@
 .tss-direct-booking:hover .tss-book-inner { border-color: #212d68; background: #212d68; }
 .tss-direct-booking:active .tss-book-inner { border-color: #27367b; background: #fff; color: #27367b; }
 .tss-direct-booking:focus-visible { outline: 3px solid #8cdedb; outline-offset: 3px; }
-.tss-connection { margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--teach-line); }
-.roomie-library .library-intro > .tss-connection { grid-column: 1 / -1; margin-top: 0; }
-.tss-connection-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 13px; }
-.tss-connection-status { font-size: 13px; color: #b1cfda; }
-.tss-connection[data-state=connected] .tss-connection-status { color: #b6e2c2; }
-.tss-connection button { font-size: 12px; padding: 4px 9px; background: transparent; }
+.roomie-shell .booking-steps .tss-login-button { padding: 0; border: 0; border-radius: 0; background: transparent; color: inherit; font: inherit; font-weight: 650; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.roomie-shell .booking-steps .tss-login-button:disabled { opacity: .6; cursor: default; }
+.roomie-shell .booking-steps .tss-login-button:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.tss-session { padding-top: 15px; border-top: 1px solid var(--teach-line); }
+.roomie-library .library-intro > .tss-session { grid-column: 1 / -1; }
+.tss-session-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 13px; }
+.tss-session-status { font-size: 13px; color: #b1cfda; }
+.tss-session[data-state=ready] .tss-session-status { color: #b6e2c2; }
+.tss-session button { font-size: 12px; padding: 4px 9px; background: transparent; }
 .tss-account-note { color: var(--teach-muted); font-size: 12px; margin-top: 7px; }
+.tss-probe-note { color: var(--booking-gold, #ffcd00); font-size: 12px; margin-top: 7px; }
 .tss-job-status { font-size: 13px; margin-top: 10px; }
 .tss-job-status:empty { display: none; }
-.tss-focus-button { margin-top: 8px; }
-.tss-connect-dialog {
-  width: min(560px, calc(100% - 32px));
-  max-height: calc(100svh - 40px);
-  margin: auto;
-  padding: 24px;
-  overflow: auto;
-  border: 1px solid #4d7c8b;
-  border-radius: 3px;
-  background: var(--booking-navy, #0c222d);
-  color: var(--teach-ink);
-  font: 15px/1.55 'Source Sans 3', 'Segoe UI', sans-serif;
-}
-.tss-connect-dialog::backdrop { background: rgba(1, 8, 13, .78); }
-.tss-dialog-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; margin: 0 0 14px; }
-.tss-dialog-heading h2 { margin: 0; font-size: 23px; line-height: 1.25; font-weight: 400; }
-.tss-dialog-close { flex: none; font-size: 12px; padding: 4px 8px; background: transparent; }
-.tss-setup-steps { padding-left: 23px; margin: 20px 0; }
-.tss-setup-steps li + li { margin-top: 10px; }
-.tss-bookmarklet { display: inline-block; padding: 4px 10px; margin: 0 3px 3px; border: 1px solid #6193a3; border-radius: 3px; color: #b9f3ff; background: #153847; text-decoration: none; cursor: grab; }
-.tss-bookmarklet:active { cursor: grabbing; }
-.tss-code-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 20px; }
-.tss-code-actions button { padding: 6px 10px; font-size: 12px; }
-.tss-copy-status { font-size: 12px; color: #b6e2c2; margin-top: 8px; }
-.tss-copy-status:empty { display: none; }
-.tss-code-field { margin-top: 14px; font-size: 12px; }
-.tss-code-field label { display: block; color: var(--teach-muted); margin-bottom: 5px; }
-.tss-code-field textarea { width: 100%; resize: vertical; padding: 9px; border: 1px solid var(--teach-line); border-radius: 3px; background: #07161e; color: var(--teach-ink); font: 11px/1.45 Consolas, monospace; }
-.tss-code-field p { color: var(--teach-muted); margin-top: 6px; }
-.tss-connection [hidden], .tss-connect-dialog [hidden] { display: none !important; }
+.tss-session [data-tss-review] { margin-top: 8px; }
+.tss-session [hidden], .booking-steps [hidden] { display: none !important; }
 .roomie-filter { display: flex; align-items: center; gap: 12px; }
 .roomie-filter label { color: var(--teach-muted); font-size: 13px; }
 .roomie-filter select {

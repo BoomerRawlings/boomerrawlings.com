@@ -1,0 +1,27 @@
+import { BOOKING_ROUTES } from './routes.mjs';
+
+export function probePage() {
+  const nonce = crypto.randomUUID().replaceAll('-', '');
+  const options = [...BOOKING_ROUTES].map(([route, item]) => `<option value="${route}">${item.courseCode} · package ${item.packageId}</option>`).join('');
+  const html = String.raw`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>0311 · TSS login test</title>
+<style nonce="${nonce}">:root{color-scheme:dark;font-family:system-ui;background:#07151d;color:#e7f3f7}body{max-width:680px;margin:8vh auto;padding:24px}h1{font-size:2rem}p{line-height:1.6;color:#afcbd5}button,select{padding:12px;margin:6px 8px 6px 0;border:1px solid #486674;border-radius:4px;background:#122e3c;color:inherit;font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:wait}select{max-width:100%}output{display:block;min-height:50px;padding:18px 0;white-space:pre-wrap}small{letter-spacing:.12em}</style>
+<small>0311 / WINTER 2027</small><h1>TSS login test</h1><p>Sign in through the real UCSD and Duo pages in a separate tab. This test checks the session and course details. Booking is disabled.</p>
+<output id="status" aria-live="polite">Checking session…</output><button id="login" disabled>Sign in to TSS</button><button id="logout" disabled>Sign out</button>
+<p><label for="course">Course to check</label><br><select id="course">${options}</select></p><button id="inspect" disabled>Check session and course</button><output id="proof" aria-live="polite"></output>
+<script nonce="${nonce}">
+const $=id=>document.getElementById(id);let csrf='',state='signed_out',pending=false,probe=true;
+const names={signed_out:'Signed out',signing_in:'Complete UCSD / Duo sign-in in the other tab',ready:'TSS session is ready',expired:'Session expired — sign in again',busy:'Checking TSS…',error:'Session unavailable'};
+function render(data){csrf=data.csrf||csrf;state=data.state;probe=data.probeOnly!==false;$('status').textContent=names[state]||'Session unavailable';$('login').disabled=pending||!csrf||!probe;$('logout').disabled=pending||!csrf||state==='signed_out';$('inspect').disabled=pending||state!=='ready'||!probe;}
+async function status(){if(pending||document.hidden)return;try{const response=await fetch('/0311/api/status',{credentials:'same-origin',cache:'no-store'});if(!response.ok)throw Error();render(await response.json())}catch{$('status').textContent='Session service unavailable';}}
+async function post(action,extra={}){const response=await fetch('/0311/api/'+action,{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json','X-BBB-CSRF':csrf},body:JSON.stringify({requestId:crypto.randomUUID(),...extra})});const data=await response.json();if(!response.ok)throw Error();return data;}
+$('login').onclick=async()=>{if(pending||!probe)return;const view=window.open('about:blank','_blank');if(!view){$('status').textContent='Allow the sign-in tab, then click Sign in again';return;}view.opener=null;pending=true;render({state:'busy',csrf});try{const data=await post('login');const url=new URL(data.loginUrl);if(url.origin!=='https://live.browser.run'||url.pathname!=='/ui/view'||url.searchParams.get('mode')!=='tab')throw Error();view.location.replace(url.href);render(data)}catch{view.close();$('status').textContent='Could not start sign-in. Check session or usage limit.'}finally{pending=false;await status()}};
+$('inspect').onclick=async()=>{if(pending||!probe)return;pending=true;$('proof').textContent='Checking…';render({state:'busy',csrf});try{const data=await post('inspect',{route:$('course').value});$('proof').textContent='Course detail loaded: '+(data.loaded?'yes':'no')+'\nAuthenticated request token available: '+(data.csrfReady?'yes':'no');render(data)}catch{$('proof').textContent='Check did not complete. No booking was attempted.'}finally{pending=false;await status()}};
+$('logout').onclick=async()=>{if(pending)return;pending=true;render({state:'busy',csrf});try{await post('logout');csrf='';$('proof').textContent='';}catch{$('status').textContent='Session closure pending';}finally{pending=false;await status()}};
+status();setInterval(status,5000);document.addEventListener('visibilitychange',status);
+</script></html>`;
+  return new Response(html, { headers: {
+    'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer',
+    'X-Content-Type-Options': 'nosniff', 'X-Robots-Tag': 'noindex, nofollow',
+    'Content-Security-Policy': `default-src 'none'; script-src 'nonce-${nonce}'; style-src 'nonce-${nonce}'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'`,
+  } });
+}

@@ -1,0 +1,17 @@
+{
+  "name": "bbb-booking-service",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "check": "node --check src/index.mjs && node --check src/session.mjs && node --check src/browser.mjs && node --check src/read-only.mjs",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@cloudflare/puppeteer": "2.0.0"
+  },
+  "devDependencies": {
+    "wrangler": "4.160.0"
+  }
+}
