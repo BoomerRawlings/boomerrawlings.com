@@ -1,5 +1,6 @@
 const READ_METHODS = new Set(['GET', 'HEAD', 'OPTIONS']);
 const MAX_BATCH_BYTES = 512 * 1024;
+const MAX_AUTH_BYTES = 64 * 1024;
 const TSS_ORIGIN = 'https://tss.ucsd.edu';
 const SERVICE_ROOT = '/sap/opu/odata/ITUS/PR_MY_MODULES_V2_SRV/';
 const noOverrides = headers => !headers.has('transfer-encoding') && !headers.has('x-http-method') && !headers.has('x-http-method-override');
@@ -102,7 +103,20 @@ export function allowProbeRequest({ url, method, headers = {}, body, resourceTyp
   if (host === 'tss.ucsd.edu' && method === 'POST' && /\/sap\/opu\/odata\/.*\/\$batch\/?$/i.test(path)) {
     return isReadOnlyBatch(lower['content-type'], body);
   }
-  // Only observed SAML handoffs. New login/Duo POST paths require evidence.
+  // Observed UCSD login and this UCSD Duo tenant only. Never inspect form values.
+  const boundedAuthBody = typeof body === 'string' && body.length > 0 && body.length <= MAX_AUTH_BYTES
+    && new TextEncoder().encode(body).length <= MAX_AUTH_BYTES;
+  const resource = resourceType?.toLowerCase();
+  const formEncoded = contentTypeIs(lower['content-type'], 'application/x-www-form-urlencoded');
+  if (method === 'POST' && boundedAuthBody && !target.hash) {
+    if (target.origin === 'https://a5.ucsd.edu' && path === '/tritON/profile/SAML2/Redirect/SSO'
+      && /^\?execution=e\d+s\d+$/.test(target.search) && resource === 'document' && formEncoded) return true;
+    if (target.origin === 'https://api-ce13a1a7.duosecurity.com' && /^\/(?:prompt|frame)\//.test(path)
+      && !/(?:^|\/)\.\.?(?:\/|$)|\\|%/.test(path)
+      && ['document', 'xhr', 'fetch'].includes(resource)
+      && (formEncoded || contentTypeIs(lower['content-type'], 'application/json'))) return true;
+  }
+  // Other observed SAML handoffs. New login/Duo POST paths require evidence.
   if (method === 'POST' && resourceType?.toLowerCase() === 'document'
     && contentTypeIs(lower['content-type'], 'application/x-www-form-urlencoded') && !target.search && !target.hash) {
     if (target.origin === TSS_ORIGIN && /^\/sap\/public\/bc\/sec\/saml2\/sp\/acs\/?$/i.test(path)) return assertionForm(body, 'SAMLResponse');

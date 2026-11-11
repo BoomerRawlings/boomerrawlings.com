@@ -71,6 +71,45 @@ test('probe rejects arbitrary UCSD/Duo writes, credential-shaped unknown forms a
   assert.equal(allowProbeRequest(write(payload())), false);
 });
 
+test('probe permits only the observed a5 login form endpoint and execution query', () => {
+  const url = 'https://a5.ucsd.edu/tritON/profile/SAML2/Redirect/SSO?execution=e1s1';
+  const request = { url, method: 'POST', resourceType: 'Document', headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }, body: 'synthetic=fixture' };
+  assert.equal(allowProbeRequest(request), true);
+  assert.equal(allowProbeRequest({ ...request, url: url.replace('e1s1', 'e12s345') }), true);
+  for (const invalid of [url.replace('a5.', 'other.'), url.replace('/SSO?', '/other?'), url.replace('?execution=e1s1', ''),
+    url + '&extra=1', url + '&execution=e2s2', url.replace('e1s1', 'invalid'), url + '#fragment']) {
+    assert.equal(allowProbeRequest({ ...request, url: invalid }), false);
+  }
+  for (const override of [{ method: 'PUT' }, { resourceType: 'XHR' }, { headers: { 'content-type': 'application/json' } },
+    { headers: { ...request.headers, 'X-HTTP-Method-Override': 'DELETE' } }, { body: '' }, { body: undefined },
+    { body: 'x'.repeat(64 * 1024 + 1) }, { body: '\u00e9'.repeat(33 * 1024) }]) {
+    assert.equal(allowProbeRequest({ ...request, ...override }), false);
+  }
+});
+
+test('probe permits bounded auth POSTs only within the observed UCSD Duo tenant prompt/frame paths', () => {
+  const tenant = 'https://api-ce13a1a7.duosecurity.com';
+  const request = { url: tenant + '/prompt/synthetic', method: 'POST', resourceType: 'document', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: 'synthetic=fixture' };
+  for (const path of ['/prompt/synthetic', '/frame/v4/preauth', '/frame/v4/auth?synthetic=fixture']) {
+    for (const resourceType of ['document', 'XHR', 'Fetch']) {
+      for (const contentType of ['application/x-www-form-urlencoded', 'application/json; charset=utf-8']) {
+        assert.equal(allowProbeRequest({ ...request, url: tenant + path, resourceType, headers: { 'content-type': contentType } }), true);
+      }
+    }
+  }
+  for (const url of [tenant + '/admin/v1/auth', tenant + '/auth/v2/auth', tenant + '/prompt', tenant + '/frame-other/action',
+    tenant + '/frame/%2e%2e%2fadmin/action', tenant + '/frame/%252e%252e/admin', tenant + '/frame/action#fragment',
+    'https://api-other.duosecurity.com/frame/v4/preauth', 'https://api-ce13a1a7.duosecurity.com.evil.test/frame/v4/preauth']) {
+    assert.equal(allowProbeRequest({ ...request, url }), false);
+  }
+  for (const override of [{ method: 'DELETE' }, { resourceType: 'image' }, { headers: { 'content-type': 'text/plain' } },
+    { headers: { ...request.headers, 'X-HTTP-Method': 'DELETE' } }, { body: '' }, { body: 'x'.repeat(64 * 1024 + 1) }]) {
+    assert.equal(allowProbeRequest({ ...request, ...override }), false);
+  }
+  assert.equal(allowProbeRequest(write(payload())), false);
+  assert.equal(allowProbeRequest(batchWrite(payload())), false);
+});
+
 test('native direct writes require active job and exactly one matching check then save', () => {
   const state = job();
   assert.equal(authorizeNativeWrite(write(payload()), null), false);
