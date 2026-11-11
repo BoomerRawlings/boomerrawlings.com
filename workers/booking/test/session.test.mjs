@@ -217,3 +217,41 @@ test('sanitized diagnostics survive status failure and never include the raw err
   assert.equal(data.failureStage, 'runtime_io_context'); assert.deepEqual(data.diagnostics, diagnostics);
   assert.equal(JSON.stringify(data).includes('synthetic-private-detail'), false);
 });
+
+test('already-closed browser cannot strand the ownership lease when close reports 404', async () => {
+  const f = fixture(); const a = await f.client(); await a.post('/login');
+  f.live.clear(); f.env.BROWSER.closeSession = async () => { throw Object.assign(Error('closed'), { status: 404 }); };
+  assert.equal((await a.post('/logout')).status, 200);
+  const b = await f.client(); assert.equal((await b.post('/login')).status, 200);
+});
+
+test('quota reclaims orphan lease only after provider proves absence', async () => {
+  const f = fixture(); const a = await f.client(); await a.post('/login');
+  f.live.clear(); // Provider ended browser; owning object never released its lease.
+  const b = await f.client(); assert.equal((await b.post('/login')).status, 200); assert.equal(f.count(), 2);
+  const c = await f.client(); const rejected = await (await c.post('/login')).json();
+  assert.equal(rejected.failureStage, 'quota_concurrency'); assert.equal(f.count(), 2);
+  assert.equal((await (await c.get()).json()).failureStage, 'quota_concurrency');
+});
+
+test('failed restart cleanup recovers on later status instead of permanently rejecting initialization', async () => {
+  const f = fixture(); const a = await f.client(); await a.post('/login');
+  const [name] = [...f.sessions][0];
+  f.env.BROWSER.closeSession = async () => {};
+  const resumed = new SessionCore(f.contexts.get(name), f.env, { createBrowser: async () => { throw Error('unexpected launch'); } });
+  await resumed.initializing; assert.equal(resumed.record.failureStage, 'cleanup_pending');
+  f.live.clear();
+  const response = await resumed.fetch(new Request(origin + API_PREFIX + '/status'));
+  assert.equal(response.status, 200); assert.equal((await response.json()).state, 'expired'); assert.equal(resumed.record.browserId, undefined);
+});
+
+test('failed startup retains reservation ownership until quota release succeeds', async () => {
+  const f = fixture(); const a = await f.client(); const core = [...f.sessions.values()][0];
+  core.createBrowser = async () => { throw Object.assign(Error('startup unavailable'), { stage: 'launch' }); };
+  const quotaFetch = f.quota.fetch.bind(f.quota); let failRelease = true;
+  f.quota.fetch = request => new URL(request.url).pathname === '/release' && failRelease ? Promise.reject(Error('unavailable')) : quotaFetch(request);
+  const response = await a.post('/login'); assert.equal(response.status, 503); assert.equal(core.record.leaseReserved, true);
+  failRelease = false;
+  assert.equal((await a.get()).status, 200); assert.equal(core.record.leaseReserved, undefined);
+  const b = await f.client(); assert.equal((await b.post('/login')).status, 200);
+});

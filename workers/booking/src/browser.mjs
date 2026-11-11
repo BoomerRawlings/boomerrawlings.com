@@ -105,13 +105,13 @@ export async function createBrowserController(env, { onDisconnect = () => {} } =
       },
       async close() {
         closing = true;
-        try { await browser.close(); } finally { await env.BROWSER.closeSession(id); }
+        await browser.close();
       },
     };
   } catch {
     closing = true;
     try { await browser.close(); } catch { /* Provider closure below. */ }
     await env.BROWSER.closeSession(id).catch(() => {});
-    throw Object.assign(new Error('Managed browser unavailable'), { stage });
+    throw Object.assign(new Error('Managed browser unavailable'), { stage, browserId: id });
   }
 }

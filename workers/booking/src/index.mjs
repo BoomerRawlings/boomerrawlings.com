@@ -9,6 +9,7 @@ export class BookingQuota extends QuotaCore {}
 export default {
   async fetch(request, env) {
     try { return await handleRequest(request, env); }
-    catch { return json({ state: 'error', message: 'Booking service unavailable.', probeOnly: env.PROBE_ONLY !== 'false' }, 503); }
+    catch { return json({ state: 'error', message: 'Booking service unavailable.', probeOnly: env.PROBE_ONLY !== 'false',
+      ...(env.PROBE_ONLY !== 'false' ? { failureStage: 'worker_boundary' } : {}) }, 503); }
   },
 };

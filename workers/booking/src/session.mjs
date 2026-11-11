@@ -1,5 +1,6 @@
 import { BOOKING_ROUTES } from './routes.mjs';
 import { probePage } from './probe-page.mjs';
+import { closeProviderSession, providerSessionExists } from './provider-lifecycle.mjs';
 
 export const COOKIE_NAME = '__Host-bbb-session';
 export const API_PREFIX = '/0311/api';
@@ -13,7 +14,7 @@ const error = (message, status = 400) => json({ state: 'error', message }, statu
 const probing = env => env.PROBE_ONLY !== 'false';
 const activeBooking = record => record.booking && !['submitted', 'stopped', 'error'].includes(record.booking.stage);
 const STAGES = new Set(['loading', 'checking', 'review', 'submitting', 'submitted', 'stopped', 'error']);
-const FAILURE_STAGES = new Set(['launch', 'page', 'guard', 'navigation', 'live_view', 'authentication', 'controller_disconnect', 'object_restart', 'runtime_io_context', 'status']);
+const FAILURE_STAGES = new Set(['launch', 'page', 'guard', 'navigation', 'live_view', 'authentication', 'controller_disconnect', 'object_restart', 'runtime_io_context', 'status', 'cleanup_lookup', 'cleanup_pending', 'quota_service', 'quota_release', 'quota_concurrency', 'quota_budget', 'quota_cleanup', 'initialization', 'session_operation']);
 const navigationInProgress = failure => /execution context was destroyed|cannot find context with specified id|inspected target navigated|execution context is not available|execution context is not available in detached frame/i.test(failure?.message || '');
 
 async function boundedText(request, limit = 4096) {
@@ -79,14 +80,22 @@ export class SessionCore {
     this.record = await this.ctx.storage.get('session') || { csrf: randomToken(), state: 'signed_out', history: {} };
     // A restarted object has lost its request-interception controller. Destroy
     // the old browser rather than recovering an unguarded authenticated session.
-    if (this.record.browserId) { this.record.failureStage = 'object_restart'; await this.close('expired'); }
+    if (this.record.browserId || this.record.leaseReserved) {
+      this.record.failureStage = 'object_restart';
+      try { await this.close('expired'); } catch (failure) {
+        this.record.failureStage = FAILURE_STAGES.has(failure?.stage) ? failure.stage : 'initialization';
+        this.record.state = 'error';
+        await this.ctx.storage.setAlarm(this.now() + 10_000);
+      }
+    }
     await this.persist();
   }
 
   persist() { return this.ctx.storage.put('session', this.record); }
   quota() { return this.env.QUOTA.get(this.env.QUOTA.idFromName('booking-probe-quota')); }
   async quotaCall(action, data = {}) {
-    return this.quota().fetch(new Request('https://quota.internal/' + action, { method: 'POST', body: JSON.stringify({ owner: this.ctx.id.toString(), ...data }) }));
+    try { return await this.quota().fetch(new Request('https://quota.internal/' + action, { method: 'POST', body: JSON.stringify({ owner: this.ctx.id.toString(), ...data }) })); }
+    catch { throw Object.assign(new Error('Session quota unavailable'), { stage: 'quota_service' }); }
   }
   snapshot(extra = {}) {
     return { state: this.busy || activeBooking(this.record) ? 'busy' : this.record.state, csrf: this.record.csrf, probeOnly: probing(this.env),
@@ -109,12 +118,11 @@ export class SessionCore {
     const browser = this.browser;
     const browserId = this.record.browserId;
     this.browser = null;
-    if (browser) await browser.close();
-    else if (browserId) await this.env.BROWSER.closeSession(browserId);
-    if (browserId && await this.env.BROWSER.getSession(browserId)) throw new Error('Browser closure pending');
+    await closeProviderSession(this.env.BROWSER, browserId, { closeLocal: browser ? () => browser.close() : undefined });
     if (generation !== this.generation || this.record.browserId !== browserId) throw new Error('Session changed during closure');
-    if (browserId) await this.quotaCall('release');
+    if ((browserId || this.record.leaseReserved) && !(await this.quotaCall('release')).ok) throw Object.assign(new Error('Session lease release pending'), { stage: 'quota_release' });
     delete this.record.browserId;
+    delete this.record.leaseReserved;
     delete this.record.expiresAt;
     this.record.state = state;
     if (activeBooking(this.record)) this.record.booking.stage = 'error';
@@ -129,6 +137,7 @@ export class SessionCore {
   }
 
   async refresh() {
+    if (!this.browser && (this.record.browserId || this.record.leaseReserved) && this.record.state === 'error') await this.close('expired');
     if (this.record.expiresAt && this.now() >= this.record.expiresAt) await this.close('expired');
     if (!this.browser || this.busy) return;
     const generation = this.generation;
@@ -205,8 +214,9 @@ export class SessionCore {
       return json(data, result.status || 200);
     } catch (failure) {
       this.busy = false;
-      if (FAILURE_STAGES.has(failure?.stage)) this.record.failureStage = failure.stage;
-      try { await this.close('error'); } catch {
+      if (this.record) this.record.failureStage = FAILURE_STAGES.has(failure?.stage) ? failure.stage : 'session_operation';
+      try { await this.close('error'); } catch (cleanupFailure) {
+        if (FAILURE_STAGES.has(cleanupFailure?.stage)) this.record.failureStage = cleanupFailure.stage;
         this.record.state = 'error';
         await this.persist().catch(() => {});
         await this.ctx.storage.setAlarm(this.now() + 10_000).catch(() => {});
@@ -225,11 +235,18 @@ export class SessionCore {
     }
     if (action === '/login') {
       if (this.closing) await this.closing;
-      if (!this.browser && this.record.browserId) await this.close('expired');
+      if (!this.browser && (this.record.browserId || this.record.leaseReserved)) await this.close('expired');
       if (!this.browser) {
         const expiresAt = this.now() + ttlMs(this.env);
         const reservation = await this.quotaCall('reserve', { expiresAt });
-        if (!reservation.ok) return { status: 429, body: { state: 'error', message: 'The login test is at its session or usage limit. Try later.' } };
+        if (!reservation.ok) {
+          const { reason } = await reservation.json();
+          this.record.failureStage = ['quota_concurrency', 'quota_budget', 'quota_cleanup'].includes(reason) ? reason : 'quota_service';
+          await this.persist();
+          return { status: 429, body: { state: 'error', message: 'The login test is at its session or usage limit. Try later.' } };
+        }
+        this.record.leaseReserved = true;
+        await this.persist();
         const generation = ++this.generation;
         delete this.record.failureStage;
         this.lastDiagnostics = undefined;
@@ -249,11 +266,12 @@ export class SessionCore {
           await this.persist();
           await this.ctx.storage.setAlarm(expiresAt);
         } catch (failure) {
-          if (browser) {
-            await browser.close();
-            if (await this.env.BROWSER.getSession(browser.id)) throw new Error('Browser closure pending');
-          }
-          await this.quotaCall('release');
+          // Preserve a known startup browser ID before cleanup so a provider or
+          // quota outage remains recoverable on a later status/alarm request.
+          if (!this.record.browserId && typeof failure?.browserId === 'string') this.record.browserId = failure.browserId;
+          if (browser) this.browser = browser;
+          await this.persist();
+          await this.close('error');
           throw failure;
         }
       }
@@ -300,20 +318,28 @@ export class QuotaCore {
     if (record.month !== month) { record.month = month; record.reservedMs = 0; }
     if (action === '/reserve') {
       for (const [owner, lease] of Object.entries(record.leases)) {
-        if (this.now() < lease.expiresAt) continue;
+        if (this.now() < lease.expiresAt) {
+          // A controller may have died after closing its browser but before
+          // releasing the lease. Provider absence, not age, proves reclaim safe.
+          if (lease.browserId) {
+            try { if (!await providerSessionExists(this.env.BROWSER, lease.browserId)) delete record.leases[owner]; }
+            catch { /* Unknown provider state keeps the lease. */ }
+          }
+          continue;
+        }
         if (lease.browserId) {
-          await this.env.BROWSER.closeSession(lease.browserId);
-          if (await this.env.BROWSER.getSession(lease.browserId)) return json({ ok: false }, 409);
+          try { await closeProviderSession(this.env.BROWSER, lease.browserId); }
+          catch { return json({ ok: false, reason: 'quota_cleanup' }, 409); }
         }
         delete record.leases[owner];
       }
       if (record.leases[body.owner]) return json({ ok: true });
       const concurrency = probing(this.env) ? 1 : Math.min(8, Math.max(1, Number(this.env.MAX_BROWSER_SESSIONS) || 1));
-      if (Object.keys(record.leases).length >= concurrency) return json({ ok: false }, 409);
+      if (Object.keys(record.leases).length >= concurrency) return json({ ok: false, reason: 'quota_concurrency' }, 409);
       const duration = ttlMs(this.env);
       const configured = Number(this.env.MONTHLY_BROWSER_MINUTES ?? 90);
       const limit = (Number.isFinite(configured) ? Math.min(90, Math.max(0, configured)) : 0) * 60_000;
-      if (record.reservedMs + duration > limit) return json({ ok: false }, 429);
+      if (record.reservedMs + duration > limit) return json({ ok: false, reason: 'quota_budget' }, 429);
       record.reservedMs += duration; // Reserve the full window; never refund unknown usage.
       record.leases[body.owner] = { expiresAt: this.now() + duration, browserId: null };
     } else if (action === '/attach') {
