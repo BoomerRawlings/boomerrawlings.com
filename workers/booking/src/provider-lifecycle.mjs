@@ -4,7 +4,7 @@ const stageError = (stage, cause, reason) => Object.assign(new Error('Provider s
     ...([cause?.status, cause?.statusCode].find(value => Number.isInteger(value) && value >= 100 && value <= 599) ?
       { status: [cause?.status, cause?.statusCode].find(value => Number.isInteger(value) && value >= 100 && value <= 599) } : {}) } });
 const notFound = failure => failure?.status === 404 || failure?.statusCode === 404
-  || /\b(?:status|code|HTTP)\s*:?\s*404\b/i.test(failure?.message || '');
+  || /\b(?:status|code|HTTP)\s*[:=]?\s*404\b/i.test(failure?.message || '');
 
 export function sanitizedProviderMessage(failure) {
   return String(failure?.message || '').slice(0, 2000)
@@ -20,9 +20,6 @@ export async function providerSessionExists(binding, id) {
   try { session = await binding.getSession(id); }
   catch (failure) {
     if (notFound(failure)) return false;
-    // Temporary provider-only rollout diagnostic. Never log TSS/CDP failures,
-    // request fields, URLs or unfiltered exception objects.
-    console.warn('booking_provider_lookup', sanitizedProviderMessage(failure));
     throw stageError('cleanup_lookup', failure, 'lookup_throw');
   }
   if (session === null) return false;

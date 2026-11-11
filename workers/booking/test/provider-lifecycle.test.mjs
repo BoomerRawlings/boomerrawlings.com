@@ -41,6 +41,7 @@ test('provider close accepts verified ended metadata without waiting for history
 test('structured/not-found lookups prove absence; undefined responses do not', async () => {
   assert.equal(await providerSessionExists({ getSession: async () => { throw Object.assign(Error('not found'), { status: 404 }); } }, 'synthetic'), false);
   await assert.rejects(providerSessionExists({ getSession: async () => undefined }, 'synthetic'), error => error.stage === 'cleanup_lookup');
+  assert.equal(await providerSessionExists({ getSession: async () => { throw Error('BrowserBindingError: Session not found (status=404)'); } }, 'synthetic'), false);
 });
 
 test('schema failures identify only fixed reason and provider messages are stripped', async () => {
