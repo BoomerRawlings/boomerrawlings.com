@@ -305,6 +305,27 @@ test('direct schema diagnostics retain fixed names/shapes only and deduplicate i
   assert.equal(JSON.stringify(unknown).toLowerCase().includes('private'), false);
 });
 
+test('native path verification exports only the fixed path enum and a boolean flag', async () => {
+  const f = fixture({ DIRECT_BOOKING_ENABLED: 'false' }); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  for (const nativeBookingPath of ['standard', 'top_module', 'unknown']) {
+    owned.inspectDirect = async () => ({ loaded: true, ready: true, equivalent: true, nativeBookingPath, dataTopModuleEnabled: true,
+      nativeSettings: 'private model contents' });
+    const result = await (await a.post('/verify-direct', { route: DEFAULT_ROUTE })).json();
+    assert.equal(result.nativeBookingPath, nativeBookingPath); assert.equal(result.dataTopModuleEnabled, true);
+    assert.equal(result.directBookingEnabled, false); assert.equal(JSON.stringify(result).includes('private'), false);
+  }
+  owned.inspectDirect = async () => ({ loaded: true, ready: true, nativeBookingPath: 'private model value', dataTopModuleEnabled: 'X' });
+  const invalid = await (await a.post('/verify-direct', { route: DEFAULT_ROUTE })).json();
+  assert.equal(invalid.nativeBookingPath, undefined); assert.equal(invalid.dataTopModuleEnabled, undefined);
+  owned.inspectDirect = async () => ({ loaded: true, ready: true, nativeBookingPath: 'standard', dataTopModuleEnabled: false });
+  const falseFlag = await (await a.post('/verify-direct', { route: DEFAULT_ROUTE })).json();
+  assert.equal(falseFlag.dataTopModuleEnabled, false);
+  const inspection = await (await a.post('/inspect-direct', { route: DEFAULT_ROUTE })).json();
+  assert.equal(inspection.nativeBookingPath, undefined); assert.equal(inspection.dataTopModuleEnabled, undefined);
+  assert.equal(owned.bookCalls, 0);
+});
+
 test('body and request count bounded without launching browsers', async () => {
   const f = fixture(); const a = await f.client();
   assert.equal((await a.post('/login', { route: 'x'.repeat(5000) })).status, 413); assert.equal(f.count(), 0);

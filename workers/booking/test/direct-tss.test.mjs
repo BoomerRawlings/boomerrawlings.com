@@ -67,11 +67,14 @@ function harness(options = {}) {
       const detail = { ...structuredClone(data.header), EventPackageId: '166528', TemplateId: '0001', TemplateIdOld: '0000',
         CreditOld: data.header.Credits, oCG: data.groups[0], oOrigCG: structuredClone(data.groups[0]),
         EventTypes: [{ Events: data.events, EventPackageExist: true }], ExamTypes: [] };
+      const appModel = { getProperty: path => path === '/Settings/ENABLE_TOP_MODULE_BOOKING'
+        ? data.settings.filter(row => row?.Name === 'ENABLE_TOP_MODULE_BOOKING').at(-1)?.Value : undefined,
+      ...(options.instanceSettings ? { Settings: options.instanceSettings } : {}) };
       const controller = {
         _initialLoad: false,
         _oArguments: { Source: 'EventPackage', Otype: 'SM', Objid: '13043', EventPackageId: '166528', AcademicYear: '2026', AcademicSession: '3' },
         getMetadata: () => ({ getName: () => 'itus.mymodules.controller.Detail' }),
-        getModel: () => ({ getData: () => ({ detail }) }),
+        getModel: name => name === 'detailView' ? { getData: () => ({ detail }) } : options.missingDefaultModel ? undefined : appModel,
         getOwnerComponent: () => ({ getModel: () => options.pending ? { getProperty: () => 'edited' } : undefined }),
         _prepareSaveData(cancel) {
           assert.equal(cancel, false); nativeCalls++;
@@ -423,12 +426,13 @@ test('authentication rejection wins over parallel schema failure while preservin
   assert.equal(h.posts().length, 0);
 });
 
-test('missing CSRF and every unsupported feature flag are reported together', async () => {
+test('missing CSRF and unsupported read features are reported together while top flag stays visible as a shape', async () => {
   const h = harness(); h.data.token = 'Required';
   h.data.settings.push({ Name: 'ENABLE_AUTOBOOK', Value: 'X' }, { Name: 'ENABLE_TOP_MODULE_BOOKING', Value: 'X' }, { Name: 'HIDE_TAB_EVENT', Value: 'X' });
   const value = await h.call({ operation: 'inspect' });
   assert.equal(value.reason, 'authentication_required'); const issues = assertSafeDiagnostics(value);
-  for (const issue of ['service:missing_csrf', 'settings:unsupported_autobook', 'settings:unsupported_top_module', 'settings:hidden_events']) assert.ok(issues.has(issue), issue);
+  for (const issue of ['service:missing_csrf', 'settings:unsupported_autobook', 'settings:hidden_events']) assert.ok(issues.has(issue), issue);
+  assert.equal(value.settingShapes.ENABLE_TOP_MODULE_BOOKING, 'X');
   assert.equal(h.posts().length, 0);
 });
 
@@ -443,4 +447,43 @@ test('malformed template results and read timeout identify only their fixed reso
   const value = timeout.call({ operation: 'readStatus', readRequestId });
   assert.equal(value.reason, 'course_load_timeout'); assert.ok(assertSafeDiagnostics(value).has('settings:request_timeout'));
   assert.equal(timeout.posts().length, 0);
+});
+
+test('data top-module flag permits read preparation and standard native comparison but never Book', async () => {
+  const h = harness(); h.data.settings.push({ Name: 'ENABLE_TOP_MODULE_BOOKING', Value: 'X' });
+  const inspected = await h.call({ operation: 'inspect' });
+  assert.equal(inspected.ready, true); assert.equal(h.posts().length, 0);
+  const { controller } = h.native();
+  controller.onSave = () => { throw Error('Booking handler must never be invoked'); };
+  controller.saveCall = () => { throw Error('Save handler must never be invoked'); };
+  const compared = await h.call({ operation: 'compareNative' });
+  assert.equal(compared.nativeBookingPath, 'standard'); assert.equal(compared.dataTopModuleEnabled, true);
+  assert.equal(compared.ready, true); assert.equal(compared.equivalent, true); assert.equal(h.nativeCalls, 1);
+  const requestId = crypto.randomUUID();
+  h.call({ operation: 'book', requestId, allowWrites: true, readOnly: true });
+  assert.equal((await h.settled(requestId)).reason, 'unsupported_tss');
+  assert.equal(h.posts().length, 0);
+});
+
+test('actual model-instance top-module branch is reported and cannot claim equivalence or ready', async () => {
+  const h = harness(); h.data.settings.push({ Name: 'ENABLE_TOP_MODULE_BOOKING', Value: 'X' });
+  h.native({}, { instanceSettings: { ENABLE_TOP_MODULE_BOOKING: 'X', private: 'private-value' } });
+  const compared = await h.call({ operation: 'compareNative' });
+  assert.equal(compared.nativeBookingPath, 'top_module'); assert.equal(compared.dataTopModuleEnabled, true);
+  assert.equal(compared.ready, false); assert.equal(compared.equivalent, false); assert.equal(compared.reason, 'unsupported_tss');
+  assert.equal(h.nativeCalls, 0); assert.equal(h.posts().length, 0);
+  assert.doesNotMatch(JSON.stringify(compared), /private-|00013043|synthetic-session-token/);
+});
+
+test('unknown native model stays unverified; non-X instance flags follow the exact standard predicate', async () => {
+  const unknown = harness(); unknown.native({}, { missingDefaultModel: true });
+  const failed = await unknown.call({ operation: 'compareNative' });
+  assert.equal(failed.nativeBookingPath, 'unknown'); assert.equal(failed.ready, false); assert.equal(failed.equivalent, false);
+  assert.equal(Object.hasOwn(failed, 'dataTopModuleEnabled'), false); assert.equal(unknown.nativeCalls, 0);
+  for (const value of [undefined, null, '', ' ', true, 'x']) {
+    const h = harness(); h.native({}, { instanceSettings: { ENABLE_TOP_MODULE_BOOKING: value } });
+    const compared = await h.call({ operation: 'compareNative' });
+    assert.equal(compared.nativeBookingPath, 'standard'); assert.equal(compared.dataTopModuleEnabled, false);
+    assert.equal(compared.ready, true); assert.equal(h.posts().length, 0);
+  }
 });

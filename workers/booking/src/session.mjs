@@ -404,7 +404,9 @@ export class SessionCore {
       const fields = new Set(['ModuleId', 'ActionName', 'ProgramId', 'Items', 'AssignedCg', 'AssignedCgTop', 'TemplateId', 'EventPackId', 'ModregId', 'AcademicYear', 'AcademicSession', 'Credits', 'CreditUnit', 'UnexpectedFields']);
       return { body: { state: this.record.state, ready: result.ready === true && csrfReady, loaded: result.loaded === true, csrfReady, courseCode, ...(reason ? { reason } : {}),
         ...(directRead ? directDiagnostics(result) : {}),
-        ...(action === '/verify-direct' ? { equivalent: result.equivalent === true, mismatchFields: Array.isArray(result.mismatchFields) ? result.mismatchFields.filter(field => fields.has(field)) : [] } : {}) } };
+        ...(action === '/verify-direct' ? { equivalent: result.equivalent === true, mismatchFields: Array.isArray(result.mismatchFields) ? result.mismatchFields.filter(field => fields.has(field)) : [],
+          ...(['standard', 'top_module', 'unknown'].includes(result.nativeBookingPath) ? { nativeBookingPath: result.nativeBookingPath } : {}),
+          ...(typeof result.dataTopModuleEnabled === 'boolean' ? { dataTopModuleEnabled: result.dataTopModuleEnabled } : {}) } : {}) } };
     }
     return { status: 404, body: { state: 'error', message: 'Not found.' } };
   }

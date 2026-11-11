@@ -129,7 +129,9 @@ export function directTssOperation(input) {
     if (tokenResponse && !validToken(tokenResponse.csrf)) note(job, 'service', 'missing_csrf');
     const unsupported = [
       [!!settings.ENABLE_AUTOBOOK, 'unsupported_autobook'],
-      [settings.ENABLE_TOP_MODULE_BOOKING === 'X', 'unsupported_top_module'],
+      // Read-only inspection may derive and compare the package payload even
+      // when the data flag is set. Actual booking retains this independent gate.
+      [settings.ENABLE_TOP_MODULE_BOOKING === 'X' && job?.readOnly !== true, 'unsupported_top_module'],
       [settings.HIDE_TAB_EVENT === 'X', 'hidden_events'],
     ];
     for (const [enabled, issue] of unsupported) if (enabled) note(job, 'settings', issue);
@@ -212,6 +214,8 @@ export function directTssOperation(input) {
   // Diagnostic only: compare the live GET-derived payload with the already
   // loaded official app. Book/inspect/authentication never enter this branch.
   function compareNative(target, prepared) {
+    let nativeBookingPath = 'unknown', dataTopModuleEnabled;
+    const branch = () => ({ nativeBookingPath, ...(typeof dataTopModuleEnabled === 'boolean' ? { dataTopModuleEnabled } : {}) });
     try {
       const core = window.sap?.ui?.getCore?.();
       if (!core) fail('native_context_unavailable');
@@ -228,6 +232,15 @@ export function directTssOperation(input) {
       }
       if (controllers.size !== 1) fail('native_context_unavailable');
       const controller = [...controllers][0], args = controller._oArguments;
+      const appModel = controller.getModel?.();
+      if (!appModel || typeof appModel.getProperty !== 'function') fail('native_context_unavailable');
+      // Exact archived onSave/saveCall predicate: these handlers read a direct
+      // model-instance property, unlike the formatter's /Settings data path.
+      // Observe both; never call either handler or infer one from the other.
+      nativeBookingPath = appModel.Settings && appModel.Settings.ENABLE_TOP_MODULE_BOOKING
+        && appModel.Settings.ENABLE_TOP_MODULE_BOOKING === 'X' ? 'top_module' : 'standard';
+      dataTopModuleEnabled = appModel.getProperty('/Settings/ENABLE_TOP_MODULE_BOOKING') === 'X';
+      if (nativeBookingPath !== 'standard') fail('unsupported_tss');
       const model = controller.getModel?.('detailView'), data = model?.getData?.(), detail = data?.detail;
       if (!detail || controller._initialLoad !== false || !args || Object.entries(data).some(([name, value]) => /^busy/i.test(name) && value === true)) fail('details_loading');
       if (args.Source !== 'EventPackage' || args.Otype !== 'SM' || args.NavFromMode || !same(args.Objid, target.moduleId)
@@ -247,9 +260,9 @@ export function directTssOperation(input) {
       const mismatchFields = fields.filter(field => fingerprint(native[field]) !== fingerprint(prepared.payload[field]));
       if (Object.keys(native).some(field => !fields.includes(field))) mismatchFields.push('UnexpectedFields');
       return { loaded: true, ready: mismatchFields.length === 0, csrfReady: true, equivalent: mismatchFields.length === 0,
-        mismatchFields, ...(mismatchFields.length ? { reason: 'payload_mismatch' } : {}) };
+        mismatchFields, ...branch(), ...(mismatchFields.length ? { reason: 'payload_mismatch' } : {}) };
     } catch (error) {
-      return { loaded: true, ready: false, csrfReady: true, equivalent: false, mismatchFields: [], reason: error.reason || 'native_context_unavailable' };
+      return { loaded: true, ready: false, csrfReady: true, equivalent: false, mismatchFields: [], ...branch(), reason: error.reason || 'native_context_unavailable' };
     }
   }
   function startRead(target) {

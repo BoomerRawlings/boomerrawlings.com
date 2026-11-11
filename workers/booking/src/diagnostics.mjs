@@ -1,4 +1,4 @@
-export const BUILD_VERSION = 'direct-test-2';
+export const BUILD_VERSION = 'direct-test-3';
 
 const authHosts = new Set(['tss.ucsd.edu', 'tssproxy.ucsd.edu', 'a5.ucsd.edu', 'api-ce13a1a7.duosecurity.com']);
 const publicSegments = new Set(['fiori', 'sap', 'public', 'bc', 'sec', 'saml2', 'sp', 'acs', 'opu', 'odata', 'ITUS', 'PR_MY_MODULES_V2_SRV',
