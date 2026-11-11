@@ -27,7 +27,7 @@ class Element extends Target {
 // Whole client, synthetic DOM and same-origin API only. No UCSD account,
 // browser, enrollment endpoint or persistent credential store is touched.
 function harness(options = {}) {
-  const names = ['session', 'session-status', 'job-status', 'login', 'logout', 'inspect', 'review', 'probe-note', 'warning', 'warning-message', 'confirm', 'cancel'];
+  const names = ['session', 'session-status', 'account-name', 'status-message', 'job-status', 'login', 'logout', 'inspect', 'review', 'probe-note', 'warning', 'warning-message', 'confirm', 'cancel'];
   const elements = Object.fromEntries(names.map(name => [name, new Element()]));
   const buttons = [new Element(), new Element(), new Element(), new Element()];
   buttons.forEach(button => { button.feedback = new Element(); });
@@ -77,7 +77,7 @@ function harness(options = {}) {
     elements, buttons, calls, popups, handlers, window, document,
     get state() { return elements.session.dataset.state; },
     get job() { return elements['job-status'].textContent; },
-    get statusText() { return elements['session-status'].textContent; },
+    get statusText() { return (elements['account-name'].hidden ? '' : elements['account-name'].textContent) + elements['status-message'].textContent; },
     get storageTouches() { return storageTouches; },
     posts(path) { return calls.filter(call => call.path === path && call.init.method === 'POST'); },
     setStatus(update) { status = { ...status, ...update }; },
@@ -123,6 +123,38 @@ test('session verification does not require eligibility to book an already-booke
   await h.click('inspect'); assert.match(h.job, /Session verified/);
   h.handlers.set('inspect', async () => response({ state: 'ready', ready: true, loaded: true, csrfReady: false }));
   await h.click('inspect'); assert.match(h.job, /not verified yet/);
+  assert.equal(h.posts('book').length, 0);
+});
+
+test('connected badge uses only the authenticated account name and safely falls back when unavailable', async () => {
+  const h = harness({ status: { state: 'ready', probeOnly: false, accountName: 'Synthetic Learner' } });
+  await flush();
+  assert.equal(h.statusText, 'Synthetic Learner is connected to TSS');
+  assert.equal(h.elements['session-status'].dataset.connected, 'true');
+  for (const accountName of [undefined, '<img src=x>', 'learner@example.com', 'ID123', 'A'.repeat(101), 'Name\u202eHidden']) {
+    h.setStatus({ accountName }); await h.poll();
+    assert.equal(h.statusText, 'Connected to TSS · ready to book');
+    assert.equal(h.elements['session-status'].dataset.connected, 'true');
+  }
+  h.setStatus({ state: 'expired', accountName: 'Previous Learner' }); await h.poll();
+  assert.equal(h.elements['session-status'].dataset.connected, 'false');
+  assert.doesNotMatch(h.statusText, /Previous Learner|connected/);
+  h.setStatus({ state: 'ready', accountName: 'New Learner' }); await h.poll();
+  assert.equal(h.statusText, 'New Learner is connected to TSS');
+});
+
+test('connected badge expires with stale proof and disappears on a failed status check', async () => {
+  const h = harness({ status: { state: 'ready', probeOnly: false, accountName: 'Synthetic Learner' } });
+  await flush(); await h.visible(false); await h.advance(15_000);
+  assert.equal(h.elements['session-status'].dataset.connected, 'false');
+  assert.equal(h.statusText, 'Checking TSS connection…');
+  assert.equal(h.elements['session-status'].dataset.working, 'true');
+  await h.visible(true);
+  assert.equal(h.elements['session-status'].dataset.connected, 'true');
+  assert.equal(h.statusText, 'Synthetic Learner is connected to TSS');
+  h.handlers.set('status', () => response({}, 503)); await h.poll();
+  assert.equal(h.elements['session-status'].dataset.connected, 'false');
+  assert.doesNotMatch(h.statusText, /Synthetic Learner|connected/);
   assert.equal(h.posts('book').length, 0);
 });
 

@@ -5,7 +5,7 @@ import { BOOKING_ROUTES, VERIFIED_STANDARD_ROUTES } from './routes.mjs';
 import { bounded } from './timeout.mjs';
 import { bookingReason, bookingResult, terminalBooking } from './booking-result.mjs';
 import { directTssOperation } from './direct-tss.mjs';
-import { authenticationProbe } from './authentication.mjs';
+import { authenticationProbe, safeAccountName } from './authentication.mjs';
 import { resolveRoomieCourses } from './resolve-courses.mjs';
 import { loginViewport } from './viewport.mjs';
 import { safeBlockedRequest, safeCspDirective, safeNetworkError, preflightDiagnostic, safeAuthDiagnostics } from './diagnostics.mjs';
@@ -132,12 +132,14 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
   };
   let lastAuthentication = 0;
   let authenticationValid = false;
+  let authenticatedName;
   let authenticationRevision = 0, authenticationUrl = '', authenticationMode = '', authenticationState;
   const blocked = new Map();
   const authBlocked = new Map();
   const cspViolations = new Map(), requestFailures = new Map();
   let stage = 'page';
   browser.on('disconnected', () => {
+    authenticationValid = false; authenticatedName = undefined;
     if (closing) return;
     // Never reconnect to an uncontrolled authenticated browser after a lost guard.
     env.BROWSER.closeSession(id).catch(() => {});
@@ -150,7 +152,7 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
     if (initialViewport) await page.setViewport({ ...initialViewport, deviceScaleFactor: 1 });
     page.on?.('framenavigated', frame => {
       if (frame !== page.mainFrame()) return;
-      authenticationRevision++; authenticationValid = false;
+      authenticationRevision++; authenticationValid = false; authenticatedName = undefined;
     });
     stage = 'guard';
     const guard = await installGuard(page, {
@@ -207,13 +209,14 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
       const mode = directEnabled || direct ? 'direct' : 'native', url = page.url();
       if (!fresh && authenticationValid && authenticationUrl === url && authenticationMode === mode && Date.now() - lastAuthentication < 30_000) return 'authenticated';
       const revision = ++authenticationRevision;
-      authenticationValid = false;
+      authenticationValid = false; authenticatedName = undefined;
       const proof = await page.evaluate(authenticationProbe, { requireShell: mode === 'native' });
       // Navigation or a newer fresh check supersedes this result, even when the
       // older request finishes after a successful new proof.
       if (revision !== authenticationRevision || page.url() !== url) return 'unavailable';
       const status = ['authenticated', 'unauthenticated', 'unavailable'].includes(proof?.status) ? proof.status : 'unavailable';
       authenticationValid = status === 'authenticated';
+      authenticatedName = authenticationValid ? safeAccountName(proof?.displayName) : undefined;
       authenticationState = { page: proof?.page, ...(proof?.issue ? { issue: proof.issue } : {}) };
       guard.recordAuthPage?.(proof?.page);
       authenticationUrl = url; authenticationMode = mode; lastAuthentication = Date.now();
@@ -223,6 +226,10 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
       id,
       connected() { return browser.connected && !page.isClosed(); },
       authenticated,
+      accountName() {
+        return !closing && authenticationValid && authenticationUrl === page.url() && Date.now() - lastAuthentication < 30_000
+          ? authenticatedName : undefined;
+      },
       resolveCourses() { return page.evaluate(resolveRoomieCourses); },
       async loginUrl() {
         try {
@@ -328,6 +335,7 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
       },
       async close() {
         closing = true;
+        authenticationValid = false; authenticatedName = undefined;
         completedDirectJobs.clear();
         activeJob = null;
         await browser.close();

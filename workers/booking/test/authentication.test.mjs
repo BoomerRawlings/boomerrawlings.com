@@ -1,18 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { runInNewContext } from 'node:vm';
-import { authenticationProbe } from '../src/authentication.mjs';
+import { authenticationProbe, safeAccountName } from '../src/authentication.mjs';
 
-async function probe({ url = 'https://tss.ucsd.edu/fiori', text = '', shell = true, response, failure, requireShell = true } = {}) {
+async function probe({ url = 'https://tss.ucsd.edu/fiori', text = '', shell = true, response, failure, requireShell = true, displayName, nameFailure = false } = {}) {
   const calls = [];
-  const window = { location: new URL(url), ...(shell ? { sap: { ushell: { Container: { getUser: () => ({ getId: () => 'private-account' }) } } } } : {}),
+  let nameReads = 0;
+  const window = { location: new URL(url), ...(shell ? { sap: { ushell: { Container: { getUser: () => ({ getId: () => 'private-account',
+    getFullName: () => { nameReads++; if (nameFailure) throw Error('private shell error'); return displayName; } }) } } } } : {}),
     async fetch(address, options) { calls.push({ address, options }); if (failure) throw failure;
       return response || new Response(JSON.stringify({ d: { EntitySets: [] } }), { headers: { 'content-type': 'application/json', 'x-csrf-token': 'private-token' } }); } };
   const result = JSON.parse(JSON.stringify(await runInNewContext(`(${authenticationProbe.toString()})({requireShell})`, {
     window, document: { body: { innerText: text }, querySelector: () => shell ? {} : null }, AbortSignal, requireShell,
   })));
   assert.doesNotMatch(JSON.stringify(result), /private|https|password|SAML/);
-  return { result, calls };
+  return { result, calls, nameReads };
 }
 
 test('successful authentication is a bodyless read; credentials and token never escape', async () => {
@@ -20,6 +22,23 @@ test('successful authentication is a bodyless read; credentials and token never 
   assert.deepEqual(result, { status: 'authenticated', page: 'tss' });
   assert.equal(calls.length, 1); assert.equal(calls[0].options.method, 'GET');
   assert.equal(calls[0].options.body, undefined); assert.equal(calls[0].options.redirect, 'error');
+});
+
+test('verified shell display name is bounded Unicode plain text and never required for authentication', async () => {
+  for (const [value, expected] of [['  Jane   Doe ', 'Jane Doe'], ['Rémi D’Arcy-Anne', 'Rémi D’Arcy-Anne'], ['李 明', '李 明'], ['A. Example', 'A. Example']]) {
+    const { result, calls, nameReads } = await probe({ displayName: value });
+    assert.deepEqual(result, { status: 'authenticated', page: 'tss', displayName: expected });
+    assert.equal(safeAccountName(value), expected); assert.equal(calls.length, 1); assert.equal(nameReads, 1);
+  }
+  for (const value of [undefined, null, {}, '', '---', '12345', 'P12345', 'name@example.test', '<b>Jane Doe</b>',
+    'Jane\nDoe', 'Jane Doe\n', 'Jane\tDoe', 'Jane\u0000Doe', 'Jane\u202eDoe', 'Jane\u2066Doe', 'Jane\u2028', 'A'.repeat(101)]) {
+    assert.equal(safeAccountName(value), undefined);
+    assert.deepEqual((await probe({ displayName: value })).result, { status: 'authenticated', page: 'tss' });
+  }
+  assert.deepEqual((await probe({ displayName: 'Jane Doe', nameFailure: true })).result, { status: 'authenticated', page: 'tss' });
+  const unavailable = await probe({ displayName: 'Jane Doe', response: new Response('', { status: 503 }) });
+  const rejected = await probe({ displayName: 'Jane Doe', response: new Response('', { status: 401 }) });
+  for (const value of [unavailable, rejected]) { assert.equal(value.result.displayName, undefined); assert.equal(value.nameReads, 0); }
 });
 
 test('transient TSS errors differ from authentication rejection', async () => {

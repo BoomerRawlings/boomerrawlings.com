@@ -20,9 +20,33 @@
 .roomie-shell .booking-steps .tss-login-button:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 .tss-session { padding-top: 15px; border-top: 1px solid var(--teach-line); }
 .roomie-library .library-intro > .tss-session { grid-column: 1 / -1; }
-.tss-session-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 13px; }
-.tss-session-status { font-size: 13px; color: #b1cfda; }
+.tss-session-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 13px; min-height: 44px; }
+.tss-session-status { min-width: 0; max-width: 100%; font-size: 14px; line-height: 1.45; color: #b1cfda; overflow-wrap: anywhere; }
 .tss-session[data-state=ready] .tss-session-status { color: #b6e2c2; }
+.tss-session .tss-session-status[data-connected='true']:not([data-working='true']) {
+  position: relative;
+  box-sizing: border-box;
+  padding: 10px 14px 10px 39px;
+  border: 1px solid #65cda680;
+  border-radius: 6px;
+  background: #183c37;
+  color: #bff5dc;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.tss-session .tss-session-status[data-connected='true']:not([data-working='true'])::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  width: 10px;
+  height: 6px;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-65%) rotate(-45deg);
+  pointer-events: none;
+}
 .tss-session button { font-size: 12px; padding: 4px 9px; background: transparent; }
 .tss-account-note { color: var(--teach-muted); font-size: 12px; margin-top: 7px; }
 .tss-probe-note { color: var(--booking-gold, #ffcd00); font-size: 12px; margin-top: 7px; }

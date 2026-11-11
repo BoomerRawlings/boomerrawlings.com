@@ -7,6 +7,7 @@ import { bookingReason } from './booking-result.mjs';
 import { DIRECT_READ_STAGES, DIRECT_SCHEMA_ISSUES, DIRECT_SETTING_FLAGS, DIRECT_SETTING_SHAPES, DIRECT_PREPARATION_NOTES } from './direct-tss.mjs';
 import { RESOLVE_COURSE_REASONS } from './resolve-courses.mjs';
 import { loginViewport } from './viewport.mjs';
+import { safeAccountName } from './authentication.mjs';
 
 export const COOKIE_NAME = '__Host-bbb-session';
 export const API_PREFIX = '/0311/api';
@@ -166,7 +167,11 @@ export class SessionCore {
     catch (failure) { throw Object.assign(new Error('Session quota unavailable'), { stage: 'quota_service', failureDiagnostic: failureDiagnostic(failure, 'quota') }); }
   }
   snapshot(extra = {}) {
-    return { state: this.busy || activeBooking(this.record) ? 'busy' : this.record.state, csrf: this.record.csrf, probeOnly: probing(this.env), build: BUILD_VERSION,
+    const state = this.busy || activeBooking(this.record) ? 'busy' : this.record.state;
+    const accountName = ['ready', 'busy'].includes(state) && this.record.expiresAt > this.now() && this.browser?.connected?.() !== false
+      ? safeAccountName(this.browser?.accountName?.()) : undefined;
+    return { state, csrf: this.record.csrf, probeOnly: probing(this.env), build: BUILD_VERSION,
+      ...(accountName ? { accountName } : {}),
       directBookingEnabled: this.env.DIRECT_BOOKING_ENABLED === 'true', authDiagnostics: safeAuthDiagnostics(this.record, this.lastAuthDiagnostics),
       ...(probing(this.env) && this.record.lastFailure ? { failure: this.record.lastFailure } : {}),
       ...(probing(this.env) && this.record.failureStage ? { failureStage: this.record.failureStage } : {}),
@@ -358,7 +363,8 @@ export class SessionCore {
       const data = { ...this.snapshot(), ...result.body };
       // Review/notice text belongs only to live responses and in-memory fields.
       // Request deduplication stores no native messages or confirmation grants.
-      this.results.set(body.requestId, { status: result.status || 200, body: { ...data, ...(data.booking ? { booking: { ...this.record.booking } } : {}) } });
+      const { accountName: _accountName, ...cachedData } = data;
+      this.results.set(body.requestId, { status: result.status || 200, body: { ...cachedData, ...(data.booking ? { booking: { ...this.record.booking } } : {}) } });
       return json(data, result.status || 200);
     } catch (failure) {
       this.busy = false;

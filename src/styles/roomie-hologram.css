@@ -1,0 +1,54 @@
+/* One real name: the homepage's gold/cyan split without duplicated text. */
+.roomie-shell .tss-session-status[data-connected='true'] .tss-account-name {
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: bottom;
+  color: #ffcd00;
+  overflow-wrap: anywhere;
+  text-shadow: 0 0 9px rgb(255 205 0 / .14);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .roomie-shell .tss-session-status[data-connected='true'] .tss-account-name {
+    animation: roomie-name-hologram 6.4s steps(1, end) infinite;
+  }
+
+  .roomie-shell .roomie-card {
+    animation: roomie-card-halo 14s ease-in-out infinite;
+  }
+  .roomie-shell .roomie-card:nth-child(4n + 2) { animation-delay: -3.5s; }
+  .roomie-shell .roomie-card:nth-child(4n + 3) { animation-delay: -7s; }
+  .roomie-shell .roomie-card:nth-child(4n) { animation-delay: -10.5s; }
+}
+
+@keyframes roomie-name-hologram {
+  0%, 80%, 96%, 100% {
+    transform: translate(0, 0);
+    text-shadow: 0 0 9px rgb(255 205 0 / .14);
+  }
+  84% {
+    transform: translate(.35px, -.15px);
+    text-shadow: -1px 0 rgb(140 222 219 / .38), 1px 0 rgb(255 205 0 / .48), 0 0 10px rgb(255 205 0 / .2);
+  }
+  90% {
+    transform: translate(-.25px, .1px);
+    text-shadow: .8px 0 rgb(140 222 219 / .3), -.8px 0 rgb(255 205 0 / .4), 0 0 9px rgb(255 205 0 / .16);
+  }
+}
+
+@keyframes roomie-card-halo {
+  0%, 76%, 92%, 100% {
+    box-shadow: 0 0 20px rgb(255 205 0 / 0), inset 0 0 0 1px rgb(255 205 0 / 0);
+  }
+  84% {
+    box-shadow: 0 0 20px rgb(255 205 0 / .07), inset 0 0 0 1px rgb(255 205 0 / .17);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roomie-shell .tss-session-status[data-connected='true'] .tss-account-name {
+    animation: none;
+    transform: none;
+  }
+  .roomie-shell .roomie-card { animation: none; box-shadow: none; }
+}

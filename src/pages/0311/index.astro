@@ -6,6 +6,7 @@ import '../../styles/brain-teaching.css';
 import '../../styles/roomie-booking.css';
 import '../../styles/roomie-branding.css';
 import '../../styles/roomie-surf.css';
+import '../../styles/roomie-hologram.css';
 import { roomies, catalogUpdatedAt, type CatalogCourse, type CourseMeeting, type CourseSection } from '../../data/roomie-booking';
 
 const dateLabel = (value: string | null) => {
@@ -111,7 +112,7 @@ const missingDetailsNote = (course: CatalogCourse) => {
         </div>
         <div class="tss-session" data-tss-session data-state="checking">
           <div class="tss-session-line">
-            <span class="tss-session-status" role="status" aria-live="polite" data-tss-session-status>Checking sign-in…</span>
+            <span class="tss-session-status" role="status" aria-live="polite" data-tss-session-status><span class="tss-account-name" data-tss-account-name hidden></span><span data-tss-status-message>Checking sign-in…</span></span>
             <button type="button" data-tss-logout hidden>Sign out</button>
             <button type="button" data-tss-inspect hidden>Check session</button>
           </div>

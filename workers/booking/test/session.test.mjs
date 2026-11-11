@@ -93,6 +93,38 @@ test('login accepts bounded dimensions only and preserves an existing session vi
   assert.equal((await a.post('/inspect', { route: DEFAULT_ROUTE, viewport: { width: 390, height: 780 } })).status, 400);
 });
 
+test('account name is owned, ephemeral and omitted outside a valid unexpired authenticated session', async () => {
+  const f = fixture(); const a = await f.client(), other = await f.client();
+  assert.equal(a.initial.accountName, undefined);
+  await a.post('/login');
+  const owned = [...f.live.values()][0], core = [...f.sessions.values()][0];
+  owned.accountName = () => 'Jane Example';
+  assert.equal((await (await a.get()).json()).accountName, undefined);
+  owned.signedIn = true;
+  assert.equal((await (await a.get()).json()).accountName, 'Jane Example');
+  assert.equal((await (await other.get()).json()).accountName, undefined);
+  const requestId = uuid();
+  assert.equal((await (await a.post('/inspect', { requestId, route: DEFAULT_ROUTE })).json()).accountName, 'Jane Example');
+  assert.equal((await (await a.post('/inspect', { requestId, route: DEFAULT_ROUTE })).json()).accountName, undefined);
+  core.busy = true; assert.equal(core.snapshot().accountName, 'Jane Example'); core.busy = false;
+  for (const value of ['name@example.test', 'Jane\u202eExample', 'P12345', 'A'.repeat(101)]) {
+    owned.accountName = () => value; assert.equal(core.snapshot().accountName, undefined);
+  }
+  owned.accountName = () => 'Jane Example'; owned.signedIn = false;
+  assert.equal((await (await a.get()).json()).accountName, undefined);
+  owned.signedIn = true; await a.get();
+  f.advance(15 * 60_000);
+  assert.equal(core.snapshot().accountName, undefined); // Even before the expiry alarm/status closes it.
+  assert.equal((await (await a.get()).json()).accountName, undefined);
+  await a.post('/login');
+  const replacement = [...f.live.values()][0]; replacement.signedIn = true; replacement.accountName = () => 'Other Example';
+  assert.equal((await (await a.get()).json()).accountName, 'Other Example');
+  assert.equal((await (await a.post('/logout')).json()).accountName, undefined);
+  for (const ctx of f.contexts.values()) assert.doesNotMatch(JSON.stringify([...ctx.storage.data]), /Jane Example|Other Example|accountName/);
+  assert.doesNotMatch(JSON.stringify([...core.results.values()]), /Jane Example|Other Example|accountName/);
+  assert.doesNotMatch(JSON.stringify(core.snapshot().authDiagnostics), /Jane Example|Other Example|accountName/);
+});
+
 test('client JSON cannot forge native verification or read-only exemptions', async () => {
   const f=fixture({PROBE_ONLY:'false',DIRECT_BOOKING_ENABLED:'true'});const a=await f.client();
   await a.post('/login');const owned=[...f.live.values()][0];owned.signedIn=true;

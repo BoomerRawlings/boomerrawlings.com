@@ -1,8 +1,14 @@
 export const AUTHENTICATION_PAGES = Object.freeze(['login_choice', 'credentials_ad', 'credentials_student', 'duo', 'ucsd_error', 'tss_proxy_error', 'tss_loading', 'tss', 'other']);
 export const AUTHENTICATION_ISSUES = Object.freeze(['ucsd_login_exception', 'sso_handoff_failed', 'service_unavailable', 'network_error', 'request_timeout', 'missing_csrf', 'unexpected_response', 'authentication_required']);
 
-// Serialized into the owned browser. Return fixed classifications only; never
-// credentials, cookies, tokens, account identifiers, URLs or page contents.
+export function safeAccountName(value) {
+  if (typeof value !== 'string' || value.length > 100 || !/\p{L}/u.test(value) || /[^\p{L}\p{M} .'’\-]/u.test(value)) return undefined;
+  return value.trim().replace(/ +/g, ' ') || undefined;
+}
+
+// Serialized into the owned browser. Return fixed classifications and an
+// optional display name only after positive authentication. Never return
+// credentials, cookies, tokens, account IDs, email, URLs or page contents.
 export async function authenticationProbe({ requireShell = true } = {}) {
   const origin = window.location.origin;
   const answer = (status, page, issue) => ({ status, page, ...(issue ? { issue } : {}) });
@@ -48,7 +54,15 @@ export async function authenticationProbe({ requireShell = true } = {}) {
     if (!decoded?.d || typeof decoded.d !== 'object' || Array.isArray(decoded.d) || decoded.error) return answer('unavailable', 'tss', 'unexpected_response');
     const token = response.headers.get('x-csrf-token')?.trim();
     if (!token || token.length >= 4096 || /^(required|fetch)$/i.test(token)) return answer('unavailable', 'tss', 'missing_csrf');
-    return answer('authenticated', 'tss');
+    let displayName;
+    try {
+      const value = window.sap?.ushell?.Container?.getUser?.()?.getFullName?.();
+      // Keep this self-contained serialized check aligned with safeAccountName.
+      if (typeof value === 'string' && value.length <= 100 && /\p{L}/u.test(value) && !/[^\p{L}\p{M} .'’\-]/u.test(value)) {
+        displayName = value.trim().replace(/ +/g, ' ') || undefined;
+      }
+    } catch { /* Missing shell metadata must not change successful auth. */ }
+    return { ...answer('authenticated', 'tss'), ...(displayName ? { displayName } : {}) };
   } catch (failure) {
     return answer('unavailable', 'tss', ['TimeoutError', 'AbortError'].includes(failure?.name) ? 'request_timeout' : 'network_error');
   }

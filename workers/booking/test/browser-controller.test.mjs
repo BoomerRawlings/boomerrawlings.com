@@ -400,6 +400,36 @@ test('temporary auth unavailability revokes booking proof without becoming succe
   assert.equal(f.bookCalls(), 0);
 });
 
+test('account name follows the same current authentication proof and never survives navigation or auth loss', async () => {
+  const f = controllerFixture(), controller = await f.controller;
+  assert.equal(controller.accountName(), undefined);
+  f.responses.authentication = () => ({ status: 'authenticated', page: 'tss', displayName: 'Jane Example' });
+  await controller.authenticated({ fresh: true });
+  assert.equal(controller.accountName(), 'Jane Example');
+  await controller.authenticated(); assert.equal(f.csrfCalls(), 1);
+  await f.navigate('https://tss.ucsd.edu/fiori#another-page');
+  assert.equal(controller.accountName(), undefined);
+  let oldProof;
+  f.responses.authentication = () => new Promise(resolve => { oldProof = resolve; });
+  const old = controller.authenticated({ fresh: true });
+  f.responses.authentication = () => ({ status: 'authenticated', page: 'tss', displayName: 'Other Example' });
+  await controller.authenticated({ fresh: true });
+  oldProof({ status: 'authenticated', page: 'tss', displayName: 'Stale Example' });
+  assert.equal(await old, 'unavailable'); assert.equal(controller.accountName(), 'Other Example');
+  for (const status of ['unavailable', 'unauthenticated']) {
+    f.responses.authentication = () => ({ status, page: 'tss', displayName: 'Stale Example' });
+    await controller.authenticated({ fresh: true }); assert.equal(controller.accountName(), undefined);
+  }
+  f.responses.authentication = () => ({ status: 'authenticated', page: 'tss', displayName: 'name@example.test' });
+  assert.equal(await controller.authenticated({ fresh: true }), 'authenticated'); assert.equal(controller.accountName(), undefined);
+  f.responses.authentication = () => ({ status: 'authenticated', page: 'tss', displayName: 'Jane Example' });
+  await controller.authenticated({ fresh: true });
+  f.responses.authentication = () => { throw Error('synthetic failed probe'); };
+  await assert.rejects(controller.authenticated({ fresh: true })); assert.equal(controller.accountName(), undefined);
+  f.responses.authentication = () => ({ status: 'authenticated', page: 'tss', displayName: 'Jane Example' });
+  await controller.authenticated({ fresh: true }); await controller.close(); assert.equal(controller.accountName(), undefined);
+});
+
 test('main-frame navigation invalidates cached authentication and pending checks', async () => {
   const f = controllerFixture(), controller = await f.controller;
   await controller.authenticated();
