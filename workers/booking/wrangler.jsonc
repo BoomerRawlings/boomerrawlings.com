@@ -15,10 +15,10 @@
   "migrations": [{ "tag": "booking-v1", "new_sqlite_classes": ["BookingSession", "BookingQuota"] }],
   "vars": {
     "APP_ORIGIN": "https://boomerrawlings.com",
-    "PROBE_ONLY": "true",
-    "MAX_BROWSER_SESSIONS": "1",
+    "PROBE_ONLY": "false",
+    "MAX_BROWSER_SESSIONS": "8",
     "MAX_SESSION_MINUTES": "15",
-    "MONTHLY_BROWSER_MINUTES": "150"
+    "MONTHLY_BROWSER_MINUTES": "600"
   },
   "observability": { "enabled": false }
 }

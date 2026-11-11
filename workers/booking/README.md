@@ -2,7 +2,7 @@
 
 Worker route: `https://boomerrawlings.com/0311/api/*`. Static frontend remains on its existing host. This service owns one separate browser per visitor; it cannot inherit a Chrome or in-app-browser login.
 
-Current configuration is **a read-only hosted login probe**. The production Book path is implemented behind `PROBE_ONLY=false`, but real UCSD login, provider compatibility and enrollment have not been validated. Do not advertise a working enrollment service based on mocked tests.
+Current configuration enables household booking (`PROBE_ONLY=false`). Hosted UCSD/Duo authentication, loaded PHIL010 and ECON100A package details, same-session CSRF availability, and sign-out/browser closure were verified on2026-11-10. Visitor isolation and expiry have automated coverage; earlier live API isolation checks passed. No real enrollment or drop was performed, so successful enrollment remains unverified.
 
 ## Local checks
 
@@ -19,11 +19,11 @@ The package pins `@cloudflare/puppeteer` and Wrangler. Cloudflare authorization 
 
 ## Probe operation
 
-Deploy the unchanged `PROBE_ONLY=true` configuration only after local checks and account usage review. `GET /health` creates no object/browser. Open `/0311/api/test` on the real website origin to issue the protected visitor cookie, sign in through Live View, check a known course and sign out. This probe page is unavailable when `PROBE_ONLY=false`.
+For future read-only investigations, configure `PROBE_ONLY=true`, `MAX_BROWSER_SESSIONS=1` and a bounded probe budget before deployment. `GET /health` creates no object/browser. Open `/0311/api/test` on the real website origin to issue the protected visitor cookie, sign in through Live View, check a known course and sign out. This probe page is unavailable when `PROBE_ONLY=false`.
 
 Probe limits: one concurrent browser, absolute 15-minute lifetime, 150 reserved browser minutes per UTC month. The configured budget was raised from 90 to 150 for four additional 15-minute login trials; existing reservations are not reset. Probe mode enforces the one-browser/150-minute ceilings even if larger values are configured. Lower configured budgets remain effective; an omitted monthly setting defaults to 90. Each launch reserves its entire window; usage is never refunded, including early sign-out or a failed launch after reservation. `MONTHLY_BROWSER_MINUTES=0` stops allocation; negative or nonfinite values cannot enable usage. The cap covers this application, **not account-wide Cloudflare usage**. Browser/controller loss closes the session; an object restart destroys its previous browser instead of reconnecting without interception.
 
-After the hosted authentication and cleanup gates below pass, the household production configuration is:
+The checked-in household production configuration is:
 
 | Variable | Production value | Enforced ceiling |
 | --- | --- | --- |
@@ -32,7 +32,7 @@ After the hosted authentication and cleanup gates below pass, the household prod
 | `MAX_SESSION_MINUTES` | `15` | 15 minutes from launch, including sign-in |
 | `MONTHLY_BROWSER_MINUTES` | `600` | 600 reserved browser minutes per UTC month |
 
-The checked-in Wrangler configuration remains the probe configuration. Change all four variables together at the production release; changing only `PROBE_ONLY` retains the configured one-browser/150-minute limits. A 600-minute allowance permits 40 full 15-minute browser launches per month, about five per roommate. This is a shared limit, not a per-person allocation; multiple bookings can use one session. Reopening Live View for the same session does not reserve another window. The previous probe reservations remain counted in the same UTC month. The ceiling limits reserved application browser time, not dollar charges or other Cloudflare services. Larger configured budgets are clamped to 600 in production and 150 in probe mode; lower configured budgets remain effective.
+Change all four variables together when switching modes. A600-minute allowance permits40 full15-minute browser launches per month, about five per roommate. This is a shared limit, not a per-person allocation; multiple bookings can use one session. Reopening Live View for the same session does not reserve another window. Previous probe reservations remain counted in the same UTC month. The ceiling limits reserved application browser time, not dollar charges or other Cloudflare services. Larger configured budgets are clamped to600 in production and150 in probe mode; lower configured budgets remain effective.
 
 Sign-out, expiry and disconnect cleanup close the provider browser. Cleanup must verify provider closure before releasing its concurrency lease. The provider idle timeout matches the absolute session window (15 minutes), so hiding the launcher during human sign-in does not impose a separate one-minute cutoff. Puppeteer's public connection options enforce a20-second CDP timeout; renderer readiness is checked before each Live View handoff. Live View grants last60 seconds to start connecting; an already-connected viewer can remain until browser closure. The signed URL is a bearer credential: never copy it into logs, issues, telemetry, screenshots of address bars or project state. Recording is disabled.
 
