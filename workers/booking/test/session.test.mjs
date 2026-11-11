@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { SessionCore, QuotaCore, handleRequest, COOKIE_NAME, API_PREFIX } from '../src/session.mjs';
 import { DEFAULT_ROUTE, BOOKING_ROUTES } from '../src/routes.mjs';
 import { BUILD_VERSION } from '../src/diagnostics.mjs';
-import { DIRECT_READ_STAGES, DIRECT_SCHEMA_ISSUES } from '../src/direct-tss.mjs';
+import { DIRECT_READ_STAGES, DIRECT_SCHEMA_ISSUES, DIRECT_PREPARATION_NOTES } from '../src/direct-tss.mjs';
 
 const origin = 'https://boomerrawlings.com';
 const uuid = () => crypto.randomUUID();
@@ -73,6 +73,24 @@ test('origin, CSRF, content type and route restrictions precede browser allocati
   assert.equal((await a.post('/inspect', { route: 'https://tss.ucsd.edu/unverified' })).status, 400);
   assert.equal((await a.post('/login', { surprise: true })).status, 400);
   assert.equal(f.count(), 0);
+});
+
+test('login accepts bounded dimensions only and preserves an existing session viewport', async () => {
+  const f = fixture(); const a = await f.client();
+  for (const viewport of [null, [], { width: 319, height: 600 }, { width: 1441, height: 600 }, { width: 390, height: 239 },
+    { width: 390, height: 1001 }, { width: 390.5, height: 600 }, { width: '390', height: 600 }, { width: 390, height: 600, deviceScaleFactor: 3 }]) {
+    assert.equal((await a.post('/login', { viewport })).status, 400);
+  }
+  assert.equal(f.count(), 0);
+  const requestId = uuid();
+  assert.equal((await a.post('/login', { requestId, viewport: { width: 390, height: 780 } })).status, 200);
+  const browser = [...f.live.values()][0];
+  assert.deepEqual(browser.hooks.viewport, { width: 390, height: 780 });
+  assert.equal((await a.post('/login', { viewport: { width: 1440, height: 836 } })).status, 200);
+  assert.equal(f.count(), 1); assert.equal(browser.loginCalls, 2);
+  assert.deepEqual(browser.hooks.viewport, { width: 390, height: 780 });
+  assert.equal((await a.post('/login', { requestId, viewport: { width: 509, height: 1000 } })).status, 409);
+  assert.equal((await a.post('/inspect', { route: DEFAULT_ROUTE, viewport: { width: 390, height: 780 } })).status, 400);
 });
 
 test('one probe browser, per-user ownership, logout closes and clears cookie', async () => {
@@ -220,7 +238,7 @@ test('course resolver has fresh direct authentication, owned browser and idempot
   assert.deepEqual(proofOptions, [{ fresh: true, direct: true }]);
   assert.equal((await a.post('/resolve-courses', { requestId })).status, 200); assert.equal(resolveCalls, 1);
   assert.equal((await a.post('/inspect-direct', { requestId, route: DEFAULT_ROUTE })).status, 409);
-  assert.equal(owned.bookCalls, 0); assert.equal(BOOKING_ROUTES.size, 9);
+  assert.equal(owned.bookCalls, 0); assert.equal(BOOKING_ROUTES.size, 20);
   assert.doesNotMatch(JSON.stringify(result), /private-student|private-auth/);
   const core = [...f.sessions.values()][0];
   assert.doesNotMatch(JSON.stringify([...core.ctx.storage.data]), /catalog|12345|54321|private-student|private-auth/);
@@ -284,6 +302,44 @@ test('course resolver is single-flight and discards results when its owned sessi
   const response = await pending, result = await response.json();
   assert.equal(response.status, 401); assert.equal(result.state, 'expired'); assert.equal(result.catalog, undefined);
   assert.equal(owned.closed, true); assert.equal(calls, 1); assert.equal(owned.bookCalls, 0);
+});
+
+test('only submitted direct outcomes survive API status and request deduplication', async () => {
+  const f = fixture({ PROBE_ONLY: 'false', DIRECT_BOOKING_ENABLED: 'true' }); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  for (const outcome of ['booked', 'waitlisted', 'unconfirmed', 'private-result', 'Booked', true, null, { private: 'payload' }]) {
+    const requestId = uuid();
+    owned.book = async () => ({ stage: 'submitted', outcome, rawResponse: 'private-response' });
+    const result = await (await a.post('/book', { route: DEFAULT_ROUTE, requestId })).json();
+    const expected = ['booked', 'waitlisted', 'unconfirmed'].includes(outcome) ? outcome : undefined;
+    assert.equal(result.booking.outcome, expected);
+    assert.equal((await (await a.get()).json()).booking.outcome, expected);
+    assert.equal((await (await a.post('/book', { route: DEFAULT_ROUTE, requestId })).json()).booking.outcome, expected);
+    assert.doesNotMatch(JSON.stringify(result), /private/);
+  }
+  owned.book = async () => ({ stage: 'stopped', outcome: 'booked' });
+  assert.equal((await (await a.post('/book', { route: DEFAULT_ROUTE })).json()).booking.outcome, undefined);
+  f.env.DIRECT_BOOKING_ENABLED = 'false';
+  owned.book = async () => ({ stage: 'submitted', outcome: 'booked' });
+  assert.equal((await (await a.post('/book', { route: DEFAULT_ROUTE })).json()).booking.outcome, undefined);
+});
+
+test('late status outcome cannot replace a newer confirmed submission', async () => {
+  const f = fixture({ PROBE_ONLY: 'false', DIRECT_BOOKING_ENABLED: 'true' }); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  const requestId = uuid(), confirmationId = uuid();
+  await a.post('/book', { route: DEFAULT_ROUTE, requestId });
+  owned.bookingStatus = async () => ({ stage: 'review', confirmationId, reviewMessage: 'Synthetic official warning' });
+  await a.get();
+  let release;
+  owned.bookingStatus = () => new Promise(resolve => { release = resolve; });
+  const pending = a.get(); while (!release) await new Promise(resolve => setTimeout(resolve, 0));
+  owned.reviewBooking = async () => ({ stage: 'submitted', outcome: 'booked' });
+  const submitted = await (await a.post('/confirm', { bookingRequestId: requestId, confirmationId })).json();
+  assert.equal(submitted.booking.outcome, 'booked');
+  release({ stage: 'submitted', outcome: 'waitlisted' });
+  const after = await (await pending).json();
+  assert.equal(after.booking.requestId, requestId); assert.equal(after.booking.outcome, 'booked');
 });
 
 test('submitted direct notice is owned and ephemeral, excluded from records and duplicate response cache', async () => {
@@ -472,6 +528,25 @@ test('direct schema diagnostics retain fixed names/shapes only and deduplicate i
   const unknown = await (await a.post('/verify-direct', { route: DEFAULT_ROUTE })).json();
   for (const name of ['readStage', 'schemaIssue', 'schemaIssues', 'settingShapes']) assert.equal(unknown[name], undefined);
   assert.equal(JSON.stringify(unknown).toLowerCase().includes('private'), false);
+});
+
+test('comparison exports boolean eligibility and all seven fixed notes without native data', async () => {
+  const f = fixture({ DIRECT_BOOKING_ENABLED: 'false' }); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  assert.equal(DIRECT_PREPARATION_NOTES.length, 7);
+  for (const bookingEligible of [true, false, 'true', 'private-token', 1, null, { private: 'student' }]) {
+    owned.inspectDirect = async () => ({ loaded: true, ready: true, equivalent: true, bookingEligible,
+      preparationNotes: ['private note', ...DIRECT_PREPARATION_NOTES, ...DIRECT_PREPARATION_NOTES, { private: 'response' }],
+      rawPayload: 'private student data', enrollment: 'private raw response' });
+    const result = await (await a.post('/verify-direct', { route: DEFAULT_ROUTE })).json();
+    assert.equal(result.bookingEligible, typeof bookingEligible === 'boolean' ? bookingEligible : undefined);
+    assert.deepEqual(result.preparationNotes, DIRECT_PREPARATION_NOTES);
+    assert.equal(result.equivalent, true); assert.equal(result.directBookingEnabled, false);
+    assert.doesNotMatch(JSON.stringify(result), /private/);
+  }
+  owned.inspectDirect = async () => ({ loaded: true, ready: true, bookingEligible: true });
+  const inspection = await (await a.post('/inspect-direct', { route: DEFAULT_ROUTE })).json();
+  assert.equal(inspection.bookingEligible, undefined); assert.equal(owned.bookCalls, 0);
 });
 
 test('native path verification exports only the fixed path enum and a boolean flag', async () => {

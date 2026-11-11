@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import { probePage } from '../src/probe-page.mjs';
 import { DEFAULT_ROUTE, BOOKING_ROUTES } from '../src/routes.mjs';
+import { DIRECT_PREPARATION_NOTES } from '../src/direct-tss.mjs';
 
 test('probe page scripts compile, use owned API and omit booking mutation controls', async () => {
   const response = probePage(); const html = await response.text();
@@ -10,11 +11,26 @@ test('probe page scripts compile, use owned API and omit booking mutation contro
   assert.ok(script); new vm.Script(script[2]);
   assert.ok(response.headers.get('Content-Security-Policy').includes(`'nonce-${script[1]}'`));
   assert.equal(response.headers.get('Referrer-Policy'), 'no-referrer');
-  assert.equal((html.match(/<option /g) || []).length, 9);
+  assert.equal((html.match(/<option /g) || []).length, 20);
   assert.equal(/post\(['"]book['"]/.test(html), false);
   assert.equal(/console\.|localStorage|sessionStorage/.test(html), false);
   assert.match(html, /<details><summary>Login test diagnostics<\/summary>/);
   assert.match(script[2], /diagnostics\(data\);if\(!response.ok\)/);
+});
+
+test('probe login sends viewer dimensions without issuing another action', async () => {
+  const script = /<script nonce="([a-f0-9]+)">([\s\S]*?)<\/script>/.exec(await probePage().text())[2];
+  const elements = new Map(), calls = [], urls = [];
+  const document = { hidden: true, addEventListener() {}, getElementById(id) { if (!elements.has(id)) elements.set(id, {}); return elements.get(id); } };
+  const context = vm.createContext({ document, URL, crypto, AbortController, setInterval() {}, setTimeout() {}, clearTimeout() {},
+    window: { innerWidth: 509, innerHeight: 1516, open() { return { opener: {}, location: { replace(url) { urls.push(url); } }, close() { assert.fail('Unexpected popup closure'); } }; } },
+    async fetch(url, init = {}) { calls.push({ url, body: init.body ? JSON.parse(init.body) : null });
+      return { ok: true, async json() { return { state: 'signing_in', csrf: 'synthetic', loginUrl: 'https://live.browser.run/ui/view?mode=tab' }; } }; } });
+  vm.runInContext(script, context);
+  await elements.get('login').onclick();
+  assert.deepEqual(calls.map(call => call.url), ['/0311/api/login', '/0311/api/status']);
+  assert.deepEqual(calls[0].body.viewport, { width: 509, height: 1000 });
+  assert.deepEqual(urls, ['https://live.browser.run/ui/view?mode=tab']);
 });
 
 test('probe page renders bounded Fetch phase diagnostics without arbitrary fields', async () => {
@@ -154,6 +170,32 @@ test('resolver failure remains terminal for this audit even if a later status re
     assert.equal(vm.runInContext('state',context),'ready');
     assert.match(elements.get('audit').textContent,/Stopped: course lookup could not confirm sign-in/);
   }
+});
+
+test('comparison UI preserves seven known notes and only boolean eligibility without starting enrollment', async () => {
+  const script=/<script nonce="([a-f0-9]+)">([\s\S]*?)<\/script>/.exec(await probePage().text())[2];
+  const elements=new Map(),calls=[];
+  const document={hidden:true,addEventListener(){},getElementById(id){if(!elements.has(id))elements.set(id,{});return elements.get(id)}};
+  document.getElementById('course').value=DEFAULT_ROUTE;
+  let input;
+  const context=vm.createContext({document,crypto,AbortController,setInterval(){},setTimeout(){},clearTimeout(){},async fetch(url){
+    calls.push(url);return{ok:true,async json(){return input;}};
+  }});
+  vm.runInContext(script,context);
+  for (const bookingEligible of [true,false,'true','private-token',1,null,{private:'student'}]) {
+    input={state:'ready',csrf:'synthetic',loaded:true,ready:true,equivalent:true,csrfReady:true,bookingEligible,
+      preparationNotes:[...DIRECT_PREPARATION_NOTES,'private-note',{private:'response'}],rawPayload:'private-student-data'};
+    vm.runInContext("state='ready';csrf='synthetic'",context);
+    await vm.runInContext("check('verify-direct')",context);
+    const output=elements.get('proof').textContent;
+    assert.match(output,/Matches TSS booking details: yes/);
+    if(typeof bookingEligible==='boolean')assert.ok(output.includes('Local booking prechecks passed: '+(bookingEligible?'yes':'no')));
+    else assert.doesNotMatch(output,/Enrollment checks passed/);
+    for(const note of DIRECT_PREPARATION_NOTES)assert.ok(output.includes('Preparation note: '+note));
+    assert.equal((output.match(/Preparation note:/g)||[]).length,7);
+    assert.doesNotMatch(output,/private/);
+  }
+  assert.equal(calls.length,7);assert.ok(calls.every(url=>url==='/0311/api/verify-direct'));
 });
 
 test('trace display retains only fixed diagnostic classes and bounded timestamps', async () => {

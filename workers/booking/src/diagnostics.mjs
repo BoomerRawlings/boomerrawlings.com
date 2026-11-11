@@ -1,7 +1,7 @@
 import { AUTHENTICATION_PAGES, AUTHENTICATION_ISSUES } from './authentication.mjs';
 import { sanitizeAuthTrace } from './auth-trace.mjs';
 
-export const BUILD_VERSION = 'auth-proof-1';
+export const BUILD_VERSION = 'auth-proof-2';
 
 const authHosts = new Set(['tss.ucsd.edu', 'tssproxy.ucsd.edu', 'a5.ucsd.edu', 'api-ce13a1a7.duosecurity.com']);
 const publicSegments = new Set(['fiori', 'sap', 'public', 'bc', 'sec', 'saml2', 'sp', 'acs', 'opu', 'odata', 'ITUS', 'PR_MY_MODULES_V2_SRV',

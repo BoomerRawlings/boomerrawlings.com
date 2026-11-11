@@ -88,13 +88,14 @@ test('course loading bounds an unresponsive inspection and classifies navigation
   assert.deepEqual(await loadCourse(navigation, DEFAULT_ROUTE, 'PHIL-010'), result);
 });
 
-function controllerFixture(envOptions = {}) {
+function controllerFixture(envOptions = {}, controllerOptions = {}) {
   let current = 'about:blank', guard, csrfCalls = 0, bookCalls = 0;
-  const operations = [], navigations = [], diagnosticEvents = new Map(), pageEvents = new Map();
+  const operations = [], navigations = [], lifecycle = [], diagnosticEvents = new Map(), pageEvents = new Map();
   const responses = { book: { stage: 'stopped', reason: 'existing_registration', message: 'private native message' }, status: { stage: 'error', reason: 'request_check_failed' } };
   const mainFrame = {};
   const page = { url: () => current, on: (name, fn) => pageEvents.set(name, fn), mainFrame: () => mainFrame,
-    async goto(route) { current = route; navigations.push(route); pageEvents.get('framenavigated')?.(mainFrame); }, setDefaultTimeout() {}, setDefaultNavigationTimeout() {}, isClosed: () => false,
+    async setViewport(value) { assert.equal(current, 'about:blank'); lifecycle.push({ viewport: value }); },
+    async goto(route) { lifecycle.push({ navigation: route }); current = route; navigations.push(route); pageEvents.get('framenavigated')?.(mainFrame); }, setDefaultTimeout() {}, setDefaultNavigationTimeout() {}, isClosed: () => false,
     async createCDPSession() { return { on: (name, handler) => diagnosticEvents.set(name, handler), async send(method) {
       if (method === 'Page.enable' && responses.preflightFailure) throw responses.preflightFailure;
       return method === 'Target.getTargetInfo' ? { targetInfo: { targetId: 'synthetic' } } : { result: { value: true } };
@@ -114,9 +115,28 @@ function controllerFixture(envOptions = {}) {
   const browser = { connected: true, on() {}, newPage: async () => page, close: async () => {} };
   const controller = createBrowserController({ PROBE_ONLY: 'false', BROWSER: { closeSession: async () => {} }, ...envOptions }, {
     openBrowser: async () => ({ browser, id: 'synthetic' }), installGuard: async (_, options) => { guard = options; return {}; },
+    ...controllerOptions,
   });
-  return { controller, responses, operations, navigations, diagnosticEvents, navigate: url => page.goto(url), job: () => guard.getJob(), csrfCalls: () => csrfCalls, bookCalls: () => bookCalls, blocked: value => guard.onBlocked(value) };
+  return { controller, responses, operations, navigations, lifecycle, diagnosticEvents, navigate: url => page.goto(url), job: () => guard.getJob(), csrfCalls: () => csrfCalls, bookCalls: () => bookCalls, blocked: value => guard.onBlocked(value) };
 }
+
+test('viewer viewport applies before initial navigation and never on another handoff', async () => {
+  const f = controllerFixture({ BROWSER: { closeSession: async () => {}, async getLiveView() { return { devtoolsFrontendUrl: 'https://live.browser.run/ui/view?mode=tab' }; } } },
+    { viewport: { width: 509, height: 1000 } });
+  const controller = await f.controller;
+  assert.deepEqual(f.lifecycle, [{ viewport: { width: 509, height: 1000, deviceScaleFactor: 1 } }, { navigation: 'https://tss.ucsd.edu/fiori' }]);
+  await controller.loginUrl(); await controller.loginUrl();
+  assert.equal(f.lifecycle.length, 2);
+  const fallback = controllerFixture(); await fallback.controller;
+  assert.equal(fallback.lifecycle.some(item => item.viewport), false);
+});
+
+test('controller rejects unsupported viewport options before launching a browser', async () => {
+  let launches = 0;
+  await assert.rejects(createBrowserController({}, { viewport: { width: 390, height: 780, isMobile: true },
+    openBrowser: async () => { launches++; throw Error('must not launch'); } }), /Invalid login viewport/);
+  assert.equal(launches, 0);
+});
 
 test('Book reuses fresh auth proof and releases immediate stopped jobs', async () => {
   const f = controllerFixture(), controller = await f.controller;

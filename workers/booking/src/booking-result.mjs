@@ -14,9 +14,11 @@ const reasons = new Set([
 export const bookingReason = value => reasons.has(value) ? value : undefined;
 export const bookingNotice = value => typeof value === 'string'
   ? value.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '').slice(0, 4000) || undefined : undefined;
+export const BOOKING_OUTCOMES = Object.freeze(['booked', 'waitlisted', 'unconfirmed']);
 export const terminalBooking = value => ['submitted', 'stopped', 'error'].includes(value?.stage);
 export function bookingResult(value, blocked = false) {
   const reason = bookingReason(blocked && value?.stage !== 'submitted' ? 'request_blocked' : value?.reason);
   const noticeMessage = value?.stage === 'submitted' ? bookingNotice(value.noticeMessage) : undefined;
-  return { stage: value?.stage, ...(reason ? { reason } : {}), ...(noticeMessage ? { noticeMessage } : {}) };
+  const outcome = value?.stage === 'submitted' && BOOKING_OUTCOMES.includes(value.outcome) ? value.outcome : undefined;
+  return { stage: value?.stage, ...(reason ? { reason } : {}), ...(noticeMessage ? { noticeMessage } : {}), ...(outcome ? { outcome } : {}) };
 }

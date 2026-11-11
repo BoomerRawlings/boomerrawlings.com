@@ -39,4 +39,17 @@ npm test
 
 Review the requested profile on `/0311/`, including all section choices, unknown details and TSS links, before the normal site publication workflow.
 
-The Book controls use the [TSS booking connection](0311-booking-connection.md). Updating catalog data does not authorize or submit enrollment; a fresh user click in a connected session is required.
+The Book controls use the [managed TSS session service](../workers/booking/README.md). Updating catalog data does not authorize or submit enrollment; a fresh user click in a connected session is required.
+
+## Authenticated identifier verification, 2026-11-11
+
+Read-only Schedule of Classes queries verified these mappings for Winter 2027 (academic year `2026`, period `3`):
+
+| Course | Module | Complete packages |
+| --- | --- | --- |
+| ECON-120A | 14794 | 167365, 167366, 167367, 167368, 167369, 167370, 167371, 167372 |
+| MGT-162 | 6359 | 164325, 164326, 164327 |
+
+Keep eight ECON-120A options and three MGT-162 options. MGT-162 section `004-000-LE` remains TBA and unassigned; no package or Book route is known for it.
+
+For future courses, verify each complete package belongs to the observed module and term, record public identifiers and source evidence in metadata, then update both exact allowlists: `workers/booking/src/routes.mjs` and the serialized array in `workers/booking/src/direct-tss.mjs`. Run course, Worker, and site build tests. Adding verified routes does not prove direct submission or enable `DIRECT_BOOKING_ENABLED`; those gates remain separate.

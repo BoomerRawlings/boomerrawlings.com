@@ -246,7 +246,10 @@ function bookingResult(value: Record<string, unknown>) {
       const notice = value.mode === 'direct' && typeof value.noticeMessage === 'string' && value.noticeMessage.trim()
         && value.noticeMessage.length <= 4000 && !/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(value.noticeMessage)
         ? ` TSS says: ${value.noticeMessage}` : '';
-      text(jobStatus, `Book request sent.${notice} Check TSS to confirm enrollment.`);
+      const outcome = value.mode === 'direct' && value.outcome === 'booked' ? 'Booked.'
+        : value.mode === 'direct' && value.outcome === 'waitlisted' ? 'Waitlisted.'
+        : 'Request submitted. Check TSS before trying again.';
+      text(jobStatus, `${outcome}${notice}`);
       submittedNoticeFeedback = notice ? activeFeedback : null;
       break;
     case 'stopped':
@@ -334,6 +337,12 @@ function requireFresh() {
   void refreshStatus();
   return false;
 }
+function loginViewport() {
+  const width = Number.isFinite(window.innerWidth) ? window.innerWidth : 800;
+  const height = Number.isFinite(window.innerHeight) ? window.innerHeight : 664;
+  return { width: Math.max(320, Math.min(1440, Math.floor(width))),
+    height: Math.max(240, Math.min(1000, Math.floor(height) - 64)) };
+}
 async function signIn() {
   if (busy() || uncertain || !requireFresh()) return;
   if (state === 'signing_in' && loginPopup && !loginPopup.closed) { loginPopup.focus(); return; }
@@ -344,7 +353,7 @@ async function signIn() {
   mutating = true; revision++; render();
   text(jobStatus, 'Opening your private UCSD sign-in…');
   try {
-    const value = await request('login', { requestId: crypto.randomUUID() }, 60_000);
+    const value = await request('login', { requestId: crypto.randomUUID(), viewport: loginViewport() }, 60_000);
     if (departed) return;
     popup.location.replace(liveView(value.loginUrl));
     state = 'signing_in';

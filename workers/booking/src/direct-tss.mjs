@@ -2,7 +2,8 @@ export const DIRECT_READ_STAGES = Object.freeze(['service', 'settings', 'header'
 export const DIRECT_SCHEMA_ISSUES = Object.freeze(['request_timeout', 'network_error', 'authentication_http', 'http_error', 'not_json', 'response_large', 'invalid_json', 'invalid_d', 'error_envelope', 'not_collection', 'paginated', 'nonobject_row', 'missing_csrf', 'unsupported_autobook', 'unsupported_top_module', 'hidden_events']);
 export const DIRECT_SETTING_FLAGS = Object.freeze(['ENABLE_AUTOBOOK', 'ENABLE_TOP_MODULE_BOOKING', 'HIDE_TAB_EVENT', 'HIDE_TAB_EXAM', 'SHOW_TEMPLATE', 'SHOW_CREDITS']);
 export const DIRECT_SETTING_SHAPES = Object.freeze(['missing', 'null', 'empty', 'X', 'other_string', 'boolean', 'number', 'other']);
-export const DIRECT_PREPARATION_NOTES = Object.freeze(['native_group_not_bookable', 'native_first_group', 'native_first_event']);
+export const DIRECT_PREPARATION_NOTES = Object.freeze(['native_group_not_bookable', 'native_first_group', 'native_first_event',
+  'native_booking_unavailable', 'native_eligibility_unavailable', 'native_existing_registration', 'native_assessment_review']);
 
 // Serialized into the already-authenticated, owned TSS browser. The archived
 // MyModules controller is the source of the reads, defaults and payload below.
@@ -27,6 +28,11 @@ export function directTssOperation(input) {
     ['5441', '164089', 'PSYC-111A'], ['5647', '164113', 'PSYC-125'],
     ['14499', '167237', 'ECON-100A'], ['14499', '167238', 'ECON-100A'],
     ['14499', '167239', 'ECON-100A'], ['14499', '167240', 'ECON-100A'],
+    ['14794', '167365', 'ECON-120A'], ['14794', '167366', 'ECON-120A'],
+    ['14794', '167367', 'ECON-120A'], ['14794', '167368', 'ECON-120A'],
+    ['14794', '167369', 'ECON-120A'], ['14794', '167370', 'ECON-120A'],
+    ['14794', '167371', 'ECON-120A'], ['14794', '167372', 'ECON-120A'],
+    ['6359', '164325', 'MGT-162'], ['6359', '164326', 'MGT-162'], ['6359', '164327', 'MGT-162'],
   ];
   const targetFor = route => {
     if (typeof route !== 'string' || route.length > 1200) return null;
@@ -55,6 +61,11 @@ export function directTssOperation(input) {
   };
   const preparationNote = (job, value) => {
     if (job?.readOnly && !(job.preparationNotes ||= []).includes(value)) job.preparationNotes.push(value);
+  };
+  const comparisonRestriction = (job, reason, note) => {
+    if (job?.comparisonOnly !== true) fail(reason);
+    job.bookingRestricted = true;
+    preparationNote(job, note);
   };
   // Check every available collection before stopping, so one read-only probe
   // explains parallel response-shape failures without exposing response data.
@@ -101,7 +112,9 @@ export function directTssOperation(input) {
   const validToken = token => typeof token === 'string' && token.length > 0 && token.length < 4096 && !/^(required|fetch)$/i.test(token);
   if (input.operation === 'authenticated') return request(service, { fetchCsrf: true, readStage: 'service' })
     .then(value => validToken(value.csrf)).catch(() => false);
-  const eligible = logs => { if (logs.some(item => item.RulecheckResult === 'N')) fail('eligibility_unavailable'); };
+  const eligible = (logs, job) => {
+    if (logs.some(item => item.RulecheckResult === 'N')) comparisonRestriction(job, 'eligibility_unavailable', 'native_eligibility_unavailable');
+  };
   const fulfilled = entry => entry.status === 'fulfilled' ? entry.value : undefined;
   const rejectReadErrors = entries => {
     const rejected = entries.filter(entry => entry.status === 'rejected');
@@ -145,8 +158,8 @@ export function directTssOperation(input) {
     if (!settingsRows || !headerLogs || unsupported.some(([enabled]) => enabled)) fail('unsupported_tss');
     if (header.SmOtype !== 'SM' || !same(header.SmObjid, target.moduleId) || !same(header.AcademicYear, target.year)
       || !same(header.AcademicSession, target.session) || codeKey(header.SmShort) !== codeKey(target.code)) fail('context_mismatch');
-    if (header.SmStatus === '02' || header.Lockflag === true) fail('booking_unavailable');
-    eligible(headerLogs);
+    if (header.SmStatus === '02' || header.Lockflag === true) comparisonRestriction(job, 'booking_unavailable', 'native_booking_unavailable');
+    eligible(headerLogs, job);
     const secondReads = await Promise.allSettled([
       read(key(target) + '/Event', 'BookingCheckLog,Request,EventSchedule,CreditOptions', job, 'events'),
       read(key(target) + '/ModuleGroup', undefined, job, 'groups'),
@@ -166,9 +179,15 @@ export function directTssOperation(input) {
     for (const [field, expected] of [['EventPackageId', target.packageId], ['SmObjid', target.moduleId], ['AcademicYear', target.year], ['AcademicSession', target.session]]) {
       if (positive(packageData[field]) && !same(packageData[field], expected)) fail('context_mismatch');
     }
-    if (packageData.BookingButtonEnabled !== true) fail('booking_unavailable');
-    if (packageData.WithdrawButtonEnabled !== false) fail('existing_registration');
-    if (exams.some(row => row.Booked === true)) fail('assessment_review');
+    if (packageData.BookingButtonEnabled !== true) {
+      if (packageData.BookingButtonEnabled !== false) fail('booking_unavailable');
+      comparisonRestriction(job, 'booking_unavailable', 'native_booking_unavailable');
+    }
+    if (packageData.WithdrawButtonEnabled !== false) {
+      if (packageData.WithdrawButtonEnabled !== true) fail('existing_registration');
+      comparisonRestriction(job, 'existing_registration', 'native_existing_registration');
+    }
+    if (exams.some(row => row.Booked === true)) comparisonRestriction(job, 'assessment_review', 'native_assessment_review');
     // Native getSelectedModuleGroup compares AssignedCg strictly, then uses the
     // first selected/default row. Numeric normalization can choose another row.
     let candidates = header.AssignedCg ? groups.filter(group => group.CgObjid === header.AssignedCg) : [];
@@ -182,8 +201,10 @@ export function directTssOperation(input) {
     // branch independently of group.Bookable. Derive it only for comparison;
     // writes still require the strict Bookable flag and unambiguous selection.
     const nativeGroupVisible = !!group.Bookable || (settings.ENABLE_TOP_MODULE_BOOKING === 'X' && header.SmStatus === '00');
-    if ((group.Bookable !== true && !(job?.readOnly && nativeGroupVisible))
-      || !positive(group.CgObjid) || digits(group.ScObjid) === null || digits(group.CgTopObjid) === null) fail('course_group_unavailable');
+    if (!positive(group.CgObjid) || digits(group.ScObjid) === null || digits(group.CgTopObjid) === null) fail('course_group_unavailable');
+    if (group.Bookable !== true && !(job?.readOnly && nativeGroupVisible)) {
+      comparisonRestriction(job, 'course_group_unavailable', 'native_group_not_bookable');
+    }
     if (group.Bookable !== true) preparationNote(job, 'native_group_not_bookable');
     let template = header.TemplateId;
     const hasTemplate = value => typeof value === 'string' && value.trim().length > 0 && value !== '0000';
@@ -203,8 +224,11 @@ export function directTssOperation(input) {
       if (!positive(event.DObjid) || !positive(event.EventId) || !same(event.SmObjid, target.moduleId)
         || !same(event.AcademicYear, target.year) || !same(event.AcademicSession, target.session)) fail('section_mismatch');
       if (positive(event.EventPackageId) && !same(event.EventPackageId, target.packageId)) fail('section_mismatch');
-      if (event.Booked !== false) fail('existing_registration');
-      eligible(eventLogs.get(event));
+      if (event.Booked !== false) {
+        if (event.Booked !== true) fail('existing_registration');
+        comparisonRestriction(job, 'existing_registration', 'native_existing_registration');
+      }
+      eligible(eventLogs.get(event), job);
       // Native EventTypes preserves the raw DObjid grouping and response order;
       // a fresh package sends Events[0] only. Multiple choices remain a write
       // blocker, but do not prevent read-only comparison with that exact branch.
@@ -294,7 +318,10 @@ export function directTssOperation(input) {
     const prior = state.readHistory.get(readRequestId);
     if (prior) return prior.key === readKey ? prior.result : result('stopped', 'request_blocked', { loaded: false, ready: false });
     if (state.active || state.readActive || state.locked) return result('stopped', 'previous_attempt', { loaded: false, ready: false });
-    const readJob = { readOnly: true, controllers: new Set(), pendingStages: new Map(), schemaIssues: [], done: false };
+    // Comparison is observational even for a hidden/disabled Book button. The
+    // native preparation method does not read eligibility/availability flags.
+    // Never derive this exemption from caller-supplied readOnly/comparison flags.
+    const readJob = { readOnly: true, comparisonOnly: input.operation === 'compareNative', controllers: new Set(), pendingStages: new Map(), schemaIssues: [], done: false };
     state.readActive = readJob;
     const entry = { key: readKey, result: result('loading') };
     state.readHistory.set(readRequestId, entry);
@@ -305,7 +332,8 @@ export function directTssOperation(input) {
       for (const controller of readJob.controllers) controller.abort();
       state.readActive = null;
       entry.result = { stage: value.stage || 'ready', ...value, ...(value.ready === false ? diagnostics(readJob)
-        : readJob.preparationNotes?.length ? { preparationNotes: [...readJob.preparationNotes] } : {}) };
+        : readJob.preparationNotes?.length ? { preparationNotes: [...readJob.preparationNotes] } : {}),
+      ...(readJob.comparisonOnly ? { bookingEligible: value.ready === true && !readJob.bookingRestricted && !readJob.preparationNotes?.length } : {}) };
       return entry.result;
     };
     readJob.timer = setTimeout(() => {
@@ -334,6 +362,38 @@ export function directTssOperation(input) {
     if (stage === 'error') state.locked = true;
     return update(job, stage, reason, extra);
   };
+  async function verifySaved(job) {
+    // Native saveCall reloads this same route after success. Inspect only the
+    // exact submitted events: native bookingConfirmed/bookingWaitlisted require
+    // Booked plus the waitlist flag. IDs, status text and warnings alone cannot
+    // prove enrollment, and a failed read must never repeat the submission.
+    const submitted = job.payload.Items;
+    try {
+      const [header, response] = await Promise.all([
+        read(key(job.target), undefined, job, 'header'),
+        read(key(job.target) + '/Event', undefined, job, 'events'),
+      ]);
+      if (!current(job) || header.SmOtype !== 'SM' || !same(header.SmObjid, job.target.moduleId)
+        || !same(header.AcademicYear, job.target.year) || !same(header.AcademicSession, job.target.session)
+        || codeKey(header.SmShort) !== codeKey(job.target.code) || typeof header.WaitlistBooking !== 'boolean') return 'unconfirmed';
+      if (positive(header.EventPackageId) && !same(header.EventPackageId, job.target.packageId)) return 'unconfirmed';
+      const events = collection(response, 'events', job);
+      if (!events) return 'unconfirmed';
+      let waitlisted = false;
+      for (const item of submitted) {
+        const matches = events.filter(event => same(event.EventId, item.EventId));
+        if (matches.length !== 1) return 'unconfirmed';
+        const event = matches[0];
+        if (!same(event.SmObjid, job.target.moduleId) || !same(event.AcademicYear, job.target.year)
+          || !same(event.AcademicSession, job.target.session) || event.Booked !== true || event.Deleted !== false
+          || typeof event.WaitlistBooking !== 'boolean'
+          || (positive(event.EventPackageId) && !same(event.EventPackageId, job.target.packageId))) return 'unconfirmed';
+        waitlisted ||= event.WaitlistBooking;
+      }
+      if (header.WaitlistBooking !== waitlisted) return 'unconfirmed';
+      return waitlisted ? 'waitlisted' : 'booked';
+    } catch { return 'unconfirmed'; }
+  }
   async function save(job) {
     if (!current(job) || job.saveIssued) return;
     update(job, 'submitting'); job.saveIssued = true;
@@ -346,8 +406,14 @@ export function directTssOperation(input) {
         // clean. The write already happened: this is informational, never a new
         // confirmation or a retry. Render as text only; retain only in memory.
         const noticeMessage = saved.data.MessageType === 'W' ? plain(saved.data.Message) : '';
-        finish(job, 'submitted', undefined, noticeMessage ? { noticeMessage } : undefined);
-      } // Accepted response; not proof of enrollment.
+        const extra = noticeMessage ? { noticeMessage } : {};
+        // The accepted Save is already known. A bounded verification failure
+        // remains submitted/unconfirmed, not an invitation to retry Book.
+        clearTimeout(job.timer);
+        job.timer = setTimeout(() => finish(job, 'submitted', undefined, { ...extra, outcome: 'unconfirmed' }), 8000);
+        const outcome = await verifySaved(job);
+        if (current(job)) finish(job, 'submitted', undefined, { ...extra, outcome });
+      }
     } catch { if (current(job)) finish(job, 'error', 'submission_uncertain'); }
   }
   async function begin(job) {

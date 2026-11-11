@@ -7,6 +7,7 @@ import { bookingReason, bookingResult, terminalBooking } from './booking-result.
 import { directTssOperation } from './direct-tss.mjs';
 import { authenticationProbe } from './authentication.mjs';
 import { resolveRoomieCourses } from './resolve-courses.mjs';
+import { loginViewport } from './viewport.mjs';
 import { safeBlockedRequest, safeCspDirective, safeNetworkError, preflightDiagnostic } from './diagnostics.mjs';
 
 export const PROTOCOL_TIMEOUT_MS = 20_000;
@@ -91,7 +92,9 @@ export async function rendererPreflight(page, timeoutMs = 8000) {
   finally { abandoned = true; cleanup(); }
 }
 
-export async function createBrowserController(env, { onDisconnect = () => {}, openBrowser = openManagedBrowser, installGuard = installNetworkGuard } = {}) {
+export async function createBrowserController(env, { onDisconnect = () => {}, openBrowser = openManagedBrowser, installGuard = installNetworkGuard, viewport } = {}) {
+  const initialViewport = viewport === undefined ? undefined : loginViewport(viewport);
+  if (initialViewport === null) throw Object.assign(new Error('Invalid login viewport'), { stage: 'page' });
   let browser, id;
   try { ({ browser, id } = await openBrowser(env)); }
   catch (failure) { throw Object.assign(new Error('Managed browser unavailable'), { stage: 'launch', ...(failure.browserId ? { browserId: failure.browserId } : {}) }); }
@@ -112,6 +115,9 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
   });
   try {
     const page = await browser.newPage();
+    // Resize only the blank page, before any human login/navigation. Reopening
+    // LiveView for an existing session must never reload or resize that session.
+    if (initialViewport) await page.setViewport({ ...initialViewport, deviceScaleFactor: 1 });
     page.on?.('framenavigated', frame => {
       if (frame !== page.mainFrame()) return;
       authenticationRevision++; authenticationValid = false;

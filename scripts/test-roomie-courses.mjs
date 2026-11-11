@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { BOOKING_ROUTES } from '../workers/booking/src/routes.mjs';
 import { normalizeCourseCode, normalizeCourse, fetchCourse, meetingKey, bookingRoutes }
   from './refresh-roomie-courses.mjs';
 
@@ -111,6 +113,25 @@ test('requires observed module ID before generating any TSS course or package li
   assert.ok(normalizeCourse(econ100, metadata).options.every((option) => option.bookingUrl === null));
   assert.throws(() => bookingRoutes('not-verified', '167237', metadata));
   assert.ok(bookingRoutes('999', '167237', metadata).bookingUrl.endsWith('/167237/2026/3/?'));
+});
+
+test('authenticated Winter 2027 module evidence generates exactly eight ECON120A and three MGT162 options', async () => {
+  const verified = JSON.parse(await readFile(new URL('../src/data/roomie-course-metadata.json', import.meta.url), 'utf8'));
+  const published = JSON.parse(await readFile(new URL('../src/data/roomie-course-options.json', import.meta.url), 'utf8'));
+  for (const [source, moduleId, count] of [[econ120, '14794', 8], [mgt, '6359', 3]]) {
+    const code = source.module_code, normalized = normalizeCourse(source, verified), saved = published.courses[code];
+    assert.equal(verified.courses[code].moduleId, moduleId);
+    assert.ok(verified.courses[code].sources.some(item => item.observedAt === '2026-11-11'));
+    assert.equal(saved.options.length, count); assert.equal(normalized.options.length, count);
+    assert.equal(saved.courseUrl, normalized.courseUrl);
+    assert.deepEqual(saved.options.map(option => option.bookingUrl), normalized.options.map(option => option.bookingUrl));
+    for (const option of saved.options) assert.deepEqual(BOOKING_ROUTES.get(option.bookingUrl),
+      { courseCode: code, moduleId, packageId: option.packageId });
+  }
+  const tba = published.courses['MGT-162'].unassignedSections;
+  assert.equal(tba.length, 1); assert.equal(tba[0].code, '004-000-LE');
+  assert.equal(tba[0].bookingUrl, undefined); assert.equal(tba[0].packageId, undefined);
+  assert.equal([...BOOKING_ROUTES.values()].filter(item => item.courseCode === 'MGT-162').length, 3);
 });
 
 test('class location override never silently assigns exam room; exact exam override works', () => {

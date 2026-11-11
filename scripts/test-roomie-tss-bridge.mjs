@@ -176,6 +176,16 @@ test('sign-in uses same-origin JSON/CSRF and a detached popup without credential
   assert.equal(h.storageTouches, 0);
 });
 
+test('sign-in sends bounded viewer dimensions for narrow and mobile pages', async () => {
+  for (const [width, height, expected] of [[509, 1516, { width: 509, height: 1000 }],
+    [320, 568, { width: 320, height: 504 }], [390, 844, { width: 390, height: 780 }],
+    [2000, 1200, { width: 1440, height: 1000 }]]) {
+    const h = harness(); h.window.innerWidth = width; h.window.innerHeight = height; await flush();
+    await h.click('login'); assert.deepEqual(h.posts('login')[0].body.viewport, expected);
+    assert.equal(h.posts('book').length, 0); assert.equal(h.storageTouches, 0);
+  }
+});
+
 test('signed-out Book signs in, never queues or replays a booking', async () => {
   const h = harness({ status: { probeOnly: false } }); await flush();
   await h.click(0); assert.equal(h.posts('login').length, 1);
@@ -282,7 +292,7 @@ test('status jobs are correlated, phase regressions ignored and submitted is not
   h.setStatus({ booking: { requestId, stage: 'checking' } }); await h.poll();
   assert.match(h.job, /Sending/);
   h.setStatus({ state: 'ready', booking: { requestId, stage: 'submitted' } }); await h.poll();
-  assert.match(h.job, /Check TSS to confirm enrollment/); assert.equal(h.buttons[0].disabled, false);
+  assert.equal(h.job, 'Request submitted. Check TSS before trying again.'); assert.equal(h.buttons[0].disabled, false);
   assert.equal(h.posts('book').length, 1);
   await h.click(1); h.setStatus({ booking: { requestId, stage: 'submitted' } }); await h.poll();
   assert.match(h.statusText, /result unknown/); assert.ok(h.buttons[1].disabled);
@@ -343,6 +353,34 @@ test('direct cancellation never confirms or repeats Book', async () => {
   assert.equal(h.posts('book').length, 0); assert.match(h.job, /cancelled/);
 });
 
+test('submitted direct outcomes map exactly and stale or malformed values never claim enrollment', async () => {
+  for (const [mode, outcome, expected] of [
+    ['direct','booked','Booked.'], ['direct','waitlisted','Waitlisted.'],
+    ['direct','unconfirmed','Request submitted. Check TSS before trying again.'],
+    ['direct',undefined,'Request submitted. Check TSS before trying again.'],
+    ['direct','Booked','Request submitted. Check TSS before trying again.'],
+    ['direct',{private:'payload'},'Request submitted. Check TSS before trying again.'],
+    ['native','booked','Request submitted. Check TSS before trying again.'],
+  ]) {
+    const h = harness({ status: { state: 'ready', probeOnly: false } }); await flush();
+    let requestId;
+    h.handlers.set('book', call => {
+      requestId = call.body.requestId;
+      const booking = { requestId, stage: 'submitted', mode, outcome };
+      h.setStatus({ state: 'ready', booking }); return response({ booking });
+    });
+    await h.click(0); assert.equal(h.job, expected); assert.equal(h.buttons[0].feedback.textContent, expected);
+    h.setStatus({ booking: { requestId, stage: 'submitted', mode: 'direct', outcome: 'booked' } });
+    await h.advance(10000); assert.equal(h.job, expected, 'completed result cannot be rewritten by a stale poll');
+    assert.equal(h.posts('book').length, 1); assert.equal(h.posts('confirm').length, 0);
+    assert.equal(h.posts('login').length, 0); assert.equal(h.storageTouches, 0);
+  }
+  const stale = harness({ status: { state: 'ready', probeOnly: false } }); await flush(); await stale.click(0);
+  stale.setStatus({ booking: { requestId: 'ae034da5-9999-4000-8000-0123456789ab', stage: 'submitted', mode: 'direct', outcome: 'booked' } });
+  await stale.poll(); assert.doesNotMatch(stale.job, /^Booked\./); assert.match(stale.statusText, /result unknown/);
+  assert.equal(stale.posts('book').length, 1);
+});
+
 test('late submitted warning is plain text at the clicked course and never opens confirmation or retries', async () => {
   const h = harness({ status: { state: 'ready', probeOnly: false } }); await flush();
   const noticeMessage = '<img src=x onerror=alert(1)> You were waitlisted.';
@@ -351,7 +389,7 @@ test('late submitted warning is plain text at the clicked course and never opens
     h.setStatus({ state: 'ready', booking }); return response({ booking });
   });
   await h.click(0);
-  assert.match(h.job, /Book request sent/); assert.ok(h.job.includes(noticeMessage));
+  assert.match(h.job, /Request submitted/); assert.ok(h.job.includes(noticeMessage));
   assert.equal(h.buttons[0].feedback.textContent, h.job); assert.equal(h.buttons[1].feedback.textContent, '');
   assert.equal(h.elements['job-status'].innerHTML, undefined); assert.equal(h.buttons[0].feedback.innerHTML, undefined);
   assert.equal(h.elements.warning.hidden, true); assert.equal(h.elements.confirm.disabled, true); assert.equal(h.elements.cancel.disabled, true);
@@ -373,7 +411,7 @@ test('submitted warning restored from status clears on logout and rejects invali
   for (const [mode, noticeMessage] of [['native', 'private native notice'], ['direct', 'x'.repeat(4001)],
     ['direct', 'private\u0000notice'], ['direct', { private: 'notice' }]]) {
     const invalid = harness({ status: { state: 'ready', probeOnly: false, booking: { requestId, stage: 'submitted', mode, noticeMessage } } });
-    await flush(); assert.equal(invalid.job, 'Book request sent. Check TSS to confirm enrollment.');
+    await flush(); assert.equal(invalid.job, 'Request submitted. Check TSS before trying again.');
     assert.equal(invalid.elements.confirm.disabled, true); assert.equal(invalid.posts('book').length, 0);
   }
 });

@@ -25,9 +25,9 @@ test('page provides UCSD sign-in without executable bookmarks or credential fiel
   assert.ok(elements.some(node => attr(node, 'data-tss-probe-note') !== undefined));
 });
 
-test('Book controls use the session API and retain nine verified routes as data only', () => {
+test('Book controls use the session API and retain twenty verified routes as data only', () => {
   const controls = elements.filter(node => attr(node, 'data-tss-book') !== undefined);
-  assert.equal(controls.length, 9);
+  assert.equal(controls.length, 20);
   assert.ok(controls.every(node => node.tagName === 'button' && attr(node, 'type') === 'button'));
   assert.ok(controls.every(node => attr(node, 'data-book-route')?.startsWith('https://tss.ucsd.edu/fiori#ZUSModule-display?')));
   assert.deepEqual(new Set(controls.map(node => attr(node, 'data-book-route'))), new Set(BOOKING_ROUTES.keys()), 'frontend routes must match the backend allowlist exactly');

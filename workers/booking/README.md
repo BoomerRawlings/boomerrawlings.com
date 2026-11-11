@@ -4,6 +4,8 @@ Worker route: `https://boomerrawlings.com/0311/api/*`. Static frontend remains o
 
 Current configuration enables household booking (`PROBE_ONLY=false`). Hosted UCSD/Duo authentication, loaded PHIL010 and ECON100A package details, same-session CSRF availability, and sign-out/browser closure were verified on2026-11-10. Visitor isolation and expiry have automated coverage; earlier live API isolation checks passed. The first human rebooking attempt failed: the loading indicator vanished without confirmed enrollment. No agent enrollment/drop actions were performed. Successful enrollment remains unverified.
 
+Latest2026-11-11 hosted AD/Duo login succeeded. Nine authenticated package inspections completed; availability/eligibility restrictions stopped their original payload comparisons. ECON-120A and MGT-162 module/package identifiers were verified. The comparison-only release separates eligibility from harmless payload inspection; direct submission remains gated.
+
 ## Local checks
 
 ```sh
@@ -21,7 +23,7 @@ The package pins `@cloudflare/puppeteer` and Wrangler. Cloudflare authorization 
 
 ## Probe operation
 
-For future read-only investigations, configure `PROBE_ONLY=true`, `MAX_BROWSER_SESSIONS=1` and a bounded probe budget before deployment. `GET /health` creates no object/browser. Open `/0311/api/test` on the real website origin to issue the protected visitor cookie, sign in through Live View, check a known course and sign out. The read-only test page is available in either mode; it never provides a Book or Drop control. After its Sign in button is used, it automatically runs direct inspection and, if that passes, native payload comparison once authentication succeeds (including while the login tab is visible). Its countdown shows the absolute session deadline. `inspect-direct` reads course data without navigating; `verify-direct` loads the native page only for a payload comparison and returns booleans/field names, never the payload.
+For future read-only investigations, configure `PROBE_ONLY=true`, `MAX_BROWSER_SESSIONS=1` and a bounded probe budget before deployment. `GET /health` creates no object/browser. Open `/0311/api/test` on the real website origin to issue the protected visitor cookie, sign in through Live View, check a known course and sign out. The read-only test page is available in either mode; it never provides a Book or Drop control. After Sign in, it automatically resolves the requested catalog identifiers and compares all configured package payloads once authentication succeeds, including while the login tab is visible. Comparison alone may inspect ineligible/already-booked courses; fixed notes and bookingEligible distinguish restrictions from payload equivalence. Actual Book retains eligibility guards. Results remain visible after session expiry. Its countdown shows the absolute session deadline. `inspect-direct` reads course data without navigating; `verify-direct` loads the native page only for a payload comparison and returns booleans/field names, never the payload.
 
 Probe limits: one concurrent browser, absolute 15-minute lifetime, 150 reserved browser minutes per UTC month. The configured budget was raised from 90 to 150 for four additional 15-minute login trials; existing reservations are not reset. Probe mode enforces the one-browser/150-minute ceilings even if larger values are configured. Lower configured budgets remain effective; an omitted monthly setting defaults to 90. Each launch reserves its entire window; usage is never refunded, including early sign-out or a failed launch after reservation. `MONTHLY_BROWSER_MINUTES=0` stops allocation; negative or nonfinite values cannot enable usage. The cap covers this application, **not account-wide Cloudflare usage**. Browser/controller loss closes the session; an object restart destroys its previous browser instead of reconnecting without interception.
 
@@ -47,14 +49,15 @@ Cloudflare defers active Durable Object code updates for up to five minutes by d
 
 ## API contract
 
-All paths below are relative to `/0311/api`. Responses are non-cacheable. Mutations require the exact configured Origin, the visitor cookie, JSON, an `X-BBB-CSRF` header and a fresh UUIDv4 `requestId`. A supplied `route` must exactly match one of the nine server-owned entries in `src/routes.mjs`; arbitrary destinations are rejected.
+All paths below are relative to `/0311/api`. Responses are non-cacheable. Mutations require the exact configured Origin, the visitor cookie, JSON, an `X-BBB-CSRF` header and a fresh UUIDv4 `requestId`. A supplied `route` must exactly match one of the twenty server-owned entries in `src/routes.mjs`; arbitrary destinations are rejected. The eleven ECON-120A/MGT-162 additions were verified by authenticated, read-only Schedule of Classes queries on 2026-11-11; adding routes does not enable direct submission.
 
 | Method/path | Purpose |
 | --- | --- |
 | `GET /health` | `{ok, probeOnly}` without allocating a browser |
 | `GET /status` | Issue/read visitor session; `{state, csrf, probeOnly, expiresAt?, booking?}` |
 | `GET /test` | Same-origin read-only login/direct comparison page |
-| `POST /login` | Launch owned browser or open existing one; return transient `loginUrl` |
+| `POST /login` | Launch owned browser or open existing one; return transient `loginUrl`; optional bounded viewport applies only to a new blank page |
+| `POST /resolve-courses` | Fixed read-only module/package verification for ECON-120A and MGT-162 |
 | `POST /logout` | Close browser and clear visitor cookie |
 | `POST /inspect` | Read known course; return `loaded`, `ready`, `csrfReady`, `courseCode` |
 | `POST /inspect-direct` | Authoritative read-only course data without navigation |
@@ -66,7 +69,7 @@ Session states: `signed_out`, `signing_in`, `ready`, `expired`, `busy`, `error`.
 
 Authentication checks distinguish authenticated, unauthenticated and temporarily unavailable. Failed reads revoke booking readiness while preserving the guarded browser until explicit sign-out, disconnect or the original deadline. A mutation revision prevents old polls/timeouts from replacing newer proofs; main-frame navigation invalidates the browser proof cache. A pre-dispatch `503 authentication_unavailable` means no booking action started. It is never used for uncertain submission results. The website does not automatically retry Book. Fixed page/issue classifications distinguish UCSD's observed login exception, Duo, login choice and TSS loading without exposing document text or credentials.
 
-Booking status is nested as `booking: {requestId, stage}` in both Book and status responses. Stages: `loading`, `checking`, `submitting`, `review`, `submitted`, `stopped`, `error`. `submitted` means the native save returned without an observed error; verify the outcome in TSS. `review` requires the user to act on the official warning through a fresh `/login` Live View; reconnecting never starts or repeats Book. Direct-mode warnings instead return ephemeral plain text and a one-use confirmation ID; the user must explicitly confirm or cancel on the website. Confirmation re-reads and compares the payload before SaveChanges. Request IDs deduplicate calls; unknown/interrupted outcomes must not be retried automatically.
+Booking status is nested as `booking: {requestId, stage}` in both Book and status responses. Stages: `loading`, `checking`, `submitting`, `review`, `submitted`, `stopped`, `error`. `submitted` means Save returned without an observed error. Direct mode then performs one bounded exact header/event read and returns outcome booked, waitlisted, or unconfirmed. Missing/contradictory data or timeout stays unconfirmed; it never resubmits. A late Save warning remains ephemeral plain text. Native mode still requires checking TSS. `review` requires the user to act on the official warning through a fresh `/login` Live View; reconnecting never starts or repeats Book. Direct-mode warnings instead return ephemeral plain text and a one-use confirmation ID; the user must explicitly confirm or cancel on the website. Confirmation re-reads and compares the payload before SaveChanges. Request IDs deduplicate calls; unknown/interrupted outcomes must not be retried automatically.
 
 ## Direct-service validation gate
 

@@ -379,7 +379,7 @@
         {
           "packageId": "167365",
           "label": "001-000-LE + 001-001-DI",
-          "bookingUrl": null,
+          "bookingUrl": "https://tss.ucsd.edu/fiori#ZUSModule-display?TileType=MYMOD&/Detail/EventPackage/SM/14794/00000000/0/0/0/00000000-0000-0000-0000-000000000000/167365/2026/3/?",
           "sections": [
             {
               "id": "E 00007961",
@@ -438,7 +438,7 @@
         {
           "packageId": "167366",
           "label": "001-000-LE + 001-002-DI",
-          "bookingUrl": null,
+          "bookingUrl": "https://tss.ucsd.edu/fiori#ZUSModule-display?TileType=MYMOD&/Detail/EventPackage/SM/14794/00000000/0/0/0/00000000-0000-0000-0000-000000000000/167366/2026/3/?",
           "sections": [
             {
               "id": "E 00007961",
@@ -497,7 +497,7 @@
         {
           "packageId": "167367",
           "label": "002-000-LE + 002-001-DI",
-          "bookingUrl": null,
+          "bookingUrl": "https://tss.ucsd.edu/fiori#ZUSModule-display?TileType=MYMOD&/Detail/EventPackage/SM/14794/00000000/0/0/0/00000000-0000-0000-0000-000000000000/167367/2026/3/?",
           "sections": [
             {
               "id": "E 00007962",
@@ -596,7 +596,7 @@
         {
           "packageId": "167368",
           "label": "002-000-LE + 002-002-DI",
-          "bookingUrl": null,
+          "bookingUrl": "https://tss.ucsd.edu/fiori#ZUSModule-display?TileType=MYMOD&/Detail/EventPackage/SM/14794/00000000/0/0/0/00000000-0000-0000-0000-000000000000/167368/2026/3/?",
           "sections": [
             {
               "id": "E 00007962",
@@ -695,7 +695,7 @@
         {
           "packageId": "167369",
           "label": "003-000-LE + 003-001-DI",
-          "bookingUrl": null,
+          "bookingUrl": "https://tss.ucsd.edu/fiori#ZUSModule-display?TileType=MYMOD&/Detail/EventPackage/SM/14794/00000000/0/0/0/00000000-0000-0000-0000-000000000000/167369/2026/3/?",
           "sections": [
             {
               "id": "E 00007963",
@@ -794,7 +794,7 @@
         {
           "packageId": "167370",
           "label": "003-000-LE + 003-002-DI",
-          "bookingUrl": null,
+          "bookingUrl": "https://tss.ucsd.edu/fiori#ZUSModule-display?TileType=MYMOD&/Detail/EventPackage/SM/14794/00000000/0/0/0/00000000-0000-0000-0000-000000000000/167370/2026/3/?",
           "sections": [
             {
               "id": "E 00007963",
@@ -893,7 +893,7 @@
         {
           "packageId": "167371",
           "label": "004-000-LE + 004-001-DI",
-          "bookingUrl": null,
+          "bookingUrl": "https://tss.ucsd.edu/fiori#ZUSModule-display?TileType=MYMOD&/Detail/EventPackage/SM/14794/00000000/0/0/0/00000000-0000-0000-0000-000000000000/167371/2026/3/?",
           "sections": [
             {
               "id": "E 00007937",
@@ -962,7 +962,7 @@
         {
           "packageId": "167372",
           "label": "004-000-LE + 004-002-DI",
-          "bookingUrl": null,
+          "bookingUrl": "https://tss.ucsd.edu/fiori#ZUSModule-display?TileType=MYMOD&/Detail/EventPackage/SM/14794/00000000/0/0/0/00000000-0000-0000-0000-000000000000/167372/2026/3/?",
           "sections": [
             {
               "id": "E 00007937",
@@ -1030,7 +1030,7 @@
         }
       ],
       "unassignedSections": [],
-      "courseUrl": null
+      "courseUrl": "https://tss.ucsd.edu/fiori#YSchedule-view&/YUCSD_CON_MODULE(AcademicYear='2026',AcademicPeriod='3',ModuleID='14794')?layout=MidColumnFullScreen"
     },
     "MGT-162": {
       "code": "MGT-162",
@@ -1042,7 +1042,7 @@
         {
           "packageId": "164325",
           "label": "001-000-LE",
-          "bookingUrl": null,
+          "bookingUrl": "https://tss.ucsd.edu/fiori#ZUSModule-display?TileType=MYMOD&/Detail/EventPackage/SM/6359/00000000/0/0/0/00000000-0000-0000-0000-000000000000/164325/2026/3/?",
           "sections": [
             {
               "id": "E 00013721",
@@ -1080,7 +1080,7 @@
         {
           "packageId": "164326",
           "label": "002-000-LE",
-          "bookingUrl": null,
+          "bookingUrl": "https://tss.ucsd.edu/fiori#ZUSModule-display?TileType=MYMOD&/Detail/EventPackage/SM/6359/00000000/0/0/0/00000000-0000-0000-0000-000000000000/164326/2026/3/?",
           "sections": [
             {
               "id": "E 00013723",
@@ -1118,7 +1118,7 @@
         {
           "packageId": "164327",
           "label": "003-000-LE",
-          "bookingUrl": null,
+          "bookingUrl": "https://tss.ucsd.edu/fiori#ZUSModule-display?TileType=MYMOD&/Detail/EventPackage/SM/6359/00000000/0/0/0/00000000-0000-0000-0000-000000000000/164327/2026/3/?",
           "sections": [
             {
               "id": "E 00013727",
@@ -1173,7 +1173,7 @@
           "seatsAvailable": 98
         }
       ],
-      "courseUrl": null
+      "courseUrl": "https://tss.ucsd.edu/fiori#YSchedule-view&/YUCSD_CON_MODULE(AcademicYear='2026',AcademicPeriod='3',ModuleID='6359')?layout=MidColumnFullScreen"
     }
   }
 }

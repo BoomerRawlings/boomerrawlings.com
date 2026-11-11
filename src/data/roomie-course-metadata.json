@@ -198,17 +198,29 @@
       }
     },
     "ECON-120A": {
-      "moduleId": null,
+      "moduleId": "14794",
       "category": "Economics",
       "categoryStyle": "economics",
-      "sources": [],
+      "sources": [
+        {
+          "url": "https://tss.ucsd.edu/sap/opu/odata4/sap/yucsd_con_module_sb/srvd/sap/yucsd_con_module_servicedef/0001/YUCSD_CON_MODULE",
+          "observedAt": "2026-11-11",
+          "note": "Authenticated read-only Schedule of Classes lookup matched ECON-120A, module 14794, academic year 2026 / period 3, and packages 167365, 167366, 167367, 167368, 167369, 167370, 167371, 167372 through the module's _sections relation. No student fields or booking action used."
+        }
+      ],
       "sections": {}
     },
     "MGT-162": {
-      "moduleId": null,
+      "moduleId": "6359",
       "category": "Management",
       "categoryStyle": "management",
-      "sources": [],
+      "sources": [
+        {
+          "url": "https://tss.ucsd.edu/sap/opu/odata4/sap/yucsd_con_module_sb/srvd/sap/yucsd_con_module_servicedef/0001/YUCSD_CON_MODULE",
+          "observedAt": "2026-11-11",
+          "note": "Authenticated read-only Schedule of Classes lookup matched MGT-162, module 6359, academic year 2026 / period 3, and packages 164325, 164326, 164327 through the module's _sections relation. No student fields or booking action used."
+        }
+      ],
       "sections": {}
     }
   }

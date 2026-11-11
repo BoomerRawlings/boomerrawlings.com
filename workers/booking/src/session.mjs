@@ -6,6 +6,7 @@ import { bounded } from './timeout.mjs';
 import { bookingReason } from './booking-result.mjs';
 import { DIRECT_READ_STAGES, DIRECT_SCHEMA_ISSUES, DIRECT_SETTING_FLAGS, DIRECT_SETTING_SHAPES, DIRECT_PREPARATION_NOTES } from './direct-tss.mjs';
 import { RESOLVE_COURSE_REASONS } from './resolve-courses.mjs';
+import { loginViewport } from './viewport.mjs';
 
 export const COOKIE_NAME = '__Host-bbb-session';
 export const API_PREFIX = '/0311/api';
@@ -21,12 +22,14 @@ const authenticationState = value => value === 'authenticated' || value === true
   : value === 'unauthenticated' || value === false ? 'unauthenticated' : 'unavailable';
 const activeBooking = record => record.booking && !['submitted', 'stopped', 'error'].includes(record.booking.stage);
 const STAGES = new Set(['loading', 'checking', 'review', 'submitting', 'submitted', 'stopped', 'error']);
+const SUBMITTED_OUTCOMES = new Set(['booked', 'waitlisted', 'unconfirmed']);
 const FAILURE_STAGES = new Set(['launch', 'page', 'guard', 'navigation', 'renderer_preflight', 'live_view', 'authentication', 'controller_disconnect', 'object_restart', 'runtime_io_context', 'status', 'cleanup_lookup', 'cleanup_pending', 'quota_service', 'quota_release', 'quota_concurrency', 'quota_budget', 'quota_cleanup', 'initialization', 'session_operation']);
 const navigationInProgress = failure => /execution context was destroyed|cannot find context with specified id|inspected target navigated|execution context is not available|execution context is not available in detached frame/i.test(failure?.message || '');
 const updateBooking = (record, result) => {
   const reason = bookingReason(result.reason);
   record.booking = { requestId: record.booking.requestId, stage: STAGES.has(result.stage) ? result.stage : 'error',
-    ...(record.booking.mode === 'direct' ? { mode: 'direct' } : {}), ...(reason ? { reason } : {}) };
+    ...(record.booking.mode === 'direct' ? { mode: 'direct' } : {}), ...(reason ? { reason } : {}),
+    ...(record.booking.mode === 'direct' && result.stage === 'submitted' && SUBMITTED_OUTCOMES.has(result.outcome) ? { outcome: result.outcome } : {}) };
 };
 const directReadStages = new Set(DIRECT_READ_STAGES), directSchemaIssues = new Set(DIRECT_SCHEMA_ISSUES);
 const directSettingFlags = new Set(DIRECT_SETTING_FLAGS), directSettingShapes = new Set(DIRECT_SETTING_SHAPES);
@@ -41,7 +44,7 @@ function directDiagnostics(value) {
   const settings = value.settingShapes && typeof value.settingShapes === 'object' && !Array.isArray(value.settingShapes)
     ? Object.fromEntries(Object.entries(value.settingShapes).filter(([key, shape]) => directSettingFlags.has(key) && directSettingShapes.has(shape))) : {};
   return { ...(directReadStages.has(value.readStage) ? { readStage: value.readStage } : {}),
-    ...(Array.isArray(value.preparationNotes) ? { preparationNotes: [...new Set(value.preparationNotes.filter(note=>DIRECT_PREPARATION_NOTES.includes(note)))].slice(0,3) } : {}),
+    ...(Array.isArray(value.preparationNotes) ? { preparationNotes: [...new Set(value.preparationNotes.filter(note=>DIRECT_PREPARATION_NOTES.includes(note)))].slice(0,DIRECT_PREPARATION_NOTES.length) } : {}),
     ...(directSchemaIssues.has(value.schemaIssue) ? { schemaIssue: value.schemaIssue } : {}),
     ...(issues.length ? { schemaIssues: issues } : {}), ...(Object.keys(settings).length ? { settingShapes: settings } : {}) };
 }
@@ -323,14 +326,16 @@ export class SessionCore {
       try { body = JSON.parse(raw); } catch { return error('Invalid request.'); }
       const reviewing = ['/confirm', '/cancel'].includes(action);
       const allowedKeys = reviewing ? ['requestId', 'bookingRequestId', 'confirmationId']
-        : action === '/resolve-courses' ? ['requestId'] : ['requestId', 'route'];
+        : action === '/resolve-courses' ? ['requestId'] : action === '/login' ? ['requestId', 'route', 'viewport'] : ['requestId', 'route'];
       if (!body || typeof body !== 'object' || Array.isArray(body) || !UUID.test(body.requestId || '')
           || Object.keys(body).some(key => !allowedKeys.includes(key))
           || (reviewing && (!UUID.test(body.bookingRequestId || '') || !UUID.test(body.confirmationId || '')))) return error('Invalid request.');
+      if (body.viewport !== undefined && !loginViewport(body.viewport)) return error('Invalid login viewport.');
       if (body.route !== undefined && !BOOKING_ROUTES.has(body.route)) return error('Unknown booking option.');
       if (['/inspect', '/inspect-direct', '/verify-direct', '/book'].includes(action) && !BOOKING_ROUTES.has(body.route)) return error('Choose a verified booking option.');
       const confirmationDigest = reviewing ? [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(body.confirmationId)))].map(value => value.toString(16).padStart(2, '0')).join('') : '';
-      const fingerprint = action + '\n' + (body.route || '') + (reviewing ? '\n' + body.bookingRequestId + '\n' + confirmationDigest : '');
+      const fingerprint = action + '\n' + (body.route || '') + (reviewing ? '\n' + body.bookingRequestId + '\n' + confirmationDigest : '')
+        + (body.viewport ? '\n' + body.viewport.width + 'x' + body.viewport.height : '');
       if (this.record.history[body.requestId]) {
         if (this.record.history[body.requestId] !== fingerprint) return error('Request identifier already used.', 409);
         const prior = this.results.get(body.requestId);
@@ -402,7 +407,7 @@ export class SessionCore {
         this.lastDiagnostics = undefined;
         let browser;
         try {
-          browser = await this.createBrowser(this.env, { onDisconnect: () => {
+          browser = await this.createBrowser(this.env, { ...(body.viewport ? { viewport: loginViewport(body.viewport) } : {}), onDisconnect: () => {
             this.record.state = 'expired';
             this.record.failureStage = 'controller_disconnect';
             this.ctx.storage.setAlarm(this.now() + 1000).catch(() => {});
@@ -490,7 +495,7 @@ export class SessionCore {
       const fields = new Set(['ModuleId', 'ActionName', 'ProgramId', 'Items', 'AssignedCg', 'AssignedCgTop', 'TemplateId', 'EventPackId', 'ModregId', 'AcademicYear', 'AcademicSession', 'Credits', 'CreditUnit', 'UnexpectedFields']);
       return { body: { state: this.record.state, ready: result.ready === true && csrfReady, loaded: result.loaded === true, csrfReady, courseCode, ...(reason ? { reason } : {}),
         ...(directRead ? directDiagnostics(result) : {}),
-        ...(action === '/verify-direct' ? { equivalent: result.equivalent === true, mismatchFields: Array.isArray(result.mismatchFields) ? result.mismatchFields.filter(field => fields.has(field)) : [],
+        ...(action === '/verify-direct' ? { equivalent: result.equivalent === true, ...(typeof result.bookingEligible === 'boolean' ? { bookingEligible: result.bookingEligible } : {}), mismatchFields: Array.isArray(result.mismatchFields) ? result.mismatchFields.filter(field => fields.has(field)) : [],
           ...(['standard', 'top_module', 'unknown'].includes(result.nativeBookingPath) ? { nativeBookingPath: result.nativeBookingPath } : {}),
           ...(typeof result.dataTopModuleEnabled === 'boolean' ? { dataTopModuleEnabled: result.dataTopModuleEnabled } : {}) } : {}) } };
     }
