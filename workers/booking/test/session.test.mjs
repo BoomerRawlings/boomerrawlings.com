@@ -153,6 +153,61 @@ test('zero usage limit stops allocation; reserved full windows are not refunded'
   const b = await f.client(); assert.equal((await b.post('/login')).status, 429); assert.equal(f.count(), 1);
 });
 
+test('probe keeps one browser and 90 reserved minutes even with production-sized configuration', async () => {
+  const f = fixture({ MAX_BROWSER_SESSIONS: '8', MONTHLY_BROWSER_MINUTES: '600' });
+  const first = await f.client(), blocked = await f.client();
+  assert.equal((await first.post('/login')).status, 200);
+  assert.equal((await blocked.post('/login')).status, 429);
+  await first.post('/logout');
+  for (let index = 1; index < 6; index++) {
+    const client = await f.client();
+    assert.equal((await client.post('/login')).status, 200);
+    assert.equal((await client.post('/logout')).status, 200);
+  }
+  const exhausted = await f.client();
+  const response = await exhausted.post('/login');
+  assert.equal(response.status, 429); assert.equal((await response.json()).failureStage, 'quota_budget');
+  assert.equal(f.count(), 6);
+});
+
+test('production supports all eight roommates concurrently and rejects a ninth browser', async () => {
+  const f = fixture({ PROBE_ONLY: 'false', MAX_BROWSER_SESSIONS: '99', MONTHLY_BROWSER_MINUTES: '600' });
+  const clients = await Promise.all(Array.from({ length: 9 }, () => f.client()));
+  const responses = await Promise.all(clients.slice(0, 8).map(client => client.post('/login')));
+  assert.ok(responses.every(response => response.status === 200)); assert.equal(f.live.size, 8);
+  const ninth = await clients[8].post('/login');
+  assert.equal(ninth.status, 429); assert.equal((await ninth.json()).state, 'error');
+  assert.equal(f.count(), 8);
+  assert.equal((await clients[0].post('/logout')).status, 200);
+  assert.equal((await clients[8].post('/login')).status, 200); assert.equal(f.live.size, 8);
+});
+
+test('production monthly allowance is capped at 600 reserved minutes and resets by UTC month', async () => {
+  const f = fixture({ PROBE_ONLY: 'false', MAX_BROWSER_SESSIONS: '8', MONTHLY_BROWSER_MINUTES: '100000' });
+  for (let index = 0; index < 40; index++) {
+    const client = await f.client();
+    assert.equal((await client.post('/login')).status, 200);
+    assert.equal((await client.post('/logout')).status, 200);
+  }
+  const blocked = await f.client();
+  const response = await blocked.post('/login');
+  assert.equal(response.status, 429); assert.equal((await response.json()).state, 'error');
+  assert.equal(f.count(), 40);
+  f.advance(31 * 24 * 60 * 60_000);
+  assert.equal((await blocked.post('/login')).status, 200); assert.equal(f.count(), 41);
+});
+
+test('production budget preserves lower limits and invalid or zero configuration blocks launches', async () => {
+  for (const configured of ['0', '-1', 'Infinity', 'NaN', 'invalid']) {
+    const f = fixture({ PROBE_ONLY: 'false', MONTHLY_BROWSER_MINUTES: configured });
+    const client = await f.client();
+    assert.equal((await client.post('/login')).status, 429); assert.equal(f.count(), 0);
+  }
+  const f = fixture({ PROBE_ONLY: 'false', MONTHLY_BROWSER_MINUTES: '15' });
+  const first = await f.client(); await first.post('/login'); await first.post('/logout');
+  const second = await f.client(); assert.equal((await second.post('/login')).status, 429); assert.equal(f.count(), 1);
+});
+
 test('provider closure must be verified before releasing concurrent-browser lease', async () => {
   const f = fixture(); const a = await f.client(), b = await f.client(); await a.post('/login');
   const owned = [...f.live.values()][0]; owned.close = async () => {}; f.env.BROWSER.closeSession = async () => {};

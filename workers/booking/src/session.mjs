@@ -377,7 +377,8 @@ export class QuotaCore {
       if (Object.keys(record.leases).length >= concurrency) return json({ ok: false, reason: 'quota_concurrency' }, 409);
       const duration = ttlMs(this.env);
       const configured = Number(this.env.MONTHLY_BROWSER_MINUTES ?? 90);
-      const limit = (Number.isFinite(configured) ? Math.min(90, Math.max(0, configured)) : 0) * 60_000;
+      const ceiling = probing(this.env) ? 90 : 600;
+      const limit = (Number.isFinite(configured) ? Math.min(ceiling, Math.max(0, configured)) : 0) * 60_000;
       if (record.reservedMs + duration > limit) return json({ ok: false, reason: 'quota_budget' }, 429);
       record.reservedMs += duration; // Reserve the full window; never refund unknown usage.
       record.leases[body.owner] = { expiresAt: this.now() + duration, browserId: null };

@@ -21,7 +21,18 @@ The package pins `@cloudflare/puppeteer` and Wrangler. Cloudflare authorization 
 
 Deploy the unchanged `PROBE_ONLY=true` configuration only after local checks and account usage review. `GET /health` creates no object/browser. Open `/0311/api/test` on the real website origin to issue the protected visitor cookie, sign in through Live View, check a known course and sign out. This probe page is unavailable when `PROBE_ONLY=false`.
 
-Initial limits: one concurrent browser, absolute 15-minute lifetime, 90 reserved browser minutes per UTC month. Each launch reserves its entire window; uncertain usage is never refunded. `MONTHLY_BROWSER_MINUTES=0` stops allocation. The cap covers this application, **not account-wide Cloudflare usage**. Production concurrency can be configured up to eight, but the same usage cap remains. Browser/controller loss closes the session; an object restart destroys its previous browser instead of reconnecting without interception.
+Initial limits: one concurrent browser, absolute 15-minute lifetime, 90 reserved browser minutes per UTC month. Probe mode enforces the one-browser/90-minute ceilings even if larger values are configured. Each launch reserves its entire window; usage is never refunded, including early sign-out or a failed launch after reservation. `MONTHLY_BROWSER_MINUTES=0` stops allocation; negative or nonfinite values cannot enable usage. The cap covers this application, **not account-wide Cloudflare usage**. Browser/controller loss closes the session; an object restart destroys its previous browser instead of reconnecting without interception.
+
+After the hosted authentication and cleanup gates below pass, the household production configuration is:
+
+| Variable | Production value | Enforced ceiling |
+| --- | --- | --- |
+| `PROBE_ONLY` | `false` | Only this exact string enables production behavior |
+| `MAX_BROWSER_SESSIONS` | `8` | Eight simultaneous browsers |
+| `MAX_SESSION_MINUTES` | `15` | 15 minutes from launch, including sign-in |
+| `MONTHLY_BROWSER_MINUTES` | `600` | 600 reserved browser minutes per UTC month |
+
+The checked-in Wrangler configuration remains the probe configuration. Change all four variables together at the production release; changing only `PROBE_ONLY` retains the configured one-browser/90-minute limits. A 600-minute allowance permits 40 full 15-minute browser launches per month, about five per roommate. This is a shared limit, not a per-person allocation; multiple bookings can use one session. Reopening Live View for the same session does not reserve another window. The previous probe reservations remain counted in the same UTC month. The ceiling limits reserved application browser time, not dollar charges or other Cloudflare services. Larger configured budgets are clamped to 600 in production and 90 in probe mode; lower configured budgets remain effective.
 
 Sign-out, expiry and disconnect cleanup close the provider browser. Cleanup must verify provider closure before releasing its concurrency lease. Live View grants last 60 seconds; an already-connected viewer can remain until browser closure. The signed URL is a bearer credential: never copy it into logs, issues, telemetry, screenshots of address bars or project state. Recording is disabled.
 
