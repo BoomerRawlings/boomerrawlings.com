@@ -51,7 +51,7 @@
 .roomie-card .module-heading { min-width: 0; }
 .roomie-card .module-heading small { text-transform: uppercase; }
 .roomie-card .module-heading strong { overflow-wrap: anywhere; }
-.course-row { cursor: default; --asset-color: var(--teach-breakdown); }
+.course-row { display: grid; grid-template-columns: 110px minmax(0, 1fr) auto; cursor: default; --asset-color: var(--teach-breakdown); }
 .course-row .asset-type { flex: 0 0 110px; white-space: normal; }
 .course-row .asset-row-text { min-width: 0; }
 .course-row .asset-row-text strong { overflow-wrap: anywhere; }
@@ -141,7 +141,7 @@
   pointer-events: none;
 }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.tss-option-feedback { grid-column: 1 / -1; flex-basis: 100%; margin: 8px 0 0; padding: 10px 12px; border-left: 3px solid var(--teach-ink); font-size: 13px; line-height: 1.5; }
+.tss-option-feedback { grid-column: 1 / -1; min-width: 0; overflow-wrap: anywhere; margin: 8px 0 0; padding: 10px 12px; border-left: 3px solid var(--teach-ink); font-size: 13px; line-height: 1.5; }
 .tss-option-feedback:empty { display: none; }
 
 @media (max-width: 760px) {
