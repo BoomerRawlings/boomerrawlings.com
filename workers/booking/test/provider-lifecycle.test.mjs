@@ -52,3 +52,10 @@ test('schema failures identify only fixed reason and provider messages are strip
   assert.equal(safe.includes('hidden'), false); assert.equal(safe.includes('12345678'), false); assert.equal(safe.includes('short'), false);
   assert.equal(safe.includes('abcdefghijklmnopqrstuvwxyz'), false); assert.ok(safe.length <= 240);
 });
+
+test('hung local CDP close cannot prevent independent provider cleanup', async () => {
+  let closed = false;
+  await closeProviderSession({ closeSession: async () => { closed = true; }, getSession: async () => null }, 'synthetic',
+    { closeLocal: () => new Promise(() => {}), localTimeoutMs: 5 });
+  assert.equal(closed, true);
+});

@@ -256,3 +256,26 @@ test('failed startup retains reservation ownership until quota release succeeds'
   assert.equal((await a.get()).status, 200); assert.equal(core.record.leaseReserved, undefined);
   const b = await f.client(); assert.equal((await b.post('/login')).status, 200);
 });
+
+test('hung readiness reads are bounded and single-flight; timeout never claims ready', async () => {
+  const f = fixture(); const a = await f.client(); await a.post('/login');
+  const core = [...f.sessions.values()][0], owned = [...f.live.values()][0]; core.statusTimeoutMs = 10;
+  let calls = 0, resolve;
+  owned.authenticated = async () => { calls++; await new Promise(done => { resolve = done; }); return true; };
+  const responses = await Promise.all([a.get(), a.get()]);
+  for (const response of responses) { const data = await response.json(); assert.equal(data.state, 'signing_in'); assert.equal(data.failureStage, 'status_timeout'); }
+  assert.equal(calls, 1); assert.equal(owned.closed, false);
+  assert.equal((await a.get()).status, 200); assert.equal(calls, 1);
+  resolve(); await core.statusProbe;
+  owned.authenticated = async () => true;
+  const ready = await (await a.get()).json(); assert.equal(ready.state, 'ready'); assert.equal(ready.failureStage, undefined);
+});
+
+test('hung diagnostic evaluation cannot block readiness or accumulate evaluations', async () => {
+  const f = fixture(); const a = await f.client(); await a.post('/login');
+  const core = [...f.sessions.values()][0], owned = [...f.live.values()][0]; core.diagnosticsTimeoutMs = 5;
+  let calls = 0; owned.signedIn = true;
+  owned.diagnostics = async () => { calls++; return new Promise(() => {}); };
+  for (let n = 0; n < 3; n++) assert.equal((await (await a.get()).json()).state, 'ready');
+  assert.equal(calls, 1); assert.equal(owned.closed, false);
+});

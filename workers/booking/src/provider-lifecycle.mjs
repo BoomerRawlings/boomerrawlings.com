@@ -1,4 +1,5 @@
 import { failureDiagnostic } from './diagnostics.mjs';
+import { bounded } from './timeout.mjs';
 const stageError = (stage, cause, reason) => Object.assign(new Error('Provider session cleanup unavailable'), { stage,
   failureDiagnostic: { ...failureDiagnostic(cause || new Error(stage), 'provider_cleanup'), ...(reason ? { reason } : {}),
     ...([cause?.status, cause?.statusCode].find(value => Number.isInteger(value) && value >= 100 && value <= 599) ?
@@ -36,8 +37,8 @@ export async function providerSessionExists(binding, id) {
 
 // closeSession is asynchronous and may reject an already-closed ID. A close
 // error alone neither proves liveness nor absence: independently verify it.
-export async function closeProviderSession(binding, id, { closeLocal, sleep = ms => new Promise(resolve => setTimeout(resolve, ms)) } = {}) {
-  if (closeLocal) { try { await closeLocal(); } catch { /* Verify via provider below. */ } }
+export async function closeProviderSession(binding, id, { closeLocal, localTimeoutMs = 2000, sleep = ms => new Promise(resolve => setTimeout(resolve, ms)) } = {}) {
+  if (closeLocal) { try { await bounded(Promise.resolve().then(closeLocal), localTimeoutMs, 'local_close_timeout'); } catch { /* Verify via provider below. */ } }
   if (!id) return;
   try { await binding.closeSession(id); } catch { /* A subsequent lookup is authoritative. */ }
   for (let attempt = 0; attempt < 4; attempt++) {

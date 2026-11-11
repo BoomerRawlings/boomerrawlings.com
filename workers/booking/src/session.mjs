@@ -2,6 +2,7 @@ import { BOOKING_ROUTES } from './routes.mjs';
 import { probePage } from './probe-page.mjs';
 import { closeProviderSession, providerSessionExists } from './provider-lifecycle.mjs';
 import { BUILD_VERSION, failureDiagnostic } from './diagnostics.mjs';
+import { bounded } from './timeout.mjs';
 
 export const COOKIE_NAME = '__Host-bbb-session';
 export const API_PREFIX = '/0311/api';
@@ -63,7 +64,7 @@ export async function handleRequest(request, env) {
 }
 
 export class SessionCore {
-  constructor(ctx, env, { createBrowser, now = Date.now } = {}) {
+  constructor(ctx, env, { createBrowser, now = Date.now, statusTimeoutMs = 5000, diagnosticsTimeoutMs = 750 } = {}) {
     this.ctx = ctx;
     this.env = env;
     this.createBrowser = createBrowser;
@@ -73,6 +74,10 @@ export class SessionCore {
     this.generation = 0;
     this.closing = null;
     this.lastDiagnostics = undefined;
+    this.statusProbe = null;
+    this.diagnosticsProbe = null;
+    this.statusTimeoutMs = statusTimeoutMs;
+    this.diagnosticsTimeoutMs = diagnosticsTimeoutMs;
     this.results = new Map();
     this.initializing = this.initialize();
   }
@@ -117,6 +122,8 @@ export class SessionCore {
 
   async closeCurrent(state) {
     this.generation++;
+    this.statusProbe = null;
+    this.diagnosticsProbe = null;
     const generation = this.generation;
     const browser = this.browser;
     const browserId = this.record.browserId;
@@ -174,18 +181,44 @@ export class SessionCore {
     await this.persist();
   }
 
+  async readStatus() {
+    if (probing(this.env) && this.browser && !this.busy && this.browser.diagnostics) {
+      if (!this.diagnosticsProbe) {
+        const generation = this.generation;
+        const work = this.browser.diagnostics().then(value => { if (generation === this.generation) this.lastDiagnostics = value; });
+        this.diagnosticsProbe = work;
+        work.finally(() => { if (this.diagnosticsProbe === work) this.diagnosticsProbe = null; }).catch(() => {});
+      }
+    }
+    await this.refresh();
+    if (this.diagnosticsProbe) await bounded(this.diagnosticsProbe, this.diagnosticsTimeoutMs, 'diagnostics_timeout').catch(() => {});
+  }
+
+  async status() {
+    if (!this.statusProbe) {
+      const work = this.readStatus();
+      this.statusProbe = work;
+      work.finally(() => { if (this.statusProbe === work) this.statusProbe = null; }).catch(() => {});
+    }
+    const generation = this.generation;
+    try {
+      await bounded(this.statusProbe, this.statusTimeoutMs, 'status_timeout');
+      if (this.record.failureStage === 'status_timeout') { delete this.record.failureStage; delete this.record.lastFailure; await this.persist(); }
+    } catch (failure) {
+      if (failure?.stage !== 'status_timeout') throw failure;
+      if (generation === this.generation && this.browser && !this.busy && !activeBooking(this.record)) this.record.state = 'signing_in';
+      this.record.failureStage = 'status_timeout';
+      this.record.lastFailure = { name: 'TimeoutError', code: 'read_timeout', source: 'status' };
+      await this.persist();
+    }
+    return json(this.snapshot(probing(this.env) && this.lastDiagnostics ? { diagnostics: this.lastDiagnostics } : {}));
+  }
+
   async fetch(request) {
     try {
       await this.initializing;
       const action = new URL(request.url).pathname.slice(API_PREFIX.length);
-      if (action === '/status') {
-        if (probing(this.env) && this.browser && !this.busy && this.browser.diagnostics) {
-          this.lastDiagnostics = await this.browser.diagnostics().catch(() => this.lastDiagnostics);
-        }
-        await this.refresh();
-        const diagnostics = probing(this.env) ? this.lastDiagnostics : undefined;
-        return json(this.snapshot(diagnostics ? { diagnostics } : {}));
-      }
+      if (action === '/status') return await this.status();
       if (request.headers.get('X-BBB-CSRF') !== this.record.csrf) return error('Session verification failed.', 403);
       const raw = await boundedText(request);
       if (raw === null) return error('Request too large.', 413);
