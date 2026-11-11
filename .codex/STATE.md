@@ -16,7 +16,7 @@
 - Deployment: Durable Object code updates default to deferred300s. Probe fixes use `--durable-objects-code-update-mode immediate`; verify existing-session build marker. Immediate updates terminate managed sessions. Source: https://developers.cloudflare.com/durable-objects/deployments/durable-objects-code-updates/
 - Validation: final full website suite passed. Latest21 frontend checks pass; desktop/320px and four ECON100A options verified. Latest Worker74 tests pass/1optional Chromium fixture skipped; syntax and dry-run pass. Actual isolated Chromium guard fixture passed earlier. Independent frontend/native/lifecycle review complete; final frontend release review found no blockers. Absolute expiry automated coverage passes. Actual enrollment remains unverified.
 - Production backend enabled after hosted proof;40 full reservations/month with prior probes counted. Live frontend sign-in enabled, no bookmark/probe UI;20 Book controls,9 verified routes and11 disabled missing-ID options; no horizontal overflow. Exactly4 ECON100A packages remain.
-- Next: user enrollment test when they explicitly choose a course. ECON120A/MGT162 package IDs still unverified; keep disabled until real TSS evidence. Backend/session implementation and publication complete. Preserve unrelated unfinished work below.
+- Next: manual cross-device rebooking test; human handles dropping and booking, agent provides diagnostics only. Current live page/API rechecked HTTP200, production enabled. Actual enrollment remains unverified. ECON120A/MGT162 package IDs still unverified; keep disabled until real TSS evidence. Backend/session implementation and publication complete. Preserve unrelated unfinished work below.
 
 ## Brain professor teaching library — 2026-11-10
 
