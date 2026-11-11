@@ -7,6 +7,24 @@ export const AUTH_TRACE_UPSTREAM_REASONS = Object.freeze(['Failed', 'Aborted', '
   'ConnectionRefused', 'ConnectionAborted', 'ConnectionFailed', 'NameNotResolved', 'InternetDisconnected', 'AddressUnreachable', 'BlockedByClient', 'BlockedByResponse', 'Other']);
 export const AUTH_TRACE_PHASES = Object.freeze(['request', 'response_abort', 'response_body', 'response_fulfill', 'request_continue', 'request_block', 'failure_abort']);
 export const AUTH_TRACE_GUARD_ISSUES = Object.freeze(['timeout', 'session_closed', 'body_too_large', 'protocol_error']);
+export const AUTH_TRACE_METHODS = Object.freeze(['GET', 'HEAD', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE', 'OTHER']);
+export const AUTH_TRACE_ROUTES = Object.freeze(['proxy_saml_request', 'proxy_saml_response', 'ucsd_saml_redirect', 'tss_fiori', 'tss_saml_acs', 'other']);
+
+export function authTraceRoute(value) {
+  try {
+    const url = new URL(value);
+    if (url.username || url.password) return 'other';
+    const routes = {
+      'https://tssproxy.ucsd.edu/idp/profile/SAML2/POST/SSO': 'proxy_saml_request',
+      'https://tssproxy.ucsd.edu/idp/profile/Authn/SAML2/POST/SSO': 'proxy_saml_response',
+      'https://a5.ucsd.edu/tritON/profile/SAML2/Redirect/SSO': 'ucsd_saml_redirect',
+      'https://tss.ucsd.edu/fiori': 'tss_fiori',
+      'https://tss.ucsd.edu/sap/public/bc/sec/saml2/sp/acs': 'tss_saml_acs',
+      'https://tss.ucsd.edu/sap/saml2/sp/acs/100': 'tss_saml_acs',
+    };
+    return routes[url.origin + url.pathname] || 'other';
+  } catch { return 'other'; }
+}
 
 export function authTraceDestination(value) {
   try {
@@ -35,7 +53,9 @@ function eventFields(value) {
   if (!AUTH_TRACE_DESTINATIONS.includes(value.destination) || !AUTH_TRACE_RESOURCES.includes(value.resourceType)) return null;
   const base = { kind: value.kind, destination: value.destination, resourceType: value.resourceType };
   if (value.kind === 'document_response') return Number.isInteger(value.status) && value.status >= 100 && value.status <= 599
-    && value.resourceType === 'Document' ? { ...base, status: value.status } : null;
+    && value.resourceType === 'Document' ? { ...base, status: value.status,
+      ...(AUTH_TRACE_METHODS.includes(value.method) ? { method: value.method } : {}),
+      ...(AUTH_TRACE_ROUTES.includes(value.route) ? { route: value.route } : {}) } : null;
   if (value.kind === 'upstream_failure') return AUTH_TRACE_UPSTREAM_REASONS.includes(value.reason) ? { ...base, reason: value.reason } : null;
   if (value.kind === 'guard_failure') return AUTH_TRACE_PHASES.includes(value.phase) && AUTH_TRACE_GUARD_ISSUES.includes(value.issue)
     ? { ...base, phase: value.phase, issue: value.issue } : null;

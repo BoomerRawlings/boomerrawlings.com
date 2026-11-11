@@ -1,6 +1,6 @@
 import { allowProbeRequest, authorizeNativeWrite } from './read-only.mjs';
 import { Buffer } from 'node:buffer';
-import { createAuthTrace, authTraceDestination, authTraceGuardIssue, AUTH_TRACE_UPSTREAM_REASONS } from './auth-trace.mjs';
+import { createAuthTrace, authTraceDestination, authTraceGuardIssue, authTraceRoute, AUTH_TRACE_METHODS, AUTH_TRACE_UPSTREAM_REASONS } from './auth-trace.mjs';
 
 // A response header, not an editable iframe attribute: popup/form targets are
 // denied by Chromium before a second target can send its first request. Frames
@@ -45,7 +45,8 @@ export async function installNetworkGuard(page, { getJob = () => null, onBlocked
         return;
       }
       if (event.responseStatusCode !== undefined) {
-        if (resourceType === 'Document') traceEvent({ kind: 'document_response', status: event.responseStatusCode });
+        if (resourceType === 'Document') traceEvent({ kind: 'document_response', status: event.responseStatusCode,
+          method: AUTH_TRACE_METHODS.includes(request.method) ? request.method : 'OTHER', route: authTraceRoute(request.url) });
         const redirect = [301, 302, 303, 307, 308].includes(event.responseStatusCode);
         const original = redirect ? null : await send('response_body', 'Fetch.getResponseBody', { requestId });
         if (original && original.body.length > 4 * 1024 * 1024) throw Object.assign(new Error('Document too large'), { guardIssue: 'body_too_large' });

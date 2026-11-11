@@ -87,3 +87,13 @@ test('Duo desktop loopback preflight denial is separate from upstream or control
   assert.deepEqual(f.authTrace(), [{ kind: 'policy_block', destination: 'loopback_device', resourceType: 'Fetch', atMs: 0, count: 1 }]);
   assert.equal(f.calls.at(-1).method, 'Fetch.failRequest');
 });
+
+test('proxy HTTP400 trace identifies the exact handoff and request method only', async () => {
+  const f=fixture(false,{now:()=>0});await f.init();
+  await f.emit(event({resourceType:'Document',responseStatusCode:400,
+    request:{url:'https://tssproxy.ucsd.edu/idp/profile/Authn/SAML2/POST/SSO?private-token',method:'POST',postData:'private-assertion'}}));
+  assert.deepEqual(f.authTrace(),[{kind:'document_response',destination:'tss_proxy',resourceType:'Document',status:400,
+    method:'POST',route:'proxy_saml_response',atMs:0,count:1}]);
+  assert.equal(f.calls.at(-1).method,'Fetch.fulfillRequest');
+  assert.doesNotMatch(JSON.stringify(f.authTrace()),/private|https/);
+});

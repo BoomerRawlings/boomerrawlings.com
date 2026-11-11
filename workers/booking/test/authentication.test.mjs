@@ -61,3 +61,12 @@ test('native shell loading preserves unavailable state; direct proof needs no sh
   assert.deepEqual((await probe({ shell: false })).result, { status: 'unavailable', page: 'tss_loading' });
   assert.equal((await probe({ shell: false, requireShell: false })).result.status, 'authenticated');
 });
+
+test('observed proxy notice is a failed handoff, not a login choice or account creation claim', async () => {
+  for (const text of ['Post-registration notice private-account', 'Thank you for registering. private-token']) {
+    const { result, calls } = await probe({ url: 'https://tssproxy.ucsd.edu/idp/profile/SAML2/POST/SSO?private-token', text });
+    assert.deepEqual(result, { status: 'unauthenticated', page: 'tss_proxy_error', issue: 'sso_handoff_failed' });
+    assert.equal(calls.length, 0);
+  }
+  assert.equal((await probe({ url: 'https://tssproxy.ucsd.edu.attacker.invalid/', text: 'Post-registration notice' })).result.page, 'other');
+});

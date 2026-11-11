@@ -161,6 +161,14 @@ test('pre-dispatch authentication 503 preserves sign-in and permits only a later
   assert.equal(h.posts('book').length, 2);
 });
 
+test('failed proxy handoff is not presented as a login choice or account creation', async () => {
+  const h=harness({status:{state:'signing_in',authDiagnostics:{authentication:{page:'tss_proxy_error',issue:'sso_handoff_failed',raw:'private-token'}}}});
+  await flush();
+  assert.match(h.statusText,/TSS could not finish sign-in/);
+  assert.doesNotMatch(h.statusText,/Choose|account|register|private/);
+  await h.advance(10000);assert.equal(h.posts('login').length,0);assert.equal(h.posts('book').length,0);
+});
+
 test('sign-in uses same-origin JSON/CSRF and a detached popup without credential storage', async () => {
   const h = harness(); await flush();
   await h.click('login', false); assert.equal(h.posts('login').length, 0);

@@ -9,7 +9,8 @@ export const DIRECT_PREPARATION_NOTES = Object.freeze(['native_group_not_bookabl
 // MyModules controller is the source of the reads, defaults and payload below.
 // Booking never navigates or invokes UI5; compareNative alone reads the loaded
 // official controller's preparation result for the read-only equivalence gate.
-// allowWrites must come from the server's production gate, never client JSON.
+// allowWrites and standardNativeVerified come from server-owned gates, never
+// client JSON. Verification changes only the mismatched data-property top flag.
 export function directTssOperation(input) {
   const origin = 'https://tss.ucsd.edu';
   const service = origin + '/sap/opu/odata/ITUS/PR_MY_MODULES_V2_SRV/';
@@ -148,8 +149,9 @@ export function directTssOperation(input) {
     const unsupported = [
       [!!settings.ENABLE_AUTOBOOK, 'unsupported_autobook'],
       // Read-only inspection may derive and compare the package payload even
-      // when the data flag is set. Actual booking retains this independent gate.
-      [settings.ENABLE_TOP_MODULE_BOOKING === 'X' && job?.readOnly !== true, 'unsupported_top_module'],
+      // when the data flag is set. Writes require a separately verified standard
+      // native path for this exact route before bypassing the data-property flag.
+      [settings.ENABLE_TOP_MODULE_BOOKING === 'X' && job?.readOnly !== true && job?.standardNativeVerified !== true, 'unsupported_top_module'],
       [settings.HIDE_TAB_EVENT === 'X', 'hidden_events'],
     ];
     for (const [enabled, issue] of unsupported) if (enabled) note(job, 'settings', issue);
@@ -459,7 +461,8 @@ export function directTssOperation(input) {
   if (input.operation !== 'book' || input.allowWrites !== true || !uuid(input.requestId)) return result('stopped', 'request_blocked');
   if (state.history.has(input.requestId)) return state.history.get(input.requestId);
   if (state.active || state.readActive || state.locked || state.history.size >= 64) return result('stopped', 'previous_attempt');
-  const job = { requestId: input.requestId, target, controllers: new Set(), done: false, saveIssued: false };
+  const job = { requestId: input.requestId, target, standardNativeVerified: input.standardNativeVerified === true,
+    controllers: new Set(), done: false, saveIssued: false };
   state.active = job;
   job.timer = setTimeout(() => finish(job, job.saveIssued ? 'error' : 'stopped', job.saveIssued ? 'submission_uncertain' : 'action_timeout'), 120000);
   update(job, 'checking'); void begin(job);

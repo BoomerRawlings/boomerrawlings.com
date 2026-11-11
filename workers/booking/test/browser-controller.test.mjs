@@ -1,7 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { openManagedBrowser, rendererPreflight, PROTOCOL_TIMEOUT_MS, loadCourse, createBrowserController } from '../src/browser.mjs';
-import { DEFAULT_ROUTE } from '../src/routes.mjs';
+import { openManagedBrowser, rendererPreflight, rendererHandoffPreflight, PROTOCOL_TIMEOUT_MS, loadCourse, createBrowserController } from '../src/browser.mjs';
+import { DEFAULT_ROUTE, BOOKING_ROUTES, VERIFIED_STANDARD_ROUTES } from '../src/routes.mjs';
+
+async function withVerifiedRoute(route, run) {
+  assert.equal(VERIFIED_STANDARD_ROUTES.size, 0);
+  VERIFIED_STANDARD_ROUTES.add(route);
+  try { await run(); } finally { VERIFIED_STANDARD_ROUTES.delete(route); }
+}
 
 test('managed transport applies real protocol timeout and full login idle lifetime', async () => {
   let launchOptions, connectOptions, accepted = false;
@@ -59,6 +65,46 @@ test('timed-out attachment never continues renderer commands after returning fai
   assert.equal(commands, 0); assert.equal(detached, 1);
 });
 
+test('handoff retries one transient preflight on the same page and requires positive DOM proof', async () => {
+  // Test retry policy independently of runner contention; the tests above
+  // exercise genuinely hung commands and the bounded preflight deadline.
+  for (const firstFailure of ['timeout', 'navigation']) {
+    let sessions = 0, detaches = 0;
+    const calls = [];
+    const page = { async createCDPSession() {
+      const attempt = ++sessions;
+      return { async send(method) {
+        calls.push({ attempt, method });
+        if (attempt === 1) {
+          if (firstFailure === 'timeout') throw Object.assign(Error('Protocol command timed out'), { name: 'TimeoutError' });
+          throw Error('Execution context was destroyed');
+        }
+        return method === 'Runtime.evaluate' ? { result: { value: true } } : {};
+      }, async detach() { detaches++; } };
+    } };
+    await rendererHandoffPreflight(page, 5000, 0);
+    assert.equal(sessions, 2); assert.equal(detaches, 2);
+    assert.deepEqual(calls, [{ attempt: 1, method: 'Page.enable' }, { attempt: 2, method: 'Page.enable' }, { attempt: 2, method: 'Runtime.evaluate' }]);
+  }
+});
+
+test('handoff never loops, retries permanent failures, or accepts an empty second renderer', async () => {
+  for (const kind of ['always_timeout', 'empty_second', 'empty_first', 'protocol']) {
+    let sessions = 0;
+    const page = { async createCDPSession() {
+      const attempt = ++sessions;
+      return { async send(method) {
+        if (kind === 'always_timeout') throw Object.assign(Error('Protocol command timed out'), { name: 'TimeoutError' });
+        if (kind === 'protocol') throw Error('Unsupported protocol command');
+        if (kind === 'empty_second' && attempt === 1) throw Error('Execution context was destroyed');
+        return method === 'Runtime.evaluate' ? { result: { value: false } } : {};
+      }, async detach() {} };
+    } };
+    await assert.rejects(rendererHandoffPreflight(page, 5000, 0), error => error.stage === 'renderer_preflight');
+    assert.equal(sessions, ['always_timeout', 'empty_second'].includes(kind) ? 2 : 1);
+  }
+});
+
 test('failed CDP connection closes the acquired browser and exposes only fixed stage', async () => {
   let closed;
   const env = { BROWSER: { async launch() { return { sessionId: 'synthetic', webSocket: { async fetch() { return { webSocket: {
@@ -90,13 +136,14 @@ test('course loading bounds an unresponsive inspection and classifies navigation
 
 function controllerFixture(envOptions = {}, controllerOptions = {}) {
   let current = 'about:blank', guard, csrfCalls = 0, bookCalls = 0;
-  const operations = [], navigations = [], lifecycle = [], diagnosticEvents = new Map(), pageEvents = new Map();
+  const operations = [], navigations = [], lifecycle = [], cdpCalls = [], diagnosticEvents = new Map(), pageEvents = new Map();
   const responses = { book: { stage: 'stopped', reason: 'existing_registration', message: 'private native message' }, status: { stage: 'error', reason: 'request_check_failed' } };
   const mainFrame = {};
   const page = { url: () => current, on: (name, fn) => pageEvents.set(name, fn), mainFrame: () => mainFrame,
     async setViewport(value) { assert.equal(current, 'about:blank'); lifecycle.push({ viewport: value }); },
     async goto(route) { lifecycle.push({ navigation: route }); current = route; navigations.push(route); pageEvents.get('framenavigated')?.(mainFrame); }, setDefaultTimeout() {}, setDefaultNavigationTimeout() {}, isClosed: () => false,
     async createCDPSession() { return { on: (name, handler) => diagnosticEvents.set(name, handler), async send(method) {
+      cdpCalls.push(method);
       if (method === 'Page.enable' && responses.preflightFailure) throw responses.preflightFailure;
       return method === 'Target.getTargetInfo' ? { targetInfo: { targetId: 'synthetic' } } : { result: { value: true } };
     }, async detach() {} }; },
@@ -106,6 +153,7 @@ function controllerFixture(envOptions = {}, controllerOptions = {}) {
       if (input.operation === 'authenticated') return true;
       if (input.operation === 'csrf') { csrfCalls++; return true; }
       if (input.operation === 'inspect') return { loaded: true, ready: true };
+      if (input.operation === 'compareNative') return { loaded: true, ready: true, equivalent: true, nativeBookingPath: 'standard' };
       if (input.operation === 'book') { bookCalls++; return responses.book; }
       if (input.operation === 'status') return responses.status;
       if (input.operation === 'confirm' || input.operation === 'cancel') return responses.review ? responses.review(input) : { stage: input.operation === 'confirm' ? 'submitting' : 'stopped' };
@@ -117,7 +165,7 @@ function controllerFixture(envOptions = {}, controllerOptions = {}) {
     openBrowser: async () => ({ browser, id: 'synthetic' }), installGuard: async (_, options) => { guard = options; return {}; },
     ...controllerOptions,
   });
-  return { controller, responses, operations, navigations, lifecycle, diagnosticEvents, navigate: url => page.goto(url), job: () => guard.getJob(), csrfCalls: () => csrfCalls, bookCalls: () => bookCalls, blocked: value => guard.onBlocked(value) };
+  return { controller, responses, operations, navigations, lifecycle, cdpCalls, diagnosticEvents, navigate: url => page.goto(url), job: () => guard.getJob(), csrfCalls: () => csrfCalls, bookCalls: () => bookCalls, blocked: value => guard.onBlocked(value) };
 }
 
 test('viewer viewport applies before initial navigation and never on another handoff', async () => {
@@ -125,8 +173,10 @@ test('viewer viewport applies before initial navigation and never on another han
     { viewport: { width: 509, height: 1000 } });
   const controller = await f.controller;
   assert.deepEqual(f.lifecycle, [{ viewport: { width: 509, height: 1000, deviceScaleFactor: 1 } }, { navigation: 'https://tss.ucsd.edu/fiori' }]);
+  assert.equal(f.cdpCalls.includes('Page.enable'), false); // No redundant creation probe.
   await controller.loginUrl(); await controller.loginUrl();
   assert.equal(f.lifecycle.length, 2);
+  assert.equal(f.cdpCalls.filter(method => method === 'Page.enable').length, 2); // One positive proof per handoff.
   const fallback = controllerFixture(); await fallback.controller;
   assert.equal(fallback.lifecycle.some(item => item.viewport), false);
 });
@@ -162,7 +212,7 @@ test('blocked TSS action remains correlated through terminal status without raw 
   assert.deepEqual(await controller.book(DEFAULT_ROUTE, 'PHIL-010', 'next'), { stage: 'stopped' });
 });
 
-test('direct mode never loads a course page and keeps one guard job through explicit confirmation', async () => {
+test('direct mode never loads a course page and keeps one guard job through explicit confirmation', async () => withVerifiedRoute(DEFAULT_ROUTE, async () => {
   const f = controllerFixture({ DIRECT_BOOKING_ENABLED: 'true' }), controller = await f.controller;
   f.responses.book = { stage: 'checking' };
   await controller.authenticated({ fresh: true });
@@ -171,6 +221,7 @@ test('direct mode never loads a course page and keeps one guard job through expl
   assert.deepEqual(f.navigations, ['https://tss.ucsd.edu/fiori']);
   assert.ok(f.operations.every(value => ['directTssOperation', 'authenticationProbe'].includes(value.name)));
   assert.equal(f.operations.find(value => value.input.operation === 'book').input.allowWrites, true);
+  assert.equal(f.operations.find(value => value.input.operation === 'book').input.standardNativeVerified, true);
   f.responses.status = { stage: 'review', reviewMessage: 'Official plain warning', confirmationId: crypto.randomUUID() };
   const review = await controller.bookingStatus('owned-job'); assert.equal(review.reviewMessage, 'Official plain warning');
   assert.equal((await controller.reviewBooking('confirm', 'another-job', review.confirmationId)).reason, 'attempt_unavailable');
@@ -178,6 +229,37 @@ test('direct mode never loads a course page and keeps one guard job through expl
   assert.equal(f.job(), job);
   assert.equal((await controller.reviewBooking('cancel', 'owned-job', review.confirmationId)).stage, 'stopped');
   assert.equal(f.job(), null);
+}));
+
+test('direct catalog routes remain disabled until server-owned exact-route proof is added', async () => {
+  assert.equal(VERIFIED_STANDARD_ROUTES.size, 0);
+  const f = controllerFixture({ DIRECT_BOOKING_ENABLED: 'true' }), controller = await f.controller;
+  await controller.authenticated({ fresh: true });
+  for (const [route, { courseCode }] of BOOKING_ROUTES) {
+    assert.deepEqual(await controller.book(route, courseCode, 'unverified'), { stage: 'stopped', reason: 'unsupported_tss' });
+  }
+  assert.equal((await controller.book(DEFAULT_ROUTE.replace('166528', '999999'), 'PHIL-010', 'unknown')).reason, 'route_mismatch');
+  assert.equal((await controller.book(DEFAULT_ROUTE, 'ECON-100A', 'wrong-code')).reason, 'route_mismatch');
+  assert.equal(f.bookCalls(), 0); assert.equal(f.job(), null);
+  assert.deepEqual(f.navigations, ['https://tss.ucsd.edu/fiori']);
+  assert.ok(f.operations.every(value => value.name === 'authenticationProbe'));
+  const proof = await controller.inspectDirect(DEFAULT_ROUTE, 'PHIL-010', true);
+  assert.equal(proof.equivalent, true); assert.equal(VERIFIED_STANDARD_ROUTES.size, 0);
+  const navigations = f.navigations.length;
+  await controller.authenticated({ fresh: true });
+  assert.equal((await controller.book(DEFAULT_ROUTE, 'PHIL-010', 'after-comparison')).reason, 'unsupported_tss');
+  assert.equal(f.navigations.length, navigations); assert.equal(f.bookCalls(), 0);
+});
+
+test('proof for one package cannot enable another package of the same course', async () => {
+  const econ = [...BOOKING_ROUTES].filter(([, item]) => item.courseCode === 'ECON-100A');
+  await withVerifiedRoute(econ[0][0], async () => {
+    const f = controllerFixture({ DIRECT_BOOKING_ENABLED: 'true' }), controller = await f.controller;
+    await controller.authenticated({ fresh: true });
+    assert.equal((await controller.book(econ[1][0], 'ECON-100A', 'other-package')).reason, 'unsupported_tss');
+    assert.equal(f.bookCalls(), 0); assert.equal(f.job(), null);
+    assert.deepEqual(f.navigations, ['https://tss.ucsd.edu/fiori']);
+  });
 });
 
 test('direct writes require explicit true flag and remain blocked in probe mode', async () => {
@@ -188,7 +270,7 @@ test('direct writes require explicit true flag and remain blocked in probe mode'
   assert.equal((await controller.reviewBooking('confirm', 'probe', crypto.randomUUID())).reason, 'attempt_unavailable');
 });
 
-test('delayed confirmation survives terminal status and cannot clear a replacement job', async () => {
+test('delayed confirmation survives terminal status and cannot clear a replacement job', async () => withVerifiedRoute(DEFAULT_ROUTE, async () => {
   const f = controllerFixture({ DIRECT_BOOKING_ENABLED: 'true' }), controller = await f.controller;
   f.responses.book = { stage: 'checking' };
   await controller.authenticated({ fresh: true }); await controller.book(DEFAULT_ROUTE, 'PHIL-010', 'first');
@@ -203,7 +285,7 @@ test('delayed confirmation survives terminal status and cannot clear a replaceme
   release({ stage: 'submitted' });
   assert.deepEqual(await confirming, { stage: 'submitted' });
   assert.equal(f.job(), replacement); assert.equal(f.job().requestId, 'second');
-});
+}));
 
 test('auth diagnostics retain only CSP directive and fixed network failure counts', async () => {
   const f = controllerFixture(), controller = await f.controller;
@@ -216,11 +298,13 @@ test('auth diagnostics retain only CSP directive and fixed network failure count
   assert.equal(JSON.stringify(diagnostics).includes('private'), false);
 });
 
-test('startup and login handoff preserve classified preflight failure without raw cause', async () => {
-  const startup = controllerFixture();
-  startup.responses.preflightFailure = Error('Execution context was destroyed; private startup detail');
-  await assert.rejects(startup.controller, error => error.stage === 'renderer_preflight'
+test('login handoff preserves classified preflight failure without raw cause', async () => {
+  const transient = controllerFixture();
+  const transientController = await transient.controller;
+  transient.responses.preflightFailure = Error('Execution context was destroyed; private startup detail');
+  await assert.rejects(transientController.loginUrl(), error => error.stage === 'renderer_preflight'
     && error.failureDiagnostic.code === 'navigation_context' && error.failureDiagnostic.phase === 'page_enable' && !JSON.stringify(error).includes('private'));
+  assert.equal(transient.cdpCalls.filter(method => method === 'Page.enable').length, 2);
   const handoff = controllerFixture(), controller = await handoff.controller;
   handoff.responses.preflightFailure = Error('Protocol command failed; private handoff detail');
   await assert.rejects(controller.loginUrl(), error => error.stage === 'renderer_preflight'

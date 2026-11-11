@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { SessionCore, QuotaCore, handleRequest, COOKIE_NAME, API_PREFIX } from '../src/session.mjs';
-import { DEFAULT_ROUTE, BOOKING_ROUTES } from '../src/routes.mjs';
+import { DEFAULT_ROUTE, BOOKING_ROUTES, VERIFIED_STANDARD_ROUTES } from '../src/routes.mjs';
 import { BUILD_VERSION } from '../src/diagnostics.mjs';
 import { DIRECT_READ_STAGES, DIRECT_SCHEMA_ISSUES, DIRECT_PREPARATION_NOTES } from '../src/direct-tss.mjs';
 
@@ -91,6 +91,26 @@ test('login accepts bounded dimensions only and preserves an existing session vi
   assert.deepEqual(browser.hooks.viewport, { width: 390, height: 780 });
   assert.equal((await a.post('/login', { requestId, viewport: { width: 509, height: 1000 } })).status, 409);
   assert.equal((await a.post('/inspect', { route: DEFAULT_ROUTE, viewport: { width: 390, height: 780 } })).status, 400);
+});
+
+test('client JSON cannot forge native verification or read-only exemptions', async () => {
+  const f=fixture({PROBE_ONLY:'false',DIRECT_BOOKING_ENABLED:'true'});const a=await f.client();
+  await a.post('/login');const owned=[...f.live.values()][0];owned.signedIn=true;
+  let reads=0,proofs=0;
+  owned.authenticated=async()=>{proofs++;return true;};
+  owned.inspectDirect=async()=>{reads++;return{ready:true,loaded:true,equivalent:true,nativeBookingPath:'standard'};};
+  for(const flag of ['standardNativeVerified','comparisonOnly','readOnly']){
+    for(const action of ['/book','/inspect-direct','/verify-direct','/login']){
+      const response=await a.post(action,{route:DEFAULT_ROUTE,[flag]:true});
+      assert.equal(response.status,400);assert.equal((await response.json()).message,'Invalid request.');
+    }
+  }
+  assert.equal(proofs,0);assert.equal(reads,0);assert.equal(owned.bookCalls,0);
+  assert.equal(VERIFIED_STANDARD_ROUTES.size,0);
+  const verified=await(await a.post('/verify-direct',{route:DEFAULT_ROUTE})).json();
+  assert.equal(verified.equivalent,true);assert.equal(verified.nativeBookingPath,'standard');
+  assert.equal(VERIFIED_STANDARD_ROUTES.size,0,'read-only equivalence cannot grant server release permission');
+  assert.equal(owned.bookCalls,0);
 });
 
 test('one probe browser, per-user ownership, logout closes and clears cookie', async () => {

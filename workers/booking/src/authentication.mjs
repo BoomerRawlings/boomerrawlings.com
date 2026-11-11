@@ -1,5 +1,5 @@
-export const AUTHENTICATION_PAGES = Object.freeze(['login_choice', 'credentials_ad', 'credentials_student', 'duo', 'ucsd_error', 'tss_loading', 'tss', 'other']);
-export const AUTHENTICATION_ISSUES = Object.freeze(['ucsd_login_exception', 'service_unavailable', 'network_error', 'request_timeout', 'missing_csrf', 'unexpected_response', 'authentication_required']);
+export const AUTHENTICATION_PAGES = Object.freeze(['login_choice', 'credentials_ad', 'credentials_student', 'duo', 'ucsd_error', 'tss_proxy_error', 'tss_loading', 'tss', 'other']);
+export const AUTHENTICATION_ISSUES = Object.freeze(['ucsd_login_exception', 'sso_handoff_failed', 'service_unavailable', 'network_error', 'request_timeout', 'missing_csrf', 'unexpected_response', 'authentication_required']);
 
 // Serialized into the owned browser. Return fixed classifications only; never
 // credentials, cookies, tokens, account identifiers, URLs or page contents.
@@ -14,7 +14,13 @@ export async function authenticationProbe({ requireShell = true } = {}) {
     return answer('unauthenticated', /Signing on using:\s*Student SSO/i.test(text) ? 'credentials_student'
       : /Signing on using:\s*Active Directory/i.test(text) ? 'credentials_ad' : 'other');
   }
-  if (origin === 'https://tssproxy.ucsd.edu') return answer('unauthenticated', 'login_choice');
+  if (origin === 'https://tssproxy.ucsd.edu') {
+    const text = document.body?.innerText?.slice(0, 12000) || '';
+    if (/Post[\s-]+registration\s+notice|Thank\s+you\s+for\s+registering/i.test(text)) {
+      return answer('unauthenticated', 'tss_proxy_error', 'sso_handoff_failed');
+    }
+    return answer('unauthenticated', 'login_choice');
+  }
   if (window.location.protocol === 'https:' && (window.location.hostname === 'duosecurity.com' || window.location.hostname.endsWith('.duosecurity.com'))) {
     return answer('unauthenticated', 'duo');
   }

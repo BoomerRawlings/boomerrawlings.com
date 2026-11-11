@@ -1,7 +1,7 @@
 import { BOOKING_ROUTES } from './routes.mjs';
 import { DIRECT_READ_STAGES, DIRECT_SCHEMA_ISSUES, DIRECT_SETTING_FLAGS, DIRECT_SETTING_SHAPES, DIRECT_PREPARATION_NOTES } from './direct-tss.mjs';
 import { AUTHENTICATION_PAGES, AUTHENTICATION_ISSUES } from './authentication.mjs';
-import { AUTH_TRACE_KINDS, AUTH_TRACE_DESTINATIONS, AUTH_TRACE_RESOURCES, AUTH_TRACE_UPSTREAM_REASONS, AUTH_TRACE_PHASES, AUTH_TRACE_GUARD_ISSUES } from './auth-trace.mjs';
+import { AUTH_TRACE_KINDS, AUTH_TRACE_DESTINATIONS, AUTH_TRACE_RESOURCES, AUTH_TRACE_UPSTREAM_REASONS, AUTH_TRACE_PHASES, AUTH_TRACE_GUARD_ISSUES, AUTH_TRACE_METHODS, AUTH_TRACE_ROUTES } from './auth-trace.mjs';
 import { RESOLVE_COURSE_REASONS } from './resolve-courses.mjs';
 
 export function probePage() {
@@ -22,8 +22,8 @@ const preparationNotes=new Set(${JSON.stringify(DIRECT_PREPARATION_NOTES)});
 const catalogReasons=new Set(${JSON.stringify(RESOLVE_COURSE_REASONS)});
 function catalogLines(catalog){const lines=[];for(const item of (Array.isArray(catalog?.courses)?catalog.courses:[]).slice(0,2))if(['ECON-120A','MGT-162'].includes(item.courseCode)&&/^[1-9][0-9]{0,7}$/.test(item.moduleId||'')&&Array.isArray(item.packageIds)&&item.packageIds.length<=8&&item.packageIds.every(id=>/^[1-9][0-9]{0,7}$/.test(id)))lines.push(item.courseCode+': module '+item.moduleId+'; packages '+item.packageIds.join(', '));for(const item of (Array.isArray(catalog?.failures)?catalog.failures:[]).slice(0,2))if(['ECON-120A','MGT-162'].includes(item.courseCode)&&catalogReasons.has(item.reason))lines.push(item.courseCode+': '+item.reason);return lines.length?lines:['Missing course IDs not resolved.'];}
 const authenticationPages=new Set(${JSON.stringify(AUTHENTICATION_PAGES)}),authenticationIssues=new Set(${JSON.stringify(AUTHENTICATION_ISSUES)});
-const traceAllowed=${JSON.stringify({kind:AUTH_TRACE_KINDS,destination:AUTH_TRACE_DESTINATIONS,resourceType:AUTH_TRACE_RESOURCES,reason:AUTH_TRACE_UPSTREAM_REASONS,phase:AUTH_TRACE_PHASES,issue:AUTH_TRACE_GUARD_ISSUES,page:AUTHENTICATION_PAGES})};
-function traceLines(events){const lines=[];for(const item of (Array.isArray(events)?events:[]).slice(-40)){if(!traceAllowed.kind.includes(item?.kind)||!Number.isInteger(item.atMs)||item.atMs<0||item.atMs>900000||!Number.isInteger(item.count)||item.count<1||item.count>1000)continue;const fields=[];for(const key of ['kind','destination','resourceType','page','reason','phase','issue'])if(traceAllowed[key].includes(item[key]))fields.push(item[key]);if(item.kind==='document_response'&&Number.isInteger(item.status)&&item.status>=100&&item.status<=599)fields.push('HTTP '+item.status);lines.push('+'+(item.atMs/1000).toFixed(1)+'s '+fields.join(' ')+' ×'+item.count);}return lines;}
+const traceAllowed=${JSON.stringify({kind:AUTH_TRACE_KINDS,destination:AUTH_TRACE_DESTINATIONS,resourceType:AUTH_TRACE_RESOURCES,reason:AUTH_TRACE_UPSTREAM_REASONS,phase:AUTH_TRACE_PHASES,issue:AUTH_TRACE_GUARD_ISSUES,page:AUTHENTICATION_PAGES,method:AUTH_TRACE_METHODS,route:AUTH_TRACE_ROUTES})};
+function traceLines(events){const lines=[];for(const item of (Array.isArray(events)?events:[]).slice(-40)){if(!traceAllowed.kind.includes(item?.kind)||!Number.isInteger(item.atMs)||item.atMs<0||item.atMs>900000||!Number.isInteger(item.count)||item.count<1||item.count>1000)continue;const fields=[];for(const key of ['kind','destination','resourceType','method','route','page','reason','phase','issue'])if(traceAllowed[key].includes(item[key]))fields.push(item[key]);if(item.kind==='document_response'&&Number.isInteger(item.status)&&item.status>=100&&item.status<=599)fields.push('HTTP '+item.status);lines.push('+'+(item.atMs/1000).toFixed(1)+'s '+fields.join(' ')+' ×'+item.count);}return lines;}
 const names={signed_out:'Signed out',signing_in:'Complete UCSD / Duo sign-in in the other tab',ready:'TSS session is ready',expired:'Session expired — sign in again',busy:'Checking TSS…',error:'Session unavailable'};
 function authenticationMessage(auth){
   const snapshot=auth?.authentication,page=authenticationPages.has(snapshot?.page)?snapshot.page:'',issue=page&&authenticationIssues.has(snapshot?.issue)?snapshot.issue:'';
@@ -32,6 +32,7 @@ function authenticationMessage(auth){
   if(['network_error','request_timeout','missing_csrf','unexpected_response'].includes(issue)||auth?.code==='authentication_unavailable')return 'TSS could not confirm sign-in. Your sign-in stays open; checking again.';
   if(page==='tss_loading')return 'TSS is loading. Your sign-in stays open; checking again.';
   if(page==='duo')return 'Complete Duo in the sign-in tab.';
+  if(page==='tss_proxy_error')return 'TSS could not finish sign-in. Check the sign-in tab.';
   if(page==='login_choice')return 'Choose your UCSD sign-in option in the other tab.';
   return names.signing_in;
 }

@@ -27,8 +27,17 @@ test('isolated Chromium preserves SSO cookies, redirects, cross-site forms and r
     const directory = await mkdtemp(path.join(root, 'bbb-sso-guard-'));
     const cert = path.join(directory, 'cert.pem'), key = path.join(directory, 'key.pem');
     let fixture, tunnel, child, browser, active;
-    const sockets = new Set(), proxyDenials = [];
-    const track = socket => { sockets.add(socket); socket.on('close', () => sockets.delete(socket)); return socket; };
+    const sockets = new Set(), proxyDenials = [], socketErrors = [];
+    const track = socket => {
+      sockets.add(socket); socket.on('close', () => sockets.delete(socket));
+      // Chromium may reset idle/preconnected tunnels when closing a context.
+      // Handle those transport events without masking failed SSO assertions.
+      socket.on('error', error => {
+        if (!['ECONNRESET', 'EPIPE'].includes(error.code)) socketErrors.push(error.code || error.name);
+        socket.destroy();
+      });
+      return socket;
+    };
     try {
       execFileSync(process.env.BBB_TEST_OPENSSL, ['req', '-x509', '-newkey', 'rsa:2048', '-nodes', '-keyout', key,
         '-out', cert, '-days', '1', '-subj', '/CN=tss.ucsd.edu'], { stdio: 'ignore', windowsHide: true });
@@ -150,6 +159,7 @@ test('isolated Chromium preserves SSO cookies, redirects, cross-site forms and r
         assert.deepEqual(guarded.requests, baseline.requests, `${realm}: guard changed cookie/referrer/origin/form behavior`);
       }
       assert.ok(results.every(value => value.requests.some(request => request.host === 'idp' && request.execution === 'e1s2' && request.origin === 'duo')));
+      assert.deepEqual(socketErrors, []);
       t.diagnostic('Guarded and baseline request metadata identical; local proxy rejected all non-fixture destinations.');
     } finally {
       await browser?.close().catch(() => {}); child?.kill();

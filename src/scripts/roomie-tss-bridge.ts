@@ -104,10 +104,11 @@ function authenticationMessage(value: unknown): string {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return '';
   const auth = value as { code?: unknown; authentication?: { page?: unknown; issue?: unknown } };
   const snapshot = auth.authentication;
-  const pages = ['login_choice', 'credentials_ad', 'credentials_student', 'duo', 'ucsd_error', 'tss_loading', 'tss', 'other'];
+  const pages = ['login_choice', 'credentials_ad', 'credentials_student', 'duo', 'ucsd_error', 'tss_proxy_error', 'tss_loading', 'tss', 'other'];
   const page = typeof snapshot?.page === 'string' && pages.includes(snapshot.page) ? snapshot.page : '';
   const issue = page ? snapshot?.issue : undefined;
   if (page === 'ucsd_error' || issue === 'ucsd_login_exception') return 'UCSD sign-in returned an error. Check the sign-in tab.';
+  if (page === 'tss_proxy_error') return 'TSS could not finish sign-in. Check the sign-in tab.';
   if (issue === 'service_unavailable') return 'TSS is temporarily unavailable. Your sign-in stays open; checking again.';
   if ((typeof issue === 'string' && ['network_error', 'request_timeout', 'missing_csrf', 'unexpected_response'].includes(issue))
     || auth.code === 'authentication_unavailable') return authenticationUnavailable;

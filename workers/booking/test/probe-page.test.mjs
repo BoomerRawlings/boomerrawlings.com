@@ -202,14 +202,14 @@ test('trace display retains only fixed diagnostic classes and bounded timestamps
   const script=/<script nonce="([a-f0-9]+)">([\s\S]*?)<\/script>/.exec(await probePage().text())[2];
   const document={hidden:true,addEventListener(){},getElementById(){return{}}};
   const context=vm.createContext({document,setInterval(){},events:[
-    {kind:'document_response',destination:'ucsd_idp',resourceType:'Document',status:500,atMs:12000,count:1,body:'private-token'},
+    {kind:'document_response',destination:'ucsd_idp',resourceType:'Document',method:'POST',route:'ucsd_saml_redirect',status:500,atMs:12000,count:1,body:'private-token'},
     {kind:'guard_failure',destination:'tss',resourceType:'Document',phase:'response_fulfill',issue:'timeout',atMs:12100,count:1,url:'private-token'},
     {kind:'auth_page',page:'ucsd_error',atMs:12200,count:1},
     {kind:'private-token',atMs:12300,count:1},
   ]});
   vm.runInContext(script,context);
   const lines=Array.from(vm.runInContext('traceLines(events)',context));
-  assert.equal(lines.length,3);assert.match(lines[0],/ucsd_idp Document HTTP 500/);
+  assert.equal(lines.length,3);assert.match(lines[0],/ucsd_idp Document POST ucsd_saml_redirect HTTP 500/);
   assert.match(lines[1],/response_fulfill timeout/);assert.doesNotMatch(lines.join(''),/private-token/);
 });
 
@@ -226,6 +226,7 @@ test('authentication errors replace pending Duo copy without retrying login', as
   };
   assert.match(show({ page: 'duo' }), /Complete Duo/);
   assert.equal(show({ page: 'ucsd_error', issue: 'ucsd_login_exception', message: 'private-login-data' }), 'UCSD sign-in returned an error. Check the sign-in tab.');
+  assert.equal(show({ page: 'tss_proxy_error', issue: 'sso_handoff_failed', message: 'private-login-data' }), 'TSS could not finish sign-in. Check the sign-in tab.');
   assert.match(show({ page: 'tss', issue: 'service_unavailable' }), /temporarily unavailable.*sign-in stays open; checking again/);
   assert.match(show({ page: 'tss', issue: 'missing_csrf' }, { code: 'authentication_unavailable' }), /could not confirm sign-in/);
   assert.equal(elements.get('inspect').disabled, true);

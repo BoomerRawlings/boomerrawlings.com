@@ -1,7 +1,7 @@
 import puppeteer from '@cloudflare/puppeteer';
 import { installNetworkGuard } from './network-guard.mjs';
 import { detectAuthenticated, inspectTss, beginBook, getBookingStatus, detectSessionCsrf } from './tss-adapter.mjs';
-import { BOOKING_ROUTES } from './routes.mjs';
+import { BOOKING_ROUTES, VERIFIED_STANDARD_ROUTES } from './routes.mjs';
 import { bounded } from './timeout.mjs';
 import { bookingReason, bookingResult, terminalBooking } from './booking-result.mjs';
 import { directTssOperation } from './direct-tss.mjs';
@@ -92,6 +92,21 @@ export async function rendererPreflight(page, timeoutMs = 8000) {
   finally { abandoned = true; cleanup(); }
 }
 
+export async function rendererHandoffPreflight(page, timeoutMs = 16000, retryDelayMs = 250) {
+  const deadline = Date.now() + timeoutMs;
+  try { await rendererPreflight(page, Math.min(8000, Math.floor(timeoutMs / 2))); }
+  catch (failure) {
+    // Redirects/renderer startup can outlive one CDP probe. Retry this guarded
+    // page once, without navigation or another browser/session reservation.
+    if (!['renderer_timeout', 'navigation_context'].includes(failure?.failureDiagnostic?.code)
+      || deadline - Date.now() <= retryDelayMs) throw failure;
+    await new Promise(resolve => setTimeout(resolve, retryDelayMs));
+    const remaining = deadline - Date.now();
+    if (remaining <= 0) throw failure;
+    await rendererPreflight(page, remaining);
+  }
+}
+
 export async function createBrowserController(env, { onDisconnect = () => {}, openBrowser = openManagedBrowser, installGuard = installNetworkGuard, viewport } = {}) {
   const initialViewport = viewport === undefined ? undefined : loginViewport(viewport);
   if (initialViewport === null) throw Object.assign(new Error('Invalid login viewport'), { stage: 'page' });
@@ -157,8 +172,8 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
     await cdp.send('Audits.enable').catch(() => {});
     stage = 'navigation';
     await page.goto('https://tss.ucsd.edu/fiori', { waitUntil: 'domcontentloaded' });
-    stage = 'renderer_preflight';
-    await rendererPreflight(page);
+    // SessionCore holds the login mutation lock and calls loginUrl immediately.
+    // Perform readiness there, once per handoff, not twice during creation.
     let formProbe = null;
     let forms = [];
     const load = (route, courseCode) => loadCourse(page, route, courseCode);
@@ -196,7 +211,7 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
       resolveCourses() { return page.evaluate(resolveRoomieCourses); },
       async loginUrl() {
         try {
-          await rendererPreflight(page);
+          await rendererHandoffPreflight(page);
           const result = await env.BROWSER.getLiveView(id, { targetId: targetInfo.targetId, mode: 'tab', expiresInMs: 60_000 });
           const url = new URL(result.devtoolsFrontendUrl);
           if (url.origin !== 'https://live.browser.run') throw new Error('Unexpected login view origin');
@@ -222,15 +237,19 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
         // SessionCore has just required fresh authentication. Reuse that proof
         // rather than sending a second CSRF fetch before the same action.
         if (!authenticationValid || Date.now() - lastAuthentication >= 30_000) return { stage: 'stopped', reason: 'authentication_required' };
+        const metadata = BOOKING_ROUTES.get(route);
+        if (!metadata || metadata.courseCode !== courseCode) return { stage: 'stopped', reason: 'route_mismatch' };
+        const standardNativeVerified = directEnabled && VERIFIED_STANDARD_ROUTES.has(route);
+        // Catalog IDs are not proof of the native submission path. Unverified
+        // direct routes stop here, without a native-page fallback or guard job.
+        if (directEnabled && !standardNativeVerified) return { stage: 'stopped', reason: 'unsupported_tss' };
         if (!directEnabled) {
           const loaded = await load(route, courseCode);
           if (!loaded.ready) return bookingResult({ stage: 'stopped', reason: loaded.reason || 'booking_unavailable' });
         }
-        const metadata = BOOKING_ROUTES.get(route);
-        if (!metadata) throw new Error('Unknown route');
         const job = { ...metadata, phase: 'check', requestId, ...(directEnabled ? { mode: 'direct' } : {}) };
         activeJob = job;
-        const value = directEnabled ? await page.evaluate(directTssOperation, { operation: 'book', route, courseCode, requestId, allowWrites: true })
+        const value = directEnabled ? await page.evaluate(directTssOperation, { operation: 'book', route, courseCode, requestId, allowWrites: true, standardNativeVerified })
           : await beginBook(page, { route, courseCode, requestId });
         const result = bookingResult(value, job.requestBlocked);
         if (terminalBooking(result) && activeJob === job) activeJob = null;

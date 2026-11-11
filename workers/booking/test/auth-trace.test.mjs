@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createAuthTrace, sanitizeAuthTrace, authTraceDestination, authTraceGuardIssue } from '../src/auth-trace.mjs';
+import { createAuthTrace, sanitizeAuthTrace, authTraceDestination, authTraceGuardIssue, authTraceRoute } from '../src/auth-trace.mjs';
 
 test('auth destination categories reveal no hostname, URL, query, port or token', () => {
   for (const [url, expected] of [
@@ -10,6 +10,24 @@ test('auth destination categories reveal no hostname, URL, query, port or token'
     ['https://localhost:54321/private', 'loopback_device'], ['http://[::1]:12345/private', 'loopback_device'],
     ['https://private.example/private', 'other'], ['invalid private data', 'other'],
   ]) assert.equal(authTraceDestination(url), expected);
+});
+
+test('document trace separates exact SAML routes and methods without URL or form data', () => {
+  for (const [path, expected] of [
+    ['https://tssproxy.ucsd.edu/idp/profile/SAML2/POST/SSO', 'proxy_saml_request'],
+    ['https://tssproxy.ucsd.edu/idp/profile/Authn/SAML2/POST/SSO', 'proxy_saml_response'],
+    ['https://a5.ucsd.edu/tritON/profile/SAML2/Redirect/SSO', 'ucsd_saml_redirect'],
+    ['https://tss.ucsd.edu/fiori', 'tss_fiori'],
+    ['https://tss.ucsd.edu/sap/saml2/sp/acs/100', 'tss_saml_acs'],
+    ['https://tssproxy.ucsd.edu/idp/profile/private-token', 'other'],
+    ['https://tssproxy.ucsd.edu.attacker.invalid/idp/profile/SAML2/POST/SSO', 'other'],
+    ['https://tssproxy.ucsd.edu:1234/idp/profile/SAML2/POST/SSO', 'other'],
+  ]) assert.equal(authTraceRoute(path+'?private-token=secret#private-fragment'),expected);
+  const fields={kind:'document_response',destination:'tss_proxy',resourceType:'Document',status:400,method:'POST',route:'proxy_saml_request',atMs:100,count:1};
+  assert.deepEqual(sanitizeAuthTrace([{...fields,url:'private-url',body:'private-password'}]),[fields]);
+  const [invalid]=sanitizeAuthTrace([{...fields,method:'private-method',route:'private-route'}]);
+  assert.equal(invalid.method,undefined);assert.equal(invalid.route,undefined);
+  assert.doesNotMatch(JSON.stringify(invalid),/private/);
 });
 
 test('bounded trace preserves ordering, merges repeated noise and records only auth transitions', () => {

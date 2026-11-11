@@ -29,3 +29,8 @@ export const BOOKING_ROUTES = new Map(packages.map(([courseCode, moduleId, packa
 
 export const DEFAULT_ROUTE = BOOKING_ROUTES.keys().next().value;
 
+// Release gate, separate from catalog identity. Populate only after a live
+// exact-package comparison proves equivalent=true and nativeBookingPath=standard.
+// Discovery and browser comparison results never modify this server-owned set.
+export const VERIFIED_STANDARD_ROUTES = new Set([]);
+

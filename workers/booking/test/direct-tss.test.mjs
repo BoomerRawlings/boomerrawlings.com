@@ -601,6 +601,53 @@ test('data top-module flag permits read preparation and standard native comparis
   assert.equal(h.posts().length, 0);
 });
 
+test('trusted exact-route proof bypasses only the data top flag and requires literal true', async () => {
+  for (const standardNativeVerified of [undefined, false, 'true', 1, {}]) {
+    const h = harness(); h.data.settings.push({ Name: 'ENABLE_TOP_MODULE_BOOKING', Value: 'X' });
+    const requestId = crypto.randomUUID();
+    h.call({ operation: 'book', requestId, allowWrites: true, standardNativeVerified });
+    assert.equal((await h.settled(requestId)).reason, 'unsupported_tss'); assert.equal(h.posts().length, 0);
+  }
+  const trusted = harness(); trusted.data.settings.push({ Name: 'ENABLE_TOP_MODULE_BOOKING', Value: 'X' });
+  const requestId = crypto.randomUUID();
+  trusted.call({ operation: 'book', requestId, allowWrites: true, standardNativeVerified: true });
+  assert.equal((await trusted.settled(requestId)).stage, 'submitted');
+  assert.deepEqual(trusted.posts().map(call => call.payload.ActionName), ['CheckRegistration', 'SaveChanges']);
+});
+
+test('standard-route proof cannot waive fresh registration, eligibility, group or event guards', async () => {
+  for (const [change, reason] of [
+    [h => { h.data.events[0].Booked = true; }, 'existing_registration'],
+    [h => { h.data.header.BookingCheckLog = { results: [{ RulecheckResult: 'N' }] }; }, 'eligibility_unavailable'],
+    [h => { h.data.groups[0].Bookable = false; }, 'course_group_unavailable'],
+    [h => { h.data.events.push({ ...h.data.events[0], EventId: '00009999' }); }, 'ambiguous_package'],
+    [h => { h.data.package.BookingButtonEnabled = false; }, 'booking_unavailable'],
+    [h => { h.data.exams = [{ Booked: true }]; }, 'assessment_review'],
+    [h => { h.data.settings.push({ Name: 'ENABLE_AUTOBOOK', Value: 'X' }); }, 'unsupported_tss'],
+  ]) {
+    const h = harness(); h.data.settings.push({ Name: 'ENABLE_TOP_MODULE_BOOKING', Value: 'X' }); change(h);
+    const requestId = crypto.randomUUID();
+    h.call({ operation: 'book', requestId, allowWrites: true, standardNativeVerified: true, readOnly: true, comparisonOnly: true });
+    assert.equal((await h.settled(requestId)).reason, reason); assert.equal(h.posts().length, 0);
+  }
+});
+
+test('confirmation reuses original server proof and cannot upgrade an unverified job', async () => {
+  const h = harness(); h.data.settings.push({ Name: 'ENABLE_TOP_MODULE_BOOKING', Value: 'X' });
+  h.data.check = { MessageType: 'W', Message: 'Synthetic warning' };
+  const requestId = crypto.randomUUID();
+  h.call({ operation: 'book', requestId, allowWrites: true, standardNativeVerified: true });
+  const review = await h.settled(requestId); assert.equal(review.stage, 'review');
+  h.call({ operation: 'confirm', requestId, allowWrites: true, standardNativeVerified: false, confirmationId: review.confirmationId });
+  assert.equal((await h.settled(requestId)).stage, 'submitted'); assert.equal(h.posts().length, 2);
+  const unverified = harness(); unverified.data.check = { MessageType: 'W', Message: 'Synthetic warning' };
+  const pending = unverified.book(), warning = await unverified.settled(pending.requestId);
+  unverified.data.settings.push({ Name: 'ENABLE_TOP_MODULE_BOOKING', Value: 'X' });
+  unverified.call({ operation: 'confirm', requestId: pending.requestId, allowWrites: true, standardNativeVerified: true,
+    confirmationId: warning.confirmationId });
+  assert.equal((await unverified.settled(pending.requestId)).reason, 'unsupported_tss'); assert.equal(unverified.posts().length, 1);
+});
+
 test('actual model-instance top-module branch is reported and cannot claim equivalence or ready', async () => {
   const h = harness(); h.data.settings.push({ Name: 'ENABLE_TOP_MODULE_BOOKING', Value: 'X' });
   h.native({}, { instanceSettings: { ENABLE_TOP_MODULE_BOOKING: 'X', private: 'private-value' } });
