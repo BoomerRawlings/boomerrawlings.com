@@ -1,0 +1,70 @@
+.flow-comparison { padding-top: 70px; }
+.flow-comparison-board { margin: 0; padding: 30px; border: 1px solid #385167; background: linear-gradient(135deg, #15283d, #0d1a2c); overflow: hidden; }
+.comparison-lane-heading { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 22px; }
+.comparison-lane-heading h3 { font-size: 19px; font-weight: 600; letter-spacing: -.02em; }
+.comparison-lane-heading > span { color: #9fb5c7; font: 10px/1.5 ui-monospace, Consolas, monospace; }
+.comparison-hold-key { display: inline-flex; align-items: center; gap: 8px; }
+.comparison-hold-key i { width: 6px; height: 6px; border: 1px solid #e9b650; transform: rotate(45deg); }
+.comparison-lane { position: relative; }
+.comparison-nodes { position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; list-style: none; padding: 0; }
+.comparison-node { position: relative; min-width: 0; min-height: 115px; padding: 15px 12px; border: 1px solid #3f5368; border-radius: 3px; background: #122237; }
+.comparison-node-index { display: block; color: #6f879e; font: 10px/1 ui-monospace, Consolas, monospace; letter-spacing: .08em; margin-bottom: 10px; }
+.comparison-node strong, .comparison-node small { display: block; overflow-wrap: anywhere; }
+.comparison-node strong { color: #c3d0dd; font-size: 14px; font-weight: 600; line-height: 1.25; }
+.comparison-node small { margin-top: 5px; color: #8ca2b7; font-size: 11px; line-height: 1.35; }
+.comparison-endpoint { border-color: #668e96; background: #193145; }
+.comparison-endpoint strong, .comparison-signin strong { color: #b7efea; }
+.comparison-route { position: absolute; fill: none; stroke: #5e7489; stroke-width: 1.5; overflow: visible; pointer-events: none; }
+.comparison-route-horizontal { inset: 0; width: 100%; height: 100%; }
+.comparison-route-vertical { display: none; }
+.comparison-route path { vector-effect: non-scaling-stroke; }
+.comparison-hold { position: absolute; top: -7px; right: 12px; display: grid; place-items: center; width: 15px; height: 15px; border: 1px solid #b78d3d; border-radius: 3px; background: #2b2a24; transform: rotate(45deg); }
+.comparison-hold i { width: 3px; height: 3px; background: #f1c466; }
+.comparison-cut { display: flex; align-items: center; gap: 18px; padding: 26px 0; }
+.comparison-cut span { flex: 1; height: 1px; background: repeating-linear-gradient(90deg, #4e6377 0 4px, transparent 4px 9px); }
+.comparison-cut p { color: #92a8bc; font-size: 11px; line-height: 1.5; text-align: center; }
+.comparison-better-heading h3 { color: #ffdf61; }
+.comparison-better .comparison-node { min-height: 115px; border-color: #739c9e; background: #19353e; }
+.comparison-better .comparison-node-index { color: #91c7c5; }
+.comparison-signin { grid-column: 1; }
+.comparison-better .comparison-book { grid-column: 6; border-color: #c2a43d; background: #3b3521; box-shadow: inset 0 0 22px #ffcd0008; }
+.comparison-book strong, .comparison-book .comparison-node-index { color: #ffdf61; }
+.comparison-book strong > span { float: right; }
+.comparison-book small { color: #d5c89e; }
+.comparison-direct-line { stroke: #e7c553; stroke-width: 2; }
+.comparison-shortcut { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 44%; padding: 9px 12px; background: #112237; color: #e6d48d; text-align: center; font-size: 15px; line-height: 1.35; }
+.comparison-shortcut span { display: block; color: #94adbf; font-size: 11px; margin-top: 5px; }
+.flow-comparison-board figcaption { margin-top: 26px; padding-top: 20px; border-top: 1px solid #31485c; max-width: 960px; color: #9fb5c7; font-size: 12px; line-height: 1.6; }
+.flow-comparison-board figcaption strong { color: #c4d6df; font-weight: 600; }
+@supports (view-timeline-name: --comparison-progress) {
+  @media (prefers-reduced-motion: no-preference) {
+    .comparison-better { view-timeline-name: --comparison-progress; view-timeline-axis: block; }
+    .comparison-direct-line { stroke-dasharray: 1; animation: comparison-route-draw linear both; animation-timeline: --comparison-progress; animation-range: entry 5% cover 35%; }
+    .comparison-better .comparison-book { animation: comparison-book-arrive linear both; animation-timeline: --comparison-progress; animation-range: entry 5% cover 35%; }
+  }
+}
+@keyframes comparison-route-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes comparison-book-arrive { from { box-shadow: inset 0 0 22px #ffcd0008; } to { box-shadow: inset 0 0 22px #ffcd0014, 0 0 18px #ffcd0012; } }
+@media (max-width: 1020px) { .flow-comparison-board { padding: 25px 20px; } .comparison-nodes { gap: 8px; } .comparison-node { padding-inline: 9px; } .comparison-node strong { font-size: 13px; } .comparison-shortcut { font-size: 14px; } }
+@media (max-width: 700px) {
+  .flow-comparison { padding-top: 50px; }
+  .flow-comparison-board { padding: 25px 20px; }
+  .comparison-lane-heading { margin-bottom: 20px; }
+  .comparison-nodes { grid-template-columns: minmax(0, 1fr); gap: 13px; padding-left: 34px; }
+  .comparison-node, .comparison-better .comparison-node { min-height: 78px; padding: 13px 15px 13px 46px; }
+  .comparison-node::before { content: ''; position: absolute; left: -28px; top: 50%; width: 8px; height: 8px; transform: translateY(-50%); border: 1px solid #7592aa; border-radius: 50%; background: #132539; }
+  .comparison-node-index { position: absolute; left: 15px; top: 17px; margin: 0; }
+  .comparison-node strong { font-size: 15px; }
+  .comparison-node small { font-size: 12px; }
+  .comparison-route-horizontal { display: none; }
+  .comparison-route-vertical { display: block; left: 0; top: 39px; width: 24px; height: calc(100% - 78px); }
+  .comparison-cut { gap: 12px; padding: 28px 0; }
+  .comparison-cut p { max-width: 190px; }
+  .comparison-better .comparison-nodes { row-gap: 87px; }
+  .comparison-signin, .comparison-better .comparison-book { grid-column: 1; }
+  .comparison-better .comparison-node::before { border-color: #e7c553; background: #2b2b24; }
+  .comparison-shortcut { left: 34px; width: calc(100% - 34px); padding: 9px 4px; transform: translateY(-50%); text-align: left; }
+  .comparison-shortcut span { max-width: 240px; }
+  .flow-comparison-board figcaption { font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) { .comparison-direct-line, .comparison-better .comparison-book { animation: none !important; } }

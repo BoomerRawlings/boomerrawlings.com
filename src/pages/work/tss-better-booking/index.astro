@@ -1,0 +1,211 @@
+---
+import { getEntry } from 'astro:content';
+import '@fontsource/source-sans-3/latin-400.css';
+import '@fontsource/source-sans-3/latin-600.css';
+import '../../../styles/tss-project.css';
+import TssFlowComparison from '../../../components/TssFlowComparison.astro';
+
+const entry = await getEntry('archive', 'tss-better-booking');
+if (!entry) throw new Error('Missing booking project entry');
+const sourceUrl = 'https://github.com/BoomerRawlings/tss-better-booking';
+const workflow = [
+  {
+    id: 'discover', label: 'Discovery', verb: 'Trace the real button',
+    title: 'Start at the action.',
+    explanation: 'The visible Book button is the end of a larger flow. Saved application code revealed how the native interface loads context, checks registration, handles warnings, and submits the selected package.',
+    input: 'A saved native page and its application assets.',
+    output: 'A documented request sequence and the fields the native button actually consumes.',
+    test: 'Static inspection first. No enrollment request is needed to identify the handlers.',
+    artifactTitle: 'Native request sequence',
+    artifact: ['Load current context', 'Prepare the package payload', 'CheckRegistration', 'Review any warning', 'SaveChanges', 'Reload enrollment state'],
+    takeaway: 'A navigation link and an enrollment action are different interfaces.',
+  },
+  {
+    id: 'map', label: 'Mapping', verb: 'Resolve exact packages',
+    title: 'A course code is only the start.',
+    explanation: 'Course, package, academic year, and term together identify the intended option. A section list can include linked meetings or other terms, so catalog results need explicit grouping and identity checks.',
+    input: 'Authoritative catalog responses for a requested course and term.',
+    output: 'An explicit allowlist of course packages, with their associated meetings.',
+    test: 'Check package membership, duplicate sections, course identity, and term before exposing an option.',
+    artifactTitle: 'One selectable option',
+    artifact: ['Course identity', '+ Academic year and term', '+ Exact package', '+ Required linked meetings', '= One allowlisted option'],
+    takeaway: 'Adding a catalog entry does not automatically enable submission.',
+  },
+  {
+    id: 'authenticate', label: 'Isolated auth', verb: 'Keep sessions separate',
+    title: 'Authenticate with the real service.',
+    explanation: 'Each visitor gets an isolated managed browser. The user completes the university sign-in flow there. The application checks authenticated service access before dispatching a booking request.',
+    input: 'The visitor’s own interactive university sign-in.',
+    output: 'A short-lived, owned session with fresh authentication proof.',
+    test: 'Check expiry, logout, session ownership, and failed-auth behavior. Credentials and session cookies are not exported into the website.',
+    artifactTitle: 'Session boundary',
+    artifact: ['Website: course selection', 'Owned browser: university sign-in', 'TSS: authenticated requests', 'Expiry or logout: close session'],
+    takeaway: 'Selecting a profile or a course never establishes account identity.',
+  },
+  {
+    id: 'compare', label: 'Read-only proof', verb: 'Compare before enabling',
+    title: 'Make the two payloads agree.',
+    explanation: 'The adapter derives its payload from fresh service responses. A read-only comparison checks it against the native preparation function for the exact package and confirms which native submission path applies.',
+    input: 'The native prepared payload and the independently derived payload.',
+    output: 'A per-package equivalence result and a separately controlled release gate.',
+    test: 'Compare field names, values, selected events, and native path. Do not call either submission handler during comparison.',
+    artifactTitle: 'Release evidence',
+    artifact: ['Exact course and package', 'Fresh authenticated reads', 'Native path identified', 'Payload differences: checked', 'Server-owned route approval'],
+    takeaway: 'Payload equivalence proves preparation, not eligibility or completed enrollment.',
+  },
+  {
+    id: 'submit', label: 'Check + save', verb: 'Preserve the decision',
+    title: 'Ask TSS, then submit once.',
+    explanation: 'An explicit Book action performs fresh checks and sends CheckRegistration. A warning pauses the flow for a user decision. Confirmation revalidates the payload before one SaveChanges request.',
+    input: 'An explicit user action on a verified course package.',
+    output: 'A stopped request, a warning to review, or one submitted request.',
+    test: 'Reject changed context and duplicate dispatch. Never automatically confirm a warning or retry a Save with an unknown result.',
+    artifactTitle: 'Decision points',
+    artifact: ['Fresh context → registration check', 'Error → stop', 'Warning → explicit decision', 'Clear or confirmed → one Save', 'Unknown response → do not repeat'],
+    takeaway: 'The shorter interface still depends on TSS accepting the request.',
+  },
+  {
+    id: 'verify', label: 'Verification', verb: 'Report what is known',
+    title: 'Submitted is not the final answer.',
+    explanation: 'After an accepted Save, fresh reads inspect the exact submitted events. The result distinguishes booked, waitlisted, and submitted but unconfirmed. A failed verification read never triggers another submission.',
+    input: 'An accepted Save response and fresh matching enrollment records.',
+    output: 'An explicit outcome that remains visible when status polling recovers from an error.',
+    test: 'Check event identity, booking and waitlist flags, timeouts, stale responses, and late informational warnings.',
+    artifactTitle: 'Outcome vocabulary',
+    artifact: ['Booked: matching enrollment verified', 'Waitlisted: matching waitlist verified', 'Unconfirmed: submission accepted', 'Unknown: check the official record'],
+    takeaway: 'When evidence is incomplete, the interface says so.',
+  },
+  {
+    id: 'reuse', label: 'Reusable deploy', verb: 'Bring your own instance',
+    title: 'Reuse the method. Verify the adapter.',
+    explanation: 'The source separates the interface, session service, request guard, and TSS adapter. A new deployment needs its own configuration, verified course options, and read-only validation against the current service.',
+    input: 'The starter source, a deployment environment, and authorized service access.',
+    output: 'An independently configured instance with explicit operational limits.',
+    test: 'Run local fixtures, privacy checks, and read-only comparisons before enabling writes. Recheck when the upstream application changes.',
+    artifactTitle: 'Deployment checklist',
+    artifact: ['Configure your own origin and service', 'Keep sessions isolated', 'Set time and usage limits', 'Verify exact package mappings', 'Enable only proven adapter paths'],
+    takeaway: 'This is a source-specific prototype, not a universal booking connector.',
+  },
+];
+
+const benchmark = {
+  scope: 'Baseline measured November 11, 2026, before template extraction. Public HTTP: five sequential samples per target. Booking timings below use intercepted, in-memory responses; no live login or enrollment was performed.',
+  rows: [
+    { label: 'Public page', result: '62.50 ms median', note: 'Complete HTML response: 53.41–299.33 ms. Not browser rendering or enrollment time.' },
+    { label: 'Health endpoint', result: '59.92 ms median', note: '31.29–99.84 ms. Endpoint availability does not prove TSS session readiness.' },
+    { label: 'Standard simulated booking', result: '11 reads + 2 writes', note: 'Includes fresh authentication and two outcome reads. Up to four concurrent reads; one Save at most.' },
+    { label: 'Injected network delay', result: '780.05 ms simulated', note: 'Median of three runs at 100 ms per mocked fetch. Excludes login, hosting, CDP, and real TSS processing.' },
+    { label: 'Baseline backend checks', result: '230 / 230 passed', note: 'Zero skips, including isolated Chromium fixtures. This is correctness evidence, not a rush-load benchmark.' },
+  ],
+};
+const agentPrompt = `Read this repository's README and setup instructions. Explain its frontend, managed-session service, request guard, and source-specific adapter before making changes. Configure a separate instance for my environment. Keep booking disabled while validating routes, authentication isolation, and read-only payload equivalence. Do not collect credentials, copy an existing user's session, enroll, drop, or retry an uncertain submission. Report the tests, remaining limitations, and the exact steps that require my participation.`;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={entry.data.description} />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="theme-color" content="#0f1d30" />
+    <meta property="og:title" content="TSS Better Booking" />
+    <meta property="og:description" content={entry.data.description} />
+    <meta property="og:type" content="website" />
+    <title>TSS Better Booking · Project &amp; workflow</title>
+  </head>
+  <body class="tss-project">
+    <a class="project-skip" href="#main">Skip to content</a>
+    <header class="project-nav">
+      <a class="project-mark" href="#main" aria-label="TSS Better Booking, top"><span aria-hidden="true">↗</span> TSS Better Booking</a>
+      <nav aria-label="Project navigation">
+        <a href="#plain-english">The idea</a>
+        <a href="#workflow">The workflow</a>
+        <a href="#evidence">Evidence</a>
+        <a class="nav-source" href={sourceUrl}>Get source <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="project-hero" aria-labelledby="project-title">
+        <div class="hero-copy">
+          <p class="project-eyebrow"><span class="signal-dot" aria-hidden="true"></span> Course booking / independent prototype</p>
+          <h1 id="project-title">TSS<br /><span class="project-hologram">Better Booking.</span></h1>
+          <p class="project-deck">A clearer path from a course option to a confirmed outcome.</p>
+          <p class="hero-description">A small interface built around the native TSS booking flow, with isolated sign-in, explicit warning review, and verification after submission.</p>
+          <div class="project-actions"><a class="project-button" href="#workflow">Explore how it works <span aria-hidden="true">↓</span></a><a class="project-text-link" href="#setup">Set up with an agent <span aria-hidden="true">↗</span></a></div>
+          <p class="hero-caveat">Unofficial. TSS remains responsible for authentication, eligibility, capacity, and enrollment.</p>
+        </div>
+        <aside class="flow-preview" aria-label="Illustrative booking architecture">
+          <div class="preview-heading"><span>REQUEST PATH</span><span class="preview-label">Illustrative</span></div>
+          <div class="preview-node"><span>01</span><div><strong>Your selected package</strong><small>Course · term · linked meetings</small></div></div>
+          <div class="preview-connector" aria-hidden="true">↓</div>
+          <div class="preview-boundary"><span class="boundary-label">Authenticated TSS session</span><div class="preview-node"><span>02</span><div><strong>CheckRegistration</strong><small>Pause for any warning</small></div></div><div class="preview-connector" aria-hidden="true">↓</div><div class="preview-node"><span>03</span><div><strong>SaveChanges</strong><small>One explicit submission</small></div></div></div>
+          <div class="preview-connector" aria-hidden="true">↓</div>
+          <div class="preview-node preview-result"><span>04</span><div><strong>Read back the outcome</strong><small>Booked · waitlisted · unconfirmed</small></div></div>
+          <p>No live booking controls on this project page.</p>
+        </aside>
+      </section>
+
+      <section class="project-principles" aria-label="Design principles">
+        <article><span>LESS NAVIGATION</span><h2>A smaller interface.</h2><p>Select a verified option without walking through the catalog and booking-page screens each time.</p></article>
+        <article><span>EXPLICIT DECISIONS</span><h2>The warning stays.</h2><p>Registration warnings require a deliberate response. Unknown submission results are never automatically retried.</p></article>
+        <article><span>HONEST OUTCOMES</span><h2>Evidence after Save.</h2><p>An accepted request and a verified enrollment are distinct states, presented in plain language.</p></article>
+      </section>
+
+      <TssFlowComparison />
+
+      <section id="plain-english" class="plain-section" aria-labelledby="plain-title">
+        <div class="section-heading"><div><p class="project-eyebrow">The idea / plain English</p><h2 id="plain-title">Get to the part<br />that books the class.</h2></div></div>
+        <div class="plain-grid"><div class="plain-story">
+          <p>TSS has had recurring technical issues. UC San Diego has documented known limitations and service disruptions, including a TSS outage reported on November 10, 2026. When pages fail along the way, reaching the actual booking step becomes a problem of its own. <a href="https://status.ucsd.edu/">UCSD service updates ↗</a></p>
+          <p>With some digging, we found the steps behind the real Book button: a valid sign-in, the exact class and section details, a registration check, the request that saves the enrollment, and a check of the result.</p>
+          <p>This site starts by asking you to sign in to TSS. You complete UCSD and Duo in an isolated browser hosted for your session. Once TSS recognizes that session, clicking Book asks it to check and submit your chosen option directly, without walking through the catalog and booking-page screens again.</p>
+          <p>Profiles and classes are added manually. Each exact course option is inspected and compared with the native booking behavior before its button is enabled. The starter uses King Triton, Person 2, and Person 3; hosts supply their own approved display names and course choices.</p>
+          <p>The goal is fewer navigation steps and clearer results. TSS still has to accept the enrollment. If its booking service is unavailable, this site cannot make that service work.</p>
+        </div><aside class="term-cutouts" aria-label="Optional technical explanations">
+          <p class="artifact-heading">OPEN THE TECHNICAL DETAILS</p>
+          <details><summary>Where does the token go?</summary><p>TSS’s session cookies and anti-forgery token stay inside the isolated hosted browser. Its authenticated requests use them when talking to TSS. The page and Book button never receive that TSS token.</p></details>
+          <details><summary>What does Book actually do?</summary><p>The adapter reads current course context, calls <code>CheckRegistration</code>, pauses for any warning, then sends one <code>SaveChanges</code>. Further reads distinguish booked, waitlisted, and unconfirmed outcomes.</p></details>
+          <details><summary>Why add people and classes manually?</summary><p>A profile is a course list, not a UCSD account. Each visitor signs in independently. Every module/package/year/term combination needs read-only validation; adding a course name alone cannot enable a trusted booking action.</p></details>
+          <details><summary>What does “validated” mean?</summary><p>The agent compares the independently prepared request with the native TSS request for that exact option without submitting it. A match establishes compatibility, not availability, eligibility, or guaranteed enrollment.</p></details>
+        </aside></div>
+      </section>
+
+      <section id="workflow" class="workflow-section" aria-labelledby="workflow-title">
+        <div class="section-heading"><div><p class="project-eyebrow">Build log / seven connected decisions</p><h2 id="workflow-title">Follow the workflow.</h2></div><p>Each step pairs the reasoning with its input, output, and validation.</p></div>
+        <div class="workflow-display" data-workflow>
+          <nav class="workflow-tabs" aria-label="Development steps" data-workflow-tabs hidden>
+            {workflow.map((step, index) => <button type="button" id={`tab-${step.id}`} data-step={index}><span class="step-number">{String(index + 1).padStart(2, '0')}</span><span><strong>{step.label}</strong><small>{step.verb}</small></span><span class="step-arrow" aria-hidden="true">↗</span></button>)}
+          </nav>
+          <div class="workflow-panels">
+            {workflow.map((step, index) => <article id={`step-${step.id}`} class="workflow-panel" data-workflow-panel>
+              <div class="panel-topline"><span>STEP {String(index + 1).padStart(2, '0')} / {step.label}</span><span>METHOD → EVIDENCE</span></div>
+              <h3>{step.title}</h3><p class="panel-explanation">{step.explanation}</p>
+              <div class="step-content"><dl class="step-spec"><div><dt>Input</dt><dd>{step.input}</dd></div><div><dt>Output</dt><dd>{step.output}</dd></div><div><dt>Validation</dt><dd>{step.test}</dd></div></dl><div class="step-artifact"><p class="artifact-heading">{step.artifactTitle}</p><ol>{step.artifact.map(item => <li>{item}</li>)}</ol><span class="artifact-caption">Schematic · no account or enrollment data</span></div></div>
+              <div class="panel-footer"><p>{step.takeaway}</p>{index < workflow.length - 1 && <button type="button" data-workflow-next={index + 1} hidden>Next: {workflow[index + 1].label} <span aria-hidden="true">→</span></button>}</div>
+            </article>)}
+          </div>
+          <p class="visually-hidden" role="status" data-workflow-status></p>
+        </div>
+      </section>
+
+      <section id="evidence" class="evidence-section" aria-labelledby="evidence-title">
+        <div class="section-heading"><div><p class="project-eyebrow">Evidence / scope matters</p><h2 id="evidence-title">What the checks establish.</h2></div><p>Validation has separate layers. A fast fixture is not a measurement of a congested university service.</p></div>
+        <div class="evidence-grid"><article><h3>Payload equivalence</h3><p>Read-only comparison can establish that the adapter prepares the same package request as the observed native application.</p><span>Does not prove enrollment</span></article><article><h3>Behavior under failure</h3><p>Local fixtures exercise warning review, session isolation, stale responses, and uncertain submission handling.</p><span>Does not measure live capacity</span></article><article><h3>Enrollment outcome</h3><p>Only a successful real submission followed by matching authoritative reads establishes a booked or waitlisted result.</p><span>Always specific to that attempt</span></article></div>
+        <div class="benchmark-panel" data-project-benchmark>
+          <div class="benchmark-heading"><h3>Benchmark</h3><span>{benchmark ? 'Measured results' : 'Measurement pending'}</span></div>
+          {benchmark ? <><p>{benchmark.scope}</p><dl class="benchmark-results">{benchmark.rows.map(row => <div><dt>{row.label}</dt><dd><strong>{row.result}</strong><span>{row.note}</span></dd></div>)}</dl></> : <p>No speedup or success-rate claim is published here. Reviewed measurements, their test conditions, and their limitations belong in this section before release.</p>}
+          <p><a href={`${sourceUrl}/blob/main/docs/BENCHMARK.md`}>Read the full method, samples, and limitations ↗</a></p>
+        </div>
+      </section>
+
+      <section class="limits-section" aria-labelledby="limits-title"><div><p class="project-eyebrow">The boundary</p><h2 id="limits-title">TSS is still in the loop.</h2></div><div><p>This prototype reduces navigation. It still depends on authentication, live course reads, registration checks, submission, and outcome reads. Congestion and service errors can interrupt any of those requests.</p><p>The adapter follows an observed TSS implementation. Upstream changes require new verification. No availability guarantee, queue priority, prerequisite bypass, or universal one-click booking is implied.</p></div></section>
+
+      <section id="setup" class="setup-section" aria-labelledby="setup-title">
+        <div class="setup-copy"><p class="project-eyebrow">Open source / independent deployment</p><h2 id="setup-title">Make the setup<br />your own.</h2><p>Start with the repository’s instructions and configure a separate instance. Validate the current adapter and your exact course options before enabling booking.</p><a class="project-button" href={sourceUrl}>Get the source <span aria-hidden="true">↗</span></a><a class="setup-readme" href={`${sourceUrl}#readme`}>Read setup instructions</a></div>
+        <div class="agent-card"><p class="artifact-heading">HANDOFF TO YOUR CODING AGENT</p><label for="project-agent-prompt">A bounded starting brief</label><textarea id="project-agent-prompt" readonly rows="8" spellcheck="false">{agentPrompt}</textarea><div class="agent-card-actions"><button class="project-secondary-button" type="button" data-copy-prompt hidden>Copy prompt</button><span role="status" data-copy-status></span></div></div>
+      </section>
+    </main>
+    <footer class="project-footer"><span>TSS Better Booking</span><p>Independent prototype. Not affiliated with or endorsed by UC San Diego.</p><a href="#main">Back to top ↑</a></footer>
+    <script>import '../../../scripts/tss-project';</script>
+  </body>
+</html>

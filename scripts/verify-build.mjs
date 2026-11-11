@@ -58,7 +58,7 @@ const unlistedContentPaths = new Set([
   join('writing', 'data-analysis', 'sex-and-the-moon', 'index.html'),
 ]);
 // Portable examples own their document shell; portfolio metadata/Pip rules stay unchanged.
-const standaloneContentPaths = new Set([join('workflow-display', 'index.html'), join('documents', 'scads-2026', 'workflow.html'), join('ACF', 'index.html'), join('stars', 'index.html'), join('stars', 'jumpin', 'index.html'), join('stars-assets', 'workflow.html'), join('wiki', 'index.html'), join('wiki', 'map', 'index.html')]);
+const standaloneContentPaths = new Set([join('workflow-display', 'index.html'), join('documents', 'scads-2026', 'workflow.html'), join('ACF', 'index.html'), join('stars', 'index.html'), join('stars', 'jumpin', 'index.html'), join('stars-assets', 'workflow.html'), join('wiki', 'index.html'), join('wiki', 'map', 'index.html'), join('work', 'tss-better-booking', 'index.html')]);
 const contentHtmlFiles = htmlFiles.filter(
   (file) => {
     const path = relative(output, file);
@@ -71,9 +71,9 @@ const unlistedHtmlFiles = htmlFiles.filter(
 const standaloneHtmlFiles = htmlFiles.filter(
   (file) => standaloneContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 36 || standaloneHtmlFiles.length !== 8 || unlistedHtmlFiles.length !== unlistedContentPaths.size || htmlFiles.length !== 51 + unlistedContentPaths.size) {
+if (contentHtmlFiles.length !== 36 || standaloneHtmlFiles.length !== 9 || unlistedHtmlFiles.length !== unlistedContentPaths.size || htmlFiles.length !== 52 + unlistedContentPaths.size) {
   throw new Error(
-    `expected 36 portfolio pages, 8 standalone pages, ${unlistedContentPaths.size} unlisted pages, and 7 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 36 portfolio pages, 9 standalone pages, ${unlistedContentPaths.size} unlisted pages, and 7 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
@@ -707,6 +707,7 @@ const expectedSitemapUrls = new Set();
 expectedSitemapUrls.add('https://boomerrawlings.com/ACF/');
 expectedSitemapUrls.add('https://boomerrawlings.com/stars/');
 expectedSitemapUrls.add('https://boomerrawlings.com/stars/jumpin/');
+expectedSitemapUrls.add('https://boomerrawlings.com/work/tss-better-booking/');
 
 function readImageMetadata(path) {
   const source = readFileSync(path);
@@ -1836,7 +1837,7 @@ for (const [label, href] of [
 if (homeContents.includes('href="/research/"')
   || homeContents.includes('href="/about/"')
   || !homeContents.includes('>Overview</span>')
-  || !homeContents.includes('aria-label="12 published projects"')) {
+  || !homeContents.includes('aria-label="13 published projects"')) {
   failures.push('home contents: section overview is stale or project count is missing');
 }
 const homeGuideOffset = homeHtml.indexOf('data-pip-guide');

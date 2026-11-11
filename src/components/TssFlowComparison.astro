@@ -1,0 +1,43 @@
+---
+import '../styles/tss-flow-comparison.css';
+const nativeSteps = [
+  { label: 'Sign in', detail: 'Your UCSD account', endpoint: true },
+  { label: 'Find course + term', detail: 'Catalog search', hold: true },
+  { label: 'Choose package', detail: 'Linked class sections' },
+  { label: 'Go to Booking', detail: 'Open another view', hold: true },
+  { label: 'Load booking page', detail: 'Wait for course context', hold: true },
+  { label: 'Book', detail: 'Request enrollment', endpoint: true },
+];
+---
+<section class="flow-comparison" aria-labelledby="flow-comparison-title">
+  <div class="section-heading">
+    <div><p class="project-eyebrow">The visible path</p><h2 id="flow-comparison-title">Keep the first step.<br />Get to the last.</h2></div>
+    <p>A comparison of the screens and actions you deal with. The university’s booking rules still apply.</p>
+  </div>
+  <figure class="flow-comparison-board" aria-describedby="flow-comparison-caption">
+    <div class="comparison-lane-heading"><h3>Through TSS</h3><span class="comparison-hold-key"><i aria-hidden="true"></i> Possible hold point</span></div>
+    <div class="comparison-lane comparison-native">
+      <svg class="comparison-route comparison-route-horizontal" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path d="M83 50 H917" pathLength="1" /></svg>
+      <svg class="comparison-route comparison-route-vertical" viewBox="0 0 24 1000" preserveAspectRatio="none" aria-hidden="true"><path d="M12 0 V1000" pathLength="1" /></svg>
+      <ol class="comparison-nodes">
+        {nativeSteps.map((step, index) => <li class:list={['comparison-node', { 'comparison-endpoint': step.endpoint }]}>
+          <span class="comparison-node-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+          <strong>{step.label}</strong><small>{step.detail}</small>
+          {step.hold && <span class="comparison-hold" role="img" aria-label="Illustrative possible hold point"><i></i></span>}
+        </li>)}
+      </ol>
+    </div>
+    <div class="comparison-cut" aria-hidden="true"><span></span><p>Navigation screens removed from the foreground</p><span></span></div>
+    <div class="comparison-lane-heading comparison-better-heading"><h3>With Better Booking</h3><span>Your course options are already here</span></div>
+    <div class="comparison-lane comparison-better">
+      <svg class="comparison-route comparison-route-horizontal" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path class="comparison-direct-line" d="M83 50 C280 50 330 50 500 50 S720 50 917 50" pathLength="1" /></svg>
+      <svg class="comparison-route comparison-route-vertical" viewBox="0 0 24 1000" preserveAspectRatio="none" aria-hidden="true"><path class="comparison-direct-line" d="M12 0 V1000" pathLength="1" /></svg>
+      <ol class="comparison-nodes">
+        <li class="comparison-node comparison-signin"><span class="comparison-node-index" aria-hidden="true">01</span><strong>Sign in</strong><small>One owned session</small></li>
+        <li class="comparison-node comparison-book"><span class="comparison-node-index" aria-hidden="true">02</span><strong>Book <span aria-hidden="true">↗</span></strong><small>Your verified option</small></li>
+      </ol>
+      <p class="comparison-shortcut">Straight to the booking action<span>without reopening the catalog and booking page</span></p>
+    </div>
+    <figcaption id="flow-comparison-caption"><strong>Still happens:</strong> authentication, registration checks, warning review when needed, one Save, and outcome verification. Hold markers are illustrative; this is not a request-count, speed, or failure-rate measurement. The exact TSS screen path can vary.</figcaption>
+  </figure>
+</section>
