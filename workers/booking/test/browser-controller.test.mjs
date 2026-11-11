@@ -29,20 +29,20 @@ test('managed transport applies real protocol timeout and full login idle lifeti
   assert.throws(() => connectOptions.transport.send('late'), /transport closed/);
 });
 
-test('renderer preflight confirms Page.enable and a responsive document before handing off', async () => {
+test('renderer preflight proves a responsive document without Page event subscription', async () => {
   const calls = [];
   const page = { async createCDPSession() { return {
     async send(method, params, options) { calls.push(method); assert.ok(options.timeout > 0 && options.timeout <= 8000); return method === 'Runtime.evaluate' ? { result: { value: true } } : {}; },
     async detach() { calls.push('detach'); },
   }; } };
   await rendererPreflight(page);
-  assert.deepEqual(calls, ['Page.enable', 'Runtime.evaluate', 'detach']);
+  assert.deepEqual(calls, ['Runtime.evaluate', 'detach']);
 });
 
-test('renderer preflight rejects hung Page.enable and an empty renderer', async () => {
+test('renderer preflight rejects hung evaluation and an empty renderer', async () => {
   await assert.rejects(rendererPreflight({ async createCDPSession() { return {
     send: () => new Promise(() => {}), detach: async () => {},
-  }; } }, 5), error => error.stage === 'renderer_preflight' && error.failureDiagnostic.code === 'renderer_timeout' && error.failureDiagnostic.phase === 'page_enable');
+  }; } }, 5), error => error.stage === 'renderer_preflight' && error.failureDiagnostic.code === 'renderer_timeout' && error.failureDiagnostic.phase === 'evaluate');
   await assert.rejects(rendererPreflight({ async createCDPSession() { return {
     send: async () => ({ result: { value: false } }), detach: async () => {},
   }; } }), error => error.stage === 'renderer_preflight' && error.failureDiagnostic.code === 'renderer_dom_not_ready' && error.failureDiagnostic.phase === 'evaluate');
@@ -84,7 +84,7 @@ test('handoff retries one transient preflight on the same page and requires posi
     } };
     await rendererHandoffPreflight(page, 5000, 0);
     assert.equal(sessions, 2); assert.equal(detaches, 2);
-    assert.deepEqual(calls, [{ attempt: 1, method: 'Page.enable' }, { attempt: 2, method: 'Page.enable' }, { attempt: 2, method: 'Runtime.evaluate' }]);
+    assert.deepEqual(calls, [{ attempt: 1, method: 'Runtime.evaluate' }, { attempt: 2, method: 'Runtime.evaluate' }]);
   }
 });
 
@@ -144,7 +144,7 @@ function controllerFixture(envOptions = {}, controllerOptions = {}) {
     async goto(route) { lifecycle.push({ navigation: route }); current = route; navigations.push(route); pageEvents.get('framenavigated')?.(mainFrame); }, setDefaultTimeout() {}, setDefaultNavigationTimeout() {}, isClosed: () => false,
     async createCDPSession() { return { on: (name, handler) => diagnosticEvents.set(name, handler), async send(method) {
       cdpCalls.push(method);
-      if (method === 'Page.enable' && responses.preflightFailure) throw responses.preflightFailure;
+      if (method === 'Runtime.evaluate' && responses.preflightFailure) throw responses.preflightFailure;
       return method === 'Target.getTargetInfo' ? { targetInfo: { targetId: 'synthetic' } } : { result: { value: true } };
     }, async detach() {} }; },
     async evaluate(fn, input) {
@@ -173,10 +173,11 @@ test('viewer viewport applies before initial navigation and never on another han
     { viewport: { width: 509, height: 1000 } });
   const controller = await f.controller;
   assert.deepEqual(f.lifecycle, [{ viewport: { width: 509, height: 1000, deviceScaleFactor: 1 } }, { navigation: 'https://tss.ucsd.edu/fiori' }]);
-  assert.equal(f.cdpCalls.includes('Page.enable'), false); // No redundant creation probe.
+  assert.equal(f.cdpCalls.includes('Runtime.evaluate'), false); // No redundant creation probe.
   await controller.loginUrl(); await controller.loginUrl();
   assert.equal(f.lifecycle.length, 2);
-  assert.equal(f.cdpCalls.filter(method => method === 'Page.enable').length, 2); // One positive proof per handoff.
+  assert.equal(f.cdpCalls.filter(method => method === 'Runtime.evaluate').length, 2); // One positive proof per handoff.
+  assert.equal(f.cdpCalls.includes('Page.enable'), false);
   const fallback = controllerFixture(); await fallback.controller;
   assert.equal(fallback.lifecycle.some(item => item.viewport), false);
 });
@@ -303,12 +304,12 @@ test('login handoff preserves classified preflight failure without raw cause', a
   const transientController = await transient.controller;
   transient.responses.preflightFailure = Error('Execution context was destroyed; private startup detail');
   await assert.rejects(transientController.loginUrl(), error => error.stage === 'renderer_preflight'
-    && error.failureDiagnostic.code === 'navigation_context' && error.failureDiagnostic.phase === 'page_enable' && !JSON.stringify(error).includes('private'));
-  assert.equal(transient.cdpCalls.filter(method => method === 'Page.enable').length, 2);
+    && error.failureDiagnostic.code === 'navigation_context' && error.failureDiagnostic.phase === 'evaluate' && !JSON.stringify(error).includes('private'));
+  assert.equal(transient.cdpCalls.filter(method => method === 'Runtime.evaluate').length, 2);
   const handoff = controllerFixture(), controller = await handoff.controller;
   handoff.responses.preflightFailure = Error('Protocol command failed; private handoff detail');
   await assert.rejects(controller.loginUrl(), error => error.stage === 'renderer_preflight'
-    && error.failureDiagnostic.code === 'renderer_protocol_error' && error.failureDiagnostic.phase === 'page_enable' && !JSON.stringify(error).includes('private'));
+    && error.failureDiagnostic.code === 'renderer_protocol_error' && error.failureDiagnostic.phase === 'evaluate' && !JSON.stringify(error).includes('private'));
 });
 
 test('older failed auth probe cannot replace newer successful proof or diagnostics', async () => {

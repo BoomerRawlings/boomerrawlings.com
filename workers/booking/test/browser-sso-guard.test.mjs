@@ -10,6 +10,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { Puppeteer } from '@cloudflare/puppeteer';
 import { installNetworkGuard } from '../src/network-guard.mjs';
+import { rendererPreflight } from '../src/browser.mjs';
 
 // All traffic is synthetic. A local CONNECT proxy accepts only these fixture
 // names and connects exclusively to the loopback TLS server, never DNS/network.
@@ -141,7 +142,11 @@ test('isolated Chromium preserves SSO cookies, redirects, cross-site forms and r
           page.on('requestfailed', request => failures.push({ method: request.method(), type: request.resourceType(), code: request.failure()?.errorText }));
           if (guarded) await installNetworkGuard(page, { onBlocked: item => blocked.push({ method: item.method, hostKnown: hosts.includes(item.hostname) }) });
           await page.goto(tss + '/fiori', { waitUntil: 'domcontentloaded' });
-          await page.waitForSelector('#signin'); await page.click('#signin');
+          await page.waitForSelector('#signin');
+          // A fresh CDP session needs only Runtime.evaluate to prove readiness;
+          // the real guarded cross-origin login flow remains unchanged.
+          await rendererPreflight(page);
+          await page.click('#signin');
           await page.waitForSelector('#approve'); await page.click('#approve');
           try { await page.waitForSelector('#complete'); }
           catch { assert.fail(JSON.stringify({ guarded, realm, issues: active.issues, requests: active.requests, blocked, failures })); }

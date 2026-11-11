@@ -78,9 +78,8 @@ export async function rendererPreflight(page, timeoutMs = 8000) {
     try {
       cdp = await page.createCDPSession();
       if (abandoned) return;
-      phase = 'page_enable';
-      await cdp.send('Page.enable', {}, { timeout: remaining() });
-      if (abandoned) return;
+      // Runtime.evaluate works without enabling Page event subscriptions.
+      // Readiness only needs the current renderer's positive DOM response.
       phase = 'evaluate';
       const result = await cdp.send('Runtime.evaluate', { expression: 'Boolean(document.documentElement)', returnByValue: true, timeout: Math.min(5000, remaining()) }, { timeout: remaining() });
       if (result.exceptionDetails) throw new Error('Renderer evaluation failed');
