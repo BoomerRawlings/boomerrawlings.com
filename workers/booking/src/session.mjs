@@ -203,6 +203,7 @@ export class SessionCore {
     const browser = this.browser;
     const browserId = this.record.browserId;
     this.review = null;
+    this.notice = null;
     this.browser = null;
     await closeProviderSession(this.env.BROWSER, browserId, { closeLocal: browser ? () => browser.close() : undefined });
     if (generation !== this.generation || this.record.browserId !== browserId) throw new Error('Session changed during closure');

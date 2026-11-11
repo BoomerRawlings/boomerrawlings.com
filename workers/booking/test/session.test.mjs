@@ -323,6 +323,25 @@ test('polled submitted notices survive only their current request and never crea
   await a.post('/logout'); assert.equal(core.notice, null);
 });
 
+test('session expiry and error closure clear submitted notice text while preserving the submitted result', async () => {
+  for (const state of ['expired', 'error']) {
+    const f = fixture({ PROBE_ONLY: 'false', DIRECT_BOOKING_ENABLED: 'true' });
+    const a = await f.client(); await a.post('/login');
+    const owned = [...f.live.values()][0]; owned.signedIn = true;
+    owned.book = async () => ({ stage: 'submitted', noticeMessage: 'Synthetic session-scoped notice' });
+    await a.post('/book', { route: DEFAULT_ROUTE });
+    const core = [...f.sessions.values()][0];
+    assert.equal(core.snapshot().booking.noticeMessage, 'Synthetic session-scoped notice');
+    if (state === 'expired') { f.advance(15 * 60_000); await a.get(); }
+    else await core.close('error');
+    const result = core.snapshot();
+    assert.equal(result.state, state); assert.equal(result.booking.stage, 'submitted');
+    assert.equal(result.booking.noticeMessage, undefined); assert.equal(core.notice, null);
+    assert.doesNotMatch(JSON.stringify(result), /Synthetic session-scoped notice/);
+    assert.equal(owned.closed, true);
+  }
+});
+
 test('native or non-submitted results and malformed notice text cannot expose submitted notices', async () => {
   const f = fixture({ PROBE_ONLY: 'false', DIRECT_BOOKING_ENABLED: 'true' });
   const a = await f.client(); await a.post('/login'); const owned = [...f.live.values()][0]; owned.signedIn = true;
