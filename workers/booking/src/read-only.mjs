@@ -120,7 +120,9 @@ export function allowProbeRequest({ url, method, headers = {}, body, resourceTyp
   if (method === 'POST' && resourceType?.toLowerCase() === 'document'
     && contentTypeIs(lower['content-type'], 'application/x-www-form-urlencoded') && !target.search && !target.hash) {
     if (target.origin === TSS_ORIGIN && /^\/sap\/public\/bc\/sec\/saml2\/sp\/acs\/?$/i.test(path)) return assertionForm(body, 'SAMLResponse');
+    if (target.origin === TSS_ORIGIN && /^\/sap\/saml2\/sp\/acs\/\d{3}\/?$/.test(path)) return assertionForm(body, 'SAMLResponse');
     if (target.origin === 'https://tssproxy.ucsd.edu' && path === '/idp/profile/SAML2/POST/SSO') return assertionForm(body, 'SAMLRequest');
+    if (target.origin === 'https://tssproxy.ucsd.edu' && path === '/idp/profile/Authn/SAML2/POST/SSO') return assertionForm(body, 'SAMLResponse');
   }
   return false;
 }

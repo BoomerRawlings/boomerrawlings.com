@@ -49,10 +49,42 @@ test('probe permits reads and only the observed SAML authentication POST shapes'
   assert.equal(allowProbeRequest({ url: 'https://api-example.duosecurity.com/prompt', method: 'GET' }), true);
   for (const [url, body] of [
     ['https://tssproxy.ucsd.edu/idp/profile/SAML2/POST/SSO', 'SAMLRequest=synthetic&RelayState=synthetic'],
+    ['https://tssproxy.ucsd.edu/idp/profile/Authn/SAML2/POST/SSO', 'SAMLResponse=synthetic&RelayState=synthetic'],
     [origin + '/sap/public/bc/sec/saml2/sp/acs', 'SAMLResponse=synthetic&RelayState=synthetic'],
   ]) assert.equal(allowProbeRequest({ url, method: 'POST', resourceType: 'Document', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body }), true);
   const batch = readBatch();
   assert.equal(allowProbeRequest({ url: origin + service + '$batch', method: 'POST', headers: { 'content-type': batch.contentType }, body: batch.body }), true);
+});
+
+test('observed tssproxy authentication callback accepts only a document SAMLResponse form', () => {
+  const request = { url: 'https://tssproxy.ucsd.edu/idp/profile/Authn/SAML2/POST/SSO', method: 'POST', resourceType: 'Document',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: 'SAMLResponse=synthetic&RelayState=synthetic' };
+  assert.equal(allowProbeRequest(request), true);
+  for (const override of [{ url: request.url + '?unexpected=1' }, { url: request.url + '#fragment' },
+    { url: request.url.replace('/Authn/', '/Other/') }, { url: request.url.replace('tssproxy.', 'other.') },
+    { resourceType: 'XHR' }, { method: 'PUT' }, { headers: { 'content-type': 'application/json' } },
+    { body: 'SAMLRequest=synthetic' }, { body: 'SAMLResponse=' }, { body: 'SAMLResponse=a&SAMLResponse=b' },
+    { body: 'SAMLResponse=synthetic&other=field' }, { body: 'SAMLResponse=' + 'x'.repeat(512 * 1024) }]) {
+    assert.equal(allowProbeRequest({ ...request, ...override }), false);
+  }
+});
+
+test('documented SAP client ACS family allows only bounded SAMLResponse document forms on TSS', () => {
+  const request = { url: origin + '/sap/saml2/sp/acs/123', method: 'POST', resourceType: 'Document',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: 'SAMLResponse=synthetic&RelayState=synthetic' };
+  assert.equal(allowProbeRequest(request), true);
+  assert.equal(allowProbeRequest({ ...request, url: request.url + '/' }), true);
+  for (const suffix of ['', '12', '1234', 'abc', '123/extra', '123?sap-client=123', '123#fragment']) {
+    assert.equal(allowProbeRequest({ ...request, url: origin + '/sap/saml2/sp/acs/' + suffix }), false);
+  }
+  for (const override of [{ url: request.url.replace('tss.', 'other.') }, { method: 'GET', url: origin + service + 'ActionHdrSet' },
+    { method: 'PUT' }, { resourceType: 'XHR' }, { headers: { 'content-type': 'application/json' } },
+    { body: 'SAMLRequest=synthetic' }, { body: 'SAMLResponse=' }, { body: 'SAMLResponse=a&SAMLResponse=b' },
+    { body: 'SAMLResponse=synthetic&ActionName=SaveChanges' }, { body: 'SAMLResponse=' + 'x'.repeat(512 * 1024) }]) {
+    assert.equal(allowProbeRequest({ ...request, ...override }), false);
+  }
+  assert.equal(allowProbeRequest(write(payload())), false);
+  assert.equal(allowProbeRequest(batchWrite(payload())), false);
 });
 
 test('probe rejects arbitrary UCSD/Duo writes, credential-shaped unknown forms and ambiguous SAML', () => {
