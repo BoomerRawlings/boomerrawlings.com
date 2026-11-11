@@ -6,6 +6,7 @@ import '../../styles/brain-teaching.css';
 import '../../styles/roomie-booking.css';
 import '../../styles/roomie-branding.css';
 import { roomies, catalogUpdatedAt, type CatalogCourse, type CourseMeeting, type CourseSection } from '../../data/roomie-booking';
+import { tssBookmarkletUrl } from '../../data/tss-bookmarklet';
 
 const dateLabel = (value: string | null) => {
   if (!value) return '';
@@ -108,6 +109,16 @@ const missingDetailsNote = (course: CatalogCourse) => {
           <p><span class="booking-step-number" aria-hidden="true">02</span><span><span class="visually-hidden">Step Two: </span>Click <span class="tss-book-inner tss-book-example">Book</span> below.</span></p>
           <p><span class="booking-step-number" aria-hidden="true">03</span><span><span class="visually-hidden">Step Three: </span>Feel good about not dealing with TSS.</span></p>
         </div>
+        <div class="tss-connection" data-tss-connection data-state="disconnected">
+          <div class="tss-connection-line">
+            <span class="tss-connection-status" role="status" aria-live="polite" data-tss-connection-status>TSS not connected</span>
+            <button type="button" class="tss-setup-button" data-tss-setup>Connect TSS</button>
+            <button type="button" class="tss-disconnect-button" data-tss-disconnect hidden>Disconnect</button>
+          </div>
+          <p class="tss-account-note">Uses the account signed in to TSS.</p>
+          <p class="tss-job-status" role="status" aria-live="polite" data-tss-job-status></p>
+          <button type="button" class="tss-focus-button" data-tss-focus hidden>Open TSS</button>
+        </div>
       </div>
 
       <div class="library-toolbar roomie-toolbar">
@@ -143,9 +154,9 @@ const missingDetailsNote = (course: CatalogCourse) => {
                     <strong>{course.title}</strong>
                     <small>{course.code} · {course.sections.length === 1 ? 'Section' : 'Sections'} {course.sections.join(' · ')}</small>
                   </span>
-                  <a class="tss-book" href={course.bookingUrl} aria-label={`Book ${course.title} in TSS`}>
+                  <button class="tss-book" type="button" data-tss-book data-book-route={course.bookingUrl} aria-label={`Book ${course.title} in TSS`}>
                     <span class="tss-book-inner">Book</span>
-                  </a>
+                  </button>
                 </div>
               ) : (
                 <details class={`course-options category-${course.categoryStyle}`} data-course-options>
@@ -164,7 +175,7 @@ const missingDetailsNote = (course: CatalogCourse) => {
                         <div class="booking-option-heading">
                           <h2 id={`option-${roomie.room}-${course.code}-${group.key}`}>{group.unassigned ? group.label : <><span class="option-number">Option {Number(group.key) + 1}</span><span class="option-section-codes">{group.label}</span></>}</h2>
                           {!group.unassigned && (group.bookingUrl ? (
-                            <a class="tss-book" href={group.bookingUrl} aria-label={`Book ${course.code}, ${group.label} in TSS`}><span class="tss-book-inner">Book</span></a>
+                            <button class="tss-book" type="button" data-tss-book data-book-route={group.bookingUrl} aria-label={`Book ${course.code}, ${group.label} in TSS`}><span class="tss-book-inner">Book</span></button>
                           ) : (
                             <button class="tss-book" type="button" disabled aria-label={`Booking link unavailable for ${course.code}, ${group.label}`} title="Booking link not available for this option"><span class="tss-book-inner">Book</span></button>
                           ))}
@@ -222,9 +233,33 @@ const missingDetailsNote = (course: CatalogCourse) => {
           </details>
         ))}
       </div>
-      <p class="library-footnote">Opens TSS. Review your section and finish booking there.</p>
+      <p class="library-footnote">Book sends the request through your connected TSS tab. Check TSS to confirm enrollment.</p>
     </main>
+    <dialog class="tss-connect-dialog" aria-labelledby="tss-connect-title" aria-describedby="tss-connect-description" data-tss-dialog>
+      <form method="dialog" class="tss-dialog-heading">
+        <h2 id="tss-connect-title">Connect TSS once this session</h2>
+        <button type="submit" class="tss-dialog-close" aria-label="Close connection setup">Close</button>
+      </form>
+      <p id="tss-connect-description">Connect your signed-in TSS tab before using Book. No extension needed.</p>
+      <ol class="tss-setup-steps">
+        <li>Drag <a class="tss-bookmarklet" href={tssBookmarkletUrl} draggable="true" data-tss-bookmarklet>Connect TSS</a> to your bookmarks bar.</li>
+        <li>Open your logged-in TSS tab and click that bookmark.</li>
+        <li>Use Book in the connected booking page that opens.</li>
+      </ol>
+      <p class="tss-account-note">Uses the account signed in to TSS. Reloading or closing either tab requires reconnecting.</p>
+      <div class="tss-code-actions">
+        <button type="button" data-tss-copy-code>Copy bookmark code</button>
+        <button type="button" data-tss-show-code>Show code</button>
+      </div>
+      <p class="tss-copy-status" role="status" aria-live="polite" data-tss-copy-status></p>
+      <div class="tss-code-field" data-tss-code-field hidden>
+        <label for="tss-bookmark-code">Bookmark URL</label>
+        <textarea id="tss-bookmark-code" readonly rows="4" spellcheck="false" data-tss-bookmark-code>{tssBookmarkletUrl}</textarea>
+        <p>Create a bookmark named Connect TSS, then paste this code into its URL field.</p>
+      </div>
+    </dialog>
     <script>import '../../scripts/roomie-booking';</script>
+    <script>import '../../scripts/roomie-tss-bridge';</script>
   </body>
 </html>
 

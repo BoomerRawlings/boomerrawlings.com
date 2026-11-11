@@ -40,7 +40,7 @@ test('branding stays scoped, preserves native booking controls and supports redu
   assert.match(source, /data-roomie-filter/);
   assert.match(source, /data-expand-roomies/);
   assert.match(source, /data-course-options/);
-  assert.match(source, /class="tss-book" href=\{course.bookingUrl\}/);
+  assert.match(source, /class="tss-book" type="button" data-tss-book data-book-route=\{course.bookingUrl\}/);
   assert.match(css, /body\.roomie-shell/);
   assert.match(css, /prefers-reduced-motion: reduce/);
   assert.match(css, /animation: none !important/);

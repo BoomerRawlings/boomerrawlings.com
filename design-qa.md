@@ -2,6 +2,15 @@
 
 final result: passed
 
+## Bookmarklet connection update — 2026-11-10
+
+- Integrated newer remote Cannonball branding (`e14dabb`) before publishing. Header connection spans both desktop columns; modal uses the navy theme. Desktop 1205px and mobile 320px setup, Close and console rechecked after integration; no overflow or visual defects.
+- New evidence: `.codex/qa/0311/connect-desktop.png` at 1205 × 800, `connect-mobile.png` at 320 × 800, and `bridge-mock-result.png`. DevicePixelRatio 1. Compared the supplied expanded-card reference and desktop setup capture together; the new modal intentionally adds a connection flow while retaining Source Sans 3, dark teal surfaces, muted text and fine cyan borders.
+- Connection setup opens from Connect TSS or a disconnected Book button. Modal focus/Close, Show code fallback, 31 KB serialized bookmarklet, readable instructions and zero horizontal overflow verified at 320 px. No browser console warnings/errors.
+- Real browser test used separate localhost/127.0.0.1 origins and synthetic TSS data: activate helper → paired website → one Book click → exact package navigation → native fixture CheckRegistration → one SaveChanges → submitted receipt. This test made no UCSD or enrollment requests.
+- Tests cover wrong origin/window/nonce, stale/duplicate messages, closed tabs, deadlines, existing registration, cancellation items, course changes during registration/warnings, semantic/transport errors and retained fail-closed guards. Official warning approval stays manual.
+- No visual P0/P1/P2 findings. The authenticated TSS application's bookmarklet/window policies and native adapter compatibility remain **unverified**; fixture success does not establish live enrollment success. This is an explicit integration test gap, not a claimed visual failure or live-booking pass.
+
 ## Findings
 
 - No remaining P0/P1/P2 findings.

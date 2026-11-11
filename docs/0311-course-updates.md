@@ -38,3 +38,5 @@ npm test
 ```
 
 Review the requested profile on `/0311/`, including all section choices, unknown details and TSS links, before the normal site publication workflow.
+
+The Book controls use the [TSS booking connection](0311-booking-connection.md). Updating catalog data does not authorize or submit enrollment; a fresh user click in a connected session is required.
