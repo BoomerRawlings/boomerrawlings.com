@@ -1,7 +1,7 @@
 import { AUTHENTICATION_PAGES, AUTHENTICATION_ISSUES } from './authentication.mjs';
-import { sanitizeAuthTrace } from './auth-trace.mjs';
+import { sanitizeAuthTrace, AUTH_TRACE_PHASES, AUTH_TRACE_RESOURCES } from './auth-trace.mjs';
 
-export const BUILD_VERSION = 'auth-proof-4';
+export const BUILD_VERSION = 'auth-proof-5';
 
 const authHosts = new Set(['tss.ucsd.edu', 'tssproxy.ucsd.edu', 'a5.ucsd.edu', 'api-ce13a1a7.duosecurity.com']);
 const publicSegments = new Set(['fiori', 'sap', 'public', 'bc', 'sec', 'saml2', 'sp', 'acs', 'opu', 'odata', 'ITUS', 'PR_MY_MODULES_V2_SRV',
@@ -32,6 +32,17 @@ export function preflightDiagnostic(failure, phase) {
 }
 export const safeCspDirective = value => typeof value === 'string' && directives.has(value.split(/\s/)[0]) ? value.split(/\s/)[0] : undefined;
 export const safeNetworkError = value => typeof value === 'string' && networkErrors.has(value.replace(/^net::/, '')) ? value.replace(/^net::/, '') : 'OTHER';
+function safeGuardDiagnostics(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
+  const phase = item => item && AUTH_TRACE_PHASES.includes(item.phase) && Number.isFinite(item.ageMs) && item.ageMs >= 0 && item.ageMs <= 900000
+    ? { phase: item.phase, ageMs: item.ageMs } : null;
+  const pending = (Array.isArray(value.pending) ? value.pending : []).slice(0,12).flatMap(item => {
+    const safe = phase(item); return safe && AUTH_TRACE_RESOURCES.includes(item.resourceType) ? [{ resourceType: item.resourceType, ...safe }] : [];
+  });
+  return { ...(Number.isInteger(value.pendingCount) && value.pendingCount >= 0 && value.pendingCount <= 1000 ? { pendingCount: value.pendingCount } : {}),
+    pending, ...(phase(value.lastCompleted) ? { lastCompleted: phase(value.lastCompleted) } : {}),
+    ...(phase(value.lastFailure) ? { lastFailure: phase(value.lastFailure) } : {}) };
+}
 export function safeAuthDiagnostics(record, diagnostics = []) {
   const blocked = Array.isArray(diagnostics) ? diagnostics : diagnostics?.blocked || [];
   const stages = new Set(['launch', 'page', 'guard', 'navigation', 'renderer_preflight', 'live_view', 'authentication', 'controller_disconnect',
@@ -41,8 +52,11 @@ export function safeAuthDiagnostics(record, diagnostics = []) {
     'storage_error', 'quota_error', 'cleanup_pending', 'unclassified', 'read_timeout', 'renderer_timeout', 'renderer_dom_not_ready', 'renderer_protocol_error', 'authentication_unavailable']);
   const authentication = diagnostics?.authentication;
   const trace = sanitizeAuthTrace(diagnostics?.trace);
+  const guard = safeGuardDiagnostics(diagnostics?.guard);
   return { ...(stages.has(record.failureStage) ? { stage: record.failureStage } : {}),
     ...(trace.length ? { trace } : {}),
+    ...(guard ? { guard } : {}),
+    ...(['responsive', 'timeout', 'unavailable'].includes(diagnostics?.targetProbe) ? { targetProbe: diagnostics.targetProbe } : {}),
     ...(codes.has(record.lastFailure?.code) ? { code: record.lastFailure.code } : {}),
     ...(record.failureStage === 'renderer_preflight' && preflightPhases.has(record.lastFailure?.phase) ? { phase: record.lastFailure.phase } : {}),
     ...(authenticationPages.has(authentication?.page) ? { authentication: { page: authentication.page,

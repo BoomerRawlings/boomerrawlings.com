@@ -362,6 +362,7 @@ export class SessionCore {
       return json(data, result.status || 200);
     } catch (failure) {
       this.busy = false;
+      if (failure?.authDiagnostics) this.lastAuthDiagnostics = safeAuthDiagnostics({}, failure.authDiagnostics);
       if (this.record) this.record.lastFailure = failure.failureDiagnostic || failureDiagnostic(failure, 'session_fetch');
       if (this.record) this.record.failureStage = FAILURE_STAGES.has(failure?.stage) ? failure.stage : 'session_operation';
       try { await this.close('error'); } catch (cleanupFailure) {

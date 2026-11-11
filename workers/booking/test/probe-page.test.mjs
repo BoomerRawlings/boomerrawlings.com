@@ -73,6 +73,19 @@ test('preflight display allows only known renderer phases', async () => {
   }
 });
 
+test('startup failure display includes sanitized guard phase and target liveness after closure', async () => {
+  const script=/<script nonce="([a-f0-9]+)">([\s\S]*?)<\/script>/.exec(await probePage().text())[2];
+  const elements=new Map(),document={hidden:true,addEventListener(){},getElementById(id){if(!elements.has(id))elements.set(id,{});return elements.get(id)}};
+  const context=vm.createContext({document,setInterval(){},input:{authDiagnostics:{stage:'renderer_preflight',code:'renderer_timeout',phase:'evaluate',targetProbe:'responsive',
+    guard:{pendingCount:1,pending:[{resourceType:'Document',phase:'response_body',ageMs:8000,url:'private-token'}]},raw:'private-token'}}});
+  vm.runInContext(script,context);vm.runInContext('diagnostics(input)',context);
+  assert.match(elements.get('diagnostics').textContent,/Fetch phase: Document response_body \(8s\)/);
+  assert.match(elements.get('diagnostics').textContent,/Browser target probe: responsive/);
+  assert.doesNotMatch(elements.get('diagnostics').textContent,/private/);
+  context.input={authDiagnostics:{targetProbe:'private-value'}};vm.runInContext('diagnostics(input)',context);
+  assert.doesNotMatch(elements.get('diagnostics').textContent,/private|Browser target probe/);
+});
+
 test('automatic post-login checks run once, read-only, even while the login tab is visible', async () => {
   for (const ready of [true, false]) {
     const html = await probePage().text();

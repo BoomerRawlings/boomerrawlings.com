@@ -45,3 +45,13 @@ test('authentication snapshot exposes only finite page and issue labels', () => 
   assert.equal(safeAuthDiagnostics({}, { authentication: { page: 'private-login-data', issue: 'ucsd_login_exception' } }).authentication, undefined);
   assert.deepEqual(safeAuthDiagnostics({}, { authentication: { page: 'tss', issue: 'private-login-data' } }).authentication, { page: 'tss' });
 });
+
+test('startup guard snapshot and target probe exclude arbitrary values and raw protocol fields', () => {
+  const safe=safeAuthDiagnostics({}, {targetProbe:'responsive',guard:{pendingCount:1,
+    pending:[{resourceType:'Document',phase:'response_body',ageMs:1234,requestId:'private-id'},{resourceType:'private',phase:'request',ageMs:1}],
+    lastCompleted:{phase:'request_continue',ageMs:10,url:'private-url'},lastFailure:{phase:'private',ageMs:1},body:'private-body'}});
+  assert.deepEqual(safe,{targetProbe:'responsive',guard:{pendingCount:1,pending:[{resourceType:'Document',phase:'response_body',ageMs:1234}],
+    lastCompleted:{phase:'request_continue',ageMs:10}},blocked:[]});
+  const invalid=safeAuthDiagnostics({}, {targetProbe:'private-target',guard:{pendingCount:1001,pending:[{resourceType:'Document',phase:'response_body',ageMs:Infinity}]}});
+  assert.deepEqual(invalid,{guard:{pending:[]},blocked:[]});assert.doesNotMatch(JSON.stringify(safe)+JSON.stringify(invalid),/private/);
+});

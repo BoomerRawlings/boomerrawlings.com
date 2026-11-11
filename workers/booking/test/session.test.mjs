@@ -113,6 +113,22 @@ test('client JSON cannot forge native verification or read-only exemptions', asy
   assert.equal(owned.bookCalls,0);
 });
 
+test('failed login preserves sanitized guard evidence after browser closure', async () => {
+  const f=fixture({PROBE_ONLY:'false'});const a=await f.client();await a.post('/login');
+  const owned=[...f.live.values()][0];
+  owned.loginUrl=async()=>{throw Object.assign(Error('private-protocol-error'),{stage:'renderer_preflight',
+    failureDiagnostic:{name:'TimeoutError',code:'renderer_timeout',source:'renderer_preflight',phase:'evaluate'},
+    authDiagnostics:{targetProbe:'responsive',guard:{pendingCount:1,pending:[{resourceType:'Document',phase:'response_body',ageMs:8000,body:'private-body'}]},
+      trace:[{kind:'document_response',destination:'tss_proxy',resourceType:'Document',method:'GET',route:'proxy_saml_request',status:200,atMs:0,count:1,url:'private-url'}],raw:'private-token'}});};
+  const failed=await a.post('/login');assert.equal(failed.status,503);const data=await failed.json();
+  assert.equal(owned.closed,true);assert.equal(data.authDiagnostics.targetProbe,'responsive');
+  assert.deepEqual(data.authDiagnostics.guard,{pendingCount:1,pending:[{resourceType:'Document',phase:'response_body',ageMs:8000}]});
+  assert.equal(data.authDiagnostics.phase,'evaluate');assert.equal(data.authDiagnostics.trace[0].route,'proxy_saml_request');
+  const after=await(await a.get()).json();assert.deepEqual(after.authDiagnostics,data.authDiagnostics);
+  assert.doesNotMatch(JSON.stringify(data)+JSON.stringify(after),/private/);
+  assert.doesNotMatch(JSON.stringify([...f.sessions.values()][0].ctx.storage.data),/private/);
+});
+
 test('one probe browser, per-user ownership, logout closes and clears cookie', async () => {
   const f = fixture(); const a = await f.client(), b = await f.client();
   assert.equal((await a.post('/login')).status, 200);

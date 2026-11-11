@@ -8,7 +8,7 @@ import { directTssOperation } from './direct-tss.mjs';
 import { authenticationProbe } from './authentication.mjs';
 import { resolveRoomieCourses } from './resolve-courses.mjs';
 import { loginViewport } from './viewport.mjs';
-import { safeBlockedRequest, safeCspDirective, safeNetworkError, preflightDiagnostic } from './diagnostics.mjs';
+import { safeBlockedRequest, safeCspDirective, safeNetworkError, preflightDiagnostic, safeAuthDiagnostics } from './diagnostics.mjs';
 
 export const PROTOCOL_TIMEOUT_MS = 20_000;
 
@@ -215,8 +215,23 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
           const url = new URL(result.devtoolsFrontendUrl);
           if (url.origin !== 'https://live.browser.run') throw new Error('Unexpected login view origin');
           return url.href;
-        } catch (failure) { throw Object.assign(new Error('Login view unavailable'), { stage: failure?.stage === 'renderer_preflight' ? failure.stage : 'live_view',
-          ...(failure?.stage === 'renderer_preflight' ? { failureDiagnostic: failure.failureDiagnostic } : {}) }); }
+        } catch (failure) {
+          // Snapshot synchronous guard evidence before cleanup destroys it. The
+          // browser-level target command needs no renderer/DOM; return an enum,
+          // never target details, URLs, headers or original protocol errors.
+          const evidence = safeAuthDiagnostics({}, { blocked: [...authBlocked.values()], trace: guard.authTrace?.() || [],
+            guard: guard.diagnostics?.(), ...(authenticationState ? { authentication: authenticationState } : {}),
+            csp: [...cspViolations].map(([directive, count]) => ({ directive, count })),
+            requestFailures: [...requestFailures].map(([code, count]) => ({ code, count })) });
+          let targetProbe = 'unavailable';
+          try {
+            const target = await bounded(cdp.send('Target.getTargetInfo', { targetId: targetInfo.targetId }, { timeout: 1000 }), 1000, 'target_probe_timeout');
+            if (target?.targetInfo?.targetId === targetInfo.targetId) targetProbe = 'responsive';
+          } catch (error) { if (error?.name === 'TimeoutError' || /timed out|timeout/i.test(error?.message || '')) targetProbe = 'timeout'; }
+          throw Object.assign(new Error('Login view unavailable'), { stage: failure?.stage === 'renderer_preflight' ? failure.stage : 'live_view',
+            authDiagnostics: { ...evidence, targetProbe },
+            ...(failure?.stage === 'renderer_preflight' ? { failureDiagnostic: failure.failureDiagnostic } : {}) });
+        }
       },
       async inspect(route, courseCode) {
         if (!await detectAuthenticated(page)) return { ready: false, reason: 'authentication_required' };

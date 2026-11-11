@@ -145,6 +145,7 @@ function controllerFixture(envOptions = {}, controllerOptions = {}) {
     async createCDPSession() { return { on: (name, handler) => diagnosticEvents.set(name, handler), async send(method) {
       cdpCalls.push(method);
       if (method === 'Runtime.evaluate' && responses.preflightFailure) throw responses.preflightFailure;
+      if (method === 'Target.getTargetInfo' && responses.targetProbeFailure) throw responses.targetProbeFailure;
       return method === 'Target.getTargetInfo' ? { targetInfo: { targetId: 'synthetic' } } : { result: { value: true } };
     }, async detach() {} }; },
     async evaluate(fn, input) {
@@ -167,6 +168,25 @@ function controllerFixture(envOptions = {}, controllerOptions = {}) {
   });
   return { controller, responses, operations, navigations, lifecycle, cdpCalls, diagnosticEvents, navigate: url => page.goto(url), job: () => guard.getJob(), csrfCalls: () => csrfCalls, bookCalls: () => bookCalls, blocked: value => guard.onBlocked(value) };
 }
+
+test('handoff failure captures guard evidence and bounded target liveness without renderer details', async () => {
+  for (const [failure, expected] of [[null,'responsive'],[Object.assign(Error('private target timeout'),{name:'TimeoutError'}),'timeout'],[Error('private closed transport'),'unavailable']]) {
+    const f=controllerFixture({}, {installGuard:async()=>({
+      diagnostics:()=>({pendingCount:1,pending:[{resourceType:'Document',phase:'response_body',ageMs:8000,url:'private-token'}],body:'private-body'}),
+      authTrace:()=>[{kind:'document_response',destination:'tss_proxy',resourceType:'Document',status:200,method:'GET',route:'other',atMs:0,count:1,url:'private-url'}],
+    })});
+    const controller=await f.controller;
+    f.responses.preflightFailure=Error('private renderer unavailable');f.responses.targetProbeFailure=failure;
+    await assert.rejects(controller.loginUrl(),error=>{
+      assert.equal(error.stage,'renderer_preflight');assert.equal(error.authDiagnostics.targetProbe,expected);
+      assert.deepEqual(error.authDiagnostics.guard,{pendingCount:1,pending:[{resourceType:'Document',phase:'response_body',ageMs:8000}]});
+      assert.equal(error.authDiagnostics.trace.length,1);assert.doesNotMatch(JSON.stringify(error.authDiagnostics),/private/);
+      return true;
+    });
+    assert.equal(f.cdpCalls.filter(method=>method==='Target.getTargetInfo').length,2);
+    assert.equal(f.navigations.length,1);
+  }
+});
 
 test('viewer viewport applies before initial navigation and never on another handoff', async () => {
   const f = controllerFixture({ BROWSER: { closeSession: async () => {}, async getLiveView() { return { devtoolsFrontendUrl: 'https://live.browser.run/ui/view?mode=tab' }; } } },
