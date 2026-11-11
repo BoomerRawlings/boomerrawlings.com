@@ -1,4 +1,4 @@
-export const BUILD_VERSION = 'probe-status-4';
+export const BUILD_VERSION = 'probe-login-5';
 
 // Classify internally; never return the original message, stack or properties.
 export function failureDiagnostic(failure, source) {

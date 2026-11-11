@@ -6,42 +6,68 @@ import { Buffer } from 'node:buffer';
 // and workers remain disabled until a real SSO probe establishes a safe need.
 export const DOCUMENT_POLICY = "sandbox allow-scripts allow-forms allow-same-origin allow-top-navigation-by-user-activation; frame-src 'none'; worker-src 'none'; object-src 'none'; connect-src https:";
 
-export async function installNetworkGuard(page, { getJob = () => null, onBlocked = () => {} } = {}) {
+export async function installNetworkGuard(page, { getJob = () => null, onBlocked = () => {}, now = Date.now } = {}) {
   await page.setBypassServiceWorker(true);
   await page.setCacheEnabled(false);
   const client = await page.createCDPSession();
+  const pending = new Set();
+  let pendingCount = 0, lastCompleted, lastFailure;
+  const age = at => Math.min(900_000, Math.max(0, now() - at));
+  // Synchronous: remains available when the renderer or CDP command is stalled.
+  // No URLs, request IDs, headers, bodies, raw errors or account values escape.
+  client.diagnostics = () => ({
+    pendingCount: Math.min(1000, pendingCount),
+    pending: [...pending].map(item => ({ resourceType: item.resourceType, phase: item.phase, ageMs: age(item.at) })),
+    ...(lastCompleted ? { lastCompleted: { phase: lastCompleted.phase, ageMs: age(lastCompleted.at) } } : {}),
+    ...(lastFailure ? { lastFailure: { phase: lastFailure.phase, ageMs: age(lastFailure.at) } } : {}),
+  });
   client.on('Fetch.requestPaused', async event => {
     const { requestId, request, resourceType } = event;
+    const progress = { resourceType: ['Document', 'XHR', 'Fetch', 'Script', 'Stylesheet', 'Image', 'Font'].includes(resourceType) ? resourceType : 'Other', phase: 'request', at: now() };
+    pendingCount++;
+    if (pending.size < 12) pending.add(progress);
+    const send = (phase, method, args) => {
+      progress.phase = phase; progress.at = now();
+      return client.send(method, args);
+    };
+    let completed = false;
     try {
       if (event.responseErrorReason) {
-        await client.send('Fetch.failRequest', { requestId, errorReason: 'BlockedByClient' });
+        await send('response_abort', 'Fetch.failRequest', { requestId, errorReason: 'BlockedByClient' });
+        completed = true;
         return;
       }
       if (event.responseStatusCode !== undefined) {
         const redirect = [301, 302, 303, 307, 308].includes(event.responseStatusCode);
-        const original = redirect ? null : await client.send('Fetch.getResponseBody', { requestId });
+        const original = redirect ? null : await send('response_body', 'Fetch.getResponseBody', { requestId });
         if (original && original.body.length > 4 * 1024 * 1024) throw new Error('Document too large');
-        await client.send('Fetch.fulfillRequest', {
+        await send('response_fulfill', 'Fetch.fulfillRequest', {
           requestId, responseCode: event.responseStatusCode,
           ...(event.responseStatusText ? { responsePhrase: event.responseStatusText } : {}),
           responseHeaders: [...(event.responseHeaders || []).filter(header => !['content-length', 'content-encoding'].includes(header.name.toLowerCase())), { name: 'Content-Security-Policy', value: DOCUMENT_POLICY }],
           ...(original ? { body: original.base64Encoded ? original.body : Buffer.from(original.body).toString('base64') } : {}),
         });
+        completed = true;
         return;
       }
       const description = { url: request.url, method: request.method, headers: request.headers,
         body: request.postData, resourceType: resourceType.toLowerCase() };
       if (allowProbeRequest(description) || authorizeNativeWrite(description, getJob())) {
-        await client.send('Fetch.continueRequest', { requestId, ...(resourceType === 'Document' ? { interceptResponse: true } : {}) });
+        await send('request_continue', 'Fetch.continueRequest', { requestId, ...(resourceType === 'Document' ? { interceptResponse: true } : {}) });
       } else {
         const url = new URL(request.url);
         onBlocked({ hostname: url.hostname, pathname: url.pathname, method: request.method });
-        await client.send('Fetch.failRequest', { requestId, errorReason: 'BlockedByClient' });
+        await send('request_block', 'Fetch.failRequest', { requestId, errorReason: 'BlockedByClient' });
       }
+      completed = true;
     } catch {
       // Unsupported response-header interception fails closed, never reloads a
       // document without the popup policy. No raw protocol errors are logged.
-      await client.send('Fetch.failRequest', { requestId, errorReason: 'BlockedByClient' }).catch(() => {});
+      lastFailure = { phase: progress.phase, at: now() };
+      await send('failure_abort', 'Fetch.failRequest', { requestId, errorReason: 'BlockedByClient' }).catch(() => {});
+    } finally {
+      if (completed) lastCompleted = { phase: progress.phase, at: now() };
+      pending.delete(progress); pendingCount--;
     }
   });
   await client.send('Fetch.enable', { patterns: [

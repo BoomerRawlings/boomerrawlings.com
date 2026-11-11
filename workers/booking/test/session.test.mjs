@@ -153,13 +153,13 @@ test('zero usage limit stops allocation; reserved full windows are not refunded'
   const b = await f.client(); assert.equal((await b.post('/login')).status, 429); assert.equal(f.count(), 1);
 });
 
-test('probe keeps one browser and 90 reserved minutes even with production-sized configuration', async () => {
+test('probe keeps one browser and 150 reserved minutes even with production-sized configuration', async () => {
   const f = fixture({ MAX_BROWSER_SESSIONS: '8', MONTHLY_BROWSER_MINUTES: '600' });
   const first = await f.client(), blocked = await f.client();
   assert.equal((await first.post('/login')).status, 200);
   assert.equal((await blocked.post('/login')).status, 429);
   await first.post('/logout');
-  for (let index = 1; index < 6; index++) {
+  for (let index = 1; index < 10; index++) {
     const client = await f.client();
     assert.equal((await client.post('/login')).status, 200);
     assert.equal((await client.post('/logout')).status, 200);
@@ -167,7 +167,23 @@ test('probe keeps one browser and 90 reserved minutes even with production-sized
   const exhausted = await f.client();
   const response = await exhausted.post('/login');
   assert.equal(response.status, 429); assert.equal((await response.json()).failureStage, 'quota_budget');
-  assert.equal(f.count(), 6);
+  assert.equal(f.count(), 10);
+});
+
+test('raising configured probe budget from 90 to 150 permits only four additional full reservations', async () => {
+  const f = fixture();
+  const launchAndClose = async () => {
+    const client = await f.client();
+    assert.equal((await client.post('/login')).status, 200);
+    assert.equal((await client.post('/logout')).status, 200);
+  };
+  for (let index = 0; index < 6; index++) await launchAndClose();
+  const blocked = await f.client();
+  assert.equal((await blocked.post('/login')).status, 429); assert.equal(f.count(), 6);
+  f.env.MONTHLY_BROWSER_MINUTES = '150';
+  for (let index = 0; index < 4; index++) await launchAndClose();
+  assert.equal((await blocked.post('/login')).status, 429); assert.equal(f.count(), 10);
+  assert.equal((await blocked.post('/book', { route: DEFAULT_ROUTE })).status, 403);
 });
 
 test('production supports all eight roommates concurrently and rejects a ninth browser', async () => {

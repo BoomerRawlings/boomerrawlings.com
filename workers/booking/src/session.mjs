@@ -16,7 +16,7 @@ const error = (message, status = 400) => json({ state: 'error', message }, statu
 const probing = env => env.PROBE_ONLY !== 'false';
 const activeBooking = record => record.booking && !['submitted', 'stopped', 'error'].includes(record.booking.stage);
 const STAGES = new Set(['loading', 'checking', 'review', 'submitting', 'submitted', 'stopped', 'error']);
-const FAILURE_STAGES = new Set(['launch', 'page', 'guard', 'navigation', 'live_view', 'authentication', 'controller_disconnect', 'object_restart', 'runtime_io_context', 'status', 'cleanup_lookup', 'cleanup_pending', 'quota_service', 'quota_release', 'quota_concurrency', 'quota_budget', 'quota_cleanup', 'initialization', 'session_operation']);
+const FAILURE_STAGES = new Set(['launch', 'page', 'guard', 'navigation', 'renderer_preflight', 'live_view', 'authentication', 'controller_disconnect', 'object_restart', 'runtime_io_context', 'status', 'cleanup_lookup', 'cleanup_pending', 'quota_service', 'quota_release', 'quota_concurrency', 'quota_budget', 'quota_cleanup', 'initialization', 'session_operation']);
 const navigationInProgress = failure => /execution context was destroyed|cannot find context with specified id|inspected target navigated|execution context is not available|execution context is not available in detached frame/i.test(failure?.message || '');
 
 async function boundedText(request, limit = 4096) {
@@ -377,7 +377,7 @@ export class QuotaCore {
       if (Object.keys(record.leases).length >= concurrency) return json({ ok: false, reason: 'quota_concurrency' }, 409);
       const duration = ttlMs(this.env);
       const configured = Number(this.env.MONTHLY_BROWSER_MINUTES ?? 90);
-      const ceiling = probing(this.env) ? 90 : 600;
+      const ceiling = probing(this.env) ? 150 : 600;
       const limit = (Number.isFinite(configured) ? Math.min(ceiling, Math.max(0, configured)) : 0) * 60_000;
       if (record.reservedMs + duration > limit) return json({ ok: false, reason: 'quota_budget' }, 429);
       record.reservedMs += duration; // Reserve the full window; never refund unknown usage.

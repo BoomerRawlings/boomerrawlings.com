@@ -18,7 +18,7 @@
     "PROBE_ONLY": "true",
     "MAX_BROWSER_SESSIONS": "1",
     "MAX_SESSION_MINUTES": "15",
-    "MONTHLY_BROWSER_MINUTES": "90"
+    "MONTHLY_BROWSER_MINUTES": "150"
   },
   "observability": { "enabled": false }
 }
