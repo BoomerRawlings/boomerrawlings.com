@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { runInNewContext } from 'node:vm';
-import { directTssOperation, DIRECT_READ_STAGES, DIRECT_SCHEMA_ISSUES, DIRECT_SETTING_FLAGS, DIRECT_SETTING_SHAPES } from '../src/direct-tss.mjs';
+import { directTssOperation, DIRECT_READ_STAGES, DIRECT_SCHEMA_ISSUES, DIRECT_SETTING_FLAGS, DIRECT_SETTING_SHAPES, DIRECT_PREPARATION_NOTES } from '../src/direct-tss.mjs';
 import { BOOKING_ROUTES } from '../src/routes.mjs';
 
 const route = BOOKING_ROUTES.keys().next().value;
@@ -64,9 +64,18 @@ function harness(options = {}) {
   return { data, calls, response, window,
     get nativeCalls() { return nativeCalls; },
     native(overrides = {}, options = {}) {
+      // Saved _getEventData preserves first-seen DObjid order; fresh package
+      // _prepareSaveData sends the first event in each type, not every row.
+      const eventTypes = [];
+      for (const event of data.events) {
+        const type = eventTypes.find(item => item.id === event.DObjid);
+        if (type) type.Events.push(event);
+        else eventTypes.push({ id: event.DObjid, Events: [event], EventPackageExist: true });
+      }
+      const nativeGroup = data.groups[options.groupIndex || 0];
       const detail = { ...structuredClone(data.header), EventPackageId: '166528', TemplateId: '0001', TemplateIdOld: '0000',
-        CreditOld: data.header.Credits, oCG: data.groups[0], oOrigCG: structuredClone(data.groups[0]),
-        EventTypes: [{ Events: data.events, EventPackageExist: true }], ExamTypes: [] };
+        CreditOld: data.header.Credits, oCG: nativeGroup, oOrigCG: structuredClone(nativeGroup),
+        EventTypes: eventTypes, ExamTypes: [] };
       const appModel = { getProperty: path => path === '/Settings/ENABLE_TOP_MODULE_BOOKING'
         ? data.settings.filter(row => row?.Name === 'ENABLE_TOP_MODULE_BOOKING').at(-1)?.Value : undefined,
       ...(options.instanceSettings ? { Settings: options.instanceSettings } : {}) };
@@ -78,10 +87,10 @@ function harness(options = {}) {
         getOwnerComponent: () => ({ getModel: () => options.pending ? { getProperty: () => 'edited' } : undefined }),
         _prepareSaveData(cancel) {
           assert.equal(cancel, false); nativeCalls++;
-          return { ModuleId: data.header.SmObjid, ActionName: 'SaveChanges', ProgramId: data.groups[0].ScObjid,
-            Items: data.events.map(event => ({ EventId: event.EventId, ModuleId: event.SmObjid, AcademicYear: event.AcademicYear,
+          return { ModuleId: data.header.SmObjid, ActionName: 'SaveChanges', ProgramId: detail.oCG.ScObjid,
+            Items: detail.EventTypes.map(type => type.Events[0]).map(event => ({ EventId: event.EventId, ModuleId: event.SmObjid, AcademicYear: event.AcademicYear,
               AcademicSession: event.AcademicSession, EventPackId: '166528' })),
-            AssignedCg: data.groups[0].CgObjid, AssignedCgTop: data.groups[0].CgTopObjid, TemplateId: '0001',
+            AssignedCg: detail.oCG.CgObjid, AssignedCgTop: detail.oCG.CgTopObjid, TemplateId: '0001',
             EventPackId: '166528', ModregId: zeroGuid, AcademicYear: data.header.AcademicYear, AcademicSession: data.header.AcademicSession,
             Credits: data.header.Credits, CreditUnit: data.header.CreditUnit, ...overrides };
         },
@@ -194,6 +203,40 @@ test('fresh package sends native CheckRegistration then identical SaveChanges pa
     AcademicYear: '2026', AcademicSession: '003', Credits: '4.000', CreditUnit: 'UN' };
   assert.deepEqual(posts[0].payload, { ...expected, ActionName: 'CheckRegistration' }); assert.deepEqual(posts[1].payload, expected);
   assert.ok(posts.every(call => call.url.endsWith('/ActionHdrSet') && call.init.headers['X-CSRF-Token'] === h.data.token));
+});
+
+test('clean registration check preserves late save warning without another confirmation or write', async () => {
+  const h = harness(); h.data.save = { MessageType: 'W', Message: 'Your booking is waitlisted.' };
+  const { requestId } = h.book(); const value = await h.settled(requestId);
+  assert.deepEqual(value, { stage: 'submitted', noticeMessage: 'Your booking is waitlisted.' });
+  assert.equal(h.call({ operation: 'status', requestId }).noticeMessage, value.noticeMessage);
+  h.book(requestId);
+  assert.equal(h.call({ operation: 'confirm', requestId, allowWrites: true, confirmationId: crypto.randomUUID() }).reason, 'attempt_unavailable');
+  await flush();
+  assert.deepEqual(h.posts().map(call => call.payload.ActionName), ['CheckRegistration', 'SaveChanges']);
+});
+
+test('late save notice is bounded plain text and unknown response fields never escape', async () => {
+  const h = harness(); const message = '\u0000<script>untrusted()</script>\n' + 'x'.repeat(5000);
+  h.data.save = { MessageType: 'W', Message: message, reviewMessage: 'not-a-review', confirmationId: crypto.randomUUID(),
+    StudentData: 'PRIVATE-FIELD', ModregId: 'PRIVATE-ID' };
+  const { requestId } = h.book(); const value = await h.settled(requestId);
+  assert.equal(value.stage, 'submitted'); assert.equal(value.noticeMessage.length, 4000);
+  assert.ok(value.noticeMessage.startsWith('<script>untrusted()</script>\n')); // Client must use textContent.
+  assert.deepEqual(Object.keys(value).sort(), ['noticeMessage', 'stage']);
+  assert.doesNotMatch(JSON.stringify(value), /PRIVATE|not-a-review|\\u0000/);
+  assert.equal(h.posts().length, 2);
+});
+
+test('save errors remain failed, and other message types never become late warning notices', async () => {
+  for (const type of ['E', 'A', 'S', 'I', '']) {
+    const h = harness(); h.data.save = { MessageType: type, Message: 'Response message.' };
+    const { requestId } = h.book(); const value = await h.settled(requestId);
+    assert.equal(value.stage, ['E', 'A'].includes(type) ? 'error' : 'submitted');
+    assert.equal(value.noticeMessage, undefined); assert.equal(value.confirmationId, undefined);
+    if (['E', 'A'].includes(type)) assert.equal(value.reason, 'booking_error');
+    h.book(requestId); await flush(); assert.equal(h.posts().length, 2);
+  }
 });
 
 test('server-controlled write gate and exact known route prevent allocation or writes', async () => {
@@ -485,5 +528,86 @@ test('unknown native model stays unverified; non-X instance flags follow the exa
     const compared = await h.call({ operation: 'compareNative' });
     assert.equal(compared.nativeBookingPath, 'standard'); assert.equal(compared.dataTopModuleEnabled, false);
     assert.equal(compared.ready, true); assert.equal(h.posts().length, 0);
+  }
+});
+
+test('AssignedCg uses native strict equality before selected group, including actual write preparation', async () => {
+  const h = harness();
+  h.data.header.AssignedCg = '200'; // Must not match the padded first group.
+  h.data.groups[0].Selected = false;
+  h.data.groups.push({ ...h.data.groups[0], CgObjid: '00000300', ScObjid: '00009222', Selected: true });
+  h.native({}, { groupIndex: 1 });
+  const compared = await h.call({ operation: 'compareNative' });
+  assert.equal(compared.equivalent, true); assert.equal(h.posts().length, 0);
+  const booked = h.book(); assert.equal((await h.settled(booked.requestId)).stage, 'submitted');
+  assert.equal(h.posts()[0].payload.AssignedCg, '00000300');
+  assert.equal(h.posts()[0].payload.ProgramId, '00009222');
+});
+
+test('read-only comparison reproduces the native top/status00 visibility branch without relaxing writes', async () => {
+  const h = harness(); h.data.groups[0].Bookable = false;
+  h.data.settings.push({ Name: 'ENABLE_TOP_MODULE_BOOKING', Value: 'X' });
+  h.native();
+  const compared = await h.call({ operation: 'compareNative' });
+  assert.equal(compared.equivalent, true); assert.equal(compared.nativeBookingPath, 'standard');
+  assert.deepEqual([...compared.preparationNotes], ['native_group_not_bookable']);
+  const requestId = crypto.randomUUID();
+  h.call({ operation: 'book', requestId, allowWrites: true, readOnly: true });
+  assert.equal((await h.settled(requestId)).reason, 'unsupported_tss');
+  assert.equal(h.posts().length, 0);
+  h.data.settings.pop();
+  assert.equal((await h.call({ operation: 'compareNative' })).reason, 'course_group_unavailable');
+  const strict = h.book(); assert.equal((await h.settled(strict.requestId)).reason, 'course_group_unavailable');
+  h.data.settings.push({ Name: 'ENABLE_TOP_MODULE_BOOKING', Value: 'X' }); h.data.header.SmStatus = '01';
+  assert.equal((await h.call({ operation: 'compareNative' })).reason, 'course_group_unavailable');
+  assert.equal(h.posts().length, 0);
+});
+
+test('read-only comparison chooses first native selected/default group and reports bounded notes', async () => {
+  for (const flag of ['Selected', 'IsDefault']) {
+    const h = harness(); h.data.header.AssignedCg = '';
+    h.data.groups[0].Selected = false; h.data.groups[0][flag] = true;
+    h.data.groups.push({ ...h.data.groups[0], CgObjid: '00000300', ScObjid: '00009222' });
+    h.native();
+    const compared = await h.call({ operation: 'compareNative' });
+    assert.equal(compared.equivalent, true);
+    assert.deepEqual([...compared.preparationNotes], ['native_first_group']);
+    assert.ok(compared.preparationNotes.every(note => DIRECT_PREPARATION_NOTES.includes(note)));
+    assert.doesNotMatch(JSON.stringify(compared), /00000300|00009222|synthetic-session-token/);
+    const requestId = crypto.randomUUID();
+    h.call({ operation: 'book', requestId, allowWrites: true, readOnly: true });
+    assert.equal((await h.settled(requestId)).reason, 'course_group_unavailable');
+    assert.equal(h.posts().length, 0);
+  }
+});
+
+test('read-only fresh-package comparison uses first event per type in native response order', async () => {
+  const h = harness();
+  h.data.events.push({ ...h.data.events[0], EventId: '00001235' });
+  h.data.events.push({ ...h.data.events[0], DObjid: '00000101', EventId: '00001236' });
+  // A repeated non-selected row is harmless to native Events[0] preparation.
+  h.data.events.push({ ...h.data.events[0] });
+  h.native();
+  const inspected = await h.call({ operation: 'inspect' });
+  assert.equal(inspected.itemCount, 2); assert.deepEqual([...inspected.preparationNotes], ['native_first_event']);
+  const compared = await h.call({ operation: 'compareNative' });
+  assert.equal(compared.equivalent, true); assert.equal(h.nativeCalls, 1);
+  assert.deepEqual([...compared.preparationNotes], ['native_first_event']);
+  const requestId = crypto.randomUUID();
+  h.call({ operation: 'book', requestId, allowWrites: true, readOnly: true });
+  assert.equal((await h.settled(requestId)).reason, 'ambiguous_package');
+  assert.equal(h.posts().length, 0);
+});
+
+test('read-only parity does not waive booked events, failed eligibility or duplicate selected events', async () => {
+  for (const [change, reason] of [
+    [h => { h.data.events[1].Booked = true; }, 'existing_registration'],
+    [h => { h.data.events[1].BookingCheckLog = { results: [{ RulecheckResult: 'N' }] }; }, 'eligibility_unavailable'],
+    [h => { h.data.events[1].DObjid = '00000101'; h.data.events[1].EventId = h.data.events[0].EventId; }, 'duplicate_sections'],
+  ]) {
+    const h = harness(); h.data.events.push({ ...h.data.events[0], EventId: '00001235' }); change(h); h.native();
+    const compared = await h.call({ operation: 'compareNative' });
+    assert.equal(compared.reason, reason); assert.equal(compared.ready, false); assert.equal(h.nativeCalls, 0);
+    assert.equal(h.posts().length, 0);
   }
 });

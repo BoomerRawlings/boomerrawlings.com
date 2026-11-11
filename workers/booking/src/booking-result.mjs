@@ -1,4 +1,5 @@
-// Public booking diagnostics are fixed codes, never native messages or data.
+// Persistable diagnostics are fixed codes. A submitted notice is ephemeral and
+// must be rendered as text, excluded from Durable Object records/deduplication.
 const reasons = new Set([
   'authentication_required', 'route_mismatch', 'native_context_unavailable', 'details_loading',
   'context_mismatch', 'event_data_unavailable', 'existing_registration', 'pending_changes',
@@ -11,8 +12,11 @@ const reasons = new Set([
 ]);
 
 export const bookingReason = value => reasons.has(value) ? value : undefined;
+export const bookingNotice = value => typeof value === 'string'
+  ? value.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '').slice(0, 4000) || undefined : undefined;
 export const terminalBooking = value => ['submitted', 'stopped', 'error'].includes(value?.stage);
 export function bookingResult(value, blocked = false) {
   const reason = bookingReason(blocked && value?.stage !== 'submitted' ? 'request_blocked' : value?.reason);
-  return { stage: value?.stage, ...(reason ? { reason } : {}) };
+  const noticeMessage = value?.stage === 'submitted' ? bookingNotice(value.noticeMessage) : undefined;
+  return { stage: value?.stage, ...(reason ? { reason } : {}), ...(noticeMessage ? { noticeMessage } : {}) };
 }

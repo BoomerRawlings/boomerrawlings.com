@@ -343,6 +343,41 @@ test('direct cancellation never confirms or repeats Book', async () => {
   assert.equal(h.posts('book').length, 0); assert.match(h.job, /cancelled/);
 });
 
+test('late submitted warning is plain text at the clicked course and never opens confirmation or retries', async () => {
+  const h = harness({ status: { state: 'ready', probeOnly: false } }); await flush();
+  const noticeMessage = '<img src=x onerror=alert(1)> You were waitlisted.';
+  h.handlers.set('book', call => {
+    const booking = { requestId: call.body.requestId, stage: 'submitted', mode: 'direct', noticeMessage };
+    h.setStatus({ state: 'ready', booking }); return response({ booking });
+  });
+  await h.click(0);
+  assert.match(h.job, /Book request sent/); assert.ok(h.job.includes(noticeMessage));
+  assert.equal(h.buttons[0].feedback.textContent, h.job); assert.equal(h.buttons[1].feedback.textContent, '');
+  assert.equal(h.elements['job-status'].innerHTML, undefined); assert.equal(h.buttons[0].feedback.innerHTML, undefined);
+  assert.equal(h.elements.warning.hidden, true); assert.equal(h.elements.confirm.disabled, true); assert.equal(h.elements.cancel.disabled, true);
+  await h.click('confirm'); await h.click('cancel'); await h.advance(10_000);
+  assert.equal(h.posts('book').length, 1); assert.equal(h.posts('confirm').length, 0); assert.equal(h.posts('cancel').length, 0);
+  assert.ok(h.job.includes(noticeMessage)); assert.equal(h.storageTouches, 0);
+  h.handlers.delete('book'); await h.click(1);
+  assert.equal(h.posts('book').length, 2); assert.equal(h.buttons[0].feedback.textContent, '');
+  assert.doesNotMatch(h.job, /waitlisted|img/);
+});
+
+test('submitted warning restored from status clears on logout and rejects invalid or non-direct text', async () => {
+  const requestId = 'ae034da5-9999-4000-8000-0123456789ab';
+  const h = harness({ status: { state: 'ready', probeOnly: false,
+    booking: { requestId, stage: 'submitted', mode: 'direct', noticeMessage: 'Synthetic late notice' } } });
+  await flush(); assert.match(h.job, /Synthetic late notice/);
+  await h.poll(); assert.equal(h.posts('book').length, 0); assert.equal(h.posts('confirm').length, 0);
+  await h.click('logout'); assert.doesNotMatch(h.job, /Synthetic late notice/);
+  for (const [mode, noticeMessage] of [['native', 'private native notice'], ['direct', 'x'.repeat(4001)],
+    ['direct', 'private\u0000notice'], ['direct', { private: 'notice' }]]) {
+    const invalid = harness({ status: { state: 'ready', probeOnly: false, booking: { requestId, stage: 'submitted', mode, noticeMessage } } });
+    await flush(); assert.equal(invalid.job, 'Book request sent. Check TSS to confirm enrollment.');
+    assert.equal(invalid.elements.confirm.disabled, true); assert.equal(invalid.posts('book').length, 0);
+  }
+});
+
 test('missing direct review details fail closed and cannot fall back to native confirmation', async () => {
   const requestId = 'ae034da5-9999-4000-8000-0123456789ab';
   const h = harness({ status: { state: 'busy', probeOnly: false, booking: { requestId, stage: 'review', mode: 'direct', confirmationId: 'invalid', reviewMessage: 'Warning' } } });

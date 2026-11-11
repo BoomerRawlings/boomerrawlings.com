@@ -1,12 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { SessionCore, QuotaCore, handleRequest, COOKIE_NAME, API_PREFIX } from '../src/session.mjs';
-import { DEFAULT_ROUTE } from '../src/routes.mjs';
+import { DEFAULT_ROUTE, BOOKING_ROUTES } from '../src/routes.mjs';
 import { BUILD_VERSION } from '../src/diagnostics.mjs';
 import { DIRECT_READ_STAGES, DIRECT_SCHEMA_ISSUES } from '../src/direct-tss.mjs';
 
 const origin = 'https://boomerrawlings.com';
 const uuid = () => crypto.randomUUID();
+const syntheticCatalog = () => ({ resolved: true, courses: [
+  { courseCode: 'ECON-120A', moduleId: '12345', packageIds: ['167365', '167366', '167367', '167368', '167369', '167370', '167371', '167372'] },
+  { courseCode: 'MGT-162', moduleId: '54321', packageIds: ['164325', '164326', '164327'] },
+], failures: [] });
 const context = name => ({ id: { toString: () => name }, storage: {
   data: new Map(), alarm: null,
   async get(key) { return structuredClone(this.data.get(key)); },
@@ -184,6 +188,152 @@ test('read-only direct inspection and verification are allowed with writes disab
   assert.equal(JSON.stringify(proof).includes('private'), false); assert.equal(owned.bookCalls, 0);
   assert.deepEqual(calls.map(value => value.compare), [false, true]);
   assert.equal((await a.post('/inspect-direct', { route: 'https://tss.ucsd.edu/arbitrary' })).status, 400);
+});
+
+test('course resolver requires POST, origin, CSRF, UUID and no caller-controlled route', async () => {
+  const f = fixture(); const a = await f.client();
+  const get = new Request(origin + API_PREFIX + '/resolve-courses', { headers: { Cookie: a.cookie } });
+  assert.equal((await handleRequest(get, f.env)).status, 405);
+  for (const [body, headers, expected] of [
+    [{}, { Origin: 'https://evil.test' }, 403], [{}, { 'X-BBB-CSRF': 'wrong' }, 403],
+    [{ requestId: 'invalid' }, {}, 400], [{ route: DEFAULT_ROUTE }, {}, 400],
+    [{ courseCode: 'ECON-120A' }, {}, 400], [{}, { 'Content-Type': 'text/plain' }, 415],
+  ]) assert.equal((await a.post('/resolve-courses', body, headers)).status, expected);
+  assert.equal((await a.post('/resolve-courses')).status, 401); assert.equal(f.count(), 0);
+});
+
+test('course resolver has fresh direct authentication, owned browser and idempotent sanitized results', async () => {
+  const f = fixture({ DIRECT_BOOKING_ENABLED: 'false' }); const a = await f.client(), b = await f.client();
+  await a.post('/login'); const owned = [...f.live.values()][0], proofOptions = [];
+  let resolveCalls = 0;
+  owned.authenticated = async options => { proofOptions.push(options); return 'authenticated'; };
+  owned.resolveCourses = async () => {
+    resolveCalls++;
+    const result = syntheticCatalog();
+    result.courses[0].moduleId = '00012345'; result.courses[0].private = 'private-student-payload';
+    result.raw = 'private-auth-token'; return result;
+  };
+  assert.equal((await b.post('/resolve-courses')).status, 401); assert.equal(resolveCalls, 0);
+  const requestId = uuid(), first = await a.post('/resolve-courses', { requestId });
+  assert.equal(first.status, 200); const result = await first.json();
+  assert.deepEqual(result.catalog, syntheticCatalog()); assert.equal(result.state, 'ready'); assert.equal(result.csrfReady, true);
+  assert.deepEqual(proofOptions, [{ fresh: true, direct: true }]);
+  assert.equal((await a.post('/resolve-courses', { requestId })).status, 200); assert.equal(resolveCalls, 1);
+  assert.equal((await a.post('/inspect-direct', { requestId, route: DEFAULT_ROUTE })).status, 409);
+  assert.equal(owned.bookCalls, 0); assert.equal(BOOKING_ROUTES.size, 9);
+  assert.doesNotMatch(JSON.stringify(result), /private-student|private-auth/);
+  const core = [...f.sessions.values()][0];
+  assert.doesNotMatch(JSON.stringify([...core.ctx.storage.data]), /catalog|12345|54321|private-student|private-auth/);
+});
+
+test('course resolver rejects malformed IDs, packages and catalog rows without exposing arbitrary fields', async () => {
+  const f = fixture(); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  for (const change of [
+    value => { value.courses[0].moduleId = '123456789'; },
+    value => { value.courses[0].moduleId = '00000000'; },
+    value => { value.courses[0].moduleId = 'private-module'; },
+    value => { value.courses[0].packageIds[0] = '164325'; },
+    value => { value.courses[0].packageIds[0] = value.courses[0].packageIds[1]; },
+    value => { value.courses[0].courseCode = 'PRIVATE-COURSE'; },
+    value => { value.courses[1] = structuredClone(value.courses[0]); },
+    value => { value.courses.push({ courseCode: 'private-course', moduleId: 'private-value' }); },
+  ]) {
+    const value = syntheticCatalog(); change(value); owned.resolveCourses = async () => value;
+    const result = await (await a.post('/resolve-courses')).json();
+    assert.equal(result.catalog.resolved, false);
+    assert.ok(result.catalog.failures.some(item => item.courseCode === 'ECON-120A' && item.reason === 'unsupported_response'));
+    assert.doesNotMatch(JSON.stringify(result.catalog), /private-|PRIVATE-/); assert.equal(owned.bookCalls, 0);
+  }
+  owned.resolveCourses = async () => ({ resolved: true, courses: [], failures: [
+    { courseCode: 'ECON-120A', reason: 'course_not_found', private: 'private-response' },
+    { courseCode: 'MGT-162', reason: 'private-reason' },
+  ] });
+  const failed = await (await a.post('/resolve-courses')).json();
+  assert.deepEqual(failed.catalog, { resolved: false, courses: [], failures: [
+    { courseCode: 'ECON-120A', reason: 'course_not_found' }, { courseCode: 'MGT-162', reason: 'unsupported_response' },
+  ] });
+  assert.equal(failed.state, 'ready'); assert.equal(owned.closed, false);
+});
+
+test('course resolver never runs before positive fresh auth and preserves login on temporary failures', async () => {
+  const f = fixture(); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; let calls = 0;
+  owned.resolveCourses = async () => { calls++; return syntheticCatalog(); };
+  assert.equal((await a.post('/resolve-courses')).status, 401);
+  owned.authenticated = async () => 'unavailable';
+  const unavailable = await a.post('/resolve-courses');
+  assert.equal(unavailable.status, 503); assert.equal((await unavailable.json()).reason, 'authentication_unavailable');
+  assert.equal(calls, 0); assert.equal(owned.closed, false); assert.equal(owned.bookCalls, 0);
+  owned.authenticated = async () => 'authenticated';
+  owned.resolveCourses = async () => ({ courses: [], failures: [{ courseCode: 'ECON-120A', reason: 'authentication_required' }] });
+  const expiredAuth = await (await a.post('/resolve-courses')).json();
+  assert.equal(expiredAuth.state, 'signing_in'); assert.equal(expiredAuth.csrfReady, false); assert.equal(owned.closed, false);
+});
+
+test('course resolver is single-flight and discards results when its owned session expires', async () => {
+  const f = fixture({ PROBE_ONLY: 'false' }); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  let release, calls = 0;
+  owned.resolveCourses = async () => { calls++; return new Promise(resolve => { release = resolve; }); };
+  const pending = a.post('/resolve-courses');
+  while (!release) await new Promise(resolve => setTimeout(resolve, 0));
+  assert.equal((await a.post('/resolve-courses')).status, 409);
+  assert.equal((await a.post('/book', { route: DEFAULT_ROUTE })).status, 409);
+  f.advance(15 * 60_000); release(syntheticCatalog());
+  const response = await pending, result = await response.json();
+  assert.equal(response.status, 401); assert.equal(result.state, 'expired'); assert.equal(result.catalog, undefined);
+  assert.equal(owned.closed, true); assert.equal(calls, 1); assert.equal(owned.bookCalls, 0);
+});
+
+test('submitted direct notice is owned and ephemeral, excluded from records and duplicate response cache', async () => {
+  const f = fixture({ PROBE_ONLY: 'false', DIRECT_BOOKING_ENABLED: 'true' });
+  const a = await f.client(), b = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  const noticeMessage = 'Synthetic late TSS warning <plain text>', requestId = uuid();
+  owned.book = async () => { owned.bookCalls++; return { stage: 'submitted', noticeMessage }; };
+  const first = await (await a.post('/book', { route: DEFAULT_ROUTE, requestId })).json();
+  assert.equal(first.booking.stage, 'submitted'); assert.equal(first.booking.noticeMessage, noticeMessage);
+  assert.equal(first.state, 'ready'); assert.equal(first.booking.confirmationId, undefined);
+  assert.equal((await (await a.get()).json()).booking.noticeMessage, noticeMessage);
+  assert.equal((await (await b.get()).json()).booking, undefined);
+  const duplicate = await (await a.post('/book', { route: DEFAULT_ROUTE, requestId })).json();
+  assert.equal(duplicate.booking.noticeMessage, undefined); assert.equal(owned.bookCalls, 1);
+  const core = [...f.sessions.values()][0];
+  for (const value of [core.record, [...core.ctx.storage.data], [...core.results]]) {
+    assert.doesNotMatch(JSON.stringify(value), /Synthetic late TSS|noticeMessage/);
+  }
+  owned.book = async () => ({ stage: 'checking' });
+  const next = await (await a.post('/book', { route: DEFAULT_ROUTE })).json();
+  assert.equal(next.booking.noticeMessage, undefined); assert.equal(core.notice, null);
+  await a.post('/logout'); assert.equal(core.notice, null); assert.equal(core.snapshot().booking, undefined);
+});
+
+test('polled submitted notices survive only their current request and never create confirmation', async () => {
+  const f = fixture({ PROBE_ONLY: 'false', DIRECT_BOOKING_ENABLED: 'true' });
+  const a = await f.client(); await a.post('/login'); const owned = [...f.live.values()][0]; owned.signedIn = true;
+  await a.post('/book', { route: DEFAULT_ROUTE });
+  owned.bookingStatus = async () => ({ stage: 'submitted', noticeMessage: 'Synthetic polled notice', confirmationId: uuid() });
+  const result = await (await a.get()).json();
+  assert.equal(result.booking.stage, 'submitted'); assert.equal(result.booking.noticeMessage, 'Synthetic polled notice');
+  assert.equal(result.booking.confirmationId, undefined); assert.equal(owned.bookCalls, 1);
+  assert.equal((await a.post('/confirm', { bookingRequestId: result.booking.requestId, confirmationId: uuid() })).status, 409);
+  const core = [...f.sessions.values()][0];
+  core.notice.requestId = uuid(); assert.equal(core.snapshot().booking.noticeMessage, undefined);
+  await a.post('/logout'); assert.equal(core.notice, null);
+});
+
+test('native or non-submitted results and malformed notice text cannot expose submitted notices', async () => {
+  const f = fixture({ PROBE_ONLY: 'false', DIRECT_BOOKING_ENABLED: 'true' });
+  const a = await f.client(); await a.post('/login'); const owned = [...f.live.values()][0]; owned.signedIn = true;
+  for (const [stage, noticeMessage] of [['submitted', ''], ['submitted', ' '.repeat(10)], ['submitted', 'x'.repeat(4001)],
+    ['submitted', 'private\u0000notice'], ['submitted', { private: 'text' }], ['stopped', 'private stopped notice']]) {
+    owned.book = async () => ({ stage, noticeMessage });
+    const result = await (await a.post('/book', { route: DEFAULT_ROUTE })).json();
+    assert.equal(result.booking.noticeMessage, undefined);
+  }
+  f.env.DIRECT_BOOKING_ENABLED = 'false'; owned.book = async () => ({ stage: 'submitted', noticeMessage: 'private native notice' });
+  assert.equal((await (await a.post('/book', { route: DEFAULT_ROUTE })).json()).booking.noticeMessage, undefined);
 });
 
 test('direct confirmation is owned, correlated, idempotent and keeps review text out of storage/cache', async () => {

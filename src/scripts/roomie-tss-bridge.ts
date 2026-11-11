@@ -53,6 +53,11 @@ let expiryTimer: ReturnType<typeof setTimeout> | undefined;
 let bookingTimer: ReturnType<typeof setTimeout> | undefined;
 const controllers = new Set<AbortController>();
 let activeFeedback: HTMLElement | null = null;
+let submittedNoticeFeedback: HTMLElement | null = null;
+const clearSubmittedNotice = () => {
+  if (submittedNoticeFeedback) submittedNoticeFeedback.textContent = '';
+  submittedNoticeFeedback = null;
+};
 const text = (element: HTMLElement | null, message: string) => {
   if (element) element.textContent = message;
   if (element === jobStatus && activeFeedback) activeFeedback.textContent = message;
@@ -236,7 +241,13 @@ function bookingResult(value: Record<string, unknown>) {
     case 'submitted':
       completedBookings.add(activeBookId);
       activeBookId = null; bookingStage = ''; closeLogin();
-      text(jobStatus, 'Book request sent. Check TSS to confirm enrollment.');
+      // A warning returned with SaveChanges is informational: submission already
+      // happened. Render plain text without reopening confirmation or retrying.
+      const notice = value.mode === 'direct' && typeof value.noticeMessage === 'string' && value.noticeMessage.trim()
+        && value.noticeMessage.length <= 4000 && !/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(value.noticeMessage)
+        ? ` TSS says: ${value.noticeMessage}` : '';
+      text(jobStatus, `Book request sent.${notice} Check TSS to confirm enrollment.`);
+      submittedNoticeFeedback = notice ? activeFeedback : null;
       break;
     case 'stopped':
       completedBookings.add(activeBookId);
@@ -353,6 +364,7 @@ async function signOut() {
     if (value.state !== 'signed_out') throw new ApiError(502);
     closeLogin(); state = 'signed_out'; csrf = ''; expiresAt = 0;
     activeBookId = null; uncertain = false; bookingStage = ''; clearTimeout(bookingTimer);
+    clearSubmittedNotice();
     text(jobStatus, hadUncertainResult ? 'Signed out. Check TSS before repeating any uncertain booking.' : 'Signed out.');
   } catch { text(jobStatus, 'Sign-out could not be confirmed. Please try again.'); }
   finally { mutating = false; render(); void refreshStatus(); }
@@ -374,6 +386,7 @@ async function inspectSession() {
 async function book(route: string) {
   if (busy() || uncertain || probeOnly || !requireFresh()) return;
   if (state !== 'ready') { await signIn(); return; }
+  clearSubmittedNotice();
   activeBookId = crypto.randomUUID(); bookingStage = ''; mutating = true; revision++; render();
   text(jobStatus, 'Checking the selected course in TSS…');
   try {

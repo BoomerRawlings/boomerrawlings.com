@@ -3,6 +3,9 @@
 ## Roommate booking launcher — 2026-11-11
 
 - Mode: continuation / diagnosis + implementation. Goal: UCSD/Duo sign-in → direct Book without catalog/booking-page navigation. First human booking test failed. No agent enrollment/drop actions; direct submission remains unverified and disabled.
+- Deadline: user requires working flow within5hours from2026-11-11 17:12UTC (target22:12UTC /14:12Pacific). Active execution; do not stop at diagnostic findings.
+- Current local work (not deployed): auth-proof-1 adds fixed40-event auth trace distinguishing upstream, policy and CDP failures; read-only comparison follows native group/event/AssignedCg semantics while writes stay guarded; one login automatically resolves2missingmoduleIDs then compares9knownoptions with preserved results/deadline stops. Catalog module IDs require authenticated Schedule GETs;11packageIDs alreadypublicverified.
+- User asks whether100Bookbuttons wouldhelp; prioritize varied actual behavior (lecture/discussion/lab,credits,waitlist,warnings,alreadybooked), not duplicate sharedhandlers. Sampling remains read-only.
 - User constraint: diagnose before asking for another human sign-in. No new human authentication requested in this investigation. Do not repeat blind login attempts or claim booking ready.
 - Source: `src/data/roomie-booking.ts`, `src/pages/0311/index.astro`, `src/scripts/roomie-tss-bridge.ts`, `workers/booking/`; course update guide `docs/0311-course-updates.md`. Preserve branding, disclosures, direct links and unrelated work.
 - Live sourcef0a3897 on main and feature branch. Pages42999157483 passed build/deployment. Published booking JavaScript exactly matches tested build; page/script HTTP200 and visible sign-in/expired state verified.

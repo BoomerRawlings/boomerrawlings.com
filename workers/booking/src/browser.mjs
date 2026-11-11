@@ -6,6 +6,7 @@ import { bounded } from './timeout.mjs';
 import { bookingReason, bookingResult, terminalBooking } from './booking-result.mjs';
 import { directTssOperation } from './direct-tss.mjs';
 import { authenticationProbe } from './authentication.mjs';
+import { resolveRoomieCourses } from './resolve-courses.mjs';
 import { safeBlockedRequest, safeCspDirective, safeNetworkError, preflightDiagnostic } from './diagnostics.mjs';
 
 export const PROTOCOL_TIMEOUT_MS = 20_000;
@@ -178,6 +179,7 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
       const status = ['authenticated', 'unauthenticated', 'unavailable'].includes(proof?.status) ? proof.status : 'unavailable';
       authenticationValid = status === 'authenticated';
       authenticationState = { page: proof?.page, ...(proof?.issue ? { issue: proof.issue } : {}) };
+      guard.recordAuthPage?.(proof?.page);
       authenticationUrl = url; authenticationMode = mode; lastAuthentication = Date.now();
       return status;
     };
@@ -185,6 +187,7 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
       id,
       connected() { return browser.connected && !page.isClosed(); },
       authenticated,
+      resolveCourses() { return page.evaluate(resolveRoomieCourses); },
       async loginUrl() {
         try {
           await rendererPreflight(page);
@@ -246,7 +249,7 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
         if (terminalBooking(result) && activeJob === job) activeJob = null;
         return result;
       },
-      authDiagnostics() { return { blocked: [...authBlocked.values()], ...(authenticationState ? { authentication: authenticationState } : {}),
+      authDiagnostics() { return { blocked: [...authBlocked.values()], trace: guard.authTrace?.() || [], ...(authenticationState ? { authentication: authenticationState } : {}),
         csp: [...cspViolations].map(([directive, count]) => ({ directive, count })),
         requestFailures: [...requestFailures].map(([code, count]) => ({ code, count })) }; },
       // Sanitized diagnostics are exposed only by the owned probe session.

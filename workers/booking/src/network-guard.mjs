@@ -1,5 +1,6 @@
 import { allowProbeRequest, authorizeNativeWrite } from './read-only.mjs';
 import { Buffer } from 'node:buffer';
+import { createAuthTrace, authTraceDestination, authTraceGuardIssue, AUTH_TRACE_UPSTREAM_REASONS } from './auth-trace.mjs';
 
 // A response header, not an editable iframe attribute: popup/form targets are
 // denied by Chromium before a second target can send its first request. Frames
@@ -10,6 +11,9 @@ export async function installNetworkGuard(page, { getJob = () => null, onBlocked
   await page.setBypassServiceWorker(true);
   await page.setCacheEnabled(false);
   const client = await page.createCDPSession();
+  const trace = createAuthTrace(now);
+  client.authTrace = trace.snapshot;
+  client.recordAuthPage = trace.addAuthPage;
   const pending = new Set();
   let pendingCount = 0, lastCompleted, lastFailure;
   const age = at => Math.min(900_000, Math.max(0, now() - at));
@@ -24,6 +28,8 @@ export async function installNetworkGuard(page, { getJob = () => null, onBlocked
   client.on('Fetch.requestPaused', async event => {
     const { requestId, request, resourceType } = event;
     const progress = { resourceType: ['Document', 'XHR', 'Fetch', 'Script', 'Stylesheet', 'Image', 'Font'].includes(resourceType) ? resourceType : 'Other', phase: 'request', at: now() };
+    const destination = authTraceDestination(request.url);
+    const traceEvent = value => trace.record({ destination, resourceType: progress.resourceType, ...value });
     pendingCount++;
     if (pending.size < 12) pending.add(progress);
     const send = (phase, method, args) => {
@@ -33,14 +39,16 @@ export async function installNetworkGuard(page, { getJob = () => null, onBlocked
     let completed = false;
     try {
       if (event.responseErrorReason) {
+        traceEvent({ kind: 'upstream_failure', reason: AUTH_TRACE_UPSTREAM_REASONS.includes(event.responseErrorReason) ? event.responseErrorReason : 'Other' });
         await send('response_abort', 'Fetch.failRequest', { requestId, errorReason: 'BlockedByClient' });
         completed = true;
         return;
       }
       if (event.responseStatusCode !== undefined) {
+        if (resourceType === 'Document') traceEvent({ kind: 'document_response', status: event.responseStatusCode });
         const redirect = [301, 302, 303, 307, 308].includes(event.responseStatusCode);
         const original = redirect ? null : await send('response_body', 'Fetch.getResponseBody', { requestId });
-        if (original && original.body.length > 4 * 1024 * 1024) throw new Error('Document too large');
+        if (original && original.body.length > 4 * 1024 * 1024) throw Object.assign(new Error('Document too large'), { guardIssue: 'body_too_large' });
         await send('response_fulfill', 'Fetch.fulfillRequest', {
           requestId, responseCode: event.responseStatusCode,
           ...(event.responseStatusText ? { responsePhrase: event.responseStatusText } : {}),
@@ -55,15 +63,17 @@ export async function installNetworkGuard(page, { getJob = () => null, onBlocked
       if (allowProbeRequest(description) || authorizeNativeWrite(description, getJob())) {
         await send('request_continue', 'Fetch.continueRequest', { requestId, ...(resourceType === 'Document' ? { interceptResponse: true } : {}) });
       } else {
+        traceEvent({ kind: 'policy_block' });
         const url = new URL(request.url);
         onBlocked({ hostname: url.hostname, pathname: url.pathname, method: request.method });
         await send('request_block', 'Fetch.failRequest', { requestId, errorReason: 'BlockedByClient' });
       }
       completed = true;
-    } catch {
+    } catch (failure) {
       // Unsupported response-header interception fails closed, never reloads a
       // document without the popup policy. No raw protocol errors are logged.
       lastFailure = { phase: progress.phase, at: now() };
+      traceEvent({ kind: 'guard_failure', phase: progress.phase, issue: authTraceGuardIssue(failure) });
       await send('failure_abort', 'Fetch.failRequest', { requestId, errorReason: 'BlockedByClient' }).catch(() => {});
     } finally {
       if (completed) lastCompleted = { phase: progress.phase, at: now() };

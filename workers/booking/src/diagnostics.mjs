@@ -1,6 +1,7 @@
 import { AUTHENTICATION_PAGES, AUTHENTICATION_ISSUES } from './authentication.mjs';
+import { sanitizeAuthTrace } from './auth-trace.mjs';
 
-export const BUILD_VERSION = 'auth-recovery-1';
+export const BUILD_VERSION = 'auth-proof-1';
 
 const authHosts = new Set(['tss.ucsd.edu', 'tssproxy.ucsd.edu', 'a5.ucsd.edu', 'api-ce13a1a7.duosecurity.com']);
 const publicSegments = new Set(['fiori', 'sap', 'public', 'bc', 'sec', 'saml2', 'sp', 'acs', 'opu', 'odata', 'ITUS', 'PR_MY_MODULES_V2_SRV',
@@ -39,7 +40,9 @@ export function safeAuthDiagnostics(record, diagnostics = []) {
   const codes = new Set(['cross_request_io', 'navigation_context', 'method_unavailable', 'provider_not_found', 'connection_closed',
     'storage_error', 'quota_error', 'cleanup_pending', 'unclassified', 'read_timeout', 'renderer_timeout', 'renderer_dom_not_ready', 'renderer_protocol_error', 'authentication_unavailable']);
   const authentication = diagnostics?.authentication;
+  const trace = sanitizeAuthTrace(diagnostics?.trace);
   return { ...(stages.has(record.failureStage) ? { stage: record.failureStage } : {}),
+    ...(trace.length ? { trace } : {}),
     ...(codes.has(record.lastFailure?.code) ? { code: record.lastFailure.code } : {}),
     ...(record.failureStage === 'renderer_preflight' && preflightPhases.has(record.lastFailure?.phase) ? { phase: record.lastFailure.phase } : {}),
     ...(authenticationPages.has(authentication?.page) ? { authentication: { page: authentication.page,

@@ -4,7 +4,8 @@ import { closeProviderSession, providerSessionExists } from './provider-lifecycl
 import { BUILD_VERSION, failureDiagnostic, safeAuthDiagnostics } from './diagnostics.mjs';
 import { bounded } from './timeout.mjs';
 import { bookingReason } from './booking-result.mjs';
-import { DIRECT_READ_STAGES, DIRECT_SCHEMA_ISSUES, DIRECT_SETTING_FLAGS, DIRECT_SETTING_SHAPES } from './direct-tss.mjs';
+import { DIRECT_READ_STAGES, DIRECT_SCHEMA_ISSUES, DIRECT_SETTING_FLAGS, DIRECT_SETTING_SHAPES, DIRECT_PREPARATION_NOTES } from './direct-tss.mjs';
+import { RESOLVE_COURSE_REASONS } from './resolve-courses.mjs';
 
 export const COOKIE_NAME = '__Host-bbb-session';
 export const API_PREFIX = '/0311/api';
@@ -40,8 +41,34 @@ function directDiagnostics(value) {
   const settings = value.settingShapes && typeof value.settingShapes === 'object' && !Array.isArray(value.settingShapes)
     ? Object.fromEntries(Object.entries(value.settingShapes).filter(([key, shape]) => directSettingFlags.has(key) && directSettingShapes.has(shape))) : {};
   return { ...(directReadStages.has(value.readStage) ? { readStage: value.readStage } : {}),
+    ...(Array.isArray(value.preparationNotes) ? { preparationNotes: [...new Set(value.preparationNotes.filter(note=>DIRECT_PREPARATION_NOTES.includes(note)))].slice(0,3) } : {}),
     ...(directSchemaIssues.has(value.schemaIssue) ? { schemaIssue: value.schemaIssue } : {}),
     ...(issues.length ? { schemaIssues: issues } : {}), ...(Object.keys(settings).length ? { settingShapes: settings } : {}) };
+}
+
+const catalogPackages = Object.freeze({
+  'ECON-120A': ['167365', '167366', '167367', '167368', '167369', '167370', '167371', '167372'],
+  'MGT-162': ['164325', '164326', '164327'],
+});
+function safeCourseCatalog(value) {
+  const rows = Array.isArray(value?.courses) && value.courses.length <= 2 ? value.courses : [];
+  const failures = Array.isArray(value?.failures) && value.failures.length <= 2 ? value.failures : [];
+  const catalog = { resolved: false, courses: [], failures: [] };
+  for (const [courseCode, expectedPackages] of Object.entries(catalogPackages)) {
+    const candidates = rows.filter(row => row?.courseCode === courseCode), row = candidates[0];
+    const moduleId = typeof row?.moduleId === 'string' && /^\d{1,8}$/.test(row.moduleId) && /[1-9]/.test(row.moduleId)
+      ? row.moduleId.replace(/^0+(?=\d)/, '') : null;
+    const validPackages = Array.isArray(row?.packageIds) && row.packageIds.length === expectedPackages.length
+      && new Set(row.packageIds).size === expectedPackages.length && row.packageIds.every(id => expectedPackages.includes(id));
+    const reported = failures.find(item => item?.courseCode === courseCode && RESOLVE_COURSE_REASONS.includes(item.reason));
+    if (candidates.length === 1 && moduleId && validPackages && !reported) {
+      catalog.courses.push({ courseCode, moduleId, packageIds: [...expectedPackages] });
+    } else {
+      catalog.failures.push({ courseCode, reason: reported?.reason || 'unsupported_response' });
+    }
+  }
+  catalog.resolved = catalog.courses.length === 2;
+  return catalog;
 }
 
 async function boundedText(request, limit = 4096) {
@@ -69,7 +96,7 @@ export async function handleRequest(request, env) {
   const endpoint = url.pathname.slice(API_PREFIX.length);
   if (endpoint === '/test' && request.method === 'GET') return probePage();
   if (endpoint === '/health' && request.method === 'GET') return json({ ok: true, probeOnly: probing(env), directBookingEnabled: env.DIRECT_BOOKING_ENABLED === 'true', build: BUILD_VERSION });
-  if (!['/status', '/login', '/logout', '/inspect', '/inspect-direct', '/verify-direct', '/book', '/confirm', '/cancel'].includes(endpoint)) return error('Not found.', 404);
+  if (!['/status', '/login', '/logout', '/inspect', '/inspect-direct', '/verify-direct', '/resolve-courses', '/book', '/confirm', '/cancel'].includes(endpoint)) return error('Not found.', 404);
   if (request.method !== (endpoint === '/status' ? 'GET' : 'POST')) return error('Method not allowed.', 405);
   const origin = request.headers.get('Origin');
   if ((origin && origin !== env.APP_ORIGIN) || (request.method === 'POST' && origin !== env.APP_ORIGIN)
@@ -102,6 +129,7 @@ export class SessionCore {
     this.lastDiagnostics = undefined;
     this.lastAuthDiagnostics = [];
     this.review = null;
+    this.notice = null;
     this.statusProbe = null;
     this.statusProbeRevision = -1;
     this.statusProbeGeneration = -1;
@@ -141,7 +169,9 @@ export class SessionCore {
       ...(probing(this.env) && this.record.failureStage ? { failureStage: this.record.failureStage } : {}),
       ...(this.record.booking ? { booking: { ...this.record.booking,
         ...(this.record.booking.mode === 'direct' && this.record.booking.stage === 'review' && this.review?.requestId === this.record.booking.requestId
-          ? { reviewMessage: this.review.message, confirmationId: this.review.confirmationId } : {}) } } : {}),
+          ? { reviewMessage: this.review.message, confirmationId: this.review.confirmationId } : {}),
+        ...(this.record.booking.mode === 'direct' && this.record.booking.stage === 'submitted' && this.notice?.requestId === this.record.booking.requestId
+          ? { noticeMessage: this.notice.message } : {}) } } : {}),
       ...(this.record.expiresAt ? { expiresAt: this.record.expiresAt } : {}), ...extra };
   }
 
@@ -151,6 +181,10 @@ export class SessionCore {
       && typeof result.reviewMessage === 'string' && result.reviewMessage.length > 0 && result.reviewMessage.length <= 4000
       && !/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(result.reviewMessage)
       ? { requestId: this.record.booking.requestId, confirmationId: result.confirmationId, message: result.reviewMessage } : null;
+    this.notice = this.record.booking.mode === 'direct' && this.record.booking.stage === 'submitted'
+      && typeof result.noticeMessage === 'string' && result.noticeMessage.trim().length > 0 && result.noticeMessage.length <= 4000
+      && !/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(result.noticeMessage)
+      ? { requestId: this.record.booking.requestId, message: result.noticeMessage } : null;
   }
 
   close(state) {
@@ -287,7 +321,8 @@ export class SessionCore {
       let body;
       try { body = JSON.parse(raw); } catch { return error('Invalid request.'); }
       const reviewing = ['/confirm', '/cancel'].includes(action);
-      const allowedKeys = reviewing ? ['requestId', 'bookingRequestId', 'confirmationId'] : ['requestId', 'route'];
+      const allowedKeys = reviewing ? ['requestId', 'bookingRequestId', 'confirmationId']
+        : action === '/resolve-courses' ? ['requestId'] : ['requestId', 'route'];
       if (!body || typeof body !== 'object' || Array.isArray(body) || !UUID.test(body.requestId || '')
           || Object.keys(body).some(key => !allowedKeys.includes(key))
           || (reviewing && (!UUID.test(body.bookingRequestId || '') || !UUID.test(body.confirmationId || '')))) return error('Invalid request.');
@@ -315,7 +350,7 @@ export class SessionCore {
         result = await this.perform(action, body);
       } finally { this.busy = false; }
       const data = { ...this.snapshot(), ...result.body };
-      // Review text belongs only to this live response and in-memory controller.
+      // Review/notice text belongs only to live responses and in-memory fields.
       // Request deduplication stores no native messages or confirmation grants.
       this.results.set(body.requestId, { status: result.status || 200, body: { ...data, ...(data.booking ? { booking: { ...this.record.booking } } : {}) } });
       return json(data, result.status || 200);
@@ -341,6 +376,7 @@ export class SessionCore {
       await this.close('signed_out');
       delete this.record.booking;
       this.review = null;
+      this.notice = null;
       await this.persist();
       this.results.clear();
       return { body: { state: 'signed_out' } };
@@ -401,8 +437,8 @@ export class SessionCore {
       await this.persist();
       return { body: { state: activeBooking(this.record) ? 'busy' : 'ready', booking: this.snapshot().booking } };
     }
-    if (['/inspect', '/inspect-direct', '/verify-direct', '/book'].includes(action)) {
-      const directRead = ['/inspect-direct', '/verify-direct'].includes(action);
+    if (['/inspect', '/inspect-direct', '/verify-direct', '/resolve-courses', '/book'].includes(action)) {
+      const directRead = ['/inspect-direct', '/verify-direct', '/resolve-courses'].includes(action);
       if (!this.browser) return { status: 401, body: { state: 'signed_out', ready: false, reason: 'authentication_required' } };
       const generation = this.generation, browser = this.browser;
       let proof;
@@ -419,8 +455,21 @@ export class SessionCore {
       await this.rememberAuthentication(proof);
       if (proof !== 'authenticated') return { status: proof === 'unavailable' ? 503 : 401,
         body: { state: 'signing_in', ready: false, reason: proof === 'unavailable' ? 'authentication_unavailable' : 'authentication_required' } };
+      if (action === '/resolve-courses') {
+        const result = await browser.resolveCourses();
+        if (generation !== this.generation || browser !== this.browser || this.now() >= this.record.expiresAt) {
+          if (generation === this.generation && browser === this.browser) await this.close('expired');
+          return { status: 401, body: { state: 'expired', ready: false, reason: 'authentication_required' } };
+        }
+        const catalog = safeCourseCatalog(result);
+        const csrfReady = !catalog.failures.some(item => item.reason === 'authentication_required');
+        this.record.state = csrfReady ? 'ready' : 'signing_in';
+        await this.persist();
+        return { body: { state: this.record.state, csrfReady, catalog } };
+      }
       const { courseCode } = BOOKING_ROUTES.get(body.route);
       if (action === '/book') {
+        this.notice = null;
         this.record.booking = { requestId: body.requestId, stage: 'loading', ...(this.env.DIRECT_BOOKING_ENABLED === 'true' ? { mode: 'direct' } : {}) };
         await this.persist();
         const result = await this.browser.book(body.route, courseCode, body.requestId);

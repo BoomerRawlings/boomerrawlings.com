@@ -2,6 +2,7 @@ export const DIRECT_READ_STAGES = Object.freeze(['service', 'settings', 'header'
 export const DIRECT_SCHEMA_ISSUES = Object.freeze(['request_timeout', 'network_error', 'authentication_http', 'http_error', 'not_json', 'response_large', 'invalid_json', 'invalid_d', 'error_envelope', 'not_collection', 'paginated', 'nonobject_row', 'missing_csrf', 'unsupported_autobook', 'unsupported_top_module', 'hidden_events']);
 export const DIRECT_SETTING_FLAGS = Object.freeze(['ENABLE_AUTOBOOK', 'ENABLE_TOP_MODULE_BOOKING', 'HIDE_TAB_EVENT', 'HIDE_TAB_EXAM', 'SHOW_TEMPLATE', 'SHOW_CREDITS']);
 export const DIRECT_SETTING_SHAPES = Object.freeze(['missing', 'null', 'empty', 'X', 'other_string', 'boolean', 'number', 'other']);
+export const DIRECT_PREPARATION_NOTES = Object.freeze(['native_group_not_bookable', 'native_first_group', 'native_first_event']);
 
 // Serialized into the already-authenticated, owned TSS browser. The archived
 // MyModules controller is the source of the reads, defaults and payload below.
@@ -49,7 +50,11 @@ export function directTssOperation(input) {
   const diagnostics = job => {
     const issues = job.schemaIssues || [];
     return { ...(issues.length ? { ...issues[0], schemaIssues: issues.map(issue => ({ ...issue })) } : {}),
-      ...(job.settingShapes ? { settingShapes: { ...job.settingShapes } } : {}) };
+      ...(job.settingShapes ? { settingShapes: { ...job.settingShapes } } : {}),
+      ...(job.preparationNotes?.length ? { preparationNotes: [...job.preparationNotes] } : {}) };
+  };
+  const preparationNote = (job, value) => {
+    if (job?.readOnly && !(job.preparationNotes ||= []).includes(value)) job.preparationNotes.push(value);
   };
   // Check every available collection before stopping, so one read-only probe
   // explains parallel response-shape failures without exposing response data.
@@ -164,13 +169,22 @@ export function directTssOperation(input) {
     if (packageData.BookingButtonEnabled !== true) fail('booking_unavailable');
     if (packageData.WithdrawButtonEnabled !== false) fail('existing_registration');
     if (exams.some(row => row.Booked === true)) fail('assessment_review');
-    let candidates = positive(header.AssignedCg) ? groups.filter(group => same(group.CgObjid, header.AssignedCg)) : [];
-    if (!candidates.length) candidates = groups.filter(group => group.Selected === true);
-    if (!candidates.length) candidates = groups.filter(group => group.IsDefault === true);
+    // Native getSelectedModuleGroup compares AssignedCg strictly, then uses the
+    // first selected/default row. Numeric normalization can choose another row.
+    let candidates = header.AssignedCg ? groups.filter(group => group.CgObjid === header.AssignedCg) : [];
+    if (!candidates.length) candidates = groups.filter(group => job?.readOnly ? !!group.Selected : group.Selected === true);
+    if (!candidates.length) candidates = groups.filter(group => job?.readOnly ? !!group.IsDefault : group.IsDefault === true);
     if (!candidates.length && groups.length === 1) candidates = groups;
-    if (candidates.length !== 1) fail('course_group_unavailable');
+    if (!candidates.length || (candidates.length !== 1 && !job?.readOnly)) fail('course_group_unavailable');
+    if (candidates.length > 1) preparationNote(job, 'native_first_group');
     const group = candidates[0];
-    if (group.Bookable !== true || !positive(group.CgObjid) || digits(group.ScObjid) === null || digits(group.CgTopObjid) === null) fail('course_group_unavailable');
+    // The native visibility formatter permits the top-module data flag/status00
+    // branch independently of group.Bookable. Derive it only for comparison;
+    // writes still require the strict Bookable flag and unambiguous selection.
+    const nativeGroupVisible = !!group.Bookable || (settings.ENABLE_TOP_MODULE_BOOKING === 'X' && header.SmStatus === '00');
+    if ((group.Bookable !== true && !(job?.readOnly && nativeGroupVisible))
+      || !positive(group.CgObjid) || digits(group.ScObjid) === null || digits(group.CgTopObjid) === null) fail('course_group_unavailable');
+    if (group.Bookable !== true) preparationNote(job, 'native_group_not_bookable');
     let template = header.TemplateId;
     const hasTemplate = value => typeof value === 'string' && value.trim().length > 0 && value !== '0000';
     if (settings.SHOW_TEMPLATE === 'X') {
@@ -191,9 +205,17 @@ export function directTssOperation(input) {
       if (positive(event.EventPackageId) && !same(event.EventPackageId, target.packageId)) fail('section_mismatch');
       if (event.Booked !== false) fail('existing_registration');
       eligible(eventLogs.get(event));
-      if (types.has(digits(event.DObjid))) fail('ambiguous_package');
-      if (ids.has(digits(event.EventId))) fail('duplicate_sections');
-      types.set(digits(event.DObjid), event); ids.add(digits(event.EventId));
+      // Native EventTypes preserves the raw DObjid grouping and response order;
+      // a fresh package sends Events[0] only. Multiple choices remain a write
+      // blocker, but do not prevent read-only comparison with that exact branch.
+      const typeKey = job?.readOnly ? String(event.DObjid) : digits(event.DObjid);
+      const existingType = types.has(typeKey);
+      if (existingType && !job?.readOnly) fail('ambiguous_package');
+      if (existingType) preparationNote(job, 'native_first_event');
+      else {
+        if (ids.has(digits(event.EventId))) fail('duplicate_sections');
+        types.set(typeKey, event); ids.add(digits(event.EventId));
+      }
     }
     // Exact fresh-package branch of _prepareSaveData(false). Historical
     // header.ModregId is intentionally ignored: native always sends zero here.
@@ -282,7 +304,8 @@ export function directTssOperation(input) {
       readJob.done = true; clearTimeout(readJob.timer);
       for (const controller of readJob.controllers) controller.abort();
       state.readActive = null;
-      entry.result = { stage: value.stage || 'ready', ...value, ...(value.ready === false ? diagnostics(readJob) : {}) };
+      entry.result = { stage: value.stage || 'ready', ...value, ...(value.ready === false ? diagnostics(readJob)
+        : readJob.preparationNotes?.length ? { preparationNotes: [...readJob.preparationNotes] } : {}) };
       return entry.result;
     };
     readJob.timer = setTimeout(() => {
@@ -302,14 +325,14 @@ export function directTssOperation(input) {
     job.stage = stage;
     return value;
   };
-  const finish = (job, stage, reason) => {
+  const finish = (job, stage, reason, extra) => {
     if (!current(job)) return snapshot(job);
     job.done = true; clearTimeout(job.timer);
     for (const controller of job.controllers) controller.abort();
     job.payload = null; job.csrf = ''; job.confirmationId = '';
     state.active = null;
     if (stage === 'error') state.locked = true;
-    return update(job, stage, reason);
+    return update(job, stage, reason, extra);
   };
   async function save(job) {
     if (!current(job) || job.saveIssued) return;
@@ -318,7 +341,13 @@ export function directTssOperation(input) {
       const saved = await request(service + 'ActionHdrSet', { payload: job.payload, csrf: job.csrf, job });
       if (!current(job)) return;
       if (['E', 'A'].includes(saved.data.MessageType)) finish(job, 'error', 'booking_error');
-      else finish(job, 'submitted'); // Accepted response; not proof of enrollment.
+      else {
+        // Native saveCall shows a late warning even when CheckRegistration was
+        // clean. The write already happened: this is informational, never a new
+        // confirmation or a retry. Render as text only; retain only in memory.
+        const noticeMessage = saved.data.MessageType === 'W' ? plain(saved.data.Message) : '';
+        finish(job, 'submitted', undefined, noticeMessage ? { noticeMessage } : undefined);
+      } // Accepted response; not proof of enrollment.
     } catch { if (current(job)) finish(job, 'error', 'submission_uncertain'); }
   }
   async function begin(job) {
