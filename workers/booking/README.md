@@ -15,6 +15,8 @@ npx wrangler deploy --dry-run
 
 `test/browser-guard.test.mjs` additionally runs real isolated headless Chromium when `BBB_TEST_CHROME` and `BBB_TEST_OPENSSL` point to local executables. It creates a temporary profile and certificate, maps the fixture hostname to loopback, and verifies popup, form-target, iframe, worker and modifying-fetch attempts never reach the fixture server. Without those variables the single test is explicitly skipped. No UCSD account or production endpoint is used.
 
+`test/browser-sso-guard.test.mjs` uses the same variables and a local rejecting proxy. Four fresh contexts compare guarded and baseline synthetic SSO: cookie rotations, 302/303/307 redirects, gzip documents, CSRF fields, cross-site callbacks and SAML auto-submission. All transport observations match. This does not establish UCSD account mapping or explain its observed post-Duo Java exception.
+
 The package pins `@cloudflare/puppeteer` and Wrangler. Cloudflare authorization and an account with Browser Run support are deployment prerequisites. No account credentials belong in this directory. On Windows ARM, Wrangler's optional x64 workerd executable may need an explicit local installation; do not commit machine-specific package changes.
 
 ## Probe operation
@@ -61,6 +63,8 @@ All paths below are relative to `/0311/api`. Responses are non-cacheable. Mutati
 | `POST /confirm`, `/cancel` | Explicit resolution of the current direct warning, with a new request ID plus matching bookingRequestId/confirmationId |
 
 Session states: `signed_out`, `signing_in`, `ready`, `expired`, `busy`, `error`. A ready session requires the authenticated SAP shell plus a successful same-session CSRF-fetch GET, checked at most 30 seconds apart and freshly before Book. CSRF values are never returned to the website or persisted. Request interception handles authentication traffic transiently; it does not store credential values.
+
+Authentication checks distinguish authenticated, unauthenticated and temporarily unavailable. Failed reads revoke booking readiness while preserving the guarded browser until explicit sign-out, disconnect or the original deadline. A mutation revision prevents old polls/timeouts from replacing newer proofs; main-frame navigation invalidates the browser proof cache. A pre-dispatch `503 authentication_unavailable` means no booking action started. It is never used for uncertain submission results. The website does not automatically retry Book. Fixed page/issue classifications distinguish UCSD's observed login exception, Duo, login choice and TSS loading without exposing document text or credentials.
 
 Booking status is nested as `booking: {requestId, stage}` in both Book and status responses. Stages: `loading`, `checking`, `submitting`, `review`, `submitted`, `stopped`, `error`. `submitted` means the native save returned without an observed error; verify the outcome in TSS. `review` requires the user to act on the official warning through a fresh `/login` Live View; reconnecting never starts or repeats Book. Direct-mode warnings instead return ephemeral plain text and a one-use confirmation ID; the user must explicitly confirm or cancel on the website. Confirmation re-reads and compares the payload before SaveChanges. Request IDs deduplicate calls; unknown/interrupted outcomes must not be retried automatically.
 

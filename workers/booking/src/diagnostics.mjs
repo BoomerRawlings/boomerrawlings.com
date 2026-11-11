@@ -1,4 +1,6 @@
-export const BUILD_VERSION = 'direct-test-3';
+import { AUTHENTICATION_PAGES, AUTHENTICATION_ISSUES } from './authentication.mjs';
+
+export const BUILD_VERSION = 'auth-recovery-1';
 
 const authHosts = new Set(['tss.ucsd.edu', 'tssproxy.ucsd.edu', 'a5.ucsd.edu', 'api-ce13a1a7.duosecurity.com']);
 const publicSegments = new Set(['fiori', 'sap', 'public', 'bc', 'sec', 'saml2', 'sp', 'acs', 'opu', 'odata', 'ITUS', 'PR_MY_MODULES_V2_SRV',
@@ -16,6 +18,7 @@ const networkErrors = new Set(['ERR_ABORTED', 'ERR_FAILED', 'ERR_BLOCKED_BY_CLIE
   'ERR_CONNECTION_RESET', 'ERR_CONNECTION_REFUSED', 'ERR_CONNECTION_TIMED_OUT', 'ERR_TIMED_OUT', 'ERR_NAME_NOT_RESOLVED', 'ERR_CERT_AUTHORITY_INVALID',
   'ERR_CERT_DATE_INVALID', 'ERR_CERT_COMMON_NAME_INVALID', 'ERR_INTERNET_DISCONNECTED', 'OTHER']);
 const preflightPhases = new Set(['attach', 'page_enable', 'evaluate']);
+const authenticationPages = new Set(AUTHENTICATION_PAGES), authenticationIssues = new Set(AUTHENTICATION_ISSUES);
 export function preflightDiagnostic(failure, phase) {
   const message = typeof failure?.message === 'string' ? failure.message : '';
   const code = failure?.stage === 'renderer_preflight_timeout' || failure?.name === 'TimeoutError' || /timed out|timeout/i.test(message) ? 'renderer_timeout'
@@ -34,10 +37,13 @@ export function safeAuthDiagnostics(record, diagnostics = []) {
     'object_restart', 'runtime_io_context', 'status', 'status_timeout', 'cleanup_lookup', 'cleanup_pending', 'quota_service', 'quota_release',
     'quota_concurrency', 'quota_budget', 'quota_cleanup', 'initialization', 'session_operation']);
   const codes = new Set(['cross_request_io', 'navigation_context', 'method_unavailable', 'provider_not_found', 'connection_closed',
-    'storage_error', 'quota_error', 'cleanup_pending', 'unclassified', 'read_timeout', 'renderer_timeout', 'renderer_dom_not_ready', 'renderer_protocol_error']);
+    'storage_error', 'quota_error', 'cleanup_pending', 'unclassified', 'read_timeout', 'renderer_timeout', 'renderer_dom_not_ready', 'renderer_protocol_error', 'authentication_unavailable']);
+  const authentication = diagnostics?.authentication;
   return { ...(stages.has(record.failureStage) ? { stage: record.failureStage } : {}),
     ...(codes.has(record.lastFailure?.code) ? { code: record.lastFailure.code } : {}),
     ...(record.failureStage === 'renderer_preflight' && preflightPhases.has(record.lastFailure?.phase) ? { phase: record.lastFailure.phase } : {}),
+    ...(authenticationPages.has(authentication?.page) ? { authentication: { page: authentication.page,
+      ...(authenticationIssues.has(authentication.issue) ? { issue: authentication.issue } : {}) } } : {}),
     blocked: blocked.slice(0, 30).map(value => ({ ...safeBlockedRequest(value), count: Math.min(1000, Math.max(1, Number(value.count) || 1)) })),
     ...(Array.isArray(diagnostics?.csp) ? { csp: diagnostics.csp.filter(value => directives.has(value.directive)).slice(0, 12)
       .map(value => ({ directive: value.directive, count: Math.min(1000, Math.max(1, Number(value.count) || 1)) })) } : {}),

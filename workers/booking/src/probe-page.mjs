@@ -1,5 +1,6 @@
 import { BOOKING_ROUTES } from './routes.mjs';
 import { DIRECT_READ_STAGES, DIRECT_SCHEMA_ISSUES, DIRECT_SETTING_FLAGS, DIRECT_SETTING_SHAPES } from './direct-tss.mjs';
+import { AUTHENTICATION_PAGES, AUTHENTICATION_ISSUES } from './authentication.mjs';
 
 export function probePage() {
   const nonce = crypto.randomUUID().replaceAll('-', '');
@@ -14,7 +15,18 @@ export function probePage() {
 <script nonce="${nonce}">
 const $=id=>document.getElementById(id);let csrf='',state='signed_out',pending=false,diagnosticState={},expiresAt=0,autoCompare=false;
 const readStages=new Set(${JSON.stringify(DIRECT_READ_STAGES)}),schemaIssues=new Set(${JSON.stringify(DIRECT_SCHEMA_ISSUES)}),settingFlags=new Set(${JSON.stringify(DIRECT_SETTING_FLAGS)}),settingShapes=new Set(${JSON.stringify(DIRECT_SETTING_SHAPES)});
+const authenticationPages=new Set(${JSON.stringify(AUTHENTICATION_PAGES)}),authenticationIssues=new Set(${JSON.stringify(AUTHENTICATION_ISSUES)});
 const names={signed_out:'Signed out',signing_in:'Complete UCSD / Duo sign-in in the other tab',ready:'TSS session is ready',expired:'Session expired — sign in again',busy:'Checking TSS…',error:'Session unavailable'};
+function authenticationMessage(auth){
+  const snapshot=auth?.authentication,page=authenticationPages.has(snapshot?.page)?snapshot.page:'',issue=page&&authenticationIssues.has(snapshot?.issue)?snapshot.issue:'';
+  if(page==='ucsd_error'||issue==='ucsd_login_exception')return 'UCSD sign-in returned an error. Check the sign-in tab.';
+  if(issue==='service_unavailable')return 'TSS is temporarily unavailable. Your sign-in stays open; checking again.';
+  if(['network_error','request_timeout','missing_csrf','unexpected_response'].includes(issue)||auth?.code==='authentication_unavailable')return 'TSS could not confirm sign-in. Your sign-in stays open; checking again.';
+  if(page==='tss_loading')return 'TSS is loading. Your sign-in stays open; checking again.';
+  if(page==='duo')return 'Complete Duo in the sign-in tab.';
+  if(page==='login_choice')return 'Choose your UCSD sign-in option in the other tab.';
+  return names.signing_in;
+}
 function guardLines(guard){if(!guard||typeof guard!=='object')return [];const lines=[],phases=new Set(['request','response_abort','response_body','response_fulfill','request_continue','request_block','failure_abort']),resources=new Set(['Document','XHR','Fetch','Script','Stylesheet','Image','Font','Other']);const valid=item=>item&&phases.has(item.phase)&&Number.isFinite(item.ageMs)&&item.ageMs>=0&&item.ageMs<=900000;const age=item=>(Math.round(item.ageMs/100)/10)+'s';if(Number.isInteger(guard.pendingCount)&&guard.pendingCount>=0&&guard.pendingCount<=1000)lines.push('Fetch pending: '+guard.pendingCount);for(const item of (Array.isArray(guard.pending)?guard.pending:[]).slice(0,12))if(valid(item)&&resources.has(item.resourceType))lines.push('Fetch phase: '+item.resourceType+' '+item.phase+' ('+age(item)+')');for(const [key,label] of [['lastCompleted','Last Fetch completion'],['lastFailure','Last Fetch failure']])if(valid(guard[key]))lines.push(label+': '+guard[key].phase+' ('+age(guard[key])+' ago)');return lines;}
 function diagnostics(data){
   for(const key of ['diagnostics','authDiagnostics','failureStage','failure','build'])if(data[key])diagnosticState[key]=data[key];
@@ -26,6 +38,7 @@ function diagnostics(data){
   const auth=data.authDiagnostics;
   if(auth){for(const key of ['stage','code'])if(/^[a-z_]{1,50}$/.test(auth[key]||''))lines.push('Authentication '+key+': '+auth[key]);
     if(auth.stage==='renderer_preflight'&&['attach','page_enable','evaluate'].includes(auth.phase))lines.push('Authentication phase: '+auth.phase);
+    if(authenticationPages.has(auth.authentication?.page)){lines.push('Authentication page: '+auth.authentication.page);if(authenticationIssues.has(auth.authentication.issue))lines.push('Authentication issue: '+auth.authentication.issue);}
     const hosts=new Set(['tss.ucsd.edu','tssproxy.ucsd.edu','a5.ucsd.edu','api-ce13a1a7.duosecurity.com','[other-host]']);
     for(const item of (Array.isArray(auth.blocked)?auth.blocked:[]).slice(0,30))if(hosts.has(item.hostname)&&/^(GET|HEAD|OPTIONS|POST|PUT|PATCH|DELETE|OTHER)$/.test(item.method)&&typeof item.pathname==='string'&&item.pathname.length<350&&!/[?&#]/.test(item.pathname))lines.push('Blocked: '+item.method+' '+item.hostname+item.pathname);
     for(const item of (Array.isArray(auth.csp)?auth.csp:[]).slice(0,12))if(/^[a-z-]{1,30}$/.test(item.directive||'')&&Number.isInteger(item.count)&&item.count>0&&item.count<=1000)lines.push('Browser policy: '+item.directive+' ('+item.count+')');
@@ -35,7 +48,7 @@ function diagnostics(data){
 }
 function lifetime(){const seconds=Math.max(0,Math.ceil((expiresAt-Date.now())/1000));$('lifetime').textContent=expiresAt?'Session time remaining: '+Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0'):'';}
 function schemaLines(data){const lines=[];if(readStages.has(data.readStage))lines.push('Read stage: '+data.readStage);if(schemaIssues.has(data.schemaIssue))lines.push('Response issue: '+data.schemaIssue);for(const item of (Array.isArray(data.schemaIssues)?data.schemaIssues:[]).slice(0,24))if(readStages.has(item?.readStage)&&schemaIssues.has(item?.schemaIssue))lines.push('Schema: '+item.readStage+' / '+item.schemaIssue);for(const [flag,shape] of Object.entries(data.settingShapes||{}))if(settingFlags.has(flag)&&settingShapes.has(shape))lines.push('Setting format: '+flag+' = '+shape);return lines;}
-function render(data){csrf=data.csrf||csrf;state=data.state;if(Number.isFinite(data.expiresAt))expiresAt=data.expiresAt;else if(['signed_out','expired'].includes(state))expiresAt=0;lifetime();$('status').textContent=names[state]||'Session unavailable';$('login').disabled=pending||!csrf||state==='ready';$('logout').disabled=pending||!csrf||state==='signed_out';for(const id of ['inspect','verify'])$(id).disabled=pending||state!=='ready';diagnostics(data);if(autoCompare&&!pending&&state==='ready'){autoCompare=false;setTimeout(()=>void autoCheck(),0);}}
+function render(data){csrf=data.csrf||csrf;state=data.state;if(Number.isFinite(data.expiresAt))expiresAt=data.expiresAt;else if(['signed_out','expired'].includes(state))expiresAt=0;lifetime();$('status').textContent=state==='signing_in'?authenticationMessage(data.authDiagnostics):names[state]||'Session unavailable';$('login').disabled=pending||!csrf||state==='ready';$('logout').disabled=pending||!csrf||state==='signed_out';for(const id of ['inspect','verify'])$(id).disabled=pending||state!=='ready';diagnostics(data);if(autoCompare&&!pending&&state==='ready'){autoCompare=false;setTimeout(()=>void autoCheck(),0);}}
 async function status(){if(pending||(document.hidden&&!autoCompare))return;try{const response=await fetch('/0311/api/status',{credentials:'same-origin',cache:'no-store'});const data=await response.json();render(data);if(!response.ok)throw Error();}catch{$('status').textContent='Session service unavailable';}}
 async function post(action,extra={}){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),100000);try{const response=await fetch('/0311/api/'+action,{method:'POST',credentials:'same-origin',cache:'no-store',redirect:'error',signal:controller.signal,headers:{'Content-Type':'application/json','X-BBB-CSRF':csrf},body:JSON.stringify({requestId:crypto.randomUUID(),...extra})});const data=await response.json();diagnostics(data);if(!response.ok)throw Error();return data;}finally{clearTimeout(timer)}}
 $('login').onclick=async()=>{if(pending)return;diagnosticState={};autoCompare=true;const view=window.open('about:blank','_blank');if(!view){$('status').textContent='Allow the sign-in tab, then click Sign in again';return;}view.opener=null;pending=true;render({state:'busy',csrf});try{const data=await post('login');const url=new URL(data.loginUrl);if(url.origin!=='https://live.browser.run'||url.username||url.password||url.pathname!=='/ui/view'||url.searchParams.get('mode')!=='tab')throw Error();view.location.replace(url.href);render(data)}catch{view.close();$('status').textContent='Could not start sign-in. Check session or usage limit.'}finally{pending=false;await status()}};

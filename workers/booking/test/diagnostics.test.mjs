@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { failureDiagnostic, safeBlockedRequest, safeAuthDiagnostics, preflightDiagnostic } from '../src/diagnostics.mjs';
+import { AUTHENTICATION_PAGES, AUTHENTICATION_ISSUES } from '../src/authentication.mjs';
 
 test('failure diagnostics expose fixed classification only', () => {
   const error = new TypeError('binding.getSession is not a function; private data must never appear');
@@ -31,4 +32,16 @@ test('owned auth diagnostics redact opaque hosts and path values', () => {
   assert.equal(safe.blocked[0].hostname, '[other-host]'); assert.equal(safe.blocked[0].method, 'OTHER');
   assert.equal(JSON.stringify(safe).includes(opaque), false);
   assert.deepEqual(safeAuthDiagnostics({ failureStage: opaque, lastFailure: { code: opaque } }), { blocked: [] });
+});
+
+test('authentication snapshot exposes only finite page and issue labels', () => {
+  for (const page of AUTHENTICATION_PAGES) for (const issue of AUTHENTICATION_ISSUES) {
+    const value = safeAuthDiagnostics({ failureStage: 'authentication', lastFailure: { code: 'authentication_unavailable' } },
+      { authentication: { page, issue, body: 'private-login-data', url: 'https://private.invalid/token' } });
+    assert.deepEqual(value.authentication, { page, issue });
+    assert.equal(value.code, 'authentication_unavailable');
+    assert.doesNotMatch(JSON.stringify(value), /private/);
+  }
+  assert.equal(safeAuthDiagnostics({}, { authentication: { page: 'private-login-data', issue: 'ucsd_login_exception' } }).authentication, undefined);
+  assert.deepEqual(safeAuthDiagnostics({}, { authentication: { page: 'tss', issue: 'private-login-data' } }).authentication, { page: 'tss' });
 });

@@ -91,3 +91,26 @@ test('schema display drops unknown names and raw response content', async () => 
   const lines = vm.runInContext("schemaLines({readStage:'settings',schemaIssue:'not_collection',schemaIssues:[{readStage:'private-value',schemaIssue:'not_collection'}],settingShapes:{SHOW_TEMPLATE:'null',PRIVATE:'private-value'},raw:'private-value'})", context);
   assert.deepEqual(Array.from(lines), ['Read stage: settings', 'Response issue: not_collection', 'Setting format: SHOW_TEMPLATE = null']);
 });
+
+test('authentication errors replace pending Duo copy without retrying login', async () => {
+  const script = /<script nonce="([a-f0-9]+)">([\s\S]*?)<\/script>/.exec(await probePage().text())[2];
+  const elements = new Map(), calls = [];
+  const document = { hidden: true, addEventListener() {}, getElementById(id) { if (!elements.has(id)) elements.set(id, {}); return elements.get(id); } };
+  const context = vm.createContext({ document, setInterval() {}, fetch(url) { calls.push(url); throw Error('No request expected'); }, input: null });
+  vm.runInContext(script, context);
+  const show = (authentication, extra = {}) => {
+    context.input = { state: 'signing_in', csrf: 'synthetic', authDiagnostics: { ...extra, authentication } };
+    vm.runInContext('render(input)', context);
+    return elements.get('status').textContent;
+  };
+  assert.match(show({ page: 'duo' }), /Complete Duo/);
+  assert.equal(show({ page: 'ucsd_error', issue: 'ucsd_login_exception', message: 'private-login-data' }), 'UCSD sign-in returned an error. Check the sign-in tab.');
+  assert.match(show({ page: 'tss', issue: 'service_unavailable' }), /temporarily unavailable.*sign-in stays open; checking again/);
+  assert.match(show({ page: 'tss', issue: 'missing_csrf' }, { code: 'authentication_unavailable' }), /could not confirm sign-in/);
+  assert.equal(elements.get('inspect').disabled, true);
+  show({ page: 'private-login-data', issue: 'private-login-data' });
+  assert.doesNotMatch(elements.get('diagnostics').textContent + elements.get('status').textContent, /private-login-data/);
+  context.input = { state: 'ready', csrf: 'synthetic' }; vm.runInContext('render(input)', context);
+  assert.equal(elements.get('status').textContent, 'TSS session is ready');
+  assert.deepEqual(calls, []);
+});

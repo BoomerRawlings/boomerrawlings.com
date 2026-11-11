@@ -453,6 +453,105 @@ test('navigation context loss during status preserves guarded login and recovers
   assert.equal((await (await a.get()).json()).state, 'ready'); assert.equal(f.count(), 1);
 });
 
+test('late negative auth poll cannot close a session freshly proven by a completed inspection', async () => {
+  const f = fixture(); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  await a.get();
+  let release;
+  owned.authenticated = ({ fresh } = {}) => fresh ? Promise.resolve(true) : new Promise(resolve => { release = resolve; });
+  const staleStatus = a.get();
+  while (!release) await new Promise(resolve => setTimeout(resolve, 0));
+  assert.equal((await (await a.post('/inspect', { route: DEFAULT_ROUTE })).json()).state, 'ready');
+  release(false);
+  const result = await (await staleStatus).json();
+  assert.equal(result.state, 'ready'); assert.equal(owned.closed, false); assert.equal(f.live.size, 1);
+});
+
+test('stale auth timeout cannot revoke a newer proof and next poll does not reuse stale work', async () => {
+  const f = fixture(); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0], core = [...f.sessions.values()][0];
+  owned.signedIn = true; await a.get(); core.statusTimeoutMs = 100;
+  let started = false;
+  owned.authenticated = ({ fresh } = {}) => { if (fresh) return Promise.resolve('authenticated'); started = true; return new Promise(() => {}); };
+  const oldPoll = a.get();
+  while (!started) await new Promise(resolve => setTimeout(resolve, 0));
+  assert.equal((await (await a.post('/inspect', { route: DEFAULT_ROUTE })).json()).state, 'ready');
+  const oldResult = await (await oldPoll).json();
+  assert.equal(oldResult.state, 'ready'); assert.equal(oldResult.failureStage, undefined);
+  owned.authenticated = async () => 'authenticated';
+  assert.equal((await (await a.get()).json()).state, 'ready'); assert.equal(owned.closed, false);
+});
+
+test('unavailable and unauthenticated proofs revoke readiness without destroying owned login', async () => {
+  const f = fixture({ PROBE_ONLY: 'false' }); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.authenticated = async () => 'authenticated';
+  assert.equal((await (await a.get()).json()).state, 'ready');
+  owned.authenticated = async () => 'unavailable';
+  const unavailable = await (await a.get()).json();
+  assert.equal(unavailable.state, 'signing_in'); assert.equal(owned.closed, false);
+  const stopped = await a.post('/book', { route: DEFAULT_ROUTE });
+  assert.equal(stopped.status, 503); assert.equal((await stopped.json()).reason, 'authentication_unavailable');
+  assert.equal(owned.bookCalls, 0); assert.equal(owned.closed, false);
+  owned.authenticated = async () => 'unauthenticated';
+  const signedOut = await a.post('/book', { route: DEFAULT_ROUTE });
+  assert.equal(signedOut.status, 401); assert.equal((await signedOut.json()).reason, 'authentication_required');
+  assert.equal((await (await a.get()).json()).state, 'signing_in'); assert.equal(owned.closed, false);
+  owned.authenticated = async () => 'authenticated';
+  assert.equal((await (await a.get()).json()).state, 'ready'); assert.equal(f.count(), 1);
+});
+
+test('unknown proof and connected transport errors fail closed without discarding login', async () => {
+  const f = fixture({ PROBE_ONLY: 'false' }); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.connected = () => true;
+  for (const operation of [async () => 'unexpected', async () => { throw Error('private transient protocol failure'); }]) {
+    owned.authenticated = operation;
+    const response = await a.post('/book', { route: DEFAULT_ROUTE });
+    const result = await response.json();
+    assert.equal(response.status, 503); assert.equal(result.reason, 'authentication_unavailable');
+    assert.equal(owned.closed, false); assert.equal(owned.bookCalls, 0); assert.equal(JSON.stringify(result).includes('private'), false);
+  }
+});
+
+test('fresh authentication completing after absolute expiry cannot revive readiness or Book', async () => {
+  const f = fixture({ PROBE_ONLY: 'false' }); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; let release;
+  owned.authenticated = () => new Promise(resolve => { release = resolve; });
+  const booking = a.post('/book', { route: DEFAULT_ROUTE });
+  while (!release) await new Promise(resolve => setTimeout(resolve, 0));
+  f.advance(15 * 60_000); release('authenticated');
+  const response = await booking;
+  assert.equal(response.status, 401); assert.equal((await response.json()).state, 'expired');
+  assert.equal(owned.bookCalls, 0); assert.equal(owned.closed, true);
+});
+
+test('status authentication completing beyond lifetime expires even before the alarm runs', async () => {
+  for (const outcome of ['authenticated', 'unavailable']) {
+    const f = fixture(); const a = await f.client(); await a.post('/login');
+    const owned = [...f.live.values()][0]; let release;
+    owned.authenticated = () => new Promise(resolve => { release = resolve; });
+    const status = a.get();
+    while (!release) await new Promise(resolve => setTimeout(resolve, 0));
+    f.advance(15 * 60_000); release(outcome);
+    const result = await (await status).json();
+    assert.equal(result.state, 'expired'); assert.equal(owned.closed, true); assert.equal(result.expiresAt, undefined);
+  }
+});
+
+test('booking status arriving after expiry preserves an uncertain terminal result', async () => {
+  const f = fixture({ PROBE_ONLY: 'false' }); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  const requestId = uuid();
+  await a.post('/book', { route: DEFAULT_ROUTE, requestId });
+  let release;
+  owned.bookingStatus = () => new Promise(resolve => { release = resolve; });
+  const status = a.get();
+  while (!release) await new Promise(resolve => setTimeout(resolve, 0));
+  f.advance(15 * 60_000); release({ stage: 'submitted' });
+  const result = await (await status).json();
+  assert.equal(result.state, 'expired'); assert.equal(owned.closed, true);
+  assert.deepEqual(result.booking, { requestId, stage: 'error', reason: 'session_expired' });
+});
+
 test('diagnostic context errors do not close session; known disconnect still fails closed', async () => {
   const f = fixture(); const a = await f.client(); await a.post('/login');
   const owned = [...f.live.values()][0]; owned.diagnostics = async () => { throw new Error('Execution context was destroyed'); };
@@ -471,7 +570,8 @@ test('sanitized diagnostics survive status failure and never include the raw err
   owned.diagnostics = async () => diagnostics;
   owned.authenticated = async () => { throw new Error('Cannot perform I/O on behalf of a different request: synthetic-private-detail'); };
   const data = await (await a.get()).json();
-  assert.equal(data.failureStage, 'runtime_io_context'); assert.deepEqual(data.diagnostics, diagnostics);
+  assert.equal(data.failureStage, 'authentication'); assert.equal(data.failure.code, 'authentication_unavailable'); assert.deepEqual(data.diagnostics, diagnostics);
+  assert.equal(data.state, 'signing_in'); assert.equal(owned.closed, false);
   assert.equal(JSON.stringify(data).includes('synthetic-private-detail'), false);
 });
 

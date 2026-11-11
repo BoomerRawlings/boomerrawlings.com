@@ -16,6 +16,8 @@ export const json = (body, status = 200, extra = {}) => Response.json(body, { st
 } });
 const error = (message, status = 400) => json({ state: 'error', message }, status);
 const probing = env => env.PROBE_ONLY !== 'false';
+const authenticationState = value => value === 'authenticated' || value === true ? 'authenticated'
+  : value === 'unauthenticated' || value === false ? 'unauthenticated' : 'unavailable';
 const activeBooking = record => record.booking && !['submitted', 'stopped', 'error'].includes(record.booking.stage);
 const STAGES = new Set(['loading', 'checking', 'review', 'submitting', 'submitted', 'stopped', 'error']);
 const FAILURE_STAGES = new Set(['launch', 'page', 'guard', 'navigation', 'renderer_preflight', 'live_view', 'authentication', 'controller_disconnect', 'object_restart', 'runtime_io_context', 'status', 'cleanup_lookup', 'cleanup_pending', 'quota_service', 'quota_release', 'quota_concurrency', 'quota_budget', 'quota_cleanup', 'initialization', 'session_operation']);
@@ -94,12 +96,15 @@ export class SessionCore {
     this.now = now;
     this.browser = null;
     this.busy = false;
+    this.operationRevision = 0;
     this.generation = 0;
     this.closing = null;
     this.lastDiagnostics = undefined;
     this.lastAuthDiagnostics = [];
     this.review = null;
     this.statusProbe = null;
+    this.statusProbeRevision = -1;
+    this.statusProbeGeneration = -1;
     this.diagnosticsProbe = null;
     this.statusTimeoutMs = statusTimeoutMs;
     this.diagnosticsTimeoutMs = diagnosticsTimeoutMs;
@@ -188,21 +193,24 @@ export class SessionCore {
     if (this.record.expiresAt && this.now() >= this.record.expiresAt) await this.close('expired');
     if (!this.browser || this.busy) return;
     const generation = this.generation;
+    const revision = this.operationRevision;
     if (activeBooking(this.record)) {
       const attempt = this.record.booking;
       const result = await this.browser.bookingStatus(attempt.requestId);
       // A status read may overlap a confirmation. It must not restore an old
       // review grant or replace a newer terminal/submitting state.
-      if (generation !== this.generation || this.busy || this.record.booking !== attempt) return;
+      if (generation !== this.generation || revision !== this.operationRevision || this.busy || this.record.booking !== attempt) return;
+      if (this.record.expiresAt && this.now() >= this.record.expiresAt) { await this.close('expired'); return; }
       this.captureBooking(result);
       if (!activeBooking(this.record)) this.record.state = 'ready';
       await this.persist();
       return;
     }
-    let authenticated;
-    try { authenticated = await this.browser.authenticated(); }
+    let proof;
+    try { proof = authenticationState(await this.browser.authenticated()); }
     catch (failure) {
-      if (generation !== this.generation || this.busy || activeBooking(this.record)) return;
+      if (generation !== this.generation || revision !== this.operationRevision || this.busy || activeBooking(this.record)) return;
+      if (this.record.expiresAt && this.now() >= this.record.expiresAt) { await this.close('expired'); return; }
       if (navigationInProgress(failure) && this.browser?.connected?.() !== false) {
         // SAML navigation replaces execution contexts. It must revoke ready
         // state while preserving the controlled browser for the next poll.
@@ -210,14 +218,23 @@ export class SessionCore {
         await this.persist();
         return;
       }
-      const stage = this.browser?.connected?.() === false ? 'controller_disconnect'
-        : /different request|I\/O on behalf/i.test(failure?.message || '') ? 'runtime_io_context' : 'authentication';
-      throw Object.assign(new Error('Authentication status unavailable'), { stage, failureDiagnostic: failureDiagnostic(failure, 'authentication') });
+      if (this.browser?.connected?.() === false) throw Object.assign(new Error('Authentication connection unavailable'),
+        { stage: 'controller_disconnect', failureDiagnostic: failureDiagnostic(failure, 'authentication') });
+      proof = 'unavailable';
     }
-    if (generation !== this.generation || this.busy || activeBooking(this.record)) return;
-    if (authenticated) this.record.state = 'ready';
-    else if (this.record.state === 'ready') await this.close('expired');
-    else this.record.state = 'signing_in';
+    if (generation !== this.generation || revision !== this.operationRevision || this.busy || activeBooking(this.record)) return;
+    if (this.record.expiresAt && this.now() >= this.record.expiresAt) { await this.close('expired'); return; }
+    await this.rememberAuthentication(proof);
+  }
+
+  async rememberAuthentication(proof) {
+    this.record.state = proof === 'authenticated' ? 'ready' : 'signing_in';
+    if (proof === 'unavailable') {
+      this.record.failureStage = 'authentication';
+      this.record.lastFailure = { name: 'Error', code: 'authentication_unavailable', source: 'authentication' };
+    } else if (this.record.lastFailure?.code === 'authentication_unavailable') {
+      delete this.record.failureStage; delete this.record.lastFailure;
+    }
     await this.persist();
   }
 
@@ -232,21 +249,25 @@ export class SessionCore {
       }
     }
     await this.refresh();
+    if (this.browser?.authDiagnostics) this.lastAuthDiagnostics = this.browser.authDiagnostics();
     if (this.diagnosticsProbe) await bounded(this.diagnosticsProbe, this.diagnosticsTimeoutMs, 'diagnostics_timeout').catch(() => {});
   }
 
   async status() {
-    if (!this.statusProbe) {
+    if (!this.statusProbe || this.statusProbeRevision !== this.operationRevision || this.statusProbeGeneration !== this.generation) {
+      this.statusProbeRevision = this.operationRevision;
+      this.statusProbeGeneration = this.generation;
       const work = this.readStatus();
       this.statusProbe = work;
       work.finally(() => { if (this.statusProbe === work) this.statusProbe = null; }).catch(() => {});
     }
-    const generation = this.generation;
+    const generation = this.statusProbeGeneration, revision = this.statusProbeRevision;
     try {
       await bounded(this.statusProbe, this.statusTimeoutMs, 'status_timeout');
-      if (this.record.failureStage === 'status_timeout') { delete this.record.failureStage; delete this.record.lastFailure; await this.persist(); }
+      if (generation === this.generation && revision === this.operationRevision && this.record.failureStage === 'status_timeout') { delete this.record.failureStage; delete this.record.lastFailure; await this.persist(); }
     } catch (failure) {
       if (failure?.stage !== 'status_timeout') throw failure;
+      if (generation !== this.generation || revision !== this.operationRevision) return json(this.snapshot());
       if (generation === this.generation && this.browser && !this.busy && !activeBooking(this.record)) this.record.state = 'signing_in';
       this.record.failureStage = 'status_timeout';
       this.record.lastFailure = { name: 'TimeoutError', code: 'read_timeout', source: 'status' };
@@ -286,6 +307,7 @@ export class SessionCore {
       if (reviewing && (this.env.DIRECT_BOOKING_ENABLED !== 'true' || this.record.booking?.mode !== 'direct' || this.record.booking.stage !== 'review'
         || this.record.booking.requestId !== body.bookingRequestId || this.review?.confirmationId !== body.confirmationId)) return error('No matching confirmation is available.', 409);
       this.busy = true;
+      this.operationRevision++;
       this.record.history[body.requestId] = fingerprint;
       await this.persist();
       let result;
@@ -381,8 +403,22 @@ export class SessionCore {
     }
     if (['/inspect', '/inspect-direct', '/verify-direct', '/book'].includes(action)) {
       const directRead = ['/inspect-direct', '/verify-direct'].includes(action);
-      if (!this.browser || !await this.browser.authenticated({ fresh: true, direct: directRead })) return { status: 401, body: { state: this.browser ? 'signing_in' : 'signed_out', ready: false, reason: 'authentication_required' } };
-      const generation = this.generation;
+      if (!this.browser) return { status: 401, body: { state: 'signed_out', ready: false, reason: 'authentication_required' } };
+      const generation = this.generation, browser = this.browser;
+      let proof;
+      try { proof = authenticationState(await browser.authenticated({ fresh: true, direct: directRead })); }
+      catch (failure) {
+        if (browser.connected?.() === false) throw Object.assign(new Error('Authentication connection unavailable'),
+          { stage: 'controller_disconnect', failureDiagnostic: failureDiagnostic(failure, 'authentication') });
+        proof = 'unavailable';
+      }
+      if (generation !== this.generation || browser !== this.browser || this.now() >= this.record.expiresAt) {
+        if (generation === this.generation && browser === this.browser) await this.close('expired');
+        return { status: 401, body: { state: 'expired', ready: false, reason: 'authentication_required' } };
+      }
+      await this.rememberAuthentication(proof);
+      if (proof !== 'authenticated') return { status: proof === 'unavailable' ? 503 : 401,
+        body: { state: 'signing_in', ready: false, reason: proof === 'unavailable' ? 'authentication_unavailable' : 'authentication_required' } };
       const { courseCode } = BOOKING_ROUTES.get(body.route);
       if (action === '/book') {
         this.record.booking = { requestId: body.requestId, stage: 'loading', ...(this.env.DIRECT_BOOKING_ENABLED === 'true' ? { mode: 'direct' } : {}) };

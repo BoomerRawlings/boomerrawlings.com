@@ -124,6 +124,43 @@ test('session verification does not require eligibility to book an already-booke
   assert.equal(h.posts('book').length, 0);
 });
 
+test('UCSD login errors and temporary TSS failures show safe status without restarting sign-in', async () => {
+  const h = harness({ status: { state: 'signing_in', probeOnly: false,
+    authDiagnostics: { authentication: { page: 'duo' } } } }); await flush();
+  assert.match(h.statusText, /Complete Duo/);
+  h.setStatus({ authDiagnostics: { authentication: { page: 'ucsd_error', issue: 'ucsd_login_exception', message: 'private-login-data' } } }); await h.poll();
+  assert.equal(h.statusText, 'UCSD sign-in returned an error. Check the sign-in tab.');
+  h.setStatus({ authDiagnostics: { code: 'authentication_unavailable', authentication: { page: 'tss', issue: 'service_unavailable' } } }); await h.poll();
+  assert.match(h.statusText, /temporarily unavailable.*sign-in stays open; checking again/);
+  assert.ok(h.buttons[0].disabled);
+  await h.advance(10_000);
+  assert.equal(h.posts('login').length, 0); assert.equal(h.posts('book').length, 0);
+  h.setStatus({ authDiagnostics: { code: 'private-login-data', authentication: { page: 'private-login-data', issue: 'private-login-data' } } }); await h.poll();
+  assert.equal(h.statusText, 'Complete UCSD sign-in');
+  assert.doesNotMatch(h.job + h.statusText, /private-login-data/);
+  h.setStatus({ state: 'ready', authDiagnostics: { authentication: { page: 'tss' } } }); await h.poll();
+  assert.match(h.statusText, /ready to book/); assert.equal(h.buttons[0].disabled, false);
+  assert.equal(h.posts('login').length, 0);
+});
+
+test('pre-dispatch authentication 503 preserves sign-in and permits only a later explicit Book retry', async () => {
+  const h = harness({ status: { state: 'ready', probeOnly: false } }); await flush();
+  h.handlers.set('book', async () => {
+    h.setStatus({ state: 'signing_in', authDiagnostics: { code: 'authentication_unavailable', authentication: { page: 'tss', issue: 'request_timeout' } } });
+    return response({ state: 'signing_in', reason: 'authentication_unavailable', message: 'private-login-data' }, 503);
+  });
+  await h.click(0);
+  assert.match(h.job, /No Book request was sent/);
+  assert.match(h.statusText, /sign-in stays open; checking again/);
+  assert.doesNotMatch(h.statusText + h.job, /unknown|private-login-data/);
+  await h.advance(10_000); assert.equal(h.posts('book').length, 1); assert.equal(h.posts('login').length, 0);
+  h.setStatus({ state: 'ready', authDiagnostics: {} }); await h.poll();
+  assert.equal(h.buttons[0].disabled, false);
+  assert.equal(h.posts('book').length, 1);
+  h.handlers.delete('book'); await h.click(0);
+  assert.equal(h.posts('book').length, 2);
+});
+
 test('sign-in uses same-origin JSON/CSRF and a detached popup without credential storage', async () => {
   const h = harness(); await flush();
   await h.click('login', false); assert.equal(h.posts('login').length, 0);

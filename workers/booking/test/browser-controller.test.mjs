@@ -90,15 +90,18 @@ test('course loading bounds an unresponsive inspection and classifies navigation
 
 function controllerFixture(envOptions = {}) {
   let current = 'about:blank', guard, csrfCalls = 0, bookCalls = 0;
-  const operations = [], navigations = [], diagnosticEvents = new Map();
+  const operations = [], navigations = [], diagnosticEvents = new Map(), pageEvents = new Map();
   const responses = { book: { stage: 'stopped', reason: 'existing_registration', message: 'private native message' }, status: { stage: 'error', reason: 'request_check_failed' } };
-  const page = { url: () => current, async goto(route) { current = route; navigations.push(route); }, setDefaultTimeout() {}, setDefaultNavigationTimeout() {}, isClosed: () => false,
+  const mainFrame = {};
+  const page = { url: () => current, on: (name, fn) => pageEvents.set(name, fn), mainFrame: () => mainFrame,
+    async goto(route) { current = route; navigations.push(route); pageEvents.get('framenavigated')?.(mainFrame); }, setDefaultTimeout() {}, setDefaultNavigationTimeout() {}, isClosed: () => false,
     async createCDPSession() { return { on: (name, handler) => diagnosticEvents.set(name, handler), async send(method) {
       if (method === 'Page.enable' && responses.preflightFailure) throw responses.preflightFailure;
       return method === 'Target.getTargetInfo' ? { targetInfo: { targetId: 'synthetic' } } : { result: { value: true } };
     }, async detach() {} }; },
     async evaluate(fn, input) {
       operations.push({ name: fn.name, input });
+      if (fn.name === 'authenticationProbe') { csrfCalls++; return responses.authentication ? responses.authentication(input) : { status: 'authenticated', page: 'tss' }; }
       if (input.operation === 'authenticated') return true;
       if (input.operation === 'csrf') { csrfCalls++; return true; }
       if (input.operation === 'inspect') return { loaded: true, ready: true };
@@ -112,7 +115,7 @@ function controllerFixture(envOptions = {}) {
   const controller = createBrowserController({ PROBE_ONLY: 'false', BROWSER: { closeSession: async () => {} }, ...envOptions }, {
     openBrowser: async () => ({ browser, id: 'synthetic' }), installGuard: async (_, options) => { guard = options; return {}; },
   });
-  return { controller, responses, operations, navigations, diagnosticEvents, job: () => guard.getJob(), csrfCalls: () => csrfCalls, bookCalls: () => bookCalls, blocked: value => guard.onBlocked(value) };
+  return { controller, responses, operations, navigations, diagnosticEvents, navigate: url => page.goto(url), job: () => guard.getJob(), csrfCalls: () => csrfCalls, bookCalls: () => bookCalls, blocked: value => guard.onBlocked(value) };
 }
 
 test('Book reuses fresh auth proof and releases immediate stopped jobs', async () => {
@@ -122,8 +125,10 @@ test('Book reuses fresh auth proof and releases immediate stopped jobs', async (
   await controller.authenticated({ fresh: true });
   const stopped = await controller.book(DEFAULT_ROUTE, 'PHIL-010', 'first');
   assert.deepEqual(stopped, { stage: 'stopped', reason: 'existing_registration' });
+  assert.equal(f.csrfCalls(), 1); // No extra CSRF fetch inside the booking action.
+  await controller.authenticated({ fresh: true });
   await controller.book(DEFAULT_ROUTE, 'PHIL-010', 'second');
-  assert.equal(f.bookCalls(), 2); assert.equal(f.csrfCalls(), 1);
+  assert.equal(f.bookCalls(), 2); assert.equal(f.csrfCalls(), 2);
 });
 
 test('blocked TSS action remains correlated through terminal status without raw diagnostics', async () => {
@@ -133,6 +138,7 @@ test('blocked TSS action remains correlated through terminal status without raw 
   f.blocked({ hostname: 'tss.ucsd.edu', pathname: '/sap/opu/odata/ITUS/PR_MY_MODULES_V2_SRV/$batch', method: 'POST' });
   assert.deepEqual(await controller.bookingStatus('attempt'), { stage: 'error', reason: 'request_blocked' });
   f.responses.book = { stage: 'stopped', reason: 'private unknown reason', message: 'private message' };
+  await controller.authenticated({ fresh: true });
   assert.deepEqual(await controller.book(DEFAULT_ROUTE, 'PHIL-010', 'next'), { stage: 'stopped' });
 });
 
@@ -143,7 +149,7 @@ test('direct mode never loads a course page and keeps one guard job through expl
   await controller.book(DEFAULT_ROUTE, 'PHIL-010', 'owned-job');
   const job = f.job(); assert.equal(job.mode, 'direct'); assert.equal(job.requestId, 'owned-job');
   assert.deepEqual(f.navigations, ['https://tss.ucsd.edu/fiori']);
-  assert.ok(f.operations.every(value => value.name === 'directTssOperation'));
+  assert.ok(f.operations.every(value => ['directTssOperation', 'authenticationProbe'].includes(value.name)));
   assert.equal(f.operations.find(value => value.input.operation === 'book').input.allowWrites, true);
   f.responses.status = { stage: 'review', reviewMessage: 'Official plain warning', confirmationId: crypto.randomUUID() };
   const review = await controller.bookingStatus('owned-job'); assert.equal(review.reviewMessage, 'Official plain warning');
@@ -199,4 +205,44 @@ test('startup and login handoff preserve classified preflight failure without ra
   handoff.responses.preflightFailure = Error('Protocol command failed; private handoff detail');
   await assert.rejects(controller.loginUrl(), error => error.stage === 'renderer_preflight'
     && error.failureDiagnostic.code === 'renderer_protocol_error' && error.failureDiagnostic.phase === 'page_enable' && !JSON.stringify(error).includes('private'));
+});
+
+test('older failed auth probe cannot replace newer successful proof or diagnostics', async () => {
+  const f = controllerFixture(), controller = await f.controller;
+  let release;
+  f.responses.authentication = () => new Promise(resolve => { release = resolve; });
+  const old = controller.authenticated({ fresh: true });
+  while (!release) await new Promise(resolve => setImmediate(resolve));
+  f.responses.authentication = () => ({ status: 'authenticated', page: 'tss' });
+  assert.equal(await controller.authenticated({ fresh: true }), 'authenticated');
+  release({ status: 'unavailable', page: 'tss', issue: 'network_error' });
+  assert.equal(await old, 'unavailable');
+  assert.deepEqual(controller.authDiagnostics().authentication, { page: 'tss' });
+  assert.equal(await controller.authenticated(), 'authenticated');
+  assert.equal(f.csrfCalls(), 2);
+  assert.equal((await controller.book(DEFAULT_ROUTE, 'PHIL-010', 'after-old-probe')).reason, 'existing_registration');
+});
+
+test('temporary auth unavailability revokes booking proof without becoming success', async () => {
+  const f = controllerFixture(), controller = await f.controller;
+  await controller.authenticated({ fresh: true });
+  f.responses.authentication = () => ({ status: 'unavailable', page: 'tss', issue: 'service_unavailable' });
+  assert.equal(await controller.authenticated({ fresh: true }), 'unavailable');
+  assert.equal((await controller.book(DEFAULT_ROUTE, 'PHIL-010', 'unavailable')).reason, 'authentication_required');
+  assert.equal(f.bookCalls(), 0);
+});
+
+test('main-frame navigation invalidates cached authentication and pending checks', async () => {
+  const f = controllerFixture(), controller = await f.controller;
+  await controller.authenticated();
+  await f.navigate('https://tss.ucsd.edu/fiori'); // A same-URL document reload also invalidates proof.
+  assert.equal((await controller.book(DEFAULT_ROUTE, 'PHIL-010', 'after-reload')).reason, 'authentication_required');
+  let release;
+  f.responses.authentication = () => new Promise(resolve => { release = resolve; });
+  const old = controller.authenticated({ fresh: true });
+  while (!release) await new Promise(resolve => setImmediate(resolve));
+  await f.navigate('https://a5.ucsd.edu/tritON/profile/SAML2/Redirect/SSO');
+  release({ status: 'authenticated', page: 'tss' });
+  assert.equal(await old, 'unavailable');
+  assert.equal((await controller.book(DEFAULT_ROUTE, 'PHIL-010', 'after-navigation')).reason, 'authentication_required');
 });

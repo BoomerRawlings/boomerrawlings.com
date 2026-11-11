@@ -5,6 +5,7 @@ import { BOOKING_ROUTES } from './routes.mjs';
 import { bounded } from './timeout.mjs';
 import { bookingReason, bookingResult, terminalBooking } from './booking-result.mjs';
 import { directTssOperation } from './direct-tss.mjs';
+import { authenticationProbe } from './authentication.mjs';
 import { safeBlockedRequest, safeCspDirective, safeNetworkError, preflightDiagnostic } from './diagnostics.mjs';
 
 export const PROTOCOL_TIMEOUT_MS = 20_000;
@@ -97,6 +98,7 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
   let activeJob = null;
   let lastAuthentication = 0;
   let authenticationValid = false;
+  let authenticationRevision = 0, authenticationUrl = '', authenticationMode = '', authenticationState;
   const blocked = new Map();
   const authBlocked = new Map();
   const cspViolations = new Map(), requestFailures = new Map();
@@ -109,6 +111,10 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
   });
   try {
     const page = await browser.newPage();
+    page.on?.('framenavigated', frame => {
+      if (frame !== page.mainFrame()) return;
+      authenticationRevision++; authenticationValid = false;
+    });
     stage = 'guard';
     const guard = await installGuard(page, {
       getJob: () => env.PROBE_ONLY === 'false' ? activeJob : null,
@@ -161,17 +167,19 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
       return result?.stage === 'loading' ? { loaded: false, ready: false, reason: 'course_load_timeout' } : result;
     };
     const authenticated = async ({ fresh = false, direct = false } = {}) => {
-      if (directEnabled || direct) {
-        if (!fresh && authenticationValid && Date.now() - lastAuthentication < 30_000) return true;
-        authenticationValid = await page.evaluate(directTssOperation, { operation: 'authenticated' }) === true;
-        lastAuthentication = Date.now();
-        return authenticationValid;
-      }
-      if (!await detectAuthenticated(page)) { authenticationValid = false; return false; }
-      if (!fresh && authenticationValid && Date.now() - lastAuthentication < 30_000) return true;
-      authenticationValid = await detectSessionCsrf(page);
-      lastAuthentication = Date.now();
-      return authenticationValid;
+      const mode = directEnabled || direct ? 'direct' : 'native', url = page.url();
+      if (!fresh && authenticationValid && authenticationUrl === url && authenticationMode === mode && Date.now() - lastAuthentication < 30_000) return 'authenticated';
+      const revision = ++authenticationRevision;
+      authenticationValid = false;
+      const proof = await page.evaluate(authenticationProbe, { requireShell: mode === 'native' });
+      // Navigation or a newer fresh check supersedes this result, even when the
+      // older request finishes after a successful new proof.
+      if (revision !== authenticationRevision || page.url() !== url) return 'unavailable';
+      const status = ['authenticated', 'unauthenticated', 'unavailable'].includes(proof?.status) ? proof.status : 'unavailable';
+      authenticationValid = status === 'authenticated';
+      authenticationState = { page: proof?.page, ...(proof?.issue ? { issue: proof.issue } : {}) };
+      authenticationUrl = url; authenticationMode = mode; lastAuthentication = Date.now();
+      return status;
     };
     return {
       id,
@@ -238,7 +246,7 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
         if (terminalBooking(result) && activeJob === job) activeJob = null;
         return result;
       },
-      authDiagnostics() { return { blocked: [...authBlocked.values()],
+      authDiagnostics() { return { blocked: [...authBlocked.values()], ...(authenticationState ? { authentication: authenticationState } : {}),
         csp: [...cspViolations].map(([directive, count]) => ({ directive, count })),
         requestFailures: [...requestFailures].map(([code, count]) => ({ code, count })) }; },
       // Sanitized diagnostics are exposed only by the owned probe session.

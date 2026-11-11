@@ -41,6 +41,7 @@ let reading = false;
 let departed = false;
 let uncertain = false;
 let statusFailure = false;
+let authenticationStatus = '';
 let activeBookId: string | null = null;
 let bookingStage = '';
 let directReview = false;
@@ -57,6 +58,7 @@ const text = (element: HTMLElement | null, message: string) => {
   if (element === jobStatus && activeFeedback) activeFeedback.textContent = message;
 };
 const failureMessages: Record<string, string> = {
+  authentication_unavailable: 'TSS could not confirm sign-in. No Book request was sent.',
   authentication_required: 'Your UCSD session needs sign-in again.',
   existing_registration: 'TSS still reports a registration for this section. Check My Courses before trying again.',
   pending_changes: 'TSS has an unfinished section change. Review it in My Courses.',
@@ -92,6 +94,23 @@ const failureMessages: Record<string, string> = {
   attempt_unavailable: 'The previous attempt could not be recovered. Check My Courses before trying again.',
 };
 const failureText = (reason: unknown, fallback: string) => typeof reason === 'string' && Object.hasOwn(failureMessages, reason) ? failureMessages[reason] : fallback;
+const authenticationUnavailable = 'TSS could not confirm sign-in. Your sign-in stays open; checking again.';
+function authenticationMessage(value: unknown): string {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return '';
+  const auth = value as { code?: unknown; authentication?: { page?: unknown; issue?: unknown } };
+  const snapshot = auth.authentication;
+  const pages = ['login_choice', 'credentials_ad', 'credentials_student', 'duo', 'ucsd_error', 'tss_loading', 'tss', 'other'];
+  const page = typeof snapshot?.page === 'string' && pages.includes(snapshot.page) ? snapshot.page : '';
+  const issue = page ? snapshot?.issue : undefined;
+  if (page === 'ucsd_error' || issue === 'ucsd_login_exception') return 'UCSD sign-in returned an error. Check the sign-in tab.';
+  if (issue === 'service_unavailable') return 'TSS is temporarily unavailable. Your sign-in stays open; checking again.';
+  if ((typeof issue === 'string' && ['network_error', 'request_timeout', 'missing_csrf', 'unexpected_response'].includes(issue))
+    || auth.code === 'authentication_unavailable') return authenticationUnavailable;
+  if (page === 'tss_loading') return 'TSS is loading. Your sign-in stays open; checking again.';
+  if (page === 'duo') return 'Complete Duo in the sign-in tab.';
+  if (page === 'login_choice') return 'Choose your UCSD sign-in option in the sign-in tab.';
+  return '';
+}
 const fresh = () => lastStatusAt > 0 && Date.now() - lastStatusAt < FRESH_MS;
 const busy = () => mutating || Boolean(activeBookId) || state === 'busy';
 const closeLogin = () => {
@@ -105,7 +124,8 @@ const render = () => {
     expired: 'Session expired · sign in again', busy: 'TSS is working…', error: 'TSS session unavailable',
   };
   if (session) session.dataset.state = state;
-  text(sessionStatus, uncertain ? 'Booking result unknown · check TSS before trying again' : messages[state]);
+  text(sessionStatus, uncertain ? 'Booking result unknown · check TSS before trying again'
+    : state === 'signing_in' && authenticationStatus ? authenticationStatus : messages[state]);
   if (probeNote) probeNote.hidden = !probeOnly;
   if (loginButton) {
     loginButton.disabled = busy() || state === 'ready' || uncertain || !csrf || !fresh() || departed;
@@ -237,6 +257,7 @@ function acceptStatus(value: Record<string, unknown>) {
   if (!Number.isFinite(expiry) || expiry < 0) throw new ApiError(502);
   const previousState = state;
   state = value.state as SessionState;
+  authenticationStatus = authenticationMessage(value.authDiagnostics);
   csrf = value.csrf;
   probeOnly = value.probeOnly;
   lastStatusAt = Date.now();
@@ -316,6 +337,7 @@ async function signIn() {
     if (departed) return;
     popup.location.replace(liveView(value.loginUrl));
     state = 'signing_in';
+    authenticationStatus = '';
     text(jobStatus, 'Complete UCSD sign-in in the window that opened. Then choose a course here.');
   } catch {
     closeLogin(); state = 'error';
@@ -359,7 +381,11 @@ async function book(route: string) {
     const result = value.booking && typeof value.booking === 'object' ? value.booking as Record<string, unknown> : value;
     if (!bookingResult(result)) lockResult();
   } catch (error) {
-    if (error instanceof ApiError && [401, 403].includes(error.status)) {
+    if (error instanceof ApiError && error.status === 503 && error.reason === 'authentication_unavailable') {
+      activeBookId = null; bookingStage = ''; state = 'signing_in';
+      authenticationStatus = authenticationUnavailable;
+      text(jobStatus, failureMessages.authentication_unavailable);
+    } else if (error instanceof ApiError && [401, 403].includes(error.status)) {
       activeBookId = null; state = 'expired'; csrf = ''; lastStatusAt = 0;
       text(jobStatus, 'Booking was not authorized. Sign in again before trying.');
     } else lockResult(failureText(error instanceof ApiError ? error.reason : undefined, 'No confirmed result received. Check TSS before starting another booking.'));
