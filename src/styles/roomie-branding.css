@@ -173,3 +173,12 @@ body.roomie-shell {
 @media (prefers-reduced-motion: reduce) {
   .roomie-shell *, .roomie-shell *::before, .roomie-shell *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* The enhancement owns motion in both directions; no-JS keeps native details. */
+.roomie-shell details[data-disclosure-enhanced] > :not(summary) { animation: none !important; }
+.roomie-shell details[data-disclosure-open="false"] > summary .disclosure-icon { transform: rotate(0deg); }
+.roomie-shell details[data-disclosure-open="true"] > summary .disclosure-icon { transform: rotate(45deg); }
+.roomie-shell .option-exams[data-disclosure-open="false"] > summary::before { content: '+ '; }
+.roomie-shell .option-exams[data-disclosure-open="true"] > summary::before { content: '- '; }
+.roomie-shell details[data-disclosure-animating] { overflow-anchor: none; }
+
