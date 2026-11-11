@@ -13,7 +13,8 @@ const error = (message, status = 400) => json({ state: 'error', message }, statu
 const probing = env => env.PROBE_ONLY !== 'false';
 const activeBooking = record => record.booking && !['submitted', 'stopped', 'error'].includes(record.booking.stage);
 const STAGES = new Set(['loading', 'checking', 'review', 'submitting', 'submitted', 'stopped', 'error']);
-const FAILURE_STAGES = new Set(['launch', 'page', 'guard', 'navigation', 'live_view']);
+const FAILURE_STAGES = new Set(['launch', 'page', 'guard', 'navigation', 'live_view', 'authentication', 'controller_disconnect', 'object_restart', 'runtime_io_context', 'status']);
+const navigationInProgress = failure => /execution context was destroyed|cannot find context with specified id|inspected target navigated|execution context is not available|execution context is not available in detached frame/i.test(failure?.message || '');
 
 async function boundedText(request, limit = 4096) {
   if (Number(request.headers.get('Content-Length')) > limit) return null;
@@ -69,6 +70,7 @@ export class SessionCore {
     this.busy = false;
     this.generation = 0;
     this.closing = null;
+    this.lastDiagnostics = undefined;
     this.results = new Map();
     this.initializing = this.initialize();
   }
@@ -77,7 +79,7 @@ export class SessionCore {
     this.record = await this.ctx.storage.get('session') || { csrf: randomToken(), state: 'signed_out', history: {} };
     // A restarted object has lost its request-interception controller. Destroy
     // the old browser rather than recovering an unguarded authenticated session.
-    if (this.record.browserId) await this.close('expired');
+    if (this.record.browserId) { this.record.failureStage = 'object_restart'; await this.close('expired'); }
     await this.persist();
   }
 
@@ -138,7 +140,21 @@ export class SessionCore {
       await this.persist();
       return;
     }
-    const authenticated = await this.browser.authenticated();
+    let authenticated;
+    try { authenticated = await this.browser.authenticated(); }
+    catch (failure) {
+      if (generation !== this.generation || this.busy || activeBooking(this.record)) return;
+      if (navigationInProgress(failure) && this.browser?.connected?.() !== false) {
+        // SAML navigation replaces execution contexts. It must revoke ready
+        // state while preserving the controlled browser for the next poll.
+        this.record.state = 'signing_in';
+        await this.persist();
+        return;
+      }
+      const stage = this.browser?.connected?.() === false ? 'controller_disconnect'
+        : /different request|I\/O on behalf/i.test(failure?.message || '') ? 'runtime_io_context' : 'authentication';
+      throw Object.assign(new Error('Authentication status unavailable'), { stage });
+    }
     if (generation !== this.generation || this.busy || activeBooking(this.record)) return;
     if (authenticated) this.record.state = 'ready';
     else if (this.record.state === 'ready') await this.close('expired');
@@ -151,8 +167,11 @@ export class SessionCore {
       await this.initializing;
       const action = new URL(request.url).pathname.slice(API_PREFIX.length);
       if (action === '/status') {
+        if (probing(this.env) && this.browser && !this.busy && this.browser.diagnostics) {
+          this.lastDiagnostics = await this.browser.diagnostics().catch(() => this.lastDiagnostics);
+        }
         await this.refresh();
-        const diagnostics = probing(this.env) && this.browser && !this.busy && this.browser.diagnostics ? await this.browser.diagnostics() : undefined;
+        const diagnostics = probing(this.env) ? this.lastDiagnostics : undefined;
         return json(this.snapshot(diagnostics ? { diagnostics } : {}));
       }
       if (request.headers.get('X-BBB-CSRF') !== this.record.csrf) return error('Session verification failed.', 403);
@@ -192,7 +211,8 @@ export class SessionCore {
         await this.persist().catch(() => {});
         await this.ctx.storage.setAlarm(this.now() + 10_000).catch(() => {});
       }
-      return json(this.snapshot({ state: 'error', message: 'The managed TSS session is unavailable. Try signing in again.' }), 503);
+      return json(this.snapshot({ state: 'error', message: 'The managed TSS session is unavailable. Try signing in again.',
+        ...(probing(this.env) && this.lastDiagnostics ? { diagnostics: this.lastDiagnostics } : {}) }), 503);
     }
   }
 
@@ -211,10 +231,13 @@ export class SessionCore {
         const reservation = await this.quotaCall('reserve', { expiresAt });
         if (!reservation.ok) return { status: 429, body: { state: 'error', message: 'The login test is at its session or usage limit. Try later.' } };
         const generation = ++this.generation;
+        delete this.record.failureStage;
+        this.lastDiagnostics = undefined;
         let browser;
         try {
           browser = await this.createBrowser(this.env, { onDisconnect: () => {
             this.record.state = 'expired';
+            this.record.failureStage = 'controller_disconnect';
             this.ctx.storage.setAlarm(this.now() + 1000).catch(() => {});
           } });
           if (generation !== this.generation || this.now() >= expiresAt) throw new Error('Session expired during startup');

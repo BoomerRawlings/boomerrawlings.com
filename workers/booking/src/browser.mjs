@@ -65,6 +65,7 @@ export async function createBrowserController(env, { onDisconnect = () => {} } =
     };
     return {
       id,
+      connected() { return browser.connected && !page.isClosed(); },
       authenticated,
       async loginUrl() {
         try {
@@ -94,7 +95,7 @@ export async function createBrowserController(env, { onDisconnect = () => {} } =
         if (['submitted', 'error', 'stopped'].includes(result.stage)) activeJob = null;
         return { stage: result.stage };
       },
-      // Administrative diagnostics only. This is intentionally absent from API responses.
+      // Sanitized diagnostics are exposed only by the owned probe session.
       blockedRequests() { return [...blocked].map(([request, count]) => ({ request, count })); },
       async diagnostics() {
         const forms = await page.evaluate(() => [...document.forms].slice(0, 10).map(form => {

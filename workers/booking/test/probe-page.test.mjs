@@ -12,4 +12,6 @@ test('probe page scripts compile, use owned API and omit booking mutation contro
   assert.equal((html.match(/<option /g) || []).length, 9);
   assert.equal(/post\(['"]book['"]/.test(html), false);
   assert.equal(/console\.|localStorage|sessionStorage/.test(html), false);
+  assert.match(html, /<details><summary>Login test diagnostics<\/summary>/);
+  assert.match(script[2], /diagnostics\(data\);if\(!response.ok\)/);
 });

@@ -183,3 +183,37 @@ test('expiry, alarm and login share closure; stale alarm cannot close replacemen
   assert.equal(replacement.closed, false); assert.equal(core.record.browserId, replacement.id);
   assert.equal(f.live.size, 1);
 });
+
+test('navigation context loss during status preserves guarded login and recovers on next poll', async () => {
+  const f = fixture(); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  assert.equal((await (await a.get()).json()).state, 'ready');
+  owned.connected = () => true;
+  owned.authenticated = async () => { throw new Error('Execution context was destroyed, most likely because of a navigation.'); };
+  const response = await a.get(); assert.equal(response.status, 200);
+  assert.equal((await response.json()).state, 'signing_in'); assert.equal(owned.closed, false); assert.equal(f.live.size, 1);
+  owned.authenticated = async () => true;
+  assert.equal((await (await a.get()).json()).state, 'ready'); assert.equal(f.count(), 1);
+});
+
+test('diagnostic context errors do not close session; known disconnect still fails closed', async () => {
+  const f = fixture(); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.diagnostics = async () => { throw new Error('Execution context was destroyed'); };
+  assert.equal((await a.get()).status, 200); assert.equal(owned.closed, false);
+  owned.connected = () => false;
+  owned.authenticated = async () => { throw new Error('Execution context was destroyed'); };
+  const response = await a.get(); const data = await response.json();
+  assert.equal(response.status, 503); assert.equal(data.failureStage, 'controller_disconnect'); assert.equal(owned.closed, true);
+  assert.equal(JSON.stringify(data).includes('Execution context'), false);
+});
+
+test('sanitized diagnostics survive status failure and never include the raw error', async () => {
+  const f = fixture(); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0];
+  const diagnostics = { blocked: [{ request: 'POST tssproxy.ucsd.edu/idp/login', count: 1 }], forms: [] };
+  owned.diagnostics = async () => diagnostics;
+  owned.authenticated = async () => { throw new Error('Cannot perform I/O on behalf of a different request: synthetic-private-detail'); };
+  const data = await (await a.get()).json();
+  assert.equal(data.failureStage, 'runtime_io_context'); assert.deepEqual(data.diagnostics, diagnostics);
+  assert.equal(JSON.stringify(data).includes('synthetic-private-detail'), false);
+});
