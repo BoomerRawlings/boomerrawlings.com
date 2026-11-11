@@ -29,6 +29,9 @@
 .tss-job-status { font-size: 13px; margin-top: 10px; }
 .tss-job-status:empty { display: none; }
 .tss-session [data-tss-review] { margin-top: 8px; }
+.tss-warning { margin-top: 12px; padding: 12px; border: 1px solid currentColor; }
+.tss-warning p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.tss-warning button + button { margin-left: 8px; }
 .tss-session [hidden], .booking-steps [hidden] { display: none !important; }
 .roomie-filter { display: flex; align-items: center; gap: 12px; }
 .roomie-filter label { color: var(--teach-muted); font-size: 13px; }
@@ -138,6 +141,8 @@
   pointer-events: none;
 }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.tss-option-feedback { grid-column: 1 / -1; flex-basis: 100%; margin: 8px 0 0; padding: 10px 12px; border-left: 3px solid var(--teach-ink); font-size: 13px; line-height: 1.5; }
+.tss-option-feedback:empty { display: none; }
 
 @media (max-width: 760px) {
   .course-row > .booking-actions { grid-column: 1 / -1; justify-self: start; }

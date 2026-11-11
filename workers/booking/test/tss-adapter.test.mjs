@@ -30,7 +30,7 @@ function fixture(options = {}) {
       prepares++;
       const d = data.detail;
       return { ActionName: 'SaveChanges', ModuleId: d.SmObjid, EventPackId: d.EventPackageId, AcademicYear: d.AcademicYear, AcademicSession: d.AcademicSession,
-        ModregId: zero, ProgramId: d.oCG.ScObjid, AssignedCg: d.oCG.CgObjid, AssignedCgTop: d.oCG.CgTopObjid, TemplateId: d.TemplateId,
+        ModregId: options.payloadModregId || zero, ProgramId: d.oCG.ScObjid, AssignedCg: d.oCG.CgObjid, AssignedCgTop: d.oCG.CgTopObjid, TemplateId: d.TemplateId,
         Items: d.EventTypes.map(type => ({ EventId: type.Events[0].EventId, ModuleId: d.SmObjid, EventPackId: d.EventPackageId,
           AcademicYear: d.AcademicYear, AcademicSession: d.AcademicSession, ...(options.extraItem || {}) })) };
     },
@@ -75,14 +75,67 @@ test('read-only inspection verifies exact package without preparing payload, ref
   assert.equal(JSON.stringify(await inspectTss(f.page, { route })).includes('synthetic-account'), false);
 });
 
-test('read-only inspection proves an already-booked or ineligible package loaded without returning its status', async t => {
-  for (const mutate of [f => { f.data.detail.ModregId = '11111111-1111-1111-1111-111111111111'; }, f => { f.data.detail.oCG.Bookable = false; }]) {
+test('read-only inspection reports a fixed reason for a loaded unavailable package without native data', async t => {
+  for (const [reason, mutate] of [['existing_registration', f => { f.data.detail.EventTypes[0].booked = true; }],
+    ['course_group_unavailable', f => { f.data.detail.oCG.Bookable = false; }]]) {
     const f = fixture(); t.after(f.close); mutate(f);
     const result = await inspectTss(f.page, { route });
     assert.equal(result.loaded, true); assert.equal(result.ready, false);
     assert.equal(result.message, 'Booking requires review in TSS.');
     assert.equal(f.prepares, 0); assert.equal(f.refreshes, 0); assert.equal(f.calls.length, 0);
-    assert.deepEqual(Object.keys(result).sort(), ['loaded', 'message', 'ready', 'stage']);
+    assert.equal(result.reason, reason);
+    assert.deepEqual(Object.keys(result).sort(), ['loaded', 'message', 'ready', 'reason', 'stage']);
+  }
+});
+
+test('historical registration ID alone does not block a fresh unbooked package with zero native write ID', async t => {
+  const f = fixture(); t.after(f.close);
+  f.data.detail.ModregId = '11111111-1111-1111-1111-111111111111';
+  assert.equal((await inspectTss(f.page, { route })).ready, true);
+  assert.equal(f.prepares, 0);
+  assert.equal((await f.begin()).stage, 'checking');
+  assert.equal(f.refreshes, 1); assert.equal(f.presses, 1);
+  assert.equal(f.calls[0].payload.ModregId, zero);
+  f.calls[0].callbacks.success({});
+  assert.equal(f.calls[1].payload.ModregId, zero);
+  f.calls[1].callbacks.success({});
+  assert.equal((await f.status()).stage, 'submitted');
+});
+
+test('historical ID never overrides current booked/withdraw flags or a nonzero native write ID', async t => {
+  const historicalId = '11111111-1111-1111-1111-111111111111';
+  for (const mutate of [f => { f.data.WithdrawButtonEnabled = true; }, f => { f.data.detail.EventTypes[0].booked = true; },
+    f => { f.data.detail.EventTypes[0].oBooked = {}; }, f => { f.data.detail.EventTypes[0].Events[0].Booked = true; },
+    f => { f.data.BookingButtonEnabled = false; }]) {
+    const f = fixture(); t.after(f.close); f.data.detail.ModregId = historicalId; mutate(f);
+    assert.equal((await inspectTss(f.page, { route })).ready, false);
+    assert.equal((await f.begin()).stage, 'stopped'); assert.equal(f.presses, 0); assert.equal(f.calls.length, 0);
+  }
+  const f = fixture({ payloadModregId: historicalId }); t.after(f.close); f.data.detail.ModregId = historicalId;
+  const stopped = await f.begin(); assert.equal(stopped.stage, 'stopped'); assert.equal(stopped.reason, 'payload_mismatch');
+  assert.equal(f.presses, 0); assert.equal(f.calls.length, 0);
+});
+
+test('inspection failures use stable reason codes without preparing data or returning native values', async t => {
+  const cases = [
+    ['details_loading', f => { f.controller._initialLoad = true; }],
+    ['route_mismatch', f => { f.location.href = route.replace('/167237/', '/167238/'); }],
+    ['context_mismatch', f => { f.data.detail.EventPackageId = '999999'; }],
+    ['event_data_unavailable', f => { f.data.detail.EventTypes = []; }],
+    ['booking_unavailable', f => { f.data.BookingButtonEnabled = false; }],
+    ['pending_changes', f => { f.data.detail.EventTypes[0].Changed = {}; }],
+    ['eligibility_unavailable', f => { f.data.detail.Eligibility = [{ RulecheckResult: 'N', privateValue: 'never-return' }]; }],
+    ['assessment_review', f => { f.data.detail.ExamTypes = [{ Selected: {} }]; }],
+    ['ambiguous_package', f => { f.data.detail.EventTypes[0].Events.push({}); }],
+    ['section_mismatch', f => { f.data.detail.EventTypes[0].Events[0].SmObjid = '999999'; }],
+    ['duplicate_sections', f => { f.data.detail.EventTypes[1].Events[0].EventId = '7898'; }],
+  ];
+  for (const [reason, mutate] of cases) {
+    const f = fixture(); t.after(f.close); mutate(f);
+    const result = await inspectTss(f.page, { route });
+    assert.equal(result.ready, false); assert.equal(result.reason, reason);
+    assert.doesNotMatch(JSON.stringify(result), /never-return|999999|synthetic-account/);
+    assert.equal(f.prepares, 0); assert.equal(f.refreshes, 0); assert.equal(f.calls.length, 0);
   }
 });
 
@@ -136,6 +189,7 @@ test('official warning remains manual; cancellation never submits and stale appr
   assert.equal((await f.status()).stage, 'review'); assert.equal(f.calls.length, 1);
   f.warnings[0].config.onClose('CANCEL'); f.warnings[0].config.onClose('OK');
   assert.equal(f.calls.length, 1); assert.equal((await f.status()).stage, 'stopped');
+  assert.equal((await f.status()).reason, 'booking_cancelled');
 });
 
 test('official warning OK triggers exactly one guarded native save', async t => {
@@ -154,7 +208,7 @@ test('context/payload/navigation changes between check and save fail closed', as
 });
 
 test('existing registration, changes and assessment extras cannot press Book', async t => {
-  for (const mutate of [f => { f.data.detail.ModregId = '11111111-1111-1111-1111-111111111111'; }, f => { f.data.WithdrawButtonEnabled = true; },
+  for (const mutate of [f => { f.data.detail.EventTypes[0].booked = true; }, f => { f.data.WithdrawButtonEnabled = true; },
     f => { f.data.detail.EventTypes[0].Changed = true; }, f => { f.data.detail.ExamTypes = [{ Selected: { AssessmentId: '1' } }]; }]) {
     const f = fixture(); t.after(f.close); mutate(f); assert.equal((await f.begin()).stage, 'stopped'); assert.equal(f.presses, 0);
   }
@@ -166,13 +220,15 @@ test('existing registration, changes and assessment extras cannot press Book', a
 test('deadline keeps native gates installed and late callback cannot submit', async t => {
   const f = fixture(); t.after(f.close); await f.begin('attempt-1', { actionTimeoutMs: 15 }); await wait(30);
   assert.equal((await f.status()).stage, 'stopped'); f.calls[0].callbacks.success({}); f.controller.saveCall();
+  assert.equal((await f.status()).reason, 'action_timeout');
   assert.equal(f.calls.length, 1); assert.equal((await f.begin('attempt-2')).stage, 'stopped');
 });
 
 test('semantic save error or uncertain transport outcome never reports submitted or retries', async t => {
-  for (const fail of [call => call.callbacks.success({ MessageType: 'E' }), call => call.callbacks.error({})]) {
+  for (const [reason, fail] of [['booking_error', call => call.callbacks.success({ MessageType: 'E' })], ['submission_uncertain', call => call.callbacks.error({})]]) {
     const f = fixture(); t.after(f.close); await f.begin(); f.calls[0].callbacks.success({}); fail(f.calls[1]);
     assert.equal((await f.status()).stage, 'error'); assert.equal((await f.begin('attempt-2')).stage, 'stopped'); assert.equal(f.calls.length, 2);
+    assert.equal((await f.status()).reason, reason);
   }
 });
 
@@ -189,4 +245,5 @@ test('same-package refresh must return fresh data before native Book; stale data
   const f = fixture({ noRefresh: true }); t.after(f.close);
   assert.equal((await f.begin('attempt-1', { loadTimeoutMs: 10 })).stage, 'loading'); await wait(25);
   assert.equal((await f.status()).stage, 'error'); assert.equal(f.presses, 0);
+  assert.equal((await f.status()).reason, 'course_load_timeout');
 });

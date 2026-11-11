@@ -21,14 +21,16 @@ class Target {
 class Element extends Target {
   dataset = {}; disabled = false; hidden = false; textContent = ''; attributes = new Map();
   setAttribute(name, value) { this.attributes.set(name, value); }
+  closest() { return this.feedback ? { querySelector: () => this.feedback } : null; }
 }
 
 // Whole client, synthetic DOM and same-origin API only. No UCSD account,
 // browser, enrollment endpoint or persistent credential store is touched.
 function harness(options = {}) {
-  const names = ['session', 'session-status', 'job-status', 'login', 'logout', 'inspect', 'review', 'probe-note'];
+  const names = ['session', 'session-status', 'job-status', 'login', 'logout', 'inspect', 'review', 'probe-note', 'warning', 'warning-message', 'confirm', 'cancel'];
   const elements = Object.fromEntries(names.map(name => [name, new Element()]));
   const buttons = [new Element(), new Element(), new Element(), new Element()];
+  buttons.forEach(button => { button.feedback = new Element(); });
   buttons[0].dataset.bookRoute = route('13043', '166528');
   buttons[1].dataset.bookRoute = route('5379', '164082');
   buttons[2].dataset.bookRoute = 'https://evil.example/book';
@@ -53,7 +55,7 @@ function harness(options = {}) {
     setTimeout(callback, delay) { const id = ++timerId; timers.set(id, { callback, at: now + delay }); return id; },
     clearTimeout(id) { timers.delete(id); },
     async fetch(url, init) {
-      assert.match(url, /^\/0311\/api\/(status|login|logout|inspect|book)$/);
+      assert.match(url, /^\/0311\/api\/(status|login|logout|inspect|book|confirm|cancel)$/);
       const path = url.split('/').at(-1);
       const call = { path, init, body: init.body ? JSON.parse(init.body) : null };
       calls.push(call);
@@ -203,6 +205,32 @@ test('unknown booking responses and transport failures stay locked despite a lat
   }
 });
 
+test('fixed booking failure appears beside the clicked option without exposing native error data', async () => {
+  const h = harness({ status: { state: 'ready', probeOnly: false } }); await flush();
+  h.handlers.set('book', call => response({ booking: { requestId: call.body.requestId, stage: 'stopped', reason: 'existing_registration', message: 'private student details' } }));
+  await h.click(0);
+  assert.match(h.job, /still reports a registration/);
+  assert.equal(h.buttons[0].feedback.textContent, h.job);
+  assert.equal(h.buttons[1].feedback.textContent, '');
+  assert.doesNotMatch(h.job, /private student/);
+  h.handlers.set('book', call => response({ booking: { requestId: call.body.requestId, stage: 'error', reason: 'untrusted private details' } }));
+  await h.click(1);
+  assert.match(h.job, /No confirmed result/);
+  assert.equal(h.buttons[1].feedback.textContent, h.job);
+  assert.doesNotMatch(h.job, /untrusted private/);
+  assert.ok(h.buttons[0].disabled);
+});
+
+test('HTTP booking failure preserves only an allowlisted reason and keeps uncertain result locked', async () => {
+  const h = harness({ status: { state: 'ready', probeOnly: false } }); await flush();
+  h.handlers.set('book', () => response({ booking: { reason: 'session_unavailable' }, message: 'private provider error' }, 503));
+  await h.click(0);
+  assert.match(h.job, /session disconnected/);
+  assert.equal(h.buttons[0].feedback.textContent, h.job);
+  assert.doesNotMatch(h.job, /private provider/);
+  await h.click(1); assert.equal(h.posts('book').length, 1);
+});
+
 test('booking timeout is bounded and cannot auto-retry', async () => {
   const h = harness({ status: { state: 'ready', probeOnly: false } }); await flush();
   h.handlers.set('book', call => new Promise((resolve, reject) => call.init.signal.addEventListener('abort', () => reject(Error('aborted')))));
@@ -241,6 +269,51 @@ test('reload restores server-owned review status read-only and preserves unknown
   await h.click('review'); assert.equal(h.posts('login').length, 1);
   const failed = harness({ status: { state: 'ready', probeOnly: false, booking: { requestId, stage: 'error' } } }); await flush();
   assert.match(failed.statusText, /result unknown/); await failed.click(0); assert.equal(failed.posts('book').length, 0);
+});
+
+test('direct warnings render plain text and require one trusted confirmation on the original job', async () => {
+  const requestId = 'ae034da5-9999-4000-8000-0123456789ab';
+  const confirmationId = 'ae034da5-9999-4000-8000-0123456789ac';
+  const message = '<img src=x onerror=alert(1)> Schedule conflict. Continue?';
+  const h = harness({ status: { state: 'busy', probeOnly: false, booking: { requestId, stage: 'review', mode: 'direct', confirmationId, reviewMessage: message } } });
+  await flush();
+  assert.equal(h.elements.warning.hidden, false);
+  assert.equal(h.elements['warning-message'].textContent, message);
+  assert.equal(h.elements.review.hidden, true);
+  await h.click('confirm', false); assert.equal(h.posts('confirm').length, 0);
+  h.handlers.set('confirm', call => {
+    assert.equal(call.body.bookingRequestId, requestId); assert.equal(call.body.confirmationId, confirmationId);
+    assert.notEqual(call.body.requestId, requestId);
+    h.setStatus({ booking: { requestId, stage: 'submitting', mode: 'direct' } });
+    return response({ booking: { requestId, stage: 'submitting', mode: 'direct' } });
+  });
+  await h.click('confirm'); await h.click('confirm');
+  assert.equal(h.posts('confirm').length, 1); assert.equal(h.posts('book').length, 0);
+  assert.equal(h.posts('login').length, 0); assert.equal(h.elements.warning.hidden, true);
+});
+
+test('direct cancellation never confirms or repeats Book', async () => {
+  const requestId = 'ae034da5-9999-4000-8000-0123456789ab';
+  const confirmationId = 'ae034da5-9999-4000-8000-0123456789ac';
+  const h = harness({ status: { state: 'busy', probeOnly: false, booking: { requestId, stage: 'review', mode: 'direct', confirmationId, reviewMessage: 'Review warning' } } });
+  await flush();
+  h.handlers.set('cancel', () => {
+    const booking = { requestId, stage: 'stopped', reason: 'booking_cancelled', mode: 'direct' };
+    h.setStatus({ state: 'ready', booking }); return response({ booking });
+  });
+  await h.click('cancel');
+  assert.equal(h.posts('cancel').length, 1); assert.equal(h.posts('confirm').length, 0);
+  assert.equal(h.posts('book').length, 0); assert.match(h.job, /cancelled/);
+});
+
+test('missing direct review details fail closed and cannot fall back to native confirmation', async () => {
+  const requestId = 'ae034da5-9999-4000-8000-0123456789ab';
+  const h = harness({ status: { state: 'busy', probeOnly: false, booking: { requestId, stage: 'review', mode: 'direct', confirmationId: 'invalid', reviewMessage: 'Warning' } } });
+  await flush();
+  assert.equal(h.elements.warning.hidden, true); assert.equal(h.elements.review.hidden, true);
+  await h.click('review'); await h.click('confirm'); await h.click('cancel');
+  assert.equal(h.posts('login').length, 0); assert.equal(h.posts('confirm').length, 0); assert.equal(h.posts('cancel').length, 0);
+  assert.match(h.job, /has not been confirmed/);
 });
 
 test('malformed logout success never claims sign-out or clears the current session', async () => {

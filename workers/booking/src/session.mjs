@@ -1,8 +1,9 @@
 import { BOOKING_ROUTES } from './routes.mjs';
 import { probePage } from './probe-page.mjs';
 import { closeProviderSession, providerSessionExists } from './provider-lifecycle.mjs';
-import { BUILD_VERSION, failureDiagnostic } from './diagnostics.mjs';
+import { BUILD_VERSION, failureDiagnostic, safeAuthDiagnostics } from './diagnostics.mjs';
 import { bounded } from './timeout.mjs';
+import { bookingReason } from './booking-result.mjs';
 
 export const COOKIE_NAME = '__Host-bbb-session';
 export const API_PREFIX = '/0311/api';
@@ -18,6 +19,11 @@ const activeBooking = record => record.booking && !['submitted', 'stopped', 'err
 const STAGES = new Set(['loading', 'checking', 'review', 'submitting', 'submitted', 'stopped', 'error']);
 const FAILURE_STAGES = new Set(['launch', 'page', 'guard', 'navigation', 'renderer_preflight', 'live_view', 'authentication', 'controller_disconnect', 'object_restart', 'runtime_io_context', 'status', 'cleanup_lookup', 'cleanup_pending', 'quota_service', 'quota_release', 'quota_concurrency', 'quota_budget', 'quota_cleanup', 'initialization', 'session_operation']);
 const navigationInProgress = failure => /execution context was destroyed|cannot find context with specified id|inspected target navigated|execution context is not available|execution context is not available in detached frame/i.test(failure?.message || '');
+const updateBooking = (record, result) => {
+  const reason = bookingReason(result.reason);
+  record.booking = { requestId: record.booking.requestId, stage: STAGES.has(result.stage) ? result.stage : 'error',
+    ...(record.booking.mode === 'direct' ? { mode: 'direct' } : {}), ...(reason ? { reason } : {}) };
+};
 
 async function boundedText(request, limit = 4096) {
   if (Number(request.headers.get('Content-Length')) > limit) return null;
@@ -42,9 +48,9 @@ export async function handleRequest(request, env) {
   const url = new URL(request.url);
   if (url.origin !== env.APP_ORIGIN || !url.pathname.startsWith(API_PREFIX + '/') || url.search) return error('Not found.', 404);
   const endpoint = url.pathname.slice(API_PREFIX.length);
-  if (endpoint === '/test' && request.method === 'GET' && probing(env)) return probePage();
-  if (endpoint === '/health' && request.method === 'GET') return json({ ok: true, probeOnly: probing(env), build: BUILD_VERSION });
-  if (!['/status', '/login', '/logout', '/inspect', '/book'].includes(endpoint)) return error('Not found.', 404);
+  if (endpoint === '/test' && request.method === 'GET') return probePage();
+  if (endpoint === '/health' && request.method === 'GET') return json({ ok: true, probeOnly: probing(env), directBookingEnabled: env.DIRECT_BOOKING_ENABLED === 'true', build: BUILD_VERSION });
+  if (!['/status', '/login', '/logout', '/inspect', '/inspect-direct', '/verify-direct', '/book', '/confirm', '/cancel'].includes(endpoint)) return error('Not found.', 404);
   if (request.method !== (endpoint === '/status' ? 'GET' : 'POST')) return error('Method not allowed.', 405);
   const origin = request.headers.get('Origin');
   if ((origin && origin !== env.APP_ORIGIN) || (request.method === 'POST' && origin !== env.APP_ORIGIN)
@@ -74,6 +80,8 @@ export class SessionCore {
     this.generation = 0;
     this.closing = null;
     this.lastDiagnostics = undefined;
+    this.lastAuthDiagnostics = [];
+    this.review = null;
     this.statusProbe = null;
     this.diagnosticsProbe = null;
     this.statusTimeoutMs = statusTimeoutMs;
@@ -106,10 +114,21 @@ export class SessionCore {
   }
   snapshot(extra = {}) {
     return { state: this.busy || activeBooking(this.record) ? 'busy' : this.record.state, csrf: this.record.csrf, probeOnly: probing(this.env), build: BUILD_VERSION,
+      directBookingEnabled: this.env.DIRECT_BOOKING_ENABLED === 'true', authDiagnostics: safeAuthDiagnostics(this.record, this.lastAuthDiagnostics),
       ...(probing(this.env) && this.record.lastFailure ? { failure: this.record.lastFailure } : {}),
       ...(probing(this.env) && this.record.failureStage ? { failureStage: this.record.failureStage } : {}),
-      ...(this.record.booking ? { booking: this.record.booking } : {}),
+      ...(this.record.booking ? { booking: { ...this.record.booking,
+        ...(this.record.booking.mode === 'direct' && this.record.booking.stage === 'review' && this.review?.requestId === this.record.booking.requestId
+          ? { reviewMessage: this.review.message, confirmationId: this.review.confirmationId } : {}) } } : {}),
       ...(this.record.expiresAt ? { expiresAt: this.record.expiresAt } : {}), ...extra };
+  }
+
+  captureBooking(result) {
+    updateBooking(this.record, result);
+    this.review = this.record.booking.mode === 'direct' && result.stage === 'review' && UUID.test(result.confirmationId || '')
+      && typeof result.reviewMessage === 'string' && result.reviewMessage.length > 0 && result.reviewMessage.length <= 4000
+      && !/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(result.reviewMessage)
+      ? { requestId: this.record.booking.requestId, confirmationId: result.confirmationId, message: result.reviewMessage } : null;
   }
 
   close(state) {
@@ -127,6 +146,7 @@ export class SessionCore {
     const generation = this.generation;
     const browser = this.browser;
     const browserId = this.record.browserId;
+    this.review = null;
     this.browser = null;
     await closeProviderSession(this.env.BROWSER, browserId, { closeLocal: browser ? () => browser.close() : undefined });
     if (generation !== this.generation || this.record.browserId !== browserId) throw new Error('Session changed during closure');
@@ -135,7 +155,7 @@ export class SessionCore {
     delete this.record.leaseReserved;
     delete this.record.expiresAt;
     this.record.state = state;
-    if (activeBooking(this.record)) this.record.booking.stage = 'error';
+    if (activeBooking(this.record)) updateBooking(this.record, { stage: 'error', reason: state === 'expired' ? 'session_expired' : 'session_unavailable' });
     await this.ctx.storage.deleteAlarm();
     await this.persist();
   }
@@ -152,9 +172,12 @@ export class SessionCore {
     if (!this.browser || this.busy) return;
     const generation = this.generation;
     if (activeBooking(this.record)) {
-      const result = await this.browser.bookingStatus(this.record.booking.requestId);
-      if (generation !== this.generation) return;
-      this.record.booking.stage = STAGES.has(result.stage) ? result.stage : 'error';
+      const attempt = this.record.booking;
+      const result = await this.browser.bookingStatus(attempt.requestId);
+      // A status read may overlap a confirmation. It must not restore an old
+      // review grant or replace a newer terminal/submitting state.
+      if (generation !== this.generation || this.busy || this.record.booking !== attempt) return;
+      this.captureBooking(result);
       if (!activeBooking(this.record)) this.record.state = 'ready';
       await this.persist();
       return;
@@ -182,6 +205,7 @@ export class SessionCore {
   }
 
   async readStatus() {
+    if (this.browser?.authDiagnostics) this.lastAuthDiagnostics = this.browser.authDiagnostics();
     if (probing(this.env) && this.browser && !this.busy && this.browser.diagnostics) {
       if (!this.diagnosticsProbe) {
         const generation = this.generation;
@@ -224,20 +248,26 @@ export class SessionCore {
       if (raw === null) return error('Request too large.', 413);
       let body;
       try { body = JSON.parse(raw); } catch { return error('Invalid request.'); }
+      const reviewing = ['/confirm', '/cancel'].includes(action);
+      const allowedKeys = reviewing ? ['requestId', 'bookingRequestId', 'confirmationId'] : ['requestId', 'route'];
       if (!body || typeof body !== 'object' || Array.isArray(body) || !UUID.test(body.requestId || '')
-          || Object.keys(body).some(key => !['requestId', 'route'].includes(key))) return error('Invalid request.');
+          || Object.keys(body).some(key => !allowedKeys.includes(key))
+          || (reviewing && (!UUID.test(body.bookingRequestId || '') || !UUID.test(body.confirmationId || '')))) return error('Invalid request.');
       if (body.route !== undefined && !BOOKING_ROUTES.has(body.route)) return error('Unknown booking option.');
-      if (['/inspect', '/book'].includes(action) && !BOOKING_ROUTES.has(body.route)) return error('Choose a verified booking option.');
-      const fingerprint = action + '\n' + (body.route || '');
+      if (['/inspect', '/inspect-direct', '/verify-direct', '/book'].includes(action) && !BOOKING_ROUTES.has(body.route)) return error('Choose a verified booking option.');
+      const confirmationDigest = reviewing ? [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(body.confirmationId)))].map(value => value.toString(16).padStart(2, '0')).join('') : '';
+      const fingerprint = action + '\n' + (body.route || '') + (reviewing ? '\n' + body.bookingRequestId + '\n' + confirmationDigest : '');
       if (this.record.history[body.requestId]) {
         if (this.record.history[body.requestId] !== fingerprint) return error('Request identifier already used.', 409);
         const prior = this.results.get(body.requestId);
         return prior ? json(prior.body, prior.status) : error('Request already processed. Refresh session status.', 409);
       }
       if (this.busy) return json(this.snapshot(), 409);
-      if (activeBooking(this.record) && !['/login', '/logout'].includes(action)) return json(this.snapshot(), 409);
+      if (activeBooking(this.record) && !['/login', '/logout', '/confirm', '/cancel'].includes(action)) return json(this.snapshot(), 409);
       if (Object.keys(this.record.history).length >= 64) return error('Start a fresh page session.', 429);
-      if (action === '/book' && probing(this.env)) return error('Booking is disabled during session testing.', 403);
+      if (['/book', '/confirm', '/cancel'].includes(action) && probing(this.env)) return error('Booking is disabled during session testing.', 403);
+      if (reviewing && (this.env.DIRECT_BOOKING_ENABLED !== 'true' || this.record.booking?.mode !== 'direct' || this.record.booking.stage !== 'review'
+        || this.record.booking.requestId !== body.bookingRequestId || this.review?.confirmationId !== body.confirmationId)) return error('No matching confirmation is available.', 409);
       this.busy = true;
       this.record.history[body.requestId] = fingerprint;
       await this.persist();
@@ -246,7 +276,9 @@ export class SessionCore {
         result = await this.perform(action, body);
       } finally { this.busy = false; }
       const data = { ...this.snapshot(), ...result.body };
-      this.results.set(body.requestId, { status: result.status || 200, body: data });
+      // Review text belongs only to this live response and in-memory controller.
+      // Request deduplication stores no native messages or confirmation grants.
+      this.results.set(body.requestId, { status: result.status || 200, body: { ...data, ...(data.booking ? { booking: { ...this.record.booking } } : {}) } });
       return json(data, result.status || 200);
     } catch (failure) {
       this.busy = false;
@@ -268,6 +300,9 @@ export class SessionCore {
     if (this.record.expiresAt && this.now() >= this.record.expiresAt) await this.close('expired');
     if (action === '/logout') {
       await this.close('signed_out');
+      delete this.record.booking;
+      this.review = null;
+      await this.persist();
       this.results.clear();
       return { body: { state: 'signed_out' } };
     }
@@ -319,24 +354,39 @@ export class SessionCore {
       if (generation !== this.generation) throw new Error('Session changed');
       return { body: { state: this.record.state, loginUrl } };
     }
-    if (action === '/inspect' || action === '/book') {
-      if (!this.browser || !await this.browser.authenticated({ fresh: true })) return { status: 401, body: { state: this.browser ? 'signing_in' : 'signed_out', ready: false } };
+    if (action === '/confirm' || action === '/cancel') {
+      const generation = this.generation;
+      const result = await this.browser.reviewBooking(action.slice(1), body.bookingRequestId, body.confirmationId);
+      if (generation !== this.generation || this.now() >= this.record.expiresAt) throw new Error('Session changed');
+      this.captureBooking(result);
+      await this.persist();
+      return { body: { state: activeBooking(this.record) ? 'busy' : 'ready', booking: this.snapshot().booking } };
+    }
+    if (['/inspect', '/inspect-direct', '/verify-direct', '/book'].includes(action)) {
+      const directRead = ['/inspect-direct', '/verify-direct'].includes(action);
+      if (!this.browser || !await this.browser.authenticated({ fresh: true, direct: directRead })) return { status: 401, body: { state: this.browser ? 'signing_in' : 'signed_out', ready: false, reason: 'authentication_required' } };
       const generation = this.generation;
       const { courseCode } = BOOKING_ROUTES.get(body.route);
       if (action === '/book') {
-        this.record.booking = { requestId: body.requestId, stage: 'loading' };
+        this.record.booking = { requestId: body.requestId, stage: 'loading', ...(this.env.DIRECT_BOOKING_ENABLED === 'true' ? { mode: 'direct' } : {}) };
         await this.persist();
         const result = await this.browser.book(body.route, courseCode, body.requestId);
         if (generation !== this.generation || this.now() >= this.record.expiresAt) throw new Error('Session changed');
-        this.record.booking.stage = STAGES.has(result.stage) ? result.stage : 'error';
+        this.captureBooking(result);
         await this.persist();
-        return { body: { state: activeBooking(this.record) ? 'busy' : 'ready', booking: this.record.booking } };
+        return { body: { state: activeBooking(this.record) ? 'busy' : 'ready', booking: this.snapshot().booking } };
       }
-      const result = await this.browser.inspect(body.route, courseCode);
+      const result = directRead ? await this.browser.inspectDirect(body.route, courseCode, action === '/verify-direct') : await this.browser.inspect(body.route, courseCode);
       if (generation !== this.generation || this.now() >= this.record.expiresAt) throw new Error('Session changed');
-      this.record.state = result.csrf === true ? 'ready' : 'signing_in';
+      // The fresh authentication gate above already proved this session. A
+      // course eligibility failure is not a logout; explicit auth failure is.
+      const csrfReady = directRead ? result.reason !== 'authentication_required' : result.csrf === true;
+      this.record.state = csrfReady ? 'ready' : 'signing_in';
       await this.persist();
-      return { body: { state: this.record.state, ready: result.ready === true && result.csrf === true, loaded: result.loaded === true, csrfReady: result.csrf === true, courseCode } };
+      const reason = bookingReason(result.reason);
+      const fields = new Set(['ModuleId', 'ActionName', 'ProgramId', 'Items', 'AssignedCg', 'AssignedCgTop', 'TemplateId', 'EventPackId', 'ModregId', 'AcademicYear', 'AcademicSession', 'Credits', 'CreditUnit', 'UnexpectedFields']);
+      return { body: { state: this.record.state, ready: result.ready === true && csrfReady, loaded: result.loaded === true, csrfReady, courseCode, ...(reason ? { reason } : {}),
+        ...(action === '/verify-direct' ? { equivalent: result.equivalent === true, mismatchFields: Array.isArray(result.mismatchFields) ? result.mismatchFields.filter(field => fields.has(field)) : [] } : {}) } };
     }
     return { status: 404, body: { state: 'error', message: 'Not found.' } };
   }

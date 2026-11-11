@@ -10,6 +10,10 @@ const loginButton = document.querySelector<HTMLButtonElement>('[data-tss-login]'
 const logoutButton = document.querySelector<HTMLButtonElement>('[data-tss-logout]');
 const inspectButton = document.querySelector<HTMLButtonElement>('[data-tss-inspect]');
 const reviewButton = document.querySelector<HTMLButtonElement>('[data-tss-review]');
+const warning = document.querySelector<HTMLElement>('[data-tss-warning]');
+const warningMessage = document.querySelector<HTMLElement>('[data-tss-warning-message]');
+const confirmButton = document.querySelector<HTMLButtonElement>('[data-tss-confirm]');
+const cancelButton = document.querySelector<HTMLButtonElement>('[data-tss-cancel]');
 const probeNote = document.querySelector<HTMLElement>('[data-tss-probe-note]');
 
 // Capture only the server-rendered destinations. Later DOM edits cannot replace them.
@@ -39,13 +43,55 @@ let uncertain = false;
 let statusFailure = false;
 let activeBookId: string | null = null;
 let bookingStage = '';
+let directReview = false;
+let confirmationId = '';
 const completedBookings = new Set<string>();
 let loginPopup: Window | null = null;
 let pollTimer: ReturnType<typeof setTimeout> | undefined;
 let expiryTimer: ReturnType<typeof setTimeout> | undefined;
 let bookingTimer: ReturnType<typeof setTimeout> | undefined;
 const controllers = new Set<AbortController>();
-const text = (element: HTMLElement | null, message: string) => { if (element) element.textContent = message; };
+let activeFeedback: HTMLElement | null = null;
+const text = (element: HTMLElement | null, message: string) => {
+  if (element) element.textContent = message;
+  if (element === jobStatus && activeFeedback) activeFeedback.textContent = message;
+};
+const failureMessages: Record<string, string> = {
+  authentication_required: 'Your UCSD session needs sign-in again.',
+  existing_registration: 'TSS still reports a registration for this section. Check My Courses before trying again.',
+  pending_changes: 'TSS has an unfinished section change. Review it in My Courses.',
+  booking_unavailable: 'TSS does not currently allow this section to be booked.',
+  eligibility_unavailable: 'TSS reports an enrollment requirement that needs review.',
+  course_group_unavailable: 'TSS requires a course-group choice before booking.',
+  assessment_review: 'TSS requires an assessment choice before booking.',
+  additional_choices: 'TSS requires additional choices before booking.',
+  course_load_timeout: 'TSS did not load the selected course in time. No Book request was sent.',
+  course_refresh_failed: 'TSS could not refresh the selected course. No Book request was sent.',
+  request_check_failed: 'TSS could not complete its registration check. No final Book request was sent.',
+  request_blocked: 'The booking request was blocked. Check TSS before trying again.',
+  action_timeout: 'TSS did not return a result in time. Check My Courses before trying again.',
+  submission_uncertain: 'The Book request has no confirmed result. Check My Courses before trying again.',
+  booking_cancelled: 'Booking was cancelled.',
+  booking_error: 'TSS rejected the booking. Review the result in My Courses.',
+  session_expired: 'Your booking session expired. Check My Courses before trying again.',
+  session_unavailable: 'Your booking session disconnected. Check My Courses before trying again.',
+  previous_attempt: 'Review the previous attempt in My Courses before starting another.',
+  route_mismatch: 'The selected course could not be verified. No Book request was sent.',
+  context_mismatch: 'The selected section could not be verified. No Book request was sent.',
+  native_context_unavailable: 'TSS did not finish opening the selected course.',
+  details_loading: 'TSS has not finished loading the course details.',
+  event_data_unavailable: 'TSS did not return complete section details.',
+  ambiguous_package: 'TSS returned multiple section choices. Review the package in TSS.',
+  section_mismatch: 'TSS returned different sections than the selected option.',
+  duplicate_sections: 'TSS returned duplicate sections for this option.',
+  unsupported_tss: 'The current TSS booking screen is unsupported.',
+  payload_mismatch: 'The booking details could not be verified. No Book request was sent.',
+  booking_context_changed: 'The booking details changed. Check TSS before trying again.',
+  native_action_failed: 'TSS stopped during booking. Check My Courses before trying again.',
+  warning_unavailable: 'TSS returned a warning that needs review before booking.',
+  attempt_unavailable: 'The previous attempt could not be recovered. Check My Courses before trying again.',
+};
+const failureText = (reason: unknown, fallback: string) => typeof reason === 'string' && Object.hasOwn(failureMessages, reason) ? failureMessages[reason] : fallback;
 const fresh = () => lastStatusAt > 0 && Date.now() - lastStatusAt < FRESH_MS;
 const busy = () => mutating || Boolean(activeBookId) || state === 'busy';
 const closeLogin = () => {
@@ -75,8 +121,13 @@ const render = () => {
     inspectButton.disabled = busy() || !fresh() || !csrf || uncertain || departed;
   }
   if (reviewButton) {
-    reviewButton.hidden = bookingStage !== 'review' || !activeBookId;
+    reviewButton.hidden = bookingStage !== 'review' || !activeBookId || directReview;
     reviewButton.disabled = mutating || !csrf || !fresh() || departed;
+  }
+  if (warning) warning.hidden = bookingStage !== 'review' || !activeBookId || !directReview || !confirmationId;
+  for (const button of [confirmButton, cancelButton]) if (button) {
+    button.disabled = bookingStage !== 'review' || !activeBookId || !directReview || !confirmationId
+      || mutating || !csrf || !fresh() || departed;
   }
   knownButtons.forEach((_route, button) => {
     button.disabled = probeOnly || busy() || uncertain || !csrf || !fresh() || departed
@@ -86,7 +137,7 @@ const render = () => {
 };
 
 class ApiError extends Error {
-  constructor(public status: number) { super('The session request failed.'); }
+  constructor(public status: number, public reason?: string) { super('The session request failed.'); }
 }
 async function request(path: string, body?: Record<string, unknown>, timeout = 20_000) {
   const controller = new AbortController();
@@ -98,7 +149,17 @@ async function request(path: string, body?: Record<string, unknown>, timeout = 2
       headers: body ? { Accept: 'application/json', 'Content-Type': 'application/json', 'X-BBB-CSRF': csrf } : { Accept: 'application/json' },
       ...(body ? { body: JSON.stringify(body) } : {}), signal: controller.signal,
     });
-    if (!response.ok) throw new ApiError(response.status);
+    if (!response.ok) {
+      let reason;
+      try {
+        if (response.headers.get('content-type')?.includes('application/json')) {
+          const error = await response.json();
+          const candidate = error?.booking?.reason ?? error?.reason;
+          if (typeof candidate === 'string' && Object.hasOwn(failureMessages, candidate)) reason = candidate;
+        }
+      } catch { /* Never expose a raw error body. */ }
+      throw new ApiError(response.status, reason);
+    }
     if (!response.headers.get('content-type')?.includes('application/json')) throw new ApiError(502);
     const value = await response.json();
     if (!value || typeof value !== 'object' || Array.isArray(value)) throw new ApiError(502);
@@ -115,18 +176,20 @@ function liveView(value: unknown): string {
     || url.pathname !== '/ui/view' || url.searchParams.get('mode') !== 'tab') throw new ApiError(502);
   return url.href;
 }
-function lockResult() {
+function lockResult(message = 'No confirmed result received. Check TSS before starting another booking.') {
   uncertain = true;
   activeBookId = null;
   bookingStage = '';
+  confirmationId = ''; directReview = false; text(warningMessage, '');
   clearTimeout(bookingTimer);
-  text(jobStatus, 'No confirmed result received. Check TSS before starting another booking.');
+  text(jobStatus, message);
 }
 function bookingResult(value: Record<string, unknown>) {
   if (!activeBookId || value.requestId !== activeBookId) return false;
   const ranks: Record<string, number> = { loading: 1, checking: 2, review: 3, submitting: 4, submitted: 5, stopped: 5, error: 5 };
   if (typeof value.stage !== 'string' || !ranks[value.stage]) return false;
   if (ranks[value.stage] < (ranks[bookingStage] || 0)) return true;
+  if (value.stage !== 'review') { confirmationId = ''; directReview = false; text(warningMessage, ''); }
   if (value.stage !== bookingStage) {
     clearTimeout(bookingTimer);
     if (['loading', 'checking', 'submitting'].includes(value.stage)) bookingTimer = setTimeout(() => { lockResult(); render(); }, 130_000);
@@ -137,7 +200,18 @@ function bookingResult(value: Record<string, unknown>) {
     case 'checking': text(jobStatus, 'Checking the selected course in TSS…'); break;
     case 'submitting': text(jobStatus, 'Sending the Book request…'); break;
     case 'review':
-      text(jobStatus, 'TSS needs your review before it can continue.');
+      directReview = value.mode === 'direct';
+      confirmationId = '';
+      if (directReview && typeof value.reviewMessage === 'string' && value.reviewMessage.trim()
+        && value.reviewMessage.length <= 4000 && typeof value.confirmationId === 'string'
+        && /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(value.confirmationId)) {
+        confirmationId = value.confirmationId;
+        text(warningMessage, value.reviewMessage);
+        text(jobStatus, 'TSS returned a warning. Review it before confirming booking.');
+      } else if (directReview) {
+        text(warningMessage, '');
+        text(jobStatus, 'The TSS warning could not be loaded. Booking has not been confirmed.');
+      } else text(jobStatus, 'TSS needs your review before it can continue.');
       break;
     case 'submitted':
       completedBookings.add(activeBookId);
@@ -147,9 +221,9 @@ function bookingResult(value: Record<string, unknown>) {
     case 'stopped':
       completedBookings.add(activeBookId);
       activeBookId = null; bookingStage = ''; closeLogin();
-      text(jobStatus, 'Booking stopped. Review TSS before trying again.');
+      text(jobStatus, failureText(value.reason, 'Booking stopped. Review TSS before trying again.'));
       break;
-    case 'error': lockResult(); break;
+    case 'error': lockResult(failureText(value.reason, 'No confirmed result received. Check TSS before starting another booking.')); break;
     default: return false;
   }
   return true;
@@ -288,11 +362,11 @@ async function book(route: string) {
     if (error instanceof ApiError && [401, 403].includes(error.status)) {
       activeBookId = null; state = 'expired'; csrf = ''; lastStatusAt = 0;
       text(jobStatus, 'Booking was not authorized. Sign in again before trying.');
-    } else lockResult();
+    } else lockResult(failureText(error instanceof ApiError ? error.reason : undefined, 'No confirmed result received. Check TSS before starting another booking.'));
   } finally { mutating = false; render(); void refreshStatus(); }
 }
 async function reviewBooking() {
-  if (!activeBookId || bookingStage !== 'review' || mutating || !requireFresh()) return;
+  if (!activeBookId || bookingStage !== 'review' || directReview || mutating || !requireFresh()) return;
   const popup = window.open('about:blank', '_blank');
   if (!popup) { text(jobStatus, 'Allow the popup, then select Review in TSS again.'); return; }
   try { popup.opener = null; } catch { popup.close(); return; }
@@ -306,12 +380,32 @@ async function reviewBooking() {
   } finally { mutating = false; render(); void refreshStatus(); }
 }
 
+async function resolveWarning(action: 'confirm' | 'cancel') {
+  if (!activeBookId || bookingStage !== 'review' || !directReview || !confirmationId || mutating || !requireFresh()) return;
+  const bookingRequestId = activeBookId;
+  const token = confirmationId;
+  mutating = true; revision++; render();
+  try {
+    const value = await request(action, { requestId: crypto.randomUUID(), bookingRequestId, confirmationId: token });
+    const result = value.booking && typeof value.booking === 'object' ? value.booking as Record<string, unknown> : value;
+    if (!bookingResult(result)) lockResult();
+  } catch {
+    lockResult(action === 'confirm' ? 'Confirmation has no verified result. Check My Courses before trying again.'
+      : 'Cancellation could not be confirmed. Check session status before continuing.');
+  } finally { mutating = false; render(); void refreshStatus(); }
+}
+
 loginButton?.addEventListener('click', event => { if (event.isTrusted && !loginButton.disabled) void signIn(); });
 logoutButton?.addEventListener('click', event => { if (event.isTrusted && !logoutButton.disabled) void signOut(); });
 inspectButton?.addEventListener('click', event => { if (event.isTrusted && !inspectButton.disabled) void inspectSession(); });
 reviewButton?.addEventListener('click', event => { if (event.isTrusted && !reviewButton.disabled) void reviewBooking(); });
+confirmButton?.addEventListener('click', event => { if (event.isTrusted && !confirmButton.disabled) void resolveWarning('confirm'); });
+cancelButton?.addEventListener('click', event => { if (event.isTrusted && !cancelButton.disabled) void resolveWarning('cancel'); });
 knownButtons.forEach((route, button) => button.addEventListener('click', event => {
-  if (event.isTrusted && !button.disabled) void book(route);
+  if (event.isTrusted && !button.disabled) {
+    activeFeedback = button.closest('.course-row, .booking-option')?.querySelector<HTMLElement>('[data-tss-feedback]') || null;
+    void book(route);
+  }
 }));
 document.addEventListener('visibilitychange', () => {
   clearTimeout(pollTimer);

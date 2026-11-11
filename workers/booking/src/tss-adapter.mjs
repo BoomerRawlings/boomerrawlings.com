@@ -3,7 +3,37 @@
 export function nativeTssOperation({ operation, ...input }) {
   const w = window;
   const marker = '__bbbManagedBookingV1';
-  const answer = (stage, message) => ({ stage, ...(message ? { message } : {}) });
+  const reasons = {
+    'No matching booking attempt exists in this page.': 'attempt_unavailable',
+    'Invalid booking command.': 'native_action_failed',
+    'Review the previous attempt in TSS before continuing.': 'previous_attempt',
+    'Open the exact package and wait for TSS to finish loading.': 'details_loading',
+    'The native action includes unexpected booking details.': 'payload_mismatch',
+    'This TSS version is unsupported.': 'unsupported_tss',
+    'The booking context changed or was already submitted.': 'booking_context_changed',
+    'TSS stopped before returning a result.': 'native_action_failed',
+    'TSS requires additional choices.': 'additional_choices',
+    'An unexpected write action was blocked.': 'payload_mismatch',
+    'An unexpected booking action was blocked.': 'payload_mismatch',
+    'TSS returned a booking error.': 'booking_error',
+    'Booking details changed during the registration check.': 'booking_context_changed',
+    'The native warning could not be displayed.': 'warning_unavailable',
+    'Booking details changed while the warning was open.': 'booking_context_changed',
+    'Booking cancelled in TSS.': 'booking_cancelled',
+    'TSS could not display its warning.': 'warning_unavailable',
+    'The expected warning was not available.': 'warning_unavailable',
+    'The submission result is uncertain.': 'submission_uncertain',
+    'TSS could not complete the registration check.': 'request_check_failed',
+    'No final result arrived before the deadline.': 'action_timeout',
+    'The course changed before booking.': 'booking_context_changed',
+    'TSS stopped before completing its check.': 'native_action_failed',
+    'Navigation interrupted this booking attempt.': 'booking_context_changed',
+    'Navigation changed before booking.': 'booking_context_changed',
+    'TSS did not finish loading the package.': 'course_load_timeout',
+    'TSS could not refresh this package.': 'course_refresh_failed',
+    'The refreshed TSS page could not be verified.': 'native_context_unavailable',
+  };
+  const answer = (stage, message, reason = reasons[message]) => ({ stage, ...(message ? { message } : {}), ...(reason ? { reason } : {}) });
   const atTss = w.location.origin === 'https://tss.ucsd.edu' && /^\/fiori\/?$/.test(w.location.pathname);
   const authenticated = () => {
     if (!atTss) return false;
@@ -26,7 +56,7 @@ export function nativeTssOperation({ operation, ...input }) {
       return Boolean(response.ok && token && !/^(required|fetch)$/i.test(token));
     }).catch(() => false);
   }
-  if (!atTss || !authenticated()) return { ...answer('stopped', 'Sign in to TSS in this managed session.'), loaded: false, ready: false };
+  if (!atTss || !authenticated()) return { ...answer('stopped', 'Sign in to TSS in this managed session.'), loaded: false, ready: false, reason: 'authentication_required' };
   if (operation === 'status') return w[marker]?.history.get(input.requestId) || answer('stopped', 'No matching booking attempt exists in this page.');
   const digits = value => /^\d+$/.test(String(value)) ? String(value).replace(/^0+(?=\d)/, '') : null;
   const same = (a, b) => digits(a) !== null && digits(a) === digits(b);
@@ -69,42 +99,49 @@ export function nativeTssOperation({ operation, ...input }) {
   };
   const target = targetFor(input.route);
   const inspect = (context, allowBusy = false) => {
-    if (!target || !context || !equalTarget(targetFor(w.location.href), target)) return { ready: false };
+    if (!target || !equalTarget(targetFor(w.location.href), target)) return { ready: false, reason: 'route_mismatch' };
+    if (!context) return { ready: false, reason: 'native_context_unavailable' };
     const c = context.controller, m = context.model, d = m?.getProperty('/detail'), args = c._oArguments;
-    if (!d || !args || c._initialLoad !== false) return { ready: false };
+    if (!d || !args || c._initialLoad !== false) return { ready: false, reason: 'details_loading' };
     if (args.Source !== 'EventPackage' || args.Otype !== 'SM' || args.NavFromMode
       || !same(args.Objid, target.module) || !same(args.EventPackageId, target.package) || !same(args.AcademicYear, target.year) || !same(args.AcademicSession, target.session)
-      || d.SmOtype !== 'SM' || !same(d.SmObjid, target.module) || !same(d.EventPackageId, target.package) || !same(d.AcademicYear, target.year) || !same(d.AcademicSession, target.session)) return { ready: false };
+      || d.SmOtype !== 'SM' || !same(d.SmObjid, target.module) || !same(d.EventPackageId, target.package) || !same(d.AcademicYear, target.year) || !same(d.AcademicSession, target.session)) return { ready: false, reason: 'context_mismatch' };
     const data = m.getData(), types = d.EventTypes, exams = d.ExamTypes || [];
-    if (Object.entries(data).some(([key, value]) => /^busy/i.test(key) && value === true && !(allowBusy && key === 'busy'))) return { ready: false };
-    const unavailable = stop => ({ loaded: true, ready: false, ...(stop ? { stop } : {}) });
-    if (!Array.isArray(types) || !types.length || !Array.isArray(exams)) return unavailable();
-    if (nonzeroGuid(d.ModregId) || data.WithdrawButtonEnabled || types.some(type => type.booked || type.oBooked || type.Events?.some(event => event.Booked))
-      || exams.some(exam => exam.booked || exam.oBooked || exam.Selected?.Booked)) return unavailable('An existing registration requires review in TSS.');
-    if (c.getOwnerComponent().getModel('tempEventModel')?.getProperty('/changedEvent') !== undefined || types.some(type => type.Changed)) return unavailable('Pending section changes require review in TSS.');
-    if (!data.EventPackageExist || !data.BookingButtonEnabled || !context.button?.getEnabled?.() || !context.button.getVisible() || !shown(context.button)) return unavailable();
-    if (!d.oCG?.Bookable || !digits(d.oCG.CgObjid) || digits(d.oCG.CgObjid) === '0' || d.Eligibility?.some(item => item.RulecheckResult === 'N')) return unavailable('TSS requires a course-group choice or eligibility review.');
-    if (exams.some(exam => exam.Selected || exam.DoRepetition || exam.Changed)) return unavailable('Additional assessment actions require review in TSS.');
+    if (Object.entries(data).some(([key, value]) => /^busy/i.test(key) && value === true && !(allowBusy && key === 'busy'))) return { ready: false, reason: 'details_loading' };
+    const unavailable = (reason, stop) => ({ loaded: true, ready: false, reason, ...(stop ? { stop } : {}) });
+    if (!Array.isArray(types) || !types.length || !Array.isArray(exams)) return unavailable('event_data_unavailable');
+    // A canceled registration may retain its historical detail ID. Native Book
+    // uses current event/package flags and always prepares a zero ModregId; the
+    // guarded payload below must still prove that zero before any write.
+    if (data.WithdrawButtonEnabled || types.some(type => type.booked || type.oBooked || type.Events?.some(event => event.Booked))
+      || exams.some(exam => exam.booked || exam.oBooked || exam.Selected?.Booked)) return unavailable('existing_registration', 'An existing registration requires review in TSS.');
+    if (c.getOwnerComponent().getModel('tempEventModel')?.getProperty('/changedEvent') !== undefined || types.some(type => type.Changed)) return unavailable('pending_changes', 'Pending section changes require review in TSS.');
+    if (!data.EventPackageExist || !data.BookingButtonEnabled || !context.button?.getEnabled?.() || !context.button.getVisible() || !shown(context.button)) return unavailable('booking_unavailable');
+    if (!d.oCG?.Bookable || !digits(d.oCG.CgObjid) || digits(d.oCG.CgObjid) === '0') return unavailable('course_group_unavailable', 'TSS requires a course-group choice or eligibility review.');
+    if (d.Eligibility?.some(item => item.RulecheckResult === 'N')) return unavailable('eligibility_unavailable', 'TSS requires a course-group choice or eligibility review.');
+    if (exams.some(exam => exam.Selected || exam.DoRepetition || exam.Changed)) return unavailable('assessment_review', 'Additional assessment actions require review in TSS.');
     const events = [];
     for (const type of types) {
-      if (!type.EventPackageExist || !Array.isArray(type.Events) || type.Events.length !== 1 || type.DoRepetition) return unavailable('The package has ambiguous selections.');
+      if (!type.EventPackageExist || !Array.isArray(type.Events) || type.Events.length !== 1 || type.DoRepetition) return unavailable('ambiguous_package', 'The package has ambiguous selections.');
       const event = type.Events[0];
       if (!digits(event.EventId) || digits(event.EventId) === '0' || !same(event.SmObjid, target.module) || !same(event.AcademicYear, target.year)
-        || !same(event.AcademicSession, target.session) || (event.EventPackageId != null && !same(event.EventPackageId, target.package))) return unavailable('The selected sections do not match the requested package.');
+        || !same(event.AcademicSession, target.session) || (event.EventPackageId != null && !same(event.EventPackageId, target.package))) return unavailable('section_mismatch', 'The selected sections do not match the requested package.');
       events.push(digits(event.EventId));
     }
-    if (new Set(events).size !== events.length) return unavailable('The package has duplicate sections.');
+    if (new Set(events).size !== events.length) return unavailable('duplicate_sections', 'The package has duplicate sections.');
     return { loaded: true, ready: true, detail: d, events };
   };
   let context, snapshot;
-  try { context = findContext(); snapshot = inspect(context); } catch { return { ...answer('stopped', 'This TSS page could not be verified.'), loaded: false, ready: false }; }
+  try { context = findContext(); snapshot = inspect(context); } catch { return { ...answer('stopped', 'This TSS page could not be verified.'), loaded: false, ready: false, reason: 'native_context_unavailable' }; }
   if (operation === 'inspect') return { loaded: Boolean(snapshot.loaded), ready: Boolean(snapshot.ready),
+    ...(snapshot.reason ? { reason: snapshot.reason } : {}),
     ...answer(snapshot.loaded && !snapshot.ready ? 'stopped' : 'loading', snapshot.loaded && !snapshot.ready ? 'Booking requires review in TSS.' : undefined) };
   if (operation !== 'book' || typeof input.requestId !== 'string' || !/^[A-Za-z0-9._:-]{1,128}$/.test(input.requestId)) return answer('stopped', 'Invalid booking command.');
   const state = w[marker] ||= { history: new Map(), active: null, locked: false };
   if (state.history.has(input.requestId)) return state.history.get(input.requestId);
   if (state.active || state.locked) return answer('stopped', 'Review the previous attempt in TSS before continuing.');
-  if (!snapshot.ready || typeof context.controller._loadDetailData !== 'function') return answer('stopped', snapshot.stop || 'Open the exact package and wait for TSS to finish loading.');
+  if (!snapshot.ready) return answer('stopped', snapshot.stop || 'Open the exact package and wait for TSS to finish loading.', snapshot.reason);
+  if (typeof context.controller._loadDetailData !== 'function') return answer('stopped', 'This TSS version is unsupported.');
   const canonical = value => Array.isArray(value) ? value.map(canonical) : value && typeof value === 'object' ? Object.fromEntries(Object.keys(value).sort().map(key => [key, canonical(value[key])])) : value;
   const fingerprint = payload => JSON.stringify(canonical({ ...payload, ActionName: 'SaveChanges' }));
   const payloadFor = (ctx, snap) => {
@@ -121,20 +158,20 @@ export function nativeTssOperation({ operation, ...input }) {
   };
   const job = { id: input.requestId, beforeDetail: snapshot.detail, context, done: false, locked: false };
   state.active = job;
-  const update = (stage, message) => { job.stage = stage; const result = answer(stage, message); state.history.set(job.id, result); return result; };
+  const update = (stage, message, reason) => { job.stage = stage; const result = answer(stage, message, reason); state.history.set(job.id, result); return result; };
   const clear = () => { clearTimeout(job.poll); clearTimeout(job.deadline); w.removeEventListener('hashchange', routeChanged); };
-  const finish = (stage, message) => {
+  const finish = (stage, message, reason) => {
     if (job.done || job.locked) return;
     job.done = true; clear();
     if (job.context.controller.saveCall === job.guardedSave) job.context.controller.saveCall = job.originalSave;
     if (job.context.nativeModel.create === job.guardedCreate) job.context.nativeModel.create = job.originalCreate;
-    state.active = null; update(stage, message);
+    state.active = null; update(stage, message, reason);
   };
   const lock = (message, stage = 'stopped') => {
     if (job.done || job.locked) return;
     job.locked = state.locked = true; clear();
     // Keep gates installed so delayed native callbacks cannot resume submission.
-    update(stage, message + ' Check TSS and reload this managed session before trying again.');
+    update(stage, message + ' Check TSS and reload this managed session before trying again.', reasons[message]);
   };
   const valid = () => {
     if (job.done || job.locked || state.active !== job || !authenticated()) return false;
@@ -226,7 +263,7 @@ export function nativeTssOperation({ operation, ...input }) {
     try {
       if (!equalTarget(targetFor(w.location.href), target)) { finish('stopped', 'Navigation changed before booking.'); return; }
       const ctx = findContext(), snap = inspect(ctx);
-      if (snap.stop) { finish('stopped', snap.stop); return; }
+      if (snap.stop) { finish('stopped', snap.stop, snap.reason); return; }
       if (snap.ready && snap.detail !== job.beforeDetail) { run(ctx, snap); return; }
     } catch { finish('stopped', 'The refreshed TSS page could not be verified.'); return; }
     job.poll = setTimeout(poll, input.pollMs || 200);

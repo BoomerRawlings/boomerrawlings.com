@@ -141,6 +141,146 @@ test('failed fresh authentication never permits Book', async () => {
   assert.equal((await a.post('/book', { route: DEFAULT_ROUTE })).status, 401); assert.equal(owned.bookCalls, 0);
 });
 
+test('production retains only fixed booking reasons across immediate and polled failure', async () => {
+  const f = fixture({ PROBE_ONLY: 'false' }); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  owned.book = async () => ({ stage: 'stopped', reason: 'course_load_timeout', message: 'private native details' });
+  const first = await (await a.post('/book', { route: DEFAULT_ROUTE })).json();
+  assert.equal(first.booking.reason, 'course_load_timeout');
+  assert.equal((await (await a.get()).json()).booking.reason, 'course_load_timeout');
+  owned.book = async () => ({ stage: 'checking' });
+  await a.post('/book', { route: DEFAULT_ROUTE });
+  owned.bookingStatus = async () => ({ stage: 'error', reason: 'request_blocked', message: 'private native details' });
+  const failed = await (await a.get()).json();
+  assert.equal(failed.booking.reason, 'request_blocked'); assert.equal(failed.booking.stage, 'error');
+  assert.equal(JSON.stringify(failed).includes('private native'), false);
+  owned.book = async () => ({ stage: 'stopped', reason: 'private arbitrary detail' });
+  const unknown = await (await a.post('/book', { route: DEFAULT_ROUTE })).json();
+  assert.equal(unknown.booking.reason, undefined); assert.equal(JSON.stringify(unknown).includes('private arbitrary'), false);
+});
+
+test('active booking expiry keeps a fixed terminal reason after browser closes', async () => {
+  const f = fixture({ PROBE_ONLY: 'false' }); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  await a.post('/book', { route: DEFAULT_ROUTE });
+  f.advance(15 * 60_000);
+  const ended = await (await a.get()).json();
+  assert.equal(ended.booking.stage, 'error'); assert.equal(ended.booking.reason, 'session_expired'); assert.equal(owned.closed, true);
+});
+
+test('read-only direct inspection and verification are allowed with writes disabled', async () => {
+  const f = fixture({ DIRECT_BOOKING_ENABLED: 'false' }); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  const calls = [];
+  owned.inspectDirect = async (route, code, compare) => {
+    calls.push({ route, code, compare });
+    return { loaded: true, ready: true, csrfReady: true, equivalent: true, mismatchFields: ['Items', 'private account field'], payload: 'private payload' };
+  };
+  assert.equal((await a.post('/inspect-direct', { route: DEFAULT_ROUTE })).status, 200);
+  const proof = await (await a.post('/verify-direct', { route: DEFAULT_ROUTE })).json();
+  assert.equal(proof.equivalent, true); assert.deepEqual(proof.mismatchFields, ['Items']);
+  assert.equal(proof.directBookingEnabled, false); assert.equal(proof.csrfReady, true);
+  assert.equal(JSON.stringify(proof).includes('private'), false); assert.equal(owned.bookCalls, 0);
+  assert.deepEqual(calls.map(value => value.compare), [false, true]);
+  assert.equal((await a.post('/inspect-direct', { route: 'https://tss.ucsd.edu/arbitrary' })).status, 400);
+});
+
+test('direct confirmation is owned, correlated, idempotent and keeps review text out of storage/cache', async () => {
+  const f = fixture({ PROBE_ONLY: 'false', DIRECT_BOOKING_ENABLED: 'true', MAX_BROWSER_SESSIONS: '8' });
+  const a = await f.client(), b = await f.client(); await a.post('/login'); await b.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  const bookingRequestId = uuid(), confirmationId = uuid(), reviewMessage = 'Synthetic official warning <plain text>';
+  await a.post('/book', { route: DEFAULT_ROUTE, requestId: bookingRequestId });
+  owned.bookingStatus = async () => ({ stage: 'review', reviewMessage, confirmationId });
+  const reviewed = await (await a.get()).json();
+  assert.equal(reviewed.booking.mode, 'direct'); assert.equal(reviewed.booking.reviewMessage, reviewMessage);
+  const core = [...f.sessions.values()][0];
+  assert.equal(JSON.stringify(core.record).includes(reviewMessage), false);
+  assert.equal(JSON.stringify([...core.ctx.storage.data]).includes(reviewMessage), false);
+  await a.post('/login');
+  assert.equal(JSON.stringify([...core.results]).includes(reviewMessage), false);
+  let confirmations = 0;
+  owned.reviewBooking = async (operation, request, confirmation) => {
+    confirmations++; assert.equal(operation, 'confirm'); assert.equal(request, bookingRequestId); assert.equal(confirmation, confirmationId);
+    return { stage: 'submitting' };
+  };
+  assert.equal((await b.post('/confirm', { bookingRequestId, confirmationId })).status, 409);
+  assert.equal((await a.post('/confirm', { bookingRequestId, confirmationId: uuid() })).status, 409);
+  assert.equal((await a.post('/confirm', { bookingRequestId, confirmationId }, { 'X-BBB-CSRF': 'wrong' })).status, 403);
+  const confirmationRequest = { requestId: uuid(), bookingRequestId, confirmationId };
+  assert.equal((await a.post('/confirm', confirmationRequest)).status, 200);
+  assert.equal((await a.post('/confirm', confirmationRequest)).status, 200); assert.equal(confirmations, 1);
+  assert.equal(JSON.stringify([...core.ctx.storage.data]).includes(confirmationId), false);
+  assert.equal(core.record.booking.stage, 'submitting'); assert.equal(core.review, null);
+  assert.equal((await a.post('/confirm', { bookingRequestId, confirmationId })).status, 409);
+});
+
+test('direct cancellation requires current review; invalid warning text cannot authorize either action', async () => {
+  const f = fixture({ PROBE_ONLY: 'false', DIRECT_BOOKING_ENABLED: 'true' }); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  const bookingRequestId = uuid(), confirmationId = uuid();
+  await a.post('/book', { route: DEFAULT_ROUTE, requestId: bookingRequestId });
+  owned.bookingStatus = async () => ({ stage: 'review', confirmationId, reviewMessage: 'x'.repeat(4001) });
+  const invalid = await (await a.get()).json(); assert.equal(invalid.booking.reviewMessage, undefined);
+  assert.equal((await a.post('/cancel', { bookingRequestId, confirmationId })).status, 409);
+  owned.bookingStatus = async () => ({ stage: 'review', confirmationId, reviewMessage: 'Safe text' });
+  await a.get();
+  owned.reviewBooking = async operation => { assert.equal(operation, 'cancel'); return { stage: 'stopped', reason: 'booking_cancelled' }; };
+  const cancelled = await (await a.post('/cancel', { bookingRequestId, confirmationId })).json();
+  assert.equal(cancelled.booking.reason, 'booking_cancelled'); assert.equal(cancelled.booking.stage, 'stopped');
+  assert.equal(cancelled.booking.reviewMessage, undefined);
+});
+
+test('delayed review status cannot restore a consumed confirmation after submitting', async () => {
+  const f = fixture({ PROBE_ONLY: 'false', DIRECT_BOOKING_ENABLED: 'true' }); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  const bookingRequestId = uuid(), confirmationId = uuid();
+  await a.post('/book', { route: DEFAULT_ROUTE, requestId: bookingRequestId });
+  const review = { stage: 'review', reviewMessage: 'Official warning', confirmationId };
+  owned.bookingStatus = async () => review; await a.get();
+  let resolveStatus;
+  owned.bookingStatus = () => new Promise(resolve => { resolveStatus = resolve; });
+  const delayed = a.get();
+  while (!resolveStatus) await new Promise(resolve => setTimeout(resolve, 0));
+  owned.reviewBooking = async () => ({ stage: 'submitting' });
+  assert.equal((await a.post('/confirm', { bookingRequestId, confirmationId })).status, 200);
+  resolveStatus(review);
+  const latest = await (await delayed).json();
+  assert.equal(latest.booking.stage, 'submitting'); assert.equal(latest.booking.confirmationId, undefined);
+  assert.equal((await a.post('/confirm', { bookingRequestId, confirmationId })).status, 409);
+});
+
+test('production auth diagnostics expose only fixed classes and redacted endpoints', async () => {
+  const f = fixture({ PROBE_ONLY: 'false' }); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0];
+  owned.authDiagnostics = () => [{ hostname: 'a5.ucsd.edu', pathname: '/tritON/private-token-value', method: 'POST', count: 1 }];
+  const status = await (await a.get()).json();
+  assert.deepEqual(status.authDiagnostics.blocked, [{ hostname: 'a5.ucsd.edu', pathname: '/tritON/[redacted]', method: 'POST', count: 1 }]);
+  assert.equal(JSON.stringify(status).includes('private-token'), false);
+});
+
+test('successful logout clears old uncertain booking but automatic expiry preserves it', async () => {
+  const f = fixture({ PROBE_ONLY: 'false' }); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  await a.post('/book', { route: DEFAULT_ROUTE });
+  f.advance(15 * 60_000);
+  assert.equal((await (await a.get()).json()).booking.reason, 'session_expired');
+  assert.equal((await a.post('/logout')).status, 200);
+  const after = await (await a.get()).json();
+  assert.equal(after.state, 'signed_out'); assert.equal(after.booking, undefined);
+});
+
+test('direct eligibility failure preserves fresh authentication; explicit auth failure revokes it', async () => {
+  const f = fixture(); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  owned.inspectDirect = async () => ({ loaded: false, ready: false, reason: 'existing_registration' });
+  const ineligible = await (await a.post('/inspect-direct', { route: DEFAULT_ROUTE })).json();
+  assert.equal(ineligible.state, 'ready'); assert.equal(ineligible.ready, false); assert.equal(ineligible.csrfReady, true);
+  owned.inspectDirect = async () => ({ loaded: false, ready: false, reason: 'authentication_required' });
+  const expired = await (await a.post('/inspect-direct', { route: DEFAULT_ROUTE })).json();
+  assert.equal(expired.state, 'signing_in'); assert.equal(expired.csrfReady, false);
+});
+
 test('body and request count bounded without launching browsers', async () => {
   const f = fixture(); const a = await f.client();
   assert.equal((await a.post('/login', { route: 'x'.repeat(5000) })).status, 413); assert.equal(f.count(), 0);
@@ -234,7 +374,7 @@ test('provider closure must be verified before releasing concurrent-browser leas
 
 test('health never creates cookie, object or browser', async () => {
   const f = fixture(); const response = await handleRequest(new Request(origin + API_PREFIX + '/health'), f.env);
-  assert.deepEqual(await response.json(), { ok: true, probeOnly: true, build: BUILD_VERSION });
+  assert.deepEqual(await response.json(), { ok: true, probeOnly: true, directBookingEnabled: false, build: BUILD_VERSION });
   assert.equal(response.headers.has('Set-Cookie'), false); assert.equal(f.sessions.size, 0); assert.equal(f.count(), 0);
 });
 

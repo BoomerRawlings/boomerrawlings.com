@@ -118,6 +118,11 @@ const missingDetailsNote = (course: CatalogCourse) => {
           <p class="tss-probe-note" data-tss-probe-note>Login test — booking unavailable.</p>
           <p class="tss-job-status" role="status" aria-live="polite" data-tss-job-status></p>
           <button type="button" data-tss-review hidden>Review in TSS</button>
+          <div class="tss-warning" data-tss-warning hidden>
+            <p data-tss-warning-message></p>
+            <button type="button" data-tss-confirm>Confirm booking</button>
+            <button type="button" data-tss-cancel>Cancel booking</button>
+          </div>
         </div>
       </div>
 
@@ -160,6 +165,7 @@ const missingDetailsNote = (course: CatalogCourse) => {
                     </button>
                     <a class="tss-direct-booking" href={course.bookingUrl} target="_blank" rel="noopener noreferrer" aria-label={`Go to booking for ${course.title} in TSS, opens in a new tab`}><span class="tss-book-inner">Go to booking</span></a>
                   </div>
+                  <p class="tss-option-feedback" role="status" aria-live="polite" data-tss-feedback></p>
                 </div>
               ) : (
                 <details class={`course-options category-${course.categoryStyle}`} data-course-options>
@@ -186,6 +192,7 @@ const missingDetailsNote = (course: CatalogCourse) => {
                             <button class="tss-book" type="button" disabled aria-label={`Booking link unavailable for ${course.code}, ${group.label}`} title="Booking link not available for this option"><span class="tss-book-inner">Book</span></button>
                           ))}
                         </div>
+                        <p class="tss-option-feedback" role="status" aria-live="polite" data-tss-feedback></p>
                         {group.unassigned && <p class="option-note">These sections are not linked to a complete booking option.</p>}
                         {!group.unassigned && !group.bookingUrl && <p class="option-note">Booking link not available yet.</p>}
                         {group.sections.map(section => (

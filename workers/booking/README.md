@@ -2,7 +2,7 @@
 
 Worker route: `https://boomerrawlings.com/0311/api/*`. Static frontend remains on its existing host. This service owns one separate browser per visitor; it cannot inherit a Chrome or in-app-browser login.
 
-Current configuration enables household booking (`PROBE_ONLY=false`). Hosted UCSD/Duo authentication, loaded PHIL010 and ECON100A package details, same-session CSRF availability, and sign-out/browser closure were verified on2026-11-10. Visitor isolation and expiry have automated coverage; earlier live API isolation checks passed. No real enrollment or drop was performed, so successful enrollment remains unverified.
+Current configuration enables household booking (`PROBE_ONLY=false`). Hosted UCSD/Duo authentication, loaded PHIL010 and ECON100A package details, same-session CSRF availability, and sign-out/browser closure were verified on2026-11-10. Visitor isolation and expiry have automated coverage; earlier live API isolation checks passed. The first human rebooking attempt failed: the loading indicator vanished without confirmed enrollment. No agent enrollment/drop actions were performed. Successful enrollment remains unverified.
 
 ## Local checks
 
@@ -19,7 +19,7 @@ The package pins `@cloudflare/puppeteer` and Wrangler. Cloudflare authorization 
 
 ## Probe operation
 
-For future read-only investigations, configure `PROBE_ONLY=true`, `MAX_BROWSER_SESSIONS=1` and a bounded probe budget before deployment. `GET /health` creates no object/browser. Open `/0311/api/test` on the real website origin to issue the protected visitor cookie, sign in through Live View, check a known course and sign out. This probe page is unavailable when `PROBE_ONLY=false`.
+For future read-only investigations, configure `PROBE_ONLY=true`, `MAX_BROWSER_SESSIONS=1` and a bounded probe budget before deployment. `GET /health` creates no object/browser. Open `/0311/api/test` on the real website origin to issue the protected visitor cookie, sign in through Live View, check a known course and sign out. The read-only test page is available in either mode; it never provides a Book or Drop control. `inspect-direct` reads course data without navigating; `verify-direct` loads the native page only for a payload comparison and returns booleans/field names, never the payload.
 
 Probe limits: one concurrent browser, absolute 15-minute lifetime, 150 reserved browser minutes per UTC month. The configured budget was raised from 90 to 150 for four additional 15-minute login trials; existing reservations are not reset. Probe mode enforces the one-browser/150-minute ceilings even if larger values are configured. Lower configured budgets remain effective; an omitted monthly setting defaults to 90. Each launch reserves its entire window; usage is never refunded, including early sign-out or a failed launch after reservation. `MONTHLY_BROWSER_MINUTES=0` stops allocation; negative or nonfinite values cannot enable usage. The cap covers this application, **not account-wide Cloudflare usage**. Browser/controller loss closes the session; an object restart destroys its previous browser instead of reconnecting without interception.
 
@@ -28,11 +28,12 @@ The checked-in household production configuration is:
 | Variable | Production value | Enforced ceiling |
 | --- | --- | --- |
 | `PROBE_ONLY` | `false` | Only this exact string enables production behavior |
+| `DIRECT_BOOKING_ENABLED` | `false` | Direct submission requires this exact string `true` plus production mode |
 | `MAX_BROWSER_SESSIONS` | `8` | Eight simultaneous browsers |
 | `MAX_SESSION_MINUTES` | `15` | 15 minutes from launch, including sign-in |
 | `MONTHLY_BROWSER_MINUTES` | `600` | 600 reserved browser minutes per UTC month |
 
-Change all four variables together when switching modes. A600-minute allowance permits40 full15-minute browser launches per month, about five per roommate. This is a shared limit, not a per-person allocation; multiple bookings can use one session. Reopening Live View for the same session does not reserve another window. Previous probe reservations remain counted in the same UTC month. The ceiling limits reserved application browser time, not dollar charges or other Cloudflare services. Larger configured budgets are clamped to600 in production and150 in probe mode; lower configured budgets remain effective.
+Keep the direct-submission gate false until the live comparison below passes. A600-minute allowance permits40 full15-minute browser launches per month, about five per roommate. This is a shared limit, not a per-person allocation; multiple bookings can use one session. Reopening Live View for the same session does not reserve another window. Previous probe reservations remain counted in the same UTC month. The ceiling limits reserved application browser time, not dollar charges or other Cloudflare services. Larger configured budgets are clamped to600 in production and150 in probe mode; lower configured budgets remain effective.
 
 Sign-out, expiry and disconnect cleanup close the provider browser. Cleanup must verify provider closure before releasing its concurrency lease. The provider idle timeout matches the absolute session window (15 minutes), so hiding the launcher during human sign-in does not impose a separate one-minute cutoff. Puppeteer's public connection options enforce a20-second CDP timeout; renderer readiness is checked before each Live View handoff. Live View grants last60 seconds to start connecting; an already-connected viewer can remain until browser closure. The signed URL is a bearer credential: never copy it into logs, issues, telemetry, screenshots of address bars or project state. Recording is disabled.
 
@@ -50,20 +51,27 @@ All paths below are relative to `/0311/api`. Responses are non-cacheable. Mutati
 | --- | --- |
 | `GET /health` | `{ok, probeOnly}` without allocating a browser |
 | `GET /status` | Issue/read visitor session; `{state, csrf, probeOnly, expiresAt?, booking?}` |
-| `GET /test` | Same-origin read-only probe page, probe configuration only |
+| `GET /test` | Same-origin read-only login/direct comparison page |
 | `POST /login` | Launch owned browser or open existing one; return transient `loginUrl` |
 | `POST /logout` | Close browser and clear visitor cookie |
 | `POST /inspect` | Read known course; return `loaded`, `ready`, `csrfReady`, `courseCode` |
+| `POST /inspect-direct` | Authoritative read-only course data without navigation |
+| `POST /verify-direct` | Read-only native/direct payload comparison; field names and booleans only |
 | `POST /book` | Rejected in probe; production requires fresh authentication and explicit route/request ID |
+| `POST /confirm`, `/cancel` | Explicit resolution of the current direct warning, with a new request ID plus matching bookingRequestId/confirmationId |
 
 Session states: `signed_out`, `signing_in`, `ready`, `expired`, `busy`, `error`. A ready session requires the authenticated SAP shell plus a successful same-session CSRF-fetch GET, checked at most 30 seconds apart and freshly before Book. CSRF values are never returned to the website or persisted. Request interception handles authentication traffic transiently; it does not store credential values.
 
-Booking status is nested as `booking: {requestId, stage}` in both Book and status responses. Stages: `loading`, `checking`, `submitting`, `review`, `submitted`, `stopped`, `error`. `submitted` means the native save returned without an observed error; verify the outcome in TSS. `review` requires the user to act on the official warning through a fresh `/login` Live View; reconnecting never starts or repeats Book. Request IDs deduplicate calls; unknown/interrupted outcomes must not be retried automatically.
+Booking status is nested as `booking: {requestId, stage}` in both Book and status responses. Stages: `loading`, `checking`, `submitting`, `review`, `submitted`, `stopped`, `error`. `submitted` means the native save returned without an observed error; verify the outcome in TSS. `review` requires the user to act on the official warning through a fresh `/login` Live View; reconnecting never starts or repeats Book. Direct-mode warnings instead return ephemeral plain text and a one-use confirmation ID; the user must explicitly confirm or cancel on the website. Confirmation re-reads and compares the payload before SaveChanges. Request IDs deduplicate calls; unknown/interrupted outcomes must not be retried automatically.
+
+## Direct-service validation gate
+
+`DIRECT_BOOKING_ENABLED=false` retains the native path while the replacement is tested. Before enabling it, verify authenticated GET response shapes and `equivalent=true` against the native `_prepareSaveData` in the same browser for the intended package. Synthetic tests and archived source review do not satisfy this gate. Direct Book then uses authoritative reads → CheckRegistration → SaveChanges without booking-page navigation. Historical detail ModregId is ignored for a fresh booking; outgoing ModregId remains the all-zero GUID, exactly as in native source. Existing booking flags still block duplicate registration.
 
 ## Enforcement and remaining gates
 
 - Opaque `__Host-` cookie: Secure, HttpOnly, SameSite=Strict. Durable Objects isolate session ownership; roommate cards are course organization, not account identity.
-- One mutation at a time. Login during official review preserves the same pending request. Server route/module/package/term checks and the native adapter guard selected event data; no reconstructed enrollment POST or stored credentials.
+- One mutation at a time. Login during official review preserves the same pending request. Server route/module/package/term checks and the native adapter guard selected event data; the direct adapter reconstructs the source-matched enrollment POST using authoritative current context, with no stored credentials.
 - Probe network guard allows bodyless read batches only. Production write permission exists only during the explicit matching job: exactly one native CheckRegistration followed by one unchanged SaveChanges, direct or a single-operation changeset. Drop and unrelated writes remain blocked.
 - Each HTML document receives an enforced CSP blocking new windows, frames and workers. Explicit response-body fulfillment is required by the tested Chromium behavior. Original documents are held only transiently and never logged. New-target closure is defense in depth, not the primary popup barrier.
 - Frames/workers remain disabled until real SSO proves a need and equivalent request enforcement is added. This may affect Duo. Provider domain guardrails alone cannot distinguish GET from POST; Browser Run outbound Workers currently cover HTTP, not TSS HTTPS.
