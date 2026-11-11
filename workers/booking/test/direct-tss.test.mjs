@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { runInNewContext } from 'node:vm';
-import { directTssOperation } from '../src/direct-tss.mjs';
+import { directTssOperation, DIRECT_READ_STAGES, DIRECT_SCHEMA_ISSUES, DIRECT_SETTING_FLAGS, DIRECT_SETTING_SHAPES } from '../src/direct-tss.mjs';
 import { BOOKING_ROUTES } from '../src/routes.mjs';
 
 const route = BOOKING_ROUTES.keys().next().value;
@@ -245,7 +245,7 @@ test('ambiguous groups, ambiguous templates and unsupported settings fail before
     h => { h.data.header.AssignedCg = '0'; h.data.groups = [{ ...h.data.groups[0], Selected: false }, { ...h.data.groups[0], Selected: false, CgObjid: '201' }]; },
     h => { h.data.templates = [{ TemplateId: '1' }, { TemplateId: '2' }]; },
     h => h.data.settings.push({ Name: 'ENABLE_TOP_MODULE_BOOKING', Value: 'X' }),
-    h => h.data.settings.push({ Name: 'SHOW_TEMPLATE', Value: 'X' }),
+    h => h.data.settings.push({ Name: 'ENABLE_AUTOBOOK', Value: 'X' }),
   ]) {
     const h = harness(); change(h); const { requestId } = h.book();
     assert.equal((await h.settled(requestId)).stage, 'stopped'); assert.equal(h.posts().length, 0);
@@ -311,4 +311,136 @@ test('all server-owned routes are accepted for inspect without falling back to n
     const h = harness(); const value = await h.call({ operation: 'inspect', route: known, courseCode: metadata.courseCode });
     assert.notEqual(value.reason, 'route_mismatch'); assert.ok(h.calls.length > 0); assert.equal(h.posts().length, 0);
   }
+});
+
+function assertSafeDiagnostics(value) {
+  const safe = structuredClone(value);
+  assert.ok(DIRECT_READ_STAGES.includes(safe.readStage));
+  assert.ok(DIRECT_SCHEMA_ISSUES.includes(safe.schemaIssue));
+  assert.ok(Array.isArray(safe.schemaIssues) && safe.schemaIssues.length <= 24);
+  for (const issue of safe.schemaIssues) {
+    assert.deepEqual(Object.keys(issue).sort(), ['readStage', 'schemaIssue']);
+    assert.ok(DIRECT_READ_STAGES.includes(issue.readStage));
+    assert.ok(DIRECT_SCHEMA_ISSUES.includes(issue.schemaIssue));
+  }
+  assert.equal(new Set(safe.schemaIssues.map(issue => issue.readStage + ':' + issue.schemaIssue)).size, safe.schemaIssues.length);
+  for (const [name, shape] of Object.entries(safe.settingShapes || {})) {
+    assert.ok(DIRECT_SETTING_FLAGS.includes(name)); assert.ok(DIRECT_SETTING_SHAPES.includes(shape));
+  }
+  assert.doesNotMatch(JSON.stringify(safe), /private-|synthetic-session-token|00013043|00001234|00009000|__proto__/);
+  return new Set(safe.schemaIssues.map(issue => issue.readStage + ':' + issue.schemaIssue));
+}
+
+test('settings match native last-assignment semantics and ignore unrelated values', async () => {
+  const h = harness();
+  h.data.settings.push(
+    { Name: 'private-unrelated', Value: { token: 'private-secret' } },
+    { Name: '__proto__', Value: { private: true } }, { Name: null, Value: null },
+    { Name: 'SHOW_TEMPLATE', Value: null }, { Name: 'SHOW_CREDITS', Value: 'private-other-value' },
+    { Name: 'HIDE_TAB_EVENT', Value: true }, { Name: 'ENABLE_TOP_MODULE_BOOKING', Value: true },
+    { Name: 'ENABLE_AUTOBOOK', Value: 'X' }, { Name: 'ENABLE_AUTOBOOK', Value: false },
+  );
+  const { requestId } = h.book(); assert.equal((await h.settled(requestId)).stage, 'submitted');
+  assert.equal(h.posts()[1].payload.TemplateId, '0000');
+  assert.equal(Object.hasOwn(h.posts()[1].payload, 'Credits'), false);
+  assert.equal(h.calls.some(call => new URL(call.url).pathname.endsWith('/Template')), false);
+  assert.equal(h.calls.some(call => new URL(call.url).pathname.endsWith('/Exam')), true);
+  assert.doesNotMatch(JSON.stringify(h.posts().map(call => call.payload)), /private-|__proto__/);
+});
+
+test('only exact X enables native equality flags; any truthy autobook still blocks', async () => {
+  for (const value of [undefined, null, '', ' ', 'false', false, true, 0, 1, {}, []]) {
+    const h = harness();
+    h.data.settings = DIRECT_SETTING_FLAGS.map(Name => ({ Name, Value: Name === 'ENABLE_AUTOBOOK' ? false : value }));
+    assert.equal((await h.call({ operation: 'inspect' })).ready, true);
+    assert.equal(h.posts().length, 0);
+  }
+  for (const value of ['X', ' ', 'false', true, 1, {}, []]) {
+    const h = harness(); h.data.settings.push({ Name: 'ENABLE_AUTOBOOK', Value: value });
+    const stopped = await h.call({ operation: 'inspect' });
+    assert.equal(stopped.reason, 'unsupported_tss');
+    assert.ok(assertSafeDiagnostics(stopped).has('settings:unsupported_autobook'));
+    assert.equal(h.posts().length, 0);
+  }
+});
+
+test('one failed initial read reports all available schema problems and final setting shapes', async () => {
+  const h = harness();
+  h.data.header.BookingCheckLog = { results: [null], __next: 'private-next-url' };
+  h.data.settings.push(null, { Name: 'ENABLE_AUTOBOOK', Value: 'private-secret' }, { Name: 'SHOW_CREDITS', Value: { secret: 'private-value' } });
+  h.setIntercept(call => call.url.endsWith('/PR_MY_MODULES_V2_SRV/')
+    ? { ...h.response({}), text: async () => 'private-invalid-json' } : undefined);
+  const value = await h.call({ operation: 'inspect' });
+  assert.equal(value.reason, 'unsupported_tss'); assert.equal(value.ready, false);
+  const issues = assertSafeDiagnostics(value);
+  for (const issue of ['service:invalid_json', 'settings:nonobject_row', 'header_logs:paginated', 'header_logs:nonobject_row', 'settings:unsupported_autobook']) assert.ok(issues.has(issue), issue);
+  assert.equal(value.settingShapes.ENABLE_AUTOBOOK, 'other_string'); assert.equal(value.settingShapes.SHOW_CREDITS, 'other');
+  assert.equal(h.calls.length, 3); assert.equal(h.posts().length, 0);
+});
+
+test('parallel course reads collect collection failures before stopping, without template or write requests', async () => {
+  const h = harness(); h.data.events[0].BookingCheckLog = { results: 'private-invalid-logs' }; h.data.events.push(null);
+  h.setIntercept(call => {
+    const path = new URL(call.url).pathname;
+    if (path.endsWith('/ModuleGroup')) return h.response({ results: 'private-invalid-groups' });
+    if (path.includes('/EventPackageSet(')) return h.response([]);
+    if (path.endsWith('/Exam')) return h.response({ results: [], __next: 'private-next-url' });
+  });
+  const value = await h.call({ operation: 'inspect' });
+  assert.equal(value.ready, false); const issues = assertSafeDiagnostics(value);
+  for (const issue of ['package:invalid_d', 'events:nonobject_row', 'groups:not_collection', 'exams:paginated', 'event_logs:not_collection']) assert.ok(issues.has(issue), issue);
+  assert.equal(h.calls.length, 7); assert.equal(h.posts().length, 0);
+});
+
+test('request failure diagnostics are resource-scoped, fixed and never copy response data', async () => {
+  const cases = [
+    ['http_error', h => h.response({}, 503)], ['authentication_http', h => h.response({}, 401)],
+    ['not_json', h => h.response({}, 200, 'text/html')],
+    ['response_large', h => ({ ...h.response({}), text: async () => 'x'.repeat(2_000_001) })],
+    ['invalid_json', h => ({ ...h.response({}), text: async () => 'private-invalid-json' })],
+    ['invalid_d', h => ({ ...h.response({}), text: async () => JSON.stringify({ private: 'private-value' }) })],
+    ['error_envelope', h => ({ ...h.response({}), text: async () => JSON.stringify({ error: { message: 'private-error' } }) })],
+    ['network_error', () => { throw Error('private-network-error'); }],
+  ];
+  for (const [expected, response] of cases) {
+    const h = harness(); h.setIntercept(call => new URL(call.url).pathname.endsWith('/ParameterSet') ? response(h) : undefined);
+    const value = await h.call({ operation: 'inspect' });
+    assert.equal(value.ready, false); assert.ok(assertSafeDiagnostics(value).has('settings:' + expected));
+    assert.equal(h.posts().length, 0);
+  }
+});
+
+test('authentication rejection wins over parallel schema failure while preserving both diagnostics', async () => {
+  const h = harness();
+  h.setIntercept(call => {
+    if (call.url.endsWith('/PR_MY_MODULES_V2_SRV/')) return h.response([]);
+    if (new URL(call.url).pathname.endsWith('/ParameterSet')) return h.response({}, 403);
+  });
+  const value = await h.call({ operation: 'inspect' });
+  assert.equal(value.reason, 'authentication_required');
+  const issues = assertSafeDiagnostics(value);
+  assert.ok(issues.has('service:invalid_d')); assert.ok(issues.has('settings:authentication_http'));
+  assert.equal(h.posts().length, 0);
+});
+
+test('missing CSRF and every unsupported feature flag are reported together', async () => {
+  const h = harness(); h.data.token = 'Required';
+  h.data.settings.push({ Name: 'ENABLE_AUTOBOOK', Value: 'X' }, { Name: 'ENABLE_TOP_MODULE_BOOKING', Value: 'X' }, { Name: 'HIDE_TAB_EVENT', Value: 'X' });
+  const value = await h.call({ operation: 'inspect' });
+  assert.equal(value.reason, 'authentication_required'); const issues = assertSafeDiagnostics(value);
+  for (const issue of ['service:missing_csrf', 'settings:unsupported_autobook', 'settings:unsupported_top_module', 'settings:hidden_events']) assert.ok(issues.has(issue), issue);
+  assert.equal(h.posts().length, 0);
+});
+
+test('malformed template results and read timeout identify only their fixed resource', async () => {
+  const template = harness(); template.setIntercept(call => new URL(call.url).pathname.endsWith('/Template') ? template.response({ results: 'private-template' }) : undefined);
+  assert.ok(assertSafeDiagnostics(await template.call({ operation: 'inspect' })).has('templates:not_collection'));
+  const timeout = harness(), readRequestId = crypto.randomUUID();
+  timeout.setIntercept(call => new URL(call.url).pathname.endsWith('/ParameterSet')
+    ? new Promise((resolve, reject) => call.init.signal.addEventListener('abort', () => reject(Error('private-abort')))) : undefined);
+  timeout.call({ operation: 'inspect', background: true, readRequestId });
+  await flush(); timeout.readDeadline(); await flush();
+  const value = timeout.call({ operation: 'readStatus', readRequestId });
+  assert.equal(value.reason, 'course_load_timeout'); assert.ok(assertSafeDiagnostics(value).has('settings:request_timeout'));
+  assert.equal(timeout.posts().length, 0);
 });

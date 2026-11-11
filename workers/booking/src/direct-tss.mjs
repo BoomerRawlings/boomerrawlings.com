@@ -1,3 +1,8 @@
+export const DIRECT_READ_STAGES = Object.freeze(['service', 'settings', 'header', 'header_logs', 'events', 'event_logs', 'groups', 'package', 'exams', 'templates']);
+export const DIRECT_SCHEMA_ISSUES = Object.freeze(['request_timeout', 'network_error', 'authentication_http', 'http_error', 'not_json', 'response_large', 'invalid_json', 'invalid_d', 'error_envelope', 'not_collection', 'paginated', 'nonobject_row', 'missing_csrf', 'unsupported_autobook', 'unsupported_top_module', 'hidden_events']);
+export const DIRECT_SETTING_FLAGS = Object.freeze(['ENABLE_AUTOBOOK', 'ENABLE_TOP_MODULE_BOOKING', 'HIDE_TAB_EVENT', 'HIDE_TAB_EXAM', 'SHOW_TEMPLATE', 'SHOW_CREDITS']);
+export const DIRECT_SETTING_SHAPES = Object.freeze(['missing', 'null', 'empty', 'X', 'other_string', 'boolean', 'number', 'other']);
+
 // Serialized into the already-authenticated, owned TSS browser. The archived
 // MyModules controller is the source of the reads, defaults and payload below.
 // Booking never navigates or invokes UI5; compareNative alone reads the loaded
@@ -35,18 +40,36 @@ export function directTssOperation(input) {
   const fail = reason => { throw Object.assign(new Error(reason), { reason }); };
   const plain = value => typeof value === 'string' ? value.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '').slice(0, 4000) : '';
   const object = value => value && typeof value === 'object' && !Array.isArray(value);
-  const rows = value => {
-    if (!object(value) || !Array.isArray(value.results) || value.__next || value.results.some(item => !object(item))) fail('unsupported_tss');
-    return value.results;
+  const note = (job, readStage, schemaIssue) => {
+    if (!job?.readOnly || !readStage) return;
+    const issues = job.schemaIssues ||= [];
+    if (issues.length < 24 && !issues.some(issue => issue.readStage === readStage && issue.schemaIssue === schemaIssue)) issues.push({ readStage, schemaIssue });
+  };
+  const schemaFail = (job, readStage, schemaIssue, reason = 'unsupported_tss') => { note(job, readStage, schemaIssue); fail(reason); };
+  const diagnostics = job => {
+    const issues = job.schemaIssues || [];
+    return { ...(issues.length ? { ...issues[0], schemaIssues: issues.map(issue => ({ ...issue })) } : {}),
+      ...(job.settingShapes ? { settingShapes: { ...job.settingShapes } } : {}) };
+  };
+  // Check every available collection before stopping, so one read-only probe
+  // explains parallel response-shape failures without exposing response data.
+  const collection = (value, readStage, job) => {
+    let valid = true;
+    if (!object(value) || !Array.isArray(value.results)) { note(job, readStage, 'not_collection'); valid = false; }
+    if (value?.__next) { note(job, readStage, 'paginated'); valid = false; }
+    if (Array.isArray(value?.results) && value.results.some(item => !object(item))) { note(job, readStage, 'nonobject_row'); valid = false; }
+    return valid ? value.results : null;
   };
   const key = (target, program = '00000000') => `ModuleHeaderSet(SmObjid='${target.moduleId}',SmOtype='SM',ScObjid='${program}',ModregId=guid'${zeroGuid}',EventPackageId='${target.packageId}',AcademicYear='${target.year}',AcademicSession='${target.session}')`;
   const address = (path, expand) => service + path + (expand ? '?$expand=' + encodeURIComponent(expand) : '');
   const current = job => !job || ((job.readOnly ? state.readActive : state.active) === job && !job.done);
-  async function request(url, { payload, csrf, job, fetchCsrf = false } = {}) {
+  async function request(url, { payload, csrf, job, fetchCsrf = false, readStage } = {}) {
     if (!current(job)) fail('previous_attempt');
     const controller = new AbortController();
     job?.controllers.add(controller);
-    const timeout = setTimeout(() => controller.abort(), payload ? 60000 : 12000);
+    let timedOut = false;
+    if (readStage) job?.pendingStages?.set(controller, readStage);
+    const timeout = setTimeout(() => { timedOut = true; controller.abort(); }, payload ? 60000 : 12000);
     try {
       const response = await window.fetch(url, {
         method: payload ? 'POST' : 'GET', credentials: 'same-origin', redirect: 'error', cache: 'no-store',
@@ -55,58 +78,90 @@ export function directTssOperation(input) {
         ...(payload ? { body: JSON.stringify(payload) } : {}), signal: controller.signal,
       });
       if (!current(job)) fail('previous_attempt');
-      if (!response.ok) fail([401, 403].includes(response.status) ? 'authentication_required' : 'native_action_failed');
-      if (!response.headers.get('content-type')?.toLowerCase().includes('application/json')) fail('authentication_required');
+      if (!response.ok) schemaFail(job, readStage, [401, 403].includes(response.status) ? 'authentication_http' : 'http_error', [401, 403].includes(response.status) ? 'authentication_required' : 'native_action_failed');
+      if (!response.headers.get('content-type')?.toLowerCase().includes('application/json')) schemaFail(job, readStage, 'not_json', 'authentication_required');
       const raw = await response.text();
-      if (raw.length > 2_000_000) fail('unsupported_tss');
+      if (raw.length > 2_000_000) schemaFail(job, readStage, 'response_large');
       let decoded;
-      try { decoded = JSON.parse(raw); } catch { fail('unsupported_tss'); }
-      if (!object(decoded?.d) || decoded.error) fail('unsupported_tss');
+      try { decoded = JSON.parse(raw); } catch { schemaFail(job, readStage, 'invalid_json'); }
+      if (decoded?.error) schemaFail(job, readStage, 'error_envelope');
+      if (!object(decoded?.d)) schemaFail(job, readStage, 'invalid_d');
       return { data: decoded.d, csrf: response.headers.get('x-csrf-token')?.trim() };
-    } finally { clearTimeout(timeout); job?.controllers.delete(controller); }
+    } catch (error) {
+      if (error.reason) throw error;
+      schemaFail(job, readStage, timedOut ? 'request_timeout' : 'network_error', 'request_check_failed');
+    } finally { clearTimeout(timeout); job?.controllers.delete(controller); job?.pendingStages?.delete(controller); }
   }
-  const read = async (path, expand, job) => (await request(address(path, expand), { job })).data;
+  const read = async (path, expand, job, readStage) => (await request(address(path, expand), { job, readStage })).data;
   const validToken = token => typeof token === 'string' && token.length > 0 && token.length < 4096 && !/^(required|fetch)$/i.test(token);
-  if (input.operation === 'authenticated') return request(service, { fetchCsrf: true })
+  if (input.operation === 'authenticated') return request(service, { fetchCsrf: true, readStage: 'service' })
     .then(value => validToken(value.csrf)).catch(() => false);
-  const eligible = logs => {
-    if (rows(logs).some(item => item.RulecheckResult === 'N')) fail('eligibility_unavailable');
+  const eligible = logs => { if (logs.some(item => item.RulecheckResult === 'N')) fail('eligibility_unavailable'); };
+  const fulfilled = entry => entry.status === 'fulfilled' ? entry.value : undefined;
+  const rejectReadErrors = entries => {
+    const rejected = entries.filter(entry => entry.status === 'rejected');
+    const error = rejected.find(entry => entry.reason?.reason === 'authentication_required') || rejected[0];
+    if (error) throw error.reason;
   };
   async function prepare(target, job) {
     // Native Component._loadSettings: the settings service is separate from
     // PR_MY_MODULES. No student identifier is guessed or supplied in these reads.
-    const [tokenResponse, settingsResponse, header] = await Promise.all([
-      request(service, { fetchCsrf: true, job }),
-      request(origin + '/sap/opu/odata/ited/bc_app_settings_srv/ParameterSet?$filter=' + encodeURIComponent("AppName eq 'ITUS.MYMODULES'"), { job }),
-      read(key(target), 'BookingCheckLog,CreditOptions', job),
+    const firstReads = await Promise.allSettled([
+      request(service, { fetchCsrf: true, job, readStage: 'service' }),
+      request(origin + '/sap/opu/odata/ited/bc_app_settings_srv/ParameterSet?$filter=' + encodeURIComponent("AppName eq 'ITUS.MYMODULES'"), { job, readStage: 'settings' }),
+      read(key(target), 'BookingCheckLog,CreditOptions', job, 'header'),
     ]);
-    if (!validToken(tokenResponse.csrf)) fail('authentication_required');
+    const [tokenResponse, settingsResponse, header] = firstReads.map(fulfilled);
+    const settingFlags = ['ENABLE_AUTOBOOK', 'ENABLE_TOP_MODULE_BOOKING', 'HIDE_TAB_EVENT', 'HIDE_TAB_EXAM', 'SHOW_TEMPLATE', 'SHOW_CREDITS'];
+    const settingsRows = settingsResponse && collection(settingsResponse.data, 'settings', job);
+    const headerLogs = header && collection(header.BookingCheckLog, 'header_logs', job);
     const settings = {};
-    for (const row of rows(settingsResponse.data)) {
-      if (typeof row.Name !== 'string' || typeof row.Value !== 'string' || Object.hasOwn(settings, row.Name)) fail('unsupported_tss');
-      settings[row.Name] = row.Value;
+    // Native _loadSettings assigns in response order. Only these names affect
+    // this operation: unrelated values are irrelevant, and last assignment wins.
+    for (const row of Array.isArray(settingsResponse?.data?.results) ? settingsResponse.data.results : []) {
+      if (object(row) && settingFlags.includes(row.Name)) settings[row.Name] = row.Value;
     }
-    if (settings.ENABLE_AUTOBOOK || settings.ENABLE_TOP_MODULE_BOOKING === 'X' || settings.HIDE_TAB_EVENT === 'X') fail('unsupported_tss');
-    for (const name of ['SHOW_TEMPLATE', 'SHOW_CREDITS', 'HIDE_TAB_EXAM', 'HIDE_TAB_EVENT', 'ENABLE_TOP_MODULE_BOOKING']) {
-      if (settings[name] != null && !['', 'X'].includes(settings[name])) fail('unsupported_tss');
+    if (job?.readOnly) {
+      const shape = value => value === undefined ? 'missing' : value === null ? 'null' : value === '' ? 'empty' : value === 'X' ? 'X'
+        : typeof value === 'string' ? 'other_string' : typeof value === 'boolean' ? 'boolean' : typeof value === 'number' ? 'number' : 'other';
+      job.settingShapes = Object.fromEntries(settingFlags.map(name => [name, shape(settings[name])]));
     }
+    if (tokenResponse && !validToken(tokenResponse.csrf)) note(job, 'service', 'missing_csrf');
+    const unsupported = [
+      [!!settings.ENABLE_AUTOBOOK, 'unsupported_autobook'],
+      [settings.ENABLE_TOP_MODULE_BOOKING === 'X', 'unsupported_top_module'],
+      [settings.HIDE_TAB_EVENT === 'X', 'hidden_events'],
+    ];
+    for (const [enabled, issue] of unsupported) if (enabled) note(job, 'settings', issue);
+    rejectReadErrors(firstReads);
+    if (!validToken(tokenResponse.csrf)) fail('authentication_required');
+    if (!settingsRows || !headerLogs || unsupported.some(([enabled]) => enabled)) fail('unsupported_tss');
     if (header.SmOtype !== 'SM' || !same(header.SmObjid, target.moduleId) || !same(header.AcademicYear, target.year)
       || !same(header.AcademicSession, target.session) || codeKey(header.SmShort) !== codeKey(target.code)) fail('context_mismatch');
     if (header.SmStatus === '02' || header.Lockflag === true) fail('booking_unavailable');
-    eligible(header.BookingCheckLog);
-    const [eventsData, groupsData, packageData, examsData] = await Promise.all([
-      read(key(target) + '/Event', 'BookingCheckLog,Request,EventSchedule,CreditOptions', job),
-      read(key(target) + '/ModuleGroup', undefined, job),
-      read(`EventPackageSet(EventPackageId='${target.packageId}',SmObjid='${target.moduleId}',AcademicYear='${header.AcademicYear}',AcademicSession='${header.AcademicSession}')`, undefined, job),
-      settings.HIDE_TAB_EXAM === 'X' ? Promise.resolve({ results: [] }) : read(key(target) + '/Exam', 'BookingCheckLog,Request', job),
+    eligible(headerLogs);
+    const secondReads = await Promise.allSettled([
+      read(key(target) + '/Event', 'BookingCheckLog,Request,EventSchedule,CreditOptions', job, 'events'),
+      read(key(target) + '/ModuleGroup', undefined, job, 'groups'),
+      read(`EventPackageSet(EventPackageId='${target.packageId}',SmObjid='${target.moduleId}',AcademicYear='${header.AcademicYear}',AcademicSession='${header.AcademicSession}')`, undefined, job, 'package'),
+      settings.HIDE_TAB_EXAM === 'X' ? Promise.resolve({ results: [] }) : read(key(target) + '/Exam', 'BookingCheckLog,Request', job, 'exams'),
     ]);
+    const [eventsData, groupsData, packageData, examsData] = secondReads.map(fulfilled);
+    const events = eventsData && collection(eventsData, 'events', job);
+    const groups = groupsData && collection(groupsData, 'groups', job);
+    const exams = examsData && collection(examsData, 'exams', job);
+    const eventLogs = new Map();
+    for (const event of Array.isArray(eventsData?.results) ? eventsData.results : []) {
+      if (object(event)) eventLogs.set(event, collection(event.BookingCheckLog, 'event_logs', job));
+    }
+    rejectReadErrors(secondReads);
+    if (!events || !groups || !exams || [...eventLogs.values()].some(logs => !logs)) fail('unsupported_tss');
     for (const [field, expected] of [['EventPackageId', target.packageId], ['SmObjid', target.moduleId], ['AcademicYear', target.year], ['AcademicSession', target.session]]) {
       if (positive(packageData[field]) && !same(packageData[field], expected)) fail('context_mismatch');
     }
     if (packageData.BookingButtonEnabled !== true) fail('booking_unavailable');
     if (packageData.WithdrawButtonEnabled !== false) fail('existing_registration');
-    if (rows(examsData).some(row => row.Booked === true)) fail('assessment_review');
-    const groups = rows(groupsData);
+    if (exams.some(row => row.Booked === true)) fail('assessment_review');
     let candidates = positive(header.AssignedCg) ? groups.filter(group => same(group.CgObjid, header.AssignedCg)) : [];
     if (!candidates.length) candidates = groups.filter(group => group.Selected === true);
     if (!candidates.length) candidates = groups.filter(group => group.IsDefault === true);
@@ -118,14 +173,14 @@ export function directTssOperation(input) {
     const hasTemplate = value => typeof value === 'string' && value.trim().length > 0 && value !== '0000';
     if (settings.SHOW_TEMPLATE === 'X') {
       const templateProgram = group.ScObjid && group.ScObjid !== '00000000' ? group.ScObjid : '00000000';
-      const templates = rows(await read(key(target, templateProgram) + '/Template', undefined, job));
+      const templates = collection(await read(key(target, templateProgram) + '/Template', undefined, job, 'templates'), 'templates', job);
+      if (!templates) fail('unsupported_tss');
       if (!hasTemplate(template) && header.IsTemplateUpdateable === true) {
         const choices = templates.length === 1 ? templates : templates.filter(row => row.IsDefault === true);
         if (choices.length === 1) template = choices[0].TemplateId;
       }
       if (!hasTemplate(template)) fail('additional_choices');
     }
-    const events = rows(eventsData);
     if (!events.length) fail('event_data_unavailable');
     const types = new Map(), ids = new Set();
     for (const event of events) {
@@ -133,7 +188,7 @@ export function directTssOperation(input) {
         || !same(event.AcademicYear, target.year) || !same(event.AcademicSession, target.session)) fail('section_mismatch');
       if (positive(event.EventPackageId) && !same(event.EventPackageId, target.packageId)) fail('section_mismatch');
       if (event.Booked !== false) fail('existing_registration');
-      eligible(event.BookingCheckLog);
+      eligible(eventLogs.get(event));
       if (types.has(digits(event.DObjid))) fail('ambiguous_package');
       if (ids.has(digits(event.EventId))) fail('duplicate_sections');
       types.set(digits(event.DObjid), event); ids.add(digits(event.EventId));
@@ -204,7 +259,7 @@ export function directTssOperation(input) {
     const prior = state.readHistory.get(readRequestId);
     if (prior) return prior.key === readKey ? prior.result : result('stopped', 'request_blocked', { loaded: false, ready: false });
     if (state.active || state.readActive || state.locked) return result('stopped', 'previous_attempt', { loaded: false, ready: false });
-    const readJob = { readOnly: true, controllers: new Set(), done: false };
+    const readJob = { readOnly: true, controllers: new Set(), pendingStages: new Map(), schemaIssues: [], done: false };
     state.readActive = readJob;
     const entry = { key: readKey, result: result('loading') };
     state.readHistory.set(readRequestId, entry);
@@ -214,10 +269,13 @@ export function directTssOperation(input) {
       readJob.done = true; clearTimeout(readJob.timer);
       for (const controller of readJob.controllers) controller.abort();
       state.readActive = null;
-      entry.result = { stage: value.stage || 'ready', ...value };
+      entry.result = { stage: value.stage || 'ready', ...value, ...(value.ready === false ? diagnostics(readJob) : {}) };
       return entry.result;
     };
-    readJob.timer = setTimeout(() => done(result('stopped', 'course_load_timeout', { loaded: false, ready: false })), 45000);
+    readJob.timer = setTimeout(() => {
+      for (const readStage of readJob.pendingStages.values()) note(readJob, readStage, 'request_timeout');
+      done(result('stopped', 'course_load_timeout', { loaded: false, ready: false }));
+    }, 45000);
     const work = prepare(target, readJob).then(prepared => done(input.operation === 'compareNative'
       ? compareNative(target, prepared)
       : { loaded: true, ready: true, csrfReady: true, courseCode: target.code, itemCount: prepared.payload.Items.length }))

@@ -4,6 +4,7 @@ import { closeProviderSession, providerSessionExists } from './provider-lifecycl
 import { BUILD_VERSION, failureDiagnostic, safeAuthDiagnostics } from './diagnostics.mjs';
 import { bounded } from './timeout.mjs';
 import { bookingReason } from './booking-result.mjs';
+import { DIRECT_READ_STAGES, DIRECT_SCHEMA_ISSUES, DIRECT_SETTING_FLAGS, DIRECT_SETTING_SHAPES } from './direct-tss.mjs';
 
 export const COOKIE_NAME = '__Host-bbb-session';
 export const API_PREFIX = '/0311/api';
@@ -24,6 +25,22 @@ const updateBooking = (record, result) => {
   record.booking = { requestId: record.booking.requestId, stage: STAGES.has(result.stage) ? result.stage : 'error',
     ...(record.booking.mode === 'direct' ? { mode: 'direct' } : {}), ...(reason ? { reason } : {}) };
 };
+const directReadStages = new Set(DIRECT_READ_STAGES), directSchemaIssues = new Set(DIRECT_SCHEMA_ISSUES);
+const directSettingFlags = new Set(DIRECT_SETTING_FLAGS), directSettingShapes = new Set(DIRECT_SETTING_SHAPES);
+function directDiagnostics(value) {
+  const issues = [];
+  const seen = new Set();
+  for (const item of Array.isArray(value.schemaIssues) ? value.schemaIssues.slice(0, 100) : []) {
+    if (!directReadStages.has(item?.readStage) || !directSchemaIssues.has(item?.schemaIssue)) continue;
+    const key = item.readStage + ':' + item.schemaIssue;
+    if (!seen.has(key) && issues.length < 24) { issues.push({ readStage: item.readStage, schemaIssue: item.schemaIssue }); seen.add(key); }
+  }
+  const settings = value.settingShapes && typeof value.settingShapes === 'object' && !Array.isArray(value.settingShapes)
+    ? Object.fromEntries(Object.entries(value.settingShapes).filter(([key, shape]) => directSettingFlags.has(key) && directSettingShapes.has(shape))) : {};
+  return { ...(directReadStages.has(value.readStage) ? { readStage: value.readStage } : {}),
+    ...(directSchemaIssues.has(value.schemaIssue) ? { schemaIssue: value.schemaIssue } : {}),
+    ...(issues.length ? { schemaIssues: issues } : {}), ...(Object.keys(settings).length ? { settingShapes: settings } : {}) };
+}
 
 async function boundedText(request, limit = 4096) {
   if (Number(request.headers.get('Content-Length')) > limit) return null;
@@ -386,6 +403,7 @@ export class SessionCore {
       const reason = bookingReason(result.reason);
       const fields = new Set(['ModuleId', 'ActionName', 'ProgramId', 'Items', 'AssignedCg', 'AssignedCgTop', 'TemplateId', 'EventPackId', 'ModregId', 'AcademicYear', 'AcademicSession', 'Credits', 'CreditUnit', 'UnexpectedFields']);
       return { body: { state: this.record.state, ready: result.ready === true && csrfReady, loaded: result.loaded === true, csrfReady, courseCode, ...(reason ? { reason } : {}),
+        ...(directRead ? directDiagnostics(result) : {}),
         ...(action === '/verify-direct' ? { equivalent: result.equivalent === true, mismatchFields: Array.isArray(result.mismatchFields) ? result.mismatchFields.filter(field => fields.has(field)) : [] } : {}) } };
     }
     return { status: 404, body: { state: 'error', message: 'Not found.' } };

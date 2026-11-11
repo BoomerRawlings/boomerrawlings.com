@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { SessionCore, QuotaCore, handleRequest, COOKIE_NAME, API_PREFIX } from '../src/session.mjs';
 import { DEFAULT_ROUTE } from '../src/routes.mjs';
 import { BUILD_VERSION } from '../src/diagnostics.mjs';
+import { DIRECT_READ_STAGES, DIRECT_SCHEMA_ISSUES } from '../src/direct-tss.mjs';
 
 const origin = 'https://boomerrawlings.com';
 const uuid = () => crypto.randomUUID();
@@ -279,6 +280,29 @@ test('direct eligibility failure preserves fresh authentication; explicit auth f
   owned.inspectDirect = async () => ({ loaded: false, ready: false, reason: 'authentication_required' });
   const expired = await (await a.post('/inspect-direct', { route: DEFAULT_ROUTE })).json();
   assert.equal(expired.state, 'signing_in'); assert.equal(expired.csrfReady, false);
+});
+
+test('direct schema diagnostics retain fixed names/shapes only and deduplicate issues', async () => {
+  const f = fixture({ DIRECT_BOOKING_ENABLED: 'false' }); const a = await f.client(); await a.post('/login');
+  const owned = [...f.live.values()][0]; owned.signedIn = true;
+  const readStage = DIRECT_READ_STAGES[0], schemaIssue = DIRECT_SCHEMA_ISSUES[0];
+  owned.inspectDirect = async () => ({ loaded: false, ready: false, reason: 'unsupported_tss', readStage, schemaIssue,
+    schemaIssues: [
+      { readStage, schemaIssue, body: 'private response body', url: 'https://private.invalid/token' },
+      { readStage, schemaIssue }, { readStage: 'private student value', schemaIssue }, { readStage, schemaIssue: 'private token' },
+    ], settingShapes: { SHOW_TEMPLATE: 'X', HIDE_TAB_EVENT: 'private setting value', PRIVATE_FLAG: 'X' },
+    rawSettings: { SECRET: 'private secret' }, response: 'private response' });
+  const result = await (await a.post('/inspect-direct', { route: DEFAULT_ROUTE })).json();
+  assert.equal(result.readStage, readStage); assert.equal(result.schemaIssue, schemaIssue);
+  assert.deepEqual(result.schemaIssues, [{ readStage, schemaIssue }]);
+  assert.deepEqual(result.settingShapes, { SHOW_TEMPLATE: 'X' });
+  assert.equal(result.reason, 'unsupported_tss'); assert.equal(result.state, 'ready');
+  assert.equal(result.directBookingEnabled, false); assert.equal(owned.bookCalls, 0);
+  assert.equal(JSON.stringify(result).toLowerCase().includes('private'), false);
+  owned.inspectDirect = async () => ({ loaded: false, ready: false, readStage: 'private value', schemaIssue: 'private value', schemaIssues: 'private value', settingShapes: ['private value'] });
+  const unknown = await (await a.post('/verify-direct', { route: DEFAULT_ROUTE })).json();
+  for (const name of ['readStage', 'schemaIssue', 'schemaIssues', 'settingShapes']) assert.equal(unknown[name], undefined);
+  assert.equal(JSON.stringify(unknown).toLowerCase().includes('private'), false);
 });
 
 test('body and request count bounded without launching browsers', async () => {
