@@ -2,8 +2,8 @@
 
 ## Roommate booking launcher — 2026-11-10
 
-- Mode: continuation / implementation. User authorizes hosted UCSD/Duo sessions, then one Book click; no bookmarks/extensions. No live enrollment/drop tests. Book remains disabled until authenticated read-only proof.
-- Project: GitHub Pages `/0311/`, existing Cloudflare scoped API; no DNS/hosting migration. Feature branch `feat/0311-managed-sessions`, based on `ad640f3`; origin/main has no newer changes. Preserve current branding, disclosure animations, direct TSS links and unrelated work. Frontend release verified locally, awaiting one main push/Pages deployment.
+- Mode: continuation / implementation. Hosted login + native Book integration RELEASED. Each user signs in with UCSD/Duo, then clicks Book; no bookmarks/extensions. No live enrollment/drop tests performed.
+- Project: GitHub Pages `/0311/`, existing scoped Cloudflare API; no DNS/hosting migration. Production main `3d99018`, Pages42983151717 build/deploy SUCCESS. Live UI verified2026-11-11. Current branding, disclosure animations, direct TSS links and unrelated work preserved. Feature branch `feat/0311-managed-sessions` retains release checkpoint.
 - Data/UI: eight roommate cards, supplied majors, five initial courses plus three requested courses. Four ECON100A packages, eight ECON120A combinations, three MGT162 plus TBA. Nine verified package routes; eleven missing-ID controls disabled. Never invent IDs/locations/date ranges. User declined automatic503 handling.
 - Source: `src/data/roomie-booking.ts`, `src/pages/0311/index.astro`, `src/scripts/roomie-tss-bridge.ts`, `workers/booking/`; course-update instructions in `docs/0311-course-updates.md`. SAP72 Book styling and latest title/term/step copy preserved.
 - Native evidence: saved app Book/onSave → CheckRegistration → optional warning → SaveChanges via PR_MY_MODULES_V2_SRV/ActionHdrSet. Needs cookies, matching CSRF and live student context. No normal auto-submit URL/form/postMessage API found. CORS rejects direct separate-origin fetch; existing browser login cannot be inherited by backend. Private archives never published/executed.
@@ -15,8 +15,8 @@
 - Live fixes: recover missing provider sessions from actual `status=404` error syntax; ended-session records use matching sessionId + positive endTime, never connectionEndTime. Reclaim only verified absent/ended leases. Status reads/diagnostics are bounded and single-flight; local close cannot indefinitely block provider closure. Stalled unsigned probe browser was closed explicitly. Temporary provider logging removed.
 - Deployment: Durable Object code updates default to deferred300s. Probe fixes use `--durable-objects-code-update-mode immediate`; verify existing-session build marker. Immediate updates terminate managed sessions. Source: https://developers.cloudflare.com/durable-objects/deployments/durable-objects-code-updates/
 - Validation: final full website suite passed. Latest21 frontend checks pass; desktop/320px and four ECON100A options verified. Latest Worker74 tests pass/1optional Chromium fixture skipped; syntax and dry-run pass. Actual isolated Chromium guard fixture passed earlier. Independent frontend/native/lifecycle review complete; final frontend release review found no blockers. Absolute expiry automated coverage passes. Actual enrollment remains unverified.
-- Production backend enabled after hosted proof;40 full reservations/month with prior probes counted. Nine verified booking routes; eleven missing-ID controls remain disabled.
-- Next: publish verified frontend in one main push, wait for Pages and verify live. Preserve unrelated unfinished work below.
+- Production backend enabled after hosted proof;40 full reservations/month with prior probes counted. Live frontend sign-in enabled, no bookmark/probe UI;20 Book controls,9 verified routes and11 disabled missing-ID options; no horizontal overflow. Exactly4 ECON100A packages remain.
+- Next: user enrollment test when they explicitly choose a course. ECON120A/MGT162 package IDs still unverified; keep disabled until real TSS evidence. Backend/session implementation and publication complete. Preserve unrelated unfinished work below.
 
 ## Brain professor teaching library — 2026-11-10
 
