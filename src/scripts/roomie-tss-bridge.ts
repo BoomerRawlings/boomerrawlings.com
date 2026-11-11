@@ -53,6 +53,7 @@ let expiryTimer: ReturnType<typeof setTimeout> | undefined;
 let bookingTimer: ReturnType<typeof setTimeout> | undefined;
 const controllers = new Set<AbortController>();
 let activeFeedback: HTMLElement | null = null;
+let workingFeedback: HTMLElement | null = null;
 let submittedNoticeFeedback: HTMLElement | null = null;
 let lastBookingResult: { message: string; feedback: HTMLElement | null } | null = null;
 let submittedNotice = '';
@@ -118,6 +119,10 @@ const failureMessages: Record<string, string> = {
 };
 const failureText = (reason: unknown, fallback: string) => typeof reason === 'string' && Object.hasOwn(failureMessages, reason) ? failureMessages[reason] : fallback;
 const authenticationUnavailable = 'TSS could not confirm sign-in. Your sign-in stays open; checking again.';
+const signInErrors = {
+  ucsd: 'UCSD sign-in returned an error. Check the sign-in tab.',
+  proxy: 'TSS could not finish sign-in. Check the sign-in tab.',
+};
 function authenticationMessage(value: unknown): string {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return '';
   const auth = value as { code?: unknown; authentication?: { page?: unknown; issue?: unknown } };
@@ -125,8 +130,8 @@ function authenticationMessage(value: unknown): string {
   const pages = ['login_choice', 'credentials_ad', 'credentials_student', 'duo', 'ucsd_error', 'tss_proxy_error', 'tss_loading', 'tss', 'other'];
   const page = typeof snapshot?.page === 'string' && pages.includes(snapshot.page) ? snapshot.page : '';
   const issue = page ? snapshot?.issue : undefined;
-  if (page === 'ucsd_error' || issue === 'ucsd_login_exception') return 'UCSD sign-in returned an error. Check the sign-in tab.';
-  if (page === 'tss_proxy_error') return 'TSS could not finish sign-in. Check the sign-in tab.';
+  if (page === 'ucsd_error' || issue === 'ucsd_login_exception') return signInErrors.ucsd;
+  if (page === 'tss_proxy_error') return signInErrors.proxy;
   if (issue === 'service_unavailable') return 'TSS is temporarily unavailable. Your sign-in stays open; checking again.';
   if ((typeof issue === 'string' && ['network_error', 'request_timeout', 'missing_csrf', 'unexpected_response'].includes(issue))
     || auth.code === 'authentication_unavailable') return authenticationUnavailable;
@@ -150,6 +155,17 @@ const render = () => {
   if (session) session.dataset.state = state;
   text(sessionStatus, uncertain ? 'Booking result unknown · check TSS before trying again'
     : state === 'signing_in' && authenticationStatus ? authenticationStatus : messages[state]);
+  // Decorative motion follows real work, never a warning awaiting a decision
+  // or a terminal result. Keep it scoped to the selected course.
+  const bookingWorking = !departed && !uncertain && Boolean(activeBookId)
+    && (mutating || bookingStage !== 'review');
+  if (sessionStatus) sessionStatus.dataset.working = String(!departed && !uncertain
+    && (state === 'checking' || (state === 'signing_in' && !Object.values(signInErrors).includes(authenticationStatus))
+      || (!activeBookId && (mutating || state === 'busy'))));
+  if (jobStatus) jobStatus.dataset.working = String(bookingWorking);
+  if (workingFeedback && workingFeedback !== activeFeedback) workingFeedback.dataset.working = 'false';
+  if (activeFeedback) activeFeedback.dataset.working = String(bookingWorking);
+  workingFeedback = activeFeedback;
   if (probeNote) probeNote.hidden = !probeOnly;
   if (loginButton) {
     loginButton.disabled = busy() || state === 'ready' || uncertain || !csrf || !fresh() || departed;

@@ -100,9 +100,11 @@ function harness(options = {}) {
 
 test('default probe is fail-closed, with read-only session inspection', async () => {
   const h = harness();
+  assert.equal(h.elements['session-status'].dataset.working, 'true');
   assert.ok(h.buttons[0].disabled);
   await flush();
   assert.equal(h.state, 'signed_out');
+  assert.equal(h.elements['session-status'].dataset.working, 'false');
   assert.equal(h.elements.login.disabled, false);
   await h.click(0);
   assert.equal(h.posts('book').length, 0);
@@ -128,10 +130,13 @@ test('UCSD login errors and temporary TSS failures show safe status without rest
   const h = harness({ status: { state: 'signing_in', probeOnly: false,
     authDiagnostics: { authentication: { page: 'duo' } } } }); await flush();
   assert.match(h.statusText, /Complete Duo/);
+  assert.equal(h.elements['session-status'].dataset.working, 'true');
   h.setStatus({ authDiagnostics: { authentication: { page: 'ucsd_error', issue: 'ucsd_login_exception', message: 'private-login-data' } } }); await h.poll();
   assert.equal(h.statusText, 'UCSD sign-in returned an error. Check the sign-in tab.');
+  assert.equal(h.elements['session-status'].dataset.working, 'false');
   h.setStatus({ authDiagnostics: { code: 'authentication_unavailable', authentication: { page: 'tss', issue: 'service_unavailable' } } }); await h.poll();
   assert.match(h.statusText, /temporarily unavailable.*sign-in stays open; checking again/);
+  assert.equal(h.elements['session-status'].dataset.working, 'true');
   assert.ok(h.buttons[0].disabled);
   await h.advance(10_000);
   assert.equal(h.posts('login').length, 0); assert.equal(h.posts('book').length, 0);
@@ -295,15 +300,25 @@ test('booking timeout is bounded and cannot auto-retry', async () => {
 
 test('status jobs are correlated, phase regressions ignored and submitted is not called enrolled', async () => {
   const h = harness({ status: { state: 'ready', probeOnly: false } }); await flush(); await h.click(0);
+  assert.equal(h.elements['job-status'].dataset.working, 'true');
+  assert.equal(h.buttons[0].feedback.dataset.working, 'true');
+  assert.notEqual(h.buttons[1].feedback.dataset.working, 'true');
   const requestId = h.posts('book')[0].body.requestId;
   h.setStatus({ booking: { requestId, stage: 'submitting' } }); await h.poll();
   h.setStatus({ booking: { requestId, stage: 'checking' } }); await h.poll();
   assert.match(h.job, /Sending/);
   h.setStatus({ state: 'ready', booking: { requestId, stage: 'submitted' } }); await h.poll();
   assert.equal(h.job, 'Request submitted. Check TSS before trying again.'); assert.equal(h.buttons[0].disabled, false);
+  assert.equal(h.elements['job-status'].dataset.working, 'false');
+  assert.equal(h.buttons[0].feedback.dataset.working, 'false');
   assert.equal(h.posts('book').length, 1);
-  await h.click(1); h.setStatus({ booking: { requestId, stage: 'submitted' } }); await h.poll();
+  await h.click(1);
+  assert.equal(h.buttons[0].feedback.dataset.working, 'false');
+  assert.equal(h.buttons[1].feedback.dataset.working, 'true');
+  h.setStatus({ booking: { requestId, stage: 'submitted' } }); await h.poll();
   assert.match(h.statusText, /result unknown/); assert.ok(h.buttons[1].disabled);
+  assert.equal(h.buttons[1].feedback.dataset.working, 'false');
+  assert.equal(h.elements['job-status'].dataset.working, 'false');
 });
 
 test('native warnings open only after fresh Review click and mint a new owned-session URL', async () => {
@@ -333,6 +348,7 @@ test('direct warnings render plain text and require one trusted confirmation on 
   const h = harness({ status: { state: 'busy', probeOnly: false, booking: { requestId, stage: 'review', mode: 'direct', confirmationId, reviewMessage: message } } });
   await flush();
   assert.equal(h.elements.warning.hidden, false);
+  assert.equal(h.elements['job-status'].dataset.working, 'false');
   assert.equal(h.elements['warning-message'].textContent, message);
   assert.equal(h.elements.review.hidden, true);
   await h.click('confirm', false); assert.equal(h.posts('confirm').length, 0);
@@ -343,6 +359,7 @@ test('direct warnings render plain text and require one trusted confirmation on 
     return response({ booking: { requestId, stage: 'submitting', mode: 'direct' } });
   });
   await h.click('confirm'); await h.click('confirm');
+  assert.equal(h.elements['job-status'].dataset.working, 'true');
   assert.equal(h.posts('confirm').length, 1); assert.equal(h.posts('book').length, 0);
   assert.equal(h.posts('login').length, 0); assert.equal(h.elements.warning.hidden, true);
 });

@@ -1,0 +1,56 @@
+/* Decorative progress only; the adjacent status text carries the meaning. */
+.roomie-shell :is(.tss-session-status, .tss-job-status, .tss-option-feedback)[data-working='true']:not(:empty) {
+  --surf-inset: 0px;
+  position: relative;
+  min-block-size: 24px;
+  padding-inline-start: 60px;
+}
+
+.roomie-shell .tss-option-feedback[data-working='true']:not(:empty) {
+  --surf-inset: 12px;
+  padding-inline-start: 72px;
+}
+
+.roomie-shell :is(.tss-session-status, .tss-job-status, .tss-option-feedback)[data-working='true']:not(:empty)::before,
+.roomie-shell :is(.tss-session-status, .tss-job-status, .tss-option-feedback)[data-working='true']:not(:empty)::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 50%;
+  pointer-events: none;
+}
+
+.roomie-shell :is(.tss-session-status, .tss-job-status, .tss-option-feedback)[data-working='true']:not(:empty)::before {
+  inset-inline-start: var(--surf-inset);
+  width: 48px;
+  height: 24px;
+  background: radial-gradient(12px 8px at 12px 0, transparent 7px, #8cdedb 7.5px 9px, transparent 9.5px) 0 12px / 24px 12px repeat-x;
+  opacity: .8;
+  transform: translateY(-50%);
+  animation: roomie-surf-wave 2.4s linear infinite;
+}
+
+.roomie-shell :is(.tss-session-status, .tss-job-status, .tss-option-feedback)[data-working='true']:not(:empty)::after {
+  inset-inline-start: calc(var(--surf-inset) + 12px);
+  width: 24px;
+  height: 5px;
+  border-radius: 65% 45% 45% 65%;
+  background: #ffcd00;
+  box-shadow: 0 1px 0 #0f1d30;
+  transform: translateY(-3px) rotate(-7deg);
+  animation: roomie-surf-board 2.4s ease-in-out infinite;
+}
+
+@keyframes roomie-surf-wave {
+  to { background-position: 24px 12px; }
+}
+
+@keyframes roomie-surf-board {
+  50% { transform: translateY(-5px) rotate(4deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roomie-shell :is(.tss-session-status, .tss-job-status, .tss-option-feedback)[data-working='true']:not(:empty)::before,
+  .roomie-shell :is(.tss-session-status, .tss-job-status, .tss-option-feedback)[data-working='true']:not(:empty)::after {
+    animation: none;
+  }
+}
