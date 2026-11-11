@@ -14,6 +14,7 @@ export async function installNetworkGuard(page, { getJob = () => null, onBlocked
   const trace = createAuthTrace(now);
   client.authTrace = trace.snapshot;
   client.recordAuthPage = trace.addAuthPage;
+  client.recordRequestTrace = trace.record;
   const pending = new Set();
   let pendingCount = 0, lastCompleted, lastFailure;
   const age = at => Math.min(900_000, Math.max(0, now() - at));

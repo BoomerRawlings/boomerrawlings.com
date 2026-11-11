@@ -1,0 +1,10 @@
+---
+import '../styles/tss-project-wipe.css';
+---
+<div class="tss-page-wipe" data-tss-departure-wipe aria-hidden="true" hidden></div>
+<script>
+  import { mountTssProjectDoor } from '../lib/tss-project-motion';
+  const link = document.querySelector<HTMLAnchorElement>('[data-tss-project-link]');
+  const wipe = document.querySelector<HTMLElement>('[data-tss-departure-wipe]');
+  if (link && wipe) mountTssProjectDoor(link, wipe);
+</script>

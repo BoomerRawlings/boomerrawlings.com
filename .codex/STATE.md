@@ -1,5 +1,14 @@
 # Project state
 
+## TSS login diagnosis and presentation polish — 2026-11-11
+
+- Mode: continuation. User reports renewed Duo stall; requests Cannonball-inspired branding, transitions, and homepage entry wipe for the public project.
+- Baseline verified:67aa072 matches canonical main; branch feat/tss-duo-polish. Existing production booking build connected-account-1 health200, direct mode enabled. No backend deployment/restart or enrollment actions during diagnosis.
+- Current evidence: user approved on cellular/another network. Existing viewer and same-profile diagnostics stayed at Duo with no later UCSD callback; exact Duo host already matches guard. Nine blocked other-destination XHR, unknown underlying hosts; no blocked UCSD/Duo request recorded. Session expired naturally after15min. CampusWiFi incident alone cannot explain this attempt; root cause remains unproven.
+- Diagnostic patch ready: duo-diagnostics-1 passively records bounded Duo XHR outcomes/status/timing and pending guard phases. No URLs/query/body/headers/credentials, new requests, allowlist or auth changes.235 Worker tests/zero skips, syntax/dryrun and independent review pass. User requested a fresh attempt after previous expiry; deploy diagnostics first.
+- Presentation ready: scoped gold homepage entry/arrival wipe, condensed project wordmark, workflow wipes/keyboard support, subtle section entrances; reduced-motion/cancellation/back-navigation fallbacks. Actual browser caught and fixed marker cleanup during pagehide/visibility; arrival now observed true. Desktop and320px no overflow, workflow click/End correct. Full site npm test and13 motion tests pass.
+- Next: privacy audit, canonical release, Worker deployment, instrumented human login; verify live branding. Duo root cause remains unresolved. No enrollment actions authorized for diagnosis.
+
 ## TSS Better Booking public template — 2026-11-11
 
 - Mode: new task. Benchmark unchanged current booking build, publish independent reusable GitHub repository and public workflow project page. Private household deployment remains unchanged.

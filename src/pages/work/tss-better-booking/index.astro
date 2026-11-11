@@ -2,7 +2,9 @@
 import { getEntry } from 'astro:content';
 import '@fontsource/source-sans-3/latin-400.css';
 import '@fontsource/source-sans-3/latin-600.css';
+import '@fontsource/teko/latin-600.css';
 import '../../../styles/tss-project.css';
+import '../../../styles/tss-project-wipe.css';
 import TssFlowComparison from '../../../components/TssFlowComparison.astro';
 
 const entry = await getEntry('archive', 'tss-better-booking');
@@ -104,6 +106,7 @@ const agentPrompt = `Read this repository's README and setup instructions. Expla
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <script is:inline src="/scripts/tss-project-arrival.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={entry.data.description} />
     <meta name="referrer" content="no-referrer" />
@@ -114,9 +117,10 @@ const agentPrompt = `Read this repository's README and setup instructions. Expla
     <title>TSS Better Booking · Project &amp; workflow</title>
   </head>
   <body class="tss-project">
+    <div class="tss-page-wipe" aria-hidden="true" hidden></div>
     <a class="project-skip" href="#main">Skip to content</a>
     <header class="project-nav">
-      <a class="project-mark" href="#main" aria-label="TSS Better Booking, top"><span aria-hidden="true">↗</span> TSS Better Booking</a>
+      <a class="project-mark" href="#main" aria-label="TSS Better Booking, top"><span class="project-speedmark" aria-hidden="true"><i></i><i></i><i></i></span><span class="project-wordmark">TSS <strong>Better Booking</strong></span></a>
       <nav aria-label="Project navigation">
         <a href="#plain-english">The idea</a>
         <a href="#workflow">The workflow</a>
@@ -128,7 +132,7 @@ const agentPrompt = `Read this repository's README and setup instructions. Expla
       <section class="project-hero" aria-labelledby="project-title">
         <div class="hero-copy">
           <p class="project-eyebrow"><span class="signal-dot" aria-hidden="true"></span> Course booking / independent prototype</p>
-          <h1 id="project-title">TSS<br /><span class="project-hologram">Better Booking.</span></h1>
+          <h1 id="project-title" aria-label="TSS Better Booking"><span class="project-title-prefix">TSS</span><span class="project-hologram">Better<br />Booking.</span></h1>
           <p class="project-deck">A clearer path from a course option to a confirmed outcome.</p>
           <p class="hero-description">A small interface built around the native TSS booking flow, with isolated sign-in, explicit warning review, and verification after submission.</p>
           <div class="project-actions"><a class="project-button" href="#workflow">Explore how it works <span aria-hidden="true">↓</span></a><a class="project-text-link" href="#setup">Set up with an agent <span aria-hidden="true">↗</span></a></div>
@@ -177,6 +181,7 @@ const agentPrompt = `Read this repository's README and setup instructions. Expla
             {workflow.map((step, index) => <button type="button" id={`tab-${step.id}`} data-step={index}><span class="step-number">{String(index + 1).padStart(2, '0')}</span><span><strong>{step.label}</strong><small>{step.verb}</small></span><span class="step-arrow" aria-hidden="true">↗</span></button>)}
           </nav>
           <div class="workflow-panels">
+            <div class="workflow-wipe-clip" aria-hidden="true"><div class="tss-panel-wipe" data-workflow-wipe hidden></div></div>
             {workflow.map((step, index) => <article id={`step-${step.id}`} class="workflow-panel" data-workflow-panel>
               <div class="panel-topline"><span>STEP {String(index + 1).padStart(2, '0')} / {step.label}</span><span>METHOD → EVIDENCE</span></div>
               <h3>{step.title}</h3><p class="panel-explanation">{step.explanation}</p>

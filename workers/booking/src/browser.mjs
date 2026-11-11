@@ -9,6 +9,7 @@ import { authenticationProbe, safeAccountName } from './authentication.mjs';
 import { resolveRoomieCourses } from './resolve-courses.mjs';
 import { loginViewport } from './viewport.mjs';
 import { safeBlockedRequest, safeCspDirective, safeNetworkError, preflightDiagnostic, safeAuthDiagnostics } from './diagnostics.mjs';
+import { createDuoRequestObserver } from './auth-trace.mjs';
 
 export const PROTOCOL_TIMEOUT_MS = 20_000;
 
@@ -175,13 +176,18 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
     });
     const cdp = await page.createCDPSession();
     const { targetInfo } = await cdp.send('Target.getTargetInfo');
-    // Record only fixed failure classes. Never retain URLs, issue payloads,
-    // request identifiers, headers, document contents or raw Chromium errors.
+    // Passive diagnostics reuse the existing Network subscription. Only a
+    // bounded private map retains request correlation keys, never request data.
+    const duoRequests = createDuoRequestObserver(value => guard.recordRequestTrace?.(value));
+    cdp.on?.('Network.requestWillBeSent', duoRequests.start);
+    cdp.on?.('Network.responseReceived', duoRequests.response);
+    cdp.on?.('Network.loadingFinished', duoRequests.finish);
     cdp.on?.('Audits.issueAdded', event => {
       const directive = safeCspDirective(event.issue?.details?.contentSecurityPolicyIssueDetails?.violatedDirective);
       if (directive) cspViolations.set(directive, Math.min(1000, (cspViolations.get(directive) || 0) + 1));
     });
     cdp.on?.('Network.loadingFailed', event => {
+      duoRequests.fail(event);
       const code = safeNetworkError(event.errorText);
       requestFailures.set(code, Math.min(1000, (requestFailures.get(code) || 0) + 1));
     });
@@ -318,7 +324,8 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
         const result = bookingResult(value, job.requestBlocked);
         return finishJob(job, result);
       },
-      authDiagnostics() { return { blocked: [...authBlocked.values()], trace: guard.authTrace?.() || [], ...(authenticationState ? { authentication: authenticationState } : {}),
+      authDiagnostics() { return { blocked: [...authBlocked.values()], trace: guard.authTrace?.() || [],
+        ...(guard.diagnostics ? { guard: guard.diagnostics() } : {}), ...(authenticationState ? { authentication: authenticationState } : {}),
         csp: [...cspViolations].map(([directive, count]) => ({ directive, count })),
         requestFailures: [...requestFailures].map(([code, count]) => ({ code, count })) }; },
       // Sanitized diagnostics are exposed only by the owned probe session.
@@ -335,6 +342,7 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
       },
       async close() {
         closing = true;
+        duoRequests.clear();
         authenticationValid = false; authenticatedName = undefined;
         completedDirectJobs.clear();
         activeJob = null;

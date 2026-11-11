@@ -226,6 +226,21 @@ test('trace display retains only fixed diagnostic classes and bounded timestamps
   assert.match(lines[1],/response_fulfill timeout/);assert.doesNotMatch(lines.join(''),/private-token/);
 });
 
+test('Duo diagnostics display completion duration and finite failure code without arbitrary values', async () => {
+  const script=/<script nonce="([a-f0-9]+)">([\s\S]*?)<\/script>/.exec(await probePage().text())[2];
+  const document={hidden:true,addEventListener(){},getElementById(){return{}}};
+  const context=vm.createContext({document,setInterval(){},events:[
+    {kind:'request_complete',destination:'duo',resourceType:'XHR',method:'POST',route:'duo_prompt',status:200,durationMs:1200,atMs:3000,count:3,body:'private-token'},
+    {kind:'request_failure',destination:'duo',resourceType:'Fetch',method:'GET',route:'other',error:'ERR_CONNECTION_RESET',durationMs:300,atMs:3200,count:1,url:'private-url'},
+    {kind:'request_failure',error:'private-error',durationMs:Infinity,atMs:3300,count:1},
+  ]});
+  vm.runInContext(script,context);
+  const lines=Array.from(vm.runInContext('traceLines(events)',context));
+  assert.match(lines[0],/duo XHR POST duo_prompt HTTP 200 duration 1.2s ×3/);
+  assert.match(lines[1],/ERR_CONNECTION_RESET duration 0.3s/);
+  assert.doesNotMatch(lines.join(''),/private|Infinity/);
+});
+
 test('authentication errors replace pending Duo copy without retrying login', async () => {
   const script = /<script nonce="([a-f0-9]+)">([\s\S]*?)<\/script>/.exec(await probePage().text())[2];
   const elements = new Map(), calls = [];

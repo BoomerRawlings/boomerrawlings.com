@@ -1,12 +1,13 @@
 ---
 title: TSS Better Booking
 slug: tss-better-booking
+publishedDate: 2026-11-11
 date: 2026-11-11
 type: work
 description: A source-specific course-booking prototype, from interface discovery to authenticated submission and explicit outcome verification.
 tags: [Web applications, Systems design, Developer tools]
 status: published
-featured: false
+featured: true
 projectStage: Work in progress
 affiliationNotice: Independent prototype. Not affiliated with or endorsed by UC San Diego.
 externalUrl: https://boomerrawlings.com/work/tss-better-booking/

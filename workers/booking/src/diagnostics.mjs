@@ -1,7 +1,7 @@
 import { AUTHENTICATION_PAGES, AUTHENTICATION_ISSUES } from './authentication.mjs';
-import { sanitizeAuthTrace, AUTH_TRACE_PHASES, AUTH_TRACE_RESOURCES } from './auth-trace.mjs';
+import { sanitizeAuthTrace, AUTH_TRACE_PHASES, AUTH_TRACE_RESOURCES, AUTH_TRACE_NETWORK_ERRORS, authTraceNetworkError } from './auth-trace.mjs';
 
-export const BUILD_VERSION = 'connected-account-1';
+export const BUILD_VERSION = 'duo-diagnostics-1';
 
 const authHosts = new Set(['tss.ucsd.edu', 'tssproxy.ucsd.edu', 'a5.ucsd.edu', 'api-ce13a1a7.duosecurity.com']);
 const publicSegments = new Set(['fiori', 'sap', 'public', 'bc', 'sec', 'saml2', 'sp', 'acs', 'opu', 'odata', 'ITUS', 'PR_MY_MODULES_V2_SRV',
@@ -15,9 +15,7 @@ export function safeBlockedRequest(value) {
 }
 
 const directives = new Set(['connect-src', 'frame-src', 'child-src', 'worker-src', 'script-src', 'script-src-elem', 'script-src-attr', 'form-action', 'sandbox', 'default-src', 'frame-ancestors']);
-const networkErrors = new Set(['ERR_ABORTED', 'ERR_FAILED', 'ERR_BLOCKED_BY_CLIENT', 'ERR_BLOCKED_BY_RESPONSE', 'ERR_CONNECTION_CLOSED',
-  'ERR_CONNECTION_RESET', 'ERR_CONNECTION_REFUSED', 'ERR_CONNECTION_TIMED_OUT', 'ERR_TIMED_OUT', 'ERR_NAME_NOT_RESOLVED', 'ERR_CERT_AUTHORITY_INVALID',
-  'ERR_CERT_DATE_INVALID', 'ERR_CERT_COMMON_NAME_INVALID', 'ERR_INTERNET_DISCONNECTED', 'OTHER']);
+const networkErrors = new Set(AUTH_TRACE_NETWORK_ERRORS);
 const preflightPhases = new Set(['attach', 'page_enable', 'evaluate']);
 const authenticationPages = new Set(AUTHENTICATION_PAGES), authenticationIssues = new Set(AUTHENTICATION_ISSUES);
 export function preflightDiagnostic(failure, phase) {
@@ -31,7 +29,7 @@ export function preflightDiagnostic(failure, phase) {
     phase: preflightPhases.has(phase) ? phase : 'attach' };
 }
 export const safeCspDirective = value => typeof value === 'string' && directives.has(value.split(/\s/)[0]) ? value.split(/\s/)[0] : undefined;
-export const safeNetworkError = value => typeof value === 'string' && networkErrors.has(value.replace(/^net::/, '')) ? value.replace(/^net::/, '') : 'OTHER';
+export const safeNetworkError = authTraceNetworkError;
 function safeGuardDiagnostics(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
   const phase = item => item && AUTH_TRACE_PHASES.includes(item.phase) && Number.isFinite(item.ageMs) && item.ageMs >= 0 && item.ageMs <= 900000

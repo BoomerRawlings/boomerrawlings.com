@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createAuthTrace, sanitizeAuthTrace, authTraceDestination, authTraceGuardIssue, authTraceRoute } from '../src/auth-trace.mjs';
+import { createAuthTrace, sanitizeAuthTrace, authTraceDestination, authTraceGuardIssue, authTraceRoute, createDuoRequestObserver } from '../src/auth-trace.mjs';
 
 test('auth destination categories reveal no hostname, URL, query, port or token', () => {
   for (const [url, expected] of [
@@ -59,4 +59,50 @@ test('trace sanitizer drops arbitrary fields, invalid values, reverse time and o
   assert.equal(authTraceGuardIssue(Error('CDP timed out private-token')), 'timeout');
   assert.equal(authTraceGuardIssue(Error('Session closed private-token')), 'session_closed');
   assert.equal(authTraceGuardIssue(Error('private protocol details')), 'protocol_error');
+});
+
+test('passive Duo trace records completion and failure classes without request data', () => {
+  let time = 1000;
+  const trace = createAuthTrace(() => time), observer = createDuoRequestObserver(trace.record, () => time);
+  const start = (id, path, type = 'XHR') => observer.start({ requestId: id, type,
+    request: { url: 'https://api-ce13a1a7.duosecurity.com' + path + '?private-token=secret#private', method: 'POST', headers: { Cookie: 'private-cookie' }, postData: 'private-password' } });
+  start('private-id', '/prompt/private-session');
+  time = 1299;
+  observer.response({ requestId: 'private-id', response: { status: 200, url: 'private-response', headers: { 'Set-Cookie': 'private-cookie' } } });
+  observer.finish({ requestId: 'private-id', encodedDataLength: 12345 });
+  start('private-id-2', '/frame/private-session', 'Fetch');
+  time = 1450;
+  observer.fail({ requestId: 'private-id-2', errorText: 'net::ERR_CONNECTION_RESET', blockedReason: 'private-reason' });
+  assert.deepEqual(trace.snapshot(), [
+    { kind: 'request_complete', destination: 'duo', resourceType: 'XHR', method: 'POST', route: 'duo_prompt', durationMs: 200, status: 200, atMs: 200, count: 1 },
+    { kind: 'request_failure', destination: 'duo', resourceType: 'Fetch', method: 'POST', route: 'duo_frame', durationMs: 100, error: 'ERR_CONNECTION_RESET', atMs: 400, count: 1 },
+  ]);
+  observer.finish({ requestId: 'private-id' }); observer.fail({ requestId: 'private-id-2', errorText: 'private-error' });
+  assert.equal(trace.snapshot().length, 2); assert.doesNotMatch(JSON.stringify(trace.snapshot()), /private|secret|12345|https/);
+});
+
+test('Duo request correlation bounds memory, handles redirects and clears with the session', () => {
+  const events = [], observer = createDuoRequestObserver(value => events.push(value), () => 1000);
+  const start = (id, url = 'https://api-ce13a1a7.duosecurity.com/unrecognized/private', extra = {}) => observer.start({ requestId: id, type: 'XHR', request: { url, method: 'GET' }, ...extra });
+  for (const url of ['https://private.example/prompt/test', 'http://api-ce13a1a7.duosecurity.com/prompt/test', 'https://private@api-ce13a1a7.duosecurity.com/prompt/test']) {
+    start('excluded', url); observer.fail({ requestId: 'excluded', errorText: 'net::ERR_FAILED' });
+  }
+  start('excluded', undefined, { type: 'Document' }); observer.fail({ requestId: 'excluded', errorText: 'net::ERR_FAILED' });
+  assert.equal(events.length, 0);
+  for (let i = 0; i < 65; i++) start('id-' + i);
+  for (let i = 0; i < 65; i++) observer.fail({ requestId: 'id-' + i, errorText: 'private raw error' });
+  assert.equal(events.length, 64); assert.ok(events.every(item => item.error === 'OTHER' && item.route === 'other'));
+  start('redirect'); start('redirect', 'https://a5.ucsd.edu/private', { redirectResponse: { status: 303, headers: { private: 'secret' } } });
+  observer.fail({ requestId: 'redirect', errorText: 'net::ERR_FAILED' });
+  assert.equal(events.length, 65); assert.equal(events.at(-1).status, 303);
+  start('closed'); observer.clear(); observer.fail({ requestId: 'closed', errorText: 'net::ERR_FAILED' });
+  assert.equal(events.length, 65); assert.doesNotMatch(JSON.stringify(events), /private|secret|id-|https/);
+});
+
+test('Duo completion sanitizer rejects malformed metadata and preserves bounded counts only', () => {
+  const valid = { kind: 'request_complete', destination: 'duo', resourceType: 'XHR', method: 'GET', route: 'duo_prompt', durationMs: 100, status: 200, atMs: 100, count: 2 };
+  assert.deepEqual(sanitizeAuthTrace([{ ...valid, requestId: 'private-id', url: 'private-url', body: 'private-body' }]), [valid]);
+  for (const changed of [{ destination: 'tss' }, { resourceType: 'Document' }, { method: 'private' }, { route: 'private' }, { durationMs: Infinity }, { durationMs: 900001 }, { status: 999 }, { kind: 'request_failure', error: 'private' }]) {
+    assert.deepEqual(sanitizeAuthTrace([{ ...valid, ...changed }]), []);
+  }
 });

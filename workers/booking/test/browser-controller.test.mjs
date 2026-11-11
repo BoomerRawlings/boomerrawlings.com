@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { openManagedBrowser, rendererPreflight, rendererHandoffPreflight, PROTOCOL_TIMEOUT_MS, loadCourse, createBrowserController } from '../src/browser.mjs';
 import { DEFAULT_ROUTE, BOOKING_ROUTES, VERIFIED_STANDARD_ROUTES } from '../src/routes.mjs';
+import { createAuthTrace } from '../src/auth-trace.mjs';
+import { safeAuthDiagnostics } from '../src/diagnostics.mjs';
 
 async function withVerifiedRoutes(routes, run) {
   const original = [...VERIFIED_STANDARD_ROUTES];
@@ -360,6 +362,24 @@ test('auth diagnostics retain only CSP directive and fixed network failure count
   assert.deepEqual(diagnostics.csp, [{ directive: 'connect-src', count: 1 }]);
   assert.deepEqual(diagnostics.requestFailures, [{ code: 'ERR_CONNECTION_RESET', count: 1 }, { code: 'OTHER', count: 1 }]);
   assert.equal(JSON.stringify(diagnostics).includes('private'), false);
+});
+
+test('normal status includes guard progress and passive Duo completion without new browser commands', async () => {
+  const trace = createAuthTrace(() => 1000);
+  const f = controllerFixture({}, { installGuard: async () => ({ recordRequestTrace: trace.record, authTrace: trace.snapshot,
+    diagnostics: () => ({ pendingCount: 1, pending: [{ resourceType: 'Document', phase: 'response_body', ageMs: 3210, url: 'private-url' }] }),
+  }) });
+  const controller = await f.controller, initialCommands = [...f.cdpCalls];
+  f.diagnosticEvents.get('Network.requestWillBeSent')({ requestId: 'private-id', type: 'XHR', request: {
+    url: 'https://api-ce13a1a7.duosecurity.com/prompt/private?private-token=secret', method: 'POST', postData: 'private-credentials' } });
+  f.diagnosticEvents.get('Network.responseReceived')({ requestId: 'private-id', response: { status: 200, headers: { 'Set-Cookie': 'private-cookie' } } });
+  f.diagnosticEvents.get('Network.loadingFinished')({ requestId: 'private-id' });
+  const safe = safeAuthDiagnostics({}, controller.authDiagnostics());
+  assert.deepEqual(safe.guard, { pendingCount: 1, pending: [{ resourceType: 'Document', phase: 'response_body', ageMs: 3210 }] });
+  assert.equal(safe.trace.length, 1); assert.equal(safe.trace[0].kind, 'request_complete'); assert.equal(safe.trace[0].status, 200);
+  assert.deepEqual(f.cdpCalls, initialCommands); assert.equal(f.operations.length, 0); assert.equal(f.navigations.length, 1);
+  assert.doesNotMatch(JSON.stringify(safe), /private|secret|https/);
+  await controller.close();
 });
 
 test('login handoff preserves classified preflight failure without raw cause', async () => {

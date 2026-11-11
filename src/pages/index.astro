@@ -2,11 +2,13 @@
 import { getCollection } from 'astro:content';
 import CuratorGuide from '../components/CuratorGuide.astro';
 import ObservatoryDoor from '../components/ObservatoryDoor.astro';
+import TssProjectDoor from '../components/TssProjectDoor.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { formatMonthYear, isoMonth } from '../lib/dates';
 
 const publishedEntries = await getCollection('archive', ({ data }) => data.status === 'published');
 const highlightOrder = [
+  'tss-better-booking',
   'stars',
   'scads-2026',
   'brain-study-guide',
@@ -117,7 +119,7 @@ const contents = [
       <ul class="ledger-list">
         {selectedWork.map((entry) => (
           <li>
-            <a data-pip-direct={entry.data.externalUrl?.startsWith('https://boomerrawlings.com/') || undefined} href={entry.data.externalUrl?.replace(/^https:\/\/boomerrawlings\.com\//, '/') ?? '/' + (entry.data.type === 'data-analysis' ? 'writing/data-analysis' : entry.data.type) + '/' + entry.data.slug + '/'}>
+            <a data-tss-project-link={entry.data.slug === 'tss-better-booking' || undefined} data-pip-direct={entry.data.externalUrl?.startsWith('https://boomerrawlings.com/') || undefined} href={entry.data.externalUrl?.replace(/^https:\/\/boomerrawlings\.com\//, '/') ?? '/' + (entry.data.type === 'data-analysis' ? 'writing/data-analysis' : entry.data.type) + '/' + entry.data.slug + '/'}>
               <time class="ledger-date" datetime={isoMonth(entry.data.publishedDate!)}>{formatMonthYear(entry.data.publishedDate!)}</time>
               <span class="ledger-type">{entry.data.type === 'data-analysis' ? 'Data analysis' : entry.data.projectStage ? 'WIP project' : 'Project'}</span>
               <strong>{entry.data.title}</strong>
@@ -128,6 +130,7 @@ const contents = [
       </ul>
     </div>
   </section>
+  <TssProjectDoor />
 </BaseLayout>
 
 <style is:global>

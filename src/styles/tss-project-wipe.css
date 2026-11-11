@@ -1,0 +1,8 @@
+/* Same quick gold cover/reveal and slanted stripe language as Cannonball. */
+.tss-page-wipe, .tss-panel-wipe { position: fixed; inset: 0; z-index: 10000; pointer-events: none; background: #ffcd00; transform: translateX(-104%); overflow: hidden; }
+.tss-page-wipe[hidden], .tss-panel-wipe[hidden] { display: none !important; }
+.tss-page-wipe::after, .tss-panel-wipe::after { content: ''; position: absolute; inset: 0 5% 0 auto; width: 12%; transform: skewX(-14deg); background: repeating-linear-gradient(90deg, #e8ba06 0 10%, transparent 10% 18%); }
+.tss-panel-wipe { position: absolute; z-index: 2; }
+html[data-tss-arrival] .tss-page-wipe { display: block !important; animation: tss-project-arrival 320ms 50ms cubic-bezier(.4,0,.12,1) both; }
+@keyframes tss-project-arrival { from { transform: translateX(0); } to { transform: translateX(104%); } }
+@media (prefers-reduced-motion: reduce) { .tss-page-wipe, .tss-panel-wipe, html[data-tss-arrival] .tss-page-wipe { display: none !important; animation: none !important; } }

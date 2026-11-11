@@ -1,6 +1,8 @@
 :root { color-scheme: dark; --project-navy: #0f1d30; --project-deep: #091322; --project-panel: #16283e; --project-gold: #ffcd00; --project-cyan: #8cdedb; --project-ink: #f7f2e6; --project-muted: #afbecd; --project-line: #314359; }
 .tss-project, .tss-project * { box-sizing: border-box; }
-.tss-project { margin: 0; background: var(--project-navy); color: var(--project-ink); font-family: 'Source Sans 3', system-ui, sans-serif; font-size: 17px; line-height: 1.6; }
+.tss-project { margin: 0; background: radial-gradient(ellipse at 90% 0, #223b5555, transparent 55rem), var(--project-navy); color: var(--project-ink); font-family: 'Source Sans 3', system-ui, sans-serif; font-size: 17px; line-height: 1.6; }
+.tss-project ::selection { background: var(--project-gold); color: var(--project-navy); }
+.tss-project main > section[id] { scroll-margin-top: 24px; }
 .tss-project h1, .tss-project h2, .tss-project h3, .tss-project p, .tss-project ol, .tss-project dl, .tss-project dd { margin: 0; }
 .tss-project a { color: inherit; text-underline-offset: 4px; }
 .tss-project button, .tss-project textarea { font: inherit; }
@@ -12,8 +14,12 @@
 .project-skip:focus { top: 12px; }
 .project-nav, .tss-project main, .project-footer { width: min(1240px, calc(100% - 80px)); margin-inline: auto; }
 .project-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 96px; border-bottom: 1px solid var(--project-line); font-size: 14px; }
-.project-mark { text-decoration: none; font-weight: 600; letter-spacing: .01em; }
-.project-mark > span { display: inline-grid; place-items: center; width: 29px; height: 29px; margin-right: 8px; color: var(--project-navy); background: var(--project-gold); font-size: 22px; }
+.project-mark { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 600; letter-spacing: .01em; }
+.project-speedmark { display: flex; gap: 4px; transform: skewX(-14deg); }
+.project-speedmark i { display: block; width: 5px; height: 25px; background: var(--project-gold); }
+.project-speedmark i:first-child { opacity: .35; }.project-speedmark i:nth-child(2) { opacity: .65; }
+.project-wordmark { color: var(--project-gold); font-size: 11px; letter-spacing: .14em; line-height: 1.25; }
+.project-wordmark strong { display: block; color: var(--project-ink); font-size: 17px; letter-spacing: -.015em; }
 .project-nav nav { display: flex; align-items: center; flex-wrap: wrap; gap: 22px; }
 .project-nav nav a { text-decoration: none; color: var(--project-muted); }
 .project-nav nav a:hover { color: var(--project-ink); }
@@ -22,16 +28,21 @@
 .project-eyebrow, .panel-topline, .artifact-heading, .preview-heading, .boundary-label, .project-principles article > span { font: 600 11px/1.6 ui-monospace, Consolas, monospace; letter-spacing: .09em; text-transform: uppercase; }
 .project-eyebrow { color: var(--project-cyan); }
 .signal-dot { display: inline-block; width: 6px; height: 6px; margin: 0 7px 1px 0; background: var(--project-cyan); box-shadow: 0 0 13px #8cdedb44; }
-.project-hero h1 { font-size: clamp(60px, 6.5vw, 90px); line-height: .98; letter-spacing: -.055em; font-weight: 600; margin: 25px 0 26px; }
+.project-hero h1 { font-family: 'Teko', 'Arial Narrow', sans-serif; font-size: clamp(100px, 10.5vw, 152px); line-height: .8; letter-spacing: -.035em; font-weight: 600; margin: 26px 0 28px; text-transform: uppercase; }
+.project-title-prefix { display: block; margin-bottom: 16px; color: var(--project-ink); font: 600 16px/1.2 'Source Sans 3', sans-serif; letter-spacing: .24em; }
 .project-hologram { display: inline-block; color: var(--project-gold); text-shadow: 0 0 16px #ffcd0012; }
 .project-deck { max-width: 580px; font-size: 27px; line-height: 1.3; letter-spacing: -.02em; }
 .hero-description { max-width: 550px; color: var(--project-muted); margin-top: 18px !important; }
 .project-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 16px 24px; margin-top: 30px; }
 .project-button { display: inline-flex; align-items: center; justify-content: center; gap: 24px; min-height: 48px; padding: 10px 20px; color: var(--project-navy) !important; background: var(--project-gold); text-decoration: none; font-size: 15px; font-weight: 600; border: 1px solid var(--project-gold); }
-.project-button:hover { background: #ffe16b; }
+.project-button:hover { background: #ffe16b; transform: translateY(-2px); }
+.project-button, .project-secondary-button, .workflow-tabs button { transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease; }
+.project-button > span, .project-text-link > span { display: inline-block; transition: transform 180ms ease; }
+.project-button:hover > span { transform: translateY(2px); }
 .project-text-link { font-size: 15px; }
 .hero-caveat { margin-top: 22px !important; max-width: 520px; color: var(--project-muted); font-size: 13px; }
-.flow-preview { background: linear-gradient(145deg, #1b3049, #101f33); border: 1px solid #456078; padding: 24px; box-shadow: 14px 14px 0 #07101c66; }
+.flow-preview { position: relative; background: linear-gradient(145deg, #1b3049, #101f33); border: 1px solid #456078; border-top: 3px solid var(--project-gold); padding: 24px; box-shadow: 12px 12px 0 #07101c66; }
+.flow-preview::after { content: ''; position: absolute; bottom: -1px; right: -1px; width: 42px; height: 4px; background: var(--project-gold); }
 .preview-heading { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 24px; color: var(--project-cyan); }
 .preview-label { color: var(--project-muted); font-size: 10px; }
 .preview-node { display: flex; gap: 15px; align-items: center; min-height: 65px; }
@@ -70,14 +81,15 @@
 @media(max-width:760px) { .plain-grid { grid-template-columns: minmax(0, 1fr); gap: 26px; } .plain-section { padding-top: 40px; } }
 .workflow-tabs button { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; color: var(--project-muted); border: 1px solid transparent; background: transparent; padding: 15px 12px; cursor: pointer; }
 .workflow-tabs button:hover { background: #ffffff04; color: var(--project-ink); }
-.workflow-tabs button[aria-selected=true] { border-color: #6f6438; background: #ffcd000b; color: var(--project-ink); }
+.workflow-tabs button[aria-selected=true] { border-color: #6f6438; border-left: 3px solid var(--project-gold); padding-left: 10px; background: linear-gradient(90deg, #ffcd0015, #ffcd0004); color: var(--project-ink); }
 .step-number { color: #758a9e; font: 13px ui-monospace, monospace; }
 [aria-selected=true] .step-number, [aria-selected=true] .step-arrow { color: var(--project-gold); }
 .workflow-tabs strong, .workflow-tabs small { display: block; }
 .workflow-tabs strong { font-size: 16px; font-weight: 600; }
 .workflow-tabs small { font-size: 12px; margin-top: 2px; }
 .step-arrow { margin-left: auto; font-size: 16px; }
-.workflow-panels { min-width: 0; }
+.workflow-panels { position: relative; min-width: 0; }
+.workflow-wipe-clip { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 .workflow-panel { border: 1px solid var(--project-line); background: var(--project-panel); padding: 28px; }
 .workflow-panel + .workflow-panel { margin-top: 16px; }
 [data-enhanced] .workflow-panel { margin-top: 0; min-height: 584px; }
@@ -132,4 +144,6 @@
 @media (max-width: 1050px) { .project-hero { gap: 40px; } .workflow-display[data-enhanced] { grid-template-columns: 200px minmax(0, 1fr); gap: 14px; } .workflow-tabs button { gap: 10px; padding-inline: 8px; } .step-content { grid-template-columns: minmax(0, 1fr); } .step-spec { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; } [data-enhanced] .workflow-panel { min-height: 0; } .step-artifact ol { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; } .step-artifact li:nth-child(2) { border-top: 0; } }
 @media (max-width: 780px) { .project-nav, .tss-project main, .project-footer { width: calc(100% - 40px); } .project-nav { min-height: 90px; flex-wrap: wrap; gap: 8px; padding: 16px 0; } .project-nav nav { gap: 22px; } .project-hero { grid-template-columns: minmax(0, 1fr); gap: 40px; padding: 50px 0; } .project-hero h1 { font-size: clamp(58px, 12vw, 90px); } .flow-preview { max-width: 520px; width: calc(100% - 12px); } .project-principles { grid-template-columns: minmax(0, 1fr); } .project-principles article, .project-principles article:first-child { padding: 22px 0; } .project-principles article + article { border-left: 0; border-top: 1px solid var(--project-line); } .section-heading { display: block; } .section-heading > p { margin-top: 16px; max-width: 500px; } .workflow-section, .evidence-section { padding-top: 55px; } .workflow-display[data-enhanced] { grid-template-columns: minmax(0, 1fr); } .workflow-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); } .workflow-tabs button { padding: 10px 9px; } .workflow-tabs small { font-size: 11px; } .workflow-tabs strong { font-size: 14px; } .workflow-tabs .step-arrow { display: none; } .workflow-panel { padding: 23px; } .workflow-panel h3 { font-size: 31px; } .evidence-grid { grid-template-columns: minmax(0, 1fr); } .evidence-grid article { padding: 22px; } .limits-section, .setup-section { grid-template-columns: minmax(0, 1fr); gap: 28px; } .limits-section { padding: 40px 0; margin-top: 45px; } .setup-section { padding: 45px 0 55px; } .setup-copy > p:not(.project-eyebrow) { max-width: 550px; } }
 @media (max-width: 440px) { .project-nav, .tss-project main, .project-footer { width: calc(100% - 32px); } .project-nav nav { gap: 18px; font-size: 12px; } .project-hero h1 { font-size: 56px; } .project-deck { font-size: 24px; } .hero-description { font-size: 16px; } .flow-preview { padding: 20px; } .preview-heading { font-size: 10px; } .workflow-panel { padding: 20px 17px; } .panel-topline > span:last-child { display: none; } .step-spec { grid-template-columns: minmax(0, 1fr); } .step-artifact ol { display: block; } .step-artifact li:nth-child(2) { border-top: 1px solid #26374b; } .step-content { gap: 20px; } .agent-card { padding: 20px 16px; } .benchmark-results { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 780px) { .project-hero h1 { font-size: clamp(100px, 20vw, 144px); } }
+@media (max-width: 440px) { .project-hero h1 { font-size: 96px; } .project-title-prefix { font-size: 13px; } }
 @media (prefers-reduced-motion: reduce) { .tss-project *, .tss-project *::before, .tss-project *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
