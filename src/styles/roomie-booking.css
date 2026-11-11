@@ -10,6 +10,11 @@
 .booking-steps { display: grid; gap: 6px; margin-top: 20px; color: var(--teach-muted); font-size: 19px; }
 .booking-steps a { text-underline-offset: 3px; }
 .tss-book-example { vertical-align: middle; margin: 0 3px; }
+.booking-actions { display: flex; flex: none; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.tss-direct-booking { display: inline-flex; flex: none; height: 32px; padding: 3px 0; border: 0; background: transparent; text-decoration: none; white-space: nowrap; }
+.tss-direct-booking:hover .tss-book-inner { border-color: #212d68; background: #212d68; }
+.tss-direct-booking:active .tss-book-inner { border-color: #27367b; background: #fff; color: #27367b; }
+.tss-direct-booking:focus-visible { outline: 3px solid #8cdedb; outline-offset: 3px; }
 .tss-connection { margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--teach-line); }
 .roomie-library .library-intro > .tss-connection { grid-column: 1 / -1; margin-top: 0; }
 .tss-connection-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 13px; }
@@ -159,6 +164,8 @@
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 @media (max-width: 760px) {
+  .course-row > .booking-actions { grid-column: 1 / -1; justify-self: start; }
+  .booking-option-heading { flex-wrap: wrap; }
   .roomie-toolbar { align-items: center; }
   .roomie-filter { min-width: 0; flex: 1; gap: 8px; }
   .roomie-filter select { width: 100%; min-width: 0; }

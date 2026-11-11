@@ -106,7 +106,7 @@ const missingDetailsNote = (course: CatalogCourse) => {
         </div>
         <div class="booking-steps" aria-label="How to book">
           <p><span class="booking-step-number" aria-hidden="true">01</span><span><span class="visually-hidden">Step One: </span><a href="https://sis.ucsd.edu/" target="_blank" rel="noopener noreferrer">Log in to TSS</a> in another tab on this browser</span></p>
-          <p><span class="booking-step-number" aria-hidden="true">02</span><span><span class="visually-hidden">Step Two: </span>Click <span class="tss-book-inner tss-book-example">Book</span> below.</span></p>
+          <p><span class="booking-step-number" aria-hidden="true">02</span><span><span class="visually-hidden">Step Two: </span>Use <span class="tss-book-inner tss-book-example">Book</span> when connected, or <strong>Go to booking</strong> to finish in TSS.</span></p>
           <p><span class="booking-step-number" aria-hidden="true">03</span><span><span class="visually-hidden">Step Three: </span>Feel good about not dealing with TSS.</span></p>
         </div>
         <div class="tss-connection" data-tss-connection data-state="disconnected">
@@ -116,6 +116,7 @@ const missingDetailsNote = (course: CatalogCourse) => {
             <button type="button" class="tss-disconnect-button" data-tss-disconnect hidden>Disconnect</button>
           </div>
           <p class="tss-account-note">Uses the account signed in to TSS.</p>
+          <p class="tss-account-note">Choose Go to booking below to open the course in TSS. No connection needed.</p>
           <p class="tss-job-status" role="status" aria-live="polite" data-tss-job-status></p>
           <button type="button" class="tss-focus-button" data-tss-focus hidden>Open TSS</button>
         </div>
@@ -154,9 +155,12 @@ const missingDetailsNote = (course: CatalogCourse) => {
                     <strong>{course.title}</strong>
                     <small>{course.code} · {course.sections.length === 1 ? 'Section' : 'Sections'} {course.sections.join(' · ')}</small>
                   </span>
-                  <button class="tss-book" type="button" data-tss-book data-book-route={course.bookingUrl} aria-label={`Book ${course.title} in TSS`}>
-                    <span class="tss-book-inner">Book</span>
-                  </button>
+                  <div class="booking-actions">
+                    <button class="tss-book" type="button" data-tss-book data-book-route={course.bookingUrl} aria-label={`Book ${course.title} in TSS`}>
+                      <span class="tss-book-inner">Book</span>
+                    </button>
+                    <a class="tss-direct-booking" href={course.bookingUrl} target="_blank" rel="noopener noreferrer" aria-label={`Go to booking for ${course.title} in TSS, opens in a new tab`}><span class="tss-book-inner">Go to booking</span></a>
+                  </div>
                 </div>
               ) : (
                 <details class={`course-options category-${course.categoryStyle}`} data-course-options>
@@ -175,7 +179,10 @@ const missingDetailsNote = (course: CatalogCourse) => {
                         <div class="booking-option-heading">
                           <h2 id={`option-${roomie.room}-${course.code}-${group.key}`}>{group.unassigned ? group.label : <><span class="option-number">Option {Number(group.key) + 1}</span><span class="option-section-codes">{group.label}</span></>}</h2>
                           {!group.unassigned && (group.bookingUrl ? (
-                            <button class="tss-book" type="button" data-tss-book data-book-route={group.bookingUrl} aria-label={`Book ${course.code}, ${group.label} in TSS`}><span class="tss-book-inner">Book</span></button>
+                            <div class="booking-actions">
+                              <button class="tss-book" type="button" data-tss-book data-book-route={group.bookingUrl} aria-label={`Book ${course.code}, ${group.label} in TSS`}><span class="tss-book-inner">Book</span></button>
+                              <a class="tss-direct-booking" href={group.bookingUrl} target="_blank" rel="noopener noreferrer" aria-label={`Go to booking for ${course.code}, ${group.label} in TSS, opens in a new tab`}><span class="tss-book-inner">Go to booking</span></a>
+                            </div>
                           ) : (
                             <button class="tss-book" type="button" disabled aria-label={`Booking link unavailable for ${course.code}, ${group.label}`} title="Booking link not available for this option"><span class="tss-book-inner">Book</span></button>
                           ))}

@@ -45,3 +45,19 @@ test('Book controls invoke the connection flow and retain verified routes as dat
   assert.ok(controls.every(node => attr(node, 'data-book-route')?.startsWith('https://tss.ucsd.edu/fiori#ZUSModule-display?')));
   assert.equal(elements.filter(node => node.tagName === 'a' && /\btss-book\b/.test(attr(node, 'class') || '')).length, 0);
 });
+
+test('every verified Book route also has an independent direct booking link', () => {
+  const controls = elements.filter(node => attr(node, 'data-tss-book') !== undefined);
+  const links = elements.filter(node => node.tagName === 'a' && (attr(node, 'class') || '').split(' ').includes('tss-direct-booking'));
+  assert.equal(links.length, controls.length);
+  for (const control of controls) {
+    const link = links.find(node => node.parentNode === control.parentNode);
+    assert.ok(link, 'each connected Book action has a direct alternative beside it');
+    assert.equal(attr(link, 'href'), attr(control, 'data-book-route'));
+    assert.equal(attr(link, 'target'), '_blank');
+    assert.equal(attr(link, 'rel'), 'noopener noreferrer');
+    assert.equal(attr(link, 'data-tss-book'), undefined, 'navigation must not trigger the connected Book action');
+    assert.equal(attr(link, 'onclick'), undefined);
+    assert.ok(attr(link, 'aria-label')?.includes('opens in a new tab'));
+  }
+});
