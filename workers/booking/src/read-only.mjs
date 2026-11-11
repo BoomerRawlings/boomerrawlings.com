@@ -119,6 +119,8 @@ export function allowProbeRequest({ url, method, headers = {}, body, resourceTyp
   // Other observed SAML handoffs. New login/Duo POST paths require evidence.
   if (method === 'POST' && resourceType?.toLowerCase() === 'document'
     && contentTypeIs(lower['content-type'], 'application/x-www-form-urlencoded') && !target.search && !target.hash) {
+    // Observed final auth POST; SAP also authenticates at the protected resource.
+    if (target.origin === TSS_ORIGIN && path === '/fiori') return assertionForm(body, 'SAMLResponse');
     if (target.origin === TSS_ORIGIN && /^\/sap\/public\/bc\/sec\/saml2\/sp\/acs\/?$/i.test(path)) return assertionForm(body, 'SAMLResponse');
     if (target.origin === TSS_ORIGIN && /^\/sap\/saml2\/sp\/acs\/\d{3}\/?$/.test(path)) return assertionForm(body, 'SAMLResponse');
     if (target.origin === 'https://tssproxy.ucsd.edu' && path === '/idp/profile/SAML2/POST/SSO') return assertionForm(body, 'SAMLRequest');

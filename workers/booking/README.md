@@ -38,6 +38,8 @@ Sign-out, expiry and disconnect cleanup close the provider browser. Cleanup must
 
 The authentication allowlist covers the observed TSS SAML handoffs, the verified `a5.ucsd.edu/tritON/profile/SAML2/Redirect/SSO` form with an execution parameter, and `/prompt/` or `/frame/` POSTs on the verified UCSD Duo tenant. Authentication bodies are bounded and never logged. Other write destinations fail closed. Owned-session diagnostics expose method/hostname/path and form-action locations, without query strings, form values, bodies, headers, credentials, tokens or student records. Provider failures use fixed classifications; temporary diagnostic logging has been removed.
 
+The observed final authentication POST to exact `https://tss.ucsd.edu/fiori` is permitted only for a document form containing one `SAMLResponse` and optional single `RelayState`, within the existing SAML body limit, without query or fragment. SAP documents authentication POSTs to the protected resource in [Protecting Web Applications with SAML](https://help.sap.com/docs/SAP_NETWEAVER_AS_ABAP_FOR_SOH_740/f118a8960caf41808bd374e28a834f58/4ab5ef3222526d6de10000000a42189c.html). This exception does not authorize OData actions or arbitrary application forms.
+
 Cloudflare defers active Durable Object code updates for up to five minutes by default. For a probe correction, use `wrangler deploy --durable-objects-code-update-mode immediate` and verify the build marker in the existing session response. Immediate updates interrupt existing managed sessions. Provider session records can remain after closure: use a matching session ID and positive finite `endTime`, or verified absence, to recognize closure. A `connectionEndTime` alone is not browser closure.
 
 ## API contract

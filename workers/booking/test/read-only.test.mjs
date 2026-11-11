@@ -87,6 +87,24 @@ test('documented SAP client ACS family allows only bounded SAMLResponse document
   assert.equal(allowProbeRequest(batchWrite(payload())), false);
 });
 
+test('observed final fiori authentication POST accepts only a bounded SAMLResponse document form', () => {
+  const request = { url: origin + '/fiori', method: 'POST', resourceType: 'Document',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: 'SAMLResponse=synthetic&RelayState=synthetic' };
+  assert.equal(allowProbeRequest(request), true);
+  assert.equal(allowProbeRequest({ ...request, body: 'SAMLResponse=synthetic' }), true);
+  for (const override of [{ url: request.url + '/' }, { url: request.url + '?sap-client=500' }, { url: request.url + '#Shell-home' },
+    { url: request.url.replace('tss.', 'other.') }, { resourceType: 'XHR' }, { resourceType: 'Fetch' }, { method: 'PUT' },
+    { headers: { 'Content-Type': 'application/json' } }, { headers: { ...request.headers, 'X-HTTP-Method-Override': 'DELETE' } },
+    { body: '' }, { body: 'username=synthetic&password=synthetic' }, { body: 'SAMLRequest=synthetic' },
+    { body: 'ActionName=SaveChanges' }, { body: 'SAMLResponse=synthetic&ActionName=SaveChanges' },
+    { body: 'SAMLResponse=synthetic&RelayState=a&RelayState=b' }, { body: 'SAMLResponse=a&SAMLResponse=b' },
+    { body: 'SAMLResponse=' + 'x'.repeat(512 * 1024) }]) {
+    assert.equal(allowProbeRequest({ ...request, ...override }), false);
+  }
+  assert.equal(allowProbeRequest(write(payload())), false);
+  assert.equal(allowProbeRequest(batchWrite(payload())), false);
+});
+
 test('probe rejects arbitrary UCSD/Duo writes, credential-shaped unknown forms and ambiguous SAML', () => {
   const request = { method: 'POST', resourceType: 'document', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: 'SAMLRequest=synthetic' };
   for (const url of ['https://ucsd.edu/update', 'https://other.ucsd.edu/action', 'https://api-example.duosecurity.com/unknown',
