@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { SessionCore, QuotaCore, handleRequest, COOKIE_NAME, API_PREFIX } from '../src/session.mjs';
 import { DEFAULT_ROUTE } from '../src/routes.mjs';
+import { BUILD_VERSION } from '../src/diagnostics.mjs';
 
 const origin = 'https://boomerrawlings.com';
 const uuid = () => crypto.randomUUID();
@@ -16,7 +17,7 @@ function fixture(overrides = {}) {
   let now = Date.UTC(2026, 10, 10), count = 0;
   const live = new Map(), sessions = new Map(), contexts = new Map();
   const env = { APP_ORIGIN: origin, PROBE_ONLY: 'true', MAX_SESSION_MINUTES: '15', MONTHLY_BROWSER_MINUTES: '90',
-    BROWSER: { async closeSession(id) { live.delete(id); }, async getSession(id) { return live.get(id) || null; } }, ...overrides };
+    BROWSER: { async closeSession(id) { live.delete(id); }, async getSession(id) { return live.has(id) ? { sessionId: id } : null; } }, ...overrides };
   const quota = new QuotaCore(context('quota'), env, { now: () => now });
   env.QUOTA = { idFromName: name => name, get: () => quota };
   const createBrowser = async (_, hooks) => {
@@ -162,7 +163,7 @@ test('provider closure must be verified before releasing concurrent-browser leas
 
 test('health never creates cookie, object or browser', async () => {
   const f = fixture(); const response = await handleRequest(new Request(origin + API_PREFIX + '/health'), f.env);
-  assert.deepEqual(await response.json(), { ok: true, probeOnly: true });
+  assert.deepEqual(await response.json(), { ok: true, probeOnly: true, build: BUILD_VERSION });
   assert.equal(response.headers.has('Set-Cookie'), false); assert.equal(f.sessions.size, 0); assert.equal(f.count(), 0);
 });
 

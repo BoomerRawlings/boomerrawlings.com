@@ -1,6 +1,7 @@
 import { BOOKING_ROUTES } from './routes.mjs';
 import { probePage } from './probe-page.mjs';
 import { closeProviderSession, providerSessionExists } from './provider-lifecycle.mjs';
+import { BUILD_VERSION, failureDiagnostic } from './diagnostics.mjs';
 
 export const COOKIE_NAME = '__Host-bbb-session';
 export const API_PREFIX = '/0311/api';
@@ -41,7 +42,7 @@ export async function handleRequest(request, env) {
   if (url.origin !== env.APP_ORIGIN || !url.pathname.startsWith(API_PREFIX + '/') || url.search) return error('Not found.', 404);
   const endpoint = url.pathname.slice(API_PREFIX.length);
   if (endpoint === '/test' && request.method === 'GET' && probing(env)) return probePage();
-  if (endpoint === '/health' && request.method === 'GET') return json({ ok: true, probeOnly: probing(env) });
+  if (endpoint === '/health' && request.method === 'GET') return json({ ok: true, probeOnly: probing(env), build: BUILD_VERSION });
   if (!['/status', '/login', '/logout', '/inspect', '/book'].includes(endpoint)) return error('Not found.', 404);
   if (request.method !== (endpoint === '/status' ? 'GET' : 'POST')) return error('Method not allowed.', 405);
   const origin = request.headers.get('Origin');
@@ -83,6 +84,7 @@ export class SessionCore {
     if (this.record.browserId || this.record.leaseReserved) {
       this.record.failureStage = 'object_restart';
       try { await this.close('expired'); } catch (failure) {
+        this.record.lastFailure = failure.failureDiagnostic || failureDiagnostic(failure, 'initialization');
         this.record.failureStage = FAILURE_STAGES.has(failure?.stage) ? failure.stage : 'initialization';
         this.record.state = 'error';
         await this.ctx.storage.setAlarm(this.now() + 10_000);
@@ -95,10 +97,11 @@ export class SessionCore {
   quota() { return this.env.QUOTA.get(this.env.QUOTA.idFromName('booking-probe-quota')); }
   async quotaCall(action, data = {}) {
     try { return await this.quota().fetch(new Request('https://quota.internal/' + action, { method: 'POST', body: JSON.stringify({ owner: this.ctx.id.toString(), ...data }) })); }
-    catch { throw Object.assign(new Error('Session quota unavailable'), { stage: 'quota_service' }); }
+    catch (failure) { throw Object.assign(new Error('Session quota unavailable'), { stage: 'quota_service', failureDiagnostic: failureDiagnostic(failure, 'quota') }); }
   }
   snapshot(extra = {}) {
-    return { state: this.busy || activeBooking(this.record) ? 'busy' : this.record.state, csrf: this.record.csrf, probeOnly: probing(this.env),
+    return { state: this.busy || activeBooking(this.record) ? 'busy' : this.record.state, csrf: this.record.csrf, probeOnly: probing(this.env), build: BUILD_VERSION,
+      ...(probing(this.env) && this.record.lastFailure ? { failure: this.record.lastFailure } : {}),
       ...(probing(this.env) && this.record.failureStage ? { failureStage: this.record.failureStage } : {}),
       ...(this.record.booking ? { booking: this.record.booking } : {}),
       ...(this.record.expiresAt ? { expiresAt: this.record.expiresAt } : {}), ...extra };
@@ -162,7 +165,7 @@ export class SessionCore {
       }
       const stage = this.browser?.connected?.() === false ? 'controller_disconnect'
         : /different request|I\/O on behalf/i.test(failure?.message || '') ? 'runtime_io_context' : 'authentication';
-      throw Object.assign(new Error('Authentication status unavailable'), { stage });
+      throw Object.assign(new Error('Authentication status unavailable'), { stage, failureDiagnostic: failureDiagnostic(failure, 'authentication') });
     }
     if (generation !== this.generation || this.busy || activeBooking(this.record)) return;
     if (authenticated) this.record.state = 'ready';
@@ -214,8 +217,10 @@ export class SessionCore {
       return json(data, result.status || 200);
     } catch (failure) {
       this.busy = false;
+      if (this.record) this.record.lastFailure = failure.failureDiagnostic || failureDiagnostic(failure, 'session_fetch');
       if (this.record) this.record.failureStage = FAILURE_STAGES.has(failure?.stage) ? failure.stage : 'session_operation';
       try { await this.close('error'); } catch (cleanupFailure) {
+        this.record.lastFailure = cleanupFailure.failureDiagnostic || failureDiagnostic(cleanupFailure, 'session_cleanup');
         if (FAILURE_STAGES.has(cleanupFailure?.stage)) this.record.failureStage = cleanupFailure.stage;
         this.record.state = 'error';
         await this.persist().catch(() => {});
@@ -249,6 +254,7 @@ export class SessionCore {
         await this.persist();
         const generation = ++this.generation;
         delete this.record.failureStage;
+        delete this.record.lastFailure;
         this.lastDiagnostics = undefined;
         let browser;
         try {
