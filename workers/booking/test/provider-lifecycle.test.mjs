@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { closeProviderSession, providerSessionExists } from '../src/provider-lifecycle.mjs';
+import { closeProviderSession, providerSessionExists, sanitizedProviderMessage } from '../src/provider-lifecycle.mjs';
 
 test('already-closed provider session is verified independently of close errors', async () => {
   let lookups = 0;
@@ -41,4 +41,13 @@ test('provider close accepts verified ended metadata without waiting for history
 test('structured/not-found lookups prove absence; undefined responses do not', async () => {
   assert.equal(await providerSessionExists({ getSession: async () => { throw Object.assign(Error('not found'), { status: 404 }); } }, 'synthetic'), false);
   await assert.rejects(providerSessionExists({ getSession: async () => undefined }, 'synthetic'), error => error.stage === 'cleanup_lookup');
+});
+
+test('schema failures identify only fixed reason and provider messages are stripped', async () => {
+  for (const [value, reason] of [[undefined, 'response_type'], [{}, 'missing_id'], [{ sessionId: 'other' }, 'mismatched_id'], [{ sessionId: 'synthetic', endTime: 'bad' }, 'invalid_endtime']]) {
+    await assert.rejects(providerSessionExists({ getSession: async () => value }, 'synthetic'), error => error.failureDiagnostic.reason === reason);
+  }
+  const safe = sanitizedProviderMessage(Error('HTTP 500 https://service.test/path?token=hidden 12345678-1234-1234-1234-123456789012 token=short abcdefghijklmnopqrstuvwxyz1234567890'));
+  assert.equal(safe.includes('hidden'), false); assert.equal(safe.includes('12345678'), false); assert.equal(safe.includes('short'), false);
+  assert.equal(safe.includes('abcdefghijklmnopqrstuvwxyz'), false); assert.ok(safe.length <= 240);
 });
