@@ -26,7 +26,7 @@ test('managed transport applies real protocol timeout and full login idle lifeti
 test('renderer preflight confirms Page.enable and a responsive document before handing off', async () => {
   const calls = [];
   const page = { async createCDPSession() { return {
-    async send(method) { calls.push(method); return method === 'Runtime.evaluate' ? { result: { value: true } } : {}; },
+    async send(method, params, options) { calls.push(method); assert.ok(options.timeout > 0 && options.timeout <= 8000); return method === 'Runtime.evaluate' ? { result: { value: true } } : {}; },
     async detach() { calls.push('detach'); },
   }; } };
   await rendererPreflight(page);
@@ -36,10 +36,27 @@ test('renderer preflight confirms Page.enable and a responsive document before h
 test('renderer preflight rejects hung Page.enable and an empty renderer', async () => {
   await assert.rejects(rendererPreflight({ async createCDPSession() { return {
     send: () => new Promise(() => {}), detach: async () => {},
-  }; } }, 5), error => error.stage === 'renderer_preflight');
+  }; } }, 5), error => error.stage === 'renderer_preflight' && error.failureDiagnostic.code === 'renderer_timeout' && error.failureDiagnostic.phase === 'page_enable');
   await assert.rejects(rendererPreflight({ async createCDPSession() { return {
     send: async () => ({ result: { value: false } }), detach: async () => {},
-  }; } }), error => error.stage === 'renderer_preflight');
+  }; } }), error => error.stage === 'renderer_preflight' && error.failureDiagnostic.code === 'renderer_dom_not_ready' && error.failureDiagnostic.phase === 'evaluate');
+});
+
+test('responsive DOM succeeds even when best-effort detach hangs', async () => {
+  let detached = 0;
+  await assert.doesNotReject(rendererPreflight({ async createCDPSession() { return {
+    send: async () => ({ result: { value: true } }), detach: () => { detached++; return new Promise(() => {}); },
+  }; } }, 5));
+  assert.equal(detached, 1);
+});
+
+test('timed-out attachment never continues renderer commands after returning failure', async () => {
+  let attach, detached = 0, commands = 0;
+  const attempt = rendererPreflight({ createCDPSession: () => new Promise(resolve => { attach = resolve; }) }, 5);
+  await assert.rejects(attempt, error => error.failureDiagnostic.code === 'renderer_timeout' && error.failureDiagnostic.phase === 'attach');
+  attach({ send: async () => { commands++; }, detach: async () => { detached++; } });
+  await new Promise(resolve => setTimeout(resolve, 0));
+  assert.equal(commands, 0); assert.equal(detached, 1);
 });
 
 test('failed CDP connection closes the acquired browser and exposes only fixed stage', async () => {
@@ -76,7 +93,10 @@ function controllerFixture(envOptions = {}) {
   const operations = [], navigations = [], diagnosticEvents = new Map();
   const responses = { book: { stage: 'stopped', reason: 'existing_registration', message: 'private native message' }, status: { stage: 'error', reason: 'request_check_failed' } };
   const page = { url: () => current, async goto(route) { current = route; navigations.push(route); }, setDefaultTimeout() {}, setDefaultNavigationTimeout() {}, isClosed: () => false,
-    async createCDPSession() { return { on: (name, handler) => diagnosticEvents.set(name, handler), async send(method) { return method === 'Target.getTargetInfo' ? { targetInfo: { targetId: 'synthetic' } } : { result: { value: true } }; }, async detach() {} }; },
+    async createCDPSession() { return { on: (name, handler) => diagnosticEvents.set(name, handler), async send(method) {
+      if (method === 'Page.enable' && responses.preflightFailure) throw responses.preflightFailure;
+      return method === 'Target.getTargetInfo' ? { targetInfo: { targetId: 'synthetic' } } : { result: { value: true } };
+    }, async detach() {} }; },
     async evaluate(fn, input) {
       operations.push({ name: fn.name, input });
       if (input.operation === 'authenticated') return true;
@@ -168,4 +188,15 @@ test('auth diagnostics retain only CSP directive and fixed network failure count
   assert.deepEqual(diagnostics.csp, [{ directive: 'connect-src', count: 1 }]);
   assert.deepEqual(diagnostics.requestFailures, [{ code: 'ERR_CONNECTION_RESET', count: 1 }, { code: 'OTHER', count: 1 }]);
   assert.equal(JSON.stringify(diagnostics).includes('private'), false);
+});
+
+test('startup and login handoff preserve classified preflight failure without raw cause', async () => {
+  const startup = controllerFixture();
+  startup.responses.preflightFailure = Error('Execution context was destroyed; private startup detail');
+  await assert.rejects(startup.controller, error => error.stage === 'renderer_preflight'
+    && error.failureDiagnostic.code === 'navigation_context' && error.failureDiagnostic.phase === 'page_enable' && !JSON.stringify(error).includes('private'));
+  const handoff = controllerFixture(), controller = await handoff.controller;
+  handoff.responses.preflightFailure = Error('Protocol command failed; private handoff detail');
+  await assert.rejects(controller.loginUrl(), error => error.stage === 'renderer_preflight'
+    && error.failureDiagnostic.code === 'renderer_protocol_error' && error.failureDiagnostic.phase === 'page_enable' && !JSON.stringify(error).includes('private'));
 });

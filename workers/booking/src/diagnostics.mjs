@@ -15,6 +15,17 @@ const directives = new Set(['connect-src', 'frame-src', 'child-src', 'worker-src
 const networkErrors = new Set(['ERR_ABORTED', 'ERR_FAILED', 'ERR_BLOCKED_BY_CLIENT', 'ERR_BLOCKED_BY_RESPONSE', 'ERR_CONNECTION_CLOSED',
   'ERR_CONNECTION_RESET', 'ERR_CONNECTION_REFUSED', 'ERR_CONNECTION_TIMED_OUT', 'ERR_TIMED_OUT', 'ERR_NAME_NOT_RESOLVED', 'ERR_CERT_AUTHORITY_INVALID',
   'ERR_CERT_DATE_INVALID', 'ERR_CERT_COMMON_NAME_INVALID', 'ERR_INTERNET_DISCONNECTED', 'OTHER']);
+const preflightPhases = new Set(['attach', 'page_enable', 'evaluate']);
+export function preflightDiagnostic(failure, phase) {
+  const message = typeof failure?.message === 'string' ? failure.message : '';
+  const code = failure?.stage === 'renderer_preflight_timeout' || failure?.name === 'TimeoutError' || /timed out|timeout/i.test(message) ? 'renderer_timeout'
+    : failure?.preflightIssue === 'dom_not_ready' ? 'renderer_dom_not_ready'
+    : /execution context was destroyed|cannot find context|inspected target navigated/i.test(message) ? 'navigation_context'
+    : /target closed|session closed|connection closed|disconnected/i.test(message) ? 'connection_closed'
+    : 'renderer_protocol_error';
+  return { name: code === 'renderer_timeout' ? 'TimeoutError' : 'Error', code, source: 'renderer_preflight',
+    phase: preflightPhases.has(phase) ? phase : 'attach' };
+}
 export const safeCspDirective = value => typeof value === 'string' && directives.has(value.split(/\s/)[0]) ? value.split(/\s/)[0] : undefined;
 export const safeNetworkError = value => typeof value === 'string' && networkErrors.has(value.replace(/^net::/, '')) ? value.replace(/^net::/, '') : 'OTHER';
 export function safeAuthDiagnostics(record, diagnostics = []) {
@@ -23,9 +34,10 @@ export function safeAuthDiagnostics(record, diagnostics = []) {
     'object_restart', 'runtime_io_context', 'status', 'status_timeout', 'cleanup_lookup', 'cleanup_pending', 'quota_service', 'quota_release',
     'quota_concurrency', 'quota_budget', 'quota_cleanup', 'initialization', 'session_operation']);
   const codes = new Set(['cross_request_io', 'navigation_context', 'method_unavailable', 'provider_not_found', 'connection_closed',
-    'storage_error', 'quota_error', 'cleanup_pending', 'unclassified', 'read_timeout']);
+    'storage_error', 'quota_error', 'cleanup_pending', 'unclassified', 'read_timeout', 'renderer_timeout', 'renderer_dom_not_ready', 'renderer_protocol_error']);
   return { ...(stages.has(record.failureStage) ? { stage: record.failureStage } : {}),
     ...(codes.has(record.lastFailure?.code) ? { code: record.lastFailure.code } : {}),
+    ...(record.failureStage === 'renderer_preflight' && preflightPhases.has(record.lastFailure?.phase) ? { phase: record.lastFailure.phase } : {}),
     blocked: blocked.slice(0, 30).map(value => ({ ...safeBlockedRequest(value), count: Math.min(1000, Math.max(1, Number(value.count) || 1)) })),
     ...(Array.isArray(diagnostics?.csp) ? { csp: diagnostics.csp.filter(value => directives.has(value.directive)).slice(0, 12)
       .map(value => ({ directive: value.directive, count: Math.min(1000, Math.max(1, Number(value.count) || 1)) })) } : {}),

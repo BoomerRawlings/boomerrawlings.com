@@ -25,6 +25,7 @@ function diagnostics(data){
   lines.push(...guardLines(data.diagnostics?.guard));
   const auth=data.authDiagnostics;
   if(auth){for(const key of ['stage','code'])if(/^[a-z_]{1,50}$/.test(auth[key]||''))lines.push('Authentication '+key+': '+auth[key]);
+    if(auth.stage==='renderer_preflight'&&['attach','page_enable','evaluate'].includes(auth.phase))lines.push('Authentication phase: '+auth.phase);
     const hosts=new Set(['tss.ucsd.edu','tssproxy.ucsd.edu','a5.ucsd.edu','api-ce13a1a7.duosecurity.com','[other-host]']);
     for(const item of (Array.isArray(auth.blocked)?auth.blocked:[]).slice(0,30))if(hosts.has(item.hostname)&&/^(GET|HEAD|OPTIONS|POST|PUT|PATCH|DELETE|OTHER)$/.test(item.method)&&typeof item.pathname==='string'&&item.pathname.length<350&&!/[?&#]/.test(item.pathname))lines.push('Blocked: '+item.method+' '+item.hostname+item.pathname);
     for(const item of (Array.isArray(auth.csp)?auth.csp:[]).slice(0,12))if(/^[a-z-]{1,30}$/.test(item.directive||'')&&Number.isInteger(item.count)&&item.count>0&&item.count<=1000)lines.push('Browser policy: '+item.directive+' ('+item.count+')');

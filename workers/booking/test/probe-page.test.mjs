@@ -37,6 +37,26 @@ test('probe page renders bounded Fetch phase diagnostics without arbitrary field
   assert.equal(elements.get('diagnostics').textContent, 'No blocked requests or forms observed.');
 });
 
+test('preflight display allows only known renderer phases', async () => {
+  const html = await probePage().text();
+  const script = /<script nonce="([a-f0-9]+)">([\s\S]*?)<\/script>/.exec(html)[2];
+  const elements = new Map();
+  const document = { hidden: true, addEventListener() {}, getElementById(id) { if (!elements.has(id)) elements.set(id, {}); return elements.get(id); } };
+  const context = vm.createContext({ document, setInterval() {}, input: null });
+  vm.runInContext(script, context);
+  for (const phase of ['attach', 'page_enable', 'evaluate']) {
+    context.input = { authDiagnostics: { stage: 'renderer_preflight', code: 'renderer_timeout', phase } };
+    vm.runInContext('diagnostics(input)', context);
+    assert.equal(elements.get('diagnostics').textContent,
+      'Authentication stage: renderer_preflight\nAuthentication code: renderer_timeout\nAuthentication phase: ' + phase);
+  }
+  for (const authDiagnostics of [{ stage: 'renderer_preflight', phase: 'private_token' }, { stage: 'authentication', phase: 'evaluate' }]) {
+    context.input = { authDiagnostics };
+    vm.runInContext('diagnostics(input)', context);
+    assert.doesNotMatch(elements.get('diagnostics').textContent, /Authentication phase|private_token/);
+  }
+});
+
 test('automatic post-login checks run once, read-only, even while the login tab is visible', async () => {
   for (const ready of [true, false]) {
     const html = await probePage().text();

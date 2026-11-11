@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { failureDiagnostic, safeBlockedRequest, safeAuthDiagnostics } from '../src/diagnostics.mjs';
+import { failureDiagnostic, safeBlockedRequest, safeAuthDiagnostics, preflightDiagnostic } from '../src/diagnostics.mjs';
 
 test('failure diagnostics expose fixed classification only', () => {
   const error = new TypeError('binding.getSession is not a function; private data must never appear');
@@ -9,6 +9,16 @@ test('failure diagnostics expose fixed classification only', () => {
   assert.equal(failureDiagnostic(Error('HTTP 404 private value'), 'provider_cleanup').code, 'provider_not_found');
   assert.equal(failureDiagnostic(Error('BrowserBindingError: Session not found (status=404)'), 'provider_cleanup').code, 'provider_not_found');
   assert.equal(failureDiagnostic(Error('arbitrary private data'), 'session_fetch').code, 'unclassified');
+});
+
+test('renderer failures expose fixed class and phase with no protocol text', () => {
+  const detail = preflightDiagnostic(Error('Runtime.evaluate timed out private-token'), 'evaluate');
+  assert.deepEqual(detail, { name: 'TimeoutError', code: 'renderer_timeout', source: 'renderer_preflight', phase: 'evaluate' });
+  assert.deepEqual(safeAuthDiagnostics({ failureStage: 'renderer_preflight', lastFailure: detail }),
+    { stage: 'renderer_preflight', code: 'renderer_timeout', phase: 'evaluate', blocked: [] });
+  assert.equal(preflightDiagnostic(Error('Session closed private-token'), 'page_enable').code, 'connection_closed');
+  assert.equal(preflightDiagnostic(Error('Unknown private-token'), 'private-phase').phase, 'attach');
+  assert.equal(safeAuthDiagnostics({ failureStage: 'renderer_preflight', lastFailure: { code: 'renderer_protocol_error', phase: 'private-phase' } }).phase, undefined);
 });
 
 test('owned auth diagnostics redact opaque hosts and path values', () => {
