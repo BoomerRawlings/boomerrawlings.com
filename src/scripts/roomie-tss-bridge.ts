@@ -54,14 +54,32 @@ let bookingTimer: ReturnType<typeof setTimeout> | undefined;
 const controllers = new Set<AbortController>();
 let activeFeedback: HTMLElement | null = null;
 let submittedNoticeFeedback: HTMLElement | null = null;
+let lastBookingResult: { message: string; feedback: HTMLElement | null } | null = null;
+let submittedNotice = '';
 const clearSubmittedNotice = () => {
-  if (submittedNoticeFeedback) submittedNoticeFeedback.textContent = '';
+  submittedNotice = '';
+  if (submittedNoticeFeedback) submittedNoticeFeedback.textContent = lastBookingResult?.feedback === submittedNoticeFeedback
+    ? lastBookingResult.message : '';
   submittedNoticeFeedback = null;
 };
 const text = (element: HTMLElement | null, message: string) => {
   if (element) element.textContent = message;
   if (element === jobStatus && activeFeedback) activeFeedback.textContent = message;
 };
+const rememberBookingResult = (message: string, notice = '') => {
+  lastBookingResult = { message, feedback: activeFeedback };
+  submittedNotice = notice;
+  submittedNoticeFeedback = notice ? activeFeedback : null;
+  text(jobStatus, message + notice);
+};
+const restoreBookingResult = () => {
+  if (!lastBookingResult) return false;
+  const message = lastBookingResult.message + submittedNotice;
+  if (jobStatus) jobStatus.textContent = message;
+  if (lastBookingResult.feedback) lastBookingResult.feedback.textContent = message;
+  return true;
+};
+const sessionMessage = (message: string) => { if (!restoreBookingResult()) text(jobStatus, message); };
 const failureMessages: Record<string, string> = {
   authentication_unavailable: 'TSS could not confirm sign-in. No Book request was sent.',
   authentication_required: 'Your UCSD session needs sign-in again.',
@@ -208,7 +226,7 @@ function lockResult(message = 'No confirmed result received. Check TSS before st
   bookingStage = '';
   confirmationId = ''; directReview = false; text(warningMessage, '');
   clearTimeout(bookingTimer);
-  text(jobStatus, message);
+  rememberBookingResult(message);
 }
 function bookingResult(value: Record<string, unknown>) {
   if (!activeBookId || value.requestId !== activeBookId) return false;
@@ -244,19 +262,19 @@ function bookingResult(value: Record<string, unknown>) {
       activeBookId = null; bookingStage = ''; closeLogin();
       // A warning returned with SaveChanges is informational: submission already
       // happened. Render plain text without reopening confirmation or retrying.
-      const notice = value.mode === 'direct' && typeof value.noticeMessage === 'string' && value.noticeMessage.trim()
+      const notice = !['signed_out', 'expired', 'error'].includes(state) && value.mode === 'direct'
+        && typeof value.noticeMessage === 'string' && value.noticeMessage.trim()
         && value.noticeMessage.length <= 4000 && !/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(value.noticeMessage)
         ? ` TSS says: ${value.noticeMessage}` : '';
       const outcome = value.mode === 'direct' && value.outcome === 'booked' ? 'Booked.'
         : value.mode === 'direct' && value.outcome === 'waitlisted' ? 'Waitlisted.'
         : 'Request submitted. Check TSS before trying again.';
-      text(jobStatus, `${outcome}${notice}`);
-      submittedNoticeFeedback = notice ? activeFeedback : null;
+      rememberBookingResult(outcome, notice);
       break;
     case 'stopped':
       completedBookings.add(activeBookId);
       activeBookId = null; bookingStage = ''; closeLogin();
-      text(jobStatus, failureText(value.reason, 'Booking stopped. Review TSS before trying again.'));
+      rememberBookingResult(failureText(value.reason, 'Booking stopped. Review TSS before trying again.'));
       break;
     case 'error': lockResult(failureText(value.reason, 'No confirmed result received. Check TSS before starting another booking.')); break;
     default: return false;
@@ -278,9 +296,14 @@ function acceptStatus(value: Record<string, unknown>) {
   lastStatusAt = Date.now();
   expiresAt = expiry;
   if (expiry && expiry <= Date.now() && !['signed_out', 'expired'].includes(state)) state = 'expired';
-  if (statusFailure && !uncertain) text(jobStatus, '');
+  // Native text belongs to the live session. Retain the fixed outcome across
+  // expiry, but never restore a notice after the session has ended.
+  if (['signed_out', 'expired', 'error'].includes(state)) { clearSubmittedNotice(); restoreBookingResult(); }
+  // Session polling is separate from the last correlated booking outcome. A
+  // recovered status must not erase it: completed job IDs are not replayed.
+  if (statusFailure && !uncertain && !restoreBookingResult()) text(jobStatus, '');
   statusFailure = false;
-  if (previousState === 'signing_in' && state === 'ready' && !uncertain) {
+  if (previousState === 'signing_in' && state === 'ready' && !uncertain && !lastBookingResult) {
     text(jobStatus, probeOnly ? 'Signed in. Select Check session to verify access.' : 'Signed in. Choose a course below.');
   }
   if (value.booking && typeof value.booking === 'object' && !Array.isArray(value.booking)) {
@@ -297,8 +320,9 @@ function acceptStatus(value: Record<string, unknown>) {
   clearTimeout(expiryTimer);
   if (expiry > Date.now()) expiryTimer = setTimeout(() => {
     state = 'expired'; lastStatusAt = 0; csrf = '';
+    clearSubmittedNotice();
     if (activeBookId) lockResult();
-    else text(jobStatus, 'Sign in again before booking.');
+    else if (!restoreBookingResult()) text(jobStatus, 'Sign in again before booking.');
     render();
     void refreshStatus();
   }, Math.min(expiry - Date.now(), 2_147_483_647));
@@ -322,7 +346,7 @@ async function refreshStatus() {
       if (activeBookId) lockResult();
       else {
         statusFailure = true;
-        text(jobStatus, 'Sign-in service unavailable. You can still use the direct TSS links.');
+        if (!restoreBookingResult()) text(jobStatus, 'Sign-in service unavailable. You can still use the direct TSS links.');
       }
       render();
     }
@@ -331,10 +355,12 @@ async function refreshStatus() {
 function requireFresh() {
   if (expiresAt && Date.now() >= expiresAt && !['signed_out', 'expired'].includes(state)) {
     state = 'expired'; lastStatusAt = 0;
+    clearSubmittedNotice();
+    restoreBookingResult();
     render();
   }
   if (fresh() && csrf && !departed) return true;
-  text(jobStatus, 'Refreshing your session. Please try again when the status updates.');
+  sessionMessage('Refreshing your session. Please try again when the status updates.');
   void refreshStatus();
   return false;
 }
@@ -348,21 +374,21 @@ async function signIn() {
   if (busy() || uncertain || !requireFresh()) return;
   if (state === 'signing_in' && loginPopup && !loginPopup.closed) { loginPopup.focus(); return; }
   const popup = window.open('about:blank', '_blank');
-  if (!popup) { text(jobStatus, 'Allow the sign-in popup, then select Sign in with UCSD again.'); return; }
+  if (!popup) { sessionMessage('Allow the sign-in popup, then select Sign in with UCSD again.'); return; }
   try { popup.opener = null; } catch { popup.close(); return; }
   loginPopup = popup;
   mutating = true; revision++; render();
-  text(jobStatus, 'Opening your private UCSD sign-in…');
+  sessionMessage('Opening your private UCSD sign-in…');
   try {
     const value = await request('login', { requestId: crypto.randomUUID(), viewport: loginViewport() }, 60_000);
     if (departed) return;
     popup.location.replace(liveView(value.loginUrl));
     state = 'signing_in';
     authenticationStatus = '';
-    text(jobStatus, 'Complete UCSD sign-in in the window that opened. Then choose a course here.');
+    sessionMessage('Complete UCSD sign-in in the window that opened. Then choose a course here.');
   } catch {
     closeLogin(); state = 'error';
-    text(jobStatus, 'Sign-in could not be opened. Try again when the session status updates.');
+    sessionMessage('Sign-in could not be opened. Try again when the session status updates.');
   } finally { mutating = false; render(); void refreshStatus(); }
 }
 async function signOut() {
@@ -374,6 +400,7 @@ async function signOut() {
     if (value.state !== 'signed_out') throw new ApiError(502);
     closeLogin(); state = 'signed_out'; csrf = ''; expiresAt = 0;
     activeBookId = null; uncertain = false; bookingStage = ''; clearTimeout(bookingTimer);
+    lastBookingResult = null;
     clearSubmittedNotice();
     text(jobStatus, hadUncertainResult ? 'Signed out. Check TSS before repeating any uncertain booking.' : 'Signed out.');
   } catch { text(jobStatus, 'Sign-out could not be confirmed. Please try again.'); }
@@ -396,6 +423,7 @@ async function inspectSession() {
 async function book(route: string) {
   if (busy() || uncertain || probeOnly || !requireFresh()) return;
   if (state !== 'ready') { await signIn(); return; }
+  lastBookingResult = null;
   clearSubmittedNotice();
   activeBookId = crypto.randomUUID(); bookingStage = ''; mutating = true; revision++; render();
   text(jobStatus, 'Checking the selected course in TSS…');

@@ -230,7 +230,9 @@ export function directTssOperation(input) {
         if (event.Booked !== true) fail('existing_registration');
         comparisonRestriction(job, 'existing_registration', 'native_existing_registration');
       }
-      eligible(eventLogs.get(event), job);
+      // Native package Book visibility uses header Eligibility only. Event log
+      // messages are informational here; CheckRegistration evaluates this exact
+      // package before SaveChanges and any warning still requires confirmation.
       // Native EventTypes preserves the raw DObjid grouping and response order;
       // a fresh package sends Events[0] only. Multiple choices remain a write
       // blocker, but do not prevent read-only comparison with that exact branch.

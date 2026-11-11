@@ -744,7 +744,7 @@ test('read-only fresh-package comparison uses first event per type in native res
 test('comparison observes booked/ineligible payloads, while inspection and writes retain eligibility guards', async () => {
   for (const [change, reason] of [
     [h => { h.data.events[1].Booked = true; }, 'existing_registration'],
-    [h => { h.data.events[1].BookingCheckLog = { results: [{ RulecheckResult: 'N' }] }; }, 'eligibility_unavailable'],
+    [h => { h.data.header.BookingCheckLog = { results: [{ RulecheckResult: 'N' }] }; }, 'eligibility_unavailable'],
   ]) {
     const h = harness(); h.data.events.push({ ...h.data.events[0], EventId: '00001235' }); change(h); h.native();
     const compared = await h.call({ operation: 'compareNative' });
@@ -755,6 +755,28 @@ test('comparison observes booked/ineligible payloads, while inspection and write
     // The existing second event remains an earlier strict write blocker.
     assert.equal((await h.settled(requestId)).stage, 'stopped');
     assert.equal(h.posts().length, 0);
+  }
+});
+
+test('package Book follows header eligibility and lets CheckRegistration decide event-only messages', async () => {
+  const blocked=harness();blocked.data.header.BookingCheckLog={results:[{RulecheckResult:'N'}]};
+  const denied=blocked.book();assert.equal((await blocked.settled(denied.requestId)).reason,'eligibility_unavailable');
+  assert.equal(blocked.posts().length,0);
+  for(const messageType of ['W','E']){
+    const h=harness();h.data.events[0].BookingCheckLog={results:[{RulecheckResult:'N',RulemoduleDescription:'Synthetic event message'}]};
+    h.data.check={MessageType:messageType,Message:'Synthetic authoritative registration response'};h.native();
+    const compared=await h.call({operation:'compareNative'});
+    assert.equal(compared.equivalent,true);assert.equal(compared.bookingEligible,true);
+    assert.ok(!compared.preparationNotes?.includes('native_eligibility_unavailable'));
+    assert.equal((await h.call({operation:'inspect'})).ready,true);
+    const {requestId}=h.book(),result=await h.settled(requestId);
+    assert.deepEqual(h.posts().map(call=>call.payload.ActionName),['CheckRegistration']);
+    if(messageType==='E'){assert.equal(result.stage,'stopped');assert.equal(result.reason,'booking_error');continue;}
+    assert.equal(result.stage,'review');assert.equal(h.call({operation:'status',requestId}).stage,'review');
+    assert.equal(h.posts().length,1,'event-only message cannot auto-approve registration warnings');
+    h.call({operation:'confirm',requestId,allowWrites:true,confirmationId:result.confirmationId});
+    assert.equal((await h.settled(requestId)).stage,'submitted');
+    assert.deepEqual(h.posts().map(call=>call.payload.ActionName),['CheckRegistration','SaveChanges']);
   }
 });
 

@@ -4,7 +4,7 @@ Worker route: `https://boomerrawlings.com/0311/api/*`. Static frontend remains o
 
 Current configuration enables household booking (`PROBE_ONLY=false`). Hosted UCSD/Duo authentication, loaded PHIL010 and ECON100A package details, same-session CSRF availability, and sign-out/browser closure were verified on2026-11-10. Visitor isolation and expiry have automated coverage; earlier live API isolation checks passed. The first human rebooking attempt failed: the loading indicator vanished without confirmed enrollment. No agent enrollment/drop actions were performed. Successful enrollment remains unverified.
 
-Latest2026-11-11 hosted AD/Duo login succeeded. Nine authenticated package inspections completed; availability/eligibility restrictions stopped their original payload comparisons. ECON-120A and MGT-162 module/package identifiers were verified. The comparison-only release separates eligibility from harmless payload inspection; direct submission remains gated.
+Latest2026-11-11 hosted AD/Duo login succeeded. Nine authenticated package inspections completed; availability/eligibility restrictions stopped their original payload comparisons. ECON-120A and MGT-162 module/package identifiers were verified. All twenty exact-package comparisons subsequently passed on auth-proof-5: native standard path, available request token, equivalent payload and no differing fields. Direct submission is enabled only for those proven identities; see [verification evidence](../../docs/0311-direct-booking-proof.md). Actual successful enrollment remains a human validation step.
 
 ## Local checks
 
@@ -32,12 +32,12 @@ The checked-in household production configuration is:
 | Variable | Production value | Enforced ceiling |
 | --- | --- | --- |
 | `PROBE_ONLY` | `false` | Only this exact string enables production behavior |
-| `DIRECT_BOOKING_ENABLED` | `false` | Direct submission requires this exact string `true` plus production mode |
+| `DIRECT_BOOKING_ENABLED` | `true` | Direct submission requires this exact string `true` plus production mode |
 | `MAX_BROWSER_SESSIONS` | `8` | Eight simultaneous browsers |
 | `MAX_SESSION_MINUTES` | `15` | 15 minutes from launch, including sign-in |
 | `MONTHLY_BROWSER_MINUTES` | `600` | 600 reserved browser minutes per UTC month |
 
-Keep the direct-submission gate false until the live comparison below passes. A600-minute allowance permits40 full15-minute browser launches per month, about five per roommate. This is a shared limit, not a per-person allocation; multiple bookings can use one session. Reopening Live View for the same session does not reserve another window. Previous probe reservations remain counted in the same UTC month. The ceiling limits reserved application browser time, not dollar charges or other Cloudflare services. Larger configured budgets are clamped to600 in production and150 in probe mode; lower configured budgets remain effective.
+The direct-submission gate is enabled for the twenty individually verified routes only. A600-minute allowance permits40 full15-minute browser launches per month, about five per roommate. This is a shared limit, not a per-person allocation; multiple bookings can use one session. Reopening Live View for the same session does not reserve another window. Previous probe reservations remain counted in the same UTC month. The ceiling limits reserved application browser time, not dollar charges or other Cloudflare services. Larger configured budgets are clamped to600 in production and150 in probe mode; lower configured budgets remain effective.
 
 Sign-out, expiry and disconnect cleanup close the provider browser. Cleanup must verify provider closure before releasing its concurrency lease. The provider idle timeout matches the absolute session window (15 minutes), so hiding the launcher during human sign-in does not impose a separate one-minute cutoff. Puppeteer's public connection options enforce a20-second CDP timeout; renderer readiness is checked before each Live View handoff. Live View grants last60 seconds to start connecting; an already-connected viewer can remain until browser closure. The signed URL is a bearer credential: never copy it into logs, issues, telemetry, screenshots of address bars or project state. Recording is disabled.
 
@@ -73,7 +73,7 @@ Booking status is nested as `booking: {requestId, stage}` in both Book and statu
 
 ## Direct-service validation gate
 
-`DIRECT_BOOKING_ENABLED=false` retains the native path while the replacement is tested. Before enabling it, verify authenticated GET response shapes and `equivalent=true` against the native `_prepareSaveData` in the same browser for the intended package. Synthetic tests and archived source review do not satisfy this gate. The first live direct inspection authenticated successfully but returned unsupported_tss; the exact failing schema was not captured before expiry. Subsequent diagnostics expose only fixed resource/issue names and consumed-setting shape labels. Settings assignment follows native last-value-wins behavior and ignores unrelated fields; null/non-X values retain native false-flag semantics. Direct Book then uses authoritative reads → CheckRegistration → SaveChanges without booking-page navigation. Historical detail ModregId is ignored for a fresh booking; outgoing ModregId remains the all-zero GUID, exactly as in native source. Existing booking flags still block duplicate registration.
+`DIRECT_BOOKING_ENABLED=true` uses the direct path only for exact entries in `VERIFIED_STANDARD_ROUTES`. The twenty Winter 2027 routes passed live native payload/path comparisons on2026-11-11; see the linked verification evidence. New catalog entries remain untrusted until independently compared. Read-only comparison cannot grant runtime write permission. Settings retain native last-value-wins and null/non-X semantics. Direct Book uses authoritative reads → CheckRegistration → SaveChanges without booking-page navigation. Fresh booking ModregId remains the all-zero GUID exactly as in native source. Existing booking flags still block duplicate registration.
 
 ## Enforcement and remaining gates
 

@@ -106,10 +106,14 @@ test('client JSON cannot forge native verification or read-only exemptions', asy
     }
   }
   assert.equal(proofs,0);assert.equal(reads,0);assert.equal(owned.bookCalls,0);
-  assert.equal(VERIFIED_STANDARD_ROUTES.size,0);
-  const verified=await(await a.post('/verify-direct',{route:DEFAULT_ROUTE})).json();
-  assert.equal(verified.equivalent,true);assert.equal(verified.nativeBookingPath,'standard');
-  assert.equal(VERIFIED_STANDARD_ROUTES.size,0,'read-only equivalence cannot grant server release permission');
+  const previouslyVerified=VERIFIED_STANDARD_ROUTES.has(DEFAULT_ROUTE);
+  VERIFIED_STANDARD_ROUTES.delete(DEFAULT_ROUTE);
+  const expectedRoutes=new Set(VERIFIED_STANDARD_ROUTES);
+  try{
+    const verified=await(await a.post('/verify-direct',{route:DEFAULT_ROUTE})).json();
+    assert.equal(verified.equivalent,true);assert.equal(verified.nativeBookingPath,'standard');
+    assert.deepEqual(VERIFIED_STANDARD_ROUTES,expectedRoutes,'read-only equivalence cannot grant server release permission');
+  }finally{if(previouslyVerified)VERIFIED_STANDARD_ROUTES.add(DEFAULT_ROUTE);}
   assert.equal(owned.bookCalls,0);
 });
 

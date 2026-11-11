@@ -16,7 +16,7 @@
   "vars": {
     "APP_ORIGIN": "https://boomerrawlings.com",
     "PROBE_ONLY": "false",
-    "DIRECT_BOOKING_ENABLED": "false",
+    "DIRECT_BOOKING_ENABLED": "true",
     "MAX_BROWSER_SESSIONS": "8",
     "MAX_SESSION_MINUTES": "15",
     "MONTHLY_BROWSER_MINUTES": "600"

@@ -424,6 +424,91 @@ test('submitted warning restored from status clears on logout and rejects invali
   }
 });
 
+test('terminal booking results survive failed status polls and recovery beside the original course', async () => {
+  for (const terminal of [
+    { stage: 'submitted', mode: 'direct', outcome: 'booked' },
+    { stage: 'submitted', mode: 'direct', outcome: 'waitlisted', noticeMessage: 'Synthetic late notice' },
+    { stage: 'submitted', mode: 'direct', outcome: 'unconfirmed' },
+    { stage: 'stopped', reason: 'eligibility_unavailable' },
+    { stage: 'error', reason: 'submission_uncertain' },
+  ]) {
+    const h = harness({ status: { state: 'ready', probeOnly: false } }); await flush(); await h.click(0);
+    const requestId = h.posts('book')[0].body.requestId;
+    h.setStatus({ state: 'ready', booking: { requestId, ...terminal } }); await h.poll();
+    const result = h.job; assert.ok(result.length > 0);
+    h.handlers.set('status', () => response({}, 503)); await h.poll(); await h.poll();
+    assert.equal(h.job, result); assert.equal(h.buttons[0].feedback.textContent, result);
+    assert.equal(h.buttons[1].feedback.textContent, '');
+    h.handlers.delete('status'); await h.poll(); await h.advance(10_000);
+    assert.equal(h.job, result); assert.equal(h.buttons[0].feedback.textContent, result);
+    assert.equal(h.posts('book').length, 1); assert.equal(h.posts('confirm').length, 0);
+    if (terminal.stage === 'error') { assert.match(h.statusText, /result unknown/); assert.ok(h.buttons[0].disabled); }
+  }
+});
+
+test('completed result survives passive sign-in transitions and expiry until a new explicit attempt', async () => {
+  const h = harness({ status: { state: 'ready', probeOnly: false } }); await flush(); await h.click(0);
+  const requestId = h.posts('book')[0].body.requestId;
+  h.setStatus({ state: 'ready', booking: { requestId, stage: 'submitted', mode: 'direct', outcome: 'booked' } }); await h.poll();
+  h.setStatus({ state: 'signing_in' }); await h.poll(); h.setStatus({ state: 'ready' }); await h.poll();
+  assert.equal(h.job, 'Booked.'); assert.equal(h.buttons[0].feedback.textContent, 'Booked.');
+  h.setStatus({ expiresAt: 4000 }); await h.poll(); await h.advance(3000);
+  assert.equal(h.job, 'Booked.'); assert.equal(h.state, 'expired'); assert.equal(h.posts('book').length, 1);
+  h.setStatus({ state: 'ready', expiresAt: 0 }); await h.poll(); await h.click(1);
+  const nextId = h.posts('book')[1].body.requestId;
+  h.setStatus({ state: 'ready', booking: { requestId: nextId, stage: 'stopped', reason: 'booking_unavailable' } }); await h.poll();
+  const nextResult = h.job;
+  h.handlers.set('status', () => response({}, 503)); await h.poll(); h.handlers.delete('status'); await h.poll();
+  assert.match(nextResult, /does not currently allow/); assert.equal(h.job, nextResult);
+  assert.equal(h.buttons[1].feedback.textContent, nextResult); assert.equal(h.buttons[0].feedback.textContent, 'Booked.');
+  assert.equal(h.posts('book').length, 2);
+});
+
+test('expiry and signed-out status discard native notice while retaining only the fixed outcome', async () => {
+  for (const endState of ['expired', 'signed_out', 'error']) {
+    const h = harness({ status: { state: 'ready', probeOnly: false } }); await flush(); await h.click(0);
+    const requestId = h.posts('book')[0].body.requestId;
+    const booking = { requestId, stage: 'submitted', mode: 'direct', outcome: 'booked', noticeMessage: 'Private ephemeral notice' };
+    h.setStatus({ state: 'ready', booking }); await h.poll(); assert.match(h.job, /Private ephemeral/);
+    h.setStatus({ state: endState, booking }); await h.poll();
+    assert.equal(h.job, 'Booked.'); assert.equal(h.buttons[0].feedback.textContent, 'Booked.');
+    h.handlers.set('status', () => response({}, 503)); await h.poll(); h.handlers.delete('status');
+    h.setStatus({ state: 'ready', booking }); await h.poll();
+    assert.equal(h.job, 'Booked.'); assert.equal(h.buttons[0].feedback.textContent, 'Booked.');
+    assert.equal(h.posts('book').length, 1);
+  }
+  const timer = harness({ status: { state: 'ready', probeOnly: false, expiresAt: 4000 } }); await flush(); await timer.click(0);
+  const requestId = timer.posts('book')[0].body.requestId;
+  timer.setStatus({ state: 'ready', booking: { requestId, stage: 'submitted', mode: 'direct', outcome: 'waitlisted', noticeMessage: 'Private ephemeral notice' } });
+  await timer.poll(); await timer.advance(3000);
+  assert.equal(timer.job, 'Waitlisted.'); assert.equal(timer.buttons[0].feedback.textContent, 'Waitlisted.');
+  assert.equal(timer.posts('book').length, 1);
+});
+
+test('session refresh and a new sign-in preserve the previous fixed outcome without copying it to another course', async () => {
+  const h = harness({ status: { state: 'ready', probeOnly: false } }); await flush(); await h.click(0);
+  const requestId = h.posts('book')[0].body.requestId;
+  h.setStatus({ state: 'ready', booking: { requestId, stage: 'submitted', mode: 'direct', outcome: 'booked' } }); await h.poll();
+  h.setStatus({ state: 'signed_out' }); await h.poll(); await h.visible(false); await h.advance(16000);
+  await h.click(1); assert.equal(h.job, 'Booked.'); assert.equal(h.buttons[1].feedback.textContent, '');
+  await h.visible(true); await h.click('login');
+  assert.equal(h.posts('login').length, 1); assert.equal(h.job, 'Booked.');
+  assert.equal(h.buttons[0].feedback.textContent, 'Booked.'); assert.equal(h.buttons[1].feedback.textContent, '');
+  assert.equal(h.posts('book').length, 1);
+});
+
+test('logout clears retained outcome and an uncertain result never becomes a retry', async () => {
+  const h = harness({ status: { state: 'ready', probeOnly: false } }); await flush();
+  h.handlers.set('book', () => { throw Error('synthetic transport failure'); }); await h.click(0);
+  const unknown = h.job;
+  h.handlers.set('status', () => response({}, 503)); await h.poll(); h.handlers.delete('status'); await h.poll();
+  assert.equal(h.job, unknown); assert.match(h.statusText, /result unknown/);
+  await h.click(0); assert.equal(h.posts('book').length, 1);
+  await h.click('logout'); assert.doesNotMatch(h.job, /No confirmed result received/);
+  h.handlers.set('status', () => response({}, 503)); await h.poll(); h.handlers.delete('status'); await h.poll();
+  assert.notEqual(h.job, unknown); assert.equal(h.posts('book').length, 1);
+});
+
 test('missing direct review details fail closed and cannot fall back to native confirmation', async () => {
   const requestId = 'ae034da5-9999-4000-8000-0123456789ab';
   const h = harness({ status: { state: 'busy', probeOnly: false, booking: { requestId, stage: 'review', mode: 'direct', confirmationId: 'invalid', reviewMessage: 'Warning' } } });

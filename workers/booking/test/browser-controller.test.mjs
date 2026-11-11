@@ -3,11 +3,16 @@ import assert from 'node:assert/strict';
 import { openManagedBrowser, rendererPreflight, rendererHandoffPreflight, PROTOCOL_TIMEOUT_MS, loadCourse, createBrowserController } from '../src/browser.mjs';
 import { DEFAULT_ROUTE, BOOKING_ROUTES, VERIFIED_STANDARD_ROUTES } from '../src/routes.mjs';
 
-async function withVerifiedRoute(route, run) {
-  assert.equal(VERIFIED_STANDARD_ROUTES.size, 0);
-  VERIFIED_STANDARD_ROUTES.add(route);
-  try { await run(); } finally { VERIFIED_STANDARD_ROUTES.delete(route); }
+async function withVerifiedRoutes(routes, run) {
+  const original = [...VERIFIED_STANDARD_ROUTES];
+  VERIFIED_STANDARD_ROUTES.clear();
+  for (const route of routes) VERIFIED_STANDARD_ROUTES.add(route);
+  try { await run(); } finally {
+    VERIFIED_STANDARD_ROUTES.clear();
+    for (const route of original) VERIFIED_STANDARD_ROUTES.add(route);
+  }
 }
+const withVerifiedRoute = (route, run) => withVerifiedRoutes([route], run);
 
 test('managed transport applies real protocol timeout and full login idle lifetime', async () => {
   let launchOptions, connectOptions, accepted = false;
@@ -252,8 +257,7 @@ test('direct mode never loads a course page and keeps one guard job through expl
   assert.equal(f.job(), null);
 }));
 
-test('direct catalog routes remain disabled until server-owned exact-route proof is added', async () => {
-  assert.equal(VERIFIED_STANDARD_ROUTES.size, 0);
+test('direct catalog routes remain disabled until server-owned exact-route proof is added', async () => withVerifiedRoutes([], async () => {
   const f = controllerFixture({ DIRECT_BOOKING_ENABLED: 'true' }), controller = await f.controller;
   await controller.authenticated({ fresh: true });
   for (const [route, { courseCode }] of BOOKING_ROUTES) {
@@ -270,7 +274,7 @@ test('direct catalog routes remain disabled until server-owned exact-route proof
   await controller.authenticated({ fresh: true });
   assert.equal((await controller.book(DEFAULT_ROUTE, 'PHIL-010', 'after-comparison')).reason, 'unsupported_tss');
   assert.equal(f.navigations.length, navigations); assert.equal(f.bookCalls(), 0);
-});
+}));
 
 test('proof for one package cannot enable another package of the same course', async () => {
   const econ = [...BOOKING_ROUTES].filter(([, item]) => item.courseCode === 'ECON-100A');
@@ -306,6 +310,45 @@ test('delayed confirmation survives terminal status and cannot clear a replaceme
   release({ stage: 'submitted' });
   assert.deepEqual(await confirming, { stage: 'submitted' });
   assert.equal(f.job(), replacement); assert.equal(f.job().requestId, 'second');
+  assert.deepEqual(await controller.bookingStatus('first'), { stage: 'submitted' });
+  assert.equal(f.job(), replacement);
+}));
+
+test('a terminal direct poll discarded during confirmation remains available to the next poll', async () => withVerifiedRoute(DEFAULT_ROUTE, async () => {
+  const f = controllerFixture({ DIRECT_BOOKING_ENABLED: 'true' }), controller = await f.controller;
+  f.responses.book = { stage: 'checking' };
+  await controller.authenticated({ fresh: true }); await controller.book(DEFAULT_ROUTE, 'PHIL-010', 'owned');
+  let finishPoll;
+  f.responses.status = new Promise(resolve => { finishPoll = resolve; });
+  const stalePoll = controller.bookingStatus('owned');
+  assert.equal((await controller.reviewBooking('confirm', 'owned', crypto.randomUUID())).stage, 'submitting');
+  finishPoll({ stage: 'submitted', outcome: 'booked', noticeMessage: 'Bounded official notice', privatePayload: 'never-export' });
+  await stalePoll; // SessionCore discards this poll because confirmation changed its revision.
+  assert.equal(f.job(), null);
+  const operationCount = f.operations.length;
+  const expected = { stage: 'submitted', outcome: 'booked', noticeMessage: 'Bounded official notice' };
+  const recovered = await controller.bookingStatus('owned');
+  assert.deepEqual(recovered, expected);
+  recovered.noticeMessage = 'caller mutation';
+  assert.deepEqual(await controller.bookingStatus('owned'), expected);
+  assert.deepEqual(await controller.reviewBooking('confirm', 'owned', crypto.randomUUID()), expected);
+  assert.deepEqual(await controller.book(DEFAULT_ROUTE, 'PHIL-010', 'owned'), expected);
+  assert.equal(f.operations.length, operationCount); assert.equal(f.bookCalls(), 1);
+}));
+
+test('terminal direct cache is bounded, request-correlated and cleared with the controller', async () => withVerifiedRoute(DEFAULT_ROUTE, async () => {
+  const f = controllerFixture({ DIRECT_BOOKING_ENABLED: 'true' }), controller = await f.controller;
+  await controller.authenticated({ fresh: true });
+  for (let n = 0; n < 10; n++) {
+    f.responses.book = { stage: 'submitted', outcome: 'waitlisted', noticeMessage: 'notice-' + n, rawPayload: 'never-export' };
+    await controller.book(DEFAULT_ROUTE, 'PHIL-010', 'attempt-' + n);
+  }
+  const operationCount = f.operations.length;
+  for (const id of ['attempt-0', 'attempt-1', 'unknown']) assert.deepEqual(await controller.bookingStatus(id), { stage: 'stopped', reason: 'attempt_unavailable' });
+  for (let n = 2; n < 10; n++) assert.deepEqual(await controller.bookingStatus('attempt-' + n), { stage: 'submitted', outcome: 'waitlisted', noticeMessage: 'notice-' + n });
+  assert.equal(f.operations.length, operationCount); // Never invokes the native adapter.
+  await controller.close();
+  assert.deepEqual(await controller.bookingStatus('attempt-9'), { stage: 'stopped', reason: 'session_unavailable' });
 }));
 
 test('auth diagnostics retain only CSP directive and fixed network failure counts', async () => {

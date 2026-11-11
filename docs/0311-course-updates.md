@@ -53,3 +53,5 @@ Read-only Schedule of Classes queries verified these mappings for Winter 2027 (a
 Keep eight ECON-120A options and three MGT-162 options. MGT-162 section `004-000-LE` remains TBA and unassigned; no package or Book route is known for it.
 
 For future courses, verify each complete package belongs to the observed module and term, record public identifiers and source evidence in metadata, then update both exact allowlists: `workers/booking/src/routes.mjs` and the serialized array in `workers/booking/src/direct-tss.mjs`. Run course, Worker, and site build tests. Adding verified routes does not prove direct submission or enable `DIRECT_BOOKING_ENABLED`; those gates remain separate.
+
+The twenty current Winter 2027 routes also passed [live native payload/path comparisons](0311-direct-booking-proof.md). For a new route, run the same authenticated read-only comparison and add its exact proof identity to `VERIFIED_STANDARD_ROUTES` only after loaded/CSRF/equivalence/standard-path checks pass. Catalog refresh alone never grants this permission.

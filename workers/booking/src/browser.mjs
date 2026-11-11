@@ -114,6 +114,22 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
   catch (failure) { throw Object.assign(new Error('Managed browser unavailable'), { stage: 'launch', ...(failure.browserId ? { browserId: failure.browserId } : {}) }); }
   let closing = false;
   let activeJob = null;
+  // A SessionCore revision may discard an overlapping poll after this
+  // controller observes completion. Preserve that terminal result for its
+  // next poll instead of falling through to the unrelated native adapter.
+  const completedDirectJobs = new Map();
+  const finishJob = (job, result) => {
+    if (job?.mode === 'direct' && !closing) {
+      const previous = completedDirectJobs.get(job.requestId);
+      if (previous) return { ...previous };
+      if (terminalBooking(result)) {
+        completedDirectJobs.set(job.requestId, { ...result });
+        if (completedDirectJobs.size > 8) completedDirectJobs.delete(completedDirectJobs.keys().next().value);
+      }
+    }
+    if (terminalBooking(result) && activeJob === job) activeJob = null;
+    return result;
+  };
   let lastAuthentication = 0;
   let authenticationValid = false;
   let authenticationRevision = 0, authenticationUrl = '', authenticationMode = '', authenticationState;
@@ -247,7 +263,9 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
         return directRead(compare ? 'compareNative' : 'inspect', route, courseCode);
       },
       async book(route, courseCode, requestId) {
-        if (env.PROBE_ONLY !== 'false' || activeJob) throw new Error('Booking unavailable');
+        if (closing || env.PROBE_ONLY !== 'false' || activeJob) throw new Error('Booking unavailable');
+        const completed = directEnabled && completedDirectJobs.get(requestId);
+        if (completed) return { ...completed };
         // SessionCore has just required fresh authentication. Reuse that proof
         // rather than sending a second CSRF fetch before the same action.
         if (!authenticationValid || Date.now() - lastAuthentication >= 30_000) return { stage: 'stopped', reason: 'authentication_required' };
@@ -266,27 +284,32 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
         const value = directEnabled ? await page.evaluate(directTssOperation, { operation: 'book', route, courseCode, requestId, allowWrites: true, standardNativeVerified })
           : await beginBook(page, { route, courseCode, requestId });
         const result = bookingResult(value, job.requestBlocked);
-        if (terminalBooking(result) && activeJob === job) activeJob = null;
-        return result;
+        return finishJob(job, result);
       },
       async bookingStatus(requestId) {
+        if (closing) return { stage: 'stopped', reason: 'session_unavailable' };
+        const completed = completedDirectJobs.get(requestId);
+        if (completed) return { ...completed };
         const job = activeJob;
+        if (directEnabled && (job?.mode !== 'direct' || job.requestId !== requestId)) return { stage: 'stopped', reason: 'attempt_unavailable' };
         const value = job?.mode === 'direct' ? await page.evaluate(directTssOperation, { operation: 'status', requestId }) : await getBookingStatus(page, { requestId });
         const result = bookingResult(value, job?.requestBlocked);
         if (job?.mode === 'direct' && result.stage === 'review') {
           result.reviewMessage = value.reviewMessage; result.confirmationId = value.confirmationId;
         }
-        if (terminalBooking(result) && activeJob === job) activeJob = null;
-        return result;
+        return finishJob(job, result);
       },
       async reviewBooking(operation, requestId, confirmationId) {
+        if (!closing && directEnabled && env.PROBE_ONLY === 'false' && ['confirm', 'cancel'].includes(operation)) {
+          const completed = completedDirectJobs.get(requestId);
+          if (completed) return { ...completed };
+        }
         const job = activeJob;
         if (!directEnabled || env.PROBE_ONLY !== 'false' || !['confirm', 'cancel'].includes(operation)
           || job?.mode !== 'direct' || job.requestId !== requestId) return { stage: 'stopped', reason: 'attempt_unavailable' };
         const value = await page.evaluate(directTssOperation, { operation, requestId, confirmationId, allowWrites: true });
         const result = bookingResult(value, job.requestBlocked);
-        if (terminalBooking(result) && activeJob === job) activeJob = null;
-        return result;
+        return finishJob(job, result);
       },
       authDiagnostics() { return { blocked: [...authBlocked.values()], trace: guard.authTrace?.() || [], ...(authenticationState ? { authentication: authenticationState } : {}),
         csp: [...cspViolations].map(([directive, count]) => ({ directive, count })),
@@ -305,6 +328,8 @@ export async function createBrowserController(env, { onDisconnect = () => {}, op
       },
       async close() {
         closing = true;
+        completedDirectJobs.clear();
+        activeJob = null;
         await browser.close();
       },
     };
