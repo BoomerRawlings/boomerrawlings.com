@@ -811,4 +811,6 @@
 
 - Scheduled90: complete; five care-handoff comments and one abstention. Reader suggestion declined, remains queued.33 articles,421 events,783 released notes;495 burst notes now reach48simulated hours. All416 prior events unchanged; export and privacy/history audit pass. No recruitment offered; next91 closes Nov11 noon Pacific and is not due. Upstream non-wiki changes integrated by fast-forward. Full npm test passes, including46 wiki tests. Live at861ce3f. Pages43053135261 succeeded; live export matches committed bytes, actual publication receipt saved privately. Next91 not due; wake complete.
 
-- Scheduled91 complete: five comments, 426 events, 787 released notes. Reader suggestion review: declined. Prior history and release timing verified. Next92 not due. Publication pending.
+- Scheduled91 complete: five comments, 426 events, 787 released notes. Reader suggestion review: declined. Prior history and release timing verified. Next92 not due. Full npm test passed. Live at e2802eb, Pages 43151265359 succeeded, live bytes matched, publication receipt recorded privately.
+
+- Scheduled92 complete: five comments, 431 events, 793 released notes. Reader suggestion review: declined. Prior history and journal release timing verified. Next93 not due. Publication pending.
