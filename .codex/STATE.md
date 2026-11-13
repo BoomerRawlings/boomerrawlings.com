@@ -813,4 +813,6 @@
 
 - Scheduled91 complete: five comments, 426 events, 787 released notes. Reader suggestion review: declined. Prior history and release timing verified. Next92 not due. Full npm test passed. Live at e2802eb, Pages 43151265359 succeeded, live bytes matched, publication receipt recorded privately.
 
-- Scheduled92 complete: five comments, 431 events, 793 released notes. Reader suggestion review: declined. Prior history and journal release timing verified. Next93 not due. Publication pending.
+- Scheduled92 complete: five comments, 431 events, 793 released notes. Reader suggestion review: declined. Prior history and journal release timing verified. Next93 not due. Full npm test passed. Live at f4d11bf, Pages 43252916582 succeeded, live bytes matched, publication receipt recorded privately.
+
+- Scheduled93 complete: four comments, one abstention, 435 events, 798 released notes. Reader suggestion review: declined. Prior history and journal release timing verified. Next94 not due. Publication pending.
