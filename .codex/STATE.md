@@ -819,3 +819,5 @@
 
 - Scheduled94 complete: six comments, 441 events, 804 released journals. Reader suggestion review: declined. Prior history and release timing verified. Next95 not due. Full npm test passed. Live at 71ab2ec, Pages 43457430593 succeeded, live bytes matched, publication receipt recorded privately.
 - Wiki reading update: new regular windows offer three full article choices, including a less visited subject. Recent events capped at two per article. Existing pending packets and historical records preserved. Five higher-activity guest editors registered in private ledger for Nov14 midnight Pacific, first eligible cycle97. Full npm test passed, including 48 wiki tests. Preview showed 11 distinct articles across five editors. Public roster follows simulated arrivals.
+
+- Scheduled95 complete: three expansions and two revisions across five articles; 446 events, 809 released journals. Reader suggestion review: declined. Prior history and release timing verified. Next96 not due. Publication pending.
