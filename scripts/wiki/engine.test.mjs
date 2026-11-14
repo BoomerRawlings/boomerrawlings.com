@@ -471,3 +471,43 @@ test("outside input decisions persist privately without entering reader reviews"
   assert.equal(cycle.suggestionReviews,undefined);
   assert.ok(!JSON.stringify(wiki.exportPublic(state,opt)).includes(reference));
 });
+
+test('new reading packets give several editable choices and preserve long article tails', () => {
+  const state = founded();
+  state.cycles = Array.from({length:76}, (_, index) => wiki.cycleWindow(index + 1));
+  state.latestCompletedAt = state.cycles.at(-1).endAt;
+  for (const event of state.events.filter(event => event.revisionId)) event.body += '\n\n' + 'observations '.repeat(700) + 'END';
+  const now = wiki.cycleWindow(77).endAt;
+  const opts = {now, proof:usage(80,now)};
+  wiki.beginCycle(state, opts);
+  const editor = state.pending.participants[0];
+  const packet = wiki.characterPacket(state, editor);
+  const choices = [packet.targetArticle, ...packet.alternateArticles];
+  assert.equal(new Set(choices.map(article => article.id)).size, 3);
+  for (const article of choices) {
+    assert.equal(article.bodyComplete, true);
+    assert.ok(article.body.endsWith('END'));
+  }
+  const target = choices[1];
+  const proposal = abstention(state, editor, {action:'revise', articleId:target.id,
+    baseRevisionId:target.revisionId, body:target.body.replace('observations ', 'examples ')});
+  assert.equal(wiki.propose(state, proposal, opts).ok, true);
+  assert.ok(state.pending.proposals[editor].proposal.body.endsWith('END'));
+});
+
+test('guest arrivals preserve past cohorts and increase selection weight', () => {
+  const state = founded();
+  const now = wiki.cycleWindow(77).startAt;
+  const opts = {now, proof:usage(80,now)};
+  const old = structuredClone(state.editors);
+  assert.equal(wiki.addGuestEditors(state, opts).count, 5);
+  assert.equal(wiki.addGuestEditors(state, opts).duplicate, true);
+  assert.deepEqual(state.editors.slice(0,old.length), old);
+  const guests = state.editors.slice(old.length);
+  assert.ok(guests.every(editor => editor.activity === 2.4 && editor.joinedAt === now));
+  assert.ok(wiki.selectCohort(state.editors,wiki.cycleWindow(76),state.seed).every(id => old.some(editor => editor.id === id)));
+  const baseline = state.editors.map(editor => ({...editor,activity:0.7}));
+  const selections = editors => Array.from({length:200}, (_, index) => wiki.selectCohort(editors,wiki.cycleWindow(77+index),state.seed))
+    .flat().filter(id => guests.some(editor => editor.id === id)).length;
+  assert.ok(selections(state.editors) > selections(baseline));
+});

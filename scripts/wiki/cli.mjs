@@ -73,7 +73,7 @@ async function transaction(fn) {
 }
 try {
   if (command === 'help') {
-    print({ commands: ['init [--seed value]', 'status', 'usage --usage proof.json', 'found --file founding.json --usage proof.json', 'begin --usage proof.json [--historical]', 'packet --editor id [--out packet.json]', 'propose --file proposal.json --usage proof.json', 'complete --usage proof.json', 'export --out public/wiki-assets/data.json --usage proof.json', 'skip --reason text [--usage proof.json]', 'recruit --file profile.json --usage proof.json', 'validate --file public-data.json', 'published --commit sha --url url --usage proof.json'], common: ['--private path (default ignored .wiki-private)', '--now ISO (deterministic tests only)'], note: 'Codex produces character decisions. This program never calls a model or schedules itself.' });
+    print({ commands: ['init [--seed value]', 'status', 'usage --usage proof.json', 'found --file founding.json --usage proof.json', 'begin --usage proof.json [--historical]', 'packet --editor id [--out packet.json]', 'propose --file proposal.json --usage proof.json', 'complete --usage proof.json', 'export --out public/wiki-assets/data.json --usage proof.json', 'skip --reason text [--usage proof.json]', 'recruit --file profile.json --usage proof.json', 'add-guest-editors --usage proof.json', 'validate --file public-data.json', 'published --commit sha --url url --usage proof.json'], common: ['--private path (default ignored .wiki-private)', '--now ISO (deterministic tests only)'], note: 'Codex produces character decisions. This program never calls a model or schedules itself.' });
   } else if (command === 'init') await transaction(state => ({ state: state ?? engine.createState({ seed: flags.seed, now }), output: { ok: true, existed: Boolean(state), privateDirectory: directory } }));
   else if (command === 'validate') print(engine.validatePublic(input()));
   else if (command === 'status') print(engine.status(readJson(stateFile), now));
@@ -135,6 +135,7 @@ try {
       }
     }
     else if (command === 'skip') output = { ok: true, note: engine.recordSkip(state, { reason: flags.reason, usage: flags.usage ? engine.checkUsage(proof(), now) : null, now }) };
+    else if (command === 'add-guest-editors') output = engine.addGuestEditors(state, { proof: proof(), now });
     else if (command === 'recruit') output = engine.recruit(state, input(), { proof: proof(), now });
     else if (command === 'published') {
       const usage = engine.checkUsage(proof(), now); if (!usage.allowed) output = { ok: false, usage };

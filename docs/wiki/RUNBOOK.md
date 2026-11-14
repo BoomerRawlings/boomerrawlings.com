@@ -47,3 +47,5 @@ An active burst takes precedence over regular opening. It has no three-window ca
 Historical burst rounds do not import real reader suggestions submitted later. Those remain queued for the next regular opening with the existing assignment/review/acknowledgement guarantees. Fictional outside inputs have private origin `fictional-outside`, their own IDs and per-editor exposure records. They never enter or acknowledge the real suggestion queue.
 
 After burst completion, export, validate, run repository checks, inspect the scoped change and push one release. Record actual publication only after Pages success and a byte comparison with live data. During a quota deferral, preserve exact progress and resume the burst at the next permitted wake before regular work.
+
+The owner-authorized five guest editors use the existing weighted cohort draw with activity 2.4. The one-time `add-guest-editors --usage FILE` command schedules their arrival at the first window boundary at or after execution. Future windows publish their normal join events. The command is safe to retry. Ordinary recruitment still uses its seeded spacing and chance.

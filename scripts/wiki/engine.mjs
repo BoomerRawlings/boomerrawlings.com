@@ -216,7 +216,7 @@ export function beginCycle(state, { proof, now = new Date().toISOString(), histo
     const already = state.cycles.filter(cycle => ms(cycle.completedExecutionAt) >= wakeStart && cycle.mode !== 'historical').length;
     if (already >= 3) return { ok: false, reason: 'catch-up-batch-limit', deferred: recordSkip(state, { reason: 'catch-up-batch-limit', now }) };
   }
-  state.pending = { ...window, mode: historical ? 'historical' : 'recurring', participants: selectCohort(state.editors, window, state.seed), proposals: {}, openedAt: iso(now), snapshotRevisionIds: Object.fromEntries([...articlesAt(state, window.startAt)].map(([id, article]) => [id, article.revisionId])) };
+  state.pending = { ...window, mode: historical ? 'historical' : 'recurring', ...(window.index > 76 ? { variedReading: true } : {}), participants: selectCohort(state.editors, window, state.seed), proposals: {}, openedAt: iso(now), snapshotRevisionIds: Object.fromEntries([...articlesAt(state, window.startAt)].map(([id, article]) => [id, article.revisionId])) };
   if (suggestions.length) {
     assert(!historical && suggestions.length <= state.pending.participants.length, 'suggestions exceed available reviewers');
     const cohort = state.pending.participants;
@@ -303,14 +303,33 @@ export function characterPacket(state, editorId) {
   const suggestion = window.suggestions?.find(item => item.reviewer === editorId);
   const observations = communityPacket(state, editorId, window);
   const subject = suggestion?.subject.toLowerCase();
-  const target = articles.find(article => article.title.toLowerCase() === subject || article.id === subject) ?? articles.find(article => article.id === observations.outsideInputs?.[0]?.articleId) ?? ranked[0]?.article;
+  const assigned = articles.find(article => article.title.toLowerCase() === subject || article.id === subject);
+  const outsideId = observations.outsideInputs?.[0]?.articleId;
+  const previous = state.events.filter(event => event.editorId === editorId && event.articleId
+    && event.timestamp < window.startAt).slice(-8);
+  const visits = article => previous.filter(event => event.articleId === article.id).length;
+  const draw = article => seeded(state.seed, window.id + ':reading:' + editorId + ':' + article.id);
+  const score = article => relevance(editor, article.title) + relevance(editor, article.body) / 2
+    + (article.id === outsideId ? 1 : 0) + draw(article) * 6 - visits(article) * 2;
+  const choices = window.variedReading
+    ? [...new Set([assigned, [...articles].sort((a,b) => visits(a) - visits(b) || draw(b) - draw(a))[0],
+      ...[...articles].sort((a,b) => score(b) - score(a))].filter(Boolean))].slice(0, 3)
+    : [assigned ?? articles.find(article => article.id === outsideId) ?? ranked[0]?.article].filter(Boolean);
+  const [target] = choices;
   const reactionDraw = stage => seeded(state.seed, `${window.id}:${editorId}:${target?.revisionId}:${stage}`);
   const noticesOverreach = reactionDraw('notice') < 0.55;
   const challengesOverreach = noticesOverreach && reactionDraw('challenge') < 0.7;
   const measured = ['ellis47', 'cwhitmore', 'bluemonday'].includes(editorId);
   const correctionStyle = reactionDraw('response') < (measured ? 0.8 : 0.35)
     ? 'quiet correction' : 'overcorrection';
-  const recent = state.events.filter(event => event.timestamp <= window.startAt && event.action !== 'join').map(event => ({ event, score: relevance(editor, `${event.title} ${event.summary}`) + (event.articleId === target?.id ? 3 : 0) + (event.editorId === editorId ? 1 : 0) + ms(event.timestamp) / 1e12 })).sort((a, b) => b.score - a.score).slice(0, 5).map(({ event }) => ({ id: event.id, timestamp: event.timestamp, editorId: event.editorId, action: event.action, articleId: event.articleId, title: event.title, summary: event.summary, body: ['comment', 'policy'].includes(event.action) ? event.body : undefined }));
+  const rankedEvents = state.events.filter(event => event.timestamp <= window.startAt && event.action !== 'join').map(event => ({ event, score: relevance(editor, `${event.title} ${event.summary}`) + (choices.some(article => article.id === event.articleId) ? 3 : 0) + (event.editorId === editorId ? 1 : 0) + ms(event.timestamp) / 1e12 })).sort((a, b) => b.score - a.score).map(({ event }) => event);
+  const eventCounts = new Map();
+  const recent = rankedEvents.filter(event => {
+    if (!window.variedReading || !event.articleId) return true;
+    const count = eventCounts.get(event.articleId) ?? 0;
+    eventCounts.set(event.articleId, count + 1);
+    return count < 2;
+  }).slice(0, 5).map(event => ({ id: event.id, timestamp: event.timestamp, editorId: event.editorId, action: event.action, articleId: event.articleId, title: event.title, summary: event.summary, body: ['comment', 'policy'].includes(event.action) ? event.body : undefined }));
   const knownEvents = new Set(recent.map(event => event.id));
   for (const event of observations.publicEvidence ?? []) knownEvents.add(event.id);
   const publicIds = new Set(state.events.filter(event => event.timestamp <= window.startAt).map(event => event.id));
@@ -319,8 +338,12 @@ export function characterPacket(state, editorId) {
   const summaryReferences = [...new Set(retained.flatMap(memory => memory.references))];
   for (const memory of memories) for (const id of memory.references) knownEvents.add(id);
   for (const id of summaryReferences) knownEvents.add(id);
-  if (target) knownEvents.add(target.revisionId);
-  const targetWords = target?.body.split(/\s+/) ?? [];
+  for (const article of choices) knownEvents.add(article.revisionId);
+  const reading = choices.map(({id,title,revisionId,body,categories,principleIds}) => {
+    const words = body.split(/\s+/);
+    const bodyComplete = window.variedReading || words.length <= 650;
+    return {id,title,revisionId,body:bodyComplete ? body : words.slice(0,650).join(' '),bodyComplete,categories,principleIds};
+  });
   const packet = {
     ...observations,
     ...(suggestion ? {readerSuggestion: {
@@ -330,7 +353,7 @@ export function characterPacket(state, editorId) {
     character: {
       id: editor.id, name: editor.name, interests: editor.interests, description: editor.description,
       writingStyle: editorialProfiles[editor.id]?.[1] ?? editor.style,
-      preferredAction: editorialProfiles[editor.id]?.[0] ??
+      preferredAction: editorialProfiles[editor.id]?.[0] ?? editor.preferredAction ??
         ['create', 'expand', 'revise', 'organize', 'comment'][Math.floor(seeded(state.seed, `preference:${editor.id}`) * 5)],
       dispositions: editor.dispositions, temporary: editor.temporary, personalContext: editor.personalContext,
     },
@@ -355,11 +378,12 @@ export function characterPacket(state, editorId) {
     personalMemory: { summary: memorySummary(retained), summaryReferences, important: memories },
     community: state.editors.filter(other => other.joinedAt <= window.startAt).map(publicEditor),
     articleIndex: ranked.slice(0, 40).map(({ article }) => ({ id: article.id, title: article.title, revisionId: article.revisionId, categories: article.categories })),
-    targetArticle: target ? { id: target.id, title: target.title, revisionId: target.revisionId, body: targetWords.length <= 650 ? target.body : targetWords.slice(0, 650).join(' '), bodyComplete: targetWords.length <= 650, categories: target.categories, principleIds: target.principleIds } : null,
+    targetArticle: reading[0] ?? null,
+    ...(window.variedReading ? { alternateArticles: reading.slice(1) } : {}),
     recentEvents: recent,
     knownEventIds: [...knownEvents],
     relationships: state.relationships.filter(relation => relation.from === editorId && relation.timestamp <= window.startAt).reduce((list, relation) => { const index = list.findIndex(item => item.to === relation.to); if (index >= 0) list[index] = relation; else list.push(relation); return list; }, []),
-    responseRules: { actions: [...ACTIONS], onePublicAction: true, maxChangedWords: window.index <= 76 ? 300 : 400, maxCommentWords: 150, journalWords: [50, 100], instruction: 'Choose one action, or abstain. Follow adopted editorial policies when applicable. Supply one plausible posting time inside this window. In the journal, always explain what you considered and why you acted or held back. Describe whether it changed what you want to pursue, how you feel, or what you think of another editor, if it did. Abstention can still change memory, mood or relationships. Keep that reasoning in the journal rather than in public copy. Describe an intention, not an assumed publication success. Use only this packet. Article edits supply the complete resulting body and baseRevisionId. If bodyComplete is false, do not replace the article: discuss, abstain, or create a linked entry instead. Do not invent sources or future events. Optional stateUpdate contains frustrationDelta and enthusiasmDelta (each within ±0.08) plus nonempty observed evidenceIds. Optional longTermMemory replaces retained observations with at most three entries of at most 40 words, each with text and nonempty observed references. Neither update may assume this proposal succeeds.' },
+    responseRules: { actions: [...ACTIONS], onePublicAction: true, maxChangedWords: window.index <= 76 ? 300 : 400, maxCommentWords: 150, journalWords: [50, 100], instruction: (window.variedReading ? 'Choose among the supplied articles or create a linked entry. Use relevant discussion to improve an article when ready. ' : '') + 'Choose one action, or abstain. Follow adopted editorial policies when applicable. Supply one plausible posting time inside this window. In the journal, always explain what you considered and why you acted or held back. Describe whether it changed what you want to pursue, how you feel, or what you think of another editor, if it did. Abstention can still change memory, mood or relationships. Keep that reasoning in the journal rather than in public copy. Describe an intention, not an assumed publication success. Use only this packet. Article edits supply the complete resulting body and baseRevisionId. If bodyComplete is false, do not replace the article: discuss, abstain, or create a linked entry instead. Do not invent sources or future events. Optional stateUpdate contains frustrationDelta and enthusiasmDelta (each within ±0.08) plus nonempty observed evidenceIds. Optional longTermMemory replaces retained observations with at most three entries of at most 40 words, each with text and nonempty observed references. Neither update may assume this proposal succeeds.' },
   };
   if (editor.personalContext) packet.responseRules.personalRelationships = 'Your private feelings can change independently of agreement. Optional reactions can include affectionDelta, attractionDelta, jealousyDelta, closenessDelta, boundariesDelta within ±0.08, with a short explanation and observed public evidenceIds. Higher boundaries means firmer desired interpersonal limits. You only know your own feelings. Do not infer reciprocity from another person’s private state. Warmth, invitations, refusal and withdrawal may appear in civil public discussion when appropriate; no romance is required.';
   return packet;
@@ -431,7 +455,7 @@ function normalizeProposal(state, raw) {
           assert(earlier, 'revert requires an earlier revision of this article');
           proposal.body = earlier.body; proposal.categories = [...earlier.categories]; proposal.principleIds = [...earlier.principleIds]; proposal.revertRevisionId = earlier.revisionId;
         } else {
-          assert(packet.targetArticle?.id === proposal.articleId && packet.targetArticle.bodyComplete, 'full replacement requires the complete observed target article');
+          assert([packet.targetArticle, ...(packet.alternateArticles ?? [])].some(article => article?.id === proposal.articleId && article.bodyComplete), 'full replacement requires the complete observed target article');
           validateMarkup(proposal.body);
           const limit = window.index <= 76 ? 300 : 400;
           assert(changedWords(before.body, proposal.body) <= limit, `edit exceeds a ${limit}-word contiguous change`);
@@ -666,6 +690,32 @@ export function recruit(state, profile, { proof, now = new Date().toISOString() 
   state.recruitment.push({ editorId: profile.id, joinedAt: opportunity.joinedAt, afterCycle: state.cycles.length, generatedAt: iso(now) }); state.updatedAt = iso(now);
   return { ok: true, editor: publicEditor(state.editors.at(-1)) };
 }
+// A one-time roster expansion requested by the project owner.
+export function addGuestEditors(state, { proof, now = new Date().toISOString() } = {}) {
+  const denied = requireUsage(state, proof, now); if (denied) return denied;
+  const guests = [
+    ['mara-spool', 'Mara Spool', ['ritual', 'objects', 'institutions'], 'A bookmark for an article on waiting brought me here. I stayed to document the small ceremonies people perform around broken appliances.', 'Reads ordinary objects as evidence of rituals. Writes meticulous, deadpan examples and occasionally sees a pattern too early.', 'expand'],
+    ['vern-tab', 'Vern Tab', ['authority', 'classification', 'rules'], 'I followed a link about categories and found the classification insufficiently classified. I now keep a list of things the lists leave out.', 'A procedural zealot with elaborate exceptions. Proposes categories with peculiar names and argues over what belongs in them.', 'organize'],
+    ['kit-errata', 'Kit Errata', ['evidence', 'memory', 'certainty'], 'I came to check a claim about memory. I am still here because every confident sentence deserves someone who reads the footnotes.', 'Treats each vague assertion like a witness on the stand. Terse and theatrical, with a habit of qualifying a claim into near oblivion.', 'revise'],
+    ['olive-static', 'Olive Static', ['attention', 'boredom', 'everyday life'], 'Someone linked an entry about waiting during an outage. I stayed for the subjects people ordinarily dismiss as too small for an article.', 'Writes short entries about unusually specific experiences. Follows startling associations but distinguishes a personal example from a general claim.', 'create'],
+    ['alfie-margin', 'Alfie Margin', ['care', 'obligations', 'trust'], 'I found the wiki while trying to decide who owned a borrowed casserole dish. I stayed because the arguments here have better examples than mine.', 'Posts brisk objections and outlandish counterexamples. Cheerfully changes sides when someone finds a better example.', 'comment'],
+  ];
+  const existing = guests.filter(([id]) => state.editors.some(editor => editor.id === id));
+  if (existing.length === guests.length) return { ok: true, duplicate: true };
+  assert(existing.length === 0 && state.foundingComplete && !state.pending && (!state.burst || state.burst.completedAt), 'guest roster requires a complete checkpoint and unused usernames');
+  let next = cycleWindow(state.cycles.length + 1);
+  while (next.startAt < now) next = cycleWindow(next.index + 1);
+  for (const [id, name, interests, description, style, preferredAction] of guests) {
+    const editor = editorProfile(id, name, interests, description, style, next.startAt, 2.4);
+    editor.preferredAction = preferredAction;
+    editor.dispositions = { curiosity: 0.95, conscientiousness: 0.6, cooperation: 0.4 };
+    state.editors.push(editor);
+  }
+  state.operations.push({ type: 'guest-editors-added', at: iso(now), joinedAt: next.startAt, ids: guests.map(([id]) => id) });
+  state.updatedAt = iso(now);
+  return { ok: true, joinedAt: next.startAt, count: guests.length };
+}
+
 export function status(state, now = new Date().toISOString()) {
   const next = state.pending ?? state.burst?.windows[state.burst.rounds.length] ?? cycleWindow(state.cycles.length + 1);
   return { schemaVersion: state.schemaVersion, foundingComplete: state.foundingComplete, cycleCount: state.cycles.length, latestCompletedAt: state.latestCompletedAt, articleCount: state.foundingComplete ? articlesAt(state).size : 0, editorCount: state.editors.filter(editor => editor.joinedAt <= (state.latestCompletedAt ?? FOUNDING_AT)).length, pending: state.pending ? pendingSummary(state.pending) : null, nextWindow: { id: next.id, startAt: next.startAt, endAt: next.endAt, due: ms(next.endAt) <= ms(now) }, deferredCount: state.deferrals.length, lastUsage: state.lastUsage, recruitment: recruitmentOpportunity(state, now), published: state.published, ...(state.burst ? {burst: {id:state.burst.id, completed:state.burst.rounds.length, total:100}} : {}) };
