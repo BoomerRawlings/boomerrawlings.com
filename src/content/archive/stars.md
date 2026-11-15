@@ -26,7 +26,7 @@ Stars is an ambient browser display built from drifting points, recognizable con
 
 ## Start with the sky
 
-The prominent **Jump in** button starts the defaults: a clock in the device's time zone, seconds, Scripps waves and astronomy, constellations every 10 seconds, and a self-care reminder every 5 minutes. Or adjust the two frequency sliders and choose the information you want. Reminders stay for 30 seconds; constellations hold for 15–20 seconds. Up to five figures can share the screen.
+The prominent **Jump in** button starts its preset: a 24-hour clock in the device's time zone, Scripps astronomy, constellations every 10 seconds, and a self-care reminder every 5 minutes. Seconds and the waves panel start off and can be enabled in settings. Or adjust the two frequency sliders and choose the information you want. Reminders stay for 30 seconds; constellations hold for 15–20 seconds. Up to five figures can share the screen.
 
 The clock supports 12-hour, 24-hour, or off. Seconds are one quarter of the main numeral size. The time zone follows the device unless changed. The wave panel, sunrise/sunset and moon phase are independent options. Move the pointer or tap to reveal controls; S or Esc opens settings. Choices are remembered in this browser.
 

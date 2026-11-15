@@ -84,3 +84,13 @@ test('jumpin skips settings with fixed preset and does not persist shortcut valu
  assert.match(normal,/<dialog[^>]*\sopen(?:[\s=>])/);assert.ok(direct.includes('https://boomerrawlings.com/stars/jumpin/'));
  const runtime=readFileSync('public/stars-assets/stars.js','utf8');assert.ok(runtime.includes('enterStars(jumpinSettings(),false,false)'));assert.ok(runtime.includes('if(persist)try{localStorage.setItem'));
 });
+
+test('portfolio Jump in description matches the preset rather than general defaults',()=>{
+ const copy=readFileSync('src/content/archive/stars.md','utf8');
+ const preset=jumpinSettings();
+ assert.equal(preset.clock,'24');assert.equal(preset.zone,'system');
+ assert.equal(preset.seconds,false);assert.equal(preset.surf,false);assert.equal(preset.sky,true);
+ assert.equal(preset.constellationInterval,10);assert.equal(preset.tips,5);
+ assert.ok(copy.includes("a 24-hour clock in the device's time zone, Scripps astronomy, constellations every 10 seconds, and a self-care reminder every 5 minutes"));
+ assert.ok(copy.includes('Seconds and the waves panel start off and can be enabled in settings.'));
+});

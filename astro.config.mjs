@@ -9,6 +9,8 @@ const redirects = {
   '/data-analysis': '/writing/data-analysis/',
   '/data-analysis/crime-and-heat': '/writing/data-analysis/crime-and-heat/',
   '/archive': '/all/',
+  // Keep the empty photography gallery dormant without breaking old links.
+  '/photography': '/all/',
   '/work/horizonos': '/work/horizon/',
   '/work/icloud-media-archive': '/work/organizing-icloud-media/',
   '/work/personal-archive': '/work/organizing-icloud-media/',

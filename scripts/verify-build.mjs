@@ -29,6 +29,7 @@ const redirectTargets = new Map([
   [join('data-analysis', 'index.html'), '/writing/data-analysis/'],
   [join('data-analysis', 'crime-and-heat', 'index.html'), '/writing/data-analysis/crime-and-heat/'],
   [join('archive', 'index.html'), '/all/'],
+  [join('photography', 'index.html'), '/all/'],
   [join('work', 'horizonos', 'index.html'), '/work/horizon/'],
   [join('work', 'icloud-media-archive', 'index.html'), '/work/organizing-icloud-media/'],
   [join('work', 'personal-archive', 'index.html'), '/work/organizing-icloud-media/'],
@@ -71,9 +72,9 @@ const unlistedHtmlFiles = htmlFiles.filter(
 const standaloneHtmlFiles = htmlFiles.filter(
   (file) => standaloneContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 36 || standaloneHtmlFiles.length !== 9 || unlistedHtmlFiles.length !== unlistedContentPaths.size || htmlFiles.length !== 52 + unlistedContentPaths.size) {
+if (contentHtmlFiles.length !== 35 || standaloneHtmlFiles.length !== 9 || unlistedHtmlFiles.length !== unlistedContentPaths.size || htmlFiles.length !== 52 + unlistedContentPaths.size) {
   throw new Error(
-    `expected 36 portfolio pages, 9 standalone pages, ${unlistedContentPaths.size} unlisted pages, and 7 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 35 portfolio pages, 9 standalone pages, ${unlistedContentPaths.size} unlisted pages, and 8 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
@@ -1543,7 +1544,7 @@ if (!homeHtml.includes('Start here with Pip')
 if (homeHtml.includes('6 projects and 9 pieces of writing')) {
   failures.push('index.html: Pip is still reciting inventory counts');
 }
-const guidedSections = ['about', 'all', 'cv', 'photography', 'research', 'work', 'writing'];
+const guidedSections = ['about', 'all', 'cv', 'research', 'work', 'writing'];
 for (const section of guidedSections) {
   const html = readFileSync(join(output, section, 'index.html'), 'utf8');
   if (!html.includes('curator-guide--compact') || !html.includes('Pip says') || !html.includes('data-pip-steps=')) {
@@ -1560,11 +1561,8 @@ if (!researchHtml.includes('href="/work/research-briefing-assistant/"')
   || !researchHtml.includes('href="/writing/self-inflicted-pain-error-correction/"')) {
   failures.push('research/index.html: curated research exhibits are missing');
 }
-if (photographyHtml.includes('organizing-icloud-media')
-  || photographyHtml.includes('31,550')
-  || !photographyHtml.includes('image-led side of the portfolio')
-  || !photographyHtml.includes('data-pip-destination="All Work"')) {
-  failures.push('photography/index.html: project/photography boundary is unclear');
+if (photographyHtml.includes('data-pip-guide') || /photography/i.test(homeHtml.match(/data-pip-steps="([^"]*)"/)?.[1] ?? '')) {
+  failures.push('photography: dormant gallery is still promoted by Pip');
 }
 if (homeHtml.includes('ledger-index') || homeHtml.includes('<span>No.</span>')) {
   failures.push('index.html: arbitrary project numbering remains');
@@ -1753,7 +1751,10 @@ if (!cvHtml.includes('Psychology for Transfer (AA-T)')
   || !cvHtml.includes('four separate semesters, making the President\'s List each time')
   || !cvHtml.includes('Fall 2026-2028 · Experimental Psychology B.S.')
   || !cvHtml.includes('University of California, San Diego')
-  || !cvHtml.includes('Incoming psychology transfer with an intended focus on cognition and behavioral research')
+  || !cvHtml.includes('Current psychology transfer student focused on cognition and behavioral research')
+  || !cvHtml.includes('He is pursuing an Experimental Psychology B.S. at UC San Diego')
+  || cvHtml.includes('He will pursue')
+  || cvHtml.includes('Incoming psychology transfer')
   || !cvHtml.includes('href="mailto:llrawlings@ucsd.edu"')
   || !cvHtml.includes('src="/images/boomer-rawlings-headshot.webp"')
   || !cvHtml.includes('Introduction to Psychological Research')
