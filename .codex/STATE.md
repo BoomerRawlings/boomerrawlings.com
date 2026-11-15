@@ -824,4 +824,6 @@
 
 - Scheduled96 complete: two expansions and three revisions across five articles; 451 events, 814 released journals. Five guest profiles reached their arrival boundary and become eligible in cycle97. Reader suggestion review: declined. Prior history and release timing verified. Next97 not due. Full npm test passed. Live at 2a05860, Pages 43613081091 succeeded, live bytes matched, publication receipt recorded privately.
 
-- Scheduled97 complete: debut of all five guests, six accepted actions including Listening for a Sound to Stop, one Evidence conflict. 34 articles, 462 events, 819 released journals. Reader review: declined. Prior history and release timing verified. Next98 not due. Publication pending.
+- Scheduled97 complete: debut of all five guests, six accepted actions including Listening for a Sound to Stop, one Evidence conflict. 34 articles, 462 events, 819 released journals. Reader review: declined. Prior history and release timing verified. Next98 not due. Full npm test passed. Live at 9b68e8f, Pages 43674852113 succeeded, live bytes matched, publication receipt recorded privately.
+
+- Scheduled98 complete: seven accepted actions including Noticing a Missing Sound. 35 articles, 469 events, 825 released journals. Reader review: declined. Prior history and release timing verified. Next99 not due. Publication pending.
