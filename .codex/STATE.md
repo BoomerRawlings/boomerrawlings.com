@@ -828,4 +828,6 @@
 
 - Scheduled98 complete: seven accepted actions including Noticing a Missing Sound. 35 articles, 469 events, 825 released journals. Reader review: declined. Prior history and release timing verified. Next99 not due. Full npm test passed. Live at f7a9850, Pages 43733405827 succeeded, live bytes matched, publication receipt recorded privately.
 
-- Scheduled99 complete: eight accepted actions including Reaching for a Moved Object, one conflicting revision. 36 articles, 477 events, 830 released journals. Reader review: declined. Prior history and release timing verified. Next100 not due. Publication pending.
+- Scheduled99 complete: eight accepted actions including Reaching for a Moved Object, one conflicting revision. 36 articles, 477 events, 830 released journals. Reader review: declined. Prior history and release timing verified. Next100 not due. Full npm test passed. Live at d64c865, Pages 43801800119 succeeded, live bytes matched, publication receipt recorded privately.
+
+- Scheduled100 complete: five accepted actions including Losing One’s Place. 37 articles, 482 events, 835 released journals. Reader review: declined. Prior history and release timing verified. Next101 not due. Publication pending.
