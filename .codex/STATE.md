@@ -830,4 +830,6 @@
 
 - Scheduled99 complete: eight accepted actions including Reaching for a Moved Object, one conflicting revision. 36 articles, 477 events, 830 released journals. Reader review: declined. Prior history and release timing verified. Next100 not due. Full npm test passed. Live at d64c865, Pages 43801800119 succeeded, live bytes matched, publication receipt recorded privately.
 
-- Scheduled100 complete: five accepted actions including Losing One’s Place. 37 articles, 482 events, 835 released journals. Reader review: declined. Prior history and release timing verified. Next101 not due. Publication pending.
+- Scheduled100 complete: five accepted actions including Losing One’s Place. 37 articles, 482 events, 835 released journals. Reader review: declined. Prior history and release timing verified. Next101 not due. Full npm test passed. Live at f1df896, Pages 43903866544 succeeded, live bytes matched, publication receipt recorded privately.
+
+- Scheduled101 complete: six accepted actions, 37 articles, 488 events, 842 released journals. Reader review: declined. Prior history and release timing verified. Next102 not due. Publication pending.
