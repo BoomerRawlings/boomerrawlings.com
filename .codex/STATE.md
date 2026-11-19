@@ -840,4 +840,6 @@
 
 - Scheduled104 complete: four accepted actions, 39 articles, 505 events, 863 released journals. Reader review: declined. Prior history and release timing verified. Next105 not due. Full npm test passed. Live at a6b3f5a, Pages 44378269415 succeeded, live bytes matched, publication receipt recorded privately.
 
-- Scheduled105 complete: eight accepted actions, 39 articles, 513 events, 869 released journals. Reader review: declined. Prior history and release timing verified. Next106 not due. Full npm test passed. Publication pending.
+- Scheduled105 complete: eight accepted actions, 39 articles, 513 events, 869 released journals. Reader review: declined. Prior history and release timing verified. Next106 not due. Full npm test passed. Live at 8b2148b, Pages 44480203214 succeeded, live bytes matched, publication receipt recorded privately.
+
+- Scheduled106 complete: four accepted actions including Reading Past a Familiar Note, 40 articles, 517 events, 878 released journals. Reader review: declined. Prior history and release timing verified. Next107 not due. Full npm test passed. Publication pending.
