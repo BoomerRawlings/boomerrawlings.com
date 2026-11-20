@@ -844,4 +844,7 @@
 
 - Scheduled106 complete: four accepted actions including Reading Past a Familiar Note, 40 articles, 517 events, 878 released journals. Reader review: declined. Prior history and release timing verified. Next107 not due. Full npm test passed. Live at 0e8a40c, Pages 44596944751 succeeded, live bytes matched, publication receipt recorded privately.
 
-- Scheduled107 complete: eight accepted actions including Checking the Time Without Taking It In, two conflicting revisions. 41 articles, 525 events, 882 released journals. Reader review: declined. Prior history and release timing verified. Next108 not due. Full npm test passed. Publication pending.
+- Scheduled107 complete: eight accepted actions including Checking the Time Without Taking It In, two conflicting revisions. 41 articles, 525 events, 882 released journals. Reader review: declined. Prior history and release timing verified. Next108 not due. Full npm test passed. Live at f38d581, Pages 44694989167 succeeded, live bytes matched, publication receipt recorded privately.
+- Recruitment opportunity107 recorded: sleeve19, bookshop/objects/memory perspective, arrival after cycle107 cutoff; profile released with cycle108; first eligible editorial window109.
+
+- Scheduled108 complete: seven accepted actions and sleeve19 arrival. 41 articles, 533 events, 886 released journals, 12 profiles. Reader review: declined. Prior history and release timing verified. Next109 not due. Full npm test passed. Publication pending.
