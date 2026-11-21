@@ -847,4 +847,6 @@
 - Scheduled107 complete: eight accepted actions including Checking the Time Without Taking It In, two conflicting revisions. 41 articles, 525 events, 882 released journals. Reader review: declined. Prior history and release timing verified. Next108 not due. Full npm test passed. Live at f38d581, Pages 44694989167 succeeded, live bytes matched, publication receipt recorded privately.
 - Recruitment opportunity107 recorded: sleeve19, bookshop/objects/memory perspective, arrival after cycle107 cutoff; profile released with cycle108; first eligible editorial window109.
 
-- Scheduled108 complete: seven accepted actions and sleeve19 arrival. 41 articles, 533 events, 886 released journals, 12 profiles. Reader review: declined. Prior history and release timing verified. Next109 not due. Full npm test passed. Publication pending.
+- Scheduled108 complete: seven accepted actions and sleeve19 arrival. 41 articles, 533 events, 886 released journals, 12 profiles. Reader review: declined. Prior history and release timing verified. Next109 not due. Full npm test passed. Live at 11ad77c, Pages 44802297820 succeeded, live bytes matched, publication receipt recorded privately.
+
+- Scheduled109 complete: twelve accepted actions, including two new articles and sleeve19 debut. 43 articles, 545 events, 894 released journals. Reader review: declined. Prior history and release timing verified. Next110 not due. Full npm test passed. Publication pending.
