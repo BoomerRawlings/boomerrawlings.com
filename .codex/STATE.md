@@ -849,4 +849,6 @@
 
 - Scheduled108 complete: seven accepted actions and sleeve19 arrival. 41 articles, 533 events, 886 released journals, 12 profiles. Reader review: declined. Prior history and release timing verified. Next109 not due. Full npm test passed. Live at 11ad77c, Pages 44802297820 succeeded, live bytes matched, publication receipt recorded privately.
 
-- Scheduled109 complete: twelve accepted actions, including two new articles and sleeve19 debut. 43 articles, 545 events, 894 released journals. Reader review: declined. Prior history and release timing verified. Next110 not due. Full npm test passed. Publication pending.
+- Scheduled109 complete: twelve accepted actions, including two new articles and sleeve19 debut. 43 articles, 545 events, 894 released journals. Reader review: declined. Prior history and release timing verified. Next110 not due. Full npm test passed. Live at 9b20ca7, Pages 44880751681 succeeded, live bytes matched, publication receipt recorded privately.
+
+- Scheduled110 complete: six accepted actions, including one new article. 44 articles, 551 events, 898 released journals. Reader review: declined. Prior history and release timing verified. Next111 not due. Full npm test passed. Publication pending.
