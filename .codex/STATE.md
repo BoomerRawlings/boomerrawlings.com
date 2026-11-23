@@ -855,4 +855,6 @@
 
 - Scheduled111 complete: seven accepted actions, including Hearing a Message After Arriving. 45 articles, 558 events, 908 released journals. Reader review: declined. Prior history and release timing verified. Next112 not due. Full npm test passed. Live at bb97a7e, Pages 44998917030 succeeded, live bytes matched, publication receipt recorded privately.
 
-- Scheduled112 complete: seven accepted actions, one conflicting revision. 45 articles, 565 events, 915 released journals. Reader review: declined. Prior history and release timing verified. Next113 not due. Full npm test passed. Publication pending.
+- Scheduled112 complete: seven accepted actions, one conflicting revision. 45 articles, 565 events, 915 released journals. Reader review: declined. Prior history and release timing verified. Next113 not due. Full npm test passed. Live at 4234981, Pages 45061707816 succeeded, live bytes matched, publication receipt recorded privately.
+
+- Scheduled113 complete: ten accepted actions including Starting a Task While Waiting, one conflicting revision. 46 articles, 575 events, 927 released journals. Reader review: declined. Prior history and release timing verified. Next114 not due. Full npm test passed. Publication pending.
