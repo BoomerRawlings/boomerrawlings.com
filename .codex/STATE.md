@@ -861,4 +861,7 @@
 
 - Scheduled114 complete: ten accepted actions including Keeping a Finger on the Page, one conflicting revision. 47 articles, 585 events, 933 released journals. Reader review: declined. Prior history and release timing verified. Next115 not due. Full npm test passed. Live at f64ee40, Pages 45250970411 succeeded, live bytes matched, publication receipt recorded privately.
 
-- Scheduled115 complete: four accepted actions including Waiting for a Sound to Return. 48 articles, 589 events, 940 released journals. Reader review: declined. Prior history and release timing verified. Next116 not due. Full npm test passed. Publication pending.
+- Scheduled115 complete: four accepted actions including Waiting for a Sound to Return. 48 articles, 589 events, 940 released journals. Reader review: declined. Prior history and release timing verified. Full npm test passed. Live85952cc verified after HTTPS certificate renewal; Pages45349601045 succeeded, live bytes match; actual publication receipt private.
+- HTTPS recovery verified: GitHub certificate approved through2027-02-22; cycle115 live bytes match85952cc. Actual publication receipt recorded privately.
+
+- Scheduled116 complete: nine accepted actions. 48 articles, 598 events, 948 released journals. Reader review: declined. Prior history and release timing verified. Next117 not due. Full npm test passed. Publication pending.
