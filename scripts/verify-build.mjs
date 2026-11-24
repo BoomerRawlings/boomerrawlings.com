@@ -41,7 +41,9 @@ const brainTeachingPaths = new Set([
   join('brain','psyc108','index.html'),
   ...teachingModules.flatMap(module=>module.assets.map(asset=>join('brain','psyc108',module.id,asset.id,'index.html'))),
 ]);
+const hubEntry = join('hub', 'index.html');
 const unlistedContentPaths = new Set([
+  hubEntry,
   ...brainTeachingPaths,
   join('0311', 'index.html'),
   join('aristotter', 'index.html'),
@@ -81,6 +83,28 @@ if (contentHtmlFiles.length !== 35 || standaloneHtmlFiles.length !== 9 || unlist
 const failures = [];
 const publishedBytes=files.reduce((total,file)=>total+statSync(file).size,0);
 if(publishedBytes>1_000_000_000)failures.push(`Pages build exceeds 1 GB: ${publishedBytes} bytes`);
+const hubDir = join(output, 'hub');
+const hubHtmlPath = join(output, hubEntry);
+const hubFiles = ['hub.css', 'hub.mjs', 'index.html', 'notebook.json'];
+if (JSON.stringify(readdirSync(hubDir).sort()) !== JSON.stringify(hubFiles)) {
+  failures.push('Hub: publish only the generic shell, same-origin assets, and ciphertext envelope');
+}
+const hubHtml = readFileSync(hubHtmlPath, 'utf8');
+const hubScripts = hubHtml.match(/<script\b[^>]*>[\s\S]*?<\/script>/gi) ?? [];
+if (!hubHtml.includes('<meta name="robots" content="noindex,nofollow,noarchive">')
+  || !hubHtml.includes('<meta name="referrer" content="no-referrer">')
+  || !hubHtml.includes("default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'")
+  || hubScripts.length !== 1
+  || hubScripts[0] !== '<script src="/hub/hub.mjs" type="module"></script>') {
+  failures.push('Hub: the entry must stay unindexed and use only the isolated same-origin script');
+}
+const hubEnvelope = JSON.parse(readFileSync(join(hubDir, 'notebook.json'), 'utf8'));
+if (JSON.stringify(Object.keys(hubEnvelope).sort()) !== JSON.stringify(['data', 'iv', 'v'])
+  || hubEnvelope.v !== 1
+  || typeof hubEnvelope.iv !== 'string' || !/^[A-Za-z0-9_-]{16}$/.test(hubEnvelope.iv)
+  || typeof hubEnvelope.data !== 'string' || !/^[A-Za-z0-9_-]{24,}$/.test(hubEnvelope.data)) {
+  failures.push('Hub: notebook.json must be an AES-GCM ciphertext envelope without plaintext fields');
+}
 const roomiePath = join(output, '0311', 'index.html');
 const roomieHtml = readFileSync(roomiePath, 'utf8');
 if (!roomieHtml.includes('<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">')
@@ -603,7 +627,7 @@ if (!existsSync(decklePath)) {
   if (deckleHtml.includes('Open Deckle directly')) failures.push('deckle/index.html: confusing direct-link overlay must remain absent');
 }
 // Deckle owns its button inside the proxied app, not the legacy iframe wrapper.
-for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => !brainTeachingPaths.has(relative(output, file)) && file !== roomiePath && file !== decklePath && file !== karmaPath && file !== join(output, 'BoomerKarma', 'Kemberton', 'index.html') && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html') && file !== join(output, 'ead', 'index.html') && file !== join(output, 'subs', 'index.html') && file !== join(output, 'psyc', 'index.html') && file !== join(output, 'brain', 'index.html') && file !== join(output, 'chem', 'index.html'))) {
+for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => !brainTeachingPaths.has(relative(output, file)) && file !== hubHtmlPath && file !== roomiePath && file !== decklePath && file !== karmaPath && file !== join(output, 'BoomerKarma', 'Kemberton', 'index.html') && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html') && file !== join(output, 'ead', 'index.html') && file !== join(output, 'subs', 'index.html') && file !== join(output, 'psyc', 'index.html') && file !== join(output, 'brain', 'index.html') && file !== join(output, 'chem', 'index.html'))) {
   const html = readFileSync(file, 'utf8');
   const count = (html.match(/class="support-coffee"/g) ?? []).length;
   if (html.includes('class="analysis-research"')) {
@@ -620,6 +644,9 @@ for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => !b
 for (const file of [...contentHtmlFiles, ...standaloneHtmlFiles]) {
   const html = readFileSync(file, 'utf8');
   const label = relative(output, file);
+  if (/href=["'](?:https:\/\/boomerrawlings\.com)?\/hub(?:\/|[?#]|["'])/i.test(html)) {
+    failures.push(`${label}: public page links to the unlisted research hub`);
+  }
   if (/href=["'][^"']*\/0311(?:\/[^"']*)?(?:[?#][^"']*)?["']/i.test(html)) {
     failures.push(`${label}: public page links to the unlisted 0311 route`);
   }
