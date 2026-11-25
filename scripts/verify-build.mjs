@@ -82,7 +82,8 @@ if (contentHtmlFiles.length !== 35 || standaloneHtmlFiles.length !== 9 || unlist
 }
 
 const failures = [];
-const blackbookHtml = readFileSync(join(output, 'blackbook', 'index.html'), 'utf8');
+const blackbookPath = join(output, 'blackbook', 'index.html');
+const blackbookHtml = readFileSync(blackbookPath, 'utf8');
 if (!blackbookHtml.includes('<meta name="robots" content="noindex,nofollow,noarchive">')
   || !blackbookHtml.includes('<script src="./blackbook.js" defer></script>')
   || !existsSync(join(output, 'blackbook', 'blackbook.js'))) {
@@ -634,8 +635,8 @@ if (!existsSync(decklePath)) {
   }
   if (deckleHtml.includes('Open Deckle directly')) failures.push('deckle/index.html: confusing direct-link overlay must remain absent');
 }
-// Deckle owns its button inside the proxied app, not the legacy iframe wrapper.
-for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => !brainTeachingPaths.has(relative(output, file)) && file !== hubHtmlPath && file !== roomiePath && file !== decklePath && file !== karmaPath && file !== join(output, 'BoomerKarma', 'Kemberton', 'index.html') && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html') && file !== join(output, 'ead', 'index.html') && file !== join(output, 'subs', 'index.html') && file !== join(output, 'psyc', 'index.html') && file !== join(output, 'brain', 'index.html') && file !== join(output, 'chem', 'index.html'))) {
+// Deckle owns its button inside the proxied app; Blackbook is a standalone notebook companion.
+for (const file of [...contentHtmlFiles, ...unlistedHtmlFiles].filter(file => !brainTeachingPaths.has(relative(output, file)) && file !== hubHtmlPath && file !== blackbookPath && file !== roomiePath && file !== decklePath && file !== karmaPath && file !== join(output, 'BoomerKarma', 'Kemberton', 'index.html') && file !== join(output, 'cbs8', 'index.html') && file !== join(output, 'cbs8', 'osint', 'index.html') && file !== join(output, 'ead', 'index.html') && file !== join(output, 'subs', 'index.html') && file !== join(output, 'psyc', 'index.html') && file !== join(output, 'brain', 'index.html') && file !== join(output, 'chem', 'index.html'))) {
   const html = readFileSync(file, 'utf8');
   const count = (html.match(/class="support-coffee"/g) ?? []).length;
   if (html.includes('class="analysis-research"')) {
