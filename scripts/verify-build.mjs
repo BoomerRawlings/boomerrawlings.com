@@ -85,7 +85,7 @@ const failures = [];
 const blackbookPath = join(output, 'blackbook', 'index.html');
 const blackbookHtml = readFileSync(blackbookPath, 'utf8');
 if (!blackbookHtml.includes('<meta name="robots" content="noindex,nofollow,noarchive">')
-  || !blackbookHtml.includes('<script src="./blackbook.js" defer></script>')
+  || !blackbookHtml.includes('<script src="./blackbook.js?v=2" defer></script>')
   || !existsSync(join(output, 'blackbook', 'blackbook.js'))) {
   failures.push('Blackbook: missing unlisted metadata or the external journal script');
 }
