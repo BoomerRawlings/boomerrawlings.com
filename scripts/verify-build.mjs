@@ -44,6 +44,7 @@ const brainTeachingPaths = new Set([
 const hubEntry = join('hub', 'index.html');
 const unlistedContentPaths = new Set([
   hubEntry,
+  join('blackbook', 'index.html'),
   ...brainTeachingPaths,
   join('0311', 'index.html'),
   join('aristotter', 'index.html'),
@@ -81,6 +82,13 @@ if (contentHtmlFiles.length !== 35 || standaloneHtmlFiles.length !== 9 || unlist
 }
 
 const failures = [];
+const blackbookHtml = readFileSync(join(output, 'blackbook', 'index.html'), 'utf8');
+if (!blackbookHtml.includes('<meta name="robots" content="noindex,nofollow,noarchive">')
+  || !blackbookHtml.includes('<script src="./blackbook.js" defer></script>')
+  || !existsSync(join(output, 'blackbook', 'blackbook.js'))) {
+  failures.push('Blackbook: missing unlisted metadata or the external journal script');
+}
+
 const publishedBytes=files.reduce((total,file)=>total+statSync(file).size,0);
 if(publishedBytes>1_000_000_000)failures.push(`Pages build exceeds 1 GB: ${publishedBytes} bytes`);
 const hubDir = join(output, 'hub');
