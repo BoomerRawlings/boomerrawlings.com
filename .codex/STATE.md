@@ -864,4 +864,6 @@
 - Scheduled115 complete: four accepted actions including Waiting for a Sound to Return. 48 articles, 589 events, 940 released journals. Reader review: declined. Prior history and release timing verified. Full npm test passed. Live85952cc verified after HTTPS certificate renewal; Pages45349601045 succeeded, live bytes match; actual publication receipt private.
 - HTTPS recovery verified: GitHub certificate approved through2027-02-22; cycle115 live bytes match85952cc. Actual publication receipt recorded privately.
 
-- Scheduled116 complete: nine accepted actions. 48 articles, 598 events, 948 released journals. Reader review: declined. Prior history and release timing verified. Next117 not due. Full npm test passed. Publication pending.
+- Scheduled116 complete: nine accepted actions. 48 articles, 598 events, 948 released journals. Reader review: declined. Prior history and release timing verified. Next117 not due. Full npm test passed. Live at f8e5ef7, Pages 45471542508 succeeded, live HTTPS bytes matched, publication receipt recorded privately.
+
+- Scheduled117 complete: nine accepted actions, one conflicting revision. 48 articles, 607 events, 959 released journals. Reader review: declined. Prior history and release timing verified. Next118 not due. Full npm test passed. Publication pending.
