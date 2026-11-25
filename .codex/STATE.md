@@ -866,4 +866,6 @@
 
 - Scheduled116 complete: nine accepted actions. 48 articles, 598 events, 948 released journals. Reader review: declined. Prior history and release timing verified. Next117 not due. Full npm test passed. Live at f8e5ef7, Pages 45471542508 succeeded, live HTTPS bytes matched, publication receipt recorded privately.
 
-- Scheduled117 complete: nine accepted actions, one conflicting revision. 48 articles, 607 events, 959 released journals. Reader review: declined. Prior history and release timing verified. Next118 not due. Full npm test passed. Publication pending.
+- Scheduled117 complete: nine accepted actions, one conflicting revision. 48 articles, 607 events, 959 released journals. Reader review: declined. Prior history and release timing verified. Next118 not due. Full npm test passed. Live at d4f42a5, Pages 45569365220 succeeded, live HTTPS bytes matched, publication receipt recorded privately.
+
+- Scheduled118 complete: seven accepted actions including Looking for Something Already in Hand. 49 articles, 614 events, 970 released journals. Reader review: declined. Prior history and release timing verified. Next119 not due. Full npm test passed. Publication pending.
