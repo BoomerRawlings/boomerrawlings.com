@@ -870,4 +870,6 @@
 
 - Scheduled118 complete: seven accepted actions including Looking for Something Already in Hand. 49 articles, 614 events, 970 released journals. Reader review: declined. Prior history and release timing verified. Next119 not due. Full npm test passed. Live at f671600, Pages 45687762438 succeeded, live HTTPS bytes matched, publication receipt recorded privately.
 
-- Scheduled119 complete: ten accepted actions, one abstention, one conflicting revision. 50 articles, 624 events, 974 released journals. Added Repeating a Time on the Way Back. Reader review: declined. Prior history, timing and privacy verified. Next120 not due. Full npm test passed. Publication pending.
+- Scheduled119 complete: ten accepted actions, one abstention, one conflicting revision. 50 articles, 624 events, 974 released journals. Added Repeating a Time on the Way Back. Reader review: declined. Prior history, timing and privacy verified. Next120 not due. Full npm test passed. Live at f20f90f, Pages 45777825805 succeeded, live HTTPS bytes matched, publication receipt recorded privately.
+
+- Scheduled120 complete: six accepted actions, one conflicting revision. 51 articles, 630 events, 983 released journals. Added Looking Toward the Door After a Cancellation. Reader review: declined. Prior history, timing and privacy verified. Next121 not due. Full npm test passed. Publication pending.
