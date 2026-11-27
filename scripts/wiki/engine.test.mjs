@@ -543,7 +543,12 @@ test('authorized backend requests queue once, stay private, and require a verifi
   assert.throws(()=>wiki.recordBackendChange(state,{...result,result:'changed'},execution),/finalized/);
   state.pending={...wiki.cycleWindow(79),participants:[id,'bluemonday'],proposals:{}};
   assert.equal(wiki.characterPacket(state,id).character.backendReceipts[0].status,'implemented');
+  const technical = wiki.characterPacket(state,id).character.fourthWall;
+  assert.ok(technical.knowledge.includes('fictional editor'));
+  assert.equal(technical.source.selectCohort,wiki.selectCohort.toString());
+  assert.match(technical.sourceFingerprint,/^[a-f0-9]{64}$/);
   assert.ok(!JSON.stringify(wiki.characterPacket(state,'bluemonday')).includes('backendReceipts'));
+  assert.ok(!wiki.characterPacket(state,'bluemonday').character.fourthWall);
   assert.throws(()=>wiki.propose(state,{...abstention(state,'bluemonday'),action:'policy',title:'Other',body:'Other.',backendRequest:request},{now:state.pending.endAt,proof:usage(80,state.pending.endAt)}),/authorized technical/);
 });
 

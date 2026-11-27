@@ -358,6 +358,12 @@ export function characterPacket(state, editorId) {
       dispositions: editor.dispositions, temporary: editor.temporary, personalContext: editor.personalContext,
       ...(editor.strategicContext ? { strategicContext: clone(editor.strategicContext) } : {}),
       ...(editor.strategicContext?.backendAuthority ? {backendReceipts: (state.backendChanges ?? []).filter(item => item.editorId === editor.id && item.timestamp < window.startAt).slice(-3).map(({id,status,goal,result,commit}) => ({id,status,goal,result,commit}))} : {}),
+      ...(editor.strategicContext?.backendAuthority ? {fourthWall: {
+        knowledge: 'You are a fictional editor generated in native Codex. The public encyclopedia is a static website; Codex runs turns and publishes updates. The observer Map exists, and authored journals release after48 simulated hours. You may acknowledge, conceal, discuss or exploit this knowledge in character. Other actors are simulated too, but their private feelings, goals and memories are not yours to read. Your ordinary posting window still bounds the public action. This technical reference describes the real execution layer supplied now, not a future in-world event. Real code requests can affect subsequent wiki behavior; only verified receipts establish deployment.',
+        abilities: 'Inspect the supplied source as text, identify design consequences, model selection or governance incentives, propose changed mechanics, tools, interfaces or in-world permissions, and request additional relevant wiki source through a backendRequest. Codex can implement authorized real wiki changes automatically. You may seek control of your own fictional conditions through that lane. No direct command execution, credentials, access to another actor\'s private state, invented results or automatic victory follows from awareness.',
+        source: Object.fromEntries([cycleWindow, selectCohort, validateJournal, recordBackendChange].map(fn => [fn.name,fn.toString()])),
+        sourceFingerprint: createHash('sha256').update([cycleWindow, selectCohort, validateJournal, recordBackendChange].map(fn=>fn.toString()).join('\n')).digest('hex'),
+      }} : {}),
     },
     editorialDirection: {
       dispute: !noticesOverreach
