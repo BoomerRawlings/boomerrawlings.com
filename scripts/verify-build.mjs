@@ -75,10 +75,20 @@ const unlistedHtmlFiles = htmlFiles.filter(
 const standaloneHtmlFiles = htmlFiles.filter(
   (file) => standaloneContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 35 || standaloneHtmlFiles.length !== standaloneContentPaths.size || unlistedHtmlFiles.length !== unlistedContentPaths.size || htmlFiles.length !== 35 + standaloneContentPaths.size + unlistedContentPaths.size + redirectTargets.size) {
-  throw new Error(
-    `expected 35 portfolio pages, ${standaloneContentPaths.size} standalone pages, ${unlistedContentPaths.size} unlisted pages, and ${redirectTargets.size} redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
-  );
+const builtPaths = new Set(htmlFiles.map(file => relative(output, file)));
+const missingRegisteredPages = [...standaloneContentPaths, ...unlistedContentPaths, ...redirectTargets.keys()]
+  .filter(path => !builtPaths.has(path)).sort();
+const unmatchedPortfolioCandidates = contentHtmlFiles.filter(file => {
+  const html = readFileSync(file, 'utf8');
+  return !html.includes('data-pip-guide');
+}).map(file => relative(output, file)).sort();
+if (contentHtmlFiles.length !== 35 || missingRegisteredPages.length) {
+  throw new Error([
+    `Page inventory mismatch: expected 35 portfolio pages, found ${contentHtmlFiles.length}.`,
+    missingRegisteredPages.length && `Missing registered routes: ${missingRegisteredPages.join(', ')}`,
+    unmatchedPortfolioCandidates.length && `Routes to check for missing classification or portfolio metadata: ${unmatchedPortfolioCandidates.join(', ')}`,
+    'Review the named routes and their intended visibility. Do not register a private route as standalone public or change the count to hide an error.',
+  ].filter(Boolean).join('\n'));
 }
 
 const failures = [];

@@ -5,22 +5,28 @@ on:
     branches: [main]
     paths-ignore:
       - '.codex/**'
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: pages
+  group: pages-${{ github.event.pull_request.number || 'production' }}
   cancel-in-progress: false
 
 jobs:
   build:
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    env:
+      npm_config_fetch_retries: '1'
     steps:
       - name: Check out the repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - name: Set up Node for SUBS checks
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
@@ -44,25 +50,112 @@ jobs:
           .venv/bin/python -m pip install -r tools/subs/requirements.txt
           .venv/bin/python -m unittest discover -s tools/subs/tests -v
           .venv/bin/python tools/subs/tests/run_worker_proof.py --output tmp/subs-worker-proof-ci
-      - name: Install, verify, and upload the site
-        uses: withastro/action@e84f40bd8d2caa9e768ec82ad30dd81f0b280853 # v6
+      - name: Verify the exact site build
+        run: |
+          npm ci
+          npm test
+          node --test scripts/test-pages-health.mjs
+      - name: Mark the verified release
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: printf '%s:%s:%s\n' "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" "$GITHUB_SHA" > dist/pages-release.txt
+      - name: Upload verified Pages artifact
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
         with:
-          node-version: 24
-          build-cmd: npm test
+          name: pages-${{ github.run_attempt }}
+          path: dist
+          retention-days: 30
 
   deploy:
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     permissions:
+      contents: read
+      actions: read
       pages: write
       id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+      - name: Record the healthy release currently serving production
+        id: previous
+        run: node scripts/pages-health.mjs baseline >> "$GITHUB_OUTPUT"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5
         with:
+          artifact_name: pages-${{ github.run_attempt }}
           timeout: 600000
+      - name: Verify the new release on the live site
+        id: smoke
+        continue-on-error: true
+        run: node scripts/pages-health.mjs verify "$GITHUB_RUN_ID:$GITHUB_RUN_ATTEMPT:$GITHUB_SHA"
+      - name: Retrieve the previous verified artifact
+        id: recover
+        if: steps.smoke.outcome == 'failure' && steps.smoke.outputs.rollback == 'true' && steps.previous.outputs.marker != ''
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PREVIOUS: ${{ steps.previous.outputs.marker }}
+        run: |
+          IFS=: read -r run attempt sha <<< "$PREVIOUS"
+          test "$run" != "$GITHUB_RUN_ID"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run" --jq '[.path,.head_branch,.head_sha]|join(":")')" = ".github/workflows/deploy-pages.yml:main:$sha"
+          mkdir -p "$RUNNER_TEMP/pages-rollback"
+          gh run download "$run" --repo "$GITHUB_REPOSITORY" --name "pages-$attempt" --dir "$RUNNER_TEMP/pages-rollback"
+          test "$(tar -xOf "$RUNNER_TEMP/pages-rollback/artifact.tar" ./pages-release.txt)" = "$PREVIOUS"
+      - name: Stage the previous verified artifact
+        if: steps.recover.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: pages-rollback-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/pages-rollback/artifact.tar
+          if-no-files-found: error
+          retention-days: 1
+      - name: Restore the previous release
+        id: restore
+        if: steps.recover.outcome == 'success'
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5
+        with:
+          artifact_name: pages-rollback-${{ github.run_attempt }}
+          timeout: 600000
+      - name: Verify the restored release
+        id: restored
+        if: steps.restore.outcome == 'success'
+        env:
+          PREVIOUS: ${{ steps.previous.outputs.marker }}
+        run: node scripts/pages-health.mjs verify "$PREVIOUS"
+      - name: Mark the rejected release as failed even after successful recovery
+        if: always() && steps.smoke.outcome == 'failure'
+        env:
+          RESTORED: ${{ steps.restored.outcome }}
+        run: |
+          echo "New release failed live verification. Previous release verification: $RESTORED." >> "$GITHUB_STEP_SUMMARY"
+          exit 1
+
+  report:
+    if: always() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && (needs.build.result == 'failure' || needs.deploy.result == 'failure')
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      BUILD_RESULT: ${{ needs.build.result }}
+      DEPLOY_RESULT: ${{ needs.deploy.result }}
+    steps:
+      - name: File one incident per commit
+        run: |
+          title="Pages deployment failed ($(printf %.12s "$GITHUB_SHA"))"
+          existing=$(gh issue list --repo "$GITHUB_REPOSITORY" --state all --search "$title in:title" --json title --jq '.[].title')
+          if grep -Fxq "$title" <<< "$existing"; then exit 0; fi
+          gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" \
+            --body "Build: $BUILD_RESULT. Deploy: $DEPLOY_RESULT. [Run, logs and recovery status]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID). Review the failing check before proposing a fix; do not bypass it or guess a route's visibility."
