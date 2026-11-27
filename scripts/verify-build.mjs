@@ -62,7 +62,7 @@ const unlistedContentPaths = new Set([
   join('writing', 'data-analysis', 'sex-and-the-moon', 'index.html'),
 ]);
 // Portable examples own their document shell; portfolio metadata/Pip rules stay unchanged.
-const standaloneContentPaths = new Set([join('workflow-display', 'index.html'), join('documents', 'scads-2026', 'workflow.html'), join('ACF', 'index.html'), join('stars', 'index.html'), join('stars', 'jumpin', 'index.html'), join('stars-assets', 'workflow.html'), join('wiki', 'index.html'), join('wiki', 'map', 'index.html'), join('work', 'tss-better-booking', 'index.html'), join('cs', 'index.html')]);
+const standaloneContentPaths = new Set([join('workflow-display', 'index.html'), join('documents', 'scads-2026', 'workflow.html'), join('ACF', 'index.html'), join('stars', 'index.html'), join('stars', 'jumpin', 'index.html'), join('stars-assets', 'workflow.html'), join('wiki', 'index.html'), join('wiki', 'map', 'index.html'), join('work', 'tss-better-booking', 'index.html'), join('cs', 'index.html'), join('do-i-understand', 'index.html')]);
 const contentHtmlFiles = htmlFiles.filter(
   (file) => {
     const path = relative(output, file);
@@ -75,13 +75,22 @@ const unlistedHtmlFiles = htmlFiles.filter(
 const standaloneHtmlFiles = htmlFiles.filter(
   (file) => standaloneContentPaths.has(relative(output, file)),
 );
-if (contentHtmlFiles.length !== 35 || standaloneHtmlFiles.length !== 10 || unlistedHtmlFiles.length !== unlistedContentPaths.size || htmlFiles.length !== 53 + unlistedContentPaths.size) {
+if (contentHtmlFiles.length !== 35 || standaloneHtmlFiles.length !== standaloneContentPaths.size || unlistedHtmlFiles.length !== unlistedContentPaths.size || htmlFiles.length !== 35 + standaloneContentPaths.size + unlistedContentPaths.size + redirectTargets.size) {
   throw new Error(
-    `expected 35 portfolio pages, 10 standalone pages, ${unlistedContentPaths.size} unlisted pages, and 8 redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
+    `expected 35 portfolio pages, ${standaloneContentPaths.size} standalone pages, ${unlistedContentPaths.size} unlisted pages, and ${redirectTargets.size} redirects; found ${contentHtmlFiles.length}, ${standaloneHtmlFiles.length}, ${unlistedHtmlFiles.length}, and ${htmlFiles.length - contentHtmlFiles.length - standaloneHtmlFiles.length - unlistedHtmlFiles.length}`,
   );
 }
 
 const failures = [];
+const understandingDir = join(output, 'do-i-understand');
+const understandingPage = readFileSync(join(understandingDir, 'index.html'), 'utf8');
+if (!understandingPage.includes('href="./SKILL.md" download')
+  || !understandingPage.includes('href="./style.css"')
+  || !existsSync(join(understandingDir, 'style.css'))
+  || !/^---\r?\nname: do-i-understand\r?\ndescription: [^\r\n]+\r?\n---/.test(readFileSync(join(understandingDir, 'SKILL.md'), 'utf8'))) {
+  failures.push('Do I Understand: missing portable skill, download link, or stylesheet');
+}
+
 const blackbookPath = join(output, 'blackbook', 'index.html');
 const blackbookHtml = readFileSync(blackbookPath, 'utf8');
 if (!blackbookHtml.includes('<meta name="robots" content="noindex,nofollow,noarchive">')
