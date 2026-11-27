@@ -2162,7 +2162,7 @@ if (!existsSync(cnamePath) || readFileSync(cnamePath, 'utf8').trim() !== 'boomer
 }
 
 const pagesWorkflow = readFileSync(join('.github', 'workflows', 'deploy-pages.yml'), 'utf8');
-for (const required of ['withastro/action@e84f40bd8d2caa9e768ec82ad30dd81f0b280853', 'actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128', 'pages: write', 'id-token: write']) {
+for (const required of ['actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b', '          npm ci\n          npm test', 'actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128', 'pages: write', 'id-token: write']) {
   if (!pagesWorkflow.includes(required)) failures.push(`GitHub Pages workflow: missing ${required}`);
 }
 
