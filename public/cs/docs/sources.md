@@ -23,7 +23,7 @@ The Ektarr IEM Katowice 2024 final has source match `861529`: Nuke `116915` 13�
 
 The current HLTV final page may show recalculated Rating 3.0; the [contemporaneous article](https://www.hltv.org/news/38185/donk-stars-as-spirit-sweep-faze-to-win-iem-katowice/) reports 1.93 under the then-current system. Historical rating values and formula versions must not be silently conflated.
 
-`data/raw/source-discovery/identity-evidence.json` contains eight independently checked player crosswalks based on full legal name, alias and country. NiKo/Nikola Kovač and niko/Nikolaj Kristensen remain distinct. These validation anchors do not limit the collected player population. Unresolved source identities are preserved separately; matching names alone never justify a merge.
+`data/raw/source-discovery/identity-evidence.json` contains the initial eight independently checked player crosswalks based on full legal name, alias and country. A separate review of 14 additional full-name/profile links in `config/identity-upgrade-reviewed.json` was applied through an atomic migration; `config/identity-anchors.json` now contains 22 anchors. Protected performance values and observation counts were unchanged. NiKo/Nikola Kovač and niko/Nikolaj Kristensen remain distinct. These validation anchors do not limit the collected player population. Unresolved source identities are preserved separately; matching names alone never justify a merge.
 
 ## Rejected and deferred acquisitions
 

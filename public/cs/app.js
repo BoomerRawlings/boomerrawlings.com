@@ -1,4 +1,6 @@
 import { getMeta, query, exportCsv } from './api.js';
+import { createRaceScale, calendarProgress, nearestSnapshotIndex, calendarTicks } from './race-model.js';
+import { getTeamBrand } from './team-branding.js';
 
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
@@ -13,12 +15,12 @@ const metrics = {
   z_kpr:{label:'KPR · contemporary z-score',unit:'STANDARDIZED KPR',hint:'KPR relative to comparable completed contemporary windows.'},
   z_net_kpr:{label:'Net KPR · contemporary z-score',unit:'STANDARDIZED NET KPR',hint:'Net KPR relative to comparable completed contemporary windows.'},
   ppi:{label:'PPI · KPR + Net KPR',unit:'EXPERIMENTAL INDEX',hint:'100 + 10 × (0.5 z KPR + 0.5 z Net KPR). Correlated components; descriptive only.'},
-  ppi_defense:{label:'PPI · KPR + survival',unit:'EXPERIMENTAL INDEX',hint:'Equal standardized kill production and negative deaths per round. Descriptive only.'},
+  ppi_defense:{label:'Balanced performance index',unit:'EXPERIMENTAL INDEX',hint:'Equal standardized kills per round and negative deaths per round. Experimental descriptive index; not estimated round-winning contribution.'},
   ppi_covariance:{label:'PPI · covariance adjusted',unit:'EXPERIMENTAL INDEX',hint:'Composite scaled by its component covariance. Definition follows the published model specification.'}
   ,robust_z_kpr:{label:'KPR · robust standardized score',unit:'ROBUST STANDARDIZED KPR',hint:'Deviation from contemporary median, divided by 1.4826 × median absolute deviation.'}
   ,percentile_kpr:{label:'KPR · contemporary percentile',unit:'CONTEMPORARY PERCENTILE',hint:'Percentile within the prior contemporary reference population. Tied observations use midranks.'}
 };
-const state = { meta:null,dates:[],index:0,mode:'record',perspective:'absolute',metric:'kpr',window:'50',quality:'elo_top30',game:'both',limit:10,q:'',playing:false,timer:null,rows:[],frontier:[],request:0,abort:null,detail:null };
+const state = { meta:null,dates:[],index:0,mode:'active',perspective:'relative',metric:'ppi_defense',window:'25',quality:'elo_top30',game:'both',limit:10,q:'',zoom:true,playing:false,timer:null,rows:[],frontier:[],request:0,abort:null,detail:null,lastRanks:new Map(),motionKey:null,motionDate:null };
 const finite = value => typeof value === 'number' && Number.isFinite(value);
 const fmt = (value, digits=3) => finite(value) ? value.toFixed(digits) : '—';
 const count = value => finite(value) ? number.format(value) : '—';
@@ -30,7 +32,6 @@ const nameOf = row => String(row.display_name ?? row.alias ?? row.name ?? idOf(r
 const gameLabel = game => game==='both'?'BOTH ERAS':game==='cs2'?'CS2':'CS:GO';
 const valueOf = row => finite(row.value) ? row.value : row[state.metric];
 const params = () => ({date:state.dates[state.index],mode:state.mode,metric:state.metric,window:state.window,quality:state.quality,game:state.game,limit:state.limit,q:state.q});
-const color = id => {let hash=2166136261;for(const letter of String(id))hash=Math.imul(hash^letter.charCodeAt(0),16777619)>>>0;return `hsl(${(hash%3600)/10} 38% ${67+(hash>>>16)%9}%)`;};
 const normalizeName = value => String(value||'').normalize('NFKC').trim().toLocaleLowerCase();
 function mediaFor(kind,key){
   const records=state.meta?.media?.[kind]||{};
@@ -53,7 +54,9 @@ function renderPlayerMedia(element,row){
   if(initials){initials.textContent=name.replace(/[^\p{L}\p{N}]/gu,'').slice(0,2).toUpperCase()||'?';initials.title=`No licensed headshot available for ${name}`;initials.setAttribute('aria-label',initials.title);}
   const portrait=avatar.querySelector('img');if(portrait)portrait.alt=`${name} headshot`;
   // Source roster lineages are not transfer events. Compare the observed team name/mark.
-  const team=row.team_name||null,logoRecord=team?mediaFor('teams',team):null,logo=mediaPath(logoRecord),unaltered=Boolean(logoRecord?.unaltered_display);
+  const team=row.team_name||null,logoRecord=team?mediaFor('teams',team):null,logo=mediaPath(logoRecord),unaltered=Boolean(logoRecord?.unaltered_display),brand=getTeamBrand(team,logoRecord);
+  for(const [key,value]of Object.entries({primary:brand.primary,secondary:brand.secondary,accent:brand.accent}))element.style.setProperty(`--team-${key}`,value);
+  element.dataset.teamBrand=brand.key;
   const teamKey=normalizeName(logoRecord?.name||team).replace(/^team\s+/,'')+'|'+(logo||'');
   const previous=element.dataset.teamKey;
   const changed=Boolean(team&&previous&&previous!=='|'&&previous!==teamKey);
@@ -61,9 +64,15 @@ function renderPlayerMedia(element,row){
     element.dataset.teamKey=teamKey;
     const holder=element.querySelector('.bar-team-mark');
     holder.classList.toggle('brand-unaltered',unaltered);
-    holder.querySelectorAll('.outgoing').forEach(image=>image.remove());
-    const prior=holder.querySelector('img');if(prior){if(prior.dataset.unaltered==='true'||unaltered)prior.remove();else{prior.classList.add('outgoing');setTimeout(()=>prior.remove(),850);}}
-    if(logo){const image=document.createElement('img');image.src=logo;image.alt='';image.dataset.unaltered=String(unaltered);image.setAttribute('aria-hidden','true');image.className=unaltered?'':'incoming';image.addEventListener('error',()=>image.remove());holder.append(image);if(!unaltered)requestAnimationFrame(()=>image.classList.remove('incoming'));}
+    holder.replaceChildren();holder.dataset.mode=brand.logo.mode;
+    if(logo&&brand.logo.mode==='mask'){
+      const watermark=document.createElement('span');watermark.className='team-watermark';watermark.style.setProperty('--crest',`url("${logo}")`);holder.append(watermark);
+      const source=document.createElement('img');source.className='mask-source';source.src=logo;source.alt='';source.setAttribute('aria-hidden','true');holder.append(source);
+    }else if(logo&&brand.logo.mode==='original'){
+      const image=document.createElement('img');image.src=logo;image.alt='';image.dataset.unaltered=String(unaltered);image.setAttribute('aria-hidden','true');image.addEventListener('error',()=>image.remove());holder.append(image);
+    }else{
+      const wordmark=document.createElement('span');wordmark.className='team-wordmark';wordmark.textContent=team?brand.label:'';holder.append(wordmark);
+    }
     if(team&&previous&&previous!=='|'){
       element.classList.remove('team-changed');void element.offsetWidth;element.classList.add('team-changed');clearTimeout(element.teamTimer);element.teamTimer=setTimeout(()=>element.classList.remove('team-changed'),1500);
     }
@@ -82,11 +91,44 @@ function updateDate(actualDate) {
   $('#date-year').textContent=parsed?.getUTCFullYear()||'—';
   $('#date-month').textContent=parsed?monthFormat.format(parsed).toUpperCase():'NO COVERAGE';
   $('#timeline-date').textContent=date?day(date):'No snapshot available';
-  $('#timeline').value=state.index;
-  $('#timeline').style.setProperty('--progress',`${state.dates.length>1?state.index/(state.dates.length-1)*100:0}%`);
+  const progress=date&&state.dates.length?calendarProgress(date,state.dates[0],state.dates.at(-1)):0;
+  $('#timeline').value=Math.round(progress*10000);
+  $('#timeline').setAttribute('aria-valuetext',date?`${day(date)}. Measured monthly snapshot.`:'No snapshot');
+  $('#calendar-track').style.setProperty('--calendar-progress',`${progress*100}%`);
+  $('#calendar-current').textContent=parsed?`${monthFormat.format(parsed)} ${parsed.getUTCFullYear()}`:'No snapshot';
+  $('#calendar-current').style.left=`${progress*100}%`;
+  $('#calendar-current').classList.toggle('near-start',progress<.12);$('#calendar-current').classList.toggle('near-end',progress>.88);
+  const yearStart=parsed?new Date(Date.UTC(parsed.getUTCFullYear(),0,1)):null;
+  const nextYear=parsed?new Date(Date.UTC(parsed.getUTCFullYear()+1,0,1)):null;
+  $('#month-name').textContent=parsed?`${parsed.getUTCFullYear()} · THE YEAR`:'—';
+  $('#month-day').textContent=parsed?`${monthFormat.format(parsed)} ${parsed.getUTCDate()}`:'—';
+  $('#month-progress').style.width=parsed?`${(parsed-yearStart)/(nextYear-yearStart)*100}%`:'0%';
+  $$('#year-months span').forEach((label,index)=>label.classList.toggle('current-month',index===parsed?.getUTCMonth()));
+}
+function renderCalendar(){
+  const start=state.dates[0],end=state.dates.at(-1),track=$('#calendar-track');
+  if(!start||!end)return;
+  const fraction=date=>calendarProgress(date,start,end);
+  $('#calendar-years').innerHTML=calendarTicks(start,end,{maxTicks:16}).filter(tick=>tick.kind==='boundary'||tick.fraction>.035&&tick.fraction<.965).map(tick=>`<span class="calendar-year ${tick.kind==='boundary'?'boundary':''}" style="left:${tick.fraction*100}%">${escape(tick.label)}</span>`).join('');
+  const months=[];let cursor=new Date(`${start.slice(0,7)}-01T00:00:00Z`),last=new Date(`${end}T00:00:00Z`);
+  while(cursor<=last){const date=cursor.toISOString().slice(0,10);if(date>=start)months.push(`<i class="month-tick ${cursor.getUTCMonth()===0?'year-tick':''}" style="left:${fraction(date)*100}%" title="${escape(monthFormat.format(cursor))} ${cursor.getUTCFullYear()}"></i>`);cursor=new Date(Date.UTC(cursor.getUTCFullYear(),cursor.getUTCMonth()+1,1));}
+  $('#calendar-months').innerHTML=months.join('');
+  const ranges=state.meta?.game_ranges||{},bands=[];
+  for(const game of ['csgo','cs2']){const range=ranges[game];if(!range||range.max_date<start||range.min_date>end)continue;const left=fraction(range.min_date),right=fraction(range.max_date);bands.push(`<span class="era-band era-${game}" style="left:${left*100}%;width:${(right-left)*100}%">${gameLabel(game)}</span>`);}
+  if(ranges.csgo&&ranges.cs2&&state.game==='both'){const left=fraction(ranges.csgo.max_date),right=fraction(ranges.cs2.min_date);bands.push(`<span class="era-band coverage-gap" style="left:${left*100}%;width:${(right-left)*100}%" title="No acquired observations between ${escape(day(ranges.csgo.max_date))} and ${escape(day(ranges.cs2.min_date))}">DATA GAP</span>`);}
+  $('#calendar-eras').innerHTML=bands.join('');
+  track.setAttribute('aria-label',`Calendar timeline from ${day(start)} to ${day(end)}. Highlight shows selected player's actual completed window.`);
+}
+function highlightWindow(row){
+  const span=$('#calendar-window'),label=$('#window-span');
+  if(!row?.start_date||!row?.end_date){span.hidden=true;label.textContent='No qualifying window at this date';return;}
+  const left=calendarProgress(row.start_date,state.dates[0],state.dates.at(-1)),right=calendarProgress(row.end_date,state.dates[0],state.dates.at(-1));
+  span.hidden=false;span.style.left=`${left*100}%`;span.style.width=`${Math.max(0,right-left)*100}%`;
+  label.textContent=`${nameOf(row)} · ${day(row.start_date)} — ${day(row.end_date)} · ${count(row.maps??row.map_count)} maps`;
 }
 function updateLabels() {
-  $('#chart-title').textContent=metrics[state.metric]?.label||state.metric;
+  $('#explorer-heading').textContent=state.mode==='active'?'Who is setting the pace?':'The evolution of a peak';
+  $('#chart-title').textContent=state.metric==='ppi_defense'?`${state.mode==='active'?'Form':'Performance'} index · production + survival`:metrics[state.metric]?.label||state.metric;
   $('#chart-unit').textContent=metrics[state.metric]?.unit||'OBSERVED VALUE';
   $('#metric-hint').textContent=metrics[state.metric]?.hint||'';
   $('#view-label').textContent=`${state.mode==='record'?'HISTORICAL RECORDS':'ACTIVE PERFORMANCE'} / ${gameLabel(state.game)}`;
@@ -104,6 +146,7 @@ function renderEmpty(title,message) {
   const div=document.createElement('div');div.className='empty-state';
   div.innerHTML=`<span class="empty-mark">△</span><h4>${escape(title)}</h4><p>${escape(message)}</p>`;
   $('#bar-chart').append(div);$('#leader-name').textContent='No qualifying window';$('#leader-value').textContent='—';
+  $('#scale-note').textContent='No measured values for this snapshot.';$('#scale-ticks').replaceChildren();highlightWindow(null);
 }
 function renderRows(rows) {
   const chart=$('#bar-chart');
@@ -111,34 +154,45 @@ function renderRows(rows) {
   if(!rows.length){renderEmpty('No qualifying windows','Try a later date, a shorter window, a different game, or broader opposition. Missing history is not a zero performance.');return;}
   chart.querySelector('.empty-state')?.remove();
   const values=rows.map(valueOf).filter(finite);
-  const max=Math.max(0,...values)*1.04||1;
-  const min=Math.min(0,...values)*1.04;
-  const range=max-min;
+  const scale=createRaceScale(values,{zoom:state.zoom,metric:state.metric});
+  const axisDigits=state.metric.startsWith('ppi')||state.metric==='adr'?0:2;
+  $('#scale-note').textContent=state.zoom?`Zoomed common axis · baseline ${fmt(scale.baseline,axisDigits)} · bar lengths show differences from this baseline, not ratios. Axis follows displayed values.`:'Zero baseline · bar lengths show measured values on a common axis.';
+  $('#scale-ticks').innerHTML=scale.ticks.map(value=>`<span style="left:${(value-scale.domain[0])/(scale.domain[1]-scale.domain[0])*100}%">${fmt(value,axisDigits)}</span>`).join('');
   const existing=new Map([...chart.querySelectorAll('.bar-row')].map(element=>[element.dataset.id,element]));
   const wanted=new Set(rows.map(idOf));
-  for(const [id,element]of existing)if(!wanted.has(id))element.remove();
-  chart.style.height=`${Math.max(160,rows.length*37)}px`;
+  for(const [id,element]of existing)if(!wanted.has(id)){element.classList.replace('bar-row','row-exiting');element.setAttribute('aria-hidden','true');element.tabIndex=-1;setTimeout(()=>element.remove(),320);}
+  const rowHeight=45;
+  chart.style.height=`${Math.max(160,rows.length*rowHeight)}px`;
+  const motionKey=[state.mode,state.metric,state.window,state.quality,state.game,state.q].join('|'),date=state.dates[state.index];
+  const comparable=state.motionKey===motionKey&&state.motionDate!==date&&date>state.motionDate;
   const teamChanges=[];
   const aliasCounts=new Map();for(const row of rows){const alias=normalizeName(nameOf(row));aliasCounts.set(alias,(aliasCounts.get(alias)||0)+1);}
   rows.forEach((row,index)=>{
-    const id=idOf(row);let element=existing.get(id);
-    if(!element){element=document.createElement('button');element.type='button';element.className='bar-row';element.dataset.id=id;element.setAttribute('role','listitem');element.innerHTML='<span class="bar-rank"></span><span class="bar-avatar"></span><span class="bar-identity"><span class="bar-player"><span class="bar-name"></span><span class="era-badge" hidden></span></span><span class="bar-team"></span></span><span class="bar-track"><span class="zero-line"></span><span class="bar-fill"><span class="bar-team-mark"></span></span></span><span class="bar-value"></span>';chart.append(element);element.addEventListener('click',()=>openPlayer(element.dataset.id));}
+    const id=idOf(row);let element=existing.get(id);const fresh=!element;
+    if(!element){element=document.createElement('button');element.type='button';element.className='bar-row row-entering';element.dataset.id=id;element.setAttribute('role','listitem');element.innerHTML='<span class="bar-rank"><span class="rank-number"></span><span class="rank-change"></span></span><span class="bar-avatar"></span><span class="bar-identity"><span class="bar-player"><span class="bar-name"></span><span class="era-badge" hidden></span></span><span class="bar-team"></span></span><span class="bar-track"><span class="zero-line"></span><span class="bar-fill"><span class="bar-team-mark"></span></span></span><span class="bar-value"></span>';chart.append(element);element.addEventListener('click',()=>openPlayer(element.dataset.id));element.addEventListener('pointerenter',()=>highlightWindow(element.windowRow));element.addEventListener('pointerleave',()=>highlightWindow(state.rows[0]));element.addEventListener('focus',()=>highlightWindow(element.windowRow));element.addEventListener('blur',()=>highlightWindow(state.rows[0]));}
     const value=valueOf(row);
+    const renderVersion=(element.renderVersion||0)+1;element.renderVersion=renderVersion;
+    element.windowRow=row;
     element.classList.toggle('is-leader',value===valueOf(rows[0]));
-    element.style.transform=`translateY(${index*37}px)`;
-    element.style.setProperty('--player-color',color(id));
-    element.querySelector('.bar-rank').textContent=String(row.rank??index+1).padStart(2,'0');
+    element.style.transform=`translateY(${index*rowHeight}px)`;
+    const rank=row.rank??index+1,previousRank=state.lastRanks.get(id),delta=comparable&&previousRank!=null?previousRank-rank:0;
+    element.querySelector('.rank-number').textContent=String(rank).padStart(2,'0');
+    const rankChange=element.querySelector('.rank-change');rankChange.textContent=delta?`${delta>0?'↑':'↓'}${Math.abs(delta)}`:comparable&&previousRank==null?'IN':'';rankChange.className=`rank-change ${delta>0?'rank-up':delta<0?'rank-down':'rank-new'}`;rankChange.title=delta?`Moved ${Math.abs(delta)} positions ${delta>0?'up':'down'} since preceding displayed snapshot`:rankChange.textContent?'Entered the displayed selection':'';
+    element.classList.toggle('is-rising',delta>0);element.classList.toggle('is-falling',delta<0);
     element.querySelector('.bar-name').textContent=nameOf(row);
     const badge=element.querySelector('.era-badge');badge.hidden=aliasCounts.get(normalizeName(nameOf(row)))<2;badge.textContent=row.game==='csgo'?'GO':row.game==='cs2'?'CS2':'ID';badge.title='Separate unresolved source identities; not assumed different people.';
     const teamChange=renderPlayerMedia(element,row);if(teamChange)teamChanges.push(teamChange);
     element.querySelector('.bar-value').textContent=fmt(value,state.metric.startsWith('ppi')?1:3);
-    element.querySelector('.bar-fill').style.left=`${(Math.min(0,value)-min)/range*100}%`;
-    element.querySelector('.bar-fill').style.width=`${Math.abs(value)/range*100}%`;
-    element.querySelector('.zero-line').style.left=`${-min/range*100}%`;
-    element.querySelector('.zero-line').style.display=min<0?'block':'none';
+    const geometry=scale.geometry(value),fill=element.querySelector('.bar-fill');
+    fill.style.left=`${geometry.left*100}%`;
+    if(fresh){fill.style.width='0%';requestAnimationFrame(()=>requestAnimationFrame(()=>{if(element.renderVersion!==renderVersion||!element.isConnected)return;fill.style.width=`${geometry.width*100}%`;element.classList.remove('row-entering');}));}else{fill.style.width=`${geometry.width*100}%`;element.classList.remove('row-entering');}
+    element.querySelector('.zero-line').style.left=`${(scale.baseline-scale.domain[0])/(scale.domain[1]-scale.domain[0])*100}%`;
+    element.querySelector('.zero-line').style.display='block';
     const title=`${nameOf(row)}: ${fmt(value)}, ${row.maps??row.map_count??'?'} maps, ${row.rounds??'?'} rounds. ${day(row.start_date)} to ${day(row.end_date)}. Inspect performance.`;
     element.title=title;element.setAttribute('aria-label',title);
   });
+  state.lastRanks=new Map(rows.map((row,index)=>[idOf(row),row.rank??index+1]));state.motionKey=motionKey;state.motionDate=date;
+  highlightWindow(rows[0]);
   $('#leader-name').textContent=nameOf(rows[0]);$('#leader-value').textContent=fmt(valueOf(rows[0]),state.metric.startsWith('ppi')?1:3);
   if(rows.length>1&&valueOf(rows[1])===valueOf(rows[0])){$('#leader-label').textContent=state.q?'SHARED HIGHEST MATCH':'SHARED OBSERVED LEAD';$('#leader-name').textContent=`${nameOf(rows[0])} · tied`;}
   if(teamChanges.length)$('#roster-annotation').textContent=`First observed with team: ${teamChanges.slice(0,3).join(' · ')}. `;
@@ -147,6 +201,7 @@ async function refresh({frontier=false}={}) {
   const request=++state.request;
   state.abort?.abort();state.abort=new AbortController();
   updateDate();updateLabels();$('#chart-area').setAttribute('aria-busy','true');
+  $('#snapshot-status').textContent='Loading measured snapshot…';
   try{
     const response=await query('leaderboard',params(),{signal:state.abort.signal});
     if(request!==state.request)return;
@@ -183,9 +238,17 @@ async function step(){
   state.index++;await refresh({frontier:true});
   if(state.playing)state.timer=setTimeout(step,Number($('#speed').value));
 }
-function play(){if(!state.dates.length)return;if(state.index===state.dates.length-1)state.index=0;state.playing=true;$('#play').innerHTML='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3h4v14H5zm7 0h4v14h-4z"/></svg><span>Pause</span>';$('#play').setAttribute('aria-label','Pause historical timeline');refresh({frontier:true}).then(()=>{if(state.playing)state.timer=setTimeout(step,Number($('#speed').value));});}
+async function play(){
+  if(!state.dates.length)return;
+  if(state.index===state.dates.length-1)state.index=0;
+  state.playing=true;$('#play').innerHTML='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3h4v14H5zm7 0h4v14h-4z"/></svg><span>Pause</span>';$('#play').setAttribute('aria-label','Pause historical timeline');
+  // Begin at the first actual qualifying snapshot; never skip internal coverage gaps.
+  if(state.index===0){try{for(let index=0;index<state.dates.length&&state.playing;index++){const response=await query('leaderboard',{...params(),date:state.dates[index]});if((response.rows||[]).some(row=>finite(valueOf(row)))){state.index=index;break;}}}catch(error){pause();toast(error.message);return;}}
+  if(!state.playing)return;
+  await refresh({frontier:true});if(state.playing)state.timer=setTimeout(step,Number($('#speed').value));
+}
 function selectionChanged(){pause();refresh({frontier:true});}
-function setPerspective(value){
+function setPerspective(value,{initial=false}={}){
   state.perspective=value;
   $$('#perspective-control button').forEach(button=>{const selected=button.dataset.perspective===value;button.classList.toggle('selected',selected);button.setAttribute('aria-pressed',selected);});
   let options=value==='absolute'?['kpr','net_kpr','adr']:['z_kpr','z_net_kpr','ppi','ppi_defense','ppi_covariance','robust_z_kpr','percentile_kpr'];
@@ -193,7 +256,7 @@ function setPerspective(value){
   if(Array.isArray(available)){const keys=available.map(item=>typeof item==='string'?item:item.value||item.id);options=options.filter(option=>keys.includes(option));}
   if(!options.length)options=value==='absolute'?['kpr','net_kpr']:['z_kpr','z_net_kpr','ppi','ppi_defense'];
   $('#metric').innerHTML=options.map(option=>`<option value="${option}">${escape(metrics[option].label)}</option>`).join('');
-  state.metric=options[0];selectionChanged();
+  state.metric=initial&&options.includes(state.metric)?state.metric:options.includes('ppi_defense')?'ppi_defense':options[0];$('#metric').value=state.metric;if(!initial)selectionChanged();
 }
 function initializeDates(meta,preserve=false){
   const current=preserve?state.dates[state.index]:null;
@@ -211,11 +274,13 @@ function initializeDates(meta,preserve=false){
   if(maxDate&&!state.dates.includes(maxDate.slice(0,10)))state.dates.push(maxDate.slice(0,10));
   state.dates.sort();
   state.index=current?Math.max(0,state.dates.findLastIndex(date=>date<=current)):Math.max(0,state.dates.length-1);
-  $('#timeline').max=Math.max(0,state.dates.length-1);$('#timeline').disabled=!state.dates.length;$('#play').disabled=!state.dates.length;$('#replay').disabled=!state.dates.length;
+  $('#timeline').max=10000;$('#timeline').disabled=!state.dates.length;$('#play').disabled=!state.dates.length;$('#replay').disabled=!state.dates.length;
   $('#timeline-start').textContent=state.dates[0]?day(state.dates[0]):'—';$('#timeline-end').textContent=state.dates.at(-1)?day(state.dates.at(-1)):'—';
+  renderCalendar();
 }
 function metadataUI(meta){
-  for(const key of ['game','quality','window','metric'])if(meta.default_specification?.[key]!=null)state[key]=String(meta.default_specification[key]);
+  // Presentation opens on active form. Research metadata retains its primary 50-map specification.
+  for(const key of ['game','quality'])if(meta.default_specification?.[key]!=null)state[key]=String(meta.default_specification[key]);
   const coverage=meta.coverage||{};
   $('#stat-players').textContent=count(coverage.players??meta.players_count);
   $('#stat-maps').textContent=count(coverage.maps);
@@ -232,7 +297,7 @@ function metadataUI(meta){
   if(Array.isArray(meta.games)&&meta.games.length){const games=meta.games.map(game=>typeof game==='string'?game:game.value||game.id);$$('#game option').forEach(option=>{option.disabled=!games.includes(option.value);});if(!games.includes(state.game)){state.game=games[0];$('#game').value=state.game;}}
   if(Array.isArray(meta.quality_options))for(const option of meta.quality_options){const element=$(`#quality option[value="${CSS.escape(option.value)}"]`);if(element){if(option.label)element.textContent=option.label;element.disabled=option.available===false;}}
   if($(`#quality option[value="${CSS.escape(state.quality)}"]`)?.disabled)state.quality='all';
-  $('#game').value=state.game;$('#quality').value=state.quality;$('#window').value=state.window;$('#metric').value=state.metric;
+  $('#game').value=state.game;$('#quality').value=state.quality;$('#window').value=state.window;setPerspective(state.perspective,{initial:true});
   if(Array.isArray(meta.windows)&&meta.windows.length){const windows=meta.windows.map(String);$$('#window option').forEach(option=>option.disabled=!windows.includes(option.value));}
   renderCoverage(meta);
   renderMedia(meta.media);
@@ -324,7 +389,13 @@ $$('#mode-control button').forEach(button=>button.addEventListener('click',()=>{
 $$('#perspective-control button').forEach(button=>button.addEventListener('click',()=>setPerspective(button.dataset.perspective)));
 ['metric','window','quality','game','limit'].forEach(key=>$(`#${key}`).addEventListener('change',event=>{state[key]=key==='limit'?Number(event.target.value):event.target.value;if(key==='game')initializeDates(state.meta,true);selectionChanged();}));
 $('#search').addEventListener('input',event=>{clearTimeout(state.searchTimer);state.searchTimer=setTimeout(()=>{state.q=event.target.value.trim();selectionChanged();},250);});
-$('#timeline').addEventListener('input',event=>{pause();state.index=Number(event.target.value);refresh({frontier:true});});
+$('#timeline').addEventListener('input',event=>{pause();state.index=nearestSnapshotIndex(state.dates,Number(event.target.value)/10000);refresh({frontier:true});});
+$('#timeline').addEventListener('keydown',event=>{
+  const delta={ArrowLeft:-1,ArrowDown:-1,ArrowRight:1,ArrowUp:1,PageDown:-12,PageUp:12}[event.key];
+  if(delta==null&&!['Home','End'].includes(event.key))return;
+  event.preventDefault();pause();state.index=event.key==='Home'?0:event.key==='End'?state.dates.length-1:Math.max(0,Math.min(state.dates.length-1,state.index+delta));refresh({frontier:true});
+});
+$('#scale-zoom').addEventListener('change',event=>{state.zoom=event.target.checked;renderRows(state.rows);});
 $('#play').addEventListener('click',()=>state.playing?pause():play());
 $('#replay').addEventListener('click',()=>{pause();state.index=0;play();});
 $('#export').addEventListener('click',async()=>{try{const blob=await exportCsv(params(),state.rows),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=`apex-${state.game}-${state.metric}-${state.window}-${state.mode}-${state.dates[state.index]}.csv`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('Exported the displayed analytical specification.');}catch(error){toast(error.message);}});
