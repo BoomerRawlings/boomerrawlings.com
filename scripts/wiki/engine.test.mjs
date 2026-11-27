@@ -495,6 +495,58 @@ test('new reading packets give several editable choices and preserve long articl
   assert.ok(state.pending.proposals[editor].proposal.body.endsWith('END'));
 });
 
+test('influence editors keep targeted technical agendas private and cannot rewrite past cohorts', () => {
+  const state = founded(), before = structuredClone(state);
+  const now = wiki.cycleWindow(77).startAt, opts = {now, proof:usage(80,now)};
+  assert.equal(wiki.addInfluenceEditors(state, opts).count, 5);
+  assert.equal(wiki.addInfluenceEditors(state, opts).duplicate, true);
+  assert.deepEqual(state.events, before.events);
+  assert.deepEqual(state.editors.slice(0,before.editors.length), before.editors);
+  const arrivals = state.editors.slice(before.editors.length);
+  assert.ok(arrivals.every(e => e.activity === 2.8 && e.joinedAt === now));
+  assert.ok(wiki.selectCohort(state.editors,wiki.cycleWindow(76),state.seed).every(id => before.editors.some(e => e.id === id)));
+  assert.ok(!JSON.stringify(wiki.exportPublic(state,opts)).includes('strategicContext'));
+  const window = wiki.cycleWindow(78);
+  state.pending = {...window, participants:arrivals.map(e=>e.id), proposals:{}};
+  const packet = wiki.characterPacket(state,arrivals[0].id);
+  assert.equal(packet.character.strategicContext.target,arrivals[0].strategicContext.target);
+  assert.ok(!JSON.stringify(packet).includes(arrivals[1].strategicContext.ambition));
+  assert.deepEqual(packet.responseRules.journalWords,[50,250]);
+  const proofOpts = {now:window.endAt,proof:usage(80,window.endAt)};
+  wiki.propose(state,abstention(state,arrivals[0].id,{journal:journal+' '+journal}),proofOpts);
+  assert.equal(Object.keys(state.pending.proposals).length,1);
+  const leak = wiki.exportPublic(state,opts);
+  leak.editors[0].strategicContext = arrivals[0].strategicContext;
+  assert.throws(()=>wiki.validatePublic(leak),/private editor/);
+});
+
+test('authorized backend requests queue once, stay private, and require a verified result', () => {
+  const state=founded(), now=wiki.cycleWindow(77).startAt, opts={now,proof:usage(80,now)};
+  wiki.addInfluenceEditors(state,opts);
+  assert.equal(wiki.enableBackendEdits(state,opts).count,5);
+  assert.equal(wiki.enableBackendEdits(state,opts).duplicate,true);
+  const window=wiki.cycleWindow(78), id='adrian-keene';
+  state.pending={...window,participants:[id],proposals:{}};
+  const execution={now:window.endAt,proof:usage(80,window.endAt)};
+  const request={goal:'Clarify policy status',change:'Label open proposals pending.',validation:'Pending proposals display the pending label.'};
+  const proposal={...abstention(state,id),action:'policy',title:'Policy status labels',body:'Label open proposals as pending.',backendRequest:request};
+  wiki.propose(state,proposal,execution);wiki.propose(state,proposal,execution);
+  wiki.completeCycle(state,execution);
+  assert.equal(state.backendChanges.length,1);
+  assert.equal(state.backendChanges[0].status,'queued');
+  assert.ok(!JSON.stringify(wiki.exportPublic(state,execution)).includes('backendRequest'));
+  assert.ok(!JSON.stringify(wiki.exportPublic(state,execution)).includes('backendChanges'));
+  assert.throws(()=>wiki.recordBackendChange(state,{id:window.id+'-'+id,status:'implemented',result:'done'},execution),/verified publication/);
+  const result={id:window.id+'-'+id,status:'implemented',result:'Tests and live bytes verified.',commit:'abcdef1234',verified:true};
+  assert.ok(wiki.recordBackendChange(state,result,execution).ok);
+  assert.equal(wiki.recordBackendChange(state,result,execution).duplicate,true);
+  assert.throws(()=>wiki.recordBackendChange(state,{...result,result:'changed'},execution),/finalized/);
+  state.pending={...wiki.cycleWindow(79),participants:[id,'bluemonday'],proposals:{}};
+  assert.equal(wiki.characterPacket(state,id).character.backendReceipts[0].status,'implemented');
+  assert.ok(!JSON.stringify(wiki.characterPacket(state,'bluemonday')).includes('backendReceipts'));
+  assert.throws(()=>wiki.propose(state,{...abstention(state,'bluemonday'),action:'policy',title:'Other',body:'Other.',backendRequest:request},{now:state.pending.endAt,proof:usage(80,state.pending.endAt)}),/authorized technical/);
+});
+
 test('guest arrivals preserve past cohorts and increase selection weight', () => {
   const state = founded();
   const now = wiki.cycleWindow(77).startAt;
