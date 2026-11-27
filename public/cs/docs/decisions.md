@@ -21,3 +21,5 @@
 - **Static publication budget:** existing Pages build has a1GB artifact ceiling. Preserve it and unrelated assets. Serve compressed immutable dataset partitions from the public canonical GitHub repository using CORS; UI/media/docs stay at /cs. Exact numbers are not rounded in distribution.
 - **Historical display:** both-era view combines homogeneous game windows only. Current observed roster follows the animation date even for a previously achieved record. This is a dated roster observation, not an official transfer announcement.
 
+
+- **Continuous measured playback:** reuse frozen analytical windows; add daily endpoint/as-of top100 lists for the default both-era Elo25 cohort. Keep monthly source-gap checkpoints and all original81partitions. Match geometric transition duration to a shared playback clock; exact score labels remain observed values. No interpolated research observations. Expanded team marks require per-file identity, license and checksum evidence; opaque marks remain out of growing bars.

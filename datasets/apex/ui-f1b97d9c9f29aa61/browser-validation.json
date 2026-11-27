@@ -1,0 +1,280 @@
+{
+  "url": "http://127.0.0.1:4173/cs/",
+  "checked_at": "2026-11-27T18:56:07.737Z",
+  "results": [
+    {
+      "name": "default displays ten actual leaders across separately computed eras",
+      "passed": true
+    },
+    {
+      "name": "dynamic default uses active25 balanced index, not historical maxima",
+      "passed": true
+    },
+    {
+      "name": "zoomed common axis is labeled and preserves original score labels",
+      "passed": true
+    },
+    {
+      "name": "zoom materially separates rows and zero-baseline view remains available",
+      "passed": true
+    },
+    {
+      "name": "calendar has real year/month ticks, coverage gap and observed window",
+      "passed": true
+    },
+    {
+      "name": "displayed default index values exactly match measured snapshot after display rounding",
+      "passed": true
+    },
+    {
+      "name": "calendar and year progress grow with measured dates",
+      "passed": true
+    },
+    {
+      "name": "calendar reverses when scrubbing backward without inventing a date",
+      "passed": true
+    },
+    {
+      "name": "year meter resets at January while history continues",
+      "passed": true
+    },
+    {
+      "name": "keyboard arrow advances to the next actual measured date",
+      "passed": true
+    },
+    {
+      "name": "main cohort exposes daily observations and other cohorts retain monthly snapshots",
+      "passed": true
+    },
+    {
+      "name": "late replay response cannot overwrite a newer filter and date selection",
+      "passed": true
+    },
+    {
+      "name": "keyboard Home reaches calendar boundary",
+      "passed": true
+    },
+    {
+      "name": "keyboard End reaches calendar boundary",
+      "passed": true
+    },
+    {
+      "name": "native gzip data decoding is available in browser",
+      "passed": true
+    },
+    {
+      "name": "desktop has no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "all displayed numbers finite",
+      "passed": true
+    },
+    {
+      "name": "visible portraits actually decode",
+      "passed": true
+    },
+    {
+      "name": "visible team marks actually decode",
+      "passed": true
+    },
+    {
+      "name": "visible source attribution and real documentation links",
+      "passed": true
+    },
+    {
+      "name": "real observed roster change exists in exported history",
+      "passed": true
+    },
+    {
+      "name": "observed team change triggers animation and truthful annotation",
+      "passed": true
+    },
+    {
+      "name": "cosmetic source team alias change does not invent a transfer animation",
+      "passed": true
+    },
+    {
+      "name": "media credit originals and licenses are linked",
+      "passed": true
+    },
+    {
+      "name": "all published media credit thumbnails decode",
+      "passed": true
+    },
+    {
+      "name": "unverified ages are disabled",
+      "passed": true
+    },
+    {
+      "name": "player detail retains actual counts",
+      "passed": true
+    },
+    {
+      "name": "evidence is available without cluttering the main view",
+      "passed": true
+    },
+    {
+      "name": "persistence threshold counts actual endpoints only",
+      "passed": true
+    },
+    {
+      "name": "absolute metric control updates chart",
+      "passed": true
+    },
+    {
+      "name": "covariance alternative has calculated leaders",
+      "passed": true
+    },
+    {
+      "name": "playback remains in motion through the interval instead of dwelling between snapshots",
+      "passed": true
+    },
+    {
+      "name": "moving bars retain exact measured score labels",
+      "passed": true
+    },
+    {
+      "name": "pause settles physical bars to their selected measured geometry",
+      "passed": true
+    },
+    {
+      "name": "playback advances real historical snapshots",
+      "passed": true
+    },
+    {
+      "name": "active form view switches",
+      "passed": true
+    },
+    {
+      "name": "coverage gap has no invented active performances",
+      "passed": true
+    },
+    {
+      "name": "historical records persist through coverage gap",
+      "passed": true
+    },
+    {
+      "name": "CSGO timeline cannot use later CS2 dates",
+      "passed": true
+    },
+    {
+      "name": "390px mobile has no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "physical mobile bar widths retain the common numerical scale",
+      "passed": true
+    },
+    {
+      "name": "fast scrubbing cannot overwrite widths with stale scores",
+      "passed": true
+    },
+    {
+      "name": "original logos remain fully contained in short mobile bars",
+      "passed": true
+    },
+    {
+      "name": "mobile controls are reachable without obscuring the race",
+      "passed": true
+    },
+    {
+      "name": "mobile filters expand accessibly",
+      "passed": true
+    },
+    {
+      "name": "320px mobile has no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "no runtime exceptions",
+      "passed": true
+    }
+  ],
+  "overview": {
+    "date": "21 Nov 2026",
+    "leader": "w0nderful",
+    "value": "127.3",
+    "teams": [
+      "Natus Vincere",
+      "FURIA Esports",
+      "1w Team",
+      "Team Falcons",
+      "FURIA Esports",
+      "Astralis",
+      "MOUZ",
+      "BetBoom Team",
+      "Team Vitality",
+      "Natus Vincere"
+    ],
+    "headshots": 2,
+    "teamLogos": 5
+  },
+  "motion": {
+    "frames": 76,
+    "lateFrames": 28,
+    "lateChanges": 27,
+    "exact": true
+  },
+  "mobile_geometry": [
+    {
+      "player": "m0NESY",
+      "percent": 47.1371,
+      "actual": 47.13541666666667
+    },
+    {
+      "player": "w0nderful",
+      "percent": 86.3036,
+      "actual": 86.30208333333333
+    },
+    {
+      "player": "molodoy",
+      "percent": 61.0136,
+      "actual": 61.010416666666664
+    },
+    {
+      "player": "ArtFr0st",
+      "percent": 50.2832,
+      "actual": 50.28125
+    },
+    {
+      "player": "KSCERATO",
+      "percent": 45.1136,
+      "actual": 45.104166666666664
+    },
+    {
+      "player": "phzy",
+      "percent": 44.6069,
+      "actual": 44.604166666666664
+    },
+    {
+      "player": "torzsi",
+      "percent": 43.3945,
+      "actual": 43.385416666666664
+    },
+    {
+      "player": "zorte",
+      "percent": 33.961,
+      "actual": 33.958333333333336
+    },
+    {
+      "player": "ropz",
+      "percent": 33.9039,
+      "actual": 33.89583333333333
+    },
+    {
+      "player": "B1T",
+      "percent": 28.9519,
+      "actual": 28.947916666666668
+    }
+  ],
+  "observed_team_change": {
+    "id": "hltv:339",
+    "name": "ANGE1",
+    "before": "Virtus.pro",
+    "after": "TCM-Gaming",
+    "start": 6,
+    "end": 7
+  },
+  "errors": []
+}

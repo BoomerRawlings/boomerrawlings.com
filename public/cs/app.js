@@ -1,6 +1,7 @@
-import { getMeta, query, exportCsv } from './api.js';
+import { getMeta, getAvailableDates, query, exportCsv } from './api.js';
 import { createRaceScale, calendarProgress, nearestSnapshotIndex, calendarTicks } from './race-model.js';
 import { getTeamBrand } from './team-branding.js';
+import { createPlaybackClock, intervalDuration } from './playback.js';
 
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
@@ -20,7 +21,9 @@ const metrics = {
   ,robust_z_kpr:{label:'KPR · robust standardized score',unit:'ROBUST STANDARDIZED KPR',hint:'Deviation from contemporary median, divided by 1.4826 × median absolute deviation.'}
   ,percentile_kpr:{label:'KPR · contemporary percentile',unit:'CONTEMPORARY PERCENTILE',hint:'Percentile within the prior contemporary reference population. Tied observations use midranks.'}
 };
-const state = { meta:null,dates:[],index:0,mode:'active',perspective:'relative',metric:'ppi_defense',window:'25',quality:'elo_top30',game:'both',limit:10,q:'',zoom:true,playing:false,timer:null,rows:[],frontier:[],request:0,abort:null,detail:null,lastRanks:new Map(),motionKey:null,motionDate:null };
+const state = { meta:null,dates:[],index:0,mode:'active',perspective:'relative',metric:'ppi_defense',window:'25',quality:'elo_top30',game:'both',limit:10,q:'',zoom:true,playing:false,rows:[],frontier:[],request:0,abort:null,detail:null,lastRanks:new Map(),motionKey:null,motionDate:null,motionDuration:650,prefetch:null,playGeneration:0,settleAnimations:[] };
+const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
+const playback=createPlaybackClock({onStep:step});
 const finite = value => typeof value === 'number' && Number.isFinite(value);
 const fmt = (value, digits=3) => finite(value) ? value.toFixed(digits) : '—';
 const count = value => finite(value) ? number.format(value) : '—';
@@ -69,7 +72,7 @@ function renderPlayerMedia(element,row){
       const watermark=document.createElement('span');watermark.className='team-watermark';watermark.style.setProperty('--crest',`url("${logo}")`);holder.append(watermark);
       const source=document.createElement('img');source.className='mask-source';source.src=logo;source.alt='';source.setAttribute('aria-hidden','true');holder.append(source);
     }else if(logo&&brand.logo.mode==='original'){
-      const image=document.createElement('img');image.src=logo;image.alt='';image.dataset.unaltered=String(unaltered);image.setAttribute('aria-hidden','true');image.addEventListener('error',()=>image.remove());holder.append(image);
+      const image=document.createElement('img');image.src=logo;image.alt='';image.dataset.unaltered=String(unaltered);if(!unaltered&&brand.logo.blend_mode==='screen')image.classList.add('brand-screen');image.setAttribute('aria-hidden','true');image.addEventListener('error',()=>image.remove());holder.append(image);
     }else{
       const wordmark=document.createElement('span');wordmark.className='team-wordmark';wordmark.textContent=team?brand.label:'';holder.append(wordmark);
     }
@@ -86,6 +89,33 @@ function toast(message) {
   clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('#toast').hidden=true,4200);
 }
 function openDialog(id) { pause(); const dialog=$(id);if(!dialog.open)dialog.showModal(); }
+function setMotionDuration(duration,{playing=false}={}){
+  state.motionDuration=reducedMotion.matches?0:playing&&duration>0?Math.max(225,duration):duration;
+  document.documentElement.style.setProperty('--motion-duration',`${state.motionDuration}ms`);
+  document.documentElement.style.setProperty('--motion-easing',playing?'linear':'cubic-bezier(.22,.72,.18,1)');
+}
+function cancelSettling(){for(const animation of state.settleAnimations)animation.cancel();state.settleAnimations=[];}
+function settleMotion(){
+  const moving=new Map();
+  for(const animation of $('.race-panel').getAnimations({subtree:true})){
+    const element=animation.effect?.target;if(!element)continue;
+    const property=animation.transitionProperty;
+    if(!['transform','width','left','height'].includes(property)&&!element.classList.contains('bar-row')&&!element.classList.contains('row-exiting'))continue;
+    const properties=property?[property]:['transform'];
+    if(!moving.has(element))moving.set(element,{});
+    for(const key of properties)moving.get(element)[key]=getComputedStyle(element)[key];
+    animation.cancel();
+  }
+  cancelSettling();
+  if(reducedMotion.matches)return;
+  for(const [element,from]of moving){if(!element.isConnected)continue;const to=Object.fromEntries(Object.keys(from).map(key=>[key,getComputedStyle(element)[key]]));state.settleAnimations.push(element.animate([from,to],{duration:120,easing:'ease-out'}));}
+}
+function prefetchNext(){
+  if(state.index>=state.dates.length-1){state.prefetch=null;return;}
+  const nextParams={...params(),date:state.dates[state.index+1]},key=JSON.stringify(nextParams);
+  if(state.prefetch?.key===key)return;
+  const promise=query('leaderboard',nextParams);promise.catch(()=>{});state.prefetch={key,promise};
+}
 function updateDate(actualDate) {
   const date=actualDate||state.dates[state.index];const parsed=asDate(date);
   $('#date-year').textContent=parsed?.getUTCFullYear()||'—';
@@ -93,7 +123,7 @@ function updateDate(actualDate) {
   $('#timeline-date').textContent=date?day(date):'No snapshot available';
   const progress=date&&state.dates.length?calendarProgress(date,state.dates[0],state.dates.at(-1)):0;
   $('#timeline').value=Math.round(progress*10000);
-  $('#timeline').setAttribute('aria-valuetext',date?`${day(date)}. Measured monthly snapshot.`:'No snapshot');
+  $('#timeline').setAttribute('aria-valuetext',date?`${day(date)}. Measured as-of snapshot.`:'No snapshot');
   $('#calendar-track').style.setProperty('--calendar-progress',`${progress*100}%`);
   $('#calendar-current').textContent=parsed?`${monthFormat.format(parsed)} ${parsed.getUTCFullYear()}`:'No snapshot';
   $('#calendar-current').style.left=`${progress*100}%`;
@@ -160,7 +190,14 @@ function renderRows(rows) {
   $('#scale-ticks').innerHTML=scale.ticks.map(value=>`<span style="left:${(value-scale.domain[0])/(scale.domain[1]-scale.domain[0])*100}%">${fmt(value,axisDigits)}</span>`).join('');
   const existing=new Map([...chart.querySelectorAll('.bar-row')].map(element=>[element.dataset.id,element]));
   const wanted=new Set(rows.map(idOf));
-  for(const [id,element]of existing)if(!wanted.has(id)){element.classList.replace('bar-row','row-exiting');element.setAttribute('aria-hidden','true');element.tabIndex=-1;setTimeout(()=>element.remove(),320);}
+  const priorHeight=chart.clientHeight;
+  for(const [id,element]of existing)if(!wanted.has(id)){
+    const from=getComputedStyle(element).transform;element.entryAnimation?.cancel();
+    element.classList.replace('bar-row','row-exiting');element.setAttribute('aria-hidden','true');element.tabIndex=-1;
+    if(reducedMotion.matches){element.remove();continue;}
+    const exit=element.animate([{transform:from},{transform:`translateY(${Math.max(priorHeight,rows.length*45)+45}px)`}],{duration:state.motionDuration,easing:state.playing?'linear':'ease-in'});
+    exit.onfinish=exit.oncancel=()=>element.remove();
+  }
   const rowHeight=45;
   chart.style.height=`${Math.max(160,rows.length*rowHeight)}px`;
   const motionKey=[state.mode,state.metric,state.window,state.quality,state.game,state.q].join('|'),date=state.dates[state.index];
@@ -170,8 +207,8 @@ function renderRows(rows) {
   rows.forEach((row,index)=>{
     const id=idOf(row);let element=existing.get(id);const fresh=!element;
     if(!element){element=document.createElement('button');element.type='button';element.className='bar-row row-entering';element.dataset.id=id;element.setAttribute('role','listitem');element.innerHTML='<span class="bar-rank"><span class="rank-number"></span><span class="rank-change"></span></span><span class="bar-avatar"></span><span class="bar-identity"><span class="bar-player"><span class="bar-name"></span><span class="era-badge" hidden></span></span><span class="bar-team"></span></span><span class="bar-track"><span class="zero-line"></span><span class="bar-fill"><span class="bar-team-mark"></span></span></span><span class="bar-value"></span>';chart.append(element);element.addEventListener('click',()=>openPlayer(element.dataset.id));element.addEventListener('pointerenter',()=>highlightWindow(element.windowRow));element.addEventListener('pointerleave',()=>highlightWindow(state.rows[0]));element.addEventListener('focus',()=>highlightWindow(element.windowRow));element.addEventListener('blur',()=>highlightWindow(state.rows[0]));}
+    if(element.entryAnimation){const current=getComputedStyle(element).transform,transition=element.style.transition;element.style.transition='none';element.entryAnimation.cancel();element.entryAnimation=null;element.style.transform=current;void element.offsetWidth;element.style.transition=transition;}
     const value=valueOf(row);
-    const renderVersion=(element.renderVersion||0)+1;element.renderVersion=renderVersion;
     element.windowRow=row;
     element.classList.toggle('is-leader',value===valueOf(rows[0]));
     element.style.transform=`translateY(${index*rowHeight}px)`;
@@ -185,7 +222,8 @@ function renderRows(rows) {
     element.querySelector('.bar-value').textContent=fmt(value,state.metric.startsWith('ppi')?1:3);
     const geometry=scale.geometry(value),fill=element.querySelector('.bar-fill');
     fill.style.left=`${geometry.left*100}%`;
-    if(fresh){fill.style.width='0%';requestAnimationFrame(()=>requestAnimationFrame(()=>{if(element.renderVersion!==renderVersion||!element.isConnected)return;fill.style.width=`${geometry.width*100}%`;element.classList.remove('row-entering');}));}else{fill.style.width=`${geometry.width*100}%`;element.classList.remove('row-entering');}
+    fill.style.width=`${geometry.width*100}%`;element.classList.remove('row-entering');
+    if(fresh&&existing.size&&!reducedMotion.matches){element.entryAnimation=element.animate([{transform:`translateY(${Math.max(priorHeight,rows.length*rowHeight)+rowHeight}px)`},{transform:`translateY(${index*rowHeight}px)`}],{duration:state.motionDuration,easing:state.playing?'linear':'ease-out'});element.entryAnimation.onfinish=()=>{element.entryAnimation=null;};}
     element.querySelector('.zero-line').style.left=`${(scale.baseline-scale.domain[0])/(scale.domain[1]-scale.domain[0])*100}%`;
     element.querySelector('.zero-line').style.display='block';
     const title=`${nameOf(row)}: ${fmt(value)}, ${row.maps??row.map_count??'?'} maps, ${row.rounds??'?'} rounds. ${day(row.start_date)} to ${day(row.end_date)}. Inspect performance.`;
@@ -197,15 +235,15 @@ function renderRows(rows) {
   if(rows.length>1&&valueOf(rows[1])===valueOf(rows[0])){$('#leader-label').textContent=state.q?'SHARED HIGHEST MATCH':'SHARED OBSERVED LEAD';$('#leader-name').textContent=`${nameOf(rows[0])} · tied`;}
   if(teamChanges.length)$('#roster-annotation').textContent=`First observed with team: ${teamChanges.slice(0,3).join(' · ')}. `;
 }
-async function refresh({frontier=false}={}) {
+async function refresh({frontier=false,prepared=null}={}) {
   const request=++state.request;
   state.abort?.abort();state.abort=new AbortController();
   updateDate();updateLabels();$('#chart-area').setAttribute('aria-busy','true');
   $('#snapshot-status').textContent='Loading measured snapshot…';
   try{
-    const response=await query('leaderboard',params(),{signal:state.abort.signal});
+    const response=prepared||await query('leaderboard',params(),{signal:state.abort.signal});
     if(request!==state.request)return;
-    state.rows=(response.rows||response.leaderboard||[]).filter(row=>finite(valueOf(row)));
+    cancelSettling();state.rows=(response.rows||response.leaderboard||[]).filter(row=>finite(valueOf(row)));
     renderRows(state.rows);
     $('#export').disabled=!state.rows.length;
     const date=response.date||state.dates[state.index];
@@ -215,7 +253,7 @@ async function refresh({frontier=false}={}) {
     $('#search').placeholder=limited?'Search top 100 players':'Search an alias';
     $('#search-hint').textContent=limited?'Searches the top 100 for this metric and snapshot. Full population remains in the research database.':'Search the published leaderboard population.';
     $('#snapshot-status').textContent=`${state.rows.length} ${state.q?'matching':'displayed'} players · ${date?`snapshot ${date}`:'no snapshot'} · ${state.meta?.dataset_version||'versioned source'}`;
-    if(frontier)await refreshFrontier(request);
+    if(frontier)await refreshFrontier(request);prefetchNext();
   }catch(error){
     if(error.name==='AbortError'||request!==state.request)return;
     state.rows=[];renderEmpty('This slice is unavailable',error.message||'The requested dataset could not be loaded.');$('#snapshot-status').textContent='Data unavailable. No substitute values displayed.';$('#export').disabled=true;pause();
@@ -223,7 +261,7 @@ async function refresh({frontier=false}={}) {
 }
 async function refreshFrontier(request=state.request){
   try{const response=await query('frontier',params());if(request!==state.request)return;state.frontier=response.records||response.frontier||response.rows||[];renderFrontier();}
-  catch{$('#frontier-content').innerHTML='<p class="muted">Exact record events unavailable for this specification.</p>';}
+  catch{if(request===state.request)$('#frontier-content').innerHTML='<p class="muted">Exact record events unavailable for this specification.</p>';}
 }
 function renderFrontier(){
   const records=state.frontier.filter(row=>String(row.date||row.end_date)<=(state.dates[state.index]||'9999-12-31')).slice(-5).reverse();
@@ -231,23 +269,46 @@ function renderFrontier(){
   $('#frontier-content').innerHTML=records.map(row=>`<div class="frontier-event"><time datetime="${escape(row.date||row.end_date)}">${escape(day(row.date||row.end_date))}</time><button data-player="${escape(idOf(row))}">${escape(nameOf(row))}<span class="frontier-sub">${count(row.maps??row.map_count)} maps · ${count(row.rounds)} rounds</span></button><strong>${fmt(valueOf(row),state.metric.startsWith('ppi')?1:3)}</strong></div>`).join('');
   $$('#frontier-content [data-player]').forEach(button=>button.addEventListener('click',()=>openPlayer(button.dataset.player)));
 }
-function pause(){state.playing=false;clearTimeout(state.timer);$('#play').innerHTML='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 3 11 7-11 7z"/></svg><span>Play history</span>';$('#play').setAttribute('aria-label','Play historical timeline');}
+function pause(){state.playing=false;state.playGeneration++;playback.pause();settleMotion();$('#play').innerHTML='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 3 11 7-11 7z"/></svg><span>Play history</span>';$('#play').setAttribute('aria-label','Play historical timeline');document.documentElement.dataset.playing='false';}
 async function step(){
   if(!state.playing)return;
   if(state.index>=state.dates.length-1){pause();return;}
-  state.index++;await refresh({frontier:true});
-  if(state.playing)state.timer=setTimeout(step,Number($('#speed').value));
+  const generation=state.playGeneration,nextIndex=state.index+1,nextParams={...params(),date:state.dates[nextIndex]},key=JSON.stringify(nextParams);
+  try{
+    const prepared=await(state.prefetch?.key===key?state.prefetch.promise:query('leaderboard',nextParams));
+    if(!state.playing||generation!==state.playGeneration)return;
+    const duration=intervalDuration(state.dates[state.index],state.dates[nextIndex],Number($('#speed').value));
+    playback.setDuration(duration);setMotionDuration(duration,{playing:true});state.index=nextIndex;
+    await refresh({frontier:true,prepared});
+  }catch(error){if(generation===state.playGeneration){pause();toast(error.message);}}
 }
 async function play(){
   if(!state.dates.length)return;
+  const restart=state.index===state.dates.length-1||state.index===0||playback.remaining===playback.duration;
   if(state.index===state.dates.length-1)state.index=0;
   state.playing=true;$('#play').innerHTML='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3h4v14H5zm7 0h4v14h-4z"/></svg><span>Pause</span>';$('#play').setAttribute('aria-label','Pause historical timeline');
+  document.documentElement.dataset.playing='true';const generation=state.playGeneration;
   // Begin at the first actual qualifying snapshot; never skip internal coverage gaps.
-  if(state.index===0){try{for(let index=0;index<state.dates.length&&state.playing;index++){const response=await query('leaderboard',{...params(),date:state.dates[index]});if((response.rows||[]).some(row=>finite(valueOf(row)))){state.index=index;break;}}}catch(error){pause();toast(error.message);return;}}
-  if(!state.playing)return;
-  await refresh({frontier:true});if(state.playing)state.timer=setTimeout(step,Number($('#speed').value));
+  let first;
+  if(state.index===0){
+    try{
+      for(let index=0;index<state.dates.length&&state.playing&&generation===state.playGeneration;index++){
+        const response=await query('leaderboard',{...params(),date:state.dates[index]});
+        if(!state.playing||generation!==state.playGeneration)return;
+        if((response.rows||[]).some(row=>finite(valueOf(row)))){state.index=index;first=response;break;}
+        if(index%32===31)await new Promise(resolve=>requestAnimationFrame(resolve));
+      }
+    }catch(error){if(generation===state.playGeneration){pause();toast(error.message);}return;}
+    if(state.playing&&generation===state.playGeneration&&!first){pause();state.rows=[];updateDate();renderEmpty('No qualifying snapshots','No measured window matches this selection. Try another player or broader filters.');$('#export').disabled=true;toast('No qualifying snapshots for this selection.');return;}
+  }
+  if(!state.playing||generation!==state.playGeneration)return;
+  if(first){setMotionDuration(0,{playing:true});await refresh({frontier:true,prepared:first});}
+  if(!state.playing||generation!==state.playGeneration)return;
+  if(restart){const duration=intervalDuration(state.dates[state.index],state.dates[Math.min(state.index+1,state.dates.length-1)],Number($('#speed').value));playback.setDuration(duration);setMotionDuration(duration,{playing:true});}
+  else setMotionDuration(playback.duration,{playing:true});
+  prefetchNext();playback.start({restart});
 }
-function selectionChanged(){pause();refresh({frontier:true});}
+function selectionChanged(){pause();playback.reset();setMotionDuration(650);state.prefetch=null;refresh({frontier:true});}
 function setPerspective(value,{initial=false}={}){
   state.perspective=value;
   $$('#perspective-control button').forEach(button=>{const selected=button.dataset.perspective===value;button.classList.toggle('selected',selected);button.setAttribute('aria-pressed',selected);});
@@ -263,7 +324,7 @@ function initializeDates(meta,preserve=false){
   const byGame=meta.game_ranges||meta.coverage?.by_game||{};
   const gameRange=Array.isArray(byGame)?byGame.find(row=>row.game===state.game):byGame[state.game];
   const minDate=gameRange?.min_date||meta.coverage?.min_date,maxDate=gameRange?.max_date||meta.coverage?.max_date;
-  let dates=[...(meta.dates||meta.snapshot_dates||[])];
+  let dates=[...(getAvailableDates(params())||meta.dates||meta.snapshot_dates||[])];
   if(!dates.length&&meta.coverage?.min_date&&meta.coverage?.max_date){
     const start=asDate(meta.coverage.min_date),end=asDate(meta.coverage.max_date);
     let cursor=new Date(Date.UTC(start.getUTCFullYear(),start.getUTCMonth()+1,0,12));
@@ -349,7 +410,7 @@ function installPersistence(rows,selected){
   const unique=[...new Map(rows.map(row=>[`${row.game}|${row.end_date}`,row])).values()];
   const peakValues=[...unique.map(valueOf),selected?valueOf(selected):null].filter(finite);
   const details=document.createElement('details');details.className='persistence-panel';
-  details.innerHTML=`<summary>Peak versus observed persistence</summary><p class="detail-spec">Highest shown window: <strong>${peakValues.length?fmt(Math.max(...peakValues),state.metric.startsWith('ppi')?1:3):'—'}</strong></p><div class="persistence-control"><label for="elite-threshold">Elite threshold</label><input type="number" id="elite-threshold" value="${threshold}" step="${state.metric.startsWith('ppi')||state.metric==='adr'?'1':'0.01'}"><span id="persistence-result" aria-live="polite"></span></div><p class="footnote">Counts distinct measured window endpoints present in published monthly snapshots. Sparse and limited to published leaders; not continuous elite days, complete career exposure, or independent achievements.</p>`;
+  details.innerHTML=`<summary>Peak versus observed persistence</summary><p class="detail-spec">Highest shown window: <strong>${peakValues.length?fmt(Math.max(...peakValues),state.metric.startsWith('ppi')?1:3):'—'}</strong></p><div class="persistence-control"><label for="elite-threshold">Elite threshold</label><input type="number" id="elite-threshold" value="${threshold}" step="${state.metric.startsWith('ppi')||state.metric==='adr'?'1':'0.01'}"><span id="persistence-result" aria-live="polite"></span></div><p class="footnote">Counts distinct measured window endpoints present in published as-of snapshots. Sparse and limited to published leaders; not continuous elite days, complete career exposure, or independent achievements.</p>`;
   $('#detail-chart').nextElementSibling.after(details);
   const update=()=>{const raw=$('#elite-threshold').value,cutoff=raw===''?null:Number(raw);$('#persistence-result').textContent=finite(cutoff)?`${unique.filter(row=>valueOf(row)>=cutoff).length} of ${unique.length} observed endpoints ≥ ${cutoff}`:'Enter a numeric threshold.';};
   $('#elite-threshold').addEventListener('input',update);update();
@@ -387,19 +448,25 @@ $('#media-open').addEventListener('click',()=>openDialog('#media-dialog'));
 $('#filter-toggle').addEventListener('click',()=>{const open=$('.explorer-layout').classList.toggle('filters-open');$('#filter-toggle').setAttribute('aria-expanded',String(open));});
 $$('#mode-control button').forEach(button=>button.addEventListener('click',()=>{state.mode=button.dataset.mode;$$('#mode-control button').forEach(item=>{const selected=item===button;item.classList.toggle('selected',selected);item.setAttribute('aria-pressed',selected);});selectionChanged();}));
 $$('#perspective-control button').forEach(button=>button.addEventListener('click',()=>setPerspective(button.dataset.perspective)));
-['metric','window','quality','game','limit'].forEach(key=>$(`#${key}`).addEventListener('change',event=>{state[key]=key==='limit'?Number(event.target.value):event.target.value;if(key==='game')initializeDates(state.meta,true);selectionChanged();}));
+['metric','window','quality','game','limit'].forEach(key=>$(`#${key}`).addEventListener('change',event=>{state[key]=key==='limit'?Number(event.target.value):event.target.value;if(['game','window','quality'].includes(key))initializeDates(state.meta,true);selectionChanged();}));
 $('#search').addEventListener('input',event=>{clearTimeout(state.searchTimer);state.searchTimer=setTimeout(()=>{state.q=event.target.value.trim();selectionChanged();},250);});
-$('#timeline').addEventListener('input',event=>{pause();state.index=nearestSnapshotIndex(state.dates,Number(event.target.value)/10000);refresh({frontier:true});});
+$('#timeline').addEventListener('input',event=>{state.index=nearestSnapshotIndex(state.dates,Number(event.target.value)/10000);selectionChanged();});
 $('#timeline').addEventListener('keydown',event=>{
   const delta={ArrowLeft:-1,ArrowDown:-1,ArrowRight:1,ArrowUp:1,PageDown:-12,PageUp:12}[event.key];
   if(delta==null&&!['Home','End'].includes(event.key))return;
-  event.preventDefault();pause();state.index=event.key==='Home'?0:event.key==='End'?state.dates.length-1:Math.max(0,Math.min(state.dates.length-1,state.index+delta));refresh({frontier:true});
+  event.preventDefault();state.index=event.key==='Home'?0:event.key==='End'?state.dates.length-1:Math.max(0,Math.min(state.dates.length-1,state.index+delta));selectionChanged();
 });
 $('#scale-zoom').addEventListener('change',event=>{state.zoom=event.target.checked;renderRows(state.rows);});
 $('#play').addEventListener('click',()=>state.playing?pause():play());
-$('#replay').addEventListener('click',()=>{pause();state.index=0;play();});
+$('#replay').addEventListener('click',()=>{pause();playback.reset();state.index=0;play();});
+$('#speed').addEventListener('change',()=>{
+  const oldMotion=state.motionDuration,next=intervalDuration(state.dates[Math.max(0,state.index-1)],state.dates[state.index],Number($('#speed').value));
+  playback.setDuration(next);setMotionDuration(next,{playing:state.playing});
+  if(state.playing&&!reducedMotion.matches)for(const animation of $('.race-panel').getAnimations({subtree:true}))animation.updatePlaybackRate(animation.playbackRate*oldMotion/state.motionDuration);
+});
 $('#export').addEventListener('click',async()=>{try{const blob=await exportCsv(params(),state.rows),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=`apex-${state.game}-${state.metric}-${state.window}-${state.mode}-${state.dates[state.index]}.csv`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('Exported the displayed analytical specification.');}catch(error){toast(error.message);}});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();});
+reducedMotion.addEventListener('change',()=>{pause();setMotionDuration(650);});
 
 try{state.meta=await getMeta();metadataUI(state.meta);initializeDates(state.meta);await refresh({frontier:true});}
 catch(error){$('#coverage-message').textContent='Research data could not be loaded. No demonstration values are shown.';renderEmpty('The dataset is unavailable','Run the documented acquisition, validation and export commands, then start the APEX server.');$('#chart-area').setAttribute('aria-busy','false');$('#snapshot-status').textContent=error.message;}

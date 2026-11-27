@@ -44,12 +44,19 @@ async function partition(params) {
     return cached;
   }
   const extension=metadata.data_compression==='gzip'?'.json.gz':'.json';
-  const request = json(dataUrl(`${encodeURIComponent(key)}${extension}`));
+  const override = metadata.partition_overrides?.[key];
+  const request = json(override?.url ? new URL(override.url,import.meta.url) : dataUrl(`${encodeURIComponent(key)}${extension}`));
   partitions.set(key, request);
   // Keep comparison toggles responsive without retaining every historical slice.
   while(partitions.size>4)partitions.delete(partitions.keys().next().value);
   request.catch(() => { if(partitions.get(key)===request)partitions.delete(key); });
   return request;
+}
+// Called after getMeta(): a partition can expose actual endpoint days while
+// other cohorts retain their independently validated monthly exports.
+export function getAvailableDates(params) {
+  const key = `${params.game}-${params.quality}-${params.window}`;
+  return metadata?.partition_overrides?.[key]?.dates || metadata?.dates || [];
 }
 async function playerIndex() {
   const extension=metadata.data_compression==='gzip'?'.json.gz':'.json';
@@ -111,18 +118,18 @@ export async function query(endpoint, params = {}, options = {}) {
     const embedded = data.players?.[params.id];
     if (embedded) return embedded;
     try {
-      if (data.player_index_url && !data.player_details_url) throw new Error('This distribution provides monthly trajectories.');
+      if (data.player_index_url && !data.player_details_url) throw new Error('This distribution provides sparse measured trajectories.');
       const detail = await json(dataUrl(`players/${encodeURIComponent(params.id)}.json`));
       return detail;
     } catch {
-      // Monthly measured snapshots still provide a traceable, explicitly sparse trajectory.
+      // Published measured snapshots provide a traceable, explicitly sparse trajectory.
       const windows = Object.entries(data.snapshots || {}).filter(([date])=>date<=target).sort(([a], [b]) => a.localeCompare(b)).flatMap(([date, snapshot]) => {
         const rows = hydrate(data,snapshot.active?.[params.metric],params.metric);
         const row = rows.find(row => playerId(row) === String(params.id));
         return row ? [{ ...row, snapshot_date: date }] : [];
       });
       const unique = [...new Map(windows.map(row => [`${row.start_date}|${row.end_date}`, row])).values()];
-      return { player: { player_id: params.id, display_name: params.name || unique[0]?.display_name || params.id, ...index.players?.[params.id] }, windows: unique, notes: ['Trajectory includes only windows present in the published monthly snapshots. Missing points are not interpolated.'], sparse: true };
+      return { player: { player_id: params.id, display_name: params.name || unique[0]?.display_name || params.id, ...index.players?.[params.id] }, windows: unique, notes: ['Trajectory includes only windows present in the published snapshots. Missing points are not interpolated.'], sparse: true };
     }
   }
   throw new Error(`Unsupported dataset endpoint: ${endpoint}`);

@@ -52,3 +52,16 @@
 .bar-team-mark img:not(.mask-source){width:min(38px,70cqw);right:min(10px,15cqw)}.bar-team-mark.brand-unaltered img{width:min(30px,55cqw);height:18px;right:min(11px,22.5cqw)}@media(max-width:560px){.bar-team-mark.brand-unaltered img{width:min(24px,55cqw);height:16px;right:min(9px,22.5cqw)}}
 /* Loading feedback stays textual; official marks retain their source opacity. */
 .chart-area[aria-busy=true]{opacity:1}
+/* A single cadence spans each real observation transition; no stop-start dwell. */
+:root{--motion-duration:650ms;--motion-easing:cubic-bezier(.22,.72,.18,1)}
+.bar-chart{overflow:hidden;transition:height var(--motion-duration) var(--motion-easing)}
+.bar-row{transition:transform var(--motion-duration) var(--motion-easing),background .25s}
+.bar-fill{transition:width var(--motion-duration) var(--motion-easing),left var(--motion-duration) var(--motion-easing)}
+.calendar-elapsed,.month-rail span{transition:width var(--motion-duration) var(--motion-easing)}
+.calendar-playhead,.calendar-current{transition:left var(--motion-duration) var(--motion-easing)}
+.calendar-window{transition:left var(--motion-duration) var(--motion-easing),width var(--motion-duration) var(--motion-easing)}
+.row-exiting,.row-exiting:has(.brand-unaltered){animation:none;opacity:1;visibility:visible}
+html[data-playing=true] .calendar-current{font-variant-numeric:tabular-nums}
+.motion-note{color:#829373;font-size:8px;line-height:1.7;margin:8px 0 0}
+@media(prefers-reduced-motion:reduce){.bar-chart,.bar-row,.bar-fill,.calendar-elapsed,.calendar-playhead,.calendar-current,.calendar-window,.month-rail span{transition:none!important}}
+.bar-team-mark img.brand-screen{mix-blend-mode:screen}

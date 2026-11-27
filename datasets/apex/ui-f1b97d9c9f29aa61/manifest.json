@@ -1,0 +1,28 @@
+{
+  "type": "presentation",
+  "export_version": "ui-f1b97d9c9f29aa61",
+  "dataset_version": "cb029772bd796bf2",
+  "data_base_url": "https://raw.githubusercontent.com/BoomerRawlings/boomerrawlings.com/main/datasets/apex/e99a936a6367a680/",
+  "files": [
+    {
+      "path": "both-elo_top30-25-daily.json.gz",
+      "bytes": 9751696,
+      "sha256": "1382ac3eb7c2dab0e9d3df9ca86292b537d17030650d3c4b9404eb1cd800f130"
+    },
+    {
+      "path": "browser-validation.json",
+      "bytes": 6595,
+      "sha256": "81b1c6082412bd3ecc4f331bd51c0b6f9c684ff263ffd90652ed4f338c7b2df3"
+    },
+    {
+      "path": "daily-manifest.json",
+      "bytes": 42507,
+      "sha256": "4fa4b539d50513258e4a6ed1021a4ff44c346e689ec55a744ce6ddc2c224b179"
+    },
+    {
+      "path": "reproduce.zip",
+      "bytes": 3908235,
+      "sha256": "0c46d24f333819c022df61314247f47d4dbf350635b0ffb163677b30fa3fb950"
+    }
+  ]
+}
