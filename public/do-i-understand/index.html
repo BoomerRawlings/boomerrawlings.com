@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Do I Understand? An experimental teach-back and transfer skill for Codex and Claude Code.">
+<link rel="canonical" href="https://boomerrawlings.com/do-i-understand/">
+<link rel="stylesheet" href="./style.css">
+<title>Do I Understand? | Boomer Rawlings</title>
+</head>
+<body><main>
+<nav aria-label="Site"><a href="/">Boomer Rawlings</a></nav>
+<header>
+<p class="kicker">Open experiment · v0.1</p>
+<h1>Do I Understand?</h1>
+<p class="lede">Can I explain it without the AI? And can I still use it when the problem changes?</p>
+<div class="actions"><a href="./SKILL.md" download>Download SKILL.md</a><a href="https://github.com/BoomerRawlings/boomerrawlings.com/tree/main/public/do-i-understand">View on GitHub</a></div>
+</header>
+<section><h2>What it does</h2><ol>
+<li><strong>Explain it.</strong> Describe how or why it works in your own words.</li>
+<li><strong>Try a new case.</strong> Predict what happens when one important condition changes.</li>
+<li><strong>See the gap.</strong> Get feedback on what your answers actually showed and what they didn't.</li>
+</ol></section>
+<section><h2>Try it in your project</h2>
+<p>Save the same file at the path for your client:</p>
+<ul><li><strong>Codex:</strong> <code>.agents/skills/do-i-understand/SKILL.md</code></li>
+<li><strong>Claude Code:</strong> <code>.claude/skills/do-i-understand/SKILL.md</code></li></ul>
+<p>Run <code>$do-i-understand</code> in Codex or <code>/do-i-understand</code> in Claude Code, followed by what you want to check. Or paste the instructions into a fresh chat to try it without installing.</p></section>
+<section><h2>What I’m testing</h2><p>Does a question without hints, followed by a new case, reveal a gap I didn’t know I had? Before starting, predict where you’ll get stuck. Afterward, note what surprised you, whether the model gave away the answer, and whether its assessment matched what you actually said. See the <a href="https://github.com/BoomerRawlings/boomerrawlings.com/blob/main/public/do-i-understand/README.md">test instructions</a>.</p></section>
+<footer>An early prototype, not a validated test of mastery or originality. The skill doesn't collect results.</footer>
+</main></body></html>
