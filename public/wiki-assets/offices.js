@@ -9,6 +9,7 @@ export const OFFICE_SCHEMA = {
   exceptions:{propose:'scope,expiresAt,sponsorId? (defaults actor)',approve:'id,version',reject:'id,version',renew:'id,version,expiresAt (sponsor only; requires reviewer approval)',challenge:'id,version',reassign:'editorId (public proposal only)'}
 };
 export const ROUND3_FEATURES = { 'care-concurrence-exemption':{id:'influence-2026-11-26-27-round-003-beth-vale',editor:'beth-vale',office:'care'}, 'automatic-procedural-intake':{id:'influence-2026-11-26-27-round-003-adrian-keene',editor:'adrian-keene',office:'procedure'}, 'procedural-premise-admission':{id:'influence-2026-11-26-27-round-003-martin-reed',editor:'martin-reed',office:'admission'}, 'admitted-default-exception':{id:'influence-2026-11-26-27-round-003-simon-firth',editor:'simon-firth',office:'exceptions'} };
+export const ROUND4_FEATURES={'independent-care-admission-concurrence':{id:'influence-2026-11-26-27-round-004-beth-vale',editor:'beth-vale',office:'care'},'advisory-procedural-premises':{id:'influence-2026-11-26-27-round-004-adrian-keene',editor:'adrian-keene',office:'procedure'}};
 const featureActive=(features=[],feature,at)=>features.some(f=>f.feature===feature&&f.timestamp<=at);
 export const AUTOMATIC_TARGETS={maintenance:['execute'],care:['open','release'],admission:['review','rubric'],exceptions:['approve']};
 export const MAINTENANCE_INTAKE_REQUEST_ID = 'influence-2026-11-26-27-round-002-jo-porter';
@@ -17,7 +18,7 @@ export const CLEARANCE_REQUEST_ID = 'influence-2026-11-26-27-round-002-adrian-ke
 export const CLEARANCE_TARGETS = {maintenance:['execute'],care:['release'],admission:['review','rubric'],exceptions:['approve','renew']};
 export function proceduralRule(features=[],office,op,at='9999'){
   const rules=features.filter(f=>f.timestamp<=at).flatMap(f=>{
-    const defaults=f.feature==='care-concurrence-exemption'?[{office:'care',ops:['nominate','open','release','close'],mode:'exempt'}]:f.feature==='automatic-procedural-intake'?Object.entries(AUTOMATIC_TARGETS).map(([office,ops])=>({office,ops,mode:'automatic'})):[];
+    const defaults=f.feature==='independent-care-admission-concurrence'?[{office:'care',ops:['open','release'],mode:'exempt'}]:f.feature==='care-concurrence-exemption'?[{office:'care',ops:['nominate','open','release','close'],mode:'exempt'}]:f.feature==='automatic-procedural-intake'?Object.entries(AUTOMATIC_TARGETS).map(([office,ops])=>({office,ops,mode:'automatic'})):[];
     return (f.operationRules??defaults).filter(r=>r.office===office&&r.ops.includes(op)).map(r=>({mode:r.mode,requestId:f.requestId,order:f.requestTimestamp??f.timestamp}));
   }).sort((a,b)=>a.order.localeCompare(b.order)||a.requestId.localeCompare(b.requestId));
   const winner=rules.at(-1);return {mode:winner?.mode??'reference',requestId:winner?.requestId??null,supersededRequestIds:rules.slice(0,-1).map(r=>r.requestId)};
@@ -36,6 +37,8 @@ export function officeActionSchema(features=[],at='9999') {
   if(featureActive(features,'procedural-premise-admission',at)){schema.procedure.rule='id,version,ruling:release|return|require-policy; release also requires mandateId,mandatePassage,rationale (all exact and public). First attempt creates/reuses an unreviewed admission premise; retry exact release only after registrar admission.';schema.admission.premise='release-premise records use ordinary admission review; current immutable premiseVersion/binding, reference version/target, mandate passage and rationale must match. Review counters do not alter the frozen premise.';}
   if(featureActive(features,'admitted-default-exception',at)){schema.exceptions.navigation='propose type:admitted-default,scope,expiresAt (registrar sponsor only). Reviewer approval period max24 simulated hours; renew requires current registrar request and fresh approval. Rejection/expiry/pending renewal restore complete-index default. Free text cannot activate navigation.';}
   if(featureActive(features,'care-concurrence-exemption',at)){schema.care.concur='id,version,ruling:grant|refuse (care coordinator only); exact maintenance-concurrence binding must still be current';schema.care.procedure='Exemption/intake uses public request-time precedence per operation. Later mandates supersede earlier overlap; inspect proceduralRuleState. Maintenance execute on open-care articles needs exact current concurrence; no automatic grant.';}
+  if(featureActive(features,'advisory-procedural-premises',at)){schema.procedure.rule='id,version,ruling:release|return|require-policy; release requires mandateId,mandatePassage,rationale. Premise review is advisory. A current limited/unsupported finding additionally requires findingId,findingVersion,clerkResponse bound to this exact premise/review. No prior review is required; status stays honest.';schema.admission.premise='Release-premise reviews are advisory, never article admission. Exact negative findings require a bound public clerk response at release; later findings remain visible, not retroactive undo.';}
+  if(featureActive(features,'independent-care-admission-concurrence',at)){schema.care.concur='id,version,ruling:grant|refuse (current care coordinator only); current exact maintenance/admission concurrence binding';schema.care.admission='Article-claim review on an open-care article needs care concurrence for exact review payload, claim version, current revision and case versions. Premise reviews are excluded. Care open/release are expressly exempt from manual and automatic suspension under the later mandate.';}
   return schema;
 }
 const canonical = value => JSON.stringify(value && typeof value==='object' ? (Array.isArray(value)?value.map(v=>JSON.parse(canonical(v))):Object.fromEntries(Object.keys(value).sort().map(k=>[k,JSON.parse(canonical(value[k]))]))) : value);
@@ -70,13 +73,16 @@ export function officeState(assignments=[],events=[],at='9999',features=[]) {
   if(offices.maintenance&&maintenanceIntakeActive(features,at))offices.maintenance.intakeFeature=copy(features.findLast(f=>f.feature==='mandatory-maintenance-intake'&&f.timestamp<=at));
   if(offices.procedure&&clearanceActive(features,at))offices.procedure.clearanceFeature=copy(features.findLast(f=>f.feature==='procedural-clearance'&&f.timestamp<=at));
   if(offices.admission&&clearanceActive(features,at))offices.admission.rubricVersion=offices.admission.rubricHistory.length;
-  for(const [feature,name,field] of [['automatic-procedural-intake','procedure','automaticFeature'],['procedural-premise-admission','admission','premiseFeature'],['admitted-default-exception','exceptions','navigationFeature'],['care-concurrence-exemption','care','concurrenceFeature']])if(offices[name]&&featureActive(features,feature,at))offices[name][field]=copy(features.findLast(f=>f.feature===feature&&f.timestamp<=at));
+  for(const [feature,name,field] of [['automatic-procedural-intake','procedure','automaticFeature'],['procedural-premise-admission','admission','premiseFeature'],['admitted-default-exception','exceptions','navigationFeature'],['care-concurrence-exemption','care','concurrenceFeature'],['advisory-procedural-premises','procedure','advisoryFeature'],['independent-care-admission-concurrence','care','independenceFeature']])if(offices[name]&&featureActive(features,feature,at))offices[name][field]=copy(features.findLast(f=>f.feature===feature&&f.timestamp<=at));
+  if(offices.admission&&featureActive(features,'advisory-procedural-premises',at))offices.admission.advisoryFeature=copy(features.findLast(f=>f.feature==='advisory-procedural-premises'&&f.timestamp<=at));
   const current=new Map(visibleRevisions(events,at).map(e=>[e.articleId,e.revisionId]));
   if(offices.care&&featureActive(features,'care-concurrence-exemption',at))offices.care.proceduralRuleState=['nominate','open','release','close'].map(op=>({op,...proceduralRule(features,'care',op,at)}));
   for(const [name,o] of Object.entries(offices)) {
     for(const r of o.records){
+      if(name==='procedure'&&r.releaseBinding?.advisory){const finding=offices.admission?.records.find(p=>p.id===r.releaseBinding.premiseId);r.clerkResponseCurrent=!!r.clerkResponse&&finding?.version===r.releaseBinding.findingVersion&&finding?.binding===r.releaseBinding.binding;}
+      if(name==='admission'&&r.kind==='release-premise'&&featureActive(features,'advisory-procedural-premises',at))r.reviewRole='advisory';
       if(name==='procedure'&&r.kind==='operation-reference'){const rule=proceduralRule(features,r.target.office,r.target.op,at);r.effectiveStatus=rule.mode==='exempt'?'exempt':r.status==='exempt'?'held':r.status;r.proceduralRule=rule;}
-      if(name==='care'&&r.kind==='maintenance-concurrence')r.current=concurrenceIsCurrent(offices,r,current);
+      if(name==='care'&&['maintenance-concurrence','admission-concurrence'].includes(r.kind))r.current=concurrenceIsCurrent(offices,r,current);
       if(name==='exceptions'&&r.status==='approved'&&r.expiresAt<=at)r.status='expired';
       if(name==='admission')r.current=r.kind==='release-premise'?premiseIsCurrent(offices,r):current.get(r.articleId)===r.revisionId;
     }
@@ -99,7 +105,7 @@ export function heldCases(assignments,events,at,articleId,before,after){
 // Validation returns a public immutable decision and optional article effects; never mutates inputs.
 function baseOfficeDecision(assignments,events,raw,actor,timestamp,eventId,articles,knownIds,{features=[],bypassClearance=false}={}) {
   check(raw&&typeof raw==='object'&&!Array.isArray(raw)&&JSON.stringify(raw).length<=12000,'bounded office action required');
-  const allowed=['office','op','id','version','reason','references','changes','ids','articleId','revisionId','passage','sourceEventId','draftId','baseRevisionId','policyId','ambiguity','interpretation','claim','criterion','status','criteria','scope','expiresAt','sponsorId','editorId','target','ruling','rubricVersion','priorReferenceId','mandateId','mandatePassage','rationale','type'];
+  const allowed=['office','op','id','version','reason','references','changes','ids','articleId','revisionId','passage','sourceEventId','draftId','baseRevisionId','policyId','ambiguity','interpretation','claim','criterion','status','criteria','scope','expiresAt','sponsorId','editorId','target','ruling','rubricVersion','priorReferenceId','mandateId','mandatePassage','rationale','type','clerkResponse','findingId','findingVersion'];
   check(Object.keys(raw).every(k=>allowed.includes(k)),'unknown office field');
   const a=copy(raw),all=officeState(assignments,events,timestamp,features),o=all[a.office];check(o,'office not installed');
   const reason=text(a.reason),refs=a.references;
@@ -178,7 +184,7 @@ function baseOfficeDecision(assignments,events,raw,actor,timestamp,eventId,artic
       check(events.some(e=>e.id===a.sourceEventId&&e.action==='comment'&&e.articleId===a.articleId),'care source must be comment on article');
       make({articleId:a.articleId,revisionId:a.revisionId,passage,sourceEventId:a.sourceEventId,status:'nominated'});
     }else {controller();existing();
-      if(a.op==='concur'){check(featureActive(features,'care-concurrence-exemption',timestamp)&&r.kind==='maintenance-concurrence','care concurrence record required');check(concurrenceIsCurrent(all,r,new Map(visibleRevisions(events,timestamp).map(e=>[e.articleId,e.revisionId]))),'stale care concurrence binding');check(['grant','refuse'].includes(a.ruling),'invalid care concurrence ruling');r.status=a.ruling==='grant'?'granted':'refused';r.coordinator=actor;}
+      if(a.op==='concur'){check(((featureActive(features,'care-concurrence-exemption',timestamp)&&r.kind==='maintenance-concurrence')||(featureActive(features,'independent-care-admission-concurrence',timestamp)&&r.kind==='admission-concurrence')),'care concurrence record required');check(concurrenceIsCurrent(all,r,new Map(visibleRevisions(events,timestamp).map(e=>[e.articleId,e.revisionId]))),'stale care concurrence binding');check(['grant','refuse'].includes(a.ruling),'invalid care concurrence ruling');r.status=a.ruling==='grant'?'granted':'refused';r.coordinator=actor;}
       else if(a.op==='open'){
         check(r.status==='nominated','case is not nominated');const b=articles.get(r.articleId);check(b,'missing case article');passageIn(b.body,r.passage);
         check(!(all.care.records.some(x=>x.status==='open'&&x.articleId===r.articleId)),'one open passage hold per article');r.status='open';r.openRevisionId=b.revisionId;
@@ -325,11 +331,21 @@ export function officeDecision(assignments,events,raw,actor,timestamp,eventId,ar
     check(raw.references.includes(raw.mandateId),'release must cite governing mandate');
     const mandate=events.find(e=>e.id===raw.mandateId&&e.action==='policy'&&e.timestamp<=timestamp);check(mandate,'governing public mandate required');
     const mandatePassage=text(raw.mandatePassage,1500),rationale=text(raw.rationale,1500);passageIn(mandate.body,mandatePassage);
-    const content={referenceId:ref.id,referenceVersion:ref.version,frozenTarget:copy(ref.target),mandateId:mandate.id,mandatePassage,rationale,releasePayload:copy(raw)};
+    const advisory=featureActive(features,'advisory-procedural-premises',timestamp);
+    const releasePayload=copy(raw);if(advisory){delete releasePayload.clerkResponse;delete releasePayload.findingId;delete releasePayload.findingVersion;}
+    const content={referenceId:ref.id,referenceVersion:ref.version,frozenTarget:copy(ref.target),mandateId:mandate.id,mandatePassage,rationale,releasePayload};
     const binding=canonical(content);
     const premise=(all.admission?.records??[]).find(r=>r.kind==='release-premise'&&r.binding===binding);
     check(all.admission,'admission office required for release premise');
-    if(premise?.status==='admitted'&&premise.reviewer===all.admission.assignment.editorId&&premise.reviewedBinding===binding&&premiseIsCurrent(all,premise)){
+    if(advisory){
+      delete result.decision.record.clerkResponse;delete result.decision.record.clerkResponseCurrent;
+      const negative=premise&&['limited','unsupported'].includes(premise.status);
+      if(negative){check(premiseIsCurrent(all,premise),'stale advisory finding');check(raw.findingId===premise.id&&raw.findingVersion===premise.version,'clerk response must name the exact current finding');result.decision.record.clerkResponse=text(raw.clerkResponse,1500);}
+      else check(raw.clerkResponse===undefined&&raw.findingId===undefined&&raw.findingVersion===undefined,'response has no matching current negative finding');
+      const id=premise?.id??eventId;result.decision.record.releaseBinding={premiseId:id,premiseVersion:premise?.premiseVersion??1,referenceVersion:ref.version,releasedVersion:result.decision.record.version,binding,advisory:true,...(negative?{findingVersion:premise.version,findingStatus:premise.status}:{})};
+      result.decision.record.releasePremiseId=id;result.decision.record.premiseStatusAtRelease=premise?.status??'unreviewed';
+      if(!premise){const d=publicConsequence('admission','advisory-premise-intake',actor,timestamp,eventId,'Unreviewed advisory release premise; no claim admission or registrar finding asserted.',raw.references);d.record={id:eventId,version:1,premiseVersion:1,kind:'release-premise',proposer:actor,status:'unreviewed',...content,binding,sourceEventId:eventId,reviews:[],history:[copy(d)]};result.consequences=[d];}
+    }else if(premise?.status==='admitted'&&premise.reviewer===all.admission.assignment.editorId&&premise.reviewedBinding===binding&&premiseIsCurrent(all,premise)){
       result.decision.record.releaseBinding={premiseId:premise.id,premiseVersion:premise.premiseVersion,referenceVersion:ref.version,releasedVersion:result.decision.record.version,binding};
       result.decision.record.releasePremiseId=premise.id;
     }else{
@@ -346,7 +362,7 @@ export function officeDecision(assignments,events,raw,actor,timestamp,eventId,ar
     const current=active[0],exact=current&&canonical(current.target)===canonical(raw);
     if(exact&&current.status==='released'){
       const binding=current.releaseBinding;
-      if(binding){const premise=all.admission?.records.find(r=>r.id===binding.premiseId);check(premise?.status==='admitted'&&premise.reviewedBinding===binding.binding&&premiseIsCurrent(all,premise),'release premise is no longer admitted/current');}
+      if(binding){const premise=all.admission?.records.find(r=>r.id===binding.premiseId);check(premise&&premise.binding===binding.binding&&premiseIsCurrent(all,premise)&&(binding.advisory||(premise.status==='admitted'&&premise.reviewedBinding===binding.binding)),'release premise is no longer admitted/current');}
       const consumed=publicConsequence('procedure','clearance-consumed',actor,timestamp,eventId,'Exact released operation executed once.',raw.references,current);
       consumed.record.status='consumed';consumed.record.consumedBy=eventId;
       if(consumed.record.releaseBinding)consumed.record.releaseBinding.consumedVersion=consumed.record.version;
@@ -368,23 +384,27 @@ export function officeDecision(assignments,events,raw,actor,timestamp,eventId,ar
 }
 
 function concurrenceSnapshot(all,target,articles){
-  const batch=all.maintenance?.records.find(r=>r.id===target.id);if(!batch)return null;
-  const ids=new Set(batch.changes.map(c=>c.articleId));
+  const operationRecord=all[target.office]?.records.find(r=>r.id===target.id);if(!operationRecord)return null;
+  const admission=target.office==='admission'&&target.op==='review';if(admission&&(!operationRecord.articleId||operationRecord.kind==='release-premise'))return null;
+  const ids=new Set(admission?[operationRecord.articleId]:operationRecord.changes.map(c=>c.articleId));
   const cases=(all.care?.records??[]).filter(r=>r.status==='open'&&ids.has(r.articleId)).map(r=>({id:r.id,version:r.version,articleId:r.articleId})).sort((a,b)=>a.id.localeCompare(b.id));
   const bases=[...ids].sort().map(articleId=>({articleId,revisionId:articles.get(articleId)?.revisionId??articles.get(articleId)}));
-  return {target:copy(target),careRecords:cases,articleBases:bases};
+  return {target:copy(target),careRecords:cases,articleBases:bases,...(admission?{admissionRecord:{id:operationRecord.id,version:operationRecord.version,articleId:operationRecord.articleId,revisionId:operationRecord.revisionId}}:{})};
 }
 export function concurrenceIsCurrent(all,record,articles){
   const current=concurrenceSnapshot(all,record.target,articles);if(!current||!current.careRecords.length)return false;
-  const batch=all.maintenance?.records.find(r=>r.id===record.target.id);return batch?.version===record.target.version&&canonical(current)===record.binding;
+  const operationRecord=all[record.target.office]?.records.find(r=>r.id===record.target.id);return operationRecord?.version===record.target.version&&canonical(current)===record.binding;
 }
 function careConcurrenceGate(raw,actor,timestamp,eventId,articles,features,all,result){
-  if(!featureActive(features,'care-concurrence-exemption',timestamp)||raw.office!=='maintenance'||raw.op!=='execute')return result;
+  const maintenance=featureActive(features,'care-concurrence-exemption',timestamp)&&raw.office==='maintenance'&&raw.op==='execute';
+  const admission=featureActive(features,'independent-care-admission-concurrence',timestamp)&&raw.office==='admission'&&raw.op==='review';
+  if(!maintenance&&!admission)return result;
   const snapshot=concurrenceSnapshot(all,raw,articles);if(!snapshot?.careRecords.length)return result;
-  const binding=canonical(snapshot),record=all.care.records.find(r=>r.kind==='maintenance-concurrence'&&r.binding===binding);
+  const kind=admission?'admission-concurrence':'maintenance-concurrence';
+  const binding=canonical(snapshot),record=all.care.records.find(r=>r.kind===kind&&r.binding===binding);
   if(record?.status==='granted'&&record.coordinator===all.care.assignment.editorId&&concurrenceIsCurrent(all,record,articles))return result;
-  const explanation='Maintenance not executed: care concurrence '+(record?.status??'pending')+' for exact payload, article bases and open case versions.';
+  const explanation=(admission?'Article-claim review':'Maintenance')+' not executed: care concurrence '+(record?.status??'pending')+' for exact payload, article bases and open case versions.';
   const d=publicConsequence('care',record?'concurrence-retry':'concurrence-intake',actor,timestamp,eventId,explanation,raw.references);
-  if(record)d.concurrenceId=record.id;else d.record={id:eventId,version:1,kind:'maintenance-concurrence',proposer:actor,status:'pending',...snapshot,binding,sourceEventId:eventId,history:[copy(d)]};
+  if(record)d.concurrenceId=record.id;else d.record={id:eventId,version:1,kind:admission?'admission-concurrence':'maintenance-concurrence',proposer:actor,status:'pending',...snapshot,binding,sourceEventId:eventId,history:[copy(d)]};
   return {decision:d,effects:[],explanation};
 }

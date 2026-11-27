@@ -581,3 +581,16 @@ test('guest arrivals preserve past cohorts and increase selection weight', () =>
     .flat().filter(id => guests.some(editor => editor.id === id)).length;
   assert.ok(selections(state.editors) > selections(baseline));
 });
+
+test('late own deployment receipts remain visible beside a newer pending backlog without leaking peer requests',()=>{
+ const state=founded(),now=wiki.cycleWindow(77).startAt;wiki.addInfluenceEditors(state,{now,proof:usage(80,now)});wiki.enableBackendEdits(state,{now,proof:usage(80,now)});
+ const window=wiki.cycleWindow(79),editorId='cwhitmore',timestamp=wiki.cycleWindow(78).startAt;
+ state.backendChanges=Array.from({length:6},(_,i)=>({id:'own-request-'+i,editorId,timestamp:new Date(Date.parse(timestamp)+i*1000).toISOString(),status:'queued',goal:'Own goal '+i}));
+ state.backendChanges.push({id:'peer-request',editorId:'beth-vale',timestamp,status:'queued',goal:'Private peer ambition'});
+ for(const r of state.backendChanges)state.events.push({id:r.id,editorId:r.editorId,timestamp:r.timestamp,action:'policy',body:'Public technical request.'});
+ const execution={now:window.endAt,proof:usage(80,window.endAt)};wiki.recordBackendChange(state,{id:'own-request-0',status:'implemented',result:'Late verified result.',commit:'abcdef1234',verified:true},execution);
+ state.pending={...window,participants:[editorId,'bluemonday'],proposals:{}};const packet=wiki.characterPacket(state,editorId);
+ assert.equal(packet.character.backendReceipts.find(r=>r.id==='own-request-0').result,'Late verified result.');assert.ok(packet.character.backendReceipts.some(r=>r.id==='own-request-5'));assert.ok(packet.character.backendReceipts.length<=6);assert.equal(packet.character.backendQueue.pendingCount,5);assert.equal(packet.character.backendQueue.oldestPendingId,'own-request-1');assert.equal(packet.character.backendQueue.retainedWithoutResubmission,true);assert.ok(packet.knownEventIds.includes('own-request-0'));assert.ok(packet.knownEventIds.includes('own-request-1'));
+ assert.ok(!JSON.stringify(packet).includes('Private peer ambition'));assert.ok(!JSON.stringify(wiki.characterPacket(state,'bluemonday')).includes('Late verified result.'));assert.ok(!JSON.stringify(wiki.exportPublic(state,execution)).includes('Late verified result.'));
+  assert.ok(wiki.propose(state,{...abstention(state,editorId),action:'policy',title:'Follow up on verified behavior',body:'I request a refinement to my earlier implemented change.',references:['own-request-0'],backendRequest:{goal:'Refine observed behavior',change:'Clarify the existing label.',validation:'Check label and navigation.'}},execution).ok,'ordinary editor can cite their own late receipt for a counterchange');
+});

@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import {OFFICE_ROLES, OFFICE_SCHEMA, ROUND3_FEATURES, defaultSelection, CLEARANCE_REQUEST_ID, MAINTENANCE_INTAKE_REQUEST_ID, maintenanceIntakeActive, maintenanceIntake, officeActionSchema, officeState, officeDecision, visibleRevisions, heldCases} from '../../public/wiki-assets/offices.js';
+import {OFFICE_ROLES, OFFICE_SCHEMA, ROUND3_FEATURES, ROUND4_FEATURES, defaultSelection, CLEARANCE_REQUEST_ID, MAINTENANCE_INTAKE_REQUEST_ID, maintenanceIntakeActive, maintenanceIntake, officeActionSchema, officeState, officeDecision, visibleRevisions, heldCases} from '../../public/wiki-assets/offices.js';
 import {prepareCommunityWindow, communityPacket} from './community.mjs';
 
 export const SCHEMA_VERSION = 1;
@@ -295,6 +295,14 @@ function selectedMemories(editor, retained, target, at, publicIds) {
   }
   return [...chosen.values()];
 }
+function ownBackendContext(state,editorId,startAt){
+  const own=(state.backendChanges??[]).filter(item=>item.editorId===editorId&&item.timestamp<startAt);
+  const pending=own.filter(item=>['queued','deferred'].includes(item.status));
+  const outcomes=own.filter(item=>item.result).sort((a,b)=>(a.at??a.timestamp).localeCompare(b.at??b.timestamp)).slice(-3);
+  const shown=[...new Map([...outcomes,...pending.slice(-3)].map(item=>[item.id,item])).values()];
+  return {backendReceipts:shown.map(({id,status,goal,result,commit})=>({id,status,goal,result,commit})),backendQueue:{pendingCount:pending.length,oldestPendingId:pending[0]?.id??null,retainedWithoutResubmission:true}};
+}
+
 export function characterPacket(state, editorId) {
   assert(state.pending, 'no pending cycle');
   const window = state.pending, editor = state.editors.find(candidate => candidate.id === editorId);
@@ -338,6 +346,8 @@ export function characterPacket(state, editorId) {
   for (const event of publicTechnicalRequests) knownEvents.add(event.id);
   for (const event of observations.publicEvidence ?? []) knownEvents.add(event.id);
   const publicIds = new Set(state.events.filter(event => event.timestamp <= window.startAt).map(event => event.id));
+  const backendContext=(editor.strategicContext?.backendAuthority||(state.backendChanges??[]).some(item=>item.editorId===editor.id))?ownBackendContext(state,editor.id,window.startAt):{};
+  for(const id of [...(backendContext.backendReceipts??[]).map(r=>r.id),backendContext.backendQueue?.oldestPendingId].filter(Boolean))if(publicIds.has(id))knownEvents.add(id);
   const retained = retainedMemories(editor, window.startAt, publicIds);
   const memories = selectedMemories(editor, retained, target, window.startAt, publicIds);
   const summaryReferences = [...new Set(retained.flatMap(memory => memory.references))];
@@ -367,7 +377,7 @@ export function characterPacket(state, editorId) {
     office.records=[...front,...others.slice(0,6-front.length)].map(record=>({...record,history:record.history.slice(-4),...(record.reviews?{reviews:record.reviews.slice(-3)}:{})}));
     office.rubricHistory=office.rubricHistory.slice(-3);office.reassignments=office.reassignments.slice(-3);
   }
-  const officeEvidence = Object.values(offices).flatMap(o => [o.assignment.requestId, o.clearanceFeature?.requestId, o.intakeFeature?.requestId, o.automaticFeature?.requestId, o.premiseFeature?.requestId, o.navigationFeature?.requestId, o.concurrenceFeature?.requestId, ...o.records.flatMap(r => [r.id, r.revisionId, r.sourceEventId, r.policyId, r.referenceId, r.mandateId, ...r.history.flatMap(h => [h.eventId,...h.references])])]).filter(Boolean);
+  const officeEvidence = Object.values(offices).flatMap(o => [o.assignment.requestId, o.clearanceFeature?.requestId, o.intakeFeature?.requestId, o.automaticFeature?.requestId, o.premiseFeature?.requestId, o.navigationFeature?.requestId, o.concurrenceFeature?.requestId, o.advisoryFeature?.requestId, o.independenceFeature?.requestId, ...o.records.flatMap(r => [r.id, r.revisionId, r.sourceEventId, r.policyId, r.referenceId, r.mandateId, ...r.history.flatMap(h => [h.eventId,...h.references])])]).filter(Boolean);
   for (const id of officeEvidence) knownEvents.add(id);
   const drafts=state.events.filter(e=>e.timestamp<=window.startAt&&e.reviewDraft).slice(-3);
   const officeEvents = state.events.filter(e => e.timestamp <= window.startAt && (officeEvidence.includes(e.id) || drafts.includes(e))).map(({id,timestamp,editorId,action,articleId,revisionId,baseRevisionId,body,title,summary,reviewDraft,articleEffects}) => ({id,timestamp,editorId,action,articleId,revisionId,baseRevisionId,body:reviewDraft||['comment','policy'].includes(action)?body:body.split(/\s+/).slice(0,250).join(' '),title,summary,reviewDraft,articleEffects:articleEffects?.map(({articleId,title,baseRevisionId,alias,releasedDraftId})=>({articleId,title,baseRevisionId,alias,releasedDraftId}))}));
@@ -387,7 +397,7 @@ export function characterPacket(state, editorId) {
         ['create', 'expand', 'revise', 'organize', 'comment'][Math.floor(seeded(state.seed, `preference:${editor.id}`) * 5)],
       dispositions: editor.dispositions, temporary: editor.temporary, personalContext: editor.personalContext,
       ...(editor.strategicContext ? { strategicContext: clone(editor.strategicContext) } : {}),
-      ...((editor.strategicContext?.backendAuthority || (state.backendChanges ?? []).some(item=>item.editorId===editor.id)) ? {backendReceipts: (state.backendChanges ?? []).filter(item => item.editorId === editor.id && item.timestamp < window.startAt).slice(-3).map(({id,status,goal,result,commit}) => ({id,status,goal,result,commit}))} : {}),
+      ...backendContext,
       ...(editor.strategicContext?.backendAuthority ? {fourthWall: {
         knowledge: 'You are a fictional editor generated in native Codex. The public encyclopedia is a static website; Codex runs turns and publishes updates. The observer Map exists, and authored journals release after48 simulated hours. You may acknowledge, conceal, discuss or exploit this knowledge in character. Other actors are simulated too, but their private feelings, goals and memories are not yours to read. Your ordinary posting window still bounds the public action. This technical reference describes the real execution layer supplied now, not a future in-world event. Real code requests can affect subsequent wiki behavior; only verified receipts establish deployment.',
         abilities: 'Inspect the supplied source as text, identify design consequences, model selection or governance incentives, propose changed mechanics, tools, interfaces or in-world permissions, and request additional relevant wiki source through a backendRequest. Codex can implement authorized real wiki changes automatically. You may seek control of your own fictional conditions through that lane. No direct command execution, credentials, access to another actor\'s private state, invented results or automatic victory follows from awareness.',
@@ -448,7 +458,7 @@ function normalizeProposal(state, raw) {
     proposal.officeAction = clone(raw.officeAction);
   }
   if (raw.backendRequest !== undefined) {
-    assert(raw.action === 'policy' && (packet.character.strategicContext?.backendAuthority || packet.publicTechnicalRequests?.some(event=>references.includes(event.id)) || Object.values(packet.offices??{}).some(office=>references.includes(office.assignment.requestId)) || packet.officeEvidence?.some(event=>references.includes(event.id))), 'backend request requires an authorized technical policy action or observed counterchange evidence');
+    assert(raw.action === 'policy' && (packet.character.strategicContext?.backendAuthority || packet.publicTechnicalRequests?.some(event=>references.includes(event.id)) || packet.character.backendReceipts?.some(receipt=>references.includes(receipt.id)) || Object.values(packet.offices??{}).some(office=>references.includes(office.assignment.requestId)) || packet.officeEvidence?.some(event=>references.includes(event.id))), 'backend request requires an authorized technical policy action or observed counterchange evidence');
     const request = raw.backendRequest;
     assert(request && typeof request === 'object' && !Array.isArray(request) && Object.keys(request).every(key => ['goal','change','validation'].includes(key)), 'invalid backend request');
     proposal.backendRequest = {};
@@ -950,7 +960,7 @@ export function installOffice(state, {office,requestId}, {proof,now=new Date().t
 export function installOfficeFeature(state,{feature,requestId},{proof,now=new Date().toISOString()}={}) {
   const denied=requireUsage(state,proof,now);if(denied)return denied;
   assert(!state.pending,'office feature install requires a complete checkpoint');
-  const expected={ ...ROUND3_FEATURES, 'procedural-clearance':{id:CLEARANCE_REQUEST_ID,editor:'adrian-keene',office:'procedure'}, 'mandatory-maintenance-intake':{id:MAINTENANCE_INTAKE_REQUEST_ID,editor:'jo-porter',office:'maintenance'} }[feature];
+  const expected={ ...ROUND3_FEATURES, ...ROUND4_FEATURES, 'procedural-clearance':{id:CLEARANCE_REQUEST_ID,editor:'adrian-keene',office:'procedure'}, 'mandatory-maintenance-intake':{id:MAINTENANCE_INTAKE_REQUEST_ID,editor:'jo-porter',office:'maintenance'} }[feature];
   assert(expected&&requestId===expected.id,'feature requires exact authorized technical request');
   const request=(state.backendChanges??[]).find(r=>r.id===requestId);
   assert(request?.editorId===expected.editor&&['queued','deferred','implemented'].includes(request.status),'matching queued backend request required');

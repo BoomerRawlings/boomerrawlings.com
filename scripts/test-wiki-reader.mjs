@@ -1,5 +1,5 @@
 import test from 'node:test';
-import {officeState,visibleRevisions,defaultSelection} from '../public/wiki-assets/offices.js';
+import {officeState,officeDecision,visibleRevisions,defaultSelection} from '../public/wiki-assets/offices.js';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
@@ -215,4 +215,31 @@ test('observer exposes procedural targets/rulings and returned maintenance origi
  vm.runInContext("location.search='?article=care';render()",ui.context);assert.match(ui.node('page-content').innerHTML,/Live prose/);assert.ok(!ui.node('page-content').innerHTML.includes('Changed prose'));
  vm.runInContext("location.search='?article=care&revision=intake';render()",ui.context);assert.match(ui.node('page-content').innerHTML,/Maintenance proposal — not live/);
  vm.runInContext("location.search='?view=offices&at=2026-11-27T00:30:00.000Z';render()",ui.context);assert.ok(!ui.node('page-content').innerHTML.includes('Procedural operation clearance active'));assert.ok(!ui.node('page-content').innerHTML.includes('Mandatory mechanical intake active'));assert.ok(!ui.node('page-content').innerHTML.includes('Return for amendment'));
+});
+
+test('advisory review reader shows honest finding and bound clerk response, not registrar approval',async()=>{
+ const at='2026-11-27T00:00:00.000Z',end='2026-11-27T03:00:00.000Z';
+ const assignments=[{office:'procedure',editorId:'adrian-keene'},{office:'admission',editorId:'martin-reed',rubric:['Accuracy']}].map(a=>({...a,version:1,requestId:'request-'+a.office,timestamp:at,installedAt:at,authority:'Technical request.'}));
+ const target={office:'admission',op:'rubric',rubricVersion:0,criteria:['New criterion'],reason:'Change rubric.',references:['mandate']};
+ const ref={id:'ref',version:2,kind:'operation-reference',proposer:'martin-reed',status:'released',target,history:[],clerkResponse:'I retain the release <with a narrow reason>.',premiseStatusAtRelease:'unsupported',releaseBinding:{premiseId:'premise',binding:'exact',releasedVersion:2,findingVersion:2,advisory:true}};
+ const premise={id:'premise',version:2,premiseVersion:1,kind:'release-premise',proposer:'adrian-keene',status:'unsupported',referenceId:'ref',referenceVersion:1,frozenTarget:target,binding:'exact',history:[],reviews:[],rationale:'A narrow mandate.'};
+ const decision=(id,office,record)=>({id,timestamp:at,editorId:'adrian-keene',action:'policy',body:'Public ruling.',officeDecision:{office,op:'rule',actor:'adrian-keene',timestamp:at,eventId:id,reason:'Public reason.',references:[],record}});
+ const fixture={meta:{foundingAt:at,latestCompletedAt:end,officeAssignments:assignments,officeFeatures:[{feature:'procedural-premise-admission',requestId:'hard',timestamp:at},{feature:'advisory-procedural-premises',requestId:'advisory',timestamp:at}]},events:[decision('ruling','procedure',ref),decision('finding','admission',premise)],editors:[],cycles:[],relationships:[],journals:[],principles:[]};
+ const ui=screenFixture('wiki.js',true,fixture);await ui.unlock(false);vm.runInContext("location.search='?view=offices&office=procedure';render()",ui.context);
+ let html=ui.node('page-content').innerHTML;assert.match(html,/premise reviews are advisory/);assert.match(html,/premiseStatusAtRelease:<\/strong> unsupported/);assert.match(html,/retain the release &lt;with a narrow reason&gt;/);assert.match(html,/Clerk response binding: current finding/);assert.ok(!html.includes('require current registrar admission'));
+ fixture.events.push({...decision('later-finding','admission',{...premise,version:3,status:'limited'}),timestamp:'2026-11-27T01:00:00.000Z'});vm.runInContext('render()',ui.context);html=ui.node('page-content').innerHTML;assert.match(html,/historical or changed finding/);assert.match(html,/Status: <strong>released/);
+ vm.runInContext("location.search='?view=offices&office=admission';render()",ui.context);assert.match(ui.node('page-content').innerHTML,/reviewRole:<\/strong> advisory/);assert.ok(!ui.node('page-content').innerHTML.includes('require current registrar admission'));
+});
+
+test('article and admission reader show genuinely pending care concurrence without applying the requested review',async()=>{
+ const at='2026-11-27T00:00:00.000Z',when='2026-11-27T01:00:00.000Z';
+ const assignments=[{office:'care',editorId:'beth-vale'},{office:'admission',editorId:'martin-reed',rubric:['Accuracy']}].map(a=>({...a,version:1,requestId:'request-'+a.office,timestamp:at,installedAt:at,authority:'Technical request.'}));
+ const care={id:'r-care',revisionId:'r-care',timestamp:at,editorId:'alice',action:'create',articleId:'care',title:'Care',body:'Care passage. [[knowledge]]',categories:['Care']};
+ const hold={id:'hold',version:2,proposer:'alice',status:'open',articleId:'care',revisionId:'r-care',passage:'Care passage.',history:[]};
+ const claim={id:'claim',version:1,proposer:'alice',status:'unreviewed',articleId:'care',revisionId:'r-care',claim:'Care passage.',criterion:'Accuracy',history:[],reviews:[]};
+ const event=(id,office,record)=>({id,timestamp:at,editorId:'alice',action:'policy',body:'Public record.',officeDecision:{office,op:'submit',actor:'alice',timestamp:at,eventId:id,reason:'Public reason.',references:['r-care'],record}});
+ const fixture={meta:{foundingAt:at,latestCompletedAt:when,officeAssignments:assignments,officeFeatures:[{feature:'independent-care-admission-concurrence',requestId:'independence',timestamp:at}]},events:[care,{...care,id:'r-knowledge',revisionId:'r-knowledge',articleId:'knowledge',title:'Knowledge',body:'Related [[care]].'},event('hold-event','care',hold),event('claim-event','admission',claim)],editors:[],cycles:[],relationships:[],journals:[],principles:[]};
+ const raw={office:'admission',op:'review',id:'claim',version:1,status:'admitted',reason:'Review the claim.',references:['r-care']};const result=officeDecision(assignments,fixture.events,raw,'martin-reed',when,'waiting-review',snapshot(fixture).articles,fixture.events.map(e=>e.id),{features:fixture.meta.officeFeatures});assert.equal(result.decision.record.status,'pending');fixture.events.push({id:'waiting-review',timestamp:when,editorId:'martin-reed',action:'policy',body:'Request review.',officeDecision:result.decision});
+ const ui=screenFixture('wiki.js',true,fixture);await ui.unlock(false);vm.runInContext("location.search='?article=care';render()",ui.context);let html=ui.node('page-content').innerHTML;assert.match(html,/Care concurrence for claim review claim: pending/);assert.match(html,/current binding/);assert.match(html,/Care passage\. — unreviewed/);
+ vm.runInContext("location.search='?view=offices&office=admission';render()",ui.context);html=ui.node('page-content').innerHTML;assert.match(html,/<h3>Care concurrence<\/h3>/);assert.match(html,/waiting-review/);assert.match(html,/current binding/);
 });

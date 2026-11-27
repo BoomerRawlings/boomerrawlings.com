@@ -73,6 +73,12 @@ test('persistent dated discussions carry exact references without future or othe
   assert.ok(packet.discussionThreads.some(thread => thread.comments.some(event => event.id === 'comment-1')));
   assert.ok(packet.publicEvidence.some(event => event.id === 'reply-1' && event.replyTo === 'comment-1'));
   assert.ok(!packet.publicEvidence.some(event => event.id === 'future'));
+  for(const index of packet.publicEvidence.filter(e=>['comment','policy'].includes(e.action))){
+    const thread=packet.discussionThreads.find(t=>t.id===index.bodyInThread);assert.ok(thread,'explicit evidence pointer resolves within the same packet');
+    const full=thread.comments.find(e=>e.id===index.id);assert.equal(full.body,state.events.find(e=>e.id===index.id).body);
+    const {body,...expectedIndex}=full,{bodyInThread,...actualIndex}=index;assert.deepEqual(actualIndex,expectedIndex,'dated references and reply metadata are retained exactly');
+  }
+  assert.equal(JSON.stringify(packet).split('Exceptions raised that question too.').length-1,1,'complete discussion body occurs once, no evidence loss or duplication');
   assert.equal(packet.personalContext.age, 36);
   assert.ok(!JSON.stringify(packet).includes('Single and bisexual. Open to adult romance'));
   assert.deepEqual(communityPacket(state, 'norab', {...window(0), startAt: '2026-10-01T00:00:00.000Z'}), {});

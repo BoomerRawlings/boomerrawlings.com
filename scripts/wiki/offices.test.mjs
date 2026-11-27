@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {OFFICE_ROLES,ROUND3_FEATURES,defaultSelection,proceduralRule,MAINTENANCE_INTAKE_REQUEST_ID,mechanicalPlan,CLEARANCE_REQUEST_ID,officeActionSchema,officeState,officeDecision,visibleRevisions,heldCases} from '../../public/wiki-assets/offices.js';
+import {OFFICE_ROLES,ROUND3_FEATURES,ROUND4_FEATURES,defaultSelection,proceduralRule,MAINTENANCE_INTAKE_REQUEST_ID,mechanicalPlan,CLEARANCE_REQUEST_ID,officeActionSchema,officeState,officeDecision,visibleRevisions,heldCases} from '../../public/wiki-assets/offices.js';
 import {articlesAt,installOffice,installOfficeFeature,createState,propose,completeCycle,characterPacket,exportPublic,validatePublic} from './engine.mjs';
 import {snapshot} from '../../public/wiki-assets/shared.js';
 const t='2026-11-27T00:00:00.000Z',later='2026-11-27T01:00:00.000Z';
@@ -355,7 +355,7 @@ test('mechanical technical payloads cannot introduce executable markup or substa
 });
 
 function enableFeature(f,name,order='2026-11-26T20:53:00.000Z'){
- const definition=ROUND3_FEATURES[name];f.features.push({feature:name,version:1,requestId:definition.id,timestamp:t,installedAt:t,requestTimestamp:order,authority:'Owner technical request; no vote.'});return f;
+ const definition=ROUND3_FEATURES[name]??ROUND4_FEATURES[name];f.features.push({feature:name,version:1,requestId:definition.id,timestamp:t,installedAt:t,requestTimestamp:order,authority:'Owner technical request; no vote.'});return f;
 }
 function prepareAutomaticTarget(kind){
  const f=fixture();let r,target,actor;
@@ -477,8 +477,8 @@ test('request-time precedence preserves Beth exemption history but later Adrian 
  f.act('procedure','rule',{id:exempt.id,version:exempt.version,ruling:'release'},'adrian-keene');hold=f.act(target.office,target.op,target,'beth-vale');assert.equal(hold.status,'open');f.act('care','close',{id:hold.id,version:hold.version},'beth-vale');assert.equal(f.project().care.records.find(r=>r.id===hold.id).status,'closed');
  const future={feature:'future-explicit-care-rule',requestId:'future-owner-request',timestamp:t,requestTimestamp:'2026-11-26T21:00:00.000Z',operationRules:[{office:'care',ops:['open'],mode:'exempt'}]};assert.equal(proceduralRule([...f.features,future],'care','open',f.at).mode,'exempt');
 });
-test('all four round3 feature activations are exact-request-bound, checkpoint-only and idempotent without seeding records',()=>{
- for(const [feature,definition] of Object.entries(ROUND3_FEATURES)){
+test('request-bound dependency feature activations are exact-request-bound, checkpoint-only and idempotent without seeding records',()=>{
+ for(const [feature,definition] of Object.entries({...ROUND3_FEATURES,...ROUND4_FEATURES})){
   const f=fixture(),state=createState();state.officeAssignments=f.assignments;state.latestCompletedAt=t;state.events=[...f.events,{id:definition.id,editorId:definition.editor,action:'policy',timestamp:t,body:'Exact technical request.'}];state.backendChanges=[{id:definition.id,editorId:definition.editor,status:'queued',timestamp:'2026-11-26T20:53:00.000Z'}];
   const args={feature,requestId:definition.id};state.pending={};assert.throws(()=>installOfficeFeature(state,args,{proof,now:later}),/complete checkpoint/);state.pending=null;assert.ok(installOfficeFeature(state,args,{proof,now:later}).ok);assert.ok(installOfficeFeature(state,args,{proof,now:later}).duplicate);assert.equal(state.officeFeatures.length,1);assert.equal(state.officeFeatures[0].requestTimestamp,state.backendChanges[0].timestamp);assert.equal(Object.values(officeState(state.officeAssignments,state.events,t,state.officeFeatures)).flatMap(o=>o.records).length,0);
  }
@@ -492,4 +492,91 @@ test('whole engine publishes automatic intake, exact clerk release and single ac
  turn('adrian-keene',{action:'policy',title:'Release exact operation',body:'Release.',officeAction:{office:'procedure',op:'rule',id:ref.id,version:ref.version,ruling:'release',reason:'Release exact payload.',references:['policy-one']}});
  const execution=turn('jo-porter',{action:'policy',title:'Execute released operation',body:'Execute.',officeAction:target});assert.deepEqual(articlesAt(state).get('care').categories,['Engine verified']);assert.equal(execution.event.officeConsequences[0].op,'clearance-consumed');assert.equal(project().procedure.records[0].status,'consumed');
  const data=exportPublic(state,execution.opts);assert.ok(validatePublic(data));assert.deepEqual(snapshot(data).articles.get('care').categories,['Engine verified']);assert.throws(()=>turn('jo-porter',{action:'policy',title:'Duplicate execution',body:'Execute.',officeAction:target}),/stale office record|already executed/);
+});
+
+test('advisory mandate breaks fresh automatic review deadlock without claiming premise admission',()=>{
+ const f=activateClearance(fixture());enableFeature(f,'automatic-procedural-intake');enableFeature(f,'procedural-premise-admission');enableFeature(f,'advisory-procedural-premises');
+ const claim=f.act('admission','submit',{articleId:'care',revisionId:'revision-one',claim:'Held passage.',criterion:'Accuracy',references:['revision-one']});
+ const target={office:'admission',op:'review',id:claim.id,version:claim.version,status:'admitted',reason:'Review this article claim.',references:['revision-one']};
+ const ref=f.act('admission','review',target,'martin-reed');assert.equal(ref.status,'held');
+ const release={id:ref.id,version:ref.version,ruling:'release',mandateId:'policy-one',mandatePassage:'Adopted text remains unchanged.',rationale:'This mandate governs the exact review.',references:['policy-one']};
+ assert.throws(()=>f.act('procedure','rule',release,'martin-reed'),/controller/);
+ const ruling=f.act('procedure','rule',release,'adrian-keene');assert.equal(ruling.status,'released');assert.equal(ruling.premiseStatusAtRelease,'unreviewed');
+ const premise=f.project().admission.records.find(r=>r.kind==='release-premise');assert.equal(premise.status,'unreviewed');assert.equal(premise.reviewRole,'advisory');assert.equal(premise.current,true);
+ const reviewed=f.act('admission','review',target,'martin-reed');assert.equal(reviewed.status,'admitted');assert.equal(f.project().procedure.records[0].status,'consumed');assert.equal(f.project().admission.records.find(r=>r.id===premise.id).status,'unreviewed');
+ assert.throws(()=>f.act('admission','review',target,'martin-reed'),/stale/);
+});
+
+test('current negative advisory finding needs exact bound public response; later reviews never rewrite execution',()=>{
+ const {f,target,release}=premiseFixture();let premise=f.act('procedure','rule',release,'adrian-keene');premise=f.act('admission','review',{id:premise.id,version:premise.version,status:'limited'},'martin-reed');enableFeature(f,'advisory-procedural-premises');
+ assert.throws(()=>f.act('procedure','rule',release,'adrian-keene'),/exact current finding/);
+ const response={...release,findingId:premise.id,findingVersion:premise.version,clerkResponse:'I retain the release because the narrower mandate covers this exact operation.'};
+ assert.throws(()=>f.act('procedure','rule',{...response,findingVersion:premise.version-1},'adrian-keene'),/exact current finding/);
+ assert.throws(()=>f.act('procedure','rule',{...response,clerkResponse:''},'adrian-keene'),/text/);
+ const ruling=f.act('procedure','rule',response,'adrian-keene');assert.equal(ruling.premiseStatusAtRelease,'limited');assert.equal(f.project().procedure.records[0].clerkResponseCurrent,true);assert.match(ruling.clerkResponse,/narrower mandate/);
+ f.act(target.office,target.op,target,'martin-reed');const executed=f.articles().get('care');assert.deepEqual(f.project().admission.rubric,['Revised accuracy']);
+ premise=f.act('admission','review',{id:premise.id,version:premise.version,status:'unsupported'},'martin-reed');assert.equal(f.project().procedure.records[0].clerkResponseCurrent,false);assert.equal(f.project().procedure.records[0].status,'released');assert.deepEqual(f.project().admission.rubric,['Revised accuracy']);assert.equal(f.articles().get('care').revisionId,executed.revisionId);
+});
+
+test('changed release premise or finding cannot reuse a clerk response',()=>{
+ const {f,release}=premiseFixture();let premise=f.act('procedure','rule',release,'adrian-keene');premise=f.act('admission','review',{id:premise.id,version:premise.version,status:'unsupported'},'martin-reed');enableFeature(f,'advisory-procedural-premises');
+ const response={...release,findingId:premise.id,findingVersion:premise.version,clerkResponse:'The clerk disagrees with this exact finding.'};
+ assert.throws(()=>f.act('procedure','rule',{...response,rationale:'A changed rationale.'},'adrian-keene'),/no matching current negative finding/);
+ premise=f.act('admission','review',{id:premise.id,version:premise.version,status:'limited'},'martin-reed');assert.throws(()=>f.act('procedure','rule',response,'adrian-keene'),/exact current finding/);
+ const ruling=f.act('procedure','rule',{...response,findingVersion:premise.version},'adrian-keene');assert.equal(ruling.premiseStatusAtRelease,'limited');
+});
+
+test('whole-engine advisory release publishes an unreviewed premise and permits one genuine execution',()=>{
+ const {state,turn,project}=engineIntakeFixture();
+ turn('alice',{action:'policy',title:'Submit category batch',body:'Submit.',officeAction:{office:'maintenance',op:'submit',changes:[{kind:'category',articleId:'care',revisionId:'revision-one',categories:['Advisory path']}],reason:'Exact batch.',references:['revision-one']}});let batch=project().maintenance.records[0];
+ turn('jo-porter',{action:'policy',title:'Approve batch',body:'Approve.',officeAction:{office:'maintenance',op:'approve',id:batch.id,version:batch.version,reason:'Approve.',references:['revision-one']}});batch=project().maintenance.records[0];
+ for(const feature of ['automatic-procedural-intake','procedural-premise-admission','advisory-procedural-premises']){const definition=ROUND3_FEATURES[feature]??ROUND4_FEATURES[feature];state.officeFeatures.push({feature,version:1,requestId:definition.id,timestamp:t,installedAt:t,requestTimestamp:t,authority:'Technical request.'});}
+ const target={office:'maintenance',op:'execute',id:batch.id,version:batch.version,reason:'Execute exact approved batch.',references:['revision-one']};turn('jo-porter',{action:'policy',title:'Attempt execution',body:'Execute.',officeAction:target});const ref=project().procedure.records[0];
+ const release=turn('adrian-keene',{action:'policy',title:'Release operation',body:'Release with an unreviewed advisory premise.',officeAction:{office:'procedure',op:'rule',id:ref.id,version:ref.version,ruling:'release',mandateId:'policy-one',mandatePassage:'Adopted text remains unchanged.',rationale:'Exact governing mandate.',reason:'Release.',references:['policy-one']}});
+ assert.equal(release.event.officeConsequences[0].record.status,'unreviewed');assert.equal(project().admission.records[0].status,'unreviewed');assert.equal(project().procedure.records[0].status,'released');
+ const execution=turn('jo-porter',{action:'policy',title:'Execute once',body:'Execute.',officeAction:target});const data=exportPublic(state,execution.opts);assert.ok(validatePublic(data));assert.deepEqual(snapshot(data).articles.get('care').categories,['Advisory path']);assert.equal(project().admission.records[0].status,'unreviewed');assert.equal(project().procedure.records[0].status,'consumed');assert.throws(()=>turn('jo-porter',{action:'policy',title:'Repeat',body:'Repeat.',officeAction:target}),/stale|executed/);
+});
+
+test('later independent care mandate makes existing automatic/manual open/release references nonblocking, retaining permissions and stale drafts',()=>{
+ const f=activateClearance(fixture());enableFeature(f,'care-concurrence-exemption','2026-11-26T20:46:00Z');enableFeature(f,'automatic-procedural-intake','2026-11-26T20:53:00Z');
+ let hold=f.act('care','nominate',{articleId:'care',revisionId:'revision-one',passage:'Held passage.',sourceEventId:'cycle-0113-alfie-margin',references:['revision-one','cycle-0113-alfie-margin']});const open={id:hold.id,version:hold.version};const pending=f.act('care','open',open,'beth-vale');assert.equal(pending.status,'held');assert.equal(f.project().care.records[0].status,'nominated');
+ enableFeature(f,'independent-care-admission-concurrence','2026-11-26T20:56:00Z');assert.throws(()=>f.act('care','open',open,'alice'),/controller/);hold=f.act('care','open',open,'beth-vale');assert.equal(hold.status,'open');assert.equal(f.project().procedure.records[0].status,'held');assert.equal(f.project().procedure.records[0].effectiveStatus,'exempt');
+ f.events.push({...f.events[0],id:'care-draft',revisionId:'care-draft',timestamp:f.at,action:'revise',baseRevisionId:'revision-one',body:'New passage. Unrelated sentence. [[knowledge]]',reviewDraft:[hold.id]});
+ const release={office:'care',op:'release',id:hold.id,version:hold.version,draftId:'care-draft',baseRevisionId:'revision-one',reason:'Release draft.',references:['care-draft','revision-one']};
+ const manual=f.act('procedure','reference',{policyId:'policy-one',ambiguity:'Attempted manual suspension.',target:release});assert.equal(manual.status,'exempt');const oldHistory=JSON.stringify(f.events.slice(0,-1));
+ assert.throws(()=>f.act('care','release',{...release,baseRevisionId:'stale-base'},'beth-vale'),/stale/);assert.throws(()=>f.act('care','release',release,'alice'),/controller/);
+ hold=f.act('care','release',release,'beth-vale');assert.match(f.articles().get('care').body,/New passage/);assert.equal(JSON.stringify(f.events.slice(0,-2)),oldHistory);
+ assert.throws(()=>f.act('care','release',{...release,version:hold.version},'beth-vale'),/case is not open/);assert.equal(f.project().procedure.records.length,2);
+});
+
+function admissionCareFixture(status='admitted'){
+ const f=fixture();enableFeature(f,'independent-care-admission-concurrence','2026-11-26T20:56:00Z');let hold=f.act('care','nominate',{articleId:'care',revisionId:'revision-one',passage:'Held passage.',sourceEventId:'cycle-0113-alfie-margin',references:['revision-one','cycle-0113-alfie-margin']});hold=f.act('care','open',{id:hold.id,version:hold.version},'beth-vale');
+ const claim=f.act('admission','submit',{articleId:'care',revisionId:'revision-one',claim:'Held passage.',criterion:'Accuracy',references:['revision-one']});const target={office:'admission',op:'review',id:claim.id,version:claim.version,status,reason:'Review exact article claim.',references:['revision-one']};return{f,hold,claim,target};
+}
+
+test('all article-review findings on open-care articles require exact care grant, with public refusal/challenge and no automatic review',()=>{
+ for(const status of ['admitted','limited','unsupported']){const {f,target,claim}=admissionCareFixture(status);let concurrence=f.act('admission','review',target,'martin-reed');assert.equal(concurrence.kind,'admission-concurrence');assert.equal(concurrence.status,'pending');assert.equal(f.project().admission.records.find(r=>r.id===claim.id).status,'unreviewed');assert.equal(concurrence.admissionRecord.revisionId,'revision-one');
+ assert.throws(()=>f.act('care','concur',{id:concurrence.id,version:concurrence.version,ruling:'grant'},'martin-reed'),/controller/);concurrence=f.act('care','concur',{id:concurrence.id,version:concurrence.version,ruling:'refuse'},'beth-vale');f.act('admission','review',target,'martin-reed');assert.equal(f.project().care.records.find(r=>r.id===concurrence.id).status,'refused');
+ concurrence=f.act('care','challenge',{id:concurrence.id,version:concurrence.version});assert.equal(concurrence.status,'refused');concurrence=f.act('care','concur',{id:concurrence.id,version:concurrence.version,ruling:'grant'},'beth-vale');assert.equal(f.project().admission.records.find(r=>r.id===claim.id).status,'unreviewed');const reviewed=f.act('admission','review',target,'martin-reed');assert.equal(reviewed.status,status);assert.equal(f.project().care.records.find(r=>r.id===concurrence.id).current,false);}
+});
+
+test('changed admission payload, claim version, revision or care case cannot borrow concurrence; closing cases requires fresh review attempt',()=>{
+ for(const change of ['payload','claim','revision','care','close']){const {f,target,hold,claim}=admissionCareFixture();let concurrence=f.act('admission','review',target,'martin-reed');concurrence=f.act('care','concur',{id:concurrence.id,version:concurrence.version,ruling:'grant'},'beth-vale');let next={...target};
+ if(change==='payload')next.status='unsupported';
+ if(change==='claim'){const revised=f.act('admission','challenge',{id:claim.id,version:claim.version});assert.throws(()=>f.act('admission','review',target,'martin-reed'),/stale/);next.version=revised.version;}
+ if(change==='revision'){f.events.push({...f.events[0],id:'new-care-base',revisionId:'new-care-base',timestamp:f.at,action:'revise',baseRevisionId:'revision-one',body:'Held passage. New unrelated explanation. [[knowledge]]'});assert.throws(()=>f.act('admission','review',target,'martin-reed'),/stale/);assert.equal(f.project().care.records.find(r=>r.id===concurrence.id).current,false);continue;}
+ if(change==='care')f.act('care','challenge',{id:hold.id,version:hold.version});
+ if(change==='close'){f.act('care','close',{id:hold.id,version:hold.version},'beth-vale');assert.equal(f.project().admission.records.find(r=>r.id===claim.id).status,'unreviewed');assert.equal(f.act('admission','review',target,'martin-reed').status,'admitted');continue;}
+ const waiting=f.act('admission','review',next,'martin-reed');assert.equal(waiting.status,'pending');assert.notEqual(waiting.id,concurrence.id);assert.equal(f.project().admission.records.find(r=>r.id===claim.id).status,'unreviewed');}
+});
+
+test('procedural-premise reviews are outside article-care concurrence, while automatic clearance and care grant remain separate dependencies',()=>{
+ const {f,release}=premiseFixture();const premise=f.act('procedure','rule',release,'adrian-keene');enableFeature(f,'independent-care-admission-concurrence','2026-11-26T20:56:00Z');let hold=f.act('care','nominate',{articleId:'care',revisionId:'revision-one',passage:'Held passage.',sourceEventId:'cycle-0113-alfie-margin',references:['revision-one','cycle-0113-alfie-margin']});hold=f.act('care','open',{id:hold.id,version:hold.version},'beth-vale');assert.equal(f.act('admission','review',{id:premise.id,version:premise.version,status:'admitted'},'martin-reed').status,'admitted');assert.equal(f.project().care.records.filter(r=>r.kind==='admission-concurrence').length,0);
+ const c=admissionCareFixture();for(const name of ['automatic-procedural-intake','procedural-premise-admission','advisory-procedural-premises'])enableFeature(c.f,name);let ref=c.f.act('admission','review',c.target,'martin-reed');assert.equal(ref.status,'held');c.f.act('procedure','rule',{id:ref.id,version:ref.version,ruling:'release',mandateId:'policy-one',mandatePassage:'Adopted text remains unchanged.',rationale:'Exact review mandate.',references:['policy-one']},'adrian-keene');let concurrence=c.f.act('admission','review',c.target,'martin-reed');assert.equal(concurrence.kind,'admission-concurrence');assert.equal(c.f.project().procedure.records[0].status,'released');c.f.act('care','concur',{id:concurrence.id,version:concurrence.version,ruling:'grant'},'beth-vale');assert.equal(c.f.act('admission','review',c.target,'martin-reed').status,'admitted');assert.equal(c.f.project().procedure.records[0].status,'consumed');
+});
+
+test('a new unreviewed release does not inherit a response bound to an older negative premise',()=>{
+ const {f,release}=premiseFixture();let premise=f.act('procedure','rule',release,'adrian-keene');premise=f.act('admission','review',{id:premise.id,version:premise.version,status:'unsupported'},'martin-reed');enableFeature(f,'advisory-procedural-premises');
+ const ruling=f.act('procedure','rule',{...release,findingId:premise.id,findingVersion:premise.version,clerkResponse:'My response to this older finding.'},'adrian-keene');
+ const next=f.act('procedure','rule',{...release,version:ruling.version,rationale:'A newly stated rationale.'},'adrian-keene');assert.equal(next.premiseStatusAtRelease,'unreviewed');assert.equal(next.clerkResponse,undefined);assert.notEqual(next.releasePremiseId,premise.id);assert.ok(f.events.some(e=>e.officeDecision?.record?.clerkResponse==='My response to this older finding.'));
 });
