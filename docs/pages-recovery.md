@@ -1,0 +1,7 @@
+# Pages recovery
+
+Open a pull request before publishing route changes. The build runs the production checks and publishes nothing from pull requests. Merges and direct main pushes must still pass the checks before Pages receives an artifact. Register standalone, unlisted, and redirect routes deliberately; the checker lists missing registrations and likely candidates. Never infer public visibility just from a file’s existence.
+
+Dependency fetches retry once. A failed build leaves the published artifact alone. After a deploy, the workflow checks the exact release marker, homepage, skill page and skill download. If it repeatedly sees the new release but those checks fail, it can restore the release it verified just before deploying, provided that release’s marker matches an unexpired Pages artifact from this workflow on main. Artifacts are kept for 30 days. The first protected release seeds the marker; the older baseline cannot be automatically restored. A missing marker, TLS/DNS failure, or expired artifact is not evidence for rollback. Those failures need investigation.
+
+Production failures file a GitHub issue with the run link, subject to the repository allowing issues. No automatic source edits are made for ambiguous failures. A successful rollback restores the published site only; it does not revert main or erase the failed run. To rerun, use Run workflow on main rather than rerunning an individual deployment job.
