@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {OFFICE_ROLES,officeState,officeDecision,visibleRevisions,heldCases} from '../../public/wiki-assets/offices.js';
-import {articlesAt,installOffice,createState,propose,completeCycle,characterPacket,exportPublic,validatePublic} from './engine.mjs';
+import {OFFICE_ROLES,MAINTENANCE_INTAKE_REQUEST_ID,mechanicalPlan,CLEARANCE_REQUEST_ID,officeActionSchema,officeState,officeDecision,visibleRevisions,heldCases} from '../../public/wiki-assets/offices.js';
+import {articlesAt,installOffice,installOfficeFeature,createState,propose,completeCycle,characterPacket,exportPublic,validatePublic} from './engine.mjs';
 import {snapshot} from '../../public/wiki-assets/shared.js';
 const t='2026-11-27T00:00:00.000Z',later='2026-11-27T01:00:00.000Z';
 const proof={checkedAt:later,result:{ordinaryUsageAllowed:true,rateLimitsByLimitId:{codex:{primary:{usedPercent:2,windowDurationMins:10080}}}}};
@@ -11,12 +11,12 @@ function fixture(){
  const events=[{id:'revision-one',revisionId:'revision-one',timestamp:t,editorId:'alice',action:'create',articleId:'care',title:'Care',body:'Held passage. Unrelated sentence. [[knowledge]]',categories:['Care'],principleIds:['accuracy']},{id:'revision-two',revisionId:'revision-two',timestamp:t,editorId:'alice',action:'create',articleId:'knowledge',title:'Knowledge',body:'Knowledge links [[care]].',categories:['Knowledge'],principleIds:['accuracy']},{id:'cycle-0113-alfie-margin',timestamp:t,editorId:'alfie-margin',action:'comment',articleId:'care',body:'Please examine this passage.'},{id:'policy-one',timestamp:t,editorId:'alice',action:'policy',body:'Adopted text remains unchanged.'}];
  for(const a of assignments)events.push({id:a.requestId,timestamp:t,editorId:a.editorId,action:'policy',body:'Technical request.'});
  let n=0;
- const f={assignments,events,at:later,project:()=>officeState(assignments,events,f.at),articles:()=>articlesAt({events},f.at)};
+ const f={assignments,events,features:[],at:later,project:()=>officeState(assignments,events,f.at,f.features),articles:()=>articlesAt({events},f.at)};
  f.act=(office,op,extra={},actor='alice')=>{
    const id='decision-'+(++n),timestamp=new Date(Date.parse(later)+n*1000).toISOString();f.at=timestamp;
    const raw={office,op,reason:'Public reason.',references:['revision-one','policy-one','cycle-0113-alfie-margin'],...extra};
    const before=JSON.stringify(events);let result;
-   try{result=officeDecision(assignments,events,raw,actor,timestamp,id,f.articles(),events.map(e=>e.id));}catch(e){assert.equal(JSON.stringify(events),before);throw e;}
+   try{result=officeDecision(assignments,events,raw,actor,timestamp,id,f.articles(),events.map(e=>e.id),{features:f.features});}catch(e){assert.equal(JSON.stringify(events),before);throw e;}
    const event={id,timestamp,editorId:actor,action:'policy',body:'Office decision.',officeDecision:result.decision,...(result.effects.length?{articleEffects:result.effects}:{})};events.push(event);return result.decision.record??result.decision;
  };
  return f;
@@ -149,10 +149,207 @@ test('office attention rotates bounded detail while preserving complete queue ID
  for(let i=0;i<12;i++){
    state.pending={id:'attention-'+i,index:122,startAt:'2026-11-27T02:00:00.000Z',endAt:'2026-11-27T03:00:00.000Z',participants:['alice'],proposals:{},variedReading:true};
    const packet=characterPacket(state,'alice'),office=packet.offices.procedure;
+   assert.equal(packet.publicSiteState.entryView,'admitted claims');assert.equal(packet.publicSiteState.entryClaimCount,0);assert.equal(packet.publicSiteState.completeArticleCount,2);
    assert.equal(office.recordIndex.length,24);assert.ok(office.records.length<=6);
    assert.ok(office.recordIndex.every(record=>packet.knownEventIds.includes(record.id)));
    for(const record of office.records)observed.add(record.id);
  }
  assert.ok(observed.size>6,'Different turns expose more than the same six records');
  assert.equal(JSON.stringify(state.events),before);assert.equal(f.project().procedure.records.length,24);
+});
+
+test('ordinary editors can counter an observed older office mandate without hidden technical knowledge',()=>{
+ const f=fixture(),state=createState();state.officeAssignments=f.assignments;state.events=f.events;state.foundingComplete=true;state.latestCompletedAt=f.at;
+ state.editors=[{id:'alice',name:'Alice',joinedAt:t,interests:['care'],description:'Editor',dispositions:{},temporary:{frustration:0,enthusiasm:.5},memory:[],longTermMemory:[]}];
+ state.pending={id:'counter-old-office',index:122,startAt:'2026-11-27T02:00:00.000Z',endAt:'2026-11-27T03:00:00.000Z',participants:['alice'],proposals:{},variedReading:true};
+ const packet=characterPacket(state,'alice');assert.ok(!packet.publicTechnicalRequests?.length);assert.ok(packet.knownEventIds.includes('request-care'));
+ const now='2026-11-27T04:00:00.000Z',opts={now,proof:{...proof,checkedAt:now}};
+ propose(state,{editorId:'alice',timestamp:'2026-11-27T02:30:00.000Z',action:'policy',title:'Counterchange',body:'Make release decisions contestable.',summary:'Challenge an observed mandate',journal,references:['request-care'],backendRequest:{goal:'Contest the observed care hold mandate.',change:'Add a bounded public appeal process.',validation:'An editor can file an appeal without granting themselves release authority.'}},opts);
+ completeCycle(state,opts);assert.equal(state.backendChanges.length,1);assert.equal(state.backendChanges[0].editorId,'alice');assert.equal(state.backendChanges[0].status,'queued');
+});
+
+test('procedural clearance feature is explicitly request-bound, deferred during pending rounds and historical',()=>{
+ const f=fixture();assert.equal(officeActionSchema().procedure.reference,undefined);
+ assert.throws(()=>f.act('procedure','reference',{policyId:'policy-one',ambiguity:'Authority?',target:{office:'admission',op:'rubric',criteria:['Test'],reason:'Proposed rubric.',references:['policy-one']}}),/not installed/);
+ const state=createState();state.latestCompletedAt=t;state.officeAssignments=f.assignments;state.events=[...f.events,{id:CLEARANCE_REQUEST_ID,action:'policy',editorId:'adrian-keene',timestamp:t,body:'Requested mechanism.'}];state.backendChanges=[{id:CLEARANCE_REQUEST_ID,editorId:'adrian-keene',status:'queued'}];
+ const args={feature:'procedural-clearance',requestId:CLEARANCE_REQUEST_ID};
+ state.pending={};assert.throws(()=>installOfficeFeature(state,args,{proof,now:later}),/complete checkpoint/);assert.equal(state.officeFeatures,undefined);state.pending=null;
+ assert.throws(()=>installOfficeFeature(state,{...args,requestId:'other'},{proof,now:later}),/exact authorized/);
+ assert.equal(installOfficeFeature(state,args,{proof:{},now:later}).ok,false);
+ assert.ok(installOfficeFeature(state,args,{proof,now:later}).ok);assert.ok(installOfficeFeature(state,args,{proof,now:later}).duplicate);assert.equal(state.officeFeatures.length,1);
+ assert.equal(officeActionSchema(state.officeFeatures,'2026-11-26T23:59:59Z').procedure.reference,undefined);assert.ok(officeActionSchema(state.officeFeatures,later).procedure.reference);
+ assert.equal(officeState(f.assignments,f.events,'2026-11-26T23:59:59Z',state.officeFeatures).procedure,undefined);
+});
+function activateClearance(f){f.features=[{feature:'procedural-clearance',version:1,requestId:CLEARANCE_REQUEST_ID,timestamp:t,installedAt:t,authority:'Technical request, no vote.'}];return f;}
+function rubricTarget(f,extra={}){return {office:'admission',op:'rubric',rubricVersion:f.project().admission.rubricVersion,criteria:['Revised accuracy'],reason:'Change rubric.',references:['policy-one'],...extra};}
+test('exact referenced rubric requires coordinator clearance; payload, array and version changes need fresh reference',()=>{
+ const f=activateClearance(fixture()),target=rubricTarget(f);let ref=f.act('procedure','reference',{policyId:'policy-one',ambiguity:'Registrar mandate ambiguous.',target});
+ assert.equal(ref.status,'held');assert.throws(()=>f.act('admission','rubric',target,'martin-reed'),/held/);
+ assert.throws(()=>f.act('procedure','rule',{id:ref.id,version:ref.version,ruling:'release'}),/controller/);
+ ref=f.act('procedure','rule',{id:ref.id,version:ref.version,ruling:'release'},'adrian-keene');assert.equal(ref.status,'released');
+ assert.throws(()=>f.act('admission','rubric',{...target,criteria:['Different rubric']},'martin-reed'),/fresh procedural/);
+ assert.throws(()=>f.act('admission','rubric',{...target,reason:'Different reason'},'martin-reed'),/fresh procedural/);
+ // Object key order is insignificant; exact ordered array contents and public payload are preserved.
+ f.act('admission','rubric',{references:target.references,reason:target.reason,criteria:target.criteria,rubricVersion:target.rubricVersion},'martin-reed');assert.equal(f.project().admission.rubricVersion,1);
+ assert.throws(()=>f.act('admission','rubric',target,'martin-reed'),/stale rubric/);
+ const changed=rubricTarget(f,{criteria:['Next criterion']});assert.throws(()=>f.act('admission','rubric',changed,'martin-reed'),/fresh procedural/);
+ assert.throws(()=>f.act('procedure','reference',{policyId:'policy-one',ambiguity:'New version.',target:changed}),/priorReferenceId/);
+ let next=f.act('procedure','reference',{policyId:'policy-one',ambiguity:'New version.',target:changed,priorReferenceId:ref.id,references:['policy-one',ref.id]});
+ next=f.act('procedure','rule',{id:next.id,version:next.version,ruling:'release'},'adrian-keene');f.act('admission','rubric',changed,'martin-reed');assert.equal(f.project().admission.rubricVersion,2);
+ assert.throws(()=>f.act('procedure','rule',{id:ref.id,version:ref.version,ruling:'release'},'adrian-keene'),/superseded/);
+});
+test('returned and policy-required targets stay held; fresh policy and linked reference required, dissent/reassignment remain open',()=>{
+ const f=activateClearance(fixture()),target=rubricTarget(f);let ref=f.act('procedure','reference',{policyId:'policy-one',ambiguity:'Mandate ambiguity.',target},'adrian-keene');
+ ref=f.act('procedure','rule',{id:ref.id,version:ref.version,ruling:'return'},'adrian-keene');assert.equal(ref.status,'returned');assert.throws(()=>f.act('admission','rubric',target,'martin-reed'),/held/);
+ ref=f.act('procedure','challenge',{id:ref.id,version:ref.version});assert.equal(ref.status,'returned');f.act('procedure','reassign',{editorId:'alice'});
+ ref=f.act('procedure','rule',{id:ref.id,version:ref.version,ruling:'require-policy'},'adrian-keene');assert.equal(ref.status,'policy-required');assert.throws(()=>f.act('admission','rubric',target,'martin-reed'),/held/);
+ assert.throws(()=>f.act('procedure','rule',{id:ref.id,version:ref.version,ruling:'release'},'adrian-keene'),/fresh policy/);
+ assert.throws(()=>f.act('procedure','reference',{policyId:'policy-one',ambiguity:'Try again.',target,priorReferenceId:ref.id,references:['policy-one',ref.id]}),/fresh policy/);
+ const fresh={id:'fresh-policy',timestamp:f.at,editorId:'alice',action:'policy',body:'Fresh mandate proposal.'};f.events.push(fresh);
+ let next=f.act('procedure','reference',{policyId:fresh.id,ambiguity:'Fresh proposal requires ruling.',target,priorReferenceId:ref.id,references:[fresh.id,ref.id]});assert.equal(next.status,'held');
+ next=f.act('procedure','rule',{id:next.id,version:next.version,ruling:'release'},'adrian-keene');f.act('admission','rubric',target,'martin-reed');
+ assert.equal(f.project().procedure.reassignments.length,1);assert.equal(f.project().procedure.records.find(r=>r.id===ref.id).history.some(h=>h.op==='challenge'),true);
+});
+test('clearance covers exactly maintenance execution, care release, admission review, exception approval and sponsor renewal',()=>{
+ const f=activateClearance(fixture());
+ const runTarget=(target,actor)=>{
+   let ref=f.act('procedure','reference',{policyId:'policy-one',ambiguity:'Authority disputed.',target});
+   assert.throws(()=>f.act(target.office,target.op,target,actor),/held/);
+   ref=f.act('procedure','rule',{id:ref.id,version:ref.version,ruling:'release'},'adrian-keene');
+   return f.act(target.office,target.op,target,actor);
+ };
+ let batch=f.act('maintenance','submit',{changes:[{kind:'category',articleId:'care',revisionId:'revision-one',categories:['Care review']}]});
+ batch=f.act('maintenance','approve',{id:batch.id,version:batch.version},'jo-porter');runTarget({office:'maintenance',op:'execute',id:batch.id,version:batch.version,reason:'Execute exact approved batch.',references:['revision-one']},'jo-porter');
+ const live=f.articles().get('care');let hold=f.act('care','nominate',{articleId:'care',revisionId:live.revisionId,passage:'Held passage.',sourceEventId:'cycle-0113-alfie-margin',references:[live.revisionId,'cycle-0113-alfie-margin']});hold=f.act('care','open',{id:hold.id,version:hold.version},'beth-vale');
+ f.events.push({...f.events[0],id:'held-draft',revisionId:'held-draft',timestamp:f.at,action:'revise',baseRevisionId:live.revisionId,body:'Released care passage. [[knowledge]]',reviewDraft:[hold.id]});
+ runTarget({office:'care',op:'release',id:hold.id,version:hold.version,draftId:'held-draft',baseRevisionId:live.revisionId,reason:'Release this draft.',references:['held-draft']},'beth-vale');
+ const current=f.articles().get('care');let claim=f.act('admission','submit',{articleId:'care',revisionId:current.revisionId,claim:'Released care passage.',criterion:'Accuracy',references:[current.revisionId]});
+ runTarget({office:'admission',op:'review',id:claim.id,version:claim.version,status:'admitted',reason:'Admit exact claim.',references:[current.revisionId]},'martin-reed');
+ let exception=f.act('exceptions','propose',{scope:'Category exception',expiresAt:'2026-11-28T00:00:00Z'});
+ exception=runTarget({office:'exceptions',op:'approve',id:exception.id,version:exception.version,reason:'Approve exception.',references:['policy-one']},'simon-firth');
+ exception=runTarget({office:'exceptions',op:'renew',id:exception.id,version:exception.version,expiresAt:'2026-11-29T00:00:00Z',reason:'Request renewal.',references:['policy-one']},'alice');assert.equal(exception.status,'renewal-requested');
+ // Different operation on same record remains untouched; ordinary role and status checks still apply.
+ exception=f.act('exceptions','reject',{id:exception.id,version:exception.version},'simon-firth');assert.equal(exception.status,'rejected');
+ assert.throws(()=>f.act('procedure','reference',{policyId:'policy-one',ambiguity:'Unsupported target.',target:{office:'maintenance',op:'submit',reason:'No.',references:['policy-one']}}),/unsupported clearance target/);
+});
+test('target version staleness blocks rulings and execution until a fresh reference; ordinary edits remain available',()=>{
+ const f=activateClearance(fixture());let batch=f.act('maintenance','submit',{changes:[{kind:'category',articleId:'care',revisionId:'revision-one',categories:['Care review']}]});batch=f.act('maintenance','approve',{id:batch.id,version:batch.version},'jo-porter');
+ const target={office:'maintenance',op:'execute',id:batch.id,version:batch.version,reason:'Execute.',references:['revision-one']};const ref=f.act('procedure','reference',{policyId:'policy-one',ambiguity:'Mandate?',target});
+ batch=f.act('maintenance','challenge',{id:batch.id,version:batch.version});assert.equal(batch.status,'approved');
+ assert.throws(()=>f.act('procedure','rule',{id:ref.id,version:ref.version,ruling:'release'},'adrian-keene'),/stale office record/);
+ assert.throws(()=>f.act('maintenance','execute',{...target,version:batch.version},'jo-porter'),/fresh procedural/);
+ const state=createState();state.officeAssignments=f.assignments;state.officeFeatures=f.features;state.events=f.events;state.foundingComplete=true;state.latestCompletedAt=f.at;
+ state.editors=[{id:'alice',name:'Alice',joinedAt:t,interests:['care'],description:'Editor',dispositions:{},temporary:{frustration:0,enthusiasm:.5},memory:[],longTermMemory:[]}];
+ state.pending={id:'ordinary-under-reference',index:120,startAt:'2026-11-27T02:00:00.000Z',endAt:'2026-11-27T03:00:00.000Z',participants:['alice'],proposals:{},variedReading:true};
+ const packet=characterPacket(state,'alice');assert.ok(packet.officeActionSchema.procedure.reference);assert.equal(packet.offices.procedure.records[0].target.version,target.version);
+ const now='2026-11-27T04:00:00.000Z',opts={now,proof:{...proof,checkedAt:now}};
+ propose(state,{editorId:'alice',timestamp:'2026-11-27T02:30:00.000Z',action:'revise',articleId:'care',baseRevisionId:'revision-one',body:'Held passage. Ordinary new sentence. [[knowledge]]',summary:'Ordinary edit',principleIds:['accuracy'],journal},opts);const result=completeCycle(state,opts);assert.equal(result.cycle.outcomes[0].outcome,'accepted');assert.match(articlesAt(state).get('care').body,/Ordinary new sentence/);
+ const data=exportPublic(state,opts);assert.equal(data.meta.officeFeatures[0].feature,'procedural-clearance');assert.ok(validatePublic(data));assert.ok(!JSON.stringify(data).includes('strategicContext'));
+});
+
+function engineIntakeFixture({clearance=false}={}){
+ const f=fixture(),state=createState();state.officeAssignments=f.assignments;state.officeFeatures=[{feature:'mandatory-maintenance-intake',version:1,requestId:MAINTENANCE_INTAKE_REQUEST_ID,timestamp:t,installedAt:t,authority:'Technical request, no vote.'},...(clearance?[{feature:'procedural-clearance',version:1,requestId:CLEARANCE_REQUEST_ID,timestamp:t,installedAt:t,authority:'Technical request, no vote.'}]:[])];state.events=f.events;state.foundingComplete=true;state.latestCompletedAt='2026-11-27T02:00:00.000Z';
+ state.editors=['alice',...Object.values(OFFICE_ROLES)].map(id=>({id,name:id,joinedAt:t,interests:['care'],description:'Editor',dispositions:{},temporary:{frustration:0,enthusiasm:.5},memory:[],longTermMemory:[{text:'Observed policy and care discussion.',references:['policy-one','cycle-0113-alfie-margin'],timestamp:t}]}));
+ let n=0;
+ const turn=(actor,fields)=>{
+   const start=state.latestCompletedAt,end=new Date(Date.parse(start)+3600000).toISOString(),now=new Date(Date.parse(end)+1).toISOString();
+   state.pending={id:'intake-window-'+(++n),index:120+n,startAt:start,endAt:end,participants:[actor],proposals:{},variedReading:true};
+   const opts={now,proof:{...proof,checkedAt:now}};
+   const proposal={editorId:actor,timestamp:new Date(Date.parse(start)+60000).toISOString(),summary:'Fixture action',journal,principleIds:['accuracy'],...fields};
+   propose(state,proposal,opts);const result=completeCycle(state,opts);return {result,event:state.events.find(e=>e.id===state.cycles.at(-1).id+'-'+actor),opts};
+ };
+ return {f,state,turn,project:()=>officeState(state.officeAssignments,state.events,state.latestCompletedAt,state.officeFeatures)};
+}
+test('mandatory intake activation is separate and idempotent; category, title/move and link-only direct routes do not publish live',()=>{
+ const initial=engineIntakeFixture(),s=initial.state;s.officeFeatures=[];s.backendChanges=[{id:MAINTENANCE_INTAKE_REQUEST_ID,editorId:'jo-porter',status:'queued'}];s.events.push({id:MAINTENANCE_INTAKE_REQUEST_ID,editorId:'jo-porter',action:'policy',timestamp:t,body:'Mandatory intake request.'});
+ const opts={proof,now:later},args={feature:'mandatory-maintenance-intake',requestId:MAINTENANCE_INTAKE_REQUEST_ID};assert.ok(installOfficeFeature(s,args,opts).ok);assert.ok(installOfficeFeature(s,args,opts).duplicate);assert.equal(s.officeFeatures.length,1);
+ for(const change of [{categories:['Replacement']},{title:'Care renamed',toArticleId:'care-renamed'},{body:'Held passage. Unrelated sentence. [[knowledge|Knowledge]]'}]){
+   const {state,turn,project}=engineIntakeFixture(),before=articlesAt(state).get('care');const {event}=turn('alice',{action:'organize',articleId:'care',baseRevisionId:before.revisionId,body:before.body,...change});
+   assert.equal(event.maintenanceDraft,true);assert.equal(event.maintenanceIntake.decision.record.status,'proposed');const current=articlesAt(state).get('care');assert.equal(current.revisionId,'revision-one');assert.equal(current.title,'Care');assert.deepEqual(current.categories,['Care']);assert.equal(current.body,before.body);
+   assert.equal(project().maintenance.records.length,1);assert.equal(project().maintenance.records[0].proposer,'alice');assert.equal(snapshot(exportPublic(state,{...opts,proof:{...proof,checkedAt:later}})).articles.get('care').revisionId,'revision-one');
+ }
+});
+test('intake batches require exact coordinator approval, reject amended approval, execute once and retain move old URLs',()=>{
+ const {state,turn,project}=engineIntakeFixture(),before=articlesAt(state).get('care');
+ const {event}=turn('alice',{action:'organize',articleId:'care',baseRevisionId:before.revisionId,body:before.body,title:'Renamed care',toArticleId:'renamed-care',categories:['Reorganized']});let batch=project().maintenance.records[0];
+ assert.throws(()=>turn('alice',{action:'policy',title:'Unauthorized approval',body:'Approve.',officeAction:{office:'maintenance',op:'approve',id:batch.id,version:batch.version,reason:'Try approval.',references:[before.revisionId]}}),/controller/);state.pending=null;
+ turn('jo-porter',{action:'policy',title:'Approve batch',body:'Approve exact batch.',officeAction:{office:'maintenance',op:'approve',id:batch.id,version:batch.version,reason:'Approve exact batch.',references:[before.revisionId]}});batch=project().maintenance.records[0];
+ const changes=batch.changes.map(c=>({...c,categories:['Amended category']}));turn('alice',{action:'policy',title:'Amend batch',body:'Amend category.',officeAction:{office:'maintenance',op:'amend',id:batch.id,version:batch.version,changes,reason:'Amend exact batch.',references:[before.revisionId]}});batch=project().maintenance.records[0];
+ assert.throws(()=>turn('jo-porter',{action:'policy',title:'Execute',body:'Execute.',officeAction:{office:'maintenance',op:'execute',id:batch.id,version:batch.version,reason:'Execute.',references:[before.revisionId]}}),/approval/);state.pending=null;
+ turn('jo-porter',{action:'policy',title:'Fresh approval',body:'Approve.',officeAction:{office:'maintenance',op:'approve',id:batch.id,version:batch.version,reason:'Approve amended batch.',references:[before.revisionId]}});batch=project().maintenance.records[0];
+ const execution=turn('jo-porter',{action:'policy',title:'Execute once',body:'Execute.',officeAction:{office:'maintenance',op:'execute',id:batch.id,version:batch.version,reason:'Execute approved version.',references:[before.revisionId]}});batch=project().maintenance.records[0];
+ assert.equal(batch.status,'executed');const live=articlesAt(state).get('care');assert.equal(live.id,'care');assert.equal(live.title,'Renamed care');assert.deepEqual(live.categories,['Amended category']);assert.ok(visibleRevisions(state.events,state.latestCompletedAt).some(e=>e.alias==='renamed-care'&&e.articleId==='care'));
+ assert.ok(state.events.includes(event));assert.equal(execution.event.maintenanceIntake,undefined);assert.throws(()=>turn('jo-porter',{action:'policy',title:'Repeat',body:'Repeat.',officeAction:{office:'maintenance',op:'execute',id:batch.id,version:batch.version,reason:'Repeat.',references:[before.revisionId]}}),/already executed/);
+});
+test('mixed independent prose and mechanical changes split exactly; ambiguous mix returns visible original and reason',()=>{
+ const {state,turn,project}=engineIntakeFixture(),before=articlesAt(state).get('care');
+ // A category replacement is independent from substantive writing, even on the same paragraph.
+ const body='Held passage. A new substantive explanation. [[knowledge]]';const first=turn('alice',{action:'revise',articleId:'care',baseRevisionId:before.revisionId,body,categories:['Pending category']});let live=articlesAt(state).get('care');assert.equal(live.body,body);assert.deepEqual(live.categories,['Care']);let batch=project().maintenance.records[0];assert.equal(batch.changes[0].revisionId,first.event.id);assert.equal(first.event.maintenanceIntake.submitted.body,body);
+ // Link-only changes on a stable separate line can be safely extracted from changed prose.
+ const old={...live,body:'Paragraph with [[knowledge]].\n\nAn old explanation.'},proposed={...old,body:'Paragraph with [[knowledge|Knowledge]].\n\nA new explanation.'};const plan=mechanicalPlan(old,proposed);assert.equal(plan.ambiguous,false);assert.equal(plan.proseBody,'Paragraph with [[knowledge]].\n\nA new explanation.');
+ // The same prose passage changes both explanation and link identity: preserve whole authored proposal as returned.
+ const ambiguousBody='Held passage. A different explanation. [[knowledge|Knowledge]]';const returned=turn('alice',{action:'revise',articleId:'care',baseRevisionId:live.revisionId,body:ambiguousBody,categories:['Another category']});
+ assert.equal(returned.event.maintenanceDraft,true);assert.equal(returned.event.maintenanceIntake.decision.record.status,'returned');assert.match(returned.event.maintenanceIntake.explanation,/Returned/);assert.equal(returned.event.maintenanceIntake.submitted.body,ambiguousBody);assert.equal(articlesAt(state).get('care').body,body);
+ batch=project().maintenance.records.find(r=>r.id===returned.event.id);assert.equal(batch.changes.length,0);assert.throws(()=>turn('jo-porter',{action:'policy',title:'Approve returned',body:'Approve.',officeAction:{office:'maintenance',op:'approve',id:batch.id,version:batch.version,reason:'Approve.',references:[live.revisionId]}}),/requires amendment/);
+});
+test('substantive prose and new connected articles remain ordinary; cleared execution still respects care holds',()=>{
+ const {state,turn,project}=engineIntakeFixture({clearance:true}),before=articlesAt(state).get('care');
+ turn('alice',{action:'revise',articleId:'care',baseRevisionId:before.revisionId,body:'Held passage. Substantive expansion. [[knowledge]]'});assert.equal(project().maintenance.records.length,0);
+ turn('alice',{action:'create',articleId:'care-example',title:'Care example',body:'A new care subject connected to [[care]].',categories:['Care']});assert.ok(articlesAt(state).has('care-example'));assert.equal(project().maintenance.records.length,0);
+ let live=articlesAt(state).get('care');turn('alice',{action:'organize',articleId:'care',baseRevisionId:live.revisionId,body:live.body.replace('[[knowledge]]','[[knowledge|Knowledge]]')});let batch=project().maintenance.records[0];
+ turn('jo-porter',{action:'policy',title:'Approve repair',body:'Approve.',officeAction:{office:'maintenance',op:'approve',id:batch.id,version:batch.version,reason:'Approve repair.',references:[live.revisionId]}});batch=project().maintenance.records[0];
+ const target={office:'maintenance',op:'execute',id:batch.id,version:batch.version,reason:'Execute exact repair.',references:[live.revisionId]};turn('alice',{action:'policy',title:'Reference execution',body:'Authority ambiguity.',officeAction:{office:'procedure',op:'reference',policyId:'policy-one',ambiguity:'Exact mandate unclear.',target,reason:'Refer operation.',references:['policy-one']}});let ref=project().procedure.records[0];
+ assert.throws(()=>turn('jo-porter',{action:'policy',title:'Held execution',body:'Try.',officeAction:target}),/held/);state.pending=null;
+ turn('adrian-keene',{action:'policy',title:'Clear exact execution',body:'Clear.',officeAction:{office:'procedure',op:'rule',id:ref.id,version:ref.version,ruling:'release',reason:'Release exact operation.',references:['policy-one']}});
+ turn('alice',{action:'policy',title:'Nominate care passage',body:'Review link.',officeAction:{office:'care',op:'nominate',articleId:'care',revisionId:live.revisionId,passage:'[[knowledge]]',sourceEventId:'cycle-0113-alfie-margin',reason:'Review held passage.',references:[live.revisionId,'cycle-0113-alfie-margin']}});let hold=project().care.records[0];
+ turn('beth-vale',{action:'policy',title:'Open care hold',body:'Open.',officeAction:{office:'care',op:'open',id:hold.id,version:hold.version,reason:'Hold passage.',references:['cycle-0113-alfie-margin']}});
+ const tried=turn('jo-porter',{action:'policy',title:'Execute cleared repair',body:'Execute.',officeAction:target});assert.equal(tried.result.cycle.outcomes[0].outcome,'conflict');assert.match(tried.result.cycle.outcomes[0].explanation,/held passage/);assert.equal(project().maintenance.records[0].status,'approved');
+});
+
+test('care-release technical effects enter mandatory intake rather than bypassing coordinator approval',()=>{
+ const {state,turn,project}=engineIntakeFixture();const initial=articlesAt(state).get('care');
+ turn('alice',{action:'policy',title:'Nominate held link',body:'Review.',officeAction:{office:'care',op:'nominate',articleId:'care',revisionId:initial.revisionId,passage:'[[knowledge]]',sourceEventId:'cycle-0113-alfie-margin',reason:'Review navigation passage.',references:[initial.revisionId,'cycle-0113-alfie-margin']}});let hold=project().care.records[0];
+ turn('beth-vale',{action:'policy',title:'Open hold',body:'Open.',officeAction:{office:'care',op:'open',id:hold.id,version:hold.version,reason:'Open passage hold.',references:['cycle-0113-alfie-margin']}});hold=project().care.records[0];
+ // Authentic fixture represents a pre-activation draft already present in public history.
+ const draft={...state.events.find(e=>e.id==='revision-one'),id:'historical-held-mechanical-draft',revisionId:'historical-held-mechanical-draft',timestamp:state.latestCompletedAt,action:'revise',baseRevisionId:initial.revisionId,body:initial.body.replace('[[knowledge]]','[[knowledge|Knowledge]]'),categories:['Draft category'],reviewDraft:[hold.id]};state.events.push(draft);
+ const released=turn('beth-vale',{action:'policy',title:'Release original draft',body:'Release exact draft.',officeAction:{office:'care',op:'release',id:hold.id,version:hold.version,draftId:draft.id,baseRevisionId:initial.revisionId,reason:'Release reviewed draft.',references:[draft.id]}});
+ assert.equal(released.event.articleEffects,undefined);assert.equal(articlesAt(state).get('care').body,initial.body);assert.deepEqual(articlesAt(state).get('care').categories,['Care']);assert.match(project().care.records[0].releasePublication,/pending; live article unchanged/);
+ let batch=project().maintenance.records[0];assert.equal(batch.proposer,'beth-vale');assert.equal(batch.id,released.event.id);assert.equal(batch.changes[0].revisionId,initial.revisionId);
+ turn('jo-porter',{action:'policy',title:'Approve released maintenance',body:'Approve.',officeAction:{office:'maintenance',op:'approve',id:batch.id,version:batch.version,reason:'Approve exact released mechanical changes.',references:[initial.revisionId]}});batch=project().maintenance.records[0];
+ turn('jo-porter',{action:'policy',title:'Execute released maintenance',body:'Execute.',officeAction:{office:'maintenance',op:'execute',id:batch.id,version:batch.version,reason:'Execute approved release mechanics.',references:[initial.revisionId]}});
+ assert.equal(articlesAt(state).get('care').body,draft.body);assert.deepEqual(articlesAt(state).get('care').categories,['Draft category']);assert.ok(state.events.includes(draft));
+});
+test('mechanical classification handles duplicate links safely and queues pure wrapping without restricting prose casing',()=>{
+ const before={id:'care',revisionId:'r',title:'Care',categories:['Care'],body:'A [[knowledge]].\nOld prose [[knowledge]].'};
+ const ambiguous=mechanicalPlan(before,{...before,body:'A [[care]].\nChanged prose [[care]].'});assert.equal(ambiguous.ambiguous,true);
+ const wrap=mechanicalPlan({...before,body:'Knowledge connects [[care]].'},{...before,body:'[[knowledge|Knowledge]] connects [[care]].'});assert.equal(wrap.mechanical,true);assert.equal(wrap.proseChanged,false);
+ const caseOnly=mechanicalPlan({...before,body:'A paragraph connects [[care]].'},{...before,body:'A Paragraph connects [[care]].'});assert.equal(caseOnly.mechanical,false);assert.equal(caseOnly.proseChanged,true);
+});
+
+test('mixed prose held by care is not claimed published; mechanical base stays unresolved through release until explicit amendment',()=>{
+ const {state,turn,project}=engineIntakeFixture();let live=articlesAt(state).get('care');
+ turn('alice',{action:'policy',title:'Nominate passage',body:'Review.',officeAction:{office:'care',op:'nominate',articleId:'care',revisionId:live.revisionId,passage:'Held passage.',sourceEventId:'cycle-0113-alfie-margin',reason:'Review passage.',references:[live.revisionId,'cycle-0113-alfie-margin']}});let hold=project().care.records[0];
+ turn('beth-vale',{action:'policy',title:'Open hold',body:'Open.',officeAction:{office:'care',op:'open',id:hold.id,version:hold.version,reason:'Open hold.',references:['cycle-0113-alfie-margin']}});hold=project().care.records[0];
+ const changed='Changed held passage. Unrelated sentence. [[knowledge]]';const draft=turn('alice',{action:'revise',articleId:'care',baseRevisionId:live.revisionId,body:changed,categories:['Pending category']});
+ assert.equal(draft.event.reviewDraft[0],hold.id);assert.equal(draft.event.maintenanceIntake.prosePublished,false);assert.equal(draft.event.maintenanceIntake.proseHeld,true);assert.equal(draft.event.maintenanceIntake.requiresResolution,true);assert.match(draft.event.maintenanceIntake.explanation,/unpublished prose/);assert.equal(articlesAt(state).get('care').body,live.body);
+ let batch=project().maintenance.records[0];assert.equal(batch.status,'awaiting-prose-resolution');assert.equal(batch.changes[0].revisionId,draft.event.id);
+ assert.throws(()=>turn('jo-porter',{action:'policy',title:'Premature approval',body:'Approve.',officeAction:{office:'maintenance',op:'approve',id:batch.id,version:batch.version,reason:'Approve.',references:[draft.event.id]}}),/stale article/);state.pending=null;
+ turn('beth-vale',{action:'policy',title:'Release held prose',body:'Release.',officeAction:{office:'care',op:'release',id:hold.id,version:hold.version,draftId:draft.event.id,baseRevisionId:live.revisionId,reason:'Release reviewed prose.',references:[draft.event.id]}});live=articlesAt(state).get('care');assert.equal(live.body,changed);assert.deepEqual(live.categories,['Care']);
+ assert.throws(()=>turn('jo-porter',{action:'policy',title:'Still stale approval',body:'Approve.',officeAction:{office:'maintenance',op:'approve',id:batch.id,version:batch.version,reason:'Approve.',references:[draft.event.id]}}),/stale article/);state.pending=null;
+ const changes=batch.changes.map(c=>({...c,revisionId:live.revisionId}));turn('alice',{action:'policy',title:'Rebase held mechanics',body:'Rebase category proposal.',officeAction:{office:'maintenance',op:'amend',id:batch.id,version:batch.version,changes,reason:'Explicitly rebase onto released prose.',references:[live.revisionId]}});batch=project().maintenance.records[0];assert.equal(batch.status,'proposed');assert.equal(batch.requiresResolution,undefined);
+ turn('jo-porter',{action:'policy',title:'Approve rebased mechanics',body:'Approve.',officeAction:{office:'maintenance',op:'approve',id:batch.id,version:batch.version,reason:'Approve rebased exact version.',references:[live.revisionId]}});batch=project().maintenance.records[0];turn('jo-porter',{action:'policy',title:'Execute rebased mechanics',body:'Execute.',officeAction:{office:'maintenance',op:'execute',id:batch.id,version:batch.version,reason:'Execute rebased approved category.',references:[live.revisionId]}});assert.deepEqual(articlesAt(state).get('care').categories,['Pending category']);
+});
+
+test('mixed wrapping cannot evade intake through a prose change; newly added linked prose remains ordinary',()=>{
+ const before={id:'care',revisionId:'r',title:'Care',categories:['Care'],body:'Knowledge matters. [[care]]'};
+ const mixed=mechanicalPlan(before,{...before,body:'[[knowledge|Knowledge]] really matters. [[care]]'});assert.equal(mixed.ambiguous,true);
+ const separate=mechanicalPlan({...before,body:'Knowledge matters.\n\nOther prose [[care]].'},{...before,body:'[[knowledge|Knowledge]] matters.\n\nRevised prose [[care]].'});assert.equal(separate.ambiguous,false);assert.equal(separate.proseBody,'Knowledge matters.\n\nRevised prose [[care]].');assert.equal(separate.mechanical,true);
+ const newProse=mechanicalPlan(before,{...before,body:before.body+'\n\nNew prose about [[knowledge|Knowledge]].'});assert.equal(newProse.mechanical,false);assert.equal(newProse.proseChanged,true);
+});
+
+test('mechanical technical payloads cannot introduce executable markup or substantive replacement',()=>{
+ const f=fixture();const body=f.articles().get('care').body,start=body.indexOf('[[knowledge]]');
+ assert.throws(()=>f.act('maintenance','submit',{changes:[{kind:'mechanical',articleId:'care',revisionId:'revision-one',patches:[{start,before:'[[knowledge]]',after:'[[knowledge|<script>]]'}]}]}),/prohibited markup/);
+ assert.throws(()=>f.act('maintenance','submit',{changes:[{kind:'mechanical',articleId:'care',revisionId:'revision-one',patches:[{start:0,before:'Held passage.',after:'Unrelated rewritten prose.'}]}]}),/substantive prose/);
+ const inactive=engineIntakeFixture();inactive.state.officeFeatures=[];inactive.turn('alice',{action:'organize',articleId:'care',baseRevisionId:'revision-one',body, categories:['Normal preactivation category']});assert.deepEqual(articlesAt(inactive.state).get('care').categories,['Normal preactivation category']);assert.equal(inactive.project().maintenance.records.length,0);
 });

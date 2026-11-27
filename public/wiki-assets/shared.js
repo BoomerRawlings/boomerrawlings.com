@@ -1,4 +1,4 @@
-import {visibleRevisions} from './offices.js?v=1';
+import {visibleRevisions} from './offices.js?v=3801b1fefa77';
 export const REVISION_ACTIONS = new Set(['create', 'expand', 'revise', 'revert', 'organize']);
 export const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const titleFromId = id => String(id || '').replace(/[-_]/g, ' ').replace(/^./, c => c.toUpperCase());

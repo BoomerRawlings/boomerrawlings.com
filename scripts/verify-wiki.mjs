@@ -1,9 +1,14 @@
 import {visibleRevisions} from '../public/wiki-assets/offices.js';
+import {createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { snapshot, linksIn, stamp } from '../public/wiki-assets/shared.js';
 
 const source = JSON.parse(readFileSync('public/wiki-assets/data.json', 'utf8'));
+for(const [dependency,consumers] of [['offices.js',['shared.js','wiki.js','map.js']],['shared.js',['wiki.js','map.js']]]){
+  const hash=createHash('sha256').update(readFileSync('public/wiki-assets/'+dependency,'utf8').replaceAll('\r\n','\n')).digest('hex').slice(0,12);
+  for(const consumer of consumers)assert.ok(readFileSync('public/wiki-assets/'+consumer,'utf8').includes(dependency+'?v='+hash),'Refresh stale wiki module cache keys with node scripts/wiki/version-assets.mjs');
+}
 const built = JSON.parse(readFileSync('dist/wiki-assets/data.json', 'utf8'));
 assert.deepEqual(built, source, 'Published data must match the verified export');
 assert.equal(source.schemaVersion, 1);
@@ -12,7 +17,7 @@ assert.equal(source.meta.foundingAt, '2026-09-23T23:00:00.000Z');
 assert.ok(source.cycles.length >= 76, 'The requested historical opening must be complete before publication');
 assert.equal(source.meta.cycleCount, source.cycles.length);
 assert.ok(stamp(source.meta.latestCompletedAt) >= stamp('2026-11-04T08:00:00Z'));
-const eventKeys = new Set(['id','cycleId','timestamp','editorId','action','articleId','title','summary','revisionId','baseRevisionId','body','categories','principleIds','references','replyTo','threadId','reviewDraft','officeDecision','articleEffects']);
+const eventKeys = new Set(['id','cycleId','timestamp','editorId','action','articleId','title','summary','revisionId','baseRevisionId','body','categories','principleIds','references','replyTo','threadId','reviewDraft','officeDecision','articleEffects','maintenanceDraft','maintenanceIntake']);
 const editorKeys = new Set(['id','name','joinedAt','interests','description']);
 const journalKeys = new Set(['id','editorId','eventId','timestamp','releasedAt','body','outcome','action','response']);
 const relationKeys = new Set(['timestamp','from','to','trust','grievance','evidenceIds','affection','attraction','jealousy','closeness','boundaries','explanation','releasedAt']);

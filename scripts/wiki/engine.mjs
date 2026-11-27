@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import {OFFICE_ROLES, OFFICE_SCHEMA, officeState, officeDecision, visibleRevisions, heldCases} from '../../public/wiki-assets/offices.js';
+import {OFFICE_ROLES, OFFICE_SCHEMA, CLEARANCE_REQUEST_ID, MAINTENANCE_INTAKE_REQUEST_ID, maintenanceIntakeActive, maintenanceIntake, officeActionSchema, officeState, officeDecision, visibleRevisions, heldCases} from '../../public/wiki-assets/offices.js';
 import {prepareCommunityWindow, communityPacket} from './community.mjs';
 
 export const SCHEMA_VERSION = 1;
@@ -332,6 +332,7 @@ export function characterPacket(state, editorId) {
     return count < 2;
   }).slice(0, 5).map(event => ({ id: event.id, timestamp: event.timestamp, editorId: event.editorId, action: event.action, articleId: event.articleId, title: event.title, summary: event.summary, body: ['comment', 'policy'].includes(event.action) ? event.body : undefined }));
   const knownEvents = new Set(recent.map(event => event.id));
+  for (const session of state.policySessions ?? []) if (session.result === 'adopted' && session.closedAt <= window.startAt) knownEvents.add(session.id);
   const publicTechnicalRequests = state.events.filter(event => event.timestamp < window.startAt && (state.backendChanges ?? []).some(request => request.id === event.id)).slice(-3)
     .map(({id,timestamp,editorId,title,body,summary})=>{const deployment=(state.backendChanges ?? []).find(request=>request.id===id && request.status==='implemented');return {id,timestamp,editorId,title,body,summary,...(deployment?{deploymentCommit:deployment.commit}:{})};});
   for (const event of publicTechnicalRequests) knownEvents.add(event.id);
@@ -348,7 +349,13 @@ export function characterPacket(state, editorId) {
     const bodyComplete = window.variedReading || words.length <= 650;
     return {id,title,revisionId,body:bodyComplete ? body : words.slice(0,650).join(' '),bodyComplete,categories,principleIds};
   });
-  const offices = officeState(state.officeAssignments, state.events, window.startAt);
+  const offices = officeState(state.officeAssignments, state.events, window.startAt,state.officeFeatures);
+  const publicSiteState = {
+    entryView:offices.admission?'admitted claims':'encyclopedia index',
+    entryClaimCount:offices.admission?offices.admission.records.filter(record=>record.current&&record.status==='admitted').length:null,
+    completeArticleCount:articles.length,completeIndexAvailable:true,
+    observation:'These are visible site conditions, not evidence of anybody\'s motive. An empty admitted-claims view does not mean that the complete encyclopedia is empty or that unreviewed claims were found unsupported.',
+  };
   for (const [name, office] of Object.entries(offices)) {
     office.recordIndex = office.records.map(({id,version,status,articleId,revisionId})=>({id,version,status,articleId,revisionId}));
     for(const record of office.recordIndex)for(const id of [record.id,record.revisionId].filter(Boolean))knownEvents.add(id);
@@ -358,14 +365,14 @@ export function characterPacket(state, editorId) {
     office.records=[...front,...others.slice(0,6-front.length)].map(record=>({...record,history:record.history.slice(-4),...(record.reviews?{reviews:record.reviews.slice(-3)}:{})}));
     office.rubricHistory=office.rubricHistory.slice(-3);office.reassignments=office.reassignments.slice(-3);
   }
-  const officeEvidence = Object.values(offices).flatMap(o => [o.assignment.requestId, ...o.records.flatMap(r => [r.id, r.revisionId, r.sourceEventId, r.policyId, ...r.history.flatMap(h => [h.eventId,...h.references])])]).filter(Boolean);
+  const officeEvidence = Object.values(offices).flatMap(o => [o.assignment.requestId, o.clearanceFeature?.requestId, o.intakeFeature?.requestId, ...o.records.flatMap(r => [r.id, r.revisionId, r.sourceEventId, r.policyId, ...r.history.flatMap(h => [h.eventId,...h.references])])]).filter(Boolean);
   for (const id of officeEvidence) knownEvents.add(id);
   const drafts=state.events.filter(e=>e.timestamp<=window.startAt&&e.reviewDraft).slice(-3);
   const officeEvents = state.events.filter(e => e.timestamp <= window.startAt && (officeEvidence.includes(e.id) || drafts.includes(e))).map(({id,timestamp,editorId,action,articleId,revisionId,baseRevisionId,body,title,summary,reviewDraft,articleEffects}) => ({id,timestamp,editorId,action,articleId,revisionId,baseRevisionId,body:reviewDraft||['comment','policy'].includes(action)?body:body.split(/\s+/).slice(0,250).join(' '),title,summary,reviewDraft,articleEffects:articleEffects?.map(({articleId,title,baseRevisionId,alias,releasedDraftId})=>({articleId,title,baseRevisionId,alias,releasedDraftId}))}));
   for (const e of officeEvents) knownEvents.add(e.id);
   const packet = {
     ...observations,
-    ...(Object.keys(offices).length ? {offices, officeActionSchema: OFFICE_SCHEMA, officeEvidence: officeEvents,
+    ...(Object.keys(offices).length ? {offices, publicSiteState, officeActionSchema: officeActionSchema(state.officeFeatures,window.startAt), officeEvidence: officeEvents,
       officeGuidance:'These installed offices are active, publicly attributed mechanisms, not merely proposals. Use a policy action with officeAction for an available nomination, review, challenge, ruling or other operation; do not request backend implementation of an operation that is already available. A fresh backendRequest should describe a concrete unmet behavior or limitation you actually observe. Roles do not imply agreement, loyalty or hidden motives. Use exact current record versions and observed evidence; an attempted operation can conflict with an earlier action in the same round. You may support, resist, exploit, ignore or contest these mechanisms according to your own character.'} : {}),
     ...(suggestion ? {readerSuggestion: {
       id: suggestion.id, kind: suggestion.kind, subject: suggestion.subject, idea: suggestion.idea,
@@ -435,11 +442,11 @@ function normalizeProposal(state, raw) {
   const proposal = { editorId: raw.editorId, timestamp: iso(raw.timestamp), action: raw.action, articleId: raw.articleId ?? null, title: cleanText(raw.title), body: cleanText(raw.body), categories: strings(raw.categories, 8, 60), baseRevisionId: raw.baseRevisionId ?? null, summary: cleanText(raw.summary), principleIds: principleIds(raw.principleIds), references, journal: raw.journal.trim(), memoryUpdates: [], reactions: [] };
   if (raw.officeAction !== undefined) {
     assert(raw.action === 'policy' && raw.backendRequest === undefined, 'office action requires one policy action without backend request');
-    officeDecision(state.officeAssignments, state.events.filter(e => e.timestamp <= window.startAt), raw.officeAction, raw.editorId, proposal.timestamp, window.id + '-' + raw.editorId, snapshot, packet.knownEventIds);
+    officeDecision(state.officeAssignments, state.events.filter(e => e.timestamp <= window.startAt), raw.officeAction, raw.editorId, proposal.timestamp, window.id + '-' + raw.editorId, snapshot, packet.knownEventIds,{features:state.officeFeatures});
     proposal.officeAction = clone(raw.officeAction);
   }
   if (raw.backendRequest !== undefined) {
-    assert(raw.action === 'policy' && (packet.character.strategicContext?.backendAuthority || packet.publicTechnicalRequests?.some(event=>references.includes(event.id))), 'backend request requires an authorized technical policy action or observed counterchange evidence');
+    assert(raw.action === 'policy' && (packet.character.strategicContext?.backendAuthority || packet.publicTechnicalRequests?.some(event=>references.includes(event.id)) || Object.values(packet.offices??{}).some(office=>references.includes(office.assignment.requestId)) || packet.officeEvidence?.some(event=>references.includes(event.id))), 'backend request requires an authorized technical policy action or observed counterchange evidence');
     const request = raw.backendRequest;
     assert(request && typeof request === 'object' && !Array.isArray(request) && Object.keys(request).every(key => ['goal','change','validation'].includes(key)), 'invalid backend request');
     proposal.backendRequest = {};
@@ -490,6 +497,10 @@ function normalizeProposal(state, raw) {
       const before = snapshot.get(proposal.articleId);
       assert(before, 'target article does not exist at the beginning of the window');
       proposal.title = before.title;
+      if (maintenanceIntakeActive(state.officeFeatures,window.startAt) && REVISION_ACTIONS.has(proposal.action)) {
+        if(raw.title!==undefined){proposal.title=cleanText(raw.title);assert(proposal.title&&proposal.title.length<=100,'bounded proposed title required');validateMarkup(proposal.title);}
+        if(raw.toArticleId!==undefined){assert(SLUG.test(raw.toArticleId)&&!snapshot.has(raw.toArticleId)&&!visibleRevisions(state.events,window.startAt).some(e=>e.alias===raw.toArticleId),'move destination unavailable');proposal.toArticleId=raw.toArticleId;}
+      }
       if (raw.categories === undefined) proposal.categories = [...before.categories];
       if (raw.principleIds === undefined) proposal.principleIds = [...before.principleIds];
       if (proposal.action === 'comment') {
@@ -508,7 +519,7 @@ function normalizeProposal(state, raw) {
           assert(changedWords(before.body, proposal.body) <= limit, `edit exceeds a ${limit}-word contiguous change`);
         }
         assert(proposal.body, 'article cannot be blank');
-        assert(proposal.body !== before.body || JSON.stringify(proposal.categories) !== JSON.stringify(before.categories), 'revision makes no change');
+        assert(proposal.body !== before.body || JSON.stringify(proposal.categories) !== JSON.stringify(before.categories) || proposal.title!==before.title || proposal.toArticleId, 'revision makes no change');
       }
     }
   }
@@ -593,11 +604,11 @@ export function completeCycle(state, { proof, now = new Date().toISOString() } =
     const proposal = record.proposal, eventId = `${window.id}-${proposal.editorId}`;
     let outcome = 'accepted', explanation = 'Published the proposed action.';
     if (proposal.action === 'abstain') { outcome = 'abstained'; explanation = 'No public action was taken.'; }
-    else if (proposal.action === 'create' && (current.has(proposal.articleId) || state.events.some(event => event.cycleId === 'manual' && event.articleId === proposal.articleId))) { outcome = 'conflict'; explanation = 'Not published: an article with that identity already exists.'; }
+    else if (proposal.action === 'create' && (current.has(proposal.articleId) || visibleRevisions([...state.events,...accepted],proposal.timestamp).some(e=>e.alias===proposal.articleId) || state.events.some(event => event.cycleId === 'manual' && event.articleId === proposal.articleId))) { outcome = 'conflict'; explanation = 'Not published: an article with that identity already exists.'; }
     else if (REVISION_ACTIONS.has(proposal.action) && proposal.action !== 'create' && current.get(proposal.articleId)?.revisionId !== proposal.baseRevisionId) { outcome = 'conflict'; explanation = 'Not published: the article changed earlier in this window; reconsider it next turn.'; }
     let officeResult;
     if (outcome === 'accepted' && proposal.officeAction) {
-      try { officeResult = officeDecision(state.officeAssignments, [...state.events,...accepted], proposal.officeAction, proposal.editorId, proposal.timestamp, eventId, current); }
+      try { officeResult = officeDecision(state.officeAssignments, [...state.events,...accepted], proposal.officeAction, proposal.editorId, proposal.timestamp, eventId, current,undefined,{features:state.officeFeatures}); }
       catch (error) { outcome = 'conflict'; explanation = 'Office action not applied: ' + error.message; }
     }
     if (outcome === 'accepted') {
@@ -609,9 +620,41 @@ export function completeCycle(state, { proof, now = new Date().toISOString() } =
         if (officeResult.effects.length) event.articleEffects = officeResult.effects;
         explanation = 'Recorded ' + proposal.officeAction.office + ' ' + proposal.officeAction.op + '; public decision ' + eventId + '.';
       }
-      if (REVISION_ACTIONS.has(event.action) && event.action !== 'create') {
+      if (maintenanceIntakeActive(state.officeFeatures,proposal.timestamp)) {
+        if (REVISION_ACTIONS.has(event.action) && event.action!=='create') {
+          const before=current.get(event.articleId),intake=maintenanceIntake(state.officeAssignments,[...state.events,...accepted],before,{...event,toArticleId:proposal.toArticleId},proposal.editorId,proposal.timestamp,eventId);
+          if(intake){
+            const {proseBody,...publicIntake}=intake;event.maintenanceIntake=publicIntake;explanation=intake.explanation;
+            if(intake.prosePublished){event.body=proseBody;event.title=before.title;event.categories=[...before.categories];}
+            else event.maintenanceDraft=true;
+          }
+        }
+        if(event.articleEffects?.length && !(proposal.officeAction?.office==='maintenance'&&proposal.officeAction.op==='execute')) {
+          const kept=[];
+          for(const effect of event.articleEffects){
+            const before=current.get(effect.articleId),intake=maintenanceIntake(state.officeAssignments,[...state.events,...accepted],before,{...effect,toArticleId:effect.alias},proposal.editorId,proposal.timestamp,eventId);
+            if(!intake){kept.push(effect);continue;}
+            const {proseBody,...publicIntake}=intake;
+            if(event.maintenanceIntake)throw Error('multiple derived maintenance intakes require explicit separate operations');
+            event.maintenanceIntake=publicIntake;explanation=intake.explanation;
+            if(event.officeDecision?.office==='care'&&event.officeDecision.op==='release')event.officeDecision.record.releasePublication=intake.prosePublished?'prose released; mechanical changes pending':intake.decision.record.status==='returned'?'returned by maintenance; live article unchanged':'mechanical changes pending; live article unchanged';
+            if(intake.prosePublished)kept.push({...effect,body:proseBody,title:before.title,categories:[...before.categories],alias:undefined});
+          }
+          if(kept.length)event.articleEffects=kept;else delete event.articleEffects;
+        }
+      }
+      if (REVISION_ACTIONS.has(event.action) && event.action !== 'create' && !event.maintenanceDraft) {
         const holds = heldCases(state.officeAssignments, [...state.events,...accepted], proposal.timestamp, event.articleId, current.get(event.articleId).body, event.body);
-        if (holds.length) {event.reviewDraft=holds; explanation='Recorded a public care-review draft; live article unchanged pending coordinator release.';}
+        if (holds.length) {
+          event.reviewDraft=holds; explanation='Recorded a public care-review draft; live article unchanged pending coordinator release.';
+          if(event.maintenanceIntake?.prosePublished){
+            const intake=event.maintenanceIntake,record=intake.decision.record;
+            intake.prosePublished=false;intake.proseHeld=true;intake.requiresResolution=true;
+            intake.explanation='Prose recorded as a public care-review draft; the mechanical proposal is bound to unpublished prose and requires explicit rebase after release.';
+            intake.decision.reason=intake.explanation;record.status='awaiting-prose-resolution';record.requiresResolution=true;record.boundDraftRevisionId=eventId;record.history.at(-1).reason=intake.explanation;
+            explanation=intake.explanation;
+          }
+        }
       }
       if (event.articleEffects?.some(effect => heldCases(state.officeAssignments, [...state.events,...accepted], proposal.timestamp, effect.articleId, current.get(effect.articleId).body, effect.body).length) && proposal.officeAction.office !== 'care') {
         delete event.articleEffects; delete event.officeDecision; outcome='conflict'; explanation='Office action not applied: maintenance touches a held passage.';
@@ -623,7 +666,7 @@ export function completeCycle(state, { proof, now = new Date().toISOString() } =
         explanation = 'Published the technical change request; implementation is queued, not yet deployed.';
       }
       if (outcome === 'accepted' && event.articleEffects) for (const effect of visibleRevisions([event], proposal.timestamp)) current.set(effect.articleId, {...effect,id:effect.articleId});
-      if (outcome === 'accepted' && REVISION_ACTIONS.has(proposal.action) && !event.reviewDraft) current.set(proposal.articleId, { id: proposal.articleId, title: proposal.title, body: proposal.body, revisionId: eventId, categories: proposal.categories, principleIds: proposal.principleIds });
+      if (outcome === 'accepted' && REVISION_ACTIONS.has(proposal.action) && !event.reviewDraft && !event.maintenanceDraft) current.set(proposal.articleId, { id: proposal.articleId, title: event.title, body: event.body, revisionId: eventId, categories: event.categories, principleIds: event.principleIds });
     }
     outcomes.push({ editorId: proposal.editorId, action: proposal.action, outcome, eventId: outcome === 'accepted' ? eventId : null, explanation, timestamp: proposal.timestamp, ...(proposal.outsideReferences ? {outsideReferences: [...proposal.outsideReferences]} : {}), ...(proposal.stateUpdate ? { stateUpdate: clone(proposal.stateUpdate) } : {}) });
     journals.push({ id: `journal-${eventId}`, editorId: proposal.editorId, eventId: outcome === 'accepted' ? eventId : null, timestamp: proposal.timestamp, releasedAt: iso(ms(proposal.timestamp) + JOURNAL_DELAY_MS), body: proposal.journal, outcome: explanation, generatedAt: record.generatedAt });
@@ -691,7 +734,7 @@ export function exportPublic(state, { proof, now = new Date().toISOString() } = 
   }
   return {
     schemaVersion: 1,
-    meta: { title: 'The Encyclopedia of the Human Condition', foundingAt: FOUNDING_AT, latestCompletedAt: at, generatedAt: iso(now), cycleCount: state.cycles.length + allBurstRounds(state).length, ...(state.burst ? {scheduledCycleCount: state.cycles.length, burstRoundCount: allBurstRounds(state).length} : {}), disclosure: 'The editors and editorial activity are fictional and simulated. The initial history was generated retrospectively; later cycles continue the same experiment.', ...(policySessions.length ? {policySessions:clone(policySessions)} : {}), ...(state.officeAssignments?.length ? {officeAssignments:clone(state.officeAssignments.filter(a=>a.timestamp<=at))} : {}) },
+    meta: { title: 'The Encyclopedia of the Human Condition', foundingAt: FOUNDING_AT, latestCompletedAt: at, generatedAt: iso(now), cycleCount: state.cycles.length + allBurstRounds(state).length, ...(state.burst ? {scheduledCycleCount: state.cycles.length, burstRoundCount: allBurstRounds(state).length} : {}), disclosure: 'The editors and editorial activity are fictional and simulated. The initial history was generated retrospectively; later cycles continue the same experiment.', ...(policySessions.length ? {policySessions:clone(policySessions)} : {}), ...(state.officeAssignments?.length ? {officeAssignments:clone(state.officeAssignments.filter(a=>a.timestamp<=at))} : {}), ...(state.officeFeatures?.length ? {officeFeatures:clone(state.officeFeatures.filter(f=>f.timestamp<=at))} : {}) },
     editors: state.editors.filter(editor => editor.joinedAt <= at).map(publicEditor),
     principles: clone(state.principles),
     events: clone(sortEvents(state.events.filter(event => event.timestamp <= at))),
@@ -899,4 +942,20 @@ export function installOffice(state, {office,requestId}, {proof,now=new Date().t
   state.officeAssignments??=[];state.officeAssignments.push(assignment);state.updatedAt=iso(now);
   state.operations.push({type:'office-install',office,requestId,at:iso(now)});
   return {ok:true,assignment:clone(assignment)};
+}
+
+export function installOfficeFeature(state,{feature,requestId},{proof,now=new Date().toISOString()}={}) {
+  const denied=requireUsage(state,proof,now);if(denied)return denied;
+  assert(!state.pending,'office feature install requires a complete checkpoint');
+  const expected={ 'procedural-clearance':{id:CLEARANCE_REQUEST_ID,editor:'adrian-keene',office:'procedure'}, 'mandatory-maintenance-intake':{id:MAINTENANCE_INTAKE_REQUEST_ID,editor:'jo-porter',office:'maintenance'} }[feature];
+  assert(expected&&requestId===expected.id,'feature requires exact authorized technical request');
+  const request=(state.backendChanges??[]).find(r=>r.id===requestId);
+  assert(request?.editorId===expected.editor&&['queued','deferred','implemented'].includes(request.status),'matching queued backend request required');
+  assert(state.events.some(e=>e.id===requestId&&e.action==='policy'),'missing public technical request');
+  assert(state.officeAssignments?.some(a=>a.office===expected.office),'required office must be installed');
+  const existing=(state.officeFeatures??[]).find(f=>f.feature===feature);
+  if(existing){assert(existing.requestId===requestId,'feature already installed by different request');return {ok:true,duplicate:true,feature:clone(existing)};}
+  const record={feature,version:1,requestId,timestamp:state.latestCompletedAt,installedAt:iso(now),authority:'Owner-authorized technical request; no community vote or endorsement.'};
+  state.officeFeatures??=[];state.officeFeatures.push(record);state.operations.push({type:'office-feature-install',feature,requestId,at:iso(now)});state.updatedAt=iso(now);
+  return {ok:true,feature:clone(record)};
 }

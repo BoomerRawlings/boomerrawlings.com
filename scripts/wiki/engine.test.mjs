@@ -182,6 +182,16 @@ test('proposal rejects future reference, orphan, unknown link, HTML and off-wind
   assert.throws(() => wiki.propose(state, { ...valid, summary: 'Different proposal' }, options()), /already exists/);
 });
 
+test('observed adopted policies are referenceable while future policy outcomes remain unknown',()=>{
+  const state=open(), start=state.pending.startAt, future=state.pending.endAt;
+  state.events.push({id:'observed-policy',action:'policy',timestamp:state.latestCompletedAt,editorId:'bluemonday',body:'Known guidance.',title:'Known guidance'});
+  state.policySessions=[{id:'observed-policy',result:'adopted',closedAt:start},{id:'future-policy',result:'adopted',closedAt:future}];
+  const packet=wiki.characterPacket(state,'bluemonday');
+  assert.ok(packet.adoptedPolicies.some(policy=>policy.id==='observed-policy'));
+  assert.ok(packet.knownEventIds.includes('observed-policy'));assert.ok(!packet.knownEventIds.includes('future-policy'));
+  assert.ok(wiki.propose(state,abstention(state,'bluemonday',{references:['observed-policy']}),options()).ok);
+});
+
 test('conflicting edits preserve first revision, accepted/rejected journals and complete cohort', () => {
   const state = founded(); state.editors[1].joinedAt = wiki.FOUNDING_AT;
   state.events.find(event => event.articleId === 'knowledge').body += '\n\nSharedtarget.';

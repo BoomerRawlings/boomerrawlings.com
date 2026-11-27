@@ -138,6 +138,7 @@ try {
     else if (command === 'add-guest-editors') output = engine.addGuestEditors(state, { proof: proof(), now });
     else if (command === 'add-influence-editors') output = engine.addInfluenceEditors(state, { proof: proof(), now });
     else if (command === 'enable-backend-edits') output = engine.enableBackendEdits(state, {proof:proof(),now});
+    else if (command === 'office-feature-install') output = engine.installOfficeFeature(state,{feature:flags.feature,requestId:flags.request},{proof:proof(),now});
     else if (command === 'office-install') output = engine.installOffice(state,{office:flags.office,requestId:flags.request},{proof:proof(),now});
     else if (command === 'backend-pending') output = {ok:true,requests:(state.backendChanges ?? []).filter(item=>['queued','deferred'].includes(item.status))};
     else if (command === 'backend-record') output = engine.recordBackendChange(state,input(),{proof:proof(),now});

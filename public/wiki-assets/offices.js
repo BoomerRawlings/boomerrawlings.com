@@ -8,6 +8,24 @@ export const OFFICE_SCHEMA = {
   admission:{submit:'articleId,revisionId,claim,criterion',review:'id,version,status:admitted|limited|unsupported',rubric:'criteria:[text,...] (registrar only; existing reviews retain rubric)',challenge:'id,version',reassign:'editorId (public proposal only)'},
   exceptions:{propose:'scope,expiresAt,sponsorId? (defaults actor)',approve:'id,version',reject:'id,version',renew:'id,version,expiresAt (sponsor only; requires reviewer approval)',challenge:'id,version',reassign:'editorId (public proposal only)'}
 };
+export const MAINTENANCE_INTAKE_REQUEST_ID = 'influence-2026-11-26-27-round-002-jo-porter';
+export const maintenanceIntakeActive = (features=[],at='9999') => features.some(f=>f.feature==='mandatory-maintenance-intake'&&f.timestamp<=at);
+export const CLEARANCE_REQUEST_ID = 'influence-2026-11-26-27-round-002-adrian-keene';
+export const CLEARANCE_TARGETS = {maintenance:['execute'],care:['release'],admission:['review','rubric'],exceptions:['approve','renew']};
+const clearanceActive = (features,at) => features.some(f=>f.feature==='procedural-clearance'&&f.timestamp<=at);
+export function officeActionSchema(features=[],at='9999') {
+  const schema=structuredClone(OFFICE_SCHEMA);
+  if(clearanceActive(features,at)) {
+    schema.procedure.reference='policyId,ambiguity,target:{complete exact officeAction payload},priorReferenceId? (required when replacing a referenced operation); any editor; creates held operation reference';
+    schema.procedure.rule='id,version,ruling:release|return|require-policy (procedural coordinator only; exact frozen target)';
+    schema.admission.rubric='criteria:[text,...],rubricVersion (current office rubricVersion; registrar only)';
+    schema.clearance='A referenced office/op/record is held until every current matching reference releases its exact canonical payload. Changed version or payload requires a fresh reference and clearance. Normal office permissions and stale-base checks still apply.';
+  }
+  if(maintenanceIntakeActive(features,at)) {schema.maintenance.intake='Existing article title/move, category and link-only changes queue automatically across revision and derived-effect routes. Mixed independent prose publishes; inseparable mixed changes return publicly. Ordinary revisions may include title and toArticleId. Approval and execution are still separate coordinator actions.';schema.maintenance.mechanical='changes may use kind:mechanical with exact patches:[{start,before,after}], title?,categories?,toArticleId?; source articleId/revisionId required';}
+  return schema;
+}
+const canonical = value => JSON.stringify(value && typeof value==='object' ? (Array.isArray(value)?value.map(v=>JSON.parse(canonical(v))):Object.fromEntries(Object.keys(value).sort().map(k=>[k,JSON.parse(canonical(value[k]))]))) : value);
+const operationKey = a => a.office+'/'+a.op+'/'+(a.id??'$rubric');
 const copy = x => structuredClone(x);
 const check = (x,m) => {if(!x)throw Error(m);};
 const text = (x,n=1000) => {check(typeof x==='string'&&x.trim()&&x.length<=n&&!/<\/?[a-z!][^>]*>|\b(?:https?:\/\/|javascript:|data:)/i.test(x),'bounded public text required');return x.trim();};
@@ -16,23 +34,28 @@ const revActions = new Set(['create','expand','revise','revert','organize']);
 export function visibleRevisions(events, at) {
   const result=[];
   for(const e of [...events].filter(e=>e.timestamp<=at).sort((a,b)=>a.timestamp.localeCompare(b.timestamp)||a.id.localeCompare(b.id))) {
-    if(revActions.has(e.action)&&!e.reviewDraft)result.push(e);
+    if(revActions.has(e.action)&&!e.reviewDraft&&!e.maintenanceDraft)result.push(e);
     for(const [i,effect] of (e.articleEffects??[]).entries())result.push({...effect,id:e.id,revisionId:e.id,timestamp:e.timestamp,editorId:e.editorId,action:'organize',sourceEventId:e.id});
   }
   return result;
 }
-export function officeState(assignments=[],events=[],at='9999') {
+export function officeState(assignments=[],events=[],at='9999',features=[]) {
   const offices={};
   for(const a of assignments.filter(a=>a.timestamp<=at)) offices[a.office]??={assignment:copy(a),records:[],order:[],rubric:copy(a.rubric??[]),rubricHistory:[],reassignments:[],history:[],enabled:true};
-  for(const e of [...events].filter(e=>e.timestamp<=at&&e.officeDecision).sort((a,b)=>a.timestamp.localeCompare(b.timestamp)||a.id.localeCompare(b.id))) {
-    const d=e.officeDecision,o=offices[d.office];if(!o)continue;
+  for(const e of [...events].filter(e=>e.timestamp<=at&&(e.officeDecision||e.maintenanceIntake)).sort((a,b)=>a.timestamp.localeCompare(b.timestamp)||a.id.localeCompare(b.id))) {
+    const decisions=[e.officeDecision,e.maintenanceIntake?.decision].filter(Boolean);
+    for(const d of decisions){const o=offices[d.office];if(!o)continue;
     const {office,op,actor,timestamp,eventId,reason,references}=d;o.history.push({office,op,actor,timestamp,eventId,reason,references:copy(references)});
     if(d.record){const i=o.records.findIndex(r=>r.id===d.record.id);if(i<0)o.records.push(copy(d.record));else o.records[i]=copy(d.record);}
     if(d.order)o.order=copy(d.order);
     if(d.enabled!==undefined)o.enabled=d.enabled;
     if(d.rubric){o.rubric=copy(d.rubric);o.rubricHistory.push(copy(d));}
     if(d.reassignment)o.reassignments.push(copy(d));
+    }
   }
+  if(offices.maintenance&&maintenanceIntakeActive(features,at))offices.maintenance.intakeFeature=copy(features.findLast(f=>f.feature==='mandatory-maintenance-intake'&&f.timestamp<=at));
+  if(offices.procedure&&clearanceActive(features,at))offices.procedure.clearanceFeature=copy(features.findLast(f=>f.feature==='procedural-clearance'&&f.timestamp<=at));
+  if(offices.admission&&clearanceActive(features,at))offices.admission.rubricVersion=offices.admission.rubricHistory.length;
   const current=new Map(visibleRevisions(events,at).map(e=>[e.articleId,e.revisionId]));
   for(const [name,o] of Object.entries(offices)) {
     for(const r of o.records){
@@ -56,11 +79,11 @@ export function heldCases(assignments,events,at,articleId,before,after){
   return (care?.records??[]).filter(r=>r.status==='open'&&r.articleId===articleId&&passageChanged(before,after,r.passage)).map(r=>r.id);
 }
 // Validation returns a public immutable decision and optional article effects; never mutates inputs.
-export function officeDecision(assignments,events,raw,actor,timestamp,eventId,articles,knownIds) {
+export function officeDecision(assignments,events,raw,actor,timestamp,eventId,articles,knownIds,{features=[],bypassClearance=false}={}) {
   check(raw&&typeof raw==='object'&&!Array.isArray(raw)&&JSON.stringify(raw).length<=12000,'bounded office action required');
-  const allowed=['office','op','id','version','reason','references','changes','ids','articleId','revisionId','passage','sourceEventId','draftId','baseRevisionId','policyId','ambiguity','interpretation','claim','criterion','status','criteria','scope','expiresAt','sponsorId','editorId'];
+  const allowed=['office','op','id','version','reason','references','changes','ids','articleId','revisionId','passage','sourceEventId','draftId','baseRevisionId','policyId','ambiguity','interpretation','claim','criterion','status','criteria','scope','expiresAt','sponsorId','editorId','target','ruling','rubricVersion','priorReferenceId'];
   check(Object.keys(raw).every(k=>allowed.includes(k)),'unknown office field');
-  const a=copy(raw),all=officeState(assignments,events,timestamp),o=all[a.office];check(o,'office not installed');
+  const a=copy(raw),all=officeState(assignments,events,timestamp,features),o=all[a.office];check(o,'office not installed');
   const reason=text(a.reason),refs=a.references;
   check(Array.isArray(refs)&&refs.length>0&&refs.length<=8&&new Set(refs).size===refs.length&&refs.every(id=>events.some(e=>e.id===id&&e.timestamp<=timestamp)&&(!knownIds||knownIds.includes(id))),'office references must be observed public events');
   const controller=()=>check(actor===o.assignment.editorId,'assigned office controller required');
@@ -70,18 +93,36 @@ export function officeDecision(assignments,events,raw,actor,timestamp,eventId,ar
   const existing=()=>{check(r,'unknown office record');check(Number.isInteger(a.version)&&a.version===r.version,'stale office record version');r=copy(r);};
   const d={office:a.office,op:a.op,actor,timestamp,eventId,reason,references:copy(refs)};
   let effects=[];
+  const activeClearance=clearanceActive(features,timestamp);
+  if(activeClearance&&a.office==='admission'&&a.op==='rubric')check(Number.isInteger(a.rubricVersion)&&a.rubricVersion===o.rubricVersion,'stale rubric version');
+  if(activeClearance&&!bypassClearance&&CLEARANCE_TARGETS[a.office]?.includes(a.op)) {
+    const refs=(all.procedure?.records??[]).filter(x=>x.kind==='operation-reference');
+    const referenced=refs.filter(x=>operationKey(x.target)===operationKey(a)&&!refs.some(next=>next.priorReferenceId===x.id));
+    if(referenced.length) {
+      const exact=referenced.filter(x=>canonical(x.target)===canonical(a));
+      check(exact.length>0,'changed target payload/version requires a fresh procedural reference');
+      check(exact.every(x=>x.status==='released'),'referenced operation is held pending exact procedural clearance');
+    }
+  }
   const make=fields=>{check(!a.id,'new record ID is assigned from action event');r={id:eventId,version:0,proposer:actor,status:'proposed',history:[],...fields};};
   const changes=()=>{
     check(Array.isArray(a.changes)&&a.changes.length>0&&a.changes.length<=8,'batch requires 1–8 changes');
     const destinations=a.changes.filter(c=>c.kind==='move').map(c=>c.toArticleId);check(new Set(destinations).size===destinations.length,'duplicate move destination');
     check(new Set(a.changes.map(c=>c.articleId)).size===a.changes.length,'one change per article in batch');
     return a.changes.map(c=>{
-      check(c&&Object.keys(c).every(k=>['kind','articleId','revisionId','find','replace','categories','title','toArticleId'].includes(k)),'invalid batch change');
+      check(c&&Object.keys(c).every(k=>['kind','articleId','revisionId','find','replace','categories','title','toArticleId','patches'].includes(k)),'invalid batch change');
       const before=article(c.articleId,c.revisionId),out={kind:c.kind,articleId:c.articleId,revisionId:c.revisionId};
       if(c.kind==='link'){
         out.find=text(c.find,500);out.replace=text(c.replace,500);passageIn(before.body,out.find);
         check(/^\[\[[a-z][a-z0-9-]*(?:\|[^\]\n]+)?\]\]$/.test(out.find)&&/^\[\[[a-z][a-z0-9-]*(?:\|[^\]\n]+)?\]\]$/.test(out.replace),'link repair must replace one exact wikilink');
         check(articles.has(out.replace.slice(2,-2).split('|')[0]),'unknown repair target');
+      }else if(c.kind==='mechanical'){
+        out.patches=validateMechanicalPatches(before.body,c.patches??[]);
+        if(c.title!==undefined)out.title=text(c.title,100);
+        if(c.categories!==undefined){check(Array.isArray(c.categories)&&c.categories.length<=8,'bounded categories required');out.categories=c.categories.map(x=>text(x,60));}
+        if(c.toArticleId!==undefined){out.toArticleId=slug(c.toArticleId);check(!articles.has(out.toArticleId)&&!visibleRevisions(events,timestamp).some(e=>e.alias===out.toArticleId),'move destination exists');}
+        check(out.patches.length||out.title||out.categories||out.toArticleId,'mechanical change required');
+        const resulting=applyMechanicalPatches(before.body,out.patches);const targets=[...resulting.matchAll(/\[\[([a-z][a-z0-9-]*)(?:\|[^\]\n]+)?\]\]/g)].map(m=>m[1]);check(targets.every(id=>articles.has(id))&&targets.some(id=>id!==before.id),'mechanical change must preserve valid article connections');
       }else if(c.kind==='category'){check(Array.isArray(c.categories)&&c.categories.length>0&&c.categories.length<=8,'bounded categories required');out.categories=c.categories.map(x=>text(x,60));}
       else if(c.kind==='move'){out.title=text(c.title,100);out.toArticleId=slug(c.toArticleId);check(!articles.has(out.toArticleId)&&!visibleRevisions(events,timestamp).some(e=>e.alias===out.toArticleId),'move destination exists');}
       else throw Error('unsupported maintenance kind');
@@ -102,13 +143,13 @@ export function officeDecision(assignments,events,raw,actor,timestamp,eventId,ar
   }else if(a.office==='maintenance') {
     if(a.op==='submit')make({changes:changes()});
     else {existing();check(r.status!=='executed','batch already executed');
-      if(a.op==='amend'){check(actor===r.proposer||actor===o.assignment.editorId,'batch proposer or coordinator required');r.changes=changes();r.status='proposed';delete r.approvedVersion;}
+      if(a.op==='amend'){check(actor===r.proposer||actor===o.assignment.editorId,'batch proposer or coordinator required');r.changes=changes();r.status='proposed';delete r.approvedVersion;delete r.requiresResolution;delete r.boundDraftRevisionId;}
       else {controller();
-        if(a.op==='approve'){for(const c of r.changes)article(c.articleId,c.revisionId);r.status='approved';r.approvedVersion=r.version+1;}
+        if(a.op==='approve'){check(r.status!=='returned'&&r.changes.length>0,'returned proposal requires amendment before approval');for(const c of r.changes){article(c.articleId,c.revisionId);if(c.toArticleId)check(!articles.has(c.toArticleId)&&!visibleRevisions(events,timestamp).some(e=>e.alias===c.toArticleId),'move destination exists');}r.status='approved';r.approvedVersion=r.version+1;}
         else if(a.op==='refuse'){r.status='refused';delete r.approvedVersion;}
         else if(a.op==='execute'){
           check(r.status==='approved'&&r.approvedVersion===r.version,'current exact batch needs approval');
-          effects=r.changes.map(c=>{const b=article(c.articleId,c.revisionId);return {articleId:b.id,title:c.title??b.title,body:c.kind==='link'?b.body.replace(c.find,c.replace):b.body,categories:c.categories??copy(b.categories),principleIds:copy(b.principleIds),baseRevisionId:b.revisionId,...(c.kind==='move'?{alias:c.toArticleId}:{})};});
+          effects=r.changes.map(c=>{const b=article(c.articleId,c.revisionId);if(c.toArticleId)check(!articles.has(c.toArticleId)&&!visibleRevisions(events,timestamp).some(e=>e.alias===c.toArticleId),'move destination exists');return {articleId:b.id,title:c.title??b.title,body:c.kind==='link'?b.body.replace(c.find,c.replace):c.kind==='mechanical'?applyMechanicalPatches(b.body,c.patches):b.body,categories:c.categories??copy(b.categories),principleIds:copy(b.principleIds),baseRevisionId:b.revisionId,...(c.toArticleId?{alias:c.toArticleId}:{})};});
           r.status='executed';
         }else throw Error('unknown maintenance operation');
       }
@@ -132,7 +173,31 @@ export function officeDecision(assignments,events,raw,actor,timestamp,eventId,ar
       }else throw Error('unknown care operation');
     }
   }else if(a.office==='procedure') {
-    if(a.op==='file'){evidence(a.policyId);check(events.some(e=>e.id===a.policyId&&e.action==='policy'),'docket source must be policy');make({policyId:a.policyId,ambiguity:text(a.ambiguity),interpretation:text(a.interpretation),status:'open'});}
+    if(a.op==='reference') {
+      check(activeClearance,'procedural clearance feature not installed');
+      evidence(a.policyId);check(events.some(e=>e.id===a.policyId&&e.action==='policy'),'reference mandate must be public policy event');
+      const target=a.target;check(target&&typeof target==='object'&&!Array.isArray(target)&&CLEARANCE_TARGETS[target.office]?.includes(target.op),'unsupported clearance target');
+      const prior=(all.procedure.records??[]).filter(x=>x.kind==='operation-reference'&&operationKey(x.target)===operationKey(target)&&!all.procedure.records.some(next=>next.priorReferenceId===x.id));
+      check(prior.length<=1,'ambiguous current operation reference');
+      if(prior.length){check(a.priorReferenceId===prior[0].id,'fresh reference must cite priorReferenceId');evidence(a.priorReferenceId);
+        if(prior[0].status==='policy-required'){const policy=events.find(e=>e.id===a.policyId);check(policy.timestamp>prior[0].history.at(-1).timestamp,'fresh policy proposal required after ruling');}
+      }else check(!a.priorReferenceId,'unexpected prior reference');
+      const targetOffice=all[target.office];check(targetOffice,'target office not installed');
+      const targetRecord=target.id?targetOffice.records.find(x=>x.id===target.id):null;
+      const targetActorId=target.office==='exceptions'&&target.op==='renew'?targetRecord?.sponsorId:targetOffice.assignment.editorId;
+      check(targetActorId,'unknown target actor');
+      // Validate the entire proposed operation, including exact current version, without executing it.
+      officeDecision(assignments,events,target,targetActorId,timestamp,eventId+'-target',articles,knownIds,{features,bypassClearance:true});
+      make({kind:'operation-reference',policyId:a.policyId,ambiguity:text(a.ambiguity),target:copy(target),targetActorId,...(a.priorReferenceId?{priorReferenceId:a.priorReferenceId}:{}),status:'held'});
+    }else if(a.op==='rule') {
+      check(activeClearance,'procedural clearance feature not installed');controller();existing();check(r.kind==='operation-reference','ruling requires operation reference');
+      check(['release','return','require-policy'].includes(a.ruling),'invalid clearance ruling');
+      check(!(r.status==='policy-required'&&a.ruling==='release'),'fresh policy proposal and reference required');
+      check(!all.procedure.records.some(next=>next.priorReferenceId===r.id),'reference superseded; rule on current reference');
+      // A ruling cannot silently refresh a stale target; a new reference is required.
+      officeDecision(assignments,events,r.target,r.targetActorId,timestamp,eventId+'-target',articles,undefined,{features,bypassClearance:true});
+      r.status={release:'released',return:'returned','require-policy':'policy-required'}[a.ruling];r.ruling=a.ruling;r.coordinator=actor;
+    }else if(a.op==='file'){evidence(a.policyId);check(events.some(e=>e.id===a.policyId&&e.action==='policy'),'docket source must be policy');make({policyId:a.policyId,ambiguity:text(a.ambiguity),interpretation:text(a.interpretation),status:'open'});}
     else {controller();existing();if(a.op==='dispose'){r.status='operative';r.interpretation=text(a.interpretation);r.coordinator=actor;}else if(a.op==='clarify')r.status='clarification';else throw Error('unknown docket operation');}
   }else if(a.office==='admission') {
     if(a.op==='submit'){
@@ -149,4 +214,62 @@ export function officeDecision(assignments,events,raw,actor,timestamp,eventId,ar
   }else throw Error('unknown office');
   r.version++;r.history.push(copy(d));d.record=r;
   return {decision:d,effects};
+}
+
+const wikiLinks = body => [...body.matchAll(/\[\[[a-z][a-z0-9-]*(?:\|[^\]\n]+)?\]\]/g)].map(m=>m[0]);
+const linkMask = body => body.replace(/\[\[[a-z][a-z0-9-]*(?:\|[^\]\n]+)?\]\]/g,'\u0000');
+const linkWords = body => body.replace(/\[\[([a-z][a-z0-9-]*)(?:\|([^\]\n]+))?\]\]/g,(_,id,label)=>label??id);
+export const mechanicallyEquivalent = (a,b) => linkMask(a)===linkMask(b)||(JSON.stringify(wikiLinks(a))!==JSON.stringify(wikiLinks(b))&&linkWords(a)===linkWords(b));
+export function applyMechanicalPatches(body,patches){
+  let out=body;for(const patch of [...patches].sort((a,b)=>b.start-a.start)){check(out.slice(patch.start,patch.start+patch.before.length)===patch.before,'mechanical patch base mismatch');out=out.slice(0,patch.start)+patch.after+out.slice(patch.start+patch.before.length);}return out;
+}
+function validateMechanicalPatches(body,patches){
+  check(Array.isArray(patches)&&patches.length<=8,'at most eight mechanical patches');let end=-1;
+  const result=[...patches].sort((a,b)=>a.start-b.start).map(p=>{check(p&&Object.keys(p).every(k=>['start','before','after'].includes(k))&&Number.isInteger(p.start)&&p.start>=0&&p.start>end&&typeof p.before==='string'&&typeof p.after==='string'&&p.before.length+p.after.length<=200000,'invalid exact mechanical patch');check(body.slice(p.start,p.start+p.before.length)===p.before,'mechanical patch base mismatch');end=p.start+p.before.length-1;return copy(p);});
+  const after=applyMechanicalPatches(body,result);check(after.length<=100000&&mechanicallyEquivalent(body,after),'mechanical patches cannot change substantive prose');
+  check(!/<\/?[a-z!][^>]*>/i.test(after)&&!/\b(?:https?:\/\/|javascript:|data:)/i.test(after),'mechanical patches contain prohibited markup');
+  const stripped=after.replace(/\[\[[a-z][a-z0-9-]*(?:\|[^\]\n]+)?\]\]/g,'');check(!stripped.includes('[[')&&!stripped.includes(']]'),'mechanical patches contain malformed wikilink');return result;
+}
+function bodyPatch(before,after){
+  if(before===after)return [];
+  let left=0,a=before.length,b=after.length;while(left<a&&left<b&&before[left]===after[left])left++;
+  while(a>left&&b>left&&before[a-1]===after[b-1]){a--;b--;}
+  return [{start:left,before:before.slice(left,a),after:after.slice(left,b)}];
+}
+// Classify before publication; never silently infer separability inside a changed prose passage.
+export function mechanicalPlan(before,proposed){
+  let proseBody=proposed.body,ambiguous=false;
+  if(before.body!==proposed.body&&mechanicallyEquivalent(before.body,proposed.body))proseBody=before.body;
+  else if(before.body!==proposed.body){
+    const oldLines=before.body.split('\n'),newLines=proposed.body.split('\n'),originalNewLines=[...newLines];
+    const resolvedOld=[],resolvedNew=[];
+    for(let i=0;i<newLines.length;i++){
+      const candidates=oldLines.map((line,j)=>mechanicallyEquivalent(line,originalNewLines[i])?j:-1).filter(j=>j>=0);if(candidates.length!==1)continue;
+      const j=candidates[0];if(originalNewLines.filter(line=>mechanicallyEquivalent(oldLines[j],line)).length!==1)continue;
+      const oldLinks=wikiLinks(oldLines[j]),newLinks=wikiLinks(newLines[i]);
+      if(JSON.stringify(oldLinks)!==JSON.stringify(newLinks)){newLines[i]=oldLines[j];resolvedOld.push(...oldLinks);resolvedNew.push(...newLinks);}
+    }
+    const subtract=(list,removed)=>{const pool=[...removed];return list.filter(x=>{const i=pool.indexOf(x);if(i<0)return true;pool.splice(i,1);return false;});};
+    const oldRemaining=subtract(wikiLinks(before.body),resolvedOld),newRemaining=subtract(wikiLinks(proposed.body),resolvedNew);
+    const removed=subtract(oldRemaining,newRemaining),added=subtract(newRemaining,oldRemaining);
+    let cursor=0;for(const line of originalNewLines)if(line===oldLines[cursor])cursor++;const oldProseUnchanged=cursor===oldLines.length;
+    const oldPlain=before.body.replace(/\[\[[a-z][a-z0-9-]*(?:\|[^\]\n]+)?\]\]/g,''),newPlain=proposed.body.replace(/\[\[[a-z][a-z0-9-]*(?:\|[^\]\n]+)?\]\]/g,'');
+    const wrappingExisting=added.some(link=>oldPlain.toLowerCase().includes(linkWords(link).toLowerCase()));
+    const unwrappingExisting=removed.some(link=>newPlain.toLowerCase().includes(linkWords(link).toLowerCase()));
+    ambiguous=removed.length>0&&added.length>0||!oldProseUnchanged&&(wrappingExisting||unwrappingExisting);
+    proseBody=newLines.join('\n');
+  }
+  const titleChanged=proposed.title!==before.title,categoriesChanged=JSON.stringify(proposed.categories)!==JSON.stringify(before.categories),patches=bodyPatch(proseBody,proposed.body);
+  const mechanical=titleChanged||categoriesChanged||Boolean(proposed.toArticleId)||patches.length>0||ambiguous;
+  return {mechanical,ambiguous,proseBody,proseChanged:proseBody!==before.body,change:{kind:'mechanical',articleId:before.id,revisionId:before.revisionId,patches,...(titleChanged?{title:proposed.title}:{}),...(categoriesChanged?{categories:copy(proposed.categories)}:{}),...(proposed.toArticleId?{toArticleId:proposed.toArticleId}:{})}};
+}
+export function maintenanceIntake(assignments,events,before,proposed,actor,timestamp,eventId,{proseRevisionId=eventId}={}){
+  const office=officeState(assignments,events,timestamp).maintenance;check(office,'maintenance office required for intake');
+  const plan=mechanicalPlan(before,proposed);if(!plan.mechanical)return null;
+  const reason=plan.ambiguous?'Returned: linked navigation and prose changed in the same unresolved passage; submit separately.':'Mechanical changes queued; exact coordinator approval and execution required before live publication.';
+  const change=copy(plan.change);if(!plan.ambiguous&&plan.proseChanged)change.revisionId=proseRevisionId;
+  const decision={office:'maintenance',op:plan.ambiguous?'intake-return':'intake',actor,timestamp,eventId,reason,references:[before.revisionId]};
+  const record={id:eventId,version:1,proposer:actor,status:plan.ambiguous?'returned':'proposed',changes:plan.ambiguous?[]:[change],sourceEventId:eventId,history:[copy(decision)]};
+  decision.record=record;
+  return {decision,explanation:reason,prosePublished:!plan.ambiguous&&plan.proseChanged,submitted:{title:proposed.title,body:proposed.body,categories:copy(proposed.categories),...(proposed.toArticleId?{toArticleId:proposed.toArticleId}:{})},proseBody:plan.proseBody};
 }
