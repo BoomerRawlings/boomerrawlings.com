@@ -97,3 +97,11 @@ test('a hundred opportunities produce occasional varied inputs with stable prove
   assert.ok(inputs.every(input => input.origin === 'fictional-outside' && input.generatedAt === generatedAt));
   assert.ok(new Set(inputs.map(input => input.body)).size > 8);
 });
+
+test('policy replies retain their dated policy root, parent and complete body in one persistent thread',()=>{
+ const state=fixture();const future=state.events.pop();setupCommunity(state,generatedAt);state.events.push(future);
+ state.events.push({id:'policy-root',timestamp:'2026-11-08T16:00:00.000Z',editorId:'ellis47',action:'policy',articleId:null,title:'Coordination and care',body:'A proposed care coordination rule.',references:['care-1']});
+ state.events.push({id:'policy-reply',timestamp:'2026-11-08T18:00:00.000Z',editorId:'paulm',action:'comment',articleId:null,replyTo:'policy-root',threadId:'policy-root',body:'Which coordination claim is supported?',references:['policy-root']});
+ state.events.push({id:'policy-followup',timestamp:'2026-11-08T19:00:00.000Z',editorId:'norab',action:'comment',articleId:null,replyTo:'policy-reply',threadId:'policy-root',body:'Keep that finding separate from permission.',references:['policy-reply']});
+ prepareCommunityWindow(state,window(0),generatedAt);const packet=communityPacket(state,'norab',window(0)),thread=packet.discussionThreads.find(t=>t.id==='discussion-policy-root');assert.ok(thread);assert.deepEqual(thread.comments.map(e=>e.id),['policy-root','policy-reply','policy-followup']);assert.equal(thread.comments[2].replyTo,'policy-reply');for(const event of thread.comments){const index=packet.publicEvidence.find(e=>e.id===event.id);assert.equal(index.bodyInThread,thread.id);assert.equal(index.body,undefined);assert.equal(event.body,state.events.find(e=>e.id===event.id).body);}assert.ok(!JSON.stringify(packet).includes('Future knowledge.'));
+});

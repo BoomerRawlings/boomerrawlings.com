@@ -338,7 +338,7 @@ export function characterPacket(state, editorId) {
     const count = eventCounts.get(event.articleId) ?? 0;
     eventCounts.set(event.articleId, count + 1);
     return count < 2;
-  }).slice(0, 5).map(event => ({ id: event.id, timestamp: event.timestamp, editorId: event.editorId, action: event.action, articleId: event.articleId, title: event.title, summary: event.summary, body: ['comment', 'policy'].includes(event.action) ? event.body : undefined }));
+  }).slice(0, 5).map(event => ({ id: event.id, timestamp: event.timestamp, editorId: event.editorId, action: event.action, articleId: event.articleId, title: event.title, summary: event.summary,replyTo:event.replyTo,threadId:event.threadId, body: ['comment', 'policy'].includes(event.action) ? event.body : undefined }));
   const knownEvents = new Set(recent.map(event => event.id));
   for (const session of state.policySessions ?? []) if (session.result === 'adopted' && session.closedAt <= window.startAt) knownEvents.add(session.id);
   const publicTechnicalRequests = state.events.filter(event => event.timestamp < window.startAt && (state.backendChanges ?? []).some(request => request.id === event.id)).slice(-3)
@@ -434,7 +434,7 @@ export function characterPacket(state, editorId) {
     }} : {}),
     knownEventIds: [...knownEvents],
     relationships: state.relationships.filter(relation => relation.from === editorId && relation.timestamp <= window.startAt).reduce((list, relation) => { const index = list.findIndex(item => item.to === relation.to); if (index >= 0) list[index] = relation; else list.push(relation); return list; }, []),
-    responseRules: { actions: [...ACTIONS], onePublicAction: true, maxChangedWords: window.index <= 76 ? 300 : 400, maxCommentWords: 150, journalWords: [50, editor.strategicContext ? 250 : 100], instruction: (window.variedReading ? 'Choose among the supplied articles or create a linked entry. Use relevant discussion to improve an article when ready. ' : '') + 'Choose one action, or abstain. Follow adopted editorial policies when applicable. Supply one plausible posting time inside this window. In the journal, always explain what you considered and why you acted or held back. Describe whether it changed what you want to pursue, how you feel, or what you think of another editor, if it did. Abstention can still change memory, mood or relationships. Keep that reasoning in the journal rather than in public copy. Describe an intention, not an assumed publication success. Use only this packet. Article edits supply the complete resulting body and baseRevisionId. If bodyComplete is false, do not replace the article: discuss, abstain, or create a linked entry instead. Do not invent sources or future events. Optional stateUpdate contains frustrationDelta and enthusiasmDelta (each within ±0.08) plus nonempty observed evidenceIds. Optional longTermMemory replaces retained observations with at most three entries of at most 40 words, each with text and nonempty observed references. Neither update may assume this proposal succeeds.' },
+    responseRules: { actions: [...ACTIONS], onePublicAction: true, maxChangedWords: window.index <= 76 ? 300 : 400, maxCommentWords: 150, policyDiscussion:'To reply to an observed policy (or its global discussion comment), use action:comment, articleId:null, replyTo:exact observed event ID. This is discussion, not adoption or a new policy. Article discussions retain their articleId.', journalWords: [50, editor.strategicContext ? 250 : 100], instruction: (window.variedReading ? 'Choose among the supplied articles or create a linked entry. Use relevant discussion to improve an article when ready. ' : '') + 'Choose one action, or abstain. Follow adopted editorial policies when applicable. Supply one plausible posting time inside this window. In the journal, always explain what you considered and why you acted or held back. Describe whether it changed what you want to pursue, how you feel, or what you think of another editor, if it did. Abstention can still change memory, mood or relationships. Keep that reasoning in the journal rather than in public copy. Describe an intention, not an assumed publication success. Use only this packet. Article edits supply the complete resulting body and baseRevisionId. If bodyComplete is false, do not replace the article: discuss, abstain, or create a linked entry instead. Do not invent sources or future events. Optional stateUpdate contains frustrationDelta and enthusiasmDelta (each within ±0.08) plus nonempty observed evidenceIds. Optional longTermMemory replaces retained observations with at most three entries of at most 40 words, each with text and nonempty observed references. Neither update may assume this proposal succeeds.' },
   };
   if (editor.personalContext) packet.responseRules.personalRelationships = 'Your private feelings can change independently of agreement. Optional reactions can include affectionDelta, attractionDelta, jealousyDelta, closenessDelta, boundariesDelta within ±0.08, with a short explanation and observed public evidenceIds. Higher boundaries means firmer desired interpersonal limits. You only know your own feelings. Do not infer reciprocity from another person’s private state. Warmth, invitations, refusal and withdrawal may appear in civil public discussion when appropriate; no romance is required.';
   return packet;
@@ -472,11 +472,13 @@ function normalizeProposal(state, raw) {
     assert(proposal.outsideReferences.every(id => packet.knownOutsideInputIds?.includes(id)), 'outside reference was not observed');
   }
   if (raw.replyTo) {
-    const parent = state.events.find(event => event.id === raw.replyTo);
-    assert(raw.action === 'comment' && packet.knownEventIds.includes(raw.replyTo) && parent?.action === 'comment' && parent.articleId === raw.articleId, 'reply must address an observed comment on the same article');
-    proposal.replyTo = parent.id;
-    proposal.threadId = parent.threadId ?? parent.id;
-    if (!proposal.references.includes(parent.id)) proposal.references.push(parent.id);
+    const parent=state.events.find(event=>event.id===raw.replyTo);
+    assert(raw.action==='comment'&&packet.knownEventIds.includes(raw.replyTo)&&['comment','policy'].includes(parent?.action)&&parent.timestamp<=window.startAt,'reply must address an observed comment or policy');
+    assert((parent.articleId??null)===(raw.articleId??null),'reply must stay on the same article or global policy thread');
+    const root=parent.action==='policy'?parent:state.events.find(event=>event.id===parent.threadId);
+    if(!parent.articleId)assert(root?.action==='policy'&&root.timestamp<=window.startAt,'global reply requires a public policy thread');
+    proposal.replyTo=parent.id;proposal.threadId=parent.action==='policy'?parent.id:(parent.threadId??parent.id);
+    if(!proposal.references.includes(parent.id))proposal.references.push(parent.id);
   }
   if (packet.readerSuggestion) {
     const review = raw.suggestionReview;
@@ -493,6 +495,9 @@ function normalizeProposal(state, raw) {
   assert(proposal.summary.length <= 350, 'summary exceeds 350 characters');
   if (proposal.action === 'abstain') {
     proposal.articleId = null; proposal.title = ''; proposal.body = ''; proposal.baseRevisionId = null;
+  } else if(proposal.action==='comment'&&proposal.articleId===null){
+    assert(proposal.replyTo&&state.events.some(event=>event.id===proposal.threadId&&event.action==='policy'&&event.timestamp<=window.startAt),'global comment requires an observed policy reply target');
+    proposal.baseRevisionId=null;proposal.categories=[];proposal.principleIds=[];proposal.title=state.events.find(event=>event.id===proposal.threadId).title;validateMarkup(proposal.body,150);assert(proposal.body,'comment cannot be empty');
   } else if (proposal.action === 'policy') {
     proposal.articleId = null; proposal.baseRevisionId = null;
     validateMarkup(proposal.body, 150);
@@ -780,6 +785,11 @@ export function validatePublic(data) {
     assert(event.timestamp <= data.meta.latestCompletedAt, 'future event in public export');
     validateMarkup(event.body);
 
+  }
+  for(const event of data.events.filter(e=>e.replyTo)){
+    const parent=data.events.find(e=>e.id===event.replyTo);assert(parent&&['comment','policy'].includes(parent.action)&&ms(parent.timestamp)<=ms(event.timestamp),'invalid or future discussion parent');
+    assert((parent.articleId??null)===(event.articleId??null)&&event.threadId===(parent.action==='policy'?parent.id:parent.threadId??parent.id),'discussion thread mismatch');
+    if(!event.articleId)assert(data.events.some(root=>root.id===event.threadId&&root.action==='policy'&&ms(root.timestamp)<=ms(parent.timestamp)),'global discussion has no policy root');
   }
   for (const event of visibleRevisions(data.events, data.meta.latestCompletedAt)) articles.set(event.articleId,event);
   for (const article of articles.values()) {

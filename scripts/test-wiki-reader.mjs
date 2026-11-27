@@ -243,3 +243,15 @@ test('article and admission reader show genuinely pending care concurrence witho
  const ui=screenFixture('wiki.js',true,fixture);await ui.unlock(false);vm.runInContext("location.search='?article=care';render()",ui.context);let html=ui.node('page-content').innerHTML;assert.match(html,/Care concurrence for claim review claim: pending/);assert.match(html,/current binding/);assert.match(html,/Care passage\. — unreviewed/);
  vm.runInContext("location.search='?view=offices&office=admission';render()",ui.context);html=ui.node('page-content').innerHTML;assert.match(html,/<h3>Care concurrence<\/h3>/);assert.match(html,/waiting-review/);assert.match(html,/current binding/);
 });
+
+test('policy event reader renders dated nested replies and historical cutoffs without visitor writing controls',async()=>{
+ const t='2026-11-27T00:00:00.000Z';
+ const root={id:'root-policy',timestamp:t,editorId:'alice',action:'policy',articleId:null,title:'A public proposal',body:'Proposed distinction.',references:[]};
+ const first={id:'first-reply',timestamp:'2026-11-27T01:00:00.000Z',editorId:'bob',action:'comment',articleId:null,replyTo:root.id,threadId:root.id,title:root.title,body:'An ordinary reply <not executable>.',references:[root.id]};
+ const nested={...first,id:'nested-reply',timestamp:'2026-11-27T02:00:00.000Z',editorId:'alice',replyTo:first.id,body:'Nested follow-up.'};
+ const other={...first,id:'other-reply',threadId:'other-policy',replyTo:'other-policy',body:'Separate thread.'};
+ const fixture={meta:{foundingAt:t,latestCompletedAt:'2026-11-27T04:00:00.000Z'},events:[root,first,nested,{...root,id:'other-policy'},other],editors:[{id:'alice',name:'Alice',joinedAt:t},{id:'bob',name:'Bob',joinedAt:t}],cycles:[],relationships:[],journals:[],principles:[]};
+ const ui=screenFixture('wiki.js',true,fixture);await ui.unlock(false);vm.runInContext("location.search='?view=event&event=root-policy';render()",ui.context);let html=ui.node('page-content').innerHTML;assert.match(html,/Open discussion/);assert.match(html,/ordinary reply &lt;not executable&gt;/);assert.match(html,/Nested follow-up/);assert.ok(!html.includes('Separate thread.'));assert.ok(!/<form|<textarea|contenteditable/.test(html));
+ vm.runInContext("location.search='?view=event&event=root-policy&at=2026-11-27T01:30:00.000Z';render()",ui.context);html=ui.node('page-content').innerHTML;assert.match(html,/ordinary reply/);assert.ok(!html.includes('Nested follow-up'));
+ vm.runInContext("location.search='?view=event&event=nested-reply';render()",ui.context);html=ui.node('page-content').innerHTML;assert.match(html,/event=root-policy[^\"]*">Policy discussion/);assert.match(html,/Nested follow-up/);
+});
