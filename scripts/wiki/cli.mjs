@@ -93,7 +93,7 @@ try {
     // Public output never receives a backup containing an older/private structure.
     mkdirSync(dirname(target), { recursive: true }); writeFileSync(`${target}.tmp-${process.pid}`, `${JSON.stringify(data)}\n`); renameSync(`${target}.tmp-${process.pid}`, target);
     const hash = createHash('sha256').update(readFileSync(target)).digest('hex');
-    state.lastExport = { at: now, latestCompletedAt: state.latestCompletedAt, sha256: hash };
+    state.lastExport = { at: now, latestCompletedAt: data.meta.latestCompletedAt, sha256: hash, ...(state.burst ? {burstId:state.burst.id,burstRounds:state.burst.rounds.length} : {}) };
     return { state, output: { ok: true, output: target, ...verification, sha256: hash } };
   });
   else await transaction(async state => {
@@ -138,6 +138,7 @@ try {
     else if (command === 'add-guest-editors') output = engine.addGuestEditors(state, { proof: proof(), now });
     else if (command === 'add-influence-editors') output = engine.addInfluenceEditors(state, { proof: proof(), now });
     else if (command === 'enable-backend-edits') output = engine.enableBackendEdits(state, {proof:proof(),now});
+    else if (command === 'office-install') output = engine.installOffice(state,{office:flags.office,requestId:flags.request},{proof:proof(),now});
     else if (command === 'backend-pending') output = {ok:true,requests:(state.backendChanges ?? []).filter(item=>['queued','deferred'].includes(item.status))};
     else if (command === 'backend-record') output = engine.recordBackendChange(state,input(),{proof:proof(),now});
     else if (command === 'recruit') output = engine.recruit(state, input(), { proof: proof(), now });
@@ -145,7 +146,7 @@ try {
       const usage = engine.checkUsage(proof(), now); if (!usage.allowed) output = { ok: false, usage };
       else {
         if (!/^[a-f0-9]{7,40}$/.test(flags.commit ?? '') || !/^https:\/\//.test(flags.url ?? '')) throw new Error('published requires verified --commit and --url');
-        state.published = { commit: flags.commit, url: flags.url, at: now, latestCompletedAt: state.lastExport?.latestCompletedAt, sha256: state.lastExport?.sha256, ...(state.burst ? {burstId:state.burst.id, burstRounds:state.burst.rounds.length} : {}) }; output = { ok: true, published: state.published };
+        state.published = { commit: flags.commit, url: flags.url, at: now, latestCompletedAt: state.lastExport?.latestCompletedAt, sha256: state.lastExport?.sha256, ...(state.lastExport?.burstId ? {burstId:state.lastExport.burstId, burstRounds:state.lastExport.burstRounds} : {}) }; output = { ok: true, published: state.published };
       }
     } else throw new Error(`unknown command ${command}`);
     return { state, output };

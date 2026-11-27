@@ -6,6 +6,7 @@ export const BURST_ID = 'weekend-2026-11-07-08';
 export const BURST_ROUNDS = 100;
 export const BURST_START = '2026-11-08T20:00:00.000Z';
 export const BURST_END = '2026-11-09T08:00:00.000Z';
+export const INFLUENCE_BURST_ID = 'influence-2026-11-26-27';
 const assert = (condition, message) => { if (!condition) throw Error(message); };
 const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 
@@ -29,6 +30,7 @@ function summary(state) {
 
 export function initializeBurst(state, {authorization, proof, now = new Date().toISOString()} = {}) {
   const denied = guard(state, proof, now); if (denied) return denied;
+  if (authorization === INFLUENCE_BURST_ID) return initializeInfluenceBurst(state,now);
   assert(authorization === BURST_ID, `explicit --authorization ${BURST_ID} required`);
   if (state.burst) {
     assert(state.burst.id === BURST_ID, 'another burst is already recorded');
@@ -62,9 +64,32 @@ export function initializeBurst(state, {authorization, proof, now = new Date().t
   return {ok:true, burst:summary(state)};
 }
 
+function initializeInfluenceBurst(state, now) {
+  if (state.burst?.id === INFLUENCE_BURST_ID) {assertOriginalHistory(state);return {ok:true,resumed:true,burst:summary(state)};}
+  const startAt='2026-11-26T20:00:00.000Z', endAt='2026-11-27T08:00:00.000Z', total=50, coveredCycleIndex=122;
+  assert(state.foundingComplete && !state.pending && state.cycles.length===121 && state.latestCompletedAt===startAt,'influence burst requires the verified cycle121 checkpoint');
+  assert(Date.parse(now)>=Date.parse(endAt),'influence interval must have elapsed');
+  assert(state.burst?.completedAt && state.burst.rounds.length===state.burst.total,'finish prior burst first');
+  assertOriginalHistory(state);
+  assert(state.events.every(event=>event.timestamp<=startAt),'existing event exceeds influence start');
+  const arrivals=state.editors.filter(editor=>editor.strategicContext?.backendAuthority);
+  assert(arrivals.length===5 && arrivals.every(editor=>!state.events.some(event=>event.id===`join-${editor.id}`)),'influence arrivals must remain unpublished');
+  state.burstArchive ??= [];state.burstArchive.push(state.burst);
+  for(const editor of arrivals){state.operations.push({type:'unpublished-arrival-rescheduled',editorId:editor.id,previous:editor.joinedAt,joinedAt:startAt,at:now});editor.joinedAt=startAt;}
+  const weights=Array.from({length:total},(_,i)=>0.4+seeded(state.seed,`${INFLUENCE_BURST_ID}:duration:${i}`)*1.2);
+  const sum=weights.reduce((a,b)=>a+b,0);let elapsed=0,start=Date.parse(startAt);const windows=[];
+  for(const [index,weight] of weights.entries()){
+    elapsed+=weight;const end=index===total-1?Date.parse(endAt):Date.parse(startAt)+Math.floor(elapsed/sum*(Date.parse(endAt)-Date.parse(startAt)));
+    windows.push({id:`${INFLUENCE_BURST_ID}-round-${String(index+1).padStart(3,'0')}`,round:index+1,index:coveredCycleIndex,startAt:new Date(start).toISOString(),endAt:new Date(end).toISOString()});start=end;
+  }
+  state.burst={id:INFLUENCE_BURST_ID,authorization:INFLUENCE_BURST_ID,initializedAt:now,startAt,endAt,total,coveredCycleIndex,originalEvents:{count:state.events.length,sha256:hash(state.events)},windows,rounds:[]};
+  state.operations.push({type:'burst-authorized',burstId:INFLUENCE_BURST_ID,at:now,total});state.updatedAt=now;
+  return {ok:true,burst:summary(state)};
+}
+
 export function beginBurstRound(state, {proof, now = new Date().toISOString()} = {}) {
   const denied = guard(state, proof, now); if (denied) return denied;
-  assert(state.burst?.id === BURST_ID, 'initialize the explicitly authorized burst first');
+  assert([BURST_ID,INFLUENCE_BURST_ID].includes(state.burst?.id), 'initialize the explicitly authorized burst first');
   assertOriginalHistory(state);
   if (state.burst.completedAt) return {ok:true, complete:true, burst:summary(state)};
   if (state.pending) {
@@ -74,7 +99,7 @@ export function beginBurstRound(state, {proof, now = new Date().toISOString()} =
   const window = state.burst.windows[state.burst.rounds.length];
   assert(window && Date.parse(window.endAt) <= Date.parse(now), 'burst round is not elapsed');
   assert(state.latestCompletedAt === window.startAt, 'burst checkpoint is not contiguous');
-  state.pending = {...window, mode:'burst', participants:selectCohort(state.editors, window, state.seed),
+  state.pending = {...window, mode:'burst', variedReading:true, participants:selectCohort(state.editors, window, state.seed),
     proposals:{}, openedAt:now,
     snapshotRevisionIds:Object.fromEntries([...articlesAt(state, window.startAt)].map(([id, article]) => [id, article.revisionId]))};
   prepareCommunityWindow(state, state.pending, now);
@@ -90,7 +115,7 @@ function pendingSummary(window) {
 
 export function completeBurstRound(state, {proof, now = new Date().toISOString()} = {}) {
   const denied = guard(state, proof, now); if (denied) return denied;
-  assert(state.burst?.id === BURST_ID, 'no authorized burst');
+  assert([BURST_ID,INFLUENCE_BURST_ID].includes(state.burst?.id), 'no authorized burst');
   assertOriginalHistory(state);
   if (!state.pending && state.burst.rounds.length) return {ok:true, duplicate:true, burst:summary(state)};
   assert(state.pending?.mode === 'burst', 'no pending burst round');

@@ -1,3 +1,4 @@
+import {visibleRevisions} from './offices.js?v=1';
 export const REVISION_ACTIONS = new Set(['create', 'expand', 'revise', 'revert', 'organize']);
 export const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const titleFromId = id => String(id || '').replace(/[-_]/g, ' ').replace(/^./, c => c.toUpperCase());
@@ -83,7 +84,9 @@ export function snapshot(data, cutoff = data.meta.latestCompletedAt) {
   const articles = new Map(), revisionCounts = new Map(), contributions = new Map();
   for (const event of events) {
     if (event.action !== 'join') contributions.set(event.editorId, (contributions.get(event.editorId) || 0) + 1);
-    if (event.articleId && REVISION_ACTIONS.has(event.action) && typeof event.body === 'string') {
+  }
+  for (const event of visibleRevisions(events, new Date(time).toISOString())) {
+    if (event.articleId && typeof event.body === 'string') {
       const previous = articles.get(event.articleId);
       articles.set(event.articleId, {id:event.articleId, title:event.title || previous?.title || titleFromId(event.articleId), body:event.body, categories:event.categories || previous?.categories || [], principleIds:event.principleIds || previous?.principleIds || [], createdAt:previous?.createdAt || event.timestamp, updatedAt:event.timestamp, editorId:event.editorId, revisionId:event.revisionId || event.id, eventId:event.id});
       revisionCounts.set(event.articleId, (revisionCounts.get(event.articleId) || 0) + 1);
@@ -112,7 +115,7 @@ export function snapshot(data, cutoff = data.meta.latestCompletedAt) {
     relationships:[...relationships.values()],
     journals:(data.journals || []).filter(journal => stamp(journal.releasedAt) <= time),
     words:[...articles.values()].reduce((total, article) => total + article.words, 0),
-    revisions:events.filter(event => event.articleId && REVISION_ACTIONS.has(event.action)).length,
+    revisions:visibleRevisions(events,new Date(time).toISOString()).length,
     discussions:events.filter(event => event.action === 'comment' || event.action === 'policy').length,
     reversions:events.filter(event => event.action === 'revert').length};
 }

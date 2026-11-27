@@ -16,3 +16,5 @@
 .suggestion-entry{padding:.7rem 0;border-bottom:1px solid #eaecf0}.suggestion-entry h3,.suggestion-entry p{margin:.35rem 0}.suggestion-copy{white-space:pre-wrap;overflow-wrap:anywhere}
 
 .profile-summary > p,.editor-bio{white-space:pre-line}
+
+.office-panel{border:1px solid var(--border,#a2a9b1);padding:1rem;margin:1.5rem 0}.office-code{white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}.office-panel p,.discussion-entry{overflow-wrap:anywhere}

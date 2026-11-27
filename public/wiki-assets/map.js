@@ -1,4 +1,5 @@
-import {REVISION_ACTIONS, esc, stamp, number, dateText, dayKey, pacificDayEnd, href, articleLink, userLink, markup, attributedLines, snapshot, relationshipAt, PERSONAL_RELATIONSHIP_FIELDS, stablePositions, safeSessionGet, safeSessionSet, loadData, installGate, titleFromId} from './shared.js?v=3';
+import {visibleRevisions} from './offices.js?v=1';
+import {REVISION_ACTIONS, esc, stamp, number, dateText, dayKey, pacificDayEnd, href, articleLink, userLink, markup, attributedLines, snapshot, relationshipAt, PERSONAL_RELATIONSHIP_FIELDS, stablePositions, safeSessionGet, safeSessionSet, loadData, installGate, titleFromId} from './shared.js?v=4';
 
 let data, state, current, earliest, latest, view='articles', selected=null, positions, editorPositions, boundaries=[], growth=[];
 let playing=false, frame=0, lastPaint=0, animationStart=0, animationFrom=0, animationTo=0, animationDuration=10000;
@@ -210,13 +211,13 @@ function detailView() {
     const article=state.articles.get(selected.id);
     if(!article){details.innerHTML='<h2>Not yet written</h2><p>This article did not exist at the selected moment. Move forward in time to follow its development.</p>';return;}
     const outgoing=state.links.filter(link=>link.source===article.id).map(link=>link.target),incoming=state.backlinks.get(article.id)||[];
-    const revisions=state.events.filter(event=>event.articleId===article.id&&REVISION_ACTIONS.has(event.action));
+    const revisions=visibleRevisions(state.events,at()).filter(event=>event.articleId===article.id);
     const editors=[...new Set(revisions.map(event=>event.editorId))];
     details.innerHTML=`<h2>${articleLink(article.id,article.title,at())}</h2><dl class="metadata-list"><dt>Words</dt><dd>${number(article.words)}</dd><dt>Revisions</dt><dd>${number(article.revisions)}</dd><dt>Created</dt><dd>${esc(dateText(article.createdAt,true))}</dd><dt>Last changed</dt><dd>${esc(dateText(article.updatedAt))}</dd></dl><p><a href="${esc(contextHref({article:article.id}))}">Read article</a> · <a href="${esc(contextHref({view:'history',article:article.id}))}">Revision history</a> · <a href="#article-attribution">Who wrote what</a> · <a href="${esc(contextHref({view:'discussion',article:article.id}))}">Discussion</a></p><h3>Links to</h3>${outgoing.length?`<ul>${outgoing.map(id=>`<li>${selectButton(id,'article',state.articles.get(id).title)}</li>`).join('')}</ul>`:'<p class="small muted">No outgoing article links.</p>'}<h3>Linked from</h3>${incoming.length?`<ul>${incoming.map(id=>`<li>${selectButton(id,'article',state.articles.get(id).title)}</li>`).join('')}</ul>`:'<p class="small muted">No incoming links yet.</p>'}<h3>Contributors</h3><p>${editors.map(id=>userLink(id,at())).join(', ')}</p>`;
   } else if(selected.type==='editor') {
     const editor=state.editors.find(e=>e.id===selected.id);
     if(!editor){details.innerHTML='<h2>Not yet joined</h2><p>This editor had not arrived at the selected moment.</p>';return;}
-    const events=state.events.filter(e=>e.editorId===editor.id&&e.action!=='join'),revisions=events.filter(e=>REVISION_ACTIONS.has(e.action));
+    const events=state.events.filter(e=>e.editorId===editor.id&&e.action!=='join'),revisions=visibleRevisions(state.events,at()).filter(e=>e.editorId===editor.id);
     const relationships=state.relationships.filter(r=>r.from===editor.id||r.to===editor.id);
     details.innerHTML=`<h2>${userLink(editor.id,at())}</h2><p class="editor-bio">${esc(editor.description||'An editor of the encyclopedia.')}</p><dl class="metadata-list"><dt>Joined</dt><dd>${esc(dateText(editor.joinedAt,true))}</dd><dt>Contributions</dt><dd>${number(events.length)}</dd><dt>Revisions</dt><dd>${number(revisions.length)}</dd><dt>Released journals</dt><dd>${number(state.journals.filter(j=>j.editorId===editor.id).length)}</dd></dl><p><a href="${esc(contextHref({view:'user',user:editor.id}))}">Contribution history</a> · <a href="${esc(href({view:'journals',user:editor.id,at:at()},'/wiki/map/'))}">Read journals</a></p><h3>Recorded relationships</h3>${relationships.length?`<ul>${relationships.map(r=>`<li>${selectButton(`${r.from}|${r.to}`,'relationship',`${r.from} → ${r.to}`)}</li>`).join('')}</ul>`:'<p class="small muted">No recorded attitudes yet.</p>'}`;
   } else if(selected.type==='principle') {
@@ -250,7 +251,7 @@ function growthChart() {
   return `<svg class="growth-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="${growthMetric==='words'?'Total word':'Article'} count from founding to ${esc(dateText(current))}, ending at ${number(state[growthMetric==='words'?'words':'articles']?.size??state.words)}"><title>${growthMetric==='words'?'Word':'Article'} growth through ${esc(dateText(current))}</title>${grid}<path d="${points.map((point,index)=>`${index?'L':'M'} ${x(point.time).toFixed(2)} ${y(point[growthMetric]).toFixed(2)}`).join(' ')}"/>${points.map(point=>`<circle cx="${x(point.time)}" cy="${y(point[growthMetric])}" r="2" fill="#36c"><title>${esc(dateText(point.time))}: ${number(point[growthMetric])} ${growthMetric}</title></circle>`).join('')}<text x="${left}" y="${height-10}">${esc(dateText(earliest,true))}</text><text x="${width-right}" y="${height-10}" text-anchor="end">${esc(dateText(current,true))}</text></svg>`;
 }
 function activityView() {
-  const articles=[...state.articles.values()],editors=state.editors.map(editor=>({editor,revisions:state.events.filter(event=>event.editorId===editor.id&&event.articleId&&REVISION_ACTIONS.has(event.action)).length,comments:state.events.filter(event=>event.editorId===editor.id&&['comment','policy'].includes(event.action)).length})).sort((a,b)=>b.revisions-a.revisions);
+  const articles=[...state.articles.values()],editors=state.editors.map(editor=>({editor,revisions:visibleRevisions(state.events,at()).filter(event=>event.editorId===editor.id&&event.articleId).length,comments:state.events.filter(event=>event.editorId===editor.id&&['comment','policy'].includes(event.action)).length})).sort((a,b)=>b.revisions-a.revisions);
   const disputes=articles.map(article=>({article,comments:state.events.filter(event=>event.articleId===article.id&&event.action==='comment').length,reverts:state.events.filter(event=>event.articleId===article.id&&event.action==='revert').length})).filter(item=>item.comments||item.reverts).sort((a,b)=>(b.comments+b.reverts)-(a.comments+a.reverts));
   $('activity-view').innerHTML=`<h2>Growth</h2><div class="view-buttons" role="group" aria-label="Growth measure"><button type="button" data-growth="words" aria-pressed="${growthMetric==='words'}">Words</button><button type="button" data-growth="articles" aria-pressed="${growthMetric==='articles'}">Articles</button></div>${growthChart()}<p class="small muted">Recorded history only. Quiet periods remain flat.</p><div class="activity-columns"><section><h2>Longest articles</h2>${rows(['Article','Words','Revisions'],articles.sort((a,b)=>b.words-a.words).slice(0,12).map(article=>[articleLink(article.id,article.title,at()),number(article.words),number(article.revisions)]))}</section><section><h2>Revisions by editor</h2>${rows(['Editor','Revisions','Discussion entries'],editors.map(item=>[userLink(item.editor.id,at()),number(item.revisions),number(item.comments)]))}</section></div><h2>Discussion and reversions</h2><p class="small muted">Activity signals, not a judgment about who was right. A discussion entry is counted separately from an article revision.</p>${disputes.length?rows(['Article','Discussion entries','Reversions'],disputes.slice(0,20).map(item=>[articleLink(item.article.id,item.article.title,at()),number(item.comments),number(item.reverts)])):'<p class="empty-state">No discussion or reversions yet.</p>'}<h2>Recent events at this moment</h2><ul class="change-list">${state.events.slice(-15).reverse().map(event=>`<li><span class="change-date">${esc(dateText(event.timestamp))}</span> · ${userLink(event.editorId,at())} · ${eventLink(event)}</li>`).join('')}</ul>`;
   $('map-legend').textContent='Counts and growth are reconstructed from the public event history at the selected time.';
@@ -261,7 +262,7 @@ function renderAttribution() {
   const article = selected?.type === 'article' && view === 'articles' ? state.articles.get(selected.id) : null;
   panel.hidden = !article;
   if (!article) return;
-  const revisions = state.events.filter(event => event.articleId === article.id && REVISION_ACTIONS.has(event.action));
+  const revisions = visibleRevisions(state.events,at()).filter(event => event.articleId === article.id);
   const name = id => state.editors.find(editor => editor.id === id)?.name ?? id;
   const editors = [...new Set(revisions.map(revision => revision.editorId))];
   const passages = attributedLines(revisions).filter(line => line.text.trim());
@@ -396,7 +397,7 @@ installGate('map',async fresh=>{
   else if(query.has('user'))selected={id:query.get('user'),type:'editor'};
   else if(query.has('principle'))selected={id:query.get('principle'),type:'principle'};
   const firstArticles=new Map();
-  for(const event of [...data.events].sort((a,b)=>stamp(a.timestamp)-stamp(b.timestamp)))if(event.articleId&&REVISION_ACTIONS.has(event.action)&&!firstArticles.has(event.articleId))firstArticles.set(event.articleId,{id:event.articleId});
+  for(const event of visibleRevisions(data.events,data.meta.latestCompletedAt))if(event.articleId&&!firstArticles.has(event.articleId))firstArticles.set(event.articleId,{id:event.articleId});
   positions=stablePositions([...firstArticles.values()]);editorPositions=stablePositions([...data.editors].sort((a,b)=>stamp(a.joinedAt)-stamp(b.joinedAt)));
   boundaries=[...new Set([earliest,...data.cycles.map(cycle=>stamp(cycle.endAt)),latest])].filter(time=>time>=earliest&&time<=latest).sort((a,b)=>a-b);
   const growthTimes=[...new Set([earliest,...data.events.filter(event=>!event.cycleId||event.cycleId==='founding').map(event=>stamp(event.timestamp)),...boundaries])].filter(time=>time>=earliest&&time<=latest).sort((a,b)=>a-b);

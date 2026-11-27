@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as engine from './engine.mjs';
-import { BURST_ID, BURST_START, BURST_END, initializeBurst, beginBurstRound, completeBurstRound } from './burst.mjs';
+import { BURST_ID, BURST_START, BURST_END, INFLUENCE_BURST_ID, initializeBurst, beginBurstRound, completeBurstRound } from './burst.mjs';
 
 const now = '2026-11-09T10:00:00.000Z';
 const proof = (remaining = 80) => ({checkedAt:now, result:{ordinaryUsageAllowed:true,
@@ -92,4 +92,27 @@ test('100 additional rounds preserve history, release delay and next regular cad
   assert.equal(engine.validatePublic(output).cycles, 186);
   state.events[0].body += ' altered';
   assert.throws(() => beginBurstRound(state, options()), /published history changed/);
+});
+
+test('50 influence rounds archive the completed weekend and resume at scheduled123', () => {
+  const state=checkpoint();initializeBurst(state,{authorization:BURST_ID,...options()});
+  state.burst.rounds=state.burst.windows.map(w=>({...w,mode:'burst',participants:[],outcomes:[],actionCount:0}));state.burst.completedAt=now;
+  state.cycles=Array.from({length:121},(_,i)=>({...engine.cycleWindow(i+1),mode:'recurring',participants:[],outcomes:[],actionCount:0}));
+  state.latestCompletedAt='2026-11-26T20:00:00.000Z';
+  const actual='2026-11-27T09:00:00.000Z', opts={now:actual,proof:{...proof(),checkedAt:actual}};
+  engine.addInfluenceEditors(state,opts);engine.enableBackendEdits(state,opts);
+  const original=structuredClone(state.events);
+  assert.equal(initializeBurst(state,{authorization:INFLUENCE_BURST_ID,...opts}).burst.total,50);
+  assert.equal(state.burstArchive[0].rounds.length,100);
+  assert.ok(state.editors.filter(e=>e.strategicContext).every(e=>e.joinedAt===state.burst.startAt));
+  assert.equal(initializeBurst(state,{authorization:INFLUENCE_BURST_ID,...opts}).resumed,true);
+  for(let round=0;round<50;round++){
+    beginBurstRound(state,opts);const cohort=structuredClone(state.pending.participants);
+    assert.equal(beginBurstRound(state,opts).resumed,true);assert.deepEqual(state.pending.participants,cohort);
+    for(const editorId of cohort)engine.propose(state,{editorId,action:'abstain',timestamp:new Date(Date.parse(state.pending.startAt)+1000).toISOString(),journal,summary:'Wait.'},opts);
+    completeBurstRound(state,opts);
+  }
+  assert.deepEqual(state.events.slice(0,original.length),original);
+  const data=engine.exportPublic(state,opts);assert.equal(data.meta.burstRoundCount,150);assert.equal(data.cycles.filter(c=>c.mode==='burst').length,150);
+  assert.equal(engine.status(state,actual).nextWindow.id,'cycle-0123');assert.equal(engine.validatePublic(data).cycles,272);
 });

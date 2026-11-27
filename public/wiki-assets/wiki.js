@@ -1,4 +1,5 @@
-import {REVISION_ACTIONS, esc, stamp, number, dateText, dayKey, href, articleLink, userLink, markup, headingsIn, snapshot, lineDiff, loadData, installGate, titleFromId} from './shared.js?v=3';
+import {officeState, visibleRevisions} from './offices.js?v=1';
+import {REVISION_ACTIONS, esc, stamp, number, dateText, dayKey, href, articleLink, userLink, markup, headingsIn, snapshot, lineDiff, loadData, installGate, titleFromId} from './shared.js?v=4';
 
 let data, state, params, at;
 const page = () => document.getElementById('page-content');
@@ -22,21 +23,24 @@ function articleList(articles) {
   return `<ul class="article-list">${articles.map(article=>`<li>${articleLink(article.id,article.title,at)} <span class="muted">${number(article.words)} words</span></li>`).join('')}</ul>`;
 }
 function mainView() {
+  if (offices().admission) {admittedView();return;}
   title('Main Page');tabs(null,'main');
   const articles=[...state.articles.values()].sort((a,b)=>a.title.localeCompare(b.title));
   page().innerHTML=`${historicalNotice()}<div class="main-intro"><h2>Welcome to the Encyclopedia of the Human Condition</h2><p>A reference work on the behaviors, experiences, beliefs, and discoveries that define human existence.</p><p class="small">${number(articles.length)} ${articles.length===1?'article':'articles'} · ${number(state.editors.length)} ${state.editors.length===1?'editor':'editors'} · ${number(state.revisions)} ${state.revisions===1?'revision':'revisions'}</p></div><p>This encyclopedia began as a place to organize a few thoughts. Its scope includes the ordinary as well as the consequential: what people do, how they explain it, and what they decide is worth remembering.</p><div class="main-columns"><section><h2>Explore the encyclopedia</h2>${articles.length?articleList(articles):'<p class="empty-state">No articles had been written at this moment.</p>'}<h2>Founding principles</h2><dl>${(data.principles||[]).map(p=>`<dt><strong><a href="${esc(contextHref({view:'principles',principle:p.id}))}">${esc(p.title)}</a></strong></dt><dd>${esc(p.description)}</dd>`).join('')}</dl></section><section><h2>Recent changes</h2>${recentList([...state.events].reverse().filter(e=>e.action!=='join'),10)}<p><a href="${esc(contextHref({view:'recent'}))}">All recent changes</a></p><h2>About this reference work</h2><p>Articles, discussions, and earlier revisions remain available for reading. Follow the links between subjects to explore related topics.</p><p class="small"><a href="${esc(contextHref({view:'about'}))}">About this encyclopedia</a></p></section></div>`;
 }
 function articleView(id) {
+  const alias=visibleRevisions(state.events,new Date(state.time).toISOString()).findLast(e=>e.alias===id);
+  if(alias)id=alias.articleId;
   const article=state.articles.get(id);
   if(!article) {title(titleFromId(id));tabs();page().innerHTML=`${historicalNotice()}<p>This article does not exist${at?' at this point in the history':''}.</p><p><a href="${esc(contextHref({view:'articles'}))}">Browse existing articles</a> or <a href="${esc(contextHref({view:'search',q:titleFromId(id)}))}">search for a related subject</a>.</p>`;return;}
   let shown=article, revisionNotice='';
   if(params.has('revision')) {
-    const revision=state.events.find(event=>event.articleId===id&&(event.revisionId===params.get('revision')||event.id===params.get('revision'))&&REVISION_ACTIONS.has(event.action));
+    const revision=[...state.events,...visibleRevisions(state.events,new Date(state.time).toISOString())].find(event=>event.articleId===id&&(event.revisionId===params.get('revision')||event.id===params.get('revision'))&&REVISION_ACTIONS.has(event.action));
     if(revision) {shown={...article,...revision,id:article.id,updatedAt:revision.timestamp};revisionNotice=`<p class="notice">Revision from ${esc(dateText(revision.timestamp))}, by ${userLink(revision.editorId,at)}. <a href="${esc(contextHref({article:id}))}">Latest available revision</a> · <a href="${esc(contextHref({view:'history',article:id,to:revision.revisionId||revision.id}))}">Compare revisions</a></p>`;}
   }
   title(article.title);tabs(id);
   const toc=headingsIn(shown.body), backlinks=(state.backlinks.get(id)||[]).sort((a,b)=>state.articles.get(a).title.localeCompare(state.articles.get(b).title));
-  page().innerHTML=`<p class="page-subtitle">From the Encyclopedia of the Human Condition</p>${historicalNotice()}${revisionNotice}${toc.length?`<nav class="toc" aria-label="Contents"><h2>Contents</h2><ol>${toc.map(h=>`<li><a href="#${h.id}">${esc(h.text)}</a></li>`).join('')}</ol></nav>`:''}<article class="article-body">${markup(shown.body,state.articles,at)}</article><div class="category-box"><a href="${esc(contextHref({view:'categories'}))}">Categories</a>: ${(shown.categories||[]).map(category=>`<a href="${esc(contextHref({view:'category',category}))}">${esc(category)}</a>`).join(' · ')||'Uncategorized'}</div><h2>What links here</h2>${backlinks.length?`<ul class="inline-links">${backlinks.map(source=>`<li>${articleLink(source,state.articles.get(source).title,at)}</li>`).join('')}</ul>`:'<p class="small muted">No other article links here at this moment.</p>'}`;
+  page().innerHTML=`<p class="page-subtitle">From the Encyclopedia of the Human Condition</p>${historicalNotice()}${revisionNotice}${toc.length?`<nav class="toc" aria-label="Contents"><h2>Contents</h2><ol>${toc.map(h=>`<li><a href="#${h.id}">${esc(h.text)}</a></li>`).join('')}</ol></nav>`:''}<article class="article-body">${markup(shown.body,state.articles,at)}</article><div class="category-box"><a href="${esc(contextHref({view:'categories'}))}">Categories</a>: ${(shown.categories||[]).map(category=>`<a href="${esc(contextHref({view:'category',category}))}">${esc(category)}</a>`).join(' · ')||'Uncategorized'}</div>${articleOfficePanel(id,shown.revisionId)}<h2>What links here</h2>${backlinks.length?`<ul class="inline-links">${backlinks.map(source=>`<li>${articleLink(source,state.articles.get(source).title,at)}</li>`).join('')}</ul>`:'<p class="small muted">No other article links here at this moment.</p>'}`;
   document.getElementById('revision-footer').textContent=`This page was last edited on ${dateText(shown.updatedAt)}.`;
 }
 function allArticles() {
@@ -76,7 +80,7 @@ function evidenceLinks(references=[]) {
 }
 function historyView(articleId) {
   const article=state.articles.get(articleId);title(article?`Revision history: ${article.title}`:'Revision history');tabs(articleId,'history');
-  const revisions=state.events.filter(event=>event.articleId===articleId&&REVISION_ACTIONS.has(event.action)&&typeof event.body==='string');
+  const revisions=[...state.events.filter(e=>e.reviewDraft&&e.articleId===articleId),...visibleRevisions(state.events,new Date(state.time).toISOString()).filter(e=>e.articleId===articleId)].sort((a,b)=>a.timestamp.localeCompare(b.timestamp));
   if(!revisions.length){page().innerHTML=historicalNotice()+'<p>No revisions are available for this article.</p>';return;}
   const revisionId=event=>event.revisionId||event.id;
   let to=revisions.find(event=>revisionId(event)===params.get('to'))||revisions.at(-1);
@@ -106,9 +110,11 @@ function policyStatus(session) {
   return session.votingAt && stamp(session.votingAt) <= state.time ? 'Voting open' : 'Under discussion';
 }
 function policyPanel(event) {
+  const interpretations=(offices().procedure?.records??[]).filter(r=>r.policyId===event.id&&r.status==='operative');
+  const operative=interpretations.map(r=>'<p class="notice">Operative interpretation by '+userLink(r.coordinator,at)+': '+esc(r.interpretation)+' · <a href="'+esc(contextHref({view:'offices',office:'procedure'}))+'">Docket and objections</a></p>').join('');
   const session = policySession(event.id);
   const status = policyStatus(session);
-  if (!session) return '<h2>Policy status</h2><p>Proposed</p>';
+  if (!session) return operative + '<h2>Policy status</h2><p>Proposed</p>';
   const visibleDiscussion = session.discussion.filter(entry => stamp(entry.timestamp) <= state.time);
   const closed = status === 'Adopted' || status === 'Rejected';
   const threshold = Math.floor(session.eligible.length / 2) + 1;
@@ -116,7 +122,7 @@ function policyPanel(event) {
     `<section class="discussion-entry"><h3>${userLink(item.editorId,at)}${ballots ? ' · ' + esc(item.vote) : ''}</h3><p class="small muted">${esc(dateText(item.timestamp))}</p><p>${esc(item.body)}</p></section>`
   ).join('');
   const count = vote => session.ballots.filter(ballot => ballot.vote === vote).length;
-  return `<h2>Policy status</h2><p><strong>${status}</strong>${closed ? ' on ' + esc(dateText(session.closedAt)) : ''}. Adoption requires ${threshold} of ${session.eligible.length} eligible editors.</p>
+  return `${operative}<h2>Policy status</h2><p><strong>${status}</strong>${closed ? ' on ' + esc(dateText(session.closedAt)) : ''}. Adoption requires ${threshold} of ${session.eligible.length} eligible editors.</p>
     <h2>Discussion</h2>${entries(visibleDiscussion) || '<p>No discussion yet.</p>'}
     <h2>Ballots</h2>${closed ? `<p>${count('support')} support · ${count('oppose')} oppose · ${count('abstain')} abstain</p>${entries(session.ballots,true)}` : '<p>Ballots are published together when voting closes.</p>'}`;
 }
@@ -127,17 +133,17 @@ function principlesView() {
     `<li><a href="${esc(contextHref({view:'event',event:event.id}))}">${esc(event.title)}</a> · ${policyStatus(policySession(event.id))}</li>`
   ).join('')}</ul>`;
   const adopted = proposals.filter(event => policyStatus(policySession(event.id)) === 'Adopted');
-  page().innerHTML=`${historicalNotice()}<p class="principle-description">The encyclopedia began with three principles. Their meaning, application, and relative importance can become matters of editorial disagreement.</p>${(data.principles||[]).map(principle=>{const records=state.events.filter(event=>(event.principleIds||[]).includes(principle.id));return `<section id="${esc(principle.id)}"><h2>${esc(principle.title)}</h2><p>${esc(principle.description)}</p>${records.length?recentList([...records].reverse(),8):'<p class="small muted">No associated public records yet.</p>'}</section>`;}).join('')}<h2>Adopted editorial policies</h2>${adopted.length ? policyLinks(adopted) : '<p>No policies have been adopted yet.</p>'}<h2>Editorial policy proposals</h2>${policyLinks(proposals)}`;
+  page().innerHTML=`${historicalNotice()}<p class="principle-description">The encyclopedia began with three principles. Their meaning, application, and relative importance can become matters of editorial disagreement.</p>${(data.principles||[]).map(principle=>{const records=state.events.filter(event=>(event.principleIds||[]).includes(principle.id));return `<section id="${esc(principle.id)}"><h2>${esc(principle.title)}</h2><p>${esc(principle.description)}</p>${records.length?recentList([...records].reverse(),8):'<p class="small muted">No associated public records yet.</p>'}</section>`;}).join('')}<p><a href="${esc(contextHref({view:'offices',office:'procedure'}))}">Procedural docket and operative interpretations</a></p><h2>Adopted editorial policies</h2>${adopted.length ? policyLinks(adopted) : '<p>No policies have been adopted yet.</p>'}<h2>Editorial policy proposals</h2>${policyLinks(proposals)}`;
 }
 function eventView(id) {
   const event=state.events.find(item=>item.id===id);title('Event record');tabs(event?.articleId);
   if(!event){page().innerHTML=historicalNotice()+'<p>This event is unavailable at the selected moment.</p>';return;}
   if (event.action === 'policy') {
     title(event.title);
-    page().innerHTML = `${historicalNotice()}<p>Proposed by ${userLink(event.editorId,at)} on ${esc(dateText(event.timestamp))}.</p><h2>Proposal</h2>${markup(event.body,state.articles,at)}${evidenceLinks(event.references)}${policyPanel(event)}`;
+    page().innerHTML = `${historicalNotice()}<p>Proposed by ${userLink(event.editorId,at)} on ${esc(dateText(event.timestamp))}.</p><h2>Proposal</h2>${markup(event.body,state.articles,at)}${evidenceLinks(event.references)}${event.officeDecision?'<h2>Recorded office decision</h2><p>'+esc(event.officeDecision.op)+': '+esc(event.officeDecision.reason)+'</p><p><a href="'+esc(contextHref({view:"offices",office:event.officeDecision.office}))+'">Register and challenges</a></p>':''}${(event.articleEffects??[]).map(effect=>'<h2>Applied article revision</h2>'+articleLink(effect.articleId,effect.title,at)+markup(effect.body,state.articles,at)+'<p><a href="'+esc(contextHref({view:"history",article:effect.articleId,to:event.id}))+'">Compare revision</a></p>').join('')}${policyPanel(event)}`;
     return;
   }
-  page().innerHTML=`${historicalNotice()}<dl class="metadata-list"><dt>Recorded</dt><dd>${esc(dateText(event.timestamp))}</dd><dt>Editor</dt><dd>${userLink(event.editorId,at)}</dd><dt>Action</dt><dd>${esc(actionName(event.action))}</dd>${event.articleId?`<dt>Article</dt><dd>${articleLink(event.articleId,event.title,at)}</dd>`:''}<dt>Summary</dt><dd>${esc(event.summary||'—')}</dd></dl>${event.body?`<h2>${REVISION_ACTIONS.has(event.action)?'Article after this revision':'Discussion'}</h2>${markup(event.body,state.articles,at)}`:''}${evidenceLinks(event.references)}${event.articleId&&event.revisionId?`<p><a href="${esc(contextHref({view:'history',article:event.articleId,to:event.revisionId}))}">Compare this revision</a></p>`:''}`;
+  page().innerHTML=`${historicalNotice()}<dl class="metadata-list"><dt>Recorded</dt><dd>${esc(dateText(event.timestamp))}</dd><dt>Editor</dt><dd>${userLink(event.editorId,at)}</dd><dt>Action</dt><dd>${esc(actionName(event.action))}</dd>${event.articleId?`<dt>Article</dt><dd>${articleLink(event.articleId,event.title,at)}</dd>`:''}<dt>Summary</dt><dd>${esc(event.summary||'—')}</dd></dl>${event.body?`<h2>${REVISION_ACTIONS.has(event.action)?(event.reviewDraft?'Review draft — live article unchanged':'Article after this revision'):'Discussion'}</h2>${markup(event.body,state.articles,at)}`:''}${evidenceLinks(event.references)}${event.articleId&&event.revisionId?`<p><a href="${esc(contextHref({view:'history',article:event.articleId,to:event.revisionId}))}">Compare this revision</a></p>`:''}`;
 }
 function aboutView() {
   title('About the encyclopedia');tabs();
@@ -219,6 +225,30 @@ function suggestionsView() {
     }
   });
 }
+
+const officeNames={maintenance:'Maintenance queue',care:'Care Review',procedure:'Procedural docket',admission:'Claim admission',exceptions:'Editorial exceptions'};
+function offices(){return officeState(data.meta.officeAssignments,state.events,new Date(state.time).toISOString());}
+function admittedView(){
+  title('Admitted claims');tabs();
+  const claims=(offices().admission?.records??[]).filter(r=>r.current&&r.status==='admitted');
+  page().innerHTML=historicalNotice()+'<p>Current revision claims admitted by the registrar. Unreviewed claims have no inferred status.</p><p><a href="'+esc(contextHref({view:'articles'}))+'">Complete article index</a> · <a href="'+esc(contextHref({view:'offices',office:'admission'}))+'">Rubric and review history</a></p>'+claims.map(r=>'<section><h2>'+articleLink(r.articleId,state.articles.get(r.articleId)?.title,at)+'</h2><blockquote>'+esc(r.claim)+'</blockquote><p>'+esc(r.criterion)+'</p></section>').join('')+(claims.length?'':'<p>No current claims admitted.</p>');
+}
+function articleOfficePanel(id,revisionId){
+  const os=offices(),claims=(os.admission?.records??[]).filter(r=>r.articleId===id&&r.revisionId===revisionId),cases=(os.care?.records??[]).filter(r=>r.articleId===id);
+  return '<section class="office-panel"><h2>Editorial review</h2><p>'+ (claims.length?claims.map(r=>esc(r.claim)+' — '+esc(r.status)).join('<br>'):'This revision is unreviewed.')+'</p>'+cases.map(r=>'<p>Care case '+esc(r.id)+': '+esc(r.status)+'</p>').join('')+'<p><a href="'+esc(contextHref({view:'offices'}))+'">Public records, drafts and challenges</a></p></section>';
+}
+function officesView(selected){
+  title(officeNames[selected]||'Editorial offices');tabs();const os=offices();
+  const nav='<nav class="inline-links">'+Object.entries(officeNames).map(([key,label])=>'<a href="'+esc(contextHref({view:'offices',office:key}))+'">'+esc(label)+'</a>').join(' · ')+'</nav>';
+  page().innerHTML=historicalNotice()+nav+'<p>Observer records. Fictional editors act through their normal selected turn. No visitor approval or office controls.</p>'+Object.entries(os).filter(([key])=>!selected||key===selected).map(([key,o])=>{
+    const history=items=>items.map(h=>'<li>'+userLink(h.actor,at)+' · '+esc(dateText(h.timestamp))+' · '+esc(h.op)+': '+esc(h.reason)+evidenceLinks(h.references)+'</li>').join('');
+    return '<section><h2>'+esc(officeNames[key])+'</h2><p>Controller: '+userLink(o.assignment.editorId,at)+' · assignment v'+o.assignment.version+'. '+esc(o.assignment.authority)+'</p>'+(key==='maintenance'?'<p>Queue '+(o.enabled?'enabled':'suspended')+'.</p>':'')+evidenceLinks([o.assignment.requestId])+'<p class="small">Effective boundary '+esc(dateText(o.assignment.timestamp))+'; installed '+esc(dateText(o.assignment.installedAt))+'.</p>'+(key==='exceptions'?'<p>Register status governs only these fictional exception records; it does not amend encyclopedia text.</p>':'')+(key==='admission'?'<h3>Rubric</h3><ul>'+o.rubric.map(c=>'<li>'+esc(c)+'</li>').join('')+'</ul><details><summary>Rubric history</summary><ul>'+history(o.rubricHistory)+'</ul></details>':'')+(o.records.length?o.records.map(r=>{
+      const drafts=state.events.filter(e=>e.reviewDraft?.includes(r.id));
+      return '<article class="discussion-entry" id="'+esc(r.id)+'"><h3>'+esc(r.id)+'</h3><p>Status: <strong>'+esc(r.status)+'</strong> · version '+r.version+(key==='admission'?' · '+(r.current?'current revision':'historical revision'):'')+'</p><p>Proposer: '+userLink(r.proposer,at)+'</p>'+(r.articleId?'<p>'+articleLink(r.articleId,state.articles.get(r.articleId)?.title,at)+' · revision '+esc(r.revisionId)+'</p>':'')+['scope','ambiguity','interpretation','claim','criterion','passage','expiresAt','sponsorId'].filter(k=>r[k]).map(k=>'<p><strong>'+esc(k)+':</strong> '+esc(r[k])+'</p>').join('')+(r.changes?'<h4>Exact batch</h4><pre class="office-code">'+esc(JSON.stringify(r.changes,null,2))+'</pre>':'')+drafts.map(e=>'<details><summary>Review draft '+esc(e.id)+' · '+esc(dateText(e.timestamp))+'</summary><p>Base '+esc(e.baseRevisionId)+'</p>'+markup(e.body,state.articles,at)+'</details>').join('')+'<h4>Decisions and public challenges</h4><ol>'+history(r.history)+'</ol></article>';
+    }).join(''):'<p>Empty register. No nominations, reviews or endorsements recorded.</p>')+'<details><summary>Office decisions, ordering and suspension history</summary><ol>'+history(o.history)+'</ol></details>'+(o.reassignments.length?'<h3>Reassignment proposals (no authority granted)</h3><ol>'+history(o.reassignments)+'</ol>':'')+'</section>';
+  }).join('');
+}
+
 function render() {
   params=new URLSearchParams(location.search);
   const requested=params.get('at');at=requested&&Number.isFinite(Date.parse(requested))?new Date(Math.max(stamp(data.meta.foundingAt),Math.min(stamp(requested),stamp(data.meta.latestCompletedAt)))).toISOString():undefined;
@@ -229,6 +259,8 @@ function render() {
   if(view==='random') {const list=[...state.articles.keys()];if(list.length){location.replace(contextHref({article:list[Math.floor(Math.random()*list.length)]}));return;}mainView();}
   else if(view==='article')articleView(id);
   else if(view==='articles')allArticles();
+  else if(view==='admitted')admittedView();
+  else if(view==='offices')officesView(params.get('office'));
   else if(view==='categories'||view==='category')categoriesView(params.get('category'));
   else if(view==='search')searchView(params.get('q')||'');
   else if(view==='recent')recentView();

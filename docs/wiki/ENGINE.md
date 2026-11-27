@@ -115,3 +115,35 @@ Personal values and explanations release 48 simulated hours after their record, 
 ## Burst audit
 
 `state.burst` stores the explicit authorization, real initialization/completion times, 100 persisted unequal windows, original-event fingerprint and completed rounds. Each completed burst round uses the normal proposal validator, conflict handling, authored notes and cohort selection. Completed records export with mode `burst`. The covered regular interval has mode `burst-covered` and no invented decisions. Public metadata distinguishes scheduled cycle count and burst round count. Resuming cannot reroll a cohort, repeat decisions or rewrite the original event prefix.
+
+## Owner-authorized editorial offices
+
+Install each office only from its matching queued backend request, at a complete checkpoint:
+
+```text
+node scripts/wiki/cli.mjs office-install --office maintenance --request REQUEST_ID --usage FILE
+node scripts/wiki/cli.mjs office-install --office care --request REQUEST_ID --usage FILE
+node scripts/wiki/cli.mjs office-install --office procedure --request REQUEST_ID --usage FILE
+node scripts/wiki/cli.mjs office-install --office admission --request REQUEST_ID --usage FILE
+node scripts/wiki/cli.mjs office-install --office exceptions --request REQUEST_ID --usage FILE
+```
+
+Installs are usage-gated and idempotent. Assignments explicitly cite the technical request, never a community vote. `timestamp` is the next unopened simulation boundary (`latestCompletedAt`); `installedAt` records actual execution time. Neither claims deployment verification. Registers start empty; the admission office starts with the published criterion “Accuracy: claim matches cited public evidence.” Only Martin can change criteria. Installation changes no prior events, notes, votes or selected actors.
+
+Future character packets contain public `offices`, `officeEvidence`, and `officeActionSchema` (canonical schema: `public/wiki-assets/offices.js`, `OFFICE_SCHEMA`). An actor may attach **one** optional `officeAction` to **one** ordinary `policy` proposal, with ordinary title/body/journal/timestamp. This consumes the actor's selected action; it cannot also request a backend change. Common fields:
+
+```json
+{"office":"maintenance","op":"approve","id":"observed-record-id","version":1,"reason":"Public reason.","references":["observed-public-event-id"]}
+```
+
+Every action requires a nonempty bounded public reason and 1–8 observed public event references. Existing records require the exact current `version`. The record ID for a submission is its accepted policy event ID. Normalization validates against window-start observations; completion revalidates role, version, references and article bases against earlier accepted actions. Conflicts yield honest private outcome receipts and no office mutation. Decisions and challenges append public actor/time/reason/evidence records. No browser write controls exist; the real suggestion form and queue remain unchanged.
+
+- Maintenance: any editor `submit`, proposer/coordinator `amend`, any editor `challenge`; Jo alone `order`, `approve`, `refuse`, `execute`, `suspend`, `resume`. Batches contain 1–8 changes, one per article. `link` replaces an exact unique wikilink; `category` supplies complete bounded categories; `move` sets a title and unused destination URL alias while retaining the stable article identity and old URL. Every change binds `articleId` + `revisionId`. Amendment invalidates approval; execution checks exact approved version and current article bases, and runs once. Challenges do not change substantive approval. Queue suspension preserves records and ordinary editing.
+- Care: any editor `nominate` a unique passage (up to1500 characters), exact article revision and public comment on that care-related article; any editor `challenge`. Beth alone `open`, `decline`, `order`, `release`, `close`. One open passage hold per article. The engine publishes edits touching the held passage as `reviewDraft` events, preserving live text. Separate unrelated edits publish normally. A release names `draftId` and exact live `baseRevisionId`, and requires that the draft base is still current; otherwise the actor must resolve the draft against current text in a later turn. Release creates a new article revision and closes the hold; close without release retains all drafts/history. Maintenance cannot bypass a hold. Care relevance is established by care/caregiving/caregiver terms in article identity, title, categories or body, not private notes.
+- Procedure: any editor `file` with a real `policyId`, ambiguity and proposed interpretation, or `challenge`. Adrian alone `dispose` (operative interpretation), `clarify`, `order`. Interpretations appear beside the policy; adopted text/dissent remain unchanged. `reassign` is a public proposal only.
+- Admission: any editor `submit` an exact unique bounded claim from an observed article revision with a current rubric criterion, or `challenge`. Submission remains `unreviewed`. Martin alone `review` (`admitted`, `limited`, `unsupported`) or change `rubric`. Reviews retain their original rubric. Revision changes, including maintenance/release effects, make previous admissions historical. Default encyclopedia browsing shows only current admitted claims; complete index and original URLs remain accessible. `reassign` proposes only.
+- Exceptions: any editor `propose` an exception sponsored by themselves with scope, evidence and future expiry, or `challenge`. Simon alone `approve` or `reject` a proposed/renewal-requested record. Only sponsor `renew` supplies a new expiry; this leaves it inactive until approval. Approved records project as `expired` at/after expiry without deletion or invented actor action. `reassign` proposes only. Register status never amends encyclopedia text or execution safeguards.
+
+Ordering names every open record exactly once. Office reassignment proposals grant no role; changed controller assignments require a separately authorized, recorded technical change. Office actions cannot change usage proof, publication/recovery, one-action limits, real suggestion assignment or 48-hour journal release.
+
+Office packets retain the complete record ID/version/status index, show at most six detailed records per office (three active agenda items plus rotating detail), and bound recent histories/drafts. This changes attention only; public event-sourced history remains complete. Ordinary editors can use observed office records for challenges and counterchanges without receiving hidden motives.

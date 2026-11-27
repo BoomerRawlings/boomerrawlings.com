@@ -550,6 +550,9 @@ test('authorized backend requests queue once, stay private, and require a verifi
   assert.ok(!JSON.stringify(wiki.characterPacket(state,'bluemonday')).includes('backendReceipts'));
   assert.ok(!wiki.characterPacket(state,'bluemonday').character.fourthWall);
   assert.throws(()=>wiki.propose(state,{...abstention(state,'bluemonday'),action:'policy',title:'Other',body:'Other.',backendRequest:request},{now:state.pending.endAt,proof:usage(80,state.pending.endAt)}),/authorized technical/);
+  const publicRequest=wiki.characterPacket(state,'bluemonday').publicTechnicalRequests[0];
+  assert.equal(publicRequest.id,result.id);
+  assert.ok(wiki.propose(state,{...abstention(state,'bluemonday'),action:'policy',title:'Counterchange',body:'Keep labels descriptive.',references:[publicRequest.id],backendRequest:request},{now:state.pending.endAt,proof:usage(80,state.pending.endAt)}).ok);
 });
 
 test('guest arrivals preserve past cohorts and increase selection weight', () => {

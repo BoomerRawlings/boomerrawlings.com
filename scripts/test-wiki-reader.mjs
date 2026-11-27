@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {officeState,visibleRevisions} from '../public/wiki-assets/offices.js';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
@@ -60,7 +61,7 @@ test('revision diff includes actual additions and removals with escaped markup',
  assert.ok(JSON.stringify(diff).includes('Old sentence'));assert.ok(JSON.stringify(diff).includes('New sentence'));
 });
 
-function screenFixture(file, motion = true) {
+function screenFixture(file, motion = true, fixtureOverride) {
  const nodes = new Map(), reveals = [], cancelled = [], handlers = new Map();
  function node(id) {
    if (!nodes.has(id)) {
@@ -82,9 +83,9 @@ function screenFixture(file, motion = true) {
  const document={getElementById:node,querySelector:selector=>node(selector),querySelectorAll:selector=>selector==='[data-map-view]'?views:[],addEventListener(){},activeElement:null,hidden:false};
  const window={matchMedia:()=>({matches:false,addEventListener(){}})};
  if(motion)window.SiteMotion={revealScreen(target, options){reveals.push({id:target.id,kind:options.kind,hidden:target.hidden});},cancelScreen(target){cancelled.push(target.id);}};
- const fixture={meta:{foundingAt:'2026-01-01T00:00:00Z',latestCompletedAt:'2026-01-02T00:00:00Z'},events:[],editors:[],cycles:[],relationships:[],journals:[],principles:[]};
+ const fixture=fixtureOverride??{meta:{foundingAt:'2026-01-01T00:00:00Z',latestCompletedAt:'2026-01-02T00:00:00Z'},events:[],editors:[],cycles:[],relationships:[],journals:[],principles:[]};
  const context=vm.createContext({
-   ...wikiShared,document,window,URL,URLSearchParams,
+   ...wikiShared,officeState,visibleRevisions,document,window,URL,URLSearchParams,
    location:{search:'',hash:'',href:'https://example.invalid/wiki/',origin:'https://example.invalid',pathname:'/wiki/'},
    history:{replaceState(){}},ResizeObserver:class{observe(){}},
    requestAnimationFrame:()=>1,cancelAnimationFrame(){},setTimeout,
@@ -92,7 +93,7 @@ function screenFixture(file, motion = true) {
    installGate:(kind,unlock)=>handlers.set(kind,unlock),
  });
  const source=readFileSync(new URL(`../public/wiki-assets/${file}`,import.meta.url),'utf8');
- vm.runInContext(source.replace(/^import[^\n]+\n/,''),context,{filename:file});
+ vm.runInContext(source.replace(/^import[^\n]+\n/gm,''),context,{filename:file});
  return {node,views,reveals,cancelled,context,unlock:async fresh=>handlers.get(file==='wiki.js'?'wiki':'map')(fresh)};
 }
 
@@ -149,4 +150,31 @@ test('relationship detail and hover explain released feelings while historical v
  assert.match(history,/Private &lt;feeling&gt;/);
  assert.ok(!history.includes('<feeling>'));
  assert.match(vm.runInContext('personalDetails(state.relationships[0])',ui.context),/firmer desired limits/);
+});
+
+
+test('office reader defaults to current admitted claims, complete index survives, historical views hide future offices',async()=>{
+ const at='2026-11-27T00:00:00.000Z',decisionAt='2026-11-27T01:00:00.000Z';
+ const assignment={office:'admission',editorId:'martin-reed',version:1,requestId:'technical-request',timestamp:decisionAt,installedAt:decisionAt,authority:'Technical request, no community vote',rubric:['Accuracy']};
+ const article={id:'first-revision',revisionId:'first-revision',timestamp:at,editorId:'alice',action:'create',articleId:'care',title:'Care',body:'A claim. [[knowledge]]',categories:['Care']};
+ const claim={id:'claim-record',version:2,proposer:'alice',articleId:'care',revisionId:'first-revision',claim:'A claim.',criterion:'Accuracy',status:'admitted',history:[]};
+ const fixture={meta:{foundingAt:at,latestCompletedAt:'2026-11-27T03:00:00.000Z',officeAssignments:[assignment]},events:[article,{id:'knowledge-revision',revisionId:'knowledge-revision',timestamp:at,editorId:'alice',action:'create',articleId:'knowledge',title:'Knowledge',body:'Related [[care]].'}, {id:'admit',timestamp:decisionAt,editorId:'martin-reed',action:'policy',body:'Review.',officeDecision:{office:'admission',op:'review',actor:'martin-reed',timestamp:decisionAt,eventId:'admit',reason:'Evidence reviewed.',references:['first-revision'],record:claim}}],editors:[],cycles:[],relationships:[],journals:[],principles:[]};
+ const ui=screenFixture('wiki.js',true,fixture);await ui.unlock(false);
+ assert.equal(ui.node('content-heading').textContent,'Admitted claims');assert.match(ui.node('page-content').innerHTML,/A claim/);assert.match(ui.node('page-content').innerHTML,/Complete article index/);
+ vm.runInContext("location.search='?view=articles';render()",ui.context);assert.match(ui.node('page-content').innerHTML,/Knowledge/);
+ vm.runInContext("location.search='?view=offices&at=2026-11-27T00:30:00.000Z';render()",ui.context);assert.ok(!ui.node('page-content').innerHTML.includes('martin-reed'));
+ fixture.events.push({...article,id:'new-revision',revisionId:'new-revision',timestamp:'2026-11-27T02:00:00.000Z',action:'revise',body:'Changed claim. [[knowledge]]'});
+ vm.runInContext("location.search='';render()",ui.context);assert.match(ui.node('page-content').innerHTML,/No current claims admitted/);
+ vm.runInContext("location.search='?article=care';render()",ui.context);assert.match(ui.node('page-content').innerHTML,/This revision is unreviewed/);
+});
+test('reader exposes derived multi-article history and source event effects without displaying held draft as live',async()=>{
+ const at='2026-11-27T00:00:00.000Z',effectAt='2026-11-27T01:00:00.000Z';
+ const article={id:'old',revisionId:'old',timestamp:at,editorId:'alice',action:'create',articleId:'care',title:'Care',body:'Live passage. [[knowledge]]',categories:['Care']};
+ const effect={articleId:'care',title:'Renamed care',body:'Released passage. [[knowledge]]',categories:['Care'],principleIds:[],baseRevisionId:'old',alias:'new-care'};
+ const fixture={meta:{foundingAt:at,latestCompletedAt:'2026-11-27T03:00:00.000Z'},events:[article,{id:'knowledge-old',revisionId:'knowledge-old',timestamp:at,editorId:'alice',action:'create',articleId:'knowledge',title:'Knowledge',body:'Related [[care]].'},{...article,id:'draft',revisionId:'draft',timestamp:'2026-11-27T00:30:00.000Z',action:'revise',baseRevisionId:'old',body:'Held draft. [[knowledge]]',reviewDraft:['case']},{id:'batch',timestamp:effectAt,editorId:'jo-porter',action:'policy',title:'Execute repair',body:'Applied batch.',articleEffects:[effect,{...effect,alias:undefined,articleId:'knowledge',title:'Knowledge',body:'Related [[care]].',baseRevisionId:'knowledge-old'}]}],editors:[],cycles:[],relationships:[],journals:[],principles:[]};
+ const ui=screenFixture('wiki.js',true,fixture);await ui.unlock(false);
+ vm.runInContext("location.search='?article=new-care';render()",ui.context);assert.match(ui.node('page-content').innerHTML,/Released passage/);assert.ok(!ui.node('page-content').innerHTML.includes('Held draft.'));
+ vm.runInContext("location.search='?article=care&revision=batch';render()",ui.context);assert.match(ui.node('page-content').innerHTML,/Released passage/);
+ vm.runInContext("location.search='?view=history&article=care';render()",ui.context);assert.match(ui.node('page-content').innerHTML,/batch/);assert.match(ui.node('page-content').innerHTML,/draft/);
+ vm.runInContext("location.search='?view=event&event=batch';render()",ui.context);assert.equal((ui.node('page-content').innerHTML.match(/Applied article revision/g)||[]).length,2);
 });
