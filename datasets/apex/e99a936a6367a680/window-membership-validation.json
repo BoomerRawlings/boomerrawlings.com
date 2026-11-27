@@ -1,0 +1,16 @@
+{
+  "selection": "Deterministic every 10007th canonical window ID, up to1200; no selection by agreement or player fame.",
+  "checks": [
+    {
+      "name": "sampled_actual_window_membership_and_counts",
+      "tested": 811,
+      "failures": 0
+    },
+    {
+      "name": "independent_prior_only_sql_reference_recalculation",
+      "tested": 34,
+      "failures": 0
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,8 @@
+{
+  "partitions": 81,
+  "exported_window_instances": 581964,
+  "snapshot_metric_lists": 169560,
+  "frontier_records": 11750,
+  "canonical_samples": 161,
+  "failures": []
+}

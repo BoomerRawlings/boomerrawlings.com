@@ -1,0 +1,43 @@
+{
+  "id": "filipe",
+  "ref": "filipechavesdemacedo/counter-strike-competitive-data",
+  "version": 1,
+  "license": "CC BY 4.0",
+  "url": "https://www.kaggle.com/datasets/filipechavesdemacedo/counter-strike-competitive-data",
+  "selected": true,
+  "acquired_at": "2026-11-27T09:59:23.957Z",
+  "files": [
+    {
+      "path": "dataset.zip",
+      "sha256": "664fe234bf3c3f23fc1c8cc7056d0f082681eb535f94d4adb99c2029e868d313",
+      "bytes": 35062689,
+      "url": "https://www.kaggle.com/api/v1/datasets/download/filipechavesdemacedo/counter-strike-competitive-data?datasetVersionNumber=1",
+      "acquired_at": "2026-11-27T09:59:23.957Z"
+    },
+    {
+      "path": "match_players.csv",
+      "sha256": "e2a1b8293e14149c506ce531137601c0a16ce7232b8ee7e2e8ef63cff63f4849",
+      "bytes": 133281872,
+      "archive": "dataset.zip"
+    },
+    {
+      "path": "match_results.csv",
+      "sha256": "93ec075bd2ffef740ceb2f78e5c693216738d68c675ef14a8d7888e2080e1aa0",
+      "bytes": 23391360,
+      "archive": "dataset.zip"
+    },
+    {
+      "path": "metadata.json",
+      "sha256": "e034850710a556531330d64744f51996597db980bf6e504bea95186d44c9669b",
+      "bytes": 18946,
+      "url": "https://www.kaggle.com/api/v1/datasets/view/filipechavesdemacedo/counter-strike-competitive-data",
+      "acquired_at": "2026-11-27T09:59:23.957Z"
+    },
+    {
+      "path": "players_stats.csv",
+      "sha256": "4523f9ab6f30c507397b90ebd4bf980c751b4d73faa5e4b8c833f684a3b71073",
+      "bytes": 2176239,
+      "archive": "dataset.zip"
+    }
+  ]
+}

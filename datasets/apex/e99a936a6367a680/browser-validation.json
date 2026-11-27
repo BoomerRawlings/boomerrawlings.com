@@ -1,0 +1,146 @@
+{
+  "url": "http://127.0.0.1:4173/cs/",
+  "checked_at": "2026-11-27T11:18:30.202Z",
+  "results": [
+    {
+      "name": "default displays ten actual leaders across separately computed eras",
+      "passed": true
+    },
+    {
+      "name": "native gzip data decoding is available in browser",
+      "passed": true
+    },
+    {
+      "name": "desktop has no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "all displayed numbers finite",
+      "passed": true
+    },
+    {
+      "name": "visible portraits actually decode",
+      "passed": true
+    },
+    {
+      "name": "visible team marks actually decode",
+      "passed": true
+    },
+    {
+      "name": "visible source attribution and real documentation links",
+      "passed": true
+    },
+    {
+      "name": "real observed roster change exists in exported history",
+      "passed": true
+    },
+    {
+      "name": "observed team change triggers animation and truthful annotation",
+      "passed": true
+    },
+    {
+      "name": "cosmetic source team alias change does not invent a transfer animation",
+      "passed": true
+    },
+    {
+      "name": "media credit originals and licenses are linked",
+      "passed": true
+    },
+    {
+      "name": "all published media credit thumbnails decode",
+      "passed": true
+    },
+    {
+      "name": "unverified ages are disabled",
+      "passed": true
+    },
+    {
+      "name": "player detail retains actual counts",
+      "passed": true
+    },
+    {
+      "name": "evidence is available without cluttering the main view",
+      "passed": true
+    },
+    {
+      "name": "persistence threshold counts actual endpoints only",
+      "passed": true
+    },
+    {
+      "name": "absolute metric control updates chart",
+      "passed": true
+    },
+    {
+      "name": "covariance alternative has calculated leaders",
+      "passed": true
+    },
+    {
+      "name": "playback advances real historical snapshots",
+      "passed": true
+    },
+    {
+      "name": "active form view switches",
+      "passed": true
+    },
+    {
+      "name": "coverage gap has no invented active performances",
+      "passed": true
+    },
+    {
+      "name": "historical records persist through coverage gap",
+      "passed": true
+    },
+    {
+      "name": "CSGO timeline cannot use later CS2 dates",
+      "passed": true
+    },
+    {
+      "name": "390px mobile has no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "mobile controls are reachable without obscuring the race",
+      "passed": true
+    },
+    {
+      "name": "mobile filters expand accessibly",
+      "passed": true
+    },
+    {
+      "name": "320px mobile has no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "no runtime exceptions",
+      "passed": true
+    }
+  ],
+  "overview": {
+    "date": "21 Nov 2026",
+    "leader": "Donk",
+    "value": "0.978",
+    "teams": [
+      "Team Spirit",
+      "BCGame",
+      "Lilmix",
+      "Dignitas",
+      "Team Vitality",
+      "FaZe",
+      "Aurora Gaming",
+      "Team Falcons",
+      "Sinners",
+      "Vitality"
+    ],
+    "headshots": 9,
+    "teamLogos": 3
+  },
+  "observed_team_change": {
+    "id": "hltv:339",
+    "name": "ANGE1",
+    "before": "Virtus.pro",
+    "after": "TCM-Gaming",
+    "start": 6,
+    "end": 7
+  },
+  "errors": []
+}

@@ -1,0 +1,331 @@
+{
+  "generated_at": "2026-11-27T11:06:47.125Z",
+  "checks": [
+    {
+      "name": "database_structural_quick_check",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "foreign_keys",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "duplicate_player_maps",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "duplicate_matches",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "missing_provenance",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "invalid_identity",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "invalid_eligible_counts",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "same_eligible_team_opponent",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "impossible_dates",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "outcome_mismatch",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "excluded_competition_eligible",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "elo_future_leakage",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "invented_published_rank",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "window_weighted_aggregation",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "window_date_boundaries",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "count_window_samples",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "calendar_window_samples",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "ppi_inadequate_reference",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "record_progression",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "peak_before_window_endpoint",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "invalid_map_has_no_valid_player",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    }
+  ],
+  "checks_passed": 21,
+  "checks_total": 21,
+  "observations": {
+    "total": 1069328,
+    "valid": 1039610,
+    "invalid": 29718,
+    "pass_rate": 0.9722087142579264
+  },
+  "flags": [
+    {
+      "code": "team_kill_death_inconsistency",
+      "severity": "error",
+      "count": 2645
+    },
+    {
+      "code": "incomplete_or_substitution_roster",
+      "severity": "error",
+      "count": 2310
+    },
+    {
+      "code": "missing_core_count",
+      "severity": "error",
+      "count": 1500
+    },
+    {
+      "code": "invalid_player_on_map",
+      "severity": "error",
+      "count": 1169
+    },
+    {
+      "code": "impossible_count",
+      "severity": "error",
+      "count": 466
+    },
+    {
+      "code": "invalid_rounds",
+      "severity": "error",
+      "count": 320
+    },
+    {
+      "code": "invalid_identity",
+      "severity": "error",
+      "count": 110
+    },
+    {
+      "code": "same_team_opponent",
+      "severity": "error",
+      "count": 110
+    },
+    {
+      "code": "unresolved_team_on_known_map",
+      "severity": "error",
+      "count": 110
+    },
+    {
+      "code": "duplicate_player_map",
+      "severity": "error",
+      "count": 20
+    },
+    {
+      "code": "duplicate_map_source_row",
+      "severity": "error",
+      "count": 16
+    },
+    {
+      "code": "game_version_from_catalog",
+      "severity": "warning",
+      "count": 1
+    },
+    {
+      "code": "rating_versions_unavailable",
+      "severity": "warning",
+      "count": 1
+    },
+    {
+      "code": "series_ids_unavailable",
+      "severity": "warning",
+      "count": 1
+    }
+  ],
+  "eligibility": [
+    {
+      "specification": "all",
+      "eligible": 0,
+      "count": 31838
+    },
+    {
+      "specification": "all",
+      "eligible": 1,
+      "count": 1037490
+    },
+    {
+      "specification": "elo_top30",
+      "eligible": 0,
+      "count": 781903
+    },
+    {
+      "specification": "elo_top30",
+      "eligible": 1,
+      "count": 287425
+    },
+    {
+      "specification": "published_top30",
+      "eligible": 0,
+      "count": 1069328
+    }
+  ],
+  "coverage_by_year": [
+    {
+      "year": "2012",
+      "maps": 466,
+      "performances": 4632,
+      "valid": 4440
+    },
+    {
+      "year": "2013",
+      "maps": 2315,
+      "performances": 22907,
+      "valid": 22240
+    },
+    {
+      "year": "2014",
+      "maps": 2479,
+      "performances": 24487,
+      "valid": 23480
+    },
+    {
+      "year": "2015",
+      "maps": 7390,
+      "performances": 74021,
+      "valid": 72320
+    },
+    {
+      "year": "2016",
+      "maps": 11331,
+      "performances": 113371,
+      "valid": 112080
+    },
+    {
+      "year": "2017",
+      "maps": 16887,
+      "performances": 168959,
+      "valid": 167850
+    },
+    {
+      "year": "2018",
+      "maps": 17997,
+      "performances": 180060,
+      "valid": 178770
+    },
+    {
+      "year": "2019",
+      "maps": 15256,
+      "performances": 152622,
+      "valid": 151780
+    },
+    {
+      "year": "2020",
+      "maps": 13963,
+      "performances": 139693,
+      "valid": 138930
+    },
+    {
+      "year": "2021",
+      "maps": 6507,
+      "performances": 65113,
+      "valid": 64650
+    },
+    {
+      "year": "2023",
+      "maps": 691,
+      "performances": 6812,
+      "valid": 5640
+    },
+    {
+      "year": "2024",
+      "maps": 4483,
+      "performances": 42843,
+      "valid": 31750
+    },
+    {
+      "year": "2025",
+      "maps": 3702,
+      "performances": 36461,
+      "valid": 32230
+    },
+    {
+      "year": "2026",
+      "maps": 3862,
+      "performances": 37347,
+      "valid": 33450
+    }
+  ],
+  "limitations": [
+    "Structural validation is not independent historical certification.",
+    "Core denominator assumes full map participation in complete 5v5 scoreboards.",
+    "Series counts are unavailable in Filipe; mapstats IDs are map containers.",
+    "2012–2021 and 2023–2026 source completeness and regional representation unproven.",
+    "No dated verified published top30 archive; strict primary opposition view unavailable."
+  ]
+}

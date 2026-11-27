@@ -1,0 +1,67 @@
+{
+  "id": "ektarr",
+  "ref": "ektarr/counter-strike-pro-matches",
+  "version": 12,
+  "license": "CC BY-SA 4.0",
+  "url": "https://www.kaggle.com/datasets/ektarr/counter-strike-pro-matches",
+  "selected": true,
+  "acquired_at": "2026-11-27T09:57:10.229Z",
+  "files": [
+    {
+      "path": "metadata.json",
+      "url": "https://www.kaggle.com/api/v1/datasets/view/ektarr/counter-strike-pro-matches",
+      "acquired_at": "2026-11-27T09:57:09.235Z",
+      "sha256": "29427cb81ceb88f5f832ab79fa5c0c1429c8568ea68ee8592ab7c15e0e0bb574",
+      "bytes": 16872
+    },
+    {
+      "path": "dataset.zip",
+      "url": "https://www.kaggle.com/api/v1/datasets/download/ektarr/counter-strike-pro-matches?datasetVersionNumber=12",
+      "acquired_at": "2026-11-27T09:57:10.229Z",
+      "sha256": "02fd2eb78c50a9c2fa819ceaf8281f9db030f69f32f4e0cba34a1f64867131ee",
+      "bytes": 5817137
+    },
+    {
+      "path": "cs2_all_tiers_games.csv",
+      "sha256": "9609b4c4a7aa9df7e7bb68e33ff0204e97365143654fbb08e388e26bf5625986",
+      "bytes": 15069504,
+      "archive": "dataset.zip"
+    },
+    {
+      "path": "cs2_tier1_games.csv",
+      "sha256": "8f60ceb5eb3ff5957cfcc9a99df1d1f2ef652c5fd1318df96bd544dc1fd91434",
+      "bytes": 9019323,
+      "archive": "dataset.zip"
+    },
+    {
+      "path": "cs2_tier2_games.csv",
+      "sha256": "94f0a4d1be72f6e313e91f50a29ae1c7da015eff7ac37aa4e906928ca8b88aed",
+      "bytes": 5384949,
+      "archive": "dataset.zip"
+    },
+    {
+      "path": "cs2_tier3_games.csv",
+      "sha256": "8e48c8a1428d9d44b55b1f205a5e4d5d851d6e070777c913f9fd156269421d75",
+      "bytes": 668616,
+      "archive": "dataset.zip"
+    },
+    {
+      "path": "players.csv",
+      "sha256": "0a5f15dab87d33542132837a2e48e524bb0a4676cb6d5c3e4bad6050daad556e",
+      "bytes": 41700,
+      "archive": "dataset.zip"
+    },
+    {
+      "path": "teams.csv",
+      "sha256": "ec132fcc5b68fc86da520c07d54b9a6a97d6b4d8cbea4bc27a59a8a6d6c4c97d",
+      "bytes": 417998,
+      "archive": "dataset.zip"
+    },
+    {
+      "path": "tournaments.csv",
+      "sha256": "c0d8f8b49c39c994a929b1d91eedc2da35394d6bb5204a7178487a07054c9709",
+      "bytes": 13544,
+      "archive": "dataset.zip"
+    }
+  ]
+}

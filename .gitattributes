@@ -8,3 +8,9 @@ public/data-analysis/crime-and-heat/data/source-expansion-1/doj/normalize_doj.py
 # Retain the reviewed extraction-script bytes in the versioned campus archive.
 public/data-analysis/campus-safety/current-2026-09-25/private/audit_current_2026.py whitespace=cr-at-eol,-blank-at-eof
 public/data-analysis/campus-safety/current-2026-09-25/private/extract_current_2026.py whitespace=cr-at-eol,-blank-at-eof
+# Preserve APEX licensed media and immutable dataset release checksums.
+public/cs/** -text whitespace=cr-at-eol
+datasets/apex/** -text whitespace=cr-at-eol
+# Original logo/source-document whitespace retained for byte-level provenance.
+public/cs/assets/logos/natus-vincere.svg -whitespace
+public/cs/docs/decisions.md whitespace=cr-at-eol,-blank-at-eof

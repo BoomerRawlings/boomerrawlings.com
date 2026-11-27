@@ -1,0 +1,7 @@
+{
+  "path": "data/apex.sqlite",
+  "bytes": 8698961920,
+  "sha256": "78c666a24d1a2e208fe58152a6d3ac66b85761d9f0475e76ea1060ed819137bd",
+  "dataset_version": "cb029772bd796bf2",
+  "note": "Checksum identifies this executed SQLite artifact; fresh rebuild page layout and timestamps may differ while analytical facts agree."
+}

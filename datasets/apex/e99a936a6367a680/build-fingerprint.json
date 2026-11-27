@@ -1,0 +1,170 @@
+{
+  "contract_version": 1,
+  "fingerprints": {
+    "sources": "ccfa31b57210989777d6da5093c1d19ad79254d1b9f20ca7ca6cb7cfd3705d9f",
+    "ingestion": "0c49a2652db5566da8688376830d75cb0e84d1306de5140a334ce5f5c410cefd",
+    "analysis": "cb029772bd796bf2457b0ea74e1e5ff2db3a7316c6ac3baddf5dc74c3efa3465",
+    "report": "49d13aaa6b7df9508480fe68f571b65426d03250feb7dc0d23cbbc3d71f5dc20"
+  },
+  "code_hashes": {
+    "ingestion": {
+      "src/ingest.mjs": "f99b55e3361094bd0644a77163531bd3308873d11faf50d28da754cfa6cd0732",
+      "src/ingest-filipe.mjs": "c8f70575613f81db2450492644f240ca2f8d6d51759aebf71e045ff54c647dd0",
+      "src/db.mjs": "0c91668d707dd1b2d8b5e16a03ff9241ef847baa4eaad73197442996e6921ba9",
+      "config/schema.sql": "106b248cf3acd6f40f018b7ca04b28bf031c855b0c44ca3be3a9f64e4bf9b7c0",
+      "src/reproducibility.mjs": "cfc95cdd3f73266c9bbf93cc5c280d03c535f7aff457cf6c1f4939c2febb3a94",
+      "package-lock.json": "09955c93153ca1a3a947a3ac84c9c86bb58d00c40a3cfa1ef2c9e9beadc9f8fb",
+      "config/identity-anchors.json": "53174cb06da556443a1b7cb0dbbddd0d08e177ccb8b51e0218a4f6333f6f5345",
+      "config/source-lock.json": "a61d6c4e00dba705eee41dcd0f5b0720c046ee34ef391f471a04a16811475201"
+    },
+    "analysis": {
+      "src/analytics.mjs": "797550e081d9fde4114087fa318e42ff8f236577867c60e947ca229c5ee62952",
+      "src/analyze.mjs": "39f73171729f0f12a6dedf4a297cd6a4dc2375e4c838a5189a3c34f849188160",
+      "src/reproducibility.mjs": "cfc95cdd3f73266c9bbf93cc5c280d03c535f7aff457cf6c1f4939c2febb3a94"
+    },
+    "report": {
+      "src/research-report.mjs": "cd7d606c45ed5ad90abf4fa179889f2f9f2c6c273580489b9354aa50fec64a7d",
+      "src/reconcile.mjs": "95a5b470d020344fc1a9c671f02f6b56f35185469fc51685a1f96c4d51e68eb4",
+      "src/reproducibility.mjs": "cfc95cdd3f73266c9bbf93cc5c280d03c535f7aff457cf6c1f4939c2febb3a94"
+    }
+  },
+  "source_inputs": [
+    {
+      "definition": {
+        "id": "ektarr",
+        "ref": "ektarr/counter-strike-pro-matches",
+        "version": 12,
+        "license": "CC BY-SA 4.0",
+        "url": "https://www.kaggle.com/datasets/ektarr/counter-strike-pro-matches",
+        "selected": true
+      },
+      "files": [
+        {
+          "path": "cs2_all_tiers_games.csv",
+          "sha256": "9609b4c4a7aa9df7e7bb68e33ff0204e97365143654fbb08e388e26bf5625986",
+          "bytes": 15069504
+        },
+        {
+          "path": "cs2_tier1_games.csv",
+          "sha256": "8f60ceb5eb3ff5957cfcc9a99df1d1f2ef652c5fd1318df96bd544dc1fd91434",
+          "bytes": 9019323
+        },
+        {
+          "path": "cs2_tier2_games.csv",
+          "sha256": "94f0a4d1be72f6e313e91f50a29ae1c7da015eff7ac37aa4e906928ca8b88aed",
+          "bytes": 5384949
+        },
+        {
+          "path": "cs2_tier3_games.csv",
+          "sha256": "8e48c8a1428d9d44b55b1f205a5e4d5d851d6e070777c913f9fd156269421d75",
+          "bytes": 668616
+        },
+        {
+          "path": "dataset.zip",
+          "sha256": "02fd2eb78c50a9c2fa819ceaf8281f9db030f69f32f4e0cba34a1f64867131ee",
+          "bytes": 5817137
+        },
+        {
+          "path": "metadata.json",
+          "sha256": "29427cb81ceb88f5f832ab79fa5c0c1429c8568ea68ee8592ab7c15e0e0bb574",
+          "bytes": 16872
+        },
+        {
+          "path": "players.csv",
+          "sha256": "0a5f15dab87d33542132837a2e48e524bb0a4676cb6d5c3e4bad6050daad556e",
+          "bytes": 41700
+        },
+        {
+          "path": "teams.csv",
+          "sha256": "ec132fcc5b68fc86da520c07d54b9a6a97d6b4d8cbea4bc27a59a8a6d6c4c97d",
+          "bytes": 417998
+        },
+        {
+          "path": "tournaments.csv",
+          "sha256": "c0d8f8b49c39c994a929b1d91eedc2da35394d6bb5204a7178487a07054c9709",
+          "bytes": 13544
+        }
+      ]
+    },
+    {
+      "definition": {
+        "id": "filipe",
+        "ref": "filipechavesdemacedo/counter-strike-competitive-data",
+        "version": 1,
+        "license": "CC BY 4.0",
+        "url": "https://www.kaggle.com/datasets/filipechavesdemacedo/counter-strike-competitive-data",
+        "selected": true
+      },
+      "files": [
+        {
+          "path": "dataset.zip",
+          "sha256": "664fe234bf3c3f23fc1c8cc7056d0f082681eb535f94d4adb99c2029e868d313",
+          "bytes": 35062689
+        },
+        {
+          "path": "match_players.csv",
+          "sha256": "e2a1b8293e14149c506ce531137601c0a16ce7232b8ee7e2e8ef63cff63f4849",
+          "bytes": 133281872
+        },
+        {
+          "path": "match_results.csv",
+          "sha256": "93ec075bd2ffef740ceb2f78e5c693216738d68c675ef14a8d7888e2080e1aa0",
+          "bytes": 23391360
+        },
+        {
+          "path": "metadata.json",
+          "sha256": "e034850710a556531330d64744f51996597db980bf6e504bea95186d44c9669b",
+          "bytes": 18946
+        },
+        {
+          "path": "players_stats.csv",
+          "sha256": "4523f9ab6f30c507397b90ebd4bf980c751b4d73faa5e4b8c833f684a3b71073",
+          "bytes": 2176239
+        }
+      ]
+    },
+    {
+      "definition": {
+        "id": "machado",
+        "ref": "mateusdmachado/csgo-professional-matches",
+        "version": 1,
+        "license": "CC BY-NC-SA 4.0",
+        "url": "https://www.kaggle.com/datasets/mateusdmachado/csgo-professional-matches",
+        "selected": true
+      },
+      "files": [
+        {
+          "path": "dataset.zip",
+          "sha256": "40514eeb8b5c2e3780a6a6e0afc39d7715406e896b192b96169736f031a589cc",
+          "bytes": 37951753
+        },
+        {
+          "path": "economy.csv",
+          "sha256": "4fcfa0c2cb090589a035b9295e1437facdc248085f823a9411ec7930e0256bb2",
+          "bytes": 24422786
+        },
+        {
+          "path": "metadata.json",
+          "sha256": "9957bdf04bf604c79a39dce42054746e0b53042708f7ee84214c2e33cfb84cc9",
+          "bytes": 13322
+        },
+        {
+          "path": "picks.csv",
+          "sha256": "9b07cc77eaf1f7aaade20083fb0e6f9d0d8ad620db16e8f8a644678fa3faa9a3",
+          "bytes": 1780641
+        },
+        {
+          "path": "players.csv",
+          "sha256": "8da9645a3d32063fcd3de4a199c222c01ac9e9dd14b574621a4a9136c2a2bddf",
+          "bytes": 135139635
+        },
+        {
+          "path": "results.csv",
+          "sha256": "146fbfae2fedc624f54f7086a83400748a76e6939692b4ed0e85713cd2313be0",
+          "bytes": 3665394
+        }
+      ]
+    }
+  ],
+  "raw_checksums_verified": false
+}

@@ -1,0 +1,921 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-11-27",
+  "scope": "Source counts before validation; no census completeness demonstrated.",
+  "sources": [
+    {
+      "access_method": "Public Kaggle metadata and pinned v1 ZIP acquired; immutable manifest/checksums",
+      "available_date_range": "2012-09-13 to 2021-05-30 observed",
+      "granularity": "Player-map; map result; profile snapshot",
+      "estimated_observation_count": 945865,
+      "available_fields": [
+        "Stable HLTV player/team/mapstats IDs and paths",
+        "UNIX milliseconds",
+        "Map/event/team",
+        "Scores",
+        "K/D/A/HS/ADR",
+        "KAST mislabeled kdratio",
+        "Opening differential",
+        "Published rating"
+      ],
+      "missing_fields": [
+        "Actual series ID",
+        "Map order",
+        "Rating version",
+        "Player participation rounds",
+        "Historical ranks",
+        "DOB",
+        "LAN flag",
+        "Role",
+        "Detailed opening counts"
+      ],
+      "licensing_and_usage_restrictions": "Uploader CC BY 4.0. Attribute uploader and HLTV. Does not independently establish upstream database rights; no direct bulk HLTV scrape.",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "HLTV coverage",
+        "Unknown missing-map mechanism",
+        "Scoreboard denominator assumption",
+        "Mapstats mislabeled match ID"
+      ],
+      "update_frequency": "Static v1 uploaded 2021-06-24",
+      "historical_coverage": "Broad acquired 2012-May2021 subset",
+      "reliability_assessment": "Best acquired historical source; count-level and stable IDs",
+      "successfully_accessed": true,
+      "selection": "canonical",
+      "reason": "Broad historical observations, stable IDs, count-level data and explicit uploader license",
+      "id": "filipe",
+      "name": "Filipe Chaves de Macedo: Counter-Strike Competitive Data",
+      "url": "https://www.kaggle.com/datasets/filipechavesdemacedo/counter-strike-competitive-data",
+      "counts": {
+        "map_rows": 94591,
+        "map_ids_with_players": 94521,
+        "source_players": 14593
+      },
+      "evidence": [
+        "data/raw/filipe/v1/manifest.json",
+        "data/raw/filipe/inspection.json"
+      ]
+    },
+    {
+      "access_method": "Public Kaggle pinned v12 ZIP acquired; manifest/checksums",
+      "available_date_range": "2023-10-25 to 2026-11-21 observed",
+      "granularity": "Map with ten player box scores; separate series total rows",
+      "estimated_observation_count": 12738,
+      "available_fields": [
+        "Source player IDs/fullnames",
+        "Match/game IDs",
+        "Event/map",
+        "Scores",
+        "K/D/A/ADR/KAST",
+        "Best-of",
+        "Datetime",
+        "Outcome",
+        "Tier"
+      ],
+      "missing_fields": [
+        "Original upstream attribution",
+        "Persistent team IDs",
+        "HLTV player IDs",
+        "Verified timezone",
+        "Rating",
+        "Player participation rounds",
+        "Detailed openings/clutches",
+        "DOB"
+      ],
+      "licensing_and_usage_restrictions": "Uploader CC BY-SA 4.0; public derivatives retain attribution and ShareAlike. Upstream site unknown.",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Tier subsets overlap",
+        "Series totals duplicate maps if included",
+        "Team IDs change by encounter",
+        "Some exhibitions",
+        "Map ordering inferred"
+      ],
+      "update_frequency": "Latest acquired v12 published 2026-11-21",
+      "historical_coverage": "Acquired late2023-2026 CS2 subset",
+      "reliability_assessment": "Useful with flagged identity/order assumptions; Katowice independently verified",
+      "successfully_accessed": true,
+      "selection": "canonical",
+      "reason": "Recent real counts, stable source player IDs and explicit uploader license",
+      "id": "ektarr",
+      "name": "Ektarr: Counter-Strike Pro Matches",
+      "url": "https://www.kaggle.com/datasets/ektarr/counter-strike-pro-matches",
+      "counts": {
+        "all_rows": 24296,
+        "map_rows": 12738,
+        "known_series": 6122
+      },
+      "evidence": [
+        "data/raw/ektarr/v12/manifest.json",
+        "data/raw/source-discovery/identity-evidence.json"
+      ]
+    },
+    {
+      "access_method": "Public Kaggle v1 ZIP acquired by main pipeline",
+      "available_date_range": "November2015-March2020 publisher description",
+      "granularity": "Map results and player-series rows with map slots",
+      "estimated_observation_count": 25000,
+      "available_fields": [
+        "HLTV IDs",
+        "Scores",
+        "K/D/rating",
+        "Rank fields"
+      ],
+      "missing_fields": [
+        "Reliable as-of rank timestamp",
+        "Complete early/late history"
+      ],
+      "licensing_and_usage_restrictions": "Uploader CC BY-NC-SA 4.0; local reconciliation only, not public canonical derivatives",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Same upstream HLTV as Filipe; not fully independent",
+        "Rank capture timing unknown"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "2015-2020 subset",
+      "reliability_assessment": "Overlap validation source",
+      "successfully_accessed": true,
+      "selection": "reconciliation_only",
+      "reason": "Redundant canonical coverage and noncommercial restriction",
+      "id": "machado",
+      "name": "Mateus Machado: CS:GO Professional Matches",
+      "url": "https://www.kaggle.com/datasets/mateusdmachado/csgo-professional-matches"
+    },
+    {
+      "access_method": "CSV/readme/license acquired at ce8a5f242a768c5698f8068828eeedc4fc134db1",
+      "available_date_range": "2012-09-21 to 2023-07-13 observed",
+      "granularity": "Wide map rows",
+      "estimated_observation_count": 126872,
+      "available_fields": [
+        "Aliases",
+        "Date/map/team names",
+        "Scores",
+        "Box scores"
+      ],
+      "missing_fields": [
+        "Player IDs",
+        "Team IDs",
+        "Source URLs in final CSV"
+      ],
+      "licensing_and_usage_restrictions": "README claims MIT; LICENSE credits unrelated README-template author. Dataset-specific permission unverified; quarantine.",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Aliases insufficient identity",
+        "Observed team-name/box-score side mismatch"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Potential extension through July2023 rejected",
+      "reliability_assessment": "Unsafe for canonical identity and publication",
+      "successfully_accessed": true,
+      "selection": "rejected_canonical",
+      "reason": "Identity, side alignment and licensing unresolved",
+      "id": "tedtay",
+      "name": "Ted Tay: CS-GO Pro Matches Comprehensive Dataset",
+      "url": "https://github.com/tedtay/CS-GO-Pro-Matches-Comprehensive-Dataset",
+      "evidence": [
+        "data/raw/tedtay/manifest.json"
+      ]
+    },
+    {
+      "access_method": "Targeted public page verification; no bulk scraping",
+      "available_date_range": "2012 onward and CS2; complete denominator unknown",
+      "granularity": "Player-map/series/event/aggregates",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "IDs",
+        "Box scores",
+        "Rating",
+        "Events"
+      ],
+      "missing_fields": [
+        "Public licensed bulk API",
+        "Immutable rating version history"
+      ],
+      "licensing_and_usage_restrictions": "https://www.hltv.org/terms effective2025-01-27 section2.2 prohibits mining/scraping and similar/competitive websites; business-use license needed.",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Regional/editorial coverage",
+        "Historical ratings recalculated"
+      ],
+      "update_frequency": "Continuous",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Primary source for targeted checks",
+      "successfully_accessed": true,
+      "selection": "targeted_validation",
+      "reason": "Published terms unsuitable for direct bulk automation",
+      "id": "hltv",
+      "name": "HLTV historical match/player statistics",
+      "url": "https://www.hltv.org/stats"
+    },
+    {
+      "access_method": "Public documentation/metadata inspected; payload not acquired",
+      "available_date_range": "Not established",
+      "granularity": "Dated published team rankings",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "Rank",
+        "Points",
+        "Team",
+        "Date"
+      ],
+      "missing_fields": [
+        "Acquired complete as-of history"
+      ],
+      "licensing_and_usage_restrictions": "HLTV terms prohibit bulk scraping; no licensed archive acquired",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Coverage not proven a professional census"
+      ],
+      "update_frequency": "Weekly",
+      "historical_coverage": "Not acquired",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "deferred",
+      "reason": "Published-top30 view must stay unavailable; reconstructed Elo explicitly separate",
+      "id": "hltv-ranking",
+      "name": "HLTV team ranking archive",
+      "url": "https://www.hltv.org/ranking/teams"
+    },
+    {
+      "access_method": "Public documentation/metadata inspected; payload not acquired",
+      "available_date_range": "May2024-October2025",
+      "granularity": "Match plus profile/team aggregates",
+      "estimated_observation_count": 7033,
+      "available_fields": [
+        "648 events",
+        "116 columns",
+        "Current profile features"
+      ],
+      "missing_fields": [
+        "Historical as-of player-map values"
+      ],
+      "licensing_and_usage_restrictions": "Uploader CC0",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Author warns current stats attached to past matches: temporal leakage"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "rejected",
+      "reason": "Future-stat leakage incompatible with historical study",
+      "id": "griffin",
+      "name": "Griffin Desroches: CS2 HLTV Statistics",
+      "url": "https://www.kaggle.com/datasets/griffindesroches/cs2-hltv-professional-match-statistics-dataset"
+    },
+    {
+      "access_method": "Public documentation/metadata inspected; payload not acquired",
+      "available_date_range": "Claims2012-2026",
+      "granularity": "Generated player/month summaries",
+      "estimated_observation_count": 2560,
+      "available_fields": [
+        "95 selected players",
+        "Interpolated ranks",
+        "Approximate career values"
+      ],
+      "missing_fields": [
+        "Observed player-map counts",
+        "Unselected population"
+      ],
+      "licensing_and_usage_restrictions": "Uploader CC0",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Synthetic interpolation",
+        "Famous-player selection",
+        "Incorrect Major claims"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "rejected",
+      "reason": "Synthetic summaries not observed evidence",
+      "id": "sergio",
+      "name": "Sergio Nefedov: Competitive Scene 2012-2026",
+      "url": "https://www.kaggle.com/datasets/sergionefedov/counter-strike-competitive-scene-2012-2026"
+    },
+    {
+      "access_method": "Metadata and ZIP acquired for schema inspection",
+      "available_date_range": "Not established",
+      "granularity": "Period/player/map-name/side aggregates",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "Period",
+        "Player alias",
+        "Maps",
+        "Rounds",
+        "KD difference/ratio",
+        "Rating",
+        "Side"
+      ],
+      "missing_fields": [
+        "Player IDs",
+        "Played-map IDs/dates",
+        "Raw kills/deaths"
+      ],
+      "licensing_and_usage_restrictions": "Uploader MIT",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Overlapping aggregates cannot become independent maps"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "rejected_primary",
+      "reason": "Not player-map observations",
+      "id": "raymond",
+      "name": "Raymond Toh: CSGO Players Stats HLTV",
+      "url": "https://www.kaggle.com/datasets/raymondtoh94/csgo-players-stats-hltv"
+    },
+    {
+      "access_method": "Official documentation/metadata inspected; payload not acquired",
+      "available_date_range": "Advertises November2015-October2026",
+      "granularity": "SQLite match snapshot and player CSV LFS",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "Advertised match and player statistics"
+      ],
+      "missing_fields": [
+        "Audited map-level schema/provenance"
+      ],
+      "licensing_and_usage_restrictions": "MIT code; snapshots CC BY4 to extent rights held. Retains original HLTV/Liquipedia/Kaggle/hojlund restrictions.",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Mixed licenses",
+        "Potential duplicate Machado data"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "deferred",
+      "reason": "Granularity and rights need audit",
+      "id": "aokua",
+      "name": "Aokua csgopred",
+      "url": "https://github.com/Aokua/csgopred"
+    },
+    {
+      "access_method": "Official documentation/metadata inspected; payload not acquired",
+      "available_date_range": "Not established",
+      "granularity": "JSON matches/events/teams",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "JSON manifest",
+        "Match/event IDs"
+      ],
+      "missing_fields": [
+        "Validated player-map counts"
+      ],
+      "licensing_and_usage_restrictions": "No explicit license in inspected files",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Coverage not proven a professional census"
+      ],
+      "update_frequency": "Advertised daily",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "deferred",
+      "reason": "Public reuse permission not established",
+      "id": "smallmeji",
+      "name": "smallmeji HLTV CS2 public data",
+      "url": "https://github.com/smallmeji/hltv-cs2-data-public"
+    },
+    {
+      "access_method": "Official documentation/metadata inspected; payload not acquired",
+      "available_date_range": "Not established",
+      "granularity": "Advertised demo box scores/events",
+      "estimated_observation_count": 40920,
+      "available_fields": [
+        "Event catalog",
+        "Collector code",
+        "Advertised 598k kills"
+      ],
+      "missing_fields": [
+        "Actual advertised data absent from inspected repo"
+      ],
+      "licensing_and_usage_restrictions": "No dataset license verified; collector anti-bot workarounds not used",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Coverage not proven a professional census"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "rejected_current",
+      "reason": "No actual accessible dataset; no bypass",
+      "id": "jankasen",
+      "name": "jankasen CS2 dataset tooling",
+      "url": "https://github.com/jankasen/cs2"
+    },
+    {
+      "access_method": "Official documentation/metadata inspected; payload not acquired",
+      "available_date_range": "Not established",
+      "granularity": "Biographies, rosters, events/results",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "Identity",
+        "Roster history",
+        "Event metadata",
+        "Potential verified DOB"
+      ],
+      "missing_fields": [
+        "Validated player-map counts"
+      ],
+      "licensing_and_usage_restrictions": "CC BY-SA3.0. HTML automation forbidden. MediaWiki max1request/2s, parse1/30s, project/contact User-Agent, gzip/cache. LPDB approved key and60/hour.",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Community coverage",
+        "Historical gaps"
+      ],
+      "update_frequency": "Community updates",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Useful cited identity/event supplement",
+      "successfully_accessed": true,
+      "selection": "deferred",
+      "reason": "Compliant project/contact and approval not configured",
+      "id": "liquipedia",
+      "name": "Liquipedia MediaWiki/LPDB",
+      "url": "https://liquipedia.net/api-terms-of-use"
+    },
+    {
+      "access_method": "Official documentation/metadata inspected; payload not acquired",
+      "available_date_range": "Late2022 onward repository history",
+      "granularity": "Team ranking, rosters, match inputs",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "Regional standings",
+        "Model",
+        "Invitation/live snapshots"
+      ],
+      "missing_fields": [
+        "Individual player-map counts",
+        "Audited as-of historical snapshots"
+      ],
+      "licensing_and_usage_restrictions": "README invites experimentation; no blanket dataset license verified",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "VRS differs from HLTV ranking",
+        "Historical recomputation leakage risk"
+      ],
+      "update_frequency": "Ongoing snapshots",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Primary Valve ranking authority",
+      "successfully_accessed": true,
+      "selection": "deferred",
+      "reason": "Need as-of pinned history and rights audit; not equivalent to HLTVtop30",
+      "id": "valve-vrs",
+      "name": "Valve Regional Standings",
+      "url": "https://github.com/ValveSoftware/counter-strike_regional_standings"
+    },
+    {
+      "access_method": "Official repository discovered; contents not acquired",
+      "available_date_range": "Not established",
+      "granularity": "Tournament rules",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "Rulesets/organizer requirements"
+      ],
+      "missing_fields": [
+        "Validated player-map counts"
+      ],
+      "licensing_and_usage_restrictions": "No blanket dataset reuse permission verified",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Coverage not proven a professional census"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": false,
+      "selection": "deferred",
+      "reason": "Rules supplement, not bulk statistics",
+      "id": "valve-rules",
+      "name": "Valve tournament rules/Major records",
+      "url": "https://github.com/ValveSoftware/counter-strike_rules_and_regs"
+    },
+    {
+      "access_method": "Official organizer press release and event page read",
+      "available_date_range": "February2024 validation",
+      "granularity": "Event results/metadata",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "Final winner/score",
+        "Venue/date",
+        "LAN context"
+      ],
+      "missing_fields": [
+        "Validated player-map counts"
+      ],
+      "licensing_and_usage_restrictions": "Editorial facts used for independent verification; no blanket redistribution license",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Organizer events only"
+      ],
+      "update_frequency": "Per event",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Independent organizer confirmation",
+      "successfully_accessed": true,
+      "selection": "validation",
+      "reason": "Confirms Spirit3-0FaZe at Katowice2024",
+      "id": "esl",
+      "name": "ESL FACEIT Group archives",
+      "url": "https://eslfaceitgroup.com/press/intel-extreme-masters-katowice-2024-team-spirit-and-serral-crowned-new-champions-following-two-electrifying-grand-finals/"
+    },
+    {
+      "access_method": "Official data/auth/download docs read; no authenticated calls",
+      "available_date_range": "Not established",
+      "granularity": "Platform matches/competitions/player stats and authorized downloads",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "Documented competition/match/player endpoints",
+        "Demo downloads"
+      ],
+      "missing_fields": [
+        "Credentials",
+        "Professional competition whitelist",
+        "Known retention"
+      ],
+      "licensing_and_usage_restrictions": "Bearer application key; downloads need Downloads-scope token; platform terms/quotas",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Mostly matchmaking/FPL without filtering"
+      ],
+      "update_frequency": "Live",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "deferred",
+      "reason": "No credentials; matchmaking does not establish professional eligibility",
+      "id": "faceit",
+      "name": "FACEIT Data/Download APIs",
+      "url": "https://docs.faceit.com/docs/data-api/"
+    },
+    {
+      "access_method": "Official documentation/metadata inspected; payload not acquired",
+      "available_date_range": "Not established",
+      "granularity": "Fixtures and subscribed historical/postgame statistics",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "Fixtures",
+        "Paid historical player data"
+      ],
+      "missing_fields": [
+        "Validated player-map counts"
+      ],
+      "licensing_and_usage_restrictions": "Authentication/plan contract; historical statistics require Historical plan+",
+      "acquisition_cost": "Fixtures Only free; historical paid, quote not established; no purchase",
+      "known_biases": [
+        "Coverage not proven a professional census"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "deferred",
+      "reason": "Free-data budget; no authorized subscription",
+      "id": "pandascore",
+      "name": "PandaScore",
+      "url": "https://developers.pandascore.co/docs/introduction"
+    },
+    {
+      "access_method": "Official Open Access URL redirected to current plans; inspected",
+      "available_date_range": "Not established",
+      "granularity": "Rights-holder live/historical esports data",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "Commercial products"
+      ],
+      "missing_fields": [
+        "Validated player-map counts"
+      ],
+      "licensing_and_usage_restrictions": "Contract/data-rights scope; current plans commercial/custom",
+      "acquisition_cost": "Custom/commercial; no purchase",
+      "known_biases": [
+        "Rights-holder competition scope"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "deferred",
+      "reason": "No current free blanket CS historical entitlement demonstrated",
+      "id": "grid",
+      "name": "GRID esports data plans",
+      "url": "https://grid.gg/plans/"
+    },
+    {
+      "access_method": "Indexed listing read; public dataset API returned401",
+      "available_date_range": "Advertises January2024 onward",
+      "granularity": "Professional demos",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "Claims3.74TB+",
+        "Tier1-2"
+      ],
+      "missing_fields": [
+        "Accessible payload and verified manifest"
+      ],
+      "licensing_and_usage_restrictions": "Indexed listing claims CC BY4; actual metadata not verified",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Coverage not proven a professional census"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": false,
+      "selection": "unavailable",
+      "reason": "401; stopped without bypass",
+      "id": "counterquant",
+      "name": "CounterQuant CS2 demos",
+      "url": "https://huggingface.co/datasets/KEDevO/CounterQuant-CS2-Demos"
+    },
+    {
+      "access_method": "Public Kaggle metadata inspected; no134GB transfer",
+      "available_date_range": "2023-2026 advertised",
+      "granularity": "Demo-derived Parquet events/ticks",
+      "estimated_observation_count": 2299,
+      "available_fields": [
+        "Ten tables/map",
+        "awpy2.0.2",
+        "Kills/ticks/grenades"
+      ],
+      "missing_fields": [
+        "Clean canonical maps"
+      ],
+      "licensing_and_usage_restrictions": "Other/research-use-only; HLTV demos and Liquipedia CC BY-SA metadata; public derivatives not cleared",
+      "acquisition_cost": "Free download; ~134GB seven parts",
+      "known_biases": [
+        "S-tier selected",
+        "Split demos duplicate maps",
+        "Fake zero opening rounds",
+        "Mixed types"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "deferred",
+      "reason": "Publication limits, size and preprocessing issues; future research validation",
+      "id": "zhang",
+      "name": "Zhang CS2 S-tier demos",
+      "url": "https://www.kaggle.com/datasets/zhangx1ang/cs2-s-tier-demos-member-a"
+    },
+    {
+      "access_method": "Official repository/datasheet or public Kaggle metadata inspected; payload not acquired",
+      "available_date_range": "Rolling retention; oldest listed2025-07-19 asof2026-10-09",
+      "granularity": "Anonymized demo/tick/round data",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "CS2 demo-derived statistics"
+      ],
+      "missing_fields": [
+        "Named professionals",
+        "Event date for manual uploads"
+      ],
+      "licensing_and_usage_restrictions": "CC BY-NC-SA4; reidentification and original-demo retrieval prohibited",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "User uploads/matchmaking",
+        "Manual upload date can mean processing",
+        "Old years removed"
+      ],
+      "update_frequency": "Daily ADX revisions",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "rejected_primary",
+      "reason": "Anonymization/population incompatible with named professional census",
+      "id": "pureskill",
+      "name": "PureSkill CS2 dataset",
+      "url": "https://docs.pureskill.gg/datascience/adx/cs2/csds/datasheet/"
+    },
+    {
+      "access_method": "Official repository/datasheet or public Kaggle metadata inspected; payload not acquired",
+      "available_date_range": "Not established",
+      "granularity": "Parser tooling, not dataset",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "CS2 ticks/events",
+        "Legacy CSGO versions"
+      ],
+      "missing_fields": [
+        "Licensed input demos"
+      ],
+      "licensing_and_usage_restrictions": "MIT code; input rights separate",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Parser/game-patch compatibility"
+      ],
+      "update_frequency": "Software releases",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "future_tooling",
+      "reason": "Established parser; licensed demo corpus still needed",
+      "id": "awpy",
+      "name": "Awpy demo parser",
+      "url": "https://github.com/pnxenopoulos/awpy"
+    },
+    {
+      "access_method": "Official repository/datasheet or public Kaggle metadata inspected; payload not acquired",
+      "available_date_range": "Not established",
+      "granularity": "Rust parser with JS/Python/WASM",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "CS2 events/ticks",
+        "Node @laihoe/demoparser2"
+      ],
+      "missing_fields": [
+        "Licensed input demos"
+      ],
+      "licensing_and_usage_restrictions": "MIT code; input rights separate",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Parser/game-patch compatibility"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "future_tooling",
+      "reason": "Node-native route for future demo acquisition",
+      "id": "demoparser2",
+      "name": "demoparser2",
+      "url": "https://github.com/LaihoE/demoparser"
+    },
+    {
+      "access_method": "Official repository/datasheet or public Kaggle metadata inspected; payload not acquired",
+      "available_date_range": "Not established",
+      "granularity": "Go parser",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "CS2 v6",
+        "Legacy CSGO v3"
+      ],
+      "missing_fields": [
+        "Licensed input demos"
+      ],
+      "licensing_and_usage_restrictions": "MIT code; input rights separate",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Coverage not proven a professional census"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "future_tooling",
+      "reason": "Alternative parser for cross-parser checks",
+      "id": "demoinfocs",
+      "name": "demoinfocs-golang",
+      "url": "https://github.com/markus-wa/demoinfocs-golang"
+    },
+    {
+      "access_method": "Official repository/datasheet or public Kaggle metadata inspected; payload not acquired",
+      "available_date_range": "2024 aggregate",
+      "granularity": "Player-year role features",
+      "estimated_observation_count": 84,
+      "available_fields": [
+        "SteamIDs/names",
+        "Map counts",
+        "Opening/trading/position",
+        "Role labels"
+      ],
+      "missing_fields": [
+        "Dated per-map roles",
+        "Unselected population"
+      ],
+      "licensing_and_usage_restrictions": "CC BY4; role labels credited to source analysts",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "~1150demos",
+        "40map minimum",
+        "Year aggregates leak future data into early-year comparisons"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "deferred",
+      "reason": "Future role validation needs dated features and source-ID crosswalk",
+      "id": "roles",
+      "name": "Jamie Packer CS2 playstyle dataset2024",
+      "url": "https://github.com/Jamie-Packer/cs2-playstyle-dataset-2024"
+    },
+    {
+      "access_method": "Official repository/datasheet or public Kaggle metadata inspected; payload not acquired",
+      "available_date_range": "January2020-December2022",
+      "granularity": "Advertised event/match/map/team/player tables",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "Advertised dated tables"
+      ],
+      "missing_fields": [
+        "Verified schema/permission"
+      ],
+      "licensing_and_usage_restrictions": "Unknown metadata license",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Top-tier selection"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "deferred",
+      "reason": "Potential gap fill, licensing unresolved",
+      "id": "nafis",
+      "name": "Nafis Barizki CS:GO Top Tier Matches",
+      "url": "https://www.kaggle.com/datasets/nafisbarizki/csgo-top-tier-match-jan-2020-dec-2022"
+    },
+    {
+      "access_method": "Official repository/datasheet or public Kaggle metadata inspected; payload not acquired",
+      "available_date_range": "2013-2023",
+      "granularity": "Player-event aggregates",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "Maps",
+        "Rounds",
+        "KD",
+        "Rating"
+      ],
+      "missing_fields": [
+        "Played-map dates/counts"
+      ],
+      "licensing_and_usage_restrictions": "Uploader CC0",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Majors only; stage inclusion unaudited"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "deferred_validation",
+      "reason": "Potential event totals, cannot produce rolling map windows",
+      "id": "major-aggregates",
+      "name": "Matheus Nobrega All CS:GO Majors player stats",
+      "url": "https://www.kaggle.com/datasets/matheusnbrega/players-stats-all-csgo-majors"
+    },
+    {
+      "access_method": "Official repository/datasheet or public Kaggle metadata inspected; payload not acquired",
+      "available_date_range": "LateFebruary-midJune2020",
+      "granularity": "Prediction matches/profile aggregates",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "Player/map URLs",
+        "Team/player aggregate features"
+      ],
+      "missing_fields": [
+        "Verified historical map-level counts"
+      ],
+      "licensing_and_usage_restrictions": "Uploader CC0",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Prediction features may not be match-time state"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": true,
+      "selection": "deferred",
+      "reason": "Redundant period; count provenance unverified",
+      "id": "artem",
+      "name": "Artem1337 CS:GO Matches",
+      "url": "https://www.kaggle.com/datasets/artem1337/csgo-matches"
+    },
+    {
+      "access_method": "Archive/CDX discovered; obsolete docs URL404; no snapshots acquired",
+      "available_date_range": "Not established",
+      "granularity": "Archived HTTP captures",
+      "estimated_observation_count": null,
+      "available_fields": [
+        "Potential timestamped pages"
+      ],
+      "missing_fields": [
+        "Known capture coverage",
+        "Permitted corpus"
+      ],
+      "licensing_and_usage_restrictions": "Archive availability does not override original copyright, terms or access controls",
+      "acquisition_cost": "No cost incurred",
+      "known_biases": [
+        "Uneven captures",
+        "Dynamic-page content missing"
+      ],
+      "update_frequency": "Not established",
+      "historical_coverage": "Not demonstrated complete",
+      "reliability_assessment": "Candidate, not canonical",
+      "successfully_accessed": false,
+      "selection": "deferred",
+      "reason": "No verified lawful ranking/map archive; no bypass",
+      "id": "wayback",
+      "name": "Internet Archive Wayback CDX",
+      "url": "https://github.com/internetarchive/wayback/tree/master/wayback-cdx-server"
+    }
+  ]
+}
