@@ -17,7 +17,7 @@ assert.equal(source.meta.foundingAt, '2026-09-23T23:00:00.000Z');
 assert.ok(source.cycles.length >= 76, 'The requested historical opening must be complete before publication');
 assert.equal(source.meta.cycleCount, source.cycles.length);
 assert.ok(stamp(source.meta.latestCompletedAt) >= stamp('2026-11-04T08:00:00Z'));
-const eventKeys = new Set(['id','cycleId','timestamp','editorId','action','articleId','title','summary','revisionId','baseRevisionId','body','categories','principleIds','references','replyTo','threadId','reviewDraft','officeDecision','articleEffects','maintenanceDraft','maintenanceIntake']);
+const eventKeys = new Set(['id','cycleId','timestamp','editorId','action','articleId','title','summary','revisionId','baseRevisionId','body','categories','principleIds','references','replyTo','threadId','reviewDraft','officeDecision','officeConsequences','articleEffects','maintenanceDraft','maintenanceIntake']);
 const editorKeys = new Set(['id','name','joinedAt','interests','description']);
 const journalKeys = new Set(['id','editorId','eventId','timestamp','releasedAt','body','outcome','action','response']);
 const relationKeys = new Set(['timestamp','from','to','trust','grievance','evidenceIds','affection','attraction','jealousy','closeness','boundaries','explanation','releasedAt']);

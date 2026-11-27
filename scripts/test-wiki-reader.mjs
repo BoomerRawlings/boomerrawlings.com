@@ -1,5 +1,5 @@
 import test from 'node:test';
-import {officeState,visibleRevisions} from '../public/wiki-assets/offices.js';
+import {officeState,visibleRevisions,defaultSelection} from '../public/wiki-assets/offices.js';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
@@ -85,7 +85,7 @@ function screenFixture(file, motion = true, fixtureOverride) {
  if(motion)window.SiteMotion={revealScreen(target, options){reveals.push({id:target.id,kind:options.kind,hidden:target.hidden});},cancelScreen(target){cancelled.push(target.id);}};
  const fixture=fixtureOverride??{meta:{foundingAt:'2026-01-01T00:00:00Z',latestCompletedAt:'2026-01-02T00:00:00Z'},events:[],editors:[],cycles:[],relationships:[],journals:[],principles:[]};
  const context=vm.createContext({
-   ...wikiShared,officeState,visibleRevisions,document,window,URL,URLSearchParams,
+   ...wikiShared,officeState,visibleRevisions,defaultSelection,document,window,URL,URLSearchParams,
    location:{search:'',hash:'',href:'https://example.invalid/wiki/',origin:'https://example.invalid',pathname:'/wiki/'},
    history:{replaceState(){}},ResizeObserver:class{observe(){}},
    requestAnimationFrame:()=>1,cancelAnimationFrame(){},setTimeout,
@@ -161,12 +161,34 @@ test('office reader defaults to current admitted claims, complete index survives
  const fixture={meta:{foundingAt:at,latestCompletedAt:'2026-11-27T03:00:00.000Z',officeAssignments:[assignment]},events:[article,{id:'knowledge-revision',revisionId:'knowledge-revision',timestamp:at,editorId:'alice',action:'create',articleId:'knowledge',title:'Knowledge',body:'Related [[care]].'}, {id:'admit',timestamp:decisionAt,editorId:'martin-reed',action:'policy',body:'Review.',officeDecision:{office:'admission',op:'review',actor:'martin-reed',timestamp:decisionAt,eventId:'admit',reason:'Evidence reviewed.',references:['first-revision'],record:claim}}],editors:[],cycles:[],relationships:[],journals:[],principles:[]};
  const ui=screenFixture('wiki.js',true,fixture);await ui.unlock(false);
  assert.equal(ui.node('content-heading').textContent,'Admitted claims');assert.match(ui.node('page-content').innerHTML,/A claim/);assert.match(ui.node('page-content').innerHTML,/Complete article index/);
+ assert.match(ui.node('page-content').innerHTML,/1 reviewed claims on current revisions/);
+ claim.status='unsupported';vm.runInContext("render()",ui.context);
+ assert.match(ui.node('page-content').innerHTML,/1 reviewed claims on current revisions · 0 admitted/);
+ assert.match(ui.node('page-content').innerHTML,/Unreviewed articles have not thereby been assessed unsupported/);
+ assert.ok(!ui.node('page-content').innerHTML.includes('<blockquote>A claim.</blockquote>'));
+ claim.status='admitted';
  vm.runInContext("location.search='?view=articles';render()",ui.context);assert.match(ui.node('page-content').innerHTML,/Knowledge/);
  vm.runInContext("location.search='?view=offices&at=2026-11-27T00:30:00.000Z';render()",ui.context);assert.ok(!ui.node('page-content').innerHTML.includes('martin-reed'));
  fixture.events.push({...article,id:'new-revision',revisionId:'new-revision',timestamp:'2026-11-27T02:00:00.000Z',action:'revise',body:'Changed claim. [[knowledge]]'});
  vm.runInContext("location.search='';render()",ui.context);assert.match(ui.node('page-content').innerHTML,/No current claims admitted/);
+ assert.match(ui.node('page-content').innerHTML,/0 reviewed claims on current revisions · 0 admitted · 2 articles/);
+ assert.match(ui.node('page-content').innerHTML,/href="[^"]*view=articles[^\"]*">Complete article index/);
  vm.runInContext("location.search='?article=care';render()",ui.context);assert.match(ui.node('page-content').innerHTML,/This revision is unreviewed/);
 });
+test('empty admitted entrance counts reviews rather than treating the complete index as unsupported',async()=>{
+ const at='2026-11-27T00:00:00.000Z';
+ const fixture={meta:{foundingAt:at,latestCompletedAt:at,officeAssignments:[{office:'admission',editorId:'martin-reed',version:1,requestId:'request',timestamp:at,installedAt:at,rubric:['Accuracy']}]},events:Array.from({length:54},(_,i)=>({id:'r'+i,revisionId:'r'+i,timestamp:at,editorId:'alice',action:'create',articleId:'article-'+i,title:'Article '+i,body:'Related [[article-0]].'})),editors:[],cycles:[],relationships:[],journals:[],principles:[]};
+ const ui=screenFixture('wiki.js',true,fixture);await ui.unlock(false);
+ vm.runInContext("location.search='?view=admitted';render()",ui.context);
+ const html=ui.node('page-content').innerHTML;
+ assert.match(html,/0 reviewed claims on current revisions · 0 admitted · 54 articles/);
+ assert.match(html,/Unreviewed articles have not thereby been assessed unsupported/);
+ assert.match(html,/No current claims admitted/);
+ assert.match(html,/href="[^"]*view=articles[^\"]*">Complete article index/);
+ vm.runInContext("location.search='?view=articles';render()",ui.context);
+ assert.match(ui.node('page-content').innerHTML,/Article 53/);
+});
+
 test('reader exposes derived multi-article history and source event effects without displaying held draft as live',async()=>{
  const at='2026-11-27T00:00:00.000Z',effectAt='2026-11-27T01:00:00.000Z';
  const article={id:'old',revisionId:'old',timestamp:at,editorId:'alice',action:'create',articleId:'care',title:'Care',body:'Live passage. [[knowledge]]',categories:['Care']};

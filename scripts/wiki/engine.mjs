@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import {OFFICE_ROLES, OFFICE_SCHEMA, CLEARANCE_REQUEST_ID, MAINTENANCE_INTAKE_REQUEST_ID, maintenanceIntakeActive, maintenanceIntake, officeActionSchema, officeState, officeDecision, visibleRevisions, heldCases} from '../../public/wiki-assets/offices.js';
+import {OFFICE_ROLES, OFFICE_SCHEMA, ROUND3_FEATURES, defaultSelection, CLEARANCE_REQUEST_ID, MAINTENANCE_INTAKE_REQUEST_ID, maintenanceIntakeActive, maintenanceIntake, officeActionSchema, officeState, officeDecision, visibleRevisions, heldCases} from '../../public/wiki-assets/offices.js';
 import {prepareCommunityWindow, communityPacket} from './community.mjs';
 
 export const SCHEMA_VERSION = 1;
@@ -350,9 +350,11 @@ export function characterPacket(state, editorId) {
     return {id,title,revisionId,body:bodyComplete ? body : words.slice(0,650).join(' '),bodyComplete,categories,principleIds};
   });
   const offices = officeState(state.officeAssignments, state.events, window.startAt,state.officeFeatures);
+  const entrySelection=defaultSelection(offices,state.officeFeatures,window.startAt);
   const publicSiteState = {
-    entryView:offices.admission?'admitted claims':'encyclopedia index',
-    entryClaimCount:offices.admission?offices.admission.records.filter(record=>record.current&&record.status==='admitted').length:null,
+    entryView:({admitted:'admitted claims',articles:'complete article index',main:'encyclopedia index'})[entrySelection.entryView],
+    ...(entrySelection.exceptionRequired?{navigationException:entrySelection.exception}:{}),
+    entryClaimCount:entrySelection.entryView==='admitted'?offices.admission.records.filter(record=>record.articleId&&record.current&&record.status==='admitted').length:null,
     completeArticleCount:articles.length,completeIndexAvailable:true,
     observation:'These are visible site conditions, not evidence of anybody\'s motive. An empty admitted-claims view does not mean that the complete encyclopedia is empty or that unreviewed claims were found unsupported.',
   };
@@ -365,7 +367,7 @@ export function characterPacket(state, editorId) {
     office.records=[...front,...others.slice(0,6-front.length)].map(record=>({...record,history:record.history.slice(-4),...(record.reviews?{reviews:record.reviews.slice(-3)}:{})}));
     office.rubricHistory=office.rubricHistory.slice(-3);office.reassignments=office.reassignments.slice(-3);
   }
-  const officeEvidence = Object.values(offices).flatMap(o => [o.assignment.requestId, o.clearanceFeature?.requestId, o.intakeFeature?.requestId, ...o.records.flatMap(r => [r.id, r.revisionId, r.sourceEventId, r.policyId, ...r.history.flatMap(h => [h.eventId,...h.references])])]).filter(Boolean);
+  const officeEvidence = Object.values(offices).flatMap(o => [o.assignment.requestId, o.clearanceFeature?.requestId, o.intakeFeature?.requestId, o.automaticFeature?.requestId, o.premiseFeature?.requestId, o.navigationFeature?.requestId, o.concurrenceFeature?.requestId, ...o.records.flatMap(r => [r.id, r.revisionId, r.sourceEventId, r.policyId, r.referenceId, r.mandateId, ...r.history.flatMap(h => [h.eventId,...h.references])])]).filter(Boolean);
   for (const id of officeEvidence) knownEvents.add(id);
   const drafts=state.events.filter(e=>e.timestamp<=window.startAt&&e.reviewDraft).slice(-3);
   const officeEvents = state.events.filter(e => e.timestamp <= window.startAt && (officeEvidence.includes(e.id) || drafts.includes(e))).map(({id,timestamp,editorId,action,articleId,revisionId,baseRevisionId,body,title,summary,reviewDraft,articleEffects}) => ({id,timestamp,editorId,action,articleId,revisionId,baseRevisionId,body:reviewDraft||['comment','policy'].includes(action)?body:body.split(/\s+/).slice(0,250).join(' '),title,summary,reviewDraft,articleEffects:articleEffects?.map(({articleId,title,baseRevisionId,alias,releasedDraftId})=>({articleId,title,baseRevisionId,alias,releasedDraftId}))}));
@@ -618,7 +620,8 @@ export function completeCycle(state, { proof, now = new Date().toISOString() } =
       if (officeResult) {
         event.officeDecision = officeResult.decision;
         if (officeResult.effects.length) event.articleEffects = officeResult.effects;
-        explanation = 'Recorded ' + proposal.officeAction.office + ' ' + proposal.officeAction.op + '; public decision ' + eventId + '.';
+        if(officeResult.consequences?.length)event.officeConsequences=clone(officeResult.consequences);
+        explanation = officeResult.explanation ?? ('Recorded ' + proposal.officeAction.office + ' ' + proposal.officeAction.op + '; public decision ' + eventId + '.');
       }
       if (maintenanceIntakeActive(state.officeFeatures,proposal.timestamp)) {
         if (REVISION_ACTIONS.has(event.action) && event.action!=='create') {
@@ -947,7 +950,7 @@ export function installOffice(state, {office,requestId}, {proof,now=new Date().t
 export function installOfficeFeature(state,{feature,requestId},{proof,now=new Date().toISOString()}={}) {
   const denied=requireUsage(state,proof,now);if(denied)return denied;
   assert(!state.pending,'office feature install requires a complete checkpoint');
-  const expected={ 'procedural-clearance':{id:CLEARANCE_REQUEST_ID,editor:'adrian-keene',office:'procedure'}, 'mandatory-maintenance-intake':{id:MAINTENANCE_INTAKE_REQUEST_ID,editor:'jo-porter',office:'maintenance'} }[feature];
+  const expected={ ...ROUND3_FEATURES, 'procedural-clearance':{id:CLEARANCE_REQUEST_ID,editor:'adrian-keene',office:'procedure'}, 'mandatory-maintenance-intake':{id:MAINTENANCE_INTAKE_REQUEST_ID,editor:'jo-porter',office:'maintenance'} }[feature];
   assert(expected&&requestId===expected.id,'feature requires exact authorized technical request');
   const request=(state.backendChanges??[]).find(r=>r.id===requestId);
   assert(request?.editorId===expected.editor&&['queued','deferred','implemented'].includes(request.status),'matching queued backend request required');
@@ -955,7 +958,7 @@ export function installOfficeFeature(state,{feature,requestId},{proof,now=new Da
   assert(state.officeAssignments?.some(a=>a.office===expected.office),'required office must be installed');
   const existing=(state.officeFeatures??[]).find(f=>f.feature===feature);
   if(existing){assert(existing.requestId===requestId,'feature already installed by different request');return {ok:true,duplicate:true,feature:clone(existing)};}
-  const record={feature,version:1,requestId,timestamp:state.latestCompletedAt,installedAt:iso(now),authority:'Owner-authorized technical request; no community vote or endorsement.'};
+  const record={feature,version:1,requestId,timestamp:state.latestCompletedAt,installedAt:iso(now),...(request.timestamp?{requestTimestamp:request.timestamp}:{}),authority:'Owner-authorized technical request; no community vote or endorsement.'};
   state.officeFeatures??=[];state.officeFeatures.push(record);state.operations.push({type:'office-feature-install',feature,requestId,at:iso(now)});state.updatedAt=iso(now);
   return {ok:true,feature:clone(record)};
 }

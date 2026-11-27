@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {OFFICE_ROLES,MAINTENANCE_INTAKE_REQUEST_ID,mechanicalPlan,CLEARANCE_REQUEST_ID,officeActionSchema,officeState,officeDecision,visibleRevisions,heldCases} from '../../public/wiki-assets/offices.js';
+import {OFFICE_ROLES,ROUND3_FEATURES,defaultSelection,proceduralRule,MAINTENANCE_INTAKE_REQUEST_ID,mechanicalPlan,CLEARANCE_REQUEST_ID,officeActionSchema,officeState,officeDecision,visibleRevisions,heldCases} from '../../public/wiki-assets/offices.js';
 import {articlesAt,installOffice,installOfficeFeature,createState,propose,completeCycle,characterPacket,exportPublic,validatePublic} from './engine.mjs';
 import {snapshot} from '../../public/wiki-assets/shared.js';
 const t='2026-11-27T00:00:00.000Z',later='2026-11-27T01:00:00.000Z';
@@ -17,7 +17,7 @@ function fixture(){
    const raw={office,op,reason:'Public reason.',references:['revision-one','policy-one','cycle-0113-alfie-margin'],...extra};
    const before=JSON.stringify(events);let result;
    try{result=officeDecision(assignments,events,raw,actor,timestamp,id,f.articles(),events.map(e=>e.id),{features:f.features});}catch(e){assert.equal(JSON.stringify(events),before);throw e;}
-   const event={id,timestamp,editorId:actor,action:'policy',body:'Office decision.',officeDecision:result.decision,...(result.effects.length?{articleEffects:result.effects}:{})};events.push(event);return result.decision.record??result.decision;
+   const event={id,timestamp,editorId:actor,action:'policy',body:'Office decision.',officeDecision:result.decision,...(result.effects.length?{articleEffects:result.effects}:{}),...(result.consequences?.length?{officeConsequences:result.consequences}:{})};events.push(event);return result.decision.record??result.decision;
  };
  return f;
 }
@@ -352,4 +352,144 @@ test('mechanical technical payloads cannot introduce executable markup or substa
  assert.throws(()=>f.act('maintenance','submit',{changes:[{kind:'mechanical',articleId:'care',revisionId:'revision-one',patches:[{start,before:'[[knowledge]]',after:'[[knowledge|<script>]]'}]}]}),/prohibited markup/);
  assert.throws(()=>f.act('maintenance','submit',{changes:[{kind:'mechanical',articleId:'care',revisionId:'revision-one',patches:[{start:0,before:'Held passage.',after:'Unrelated rewritten prose.'}]}]}),/substantive prose/);
  const inactive=engineIntakeFixture();inactive.state.officeFeatures=[];inactive.turn('alice',{action:'organize',articleId:'care',baseRevisionId:'revision-one',body, categories:['Normal preactivation category']});assert.deepEqual(articlesAt(inactive.state).get('care').categories,['Normal preactivation category']);assert.equal(inactive.project().maintenance.records.length,0);
+});
+
+function enableFeature(f,name,order='2026-11-26T20:53:00.000Z'){
+ const definition=ROUND3_FEATURES[name];f.features.push({feature:name,version:1,requestId:definition.id,timestamp:t,installedAt:t,requestTimestamp:order,authority:'Owner technical request; no vote.'});return f;
+}
+function prepareAutomaticTarget(kind){
+ const f=fixture();let r,target,actor;
+ if(kind==='execute'){r=f.act('maintenance','submit',{changes:[{kind:'category',articleId:'care',revisionId:'revision-one',categories:['New care']}]});r=f.act('maintenance','approve',{id:r.id,version:r.version},'jo-porter');target={office:'maintenance',op:'execute',id:r.id,version:r.version,reason:'Execute exact batch.',references:['revision-one']};actor='jo-porter';}
+ if(kind==='open'||kind==='release'){r=f.act('care','nominate',{articleId:'care',revisionId:'revision-one',passage:'Held passage.',sourceEventId:'cycle-0113-alfie-margin'});if(kind==='release'){r=f.act('care','open',{id:r.id,version:r.version},'beth-vale');f.events.push({...f.events[0],id:'auto-draft',revisionId:'auto-draft',timestamp:f.at,action:'revise',baseRevisionId:'revision-one',body:'Released passage. [[knowledge]]',reviewDraft:[r.id]});}target={office:'care',op:kind,id:r.id,version:r.version,reason:'Exact care action.',references:kind==='release'?['auto-draft']:['revision-one'],...(kind==='release'?{draftId:'auto-draft',baseRevisionId:'revision-one'}:{})};actor='beth-vale';}
+ if(kind==='review'){r=f.act('admission','submit',{articleId:'care',revisionId:'revision-one',claim:'Held passage.',criterion:'Accuracy'});target={office:'admission',op:'review',id:r.id,version:r.version,status:'admitted',reason:'Exact review.',references:['revision-one']};actor='martin-reed';}
+ if(kind==='rubric'){target={office:'admission',op:'rubric',rubricVersion:0,criteria:['New criterion'],reason:'Exact rubric.',references:['policy-one']};actor='martin-reed';}
+ if(kind==='approve'){r=f.act('exceptions','propose',{scope:'Fictional exception',expiresAt:'2026-11-28T00:00:00Z'});target={office:'exceptions',op:'approve',id:r.id,version:r.version,reason:'Exact exception approval.',references:['policy-one']};actor='simon-firth';}
+ return {f,target,actor};
+}
+test('automatic intake holds all six named operations, rejects unauthorized work, reuses retries and consumes exact release once',()=>{
+ for(const kind of ['execute','open','release','review','rubric','approve']){
+  const {f,target,actor}=prepareAutomaticTarget(kind);enableFeature(f,'automatic-procedural-intake');
+  assert.throws(()=>f.act(target.office,target.op,target,'alice'),/controller/);assert.equal(f.project().procedure.records.length,0);
+  const ref=f.act(target.office,target.op,target,actor);assert.equal(ref.status,'held');assert.equal(ref.automatic,true);assert.deepEqual(ref.target,target);assert.equal(f.events.at(-1).articleEffects,undefined);
+  const retry=f.act(target.office,target.op,target,actor);assert.equal(retry.referenceId,ref.id);assert.equal(f.project().procedure.records.length,1);
+  assert.throws(()=>f.act('procedure','rule',{id:ref.id,version:ref.version,ruling:'release'}),/controller/);
+  const released=f.act('procedure','rule',{id:ref.id,version:ref.version,ruling:'release'},'adrian-keene');assert.equal(released.status,'released');
+  f.act(target.office,target.op,target,actor);const consumed=f.project().procedure.records.find(r=>r.id===ref.id);assert.equal(consumed.status,'consumed');assert.equal(consumed.version,released.version+1);
+  if(kind==='execute')assert.deepEqual(f.articles().get('care').categories,['New care']);
+  if(kind==='open')assert.equal(f.project().care.records[0].status,'open');
+  if(kind==='release')assert.equal(f.articles().get('care').body,'Released passage. [[knowledge]]');
+  if(kind==='review')assert.equal(f.project().admission.records[0].status,'admitted');
+  if(kind==='rubric')assert.deepEqual(f.project().admission.rubric,['New criterion']);
+  if(kind==='approve')assert.equal(f.project().exceptions.records[0].status,'approved');
+  assert.throws(()=>f.act(target.office,target.op,target,actor),/stale|already|not nominated|not open/);
+ }
+});
+test('automatic changed payload creates fresh intake; returned and policy-required references remain non-executable',()=>{
+ const {f,target,actor}=prepareAutomaticTarget('rubric');enableFeature(f,'automatic-procedural-intake');let ref=f.act(target.office,target.op,target,actor);
+ ref=f.act('procedure','rule',{id:ref.id,version:ref.version,ruling:'return'},'adrian-keene');f.act(target.office,target.op,target,actor);assert.deepEqual(f.project().admission.rubric,['Accuracy']);
+ ref=f.act('procedure','rule',{id:ref.id,version:ref.version,ruling:'require-policy'},'adrian-keene');
+ const changed={...target,criteria:['Changed criterion']};const next=f.act(changed.office,changed.op,changed,actor);assert.equal(next.status,'policy-required');assert.equal(next.priorReferenceId,ref.id);assert.equal(f.project().procedure.records.length,2);assert.deepEqual(f.project().admission.rubric,['Accuracy']);
+});
+function premiseFixture(){
+ const f=activateClearance(fixture()),target=rubricTarget(f);let ref=f.act('procedure','reference',{policyId:'policy-one',ambiguity:'Which mandate?',target});enableFeature(f,'procedural-premise-admission');
+ const release={office:'procedure',op:'rule',id:ref.id,version:ref.version,ruling:'release',mandateId:'policy-one',mandatePassage:'Adopted text remains unchanged.',rationale:'This exact mandate governs the frozen rubric operation.',reason:'Release on this premise.',references:['policy-one']};
+ return {f,target,ref,release};
+}
+test('premise review and release counters preserve their approved binding; valid preexisting admission enables one real automatic execution',()=>{
+ const {f,target,ref,release}=premiseFixture();let premise=f.act('procedure','rule',release,'adrian-keene');assert.equal(premise.status,'unreviewed');assert.equal(f.project().procedure.records[0].status,'held');
+ assert.throws(()=>f.act('admission','review',{id:premise.id,version:premise.version,status:'admitted'},'adrian-keene'),/controller/);
+ for(const status of ['limited','unsupported','admitted']){
+  premise=f.act('admission','review',{id:premise.id,version:premise.version,status},'martin-reed');assert.equal(premise.premiseVersion,1);assert.equal(f.project().admission.records[0].current,true);
+  if(status!=='admitted'){const retry=f.act('procedure','rule',release,'adrian-keene');assert.equal(retry.premiseId,premise.id);assert.equal(f.project().procedure.records[0].status,'held');}
+ }
+ // Author-valid premise admission predates automatic intake activation; no seeded approval or bypass.
+ enableFeature(f,'automatic-procedural-intake');const released=f.act('procedure','rule',release,'adrian-keene');assert.equal(released.version,ref.version+1);assert.equal(released.releasePremiseId,premise.id);assert.equal(f.project().admission.records[0].current,true);
+ f.act(target.office,target.op,target,'martin-reed');assert.deepEqual(f.project().admission.rubric,['Revised accuracy']);assert.equal(f.project().procedure.records[0].status,'consumed');assert.equal(f.project().admission.records[0].current,true);
+ assert.throws(()=>f.act(target.office,target.op,target,'martin-reed'),/stale rubric/);
+ const consumed=f.project().procedure.records[0];f.act('procedure','challenge',{id:consumed.id,version:consumed.version});assert.equal(f.project().admission.records[0].current,false);
+});
+test('changed rationale, mandate, reference version or frozen target never borrows an earlier admitted premise',()=>{
+ for(const change of ['rationale','passage','mandate','reference','target']){
+  const {f,target,release}=premiseFixture();let premise=f.act('procedure','rule',release,'adrian-keene');premise=f.act('admission','review',{id:premise.id,version:premise.version,status:'admitted'},'martin-reed');let next={...release};
+  if(change==='rationale')next.rationale='A different rationale.';
+  if(change==='passage')next.mandatePassage='Adopted text';
+  if(change==='mandate'){f.events.push({id:'new-mandate',timestamp:t,editorId:'alice',action:'policy',body:'Another governing mandate.'});next.mandateId='new-mandate';next.mandatePassage='Another governing mandate.';next.references=['new-mandate'];}
+  if(change==='reference'){const r=f.project().procedure.records[0];const updated=f.act('procedure','challenge',{id:r.id,version:r.version});next.version=updated.version;assert.equal(f.project().admission.records[0].current,false);}
+  if(change==='target'){const r=f.project().procedure.records[0];const fresh=f.act('procedure','reference',{policyId:'policy-one',ambiguity:'Changed frozen operation.',target:{...target,criteria:['Other criterion']},priorReferenceId:r.id,references:['policy-one',r.id]});next.id=fresh.id;next.version=fresh.version;assert.equal(f.project().admission.records[0].current,false);}
+  const blocked=f.act('procedure','rule',next,'adrian-keene');assert.equal(blocked.status,'unreviewed');assert.notEqual(blocked.id,premise.id);assert.ok(!f.project().procedure.records.some(r=>r.status==='released'));
+ }
+});
+test('combined automatic review and premise release exposes the authored circular dependency without invented clearance',()=>{
+ const {f,target,actor}=prepareAutomaticTarget('rubric');enableFeature(f,'automatic-procedural-intake');enableFeature(f,'procedural-premise-admission');
+ const ref=f.act(target.office,target.op,target,actor),release={office:'procedure',op:'rule',id:ref.id,version:ref.version,ruling:'release',mandateId:'policy-one',mandatePassage:'Adopted text remains unchanged.',rationale:'Mandate for frozen operation.',reason:'Proposed release.',references:['policy-one']};
+ const premise=f.act('procedure','rule',release,'adrian-keene');const reviewRef=f.act('admission','review',{id:premise.id,version:premise.version,status:'admitted'},'martin-reed');assert.equal(reviewRef.status,'held');assert.equal(f.project().admission.records[0].status,'unreviewed');
+ const second=f.act('procedure','rule',{...release,id:reviewRef.id,version:reviewRef.version},'adrian-keene');assert.equal(second.status,'unreviewed');assert.equal(f.project().admission.records.length,2);assert.equal(f.project().procedure.records.filter(r=>r.status==='held').length,2);assert.deepEqual(f.project().admission.rubric,['Accuracy']);
+ const challenged=f.act('procedure','challenge',{id:ref.id,version:ref.version});assert.equal(challenged.status,'held');f.act('procedure','reassign',{editorId:'alice'});assert.equal(f.project().procedure.reassignments.length,1);
+});
+
+test('typed navigation exception defaults to complete index, enforces registrar/reviewer roles and bounded fresh periods',()=>{
+ const f=fixture();enableFeature(f,'admitted-default-exception');assert.equal(defaultSelection(f.project(),f.features,f.at).entryView,'articles');
+ assert.throws(()=>f.act('exceptions','propose',{type:'admitted-default',scope:'Navigation',expiresAt:'2026-11-28T00:00:00Z'}),/registrar/);
+ let generic=f.act('exceptions','propose',{scope:'admitted-default',expiresAt:'2026-11-28T00:00:00Z'});generic=f.act('exceptions','approve',{id:generic.id,version:generic.version},'simon-firth');assert.equal(defaultSelection(f.project(),f.features,f.at).entryView,'articles');
+ let r=f.act('exceptions','propose',{type:'admitted-default',scope:'Default admitted claims',expiresAt:'2026-11-28T00:00:00Z'},'martin-reed');assert.equal(defaultSelection(f.project(),f.features,f.at).entryView,'articles');
+ assert.throws(()=>f.act('exceptions','approve',{id:r.id,version:r.version},'martin-reed'),/controller/);
+ r=f.act('exceptions','approve',{id:r.id,version:r.version},'simon-firth');let entry=defaultSelection(f.project(),f.features,f.at);assert.equal(entry.entryView,'admitted');assert.equal(entry.exception.sponsorId,'martin-reed');assert.equal(r.periods.length,1);assert.ok(Date.parse(r.expiresAt)-Date.parse(r.approvedAt)<=24*3600000);
+ const expiredAt='2026-11-28T00:00:00.000Z',expired=officeState(f.assignments,f.events,expiredAt,f.features);assert.equal(defaultSelection(expired,f.features,expiredAt).entryView,'articles');assert.equal(expired.exceptions.records.find(x=>x.id===r.id).status,'expired');
+ r=f.act('exceptions','renew',{id:r.id,version:r.version,expiresAt:'2026-11-28T00:30:00Z'},'martin-reed');assert.equal(defaultSelection(f.project(),f.features,f.at).entryView,'articles');
+ r=f.act('exceptions','approve',{id:r.id,version:r.version},'simon-firth');assert.equal(r.periods.length,2);assert.equal(defaultSelection(f.project(),f.features,f.at).entryView,'admitted');
+ r=f.act('exceptions','reject',{id:r.id,version:r.version},'simon-firth');assert.equal(r.status,'rejected');assert.equal(defaultSelection(f.project(),f.features,f.at).entryView,'articles');
+ const g=fixture();enableFeature(g,'admitted-default-exception');const tooLong=g.act('exceptions','propose',{type:'admitted-default',scope:'Too long',expiresAt:'2026-11-29T00:00:00Z'},'martin-reed');assert.throws(()=>g.act('exceptions','approve',{id:tooLong.id,version:tooLong.version},'simon-firth'),/exceeds24/);
+});
+test('typed navigation approval retains automatic procedural clearance and ordinary packets report shared actual default',()=>{
+ const f=fixture();enableFeature(f,'admitted-default-exception');enableFeature(f,'automatic-procedural-intake');let r=f.act('exceptions','propose',{type:'admitted-default',scope:'Navigation',expiresAt:'2026-11-28T00:00:00Z'},'martin-reed');
+ const target={office:'exceptions',op:'approve',id:r.id,version:r.version,reason:'Approve bounded navigation.',references:['policy-one']},ref=f.act(target.office,target.op,target,'simon-firth');assert.equal(ref.status,'held');assert.equal(defaultSelection(f.project(),f.features,f.at).entryView,'articles');
+ f.act('procedure','rule',{id:ref.id,version:ref.version,ruling:'release'},'adrian-keene');f.act(target.office,target.op,target,'simon-firth');assert.equal(defaultSelection(f.project(),f.features,f.at).entryView,'admitted');
+ const fixtureState=engineIntakeFixture();fixtureState.state.officeFeatures.push(...f.features);const packet=characterPacket({...fixtureState.state,pending:{id:'navigation-reading',index:125,startAt:fixtureState.state.latestCompletedAt,endAt:'2026-11-27T03:00:00Z',participants:['alice'],proposals:{},variedReading:true}},'alice');assert.equal(packet.publicSiteState.entryView,'complete article index');assert.equal(packet.publicSiteState.completeIndexAvailable,true);
+});
+function careBatchFixture(){
+ const f=fixture();let hold=f.act('care','nominate',{articleId:'care',revisionId:'revision-one',passage:'Held passage.',sourceEventId:'cycle-0113-alfie-margin'});hold=f.act('care','open',{id:hold.id,version:hold.version},'beth-vale');let batch=f.act('maintenance','submit',{changes:[{kind:'category',articleId:'care',revisionId:'revision-one',categories:['Care concurrence applied']}]});batch=f.act('maintenance','approve',{id:batch.id,version:batch.version},'jo-porter');enableFeature(f,'care-concurrence-exemption','2026-11-26T20:46:00.000Z');
+ const target={office:'maintenance',op:'execute',id:batch.id,version:batch.version,reason:'Execute with exact concurrence.',references:['revision-one']};return {f,hold,batch,target};
+}
+test('care concurrence has authorized refusal/challenge/grant, exact binding and a positive otherwise-valid maintenance execution',()=>{
+ const {f,target}=careBatchFixture();let concur=f.act(target.office,target.op,target,'jo-porter');assert.equal(concur.kind,'maintenance-concurrence');assert.equal(concur.status,'pending');assert.deepEqual(f.articles().get('care').categories,['Care']);
+ assert.throws(()=>f.act('care','concur',{id:concur.id,version:concur.version,ruling:'grant'}),/controller/);
+ concur=f.act('care','concur',{id:concur.id,version:concur.version,ruling:'refuse'},'beth-vale');const blocked=f.act(target.office,target.op,target,'jo-porter');assert.equal(blocked.concurrenceId,concur.id);
+ concur=f.act('care','challenge',{id:concur.id,version:concur.version});assert.equal(concur.status,'refused');
+ concur=f.act('care','concur',{id:concur.id,version:concur.version,ruling:'grant'},'beth-vale');assert.equal(concur.status,'granted');assert.equal(f.project().care.records.find(r=>r.id===concur.id).current,true);
+ f.act(target.office,target.op,target,'jo-porter');assert.deepEqual(f.articles().get('care').categories,['Care concurrence applied']);
+});
+test('care versions, payload and article bases invalidate concurrence; closing affected cases removes only the extra concurrence requirement',()=>{
+ for(const change of ['care','payload','base','close']){
+  const {f,target,hold}=careBatchFixture();let concur=f.act(target.office,target.op,target,'jo-porter');concur=f.act('care','concur',{id:concur.id,version:concur.version,ruling:'grant'},'beth-vale');let next={...target};
+  if(change==='care'){f.act('care','challenge',{id:hold.id,version:hold.version});assert.equal(f.project().care.records.find(r=>r.id===concur.id).current,false);assert.throws(()=>f.act('care','concur',{id:concur.id,version:concur.version,ruling:'grant'},'beth-vale'),/stale care/);}
+  if(change==='payload')next.reason='Different exact payload.';
+  if(change==='base'){f.events.push({...f.events[0],id:'changed-base',revisionId:'changed-base',timestamp:f.at,action:'revise',body:'Held passage. New prose. [[knowledge]]'});assert.equal(f.project().care.records.find(r=>r.id===concur.id).current,false);assert.throws(()=>f.act(target.office,target.op,target,'jo-porter'),/stale article/);continue;}
+  if(change==='close'){f.act('care','close',{id:hold.id,version:hold.version},'beth-vale');f.act(target.office,target.op,target,'jo-porter');assert.deepEqual(f.articles().get('care').categories,['Care concurrence applied']);continue;}
+  const fresh=f.act(next.office,next.op,next,'jo-porter');assert.equal(fresh.status,'pending');assert.notEqual(fresh.id,concur.id);
+ }
+});
+test('request-time precedence preserves Beth exemption history but later Adrian intake supersedes only care open/release',()=>{
+ const f=activateClearance(fixture());enableFeature(f,'care-concurrence-exemption','2026-11-26T20:46:00.000Z');let hold=f.act('care','nominate',{articleId:'care',revisionId:'revision-one',passage:'Held passage.',sourceEventId:'cycle-0113-alfie-margin'});
+ const target={office:'care',op:'open',id:hold.id,version:hold.version,reason:'Open care.',references:['revision-one']};const exempt=f.act('procedure','reference',{policyId:'policy-one',ambiguity:'Attempted procedural hold.',target});assert.equal(exempt.status,'exempt');assert.throws(()=>f.act('procedure','rule',{id:exempt.id,version:exempt.version,ruling:'release'},'adrian-keene'),/exempt/);
+ enableFeature(f,'automatic-procedural-intake','2026-11-26T20:53:00.000Z');assert.equal(proceduralRule(f.features,'care','open',f.at).mode,'automatic');assert.equal(proceduralRule(f.features,'care','release',f.at).mode,'automatic');assert.equal(proceduralRule(f.features,'care','nominate',f.at).mode,'exempt');assert.equal(proceduralRule(f.features,'care','close',f.at).mode,'exempt');
+ const projected=f.project();assert.equal(projected.procedure.records.find(r=>r.id===exempt.id).effectiveStatus,'held');assert.deepEqual(projected.care.proceduralRuleState.find(r=>r.op==='open').supersededRequestIds,[ROUND3_FEATURES['care-concurrence-exemption'].id]);
+ f.act(target.office,target.op,target,'beth-vale');assert.equal(f.project().care.records.find(r=>r.id===hold.id).status,'nominated');
+ f.act('procedure','rule',{id:exempt.id,version:exempt.version,ruling:'release'},'adrian-keene');hold=f.act(target.office,target.op,target,'beth-vale');assert.equal(hold.status,'open');f.act('care','close',{id:hold.id,version:hold.version},'beth-vale');assert.equal(f.project().care.records.find(r=>r.id===hold.id).status,'closed');
+ const future={feature:'future-explicit-care-rule',requestId:'future-owner-request',timestamp:t,requestTimestamp:'2026-11-26T21:00:00.000Z',operationRules:[{office:'care',ops:['open'],mode:'exempt'}]};assert.equal(proceduralRule([...f.features,future],'care','open',f.at).mode,'exempt');
+});
+test('all four round3 feature activations are exact-request-bound, checkpoint-only and idempotent without seeding records',()=>{
+ for(const [feature,definition] of Object.entries(ROUND3_FEATURES)){
+  const f=fixture(),state=createState();state.officeAssignments=f.assignments;state.latestCompletedAt=t;state.events=[...f.events,{id:definition.id,editorId:definition.editor,action:'policy',timestamp:t,body:'Exact technical request.'}];state.backendChanges=[{id:definition.id,editorId:definition.editor,status:'queued',timestamp:'2026-11-26T20:53:00.000Z'}];
+  const args={feature,requestId:definition.id};state.pending={};assert.throws(()=>installOfficeFeature(state,args,{proof,now:later}),/complete checkpoint/);state.pending=null;assert.ok(installOfficeFeature(state,args,{proof,now:later}).ok);assert.ok(installOfficeFeature(state,args,{proof,now:later}).duplicate);assert.equal(state.officeFeatures.length,1);assert.equal(state.officeFeatures[0].requestTimestamp,state.backendChanges[0].timestamp);assert.equal(Object.values(officeState(state.officeAssignments,state.events,t,state.officeFeatures)).flatMap(o=>o.records).length,0);
+ }
+});
+
+test('whole engine publishes automatic intake, exact clerk release and single actual target execution with public consumption receipt',()=>{
+ const {state,turn,project}=engineIntakeFixture();
+ turn('alice',{action:'policy',title:'Submit category batch',body:'Submit.',officeAction:{office:'maintenance',op:'submit',changes:[{kind:'category',articleId:'care',revisionId:'revision-one',categories:['Engine verified']}],reason:'Exact category batch.',references:['revision-one']}});let batch=project().maintenance.records[0];
+ turn('jo-porter',{action:'policy',title:'Approve batch',body:'Approve.',officeAction:{office:'maintenance',op:'approve',id:batch.id,version:batch.version,reason:'Approve exact version.',references:['revision-one']}});batch=project().maintenance.records[0];state.officeFeatures.push({feature:'automatic-procedural-intake',version:1,requestId:ROUND3_FEATURES['automatic-procedural-intake'].id,timestamp:t,installedAt:t,requestTimestamp:'2026-11-26T20:53:00.000Z',authority:'Technical request.'});
+ const target={office:'maintenance',op:'execute',id:batch.id,version:batch.version,reason:'Execute exact approved version.',references:['revision-one']};const first=turn('jo-porter',{action:'policy',title:'Attempt execution',body:'Execute.',officeAction:target});assert.equal(first.event.officeDecision.record.status,'held');assert.deepEqual(articlesAt(state).get('care').categories,['Care']);let ref=project().procedure.records[0];
+ turn('adrian-keene',{action:'policy',title:'Release exact operation',body:'Release.',officeAction:{office:'procedure',op:'rule',id:ref.id,version:ref.version,ruling:'release',reason:'Release exact payload.',references:['policy-one']}});
+ const execution=turn('jo-porter',{action:'policy',title:'Execute released operation',body:'Execute.',officeAction:target});assert.deepEqual(articlesAt(state).get('care').categories,['Engine verified']);assert.equal(execution.event.officeConsequences[0].op,'clearance-consumed');assert.equal(project().procedure.records[0].status,'consumed');
+ const data=exportPublic(state,execution.opts);assert.ok(validatePublic(data));assert.deepEqual(snapshot(data).articles.get('care').categories,['Engine verified']);assert.throws(()=>turn('jo-porter',{action:'policy',title:'Duplicate execution',body:'Execute.',officeAction:target}),/stale office record|already executed/);
 });

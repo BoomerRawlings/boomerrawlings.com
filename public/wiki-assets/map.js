@@ -1,5 +1,5 @@
-import {visibleRevisions} from './offices.js?v=3801b1fefa77';
-import {REVISION_ACTIONS, esc, stamp, number, dateText, dayKey, pacificDayEnd, href, articleLink, userLink, markup, attributedLines, snapshot, relationshipAt, PERSONAL_RELATIONSHIP_FIELDS, stablePositions, safeSessionGet, safeSessionSet, loadData, installGate, titleFromId} from './shared.js?v=995d8f3e59e2';
+import {visibleRevisions} from './offices.js?v=c2dea1418362';
+import {REVISION_ACTIONS, esc, stamp, number, dateText, dayKey, pacificDayEnd, href, articleLink, userLink, markup, attributedLines, snapshot, relationshipAt, PERSONAL_RELATIONSHIP_FIELDS, stablePositions, safeSessionGet, safeSessionSet, loadData, installGate, titleFromId} from './shared.js?v=a8c8ee006e63';
 
 let data, state, current, earliest, latest, view='articles', selected=null, positions, editorPositions, boundaries=[], growth=[];
 let playing=false, frame=0, lastPaint=0, animationStart=0, animationFrom=0, animationTo=0, animationDuration=10000;
