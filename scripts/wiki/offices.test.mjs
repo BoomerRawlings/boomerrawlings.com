@@ -357,6 +357,76 @@ test('mechanical technical payloads cannot introduce executable markup or substa
 function enableFeature(f,name,order='2026-11-26T20:53:00.000Z'){
  const definition=ROUND3_FEATURES[name]??ROUND4_FEATURES[name];f.features.push({feature:name,version:1,requestId:definition.id,timestamp:t,installedAt:t,requestTimestamp:order,authority:'Owner technical request; no vote.'});return f;
 }
+
+function dispatchFixture(){
+ const {f,target,actor}=prepareAutomaticTarget('execute');activateClearance(f);
+ const ref=f.act('procedure','reference',{policyId:'policy-one',ambiguity:'Exact dispatch objection.',target},'alice');
+ enableFeature(f,'maintenance-dispatch-independence','2026-11-26T21:02:50.305Z');
+ const concur=(ruling,who='jo-porter',extra={})=>f.act('maintenance','concur',{referenceId:ref.id,referenceVersion:f.project().procedure.records.find(x=>x.id===ref.id).version,ruling,references:[ref.id,'revision-one','policy-one'],...extra},who);
+ return {f,target,actor,ref,concur};
+}
+
+test('dispatch exemption deactivates existing automatic references without changing history or execution permissions',()=>{
+ const {f,target,actor}=prepareAutomaticTarget('execute');enableFeature(f,'automatic-procedural-intake');
+ const ref=f.act(target.office,target.op,target,actor),before=JSON.stringify(f.events),beforeAt=f.at;
+ enableFeature(f,'maintenance-dispatch-independence','2026-11-26T21:02:50.305Z');f.features.at(-1).timestamp=new Date(Date.parse(beforeAt)+500).toISOString();
+ assert.equal(officeState(f.assignments,f.events,beforeAt,f.features).procedure.records[0].effectiveStatus,'held');
+ assert.throws(()=>f.act(target.office,target.op,target,'alice'),/controller/);
+ const r=f.act(target.office,target.op,target,actor);assert.equal(r.status,'executed');assert.deepEqual(f.articles().get('care').categories,['New care']);
+ const old=f.project().procedure.records.find(x=>x.id===ref.id);assert.equal(old.status,'held');assert.equal(old.effectiveStatus,'exempt');assert.equal(JSON.stringify(f.events.slice(0,JSON.parse(before).length)),before);
+});
+
+test('manual dispatch objections require exact coordinator grant; grant survives clerk status rulings until normal clearance',()=>{
+ const {f,target,ref,concur}=dispatchFixture();assert.equal(f.project().procedure.records[0].effectiveStatus,'nonblocking-objection');
+ assert.throws(()=>concur('grant','alice'),/controller/);assert.throws(()=>concur('grant','jo-porter',{referenceVersion:999}),/stale/);
+ const grant=concur('grant');assert.equal(grant.status,'granted');assert.equal(f.project().maintenance.records.find(r=>r.id===grant.id).current,true);
+ assert.throws(()=>f.act('maintenance','execute',target,'jo-porter'),/held/);
+ let r=f.project().procedure.records.find(r=>r.id===ref.id);r=f.act('procedure','rule',{id:r.id,version:r.version,ruling:'return'},'adrian-keene');
+ assert.equal(f.project().procedure.records.find(x=>x.id===ref.id).concurrenceStatus,'granted');assert.throws(()=>f.act('maintenance','execute',target,'jo-porter'),/held/);
+ f.act('procedure','rule',{id:r.id,version:r.version,ruling:'release'},'adrian-keene');
+ const executed=f.act('maintenance','execute',target,'jo-porter');assert.equal(executed.status,'executed');assert.throws(()=>f.act('maintenance','execute',target,'jo-porter'),/stale/);assert.throws(()=>f.act('maintenance','execute',{...target,version:executed.version},'jo-porter'),/already/);
+});
+
+test('absent/refused concurrence permits dispatch, with refusal history retained even when queue ordering changes',()=>{
+ const noGrant=dispatchFixture();assert.equal(noGrant.f.act('maintenance','execute',noGrant.target,'jo-porter').status,'executed');
+ const {f,target,concur}=dispatchFixture();const grant=concur('grant');f.act('maintenance','suspend',{},'jo-porter');const refusal=concur('refuse');
+ assert.throws(()=>f.act('maintenance','execute',target,'jo-porter'),/suspended/);f.act('maintenance','resume',{},'jo-porter');
+ assert.equal(f.project().procedure.records[0].concurrenceStatus,'refused');assert.equal(f.project().maintenance.records.find(r=>r.id===grant.id).status,'granted');
+ f.act('maintenance','order',{ids:[target.id]},'jo-porter');assert.equal(f.project().procedure.records[0].concurrenceId,refusal.id);
+ assert.throws(()=>f.act('maintenance','approve',{id:grant.id,version:grant.version},'jo-porter'),/not a maintenance batch/);
+ assert.equal(f.act('maintenance','execute',target,'jo-porter').status,'executed');
+});
+
+test('payload, batch and assignment changes cannot inherit a dispatch concurrence',()=>{
+ const changed=dispatchFixture();changed.concur('grant');assert.equal(changed.f.act('maintenance','execute',{...changed.target,reason:'A different exact payload.'},'jo-porter').status,'executed');
+ for(const kind of ['payload','batch','assignment']){
+  const {f,target,ref,concur}=dispatchFixture(),grant=concur('grant');
+  if(kind==='payload')f.events.find(e=>e.id===ref.id).officeDecision.record.target.reason='Changed frozen payload.';
+  if(kind==='batch'){let r=f.project().maintenance.records.find(x=>x.id===target.id);r=f.act('maintenance','amend',{id:r.id,version:r.version,changes:[{kind:'category',articleId:'care',revisionId:'revision-one',categories:['Changed']}]},'jo-porter');f.act('maintenance','approve',{id:r.id,version:r.version},'jo-porter');}
+  if(kind==='assignment')f.assignments.find(x=>x.office==='maintenance').version++;
+  const os=f.project();assert.equal(os.maintenance.records.find(r=>r.id===grant.id).current,false);assert.equal(os.procedure.records.find(r=>r.id===ref.id).effectiveStatus,'nonblocking-objection');
+ }
+});
+
+test('dispatch independence preserves care concurrence, stale bases and automatic intake for other offices',()=>{
+ const {f,target}=dispatchFixture();enableFeature(f,'care-concurrence-exemption','2026-11-26T20:46:00Z');
+ let c=f.act('care','nominate',{articleId:'care',revisionId:'revision-one',passage:'Held passage.',sourceEventId:'cycle-0113-alfie-margin'});f.act('care','open',{id:c.id,version:c.version},'beth-vale');
+ const pending=f.act('maintenance','execute',target,'jo-porter');assert.equal(pending.kind,'maintenance-concurrence');assert.deepEqual(f.articles().get('care').categories,['Care']);
+ f.act('care','concur',{id:pending.id,version:pending.version,ruling:'grant'},'beth-vale');assert.equal(f.act('maintenance','execute',target,'jo-porter').status,'executed');
+ const stale=dispatchFixture();stale.f.events.push({...stale.f.events[0],id:'new-base',revisionId:'new-base',timestamp:stale.f.at,action:'revise'});assert.throws(()=>stale.f.act('maintenance','execute',stale.target,'jo-porter'),/stale/);
+ const other=prepareAutomaticTarget('rubric');enableFeature(other.f,'automatic-procedural-intake');enableFeature(other.f,'maintenance-dispatch-independence','2026-11-26T21:02:50.305Z');assert.equal(other.f.act('admission','rubric',other.target,other.actor).status,'held');
+});
+
+test('future character packets expose the dispatch mandate and sources inside a supplied frozen target',()=>{
+ const {f,ref}=dispatchFixture(),{state}=engineIntakeFixture();
+ for(let i=0;i<25;i++)f.events.push({id:'extra-source-'+i,revisionId:'extra-source-'+i,articleId:'extra-'+i,title:'Extra '+i,timestamp:t,editorId:'alice',action:'create',body:'An unrelated entry. [[knowledge]]',categories:['Other'],principleIds:['accuracy']});
+ state.events=f.events;state.officeAssignments=f.assignments;state.officeFeatures=f.features;state.latestCompletedAt=f.at;
+ const end=new Date(Date.parse(f.at)+3600000).toISOString();state.pending={id:'concurrence-packet',index:124,startAt:f.at,endAt:end,participants:['jo-porter'],proposals:{},variedReading:true};
+ const before=characterPacket(state,'jo-porter'),source=f.events.find(e=>e.id.startsWith('extra-source-')&&!before.knownEventIds.includes(e.id));assert.ok(source,'fixture needs an otherwise unread source');
+ f.events.find(e=>e.id===ref.id).officeDecision.record.target.references.push(source.id);
+ const packet=characterPacket(state,'jo-porter');assert.ok(packet.knownEventIds.includes(source.id));assert.ok(packet.officeEvidence.some(e=>e.id===source.id));assert.equal(packet.offices.maintenance.dispatchFeature.requestId,ROUND4_FEATURES['maintenance-dispatch-independence'].id);assert.match(packet.officeActionSchema.maintenance.concur,/referenceId/);
+ const now=new Date(Date.parse(end)+1).toISOString();assert.ok(propose(state,{editorId:'jo-porter',timestamp:new Date(Date.parse(f.at)+60000).toISOString(),action:'policy',title:'Concur with this reference',body:'Grant only this exact binding.',summary:'Grant exact concurrence.',principleIds:['accuracy'],journal,officeAction:{office:'maintenance',op:'concur',referenceId:ref.id,referenceVersion:ref.version,ruling:'grant',reason:'Exact public reference.',references:[ref.id,'revision-one',source.id]}},{now,proof:{...proof,checkedAt:now}}).ok);
+});
 function prepareAutomaticTarget(kind){
  const f=fixture();let r,target,actor;
  if(kind==='execute'){r=f.act('maintenance','submit',{changes:[{kind:'category',articleId:'care',revisionId:'revision-one',categories:['New care']}]});r=f.act('maintenance','approve',{id:r.id,version:r.version},'jo-porter');target={office:'maintenance',op:'execute',id:r.id,version:r.version,reason:'Execute exact batch.',references:['revision-one']};actor='jo-porter';}

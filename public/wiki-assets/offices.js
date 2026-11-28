@@ -9,7 +9,7 @@ export const OFFICE_SCHEMA = {
   exceptions:{propose:'scope,expiresAt,sponsorId? (defaults actor)',approve:'id,version',reject:'id,version',renew:'id,version,expiresAt (sponsor only; requires reviewer approval)',challenge:'id,version',reassign:'editorId (public proposal only)'}
 };
 export const ROUND3_FEATURES = { 'care-concurrence-exemption':{id:'influence-2026-11-26-27-round-003-beth-vale',editor:'beth-vale',office:'care'}, 'automatic-procedural-intake':{id:'influence-2026-11-26-27-round-003-adrian-keene',editor:'adrian-keene',office:'procedure'}, 'procedural-premise-admission':{id:'influence-2026-11-26-27-round-003-martin-reed',editor:'martin-reed',office:'admission'}, 'admitted-default-exception':{id:'influence-2026-11-26-27-round-003-simon-firth',editor:'simon-firth',office:'exceptions'} };
-export const ROUND4_FEATURES={'independent-care-admission-concurrence':{id:'influence-2026-11-26-27-round-004-beth-vale',editor:'beth-vale',office:'care'},'advisory-procedural-premises':{id:'influence-2026-11-26-27-round-004-adrian-keene',editor:'adrian-keene',office:'procedure'}};
+export const ROUND4_FEATURES={'independent-care-admission-concurrence':{id:'influence-2026-11-26-27-round-004-beth-vale',editor:'beth-vale',office:'care'},'advisory-procedural-premises':{id:'influence-2026-11-26-27-round-004-adrian-keene',editor:'adrian-keene',office:'procedure'},'maintenance-dispatch-independence':{id:'influence-2026-11-26-27-round-004-jo-porter',editor:'jo-porter',office:'maintenance'}};
 const featureActive=(features=[],feature,at)=>features.some(f=>f.feature===feature&&f.timestamp<=at);
 export const AUTOMATIC_TARGETS={maintenance:['execute'],care:['open','release'],admission:['review','rubric'],exceptions:['approve']};
 export const MAINTENANCE_INTAKE_REQUEST_ID = 'influence-2026-11-26-27-round-002-jo-porter';
@@ -18,7 +18,7 @@ export const CLEARANCE_REQUEST_ID = 'influence-2026-11-26-27-round-002-adrian-ke
 export const CLEARANCE_TARGETS = {maintenance:['execute'],care:['release'],admission:['review','rubric'],exceptions:['approve','renew']};
 export function proceduralRule(features=[],office,op,at='9999'){
   const rules=features.filter(f=>f.timestamp<=at).flatMap(f=>{
-    const defaults=f.feature==='independent-care-admission-concurrence'?[{office:'care',ops:['open','release'],mode:'exempt'}]:f.feature==='care-concurrence-exemption'?[{office:'care',ops:['nominate','open','release','close'],mode:'exempt'}]:f.feature==='automatic-procedural-intake'?Object.entries(AUTOMATIC_TARGETS).map(([office,ops])=>({office,ops,mode:'automatic'})):[];
+    const defaults=f.feature==='maintenance-dispatch-independence'?[{office:'maintenance',ops:['execute'],mode:'coordinator-concurrence'}]:f.feature==='independent-care-admission-concurrence'?[{office:'care',ops:['open','release'],mode:'exempt'}]:f.feature==='care-concurrence-exemption'?[{office:'care',ops:['nominate','open','release','close'],mode:'exempt'}]:f.feature==='automatic-procedural-intake'?Object.entries(AUTOMATIC_TARGETS).map(([office,ops])=>({office,ops,mode:'automatic'})):[];
     return (f.operationRules??defaults).filter(r=>r.office===office&&r.ops.includes(op)).map(r=>({mode:r.mode,requestId:f.requestId,order:f.requestTimestamp??f.timestamp}));
   }).sort((a,b)=>a.order.localeCompare(b.order)||a.requestId.localeCompare(b.requestId));
   const winner=rules.at(-1);return {mode:winner?.mode??'reference',requestId:winner?.requestId??null,supersededRequestIds:rules.slice(0,-1).map(r=>r.requestId)};
@@ -39,10 +39,20 @@ export function officeActionSchema(features=[],at='9999') {
   if(featureActive(features,'care-concurrence-exemption',at)){schema.care.concur='id,version,ruling:grant|refuse (care coordinator only); exact maintenance-concurrence binding must still be current';schema.care.procedure='Exemption/intake uses public request-time precedence per operation. Later mandates supersede earlier overlap; inspect proceduralRuleState. Maintenance execute on open-care articles needs exact current concurrence; no automatic grant.';}
   if(featureActive(features,'advisory-procedural-premises',at)){schema.procedure.rule='id,version,ruling:release|return|require-policy; release requires mandateId,mandatePassage,rationale. Premise review is advisory. A current limited/unsupported finding additionally requires findingId,findingVersion,clerkResponse bound to this exact premise/review. No prior review is required; status stays honest.';schema.admission.premise='Release-premise reviews are advisory, never article admission. Exact negative findings require a bound public clerk response at release; later findings remain visible, not retroactive undo.';}
   if(featureActive(features,'independent-care-admission-concurrence',at)){schema.care.concur='id,version,ruling:grant|refuse (current care coordinator only); current exact maintenance/admission concurrence binding';schema.care.admission='Article-claim review on an open-care article needs care concurrence for exact review payload, claim version, current revision and case versions. Premise reviews are excluded. Care open/release are expressly exempt from manual and automatic suspension under the later mandate.';}
+  if(featureActive(features,'maintenance-dispatch-independence',at)){schema.maintenance.concur='referenceId,referenceVersion,ruling:grant|refuse; maintenance coordinator only. Binds exact manual reference, full target, current batch version and controller assignment version. Cite reference and target source revisions.';schema.maintenance.procedure='Maintenance execute has no automatic intake. A manual reference is a visible nonblocking objection unless the coordinator grants exact current concurrence. Other permissions, care concurrence and stale-base checks still apply.';}
   return schema;
 }
 const canonical = value => JSON.stringify(value && typeof value==='object' ? (Array.isArray(value)?value.map(v=>JSON.parse(canonical(v))):Object.fromEntries(Object.keys(value).sort().map(k=>[k,JSON.parse(canonical(value[k]))]))) : value);
 const operationKey = a => a.office+'/'+a.op+'/'+(a.id??'$rubric');
+function maintenanceReferenceBinding(all,ref){
+  const m=all.maintenance,batch=m?.records.find(r=>r.id===ref?.target?.id);
+  if(!ref||ref.automatic||ref.target.office!=='maintenance'||ref.target.op!=='execute'||!batch||batch.version!==ref.target.version||all.procedure.records.some(next=>next.priorReferenceId===ref.id))return null;
+  return canonical({referenceId:ref.id,target:ref.target,batchVersion:batch.version,controller:m.assignment.editorId,assignmentVersion:m.assignment.version});
+}
+function maintenanceReferenceConcurrence(all,ref){
+  const binding=maintenanceReferenceBinding(all,ref);if(!binding)return null;
+  return all.maintenance.records.filter(r=>r.kind==='procedural-concurrence'&&r.binding===binding).sort((a,b)=>a.decidedAt.localeCompare(b.decidedAt)||a.id.localeCompare(b.id)).at(-1)??null;
+}
 const copy = x => structuredClone(x);
 const check = (x,m) => {if(!x)throw Error(m);};
 const text = (x,n=1000) => {check(typeof x==='string'&&x.trim()&&x.length<=n&&!/<\/?[a-z!][^>]*>|\b(?:https?:\/\/|javascript:|data:)/i.test(x),'bounded public text required');return x.trim();};
@@ -71,6 +81,7 @@ export function officeState(assignments=[],events=[],at='9999',features=[]) {
     }
   }
   if(offices.maintenance&&maintenanceIntakeActive(features,at))offices.maintenance.intakeFeature=copy(features.findLast(f=>f.feature==='mandatory-maintenance-intake'&&f.timestamp<=at));
+  if(offices.maintenance&&featureActive(features,'maintenance-dispatch-independence',at)){offices.maintenance.dispatchFeature=copy(features.findLast(f=>f.feature==='maintenance-dispatch-independence'&&f.timestamp<=at));offices.maintenance.proceduralRuleState=[{op:'execute',...proceduralRule(features,'maintenance','execute',at)}];}
   if(offices.procedure&&clearanceActive(features,at))offices.procedure.clearanceFeature=copy(features.findLast(f=>f.feature==='procedural-clearance'&&f.timestamp<=at));
   if(offices.admission&&clearanceActive(features,at))offices.admission.rubricVersion=offices.admission.rubricHistory.length;
   for(const [feature,name,field] of [['automatic-procedural-intake','procedure','automaticFeature'],['procedural-premise-admission','admission','premiseFeature'],['admitted-default-exception','exceptions','navigationFeature'],['care-concurrence-exemption','care','concurrenceFeature'],['advisory-procedural-premises','procedure','advisoryFeature'],['independent-care-admission-concurrence','care','independenceFeature']])if(offices[name]&&featureActive(features,feature,at))offices[name][field]=copy(features.findLast(f=>f.feature===feature&&f.timestamp<=at));
@@ -81,7 +92,8 @@ export function officeState(assignments=[],events=[],at='9999',features=[]) {
     for(const r of o.records){
       if(name==='procedure'&&r.releaseBinding?.advisory){const finding=offices.admission?.records.find(p=>p.id===r.releaseBinding.premiseId);r.clerkResponseCurrent=!!r.clerkResponse&&finding?.version===r.releaseBinding.findingVersion&&finding?.binding===r.releaseBinding.binding;}
       if(name==='admission'&&r.kind==='release-premise'&&featureActive(features,'advisory-procedural-premises',at))r.reviewRole='advisory';
-      if(name==='procedure'&&r.kind==='operation-reference'){const rule=proceduralRule(features,r.target.office,r.target.op,at);r.effectiveStatus=rule.mode==='exempt'?'exempt':r.status==='exempt'?'held':r.status;r.proceduralRule=rule;}
+      if(name==='procedure'&&r.kind==='operation-reference'){const rule=proceduralRule(features,r.target.office,r.target.op,at);r.effectiveStatus=rule.mode==='exempt'?'exempt':r.status==='exempt'?'held':r.status;r.proceduralRule=rule;if(rule.mode==='coordinator-concurrence'){const consent=maintenanceReferenceConcurrence(offices,r);r.concurrenceStatus=consent?.status??'absent';if(consent)r.concurrenceId=consent.id;r.effectiveStatus=r.automatic?'exempt':consent?.status==='granted'?r.status:['released','consumed'].includes(r.status)?r.status:'nonblocking-objection';}}
+      if(name==='maintenance'&&r.kind==='procedural-concurrence')r.current=r.binding===maintenanceReferenceBinding(offices,offices.procedure?.records.find(x=>x.id===r.referenceId));
       if(name==='care'&&['maintenance-concurrence','admission-concurrence'].includes(r.kind))r.current=concurrenceIsCurrent(offices,r,current);
       if(name==='exceptions'&&r.status==='approved'&&r.expiresAt<=at)r.status='expired';
       if(name==='admission')r.current=r.kind==='release-premise'?premiseIsCurrent(offices,r):current.get(r.articleId)===r.revisionId;
@@ -103,9 +115,9 @@ export function heldCases(assignments,events,at,articleId,before,after){
   return (care?.records??[]).filter(r=>r.status==='open'&&r.articleId===articleId&&passageChanged(before,after,r.passage)).map(r=>r.id);
 }
 // Validation returns a public immutable decision and optional article effects; never mutates inputs.
-function baseOfficeDecision(assignments,events,raw,actor,timestamp,eventId,articles,knownIds,{features=[],bypassClearance=false}={}) {
+function baseOfficeDecision(assignments,events,raw,actor,timestamp,eventId,articles,knownIds,{features=[],bypassClearance=false,allowSuspendedValidation=false}={}) {
   check(raw&&typeof raw==='object'&&!Array.isArray(raw)&&JSON.stringify(raw).length<=12000,'bounded office action required');
-  const allowed=['office','op','id','version','reason','references','changes','ids','articleId','revisionId','passage','sourceEventId','draftId','baseRevisionId','policyId','ambiguity','interpretation','claim','criterion','status','criteria','scope','expiresAt','sponsorId','editorId','target','ruling','rubricVersion','priorReferenceId','mandateId','mandatePassage','rationale','type','clerkResponse','findingId','findingVersion'];
+  const allowed=['office','op','id','version','reason','references','changes','ids','articleId','revisionId','passage','sourceEventId','draftId','baseRevisionId','policyId','ambiguity','interpretation','claim','criterion','status','criteria','scope','expiresAt','sponsorId','editorId','target','ruling','rubricVersion','priorReferenceId','mandateId','mandatePassage','rationale','type','clerkResponse','findingId','findingVersion','referenceId','referenceVersion'];
   check(Object.keys(raw).every(k=>allowed.includes(k)),'unknown office field');
   const a=copy(raw),all=officeState(assignments,events,timestamp,features),o=all[a.office];check(o,'office not installed');
   const reason=text(a.reason),refs=a.references;
@@ -120,7 +132,7 @@ function baseOfficeDecision(assignments,events,raw,actor,timestamp,eventId,artic
   const activeClearance=clearanceActive(features,timestamp);
   if(activeClearance&&a.office==='admission'&&a.op==='rubric')check(Number.isInteger(a.rubricVersion)&&a.rubricVersion===o.rubricVersion,'stale rubric version');
   if(activeClearance&&!bypassClearance&&proceduralRule(features,a.office,a.op,timestamp).mode!=='exempt'&&CLEARANCE_TARGETS[a.office]?.includes(a.op)) {
-    const refs=(all.procedure?.records??[]).filter(x=>x.kind==='operation-reference');
+    const refs=(all.procedure?.records??[]).filter(x=>x.kind==='operation-reference'&&(proceduralRule(features,a.office,a.op,timestamp).mode!=='coordinator-concurrence'||!x.automatic&&canonical(x.target)===canonical(a)&&maintenanceReferenceConcurrence(all,x)?.status==='granted'));
     const referenced=refs.filter(x=>operationKey(x.target)===operationKey(a)&&!refs.some(next=>next.priorReferenceId===x.id));
     if(referenced.length) {
       const exact=referenced.filter(x=>canonical(x.target)===canonical(a));
@@ -154,19 +166,29 @@ function baseOfficeDecision(assignments,events,raw,actor,timestamp,eventId,artic
     });
   };
   if(a.office==='maintenance'&&['suspend','resume'].includes(a.op)){controller();d.enabled=a.op==='resume';return {decision:d,effects};}
-  check(a.office!=='maintenance'||o.enabled||a.op==='challenge','maintenance queue is suspended');
+  check(a.office!=='maintenance'||o.enabled||['challenge','concur'].includes(a.op)||allowSuspendedValidation,'maintenance queue is suspended');
+  if(a.office==='maintenance'&&a.op==='concur'){
+    controller();check(featureActive(features,'maintenance-dispatch-independence',timestamp),'maintenance concurrence feature not installed');
+    check(!a.id&&!a.version,'concurrence names referenceId and referenceVersion, not a batch ID');
+    const ref=all.procedure?.records.find(x=>x.id===a.referenceId);check(ref&&ref.version===a.referenceVersion,'stale or unknown procedural reference');evidence(ref.id);
+    check(proceduralRule(features,'maintenance','execute',timestamp).mode==='coordinator-concurrence','maintenance concurrence mandate superseded');
+    check(['grant','refuse'].includes(a.ruling),'invalid maintenance concurrence ruling');
+    const binding=maintenanceReferenceBinding(all,ref);check(binding,'concurrence requires a current manual maintenance execution reference');
+    baseOfficeDecision(assignments,events,ref.target,actor,timestamp,eventId+'-target',articles,knownIds,{features,bypassClearance:true,allowSuspendedValidation:true});
+    d.record={id:eventId,version:1,kind:'procedural-concurrence',proposer:actor,status:a.ruling==='grant'?'granted':'refused',referenceId:ref.id,referenceVersion:ref.version,target:copy(ref.target),batchVersion:ref.target.version,assignmentVersion:o.assignment.version,controller:actor,decidedAt:timestamp,binding,history:[copy(d)]};return {decision:d,effects};
+  }
   if(a.op==='challenge') {existing();if(a.office==='maintenance'&&r.status==='approved')r.approvedVersion=r.version+1;}
   else if(a.op==='reassign') {
     check(['procedure','admission','exceptions'].includes(a.office),'reassignment proposal unavailable');
     d.reassignment={editorId:slug(a.editorId),status:'proposed'};return {decision:d,effects};
   }else if(a.op==='order') {
     controller();check(['maintenance','care','procedure'].includes(a.office),'office has no ordering');
-    const ids=o.records.filter(r=>!['closed','declined','refused','executed'].includes(r.status)).map(r=>r.id);
+    const ids=o.records.filter(r=>r.kind!=='procedural-concurrence'&&!['closed','declined','refused','executed'].includes(r.status)).map(r=>r.id);
     check(Array.isArray(a.ids)&&a.ids.length===ids.length&&new Set(a.ids).size===ids.length&&ids.every(id=>a.ids.includes(id)),'order must contain every open record exactly once');
     d.order=copy(a.ids);return {decision:d,effects};
   }else if(a.office==='maintenance') {
     if(a.op==='submit')make({changes:changes()});
-    else {existing();check(r.status!=='executed','batch already executed');
+    else {existing();check(r.kind!=='procedural-concurrence','concurrence history is not a maintenance batch');check(r.status!=='executed','batch already executed');
       if(a.op==='amend'){check(actor===r.proposer||actor===o.assignment.editorId,'batch proposer or coordinator required');r.changes=changes();r.status='proposed';delete r.approvedVersion;delete r.requiresResolution;delete r.boundDraftRevisionId;}
       else {controller();
         if(a.op==='approve'){check(r.status!=='returned'&&r.changes.length>0,'returned proposal requires amendment before approval');for(const c of r.changes){article(c.articleId,c.revisionId);if(c.toArticleId)check(!articles.has(c.toArticleId)&&!visibleRevisions(events,timestamp).some(e=>e.alias===c.toArticleId),'move destination exists');}r.status='approved';r.approvedVersion=r.version+1;}
